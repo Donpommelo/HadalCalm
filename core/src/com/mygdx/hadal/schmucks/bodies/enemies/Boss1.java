@@ -555,7 +555,7 @@ public class Boss1 extends EnemyFloating {
 						
 						location.set(EnemyUtils.getLeftSide(state) + index * explosionSize / 2, EnemyUtils.floorHeight(state));
 						SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
-						WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage, explosionKnockback, enemy.getHitboxfilter());
+						WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage, explosionKnockback, getHitboxfilter());
 					}
 				});
 			}
@@ -577,7 +577,7 @@ public class Boss1 extends EnemyFloating {
 						
 						location.set(EnemyUtils.getRightSide(state) - index * explosionSize / 2, EnemyUtils.floorHeight(state));
 						SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
-						WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage, explosionKnockback, enemy.getHitboxfilter());
+						WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage, explosionKnockback, getHitboxfilter());
 					}
 				});
 			}
@@ -615,15 +615,15 @@ public class Boss1 extends EnemyFloating {
 				public void execute() {
 					SoundEffect.SPRING.playUniversal(state, getPixelPosition(), 0.5f, 0.8f, false);
 					
-					Vector2 startVelo = new Vector2(ballSpeed, ballSpeed).setAngle(enemy.getAttackAngle());
-					Hitbox hbox = new Hitbox(state, enemy.getProjectileOrigin(startVelo, ballSize), new Vector2(ballSize, ballSize), ballLifespan, startVelo, enemy.getHitboxfilter(), false, true, enemy, Sprite.ORB_RED);
+					Vector2 startVelo = new Vector2(ballSpeed, ballSpeed).setAngle(getAttackAngle());
+					Hitbox hbox = new Hitbox(state, getProjectileOrigin(startVelo, ballSize), new Vector2(ballSize, ballSize), ballLifespan, startVelo, getHitboxfilter(), false, true, enemy, Sprite.ORB_RED);
 					hbox.setGravity(10.0f);
 					hbox.setRestitution(1);
 					
-					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), ballDamage, ballKnockback, DamageTypes.RANGED));
-					hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.FIRE, 0.0f, 0.0f));
-					hbox.addStrategy(new ContactWallSound(state, hbox, enemy.getBodyData(), SoundEffect.SPRING, 0.1f));
+					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), ballDamage, ballKnockback, DamageTypes.RANGED));
+					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.FIRE, 0.0f, 0.0f));
+					hbox.addStrategy(new ContactWallSound(state, hbox, getBodyData(), SoundEffect.SPRING, 0.1f));
 				}
 			});
 		}
@@ -649,11 +649,11 @@ public class Boss1 extends EnemyFloating {
 				SoundEffect.DARKNESS2.playUniversal(state, getPixelPosition(), 0.4f, false);
 				
 				spiritPos.set(getPixelPosition()).add(0, 100);
-				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, enemy.getBodyData(), Particle.BRIGHT, enemy.getHitboxfilter());
+				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, getBodyData(), Particle.BRIGHT, getHitboxfilter());
 				spiritPos.set(getPixelPosition()).add(100, 0);
-				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, enemy.getBodyData(), Particle.BRIGHT, enemy.getHitboxfilter());
+				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, getBodyData(), Particle.BRIGHT, getHitboxfilter());
 				spiritPos.set(getPixelPosition()).add(-100, 0);
-				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, enemy.getBodyData(), Particle.BRIGHT, enemy.getHitboxfilter());
+				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, getBodyData(), Particle.BRIGHT, getHitboxfilter());
 			}
 		});
 	}
@@ -686,7 +686,7 @@ public class Boss1 extends EnemyFloating {
 							@Override
 							public void execute() {
 								location.set(EnemyUtils.getLeftSide(state) + index * poisonSize.x, EnemyUtils.floorHeight(state) + poisonSize.y / 2);
-								new Poison(state, location, poisonSize, poisonDamage, poisonDuration, enemy, true, enemy.getHitboxfilter());
+								new Poison(state, location, poisonSize, poisonDamage, poisonDuration, enemy, true, getHitboxfilter());
 							}
 						});
 					}
@@ -708,7 +708,7 @@ public class Boss1 extends EnemyFloating {
 							@Override
 							public void execute() {
 								location.set(EnemyUtils.getRightSide(state) - index * poisonSize.x, EnemyUtils.floorHeight(state) + poisonSize.y / 2);
-								new Poison(state, location, poisonSize, poisonDamage, poisonDuration, enemy, true, enemy.getHitboxfilter());
+								new Poison(state, location, poisonSize, poisonDamage, poisonDuration, enemy, true, getHitboxfilter());
 							}
 						});
 					}

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.Gdx;
@@ -40,9 +41,10 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
 import com.mygdx.hadal.strategies.hitbox.DieParticles;
-import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 import com.mygdx.hadal.strategies.hitbox.HomingUnit;
+import com.mygdx.hadal.strategies.hitbox.OrbitUser;
+import com.mygdx.hadal.strategies.hitbox.ReturnToUser;
 import com.mygdx.hadal.strategies.hitbox.Spread;
 import com.mygdx.hadal.strategies.hitbox.WaveEntity;
 import com.mygdx.hadal.utils.Constants;
@@ -56,9 +58,8 @@ public class Boss4 extends EnemyFloating {
 	
 	private final static String name = "BOSS4";
 
-    private static final float aiAttackCd = 2.4f;
-    private static final float aiAttackCd2 = 2.0f;
-    private static final float aiAttackCd3 = 1.6f;
+    private static final float aiAttackCd = 2.2f;
+    private static final float aiAttackCd2 = 1.6f;
 	
     private final static int scrapDrop = 15;
     
@@ -70,7 +71,7 @@ public class Boss4 extends EnemyFloating {
 	
 	private static final float scale = 1.0f;
 	
-	private static final int hp = 10000;
+	private static final int hp = 8000;
 	
 	private static final Sprite sprite = Sprite.NOTHING;
 	
@@ -80,8 +81,7 @@ public class Boss4 extends EnemyFloating {
 	private float scaleLerpFactor = 0.2f;
 		
 	private int phase = 1;
-	private static final float phaseThreshold2 = 0.8f;
-	private static final float phaseThreshold3 = 0.4f;
+	private static final float phaseThreshold2 = 0.5f;
 	
 	private ParticleEntity body1, body2, body3;
 	private static final float bodyBaseScale1 = 2.5f;
@@ -162,7 +162,7 @@ public class Boss4 extends EnemyFloating {
 	
 	@Override
 	public void multiplayerScaling(int numPlayers) {
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 1000 * numPlayers, getBodyData()));
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 2000 * numPlayers, getBodyData()));
 	}
 	
 	private int attackNum = 0;
@@ -174,78 +174,104 @@ public class Boss4 extends EnemyFloating {
 			if (getBodyData().getCurrentHp() <= phaseThreshold2 * getBodyData().getStat(Stats.MAX_HP)) {
 				phase = 2;
 				setAttackCd(aiAttackCd2);
-				
 				randomReticleWave();
+				teleport();
+				attacks1.clear();
+				attacks2.clear();
 			} else {
-				int randomIndex = GameStateManager.generator.nextInt(3);
-				switch(randomIndex) {
-				case 0: 
-					radialShot1();
-					break;
-				case 1: 
-					twinFlameSpin();
-					break;
-				case 2: 
-					bounceLaser();
-					break;
-				}
+				phase1Attack();
 			}
 		}
 		
 		if (phase == 2) {
-			if (getBodyData().getCurrentHp() <= phaseThreshold3 * getBodyData().getStat(Stats.MAX_HP)) {
-				phase = 3;
-				setAttackCd(aiAttackCd3);
-				
-				teleport();
-			} else if (attackNum % 2 == 0) {
-				int randomIndex = GameStateManager.generator.nextInt(3);
-				
-				switch(randomIndex) {
-				case 0: 
-					reticleShots();
-					break;
-				case 1: 
-					deadStarSigh();
-					break;
-				case 2: 
-					bigBangBell();
-					break;
-				}
-			} else {
-				int randomIndex = GameStateManager.generator.nextInt(3);
-				
-				switch(randomIndex) {
-				case 0: 
-					radialShot1();
-					break;
-				case 1: 
-					twinFlameSpin();
-					break;
-				case 2: 
-					bounceLaser();
-					break;
-				}
+			phase2Attack();
+		}
+	}
+	
+	private final static int phase1NumAttacks = 3;
+	private final static int phase2NumAttacks = 5;
+
+	private ArrayList<Integer> attacks1 = new ArrayList<Integer>();
+	private ArrayList<Integer> attacks2 = new ArrayList<Integer>();
+	private void phase1Attack() {
+		if (attacks1.isEmpty()) {
+			for (int i = 0; i < phase1NumAttacks; i++) {
+				attacks1.add(i);
+			}
+		}
+		if (attacks2.isEmpty()) {
+			for (int i = 0; i < phase1NumAttacks; i++) {
+				attacks2.add(i);
 			}
 		}
 		
-		if (phase == 3) {
-			if (attackNum % 2 == 0) {
-				apocalypseLaser();
-			} else {
-
+		if (attackNum % 2 == 0) {
+			int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
+			switch(nextAttack) {
+			case 0: 
+				reticleShots();
+				break;
+			case 1: 
+				deadStarSigh();
+				break;
+			case 2: 
+				bigBangBell();
+				break;
 			}
+		} else {
+			int nextAttack = attacks2.remove(GameStateManager.generator.nextInt(attacks2.size()));
+			switch(nextAttack) {
+			case 0: 
+				radialShot1();
+				break;
+			case 1: 
+				twinFlameSpin();
+				break;
+			case 2: 
+				bounceLaser();
+				break;
+			}
+		}
+	}
+	
+	
+	private void phase2Attack() {
+		if (attacks1.isEmpty()) {
+			for (int i = 0; i < phase2NumAttacks; i++) {
+				attacks1.add(i);
+			}
+		}
+		
+		int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
+		switch(nextAttack) {
+		case 0: 
+			apocalypseLaser();
+			break;
+		case 1: 
+			horizontalBullets();
+			break;
+		case 2: 
+			orbitalStar();
+			break;
+		case 3: 
+			randomReticleWave();
+			break;
+		case 4: 
+			willOWisp();
+			break;
 		}
 	}
 	
 	private static final float particleLinger = 3.0f;
 	private static final float shot1Windup = 1.5f;
-	private static final float projSpeed = 18.0f;
 	private static final int numShots = 12;
 	
 	private static final float shot1Damage = 15.0f;
-	private static final float shot1Lifespan = 3.0f;
+	private static final float shot1Lifespan = 5.0f;
 	private static final float shot1Knockback = 20.0f;
+	private static final float shot1Speed = 15.0f;
+	private static final float returnAmp = 75.0f;
+	private static final float pushInterval = 1.5f;
 
 	private static final Vector2 projSize = new Vector2(120, 60);
 	
@@ -262,18 +288,32 @@ public class Boss4 extends EnemyFloating {
 				for (int i = 0; i < numShots; i++) {
 					angle.setAngle(angle.angle() + 360 / numShots);
 					
-					Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngle(angle.angle());
+					Vector2 startVelo = new Vector2(shot1Speed, 0).setAngle(angle.angle());
 					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, projSize.x), projSize, shot1Lifespan, startVelo, getHitboxfilter(), true, false, enemy, Sprite.LASER_PURPLE);
-					
+					hbox.setAdjustAngle(true);
 					hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), shot1Damage, shot1Knockback, DamageTypes.RANGED));
-					hbox.addStrategy(new AdjustAngle(state, hbox, getBodyData()));
-					hbox.addStrategy(new ContactWallParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.VIOLET));
 					hbox.addStrategy(new ContactUnitParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.VIOLET));
-					hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
+					hbox.addStrategy(new ReturnToUser(state, hbox, getBodyData(), returnAmp));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.LASER_TRAIL, 0.0f, particleLinger).setParticleColor(ParticleColor.VIOLET));
+					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+					hbox.addStrategy((new HitboxStrategy(state, hbox, getBodyData()) {
+						
+						private float controllerCount = pushInterval;
+						private Vector2 push = new Vector2(startVelo);
+						@Override
+						public void controller(float delta) {
+							
+							controllerCount += delta;
+							
+							while (controllerCount >= pushInterval) {
+								controllerCount -= pushInterval;
+								hbox.setLinearVelocity(push.scl(1.2f));
+							}
+						}
+					}));
 				}
 			}
 		});
@@ -317,26 +357,22 @@ public class Boss4 extends EnemyFloating {
 				public void execute() {
 					
 					Vector2 startVelo1 = new Vector2(fireSpeed, fireSpeed).setAngle(startAngle + index * 360 / fireballNumber);
-					RangedHitbox hbox1 = new RangedHitbox(state, getProjectileOrigin(startVelo1, fireSize.x), fireSize, fireLifespan, startVelo1, getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
-					
-					hbox1.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
-					
-					hbox1.addStrategy(new ControllerDefault(state, hbox1, getBodyData()));
-					hbox1.addStrategy(new ContactUnitBurn(state, hbox1, getBodyData(), burnDuration, burnDamage));
-					hbox1.addStrategy(new DamageStandard(state, hbox1, getBodyData(), fireballDamage, fireKB, DamageTypes.RANGED, DamageTypes.FIRE));
-					hbox1.addStrategy(new ContactWallDie(state, hbox1, getBodyData()));
-					hbox1.addStrategy(new CreateParticles(state, hbox1, getBodyData(), Particle.FIRE, 0.0f, particleLinger).setParticleSize(36.0f));
+					fireball(startVelo1);
 					
 					Vector2 startVelo2 = new Vector2(fireSpeed, fireSpeed).setAngle(startAngle + index * 360 / fireballNumber + 180);
-					RangedHitbox hbox2 = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo2, fireSize.x), fireSize, fireLifespan, startVelo2, enemy.getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
+					fireball(startVelo2);
+				}
+				
+				public void fireball(Vector2 startVelo) {
+					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, fireSize.x), fireSize, fireLifespan, startVelo, getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
 					
-					hbox2.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+					hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 					
-					hbox2.addStrategy(new ControllerDefault(state, hbox2, getBodyData()));
-					hbox2.addStrategy(new ContactUnitBurn(state, hbox2, getBodyData(), burnDuration, burnDamage));
-					hbox2.addStrategy(new DamageStandard(state, hbox2, getBodyData(), fireballDamage, fireKB, DamageTypes.RANGED, DamageTypes.FIRE));
-					hbox2.addStrategy(new ContactWallDie(state, hbox2, getBodyData()));
-					hbox2.addStrategy(new CreateParticles(state, hbox2, getBodyData(), Particle.FIRE, 0.0f, particleLinger).setParticleSize(36.0f));
+					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
+					hbox.addStrategy(new ContactUnitBurn(state, hbox, getBodyData(), burnDuration, burnDamage));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), fireballDamage, fireKB, DamageTypes.RANGED, DamageTypes.FIRE));
+					hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
+					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.FIRE, 0.0f, particleLinger).setParticleSize(36.0f));
 				}
 			});
 		}
@@ -388,6 +424,7 @@ public class Boss4 extends EnemyFloating {
 							pulse.addStrategy(new ControllerDefault(state, pulse, getBodyData()));
 							pulse.addStrategy(new DamageStatic(state, pulse, getBodyData(), bellDamage, bellKB, DamageTypes.MELEE));
 							pulse.addStrategy(new FixedToEntity(state, pulse, getBodyData(), bell, new Vector2(), new Vector2(), true));
+							pulse.addStrategy(new ContactUnitSound(state, pulse, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 						}
 					}
 				}));
@@ -467,7 +504,8 @@ public class Boss4 extends EnemyFloating {
 					laser.addStrategy(new AdjustAngle(state, laser, getBodyData()));
 					laser.addStrategy(new DieParticles(state, laser, getBodyData(), Particle.LASER_IMPACT).setParticleColor(ParticleColor.BLUE));
 					laser.addStrategy(new ContactWallLoseDurability(state, laser, getBodyData()));
-					laser.addStrategy(new DamageStandard(state, laser, enemy.getBodyData(), laserDamage, laserKB, DamageTypes.RANGED, DamageTypes.ENERGY));
+					laser.addStrategy(new DamageStandard(state, laser, getBodyData(), laserDamage, laserKB, DamageTypes.RANGED, DamageTypes.ENERGY));
+					laser.addStrategy(new ContactUnitSound(state, laser, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 				}
 			});
 		}
@@ -485,7 +523,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float cloudInterval = 0.1f;
 	private static final float cloudLifespan = 0.75f;
 	private static final float cloudSpeed = 60.0f;
-	private static final float cloudDamage = 8.0f;
+	private static final float cloudDamage = 6.0f;
 	private static final float cloudKB = 5.0f;
 	
 	private static final float slowDuration = 9.0f;
@@ -532,6 +570,7 @@ public class Boss4 extends EnemyFloating {
 									hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), cloudDamage, cloudKB, DamageTypes.RANGED));
 									hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
 									hbox.addStrategy(new ContactUnitSlow(state, hbox, getBodyData(), slowDuration, slowSlow, Particle.ICE_CLOUD));
+									hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 								}
 							}
 						}
@@ -586,7 +625,8 @@ public class Boss4 extends EnemyFloating {
 					laser.addStrategy(new DieParticles(state, laser, getBodyData(), Particle.LASER_IMPACT).setParticleColor(ParticleColor.BLUE));
 					laser.addStrategy(new ContactWallLoseDurability(state, laser, getBodyData()));
 					laser.addStrategy(new DamageStandard(state, laser, getBodyData(), laserDamage, laserKB, DamageTypes.RANGED, DamageTypes.ENERGY));
-					
+					laser.addStrategy(new ContactUnitSound(state, laser, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+
 					laser.addStrategy(new HitboxStrategy(state, laser, getBodyData()) {
 						
 						@Override
@@ -608,7 +648,7 @@ public class Boss4 extends EnemyFloating {
 							frag.addStrategy(new ContactWallParticles(state, frag, getBodyData(), Particle.SPARKS));
 							frag.addStrategy(new ContactUnitSound(state, frag, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 							frag.addStrategy(new Spread(state, frag, getBodyData(), rubbleSpread));
-							frag.addStrategy(new DieSound(state, frag, getBodyData(), SoundEffect.WALL_HIT1, 0.4f));
+							frag.addStrategy(new ContactUnitSound(state, frag, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 						}
 						
 						private void createWaveBeam(float startAngle) {
@@ -622,7 +662,7 @@ public class Boss4 extends EnemyFloating {
 							hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), laserDamage, laserKB, DamageTypes.ENERGY, DamageTypes.RANGED));
 							hbox.addStrategy(new ContactWallParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.BLUE));
 							hbox.addStrategy(new ContactUnitParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.BLUE));
-							
+							hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 							hbox.addStrategy(new WaveEntity(state, hbox, getBodyData(), laser, apocalypseLaseramplitude, apocalypseLaserFrequency, startAngle));
 						}
 					});
@@ -633,13 +673,145 @@ public class Boss4 extends EnemyFloating {
 		changeColor(ParticleColor.RED, 0.0f);
 	}
 	
+	private final static float horizontalBulletSpawnOffset = 100.0f;
+	private final static int horizontalBulletNumber = 50;
+	private final static float horizontalBulletInterval = 0.4f;
+	private final static float horizontalBulletSpeed = 8.0f;
+	private final static float horizontalBulletLifespan = 10.0f;
+	private final static float horizontalBulletDamage = 8.0f;
+	private final static float horizontalBulletKB = 12.0f;
+	private final static float horizontalBulletWindDown = 10.0f;
+	private final static Vector2 horizontalBulletSize = new Vector2(100, 50);
+	
+	private void horizontalBullets() {
+		changeColor(ParticleColor.PALE_GREEN, shot1Windup);
+		singlePulse();
+		singlePulseReturn();
+		
+		Vector2 bulletPosition = new Vector2();
+		Vector2 bulletSpeed = new Vector2();
+		
+		for (int i = 0; i < horizontalBulletNumber; i++) {
+			getSecondaryActions().add(new EnemyAction(this, horizontalBulletInterval) {
+				
+				@Override
+				public void execute() {
+					bulletPosition.set(EnemyUtils.getLeftSide(state) - horizontalBulletSpawnOffset, ThreadLocalRandom.current().nextInt((int) EnemyUtils.floorHeight(state), (int) EnemyUtils.ceilingHeight(state)));
+					bulletSpeed.set(horizontalBulletSpeed, 0);
+					fireBullet(Sprite.LASER_TURQUOISE, ParticleColor.TURQOISE);
+					
+					bulletPosition.set(EnemyUtils.getRightSide(state) + horizontalBulletSpawnOffset, ThreadLocalRandom.current().nextInt((int) EnemyUtils.floorHeight(state), (int) EnemyUtils.ceilingHeight(state)));
+					bulletSpeed.set(-horizontalBulletSpeed, 0);
+					fireBullet(Sprite.LASER_GREEN, ParticleColor.PALE_GREEN);
+				}
+				
+				private void fireBullet(Sprite sprite, ParticleColor color) {
+					RangedHitbox hbox = new RangedHitbox(state, bulletPosition, horizontalBulletSize, horizontalBulletLifespan, bulletSpeed, getHitboxfilter(), true, false, enemy, sprite);
+					
+					hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+					
+					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), horizontalBulletDamage, horizontalBulletKB, DamageTypes.RANGED));
+					hbox.addStrategy(new AdjustAngle(state, hbox, getBodyData()));
+					hbox.addStrategy(new ContactUnitParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(color));
+					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.LASER_TRAIL, 0.0f, particleLinger).setParticleColor(color));
+					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+				}
+			});
+		}
+		changeColor(ParticleColor.RED, horizontalBulletWindDown);
+	}
+	
+	private static final int numWillOWisp = 50;
+	private final static float willOWispInterval = 0.1f;
+	private final static float willOWispSpeed = 15.0f;
+	private final static float willOWispLifespan = 10.0f;
+	private final static float willOWispDamage = 9.0f;
+	private final static float willOWispKB = 12.0f;
+	private final static float willOWispHoming = 50.0f;
+	private final static int willOWispSpread = 30;
+	private final static Vector2 willOWispSize = new Vector2(25, 25);
+	
+	private void willOWisp() {
+		changeColor(ParticleColor.VIOLET, shot1Windup);
+		singlePulse();
+		singlePulseReturn();
+		
+		for (int i = 0; i < numWillOWisp; i++) {
+			getActions().add(new EnemyAction(this, willOWispInterval) {
+				
+				@Override
+				public void execute() {
+					Vector2 startVelo = new Vector2(0, willOWispSpeed).setAngle(getAttackAngle());
+					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, willOWispSize.x), willOWispSize, willOWispLifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+					
+					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), willOWispDamage, willOWispKB, DamageTypes.RANGED));
+					hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
+					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.BRIGHT, 0.0f, particleLinger).setParticleColor(ParticleColor.RANDOM));
+					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), willOWispHoming, getHitboxfilter()));
+					hbox.addStrategy(new Spread(state, hbox, getBodyData(), willOWispSpread));
+				}
+			});
+		}
+	}
+	
+	private static final int numStar = 32;
+	private final static float starInterval = 0.25f;
+	
+	private final static float starLifespan = 10.0f;
+	private final static float starDamage = 18.0f;
+	private final static float starKB = 12.0f;
+	private final static int starSizeMin = 90;
+	private final static int starSizeMax = 300;
+	private final static int starSpeedMin = 15;
+	private final static int starSpeedMax = 60;
+	private final static int starDistMin = 10;
+	private final static int starDistMax = 50;
+	
+	private void orbitalStar() {
+		changeColor(ParticleColor.GOLD, shot1Windup);
+		singlePulse();
+		singlePulseReturn();
+		
+		for (int i = 0; i < numStar; i++) {
+			
+			final int index = i;
+			
+			getActions().add(new EnemyAction(this, starInterval) {
+				
+				@Override
+				public void execute() {
+					float starSize = ThreadLocalRandom.current().nextInt(starSizeMin, starSizeMax);
+					float starSpeed = ThreadLocalRandom.current().nextInt(starSpeedMin, starSpeedMax);
+					float starDist = ThreadLocalRandom.current().nextInt(starDistMin, starDistMax);
+					
+					RangedHitbox hbox = new RangedHitbox(state, new Vector2(), new Vector2(starSize, starSize), starLifespan, new Vector2(), getHitboxfilter(), true, true, enemy, Sprite.STAR);
+					
+					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), starDamage, starKB, DamageTypes.RANGED));
+					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.STAR, 0.0f, particleLinger).setParticleColor(ParticleColor.RANDOM));
+					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+					
+					if (index % 2 == 0) {
+						hbox.addStrategy(new OrbitUser(state, hbox, getBodyData(), 90, starDist, starSpeed));
+					} else {
+						hbox.addStrategy(new OrbitUser(state, hbox, getBodyData(), 90, starDist, -starSpeed));
+					}
+					
+				}
+			});
+		}
+	}
+	
 	private static final float reticleInterval = 0.5f;
 	private static final float reticleFollowDuration = 8.0f;
 	private static final float reticleLifespan = 1.0f;
 	private static final Vector2 reticleSize = new Vector2(150, 150);
 	
-	private static final int explosionRadius = 250;
-	private static final float explosionDamage = 30.0f;
+	private static final int explosionRadius = 225;
+	private static final float explosionDamage = 20.0f;
 	private static final float explosionKnockback = 20.0f;
 	
 	private void reticleShots() {

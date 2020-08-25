@@ -352,6 +352,8 @@ public class Enemy extends Schmuck {
 	
 	public void setBoss(boolean isBoss) { this.isBoss = isBoss; }
 	
+	public boolean isBoss() { return isBoss; }
+	
 	public void multiplayerScaling(int numPlayers) {}
 	
 	public Vector2 getHboxSize() { return hboxSize; }

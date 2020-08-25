@@ -6,6 +6,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -62,6 +63,12 @@ public class TractorBeam extends ActiveItem {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
 						
 						final BodyData track = (BodyData) fixB;
+						
+						if (track.getSchmuck() instanceof Enemy) {
+							if (((Enemy) track.getSchmuck()).isBoss()) {
+								return;
+							}
+						}
 						
 						Hitbox grab = new RangedHitbox(state, hbox.getPixelPosition(), projectileSize, lifespan, new Vector2(), user.getPlayer().getHitboxfilter(), false, true, user.getPlayer(), projSprite2);
 						grab.setRestitution(1.0f);

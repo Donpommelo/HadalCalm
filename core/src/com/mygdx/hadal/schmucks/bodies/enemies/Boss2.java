@@ -319,25 +319,25 @@ public class Boss2 extends EnemyFloating {
 			
 			@Override
 			public void execute() {
-				SoundEffect.SPIT.playUniversal(state, enemy.getPixelPosition(), 0.8f, 0.6f, false);
+				SoundEffect.SPIT.playUniversal(state, getPixelPosition(), 0.8f, 0.6f, false);
 				
-				Vector2 startVelo = new Vector2(0, projSpeed).setAngle(enemy.getAttackAngle());
-				Hitbox hbox = new Hitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+				Vector2 startVelo = new Vector2(0, projSpeed).setAngle(getAttackAngle());
+				Hitbox hbox = new Hitbox(state, getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 				
-				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
-				hbox.addStrategy(new DieParticles(state, hbox, enemy.getBodyData(), Particle.KAMABOKO_IMPACT));
-				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
-				hbox.addStrategy(new DieSound(state, hbox, enemy.getBodyData(), SoundEffect.SQUISH, 0.75f).setPitch(0.8f));
+				hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
+				hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
+				hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
+				hbox.addStrategy(new DieParticles(state, hbox, getBodyData(), Particle.KAMABOKO_IMPACT));
+				hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+				hbox.addStrategy(new DieSound(state, hbox, getBodyData(), SoundEffect.SQUISH, 0.75f).setPitch(0.8f));
 				
 				if (type >= 2) {
-					hbox.addStrategy(new HomingUnit(state, hbox, enemy.getBodyData(), homePower, enemy.getHitboxfilter()));
+					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), homePower, getHitboxfilter()));
 				}
 				if (type == 3) {
-					hbox.addStrategy(new HitboxStrategy(state, hbox, enemy.getBodyData()) {
+					hbox.addStrategy(new HitboxStrategy(state, hbox, getBodyData()) {
 						
 						@Override
 						public void die() {
@@ -346,14 +346,14 @@ public class Boss2 extends EnemyFloating {
 							for (int i = 0; i < numProj; i++) {
 								fragVelo.setAngle(60 * i);
 								fragPosition.set(hbox.getPixelPosition()).add(new Vector2(fragVelo).nor().scl(5));
-								Hitbox frag = new Hitbox(state, fragPosition, new Vector2(size, size), lifespan, fragVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
-								frag.addStrategy(new ControllerDefault(state, frag, enemy.getBodyData()));
-								frag.addStrategy(new DamageStandard(state, frag, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-								frag.addStrategy(new ContactWallDie(state, frag, enemy.getBodyData()));
-								frag.addStrategy(new ContactUnitDie(state, frag, enemy.getBodyData()));
-								frag.addStrategy(new CreateParticles(state, frag, enemy.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
-								frag.addStrategy(new DieParticles(state, frag, enemy.getBodyData(), Particle.KAMABOKO_IMPACT));
-								frag.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+								Hitbox frag = new Hitbox(state, fragPosition, new Vector2(size, size), lifespan, fragVelo, getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+								frag.addStrategy(new ControllerDefault(state, frag, getBodyData()));
+								frag.addStrategy(new DamageStandard(state, frag, getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+								frag.addStrategy(new ContactWallDie(state, frag, getBodyData()));
+								frag.addStrategy(new ContactUnitDie(state, frag, getBodyData()));
+								frag.addStrategy(new CreateParticles(state, frag, getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
+								frag.addStrategy(new DieParticles(state, frag, getBodyData(), Particle.KAMABOKO_IMPACT));
+								frag.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 							}
 						}
 					});
@@ -484,16 +484,16 @@ public class Boss2 extends EnemyFloating {
 				private Vector2 startVelo = new Vector2();
 				@Override
 				public void execute() {
-					startVelo.set(slodgeSpeed, slodgeSpeed).setAngle(enemy.getAttackAngle());
-					RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, slodgeSize.x), slodgeSize, slodgeLifespan, startVelo, enemy.getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
+					startVelo.set(slodgeSpeed, slodgeSpeed).setAngle(getAttackAngle());
+					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, slodgeSize.x), slodgeSize, slodgeLifespan, startVelo, getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
 					hbox.setRestitution(0.5f);
 					hbox.setGravity(3.0f);
 					hbox.setDurability(3);
-					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), slodgeDamage, slodgeKB, DamageTypes.SLODGE, DamageTypes.RANGED));
-					hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.SLODGE, 0.0f, 3.0f).setParticleSize(90));
-					hbox.addStrategy(new DieParticles(state, hbox, enemy.getBodyData(), Particle.SLODGE_STATUS));
-					hbox.addStrategy(new ContactUnitSlow(state, hbox, enemy.getBodyData(), slodgeDuration, slodgeSlow, Particle.SLODGE_STATUS));
+					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), slodgeDamage, slodgeKB, DamageTypes.SLODGE, DamageTypes.RANGED));
+					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.SLODGE, 0.0f, 3.0f).setParticleSize(90));
+					hbox.addStrategy(new DieParticles(state, hbox, getBodyData(), Particle.SLODGE_STATUS));
+					hbox.addStrategy(new ContactUnitSlow(state, hbox, getBodyData(), slodgeDuration, slodgeSlow, Particle.SLODGE_STATUS));
 				}
 			});
 		}
@@ -529,18 +529,18 @@ public class Boss2 extends EnemyFloating {
 				private Vector2 startVelo = new Vector2();
 				@Override
 				public void execute() {
-					SoundEffect.LAUNCHER4.playUniversal(state, enemy.getPixelPosition(), 0.4f, 0.8f, false);
+					SoundEffect.LAUNCHER4.playUniversal(state, getPixelPosition(), 0.4f, 0.8f, false);
 					
-					startVelo.set(fuguSpeed, fuguSpeed).setAngle(enemy.getAttackAngle());
-					RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, fuguSize.x), fuguSize, fuguLifespan, startVelo, enemy.getHitboxfilter(), false, true, enemy, Sprite.FUGU);
+					startVelo.set(fuguSpeed, fuguSpeed).setAngle(getAttackAngle());
+					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, fuguSize.x), fuguSize, fuguLifespan, startVelo, getHitboxfilter(), false, true, enemy, Sprite.FUGU);
 					hbox.setGravity(3.0f);
-					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), fuguDamage, fuguKB, DamageTypes.POISON, DamageTypes.RANGED));
-					hbox.addStrategy(new DiePoison(state, hbox, enemy.getBodyData(), poisonRadius, poisonDamage, poisonDuration, enemy.getHitboxfilter()));
-					hbox.addStrategy(new DieRagdoll(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new DieSound(state, hbox, enemy.getBodyData(), SoundEffect.DEFLATE, 0.25f));
+					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
+					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
+					hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), fuguDamage, fuguKB, DamageTypes.POISON, DamageTypes.RANGED));
+					hbox.addStrategy(new DiePoison(state, hbox, getBodyData(), poisonRadius, poisonDamage, poisonDuration, getHitboxfilter()));
+					hbox.addStrategy(new DieRagdoll(state, hbox, getBodyData()));
+					hbox.addStrategy(new DieSound(state, hbox, getBodyData(), SoundEffect.DEFLATE, 0.25f));
 				}
 			});
 		}

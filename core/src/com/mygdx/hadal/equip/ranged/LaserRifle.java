@@ -100,7 +100,7 @@ public class LaserRifle extends RangedWeapon {
 				
 				//this makes the laser hbox's lifespan unmodifiable
 				setLifeSpan(lifespan);
-				
+
 				//Rotate hitbox to match angle of fire.
 				float newAngle = (float)(Math.atan2(startVelocity.y , startVelocity.x));
 				newPosition.set(getPosition()).add(new Vector2(startVelocity).nor().scl(size.x / 2 / PPM));
