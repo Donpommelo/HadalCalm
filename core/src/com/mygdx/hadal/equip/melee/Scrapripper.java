@@ -23,6 +23,7 @@ public class Scrapripper extends MeleeWeapon {
 	private final static float shootDelay = 0.0f;
 	private final static float baseDamage = 60.0f;
 	private final static Vector2 hitboxSize = new Vector2(200, 120);
+	private final static Vector2 hitboxSpriteSize = new Vector2(300, 180);
 	private final static float knockback = 25.0f;
 	private final static float lifespan = 0.25f;
 	
@@ -38,6 +39,7 @@ public class Scrapripper extends MeleeWeapon {
 		SoundEffect.WOOSH.playUniversal(state, startPosition, 1.0f, false);
 
 		Hitbox hbox = new Hitbox(state, startPosition, hitboxSize, lifespan, new Vector2(), filter, true, true, user, Sprite.IMPACT);
+		hbox.setSpriteSize(hitboxSpriteSize);
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

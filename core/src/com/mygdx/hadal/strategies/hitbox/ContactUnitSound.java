@@ -21,7 +21,7 @@ public class ContactUnitSound extends HitboxStrategy {
 	private float volume;
 	
 	//this is the pitch that the sound will get played at. (default is no change. change using factory method.)
-		private float pitch = 1.0f;
+	private float pitch = 1.0f;
 	
 	//if the hbox is still, we ignore the velocity requirement before playing a sound
 	private boolean still;
@@ -59,7 +59,7 @@ public class ContactUnitSound extends HitboxStrategy {
 		}
 	}
 	
-	public ContactUnitSound setDuration(float pitch) {
+	public ContactUnitSound setPitch(float pitch) {
 		this.pitch = pitch;
 		return this;
 	}

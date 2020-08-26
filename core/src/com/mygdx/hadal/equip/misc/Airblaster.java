@@ -26,6 +26,7 @@ public class Airblaster extends MeleeWeapon {
 	private final static float windup = 0.0f;
 	private final static float baseDamage = 0.0f;
 	private final static Vector2 hitboxSize = new Vector2(175, 175);
+	private final static Vector2 hitboxSpriteSize = new Vector2(260, 260);
 	private final static float knockback = 60.0f;
 	public final static float momentum = 40.0f;
 	
@@ -46,7 +47,9 @@ public class Airblaster extends MeleeWeapon {
 		SoundEffect.AIRBLAST.playUniversal(state, startPosition, 0.5f, false);
 		
 		Hitbox hbox = new Hitbox(state, startPosition, new Vector2(hitboxSize).scl(1 + user.getBodyData().getStat(Stats.BOOST_SIZE)), swingCd, new Vector2(), user.getHitboxfilter(), true, false, user, Sprite.IMPACT);
+		hbox.setSpriteSize(new Vector2(hitboxSpriteSize).scl(1 + user.getBodyData().getStat(Stats.BOOST_SIZE)));
 		hbox.makeUnreflectable();
+		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageConstant(state, hbox, user.getBodyData(), baseDamage, new Vector2(startVelocity).nor().scl(knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW))), DamageTypes.REFLECT));
 		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));

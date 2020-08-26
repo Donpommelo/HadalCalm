@@ -349,8 +349,7 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				Vector2 startVelo = new Vector2(0, 1).setAngle(enemy.getAttackAngle());
-				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), soundDuration, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), soundDuration, new Vector2(), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new FixedToOrigin(state, hbox, enemy, false));

@@ -50,6 +50,7 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 public class WeaponUtils {
 
 	private static final float selfDamageReduction = 0.5f;
+	private static final float explosionSpriteScaling = 1.5f;
 	private final static Sprite boomSprite = Sprite.BOOM;
 	private final static Sprite grenadeSprite = Sprite.GRENADE;
 	private final static Sprite torpedoSprite = Sprite.TORPEDO;
@@ -61,7 +62,7 @@ public class WeaponUtils {
 		float newSize = size * (1 + user.getBodyData().getStat(Stats.EXPLOSION_SIZE));
 		
 		Hitbox hbox = new Hitbox(state, startPos, new Vector2(newSize, newSize), 0.4f, new Vector2(0, 0), filter, true, false, user, boomSprite);
-		
+		hbox.setSpriteSize(new Vector2(newSize, newSize).scl(explosionSpriteScaling));
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ExplosionDefault(state, hbox, user.getBodyData(), explosionDamage, explosionKnockback, selfDamageReduction, DamageTypes.EXPLOSIVE));

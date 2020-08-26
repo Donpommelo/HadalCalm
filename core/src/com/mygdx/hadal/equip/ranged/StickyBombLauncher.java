@@ -15,7 +15,6 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
-import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 
 public class StickyBombLauncher extends RangedWeapon {
 
@@ -64,23 +63,16 @@ public class StickyBombLauncher extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		SoundEffect.LAUNCHER.playUniversal(state, startPosition, 0.25f, false);
 
-		//seperate sticky hbox allows the projectile to stick closer to walls or units to prevent having empty space between
-		Hitbox hboxSticky = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, filter, true, false, user, Sprite.NOTHING);
-		hboxSticky.setSyncDefault(false);
-		hboxSticky.setGravity(1.0f);
-
-		hboxSticky.addStrategy(new ControllerDefault(state, hboxSticky, user.getBodyData()));
-		hboxSticky.addStrategy(new ContactWallSound(state, hboxSticky, user.getBodyData(), SoundEffect.SQUISH, 0.8f));
-		hboxSticky.addStrategy(new ContactUnitSound(state, hboxSticky, user.getBodyData(), SoundEffect.SQUISH, 0.8f, false));
-		hboxSticky.addStrategy(new ContactStick(state, hboxSticky, user.getBodyData(), true, true));
-		
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, filter, true, true, user, projSprite);
+		hbox.setSpriteSize(projectileSize);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), hboxSticky, new Vector2(), new Vector2(), false));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.25f));
+		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.SQUISH, 0.8f));
+		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SQUISH, 0.8f, false));
+		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, true));
 		
-		bombsLaid.addLast(hboxSticky);
+		bombsLaid.addLast(hbox);
 	}
 }

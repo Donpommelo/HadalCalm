@@ -12,6 +12,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
@@ -34,7 +35,7 @@ public class MorningStar extends MeleeWeapon {
 	private final static float baseDamage = 50.0f;
 	private final static float knockback = 60.0f;
 
-	private final static float swingForce = 2500.0f;
+	private final static float swingForce = 5000.0f;
 	private final static float range = 60.0f;
 	private final static float chainLength = 1.2f;
 
@@ -83,7 +84,7 @@ public class MorningStar extends MeleeWeapon {
 		
 		//the base is connected to the player and links to the rest of the flail weapon
 		base = new Hitbox(state, shooter.getSchmuck().getPixelPosition(), chainSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, false, user, chainSprite);
-		base.setDensity(0.1f);
+		base.setDensity(1.0f);
 		base.makeUnreflectable();
 		
 		base.addStrategy(new HitboxStrategy(state, base, user.getBodyData()) {
@@ -107,7 +108,7 @@ public class MorningStar extends MeleeWeapon {
 						joint1.bodyB = base.getBody();
 						joint1.collideConnected = false;
 						
-						joint1.localAnchorA.set(-chainLength, 0);
+						joint1.localAnchorA.set(0, 0);
 						joint1.localAnchorB.set(chainLength, 0);
 						
 						state.getWorld().createJoint(joint1);
@@ -125,10 +126,7 @@ public class MorningStar extends MeleeWeapon {
 		for (int i = 0; i < links.length; i++) {
 			final int currentI = i;
 			links[i] = new Hitbox(state, shooter.getSchmuck().getPixelPosition(), chainSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, false, user, chainSprite);
-			
-			links[i].setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
-
-			links[i].setDensity(0.1f);
+			links[i].setDensity(1.0f);
 			links[i].makeUnreflectable();
 			
 			links[i].addStrategy(new HitboxStrategy(state, links[i], user.getBodyData()) {
@@ -180,12 +178,13 @@ public class MorningStar extends MeleeWeapon {
 		star = new RangedHitbox(state, shooter.getSchmuck().getPixelPosition(), projectileSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), false, true, user, projSprite);
 		
 		star.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
-		star.setGravity(3.0f);
+		star.setGravity(1.0f);
 		star.setDensity(0.1f);
 		star.makeUnreflectable();
 		
 		star.addStrategy(new DamageStandardRepeatable(state, star, user.getBodyData(), baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MELEE));
 		star.addStrategy(new ContactWallSound(state, star, user.getBodyData(), SoundEffect.WALL_HIT1, 0.25f));
+		star.addStrategy(new ContactUnitSound(state, star, user.getBodyData(), SoundEffect.SLAP, 0.25f, true).setPitch(0.5f));
 
 		star.addStrategy(new HitboxStrategy(state, star, user.getBodyData()) {
 			private boolean linked = false;

@@ -99,6 +99,9 @@ public class Hitbox extends HadalEntity {
 	//this is the projectile's Sprite and corresponding frames
 	protected Animation<TextureRegion> projectileSprite;
 	private Sprite sprite;
+
+	//this is the size of the sprite. Usually drawn to be the size of the hbox, but can be made larger/smaller
+	private Vector2 spriteSize = new Vector2();
 	
 	/**
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
@@ -125,6 +128,7 @@ public class Hitbox extends HadalEntity {
 		if (!sprite.equals(Sprite.NOTHING)) {
 			projectileSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeedFast, sprite.getFrames());
 		}
+		this.spriteSize.set(size);
 	}
 	
 	/**
@@ -194,10 +198,10 @@ public class Hitbox extends HadalEntity {
 		
 		if (projectileSprite != null) {
 			batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
-					getPixelPosition().x - size.x / 2, 
-					getPixelPosition().y - size.y / 2, 
-					size.x / 2, size.y / 2,
-					size.x, size.y, -1, 1, 
+					getPixelPosition().x - spriteSize.x / 2, 
+					getPixelPosition().y - spriteSize.y / 2, 
+					spriteSize.x / 2, spriteSize.y / 2,
+					spriteSize.x, spriteSize.y, -1, 1, 
 					(float) Math.toDegrees(getAngle()));
 		}
 	}
@@ -243,7 +247,7 @@ public class Hitbox extends HadalEntity {
 	@Override
 	public Object onServerCreate() {
 		if (isSyncDefault() || isSyncInstant()) {
-			return new Packets.CreateEntity(entityID.toString(), size, getPixelPosition(), getAngle(), sprite, true, ObjectSyncLayers.HBOX, alignType.HITBOX);
+			return new Packets.CreateEntity(entityID.toString(), spriteSize, getPixelPosition(), getAngle(), sprite, true, ObjectSyncLayers.HBOX, alignType.HITBOX);
 		} else {
 			return null;
 		}
@@ -328,4 +332,6 @@ public class Hitbox extends HadalEntity {
 	public void setAdjustAngle(boolean adjustAngle) { this.adjustAngle = adjustAngle; }
 	
 	public void setSpritePlayMode(PlayMode playMode) { this.projectileSprite.setPlayMode(playMode); }
+	
+	public void setSpriteSize(Vector2 spriteSize) { this.spriteSize.set(spriteSize).scl(scale); }
 }

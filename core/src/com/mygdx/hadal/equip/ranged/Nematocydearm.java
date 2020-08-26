@@ -17,7 +17,6 @@ import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
-import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 import com.mygdx.hadal.strategies.hitbox.Spread;
 
 public class Nematocydearm extends RangedWeapon {
@@ -50,23 +49,17 @@ public class Nematocydearm extends RangedWeapon {
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.ATTACK1.playUniversal(state, startPosition, 0.4f, false);
 
-		//seperate sticky hbox allows the projectile to stick closer to walls to prevent having empty space between
-		Hitbox hboxSticky = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, filter, true, false, user, Sprite.NOTHING);
-		hboxSticky.setSyncDefault(false);
-		
-		hboxSticky.addStrategy(new AdjustAngle(state, hboxSticky, user.getBodyData()));
-		hboxSticky.addStrategy(new ControllerDefault(state, hboxSticky, user.getBodyData()));
-		hboxSticky.addStrategy(new ContactWallSound(state, hboxSticky, user.getBodyData(), SoundEffect.SQUISH, 0.75f));
-		hboxSticky.addStrategy(new ContactStick(state, hboxSticky, user.getBodyData(), true, false));
-
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, filter, true, true, user, projSprite);
+		hbox.setSpriteSize(projectileSize);
 		hbox.setSpritePlayMode(PlayMode.LOOP_PINGPONG);
+		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), hboxSticky, new Vector2(), new Vector2(), true));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.POKING, DamageTypes.RANGED));
 		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.6f, true));
+		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.SQUISH, 0.75f));
+		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, false));
 	}
 }
