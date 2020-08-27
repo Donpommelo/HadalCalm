@@ -7,14 +7,14 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
-public class HandofGlory extends Artifact {
+public class LotusLantern extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
 	private final static float extraScrap = 0.25f;
 	
-	public HandofGlory() {
+	public LotusLantern() {
 		super(slotCost, statusNum);
 	}
 

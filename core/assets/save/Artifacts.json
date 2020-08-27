@@ -280,7 +280,7 @@ DEPLORABLE_APPARATUS: {
 EELSKIN_COVER: {
 	name: Eelskin Cover
 	description: "Reduces Drag"
-    descriptionLong: "Ground Drag Reduction: -75%\nAir Drag Reduction: -40%\n\nA slick coat that lets its wearer slide through the water slimily.\n\nAfter an eternity of swallowing bland repast, the ravenous God-Eel began to covet the flavor of its subjects."
+    descriptionLong: "Ground Drag Reduction: -75%\nAir Drag Reduction: -40%\n\nA slick coat that lets its wearer slide through the water slimily.\n\nAfter an eternity of swallowing bland repast, the God-Eel, Pokey, began to covet the flavor of its subjects."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -307,7 +307,7 @@ EPHEMERA_PERPETUA: {
 EXTRA_ROW_OF_TEETH: {
 	name: "Extra Row of Teeth"
 	description: "+Clip Size"
-    descriptionLong: "Bonus Clip Size: +30%\n\nA row of misshapen teeth; each designed to rend a different prey.\n\nUpon bearing witness to the First Bright One, the ravenous God-Eel, had but a single wish; more teeth."
+    descriptionLong: "Bonus Clip Size: +30%\n\nA row of misshapen teeth; each designed to rend a different prey.\n\nUpon bearing witness to the First Bright One, the God-Eel, Pokey, had but a single wish; more teeth."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -394,14 +394,6 @@ GOOD_HEALTH: {
 		RANDOM_POOL,
 	]
 }
-HAND_OF_GLORY: {
-	name: Hand of Glory
-	description: "+Currency Drops"
-    descriptionLong: "Bonus Currency Drop: 25%\n\nThe preserved hand of an executed criminal.\n\n"
-	tags: [
-		RELIQUARY,
-	]
-}
 HEART_OF_SPEROS: {
 	name: Heart of Speros
 	description: "Use Fuel as Ammo"
@@ -414,7 +406,7 @@ HEART_OF_SPEROS: {
 HOOD_OF_HABIT: {
 	name: Hood of Habit
 	description: "Become Invisible when Receiving Critical Damage"
-    descriptionLong: "Hp Threshold: 25\nInvisibility Duration: 8s\n\nA ragged hood saturated with the stench of smoke.\n\n"
+    descriptionLong: "Hp Threshold: 25\nInvisibility Duration: 8s\n\nA ragged hood saturated with the stench of smoke.\n\nMuch to the chagrin of its residents, the Noiseless Sea has never kicked its addition to cyclical destruction and rebirth."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -423,7 +415,7 @@ HOOD_OF_HABIT: {
 HORNS_OF_AMMON: {
 	name: Horns of Ammon
 	description: "Receiving Damage Grants Brief Invulnerability"
-    descriptionLong: "Damage Threshold: 5\nInvincibility Duration: 1s\n\nThe curved horns of a submerged deity.\n\n"
+    descriptionLong: "Damage Threshold: 5\nInvincibility Duration: 1s\n\nThe curved horns of a submerged deity.\n\nThe ocean and its contents are fated to spend eternity flowing from one spiral to the next."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -450,7 +442,7 @@ ICE9: {
 INFORMANTS_TIE: {
 	name: Informant's Tie
 	description: "Homing Projectiles"
-    descriptionLong: "An orange tie ragged from years of nervous hand-rubbing.\n\nAn orange tie with an indecipherable code woven into its fabric.\n\n"
+    descriptionLong: "An orange tie ragged from years of nervous hand-rubbing.\n\nThe Whale-God, Callo, inherited humanity's desire to unravel the mysteries of the universe and was easily seduced by the promises of the First Bright One."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -459,7 +451,7 @@ INFORMANTS_TIE: {
 IRON_SIGHTS: {
 	name: Iron Sights
 	description: "-Recoil, +Projectile Speed"
-    descriptionLong: "Recoil Reduction: -100%\nBonus Projectile Speed: +25%\n\n"
+    descriptionLong: "Recoil Reduction: -100%\nBonus Projectile Speed: +25%\n\nA metal scope to be affixed to the end of a firearm.\n\nAfter granting the wishes of three Gods, the First Bright One gained a luminosity so bright that even the eye at the bottom of the sea could not stare into it."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -477,7 +469,7 @@ JELLOFELLOW_COSPLAY: {
 KERMUNGLER: {
 	name: Kermungler
 	description: "+Damage Variance, +Damage Resistance, +Damage Amplification"
-    descriptionLong: "Damage Dealt and Received Variance: +50%\nDamage Amplification: +10%\nDamage Resistance: +10%\n\nIn ideal tool for kermungling things.\n\n"
+    descriptionLong: "Damage Dealt and Received Variance: +50%\nDamage Amplification: +10%\nDamage Resistance: +10%\n\nIn ideal tool for kermungling things.\n\nThe lifestyle of humanity prior to the great flood is best preserved in their relics of war."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -495,7 +487,7 @@ KINEATER: {
 KINESIS_LENS: {
 	name: Kinesis Lens
 	description: "Projectiles Track Mouse"
-    descriptionLong: ""
+    descriptionLong: "A convex lens that allows the user to perceive the flow of unseen things.\n\nUnderstanding the ocean's adjudication of Sunk things is key to the remote projection of one's will."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -504,7 +496,7 @@ KINESIS_LENS: {
 LAMPREY_IDOL: {
 	name: Lamprey Idol
 	description: "+Lifesteal. Drains Hp at High Health"
-    descriptionLong: "Lifesteal: 10% Against Players, 2% Against Monsters\nHp Threshold: 50%\nDamage Received: 2.5 Per Second\n\nA metal figure with the appearance of a parasitic, blood-sucking fish.\n\nFrom the dreaming carcass of the Whale-God, a wriggling mass emerged to disseminate into the pits below."
+    descriptionLong: "Lifesteal: 10% Against Players, 2% Against Monsters\nHp Threshold: 50%\nDamage Received: 2.5 Per Second\n\nA metal figure with the appearance of a parasitic, blood-sucking fish.\n\nFrom the dreaming carcass of the Whale-God, Callo, a wriggling mass emerged to disseminate into the pits below."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -528,6 +520,14 @@ LOCH_SHIELD: {
 		RANDOM_POOL,
 	]
 }
+LOTUS_LANTERN: {
+	name: Lotus Lantern
+	description: "+Currency Drops"
+    descriptionLong: "Bonus Currency Drop: 25%\n\nAn ornamental lantern made from waxen paper.\n\nDissatisfied with the gifts of the First Bright One, the Crab-God, Slick, illuminated the abyss below in search of more shining things."
+	tags: [
+		RELIQUARY,
+	]
+}
 LUMINOUS_ESCA: {
 	name: Luminous Esca
 	description: "+Light Radius"
@@ -539,7 +539,7 @@ LUMINOUS_ESCA: {
 MACHINE_GHOST: {
 	name: Machine Ghost
 	description: "Spectral Projectiles"
-    descriptionLong: "An immaterial wisp of crackling energy.\n\n"
+    descriptionLong: "An immaterial wisp of crackling energy.\n\nThe departed souls of inanimate machines are repurposed within the Plenum Chamber to continue serving what remains of humanity."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -548,7 +548,7 @@ MACHINE_GHOST: {
 MANGROVE_SEED: {
 	name: Mangrove Seed
 	description: "+Poison Resistance"
-    descriptionLong: "Poison Damage Resistance: +80%\n\nThe seed of an extinct tree known for water filtration.\n\n"
+    descriptionLong: "Poison Damage Resistance: +80%\n\nThe seed of an extinct tree known for water filtration.\n\nEnthralled by the First Bright One's luster, the Crab-God, Slick aspired to filter from the sea the trace remnants of the herald's brethren."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -768,7 +768,7 @@ ROYAL_JUJUBE_BANG: {
 SALIGRAM: {
 	name: Saligram
 	description: "+Damage Resistance"
-    descriptionLong: "Damage Resistance: +20%\n\nA petrified shell imbued with the blessing of the spiral.\n\nAs currents carry all sunken things to their remote resting places, many seek solace in the belief that, in time, they will all be reunited."
+    descriptionLong: "Damage Resistance: +20%\n\nA petrified shell imbued with the blessing of the Spiral.\n\nAs currents carry all sunken things to their remote resting places, many seek solace in the belief that, in time, they will all be reunited."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -786,7 +786,7 @@ SAMURAI_SHARK: {
 SEAFOAM_PERIAPT: {
 	name: Seafoam Periapt
 	description: "+Attack Speed, Antigravity Projectiles"
-    descriptionLong: "Bonus Reload Speed: +20%\nBonus Ranged Attack Speed: +20%\n\nA porous charm infused with an uplifting froth.\n\nNot even the body of the Whale-God could contain the knowledge imparted by the First Bright One and, gradually, the excess drifted away in the form of seafoam."
+    descriptionLong: "Bonus Reload Speed: +20%\nBonus Ranged Attack Speed: +20%\n\nA porous charm infused with an uplifting froth.\n\nNot even the body of the Whale-God, Callo, could contain the knowledge imparted by the First Bright One and, gradually, the excess drifted away in the form of seafoam."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -948,7 +948,7 @@ WHITE_SMOKER: {
 WHITE_WHALE_CHARM: {
 	name: White Whale Charm
 	description: "+Damage and Projectile Size, -Attack Speed"
-    descriptionLong: "Bonus Projectile Size: +40%\nBonus Damage: +40%\nRanged Attack Speed Reduction: -50%\n\nAn ornamental artifact carved from the tusk of the white whale.\n\nThe White Whale dreamt of an eye at the bottom of the sea and the world that lay beneath its unblinking gaze."
+    descriptionLong: "Bonus Projectile Size: +40%\nBonus Damage: +40%\nRanged Attack Speed Reduction: -50%\n\nAn ornamental artifact carved from the tusk of the white whale.\n\nThe Whale-God, Callo, dreamt of an eye at the bottom of the sea and the world that lay beneath its unblinking gaze."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
