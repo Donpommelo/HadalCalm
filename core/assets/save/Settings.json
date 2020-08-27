@@ -8,7 +8,6 @@ maxPlayers: 3
 artifactSlots: 4
 portNumber: 11100
 vsync: true
-debugHitbox: true
 randomNameAlliteration: true
 consoleEnabled: true
 verboseDeathMessage: true

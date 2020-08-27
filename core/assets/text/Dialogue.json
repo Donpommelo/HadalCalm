@@ -39,13 +39,13 @@
 "ENDING0": [
 		{
 			"name": "Pelican",
-			"text": "Thank you for playing.",
+			"text": "\nThank you for playing.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
 		},
         {
 			"name": "Pelican",
-			"text": "Now, go and play some pvp.",
+			"text": "\nNow, go and play some pvp.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
 			"end": true
@@ -54,7 +54,49 @@
 "dialog1": [
 		{
 			"name": "Pelican",
-			"text": "yo",
+			"text": "\nAh, excellent!\nAnother Salvager is just what I was hoping would wash up at my doorstep.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+		},
+        {
+			"name": "Pelican",
+			"text": "\nPlease, call me Pelican.\nWelcome to the S.S. Tunicate, a research vessel under my care.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+		},
+        {
+			"name": "Pelican",
+			"text": "\nThe currents that govern this murky pool deliver all sunken things right to where they belong.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+		},
+        {
+			"name": "Pelican",
+			"text": "\nLike so, you to me.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+		},
+        {
+			"name": "Pelican",
+			"text": "\nBut unfortunately, there are some things that not even the processes of the ocean are immune to.\nYou see, some mysterious force has halted the natural flow of currents.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+		},
+        {
+			"name": "Pelican",
+			"text": "\nThis represents a considerable problem for the local ecosystem. Stagnant water is no fun after all.\nMakes it awfully hard for fish to get to where they want to go.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+		},
+        {
+			"name": "Pelican",
+			"text": "\nSo on behalf of the company's board of trustees, I ask that you seek out the bottom of the ocean where we believe the problem to lie.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+		},
+        {
+			"name": "Pelican",
+			"text": "\nIn the mean time, please make use of the facility's employee services.\nFor a more in-depth tour of the S.S. Tunicate, please interact with the Communications Telepyramid.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
             "end": true
@@ -63,13 +105,13 @@
 "tourDialog0": [
 		{
 			"name": "Pelican",
-			"text": "The S.S. Tunicate is a research vessel stationed in the middle of the Noiseless Sea.",
+			"text": "\nThe S.S. Tunicate is a research vessel stationed in the middle of the Noiseless Sea.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
 		}
         {
 			"name": "Pelican",
-			"text": "Our goal in establishing this facility was to create a hospitable environment for remote Salvagers.",
+			"text": "\nOur goal in establishing this facility was to create a hospitable environment for remote Salvagers.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
             "end": true
@@ -78,13 +120,13 @@
 "tourDialog1": [
 		{
 			"name": "Pelican",
-			"text": "This is the vessel's Armory. We hope our diverse selection of company-provided weaponry will assist you along your quest.",
+			"text": "\nThis is the vessel's Armory. We hope our diverse selection of company-provided weaponry will assist you along your quest.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
 		},
         {
 			"name": "Pelican",
-			"text": "The hull of the S.S. Tunicate is above-average in durability, so feel free to test out weapons inside.",
+			"text": "\nThe hull of the S.S. Tunicate is above-average in durability, so feel free to test out weapons inside.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
             "end": true
@@ -93,13 +135,13 @@
 "tourDialog2": [
     {
         "name": "Pelican",
-        "text": "At the Reliquary, you can equip and unequip Artifacts that bestow passive benefits.",
+        "text": "\nAt the Reliquary, you can equip and unequip Artifacts that bestow passive benefits.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
     },
     {
         "name": "Pelican",
-        "text": "To equip an Artifact, a Salvager must have adequate Artifact Slots. As default, you have 4 slots with more powerful Artifacts taking up more slots.",
+        "text": "\nTo equip an Artifact, a Salvager must have adequate Artifact Slots. As default, you have 4 slots with more powerful Artifacts taking up more slots.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
         "end": true
@@ -108,13 +150,13 @@
 "tourDialog3": [
     {
         "name": "Pelican",
-        "text": "You can equip an Active Item at the Dispensary. Press <fugactivefug> to use a variety of different powers once your Active Item is fully charged.",
+        "text": "\nYou can equip an Active Item at the Dispensary. Press <fugactivefug> to use a variety of different powers once your Active Item is fully charged.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
     },
     {
         "name": "Pelican",
-        "text": "Active Item charge is indicated by the bar underneath the item name. Some items charge over time. Others charge by dealing damage.",
+        "text": "\nActive Item charge is indicated by the bar underneath the item name. Some items charge over time. Others charge by dealing damage.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
         "end": true
@@ -123,25 +165,25 @@
 "tourDialog4": [
     {
         "name": "Pelican",
-        "text": "The ship's Navigation Telepyramid is used to warp to other Telepyramids that have been activated.",
+        "text": "\nThe ship's Navigation Telepyramid is used to warp to other Telepyramids that have been activated.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
     },
     {
         "name": "Pelican",
-        "text": "If you see any more Telepyramids in the world, activate them so you can revisit distant locations whenever you want.",
+        "text": "\nIf you see any more Telepyramids in the world, activate them so you can revisit distant locations whenever you want.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
     }
     {
         "name": "Pelican",
-        "text": "The Arena Telepyramid allows you to train your skills in a survival arena mode.",
+        "text": "\nThe Arena Telepyramid allows you to train your skills in a survival arena mode.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
     }
     {
         "name": "Pelican",
-        "text": "The Bonus Telepyramid gives access to a Sandbox as well as a sneak peak at some Boss Fights.",
+        "text": "\nThe Bonus Telepyramid gives access to a Sandbox as well as a sneak peak at some Boss Fights.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
         "end": true
@@ -150,13 +192,13 @@
 "tourDialog5": [
     {
         "name": "Pelican",
-        "text": "On the top floor is the Quartermaster. Spend your hard earned currency on new weapons and other items.",
+        "text": "\nOn the top floor is the Quartermaster. Spend your hard earned currency on new weapons and other items.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
     },
     {
         "name": "Pelican",
-        "text": "(for the purposes of this demo, all items have been unlocked already)",
+        "text": "\n(for the purposes of this demo, all items have been unlocked already)",
         "sprite": "PELICAN_MASKED"
         "duration": 0
         "end": true
@@ -165,13 +207,13 @@
 "tourDialog6": [
 		{
 			"name": "Pelican",
-			"text": "And finally, ship Communications can be used to chat with myself.\nI'll always be here in case you forget anything.",
+			"text": "\nAnd finally, ship Communications can be used to chat with myself.\nI'll always be here in case you forget anything.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
 		}
         {
 			"name": "Pelican",
-			"text": "Oh and one more thing, I've been getting into Poetry lately.\nLet me know if you'd like to hear a poem.",
+			"text": "\nOh and one more thing, I've been getting into Poetry lately.\nLet me know if you'd like to hear a poem.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
             "end": true
@@ -180,13 +222,13 @@
 "poem": [
         {
 			"name": "Pelican",
-			"text": "You want to hear a poem?\nOk! Here it goes~\nAhem...",
+			"text": "\nYou want to hear a poem?\nOk! Here it goes~\nAhem...",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
 		},
         {
 			"name": "Pelican",
-			"text": "\"<poem>\"",
+			"text": "\n\"<poem>\"",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
             "end": true
@@ -196,7 +238,7 @@
 
         {
 			"name": "Pelican",
-			"text": "Really? Thanks.\nThat really means a lot to me.",
+			"text": "\nReally? Thanks.\nThat really means a lot to me.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
             "end": true
@@ -206,7 +248,7 @@
 
         {
 			"name": "Pelican",
-			"text": "Aw, thanks.\nYou're flattering me.",
+			"text": "\nAw, thanks.\nYou're flattering me.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
             "end": true
@@ -216,7 +258,7 @@
 
         {
 			"name": "Pelican",
-			"text": "I appreciate it.\nI hope you like the next one too.",
+			"text": "\nI appreciate it.\nI hope you like the next one too.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
             "end": true
@@ -226,7 +268,7 @@
 
         {
 			"name": "Pelican",
-			"text": "Thank you.\nLet me know if you want another one.",
+			"text": "\nThank you.\nLet me know if you want another one.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
             "end": true
@@ -236,7 +278,7 @@
 
         {
 			"name": "Pelican",
-			"text": "That's sweet of you.\nI really do try, you know.",
+			"text": "\nThat's sweet of you.\nI really do try, you know.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
             "end": true
@@ -246,7 +288,7 @@
 
         {
 			"name": "Pelican",
-			"text": "Thank you.\nI felt like that one turned out well too.",
+			"text": "\nThank you.\nI felt like that one turned out well too.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
             "end": true
@@ -256,7 +298,7 @@
 
         {
 			"name": "Pelican",
-			"text": "Oh. Sorry.\nI'll try harder next time.",
+			"text": "\nOh. Sorry.\nI'll try harder next time.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
             "end": true
@@ -266,7 +308,7 @@
 
         {
 			"name": "Pelican",
-			"text": "Oh. Well.\nI'll keep at it.",
+			"text": "\nOh. Well.\nI'll keep at it.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
             "end": true
@@ -276,7 +318,7 @@
 
         {
 			"name": "Pelican",
-			"text": "Hmm.\nI hope you like the next one more.",
+			"text": "\nHmm.\nI hope you like the next one more.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
             "end": true
@@ -286,7 +328,7 @@
 
         {
 			"name": "Pelican",
-			"text": "Ah.\nI appreciate the honest feedback.",
+			"text": "\nAh.\nI appreciate the honest feedback.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
             "end": true
@@ -296,7 +338,7 @@
 
         {
 			"name": "Pelican",
-			"text": "Oh.\nI wonder what I'm doing wrong.",
+			"text": "\nOh.\nI wonder what I'm doing wrong.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
             "end": true
@@ -306,7 +348,7 @@
 
         {
 			"name": "Pelican",
-			"text": "Ah well.\nThe last guy didn't like it much either.",
+			"text": "\nAh well.\nThe last guy didn't like it much either.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
             "end": true

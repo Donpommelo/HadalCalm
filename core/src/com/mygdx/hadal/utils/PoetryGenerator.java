@@ -138,7 +138,7 @@ public enum PoetryGenerator {
 		currentLengthExtra = 0;
 		String verse3 = TextFilterUtil.filterPoemTags(generateName("start3"));
 
-		return  verse1 + "\n\n" + verse2 + "\n\n" + verse3;
+		return  verse1 + "\n" + verse2 + "\n" + verse3;
 	}
 	
 	private static int currentLengthExtra;
