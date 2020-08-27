@@ -118,6 +118,11 @@ public class OurGetAlongShirt extends Artifact {
 				deattach();
 			}
 			
+			@Override
+			public void onRemove() {
+				deattach();
+			}
+			
 			private void attach(Schmuck partner) {
 				attached = true;
 				this.partner = partner;
@@ -147,7 +152,7 @@ public class OurGetAlongShirt extends Artifact {
 										joint1.bodyB = hbox.getBody();
 										joint1.collideConnected = false;
 										
-										joint1.localAnchorA.set(-chainLength, 0);
+										joint1.localAnchorA.set(0, 0);
 										joint1.localAnchorB.set(chainLength, 0);
 										
 										state.getWorld().createJoint(joint1);
@@ -176,7 +181,7 @@ public class OurGetAlongShirt extends Artifact {
 										joint1.bodyB = partner.getBody();
 										joint1.collideConnected = false;
 										joint1.localAnchorA.set(-chainLength, 0);
-										joint1.localAnchorB.set(chainLength, 0);
+										joint1.localAnchorB.set(0, 0);
 										
 										state.getWorld().createJoint(joint1);
 									}

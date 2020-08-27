@@ -159,9 +159,11 @@ public class Boss4 extends EnemyFloating {
 	
 	@Override
 	public void render(SpriteBatch batch) {
-		body1.getEffect().draw(batch, Gdx.graphics.getDeltaTime());
-		body2.getEffect().draw(batch, Gdx.graphics.getDeltaTime());
-		body3.getEffect().draw(batch, Gdx.graphics.getDeltaTime());
+		if (state.isServer()) {
+			body1.getEffect().draw(batch, Gdx.graphics.getDeltaTime());
+			body2.getEffect().draw(batch, Gdx.graphics.getDeltaTime());
+			body3.getEffect().draw(batch, Gdx.graphics.getDeltaTime());
+		}
 	}
 	
 	@Override
@@ -173,7 +175,7 @@ public class Boss4 extends EnemyFloating {
 	@Override
 	public void attackInitiate() {
 		attackNum++;
-
+		teleport();
 		if (phase == 1) {
 			if (getBodyData().getCurrentHp() <= phaseThreshold2 * getBodyData().getStat(Stats.MAX_HP)) {
 				phase = 2;
@@ -469,6 +471,7 @@ public class Boss4 extends EnemyFloating {
 		final float startAngle = startingVelos[GameStateManager.generator.nextInt(startingVelos.length)] + ThreadLocalRandom.current().nextInt(-laserSpread, laserSpread + 1);
 		
 		Vector2 startVeloTrail = new Vector2(0, trailSpeed).setAngle(startAngle);
+		Vector2 startPosLaser = new Vector2(getPixelPosition()).add(new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngle(startAngle));
 		
 		for (int i = 0; i < trailNumber; i++) {
 			getActions().add(new EnemyAction(this, trailInterval) {
@@ -476,7 +479,7 @@ public class Boss4 extends EnemyFloating {
 				@Override
 				public void execute() {
 					
-					Hitbox trail = new RangedHitbox(state, getPixelPosition(), trailSize, trailLifespan, startVeloTrail, getHitboxfilter(), false, false, enemy, Sprite.NOTHING);
+					Hitbox trail = new RangedHitbox(state, startPosLaser, trailSize, trailLifespan, startVeloTrail, getHitboxfilter(), false, false, enemy, Sprite.NOTHING);
 					trail.setDurability(beamDurability);
 					trail.setRestitution(1.0f);
 
@@ -491,7 +494,6 @@ public class Boss4 extends EnemyFloating {
 		windupParticle(startAngle, Particle.OVERCHARGE, ParticleColor.BLUE, 30.0f, laserNumber * laserInterval, 0.0f);
 		
 		Vector2 startVeloLaser = new Vector2(0, laserSpeed).setAngle(startAngle);
-		Vector2 startPosLaser = new Vector2(getPixelPosition()).add(new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngle(startAngle));
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, laserNumber * laserInterval, 1.0f, 2.0f, SoundEffect.BEAM3, true);
 		for (int i = 0; i < laserNumber; i++) {
@@ -935,7 +937,7 @@ public class Boss4 extends EnemyFloating {
 			
 			@Override
 			public void execute() {
-				setTransform(new Vector2(), body.getAngle());
+				setTransform(new Vector2(-100, -100), body.getAngle());
 			}
 		});
 		

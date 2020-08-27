@@ -114,7 +114,6 @@ unlockArtifact: {
 	SKIPPERS_BOX_OF_FUN: false
 	NOTHING: false
 	NUCLEAR_PUNCH_THRUSTERS: false
-	LOTUS_LANTERN: false
 	CLOCKWISE_CAGE: false
 	PEACHWOOD_SWORD: false
 	WHITE_WHALE_CHARM: false
@@ -125,6 +124,7 @@ unlockArtifact: {
 	ADMINISTRATOR_CARD: false
 	GEMMULE: false
 	CASTAWAYS_TRAVELOGUE: false
+	LOTUS_LANTERN: false
 	EPHEMERA_PERPETUA: false
 	GOMEZS_AMYGDALA: false
 	EXTRA_ROW_OF_TEETH: false
