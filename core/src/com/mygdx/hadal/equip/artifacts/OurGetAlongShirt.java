@@ -124,82 +124,84 @@ public class OurGetAlongShirt extends Artifact {
 			}
 			
 			private void attach(Schmuck partner) {
-				attached = true;
-				this.partner = partner;
 				
-				for (int i = 0; i < links.length; i++) {
-					final int currentI = i;
-					links[i] = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), chainSize, 0, new Vector2(0, 0), inflicted.getSchmuck().getHitboxfilter(), true, false, inflicted.getSchmuck(), chainSprite);
+				if (!attached) {
+					attached = true;
+					this.partner = partner;
 					
-					links[i].setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+					for (int i = 0; i < links.length; i++) {
+						final int currentI = i;
+						links[i] = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), chainSize, 0, new Vector2(0, 0), inflicted.getSchmuck().getHitboxfilter(), true, false, inflicted.getSchmuck(), chainSprite);
+						
+						links[i].setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 
-					links[i].setDensity(1.0f);
-					links[i].makeUnreflectable();
-					
-					links[i].addStrategy(new HitboxStrategy(state, links[i], inflicted) {
+						links[i].setDensity(1.0f);
+						links[i].makeUnreflectable();
 						
-						private boolean linked = false;
-						
-						@Override
-						public void controller(float delta) {
+						links[i].addStrategy(new HitboxStrategy(state, links[i], inflicted) {
 							
-							if (!linked) {
-								if (currentI == 0) { 
-									if (inflicted.getSchmuck().getBody() != null) {
-										linked = true;
-										RevoluteJointDef joint1 = new RevoluteJointDef();
-										joint1.bodyA = inflicted.getSchmuck().getBody();
-										joint1.bodyB = hbox.getBody();
-										joint1.collideConnected = false;
-										
-										joint1.localAnchorA.set(0, 0);
-										joint1.localAnchorB.set(chainLength, 0);
-										
-										state.getWorld().createJoint(joint1);
-									}
-								} else {
-									if (links[currentI - 1].getBody() != null) {
-										linked = true;
-										
-										RevoluteJointDef joint1 = new RevoluteJointDef();
-										joint1.bodyA = links[currentI - 1].getBody();
-										joint1.bodyB = hbox.getBody();
-										joint1.collideConnected = false;
-										joint1.localAnchorA.set(-chainLength, 0);
-										joint1.localAnchorB.set(chainLength, 0);
-										
-										state.getWorld().createJoint(joint1);
-									}
-								}
+							private boolean linked = false;
+							
+							@Override
+							public void controller(float delta) {
 								
-								if (currentI == links.length - 1) {
-									if (partner.getBody() != null) {
-										linked = true;
-										
-										RevoluteJointDef joint1 = new RevoluteJointDef();
-										joint1.bodyA = hbox.getBody();
-										joint1.bodyB = partner.getBody();
-										joint1.collideConnected = false;
-										joint1.localAnchorA.set(-chainLength, 0);
-										joint1.localAnchorB.set(0, 0);
-										
-										state.getWorld().createJoint(joint1);
+								if (!linked) {
+									if (currentI == 0) { 
+										if (inflicted.getSchmuck().getBody() != null) {
+											linked = true;
+											RevoluteJointDef joint1 = new RevoluteJointDef();
+											joint1.bodyA = inflicted.getSchmuck().getBody();
+											joint1.bodyB = hbox.getBody();
+											joint1.collideConnected = false;
+											
+											joint1.localAnchorA.set(0, 0);
+											joint1.localAnchorB.set(chainLength, 0);
+											
+											state.getWorld().createJoint(joint1);
+										}
+									} else {
+										if (links[currentI - 1].getBody() != null) {
+											linked = true;
+											
+											RevoluteJointDef joint1 = new RevoluteJointDef();
+											joint1.bodyA = links[currentI - 1].getBody();
+											joint1.bodyB = hbox.getBody();
+											joint1.collideConnected = false;
+											joint1.localAnchorA.set(-chainLength, 0);
+											joint1.localAnchorB.set(chainLength, 0);
+											
+											state.getWorld().createJoint(joint1);
+										}
+									}
+									
+									if (currentI == links.length - 1) {
+										if (partner.getBody() != null) {
+											linked = true;
+											
+											RevoluteJointDef joint1 = new RevoluteJointDef();
+											joint1.bodyA = hbox.getBody();
+											joint1.bodyB = partner.getBody();
+											joint1.collideConnected = false;
+											joint1.localAnchorA.set(-chainLength, 0);
+											joint1.localAnchorB.set(0, 0);
+											
+											state.getWorld().createJoint(joint1);
+										}
 									}
 								}
 							}
-						}
-						
-						@Override
-						public void die() {
-							hbox.queueDeletion();
-						}
-					});
+							
+							@Override
+							public void die() {
+								hbox.queueDeletion();
+							}
+						});
+					}
 				}
 			}
 			
 			private void deattach() {
 				attached = false;
-				
 				for (int i = 0; i < links.length; i++) {
 					if (links[i] != null) {
 						links[i].setLifeSpan(2.0f);

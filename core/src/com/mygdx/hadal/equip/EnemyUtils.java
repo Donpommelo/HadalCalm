@@ -294,6 +294,10 @@ public class EnemyUtils {
 					@Override
 					public void controller(float delta) {
 						
+						if (!enemy.isAlive()) {
+							hbox.queueDeletion();
+						}
+						
 						controllerCount += delta;
 						
 						while (controllerCount >= attackInterval) {
