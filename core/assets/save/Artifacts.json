@@ -406,7 +406,7 @@ HEART_OF_SPEROS: {
 HOOD_OF_HABIT: {
 	name: Hood of Habit
 	description: "Become Invisible when Receiving Critical Damage"
-    descriptionLong: "Hp Threshold: 25\nInvisibility Duration: 8s\n\nA ragged hood saturated with the stench of smoke.\n\nMuch to the chagrin of its residents, the Noiseless Sea has never kicked its addition to cyclical destruction and rebirth."
+    descriptionLong: "Hp Threshold: 25\nInvisibility Duration: 8s\n\nA ragged hood saturated with the stench of smoke.\n\nMuch to the chagrin of its residents, the Noiseless Sea has never kicked its addiction to cyclical destruction and rebirth."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
