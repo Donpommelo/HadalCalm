@@ -20,6 +20,7 @@ import com.mygdx.hadal.statuses.Temporary;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -88,11 +89,12 @@ public class AssaultBits extends RangedWeapon {
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 				hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.BULLET, DamageTypes.RANGED));
 				hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.VIOLET));
 				hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.VIOLET));
 				hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.3f, true));
 				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.BULLET, DamageTypes.RANGED));
 			}
 		}
 	}

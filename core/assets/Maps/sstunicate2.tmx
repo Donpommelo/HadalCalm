@@ -780,7 +780,7 @@
     <property name="closeAfterSelect" type="bool" value="true"/>
     <property name="optionNames" value="S.S TUNICATE GUIDED TOUR,TELL ME A POEM"/>
     <property name="options" value="tourStart,poemStart"/>
-    <property name="title" value="COMMUNUCATIONS"/>
+    <property name="title" value="COMMUNICATIONS"/>
     <property name="triggeredId" value="communication"/>
    </properties>
   </object>

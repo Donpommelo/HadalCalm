@@ -943,6 +943,19 @@ public class Packets {
 		}
 	}
 	
+	public static class SyncHitSound {
+		public float damage;
+		/**
+		 * A SyncHitSound is a simple packet that just tells the client to play their hitsound.
+		 * the damage is the amount of damage. this decides the pitch of the hitsound
+		 */
+		public SyncHitSound() {}
+		
+		public SyncHitSound(float damage) {
+			this.damage = damage;
+		}
+	}
+	
 	public static class MissedCreate {
 		public String entityID;
 		
@@ -1060,6 +1073,8 @@ public class Packets {
     	kryo.register(SyncSoundSingle.class);
     	kryo.register(CreateSound.class);
     	kryo.register(SyncSound.class);
+    	kryo.register(SyncMusic.class);
+    	kryo.register(SyncHitSound.class);
     	kryo.register(MissedCreate.class);
     	kryo.register(MissedDelete.class);
     	kryo.register(StartSpectate.class);

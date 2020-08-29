@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -176,6 +177,7 @@ public class ResultsState extends GameState {
 		}
 		
 		readyOption = new Text("RETURN TO LOADOUT?", 0, 0, true);
+		readyOption.setColor(Color.RED);
 		
 		readyOption.addListener(new ClickListener() {
 	        
@@ -193,6 +195,7 @@ public class ResultsState extends GameState {
 		readyOption.setScale(scale);
 		
 		forceReadyOption = new Text("FORCE RETURN?", 0, 0, true);
+		forceReadyOption.setColor(Color.RED);
 		
 		forceReadyOption.addListener(new ClickListener() {
 	        

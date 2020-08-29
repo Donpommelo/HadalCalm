@@ -16,6 +16,7 @@ import com.mygdx.hadal.statuses.FiringWeapon;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -58,6 +59,7 @@ public class StutterGun extends RangedWeapon {
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.ORANGE));
 		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.ORANGE));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.3f, true));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 

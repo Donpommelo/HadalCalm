@@ -15,6 +15,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -95,6 +96,7 @@ public class Flounderbuss extends RangedWeapon {
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.FISH, DamageTypes.RANGED));
+			hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE1, 0.25f, true));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 		}
 	}

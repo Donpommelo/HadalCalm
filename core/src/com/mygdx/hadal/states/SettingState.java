@@ -53,8 +53,8 @@ public class SettingState extends GameState {
 	//This table contains the ui elements of the pause screen
 	private Table options, details, extra;
 	
-	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
-	private Slider sound, music, master;
+	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, hitsoundOptions, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
+	private Slider sound, music, master, hitsound;
 	private CheckBox fullscreen, vsync, debugHitbox, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
 		
 	//Dimentions of the setting menu
@@ -431,7 +431,7 @@ public class SettingState extends GameState {
 		sound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
 		sound.setValue(gsm.getSetting().getSoundVolume());
 		
-		sound.addListener( new ChangeListener() {
+		sound.addListener(new ChangeListener() {
 			
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
@@ -445,7 +445,7 @@ public class SettingState extends GameState {
 		music = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
 		music.setValue(gsm.getSetting().getMusicVolume());
 		
-		music.addListener( new ChangeListener() {
+		music.addListener(new ChangeListener() {
 			
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
@@ -459,11 +459,42 @@ public class SettingState extends GameState {
 		master = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
 		master.setValue(gsm.getSetting().getMasterVolume());
 		
-		master.addListener( new ChangeListener() {
+		master.addListener(new ChangeListener() {
 			
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				masterText.setText("MASTER VOLUME: " + (int)(master.getValue() * 100));
+			}
+		});
+		
+		Text hitsoundText = new Text("HITSOUND: ", 0, 0, false);
+		hitsoundText.setScale(0.25f);
+		
+		hitsoundOptions = new SelectBox<String>(GameStateManager.getSkin());
+		hitsoundOptions.setItems("NONE", "BLIP", "COWBELL", "DING", "DRUM", "PIANO", "SHREK");
+		hitsoundOptions.setSelectedIndex(gsm.getSetting().getHitsound());
+		
+		hitsoundOptions.addListener(new ChangeListener() {
+			
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				if (hitsoundOptions.getSelectedIndex() != 0) {
+					gsm.getSetting().indexToHitsound(hitsoundOptions.getSelectedIndex()).play(gsm, gsm.getSetting().getHitsoundVolume(), 1.0f, false);
+				}
+			}
+		});
+		
+		final Text hitsoundVolumeText = new Text("HITSOUND VOLUME: " + (int)(gsm.getSetting().getHitsoundVolume() * 100), 0, 0, false);
+		hitsoundVolumeText.setScale(detailsScale);
+		
+		hitsound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
+		hitsound.setValue(gsm.getSetting().getHitsoundVolume());
+		
+		hitsound.addListener(new ChangeListener() {
+			
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				hitsoundVolumeText.setText("HITSOUND VOLUME: " + (int)(hitsound.getValue() * 100));
 			}
 		});
 		
@@ -473,6 +504,10 @@ public class SettingState extends GameState {
 		details.add(music).pad(detailsPad).row();
 		details.add(masterText);
 		details.add(master).pad(detailsPad).row();
+		details.add(hitsoundText);
+		details.add(hitsoundOptions).pad(detailsPad).row();
+		details.add(hitsoundVolumeText);
+		details.add(hitsound).pad(detailsPad).row();
 	}
 	
 	/**
@@ -628,6 +663,8 @@ public class SettingState extends GameState {
 			gsm.getSetting().setSoundVolume(sound.getValue());
 			gsm.getSetting().setMusicVolume(music.getValue());
 			gsm.getSetting().setMasterVolume(master.getValue());
+			gsm.getSetting().setHitsoundType(hitsoundOptions.getSelectedIndex());
+			gsm.getSetting().setHitsoundVolume(hitsound.getValue());
 			gsm.getSetting().saveSetting();
 			audioSelected();
 			break;

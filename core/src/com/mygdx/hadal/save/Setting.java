@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 
@@ -16,9 +17,9 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Setting {
 
-	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, artifactSlots, portNumber;
+	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, artifactSlots, portNumber, hitsoundType;
 	private boolean fullscreen, vsync, debugHitbox, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
-	private float soundVolume, musicVolume, masterVolume;
+	private float soundVolume, musicVolume, masterVolume, hitsoundVolume;
 
 	//How long should pvp/coop matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
 	private int pvpTimer, coopTimer;
@@ -117,6 +118,8 @@ public class Setting {
 		soundVolume = 1.0f;
 		musicVolume = 1.0f;
 		masterVolume = 1.0f;
+		hitsoundVolume = 0.5f;
+		hitsoundType = 1;
 	}
 	
 	public void resetGameplay() {
@@ -262,6 +265,29 @@ public class Setting {
 		}
 	}
 	
+	public SoundEffect indexToHitsound() {
+		return indexToHitsound(hitsoundType);
+	}
+	
+	public SoundEffect indexToHitsound(int hitsoundType) {
+		switch (hitsoundType) {
+		case 1:
+			return SoundEffect.HITSOUND_BLIP;
+		case 2:
+			return SoundEffect.HITSOUND_COWBELL;
+		case 3:
+			return SoundEffect.HITSOUND_DING;
+		case 4:
+			return SoundEffect.HITSOUND_DRUM;
+		case 5:
+			return SoundEffect.HITSOUND_PIANO;
+		case 6:
+			return SoundEffect.HITSOUND_SHREK;
+		default:
+			return SoundEffect.HITSOUND_COWBELL;
+		}
+	}
+	
 	public void setResolution(int resolution) { this.resolution = resolution; }
 
 	public void setFramerate(int framerate) { this.framerate = framerate; }
@@ -276,11 +302,15 @@ public class Setting {
 
 	public void setCursorColor(int cursorColor) { this.cursorColor = cursorColor; }
 
+	public void setHitsoundType(int hitsoundType) { this.hitsoundType = hitsoundType; }
+
 	public void setSoundVolume(float soundVolume) {	this.soundVolume = soundVolume; }
 
 	public void setMusicVolume(float musicVolume) {	this.musicVolume = musicVolume;	}
 
 	public void setMasterVolume(float masterVolume) { this.masterVolume = masterVolume; }
+	
+	public void setHitsoundVolume(float hitsoundVolume) { this.hitsoundVolume = hitsoundVolume; }
 
 	public void setRandomNameAlliteration(boolean randomNameAlliteration) { this.randomNameAlliteration = randomNameAlliteration; }
 	
@@ -310,11 +340,15 @@ public class Setting {
 	
 	public int getCursorColor() { return cursorColor; }
 	
+	public int getHitsound() { return hitsoundType; }
+	
 	public float getSoundVolume() {	return soundVolume; }
 
 	public float getMusicVolume() {	return musicVolume; }
 
 	public float getMasterVolume() { return masterVolume; }
+	
+	public float getHitsoundVolume() { return hitsoundVolume; }
 	
 	public boolean isRandomNameAlliteration() {	return randomNameAlliteration; }
 	

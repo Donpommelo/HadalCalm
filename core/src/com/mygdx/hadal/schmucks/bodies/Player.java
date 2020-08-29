@@ -109,6 +109,9 @@ public class Player extends PhysicsSchmuck {
 	protected final static float interactCd = 0.15f;
 	protected float interactCdCount;
 	
+	protected final static float hitSoundCd = 0.2f;
+	protected float hitSoundCdCount;
+	
 	private final static float airAnimationSlow = 3.0f;
 
 	//This is the angle that the player's arm is pointing
@@ -446,6 +449,7 @@ public class Player extends PhysicsSchmuck {
 		fastFallCdCount -= delta;
 		airblastCdCount -= delta;
 		interactCdCount -= delta;
+		hitSoundCdCount -= delta;
 		
 		if (jumpBuffered && jumpCdCount < 0) {
 			jumpBuffered = false;
@@ -884,6 +888,13 @@ public class Player extends PhysicsSchmuck {
 		playerData.setOverrideHpPercent(0);
 	}
 	
+	public void playHitSound(float damage) {
+		if (hitSoundCdCount < 0) {
+			hitSoundCdCount = hitSoundCd;
+			SoundEffect.registerHitSound(state.getGsm(), this, damage);
+		}
+	}
+
 	/**
 	 * This is called by the server when the player is created. Sends a packet to clients to instruct them to build a new player
 	 * with the desired name and loadout

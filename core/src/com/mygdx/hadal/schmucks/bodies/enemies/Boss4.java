@@ -75,7 +75,7 @@ public class Boss4 extends EnemyFloating {
 	
 	private static final float scale = 1.0f;
 	
-	private static final int hp = 8000;
+	private static final int hp = 7500;
 	
 	private static final Sprite sprite = Sprite.NOTHING;
 	
@@ -168,14 +168,13 @@ public class Boss4 extends EnemyFloating {
 	
 	@Override
 	public void multiplayerScaling(int numPlayers) {
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 2000 * numPlayers, getBodyData()));
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 3000 * numPlayers, getBodyData()));
 	}
 	
 	private int attackNum = 0;
 	@Override
 	public void attackInitiate() {
 		attackNum++;
-		teleport();
 		if (phase == 1) {
 			if (getBodyData().getCurrentHp() <= phaseThreshold2 * getBodyData().getStat(Stats.MAX_HP)) {
 				phase = 2;

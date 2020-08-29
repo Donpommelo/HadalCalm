@@ -832,6 +832,16 @@ public class KryoClient {
 			return true;
 		}
 		
+		else if (o instanceof Packets.SyncHitSound) {
+			Packets.SyncHitSound p = (Packets.SyncHitSound) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				SoundEffect.playHitSound(cs.getGsm(), p.damage);
+			}
+			return true;
+		}
+		
 		else if (o instanceof Packets.SyncPlayerAll) {
 			Packets.SyncPlayerAll p = (Packets.SyncPlayerAll) o;
 			final ClientState cs = getClientState();

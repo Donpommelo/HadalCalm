@@ -114,6 +114,14 @@ public enum SoundEffect {
 	UISWITCH1("sound/switch5.wav"),
 	UISWITCH2("sound/switch7.wav"),
 	UISWITCH3("sound/switch10.wav"),
+
+	HITSOUND_BLIP("sound/hitsoundBlip.mp3"),
+	HITSOUND_COWBELL("sound/hitsoundCowbell.mp3"),
+	HITSOUND_DING("sound/hitsoundDing.mp3"),
+	HITSOUND_DRUM("sound/hitsoundDrum.mp3"),
+	HITSOUND_PIANO("sound/hitsoundPiano.mp3"),
+	HITSOUND_SHREK("sound/hitsoundShrek.mp3"),
+
 	;
 	
 	//this is the filename of the sound
@@ -218,6 +226,36 @@ public enum SoundEffect {
 		
 		//this line hopefully doesn't get run. (b/c this should not get run on the client or with no input player)
 		return (long) 0;
+	}
+	
+	public static void registerHitSound(GameStateManager gsm, Player player, float damage) {
+		
+		if (player.getConnID() == 0) {
+			playHitSound(gsm, damage);
+		} else {
+			HadalGame.server.sendPacketToPlayer(player, new Packets.SyncHitSound(damage));
+		}
+	}
+	
+	private final static float minDamageThreshold = 10.0f;
+	private final static float maxDamageThreshold = 60.0f;
+	
+	public static void playHitSound(GameStateManager gsm, float damage) {
+		if (gsm.getSetting().getHitsound() != 0) {
+			
+			float pitch = 1.0f;
+			
+			if (damage <= 0) {
+				return;
+			}
+			
+			if (damage < minDamageThreshold) {
+				pitch = 1.5f;
+			} else if (damage > maxDamageThreshold) {
+				pitch = 0.75f;
+			}
+			gsm.getSetting().indexToHitsound().play(gsm, gsm.getSetting().getHitsoundVolume(), pitch, false);
+		}
 	}
 	
 	//maxDist is the largest distance the player can hear sounds from.

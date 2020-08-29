@@ -7,14 +7,15 @@ cursorColor: 4
 maxPlayers: 3
 artifactSlots: 4
 portNumber: 11100
+hitsoundType: 6
 vsync: true
-debugHitbox: true
 randomNameAlliteration: true
 consoleEnabled: true
 verboseDeathMessage: true
 soundVolume: 1
 musicVolume: 1
 masterVolume: 1
+hitsoundVolume: 0.5
 pvpTimer: 3
 loadoutType: 1
 }
