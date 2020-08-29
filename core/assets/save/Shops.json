@@ -6,6 +6,7 @@ weapons1: {
         FISTICUFFS: 2
         SCRAPRIPPER: 2
         SPEARGUN: 2
+        BATTERING_RAM: 3
         BEEGUN: 3
         BOILER: 3
         BOOMERANG: 3
@@ -159,7 +160,8 @@ actives1: {
         NAUTICAL_MINE: 5
         ORBITAL_SHIELD: 6
         PLUS_MINUS: 6
-        PORTABLE_TURRET: 6
+        PORTABLE_SENTRY_FLAK: 6
+        PORTABLE_SENTRY_VOLLEY: 6
         RADIAL_BARRAGE: 6
         RING_OF_GYGES: 7
         SPIRIT_RELEASE: 6

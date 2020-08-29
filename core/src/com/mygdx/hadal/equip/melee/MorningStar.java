@@ -29,8 +29,8 @@ public class MorningStar extends MeleeWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 
-	private final static Sprite chainSprite = Sprite.ORB_BLUE;
-	private final static Sprite projSprite = Sprite.ORB_BLUE;
+	private final static Sprite chainSprite = Sprite.ORB_ORANGE;
+	private final static Sprite projSprite = Sprite.ORB_ORANGE;
 	
 	private final static float baseDamage = 50.0f;
 	private final static float knockback = 60.0f;

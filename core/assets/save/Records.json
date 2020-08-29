@@ -38,63 +38,64 @@ flags: {
 lastIp: ""
 hiScores: {
 	class: java.util.HashMap
-	ARENA_LAGAN: 0
+	ARENA_LAGAN: 50
 	ARENA_HORIZON: 0
-	ARENA_WARP: 0
-	ARENA_FLOTSAM: 0
+	ARENA_WARP: 13
+	ARENA_FLOTSAM: 10
 	ARENA_PILE: 14
 	ARENA_WETWORKS: 37
 	ARENA_ZIGGURAT: 0
 }
 unlockEquip: {
 	class: java.util.HashMap
+	MORAYGUN: true
+	KAMABOKANNON: true
+	DIAMOND_CUTTER: true
+	FISTICUFFS: true
+	SNIPER_RIFLE: true
+	DEEP_SEA_SMELTER: true
+	NOTHING: true
+	BOUNCING_BLADE: true
+	SPEARGUN: true
+	COLACANNON: true
+	POPPER: true
+	CHARGE_BEAM: true
+	HEXENHOWITZER: true
+	DUELING_CORKGUN: true
+	VAJRA: true
+	MACHINEGUN: true
+	BANANA: true
 	UNDERMINER: true
 	LOVE_BOW: true
 	IRON_BALL_LAUNCHER: true
 	ICEBERG: true
 	BOILER: true
 	PEARL_REVOLVER: true
-	MORAYGUN: true
 	TRICK_GUN: true
 	MORNING_STAR: true
 	LASER_GUIDED_ROCKET: true
-	KAMABOKANNON: true
 	GRENADE_LAUNCHER: true
-	DIAMOND_CUTTER: true
-	FISTICUFFS: true
 	SCRAPRIPPER: true
-	SNIPER_RIFLE: true
 	MINIGUN: true
 	ASSAULT_BITS: true
-	DEEP_SEA_SMELTER: true
-	NOTHING: true
 	STUTTERGUN: true
-	BOUNCING_BLADE: true
 	AMITA_CANNON: true
 	XBOMBER: true
 	BOOMERANG: true
 	CR4PCANNON: true
-	SPEARGUN: true
 	WAVE_BEAM: true
-	COLACANNON: true
 	TORPEDO_LAUNCHER: true
 	MAELSTROM: true
-	POPPER: true
-	CHARGE_BEAM: true
-	HEXENHOWITZER: true
 	BEEGUN: true
 	NEMATOCYDEARM: true
 	FUGUN: true
 	SCREECHER: true
-	DUELING_CORKGUN: true
-	VAJRA: true
 	LASER_RIFLE: true
-	MACHINEGUN: true
 	STICKY_BOMB_LAUNCHER: true
+	BATTERING_RAM: true
 	RIFTSPLITTER: true
 	SLODGEGUN: true
 	TESLA_COIL: true
-	BANANA: true
 	FLOUNDERBUSS: true
 }
 unlockArtifact: {
@@ -228,6 +229,7 @@ unlockActive: {
 	HEALING_FIELD: true
 	JUMP_KICK: true
 	TAINTED_WATER: true
+	PORTABLE_SENTRY_FLAK: true
 	NOTHING: true
 	SPIRIT_RELEASE: true
 	RESERVED_FUEL: true
@@ -235,13 +237,13 @@ unlockActive: {
 	FAFROTSKIES: true
 	DODGE_ROLL: true
 	CALL_OF_WALRUS: true
-	PORTABLE_TURRET: true
 	ORBITAL_SHIELD: true
 	DEPTH_CHARGE: true
 	HONEYCOMB: true
 	RING_OF_GYGES: true
 	ANCHOR_SMASH: true
 	NAUTICAL_MINE: true
+	PORTABLE_SENTRY_VOLLEY: true
 }
 unlockCharacter: {
 	class: java.util.HashMap

@@ -109,8 +109,8 @@ public class Player extends PhysicsSchmuck {
 	protected final static float interactCd = 0.15f;
 	protected float interactCdCount;
 	
-	protected final static float hitSoundCd = 0.2f;
-	protected float hitSoundCdCount;
+	protected final static float hitSoundCd = 0.15f;
+	protected float hitSoundCdCount, hitSoundLargeCdCount;
 	
 	private final static float airAnimationSlow = 3.0f;
 
@@ -450,6 +450,7 @@ public class Player extends PhysicsSchmuck {
 		airblastCdCount -= delta;
 		interactCdCount -= delta;
 		hitSoundCdCount -= delta;
+		hitSoundLargeCdCount -= delta;
 		
 		if (jumpBuffered && jumpCdCount < 0) {
 			jumpBuffered = false;
@@ -888,10 +889,22 @@ public class Player extends PhysicsSchmuck {
 		playerData.setOverrideHpPercent(0);
 	}
 	
+	private final static float maxDamageThreshold = 60.0f;
 	public void playHitSound(float damage) {
-		if (hitSoundCdCount < 0) {
-			hitSoundCdCount = hitSoundCd;
-			SoundEffect.registerHitSound(state.getGsm(), this, damage);
+		
+		if (damage <= 0.0f) { return; }
+		
+		if (damage > maxDamageThreshold) {
+			if (hitSoundLargeCdCount < 0) {
+				hitSoundLargeCdCount = hitSoundCd;
+				hitSoundCdCount = hitSoundCd;
+				SoundEffect.registerHitSound(state.getGsm(), this, true);
+			}
+		} else {
+			if (hitSoundCdCount < 0) {
+				hitSoundCdCount = hitSoundCd;
+				SoundEffect.registerHitSound(state.getGsm(), this, false);
+			}
 		}
 	}
 

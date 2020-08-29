@@ -837,7 +837,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				SoundEffect.playHitSound(cs.getGsm(), p.damage);
+				SoundEffect.playHitSound(cs.getGsm(), p.large);
 			}
 			return true;
 		}

@@ -19,7 +19,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.utils.Constants;
 
-public class PortableTurret extends ActiveItem {
+public class PortableSentryFlak extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
@@ -33,7 +33,7 @@ public class PortableTurret extends ActiveItem {
 	
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 
-	public PortableTurret(Schmuck user) {
+	public PortableSentryFlak(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);
 	}
 	

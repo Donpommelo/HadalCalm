@@ -21,6 +21,7 @@ public enum UnlockEquip {
 	AMITA_CANNON(AmitaCannon.class),
 	ASSAULT_BITS(AssaultBits.class),
 	BANANA(Banana.class),
+	BATTERING_RAM(BatteringRam.class),
 	BEEGUN(BeeGun.class),
 	BOILER(Boiler.class),
 	BOOMERANG(Boomerang.class),

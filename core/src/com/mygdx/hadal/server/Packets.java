@@ -944,15 +944,15 @@ public class Packets {
 	}
 	
 	public static class SyncHitSound {
-		public float damage;
+		public boolean large;
 		/**
 		 * A SyncHitSound is a simple packet that just tells the client to play their hitsound.
 		 * the damage is the amount of damage. this decides the pitch of the hitsound
 		 */
 		public SyncHitSound() {}
 		
-		public SyncHitSound(float damage) {
-			this.damage = damage;
+		public SyncHitSound(boolean large) {
+			this.large = large;
 		}
 	}
 	

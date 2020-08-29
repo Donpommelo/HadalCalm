@@ -228,33 +228,24 @@ public enum SoundEffect {
 		return (long) 0;
 	}
 	
-	public static void registerHitSound(GameStateManager gsm, Player player, float damage) {
+	public static void registerHitSound(GameStateManager gsm, Player player, boolean large) {
 		
 		if (player.getConnID() == 0) {
-			playHitSound(gsm, damage);
+			playHitSound(gsm, large);
 		} else {
-			HadalGame.server.sendPacketToPlayer(player, new Packets.SyncHitSound(damage));
+			HadalGame.server.sendPacketToPlayer(player, new Packets.SyncHitSound(large));
 		}
 	}
 	
-	private final static float minDamageThreshold = 10.0f;
-	private final static float maxDamageThreshold = 60.0f;
-	
-	public static void playHitSound(GameStateManager gsm, float damage) {
+	public static void playHitSound(GameStateManager gsm, boolean large) {
 		if (gsm.getSetting().getHitsound() != 0) {
 			
 			float pitch = 1.0f;
 			
-			if (damage <= 0) {
-				return;
-			}
-			
-			if (damage < minDamageThreshold) {
+			if (large) {
 				pitch = 1.5f;
-			} else if (damage > maxDamageThreshold) {
-				pitch = 0.75f;
 			}
-			gsm.getSetting().indexToHitsound().play(gsm, gsm.getSetting().getHitsoundVolume(), pitch, false);
+			gsm.getSetting().indexToHitsound().play(gsm, gsm.getSetting().getHitsoundVolume(), pitch, true);
 		}
 	}
 	

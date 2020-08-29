@@ -177,9 +177,18 @@ PLUS_MINUS: {
 		RANDOM_POOL,
 	]
 }
-PORTABLE_TURRET: {
-	name: Portable Turret
-	description: "Drop a projectile that creates an allied turret."
+PORTABLE_SENTRY_FLAK: {
+	name: Portable Sentry: Flak
+	description: "Drop a projectile to create an allied turret that fires a close-ranged burst of projectiles."
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+PORTABLE_SENTRY_VOLLEY: {
+	name: Portable Sentry: Volley
+	description: "Drop a projectile to create an allied turret that fires a long-ranged volley of projectiles."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,

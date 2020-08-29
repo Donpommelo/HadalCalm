@@ -322,7 +322,13 @@ public class BodyData extends HadalData {
 					((PlayerBodyData) perp).getActiveItem().gainCharge(damage * ActiveItem.enemyDamageChargeMultiplier);
 				}
 			}
-			((PlayerBodyData) perp).getPlayer().playHitSound(damage);
+			if (!perp.equals(this)) {
+				if (currentHp == 0) {
+					((PlayerBodyData) perp).getPlayer().playHitSound(999);
+				} else {
+					((PlayerBodyData) perp).getPlayer().playHitSound(damage);
+				}
+			}
 		}
 		
 		return damage;

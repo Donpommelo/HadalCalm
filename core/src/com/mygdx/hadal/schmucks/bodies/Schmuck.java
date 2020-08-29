@@ -121,7 +121,7 @@ public class Schmuck extends HadalEntity {
 	public void useToolStart(float delta, Equipable tool, short hitbox, Vector2 mouseLocation, boolean wait) {
 		
 		getBodyData().statusProcTime(new ProcTime.WhileAttack(delta, tool));
-		
+
 		//Only register the attempt if the user is not waiting on a tool's delay or cooldown. (or if tool ignores wait)
 		if ((shootCdCount < 0 && shootDelayCount < 0) || !wait) {
 
@@ -140,7 +140,7 @@ public class Schmuck extends HadalEntity {
 	 * This method is called after a tool is used following the tool's delay.
 	 */
 	public void useToolEnd() {
-			
+		
 		//the schmuck will not register another tool usage for the tool's cd
 		shootCdCount = usedTool.getUseCd() * (1 - getBodyData().getStat(Stats.TOOL_SPD));
 		

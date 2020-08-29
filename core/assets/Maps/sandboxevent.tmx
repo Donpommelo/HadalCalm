@@ -33,7 +33,7 @@
     <property name="triggeringId" value="portal2"/>
    </properties>
   </object>
-  <object id="12" name="Prefab" type="PrefabWeapon" x="1472" y="1408" width="96" height="96">
+  <object id="12" name="Prefab" type="PrefabWeapon" x="1440" y="1408" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w1"/>
@@ -117,13 +117,13 @@
     <property name="triggeringId" value="objectiveTest,bounds1,bounds2,rotate1,rotate2"/>
    </properties>
   </object>
-  <object id="52" name="Prefab" type="PrefabWeapon" x="1600" y="1408" width="96" height="96">
+  <object id="52" name="Prefab" type="PrefabWeapon" x="1632" y="1408" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w2"/>
    </properties>
   </object>
-  <object id="54" name="Sensor" type="Sensor" x="1504" y="1280" width="32" height="32">
+  <object id="54" name="Sensor" type="Sensor" x="1472" y="1280" width="32" height="32">
    <properties>
     <property name="align" value="CENTER_STRETCH"/>
     <property name="hbox" type="bool" value="true"/>
@@ -132,7 +132,7 @@
     <property name="triggeringId" value="w1"/>
    </properties>
   </object>
-  <object id="55" name="Sensor" type="Sensor" x="1632" y="1280" width="32" height="32">
+  <object id="55" name="Sensor" type="Sensor" x="1664" y="1280" width="32" height="32">
    <properties>
     <property name="align" value="CENTER_STRETCH"/>
     <property name="hbox" type="bool" value="true"/>

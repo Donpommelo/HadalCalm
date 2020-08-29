@@ -3,6 +3,7 @@ package com.mygdx.hadal.event.prefab;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
@@ -46,7 +47,7 @@ public class SpawnerWeapon extends Prefabrication {
 		spawner.getProperties().put("triggeringId", pickupId);
 		
 		RectangleMapObject weapon = new RectangleMapObject();
-		weapon.getRectangle().set(x, y, width, height);
+		weapon.getRectangle().set(x, y + (Event.defaultPickupEventSize - height) / 2, width, height);
 		weapon.setName("Equip");
 		weapon.getProperties().put("synced", true);
 		weapon.getProperties().put("particle_std", "EVENT_HOLO");

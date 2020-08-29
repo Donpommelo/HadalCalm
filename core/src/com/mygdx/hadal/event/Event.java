@@ -61,7 +61,7 @@ public class Event extends HadalEntity {
     private final static float animationSpeed = 0.1f;
     
     //all pickups will have this height and width as default.
-    public final static int defaultPickupEventSize = 96;
+    public final static int defaultPickupEventSize = 160;
     
     //this is the map object from Tiled that this event was read from.
     protected MapObject blueprint;
