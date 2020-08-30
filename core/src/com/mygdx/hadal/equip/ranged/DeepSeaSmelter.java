@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -15,6 +16,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
@@ -35,10 +37,10 @@ public class DeepSeaSmelter extends RangedWeapon {
 	private final static float recoil = 6.0f;
 	private final static float knockback = 22.0f;
 	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(50, 20);
+	private final static Vector2 projectileSize = new Vector2(50, 15);
 	private final static float lifespan = 1.0f;
 	
-	private final static Sprite projSprite = Sprite.TRICKBULLET;
+	private final static Sprite projSprite = Sprite.SLAG;
 	private final static Sprite weaponSprite = Sprite.MT_NEMATOCYTEARM;
 	private final static Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
 	
@@ -88,15 +90,19 @@ public class DeepSeaSmelter extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		
 		//weapon is disabled when overheated
 		if (overheated) { return; }
 		
 		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.5f, false);
 
-		//we create two hitboxes, offset parallel to one another
-		projOffset.set(startVelocity).rotate90(1).nor().scl(projSpacing);
+		createProjectile(state, startPosition, startVelocity, filter, 1);
+		createProjectile(state, startPosition, startVelocity, filter, -1);
+	}
+	
+	private void createProjectile(PlayState state, Vector2 startPosition, Vector2 startVelocity, short filter, int rotate) {
+		projOffset.set(startVelocity).rotate90(rotate).nor().scl(projSpacing);
 		projOrigin.set(startPosition).add(projOffset);
 		
 		Hitbox hbox = new RangedHitbox(state, projOrigin, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
@@ -108,21 +114,8 @@ public class DeepSeaSmelter extends RangedWeapon {
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.3f));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLASH, 0.2f, true));
-		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
-		
-		projOffset.set(startVelocity).rotate90(-1).nor().scl(projSpacing);
-		projOrigin.set(startPosition).add(projOffset);
-		
-		Hitbox hbox2 = new RangedHitbox(state, projOrigin, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
-		
-		hbox2.addStrategy(new ControllerDefault(state, hbox2, user.getBodyData()));
-		hbox2.addStrategy(new AdjustAngle(state, hbox2, user.getBodyData()));
-		hbox2.addStrategy(new ContactWallDie(state, hbox2, user.getBodyData()));
-		hbox2.addStrategy(new ContactUnitLoseDurability(state, hbox2, user.getBodyData()));
-		hbox2.addStrategy(new DamageStandard(state, hbox2, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-		hbox2.addStrategy(new ContactWallSound(state, hbox2, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.3f));
-		hbox2.addStrategy(new ContactUnitSound(state, hbox2, user.getBodyData(), SoundEffect.SLASH, 0.2f, true));
-		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
+		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.YELLOW));
+		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.YELLOW));
 	}
 	
 	//heat level of the weapon decreases over time

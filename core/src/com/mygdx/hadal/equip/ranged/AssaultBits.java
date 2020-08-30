@@ -14,6 +14,7 @@ import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.enemies.DroneBit;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Temporary;
@@ -55,6 +56,13 @@ public class AssaultBits extends RangedWeapon {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
+	private Vector2 realWeaponVelo = new Vector2();
+	@Override
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
+		super.mouseClicked(delta, state, shooter, faction, mousePosition);
+		realWeaponVelo.set(weaponVelo);
+	}
+	
 	private Vector2 bitVelo = new Vector2(0, projectileSpeed);
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
@@ -80,11 +88,11 @@ public class AssaultBits extends RangedWeapon {
 		} else {
 			
 			//when 3 bits are active, all 3 fire shots at the mouse
-			SoundEffect.SHOOT2.playUniversal(state, startPosition, 0.8f, false);
+			SoundEffect.SHOOT2.playUniversal(state, startPosition, 0.6f, false);
 
 			for (Enemy bit: bits) {
 				
-				bitVelo.setAngleRad(bit.getAngle());
+				bitVelo.setAngleRad(bit.getAngle() + startVelocity.angleRad() - realWeaponVelo.angleRad());
 				Hitbox hbox = new RangedHitbox(state, bit.getProjectileOrigin(bitVelo, projectileSize.x), projectileSize, lifespan, new Vector2(bitVelo), filter, true, true, user, projSprite);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

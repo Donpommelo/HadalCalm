@@ -41,4 +41,6 @@ public abstract class HitboxStrategy implements IHitboxStrategy {
 	
 	@Override
 	public void die() {}
+	
+	public void setCreator(BodyData creator) { this.creator = creator; }
 }

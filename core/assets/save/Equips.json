@@ -322,9 +322,29 @@ PEARL_REVOLVER: {
 		RANGED,
 	]
 }
+PEPPERGRINDER: {
+	name: Peppergrinder
+	description: "Fires a sweeping spray of small projectiles."
+    descriptionLong: ""
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 POPPER: {
 	name: Popper
 	description: "Fires a projectile that explodes in a shower of confetti."
+    descriptionLong: ""
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+RETICLE_STRIKE: {
+	name: Reticle Strike
+	description: "Create a line of exploding reticles."
     descriptionLong: ""
 	tags: [
 		ARMORY,

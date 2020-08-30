@@ -23,6 +23,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DieParticles;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
@@ -35,21 +36,23 @@ public class LoveBow extends RangedWeapon {
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 55.0f;
 	private final static float recoil = 5.0f;
 	private final static float knockback = 30.0f;
 	private final static float projectileSpeed = 15.0f;
-	private final static Vector2 projectileSize = new Vector2(60, 15);
-	private final static float lifespan = 1.0f;
+	private final static Vector2 projectileSize = new Vector2(60, 21);
+	private final static float lifespan = 2.0f;
 	
 	private final static Sprite projSprite = Sprite.ARROW;
 	private final static Sprite weaponSprite = Sprite.MT_SPEARGUN;
 	private final static Sprite eventSprite = Sprite.P_SPEARGUN;
 	
-	private final static float baseHeal = 15.0f;
+	private final static float baseHeal = 12.0f;
 	private static final float maxCharge = 0.25f;
 	private final static float projectileMaxSpeed = 65.0f;
 	private final static float selfHitDelay = 0.1f;
+	
+	private final static float minDamage = 25.0f;
+	private final static float maxDamage = 60.0f;
 	
 	private SoundEntity chargeSound;
 
@@ -104,6 +107,7 @@ public class LoveBow extends RangedWeapon {
 
 		//velocity scales to the charge percent
 		float velocity = chargeCd / getChargeTime() * (projectileMaxSpeed - projectileSpeed) + projectileSpeed;
+		float damage = chargeCd / getChargeTime() * (maxDamage - minDamage) + minDamage;
 		
 		Hitbox hurtbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), filter, false, true, user, projSprite);
 		hurtbox.setGravity(1.0f);
@@ -113,8 +117,9 @@ public class LoveBow extends RangedWeapon {
 		hurtbox.addStrategy(new ContactWallDie(state, hurtbox, user.getBodyData()));
 		hurtbox.addStrategy(new ContactUnitLoseDurability(state, hurtbox, user.getBodyData()));
 		hurtbox.addStrategy(new DieParticles(state, hurtbox, user.getBodyData(), Particle.ARROW_BREAK));
-		hurtbox.addStrategy(new DamageStandard(state, hurtbox, user.getBodyData(), baseDamage, knockback, DamageTypes.POKING, DamageTypes.RANGED));
+		hurtbox.addStrategy(new DamageStandard(state, hurtbox, user.getBodyData(), damage, knockback, DamageTypes.POKING, DamageTypes.RANGED));
 		hurtbox.addStrategy(new ContactUnitSound(state, hurtbox, user.getBodyData(), SoundEffect.SLASH, 0.4f, true));
+		hurtbox.addStrategy(new CreateParticles(state, hurtbox, user.getBodyData(), Particle.REGEN, 0.0f, 3.0f));
 		
 		Hitbox healbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), (short) 0, false, false, user, Sprite.NOTHING);
 		healbox.setSyncDefault(false);

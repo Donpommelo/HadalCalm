@@ -57,7 +57,7 @@ public class WeaponUtils {
 	private final static Sprite missileSprite = Sprite.MISSILE_B;
 	private final static Sprite beeSprite = Sprite.BEE;
 
-	public static Hitbox createExplosion(PlayState state, Vector2 startPos, float size, final Schmuck user, final float explosionDamage, final float explosionKnockback, short filter) {
+	public static Hitbox createExplosion(PlayState state, Vector2 startPos, float size, Schmuck user, float explosionDamage, float explosionKnockback, short filter) {
 		
 		float newSize = size * (1 + user.getBodyData().getStat(Stats.EXPLOSION_SIZE));
 		
@@ -70,8 +70,8 @@ public class WeaponUtils {
 		return hbox;
 	}
 	
-	public static Hitbox createGrenade(PlayState state, Vector2 startPos, Vector2 size, final Schmuck user, final float baseDamage, final float knockback, float lifespan, 
-			Vector2 startVelocity, boolean procEffects, final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
+	public static Hitbox createGrenade(PlayState state, Vector2 startPos, Vector2 size, Schmuck user, float baseDamage, float knockback, float lifespan, 
+			Vector2 startVelocity, boolean procEffects, int explosionRadius, float explosionDamage, float explosionKnockback, short filter) {
 		
 		Hitbox hbox = new RangedHitbox(state, startPos, size, lifespan, startVelocity, filter, false, procEffects, user, grenadeSprite);
 		hbox.setGravity(2.5f);
@@ -88,8 +88,8 @@ public class WeaponUtils {
 		return hbox;
 	}
 	
-	public static Hitbox createTorpedo(PlayState state, Vector2 startPos, Vector2 size, final Schmuck user, final float baseDamage, final float knockback, float lifespan,
-			Vector2 startVelocity, boolean procEffects,	final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
+	public static Hitbox createTorpedo(PlayState state, Vector2 startPos, Vector2 size, Schmuck user, float baseDamage, float knockback, float lifespan,
+			Vector2 startVelocity, boolean procEffects,	int explosionRadius, float explosionDamage, float explosionKnockback, short filter) {
 		
 		Hitbox hbox = new RangedHitbox(state, startPos, size, lifespan, startVelocity, filter, true, procEffects, user, torpedoSprite);
 		
@@ -115,7 +115,7 @@ public class WeaponUtils {
 	private static final int torpedoSpread = 30;
 	private static final float torpedoHoming = 100;
 	
-	public static Hitbox createHomingTorpedo(PlayState state, Vector2 startPos, final Schmuck user, float damage, int numTorp, int spread, Vector2 startVelocity, boolean procEffects, short filter) {
+	public static Hitbox createHomingTorpedo(PlayState state, Vector2 startPos, Schmuck user, float damage, int numTorp, int spread, Vector2 startVelocity, boolean procEffects, short filter) {
 		
 		for (int i = 0; i < numTorp; i++) {
 			
@@ -144,7 +144,7 @@ public class WeaponUtils {
 	private final static int beeSpread = 60;
 	private final static float beeHoming = 100;
 	
-	public static Hitbox createBees(PlayState state, Vector2 startPos, final Schmuck user, int numBees, Vector2 startVelocity, boolean procEffects, short filter) {
+	public static Hitbox createBees(PlayState state, Vector2 startPos, Schmuck user, int numBees, Vector2 startVelocity, boolean procEffects, short filter) {
 
 		for (int i = 0; i < numBees; i++) {
 			
@@ -175,6 +175,17 @@ public class WeaponUtils {
 		hbox.addStrategy(new CreateParticles(state, hbox, creator, particle, 0.0f, 3.0f).setParticleColor(ParticleColor.RANDOM));
 		
 		hbox.addStrategy(new DieSound(state, hbox, creator, SoundEffect.DARKNESS1, 0.25f));
+	}
+	
+	public static void createExplodingReticle(PlayState state, Vector2 startPos, Schmuck user, float reticleSize, float reticleLifespan, float explosionDamage, float explosionKnockback, int explosionRadius) {
+		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(reticleSize, reticleSize), reticleLifespan, new Vector2(), user.getHitboxfilter(), true, false, user, Sprite.CROSSHAIR);
+		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+		
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 3.0f).setParticleSize(40.0f).setParticleColor(ParticleColor.HOT_PINK));
+		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
+		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
+		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 	}
 	
 	public static final int pickupSize = 64;

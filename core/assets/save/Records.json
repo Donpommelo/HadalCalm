@@ -81,7 +81,9 @@ unlockEquip: {
 	STUTTERGUN: true
 	AMITA_CANNON: true
 	XBOMBER: true
+	RETICLE_STRIKE: true
 	BOOMERANG: true
+	PEPPERGRINDER: true
 	CR4PCANNON: true
 	WAVE_BEAM: true
 	TORPEDO_LAUNCHER: true

@@ -53,7 +53,7 @@ public class OrbitalShield extends ActiveItem {
 		hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user, projDamage, 0, DamageTypes.MAGIC));
 		hbox.addStrategy(new DamageStatic(state, hbox, user, 0, projKnockback, DamageTypes.MAGIC));
 		hbox.addStrategy(new OrbitUser(state, hbox, user, startAngle, projRange, projSpeed));
-		
+
 		return hbox;
 	}
 }

@@ -16,6 +16,7 @@ weapons1: {
         DUELING_CORKGUN: 3
         GRENADE_LAUNCHER: 3
         PEARL_REVOLVER: 3
+        PEPPERGRINDER: 3
         MACHINEGUN: 3
         TORPEDO_LAUNCHER: 3
         WAVE_BEAM: 3
@@ -28,6 +29,7 @@ weapons1: {
         NEMATOCYDEARM: 4
         MORAYGUN: 4
         POPPER: 4
+        RETICLE_STRIKE: 5
         RIFTSPLITTER: 5
         SNIPER_RIFLE: 4
         STUTTERGUN: 4

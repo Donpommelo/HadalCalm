@@ -13,6 +13,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -42,16 +43,13 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
-import com.mygdx.hadal.strategies.hitbox.DieExplode;
 import com.mygdx.hadal.strategies.hitbox.DieParticles;
-import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 import com.mygdx.hadal.strategies.hitbox.HomingUnit;
 import com.mygdx.hadal.strategies.hitbox.OrbitUser;
 import com.mygdx.hadal.strategies.hitbox.ReturnToUser;
 import com.mygdx.hadal.strategies.hitbox.Spread;
 import com.mygdx.hadal.strategies.hitbox.WaveEntity;
-import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 
 /**
@@ -269,7 +267,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float shot1Windup = 1.5f;
 	private static final int numShots = 12;
 	
-	private static final float shot1Damage = 15.0f;
+	private static final float shot1Damage = 24.0f;
 	private static final float shot1Lifespan = 5.0f;
 	private static final float shot1Knockback = 20.0f;
 	private static final float shot1Speed = 12.0f;
@@ -457,7 +455,7 @@ public class Boss4 extends EnemyFloating {
 	private final static Vector2 laserSpriteSize = new Vector2(180, 90);
 	private final static Vector2 laserSize = new Vector2(120, 60);
 	private final static float laserSpeed = 125.0f;
-	private final static float laserDamage = 6.0f;
+	private final static float laserDamage = 7.5f;
 	private final static float laserKB = 12.0f;
 	
 	private final static int beamDurability = 9;
@@ -606,7 +604,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float rubbleSpeed = 20.0f;
 	private static final float rubbleLifespan = 5.0f;
 	private static final Vector2 rubbleSize = new Vector2(40, 40);
-	private static final float rubbleDamage = 5.0f;
+	private static final float rubbleDamage = 8.0f;
 	private static final float rubbleKB = 10.0f;
 	private static final int rubbleSpread = 10;
 	
@@ -693,7 +691,7 @@ public class Boss4 extends EnemyFloating {
 	private final static float horizontalBulletInterval = 0.4f;
 	private final static float horizontalBulletSpeed = 8.0f;
 	private final static float horizontalBulletLifespan = 10.0f;
-	private final static float horizontalBulletDamage = 8.0f;
+	private final static float horizontalBulletDamage = 10.0f;
 	private final static float horizontalBulletKB = 15.0f;
 	private final static float horizontalBulletWindDown = 10.0f;
 	private final static Vector2 horizontalBulletSize = new Vector2(70, 35);
@@ -742,7 +740,7 @@ public class Boss4 extends EnemyFloating {
 	private final static float willOWispInterval = 0.1f;
 	private final static float willOWispSpeed = 15.0f;
 	private final static float willOWispLifespan = 10.0f;
-	private final static float willOWispDamage = 9.0f;
+	private final static float willOWispDamage = 11.0f;
 	private final static float willOWispKB = 12.0f;
 	private final static float willOWispHoming = 50.0f;
 	private final static int willOWispSpread = 30;
@@ -781,7 +779,7 @@ public class Boss4 extends EnemyFloating {
 	private final static float starInterval = 0.25f;
 	
 	private final static float starLifespan = 10.0f;
-	private final static float starDamage = 15.0f;
+	private final static float starDamage = 16.0f;
 	private final static float starKB = 18.0f;
 	private final static int starSizeMin = 60;
 	private final static int starSizeMax = 200;
@@ -809,6 +807,7 @@ public class Boss4 extends EnemyFloating {
 					float starDist = ThreadLocalRandom.current().nextInt(starDistMin, starDistMax);
 					
 					RangedHitbox hbox = new RangedHitbox(state, new Vector2(), new Vector2(starSize, starSize), starLifespan, new Vector2(), getHitboxfilter(), true, true, enemy, Sprite.STAR);
+					hbox.makeUnreflectable();
 					hbox.setSpriteSize(new Vector2(starSize * 2.0f, starSize * 2.0f));
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
@@ -836,7 +835,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float reticleInterval = 0.5f;
 	private static final float reticleFollowDuration = 8.0f;
 	private static final float reticleLifespan = 1.0f;
-	private static final Vector2 reticleSize = new Vector2(150, 150);
+	private static final float reticleSize = 150;
 	
 	private static final int explosionRadius = 225;
 	private static final float explosionDamage = 20.0f;
@@ -918,13 +917,7 @@ public class Boss4 extends EnemyFloating {
 	}
 	
 	private void singleExplodingReticle(Vector2 position) {
-		Hitbox hbox = new RangedHitbox(state, position, reticleSize, reticleLifespan, new Vector2(), getHitboxfilter(), true, false, this, Sprite.CROSSHAIR);
-		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
-		
-		hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-		hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.EVENT_HOLO, 0.0f, particleLinger).setParticleSize(40.0f).setParticleColor(ParticleColor.HOT_PINK));
-		hbox.addStrategy(new DieExplode(state, hbox, getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
-		hbox.addStrategy(new DieSound(state, hbox, getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
+		WeaponUtils.createExplodingReticle(state, position, this, reticleSize, reticleLifespan, explosionDamage, explosionKnockback, explosionRadius);
 	}
 	
 	private final static float teleportDuration = 3.0f;

@@ -50,6 +50,10 @@ public class HitboxData extends HadalData {
 			filter.groupIndex = (short) 0;
 			hbox.getBody().getFixtureList().get(0).setFilterData(filter);
 			hbox.setDamageMultiplier(reflectMultiplier);
+			
+			for (HitboxStrategy strat: hbox.getStrategies()) {
+				strat.setCreator(perp);
+			}
 		}
 		
 		return basedamage;

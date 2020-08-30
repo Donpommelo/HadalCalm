@@ -48,7 +48,7 @@ public class WaveBeam extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, final Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.SHOOT1.playUniversal(state, startPosition, 0.6f, false);
 
 		//we create an invisible hitbox that moves in a straight line.

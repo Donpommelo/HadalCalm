@@ -77,7 +77,7 @@ public class Maelstrom extends RangedWeapon {
 				while (controllerCount >= explosionInterval) {
 					controllerCount -= explosionInterval;
 					
-					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionDuration, new Vector2(), filter, true, true, user, projSprite);
+					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionDuration, new Vector2(), storm.getFilter(), true, true, user, projSprite);
 					pulse.setSyncDefault(false);
 					pulse.setSyncInstant(true);
 					pulse.setEffectsMovement(false);

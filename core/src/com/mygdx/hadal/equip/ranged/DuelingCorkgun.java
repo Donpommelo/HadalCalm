@@ -10,6 +10,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitKnockbackDamage;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
@@ -30,10 +31,10 @@ public class DuelingCorkgun extends RangedWeapon {
 	private final static float recoil = 11.0f;
 	private final static float knockback = 90.0f;
 	private final static float projectileSpeed = 55.0f;
-	private final static Vector2 projectileSize = new Vector2(40, 40);
+	private final static Vector2 projectileSize = new Vector2(46, 40);
 	private final static float lifespan = 1.0f;
 	
-	private final static Sprite projSprite = Sprite.ORB_BLUE;
+	private final static Sprite projSprite = Sprite.CORK;
 	private final static Sprite weaponSprite = Sprite.MT_ICEBERG;
 	private final static Sprite eventSprite = Sprite.P_ICEBERG;
 	
@@ -48,6 +49,7 @@ public class DuelingCorkgun extends RangedWeapon {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.EXPLOSION));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
