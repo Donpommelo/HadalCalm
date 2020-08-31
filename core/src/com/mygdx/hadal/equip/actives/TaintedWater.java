@@ -27,7 +27,7 @@ public class TaintedWater extends ActiveItem {
 	}
 	
 	@Override
-	public void useItem(PlayState state, final PlayerBodyData user) {	
+	public void useItem(PlayState state, PlayerBodyData user) {	
 		SoundEffect.MAGIC27_EVIL.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
 
 		final boolean right = weaponVelo.x > 0;

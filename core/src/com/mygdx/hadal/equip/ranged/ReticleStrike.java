@@ -56,7 +56,6 @@ public class ReticleStrike extends RangedWeapon {
 			public void controller(float delta) {
 				if (lastPosition.dst2(hbox.getPixelPosition()) > reticleSizeSquared) {
 					lastPosition.set(hbox.getPixelPosition());
-					
 					WeaponUtils.createExplodingReticle(state, hbox.getPixelPosition(), creator.getSchmuck(), reticleSize, reticleLifespan, explosionDamage, explosionKnockback, explosionRadius);
 				}
 			}

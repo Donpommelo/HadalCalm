@@ -78,7 +78,7 @@ public class Hexenhowitzer extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.BOTTLE_ROCKET.playUniversal(state, startPosition, 0.4f, false);
 
 		final Equipable me = this;

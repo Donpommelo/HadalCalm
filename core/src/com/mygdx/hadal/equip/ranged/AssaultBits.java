@@ -65,7 +65,7 @@ public class AssaultBits extends RangedWeapon {
 	
 	private Vector2 bitVelo = new Vector2(0, projectileSpeed);
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 
 		//if there are fewer than 3 bits, summon a bit and go on cooldown for longer
 		if (bits.size() < 3) {

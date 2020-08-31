@@ -52,7 +52,7 @@ public class DiamondCutter extends MeleeWeapon {
 	
 	private Vector2 projOffset = new Vector2();
 	@Override
-	public void mouseClicked(float delta, PlayState state, final BodyData shooter, short faction, Vector2 mouseLocation) {
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		
 		if (sawSound == null) {
 			sawSound = new SoundEntity(state, user, SoundEffect.DRILL, 0.8f, 1.0f, true, true, soundSyncType.TICKSYNC);

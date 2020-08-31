@@ -21,6 +21,7 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.CreateSound;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DieParticles;
 import com.mygdx.hadal.utils.Constants;
 
 public class MeteorStrike extends ActiveItem {
@@ -42,6 +43,8 @@ public class MeteorStrike extends ActiveItem {
 	private final static float meteorInterval = 0.1f;
 	private final static float spread = 500.0f;
 	
+	private final static Sprite[] projSprites = {Sprite.METEOR_A, Sprite.METEOR_B, Sprite.METEOR_C, Sprite.METEOR_D, Sprite.METEOR_E, Sprite.METEOR_F};
+	
 	public MeteorStrike(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
@@ -50,7 +53,7 @@ public class MeteorStrike extends ActiveItem {
 	private Vector2 originPt = new Vector2();
 	private Vector2 endPt = new Vector2();
 	@Override
-	public void useItem(PlayState state, final PlayerBodyData user) {
+	public void useItem(PlayState state, PlayerBodyData user) {
 		originPt.set(this.mouseLocation).scl(1 / PPM);
 		endPt.set(originPt).add(0, -range);
 		shortestFraction = 1.0f;
@@ -87,8 +90,11 @@ public class MeteorStrike extends ActiveItem {
 
 					meteorCount++;
 					
+					int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
+					Sprite projSprite = projSprites[randomIndex];
+					
 					Hitbox hbox = new Hitbox(state, new Vector2(originPt).add((GameStateManager.generator.nextFloat() -  0.5f) * spread, 0), projectileSize, lifespan, new Vector2(0, -projectileSpeed),
-							user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), Sprite.NOTHING);
+							user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), projSprite);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, user));
 					hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.FIRE, DamageTypes.MAGIC));
@@ -104,6 +110,7 @@ public class MeteorStrike extends ActiveItem {
 					});
 					
 					hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.FIRE, 0.0f, 3.0f));
+					hbox.addStrategy(new DieParticles(state, hbox, user, Particle.BOULDER_BREAK).setParticleSize(90));
 					
 					if (meteorCount % 5 == 0) {
 						hbox.addStrategy(new CreateSound(state, hbox, user, SoundEffect.FALLING, 0.5f, false));

@@ -78,7 +78,7 @@ public class Screecher extends RangedWeapon {
 	private Vector2 endPt = new Vector2();
 	private Vector2 newPosition = new Vector2();
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, final Vector2 startVelocity, final short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		
 		//This is the max distance this weapon can shoot (hard coded to scale to weapon range modifiers)
 		float distance = range * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));

@@ -55,7 +55,7 @@ public class TeslaCoil extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.LAUNCHER.playUniversal(state, startPosition, 0.25f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
@@ -158,7 +158,7 @@ public class TeslaCoil extends RangedWeapon {
 			 * @param state: playstate
 			 * @param hboxOther: the other coil to connect to
 			 */
-			public void coilPairActivated(final PlayState state, final Hitbox hboxOther) {
+			public void coilPairActivated(PlayState state, Hitbox hboxOther) {
 				
 				if (!activated) {
 					SoundEffect.ZAP.playUniversal(state, startPosition, 0.4f, false);

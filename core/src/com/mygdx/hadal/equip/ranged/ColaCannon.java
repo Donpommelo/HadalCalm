@@ -77,7 +77,6 @@ public class ColaCannon extends RangedWeapon {
 				new ParticleEntity(state, new Vector2(user.getPixelPosition()), Particle.COLA_IMPACT, 1.0f, true, particleSyncType.CREATESYNC);
 			}
 		}
-		
 		lastMouse.set(mouseLocation);
 	}
 	

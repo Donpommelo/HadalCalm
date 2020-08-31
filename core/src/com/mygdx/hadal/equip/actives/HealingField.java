@@ -25,8 +25,7 @@ public class HealingField extends ActiveItem {
 	}
 	
 	@Override
-	public void useItem(PlayState state, final PlayerBodyData user) {	
-		
+	public void useItem(PlayState state, PlayerBodyData user) {	
 		new SoundEntity(state, new HealingArea(state, user.getSchmuck().getPixelPosition(), fieldSize, fieldHeal, healDuration, user.getSchmuck(), (short) 0),
 				SoundEffect.MAGIC21_HEAL, 0.25f, 1.0f, true, true, soundSyncType.TICKSYNC);
 	}

@@ -17,6 +17,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateSound;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
@@ -28,8 +29,8 @@ public class AnchorSmash extends ActiveItem {
 	private final static float usedelay = 0.1f;
 	private final static float maxCharge = 20.0f;
 
-	private final static Vector2 projectileSize = new Vector2(300, 200);
-	private final static float lifespan = 5.0f;
+	private final static Vector2 projectileSize = new Vector2(300, 259);
+	private final static float lifespan = 4.0f;
 	private final static float projectileSpeed = 60.0f;
 
 	private final static float range = 1800.0f;
@@ -37,6 +38,8 @@ public class AnchorSmash extends ActiveItem {
 	private final static float baseDamage = 80.0f;
 	private final static float knockback = 50.0f;
 	
+	private final static Sprite projSprite = Sprite.ANCHOR;
+
 	public AnchorSmash(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
@@ -70,10 +73,10 @@ public class AnchorSmash extends ActiveItem {
 		endPt.set(originPt).add(0, -range * shortestFraction).scl(PPM);
 		originPt.set(endPt).add(0, range);
 		
-		Hitbox hbox = new Hitbox(state, originPt, projectileSize, lifespan, new Vector2(0, -projectileSpeed), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), Sprite.ORB_BLUE);
+		Hitbox hbox = new Hitbox(state, originPt, projectileSize, lifespan, new Vector2(0, -projectileSpeed), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), projSprite);
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MAGIC));
-		
+		hbox.addStrategy(new ContactUnitSound(state, hbox, user, SoundEffect.SLASH, 0.8f, true));
 		hbox.addStrategy(new CreateSound(state, hbox, user, SoundEffect.FALLING, 0.5f, false).setPitch(0.75f));
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {

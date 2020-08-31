@@ -13,6 +13,7 @@ import com.mygdx.hadal.managers.AssetList;
 public enum Sprite {
 	NOTHING(SpriteType.MISC, ""),
 	
+	ANCHOR(SpriteType.PROJECTILE, "anchor"),
 	ARROW(SpriteType.PROJECTILE, "arrow"),
 	BANANA(SpriteType.PROJECTILE, "banana"),
 	BEE(SpriteType.PROJECTILE, "bee"),
@@ -26,6 +27,7 @@ public enum Sprite {
 	COLA(SpriteType.PROJECTILE, "cola"),
 	CORK(SpriteType.PROJECTILE, "cork"),
 	CROSSHAIR(SpriteType.PROJECTILE, "crosshair"),
+	FLAIL(SpriteType.PROJECTILE, "flail"),
 	FLOUNDER_A(SpriteType.PROJECTILE, "flounder_a"),
 	FLOUNDER_B(SpriteType.PROJECTILE, "flounder_b"),
 	FUGU(SpriteType.PROJECTILE, "fugu"),
@@ -42,6 +44,12 @@ public enum Sprite {
 	LASER_PURPLE(SpriteType.PROJECTILE, "laser_beam_purple"),
 	LASER_TURQUOISE(SpriteType.PROJECTILE, "laser_beam_turquoise"),
 	LIGHTNING(SpriteType.PROJECTILE, "vajra"),
+	METEOR_A(SpriteType.PROJECTILE, "meteor_a"),
+	METEOR_B(SpriteType.PROJECTILE, "meteor_b"),
+	METEOR_C(SpriteType.PROJECTILE, "meteor_c"),
+	METEOR_D(SpriteType.PROJECTILE, "meteor_d"),
+	METEOR_E(SpriteType.PROJECTILE, "meteor_e"),
+	METEOR_F(SpriteType.PROJECTILE, "meteor_f"),
 	MISSILE_A(SpriteType.PROJECTILE, "missile_a"),
 	MISSILE_B(SpriteType.PROJECTILE, "missile_b"),
 	MISSILE_C(SpriteType.PROJECTILE, "missile_c"),

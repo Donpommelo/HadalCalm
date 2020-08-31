@@ -44,14 +44,14 @@ public class XBomber extends RangedWeapon {
 	
 	private final static Vector2 crossSize = new Vector2(700, 40);
 	private final static float crossLifespan = 0.25f;
-	private final static float crossDamage = 28.0f;
+	private final static float crossDamage = 24.0f;
 
 	public XBomber(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.FIRE9.playUniversal(state, startPosition, 0.25f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
@@ -71,37 +71,26 @@ public class XBomber extends RangedWeapon {
 			public void die() {
 				
 				//create 2 perpindicular projectiles
-				Hitbox cross1 = new RangedHitbox(state, hbox.getPixelPosition(), crossSize, crossLifespan, new Vector2(), filter, true, true, user, projSprite) {
+				createCross(1);
+				createCross(-1);
+			}
+			
+			private void createCross(int rotate) {
+				Hitbox cross = new RangedHitbox(state, hbox.getPixelPosition(), crossSize, crossLifespan, new Vector2(), filter, true, true, user, projSprite) {
 					
 					@Override
 					public void create() {
 						super.create();
-						setTransform(body.getPosition().x, body.getPosition().y, (float) (Math.PI / 4));
+						setTransform(body.getPosition().x, body.getPosition().y, (float) (Math.PI / 4 * rotate));
 					}
 				};
 				
-				cross1.makeUnreflectable();
+				cross.makeUnreflectable();
 				
-				cross1.addStrategy(new ControllerDefault(state, cross1, user.getBodyData()));
-				cross1.addStrategy(new DamageConstant(state, cross1, user.getBodyData(), baseDamage, new Vector2(startVelocity).nor().scl(knockback), DamageTypes.ENERGY, DamageTypes.RANGED));
-				cross1.addStrategy(new ContactUnitParticles(state, cross1, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(ParticleColor.CYAN).setDrawOnSelf(false));
-				cross1.addStrategy(new Static(state, cross1, user.getBodyData()));
-				
-				Hitbox cross2 = new RangedHitbox(state, hbox.getPixelPosition(), crossSize, crossLifespan, new Vector2(), filter, true, true, user, projSprite) {
-					
-					@Override
-					public void create() {
-						super.create();
-						setTransform(body.getPosition().x, body.getPosition().y, (float) (- Math.PI / 4));
-					}
-				};
-				
-				cross2.makeUnreflectable();
-				
-				cross2.addStrategy(new ControllerDefault(state, cross2, user.getBodyData()));
-				cross2.addStrategy(new DamageConstant(state, cross2, user.getBodyData(), crossDamage, new Vector2(startVelocity).nor().scl(knockback), DamageTypes.ENERGY, DamageTypes.RANGED));
-				cross2.addStrategy(new ContactUnitParticles(state, cross2, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(ParticleColor.CYAN).setDrawOnSelf(false));
-				cross2.addStrategy(new Static(state, cross2, user.getBodyData()));
+				cross.addStrategy(new ControllerDefault(state, cross, user.getBodyData()));
+				cross.addStrategy(new DamageConstant(state, cross, user.getBodyData(), crossDamage, new Vector2(startVelocity).nor().scl(knockback), DamageTypes.ENERGY, DamageTypes.RANGED));
+				cross.addStrategy(new ContactUnitParticles(state, cross, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(ParticleColor.CYAN).setDrawOnSelf(false));
+				cross.addStrategy(new Static(state, cross, user.getBodyData()));
 			}
 		});
 	}

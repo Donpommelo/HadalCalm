@@ -31,7 +31,7 @@ public class Terraformer extends ActiveItem {
 	}
 	
 	@Override
-	public void useItem(PlayState state, final PlayerBodyData user) {	
+	public void useItem(PlayState state, PlayerBodyData user) {	
 		SoundEffect.MAGIC1_ACTIVE.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
 		
 		Event block = new DestructableBlock(state, user.getPlayer().getProjectileOrigin(weaponVelo, blockSize.x), blockSize, blockHp, false) {

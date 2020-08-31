@@ -30,7 +30,7 @@ public class MorningStar extends MeleeWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 
 	private final static Sprite chainSprite = Sprite.ORB_ORANGE;
-	private final static Sprite projSprite = Sprite.ORB_ORANGE;
+	private final static Sprite projSprite = Sprite.FLAIL;
 	
 	private final static float baseDamage = 50.0f;
 	private final static float knockback = 60.0f;
@@ -52,7 +52,7 @@ public class MorningStar extends MeleeWeapon {
 	
 	private Vector2 projOffset = new Vector2();
 	@Override
-	public void mouseClicked(float delta, PlayState state, final BodyData shooter, short faction, Vector2 mouseLocation) {
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
 		
 		
@@ -78,7 +78,7 @@ public class MorningStar extends MeleeWeapon {
 	/**
 	 * This is called to create the flail weapon
 	 */
-	private void activate(PlayState state, final BodyData shooter, Vector2 mouseLocation) {
+	private void activate(PlayState state, BodyData shooter, Vector2 mouseLocation) {
 		
 		projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(range);
 		

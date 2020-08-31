@@ -58,7 +58,7 @@ public class LaserRifle extends RangedWeapon {
 
 	private Vector2 endPt = new Vector2();
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, final Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.LASER2.playUniversal(state, startPosition, 0.8f, false);
 
 		//This is the max distance this weapon can shoot (hard coded to scale to weapon range modifiers)

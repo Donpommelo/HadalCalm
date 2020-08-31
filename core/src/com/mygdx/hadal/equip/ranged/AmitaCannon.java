@@ -45,7 +45,7 @@ public class AmitaCannon extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.ELECTRIC_CHAIN.playUniversal(state, startPosition, 0.4f, false);
 
 		//we create an invisible hitbox that moves in a straight line.

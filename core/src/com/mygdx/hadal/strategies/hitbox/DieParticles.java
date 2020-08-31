@@ -24,6 +24,12 @@ public class DieParticles extends HitboxStrategy {
 	//how long should the particles last?
 	private float duration;
 	
+	//the base size of the particle effect.
+	private float particleSize;
+	
+	//this is the max hitbox size a particle will try to scale to
+	private static float maxSize = 100.0f;
+		
 	//this is the color of the particle. change using factory method
 	private ParticleColor color = ParticleColor.NOTHING;
 
@@ -39,7 +45,17 @@ public class DieParticles extends HitboxStrategy {
 	
 	@Override
 	public void die() {
-		new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), effect, duration, true, particleSyncType.CREATESYNC).setColor(color);
+		ParticleEntity particle = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), effect, duration, true, particleSyncType.CREATESYNC).setColor(color);
+		if (particleSize == 0) {
+			particle.setScale(hbox.getScale());
+		} else {
+			particle.setScale(Math.min(hbox.getSize().x, maxSize) / particleSize);
+		}
+	}
+	
+	public DieParticles setParticleSize(float particleSize) {
+		this.particleSize = particleSize;
+		return this;
 	}
 	
 	public DieParticles setParticleColor(ParticleColor color) {

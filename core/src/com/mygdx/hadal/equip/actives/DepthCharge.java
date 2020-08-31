@@ -30,7 +30,7 @@ public class DepthCharge extends ActiveItem {
 	}
 	
 	@Override
-	public void useItem(PlayState state, final PlayerBodyData user) {	
+	public void useItem(PlayState state, PlayerBodyData user) {	
 		
 		user.getPlayer().pushMomentumMitigation(0, recoil);
 		
