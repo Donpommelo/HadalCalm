@@ -367,7 +367,7 @@ DM_REDROCK: {
 	]
 }
 SSTUNICATE1: {
-	name: SSTUNICATE1
+	name: S.S. TUNICATE
 	description: ""
     descriptionLong: "Singleplayer Hub Area"
 	tags: [
@@ -377,7 +377,7 @@ SSTUNICATE1: {
 	]
 }
 PLENUMCHAMBER4: {
-	name: PLENUMCHAMBER4
+	name: PLENUM CHAMBER
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -385,7 +385,15 @@ PLENUMCHAMBER4: {
 	]
 }
 DERELICT2: {
-	name: DERELICT2
+	name: DERELICT
+	description: ""
+    descriptionLong: ""
+	tags: [
+		NAVIGATIONS,
+	]
+}
+NOISELESSSEA4: {
+	name: NOISELESS SEA
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -393,7 +401,7 @@ DERELICT2: {
 	]
 }
 SLUICE1: {
-	name: SLUICE1
+	name: THE SLUICE
 	description: ""
     descriptionLong: ""
 	tags: [

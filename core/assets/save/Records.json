@@ -1,5 +1,5 @@
 {
-scrap: 38
+scrap: 53
 flags: {
 	class: java.util.HashMap
 	PARTY: 0
@@ -129,6 +129,7 @@ unlockArtifact: {
 	GEMMULE: true
 	EPHEMERA_PERPETUA: true
 	LOTUS_LANTERN: true
+	CHAOS_CONJURANT: true
 	GOMEZS_AMYGDALA: true
 	EXTRA_ROW_OF_TEETH: true
 	VOLATILE_DERMIS: true
@@ -180,6 +181,7 @@ unlockArtifact: {
 	AU_COURANT: true
 	MUDDLING_CUP: true
 	COMPOUND_VITREOUS: true
+	VESTIGIAL_CHAMBER: true
 	FENS_CLIPPED_WINGS: true
 	SEAFOAM_PERIAPT: true
 	BLASTEMA: true
@@ -199,8 +201,6 @@ unlockArtifact: {
 	FRACTURE_PLATE: true
 	WHITE_SMOKER: true
 	OUR_GET_ALONG_SHIRT: true
-	CHAOS_CONJURANT: true
-	VESTIGIAL_CHAMBER: true
 	ABYSSAL_INSIGNIA: true
 	TRIGGERFISH_FINGER: true
 	JELLOFELLOW_COSPLAY: true
@@ -260,7 +260,7 @@ unlockCharacter: {
 }
 unlockLevel: {
 	class: java.util.HashMap
-	NOISELESSSEA4: false
+	NOISELESSSEA4: true
 	PLENUMCHAMBERTURBINE: false
 	ARENA_WETWORKS: false
 	DM_SAWMILL: false
@@ -309,7 +309,7 @@ unlockLevel: {
 	DM_JUMP: false
 	NOISELESSSEAEXTRA1: false
 	DM_FALLDOWN: false
-	SSTUNICATE1: false
+	SSTUNICATE1: true
 	DM_ORIGINAL: false
 	DM_SUPREME_CHAMPION: false
 	ARENA_WARP: false

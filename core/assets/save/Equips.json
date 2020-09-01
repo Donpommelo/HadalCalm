@@ -31,7 +31,7 @@ BANANA: {
 }
 BATTERING_RAM: {
 	name: Battering Ram
-	description: "Hold the fire button to charge a directional melee rush."
+	description: "Hold the fire button to charge a directional melee rush. User receives reduced damage during this attack."
     descriptionLong: ""
 	tags: [
 		ARMORY,

@@ -82,6 +82,7 @@ public class BatteringRam extends MeleeWeapon {
 		float damage = chargeCd / getChargeTime() * (maxDamage - minDamage) + minDamage;
 				
 		user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 7.5f, user.getBodyData(), user.getBodyData()));
+		user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.DAMAGE_RES, 0.5f, user.getBodyData(), user.getBodyData()));
 		Vector2 push = new Vector2(weaponVelo).nor().scl(velocity);
 		user.pushMomentumMitigation(push.x, push.y);
 		
