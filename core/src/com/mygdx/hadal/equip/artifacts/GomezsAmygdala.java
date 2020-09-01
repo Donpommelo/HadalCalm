@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -47,6 +48,7 @@ public class GomezsAmygdala extends Artifact {
 					SoundEffect.MAGIC18_BUFF.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.5f, false);
 
 					new ParticleEntity(state, inflicted.getSchmuck(), Particle.PICKUP_ENERGY, 1.0f, procCd, true, particleSyncType.CREATESYNC);
+					new ParticleEntity(state, inflicted.getSchmuck(), Particle.BRIGHT, 1.0f, dura, true, particleSyncType.CREATESYNC).setColor(ParticleColor.RED);
 					
 					inflicted.addStatus(new StatusComposite(state, dura, false, perp, inflicted,
 							new StatChangeStatus(state, Stats.GROUND_SPD, spdBuff, inflicted),

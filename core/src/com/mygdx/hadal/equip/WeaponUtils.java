@@ -1,6 +1,10 @@
 package com.mygdx.hadal.equip;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.ParticleColor;
@@ -10,6 +14,7 @@ import com.mygdx.hadal.event.Scrap;
 import com.mygdx.hadal.event.Event.eventSyncTypes;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.Sensor;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -20,6 +25,7 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
@@ -31,10 +37,13 @@ import com.mygdx.hadal.strategies.hitbox.CreateSound;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
+import com.mygdx.hadal.strategies.hitbox.DieParticles;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
 import com.mygdx.hadal.strategies.hitbox.ExplosionDefault;
+import com.mygdx.hadal.strategies.hitbox.FlashNearDeath;
 import com.mygdx.hadal.strategies.hitbox.HomingUnit;
+import com.mygdx.hadal.strategies.hitbox.Pushable;
 import com.mygdx.hadal.strategies.hitbox.Spread;
 import com.mygdx.hadal.strategies.hitbox.Static;
 import com.mygdx.hadal.utils.Constants;
@@ -84,6 +93,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.4f));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.2f));
+		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
 
 		return hbox;
 	}
@@ -101,6 +111,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_TRAIL, 0.0f, 3.0f));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION1, 0.5f));
+		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
 		
 		return hbox;
 	}
@@ -130,6 +141,7 @@ public class WeaponUtils {
 			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), torpedoHoming, filter));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), torpedoSpread));
 			hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
+			hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
 		}
 		
 		return null;
@@ -186,6 +198,112 @@ public class WeaponUtils {
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
+	}
+	
+	private final static float primeDelay = 1.0f;
+	private final static float projDampen = 1.0f;
+	public static void createNauticalMine(PlayState state, Vector2 startPos, Schmuck user, Vector2 startVelocity, float mineSize, float mineLifespan, float explosionDamage, float explosionKnockback, int explosionRadius) {
+		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(mineSize, mineSize), mineLifespan, startVelocity, (short) 0, false, false, user, Sprite.NAVAL_MINE);
+		hbox.setRestitution(0.5f);
+		
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new Pushable(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(primeDelay));
+		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
+		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f));
+		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
+		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+			
+			@Override
+			public void create() {
+				super.create();
+				hbox.getBody().setLinearDamping(projDampen);
+			}
+		});
+	}
+	
+	private final static Sprite[] projSprites = {Sprite.METEOR_A, Sprite.METEOR_B, Sprite.METEOR_C, Sprite.METEOR_D, Sprite.METEOR_E, Sprite.METEOR_F};
+	private final static Vector2 meteorSize = new Vector2(75, 75);
+	private final static float meteorSpeed = 50.0f;
+	private final static float range = 1500.0f;
+	private final static float lifespan = 5.0f;
+	
+	public static void createMeteors(PlayState state, Vector2 startPos, Schmuck user, float meteorDuration, float meteorInterval, float spread, float baseDamage, float knockback) {
+		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(1, 1), meteorDuration, new Vector2(), (short) 0, false, false, user, Sprite.NOTHING);
+		hbox.makeUnreflectable();
+		hbox.setSyncDefault(false);
+		
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+			
+			private float shortestFraction;
+			private Vector2 originPt = new Vector2();
+			private Vector2 endPt = new Vector2();
+			
+			private float procCdCount;
+			private float meteorCount;
+			@Override
+			public void controller(float delta) {
+				procCdCount += delta;
+
+				if (procCdCount >= meteorInterval) {
+					procCdCount -= meteorInterval;
+
+					meteorCount++;
+					
+					if (meteorCount % 4 == 0) {
+						hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.FALLING, 0.5f, false));
+					}
+					
+					originPt.set(startPos).add((GameStateManager.generator.nextFloat() -  0.5f) * spread, 0);
+					endPt.set(originPt).add(0, -range);
+					shortestFraction = 1.0f;
+					
+					if (originPt.x != endPt.x || originPt.y != endPt.y) {
+
+						state.getWorld().rayCast(new RayCastCallback() {
+
+							@Override
+							public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+								if (fixture.getFilterData().categoryBits == (short) Constants.BIT_WALL && fraction < shortestFraction) {
+									shortestFraction = fraction;
+									return fraction;
+							}
+							return -1.0f;
+							}
+						}, originPt, endPt);
+					}
+					
+					endPt.set(originPt).add(0, -range * shortestFraction).scl(PPM);
+					originPt.set(endPt).add(0, range);
+					
+					int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
+					Sprite projSprite = projSprites[randomIndex];
+					
+					
+					Hitbox hbox = new Hitbox(state, new Vector2(originPt), meteorSize, lifespan, new Vector2(0, -meteorSpeed), user.getHitboxfilter(), true, false, user, projSprite);
+					hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.FIRE, DamageTypes.MAGIC));
+					hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+						
+						private Vector2 floor = new Vector2(endPt);
+						@Override
+						public void controller(float delta) {
+							if (hbox.getPixelPosition().y - hbox.getSize().y / 2 <= floor.y) {
+								hbox.setLinearVelocity(0, 0);
+								hbox.die();
+							}
+						}
+					});
+					
+					hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE, 0.0f, 3.0f));
+					hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.BOULDER_BREAK).setParticleSize(90));
+				}
+			}
+		});
 	}
 	
 	public static final int pickupSize = 64;

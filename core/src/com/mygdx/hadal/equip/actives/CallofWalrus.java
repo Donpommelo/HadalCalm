@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.actives;
 
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -18,7 +19,7 @@ public class CallofWalrus extends ActiveItem {
 	private final static float usedelay = 0.0f;
 	private final static float maxCharge = 12.0f;
 	
-	private final static float duration = 6.0f;
+	private final static float duration = 5.0f;
 	
 	private final static float spdBuff = 0.5f;
 	private final static float damageBuff = 0.3f;
@@ -37,6 +38,7 @@ public class CallofWalrus extends ActiveItem {
 			SoundEffect.MAGIC18_BUFF.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
 			
 			new ParticleEntity(state, user.getSchmuck(), Particle.PICKUP_ENERGY, 1.0f, duration, true, particleSyncType.CREATESYNC);
+			new ParticleEntity(state, user.getSchmuck(), Particle.BRIGHT, 1.0f, duration, true, particleSyncType.CREATESYNC).setColor(ParticleColor.RED);
 			
 			user.addStatus(new StatusComposite(state, duration, false, user, user,
 					new StatChangeStatus(state, Stats.GROUND_SPD, spdBuff, user),

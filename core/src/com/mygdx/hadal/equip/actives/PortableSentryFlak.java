@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -17,6 +18,7 @@ import com.mygdx.hadal.statuses.Summoned;
 import com.mygdx.hadal.statuses.Temporary;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.utils.Constants;
 
 public class PortableSentryFlak extends ActiveItem {
@@ -47,6 +49,7 @@ public class PortableSentryFlak extends ActiveItem {
 		hbox.setGravity(3.0f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
+		hbox.addStrategy(new DieSound(state, hbox, user, SoundEffect.CYBER2, 0.4f));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
 			private HadalEntity floor;

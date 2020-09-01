@@ -276,6 +276,7 @@ public class BodyData extends HadalData {
 	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 		
 		if (!schmuck.isAlive()) { return 0.0f; }
+		
 		//calculate damage
 		float damage = basedamage;
 		damage -= basedamage * (getStat(Stats.DAMAGE_RES));
@@ -322,7 +323,9 @@ public class BodyData extends HadalData {
 					((PlayerBodyData) perp).getActiveItem().gainCharge(damage * ActiveItem.enemyDamageChargeMultiplier);
 				}
 			}
-			if (!perp.equals(this)) {
+			
+			//play on-hit sounds. pitched up automatically if fatal. No sounds for self or friendly fire.
+			if (perp.getSchmuck().getHitboxfilter() != schmuck.getHitboxfilter()) {
 				if (currentHp == 0) {
 					((PlayerBodyData) perp).getPlayer().playHitSound(999);
 				} else {

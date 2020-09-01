@@ -12,6 +12,7 @@ public class Honeycomb extends ActiveItem {
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
 	private final static float maxCharge = 15.0f;
+	private final static float projectileSpeed = 5.0f;
 	private final static int numBees = 11;
 	
 	public Honeycomb(Schmuck user) {
@@ -20,6 +21,6 @@ public class Honeycomb extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		WeaponUtils.createBees(state, user.getSchmuck().getPixelPosition(), user.getSchmuck(), numBees, new Vector2(1, 1), false, user.getSchmuck().getHitboxfilter());
+		WeaponUtils.createBees(state, user.getSchmuck().getPixelPosition(), user.getSchmuck(), numBees, new Vector2(0, projectileSpeed), false, user.getSchmuck().getHitboxfilter());
 	}
 }

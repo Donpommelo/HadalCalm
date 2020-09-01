@@ -40,7 +40,7 @@ hiScores: {
 	class: java.util.HashMap
 	ARENA_LAGAN: 50
 	ARENA_HORIZON: 0
-	ARENA_WARP: 13
+	ARENA_WARP: 53
 	ARENA_FLOTSAM: 10
 	ARENA_PILE: 14
 	ARENA_WETWORKS: 37
@@ -75,15 +75,14 @@ unlockEquip: {
 	MORNING_STAR: true
 	LASER_GUIDED_ROCKET: true
 	GRENADE_LAUNCHER: true
+	RETICLE_STRIKE: true
 	SCRAPRIPPER: true
 	MINIGUN: true
 	ASSAULT_BITS: true
 	STUTTERGUN: true
 	AMITA_CANNON: true
 	XBOMBER: true
-	RETICLE_STRIKE: true
 	BOOMERANG: true
-	PEPPERGRINDER: true
 	CR4PCANNON: true
 	WAVE_BEAM: true
 	TORPEDO_LAUNCHER: true
@@ -98,6 +97,7 @@ unlockEquip: {
 	RIFTSPLITTER: true
 	SLODGEGUN: true
 	TESLA_COIL: true
+	PEPPERGRINDER: true
 	FLOUNDERBUSS: true
 }
 unlockArtifact: {
@@ -228,6 +228,7 @@ unlockActive: {
 	MERIDIAN_MAKER: true
 	METEOR_STRIKE: true
 	SPRING_LOADER: true
+	SAMSON_OPTION: true
 	HEALING_FIELD: true
 	JUMP_KICK: true
 	TAINTED_WATER: true
@@ -238,6 +239,7 @@ unlockActive: {
 	TERRAFORMER: true
 	FAFROTSKIES: true
 	DODGE_ROLL: true
+	MARINE_SNOWGLOBE: true
 	CALL_OF_WALRUS: true
 	ORBITAL_SHIELD: true
 	DEPTH_CHARGE: true

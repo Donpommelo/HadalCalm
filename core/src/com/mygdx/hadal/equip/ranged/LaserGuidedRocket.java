@@ -18,6 +18,7 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
+import com.mygdx.hadal.strategies.hitbox.FlashNearDeath;
 import com.mygdx.hadal.strategies.hitbox.HomingMouse;
 
 public class LaserGuidedRocket extends RangedWeapon {
@@ -64,7 +65,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 		hbox.addStrategy(new HomingMouse(state, hbox, user.getBodyData(), homePower));
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		
+		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_TRAIL, 0.0f, 3.0f));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION9, 0.6f));
 	}

@@ -185,7 +185,7 @@ public class Hitbox extends HadalEntity {
 	public void push(Vector2 push) {
 		
 		if (!alive) { return; }
-		
+
 		for (HitboxStrategy s : strategies) {
 			s.push(push);
 		}

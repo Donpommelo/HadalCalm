@@ -56,6 +56,10 @@ public class HitboxData extends HadalData {
 			}
 		}
 		
+		for (HitboxStrategy s : hbox.getStrategies()) {
+			s.receiveDamage(basedamage, knockback);
+		}
+		
 		return basedamage;
 	}
 	

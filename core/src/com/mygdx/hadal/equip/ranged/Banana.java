@@ -19,6 +19,7 @@ import com.mygdx.hadal.strategies.hitbox.DieExplode;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
+import com.mygdx.hadal.strategies.hitbox.FlashNearDeath;
 
 public class Banana extends RangedWeapon {
 
@@ -99,6 +100,7 @@ public class Banana extends RangedWeapon {
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.SPRING, 0.1f));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION1, 0.6f));
+		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			@Override

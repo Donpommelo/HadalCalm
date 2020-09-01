@@ -11,296 +11,289 @@ anchor
   orig: 368, 427
   offset: 0, 0
   index: -1
-arrow
+boomerang
   rotate: false
-  xy: 372, 488
-  size: 394, 140
-  orig: 394, 140
+  xy: 2, 3
+  size: 40, 38
+  orig: 40, 38
   offset: 0, 0
   index: -1
-bee
-  rotate: false
-  xy: 612, 8
-  size: 52, 46
-  orig: 52, 46
-  offset: 0, 0
-  index: 0
 bouncing_blade
   rotate: false
-  xy: 953, 36
+  xy: 389, 201
   size: 54, 54
   orig: 54, 54
   offset: 0, 0
   index: -1
 bullet
   rotate: false
-  xy: 666, 13
+  xy: 894, 13
   size: 112, 13
   orig: 112, 13
   offset: 0, 0
   index: -1
-charge_beam_b
-  rotate: false
-  xy: 918, 919
-  size: 103, 103
-  orig: 103, 103
-  offset: 0, 0
-  index: -1
 closed_hand
   rotate: false
-  xy: 768, 560
+  xy: 2, 43
   size: 208, 156
   orig: 208, 156
   offset: 0, 0
   index: -1
 cola
   rotate: false
-  xy: 315, 561
+  xy: 44, 9
   size: 55, 32
   orig: 55, 32
   offset: 0, 0
   index: 0
 cola
   rotate: false
-  xy: 315, 527
+  xy: 101, 9
   size: 55, 32
   orig: 55, 32
   offset: 0, 0
   index: 1
 cola
   rotate: false
-  xy: 315, 493
+  xy: 158, 9
   size: 55, 32
   orig: 55, 32
   offset: 0, 0
   index: 2
 cola
   rotate: false
-  xy: 953, 2
+  xy: 215, 9
   size: 55, 32
   orig: 55, 32
   offset: 0, 0
   index: 3
 crosshair
   rotate: false
-  xy: 953, 156
+  xy: 685, 958
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-debris_b
-  rotate: false
-  xy: 978, 595
-  size: 44, 40
-  orig: 44, 40
-  offset: 0, 0
-  index: -1
 debris_c
   rotate: false
-  xy: 580, 2
+  xy: 716, 773
   size: 30, 52
   orig: 30, 52
   offset: 0, 0
   index: -1
 flail
   rotate: false
-  xy: 372, 630
+  xy: 2, 201
   size: 385, 392
   orig: 385, 392
   offset: 0, 0
   index: -1
 fugu
   rotate: false
-  xy: 953, 222
+  xy: 685, 891
   size: 63, 65
   orig: 63, 65
   offset: 0, 0
   index: -1
-grenade
-  rotate: false
-  xy: 640, 155
-  size: 37, 43
-  orig: 37, 43
-  offset: 0, 0
-  index: -1
 harpoon
   rotate: false
-  xy: 768, 493
+  xy: 738, 10
   size: 154, 16
   orig: 154, 16
   offset: 0, 0
   index: -1
 iceberg
   rotate: false
-  xy: 953, 92
+  xy: 685, 827
   size: 63, 62
   orig: 63, 62
   offset: 0, 0
   index: -1
 iron_ball
   rotate: false
-  xy: 978, 683
+  xy: 438, 2
   size: 44, 45
   orig: 44, 45
   offset: 0, 0
   index: -1
+landmine
+  rotate: false
+  xy: 372, 599
+  size: 170, 68
+  orig: 170, 68
+  offset: 0, 0
+  index: 0
+landmine
+  rotate: false
+  xy: 544, 599
+  size: 170, 68
+  orig: 170, 68
+  offset: 0, 0
+  index: 1
 laser_beam
   rotate: false
-  xy: 274, 2
+  xy: 445, 203
   size: 100, 52
   orig: 100, 52
   offset: 0, 0
   index: 0
 laser_projectile
   rotate: false
-  xy: 274, 2
+  xy: 445, 203
   size: 100, 52
   orig: 100, 52
   offset: 0, 0
   index: -1
 laser_beam
   rotate: false
-  xy: 376, 2
+  xy: 547, 203
   size: 100, 52
   orig: 100, 52
   offset: 0, 0
   index: 1
 laser_beam
   rotate: false
-  xy: 478, 2
+  xy: 649, 203
   size: 100, 52
   orig: 100, 52
   offset: 0, 0
   index: 2
-laser_beam
+meteor_b
   rotate: false
-  xy: 918, 865
-  size: 100, 52
-  orig: 100, 52
+  xy: 892, 446
+  size: 130, 116
+  orig: 130, 116
   offset: 0, 0
-  index: 3
-laser_beam
+  index: -1
+meteor_c
   rotate: false
-  xy: 918, 811
-  size: 100, 52
-  orig: 100, 52
+  xy: 422, 49
+  size: 125, 150
+  orig: 125, 150
   offset: 0, 0
-  index: 4
-laser_beam
+  index: -1
+meteor_e
   rotate: false
-  xy: 918, 757
-  size: 100, 52
-  orig: 100, 52
+  xy: 892, 328
+  size: 130, 116
+  orig: 130, 116
   offset: 0, 0
-  index: 5
+  index: -1
+meteor_f
+  rotate: false
+  xy: 549, 51
+  size: 125, 150
+  orig: 125, 150
+  offset: 0, 0
+  index: -1
+missile_b
+  rotate: false
+  xy: 892, 298
+  size: 120, 28
+  orig: 120, 28
+  offset: 0, 0
+  index: -1
 missile_c
   rotate: false
-  xy: 768, 511
+  xy: 612, 2
   size: 124, 47
   orig: 124, 47
   offset: 0, 0
   index: -1
-nematocyte
+navalmine
   rotate: false
-  xy: 315, 344
-  size: 364, 142
-  orig: 364, 142
+  xy: 389, 257
+  size: 342, 340
+  orig: 342, 340
   offset: 0, 0
-  index: 0
-nematocyte
+  index: -1
+open_hand
   rotate: false
-  xy: 315, 200
-  size: 364, 142
-  orig: 364, 142
-  offset: 0, 0
-  index: 1
-nematocyte
-  rotate: false
-  xy: 274, 56
-  size: 364, 142
-  orig: 364, 142
-  offset: 0, 0
-  index: 2
-orb_blue
-  rotate: false
-  xy: 978, 637
-  size: 44, 44
-  orig: 44, 44
+  xy: 212, 43
+  size: 208, 156
+  orig: 208, 156
   offset: 0, 0
   index: -1
 party
   rotate: false
-  xy: 953, 289
+  xy: 685, 698
   size: 59, 73
   orig: 59, 73
   offset: 0, 0
   index: 0
 pearl
   rotate: false
-  xy: 274, 207
+  xy: 272, 10
   size: 31, 31
   orig: 31, 31
   offset: 0, 0
   index: -1
 spit
   rotate: false
-  xy: 918, 730
+  xy: 892, 271
   size: 86, 25
   orig: 86, 25
   offset: 0, 0
   index: 0
 splitter0
   rotate: false
-  xy: 2, 240
+  xy: 372, 669
   size: 311, 353
   orig: 311, 353
   offset: 0, 0
   index: -1
 splitter1
   rotate: false
-  xy: 759, 718
+  xy: 733, 258
   size: 157, 304
   orig: 157, 304
   offset: 0, 0
   index: -1
 sticky
   rotate: false
-  xy: 953, 439
+  xy: 676, 65
   size: 69, 73
   orig: 69, 73
   offset: 0, 0
   index: 0
-sticky
+torpedo
   rotate: false
-  xy: 953, 364
-  size: 69, 73
-  orig: 69, 73
+  xy: 305, 13
+  size: 131, 28
+  orig: 131, 28
   offset: 0, 0
-  index: 1
+  index: -1
+trick
+  rotate: false
+  xy: 676, 140
+  size: 71, 61
+  orig: 71, 61
+  offset: 0, 0
+  index: -1
 underminer
   rotate: false
-  xy: 2, 10
+  xy: 751, 794
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 0
 underminer
   rotate: false
-  xy: 681, 258
+  xy: 751, 564
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 1
 underminer
   rotate: false
-  xy: 681, 28
+  xy: 751, 28
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 2
 vajra
   rotate: false
-  xy: 894, 514
+  xy: 484, 3
   size: 126, 44
   orig: 126, 44
   offset: 0, 0
@@ -311,331 +304,372 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+arrow
+  rotate: false
+  xy: 2, 582
+  size: 394, 140
+  orig: 394, 140
+  offset: 0, 0
+  index: -1
 banana
   rotate: false
-  xy: 734, 662
+  xy: 764, 536
   size: 187, 130
   orig: 187, 130
   offset: 0, 0
   index: -1
 bee
   rotate: false
-  xy: 923, 746
+  xy: 953, 545
+  size: 52, 46
+  orig: 52, 46
+  offset: 0, 0
+  index: 0
+bee
+  rotate: false
+  xy: 962, 851
   size: 52, 46
   orig: 52, 46
   offset: 0, 0
   index: 1
-boomerang
-  rotate: false
-  xy: 870, 250
-  size: 40, 38
-  orig: 40, 38
-  offset: 0, 0
-  index: -1
 charge_beam_a
   rotate: false
-  xy: 431, 4
+  xy: 418, 890
   size: 111, 112
   orig: 111, 112
+  offset: 0, 0
+  index: -1
+charge_beam_b
+  rotate: false
+  xy: 890, 899
+  size: 103, 103
+  orig: 103, 103
   offset: 0, 0
   index: -1
 charge_beam_c
   rotate: false
-  xy: 611, 165
+  xy: 531, 890
   size: 111, 112
   orig: 111, 112
   offset: 0, 0
   index: -1
-cork
+debris_b
   rotate: false
-  xy: 640, 536
-  size: 142, 124
-  orig: 142, 124
-  offset: 0, 0
-  index: -1
-debris_a
-  rotate: false
-  xy: 724, 214
-  size: 40, 40
-  orig: 40, 40
+  xy: 962, 715
+  size: 44, 40
+  orig: 44, 40
   offset: 0, 0
   index: -1
 debris_d
   rotate: false
-  xy: 923, 698
+  xy: 962, 803
   size: 46, 46
   orig: 46, 46
   offset: 0, 0
   index: -1
 flounder_a
   rotate: false
-  xy: 805, 320
+  xy: 644, 898
   size: 121, 104
   orig: 121, 104
   offset: 0, 0
   index: -1
 flounder_b
   rotate: false
-  xy: 308, 12
+  xy: 767, 898
   size: 121, 104
   orig: 121, 104
   offset: 0, 0
   index: -1
 laser_beam
   rotate: false
-  xy: 2, 2
+  xy: 726, 2
   size: 100, 52
   orig: 100, 52
   offset: 0, 0
-  index: 6
-laser_beam_blue
+  index: 3
+laser_beam
   rotate: false
-  xy: 104, 2
+  xy: 828, 2
   size: 100, 52
   orig: 100, 52
   offset: 0, 0
-  index: -1
-laser_beam_green
-  rotate: false
-  xy: 206, 2
-  size: 100, 52
-  orig: 100, 52
-  offset: 0, 0
-  index: -1
-laser_beam_orange
-  rotate: false
-  xy: 655, 84
-  size: 100, 52
-  orig: 100, 52
-  offset: 0, 0
-  index: -1
-laser_beam_purple
-  rotate: false
-  xy: 655, 30
-  size: 100, 52
-  orig: 100, 52
-  offset: 0, 0
-  index: -1
-laser_beam_turquoise
-  rotate: false
-  xy: 768, 236
-  size: 100, 52
-  orig: 100, 52
-  offset: 0, 0
-  index: -1
-meteor_a
-  rotate: false
-  xy: 784, 544
-  size: 148, 116
-  orig: 148, 116
-  offset: 0, 0
-  index: -1
-meteor_b
-  rotate: false
-  xy: 673, 418
-  size: 130, 116
-  orig: 130, 116
-  offset: 0, 0
-  index: -1
-meteor_c
-  rotate: false
-  xy: 546, 354
-  size: 125, 150
-  orig: 125, 150
-  offset: 0, 0
-  index: -1
-meteor_d
-  rotate: false
-  xy: 805, 426
-  size: 148, 116
-  orig: 148, 116
-  offset: 0, 0
-  index: -1
-meteor_e
-  rotate: false
-  xy: 673, 300
-  size: 130, 116
-  orig: 130, 116
-  offset: 0, 0
-  index: -1
-meteor_f
-  rotate: false
-  xy: 484, 124
-  size: 125, 150
-  orig: 125, 150
-  offset: 0, 0
-  index: -1
-missile_a
-  rotate: false
-  xy: 546, 309
-  size: 112, 43
-  orig: 112, 43
-  offset: 0, 0
-  index: -1
-missile_b
-  rotate: false
-  xy: 546, 279
-  size: 120, 28
-  orig: 120, 28
-  offset: 0, 0
-  index: -1
+  index: 4
 nematocyte
   rotate: false
-  xy: 2, 880
+  xy: 398, 516
+  size: 364, 142
+  orig: 364, 142
+  offset: 0, 0
+  index: 0
+nematocyte
+  rotate: false
+  xy: 2, 438
+  size: 364, 142
+  orig: 364, 142
+  offset: 0, 0
+  index: 1
+nematocyte
+  rotate: false
+  xy: 368, 372
+  size: 364, 142
+  orig: 364, 142
+  offset: 0, 0
+  index: 2
+nematocyte
+  rotate: false
+  xy: 2, 294
   size: 364, 142
   orig: 364, 142
   offset: 0, 0
   index: 3
 nematocyte
   rotate: false
-  xy: 2, 736
+  xy: 368, 228
   size: 364, 142
   orig: 364, 142
   offset: 0, 0
   index: 4
 nematocyte
   rotate: false
-  xy: 368, 880
+  xy: 2, 150
   size: 364, 142
   orig: 364, 142
   offset: 0, 0
   index: 5
 nematocyte
   rotate: false
-  xy: 2, 592
+  xy: 368, 84
   size: 364, 142
   orig: 364, 142
   offset: 0, 0
   index: 6
 nematocyte
   rotate: false
-  xy: 368, 736
+  xy: 2, 6
   size: 364, 142
   orig: 364, 142
   offset: 0, 0
   index: 7
-open_hand
+orb_blue
   rotate: false
-  xy: 274, 118
-  size: 208, 156
-  orig: 208, 156
+  xy: 962, 757
+  size: 44, 44
+  orig: 44, 44
   offset: 0, 0
   index: -1
 orb_orange
   rotate: false
-  xy: 977, 749
+  xy: 962, 670
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: -1
 orb_pink
   rotate: false
-  xy: 928, 381
+  xy: 930, 11
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: -1
 orb_red
   rotate: false
-  xy: 928, 337
+  xy: 975, 12
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
-orb_yellow
+punch
   rotate: false
-  xy: 724, 256
-  size: 42, 42
-  orig: 42, 42
+  xy: 2, 724
+  size: 414, 278
+  orig: 414, 278
   offset: 0, 0
   index: -1
 slag
   rotate: false
-  xy: 2, 56
+  xy: 368, 8
   size: 268, 74
   orig: 268, 74
   offset: 0, 0
   index: -1
 spit
   rotate: false
-  xy: 640, 709
+  xy: 638, 57
   size: 86, 25
   orig: 86, 25
   offset: 0, 0
   index: 1
 spit
   rotate: false
-  xy: 611, 138
+  xy: 638, 30
   size: 86, 25
   orig: 86, 25
   offset: 0, 0
   index: 2
 spit
   rotate: false
-  xy: 640, 682
+  xy: 638, 3
   size: 86, 25
   orig: 86, 25
   offset: 0, 0
   index: 3
-storm
+sticky
   rotate: false
-  xy: 544, 6
-  size: 109, 116
-  orig: 109, 116
+  xy: 953, 593
+  size: 69, 73
+  orig: 69, 73
   offset: 0, 0
-  index: -1
-torpedo
-  rotate: false
-  xy: 805, 290
-  size: 131, 28
-  orig: 131, 28
-  offset: 0, 0
-  index: -1
-trick
-  rotate: false
-  xy: 274, 529
-  size: 71, 61
-  orig: 71, 61
-  offset: 0, 0
-  index: -1
+  index: 1
 underminer
   rotate: false
-  xy: 734, 794
+  xy: 418, 660
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 3
 underminer
   rotate: false
-  xy: 2, 362
+  xy: 690, 668
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 4
 underminer
   rotate: false
-  xy: 2, 362
+  xy: 690, 668
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 7
 underminer
   rotate: false
-  xy: 2, 132
+  xy: 734, 286
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 5
 underminer
   rotate: false
-  xy: 368, 506
+  xy: 734, 56
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 6
+
+projectiles3.png
+size: 1024,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cork
+  rotate: false
+  xy: 274, 106
+  size: 142, 124
+  orig: 142, 124
+  offset: 0, 0
+  index: -1
+debris_a
+  rotate: false
+  xy: 724, 72
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+grenade
+  rotate: false
+  xy: 931, 143
+  size: 37, 43
+  orig: 37, 43
+  offset: 0, 0
+  index: -1
+laser_beam
+  rotate: false
+  xy: 829, 178
+  size: 100, 52
+  orig: 100, 52
+  offset: 0, 0
+  index: 5
+laser_beam
+  rotate: false
+  xy: 274, 7
+  size: 100, 52
+  orig: 100, 52
+  offset: 0, 0
+  index: 6
+laser_beam_blue
+  rotate: false
+  xy: 829, 124
+  size: 100, 52
+  orig: 100, 52
+  offset: 0, 0
+  index: -1
+laser_beam_green
+  rotate: false
+  xy: 829, 70
+  size: 100, 52
+  orig: 100, 52
+  offset: 0, 0
+  index: -1
+laser_beam_orange
+  rotate: false
+  xy: 418, 60
+  size: 100, 52
+  orig: 100, 52
+  offset: 0, 0
+  index: -1
+laser_beam_purple
+  rotate: false
+  xy: 520, 60
+  size: 100, 52
+  orig: 100, 52
+  offset: 0, 0
+  index: -1
+laser_beam_turquoise
+  rotate: false
+  xy: 622, 60
+  size: 100, 52
+  orig: 100, 52
+  offset: 0, 0
+  index: -1
+meteor_a
+  rotate: false
+  xy: 418, 114
+  size: 148, 116
+  orig: 148, 116
+  offset: 0, 0
+  index: -1
+meteor_d
+  rotate: false
+  xy: 568, 114
+  size: 148, 116
+  orig: 148, 116
+  offset: 0, 0
+  index: -1
+missile_a
+  rotate: false
+  xy: 274, 61
+  size: 112, 43
+  orig: 112, 43
+  offset: 0, 0
+  index: -1
+orb_yellow
+  rotate: false
+  xy: 931, 188
+  size: 42, 42
+  orig: 42, 42
+  offset: 0, 0
+  index: -1
+storm
+  rotate: false
+  xy: 718, 114
+  size: 109, 116
+  orig: 109, 116
+  offset: 0, 0
+  index: -1
 underminer
   rotate: false
-  xy: 274, 276
+  xy: 2, 2
   size: 270, 228
   orig: 270, 228
   offset: 0, 0

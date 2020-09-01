@@ -43,6 +43,7 @@ public class ParticleField extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), (short)0, true, eventData);
 	}
 	
+	private Vector2 particlePosition = new Vector2();
 	@Override
 	public void controller(float delta) {
 		
@@ -52,7 +53,7 @@ public class ParticleField extends Event {
 			currParticleSpawnTimer -= spawnTimerLimit;
 			float randX = (float) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
 			float randY = (float) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
-			new ParticleEntity(state, new Vector2(randX, randY), particle, duration, true, particleSyncType.NOSYNC);
+			new ParticleEntity(state, particlePosition.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC);
 		}
 	}
 	

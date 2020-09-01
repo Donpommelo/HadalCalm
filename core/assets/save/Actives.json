@@ -107,6 +107,15 @@ JUMP_KICK: {
 		RANDOM_POOL,
 	]
 }
+MARINE_SNOWGLOBE: {
+	name: Marine Snowglobe
+	description: "Damage and slow nearby enemies."
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 MELON: {
 	name: Melon
 	description: "Restores Hp."
@@ -116,7 +125,6 @@ MELON: {
 		RANDOM_POOL,
 	]
 }
-
 METEOR_STRIKE: {
 	name: Meteor Strike
 	description: "Summon meteors at mouse location."
@@ -220,6 +228,14 @@ RING_OF_GYGES: {
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
+	]
+}
+SAMSON_OPTION: {
+	name: Samson Option
+	description: "User dies and creates a series of explosions."
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
 	]
 }
 SPIRIT_RELEASE: {

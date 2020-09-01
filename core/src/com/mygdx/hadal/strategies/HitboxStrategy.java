@@ -40,6 +40,9 @@ public abstract class HitboxStrategy implements IHitboxStrategy {
 	public void onHit(HadalData fixB) {}
 	
 	@Override
+	public void receiveDamage(float basedamage, Vector2 knockback) {}
+	
+	@Override
 	public void die() {}
 	
 	public void setCreator(BodyData creator) { this.creator = creator; }

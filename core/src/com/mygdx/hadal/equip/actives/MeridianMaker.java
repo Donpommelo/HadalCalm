@@ -2,6 +2,8 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.Currents;
@@ -14,6 +16,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.utils.Constants;
 
@@ -30,7 +33,7 @@ public class MeridianMaker extends ActiveItem {
 	
 	private final static float projectileSpeed = 30.0f;
 	
-	private final static Sprite projSprite = Sprite.ORB_BLUE;
+	private final static Sprite projSprite = Sprite.NOTHING;
 
 	private final static int currentRadius = 100;
 	private final static float currentForce = 1.0f;
@@ -53,9 +56,10 @@ public class MeridianMaker extends ActiveItem {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.MAGIC));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user));
+		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.BRIGHT, 0.0f, 3.0f).setParticleColor(ParticleColor.SKY_BLUE).setParticleSize(20));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
-			private Vector2 lastPosition = new Vector2(hbox.getStartPos());
+			private Vector2 lastPosition = new Vector2(hbox.getStartPos()).scl(32);
 			
 			@Override
 			public void controller(float delta) {

@@ -21,6 +21,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DieParticles;
+import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 
 public class ChargeBeam extends RangedWeapon {
 
@@ -148,13 +149,22 @@ public class ChargeBeam extends RangedWeapon {
 		final float damageMultiplier2 = damageMultiplier;
 		final float kbMultiplier2 = kbMultiplier;
 		
+		Hitbox wallCollider = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
+		wallCollider.setSyncDefault(false);
+		wallCollider.setEffectsHit(false);
+		wallCollider.setEffectsMovement(false);
+		wallCollider.setEffectsVisual(false);
+		
+		wallCollider.addStrategy(new ControllerDefault(state, wallCollider, user.getBodyData()));
+		wallCollider.addStrategy(new ContactWallDie(state, wallCollider, user.getBodyData()));
+		
 		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(projectileSize).scl(sizeMultiplier), lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setDurability(3);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.6f, true));
+		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), wallCollider, new Vector2(), new Vector2(), true));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			@Override

@@ -15,6 +15,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
+import com.mygdx.hadal.strategies.hitbox.FlashNearDeath;
 
 public class StickyBombLauncher extends RangedWeapon {
 
@@ -72,6 +73,7 @@ public class StickyBombLauncher extends RangedWeapon {
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.SQUISH, 0.8f));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SQUISH, 0.8f, false));
 		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, true));
+		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
 		
 		bombsLaid.addLast(hbox);
 	}

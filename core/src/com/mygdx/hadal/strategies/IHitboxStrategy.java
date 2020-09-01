@@ -22,6 +22,9 @@ public interface IHitboxStrategy {
 	//this runs when the hitbox hits another entity
 	public void onHit(HadalData fixB);
 	
+	//this runs the hbox "receives damage" usually by being hit by another hbox.
+	public void receiveDamage(float basedamage, Vector2 knockback);
+	
 	//this is run when the hitbox dies
 	public void die();
 }

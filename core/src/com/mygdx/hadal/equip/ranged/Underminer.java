@@ -14,8 +14,12 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
+import com.mygdx.hadal.strategies.hitbox.ContactWallLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DieExplode;
+import com.mygdx.hadal.strategies.hitbox.FlashNearDeath;
+import com.mygdx.hadal.strategies.hitbox.Spread;
 import com.mygdx.hadal.utils.Constants;
 
 public class Underminer extends RangedWeapon {
@@ -37,20 +41,27 @@ public class Underminer extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_BLADEGUN;
 	private final static Sprite eventSprite = Sprite.P_BLADEGUN;
 	
-	private final static float drillSpeed = 4.0f;
+	private final static float drillSpeed = 3.0f;
 	private final static float drillDuration = 1.0f;
-	private final static float activatedLifespan = 1.f;
+	private final static float activatedLifespan = 0.8f;
 	private final static float activatedSpinSpeed = 8.0f;
 
 	private final static float raycastRange = 8.0f;
 
 	private final static Vector2 fragSize = new Vector2(36, 30);
 	private final static float fragLifespan = 2.0f;
-	private final static float fragFireLifespan = 0.8f;
-	private final static float fragDamage = 45.0f;
+	private final static float fragDamage = 25.0f;
 	private final static float fragKnockback = 25.0f;
 	private final static float fragSpeed = 4.0f;
-	private final static float fragFireSpeed = 50.0f;
+	
+	private final static float bombSpeed = 20.0f;
+	private final static float bombLifespan = 1.5f;
+	private final static int numBombs = 4;
+	private final static int spread = 30;
+	
+	private final static int explosionRadius = 100;
+	private final static float explosionDamage = 20.0f;
+	private final static float explosionKnockback = 18.0f;
 	
 	public Underminer(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -70,15 +81,13 @@ public class Underminer extends RangedWeapon {
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
-			
 			private boolean drilling = false;
 			private boolean activated = false;
 			private float invuln = 0.0f;
 			
-			private float procCdCount = 0;
-
 			private float drillCount = 0;
-			private final static float procCd = 0.1f;
+			private final static float procCd = 0.2f;
+			private float procCdCount = procCd;
 			
 			private Vector2 angle = new Vector2();
 			private Vector2 raycast = new Vector2(0, raycastRange);
@@ -135,10 +144,23 @@ public class Underminer extends RangedWeapon {
 								public void onHit(HadalData fixB) {
 									if (fixB != null) {
 										if (fixB.getType().equals(UserDataTypes.WALL)) {
-											frag.setLinearVelocity(frag.getLinearVelocity().nor().scl(fragFireSpeed));
-											frag.setLifeSpan(fragFireLifespan);
-											frag.setGravityScale(3.0f);
+											
+											for (int i = 0; i < numBombs; i++) {
+												Hitbox bomb = new Hitbox(state, hbox.getPixelPosition(), fragSize, bombLifespan, new Vector2(0, 1).setAngleRad(hbox.getAngle()).scl(bombSpeed), 
+														filter, true, true, user, projSprite);
+												bomb.setGravity(3.0f);
+												bomb.setDurability(2);
+												
+												bomb.addStrategy(new ControllerDefault(state, bomb, user.getBodyData()));
+												bomb.addStrategy(new AdjustAngle(state, bomb, user.getBodyData()));
+												bomb.addStrategy(new DamageStandard(state, bomb, user.getBodyData(),  fragDamage, fragKnockback, DamageTypes.RANGED));
+												bomb.addStrategy(new ContactWallLoseDurability(state, bomb, user.getBodyData()));
+												bomb.addStrategy(new DieExplode(state, bomb, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
+												bomb.addStrategy(new FlashNearDeath(state, bomb, user.getBodyData(), 1.0f));
+												bomb.addStrategy(new Spread(state, bomb, user.getBodyData(), spread));
+											}
 										}
+										hbox.die();
 									}
 								}
 							});

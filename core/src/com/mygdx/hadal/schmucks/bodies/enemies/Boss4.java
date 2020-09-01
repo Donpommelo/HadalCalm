@@ -97,7 +97,6 @@ public class Boss4 extends EnemyFloating {
 			
 			@Override
 			public void render(SpriteBatch batch) {}
-			
 		};
 		
 		body1.setScale(bodyBaseScale1).setColor(ParticleColor.RED).setSyncExtraFields(true);
@@ -105,7 +104,6 @@ public class Boss4 extends EnemyFloating {
 			
 			@Override
 			public void render(SpriteBatch batch) {}
-			
 		};
 		body2.setScale(bodyBaseScale2).setColor(ParticleColor.ORANGE).setSyncExtraFields(true);
 		

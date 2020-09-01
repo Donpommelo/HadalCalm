@@ -30,10 +30,10 @@ public class Riftsplitter extends MeleeWeapon {
 	private final static float knockback = 15.0f;
 	private final static float lifespan = 0.4f;
 	
-	private final static Vector2 shockwaveSize = new Vector2(70, 80);
+	private final static Vector2 shockwaveSize = new Vector2(56, 64);
 	private final static float shockwaveInterval = 0.1f;
 	private final static float shockwaveDamage = 15.0f;
-	private final static float shockwaveSpeed = 10.0f;
+	private final static float shockwaveSpeed = 15.0f;
 	private final static float shockwaveLifespan = 0.4f;
 
 	private final static Sprite projSprite = Sprite.SPLITTER_A;
@@ -50,11 +50,12 @@ public class Riftsplitter extends MeleeWeapon {
 		SoundEffect.WOOSH.playUniversal(state, shooter.getSchmuck().getPixelPosition(), 1.0f, false);
 	}
 	
+	private Vector2 startVelo = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.4f, false);
 
-		Hitbox hbox = new RangedHitbox(state, user.getProjectileOrigin(weaponVelo, projectileSize.x), projectileSize, lifespan, new Vector2(startVelocity).nor().scl(projectileSpeed), filter, false, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, user.getProjectileOrigin(weaponVelo, projectileSize.x), projectileSize, lifespan, startVelo.set(startVelocity).nor().scl(projectileSpeed), filter, false, true, user, projSprite);
 		hbox.setRestitution(1.0f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
