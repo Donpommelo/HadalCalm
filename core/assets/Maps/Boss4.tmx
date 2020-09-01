@@ -334,7 +334,7 @@
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="true"/>
     <property name="bossname" value="False Sun"/>
-    <property name="delay" type="float" value="0"/>
+    <property name="delay" type="float" value="2"/>
     <property name="enemyId" value="BOSS4"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="spawn0"/>

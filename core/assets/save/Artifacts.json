@@ -196,6 +196,15 @@ CLOCKWISE_CAGE: {
 		RANDOM_POOL,
 	]
 }
+CHAOS_CONJURANT: {
+	name: Chaos Conjurant
+	description: "Summon Meteors on Receiving Damage"
+    descriptionLong: "Meteor Cooldown: 1s\nMeteor Number: 5\nMeteor Damage: 24\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 COMMUTERS_PARASOL: {
 	name: Commuter's Parasol
 	description: "Periodically Blocks Projectiles from Above"
@@ -913,6 +922,15 @@ UNBREATHING_MEMBRANE: {
 	name: Unbreathing Membrane
 	description: "Slows User. Move by Shooting"
     descriptionLong: "A thick and non-porous membrane that smothers all movement.\n\nA Sunk is born upon a former person's cessation of breath."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+VESTIGIAL_CHAMBER: {
+	name: Vestigial Chamber
+	description: "Projectiles Create Delayed Explosions"
+    descriptionLong: "Explosion Delay: 0.75s\nExplosion Damage: 18\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
