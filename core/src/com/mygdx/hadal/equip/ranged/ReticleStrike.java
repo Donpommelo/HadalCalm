@@ -16,7 +16,7 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 public class ReticleStrike extends RangedWeapon {
 
 	private final static int clipSize = 1;
-	private final static int ammoSize = 18;
+	private final static int ammoSize = 25;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.1f;
@@ -32,10 +32,10 @@ public class ReticleStrike extends RangedWeapon {
 	
 	private final static float reticleSize = 80.0f;
 	private final static float reticleSizeSquared = 6500.0f;
-	private final static float reticleLifespan = 0.75f;
+	private final static float reticleLifespan = 0.5f;
 	private final static int explosionRadius = 100;
-	private final static float explosionDamage = 30.0f;
-	private final static float explosionKnockback = 25.0f;
+	private final static float explosionDamage = 40.0f;
+	private final static float explosionKnockback = 20.0f;
 	
 	public ReticleStrike(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

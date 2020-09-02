@@ -1,5 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -43,6 +45,8 @@ public class DeepSeaSmelter extends RangedWeapon {
 	private final static Sprite projSprite = Sprite.SLAG;
 	private final static Sprite weaponSprite = Sprite.MT_NEMATOCYTEARM;
 	private final static Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
+	
+	private final static float pitchSpread = 0.4f;
 	
 	private final static float projSpacing = 20.0f;
 
@@ -95,7 +99,9 @@ public class DeepSeaSmelter extends RangedWeapon {
 		//weapon is disabled when overheated
 		if (overheated) { return; }
 		
-		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.5f, false);
+		float pitch = (ThreadLocalRandom.current().nextFloat() - 0.5f) * pitchSpread;
+		
+		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.5f, 1.0f + pitch, false);
 
 		createProjectile(state, startPosition, startVelocity, filter, 1);
 		createProjectile(state, startPosition, startVelocity, filter, -1);

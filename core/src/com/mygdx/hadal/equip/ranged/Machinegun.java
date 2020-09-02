@@ -1,5 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -34,6 +36,7 @@ public class Machinegun extends RangedWeapon {
 	private final static Vector2 projectileSize = new Vector2(48, 12);
 	private final static float lifespan = 0.75f;
 	
+	private final static float pitchSpread = 0.4f;
 	private final static int spread = 7;
 
 	private final static Sprite projSprite = Sprite.BULLET;
@@ -46,7 +49,9 @@ public class Machinegun extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.GUN2.playUniversal(state, startPosition, 0.1f, false);
+		
+		float pitch = (ThreadLocalRandom.current().nextFloat() - 0.5f) * pitchSpread;
+		SoundEffect.GUN2.playUniversal(state, startPosition, 0.15f, 1.0f + pitch, false);
 		
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setGravity(1.0f);

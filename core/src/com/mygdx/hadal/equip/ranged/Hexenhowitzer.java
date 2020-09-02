@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
@@ -53,6 +54,8 @@ public class Hexenhowitzer extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_TORPEDO;
 	private final static Sprite eventSprite = Sprite.P_TORPEDO;
 	
+	private final static float pitchSpread = 0.4f;
+	
 	private final static float superchargedShootCd = 0.07f;
 	private final static float enemyChargeMultiplier = 0.25f;
 	private final static int spread = 18;
@@ -79,7 +82,8 @@ public class Hexenhowitzer extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.BOTTLE_ROCKET.playUniversal(state, startPosition, 0.4f, false);
+		float pitch = (ThreadLocalRandom.current().nextFloat() - 0.5f) * pitchSpread;
+		SoundEffect.BOTTLE_ROCKET.playUniversal(state, startPosition, 0.4f, 1.0f + pitch, false);
 
 		final Equipable me = this;
 		

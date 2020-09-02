@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="310" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="102">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="310" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="103">
  <properties>
   <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
  </properties>
@@ -533,7 +533,7 @@
   <object id="88" name="Multitrigger" type="Multitrigger" x="96" y="32" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,w1,unlock1"/>
+    <property name="triggeringId" value="startTimer,w1,unlock1,hp1"/>
    </properties>
   </object>
   <object id="89" name="SchmuckSpawn" type="SchmuckSpawn" x="1728" y="640" width="32" height="32">
@@ -634,6 +634,14 @@
     <property name="triggeredId" value="unlock1"/>
     <property name="triggeringId" value=""/>
     <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
+  <object id="102" name="Prefab" type="PrefabSpawnerTriggered" x="704" y="9376" width="96" height="96">
+   <properties>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="SpawnerTriggered"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
    </properties>
   </object>
  </objectgroup>

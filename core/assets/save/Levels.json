@@ -8,7 +8,7 @@ HUB_MULTI: {
 	]
 }
 BOSS1: {
-	name: BOSS1
+	name: BOSS: SLIGHTLY LARGER FISH
 	description: ""
     descriptionLong: "Boss fight with a Slightly Larger Fish."
 	tags: [
@@ -17,7 +17,7 @@ BOSS1: {
 	]
 }
 BOSS2: {
-	name: BOSS2
+	name: BOSS: KING KAMABOKO
 	description: ""
     descriptionLong: "Boss fight with King Kamaboko."
 	tags: [
@@ -32,7 +32,7 @@ BOSS3: {
 	tags: []
 }
 BOSS4: {
-	name: BOSS4
+	name: BOSS: FALSE SUN
 	description: ""
     descriptionLong: "Boss fight with the False Sun."
 	tags: [

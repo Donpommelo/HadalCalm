@@ -50,19 +50,19 @@
   <object id="12" name="Armory" type="Armory" x="1728" y="1760" width="96" height="96">
    <properties>
     <property name="triggeredId" value="armory"/>
-    <property name="unlock" type="bool" value="true"/>
+    <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
   <object id="13" name="Reliquary" type="Reliquary" x="1920" y="1760" width="96" height="96">
    <properties>
     <property name="triggeredId" value="reliquary"/>
-    <property name="unlock" type="bool" value="true"/>
+    <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
   <object id="15" name="Dispensary" type="Dispensary" x="2112" y="2080" width="96" height="96">
    <properties>
     <property name="triggeredId" value="dispensary"/>
-    <property name="unlock" type="bool" value="true"/>
+    <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
   <object id="16" name="Start" type="Start" x="1856" y="1760" width="32" height="32">

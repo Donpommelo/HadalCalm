@@ -22,15 +22,15 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class Peppergrinder extends RangedWeapon {
 
-	private final static int clipSize = 50;
-	private final static int ammoSize = 300;
+	private final static int clipSize = 60;
+	private final static int ammoSize = 360;
 	private final static float shootCd = 0.06f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 2.0f;
+	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 10.0f;
+	private final static float baseDamage = 15.0f;
 	private final static float recoil = 1.5f;
-	private final static float knockback = 6.0f;
+	private final static float knockback = 10.0f;
 	private final static float projectileSpeed = 20.0f;
 	private final static Vector2 projectileSize = new Vector2(40, 20);
 	private final static float lifespan = 4.0f;

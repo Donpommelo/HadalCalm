@@ -362,10 +362,16 @@
             "message": "<vic> insists its just a flu.", "weight": 25, namedPerp: false
         }
         {
+            "message": "<vic> died from ligma.", "weight": 5, namedPerp: false
+        }
+        {
             "message": "<perp> killed <vic> with poison.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<vic> succumbed to <perp>'s poison.", "weight": 25, namedPerp: true
+            "message": "<perp> killed <vic> with ligma.", "weight": 5, namedPerp: true
+        }
+        {
+            "message": "<vic> succumbed to <perp>'s foul toxins.", "weight": 25, namedPerp: true
         }
         {
             "message": "<vic> couldn't handle <perp>'s toxicity.", "weight": 25, namedPerp: true
@@ -383,6 +389,9 @@
 "POKING":  [
         {
             "message": "<perp> impaled <vic> through the <body part>.", "weight": 25, namedPerp: true
+        }
+        {
+            "message": "<perp> shish-kabobed <vic>.", "weight": 25, namedPerp: true
         }
         {
             "message": "<perp> stabbed <vic> to death.", "weight": 25, namedPerp: true
