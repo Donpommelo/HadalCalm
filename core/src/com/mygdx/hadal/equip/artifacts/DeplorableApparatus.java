@@ -44,7 +44,7 @@ public class DeplorableApparatus extends Artifact {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-				if (procCdCount >= procCd) {
+				if (damage > 0) {
 					procCdCount = 0;
 				}
 				return damage;

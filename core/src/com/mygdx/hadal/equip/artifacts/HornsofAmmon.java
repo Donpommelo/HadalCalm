@@ -32,7 +32,7 @@ public class HornsofAmmon extends Artifact {
 						
 						SoundEffect.MAGIC18_BUFF.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.5f, false);
 
-						inflicted.receiveDamage(damage, new Vector2(0, 0), perp, false, tags);
+						inflicted.receiveDamage(damage, new Vector2(), perp, false, tags);
 						inflicted.addStatus(new Invulnerability(state, invulnDura, inflicted, inflicted));
 						return 0;
 					}					

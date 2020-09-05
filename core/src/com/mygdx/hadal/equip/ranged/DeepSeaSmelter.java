@@ -68,11 +68,11 @@ public class DeepSeaSmelter extends RangedWeapon {
 		
 		if (reloading || getClipLeft() == 0 || overheated) { return; }
 		
-		if (chargeCd < chargeTime) {
+		if (chargeCd < getChargeTime()) {
 			setCharging(true);
 			setChargeCd(chargeCd + (delta + shootCd) * chargePerShot);
 			
-			if (chargeCd >= chargeTime) {
+			if (chargeCd >= getChargeTime()) {
 				user.getBodyData().addStatus(new Ablaze(state, maxCharge, user.getBodyData(), user.getBodyData(), burnDamage));
 				overheated = true;
 			}
