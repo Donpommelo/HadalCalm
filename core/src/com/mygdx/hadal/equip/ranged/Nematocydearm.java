@@ -1,6 +1,5 @@
 package com.mygdx.hadal.equip.ranged;
 
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -54,7 +53,6 @@ public class Nematocydearm extends RangedWeapon {
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setSpriteSize(projectileSize);
-		hbox.setSpritePlayMode(PlayMode.LOOP_PINGPONG);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.actives;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.WeaponUtils;
@@ -29,6 +30,6 @@ public class NauticalMine extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.LAUNCHER.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
-		WeaponUtils.createNauticalMine(state, user.getPlayer().getPixelPosition(), user.getPlayer(), this.weaponVelo.scl(projectileSpeed), projectileSize, lifespan, explosionDamage, explosionKnockback, explosionRadius);
+		WeaponUtils.createNauticalMine(state, user.getPlayer().getPixelPosition(), user.getPlayer(), new Vector2(weaponVelo).nor().scl(projectileSpeed), projectileSize, lifespan, explosionDamage, explosionKnockback, explosionRadius);
 	}
 }

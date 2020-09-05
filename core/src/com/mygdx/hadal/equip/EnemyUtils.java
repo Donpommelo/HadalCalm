@@ -431,7 +431,7 @@ public class EnemyUtils {
 		});
 	}
 	
-	private final static Sprite[] debrisSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
+	private final static Sprite[] debrisSprites = {Sprite.METEOR_A, Sprite.METEOR_B, Sprite.METEOR_C, Sprite.METEOR_D, Sprite.METEOR_E, Sprite.METEOR_F};
 	public static void fallingDebris(final PlayState state, Enemy boss, final float baseDamage, final int size, final float knockback, final float lifespan, final float duration) {
 		
 		boss.getSecondaryActions().add(new EnemyAction(boss, duration) {

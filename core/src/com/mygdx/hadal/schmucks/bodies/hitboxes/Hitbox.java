@@ -1,7 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies.hitboxes;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -126,7 +125,8 @@ public class Hitbox extends HadalEntity {
 		//use Sprite.Nothing for spriteless hitboxes (like ones that just use particles)
 		this.sprite = sprite;
 		if (!sprite.equals(Sprite.NOTHING)) {
-			projectileSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeedFast, sprite.getFrames());
+			projectileSprite = new Animation<TextureRegion>(sprite.getAnimationSpeed(), sprite.getFrames());
+			projectileSprite.setPlayMode(sprite.getPlayMode());
 		}
 		this.spriteSize.set(size);
 	}
@@ -197,7 +197,7 @@ public class Hitbox extends HadalEntity {
 		if (!alive) { return; }
 		
 		if (projectileSprite != null) {
-			batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
+			batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, false), 
 					getPixelPosition().x - spriteSize.x / 2, 
 					getPixelPosition().y - spriteSize.y / 2, 
 					spriteSize.x / 2, spriteSize.y / 2,
@@ -330,8 +330,6 @@ public class Hitbox extends HadalEntity {
 	public boolean isReflectable() { return reflectable; }
 	
 	public void setAdjustAngle(boolean adjustAngle) { this.adjustAngle = adjustAngle; }
-	
-	public void setSpritePlayMode(PlayMode playMode) { this.projectileSprite.setPlayMode(playMode); }
 	
 	public void setSpriteSize(Vector2 spriteSize) { this.spriteSize.set(spriteSize).scl(scale); }
 }

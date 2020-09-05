@@ -34,7 +34,8 @@ public class ClientIllusion extends HadalEntity {
 		super(state, startPos, size);
 		this.startAngle = startAngle;
 		if (!sprite.equals(Sprite.NOTHING)) {
-			illusionSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
+			illusionSprite = new Animation<TextureRegion>(sprite.getAnimationSpeed(), sprite.getFrames());
+			illusionSprite.setPlayMode(sprite.getPlayMode());
 			this.align = align;
 			spriteWidth = illusionSprite.getKeyFrame(0).getRegionWidth();
 			spriteHeight = illusionSprite.getKeyFrame(0).getRegionHeight();
@@ -57,7 +58,7 @@ public class ClientIllusion extends HadalEntity {
 			
 			switch (align) {
 			case HITBOX:
-				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, true), 
+				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, false), 
 						getPixelPosition().x - size.x / 2, 
 						getPixelPosition().y - size.y / 2, 
 						size.x / 2, size.y / 2,
@@ -65,28 +66,28 @@ public class ClientIllusion extends HadalEntity {
 						(float) Math.toDegrees(getAngle()));
 				break;
 			case CENTER:
-				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, true), 
+				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, false), 
 						getPixelPosition().x - size.x / 2, 
 						getPixelPosition().y - size.y / 2, 
 						spriteWidth * scale / 2, spriteHeight * scale / 2,
 						spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case CENTER_STRETCH:
-				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, true), 
+				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, false), 
 						getPixelPosition().x - size.x / 2, 
 						getPixelPosition().y - size.y / 2, 
 						size.x / 2, size.y / 2,
 						size.x, size.y, 1, 1, 0);
 				break;
 			case CENTER_BOTTOM:
-				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, true),
+				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, false),
 						getPixelPosition().x - spriteWidth * scale / 2,
 	                    getPixelPosition().y - size.y / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case ROTATE:
-				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, true),
+				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, false),
 						getPixelPosition().x - size.x / 2, 
 						getPixelPosition().y - size.y / 2, 
 						size.x / 2, size.y / 2,

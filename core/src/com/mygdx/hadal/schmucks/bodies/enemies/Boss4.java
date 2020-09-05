@@ -786,6 +786,7 @@ public class Boss4 extends EnemyFloating {
 	private final static int starDistMin = 10;
 	private final static int starDistMax = 50;
 	
+	private final static Sprite[] starSprites = {Sprite.STAR_BLUE, Sprite.STAR_PURPLE, Sprite.STAR_RED, Sprite.STAR_YELLOW};
 	private void orbitalStar() {
 		changeColor(ParticleColor.GOLD, shot1Windup);
 		singlePulse();
@@ -804,7 +805,8 @@ public class Boss4 extends EnemyFloating {
 					float starSpeed = ThreadLocalRandom.current().nextInt(starSpeedMin, starSpeedMax);
 					float starDist = ThreadLocalRandom.current().nextInt(starDistMin, starDistMax);
 					
-					RangedHitbox hbox = new RangedHitbox(state, new Vector2(), new Vector2(starSize, starSize), starLifespan, new Vector2(), getHitboxfilter(), true, true, enemy, Sprite.STAR);
+					RangedHitbox hbox = new RangedHitbox(state, new Vector2(), new Vector2(starSize, starSize), starLifespan, new Vector2(), getHitboxfilter(), true, true, enemy, 
+							starSprites[GameStateManager.generator.nextInt(starSprites.length)]);
 					hbox.makeUnreflectable();
 					hbox.setSpriteSize(new Vector2(starSize * 2.0f, starSize * 2.0f));
 					

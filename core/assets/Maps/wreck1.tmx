@@ -404,20 +404,7 @@
   <object id="105" name="Multitrigger" type="Multitrigger" x="416" y="2720" width="32" height="32">
    <properties>
     <property name="triggeredId" value="introstart"/>
-    <property name="triggeringId" value="cameraintro,dialogintro"/>
-   </properties>
-  </object>
-  <object id="106" name="Camera" type="Camera" x="480" y="2720" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="cameraintro"/>
-    <property name="triggeringId" value="introcamerapoint"/>
-    <property name="zoom" type="float" value="0.05"/>
-   </properties>
-  </object>
-  <object id="107" name="Dummy" type="Dummy" x="256" y="2688" width="32" height="32">
-   <properties>
-    <property name="sync" value="USER"/>
-    <property name="triggeredId" value="introcamerapoint"/>
+    <property name="triggeringId" value="dialogintro,playerstart"/>
    </properties>
   </object>
   <object id="108" name="Dialog" type="Dialog" x="480" y="2784" width="32" height="32">
@@ -425,19 +412,6 @@
     <property name="textId" value="wreckintro0"/>
     <property name="triggeredId" value="dialogintro"/>
     <property name="triggeringId" value="dialogintroend"/>
-   </properties>
-  </object>
-  <object id="109" name="Multitrigger" type="Multitrigger" x="544" y="2784" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="dialogintroend"/>
-    <property name="triggeringId" value="bounds1,bounds2,camerareset"/>
-   </properties>
-  </object>
-  <object id="110" name="Camera" type="Camera" x="608" y="2784" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="camerareset"/>
-    <property name="triggeringId" value=""/>
-    <property name="zoom" type="float" value="1"/>
    </properties>
   </object>
   <object id="111" name="Text" type="Text" x="1472" y="2176" width="96" height="32">

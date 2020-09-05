@@ -2,9 +2,11 @@ package com.mygdx.hadal.effects;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.states.PlayState;
 
 /**
  * This is a single sprite that can be drawn
@@ -55,7 +57,7 @@ public enum Sprite {
 	MISSILE_B(SpriteType.PROJECTILE, "missile_b"),
 	MISSILE_C(SpriteType.PROJECTILE, "missile_c"),
 	NAVAL_MINE(SpriteType.PROJECTILE, "navalmine"),
-	NEMATOCYTE(SpriteType.PROJECTILE, "nematocyte"),
+	NEMATOCYTE(SpriteType.PROJECTILE, "nematocyte", PlayMode.LOOP_PINGPONG, PlayState.spriteAnimationSpeed),
 	ORB_BLUE(SpriteType.PROJECTILE, "orb_blue"),
 	ORB_PINK(SpriteType.PROJECTILE, "orb_pink"),
 	ORB_ORANGE(SpriteType.PROJECTILE, "orb_orange"),
@@ -65,7 +67,7 @@ public enum Sprite {
 	PEARL(SpriteType.PROJECTILE, "pearl"),
 	POPPER(SpriteType.PROJECTILE, "party"),
 	PUNCH(SpriteType.PROJECTILE, "punch"),
-	PYLON(SpriteType.PROJECTILE, "orb_yellow"),
+	PYLON(SpriteType.PROJECTILE, "tesla", PlayMode.NORMAL, PlayState.spriteAnimationSpeed),
 	SCRAP_A(SpriteType.PROJECTILE, "debris_a"),
 	SCRAP_B(SpriteType.PROJECTILE, "debris_b"),
 	SCRAP_C(SpriteType.PROJECTILE, "debris_c"),
@@ -74,6 +76,10 @@ public enum Sprite {
 	SPIT(SpriteType.PROJECTILE, "spit"),
 	SPLITTER_A(SpriteType.PROJECTILE, "splitter1"),
 	SPLITTER_B(SpriteType.PROJECTILE, "splitter0"),
+	STAR_BLUE(SpriteType.PROJECTILE, "blue_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
+	STAR_PURPLE(SpriteType.PROJECTILE, "purple_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
+	STAR_RED(SpriteType.PROJECTILE, "red_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
+	STAR_YELLOW(SpriteType.PROJECTILE, "yellow_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
 	STICKYBOMB(SpriteType.PROJECTILE, "sticky"),
 	TORPEDO(SpriteType.PROJECTILE, "torpedo"),
 	TRICKBULLET(SpriteType.PROJECTILE, "trick"),
@@ -221,6 +227,18 @@ public enum Sprite {
 	//These are the frames of the sprite.
 	private Array<? extends TextureRegion> frames;
 	
+	private PlayMode playMode = PlayMode.LOOP;
+	private float animationSpeed = PlayState.spriteAnimationSpeedFast;
+	
+	public static final float spriteAnimationSpeed = 0.08f;
+	public static final float spriteAnimationSpeedFast = 0.04f;
+	
+	Sprite(SpriteType type, String spriteId, PlayMode playMode, float animationSpeed) {
+		this(type, spriteId);
+		this.playMode = playMode;
+		this.animationSpeed = animationSpeed;
+	}
+	
 	Sprite(SpriteType type, String spriteId) {
 		this.type = type;
 		this.spriteId = spriteId;
@@ -312,6 +330,11 @@ public enum Sprite {
 		return null;
 	}
 	
+	
+	public PlayMode getPlayMode() {	return playMode; }
+
+	public float getAnimationSpeed() {	return animationSpeed; }
+
 	public enum SpriteType {
 		MISC,
 		PROJECTILE,
