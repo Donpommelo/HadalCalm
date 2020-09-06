@@ -11,9 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.Backdrop;
 import com.mygdx.hadal.actors.MenuWindow;
-import com.mygdx.hadal.actors.ResultsBackdrop;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -95,7 +96,7 @@ public class ResultsState extends GameState {
 			{
 				int tableHeight = baseHeight + titleHeight * 2 + rowHeight * scores.size();
 				
-				addActor(new ResultsBackdrop());
+				addActor(new Backdrop(AssetList.RESULTS_CARD.toString()));
 				addActor(new MenuWindow(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT - tableHeight, width, tableHeight));
 				table = new Table();
 				table.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT - tableHeight);

@@ -44,6 +44,8 @@ public enum Particle {
 	
 	BUBBLE_TRAIL(ParticleType.DEFAULT, "particles/bubble_trail.particle"),
 	BUBBLE_IMPACT(ParticleType.DEFAULT, "particles/bubble_impact.particle"),
+	DIATOM(ParticleType.DEFAULT, "particles/diatom.particle"),
+	JELLY(ParticleType.DEFAULT, "particles/jelly.particle"),
 	IMPACT(ParticleType.DEFAULT, "particles/impact.particle"),
 	SPARK_TRAIL(ParticleType.DEFAULT, "particles/spark_trail.particle"),
 	POISON(ParticleType.DEFAULT, "particles/poison.particle"),

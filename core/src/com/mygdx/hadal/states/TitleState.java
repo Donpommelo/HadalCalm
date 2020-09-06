@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,10 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.Backdrop;
 import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
-import com.mygdx.hadal.actors.TitleBackdrop;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.managers.GameStateManager.State;
@@ -31,13 +35,15 @@ public class TitleState extends GameState {
 	private Table tableName, tableMain, tableIP;
 	
 	//this is the image backdrop of the title state
-	private TitleBackdrop backdrop;
+	private Backdrop backdrop;
 	
 	//These are all of the display and buttons visible to the player.
 	private Text nameDisplay, nameRand, ipDisplay, hostOption, singleOption, joinOption, exitOption, settingsOption, aboutOption, searchOption, notifications, versionNum;
 	
 	//Textfields for the player to enter an ip to connect to or change their name
 	private TextField enterName, enterIP;
+	
+	private PooledEffect jelly, diatom1, diatom2, diatom3;
 	
 	//Dimentions and position of the title menu
 	private final static int titleX = 140;
@@ -73,6 +79,18 @@ public class TitleState extends GameState {
 	private final static float optionHeight = 35.0f;
 	private final static float mainOptionHeight = 40.0f;
 
+	private final static int jellyX = 500;
+	private final static int jellyY = 350;
+	
+	private final static int diatom1X = 1000;
+	private final static int diatom1Y = 150;
+	
+	private final static int diatom2X = 600;
+	private final static int diatom2Y = 150;
+	
+	private final static int diatom3X = 200;
+	private final static int diatom3Y = 150;
+	
 	//This boolean determines if input is disabled. input is disabled if the player joins/hosts.
 	private boolean inputDisabled = false;
 	
@@ -81,6 +99,14 @@ public class TitleState extends GameState {
 	 */
 	public TitleState(final GameStateManager gsm) {
 		super(gsm);
+		this.diatom1 = Particle.DIATOM.getParticle();
+		this.diatom1.setPosition(diatom1X, diatom1Y);
+		this.diatom2 = Particle.DIATOM.getParticle();
+		this.diatom2.setPosition(diatom2X, diatom2Y);
+		this.diatom3 = Particle.DIATOM.getParticle();
+		this.diatom3.setPosition(diatom3X, diatom3Y);
+		this.jelly = Particle.JELLY.getParticle();
+		this.jelly.setPosition(jellyX, jellyY);
 	}
 	
 	@Override
@@ -88,11 +114,20 @@ public class TitleState extends GameState {
 		
 		stage = new Stage() {
 			{
-				backdrop = new TitleBackdrop();
+				addActor(new Backdrop(AssetList.TITLE_BACKGROUND.toString()) {
+					
+					@Override
+				    public void draw(Batch batch, float alpha) {
+						super.draw(batch, alpha);
+						diatom1.draw(batch, 0);
+						diatom2.draw(batch, 0);
+						diatom3.draw(batch, 0);
+						jelly.draw(batch, 0);
+					}
+				});
+				backdrop = new Backdrop(AssetList.TITLE_CARD.toString(), titleWidth, titleHeight);
 				backdrop.setX(titleX);
 				backdrop.setY(titleY);
-				backdrop.setWidth(titleWidth);
-				backdrop.setHeight(titleHeight);
 				
 				addActor(backdrop);
 				addActor(new MenuWindow(menuX, menuY, width, height));
@@ -401,6 +436,11 @@ public class TitleState extends GameState {
 				
 				addActor(notifications);
 				addActor(versionNum);
+				
+				diatom1.start();
+				diatom2.start();
+				diatom3.start();
+				jelly.start();
 			}
 		};
 		app.newMenu(stage);
@@ -409,7 +449,13 @@ public class TitleState extends GameState {
 	}
 
 	@Override
-	public void update(float delta) {}
+	public void update(float delta) {
+		diatom1.update(delta);
+		diatom2.update(delta);
+		diatom3.update(delta);
+
+		jelly.update(delta);
+	}
 
 	@Override
 	public void render(float delta) {

@@ -79,7 +79,7 @@ public class KryoClient {
 		Kryo kryo = new Kryo();
         kryo.setReferences(true);
         KryoSerialization serialization = new KryoSerialization(kryo);
-        this.client = new Client(5000, 5000, serialization);
+        this.client = new Client(8000, 8000, serialization);
         client.start();
         
         registerPackets();
