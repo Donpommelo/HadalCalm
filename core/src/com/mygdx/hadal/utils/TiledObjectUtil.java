@@ -215,7 +215,8 @@ public class TiledObjectUtil {
 			e = new ParticleField(state, position, size,
 					Particle.valueOf(object.getProperties().get("particle", "NOTHING", String.class)),
 					object.getProperties().get("speed", 1.0f, float.class),
-					object.getProperties().get("duration", 1.0f, float.class));	
+					object.getProperties().get("duration", 1.0f, float.class),
+					object.getProperties().get("scale", 1.0f, float.class));	
 		} else if (object.getName().equals("SchmuckSpawn")) {
 			
 			e = new SpawnerSchmuck(state, position, size, 

@@ -85,7 +85,7 @@ public class SpawnerHitbox extends Event {
 				hbox.addStrategy(new DamageStandard(state, hbox, state.getWorldDummy().getBodyData(), damage, knockback));
 				
 				if (!particle.equals(Particle.NOTHING)) {
-					hbox.addStrategy(new CreateParticles(state, hbox, state.getWorldDummy().getBodyData(), particle, 0.0f, 3.0f));
+					hbox.addStrategy(new CreateParticles(state, hbox, state.getWorldDummy().getBodyData(), particle, 0.0f, 1.0f));
 				}
 				
 				if (dieOnWall) {

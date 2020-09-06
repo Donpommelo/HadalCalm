@@ -126,6 +126,6 @@ public class LaserRifle extends RangedWeapon {
 
 		trail.addStrategy(new ControllerDefault(state, trail, user.getBodyData()));
 		trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance * shortestFraction));
-		trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 3.0f));
+		trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 1.0f));
 	}
 }

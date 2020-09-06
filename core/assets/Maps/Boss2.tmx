@@ -100,7 +100,8 @@
    <properties>
     <property name="duration" type="float" value="5"/>
     <property name="particle" value="KAMABOKO_SHOWER"/>
-    <property name="speed" type="float" value="1.5"/>
+    <property name="scale" type="float" value="2"/>
+    <property name="speed" type="float" value="1"/>
    </properties>
   </object>
   <object id="27" name="Dummy" type="Dummy" x="2016" y="896" width="32" height="32">

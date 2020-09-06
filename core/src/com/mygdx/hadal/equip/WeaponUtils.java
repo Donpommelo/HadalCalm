@@ -109,7 +109,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_TRAIL, 0.0f, 3.0f));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_TRAIL, 0.0f, 1.0f));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION1, 0.5f));
 		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
 		
@@ -184,7 +184,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new ContactUnitDie(state, hbox, creator));
 		hbox.addStrategy(new DamageStandard(state, hbox, creator, spiritDamage, spiritKnockback, DamageTypes.MAGIC, DamageTypes.RANGED));
 		hbox.addStrategy(new HomingUnit(state, hbox, creator, spiritHoming, filter));
-		hbox.addStrategy(new CreateParticles(state, hbox, creator, particle, 0.0f, 3.0f).setParticleColor(ParticleColor.RANDOM));
+		hbox.addStrategy(new CreateParticles(state, hbox, creator, particle, 0.0f, 1.0f).setParticleColor(ParticleColor.RANDOM));
 		
 		hbox.addStrategy(new DieSound(state, hbox, creator, SoundEffect.DARKNESS1, 0.25f));
 	}
@@ -194,7 +194,7 @@ public class WeaponUtils {
 		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 3.0f).setParticleSize(40.0f).setParticleColor(ParticleColor.HOT_PINK));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f).setParticleSize(40.0f).setParticleColor(ParticleColor.HOT_PINK));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
@@ -299,7 +299,7 @@ public class WeaponUtils {
 						}
 					});
 					
-					hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE, 0.0f, 3.0f));
+					hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE, 0.0f, 1.0f));
 					hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.BOULDER_BREAK).setParticleSize(90));
 				}
 			}

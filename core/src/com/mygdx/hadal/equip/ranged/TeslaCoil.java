@@ -43,7 +43,7 @@ public class TeslaCoil extends RangedWeapon {
 	private final static float radius = 25.0f;
 	private final static float pulseInterval = 1.0f;
 	private final static float pulseDuration = 0.5f;
-	private final static Vector2 pulseSize = new Vector2(50, 50);
+	private final static Vector2 pulseSize = new Vector2(75, 75);
 	private final static float pulseDamage = 40.0f;
 	private final static float pulseKnockback = 20.0f;
 	
@@ -75,7 +75,6 @@ public class TeslaCoil extends RangedWeapon {
 			
 			@Override
 			public void create() {
-				
 				//keep track of the coil's travel distance
 				this.startLocation.set(hbox.getPixelPosition());
 				this.distance = startLocation.dst(endLocation);

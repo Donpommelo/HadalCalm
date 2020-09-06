@@ -30,7 +30,7 @@ public class RedTideTalisman extends Artifact {
 					hbox.addStrategy(new ContactUnitBurn(state, hbox, inflicted, fireDuration, fireDamage));
 				}
 				if (hbox.isEffectsVisual()) {
-					hbox.addStrategy(new CreateParticles(state, hbox, inflicted, Particle.FIRE, hbox.getLifeSpan(), 3.0f).setParticleSize(50));
+					hbox.addStrategy(new CreateParticles(state, hbox, inflicted, Particle.FIRE, hbox.getLifeSpan(), 1.0f).setParticleSize(50));
 				}
 			}
 		};

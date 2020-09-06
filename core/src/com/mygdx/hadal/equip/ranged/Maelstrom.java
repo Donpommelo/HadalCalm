@@ -54,7 +54,7 @@ public class Maelstrom extends RangedWeapon {
 		storm.setRestitution(0.5f);
 		
 		storm.addStrategy(new ControllerDefault(state, storm, user.getBodyData()));
-		storm.addStrategy(new CreateParticles(state, storm, user.getBodyData(), Particle.STORM, 0.0f, 3.0f));
+		storm.addStrategy(new CreateParticles(state, storm, user.getBodyData(), Particle.STORM, 0.0f, 1.0f));
 		storm.addStrategy(new CreateSound(state, storm, user.getBodyData(), SoundEffect.WIND3, 0.6f, true));
 		storm.addStrategy(new HitboxStrategy(state, storm, user.getBodyData()) {
 			

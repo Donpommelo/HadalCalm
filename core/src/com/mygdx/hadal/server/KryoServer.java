@@ -55,7 +55,7 @@ public class KryoServer {
 		Kryo kryo = new Kryo();
 		kryo.setReferences(true);
 		KryoSerialization serialization = new KryoSerialization(kryo);
-		this.server = new Server(8000, 8000, serialization);
+		this.server = new Server(16384, 8192, serialization);
 		this.players = new HashMap<Integer, Player>();
 		this.mice = new HashMap<Integer, MouseTracker>();
 		this.scores = new HashMap<Integer, SavedPlayerFields>();

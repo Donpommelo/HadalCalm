@@ -119,7 +119,7 @@ public class LoveBow extends RangedWeapon {
 		hurtbox.addStrategy(new DieParticles(state, hurtbox, user.getBodyData(), Particle.ARROW_BREAK));
 		hurtbox.addStrategy(new DamageStandard(state, hurtbox, user.getBodyData(), damage, knockback, DamageTypes.POKING, DamageTypes.RANGED));
 		hurtbox.addStrategy(new ContactUnitSound(state, hurtbox, user.getBodyData(), SoundEffect.SLASH, 0.4f, true));
-		hurtbox.addStrategy(new CreateParticles(state, hurtbox, user.getBodyData(), Particle.REGEN, 0.0f, 3.0f));
+		hurtbox.addStrategy(new CreateParticles(state, hurtbox, user.getBodyData(), Particle.REGEN, 0.0f, 1.0f));
 		
 		Hitbox healbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), (short) 0, false, false, user, Sprite.NOTHING);
 		healbox.setSyncDefault(false);

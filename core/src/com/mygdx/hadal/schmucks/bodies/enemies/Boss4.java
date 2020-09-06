@@ -261,7 +261,7 @@ public class Boss4 extends EnemyFloating {
 		}
 	}
 	
-	private static final float particleLinger = 3.0f;
+	private static final float particleLinger = 1.0f;
 	private static final float shot1Windup = 1.5f;
 	private static final int numShots = 12;
 	
@@ -481,7 +481,7 @@ public class Boss4 extends EnemyFloating {
 					trail.addStrategy(new ControllerDefault(state, trail, getBodyData()));
 					trail.addStrategy(new AdjustAngle(state, trail, getBodyData()));
 					trail.addStrategy(new ContactWallLoseDurability(state, trail, getBodyData()));
-					trail.addStrategy(new CreateParticles(state, trail, getBodyData(), Particle.LASER_TRAIL, 0.0f, 3.0f).setParticleSize(40.0f));
+					trail.addStrategy(new CreateParticles(state, trail, getBodyData(), Particle.LASER_TRAIL, 0.0f, particleLinger).setParticleSize(40.0f));
 				}
 			});
 		}

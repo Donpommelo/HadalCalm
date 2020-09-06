@@ -56,7 +56,7 @@ public class MeridianMaker extends ActiveItem {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.MAGIC));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user));
-		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.BRIGHT, 0.0f, 3.0f).setParticleColor(ParticleColor.SKY_BLUE).setParticleSize(20));
+		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.BRIGHT, 0.0f, 1.0f).setParticleColor(ParticleColor.SKY_BLUE).setParticleSize(20));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
 			private Vector2 lastPosition = new Vector2(hbox.getStartPos()).scl(32);

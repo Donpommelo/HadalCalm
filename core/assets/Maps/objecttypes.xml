@@ -182,6 +182,7 @@
  <objecttype name="ParticleField" color="#a0a0a4">
   <property name="duration" type="float" default="1"/>
   <property name="particle" type="string"/>
+  <property name="scale" type="float" default="1"/>
   <property name="speed" type="float" default="1"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>

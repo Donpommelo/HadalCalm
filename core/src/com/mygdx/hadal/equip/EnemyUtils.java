@@ -378,7 +378,7 @@ public class EnemyUtils {
 		});
 	}
 	
-	private static final float fireLinger = 3.0f;
+	private static final float fireLinger = 1.0f;
 	private static final float laserLinger = 0.01f;
 	public static void fireball(final PlayState state, Enemy boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size,
 			final float lifespan, final float fireDuration, final float duration, Particle particle) {

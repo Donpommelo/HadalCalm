@@ -29,11 +29,13 @@ public class ParticleField extends Event {
 	private Particle particle;
 	private float duration;
 	private float currParticleSpawnTimer = 0f, spawnTimerLimit;
+	private float scale;
 	
-	public ParticleField(PlayState state, Vector2 startPos, Vector2 size, Particle particle, float speed, float duration) {
+	public ParticleField(PlayState state, Vector2 startPos, Vector2 size, Particle particle, float speed, float duration, float scale) {
 		super(state, startPos, size);
 		this.particle = particle;
 		this.duration = duration;
+		this.scale = scale;
 		spawnTimerLimit = 4096f / (size.x * size.y) / speed;
 	}
 	
@@ -53,7 +55,7 @@ public class ParticleField extends Event {
 			currParticleSpawnTimer -= spawnTimerLimit;
 			float randX = (float) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
 			float randY = (float) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
-			new ParticleEntity(state, particlePosition.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC);
+			new ParticleEntity(state, particlePosition.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC).setScale(scale);
 		}
 	}
 	

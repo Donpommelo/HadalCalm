@@ -17,7 +17,7 @@ public class DesktopLauncher {
 		config.title = TITLE;
 		config.resizable = false;
 		config.pauseWhenMinimized = false;
-		config.audioDeviceSimultaneousSources = 128;
+		config.audioDeviceSimultaneousSources = 192;
 		new LwjglApplication(new HadalGame() {
 			
 			@Override

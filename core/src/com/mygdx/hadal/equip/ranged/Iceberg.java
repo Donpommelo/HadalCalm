@@ -51,7 +51,7 @@ public class Iceberg extends RangedWeapon {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.RANGED));	
 		hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD, 0.0f, 3.0f));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD, 0.0f, 1.0f));
 		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.ICE_IMPACT));
 		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.ICE_IMPACT));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

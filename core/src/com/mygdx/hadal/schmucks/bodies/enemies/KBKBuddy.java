@@ -102,7 +102,7 @@ public class KBKBuddy extends EnemySwimming {
 					hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new DieParticles(state, hbox, enemy.getBodyData(), Particle.KAMABOKO_IMPACT));
 					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-					hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
+					hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 1.0f));
 				}
 			}
 		});

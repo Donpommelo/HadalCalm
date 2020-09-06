@@ -328,7 +328,7 @@ public class Boss2 extends EnemyFloating {
 				hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
 				hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
-				hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
+				hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 1.0f));
 				hbox.addStrategy(new DieParticles(state, hbox, getBodyData(), Particle.KAMABOKO_IMPACT));
 				hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 				hbox.addStrategy(new DieSound(state, hbox, getBodyData(), SoundEffect.SQUISH, 0.75f).setPitch(0.8f));
@@ -351,7 +351,7 @@ public class Boss2 extends EnemyFloating {
 								frag.addStrategy(new DamageStandard(state, frag, getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 								frag.addStrategy(new ContactWallDie(state, frag, getBodyData()));
 								frag.addStrategy(new ContactUnitDie(state, frag, getBodyData()));
-								frag.addStrategy(new CreateParticles(state, frag, getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
+								frag.addStrategy(new CreateParticles(state, frag, getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 1.0f));
 								frag.addStrategy(new DieParticles(state, frag, getBodyData(), Particle.KAMABOKO_IMPACT));
 								frag.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 							}
@@ -491,7 +491,7 @@ public class Boss2 extends EnemyFloating {
 					hbox.setDurability(3);
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), slodgeDamage, slodgeKB, DamageTypes.SLODGE, DamageTypes.RANGED));
-					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.SLODGE, 0.0f, 3.0f).setParticleSize(90));
+					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.SLODGE, 0.0f, 1.0f).setParticleSize(90));
 					hbox.addStrategy(new DieParticles(state, hbox, getBodyData(), Particle.SLODGE_STATUS));
 					hbox.addStrategy(new ContactUnitSlow(state, hbox, getBodyData(), slodgeDuration, slodgeSlow, Particle.SLODGE_STATUS));
 				}

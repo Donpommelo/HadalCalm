@@ -176,7 +176,7 @@ public class ChargeBeam extends RangedWeapon {
 		});
 		
 		if (chargeStage == 2) {
-			hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.OVERCHARGE, 0.0f, 3.0f));
+			hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.OVERCHARGE, 0.0f, 1.0f));
 			hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.OVERCHARGE, 0.4f));
 		}
 	}

@@ -59,6 +59,6 @@ public class SniperRifle extends RangedWeapon {
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.SNIPE, DamageTypes.RANGED));
 		hbox.addStrategy(new DamageHeadshot(state, hbox, user.getBodyData(), bonusDamage, knockback));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.5f));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 3.0f).setParticleColor(ParticleColor.YELLOW));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 1.0f).setParticleColor(ParticleColor.YELLOW));
 	}
 }

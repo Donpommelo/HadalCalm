@@ -202,8 +202,8 @@ public class ParticleEntity extends HadalEntity {
 	}
 	
 	@Override
-	public void dispose() {		
-		if (alive) {
+	public void dispose() {	
+		if (!destroyed) {
 			effect.reset();
 			effect.free();
 		}

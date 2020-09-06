@@ -47,7 +47,7 @@ public class MarineSnowglobe extends ActiveItem {
 		hbox.addStrategy(new Static(state, hbox, user));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, projectileDamage, projectileKB, DamageTypes.RANGED));
 		hbox.addStrategy(new ContactUnitSlow(state, hbox, user, slowDuration, slowSlow, Particle.ICE_CLOUD));
-		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.ICE_CLOUD, 0.0f, 2.0f).setParticleSize(25.0f));
+		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.ICE_CLOUD, 0.0f, 1.0f).setParticleSize(25.0f));
 	}
 	
 	@Override

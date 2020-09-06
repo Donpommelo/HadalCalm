@@ -19,7 +19,7 @@ public class RingofTesting extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 0;
 	
-	private final static int numFrag = 100;
+	private final static int numFrag = 500;
 	private final static Vector2 projectileSize = new Vector2(50, 50);
 
 	private final static float lifespan = 10.0f;
@@ -46,7 +46,8 @@ public class RingofTesting extends Artifact {
 
 					Hitbox frag = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, lifespan, fragVelo, inflicted.getSchmuck().getHitboxfilter(), 
 							true, false, inflicted.getSchmuck(), Sprite.FLOUNDER_A);
-					
+					frag.setSyncDefault(false);
+					frag.setSyncInstant(true);
 					frag.addStrategy(new ControllerDefault(state, frag, inflicted));
 					frag.addStrategy(new DamageStandard(state, frag, inflicted, baseDamage, knockback, DamageTypes.SHRAPNEL));
 				}

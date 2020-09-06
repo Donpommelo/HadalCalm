@@ -79,7 +79,7 @@ public enum Particle {
 	//keep track of the particle pool.
 	private static ParticleEffect prototype;
 	public static ParticleEffectPool effectPool;
-	private final static int poolSize = 50;
+	private final static int poolSize = 75;
 	
 	//this represents the atlas that we read the particle off of.
 	private ParticleType type;
@@ -105,6 +105,7 @@ public enum Particle {
 	 */
 	public PooledEffect getParticle() {
 		PooledEffect newEffect = effectPool.obtain();
+		newEffect.reset();
 		switch(type) {
 		case DEFAULT:
 			newEffect.load(Gdx.files.internal(particleId), GameStateManager.particleAtlas);

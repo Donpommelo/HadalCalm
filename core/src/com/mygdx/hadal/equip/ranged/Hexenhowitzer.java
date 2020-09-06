@@ -93,7 +93,7 @@ public class Hexenhowitzer extends RangedWeapon {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BRIGHT, 0.0f, 3.0f).setParticleColor(ParticleColor.RANDOM));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BRIGHT, 0.0f, 1.0f).setParticleColor(ParticleColor.RANDOM));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		

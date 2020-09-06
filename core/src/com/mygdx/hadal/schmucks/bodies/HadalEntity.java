@@ -126,7 +126,7 @@ public abstract class HadalEntity {
 	public void dispose() {
 		
 		//check of destroyed to avoid double-destruction
-		if (destroyed == false) {
+		if (!destroyed) {
 			destroyed = true;
 			alive = false;
 			if (body != null) {
