@@ -6,7 +6,7 @@ lowMin: 100.0
 lowMax: 100.0
 - Count - 
 min: 0
-max: 1
+max: 2
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
@@ -149,16 +149,14 @@ lowMax: 0.0
 highMin: 1.0
 highMax: 1.0
 relative: false
-scalingCount: 4
-scaling0: 0.2631579
-scaling1: 1.0
-scaling2: 0.50877196
-scaling3: 0.0
-timelineCount: 4
+scalingCount: 3
+scaling0: 0.22807017
+scaling1: 0.49122807
+scaling2: 0.0
+timelineCount: 3
 timeline0: 0.0
-timeline1: 0.2739726
-timeline2: 0.8082192
-timeline3: 1.0
+timeline1: 0.5
+timeline2: 1.0
 - Options - 
 attached: false
 continuous: true
@@ -321,16 +319,14 @@ lowMax: 0.0
 highMin: 1.0
 highMax: 1.0
 relative: false
-scalingCount: 4
+scalingCount: 3
 scaling0: 0.2631579
-scaling1: 1.0
-scaling2: 0.50877196
-scaling3: 0.0
-timelineCount: 4
+scaling1: 0.47368422
+scaling2: 0.0
+timelineCount: 3
 timeline0: 0.0
-timeline1: 0.2739726
-timeline2: 0.8082192
-timeline3: 1.0
+timeline1: 0.6917808
+timeline2: 1.0
 - Options - 
 attached: false
 continuous: true
@@ -493,16 +489,14 @@ lowMax: 0.0
 highMin: 1.0
 highMax: 1.0
 relative: false
-scalingCount: 4
+scalingCount: 3
 scaling0: 0.2631579
-scaling1: 1.0
-scaling2: 0.50877196
-scaling3: 0.0
-timelineCount: 4
+scaling1: 0.5263158
+scaling2: 0.0
+timelineCount: 3
 timeline0: 0.0
-timeline1: 0.2739726
-timeline2: 0.8082192
-timeline3: 1.0
+timeline1: 0.30136988
+timeline2: 1.0
 - Options - 
 attached: false
 continuous: true
@@ -665,16 +659,14 @@ lowMax: 0.0
 highMin: 1.0
 highMax: 1.0
 relative: false
-scalingCount: 4
+scalingCount: 3
 scaling0: 0.2631579
-scaling1: 1.0
-scaling2: 0.50877196
-scaling3: 0.0
-timelineCount: 4
+scaling1: 0.50877196
+scaling2: 0.0
+timelineCount: 3
 timeline0: 0.0
-timeline1: 0.2739726
-timeline2: 0.8082192
-timeline3: 1.0
+timeline1: 0.20547946
+timeline2: 1.0
 - Options - 
 attached: false
 continuous: true
