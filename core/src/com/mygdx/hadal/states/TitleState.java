@@ -79,17 +79,17 @@ public class TitleState extends GameState {
 	private final static float optionHeight = 35.0f;
 	private final static float mainOptionHeight = 40.0f;
 
-	private final static int jellyX = 500;
-	private final static int jellyY = 350;
+	private final static int jelly1X = 640;
+	private final static int jelly1Y = 300;
 	
-	private final static int diatom1X = 1000;
-	private final static int diatom1Y = 150;
+	private final static int diatom1X = 1080;
+	private final static int diatom1Y = 80;
 	
-	private final static int diatom2X = 600;
-	private final static int diatom2Y = 150;
+	private final static int diatom2X = 800;
+	private final static int diatom2Y = 50;
 	
 	private final static int diatom3X = 200;
-	private final static int diatom3Y = 150;
+	private final static int diatom3Y = 30;
 	
 	//This boolean determines if input is disabled. input is disabled if the player joins/hosts.
 	private boolean inputDisabled = false;
@@ -106,7 +106,7 @@ public class TitleState extends GameState {
 		this.diatom3 = Particle.DIATOM.getParticle();
 		this.diatom3.setPosition(diatom3X, diatom3Y);
 		this.jelly = Particle.JELLY.getParticle();
-		this.jelly.setPosition(jellyX, jellyY);
+		this.jelly.setPosition(jelly1X, jelly1Y);
 	}
 	
 	@Override
