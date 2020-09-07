@@ -330,7 +330,6 @@ public enum Sprite {
 		return null;
 	}
 	
-	
 	public PlayMode getPlayMode() {	return playMode; }
 
 	public float getAnimationSpeed() {	return animationSpeed; }

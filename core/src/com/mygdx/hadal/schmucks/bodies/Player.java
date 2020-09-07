@@ -885,6 +885,9 @@ public class Player extends PhysicsSchmuck {
 	public void dispose() {
 		super.dispose();
 
+		empty.dispose();
+		full.dispose();
+		
 		//this is here to prevent the client from not updating the last, fatal instance of damage in the ui
 		playerData.setOverrideHpPercent(0);
 	}

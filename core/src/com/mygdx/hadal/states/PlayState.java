@@ -12,6 +12,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -167,7 +168,7 @@ public class PlayState extends GameState {
 	protected DialogBox dialogBox;
 	
 	//Background and black screen used for transitions
-	private Texture bg;
+	private TextureRegion bg;
 	private Shader shaderBase;
 	
 	//if we are transitioning to another state, this is that state
@@ -290,7 +291,7 @@ public class PlayState extends GameState {
 		this.dummyPoints = new HashMap<String, PositionDummy>();
 				
 		//Init background image
-		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND2.toString());
+		this.bg = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.BACKGROUND2.toString()));
 		
 		debugHitbox = gsm.getSetting().isDebugHitbox();
 	}
@@ -574,6 +575,7 @@ public class PlayState extends GameState {
 	 */
 	private ArrayList<Object> syncPackets = new ArrayList<Object>();
 	public void syncEntities() {
+		
 		for (HadalEntity entity : hitboxes) {
 			entity.onServerSync();
 		}
@@ -691,7 +693,7 @@ public class PlayState extends GameState {
 		if (stage != null) {
 			stage.dispose();
 		}
-		if(shaderBase.getShader() != null) {
+		if (shaderBase.getShader() != null) {
 			shaderBase.getShader().dispose();
 		}
 	}

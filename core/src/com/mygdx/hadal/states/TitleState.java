@@ -464,7 +464,13 @@ public class TitleState extends GameState {
 	}
 	
 	@Override
-	public void dispose() {	stage.dispose(); }
+	public void dispose() {	
+		stage.dispose(); 
+		jelly.free();
+		diatom1.free();
+		diatom2.free();
+		diatom3.free();
+	}
 	
 	/**
 	 * This method changes the text notification displayed in the title state

@@ -17,6 +17,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 public enum UnlockActives {
 	
 	ANCHOR_SMASH(AnchorSmash.class),
+	RELOADER(Reloader.class),
 	BENDY_BEAMS(BendyBeams.class),
 	CALL_OF_WALRUS(CallofWalrus.class),
 	DEPTH_CHARGE(DepthCharge.class),
@@ -40,7 +41,6 @@ public enum UnlockActives {
 	PORTABLE_SENTRY_VOLLEY(PortableSentryVolley.class),
 	PROXIMITY_MINE(ProximityMine.class),
 	RADIAL_BARRAGE(RadialBarrage.class),
-	RELOADER(Reloader.class),
 	RESERVED_FUEL(ReservedFuel.class),
 	RING_OF_GYGES(RingofGyges.class),
 	SAMSON_OPTION(SamsonOption.class),

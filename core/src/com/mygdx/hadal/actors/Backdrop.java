@@ -2,6 +2,7 @@ package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.hadal.HadalGame;
 
 /**
@@ -9,7 +10,7 @@ import com.mygdx.hadal.HadalGame;
  */
 public class Backdrop extends AHadalActor {
 	
-	private Texture backgroundTexture;
+	private TextureRegion backgroundTexture;
 	private float width = HadalGame.CONFIG_WIDTH;
 	private float height = HadalGame.CONFIG_HEIGHT;
 	
@@ -20,7 +21,7 @@ public class Backdrop extends AHadalActor {
 	}
 	
 	public Backdrop(String backdropName) {
-		this.backgroundTexture = HadalGame.assetManager.get(backdropName);
+		this.backgroundTexture = new TextureRegion((Texture) HadalGame.assetManager.get(backdropName));
 	}
 	
 	@Override

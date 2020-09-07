@@ -200,7 +200,7 @@ public class SoundEntity extends HadalEntity {
 	
 	@Override
 	public void dispose() {
-		if (alive) {
+		if (!destroyed) {
 			sound.getSound().stop(soundId);
 		}
 		super.dispose();

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -93,7 +94,7 @@ public class SettingState extends GameState {
 	
 	//this state's background shader
 	private Shader shaderBackground;
-	private Texture bg;
+	private TextureRegion bg;
 	
 	public SettingState(GameStateManager gsm, PauseState ps) {
 		super(gsm);
@@ -105,7 +106,7 @@ public class SettingState extends GameState {
 		
 		shaderBackground = Shader.WAVE;
 		shaderBackground.loadDefaultShader();
-		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND2.toString());
+		this.bg = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.BACKGROUND2.toString()));
 	}
 
 	@Override
@@ -815,7 +816,9 @@ public class SettingState extends GameState {
 	public void setToRemove(boolean toRemove) {	this.toRemove = toRemove; }
 		
 	@Override
-	public void dispose() { stage.dispose(); }
+	public void dispose() { 
+		stage.dispose();
+	}
 	
 	public PlayState getPs() { return ps.getPs(); }
 	

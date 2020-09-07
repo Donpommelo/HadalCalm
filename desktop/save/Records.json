@@ -17,7 +17,7 @@ flags: {
 	SLUICEFINALSC: 0
 	PLENUM0SC: 0
 	DIALOG1: 0
-	WRECK0SC: 1
+	WRECK0SC: 0
 	CACHE2: 0
 	WRECK1SC: 0
 	CACHE3: 0
@@ -34,7 +34,6 @@ flags: {
 	ARTIFACTSLOT4: 1
 	ARTIFACTSLOT5: 0
 }
-lastIp: ""
 hiScores: {
 	class: java.util.HashMap
 	ARENA_LAGAN: 0
@@ -42,7 +41,7 @@ hiScores: {
 	ARENA_WARP: 0
 	ARENA_FLOTSAM: 0
 	ARENA_PILE: 0
-	ARENA_WETWORKS: 3
+	ARENA_WETWORKS: 0
 	ARENA_ZIGGURAT: 0
 }
 unlockEquip: {

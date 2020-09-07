@@ -110,7 +110,9 @@ public class TeslaCoil extends RangedWeapon {
 								if (fixture.getUserData() instanceof HitboxData) {
 									if (coilsLaid.contains(((HitboxData) fixture.getUserData()).getHbox())) {
 										if (!fixture.getUserData().equals(hbox.getHadalData())) {
-											coilPairActivated(state, ((HitboxData) fixture.getUserData()).getHbox());
+											if (((HitboxData) fixture.getUserData()).getHbox().getLinearVelocity().isZero()) {
+												coilPairActivated(state, ((HitboxData) fixture.getUserData()).getHbox());
+											}
 										}
 									}
 								}

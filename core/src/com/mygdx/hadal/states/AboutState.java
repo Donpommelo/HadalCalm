@@ -2,6 +2,7 @@ package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -46,7 +47,7 @@ public class AboutState extends GameState {
 
 	//this state's background shader
 	private Shader shaderBackground;
-	private Texture bg;
+	private TextureRegion bg;
 	
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -56,7 +57,7 @@ public class AboutState extends GameState {
 		
 		shaderBackground = Shader.SPLASH;
 		shaderBackground.loadDefaultShader();
-		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND2.toString());
+		this.bg = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.BACKGROUND2.toString()));
 	}
 	
 	@Override
@@ -260,5 +261,7 @@ public class AboutState extends GameState {
 	}
 	
 	@Override
-	public void dispose() {	stage.dispose(); }
+	public void dispose() {	
+		stage.dispose(); 
+	}
 }
