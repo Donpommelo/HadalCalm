@@ -59,10 +59,7 @@ public enum Shader {
 		}
 		
 		//load the shader and create its strategies
-		
-		if (shader == null) {
-			shader = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
-		}
+		shader = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
 		
 		shader.begin();
 

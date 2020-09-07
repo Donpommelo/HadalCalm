@@ -21,13 +21,13 @@ public class SamsonOption extends ActiveItem {
 	private final static float maxCharge = 10.0f;
 	
 	private final static Vector2 projectileSize = new Vector2(400, 400);
-	private final static float duration = 1.4f;
+	private final static float duration = 1.5f;
 
-	private final static float procCd = 0.2f;
+	private final static float procCd = 0.15f;
 
 	private final static int explosionRadius = 200;
-	private final static float explosionDamage = 60.0f;
-	private final static float explosionKnockback = 40.0f;
+	private final static float explosionDamage = 75.0f;
+	private final static float explosionKnockback = 30.0f;
 	
 	public SamsonOption(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

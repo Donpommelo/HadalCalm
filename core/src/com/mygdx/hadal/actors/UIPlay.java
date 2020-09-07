@@ -150,6 +150,8 @@ public class UIPlay extends AHadalActor {
 			font.getData().setScale(fontScaleSmall);
 			font.draw(batch, bossName, bossNameX, bossNameY);
 			
+			bossHpRatio = Math.max(bossHpRatio, 0.0f);
+			
 			//This code makes the hp bar delay work.
 			if (bossHpDelayed > bossHpRatio) {
 				bossHpDelayed -= bossHpCatchup;

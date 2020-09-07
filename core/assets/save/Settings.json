@@ -12,7 +12,6 @@ vsync: true
 randomNameAlliteration: true
 consoleEnabled: true
 verboseDeathMessage: true
-multiplayerPause: true
 soundVolume: 1
 musicVolume: 1
 masterVolume: 1
