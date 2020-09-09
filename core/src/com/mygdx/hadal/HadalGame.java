@@ -29,7 +29,7 @@ public class HadalGame extends ApplicationAdapter {
 	public final static int CONFIG_HEIGHT = 720;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String Version = "1.0.3.b";
+	public static final String Version = "1.0.3.c";
 	
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
