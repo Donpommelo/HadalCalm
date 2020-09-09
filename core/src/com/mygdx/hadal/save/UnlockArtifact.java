@@ -159,14 +159,12 @@ public enum UnlockArtifact {
 				items.add(u);
 			}
 		}
-		
 		return items;
 	}
 	
 	/**
 	 * This method returns the name of a artifact randomly selected from the pool.
 	 * @param pool: comma separated list of names of artifact to choose from. if set to "", return any artifact.
-	 * @return
 	 */
 	public static String getRandArtfFromPool(PlayState state, String pool) {
 		

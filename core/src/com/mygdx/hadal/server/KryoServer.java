@@ -50,6 +50,7 @@ public class KryoServer {
 	
 	/**
 	 * This is called upon starting a new server. initialize server and tracked client data 
+	 * start is false if we are loading singleplayer and don't actually want the server to start
 	 */
 	public void init(boolean start) {
 		Kryo kryo = new Kryo();
@@ -210,6 +211,7 @@ public class KryoServer {
 				/*
 				 * The Client has loaded the level.
 				 * Announce the new player joining and catchup the new client.
+				 * this is also where we determine if the client is a spectator or not
 				 */
 				else if (o instanceof Packets.ClientLoaded) {
 					final Packets.ClientLoaded p = (Packets.ClientLoaded) o;
@@ -227,6 +229,7 @@ public class KryoServer {
 							public void execute() {
 								ps.catchUpClient(c.getID());
 		                        
+								//client joins as a spectator if their packet specifies so, or if there were previously a spectator and are joining a non-hub level
 								boolean spectator = p.spectator || (p.lastSpectator && !ps.isHub());
 								
 		                        //If the client has already been created, we create a new player, otherwise we reuse their old data.
@@ -254,7 +257,7 @@ public class KryoServer {
 				
 				/*
 				 * The Client has loaded the level.
-				 * Announce the new player joining and catchup the new client.
+				 * sync the client's loadout and activate the event connected to the start point.
 				 */
 				else if (o instanceof Packets.ClientPlayerCreated) {
 					final Player player = players.get(c.getID());
@@ -320,7 +323,6 @@ public class KryoServer {
 				else if (o instanceof Packets.MissedDelete) {
 					final Packets.MissedDelete p = (Packets.MissedDelete) o;
 					final PlayState ps = getPlayState();
-					
 					if (ps != null) {
 						
 						ps.addPacketEffect(new PacketEffect() {
@@ -344,10 +346,9 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					
 					//acquire the client's name and data
-					String playerName = "";
 					Player player = players.get(c.getID());
 					if (player != null) {
-						playerName = player.getName();
+						String playerName = player.getName();
 						createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), player.getPlayerData(), true, false);
 					}
 				}
@@ -360,6 +361,8 @@ public class KryoServer {
         			if (!gsm.getStates().empty()) {
         				
         				Player p = players.get(c.getID());
+        				
+        				//if pauses are enabled, unpause and remove pause state (and setting state)
         				if (p != null && gsm.getSetting().isMultiplayerPause()) {
         					if (gsm.getStates().peek() instanceof PauseState) {
         						final PauseState ps = (PauseState) gsm.getStates().peek();
@@ -464,7 +467,6 @@ public class KryoServer {
 	 * @param loadout: The loadout of the new player
 	 * @param data: The player data of the new player.
 	 * @param reset: Do we want to reset the new player's hp/fuel/ammo etc?
-	 * @param firstTime: Is this the first time we are spawning this player?
 	 * @param spectator: is this player created as a spectator?
 	 */
 	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout, final PlayerBodyData data, final boolean reset, final boolean spectator) {
@@ -503,7 +505,7 @@ public class KryoServer {
 	}
 	
 	/**
-	 * This is called when a layer is killed to update score information
+	 * This is called when a player is killed to update score information
 	 * @param perp: player that kills
 	 * @param vic: player that gets killed
 	 * @return: whether this death was the victim's last life
@@ -573,7 +575,7 @@ public class KryoServer {
 	
 	/**
 	 * This gets the server's playstate. This allows the server to make changes to a playstate underneath a pausestate.
-	 * @return
+	 * @return server's playstate and null if therer isn't one
 	 */
 	public PlayState getPlayState() {
 		if (!gsm.getStates().empty()) {

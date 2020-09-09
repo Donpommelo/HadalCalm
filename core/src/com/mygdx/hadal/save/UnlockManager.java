@@ -57,7 +57,7 @@ public class UnlockManager {
 	}
 	
 	/**
-	 * This is ued to determine which unlockitems will be available from a given hub event
+	 * This is used to determine which unlockitems will be available from a given hub event
 	 * @param item: the item to check
 	 * @param tags: a list of tags
 	 * @return: whether the item contains any of the tags

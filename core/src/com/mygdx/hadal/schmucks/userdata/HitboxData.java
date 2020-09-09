@@ -51,11 +51,13 @@ public class HitboxData extends HadalData {
 			hbox.getBody().getFixtureList().get(0).setFilterData(filter);
 			hbox.setDamageMultiplier(reflectMultiplier);
 			
+			//reflecting a projectile should take ownership of it
 			for (HitboxStrategy strat: hbox.getStrategies()) {
 				strat.setCreator(perp);
 			}
 		}
 		
+		//this is used for hitboxes hat are capable of receiving damage and knockback
 		for (HitboxStrategy s : hbox.getStrategies()) {
 			s.receiveDamage(basedamage, knockback);
 		}
@@ -65,7 +67,7 @@ public class HitboxData extends HadalData {
 	
 	/**
 	 * This method is run when the hitbox collides with something.
-	 * Default behavious: despawn when touching a wall. Otherwise -1 durability and despawn at 0 durability.
+	 * Default behaviour: despawn when touching a wall. Otherwise -1 durability and despawn at 0 durability.
 	 * @param fixB: The fixture the hitbox collides with.
 	 */
 	public void onHit(HadalData fixB) {

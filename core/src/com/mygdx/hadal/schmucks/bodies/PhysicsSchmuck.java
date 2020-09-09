@@ -25,6 +25,7 @@ public class PhysicsSchmuck extends Schmuck {
 		applyForce(delta);
 	}
 	
+	//client players also process force for prediction purposes
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);

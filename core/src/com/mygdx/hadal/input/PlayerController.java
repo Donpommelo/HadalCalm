@@ -21,9 +21,7 @@ public class PlayerController implements InputProcessor {
 	
 	@Override
 	public boolean keyDown(int keycode) {
-		
 		if (player == null) return true;
-
 		if (player.getController() == null) return true;
 
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
@@ -110,9 +108,7 @@ public class PlayerController implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		
 		if (player == null) { return true; }
-
 		if (player.getController() == null) { return true; }
 		
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
@@ -148,6 +144,7 @@ public class PlayerController implements InputProcessor {
 	@Override
 	public boolean keyTyped(char character) { return false; }
 
+	//we have touchdown call keydown (and touchup calling keyup) if any actions are binded to the mouse
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		keyDown(button);
@@ -166,6 +163,7 @@ public class PlayerController implements InputProcessor {
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) { return false; }
 
+	//This is just a janky way of implementing setting mouse wheel as a hotkey.
 	@Override
 	public boolean scrolled(int amount) {
 		keyDown(amount * 1000);
@@ -177,7 +175,6 @@ public class PlayerController implements InputProcessor {
 	 * This resets all toggled controls to prevent stuff like locking a button after unpausing and such
 	 */
 	public void syncController() {
-		
 		if (player == null) { return; }
 		if (player.getPlayerData() == null) { return; }
 		if (player.getController() == null) { return; }

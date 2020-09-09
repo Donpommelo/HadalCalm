@@ -15,6 +15,7 @@ public class WorldDummy extends Schmuck {
 		super(state, new Vector2(-1000, -1000), new Vector2(1, 1), "WORLD DUMMY", Constants.ENEMY_HITBOX, 99999.0f);
 	}
 	
+	//we want this entity to not send any sync packets to the client because it never changes.
 	@Override
 	public void onServerSync() {}
 }

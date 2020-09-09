@@ -23,11 +23,6 @@ public class SavedPlayerFields {
 	public SavedPlayerFields(String name, boolean host) {
 		this.name = name;
 		this.host = host;
-		this.wins = 0;
-		this.kills = 0;
-		this.deaths = 0;
-		this.score = 0;
-		this.lives = 0;
 	}
 	
 	public String getKD() {

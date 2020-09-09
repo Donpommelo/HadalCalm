@@ -21,7 +21,7 @@ public class ContactStick extends HitboxStrategy {
 	//The angle that the projectile should be stuck at
 	private float angle, targetAngle;
 	
-	//the target that the hbox is stuck to
+	//the target body that the hbox is stuck to
 	private HadalEntity target;
 	
 	//the offset location of this hbox and the stuck entity's position

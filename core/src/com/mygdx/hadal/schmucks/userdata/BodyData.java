@@ -153,6 +153,8 @@ public class BodyData extends HadalData {
 		if (!schmuck.getState().isServer()) { return; }
 		
 		boolean added = false;
+		
+		//in the case of re-adding a status, the behavoir depends on the status' stack type
 		Status old = getStatus(s.getClass());
 		if (old != null) {
 			switch(s.getStackType()) {

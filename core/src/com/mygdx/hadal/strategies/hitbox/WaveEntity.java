@@ -16,6 +16,7 @@ public class WaveEntity extends HitboxStrategy {
 	//this is the angle of the hbox compared to the player, the distance and the speed that it rotates
 	private float amplitude, frequency, startAngle;
 	
+	//this is the entity that the hbox waves around
 	private HadalEntity target;
 	
 	public WaveEntity(PlayState state, Hitbox proj, BodyData user, HadalEntity target, float amplitude, float frequency, float startAngle) {

@@ -29,7 +29,7 @@ public class ContactUnitParticles extends HitboxStrategy {
 	private ParticleColor color = ParticleColor.NOTHING;
 
 	//do we draw the particles at an offset from the hbox? (used for larger hboxes)
-	private boolean isOffset = false;
+	private boolean isOffset;
 	
 	//do we draw the particle on the hbox? If not, we draw it on the entity it hits instead. used for even longer hboxes like the laser rifle.
 	private boolean drawOnSelf = true;
@@ -55,7 +55,7 @@ public class ContactUnitParticles extends HitboxStrategy {
 				offset.add(new Vector2(hbox.getLinearVelocity()).nor().scl(hbox.getSize().x / 2));
 			}
 			
-			new ParticleEntity(state, offset, effect, duration, true, particleSyncType.CREATESYNC).setColor(color);;
+			new ParticleEntity(state, offset, effect, duration, true, particleSyncType.CREATESYNC).setColor(color);
 		}
 	}
 	

@@ -7,6 +7,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
+ * Pushable hboxes can be affected by the knockback of other hitboxes that is normally applied alongside damage
  * @author Zachary Tu
  */
 public class Pushable extends HitboxStrategy {

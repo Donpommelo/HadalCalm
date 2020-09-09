@@ -65,8 +65,8 @@ public class EnemyCrawling extends Enemy {
 		if (state.isServer()) {
 			this.feetData = new FeetData(UserDataTypes.FEET, this); 
 			
-			this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(0.5f,  - hboxSize.y / 2), new Vector2(hboxSize.x - 2, hboxSize.y / 8), true, 0, 0, 0, 0,
-					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), hitboxfilter));
+			this.feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f,  - hboxSize.y / 2), new Vector2(hboxSize.x - 2, hboxSize.y / 8), true, 0, 0, 0, 0,
+					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), hitboxfilter);
 			
 			feet.setUserData(feetData);
 		}

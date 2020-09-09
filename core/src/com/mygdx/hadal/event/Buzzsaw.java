@@ -99,10 +99,10 @@ public class Buzzsaw extends Event {
 			return false;
 		} else {
 			if (
-					state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x * spriteScale / 2, getPixelPosition().y + size.y * spriteScale / 2, 0) || 
-					state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x * spriteScale / 2, getPixelPosition().y + size.y * spriteScale / 2, 0) ||
-					state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x * spriteScale / 2, getPixelPosition().y - size.y * spriteScale / 2, 0) ||
-					state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x * spriteScale / 2, getPixelPosition().y - size.y * spriteScale / 2, 0)) {
+					state.getCamera().frustum.pointInFrustum(getPixelPosition().x + size.x * spriteScale / 2, getPixelPosition().y + size.y * spriteScale / 2, 0) || 
+					state.getCamera().frustum.pointInFrustum(getPixelPosition().x - size.x * spriteScale / 2, getPixelPosition().y + size.y * spriteScale / 2, 0) ||
+					state.getCamera().frustum.pointInFrustum(getPixelPosition().x + size.x * spriteScale / 2, getPixelPosition().y - size.y * spriteScale / 2, 0) ||
+					state.getCamera().frustum.pointInFrustum(getPixelPosition().x - size.x * spriteScale / 2, getPixelPosition().y - size.y * spriteScale / 2, 0)) {
 				return true;
 			} else {
 				return false;

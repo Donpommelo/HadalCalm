@@ -100,7 +100,6 @@ public enum UnlockEquip {
 				items.add(u);
 			}
 		}
-		
 		return items;
 	}
 

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -24,6 +25,7 @@ public class AboutState extends GameState {
 	//This table contains the ui elements of the pause screen
 	private Table options, details;
 	
+	//options that the player can view
 	private Text aboutOption, miscOption, tipsOption, creditsOption, exitOption;
 	
 	//Dimentions of the setting menu
@@ -50,7 +52,7 @@ public class AboutState extends GameState {
 	private TextureRegion bg;
 	
 	/**
-	 * Constructor will be called once upon initialization of the StateManager.
+	 * Constructor will be called when the player enters the about state from the title menu.
 	 */
 	public AboutState(final GameStateManager gsm) {
 		super(gsm);
@@ -206,8 +208,10 @@ public class AboutState extends GameState {
 		
 		details.add(new Text("CREDITS", 0, 0, false)).colspan(2).pad(titlePad).row();
 		
+		//dev and art options have url links
 		Text dev = new Text("DONPOMMELO", 0, 0, true);
 		dev.setScale(detailsScale);
+		dev.setColor(Color.RED);
 		
 		dev.addListener(new ClickListener() {
 			
@@ -220,6 +224,7 @@ public class AboutState extends GameState {
 		
 		Text art = new Text("SHOEBANFOO", 0, 0, true);
 		art.setScale(detailsScale);
+		art.setColor(Color.RED);
 		
 		art.addListener(new ClickListener() {
 			

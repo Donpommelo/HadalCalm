@@ -369,6 +369,7 @@ public class Packets {
 		/**
 		 * A CreateEnemy is sent from the Server to the Client to tell the Client to create a new Enemy.
 		 * @param entityID: ID of the new Enemy.
+		 * @param pos: position of the enemy
 		 * @param type: Enemy Type
 		 * @param boss: is this a boss enemy?
 		 * @param name: if a boss, what name shows up in the ui?
@@ -479,6 +480,10 @@ public class Packets {
         public boolean sensor;
         public CreateRagdoll() {}
         
+        /**
+         * A CreateRagdoll is sent from the server to the client to tell the client to create a ragdoll with the contained data.
+         * Ragdolls are not synced between server and client.
+         */
         public CreateRagdoll(String entityID, Vector2 pos, Vector2 size, Sprite sprite, Vector2 velocity, float duration, float gravity, boolean setVelo, boolean sensor) {
         	this.entityID = entityID;
         	this.pos = pos;
@@ -947,7 +952,7 @@ public class Packets {
 		public boolean large;
 		/**
 		 * A SyncHitSound is a simple packet that just tells the client to play their hitsound.
-		 * the damage is the amount of damage. this decides the pitch of the hitsound
+		 * large: is this hitsound pitched up as a result of high damage or being fatal?
 		 */
 		public SyncHitSound() {}
 		
@@ -1019,6 +1024,7 @@ public class Packets {
 	public static class LatencySyn {
 			
 		/**
+		 * A LatencySyn is sent from the client to the server periodically to check the quality of the network connection.
 		 */
 		public LatencySyn() {}
 	}
@@ -1026,6 +1032,7 @@ public class Packets {
 	public static class LatencyAck {
 		
 		/**
+		 * A LatencyAck is sent from the server to the client as a response to a LatencySyn. The time is used to calculate the client's ping.
 		 */
 		public LatencyAck() {}
 	}

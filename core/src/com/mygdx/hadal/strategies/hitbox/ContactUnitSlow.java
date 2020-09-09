@@ -14,7 +14,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class ContactUnitSlow extends HitboxStrategy {
 	
-	//the damage and duration of the burn
+	//the percentage and duration of the slow
 	private float duration, slow;
 	
 	private Particle particle;

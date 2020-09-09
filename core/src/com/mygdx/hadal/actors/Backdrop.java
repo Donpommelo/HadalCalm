@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.hadal.HadalGame;
 
 /**
- * Static background actor for title screen.
+ * Static background actor for any screen that just needs a still image
  */
 public class Backdrop extends AHadalActor {
 	

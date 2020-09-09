@@ -42,8 +42,8 @@ public class Terraformer extends ActiveItem {
 				body.setLinearVelocity(new Vector2(weaponVelo).nor().scl(blockSpeed));
 				
 				FeetData feetData = new FeetData(UserDataTypes.FEET, this); 
-				Fixture feet = body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(1 / 2,  - getSize().y / 2), new Vector2(getSize().x, getSize().y / 8), true, 0, 0, 0, 0,
-						Constants.BIT_SENSOR, Constants.BIT_DROPTHROUGHWALL, (short) 0));
+				Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(1 / 2,  - getSize().y / 2), new Vector2(getSize().x, getSize().y / 8), true, 0, 0, 0, 0,
+						Constants.BIT_SENSOR, Constants.BIT_DROPTHROUGHWALL, (short) 0);
 				feet.setUserData(feetData);
 			}
 		};

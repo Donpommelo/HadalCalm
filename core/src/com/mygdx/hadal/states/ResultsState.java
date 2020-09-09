@@ -54,7 +54,7 @@ public class ResultsState extends GameState {
 	private static final int maxNameLen = 30;
 
 	/**
-	 * Constructor will be called once upon initialization of the StateManager.
+	 * Constructor will be called whenever the game transitions into a results state
 	 * @param gsm
 	 */
 	public ResultsState(final GameStateManager gsm, String text, PlayState ps) {
@@ -94,6 +94,7 @@ public class ResultsState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
+				//table height scales to the number of players in the game
 				int tableHeight = baseHeight + titleHeight * 2 + rowHeight * scores.size();
 				
 				addActor(new Backdrop(AssetList.RESULTS_CARD.toString()));
@@ -106,7 +107,7 @@ public class ResultsState extends GameState {
 			}
 		};
 		
-		//we pull up and lock the playstate's message window.
+		//we pull up and lock the playstate's message window so players can chat in the aftergame.
 		if (!ps.getMessageWindow().isActive()) {
 			ps.getMessageWindow().toggleWindow();
 		}
@@ -154,6 +155,7 @@ public class ResultsState extends GameState {
 			
 			String displayedName = score.getName();
 			
+			//truncate names that are too long
 			if (displayedName.length() > maxNameLen) {
 				displayedName = displayedName.substring(0, maxNameLen).concat("...");
 			}
@@ -280,9 +282,7 @@ public class ResultsState extends GameState {
 	public void render(float delta) {}
 
 	@Override
-	public void dispose() {
-		stage.dispose();
-	}
+	public void dispose() {	stage.dispose(); }
 	
 	public PlayState getPs() { return ps; }
 }

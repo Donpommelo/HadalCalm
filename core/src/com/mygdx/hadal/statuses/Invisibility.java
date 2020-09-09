@@ -18,7 +18,7 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Invisibility extends Status {
 	
-	//fade time determines the window of time where the player can attack before the invis status is removed
+	//fade time determines the window of time where the player can attack before the invisibility status is removed
 	private final static float fadeTime = 0.5f;
 	private float fadeCount;
 	

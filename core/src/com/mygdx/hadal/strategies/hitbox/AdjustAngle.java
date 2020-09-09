@@ -15,7 +15,7 @@ public class AdjustAngle extends HitboxStrategy {
 	public AdjustAngle(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);
 		
-		//setting the adjust angle to tru upon creating lets the hbox start off at the right angle immediately
+		//setting the adjust angle to true upon creating lets the hbox start off at the right angle immediately
 		hbox.setAdjustAngle(true);
 	}
 	

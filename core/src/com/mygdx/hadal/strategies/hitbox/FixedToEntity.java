@@ -8,7 +8,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- * This strategy makes a hbox fied to the user. It replaces melee hboxes
+ * This strategy makes a hbox fixed to the user. It replaces melee hboxes
  * @author Zachary Tu
  */
 public class FixedToEntity extends HitboxStrategy {

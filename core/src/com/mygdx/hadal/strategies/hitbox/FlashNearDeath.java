@@ -7,11 +7,15 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
+ * this strategy makes a hitbox flash when its lifespan is below a specified threshold. It is usually used for explosive projectiles
  * @author Zachary Tu
  */
 public class FlashNearDeath extends HitboxStrategy {
 	
+	//the hbox will start flashing when its hp falls below this
 	private float flashLifespan;
+	
+	//the duration of each flash
 	private static final float flashDuration = 0.1f;
 	
 	public FlashNearDeath(PlayState state, Hitbox proj, BodyData user, float flashLifespan) {

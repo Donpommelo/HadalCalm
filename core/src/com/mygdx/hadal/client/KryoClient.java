@@ -132,7 +132,7 @@ public class KryoClient {
         	@Override
         	public void received(Connection c, final Object o) {
         		
-        		
+        		//first check for sync packets, then create/delete ones
         		if (HadalGame.client.receiveSyncPacket(o)) {
         			return;
         		} else if (HadalGame.client.receiveAddRemovePacket(o)) {
@@ -155,12 +155,12 @@ public class KryoClient {
         					cs.getUiPlay().setOverrideActivePercent(p.activeCharge);
         				}
         			}
-        		} else {
-        			HadalGame.client.receiveAddRemovePacket(o);
-            		HadalGame.client.receiveSyncPacket(o);
-        		}
+        		} 
         		
-        		if (o instanceof Packets.SyncPickup) {
+        		/*
+        		 * The server tells the equip pickup event to sync to display the correct item
+        		 */
+        		else if (o instanceof Packets.SyncPickup) {
         			Packets.SyncPickup p = (Packets.SyncPickup) o;
         			final ClientState cs = getClientState();
 					
@@ -465,7 +465,7 @@ public class KryoClient {
 	    						
 	    						if (entity != null) {
 	    							if (entity instanceof Player) {
-	    								((Player)entity).getPlayerData().syncLoadout(p.loadout);
+	    								((Player) entity).getPlayerData().syncLoadout(p.loadout);
 	    								cs.getUiHub().refreshHub();
 	    							}
 	    						}
@@ -507,6 +507,7 @@ public class KryoClient {
 							@Override
 							public void execute() {
 								
+								//no entity info means use the shader on the state background
 								if (p.entityID == null) {
 									cs.setShaderBase(p.shader);
 								} else {
@@ -546,6 +547,10 @@ public class KryoClient {
        client.addListener(packetListener);
 	}
 	
+	/**
+	 * this processes all the packets that add or remove entities from the world.
+	 * returns true if any packet is processed. (if the input o is an add or remove packet)
+	 */
 	public boolean receiveAddRemovePacket(Object o) {
 		
 		/*
@@ -572,8 +577,8 @@ public class KryoClient {
 		}
 		
 		/*
-		 * The Server tells us to delete an entity
-		 * Delete the entity
+		 * The Server tells us to delete an entity and we delete it
+		 * Delete packets go into the sync packets list. This is so they are carried out according to their timestamp to avoid deleting stuff too early.
 		 */
 		else if (o instanceof Packets.DeleteEntity) {
 			final Packets.DeleteEntity p = (Packets.DeleteEntity) o;
@@ -593,7 +598,7 @@ public class KryoClient {
 		
 		/*
 		 * The Server tells us to create a particle entity.
-		 * Create the designated particles and attach it accordingly
+		 * Create the designated particles and set its attachedId so that it will connect once it is created.
 		 */
 		else if (o instanceof Packets.CreateParticles) {
 			final Packets.CreateParticles p = (Packets.CreateParticles) o;
@@ -626,7 +631,7 @@ public class KryoClient {
 		
 		/*
 		 * Server tells us to create a SoundEntity to play a sound
-		 * Create entity and set is attachedId so that it will connect once it is created.
+		 * Create entity and set its attachedId so that it will connect once it is created.
 		 */
 		else if (o instanceof Packets.CreateSound) {
 			final Packets.CreateSound p = (Packets.CreateSound) o;
@@ -649,7 +654,7 @@ public class KryoClient {
 		
 		/*
 		 * The Server tells us to create a new enemy entity
-		 * Create the enemy based on server spefications
+		 * Create the enemy based on server specifications
 		 */
 		else if (o instanceof Packets.CreateEnemy) {
 			final Packets.CreateEnemy p = (Packets.CreateEnemy) o;
@@ -679,9 +684,8 @@ public class KryoClient {
 		
 		/*
 		 * The server tells us to create a new player
-		 * Create the player, unless it is ourselves(based on our given id)
-		 * If the player is ourselves, we attach our state's player (ourselves) to the entity.
-		 * Essentially, we create new "other players" but always reuse our state's player for ourselves
+		 * Create the player and set its position fields.
+		 * If it is ourselves, we set the camera to face it and update the state's player field
 		 */
 		else if (o instanceof Packets.CreatePlayer) {
 			final Packets.CreatePlayer p = (Packets.CreatePlayer) o;
@@ -703,7 +707,7 @@ public class KryoClient {
 							cs.setPlayer(newPlayer);
 							
 							//set camera to look at new client player.
-            				cs.camera.position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
+            				cs.getCamera().position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
         				}
 					}
 				});
@@ -777,9 +781,15 @@ public class KryoClient {
 			}
 			return true;
 		}
+		
+		//if none of the packets match, return false to indicate the packet was not an add/create packet
 		return false;
 	}
 	
+	/**
+	 * this processes all the packets that sync entities in the world.
+	 * returns true if any packet is processed. (if the input o is a sync packet)
+	 */
 	public boolean receiveSyncPacket(Object o) {
 		
 		if (o instanceof Packets.SyncEntity) {
@@ -851,6 +861,8 @@ public class KryoClient {
 			}
 			return true;
 		}
+		
+		//if none of the packets match, return false to indicate the packet was not a sync packet
 		return false;
 	}
 	
@@ -859,22 +871,19 @@ public class KryoClient {
 	 * @return: The address of the server if found and a "Nope" otherwise
 	 */
 	public String searchServer() {
-		if (client == null) {
-			init();
-		}
+		if (client == null) { init(); }
 		
 		InetAddress address = client.discoverHost(gsm.getSetting().getPortNumber(), 5000);
 		
 		String start = "NO IP FOUND";
-    	if (address != null) {
-    		start = address.getHostAddress();
-    	}
+		
+    	if (address != null) { start = address.getHostAddress(); }
     	
     	return start;
 	}
 	
 	/**
-	 * Similar to getPlayState for server. This returns the ClientState, even if it is underneath a pause or setting stat.
+	 * Similar to getPlayState for server. This returns the ClientState, even if it is underneath a pause or setting state.
 	 * @return: The current clientstate
 	 */
 	public ClientState getClientState() {
@@ -895,7 +904,7 @@ public class KryoClient {
     
 	/**
 	 * This adds a notification to the client's dialog box
-	 * @param cs: Clients current clientstate
+	 * @param cs: Client's current clientstate
 	 * @param name: name giving the notification
 	 * @param text: notification text
 	 */

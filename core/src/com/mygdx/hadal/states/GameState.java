@@ -17,7 +17,7 @@ public abstract class GameState {
 	protected GameStateManager gsm;
 	protected HadalGame app;
 	protected SpriteBatch batch;
-	public OrthographicCamera camera, hud;
+	protected OrthographicCamera camera, hud;
 	
 	//This is the stage that is displayed for this state
 	protected Stage stage;
@@ -64,6 +64,10 @@ public abstract class GameState {
 	public GameStateManager getGsm() {return gsm; }
 
 	public Stage getStage() { return stage; }
+	
+	public OrthographicCamera getCamera() { return camera; }
+	
+	public OrthographicCamera getHud() { return hud; }
 	
 	/**
 	 * Do we process state transitions when this state is active?

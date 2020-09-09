@@ -51,7 +51,7 @@ public class CameraStyles {
         for(Vector2 point : focalPoints) {
             if(target.dst(point) < threshold) {
                 float newZoom = (target.dst(point) / threshold) + 0.2f;
-                camera.zoom = camera.zoom + ((newZoom > 1? 1 : newZoom) - camera.zoom) * 0.1f;
+                camera.zoom = camera.zoom + ((newZoom > 1 ? 1 : newZoom) - camera.zoom) * 0.1f;
                 CameraStyles.lerpToTarget(camera, point);
                 return true;
             }

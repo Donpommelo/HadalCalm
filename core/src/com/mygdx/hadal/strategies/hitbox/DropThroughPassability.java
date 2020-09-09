@@ -31,8 +31,8 @@ public class DropThroughPassability extends HitboxStrategy {
 		super.create();
 		
 		this.feetData = new FeetData(UserDataTypes.FEET, hbox); 
-		this.feet = hbox.getBody().createFixture(FixtureBuilder.createFixtureDef(new Vector2(1 / 2,  - hbox.getSize().y / 2), new Vector2(hbox.getSize().x, hbox.getSize().y / 8), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, Constants.BIT_DROPTHROUGHWALL, hbox.getFilter()));
+		this.feet = FixtureBuilder.createFixtureDef(hbox.getBody(), new Vector2(1 / 2,  - hbox.getSize().y / 2), new Vector2(hbox.getSize().x, hbox.getSize().y / 8), true, 0, 0, 0, 0,
+				Constants.BIT_SENSOR, Constants.BIT_DROPTHROUGHWALL, hbox.getFilter());
 		
 		feet.setUserData(feetData);
 	}

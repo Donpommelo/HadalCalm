@@ -34,6 +34,7 @@ public enum PlayerAction {
 	PAUSE(Input.Keys.P, false),
 	EXIT_MENU(Input.Keys.ESCAPE, false);
 
+	//this is the code for the key this action is bound to
 	private int key;
 	
 	//this boolean notes actions that are "toggleable"
@@ -49,6 +50,7 @@ public enum PlayerAction {
 	
 	public void setKey(int key) { this.key = key; }
 	
+	//this returns the text representing the button bound to this action. Used when text refers to a hotkey
 	public String getKeyText() { return SettingState.getKey(key); }
 	
 	public boolean isToggleable() { return toggleable; }

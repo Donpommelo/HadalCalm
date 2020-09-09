@@ -35,13 +35,14 @@ public class PortalWrap extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, Constants.BIT_PLAYER, (short) 0, true, eventData);
 	}
 	
+	private Vector3 newCamera = new Vector3();
 	@Override
 	public void controller(float delta) {
 		if (getConnectedEvent() != null) {
 			
 			for (HadalEntity s : eventData.getSchmucks()) {
 
-				Vector3 newCamera= new Vector3(state.camera.position).sub(new Vector3(state.getPlayer().getPixelPosition().x, state.getPlayer().getPixelPosition().y, 0));
+				newCamera.set(state.getCamera().position).sub(new Vector3(state.getPlayer().getPixelPosition().x, state.getPlayer().getPixelPosition().y, 0));
 
 				if (axis) {
 					if (direction) {
@@ -58,8 +59,8 @@ public class PortalWrap extends Event {
 				}
 				
 				//If the player is being teleported, instantly adjust the camera to make for a seamless movement.
-				if(s.equals(state.getPlayer())) {
-					state.camera.position.set(new Vector3(state.getPlayer().getPixelPosition().x, state.getPlayer().getPixelPosition().y, 0).add(newCamera));
+				if (s.equals(state.getPlayer())) {
+					state.getCamera().position.set(newCamera.add(state.getPlayer().getPixelPosition().x, state.getPlayer().getPixelPosition().y, 0));
 				}
 			}
 		}	

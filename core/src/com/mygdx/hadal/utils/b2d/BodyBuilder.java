@@ -24,7 +24,7 @@ public class BodyBuilder {
 	 * @param size: the size of this body
 	 * @param grav: Effect of gravity. 0 = no gravity. 1 = normal gravity.
 	 * @param density: Density. Higher = less impact from other forces.
-	 * @param resti: Restitution = Bounciness.
+	 * @param restitution: Restitution = Bounciness.
 	 * @param isStatic: True for bodies that do not move.
 	 * @param fixedRotate: Can it not rotate?
 	 * @param cBits: What type of body is this?
@@ -34,12 +34,12 @@ public class BodyBuilder {
 	 * @param userData: HadalData of the body.
 	 * @return: The newly created body.
 	 */
-    public static Body createBox(final World world, Vector2 startPos, Vector2 size, float grav, float density, float resti, boolean isStatic, boolean fixedRotate, short cBits, short mBits, short gIndex, 
+    public static Body createBox(final World world, Vector2 startPos, Vector2 size, float grav, float density, float restitution, boolean isStatic, boolean fixedRotate, short cBits, short mBits, short gIndex, 
     		boolean sensor, HadalData userData) {
-    	return createBox(world, startPos, size, grav, density, resti, 1.0f, isStatic, fixedRotate, cBits, mBits, gIndex, sensor, userData);
+    	return createBox(world, startPos, size, grav, density, restitution, 1.0f, isStatic, fixedRotate, cBits, mBits, gIndex, sensor, userData);
     }
     
-    public static Body createBox(final World world, Vector2 startPos, Vector2 size, float grav, float density, float resti, float friction,	boolean isStatic, boolean fixedRotate, short cBits, short mBits,
+    public static Body createBox(final World world, Vector2 startPos, Vector2 size, float grav, float density, float restitution, float friction, boolean isStatic, boolean fixedRotate, short cBits, short mBits,
     		short gIndex, boolean sensor, HadalData userData) {
     	
     	BodyDef bodyDef = new BodyDef();
@@ -58,19 +58,16 @@ public class BodyBuilder {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
+        fixtureDef.isSensor = sensor;
         fixtureDef.density = density;
-        fixtureDef.restitution = resti;
+        fixtureDef.restitution = restitution;
         fixtureDef.friction = friction;
         fixtureDef.filter.categoryBits = cBits;
         fixtureDef.filter.maskBits = mBits;
         fixtureDef.filter.groupIndex = gIndex;
         
         Body body = world.createBody(bodyDef);
-        if (sensor) {
-        	fixtureDef.isSensor = true;
-        } else {
-        	fixtureDef.isSensor = false;
-        }
+        
         body.createFixture(fixtureDef).setUserData(userData);
         body.setGravityScale(grav);
         shape.dispose();

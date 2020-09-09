@@ -73,21 +73,18 @@ public class TiledObjectUtil {
         }
     }
     
-    static Map<String, Event> triggeredEvents = new HashMap<String, Event>();
-    static Map<Event, String> triggeringEvents = new HashMap<Event, String>();
-    static Map<TriggerMulti, String> multiTriggeringEvents = new HashMap<TriggerMulti, String>();
-    static Map<TriggerCond, String> condTriggeringEvents = new HashMap<TriggerCond, String>();
-    static Map<TriggerRedirect, String> redirectTriggeringEvents = new HashMap<TriggerRedirect, String>();
-    static Map<MovingPoint, String> movePointConnections = new HashMap<MovingPoint, String>();
-    static Map<ChoiceBranch, String> choiceBranchOptions = new HashMap<ChoiceBranch, String>();
-    static Map<String, Prefabrication> prefabrications = new HashMap<String, Prefabrication>();
+    private static Map<String, Event> triggeredEvents = new HashMap<String, Event>();
+    private static Map<Event, String> triggeringEvents = new HashMap<Event, String>();
+    private static Map<TriggerMulti, String> multiTriggeringEvents = new HashMap<TriggerMulti, String>();
+    private static Map<TriggerCond, String> condTriggeringEvents = new HashMap<TriggerCond, String>();
+    private static Map<TriggerRedirect, String> redirectTriggeringEvents = new HashMap<TriggerRedirect, String>();
+    private static Map<MovingPoint, String> movePointConnections = new HashMap<MovingPoint, String>();
+    private static Map<ChoiceBranch, String> choiceBranchOptions = new HashMap<ChoiceBranch, String>();
+    private static Map<String, Prefabrication> prefabrications = new HashMap<String, Prefabrication>();
 
     /**
      * Parses Tiled objects into in game events
      * @param state: Current GameState
-	 * @param world: The Box2d world to add the created events to.
-     * @param camera: The camera to pass to the created events.
-     * @param rays: The rayhandler to pass to the created events.
      * @param objects: The list of Tiled objects to parse into events.
      */
     public static void parseTiledEventLayer(PlayState state, MapObjects objects) {
@@ -100,7 +97,7 @@ public class TiledObjectUtil {
      * This parses a single tiled map object into an event
      * @param state: The playstate that the event will be placed into
      * @param object: The map object to parse
-     * @return
+     * @return the parsed event
      */
     public static Event parseTiledEvent(PlayState state, MapObject object) {
 		
@@ -116,8 +113,7 @@ public class TiledObjectUtil {
 		//Go through every event type to create events
 		if (object.getName().equals("Start")) {
 			
-			e = new StartPoint(state, position, size, 
-					object.getProperties().get("startId", "", String.class));
+			e = new StartPoint(state, position, size, object.getProperties().get("startId", "", String.class));
 			state.addSavePoint((StartPoint) e);
 		} else if (object.getName().equals("Switch")) {
 			
@@ -130,8 +126,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("gravity", 0.0f, float.class), object.getProperties().get("collision", false, boolean.class));
 		} else if (object.getName().equals("Timer")) {
 			
-			e = new Timer(state, object.getProperties().get("interval", 0.0f, float.class),
-					object.getProperties().get("startOn", true, boolean.class));
+			e = new Timer(state, object.getProperties().get("interval", 0.0f, float.class),	object.getProperties().get("startOn", true, boolean.class));
 		} else if (object.getName().equals("Counter")) {
 			
 			e = new Counter(state, object.getProperties().get("count", int.class), object.getProperties().get("countStart", 0, int.class));
@@ -142,7 +137,8 @@ public class TiledObjectUtil {
 		} else if (object.getName().equals("Condtrigger")) {
 			
 			e = new TriggerCond(state, object.getProperties().get("start", "", String.class));
-			condTriggeringEvents.put((TriggerCond) e, object.getProperties().get("triggeringId", "", String.class));
+			condTriggeringEvents.put((TriggerCond) e, 
+					object.getProperties().get("triggeringId", "", String.class));
 		} else if (object.getName().equals("Alttrigger")) {
 			
 			e = new TriggerAlt(state, object.getProperties().get("message", "", String.class));
@@ -152,8 +148,7 @@ public class TiledObjectUtil {
 			redirectTriggeringEvents.put((TriggerRedirect) e, object.getProperties().get("blameId", "", String.class));
 		} else if (object.getName().equals("Dummy")) {
 			
-			e = new PositionDummy(state, position, size, 
-					object.getProperties().get("dummyId", "", String.class));
+			e = new PositionDummy(state, position, size, object.getProperties().get("dummyId", "", String.class));
 		} else if (object.getName().equals("UI")) {
 			
 			e = new UIChanger(state,
@@ -172,8 +167,7 @@ public class TiledObjectUtil {
 			e = new CameraChanger(state, object.getProperties().get("zoom", 1.0f, float.class));
 		} else if (object.getName().equals("Shader")) {
 			
-			e = new ShaderChanger(state, 
-					object.getProperties().get("shader", String.class));
+			e = new ShaderChanger(state, object.getProperties().get("shader", String.class));
 		} else if (object.getName().equals("Bounds")) {
 			
 			e = new CameraBounder(state, position, size, 
@@ -251,8 +245,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("adjustangle", true, boolean.class));	
 		} else if (object.getName().equals("ScrapSpawn")) {
 			
-			e = new SpawnerScrap(state, position, size, 
-					object.getProperties().get("scrap", 0, int.class));
+			e = new SpawnerScrap(state, position, size, object.getProperties().get("scrap", 0, int.class));
 		} else if (object.getName().equals("EventClone")) {
 			
 			e = new EventCloner(state, position, size);	
@@ -261,8 +254,7 @@ public class TiledObjectUtil {
 			e = new EventDeleter(state);	
 		} else if (object.getName().equals("EventMove")) {
 			
-			e = new EventMover(state, position, size, 
-					object.getProperties().get("gravity", -1.0f, float.class));	
+			e = new EventMover(state, position, size, object.getProperties().get("gravity", -1.0f, float.class));	
 		} else if (object.getName().equals("SpriteChange")) {
 			
 			e = new SpriteChanger(state, 
@@ -334,8 +326,7 @@ public class TiledObjectUtil {
 			e = new Spring(state, position, size, power);
 		} else if (object.getName().equals("Equip")) {
 			
-			e = new PickupEquip(state, position, 
-					object.getProperties().get("pool", "", String.class));
+			e = new PickupEquip(state, position, object.getProperties().get("pool", "", String.class));
 		} else if (object.getName().equals("Dropthrough")) {
 			
 			e = new DropThroughPlatform(state, position, size);
@@ -475,21 +466,19 @@ public class TiledObjectUtil {
 			if (object.getProperties().get("triggeringId", String.class) != null) {
 				triggeringEvents.put(e, object.getProperties().get("triggeringId", String.class));
 			}
-			if (object.getProperties().get("triggeredId",String.class) != null) {
+			if (object.getProperties().get("triggeredId", String.class) != null) {
 				triggeredEvents.put(object.getProperties().get("triggeredId", String.class), e);
 			}
-			
 			if (object.getProperties().get("default", true, Boolean.class)) {
 				e.loadDefaultProperties();
 			}
-			
 			if (object.getProperties().get("sprite", String.class) != null) {
 				if (object.getProperties().get("frame", int.class) != null) {
 					e.setEventSprite(
 							Sprite.valueOf(object.getProperties().get("sprite", String.class)), 
 							true, 
 							object.getProperties().get("frame", 0, int.class), 
-							object.getProperties().get("speed", 0.8f, float.class), 
+							object.getProperties().get("speed", PlayState.spriteAnimationSpeed, float.class), 
 							PlayMode.valueOf(object.getProperties().get("mode", "NORMAL", String.class)));
 				} else {
 					e.setEventSprite(Sprite.valueOf(object.getProperties().get("sprite", String.class)));
@@ -519,10 +508,8 @@ public class TiledObjectUtil {
 			if (object.getProperties().get("particle_std", String.class) != null) {
 				e.setStandardParticle(Particle.valueOf(object.getProperties().get("particle_std", String.class)));
 			}
-			
 			e.setBlueprint(object);
 		}
-
 		return e;
     }
     
@@ -619,14 +606,13 @@ public class TiledObjectUtil {
     	if (p != null) {
         	p.generateParts();
     	}
-    	
     	prefabrications.put(object.getProperties().get("triggeredId", "", String.class), p);
     }
     
     /*
      * When a prefab is created, its triggerIds are generated dynamically using this to ensure that there are no repeats.
      */
-    public static int nextId = 0;
+    private static int nextId = 0;
     public static String getPrefabTriggerId() {
     	String id = "prefabTriggerId" + nextId;
     	nextId++;
@@ -652,11 +638,15 @@ public class TiledObjectUtil {
      * This parses the triggers of all events that have been added to any of the trigger lists
      */
     public static void parseTiledTriggerLayer() {
+    	
+    	//for all triggering effects, connect them to the event they trigger
     	for (Event key : triggeringEvents.keySet()) {
     		if (!triggeringEvents.get(key).equals("")) {
         		key.setConnectedEvent(triggeredEvents.getOrDefault(triggeringEvents.get(key), null));
     		}
     	}
+    	
+    	//for all multitriggers, connect them to each event that they trigger
     	for (TriggerMulti key : multiTriggeringEvents.keySet()) {
     		for (String id : multiTriggeringEvents.get(key).split(",")) {
     			if (!id.equals("")) {
@@ -664,6 +654,8 @@ public class TiledObjectUtil {
     			}
     		}
     	}
+    	
+    	//for all conditional triggers, connect them to each event that they can possibly trigger
     	for (TriggerCond key : condTriggeringEvents.keySet()) {
     		for (String id : condTriggeringEvents.get(key).split(",")) {
     			if (!id.equals("")) {
@@ -671,11 +663,15 @@ public class TiledObjectUtil {
     			}
     		}
     	}
+    	
+    	//for all redirect triggers, connect them to the event that it blames when it triggers another event
     	for (TriggerRedirect key : redirectTriggeringEvents.keySet()) {
     		if (!redirectTriggeringEvents.get(key).equals("")) {
         		key.setBlame(triggeredEvents.getOrDefault(redirectTriggeringEvents.get(key), null));
     		}
     	}
+    	
+    	//for all move points, connect them to all events that move along with it
     	for (MovingPoint key : movePointConnections.keySet()) {
     		for (String id : movePointConnections.get(key).split(",")) {
     			if (!id.equals("")) {
@@ -689,7 +685,9 @@ public class TiledObjectUtil {
         			}
     			}
     		}
-    	} 
+    	}
+    	
+    	//for all choice branches, connect them to each event that corresponds to a choosable option
     	for (ChoiceBranch branch : choiceBranchOptions.keySet()) {
     		String[] options = choiceBranchOptions.get(branch).split(",");
     		for (int i = 0; i < options.length; i++) {
@@ -709,16 +707,19 @@ public class TiledObjectUtil {
     	String triggeringId =  blueprint.getProperties().get("triggeringId", "", String.class);
     	String triggeredId =  blueprint.getProperties().get("triggeredId", "", String.class);
 
+    	//connect e to all the events that trigger it
     	for (Event key : triggeringEvents.keySet()) {
     		if (!triggeringEvents.get(key).equals("") && triggeringEvents.get(key).equals(triggeredId)) {
         		key.setConnectedEvent(e);
     		}
     	}
     	
+    	//connect e to the event that it triggers
     	if (!triggeringId.equals("")) {
     		e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
     	}
     	
+    	//connect e to any redirect events that blame it for triggers
     	String myId = redirectTriggeringEvents.get(e);
     	for (TriggerRedirect key : redirectTriggeringEvents.keySet()) {
     		if (!redirectTriggeringEvents.get(key).equals("") && redirectTriggeringEvents.get(key).equals(triggeredId)) {
@@ -726,12 +727,14 @@ public class TiledObjectUtil {
     		}
     	}
     	
+    	//if e is a redirect trigger, connect it to the event that it blames when it triggers another event
     	if (myId != null) {
 			if (!myId.equals("")) {
 				((TriggerRedirect) e).setBlame(triggeredEvents.getOrDefault(myId, null));
 			}
     	}
     	
+    	//connect e to any multitriggers that trigger it
     	for (TriggerMulti key : multiTriggeringEvents.keySet()) {
     		for (String id : multiTriggeringEvents.get(key).split(",")) {
     			if (!id.equals("") && id.equals(triggeredId)) {
@@ -740,6 +743,7 @@ public class TiledObjectUtil {
     		}
     	}
     	
+    	//if e is a multitrigger, connect it to all events that it triggers
     	myId = multiTriggeringEvents.get(e);
     	if (myId != null) {
     		for (String id : myId.split(",")) {
@@ -749,6 +753,7 @@ public class TiledObjectUtil {
     		}
     	}
     	
+    	//connect e to any conditional triggers that can trigger it
     	for (TriggerCond key : condTriggeringEvents.keySet()) {
     		for (String id : condTriggeringEvents.get(key).split(",")) {
     			if (!id.equals("") && id.equals(triggeredId)) {
@@ -757,6 +762,7 @@ public class TiledObjectUtil {
     		}
     	}
     	
+    	//if e is a conditional trigger, connect it to each event that it can trigger
     	myId = condTriggeringEvents.get(e);
     	if (myId != null) {
     		for (String id : myId.split(",")) {
@@ -766,13 +772,16 @@ public class TiledObjectUtil {
     		}
     	}
     	
+    	//connect e to any move points that connect to it. We don't need a case for when e is a move point b/c the client doesn't process that and we haven't needed to clone move points yet.
     	for (MovingPoint key : movePointConnections.keySet()) {
     		for (String id : movePointConnections.get(key).split(",")) {
     			if (!id.equals("") && id.equals(triggeredId)) {
         			key.addConnection(e);
     			}
     		}
-    	}   
+    	} 
+    	
+    	//connect e to any choice branches that can trigger it
     	for (ChoiceBranch branch : choiceBranchOptions.keySet()) {
     		String[] options = choiceBranchOptions.get(branch).split(",");
     		for (int i = 0; i < options.length; i++) {
@@ -782,6 +791,7 @@ public class TiledObjectUtil {
     		}
     	} 
     	
+    	//if e is a choice branch, connect it to each event that it can trigger
     	myId = choiceBranchOptions.get(e);
     	if (myId != null) {
     		String[] options = myId.split(",");

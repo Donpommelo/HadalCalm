@@ -42,14 +42,14 @@ public abstract class HadalEntity {
 	protected boolean alive = true, destroyed = false;
 	
 	//counter and method to keep up with animation frames
-	protected float animationTime = 0;
+	protected float animationTime;
 	protected float getAnimationTime() { return animationTime; }
 	
 	//counter of entity's age. this is sent to the client for syncing purposes.
-	protected float entityAge = 0;
+	protected float entityAge;
 
 	//Only used by client. this keeps track of time since last sync to detect if we missed a delete packet.
-	protected float timeSinceLastSync = 0;
+	protected float timeSinceLastSync;
 	
 	//On the client, do we expect a sync packet from the server regularly
 	protected boolean receivingSyncs;
@@ -62,8 +62,7 @@ public abstract class HadalEntity {
 	protected UUID entityID;
 	
 	//Used by the server. Does this entity send a sync packet periodically (every 1 / 10 sec)? Does this entity send a sync packet at a faster rate? (every 1 / 60 sec) 
-	private boolean syncDefault = true;
-	private boolean syncInstant = false;
+	private boolean syncDefault = true, syncInstant = false;
 	
 	/**
 	 * Constructor is called when an entity is created.
@@ -110,7 +109,7 @@ public abstract class HadalEntity {
 	 */
 	public boolean queueDeletion() {
 		
-		//check of alive to avoid double-deletions
+		//check alive to avoid double-deletions
 		if (alive) {
 			alive = false;
 			state.destroy(this);
@@ -161,6 +160,7 @@ public abstract class HadalEntity {
 
 	/**
 	 * this method does a regular push, except it mitigates existing momentum in the y-direction
+	 * used for jumping to feel more fluid and less influenced by physics
 	 */
 	public void pushMomentumMitigation(float impulseX, float impulseY) {
 		if (!alive) { return; }
@@ -186,7 +186,8 @@ public abstract class HadalEntity {
 	public Object onServerDelete() { return new Packets.DeleteEntity(entityID.toString(), state.getTimer()); }
 
 	/**
-	 * This is called every engine tick to send a packet syncing this entity.
+	 * This is called to send a packet syncing this entity.
+	 * onServerSyncFast() is called more frequently than onServerSync().
 	 * Default: Track entity's position and angle if it has a body
 	 */
 	public void onServerSync() {
@@ -214,15 +215,19 @@ public abstract class HadalEntity {
 	//should the client entity lerp to the server's position or just adjust instantly?
 	public boolean copyServerInstantly;
 	
+	//this is a list of the most recent packets that sync this entity as well as their timstamps
 	private ArrayList<Object[]> bufferedTimestamps = new ArrayList<Object[]>();
 	
+	/**
+	 * When we receive a packet from the server, we store it alongside its timestamp
+	 */
 	public void onReceiveSync(Object o, float timestamp) {
 		Object[] packet = {o, timestamp};
 		bufferedTimestamps.add(packet);
 	}
 	
 	/**
-	 * This is called when the client receives the above packet.
+	 * This is called when the client processes stored sync packets
 	 * Set the entity's body data
 	 */
 	public void onClientSync(Object o) {
@@ -231,7 +236,7 @@ public abstract class HadalEntity {
 			if (body != null) {
 				copyServerInstantly = p.instant;
 				
-				//if copying instantly, set transform. Otherwise, save the position, angle, and set the velocity
+				//if copying instantly, set transform. Otherwise, save the position, angle, and set the velocity of the most recent snapshot and the one before it
 				if (copyServerInstantly) {
 					setTransform(p.pos, p.angle);
 				} else {
@@ -260,6 +265,7 @@ public abstract class HadalEntity {
 	public Vector2 lerpPos = new Vector2();
 	public Vector2 lerpVelo = new Vector2();
 
+	//these are the timestamps of the 2 most recent snapshots
 	protected float prevTimeStamp, nextTimeStamp;
 	
 	/**
@@ -268,10 +274,12 @@ public abstract class HadalEntity {
 	 */
 	public void clientController(float delta) {
 		
+		//process each buffered snapshot starting from the oldest to the most recent
 		while (!bufferedTimestamps.isEmpty()) {
 			if (state.getTimer() >= nextTimeStamp) {
 				Object[] o = bufferedTimestamps.remove(0);
 				
+				//check timestamp in case snapshots are sent out of order
 				if ((float) o[1] > nextTimeStamp) {
 					prevTimeStamp = nextTimeStamp;
 					nextTimeStamp = (float) o[1];
@@ -283,6 +291,7 @@ public abstract class HadalEntity {
 			}
 		}
 		
+		//interpolate this entity between most recent snapshots. Use accumulator to be independent from framerate
 		clientSyncAccumulator += delta;
 		while (clientSyncAccumulator >= clientSyncTime) {
 			clientSyncAccumulator -= clientSyncTime;
@@ -290,6 +299,9 @@ public abstract class HadalEntity {
 		}
 	}
 	
+	/**
+	 * This interpolates the entity's position between two timestamps.
+	 */
 	public void clientInterpolation() {
 		//if we are receiving syncs, lerp towrads the saved position and angle
 		if (body != null && receivingSyncs) {
@@ -302,6 +314,8 @@ public abstract class HadalEntity {
 						lerpPos.set(prevPos);
 						lerpVelo.set(prevVelo);
 						setTransform(lerpPos.lerp(serverPos, elapsedTime), angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
+						
+						//set velocity to make entity move smoother between syncs
 						body.setLinearVelocity(lerpVelo.lerp(serverVelo, elapsedTime));
 					}
 				}
@@ -318,14 +332,14 @@ public abstract class HadalEntity {
 			return false;
 		} else {
 			//check the center + 4 corners of the entity to see if we should render this entity
-			if (state.camera.frustum.pointInFrustum(getPixelPosition().x, getPixelPosition().y, 0)) { return true; }
+			if (state.getCamera().frustum.pointInFrustum(getPixelPosition().x, getPixelPosition().y, 0)) { return true; }
 			
 			cosAng = (float) Math.cos(body.getAngle());
 			sinAng = (float) Math.sin(body.getAngle());
-			if (state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2 * cosAng - size.y / 2 * sinAng, getPixelPosition().y + size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
-			if (state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2 * cosAng - size.y / 2 * sinAng, getPixelPosition().y - size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
-			if (state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2 * cosAng + size.y / 2 * sinAng, getPixelPosition().y - size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
-			if (state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2 * cosAng + size.y / 2 * sinAng, getPixelPosition().y + size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
+			if (state.getCamera().frustum.pointInFrustum(getPixelPosition().x + size.x / 2 * cosAng - size.y / 2 * sinAng, getPixelPosition().y + size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
+			if (state.getCamera().frustum.pointInFrustum(getPixelPosition().x - size.x / 2 * cosAng - size.y / 2 * sinAng, getPixelPosition().y - size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
+			if (state.getCamera().frustum.pointInFrustum(getPixelPosition().x - size.x / 2 * cosAng + size.y / 2 * sinAng, getPixelPosition().y - size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
+			if (state.getCamera().frustum.pointInFrustum(getPixelPosition().x + size.x / 2 * cosAng + size.y / 2 * sinAng, getPixelPosition().y + size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
 			return false;
 		}
 	}

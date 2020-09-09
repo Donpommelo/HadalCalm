@@ -1,5 +1,7 @@
 package com.mygdx.hadal.states;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -128,7 +130,7 @@ public class PlayState extends GameState {
 	//are we currently a spectator or not?
 	protected boolean spectatorMode;
 	
-	//These are the bounds of the camera movement
+	//These are the bounds of the camera movement. We make the numbers really big so that the default is no bounds.
 	private float[] cameraBounds = {100000.0f, -100000.0f, 100000.0f, -100000.0f};
 	private float[] spectatorBounds = {100000.0f, -100000.0f, 100000.0f, -100000.0f};
 	
@@ -190,7 +192,7 @@ public class PlayState extends GameState {
 	//do we draw the hitbox lines?
 	private boolean debugHitbox;
 	
-	//global variables
+	//global variables.
 	public static final float spriteAnimationSpeed = 0.08f;
 	public static final float spriteAnimationSpeedFast = 0.04f;
 	
@@ -209,7 +211,7 @@ public class PlayState extends GameState {
 	 * @param server: is this the server or not?
 	 * @param old: the data of the previous player (this exists if this play state is part of a stage transition with an existing player)
 	 * @param reset: do we reset the old player's hp/fuel/ammo in the new playstate?
-	 * @startId: th id of the starting event the player should be spawned at
+	 * @startId: the id of the starting event the player should be spawned at
 	 */
 	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean server, PlayerBodyData old, boolean reset, String startId) {
 		super(gsm);
@@ -357,22 +359,24 @@ public class PlayState extends GameState {
 				controller = new PlayerController(player);
 				
 				InputMultiplexer inputMultiplexer = new InputMultiplexer();
-				
 				inputMultiplexer.addProcessor(stage);
-				
 				inputMultiplexer.addProcessor(controller);
 				Gdx.input.setInputProcessor(inputMultiplexer);
 			}
 		}
 	}
 	
+	//these control the frequency that we process world physics.
 	private float physicsAccumulator;
 	private final static float physicsTime = 0.005f;
+	
+	//these control the frequency that we send sync packets for world entities.
 	private float syncAccumulator;
 	private float syncFastAccumulator;
 	public final static float syncTime = 0.05f;
 	public final static float syncFastTime = 1 / 60f;
 	public final static float syncInterpolation = 0.125f;
+	
 	private float timer;
 	/**
 	 * Every engine tick, the GameState must process all entities in it according to the time elapsed.
@@ -486,8 +490,8 @@ public class PlayState extends GameState {
 
 		//Render debug lines for box2d objects.
 		if (debugHitbox) {
-			b2dr.render(world, camera.combined.scl(32));
-			camera.combined.scl(1 / 32.0f);
+			b2dr.render(world, camera.combined.scl(PPM));
+			camera.combined.scl(1.0f / PPM);
 		}
 		
 		//Iterate through entities in the world to render visible entities
@@ -637,7 +641,6 @@ public class PlayState extends GameState {
 				mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 				HadalGame.viewportCamera.unproject(mousePosition);
 				mousePosition2.set(mousePosition.x, mousePosition.y);
-				
 				if (spectatorTarget.dst2(mousePosition2) > spectatorCameraRange) {
 					spectatorTarget.lerp(mousePosition2, 0.03f);
 				}
@@ -666,7 +669,6 @@ public class PlayState extends GameState {
 		
 		//this makes the spectator target respect camera bounds
 		spectatorTarget.set(tmpVector2);
-		
 		CameraStyles.lerpToTarget(camera, tmpVector2);
 	}
 	
@@ -777,6 +779,8 @@ public class PlayState extends GameState {
 			gsm.removeState(SettingState.class);
 			gsm.removeState(PauseState.class);
 			gsm.removeState(PlayState.class);
+			
+			//add a notification to the title state if specified in transition state
 			if (!gsm.getStates().isEmpty()) {
 				if (gsm.getStates().peek() instanceof TitleState) {
 					((TitleState) gsm.getStates().peek()).setNotification(resultsText);
@@ -797,9 +801,7 @@ public class PlayState extends GameState {
 	public void loadLevel(UnlockLevel level, TransitionState state, String nextStartId) {
 		
 		//The client should never run this; instead transitioning when the server tells it to.
-		if (!server) {
-			return;
-		}
+		if (!server) { return; }
 
 		if (nextState == null) {
 			
@@ -813,7 +815,7 @@ public class PlayState extends GameState {
 		}
 	}
 	
-	/**This creates a player to occupy the playestate
+	/**This creates a player to occupy the playstate
 	 * @param start: start event to spawn the player at.
 	 * @param name: player name
 	 * @param altLoadout: the player's loadout
@@ -840,12 +842,10 @@ public class PlayState extends GameState {
 					newLoadout.artifacts[i] = UnlockArtifact.valueOf(gsm.getLoadout().getArtifacts()[i]);
 				}
 				newLoadout.activeItem = UnlockActives.valueOf(gsm.getLoadout().getActive());
-				
 				break;
 			//select setting: each player starts with the weapons they selected in the hub
 			case 1:
 				break;
-				
 			//random setting: each player starts with random weapons
 			case 2:
 				for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
@@ -863,7 +863,6 @@ public class PlayState extends GameState {
 				}
 			}
 		}
-		
 		if (mapArtifacts != null) {
 			for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 				if (mapArtifacts.length > i) {
@@ -871,14 +870,15 @@ public class PlayState extends GameState {
 				}
 			}
 		}
-
 		if (mapActiveItem != null) {
 			newLoadout.activeItem = mapActiveItem;
 		}
 		
-		Player p = null;
 		
+		Player p = null;
 		if (!client) {
+			
+			//servers spawn at the starting point if existent. We prefer using the body's position, but can also use the starting position if it hasn't been created yet.
 			if (start != null) {
 				if (start.getBody() != null) {
 					p = new Player(this, start.getPixelPosition(), name, newLoadout, old, connID, reset, start);
@@ -886,16 +886,20 @@ public class PlayState extends GameState {
 					p = new Player(this, start.getStartPos(), name, newLoadout, old, connID, reset, start);
 				}
 			} else {
+				
+				//no start point means we create the player at (0,0) I don't think this should ever happen.
 				p = new Player(this, new Vector2(), name, newLoadout, old, connID, reset, null);
 			}
 		} else {
+			
+			//clients always spawn at (0,0), then move when the server tells them to.
 			p = new ClientPlayer(this, new Vector2(), name, newLoadout, null, connID, reset, null);
 		}
 		
+		//teleportation particles for reset players (indicates returning to hub)
 		if (reset) {
 			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2), Particle.TELEPORT, 1.0f, true, particleSyncType.CREATESYNC);
 		}
-		
 		return p;
 	}
 	
@@ -1006,11 +1010,13 @@ public class PlayState extends GameState {
 	 */
 	public void becomeSpectator(Player player) {
 		
+		//cannot enter spectator when already transitioning to another state.
 		if (nextState == null) {
 			player.setSpectator(true);
 			
 			HadalGame.server.addNotificationToAll(this, "", player.getName() + " became a spectator!");
 			
+			//for host, start transition. otherwise, send transition packet
 			if (this.player.equals(player)) {
 				beginTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay);
 			} else {
@@ -1034,9 +1040,11 @@ public class PlayState extends GameState {
 			return;
 		}
 		
+		//cannot exit spectator when already transitioning to another state. 
 		if (nextState == null) {
 			HadalGame.server.addNotificationToAll(this, "", player.getName() + " stopped spectating and joined the game!");
 
+			//for host, start transition. otherwise, send transition packet
 			if (this.player.equals(player)) {
 				beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);
 			} else {
@@ -1049,6 +1057,7 @@ public class PlayState extends GameState {
 	 * This is called whenever we transition to a new state. Begin transition and set new state.
 	 * @param state: The state we are transitioning towards
 	 * @param override: Does this transition override other transitions?
+	 * @param resultsText: text to be displayed if we transition to a results screen (or for notification in title screen)
 	 * @param fadeSpeed: speed of transition
 	 * @param fadeDelay: amount of delay before transition
 	 */
@@ -1083,6 +1092,7 @@ public class PlayState extends GameState {
 	
 	/**
 	 * This looks for an entity in the world with the given entityId
+	 * this is kinda slow. don't overuse it.
 	 */
 	public HadalEntity findEntity(String entityId) {
 
@@ -1149,7 +1159,7 @@ public class PlayState extends GameState {
 			}
 		}
 		
-		//if no start poitns are found, we return the first save point (if existent)
+		//if no start points are found, we return the first save point (if existent)
 		if (validStarts.isEmpty()) {
 			if (savePoints.isEmpty()) {
 				return null;
@@ -1210,7 +1220,7 @@ public class PlayState extends GameState {
 	 * @param effect
 	 */
 	public void addPacketEffect(PacketEffect effect) {
-		synchronized(addPacketEffects) {
+		synchronized (addPacketEffects) {
 			addPacketEffects.add(effect);
 		}
 	}
@@ -1335,8 +1345,6 @@ public class PlayState extends GameState {
 
 	public void setDisplayObjective(boolean displayObjective) { this.displayObjective = displayObjective; }
 
-	public float getZoom() { return zoom; }
-	
 	public void setZoom(float zoom) { this.zoomDesired = zoom; }
 
 	public ArrayList<Object> getSyncPackets() {	return syncPackets; }

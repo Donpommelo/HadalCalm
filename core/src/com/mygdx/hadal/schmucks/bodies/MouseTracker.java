@@ -55,6 +55,7 @@ public class MouseTracker extends HadalEntity {
 	@Override
 	public void render(SpriteBatch batch) {}
 
+	//we want this entity to not send any sync packets to the client because it doesn't do anything on the client side
 	@Override
 	public void onServerSync() {}
 	

@@ -58,7 +58,7 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class Boss4 extends EnemyFloating {
 	
-	private final static String name = "BOSS4";
+	private final static String name = "FALSE SUN";
 
     private static final float aiAttackCd = 2.2f;
     private static final float aiAttackCd2 = 1.6f;
@@ -85,6 +85,7 @@ public class Boss4 extends EnemyFloating {
 	private int phase = 1;
 	private static final float phaseThreshold2 = 0.5f;
 	
+	//the boss's body is composed of multiple scaled up particle effects
 	private ParticleEntity body1, body2, body3;
 	private static final float bodyBaseScale1 = 2.5f;
 	private static final float bodyBaseScale2 = 2.5f;
@@ -127,6 +128,7 @@ public class Boss4 extends EnemyFloating {
 		
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
 		
+		//this boss continuously damages players that contact it
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f, true);
 	}
 
@@ -136,9 +138,8 @@ public class Boss4 extends EnemyFloating {
 	public void controller(float delta) {
 		super.controller(delta);
 		
-		//Update the game camera.
+		//the boss grows and shrinks by rescaling its particles. This occurs before it performs actions
 		scalingAccumulator += delta;
-		
 		while (scalingAccumulator >= scalingTime) {
 			
 			scalingAccumulator -= scalingTime;
@@ -167,7 +168,7 @@ public class Boss4 extends EnemyFloating {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 3000 * numPlayers, getBodyData()));
 	}
 	
-	private int attackNum = 0;
+	private int attackNum;
 	@Override
 	public void attackInitiate() {
 		attackNum++;
@@ -190,6 +191,7 @@ public class Boss4 extends EnemyFloating {
 	private final static int phase1NumAttacks = 3;
 	private final static int phase2NumAttacks = 5;
 
+	//these lists are used to make the boss perform all attacks in its pool before repeating any
 	private ArrayList<Integer> attacks1 = new ArrayList<Integer>();
 	private ArrayList<Integer> attacks2 = new ArrayList<Integer>();
 	private void phase1Attack() {
@@ -311,6 +313,7 @@ public class Boss4 extends EnemyFloating {
 							
 							controllerCount += delta;
 							
+							//radial shots continuously move towards the player while being periodically pushed outwards to make it pulsate.
 							while (controllerCount >= pushInterval) {
 								controllerCount -= pushInterval;
 								hbox.setLinearVelocity(push.scl(1.5f));
@@ -418,6 +421,7 @@ public class Boss4 extends EnemyFloating {
 						
 						controllerCount += delta;
 						
+						//hitbox continuously damages players that touch it
 						while (controllerCount >= bellInterval) {
 							controllerCount -= bellInterval;
 							
@@ -468,6 +472,7 @@ public class Boss4 extends EnemyFloating {
 		Vector2 startVeloTrail = new Vector2(0, trailSpeed).setAngle(startAngle);
 		Vector2 startPosLaser = new Vector2(getPixelPosition()).add(new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngle(startAngle));
 		
+		//the boss first sends out a series of trails that mark a path
 		for (int i = 0; i < trailNumber; i++) {
 			getActions().add(new EnemyAction(this, trailInterval) {
 				
@@ -491,6 +496,8 @@ public class Boss4 extends EnemyFloating {
 		Vector2 startVeloLaser = new Vector2(0, laserSpeed).setAngle(startAngle);
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, laserNumber * laserInterval, 1.0f, 2.0f, SoundEffect.BEAM3, true);
+		
+		//next, the boss fires a laser along the marked path
 		for (int i = 0; i < laserNumber; i++) {
 			getActions().add(new EnemyAction(this, laserInterval) {
 				
@@ -540,6 +547,7 @@ public class Boss4 extends EnemyFloating {
 			
 			final int index = i;
 			
+			//the boss first creates a number of clouds along its perimeter
 			getActions().add(new EnemyAction(this, sighInterval) {
 				
 				@Override
@@ -568,6 +576,7 @@ public class Boss4 extends EnemyFloating {
 									SoundEffect.ICE_IMPACT.playUniversal(state, cloud.getPixelPosition(), 0.9f, 0.5f, false);
 								}
 								
+								//after a delay, each cloud shoots a stream of ice outwards
 								while (controllerCount >= cloudDelay + cloudInterval) {
 									controllerCount -= cloudInterval;
 								
@@ -618,6 +627,8 @@ public class Boss4 extends EnemyFloating {
 		windupParticle(startAngle, Particle.CHARGING, ParticleColor.MIDNIGHT_BLUE, 30.0f, apocalypseWindup, apocalypseWindup);
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, apocalypseLaserNum * apocalypseLaserInterval, 1.0f, 0.5f, SoundEffect.BEAM3, true);
+		
+		//boss fires a sweeping laser downwards consisting of a laser and 2 wave projectiles
 		for (int i = 0; i < apocalypseLaserNum; i++) {
 			getActions().add(new EnemyAction(this, apocalypseLaserInterval) {
 				
@@ -644,6 +655,7 @@ public class Boss4 extends EnemyFloating {
 							createWaveBeam(-90);
 						}
 						
+						//each laser kicks up debris that flies upwards
 						@Override
 						public void die() {
 							int randomIndex = GameStateManager.generator.nextInt(debrisSprites.length);
@@ -703,6 +715,7 @@ public class Boss4 extends EnemyFloating {
 		Vector2 bulletPosition = new Vector2();
 		Vector2 bulletSpeed = new Vector2();
 		
+		//boss periodically summons horizontal moving bullets from the sides of the screen
 		for (int i = 0; i < horizontalBulletNumber; i++) {
 			getSecondaryActions().add(new EnemyAction(this, horizontalBulletInterval) {
 				
@@ -749,6 +762,7 @@ public class Boss4 extends EnemyFloating {
 		singlePulse();
 		singlePulseReturn();
 		
+		//boss fires a large number of homing projectiles at the players
 		for (int i = 0; i < numWillOWisp; i++) {
 			getActions().add(new EnemyAction(this, willOWispInterval) {
 				
@@ -796,11 +810,13 @@ public class Boss4 extends EnemyFloating {
 			
 			final int index = i;
 			
+			//boss summons a large number of stars that orbit its body
 			getActions().add(new EnemyAction(this, starInterval) {
 				
 				@Override
 				public void execute() {
 					
+					//stars vary in size, speed and distance from the boss
 					float starSize = ThreadLocalRandom.current().nextInt(starSizeMin, starSizeMax);
 					float starSpeed = ThreadLocalRandom.current().nextInt(starSpeedMin, starSpeedMax);
 					float starDist = ThreadLocalRandom.current().nextInt(starDistMin, starDistMax);
@@ -846,6 +862,7 @@ public class Boss4 extends EnemyFloating {
 		singlePulse();
 		singlePulseReturn();
 		
+		//boss repeatedly creates exploding reticles that follow the player
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
 			@Override
@@ -860,6 +877,9 @@ public class Boss4 extends EnemyFloating {
 		changeColor(ParticleColor.RED, 1.0f);
 	}
 	
+	/**
+	 * this creates a single exploding reticle over the input player's location
+	 */
 	private void applyHomingReticle(Player target) {
 		if (target != null) {
 			if (target.isAlive() && target.getPlayerData() != null) {
@@ -891,6 +911,7 @@ public class Boss4 extends EnemyFloating {
 		singleVanish();
 		changeColor(ParticleColor.RED, numReticleWaves * reticleWaveInterval);
 		
+		//the boss summons a large number of random exploding reticles
 		for (int i = 0; i < numReticleWaves; i++) {
 			getSecondaryActions().add(new EnemyAction(this, reticleWaveInterval) {
 				
@@ -922,6 +943,7 @@ public class Boss4 extends EnemyFloating {
 	
 	private final static float teleportDuration = 3.0f;
 	
+	//when transitioning from phase 1 to 2, the boss fades, moves off screen, then reappears at the top of the screen
 	private void teleport() {
 		singleVanish();
 		
@@ -968,6 +990,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float reappearLerp = 0.1f;
 	private static final float reappearScale = 1.0f;
 	
+	//these methods all make the boss shrink/grow with different intervals
 	private void singlePulse() {
 		scaleSize(shrinkScaleIn, shrinkLerpIn, shrinkDurationIn);
 		scaleSize(shrinkScaleOut, shrinkLerpOut, shrinkDurationOut);
@@ -1006,6 +1029,7 @@ public class Boss4 extends EnemyFloating {
 		});
 	}
 	
+	//this creates particles along the boss' perimeter.
 	private static final float WindupOffset = 15.0f;
 	private void windupParticle(float startAngle, Particle particle, ParticleColor color, float particleScale, float lifespan, float duration) {
 		

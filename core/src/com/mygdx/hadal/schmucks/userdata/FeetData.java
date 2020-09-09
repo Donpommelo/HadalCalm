@@ -13,7 +13,7 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
  */
 public class FeetData extends HadalData {
 
-	//These are the event(s) we are standing on, if existant
+	//These are the event(s) we are standing on, if existent
 	private ArrayList<Event> terrain = new ArrayList<Event>();
 	
 	public FeetData(UserDataTypes type, HadalEntity entity) {

@@ -328,7 +328,9 @@ public class EnemyUtils {
 			public void execute() {
 				Vector2 startVelo = new Vector2(0, 1).setAngle(enemy.getAttackAngle());
 				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), duration, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
-
+				hbox.setSyncDefault(false);
+				hbox.setSyncInstant(true);
+				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new FixedToOrigin(state, hbox, enemy, false));
 				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, 0.0f, fireLinger).setParticleColor(color).setParticleSize(size));

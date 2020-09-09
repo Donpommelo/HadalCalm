@@ -80,7 +80,7 @@ public class Sensor extends Event {
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 		
 		if (collision) {
-			body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), new Vector2(size).scl(2), false, 0, 0, 0.0f, 1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
+			FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size).scl(2), false, 0, 0, 0.0f, 1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0);
 		}
 	}
 }

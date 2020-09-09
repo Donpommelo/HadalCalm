@@ -13,6 +13,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 /**
  * This utility generates custom kill text when a player is killed
+ * 
  * @author Zachary Tu
  */
 public class DeathTextUtil {
@@ -89,7 +90,6 @@ public class DeathTextUtil {
 				}
 			}
 		}
-		
 		return possibleMessages;
 	}
 	

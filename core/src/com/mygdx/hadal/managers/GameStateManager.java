@@ -5,7 +5,6 @@ import java.util.Random;
 import java.util.Stack;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -30,7 +29,7 @@ import com.mygdx.hadal.states.*;
 
 /**
  * The GameStateManager manages a stack of game states. This delegates logic to the current game state.
- * For some reason, we are also making it stores everal public fields like the game record and atlases.
+ * For some reason, we are also making it store several public fields like the game record and atlases.
  * @author Zachary Tu
  *
  */
@@ -116,10 +115,9 @@ public class GameStateManager {
 	 * This is called by initmanager after the atlases have been loaded.
 	 */
 	public void loadAssets() {
-		BitmapFont font24 = new BitmapFont();
 		skin = new Skin();
 		skin.addRegions((TextureAtlas) HadalGame.assetManager.get(AssetList.UISKINATL.toString()));
-		skin.add("default-font", font24);
+		skin.add("default-font", HadalGame.SYSTEM_FONT_SPRITE);
 		skin.load(Gdx.files.internal("ui/uiskin.json"));
 		
 		dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_dialogue"));
@@ -131,7 +129,6 @@ public class GameStateManager {
 		bossGaugeCatchupPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge_dark_red"));
 		
 		atlases.add(GameStateManager.particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString()));
-		
 		atlases.add(GameStateManager.projectileAtlas = HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString()));
 		atlases.add(GameStateManager.multitoolAtlas = HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString()));
 		atlases.add(GameStateManager.fishAtlas = HadalGame.assetManager.get(AssetList.FISH_ATL.toString()));
@@ -139,11 +136,11 @@ public class GameStateManager {
 		atlases.add(GameStateManager.eventAtlas = HadalGame.assetManager.get(AssetList.EVENT_ATL.toString()));
 		atlases.add(GameStateManager.uiAtlas = HadalGame.assetManager.get(AssetList.UI_ATL.toString()));
 		atlases.add(GameStateManager.explosionAtlas = HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString()));
-		
 		atlases.add(GameStateManager.exclamationAtlas = HadalGame.assetManager.get(AssetList.EXCLAMATION_ATLAS.toString()));
 		atlases.add(GameStateManager.impactAtlas = HadalGame.assetManager.get(AssetList.IMPACT_ATLAS.toString()));
 		atlases.add(GameStateManager.starShotAtlas = HadalGame.assetManager.get(AssetList.STAR_SHOT_ATLAS.toString()));
 		
+		//initalize pooled particle effects
 		Particle.initParticlePool();
 		
 		//this lets us not declare every attribute of the shader.
@@ -152,7 +149,6 @@ public class GameStateManager {
 	
 	/**
 	 * Run every engine tick. This delegates to the top state telling it how much time has passed since last update.
-	 * @param delta: elapsed time in seconds since last engine tick.
 	 */
 	public void update(float delta) {
 		states.peek().update(delta);
@@ -160,7 +156,6 @@ public class GameStateManager {
 	
 	/**
 	 * Run every engine tick after updating. This will draw stuff and works pretty much like update.
-	 * @param delta: elapsed time in seconds since last engine tick.
 	 */
 	public void render(float delta) {
 		states.peek().render(delta);
@@ -179,6 +174,10 @@ public class GameStateManager {
 			atlas.dispose();
 		}
 		atlases.clear();
+		
+		if (skin != null) {
+			skin.dispose();
+		}
 	}
 	
 	/**

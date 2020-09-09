@@ -47,9 +47,7 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 public class Player extends PhysicsSchmuck {
 	
 	private final static int baseHp = 100;
-	
 	private final static float playerDensity = 1.0f;
-	
 	public final static float controllerInterval = 1 / 60f;
 	
 	//Dimension of player sprite parts.
@@ -77,34 +75,30 @@ public class Player extends PhysicsSchmuck {
 	private TextureRegion reload, reloadMeter, reloadBar;
 	private Texture empty, full;
 	
-	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
-	toolHeight, toolWidth, gemHeight, gemWidth;
+	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight, toolHeight, toolWidth, gemHeight, gemWidth;
 	
 	//Fixtures and user data
 	private Fixture feet, rightSensor, leftSensor;
 	protected FeetData feetData;
-
 	private FeetData rightData;
-
 	private FeetData leftData;
 	
 	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.) and invisibility (to manage particles without checking statuses every tick)
 	private boolean scaling, invisible;
 	
-	protected boolean shootBuffered;
+	//does the player have a shoot/jump or boost action buffered? (i.e used when still on cd)
+	protected boolean shootBuffered, jumpBuffered, airblastBuffered;
 
 	//counters for various cooldowns.
 	protected final static float hoverCd = 0.08f;
 	protected final static float jumpCd = 0.25f;
 	protected float jumpCdCount;
-	protected boolean jumpBuffered;
 	
 	protected final static float fastFallCd = 0.05f;
 	protected float fastFallCdCount;
 	
 	protected final static float airblastCd = 0.25f;
 	protected float airblastCdCount;
-	protected boolean airblastBuffered;
 
 	protected final static float interactCd = 0.15f;
 	protected float interactCdCount;
@@ -112,6 +106,7 @@ public class Player extends PhysicsSchmuck {
 	protected final static float hitSoundCd = 0.15f;
 	protected float hitSoundCdCount, hitSoundLargeCdCount;
 	
+	//this makes the player animate faster in the air for the "luigi legs"
 	private final static float airAnimationSlow = 3.0f;
 
 	//This is the angle that the player's arm is pointing
@@ -123,17 +118,17 @@ public class Player extends PhysicsSchmuck {
 	//The event that the player last collided with. Used for active events that the player interacts with by pressing 'E'
 	private Event currentEvent;
 	
-	//Equipment that the player has built in to their toolset.
+	//Equipment that the player has built into their toolset.
 	private Airblaster airblast;
 	
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
 	protected float controllerCount;
 	
 	//Is the player currently shooting/hovering/fastfalling?
-	private boolean shooting = false;
-	protected boolean hoveringAttempt = false;
-	protected boolean hovering = false;
-	protected boolean fastFalling = false;
+	private boolean shooting;
+	protected boolean hoveringAttempt;
+	protected boolean hovering;
+	protected boolean fastFalling;
 	
 	//This is the percent of reload completed, if reloading. This is used to display the reload ui for all players.
 	protected float reloadPercent, reloadDelayed;
@@ -148,7 +143,7 @@ public class Player extends PhysicsSchmuck {
 	//This is the controller that causes this player to perform actions
 	private ActionController controller;
 	
-	//this exists so that schmucks can steer towards the mouse.
+	//this exists so that player can aim towards the mouse.
 	private MouseTracker mouse;
 	
 	//This is the loadout that this player starts with.
@@ -199,7 +194,7 @@ public class Player extends PhysicsSchmuck {
 		this.start = start;
 		
 		//process player pvp hitbox filter. If newly spawned or coming from non-pvp map, we give a new hbox filter.
-		//Otherwise they get a newly generated filter
+		//Otherwise they get their old hbox filter
 		if (state.isPvp()) {
 			if (oldData == null) {
 				hitboxfilter = PlayState.getPVPFilter();
@@ -274,6 +269,7 @@ public class Player extends PhysicsSchmuck {
 		destroyed = false;
 		spectator = false;
 		
+		//create the player's input controller
 		controller = new ActionController(this, state);
 		
 		//this line syncs the player's inputs so that holding a button will keep that action held after map transitions
@@ -300,22 +296,22 @@ public class Player extends PhysicsSchmuck {
 		//On the server, we create several extra fixtures to keep track of feet/sides to determine when the player gets their jump back and what terrain event they are standing on.
 		this.feetData = new FeetData(UserDataTypes.FEET, this); 
 		
-		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter));
+		this.feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
+				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter);
 		
 		feet.setUserData(feetData);
 		
 		this.leftData = new FeetData(UserDataTypes.FEET, this); 
 		
-		this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(-size.x / 2, 0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL), hitboxfilter));
+		this.leftSensor = FixtureBuilder.createFixtureDef(body, new Vector2(-size.x / 2, 0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
+				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL), hitboxfilter);
 		
 		leftSensor.setUserData(leftData);
 		
 		this.rightData = new FeetData(UserDataTypes.FEET, this); 
 		
-		this.rightSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(size.x / 2,  0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter));
+		this.rightSensor = FixtureBuilder.createFixtureDef(body, new Vector2(size.x / 2,  0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
+				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter);
 		
 		rightSensor.setUserData(rightData);
 
@@ -452,6 +448,7 @@ public class Player extends PhysicsSchmuck {
 		hitSoundCdCount -= delta;
 		hitSoundLargeCdCount -= delta;
 		
+		//if inputting certain actions during cooldown, an action is buffered
 		if (jumpBuffered && jumpCdCount < 0) {
 			jumpBuffered = false;
 			jump();
@@ -577,7 +574,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void release() {
 		if (alive && shooting) {
-			useToolRelease(playerData.getCurrentTool(), hitboxfilter, mouse.getPixelPosition());
+			useToolRelease(playerData.getCurrentTool(), mouse.getPixelPosition());
 		}
 	}
 	
@@ -892,6 +889,9 @@ public class Player extends PhysicsSchmuck {
 		playerData.setOverrideHpPercent(0);
 	}
 	
+	/**
+	 * When the player deals damage, we play this hitsound depending on the amount of damage dealt
+	 */
 	private final static float maxDamageThreshold = 60.0f;
 	public void playHitSound(float damage) {
 		

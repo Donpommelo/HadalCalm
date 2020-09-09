@@ -57,7 +57,7 @@ public class PlayerBodyData extends BodyData {
 	private ActiveItem activeItem;
 	
 	//This is the slot number of the player's currently selected weapon
-	private int currentSlot = 0;
+	private int currentSlot;
 	
 	//This is the player's last used slot. (Used for switch-to-last-slot button)
 	private int lastSlot = 1;
@@ -71,7 +71,6 @@ public class PlayerBodyData extends BodyData {
 		super(player, player.getBaseHp());
 		this.player = player;
 		this.loadout = new Loadout(loadout);
-		currentSlot = 0;
 	}
 	
 	/**
@@ -604,10 +603,12 @@ public class PlayerBodyData extends BodyData {
 			
 			schmuck.getState().onPlayerDeath(player, perp.getSchmuck());
 			
+			//delete the player's mouse pointer
 			if (player.getMouse() != player.getState().getMouse()) {
 				player.getMouse().queueDeletion();
 			}
 			
+			//run the unequip method for current weapon (certain weapons need this to stop playing a sound)
 			if (currentTool != null) {
 				currentTool.unequip(player.getState());
 			}

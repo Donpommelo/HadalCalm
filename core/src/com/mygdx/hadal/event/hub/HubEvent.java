@@ -21,13 +21,22 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class HubEvent extends Event {
 
+	//is the even menu currently open
 	protected boolean open;
+	
+	//the string that is displayed in the menu
 	protected String title;
+	
+	//this is the type of hub
 	protected hubTypes type;
+	
+	//should we check unlock status for options? should we close the menu when the player moves far away from the event?
 	protected boolean checkUnlock, closeOnLeave;
 	
+	//options dsplayed here must have these tags.
 	protected ArrayList<UnlockTag> tags;
 	
+	//the distance the player can move away before the menu disappears
 	private static float maxDistance = 5.0f;
 	
 	public HubEvent(final PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave, hubTypes type) {

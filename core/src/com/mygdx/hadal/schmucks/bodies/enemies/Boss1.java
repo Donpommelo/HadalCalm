@@ -29,7 +29,7 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class Boss1 extends EnemyFloating {
 	
-	private final static String name = "BOSS1";
+	private final static String name = "SLIGHTLY LARGER FISH";
 
     private static final float aiAttackCd = 3.0f;
     private static final float aiAttackCd2 = 2.2f;

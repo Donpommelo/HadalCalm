@@ -91,7 +91,6 @@ public enum UnlockLevel {
 	SLUICEBOSS("Maps/sluiceboss.tmx"),
 	PARTY("Maps/party.tmx"),
 
-	
 	;
 	
 	//the level's filename
@@ -133,7 +132,6 @@ public enum UnlockLevel {
 				items.add(u);
 			}
 		}
-		
 		return items;
 	}
 	

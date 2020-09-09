@@ -43,6 +43,7 @@ public class TitleState extends GameState {
 	//Textfields for the player to enter an ip to connect to or change their name
 	private TextField enterName, enterIP;
 	
+	//ambient particle effects
 	private PooledEffect jelly, diatom1, diatom2, diatom3;
 	
 	//Dimentions and position of the title menu
@@ -92,7 +93,7 @@ public class TitleState extends GameState {
 	private final static int diatom3Y = 30;
 	
 	//This boolean determines if input is disabled. input is disabled if the player joins/hosts.
-	private boolean inputDisabled = false;
+	private boolean inputDisabled;
 	
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -119,6 +120,8 @@ public class TitleState extends GameState {
 					@Override
 				    public void draw(Batch batch, float alpha) {
 						super.draw(batch, alpha);
+						
+						//draw particles here to avoid drawing them underneath the background. (b/c stage renders above state.render())
 						diatom1.draw(batch, 0);
 						diatom2.draw(batch, 0);
 						diatom3.draw(batch, 0);
@@ -436,11 +439,6 @@ public class TitleState extends GameState {
 				
 				addActor(notifications);
 				addActor(versionNum);
-				
-				diatom1.start();
-				diatom2.start();
-				diatom3.start();
-				jelly.start();
 			}
 		};
 		app.newMenu(stage);
@@ -453,7 +451,6 @@ public class TitleState extends GameState {
 		diatom1.update(delta);
 		diatom2.update(delta);
 		diatom3.update(delta);
-
 		jelly.update(delta);
 	}
 

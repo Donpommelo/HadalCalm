@@ -28,9 +28,12 @@ public class ActionController {
 		this.state = state;
 	}
 	
+	/**
+	 * onReset is true if this is being called by the controller being synced (from finishing a transition/opening window)
+	 * when this happens, we don't want to trigger jumping/shooting, just reset our button-held statuses
+	 */
 	public boolean keyUp(PlayerAction action, boolean onReset) {
 		if (player == null) { return true; }
-
 		if (player.getPlayerData() == null) return true;
 		
 		if (action == PlayerAction.WALK_LEFT) {
@@ -87,7 +90,6 @@ public class ActionController {
 	
 	public boolean keyDown(PlayerAction action, boolean onReset) {
 		if (player == null) return true;
-
 		if (player.getPlayerData() == null) return true;
 
 		if (action == PlayerAction.WALK_LEFT) {
@@ -191,7 +193,6 @@ public class ActionController {
 				state.getUiHub().leave();
 			}
 		}
-		
 		return false;
 	}
 	

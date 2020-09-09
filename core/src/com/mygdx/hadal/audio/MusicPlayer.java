@@ -15,7 +15,7 @@ public class MusicPlayer {
 	private GameStateManager gsm;
 	
 	//this is the song currently playing
-    private Music currentSong = null;
+    private Music currentSong;
 	
     //this is the song to be played next
     private MusicTrack nextSong;

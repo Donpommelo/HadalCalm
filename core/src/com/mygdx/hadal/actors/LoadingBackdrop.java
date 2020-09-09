@@ -12,6 +12,7 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class LoadingBackdrop extends AHadalActor {
 	
+	//atlas for the displayed image. exposed with getter so it can be disposed of.
 	private TextureAtlas atlas;
 	
 	//This is the animation of this sprite
@@ -25,7 +26,7 @@ public class LoadingBackdrop extends AHadalActor {
 	
 	public LoadingBackdrop() {
 		atlas = new TextureAtlas("ui/anchor_logo.atlas");
-		loading = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, atlas.findRegions("anchor_logo"));
+		loading = new Animation<TextureRegion>(PlayState.spriteAnimationSpeedFast, atlas.findRegions("anchor_logo"));
 		
 		//This image takes up the whole screen.
 		this.width = loading.getKeyFrame(0).getRegionWidth();
@@ -39,4 +40,6 @@ public class LoadingBackdrop extends AHadalActor {
         progress = HadalGame.assetManager.getProgress();
         batch.draw((TextureRegion) loading.getKeyFrame(progress * loading.getAnimationDuration(), true), (HadalGame.CONFIG_WIDTH - width) / 2, (HadalGame.CONFIG_HEIGHT - height) / 2, width, height);
     }
+	
+	public TextureAtlas getAtlas() { return atlas; }
 }

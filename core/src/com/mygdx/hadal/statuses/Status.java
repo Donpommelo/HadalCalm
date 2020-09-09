@@ -29,7 +29,7 @@ public class Status {
 	//this is the artifact that this status is attached to. (null for non-artifact statuses). This is used to remove an artifact statuses when unequipping
 	private UnlockArtifact artifact;
 	
-	public Status(PlayState state, float i, Boolean perm, BodyData p, BodyData v){
+	public Status(PlayState state, float i, Boolean perm, BodyData p, BodyData v) {
 		this.state = state;
 		this.duration = i;
 		this.perm = perm;

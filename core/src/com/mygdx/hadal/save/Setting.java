@@ -118,7 +118,7 @@ public class Setting {
 		soundVolume = 1.0f;
 		musicVolume = 1.0f;
 		masterVolume = 1.0f;
-		hitsoundVolume = 0.5f;
+		hitsoundVolume = 0.4f;
 		hitsoundType = 1;
 	}
 	
@@ -265,10 +265,16 @@ public class Setting {
 		}
 	}
 	
+	/**
+	 * Get a sound effect corresponding to the player's currently used hitsound.
+	 */
 	public SoundEffect indexToHitsound() {
 		return indexToHitsound(hitsoundType);
 	}
 	
+	/**
+	 * Get a sound effect corresponding to a certain hitsound. (this is used for previewing hitsounds)
+	 */
 	public SoundEffect indexToHitsound(int hitsoundType) {
 		switch (hitsoundType) {
 		case 1:

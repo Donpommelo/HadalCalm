@@ -2,6 +2,7 @@ package com.mygdx.hadal.strategies.shader;
 
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.ShaderStrategy;
 
@@ -18,7 +19,7 @@ public class PlayerCoord extends ShaderStrategy {
 		if (state.getPlayer() != null) {
 			screenCoord.x = state.getPlayer().getPixelPosition().x;
 			screenCoord.y = state.getPlayer().getPixelPosition().y;
-			state.camera.project(screenCoord);
+			HadalGame.viewportCamera.project(screenCoord);
 			shader.setUniformf("u_player", screenCoord);
 		}
 	}

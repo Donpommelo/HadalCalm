@@ -228,8 +228,14 @@ public enum SoundEffect {
 		return (long) 0;
 	}
 	
+	/**
+	 * This registers a hitsound for the chosen player.
+	 * Large indicates the damage was high or fatal and pitches up the sound.
+	 * This is only run on the server.
+	 */
 	public static void registerHitSound(GameStateManager gsm, Player player, boolean large) {
 		
+		//play sound right away for host, otherwise send packet
 		if (player.getConnID() == 0) {
 			playHitSound(gsm, large);
 		} else {
@@ -237,6 +243,10 @@ public enum SoundEffect {
 		}
 	}
 	
+	/**
+	 * This actually plays the hitsound.
+	 * This is run for player that dealt the damage and is run for both host or client
+	 */
 	public static void playHitSound(GameStateManager gsm, boolean large) {
 		if (gsm.getSetting().getHitsound() != 0) {
 			

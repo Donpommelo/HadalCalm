@@ -11,7 +11,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
  * A delayed spawn waits for a brief period of time, then dies and spawns a chosen enemy
- * This event is only ever created dynamivally and so it does not have any connection behavior and will never be parsed from a tiled map.
+ * This event is only ever created dynamically and so it does not have any connection behavior and will never be parsed from a tiled map.
  * @author Zachary Tu
  */
 public class DelayedSpawn extends Event {
@@ -41,6 +41,7 @@ public class DelayedSpawn extends Event {
 		
 		setStandardParticle(Particle.RING);
 		
+		//bosses create bigger particles
 		if (isBoss) {
 			standardParticle.setScale(particleScaleBoss);
 		} else {

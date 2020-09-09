@@ -34,7 +34,7 @@ public class CreateParticles extends HitboxStrategy {
 	private ParticleEntity particle;
 	
 	//does the particle rotate to match the velocity of the hbox (used for stuff like chain lightning)
-	private boolean rotate = false;
+	private boolean rotate;
 	
 	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger) {
 		super(state, proj, user);

@@ -139,6 +139,7 @@ public class Enemy extends Schmuck {
 				player.getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
 			}
 			
+			//this method should be overloaded for bosses that scale to the number of players
 			multiplayerScaling(HadalGame.server.getPlayers().values().size());
 		}
 	}
@@ -214,6 +215,7 @@ public class Enemy extends Schmuck {
 		
 		boolean visible = false;
 		
+		//draw hp bar if certain effects are used
 		if (state.isServer()) {
 			if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
 				visible = true;
@@ -308,6 +310,8 @@ public class Enemy extends Schmuck {
 			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
 			if (isBoss) {
 				((ClientState) state).getUiPlay().setOverrideBossHpPercent(p.hpPercent);
+				
+				//clear the boss ui for clients
 				if (p.hpPercent <= 0.0f) {
 					state.clearBoss();
 				}

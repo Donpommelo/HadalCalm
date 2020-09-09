@@ -49,7 +49,8 @@ public class SettingState extends GameState {
 	private PlayState playstate;
 	
 	//This determines whether the pause state should be removed or not next engine tick.
-	private boolean toRemove = false;
+	//We do this instead of removing right away in case we remove as a result of receiving a packet from another player unpausing (which can happen whenever).
+	private boolean toRemove;
 	
 	//This table contains the ui elements of the pause screen
 	private Table options, details, extra;
@@ -96,6 +97,9 @@ public class SettingState extends GameState {
 	private Shader shaderBackground;
 	private TextureRegion bg;
 	
+	/**
+	 * Constructor will be called when the player enters the setting state from the title menu or the pause menu.
+	 */
 	public SettingState(GameStateManager gsm, PauseState ps) {
 		super(gsm);
 		this.ps = ps;
@@ -200,6 +204,8 @@ public class SettingState extends GameState {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+						
+						//if exiting to title screen, play transition. Otherwise, just remove this state
 						if (ps == null) {
 							gsm.getApp().fadeOut();
 							gsm.getApp().setRunAfterTransition(new Runnable() {
@@ -213,7 +219,6 @@ public class SettingState extends GameState {
 							gsm.removeState(SettingState.class);
 						}
 			        }
-					
 			    });
 				exitOption.setScale(optionsScale);
 				
@@ -222,8 +227,8 @@ public class SettingState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						saveSettings();
 						SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
+						saveSettings();
 			        }
 			    });
 				saveOption.setScale(optionsScale);
@@ -290,9 +295,7 @@ public class SettingState extends GameState {
 			@Override
 			public boolean mouseMoved(int screenX, int screenY) { return false; }
 
-			/**
-			 * This is just a janky way of implementing setting mouse wheel as a hotkey.
-			 */
+			//This is just a janky way of implementing setting mouse wheel as a hotkey.
 			@Override
 			public boolean scrolled(int amount) { return keyDown(amount * 1000); }
 			
@@ -431,7 +434,7 @@ public class SettingState extends GameState {
 		
 		details.add(new Text("AUDIO", 0, 0, false)).colspan(2).pad(titlePad).row();
 		
-		final Text soundText = new Text("SOUND VOLUME: " + (int)(gsm.getSetting().getSoundVolume() * 100), 0, 0, false);
+		Text soundText = new Text("SOUND VOLUME: " + (int)(gsm.getSetting().getSoundVolume() * 100), 0, 0, false);
 		soundText.setScale(detailsScale);
 		
 		sound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
@@ -445,7 +448,7 @@ public class SettingState extends GameState {
 			}
 		});
 		
-		final Text musicText = new Text("MUSIC VOLUME: " + (int)(gsm.getSetting().getMusicVolume() * 100), 0, 0, false);
+		Text musicText = new Text("MUSIC VOLUME: " + (int)(gsm.getSetting().getMusicVolume() * 100), 0, 0, false);
 		musicText.setScale(detailsScale);
 		
 		music = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
@@ -459,7 +462,7 @@ public class SettingState extends GameState {
 			}
 		});
 		
-		final Text masterText = new Text("MASTER VOLUME: " + (int)(gsm.getSetting().getMasterVolume() * 100), 0, 0, false);
+		Text masterText = new Text("MASTER VOLUME: " + (int)(gsm.getSetting().getMasterVolume() * 100), 0, 0, false);
 		masterText.setScale(detailsScale);
 		
 		master = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
@@ -484,13 +487,15 @@ public class SettingState extends GameState {
 			
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				
+				//when selecting a hitsound, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
 					gsm.getSetting().indexToHitsound(hitsoundOptions.getSelectedIndex()).play(gsm, gsm.getSetting().getHitsoundVolume(), 1.0f, false);
 				}
 			}
 		});
 		
-		final Text hitsoundVolumeText = new Text("HITSOUND VOLUME: " + (int)(gsm.getSetting().getHitsoundVolume() * 100), 0, 0, false);
+		Text hitsoundVolumeText = new Text("HITSOUND VOLUME: " + (int)(gsm.getSetting().getHitsoundVolume() * 100), 0, 0, false);
 		hitsoundVolumeText.setScale(detailsScale);
 		
 		hitsound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
@@ -695,10 +700,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().saveSetting();
 			miscSelected();
 			break;
-		default:
-			break;
 		}
-		
 		updateSharedSettings();
 	}
 	
@@ -730,10 +732,8 @@ public class SettingState extends GameState {
 			gsm.getSetting().resetMisc();
 			gsm.getSetting().saveSetting();
 			miscSelected();
-		default:
 			break;
 		}
-		
 		updateSharedSettings();
 	}
 	
@@ -752,7 +752,7 @@ public class SettingState extends GameState {
 	}
 	
 	/**
-	 * This converts a keycode to s readable string
+	 * This converts a keycode to a readable string
 	 * @param keycode: key to read
 	 * @return: string to return 
 	 */
@@ -825,7 +825,7 @@ public class SettingState extends GameState {
 	@Override
 	public boolean processTransitions() { 
 		
-		//if this is a setting state over a play state, we don't process transitions
+		//if this is a setting state over a title state, we don't process transitions
 		if (ps == null) {
 			return true;
 		} else {
@@ -839,6 +839,5 @@ public class SettingState extends GameState {
 		AUDIO,
 		GAMEPLAY,
 		MISC,
-		MULTIPLAYER,
 	}
 }

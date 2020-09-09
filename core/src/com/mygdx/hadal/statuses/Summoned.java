@@ -20,6 +20,12 @@ public class Summoned extends Status {
 	}
 	
 	@Override
+	public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) { 
+		summoner.playHitSound(damage);
+		return damage;	
+	}
+	
+	@Override
 	public void onKill(BodyData vic) {
 		if (vic.getSchmuck() instanceof Player) {
 			HadalGame.server.registerKill(summoner, null);

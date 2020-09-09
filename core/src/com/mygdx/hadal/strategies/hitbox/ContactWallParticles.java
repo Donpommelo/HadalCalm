@@ -30,7 +30,7 @@ public class ContactWallParticles extends HitboxStrategy {
 	private ParticleColor color = ParticleColor.NOTHING;
 	
 	//do we draw the particles at an offset from the hbox? (used for larger hboxes)
-	private boolean isOffset = false;
+	private boolean isOffset;
 	
 	public ContactWallParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
 		super(state, proj, user);
@@ -48,7 +48,6 @@ public class ContactWallParticles extends HitboxStrategy {
 				if (isOffset) {
 					offset.add(new Vector2(hbox.getLinearVelocity()).nor().scl(hbox.getSize().x / 2));
 				}
-				
 				new ParticleEntity(state, offset, effect, duration, true, particleSyncType.CREATESYNC).setColor(color);
 			}
 		}

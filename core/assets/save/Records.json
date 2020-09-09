@@ -12,7 +12,7 @@ flags: {
 	SLUICE2SC: 0
 	DERELICTTB5: 0
 	SLUICE1SC: 0
-	HUB_REACHED: 0
+	HUB_REACHED: 1
 	PLENUM1SC: 0
 	SLUICEFINALSC: 0
 	PLENUM0SC: 0
@@ -37,7 +37,7 @@ flags: {
 lastIp: ""
 hiScores: {
 	class: java.util.HashMap
-	ARENA_LAGAN: 0
+	ARENA_LAGAN: 2
 	ARENA_HORIZON: 0
 	ARENA_WARP: 0
 	ARENA_FLOTSAM: 0

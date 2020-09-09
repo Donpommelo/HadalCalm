@@ -38,14 +38,14 @@ public class Schmuck extends HadalEntity {
 	protected boolean grounded;
 	
 	//Counters that keep track of delay between action initiation + action execution and action execution + next action
-	protected float shootCdCount = 0;
-	protected float shootDelayCount = 0;
+	protected float shootCdCount;
+	protected float shootDelayCount;
 	
 	//The last used tool. This is used to process equipment with a delay between using and executing.
 	protected Equipable usedTool;
 	
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
-	protected float controllerCount = 0;
+	protected float controllerCount;
 	
 	//This particle is triggered upon receiving damage
 	public ParticleEntity impact;
@@ -155,10 +155,9 @@ public class Schmuck extends HadalEntity {
 	 * This method is called after the user releases the button for a tool. Mostly used by charge weapons that execute when releasing
 	 * instead of after pressing.
 	 * @param tool: tool to release
-	 * @param hitbox: aka filter. Who will be affected by this equipment? Player or enemy or neutral?
 	 * @param mouseLocation: screen coordinate that represents where the tool is being directed.
 	 */
-	public void useToolRelease(Equipable tool, short hitbox, Vector2 mouseLocation) {
+	public void useToolRelease(Equipable tool, Vector2 mouseLocation) {
 		tool.release(state, getBodyData());
 	}	
 	

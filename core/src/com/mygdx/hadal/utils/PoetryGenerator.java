@@ -4,6 +4,13 @@ import java.util.ArrayList;
 
 import com.mygdx.hadal.managers.GameStateManager;
 
+/**
+ * a frightful resentment invests like a lens.
+ * otherwise, a selfish thimble writhes.
+ * witness! the misshapen crux of cartilage.
+ * @author Zachary Tu
+ *
+ */
 public enum PoetryGenerator {
 
 	VERSE1_START("", "verse1_start", "verse1_next", "start1"),
@@ -100,16 +107,16 @@ public enum PoetryGenerator {
 	
 	private static final int maxLengthExtras = 2;
 	
-	//This name and the end of this name fragment
+	//This name and the end of this poem fragment
 	private String me, endTag, endPhrase;
 	
 	//how likely is this segment to follow any of its predecessors?
 	private int weight;
 	
-	//this counts the amount of "extra" modifiers (like adjectives/adverbs) This is limited t oavoid overly long lines.
+	//this counts the amount of "extra" modifiers (like adjectives/adverbs) This is limited to avoid overly long lines.
 	private int lengthExtra;
 	
-	//A list of name fragments that this name fragment can follow.
+	//A list of poem fragments that this poem fragment can follow.
 	private String[] canFollow;
 	
 	PoetryGenerator(String me, String endTag, String endPhrase, int weight, int lengthExtra, String... canFollow) {
@@ -141,20 +148,24 @@ public enum PoetryGenerator {
 		return  verse1 + "\n" + verse2 + "\n" + verse3;
 	}
 	
+	//this keeps track of how many "extra length" poem segments have been added.
 	private static int currentLengthExtra;
 	/**
-	 * Recursive case. Randomly select a valid next name fragment
-	 * @param prev: The name so far
-	 * @return: The generated name fragment, plus the rest of the name
+	 * Recursive case. Randomly select a valid next poem fragment
+	 * @param prev: The poem so far
+	 * @return: The generated poem fragment, plus the rest of the poem
 	 */
 	public static String generateName(String prev) {
 		
 		ArrayList<PoetryGenerator> possibleNexts = new ArrayList<PoetryGenerator>();
 		
+		//identify all possible next poetry fragments
 		for (PoetryGenerator gen: PoetryGenerator.values()) {
 			for (int i = 0; i < gen.canFollow.length; i++) {
 				if (gen.canFollow[i].equals(prev)) {
 					for (int j = 0; j < gen.weight; j++) {
+						
+						//if poem has too many "extra length" fragments, we cannot add any more.
 						if (currentLengthExtra + gen.lengthExtra <= maxLengthExtras) {
 							possibleNexts.add(gen);
 						}
@@ -163,10 +174,9 @@ public enum PoetryGenerator {
 			}
 		}
 		
-		if (possibleNexts.isEmpty()) {
-			return "";
-		}
+		if (possibleNexts.isEmpty()) { return ""; }
 		
+		//pick a random possible next fragment and add it.
 		int randomIndex = GameStateManager.generator.nextInt(possibleNexts.size());
 		PoetryGenerator next = possibleNexts.get(randomIndex);
 		currentLengthExtra += next.lengthExtra;
@@ -175,9 +185,11 @@ public enum PoetryGenerator {
 			return TextFilterUtil.filterPoemTags(next.me);
 		}
 		
+		//filter poem fragments which contain etra text tags
 		String nextWord = TextFilterUtil.filterPoemTags(generateName(next.endTag));
 		String thisWord = TextFilterUtil.filterPoemTags(next.me);
 		
+		//deal with a/an and vowels
 		if (next.endTag.equals("a")) {
 			if (nextWord.length() >= 2) {
 				if (nextWord.charAt(1) == 'a' || nextWord.charAt(1) == 'e' || nextWord.charAt(1) == 'i' || nextWord.charAt(1) == 'o' || nextWord.charAt(1) == 'u') {

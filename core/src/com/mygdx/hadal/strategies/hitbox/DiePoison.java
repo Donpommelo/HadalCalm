@@ -20,8 +20,7 @@ public class DiePoison extends HitboxStrategy {
 	//the hbox filter that determines who can be damaged by the poison
 	private short filter;
 	
-	public DiePoison(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, 
-			float poisonDuration, short filter) {
+	public DiePoison(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {
 		super(state, proj, user);
 		this.poisonRadius = poisonRadius;
 		this.poisonDamage = poisonDamage;

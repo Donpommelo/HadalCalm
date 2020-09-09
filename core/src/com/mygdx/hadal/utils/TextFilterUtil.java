@@ -17,9 +17,7 @@ public class TextFilterUtil {
 		
 		String filteredText = text;
 		
-		if (text == null) {
-			return text;
-		}
+		if (text == null) {	return text; }
 		
 		filteredText = filterTag(filteredText, "<body part>");
 		filteredText = filterTag(filteredText, "<color>");
@@ -44,12 +42,13 @@ public class TextFilterUtil {
 		return filteredText;
 	}
 	
+	/**
+	 * this is similar to filterText, except is used exclusively for poetry.
+	 */
 	public static String filterPoemTags(String text) {
 		String filteredText = text;
 		
-		if (text == null) {
-			return text;
-		}
+		if (text == null) {	return text; }
 		
 		filteredText = filterTag(filteredText, "<preposition>");
 		filteredText = filterTag(filteredText, "<noun_abstract>");
@@ -69,7 +68,6 @@ public class TextFilterUtil {
 		filteredText = filterTag(filteredText, "<subordinating_conjunction>");
 		filteredText = filterTag(filteredText, "<conjunctive_adverb>");
 		filteredText = filterTag(filteredText, "<verse_enders>");
-		
 		filteredText = filterTag(filteredText, "<color>");
 		
 		return filteredText;
@@ -156,7 +154,6 @@ public class TextFilterUtil {
 		filteredText = filteredText.replaceAll("fugswitch2fug", PlayerAction.SWITCH_TO_2.getKeyText());
 		filteredText = filteredText.replaceAll("fugswitch3fug", PlayerAction.SWITCH_TO_3.getKeyText());
 		filteredText = filteredText.replaceAll("fugreloadfug", PlayerAction.RELOAD.getKeyText());
-		
 		filteredText = filteredText.replaceAll("fugactivefug", PlayerAction.ACTIVE_ITEM.getKeyText());
 		filteredText = filteredText.replaceAll("fugmessagefug", PlayerAction.MESSAGE_WINDOW.getKeyText());
 		

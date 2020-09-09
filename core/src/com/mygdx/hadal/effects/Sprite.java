@@ -227,12 +227,13 @@ public enum Sprite {
 	//These are the frames of the sprite.
 	private Array<? extends TextureRegion> frames;
 	
+	//how is this sprite animated? and how fast?
 	private PlayMode playMode = PlayMode.LOOP;
 	private float animationSpeed = PlayState.spriteAnimationSpeedFast;
 	
-	public static final float spriteAnimationSpeed = 0.08f;
-	public static final float spriteAnimationSpeedFast = 0.04f;
-	
+	/**
+	 * This constructor is used for sprites that are animated differently.
+	 */
 	Sprite(SpriteType type, String spriteId, PlayMode playMode, float animationSpeed) {
 		this(type, spriteId);
 		this.playMode = playMode;

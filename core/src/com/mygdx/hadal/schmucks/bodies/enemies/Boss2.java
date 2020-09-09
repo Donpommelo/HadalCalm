@@ -89,6 +89,7 @@ public class Boss2 extends EnemyFloating {
 		
 		final BodyData me = getBodyData();
 		
+		//each boss link has the same body data. damaging a link damages the boss with reduced damage
 		BodyData link = new BodyData(this, baseHp) {
 			
 			@Override
@@ -98,6 +99,7 @@ public class Boss2 extends EnemyFloating {
 			}
 		};
 		
+		//create each link of the boss' body
 		for (int i = 0; i < links.length; i ++) {
 			links[i] = BodyBuilder.createBox(world, startPos, getHboxSize(), 0, 1, 0, false, false, Constants.BIT_ENEMY, (short) (Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
 					hitboxfilter, false, link);
@@ -165,6 +167,7 @@ public class Boss2 extends EnemyFloating {
 				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
 	}
 	
+	//this changes the boss' face to a random one
 	public void setFaceSprite() {
 		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(GameStateManager.generator.nextInt(5));
 	}
@@ -572,13 +575,14 @@ public class Boss2 extends EnemyFloating {
 	@Override
 	public void dispose() {
 		
-		//check of destroyed to avoid double-destruction
+		//check destroyed to avoid double-destruction
 		if (destroyed == false) {
 			destroyed = true;
 			alive = false;
 			if (body != null) {
 				world.destroyBody(body);
 				
+				//make sure we delete the links as well
 				for (int i = 0; i < links.length; i++) {
 					world.destroyBody(links[i]);
 				}
@@ -586,6 +590,7 @@ public class Boss2 extends EnemyFloating {
 		}
 	}	
 
+	//boss is never culled to avoid culling links when head is out of view
 	@Override
 	public boolean isVisible() {
 		return true;

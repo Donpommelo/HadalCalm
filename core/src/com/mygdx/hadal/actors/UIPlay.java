@@ -142,7 +142,7 @@ public class UIPlay extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {
 		
-		batch.setProjectionMatrix(state.hud.combined);
+		batch.setProjectionMatrix(state.getHud().combined);
 		calcVars();
 		
 		//Draw boss hp bar, if existent

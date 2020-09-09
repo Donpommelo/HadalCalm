@@ -36,7 +36,7 @@ public class SoundEntity extends HadalEntity {
 	private HadalEntity attachedEntity;
 	private String attachedId;
 	
-	//how is this entity synced? (this works identically to particle entities
+	//how is this entity synced? (this works identically to particle entities)
 	private soundSyncType sync;
 	
 	//Has the attached entity despawned yet?

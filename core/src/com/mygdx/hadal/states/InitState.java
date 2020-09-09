@@ -18,6 +18,8 @@ import com.mygdx.hadal.managers.GameStateManager.State;
  */
 public class InitState extends GameState {
 
+	private LoadingBackdrop backdrop;
+	
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
 	 * @param gsm
@@ -31,7 +33,8 @@ public class InitState extends GameState {
 		stage = new Stage() {
 			{
 				//Our only actor here is a loading screen image
-				addActor(new LoadingBackdrop());
+				backdrop = new LoadingBackdrop();
+				addActor(backdrop);
 			}
 		};
 		app.newMenu(stage);
@@ -60,7 +63,7 @@ public class InitState extends GameState {
 	public void update(float delta) {
 		if (HadalGame.assetManager.update()) {
 			
-			//If we are done loading, do to title state and set up gsm assets (static atlases and stuff like that)
+			//If we are done loading, go to title state and set up gsm assets (static atlases and stuff like that)
 			gsm.loadAssets();
 			gsm.addState(State.TITLE, InitState.class);
 			gsm.getApp().setFadeLevel(1.0f);
@@ -72,5 +75,8 @@ public class InitState extends GameState {
 	public void render(float delta) {}
 
 	@Override
-	public void dispose() {	stage.dispose(); }
+	public void dispose() {
+		backdrop.getAtlas().dispose();
+		stage.dispose(); 
+	}
 }

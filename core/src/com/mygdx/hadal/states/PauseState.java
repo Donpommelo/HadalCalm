@@ -38,7 +38,8 @@ public class PauseState extends GameState {
 	private String pauser;
 	
 	//This determines whether the pause state should be removed or not next engine tick.
-	private boolean toRemove = false;
+	//We do this instead of removing right away in case we remove as a result of receiving a packet from another player unpausing (which can happen whenever).
+	private boolean toRemove;
 	
 	//is the game paused underneath this menu?
 	private boolean paused;
@@ -47,6 +48,7 @@ public class PauseState extends GameState {
 	private final static int width = 500;
 	private final static int height = 300;
 	private final static int extraRowHeight = 100;
+	private final static float pauseTextScale = 0.5f;
 	
 	/**
 	 * Constructor will be called whenever a player pauses.
@@ -76,10 +78,12 @@ public class PauseState extends GameState {
 				//make the menu size adjust based on how many options are available
 				int menuHeight = height;
 				
+				//extra "return to hub" option is added if the hub has been reached or if the player is in multipalyer mode.
 				if (ps.isServer() && (gsm.getRecord().getFlags().get("HUB_REACHED").equals(1) || GameStateManager.currentMode == Mode.MULTI)) {
 					menuHeight += extraRowHeight;
 				}
 				
+				//extra "spectate" option is added if the player is a client and in multiplayer mode.
 				if (ps.isHub() && !ps.isServer() && GameStateManager.currentMode == Mode.MULTI) {
 					menuHeight += extraRowHeight;
 				}
@@ -92,12 +96,13 @@ public class PauseState extends GameState {
 				table.setSize(width, menuHeight);
 				addActor(table);
 				
+				//text indicates if the game is actually paused or not (if multiplayer pause is disabled in settings)
 				if (paused) {
 					pause = new Text("PAUSED BY \n" + pauser, 0, 0, false);
 				} else {
 					pause = new Text("GAME NOT PAUSED", 0, 0, false);
 				}
-				pause.setScale(0.5f);
+				pause.setScale(pauseTextScale);
 				
 				resumeOption = new Text("RESUME", 0, 0, true);
 				hubOption = new Text("RETURN TO HUB", 0, 0, true);
@@ -186,13 +191,13 @@ public class PauseState extends GameState {
 				table.add(pause).pad(5).expand().top().row();
 				table.add(resumeOption).expand().row();
 				
-				//don't add return to hub option in singleplayer if hub hasn't bee nreached yet
+				//don't add return to hub option in singleplayer if hub hasn't been reached yet
 				if (ps.isServer() && (gsm.getRecord().getFlags().get("HUB_REACHED").equals(1) || GameStateManager.currentMode == Mode.MULTI)) {
 					table.add(hubOption).expand().row();
 				}
 				table.add(settingOption).expand().row();
 				
-				//atm, only cliens can manually join spectator mode
+				//atm, only clients can manually join spectator mode
 				if (ps.isHub() && !ps.isServer() && GameStateManager.currentMode == Mode.MULTI) {
 					if (ps.isSpectatorMode()) {
 						table.add(joinOption).expand().row();
@@ -337,6 +342,7 @@ public class PauseState extends GameState {
 
 	public String getPauser() {	return pauser; }	
 	
+	//if the game isn't really paused, we want to process transitions (if the player dies or level transitions level while menu is visible)
 	@Override
 	public boolean processTransitions() { return !paused; }
 }

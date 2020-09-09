@@ -12,14 +12,27 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * A ClientPlayer represents a client's own player.
+ * This processes things like client prediction
+ * @author Zachary Tu
+ *
+ */
 public class ClientPlayer extends Player {
 
-//	private TextureRegion extrapolationIndicator, predictionIndicator;
+	//this represents how precisely we lerp towards the server position
+	private final static float CONVERGE_MULTIPLIER = 0.05f;
+	
+	//these are the amounts of latency in seconds under which the prediction strategy will kick in.
+	private final static float LATENCY_THRESHOLD_MIN = 0.08f;
+	private final static float LATENCY_THRESHOLD_MAX = 0.1f;
+	
+	//tolerance variables. if the prediction is incorrect by more than these thresholds, we must adjust our predictions
+	private final static float VELO_TOLERANCE = 200.0f;
+	private final static float DIST_TOLERANCE = 12.0f;
+	
 	public ClientPlayer(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
 		super(state, startPos, name, startLoadout, oldData, connID, reset, start);
-		
-//		extrapolationIndicator = Sprite.ORB_RED.getFrame();
-//		predictionIndicator = Sprite.ORB_BLUE.getFrame();
 	}
 
 	@Override
@@ -30,20 +43,26 @@ public class ClientPlayer extends Player {
 		lastPosition.set(body.getPosition());
 	}
 	
-	private final static float CONVERGE_MULTIPLIER = 0.05f;
-	private final static float LATENCY_THRESHOLD_MIN = 0.08f;
-	private final static float LATENCY_THRESHOLD_MAX = 0.1f;
-	private final static float VELO_TOLERANCE = 200.0f;
-	private final static float DIST_TOLERANCE = 12.0f;
+	//this is an ordered list of client frames that keep track of the client's velocity and displacement over time
 	private ArrayList<ClientPredictionFrame> frames = new ArrayList<ClientPredictionFrame>();
+	
+	//the client's most recent position
 	private Vector2 lastPosition = new Vector2();
+	
+	//where we predict the client would be on the server
 	private Vector2 predictedPosition = new Vector2();
+	
+	//where we extrapolate the client will be by the time a packet we send reaches the server accounting for latency
 	private Vector2 extrapolatedPosition = new Vector2();
 	private Vector2 extrapolationVelocity = new Vector2();
 
+	//this is the amount of positional history that we keep track of
 	private float historyDuration;
+	
+	//are we currently predicting client location or just doing the normal interpolation (true if latency is high enough)
 	private boolean predicting;
 	
+	@Override
 	public void onReceiveSync(Object o, float timestamp) {
 		super.onReceiveSync(o, timestamp);
 		
@@ -52,12 +71,15 @@ public class ClientPlayer extends Player {
 		
 		historyDuration -= dt;
 		
+		//we remove each frame in our history that is older than our latency
 		while (!frames.isEmpty() && dt > 0) {
 			ClientPredictionFrame frame = frames.get(0);
 			if (dt >= frame.delta) {
 				dt -= frame.delta;
 				frames.remove(0);
 			} else {
+				
+				//the last frame is trimmed so the total amount of time in our history is equal to our latency
 				float t = 1 - dt / frame.delta;
 				frame.delta -= dt;
 				frame.positionChange.scl(t);
@@ -70,6 +92,7 @@ public class ClientPlayer extends Player {
 			
 			if (!frames.isEmpty()) {
 				
+				//if our velocity is outside the range of tolerance, edit each frame with the new velocity
 				if (p.velocity.dst2(frames.get(0).velocity) > VELO_TOLERANCE) {
 					for (ClientPredictionFrame frame: frames) {
 						frame.velocity = p.velocity;
@@ -77,12 +100,14 @@ public class ClientPlayer extends Player {
 					}
 				}
 				
+				//we predict our position is equal to what the server sent us, plus our total displacement in the time it took for that position to reach us
 				predictedPosition.set(p.pos);
 				
 				for (ClientPredictionFrame frame: frames) {
 					predictedPosition.add(frame.positionChange);
 				}
 				
+				//if our position is too far away fro mwhat the server sends us, just rubberband.
 				if (body != null) {
 					if (predictedPosition.dst2(body.getPosition()) > DIST_TOLERANCE) {
 						setTransform(predictedPosition, 0.0f);
@@ -93,6 +118,7 @@ public class ClientPlayer extends Player {
 		}
 	}
 	
+	//most of the code here is just lifted fro mthe Player class to simulate movement actions like jumping, hovering, fastfalling and boosting
 	private Vector2 newPosition = new Vector2();
 	private Vector2 fug = new Vector2();
 	@Override
@@ -137,16 +163,20 @@ public class ClientPlayer extends Player {
 			airblast();
 		}
 		
+		//for the server's own player, the sprite's arm should exactly match their mouse
 		mouseAngle.set(getPixelPosition().y, getPixelPosition().x).sub(((ClientState) state).getMousePosition().y, ((ClientState) state).getMousePosition().x);
 		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
 		
 		if (body != null && alive) {
+			
+			//we add a new prediction frame to our list with our current displacement/velocity
 			ClientPredictionFrame frame = new ClientPredictionFrame(delta);
 			frame.positionChange.set(getPosition()).sub(lastPosition);
 			frame.velocity.set(body.getLinearVelocity());
 			frames.add(frame);
 			historyDuration += delta;
 			
+			//we do our latency check here. if our latency is too high/low, we switch to/away our predicting mode
 			float latency = ((ClientState) state).getLatency();
 
 			if (predicting && latency < LATENCY_THRESHOLD_MIN) {
@@ -155,6 +185,7 @@ public class ClientPlayer extends Player {
 				predicting = true;
 			}
 			
+			//when predicting, we extrapolate our position based on our prediction plus our current velocity given the current latency.
 			if (predicting) {
 				
 				extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(body.getLinearVelocity()).scl((CONVERGE_MULTIPLIER) * latency));
@@ -172,6 +203,8 @@ public class ClientPlayer extends Player {
 	
 	@Override
 	public void clientInterpolation() {
+		
+		//on low-ping mode, we just interpolate our body just like any other entity
 		if (!predicting) {
 			super.clientInterpolation();
 		}
@@ -234,27 +267,10 @@ public class ClientPlayer extends Player {
 			getPlayerData().getCurrentTool().setCharging(p.charging);
 			chargePercent = p.chargePercent;
 			getPlayerData().setOverrideOutOfAmmo(p.outOfAmmo);
+			
+			//notably, we omit the syncing of our passability, as that causes weird interactions with drophtrough platforms
 		} else {
 			super.onClientSync(o);
 		}
 	}
-	
-//	@Override
-//	public void render(SpriteBatch batch) {
-//		super.render(batch);
-//		
-//		batch.draw(predictionIndicator, 
-//				predictedPosition.x * 32 - size.x / 2, 
-//				predictedPosition.y * 32 - size.y / 2, 
-//				size.x / 2, size.y / 2,
-//				size.x, size.y, 1, 1, 
-//				(float) Math.toDegrees(getAngle()));
-//		
-//		batch.draw(extrapolationIndicator, 
-//				fug.x * 32 - size.x / 2, 
-//				fug.y * 32 - size.y / 2, 
-//				size.x / 2, size.y / 2,
-//				size.x, size.y, 1, 1, 
-//				(float) Math.toDegrees(getAngle()));
-//	}
 }

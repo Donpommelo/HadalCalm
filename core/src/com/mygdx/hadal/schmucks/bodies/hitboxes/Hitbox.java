@@ -41,6 +41,7 @@ public class Hitbox extends HadalEntity {
 	//passability describes what types of entities the hitbox can collide with.
 	protected short passability = (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR);
 	
+	//default properties. these can be changed using a setter right after the hbox is initialized.
 	private final static float defaultGravity = 0.0f;
 	private final static float defaultDensity = 0.0f;
 	private final static int defaultDurability = 1;
@@ -148,7 +149,7 @@ public class Hitbox extends HadalEntity {
 
 		//Non-sensor hitboxes have a non-sensor fixture attached to it. This is used for hboxes that collide with walls but should pass through enemies
 		if (!sensor) {
-			body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), new Vector2(size), false, 0, 0, restitution, friction, Constants.BIT_PROJECTILE, Constants.BIT_WALL, filter)).setUserData(data);
+			FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size), false, 0, 0, restitution, friction, Constants.BIT_PROJECTILE, Constants.BIT_WALL, filter).setUserData(data);
 		}
 		
 		setLinearVelocity(startVelo);
@@ -212,6 +213,7 @@ public class Hitbox extends HadalEntity {
 		
 		for (HitboxStrategy s : strategies) {
 			s.die();
+			remove.add(s);
 		}
 	}
 	

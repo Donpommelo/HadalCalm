@@ -101,7 +101,8 @@ public enum Particle {
 	}
 	
 	/**
-	 * When we get a particle, we obtain it from the pool and load it.
+	 * When we get a particle, we obtain it from the pool, reset it and load it.
+	 * resetting is necessary to prevent the very first particle from not showing up properly
 	 */
 	public PooledEffect getParticle() {
 		PooledEffect newEffect = effectPool.obtain();

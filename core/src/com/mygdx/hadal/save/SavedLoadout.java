@@ -19,6 +19,8 @@ public class SavedLoadout {
 
 	//max size of name createable in title screen
 	private static final int maxNameLength = 50;
+	
+	//the name used if the nme field is left empty
 	private static final String defaultName = "Anonymous";
 	public SavedLoadout() {}
 	

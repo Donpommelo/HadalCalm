@@ -35,7 +35,6 @@ public class Record {
 		if (hiScores.containsKey(level.toString())) {
 			if (score > hiScores.get(level.toString())) {
 				hiScores.put(level.toString(), score);
-				
 				saveRecord();
 				return true;
 			}

@@ -19,8 +19,13 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class ChoiceBranch extends HubEvent {
 
+	//these are the options that appear in the menu
 	private String[] optionNames;
+	
+	//this maps each string option to the event that will be activated when the player chooses it.
 	private Map<String, Event> options;
+	
+	//should the menu close after the player chooses an option
 	private boolean closeAfterSelect;
 	
 	public ChoiceBranch(PlayState state, Vector2 startPos, Vector2 size, String title, String optionNames, boolean closeAfterSelect, boolean closeOnLeave) {

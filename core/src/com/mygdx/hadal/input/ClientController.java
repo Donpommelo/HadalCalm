@@ -19,8 +19,8 @@ public class ClientController implements InputProcessor {
 	private PlayState state;
 	
 	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one. 
-	private boolean leftDown = false;
-	private boolean rightDown = false;
+	private boolean leftDown;
+	private boolean rightDown;
 		
 	public ClientController(Player player, PlayState state) {
 		this.player = player;
@@ -28,35 +28,33 @@ public class ClientController implements InputProcessor {
 		syncController();
 	}
 	
+	//note that moving, jumping, crouching, airblast are processed on vlient end for prediction purposes
 	@Override
 	public boolean keyDown(int keycode) {
-		
 		if (player == null) { return true; }
-
 		if (player.getPlayerData() == null) return true;
-		
 		if (!HadalGame.client.getClient().isConnected()) { return false; }
 		
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
+			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WALK_LEFT));
+			
 			leftDown = true;
 			if (!rightDown) {
 				player.setMoveState(MoveState.MOVE_LEFT);
 			} else {
 				player.setMoveState(MoveState.STAND);
 			}
-			
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WALK_LEFT));
 		} 
 		
 		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
+			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WALK_RIGHT));
+			
 			rightDown = true;
 			if (!leftDown) {
 				player.setMoveState(MoveState.MOVE_RIGHT);
 			} else {
 				player.setMoveState(MoveState.STAND);
 			}
-			
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WALK_RIGHT));
 		} 
 		
 		else if (keycode == PlayerAction.JUMP.getKey()) {
@@ -74,6 +72,7 @@ public class ClientController implements InputProcessor {
 		
 		else if (keycode == PlayerAction.INTERACT.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.INTERACT));
+			
 			if (state.getDialogBox() != null) {
 				state.getDialogBox().nextDialogue();
 			}
@@ -149,14 +148,12 @@ public class ClientController implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		
 		if (player == null) { return true; }
-
 		if (player.getPlayerData() == null) return true;
-		
 		if (!HadalGame.client.getClient().isConnected()) { return false; }
 
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
+			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.WALK_LEFT));
 			
 			leftDown = false;
 			if (rightDown) {
@@ -164,11 +161,10 @@ public class ClientController implements InputProcessor {
 			} else {
 				player.setMoveState(MoveState.STAND);
 			}
-			
-			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.WALK_LEFT));
 		} 
 		
 		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
+			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.WALK_RIGHT));
 			
 			rightDown = false;
 			if (leftDown) {
@@ -176,8 +172,6 @@ public class ClientController implements InputProcessor {
 			} else {
 				player.setMoveState(MoveState.STAND);
 			}
-			
-			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.WALK_RIGHT));
 		} 
 		
 		else if (keycode == PlayerAction.JUMP.getKey()) {
@@ -209,6 +203,7 @@ public class ClientController implements InputProcessor {
 	@Override
 	public boolean keyTyped(char character) { return false; }
 
+	//we have touchdown call keydown (and touchup calling keyup) if any actions are binded to the mouse
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		keyDown(button);
@@ -227,6 +222,7 @@ public class ClientController implements InputProcessor {
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) { return false; }
 
+	//This is just a janky way of implementing setting mouse wheel as a hotkey.
 	@Override
 	public boolean scrolled(int amount) {
 		keyDown(amount * 1000);

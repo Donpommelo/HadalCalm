@@ -81,12 +81,11 @@ public enum UnlockActives {
 				items.add(u);
 			}
 		}
-		
 		return items;
 	}
 	
 	/**
-	 * This method returns the unlock corresponding to a specfic active item
+	 * This method returns the unlock corresponding to a specific active item
 	 */
 	public static UnlockActives getUnlockFromActive(Class<? extends ActiveItem> active) {
 		for (UnlockActives unlock: UnlockActives.values()) {

@@ -78,8 +78,8 @@ public class SeeSawPlatform extends Event {
 					return 0;
 				}
 			};
-			this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(i, 0), new Vector2(sectionWidth, size.y + sectionPadding), true, 0, 0, 0, 0,
-					Constants.BIT_WALL, Constants.BIT_PROJECTILE, (short) 0)).setUserData(tempData);
+			FixtureBuilder.createFixtureDef(body, new Vector2(i, 0), new Vector2(sectionWidth, size.y + sectionPadding), true, 0, 0, 0, 0,
+					Constants.BIT_WALL, Constants.BIT_PROJECTILE, (short) 0).setUserData(tempData);
 		}
 	}
 	

@@ -1074,6 +1074,7 @@ public enum NameGenerator {
 		
 		ArrayList<NameGenerator> possibleNexts = new ArrayList<NameGenerator>();
 		
+		//identify all possible next name fragments
 		for (NameGenerator gen: NameGenerator.values()) {
 			for (int i = 0; i < gen.canFollow.length; i++) {
 				if (gen.canFollow[i].equals(prev)) {
@@ -1084,10 +1085,9 @@ public enum NameGenerator {
 			}
 		}
 		
-		if (possibleNexts.isEmpty()) {
-			return "";
-		}
+		if (possibleNexts.isEmpty()) { return ""; }
 		
+		//pick a random possibly next fragment and add it.
 		int randomIndex = GameStateManager.generator.nextInt(possibleNexts.size());
 		NameGenerator next = possibleNexts.get(randomIndex);
 		

@@ -79,11 +79,15 @@ public class ClientState extends PlayState {
 		}
 	}
 	
+	//these control the frequency that we process world physics.
 	private float physicsAccumulator;
 	private final static float physicsTime = 1 / 200f;
+	
+	//these control the frequency that we send latency checking packets to the server.
 	private float latencyAccumulator;
 	private float lastLatencyCheck, latency;
 	private final static float LatencyCheck = 1.0f;
+	
 	private Vector3 lastMouseLocation = new Vector3();
 	@Override
 	public void update(float delta) {
@@ -140,7 +144,7 @@ public class ClientState extends PlayState {
 		//process camera, ui, any received packets
 		processCommonStateProperties(delta);
 		
-		//this makes the physics separate from the game framerate
+		//this makes the latency checking separate from the game framerate
 		if (latencyAccumulator >= LatencyCheck) {
 			latencyAccumulator = 0;
 			lastLatencyCheck = getTimer();
@@ -278,9 +282,12 @@ public class ClientState extends PlayState {
 		Object[] packet = {entityId, o, age, timestamp};
 		sync.add(packet);
 		
+		//if our timer is ahead, we set it to be less than the server so we can linear interpolate to predicted position
 		if (getTimer() > timestamp) {
 			setTimer(timestamp - 2 * PlayState.syncTime);
 		}
+		
+		//if our timer is lagging too far behind, we make it catch up
 		if (getTimer() < timestamp - 2 * PlayState.syncTime) {
 			setTimer(timestamp - 2 * PlayState.syncTime);
 		}
@@ -301,6 +308,9 @@ public class ClientState extends PlayState {
 		} 
 	}
 	
+	/**
+	 * This is run when the server responds to our latency check packet. We calculate our ping and save i.
+	 */
 	public void syncLatency() {
 		latency = getTimer() - lastLatencyCheck;
 	}

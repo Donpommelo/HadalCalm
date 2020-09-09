@@ -27,7 +27,7 @@ public class ParticleEntity extends HadalEntity {
 	private HadalEntity attachedEntity;
 	private String attachedId;
 	
-	//How long this entity will last after deletion.
+	//How long this entity will last after deletion, the interval that this effect is turned on, the lifespan of this entity
 	private float linger, interval, lifespan;
 	
 	//Has the attached entity despawned yet?
@@ -39,7 +39,7 @@ public class ParticleEntity extends HadalEntity {
 	//Is the particle currently on?
 	private boolean on;
 	
-	//does this entity send an extra packet to syn color and scaling dynamically?
+	//does this entity send an extra packet to sync color and scaling dynamically?
 	private boolean syncExtraFields;
 	
 	//how is this entity synced?
@@ -49,7 +49,7 @@ public class ParticleEntity extends HadalEntity {
 	private float scale = 1.0f;
 	
 	//does this effect rotate to match an attached entity?
-	private boolean rotate = false;
+	private boolean rotate;
 	
 	//this is the color of the particle. Nothing = base color of the effect.
 	private ParticleColor color = ParticleColor.NOTHING;
@@ -104,7 +104,9 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public void controller(float delta) {
 		
+		//update is needed for certain properties of the effect to work properly (emitter location for culling purposes)
 		effect.update(delta);
+		
 		//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
 		if (attachedEntity != null && !despawn) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
@@ -175,7 +177,7 @@ public class ParticleEntity extends HadalEntity {
 	 */
 	@Override
 	public boolean isVisible() {
-		return state.camera.frustum.boundsInFrustum(effect.getBoundingBox());
+		return state.getCamera().frustum.boundsInFrustum(effect.getBoundingBox());
 	}
 
 	public void turnOn() {
@@ -204,6 +206,8 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public void dispose() {	
 		if (!destroyed) {
+			
+			//return the effect back to the particle pool
 			effect.reset();
 			effect.free();
 		}
@@ -251,6 +255,7 @@ public class ParticleEntity extends HadalEntity {
 				newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
 			}
 			
+			//if this particle effect has extra fields (scale and color), sync those as well
 			if (syncExtraFields) {
 				state.getSyncPackets().add(new Packets.SyncParticlesExtra(entityID.toString(), newPos, offset, on, entityAge, state.getTimer(), scale, color));
 			} else {
@@ -331,6 +336,8 @@ public class ParticleEntity extends HadalEntity {
 		if (color.equals(ParticleColor.NOTHING)) {
 			return this;
 		} else if (color.equals(ParticleColor.RANDOM)) {
+			
+			//for random colors, each emitter is tinted with random r,b,g
 			for (int i = 0; i < effect.getEmitters().size; i++) {
 				float[] colors = effect.getEmitters().get(i).getTint().getColors();
 				colors[0] = GameStateManager.generator.nextFloat();

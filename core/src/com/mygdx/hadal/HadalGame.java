@@ -10,9 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.PerformanceCounter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
@@ -26,8 +24,9 @@ import com.mygdx.hadal.client.KryoClient;
  */
 public class HadalGame extends ApplicationAdapter {
 	
-	public static int CONFIG_WIDTH;
-	public static int CONFIG_HEIGHT;
+	//screen dimensions
+	public final static int CONFIG_WIDTH = 1280;
+	public final static int CONFIG_HEIGHT = 720;
 	
 	//this is the game's version. This must match between client and host to connect.
 	public static final String Version = "1.0.3.b";
@@ -55,9 +54,6 @@ public class HadalGame extends ApplicationAdapter {
     public static BitmapFont SYSTEM_FONT_UI, SYSTEM_FONT_SPRITE;
     public static Color DEFAULT_TEXT_COLOR;
  
-    private final static int DEFAULT_WIDTH = 1280;
-	private final static int DEFAULT_HEIGHT = 720;
-	
 	//currentMenu is whatever stage is being drawn in the current gameState
     private Stage currentMenu;
     
@@ -80,27 +76,18 @@ public class HadalGame extends ApplicationAdapter {
   	//this is a black texture used for fading in/out transitions.
     private Texture black;
     
-    //used for testing performance
-    public GLProfiler profiler;
-    public PerformanceCounter counter;
-    
 	/**
 	 * This creates a game, setting up the sprite batch to render things and the main game camera.
 	 * This also initializes the Gamestate Manager.
 	 */
 	@Override
 	public void create() {
-		
-		CONFIG_WIDTH = DEFAULT_WIDTH;
-		CONFIG_HEIGHT = DEFAULT_HEIGHT;
 		batch = new SpriteBatch();
 		
 	    camera = new OrthographicCamera(CONFIG_WIDTH, CONFIG_HEIGHT);
 	    hud = new OrthographicCamera(CONFIG_WIDTH, CONFIG_HEIGHT);
 	    viewportCamera = new FitViewport(CONFIG_WIDTH, CONFIG_HEIGHT, camera);
-	    viewportCamera.apply();	    
 	    viewportUI = new FitViewport(CONFIG_WIDTH, CONFIG_HEIGHT, hud);
-	    viewportUI.apply();
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
 	    
@@ -113,11 +100,6 @@ public class HadalGame extends ApplicationAdapter {
 	    musicPlayer = new MusicPlayer(gsm);
 
 		black = new Texture(Gdx.files.internal("black.png"));
-		
-//		profiler = new GLProfiler(Gdx.graphics);
-//		profiler.enable();
-//		
-//		counter = new PerformanceCounter("PERFORMANCE COUNTER");
 	}
 	
 	/**
@@ -127,8 +109,6 @@ public class HadalGame extends ApplicationAdapter {
 	private float delta;
 	@Override
 	public void render() {
-
-//		counter.start();
 
 		delta = Gdx.graphics.getDeltaTime();
 		
@@ -143,45 +123,46 @@ public class HadalGame extends ApplicationAdapter {
 		gsm.render(delta);
 		
 		currentMenu.getViewport().apply();
-		currentMenu.getBatch().setColor(1, 1, 1, 1);
+		currentMenu.getBatch().setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		currentMenu.draw();
 		
 		//Render the black image used for fade transitions
-		if (fadeLevel > 0) {
+		if (fadeLevel > 0.0f) {
 			batch.setProjectionMatrix(hud.combined);
 			batch.begin();
 			
-			batch.setColor(1f, 1f, 1f, fadeLevel);
-			batch.draw(black, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-			batch.setColor(1f, 1f, 1f, 1);
+			batch.setColor(1.0f, 1.0f, 1.0f, fadeLevel);
+			batch.draw(black, 0.0f, 0.0f, CONFIG_WIDTH, CONFIG_HEIGHT);
+			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 			
 			batch.end();
 		}
 		
+		//only fade when the states specifies that transitions should fade (i.e. no fade when closing pause menu)
 		if (gsm.getStates().peek().processTransitions()) {
 			
 			//If we are in the delay period of a transition, decrement the delay
 			if (fadeDelay > 0.0f) {
 				fadeDelay -= delta;
-			} else if (fadeDelta < 0f) {
+			} else if (fadeDelta < 0.0f) {
 				
 				//If we are fading in and not done yet, decrease fade.
 				fadeLevel += fadeDelta * delta;
 				
 				//If we just finished fading in, set fade to 0
-				if (fadeLevel < 0f) {
-					fadeLevel = 0f;
-					fadeDelta = 0;
+				if (fadeLevel < 0.0f) {
+					fadeLevel = 0.0f;
+					fadeDelta = 0.0f;
 				}
-			} else if (fadeDelta > 0f) {
+			} else if (fadeDelta > 0.0f) {
 				
 				//If we are fading out and not done yet, increase fade.
 				fadeLevel += fadeDelta * delta;
 				
 				//If we just finished fading out, set fade to 1 and do a transition
-				if (fadeLevel >= 1f) {
-					fadeLevel = 1f;
-					fadeDelta = 0;
+				if (fadeLevel >= 1.0f) {
+					fadeLevel = 1.0f;
+					fadeDelta = 0.0f;
 					if (runAfterTransition != null) {
 						Gdx.app.postRunnable(runAfterTransition);
 					}
@@ -189,18 +170,8 @@ public class HadalGame extends ApplicationAdapter {
 			}
 		}
 		
+		//music player controller is used for fading tracks
 		musicPlayer.controller(delta);
-		
-//		System.out.println(
-//	            "  Drawcalls: " + profiler.getDrawCalls() +
-//	            ", Calls: " + profiler.getCalls() +
-//	            ", TextureBindings: " + profiler.getTextureBindings() +
-//	            ", ShaderSwitches:  " + profiler.getShaderSwitches() +
-//	            ", vertexCount: " + profiler.getVertexCount().average);
-//		profiler.reset();
-//		counter.stop();
-//		counter.tick();
-//		System.out.println(counter.toString());
 	}
 	
 	/**
@@ -215,8 +186,7 @@ public class HadalGame extends ApplicationAdapter {
 	
 	/**
 	 * This is run when we add a new menu. (Usually when a new stage is added by a state)
-	 * We want to always have the player touching the new menu
-	 * @param menu
+	 * We want to always have the player's input processing to interact with new menu
 	 */
 	public void newMenu(Stage menu) {
 		currentMenu = menu;
@@ -234,7 +204,16 @@ public class HadalGame extends ApplicationAdapter {
 		batch.dispose();
 		assetManager.dispose();
 		musicPlayer.dispose();
+		black.dispose();
 		
+		if (SYSTEM_FONT_UI != null) {
+			SYSTEM_FONT_UI.dispose();
+		}
+		if (SYSTEM_FONT_SPRITE != null) {
+			SYSTEM_FONT_SPRITE.dispose();
+		}
+		
+		//close any active clients/servers
 		if (client.getClient() != null) {
 			client.getClient().close();
 		}
