@@ -13,12 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.ConsoleCommandUtil;
 
@@ -148,14 +150,19 @@ public class MessageWindow {
 		if (active) {
 			if (!enterMessage.getText().equals("")) {
 				if (state.isServer()) {
-					HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), enterMessage.getText());
-					
-					if (state.getGsm().getSetting().isConsoleEnabled()) {
-						ConsoleCommandUtil.parseCommand(state, enterMessage.getText());
+					if (ConsoleCommandUtil.parseChatCommand(state, state.getPlayer(), enterMessage.getText()) == -1) {
+						if (state.getGsm().getSetting().isConsoleEnabled()) {
+							if (ConsoleCommandUtil.parseConsoleCommand(state, enterMessage.getText()) == -1) {
+								HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), enterMessage.getText(), DialogType.DIALOG);
+							}
+						} else {
+							HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), enterMessage.getText(), DialogType.DIALOG);
+						}
 					}
-					
 				} else {
-					HadalGame.client.sendTCP(new Packets.Notification(state.getPlayer().getName(), enterMessage.getText()));
+					if (ConsoleCommandUtil.parseChatCommandClient((ClientState) state, state.getPlayer(), enterMessage.getText()) == -1) {
+						HadalGame.client.sendTCP(new Packets.Notification(state.getPlayer().getName(), enterMessage.getText(), DialogType.DIALOG));
+					}
 				}
 			}
 		}

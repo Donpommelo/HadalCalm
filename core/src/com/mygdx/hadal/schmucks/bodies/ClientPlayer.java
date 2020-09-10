@@ -267,8 +267,9 @@ public class ClientPlayer extends Player {
 			getPlayerData().getCurrentTool().setCharging(p.charging);
 			chargePercent = p.chargePercent;
 			getPlayerData().setOverrideOutOfAmmo(p.outOfAmmo);
+			invisible = p.invisible;
 			
-			//notably, we omit the syncing of our passability, as that causes weird interactions with drophtrough platforms
+			//notably, we omit the syncing of our passability, as that causes weird interactions with dropthrough platforms
 		} else {
 			super.onClientSync(o);
 		}

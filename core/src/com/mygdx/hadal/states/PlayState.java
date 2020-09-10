@@ -32,6 +32,7 @@ import com.mygdx.hadal.actors.ScoreWindow;
 import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.actors.UIPlay;
 import com.mygdx.hadal.actors.UIPlayClient;
+import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.actors.UIArtifacts;
@@ -1014,7 +1015,7 @@ public class PlayState extends GameState {
 		if (nextState == null) {
 			player.setSpectator(true);
 			
-			HadalGame.server.addNotificationToAll(this, "", player.getName() + " became a spectator!");
+			HadalGame.server.addNotificationToAll(this, "", player.getName() + " became a spectator!", DialogType.SYSTEM);
 			
 			//for host, start transition. otherwise, send transition packet
 			if (this.player.equals(player)) {
@@ -1036,13 +1037,13 @@ public class PlayState extends GameState {
 		
 		//cannot exit spectator if server is full
 		if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers()) {
-			HadalGame.server.sendNotification(this, player.getConnID(), "", "Could not join! Server is full!");
+			HadalGame.server.sendNotification(this, player.getConnID(), "", "Could not join! Server is full!", DialogType.SYSTEM);
 			return;
 		}
 		
 		//cannot exit spectator when already transitioning to another state. 
 		if (nextState == null) {
-			HadalGame.server.addNotificationToAll(this, "", player.getName() + " stopped spectating and joined the game!");
+			HadalGame.server.addNotificationToAll(this, "", player.getName() + " stopped spectating and joined the game!", DialogType.SYSTEM);
 
 			//for host, start transition. otherwise, send transition packet
 			if (this.player.equals(player)) {

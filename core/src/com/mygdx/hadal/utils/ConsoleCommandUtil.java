@@ -1,9 +1,16 @@
 package com.mygdx.hadal.utils;
 
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.DialogBox.DialogType;
+import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockActives;
+import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 
@@ -14,10 +21,99 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
  */
 public class ConsoleCommandUtil {
 
+	public static int parseChatCommand(PlayState state, Player player, String command) {
+		
+		if (command.equals("/roll")) {
+			HadalGame.server.addNotificationToAll(state, "SYSTEM", player.getName() + " Rolled A Number: " + String.valueOf(GameStateManager.generator.nextInt(100)), DialogType.SYSTEM);
+			return 0;
+		}
+		
+		if (command.equals("/weapon")) {
+			
+			String message = player.getName() + "'s Weapons: ";
+			
+			for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
+				
+				if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
+					message += player.getPlayerData().getLoadout().multitools[i].name() + " ";
+				}
+			}
+			
+			HadalGame.server.addNotificationToAll(state, "SYSTEM", message, DialogType.SYSTEM);
+			return 0;
+		}
+		
+		if (command.equals("/artifact")) {
+			
+			String message = player.getName() + "'s Artifacts: ";
+			
+			for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
+				
+				if (!player.getPlayerData().getLoadout().artifacts[i].equals(UnlockArtifact.NOTHING)) {
+					message += player.getPlayerData().getLoadout().artifacts[i].name() + " ";
+				}
+			}
+			
+			HadalGame.server.addNotificationToAll(state, "SYSTEM", message, DialogType.SYSTEM);
+			return 0;
+		}
+
+		if (command.equals("/active")) {
+			HadalGame.server.addNotificationToAll(state, "SYSTEM", player.getName() + "'s Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM);
+			return 0;
+		}
+		
+		return -1;
+	}
+	
+	public static int parseChatCommandClient(ClientState state, Player player, String command) {
+		
+		if (command.equals("/roll")) {
+			HadalGame.client.sendTCP(new Packets.Notification("SYSTEM", player.getName() + " Rolled A Number: " + String.valueOf(GameStateManager.generator.nextInt(100)), DialogType.SYSTEM));
+			return 0;
+		}
+		
+		if (command.equals("/weapon")) {
+			
+			String message = player.getName() + "'s Weapons: ";
+			
+			for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, state.getUiPlay().getOverrideWeaponSlots()); i++) {
+				
+				if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
+					message += player.getPlayerData().getLoadout().multitools[i].name() + " ";
+				}
+			}
+			
+			HadalGame.client.sendTCP(new Packets.Notification("SYSTEM", message, DialogType.SYSTEM));
+			return 0;
+		}
+		
+		if (command.equals("/artifact")) {
+			
+			String message = player.getName() + "'s Artifacts: ";
+			
+			for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
+				
+				if (!player.getPlayerData().getLoadout().artifacts[i].equals(UnlockArtifact.NOTHING)) {
+					message += player.getPlayerData().getLoadout().artifacts[i].name() + " ";
+				}
+			}
+			
+			HadalGame.client.sendTCP(new Packets.Notification("SYSTEM", message, DialogType.SYSTEM));
+			return 0;
+		}
+
+		if (command.equals("/active")) {
+			HadalGame.client.sendTCP(new Packets.Notification("SYSTEM", player.getName() + "'s Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM));
+			return 0;
+		}
+		return -1;
+	}
+	
 	/**
 	 * This attempts to parse an input line of text into a command
 	 */
-	public static int parseCommand(PlayState state, String command) {
+	public static int parseConsoleCommand(PlayState state, String command) {
 		String[] commands = command.split(" ");
 		
 		if (commands.length == 0) {
@@ -72,13 +168,13 @@ public class ConsoleCommandUtil {
 		
 		switch(command) {
 		case "camera":
-			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA TARGET: " + state.getCameraTarget());
+			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA TARGET: " + state.getCameraTarget(), DialogType.SYSTEM);
 			break;
 		case "cameraBounds":
-			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA BOUNDS: " + state.getCameraBounds());
+			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA BOUNDS: " + state.getCameraBounds(), DialogType.SYSTEM);
 			break;
 		case "playerLoc":
-			HadalGame.server.addNotificationToAll(state, "GAEM", "PLAYER LOCATION: " + state.getPlayer().getPosition());
+			HadalGame.server.addNotificationToAll(state, "GAEM", "PLAYER LOCATION: " + state.getPlayer().getPosition(), DialogType.SYSTEM);
 			break;
 		}
 		return -1;

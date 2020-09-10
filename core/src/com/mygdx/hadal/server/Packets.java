@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
+import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Shader;
@@ -237,6 +238,7 @@ public class Packets {
 	public static class Notification {
 		public String name;
 		public String text;
+		public DialogType type;
 		public Notification() {}
 		
 		/**
@@ -244,10 +246,12 @@ public class Packets {
 		 * A Notification is sent from the Client to the Server to tell it to relay the message to all clients.
 		 * @param name: The name that will be displayed in the notification
 		 * @param text: The text displayed in the notification
+		 * @param type: type of dialog (dialog, system msg, etc)
 		 */
-		public Notification(String name, String text) {
+		public Notification(String name, String text, DialogType type) {
 			this.name = name;
 			this.text = text;
+			this.type = type;
 		}
 	}
 	
@@ -625,6 +629,7 @@ public class Packets {
         public float chargePercent;
         public boolean outOfAmmo;
         public short maskBits;
+        public boolean invisible;
         public float timestamp;
         
 		public SyncPlayerAll() {}
@@ -635,7 +640,7 @@ public class Packets {
 		 * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
 		 */
 		public SyncPlayerAll(String entityID, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading, float reloadPercent, boolean charging, float chargePercent, 
-				boolean outOfAmmo, short maskBits, float timestamp) {
+				boolean outOfAmmo, short maskBits, boolean invisible, float timestamp) {
             this.entityID = entityID;
             this.attackAngle = attackAngle;
             this.grounded = grounded;
@@ -646,6 +651,7 @@ public class Packets {
             this.chargePercent = chargePercent;
             this.outOfAmmo = outOfAmmo;
             this.maskBits = maskBits;
+            this.invisible = invisible;
             this.timestamp = timestamp;
         }
 	}
@@ -1036,6 +1042,7 @@ public class Packets {
 		 */
 		public LatencyAck() {}
 	}
+	
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object

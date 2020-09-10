@@ -331,8 +331,7 @@ public class TiledObjectUtil {
 			
 			e = new DropThroughPlatform(state, position, size);
 		} else if (object.getName().equals("Dialog")) {
-			
-			e = new Dialog(state, object.getProperties().get("textId", String.class));
+			e = new Dialog(state, object.getProperties().get("textId", String.class), object.getProperties().get("dialogType", "DIALOG", String.class));
 		} else if (object.getName().equals("End")) {
 			
 			e = new End(state, object.getProperties().get("text", "", String.class));

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.ui;
 
+import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -20,10 +21,12 @@ import com.mygdx.hadal.states.PlayState;
 public class Dialog extends Event {
 
 	private String[] id;
+	private String type;
 	
-	public Dialog(PlayState state, String id) {
+	public Dialog(PlayState state, String id, String type) {
 		super(state);
 		this.id = id.split(",");
+		this.type = type;
 	}
 	
 	@Override
@@ -38,9 +41,9 @@ public class Dialog extends Event {
 					String dialogId = id[randomIndex];
 					
 					if (event.getConnectedEvent() != null) {
-						state.getDialogBox().addDialogue(dialogId, this, event.getConnectedEvent().getEventData());
+						state.getDialogBox().addDialogue(dialogId, this, event.getConnectedEvent().getEventData(), DialogType.valueOf(type));
 					} else {
-						state.getDialogBox().addDialogue(dialogId, this, null);
+						state.getDialogBox().addDialogue(dialogId, this, null, DialogType.valueOf(type));
 					}
 				}
 			}

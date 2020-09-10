@@ -14,6 +14,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -104,7 +105,7 @@ public class KryoClient {
 				
         		//If our client state is still here, the server closed
 				if (cs != null) {
-					addNotification(cs, "", "DISCONNECTED!");
+					addNotification(cs, "", "DISCONNECTED!", DialogType.SYSTEM);
 				}
 				
 				//return to the title. (if our client state is still there, we can do a fade out transition first.
@@ -403,7 +404,7 @@ public class KryoClient {
 	        				
 	                        @Override
 	                        public void run() {
-	                        	addNotification(cs, p.name, p.text);
+	                        	addNotification(cs, p.name, p.text, p.type);
 	                        }
 						});
 					}
@@ -908,8 +909,8 @@ public class KryoClient {
 	 * @param name: name giving the notification
 	 * @param text: notification text
 	 */
-	public void addNotification(ClientState cs, String name, String text) {
-		cs.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+	public void addNotification(ClientState cs, String name, String text, DialogType type) {
+		cs.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type);
 	}
 	
 	private void registerPackets() {

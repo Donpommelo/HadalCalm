@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -598,7 +599,7 @@ public class PlayerBodyData extends BodyData {
 				}
 				
 				//Send death notification to all players
-				HadalGame.server.addNotificationToAll(player.getState(), "",  DeathTextUtil.getDeathText(player.getState().getGsm(), perp.getSchmuck(), player, tags));
+				HadalGame.server.addNotificationToAll(player.getState(), "",  DeathTextUtil.getDeathText(player.getState().getGsm(), perp.getSchmuck(), player, tags), DialogType.KILL);
 			}
 			
 			schmuck.getState().onPlayerDeath(player, perp.getSchmuck());

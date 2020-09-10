@@ -11,6 +11,7 @@ import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -83,7 +84,7 @@ public class KryoServer {
 								
 								//Inform all that the player disconnected and kill the player
 								p.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageTypes.DISCONNECT);
-								addNotificationToAll(ps, p.getName(), " DISCONNECTED!");
+								addNotificationToAll(ps, p.getName(), " DISCONNECTED!", DialogType.SYSTEM);
 								
 								//remove disconnecting player from all tracked lists
 								players.remove(c.getID());
@@ -191,7 +192,7 @@ public class KryoServer {
 								return;
 							}
 
-							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!");
+							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!", DialogType.SYSTEM);
 							
 							//clients joining full servers or in the middle of matches join as spectators
 							if (getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers()) {
@@ -218,7 +219,7 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					//notify players of new joiners
 					if (p.firstTime) {
-						sendNotification(ps, c.getID(), ps.getPlayer().getName(), "JOINED SERVER!");
+						sendNotification(ps, c.getID(), ps.getPlayer().getName(), "JOINED SERVER!", DialogType.SYSTEM);
 					}
 
 					//catch up client
@@ -366,12 +367,12 @@ public class KryoServer {
         				if (p != null && gsm.getSetting().isMultiplayerPause()) {
         					if (gsm.getStates().peek() instanceof PauseState) {
         						final PauseState ps = (PauseState) gsm.getStates().peek();
-                				addNotificationToAll(ps.getPs(), p.getName(), "UNPAUSED THE GAME!");
+                				addNotificationToAll(ps.getPs(), p.getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
                 				ps.setToRemove(true);
         					}
         					if (gsm.getStates().peek() instanceof SettingState) {
         						final SettingState ss = (SettingState) gsm.getStates().peek();
-                				addNotificationToAll(ss.getPs(), p.getName(), "UNPAUSED THE GAME!");
+                				addNotificationToAll(ss.getPs(), p.getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
                 				ss.setToRemove(true);
         					}
             				HadalGame.server.sendToAllTCP(new Packets.Unpaused(p.getName()));
@@ -387,7 +388,7 @@ public class KryoServer {
 					final Packets.Notification p = (Packets.Notification) o;
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						addNotificationToAll(ps, p.name, p.text);
+						addNotificationToAll(ps, p.name, p.text, p.type);
 					}
 				}
 				
@@ -599,9 +600,10 @@ public class KryoServer {
 	 * @param connId: id of the client to send the notification to
 	 * @param name: name giving the notification
 	 * @param text: notification text
+	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
-	public void sendNotification(PlayState ps, int connId, String name, String text) {
-		sendToTCP(connId, new Packets.Notification(name, text));	
+	public void sendNotification(PlayState ps, int connId, String name, String text, final DialogType type) {
+		sendToTCP(connId, new Packets.Notification(name, text, type));	
 	}
 	
 	/**
@@ -609,15 +611,16 @@ public class KryoServer {
 	 * @param ps: server's current playstate
 	 * @param name: name giving the notification
 	 * @param text: notification text
+	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
-	public void addNotificationToAll(final PlayState ps, final String name, final String text) {
+	public void addNotificationToAll(final PlayState ps, final String name, final String text, final DialogType type) {
 		if (ps.getDialogBox() != null && server != null) {
-			server.sendToAllTCP(new Packets.Notification(name, text));	
+			server.sendToAllTCP(new Packets.Notification(name, text, type));	
 			Gdx.app.postRunnable(new Runnable() {
 				
 				@Override
                 public void run() {
-					ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+					ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type);
                 }
 			});
 		}
@@ -629,15 +632,16 @@ public class KryoServer {
 	 * @param connId: id of the client to exclude
 	 * @param name: name giving the notification
 	 * @param text: notification text
+	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
-	public void addNotificationToAllExcept(final PlayState ps, int connId, final String name, final String text) {
+	public void addNotificationToAllExcept(final PlayState ps, int connId, final String name, final String text, final DialogType type) {
 		if (ps.getDialogBox() != null && server != null) {
-			server.sendToAllExceptTCP(connId, new Packets.Notification(name, text));
+			server.sendToAllExceptTCP(connId, new Packets.Notification(name, text, type));
 			Gdx.app.postRunnable(new Runnable() {
 				
 				@Override
                 public void run() {
-					ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+					ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type);
                 }
 			});
 		}

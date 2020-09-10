@@ -1,5 +1,6 @@
 package com.mygdx.hadal.actors;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -112,7 +113,7 @@ public class DialogBox extends AHadalActor {
 	 * to another event upon completion.
 	 * @param trigger: This is the event that will be triggered when the dialogue completes.
 	 */
-	public void addDialogue(String id, EventData radio, EventData trigger) {
+	public void addDialogue(String id, EventData radio, EventData trigger, DialogType type) {
 		
 		if (dialogs.size != 0) {
 			if (dialogs.first().getInfo().isOverride()) {
@@ -124,7 +125,7 @@ public class DialogBox extends AHadalActor {
 		
 		if (dialog != null) {
 			for (JsonValue d : dialog) {
-				addDialogue(GameStateManager.json.fromJson(DialogInfo.class, d.toJson(OutputType.minimal)), radio, trigger);
+				addDialogue(GameStateManager.json.fromJson(DialogInfo.class, d.toJson(OutputType.minimal)), radio, trigger, type);
 			}	
 		}
 	}
@@ -133,7 +134,7 @@ public class DialogBox extends AHadalActor {
 	 * Instead of loading a conversation from the dialog text file, this is used for single dialogs.
 	 * This is useful for dynamic text.
 	 */
-	public void addDialogue(DialogInfo info, EventData radio, EventData trigger) {
+	public void addDialogue(DialogInfo info, EventData radio, EventData trigger, DialogType type) {
 		
 		//this does text filtering/formatting for the new text
 		info.setDisplayedText(ps.getGsm());
@@ -147,7 +148,7 @@ public class DialogBox extends AHadalActor {
 			
 			SoundEffect.BLOP.play(ps.getGsm(), 1.0f, false);
 		}
-		dialogs.addLast(new Dialog(info, radio, trigger));
+		dialogs.addLast(new Dialog(info, radio, trigger, type));
 		
 		//add new dialog to the message log.
 		ps.getMessageWindow().addText(info.getDisplayedText());
@@ -156,8 +157,8 @@ public class DialogBox extends AHadalActor {
 	/**
 	 * This is just like the above method, except for a dynamically created dialog
 	 */
-	public void addDialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura, EventData radio, EventData trigger) {
-		addDialogue(new DialogInfo(name, text, sprite, end, override, small, dura), radio, trigger);
+	public void addDialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura, EventData radio, EventData trigger, DialogType type) {
+		addDialogue(new DialogInfo(name, text, sprite, end, override, small, dura), radio, trigger, type);
 	}
 	
 	/**
@@ -191,8 +192,13 @@ public class DialogBox extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {	 
 		if (dialogs.size != 0) {
-			 
+			
 			first = dialogs.first();
+			
+			if (first.getType().equals(DialogType.SYSTEM)) {
+				font.setColor(Color.RED);
+			}
+			
 			if (first.getInfo().isSmall()) {
 				font.getData().setScale(scaleSmall);
 				GameStateManager.getSimplePatch().draw(batch, getX(), getY() - currY, currX, currY);
@@ -217,9 +223,19 @@ public class DialogBox extends AHadalActor {
 								120, 120, 1, 1, 0);
 				}
 			}
+			
+			if (first.getType().equals(DialogType.SYSTEM)) {
+				font.setColor(HadalGame.DEFAULT_TEXT_COLOR);
+		    }
 		}
 		 
 	     //Return scale and color to default values.
 	     font.getData().setScale(1.0f);
-    }	
+    }
+	
+	public enum DialogType {
+		DIALOG,
+		KILL,
+		SYSTEM
+	}
 }

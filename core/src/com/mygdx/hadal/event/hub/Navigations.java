@@ -4,8 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
+import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -13,6 +15,7 @@ import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 
@@ -37,7 +40,7 @@ public class Navigations extends HubEvent {
 		if (level != "" && state.isServer()) {
 			if (!UnlockManager.checkUnlock(state, UnlockType.LEVEL, level)) {
 				UnlockManager.setUnlock(state, UnlockType.LEVEL, level, true);
-				state.getDialogBox().addDialogue("", "TELEPYRAMID ACTIVATED", "", true, true, true, 3.0f, null, null);
+				state.getDialogBox().addDialogue("", "TELEPYRAMID ACTIVATED", "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 		}
 		
@@ -52,17 +55,22 @@ public class Navigations extends HubEvent {
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
 					
-					//select a random valid map if selecting the random option
-					if (selected == UnlockLevel.RANDOM) {
-			        	state.loadLevel(UnlockLevel.getRandomMap(state, tags), TransitionState.NEWLEVEL, "");
+					if (state.isServer()) {
+						//select a random valid map if selecting the random option
+						if (selected == UnlockLevel.RANDOM) {
+				        	state.loadLevel(UnlockLevel.getRandomMap(state, tags), TransitionState.NEWLEVEL, "");
+						} else {
+				        	state.loadLevel(selected, TransitionState.NEWLEVEL, "");
+						}
+						
+						//play a particle when the player uses this event
+			        	new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true, particleSyncType.CREATESYNC, new Vector2(0, - me.getSize().y / 2));
 					} else {
-			        	state.loadLevel(selected, TransitionState.NEWLEVEL, "");
+						
+						//clients suggest maps when clicking
+						HadalGame.client.sendTCP(new Packets.Notification("SYSTEM", state.getPlayer().getName() + " Suggests Map: " + selected.name(), DialogType.SYSTEM));
 					}
-					
 		        	leave();
-		        	
-		        	//play a particle when the player uses this event
-		        	new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true, particleSyncType.CREATESYNC, new Vector2(0, - me.getSize().y / 2));
 		        }
 		        
 		        @Override

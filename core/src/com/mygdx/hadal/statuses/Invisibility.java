@@ -2,7 +2,6 @@ package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -24,7 +23,6 @@ public class Invisibility extends Status {
 	
 	public Invisibility(PlayState state, float i, BodyData p, BodyData v) {
 		super(state, i, false, p, v);
-		p.getSchmuck().setShader(Shader.INVISIBLE, i);
 		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, particleSyncType.CREATESYNC);
 		
 		//set unit's invis to true. this is used to turn off movement particles
@@ -37,6 +35,7 @@ public class Invisibility extends Status {
 	
 	@Override
 	public void timePassing(float delta) {
+		super.timePassing(delta);
 		if (fadeCount >= 0) {
 			fadeCount -= delta;
 		}
@@ -50,7 +49,6 @@ public class Invisibility extends Status {
 	@Override
 	public void onRemove() {
 		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, particleSyncType.CREATESYNC);
-		inflicted.getSchmuck().endShader(Shader.INVISIBLE);
 		
 		if (inflicted instanceof PlayerBodyData) {
 			((PlayerBodyData) inflicted).getPlayer().setInvisible(false);
@@ -75,8 +73,6 @@ public class Invisibility extends Status {
 	
 	@Override
 	public void onDeath(BodyData perp) {
-		inflicted.getSchmuck().endShader(Shader.INVISIBLE);
-		
 		if (inflicted instanceof PlayerBodyData) {
 			((PlayerBodyData) inflicted).getPlayer().setInvisible(false);
 		}

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.AssetList;
 
@@ -23,10 +24,13 @@ public class Dialog {
 	private Animation<TextureRegion> bust;
 	private static final float speed = 0.1f;
 	
-	public Dialog(DialogInfo info, EventData radio, EventData trigger) {
+	private DialogType type;
+	
+	public Dialog(DialogInfo info, EventData radio, EventData trigger, DialogType type) {
 		this.info = info;
 		this.radio = radio;
 		this.trigger = trigger;
+		this.type = type;
 		
 		if (!info.getSprite().equals("")) {
 			characterBusts character = characterBusts.valueOf(info.getSprite());
@@ -59,4 +63,6 @@ public class Dialog {
 	public EventData getRadio() { return radio; }
 
 	public EventData getTrigger() {	return trigger; }
+	
+	public DialogType getType() { return type; }
 }

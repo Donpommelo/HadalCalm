@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -323,7 +324,7 @@ public class PauseState extends GameState {
     		if (paused) {
     			//If the server unpauses, send a message and notification to all players to unpause.
         		HadalGame.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
-    			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), "UNPAUSED THE GAME!");
+    			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
     		}
 		} else {
 			if (paused) {

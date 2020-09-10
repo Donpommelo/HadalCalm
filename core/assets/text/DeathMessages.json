@@ -133,6 +133,9 @@
         {
             "message": "<perp> committed a hate crime against <vic>.", "weight": 1, namedPerp: true
         }
+        {
+            "message": "<vic> received <perp>'s permission to die.", "weight": 1, namedPerp: true
+        }
     ]
 "BEES":  [
         {
@@ -184,6 +187,9 @@
         }
         {
             "message": "<perp> filled <vic> with more holes than a slice of this fine gorgombert.", "weight": 1, namedPerp: true
+        }
+        {
+            "message": "<perp> shot <vic> before throwing him out of an aeroplane.", "weight": 1, namedPerp: true
         }
     ]
 "COLA":  [

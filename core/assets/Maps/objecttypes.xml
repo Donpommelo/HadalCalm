@@ -62,6 +62,7 @@
   <property name="triggeringId" type="string"/>
  </objecttype>
  <objecttype name="Dialog" color="#a0a0a4">
+  <property name="dialogType" type="string" default="DIALOG"/>
   <property name="textId" type="string"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>

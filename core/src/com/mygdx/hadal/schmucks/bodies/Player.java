@@ -84,7 +84,8 @@ public class Player extends PhysicsSchmuck {
 	private FeetData leftData;
 	
 	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.) and invisibility (to manage particles without checking statuses every tick)
-	private boolean scaling, invisible;
+	private boolean scaling;
+	protected boolean invisible;
 	
 	//does the player have a shoot/jump or boost action buffered? (i.e used when still on cd)
 	protected boolean shootBuffered, jumpBuffered, airblastBuffered;
@@ -487,12 +488,14 @@ public class Player extends PhysicsSchmuck {
 			jumpCdCount = hoverCd;
 			pushMomentumMitigation(0, playerData.getHoverPower());
 			
-			//turn on hovering particles and sound
-			hoverBubbles.turnOn();
-			if (hoverSound == null) {
-				hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.2f, 1.0f, true, true, soundSyncType.TICKSYNC);
+			if (!invisible) {
+				//turn on hovering particles and sound
+				hoverBubbles.turnOn();
+				if (hoverSound == null) {
+					hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.2f, 1.0f, true, true, soundSyncType.TICKSYNC);
+				}
+				hoverSound.turnOn();
 			}
-			hoverSound.turnOn();
 		} else {
 			//turn off hovering particles and sound
 			hoverBubbles.turnOff();
@@ -511,9 +514,11 @@ public class Player extends PhysicsSchmuck {
 				jumpCdCount = jumpCd;
 				pushMomentumMitigation(0, playerData.getJumpPower());
 				
-				//activate jump particles and sound
-				new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - hbHeight * scale / 2), Particle.WATER_BURST, 1.0f, true, particleSyncType.CREATESYNC);
-				SoundEffect.JUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
+				if (!invisible) {
+					//activate jump particles and sound
+					new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - hbHeight * scale / 2), Particle.WATER_BURST, 1.0f, true, particleSyncType.CREATESYNC);
+					SoundEffect.JUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
+				}
 			} else {
 				jumpBuffered = true;
 			}
@@ -524,9 +529,11 @@ public class Player extends PhysicsSchmuck {
 					playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);
 					pushMomentumMitigation(0, playerData.getJumpPower());
 					
-					//activate double-jump particles and sound
-					new ParticleEntity(state, this, Particle.SPLASH, 0.0f, 0.75f, true, particleSyncType.CREATESYNC);
-					SoundEffect.DOUBLEJUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
+					if (!invisible) {
+						//activate double-jump particles and sound
+						new ParticleEntity(state, this, Particle.SPLASH, 0.0f, 0.75f, true, particleSyncType.CREATESYNC);
+						SoundEffect.DOUBLEJUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
+					}
 				} else {
 					jumpBuffered = true;
 				}
@@ -639,6 +646,14 @@ public class Player extends PhysicsSchmuck {
 	private boolean flip;
 	@Override
 	public void render(SpriteBatch batch) {
+
+		if (invisible) {
+			if (this.equals(state.getPlayer())) {
+				batch.setColor(1.0f,  1.0f, 1.0f, 0.3f);
+			} else {
+				return;
+			}
+		}
 		
 		//flip determines if the player is facing left or right
 		flip = false;
@@ -750,6 +765,11 @@ public class Player extends PhysicsSchmuck {
 				getPixelPosition().y - hbHeight * scale / 2 + headConnectY * scale + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
+		
+		
+		if (invisible) {
+			batch.setColor(1.0f,  1.0f, 1.0f, 1.0f);
+		}
 		
 		float textX = getPixelPosition().x - reload.getRegionWidth() * uiScale / 2;
 		float textY = getPixelPosition().y + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;
@@ -930,7 +950,8 @@ public class Player extends PhysicsSchmuck {
 	public void onServerSync() {
 		super.onServerSync();
 		state.getSyncPackets().add(new Packets.SyncPlayerAll(entityID.toString(), mouseAngle, grounded, playerData.getCurrentSlot(), 
-				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo(), getMainFixture().getFilterData().maskBits, state.getTimer()));
+				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo(), 
+				getMainFixture().getFilterData().maskBits, invisible, state.getTimer()));
 		
 		HadalGame.server.sendPacketToPlayer(this, new Packets.SyncPlayerSelf(playerData.getCurrentFuel() / playerData.getStat(Stats.MAX_FUEL), 
 				playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getAmmoLeft(), playerData.getActiveItem().chargePercent()));
@@ -954,6 +975,7 @@ public class Player extends PhysicsSchmuck {
 			getPlayerData().getCurrentTool().setCharging(p.charging);
 			chargePercent = p.chargePercent;
 			getPlayerData().setOverrideOutOfAmmo(p.outOfAmmo);
+			invisible = p.invisible;
 			
 			if (p.maskBits != getMainFixture().getFilterData().maskBits) {
 				Filter filter = getMainFixture().getFilterData();
