@@ -516,39 +516,17 @@ public class KryoServer {
 		PlayState ps = getPlayState();
 		
 		if (ps != null) {
-			
-			//If the host is the perp or vic, update score with id 0
-			if (perp != null) {
-				if (perp.equals(ps.getPlayer())) {
-					scores.get(0).registerKill();
-				}
-			}
+						
+			//update score of client matching the players involved
 			if (vic != null) {
-				if (vic.equals(ps.getPlayer())) {
-					scores.get(0).registerDeath();
-				}
-			}
-			
-			//Otherwise, update score of client matching the players involved
-			if (vic != null) {
-				for (Entry<Integer, Player> conn: players.entrySet()) {
-					if (conn.getKey().equals(vic.getConnID())) {
-						if (scores.containsKey(conn.getKey())) {
-							scores.get(conn.getKey()).registerDeath();
-						}
-						break;
-					}
+				if (scores.containsKey(vic.getConnID())) {
+					scores.get(vic.getConnID()).registerDeath();
 				}
 			}
 			
 			if (perp != null) {
-				for (Entry<Integer, Player> conn: players.entrySet()) {
-					if (conn.getKey().equals(perp.getConnID())) {
-						if (scores.containsKey(conn.getKey())) {
-							scores.get(conn.getKey()).registerKill();
-						}
-						break;
-					}
+				if (scores.containsKey(perp.getConnID())) {
+					scores.get(perp.getConnID()).registerKill();
 				}
 			}
 			

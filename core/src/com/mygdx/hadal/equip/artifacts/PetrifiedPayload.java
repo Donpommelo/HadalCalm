@@ -19,7 +19,7 @@ public class PetrifiedPayload extends Artifact {
 	private final static float explosionKnockback = 18.0f;
 	private final static float explosionSize = 200.0f;
 	
-	private final static float bonusExplosionSize = 0.5f;
+	private final static float bonusExplosionSize = 0.3f;
 	
 	public PetrifiedPayload() {
 		super(slotCost, statusNum);

@@ -127,13 +127,13 @@ public class MessageWindow {
 		};
 		
 		if (active) {
-			tableOuter.addAction(Actions.moveTo(windowX, windowYInactive, .25f, Interpolation.pow5Out));
-			tableInner.addAction(Actions.sequence(Actions.run(disableMsg), Actions.moveTo(windowX, windowYInactive, .25f, Interpolation.pow5Out)));
+			tableOuter.addAction(Actions.moveTo(windowX, windowYInactive, 0.25f, Interpolation.pow5Out));
+			tableInner.addAction(Actions.sequence(Actions.run(disableMsg), Actions.moveTo(windowX, windowYInactive, 0.25f, Interpolation.pow5Out)));
 			
 			SoundEffect.UISWITCH2.play(state.getGsm(), 1.0f, false);
 		} else {
-			tableOuter.addAction(Actions.moveTo(windowX, windowYActive, .5f, Interpolation.pow5Out));
-			tableInner.addAction(Actions.sequence(Actions.run(enableMsg), Actions.moveTo(windowX, windowYActive, .25f, Interpolation.pow5Out)));
+			tableOuter.addAction(Actions.moveTo(windowX, windowYActive, 0.5f, Interpolation.pow5Out));
+			tableInner.addAction(Actions.sequence(Actions.run(enableMsg), Actions.moveTo(windowX, windowYActive, 0.25f, Interpolation.pow5Out)));
 			
 			SoundEffect.UISWITCH2.play(state.getGsm(), 1.0f, false);
 		}

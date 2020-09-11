@@ -37,7 +37,7 @@ ADMINISTRATOR_CARD: {
 ALBATROSS_NECKLACE: {
 	name: Albatross Necklace
 	description: "+Max Hp, Become Heavier"
-    descriptionLong: "Bonus Max Hp: 60\nWeight Increase: +100%\n\nA burdensome necklet in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
+    descriptionLong: "Bonus Max Hp: 60\nWeight Increase: +50%\n\nA burdensome necklet in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -635,7 +635,7 @@ NUCLEAR_PUNCH_THRUSTERS: {
 NURDLER: {
 	name: Nurdler
 	description: "Fire Pellets When Attacking"
-    descriptionLong: "Nurdler Interval: 0.25s\nNurdler Damage: 7.5\n\nA handful of hardened, plastic pellets, byproduct of some long-lost industry.\n\nThrough inconspicuousness, items of extreme worthlessness can sometimes evade the grinding blades of the Kamaboko-Ya."
+    descriptionLong: "Nurdler Interval: 0.2s\nNurdler Damage: 12\n\nA handful of hardened, plastic pellets, byproduct of some long-lost industry.\n\nThrough inconspicuousness, items of extreme worthlessness can sometimes evade the grinding blades of the Kamaboko-Ya."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -716,7 +716,7 @@ PEPPER: {
 PETRIFIED_PAYLOAD: {
 	name: Petrified Payload
 	description: "Explosions on Kill and Death, Bigger Explosions"
-    descriptionLong: "Explosion Damage: 50 on Player Kill, 20 on Monster Kill\nBonus Explosion Size: +50%\n\nA bulging and volatile stack of decrepit munitions.\n\nManagement has always had confidence that whatever lied at the bottom of the world could be dealt with additional firepower."
+    descriptionLong: "Explosion Damage: 50 on Player Kill, 20 on Monster Kill\nBonus Explosion Size: +30%\n\nA bulging and volatile stack of decrepit munitions.\n\nManagement has always had confidence that whatever lied at the bottom of the world could be dealt with additional firepower."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -957,7 +957,7 @@ VOLATILE_DERMIS: {
 WHITE_SMOKER: {
 	name: White Smoker
 	description: "Fiery Hovering"
-    descriptionLong: "Fire Duration: 3s\nFire Damage: 2\n\nAn organic tube structure emanating an endless stream of pale smoke.\n\nAs the only sources of energy in an otherwise closed system, Bright Ones foment new life within the vicinity, usually in their own likeness."
+    descriptionLong: "Fire Duration: 4s\nFire Damage: 2\n\nAn organic tube structure emanating an endless stream of pale smoke.\n\nAs the only sources of energy in an otherwise closed system, Bright Ones foment new life within the vicinity, usually in their own likeness."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

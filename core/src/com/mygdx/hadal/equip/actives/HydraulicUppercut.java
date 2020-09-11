@@ -40,8 +40,8 @@ public class HydraulicUppercut extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.WOOSH.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
 
-		user.addStatus(new Invulnerability(state, 0.75f, user, user));
-		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 10.0f, user, user));
+		user.addStatus(new Invulnerability(state, 0.9f, user, user));
+		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 6.0f, user, user));
 
 		user.getPlayer().pushMomentumMitigation(0, recoil);
 		

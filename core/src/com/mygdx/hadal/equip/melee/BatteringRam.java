@@ -24,7 +24,7 @@ import com.mygdx.hadal.utils.Stats;
 
 public class BatteringRam extends MeleeWeapon {
 
-	private final static float shootCd = 0.1f;
+	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
 	private final static Vector2 hitboxSize = new Vector2(90, 120);
 	private final static float knockback = 40.0f;
@@ -35,11 +35,11 @@ public class BatteringRam extends MeleeWeapon {
 
 	private static final float maxCharge = 0.5f;
 	
-	private final static float minRecoil = 50.0f;
-	private final static float maxRecoil = 150.0f;
+	private final static float minRecoil = 25.0f;
+	private final static float maxRecoil = 175.0f;
 	
-	private final static float minDamage = 25.0f;
-	private final static float maxDamage = 60.0f;
+	private final static float minDamage = 15.0f;
+	private final static float maxDamage = 75.0f;
 	
 	public BatteringRam(Schmuck user) {
 		super(user, shootCd, shootDelay, weaponSprite, eventSprite, maxCharge);
@@ -53,7 +53,7 @@ public class BatteringRam extends MeleeWeapon {
 		
 		//while held, build charge until maximum (if not reloading)
 		if (chargeCd < getChargeTime()) {
-			setChargeCd(chargeCd + delta + shootCd);
+			setChargeCd(chargeCd + delta);
 		}
 	}
 	
@@ -62,17 +62,16 @@ public class BatteringRam extends MeleeWeapon {
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
-		super.execute(state, bodyData);
-		charging = false;
-		chargeCd = 0;
+		
+		if (bodyData.getSchmuck().getShootCdCount() <= 0.0f) {
+			super.execute(state, bodyData);
+			charging = false;
+			chargeCd = 0;
+		}
 	}
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		
-		if (chargeCd < shootCd) {
-			return;
-		}
 		
 		SoundEffect.WOOSH.playUniversal(state, startPosition, 1.0f, false);
 		new ParticleEntity(user.getState(), user, Particle.BRIGHT, 1.0f, lifespan, true, particleSyncType.TICKSYNC).setColor(ParticleColor.VIOLET);
@@ -94,5 +93,7 @@ public class BatteringRam extends MeleeWeapon {
 		hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), damage, knockback, DamageTypes.MELEE));
 		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), new Vector2(), false));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.KICK1, 1.0f, true));
+		
+		user.setShootCdCount(0.5f);
 	}
 }

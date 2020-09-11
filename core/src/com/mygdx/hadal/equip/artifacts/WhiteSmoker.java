@@ -27,8 +27,8 @@ public class WhiteSmoker extends Artifact {
 	private final static Vector2 projectileSize = new Vector2(50, 50);
 	private final static float lifespan = 0.25f;
 	
-	private final static float fireDuration = 3.0f;
-	private final static float fireDamage = 2.0f;
+	private final static float fireDuration = 4.0f;
+	private final static float fireDamage = 3.0f;
 	
 	public WhiteSmoker() {
 		super(slotCost, statusNum);
