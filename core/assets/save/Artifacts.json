@@ -37,7 +37,7 @@ ADMINISTRATOR_CARD: {
 ALBATROSS_NECKLACE: {
 	name: Albatross Necklace
 	description: "+Max Hp, Become Heavier"
-    descriptionLong: "Bonus Max Hp: 60\nWeight Increase: +50%\n\nA burdensome necklet in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
+    descriptionLong: "Bonus Max Hp: 60\nWeight Increase: +75%\n\nA burdensome necklet in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -930,7 +930,7 @@ UNBREATHING_MEMBRANE: {
 VESTIGIAL_CHAMBER: {
 	name: Vestigial Chamber
 	description: "Projectiles Create Delayed Explosions"
-    descriptionLong: "Explosion Delay: 0.75s\nExplosion Damage: 18\n\n"
+    descriptionLong: "Explosion Delay: 0.75s\nExplosion Damage: 18\n\nAn obsolete organ used to manipulate density.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

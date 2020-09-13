@@ -243,10 +243,13 @@ public class KryoServer {
 		    							spectator = true;
 		    						}
 		    						
-		    						if (ps.isReset()) {
-		    							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset(), spectator); 
-		    						} else {
-		    							createNewClientPlayer(ps, c.getID(), p.name, player.getPlayerData().getLoadout(), player.getPlayerData(), ps.isReset(), spectator); 
+		    						//alive check prevents duplicate players if entering/respawning simultaneously
+		    						if (!player.isAlive()) {
+		    							if (ps.isReset()) {
+			    							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset(), spectator); 
+			    						} else {
+			    							createNewClientPlayer(ps, c.getID(), p.name, player.getPlayerData().getLoadout(), player.getPlayerData(), ps.isReset(), spectator); 
+			    						}
 		    						}
 		    					} else {
 		    						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator);                        
@@ -349,8 +352,12 @@ public class KryoServer {
 					//acquire the client's name and data
 					Player player = players.get(c.getID());
 					if (player != null) {
-						String playerName = player.getName();
-						createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), player.getPlayerData(), true, false);
+						
+						//alive check prevents duplicate players if entering/respawning simultaneously
+						if (!player.isAlive()) {
+							String playerName = player.getName();
+							createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), player.getPlayerData(), true, false);
+						}
 					}
 				}
 				
