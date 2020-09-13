@@ -13,6 +13,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.dialog.Dialog;
 import com.mygdx.hadal.dialog.DialogInfo;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 
@@ -52,6 +53,9 @@ public class DialogBox extends AHadalActor {
 	private static final int maxTextWidth = 790;
 	private static final int maxTextWidthSmall = 675;
 
+	private static final int advanceWidth = 50;
+	private static final int advanceHeight = 30;
+	
 	//This float is the ratio of the max dimensions of the window before the text appears.
 	//For example, the text will appear when the window's x = maxX * this variable
 	private static final float textAppearThreshold = 0.9f;
@@ -203,9 +207,12 @@ public class DialogBox extends AHadalActor {
 				font.getData().setScale(scaleSmall);
 				GameStateManager.getSimplePatch().draw(batch, getX(), getY() - currY, currX, currY);
 				 
+
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxXSmall * textAppearThreshold) {
 					font.draw(batch, first.getInfo().getDisplayedText(), getX() + 20, getY() - 20, maxTextWidthSmall, Align.left, true);
+					GameStateManager.getSimplePatch().draw(batch, getX() + maxXSmall - advanceWidth, getY() - maxYSmall, advanceWidth, advanceHeight);
+					font.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + maxXSmall - advanceWidth, getY() - maxYSmall - 8 + advanceHeight, maxTextWidthSmall, Align.left, true);
 				}
 			} else {
 				font.getData().setScale(scale);
@@ -214,6 +221,8 @@ public class DialogBox extends AHadalActor {
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxX * textAppearThreshold) {
 					font.draw(batch, first.getInfo().getDisplayedText(), getX() + 150, getY() - 20, maxTextWidth, Align.left, true);
+					GameStateManager.getSimplePatch().draw(batch, getX() + maxX - advanceWidth, getY() - maxY, advanceWidth, advanceHeight);
+					font.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + maxX - advanceWidth, getY() - maxY - 8 + advanceHeight, maxTextWidth, Align.left, true);
 				}
 				 
 				if (first.getBust() != null) {

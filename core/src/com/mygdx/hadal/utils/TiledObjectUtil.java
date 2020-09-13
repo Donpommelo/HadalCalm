@@ -66,9 +66,11 @@ public class TiledObjectUtil {
         	}
 
             if (object.getProperties().get("dropthrough", false, boolean.class)) {
-                state.addEntity("", new WallDropthrough(state, shape), false, ObjectSyncLayers.STANDARD);
+            	WallDropthrough wall = new WallDropthrough(state, shape);
+                state.addEntity(wall.getEntityID().toString(), wall, false, ObjectSyncLayers.STANDARD);
             } else {
-                state.addEntity("", new Wall(state, shape), false, ObjectSyncLayers.STANDARD);
+            	Wall wall = new Wall(state, shape);
+                state.addEntity(wall.getEntityID().toString(),wall, false, ObjectSyncLayers.STANDARD);
             }
         }
     }

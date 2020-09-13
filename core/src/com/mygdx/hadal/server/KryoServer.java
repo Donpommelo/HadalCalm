@@ -348,15 +348,16 @@ public class KryoServer {
 				 */
 				else if (o instanceof Packets.ClientFinishRespawn) {
 					final PlayState ps = getPlayState();
-					
-					//acquire the client's name and data
-					Player player = players.get(c.getID());
-					if (player != null) {
-						
-						//alive check prevents duplicate players if entering/respawning simultaneously
-						if (!player.isAlive()) {
-							String playerName = player.getName();
-							createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), player.getPlayerData(), true, false);
+					if (ps != null) {
+						//acquire the client's name and data
+						Player player = players.get(c.getID());
+						if (player != null) {
+							
+							//alive check prevents duplicate players if entering/respawning simultaneously
+							if (!player.isAlive()) {
+								String playerName = player.getName();
+								createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), player.getPlayerData(), true, false);
+							}
 						}
 					}
 				}

@@ -42,6 +42,7 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.states.GameState;
 import com.mygdx.hadal.states.PauseState;
 
@@ -299,7 +300,12 @@ public class KryoClient {
         		 */
         		else if (o instanceof Packets.LoadLevel) {
         			final Packets.LoadLevel p = (Packets.LoadLevel) o;
-
+        			final ClientState cs = getClientState();
+        			
+        			//we must set the playstate's next state so that other transitions (respawns) do not override this transition
+        			if (cs != null) {
+        				cs.setNextState(TransitionState.NEWLEVEL);
+        			}
         			Gdx.app.postRunnable(new Runnable() {
         				
                         @Override
@@ -311,7 +317,6 @@ public class KryoClient {
 								public void run() {
 									gsm.removeState(ResultsState.class);
 									
-									final ClientState cs = getClientState();
 									boolean spectator = false;
 									if (cs != null) {
 										spectator = cs.isSpectatorMode();

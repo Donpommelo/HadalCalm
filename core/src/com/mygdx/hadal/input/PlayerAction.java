@@ -29,7 +29,7 @@ public enum PlayerAction {
 	SWITCH_TO_4(Input.Keys.NUM_4, false),
 	WEAPON_CYCLE_UP(-1000, false),
 	WEAPON_CYCLE_DOWN(1000, false),
-	MESSAGE_WINDOW(Input.Keys.M, false),
+	MESSAGE_WINDOW(Input.Keys.T, false),
 	SCORE_WINDOW(Input.Keys.TAB, true),
 	PAUSE(Input.Keys.P, false),
 	EXIT_MENU(Input.Keys.ESCAPE, false);
@@ -77,7 +77,7 @@ public enum PlayerAction {
 		SWITCH_TO_4.setKey(Input.Keys.NUM_4);
 		WEAPON_CYCLE_UP.setKey(-1000);
 		WEAPON_CYCLE_DOWN.setKey(1000);
-		MESSAGE_WINDOW.setKey(Input.Keys.M);
+		MESSAGE_WINDOW.setKey(Input.Keys.T);
 		SCORE_WINDOW.setKey(Input.Keys.TAB);
 		PAUSE.setKey(Input.Keys.P);
 		EXIT_MENU.setKey(Input.Keys.ESCAPE);

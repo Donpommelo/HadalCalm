@@ -1348,4 +1348,6 @@ public class PlayState extends GameState {
 	public void setZoom(float zoom) { this.zoomDesired = zoom; }
 
 	public ArrayList<Object> getSyncPackets() {	return syncPackets; }
+
+	public void setNextState(TransitionState nextState) { this.nextState = nextState; }
 }
