@@ -1011,8 +1011,7 @@ public class PlayState extends GameState {
 	 */
 	public void becomeSpectator(Player player) {
 		
-		//cannot enter spectator when already transitioning to another state.
-		if (nextState == null) {
+		if (!player.isSpectator()) {
 			player.setSpectator(true);
 			
 			HadalGame.server.addNotificationToAll(this, "", player.getName() + " became a spectator!", DialogType.SYSTEM);
@@ -1035,14 +1034,14 @@ public class PlayState extends GameState {
 	 */
 	public void exitSpectator(Player player) {
 		
-		//cannot exit spectator if server is full
-		if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers()) {
-			HadalGame.server.sendNotification(this, player.getConnID(), "", "Could not join! Server is full!", DialogType.SYSTEM);
-			return;
-		}
-		
-		//cannot exit spectator when already transitioning to another state. 
-		if (nextState == null) {
+		if (player.isSpectator()) {
+			//cannot exit spectator if server is full
+			if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers()) {
+				HadalGame.server.sendNotification(this, player.getConnID(), "", "Could not join! Server is full!", DialogType.SYSTEM);
+				return;
+			}
+			
+			player.setSpectator(false);
 			HadalGame.server.addNotificationToAll(this, "", player.getName() + " stopped spectating and joined the game!", DialogType.SYSTEM);
 
 			//for host, start transition. otherwise, send transition packet

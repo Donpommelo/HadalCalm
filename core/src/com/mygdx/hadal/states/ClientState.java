@@ -232,6 +232,13 @@ public class ClientState extends PlayState {
 			
 			setSpectatorMode();
 			
+			//sometimes, the client can miss the server's delete packet. if so, delete own player automatically
+			if (player != null) {
+				if (player.isAlive()) {
+					removeEntity(player.getEntityID().toString());
+				}
+			}
+			
 			//Make nextState null so we can transition again
 			nextState = null;
 			break;
