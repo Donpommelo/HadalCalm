@@ -134,6 +134,10 @@ public class ClientController implements InputProcessor {
 			state.getScoreWindow().setVisibility(true);
 		} 
 		
+		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
+			state.getChatWheel().setVisibility(true);
+		}
+		
 		else if (keycode == PlayerAction.EXIT_MENU.getKey()) {
 			if (state.getUiHub().isActive()) {
 				state.getUiHub().leave();
@@ -192,7 +196,12 @@ public class ClientController implements InputProcessor {
 		
 		else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
 			state.getScoreWindow().setVisibility(false);
-		}	
+		}
+		
+		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
+			state.getChatWheel().setVisibility(false);
+		}
+		
 		return false;
 	}
 

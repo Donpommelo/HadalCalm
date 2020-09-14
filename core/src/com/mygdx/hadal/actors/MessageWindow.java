@@ -173,7 +173,7 @@ public class MessageWindow {
 	 * This adds the table to the stage.
 	 * It is called when the actor is instantiated
 	 */
-	public void addTable() {
+	private void addTable() {
 		tableOuter.clear();
 		tableInner.clear();
 		
@@ -279,7 +279,7 @@ public class MessageWindow {
 	/**
 	 * After adding a text to the dialog record, we create a text actor for it and add that to the dialog box actor.
 	 */
-	public void addTextLine(String text) {
+	private void addTextLine(String text) {
 		Text newEntry = new Text(text, 0, 0, false, true, width - 50);
 		newEntry.setScale(logScale);
 

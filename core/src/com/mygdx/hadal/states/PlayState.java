@@ -26,6 +26,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIExtra;
 import com.mygdx.hadal.actors.UIHub;
+import com.mygdx.hadal.actors.ChatWheel;
 import com.mygdx.hadal.actors.DialogBox;
 import com.mygdx.hadal.actors.MessageWindow;
 import com.mygdx.hadal.actors.ScoreWindow;
@@ -167,6 +168,7 @@ public class PlayState extends GameState {
 	protected UIArtifacts uiArtifact;
 	protected UIHub uiHub;
 	protected MessageWindow messageWindow;
+	protected ChatWheel chatWheel;
 	protected ScoreWindow scoreWindow;
 	protected DialogBox dialogBox;
 	
@@ -330,6 +332,7 @@ public class PlayState extends GameState {
 			uiHub = new UIHub(this);
 			
 			messageWindow = new MessageWindow(this, stage);
+			chatWheel = new ChatWheel(this, stage);
 			scoreWindow = new ScoreWindow(this);
 			dialogBox = new DialogBox(this, 0, HadalGame.CONFIG_HEIGHT);
 		}
@@ -1334,6 +1337,8 @@ public class PlayState extends GameState {
 	public InputProcessor getController() { return controller; }
 
 	public MessageWindow getMessageWindow() { return messageWindow; }
+	
+	public ChatWheel getChatWheel() { return chatWheel; }
 	
 	public ScoreWindow getScoreWindow() { return scoreWindow; }	
 	

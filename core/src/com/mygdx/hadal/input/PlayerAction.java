@@ -31,6 +31,7 @@ public enum PlayerAction {
 	WEAPON_CYCLE_DOWN(1000, false),
 	MESSAGE_WINDOW(Input.Keys.T, false),
 	SCORE_WINDOW(Input.Keys.TAB, true),
+	CHAT_WHEEL(Input.Keys.Y, true),
 	PAUSE(Input.Keys.P, false),
 	EXIT_MENU(Input.Keys.ESCAPE, false);
 
@@ -79,6 +80,7 @@ public enum PlayerAction {
 		WEAPON_CYCLE_DOWN.setKey(1000);
 		MESSAGE_WINDOW.setKey(Input.Keys.T);
 		SCORE_WINDOW.setKey(Input.Keys.TAB);
+		CHAT_WHEEL.setKey(Input.Keys.Y);
 		PAUSE.setKey(Input.Keys.P);
 		EXIT_MENU.setKey(Input.Keys.ESCAPE);
 	}

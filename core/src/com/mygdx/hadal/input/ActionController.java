@@ -84,7 +84,11 @@ public class ActionController {
 		else if (action == PlayerAction.SCORE_WINDOW) {
 			state.getScoreWindow().setVisibility(false);
 		}
-				
+		
+		else if (action == PlayerAction.CHAT_WHEEL) {
+			state.getChatWheel().setVisibility(false);
+		}
+		
 		return false;
 	}
 	
@@ -181,6 +185,10 @@ public class ActionController {
 
 		else if (action == PlayerAction.SCORE_WINDOW) {
 			state.getScoreWindow().setVisibility(true);
+		}
+		
+		else if (action == PlayerAction.CHAT_WHEEL) {
+			state.getChatWheel().setVisibility(true);
 		}
 		
 		else if (action == PlayerAction.EXIT_MENU) {

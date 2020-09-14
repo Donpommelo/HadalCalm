@@ -100,6 +100,10 @@ public class PlayerController implements InputProcessor {
 			player.getController().keyDown(PlayerAction.SCORE_WINDOW);
 		} 
 		
+		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
+			player.getController().keyDown(PlayerAction.CHAT_WHEEL);
+		}
+		
 		else if (keycode == PlayerAction.EXIT_MENU.getKey()) {
 			player.getController().keyDown(PlayerAction.EXIT_MENU);
 		}
@@ -138,6 +142,11 @@ public class PlayerController implements InputProcessor {
 		else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
 			player.getController().keyUp(PlayerAction.SCORE_WINDOW);
 		}	
+		
+		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
+			player.getController().keyUp(PlayerAction.CHAT_WHEEL);
+		}
+		
 		return false;
 	}
 
