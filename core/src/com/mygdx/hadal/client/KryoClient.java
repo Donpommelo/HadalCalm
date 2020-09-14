@@ -316,6 +316,8 @@ public class KryoClient {
 								@Override
 								public void run() {
 									gsm.removeState(ResultsState.class);
+									gsm.removeState(SettingState.class);
+									gsm.removeState(PauseState.class);
 									
 									boolean spectator = false;
 									if (cs != null) {
@@ -781,7 +783,7 @@ public class KryoClient {
 					public void execute() {
 						PickupEquip pickup = new PickupEquip(cs, p.pos, "");
 						pickup.setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
-						cs.addEntity(p.entityID, pickup, false, ObjectSyncLayers.STANDARD);
+						cs.addEntity(p.entityID, pickup, p.synced, ObjectSyncLayers.STANDARD);
     				}
 				});
 			}

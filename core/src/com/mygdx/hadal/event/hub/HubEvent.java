@@ -120,5 +120,6 @@ public class HubEvent extends Event {
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.PYRAMID);
 		setSyncType(eventSyncTypes.USER);
+		setSynced(true);
 	}
 }

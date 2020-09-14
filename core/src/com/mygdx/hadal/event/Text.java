@@ -50,5 +50,6 @@ public class Text extends Event {
 	@Override
 	public void loadDefaultProperties() {
 		setSyncType(eventSyncTypes.ALL);
+		setSynced(true);
 	}
 }

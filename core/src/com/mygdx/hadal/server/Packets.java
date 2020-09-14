@@ -455,6 +455,7 @@ public class Packets {
 		public String entityID;
         public Vector2 pos;
         public String newPickup;
+        public boolean synced;
         public CreatePickup() {}
         
         /**
@@ -464,11 +465,13 @@ public class Packets {
 		 * @param entityID: ID of the new Pickup.
 		 * @param pos: position of the new Pickup
 		 * @param newPickup: The pickup that this event should start with.
+		 * @param synced: should this entity receive a sync packet regularly?
          */
-		public CreatePickup(String entityID, Vector2 pos, String newPickup) {
+		public CreatePickup(String entityID, Vector2 pos, String newPickup, boolean synced) {
 			this.entityID = entityID;
             this.pos = pos;
             this.newPickup = newPickup;
+            this.synced = synced;
 		}
 	}
 	

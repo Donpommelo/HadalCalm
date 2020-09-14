@@ -88,13 +88,13 @@ public class PickupEquip extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 		this.body.setType(BodyType.KinematicBody);
 	}
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(), UnlockEquip.getUnlockFromEquip(equip.getClass()).toString());
+		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(), UnlockEquip.getUnlockFromEquip(equip.getClass()).toString(), synced);
 	}
 	
 	public void syncEquip(Object o) {
@@ -116,12 +116,12 @@ public class PickupEquip extends Event {
 	public void render(SpriteBatch batch) {
 		if (!(equip instanceof NothingWeapon)) {
 			super.render(batch);
+			
+			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
+			float y = getPixelPosition().y + size.y / 2;
+			
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), getPixelPosition().x - size.x / 2, y);
 		}
-		
-		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-		float y = getPixelPosition().y + size.y / 2;
-		
-		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), getPixelPosition().x - size.x / 2, y);
 	}
 	
 	/**
