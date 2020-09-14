@@ -107,6 +107,8 @@ public class DiamondCutter extends MeleeWeapon {
 						Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), projectileSize, spinInterval, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, Sprite.NOTHING);
 						pulse.setSyncDefault(false);
 						pulse.setEffectsVisual(false);
+						pulse.makeUnreflectable();
+						
 						pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
 						pulse.addStrategy(new DamageStatic(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
 					}

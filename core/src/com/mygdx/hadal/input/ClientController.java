@@ -72,10 +72,6 @@ public class ClientController implements InputProcessor {
 		
 		else if (keycode == PlayerAction.INTERACT.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.INTERACT));
-			
-			if (state.getDialogBox() != null) {
-				state.getDialogBox().nextDialogue();
-			}
 		} 
 		
 		else if (keycode == PlayerAction.ACTIVE_ITEM.getKey()) {
