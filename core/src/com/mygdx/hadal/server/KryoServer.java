@@ -90,7 +90,7 @@ public class KryoServer {
 								players.remove(c.getID());
 								mice.remove(c.getID());
 								scores.remove(c.getID());
-								ps.getScoreWindow().syncScoreTable();
+								ps.getScoreWindow().setScoreChangeMade(true);
 							}
 						}
 					});
@@ -404,6 +404,15 @@ public class KryoServer {
 				 * Respond to this packet sent from the client periodically so the client knows their latency.
 				 */
 				else if (o instanceof Packets.LatencySyn) {
+					final Packets.LatencySyn p = (Packets.LatencySyn) o;
+					
+					final PlayState ps = getPlayState();
+					if (ps != null) {
+						if (scores.get(c.getID()).getPing() != p.latency) {
+							scores.get(c.getID()).setPing(p.latency);
+							ps.getScoreWindow().setScoreChangeMade(true);
+						}
+					}
 					server.sendToTCP(c.getID(), new Packets.LatencyAck());
 				}
 				
@@ -501,8 +510,8 @@ public class KryoServer {
 		        }
 		        
 		        //sync score window to display new player
-		        ps.getScoreWindow().syncScoreTable();
-		        ps.getScoreWindow().syncSettingTable();
+		        ps.getScoreWindow().setScoreChangeMade(true);
+		        sendToTCP(connId, new Packets.SyncSharedSettings(ps.getGsm().getSharedSetting()));
 		        
 		        //sync client ui elements
 		        sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr()));
@@ -539,7 +548,7 @@ public class KryoServer {
 			}
 			
 			//Sync score window to show updated kda and score
-			ps.getScoreWindow().syncScoreTable();
+			ps.getScoreWindow().setScoreChangeMade(true);
 		}
 	}
 	

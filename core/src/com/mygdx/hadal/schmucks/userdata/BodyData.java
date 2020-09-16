@@ -37,8 +37,8 @@ public class BodyData extends HadalData {
 	private static final float maxAirXSpeed = 10.0f;
 		
 	//Accelerating on the ground/air
-	private static final float groundXAccel = 0.10f;
-	private static final float airXAccel = 0.05f;
+	private static final float groundXAccel = 0.11f;
+	private static final float airXAccel = 0.07f;
 	private static final float groundXDeaccel = 0.05f;
 	private static final float airXDeaccel = 0.01f;
 	
@@ -417,11 +417,11 @@ public class BodyData extends HadalData {
 	
 	public float getXAirDeaccel() {	return airXDeaccel * (1 + getStat(Stats.AIR_DRAG)); }
 	
-	public float getYGroundAccel() { return groundYAccel * (1 + getStat(Stats.GROUND_DRAG)); }
+	public float getYGroundAccel() { return groundYAccel * (1 + getStat(Stats.GROUND_ACCEL)); }
 	
-	public float getYAirAccel() { return airYAccel * (1 + getStat(Stats.AIR_DRAG)); }
+	public float getYAirAccel() { return airYAccel * (1 + getStat(Stats.AIR_ACCEL)); }
 	
-	public float getYGroundDeaccel() { return groundYDeaccel * (1 + getStat(Stats.AIR_DRAG)); }
+	public float getYGroundDeaccel() { return groundYDeaccel * (1 + getStat(Stats.GROUND_DRAG)); }
 	
 	public float getYAirDeaccel() {	return airYDeaccel * (1 + getStat(Stats.AIR_DRAG)); }
 	

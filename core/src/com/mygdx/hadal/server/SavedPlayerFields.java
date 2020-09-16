@@ -12,7 +12,7 @@ public class SavedPlayerFields {
 	private String name;
 	
 	//Player's stored stats
-	private int wins, kills, deaths, score, lives;
+	private int wins, kills, deaths, score, lives, ping;
 	
 	//is this player the host?
 	private boolean host;
@@ -63,7 +63,7 @@ public class SavedPlayerFields {
 		if (host) {
 			return "(HOST) " + name; 
 		} else {
-			return name; 
+			return "(" + ping + " ms) " + name; 
 		}
 	}
 
@@ -82,4 +82,8 @@ public class SavedPlayerFields {
 	public int getLives() { return lives; }
 
 	public void setLives(int lives) { this.lives = lives; }
+
+	public int getPing() { return ping; }
+
+	public void setPing(int ping) { this.ping = ping; }
 }

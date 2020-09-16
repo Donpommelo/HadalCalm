@@ -6,12 +6,12 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy makes a hbox inflict bonus damage when it does a "headshot"
  * "headshots" in this game just check if the hbox made contact with the top portion of a unit (if they are a player)
+ * when activated, this strategy increases the damage multiplier of the hbox, meaning it must be added before the damage-inflicting strategy
  * @author Zachary Tu
  */
 public class DamageHeadshot extends HitboxStrategy {
@@ -20,12 +20,11 @@ public class DamageHeadshot extends HitboxStrategy {
 	private static final float headshotThreshold = 0.2f;
 	
 	//the amount of damage and knockback this hbox will inflict
-	private float bonusDamage, knockback;
+	private float bonusDamage;
 	
-	public DamageHeadshot(PlayState state, Hitbox proj, BodyData user, float damage, float knockback) {
+	public DamageHeadshot(PlayState state, Hitbox proj, BodyData user, float damage) {
 		super(state, proj, user);
 		this.bonusDamage = damage;
-		this.knockback = knockback;
 	}
 	
 	@Override
@@ -34,7 +33,7 @@ public class DamageHeadshot extends HitboxStrategy {
 			if (fixB instanceof PlayerBodyData) {
 				PlayerBodyData p = (PlayerBodyData) fixB;
 				if ((hbox.getPixelPosition().y - p.getPlayer().getPixelPosition().y) > headshotThreshold * Player.hbHeight * Player.scale) {
-					fixB.receiveDamage(bonusDamage, hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.SNIPE);
+					hbox.setDamageMultiplier(hbox.getDamageMultiplier() + bonusDamage);
 				}
 			}
 		}

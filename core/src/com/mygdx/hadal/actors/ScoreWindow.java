@@ -1,12 +1,11 @@
 package com.mygdx.hadal.actors;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.SharedSetting;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
 
@@ -20,13 +19,14 @@ public class ScoreWindow {
 	
 	private Table tableScore, tableSettings; 
 	private MenuWindow windowScore, windowSettings;
-	private Text ping, lives, pvpTimer, coopTimer, mode, loadout, slots, pause, serverSize;
+	private Text lives, pvpTimer, coopTimer, mode, loadout, slots, pause, serverSize;
 	
 	//Dimentions and position of the results menu
 	private final static int scoreWidth = 1000;
 	private final static int scoreBaseHeight = 75;
 	private final static int scoreTitleHeight = 60;
 	private final static int scoreRowHeight = 50;
+	private final static int scoreNameWidth = 500;
 	private static final float scoreScale = 0.5f;
 	private static final float scorePadX = 20.0f;
 	private static final float scorePadY = 25.0f;
@@ -39,6 +39,9 @@ public class ScoreWindow {
 	private static final float settingsScale = 0.25f;
 	private static final float settingsPadY = 15.0f;
 
+	//has any change to scores been made? This flag is used to determine whether a score sync packet needs to be sent.
+	private boolean scoreChangeMade = true;
+	
 	public ScoreWindow(PlayState state) {
 		this.state = state;
 		
@@ -59,7 +62,6 @@ public class ScoreWindow {
 				score.newLevelReset(state);
 			}
 		}
-		syncScoreTable();
 		syncSettingTable();
 	}
 	
@@ -134,13 +136,11 @@ public class ScoreWindow {
 				Text wins = new Text(field.getWins() + " ", 0, 0, false);
 				wins.setScale(scoreScale);
 
-				tableScore.add(name).height(scoreRowHeight).padBottom(scorePadY);
+				tableScore.add(name).width(scoreNameWidth).height(scoreRowHeight).padBottom(scorePadY).align(Align.center);
 				tableScore.add(kills).height(scoreRowHeight).padBottom(scorePadY);
 				tableScore.add(death).height(scoreRowHeight).padBottom(scorePadY);
 				tableScore.add(points).height(scoreRowHeight).padBottom(scorePadY);
 				tableScore.add(wins).height(scoreRowHeight).padBottom(scorePadY).row();
-				
-				HadalGame.server.sendToAllUDP(new Packets.SyncScore(HadalGame.server.getScores()));
 				
 				state.getUiExtra().syncData();
 			}
@@ -165,7 +165,7 @@ public class ScoreWindow {
 				Text wins = new Text(field.getWins() + " ", 0, 0, false);
 				wins.setScale(scoreScale);
 
-				tableScore.add(name).height(scoreRowHeight).padBottom(scorePadY);
+				tableScore.add(name).width(scoreNameWidth).height(scoreRowHeight).padBottom(scorePadY).align(Align.center);
 				tableScore.add(kills).height(scoreRowHeight).padBottom(scorePadY);
 				tableScore.add(death).height(scoreRowHeight).padBottom(scorePadY);
 				tableScore.add(points).height(scoreRowHeight).padBottom(scorePadY);
@@ -224,24 +224,9 @@ public class ScoreWindow {
 		
 		SharedSetting used = state.getGsm().getSharedSetting();
 		if (state.isServer()) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncSharedSettings(state.getGsm().getSharedSetting()));
-			
-			ping = new Text("PING: 0 ms", 0, 0, false);
-			ping.setScale(settingsScale);
+			HadalGame.server.sendToAllTCP(new Packets.SyncSharedSettings(state.getGsm().getSharedSetting()));
 		} else {
 			used = state.getGsm().getHostSetting();
-			
-			ping = new Text("", 0, 0, false) {
-				
-				@Override
-			    public void draw(Batch batch, float alpha) {
-					
-					text = "PING: " + (int) (((ClientState) state).getLatency() * 1000) + " ms";
-					
-					super.draw(batch, alpha);
-				}
-			};
-			ping.setScale(settingsScale);
 		}
 		
 		pvpTimer = new Text(SettingState.timerChoices[used.getPVPTimer()], 0, 0, false);
@@ -267,8 +252,6 @@ public class ScoreWindow {
 		
 		serverSize = new Text(SettingState.capacityChoices[used.getMaxPlayers()], 0, 0, false);
 		serverSize.setScale(settingsScale);
-		
-		tableSettings.add(ping).height(settingsRowHeight).left().padBottom(30).row();
 		
 		tableSettings.add(title).height(settingsRowHeight).colspan(2).row();
 		
@@ -310,4 +293,8 @@ public class ScoreWindow {
 		tableSettings.setVisible(visible);
 		windowSettings.setVisible(visible);
 	}
+	
+	public void setScoreChangeMade(boolean scoreChangeMade) { this.scoreChangeMade = scoreChangeMade;}
+	
+	public boolean isScoreChangeMade() { return scoreChangeMade; }
 }

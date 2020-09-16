@@ -289,7 +289,7 @@ DEPLORABLE_APPARATUS: {
 EELSKIN_COVER: {
 	name: Eelskin Cover
 	description: "Reduces Drag"
-    descriptionLong: "Ground Drag Reduction: -75%\nAir Drag Reduction: -40%\n\nA slick coat that lets its wearer slide through the water slimily.\n\nAfter an eternity of swallowing bland repast, the God-Eel, Pokey, began to covet the flavor of its subjects."
+    descriptionLong: "Ground Drag Reduction: -50%\nAir Drag Reduction: -40%\n\nA slick coat that lets its wearer slide through the water slimily.\n\nAfter an eternity of swallowing bland repast, the God-Eel, Pokey, began to covet the flavor of its subjects."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -611,7 +611,7 @@ MUDDLING_CUP: {
 NICE_SHOES: {
 	name: Nice Shoes
 	description: "+Run Speed"
-    descriptionLong: "Bonus Movement Speed: +30%\n\nA pair of very nice shoes.\n\nOnly a fool puts on his nicest shoes before stepping into the world's largest puddle."
+    descriptionLong: "Bonus Ground Speed: +25%\nBonus Ground Acceleration: +25%\n\nA pair of very nice shoes.\n\nOnly a fool puts on his nicest shoes before stepping into the world's largest puddle."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

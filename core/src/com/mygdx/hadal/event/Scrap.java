@@ -37,6 +37,9 @@ public class Scrap extends Event {
 	private final static float veloAmp = 7.5f;
 	private final static float lifespan = 9.0f;
 	
+	//short delay before scrap can be picked up
+	private final static float primeCd = 0.5f;
+	
 	public Scrap(PlayState state, Vector2 startPos) {
 		super(state, startPos, baseSize, lifespan);
 		this.startVelo = new Vector2(0, 1);
@@ -56,7 +59,7 @@ public class Scrap extends Event {
 			
 			@Override
 			public void onTouch(HadalData fixB) {
-				if (isAlive() && fixB instanceof PlayerBodyData) {
+				if (isAlive() && fixB instanceof PlayerBodyData && delay <= 0) {
 					event.queueDeletion();
 					
 					state.getGsm();
@@ -88,5 +91,13 @@ public class Scrap extends Event {
 		float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 		newVelocity.set(startVelo);
 		setLinearVelocity(newVelocity.nor().scl(veloAmp).setAngle(newDegrees));
+	}
+	
+	private float delay = primeCd;
+	@Override
+	public void controller(float delta) {
+		if (delay >= 0) {
+			delay -= delta;
+		}
 	}
 }

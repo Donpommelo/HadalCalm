@@ -39,7 +39,7 @@ public class SniperRifle extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_SPEARGUN;
 	private final static Sprite eventSprite = Sprite.P_SPEARGUN;
 	
-	private final static float bonusDamage = 70.0f;
+	private final static float bonusDamage = 1.0f;
 
 	public SniperRifle(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -56,8 +56,8 @@ public class SniperRifle extends RangedWeapon {
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DamageHeadshot(state, hbox, user.getBodyData(), bonusDamage));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.SNIPE, DamageTypes.RANGED));
-		hbox.addStrategy(new DamageHeadshot(state, hbox, user.getBodyData(), bonusDamage, knockback));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.5f));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 1.0f).setParticleColor(ParticleColor.YELLOW));
 	}

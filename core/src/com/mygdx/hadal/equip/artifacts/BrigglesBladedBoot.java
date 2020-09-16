@@ -10,7 +10,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 import com.mygdx.hadal.utils.Constants;
@@ -19,8 +18,6 @@ public class BrigglesBladedBoot extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
-	
-	private final static float procCd = 0.5f;
 	
 	private final static float baseDamage = 30.0f;
 	private final static float knockback = 15.0f;
@@ -38,19 +35,29 @@ public class BrigglesBladedBoot extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new Status(state, b) {
 			
-			private float procCdCount = procCd;
+			private Hitbox hbox;
+			private boolean created;
+			
+			@Override
+			public void onRemove() {
+				if (hbox != null) {
+					if (hbox.isAlive()) {
+						hbox.die();
+					}
+					created = false;
+				}
+			}
+			
 			
 			@Override
 			public void timePassing(float delta) {
-				while (procCdCount >= procCd) {
-					procCdCount -= procCd;
+				if (!created) {
+					created = true;
 					
-					Hitbox hbox = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), size, procCd, new Vector2(0, 0), inflicted.getSchmuck().getHitboxfilter(), true, false, 
-							inflicted.getSchmuck(), Sprite.NOTHING);
+					hbox = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), size, 0, new Vector2(), inflicted.getSchmuck().getHitboxfilter(), true, false, inflicted.getSchmuck(), Sprite.NOTHING);
 					hbox.makeUnreflectable();
 					hbox.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 					
-					hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
 					hbox.addStrategy(new FixedToEntity(state, hbox, inflicted, new Vector2(0, 0), position, false));
 					hbox.addStrategy(new DamageStandard(state, hbox, inflicted, baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MELEE));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
@@ -62,9 +69,13 @@ public class BrigglesBladedBoot extends Artifact {
 							inflicted.getSchmuck().pushMomentumMitigation(0, recoil);
 							hbox.die();
 						}
+						
+						@Override
+						public void die() {
+							hbox.queueDeletion();
+						}
 					});
 				}
-				procCdCount += delta;
 			}
 		};
 		return enchantment;

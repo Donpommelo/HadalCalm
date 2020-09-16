@@ -92,9 +92,8 @@ public class ClientState extends PlayState {
 	@Override
 	public void update(float delta) {
 		
-		physicsAccumulator += delta;
-
 		//this makes the physics separate from the game framerate
+		physicsAccumulator += delta;
 		while (physicsAccumulator >= physicsTime) {
 			physicsAccumulator -= physicsTime;
 
@@ -102,8 +101,6 @@ public class ClientState extends PlayState {
 			world.step(physicsTime, 8, 3);
 		}
 		
-		latencyAccumulator += delta;
-
 		//Send mouse position to the server.
 		mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		HadalGame.viewportCamera.unproject(mousePosition);
@@ -145,10 +142,11 @@ public class ClientState extends PlayState {
 		processCommonStateProperties(delta);
 		
 		//this makes the latency checking separate from the game framerate
+		latencyAccumulator += delta;
 		if (latencyAccumulator >= LatencyCheck) {
 			latencyAccumulator = 0;
 			lastLatencyCheck = getTimer();
-			HadalGame.client.sendTCP(new Packets.LatencySyn());
+			HadalGame.client.sendTCP(new Packets.LatencySyn((int) (latency * 1000)));
 		}
 				
 		timeSinceLastMissedCreate += delta;

@@ -381,6 +381,9 @@ public class PlayState extends GameState {
 	public final static float syncFastTime = 1 / 60f;
 	public final static float syncInterpolation = 0.125f;
 	
+	private float scoreSyncAccumulator;
+	private final static float ScoreSyncTime = 1.0f;
+	
 	private float timer;
 	/**
 	 * Every engine tick, the GameState must process all entities in it according to the time elapsed.
@@ -454,6 +457,17 @@ public class PlayState extends GameState {
 			if (syncFastAccumulator >= syncFastTime) {
 				syncFastAccumulator = 0;
 				syncFastEntities();
+			}
+		}
+		
+		//send periodic sync packets for score
+		scoreSyncAccumulator += delta;
+		if (scoreSyncAccumulator >= ScoreSyncTime) {
+			scoreSyncAccumulator = 0;
+			if (scoreWindow.isScoreChangeMade()) {
+				scoreWindow.setScoreChangeMade(false);
+				scoreWindow.syncScoreTable();
+				HadalGame.server.sendToAllUDP(new Packets.SyncScore(HadalGame.server.getScores()));
 			}
 		}
 	}

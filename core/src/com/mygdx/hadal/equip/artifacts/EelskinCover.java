@@ -12,7 +12,7 @@ public class EelskinCover extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private final static float groundDragReduction = -0.75f;
+	private final static float groundDragReduction = -0.5f;
 	private final static float airDragReduction = -0.4f;
 	
 	public EelskinCover() {

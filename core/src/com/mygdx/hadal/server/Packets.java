@@ -1031,11 +1031,17 @@ public class Packets {
 	}
 	
 	public static class LatencySyn {
-			
+		public int latency;
+		
 		/**
 		 * A LatencySyn is sent from the client to the server periodically to check the quality of the network connection.
+		 * @param latency: the client's last synced latency
 		 */
 		public LatencySyn() {}
+		
+		public LatencySyn(int latency) {
+			this.latency = latency;
+		}
 	}
 
 	public static class LatencyAck {
