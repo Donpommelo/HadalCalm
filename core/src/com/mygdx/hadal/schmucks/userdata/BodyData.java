@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.userdata;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -11,6 +12,7 @@ import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.Status;
@@ -42,11 +44,14 @@ public class BodyData extends HadalData {
 	private static final float groundXDeaccel = 0.05f;
 	private static final float airXDeaccel = 0.01f;
 	
-	private static final float groundYAccel = 0.10f;
-	private static final float airYAccel = 0.50f;
+	private static final float groundYAccel = 0.1f;
+	private static final float airYAccel = 0.15f;
 	private static final float groundYDeaccel = 0.05f;
 	private static final float airYDeaccel = 0.01f;
-	
+
+	//fast falling
+	private static final float fastFallPow = 40.0f;
+
 	//Hp and regen
 	private static final float hpRegen = 0.0f;
 	
@@ -310,28 +315,51 @@ public class BodyData extends HadalData {
 		}
 		
 		if (currentHp <= 0) {
+			
+			//this makes stat tracking not account for overkill damage
+			damage += currentHp;
+			
 			currentHp = 0;
 			die(lastDamagedBy, tags);
 		}
 		
-		//charge on-damage active item
-		if (perp instanceof PlayerBodyData) {
-			if (((PlayerBodyData) perp).getActiveItem().getStyle().equals(chargeStyle.byDamageInflict)) {
-				
-				//active item charges less against non-player enemies
-				if (this instanceof PlayerBodyData) {
-					((PlayerBodyData) perp).getActiveItem().gainCharge(damage);
-				} else {
-					((PlayerBodyData) perp).getActiveItem().gainCharge(damage * ActiveItem.enemyDamageChargeMultiplier);
+		if (schmuck.getState().isServer()) {
+			//charge on-damage active item
+			if (perp instanceof PlayerBodyData) {
+				if (((PlayerBodyData) perp).getActiveItem().getStyle().equals(chargeStyle.byDamageInflict)) {
+					
+					//active item charges less against non-player enemies
+					if (this instanceof PlayerBodyData) {
+						((PlayerBodyData) perp).getActiveItem().gainCharge(damage);
+					} else {
+						((PlayerBodyData) perp).getActiveItem().gainCharge(damage * ActiveItem.enemyDamageChargeMultiplier);
+					}
 				}
-			}
-			
-			//play on-hit sounds. pitched up automatically if fatal. No sounds for self or friendly fire.
-			if (perp.getSchmuck().getHitboxfilter() != schmuck.getHitboxfilter()) {
-				if (currentHp == 0) {
-					((PlayerBodyData) perp).getPlayer().playHitSound(999);
+				
+				SavedPlayerFieldsExtra field = HadalGame.server.getScoresExtra().get(((PlayerBodyData) perp).getPlayer().getConnID());
+
+				//play on-hit sounds. pitched up automatically if fatal. No sounds for self or friendly fire.
+				if (perp.getSchmuck().getHitboxfilter() != schmuck.getHitboxfilter()) {
+					if (currentHp == 0) {
+						((PlayerBodyData) perp).getPlayer().playHitSound(999);
+					} else {
+						((PlayerBodyData) perp).getPlayer().playHitSound(damage);
+					}
+					
+					//track perp's damage dealt
+					if (field != null && damage > 0.0f) {
+						HadalGame.server.getScoresExtra().get(((PlayerBodyData) perp).getPlayer().getConnID()).incrementDamageDealt(damage);
+					}
+					
 				} else {
-					((PlayerBodyData) perp).getPlayer().playHitSound(damage);
+					if (field != null && damage > 0.0f) {
+						
+						if (perp.getSchmuck().equals(schmuck)) {
+							HadalGame.server.getScoresExtra().get(((PlayerBodyData) perp).getPlayer().getConnID()).incrementDamageDealtSelf(damage);
+						} else {
+							HadalGame.server.getScoresExtra().get(((PlayerBodyData) perp).getPlayer().getConnID()).incrementDamageDealtAllies(damage);
+						}
+					}
 				}
 			}
 		}
@@ -424,6 +452,8 @@ public class BodyData extends HadalData {
 	public float getYGroundDeaccel() { return groundYDeaccel * (1 + getStat(Stats.GROUND_DRAG)); }
 	
 	public float getYAirDeaccel() {	return airYDeaccel * (1 + getStat(Stats.AIR_DRAG)); }
+	
+	public float getFastFallPower() { return fastFallPow * (1 + getStat(Stats.FASTFALL_POW)); }
 	
 	public float getOverrideHpPercent() { return overrideHpPercent; }
 

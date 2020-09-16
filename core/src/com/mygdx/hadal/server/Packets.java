@@ -1052,6 +1052,16 @@ public class Packets {
 		public LatencyAck() {}
 	}
 	
+	public static class SyncExtraResultsInfo {
+		public HashMap<Integer, SavedPlayerFieldsExtra> scores;
+		
+		public SyncExtraResultsInfo() {}
+		
+		public SyncExtraResultsInfo(HashMap<Integer, SavedPlayerFieldsExtra> scores) {
+			this.scores = scores;
+		}
+	}
+	
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -1105,5 +1115,6 @@ public class Packets {
     	kryo.register(SyncSharedSettings.class);
     	kryo.register(LatencySyn.class);
     	kryo.register(LatencyAck.class);
+    	kryo.register(SyncExtraResultsInfo.class);
     }
 }

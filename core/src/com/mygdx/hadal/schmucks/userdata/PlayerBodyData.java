@@ -24,6 +24,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.Packets.SyncPlayerStats;
+import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
@@ -563,6 +564,20 @@ public class PlayerBodyData extends BodyData {
 		if (currentFuel > getStat(Stats.MAX_FUEL)) {
 			currentFuel = getStat(Stats.MAX_FUEL);
 		}
+	}
+	
+	@Override
+	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+		float damage = super.receiveDamage(basedamage, knockback, perp, procEffects, tags);
+		
+		if (player.getState().isServer()) {
+			SavedPlayerFieldsExtra field = HadalGame.server.getScoresExtra().get(getPlayer().getConnID());
+			if (field != null && damage > 0.0f) {
+				field.incrementDamageReceived(damage);
+			}
+		}
+		
+		return damage;
 	}
 	
 	private final static float scrapMultiplier = 0.25f;

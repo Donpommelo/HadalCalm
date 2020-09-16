@@ -6,6 +6,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.SharedSetting;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
+import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
 
@@ -45,10 +46,10 @@ public class ScoreWindow {
 	public ScoreWindow(PlayState state) {
 		this.state = state;
 		
-		this.tableScore = new Table().center();
+		this.tableScore = new Table();
 		this.windowScore = new MenuWindow(0, 0, 0, 0);
 
-		this.tableSettings = new Table().center();
+		this.tableSettings = new Table();
 		this.windowSettings = new MenuWindow(0, 0, 0, 0);
 		
 		tableScore.setVisible(false);
@@ -59,7 +60,10 @@ public class ScoreWindow {
 		//Server must first reset each score at the start of a level (unless just a stage transition)
 		if (state.isServer() && state.isReset()) {
 			for (SavedPlayerFields score: HadalGame.server.getScores().values()) {
-				score.newLevelReset(state);
+				score.newLevelReset();
+			}
+			for (SavedPlayerFieldsExtra score: HadalGame.server.getScoresExtra().values()) {
+				score.newLevelReset();
 			}
 		}
 		syncSettingTable();

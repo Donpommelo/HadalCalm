@@ -10,6 +10,7 @@ artifactSlots: 4
 portNumber: 11100
 hitsoundType: 1
 vsync: true
+debugHitbox: true
 randomNameAlliteration: true
 consoleEnabled: true
 verboseDeathMessage: true
@@ -19,5 +20,6 @@ musicVolume: 1
 masterVolume: 1
 hitsoundVolume: 0.39
 pvpTimer: 2
+lives: 1
 loadoutType: 1
 }

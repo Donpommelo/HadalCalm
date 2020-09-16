@@ -34,6 +34,7 @@ import com.mygdx.hadal.schmucks.bodies.enemies.*;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
+import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.TitleState;
 import com.mygdx.hadal.states.ResultsState;
@@ -63,6 +64,7 @@ public class KryoClient {
     
     //This is a mapping of connIds to corresponding scores for display purposes
     public HashMap<Integer, SavedPlayerFields> scores;
+    private HashMap<Integer, SavedPlayerFieldsExtra> scoresExtra;
     
     //this is the client's connection id
     public int connID;
@@ -72,6 +74,7 @@ public class KryoClient {
     public KryoClient(GameStateManager gameStateManager) {
     	this.gsm = gameStateManager;
     	scores = new HashMap<Integer, SavedPlayerFields>();
+    	scoresExtra = new HashMap<Integer, SavedPlayerFieldsExtra>();
     }
     
     /**
@@ -548,6 +551,11 @@ public class KryoClient {
 						});
 					}
         		}
+        		
+        		else if (o instanceof Packets.SyncExtraResultsInfo) {
+        			final Packets.SyncExtraResultsInfo p = (Packets.SyncExtraResultsInfo) o;
+        			scoresExtra = p.scores;
+        		}
         	}
         };
         
@@ -940,4 +948,6 @@ public class KryoClient {
 	public Client getClient() {	return client; }
 
 	public HashMap<Integer, SavedPlayerFields> getScores() { return scores; }
+	
+	public HashMap<Integer, SavedPlayerFieldsExtra> getScoresExtra() { return scoresExtra; }
 }

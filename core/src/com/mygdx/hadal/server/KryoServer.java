@@ -44,6 +44,7 @@ public class KryoServer {
 	private HashMap<Integer, Player> players;
 	private HashMap<Integer, MouseTracker> mice;
 	private HashMap<Integer, SavedPlayerFields> scores;
+	private HashMap<Integer, SavedPlayerFieldsExtra> scoresExtra;
 	
 	public KryoServer(GameStateManager gameStateManager) {
 		this.gsm = gameStateManager;
@@ -61,8 +62,10 @@ public class KryoServer {
 		this.players = new HashMap<Integer, Player>();
 		this.mice = new HashMap<Integer, MouseTracker>();
 		this.scores = new HashMap<Integer, SavedPlayerFields>();
+		this.scoresExtra = new HashMap<Integer, SavedPlayerFieldsExtra>();
 		
-		scores.put(0, new SavedPlayerFields(gsm.getLoadout().getName(), true));
+		scores.put(0, new SavedPlayerFields(gsm.getLoadout().getName(), 0));
+		scoresExtra.put(0, new SavedPlayerFieldsExtra());
 		
 		if (!start) { return; }
 		
@@ -90,6 +93,7 @@ public class KryoServer {
 								players.remove(c.getID());
 								mice.remove(c.getID());
 								scores.remove(c.getID());
+								scoresExtra.remove(c.getID());
 								ps.getScoreWindow().setScoreChangeMade(true);
 							}
 						}
@@ -108,6 +112,7 @@ public class KryoServer {
 							players.remove(c.getID());
 							mice.remove(c.getID());
 							scores.remove(c.getID());
+							scoresExtra.remove(c.getID());
                         }
 					});
 				}
@@ -408,9 +413,11 @@ public class KryoServer {
 					
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						if (scores.get(c.getID()).getPing() != p.latency) {
-							scores.get(c.getID()).setPing(p.latency);
-							ps.getScoreWindow().setScoreChangeMade(true);
+						if (scores.get(c.getID()) != null) {
+							if (scores.get(c.getID()).getPing() != p.latency) {
+								scores.get(c.getID()).setPing(p.latency);
+								ps.getScoreWindow().setScoreChangeMade(true);
+							}
 						}
 					}
 					server.sendToTCP(c.getID(), new Packets.LatencyAck());
@@ -505,8 +512,10 @@ public class KryoServer {
 		        //Update that player's scores or give them a new one if they are a new client
 		        if (scores.containsKey(connId)) {
 			        scores.put(connId, scores.get(connId));
+			        scoresExtra.put(connId, scoresExtra.get(connId));
 		        } else {
-			        scores.put(connId, new SavedPlayerFields(name, false));
+			        scores.put(connId, new SavedPlayerFields(name, connId));
+			        scoresExtra.put(connId, new SavedPlayerFieldsExtra());
 		        }
 		        
 		        //sync score window to display new player
@@ -698,4 +707,6 @@ public class KryoServer {
 	public HashMap<Integer, Player> getPlayers() { return players; }
 
 	public HashMap<Integer, SavedPlayerFields> getScores() { return scores; }
+	
+	public HashMap<Integer, SavedPlayerFieldsExtra> getScoresExtra() { return scoresExtra; }
 }

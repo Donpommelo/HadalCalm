@@ -1,7 +1,5 @@
 package com.mygdx.hadal.server;
 
-import com.mygdx.hadal.states.PlayState;
-
 /**
  * This represents saved fields for a player.
  * @author Zachary Tu
@@ -12,17 +10,14 @@ public class SavedPlayerFields {
 	private String name;
 	
 	//Player's stored stats
-	private int wins, kills, deaths, score, lives, ping;
+	private int wins, kills, deaths, score, lives, ping, connId;
 	
-	//is this player the host?
-	private boolean host;
-
 	//this unused constructor is needed by kryo for serialization
 	public SavedPlayerFields() {}
 	
-	public SavedPlayerFields(String name, boolean host) {
+	public SavedPlayerFields(String name, int connId) {
 		this.name = name;
-		this.host = host;
+		this.connId = connId;
 	}
 	
 	public String getKD() {
@@ -49,7 +44,7 @@ public class SavedPlayerFields {
 	/**
 	 * Upon a new level, reset stats
 	 */
-	public void newLevelReset(PlayState state) {
+	public void newLevelReset() {
 		this.kills = 0;
 		this.deaths = 0;
 		this.score = 0;
@@ -60,14 +55,31 @@ public class SavedPlayerFields {
 
 	//this gets the name displayed in score windows. Gives an indication of which player is the host
 	public String getName() { 
-		if (host) {
+		if (connId == 0) {
 			return "(HOST) " + name; 
 		} else {
 			return "(" + ping + " ms) " + name; 
 		}
 	}
+	
+	public String getNameShort() { 
+		return name;
+	}
+	
+	public String getNameAbridged(boolean includePing, int maxNameLen) {
+		String displayedName = getNameShort();
+		if (includePing) {
+			displayedName = getName();
+		}
+		
+		if (displayedName.length() > maxNameLen) {
+			displayedName = displayedName.substring(0, maxNameLen).concat("...");
+		}
+		
+		return displayedName;
+	}
 
-	public boolean isHost() { return host; }
+	public int getConnID() { return connId; }
 	
 	public int getWins() { return wins; }
 
