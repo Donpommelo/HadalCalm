@@ -16,6 +16,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.StartPoint;
@@ -106,6 +107,9 @@ public class Player extends PhysicsSchmuck {
 	
 	protected final static float hitSoundCd = 0.15f;
 	protected float hitSoundCdCount, hitSoundLargeCdCount;
+	
+	protected final static float pingCd = 1.0f;
+	protected float pingCdCount;
 	
 	//this makes the player animate faster in the air for the "luigi legs"
 	private final static float airAnimationSlow = 3.0f;
@@ -446,6 +450,7 @@ public class Player extends PhysicsSchmuck {
 		fastFallCdCount -= delta;
 		airblastCdCount -= delta;
 		interactCdCount -= delta;
+		pingCdCount -= delta;
 		hitSoundCdCount -= delta;
 		hitSoundLargeCdCount -= delta;
 		
@@ -622,6 +627,13 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void reload() {
 		playerData.getCurrentTool().setReloading(true);
+	}
+	
+	public void ping() {
+		if (pingCdCount < 0) {
+			pingCdCount = pingCd;
+			WeaponUtils.ping(state, mouse.getPixelPosition(), this, hitboxfilter);
+		}
 	}
 	
 	/**

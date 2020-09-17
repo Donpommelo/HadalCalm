@@ -214,7 +214,7 @@ public enum Sprite {
 	
 	//Misc stuff from totlc
 	IMPACT(SpriteType.IMPACT, "impact"),
-	EXCLAMATION(SpriteType.EXCLAMATION, "exclamation"),
+	EXCLAMATION(SpriteType.EXCLAMATION, "exclamation", PlayMode.NORMAL, PlayState.spriteAnimationSpeedSlow),
 	STAR(SpriteType.STAR, "starshot"),
 	;
 	

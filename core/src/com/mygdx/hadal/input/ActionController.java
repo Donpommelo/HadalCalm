@@ -191,6 +191,14 @@ public class ActionController {
 			state.getChatWheel().setVisibility(true);
 		}
 		
+		else if (action == PlayerAction.WEAPON_CYCLE_DOWN) {
+			player.getPlayerData().switchDown();
+		}
+		
+		else if (action == PlayerAction.PING) {
+			player.ping();
+		}
+		
 		else if (action == PlayerAction.EXIT_MENU) {
 			if (state.getUiHub().isActive()) {
 				state.getUiHub().leave();

@@ -306,6 +306,16 @@ public class WeaponUtils {
 		});
 	}
 	
+	private final static Vector2 pingSize = new Vector2(75, 75);
+	private final static float pingLifespan = 1.0f;
+	public static void ping(PlayState state, Vector2 startPos, Schmuck user, short filter) {
+		SoundEffect.PING.playUniversal(state, startPos, 1.0f, false);
+
+		Hitbox hbox = new RangedHitbox(state, startPos, pingSize, pingLifespan, new Vector2(), filter, true, false, user, Sprite.EXCLAMATION);
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
+	}
+	
 	public static final int pickupSize = 64;
 	public static void createPickup(PlayState state, Vector2 startPos, final pickupTypes type, final float power) {
 

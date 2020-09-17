@@ -108,6 +108,7 @@ public enum SoundEffect {
 	BLOP("sound/blop.mp3"),
 	DOORBELL("sound/doorbell.wav"),
 	NEGATIVE("sound/negative0.wav"),
+	PING("sound/button02b.mp3"),
 	POSITIVE("sound/positive0.wav"),
 	PREFIRE("sound/prefire.mp3"),
 

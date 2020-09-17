@@ -138,6 +138,10 @@ public class ClientController implements InputProcessor {
 			state.getChatWheel().setVisibility(true);
 		}
 		
+		else if (keycode == PlayerAction.PING.getKey()) {
+			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.PING));
+		}
+		
 		else if (keycode == PlayerAction.EXIT_MENU.getKey()) {
 			if (state.getUiHub().isActive()) {
 				state.getUiHub().leave();

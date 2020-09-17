@@ -104,6 +104,10 @@ public class PlayerController implements InputProcessor {
 			player.getController().keyDown(PlayerAction.CHAT_WHEEL);
 		}
 		
+		else if (keycode == PlayerAction.PING.getKey()) {
+			player.getController().keyDown(PlayerAction.PING);
+		}
+		
 		else if (keycode == PlayerAction.EXIT_MENU.getKey()) {
 			player.getController().keyDown(PlayerAction.EXIT_MENU);
 		}

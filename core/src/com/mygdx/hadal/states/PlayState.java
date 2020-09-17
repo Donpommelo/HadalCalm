@@ -196,6 +196,7 @@ public class PlayState extends GameState {
 	private boolean debugHitbox;
 	
 	//global variables.
+	public static final float spriteAnimationSpeedSlow = 0.15f;
 	public static final float spriteAnimationSpeed = 0.08f;
 	public static final float spriteAnimationSpeedFast = 0.04f;
 	
