@@ -840,7 +840,7 @@ SIMPLE_MIND: {
 SINKING_FEELING: {
 	name: Sinking Feeling
 	description: "+Fastfall Power"
-    descriptionLong: "Bonus Fastfall Power: +50%\n\nAn abstract and incorporeal sentiment of despair.\n\nSalvagers are advised to surrender their memories of land; even if they were to ever resurface, it would not be as they had remembered."
+    descriptionLong: "Bonus Fastfall Power: +100%\n\nAn abstract and incorporeal sentiment of despair.\n\nSalvagers are advised to surrender their memories of land; even if they were to ever resurface, it would not be as they had remembered."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

@@ -16,7 +16,7 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
 
 /**
  * This utility manages the players console commands
- * enter console commands in the message window (default binding: 'm')
+ * enter console commands in the message window (default binding: 't')
  * @author Zachary Tu
  */
 public class ConsoleCommandUtil {

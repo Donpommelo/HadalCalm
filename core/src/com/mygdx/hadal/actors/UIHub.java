@@ -49,7 +49,10 @@ public class UIHub {
 	public static final float optionsScaleSmall = 0.25f;
 	
 	public static final float artifactTagSize = 50.0f;
-	
+	private final static float artifactTagOffsetX = 10.0f;
+	private final static float artifactTagOffsetY = 60.0f;
+	private final static float artifactTagTargetWidth = 120.0f;
+			
 	private hubTypes type = hubTypes.NONE;
 	
 	//is this window currently visible?
@@ -177,7 +180,7 @@ public class UIHub {
 			
 			if (!c.equals(UnlockArtifact.NOTHING)) {
 				artifactsEmpty = false;
-				final ArtifactIcon newTag = new ArtifactIcon(c);
+				final ArtifactIcon newTag = new ArtifactIcon(c, "UNEQUIP?\n" + c.getInfo().getName(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 				
 				newTag.addListener(new ClickListener() {
 					

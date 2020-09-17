@@ -1,10 +1,12 @@
 package com.mygdx.hadal.server;
 
+import com.mygdx.hadal.equip.Loadout;
+
 public class SavedPlayerFieldsExtra {
 
 	private float damageDealtEnemies, damageDealtAllies, damageDealtSelf, damageReceived;
 	
-	
+	private Loadout loadout;
 	
 	public SavedPlayerFieldsExtra() {
 		
@@ -32,4 +34,8 @@ public class SavedPlayerFieldsExtra {
 	public float getDamageReceived() { return damageReceived; }
 
 	public void incrementDamageReceived(float damageReceived) {	this.damageReceived += damageReceived; }
+
+	public Loadout getLoadout() { return loadout; }
+
+	public void setLoadout(Loadout loadout) { this.loadout = loadout; }
 }

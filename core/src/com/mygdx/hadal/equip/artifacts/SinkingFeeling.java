@@ -11,7 +11,7 @@ public class SinkingFeeling extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private final static float bonusFastFall = 1.5f;
+	private final static float bonusFastFall = 1.0f;
 	
 	public SinkingFeeling() {
 		super(slotCost, statusNum);

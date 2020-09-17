@@ -14,14 +14,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.ArtifactIcon;
 import com.mygdx.hadal.actors.Backdrop;
 import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
+import com.mygdx.hadal.utils.Stats;
 
 /**
  * The Results screen appears at the end of levels and displays the player's results
@@ -31,7 +37,7 @@ import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 public class ResultsState extends GameState {
 
 	//This table contains the options for the title.
-	private Table table, tableInfo, tableInfoOuter;
+	private Table table, tableInfo, tableInfoOuter, tableArtifact;
 	private ScrollPane infoScroll;
 	
 	//These are all of the display and buttons visible to the player.
@@ -63,9 +69,16 @@ public class ResultsState extends GameState {
 	private final static int infoRowHeight = 20;
 	private static final float infoTextScale = 0.25f;
 	private static final float infoPadY = 15.0f;
+	private static final float infoPadYSmall = 5.0f;
 	
-	public static final int infoNameHeight = 60;
-	public static final int infoNamePadding = 25;
+	public static final int infoNameHeight = 40;
+	public static final int infoScrollHeight = 440;
+	public static final int infoNamePadding = 20;
+	
+	public static final float artifactTagSize = 40.0f;
+	private final static float artifactTagOffsetX = -100.0f;
+	private final static float artifactTagOffsetY = -60.0f;
+	private final static float artifactTagTargetWidth = 200.0f;
 	
 	/**
 	 * Constructor will be called whenever the game transitions into a results state
@@ -101,6 +114,14 @@ public class ResultsState extends GameState {
 				if (player.getValue().getScore() == winningScore) {
 					player.getValue().win();
 				}
+				
+				if (player.getKey() == 0) {
+					savePlayerLoadout(0, ps.getPlayer());
+				} else {
+					if (HadalGame.server.getPlayers().get(player.getKey()) != null) {
+						savePlayerLoadout(player.getKey(), HadalGame.server.getPlayers().get(player.getKey()));
+					}
+				}
 			}
 			
 			HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(HadalGame.server.getScoresExtra()));
@@ -135,12 +156,14 @@ public class ResultsState extends GameState {
 				
 				addActor(new MenuWindow(HadalGame.CONFIG_WIDTH - infoWidth, HadalGame.CONFIG_HEIGHT - infoHeight, infoWidth, infoHeight));
 				tableInfo = new Table();
-				
+				tableArtifact = new Table();
+
 				infoScroll = new ScrollPane(tableInfo, GameStateManager.getSkin());
 				infoScroll.setFadeScrollBars(false);
 				
 				tableInfoOuter.add(infoPlayerName).pad(infoNamePadding).height(infoNameHeight).row();
-				tableInfoOuter.add(infoScroll);
+				tableInfoOuter.add(tableArtifact).height(infoNameHeight).row();
+				tableInfoOuter.add(infoScroll).width(infoWidth).height(infoScrollHeight);
 				tableInfoOuter.setPosition(HadalGame.CONFIG_WIDTH - infoWidth, HadalGame.CONFIG_HEIGHT - infoHeight);
 				tableInfoOuter.setSize(infoWidth, infoHeight);
 				
@@ -263,6 +286,7 @@ public class ResultsState extends GameState {
 	
 	public void syncInfoTable(int connId) {
 		tableInfo.clear();
+		tableArtifact.clear();
 		
 		SavedPlayerFields field = null;
 		SavedPlayerFieldsExtra fieldExtra = null;
@@ -277,6 +301,24 @@ public class ResultsState extends GameState {
 		if (field != null && fieldExtra != null) {
 			
 			infoPlayerName.setText(field.getNameAbridged(false, maxNameLen));
+			
+			if (fieldExtra.getLoadout() != null) {
+				
+				for (UnlockArtifact c: fieldExtra.getLoadout().artifacts) {
+					if (!c.equals(UnlockArtifact.NOTHING)) {
+						ArtifactIcon newTag = new ArtifactIcon(c, c.getInfo().getName() + "\n" + c.getInfo().getDescription(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
+						tableArtifact.add(newTag).width(artifactTagSize).height(artifactTagSize);;
+					}
+				}
+				
+				for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+					if (!fieldExtra.getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
+						Text weaponText = new Text(fieldExtra.getLoadout().multitools[i].name(), 0, 0, false);
+						weaponText.setScale(infoTextScale);
+						tableInfo.add(weaponText).height(infoRowHeight).left().padBottom(infoPadYSmall).colspan(2).row();
+					}
+				}
+			}
 			
 			Text damageDealtField = new Text("DAMAGE DEALT: ", 0, 0, false);
 			damageDealtField.setScale(infoTextScale);
@@ -370,6 +412,19 @@ public class ResultsState extends GameState {
 			});
 		}
 		gsm.getApp().fadeOut();
+	}
+	
+	private void savePlayerLoadout(int connId, Player player) {
+		
+		if (HadalGame.server.getScoresExtra().get(connId) != null) {
+			
+			Loadout loadoutTemp = player.getPlayerData().getLoadout();
+			
+			for (int i = (int) (Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i < Loadout.maxWeaponSlots ; i++) {
+				loadoutTemp.multitools[i] = UnlockEquip.NOTHING;
+			}
+			HadalGame.server.getScoresExtra().get(connId).setLoadout(loadoutTemp);
+		}
 	}
 	
 	//we update the message window to take input

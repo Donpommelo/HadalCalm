@@ -20,9 +20,6 @@ import com.mygdx.hadal.save.UnlockArtifact;
  */
 public class ArtifactIcon extends AHadalActor {
 
-	private final static float windowX = 10.0f;
-	private final static float windowY = 60.0f;
-	private final static float targetWidth = 120.0f;
 	private static float padding = 20.0f;
 	
 	//This is the artifact that this tag represents
@@ -37,21 +34,23 @@ public class ArtifactIcon extends AHadalActor {
 	private TextureRegion ready;
 	private String text;
 	
+	private float textOffsetX, textOffsetY, targetWidth;
+	
 	//is this ui element moused over? display extra info if it is.
 	private boolean mouseOver;
 	
-	public ArtifactIcon(UnlockArtifact artifact) {
+	public ArtifactIcon(UnlockArtifact artifact, String text, float textOffsetX, float textOffsetY, float targetWidth) {
 		this.artifact = artifact;
+		this.text = text;
+		this.textOffsetX = textOffsetX;
+		this.textOffsetY = textOffsetY;
+		this.targetWidth = targetWidth;
 		
 		font = HadalGame.SYSTEM_FONT_UI;
 		font.getData().setScale(scale);
 		color = Color.WHITE;
 		
 		this.ready = Sprite.UI_MO_READY.getFrame();
-		
-		mouseOver = false;
-		
-		text = "UNEQUIP?\n" + artifact.getInfo().getName();
 		
 		layout = new GlyphLayout();
 		layout.setText(font, text, color, targetWidth, Align.left, true);
@@ -77,10 +76,10 @@ public class ArtifactIcon extends AHadalActor {
 		batch.draw(ready, getX(), getY(), getWidth(), getHeight());
          
          if (mouseOver) {
-        	 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2 + windowX, getY() - padding / 2 + windowY, layout.width + padding, layout.height + padding);
+        	 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2 + textOffsetX, getY() - padding / 2 + textOffsetY, layout.width + padding, layout.height + padding);
         	 font.setColor(color);
         	 font.getData().setScale(scale);
-        	 font.draw(batch, text, getX() + windowX, getY() + windowY + layout.height, targetWidth, Align.left, true);
+        	 font.draw(batch, text, getX() + textOffsetX, getY() + textOffsetY + layout.height, targetWidth, Align.left, true);
          }
     }
 

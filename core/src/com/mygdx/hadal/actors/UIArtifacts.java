@@ -17,7 +17,7 @@ public class UIArtifacts {
 
 	private PlayState state;
 	
-	private ArrayList<ArtifactTag> artifacts;
+	private ArrayList<ArtifactIcon> artifacts;
 	private Table table; 
 	
 	private final int tagWidth = 25;
@@ -26,11 +26,15 @@ public class UIArtifacts {
 	private final static int tableX = 475;
 	private final static int tableY = 10;
 	
+	private final static float artifactTagOffsetX = 10.0f;
+	private final static float artifactTagOffsetY = 45.0f;
+	private final static float artifactTagTargetWidth = 200.0f;
+	
 	public UIArtifacts(PlayState state) {
 		this.state = state;
 		this.table = new Table().left().top();
 		
-		this.artifacts = new ArrayList<ArtifactTag>();
+		this.artifacts = new ArrayList<ArtifactIcon>();
 		
 		addTable();
 		
@@ -61,8 +65,8 @@ public class UIArtifacts {
 	 * @param s: new Status
 	 * @return corresponding status tag
 	 */
-	private ArtifactTag addTag(UnlockArtifact u) {
-		ArtifactTag newTag = new ArtifactTag(u);
+	private ArtifactIcon addTag(UnlockArtifact u) {
+		ArtifactIcon newTag = new ArtifactIcon(u, u.getInfo().getName() + "\n" + u.getInfo().getDescription(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 		newTag.setWidth(tagWidth);
 		newTag.setWidth(tagHeight);
 		table.add(newTag).width(tagWidth).height(tagHeight);
