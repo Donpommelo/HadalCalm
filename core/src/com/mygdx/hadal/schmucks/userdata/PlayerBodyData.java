@@ -91,11 +91,11 @@ public class PlayerBodyData extends BodyData {
 		
 		//acquire artifacts from loadout
 		UnlockArtifact[] artifactsTemp = new UnlockArtifact[Loadout.maxArtifactSlots];
-		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 			artifactsTemp[i] = loadout.artifacts[i];
 		}
 		Arrays.fill(loadout.artifacts, UnlockArtifact.NOTHING);
-		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 			addArtifact(artifactsTemp[i], false);
 		}
 		
@@ -321,6 +321,7 @@ public class PlayerBodyData extends BodyData {
 			
 			//new artifact fails to add if slot cost is too high
 			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
+			
 			if (slotsUsed + newArtifact.getSlotCost() > getNumArtifactSlots() && !override) {
 				return false;
 			}
@@ -488,7 +489,7 @@ public class PlayerBodyData extends BodyData {
 				return Math.min((int) (player.getState().getGsm().getSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
 			}
 		} else {
-			return Math.min((int) (((ClientState)player.getState()).getUiPlay().getOverrideArtifactSlots()), Loadout.maxArtifactSlots);
+			return Math.min((int) (((ClientState) player.getState()).getUiPlay().getOverrideArtifactSlots()), Loadout.maxArtifactSlots);
 		}
 	}
 	
@@ -498,7 +499,7 @@ public class PlayerBodyData extends BodyData {
 	public int getArtifactSlotsRemaining() {
 		int slotsUsed = 0;
 		
-		for (int i = 0; i < getNumArtifactSlots(); i++) {
+		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
 		}
 		

@@ -43,7 +43,7 @@ public class Loadout {
 		}
 		
 		for (int i = 0; i < maxArtifactSlots; i++) {
-			if (loadout.getEquips().length > i) {
+			if (loadout.getArtifacts().length > i) {
 				artifacts[i] = UnlockArtifact.valueOf(loadout.getArtifacts()[i]);
 			}
 		}
