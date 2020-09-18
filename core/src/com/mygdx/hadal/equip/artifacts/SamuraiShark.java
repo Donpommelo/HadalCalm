@@ -12,12 +12,11 @@ import com.mygdx.hadal.strategies.hitbox.DieParticles;
 public class SamuraiShark extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private final static int slotCost = 1;
 	
-	private final float critChance = 0.2f;
-	private final float critDamageBoost = 2.0f;
-	private final float critSpeedMultiplier = 3.0f;
-	private static float procCd = 5.0f;
+	private final float critChance = 0.15f;
+	private final float critDamageBoost = 1.5f;
+	private final float critSpeedMultiplier = 2.0f;
 	
 	public SamuraiShark() {
 		super(slotCost, statusNum);
@@ -28,27 +27,15 @@ public class SamuraiShark extends Artifact {
 		enchantment[0] = new StatusComposite(state, b, 
 				new Status(state, b) {
 			
-			private float procCdCount = procCd;
-			
-			@Override
-			public void timePassing(float delta) {
-				if (procCdCount < procCd) {
-					procCdCount += delta;
-				}
-			}
-			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				
 				if (!hbox.isEffectsHit()) { return; } 
 				
-				if (procCdCount >= procCd) {
-					if (GameStateManager.generator.nextDouble() < critChance) {
-						procCdCount -= procCd;
-						hbox.setStartVelo(hbox.getStartVelo().scl(critSpeedMultiplier));
-						hbox.addStrategy(new DieParticles(state, hbox, b, Particle.EXPLOSION));
-						hbox.setDamageMultiplier(critDamageBoost);
-					}
+				if (GameStateManager.generator.nextDouble() < critChance) {
+					hbox.setStartVelo(hbox.getStartVelo().scl(critSpeedMultiplier));
+					hbox.addStrategy(new DieParticles(state, hbox, b, Particle.EXPLOSION));
+					hbox.setDamageMultiplier(critDamageBoost);
 				}
 			}
 		});

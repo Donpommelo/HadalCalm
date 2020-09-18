@@ -21,7 +21,7 @@ public class MarineSnowglobe extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 12.0f;
+	private final static float maxCharge = 10.0f;
 	
 	private final static Vector2 projectileSize = new Vector2(400, 400);
 	private final static float duration = 0.5f;

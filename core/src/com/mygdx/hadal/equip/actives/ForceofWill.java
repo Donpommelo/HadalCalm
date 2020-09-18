@@ -11,7 +11,7 @@ public class ForceofWill extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 18.0f;
+	private final static float maxCharge = 16.0f;
 	
 	private final static float duration = 3.0f;
 	

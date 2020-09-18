@@ -11,7 +11,7 @@ public class PlusMinus extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 18.0f;
+	private final static float maxCharge = 14.0f;
 	
 	
 	private final static float chainDamage = 20.0f;

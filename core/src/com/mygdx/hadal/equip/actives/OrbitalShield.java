@@ -21,7 +21,7 @@ public class OrbitalShield extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 16.0f;
+	private final static float maxCharge = 12.0f;
 	
 	private static final Vector2 projSize = new Vector2(50, 50);
 

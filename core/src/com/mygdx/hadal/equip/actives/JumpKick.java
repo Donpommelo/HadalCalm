@@ -23,7 +23,7 @@ public class JumpKick extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 6.0f;
+	private final static float maxCharge = 8.0f;
 	
 	private final static float recoil = 150.0f;
 

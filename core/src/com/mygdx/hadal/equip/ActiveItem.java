@@ -19,6 +19,9 @@ public class ActiveItem extends Equipable {
 
 	protected float currentCharge, maxCharge;
 	
+	//active items charge slower with damage compared to time (this is so that the numbers are on the same scale)
+	public static final float damageChargeMultiplier = 0.2f;
+	
 	//active items charge slower when damaging non-player enemies. (according to this float)
 	public static final float enemyDamageChargeMultiplier = 0.1f;
 	
@@ -131,7 +134,7 @@ public class ActiveItem extends Equipable {
 	
 	public float chargePercent() { return currentCharge / maxCharge; }	
 	
-	public float getRemainingCharge() { return maxCharge - currentCharge; }
+	public float getMaxCharge() { return maxCharge; }
 
 	public float getCurrentCharge() { return currentCharge; }
 

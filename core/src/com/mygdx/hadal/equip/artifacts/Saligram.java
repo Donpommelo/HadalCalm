@@ -9,9 +9,9 @@ import com.mygdx.hadal.utils.Stats;
 public class Saligram extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private final static int slotCost = 1;
 	
-	private final static float damageRes = 0.2f;
+	private final static float damageRes = 0.15f;
 	
 	public Saligram() {
 		super(slotCost, statusNum);

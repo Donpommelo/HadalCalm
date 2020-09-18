@@ -13,7 +13,7 @@ public class MeteorStrike extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 25.0f;
+	private final static float maxCharge = 22.0f;
 
 	private final static float baseDamage = 24.0f;
 	private final static float knockback = 6.0f;

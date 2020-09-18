@@ -313,11 +313,20 @@ public class ResultsState extends GameState {
 				
 				for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 					if (!fieldExtra.getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
-						Text weaponText = new Text(fieldExtra.getLoadout().multitools[i].name(), 0, 0, false);
-						weaponText.setScale(infoTextScale);
-						tableInfo.add(weaponText).height(infoRowHeight).left().padBottom(infoPadYSmall).colspan(2).row();
+						Text weaponField = new Text("WEAPON" + (i + 1) + ": ", 0, 0, false);
+						weaponField.setScale(infoTextScale);
+						Text weapon = new Text(fieldExtra.getLoadout().multitools[i].name(), 0, 0, false);
+						weapon.setScale(infoTextScale);
+						tableInfo.add(weaponField).height(infoRowHeight).left().padBottom(infoPadYSmall);
+						tableInfo.add(weapon).height(infoRowHeight).left().padBottom(infoPadYSmall).row();
 					}
 				}
+				Text activeField = new Text("ACTIVE: ", 0, 0, false);
+				activeField.setScale(infoTextScale);
+				Text active = new Text(fieldExtra.getLoadout().activeItem.name(), 0, 0, false);
+				active.setScale(infoTextScale);
+				tableInfo.add(activeField).height(infoRowHeight).left().padBottom(infoPadYSmall);
+				tableInfo.add(active).height(infoRowHeight).left().padBottom(infoPadYSmall).row();
 			}
 			
 			Text damageDealtField = new Text("DAMAGE DEALT: ", 0, 0, false);

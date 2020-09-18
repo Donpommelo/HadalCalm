@@ -10,7 +10,7 @@ public class EphemeraPerpetua extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
-	private final float amount = 0.2f;
+	private final float amount = 2.0f;
 	
 	public EphemeraPerpetua() {
 		super(slotCost, statusNum);
@@ -23,7 +23,7 @@ public class EphemeraPerpetua extends Artifact {
 			@Override
 			public void scrapPickup() {
 				if (inflicted instanceof PlayerBodyData) {
-					((PlayerBodyData) inflicted).getActiveItem().gainChargeByPercent(amount);
+					((PlayerBodyData) inflicted).getActiveItem().gainCharge(amount);
 				}
 			}
 		};

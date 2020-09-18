@@ -330,9 +330,9 @@ public class BodyData extends HadalData {
 					
 					//active item charges less against non-player enemies
 					if (this instanceof PlayerBodyData) {
-						((PlayerBodyData) perp).getActiveItem().gainCharge(damage);
+						((PlayerBodyData) perp).getActiveItem().gainCharge(damage * ActiveItem.damageChargeMultiplier);
 					} else {
-						((PlayerBodyData) perp).getActiveItem().gainCharge(damage * ActiveItem.enemyDamageChargeMultiplier);
+						((PlayerBodyData) perp).getActiveItem().gainCharge(damage * ActiveItem.damageChargeMultiplier * ActiveItem.enemyDamageChargeMultiplier);
 					}
 				}
 				

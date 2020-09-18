@@ -5,14 +5,13 @@ import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.utils.Stats;
 
 public class CatalogofWant extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private final static float hpConversion = 0.75f;
+	private final static float hpConversion = 6.0f;
 	
 	public CatalogofWant() {
 		super(slotCost, statusNum);
@@ -27,7 +26,7 @@ public class CatalogofWant extends Artifact {
 				float chargeRate = tool.chargePercent();
 				
 				if (chargeRate < 1.0f) {
-					float hpCost = (1.0f - chargeRate) * inflicted.getStat(Stats.MAX_HP) * hpConversion;
+					float hpCost = (tool.getMaxCharge() - tool.getCurrentCharge()) * hpConversion;
 					if (inflicted.getCurrentHp() > hpCost) {
 						inflicted.setCurrentHp(inflicted.getCurrentHp() - hpCost);
 						tool.gainChargeByPercent(1.0f);

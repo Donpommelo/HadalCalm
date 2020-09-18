@@ -12,7 +12,7 @@ public class NauticalMine extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 10.0f;
+	private final static float maxCharge = 8.0f;
 	
 	private final static float projectileSize = 120;
 	private final static float lifespan = 12.0f;
