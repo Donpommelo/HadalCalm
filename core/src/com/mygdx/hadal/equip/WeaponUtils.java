@@ -36,6 +36,7 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.CreateSound;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
+import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
 import com.mygdx.hadal.strategies.hitbox.DieParticles;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
@@ -149,8 +150,8 @@ public class WeaponUtils {
 	
 	private static final float beeBaseDamage = 6.0f;
 	private static final float beeKnockback = 8.0f;
-	private static final int beeWidth = 13;
-	private static final int beeHeight = 12;
+	private static final int beeWidth = 26;
+	private static final int beeHeight = 24;
 	private static final int beeDurability = 5;
 	private static final float beeLifespan = 5.0f;
 	private final static int beeSpread = 60;
@@ -307,13 +308,21 @@ public class WeaponUtils {
 	}
 	
 	private final static Vector2 pingSize = new Vector2(75, 75);
+	private final static Vector2 pingHboxSize = new Vector2(50, 50);
 	private final static float pingLifespan = 1.0f;
+	private final static float pingKnockback = 10.0f;
 	public static void ping(PlayState state, Vector2 startPos, Schmuck user, short filter) {
 		SoundEffect.PING.playUniversal(state, startPos, 1.0f, false);
 
-		Hitbox hbox = new RangedHitbox(state, startPos, pingSize, pingLifespan, new Vector2(), filter, true, false, user, Sprite.EXCLAMATION);
+		Hitbox hbox = new RangedHitbox(state, startPos, pingHboxSize, pingLifespan, new Vector2(), filter, true, false, user, Sprite.EXCLAMATION);
+		hbox.setSpriteSize(pingSize);
+
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
+		
+		if (user.getBodyData().getStat(Stats.PING_DAMAGE) != 0.0f) {
+			hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), user.getBodyData().getStat(Stats.PING_DAMAGE), pingKnockback));
+		}
 	}
 	
 	public static final int pickupSize = 64;

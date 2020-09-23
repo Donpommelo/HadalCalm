@@ -57,4 +57,6 @@ public class Stats {
 	public static final int ARTIFACT_SLOTS = 44;
 	public static final int AMMO_CAPACITY = 45;
 	public static final int STARTING_CHARGE = 46;
+	public static final int PING_DAMAGE = 47;
+	public static final int REFLECT_DAMAGE = 48;
 }

@@ -1,7 +1,7 @@
 {
 NUMBER_ONE_BOSS_MUG: {
 	name: "#1 Boss Mug"
-	description: "Drops Ammo on Kill"
+	description: "Drops Ammo upon Killing enemies"
     descriptionLong: "Ammo Drop Chance: 100% on Player Kill, 20% on Monster Kill\nAmmo Pickup: 25% Max Ammo\n\nCoffee mug belonging to the #1 boss.\n\nA mug, sunk to the bottom of the sea, carries within itself the entire ocean."
 	tags: [
 		RELIQUARY,
@@ -28,7 +28,7 @@ ABYSSAL_INSIGNIA: {
 }
 ADMINISTRATOR_CARD: {
 	name: Administrator Card
-	description: "On Spawning, Get 3 Random Artifacts"
+	description: "Gain 3 Random Artifacts upon Spawning"
     descriptionLong: "An inornate identification card printed on sturdy plastic.\n\nSalvagers are rarely promoted to administrative positions, and are thus rarely seen carrying these coveted tokens."
 	tags: [
 		RELIQUARY,
@@ -82,7 +82,7 @@ AU_COURANT: {
 BACKPACK_BUDDY: {
 	name: Backpack Buddy
 	description: "+Artifact Slot, -Max Hp"
-    descriptionLong: "Max Hp Reduction: -20\n\nA sodden doll once occupying a child's backpack.\n\nWhile some Sunk cling to relics of their former lives, they inevitably reach their final destinations empty-handed."
+    descriptionLong: "Max Hp Reduction: -25\n\nA sodden doll once occupying a child's backpack.\n\nWhile some Sunk cling to relics of their former lives, they inevitably reach their final destinations empty-handed."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -90,7 +90,7 @@ BACKPACK_BUDDY: {
 }
 BLASTEMA: {
 	name: Blastema
-	description: "Receiving Damage Grants +Regeneration"
+	description: "Temporarily Boosts Hp Regeneration upon Receiving Damage"
     descriptionLong: "Regen Duration: 5s\nRegen: 2 per Second\n\nA cluster of self-replicating cells used to regrow damaged tissue.\n\nFew products leave the shelves of the Sunk Emporium as quickly as locally-grown spare limbs of all shapes and sizes."
 	tags: [
 		RELIQUARY,
@@ -142,6 +142,15 @@ BUCKET_OF_BATTERIES: {
 		RANDOM_POOL,
 	]
 }
+BUTTONMAN_BUTTONS: {
+	name: Buttonman Buttons
+	description: "+Fuel Regeneration and Reload Speed upon Player Killstreak"
+    descriptionLong: "Fuel Regeneration: 3 per Second for every Kill.\nReload Speed: +10% for every Kill.\nKillstreak Reset upon Death.\n\nA handful of buttons commemorating each life taken on behalf of the company.\n\nAwards and honors are distributed unsparingly in the Salvaging business to provide a sense of pride or perhaps entanglement."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 CALL_OF_THE_VOID: {
 	name: Call of the Void
 	description: "+Damage Amplification, -Damage Resistance"
@@ -163,7 +172,7 @@ CASTAWAYS_TRAVELOGUE: {
 CATALOG_OF_WANT: {
 	name: Catalog of Want
 	description: "Spend Hp to use Uncharged Actives"
-    descriptionLong: "Hp Cost: 3% Max Hp per 4% Item Charge\n\nThe last edition of a demonic shopping catalog that has ceased publication.\n\nThe currents of the Noiseless Sea carry objects, not according to their buoyancies, but rather the nature of their desires, regrets and experiences."
+    descriptionLong: "Hp Cost: 6 Hp per 1 second Charge\n\nThe last edition of a demonic shopping catalog that has ceased publication.\n\nThe currents of the Noiseless Sea carry objects, not according to their buoyancies, but rather the nature of their desires, regrets and experiences."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -198,8 +207,17 @@ CLOCKWISE_CAGE: {
 }
 CHAOS_CONJURANT: {
 	name: Chaos Conjurant
-	description: "Summon Meteors on Receiving Damage"
+	description: "Summon Meteors upon Receiving Damage"
     descriptionLong: "Meteor Cooldown: 1s\nMeteor Number: 5\nMeteor Damage: 24\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+CODEX_OF_SALVORS_LAW: {
+	name: Codex of Salvor's Law
+	description: "+Max Fuel, +Reflected Projectile Damage"
+    descriptionLong: "Bonus Max Fuel: 15\nBonus Reflect Damage: +50%\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -234,7 +252,7 @@ CONFIDENCE: {
 }
 CROWN_OF_THORNS: {
 	name: Crown of Thorns
-	description: "Drop Thorns on Receiving Damage"
+	description: "Drop Thorns upon Receiving Damage"
     descriptionLong: "Thorns Cooldown: 1s\nThorns Number: 6\nThorns Damage: 20\n\nThe body of a spiky echinoderm that doubles as protective headgear.\n\nOf all impulses retained by Sunk things, the most common is the simple desire to not be touched."
 	tags: [
 		RELIQUARY,
@@ -298,7 +316,7 @@ EELSKIN_COVER: {
 EMAUDELINES_PRISM: {
 	name: Emaudeline's Prism
 	description: "Projectile Split-Shot, -Attack Speed, -Reload Speed"
-    descriptionLong: "Ranged Attack Speed Reduction: -30%\nReload Speed Reduction: -30%\n\nA transparent prism that splits light into an incomplete rainbow.\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light."
+    descriptionLong: "Ranged Attack Speed Reduction: -50%\nReload Speed Reduction: -30%\n\nA transparent prism that splits light into an incomplete rainbow.\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -307,7 +325,7 @@ EMAUDELINES_PRISM: {
 EPHEMERA_PERPETUA: {
 	name: Ephemera Perpetua
 	description: "Charge Active Item on Eggplant Pickup"
-    descriptionLong: "Item Charge: 20%\n\n<adjective> <noun_abstract> of <color> <noun_material>.\n\n<poem>"
+    descriptionLong: "Item Charge: 2 Seconds\n\n<adjective> <noun_abstract> of <color> <noun_material>.\n\n<poem>"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -322,10 +340,19 @@ EXTRA_ROW_OF_TEETH: {
 		RANDOM_POOL,
 	]
 }
+FALLACY_OF_FLESH: {
+	name: Fallacy of Flesh
+	description: "Charge Active Item upon Killing Enemies"
+    descriptionLong: "Item Charge: 10 Seconds on Player Kill, 1.0 Second on Monster Kill\n\nAn illegible riddle carved into the flesh of an unknown beast.\n\nThe many gods floating within the empty ocean have nothing to subsist upon besides each other."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 FARADAYS_CAGE: {
 	name: Faraday Cage
 	description: "Absorbs Incoming Damage with Fuel"
-    descriptionLong: "Damage Resistance: 40% of Fuel Consumed\n\nA conductive mesh used to protect from electromagnetic fields.\n\nThe presence of Bright Ones often impairs conventional technology, forcing Management to equip Salvagers with equally inexplicable tools."
+    descriptionLong: "Damage Resistance: 40% of Fuel Consumed\n\nA conductive mesh used to protect from electromagnetic fields.\n\nThe presence of Bright Ones often impairs conventional technology, forcing Management to equip Salvagers with equally unfathomable tools."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -344,6 +371,15 @@ FENS_CLIPPED_WINGS: {
 	name: Fen's Clipped Wings
 	description: "+1 Jump, +Jump Height"
     descriptionLong: "Bonus Jump Power: +20%\n\nA pair of tattered insect wings singed by a bright light.\n\nInside a sprawling semaphore at the world's apex, a woman communes with a higher power in hopes of salvation."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+THE_FINGER: {
+	name: The Finger
+	description: "Your Ping Deals Damage"
+    descriptionLong: "Ping Damage: 15\n\nA single digit, extended in an offensive gesture.\n\nA seasoned Salvager considers violence to be a perfectly legitimate mode of communication and self-expression."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -369,7 +405,7 @@ FRACTURE_PLATE: {
 }
 GEMMULE: {
 	name: Gemmule
-	description: "+Invulnerability Duration on Spawn"
+	description: "+Invulnerability Duration upon Spawning"
     descriptionLong: "Bonus Spawn Invulnerability Duration: 8s\n\nA spongy layer of material that functions as a protective coating.\n\nThe budding subjects of the Neptune King's Garden must be tended to diligently in order for fruit to be bore."
 	tags: [
 		RELIQUARY,
@@ -378,7 +414,7 @@ GEMMULE: {
 }
 GLUTTONOUS_GREY_GLOVE: {
 	name: Gluttonous Grey Grove
-	description: "Occasionally drop Health on Kill"
+	description: "Occasionally Drop Health upon Killing Enemies"
     descriptionLong: "Hp Drop Chance: 100% on Player Kill, 20% on Monster Kill\nHp Pickup: 20\n\nAn article of carnivorous handwear with an appetite for flesh.\n\nIt's a fish-eat-fish world out there."
 	tags: [
 		RELIQUARY,
@@ -387,7 +423,7 @@ GLUTTONOUS_GREY_GLOVE: {
 }
 GOMEZS_AMYGDALA: {
 	name: Gomez's Amygdala
-	description: "Receiving Damage Temporarily Boosts Speed and Damage"
+	description: "Temporarily Boosts Speed and Damage upon Receiving Damage"
     descriptionLong: "Buff Duration: 2s\nBonus Speed: +50%\nBonus Damage: +30%\n\nA piece of grey matter floating in fluid and radiating with psychic energy.\n\nBright Ones are receptive to the primal emotions of passersby, making it paramount to suppress fear in their presence."
 	tags: [
 		RELIQUARY,
@@ -414,7 +450,7 @@ HEART_OF_SPEROS: {
 }
 HOOD_OF_HABIT: {
 	name: Hood of Habit
-	description: "Become Invisible when Receiving Critical Damage"
+	description: "Become Invisible upon Receiving Critical Damage"
     descriptionLong: "Hp Threshold: 25\nInvisibility Duration: 8s\n\nA ragged hood saturated with the stench of smoke.\n\nMuch to the chagrin of its residents, the Noiseless Sea has never kicked its addiction to cyclical destruction and rebirth."
 	tags: [
 		RELIQUARY,
@@ -423,7 +459,7 @@ HOOD_OF_HABIT: {
 }
 HORNS_OF_AMMON: {
 	name: Horns of Ammon
-	description: "Receiving Damage Grants Brief Invulnerability"
+	description: "Temporarily Gain Invulnerability upon Receiving Damage"
     descriptionLong: "Damage Threshold: 5\nInvincibility Duration: 1s\n\nThe curved horns of a submerged deity.\n\nThe ocean and its contents are fated to spend eternity flowing from one spiral to the next."
 	tags: [
 		RELIQUARY,
@@ -531,8 +567,8 @@ LOCH_SHIELD: {
 }
 LOTUS_LANTERN: {
 	name: Lotus Lantern
-	description: "+Currency Drops"
-    descriptionLong: "Bonus Currency Drop: 25%\n\nAn ornamental lantern made from waxen paper.\n\nDissatisfied with the gifts of the First Bright One, the Crab-God, Slick, illuminated the abyss below in search of more shining things."
+	description: "+Eggplant Drops"
+    descriptionLong: "Bonus Eggplant Drop: 25%\n\nAn ornamental lantern made from waxen paper.\n\nDissatisfied with the gifts of the First Bright One, the Crab-God, Slick, illuminated the abyss below in search of more shining things."
 	tags: [
 		RELIQUARY,
 	]
@@ -574,7 +610,7 @@ MASK_OF_SYMPATHY: {
 }
 MATTER_UNIVERSALIZER: {
 	name: Matter Universalizer
-	description: "Restores Fuel on Kill"
+	description: "Restores Fuel upon Killing enemies."
     descriptionLong: "Fuel Regenerated: 60 on Player Kill, 20 on Monster Kill\n\nA handheld energy-conversion device.\n\nRegardless of what or who enters the grinders of the Kamaboko-Ya, the end result looks and tastes the same."
 	tags: [
 		RELIQUARY,
@@ -585,6 +621,15 @@ MOON_FLUTHER: {
 	name: Moon Fluther
 	description: "+Hovering Power"
     descriptionLong: "Bonus Hover Power: +25%\nHover Cost Reduction: -25%\n\nA gelatinous wad that is always extended towards the moon.\n\nBright Ones and the elusive Goldfish share a propensity for breaching the layers of the world, albeit, in opposite directions."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+MOUTHFUL_OF_BEES: {
+	name: Mouthful of Bees
+	description: "Release Bees Upon Receiving Damage or Dying"
+    descriptionLong: "Release 1 Bee per 15 Damage received.\nRelease 6 Bees on death.\n\nMRRMPH MMPH MRRGL FRRRMRGRRRG GGGRRMRRFRG!"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -603,6 +648,15 @@ MUDDLING_CUP: {
 	name: Muddling Cup
 	description: "Airblasting Fires Weapon"
     descriptionLong: "A novelty cup that channels its contents along internal vessels.\n\nA conclusion that is preordained does not preclude a turbulent trip."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+NACREOUS_RUDDER: {
+	name: Nacreous Rudder
+	description: "+Air/Ground Acceleration"
+    descriptionLong: "Bonus Air Acceleration: +20%\nBonus Ground Acceleration: +20%\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -670,8 +724,8 @@ OUR_GET_ALONG_SHIRT: {
 }
 PAIN_SCALE: {
 	name: Pain Scale
-	description: "Charge Active Item on Receiving Damage"
-    descriptionLong: "Item Charge: 1% Charge for every 1 Damage Received\n\nA surgically attached LED light widget.\n\nDuring the training process, Salvagers have their pain replaced with an analog display that lights up if they should stop doing whatever they are doing."
+	description: "Charge Active Item upon Receiving Damage"
+    descriptionLong: "Item Charge: 1 Second for every 5 Damage Received\n\nA surgically attached LED light widget.\n\nDuring the training process, Salvagers have their pain replaced with an analog display that lights up if they should stop doing whatever they are doing."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -679,7 +733,7 @@ PAIN_SCALE: {
 }
 PEACHWOOD_SWORD: {
 	name: Peachwood Sword
-	description: "Release Vengeful Spirit on Kill and Death"
+	description: "Release Vengeful Spirit upon Killing and Dying"
     descriptionLong: "Spirit Damage: 50 on Player Kill, 15 on Monster Kill\n\nA wooden blade gnarled and knotted by time.\n\nStriking at spirits within the Noiseless Sea is a futile undertaking well suited for those looking to pass an eternity."
 	tags: [
 		RELIQUARY,
@@ -715,7 +769,7 @@ PEPPER: {
 }
 PETRIFIED_PAYLOAD: {
 	name: Petrified Payload
-	description: "Explosions on Kill and Death, Bigger Explosions"
+	description: "Create Explosion upon Killing and Dying, Bigger Explosions"
     descriptionLong: "Explosion Damage: 50 on Player Kill, 20 on Monster Kill\nBonus Explosion Size: +30%\n\nA bulging and volatile stack of decrepit munitions.\n\nManagement has always had confidence that whatever lied at the bottom of the world could be dealt with additional firepower."
 	tags: [
 		RELIQUARY,
@@ -733,7 +787,7 @@ PIFFLER: {
 }
 PLUMPOWDER: {
 	name: Plumpowder
-	description: "Active Items Start Charged"
+	description: "Active Items are Fully Charged upon Spawning"
     descriptionLong: "A satchel of sweet and acidic crystals.\n\nThe taste is better when you have less of it than you want."
 	tags: [
 		RELIQUARY,
@@ -742,8 +796,8 @@ PLUMPOWDER: {
 }
 RECYCLER_BOLUS: {
 	name: Recycler Bolus
-	description: "Gain Max Hp on Eggplant Pickup"
-    descriptionLong: "Max Hp Gained: 4 per Eggplant\nMax Hp Limit: +100\n\nA foul clump of mucus and undigested flesh.\n\nThe resentful ingredients of the Kamaboko-Ya yearn to have their bodies remade in the shapes of the ones that terrorized them in life."
+	description: "Gain Max Hp upon Eggplant Pickup"
+    descriptionLong: "Max Hp Gained: 5 per Eggplant\nMax Hp Limit: +150\n\nA foul clump of mucus and undigested flesh.\n\nThe resentful ingredients of the Kamaboko-Ya yearn to have their bodies remade in the shapes of the ones that terrorized them in life."
 	tags: [
 		RELIQUARY,
 	]
@@ -777,7 +831,7 @@ ROYAL_JUJUBE_BANG: {
 SALIGRAM: {
 	name: Saligram
 	description: "+Damage Resistance"
-    descriptionLong: "Damage Resistance: +20%\n\nA petrified shell imbued with the blessing of the Spiral.\n\nAs currents carry all sunken things to their remote resting places, many seek solace in the belief that, in time, they will all be reunited."
+    descriptionLong: "Damage Resistance: +15%\n\nA petrified shell imbued with the blessing of the Spiral.\n\nAs currents carry all sunken things to their remote resting places, many seek solace in the belief that, in time, they will all be reunited."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -786,7 +840,7 @@ SALIGRAM: {
 SAMURAI_SHARK: {
 	name: Samurai Shark
 	description: "Critical Projectiles"
-    descriptionLong: "Crit Cooldown: 5s\nBonus Crit Damage: 40\n\nThe ultimate sharpening tool that puts a razor edge on dull blades.\n\nThe secret is the tungsten-carbide blades along with a unique angle that gives you a precision edge each and every time."
+    descriptionLong: "Crit Chance: 10%\nCrit Damage: +50%\nCrit Projectile Speed: +100%\n\nThe ultimate sharpening tool that puts a razor edge on dull blades.\n\nThe secret is the tungsten-carbide blades along with a unique angle that gives you a precision edge each and every time."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

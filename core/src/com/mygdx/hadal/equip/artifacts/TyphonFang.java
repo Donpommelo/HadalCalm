@@ -5,18 +5,13 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.utils.Stats;
 
 public class TyphonFang extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 2;
-	
-	private static final float bonusReloadSpd = -0.5f;
-	private static final float cliprefill = 0.50f;
+	private final static int slotCost = 3;
 	
 	public TyphonFang() {
 		super(slotCost, statusNum);
@@ -24,18 +19,20 @@ public class TyphonFang extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, b), 
-				new Status(state, b) {
+		enchantment[0] = new StatusComposite(state, b, new Status(state, b) {
 			
 			@Override
 			public void onKill(BodyData vic) {
 				if (this.inflicted instanceof PlayerBodyData) {
 					if (((PlayerBodyData) this.inflicted).getCurrentTool() instanceof RangedWeapon) {
 						SoundEffect.RELOAD.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
-
 						RangedWeapon weapon = (RangedWeapon)((PlayerBodyData) this.inflicted).getCurrentTool();
-						weapon.gainClip((int)(weapon.getClipSize() * cliprefill));
+						
+						if (vic instanceof PlayerBodyData) {
+							weapon.gainClip((int) (weapon.getClipSize()));
+						} else {
+							weapon.gainClip(1);
+						}
 					}
 				}
 			}

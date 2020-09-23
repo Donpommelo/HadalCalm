@@ -77,7 +77,7 @@ public class TeslaCoil extends RangedWeapon {
 			public void create() {
 				//keep track of the coil's travel distance
 				this.startLocation.set(hbox.getPixelPosition());
-				this.distance = startLocation.dst(endLocation);
+				this.distance = startLocation.dst(endLocation) - projectileSize.x;
 			}
 			
 			@Override

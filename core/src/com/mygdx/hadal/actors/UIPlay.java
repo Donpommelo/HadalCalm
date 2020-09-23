@@ -74,7 +74,7 @@ public class UIPlay extends AHadalActor {
 	protected float activePercent;
 	
 	//Are we currently fighting a boss. If so, who and what's its name.
-	protected boolean bossFight = false;
+	protected boolean bossFight;
 	protected Schmuck boss;
 	private String bossName;
 	
@@ -135,7 +135,7 @@ public class UIPlay extends AHadalActor {
 		activePercent = state.getPlayer().getPlayerData().getActiveItem().chargePercent();
 		
 		if (bossFight && boss.getBody() != null) {
-			bossHpRatio = bossHpFloor + (boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP) * (1 - bossHpFloor));
+			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP);
 		}
 	}
 	
@@ -150,7 +150,7 @@ public class UIPlay extends AHadalActor {
 			font.getData().setScale(fontScaleSmall);
 			font.draw(batch, bossName, bossNameX, bossNameY);
 			
-			bossHpRatio = Math.max(bossHpRatio, 0.0f);
+			bossHpRatio = bossHpFloor + (bossHpRatio * (1 - bossHpFloor));
 			
 			//This code makes the hp bar delay work.
 			if (bossHpDelayed > bossHpRatio) {
@@ -158,7 +158,7 @@ public class UIPlay extends AHadalActor {
 			} else {
 				bossHpDelayed = bossHpRatio;
 			}
-			
+
 			GameStateManager.getBossGaugeGreyPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
 			GameStateManager.getBossGaugeCatchupPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpDelayed, bossBarHeight, bossScale, bossScale, 0);
 			GameStateManager.getBossGaugeRedPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpRatio, bossBarHeight, bossScale, bossScale, 0);

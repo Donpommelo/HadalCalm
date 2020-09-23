@@ -9,6 +9,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.utils.Stats;
 
 /**
  * This stat contains the information relevant to a particular Hitbox.
@@ -49,7 +50,7 @@ public class HitboxData extends HadalData {
 			Filter filter = hbox.getBody().getFixtureList().get(0).getFilterData();
 			filter.groupIndex = (short) 0;
 			hbox.getBody().getFixtureList().get(0).setFilterData(filter);
-			hbox.setDamageMultiplier(reflectMultiplier);
+			hbox.setDamageMultiplier(reflectMultiplier * (1 + perp.getStat(Stats.REFLECT_DAMAGE)));
 			
 			//reflecting a projectile should take ownership of it
 			for (HitboxStrategy strat: hbox.getStrategies()) {

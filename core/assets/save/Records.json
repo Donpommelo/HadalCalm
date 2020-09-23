@@ -41,7 +41,7 @@ hiScores: {
 	ARENA_HORIZON: 0
 	ARENA_WARP: 0
 	ARENA_FLOTSAM: 0
-	ARENA_PILE: 1
+	ARENA_PILE: 7
 	ARENA_WETWORKS: 83
 	ARENA_ZIGGURAT: 0
 }
@@ -102,6 +102,7 @@ unlockEquip: {
 unlockArtifact: {
 	class: java.util.HashMap
 	PLUMPOWDER: false
+	THE_FINGER: false
 	CURIOUS_SAUCE: false
 	LUMINOUS_ESCA: false
 	MANGROVE_SEED: false
@@ -126,9 +127,11 @@ unlockArtifact: {
 	ADMINISTRATOR_CARD: false
 	CASTAWAYS_TRAVELOGUE: false
 	GEMMULE: false
+	NACREOUS_RUDDER: false
 	EPHEMERA_PERPETUA: false
 	LOTUS_LANTERN: false
 	CHAOS_CONJURANT: false
+	CODEX_OF_SALVORS_LAW: false
 	GOMEZS_AMYGDALA: false
 	EXTRA_ROW_OF_TEETH: false
 	VOLATILE_DERMIS: false
@@ -149,6 +152,7 @@ unlockArtifact: {
 	DAS_BOOT: false
 	VOID_HYPONOME: false
 	IRON_SIGHTS: false
+	MOUTHFUL_OF_BEES: false
 	HOOD_OF_HABIT: false
 	LOAMSKIN_LOCKET: false
 	KINESIS_LENS: false
@@ -161,6 +165,7 @@ unlockArtifact: {
 	OL_FAITHFUL: false
 	YIGHT_KITE: false
 	RING_OF_TESTING: false
+	BUTTONMAN_BUTTONS: false
 	SHILLERS_DEATHCAP: false
 	HEART_OF_SPEROS: false
 	HUMANITY_MODULE: false
@@ -203,6 +208,7 @@ unlockArtifact: {
 	ABYSSAL_INSIGNIA: false
 	TRIGGERFISH_FINGER: false
 	JELLOFELLOW_COSPLAY: false
+	FALLACY_OF_FLESH: false
 	WRATH_OF_THE_FROGMAN: false
 	MASK_OF_SYMPATHY: false
 	ANCIENT_SYNAPSE: false

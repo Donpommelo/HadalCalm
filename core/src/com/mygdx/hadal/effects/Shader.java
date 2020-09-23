@@ -15,6 +15,7 @@ import com.mygdx.hadal.strategies.shader.*;
 public enum Shader {
 
 	NOTHING("", "", true),
+	CENSURE("shaders/pass.vert", "shaders/censure.frag", true),
 	INVISIBLE("shaders/pass.vert", "shaders/pass.frag", true),
 	SEPIA("shaders/pass.vert", "shaders/sepia.frag", true),
 	WHITE("shaders/pass.vert", "shaders/white.frag", true),
