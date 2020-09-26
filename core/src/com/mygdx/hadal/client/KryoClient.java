@@ -552,6 +552,9 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * We are told by the server each player's extra score info. Set it so we can display in the results state.
+        		 */
         		else if (o instanceof Packets.SyncExtraResultsInfo) {
         			final Packets.SyncExtraResultsInfo p = (Packets.SyncExtraResultsInfo) o;
         			scoresExtra = p.scores;

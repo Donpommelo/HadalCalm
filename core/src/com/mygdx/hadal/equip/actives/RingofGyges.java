@@ -10,7 +10,7 @@ public class RingofGyges extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 20.0f;
+	private final static float maxCharge = 18.0f;
 	
 	private final static float duration = 8.0f;
 	

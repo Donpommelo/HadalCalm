@@ -26,7 +26,7 @@ public class ProximityMine extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 10.0f;
+	private final static float maxCharge = 9.0f;
 	
 	private final static Vector2 projectileSize = new Vector2(75, 30);
 	private final static float lifespan = 3.0f;

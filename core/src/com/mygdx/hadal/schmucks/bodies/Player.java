@@ -629,6 +629,9 @@ public class Player extends PhysicsSchmuck {
 		playerData.getCurrentTool().setReloading(true);
 	}
 	
+	/**
+	 * Player pings at mouse location
+	 */
 	public void ping() {
 		if (pingCdCount < 0) {
 			pingCdCount = pingCd;

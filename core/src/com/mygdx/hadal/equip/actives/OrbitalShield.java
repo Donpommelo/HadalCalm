@@ -21,16 +21,16 @@ public class OrbitalShield extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 12.0f;
+	private final static float maxCharge = 9.0f;
 	
 	private static final Vector2 projSize = new Vector2(50, 50);
 
 	private static final float projDamage= 20.0f;
 	private static final float projKnockback= 25.0f;
-	private static final float projLifespan= 8.0f;
+	private static final float projLifespan= 6.0f;
 
 	private static final float projSpeed= 180.0f;
-	private static final float projRange= 4.5f;
+	private static final float projRange= 5.0f;
 
 	public OrbitalShield(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

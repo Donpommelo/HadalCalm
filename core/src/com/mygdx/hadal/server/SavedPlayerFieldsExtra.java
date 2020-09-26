@@ -2,15 +2,17 @@ package com.mygdx.hadal.server;
 
 import com.mygdx.hadal.equip.Loadout;
 
+/**
+ * This class contains all the fields that are tracked during a match. These are synced when the results state appears and let clients display information about each player's performance.
+ * @author Zachary Tu
+ *
+ */
 public class SavedPlayerFieldsExtra {
 
 	private float damageDealtEnemies, damageDealtAllies, damageDealtSelf, damageReceived;
-	
 	private Loadout loadout;
 	
-	public SavedPlayerFieldsExtra() {
-		
-	}
+	public SavedPlayerFieldsExtra() {}
 	
 	public void newLevelReset() {
 		damageDealtEnemies = 0.0f;

@@ -221,6 +221,7 @@ public class ResultsState extends GameState {
 			name.setColor(Color.RED);
 			name.setScale(scale);
 			
+			//mousing over player name brings up window with extra information
 			name.addListener(new ClickListener() {
 		        
 				@Override
@@ -284,6 +285,9 @@ public class ResultsState extends GameState {
 		}
 	}
 	
+	/**
+	 * This fills the window with stats for the designated player
+	 */
 	public void syncInfoTable(int connId) {
 		tableInfo.clear();
 		tableArtifact.clear();
@@ -302,6 +306,7 @@ public class ResultsState extends GameState {
 			
 			infoPlayerName.setText(field.getNameAbridged(false, maxNameLen));
 			
+			//display player's loadout (if synced properly)
 			if (fieldExtra.getLoadout() != null) {
 				
 				for (UnlockArtifact c: fieldExtra.getLoadout().artifacts) {

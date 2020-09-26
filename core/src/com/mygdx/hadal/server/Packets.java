@@ -1057,6 +1057,10 @@ public class Packets {
 		
 		public SyncExtraResultsInfo() {}
 		
+		/**
+		 * A SyncExtraResultsInfo is sent from the server to the client when they enter the results screen. This contains information about the match performance
+		 * @param scores: This contains the extra information displayed in the results screen
+		 */
 		public SyncExtraResultsInfo(HashMap<Integer, SavedPlayerFieldsExtra> scores) {
 			this.scores = scores;
 		}

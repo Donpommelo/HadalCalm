@@ -15,6 +15,7 @@ public class DodgeRoll extends ActiveItem {
 	private final static float maxCharge = 3.0f;
 	
 	private final static float recoil = 40.0f;
+	private final static float invulnerabilityDuration = 0.5f;
 
 	public DodgeRoll(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -35,7 +36,7 @@ public class DodgeRoll extends ActiveItem {
 		} else {
 			direction = -1;
 		}
-		user.addStatus(new Invulnerability(state, 0.5f, user, user));
+		user.addStatus(new Invulnerability(state, invulnerabilityDuration, user, user));
 		
 		user.getPlayer().pushMomentumMitigation(recoil * direction, 0);
 	}

@@ -17,6 +17,12 @@ import com.payne.games.piemenu.AnimatedPieMenu;
 import com.payne.games.piemenu.PieMenu;
 
 @SuppressWarnings("deprecation")
+/**
+ * This actor represents the chat wheel that can be used to send emotes on the fly.
+ * This wheel is displayed in the center of the screen and can be controlled with the mouse.
+ * @author Zachary Tu
+ *
+ */
 public class ChatWheel {
 
 	private PlayState state;
@@ -50,6 +56,7 @@ public class ChatWheel {
 		addTable();
 	}
 	
+	//we track the location of the mouse so that the wheel can track which direction the player has moved it in.
 	private Vector2 lastMousePosition = new Vector2();
 	private Vector2 pointerPosition = new Vector2();
 	private Vector2 totalDisplace = new Vector2();
@@ -82,7 +89,7 @@ public class ChatWheel {
 			 @Override
 	        public boolean mouseMoved(InputEvent event, float x, float y) {
 				 
-				 if(event.getListenerActor() != wheel) { return false; }
+				 if (event.getListenerActor() != wheel) { return false; }
 				 
 				 lastDisplace.set(Gdx.input.getX(), -Gdx.input.getY()).sub(lastMousePosition).scl(indicatorAmplification);
 				 totalDisplace.add(lastDisplace).limit(wheelWidth / 2);
@@ -97,6 +104,7 @@ public class ChatWheel {
 			
 		});
 		
+		//add all options to the wheel
 		for (int i = 0; i < options.length; i++) {
 			Text option = new Text(options[i], 0, 0, false);
 			option.setScale(textScaleUnselected);
@@ -111,10 +119,18 @@ public class ChatWheel {
 	public void setVisibility(boolean visible) {
 		
 		if (visible) {
+			
+			//play the wheel fan animation and make no options highlighted
 			wheel.animateOpening(0.4f);
 			wheel.setHoveredIndex(-1);
+			
+			//keep track of the players mouse location so we know how they move relative to this vector
 			lastMousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
+			
+			//the pointer default position is the center of the wheel.
 			pointerPosition.set(wheel.getX() + wheel.getWidth() / 2, wheel.getY() + wheel.getHeight() / 2);
+			
+			//reset all vectors that keep track of displacement so old movement does not carry over.
 			lastDisplace.set(0, 0);
 			totalDisplace.set(0, 0);
 		} else {

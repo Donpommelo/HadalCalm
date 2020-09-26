@@ -11,10 +11,10 @@ public class PlusMinus extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 14.0f;
+	private final static float maxCharge = 12.0f;
 	
 	
-	private final static float chainDamage = 20.0f;
+	private final static float chainDamage = 15.0f;
 	private final static int chainRadius = 15;
 	private final static int chainAmount = 8;
 	
