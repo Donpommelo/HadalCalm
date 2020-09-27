@@ -46,6 +46,9 @@ public class ChatWheel {
 
 	private final static String[] options = {"temp1", "temp2", "temp3", "temp4", "temp5", "temp6", "READY", "<roll>"};
 	
+	//is the chat wheel currently active or not?
+	private boolean active;
+	
 	public ChatWheel(PlayState state, Stage stage) {
 		this.state = state;
 		this.stage = stage;
@@ -119,32 +122,36 @@ public class ChatWheel {
 	public void setVisibility(boolean visible) {
 		
 		if (visible) {
-			
-			//play the wheel fan animation and make no options highlighted
-			wheel.animateOpening(0.4f);
-			wheel.setHoveredIndex(-1);
-			
-			//keep track of the players mouse location so we know how they move relative to this vector
-			lastMousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
-			
-			//the pointer default position is the center of the wheel.
-			pointerPosition.set(wheel.getX() + wheel.getWidth() / 2, wheel.getY() + wheel.getHeight() / 2);
-			
-			//reset all vectors that keep track of displacement so old movement does not carry over.
-			lastDisplace.set(0, 0);
-			totalDisplace.set(0, 0);
-		} else {
-			//do the chat
-			int option = wheel.getHoveredIndex();
-			
-			if (option != -1 && option < options.length) {
-				if (state.isServer()) {
-					HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), options[option], DialogType.SYSTEM);
-				} else {
-					HadalGame.client.sendTCP(new Packets.Notification(state.getPlayer().getName(), options[option], DialogType.SYSTEM));
-				}
+			if (!active) {
+				//play the wheel fan animation and make no options highlighted
+				wheel.animateOpening(0.4f);
+				wheel.setHoveredIndex(-1);
+				
+				//keep track of the players mouse location so we know how they move relative to this vector
+				lastMousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
+				
+				//the pointer default position is the center of the wheel.
+				pointerPosition.set(wheel.getX() + wheel.getWidth() / 2, wheel.getY() + wheel.getHeight() / 2);
+				
+				//reset all vectors that keep track of displacement so old movement does not carry over.
+				lastDisplace.set(0, 0);
+				totalDisplace.set(0, 0);
 			}
-			wheel.animateClosing(0.4f);
+		} else {
+			//do the chat if wheel is active
+			if (active) {
+				int option = wheel.getHoveredIndex();
+				
+				if (option != -1 && option < options.length) {
+					if (state.isServer()) {
+						HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), options[option], DialogType.SYSTEM);
+					} else {
+						HadalGame.client.sendTCP(new Packets.Notification(state.getPlayer().getName(), options[option], DialogType.SYSTEM));
+					}
+				}
+				wheel.animateClosing(0.4f);
+			}
 		}
+		active = visible;
 	}
 }

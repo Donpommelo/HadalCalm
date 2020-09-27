@@ -172,7 +172,7 @@ CASTAWAYS_TRAVELOGUE: {
 CATALOG_OF_WANT: {
 	name: Catalog of Want
 	description: "Spend Hp to use Uncharged Actives"
-    descriptionLong: "Hp Cost: 6 Hp per 1 Second Charge\n\nThe last edition of a demonic shopping catalog that has ceased publication.\n\nThe unrequite desires of the drowned are memorialized but not satisfied within the annals of the Pit of tongues."
+    descriptionLong: "Hp Cost: 6 Hp per 1 Second Charge\n\nThe last edition of a demonic shopping catalog that has ceased publication.\n\nThe unrequited desires of the drowned are memorialized but not satisfied within the annals of the Pit of tongues."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
