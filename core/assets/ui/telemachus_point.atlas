@@ -11,6 +11,69 @@ Final 2_0_small
   orig: 256, 256
   offset: 0, 0
   index: -1
+Final 2_1_small
+  rotate: false
+  xy: 260, 776
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+Final 2_2_small
+  rotate: false
+  xy: 260, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+Final 2_3_small
+  rotate: false
+  xy: 1550, 1292
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+Final 2_4_small
+  rotate: false
+  xy: 1292, 518
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+Final 2_5_small
+  rotate: false
+  xy: 2582, 1550
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+Final 2_6_small
+  rotate: false
+  xy: 1292, 2
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+Final 2_7_small
+  rotate: false
+  xy: 1550, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+Final 2_8_small
+  rotate: false
+  xy: 1808, 518
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+Final 2_9_small
+  rotate: false
+  xy: 2066, 776
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
 Final 2_10_small
   rotate: false
   xy: 2, 1292
@@ -77,13 +140,6 @@ Final 2_18_small
 Final 2_19_small
   rotate: false
   xy: 2, 518
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-Final 2_1_small
-  rotate: false
-  xy: 260, 776
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
@@ -158,13 +214,6 @@ Final 2_29_small
   orig: 256, 256
   offset: 0, 0
   index: -1
-Final 2_2_small
-  rotate: false
-  xy: 260, 260
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
 Final 2_30_small
   rotate: false
   xy: 518, 518
@@ -231,13 +280,6 @@ Final 2_38_small
 Final 2_39_small
   rotate: false
   xy: 1292, 1034
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-Final 2_3_small
-  rotate: false
-  xy: 1550, 1292
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
@@ -312,13 +354,6 @@ Final 2_49_small
   orig: 256, 256
   offset: 0, 0
   index: -1
-Final 2_4_small
-  rotate: false
-  xy: 1292, 518
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
 Final 2_50_small
   rotate: false
   xy: 1550, 776
@@ -385,41 +420,6 @@ Final 2_58_small
 Final 2_59_small
   rotate: false
   xy: 2324, 1292
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-Final 2_5_small
-  rotate: false
-  xy: 2582, 1550
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-Final 2_6_small
-  rotate: false
-  xy: 1292, 2
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-Final 2_7_small
-  rotate: false
-  xy: 1550, 260
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-Final 2_8_small
-  rotate: false
-  xy: 1808, 518
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-Final 2_9_small
-  rotate: false
-  xy: 2066, 776
   size: 256, 256
   orig: 256, 256
   offset: 0, 0

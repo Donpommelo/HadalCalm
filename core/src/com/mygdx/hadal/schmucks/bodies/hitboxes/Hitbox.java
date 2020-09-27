@@ -1,6 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies.hitboxes;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -99,6 +100,7 @@ public class Hitbox extends HadalEntity {
 	//this is the projectile's Sprite and corresponding frames
 	protected Animation<TextureRegion> projectileSprite;
 	private Sprite sprite;
+	private boolean looping;
 
 	//this is the size of the sprite. Usually drawn to be the size of the hbox, but can be made larger/smaller
 	private Vector2 spriteSize = new Vector2();
@@ -128,6 +130,9 @@ public class Hitbox extends HadalEntity {
 		if (!sprite.equals(Sprite.NOTHING)) {
 			projectileSprite = new Animation<TextureRegion>(sprite.getAnimationSpeed(), sprite.getFrames());
 			projectileSprite.setPlayMode(sprite.getPlayMode());
+			if (!projectileSprite.getPlayMode().equals(PlayMode.NORMAL)) {
+				looping = true;
+			}
 		}
 		this.spriteSize.set(size);
 	}
@@ -198,7 +203,7 @@ public class Hitbox extends HadalEntity {
 		if (!alive) { return; }
 		
 		if (projectileSprite != null) {
-			batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, false), 
+			batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, looping), 
 					getPixelPosition().x - spriteSize.x / 2, 
 					getPixelPosition().y - spriteSize.y / 2, 
 					spriteSize.x / 2, spriteSize.y / 2,

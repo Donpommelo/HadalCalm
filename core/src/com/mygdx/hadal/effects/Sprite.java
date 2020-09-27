@@ -181,6 +181,8 @@ public enum Sprite {
 	NOTIFICATIONS_CHAT(SpriteType.NOTIFICATIONS, "talking"),
 	NOTIFICATIONS_CLEAR_CIRCLE(SpriteType.NOTIFICATIONS, "clear_circle"),
 	NOTIFICATIONS_DIRECTIONAL_ARROW(SpriteType.NOTIFICATIONS, "arrow_directional"),
+	NOTIFICATIONS_ALERT(SpriteType.NOTIFICATIONS, "alert_red"),
+	NOTIFICATIONS_ALERT_PING(SpriteType.NOTIFICATIONS, "arrow_ping_red", PlayMode.LOOP_PINGPONG, PlayState.spriteAnimationSpeedSlow),
 
 	MOREAU_RUN(SpriteType.MOREAU, "body_run"),
 	MOREAU_STILL(SpriteType.MOREAU, "body_stand"),
