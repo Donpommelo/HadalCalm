@@ -178,6 +178,10 @@ public enum Sprite {
 	UI_RELOAD_METER(SpriteType.UI, "UI_reload_meter"),
 	UI_RELOAD_BAR(SpriteType.UI, "UI_reload_bar"),
 
+	NOTIFICATIONS_CHAT(SpriteType.NOTIFICATIONS, "talking"),
+	NOTIFICATIONS_CLEAR_CIRCLE(SpriteType.NOTIFICATIONS, "clear_circle"),
+	NOTIFICATIONS_DIRECTIONAL_ARROW(SpriteType.NOTIFICATIONS, "arrow_directional"),
+
 	MOREAU_RUN(SpriteType.MOREAU, "body_run"),
 	MOREAU_STILL(SpriteType.MOREAU, "body_stand"),
 	MOREAU_BACK(SpriteType.MOREAU, "body_background"),
@@ -294,6 +298,8 @@ public enum Sprite {
 			return HadalGame.assetManager.get(AssetList.STAR_SHOT_ATLAS.toString());
 		case UI:
 			return HadalGame.assetManager.get(AssetList.UI_ATL.toString());
+		case NOTIFICATIONS:
+			return HadalGame.assetManager.get(AssetList.NOTIFICATION_ATL.toString());
 		case MOREAU:
 			return HadalGame.assetManager.get(AssetList.PLAYER_MOREAU_ATL.toString());
 		case TAKANORI:
@@ -347,6 +353,7 @@ public enum Sprite {
 		EXCLAMATION,
 		STAR,
 		UI,
+		NOTIFICATIONS,
 		KAMABOKO,
 		KAMABOKO_CRAWL,
 		KAMABOKO_SWIM,

@@ -54,7 +54,7 @@ public class ChatWheel {
 		this.stage = stage;
 		
 		this.wheelBase = Sprite.UI_MO_BASE.getFrame();
-		this.wheelIndicator = Sprite.UI_MO_READY.getFrame();
+		this.wheelIndicator = Sprite.NOTIFICATIONS_CLEAR_CIRCLE.getFrame();
 		
 		addTable();
 	}

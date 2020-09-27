@@ -198,7 +198,7 @@ public abstract class Equipable {
 
 	public void setReloading(boolean reloading) { this.reloading = reloading; }
 
-	public float getReloadCd() { return reloadCd;}
+	public float getReloadCd() { return reloadCd; }
 	
 	public void setReloadCd(float reloadCd) { this.reloadCd = reloadCd; }
 

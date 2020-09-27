@@ -1066,6 +1066,21 @@ public class Packets {
 		}
 	}
 	
+	public static class SyncTyping {
+		public String entityID;
+		
+		public SyncTyping() {}
+		
+		/**
+		 * A LatencyAck is sent from the client to the server when they type in the message window.
+		 * This is also sent from the server to the client to indicate which players are currently typing.
+		 * @param entityID: this is the id of the player that is currently typing.
+		 */
+		public SyncTyping(String entityID) {
+			this.entityID = entityID;
+		}
+	}
+	
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -1120,5 +1135,6 @@ public class Packets {
     	kryo.register(LatencySyn.class);
     	kryo.register(LatencyAck.class);
     	kryo.register(SyncExtraResultsInfo.class);
+    	kryo.register(SyncTyping.class);
     }
 }

@@ -405,7 +405,7 @@ public class KryoServer {
 					}
 				}
 				
-				/**
+				/*
 				 * Respond to this packet sent from the client periodically so the client knows their latency.
 				 */
 				else if (o instanceof Packets.LatencySyn) {
@@ -421,6 +421,20 @@ public class KryoServer {
 						}
 					}
 					server.sendToTCP(c.getID(), new Packets.LatencyAck());
+				}
+				
+				/*
+				 * This packet indicates the client is typing, so make a bubble appear above their head.
+				 */
+				else if (o instanceof Packets.SyncTyping) {
+					final PlayState ps = getPlayState();
+					if (ps != null) {
+						Player p = players.get(c.getID());
+						if (p != null) {
+							p.startTyping();
+							sendToAllExceptUDP(c.getID(), new Packets.SyncTyping(p.getEntityID().toString()));
+						}
+					}
 				}
 				
 				/*
@@ -679,6 +693,12 @@ public class KryoServer {
 	public void sendToAllExceptTCP(int connId, Object p) {
 		if (server != null) {
 			server.sendToAllExceptTCP(connId, p);
+		}
+	}
+	
+	public void sendToAllExceptUDP(int connId, Object p) {
+		if (server != null) {
+			server.sendToAllExceptUDP(connId, p);
 		}
 	}
 	

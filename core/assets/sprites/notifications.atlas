@@ -1,0 +1,139 @@
+
+notifications.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+alert
+  rotate: false
+  xy: 257, 544
+  size: 238, 214
+  orig: 238, 214
+  offset: 0, 0
+  index: -1
+alert_red
+  rotate: false
+  xy: 2, 134
+  size: 238, 214
+  orig: 238, 214
+  offset: 0, 0
+  index: -1
+arrow_directional
+  rotate: false
+  xy: 933, 575
+  size: 53, 124
+  orig: 53, 124
+  offset: 0, 0
+  index: -1
+arrow_ping
+  rotate: false
+  xy: 512, 833
+  size: 238, 130
+  orig: 238, 130
+  offset: 0, 0
+  index: 0
+arrow_ping
+  rotate: false
+  xy: 257, 412
+  size: 238, 130
+  orig: 238, 130
+  offset: 0, 0
+  index: 1
+arrow_ping
+  rotate: false
+  xy: 2, 2
+  size: 238, 130
+  orig: 238, 130
+  offset: 0, 0
+  index: 2
+arrow_ping
+  rotate: false
+  xy: 752, 833
+  size: 238, 130
+  orig: 238, 130
+  offset: 0, 0
+  index: 3
+arrow_ping_red
+  rotate: false
+  xy: 512, 701
+  size: 238, 130
+  orig: 238, 130
+  offset: 0, 0
+  index: 0
+arrow_ping_red
+  rotate: false
+  xy: 752, 701
+  size: 238, 130
+  orig: 238, 130
+  offset: 0, 0
+  index: 1
+arrow_ping_red
+  rotate: false
+  xy: 497, 569
+  size: 238, 130
+  orig: 238, 130
+  offset: 0, 0
+  index: 2
+arrow_ping_red
+  rotate: false
+  xy: 497, 437
+  size: 238, 130
+  orig: 238, 130
+  offset: 0, 0
+  index: 3
+clear_circle
+  rotate: false
+  xy: 737, 603
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+clear_circle_alert
+  rotate: false
+  xy: 737, 505
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+clear_circle_alert_red
+  rotate: false
+  xy: 835, 603
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+clear_circle_eggplant
+  rotate: false
+  xy: 835, 505
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+talking
+  rotate: false
+  xy: 2, 760
+  size: 253, 203
+  orig: 253, 203
+  offset: 0, 0
+  index: 0
+talking
+  rotate: false
+  xy: 2, 555
+  size: 253, 203
+  orig: 253, 203
+  offset: 0, 0
+  index: 1
+talking
+  rotate: false
+  xy: 257, 760
+  size: 253, 203
+  orig: 253, 203
+  offset: 0, 0
+  index: 2
+talking
+  rotate: false
+  xy: 2, 350
+  size: 253, 203
+  orig: 253, 203
+  offset: 0, 0
+  index: 3

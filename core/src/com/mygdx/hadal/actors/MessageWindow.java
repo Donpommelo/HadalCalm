@@ -195,23 +195,51 @@ public class MessageWindow {
 		
 		enterMessage = new TextField("", GameStateManager.getSkin()) {
 			
+			private boolean typing;
+			private float typingInterval = 0.5f;
+			private float typeCount;
 			@Override
 			protected InputListener createInputListener () {
 				
 				return new TextFieldClickListener() {
-		            
+					
+					@Override
+		            public boolean keyDown(InputEvent event, int keycode) {
+						if (keycode != Keys.ENTER && keycode != PlayerAction.EXIT_MENU.getKey()) {
+							typing = true;
+						}
+						return super.keyDown(event, keycode);
+					}
+					
 					@Override
 		            public boolean keyUp(InputEvent event, int keycode) {
 		                if (keycode == Keys.ENTER) {
 		                	sendMessage();
-		                }
-		                if (keycode == PlayerAction.EXIT_MENU.getKey()) {
+		                } else if (keycode == PlayerAction.EXIT_MENU.getKey()) {
 		                	toggleWindow();
 		                }
 		                return super.keyUp(event, keycode);
 		            };
 		        };
 			}
+			
+			@Override
+            public void act(float delta) {
+            	super.act(delta);
+            	typeCount += delta;
+            	if (typeCount >= typingInterval) {
+            		typeCount = 0;
+            		if (typing) {
+            			typing = false;
+            			state.getPlayer().startTyping();
+            			if (state.isServer()) {
+            				HadalGame.server.sendToAllUDP(new Packets.SyncTyping(state.getPlayer().getEntityID().toString()));
+            			} else {
+            				HadalGame.client.sendUDP(new Packets.SyncTyping(state.getPlayer().getEntityID().toString()));
+            			}
+            		}
+            	}
+            }
 		};
 
 		enterMessage.setMaxLength(maxMessageLength);

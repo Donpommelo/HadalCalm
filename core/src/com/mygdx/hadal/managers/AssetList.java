@@ -12,6 +12,7 @@ public enum AssetList {
 	
 	// Player and enemy sprites.
 	PROJ_1_ATL("sprites/projectiles.atlas", TextureAtlas.class),
+	NOTIFICATION_ATL("sprites/notifications.atlas", TextureAtlas.class),
 	BOOM_1_ATL("sprites/boom.atlas", TextureAtlas.class),
 	TURRET_ATL("sprites/turret.atlas", TextureAtlas.class),
 	FISH_ATL("sprites/fish.atlas", TextureAtlas.class),

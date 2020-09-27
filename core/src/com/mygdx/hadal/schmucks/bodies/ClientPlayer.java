@@ -118,7 +118,7 @@ public class ClientPlayer extends Player {
 		}
 	}
 	
-	//most of the code here is just lifted fro mthe Player class to simulate movement actions like jumping, hovering, fastfalling and boosting
+	//most of the code here is just lifted from the Player class to simulate movement actions like jumping, hovering, fastfalling and boosting
 	private Vector2 newPosition = new Vector2();
 	private Vector2 fug = new Vector2();
 	@Override
@@ -152,7 +152,7 @@ public class ClientPlayer extends Player {
 		jumpCdCount -= delta;
 		fastFallCdCount -= delta;
 		airblastCdCount -= delta;
-		
+
 		if (jumpBuffered && jumpCdCount < 0) {
 			jumpBuffered = false;
 			jump();

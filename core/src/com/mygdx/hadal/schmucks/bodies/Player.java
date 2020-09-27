@@ -71,7 +71,7 @@ public class Player extends PhysicsSchmuck {
 	public static final float uiScale = 0.4f;
 	
 	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
-	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
+	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite, typingBubble;
 	
 	private TextureRegion reload, reloadMeter, reloadBar;
 	private Texture empty, full;
@@ -166,6 +166,9 @@ public class Player extends PhysicsSchmuck {
 	//does this player start off as a spectator. Is this player currently a spectator?
 	private boolean startSpectator, spectator;
 	
+	//is the player currently typing in chat? (yes if this float is greater that 0.0f)
+	protected float typingCdCount;
+	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
 	 * @param state: current gameState
@@ -224,6 +227,8 @@ public class Player extends PhysicsSchmuck {
 		
 		this.empty = new Texture(AssetList.HEART_EMPTY.toString());
 		this.full = new Texture(AssetList.HEART_FULL.toString());
+		typingBubble =  new Animation<TextureRegion>(PlayState.spriteAnimationSpeedSlow, Sprite.NOTIFICATIONS_CHAT.getFrames());
+		typingBubble.setPlayMode(PlayMode.LOOP_PINGPONG);
 	}
 	
 	/**
@@ -453,6 +458,7 @@ public class Player extends PhysicsSchmuck {
 		pingCdCount -= delta;
 		hitSoundCdCount -= delta;
 		hitSoundLargeCdCount -= delta;
+		typingCdCount -= delta;
 		
 		//if inputting certain actions during cooldown, an action is buffered
 		if (jumpBuffered && jumpCdCount < 0) {
@@ -859,7 +865,7 @@ public class Player extends PhysicsSchmuck {
 	                empty.getWidth(), empty.getHeight(),
 	                uiScale, uiScale, 0, 0, 0, empty.getWidth(), empty.getHeight(), false, false);
 
-	        batch.draw(full, heartX - full.getWidth() / 2 * uiScale, heartY - full.getHeight() / 2 * uiScale - (int)(full.getHeight() * (1 - hpRatio) * uiScale),
+	        batch.draw(full, heartX - full.getWidth() / 2 * uiScale, heartY - full.getHeight() / 2 * uiScale - (int) (full.getHeight() * (1 - hpRatio) * uiScale),
 	                full.getWidth() / 2, full.getHeight() / 2,
 	                full.getWidth(), full.getHeight(),
 	                uiScale, uiScale, 0, 0, (int) (full.getHeight() * (1 - hpRatio)),
@@ -871,6 +877,10 @@ public class Player extends PhysicsSchmuck {
 		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, name, 
 				getPixelPosition().x - Player.hbWidth * Player.scale / 2, 
 				getPixelPosition().y + Player.hbHeight * Player.scale / 2 + 15);
+		
+		if (typingCdCount > 0) {
+			batch.draw(typingBubble.getKeyFrame(animationTime, true), getPixelPosition().x - 25, getPixelPosition().y + Player.hbHeight * scale / 2, 50, 40);
+		}
 	}
 	
 	/**
@@ -1009,6 +1019,7 @@ public class Player extends PhysicsSchmuck {
 		//client mouse lerps towards the angle sent by server
 		mouseAngle.setAngleRad(mouseAngle.angleRad()).lerp(serverAttackAngle, 1 / 2f).angleRad();
 		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
+		typingCdCount -= delta;
 	}
 	
 	private float shortestFraction;
@@ -1083,13 +1094,7 @@ public class Player extends PhysicsSchmuck {
 
 	public void setFastFalling(boolean fastFalling) { this.fastFalling = fastFalling; }
 
-	public boolean isShooting() { return shooting; }
-
 	public void setShooting(boolean shooting) { this.shooting = shooting; }
-	
-	public float getReloadPercent() { return reloadPercent; }
-
-	public void setReloadPercent(float reloadPercent) { this.reloadPercent = reloadPercent; }
 
 	public float getChargePercent() {return chargePercent;}
 
@@ -1119,5 +1124,7 @@ public class Player extends PhysicsSchmuck {
 	
 	public void setInvisible(boolean invisible) { this.invisible = invisible; }
 
+	public void startTyping() { this.typingCdCount = 1.0f; }
+	
 	public StartPoint getStart() { return start; }
 }

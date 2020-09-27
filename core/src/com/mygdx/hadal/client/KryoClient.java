@@ -283,6 +283,19 @@ public class KryoClient {
 					}
 				}
         		
+        		else if (o instanceof Packets.SyncTyping) {
+        			final Packets.SyncTyping p = (Packets.SyncTyping) o;
+        			final ClientState cs = getClientState();
+        			if (cs != null) {
+        				HadalEntity player = cs.findEntity(p.entityID);
+        				if (player != null) {
+        					if (player instanceof Player) {
+        						((Player) player).startTyping();
+        					}
+        				}
+        			}
+        		}
+        		
         		/*
         		 * Server rejects our connection. Display msg on title screen.
         		 */
