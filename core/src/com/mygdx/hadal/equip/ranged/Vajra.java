@@ -20,8 +20,8 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class Vajra extends RangedWeapon {
 
-	private final static int clipSize = 4;
-	private final static int ammoSize = 24;
+	private final static int clipSize = 3;
+	private final static int ammoSize = 21;
 	private final static float shootCd = 0.4f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.1f;

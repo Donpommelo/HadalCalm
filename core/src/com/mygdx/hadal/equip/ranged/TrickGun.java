@@ -10,6 +10,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -26,7 +27,7 @@ public class TrickGun extends RangedWeapon {
 
 	private final static int clipSize = 5;
 	private final static int ammoSize = 30;
-	private final static float shootCd = 0.0f;
+	private final static float shootCd = 0.4f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 0.75f;
 	private final static int reloadAmount = 0;
@@ -42,7 +43,7 @@ public class TrickGun extends RangedWeapon {
 	
 	private final static float projectileSpeedAfter = 60.0f;
 
-	private boolean firstClicked = false;
+	private boolean firstClicked;
 	private Vector2 pos1 = new Vector2();
 	private Vector2 pos2 = new Vector2();
 	private Vector2 vel1 = new Vector2();
@@ -73,7 +74,9 @@ public class TrickGun extends RangedWeapon {
 		
 		//when released, fire weapon at location where mouse was pressed and keep track of location where mouse is released.
 		if (firstClicked) {
-			pos2.set(mouseLocation);
+			
+			//we use the player's mouse position rather than the weapons, b/c the weapon's mouselocation won't update during its cooldown.
+			pos2.set(((PlayerBodyData) bodyData).getPlayer().getMouse().getPixelPosition());
 			
 			float powerDiv = pos1.dst(pos2) / projectileSpeed;
 			
@@ -88,7 +91,7 @@ public class TrickGun extends RangedWeapon {
 			vel1.set(xImpulse, yImpulse);
 			
 			this.setWeaponVelo(vel1);
-			
+
 			super.execute(state, bodyData);			
 			
 			firstClicked = false;
@@ -118,7 +121,7 @@ public class TrickGun extends RangedWeapon {
 			//when hbox reaches location of mouse click, it moves towards location of mouse release
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
-				private boolean firstReached = false;
+				private boolean firstReached;
 				private Vector2 startLocation = new Vector2();
 				private float distance;
 				private Vector2 target = new Vector2();

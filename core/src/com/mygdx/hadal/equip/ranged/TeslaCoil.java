@@ -26,8 +26,8 @@ import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 public class TeslaCoil extends RangedWeapon {
 
 	private final static int clipSize = 3;
-	private final static int ammoSize = 22;
-	private final static float shootCd = 0.2f;
+	private final static int ammoSize = 27;
+	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.8f;
 	private final static int reloadAmount = 0;

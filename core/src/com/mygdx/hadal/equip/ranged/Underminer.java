@@ -18,6 +18,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
+import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.strategies.hitbox.FlashNearDeath;
 import com.mygdx.hadal.strategies.hitbox.Spread;
 import com.mygdx.hadal.utils.Constants;
@@ -50,7 +51,7 @@ public class Underminer extends RangedWeapon {
 
 	private final static Vector2 fragSize = new Vector2(36, 30);
 	private final static float fragLifespan = 2.0f;
-	private final static float fragDamage = 25.0f;
+	private final static float fragDamage = 15.0f;
 	private final static float fragKnockback = 25.0f;
 	private final static float fragSpeed = 4.0f;
 	
@@ -60,7 +61,7 @@ public class Underminer extends RangedWeapon {
 	private final static int spread = 30;
 	
 	private final static int explosionRadius = 100;
-	private final static float explosionDamage = 20.0f;
+	private final static float explosionDamage = 25.0f;
 	private final static float explosionKnockback = 18.0f;
 	
 	public Underminer(Schmuck user) {
@@ -156,6 +157,7 @@ public class Underminer extends RangedWeapon {
 												bomb.addStrategy(new DamageStandard(state, bomb, user.getBodyData(),  fragDamage, fragKnockback, DamageTypes.RANGED));
 												bomb.addStrategy(new ContactWallLoseDurability(state, bomb, user.getBodyData()));
 												bomb.addStrategy(new DieExplode(state, bomb, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
+												bomb.addStrategy(new DieSound(state, bomb, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
 												bomb.addStrategy(new FlashNearDeath(state, bomb, user.getBodyData(), 1.0f));
 												bomb.addStrategy(new Spread(state, bomb, user.getBodyData(), spread));
 											}

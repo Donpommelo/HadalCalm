@@ -16,7 +16,7 @@ public class GrenadeLauncher extends RangedWeapon {
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 0.5f;
 	private final static int reloadAmount = 1;
-	private final static float baseDamage = 10.0f;
+	private final static float baseDamage = 15.0f;
 	private final static float recoil = 2.5f;
 	private final static float knockback = 0.0f;
 	private final static float projectileSpeed = 25.0f;
@@ -24,7 +24,7 @@ public class GrenadeLauncher extends RangedWeapon {
 	private final static float lifespan = 2.5f;
 	
 	private final static int explosionRadius = 150;
-	private final static float explosionDamage = 40.0f;
+	private final static float explosionDamage = 45.0f;
 	private final static float explosionKnockback = 25.0f;
 
 	private final static Sprite weaponSprite = Sprite.MT_GRENADE;

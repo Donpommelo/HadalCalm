@@ -1,8 +1,8 @@
 {
 AMITA_CANNON: {
 	name: Amita Cannon
-	description: "Fires a spinning ring of projectiles. When the ring collides with a wall, the projectiles expand outwards."
-    descriptionLong: ""
+	description: "Fires a spinning ring of beads. When the ring collides with a wall, the beads expand outwards."
+    descriptionLong: "Bead Number: 8\nBead Damage: 7.5\n\nClip Size: 4\nAmmo Capacity: 32\nReload Time: 1.6 Seconds\nAttack Cooldown: 0.4 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -11,8 +11,8 @@ AMITA_CANNON: {
 }
 ASSAULT_BITS: {
 	name: Assault Bits
-	description: "Summon and control 3 bits. When all 3 bits are summoned, they fire a barrage of projectiles."
-    descriptionLong: ""
+	description: "Summon and control 3 bits that follow the player. When all 3 bits are summoned, they fire a barrage of projectiles."
+    descriptionLong: "Bit Laser Damage: 15\nBit Deploy Time: 1 Second\nBit Hp: 125\n\nClip Size: 40\nAmmo Capacity: 200\nReload Time: 1.25 Seconds\nAttack Cooldown: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -21,8 +21,8 @@ ASSAULT_BITS: {
 }
 BANANA: {
 	name: Banana
-	description: "Hold the fire button to charge a bouncy explosive."
-    descriptionLong: ""
+	description: "Hold and release the shoot button to fire a bouncy, exploding banana. A longer charge increases projectile velocity."
+    descriptionLong: "Banana Impact Damage: 20\nBanana Explosion Damage: 50\n\nClip Size: 3\nAmmo Capacity: 27\nReload Time: 0.6 Second per Banana\nCharge Duration: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -31,8 +31,8 @@ BANANA: {
 }
 BATTERING_RAM: {
 	name: Battering Ram
-	description: "Hold the fire button to charge a directional melee rush. User receives reduced damage during this attack."
-    descriptionLong: ""
+	description: "Hold and release the shoot button to charge a directional melee rush."
+    descriptionLong: "Impact Damage at Min Charge: 15\nImpact Damage at Max Charge: 75\nDamage Resistance During Charge: 50%\n\nCharge Duration: 0.5 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -42,7 +42,7 @@ BATTERING_RAM: {
 BEEGUN: {
 	name: Beehive
 	description: "Release a swarm of bees that home in and damage enemies."
-    descriptionLong: ""
+    descriptionLong: "Bee Damage: 6\n\nClip Size: 24\nAmmo Capacity: 96\nReload Time: 1.8 Seconds\nAttack Cooldown: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -51,8 +51,8 @@ BEEGUN: {
 }
 BOILER: {
 	name: Boiler
-	description: "Fires a short-ranged spray of particles that ignite foes."
-    descriptionLong: ""
+	description: "Fires a short-ranged spray of flame that ignites foes."
+    descriptionLong: "Projectile Damage: 4.5\nBurn Duration: 5 Seconds\nBurn Damage: 3 per Second\n\nClip Size: 90\nAmmo Capacity: 270\nReload Time: 1.5 Seconds\nAttack Cooldown: 0.04 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -61,8 +61,8 @@ BOILER: {
 }
 BOOMERANG: {
 	name: Boomerang
-	description: "Fires a projectile that returns to player."
-    descriptionLong: ""
+	description: "Fires a boomerang that returns to player."
+    descriptionLong: "Boomerang Damage: 35\n\nClip Size: 3\nAmmo Capacity: 24\nReload Time: 0.75 Second per Boomerang\nAttack Cooldown: 0.75 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -71,8 +71,8 @@ BOOMERANG: {
 }
 BOUNCING_BLADE: {
 	name: Bouncing Blades
-	description: "Fires a projectile in a straight line that bounces off of surfaces."
-    descriptionLong: ""
+	description: "Fires a spinning blade in a straight line that bounces off of surfaces."
+    descriptionLong: "Blade Damage: 28\nBlades bounce up to 7 Times\n\nClip Size: 5\nAmmo Capacity: 30\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -81,8 +81,8 @@ BOUNCING_BLADE: {
 }
 CHARGE_BEAM: {
 	name: Charge Beam
-	description: "Hold the fire button to charge a more powerful projectile and release to fire."
-    descriptionLong: ""
+	description: "Hold and release the shoot button to fire an energy beam in a straight line.  Fully charged beams are larger and pierce enemies."
+    descriptionLong: "Beam Damage at Min Charge: 18\nBeam Damage at Max Charge: 90\n\nClip Size: 4\nAmmo Capacity: 16\nReload Time: 1.3 Seconds\nCharge Duration: 0.5 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -91,8 +91,8 @@ CHARGE_BEAM: {
 }
 COLACANNON: {
 	name: Cola Cannon
-	description: "Click and drag mouse to charge. Release to fire a continuous stream of projectiles."
-    descriptionLong: ""
+	description: "Hold the shoot button and drag mouse to build charge. Release to fire a continuous stream of soda."
+    descriptionLong: "Soda Damage: 10\nSpray Interval: 0.05 Second\nSpray Duration at Min Charge: 0.5 Second\nSpray Duration at Max Charge: 2 Seconds\n\nClip Size: 1\nAmmo Capacity: 13\nReload Time: 1 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -101,8 +101,8 @@ COLACANNON: {
 }
 CR4PCANNON: {
 	name: Cr4p Cannon
-	description: "Fires a shotgun-burst of short-ranged projectiles."
-    descriptionLong: ""
+	description: "Fires a short-ranged shotgun-burst of scrap metal."
+    descriptionLong: "Scrap Number: 6\nScrap Damage: 15\n\nClip Size: 2\nAmmo Capacity: 22\nReload Time: 1.2 Seconds\nAttack Cooldown: 0.15 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -111,8 +111,8 @@ CR4PCANNON: {
 }
 DEEP_SEA_SMELTER: {
 	name: Deep Sea Smelter
-	description: "Ammoless weapon that can overheat if used excessively. Overheating ignites the user and temporarily disables the weapon."
-    descriptionLong: ""
+	description: "Fires a pair of molten slag pieces. Overheats when used excessively, igniting the user and temporarily disabling the weapon."
+    descriptionLong: "Slag Damage: 15\n\nThis weapon is ammoless\nAttack Cooldown: 0.12 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -120,8 +120,8 @@ DEEP_SEA_SMELTER: {
 }
 DIAMOND_CUTTER: {
 	name: Diamond Cutter
-	description: "Extends a spinning blade."
-    descriptionLong: ""
+	description: "Hold the shoot button to extend a spinning blade that continually damages enemies."
+    descriptionLong: "Blade Damage: 360 per Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -129,8 +129,8 @@ DIAMOND_CUTTER: {
 }
 DUELING_CORKGUN: {
 	name: Dueling Corkgun
-	description: "Fires a projectile that knocks enemies into walls."
-    descriptionLong: ""
+	description: "Fires a fast moving cork. This weapon deals additional damage when knocking enemies into walls or other enemies."
+    descriptionLong: "Cork Damage: 20\n\nClip Size: 1\nAmmo Capacity: 36\nReload Time: 0.9 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -139,15 +139,15 @@ DUELING_CORKGUN: {
 FISTICUFFS: {
 	name: Fisticuffs
 	description: "punch"
-    descriptionLong: ""
+    descriptionLong: "Punch Damage: 28\nAttack Cooldown: 0.08 Second"
 	tags: [
 		ARMORY,
 	]
 }
 FLOUNDERBUSS: {
 	name: Flounderbuss
-	description: "Charge and release to fire a spray of projectiles."
-    descriptionLong: ""
+	description: "Hold and release the shoot button to fire a burst of fish."
+    descriptionLong: "Fish Damage: 15\nFish Number at Min Charge: 1\nFish Number at Max Charge: 12\n\nClip Size: 1\nAmmo Capacity: 15\nReload Time: 1.0 Second\nCharge Duration: 0.5 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -156,8 +156,8 @@ FLOUNDERBUSS: {
 }
 FUGUN: {
 	name: Fugun
-	description: "Fires projectiles that create a damaging poison field."
-    descriptionLong: ""
+	description: "Fires balloons that create damaging poison fields."
+    descriptionLong: "Balloon Damage: 30\nPoison Damage: 42 per Second\nPoison Duration: 4 Seconds\n\nClip Size: 2\nAmmo Capacity: 14\nReload Time: 1.1 Seconds per Balloon\nAttack Cooldown: 0.2 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -166,8 +166,8 @@ FUGUN: {
 }
 GRENADE_LAUNCHER: {
 	name: Grenade Launcher
-	description: "Fires explosive projectiles that are affected by gravity."
-    descriptionLong: ""
+	description: "Fires explosive grenades that are affected by gravity."
+    descriptionLong: "Grenade Impact Damage: 15\nGrenade Explosion Damage: 45\n\nClip Size: 6\nAmmo Capacity: 28\nReload Time: 0.25 Second per Grenade\nAttack Cooldown: 0.25 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -176,8 +176,8 @@ GRENADE_LAUNCHER: {
 }
 HEXENHOWITZER: {
 	name: Hexenhowitzer
-	description: "Damage with this ammoless weapon builds charge. When fully charged, the rate of fire and spread dramatically increase temporarily."
-    descriptionLong: ""
+	description: "Fires magic bolts that build charge when they inflict damage. When fully charged, the rate of fire and spread dramatically increase temporarily."
+    descriptionLong: "Bolt Damage: 22\n\nThis weapon is ammoless\nAttack Cooldown: 0.4 Second\n(When charged: 0.07 Second for 32 shots)"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -186,8 +186,8 @@ HEXENHOWITZER: {
 }
 ICEBERG: {
 	name: Iceberg
-	description: "Fires a projectile that slides across flat surfaces."
-    descriptionLong: ""
+	description: "Fires ice pieces that slide across flat surfaces."
+    descriptionLong: "Ice Damage: 45\n\nClip Size: 4\nAmmo Capacity: 25\nReload Time: 1 Second\nAttack Cooldown: 0.15 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -196,8 +196,8 @@ ICEBERG: {
 }
 IRON_BALL_LAUNCHER: {
 	name: Iron Ball Launcher
-	description: "Fires a singular, heavy projectile." 
-    descriptionLong: ""
+	description: "Fires a singular, heavy cannonball." 
+    descriptionLong: "Cannonball damage: 80\n\nClip Size: 1\nAmmo Capacity: 20\nReload Time: 0.9 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -206,8 +206,8 @@ IRON_BALL_LAUNCHER: {
 }
 KAMABOKANNON: {
 	name: Kamabokannon
-	description: "Charge and fire a powerful but difficult to control spray of projectiles."
-    descriptionLong: ""
+	description: "Charge and fire a powerful but difficult to control spray of kamaboko."
+    descriptionLong: "Kamaboko Damage: 13\nWindup Duration: 0.3 Second\n\nClip Size: 100\nAmmo Capacity: 500\nReload Time: 1.8 Seconds\nAttack Cooldown: 0.08 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -216,8 +216,8 @@ KAMABOKANNON: {
 }
 LASER_GUIDED_ROCKET: {
 	name: Laser-Guided Rocket
-	description: "Fires a missile that homes in towards your mouse."
-    descriptionLong: ""
+	description: "Fires a rocket that homes in towards your mouse."
+    descriptionLong: "Rocket Impact damage: 20\nRocket Explosion Damage: 40\n\nClip Size: 1\nAmmo Capacity: 24\nReload Time: 1 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -226,8 +226,8 @@ LASER_GUIDED_ROCKET: {
 }
 LASER_RIFLE: {
 	name: Laser Rifle
-	description: "Fires a straight, piercing beam through enemies."
-    descriptionLong: ""
+	description: "Fires a straight, piercing laser."
+    descriptionLong: "Laser Damage: 22\n\nClip Size: 8\nAmmo Capacity: 56\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.5 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -237,7 +237,7 @@ LASER_RIFLE: {
 LOVE_BOW: {
 	name: Love Bow
 	description: "Charge and fire arrows. In co-op mode, these projectiles heal allies."
-    descriptionLong: ""
+    descriptionLong: "Arrow Damage at Min Charge: 25\nArrow Damage at Max Charge: 60\nArrow Heal on Allies: 12\n\nClip Size: 1\nAmmo Capacity: 50\nReload Time: 1 Second\nCharge Duration: 0.25 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -247,7 +247,7 @@ LOVE_BOW: {
 MACHINEGUN: {
 	name: Machinegun
 	description: "A standard weapon with a high rate of fire."
-    descriptionLong: ""
+    descriptionLong: "Bullet Damage: 15\n\nClip Size: 22\nAmmo Capacity: 112\nReload Time: 1.5 Second\nAttack Cooldown: 0.08 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -256,8 +256,8 @@ MACHINEGUN: {
 }
 MAELSTROM: {
 	name: Maelstrom
-	description: "Fire a projectile that expands as it travels."
-    descriptionLong: ""
+	description: "Fire a tornado that expands and deals continuous damage as it travels."
+    descriptionLong: "Tornado Damage: 200 per Second\n\nClip Size: 3\nAmmo Capacity: 18\nReload Time: 1.5 Second\nAttack Cooldown: 0.75 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -267,7 +267,7 @@ MAELSTROM: {
 MINIGUN: {
 	name: Minigun
 	description: "Heavy firepower but requires charging. User is slowed when firing this weapon."
-    descriptionLong: ""
+    descriptionLong: "Bullet Damage: 18\nWindup Duration: 0.5 Second\n\nClip Size: 200\nAmmo Capacity: 600\nReload Time: 2 Second\nAttack Cooldown: 0.07 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -277,7 +277,7 @@ MINIGUN: {
 MORAYGUN: {
 	name: Moraygun
 	description: "Shoots a stream of projectiles that move in an unusual pattern."
-    descriptionLong: ""
+    descriptionLong: "Projectile Number: 6\nProjectile Damage: 15\n\nClip Size: 7\nAmmo Capacity: 42\nReload Time: 1 Second\nAttack Cooldown: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -286,8 +286,8 @@ MORAYGUN: {
 }
 MORNING_STAR: {
 	name: Morning Star
-	description: "Create a melee hitbox at the end of a chain. Chain detaches when unequipped."
-    descriptionLong: ""
+	description: "Create a spiked flail at the end of a chain. Chain detaches when unequipped."
+    descriptionLong: "Flail Damage: 50"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -296,8 +296,8 @@ MORNING_STAR: {
 }
 NEMATOCYDEARM: {
 	name: Nemato Sidearm
-	description: "Fires projectiles that lodge into walls."
-    descriptionLong: ""
+	description: "Fires spines that lodge into walls."
+    descriptionLong: "Spine Damage: 35\nSpine Duration: 12 Seconds\n\nClip Size: 7\nAmmo Capacity: 49\nReload Time: 0.75 Second\nAttack Cooldown: 0.1 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -314,8 +314,8 @@ NOTHING: {
 }
 PEARL_REVOLVER: {
 	name: Pearl Revolver
-	description: "Fires quick projectiles. Rapidly tap to fire faster."
-    descriptionLong: ""
+	description: "Fires pearls quickly in a straight line. Rapidly tap the shoot button to fire faster."
+    descriptionLong: "Pearl Damage: 30\n\nClip Size: 6\nAmmo Capacity: 48\nReload Time: 0.9 Second\nAttack Cooldown: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -324,8 +324,8 @@ PEARL_REVOLVER: {
 }
 PEPPERGRINDER: {
 	name: Peppergrinder
-	description: "Fires a sweeping spray of small projectiles."
-    descriptionLong: ""
+	description: "Fires a sweeping spray of lasers."
+    descriptionLong: "Laser Damage: 15\n\nClip Size: 60\nAmmo Capacity: 360\nReload Time: 1.5 Seconds\nAttack Cooldown: 0.06 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -334,8 +334,8 @@ PEPPERGRINDER: {
 }
 POPPER: {
 	name: Popper
-	description: "Fires a projectile that explodes in a shower of confetti."
-    descriptionLong: ""
+	description: "Fires a popper that explodes at short range into a shower of confetti."
+    descriptionLong: "Popper Damage: 55\nConfetti Damage: 18\nConfetti Number: 8\n\nClip Size: 1\nAmmo Capacity: 22\nReload Time: 0.75 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -345,7 +345,7 @@ POPPER: {
 RETICLE_STRIKE: {
 	name: Reticle Strike
 	description: "Create a line of exploding reticles."
-    descriptionLong: ""
+    descriptionLong: "Explosion Damage: 40\nExplosion Delay 0.5 Second\n\nClip Size: 1\nAmmo Capacity: 25\nReload Time: 0.9 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -354,8 +354,8 @@ RETICLE_STRIKE: {
 }
 RIFTSPLITTER: {
 	name: Riftsplitter
-	description: "Fire a short-ranged shockwave."
-    descriptionLong: ""
+	description: "Fire a short-ranged blade-beam that creates several shockwave."
+    descriptionLong: "Blade-Beam Damage: 20\nShockwave damage: 15\nAttack Cooldown: 0.5 Second\nAttack Delay: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -365,7 +365,7 @@ RIFTSPLITTER: {
 SCRAPRIPPER: {
 	name: Scrapripper
 	description: "Perform a close-range, melee swing."
-    descriptionLong: ""
+    descriptionLong: "Melee Damage: 60\nAttack Cooldown: 0.5 Second"
 	tags: [
 		ARMORY,
         RANDOM_POOL,
@@ -375,7 +375,7 @@ SCRAPRIPPER: {
 SCREECHER: {
 	name: Screecher
 	description: "Fires invisible, instantaneous sonic waves."
-    descriptionLong: ""
+    descriptionLong: "Wave Damage: 8\n\nClip Size: 40\nAmmo Capacity: 160\nReload Time: 1.2 Seconds\nAttack Cooldown: 0.1 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -384,8 +384,8 @@ SCREECHER: {
 }
 SLODGEGUN: {
 	name: Slodgegun
-	description: "Fire a spray of projectiles that slow targets."
-    descriptionLong: ""
+	description: "Fire a spray of slodge that slows the movement speed of enemies."
+    descriptionLong: "Slodge Damage: 8\nSpray Duration: 0.8 Second\nSpray Interval: 0.05 Second\nSlow Duration: 4 Seconds\n\nClip Size: 1\nAmmo Capacity: 25\nReload Time: 1.2 Seconds"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -394,8 +394,8 @@ SLODGEGUN: {
 }
 SNIPER_RIFLE: {
 	name: Sniper Rifle
-	description: "Long-Ranged weapon that can headshot."
-    descriptionLong: ""
+	description: "Long-ranged weapon that can headshot."
+    descriptionLong: "Bullet Damage: 60\nBonus Headshot Damage: +100%\n\nClip Size: 1\nAmmo Capacity: 21\nReload Time: 1.3 Seconds"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -404,8 +404,8 @@ SNIPER_RIFLE: {
 }
 SPEARGUN: {
 	name: Speargun
-	description: "A simple weapon that fires arcing projectiles."
-    descriptionLong: ""
+	description: "A simple weapon that fires arcing harpoons."
+    descriptionLong: "Harpoon Damage: 40\n\nClip Size: 8\nAmmo Capacity: 88\nReload Time: 1.5 Seconds\nAttack Cooldown: 0.2 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -414,8 +414,8 @@ SPEARGUN: {
 }
 STICKY_BOMB_LAUNCHER: {
 	name: "Stickybomb-Launcher"
-	description: "Fires projectiles that stick to enemies and walls. Press the Reload button to detonate all active bombs."
-    descriptionLong: ""
+	description: "Fires bombs that stick to enemies and walls. Press the Reload button to detonate all active bombs."
+    descriptionLong: "Explosion Damage: 55\nThis weapon does not manually reload\n\nClip Size: 6\nAmmo Capacity: 36\nReload Time: 1.25 Seconds\nAttack Cooldown: 0.25 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -424,8 +424,8 @@ STICKY_BOMB_LAUNCHER: {
 }
 STUTTERGUN: {
 	name: Stuttergun
-	description: "Fires a burst of projectiles."
-    descriptionLong: ""
+	description: "Fires a burst of lasers."
+    descriptionLong: "Laser Damage: 18\nLaser Number: 5\n\nClip Size: 5\nAmmo Capacity: 35\nReload Time: 1 Second\nAttack Cooldown: 0.6 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -434,8 +434,8 @@ STUTTERGUN: {
 }
 TESLA_COIL: {
 	name: Tesla Coil
-	description: "Fire pylons that connect to neighbors, forming an electrifying wall."
-    descriptionLong: ""
+	description: "Fire pylons that connect to neighboring pylons, forming an electrifying wall."
+    descriptionLong: "Pylon Lifespan: 4.5 Seconds\nShock Damage: 40\nShock Interval: 1 Second\n\nClip Size: 3\nAmmo Capacity: 27\nReload Time: 1.8 Seconds\nAttack Cooldown: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -444,8 +444,8 @@ TESLA_COIL: {
 }
 TORPEDO_LAUNCHER: {
 	name: Torpedo Launcher
-	description: "Fires explosive projectiles in a straight line."
-    descriptionLong: ""
+	description: "Fires explosive torpedos in a straight line."
+    descriptionLong: "Torpedo Impact Damage: 15\nTorpedo Explosion Damage: 40\n\nClip Size: 4\nAmmo Capacity: 24\nReload Time: 0.7 Second per Torpedo\nAttack Cooldown: 0.25 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -454,8 +454,8 @@ TORPEDO_LAUNCHER: {
 }
 TRICK_GUN: {
 	name: Trick Gun
-	description: "Click, drag and release to fire a projectile that changes its trajectory."
-    descriptionLong: ""
+	description: "Hold, drag and release the shoot button to fire a projectile that changes its trajectory midflight."
+    descriptionLong: "Projectile Damage: 60\n\nClip Size: 5\nAmmo Capacity: 30\nReload Time: 0.75 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -464,8 +464,8 @@ TRICK_GUN: {
 }
 UNDERMINER: {
 	name: Underminer
-	description: "Drills through walls and creates a radial barrage of projectiles."
-    descriptionLong: ""
+	description: "Fires drills that burrow into walls and creates a radial barrage of explosives mini-drills."
+    descriptionLong: "Drill Damage: 40\nMini-Drill Impact Damage: 15\nMini-Drill Explosion Damage: 25\n\nClip Size: 1\nAmmo Capacity: 22\nReload Time: 0.5 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -474,8 +474,8 @@ UNDERMINER: {
 }
 WAVE_BEAM: {
 	name: Wave Beam
-	description: "Fires a pair of wavy projectiles."
-    descriptionLong: ""
+	description: "Fires a pair of wavy lasers."
+    descriptionLong: "Laser Damage: 35\n\nClip Size: 5\nAmmo Capacity: 25\nReload Time: 1.5 Seconds\nAttack Cooldown: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -484,8 +484,8 @@ WAVE_BEAM: {
 }
 XBOMBER: {
 	name: X-Bomber
-	description: "Fires projectiles that explodes in an x-shape."
-    descriptionLong: ""
+	description: "Fires a bomb that explodes in a pair of x-shaped lasers."
+    descriptionLong: "Bomb Impact Damage: 20\nX-Laser Damage: 24\n\nClip Size: 2\nAmmo Capacity: 26\nReload Time: 1.2 Seconds\nAttack Cooldown: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -494,8 +494,8 @@ XBOMBER: {
 }
 VAJRA: {
 	name: Vajra
-	description: "Fire a projectile that releases chain lightning upon contact."
-    descriptionLong: ""
+	description: "Fire a vajra that releases chain lightning upon contact."
+    descriptionLong: "Vajra Damage: 20\nLightning Damage: 25\nLightning Chains: 6 Enemies\n\nClip Size: 3\nAmmo Capacity: 21\nReload Time: 1.1 Seconds\nAttack Cooldown: 0.4 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
