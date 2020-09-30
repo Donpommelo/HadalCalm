@@ -6,7 +6,7 @@ filter: Linear,Linear
 repeat: none
 arm
   rotate: false
-  xy: 1646, 1768
+  xy: 824, 538
   size: 346, 150
   orig: 346, 150
   offset: 0, 0

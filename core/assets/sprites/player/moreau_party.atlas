@@ -97,7 +97,7 @@ gem_inactive
   index: -1
 head
   rotate: false
-  xy: 2, 2
+  xy: 1646, 1642
   size: 228, 276
   orig: 228, 276
   offset: 0, 0

@@ -72,7 +72,6 @@ public class Shocked extends Status {
 	 * This is run to activate the next jump of the chain lightning
 	 */
 	private Vector2 entityLocation = new Vector2();
-	private Vector2 homeLocation = new Vector2();
 	private void chain() {
 		if (chainAmount > 0) {
 			SoundEffect.ZAP.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);

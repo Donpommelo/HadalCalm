@@ -1,4 +1,20 @@
 {
+MAXIMILLIAN: {
+	name: MAXIMILLIAN
+	description: ""
+    descriptionLong: ""
+	tags: [
+       DORMITORY
+    ]
+}
+MOREAU: {
+	name: MOREAU
+	description: ""
+    descriptionLong: "Moreau used to work in a warehouse as the lead box-counter."
+	tags: [
+       DORMITORY
+    ]
+}
 TAKANORI: {
 	name: TAKANORI
 	description: ""
@@ -15,18 +31,18 @@ TELEMACHUS: {
        DORMITORY
     ]
 }
-MOREAU: {
-	name: MOREAU
-	description: ""
-    descriptionLong: "Moreau used to work in a warehouse as the lead box-counter."
-	tags: [
-       DORMITORY
-    ]
-}
 MOREAU_FESTIVE: {
 	name: MOREAU_FESTIVE
 	description: ""
     descriptionLong: "Moreau takes Christmas very seriously."
+	tags: [
+       DORMITORY
+    ]
+}
+MOREAU_PARTY: {
+	name: MOREAU_PARTY
+	description: ""
+    descriptionLong: ""
 	tags: [
        DORMITORY
     ]

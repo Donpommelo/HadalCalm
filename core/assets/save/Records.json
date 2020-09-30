@@ -261,7 +261,9 @@ unlockCharacter: {
 	TAKANORI: true
 	TELEMACHUS: true
 	MOREAU_FESTIVE: true
+	MOREAU_PARTY: true
 	MOREAU: true
+	MAXIMILLIAN: true
 }
 unlockLevel: {
 	class: java.util.HashMap

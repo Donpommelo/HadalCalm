@@ -14,10 +14,12 @@ import com.mygdx.hadal.states.PlayState;
  */
 public enum UnlockCharacter {
 
+	MAXIMILLIAN(Sprite.SpriteType.MAXIMILLIAN),
 	MOREAU(Sprite.SpriteType.MOREAU),
 	TELEMACHUS(Sprite.SpriteType.TELEMACHUS),
 	TAKANORI(Sprite.SpriteType.TAKANORI),
-	MOREAU_FESTIVE(Sprite.SpriteType.MOREAU_FESTIVE)
+	MOREAU_FESTIVE(Sprite.SpriteType.MOREAU_FESTIVE),
+	MOREAU_PARTY(Sprite.SpriteType.MOREAU_PARTY)
 	;
 	
 	private Sprite.SpriteType sprite;

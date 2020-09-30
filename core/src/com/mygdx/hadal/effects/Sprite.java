@@ -186,6 +186,14 @@ public enum Sprite {
 	CLEAR_CIRCLE_ALERT(SpriteType.NOTIFICATIONS, "clear_circle_alert"),
 	CLEAR_CIRCLE_EGGPLANT(SpriteType.NOTIFICATIONS, "clear_circle_eggplant"),
 
+	MAXIMILLIAN_RUN(SpriteType.MAXIMILLIAN, "body_run"),
+	MAXIMILLIAN_STILL(SpriteType.MAXIMILLIAN, "body_stand"),
+	MAXIMILLIAN_BACK(SpriteType.MAXIMILLIAN, "body_background"),
+	MAXIMILLIAN_HEAD(SpriteType.MAXIMILLIAN, "head"),
+	MAXIMILLIAN_ARM(SpriteType.MAXIMILLIAN, "arm"),
+	MAXIMILLIAN_GEM_ON(SpriteType.MAXIMILLIAN, "gem_active"),
+	MAXIMILLIAN_GEM_OFF(SpriteType.MAXIMILLIAN, "gem_inactive"),
+	
 	MOREAU_RUN(SpriteType.MOREAU, "body_run"),
 	MOREAU_STILL(SpriteType.MOREAU, "body_stand"),
 	MOREAU_BACK(SpriteType.MOREAU, "body_background"),
@@ -217,6 +225,14 @@ public enum Sprite {
 	MOREAU_FESTIVE_ARM(SpriteType.MOREAU_FESTIVE, "arm"),
 	MOREAU_FESTIVE_GEM_ON(SpriteType.MOREAU_FESTIVE, "gem_active"),
 	MOREAU_FESTIVE_GEM_OFF(SpriteType.MOREAU_FESTIVE, "gem_inactive"),
+	
+	MOREAU_PARTY_RUN(SpriteType.MOREAU_PARTY, "body_run"),
+	MOREAU_PARTY_STILL(SpriteType.MOREAU_PARTY, "body_stand"),
+	MOREAU_PARTY_BACK(SpriteType.MOREAU_PARTY, "body_background"),
+	MOREAU_PARTY_HEAD(SpriteType.MOREAU_PARTY, "head"),
+	MOREAU_PARTY_ARM(SpriteType.MOREAU_PARTY, "arm"),
+	MOREAU_PARTY_GEM_ON(SpriteType.MOREAU_PARTY, "gem_active"),
+	MOREAU_PARTY_GEM_OFF(SpriteType.MOREAU_PARTY, "gem_inactive"),
 	
 	TELEMACHUS_POINT(SpriteType.TELEMACHUS_POINT, null),
 	
@@ -304,6 +320,8 @@ public enum Sprite {
 			return HadalGame.assetManager.get(AssetList.UI_ATL.toString());
 		case NOTIFICATIONS:
 			return HadalGame.assetManager.get(AssetList.NOTIFICATION_ATL.toString());
+		case MAXIMILLIAN:
+			return HadalGame.assetManager.get(AssetList.PLAYER_MAXIMILLIAN_ATL.toString());
 		case MOREAU:
 			return HadalGame.assetManager.get(AssetList.PLAYER_MOREAU_ATL.toString());
 		case TAKANORI:
@@ -312,6 +330,8 @@ public enum Sprite {
 			return HadalGame.assetManager.get(AssetList.PLAYER_TELE_ATL.toString());
 		case MOREAU_FESTIVE:
 			return HadalGame.assetManager.get(AssetList.PLAYER_MOREAU_FESTIVE_ATL.toString());
+		case MOREAU_PARTY:
+			return HadalGame.assetManager.get(AssetList.PLAYER_MOREAU_PARTY_ATL.toString());
 		case KAMABOKO:
 			return HadalGame.assetManager.get(AssetList.KAMABOKO_ATL.toString());
 		case KAMABOKO_CRAWL:
@@ -334,6 +354,7 @@ public enum Sprite {
 	 */
 	public static Sprite getCharacterSprites(SpriteType character, String part) {
 		for (Sprite s: Sprite.values() ) {
+			
 			if (s.type.equals(character) && s.spriteId.equals(part)) {
 				return s;
 			}
@@ -364,9 +385,11 @@ public enum Sprite {
 		DRONE,
 		TELEMACHUS_POINT,
 		
+		MAXIMILLIAN,
 		MOREAU,
 		TAKANORI,
 		TELEMACHUS,
-		MOREAU_FESTIVE
+		MOREAU_FESTIVE,
+		MOREAU_PARTY
 	}
 }
