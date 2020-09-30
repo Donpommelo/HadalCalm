@@ -260,10 +260,10 @@ unlockCharacter: {
 	class: java.util.HashMap
 	TAKANORI: true
 	TELEMACHUS: true
-	MOREAU_FESTIVE: true
 	MOREAU_PARTY: true
-	MOREAU: true
 	MAXIMILLIAN: true
+	MOREAU_FESTIVE: true
+	MOREAU: true
 }
 unlockLevel: {
 	class: java.util.HashMap

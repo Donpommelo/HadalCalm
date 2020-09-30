@@ -79,6 +79,7 @@ public enum Sprite {
 	STAR_BLUE(SpriteType.PROJECTILE, "blue_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
 	STAR_PURPLE(SpriteType.PROJECTILE, "purple_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
 	STAR_RED(SpriteType.PROJECTILE, "red_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
+	STAR_WHITE(SpriteType.PROJECTILE, "white_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
 	STAR_YELLOW(SpriteType.PROJECTILE, "yellow_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
 	STICKYBOMB(SpriteType.PROJECTILE, "sticky"),
 	TORPEDO(SpriteType.PROJECTILE, "torpedo"),
@@ -238,8 +239,6 @@ public enum Sprite {
 	
 	//Misc stuff from totlc
 	IMPACT(SpriteType.IMPACT, "impact"),
-	EXCLAMATION(SpriteType.EXCLAMATION, "exclamation", PlayMode.NORMAL, PlayState.spriteAnimationSpeedSlow),
-	STAR(SpriteType.STAR, "starshot"),
 	;
 	
 	//this represents the atlas that we should read the sprite off of.
@@ -312,10 +311,6 @@ public enum Sprite {
 			return HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
 		case IMPACT:
 			return HadalGame.assetManager.get(AssetList.IMPACT_ATLAS.toString());
-		case EXCLAMATION:
-			return HadalGame.assetManager.get(AssetList.EXCLAMATION_ATLAS.toString());
-		case STAR:
-			return HadalGame.assetManager.get(AssetList.STAR_SHOT_ATLAS.toString());
 		case UI:
 			return HadalGame.assetManager.get(AssetList.UI_ATL.toString());
 		case NOTIFICATIONS:
@@ -375,8 +370,6 @@ public enum Sprite {
 		FISH,
 		TURRET,
 		IMPACT,
-		EXCLAMATION,
-		STAR,
 		UI,
 		NOTIFICATIONS,
 		KAMABOKO,

@@ -9,7 +9,6 @@ pvpMode: 1
 artifactSlots: 4
 portNumber: 11100
 hitsoundType: 1
-fullscreen: true
 vsync: true
 randomNameAlliteration: true
 consoleEnabled: true

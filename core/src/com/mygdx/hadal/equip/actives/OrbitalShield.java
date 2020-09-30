@@ -23,7 +23,8 @@ public class OrbitalShield extends ActiveItem {
 	private final static float usedelay = 0.0f;
 	private final static float maxCharge = 9.0f;
 	
-	private static final Vector2 projSize = new Vector2(50, 50);
+	private static final Vector2 projSize = new Vector2(25, 25);
+	private static final Vector2 spriteSize = new Vector2(40, 40);
 
 	private static final float projDamage= 20.0f;
 	private static final float projKnockback= 25.0f;
@@ -46,7 +47,8 @@ public class OrbitalShield extends ActiveItem {
 	}
 	
 	public Hitbox createOrbital(PlayState state, PlayerBodyData user, float startAngle) {
-		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projSize, projLifespan, new Vector2(), user.getPlayer().getHitboxfilter(), true, true, user.getPlayer(), Sprite.STAR);
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projSize, projLifespan, new Vector2(), user.getPlayer().getHitboxfilter(), true, true, user.getPlayer(), Sprite.STAR_WHITE);
+		hbox.setSpriteSize(spriteSize);
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));

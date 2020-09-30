@@ -48,9 +48,7 @@ public enum AssetList {
     BLACK("black.png", Texture.class),
 	
 	//misc stuff from totlc
-	EXCLAMATION_ATLAS("particles/totlc/exclamation_mark.atlas", TextureAtlas.class),
 	IMPACT_ATLAS("particles/totlc/impact.atlas", TextureAtlas.class),
-	STAR_SHOT_ATLAS("particles/totlc/star_shot.atlas", TextureAtlas.class),
 	
 	;
 	//Enum constructor and methods.
