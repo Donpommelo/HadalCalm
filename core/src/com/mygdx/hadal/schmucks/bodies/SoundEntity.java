@@ -164,12 +164,14 @@ public class SoundEntity extends HadalEntity {
 	 * For sounds that are tick synced, send over location and volume to clients as well as whether it is on or not
 	 */
 	private Vector2 newPos = new Vector2();
+	private Vector2 attachedLocation = new Vector2();
 	@Override
 	public void onServerSync() {
 		if (sync.equals(soundSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
-					newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
+					attachedLocation.set(attachedEntity.getPixelPosition());
+					newPos.set(attachedLocation.x, attachedLocation.y);
 					state.getSyncPackets().add(new Packets.SyncSound(entityID.toString(), newPos, volume, on, entityAge, state.getTimer()));
 				}
 			}

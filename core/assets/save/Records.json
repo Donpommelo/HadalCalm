@@ -37,13 +37,13 @@ flags: {
 lastIp: ""
 hiScores: {
 	class: java.util.HashMap
-	ARENA_LAGAN: 8
-	ARENA_HORIZON: 0
-	ARENA_WARP: 0
-	ARENA_FLOTSAM: 0
+	ARENA_LAGAN: 88
+	ARENA_HORIZON: 7
+	ARENA_WARP: 29
+	ARENA_FLOTSAM: 14
 	ARENA_PILE: 7
-	ARENA_WETWORKS: 83
-	ARENA_ZIGGURAT: 0
+	ARENA_WETWORKS: 191
+	ARENA_ZIGGURAT: 49
 }
 unlockEquip: {
 	class: java.util.HashMap
@@ -265,7 +265,7 @@ unlockCharacter: {
 }
 unlockLevel: {
 	class: java.util.HashMap
-	NOISELESSSEA4: false
+	NOISELESSSEA4: true
 	PLENUMCHAMBERTURBINE: false
 	ARENA_WETWORKS: false
 	DM_SAWMILL: false

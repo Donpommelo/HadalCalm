@@ -105,13 +105,15 @@ public class Ragdoll extends HadalEntity {
 		}
 	}
 	
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		
 		if (ragdollSprite != null) {
+			entityLocation.set(getPixelPosition());
 			batch.draw(ragdollSprite, 
-					getPixelPosition().x - size.x / 2, 
-					getPixelPosition().y - size.y / 2, 
+					entityLocation.x - size.x / 2, 
+					entityLocation.y - size.y / 2, 
 					size.x / 2, size.y / 2,
 					size.x, size.y, 1, 1, 
 					(float) Math.toDegrees(getAngle()));

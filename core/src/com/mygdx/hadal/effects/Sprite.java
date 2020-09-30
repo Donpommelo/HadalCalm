@@ -182,7 +182,9 @@ public enum Sprite {
 	NOTIFICATIONS_CLEAR_CIRCLE(SpriteType.NOTIFICATIONS, "clear_circle"),
 	NOTIFICATIONS_DIRECTIONAL_ARROW(SpriteType.NOTIFICATIONS, "arrow_directional"),
 	NOTIFICATIONS_ALERT(SpriteType.NOTIFICATIONS, "alert_red"),
-	NOTIFICATIONS_ALERT_PING(SpriteType.NOTIFICATIONS, "arrow_ping_red", PlayMode.LOOP_PINGPONG, PlayState.spriteAnimationSpeedSlow),
+	NOTIFICATIONS_ALERT_PING(SpriteType.NOTIFICATIONS, "arrow_ping_red", PlayMode.LOOP_PINGPONG, PlayState.spriteAnimationSpeed),
+	CLEAR_CIRCLE_ALERT(SpriteType.NOTIFICATIONS, "clear_circle_alert"),
+	CLEAR_CIRCLE_EGGPLANT(SpriteType.NOTIFICATIONS, "clear_circle_eggplant"),
 
 	MOREAU_RUN(SpriteType.MOREAU, "body_run"),
 	MOREAU_STILL(SpriteType.MOREAU, "body_stand"),

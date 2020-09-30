@@ -73,6 +73,7 @@ public class DroneBit extends EnemySwimming {
 	@Override
 	public void acquireTarget() {}
 	
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		boolean flip = true;
@@ -81,17 +82,18 @@ public class DroneBit extends EnemySwimming {
 			flip = false;
 		}
 		
+		entityLocation.set(getPixelPosition());
 		batch.draw(armBackSprite, 
-				(flip ? size.x : 0) + getPixelPosition().x - size.x / 2, 
-				getPixelPosition().y - size.y / 2, 
+				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
+				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, 
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
 				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
 		
 		batch.draw((TextureRegion) eyeSprite.getKeyFrame(animationTime, false), 
-				(flip ? size.x : 0) + getPixelPosition().x - size.x / 2, 
-				getPixelPosition().y - size.y / 2, 
+				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
+				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, 
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
@@ -100,8 +102,8 @@ public class DroneBit extends EnemySwimming {
 		super.render(batch);
 		
 		batch.draw(armFrontSprite, 
-				(flip ? size.x : 0) + getPixelPosition().x - size.x / 2, 
-				getPixelPosition().y - size.y / 2, 
+				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
+				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, 
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 

@@ -139,10 +139,6 @@ public class PlayState extends GameState {
 	//are the spectator bounds distinct from the camera bounds?
 	private boolean spectatorBounded;
 	
-	//If there is an objective target that has a display if offscreen, this is that entity.
-	private HadalEntity objectiveTarget;
-	private boolean displayObjective;
-	
 	//do players have infinite lives in this map?
 	private boolean unlimitedLife;
 	
@@ -1332,6 +1328,8 @@ public class PlayState extends GameState {
 	
 	public UIHub getUiHub() { return uiHub; }
 	
+	public UIObjective getUiObjective() { return uiObjective; }
+
 	public PositionDummy getDummyPoint(String id) {	return dummyPoints.get(id); }
 	
 	public void addDummyPoint(PositionDummy dummy, String id) {	dummyPoints.put(id, dummy); }
@@ -1346,8 +1344,6 @@ public class PlayState extends GameState {
 
 	public void setSpectatorBounded(boolean spectatorBounded) { this.spectatorBounded = spectatorBounded; }
 
-	public HadalEntity getObjectiveTarget() { return objectiveTarget; }
-	
 	public MouseTracker getMouse() { return mouse; }
 
 	public InputProcessor getController() { return controller; }
@@ -1359,12 +1355,6 @@ public class PlayState extends GameState {
 	public ScoreWindow getScoreWindow() { return scoreWindow; }	
 	
 	public DialogBox getDialogBox() { return dialogBox; }
-	
-	public void setObjectiveTarget(HadalEntity objectiveTarget) { this.objectiveTarget = objectiveTarget; }
-	
-	public boolean isDisplayObjective() { return displayObjective; }
-
-	public void setDisplayObjective(boolean displayObjective) { this.displayObjective = displayObjective; }
 
 	public void setZoom(float zoom) { this.zoomDesired = zoom; }
 

@@ -210,6 +210,7 @@ public class Enemy extends Schmuck {
 	/**
 	 * draws enemy
 	 */
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		
@@ -234,8 +235,8 @@ public class Enemy extends Schmuck {
 			} else {
 				hpRatio = getBodyData().getOverrideHpPercent();
 			}
-			
-			batch.draw(hpSprite, hpX + getPixelPosition().x - hboxSize.x / 2, hpY + getPixelPosition().y - hboxSize.y / 2, hpSprite.getRegionWidth() * uiScale * hpRatio, hpSprite.getRegionHeight() * uiScale);
+			entityLocation.set(getPixelPosition());
+			batch.draw(hpSprite, hpX + entityLocation.x - hboxSize.x / 2, hpY + entityLocation.y - hboxSize.y / 2, hpSprite.getRegionWidth() * uiScale * hpRatio, hpSprite.getRegionHeight() * uiScale);
 		}
 	}
 	
@@ -247,10 +248,13 @@ public class Enemy extends Schmuck {
 	/**
 	 * This is used by the enemy to find a valid target
 	 */
+	private Vector2 homeLocation = new Vector2();
+	private Vector2 entityWorldLocation = new Vector2();
 	public void acquireTarget() {
 		
 		attackTarget = null;
 		
+		entityWorldLocation.set(getPosition());
 		//query nearby units
 		world.QueryAABB((new QueryCallback() {
 
@@ -258,9 +262,10 @@ public class Enemy extends Schmuck {
 			public boolean reportFixture(Fixture fixture) {
 				if (fixture.getUserData() instanceof BodyData) {
 					homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
+					homeLocation.set(homeAttempt.getPosition());
 					shortestFraction = 1.0f;
 					
-				  	if (getPosition().x != homeAttempt.getPosition().x || getPosition().y != homeAttempt.getPosition().y) {
+				  	if (entityWorldLocation.x != homeLocation.x || entityWorldLocation.y != homeLocation.y) {
 				  		world.rayCast(new RayCastCallback() {
 
 							@Override
@@ -280,7 +285,7 @@ public class Enemy extends Schmuck {
 								} 
 								return -1.0f;
 							}
-						}, getPosition(), homeAttempt.getPosition());
+						}, entityWorldLocation, homeLocation);
 						if (closestFixture != null) {
 							if (closestFixture.getUserData() instanceof BodyData) {
 								attackTarget = ((BodyData) closestFixture.getUserData()).getSchmuck();
@@ -290,9 +295,7 @@ public class Enemy extends Schmuck {
 				}
 				return true;
 			}
-		}), 
-			getPosition().x - aiRadius, getPosition().y - aiRadius, 
-			getPosition().x + aiRadius, getPosition().y + aiRadius);
+		}), entityWorldLocation.x - aiRadius, entityWorldLocation.y - aiRadius, entityWorldLocation.x + aiRadius, entityWorldLocation.y + aiRadius);
 	}
 	
 	@Override

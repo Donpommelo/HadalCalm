@@ -36,31 +36,39 @@ public class PortalWrap extends Event {
 	}
 	
 	private Vector3 newCamera = new Vector3();
+	private Vector3 playerTempLocation = new Vector3();
+	private Vector2 playerLocation = new Vector2();
+	private Vector2 entityLocation = new Vector2();
+	private Vector2 connectedLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		if (getConnectedEvent() != null) {
 			
+			playerLocation.set(state.getPlayer().getPixelPosition());
+			connectedLocation.set(getConnectedEvent().getPosition());
+			
 			for (HadalEntity s : eventData.getSchmucks()) {
-
-				newCamera.set(state.getCamera().position).sub(new Vector3(state.getPlayer().getPixelPosition().x, state.getPlayer().getPixelPosition().y, 0));
-
+				
+				newCamera.set(state.getCamera().position).sub(playerTempLocation.set(playerLocation.x, playerLocation.y, 0));
+				entityLocation.set(s.getPosition());
 				if (axis) {
 					if (direction) {
-						s.setTransform(getConnectedEvent().getPosition().x + s.getSize().x / 64, s.getPosition().y, 0);
+						s.setTransform(connectedLocation.x + s.getSize().x / 64, entityLocation.y, 0);
 					} else {
-						s.setTransform(getConnectedEvent().getPosition().x - s.getSize().x / 64, s.getPosition().y, 0);
+						s.setTransform(connectedLocation.x - s.getSize().x / 64, entityLocation.y, 0);
 					}
 				} else {
 					if (direction) {
-						s.setTransform(s.getPosition().x, getConnectedEvent().getPosition().y + s.getSize().y / 64, 0);
+						s.setTransform(entityLocation.x, connectedLocation.y + s.getSize().y / 64, 0);
 					} else {
-						s.setTransform(s.getPosition().x, getConnectedEvent().getPosition().y - s.getSize().y / 64, 0);
+						s.setTransform(entityLocation.x, connectedLocation.y - s.getSize().y / 64, 0);
 					}
 				}
 				
 				//If the player is being teleported, instantly adjust the camera to make for a seamless movement.
 				if (s.equals(state.getPlayer())) {
-					state.getCamera().position.set(newCamera.add(state.getPlayer().getPixelPosition().x, state.getPlayer().getPixelPosition().y, 0));
+					playerLocation.set(state.getPlayer().getPixelPosition());
+					state.getCamera().position.set(newCamera.add(playerLocation.x, playerLocation.y, 0));
 				}
 			}
 		}	

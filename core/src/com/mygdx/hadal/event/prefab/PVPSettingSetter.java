@@ -111,7 +111,9 @@ public class PVPSettingSetter extends Prefabrication {
 			
 			RectangleMapObject eggplantMarker = new RectangleMapObject();
 			eggplantMarker.setName("Objective");
-			eggplantMarker.getProperties().put("display", true);
+			eggplantMarker.getProperties().put("displayOffScreen", true);
+			eggplantMarker.getProperties().put("displayOnScreen", true);
+			eggplantMarker.getProperties().put("icon", "CLEAR_CIRCLE_EGGPLANT");
 			eggplantMarker.getProperties().put("triggeredId", gameObjectiveId);
 			eggplantMarker.getProperties().put("triggeringId", eggplantTimerId);
 			

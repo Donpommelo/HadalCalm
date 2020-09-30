@@ -71,10 +71,13 @@ public class Shocked extends Status {
 	/**
 	 * This is run to activate the next jump of the chain lightning
 	 */
+	private Vector2 entityLocation = new Vector2();
+	private Vector2 homeLocation = new Vector2();
 	private void chain() {
 		if (chainAmount > 0) {
 			SoundEffect.ZAP.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
 			
+			entityLocation.set(inflicted.getSchmuck().getPosition());
 			//find a target closest to the current victim
 			inflicted.getSchmuck().getWorld().QueryAABB(new QueryCallback() {
 
@@ -84,18 +87,16 @@ public class Shocked extends Status {
 						if (((BodyData) fixture.getUserData()).getSchmuck().getHitboxfilter() != filter && ((BodyData) fixture.getUserData()).getSchmuck().isAlive() && inflicted != fixture.getUserData()) {
 							if (chainAttempt == null) {
 								chainAttempt = ((BodyData) fixture.getUserData()).getSchmuck(); 
-								closestDist = chainAttempt.getPosition().dst2(inflicted.getSchmuck().getPosition());
-							} else if (closestDist > ((BodyData) fixture.getUserData()).getSchmuck().getPosition().dst2(inflicted.getSchmuck().getPosition())) {
+								closestDist = chainAttempt.getPosition().dst2(entityLocation);
+							} else if (closestDist > ((BodyData) fixture.getUserData()).getSchmuck().getPosition().dst2(entityLocation)) {
 								chainAttempt = ((BodyData) fixture.getUserData()).getSchmuck(); 
-								closestDist = chainAttempt.getPosition().dst2(inflicted.getSchmuck().getPosition());
+								closestDist = chainAttempt.getPosition().dst2(entityLocation);
 							}
 						}
 					}
 					return true;
 				}
-			}, 
-				inflicted.getSchmuck().getPosition().x - radius, inflicted.getSchmuck().getPosition().y - radius, 
-				inflicted.getSchmuck().getPosition().x + radius, inflicted.getSchmuck().getPosition().y + radius);
+			}, entityLocation.x - radius, entityLocation.y - radius, entityLocation.x + radius, entityLocation.y + radius);
 			
 			if (chainAttempt != null) {
 				
@@ -104,7 +105,7 @@ public class Shocked extends Status {
 				chainAttempt.getBodyData().receiveDamage(damage, new Vector2(), inflicter, true, DamageTypes.LIGHTNING);
 
 				//draw the trail that makes the lightning particles visible
-				Vector2 trailPath = new Vector2(chainAttempt.getPosition()).sub(inflicted.getSchmuck().getPosition());
+				Vector2 trailPath = new Vector2(chainAttempt.getPosition()).sub(entityLocation);
 				Hitbox trail = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), trailSize, trailLifespan, new Vector2(trailPath).nor().scl(trailSpeed), filter, true, false, inflicted.getSchmuck(), Sprite.NOTHING);
 				
 				trail.addStrategy(new ControllerDefault(state, trail, inflicter));

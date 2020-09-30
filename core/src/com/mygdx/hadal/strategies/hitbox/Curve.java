@@ -53,6 +53,7 @@ public class Curve extends HitboxStrategy {
 	private float controllerCount;
 	private Vector2 startTarget = new Vector2();
 	private Vector2 lerpTowards = new Vector2();
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		controllerCount += delta;
@@ -61,9 +62,10 @@ public class Curve extends HitboxStrategy {
 			controllerCount -= pushInterval;
 			
 			if (!found) {
-				hbox.getBody().setLinearVelocity(hbox.getLinearVelocity().lerp(lerpTowards.set(startTarget).sub(hbox.getPixelPosition()).nor().scl(startSpeed), lerp));
+				entityLocation.set(hbox.getPixelPosition());
+				hbox.getBody().setLinearVelocity(hbox.getLinearVelocity().lerp(lerpTowards.set(startTarget).sub(entityLocation).nor().scl(startSpeed), lerp));
 				
-				if (hbox.getPixelPosition().dst2(startTarget) < boundDist * boundDist) {
+				if (entityLocation.dst2(startTarget) < boundDist * boundDist) {
 					found = true;
 				}
 			}

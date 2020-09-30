@@ -120,36 +120,38 @@ public class Event extends HadalEntity {
 		}
 	}
 
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		
 		if (eventSprite != null) {
+			entityLocation.set(getPixelPosition());
 			switch (scaleAlign) {
 			case CENTER:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-						getPixelPosition().x - spriteWidth * scale / 2,
-						getPixelPosition().y - spriteHeight * scale / 2,
+						entityLocation.x - spriteWidth * scale / 2,
+						entityLocation.y - spriteHeight * scale / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case CENTER_STRETCH:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-						getPixelPosition().x - size.x / 2,
-						getPixelPosition().y - size.y / 2,
+						entityLocation.x - size.x / 2,
+						entityLocation.y - size.y / 2,
 	                    size.x / 2, size.y / 2,
 	                    size.x, size.y, 1, 1, 0);
 				break;
 			case CENTER_BOTTOM:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-						getPixelPosition().x - spriteWidth * scale / 2,
-						getPixelPosition().y - size.y / 2,
+						entityLocation.x - spriteWidth * scale / 2,
+						entityLocation.y - size.y / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case ROTATE:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-						getPixelPosition().x - size.x / 2,
-						getPixelPosition().y - size.y / 2,
+						entityLocation.x - size.x / 2,
+						entityLocation.y - size.y / 2,
 						size.x / 2, size.y / 2,
 	                    size.x, size.y, 
 	                    1, 1, (float) Math.toDegrees(getAngle()));

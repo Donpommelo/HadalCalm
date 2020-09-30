@@ -326,20 +326,23 @@ public abstract class HadalEntity {
 	/**
 	 * Is this entity on the screen? Used for frustrum culling to avoid rendering off-screen entities
 	 */
-	private float cosAng, sinAng;
+	private float cosAng, sinAng, bodyAngle;
+	private Vector2 entityLocation = new Vector2();
 	public boolean isVisible() {
 		if (body == null) {
 			return false;
 		} else {
-			//check the center + 4 corners of the entity to see if we should render this entity
-			if (state.getCamera().frustum.pointInFrustum(getPixelPosition().x, getPixelPosition().y, 0)) { return true; }
+			entityLocation.set(getPixelPosition());
 			
-			cosAng = (float) Math.cos(body.getAngle());
-			sinAng = (float) Math.sin(body.getAngle());
-			if (state.getCamera().frustum.pointInFrustum(getPixelPosition().x + size.x / 2 * cosAng - size.y / 2 * sinAng, getPixelPosition().y + size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
-			if (state.getCamera().frustum.pointInFrustum(getPixelPosition().x - size.x / 2 * cosAng - size.y / 2 * sinAng, getPixelPosition().y - size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
-			if (state.getCamera().frustum.pointInFrustum(getPixelPosition().x - size.x / 2 * cosAng + size.y / 2 * sinAng, getPixelPosition().y - size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
-			if (state.getCamera().frustum.pointInFrustum(getPixelPosition().x + size.x / 2 * cosAng + size.y / 2 * sinAng, getPixelPosition().y + size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
+			//check the center + 4 corners of the entity to see if we should render this entity
+			if (state.getCamera().frustum.pointInFrustum(entityLocation.x, entityLocation.y, 0)) { return true; }
+			bodyAngle = body.getAngle();
+			cosAng = (float) Math.cos(bodyAngle);
+			sinAng = (float) Math.sin(bodyAngle);
+			if (state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x / 2 * cosAng - size.y / 2 * sinAng, entityLocation.y + size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
+			if (state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x / 2 * cosAng - size.y / 2 * sinAng, entityLocation.y - size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
+			if (state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x / 2 * cosAng + size.y / 2 * sinAng, entityLocation.y - size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
+			if (state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x / 2 * cosAng + size.y / 2 * sinAng, entityLocation.y + size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
 			return false;
 		}
 	}

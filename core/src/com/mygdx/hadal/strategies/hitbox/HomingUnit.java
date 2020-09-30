@@ -46,6 +46,8 @@ public class HomingUnit extends HitboxStrategy {
 		this.filter = filter;
 	}
 	
+	private Vector2 entityLocation = new Vector2();
+	private Vector2 homeLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		
@@ -58,7 +60,7 @@ public class HomingUnit extends HitboxStrategy {
 				homing();
 			}
 		} else {
-			
+			entityLocation.set(hbox.getPosition());
 			//search all nearby enemies and raycast to them to see if there is an unobstructed path.
 			hbox.getWorld().QueryAABB(new QueryCallback() {
 
@@ -67,9 +69,10 @@ public class HomingUnit extends HitboxStrategy {
 					if (fixture.getUserData() instanceof BodyData) {
 						
 						homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
+						homeLocation.set(homeAttempt.getPosition());
 						shortestFraction = 1.0f;
 						
-					  	if (hbox.getPosition().x != homeAttempt.getPosition().x || hbox.getPosition().y != homeAttempt.getPosition().y) {
+					  	if (entityLocation.x != homeLocation.x || entityLocation.y != homeLocation.y) {
 					  		hbox.getWorld().rayCast(new RayCastCallback() {
 
 								@Override
@@ -92,7 +95,7 @@ public class HomingUnit extends HitboxStrategy {
 									return -1.0f;
 								}
 								
-							}, hbox.getPosition(), homeAttempt.getPosition());	
+							}, entityLocation, homeLocation);	
 							
 							if (closestFixture != null) {
 								if (closestFixture.getUserData() instanceof BodyData) {
@@ -103,9 +106,7 @@ public class HomingUnit extends HitboxStrategy {
 					}
 					return true;
 				}
-			}, 
-			hbox.getPosition().x - homeRadius, hbox.getPosition().y - homeRadius, 
-			hbox.getPosition().x + homeRadius, hbox.getPosition().y + homeRadius);
+			}, entityLocation.x - homeRadius, entityLocation.y - homeRadius, entityLocation.x + homeRadius, entityLocation.y + homeRadius);
 		}
 	}
 	
@@ -114,8 +115,10 @@ public class HomingUnit extends HitboxStrategy {
 	 * This method pushes a hbox towards its homing target
 	 */
 	private void homing() {
+		entityLocation.set(hbox.getPosition());
+		homeLocation.set(homing.getPosition());
 		
-		float squareDistance = homingPush.set(homing.getPosition()).sub(hbox.getPosition()).len2();
+		float squareDistance = homingPush.set(homeLocation).sub(entityLocation).len2();
 		float squareSpeed = hbox.getLinearVelocity().len2();
 
 		//if this hbox is moving , we check its distance to its target
@@ -125,17 +128,17 @@ public class HomingUnit extends HitboxStrategy {
 			
 			//if the hbox is close enough to its target, we push it towards its target, accounting for its target's movement
 			if (squarePredictionTime < maxPredictionTime * maxPredictionTime) {
-				homingPush.set(homing.getPosition()).mulAdd(homing.getLinearVelocity(), (float) Math.sqrt(squarePredictionTime))
-				.sub(hbox.getPosition()).nor().scl(homePower * hbox.getMass());
+				homingPush.set(homeLocation).mulAdd(homing.getLinearVelocity(), (float) Math.sqrt(squarePredictionTime))
+				.sub(entityLocation).nor().scl(homePower * hbox.getMass());
 			} else {
 				
 				//at further distance, we also take into account the hbox's movement to compensate for its current velocity.
-				homingPush.set(homing.getPosition()).mulAdd(homing.getLinearVelocity(), maxPredictionTime)
-				.sub(hbox.getPosition().mulAdd(hbox.getLinearVelocity(), maxPredictionTime)).nor().scl(homePower * hbox.getMass());
+				homingPush.set(homeLocation).mulAdd(homing.getLinearVelocity(), maxPredictionTime)
+				.sub(entityLocation.mulAdd(hbox.getLinearVelocity(), maxPredictionTime)).nor().scl(homePower * hbox.getMass());
 			}
 		} else {
-			homingPush.set(homing.getPosition()).mulAdd(homing.getLinearVelocity(), maxPredictionTime)
-			.sub(hbox.getPosition()).nor().scl(homePower * hbox.getMass());
+			homingPush.set(homeLocation).mulAdd(homing.getLinearVelocity(), maxPredictionTime)
+			.sub(entityLocation).nor().scl(homePower * hbox.getMass());
 		}
 		hbox.applyForceToCenter(homingPush);
 	}

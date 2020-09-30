@@ -75,6 +75,8 @@ public class Turret extends Enemy {
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
 	
+	private Vector2 entityWorldLocation = new Vector2();
+	private Vector2 targetWorldLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
@@ -89,9 +91,11 @@ public class Turret extends Enemy {
 			case TRACKING:
 				if (attackTarget != null) {
 					if (attackTarget.isAlive()) {
+						entityWorldLocation.set(getPosition());
+						targetWorldLocation.set(attackTarget.getPosition());
 						desiredAngle =  (float)(Math.atan2(
-								attackTarget.getPosition().y - getPosition().y ,
-								attackTarget.getPosition().x - getPosition().x) * 180 / Math.PI);
+								targetWorldLocation.y - entityWorldLocation.y ,
+								targetWorldLocation.x - entityWorldLocation.x) * 180 / Math.PI);
 						if (desiredAngle < 0) {
 							if (desiredAngle < -90) {
 								desiredAngle = 180;
@@ -107,6 +111,7 @@ public class Turret extends Enemy {
 		}
 	}
 	
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		boolean flip = false;
@@ -118,24 +123,24 @@ public class Turret extends Enemy {
 		if (flip) {
 			rotationYReal = size.y / scale - rotationY;
 		}
-		
+		entityLocation.set(getPixelPosition());
 		if (moveState == MoveState.DEFAULT) {
 			batch.draw((TextureRegion) turretBarrel.getKeyFrame(0, true), 
-					getPixelPosition().x - getHboxSize().x / 2, 
-					(flip ? size.y - 24 * scale : 0) + getPixelPosition().y - getHboxSize().y / 2, 
+					entityLocation.x - getHboxSize().x / 2, 
+					(flip ? size.y - 24 * scale : 0) + entityLocation.y - getHboxSize().y / 2, 
 					rotationX * scale, (flip ? -size.y : 0) + rotationYReal * scale,
 					size.x, (flip ? -1 : 1) * size.y, 1, 1, attackAngle);
 		} else {
 			batch.draw((TextureRegion) turretBarrel.getKeyFrame(animationTime, true), 
-					getPixelPosition().x - getHboxSize().x / 2, 
-					(flip ? size.y - 24 * scale : 0) + getPixelPosition().y - getHboxSize().y / 2, 
+					entityLocation.x - getHboxSize().x / 2, 
+					(flip ? size.y - 24 * scale : 0) +entityLocation.y - getHboxSize().y / 2, 
 					rotationX * scale, (flip ? -size.y : 0) + rotationYReal * scale,
 					size.x, (flip ? -1 : 1) * size.y, 1, 1, attackAngle);
 		}
 		
 		batch.draw((TextureRegion) turretBase.getKeyFrame(animationTime, true), 
-				getPixelPosition().x - getHboxSize().x / 2, 
-				getPixelPosition().y - getHboxSize().y / 2, 
+				entityLocation.x - getHboxSize().x / 2, 
+				entityLocation.y - getHboxSize().y / 2, 
 				0, 0, size.x, size.y, 1, 1, 0.0f);
 		
 		super.render(batch);
@@ -172,8 +177,9 @@ public class Turret extends Enemy {
 	@Override
 	public boolean queueDeletion() {
 		if (alive) {
-			new Ragdoll(state, getPixelPosition(), size, Sprite.TURRET_BASE, getLinearVelocity(), 0.75f, 1.0f, true, false, true);
-			new Ragdoll(state, getPixelPosition(), size, turretBarrelSprite, getLinearVelocity(), 0.75f, 1.0f, true, false, true);
+			entityLocation.set(getPixelPosition());
+			new Ragdoll(state, entityLocation, size, Sprite.TURRET_BASE, getLinearVelocity(), 0.75f, 1.0f, true, false, true);
+			new Ragdoll(state, entityLocation, size, turretBarrelSprite, getLinearVelocity(), 0.75f, 1.0f, true, false, true);
 		}
 		return super.queueDeletion();
 	}

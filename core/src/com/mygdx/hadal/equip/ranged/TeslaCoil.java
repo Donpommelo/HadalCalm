@@ -80,6 +80,7 @@ public class TeslaCoil extends RangedWeapon {
 				this.distance = startLocation.dst(endLocation) - projectileSize.x;
 			}
 			
+			private Vector2 entityLocation = new Vector2();
 			@Override
 			public void controller(float delta) {
 				super.controller(delta);
@@ -103,6 +104,7 @@ public class TeslaCoil extends RangedWeapon {
 						controllerCount -= pulseInterval;
 						
 						activated = false;
+						entityLocation.set(hbox.getPosition());
 						hbox.getWorld().QueryAABB(new QueryCallback() {
 
 							@Override
@@ -118,9 +120,7 @@ public class TeslaCoil extends RangedWeapon {
 								}
 								return true;
 							}
-						},
-						hbox.getPosition().x - radius, hbox.getPosition().y - radius, 
-						hbox.getPosition().x + radius, hbox.getPosition().y + radius);
+						}, entityLocation.x - radius, entityLocation.y - radius, entityLocation.x + radius, entityLocation.y + radius);
 					}
 					return;
 				}

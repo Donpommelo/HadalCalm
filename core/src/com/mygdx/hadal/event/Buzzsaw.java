@@ -81,11 +81,14 @@ public class Buzzsaw extends Event {
 	/**
 	 * We draw the sprite a bit larger than normal to make its hitbox feel more generous to players
 	 */
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
+		entityLocation.set(getPixelPosition());
+		
 		batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-				getPixelPosition().x - size.x / 2 * spriteScale,
-				getPixelPosition().y - size.y / 2 * spriteScale,
+				entityLocation.x - size.x / 2 * spriteScale,
+				entityLocation.y - size.y / 2 * spriteScale,
                 size.x / 2 * spriteScale, size.y / 2 * spriteScale,
                 size.x * spriteScale, size.y * spriteScale, 1, 1, angle);
 	}
@@ -98,11 +101,12 @@ public class Buzzsaw extends Event {
 		if (body == null) {
 			return false;
 		} else {
+			entityLocation.set(getPixelPosition());
 			if (
-					state.getCamera().frustum.pointInFrustum(getPixelPosition().x + size.x * spriteScale / 2, getPixelPosition().y + size.y * spriteScale / 2, 0) || 
-					state.getCamera().frustum.pointInFrustum(getPixelPosition().x - size.x * spriteScale / 2, getPixelPosition().y + size.y * spriteScale / 2, 0) ||
-					state.getCamera().frustum.pointInFrustum(getPixelPosition().x + size.x * spriteScale / 2, getPixelPosition().y - size.y * spriteScale / 2, 0) ||
-					state.getCamera().frustum.pointInFrustum(getPixelPosition().x - size.x * spriteScale / 2, getPixelPosition().y - size.y * spriteScale / 2, 0)) {
+					state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x * spriteScale / 2, entityLocation.y + size.y * spriteScale / 2, 0) || 
+					state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x * spriteScale / 2, entityLocation.y + size.y * spriteScale / 2, 0) ||
+					state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x * spriteScale / 2, entityLocation.y - size.y * spriteScale / 2, 0) ||
+					state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x * spriteScale / 2, entityLocation.y - size.y * spriteScale / 2, 0)) {
 				return true;
 			} else {
 				return false;

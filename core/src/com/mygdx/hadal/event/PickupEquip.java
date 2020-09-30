@@ -112,15 +112,18 @@ public class PickupEquip extends Event {
 		setEquip(UnlocktoItem.getUnlock(unlock, null));
 	}
 	
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		if (!(equip instanceof NothingWeapon)) {
 			super.render(batch);
 			
-			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-			float y = getPixelPosition().y + size.y / 2;
+			entityLocation.set(getPixelPosition());
 			
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), getPixelPosition().x - size.x / 2, y);
+			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
+			float y = entityLocation.y + size.y / 2;
+			
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), entityLocation.x - size.x / 2, y);
 		}
 	}
 	

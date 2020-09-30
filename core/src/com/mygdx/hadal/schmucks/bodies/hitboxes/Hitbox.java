@@ -197,15 +197,17 @@ public class Hitbox extends HadalEntity {
 		}
 	}
 
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		
 		if (!alive) { return; }
 		
 		if (projectileSprite != null) {
+			entityLocation.set(getPixelPosition());
 			batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, looping), 
-					getPixelPosition().x - spriteSize.x / 2, 
-					getPixelPosition().y - spriteSize.y / 2, 
+					entityLocation.x - spriteSize.x / 2, 
+					entityLocation.y - spriteSize.y / 2, 
 					spriteSize.x / 2, spriteSize.y / 2,
 					spriteSize.x, spriteSize.y, -1, 1, 
 					(float) Math.toDegrees(getAngle()));

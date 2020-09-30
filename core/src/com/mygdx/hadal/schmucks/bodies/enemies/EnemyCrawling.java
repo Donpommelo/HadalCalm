@@ -150,18 +150,19 @@ public class EnemyCrawling extends Enemy {
 	 * This method is used by crawling enemies to process running into walls/edges of platforms
 	 */
 	private Vector2 endPt = new Vector2();
+	private Vector2 entityWorldLocation = new Vector2();
 	private final static float distCheck = 3.0f;
 	private float shortestFraction;
 	private void processCollision(boolean avoidPits) {
 		
 		//if not moving, treat enemy as if it were facing forwards
 		if (moveDirection == 0) { moveDirection = 1.0f; }
-		
-		endPt.set(getPosition()).add(distCheck * moveDirection, 0);
+		entityWorldLocation.set(getPosition());
+		endPt.set(entityWorldLocation).add(distCheck * moveDirection, 0);
 		shortestFraction = 1.0f;
 		
 		//raycast in the direction we are walking.
-		if (getPosition().x != endPt.x || getPosition().y != endPt.y) {
+		if (entityWorldLocation.x != endPt.x || entityWorldLocation.y != endPt.y) {
 			
 			state.getWorld().rayCast(new RayCastCallback() {
 
@@ -175,7 +176,7 @@ public class EnemyCrawling extends Enemy {
 					}
 					return -1.0f;
 				}
-			}, getPosition(), endPt);
+			}, entityWorldLocation, endPt);
 		}
 		
 		//if we are running into a wall, we turn around
@@ -184,9 +185,9 @@ public class EnemyCrawling extends Enemy {
 		} else if (avoidPits) {
 			
 			//if we avoid pits, raycast in the direction we are walking downwards
-			endPt.set(getPosition()).add(moveDirection * distCheck, -distCheck);
+			endPt.set(entityWorldLocation).add(moveDirection * distCheck, -distCheck);
 			shortestFraction = 1.0f;
-			if (getPosition().x != endPt.x || getPosition().y != endPt.y) {
+			if (entityWorldLocation.x != endPt.x || entityWorldLocation.y != endPt.y) {
 				state.getWorld().rayCast(new RayCastCallback() {
 
 					@Override
@@ -199,7 +200,7 @@ public class EnemyCrawling extends Enemy {
 						}
 						return -1.0f;
 					}
-				}, getPosition(), endPt);
+				}, entityWorldLocation, endPt);
 			}
 			
 			//if we see nothing, we are standing next to a pit and we turn around
@@ -209,6 +210,7 @@ public class EnemyCrawling extends Enemy {
 		}
 	}
 
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		
@@ -220,9 +222,10 @@ public class EnemyCrawling extends Enemy {
 			flip = false;
 		}
 
+		entityLocation.set(getPixelPosition());
 		batch.draw((TextureRegion) floatingSprite.getKeyFrame(animationTime, true), 
-				(flip ? 0 : size.x) + getPixelPosition().x - size.x / 2, 
-				getPixelPosition().y - getHboxSize().y / 2, 
+				(flip ? 0 : size.x) + entityLocation.x - size.x / 2, 
+				entityLocation.y - getHboxSize().y / 2, 
 				size.x / 2,
 				(flip ? 1 : -1) * size.y / 2, 
 				(flip ? 1 : -1) * size.x, size.y, 1, 1, 0);

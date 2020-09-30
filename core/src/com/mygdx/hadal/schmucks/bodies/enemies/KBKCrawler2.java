@@ -55,6 +55,7 @@ public class KBKCrawler2 extends EnemyCrawling {
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f, true);
 	}
 	
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);
@@ -67,9 +68,10 @@ public class KBKCrawler2 extends EnemyCrawling {
 			flip = false;
 		}
 
+		entityLocation.set(getPixelPosition());
 		batch.draw(faceSprite, 
-				(flip ? 0 : size.x) + getPixelPosition().x - size.x / 2, 
-				getPixelPosition().y - getHboxSize().y / 2 - smileOffset * scale, 
+				(flip ? 0 : size.x) + entityLocation.x - size.x / 2, 
+				entityLocation.y - getHboxSize().y / 2 - smileOffset * scale, 
 				size.x / 2,
 				(flip ? 1 : -1) * size.y / 2, 
 				(flip ? 1 : -1) * size.x, size.y, 1, 1, 0);

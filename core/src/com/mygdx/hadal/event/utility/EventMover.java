@@ -62,6 +62,7 @@ public class EventMover extends Event {
 	}
 	
 	private Vector2 dist = new Vector2();
+	private Vector2 entityPosition = new Vector2();
 	@Override
 	public void controller(float delta) {
 		if (moving) {
@@ -69,9 +70,9 @@ public class EventMover extends Event {
 			if (gravity != -1) {
 				getConnectedEvent().setGravityScale(gravity);
 			}
-			
-			dist.set(getPosition().sub(getConnectedEvent().getPosition()));
-			getConnectedEvent().setTransform(getPosition(), 0);
+			entityPosition.set(getPosition());
+			dist.set(entityPosition).sub(getConnectedEvent().getPosition());
+			getConnectedEvent().setTransform(entityPosition, 0);
 			
 			if (getConnectedEvent() instanceof MovingPoint) {
 				for (Event connect : ((MovingPoint) getConnectedEvent()).getConnected()) {

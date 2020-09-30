@@ -92,8 +92,8 @@ public class Underminer extends RangedWeapon {
 			
 			private Vector2 angle = new Vector2();
 			private Vector2 raycast = new Vector2(0, raycastRange);
+			private Vector2 entityLocation = new Vector2();
 			boolean wallDetected;
-
 			@Override
 			public void controller(float delta) {
 				
@@ -119,7 +119,8 @@ public class Underminer extends RangedWeapon {
 					if (procCdCount >= procCd) {
 						procCdCount -= procCd;
 
-						angle.set(hbox.getPosition()).add(raycast.setAngleRad(hbox.getAngle()));
+						entityLocation.set(hbox.getPosition());
+						angle.set(entityLocation).add(raycast.setAngleRad(hbox.getAngle()));
 						wallDetected = false;
 						state.getWorld().rayCast(new RayCastCallback() {
 
@@ -132,7 +133,7 @@ public class Underminer extends RangedWeapon {
 								return -1.0f;
 							}
 							
-						}, hbox.getPosition(), angle);
+						}, entityLocation, angle);
 						
 						if (wallDetected) {
 							Hitbox frag = new Hitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan, new Vector2(0, 1).setAngleRad(hbox.getAngle()).scl(fragSpeed), filter, true, true, user, projSprite);

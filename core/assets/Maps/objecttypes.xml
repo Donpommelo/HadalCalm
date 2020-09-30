@@ -169,7 +169,9 @@
   <property name="unlock" type="bool" default="true"/>
  </objecttype>
  <objecttype name="Objective" color="#a0a0a4">
-  <property name="display" type="bool" default="false"/>
+  <property name="displayOffScreen" type="bool" default="false"/>
+  <property name="displayOnScreen" type="bool" default="false"/>
+  <property name="icon" type="string" default="CLEAR_CIRCLE_ALERT"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>

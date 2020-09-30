@@ -187,7 +187,10 @@ public class TiledObjectUtil {
 					object.getProperties().get("universal", true, boolean.class));
 		} else if (object.getName().equals("Objective")) {
 			
-			e = new ObjectiveChanger(state, object.getProperties().get("display", false, boolean.class));
+			e = new ObjectiveChanger(state, 
+					object.getProperties().get("displayOffScreen", false, boolean.class), 
+					object.getProperties().get("displayOnScreen", false, boolean.class),
+					object.getProperties().get("icon", "CLEAR_CIRCLE_ALERT", String.class));
 		} else if (object.getName().equals("Player")) {
 			
 			e = new PlayerChanger(state,

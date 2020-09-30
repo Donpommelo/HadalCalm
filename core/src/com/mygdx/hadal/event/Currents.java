@@ -65,6 +65,10 @@ public class Currents extends Event {
 				(short) 0, true, eventData);
 	}
 	
+	private Vector2 entityLocation = new Vector2();
+	private Vector2 randLocation = new Vector2();
+	private Vector2 ragdollSize = new Vector2(48, 48);
+	private Vector2 ragdollVelo = new Vector2();
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
@@ -79,13 +83,15 @@ public class Currents extends Event {
 			}
 		}
 		
+		entityLocation.set(getPixelPosition());
+		
 		//spawn a dummy with a particle attached. Dummies are moved by current to give visual effect.
 		currBubbleSpawnTimer += delta;
 		while (currBubbleSpawnTimer >= spawnTimerLimit) {
 			currBubbleSpawnTimer -= spawnTimerLimit;
-			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
-			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
-			new ParticleEntity(state, new Ragdoll(state, new Vector2(randX, randY), new Vector2(48, 48), Sprite.NOTHING, new Vector2(0, 0), 0.25f, 0.0f, false, true, false),
+			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
+			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
+			new ParticleEntity(state, new Ragdoll(state, randLocation.set(randX, randY), ragdollSize, Sprite.NOTHING, ragdollVelo, 0.25f, 0.0f, false, true, false),
 					Particle.BUBBLE_TRAIL, 0.5f, 0.0f, true, particleSyncType.NOSYNC);
 		}
 	}
@@ -100,18 +106,20 @@ public class Currents extends Event {
 			
 			//push is done through damage so that +knockback resistance will reduce the push.
 			for (HadalEntity entity : eventData.getSchmucks()) {
-				entity.getHadalData().receiveDamage(0.0f, new Vector2(vec), state.getWorldDummy().getBodyData(), false, DamageTypes.DEFLECT);
+				entity.getHadalData().receiveDamage(0.0f, randLocation.set(vec), state.getWorldDummy().getBodyData(), false, DamageTypes.DEFLECT);
 			}
 		}
+		
+		entityLocation.set(getPixelPosition());
 		
 		//spawn a dummy with a particle attached. Dummies are moved by current to give visual effect.
 		currBubbleSpawnTimer += delta;
 		while (currBubbleSpawnTimer >= spawnTimerLimit) {
 			currBubbleSpawnTimer -= spawnTimerLimit;
-			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
-			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
+			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
+			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
 			
-			Ragdoll ragdoll = new Ragdoll(state, new Vector2(randX, randY), new Vector2(48, 48), Sprite.NOTHING, new Vector2(0, 0), 0.25f, 0.0f, false, true, false);
+			Ragdoll ragdoll = new Ragdoll(state, randLocation.set(randX, randY), ragdollSize, Sprite.NOTHING, ragdollVelo, 0.25f, 0.0f, false, true, false);
 			ParticleEntity bubbles = new ParticleEntity(state, ragdoll, Particle.BUBBLE_TRAIL, 0.5f, 0.0f, true, particleSyncType.NOSYNC);
 			((ClientState) state).addEntity(ragdoll.getEntityID().toString(), ragdoll, false, ObjectSyncLayers.STANDARD);
 			((ClientState) state).addEntity(bubbles.getEntityID().toString(), bubbles, false, ObjectSyncLayers.STANDARD);
@@ -124,7 +132,9 @@ public class Currents extends Event {
 	@Override
 	public Object onServerCreate() {
 		if (blueprint == null) {
-			blueprint = new RectangleMapObject(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, size.x, size.y);
+			entityLocation.set(getPixelPosition());
+			
+			blueprint = new RectangleMapObject(entityLocation.x - size.x / 2, entityLocation.y - size.y / 2, size.x, size.y);
 			blueprint.setName("CurrentTemp");
 			blueprint.getProperties().put("currentX", vec.x);
 			blueprint.getProperties().put("currentY", vec.y);

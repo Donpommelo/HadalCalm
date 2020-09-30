@@ -22,6 +22,7 @@ public class PoisonTrail extends HitboxStrategy {
 	
 	//the time interval between creating poison
 	private Vector2 lastPosition = new Vector2();
+	private Vector2 poisonSize = new Vector2();
 	
 	public PoisonTrail(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {
 		super(state, proj, user);
@@ -31,13 +32,16 @@ public class PoisonTrail extends HitboxStrategy {
 		this.filter = filter;
 		
 		lastPosition.set(proj.getStartPos());
+		poisonSize.set(poisonRadius, poisonRadius);
 	}
 	
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
-		if (lastPosition.dst(hbox.getPixelPosition()) > poisonRadius) {
-			lastPosition.set(hbox.getPixelPosition());
-			new Poison(state, this.hbox.getPixelPosition(), new Vector2(poisonRadius, poisonRadius), poisonDamage, poisonDuration, creator.getSchmuck(), true, filter);
+		entityLocation.set(hbox.getPixelPosition());
+		if (lastPosition.dst(entityLocation) > poisonRadius) {
+			lastPosition.set(entityLocation);
+			new Poison(state, entityLocation, poisonSize, poisonDamage, poisonDuration, creator.getSchmuck(), true, filter);
 		}
 	}
 }

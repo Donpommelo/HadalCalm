@@ -45,17 +45,20 @@ public class ParticleField extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), (short)0, true, eventData);
 	}
 	
-	private Vector2 particlePosition = new Vector2();
+	private Vector2 entityLocation = new Vector2();
+	private Vector2 randLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
+		
+		entityLocation.set(getPixelPosition());
 		
 		//if specified, spawn random particles in the event's vicinity
 		currParticleSpawnTimer += delta;
 		while (currParticleSpawnTimer >= spawnTimerLimit) {
 			currParticleSpawnTimer -= spawnTimerLimit;
-			float randX = (float) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
-			float randY = (float) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
-			new ParticleEntity(state, particlePosition.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC).setScale(scale);
+			float randX = (float) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
+			float randY = (float) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
+			new ParticleEntity(state, randLocation.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC).setScale(scale);
 		}
 	}
 	
@@ -65,12 +68,14 @@ public class ParticleField extends Event {
 	@Override
 	public void clientController(float delta) {
 		
+		entityLocation.set(getPixelPosition());
+
 		currParticleSpawnTimer += delta;
 		while (currParticleSpawnTimer >= spawnTimerLimit) {
 			currParticleSpawnTimer -= spawnTimerLimit;
-			float randX = (float) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
-			float randY = (float) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
-			ParticleEntity field = new ParticleEntity(state, new Vector2(randX, randY), particle, duration, true, particleSyncType.NOSYNC);
+			float randX = (float) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
+			float randY = (float) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
+			ParticleEntity field = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC);
 			((ClientState) state).addEntity(field.getEntityID().toString(), field, false, ObjectSyncLayers.STANDARD);
 		}
 	}

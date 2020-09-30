@@ -268,12 +268,14 @@ public enum SoundEffect {
 	 * This is done based on the sound's location relative to the player.
 	 * This is used for sounds attached to entities. 
 	 */
+	private Vector2 playerPosition = new Vector2();
 	public void updateSoundLocation(PlayState state, Vector2 worldPos, float volume, long soundId) {
 		Player player = state.getPlayer();
 		if (player.getBody() != null) {
 			
-			float xDist = worldPos.x - player.getPixelPosition().x;
-			float yDist = worldPos.y - player.getPixelPosition().y;
+			playerPosition.set(player.getPixelPosition());
+			float xDist = worldPos.x - playerPosition.x;
+			float yDist = worldPos.y - playerPosition.y;
 			float dist = Math.abs(xDist) + Math.abs(yDist);
 
 			float pan = 0.0f;

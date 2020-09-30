@@ -42,6 +42,8 @@ public class EnemyFloating extends Enemy {
 		}
 	}
 
+	private Vector2 entityWorldLocation = new Vector2();
+	private Vector2 targetWorldLocation = new Vector2();
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);
@@ -62,17 +64,22 @@ public class EnemyFloating extends Enemy {
 			//rotate towards attack target
 			if (attackTarget != null) {				
 				if (attackTarget.isAlive()) {
+					entityWorldLocation.set(getPosition());
+					targetWorldLocation.set(attackTarget.getPosition());
 					desiredAngle = (float)(Math.atan2(
-							attackTarget.getPosition().y - getPosition().y ,
-							attackTarget.getPosition().x - getPosition().x) * 180 / Math.PI);
+							targetWorldLocation.y - entityWorldLocation.y ,
+							targetWorldLocation.x - entityWorldLocation.x) * 180 / Math.PI);
 				}
 			} else {
 				//if there is no attack target, attempt to rotate towards movement target
 				if (getMoveTarget() != null) {				
 					if (getMoveTarget().isAlive()) {
+						entityWorldLocation.set(getPosition());
+						targetWorldLocation.set(getMoveTarget().getPosition());
+						
 						desiredAngle = (float)(Math.atan2(
-								getMoveTarget().getPosition().y - getPosition().y ,
-								getMoveTarget().getPosition().x - getPosition().x) * 180 / Math.PI);
+								targetWorldLocation.y - entityWorldLocation.y ,
+								targetWorldLocation.x - entityWorldLocation.x) * 180 / Math.PI);
 					}
 				}
 			}
@@ -86,6 +93,7 @@ public class EnemyFloating extends Enemy {
 	/**
 	 * draws enemy
 	 */
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		
@@ -94,9 +102,11 @@ public class EnemyFloating extends Enemy {
 		if ((realAngle > Math.PI / 2 && realAngle < 3 * Math.PI / 2) || (realAngle < -Math.PI / 2 && realAngle > -3 * Math.PI / 2)) {
 			flip = false;
 		}
+		
+		entityLocation.set(getPixelPosition());
 		batch.draw((TextureRegion) floatingSprite.getKeyFrame(animationTime, true), 
-				(flip ? size.x : 0) + getPixelPosition().x - size.x / 2, 
-				getPixelPosition().y - size.y / 2, 
+				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
+				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, 
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 

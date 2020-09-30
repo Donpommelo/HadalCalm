@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.SteeringUtil;
 
@@ -19,61 +20,77 @@ public class UIObjective extends AHadalActor {
 	
 	private TextureRegion icon;
 	
-	private float scale = 0.25f;
+	private final static float scale = 0.4f;
+	
+	private float width, height;
 	
 	private float corner;
+	
+	//If there is an objective target that has a display if offscreen, this is that entity.
+	private HadalEntity objectiveTarget;
+	private boolean displayObjectiveOffScreen, displayObjectiveOnScreen;
 	
 	public UIObjective(PlayState state) {
 		this.state = state;
 		
 		this.icon = Sprite.UI_MO_READY.getFrame();
 		this.corner = SteeringUtil.vectorToAngle(new Vector2(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT));
+		
+		this.width = icon.getRegionWidth() * scale;
+		this.height = icon.getRegionHeight() * scale;
 	}
 	
 	private float x, y, angle;
 	private Vector2 toObjective = new Vector2();
+	private Vector2 objectiveLocation = new Vector2();
 	@Override
     public void draw(Batch batch, float alpha) {
 
-		x = 500;
-		y = 500;
-
 		//This math calculates the location of the objective icon
-		if (state.getObjectiveTarget() != null && state.getPlayer().getBody() != null && state.isDisplayObjective()) {
+		if (objectiveTarget != null && state.getPlayer().getBody() != null) {
 			
-			if (!state.getObjectiveTarget().isVisible()) {
-				float xDist = (state.getPlayer().getPixelPosition().x) - (state.getObjectiveTarget().getPixelPosition().x);
-				float yDist = (state.getPlayer().getPixelPosition().y) - (state.getObjectiveTarget().getPixelPosition().y);
-				
-				toObjective.set(xDist, yDist);
+			objectiveLocation.set(objectiveTarget.getPixelPosition());
+			
+			if (!objectiveTarget.isVisible() && displayObjectiveOffScreen) {
+				toObjective.set(state.getPlayer().getPixelPosition()).sub(objectiveLocation);
 				
 				angle = SteeringUtil.vectorToAngle(toObjective);
 				
 				if (angle < corner && angle > -(Math.PI + corner)) {
-					x = (float) (icon.getRegionWidth() * scale);
-					y = (float) (HadalGame.CONFIG_HEIGHT / 2 + Math.tan(Math.abs(angle) - Math.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - icon.getRegionWidth() * scale));
+					x = width;
+					y = (float) (HadalGame.CONFIG_HEIGHT / 2 + Math.tan(Math.abs(angle) - Math.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - height));
 				}
-				if (angle > -corner && angle < (Math.PI + corner)) {
-					x = (float) (HadalGame.CONFIG_WIDTH - icon.getRegionWidth() * scale);
-					y = (float) (HadalGame.CONFIG_HEIGHT / 2 + Math.tan(angle - Math.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - icon.getRegionWidth() * scale));
+				else if (angle > -corner && angle < (Math.PI + corner)) {
+					x = HadalGame.CONFIG_WIDTH - width;
+					y = (float) (HadalGame.CONFIG_HEIGHT / 2 + Math.tan(angle - Math.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - height));
 				}
-				if (angle <= -corner && angle >= corner) {
-					x = (float) (HadalGame.CONFIG_WIDTH / 2 + Math.tan(angle) * (HadalGame.CONFIG_HEIGHT / 2 - icon.getRegionHeight() * scale));
-					y = (float) (icon.getRegionHeight() * scale);
+				else if (angle <= -corner && angle >= corner) {
+					x = (float) (HadalGame.CONFIG_WIDTH / 2 + Math.tan(angle) * (HadalGame.CONFIG_HEIGHT / 2 - width));
+					y = height;
 				}
-				if (angle >= (Math.PI + corner) || angle <= -(Math.PI + corner)) {				
-					x = (float) (HadalGame.CONFIG_WIDTH / 2 + (angle > 0 ? -1 : 1) * Math.tan(Math.abs(angle) - Math.PI) * (HadalGame.CONFIG_HEIGHT / 2 - icon.getRegionHeight() * scale));
-					y = (float) (HadalGame.CONFIG_HEIGHT - icon.getRegionHeight() * scale);
+				else if (angle >= (Math.PI + corner) || angle <= -(Math.PI + corner)) {				
+					x = (float) (HadalGame.CONFIG_WIDTH / 2 + (angle > 0 ? -1 : 1) * Math.tan(Math.abs(angle) - Math.PI) * (HadalGame.CONFIG_HEIGHT / 2 - width));
+					y = HadalGame.CONFIG_HEIGHT - height;
 				}
 				
-				batch.draw(icon, x - icon.getRegionWidth() * scale / 2, y - icon.getRegionHeight() * scale / 2, icon.getRegionWidth() * scale, icon.getRegionHeight() * scale);
-			} else {
+				batch.draw(icon, x - width / 2, y - height / 2, width, height);
+			} else if (displayObjectiveOnScreen) {
 				batch.setProjectionMatrix(state.getCamera().combined);
-				x = state.getObjectiveTarget().getPixelPosition().x;
-				y = state.getObjectiveTarget().getPixelPosition().y;
-				batch.draw(icon, x - icon.getRegionWidth() * scale / 2, y - icon.getRegionHeight() * scale / 2, icon.getRegionWidth() * scale, icon.getRegionHeight() * scale);
+				x = objectiveLocation.x;
+				y = objectiveLocation.y;
+				batch.draw(icon, x - width / 2, y - height / 2, width, height);
 				batch.setProjectionMatrix(state.getHud().combined);
 			}
 		}
 	}
+
+	public void setObjectiveTarget(HadalEntity objectiveTarget) { this.objectiveTarget = objectiveTarget; }
+
+	public HadalEntity getObjectiveTarget() { return objectiveTarget; }
+
+	public void setDisplayObjectiveOffScreen(boolean displayObjectiveOffScreen) { this.displayObjectiveOffScreen = displayObjectiveOffScreen; }
+
+	public void setDisplayObjectiveOnScreen(boolean displayObjectiveOnScreen) {	this.displayObjectiveOnScreen = displayObjectiveOnScreen; }
+	
+	public void setIconType(Sprite sprite) { this.icon = sprite.getFrame(); }
 }

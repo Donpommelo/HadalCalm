@@ -66,6 +66,7 @@ public class Displacer extends Event {
 				(short) 0, true, eventData);
 	}
 	
+	private Vector2 connectedLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		if (getConnectedEvent() == null) {
@@ -80,14 +81,15 @@ public class Displacer extends Event {
 			if (offset == null) {
 				offset = new Vector2(getConnectedEvent().getPixelPosition()).sub(startPos).scl(1 / PPM);
 			}
+			connectedLocation.set(getConnectedEvent().getPosition());
 			
-			newOffset.set(getConnectedEvent().getPosition()).sub(offset).sub(getPosition());
+			newOffset.set(connectedLocation).sub(offset).sub(getPosition());
 			
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				entity.setTransform(entity.getPosition().add(newOffset.x, 0), entity.getAngle());
 			}
 
-			setTransform(getConnectedEvent().getPosition().sub(offset), getAngle());
+			setTransform(connectedLocation.sub(offset), getAngle());
 		}
 	}
 }

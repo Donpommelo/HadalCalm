@@ -119,6 +119,8 @@ public class ClientPlayer extends Player {
 	}
 	
 	//most of the code here is just lifted from the Player class to simulate movement actions like jumping, hovering, fastfalling and boosting
+	private Vector2 playerLocation = new Vector2();
+	private Vector2 playerWorldLocation = new Vector2();
 	private Vector2 newPosition = new Vector2();
 	private Vector2 fug = new Vector2();
 	@Override
@@ -164,14 +166,16 @@ public class ClientPlayer extends Player {
 		}
 		
 		//for the server's own player, the sprite's arm should exactly match their mouse
-		mouseAngle.set(getPixelPosition().y, getPixelPosition().x).sub(((ClientState) state).getMousePosition().y, ((ClientState) state).getMousePosition().x);
+		playerLocation.set(getPixelPosition());
+		playerWorldLocation.set(getPosition());
+		mouseAngle.set(playerLocation.y, playerLocation.x).sub(((ClientState) state).getMousePosition().y, ((ClientState) state).getMousePosition().x);
 		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
 		
 		if (body != null && alive) {
 			
 			//we add a new prediction frame to our list with our current displacement/velocity
 			ClientPredictionFrame frame = new ClientPredictionFrame(delta);
-			frame.positionChange.set(getPosition()).sub(lastPosition);
+			frame.positionChange.set(playerWorldLocation).sub(lastPosition);
 			frame.velocity.set(body.getLinearVelocity());
 			frames.add(frame);
 			historyDuration += delta;
@@ -194,7 +198,7 @@ public class ClientPlayer extends Player {
 				float t = 0.0f;
 				t = delta / (latency * (1 + CONVERGE_MULTIPLIER));
 
-				newPosition.set(body.getPosition()).add(extrapolatedPosition.sub(getPosition()).scl(t));
+				newPosition.set(body.getPosition()).add(extrapolatedPosition.sub(playerWorldLocation).scl(t));
 				setTransform(newPosition, 0.0f);
 			}
 			lastPosition.set(body.getPosition());

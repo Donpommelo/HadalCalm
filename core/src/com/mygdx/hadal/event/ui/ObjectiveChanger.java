@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.ui;
 
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -13,18 +14,25 @@ import com.mygdx.hadal.states.PlayState;
  * Triggering Behavior: N/A. However, it uses its connected event as a point to make the ui element track
  * 
  * Fields:
- * display: boolean of whether to display the ui marker in the corner of the screen. Default: false
+ * displayOffScreen: boolean of whether to display the ui marker in the corner of the screen when it is off screen. Default: false
+ * displayOnScreen: boolean of whether to display the ui marker on the objective when it is on screen. Default: false
+ * icon: String sprite of what icon to use as the objective marker
  * 
  * @author Zachary Tu
  */
 public class ObjectiveChanger extends Event {
 
 	//do we display the objective marker?
-	private boolean display;
+	private boolean displayOffScreen, displayOnScreen;
 	
-	public ObjectiveChanger(PlayState state, boolean display) {
+	//what objective marker icon do we use?
+	private Sprite icon;
+	
+	public ObjectiveChanger(PlayState state, boolean displayOffScreen, boolean displayOnScreen, String icon) {
 		super(state);
-		this.display = display;
+		this.displayOffScreen = displayOffScreen;
+		this.displayOnScreen = displayOnScreen;
+		this.icon = Sprite.valueOf(icon);
 	}
 	
 	@Override
@@ -34,8 +42,10 @@ public class ObjectiveChanger extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
-					state.setObjectiveTarget(event.getConnectedEvent());
-					state.setDisplayObjective(display);
+					state.getUiObjective().setObjectiveTarget(event.getConnectedEvent());
+					state.getUiObjective().setDisplayObjectiveOffScreen(displayOffScreen);
+					state.getUiObjective().setDisplayObjectiveOnScreen(displayOnScreen);
+					state.getUiObjective().setIconType(icon);
 				}
 			}
 		};

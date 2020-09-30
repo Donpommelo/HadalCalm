@@ -78,13 +78,14 @@ public class DiamondCutter extends MeleeWeapon {
 			hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.CUTTING, DamageTypes.MELEE));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
-				private float controllerCount = 0;
-				
+				private float controllerCount;
 				@Override
 				public void create() {
 					hbox.setAngularVelocity(spinSpeed);
 				}
 				
+				private Vector2 entityLocation = new Vector2();
+				private Vector2 pulseVelocity = new Vector2();
 				@Override
 				public void controller(float delta) {
 					
@@ -94,9 +95,10 @@ public class DiamondCutter extends MeleeWeapon {
 					}
 					
 					projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(range);
+					entityLocation.set(shooter.getSchmuck().getPosition());
 					hbox.setTransform(
-							shooter.getSchmuck().getPosition().x + projOffset.x / PPM,  
-							shooter.getSchmuck().getPosition().y + projOffset.y / PPM,
+							entityLocation.x + projOffset.x / PPM,  
+							entityLocation.y + projOffset.y / PPM,
 							hbox.getAngle());
 					
 					controllerCount += delta;
@@ -104,7 +106,7 @@ public class DiamondCutter extends MeleeWeapon {
 					while (controllerCount >= spinInterval) {
 						controllerCount -= spinInterval;
 						
-						Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), projectileSize, spinInterval, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, Sprite.NOTHING);
+						Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), projectileSize, spinInterval, pulseVelocity, shooter.getSchmuck().getHitboxfilter(), true, true, user, Sprite.NOTHING);
 						pulse.setSyncDefault(false);
 						pulse.setEffectsVisual(false);
 						pulse.makeUnreflectable();

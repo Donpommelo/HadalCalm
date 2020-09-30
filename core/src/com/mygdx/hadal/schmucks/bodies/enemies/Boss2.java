@@ -134,6 +134,7 @@ public class Boss2 extends EnemyFloating {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 3000 * numPlayers, getBodyData()));
 	}
 	
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {	
 		
@@ -152,16 +153,17 @@ public class Boss2 extends EnemyFloating {
 					(flip ? 0 : 180) + (float) Math.toDegrees(links[i].getAngle()));
 		}
 		
+		entityLocation.set(getPixelPosition());
 		batch.draw(headSprite, 
-				(flip ? size.x : 0) + getPixelPosition().x - size.x / 2, 
-				getPixelPosition().y - size.y / 2, 
+				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
+				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
 				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
 		
 		batch.draw(faceSprite, 
-				(flip ? size.x : 0) + getPixelPosition().x - size.x / 2, 
-				getPixelPosition().y - size.y / 2, 
+				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
+				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
 				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));

@@ -76,6 +76,8 @@ public class HealingArea extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
 	}
 	
+	private Vector2 entityLocation = new Vector2();
+	private Vector2 randLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
@@ -91,13 +93,15 @@ public class HealingArea extends Event {
 			}
 		}
 		
+		entityLocation.set(getPixelPosition());
+		
 		//spawn particles periodically
 		currCrossSpawnTimer += delta;
 		while (currCrossSpawnTimer >= spawnTimerLimit) {
 			currCrossSpawnTimer -= spawnTimerLimit;
-			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
-			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
-			new ParticleEntity(state, new Vector2(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
+			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
+			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
+			new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
 		}
 	}
 	
@@ -108,12 +112,15 @@ public class HealingArea extends Event {
 	public void clientController(float delta) {
 		super.controller(delta);
 
+		entityLocation.set(getPixelPosition());
+		
+		//spawn particles periodically
 		currCrossSpawnTimer += delta;
 		while (currCrossSpawnTimer >= spawnTimerLimit) {
 			currCrossSpawnTimer -= spawnTimerLimit;
-			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
-			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
-			ParticleEntity poison = new ParticleEntity(state, new Vector2(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
+			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
+			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
+			ParticleEntity poison = new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
 			((ClientState) state).addEntity(poison.getEntityID().toString(), poison, false, ObjectSyncLayers.STANDARD);
 		}
 	}
@@ -124,7 +131,9 @@ public class HealingArea extends Event {
 	@Override
 	public Object onServerCreate() {
 		if (blueprint == null) {
-			blueprint = new RectangleMapObject(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, size.x, size.y);
+			entityLocation.set(getPixelPosition());
+			
+			blueprint = new RectangleMapObject(entityLocation.x - size.x / 2, entityLocation.y - size.y / 2, size.x, size.y);
 			blueprint.setName("HealTemp");
 			blueprint.getProperties().put("duration", duration);
 			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);

@@ -32,12 +32,15 @@ public class MeleeWeapon extends Equipable {
 	 * This method is called when a schmuck targets a point with this weapon.
 	 * The weapon is not fired yet. Instead, a vector keeping track of the target is set.
 	 */
+	private Vector2 playerLocation = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		
-		float powerDiv = shooter.getSchmuck().getPixelPosition().dst(mouseLocation);
+		playerLocation.set(shooter.getSchmuck().getPixelPosition());
 		
-		weaponVelo.set(shooter.getSchmuck().getPixelPosition()).sub(mouseLocation).scl(-powerDiv);
+		float powerDiv = playerLocation.dst(mouseLocation);
+		weaponVelo.set(playerLocation).sub(mouseLocation).scl(-powerDiv);
+		
 		this.faction = faction;
 		this.mouseLocation.set(mouseLocation);
 	}

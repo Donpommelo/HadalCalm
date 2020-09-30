@@ -30,7 +30,7 @@ public class Pepper extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount = procCd;
-
+			private Vector2 entityLocation = new Vector2();
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {
@@ -38,7 +38,7 @@ public class Pepper extends Artifact {
 				}
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					
+					entityLocation.set(inflicted.getSchmuck().getPosition());
 					state.getWorld().QueryAABB(new QueryCallback() {
 
 						@Override
@@ -52,8 +52,8 @@ public class Pepper extends Artifact {
 							return true;
 						}
 					}, 
-					inflicted.getSchmuck().getPosition().x - radius, inflicted.getSchmuck().getPosition().y - radius, 
-					inflicted.getSchmuck().getPosition().x + radius, inflicted.getSchmuck().getPosition().y + radius);		
+						entityLocation.x - radius, entityLocation.y - radius, 
+						entityLocation.x + radius, entityLocation.y + radius);		
 				}
 			}
 		};

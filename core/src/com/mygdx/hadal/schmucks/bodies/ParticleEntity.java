@@ -101,6 +101,7 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public void create() {}
 
+	private Vector2 attachedLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		
@@ -110,7 +111,8 @@ public class ParticleEntity extends HadalEntity {
 		//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
 		if (attachedEntity != null && !despawn) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
-				effect.setPosition(attachedEntity.getPixelPosition().x + offset.x, attachedEntity.getPixelPosition().y + offset.y);
+				attachedLocation.set(attachedEntity.getPixelPosition());
+				effect.setPosition(attachedLocation.x + offset.x, attachedLocation.y + offset.y);
 			} else {
 				despawn = true;
 				turnOff();
@@ -252,7 +254,8 @@ public class ParticleEntity extends HadalEntity {
 			} else if (attachedEntity.getBody() == null) {
 				newPos.set(startPos);
 			} else {
-				newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
+				attachedLocation.set(attachedEntity.getPixelPosition());
+				newPos.set(attachedLocation.x, attachedLocation.y);
 			}
 			
 			//if this particle effect has extra fields (scale and color), sync those as well

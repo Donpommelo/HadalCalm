@@ -119,6 +119,7 @@ public class KBKSpawner extends EnemySwimming {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);
@@ -129,9 +130,10 @@ public class KBKSpawner extends EnemySwimming {
 			flip = false;
 		}
 
+		entityLocation.set(getPixelPosition());
 		batch.draw(faceSprite, 
-				(flip ? size.x : 0) + getPixelPosition().x - size.x / 2, 
-				getPixelPosition().y - size.y / 2, 
+				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
+				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, 
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 

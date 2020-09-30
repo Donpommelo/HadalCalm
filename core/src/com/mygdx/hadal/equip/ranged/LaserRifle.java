@@ -57,18 +57,19 @@ public class LaserRifle extends RangedWeapon {
 	}
 
 	private Vector2 endPt = new Vector2();
+	private Vector2 entityLocation = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.LASER2.playUniversal(state, startPosition, 0.8f, false);
 
 		//This is the max distance this weapon can shoot (hard coded to scale to weapon range modifiers)
 		float distance = projectileWidth * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
-		
-		endPt.set(user.getPosition()).add(new Vector2(startVelocity).nor().scl(distance));
+		entityLocation.set(user.getPosition());
+		endPt.set(entityLocation).add(new Vector2(startVelocity).nor().scl(distance));
 		shortestFraction = 1.0f;
 		
 		//Raycast length of distance until we hit a wall
-		if (user.getPosition().x != endPt.x || user.getPosition().y != endPt.y) {
+		if (entityLocation.x != endPt.x || entityLocation.y != endPt.y) {
 
 			state.getWorld().rayCast(new RayCastCallback() {
 
@@ -84,7 +85,7 @@ public class LaserRifle extends RangedWeapon {
 					return -1.0f;
 				}
 				
-			}, user.getPosition(), endPt);
+			}, entityLocation, endPt);
 		}
 		
 		int randomIndex = GameStateManager.generator.nextInt(projSprites.length);

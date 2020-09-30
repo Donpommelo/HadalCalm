@@ -37,7 +37,7 @@ public class YightKite extends Artifact {
 				hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
 					
 					private Vector2 playerPos = new Vector2();
-					
+					private Vector2 entityLocation = new Vector2();
 					@Override
 					public void create() {
 						playerPos.set(inflicted.getSchmuck().getPosition());
@@ -46,8 +46,9 @@ public class YightKite extends Artifact {
 					@Override
 					public void controller(float delta) {
 						if (inflicted.getSchmuck().getBody() != null) {
-							hbox.setTransform(new Vector2(hbox.getPosition()).add(inflicted.getSchmuck().getPosition()).sub(playerPos), hbox.getBody().getAngle());
-							playerPos.set(inflicted.getSchmuck().getPosition());
+							entityLocation.set(inflicted.getSchmuck().getPosition());
+							hbox.setTransform(new Vector2(hbox.getPosition()).add(entityLocation).sub(playerPos), hbox.getBody().getAngle());
+							playerPos.set(entityLocation);
 						}
 					}
 					

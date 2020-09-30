@@ -48,7 +48,8 @@ public class OurGetAlongShirt extends Artifact {
 			private Schmuck partner;
 			
 			private Hitbox[] links = new Hitbox[6];
-			
+			private Vector2 entityLocation = new Vector2();
+			private Vector2 homeLocation = new Vector2();
 			@Override
 			public void timePassing(float delta) {
 				
@@ -65,6 +66,7 @@ public class OurGetAlongShirt extends Artifact {
 					if (procCdCount >= procCd) {
 						procCdCount -= procCd;
 						
+						entityLocation.set(inflicted.getSchmuck().getPosition());
 						state.getWorld().QueryAABB(new QueryCallback() {
 
 							@Override
@@ -72,9 +74,10 @@ public class OurGetAlongShirt extends Artifact {
 								if (fixture.getUserData() instanceof BodyData) {
 									
 									homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
+									homeLocation.set(homeAttempt.getPosition());
 									shortestFraction = 1.0f;
 									
-								  	if (inflicted.getSchmuck().getPosition().x != homeAttempt.getPosition().x || inflicted.getSchmuck().getPosition().y != homeAttempt.getPosition().y) {
+								  	if (entityLocation.x != homeLocation.x || entityLocation.y != homeLocation.y) {
 								  		
 								  		state.getWorld().rayCast(new RayCastCallback() {
 
@@ -95,7 +98,7 @@ public class OurGetAlongShirt extends Artifact {
 												} 
 												return -1.0f;
 											}
-										}, inflicted.getSchmuck().getPosition(), homeAttempt.getPosition());	
+										}, inflicted.getSchmuck().getPosition(), homeLocation);	
 								  		
 								  		if (closestFixture != null) {
 											if (closestFixture.getUserData() instanceof BodyData) {
@@ -106,9 +109,7 @@ public class OurGetAlongShirt extends Artifact {
 								}
 								return true;
 							}
-						}, 
-						inflicted.getSchmuck().getPosition().x - radius, inflicted.getSchmuck().getPosition().y - radius, 
-						inflicted.getSchmuck().getPosition().x + radius, inflicted.getSchmuck().getPosition().y + radius);		
+						}, entityLocation.x - radius, entityLocation.y - radius, entityLocation.x + radius, entityLocation.y + radius);		
 					}
 				}
 			}

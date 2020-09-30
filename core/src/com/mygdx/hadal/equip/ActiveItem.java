@@ -38,11 +38,14 @@ public class ActiveItem extends Equipable {
 	 * This method is called when a schmuck targets a point with this weapon.
 	 * The weapon is not fired yet. Instead, a vector keeping track of the target is set.
 	 */
+	private Vector2 playerLocation = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
 
-		float powerDiv = shooter.getSchmuck().getPixelPosition().dst(mousePosition);
-		weaponVelo.set(shooter.getSchmuck().getPixelPosition()).sub(mousePosition).scl(-1 / powerDiv);
+		playerLocation.set(shooter.getSchmuck().getPixelPosition());
+		
+		float powerDiv = playerLocation.dst(mousePosition);
+		weaponVelo.set(playerLocation).sub(mousePosition).scl(-1 / powerDiv);
 		
 		this.faction = faction;
 		this.mouseLocation.set(mousePosition);

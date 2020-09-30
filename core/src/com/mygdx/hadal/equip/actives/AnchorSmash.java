@@ -81,18 +81,19 @@ public class AnchorSmash extends ActiveItem {
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
-			private boolean landed = false;
-			
+			private boolean landed;
+			private Vector2 hboxLocation = new Vector2();
 			@Override
 			public void controller(float delta) {
-				if (hbox.getPixelPosition().y - hbox.getSize().y / 2 <= endPt.y) {
+				hboxLocation.set(hbox.getPixelPosition());
+				if (hboxLocation.y - hbox.getSize().y / 2 <= endPt.y) {
 					hbox.setLinearVelocity(0, 0);
 					
 					if (!landed) {
 						landed = true;
 						
-						SoundEffect.METAL_IMPACT_2.playUniversal(state, hbox.getPixelPosition(), 1.0f, false);
-						new ParticleEntity(state, hbox.getPixelPosition(), Particle.BOULDER_BREAK, 0.5f, true, particleSyncType.CREATESYNC);
+						SoundEffect.METAL_IMPACT_2.playUniversal(state, hboxLocation, 1.0f, false);
+						new ParticleEntity(state, hboxLocation, Particle.BOULDER_BREAK, 0.5f, true, particleSyncType.CREATESYNC);
 					}
 				}
 			}
