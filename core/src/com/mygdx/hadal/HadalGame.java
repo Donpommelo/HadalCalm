@@ -19,7 +19,7 @@ import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.client.KryoClient;
 
 /**
- * HadalGame is the game. This is created upon launching the game. It delegates the rendering + updating logic to the GamestateManager.
+ * HadalGame is the game. This is created upon launching the game. It delegates the rendering + updating logic to the GameStateManager.
  * @author Zachary Tu
  */
 public class HadalGame extends ApplicationAdapter {
@@ -29,7 +29,7 @@ public class HadalGame extends ApplicationAdapter {
 	public final static int CONFIG_HEIGHT = 720;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String Version = "1.0.3.d";
+	public static final String Version = "1.0.3.e";
 	
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
