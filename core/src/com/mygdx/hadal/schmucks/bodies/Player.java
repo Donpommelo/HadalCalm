@@ -830,7 +830,7 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//This draws a heart by the player's sprite to indicate hp remaining
-		float heartX = playerLocation.x - Player.hbWidth * scale - empty.getWidth() * uiScale + 10;
+		float heartX = playerLocation.x - Player.hbWidth * scale - empty.getWidth() * uiScale + 5;
 		float heartY = playerLocation.y + Player.hbHeight * scale / 2 + 5;
 		
 		float hpRatio = 0.0f;

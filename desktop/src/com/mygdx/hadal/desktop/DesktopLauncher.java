@@ -25,7 +25,7 @@ public class DesktopLauncher {
 				
 				//This exposes config to the app to change fps during runtime.
 				config.foregroundFPS = framerate;
-			};
+			}
 			
 		}, config);
 	}
