@@ -20,9 +20,12 @@ public enum UnlockCharacter {
 		
 		//custom wobble for bucket bobbing
 		@Override
-		public float getWobbleOffsetHead(int frame, int frameHead, boolean grounded) {
+		public float getWobbleOffsetHead(int frame, int frameHead, boolean grounded, boolean moving) {
+			if (!moving) {
+				return 0;
+			}
 			if (grounded) {
-				switch (frameHead) {
+				switch (frame) {
 				case 0:
 					return 0;
 				case 1:
@@ -69,7 +72,14 @@ public enum UnlockCharacter {
 	},
 	TAKANORI(Sprite.SpriteType.TAKANORI),
 	TELEMACHUS(Sprite.SpriteType.TELEMACHUS),
-	WANDA(Sprite.SpriteType.WANDA),
+	WANDA(Sprite.SpriteType.WANDA) {
+		
+		//this just makes wanda's head offset slightly higher to compensate for lack of a neck
+		@Override
+		public float getWobbleOffsetHead(int frame, int frameHead, boolean grounded, boolean moving) {
+			return getWobbleOffsetBody(frame, grounded, moving) + 5;
+		}
+	},
 	MOREAU_FESTIVE(Sprite.SpriteType.MOREAU_FESTIVE),
 	MOREAU_PARTY(Sprite.SpriteType.MOREAU_PARTY)
 	;
@@ -102,12 +112,12 @@ public enum UnlockCharacter {
 		return items;
 	}
 	
-	public float getWobbleOffsetHead(int frame, int frameHead, boolean grounded) {
-		return getWobbleOffsetBody(frame, grounded);
+	public float getWobbleOffsetHead(int frame, int frameHead, boolean grounded, boolean moving) {
+		return getWobbleOffsetBody(frame, grounded, moving);
 	}
 	
-	public float getWobbleOffsetBody(int frame, boolean grounded) {
-		if (grounded) {
+	public float getWobbleOffsetBody(int frame, boolean grounded, boolean moving) {
+		if (grounded && moving) {
 			switch (frame) {
 			case 0:
 				return 0;

@@ -6,7 +6,7 @@ filter: Linear,Linear
 repeat: none
 arm
   rotate: false
-  xy: 1160, 1358
+  xy: 1546, 1490
   size: 346, 150
   orig: 346, 150
   offset: 0, 0
@@ -102,3 +102,108 @@ head
   orig: 228, 276
   offset: 0, 0
   index: 0
+head
+  rotate: false
+  xy: 2, 2
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 8
+head
+  rotate: false
+  xy: 1160, 1232
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 1
+head
+  rotate: false
+  xy: 1160, 1232
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 7
+head
+  rotate: false
+  xy: 1546, 1642
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 2
+head
+  rotate: false
+  xy: 1546, 1642
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 6
+head
+  rotate: false
+  xy: 774, 412
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 3
+head
+  rotate: false
+  xy: 774, 412
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 5
+head
+  rotate: false
+  xy: 232, 2
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 4
+head
+  rotate: false
+  xy: 1160, 954
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 9
+head
+  rotate: false
+  xy: 1160, 954
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 15
+head
+  rotate: false
+  xy: 1776, 1642
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 10
+head
+  rotate: false
+  xy: 1776, 1642
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 14
+head
+  rotate: false
+  xy: 462, 2
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 11
+head
+  rotate: false
+  xy: 462, 2
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 13
+head
+  rotate: false
+  xy: 1160, 676
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 12

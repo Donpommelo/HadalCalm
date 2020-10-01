@@ -255,7 +255,7 @@ public class Player extends PhysicsSchmuck {
 		this.bodyBackHeight = bodyBackSprite.getRegionHeight();
 		this.gemHeight = gemSprite.getRegionHeight();
 		this.gemWidth = gemSprite.getRegionWidth();
-
+		
 		//This line is used when the player swaps skins in loadout screen. It ensures the tool sprite is properly aligned.
 		if (playerData != null) {
 			playerData.setEquip();
@@ -703,13 +703,12 @@ public class Player extends PhysicsSchmuck {
 		//offset head is separate for some characters to have head bobbing
 		float yOffset = 0;
 		float yOffsetHead = 0;
-		if (moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT)) {
-			int bodyFrame = bodyRunSprite.getKeyFrameIndex(animationTime);
-			int headFrame = bodyRunSprite.getKeyFrameIndex(animationTimeExtra);
-			
-			yOffset = playerData.getLoadout().character.getWobbleOffsetBody(bodyFrame, grounded);
-			yOffsetHead = playerData.getLoadout().character.getWobbleOffsetHead(bodyFrame, headFrame, grounded);
-		}
+		boolean moving = moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT);
+		int bodyFrame = bodyRunSprite.getKeyFrameIndex(animationTime);
+		int headFrame = bodyRunSprite.getKeyFrameIndex(animationTimeExtra);
+		
+		yOffset = playerData.getLoadout().character.getWobbleOffsetBody(bodyFrame, grounded, moving);
+		yOffsetHead = playerData.getLoadout().character.getWobbleOffsetHead(bodyFrame, headFrame, grounded, moving);
 		
 		//we make location an int to avoid weird blurriness/jitters
 		playerLocation.set(getPixelPosition());
