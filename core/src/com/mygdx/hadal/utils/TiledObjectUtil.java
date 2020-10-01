@@ -166,7 +166,10 @@ public class TiledObjectUtil {
 					object.getProperties().get("changeTimer", true, boolean.class));
 		} else if (object.getName().equals("Camera")) {
 			
-			e = new CameraChanger(state, object.getProperties().get("zoom", 1.0f, float.class));
+			e = new CameraChanger(state, 
+					object.getProperties().get("zoom", 1.0f, float.class),
+					object.getProperties().get("offsetX", 0.0f, float.class),
+					object.getProperties().get("offsetY", 0.0f, float.class));
 		} else if (object.getName().equals("Shader")) {
 			
 			e = new ShaderChanger(state, object.getProperties().get("shader", String.class));

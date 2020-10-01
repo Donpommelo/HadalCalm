@@ -16,8 +16,60 @@ public enum UnlockCharacter {
 
 	MAXIMILLIAN(Sprite.SpriteType.MAXIMILLIAN),
 	MOREAU(Sprite.SpriteType.MOREAU),
-	TELEMACHUS(Sprite.SpriteType.TELEMACHUS),
+	ROCLAIRE(Sprite.SpriteType.ROCLAIRE) {
+		
+		//custom wobble for bucket bobbing
+		@Override
+		public float getWobbleOffsetHead(int frame, int frameHead, boolean grounded) {
+			if (grounded) {
+				switch (frameHead) {
+				case 0:
+					return 0;
+				case 1:
+					return 1;
+				case 2:
+					return 2;
+				case 3:
+					return 3;
+				case 4:
+					return 4;
+				case 5:
+					return 5;
+				case 6:
+					return 3.5f;
+				case 7:
+					return 1;
+				default:
+					return 0;
+				}
+			} else {
+				switch (frameHead) {
+				case 0:
+					return 0;
+				case 1:
+					return 0.5f;
+				case 2:
+					return 1;
+				case 3:
+					return 1.5f;
+				case 4:
+					return 2;
+				case 5:
+					return 1.5f;
+				case 6:
+					return 1;
+				case 7:
+					return 0.5f;
+				default:
+					return 0;
+				}
+			}
+		}
+		
+	},
 	TAKANORI(Sprite.SpriteType.TAKANORI),
+	TELEMACHUS(Sprite.SpriteType.TELEMACHUS),
+	WANDA(Sprite.SpriteType.WANDA),
 	MOREAU_FESTIVE(Sprite.SpriteType.MOREAU_FESTIVE),
 	MOREAU_PARTY(Sprite.SpriteType.MOREAU_PARTY)
 	;
@@ -48,6 +100,37 @@ public enum UnlockCharacter {
 			}
 		}
 		return items;
+	}
+	
+	public float getWobbleOffsetHead(int frame, int frameHead, boolean grounded) {
+		return getWobbleOffsetBody(frame, grounded);
+	}
+	
+	public float getWobbleOffsetBody(int frame, boolean grounded) {
+		if (grounded) {
+			switch (frame) {
+			case 0:
+				return 0;
+			case 1:
+				return 1;
+			case 2:
+				return 2;
+			case 3:
+				return 3;
+			case 4:
+				return 4;
+			case 5:
+				return 3;
+			case 6:
+				return 3;
+			case 7:
+				return 1;
+			default:
+				return 0;
+			}
+		} else {
+			return 0;
+		}
 	}
 	
 	public InfoItem getInfo() { return info; }

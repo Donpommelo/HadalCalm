@@ -41,8 +41,8 @@ public abstract class HadalEntity {
 	//is the entity queued up for deletion? has it been destroyed yet?
 	protected boolean alive = true, destroyed = false;
 	
-	//counter and method to keep up with animation frames
-	protected float animationTime;
+	//counter and method to keep up with animation frames. (extra is used for entities that have multiple parts that move at different speeds like the player)
+	protected float animationTime, animationTimeExtra;
 	protected float getAnimationTime() { return animationTime; }
 	
 	//counter of entity's age. this is sent to the client for syncing purposes.

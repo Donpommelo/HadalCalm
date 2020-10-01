@@ -203,13 +203,13 @@ public enum Sprite {
 	MOREAU_GEM_ON(SpriteType.MOREAU, "gem_active"),
 	MOREAU_GEM_OFF(SpriteType.MOREAU, "gem_inactive"),
 	
-	TELEMACHUS_RUN(SpriteType.TELEMACHUS, "body_run"),
-	TELEMACHUS_STILL(SpriteType.TELEMACHUS, "body_stand"),
-	TELEMACHUS_BACK(SpriteType.TELEMACHUS, "body_background"),
-	TELEMACHUS_HEAD(SpriteType.TELEMACHUS, "head"),
-	TELEMACHUS_ARM(SpriteType.TELEMACHUS, "arm"),
-	TELEMACHUS_GEM_ON(SpriteType.TELEMACHUS, "gem_active"),
-	TELEMACHUS_GEM_OFF(SpriteType.TELEMACHUS, "gem_inactive"),
+	ROCLAIRE_RUN(SpriteType.ROCLAIRE, "body_run"),
+	ROCLAIRE_STILL(SpriteType.ROCLAIRE, "body_stand"),
+	ROCLAIRE_BACK(SpriteType.ROCLAIRE, "body_background"),
+	ROCLAIRE_HEAD(SpriteType.ROCLAIRE, "head"),
+	ROCLAIRE_ARM(SpriteType.ROCLAIRE, "arm"),
+	ROCLAIRE_GEM_ON(SpriteType.ROCLAIRE, "gem_active"),
+	ROCLAIRE_GEM_OFF(SpriteType.ROCLAIRE, "gem_inactive"),
 	
 	TAKANORI_RUN(SpriteType.TAKANORI, "body_run"),
 	TAKANORI_STILL(SpriteType.TAKANORI, "body_stand"),
@@ -218,6 +218,22 @@ public enum Sprite {
 	TAKANORI_ARM(SpriteType.TAKANORI, "arm"),
 	TAKANORI_GEM_ON(SpriteType.TAKANORI, "gem_active"),
 	TAKANORI_GEM_OFF(SpriteType.TAKANORI, "gem_inactive"),
+	
+	TELEMACHUS_RUN(SpriteType.TELEMACHUS, "body_run"),
+	TELEMACHUS_STILL(SpriteType.TELEMACHUS, "body_stand"),
+	TELEMACHUS_BACK(SpriteType.TELEMACHUS, "body_background"),
+	TELEMACHUS_HEAD(SpriteType.TELEMACHUS, "head"),
+	TELEMACHUS_ARM(SpriteType.TELEMACHUS, "arm"),
+	TELEMACHUS_GEM_ON(SpriteType.TELEMACHUS, "gem_active"),
+	TELEMACHUS_GEM_OFF(SpriteType.TELEMACHUS, "gem_inactive"),
+	
+	WANDA_RUN(SpriteType.WANDA, "body_run"),
+	WANDA_STILL(SpriteType.WANDA, "body_stand"),
+	WANDA_BACK(SpriteType.WANDA, "body_background"),
+	WANDA_HEAD(SpriteType.WANDA, "head"),
+	WANDA_ARM(SpriteType.WANDA, "arm"),
+	WANDA_GEM_ON(SpriteType.WANDA, "gem_active"),
+	WANDA_GEM_OFF(SpriteType.WANDA, "gem_inactive"),
 	
 	MOREAU_FESTIVE_RUN(SpriteType.MOREAU_FESTIVE, "body_run"),
 	MOREAU_FESTIVE_STILL(SpriteType.MOREAU_FESTIVE, "body_stand"),
@@ -319,10 +335,14 @@ public enum Sprite {
 			return HadalGame.assetManager.get(AssetList.PLAYER_MAXIMILLIAN_ATL.toString());
 		case MOREAU:
 			return HadalGame.assetManager.get(AssetList.PLAYER_MOREAU_ATL.toString());
+		case ROCLAIRE:
+			return HadalGame.assetManager.get(AssetList.PLAYER_ROCLAIRE_ATL.toString());
 		case TAKANORI:
-			return HadalGame.assetManager.get(AssetList.PLAYER_TAKA_ATL.toString());
+			return HadalGame.assetManager.get(AssetList.PLAYER_TAKANORI_ATL.toString());
 		case TELEMACHUS:
-			return HadalGame.assetManager.get(AssetList.PLAYER_TELE_ATL.toString());
+			return HadalGame.assetManager.get(AssetList.PLAYER_TELEMACHUS_ATL.toString());
+		case WANDA:
+			return HadalGame.assetManager.get(AssetList.PLAYER_WANDA_ATL.toString());
 		case MOREAU_FESTIVE:
 			return HadalGame.assetManager.get(AssetList.PLAYER_MOREAU_FESTIVE_ATL.toString());
 		case MOREAU_PARTY:
@@ -380,8 +400,10 @@ public enum Sprite {
 		
 		MAXIMILLIAN,
 		MOREAU,
+		ROCLAIRE,
 		TAKANORI,
 		TELEMACHUS,
+		WANDA,
 		MOREAU_FESTIVE,
 		MOREAU_PARTY
 	}

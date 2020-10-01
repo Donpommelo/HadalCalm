@@ -700,28 +700,20 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//This switch determines the total body y-offset to make the body bob up and down when running.
-		int yOffset = 0;
+		//offset head is separate for some characters to have head bobbing
+		float yOffset = 0;
+		float yOffsetHead = 0;
 		if (moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT)) {
-			switch(bodyRunSprite.getKeyFrameIndex(animationTime)) {
-			case 0:
-			case 1:
-				yOffset++;
-			case 2:
-				yOffset++;
-			case 3:
-				yOffset++;
-			case 4:
-				yOffset++;
-			case 5:
-				yOffset--;
-			case 6:
-				yOffset--;
-			case 7:
-				yOffset--;
-			}
+			int bodyFrame = bodyRunSprite.getKeyFrameIndex(animationTime);
+			int headFrame = bodyRunSprite.getKeyFrameIndex(animationTimeExtra);
+			
+			yOffset = playerData.getLoadout().character.getWobbleOffsetBody(bodyFrame, grounded);
+			yOffsetHead = playerData.getLoadout().character.getWobbleOffsetHead(bodyFrame, headFrame, grounded);
 		}
 		
+		//we make location an int to avoid weird blurriness/jitters
 		playerLocation.set(getPixelPosition());
+		playerLocation.set((int) playerLocation.x, (int) playerLocation.y);
 		
 		//Draw a bunch of stuff
 		batch.draw(toolSprite, 
@@ -787,9 +779,9 @@ public class Player extends PhysicsSchmuck {
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		}
 		
-		batch.draw((TextureRegion) headSprite.getKeyFrame(animationTime, true), 
+		batch.draw((TextureRegion) headSprite.getKeyFrame(animationTimeExtra, true), 
 				(flip ? headWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + headConnectXReal * scale, 
-				playerLocation.y - hbHeight * scale / 2 + headConnectY * scale + yOffset, 
+				playerLocation.y - hbHeight * scale / 2 + headConnectY * scale + yOffsetHead, 
 				0, 0,
 				(flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
 		
@@ -1073,6 +1065,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void increaseAnimationTime(float i) { 
+		animationTimeExtra += i;
 		if (grounded) {
 			animationTime += i; 
 		} else {

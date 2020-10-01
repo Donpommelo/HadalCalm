@@ -33,7 +33,7 @@ public class TeslaCoil extends RangedWeapon {
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 100.0f;
-	private final static Vector2 projectileSize = new Vector2(60, 60);
+	private final static Vector2 projectileSize = new Vector2(45, 45);
 	private final static float lifespan = 4.5f;
 	
 	private final static Sprite projSprite = Sprite.PYLON;

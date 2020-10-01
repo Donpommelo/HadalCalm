@@ -19,11 +19,13 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class CameraChanger extends Event {
 
-	private float zoom;
+	private float zoom, offsetX, offsetY;
 	
-	public CameraChanger(PlayState state, float zoom) {
+	public CameraChanger(PlayState state, float zoom, float offsetX, float offsetY) {
 		super(state);
 		this.zoom = zoom;
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
 	}
 	
 	@Override
@@ -37,6 +39,7 @@ public class CameraChanger extends Event {
 				} else {
 					state.setCameraTarget(null);
 				}
+				state.setCameraOffset(offsetX, offsetY);
 				
 				if (zoom != 0.0f) {
 					state.setZoom(zoom);

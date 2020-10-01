@@ -24,8 +24,10 @@ public enum AssetList {
 	PLAYER_MOREAU_ATL("sprites/player/moreau.atlas", TextureAtlas.class),
 	PLAYER_MOREAU_FESTIVE_ATL("sprites/player/moreau_festive.atlas", TextureAtlas.class),
 	PLAYER_MOREAU_PARTY_ATL("sprites/player/moreau_party.atlas", TextureAtlas.class),
-	PLAYER_TAKA_ATL("sprites/player/takanori.atlas", TextureAtlas.class),
-	PLAYER_TELE_ATL("sprites/player/telemachus.atlas", TextureAtlas.class),
+	PLAYER_ROCLAIRE_ATL("sprites/player/roclaire.atlas", TextureAtlas.class),
+	PLAYER_TAKANORI_ATL("sprites/player/takanori.atlas", TextureAtlas.class),
+	PLAYER_TELEMACHUS_ATL("sprites/player/telemachus.atlas", TextureAtlas.class),
+	PLAYER_WANDA_ATL("sprites/player/wanda.atlas", TextureAtlas.class),
 	MULTITOOL_ATL("sprites/player/multitool.atlas", TextureAtlas.class),
 	EVENT_ATL("sprites/events/event.atlas", TextureAtlas.class),
 	

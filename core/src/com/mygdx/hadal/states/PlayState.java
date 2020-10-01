@@ -123,8 +123,11 @@ public class PlayState extends GameState {
 	//This is the id of the start event that we will be spawning on
 	private String startId;
 	
-	//This is the coordinate that the camera tries to focus on when set to aim at an entity. When null, the camera focuses on the player
+	//This is the coordinate that the camera tries to focus on when set to aim at an entity. When null, the camera focuses on the player.
 	private Vector2 cameraTarget;
+	
+	//the camera is pointed offset of the target by this vector. (this is pretty much only used when focusing on the player)
+	private Vector2 cameraOffset = new Vector2();
 	
 	//coordinate the camera is looking at in spectator mode. Unlock cameraTarget, this shouldn't be null
 	private Vector2 spectatorTarget = new Vector2();
@@ -682,6 +685,8 @@ public class PlayState extends GameState {
 		} else {
 			tmpVector2.set(cameraTarget);
 		}
+		
+		tmpVector2.add(cameraOffset);
 		
 		//this makes the spectator target respect camera bounds
 		spectatorTarget.set(tmpVector2);
@@ -1267,6 +1272,7 @@ public class PlayState extends GameState {
 		
 		this.zoomDesired = map.getProperties().get("zoom", spectatorDefaultZoom, float.class);
 		this.cameraTarget = null;
+		this.cameraOffset.set(0, 0);
 		
 		if (spectatorBounded) {
 			for (int i = 0; i < 4; i++) {
@@ -1335,6 +1341,8 @@ public class PlayState extends GameState {
 	public void addDummyPoint(PositionDummy dummy, String id) {	dummyPoints.put(id, dummy); }
 	
 	public void setCameraTarget(Vector2 cameraTarget) {	this.cameraTarget = cameraTarget; }
+	
+	public void setCameraOffset(float offsetX, float offsetY) {	cameraOffset.set(offsetX, offsetY); }
 	
 	public Vector2 getCameraTarget() {	return cameraTarget; }
 

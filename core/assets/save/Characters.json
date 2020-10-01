@@ -10,7 +10,15 @@ MAXIMILLIAN: {
 MOREAU: {
 	name: MOREAU
 	description: ""
-    descriptionLong: "Moreau used to work in a warehouse as the lead box-counter."
+    descriptionLong: "Marcel Moreau used to work in a warehouse as the lead box-counter."
+	tags: [
+       DORMITORY
+    ]
+}
+ROCLAIRE: {
+	name: ROCLAIRE
+	description: ""
+    descriptionLong: ""
 	tags: [
        DORMITORY
     ]
@@ -27,6 +35,14 @@ TELEMACHUS: {
 	name: TELEMACHUS
 	description: ""
     descriptionLong: "Telemachus is a submarine with a man-shaped ventral extension."
+	tags: [
+       DORMITORY
+    ]
+}
+WANDA: {
+	name: WANDA
+	description: ""
+    descriptionLong: ""
 	tags: [
        DORMITORY
     ]

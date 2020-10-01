@@ -16,7 +16,7 @@ flags: {
 	PLENUM1SC: 0
 	SLUICEFINALSC: 0
 	PLENUM0SC: 0
-	DIALOG1: 0
+	DIALOG1: 1
 	WRECK0SC: 1
 	CACHE2: 0
 	WRECK1SC: 0
@@ -264,6 +264,8 @@ unlockCharacter: {
 	MAXIMILLIAN: true
 	MOREAU_FESTIVE: true
 	MOREAU: true
+	ROCLAIRE: true
+    WANDA: true
 }
 unlockLevel: {
 	class: java.util.HashMap
