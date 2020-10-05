@@ -42,7 +42,7 @@ TELEMACHUS: {
 WANDA: {
 	name: WANDA
 	description: ""
-    descriptionLong: ""
+    descriptionLong: "Wanda is the last surviving specimen of bottlenose dolphin."
 	tags: [
        DORMITORY
     ]

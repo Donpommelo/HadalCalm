@@ -259,13 +259,13 @@ unlockActive: {
 unlockCharacter: {
 	class: java.util.HashMap
 	TAKANORI: true
+	WANDA: true
 	TELEMACHUS: true
 	MOREAU_PARTY: true
 	MAXIMILLIAN: true
 	MOREAU_FESTIVE: true
 	MOREAU: true
 	ROCLAIRE: true
-    WANDA: true
 }
 unlockLevel: {
 	class: java.util.HashMap

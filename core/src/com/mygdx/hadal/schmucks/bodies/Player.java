@@ -70,7 +70,7 @@ public class Player extends PhysicsSchmuck {
 	public static final float scale = 0.15f;
 	public static final float uiScale = 0.4f;
 	
-	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
+	private TextureRegion bodyBackSprite, armSprite, gemSprite, toolSprite;
 	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite, typingBubble;
 	
 	private TextureRegion reload, reloadMeter, reloadBar;
@@ -243,7 +243,6 @@ public class Player extends PhysicsSchmuck {
 		armSprite = Sprite.getCharacterSprites(character.getSprite(), "arm").getFrame();
 		headSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, Sprite.getCharacterSprites(character.getSprite(), "head").getFrames());	
 		gemSprite = Sprite.getCharacterSprites(character.getSprite(), "gem_active").getFrame();
-		gemInactiveSprite = Sprite.getCharacterSprites(character.getSprite(), "gem_inactive").getFrame();
 		
 		this.armWidth = armSprite.getRegionWidth();
 		this.armHeight = armSprite.getRegionHeight();
@@ -733,7 +732,7 @@ public class Player extends PhysicsSchmuck {
 				(flip ? -armWidth * scale : 0) + armRotateXReal * scale, armRotateY * scale,
 				(flip ? -1 : 1) * armWidth * scale, armHeight * scale, 1, 1, realAttackAngle);
 		
-		batch.draw(playerData.getActiveItem().isReady() ? gemSprite : gemInactiveSprite, 
+		batch.draw(gemSprite, 
 				(flip ? gemWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale, 
 				playerLocation.y - hbHeight * scale / 2 + bodyConnectY + yOffset, 
 				0, 0,
@@ -786,7 +785,7 @@ public class Player extends PhysicsSchmuck {
 		
 		
 		if (invisible) {
-			batch.setColor(1.0f,  1.0f, 1.0f, 1.0f);
+			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 		
 		float textX = playerLocation.x - reload.getRegionWidth() * uiScale / 2;

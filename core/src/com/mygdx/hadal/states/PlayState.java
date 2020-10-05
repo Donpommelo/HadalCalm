@@ -486,10 +486,9 @@ public class PlayState extends GameState {
 		batch.begin();
 		batch.disableBlending();
 		if (shaderBase.getShader() != null) {
-			shaderBase.getShader().begin();
+			shaderBase.getShader().bind();
 			shaderBase.shaderPlayUpdate(this, timer);
 			shaderBase.shaderDefaultUpdate(timer);
-			shaderBase.getShader().end();
 			batch.setShader(shaderBase.getShader());
 		}
 		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
@@ -734,9 +733,8 @@ public class PlayState extends GameState {
 		}
 		
 		if(shaderBase.getShader() != null) {
-			shaderBase.getShader().begin();
+			shaderBase.getShader().bind();
 			shaderBase.shaderResize();
-			shaderBase.getShader().end();
 		}
 	}
 	

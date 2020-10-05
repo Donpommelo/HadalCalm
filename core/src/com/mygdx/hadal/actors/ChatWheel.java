@@ -16,7 +16,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.payne.games.piemenu.AnimatedPieMenu;
 import com.payne.games.piemenu.PieMenu;
 
-@SuppressWarnings("deprecation")
 /**
  * This actor represents the chat wheel that can be used to send emotes on the fly.
  * This wheel is displayed in the center of the screen and can be controlled with the mouse.

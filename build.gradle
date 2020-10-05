@@ -19,10 +19,10 @@ allprojects {
     version = '1.0'
     ext {
         appName = "HadalGame"
-        gdxVersion = '1.9.10'
-        roboVMVersion = '2.3.1'
+        gdxVersion = '1.9.11'
+        roboVMVersion = '2.3.8'
         box2DLightsVersion = '1.4'
-        pieMenuVersion = '4.2.0'
+        pieMenuVersion = '4.3.0'
     }
 
     repositories {

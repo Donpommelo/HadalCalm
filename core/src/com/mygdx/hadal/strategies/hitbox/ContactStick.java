@@ -15,8 +15,8 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class ContactStick extends HitboxStrategy {
 	
-	//does this hbox stick to walls and units? If so, is it already stuck to a wall or unit?
-	private boolean stickToWalls, stickToDudes, stuckToWall, stuckToDude;
+	//does this hbox stick to walls and units? If so, is it already stuck to anything?
+	private boolean stickToWalls, stickToDudes, stuckToTarget;
 	
 	//The angle that the projectile should be stuck at
 	private float angle, targetAngle;
@@ -41,10 +41,10 @@ public class ContactStick extends HitboxStrategy {
 		
 		//if we have not stuck yet, check to see if we are making contact with an entity we want to stick to.
 		//if so, set target (unless touching a wall with no entity), angle and location.
-		if ((!stuckToWall || stickToWalls) && (!stuckToDude || stickToDudes)) {
+		if (!stuckToTarget) {
 			if (fixB != null) {
 				if (fixB.getType().equals(UserDataTypes.BODY) && stickToDudes) {
-					stuckToDude = true;
+					stuckToTarget = true;
 					
 					target = fixB.getEntity();
 					angle = hbox.getAngle();
@@ -52,7 +52,7 @@ public class ContactStick extends HitboxStrategy {
 					location.set(hbox.getPosition().x - target.getPosition().x, hbox.getPosition().y - target.getPosition().y);	
 				}
 				if (fixB.getType().equals(UserDataTypes.WALL) && stickToWalls) {
-					stuckToWall = true;
+					stuckToTarget = true;
 					
 					target = fixB.getEntity();
 					angle = hbox.getAngle();
@@ -67,13 +67,13 @@ public class ContactStick extends HitboxStrategy {
 	public void controller(float delta) {
 		
 		//keep a constant distance/angle from the attached entity (or stay still if attached to a wall)
-		if ((stuckToDude || stuckToWall) && target != null && location != null) {
+		if (stuckToTarget && target != null && location != null) {
 			if (target.isAlive()) {
 				rotatedLocation.set(location).rotateRad(target.getAngle() - targetAngle);
 				hbox.setTransform(target.getPosition().add(rotatedLocation), angle + target.getAngle() - targetAngle);
 				hbox.setLinearVelocity(0, 0);
 			} else {
-				stuckToDude = false;
+				stuckToTarget = false;
 			}
 		}
 	}

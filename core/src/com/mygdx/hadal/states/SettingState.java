@@ -799,9 +799,8 @@ public class SettingState extends GameState {
 			
 			batch.begin();
 			
-			shaderBackground.getShader().begin();
+			shaderBackground.getShader().bind();
 			shaderBackground.shaderDefaultUpdate(timer);
-			shaderBackground.getShader().end();
 			batch.setShader(shaderBackground.getShader());
 			
 			batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);

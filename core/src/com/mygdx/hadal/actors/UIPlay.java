@@ -58,8 +58,8 @@ public class UIPlay extends AHadalActor {
 	private float hpDelayed = 1.0f;
 	
 	//These make the Hp bar blink red when at low Hp.
-	private boolean blinking = false;
-	private float blinkCdCount = 0.0f;
+	private boolean blinking;
+	private float blinkCdCount;
 	
 	//Rate of blinking when at low health
 	private static final float blinkCd = 0.1f;

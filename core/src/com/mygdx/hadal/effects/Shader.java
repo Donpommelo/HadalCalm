@@ -61,14 +61,11 @@ public enum Shader {
 		
 		//load the shader and create its strategies
 		shader = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
-		
-		shader.begin();
+		shader.bind();
 
 		for (ShaderStrategy strat: strategies) {
 			strat.create(shader);
 		}
-		
-		shader.end();
 		
 		//The server tells the client to also display the shader
 		if (state.isServer()) {
@@ -86,13 +83,11 @@ public enum Shader {
 		
 		//load the shader and create its strategies
 		shader = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
-		shader.begin();
+		shader.bind();
 		
 		for (ShaderStrategy strat: strategies) {
 			strat.create(shader);
 		}
-		
-		shader.end();
 	}
 	
 	/**
