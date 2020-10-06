@@ -220,6 +220,8 @@ public abstract class HadalEntity {
 	
 	/**
 	 * When we receive a packet from the server, we store it alongside its timestamp
+	 * @param o: the packet object we are receiving from the server
+	 * @param timestamp: the server time of the received packet
 	 */
 	public void onReceiveSync(Object o, float timestamp) {
 		Object[] packet = {o, timestamp};
@@ -229,6 +231,7 @@ public abstract class HadalEntity {
 	/**
 	 * This is called when the client processes stored sync packets
 	 * Set the entity's body data
+	 * @param o: the packet object we are receiving from the server
 	 */
 	public void onClientSync(Object o) {
 		if (o instanceof Packets.SyncEntity) {
@@ -271,6 +274,7 @@ public abstract class HadalEntity {
 	/**
 	 * This is a replacement to controller() that is run for clients.
 	 * This is used for things that have to process stuff for the client, and not just server-side
+	 * @param delta: elapsed time
 	 */
 	public void clientController(float delta) {
 		
@@ -331,20 +335,19 @@ public abstract class HadalEntity {
 	public boolean isVisible() {
 		if (body == null) {
 			return false;
-		} else {
-			entityLocation.set(getPixelPosition());
-			
-			//check the center + 4 corners of the entity to see if we should render this entity
-			if (state.getCamera().frustum.pointInFrustum(entityLocation.x, entityLocation.y, 0)) { return true; }
-			bodyAngle = body.getAngle();
-			cosAng = (float) Math.cos(bodyAngle);
-			sinAng = (float) Math.sin(bodyAngle);
-			if (state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x / 2 * cosAng - size.y / 2 * sinAng, entityLocation.y + size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
-			if (state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x / 2 * cosAng - size.y / 2 * sinAng, entityLocation.y - size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
-			if (state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x / 2 * cosAng + size.y / 2 * sinAng, entityLocation.y - size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
-			if (state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x / 2 * cosAng + size.y / 2 * sinAng, entityLocation.y + size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
-			return false;
 		}
+		entityLocation.set(getPixelPosition());
+		
+		//check the center + 4 corners of the entity to see if we should render this entity
+		if (state.getCamera().frustum.pointInFrustum(entityLocation.x, entityLocation.y, 0)) { return true; }
+		bodyAngle = body.getAngle();
+		cosAng = (float) Math.cos(bodyAngle);
+		sinAng = (float) Math.sin(bodyAngle);
+		if (state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x / 2 * cosAng - size.y / 2 * sinAng, entityLocation.y + size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
+		if (state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x / 2 * cosAng - size.y / 2 * sinAng, entityLocation.y - size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
+		if (state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x / 2 * cosAng + size.y / 2 * sinAng, entityLocation.y - size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
+		if (state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x / 2 * cosAng + size.y / 2 * sinAng, entityLocation.y + size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
+		return false;
 	}
 	
 	/**
@@ -355,16 +358,18 @@ public abstract class HadalEntity {
 	public Vector2 getPixelPosition() {	
 		if (body != null) {
 			return pixelPosition.set(body.getPosition()).scl(PPM); 
-		} else { return pixelPosition; }
+		}
+		return pixelPosition;
 	}
 	
 	/**
 	 * The "main" fixture of an entity is whichever one should be modified by things that affect the entity's body (for effects like bouncy bullets)
+	 * @return the fixture that should be modified in case of effects that modify a specific fixture
 	 */
 	public Fixture getMainFixture() {
 		if (body == null) { return null; }
 		if (body.getFixtureList().isEmpty()) { return null; }
-		else { return body.getFixtureList().get(0); }
+		return body.getFixtureList().get(0);
 	}
 	
 	public Body getBody() { return body; }
@@ -399,10 +404,10 @@ public abstract class HadalEntity {
 		this.shaderCount = shaderCount;
 	}
 	
-	public void endShader(Shader shader) {
+	public void endShader(Shader oldShader) {
 		shaderCount = 0;
 		if (state.isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncShader(entityID.toString(), shader, 0.0f));
+			HadalGame.server.sendToAllTCP(new Packets.SyncShader(entityID.toString(), oldShader, 0.0f));
 		}
 	}
 	
@@ -415,6 +420,7 @@ public abstract class HadalEntity {
 	/**
 	 * This is run by the client and keeps of track of the time since the last sync received from the server.
 	 * If this time is too great, we may have missed a delete packet
+	 * @param i: the amount of elapsed time
 	 */
 	public void increaseTimeSinceLastSync(float i) { 
 		
@@ -511,9 +517,9 @@ public abstract class HadalEntity {
 		}
 	}
 	
-	public void applyLinearImpulse(Vector2 impulse) {
+	public void applyLinearImpulse(Vector2 linImpulse) {
 		if (alive && body != null) {
-			body.applyLinearImpulse(impulse, body.getLocalCenter(), true);
+			body.applyLinearImpulse(linImpulse, body.getLocalCenter(), true);
 		}
 	}
 	

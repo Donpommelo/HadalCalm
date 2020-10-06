@@ -26,7 +26,7 @@ public class FixtureBuilder {
 	 * @param friction: slipperyness of the friction
 	 * @param cBits: What type of fixture is this?
 	 * @param mBits: What types of fixture does this collide with?
-	 * @param gIndex: Extra filter. <0 = never collide with fixture with same value. >0 = always collide with fixture with same value.
+	 * @param gIndex: Extra filter. less than 0 = never collide with fixture with same value. greater than 0 = always collide with fixture with same value.
 	 * @return: a Fixture.
 	 */
 	public static Fixture createFixtureDef(Body body, Vector2 center, Vector2 size, boolean sensor, float angle, float density, float restitution, float friction, short cBits, short mBits, short gIndex) {

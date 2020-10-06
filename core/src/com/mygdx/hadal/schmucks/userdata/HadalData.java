@@ -22,9 +22,6 @@ public class HadalData {
 	
 	/**
 	 * aye
-	 * @param world
-	 * @param type
-	 * @param entity
 	 */
 	public HadalData(UserDataTypes type, HadalEntity entity) {
 		this.type = type;

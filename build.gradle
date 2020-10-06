@@ -22,7 +22,7 @@ allprojects {
         gdxVersion = '1.9.11'
         roboVMVersion = '2.3.8'
         box2DLightsVersion = '1.4'
-        pieMenuVersion = '4.3.0'
+        pieMenuVersion = '5.0.0'
     }
 
     repositories {

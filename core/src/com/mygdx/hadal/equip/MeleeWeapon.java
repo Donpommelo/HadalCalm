@@ -16,7 +16,7 @@ public class MeleeWeapon extends Equipable {
 	 * @param user: Schmuck that is using this tool.
 	 * @param swingcd: The delay after using this tool before you can use a tool again.
 	 * @param windup: The delay between pressing the button for this tool and it activating.
-	 * @param equipSprite: The equip's sprite when equipped
+	 * @param weaponSprite: The equip's sprite when equipped
 	 * @param eventSprite: The equip's sprite as a pickup
 	 * @param chargeTime: If a charge weapon, how long does it take to fully charge?
 	 */	

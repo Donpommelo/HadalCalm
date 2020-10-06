@@ -110,7 +110,7 @@ public class BodyData extends HadalData {
 	
 	/**
 	 * Status proc time is called at certain points of the game that could activate any effect.
-	 * @param procTime: the type of proc time that this is
+	 * @param o: the type of proc time that this is
 	 * This fields of this are the various info needed for each status. fields will be null when unused
 	 * @return a ProcTime for certain statuses that pass along a modified value (like on damage effects)
 	 */
@@ -275,7 +275,6 @@ public class BodyData extends HadalData {
 	 * @param basedamage: amount of damage received
 	 * @param knockback: amount of knockback to apply.
 	 * @param perp: the schmuck who inflicted damage
-	 * @param tool: the tool that was used to inflict this damage (null if noot tool-inflicted)
 	 * @param procEffects: should this damage proc on-damage effects?
 	 * @param tags: varargs of damage tags
 	 */
@@ -369,7 +368,7 @@ public class BodyData extends HadalData {
 	
 	/**
 	 * This method is called when the schmuck is healed
-	 * @param heal: amount of Hp to regenerate
+	 * @param baseheal: amount of Hp to regenerate
 	 * @param perp: the schmuck who healed
 	 * @param procEffects: should this damage proc on-damage effects?
 	 * @param tags: varargs of damage tags

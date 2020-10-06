@@ -56,13 +56,11 @@ public class Schmuck extends HadalEntity {
 	/**
 	 * This constructor is called when a Schmuck is made.
 	 * @param state: Current playState
-	 * @param world: Box2d world
-	 * @param camera: Game camera
-	 * @param rays: game rayhandler
-	 * @param w: width
-	 * @param h: height
-	 * @param startX: starting x position
-	 * @param startY: starting y position
+	 * @param startPos: world position of this entity's starting location
+	 * @param size: body size
+	 * @param name: name of the schmuck to be displayed in ui and for attributed kills
+	 * @param hitboxFilter: who can this entity collide with?
+	 * @param: baseHp: The amount of damage this schmuck can take before dying
 	 */
 	public Schmuck(PlayState state, Vector2 startPos, Vector2 size, String name, short hitboxFilter, float baseHp) {
 		super(state, startPos, size);
@@ -189,9 +187,9 @@ public class Schmuck extends HadalEntity {
 	
 	/**
 	 * This returns the location that a spawned projectile should be created. (for the player, we override to make it spawn near the tip of the gun)
-	 * @param startVelo
-	 * @param projSize
-	 * @return
+	 * @param startVelo: the starting speed and direction of the bullet
+	 * @param projSize: the size of the buller
+	 * @return the vector2 position of where the bullet should be spawned relative to the schmuck
 	 */
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {	return getPixelPosition(); }
 	

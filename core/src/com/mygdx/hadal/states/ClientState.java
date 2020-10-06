@@ -260,7 +260,7 @@ public class ClientState extends PlayState {
 	 * This is called whenever the client is told to add an object to its world.
 	 * @param entityId: The unique id of the new entity
 	 * @param entity: The entity to be added
-	 * @param: synced: should this object receive a regular sync packet from the server?
+	 * @param synced: should this object receive a regular sync packet from the server?
 	 * @param layer: is this layer a hitbox (rendered underneath) or not?
 	 */
 	public void addEntity(String entityId, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {

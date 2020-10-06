@@ -549,7 +549,6 @@ public class KryoServer {
 	 * This is called when a player is killed to update score information
 	 * @param perp: player that kills
 	 * @param vic: player that gets killed
-	 * @return: whether this death was the victim's last life
 	 */
 	public void registerKill(Player perp, Player vic) {
 		

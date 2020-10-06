@@ -175,7 +175,7 @@ public class Player extends PhysicsSchmuck {
 	 * @param startPos: the player's starting location
 	 * @param name: the player's name
 	 * @param startLoadout: This is the player's starting loadout
-	 * @param: oldData: If created after a stage transition, this is the data of the previous player.
+	 * @param oldData: If created after a stage transition, this is the data of the previous player.
 	 * @param connID: connection id. 0 if server.
 	 * @param reset: do we reset the player's stats after creating them?
 	 * @param start: the start point that the player spawns at.
@@ -233,7 +233,7 @@ public class Player extends PhysicsSchmuck {
 	
 	/**
 	 * This method prepares the player sprite from various texture regions.
-	 * @param playerSprite
+	 * @param character: the character whose sprite we are switching to.
 	 */
 	public void setBodySprite(UnlockCharacter character) {
 
@@ -657,7 +657,7 @@ public class Player extends PhysicsSchmuck {
 	
 	/**
 	 * Switches to the weapon in a specific slot.
-	 * @param slot
+	 * @param slot: the new weapon slot
 	 */
 	public void switchToSlot(int slot) {
 		playerData.switchWeapon(slot);
@@ -882,7 +882,7 @@ public class Player extends PhysicsSchmuck {
 	/**
 	 * When the player is in the air, their animation freezes. This gets the frame for that
 	 * @param reverse: which direction is the player facing
-	 * @return
+	 * @return the integer frame number that should be displayed given the player's movement status
 	 */
 	public int getFreezeFrame(boolean reverse) {
 		if (Math.abs(getLinearVelocity().x) > Math.abs(getLinearVelocity().y)) {

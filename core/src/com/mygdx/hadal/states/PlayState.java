@@ -215,7 +215,7 @@ public class PlayState extends GameState {
 	 * @param server: is this the server or not?
 	 * @param old: the data of the previous player (this exists if this play state is part of a stage transition with an existing player)
 	 * @param reset: do we reset the old player's hp/fuel/ammo in the new playstate?
-	 * @startId: the id of the starting event the player should be spawned at
+	 * @param startId: the id of the starting event the player should be spawned at
 	 */
 	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean server, PlayerBodyData old, boolean reset, String startId) {
 		super(gsm);

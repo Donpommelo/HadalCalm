@@ -107,7 +107,7 @@ public class Hitbox extends HadalEntity {
 	
 	/**
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
-	 * @param : pretty much the same as the fields above.
+	 * parameters are pretty much the same as the fields above.
 	 */
 	public Hitbox(PlayState state, Vector2 startPos, Vector2 size, float lifespan, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, Sprite sprite) {
 		super(state, startPos, size);

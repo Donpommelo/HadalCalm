@@ -29,7 +29,7 @@ public class BodyBuilder {
 	 * @param fixedRotate: Can it not rotate?
 	 * @param cBits: What type of body is this?
 	 * @param mBits: What types of bodies does this collide with?
-	 * @param gIndex: Extra filter. <0 = never collide with bodies with same value. >0 = always collide with bodies with same value.
+	 * @param gIndex: Extra filter. less than 0 = never collide with bodies with same value. greater than 0 = always collide with bodies with same value.
 	 * @param sensor: Can fixtures that collide with this pass through it?
 	 * @param userData: HadalData of the body.
 	 * @return: The newly created body.

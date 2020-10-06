@@ -38,7 +38,7 @@ public class Packets {
 		 * ConnectReject is sent from the Server to the Client to reject a connection.
 		 * This is done when the server is full, or if the server is in the middle of a game. (until we implement spectator mode or player blocking)
 		 * 
-		 * @param name: message to be displayed by the client
+		 * @param msg: message to be displayed by the client
 		 */
 		public ConnectReject(String msg) {
 			this.msg = msg;
@@ -168,9 +168,9 @@ public class Packets {
 		 * Clients receiving this begin fading to black the same way the Server does.
 		 * @param state: Are we transitioning to a new level, a gameover screen or whatever else?
 		 * @param override: Should this override other transitions.
-		 * @param: resultsText: If transitioning to a results screen, what text should be displayed
-		 * @param: fadeSpeed: speed of the fade transition
-		 * @param: fadeDelay: Amount of delay before transition
+		 * @param resultsText: If transitioning to a results screen, what text should be displayed
+		 * @param fadeSpeed: speed of the fade transition
+		 * @param fadeDelay: Amount of delay before transition
 		 */
 		public ClientStartTransition(TransitionState state, boolean override, String resultsText, float fadeSpeed, float fadeDelay) {
 			this.state = state;
@@ -210,7 +210,7 @@ public class Packets {
 		 * Paused is sent from the Server to the Client to indicate that the game has been paused.
 		 * Clients never send this to Server, because "their pauses" are carried out by the Player they control in the Server's world.
 		 * @param pauser: This is the name of the Player who paused.
-		 * @prarm paused: is the game actually paused, or is it still running underneath the pause menu
+		 * @param paused: is the game actually paused, or is it still running underneath the pause menu
 		 */
 		public Paused(String pauser, boolean paused) {
 			this.pauser = pauser;
@@ -895,7 +895,7 @@ public class Packets {
 		 * @param attachedID: schmuck id of the entity that the SchmuckEntity is to attach to
 		 * @param sound: The sound effect to play
 		 * @param volume: volume of the sound. 1.0f = full volume.
-		 * @prarm pitch: pitch of the sound. 1.0f - default pitch.
+		 * @param pitch: pitch of the sound. 1.0f - default pitch.
 		 * @param looped: does the sound loop?
 		 * @param volume: does the sound start off on?
 		 * @param synced: should this entity receive a sync packet regularly?
@@ -1033,12 +1033,12 @@ public class Packets {
 	public static class LatencySyn {
 		public int latency;
 		
+		public LatencySyn() {}
+		
 		/**
 		 * A LatencySyn is sent from the client to the server periodically to check the quality of the network connection.
 		 * @param latency: the client's last synced latency
 		 */
-		public LatencySyn() {}
-		
 		public LatencySyn(int latency) {
 			this.latency = latency;
 		}
