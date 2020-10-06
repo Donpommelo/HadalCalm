@@ -1,12 +1,12 @@
 package com.mygdx.hadal.utils;
 
-import java.lang.reflect.InvocationTargetException;
-
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * This util is used to get an unlock enum and return an instance of that weapon or active item
@@ -14,22 +14,13 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
  */
 public class UnlocktoItem {
 
-	public static Equipable getUnlock(UnlockEquip unlock, Schmuck schmuck) {
+	public static Equippable getUnlock(UnlockEquip unlock, Schmuck schmuck) {
 		try {
-			Equipable newWeapon = unlock.getWeapon().getConstructor(Schmuck.class).newInstance(schmuck);
+			Equippable newWeapon = unlock.getWeapon().getConstructor(Schmuck.class).newInstance(schmuck);
 			newWeapon.setName(unlock.getInfo().getName());
 			return newWeapon;
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -40,17 +31,8 @@ public class UnlocktoItem {
 			ActiveItem newActive = unlock.getActive().getConstructor(Schmuck.class).newInstance(schmuck);
 			newActive.setName(unlock.getInfo().getName());
 			return newActive;
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
 		return null;

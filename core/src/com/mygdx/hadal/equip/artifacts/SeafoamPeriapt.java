@@ -9,12 +9,12 @@ import com.mygdx.hadal.utils.Stats;
 
 public class SeafoamPeriapt extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private static float bonusAtkSpd = 0.2f;
-	private static float bonusReloadSpd = 0.2f;
-	private static float gravityReduction = -3.0f;
+	private static final float bonusAtkSpd = 0.2f;
+	private static final float bonusReloadSpd = 0.2f;
+	private static final float gravityReduction = -3.0f;
 	
 	public SeafoamPeriapt() {
 		super(slotCost, statusNum);

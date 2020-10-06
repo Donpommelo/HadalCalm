@@ -23,10 +23,10 @@ import com.mygdx.hadal.states.PlayState;
 public class ObjectiveChanger extends Event {
 
 	//do we display the objective marker?
-	private boolean displayOffScreen, displayOnScreen;
+	private final boolean displayOffScreen, displayOnScreen;
 	
 	//what objective marker icon do we use?
-	private Sprite icon;
+	private final Sprite icon;
 	
 	public ObjectiveChanger(PlayState state, boolean displayOffScreen, boolean displayOnScreen, String icon) {
 		super(state);

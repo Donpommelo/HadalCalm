@@ -23,10 +23,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Spittlefish extends EnemySwimming {
 
-	private final static int baseHp = 100;
-	private final static String name = "SPITTLEFISH";
+	private static final int baseHp = 100;
+	private static final String name = "SPITTLEFISH";
 	
-	private final static int scrapDrop = 2;
+	private static final int scrapDrop = 2;
 	
 	private static final int width = 49;
 	private static final int height = 19;
@@ -45,7 +45,7 @@ public class Spittlefish extends EnemySwimming {
 
 	private static final Sprite sprite = Sprite.FISH_SPITTLE;
 
-	private final static Sprite projSprite = Sprite.SPIT;
+	private static final Sprite projSprite = Sprite.SPIT;
 	
 	public Spittlefish(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), name, sprite, EnemyType.SPITTLEFISH, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
@@ -64,14 +64,14 @@ public class Spittlefish extends EnemySwimming {
 	
 	private static final float attackWindup = 0.4f;
 	
-	private final static float baseDamage = 7.5f;
-	private final static float knockback = 6.0f;
-	private final static float projectileSpeed = 15.0f;
-	private final static Vector2 projectileSize = new Vector2(30, 20);
-	private final static float lifespan = 3.0f;
-	private final static float range = 900.0f;
+	private static final float baseDamage = 7.5f;
+	private static final float knockback = 6.0f;
+	private static final float projectileSpeed = 15.0f;
+	private static final Vector2 projectileSize = new Vector2(30, 20);
+	private static final float lifespan = 3.0f;
+	private static final float range = 900.0f;
 	
-	private Vector2 startVelo = new Vector2();
+	private final Vector2 startVelo = new Vector2();
 	@Override
 	public void attackInitiate() {
 		

@@ -1,11 +1,5 @@
 package com.mygdx.hadal.states;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -29,6 +23,10 @@ import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.utils.Stats;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 /**
  * The Results screen appears at the end of levels and displays the player's results
  * In this screen, the player can return to the hub when all players are ready.
@@ -39,34 +37,33 @@ public class ResultsState extends GameState {
 	//This table contains the options for the title.
 	private Table table, tableInfo, tableInfoOuter, tableArtifact;
 	private ScrollPane infoScroll;
-	
-	//These are all of the display and buttons visible to the player.
-	private Text readyOption, forceReadyOption, infoPlayerName;
+
+	private Text infoPlayerName;
 	
 	//This is the playstate that the results state is placed on top of. Used to access the state's message window
-	private PlayState ps;
+	private final PlayState ps;
 	
 	//This is a list of all the saved player fields (scores) from the completed playstate
 	private ArrayList<SavedPlayerFields> scores;
 	
 	//This i sa mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
-	private HashMap<SavedPlayerFields, Boolean> ready;
+	private final HashMap<SavedPlayerFields, Boolean> ready;
 	
 	//this text is displayed at the top of the state and usually indicates victory or loss
-	private String text;
+	private final String text;
 	
-	//Dimentions and position of the results menu
-	private final static int width = 1000;
-	private final static int baseHeight = 90;
-	private final static int titleHeight = 40;
-	private final static int rowHeight = 50;
-	private final static int nameWidth = 400;
+	//Dimensions and position of the results menu
+	private static final int width = 1000;
+	private static final int baseHeight = 90;
+	private static final int titleHeight = 40;
+	private static final int rowHeight = 50;
+	private static final int nameWidth = 400;
 	private static final float scale = 0.4f;
 	private static final int maxNameLen = 30;
 	
-	private final static int infoWidth = 280;
-	private final static int infoHeight = 500;
-	private final static int infoRowHeight = 20;
+	private static final int infoWidth = 280;
+	private static final int infoHeight = 500;
+	private static final int infoRowHeight = 20;
 	private static final float infoTextScale = 0.25f;
 	private static final float infoPadY = 15.0f;
 	private static final float infoPadYSmall = 5.0f;
@@ -76,13 +73,13 @@ public class ResultsState extends GameState {
 	public static final int infoNamePadding = 20;
 	
 	public static final float artifactTagSize = 40.0f;
-	private final static float artifactTagOffsetX = -100.0f;
-	private final static float artifactTagOffsetY = -60.0f;
-	private final static float artifactTagTargetWidth = 200.0f;
+	private static final float artifactTagOffsetX = -100.0f;
+	private static final float artifactTagOffsetY = -60.0f;
+	private static final float artifactTagTargetWidth = 200.0f;
 	
 	/**
 	 * Constructor will be called whenever the game transitions into a results state
-	 * @param gsm
+	 * @param text: this is the string that is displayed at the top of the result state
 	 */
 	public ResultsState(final GameStateManager gsm, String text, PlayState ps) {
 		super(gsm);
@@ -90,23 +87,17 @@ public class ResultsState extends GameState {
 		this.ps = ps;
 		
 		//First, we obtain the list of scores, depending on whether we are the server or client.
-		scores = new ArrayList<SavedPlayerFields>();
+		scores = new ArrayList<>();
 		
 		if (ps.isServer()) {
-			scores = new ArrayList<SavedPlayerFields>(HadalGame.server.getScores().values());
+			scores = new ArrayList<>(HadalGame.server.getScores().values());
 			gsm.getRecord().updateScore(scores.get(0).getScore(), ps.level);
 		} else {
-			scores = new ArrayList<SavedPlayerFields>(HadalGame.client.getScores().values());
+			scores = new ArrayList<>(HadalGame.client.getScores().values());
 		}
 		
 		//Then, we sort according to score and give the winner(s) a win.
-		Collections.sort(scores, new Comparator<SavedPlayerFields>() {
-
-			@Override
-			public int compare(SavedPlayerFields a, SavedPlayerFields b) {
-				return b.getScore() - a.getScore();
-			}
-		});
+		scores.sort((a, b) -> b.getScore() - a.getScore());
 		
 		if (ps.isServer()) {
 			int winningScore = scores.get(0).getScore();
@@ -128,7 +119,7 @@ public class ResultsState extends GameState {
 		}
 		
 		//Finally we initialize the ready map with everyone set to not ready.
-		ready = new HashMap<SavedPlayerFields, Boolean>();
+		ready = new HashMap<>();
 		for (SavedPlayerFields score: scores) {
 			ready.put(score, false);
 		}
@@ -142,7 +133,7 @@ public class ResultsState extends GameState {
 				int tableHeight = baseHeight + titleHeight * 2 + rowHeight * scores.size();
 				
 				addActor(new Backdrop(AssetList.RESULTS_CARD.toString()));
-				addActor(new MenuWindow(0, HadalGame.CONFIG_HEIGHT - tableHeight, width, tableHeight));
+				addActor(new MenuWindow(0, (int) (HadalGame.CONFIG_HEIGHT - tableHeight), width, tableHeight));
 				table = new Table();
 				table.setPosition(0, HadalGame.CONFIG_HEIGHT - tableHeight);
 				table.setSize(width, tableHeight);
@@ -154,7 +145,7 @@ public class ResultsState extends GameState {
 				infoPlayerName = new Text("", 0, 0, false);
 				infoPlayerName.setScale(infoTextScale);
 				
-				addActor(new MenuWindow(HadalGame.CONFIG_WIDTH - infoWidth, HadalGame.CONFIG_HEIGHT - infoHeight, infoWidth, infoHeight));
+				addActor(new MenuWindow((int) (HadalGame.CONFIG_WIDTH - infoWidth), (int) (HadalGame.CONFIG_HEIGHT - infoHeight), infoWidth, infoHeight));
 				tableInfo = new Table();
 				tableArtifact = new Table();
 
@@ -171,7 +162,7 @@ public class ResultsState extends GameState {
 			}
 		};
 		
-		//we pull up and lock the playstate's message window so players can chat in the aftergame.
+		//we pull up and lock the playstate message window so players can chat in the aftergame.
 		if (!ps.getMessageWindow().isActive()) {
 			ps.getMessageWindow().toggleWindow();
 		}
@@ -229,7 +220,7 @@ public class ResultsState extends GameState {
 					super.enter(event, x, y, pointer, fromActor);
 					syncInfoTable(score.getConnID());
 				}
-		    });
+					    });
 			
 			Text kills = new Text(score.getKills() + " ", 0, 0, false);
 			kills.setScale(scale);
@@ -246,8 +237,9 @@ public class ResultsState extends GameState {
 			table.add(points).height(rowHeight).padBottom(25);
 			table.add(status).height(rowHeight).padBottom(25).row();
 		}
-		
-		readyOption = new Text("RETURN TO LOADOUT?", 0, 0, true);
+
+		//These are all of the display and buttons visible to the player.
+		final Text readyOption = new Text("RETURN TO LOADOUT?", 0, 0, true);
 		readyOption.setColor(Color.RED);
 		
 		readyOption.addListener(new ClickListener() {
@@ -264,8 +256,8 @@ public class ResultsState extends GameState {
 	        }
 	    });
 		readyOption.setScale(scale);
-		
-		forceReadyOption = new Text("FORCE RETURN?", 0, 0, true);
+
+		final Text forceReadyOption = new Text("FORCE RETURN?", 0, 0, true);
 		forceReadyOption.setColor(Color.RED);
 		
 		forceReadyOption.addListener(new ClickListener() {
@@ -292,8 +284,8 @@ public class ResultsState extends GameState {
 		tableInfo.clear();
 		tableArtifact.clear();
 		
-		SavedPlayerFields field = null;
-		SavedPlayerFieldsExtra fieldExtra = null;
+		SavedPlayerFields field;
+		SavedPlayerFieldsExtra fieldExtra;
 		if (ps.isServer()) {
 			field = HadalGame.server.getScores().get(connId);
 			fieldExtra = HadalGame.server.getScoresExtra().get(connId);
@@ -312,7 +304,7 @@ public class ResultsState extends GameState {
 				for (UnlockArtifact c: fieldExtra.getLoadout().artifacts) {
 					if (!c.equals(UnlockArtifact.NOTHING)) {
 						ArtifactIcon newTag = new ArtifactIcon(c, c.getInfo().getName() + "\n" + c.getInfo().getDescription(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
-						tableArtifact.add(newTag).width(artifactTagSize).height(artifactTagSize);;
+						tableArtifact.add(newTag).width(artifactTagSize).height(artifactTagSize);
 					}
 				}
 				
@@ -377,7 +369,7 @@ public class ResultsState extends GameState {
 	/**
 	 * This is pressed whenever a player gets ready.
 	 * @param playerId: If this is run by the server, this is the player's connID (or 0, if the host themselves).
-	 * For the client, playerId is the index in scores of thte player that readies.
+	 * For the client, playerId is the index in scores of the player that readies.
 	 */
 	public void readyPlayer(int playerId) {
 		if (ps.isServer()) {
@@ -399,6 +391,7 @@ public class ResultsState extends GameState {
 		for (boolean b: ready.values()) {
 			if (!b) {
 				reddy = false;
+				break;
 			}
 		}
 		
@@ -416,13 +409,9 @@ public class ResultsState extends GameState {
 	 */
 	public void returnToHub() {
 		if (ps.isServer()) {
-			gsm.getApp().setRunAfterTransition(new Runnable() {
-
-				@Override
-				public void run() {
-					gsm.removeState(ResultsState.class);
-					gsm.gotoHubState();
-				}
+			gsm.getApp().setRunAfterTransition(() -> {
+				gsm.removeState(ResultsState.class);
+				gsm.gotoHubState();
 			});
 		}
 		gsm.getApp().fadeOut();

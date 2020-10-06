@@ -1,10 +1,10 @@
 package com.mygdx.hadal.event.prefab;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
+
+import java.util.ArrayList;
 
 /**
  * The TimedSpawner is a prefab consists of a spawner that, on a timer, spawns an fuel or health pickup.
@@ -13,12 +13,12 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class SpawnerPickupTimed extends Prefabrication {
 
 	//How long does it take before the pickup spawns? How much fuel/hp does the pickup regenerate
-	private float interval, power;
+	private final float interval, power;
 	
 	private String pickupId, spawnerId;
 	
 	//0 = fuel. 1 = Hp
-	private int type;
+	private final int type;
 	
 	public SpawnerPickupTimed(PlayState state, int width, int height, int x, int y, float interval, int type, float power) {
 		super(state, width, height, x , y);
@@ -125,7 +125,7 @@ public class SpawnerPickupTimed extends Prefabrication {
 	
 	@Override
 	public ArrayList<String> getConnectedEvents() {
-		ArrayList<String> events = new ArrayList<String>();
+		ArrayList<String> events = new ArrayList<>();
 		events.add(pickupId);
 		events.add(spawnerId);
 		return events;

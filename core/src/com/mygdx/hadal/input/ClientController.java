@@ -10,13 +10,13 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * The ClientController controls the player using events to process various player actions.
- * The Client Controller is used by the client in a clientstate to map their keystrokes to packets sent to the server
+ * The ClientController is used by the client in a clientstate to map their keystrokes to packets sent to the server
  * @author Zachary Tu
  */
 public class ClientController implements InputProcessor {
 	
-	private Player player;
-	private PlayState state;
+	private final Player player;
+	private final PlayState state;
 	
 	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one. 
 	private boolean leftDown;
@@ -28,7 +28,7 @@ public class ClientController implements InputProcessor {
 		syncController();
 	}
 	
-	//note that moving, jumping, crouching, airblast are processed on vlient end for prediction purposes
+	//note that moving, jumping, crouching, airblast are processed on client end for prediction purposes
 	@Override
 	public boolean keyDown(int keycode) {
 		if (player == null) { return true; }
@@ -212,7 +212,7 @@ public class ClientController implements InputProcessor {
 	@Override
 	public boolean keyTyped(char character) { return false; }
 
-	//we have touchdown call keydown (and touchup calling keyup) if any actions are binded to the mouse
+	//we have touchdown call keydown (and touchup calling keyup) if any actions are bound to the mouse
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		keyDown(button);

@@ -157,7 +157,7 @@ public class PlayerController implements InputProcessor {
 	@Override
 	public boolean keyTyped(char character) { return false; }
 
-	//we have touchdown call keydown (and touchup calling keyup) if any actions are binded to the mouse
+	//we have touchdown call keydown (and touchup calling keyup) if any actions are bound to the mouse
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		keyDown(button);

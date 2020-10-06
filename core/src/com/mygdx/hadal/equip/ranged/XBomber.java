@@ -25,26 +25,26 @@ import com.mygdx.hadal.strategies.hitbox.Static;
 
 public class XBomber extends RangedWeapon {
 
-	private final static int clipSize = 2;
-	private final static int ammoSize = 26;
-	private final static float shootCd = 0.3f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.2f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 20.0f;
-	private final static float recoil = 12.0f;
-	private final static float knockback = 30.0f;
-	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(80, 40);
-	private final static float lifespan = 0.5f;
+	private static final int clipSize = 2;
+	private static final int ammoSize = 26;
+	private static final float shootCd = 0.3f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 1.2f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 20.0f;
+	private static final float recoil = 12.0f;
+	private static final float knockback = 30.0f;
+	private static final float projectileSpeed = 40.0f;
+	private static final Vector2 projectileSize = new Vector2(80, 40);
+	private static final float lifespan = 0.5f;
 	
-	private final static Sprite projSprite = Sprite.LASER_TURQUOISE;
-	private final static Sprite weaponSprite = Sprite.MT_IRONBALL;
-	private final static Sprite eventSprite = Sprite.P_IRONBALL;
+	private static final Sprite projSprite = Sprite.LASER_TURQUOISE;
+	private static final Sprite weaponSprite = Sprite.MT_IRONBALL;
+	private static final Sprite eventSprite = Sprite.P_IRONBALL;
 	
-	private final static Vector2 crossSize = new Vector2(700, 40);
-	private final static float crossLifespan = 0.25f;
-	private final static float crossDamage = 24.0f;
+	private static final Vector2 crossSize = new Vector2(700, 40);
+	private static final float crossLifespan = 0.25f;
+	private static final float crossDamage = 24.0f;
 
 	public XBomber(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -70,7 +70,7 @@ public class XBomber extends RangedWeapon {
 			@Override
 			public void die() {
 				
-				//create 2 perpindicular projectiles
+				//create 2 perpendicular projectiles
 				createCross(1);
 				createCross(-1);
 			}

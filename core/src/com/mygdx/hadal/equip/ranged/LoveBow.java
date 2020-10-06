@@ -30,29 +30,29 @@ import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 
 public class LoveBow extends RangedWeapon {
 
-	private final static int clipSize = 1;
-	private final static int ammoSize = 50;
-	private final static float shootCd = 0.0f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.0f;
-	private final static int reloadAmount = 0;
-	private final static float recoil = 5.0f;
-	private final static float knockback = 30.0f;
-	private final static float projectileSpeed = 15.0f;
-	private final static Vector2 projectileSize = new Vector2(60, 21);
-	private final static float lifespan = 2.0f;
+	private static final int clipSize = 1;
+	private static final int ammoSize = 50;
+	private static final float shootCd = 0.0f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 1.0f;
+	private static final int reloadAmount = 0;
+	private static final float recoil = 5.0f;
+	private static final float knockback = 30.0f;
+	private static final float projectileSpeed = 15.0f;
+	private static final Vector2 projectileSize = new Vector2(60, 21);
+	private static final float lifespan = 2.0f;
 	
-	private final static Sprite projSprite = Sprite.ARROW;
-	private final static Sprite weaponSprite = Sprite.MT_SPEARGUN;
-	private final static Sprite eventSprite = Sprite.P_SPEARGUN;
+	private static final Sprite projSprite = Sprite.ARROW;
+	private static final Sprite weaponSprite = Sprite.MT_SPEARGUN;
+	private static final Sprite eventSprite = Sprite.P_SPEARGUN;
 	
-	private final static float baseHeal = 12.0f;
+	private static final float baseHeal = 12.0f;
 	private static final float maxCharge = 0.25f;
-	private final static float projectileMaxSpeed = 65.0f;
-	private final static float selfHitDelay = 0.1f;
+	private static final float projectileMaxSpeed = 65.0f;
+	private static final float selfHitDelay = 0.1f;
 	
-	private final static float minDamage = 25.0f;
-	private final static float maxDamage = 60.0f;
+	private static final float minDamage = 25.0f;
+	private static final float maxDamage = 60.0f;
 	
 	private SoundEntity chargeSound;
 

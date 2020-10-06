@@ -8,10 +8,10 @@ import com.mygdx.hadal.statuses.Status;
 
 public class CatalogofWant extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float hpConversion = 6.0f;
+	private static final float hpConversion = 6.0f;
 	
 	public CatalogofWant() {
 		super(slotCost, statusNum);

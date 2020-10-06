@@ -1,17 +1,13 @@
 package com.mygdx.hadal.equip.actives;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -23,30 +19,32 @@ import com.mygdx.hadal.strategies.hitbox.CreateSound;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.utils.Constants;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 public class AnchorSmash extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 16.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.1f;
+	private static final float maxCharge = 16.0f;
 
-	private final static Vector2 projectileSize = new Vector2(300, 259);
-	private final static float lifespan = 4.0f;
-	private final static float projectileSpeed = 60.0f;
+	private static final Vector2 projectileSize = new Vector2(300, 259);
+	private static final float lifespan = 4.0f;
+	private static final float projectileSpeed = 60.0f;
 
-	private final static float range = 1800.0f;
+	private static final float range = 1800.0f;
 	
-	private final static float baseDamage = 80.0f;
-	private final static float knockback = 50.0f;
+	private static final float baseDamage = 80.0f;
+	private static final float knockback = 50.0f;
 	
-	private final static Sprite projSprite = Sprite.ANCHOR;
+	private static final Sprite projSprite = Sprite.ANCHOR;
 
 	public AnchorSmash(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
 	
 	private float shortestFraction;
-	private Vector2 originPt = new Vector2();
-	private Vector2 endPt = new Vector2();
+	private final Vector2 originPt = new Vector2();
+	private final Vector2 endPt = new Vector2();
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
@@ -57,16 +55,12 @@ public class AnchorSmash extends ActiveItem {
 		
 		if (originPt.x != endPt.x || originPt.y != endPt.y) {
 
-			state.getWorld().rayCast(new RayCastCallback() {
-
-				@Override
-				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-					if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL && fraction < shortestFraction) {
-						shortestFraction = fraction;
-						return fraction;
-				}
-				return -1.0f;
-				}
+			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
+				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL && fraction < shortestFraction) {
+					shortestFraction = fraction;
+					return fraction;
+			}
+			return -1.0f;
 			}, originPt, endPt);
 		}
 		
@@ -82,7 +76,7 @@ public class AnchorSmash extends ActiveItem {
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
 			private boolean landed;
-			private Vector2 hboxLocation = new Vector2();
+			private final Vector2 hboxLocation = new Vector2();
 			@Override
 			public void controller(float delta) {
 				hboxLocation.set(hbox.getPixelPosition());

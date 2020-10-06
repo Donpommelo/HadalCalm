@@ -13,9 +13,9 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class EventAlternatorZone extends Prefabrication {
 
 	//0 = Vertical  wall. 1 = Horizontal wall
-	private int align;
+	private final int align;
 	
-	private String event1, event2;
+	private final String event1, event2;
 	
 	public EventAlternatorZone(PlayState state, int width, int height, int x, int y, int align, String event1, String event2) {
 		super(state, width, height, x , y);

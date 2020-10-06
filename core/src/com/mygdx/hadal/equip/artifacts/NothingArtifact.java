@@ -6,8 +6,8 @@ import com.mygdx.hadal.statuses.Status;
 
 public class NothingArtifact extends Artifact {
 
-	private final static int statusNum = 0;
-	private final static int slotCost = 0;
+	private static final int statusNum = 0;
+	private static final int slotCost = 0;
 	
 	public NothingArtifact() {
 		super(slotCost, statusNum);

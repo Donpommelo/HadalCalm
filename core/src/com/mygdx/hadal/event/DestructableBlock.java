@@ -18,7 +18,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * This is a block that can be destroyed.
  * 
  * Triggered Behavior: N/A
- * Triggering Behavior: Upon being destroyed, the destructable rock will trigger its connected event.
+ * Triggering Behavior: Upon being destroyed, the destructible rock will trigger its connected event.
  * 
  * Fields:
  * Hp: The integer number of Hp this event has before being destroyed.
@@ -27,14 +27,14 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class DestructableBlock extends Event {
 
-	//psuedo-hp. This event does not proc on-damage effects but can be destroyed.
+	//pseudo-hp. This event does not proc on-damage effects but can be destroyed.
 	private int hp;
 	
 	//when damaged, the event flashes for this duration
-	private final static float flashDuration = 0.1f;
+	private static final float flashDuration = 0.1f;
 	
 	//does this event stay in place or is it affected by physics?
-	private boolean isStatic;
+	private final boolean isStatic;
 	
 	public DestructableBlock(PlayState state, Vector2 startPos, Vector2 size, int hp, boolean isStatic) {
 		super(state, startPos, size);

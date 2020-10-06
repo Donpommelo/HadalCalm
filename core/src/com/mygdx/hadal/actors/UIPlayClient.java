@@ -51,9 +51,7 @@ public class UIPlayClient extends UIPlay {
 			ammoText = "";
 		}
 	}
-	
-	public float getOverrideMaxHp() { return overrideMaxHp;	}
-	
+
 	public float getOverrideFuelAmount() { return overrideFuelPercent * overrideMaxFuel; }
 	
 	public float getOverrideAirblastCost() { return overrideAirblastCost; }

@@ -9,11 +9,11 @@ import com.mygdx.hadal.utils.Stats;
 
 public class FensClippedWings extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
-	private final static int bonusJumpNum = 1;
-	private final static float bonusJumpPow = 0.2f;
+	private static final int bonusJumpNum = 1;
+	private static final float bonusJumpPow = 0.2f;
 	
 	public FensClippedWings() {
 		super(slotCost, statusNum);

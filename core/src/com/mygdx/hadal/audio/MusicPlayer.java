@@ -12,7 +12,7 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class MusicPlayer {
 
-	private GameStateManager gsm;
+	private final GameStateManager gsm;
 	
 	//this is the song currently playing
     private Music currentSong;
@@ -83,8 +83,7 @@ public class MusicPlayer {
 			currentSong.play();
 			
 			maxVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
-			volume = 0.0f;
-			
+
 			fade = defaultFadeInSpeed;
 		}
 	}

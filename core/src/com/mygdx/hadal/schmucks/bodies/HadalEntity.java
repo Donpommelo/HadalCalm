@@ -1,10 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
@@ -18,8 +13,13 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 /**
- * A HadalEntity is enything in the Game world that does stuff.
+ * A HadalEntity is anything in the Game world that does stuff.
  * A HadalEntity contains the method to create a Box2d body. It is not a body itself.
  * The entity also runs a method every engine tick. Anything that reacts to anything must be an entity.
  * Children: Schmucks, Hitboxes, Events. Walls are not entities.
@@ -43,8 +43,7 @@ public abstract class HadalEntity {
 	
 	//counter and method to keep up with animation frames. (extra is used for entities that have multiple parts that move at different speeds like the player)
 	protected float animationTime, animationTimeExtra;
-	protected float getAnimationTime() { return animationTime; }
-	
+
 	//counter of entity's age. this is sent to the client for syncing purposes.
 	protected float entityAge;
 
@@ -132,14 +131,14 @@ public abstract class HadalEntity {
 				world.destroyBody(body);
 			}
 		}
-	}	
-	
+	}
+
+	private final Vector2 impulse = new Vector2();
 	/**
 	 * A simple helper method that converts a screen coordinate into an impulse applied to this entity's body.
 	 * @param push: vector2 of impulse applied to this entity
 	 * @param power: Magnitude of impulse
 	 */
-	private Vector2 impulse = new Vector2();
 	public void recoil(Vector2 push, float power) {
 		if (!alive) { return; }
 		
@@ -215,8 +214,8 @@ public abstract class HadalEntity {
 	//should the client entity lerp to the server's position or just adjust instantly?
 	public boolean copyServerInstantly;
 	
-	//this is a list of the most recent packets that sync this entity as well as their timstamps
-	private ArrayList<Object[]> bufferedTimestamps = new ArrayList<Object[]>();
+	//this is a list of the most recent packets that sync this entity as well as their timestamps
+	private final ArrayList<Object[]> bufferedTimestamps = new ArrayList<>();
 	
 	/**
 	 * When we receive a packet from the server, we store it alongside its timestamp
@@ -261,7 +260,7 @@ public abstract class HadalEntity {
 	public Vector2 angleAsVector = new Vector2(0, 1);
 	
 	//the client processes interpolation at this speed regardless of framerate
-	public final static float clientSyncTime = 1 / 60f;
+	public static final float clientSyncTime = 1 / 60f;
 	private float clientSyncAccumulator = 0.0f;
 	
 	//this extra vector is used b/c interpolation updates the start vector
@@ -307,7 +306,7 @@ public abstract class HadalEntity {
 	 * This interpolates the entity's position between two timestamps.
 	 */
 	public void clientInterpolation() {
-		//if we are receiving syncs, lerp towrads the saved position and angle
+		//if we are receiving syncs, lerp towards the saved position and angle
 		if (body != null && receivingSyncs) {
 			if (!copyServerInstantly) {
 				
@@ -330,8 +329,7 @@ public abstract class HadalEntity {
 	/**
 	 * Is this entity on the screen? Used for frustrum culling to avoid rendering off-screen entities
 	 */
-	private float cosAng, sinAng, bodyAngle;
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	public boolean isVisible() {
 		if (body == null) {
 			return false;
@@ -340,21 +338,20 @@ public abstract class HadalEntity {
 		
 		//check the center + 4 corners of the entity to see if we should render this entity
 		if (state.getCamera().frustum.pointInFrustum(entityLocation.x, entityLocation.y, 0)) { return true; }
-		bodyAngle = body.getAngle();
-		cosAng = (float) Math.cos(bodyAngle);
-		sinAng = (float) Math.sin(bodyAngle);
+		float bodyAngle = body.getAngle();
+		float cosAng = (float) Math.cos(bodyAngle);
+		float sinAng = (float) Math.sin(bodyAngle);
 		if (state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x / 2 * cosAng - size.y / 2 * sinAng, entityLocation.y + size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
 		if (state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x / 2 * cosAng - size.y / 2 * sinAng, entityLocation.y - size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
 		if (state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x / 2 * cosAng + size.y / 2 * sinAng, entityLocation.y - size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
-		if (state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x / 2 * cosAng + size.y / 2 * sinAng, entityLocation.y + size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
-		return false;
+		return state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x / 2 * cosAng + size.y / 2 * sinAng,entityLocation.y + size.x / 2 * sinAng - size.y / 2 * cosAng,0);
 	}
 	
 	/**
 	 * returns position scaled by pixels per meter.
 	 * use when you want screen coordinates instead of getPosition()
 	 */
-	private Vector2 pixelPosition = new Vector2();
+	private final Vector2 pixelPosition = new Vector2();
 	public Vector2 getPixelPosition() {	
 		if (body != null) {
 			return pixelPosition.set(body.getPosition()).scl(PPM); 
@@ -402,13 +399,6 @@ public abstract class HadalEntity {
 		shader.loadShader(state, entityID.toString(), shaderCount);
 		this.shader = shader.getShader();
 		this.shaderCount = shaderCount;
-	}
-	
-	public void endShader(Shader oldShader) {
-		shaderCount = 0;
-		if (state.isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncShader(entityID.toString(), oldShader, 0.0f));
-		}
 	}
 	
 	public void decreaseShaderCount(float i) { shaderCount -= i; }

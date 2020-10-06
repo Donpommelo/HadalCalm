@@ -14,10 +14,10 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class TravelDistanceDie extends HitboxStrategy {
 	
 	//the location the hitbox is created and the location that it will die
-	private Vector2 startLocation = new Vector2();
+	private final Vector2 startLocation = new Vector2();
 	
 	//the distance the hbox travels before dying
-	private float distance;
+	private final float distance;
 	
 	public TravelDistanceDie(PlayState state, Hitbox proj, BodyData user, float distance) {
 		super(state, proj, user);
@@ -25,9 +25,7 @@ public class TravelDistanceDie extends HitboxStrategy {
 	}
 	
 	@Override
-	public void create() {
-		this.startLocation.set(hbox.getPosition());
-	}
+	public void create() { this.startLocation.set(hbox.getPosition()); }
 	
 	@Override
 	public void controller(float delta) {

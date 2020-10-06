@@ -1,7 +1,5 @@
 package com.mygdx.hadal.states;
 
-import java.io.IOException;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -24,9 +22,11 @@ import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.utils.NameGenerator;
 
+import java.io.IOException;
+
 /**
  * The TitleState is created upon initializing the game and will display an image.
- * This state also gives options to host, join a server as well as set player's name, change settngs and exit.
+ * This state also gives options to host, join a server as well as set player's name, change settings and exit.
  * @author Zachary Tu
  */
 public class TitleState extends GameState {
@@ -44,53 +44,53 @@ public class TitleState extends GameState {
 	private TextField enterName, enterIP;
 	
 	//ambient particle effects
-	private PooledEffect jelly, diatom1, diatom2, diatom3;
+	private final PooledEffect jelly, diatom1, diatom2, diatom3;
 	
-	//Dimentions and position of the title menu
-	private final static int titleX = 140;
-	private final static int titleY = 500;
-	private final static int titleWidth = 1000;
-	private final static int titleHeight = 208;
+	//Dimensions and position of the title menu
+	private static final int titleX = 140;
+	private static final int titleY = 500;
+	private static final int titleWidth = 1000;
+	private static final int titleHeight = 208;
 	
-	private final static int menuX = 540;
-	private final static int menuY = 40;
-	private final static int width = 200;
-	private final static int height = 240;
+	private static final int menuX = 540;
+	private static final int menuY = 40;
+	private static final int width = 200;
+	private static final int height = 240;
 	
-	private final static int nameX = 40;
-	private final static int nameY = 180;
-	private final static int nameWidth = 460;
-	private final static int nameHeight = 100;
+	private static final int nameX = 40;
+	private static final int nameY = 180;
+	private static final int nameWidth = 460;
+	private static final int nameHeight = 100;
 	
-	private final static int ipX = 40;
-	private final static int ipY = 40;
-	private final static int ipWidth = 460;
-	private final static int ipHeight = 100;
+	private static final int ipX = 40;
+	private static final int ipY = 40;
+	private static final int ipWidth = 460;
+	private static final int ipHeight = 100;
 	
-	private final static int notificationX = 40;
-	private final static int notificationY = 300;
+	private static final int notificationX = 40;
+	private static final int notificationY = 300;
 	
-	private final static int versionNumX = 1060;
-	private final static int versionNumY = 40;
+	private static final int versionNumX = 1060;
+	private static final int versionNumY = 40;
 	
-	private final static int textWidth = 260;
+	private static final int textWidth = 260;
 
-	private final static float scale = 0.4f;
-	private final static float scaleSide = 0.25f;
-	private final static float optionHeight = 35.0f;
-	private final static float mainOptionHeight = 40.0f;
+	private static final float scale = 0.4f;
+	private static final float scaleSide = 0.25f;
+	private static final float optionHeight = 35.0f;
+	private static final float mainOptionHeight = 40.0f;
 
-	private final static int jelly1X = 640;
-	private final static int jelly1Y = 300;
+	private static final int jelly1X = 640;
+	private static final int jelly1Y = 300;
 	
-	private final static int diatom1X = 1080;
-	private final static int diatom1Y = 80;
+	private static final int diatom1X = 1080;
+	private static final int diatom1Y = 80;
 	
-	private final static int diatom2X = 800;
-	private final static int diatom2Y = 50;
+	private static final int diatom2X = 800;
+	private static final int diatom2Y = 50;
 	
-	private final static int diatom3X = 200;
-	private final static int diatom3Y = 30;
+	private static final int diatom3X = 200;
+	private static final int diatom3Y = 30;
 	
 	//This boolean determines if input is disabled. input is disabled if the player joins/hosts.
 	private boolean inputDisabled;
@@ -218,11 +218,7 @@ public class TitleState extends GameState {
 						GameStateManager.currentMode = Mode.MULTI;
 						
 						//Enter the Hub State.
-						gsm.getApp().setRunAfterTransition(new Runnable() {
-
-							@Override
-							public void run() { gsm.gotoHubState(); }
-						});
+						gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState());
 						gsm.getApp().fadeOut();
 			        }
 			    });
@@ -245,11 +241,7 @@ public class TitleState extends GameState {
 						GameStateManager.currentMode = Mode.SINGLE;
 						
 						//Enter the Hub State.
-						gsm.getApp().setRunAfterTransition(new Runnable() {
-
-							@Override
-							public void run() { gsm.gotoHubState();	}
-						});
+						gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState());
 						gsm.getApp().fadeOut();
 			        }
 			    });
@@ -273,30 +265,26 @@ public class TitleState extends GameState {
 						
 						setNotification("SEARCHING FOR SERVER!");
 						//Attempt to connect to the chosen ip
-						Gdx.app.postRunnable(new Runnable() {
-					        
-							@Override
-					         public void run() {
-				        		
-								//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
-				            	try {
-				                	//trim whitespace from ip
-				            		String trimmedIp = enterIP.getText().trim();
-				            		
-				            		HadalGame.client.getClient().connect(5000, trimmedIp, gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
-				                	
-				    				//save last joined ip if successful
-				                	gsm.getRecord().setlastIp(trimmedIp);
-				                	
-				                	setNotification("CONNECTED TO SERVER: " + trimmedIp);
-				                } catch (IOException ex) {
-				                    setNotification("FAILED TO CONNECT TO SERVER!");
-				                    
-				                    //Let the player attempt to connect again after finishing
-					            	inputDisabled = false;
-				                }
-					         }
-						});
+						Gdx.app.postRunnable(() -> {
+
+							//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
+							try {
+								//trim whitespace from ip
+								String trimmedIp = enterIP.getText().trim();
+
+								HadalGame.client.getClient().connect(5000, trimmedIp, gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
+
+								//save last joined ip if successful
+								gsm.getRecord().setlastIp(trimmedIp);
+
+								setNotification("CONNECTED TO SERVER: " + trimmedIp);
+							} catch (IOException ex) {
+								setNotification("FAILED TO CONNECT TO SERVER!");
+
+								//Let the player attempt to connect again after finishing
+								inputDisabled = false;
+							}
+						 });
 			        }
 			    });
 				
@@ -311,23 +299,19 @@ public class TitleState extends GameState {
 						
 						SoundEffect.UISWITCH2.play(gsm, 1.0f, false);
 						
-						Gdx.app.postRunnable(new Runnable() {
-					        
-							@Override
-					         public void run() {
-								//Search network for nearby hosts
-								enterIP.setText(HadalGame.client.searchServer());
-								
-								//Set notification according to result
-								if (enterIP.getText().equals("NO IP FOUND")) {
-									setNotification("SERVER NOT FOUND!");
-								} else {
-									setNotification("FOUND SERVER: " + enterIP.getText());
-								}
-								
-								//Let the player attempt to connect again after finishing
-								inputDisabled = false;
+						Gdx.app.postRunnable(() -> {
+							//Search network for nearby hosts
+							enterIP.setText(HadalGame.client.searchServer());
+
+							//Set notification according to result
+							if (enterIP.getText().equals("NO IP FOUND")) {
+								setNotification("SERVER NOT FOUND!");
+							} else {
+								setNotification("FOUND SERVER: " + enterIP.getText());
 							}
+
+							//Let the player attempt to connect again after finishing
+							inputDisabled = false;
 						});
 			        }
 			    });
@@ -344,11 +328,7 @@ public class TitleState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						
 						//Enter the Setting State.
-						gsm.getApp().setRunAfterTransition(new Runnable() {
-
-							@Override
-							public void run() {	getGsm().addSettingState(null, TitleState.class); }
-						});
+						gsm.getApp().setRunAfterTransition(() -> getGsm().addSettingState(null, TitleState.class));
 						gsm.getApp().fadeOut();
 			        }
 			    });
@@ -365,11 +345,7 @@ public class TitleState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						
 						//Enter the About State.
-						gsm.getApp().setRunAfterTransition(new Runnable() {
-
-							@Override
-							public void run() {	getGsm().addState(State.ABOUT, TitleState.class); }
-						});
+						gsm.getApp().setRunAfterTransition(() -> getGsm().addState(State.ABOUT, TitleState.class));
 						gsm.getApp().fadeOut();
 			        }
 			    });
@@ -412,8 +388,8 @@ public class TitleState extends GameState {
 				
 				enterIP = new TextField("", GameStateManager.getSkin());
 				
-				//retrieve last joined ip if existant
-				if (gsm.getRecord().getLastIp() == "") {
+				//retrieve last joined ip if existent
+				if (gsm.getRecord().getLastIp().equals("")) {
 					enterIP.setMessageText("ENTER IP");
 				} else {
 					enterIP.setText(gsm.getRecord().getLastIp());

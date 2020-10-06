@@ -18,10 +18,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class DroneBit extends EnemySwimming {
 
-	private final static int baseHp = 125;
-	private final static String name = "DRONE BIT";
+	private static final int baseHp = 125;
+	private static final String name = "DRONE BIT";
 	
-	private final static int scrapDrop = 0;
+	private static final int scrapDrop = 0;
 
 	private static final int width = 450;
 	private static final int height = 450;
@@ -41,14 +41,14 @@ public class DroneBit extends EnemySwimming {
 	
 	private static final Sprite sprite = Sprite.DRONE_BODY;
 	
-	private TextureRegion armBackSprite, armFrontSprite;
-	private Animation<TextureRegion> eyeSprite;
+	private final TextureRegion armBackSprite, armFrontSprite;
+	private final Animation<TextureRegion> eyeSprite;
 	
 	public DroneBit(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.DRONE_BIT, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		armBackSprite = Sprite.DRONE_ARM_BACK.getFrame();
 		armFrontSprite = Sprite.DRONE_ARM_FRONT.getFrame();
-		eyeSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, Sprite.DRONE_EYE.getFrames());
+		eyeSprite = new Animation<>(PlayState.spriteAnimationSpeed, Sprite.DRONE_EYE.getFrames());
 		eyeSprite.setPlayMode(PlayMode.NORMAL);
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		setNoiseRadius(noiseRadius);
@@ -73,7 +73,7 @@ public class DroneBit extends EnemySwimming {
 	@Override
 	public void acquireTarget() {}
 	
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		boolean flip = true;
@@ -91,7 +91,7 @@ public class DroneBit extends EnemySwimming {
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
 				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
 		
-		batch.draw((TextureRegion) eyeSprite.getKeyFrame(animationTime, false), 
+		batch.draw(eyeSprite.getKeyFrame(animationTime, false),
 				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
 				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, 

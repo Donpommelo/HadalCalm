@@ -22,22 +22,22 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class Fafrotskies extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 15.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.1f;
+	private static final float maxCharge = 15.0f;
 	
-	private final static Vector2 projectileSize = new Vector2(200, 50);
-	private final static float lifespan = 7.5f;
+	private static final Vector2 projectileSize = new Vector2(200, 50);
+	private static final float lifespan = 7.5f;
 	
-	private final static Vector2 rainSize = new Vector2(30, 20);
+	private static final Vector2 rainSize = new Vector2(30, 20);
 	
-	private final static float rainDamage = 11.0f;
-	private final static float rainKnockback = 2.0f;
+	private static final float rainDamage = 11.0f;
+	private static final float rainKnockback = 2.0f;
 	
-	private final static float projectileSpeed = 5.0f;
-	private final static float rainSpeed = 15.0f;
+	private static final float projectileSpeed = 5.0f;
+	private static final float rainSpeed = 15.0f;
 	
-	private final static Sprite projSprite = Sprite.ORB_BLUE;
+	private static final Sprite projSprite = Sprite.ORB_BLUE;
 
 	public Fafrotskies(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -55,7 +55,7 @@ public class Fafrotskies extends ActiveItem {
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
 			private float controllerCount = 0;
-			private final static float rainInterval = 0.1f;
+			private static final float rainInterval = 0.1f;
 			
 			@Override
 			public void controller(float delta) {

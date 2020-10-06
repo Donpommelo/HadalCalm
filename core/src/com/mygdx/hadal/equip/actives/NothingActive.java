@@ -5,9 +5,9 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 
 public class NothingActive extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 0.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 0.0f;
 	
 	public NothingActive(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);

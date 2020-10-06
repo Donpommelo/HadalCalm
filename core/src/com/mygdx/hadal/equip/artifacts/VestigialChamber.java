@@ -9,16 +9,16 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 public class VestigialChamber extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
 	private static final float procCd = 2.0f;
 	
-	private final static float reticleSize = 80.0f;
-	private final static float reticleLifespan = 0.75f;
-	private final static int explosionRadius = 100;
-	private final static float explosionDamage = 18.0f;
-	private final static float explosionKnockback = 20.0f;
+	private static final float reticleSize = 80.0f;
+	private static final float reticleLifespan = 0.75f;
+	private static final int explosionRadius = 100;
+	private static final float explosionDamage = 18.0f;
+	private static final float explosionKnockback = 20.0f;
 	
 	public VestigialChamber() {
 		super(slotCost, statusNum);

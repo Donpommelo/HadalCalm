@@ -3,7 +3,6 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -25,11 +24,11 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 public class SeeSawPlatform extends Event {
 
 	//properties of each segment fixture that process damage knockback
-	private final static float sectionWidth = 64.0f;
-	private final static float sectionPadding = 10.0f;
+	private static final float sectionWidth = 64.0f;
+	private static final float sectionPadding = 10.0f;
 	
 	//max knockback that an instance of damage can apply to this event
-	private final static float kbCap = 20.0f;
+	private static final float kbCap = 20.0f;
 	
 	public SeeSawPlatform(PlayState state, Vector2 startPos, Vector2 size) {
 		super(state, startPos, size);

@@ -1,15 +1,13 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -27,19 +25,21 @@ import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
-import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.Invulnerability;
-import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Invulnerability;
+import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * The player is the entity that the player controls.
@@ -47,9 +47,9 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  */
 public class Player extends PhysicsSchmuck {
 	
-	private final static int baseHp = 100;
-	private final static float playerDensity = 1.0f;
-	public final static float controllerInterval = 1 / 60f;
+	private static final int baseHp = 100;
+	private static final float playerDensity = 1.0f;
+	public static final float controllerInterval = 1 / 60f;
 	
 	//Dimension of player sprite parts.
 	public static final int hbWidth = 216;
@@ -71,13 +71,15 @@ public class Player extends PhysicsSchmuck {
 	public static final float uiScale = 0.4f;
 	
 	private TextureRegion bodyBackSprite, armSprite, gemSprite, toolSprite;
-	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite, typingBubble;
+	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
+	private final Animation<TextureRegion> typingBubble;
 	
-	private TextureRegion reload, reloadMeter, reloadBar;
-	private Texture empty, full;
+	private final TextureRegion reload, reloadMeter, reloadBar;
+	private final Texture empty, full;
 	
-	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight, toolHeight, toolWidth, gemHeight, gemWidth;
-	
+	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight, gemHeight, gemWidth;
+	private final int toolWidth, toolHeight;
+
 	//Fixtures and user data
 	private Fixture feet, rightSensor, leftSensor;
 	protected FeetData feetData;
@@ -92,27 +94,27 @@ public class Player extends PhysicsSchmuck {
 	protected boolean shootBuffered, jumpBuffered, airblastBuffered;
 
 	//counters for various cooldowns.
-	protected final static float hoverCd = 0.08f;
-	protected final static float jumpCd = 0.25f;
+	protected static final float hoverCd = 0.08f;
+	protected static final float jumpCd = 0.25f;
 	protected float jumpCdCount;
 	
-	protected final static float fastFallCd = 0.05f;
+	protected static final float fastFallCd = 0.05f;
 	protected float fastFallCdCount;
 	
-	protected final static float airblastCd = 0.25f;
+	protected static final float airblastCd = 0.25f;
 	protected float airblastCdCount;
 
-	protected final static float interactCd = 0.15f;
+	protected static final float interactCd = 0.15f;
 	protected float interactCdCount;
 	
-	protected final static float hitSoundCd = 0.15f;
+	protected static final float hitSoundCd = 0.15f;
 	protected float hitSoundCdCount, hitSoundLargeCdCount;
 	
-	protected final static float pingCd = 1.0f;
+	protected static final float pingCd = 1.0f;
 	protected float pingCdCount;
 	
 	//this makes the player animate faster in the air for the "luigi legs"
-	private final static float airAnimationSlow = 3.0f;
+	private static final float airAnimationSlow = 3.0f;
 
 	//This is the angle that the player's arm is pointing
 	protected float attackAngle;
@@ -124,7 +126,7 @@ public class Player extends PhysicsSchmuck {
 	private Event currentEvent;
 	
 	//Equipment that the player has built into their toolset.
-	private Airblaster airblast;
+	private final Airblaster airblast;
 	
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
 	protected float controllerCount;
@@ -155,13 +157,13 @@ public class Player extends PhysicsSchmuck {
 	private Loadout startLoadout;
 	
 	//This is the connection id of the player (0 if server)
-	private int connID;
+	private final int connID;
 	
 	//should we reset this player's playerData stuff upon creation
-	private boolean reset;
+	private final boolean reset;
 	
 	//this is the point we are starting at.
-	private StartPoint start;
+	private final StartPoint start;
 	
 	//does this player start off as a spectator. Is this player currently a spectator?
 	private boolean startSpectator, spectator;
@@ -218,7 +220,7 @@ public class Player extends PhysicsSchmuck {
 		setBodySprite(startLoadout.character);
 		loadParticles();
 		
-		//This schmuck trackes mouse location. Used for projectiles that home towards mouse.
+		//This schmuck tracks mouse location. Used for projectiles that home towards mouse.
 		mouse = state.getMouse();
 		
 		this.reload = Sprite.UI_RELOAD.getFrame();
@@ -227,7 +229,7 @@ public class Player extends PhysicsSchmuck {
 		
 		this.empty = new Texture(AssetList.HEART_EMPTY.toString());
 		this.full = new Texture(AssetList.HEART_FULL.toString());
-		typingBubble =  new Animation<TextureRegion>(PlayState.spriteAnimationSpeedSlow, Sprite.NOTIFICATIONS_CHAT.getFrames());
+		typingBubble =  new Animation<>(PlayState.spriteAnimationSpeedSlow, Sprite.NOTIFICATIONS_CHAT.getFrames());
 		typingBubble.setPlayMode(PlayMode.LOOP_PINGPONG);
 	}
 	
@@ -237,11 +239,11 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void setBodySprite(UnlockCharacter character) {
 
-		bodyRunSprite =  new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, Sprite.getCharacterSprites(character.getSprite(), "body_run").getFrames());	
-		bodyStillSprite =  new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, Sprite.getCharacterSprites(character.getSprite(), "body_stand").getFrames());	
+		bodyRunSprite =  new Animation<>(PlayState.spriteAnimationSpeed, Sprite.getCharacterSprites(character.getSprite(), "body_run").getFrames());
+		bodyStillSprite =  new Animation<>(PlayState.spriteAnimationSpeed, Sprite.getCharacterSprites(character.getSprite(), "body_stand").getFrames());
 		bodyBackSprite = Sprite.getCharacterSprites(character.getSprite(), "body_background").getFrame();
 		armSprite = Sprite.getCharacterSprites(character.getSprite(), "arm").getFrame();
-		headSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, Sprite.getCharacterSprites(character.getSprite(), "head").getFrames());	
+		headSprite = new Animation<>(PlayState.spriteAnimationSpeed, Sprite.getCharacterSprites(character.getSprite(), "head").getFrames());
 		gemSprite = Sprite.getCharacterSprites(character.getSprite(), "gem_active").getFrame();
 		
 		this.armWidth = armSprite.getRegionWidth();
@@ -292,7 +294,7 @@ public class Player extends PhysicsSchmuck {
 			currentSlot = playerData.getCurrentSlot() + 1;
 		}
 		
-		//If resetting, this indicates that this is a newlyspawned or respawned player. Create new data for it with the provided loadout.
+		//If resetting, this indicates that this is a newly spawned or respawned player. Create new data for it with the provided loadout.
 		//Otherwise, take the input data and reset it to match the new world.
 		if (reset) {
 			playerData = new PlayerBodyData(this, startLoadout);
@@ -313,7 +315,7 @@ public class Player extends PhysicsSchmuck {
 		this.leftData = new FeetData(UserDataTypes.FEET, this); 
 		
 		this.leftSensor = FixtureBuilder.createFixtureDef(body, new Vector2(-size.x / 2, 0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL), hitboxfilter);
+				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter);
 		
 		leftSensor.setUserData(leftData);
 		
@@ -355,8 +357,8 @@ public class Player extends PhysicsSchmuck {
 	/**
 	 * The player's controller currently polls for input.
 	 */
-	private Vector2 playerLocation = new Vector2();
-	private Vector2 mouseLocation = new Vector2();
+	private final Vector2 playerLocation = new Vector2();
+	private final Vector2 mouseLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		controllerCount += delta;
@@ -481,9 +483,9 @@ public class Player extends PhysicsSchmuck {
 		if (mouse.getBody() != null) {
 			playerLocation.set(getPixelPosition());
 			mouseLocation.set(mouse.getPixelPosition());
-			mouseAngle.set(playerLocation.y, playerLocation.x).sub(mouseLocation.y, mouseLocation.x);
+			mouseAngle.set(playerLocation.x, playerLocation.y).sub(mouseLocation.x, mouseLocation.y);
 		}
-		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
+		attackAngle = (float)(Math.atan2(mouseAngle.y, mouseAngle.x) * 180 / Math.PI);
 		
 		//process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
 		playerData.getCurrentTool().update(delta);
@@ -595,7 +597,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void release() {
 		if (alive && shooting) {
-			useToolRelease(playerData.getCurrentTool(), mouse.getPixelPosition());
+			useToolRelease(playerData.getCurrentTool());
 		}
 	}
 	
@@ -649,7 +651,7 @@ public class Player extends PhysicsSchmuck {
 	}
 	
 	/**
-	 * Player switches to their last equiped weapon. (does nothing if they have no previously equipped weapon.)
+	 * Player switches to their last equipped weapon. (does nothing if they have no previously equipped weapon.)
 	 */
 	public void switchToLast() {
 		playerData.switchToLast();
@@ -680,10 +682,7 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//flip determines if the player is facing left or right
-		flip = false;
-		if (Math.abs(attackAngle) > 90) {
-			flip = true;
-		}
+		flip = Math.abs(attackAngle) > 90;
 		
 		//Depending on which way the player is facing, the connection points of various body parts are slightly offset.
 		armConnectXReal = armConnectX;
@@ -700,8 +699,8 @@ public class Player extends PhysicsSchmuck {
 		
 		//This switch determines the total body y-offset to make the body bob up and down when running.
 		//offset head is separate for some characters to have head bobbing
-		float yOffset = 0;
-		float yOffsetHead = 0;
+		float yOffset;
+		float yOffsetHead;
 		boolean moving = moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT);
 		int bodyFrame = bodyRunSprite.getKeyFrameIndex(animationTime);
 		int headFrame = bodyRunSprite.getKeyFrameIndex(animationTimeExtra);
@@ -739,17 +738,15 @@ public class Player extends PhysicsSchmuck {
 				(flip ? -1 : 1) * gemWidth * scale, gemHeight * scale, 1, 1, 0);
 		
 		//reverse determines whether the player is running forwards or backwards.
-		boolean reverse = false;
 		if (moveState.equals(MoveState.MOVE_LEFT)) {
 			
 			if (Math.abs(realAttackAngle) > 90) {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
-				reverse = true;
 			} else {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP);
 			}
 			
-			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(animationTime), 
+			batch.draw(bodyRunSprite.getKeyFrame(animationTime),
 					(flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale, 
 					playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
@@ -757,27 +754,26 @@ public class Player extends PhysicsSchmuck {
 		} else if (moveState.equals(MoveState.MOVE_RIGHT)) {
 			if (Math.abs(realAttackAngle) < 90) {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
-				reverse = true;
 			} else {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP);
 			}
 			
-			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(animationTime), 
+			batch.draw(bodyRunSprite.getKeyFrame(animationTime),
 					(flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale, 
 					playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		} else {
 			bodyRunSprite.setPlayMode(PlayMode.LOOP);
-			batch.draw(grounded ? (TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true) : 
-					(TextureRegion) bodyRunSprite.getKeyFrame(getFreezeFrame(reverse)), 
+			batch.draw(grounded ? bodyStillSprite.getKeyFrame(animationTime, true) :
+					bodyRunSprite.getKeyFrame(getFreezeFrame(false)),
 					(flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale, 
 					playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		}
 		
-		batch.draw((TextureRegion) headSprite.getKeyFrame(animationTimeExtra, true), 
+		batch.draw(headSprite.getKeyFrame(animationTimeExtra, true),
 				(flip ? headWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + headConnectXReal * scale, 
 				playerLocation.y - hbHeight * scale / 2 + headConnectY * scale + yOffsetHead, 
 				0, 0,
@@ -823,7 +819,7 @@ public class Player extends PhysicsSchmuck {
 		float heartX = playerLocation.x - Player.hbWidth * scale - empty.getWidth() * uiScale + 5;
 		float heartY = playerLocation.y + Player.hbHeight * scale / 2 + 5;
 		
-		float hpRatio = 0.0f;
+		float hpRatio;
 		
 		//render "out of ammo"
 		if (state.isServer()) {
@@ -895,8 +891,8 @@ public class Player extends PhysicsSchmuck {
 	/**
 	 * This creates a bunch of gib ragdolls when the player dies.
 	 */
-	private final static float gibDuration = 3.0f;
-	private final static float gibGravity = 1.0f;
+	private static final float gibDuration = 3.0f;
+	private static final float gibGravity = 1.0f;
 	public void createGibs() {
 		if (alive) {
 			playerLocation.set(getPixelPosition());
@@ -934,7 +930,7 @@ public class Player extends PhysicsSchmuck {
 	/**
 	 * When the player deals damage, we play this hitsound depending on the amount of damage dealt
 	 */
-	private final static float maxDamageThreshold = 60.0f;
+	private static final float maxDamageThreshold = 60.0f;
 	public void playHitSound(float damage) {
 		
 		if (damage <= 0.0f) { return; }
@@ -965,8 +961,8 @@ public class Player extends PhysicsSchmuck {
 	/**
 	 * This is called every engine tick. 
 	 * The server player sends one packet to the corresponding client player and one to all players.
-	 * The unique packet contains info only needed for that client's ui (fuel, clip, ammo and active itemcharge percent.)
-	 * The universal packet contains location, arm angle, hp, weapon, groundedness, reload/charge/outofammo notifications
+	 * The unique packet contains info only needed for that client's ui (fuel, clip, ammo and active item charge percent.)
+	 * The universal packet contains location, arm angle, hp, weapon, groundedness, reload/charge/out of ammo notifications
 	 */
 	@Override
 	public void onServerSync() {
@@ -1009,7 +1005,7 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
-	private Vector2 serverAttackAngle = new Vector2(0, 1);
+	private final Vector2 serverAttackAngle = new Vector2(0, 1);
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
@@ -1020,11 +1016,11 @@ public class Player extends PhysicsSchmuck {
 	}
 	
 	private float shortestFraction;
-	private Vector2 originPt = new Vector2();
-	private Vector2 endPt = new Vector2();
-	private Vector2 offset = new Vector2();
-	private Vector2 playerWorldLocation = new Vector2();
-	private final static float spawnDist = 2.0f;
+	private final Vector2 originPt = new Vector2();
+	private final Vector2 endPt = new Vector2();
+	private final Vector2 offset = new Vector2();
+	private final Vector2 playerWorldLocation = new Vector2();
+	private static final float spawnDist = 2.0f;
 	/**
 	 * This method makes projectiles fired by the player spawn offset to be at the tip of the gun
 	 */
@@ -1039,18 +1035,13 @@ public class Player extends PhysicsSchmuck {
 		//raycast towards the direction firing. spawn projectile closer to player if a wall is nearby
 		if (originPt.x != endPt.x || originPt.y != endPt.y) {
 
-			state.getWorld().rayCast(new RayCastCallback() {
+			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
-				@Override
-				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-					
-					if (fixture.getFilterData().categoryBits == (short) Constants.BIT_WALL && fraction < shortestFraction) {
-						shortestFraction = fraction;
-						return fraction;
-					}
-					return -1.0f;
+				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL && fraction < shortestFraction) {
+					shortestFraction = fraction;
+					return fraction;
 				}
-				
+				return -1.0f;
 			}, originPt, endPt);
 		}
 		

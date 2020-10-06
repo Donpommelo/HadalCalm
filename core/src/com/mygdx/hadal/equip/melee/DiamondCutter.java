@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.melee;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -19,24 +17,26 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 public class DiamondCutter extends MeleeWeapon {
 
-	private final static float swingCd = 0.0f;
-	private final static float windup = 0.0f;
+	private static final float swingCd = 0.0f;
+	private static final float windup = 0.0f;
 	
-	private final static Vector2 projectileSize = new Vector2(75, 75);
+	private static final Vector2 projectileSize = new Vector2(75, 75);
 	
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private static final Sprite weaponSprite = Sprite.MT_DEFAULT;
+	private static final Sprite eventSprite = Sprite.P_DEFAULT;
 
-	private final static Sprite projSprite = Sprite.BUZZSAW;
+	private static final Sprite projSprite = Sprite.BUZZSAW;
 	
-	private final static float baseDamage = 6.0f;
-	private final static float knockback = 0.0f;
+	private static final float baseDamage = 6.0f;
+	private static final float knockback = 0.0f;
 
-	private final static float range = 75.0f;
-	private final static float spinSpeed = 8.0f;
-	private final static float spinInterval = 1 / 60f;
+	private static final float range = 75.0f;
+	private static final float spinSpeed = 8.0f;
+	private static final float spinInterval = 1 / 60f;
 	
 	//this is the hitbox that this weapon extends
 	private Hitbox hbox;
@@ -50,7 +50,7 @@ public class DiamondCutter extends MeleeWeapon {
 		super(user, swingCd, windup, weaponSprite, eventSprite);
 	}
 	
-	private Vector2 projOffset = new Vector2();
+	private final Vector2 projOffset = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		
@@ -84,8 +84,8 @@ public class DiamondCutter extends MeleeWeapon {
 					hbox.setAngularVelocity(spinSpeed);
 				}
 				
-				private Vector2 entityLocation = new Vector2();
-				private Vector2 pulseVelocity = new Vector2();
+				private final Vector2 entityLocation = new Vector2();
+				private final Vector2 pulseVelocity = new Vector2();
 				@Override
 				public void controller(float delta) {
 					

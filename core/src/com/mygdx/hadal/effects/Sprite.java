@@ -258,10 +258,10 @@ public enum Sprite {
 	;
 	
 	//this represents the atlas that we should read the sprite off of.
-	private SpriteType type;
+	private final SpriteType type;
 	
 	//this is the filename of the sprite
-	private String spriteId;
+	private final String spriteId;
 	
 	//These are the frames of the sprite.
 	private Array<? extends TextureRegion> frames;

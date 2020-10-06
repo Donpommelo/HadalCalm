@@ -1,7 +1,7 @@
 package com.mygdx.hadal.save;
 
 /**
- * Shared Settings containg all of the host's settings that should be visible/synced with the clients
+ * Shared Settings containing all of the host's settings that should be visible/synced with the clients
  * @author Zachary Tu
  */
 public class SharedSetting {
@@ -37,8 +37,6 @@ public class SharedSetting {
 
 	public int getPVPTimer() {	return pvpTimer; }
 
-	public void setPVPTimer(int pvpTimer) { this.pvpTimer = pvpTimer; }
-	
 	public int getCoopTimer() {	return coopTimer; }
 
 	public void setCoopTimer(int coopTimer) { this.coopTimer = coopTimer; }

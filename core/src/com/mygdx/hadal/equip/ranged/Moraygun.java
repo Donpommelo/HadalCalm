@@ -23,25 +23,25 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class Moraygun extends RangedWeapon {
 
-	private final static int clipSize = 7;
-	private final static int ammoSize = 42;
-	private final static float shootCd = 0.3f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.0f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 15.0f;
-	private final static float recoil = 12.0f;
-	private final static float knockback = 5.0f;
-	private final static float projectileSpeedStart = 150.0f;
-	private final static Vector2 projectileSize = new Vector2(30, 30);
-	private final static float lifespan = 2.0f;
+	private static final int clipSize = 7;
+	private static final int ammoSize = 42;
+	private static final float shootCd = 0.3f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = 1.0f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 15.0f;
+	private static final float recoil = 12.0f;
+	private static final float knockback = 5.0f;
+	private static final float projectileSpeedStart = 150.0f;
+	private static final Vector2 projectileSize = new Vector2(30, 30);
+	private static final float lifespan = 2.0f;
 	
-	private final static Sprite projSprite = Sprite.ORB_PINK;
-	private final static Sprite weaponSprite = Sprite.MT_CHARGEBEAM;
-	private final static Sprite eventSprite = Sprite.P_CHARGEBEAM;
+	private static final Sprite projSprite = Sprite.ORB_PINK;
+	private static final Sprite weaponSprite = Sprite.MT_CHARGEBEAM;
+	private static final Sprite eventSprite = Sprite.P_CHARGEBEAM;
 
-	private final static int numProj = 6;
-	private final static float moveInterval = 0.025f;
+	private static final int numProj = 6;
+	private static final float moveInterval = 0.025f;
 	
 	public Moraygun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -78,7 +78,7 @@ public class Moraygun extends RangedWeapon {
 				public void controller(float delta) {
 					controllerCount += delta;
 
-					//Each hbox moves at set intervals. Each movement moves the hbox verticle x times followed by horizontal y times to make a snake-like movement
+					//Each hbox moves at set intervals. Each movement moves the hbox vertical x times followed by horizontal y times to make a snake-like movement
 					while (controllerCount >= moveInterval) {
 						controllerCount -= moveInterval;
 						

@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -16,17 +16,17 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class RingofTesting extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 0;
+	private static final int statusNum = 1;
+	private static final int slotCost = 0;
 	
-	private final static int numFrag = 500;
-	private final static Vector2 projectileSize = new Vector2(50, 50);
+	private static final int numFrag = 500;
+	private static final Vector2 projectileSize = new Vector2(50, 50);
 
-	private final static float lifespan = 10.0f;
-	private final static float fragSpeed = 2.0f;
+	private static final float lifespan = 10.0f;
+	private static final float fragSpeed = 2.0f;
 	
-	private final static float baseDamage = 1.0f;
-	private final static float knockback = 5.0f;
+	private static final float baseDamage = 1.0f;
+	private static final float knockback = 5.0f;
 	
 	public RingofTesting() {
 		super(slotCost, statusNum);
@@ -38,7 +38,7 @@ public class RingofTesting extends Artifact {
 				new Status(state, b) {
 			
 			@Override
-			public void onReload(Equipable tool) {
+			public void onReload(Equippable tool) {
 				Vector2 fragVelo = new Vector2();
 				for (int i = 0; i < numFrag; i++) {
 					float newDegrees = (ThreadLocalRandom.current().nextInt(0, 360));

@@ -21,13 +21,13 @@ import com.mygdx.hadal.utils.Stats;
 public class Turret extends Enemy {
 
 	private float desiredAngle;
-	private float startAngle;
+	private final float startAngle;
 	
 	private TurretState currentState;
 	
 	private Sprite turretBarrelSprite;
-	private  Animation<? extends TextureRegion> turretBase, turretBarrel;
-	private float scale = 0.5f;
+	private final Animation<? extends TextureRegion> turretBase, turretBarrel;
+	private final float scale;
 
 	private static final int baseWidth = 528;
 	private static final int baseHeight = 252;
@@ -75,8 +75,8 @@ public class Turret extends Enemy {
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
 	
-	private Vector2 entityWorldLocation = new Vector2();
-	private Vector2 targetWorldLocation = new Vector2();
+	private final Vector2 entityWorldLocation = new Vector2();
+	private final Vector2 targetWorldLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
@@ -111,7 +111,7 @@ public class Turret extends Enemy {
 		}
 	}
 	
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		boolean flip = false;
@@ -125,20 +125,20 @@ public class Turret extends Enemy {
 		}
 		entityLocation.set(getPixelPosition());
 		if (moveState == MoveState.DEFAULT) {
-			batch.draw((TextureRegion) turretBarrel.getKeyFrame(0, true), 
+			batch.draw(turretBarrel.getKeyFrame(0, true),
 					entityLocation.x - getHboxSize().x / 2, 
 					(flip ? size.y - 24 * scale : 0) + entityLocation.y - getHboxSize().y / 2, 
 					rotationX * scale, (flip ? -size.y : 0) + rotationYReal * scale,
 					size.x, (flip ? -1 : 1) * size.y, 1, 1, attackAngle);
 		} else {
-			batch.draw((TextureRegion) turretBarrel.getKeyFrame(animationTime, true), 
+			batch.draw(turretBarrel.getKeyFrame(animationTime, true),
 					entityLocation.x - getHboxSize().x / 2, 
 					(flip ? size.y - 24 * scale : 0) +entityLocation.y - getHboxSize().y / 2, 
 					rotationX * scale, (flip ? -size.y : 0) + rotationYReal * scale,
 					size.x, (flip ? -1 : 1) * size.y, 1, 1, attackAngle);
 		}
 		
-		batch.draw((TextureRegion) turretBase.getKeyFrame(animationTime, true), 
+		batch.draw(turretBase.getKeyFrame(animationTime, true),
 				entityLocation.x - getHboxSize().x / 2, 
 				entityLocation.y - getHboxSize().y / 2, 
 				0, 0, size.x, size.y, 1, 1, 0.0f);
@@ -146,12 +146,12 @@ public class Turret extends Enemy {
 		super.render(batch);
 	}
 	
-	private final static float baseDamage = 20.0f;
-	private final static float projSpeed = 25.0f;
-	private final static float knockback = 15.0f;
-	private final static int projSize = 40;
-	private final static float projLifespan = 4.0f;
-	private final static float projInterval = 0.5f;
+	private static final float baseDamage = 20.0f;
+	private static final float projSpeed = 25.0f;
+	private static final float knockback = 15.0f;
+	private static final int projSize = 40;
+	private static final float projLifespan = 4.0f;
+	private static final float projInterval = 0.5f;
 	@Override
 	public void attackInitiate() {
 		EnemyUtils.shootBullet(state, this, baseDamage, projSpeed, knockback, projSize, projLifespan, projInterval);
@@ -184,9 +184,9 @@ public class Turret extends Enemy {
 		return super.queueDeletion();
 	}
 	
-	private Vector2 originPt = new Vector2();
-	private Vector2 addVelo = new Vector2();
-	private final static float spawnDist = 300.0f;
+	private final Vector2 originPt = new Vector2();
+	private final Vector2 addVelo = new Vector2();
+	private static final float spawnDist = 300.0f;
 	/**
 	 * This method makes projectiles fired by the player spawn offset to be at the tip of the gun
 	 */

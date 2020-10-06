@@ -25,7 +25,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class PositionDummy extends Event {
 
-	private String id;
+	private final String id;
 	
 	public PositionDummy(PlayState state, Vector2 startPos, Vector2 size, String id) {
 		super(state, startPos, size);

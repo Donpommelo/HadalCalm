@@ -19,7 +19,7 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class CameraChanger extends Event {
 
-	private float zoom, offsetX, offsetY;
+	private final float zoom, offsetX, offsetY;
 	
 	public CameraChanger(PlayState state, float zoom, float offsetX, float offsetY) {
 		super(state);

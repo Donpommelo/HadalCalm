@@ -18,10 +18,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Crawler2 extends EnemyCrawling {
 
-	private final static int baseHp = 100;
-	private final static String name = "CHARGER";
+	private static final int baseHp = 100;
+	private static final String name = "CHARGER";
 
-	private final static int scrapDrop = 2;
+	private static final int scrapDrop = 2;
 
 	private static final int width = 63;
 	private static final int height = 40;

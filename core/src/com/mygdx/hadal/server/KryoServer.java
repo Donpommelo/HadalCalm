@@ -1,9 +1,5 @@
 package com.mygdx.hadal.server;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
@@ -20,13 +16,12 @@ import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.Packets.EndSpectate;
-import com.mygdx.hadal.states.SettingState;
-import com.mygdx.hadal.states.TitleState;
+import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.states.GameState;
-import com.mygdx.hadal.states.PauseState;
-import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.ResultsState;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  * This is the server of the game.
@@ -59,10 +54,10 @@ public class KryoServer {
 		kryo.setReferences(true);
 		KryoSerialization serialization = new KryoSerialization(kryo);
 		this.server = new Server(16384, 8192, serialization);
-		this.players = new HashMap<Integer, Player>();
-		this.mice = new HashMap<Integer, MouseTracker>();
-		this.scores = new HashMap<Integer, SavedPlayerFields>();
-		this.scoresExtra = new HashMap<Integer, SavedPlayerFieldsExtra>();
+		this.players = new HashMap<>();
+		this.mice = new HashMap<>();
+		this.scores = new HashMap<>();
+		this.scoresExtra = new HashMap<>();
 		
 		scores.put(0, new SavedPlayerFields(gsm.getLoadout().getName(), 0));
 		scoresExtra.put(0, new SavedPlayerFieldsExtra());
@@ -79,23 +74,19 @@ public class KryoServer {
 					
 					//Identify the player that disconnected
 					final Player p = players.get(c.getID());
-					ps.addPacketEffect(new PacketEffect() {
+					ps.addPacketEffect(() -> {
+						if (p != null) {
 
-						@Override
-						public void execute() {
-							if (p != null) {
-								
-								//Inform all that the player disconnected and kill the player
-								p.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageTypes.DISCONNECT);
-								addNotificationToAll(ps, p.getName(), " DISCONNECTED!", DialogType.SYSTEM);
-								
-								//remove disconnecting player from all tracked lists
-								players.remove(c.getID());
-								mice.remove(c.getID());
-								scores.remove(c.getID());
-								scoresExtra.remove(c.getID());
-								ps.getScoreWindow().setScoreChangeMade(true);
-							}
+							//Inform all that the player disconnected and kill the player
+							p.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageTypes.DISCONNECT);
+							addNotificationToAll(ps, p.getName(), " DISCONNECTED!", DialogType.SYSTEM);
+
+							//remove disconnecting player from all tracked lists
+							players.remove(c.getID());
+							mice.remove(c.getID());
+							scores.remove(c.getID());
+							scoresExtra.remove(c.getID());
+							ps.getScoreWindow().setScoreChangeMade(true);
 						}
 					});
 				}
@@ -103,23 +94,19 @@ public class KryoServer {
 				//If in a victory state, count a disconnect as ready so disconnected players don't prevent return to hub.
 				if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
 					final ResultsState vs =  (ResultsState) gsm.getStates().peek();
-					Gdx.app.postRunnable(new Runnable() {
-        				
-                        @Override
-                        public void run() {
-                        	vs.readyPlayer(c.getID());
-                        	//remove disconnecting player from all tracked lists
-							players.remove(c.getID());
-							mice.remove(c.getID());
-							scores.remove(c.getID());
-							scoresExtra.remove(c.getID());
-                        }
+					Gdx.app.postRunnable(() -> {
+						vs.readyPlayer(c.getID());
+						//remove disconnecting player from all tracked lists
+						players.remove(c.getID());
+						mice.remove(c.getID());
+						scores.remove(c.getID());
+						scoresExtra.remove(c.getID());
 					});
 				}
 			}
 			
 			/**
-        	 * Note that the order of these if/elses is according to approximate frequency of packets.
+        	 * Note that the order of these if/else is according to approximate frequency of packets.
         	 * This might have a (very minor) effect on performance or something idk
         	 */
 			@Override
@@ -135,15 +122,11 @@ public class KryoServer {
 					final Player player = players.get(c.getID());
 					if (ps != null && player != null) {
 						
-						ps.addPacketEffect(new PacketEffect() {
-    						
-    						@Override
-							public void execute() {
-    							if (player.getController() != null) {
-    								player.getController().keyDown(p.action);
-    							}
-    						}
-        				});
+						ps.addPacketEffect(() -> {
+							if (player.getController() != null) {
+								player.getController().keyDown(p.action);
+							}
+						});
 					}	
 				}
 				
@@ -156,15 +139,11 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					final Player player = players.get(c.getID());
 					if (ps != null && player != null) {
-						ps.addPacketEffect(new PacketEffect() {
-    						
-    						@Override
-							public void execute() {
-    							if (player.getController() != null) {
-    								player.getController().keyUp(p.action);
-    							}
-    						}
-        				});
+						ps.addPacketEffect(() -> {
+							if (player.getController() != null) {
+								player.getController().keyUp(p.action);
+							}
+						});
 					}
 				}
 				
@@ -224,41 +203,37 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					//notify players of new joiners
 					if (p.firstTime) {
-						sendNotification(ps, c.getID(), ps.getPlayer().getName(), "JOINED SERVER!", DialogType.SYSTEM);
+						sendNotification(c.getID(), ps.getPlayer().getName(), "JOINED SERVER!", DialogType.SYSTEM);
 					}
 
 					//catch up client
 					if (ps != null) {
-						ps.addPacketEffect(new PacketEffect() {
+						ps.addPacketEffect(() -> {
+							ps.catchUpClient(c.getID());
 
-							@Override
-							public void execute() {
-								ps.catchUpClient(c.getID());
-		                        
-								//client joins as a spectator if their packet specifies so, or if there were previously a spectator and are joining a non-hub level
-								boolean spectator = p.spectator || (p.lastSpectator && !ps.isHub());
-								
-		                        //If the client has already been created, we create a new player, otherwise we reuse their old data.
-		    					final Player player = players.get(c.getID());
-		    					
-		    					if (player != null) {
-		    						
-		    						//if the player is told to start as a spectator or was a spectator prior to the match, they join as a spectator
-		    						if (player.isStartSpectator()) {
-		    							spectator = true;
-		    						}
-		    						
-		    						//alive check prevents duplicate players if entering/respawning simultaneously
-		    						if (!player.isAlive()) {
-		    							if (ps.isReset()) {
-			    							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset(), spectator); 
-			    						} else {
-			    							createNewClientPlayer(ps, c.getID(), p.name, player.getPlayerData().getLoadout(), player.getPlayerData(), ps.isReset(), spectator); 
-			    						}
-		    						}
-		    					} else {
-		    						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator);                        
-		    					}
+							//client joins as a spectator if their packet specifies so, or if there were previously a spectator and are joining a non-hub level
+							boolean spectator = p.spectator || (p.lastSpectator && !ps.isHub());
+
+							//If the client has already been created, we create a new player, otherwise we reuse their old data.
+							final Player player = players.get(c.getID());
+
+							if (player != null) {
+
+								//if the player is told to start as a spectator or was a spectator prior to the match, they join as a spectator
+								if (player.isStartSpectator()) {
+									spectator = true;
+								}
+
+								//alive check prevents duplicate players if entering/respawning simultaneously
+								if (!player.isAlive()) {
+									if (ps.isReset()) {
+										createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset(), spectator);
+									} else {
+										createNewClientPlayer(ps, c.getID(), p.name, player.getPlayerData().getLoadout(), player.getPlayerData(), ps.isReset(), spectator);
+									}
+								}
+							} else {
+								createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator);
 							}
 						});
 					}
@@ -288,14 +263,10 @@ public class KryoServer {
     				final PlayState ps = getPlayState();
     				
     				if (ps != null && player != null) {
-    					ps.addPacketEffect(new PacketEffect() {
-    						
-    						@Override
-							public void execute() {
-    							player.getPlayerData().syncLoadoutFromClient(p.equip, p.artifactAdd, p.artifactRemove, p.active, p.character);
-                				player.getPlayerData().syncServerLoadoutChange();
-    						}
-        				});
+    					ps.addPacketEffect(() -> {
+							player.getPlayerData().syncLoadoutFromClient(p.equip, p.artifactAdd, p.artifactRemove, p.active, p.character);
+							player.getPlayerData().syncServerLoadoutChange();
+						});
     				}
         		}
 				
@@ -309,18 +280,14 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						
-						ps.addPacketEffect(new PacketEffect() {
-    						
-    						@Override
-							public void execute() {
-    							HadalEntity entity = ps.findEntity(p.entityID);
-    							if (entity != null) {
-    								Object packet = entity.onServerCreate();
-    								if (packet != null) {
-    									sendToUDP(c.getID(), packet);
-    								}
-    							}
-    						}
+						ps.addPacketEffect(() -> {
+							HadalEntity entity = ps.findEntity(p.entityID);
+							if (entity != null) {
+								Object packet = entity.onServerCreate();
+								if (packet != null) {
+									sendToUDP(c.getID(), packet);
+								}
+							}
 						});
 					}
 				}
@@ -334,15 +301,11 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						
-						ps.addPacketEffect(new PacketEffect() {
-    						
-    						@Override
-							public void execute() {
-    							HadalEntity entity = ps.findEntity(p.entityID);
-    							if (entity == null) {
-    								sendToUDP(c.getID(), new Packets.DeleteEntity(p.entityID, ps.getTimer()));	
-    							}
-    						}
+						ps.addPacketEffect(() -> {
+							HadalEntity entity = ps.findEntity(p.entityID);
+							if (entity == null) {
+								sendToUDP(c.getID(), new Packets.DeleteEntity(p.entityID, ps.getTimer()));
+							}
 						});
 					}
 				}
@@ -472,13 +435,7 @@ public class KryoServer {
 				else if (o instanceof Packets.ClientReady) {
 					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
 						final ResultsState vs = (ResultsState) gsm.getStates().peek();
-						Gdx.app.postRunnable(new Runnable() {
-	        				
-	                        @Override
-	                        public void run() {
-	                        	vs.readyPlayer(c.getID());
-	                        }
-						});
+						Gdx.app.postRunnable(() -> vs.readyPlayer(c.getID()));
 					}
 				}
 			}
@@ -510,38 +467,34 @@ public class KryoServer {
 	 */
 	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout, final PlayerBodyData data, final boolean reset, final boolean spectator) {
 
-		ps.addPacketEffect(new PacketEffect() {
+		ps.addPacketEffect(() -> {
+			StartPoint newSave = ps.getSavePoint();
 
-			@Override
-			public void execute() {
-				StartPoint newSave = ps.getSavePoint();
-				
-				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, reset, false);
-		        MouseTracker newMouse = new MouseTracker(ps, false);
-		        newPlayer.setMouse(newMouse);
-		        players.put(connId, newPlayer);
-		        mice.put(connId, newMouse);
-		        
-		        //Update that player's scores or give them a new one if they are a new client
-		        if (scores.containsKey(connId)) {
-			        scores.put(connId, scores.get(connId));
-			        scoresExtra.put(connId, scoresExtra.get(connId));
-		        } else {
-			        scores.put(connId, new SavedPlayerFields(name, connId));
-			        scoresExtra.put(connId, new SavedPlayerFieldsExtra());
-		        }
-		        
-		        //sync score window to display new player
-		        ps.getScoreWindow().setScoreChangeMade(true);
-		        sendToTCP(connId, new Packets.SyncSharedSettings(ps.getGsm().getSharedSetting()));
-		        
-		        //sync client ui elements
-		        sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr()));
-		        
-		        //set the client as a spectator if requested
-		        newPlayer.setStartSpectator(spectator);
+			//Create a new player with the designated fields and give them a mouse pointer.
+			Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, reset, false);
+			MouseTracker newMouse = new MouseTracker(ps, false);
+			newPlayer.setMouse(newMouse);
+			players.put(connId, newPlayer);
+			mice.put(connId, newMouse);
+
+			//Update that player's scores or give them a new one if they are a new client
+			if (scores.containsKey(connId)) {
+				scores.put(connId, scores.get(connId));
+				scoresExtra.put(connId, scoresExtra.get(connId));
+			} else {
+				scores.put(connId, new SavedPlayerFields(name, connId));
+				scoresExtra.put(connId, new SavedPlayerFieldsExtra());
 			}
+
+			//sync score window to display new player
+			ps.getScoreWindow().setScoreChangeMade(true);
+			sendToTCP(connId, new Packets.SyncSharedSettings(ps.getGsm().getSharedSetting()));
+
+			//sync client ui elements
+			sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr()));
+
+			//set the client as a spectator if requested
+			newPlayer.setStartSpectator(spectator);
 		});
 	}
 	
@@ -593,7 +546,7 @@ public class KryoServer {
 	
 	/**
 	 * This gets the server's playstate. This allows the server to make changes to a playstate underneath a pausestate.
-	 * @return server's playstate and null if therer isn't one
+	 * @return server's playstate and null if there isn't one
 	 */
 	public PlayState getPlayState() {
 		if (!gsm.getStates().empty()) {
@@ -613,13 +566,12 @@ public class KryoServer {
 	
 	/**
 	 * This makes a client display a notification
-	 * @param ps: server's current playstate
 	 * @param connId: id of the client to send the notification to
 	 * @param name: name giving the notification
 	 * @param text: notification text
 	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
-	public void sendNotification(PlayState ps, int connId, String name, String text, final DialogType type) {
+	public void sendNotification(int connId, String name, String text, final DialogType type) {
 		sendToTCP(connId, new Packets.Notification(name, text, type));	
 	}
 	
@@ -633,13 +585,7 @@ public class KryoServer {
 	public void addNotificationToAll(final PlayState ps, final String name, final String text, final DialogType type) {
 		if (ps.getDialogBox() != null && server != null) {
 			server.sendToAllTCP(new Packets.Notification(name, text, type));	
-			Gdx.app.postRunnable(new Runnable() {
-				
-				@Override
-                public void run() {
-					ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type);
-                }
-			});
+			Gdx.app.postRunnable(() -> ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type));
 		}
 	}
 	
@@ -654,13 +600,7 @@ public class KryoServer {
 	public void addNotificationToAllExcept(final PlayState ps, int connId, final String name, final String text, final DialogType type) {
 		if (ps.getDialogBox() != null && server != null) {
 			server.sendToAllExceptTCP(connId, new Packets.Notification(name, text, type));
-			Gdx.app.postRunnable(new Runnable() {
-				
-				@Override
-                public void run() {
-					ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type);
-                }
-			});
+			Gdx.app.postRunnable(() -> ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type));
 		}
 	}
 	
@@ -688,13 +628,7 @@ public class KryoServer {
 			server.sendToAllTCP(p);
 		}
 	}
-	
-	public void sendToAllExceptTCP(int connId, Object p) {
-		if (server != null) {
-			server.sendToAllExceptTCP(connId, p);
-		}
-	}
-	
+
 	public void sendToAllExceptUDP(int connId, Object p) {
 		if (server != null) {
 			server.sendToAllExceptUDP(connId, p);

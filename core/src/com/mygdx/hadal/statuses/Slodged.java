@@ -13,14 +13,14 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class Slodged extends Status {
 
+	//this is the magnitude of the slow.
+	private final float slow;
+
 	//this is the particle that is played over the victim
-	private Particle particle;
-	
+	private final Particle particle;
+
 	//this is the particle entity that follows the victim and displays particle
 	private ParticleEntity slodge;
-	
-	//this is the magnitude of the slow.
-	private float slow;
 	
 	public Slodged(PlayState state, float i, float slow, BodyData p, BodyData v, Particle particle) {
 		super(state, i, false, p, v);

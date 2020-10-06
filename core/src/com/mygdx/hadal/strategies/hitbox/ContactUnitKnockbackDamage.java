@@ -14,17 +14,17 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- * This strategy gives a hbox "damaging knockback". If an enemy is knocked back by the hbox, it will damage itself upon contact with a wall or unit (the other unit to be contacted wil lalso be damaged)
+ * This strategy gives a hbox "damaging knockback". If an enemy is knocked back by the hbox, it will damage itself upon contact with a wall or unit (the other unit to be contacted will also be damaged)
  * The damage scales to the velocity of the victim.
  * @author Zachary Tu
  */
 public class ContactUnitKnockbackDamage extends HitboxStrategy {
 	
 	//this is the lifespan of the hbox that gets created when the hbox contacts a unit
-	private final static float lifespan = 1.0f;
+	private static final float lifespan = 1.0f;
 	
 	//this is the minimum speed the target must be moving to inflict damage
-	private final static float speedThreshold = 30.0f;
+	private static final float speedThreshold = 30.0f;
 	
 	//this is the window of time before the effect activates. prevents it from instakilling a unit already touching a wall.
 	private static final float procCd = 0.03f;

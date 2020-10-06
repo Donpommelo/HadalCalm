@@ -1,11 +1,11 @@
 package com.mygdx.hadal.event.prefab;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
+
+import java.util.ArrayList;
 
 /**
  * The WeaponPickup is a prefab that (atm) simply contains a weapon pickup with a spawner sprite and does the alignments.
@@ -14,8 +14,8 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class SpawnerWeapon extends Prefabrication {
 
-	private String triggeredId, triggeringId;
-	private String pool;
+	private final String triggeredId, triggeringId;
+	private final String pool;
 	
 	private String baseId, pickupId;
 	
@@ -47,7 +47,7 @@ public class SpawnerWeapon extends Prefabrication {
 		spawner.getProperties().put("triggeringId", pickupId);
 		
 		RectangleMapObject weapon = new RectangleMapObject();
-		weapon.getRectangle().set(x, y + (Event.defaultPickupEventSize - height) / 2, width, height);
+		weapon.getRectangle().set(x, y + (Event.defaultPickupEventSize - height) / 2.0f, width, height);
 		weapon.setName("Equip");
 		weapon.getProperties().put("synced", true);
 		weapon.getProperties().put("particle_std", "EVENT_HOLO");
@@ -62,7 +62,7 @@ public class SpawnerWeapon extends Prefabrication {
 	
 	@Override
 	public ArrayList<String> getConnectedEvents() {
-		ArrayList<String> events = new ArrayList<String>();
+		ArrayList<String> events = new ArrayList<>();
 		events.add(pickupId);
 		events.add(baseId);
 		return events;

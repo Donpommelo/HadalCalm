@@ -17,10 +17,10 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class ContactUnitParticles extends HitboxStrategy {
 	
-	private final static float defaultDuration = 1.0f;
+	private static final float defaultDuration = 1.0f;
 	
 	//the effect that is to be created.
-	private Particle effect;
+	private final Particle effect;
 	
 	//how long should the particles last?
 	private float duration;
@@ -30,7 +30,8 @@ public class ContactUnitParticles extends HitboxStrategy {
 
 	//do we draw the particles at an offset from the hbox? (used for larger hboxes)
 	private boolean isOffset;
-	
+	private final Vector2 offset = new Vector2();
+
 	//do we draw the particle on the hbox? If not, we draw it on the entity it hits instead. used for even longer hboxes like the laser rifle.
 	private boolean drawOnSelf = true;
 	
@@ -40,7 +41,6 @@ public class ContactUnitParticles extends HitboxStrategy {
 		this.duration = defaultDuration;
 	}
 	
-	private Vector2 offset = new Vector2();
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB instanceof BodyData) {

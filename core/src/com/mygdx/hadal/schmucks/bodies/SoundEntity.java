@@ -4,40 +4,41 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.server.Packets;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * A SoundEntity is like a ParticleEntity except for Sound. It attaches to another entity and plays sound fro mthat entity's location
+ * A SoundEntity is like a ParticleEntity except for Sound. It attaches to another entity and plays sound from that entity's location
  * It also helps sync the sound between server and client.
  * @author Zachary Tu
  */
 public class SoundEntity extends HadalEntity {
 
 	//This is the sound effect that will be played
-	private SoundEffect sound;
+	private final SoundEffect sound;
 	
 	//this is the sound id of the instance of the sound
-	private long soundId;
+	private final long soundId;
 	
 	//this is the rate at which the sound volume changes (default: 0, -x for fading out and +x for fading in)
 	private float fade;
 
 	//the volume of the sound and the max volume the sound will fade in to.
-	private float volume, maxVolume;
+	private float volume;
+	private final float maxVolume;
 	
 	//the pitch of the sound;
-	private float pitch;
+	private final float pitch;
 	
 	//should the sound loop after playing? Should the sound start off playing?
-	private boolean looped, on;
+	private final boolean looped;
+	private boolean on;
 	
 	//Is this entity following another entity? If so, what is the entity's id (used by client)
 	private HadalEntity attachedEntity;
 	private String attachedId;
 	
 	//how is this entity synced? (this works identically to particle entities)
-	private soundSyncType sync;
+	private final soundSyncType sync;
 	
 	//Has the attached entity despawned yet?
 	private boolean despawn;
@@ -59,7 +60,7 @@ public class SoundEntity extends HadalEntity {
 		
 		//if we start off attached to an entity, play the sound and update its volume/pan based on its location
 		if (startOn && attachedEntity != null) {
-			this.soundId = sound.playSourced(state, new Vector2(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y), volume, pitch, false);
+			this.soundId = sound.playSourced(state, new Vector2(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y), volume, pitch);
 			sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundId);
 		} else {
 			//otherwise, we just get the sound id and pause it.
@@ -77,7 +78,7 @@ public class SoundEntity extends HadalEntity {
 	//This is the rate that the sound will sync its volume/pan based on its moving position.
 	//No need to update every tick.
 	private float syncAccumulator = 0.0f;
-	private final static float syncTime = 0.01f;
+	private static final float syncTime = 0.01f;
 	@Override
 	public void controller(float delta) {
 		
@@ -120,7 +121,7 @@ public class SoundEntity extends HadalEntity {
 	}
 
 	/**
-	 * Client NoiseEntites will run normally if set to Create or No Sync
+	 * Client Noise Entities will run normally if set to Create or No Sync
 	 * If attached to an entity that hasn't been sent over yet, wait until it exists and then attach and resume sound
 	 */
 	@Override
@@ -131,7 +132,7 @@ public class SoundEntity extends HadalEntity {
 			controller(delta);			
 		}
 		if (attachedEntity == null && attachedId != null) {
-			attachedEntity = ((ClientState) state).findEntity(attachedId);
+			attachedEntity = (state).findEntity(attachedId);
 			if (on) {
 				sound.getSound().resume(soundId);
 			}
@@ -163,8 +164,8 @@ public class SoundEntity extends HadalEntity {
 	/**
 	 * For sounds that are tick synced, send over location and volume to clients as well as whether it is on or not
 	 */
-	private Vector2 newPos = new Vector2();
-	private Vector2 attachedLocation = new Vector2();
+	private final Vector2 newPos = new Vector2();
+	private final Vector2 attachedLocation = new Vector2();
 	@Override
 	public void onServerSync() {
 		if (sync.equals(soundSyncType.TICKSYNC)) {

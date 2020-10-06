@@ -1,7 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
@@ -12,6 +10,8 @@ import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
+import java.util.ArrayList;
+
 /**
  * The UIExtra is an extra ui actor displayed in the upper right hand side.
  * It displays list of strings decided by the uiTags list which can be modified in level with events.
@@ -19,16 +19,16 @@ import com.mygdx.hadal.statuses.DamageTypes;
  */
 public class UIExtra extends AHadalActor {
 
-	private PlayState state;
-	private BitmapFont font;
+	private final PlayState state;
+	private final BitmapFont font;
 	
-	private final static int x = 225;
-	private final static int width = 200;
-	private final static int y = 10;
-	private final static float scale = 0.25f;
+	private static final int x = 225;
+	private static final int width = 200;
+	private static final int y = 10;
+	private static final float scale = 0.25f;
 	
 	//List of tags that are to be displayed
-	private ArrayList<UITag> uiTags;
+	private final ArrayList<UITag> uiTags;
 	
 	//These variables are all fields that are displayed in the default tags for the ui
 	private int scrap, score, hiscore, lives, wins;
@@ -40,47 +40,47 @@ public class UIExtra extends AHadalActor {
 		this.state = state;
 		this.font = HadalGame.SYSTEM_FONT_UI;
 		
-		uiTags = new ArrayList<UITag>();
+		uiTags = new ArrayList<>();
 	}
 	
-	private StringBuilder text = new StringBuilder();
+	private final StringBuilder text = new StringBuilder();
 	@Override
     public void draw(Batch batch, float alpha) {
 		
 		text.setLength(0);
-		
-		for (int i = 0; i < uiTags.size(); i++) {
-			switch(uiTags.get(i).getType()) {
-			case SCRAP:
-				text = text.append("SCRAP: " + scrap + "\n");
-				break;
-			case LIVES:
-				text = text.append("LIVES: " + lives + "\n");
-				break;
-			case SCORE:
-				text = text.append("SCORE: " + score + "\n");
-				break;
-			case HISCORE:
-				text = text.append("HISCORE: " + hiscore + "\n");
-				break;
-			case WINS:
-				text = text.append("WINS: " + wins + "\n");
-				break;
-			case TIMER:
-				text = text.append("TIMER: " + (int) timer + " S\n");
-				break;
-			case MISC:
-				text = text.append(uiTags.get(i).getMisc() + "\n");
-				break;
-			case LEVEL:
-				text = text.append(state.getLevel().toString() + "\n");
-				break;
-			case EMPTY:
-				text = text.append("\n");
-				break;
-			default:
-				break;
-			}	
+
+		for (UITag uiTag : uiTags) {
+			switch (uiTag.getType()) {
+				case SCRAP:
+					text.append("SCRAP: ").append(scrap).append("\n");
+					break;
+				case LIVES:
+					text.append("LIVES: ").append(lives).append("\n");
+					break;
+				case SCORE:
+					text.append("SCORE: ").append(score).append("\n");
+					break;
+				case HISCORE:
+					text.append("HISCORE: ").append(hiscore).append("\n");
+					break;
+				case WINS:
+					text.append("WINS: ").append(wins).append("\n");
+					break;
+				case TIMER:
+					text.append("TIMER: ").append((int) timer).append(" S\n");
+					break;
+				case MISC:
+					text.append(uiTag.getMisc()).append("\n");
+					break;
+				case LEVEL:
+					text.append(state.getLevel().toString()).append("\n");
+					break;
+				case EMPTY:
+					text.append("\n");
+					break;
+				default:
+					break;
+			}
 		}
 		font.getData().setScale(scale);
 		font.draw(batch, text.toString(), HadalGame.CONFIG_WIDTH - x, HadalGame.CONFIG_HEIGHT - y, width, Align.right, true);
@@ -114,7 +114,7 @@ public class UIExtra extends AHadalActor {
 		}
 	}
 	
-	private StringBuilder tags = new StringBuilder();
+	private final StringBuilder tags = new StringBuilder();
 	/**
 	 * This returns a comma-separated string of the current tags in order.
 	 * When a new client connects, the server uses this to send them the current ui status to sync with.
@@ -124,9 +124,9 @@ public class UIExtra extends AHadalActor {
 		
 		for (UITag tag : uiTags) {
 			if (tag.getType().equals(uiType.MISC)) {
-				tags.append(tag.getMisc() + ",");
+				tags.append(tag.getMisc()).append(",");
 			} else {
-				tags.append(tag.getType().toString() + ",");
+				tags.append(tag.getType().toString()).append(",");
 			}
 		}
 		return tags.toString();
@@ -145,7 +145,7 @@ public class UIExtra extends AHadalActor {
 			hiscore = state.getGsm().getRecord().getHiScores().get(state.getLevel().toString());
 		}
 		
-		SavedPlayerFields field = null;
+		SavedPlayerFields field;
 		
 		if (state.isServer()) {
 			field = HadalGame.server.getScores().get(0);
@@ -169,7 +169,7 @@ public class UIExtra extends AHadalActor {
 		
 		if (!state.isServer()) { return; }
 		
-		SavedPlayerFields field = null;
+		SavedPlayerFields field;
 		
 		if (p == null) {
 			for (SavedPlayerFields eachField: HadalGame.server.getScores().values()) {

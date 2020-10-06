@@ -12,11 +12,11 @@ import com.mygdx.hadal.utils.Stats;
 
 public class CelestialAnointment extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 3;
+	private static final int statusNum = 1;
+	private static final int slotCost = 3;
 	
-	private final static float bonusActiveCharge = -0.25f;
-	private final static float baseDelay = 0.5f;
+	private static final float bonusActiveCharge = -0.25f;
+	private static final float baseDelay = 0.5f;
 	
 	public CelestialAnointment() {
 		super(slotCost, statusNum);

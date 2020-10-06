@@ -1,12 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -25,31 +19,35 @@ import com.mygdx.hadal.strategies.hitbox.Static;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 
+import java.util.concurrent.ThreadLocalRandom;
+
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 public class Screecher extends RangedWeapon {
 
-	private final static int clipSize = 40;
-	private final static int ammoSize = 160;
-	private final static float shootCd = 0.1f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.2f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 8.0f;
-	private final static float recoil = 1.5f;
-	private final static float knockback = 6.0f;
-	private final static float projectileSpeed = 10.0f;
-	private final static int range = 24;
-	private final static Vector2 projectileSize = new Vector2(120, 120);
-	private final static float lifespan = 0.5f;
-	private final static int spread = 1;
+	private static final int clipSize = 40;
+	private static final int ammoSize = 160;
+	private static final float shootCd = 0.1f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = 1.2f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 8.0f;
+	private static final float recoil = 1.5f;
+	private static final float knockback = 6.0f;
+	private static final float projectileSpeed = 10.0f;
+	private static final int range = 24;
+	private static final Vector2 projectileSize = new Vector2(120, 120);
+	private static final float lifespan = 0.5f;
+	private static final int spread = 1;
 	
-	private final static Sprite projSprite = Sprite.IMPACT;
+	private static final Sprite projSprite = Sprite.IMPACT;
 
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private static final Sprite weaponSprite = Sprite.MT_DEFAULT;
+	private static final Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private SoundEntity screechSound;
-	private final static float flashDuration = 0.1f;
-	private final static Vector2 flashSize = new Vector2(75, 75);
+	private static final float flashDuration = 0.1f;
+	private static final Vector2 flashSize = new Vector2(75, 75);
 
 	private float shortestFraction;
 	
@@ -91,29 +89,24 @@ public class Screecher extends RangedWeapon {
 		//Raycast length of distance until we hit a wall
 		if (entityLocation.x != endPt.x || entityLocation.y != endPt.y) {
 
-			state.getWorld().rayCast(new RayCastCallback() {
+			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
-				@Override
-				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-					
-					if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL) {
-						if (fraction < shortestFraction) {
-							shortestFraction = fraction;
-							return fraction;
-						}
-					} else {
-						if (fixture.getUserData() instanceof HadalData) {
-							if (fixture.getUserData() instanceof BodyData && fraction < shortestFraction) {
-								if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != filter) {
-									shortestFraction = fraction;
-									return fraction;
-								}
-							} 
-						} 
+				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+					if (fraction < shortestFraction) {
+						shortestFraction = fraction;
+						return fraction;
 					}
-					return -1.0f;
+				} else {
+					if (fixture.getUserData() instanceof HadalData) {
+						if (fixture.getUserData() instanceof BodyData && fraction < shortestFraction) {
+							if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != filter) {
+								shortestFraction = fraction;
+								return fraction;
+							}
+						}
+					}
 				}
-				
+				return -1.0f;
 			}, entityLocation, endPt);
 		}
 		

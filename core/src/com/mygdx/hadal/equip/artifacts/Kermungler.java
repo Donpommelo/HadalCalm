@@ -7,12 +7,12 @@ import com.mygdx.hadal.statuses.Status;
 
 public class Kermungler extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float damageVariance = 0.5f;
-	private final static float damageAmp = 0.1f;
-	private final static float damageRes = 0.1f;
+	private static final float damageVariance = 0.5f;
+	private static final float damageAmp = 0.1f;
+	private static final float damageRes = 0.1f;
 	
 	public Kermungler() {
 		super(slotCost, statusNum);

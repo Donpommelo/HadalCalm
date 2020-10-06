@@ -20,10 +20,10 @@ import com.mygdx.hadal.utils.Stats;
 public class UIPlay extends AHadalActor {
 
 	protected PlayState state;
-	private BitmapFont font;
+	private final BitmapFont font;
 	
-	private TextureRegion main, reloading, hp, hpLow, hpMissing, fuel, fuelCutoff;
-	private Array<? extends TextureRegion> itemNull, itemSelect, itemUnselect;
+	private final TextureRegion main, reloading, hp, hpLow, hpMissing, fuel, fuelCutoff;
+	private final Array<? extends TextureRegion> itemNull, itemSelect, itemUnselect;
 	
 	private static final float mainScale = 0.5f;
 	private static final int mainX = 0;
@@ -82,9 +82,9 @@ public class UIPlay extends AHadalActor {
 	private float bossHpDelayed = 1.0f;
 	
 	//This is the percentage of the boss hp bar that is effectively 0 (to prevent the 9patch from displaying weirdly)
-	private final static float bossHpFloor = 0.05f;
+	private static final float bossHpFloor = 0.05f;
 	protected float bossHpRatio;
-	private float hpWidthScaled, hpHeightScaled, fuelWidthScaled, fuelHeightScaled, fuelCutoffWidthScaled, fuelCutoffHeightScaled, activeWidthScaled, activeHeightScaled;
+	private final float hpWidthScaled, hpHeightScaled, fuelWidthScaled, fuelHeightScaled, fuelCutoffWidthScaled, fuelCutoffHeightScaled, activeWidthScaled, activeHeightScaled;
 	
 	public UIPlay(PlayState state) {
 		this.state = state;

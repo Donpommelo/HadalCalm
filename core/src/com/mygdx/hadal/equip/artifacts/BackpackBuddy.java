@@ -9,11 +9,11 @@ import com.mygdx.hadal.utils.Stats;
 
 public class BackpackBuddy extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 0;
+	private static final int statusNum = 1;
+	private static final int slotCost = 0;
 	
-	private final static int hpReduction = -25;
-	private final static int bonusArtifactSlots = 1;
+	private static final int hpReduction = -25;
+	private static final int bonusArtifactSlots = 1;
 	
 	public BackpackBuddy() {
 		super(slotCost, statusNum);

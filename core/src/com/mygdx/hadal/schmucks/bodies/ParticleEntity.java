@@ -20,8 +20,8 @@ import com.mygdx.hadal.states.PlayState;
 public class ParticleEntity extends HadalEntity {
 
 	//What particles come out of this entity?
-	private PooledEffect effect;
-	private Particle particle;
+	private final PooledEffect effect;
+	private final Particle particle;
 	
 	//Is this entity following another entity?
 	private HadalEntity attachedEntity;
@@ -34,7 +34,7 @@ public class ParticleEntity extends HadalEntity {
 	private boolean despawn;
 	
 	//Will the particle despawn after a duration?
-	private boolean temp;
+	private final boolean temp;
 	
 	//Is the particle currently on?
 	private boolean on;
@@ -43,7 +43,7 @@ public class ParticleEntity extends HadalEntity {
 	private boolean syncExtraFields;
 	
 	//how is this entity synced?
-	private particleSyncType sync;
+	private final particleSyncType sync;
 	
 	//size multiplier of the particles
 	private float scale = 1.0f;
@@ -55,7 +55,7 @@ public class ParticleEntity extends HadalEntity {
 	private ParticleColor color = ParticleColor.NOTHING;
 	
 	//if attached to an entity, this vector is the offset of the particle from the attached entity's location
-	private Vector2 offset = new Vector2();
+	private final Vector2 offset = new Vector2();
 	
 	//This constructor creates a particle effect at an area.
 	public ParticleEntity(PlayState state, Vector2 startPos, Particle particle, float lifespan, boolean startOn, particleSyncType sync) {
@@ -101,7 +101,7 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public void create() {}
 
-	private Vector2 attachedLocation = new Vector2();
+	private final Vector2 attachedLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		
@@ -156,7 +156,7 @@ public class ParticleEntity extends HadalEntity {
 	}
 
 	/**
-	 * Client ParticleEntites will run normally if set to Create or No Sync
+	 * Client ParticleEntities will run normally if set to Create or No Sync
 	 * If attached to an entity that hasn't been sent over yet, wait until it exists and then attach
 	 */
 	@Override
@@ -169,7 +169,7 @@ public class ParticleEntity extends HadalEntity {
 		
 		//client particles are sometimes told to attach to a unit that the client hasn't created yet. This code makes the particle entity wait for its attached entity to be created
 		if (attachedEntity == null && attachedId != null) {
-			attachedEntity = ((ClientState) state).findEntity(attachedId);
+			attachedEntity = state.findEntity(attachedId);
 		}
 	}
 	
@@ -244,7 +244,7 @@ public class ParticleEntity extends HadalEntity {
 	/**
 	 * For particles that are tick synced, send over location to clients as well as whether it is on or not
 	 */
-	private Vector2 newPos = new Vector2();
+	private final Vector2 newPos = new Vector2();
 	@Override
 	public void onServerSync() {
 		if (sync.equals(particleSyncType.TICKSYNC)) {
@@ -359,10 +359,7 @@ public class ParticleEntity extends HadalEntity {
 		return this;
 	}
 	
-	public ParticleEntity setSyncExtraFields(boolean syncExtraFields) { 
-		this.syncExtraFields = syncExtraFields; 
-		return this;
-	}
+	public void setSyncExtraFields(boolean syncExtraFields) { this.syncExtraFields = syncExtraFields; }
 	
 	public PooledEffect getEffect() { return effect; }
 	

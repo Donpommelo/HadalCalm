@@ -17,8 +17,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class ItemUnlocker extends Event {
 
-	private UnlockType type;
-	private String item;
+	private final UnlockType type;
+	private final String item;
 	
 	public ItemUnlocker(PlayState state, String type, String item) {
 		super(state);

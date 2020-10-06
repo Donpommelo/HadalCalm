@@ -7,11 +7,11 @@ import com.mygdx.hadal.utils.Stats;
 
 public class JelloFellowCosplay extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float bounce = 1.0f;
-	private final static float bonusHp = 40.0f;
+	private static final float bounce = 1.0f;
+	private static final float bonusHp = 40.0f;
 	
 	public JelloFellowCosplay() {
 		super(slotCost, statusNum);

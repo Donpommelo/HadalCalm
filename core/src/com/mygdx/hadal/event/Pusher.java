@@ -19,11 +19,11 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Pusher extends Event {
 
-	private Vector2 push;
+	private final Vector2 push = new Vector2();
 	
 	public Pusher(PlayState state, float xPush, float yPush) {
 		super(state);
-		this.push = new Vector2(xPush, yPush);
+		this.push.set(xPush, yPush);
 	}
 	
 	@Override

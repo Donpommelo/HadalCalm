@@ -25,10 +25,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Torpedofish extends EnemySwimming {
 
-	private final static int baseHp = 100;
-	private final static String name = "TORPEDOFISH";
+	private static final int baseHp = 100;
+	private static final String name = "TORPEDOFISH";
 
-	private final static int scrapDrop = 2;
+	private static final int scrapDrop = 2;
 	
 	private static final int width = 63;
 	private static final int height = 40;
@@ -45,7 +45,7 @@ public class Torpedofish extends EnemySwimming {
 	private static final float noiseRadius = 15.0f;
 
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
-	private final static Sprite projSprite = Sprite.MISSILE_A;
+	private static final Sprite projSprite = Sprite.MISSILE_A;
 	
 	public Torpedofish(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), name, sprite, EnemyType.TORPEDOFISH, startAngle,  filter, baseHp, attackCd, scrapDrop, spawner);
@@ -64,17 +64,17 @@ public class Torpedofish extends EnemySwimming {
 	private static final float attackWindup1 = 0.6f;
 	private static final float attackWindup2 = 0.2f;
 
-	private final static float baseDamage = 5.0f;
-	private final static float knockback = 0.5f;
-	private final static float projectileSpeed = 30.0f;
-	private final static Vector2 projectileSize = new Vector2(56, 22);
-	private final static float lifespan = 5.0f;
+	private static final float baseDamage = 5.0f;
+	private static final float knockback = 0.5f;
+	private static final float projectileSpeed = 30.0f;
+	private static final Vector2 projectileSize = new Vector2(56, 22);
+	private static final float lifespan = 5.0f;
 	
-	private final static int explosionRadius = 100;
-	private final static float explosionDamage = 15.0f;
-	private final static float explosionKnockback = 35.0f;
+	private static final int explosionRadius = 100;
+	private static final float explosionDamage = 15.0f;
+	private static final float explosionKnockback = 35.0f;
 	
-	private final static float range = 900.0f;
+	private static final float range = 900.0f;
 	@Override
 	public void attackInitiate() {
 		
@@ -85,7 +85,7 @@ public class Torpedofish extends EnemySwimming {
 
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
-			private Vector2 startVelo = new Vector2();
+			private final Vector2 startVelo = new Vector2();
 			@Override
 			public void execute() {
 				

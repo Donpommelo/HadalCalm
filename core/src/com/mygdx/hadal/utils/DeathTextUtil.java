@@ -1,7 +1,5 @@
 package com.mygdx.hadal.utils;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.dialog.DeathMessage;
@@ -10,6 +8,8 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.statuses.DamageTypes;
+
+import java.util.ArrayList;
 
 /**
  * This utility generates custom kill text when a player is killed
@@ -34,24 +34,24 @@ public class DeathTextUtil {
 	 */
 	public static String getDeathTextVerbose(Schmuck perp, Player vic, DamageTypes... tags) {
 		
-		ArrayList<String> possibleMessages = new ArrayList<String>();
+		ArrayList<String> possibleMessages = new ArrayList<>();
 		
 		boolean namedPerp = false;
 		
 		//in the case or suicide or death to an enemy, obtain valid messages.
 		//set 'namedPerp' to only search for messages that specify a victim and a perpetrator.
 		if (perp.equals(vic)) {
-			possibleMessages.addAll(getValidMessages("SUICIDE", namedPerp));
+			possibleMessages.addAll(getValidMessages("SUICIDE", false));
 		} else if (perp instanceof Player) {
 			namedPerp = true;
 		} else if (perp instanceof Enemy) {
-			possibleMessages.addAll(getValidMessages("ENEMY", namedPerp));
+			possibleMessages.addAll(getValidMessages("ENEMY", false));
 		} 
 		
 		//iterate through all tags and add all valid messages
 		if (tags.length > 0) {
-			for (int i = 0; i < tags.length; i++) {
-				possibleMessages.addAll(getValidMessages(tags[i].toString(), namedPerp));
+			for (final DamageTypes tag : tags) {
+				possibleMessages.addAll(getValidMessages(tag.toString(), namedPerp));
 			}
 		} else {
 			possibleMessages.addAll(getValidMessages("UNKNOWN", namedPerp));
@@ -71,7 +71,7 @@ public class DeathTextUtil {
 	 * this helper method obtains valid messages for a single damage tag
 	 */
 	private static ArrayList<String> getValidMessages(String tag, boolean namedPerp) {
-		ArrayList<String> possibleMessages = new ArrayList<String>();
+		ArrayList<String> possibleMessages = new ArrayList<>();
 		
 		JsonValue values = GameStateManager.deathMessages.get(tag);
 		if (values != null) {

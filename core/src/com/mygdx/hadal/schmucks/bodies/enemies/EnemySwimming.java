@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState;
 public class EnemySwimming extends EnemyFloating {
 	
 	//this the frequency that the physics occurs
-	private final static float controllerInterval = 1 / 60f;
+	private static final float controllerInterval = 1 / 60f;
 	
 	//this is the enemy's ai state
 	private SwimmingState currentState;
@@ -22,24 +22,24 @@ public class EnemySwimming extends EnemyFloating {
 	private float moveSpeed, minRange, maxRange;
 	
 	//noise determines the amount of randomness there is to this enemy's movement. (cd = frequency of noise, radius = magnitude of noise)
-	private float noiseCd = 0.75f;
+	private static final float noiseCd = 0.75f;
 	private float noiseCdCount = noiseCd;
 	private float noiseRadius = 8.0f;
 	
 	//this vector controls the movement of the enemy
-	private Vector2 moveDirection = new Vector2();
+	private final Vector2 moveDirection = new Vector2();
 	
 	public EnemySwimming(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, String name, Sprite sprite, EnemyType type, float startAngle, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
 		super(state, startPos, size, hboxSize, name, sprite, type, filter, hp, attackCd, scrapDrop, spawner);
 		this.moveSpeed = 1.0f;
-		this.moveDirection = new Vector2(1, 0).setAngle(startAngle);
+		this.moveDirection.set(1, 0).setAngle(startAngle);
 		currentState = SwimmingState.STILL;
 	}
 	
-	private Vector2 force = new Vector2();
-	private Vector2 currentVel = new Vector2();
-	private Vector2 currentDirection = new Vector2();
-	private Vector2 currentNoise = new Vector2();
+	private final Vector2 force = new Vector2();
+	private final Vector2 currentVel = new Vector2();
+	private final Vector2 currentDirection = new Vector2();
+	private final Vector2 currentNoise = new Vector2();
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);
@@ -91,8 +91,8 @@ public class EnemySwimming extends EnemyFloating {
 			float desiredXVel = getBodyData().getXAirSpeed() * currentDirection.x;
 			float desiredYVel = getBodyData().getXAirSpeed() * currentDirection.y ;
 
-			float accelX = 0.0f;
-			float accelY = 0.0f;
+			float accelX;
+			float accelY;
 			
 			//Process acceleration based on bodyData stats.
 			if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {

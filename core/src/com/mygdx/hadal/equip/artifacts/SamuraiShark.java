@@ -11,8 +11,8 @@ import com.mygdx.hadal.strategies.hitbox.DieParticles;
 
 public class SamuraiShark extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
 	private final float critChance = 0.15f;
 	private final float critDamageBoost = 1.5f;

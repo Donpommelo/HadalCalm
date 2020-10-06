@@ -20,8 +20,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class UIChanger extends Event {
 
-	private String types;
-	private boolean changeType;
+	private final String types;
+	private final boolean changeType;
 	
 	public UIChanger(PlayState state, String types, boolean changeType) {
 		super(state);

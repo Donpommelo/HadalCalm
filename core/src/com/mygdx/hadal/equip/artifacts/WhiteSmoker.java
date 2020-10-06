@@ -16,19 +16,19 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class WhiteSmoker extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
-	private final static float procCd = 0.05f;
+	private static final float procCd = 0.05f;
 	
-	private final static float baseDamage = 4.0f;
-	private final static float knockback = 2.0f;
-	private final static float projectileSpeed = 20.0f;
-	private final static Vector2 projectileSize = new Vector2(50, 50);
-	private final static float lifespan = 0.25f;
+	private static final float baseDamage = 4.0f;
+	private static final float knockback = 2.0f;
+	private static final float projectileSpeed = 20.0f;
+	private static final Vector2 projectileSize = new Vector2(50, 50);
+	private static final float lifespan = 0.25f;
 	
-	private final static float fireDuration = 4.0f;
-	private final static float fireDamage = 3.0f;
+	private static final float fireDuration = 4.0f;
+	private static final float fireDamage = 3.0f;
 	
 	public WhiteSmoker() {
 		super(slotCost, statusNum);

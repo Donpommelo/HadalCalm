@@ -1,7 +1,5 @@
 package com.mygdx.hadal.event.hub;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.Sprite;
@@ -13,6 +11,8 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
+
+import java.util.ArrayList;
 
 /**
  * The HubEvent is one of the events in the hub of the game that produces an extra ui for the player to manage
@@ -33,11 +33,11 @@ public class HubEvent extends Event {
 	//should we check unlock status for options? should we close the menu when the player moves far away from the event?
 	protected boolean checkUnlock, closeOnLeave;
 	
-	//options dsplayed here must have these tags.
+	//options displayed here must have these tags.
 	protected ArrayList<UnlockTag> tags;
 	
 	//the distance the player can move away before the menu disappears
-	private static float maxDistance = 5.0f;
+	private static final float maxDistance = 5.0f;
 	
 	public HubEvent(final PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave, hubTypes type) {
 		super(state, startPos, size);
@@ -46,7 +46,7 @@ public class HubEvent extends Event {
 		this.checkUnlock = checkUnlock;
 		this.closeOnLeave = closeOnLeave;
 		this.type = type;
-		this.tags = new ArrayList<UnlockTag>();
+		this.tags = new ArrayList<>();
 		for (String s: tag.split(",")) {
 			tags.add(UnlockTag.valueOf(s));
 		}
@@ -72,7 +72,7 @@ public class HubEvent extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, Constants.BIT_PLAYER,	(short) 0, true, eventData);
 	}
 	
 	/**

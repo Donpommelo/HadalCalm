@@ -9,19 +9,19 @@ import com.mygdx.hadal.statuses.Status;
 
 public class AnarchistsCookbook extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float baseDamage = 0.0f;
-	private final static float knockback = 0.0f;
-	private final static Vector2 projectileSize = new Vector2(20, 20);
-	private final static float lifespan = 3.0f;
+	private static final float baseDamage = 0.0f;
+	private static final float knockback = 0.0f;
+	private static final Vector2 projectileSize = new Vector2(20, 20);
+	private static final float lifespan = 3.0f;
 		
-	private final static int explosionRadius = 150;
-	private final static float explosionDamage = 40.0f;
-	private final static float explosionKnockback = 25.0f;
+	private static final int explosionRadius = 150;
+	private static final float explosionDamage = 40.0f;
+	private static final float explosionKnockback = 25.0f;
 	
-	private final static float procCd = 1.0f;
+	private static final float procCd = 1.0f;
 	
 	public AnarchistsCookbook() {
 		super(slotCost, statusNum);

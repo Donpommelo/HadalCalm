@@ -1,7 +1,5 @@
 package com.mygdx.hadal.event;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -9,6 +7,8 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
+
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * Displacers apply a continuous displacement to entities overlapping them. This is distinct from currents in that it directly transforms the entity's position instead of using physics.
@@ -27,17 +27,17 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class Displacer extends Event {
 	
 	//displacement applied every 1/60 seconds
-	private Vector2 vec;
+	private final Vector2 vec = new Vector2();
 	
 	//amount to scale the displacement momentum by.
-	private final static float momentumScale = 50.0f;
+	private static final float momentumScale = 50.0f;
 
 	private Vector2 offset;
-	private Vector2 newOffset = new Vector2();
+	private final Vector2 newOffset = new Vector2();
 	
 	public Displacer(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec) {
 		super(state, startPos, size);
-		this.vec = vec;
+		this.vec.set(vec);
 	}
 	
 	@Override
@@ -54,9 +54,7 @@ public class Displacer extends Event {
 					if (fixB.getEntity().getBody() != null) {
 						fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().add(vec.x * momentumScale, vec.y * momentumScale));
 						if (getConnectedEvent() != null) {
-							if (!getConnectedEvent().getBody().equals(null)) {
-								fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().add(newOffset.x * momentumScale, newOffset.y * momentumScale));
-							}
+							fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().add(newOffset.x * momentumScale, newOffset.y * momentumScale));
 						}
 					}
 				}
@@ -66,7 +64,7 @@ public class Displacer extends Event {
 				(short) 0, true, eventData);
 	}
 	
-	private Vector2 connectedLocation = new Vector2();
+	private final Vector2 connectedLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		if (getConnectedEvent() == null) {
@@ -75,7 +73,7 @@ public class Displacer extends Event {
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				entity.setTransform(entity.getPosition().add(vec), entity.getAngle());
 			}
-		} else if (!getConnectedEvent().getBody().equals(null) && getConnectedEvent().isAlive()) {
+		} else if (getConnectedEvent().isAlive()) {
 			
 			//calculate movement of connected event. Move self and all affected entities by that amount
 			if (offset == null) {

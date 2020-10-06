@@ -11,10 +11,10 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class Limiter extends Prefabrication {
 
 	//Ids of triggered and triggering events
-	private String triggeredId, triggeringId;
+	private final String triggeredId, triggeringId;
 
 	//Number of times it can trigger
-	private int limit;
+	private final int limit;
 	
 	public Limiter(PlayState state, String triggeredId, String triggeringId, int limit) {
 		super(state);

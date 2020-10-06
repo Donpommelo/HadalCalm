@@ -25,7 +25,7 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
  */
 public class Navigations extends HubEvent {
 
-	private String level;
+	private final String level;
 	
 	public Navigations(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, String level, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.NAVIGATIONS);
@@ -37,7 +37,7 @@ public class Navigations extends HubEvent {
 		final UIHub hub = state.getUiHub();
 		final Navigations me = this;
 		
-		if (level != "" && state.isServer()) {
+		if (!level.equals("") && state.isServer()) {
 			if (!UnlockManager.checkUnlock(state, UnlockType.LEVEL, level)) {
 				UnlockManager.setUnlock(state, UnlockType.LEVEL, level, true);
 				state.getDialogBox().addDialogue("", "TELEPYRAMID ACTIVATED", "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);

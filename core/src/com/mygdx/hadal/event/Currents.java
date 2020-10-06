@@ -31,26 +31,27 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class Currents extends Event {
 	
 	//force applied every 1/60 seconds
-	private Vector2 vec;
+	private final Vector2 vec = new Vector2();
 
 	//This keeps track of engine timer.
-	private float controllerCount = 0;
+	private float controllerCount;
 	
 	//these keep track of spawned particle dummies inside the current
-	private float currBubbleSpawnTimer = 0f, spawnTimerLimit;
+	private float currBubbleSpawnTimer;
+	private final float spawnTimerLimit;
 	
-	private final static float pushInterval = 1 / 60f;
+	private static final float pushInterval = 1 / 60f;
 	
 	public Currents(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec) {
 		super(state, startPos, size);
-		this.vec = vec;
+		this.vec.set(vec);
 		
 		spawnTimerLimit = 7685f / (size.x * size.y);
 	}
 	
 	public Currents(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec, float duration) {
 		super(state, startPos, size, duration);
-		this.vec = vec;
+		this.vec.set(vec);
 		
 		spawnTimerLimit = 5120f / (size.x * size.y);
 	}
@@ -65,10 +66,10 @@ public class Currents extends Event {
 				(short) 0, true, eventData);
 	}
 	
-	private Vector2 entityLocation = new Vector2();
-	private Vector2 randLocation = new Vector2();
-	private Vector2 ragdollSize = new Vector2(48, 48);
-	private Vector2 ragdollVelo = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
+	private final Vector2 randLocation = new Vector2();
+	private final Vector2 ragdollSize = new Vector2(48, 48);
+	private final Vector2 ragdollVelo = new Vector2();
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
@@ -139,9 +140,7 @@ public class Currents extends Event {
 			blueprint.getProperties().put("currentX", vec.x);
 			blueprint.getProperties().put("currentY", vec.y);
 			blueprint.getProperties().put("duration", duration);
-			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
-		} else {
-			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 		}
+		return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 	}
 }

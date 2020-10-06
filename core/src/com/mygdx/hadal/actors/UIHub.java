@@ -20,20 +20,20 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class UIHub {
 
-	private PlayState state;
+	private final PlayState state;
 	
-	private Table tableOptions, tableOuter, tableInfo, tableExtra;
+	private final Table tableOptions, tableOuter, tableInfo, tableExtra;
 	private ScrollPane options;
 	
 	//These fields pertain to the extra info window that pops up when mousing over stuff.
-	private Text titleInfo, extraInfo;
+	private Text titleInfo;
 	private String info, title = "";
-	private final static int infoWidth = 400;
-	private final static int infoHeight = 350;
+	private static final int infoWidth = 400;
+	private static final int infoHeight = 350;
 	public static final int infoPadding = 20;
 
-	private static final int tableX = HadalGame.CONFIG_WIDTH;
-	private static final int tableY = 50;
+	private static final float tableX = HadalGame.CONFIG_WIDTH;
+	private static final float tableY = 50.0f;
 	
 	public static final int titleHeight = 60;
 	public static final int titlePadding = 25;
@@ -49,9 +49,9 @@ public class UIHub {
 	public static final float optionsScaleSmall = 0.25f;
 	
 	public static final float artifactTagSize = 50.0f;
-	private final static float artifactTagOffsetX = 10.0f;
-	private final static float artifactTagOffsetY = 60.0f;
-	private final static float artifactTagTargetWidth = 120.0f;
+	private static final float artifactTagOffsetX = 10.0f;
+	private static final float artifactTagOffsetY = 60.0f;
+	private static final float artifactTagTargetWidth = 120.0f;
 			
 	private hubTypes type = hubTypes.NONE;
 	
@@ -83,7 +83,7 @@ public class UIHub {
 		tableOuter.add(titleInfo).pad(titlePadding).height(titleHeight).colspan(2);
 		tableOuter.row();
 		
-		extraInfo = new Text("", 0, 0, false) {
+		Text extraInfo = new Text("", 0, 0, false) {
 			
 			@Override
 		    public void draw(Batch batch, float alpha) {
@@ -155,12 +155,8 @@ public class UIHub {
 	 * atm, this only affects the reliquary due to having to update the artifact slots.
 	 */
 	public void refreshHub() {
-		switch(type) {
-		case RELIQUARY:
+		if (type == hubTypes.RELIQUARY) {
 			refreshReliquary();
-			break;
-		default:
-			break;
 		}
 	}
 	

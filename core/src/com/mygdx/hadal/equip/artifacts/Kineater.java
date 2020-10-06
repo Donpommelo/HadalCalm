@@ -9,8 +9,8 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Kineater extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
 	private final float hpDrainPercent = 0.15f;
 	

@@ -14,12 +14,12 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class PVPSettingSetter extends Prefabrication {
 
-	private final static String eggplantTimerId = "EGGPLANT_SPAWNER";
-	private final static String weaponTimerId = "spawnWeapons";
-	private final static String playerStartId = "playerstart";
-	private final static float eggplantSpawnTimer = 2.0f;
-	private final static float weaponSpawnTimer = 25.0f;
-	private final static float pvpMatchZoom = 1.5f;
+	private static final String eggplantTimerId = "EGGPLANT_SPAWNER";
+	private static final String weaponTimerId = "spawnWeapons";
+	private static final String playerStartId = "playerstart";
+	private static final float eggplantSpawnTimer = 2.0f;
+	private static final float weaponSpawnTimer = 25.0f;
+	private static final float pvpMatchZoom = 1.5f;
 	
 	public PVPSettingSetter(PlayState state) {
 		super(state);
@@ -71,25 +71,22 @@ public class PVPSettingSetter extends Prefabrication {
 		game.getProperties().put("sync", "ALL");
 		game.getProperties().put("triggeredId", gameTimerId);
 
+		RectangleMapObject uiTimer = new RectangleMapObject();
+		uiTimer.setName("UI");
+
 		if (startTimer != 0) {
-			RectangleMapObject ui = new RectangleMapObject();
-			ui.setName("UI");
-			ui.getProperties().put("tags", "Fight!,EMPTY,LEVEL,SCORE,TIMER");
-			ui.getProperties().put("triggeredId", uiTimerId);
-			
+			uiTimer.getProperties().put("tags", "Fight!,EMPTY,LEVEL,SCORE,TIMER");
+			uiTimer.getProperties().put("triggeredId", uiTimerId);
+
 			game.getProperties().put("timer", Setting.indexToTimer(startTimer));
 			game.getProperties().put("timerIncr", -1.0f);
-			
-			TiledObjectUtil.parseTiledEvent(state, ui);
 		} else {
-			RectangleMapObject ui = new RectangleMapObject();
-			ui.setName("UI");
-			ui.getProperties().put("tags", "Fight!,EMPTY,LEVEL,SCORE");
-			ui.getProperties().put("triggeredId", uiTimerId);
-			
-			TiledObjectUtil.parseTiledEvent(state, ui);
+			uiTimer.getProperties().put("tags", "Fight!,EMPTY,LEVEL,SCORE");
+			uiTimer.getProperties().put("triggeredId", uiTimerId);
 		}
-		
+		TiledObjectUtil.parseTiledEvent(state, uiTimer);
+
+
 		if (startLives != 0) {
 			RectangleMapObject ui = new RectangleMapObject();
 			ui.setName("UI");

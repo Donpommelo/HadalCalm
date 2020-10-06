@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.misc;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
@@ -20,17 +18,19 @@ import com.mygdx.hadal.strategies.hitbox.DamageConstant;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 import com.mygdx.hadal.utils.Stats;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 public class Airblaster extends MeleeWeapon {
 
-	private final static float swingCd = 0.5f;
-	private final static float windup = 0.0f;
-	private final static float baseDamage = 0.0f;
-	private final static Vector2 hitboxSize = new Vector2(175, 175);
-	private final static Vector2 hitboxSpriteSize = new Vector2(260, 260);
-	private final static float knockback = 60.0f;
-	public final static float momentum = 40.0f;
+	private static final float swingCd = 0.5f;
+	private static final float windup = 0.0f;
+	private static final float baseDamage = 0.0f;
+	private static final Vector2 hitboxSize = new Vector2(175, 175);
+	private static final Vector2 hitboxSpriteSize = new Vector2(260, 260);
+	private static final float knockback = 60.0f;
+	public static final float momentum = 40.0f;
 	
-	private final static float reflectVeloAmp = 1.5f;
+	private static final float reflectVeloAmp = 1.5f;
 
 	public Airblaster(Schmuck user) {
 		super(user, swingCd, windup, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
@@ -60,8 +60,8 @@ public class Airblaster extends MeleeWeapon {
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB.getType().equals(UserDataTypes.HITBOX)){
-						if (((Hitbox) fixB.getEntity()).isAlive()) {
-							((Hitbox) fixB.getEntity()).setLinearVelocity(((Hitbox) fixB.getEntity()).getLinearVelocity().scl(reflectVeloAmp).setAngle(startVelocity.angle()));
+						if (fixB.getEntity().isAlive()) {
+							fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().scl(reflectVeloAmp).setAngle(startVelocity.angle()));
 						}
 					}
 				}

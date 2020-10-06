@@ -15,27 +15,27 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 
 public class ReticleStrike extends RangedWeapon {
 
-	private final static int clipSize = 1;
-	private final static int ammoSize = 25;
-	private final static float shootCd = 0.1f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 0.9f;
-	private final static int reloadAmount = 1;
-	private final static float recoil = 12.0f;
-	private final static float projectileSpeed = 30.0f;
-	private final static Vector2 projectileSize = new Vector2(50, 50);
-	private final static float lifespan = 2.0f;
+	private static final int clipSize = 1;
+	private static final int ammoSize = 25;
+	private static final float shootCd = 0.1f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 0.9f;
+	private static final int reloadAmount = 1;
+	private static final float recoil = 12.0f;
+	private static final float projectileSpeed = 30.0f;
+	private static final Vector2 projectileSize = new Vector2(50, 50);
+	private static final float lifespan = 2.0f;
 
-	private final static Sprite projSprite = Sprite.NOTHING;
-	private final static Sprite weaponSprite = Sprite.MT_IRONBALL;
-	private final static Sprite eventSprite = Sprite.P_IRONBALL;
+	private static final Sprite projSprite = Sprite.NOTHING;
+	private static final Sprite weaponSprite = Sprite.MT_IRONBALL;
+	private static final Sprite eventSprite = Sprite.P_IRONBALL;
 	
-	private final static float reticleSize = 80.0f;
-	private final static float reticleSizeSquared = 6500.0f;
-	private final static float reticleLifespan = 0.5f;
-	private final static int explosionRadius = 100;
-	private final static float explosionDamage = 40.0f;
-	private final static float explosionKnockback = 20.0f;
+	private static final float reticleSize = 80.0f;
+	private static final float reticleSizeSquared = 6500.0f;
+	private static final float reticleLifespan = 0.5f;
+	private static final int explosionRadius = 100;
+	private static final float explosionDamage = 40.0f;
+	private static final float explosionKnockback = 20.0f;
 	
 	public ReticleStrike(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

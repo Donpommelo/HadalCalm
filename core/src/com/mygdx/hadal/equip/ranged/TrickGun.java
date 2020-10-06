@@ -25,31 +25,31 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class TrickGun extends RangedWeapon {
 
-	private final static int clipSize = 5;
-	private final static int ammoSize = 30;
-	private final static float shootCd = 0.4f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 0.75f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 60.0f;
-	private final static float recoil = 16.0f;
-	private final static float knockback = 20.0f;
-	private final static float projectileSpeed = 35.0f;
-	private final static Vector2 projectileSize = new Vector2(71, 61);
-	private final static float lifespan = 1.5f;
+	private static final int clipSize = 5;
+	private static final int ammoSize = 30;
+	private static final float shootCd = 0.4f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 0.75f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 60.0f;
+	private static final float recoil = 16.0f;
+	private static final float knockback = 20.0f;
+	private static final float projectileSpeed = 35.0f;
+	private static final Vector2 projectileSize = new Vector2(71, 61);
+	private static final float lifespan = 1.5f;
 	
-	private final static Sprite weaponSprite = Sprite.MT_LASERROCKET;
-	private final static Sprite eventSprite = Sprite.P_LASERROCKET;
+	private static final Sprite weaponSprite = Sprite.MT_LASERROCKET;
+	private static final Sprite eventSprite = Sprite.P_LASERROCKET;
 	
-	private final static float projectileSpeedAfter = 60.0f;
+	private static final float projectileSpeedAfter = 60.0f;
 
 	private boolean firstClicked;
-	private Vector2 pos1 = new Vector2();
-	private Vector2 pos2 = new Vector2();
-	private Vector2 vel1 = new Vector2();
-	private Vector2 vel2 = new Vector2();
+	private final Vector2 pos1 = new Vector2();
+	private final Vector2 pos2 = new Vector2();
+	private final Vector2 vel1 = new Vector2();
+	private final Vector2 vel2 = new Vector2();
 	
-	private final static Sprite projSprite = Sprite.TRICKBULLET;
+	private static final Sprite projSprite = Sprite.TRICKBULLET;
 	
 	public TrickGun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -75,7 +75,7 @@ public class TrickGun extends RangedWeapon {
 		//when released, fire weapon at location where mouse was pressed and keep track of location where mouse is released.
 		if (firstClicked) {
 			
-			//we use the player's mouse position rather than the weapons, b/c the weapon's mouselocation won't update during its cooldown.
+			//we use the player's mouse position rather than the weapons, b/c the weapon's mouse location won't update during its cooldown.
 			pos2.set(((PlayerBodyData) bodyData).getPlayer().getMouse().getPixelPosition());
 			
 			float powerDiv = pos1.dst(pos2) / projectileSpeed;
@@ -122,9 +122,9 @@ public class TrickGun extends RangedWeapon {
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
 				private boolean firstReached;
-				private Vector2 startLocation = new Vector2();
+				private final Vector2 startLocation = new Vector2();
 				private float distance;
-				private Vector2 target = new Vector2();
+				private final Vector2 target = new Vector2();
 				
 				@Override
 				public void create() {

@@ -15,7 +15,7 @@ import com.mygdx.hadal.states.PlayState;
 public class MagicGlow extends Status {
 
 	private float procCdCount;
-	private final static float procCd = 1.0f;
+	private static final float procCd = 1.0f;
 	
 	public MagicGlow(PlayState state, BodyData v) {
 		super(state, v);

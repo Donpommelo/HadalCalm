@@ -32,7 +32,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class EventMover extends Event {
 	
-	private float gravity;
+	private final float gravity;
 	
 	//are we in the middle of moving the event?
 	private boolean moving;
@@ -61,8 +61,8 @@ public class EventMover extends Event {
 		this.body.setType(BodyType.KinematicBody);
 	}
 	
-	private Vector2 dist = new Vector2();
-	private Vector2 entityPosition = new Vector2();
+	private final Vector2 dist = new Vector2();
+	private final Vector2 entityPosition = new Vector2();
 	@Override
 	public void controller(float delta) {
 		if (moving) {

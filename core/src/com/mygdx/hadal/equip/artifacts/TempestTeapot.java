@@ -9,8 +9,8 @@ import com.mygdx.hadal.utils.Stats;
 
 public class TempestTeapot extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
 	private static final float bonusBoostSize = 0.75f;
 	private static final float bonusBoostPow = 0.5f;

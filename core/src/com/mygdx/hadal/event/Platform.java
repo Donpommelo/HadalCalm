@@ -3,7 +3,6 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.states.PlayState;
@@ -28,8 +27,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class Platform extends Event {
 
-	private short filter;
-	private float restitution;
+	private final short filter;
+	private final float restitution;
 	
 	public Platform(PlayState state, Vector2 startPos, Vector2 size, float restitution, boolean wall, boolean player, boolean hbox, boolean event, boolean enemy) {
 		super(state, startPos ,size);

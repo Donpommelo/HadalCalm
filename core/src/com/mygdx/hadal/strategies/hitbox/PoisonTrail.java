@@ -14,15 +14,15 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class PoisonTrail extends HitboxStrategy {
 	
 	//the amount of damage the poison will deal, how long it will last and its size
-	private float poisonDamage, poisonDuration;
-	private int poisonRadius;
+	private final float poisonDamage, poisonDuration;
+	private final int poisonRadius;
 	
 	//the hbox filter that determines who can be damaged by the poison
-	private short filter;
+	private final short filter;
 	
 	//the time interval between creating poison
-	private Vector2 lastPosition = new Vector2();
-	private Vector2 poisonSize = new Vector2();
+	private final Vector2 lastPosition = new Vector2();
+	private final Vector2 poisonSize = new Vector2();
 	
 	public PoisonTrail(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {
 		super(state, proj, user);
@@ -35,7 +35,7 @@ public class PoisonTrail extends HitboxStrategy {
 		poisonSize.set(poisonRadius, poisonRadius);
 	}
 	
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		entityLocation.set(hbox.getPixelPosition());

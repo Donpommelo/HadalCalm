@@ -19,26 +19,26 @@ import com.mygdx.hadal.strategies.hitbox.DieSound;
 
 public class Fugun extends RangedWeapon {
 
-	private final static int clipSize = 2;
-	private final static int ammoSize = 14;
-	private final static float shootCd = 0.2f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.1f;
-	private final static int reloadAmount = 1;
-	private final static float baseDamage = 30.0f;
-	private final static float recoil = 0.0f;
-	private final static float knockback = 12.5f;
-	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(36, 36);
-	private final static float lifespan = 1.2f;
+	private static final int clipSize = 2;
+	private static final int ammoSize = 14;
+	private static final float shootCd = 0.2f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 1.1f;
+	private static final int reloadAmount = 1;
+	private static final float baseDamage = 30.0f;
+	private static final float recoil = 0.0f;
+	private static final float knockback = 12.5f;
+	private static final float projectileSpeed = 40.0f;
+	private static final Vector2 projectileSize = new Vector2(36, 36);
+	private static final float lifespan = 1.2f;
 		
-	private final static int poisonRadius = 250;
-	private final static float poisonDamage = 0.7f;
-	private final static float poisonDuration = 4.0f;
+	private static final int poisonRadius = 250;
+	private static final float poisonDamage = 0.7f;
+	private static final float poisonDuration = 4.0f;
 
-	private final static Sprite projSprite = Sprite.FUGU;
-	private final static Sprite weaponSprite = Sprite.MT_IRONBALL;
-	private final static Sprite eventSprite = Sprite.P_IRONBALL;
+	private static final Sprite projSprite = Sprite.FUGU;
+	private static final Sprite weaponSprite = Sprite.MT_IRONBALL;
+	private static final Sprite eventSprite = Sprite.P_IRONBALL;
 	
 	public Fugun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

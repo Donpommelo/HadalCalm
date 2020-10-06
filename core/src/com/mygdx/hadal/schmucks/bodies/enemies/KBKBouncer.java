@@ -15,10 +15,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class KBKBouncer extends EnemyCrawling {
 
-	private final static int baseHp = 100;
-	private final static String name = "BOUNCING KAMABOKO";
+	private static final int baseHp = 100;
+	private static final String name = "BOUNCING KAMABOKO";
 
-	private final static int scrapDrop = 1;
+	private static final int scrapDrop = 1;
 
 	private static final int width = 512;
 	private static final int height = 512;
@@ -36,7 +36,7 @@ public class KBKBouncer extends EnemyCrawling {
 	
 	private static final Sprite sprite = Sprite.KAMABOKO_CRAWL;
 	
-	private TextureRegion faceSprite;
+	private final TextureRegion faceSprite;
 	
 	public KBKBouncer(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.BOUNCER, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
@@ -59,9 +59,9 @@ public class KBKBouncer extends EnemyCrawling {
 	@Override
 	public void attackInitiate() {
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
-	};
+	}
 	
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);
@@ -70,8 +70,6 @@ public class KBKBouncer extends EnemyCrawling {
 		
 		if (getMoveDirection() < 0) {
 			flip = true;
-		} else if (getMoveDirection() > 0) {
-			flip = false;
 		}
 
 		entityLocation.set(getPixelPosition());

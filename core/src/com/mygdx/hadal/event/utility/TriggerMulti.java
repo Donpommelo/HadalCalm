@@ -1,14 +1,14 @@
 package com.mygdx.hadal.event.utility;
 
-import java.util.ArrayList;
-
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
+import java.util.ArrayList;
+
 /**
- * A Multitrigger is an event that can trigger multiple events simultaneously.
+ * A MultiTrigger is an event that can trigger multiple events simultaneously.
  * 
  * Triggered Behavior: When triggered, this will trigger all events in its triggered list
  * Triggering Behavior: N/A. This event does nothing with its connectedEvent. Instead, it has a triggered list that is filled
@@ -23,7 +23,7 @@ import com.mygdx.hadal.states.PlayState;
 public class TriggerMulti extends Event {
 
 	//this is a list of all of the events that this event triggers
-	private ArrayList<Event> triggered = new ArrayList<Event>();
+	private final ArrayList<Event> triggered = new ArrayList<>();
 	
 	public TriggerMulti(PlayState state) {
 		super(state);

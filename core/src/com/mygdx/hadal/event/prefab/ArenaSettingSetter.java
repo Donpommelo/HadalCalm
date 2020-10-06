@@ -13,11 +13,11 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class ArenaSettingSetter extends Prefabrication {
 
-	private final static String weaponTimerId = "spawnWeapons";
-	private final static String playerStartId = "playerstart";
-	private final static float weaponSpawnTimer = 25.0f;
-	private final static float waveSpawnTimer = 15.0f;
-	private final static float arenaMatchZoom = 1.5f;
+	private static final String weaponTimerId = "spawnWeapons";
+	private static final String playerStartId = "playerstart";
+	private static final float weaponSpawnTimer = 25.0f;
+	private static final float waveSpawnTimer = 15.0f;
+	private static final float arenaMatchZoom = 1.5f;
 	
 	public ArenaSettingSetter(PlayState state) {
 		super(state);
@@ -66,25 +66,20 @@ public class ArenaSettingSetter extends Prefabrication {
 		game.getProperties().put("sync", "ALL");
 		game.getProperties().put("triggeredId", gameTimerId);
 
+		RectangleMapObject ui = new RectangleMapObject();
+		ui.setName("UI");
 		if (startTimer != 0) {
-			RectangleMapObject ui = new RectangleMapObject();
-			ui.setName("UI");
 			ui.getProperties().put("tags", "Survive!,EMPTY,LEVEL,HISCORE,SCORE,TIMER");
 			ui.getProperties().put("triggeredId", uiTimerId);
 			
 			game.getProperties().put("timer", Setting.indexToTimer(startTimer));
 			game.getProperties().put("timerIncr", -1.0f);
-			
-			TiledObjectUtil.parseTiledEvent(state, ui);
 		} else {
-			RectangleMapObject ui = new RectangleMapObject();
-			ui.setName("UI");
 			ui.getProperties().put("tags", "Survive!,EMPTY,LEVEL,HISCORE,SCORE,ENDLESS");
-			ui.getProperties().put("triggeredId", uiTimerId);
-			
-			TiledObjectUtil.parseTiledEvent(state, ui);
 		}
-		
+		ui.getProperties().put("triggeredId", uiTimerId);
+		TiledObjectUtil.parseTiledEvent(state, ui);
+
 		TiledObjectUtil.parseTiledEvent(state, game);
 		
 		RectangleMapObject end = new RectangleMapObject();

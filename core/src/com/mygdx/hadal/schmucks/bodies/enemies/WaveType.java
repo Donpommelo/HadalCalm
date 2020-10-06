@@ -1,11 +1,12 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.event.SpawnerWave;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A wave contains the info needed to spawn a single wave of arena enemies
@@ -105,25 +106,22 @@ public enum WaveType {
 	;
 	
 	//this is the list of enemies in the wave
-	protected ArrayList<WaveEnemy> enemies = new ArrayList<WaveEnemy>();
+	protected ArrayList<WaveEnemy> enemies = new ArrayList<>();
 	
 	//tags if we want a wave to only spawn at certain spawn points
-	protected ArrayList<WaveTag> tags = new ArrayList<WaveTag>();
+	protected ArrayList<WaveTag> tags = new ArrayList<>();
 	
-	private WaveType(WaveTag... tags) {
-		for (WaveTag tag: tags) {
-			this.tags.add(tag);
-		}
+	WaveType(WaveTag... tags) {
+		Collections.addAll(this.tags, tags);
 	}
 	
 	/**
 	 * This spawns a single wave
 	 */
 	private static final float extraInterval = 0.4f;
-	private float extraDelay;
 	public void spawnWave(SpawnerWave spawner, int waveNum, int extraField) {
 		
-		extraDelay = 0.0f;
+		float extraDelay = 0.0f;
 		for (WaveEnemy enemy : enemies) {
 			enemy.createEnemy(spawner, waveNum, extraField, extraDelay);
 			extraDelay += extraInterval;
@@ -149,7 +147,7 @@ public enum WaveType {
 		//the first spawner chooses a wave at random, and the others spawn from the same wave.
 		if (lastWave != waveNum) {
 			lastWave = waveNum;
-			Array<WaveType> waves = new Array<WaveType>();
+			Array<WaveType> waves = new Array<>();
 			
 			//find a wave that complies with tag restrictions
 			for (WaveType wave: WaveType.values()) {
@@ -159,6 +157,7 @@ public enum WaveType {
 				for (WaveTag tag: tags) {
 					if (wave.tags.contains(tag)) {
 						get = true;
+						break;
 					}
 				}
 				if (get) {
@@ -174,28 +173,28 @@ public enum WaveType {
 	}
 	
 	//this is the delay before the enemies in a wave spawn
-	private final static float waveDelay = 1.0f;
+	private static final float waveDelay = 1.0f;
 	/**
 	 * A WaveEnemy represents a single enemy in a wave.
 	 * @author Zachary Tu
 	 *
 	 */
-	public class WaveEnemy {
+	public static class WaveEnemy {
 		
 		//this is the id of the last wave
 		private int lastWave;
 		
 		//this is a list of wave spawn points that this enemy can be spawned at
-		private int[] pointId;
+		private final int[] pointId;
 		
 		//this is the id of the wave spawn point that this enemy will be spawned at
 		private int thisId;
 		
 		//this min/max wave that this can be spawned at
-		private int minWave, maxWave;
+		private final int minWave, maxWave;
 		
 		//this is the type of enemy represented by this wave enemy
-		private EnemyType type;
+		private final EnemyType type;
 		
 		public WaveEnemy(EnemyType type, int minWave, int maxWave, int... pointId) {
 			this.minWave = minWave;

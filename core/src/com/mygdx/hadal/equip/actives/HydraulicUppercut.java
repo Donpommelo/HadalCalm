@@ -21,16 +21,16 @@ import com.mygdx.hadal.utils.Stats;
 
 public class HydraulicUppercut extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 8.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 8.0f;
 	
-	private final static float recoil = 150.0f;
+	private static final float recoil = 150.0f;
 
-	private final static float baseDamage = 60.0f;
-	private final static Vector2 hitboxSize = new Vector2(150, 150);
-	private final static float lifespan = 0.5f;
-	private final static float knockback = 75.0f;
+	private static final float baseDamage = 60.0f;
+	private static final Vector2 hitboxSize = new Vector2(150, 150);
+	private static final float lifespan = 0.5f;
+	private static final float knockback = 75.0f;
 	
 	public HydraulicUppercut(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.client.ClientPredictionFrame;
 import com.mygdx.hadal.equip.Loadout;
@@ -12,6 +10,8 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
+import java.util.ArrayList;
+
 /**
  * A ClientPlayer represents a client's own player.
  * This processes things like client prediction
@@ -21,15 +21,15 @@ import com.mygdx.hadal.states.PlayState;
 public class ClientPlayer extends Player {
 
 	//this represents how precisely we lerp towards the server position
-	private final static float CONVERGE_MULTIPLIER = 0.05f;
+	private static final float CONVERGE_MULTIPLIER = 0.05f;
 	
 	//these are the amounts of latency in seconds under which the prediction strategy will kick in.
-	private final static float LATENCY_THRESHOLD_MIN = 0.08f;
-	private final static float LATENCY_THRESHOLD_MAX = 0.1f;
+	private static final float LATENCY_THRESHOLD_MIN = 0.08f;
+	private static final float LATENCY_THRESHOLD_MAX = 0.1f;
 	
 	//tolerance variables. if the prediction is incorrect by more than these thresholds, we must adjust our predictions
-	private final static float VELO_TOLERANCE = 200.0f;
-	private final static float DIST_TOLERANCE = 12.0f;
+	private static final float VELO_TOLERANCE = 200.0f;
+	private static final float DIST_TOLERANCE = 12.0f;
 	
 	public ClientPlayer(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
 		super(state, startPos, name, startLoadout, oldData, connID, reset, start);
@@ -44,17 +44,17 @@ public class ClientPlayer extends Player {
 	}
 	
 	//this is an ordered list of client frames that keep track of the client's velocity and displacement over time
-	private ArrayList<ClientPredictionFrame> frames = new ArrayList<ClientPredictionFrame>();
+	private final ArrayList<ClientPredictionFrame> frames = new ArrayList<>();
 	
 	//the client's most recent position
-	private Vector2 lastPosition = new Vector2();
+	private final Vector2 lastPosition = new Vector2();
 	
 	//where we predict the client would be on the server
-	private Vector2 predictedPosition = new Vector2();
+	private final Vector2 predictedPosition = new Vector2();
 	
 	//where we extrapolate the client will be by the time a packet we send reaches the server accounting for latency
-	private Vector2 extrapolatedPosition = new Vector2();
-	private Vector2 extrapolationVelocity = new Vector2();
+	private final Vector2 extrapolatedPosition = new Vector2();
+	private final Vector2 extrapolationVelocity = new Vector2();
 
 	//this is the amount of positional history that we keep track of
 	private float historyDuration;
@@ -107,7 +107,7 @@ public class ClientPlayer extends Player {
 					predictedPosition.add(frame.positionChange);
 				}
 				
-				//if our position is too far away fro mwhat the server sends us, just rubberband.
+				//if our position is too far away from what the server sends us, just rubberband.
 				if (body != null) {
 					if (predictedPosition.dst2(body.getPosition()) > DIST_TOLERANCE) {
 						setTransform(predictedPosition, 0.0f);
@@ -119,10 +119,10 @@ public class ClientPlayer extends Player {
 	}
 	
 	//most of the code here is just lifted from the Player class to simulate movement actions like jumping, hovering, fastfalling and boosting
-	private Vector2 playerLocation = new Vector2();
-	private Vector2 playerWorldLocation = new Vector2();
-	private Vector2 newPosition = new Vector2();
-	private Vector2 fug = new Vector2();
+	private final Vector2 playerLocation = new Vector2();
+	private final Vector2 playerWorldLocation = new Vector2();
+	private final Vector2 newPosition = new Vector2();
+	private final Vector2 fug = new Vector2();
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
@@ -168,8 +168,8 @@ public class ClientPlayer extends Player {
 		//for the server's own player, the sprite's arm should exactly match their mouse
 		playerLocation.set(getPixelPosition());
 		playerWorldLocation.set(getPosition());
-		mouseAngle.set(playerLocation.y, playerLocation.x).sub(((ClientState) state).getMousePosition().y, ((ClientState) state).getMousePosition().x);
-		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
+		mouseAngle.set(playerLocation.x, playerLocation.y).sub(((ClientState) state).getMousePosition().x, ((ClientState) state).getMousePosition().y);
+		attackAngle = (float)(Math.atan2(mouseAngle.y, mouseAngle.x) * 180 / Math.PI);
 		
 		if (body != null && alive) {
 			
@@ -195,7 +195,7 @@ public class ClientPlayer extends Player {
 				extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(body.getLinearVelocity()).scl((CONVERGE_MULTIPLIER) * latency));
 				fug.set(extrapolatedPosition);
 				
-				float t = 0.0f;
+				float t;
 				t = delta / (latency * (1 + CONVERGE_MULTIPLIER));
 
 				newPosition.set(body.getPosition()).add(extrapolatedPosition.sub(playerWorldLocation).scl(t));
@@ -245,7 +245,7 @@ public class ClientPlayer extends Player {
 		}
 	}
 	
-	private Vector2 mousePos = new Vector2();
+	private final Vector2 mousePos = new Vector2();
 	@Override
 	public void airblast() {
 		if (airblastCdCount < 0) {

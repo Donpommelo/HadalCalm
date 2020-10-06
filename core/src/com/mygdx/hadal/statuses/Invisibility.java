@@ -2,7 +2,7 @@ package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -18,14 +18,14 @@ import com.mygdx.hadal.states.PlayState;
 public class Invisibility extends Status {
 	
 	//fade time determines the window of time where the player can attack before the invisibility status is removed
-	private final static float fadeTime = 0.5f;
+	private static final float fadeTime = 0.5f;
 	private float fadeCount;
 	
 	public Invisibility(PlayState state, float i, BodyData p, BodyData v) {
 		super(state, i, false, p, v);
 		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, particleSyncType.CREATESYNC);
 		
-		//set unit's invis to true. this is used to turn off movement particles
+		//set unit's invisibility to true. this is used to turn off movement particles
 		if (inflicted instanceof PlayerBodyData) {
 			((PlayerBodyData) inflicted).getPlayer().setInvisible(true);
 		}
@@ -56,14 +56,14 @@ public class Invisibility extends Status {
 	}
 	
 	@Override
-	public void onShoot(Equipable tool) {
+	public void onShoot(Equippable tool) {
 		if (fadeCount <= 0) {
 			inflicted.removeStatus(this);
 		}
 	}
 	
 	@Override
-	public void whileAttacking(float delta, Equipable tool) {
+	public void whileAttacking(float delta, Equippable tool) {
 		if (fadeCount <= 0) {
 			if (tool instanceof MeleeWeapon) {
 				inflicted.removeStatus(this);

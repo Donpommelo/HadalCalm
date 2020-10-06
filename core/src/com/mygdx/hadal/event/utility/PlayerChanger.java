@@ -25,7 +25,7 @@ import com.mygdx.hadal.utils.Stats;
  * Also, as an added note, when this event chains, it inputs its activator event, not itself. This is kinda weird and arbitrary
  * but makes it so that event deleters can more easily delete the medpack without the use of an extra alt-trigger.
  * 
- * I think that the repurcussions of this are probably minor, because this event will probably not be changed by downstream events.
+ * I think that the repercussions of this are probably minor, because this event will probably not be changed by downstream events.
  * 
  * Fields:
  * 
@@ -37,7 +37,7 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class PlayerChanger extends Event {
 
-	private float hp, fuel, ammo;
+	private final float hp, fuel, ammo;
 	
 	public PlayerChanger(PlayState state, float hp, float fuel, float ammo) {
 		super(state);

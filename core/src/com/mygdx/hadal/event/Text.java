@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -24,8 +23,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class Text extends Event {
 
-	private String text;
-	private float scale;
+	private final String text;
+	private final float scale;
 	
 	public Text(PlayState state, Vector2 startPos, Vector2 size, String text, float scale) {
 		super(state, startPos , size);
@@ -40,7 +39,7 @@ public class Text extends Event {
 		body.setType(BodyType.KinematicBody);
 	}
 	
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		entityLocation.set(getPixelPosition());

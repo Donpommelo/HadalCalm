@@ -1,13 +1,13 @@
 package com.mygdx.hadal.save;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
+
+import java.util.ArrayList;
 
 /**
  * The UnlockManager manages the player's unlocked weapons, artifacts, etc
@@ -16,7 +16,7 @@ import com.mygdx.hadal.states.PlayState;
 public class UnlockManager {
 	
 	/**
-	 * This retrives the player's unlocks from a file
+	 * This retrieves the player's unlocks from a file
 	 */
 	public static void retrieveItemInfo() {
 				
@@ -61,21 +61,25 @@ public class UnlockManager {
 	 * This is used to determine which unlockitems will be available from a given hub event
 	 * @param item: the item to check
 	 * @param tags: a list of tags
-	 * @return: whether the item contains any of the tags
+	 * @return whether the item contains any of the tags
 	 */
 	public static boolean checkTags(InfoItem item, ArrayList<UnlockTag> tags) {
-		
-		for (int i = 0; i < tags.size(); i++) {
+
+		for (UnlockTag tag : tags) {
 			boolean tagPresent = false;
-			
-			if (item == null) { return false; }
-			
+
+			if (item == null) {
+				return false;
+			}
+
 			for (int j = 0; j < item.getTags().size(); j++) {
-				if (tags.get(i).equals(item.getTags().get(j))) {
+				if (tag.equals(item.getTags().get(j))) {
 					tagPresent = true;
 				}
 			}
-			if (!tagPresent) { return false; }
+			if (!tagPresent) {
+				return false;
+			}
 		}
 		return true;
 	}

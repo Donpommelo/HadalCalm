@@ -43,18 +43,18 @@ public class Hitbox extends HadalEntity {
 	protected short passability = (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR);
 	
 	//default properties. these can be changed using a setter right after the hbox is initialized.
-	private final static float defaultGravity = 0.0f;
-	private final static float defaultDensity = 0.0f;
-	private final static int defaultDurability = 1;
-	private final static float defaultFriction = 0.0f;
-	private final static float defaultScale = 1.0f;
-	private final static float defaultResitution = 0.0f;
-	private final static float defaultDamageMultiplier = 1.0f;
+	private static final float defaultGravity = 0.0f;
+	private static final float defaultDensity = 0.0f;
+	private static final int defaultDurability = 1;
+	private static final float defaultFriction = 0.0f;
+	private static final float defaultScale = 1.0f;
+	private static final float defaultResitution = 0.0f;
+	private static final float defaultDamageMultiplier = 1.0f;
 	
 	//grav is the effect of gravity on the hitbox. 1 = normal gravity. 0 = no gravity.
 	private float gravity = defaultGravity;
 	
-	//density is the used for certain phyic-related hboxes. stuff that needs to rotate based on physics should have a nonzero density
+	//density is the used for certain physics-related hboxes. stuff that needs to rotate based on physics should have a nonzero density
 	private float density = defaultDensity;
 		
 	//durability is the number of things the hitbox can hit before disappearing.
@@ -63,7 +63,7 @@ public class Hitbox extends HadalEntity {
 	//restitution is the hitbox bounciness.
 	private float restitution = defaultResitution;
 	
-	//friction is the hitbox slipperyness.
+	//friction is the hitbox slipperiness.
 	private float friction = defaultFriction;
 	
 	//scale is the hitbox size multiplier.
@@ -76,7 +76,7 @@ public class Hitbox extends HadalEntity {
 	private boolean sensor;
 	
 	//procEffects is whether the hitbox activates statuses. The others decide which types of effects should apply to this hbox
-	private boolean procEffects;
+	private final boolean procEffects;
 	private boolean effectsVisual = true;
 	private boolean effectsHit = true;
 	private boolean effectsMovement = true;
@@ -95,15 +95,15 @@ public class Hitbox extends HadalEntity {
 	
 	//strategies contains a bunch of effects that modify a hitbox.
 	//add+remove are strategies that will be added/removed from the hitbox next world-step
-	private ArrayList<HitboxStrategy> strategies, add, remove;
+	private final ArrayList<HitboxStrategy> strategies, add, remove;
 	
 	//this is the projectile's Sprite and corresponding frames
 	protected Animation<TextureRegion> projectileSprite;
-	private Sprite sprite;
+	private final Sprite sprite;
 	private boolean looping;
 
 	//this is the size of the sprite. Usually drawn to be the size of the hbox, but can be made larger/smaller
-	private Vector2 spriteSize = new Vector2();
+	private final Vector2 spriteSize = new Vector2();
 	
 	/**
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
@@ -121,14 +121,14 @@ public class Hitbox extends HadalEntity {
 		//Create a new vector to avoid issues with multi-projectile attacks using same velo for all projectiles.
 		this.startVelo = new Vector2(startVelo);
 		
-		this.strategies = new ArrayList<HitboxStrategy>();
-		this.add = new ArrayList<HitboxStrategy>();
-		this.remove = new ArrayList<HitboxStrategy>();
+		this.strategies = new ArrayList<>();
+		this.add = new ArrayList<>();
+		this.remove = new ArrayList<>();
 		
 		//use Sprite.Nothing for spriteless hitboxes (like ones that just use particles)
 		this.sprite = sprite;
 		if (!sprite.equals(Sprite.NOTHING)) {
-			projectileSprite = new Animation<TextureRegion>(sprite.getAnimationSpeed(), sprite.getFrames());
+			projectileSprite = new Animation<>(sprite.getAnimationSpeed(), sprite.getFrames());
 			projectileSprite.setPlayMode(sprite.getPlayMode());
 			if (!projectileSprite.getPlayMode().equals(PlayMode.NORMAL)) {
 				looping = true;
@@ -197,7 +197,7 @@ public class Hitbox extends HadalEntity {
 		}
 	}
 
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		
@@ -205,7 +205,7 @@ public class Hitbox extends HadalEntity {
 		
 		if (projectileSprite != null) {
 			entityLocation.set(getPixelPosition());
-			batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, looping), 
+			batch.draw(projectileSprite.getKeyFrame(animationTime, looping),
 					entityLocation.x - spriteSize.x / 2, 
 					entityLocation.y - spriteSize.y / 2, 
 					spriteSize.x / 2, spriteSize.y / 2,
@@ -311,8 +311,6 @@ public class Hitbox extends HadalEntity {
 	public Sprite getSprite() { return sprite; }
 	
 	public short getFilter() { return filter; }
-
-	public short getPassability() { return passability; }
 
 	public float getDamageMultiplier() { return damageMultiplier; }
 	

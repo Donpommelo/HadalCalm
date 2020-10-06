@@ -22,23 +22,23 @@ import com.mygdx.hadal.strategies.hitbox.HomingMouse;
 
 public class TractorBeam extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 8.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 8.0f;
 	
-	private final static float primaryDamage = 25.0f;
-	private final static float secondaryDamage = 25.0f;
-	private final static float knockback = 35.0f;
-	private final static float projectileSpeed = 40.0f;
+	private static final float primaryDamage = 25.0f;
+	private static final float secondaryDamage = 25.0f;
+	private static final float knockback = 35.0f;
+	private static final float projectileSpeed = 40.0f;
 	
-	private final static float homePower = 300.0f;
+	private static final float homePower = 300.0f;
 
-	private final static Vector2 projectileSize = new Vector2(80, 60);
+	private static final Vector2 projectileSize = new Vector2(80, 60);
 	
-	private final static float lifespan = 4.0f;
+	private static final float lifespan = 4.0f;
 	
-	private final static Sprite projSprite = Sprite.OPEN_HAND;
-	private final static Sprite projSprite2 = Sprite.CLOSED_HAND;
+	private static final Sprite projSprite = Sprite.OPEN_HAND;
+	private static final Sprite projSprite2 = Sprite.CLOSED_HAND;
 
 	public TractorBeam(Schmuck user) {
 		super(user,  usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -83,21 +83,19 @@ public class TractorBeam extends ActiveItem {
 							
 							@Override
 							public void onHit(final HadalData fixB) {
-								if (track != null) {
-									if (track != fixB) {
-										
-										if (fixB != null && track.getSchmuck().getBody() != null) {
+								if (track != fixB) {
 
-											if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
-												track.receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, DamageTypes.WHACKING);
-											}
+									if (fixB != null && track.getSchmuck().getBody() != null) {
 
-											if (fixB.getType().equals(UserDataTypes.BODY)) {
-												fixB.receiveDamage(primaryDamage, hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.WHACKING);
-											}
-										} else {
+										if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
 											track.receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, DamageTypes.WHACKING);
 										}
+
+										if (fixB.getType().equals(UserDataTypes.BODY)) {
+											fixB.receiveDamage(primaryDamage, hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.WHACKING);
+										}
+									} else {
+										track.receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, DamageTypes.WHACKING);
 									}
 								}
 							}
@@ -107,11 +105,8 @@ public class TractorBeam extends ActiveItem {
 								if (creator.getSchmuck().getBody() == null || !creator.getSchmuck().isAlive() || !track.getSchmuck().isAlive()) {
 									hbox.die();
 								}
-								
-								if (track != null) {
-									if (track.getSchmuck().isAlive() && track.getSchmuck().getBody() != null) {
-										track.getSchmuck().setTransform(hbox.getPosition(), 0);
-									}
+								if (track.getSchmuck().isAlive() && track.getSchmuck().getBody() != null) {
+									track.getSchmuck().setTransform(hbox.getPosition(), 0);
 								}
 							}
 						});

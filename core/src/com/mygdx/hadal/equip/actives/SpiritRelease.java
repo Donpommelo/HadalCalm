@@ -11,15 +11,15 @@ import com.mygdx.hadal.states.PlayState;
 
 public class SpiritRelease extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 10.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 10.0f;
 	
 	private static final float spiritDamage= 40.0f;
 	private static final float spiritKnockback= 25.0f;
 	private static final float spiritLifespan= 7.5f;
 	
-	private Vector2 spiritPos = new Vector2();
+	private final Vector2 spiritPos = new Vector2();
 	
 	public SpiritRelease(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

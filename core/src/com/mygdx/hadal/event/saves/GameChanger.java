@@ -20,9 +20,9 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class GameChanger extends Event {
 
-	private int scoreIncr, livesIncr;
-	private float timerSet, timerIncr;
-	private boolean changeTimer;
+	private final int scoreIncr, livesIncr;
+	private final float timerSet, timerIncr;
+	private final boolean changeTimer;
 	
 	public GameChanger(PlayState state, int lives, int score, float timerSet, float timerIncr, boolean changeTimer) {
 		super(state);

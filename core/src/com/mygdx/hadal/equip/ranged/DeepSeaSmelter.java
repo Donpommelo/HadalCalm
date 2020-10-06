@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.ranged;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -16,46 +14,40 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Ablaze;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
-import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Stats;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class DeepSeaSmelter extends RangedWeapon {
 
-	private final static int clipSize = 1;
-	private final static int ammoSize = 1;
-	private final static float shootCd = 0.12f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.0f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 15.0f;
-	private final static float recoil = 6.0f;
-	private final static float knockback = 22.0f;
-	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(50, 15);
-	private final static float lifespan = 1.0f;
+	private static final int clipSize = 1;
+	private static final int ammoSize = 1;
+	private static final float shootCd = 0.12f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = 1.0f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 15.0f;
+	private static final float recoil = 6.0f;
+	private static final float knockback = 22.0f;
+	private static final float projectileSpeed = 40.0f;
+	private static final Vector2 projectileSize = new Vector2(50, 15);
+	private static final float lifespan = 1.0f;
 	
-	private final static Sprite projSprite = Sprite.SLAG;
-	private final static Sprite weaponSprite = Sprite.MT_NEMATOCYTEARM;
-	private final static Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
+	private static final Sprite projSprite = Sprite.SLAG;
+	private static final Sprite weaponSprite = Sprite.MT_NEMATOCYTEARM;
+	private static final Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
 	
-	private final static float pitchSpread = 0.4f;
+	private static final float pitchSpread = 0.4f;
 	
-	private final static float projSpacing = 20.0f;
+	private static final float projSpacing = 20.0f;
 
 	private static final float maxCharge = 4.5f;
 	private static final float chargePerShot = 3.0f;
 	private static final float burnDamage = 4.0f;
 
-	private Vector2 projOrigin = new Vector2();
-	private Vector2 projOffset = new Vector2();
+	private final Vector2 projOrigin = new Vector2();
+	private final Vector2 projOffset = new Vector2();
 	private boolean overheated;
 	
 	public DeepSeaSmelter(Schmuck user) {

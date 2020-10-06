@@ -1,7 +1,5 @@
 package com.mygdx.hadal.strategies.hitbox;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -11,6 +9,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * This strategy creates a number of projectiles when its hbox dies
  * @author Zachary Tu
@@ -18,16 +18,16 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class DieFrag extends HitboxStrategy {
 	
 	//this is the number of frags to spawn
-	private int numFrag;
+	private final int numFrag;
 
-	private final static Vector2 projectileSize = new Vector2(25, 25);
-	private final static float lifespan = 0.5f;
-	private final static float fragSpeed = 10.0f;
+	private static final Vector2 projectileSize = new Vector2(25, 25);
+	private static final float lifespan = 0.5f;
+	private static final float fragSpeed = 10.0f;
 	
-	private final static float baseDamage = 10.0f;
-	private final static float knockback = 5.0f;
+	private static final float baseDamage = 10.0f;
+	private static final float knockback = 5.0f;
 	
-	private final static Sprite[] projSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
+	private static final Sprite[] projSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
 	
 	public DieFrag(PlayState state, Hitbox proj, BodyData user, int numFrag) {
 		super(state, proj, user);

@@ -11,11 +11,11 @@ import com.mygdx.hadal.statuses.DamageTypes;
  */
 public class HadalData {
 
-	//the number of other entities or walls this entity is touching. Atm only used for feet to determine groundedness
+	//the number of other entities or walls this entity is touching. Atm only used for feet to determine grounded
 	private int numContacts;
 	
 	//Enum that describes the type of entity. This field is often checked on contact.
-	private UserDataTypes type;
+	private final UserDataTypes type;
 	
 	//The entity that owns this data
 	private HadalEntity entity;

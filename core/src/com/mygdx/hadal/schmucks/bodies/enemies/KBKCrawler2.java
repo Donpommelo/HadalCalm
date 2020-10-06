@@ -15,10 +15,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class KBKCrawler2 extends EnemyCrawling {
 
-	private final static int baseHp = 200;
-	private final static String name = "GIGA CRAWLING KAMABOKO";
+	private static final int baseHp = 200;
+	private static final String name = "GIGA CRAWLING KAMABOKO";
 
-	private final static int scrapDrop = 8;
+	private static final int scrapDrop = 8;
 
 	private static final int width = 1024;
 	private static final int height = 1024;
@@ -35,7 +35,7 @@ public class KBKCrawler2 extends EnemyCrawling {
 	
 	private static final Sprite sprite = Sprite.KAMABOKO_CRAWL;
 	
-	private TextureRegion faceSprite;
+	private final TextureRegion faceSprite;
 	
 	public KBKCrawler2(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.CRAWLER1BIG, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
@@ -55,7 +55,7 @@ public class KBKCrawler2 extends EnemyCrawling {
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f, true);
 	}
 	
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);
@@ -64,10 +64,7 @@ public class KBKCrawler2 extends EnemyCrawling {
 		
 		if (getMoveDirection() < 0) {
 			flip = true;
-		} else if (getMoveDirection() > 0) {
-			flip = false;
 		}
-
 		entityLocation.set(getPixelPosition());
 		batch.draw(faceSprite, 
 				(flip ? 0 : size.x) + entityLocation.x - size.x / 2, 

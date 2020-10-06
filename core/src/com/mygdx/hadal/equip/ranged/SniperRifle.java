@@ -22,24 +22,24 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class SniperRifle extends RangedWeapon {
 
-	private final static int clipSize = 1;
-	private final static int ammoSize = 21;
-	private final static float shootCd = 0.0f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.4f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 60.0f;
-	private final static float recoil = 15.0f;
-	private final static float knockback = 45.0f;
-	private final static float projectileSpeed = 75.0f;
-	private final static Vector2 projectileSize = new Vector2(120, 12);
-	private final static float lifespan = 1.0f;
+	private static final int clipSize = 1;
+	private static final int ammoSize = 21;
+	private static final float shootCd = 0.0f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 1.4f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 60.0f;
+	private static final float recoil = 15.0f;
+	private static final float knockback = 45.0f;
+	private static final float projectileSpeed = 75.0f;
+	private static final Vector2 projectileSize = new Vector2(120, 12);
+	private static final float lifespan = 1.0f;
 	
-	private final static Sprite projSprite = Sprite.BULLET;
-	private final static Sprite weaponSprite = Sprite.MT_SPEARGUN;
-	private final static Sprite eventSprite = Sprite.P_SPEARGUN;
+	private static final Sprite projSprite = Sprite.BULLET;
+	private static final Sprite weaponSprite = Sprite.MT_SPEARGUN;
+	private static final Sprite eventSprite = Sprite.P_SPEARGUN;
 	
-	private final static float bonusDamage = 1.0f;
+	private static final float bonusDamage = 1.0f;
 
 	public SniperRifle(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

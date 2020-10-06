@@ -10,15 +10,15 @@ import com.mygdx.hadal.statuses.Status;
 
 public class FracturePlate extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
 	private float procCdCount = 0;
-	private final static float cd = 5.0f;
+	private static final float cd = 5.0f;
 	
-	private final static float particleDura = 1.0f;
+	private static final float particleDura = 1.0f;
 	
-	private final static float maxShield = 15.0f;
+	private static final float maxShield = 15.0f;
 
 	private float shield;
 	

@@ -10,11 +10,11 @@ import com.mygdx.hadal.statuses.Status;
 
 public class HornsofAmmon extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 3;
+	private static final int statusNum = 1;
+	private static final int slotCost = 3;
 	
-	private final static float threshold = 5.0f;
-	private final static float invulnDura = 1.0f;
+	private static final float threshold = 5.0f;
+	private static final float invulnDura = 1.0f;
 	
 	public HornsofAmmon() {
 		super(slotCost, statusNum);

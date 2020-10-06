@@ -6,8 +6,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.enemies.*;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -33,15 +32,15 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class SpawnerSchmuck extends Event {
 	
 	private int limit;
-	private int extraField;
-	private float delay;
-	private boolean boss;
-	private String bossName;
+	private final int extraField;
+	private final float delay;
+	private final boolean boss;
+	private final String bossName;
 	
 	//this is the amount of enemies left
 	private int amountLeft = 0;
 		
-	private EnemyType type;
+	private final EnemyType type;
 	
 	public SpawnerSchmuck(PlayState state, Vector2 startPos, Vector2 size, String schmuckId, int limit, int extraField, float delay, boolean boss, String bossName) {
 		super(state, startPos, size);
@@ -77,9 +76,8 @@ public class SpawnerSchmuck extends Event {
 	
 	/**
 	 * This event is run when an enemy spawned by this event dies.
-	 * @param schmuck: the enemy that died
 	 */
-	public void onDeath(Schmuck schmuck) {
+	public void onDeath() {
 		amountLeft--;
 		
 		//if all enemies spawned by this have been defeated, activate connected event

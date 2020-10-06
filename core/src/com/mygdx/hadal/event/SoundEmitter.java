@@ -24,9 +24,9 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class SoundEmitter extends Event {
 	
-	private SoundEffect sound;
-	private float volume;
-	private boolean global, universal;
+	private final SoundEffect sound;
+	private final float volume;
+	private final boolean global, universal;
 	
 	public SoundEmitter(PlayState state, Vector2 startPos, Vector2 size, String sound, float volume, boolean global, boolean universal) {
 		super(state, startPos, size);

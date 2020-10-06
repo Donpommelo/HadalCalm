@@ -10,11 +10,11 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 
 public class RedTideTalisman extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float fireDuration = 5.0f;
-	private final static float fireDamage = 3.0f;
+	private static final float fireDuration = 5.0f;
+	private static final float fireDamage = 3.0f;
 	
 	public RedTideTalisman() {
 		super(slotCost, statusNum);

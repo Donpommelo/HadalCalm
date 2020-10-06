@@ -18,10 +18,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Scissorfish extends EnemySwimming {
 
-	private final static int baseHp = 100;
-	private final static String name = "SCISSORFISH";
+	private static final int baseHp = 100;
+	private static final String name = "SCISSORFISH";
 	
-	private final static int scrapDrop = 2;
+	private static final int scrapDrop = 2;
 	
 	private static final int width = 72;
 	private static final int height = 30;
@@ -74,13 +74,13 @@ public class Scissorfish extends EnemySwimming {
 		EnemyUtils.changeFloatingFreeAngle(this, 0.0f, 0.0f);
 		EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED, 120.0f);
 		
-		EnemyUtils.moveToPlayer(state, this, attackTarget, charge1Speed, 0.0f);
+		EnemyUtils.moveToPlayer(this, attackTarget, charge1Speed, 0.0f);
 		
 		for (int i = 0; i < attack1Amount; i++) {
 			
 			getActions().add(new EnemyAction(this, meleeInterval) {
 				
-				private Vector2 startVelo = new Vector2();
+				private final Vector2 startVelo = new Vector2();
 				@Override
 				public void execute() {
 					

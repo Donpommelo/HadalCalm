@@ -20,25 +20,25 @@ import com.mygdx.hadal.strategies.hitbox.Spread;
 
 public class CR4PCannon extends RangedWeapon {
 
-	private final static int clipSize = 2;
-	private final static int ammoSize = 22;
-	private final static float shootCd = 0.15f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.2f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 15.0f;
-	private final static float recoil = 15.0f;
-	private final static float knockback = 2.2f;
-	private final static float projectileSpeed = 25.0f;
-	private final static Vector2 projectileSize = new Vector2(20, 20);
-	private final static float lifespan = 0.8f;
+	private static final int clipSize = 2;
+	private static final int ammoSize = 22;
+	private static final float shootCd = 0.15f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 1.2f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 15.0f;
+	private static final float recoil = 15.0f;
+	private static final float knockback = 2.2f;
+	private static final float projectileSpeed = 25.0f;
+	private static final Vector2 projectileSize = new Vector2(20, 20);
+	private static final float lifespan = 0.8f;
 	
-	private final static int numProj = 6;
-	private final static int spread = 10;
+	private static final int numProj = 6;
+	private static final int spread = 10;
 	
-	private final static Sprite[] projSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
-	private final static Sprite weaponSprite = Sprite.MT_SHOTGUN;
-	private final static Sprite eventSprite = Sprite.P_SHOTGUN;
+	private static final Sprite[] projSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
+	private static final Sprite weaponSprite = Sprite.MT_SHOTGUN;
+	private static final Sprite eventSprite = Sprite.P_SHOTGUN;
 	
 	public CR4PCannon(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

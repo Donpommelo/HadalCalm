@@ -15,9 +15,9 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class ContactUnitSlow extends HitboxStrategy {
 	
 	//the percentage and duration of the slow
-	private float duration, slow;
+	private final float duration, slow;
 	
-	private Particle particle;
+	private final Particle particle;
 	
 	public ContactUnitSlow(PlayState state, Hitbox proj, BodyData user, float duration, float slow, Particle particle) {
 		super(state, proj, user);

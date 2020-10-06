@@ -1,14 +1,15 @@
 package com.mygdx.hadal.save;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.save.UnlockManager.UnlockTag;
-import com.mygdx.hadal.save.UnlockManager.UnlockType;
-import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.actives.*;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.save.UnlockManager.UnlockTag;
+import com.mygdx.hadal.save.UnlockManager.UnlockType;
+import com.mygdx.hadal.states.PlayState;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * An UnlockArtifact represents a single artifact in the game
@@ -54,7 +55,7 @@ public enum UnlockActives {
 	;
 	
 	//the active item represented by this unlock
-	private Class<? extends ActiveItem> active;
+	private final Class<? extends ActiveItem> active;
 	
 	//the active item's information
 	private InfoItem info;
@@ -67,7 +68,7 @@ public enum UnlockActives {
 	 * This acquires a list of all unlocked actives (if unlock is true. otherwise just return all actives that satisfy the tags)
 	 */
 	public static Array<UnlockActives> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
-		Array<UnlockActives> items = new Array<UnlockActives>();
+		Array<UnlockActives> items = new Array<>();
 		
 		for (UnlockActives u : UnlockActives.values()) {
 			
@@ -99,11 +100,11 @@ public enum UnlockActives {
 	/**
 	 * This method returns the name of a weapon randomly selected from the pool.
 	 * @param pool: comma separated list of names of weapons to choose from. if set to "", return any weapon in the random pool.
-	 * @return
+	 * @return the string name of the randomly selected item
 	 */
 	public static String getRandItemFromPool(PlayState state, String pool) {
 		
-		ArrayList<UnlockTag> defaultTags = new ArrayList<UnlockTag>();
+		ArrayList<UnlockTag> defaultTags = new ArrayList<>();
 		defaultTags.add(UnlockTag.RANDOM_POOL);
 		
 		if (pool.equals("")) {
@@ -111,10 +112,8 @@ public enum UnlockActives {
 			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).toString();
 		}
 		
-		ArrayList<String> weapons = new ArrayList<String>();
-		for (String id : pool.split(",")) {
-			weapons.add(id);
-		}
+		ArrayList<String> weapons = new ArrayList<>();
+		Collections.addAll(weapons, pool.split(","));
 		return weapons.get(GameStateManager.generator.nextInt(weapons.size()));
 	}
 	

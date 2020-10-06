@@ -1,10 +1,5 @@
 package com.mygdx.hadal.client;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
-import java.net.InetAddress;
-import java.util.HashMap;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector3;
@@ -19,33 +14,28 @@ import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.event.*;
+import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.*;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
-import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.Ragdoll;
-import com.mygdx.hadal.schmucks.bodies.SoundEntity;
-import com.mygdx.hadal.schmucks.bodies.enemies.*;
-import com.mygdx.hadal.server.PacketEffect;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.TitleState;
-import com.mygdx.hadal.states.ResultsState;
-import com.mygdx.hadal.states.SettingState;
+import com.mygdx.hadal.states.*;
+import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
-import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
-import com.mygdx.hadal.states.PlayState.TransitionState;
-import com.mygdx.hadal.states.GameState;
-import com.mygdx.hadal.states.PauseState;
+
+import java.net.InetAddress;
+import java.util.HashMap;
+
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * This is the client of the game
@@ -73,8 +63,8 @@ public class KryoClient {
     
     public KryoClient(GameStateManager gameStateManager) {
     	this.gsm = gameStateManager;
-    	scores = new HashMap<Integer, SavedPlayerFields>();
-    	scoresExtra = new HashMap<Integer, SavedPlayerFieldsExtra>();
+    	scores = new HashMap<>();
+    	scoresExtra = new HashMap<>();
     }
     
     /**
@@ -113,25 +103,21 @@ public class KryoClient {
 				}
 				
 				//return to the title. (if our client state is still there, we can do a fade out transition first.
-        		Gdx.app.postRunnable(new Runnable() {
-    				
-                    @Override
-                    public void run() {
-                    	gsm.removeState(ResultsState.class);
-                    	gsm.removeState(SettingState.class);
-                    	gsm.removeState(PauseState.class);
-                    	
-                    	if (cs != null) {
-                    		cs.returnToTitle(1.5f);
-                    	} else {
-                    		gsm.removeState(ClientState.class);
-                    	}
-                    }
-                });
+        		Gdx.app.postRunnable(() -> {
+					gsm.removeState(ResultsState.class);
+					gsm.removeState(SettingState.class);
+					gsm.removeState(PauseState.class);
+
+					if (cs != null) {
+						cs.returnToTitle(1.5f);
+					} else {
+						gsm.removeState(ClientState.class);
+					}
+				});
             }
         	
         	/**
-        	 * Note that the order of these if/elses is according to approximate frequency of packets.
+        	 * Note that the order of these if/else is according to approximate frequency of packets.
         	 * This might have a (very minor) effect on performance or something idk
         	 */
         	@Override
@@ -208,15 +194,11 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-
-							@Override
-							public void execute() {
-								if (p.worldPos != null) {
-									p.sound.playSourced(cs, p.worldPos, p.volume, p.pitch, p.singleton);
-								} else {
-									p.sound.play(gsm, p.volume, p.singleton);
-								}
+						cs.addPacketEffect(() -> {
+							if (p.worldPos != null) {
+								p.sound.playSourced(cs, p.worldPos, p.volume, p.pitch);
+							} else {
+								p.sound.play(gsm, p.volume, p.singleton);
 							}
 						});
 					}
@@ -231,14 +213,10 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						scores = p.scores;
-        						cs.getScoreWindow().syncScoreTable();
-        					}
-        				});
+						cs.addPacketEffect(() -> {
+							scores = p.scores;
+							cs.getScoreWindow().syncScoreTable();
+						});
 					}
         		}
         		
@@ -251,18 +229,14 @@ public class KryoClient {
         			final ClientState cs = getClientState();
         			
 					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-	    					
-	    					@Override
-	    					public void execute() {
-	    						HadalEntity entity = cs.findEntity(p.entityID);
-	    						if (entity != null) {
-	    							if (entity instanceof Event) {
-	    								((Event) entity).getEventData().onActivate(null, null);
-	    							}
-	    						}
-	    					}
-    					});
+						cs.addPacketEffect(() -> {
+							HadalEntity entity = cs.findEntity(p.entityID);
+							if (entity != null) {
+								if (entity instanceof Event) {
+									((Event) entity).getEventData().onActivate(null, null);
+								}
+							}
+						});
 					}
         		}
         		
@@ -273,13 +247,7 @@ public class KryoClient {
         			final ClientState cs = getClientState();
         			
 					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-	    					
-	    					@Override
-	    					public void execute() {
-	    						cs.syncLatency();
-	    					}
-						});
+						cs.addPacketEffect(cs::syncLatency);
 					}
 				}
         		
@@ -322,31 +290,23 @@ public class KryoClient {
         			if (cs != null) {
         				cs.setNextState(TransitionState.NEWLEVEL);
         			}
-        			Gdx.app.postRunnable(new Runnable() {
-        				
-                        @Override
-                        public void run() {
-                        	gsm.getApp().fadeOut();
-                        	gsm.getApp().setRunAfterTransition(new Runnable() {
+        			Gdx.app.postRunnable(() -> {
+						gsm.getApp().fadeOut();
+						gsm.getApp().setRunAfterTransition(() -> {
+							gsm.removeState(ResultsState.class);
+							gsm.removeState(SettingState.class);
+							gsm.removeState(PauseState.class);
 
-								@Override
-								public void run() {
-									gsm.removeState(ResultsState.class);
-									gsm.removeState(SettingState.class);
-									gsm.removeState(PauseState.class);
-									
-									boolean spectator = false;
-									if (cs != null) {
-										spectator = cs.isSpectatorMode();
-									}
-									
-		                        	gsm.removeState(ClientState.class);
-		                			gsm.addClientPlayState(p.level, new Loadout(gsm.getLoadout()), TitleState.class);
-		                	        HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator, gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
-								}
-                        	});
-                        }
-                    });
+							boolean spectator = false;
+							if (cs != null) {
+								spectator = cs.isSpectatorMode();
+							}
+
+							gsm.removeState(ClientState.class);
+							gsm.addClientPlayState(p.level, new Loadout(gsm.getLoadout()), TitleState.class);
+							HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator, gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
+						});
+					});
         		}
         		
         		/*
@@ -367,13 +327,7 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						cs.beginTransition(p.state, p.override, p.resultsText, p.fadeSpeed, p.fadeDelay);
-        					}
-        				});
+						cs.addPacketEffect(() -> cs.beginTransition(p.state, p.override, p.resultsText, p.fadeSpeed, p.fadeDelay));
 					}
         		}
         		
@@ -387,13 +341,7 @@ public class KryoClient {
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
         				final ClientState cs = (ClientState) gsm.getStates().peek();
 
-        				cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						cs.getGsm().addPauseState(cs, p.pauser, ClientState.class, p.paused);
-        					}
-        				});
+        				cs.addPacketEffect(() -> cs.getGsm().addPauseState(cs, p.pauser, ClientState.class, p.paused));
         			}
         		}
         		
@@ -423,13 +371,7 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						Gdx.app.postRunnable(new Runnable() {
-	        				
-	                        @Override
-	                        public void run() {
-	                        	addNotification(cs, p.name, p.text, p.type);
-	                        }
-						});
+						Gdx.app.postRunnable(() -> addNotification(cs, p.name, p.text, p.type));
 					}
         		}
         		
@@ -442,14 +384,10 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						gsm.setHostSetting(p.settings);
-        						cs.getScoreWindow().syncSettingTable();
-        					}
-        				});
+						cs.addPacketEffect(() -> {
+							gsm.setHostSetting(p.settings);
+							cs.getScoreWindow().syncSettingTable();
+						});
 					}
         		}
         		
@@ -462,13 +400,7 @@ public class KryoClient {
         			
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
 						final ResultsState vs =  (ResultsState) gsm.getStates().peek();
-						Gdx.app.postRunnable(new Runnable() {
-	        				
-	                        @Override
-	                        public void run() {
-	                        	vs.readyPlayer(p.playerId);
-	                        }
-						});
+						Gdx.app.postRunnable(() -> vs.readyPlayer(p.playerId));
 					}
         		}
         		
@@ -481,20 +413,16 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-	    					
-	    					@Override
-	    					public void execute() {
-	    						HadalEntity entity = cs.findEntity(p.entityID);
-	    						
-	    						if (entity != null) {
-	    							if (entity instanceof Player) {
-	    								((Player) entity).getPlayerData().syncLoadout(p.loadout);
-	    								cs.getUiHub().refreshHub();
-	    							}
-	    						}
-	    					}
-    					});
+						cs.addPacketEffect(() -> {
+							HadalEntity entity = cs.findEntity(p.entityID);
+
+							if (entity != null) {
+								if (entity instanceof Player) {
+									((Player) entity).getPlayerData().syncLoadout(p.loadout);
+									cs.getUiHub().refreshHub();
+								}
+							}
+						});
 					}
         		}
         		
@@ -506,14 +434,10 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-
-							@Override
-							public void execute() {
-								cs.getUiExtra().changeTypes(p.uiTags, true);
-								cs.getUiExtra().setTimer(p.timer);
-								cs.getUiExtra().setTimerIncr(p.timerIncr);
-							}
+						cs.addPacketEffect(() -> {
+							cs.getUiExtra().changeTypes(p.uiTags, true);
+							cs.getUiExtra().setTimer(p.timer);
+							cs.getUiExtra().setTimerIncr(p.timerIncr);
 						});
 					}
         		}
@@ -526,20 +450,16 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
+						cs.addPacketEffect(() -> {
 
-							@Override
-							public void execute() {
-								
-								//no entity info means use the shader on the state background
-								if (p.entityID == null) {
-									cs.setShaderBase(p.shader);
-								} else {
-									HadalEntity entity = cs.findEntity(p.entityID);
-		    						
-		    						if (entity != null) {
-		    							entity.setShader(p.shader, p.shaderCount);
-		    						}
+							//no entity info means use the shader on the state background
+							if (p.entityID == null) {
+								cs.setShaderBase(p.shader);
+							} else {
+								HadalEntity entity = cs.findEntity(p.entityID);
+
+								if (entity != null) {
+									entity.setShader(p.shader, p.shaderCount);
 								}
 							}
 						});
@@ -555,13 +475,7 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-
-							@Override
-							public void execute() {
-								HadalGame.musicPlayer.playSong(MusicTrack.valueOf(p.music), p.volume);
-							}
-						});
+						cs.addPacketEffect(() -> HadalGame.musicPlayer.playSong(MusicTrack.valueOf(p.music), p.volume));
 					}
         		}
         		
@@ -587,22 +501,18 @@ public class KryoClient {
 		
 		/*
 		 * The Server tells us to create a new entity.
-		 * Create a Client Illusion with the specified dimentions
+		 * Create a Client Illusion with the specified dimensions
 		 */
 		if (o instanceof Packets.CreateEntity) {
 			final Packets.CreateEntity p = (Packets.CreateEntity) o;
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.addPacketEffect(new PacketEffect() {
-					
-					@Override
-					public void execute() {
-						ClientIllusion illusion = new ClientIllusion(cs, p.pos, p.size, p.angle, p.sprite, p.align);
-						illusion.serverPos.set(p.pos).scl(1 / PPM);
-						illusion.serverAngle.setAngleRad(p.angle);
-        				cs.addEntity(p.entityID, illusion, p.synced, p.layer);
-					}
+				cs.addPacketEffect(() -> {
+					ClientIllusion illusion = new ClientIllusion(cs, p.pos, p.size, p.angle, p.sprite, p.align);
+					illusion.serverPos.set(p.pos).scl(1 / PPM);
+					illusion.serverAngle.setAngleRad(p.angle);
+					cs.addEntity(p.entityID, illusion, p.synced, p.layer);
 				});
 			}
 			return true;
@@ -617,13 +527,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.addPacketEffect(new PacketEffect() {
-					
-					@Override
-					public void execute() {
-						cs.syncEntity(p.entityID, p, 0.0f, p.timestamp);
-					}
-				});
+				cs.addPacketEffect(() -> cs.syncEntity(p.entityID, p, 0.0f, p.timestamp));
 			}
 			return true;
 		}
@@ -637,25 +541,18 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.addPacketEffect(new PacketEffect() {
-					
-					@Override
-					public void execute() {
-						if (p.attached) {
-							ParticleEntity entity = new ParticleEntity(cs, null, Particle.valueOf(p.particle), p.linger, p.lifespan, p.startOn, particleSyncType.NOSYNC, p.pos);
-							entity.setAttachedId(p.attachedID);
-							cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
-							entity.setScale(p.scale);
-							entity.setRotate(p.rotate);
-							entity.setColor(p.color);
-						} else {
-							ParticleEntity entity = new ParticleEntity(cs, p.pos, Particle.valueOf(p.particle), p.lifespan, p.startOn, particleSyncType.NOSYNC);
-    						cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
-    						entity.setScale(p.scale);
-							entity.setRotate(p.rotate);
-							entity.setColor(p.color);
-						}
-    				}
+				cs.addPacketEffect(() -> {
+					ParticleEntity entity;
+					if (p.attached) {
+						entity = new ParticleEntity(cs, null, Particle.valueOf(p.particle), p.linger, p.lifespan, p.startOn, particleSyncType.NOSYNC, p.pos);
+						entity.setAttachedId(p.attachedID);
+					} else {
+						entity = new ParticleEntity(cs, p.pos, Particle.valueOf(p.particle), p.lifespan, p.startOn, particleSyncType.NOSYNC);
+					}
+					cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
+					entity.setScale(p.scale);
+					entity.setRotate(p.rotate);
+					entity.setColor(p.color);
 				});
 			}
 			return true;
@@ -670,15 +567,11 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.addPacketEffect(new PacketEffect() {
-					
-					@Override
-					public void execute() {
-						SoundEntity entity = new SoundEntity(cs, null, SoundEffect.valueOf(p.sound), p.volume, p.pitch, p.looped, p.on, soundSyncType.NOSYNC);
-						
-						entity.setAttachedId(p.attachedID);
-						cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
-    				}
+				cs.addPacketEffect(() -> {
+					SoundEntity entity = new SoundEntity(cs, null, SoundEffect.valueOf(p.sound), p.volume, p.pitch, p.looped, p.on, soundSyncType.NOSYNC);
+
+					entity.setAttachedId(p.attachedID);
+					cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
 				});
 			}
 			return true;
@@ -693,21 +586,15 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.addPacketEffect(new PacketEffect() {
-					
-					@Override
-					public void execute() {
-						
-						Enemy enemy = p.type.generateEnemy(cs, p.pos, Constants.ENEMY_HITBOX, 0, null);
-						enemy.serverPos.set(p.pos).scl(1 / PPM);
-						if (enemy != null) {
-							cs.addEntity(p.entityID, enemy, true, ObjectSyncLayers.STANDARD);
-							enemy.setBoss(p.boss);
-							if (p.boss) {
-								enemy.setName(p.name);
-    							cs.setBoss(enemy);
-    						}
-						}
+				cs.addPacketEffect(() -> {
+
+					Enemy enemy = p.type.generateEnemy(cs, p.pos, Constants.ENEMY_HITBOX, 0, null);
+					enemy.serverPos.set(p.pos).scl(1 / PPM);
+					cs.addEntity(p.entityID, enemy, true, ObjectSyncLayers.STANDARD);
+					enemy.setBoss(p.boss);
+					if (p.boss) {
+						enemy.setName(p.name);
+						cs.setBoss(enemy);
 					}
 				});
 			}
@@ -724,23 +611,19 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.addPacketEffect(new PacketEffect() {
-					
-					@Override
-					public void execute() {
-						
-						Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, true, p.connID == connID);
-						
-        				newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
-        				newPlayer.setStartPos(p.startPosition);
-        				cs.addEntity(p.entityID, newPlayer, true, ObjectSyncLayers.STANDARD);
-        				
-						if (p.connID == connID) {
-							cs.setPlayer(newPlayer);
-							
-							//set camera to look at new client player.
-            				cs.getCamera().position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
-        				}
+				cs.addPacketEffect(() -> {
+
+					Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, true, p.connID == connID);
+
+					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
+					newPlayer.setStartPos(p.startPosition);
+					cs.addEntity(p.entityID, newPlayer, true, ObjectSyncLayers.STANDARD);
+
+					if (p.connID == connID) {
+						cs.setPlayer(newPlayer);
+
+						//set camera to look at new client player.
+						cs.getCamera().position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
 					}
 				});
 			}
@@ -756,18 +639,14 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.addPacketEffect(new PacketEffect() {
-					
-					@Override
-					public void execute() {
-						MapObject blueprint = p.blueprint;
-						blueprint.getProperties().put("sync", "USER");
-						
-						Event e = TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint);
+				cs.addPacketEffect(() -> {
+					MapObject blueprint = p.blueprint;
+					blueprint.getProperties().put("sync", "USER");
 
-						e.serverPos.set(e.getStartPos()).scl(1 / PPM);
-						cs.addEntity(p.entityID, e, p.synced, ObjectSyncLayers.STANDARD);
-    				}
+					Event e = TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint);
+
+					e.serverPos.set(e.getStartPos()).scl(1 / PPM);
+					cs.addEntity(p.entityID, e, p.synced, ObjectSyncLayers.STANDARD);
 				});
 			}
 			return true;
@@ -781,13 +660,9 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.addPacketEffect(new PacketEffect() {
-					
-					@Override
-					public void execute() {
-						Ragdoll entity = new Ragdoll(cs, p.pos, p.size, p.sprite, p.velocity, p.duration, p.gravity, p.setVelo, p.sensor, false);
-						cs.addEntity(p.entityID, entity, false, ObjectSyncLayers.STANDARD);
-    				}
+				cs.addPacketEffect(() -> {
+					Ragdoll entity = new Ragdoll(cs, p.pos, p.size, p.sprite, p.velocity, p.duration, p.gravity, p.setVelo, p.sensor, false);
+					cs.addEntity(p.entityID, entity, false, ObjectSyncLayers.STANDARD);
 				});
 			}
 			return true;
@@ -801,14 +676,10 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.addPacketEffect(new PacketEffect() {
-					
-					@Override
-					public void execute() {
-						PickupEquip pickup = new PickupEquip(cs, p.pos, "");
-						pickup.setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
-						cs.addEntity(p.entityID, pickup, p.synced, ObjectSyncLayers.STANDARD);
-    				}
+				cs.addPacketEffect(() -> {
+					PickupEquip pickup = new PickupEquip(cs, p.pos, "");
+					pickup.setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
+					cs.addEntity(p.entityID, pickup, p.synced, ObjectSyncLayers.STANDARD);
 				});
 			}
 			return true;
@@ -900,7 +771,7 @@ public class KryoClient {
 	
 	/**
 	 * Search for nearby servers.
-	 * @return: The address of the server if found and a "Nope" otherwise
+	 * @return The address of the server if found and a "Nope" otherwise
 	 */
 	public String searchServer() {
 		if (client == null) { init(); }
@@ -916,7 +787,7 @@ public class KryoClient {
 	
 	/**
 	 * Similar to getPlayState for server. This returns the ClientState, even if it is underneath a pause or setting state.
-	 * @return: The current clientstate
+	 * @return The current clientstate
 	 */
 	public ClientState getClientState() {
 		if (!gsm.getStates().empty()) {

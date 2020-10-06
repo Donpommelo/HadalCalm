@@ -9,12 +9,12 @@ import com.mygdx.hadal.utils.Stats;
 
 public class WhiteWhaleCharm extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
-	private final static float bonusProjectileSize = 0.4f;
-	private final static float attackSpdReduction = -0.5f;
-	private final static float bonusDamage = 0.4f;
+	private static final float bonusProjectileSize = 0.4f;
+	private static final float attackSpdReduction = -0.5f;
+	private static final float bonusDamage = 0.4f;
 	
 	public WhiteWhaleCharm() {
 		super(slotCost, statusNum);

@@ -41,7 +41,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.utils.Constants;
 
 /**
- * This contains several statichelper methods for creating enemy attack patterns
+ * This contains several static helper methods for creating enemy attack patterns
  * @author Zachary Tu
  */
 public class EnemyUtils {
@@ -62,7 +62,7 @@ public class EnemyUtils {
 		});
 	}
 	
-	public static void changeMoveState(final PlayState state, final Enemy boss, final MoveState moveState, float duration) {
+	public static void changeMoveState(final Enemy boss, final MoveState moveState, float duration) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {
 			
@@ -101,7 +101,6 @@ public class EnemyUtils {
 					bossFloating.setSpinSpeed((int) angle);
 					break;
 				case TRACKING_PLAYER:
-					break;
 				default:
 					break;
 				}
@@ -207,7 +206,6 @@ public class EnemyUtils {
 					turret.setDesiredAngle(turret.getAttackAngle() + angle);
 					break;
 				case TRACKING:
-					break;
 				default:
 					break;
 				}
@@ -229,7 +227,7 @@ public class EnemyUtils {
 		});
 	}
 	
-	public static void moveToPlayer(final PlayState state, Enemy boss, final HadalEntity target, final int moveSpeed, final float duration) {
+	public static void moveToPlayer(Enemy boss, final HadalEntity target, final int moveSpeed, final float duration) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {
 			
@@ -246,7 +244,7 @@ public class EnemyUtils {
 		});
 	}
 	
-	public static void trackPlayerXY(final PlayState state, Enemy boss, final HadalEntity target, final int moveSpeed, final float duration, final boolean x) {
+	public static void trackPlayerXY(Enemy boss, final HadalEntity target, final int moveSpeed, final float duration, final boolean x) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {
 			
@@ -433,7 +431,7 @@ public class EnemyUtils {
 		});
 	}
 	
-	private final static Sprite[] debrisSprites = {Sprite.METEOR_A, Sprite.METEOR_B, Sprite.METEOR_C, Sprite.METEOR_D, Sprite.METEOR_E, Sprite.METEOR_F};
+	private static final Sprite[] debrisSprites = {Sprite.METEOR_A, Sprite.METEOR_B, Sprite.METEOR_C, Sprite.METEOR_D, Sprite.METEOR_E, Sprite.METEOR_F};
 	public static void fallingDebris(final PlayState state, Enemy boss, final float baseDamage, final int size, final float knockback, final float lifespan, final float duration) {
 		
 		boss.getSecondaryActions().add(new EnemyAction(boss, duration) {

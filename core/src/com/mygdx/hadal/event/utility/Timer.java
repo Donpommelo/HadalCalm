@@ -19,7 +19,7 @@ import com.mygdx.hadal.states.PlayState;
 public class Timer extends Event {
 	
 	//How frequently will this event trigger its connected event?
-	private float interval;
+	private final float interval;
 	
 	//These keep track of how long until this triggers its connected event and how many times it can trigger again.
 	private float timeCount = 0;
@@ -43,14 +43,16 @@ public class Timer extends Event {
 				
 				if (activator.getEvent() instanceof TriggerAlt) {
 					String msg = ((TriggerAlt) activator.getEvent()).getMessage();
-					if (msg.equals("on")) {
-						((Timer) event).on = true;
-					}
-					else if (msg.equals("off")) {
-						((Timer) event).on = false;
-					}
-					else if (msg.equals("reset")) {
-						timeCount = 0;
+					switch (msg) {
+						case "on":
+							((Timer) event).on = true;
+							break;
+						case "off":
+							((Timer) event).on = false;
+							break;
+						case "reset":
+							timeCount = 0;
+							break;
 					}
 				} else {
 					((Timer) event).on = !((Timer) event).on;

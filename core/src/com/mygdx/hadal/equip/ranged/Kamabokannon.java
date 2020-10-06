@@ -23,24 +23,24 @@ import com.mygdx.hadal.strategies.hitbox.DieParticles;
 
 public class Kamabokannon extends RangedWeapon {
 
-	private final static int clipSize = 100;
-	private final static int ammoSize = 500;
-	private final static float shootCd = 0.08f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.8f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 13.0f;
-	private final static float recoil = 3.0f;
-	private final static float knockback = 6.0f;
-	private final static float projectileSpeed = 25.0f;
-	private final static Vector2 projectileSize = new Vector2(60, 50);
-	private final static float lifespan = 2.0f;
+	private static final int clipSize = 100;
+	private static final int ammoSize = 500;
+	private static final float shootCd = 0.08f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = 1.8f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 13.0f;
+	private static final float recoil = 3.0f;
+	private static final float knockback = 6.0f;
+	private static final float projectileSpeed = 25.0f;
+	private static final Vector2 projectileSize = new Vector2(60, 50);
+	private static final float lifespan = 2.0f;
 	
-	private final static Sprite weaponSprite = Sprite.MT_BOILER;
-	private final static Sprite eventSprite = Sprite.P_BOILER;
+	private static final Sprite weaponSprite = Sprite.MT_BOILER;
+	private static final Sprite eventSprite = Sprite.P_BOILER;
 	
 	private static final float maxCharge = 0.3f;
-	private final static float lerpSpeed = 0.2f;
+	private static final float lerpSpeed = 0.2f;
 
 	private SoundEntity oozeSound;
 	
@@ -49,8 +49,8 @@ public class Kamabokannon extends RangedWeapon {
 	}
 	
 	private float controllerCount = 0;
-	private final static float pushInterval = 1 / 60f;
-	private Vector2 aimPointer = new Vector2();
+	private static final float pushInterval = 1 / 60f;
+	private final Vector2 aimPointer = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		controllerCount += delta;

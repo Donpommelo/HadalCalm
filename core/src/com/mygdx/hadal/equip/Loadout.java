@@ -1,23 +1,19 @@
 package com.mygdx.hadal.equip;
 
+import com.mygdx.hadal.save.*;
+
 import java.util.Arrays;
 
-import com.mygdx.hadal.save.SavedLoadout;
-import com.mygdx.hadal.save.UnlockActives;
-import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.save.UnlockCharacter;
-import com.mygdx.hadal.save.UnlockEquip;
-
 /**
- * A Loadout represent's a player's tools, artifact, active item and character skin.
+ * A Loadout represents a player's tools, artifact, active item and character skin.
  * @author Zachary Tu
  */
 public class Loadout {
 
-	public final static int baseWeaponSlots = 3;
-	public final static int maxWeaponSlots = 4;
+	public static final int baseWeaponSlots = 3;
+	public static final int maxWeaponSlots = 4;
 	
-	public final static int maxArtifactSlots = 12;
+	public static final int maxArtifactSlots = 12;
 	
 	public UnlockEquip[] multitools;
 	public UnlockArtifact[] artifacts;
@@ -53,18 +49,18 @@ public class Loadout {
 	}
 	
 	/**
-	 * This generates a new loadout from a prexisting one.
+	 * This generates a new loadout from a preexisting one.
 	 */
 	public Loadout(Loadout old) {
 		multitools = new UnlockEquip[maxWeaponSlots];
 		artifacts = new UnlockArtifact[maxArtifactSlots];
 		Arrays.fill(multitools, UnlockEquip.NOTHING);
 		Arrays.fill(artifacts, UnlockArtifact.NOTHING);
-		
+
 		for (int i = 0; i < maxWeaponSlots; i++) {
 			multitools[i] = old.multitools[i];
 		}
-		
+
 		for (int i = 0; i < maxArtifactSlots; i++) {
 			artifacts[i] = old.artifacts[i];
 		}

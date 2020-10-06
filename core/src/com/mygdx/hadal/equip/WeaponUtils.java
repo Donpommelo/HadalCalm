@@ -1,23 +1,19 @@
 package com.mygdx.hadal.equip;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.Scrap;
 import com.mygdx.hadal.event.Event.eventSyncTypes;
+import com.mygdx.hadal.event.Scrap;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.Sensor;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -26,31 +22,13 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.CreateSound;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
-import com.mygdx.hadal.strategies.hitbox.DamageStatic;
-import com.mygdx.hadal.strategies.hitbox.DieExplode;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
-import com.mygdx.hadal.strategies.hitbox.DieSound;
-import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
-import com.mygdx.hadal.strategies.hitbox.ExplosionDefault;
-import com.mygdx.hadal.strategies.hitbox.FlashNearDeath;
-import com.mygdx.hadal.strategies.hitbox.HomingUnit;
-import com.mygdx.hadal.strategies.hitbox.Pushable;
-import com.mygdx.hadal.strategies.hitbox.Spread;
-import com.mygdx.hadal.strategies.hitbox.Static;
+import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * This util contains several shortcuts for hitbox-spawning effects for weapons or other items.
@@ -61,11 +39,11 @@ public class WeaponUtils {
 
 	private static final float selfDamageReduction = 0.5f;
 	private static final float explosionSpriteScaling = 1.5f;
-	private final static Sprite boomSprite = Sprite.BOOM;
-	private final static Sprite grenadeSprite = Sprite.GRENADE;
-	private final static Sprite torpedoSprite = Sprite.TORPEDO;
-	private final static Sprite missileSprite = Sprite.MISSILE_B;
-	private final static Sprite beeSprite = Sprite.BEE;
+	private static final Sprite boomSprite = Sprite.BOOM;
+	private static final Sprite grenadeSprite = Sprite.GRENADE;
+	private static final Sprite torpedoSprite = Sprite.TORPEDO;
+	private static final Sprite missileSprite = Sprite.MISSILE_B;
+	private static final Sprite beeSprite = Sprite.BEE;
 
 	public static Hitbox createExplosion(PlayState state, Vector2 startPos, float size, Schmuck user, float explosionDamage, float explosionKnockback, short filter) {
 		
@@ -80,7 +58,7 @@ public class WeaponUtils {
 		return hbox;
 	}
 	
-	public static Hitbox createGrenade(PlayState state, Vector2 startPos, Vector2 size, Schmuck user, float baseDamage, float knockback, float lifespan, 
+	public static void createGrenade(PlayState state, Vector2 startPos, Vector2 size, Schmuck user, float baseDamage, float knockback, float lifespan,
 			Vector2 startVelocity, boolean procEffects, int explosionRadius, float explosionDamage, float explosionKnockback, short filter) {
 		
 		Hitbox hbox = new RangedHitbox(state, startPos, size, lifespan, startVelocity, filter, false, procEffects, user, grenadeSprite);
@@ -95,11 +73,9 @@ public class WeaponUtils {
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.4f));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.2f));
 		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
-
-		return hbox;
 	}
 	
-	public static Hitbox createTorpedo(PlayState state, Vector2 startPos, Vector2 size, Schmuck user, float baseDamage, float knockback, float lifespan,
+	public static void createTorpedo(PlayState state, Vector2 startPos, Vector2 size, Schmuck user, float baseDamage, float knockback, float lifespan,
 			Vector2 startVelocity, boolean procEffects,	int explosionRadius, float explosionDamage, float explosionKnockback, short filter) {
 		
 		Hitbox hbox = new RangedHitbox(state, startPos, size, lifespan, startVelocity, filter, true, procEffects, user, torpedoSprite);
@@ -113,8 +89,6 @@ public class WeaponUtils {
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_TRAIL, 0.0f, 1.0f));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION1, 0.5f));
 		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
-		
-		return hbox;
 	}
 	
 	private static final float torpedoBaseDamage = 3.0f;
@@ -127,7 +101,7 @@ public class WeaponUtils {
 	private static final int torpedoSpread = 30;
 	private static final float torpedoHoming = 100;
 	
-	public static Hitbox createHomingTorpedo(PlayState state, Vector2 startPos, Schmuck user, float damage, int numTorp, int spread, Vector2 startVelocity, boolean procEffects, short filter) {
+	public static void createHomingTorpedo(PlayState state, Vector2 startPos, Schmuck user, float damage, int numTorp, Vector2 startVelocity, boolean procEffects, short filter) {
 		
 		for (int i = 0; i < numTorp; i++) {
 			
@@ -144,8 +118,6 @@ public class WeaponUtils {
 			hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
 			hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
 		}
-		
-		return null;
 	}
 	
 	private static final float beeBaseDamage = 6.0f;
@@ -154,8 +126,8 @@ public class WeaponUtils {
 	private static final int beeHeight = 18;
 	private static final int beeDurability = 5;
 	private static final float beeLifespan = 5.0f;
-	private final static int beeSpread = 60;
-	private final static float beeHoming = 100;
+	private static final int beeSpread = 60;
+	private static final float beeHoming = 100;
 	
 	public static Hitbox createBees(PlayState state, Vector2 startPos, Schmuck user, int numBees, Vector2 startVelocity, boolean procEffects, short filter) {
 
@@ -201,8 +173,8 @@ public class WeaponUtils {
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 	}
 	
-	private final static float primeDelay = 1.0f;
-	private final static float projDampen = 1.0f;
+	private static final float primeDelay = 1.0f;
+	private static final float projDampen = 1.0f;
 	public static void createNauticalMine(PlayState state, Vector2 startPos, Schmuck user, Vector2 startVelocity, float mineSize, float mineLifespan, float explosionDamage, float explosionKnockback, int explosionRadius) {
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(mineSize, mineSize), mineLifespan, startVelocity, (short) 0, false, false, user, Sprite.NAVAL_MINE);
 		hbox.setRestitution(0.5f);
@@ -224,11 +196,11 @@ public class WeaponUtils {
 		});
 	}
 	
-	private final static Sprite[] projSprites = {Sprite.METEOR_A, Sprite.METEOR_B, Sprite.METEOR_C, Sprite.METEOR_D, Sprite.METEOR_E, Sprite.METEOR_F};
-	private final static Vector2 meteorSize = new Vector2(75, 75);
-	private final static float meteorSpeed = 50.0f;
-	private final static float range = 1500.0f;
-	private final static float lifespan = 5.0f;
+	private static final Sprite[] projSprites = {Sprite.METEOR_A, Sprite.METEOR_B, Sprite.METEOR_C, Sprite.METEOR_D, Sprite.METEOR_E, Sprite.METEOR_F};
+	private static final Vector2 meteorSize = new Vector2(75, 75);
+	private static final float meteorSpeed = 50.0f;
+	private static final float range = 1500.0f;
+	private static final float lifespan = 5.0f;
 	
 	public static void createMeteors(PlayState state, Vector2 startPos, Schmuck user, float meteorDuration, float meteorInterval, float spread, float baseDamage, float knockback) {
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(1, 1), meteorDuration, new Vector2(), (short) 0, false, false, user, Sprite.NOTHING);
@@ -241,8 +213,8 @@ public class WeaponUtils {
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private float shortestFraction;
-			private Vector2 originPt = new Vector2();
-			private Vector2 endPt = new Vector2();
+			private final Vector2 originPt = new Vector2();
+			private final Vector2 endPt = new Vector2();
 			
 			private float procCdCount;
 			private float meteorCount;
@@ -265,16 +237,12 @@ public class WeaponUtils {
 					
 					if (originPt.x != endPt.x || originPt.y != endPt.y) {
 
-						state.getWorld().rayCast(new RayCastCallback() {
-
-							@Override
-							public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-								if (fixture.getFilterData().categoryBits == (short) Constants.BIT_WALL && fraction < shortestFraction) {
-									shortestFraction = fraction;
-									return fraction;
-							}
-							return -1.0f;
-							}
+						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
+							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL && fraction < shortestFraction) {
+								shortestFraction = fraction;
+								return fraction;
+						}
+						return -1.0f;
 						}, originPt, endPt);
 					}
 					
@@ -290,7 +258,7 @@ public class WeaponUtils {
 					hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.FIRE, DamageTypes.MAGIC));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 						
-						private Vector2 floor = new Vector2(endPt);
+						private final Vector2 floor = new Vector2(endPt);
 						@Override
 						public void controller(float delta) {
 							if (hbox.getPixelPosition().y - hbox.getSize().y / 2 <= floor.y) {
@@ -307,10 +275,10 @@ public class WeaponUtils {
 		});
 	}
 	
-	private final static Vector2 pingSize = new Vector2(60, 54);
-	private final static Vector2 pingArrowSize = new Vector2(60, 33);
-	private final static float pingLifespan = 2.0f;
-	private final static float pingKnockback = 10.0f;
+	private static final Vector2 pingSize = new Vector2(60, 54);
+	private static final Vector2 pingArrowSize = new Vector2(60, 33);
+	private static final float pingLifespan = 2.0f;
+	private static final float pingKnockback = 10.0f;
 	public static void ping(PlayState state, Vector2 startPos, Schmuck user, short filter) {
 		SoundEffect.PING.playUniversal(state, startPos, 0.6f, false);
 
@@ -383,7 +351,7 @@ public class WeaponUtils {
 						}
 					}
 				};
-				this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0, 0, false, false, Constants.BIT_SENSOR, (short)Constants.BIT_PLAYER, (short) 0, true, eventData);
+				this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0, 0, false, false, Constants.BIT_SENSOR, Constants.BIT_PLAYER, (short) 0, true, eventData);
 				
 				FixtureBuilder.createFixtureDef(body, new Vector2(), size, false, 0, 0, 0.0f, 1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0);
 			}
@@ -397,8 +365,6 @@ public class WeaponUtils {
 		
 		switch(type) {
 		case AMMO:
-			pickup.setEventSprite(Sprite.FUEL);
-			break;
 		case FUEL:
 			pickup.setEventSprite(Sprite.FUEL);
 			break;
@@ -416,7 +382,7 @@ public class WeaponUtils {
 	 */
 	public static void spawnScrap(PlayState state, int amount, Vector2 startPos, boolean statCheck) {
 		
-		int modifiedAmount = 0;
+		int modifiedAmount;
 		
 		if (statCheck) {
 			if (state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount < 1.0f && state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) > 0) {

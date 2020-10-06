@@ -8,11 +8,11 @@ import com.mygdx.hadal.utils.Stats;
 
 public class AbyssalInsignia extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float hpThreshold = 0.2f;
-	private final static float bonusDamage = 2.0f;
+	private static final float hpThreshold = 0.2f;
+	private static final float bonusDamage = 2.0f;
 	
 	public AbyssalInsignia() {
 		super(slotCost, statusNum);

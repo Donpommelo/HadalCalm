@@ -37,13 +37,13 @@ public class EnemyFloating extends Enemy {
 		this.currentState = FloatingState.TRACKING_PLAYER;
 		
 		if (!sprite.equals(Sprite.NOTHING)) {
-			this.floatingSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeedFast, sprite.getFrames());
+			this.floatingSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, sprite.getFrames());
 			this.floatingSprite.setPlayMode(PlayMode.LOOP_PINGPONG);
 		}
 	}
 
-	private Vector2 entityWorldLocation = new Vector2();
-	private Vector2 targetWorldLocation = new Vector2();
+	private final Vector2 entityWorldLocation = new Vector2();
+	private final Vector2 targetWorldLocation = new Vector2();
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);
@@ -93,7 +93,7 @@ public class EnemyFloating extends Enemy {
 	/**
 	 * draws enemy
 	 */
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		
@@ -104,7 +104,7 @@ public class EnemyFloating extends Enemy {
 		}
 		
 		entityLocation.set(getPixelPosition());
-		batch.draw((TextureRegion) floatingSprite.getKeyFrame(animationTime, true), 
+		batch.draw(floatingSprite.getKeyFrame(animationTime, true),
 				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
 				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, 
@@ -114,8 +114,8 @@ public class EnemyFloating extends Enemy {
 		super.render(batch);
 	}
 	
-	private Vector2 originPt = new Vector2();
-	private Vector2 addVelo = new Vector2();
+	private final Vector2 originPt = new Vector2();
+	private final Vector2 addVelo = new Vector2();
 	@Override
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
 		originPt.set(getPixelPosition()).add(addVelo.set(startVelo).nor().scl(getHboxSize().x / 2));

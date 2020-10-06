@@ -1,12 +1,12 @@
 package com.mygdx.hadal.save;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
+
+import java.util.ArrayList;
 
 /**
  * An UnlockLevel represents a single level in the game
@@ -94,7 +94,7 @@ public enum UnlockLevel {
 	;
 	
 	//the level's filename
-	private String map;
+	private final String map;
 	
 	//information about the map
 	private InfoItem info;
@@ -119,7 +119,7 @@ public enum UnlockLevel {
 	 * This acquires a list of all unlocked maps (if unlock is true. otherwise just return all maps that satisfy the tags)
 	 */
 	public static Array<UnlockLevel> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
-		Array<UnlockLevel> items = new Array<UnlockLevel>();
+		Array<UnlockLevel> items = new Array<>();
 		
 		for (UnlockLevel u : UnlockLevel.values()) {
 			

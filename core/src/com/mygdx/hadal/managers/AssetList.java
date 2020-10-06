@@ -54,8 +54,8 @@ public enum AssetList {
 	
 	;
 	//Enum constructor and methods.
-	private String pathname;
-    private Class<?> type;
+	private final String pathname;
+    private final Class<?> type;
     
     AssetList(String s, Class<?> c) {
         this.pathname = s;

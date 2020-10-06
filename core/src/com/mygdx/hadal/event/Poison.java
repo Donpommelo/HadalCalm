@@ -18,7 +18,7 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
- * This event damages all schmucks inside of it. It can be spawned as a hazard in a map or created temporarily fro mthe effects 
+ * This event damages all schmucks inside of it. It can be spawned as a hazard in a map or created temporarily from the effects
  * of attacks
  * 
  * Triggered Behavior: Toggle whether the poison is on or off
@@ -35,18 +35,20 @@ public class Poison extends Event {
 	private float controllerCount = 0;
 	
 	//Damage done by the poison
-	private float dps;
+	private final float dps;
 	
 	//If created by an dude, this is that dude
-	private Schmuck perp;
+	private final Schmuck perp;
 	
 	//Is the poison on? Should it be drawn? Should random particles be spawned in its vicinity?
-	private boolean on, draw, randomParticles;
+	private boolean on;
+	private final boolean draw, randomParticles;
 
-	private float currPoisonSpawnTimer = 0f, spawnTimerLimit;
-	private short filter;
+	private float currPoisonSpawnTimer;
+	private final float spawnTimerLimit;
+	private final short filter;
 	
-	private final static float damageInterval = 1 / 60f;
+	private static final float damageInterval = 1 / 60f;
 	
 	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, boolean draw, short filter) {
 		super(state,  startPos, size);
@@ -61,7 +63,7 @@ public class Poison extends Event {
 		randomParticles = size.x > 100;
 		
 		if (!randomParticles && draw) {
-			new ParticleEntity(state, this, Particle.POISON, 0, 0, on, particleSyncType.CREATESYNC);
+			new ParticleEntity(state, this, Particle.POISON, 0, 0, true, particleSyncType.CREATESYNC);
 		}
 	}
 	
@@ -86,7 +88,7 @@ public class Poison extends Event {
 		randomParticles = size.x > 100;
 		
 		if (!randomParticles && draw) {
-			new ParticleEntity(state, this, Particle.POISON, 1.5f, 0, on, particleSyncType.CREATESYNC);
+			new ParticleEntity(state, this, Particle.POISON, 1.5f, 0, true, particleSyncType.CREATESYNC);
 		}
 	}
 	
@@ -104,8 +106,8 @@ public class Poison extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
 	}
 	
-	private Vector2 entityLocation = new Vector2();
-	private Vector2 randLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
+	private final Vector2 randLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		if (on) {
@@ -122,7 +124,7 @@ public class Poison extends Event {
 				}
 			}
 			
-			//if specified, spawn random posion particles in the event's vicinity
+			//if specified, spawn random poison particles in the event's vicinity
 			if (randomParticles && draw) {
 				
 				entityLocation.set(getPixelPosition());
@@ -173,9 +175,7 @@ public class Poison extends Event {
 			blueprint = new RectangleMapObject(entityLocation.x - size.x / 2, entityLocation.y - size.y / 2, size.x, size.y);
 			blueprint.setName("PoisonTemp");
 			blueprint.getProperties().put("duration", duration);
-			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
-		} else {
-			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 		}
+		return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 	}
 }

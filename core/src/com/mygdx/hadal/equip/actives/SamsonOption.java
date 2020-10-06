@@ -16,18 +16,18 @@ import com.mygdx.hadal.strategies.hitbox.Static;
 
 public class SamsonOption extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 5.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 5.0f;
 	
-	private final static Vector2 projectileSize = new Vector2(400, 400);
-	private final static float duration = 1.5f;
+	private static final Vector2 projectileSize = new Vector2(400, 400);
+	private static final float duration = 1.5f;
 
-	private final static float procCd = 0.15f;
+	private static final float procCd = 0.15f;
 
-	private final static int explosionRadius = 200;
-	private final static float explosionDamage = 75.0f;
-	private final static float explosionKnockback = 30.0f;
+	private static final int explosionRadius = 200;
+	private static final float explosionDamage = 75.0f;
+	private static final float explosionKnockback = 30.0f;
 	
 	public SamsonOption(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -45,7 +45,7 @@ public class SamsonOption extends ActiveItem {
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
 			private float procCdCount = procCd;
-			private Vector2 explosionPosition = new Vector2();
+			private final Vector2 explosionPosition = new Vector2();
 			@Override
 			public void controller(float delta) {
 				if (procCdCount < procCd) {

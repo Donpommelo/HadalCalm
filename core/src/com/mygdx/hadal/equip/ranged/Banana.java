@@ -23,29 +23,29 @@ import com.mygdx.hadal.strategies.hitbox.FlashNearDeath;
 
 public class Banana extends RangedWeapon {
 
-	private final static int clipSize = 3;
-	private final static int ammoSize = 27;
-	private final static float shootCd = 0.0f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 0.6f;
-	private final static int reloadAmount = 1;
-	private final static float baseDamage = 20.0f;
-	private final static float recoil = 5.0f;
-	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 8.0f;
-	private final static Vector2 projectileSize = new Vector2(43, 30);
-	private final static float lifespan = 4.0f;
+	private static final int clipSize = 3;
+	private static final int ammoSize = 27;
+	private static final float shootCd = 0.0f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 0.6f;
+	private static final int reloadAmount = 1;
+	private static final float baseDamage = 20.0f;
+	private static final float recoil = 5.0f;
+	private static final float knockback = 0.0f;
+	private static final float projectileSpeed = 8.0f;
+	private static final Vector2 projectileSize = new Vector2(43, 30);
+	private static final float lifespan = 4.0f;
 	
-	private final static Sprite projSprite = Sprite.BANANA;
-	private final static Sprite weaponSprite = Sprite.MT_ICEBERG;
-	private final static Sprite eventSprite = Sprite.P_ICEBERG;
+	private static final Sprite projSprite = Sprite.BANANA;
+	private static final Sprite weaponSprite = Sprite.MT_ICEBERG;
+	private static final Sprite eventSprite = Sprite.P_ICEBERG;
 	
 	private static final float maxCharge = 0.3f;
-	private final static float projectileMaxSpeed = 60.0f;
+	private static final float projectileMaxSpeed = 60.0f;
 
-	private final static int explosionRadius = 200;
-	private final static float explosionDamage = 50.0f;
-	private final static float explosionKnockback = 45.0f;
+	private static final int explosionRadius = 200;
+	private static final float explosionDamage = 50.0f;
+	private static final float explosionKnockback = 45.0f;
 	
 	public Banana(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);

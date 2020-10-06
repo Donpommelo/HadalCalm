@@ -8,11 +8,11 @@ import com.mygdx.hadal.utils.Stats;
 
 public class FeelingofBeingWatched extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float fuelThreshold = 0.2f;
-	private final static float bonusDamage = 1.5f;
+	private static final float fuelThreshold = 0.2f;
+	private static final float bonusDamage = 1.5f;
 	
 	public FeelingofBeingWatched() {
 		super(slotCost, statusNum);

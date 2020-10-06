@@ -7,10 +7,10 @@ import com.mygdx.hadal.statuses.Status;
 
 public class Gemmule extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float bonusInvulnerability = 8.0f;
+	private static final float bonusInvulnerability = 8.0f;
 	
 	public Gemmule() {
 		super(slotCost, statusNum);

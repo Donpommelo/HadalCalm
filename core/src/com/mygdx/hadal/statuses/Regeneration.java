@@ -16,13 +16,13 @@ import com.mygdx.hadal.utils.Stats;
  * @author Zachary Tu
  */
 public class Regeneration extends Status {
-	
+
+	//this is the power of the heal
+	private final float heal;
+
 	//the sound and particles attached to the status
 	private ParticleEntity regenParticles;
 	private SoundEntity regenSound;
-	
-	//this is the power of the heal
-	private float heal;
 	
 	public Regeneration(PlayState state, float i, BodyData p, BodyData v, float heal) {
 		super(state, i, false, p, v);

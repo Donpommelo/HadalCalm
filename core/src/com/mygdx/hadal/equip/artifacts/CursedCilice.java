@@ -12,12 +12,12 @@ import com.mygdx.hadal.statuses.Status;
 
 public class CursedCilice extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
 	private final float amount = 1.5f;
 	
-	private final static float procCd = 0.5f;
+	private static final float procCd = 0.5f;
 	private final float particleDura = 1.5f;
 
 	public CursedCilice() {

@@ -1,6 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -11,8 +11,8 @@ import com.mygdx.hadal.utils.Stats;
 
 public class SimpleMind extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
 	private static final float bonusClipSize = 0.5f;
 	private static final float bonusAtkSpd = 0.5f;
@@ -38,7 +38,7 @@ public class SimpleMind extends Artifact {
 			}
 			
 			@Override
-			public void onShoot(Equipable tool) {
+			public void onShoot(Equippable tool) {
 				if (tool.getWeaponVelo().x > 0) {
 					tool.setWeaponVelo(tool.getWeaponVelo().setAngle(0));
 				} else {

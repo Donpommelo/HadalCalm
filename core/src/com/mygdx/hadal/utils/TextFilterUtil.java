@@ -17,7 +17,7 @@ public class TextFilterUtil {
 		
 		String filteredText = text;
 		
-		if (text == null) {	return text; }
+		if (text == null) {	return ""; }
 		
 		filteredText = filterTag(filteredText, "<body part>");
 		filteredText = filterTag(filteredText, "<color>");
@@ -48,7 +48,7 @@ public class TextFilterUtil {
 	public static String filterPoemTags(String text) {
 		String filteredText = text;
 		
-		if (text == null) {	return text; }
+		if (text == null) {	return ""; }
 		
 		filteredText = filterTag(filteredText, "<preposition>");
 		filteredText = filterTag(filteredText, "<noun_abstract>");
@@ -106,7 +106,7 @@ public class TextFilterUtil {
 	 */
 	private static String filterRoll(String text) {
 		String filteredText = text;
-		filteredText = filteredText.replaceAll("<roll>", "roll: " + String.valueOf(GameStateManager.generator.nextInt(100)));
+		filteredText = filteredText.replaceAll("<roll>", "roll: " + GameStateManager.generator.nextInt(100));
 		
 		return filteredText;
 	}
@@ -136,7 +136,7 @@ public class TextFilterUtil {
 	}
 	
 	/**
-	 * This filters tags into chosen hotkeys. used i nthe tutorial
+	 * This filters tags into chosen hotkeys. used in the tutorial
 	 * The reason we have the fugs here is b/c tiled doesn't like '<', '>' characters
 	 */
 	private static String filterHotkeys(String text) {

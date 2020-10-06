@@ -1,9 +1,5 @@
 package com.mygdx.hadal.managers;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Stack;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -18,14 +14,13 @@ import com.mygdx.hadal.actors.MessageWindow;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.save.Record;
-import com.mygdx.hadal.save.SavedLoadout;
-import com.mygdx.hadal.save.Setting;
-import com.mygdx.hadal.save.SharedSetting;
-import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.save.UnlockManager;
+import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.*;
+
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Stack;
 
 /**
  * The GameStateManager manages a stack of game states. This delegates logic to the current game state.
@@ -36,26 +31,26 @@ import com.mygdx.hadal.states.*;
 public class GameStateManager {
 	
 	//An instance of the current game
-	private HadalGame app;
+	private final HadalGame app;
 	
 	//Stack of GameStates. These are all the states that the player has opened in that order.
-	private Stack<GameState> states;
+	private final Stack<GameState> states;
 	
 	//skin for ui windows as well as other patches and atlases. Why are these kept here? Dunno.
 	private static Skin skin;
 	private static NinePatchDrawable dialogPatch, simplePatch, bossGaugePatch, bossGaugeGreyPatch, bossGaugeRedPatch, bossGaugeCatchupPatch;
 	
-	private static ArrayList<TextureAtlas> atlases = new ArrayList<TextureAtlas>();
+	private static final ArrayList<TextureAtlas> atlases = new ArrayList<>();
 	public static TextureAtlas projectileAtlas, multitoolAtlas, fishAtlas, turretAtlas, eventAtlas, explosionAtlas, uiAtlas;
-	public static TextureAtlas particleAtlas, exclamationAtlas, impactAtlas, starShotAtlas;
+	public static TextureAtlas particleAtlas, impactAtlas, starShotAtlas;
 	
 	//This is a stored list of all the dialogs/death/misc messages in the game, read from json file.
 	public static JsonValue dialogs, deathMessages, shops, miscText, randomText;
 	
 	//These are the player's saved field. These store player info.
-	private Record record;
-	private Setting setting;
-	private SavedLoadout loadout;
+	private final Record record;
+	private final Setting setting;
+	private final SavedLoadout loadout;
 	
 	//This contains the settings that are shared with clients (or shared from server if we are the client)
 	private SharedSetting sharedSetting, hostSetting;
@@ -76,7 +71,7 @@ public class GameStateManager {
 	 */
 	public GameStateManager(HadalGame hadalGame) {
 		this.app = hadalGame;
-		this.states = new Stack<GameState>();
+		this.states = new Stack<>();
 		
 		//Load data from saves: hotkeys and unlocks
 		PlayerAction.retrieveKeys();
@@ -112,11 +107,11 @@ public class GameStateManager {
 	
 	/**
 	 * This loads several assets like atlases, skins and 9patches, particle pool.
-	 * This is called by initmanager after the atlases have been loaded.
+	 * This is called by init state after the atlases have been loaded.
 	 */
 	public void loadAssets() {
 		skin = new Skin();
-		skin.addRegions((TextureAtlas) HadalGame.assetManager.get(AssetList.UISKINATL.toString()));
+		skin.addRegions(HadalGame.assetManager.get(AssetList.UISKINATL.toString()));
 		skin.add("default-font", HadalGame.SYSTEM_FONT_SPRITE);
 		skin.load(Gdx.files.internal("ui/uiskin.json"));
 		
@@ -138,7 +133,7 @@ public class GameStateManager {
 		atlases.add(GameStateManager.explosionAtlas = HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString()));
 		atlases.add(GameStateManager.impactAtlas = HadalGame.assetManager.get(AssetList.IMPACT_ATLAS.toString()));
 		
-		//initalize pooled particle effects
+		//initialize pooled particle effects
 		Particle.initParticlePool();
 		
 		//this lets us not declare every attribute of the shader.
@@ -264,7 +259,7 @@ public class GameStateManager {
 	
 	/**
 	 * This is called at the end of levels to display the results of the game
-	 * @param ps: This is the playstate we are putting the resultsstate on
+	 * @param ps: This is the playstate we are putting the resultstate on
 	 * @param text: this text is displayed at the top of the results state. Declares win or loss (or anything else)
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
@@ -311,7 +306,7 @@ public class GameStateManager {
 	/**
 	 * This is called upon adding a new state. It maps each state enum to the actual gameState that will be added to the stack
 	 * @param state: enum for the new type of state to be added
-	 * @return: A new instance of the gameState corresponding to the input enum
+	 * @return A new instance of the gameState corresponding to the input enum
 	 * NOTE: we no longer use this for any more complicated state that requires extra fields 
 	 * Only used for: (TITLE, SPLASH, ABOUT)
 	 */

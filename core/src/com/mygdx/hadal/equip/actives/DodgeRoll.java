@@ -10,12 +10,12 @@ import com.mygdx.hadal.statuses.Invulnerability;
 
 public class DodgeRoll extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 3.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 3.0f;
 	
-	private final static float recoil = 40.0f;
-	private final static float invulnerabilityDuration = 0.5f;
+	private static final float recoil = 40.0f;
+	private static final float invulnerabilityDuration = 0.5f;
 
 	public DodgeRoll(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -25,7 +25,7 @@ public class DodgeRoll extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.WOOSH.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
 		
-		int direction = 0;
+		int direction;
 		
 		if (user.getPlayer().getMoveState().equals(MoveState.MOVE_LEFT)) {
 			direction = -1;

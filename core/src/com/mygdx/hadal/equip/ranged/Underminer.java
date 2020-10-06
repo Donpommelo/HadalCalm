@@ -1,8 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -13,56 +11,49 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactWallLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieExplode;
-import com.mygdx.hadal.strategies.hitbox.DieSound;
-import com.mygdx.hadal.strategies.hitbox.FlashNearDeath;
-import com.mygdx.hadal.strategies.hitbox.Spread;
+import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 
 public class Underminer extends RangedWeapon {
 
-	private final static int clipSize = 1;
-	private final static int ammoSize = 22;
-	private final static float shootCd = 0.0f;
-	private final static float shootDelay = 0.1f;
-	private final static float reloadTime = 0.5f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 40.0f;
-	private final static float recoil = 8.5f;
-	private final static float knockback = 10.0f;
-	private final static float projectileSpeed = 30.0f;
-	private final static Vector2 projectileSize = new Vector2(54, 45);
-	private final static float lifespan = 4.0f;
+	private static final int clipSize = 1;
+	private static final int ammoSize = 22;
+	private static final float shootCd = 0.0f;
+	private static final float shootDelay = 0.1f;
+	private static final float reloadTime = 0.5f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 40.0f;
+	private static final float recoil = 8.5f;
+	private static final float knockback = 10.0f;
+	private static final float projectileSpeed = 30.0f;
+	private static final Vector2 projectileSize = new Vector2(54, 45);
+	private static final float lifespan = 4.0f;
 	
-	private final static Sprite projSprite = Sprite.DRILL;
-	private final static Sprite weaponSprite = Sprite.MT_BLADEGUN;
-	private final static Sprite eventSprite = Sprite.P_BLADEGUN;
+	private static final Sprite projSprite = Sprite.DRILL;
+	private static final Sprite weaponSprite = Sprite.MT_BLADEGUN;
+	private static final Sprite eventSprite = Sprite.P_BLADEGUN;
 	
-	private final static float drillSpeed = 3.0f;
-	private final static float drillDuration = 1.0f;
-	private final static float activatedLifespan = 0.8f;
-	private final static float activatedSpinSpeed = 8.0f;
+	private static final float drillSpeed = 3.0f;
+	private static final float drillDuration = 1.0f;
+	private static final float activatedLifespan = 0.8f;
+	private static final float activatedSpinSpeed = 8.0f;
 
-	private final static float raycastRange = 8.0f;
+	private static final float raycastRange = 8.0f;
 
-	private final static Vector2 fragSize = new Vector2(36, 30);
-	private final static float fragLifespan = 2.0f;
-	private final static float fragDamage = 15.0f;
-	private final static float fragKnockback = 25.0f;
-	private final static float fragSpeed = 4.0f;
+	private static final Vector2 fragSize = new Vector2(36, 30);
+	private static final float fragLifespan = 2.0f;
+	private static final float fragDamage = 15.0f;
+	private static final float fragKnockback = 25.0f;
+	private static final float fragSpeed = 4.0f;
 	
-	private final static float bombSpeed = 20.0f;
-	private final static float bombLifespan = 1.5f;
-	private final static int numBombs = 4;
-	private final static int spread = 30;
+	private static final float bombSpeed = 20.0f;
+	private static final float bombLifespan = 1.5f;
+	private static final int numBombs = 4;
+	private static final int spread = 30;
 	
-	private final static int explosionRadius = 100;
-	private final static float explosionDamage = 25.0f;
-	private final static float explosionKnockback = 18.0f;
+	private static final int explosionRadius = 100;
+	private static final float explosionDamage = 25.0f;
+	private static final float explosionKnockback = 18.0f;
 	
 	public Underminer(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -73,7 +64,7 @@ public class Underminer extends RangedWeapon {
 		SoundEffect.FIRE10.playUniversal(state, startPosition, 0.8f, false);
 
 		Hitbox hbox = new Hitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
-		hbox.setPassability((short) (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR | Constants.BIT_DROPTHROUGHWALL));
+		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR | Constants.BIT_DROPTHROUGHWALL));
 
 		hbox.setGravity(3.0f);
 		
@@ -87,12 +78,12 @@ public class Underminer extends RangedWeapon {
 			private float invuln = 0.0f;
 			
 			private float drillCount = 0;
-			private final static float procCd = 0.2f;
+			private static final float procCd = 0.2f;
 			private float procCdCount = procCd;
 			
-			private Vector2 angle = new Vector2();
-			private Vector2 raycast = new Vector2(0, raycastRange);
-			private Vector2 entityLocation = new Vector2();
+			private final Vector2 angle = new Vector2();
+			private final Vector2 raycast = new Vector2(0, raycastRange);
+			private final Vector2 entityLocation = new Vector2();
 			boolean wallDetected;
 			@Override
 			public void controller(float delta) {
@@ -110,7 +101,7 @@ public class Underminer extends RangedWeapon {
 					}
 				}
 				
-				//invuln is incremented to prevent hbox from detonating immediately upon hitting a corner
+				//invulnerability is incremented to prevent hbox from detonating immediately upon hitting a corner
 				if (invuln > 0) {
 					invuln -= delta;
 				}
@@ -122,17 +113,12 @@ public class Underminer extends RangedWeapon {
 						entityLocation.set(hbox.getPosition());
 						angle.set(entityLocation).add(raycast.setAngleRad(hbox.getAngle()));
 						wallDetected = false;
-						state.getWorld().rayCast(new RayCastCallback() {
+						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
-							@Override
-							public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-								
-								if (fixture.getFilterData().categoryBits == (short) Constants.BIT_WALL) {
-									wallDetected = true;
-								}
-								return -1.0f;
+							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+								wallDetected = true;
 							}
-							
+							return -1.0f;
 						}, entityLocation, angle);
 						
 						if (wallDetected) {

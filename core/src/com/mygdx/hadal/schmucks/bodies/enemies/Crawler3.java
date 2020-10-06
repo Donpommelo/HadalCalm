@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -21,12 +19,14 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.utils.Stats;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Crawler3 extends EnemyCrawling {
 
-	private final static int baseHp = 100;
-	private final static String name = "SPITTING CRAWLER";
+	private static final int baseHp = 100;
+	private static final String name = "SPITTING CRAWLER";
 
-	private final static int scrapDrop = 2;
+	private static final int scrapDrop = 2;
 
 	private static final int width = 63;
 	private static final int height = 40;
@@ -55,19 +55,19 @@ public class Crawler3 extends EnemyCrawling {
 	private static final float minRange = 0.0f;
 	private static final float maxRange = 500.0f;
 	
-	private final static int numProj = 5;
-	private final static int spread = 10;
+	private static final int numProj = 5;
+	private static final int spread = 10;
 	
-	private final static float attackWindup1 = 0.6f;
-	private final static float attackWindup2 = 0.2f;
-	private final static float baseDamage = 7.0f;
-	private final static float knockback = 12.0f;
-	private final static float projectileSpeed = 20.0f;
-	private final static Vector2 projectileSize = new Vector2(16, 16);
-	private final static float lifespan = 1.2f;
+	private static final float attackWindup1 = 0.6f;
+	private static final float attackWindup2 = 0.2f;
+	private static final float baseDamage = 7.0f;
+	private static final float knockback = 12.0f;
+	private static final float projectileSpeed = 20.0f;
+	private static final Vector2 projectileSize = new Vector2(16, 16);
+	private static final float lifespan = 1.2f;
 	
-	private Vector2 startVelo = new Vector2();
-	private Vector2 spreadVelo = new Vector2();
+	private final Vector2 startVelo = new Vector2();
+	private final Vector2 spreadVelo = new Vector2();
 	@Override
 	public void attackInitiate() {
 		
@@ -97,7 +97,7 @@ public class Crawler3 extends EnemyCrawling {
 						
 						startVelo.set(getMoveDirection() * projectileSpeed, projectileSpeed / 2);
 
-						float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
+						float newDegrees = startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 						spreadVelo.set(startVelo.setAngle(newDegrees));
 						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(spreadVelo, size.x), projectileSize, lifespan, spreadVelo, getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
 						hbox.setGravity(3.0f);

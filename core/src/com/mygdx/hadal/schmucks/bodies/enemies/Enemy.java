@@ -1,13 +1,9 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.WeaponUtils;
@@ -27,6 +23,8 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+import java.util.ArrayList;
+
 /**
  * enemies are schmucks that attack the player.
  * @author Zachary Tu
@@ -34,7 +32,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class Enemy extends Schmuck {
 	
 	//This is the type of enemy
-	private EnemyType type;		
+	private final EnemyType type;
 
     //this is the size of the enemy's hitbox
 	protected Vector2 hboxSize;
@@ -67,7 +65,7 @@ public class Enemy extends Schmuck {
     private float aiActionCdCount = 0.0f;
     private float aiSecondaryActionCdCount = 0.0f;
 	
-  	//These are used for raycasting to determing whether the player is in vision of the fenemyish.
+  	//These are used for raycasting to determining whether the player is in vision of the enemy.
   	private float shortestFraction;
   	private Schmuck homeAttempt;
 	private Fixture closestFixture;
@@ -79,7 +77,7 @@ public class Enemy extends Schmuck {
 	private Vector2 eventTarget;
 	
 	//The action queues and current action hold the enemy' queued up actions. (secondary action is for 2 different actions occurring simultaneously)
-	private ArrayList<EnemyAction> actions;
+	private final ArrayList<EnemyAction> actions;
 	private EnemyAction currentAction;
 	
 	private ArrayList<EnemyAction> secondaryActions;
@@ -87,12 +85,12 @@ public class Enemy extends Schmuck {
 	
 	//this is the enemy sprite
 	protected Sprite sprite;
-	private TextureRegion hpSprite;
-	private final static float uiScale = 0.15f;
-	private final static float hpX = 10.0f;
-	private final static float hpY = 30.0f;
+	private final TextureRegion hpSprite;
+	private static final float uiScale = 0.15f;
+	private static final float hpX = 10.0f;
+	private static final float hpY = 30.0f;
 
-	 //This is the event that spwner this enemy. Is null for the client and for enemies spawned in other ways.
+	 //This is the event that spawner this enemy. Is null for the client and for enemies spawned in other ways.
     protected SpawnerSchmuck spawner;
     
 	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, String name, Sprite sprite, EnemyType type, short filter, float baseHp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
@@ -106,8 +104,8 @@ public class Enemy extends Schmuck {
 		
 		this.hpSprite = Sprite.UI_MAIN_HEALTHBAR.getFrame();
 		
-		this.actions = new ArrayList<EnemyAction>();
-		this.secondaryActions = new ArrayList<EnemyAction>();
+		this.actions = new ArrayList<>();
+		this.secondaryActions = new ArrayList<>();
 	}
 	
 	@Override
@@ -124,7 +122,7 @@ public class Enemy extends Schmuck {
 			@Override
 			public void onDeath(BodyData perp) {
 				if (spawner != null) {
-					spawner.onDeath(inflicted.getSchmuck());
+					spawner.onDeath();
 				}
 				if (!state.isPvp() && perp instanceof PlayerBodyData) {
 					HadalGame.server.registerKill((Player) perp.getSchmuck(), null);
@@ -210,7 +208,7 @@ public class Enemy extends Schmuck {
 	/**
 	 * draws enemy
 	 */
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		
@@ -228,7 +226,7 @@ public class Enemy extends Schmuck {
 		}
 		
 		if (visible && !isBoss) {
-			float hpRatio = 0.0f;
+			float hpRatio;
 			
 			if (state.isServer()) {
 				hpRatio = getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP);
@@ -243,58 +241,50 @@ public class Enemy extends Schmuck {
 	/**
 	 * This is run when the enemy performs an action. Override in child classes.
 	 */
-	public void attackInitiate() {};
+	public void attackInitiate() {}
 	
 	/**
 	 * This is used by the enemy to find a valid target
 	 */
-	private Vector2 homeLocation = new Vector2();
-	private Vector2 entityWorldLocation = new Vector2();
+	private final Vector2 homeLocation = new Vector2();
+	private final Vector2 entityWorldLocation = new Vector2();
 	public void acquireTarget() {
 		
 		attackTarget = null;
 		
 		entityWorldLocation.set(getPosition());
 		//query nearby units
-		world.QueryAABB((new QueryCallback() {
+		world.QueryAABB((fixture -> {
+			if (fixture.getUserData() instanceof BodyData) {
+				homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
+				homeLocation.set(homeAttempt.getPosition());
+				shortestFraction = 1.0f;
 
-			@Override
-			public boolean reportFixture(Fixture fixture) {
-				if (fixture.getUserData() instanceof BodyData) {
-					homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
-					homeLocation.set(homeAttempt.getPosition());
-					shortestFraction = 1.0f;
-					
-				  	if (entityWorldLocation.x != homeLocation.x || entityWorldLocation.y != homeLocation.y) {
-				  		world.rayCast(new RayCastCallback() {
+				  if (entityWorldLocation.x != homeLocation.x || entityWorldLocation.y != homeLocation.y) {
+					  world.rayCast((fixture1, point, normal, fraction) -> {
+						  if (fixture1.getUserData() instanceof BodyData) {
+							  if (((BodyData) fixture1.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
+								  if (fraction < shortestFraction) {
 
-							@Override
-							public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-								if (fixture.getUserData() instanceof BodyData) {
-									if (((BodyData) fixture.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
-										if (fraction < shortestFraction) {
-											
-											//enemies will not see invisible units
-											if (((BodyData) fixture.getUserData()).getStatus(Invisibility.class) == null) {
-												shortestFraction = fraction;
-												closestFixture = fixture;
-												return fraction;
-											}
-										}
-									}
-								} 
-								return -1.0f;
-							}
-						}, entityWorldLocation, homeLocation);
-						if (closestFixture != null) {
-							if (closestFixture.getUserData() instanceof BodyData) {
-								attackTarget = ((BodyData) closestFixture.getUserData()).getSchmuck();
-							}
-						} 
+									  //enemies will not see invisible units
+									  if (((BodyData) fixture1.getUserData()).getStatus(Invisibility.class) == null) {
+										  shortestFraction = fraction;
+										  closestFixture = fixture1;
+										  return fraction;
+									  }
+								  }
+							  }
+						  }
+						  return -1.0f;
+					  }, entityWorldLocation, homeLocation);
+					if (closestFixture != null) {
+						if (closestFixture.getUserData() instanceof BodyData) {
+							attackTarget = ((BodyData) closestFixture.getUserData()).getSchmuck();
+						}
 					}
 				}
-				return true;
 			}
+			return true;
 		}), entityWorldLocation.x - aiRadius, entityWorldLocation.y - aiRadius, entityWorldLocation.x + aiRadius, entityWorldLocation.y + aiRadius);
 	}
 	
@@ -324,7 +314,7 @@ public class Enemy extends Schmuck {
 	}
 	
 	/**
-	 * When created in the server, tell the client what kind of enemy was reated to sync
+	 * When created in the server, tell the client what kind of enemy was created to sync
 	 */
 	@Override
 	public Object onServerCreate() {

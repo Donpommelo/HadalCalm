@@ -22,21 +22,21 @@ import com.mygdx.hadal.utils.Constants;
 
 public class MeridianMaker extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 9.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.1f;
+	private static final float maxCharge = 9.0f;
 	
-	private final static float baseDamage = 40.0f;
-	private final static float knockback = 0.0f;
-	private final static Vector2 projectileSize = new Vector2(40, 40);
-	private final static float lifespan = 6.0f;
+	private static final float baseDamage = 40.0f;
+	private static final float knockback = 0.0f;
+	private static final Vector2 projectileSize = new Vector2(40, 40);
+	private static final float lifespan = 6.0f;
 	
-	private final static float projectileSpeed = 30.0f;
+	private static final float projectileSpeed = 30.0f;
 	
-	private final static Sprite projSprite = Sprite.NOTHING;
+	private static final Sprite projSprite = Sprite.NOTHING;
 
-	private final static int currentRadius = 100;
-	private final static float currentForce = 1.0f;
+	private static final int currentRadius = 100;
+	private static final float currentForce = 1.0f;
 	
 	public MeridianMaker(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -59,7 +59,7 @@ public class MeridianMaker extends ActiveItem {
 		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.BRIGHT, 0.0f, 1.0f).setParticleColor(ParticleColor.SKY_BLUE).setParticleSize(20));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
-			private Vector2 lastPosition = new Vector2(hbox.getStartPos()).scl(32);
+			private final Vector2 lastPosition = new Vector2(hbox.getStartPos()).scl(32);
 			
 			@Override
 			public void controller(float delta) {

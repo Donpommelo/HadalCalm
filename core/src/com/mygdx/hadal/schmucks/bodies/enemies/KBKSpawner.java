@@ -25,10 +25,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class KBKSpawner extends EnemySwimming {
 
-	private final static int baseHp = 200;
-	private final static String name = "KAMABOKO SPAWNER";
+	private static final int baseHp = 200;
+	private static final String name = "KAMABOKO SPAWNER";
 	
-	private final static int scrapDrop = 4;
+	private static final int scrapDrop = 4;
 
 	private static final int width = 1024;
 	private static final int height = 1024;
@@ -43,9 +43,9 @@ public class KBKSpawner extends EnemySwimming {
 	private static final float noiseRadius = 2.0f;
 
 	private static final Sprite sprite = Sprite.KAMABOKO_SWIM;
-	private final static Sprite projSprite = Sprite.ORB_RED;
+	private static final Sprite projSprite = Sprite.ORB_RED;
 
-	private TextureRegion faceSprite;
+	private final TextureRegion faceSprite;
 	
 	public KBKSpawner(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.SPAWNER, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
@@ -68,10 +68,10 @@ public class KBKSpawner extends EnemySwimming {
 	private static final float minRange = 5.0f;
 	private static final float maxRange = 10.0f;
 	
-	private final static float projectileSpeed = 25.0f;
-	private final static Vector2 projectileSize = new Vector2(50, 50);
-	private final static float lifespan = 3.0f;
-	private final static float range = 900.0f;
+	private static final float projectileSpeed = 25.0f;
+	private static final Vector2 projectileSize = new Vector2(50, 50);
+	private static final float lifespan = 3.0f;
+	private static final float range = 900.0f;
 	@Override
 	public void attackInitiate() {
 		
@@ -82,7 +82,7 @@ public class KBKSpawner extends EnemySwimming {
 		
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
-			private Vector2 startVelo = new Vector2();
+			private final Vector2 startVelo = new Vector2();
 			@Override
 			public void execute() {
 				
@@ -119,7 +119,7 @@ public class KBKSpawner extends EnemySwimming {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);

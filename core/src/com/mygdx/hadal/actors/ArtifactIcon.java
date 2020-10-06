@@ -20,21 +20,21 @@ import com.mygdx.hadal.save.UnlockArtifact;
  */
 public class ArtifactIcon extends AHadalActor {
 
-	private static float padding = 20.0f;
+	private static final float padding = 20.0f;
 	
 	//This is the artifact that this tag represents
-	private UnlockArtifact artifact;
+	private final UnlockArtifact artifact;
 	
-	private BitmapFont font;
+	private final BitmapFont font;
 	
-	private float scale = 0.25f;
-	private Color color;
+	private static final float scale = 0.25f;
+	private final Color color;
 	protected GlyphLayout layout;
 	
-	private TextureRegion ready;
-	private String text;
+	private final TextureRegion ready;
+	private final String text;
 	
-	private float textOffsetX, textOffsetY, targetWidth;
+	private final float textOffsetX, textOffsetY, targetWidth;
 	
 	//is this ui element moused over? display extra info if it is.
 	private boolean mouseOver;

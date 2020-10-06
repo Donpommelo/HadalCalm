@@ -20,22 +20,22 @@ import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
 
 public class BouncingBlade extends RangedWeapon {
 
-	private final static int clipSize = 5;
-	private final static int ammoSize = 30;
-	private final static float shootCd = 0.3f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.4f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 28.0f;
-	private final static float recoil = 6.0f;
-	private final static float knockback = 25.0f;
-	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(50, 50);
-	private final static float lifespan = 4.0f;
+	private static final int clipSize = 5;
+	private static final int ammoSize = 30;
+	private static final float shootCd = 0.3f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = 1.4f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 28.0f;
+	private static final float recoil = 6.0f;
+	private static final float knockback = 25.0f;
+	private static final float projectileSpeed = 40.0f;
+	private static final Vector2 projectileSize = new Vector2(50, 50);
+	private static final float lifespan = 4.0f;
 	
-	private final static Sprite projSprite = Sprite.BUZZSAW;
-	private final static Sprite weaponSprite = Sprite.MT_BLADEGUN;
-	private final static Sprite eventSprite = Sprite.P_BLADEGUN;
+	private static final Sprite projSprite = Sprite.BUZZSAW;
+	private static final Sprite weaponSprite = Sprite.MT_BLADEGUN;
+	private static final Sprite eventSprite = Sprite.P_BLADEGUN;
 	
 	public BouncingBlade(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

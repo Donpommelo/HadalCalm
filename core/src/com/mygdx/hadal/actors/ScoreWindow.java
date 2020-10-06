@@ -16,27 +16,26 @@ import com.mygdx.hadal.states.SettingState;
  */
 public class ScoreWindow {
 	
-	private PlayState state;
+	private final PlayState state;
 	
-	private Table tableScore, tableSettings; 
-	private MenuWindow windowScore, windowSettings;
-	private Text lives, pvpTimer, coopTimer, mode, loadout, slots, pause, serverSize;
-	
-	//Dimentions and position of the results menu
-	private final static int scoreWidth = 1000;
-	private final static int scoreBaseHeight = 75;
-	private final static int scoreTitleHeight = 60;
-	private final static int scoreRowHeight = 50;
-	private final static int scoreNameWidth = 500;
+	private final Table tableScore, tableSettings;
+	private final MenuWindow windowScore, windowSettings;
+
+	//Dimensions and position of the results menu
+	private static final int scoreWidth = 1000;
+	private static final int scoreBaseHeight = 75;
+	private static final int scoreTitleHeight = 60;
+	private static final int scoreRowHeight = 50;
+	private static final int scoreNameWidth = 500;
 	private static final float scoreScale = 0.5f;
 	private static final float scorePadX = 20.0f;
 	private static final float scorePadY = 25.0f;
 
 	private static final int maxNameLen = 30;
 
-	private final static int settingsWidth = 280;
-	private final static int settingsHeight = 500;
-	private final static int settingsRowHeight = 20;
+	private static final int settingsWidth = 280;
+	private static final int settingsHeight = 500;
+	private static final int settingsRowHeight = 20;
 	private static final float settingsScale = 0.25f;
 	private static final float settingsPadY = 15.0f;
 
@@ -233,28 +232,28 @@ public class ScoreWindow {
 			used = state.getGsm().getHostSetting();
 		}
 		
-		pvpTimer = new Text(SettingState.timerChoices[used.getPVPTimer()], 0, 0, false);
+		Text pvpTimer = new Text(SettingState.timerChoices[used.getPVPTimer()], 0, 0, false);
 		pvpTimer.setScale(settingsScale);
 		
-		coopTimer = new Text(SettingState.timerChoices[used.getCoopTimer()], 0, 0, false);
+		Text coopTimer = new Text(SettingState.timerChoices[used.getCoopTimer()], 0, 0, false);
 		coopTimer.setScale(settingsScale);
 		
-		lives = new Text(SettingState.livesChoices[used.getLives()], 0, 0, false);
+		Text lives = new Text(SettingState.livesChoices[used.getLives()], 0, 0, false);
 		lives.setScale(settingsScale);
 		
-		mode = new Text(SettingState.modeChoices[used.getPvpMode()], 0, 0, false);
+		Text mode = new Text(SettingState.modeChoices[used.getPvpMode()], 0, 0, false);
 		mode.setScale(settingsScale);
 		
-		loadout = new Text(SettingState.loadoutChoices[used.getLoadoutType()], 0, 0, false);
+		Text loadout = new Text(SettingState.loadoutChoices[used.getLoadoutType()], 0, 0, false);
 		loadout.setScale(settingsScale);
 		
-		slots = new Text(SettingState.artifactChoices[used.getArtifactSlots()], 0, 0, false);
+		Text slots = new Text(SettingState.artifactChoices[used.getArtifactSlots()], 0, 0, false);
 		slots.setScale(settingsScale);
 		
-		pause = new Text("" + used.isMultiplayerPause(), 0, 0, false);
+		Text pause = new Text("" + used.isMultiplayerPause(), 0, 0, false);
 		pause.setScale(settingsScale);
 		
-		serverSize = new Text(SettingState.capacityChoices[used.getMaxPlayers()], 0, 0, false);
+		Text serverSize = new Text(SettingState.capacityChoices[used.getMaxPlayers()], 0, 0, false);
 		serverSize.setScale(settingsScale);
 		
 		tableSettings.add(title).height(settingsRowHeight).colspan(2).row();

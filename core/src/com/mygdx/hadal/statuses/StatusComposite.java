@@ -10,7 +10,7 @@ import com.mygdx.hadal.states.PlayState;
 public class StatusComposite extends Status {
 
 	//these are the statuses that are contained in this status.
-	private Status[] statuses;
+	private final Status[] statuses;
 	
 	public StatusComposite(PlayState state, float i, boolean perm, BodyData p, BodyData v, Status...statuses){
 		super(state, i, perm, p, v);

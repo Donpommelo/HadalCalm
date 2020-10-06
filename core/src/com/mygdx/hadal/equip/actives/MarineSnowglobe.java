@@ -19,12 +19,12 @@ import com.mygdx.hadal.strategies.hitbox.Static;
 
 public class MarineSnowglobe extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 10.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 10.0f;
 	
-	private final static Vector2 projectileSize = new Vector2(400, 400);
-	private final static float duration = 0.5f;
+	private static final Vector2 projectileSize = new Vector2(400, 400);
+	private static final float duration = 0.5f;
 
 	private static final float projectileDamage = 18.0f;
 	private static final float projectileKB = 15.0f;

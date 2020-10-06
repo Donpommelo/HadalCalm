@@ -20,10 +20,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class KBKMedium extends EnemySwimming {
 
-	private final static int baseHp = 60;
-	private final static String name = "KAMABOKO MASS";
+	private static final int baseHp = 60;
+	private static final String name = "KAMABOKO MASS";
 	
-	private final static int scrapDrop = 0;
+	private static final int scrapDrop = 0;
 
 	private static final int width = 512;
 	private static final int height = 512;
@@ -39,7 +39,7 @@ public class KBKMedium extends EnemySwimming {
 
 	private static final Sprite sprite = Sprite.KAMABOKO_SWIM;
 	
-	private TextureRegion faceSprite;
+	private final TextureRegion faceSprite;
 	
 	public KBKMedium(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.SPLITTER_MEDIUM, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
@@ -77,7 +77,7 @@ public class KBKMedium extends EnemySwimming {
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f, true);
 	}
 
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);

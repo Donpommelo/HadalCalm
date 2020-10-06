@@ -15,7 +15,7 @@ import com.mygdx.hadal.utils.Stats;
  * An active item is an item displayed in the lower right corner. They can be used with the spacebar and have a cooldown or some other charging mechanic.
  * @author Zachary Tu
  */
-public class ActiveItem extends Equipable {
+public class ActiveItem extends Equippable {
 
 	protected float currentCharge, maxCharge;
 	
@@ -26,7 +26,7 @@ public class ActiveItem extends Equipable {
 	public static final float enemyDamageChargeMultiplier = 0.1f;
 	
 	//This indicates whether the active charges over time or by inflicting damage (or potentially, other)
-	private chargeStyle style;	
+	private final chargeStyle style;
 	
 	public ActiveItem(Schmuck user, float usecd, float usedelay, float maxCharge, chargeStyle chargeStyle) {
 		super(user, usecd, usedelay, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
@@ -38,7 +38,7 @@ public class ActiveItem extends Equipable {
 	 * This method is called when a schmuck targets a point with this weapon.
 	 * The weapon is not fired yet. Instead, a vector keeping track of the target is set.
 	 */
-	private Vector2 playerLocation = new Vector2();
+	private final Vector2 playerLocation = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
 
@@ -74,12 +74,12 @@ public class ActiveItem extends Equipable {
 	 * @param shooter: the user of the item
 	 */
 	public void useItem(PlayState state, PlayerBodyData shooter) {}
-	
+
+	private static final float meleeChargeBonus = 0.5f;
 	/**
 	 * This is used when the active item charges
 	 * @param charge: The amount of charge that the item gains.
 	 */
-	private final float meleeChargeBonus = 0.5f;
 	public void gainCharge(float charge) {
 		
 		//this is used to keep track of when an item fully charges to play a sound
@@ -163,7 +163,7 @@ public class ActiveItem extends Equipable {
 	 */
 	public float getUseDuration() { return 0.0f; }
 	
-	public static enum chargeStyle {
+	public enum chargeStyle {
 		byTime,
 		byDamageInflict,
 	}

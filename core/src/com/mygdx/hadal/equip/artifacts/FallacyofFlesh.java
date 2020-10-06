@@ -8,8 +8,8 @@ import com.mygdx.hadal.statuses.Status;
 
 public class FallacyofFlesh extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
 	private final float amountEnemy = 1.0f;
 	private final float amountPlayer = 10.0f;

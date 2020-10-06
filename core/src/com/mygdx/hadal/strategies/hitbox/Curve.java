@@ -1,12 +1,12 @@
 package com.mygdx.hadal.strategies.hitbox;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This strategy makes an hbox's trajectory curve towards a particular coordinates.
@@ -16,12 +16,12 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class Curve extends HitboxStrategy {
 	
 	//this is the range of spread in degrees that the hbox can be set to
-	private int spreadMin, spreadMax;
+	private final int spreadMin, spreadMax;
 	
 	//the starting velocity of the hbox and the speed that it curves towards its target.
-	private float startSpeed, lerp;
+	private final float startSpeed, lerp;
 	
-	private final static float pushInterval = 1 / 60f;
+	private static final float pushInterval = 1 / 60f;
 	
 	//has the hbox reached its target yet? if so, stop adjusting its movement.
 	private boolean found = false;
@@ -40,7 +40,7 @@ public class Curve extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		float newDegrees = (float) hbox.getStartVelo().angle();
+		float newDegrees = hbox.getStartVelo().angle();
 		
 		if (ThreadLocalRandom.current().nextBoolean()) {
 			newDegrees += (ThreadLocalRandom.current().nextInt(spreadMin, spreadMax));
@@ -51,9 +51,9 @@ public class Curve extends HitboxStrategy {
 	}
 	
 	private float controllerCount;
-	private Vector2 startTarget = new Vector2();
-	private Vector2 lerpTowards = new Vector2();
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 startTarget = new Vector2();
+	private final Vector2 lerpTowards = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		controllerCount += delta;

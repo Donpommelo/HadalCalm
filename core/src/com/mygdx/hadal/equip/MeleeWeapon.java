@@ -7,10 +7,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 
 /**
- * Melee weapons are weapons thatare not affected by ranged weapon modifiers and have no clip/ammo mechanic
+ * Melee weapons are weapons that are not affected by ranged weapon modifiers and have no clip/ammo mechanic
  * @author Zachary Tu
  */
-public class MeleeWeapon extends Equipable {
+public class MeleeWeapon extends Equippable {
 
 	/**
 	 * @param user: Schmuck that is using this tool.
@@ -32,7 +32,7 @@ public class MeleeWeapon extends Equipable {
 	 * This method is called when a schmuck targets a point with this weapon.
 	 * The weapon is not fired yet. Instead, a vector keeping track of the target is set.
 	 */
-	private Vector2 playerLocation = new Vector2();
+	private final Vector2 playerLocation = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		

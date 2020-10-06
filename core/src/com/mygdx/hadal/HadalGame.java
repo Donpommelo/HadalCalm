@@ -25,8 +25,8 @@ import com.mygdx.hadal.client.KryoClient;
 public class HadalGame extends ApplicationAdapter {
 	
 	//screen dimensions
-	public final static int CONFIG_WIDTH = 1280;
-	public final static int CONFIG_HEIGHT = 720;
+	public static final float CONFIG_WIDTH = 1280.0f;
+	public static final float CONFIG_HEIGHT = 720.0f;
 	
 	//this is the game's version. This must match between client and host to connect.
 	public static final String Version = "1.0.3e";
@@ -58,8 +58,8 @@ public class HadalGame extends ApplicationAdapter {
     private Stage currentMenu;
     
     //this is the rate at which the screen fades from/to black.
-  	private final static float defaultFadeInSpeed = -2.0f;
-  	private final static float defaultFadeOutSpeed = 2.0f;
+  	private static final float defaultFadeInSpeed = -2.0f;
+  	private static final float defaultFadeOutSpeed = 2.0f;
   	
   	//This is the how faded the black screen is. (starts off black)
   	protected float fadeLevel = 1.0f;
@@ -106,11 +106,10 @@ public class HadalGame extends ApplicationAdapter {
 	 * This is run every engine tick according to libgdx.
 	 * Here, we tell the gsm to tell the current state of the elapsed time.
 	 */
-	private float delta;
 	@Override
 	public void render() {
 
-		delta = Gdx.graphics.getDeltaTime();
+		float delta = Gdx.graphics.getDeltaTime();
 		
 		//update the state, update the ui, render the state, then draw the ui.
 		gsm.update(delta);
@@ -242,7 +241,7 @@ public class HadalGame extends ApplicationAdapter {
 	 * This is used to set game framerate dynamically.
 	 * This is extended in the desktop launcher to expose the config
 	 */
-	public void setFrameRate(int framerate) {};
+	public void setFrameRate(int framerate) {}
 	
 	public float getFadeLevel() { return fadeLevel; }
 	

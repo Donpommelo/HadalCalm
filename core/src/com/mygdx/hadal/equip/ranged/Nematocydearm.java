@@ -23,25 +23,25 @@ import com.mygdx.hadal.strategies.hitbox.Spread;
 
 public class Nematocydearm extends RangedWeapon {
 
-	private final static int clipSize = 7;
-	private final static int ammoSize = 49;
-	private final static float shootCd = 0.1f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 0.75f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 35.0f;
-	private final static float recoil = 0.0f;
-	private final static float knockback = 20.0f;
-	private final static float projectileSpeed = 45.0f;
-	private final static Vector2 projectileSize = new Vector2(91, 35);
-	private final static Vector2 stickySize = new Vector2(70, 25);
-	private final static float lifespan = 12.0f;
+	private static final int clipSize = 7;
+	private static final int ammoSize = 49;
+	private static final float shootCd = 0.1f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 0.75f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 35.0f;
+	private static final float recoil = 0.0f;
+	private static final float knockback = 20.0f;
+	private static final float projectileSpeed = 45.0f;
+	private static final Vector2 projectileSize = new Vector2(91, 35);
+	private static final Vector2 stickySize = new Vector2(70, 25);
+	private static final float lifespan = 12.0f;
 	
-	private final static int spread = 5;
+	private static final int spread = 5;
 
-	private final static Sprite projSprite = Sprite.NEMATOCYTE;
-	private final static Sprite weaponSprite = Sprite.MT_NEMATOCYTEARM;
-	private final static Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
+	private static final Sprite projSprite = Sprite.NEMATOCYTE;
+	private static final Sprite weaponSprite = Sprite.MT_NEMATOCYTEARM;
+	private static final Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
 	
 	public Nematocydearm(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

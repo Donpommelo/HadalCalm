@@ -12,13 +12,13 @@ import com.mygdx.hadal.states.PlayState;
 
 public class HealingField extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 20.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 20.0f;
 	
-	private final static Vector2 fieldSize = new Vector2(360, 360);
-	private final static float fieldHeal = 0.2f;
-	private final static float healDuration = 10.0f;
+	private static final Vector2 fieldSize = new Vector2(360, 360);
+	private static final float fieldHeal = 0.2f;
+	private static final float healDuration = 10.0f;
 	
 	public HealingField(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);

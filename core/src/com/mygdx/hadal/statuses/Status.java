@@ -1,7 +1,7 @@
 package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -88,11 +88,11 @@ public class Status {
 	
 	public void onDeath(BodyData perp) {}
 
-	public void whileAttacking(float delta, Equipable tool) {}
+	public void whileAttacking(float delta, Equippable tool) {}
 	
-	public void onShoot(Equipable tool) {}
+	public void onShoot(Equippable tool) {}
 	
-	public void onReload(Equipable tool) {}
+	public void onReload(Equippable tool) {}
 	
 	public void onHitboxCreation(Hitbox hbox) {}
 	
@@ -100,7 +100,7 @@ public class Status {
 	
 	public void scrapPickup() {}
 	
-	public void onAirBlast(Equipable tool) {}
+	public void onAirBlast(Equippable tool) {}
 
 	public void beforeActiveItem(ActiveItem tool) {}
 	
@@ -126,7 +126,7 @@ public class Status {
 
 	/**
 	 * This determines the behavior is this status is added to a schmuck who already has it.
-	 * @return: stack behavior
+	 * @return stack behavior
 	 */
 	public statusStackType getStackType() {	return statusStackType.ADD;	}
 	

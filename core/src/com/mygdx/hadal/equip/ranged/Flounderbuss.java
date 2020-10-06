@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.ranged;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -13,39 +11,34 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.Spread;
+import com.mygdx.hadal.strategies.hitbox.*;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Flounderbuss extends RangedWeapon {
 
-	private final static int clipSize = 1;
-	private final static int ammoSize = 15;
-	private final static float shootCd = 0.0f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.0f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 15.0f;
-	private final static float recoil = 30.0f;
-	private final static float knockback = 12.0f;
-	private final static float projectileSpeed = 25.0f;
-	private final static Vector2 projectileSize = new Vector2(36, 30);
-	private final static float lifespan = 2.0f;
+	private static final int clipSize = 1;
+	private static final int ammoSize = 15;
+	private static final float shootCd = 0.0f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 1.0f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 15.0f;
+	private static final float recoil = 30.0f;
+	private static final float knockback = 12.0f;
+	private static final float projectileSpeed = 25.0f;
+	private static final Vector2 projectileSize = new Vector2(36, 30);
+	private static final float lifespan = 2.0f;
 	
-	private final static Sprite[] projSprites = {Sprite.FLOUNDER_A, Sprite.FLOUNDER_B};
-	private final static Sprite weaponSprite = Sprite.MT_SHOTGUN;
-	private final static Sprite eventSprite = Sprite.P_SHOTGUN;
+	private static final Sprite[] projSprites = {Sprite.FLOUNDER_A, Sprite.FLOUNDER_B};
+	private static final Sprite weaponSprite = Sprite.MT_SHOTGUN;
+	private static final Sprite eventSprite = Sprite.P_SHOTGUN;
 	
 	private static final float maxCharge = 0.5f;
 	private static final float veloSpread = 0.6f;
 
-	private final static int maxNumProj = 12;
-	private final static int spread = 20;
+	private static final int maxNumProj = 12;
+	private static final int spread = 20;
 	
 	public Flounderbuss(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
@@ -75,7 +68,7 @@ public class Flounderbuss extends RangedWeapon {
 		chargeCd = 0;
 	}
 	
-	private Vector2 newVelocity = new Vector2();
+	private final Vector2 newVelocity = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.SHOTGUN.playUniversal(state, startPosition, 0.75f, 0.75f, false);

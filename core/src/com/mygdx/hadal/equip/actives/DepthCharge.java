@@ -11,16 +11,16 @@ import com.mygdx.hadal.statuses.Status;
 
 public class DepthCharge extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 10.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 10.0f;
 	
-	private final static float recoil = 40.0f;
+	private static final float recoil = 40.0f;
 	
-	private final static float duration = 1.0f;
+	private static final float duration = 1.0f;
 	private static final float procCd = .25f;
 	
-	private final static Vector2 explosionSize = new Vector2(300, 300);
+	private static final Vector2 explosionSize = new Vector2(300, 300);
 	private static final float explosionDamage = 40.0f;
 	private static final float explosionKnockback = 20.0f;
 
@@ -37,7 +37,7 @@ public class DepthCharge extends ActiveItem {
 		user.addStatus(new Status(state, duration, false, user, user) {
 			
 			private float procCdCount = procCd;
-			private Vector2 explosionPos = new Vector2(user.getSchmuck().getPixelPosition());
+			private final Vector2 explosionPos = new Vector2(user.getSchmuck().getPixelPosition());
 			@Override
 			public void timePassing(float delta) {
 				super.timePassing(delta);

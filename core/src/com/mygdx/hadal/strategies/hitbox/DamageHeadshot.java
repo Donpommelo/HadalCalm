@@ -20,7 +20,7 @@ public class DamageHeadshot extends HitboxStrategy {
 	private static final float headshotThreshold = 0.2f;
 	
 	//the amount of damage and knockback this hbox will inflict
-	private float bonusDamage;
+	private final float bonusDamage;
 	
 	public DamageHeadshot(PlayState state, Hitbox proj, BodyData user, float damage) {
 		super(state, proj, user);

@@ -33,27 +33,26 @@ public class PauseState extends GameState {
 	private Text pause, resumeOption, hubOption, settingOption, spectateOption, joinOption, exitOption;
 	
 	//This is the playstate that the pause state must be placed on top of.
-	private PlayState ps;
+	private final PlayState ps;
 	
 	//This is the name of the player who paused
-	private String pauser;
+	private final String pauser;
 	
 	//This determines whether the pause state should be removed or not next engine tick.
 	//We do this instead of removing right away in case we remove as a result of receiving a packet from another player unpausing (which can happen whenever).
 	private boolean toRemove;
 	
 	//is the game paused underneath this menu?
-	private boolean paused;
+	private final boolean paused;
 	
-	//Dimentions of the pause menu
-	private final static int width = 500;
-	private final static int height = 300;
-	private final static int extraRowHeight = 100;
-	private final static float pauseTextScale = 0.5f;
+	//Dimensions of the pause menu
+	private static final float width = 500;
+	private static final float height = 300;
+	private static final int extraRowHeight = 100;
+	private static final float pauseTextScale = 0.5f;
 	
 	/**
 	 * Constructor will be called whenever a player pauses.
-	 * @param gsm
 	 */
 	public PauseState(final GameStateManager gsm, PlayState ps, String pauser, boolean paused) {
 		super(gsm);
@@ -77,9 +76,9 @@ public class PauseState extends GameState {
 		stage = new Stage() {
 			{
 				//make the menu size adjust based on how many options are available
-				int menuHeight = height;
+				float menuHeight = height;
 				
-				//extra "return to hub" option is added if the hub has been reached or if the player is in multipalyer mode.
+				//extra "return to hub" option is added if the hub has been reached or if the player is in multiplayer mode.
 				if (ps.isServer() && (gsm.getRecord().getFlags().get("HUB_REACHED").equals(1) || GameStateManager.currentMode == Mode.MULTI)) {
 					menuHeight += extraRowHeight;
 				}
@@ -89,7 +88,7 @@ public class PauseState extends GameState {
 					menuHeight += extraRowHeight;
 				}
 				
-				addActor(new MenuWindow(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - menuHeight / 2, width, menuHeight));
+				addActor(new MenuWindow((int) (HadalGame.CONFIG_WIDTH / 2 - width / 2), (int) (HadalGame.CONFIG_HEIGHT / 2 - menuHeight / 2), (int) width, (int) menuHeight));
 				
 				table = new Table();
 				table.setLayoutEnabled(true);
@@ -211,7 +210,7 @@ public class PauseState extends GameState {
 		};
 		app.newMenu(stage);
 		
-		//We get the playstate's input processor so users can send messages + view score when paused
+		//We get the playstate input processor so users can send messages + view score when paused
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		
 		inputMultiplexer.addProcessor(stage);
@@ -288,13 +287,15 @@ public class PauseState extends GameState {
 			SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
 			
 			//the following code makes sure that, if the host changes artifact slot number, these changes sync immediately.
-			if (ps.isServer() && ps.isHub()) {
-				ps.getPlayer().getPlayerData().syncArtifacts(false);
-				for (Player player : HadalGame.server.getPlayers().values()) {
-					player.getPlayerData().syncArtifacts(false);
+			if (ps != null) {
+				if (ps.isServer() && ps.isHub()) {
+					ps.getPlayer().getPlayerData().syncArtifacts(false);
+					for (Player player : HadalGame.server.getPlayers().values()) {
+						player.getPlayerData().syncArtifacts(false);
+					}
 				}
+				ps.getUiHub().refreshHub();
 			}
-			ps.getUiHub().refreshHub();
 			gsm.removeState(PauseState.class);
 		}
 	}

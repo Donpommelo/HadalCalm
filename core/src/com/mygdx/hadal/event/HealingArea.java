@@ -34,19 +34,20 @@ public class HealingArea extends Event {
 	private float controllerCount;
 	
 	//Damage done by the poison
-	private float heal;
+	private final float heal;
 	
 	//If created by an dude, this is that dude
-	private Schmuck perp;
+	private final Schmuck perp;
 	
 	//timers manage the rate of particle spawn
-	private float currCrossSpawnTimer, spawnTimerLimit;
+	private float currCrossSpawnTimer;
+	private final float spawnTimerLimit;
 	
 	//filter determines which schmucks are affected by this event
-	private short filter;
+	private final short filter;
 	
-	//the frewuency that the heal is applied
-	private final static float healInterval = 1 / 60f;
+	//the frequency that the heal is applied
+	private static final float healInterval = 1 / 60f;
 	
 	/**
 	 * This constructor is used for when this event is created temporarily.
@@ -76,8 +77,8 @@ public class HealingArea extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
 	}
 	
-	private Vector2 entityLocation = new Vector2();
-	private Vector2 randLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
+	private final Vector2 randLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
@@ -136,10 +137,8 @@ public class HealingArea extends Event {
 			blueprint = new RectangleMapObject(entityLocation.x - size.x / 2, entityLocation.y - size.y / 2, size.x, size.y);
 			blueprint.setName("HealTemp");
 			blueprint.getProperties().put("duration", duration);
-			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
-		} else {
-			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 		}
+		return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 	}
 	
 	@Override

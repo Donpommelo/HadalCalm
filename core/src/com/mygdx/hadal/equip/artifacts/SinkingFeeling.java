@@ -8,10 +8,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class SinkingFeeling extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float bonusFastFall = 1.0f;
+	private static final float bonusFastFall = 1.0f;
 	
 	public SinkingFeeling() {
 		super(slotCost, statusNum);

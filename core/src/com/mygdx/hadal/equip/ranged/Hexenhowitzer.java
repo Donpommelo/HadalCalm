@@ -1,14 +1,11 @@
 package com.mygdx.hadal.equip.ranged;
 
-import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -23,42 +20,38 @@ import com.mygdx.hadal.statuses.MagicGlow;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
-import com.mygdx.hadal.strategies.hitbox.Spread;
+import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Stats;
+
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Hexenhowitzer extends RangedWeapon {
 
-	private final static int clipSize = 1;
-	private final static int ammoSize = 1;
-	private final static float shootCd = 0.4f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.0f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 22.0f;
-	private final static float recoil = 6.0f;
-	private final static float knockback = 20.0f;
-	private final static float projectileSpeed = 35.0f;
-	private final static Vector2 projectileSize = new Vector2(50, 25);
-	private final static float lifespan = 1.5f;
+	private static final int clipSize = 1;
+	private static final int ammoSize = 1;
+	private static final float shootCd = 0.4f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = 1.0f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 22.0f;
+	private static final float recoil = 6.0f;
+	private static final float knockback = 20.0f;
+	private static final float projectileSpeed = 35.0f;
+	private static final Vector2 projectileSize = new Vector2(50, 25);
+	private static final float lifespan = 1.5f;
 	
 	private static final float maxCharge = 80.0f;
 	private static final float chargeLostPerShot = 2.5f;
 
-	private final static Sprite weaponSprite = Sprite.MT_TORPEDO;
-	private final static Sprite eventSprite = Sprite.P_TORPEDO;
+	private static final Sprite weaponSprite = Sprite.MT_TORPEDO;
+	private static final Sprite eventSprite = Sprite.P_TORPEDO;
 	
-	private final static float pitchSpread = 0.4f;
+	private static final float pitchSpread = 0.4f;
 	
-	private final static float superchargedShootCd = 0.07f;
-	private final static float enemyChargeMultiplier = 0.25f;
-	private final static int spread = 18;
+	private static final float superchargedShootCd = 0.07f;
+	private static final float enemyChargeMultiplier = 0.25f;
+	private static final int spread = 18;
 	private boolean supercharged = false;
 	private Status glowing;
 	
@@ -85,7 +78,7 @@ public class Hexenhowitzer extends RangedWeapon {
 		float pitch = (ThreadLocalRandom.current().nextFloat() - 0.5f) * pitchSpread;
 		SoundEffect.BOTTLE_ROCKET.playUniversal(state, startPosition, 0.4f, 1.0f + pitch, false);
 
-		final Equipable me = this;
+		final Equippable me = this;
 		
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		hbox.setGravity(1.0f);
@@ -119,7 +112,7 @@ public class Hexenhowitzer extends RangedWeapon {
 			
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
-				private ArrayList<HadalData> damaged = new ArrayList<HadalData>();
+				private final ArrayList<HadalData> damaged = new ArrayList<>();
 
 				@Override
 				public void onHit(HadalData fixB) {

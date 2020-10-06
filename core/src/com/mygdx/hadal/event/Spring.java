@@ -28,7 +28,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class Spring extends Event {
 	
 	//The vector of force that will be applied to any touching entity.
-	private Vector2 vec;
+	private final Vector2 vec = new Vector2();
 
 	//this is the frequency that the spring sound can play
 	private static final float procCd = 0.25f;
@@ -36,12 +36,12 @@ public class Spring extends Event {
 
 	public Spring(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec) {
 		super(state, startPos, size);
-		this.vec = vec;
+		this.vec.set(vec);
 	}
 	
 	public Spring(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec, float duration) {
 		super(state, startPos, size, duration);
-		this.vec = vec;
+		this.vec.set(vec);
 		setEventSprite(Sprite.SPRING);
 	}
 	
@@ -91,10 +91,8 @@ public class Spring extends Event {
 			blueprint.getProperties().put("springX", vec.x);
 			blueprint.getProperties().put("springY", vec.y);
 			blueprint.getProperties().put("duration", duration);
-			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
-		} else {
-			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 		}
+		return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 	}
 	
 	@Override

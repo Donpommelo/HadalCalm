@@ -1,13 +1,13 @@
 package com.mygdx.hadal.event.utility;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A Conditional trigger is like a multi-trigger, except it only triggers one of the events in its list. Which event it triggers is
@@ -19,7 +19,7 @@ import com.mygdx.hadal.states.PlayState;
  * Alt-Triggered Behavior: When alt-triggered, this trigger changes which event it triggers to match the alt-trigger's message.
  * 
  * Fields:
- * start: String that determings the id of the event in its list that this trigger will start off triggering. 
+ * start: String that determines the id of the event in its list that this trigger will start off triggering.
  * 	Optional. Default: "". This means that the trigger will start off triggering nothing.
  * 	Also, if this is set to "random", this will trigger a random event on its list.
  * 
@@ -29,7 +29,7 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class TriggerCond extends Event {
 
-	private Map<String, Event> triggered = new HashMap<String, Event>();
+	private final Map<String, Event> triggered = new HashMap<>();
 	private String condition;
 	
 	public TriggerCond(PlayState state, String start) {

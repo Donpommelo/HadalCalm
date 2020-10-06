@@ -9,14 +9,14 @@ import com.mygdx.hadal.statuses.Status;
 
 public class VolatileDermis extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
 	private static final float procCd = 3.0f;
 	
-	private final static float chainDamage = 15.0f;
-	private final static int chainRadius = 10;
-	private final static int chainAmount = 3;
+	private static final float chainDamage = 15.0f;
+	private static final int chainRadius = 10;
+	private static final int chainAmount = 3;
 	
 	public VolatileDermis() {
 		super(slotCost, statusNum);

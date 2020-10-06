@@ -9,11 +9,11 @@ import com.mygdx.hadal.states.PlayState;
 
 public class Honeycomb extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 15.0f;
-	private final static float projectileSpeed = 5.0f;
-	private final static int numBees = 11;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 15.0f;
+	private static final float projectileSpeed = 5.0f;
+	private static final int numBees = 11;
 	
 	public Honeycomb(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

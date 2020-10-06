@@ -7,10 +7,10 @@ package com.mygdx.hadal.server;
  * (Probably at the cost of a bit of performance b/c everything is being run in the same thread?)
  * @author Zachary Tu
  */
-public abstract interface PacketEffect {
+public interface PacketEffect {
 	
 	/**
 	 * Do the thing
 	 */
-	public abstract void execute();
+	void execute();
 }

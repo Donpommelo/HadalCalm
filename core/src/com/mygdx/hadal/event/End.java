@@ -19,7 +19,7 @@ import com.mygdx.hadal.states.PlayState;
 public class End extends Event {
 
 	//This is the text displayed in the results screen.
-	private String text;
+	private final String text;
 	
 	public End(PlayState state, String text) {
 		super(state);

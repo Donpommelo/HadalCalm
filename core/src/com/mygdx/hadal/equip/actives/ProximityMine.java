@@ -24,23 +24,23 @@ import com.mygdx.hadal.utils.Constants;
 
 public class ProximityMine extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 9.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.1f;
+	private static final float maxCharge = 9.0f;
 	
-	private final static Vector2 projectileSize = new Vector2(75, 30);
-	private final static float lifespan = 3.0f;
-	private final static float mineLifespan = 24.0f;
+	private static final Vector2 projectileSize = new Vector2(75, 30);
+	private static final float lifespan = 3.0f;
+	private static final float mineLifespan = 24.0f;
 
-	private final static float projectileSpeed = 60.0f;
+	private static final float projectileSpeed = 60.0f;
 	
-	private final static int explosionRadius = 250;
-	private final static float explosionDamage = 80.0f;
-	private final static float explosionKnockback = 50.0f;
+	private static final int explosionRadius = 250;
+	private static final float explosionDamage = 80.0f;
+	private static final float explosionKnockback = 50.0f;
 	
-	private final static float primeDelay = 2.0f;
+	private static final float primeDelay = 2.0f;
 
-	private final static Sprite projSprite = Sprite.LAND_MINE;
+	private static final Sprite projSprite = Sprite.LAND_MINE;
 
 	public ProximityMine(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

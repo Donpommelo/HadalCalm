@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -14,6 +12,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * A Ragdoll is a miscellaneous entity that doesn't do a whole heck of a lot.
  * Its main job is to be visible and obey physics. This is useful for on-death ragdoll/frags
@@ -23,32 +23,32 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class Ragdoll extends HadalEntity {
 	
 	//This is the sprite that will be displayed
-	private Sprite sprite;
+	private final Sprite sprite;
 	private TextureRegion ragdollSprite;
 	
 	//spread is for giving the initial ragdoll a random velocity
-	private final static int spread = 120;
+	private static final int spread = 120;
 	
 	//how long does the ragdoll last
 	private float ragdollDuration;
-	private float gravity;
+	private final float gravity;
 	
 	//starting multiplier on starting velocity and direction
-	private final static float veloAmp = 10.0f;
-	private final static float angleAmp = 2.0f;
-	private final static float baseAngle = 8.0f;
+	private static final float veloAmp = 10.0f;
+	private static final float angleAmp = 2.0f;
+	private static final float baseAngle = 8.0f;
 	
-	private Vector2 startVelo;
-	private float startAngle;
+	private final Vector2 startVelo;
+	private final float startAngle;
 	
 	//is the ragdoll a sensor? (i.e does it have collision)
-	private boolean sensor;
+	private final boolean sensor;
 	
 	//do we set the velocity of the ragdoll upon spawning or just change its angle? 
-	private boolean setVelo;
+	private final boolean setVelo;
 	
 	//when this ragdoll is created on the server, does the client create a ragdoll of its own (this is false for stuff like currents)
-	private boolean synced;
+	private final boolean synced;
 	
 	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity, boolean setVelo, boolean sensor, boolean synced) {
 		super(state, startPos, size);
@@ -67,7 +67,7 @@ public class Ragdoll extends HadalEntity {
 		setSyncDefault(false);
 	}
 
-	private Vector2 newVelocity = new Vector2();
+	private final Vector2 newVelocity = new Vector2();
 	@Override
 	public void create() {
 		this.hadalData = new HadalData(UserDataTypes.BODY, this);
@@ -75,7 +75,7 @@ public class Ragdoll extends HadalEntity {
 		
 		setAngularVelocity(startAngle * angleAmp);
 		
-		float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
+		float newDegrees = startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 		newVelocity.set(startVelo).add(1, 1);
 		
 		if (setVelo) {
@@ -105,7 +105,7 @@ public class Ragdoll extends HadalEntity {
 		}
 	}
 	
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		

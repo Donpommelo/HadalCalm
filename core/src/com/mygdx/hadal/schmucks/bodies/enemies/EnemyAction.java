@@ -10,7 +10,7 @@ public class EnemyAction {
 	protected Enemy enemy;
 	
 	//this is the amount of time that this action will take before the next action in the queue will begin
-	private float duration;
+	private final float duration;
 	
 	public EnemyAction(Enemy enemy, float duration) {
 		this.enemy = enemy;

@@ -20,8 +20,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class QuestChecker extends Event {
 
-	private String quest;
-	private int val;
+	private final String quest;
+	private final int val;
 	
 	public QuestChecker(PlayState state, String quest, int val) {
 		super(state);

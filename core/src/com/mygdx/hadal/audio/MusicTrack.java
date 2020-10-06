@@ -13,7 +13,7 @@ public enum MusicTrack {
 	OFFICE("music/OfficeMusic.mp3"),
 	;
 	
-	private String musicFileName;
+	private final String musicFileName;
 	private Music music;
 	
 	MusicTrack(String musicFileName) {

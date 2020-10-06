@@ -14,6 +14,8 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 
+import java.util.Arrays;
+
 /**
  * This utility manages the players console commands
  * enter console commands in the message window (default binding: 't')
@@ -24,22 +26,22 @@ public class ConsoleCommandUtil {
 	public static int parseChatCommand(PlayState state, Player player, String command) {
 		
 		if (command.equals("/roll")) {
-			HadalGame.server.addNotificationToAll(state, "SYSTEM", player.getName() + " Rolled A Number: " + String.valueOf(GameStateManager.generator.nextInt(100)), DialogType.SYSTEM);
+			HadalGame.server.addNotificationToAll(state, "SYSTEM", player.getName() + " Rolled A Number: " + GameStateManager.generator.nextInt(100), DialogType.SYSTEM);
 			return 0;
 		}
 		
 		if (command.equals("/weapon")) {
 			
-			String message = player.getName() + "'s Weapons: ";
+			StringBuilder message = new StringBuilder(player.getName() + "'s Weapons: ");
 			
 			for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
-				
+
 				if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
-					message += player.getPlayerData().getLoadout().multitools[i].name() + " ";
+					message.append(player.getPlayerData().getLoadout().multitools[i].name()).append(" ");
 				}
 			}
 			
-			HadalGame.server.addNotificationToAll(state, "SYSTEM", message, DialogType.SYSTEM);
+			HadalGame.server.addNotificationToAll(state, "SYSTEM", message.toString(), DialogType.SYSTEM);
 			return 0;
 		}
 		
@@ -69,7 +71,7 @@ public class ConsoleCommandUtil {
 	public static int parseChatCommandClient(ClientState state, Player player, String command) {
 		
 		if (command.equals("/roll")) {
-			HadalGame.client.sendTCP(new Packets.Notification("SYSTEM", player.getName() + " Rolled A Number: " + String.valueOf(GameStateManager.generator.nextInt(100)), DialogType.SYSTEM));
+			HadalGame.client.sendTCP(new Packets.Notification("SYSTEM", player.getName() + " Rolled A Number: " + GameStateManager.generator.nextInt(100), DialogType.SYSTEM));
 			return 0;
 		}
 		
@@ -171,7 +173,8 @@ public class ConsoleCommandUtil {
 			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA TARGET: " + state.getCameraTarget(), DialogType.SYSTEM);
 			break;
 		case "cameraBounds":
-			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA BOUNDS: " + state.getCameraBounds(), DialogType.SYSTEM);
+			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA BOUNDS: " +
+					Arrays.toString(state.getCameraBounds()), DialogType.SYSTEM);
 			break;
 		case "playerLoc":
 			HadalGame.server.addNotificationToAll(state, "GAEM", "PLAYER LOCATION: " + state.getPlayer().getPosition(), DialogType.SYSTEM);
@@ -191,7 +194,7 @@ public class ConsoleCommandUtil {
 				state.getPlayer().getPlayerData().setCurrentHp(hp);
 				return 0;
 			}
-		} catch (NumberFormatException e) {}
+		} catch (NumberFormatException ignored) {}
 		
 		return -1;
 	}
@@ -207,7 +210,7 @@ public class ConsoleCommandUtil {
 				state.getPlayer().getPlayerData().getCurrentTool().setAmmoLeft(ammo);
 				return 0;
 			}
-		} catch (NumberFormatException e) {}
+		} catch (NumberFormatException ignored) {}
 		
 		return -1;
 	}
@@ -223,13 +226,13 @@ public class ConsoleCommandUtil {
 				state.getPlayer().getPlayerData().getActiveItem().setCurrentChargePercent(charge);
 				return 0;
 			}
-		} catch (NumberFormatException e) {}
+		} catch (NumberFormatException ignored) {}
 		
 		return -1;
 	}
 	
 	/**
-	 * The player enters "eq x" to set their current weapon or active item to x (where x is the enum name of the equipable)
+	 * The player enters "eq x" to set their current weapon or active item to x (where x is the enum name of the equippable)
 	 */
 	public static int setEquip(PlayState state, String command) {
 		
@@ -238,14 +241,14 @@ public class ConsoleCommandUtil {
 			if (state.getPlayer().isAlive()) {
 				state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(equip, state.getPlayer()));
 			}
-		} catch (IllegalArgumentException  e) {}
+		} catch (IllegalArgumentException ignored) {}
 		
 		try {
 			UnlockActives active = UnlockActives.valueOf(command.toUpperCase());
 			if (state.getPlayer().isAlive()) {
 				state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(active, state.getPlayer()));
 			}
-		} catch (IllegalArgumentException e) {}
+		} catch (IllegalArgumentException ignored) {}
 		
 		return -1;
 	}
@@ -262,7 +265,7 @@ public class ConsoleCommandUtil {
 				state.getUiExtra().syncData();
 				return 0;
 			}
-		} catch (NumberFormatException e) {}
+		} catch (NumberFormatException ignored) {}
 		
 		return -1;
 	}
@@ -276,7 +279,7 @@ public class ConsoleCommandUtil {
 			UnlockLevel level = UnlockLevel.valueOf(command.toUpperCase());
 			state.loadLevel(level, TransitionState.NEWLEVEL, "");
 			return 0;
-		} catch (IllegalArgumentException e) {}
+		} catch (IllegalArgumentException ignored) {}
 		
 		return -1;
 	}

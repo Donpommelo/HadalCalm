@@ -1,7 +1,7 @@
 package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -126,9 +126,9 @@ public abstract class ProcTime {
 	
 	public static class WhileAttack extends ProcTime {
 		public float time;
-		public Equipable tool;
+		public Equippable tool;
 		
-		public WhileAttack(float time, Equipable tool) {
+		public WhileAttack(float time, Equippable tool) {
 			this.time = time;
 			this.tool = tool;
 		}
@@ -141,9 +141,9 @@ public abstract class ProcTime {
 	}
 	
 	public static class Shoot extends ProcTime {
-		public Equipable tool;
+		public Equippable tool;
 		
-		public Shoot(Equipable tool) {
+		public Shoot(Equippable tool) {
 			this.tool = tool;
 		}
 		
@@ -155,9 +155,9 @@ public abstract class ProcTime {
 	}
 	
 	public static class Reload extends ProcTime {
-		public Equipable tool;
+		public Equippable tool;
 		
-		public Reload(Equipable tool) {
+		public Reload(Equippable tool) {
 			this.tool = tool;
 		}
 		
@@ -205,9 +205,9 @@ public abstract class ProcTime {
 	}
 
 	public static class Airblast extends ProcTime {
-		public Equipable tool;
+		public Equippable tool;
 		
-		public Airblast(Equipable tool) {
+		public Airblast(Equippable tool) {
 			this.tool = tool;
 		}
 		

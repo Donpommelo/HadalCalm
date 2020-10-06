@@ -20,7 +20,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class PortalWrap extends Event {
 
-	private boolean axis, direction;
+	private final boolean axis, direction;
 	
 	public PortalWrap(PlayState state, Vector2 startPos, Vector2 size, boolean axis, boolean direction) {
 		super(state, startPos, size);
@@ -35,11 +35,11 @@ public class PortalWrap extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, Constants.BIT_PLAYER, (short) 0, true, eventData);
 	}
 	
-	private Vector3 newCamera = new Vector3();
-	private Vector3 playerTempLocation = new Vector3();
-	private Vector2 playerLocation = new Vector2();
-	private Vector2 entityLocation = new Vector2();
-	private Vector2 connectedLocation = new Vector2();
+	private final Vector3 newCamera = new Vector3();
+	private final Vector3 playerTempLocation = new Vector3();
+	private final Vector2 playerLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
+	private final Vector2 connectedLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		if (getConnectedEvent() != null) {

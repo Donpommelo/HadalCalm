@@ -20,26 +20,26 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class Vajra extends RangedWeapon {
 
-	private final static int clipSize = 3;
-	private final static int ammoSize = 21;
-	private final static float shootCd = 0.4f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.1f;
-	private final static int reloadAmount = 0;
+	private static final int clipSize = 3;
+	private static final int ammoSize = 21;
+	private static final float shootCd = 0.4f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = 1.1f;
+	private static final int reloadAmount = 0;
 
-	private final static float recoil = 4.0f;
-	private final static float baseDamage = 20.0f;
-	private final static float knockback = 5.0f;
-	private final static float projectileSpeedStart = 30.0f;
-	private final static Vector2 projectileSize = new Vector2(84, 30);
-	private final static float lifespan = 1.0f;
+	private static final float recoil = 4.0f;
+	private static final float baseDamage = 20.0f;
+	private static final float knockback = 5.0f;
+	private static final float projectileSpeedStart = 30.0f;
+	private static final Vector2 projectileSize = new Vector2(84, 30);
+	private static final float lifespan = 1.0f;
 	
-	private final static float chainDamage = 25.0f;
-	private final static int chainRadius = 25;
-	private final static int chainAmount = 6;
+	private static final float chainDamage = 25.0f;
+	private static final int chainRadius = 25;
+	private static final int chainAmount = 6;
 	
-	private final static Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;
-	private final static Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
+	private static final Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;
+	private static final Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
 	
 	public Vajra(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

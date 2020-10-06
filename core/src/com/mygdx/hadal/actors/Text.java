@@ -27,11 +27,11 @@ public class Text extends AHadalActor {
 	private boolean hover = false;
 	
 	//does the text wrap? If so, it is set to targetWidth length.
-	private boolean wrap;
-	private float targetWidth;
+	private final boolean wrap;
+	private final float targetWidth;
 
 	//padding used if this text is a button
-	private final static float padding = 20.0f;
+	private static final float padding = 20.0f;
 	
 	public Text(String text, int x, int y, boolean button) {
 		this(text, x, y, button, false, 0);

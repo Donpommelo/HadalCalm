@@ -11,12 +11,12 @@ import com.mygdx.hadal.utils.Stats;
 
 public class InformantsTie extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 3;
+	private static final int statusNum = 1;
+	private static final int slotCost = 3;
 	
-	private final static float projSpdReduction = -0.5f;
-	private final static float bonusProjLifespan = 0.5f;
-	private final static float homePower = 60.0f;
+	private static final float projSpdReduction = -0.5f;
+	private static final float bonusProjLifespan = 0.5f;
+	private static final float homePower = 60.0f;
 
 	public InformantsTie() {
 		super(slotCost, statusNum);

@@ -18,27 +18,27 @@ import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 
 public class Maelstrom extends RangedWeapon {
 
-	private final static int clipSize = 3;
-	private final static int ammoSize = 18;
-	private final static float shootCd = 0.75f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.5f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 12.0f;
-	private final static float recoil = 6.0f;
-	private final static float knockback = 12.0f;
-	private final static float projectileSpeed = 18.0f;
-	private final static Vector2 projectileSize = new Vector2(20, 20);
-	private final static float lifespan = 1.8f;
+	private static final int clipSize = 3;
+	private static final int ammoSize = 18;
+	private static final float shootCd = 0.75f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = 1.5f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 12.0f;
+	private static final float recoil = 6.0f;
+	private static final float knockback = 12.0f;
+	private static final float projectileSpeed = 18.0f;
+	private static final Vector2 projectileSize = new Vector2(20, 20);
+	private static final float lifespan = 1.8f;
 	
-	private final static float explosionInterval = 0.06f;
-	private final static float explosionDuration = 0.1f;
-	private final static int explosionMaxSize = 250;
-	private final static float explosionGrowth = 8.0f;
+	private static final float explosionInterval = 0.06f;
+	private static final float explosionDuration = 0.1f;
+	private static final int explosionMaxSize = 250;
+	private static final float explosionGrowth = 8.0f;
 	
-	private final static Sprite projSprite = Sprite.HURRICANE;
-	private final static Sprite weaponSprite = Sprite.MT_STORMCALLER;
-	private final static Sprite eventSprite = Sprite.P_STORMCALLER;
+	private static final Sprite projSprite = Sprite.HURRICANE;
+	private static final Sprite weaponSprite = Sprite.MT_STORMCALLER;
+	private static final Sprite eventSprite = Sprite.P_STORMCALLER;
 	
 	public Maelstrom(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -59,7 +59,7 @@ public class Maelstrom extends RangedWeapon {
 		storm.addStrategy(new HitboxStrategy(state, storm, user.getBodyData()) {
 			
 			private float controllerCount = 0;
-			private Vector2 explosionSize = new Vector2(projectileSize);
+			private final Vector2 explosionSize = new Vector2(projectileSize);
 			
 			@Override
 			public void create() {

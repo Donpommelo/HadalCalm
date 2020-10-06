@@ -24,10 +24,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class CameraBounder extends Event {
 
 	//which bound are we setting?
-	private boolean right, left, up, down;
+	private final boolean right, left, up, down;
 	
 	//is this regular camera bound or spectator bound?
-	private boolean spectator;
+	private final boolean spectator;
 	
 	public CameraBounder(PlayState state, Vector2 startPos, Vector2 size, boolean right, boolean left, boolean up, boolean down, boolean spectator) {
 		super(state, startPos, size);

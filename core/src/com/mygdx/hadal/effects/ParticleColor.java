@@ -36,7 +36,7 @@ public enum ParticleColor {
 
 	;
 	
-	private float r, g, b;
+	private final float r, g, b;
 	
 	ParticleColor(float r, float g, float b) {
 		this.r = r;

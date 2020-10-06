@@ -1,8 +1,5 @@
 package com.mygdx.hadal.event.userdata;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -10,6 +7,9 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This is the data for an event. It contains the information needed for the event to activate and be activated
@@ -20,19 +20,19 @@ public class EventData extends HadalData {
 	//this is the event that owns this data
 	protected Event event;
 	
-	//This is a list of the schmucks tounching the event
+	//This is a list of the schmucks touching the event
 	protected Set<HadalEntity> schmucks;
 
 	public EventData(Event event) {
 		super(UserDataTypes.EVENT, event);
 		this.event = event;
-		this.schmucks = new HashSet<HadalEntity>();
+		this.schmucks = new HashSet<>();
 	}
 	
 	public EventData(Event event, UserDataTypes type) {
 		super(type, event);
 		this.event = event;
-		this.schmucks = new HashSet<HadalEntity>();
+		this.schmucks = new HashSet<>();
 	}
 	
 	/**
@@ -70,12 +70,9 @@ public class EventData extends HadalData {
 
 		//activation depends on event sync type
 		switch(event.getSyncType()) {
-		case ILLUSION:
-			onActivate(activator, p);
-			break;
 		case USER:
 			if (p == null) {
-				onActivate(activator, p);
+				onActivate(activator, null);
 			} else {
 				if (p.equals(event.getState().getPlayer())) {
 					onActivate(activator, p);
@@ -88,6 +85,7 @@ public class EventData extends HadalData {
 			onActivate(activator, p);
 			HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID().toString()));
 			break;
+		case ILLUSION:
 		case SERVER:
 			onActivate(activator, p);
 			break;
@@ -96,8 +94,8 @@ public class EventData extends HadalData {
 	
 	/**
 	 * This is what happens when an event is activated.
-	 * @param activator
-	 * @param p
+	 * @param activator: the event that activates this event
+	 * @param p: the player that activates this event
 	 */
 	public void onActivate(EventData activator, Player p) {}
 	

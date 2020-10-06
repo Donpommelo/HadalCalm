@@ -13,9 +13,9 @@ import com.mygdx.hadal.states.PlayState;
 public class TurretBoss extends Turret {
 
 	private static final int baseHp = 6000;
-	private final static String name = "TURRET BOSS";
+	private static final String name = "TURRET BOSS";
 	
-	private final static int scrapDrop = 30;
+	private static final int scrapDrop = 30;
 	
 	private static final float aiAttackCd = 3.0f;
 	
@@ -44,9 +44,9 @@ public class TurretBoss extends Turret {
 		EnemyUtils.changeTurretState(this, TurretState.FREE, 180.0f, 1.0f);
 		for (int i = 0; i < bulletNumber; i++) {
 			EnemyUtils.changeTurretState(this, TurretState.FREE, 180.0f - i * 10, 0);
-			EnemyUtils.changeMoveState(state, this, MoveState.ANIM1, 0.2f);
+			EnemyUtils.changeMoveState(this, MoveState.ANIM1, 0.2f);
 			animationTime = 0;
-			EnemyUtils.changeMoveState(state, this, MoveState.DEFAULT, 0);
+			EnemyUtils.changeMoveState(this, MoveState.DEFAULT, 0);
 			EnemyUtils.shootBullet(state, this, bulletDamage, bulletSpeed, bulletKB, bulletSize, bulletLifespan, bulletInterval);
 		}
 		EnemyUtils.changeTurretState(this, TurretState.TRACKING, 0.0f, 0.0f);

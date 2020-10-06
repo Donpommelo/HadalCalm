@@ -20,24 +20,24 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class Boiler extends RangedWeapon {
 
-	private final static int clipSize = 90;
-	private final static int ammoSize = 270;
-	private final static float shootCd = 0.04f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.5f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 4.5f;
-	private final static float recoil = 1.5f;
-	private final static float knockback = 2.0f;
-	private final static float projectileSpeed = 20.0f;
-	private final static Vector2 projectileSize = new Vector2(100, 50);
-	private final static float lifespan = 0.5f;
+	private static final int clipSize = 90;
+	private static final int ammoSize = 270;
+	private static final float shootCd = 0.04f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = 1.5f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 4.5f;
+	private static final float recoil = 1.5f;
+	private static final float knockback = 2.0f;
+	private static final float projectileSpeed = 20.0f;
+	private static final Vector2 projectileSize = new Vector2(100, 50);
+	private static final float lifespan = 0.5f;
 	
-	private final static float fireDuration = 5.0f;
-	private final static float fireDamage = 3.0f;
+	private static final float fireDuration = 5.0f;
+	private static final float fireDamage = 3.0f;
 	
-	private final static Sprite weaponSprite = Sprite.MT_BOILER;
-	private final static Sprite eventSprite = Sprite.P_BOILER;
+	private static final Sprite weaponSprite = Sprite.MT_BOILER;
+	private static final Sprite eventSprite = Sprite.P_BOILER;
 	
 	private SoundEntity fireSound;
 	

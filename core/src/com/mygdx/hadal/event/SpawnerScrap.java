@@ -21,7 +21,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class SpawnerScrap extends Event {
 
-	private int scrap;
+	private final int scrap;
 	
 	public SpawnerScrap(PlayState state, Vector2 startPos, Vector2 size, int scrap) {
 		super(state, startPos, size);

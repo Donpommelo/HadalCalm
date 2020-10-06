@@ -2,8 +2,6 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -26,18 +24,15 @@ public class HomingUnit extends HitboxStrategy {
 	private float shortestFraction = 1.0f;
 	
 	//this is the faction filter that describes which units this should home towards.
-	private short filter;
+	private final short filter;
 	
 	//this is the power of the force applied to the hbox when it tries to home.
-	private float homePower;
-	
-	//this is the amount of seconds the hbox will attempt to predict its target's position
-	private float maxPredictionTime = 0.5f;
-	
+	private final float homePower;
+
 	//this is the distance that the hbox will search for a homing target.
 	private static final int homeRadius = 2000;
 	
-	private final static float pushInterval = 1 / 60f;
+	private static final float pushInterval = 1 / 60f;
 	private float controllerCount = 0;
 	
 	public HomingUnit(PlayState state, Hitbox proj, BodyData user, float homePower, short filter) {
@@ -46,8 +41,8 @@ public class HomingUnit extends HitboxStrategy {
 		this.filter = filter;
 	}
 	
-	private Vector2 entityLocation = new Vector2();
-	private Vector2 homeLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
+	private final Vector2 homeLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		
@@ -62,55 +57,46 @@ public class HomingUnit extends HitboxStrategy {
 		} else {
 			entityLocation.set(hbox.getPosition());
 			//search all nearby enemies and raycast to them to see if there is an unobstructed path.
-			hbox.getWorld().QueryAABB(new QueryCallback() {
+			hbox.getWorld().QueryAABB(fixture -> {
+				if (fixture.getUserData() instanceof BodyData) {
 
-				@Override
-				public boolean reportFixture(Fixture fixture) {
-					if (fixture.getUserData() instanceof BodyData) {
-						
-						homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
-						homeLocation.set(homeAttempt.getPosition());
-						shortestFraction = 1.0f;
-						
-					  	if (entityLocation.x != homeLocation.x || entityLocation.y != homeLocation.y) {
-					  		hbox.getWorld().rayCast(new RayCastCallback() {
+					homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
+					homeLocation.set(homeAttempt.getPosition());
+					shortestFraction = 1.0f;
 
-								@Override
-								public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-									if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
-										if (fraction < shortestFraction) {
-											shortestFraction = fraction;
-											closestFixture = fixture;
-											return fraction;
-										}
-									} else if (fixture.getUserData() instanceof BodyData) {
-										if (((BodyData) fixture.getUserData()).getSchmuck().getHitboxfilter() != filter) {
-											if (fraction < shortestFraction) {
-												shortestFraction = fraction;
-												closestFixture = fixture;
-												return fraction;
-											}
-										}
-									} 
-									return -1.0f;
-								}
-								
-							}, entityLocation, homeLocation);	
-							
-							if (closestFixture != null) {
-								if (closestFixture.getUserData() instanceof BodyData) {
-									homing = ((BodyData) closestFixture.getUserData()).getSchmuck();
-								}
-							}	
-						}									
+					  if (entityLocation.x != homeLocation.x || entityLocation.y != homeLocation.y) {
+						  hbox.getWorld().rayCast((fixture1, point, normal, fraction) -> {
+							  if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL) {
+								  if (fraction < shortestFraction) {
+									  shortestFraction = fraction;
+									  closestFixture = fixture1;
+									  return fraction;
+								  }
+							  } else if (fixture1.getUserData() instanceof BodyData) {
+								  if (((BodyData) fixture1.getUserData()).getSchmuck().getHitboxfilter() != filter) {
+									  if (fraction < shortestFraction) {
+										  shortestFraction = fraction;
+										  closestFixture = fixture1;
+										  return fraction;
+									  }
+								  }
+							  }
+							  return -1.0f;
+						  }, entityLocation, homeLocation);
+
+						if (closestFixture != null) {
+							if (closestFixture.getUserData() instanceof BodyData) {
+								homing = ((BodyData) closestFixture.getUserData()).getSchmuck();
+							}
+						}
 					}
-					return true;
 				}
+				return true;
 			}, entityLocation.x - homeRadius, entityLocation.y - homeRadius, entityLocation.x + homeRadius, entityLocation.y + homeRadius);
 		}
 	}
 	
-	private Vector2 homingPush = new Vector2();
+	private final Vector2 homingPush = new Vector2();
 	/**
 	 * This method pushes a hbox towards its homing target
 	 */
@@ -122,6 +108,8 @@ public class HomingUnit extends HitboxStrategy {
 		float squareSpeed = hbox.getLinearVelocity().len2();
 
 		//if this hbox is moving , we check its distance to its target
+		//this is the amount of seconds the hbox will attempt to predict its target's position
+		float maxPredictionTime = 0.5f;
 		if (squareSpeed > 0) {
 
 			float squarePredictionTime = squareDistance / squareSpeed;

@@ -1,7 +1,5 @@
 package com.mygdx.hadal.strategies.hitbox;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -9,6 +7,8 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+
+import java.util.ArrayList;
 
 /**
  * This strategy is used by hitboxes that do set knockback on hit regardless of its own position or direction.
@@ -18,22 +18,22 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class DamageConstant extends HitboxStrategy {
 	
 	//the amount of damage and knockback this hbox will inflict
-	private float baseDamage;
-	private Vector2 knockback;
+	private final float baseDamage;
+	private final Vector2 knockback = new Vector2();
 	
 	//damage tags determine the type of damage inflicted and is used for certain effects
-	private DamageTypes[] tags;
+	private final DamageTypes[] tags;
 	
 	//this contains all the units this hbox has damaged. Used to avoid damaging the same unit multiple times.
-	private ArrayList<HadalData> damaged;
+	private final ArrayList<HadalData> damaged;
 	
 	public DamageConstant(PlayState state, Hitbox proj, BodyData user, float damage, Vector2 knockback, DamageTypes... tags) {
 		super(state, proj, user);
 		this.baseDamage = damage;
-		this.knockback = knockback;
+		this.knockback.set(knockback);
 		this.tags = tags;
 		
-		damaged = new ArrayList<HadalData>();
+		damaged = new ArrayList<>();
 	}
 	
 	@Override

@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.userdata;
 
-import java.util.Arrays;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -10,6 +8,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.utils.Stats;
+
+import java.util.Arrays;
 
 /**
  * This stat contains the information relevant to a particular Hitbox.
@@ -26,7 +26,7 @@ public class HitboxData extends HadalData {
 	protected Hitbox hbox;
 
 	//this is a damage multiplier for reflected hitboxes
-	private final static float reflectMultiplier = 2.0f;
+	private static final float reflectMultiplier = 2.0f;
 	
 	/**
 	 * This data is usually initialized after making a hitbox. It is given to the newly created hitbox using the setUserData() method

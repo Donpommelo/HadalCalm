@@ -15,10 +15,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Swimmer1 extends EnemySwimming {
 
-	private final static int baseHp = 80;
-	private final static String name = "SWIMMING KAMABOKO";
+	private static final int baseHp = 80;
+	private static final String name = "SWIMMING KAMABOKO";
 	
-	private final static int scrapDrop = 1;
+	private static final int scrapDrop = 1;
 
 	private static final int width = 512;
 	private static final int height = 512;
@@ -34,7 +34,7 @@ public class Swimmer1 extends EnemySwimming {
 
 	private static final Sprite sprite = Sprite.KAMABOKO_SWIM;
 	
-	private TextureRegion faceSprite;
+	private final TextureRegion faceSprite;
 	
 	public Swimmer1(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.SWIMMER1, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
@@ -59,7 +59,7 @@ public class Swimmer1 extends EnemySwimming {
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd, true);
 	}
 	
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);

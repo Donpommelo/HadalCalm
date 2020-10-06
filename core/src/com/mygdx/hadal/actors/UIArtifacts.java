@@ -1,11 +1,11 @@
 package com.mygdx.hadal.actors;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
+
+import java.util.ArrayList;
 
 /**
  * This ui element appears in the bottom middle of the screen and displays a list of the player's artifacts
@@ -15,27 +15,27 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class UIArtifacts {
 
-	private PlayState state;
+	private final PlayState state;
 	
-	private ArrayList<ArtifactIcon> artifacts;
-	private Table table; 
+	private final ArrayList<ArtifactIcon> artifacts;
+	private final Table table;
 	
-	private final int tagWidth = 25;
-	private final int tagHeight = 25;
+	private static final int tagWidth = 25;
+	private static final int tagHeight = 25;
 	
-	private final static int tableX = 475;
-	private final static int tableY = 10;
+	private static final int tableX = 475;
+	private static final int tableY = 10;
 	
-	private final static float artifactTagOffsetX = 10.0f;
-	private final static float artifactTagOffsetY = 45.0f;
-	private final static float artifactTagTargetWidth = 200.0f;
+	private static final float artifactTagOffsetX = 10.0f;
+	private static final float artifactTagOffsetY = 45.0f;
+	private static final float artifactTagTargetWidth = 200.0f;
 	
 	public UIArtifacts(PlayState state) {
 		this.state = state;
 		this.table = new Table().left().top();
-		
-		this.artifacts = new ArrayList<ArtifactIcon>();
-		
+
+		this.artifacts = new ArrayList<>();
+
 		addTable();
 		
 		//When starting up normally, the player's data is not loaded yet, and we do not need to sync. 
@@ -61,14 +61,14 @@ public class UIArtifacts {
 	}
 	
 	/**
-	 * This methods adds a Status Tag to the ui. This puts in the visible ui element.
-	 * @param s: new Status
+	 * This methods adds a artifact Tag to the ui. This puts in the visible ui element.
+	 * @param u: new artifact
 	 * @return corresponding status tag
 	 */
 	private ArtifactIcon addTag(UnlockArtifact u) {
 		ArtifactIcon newTag = new ArtifactIcon(u, u.getInfo().getName() + "\n" + u.getInfo().getDescription(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 		newTag.setWidth(tagWidth);
-		newTag.setWidth(tagHeight);
+		newTag.setHeight(tagHeight);
 		table.add(newTag).width(tagWidth).height(tagHeight);
 		return newTag;
 	}

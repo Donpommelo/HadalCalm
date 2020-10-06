@@ -23,9 +23,9 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class UnlockChecker extends Event {
 
-	private String item;
-	private UnlockType type;
-	private boolean unlock;
+	private final String item;
+	private final UnlockType type;
+	private final boolean unlock;
 	
 	public UnlockChecker(PlayState state, String type, String item, boolean unlock) {
 		super(state);

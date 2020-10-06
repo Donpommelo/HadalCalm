@@ -1,6 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -12,12 +12,12 @@ import com.mygdx.hadal.utils.Stats;
 
 public class UnbreathingMembrane extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float spdReduction = -0.75f;
-	private final static float bonusClip = 1.0f;
-	private final static float bonusRecoil = 3.0f;
+	private static final float spdReduction = -0.75f;
+	private static final float bonusClip = 1.0f;
+	private static final float bonusRecoil = 3.0f;
 	
 	public UnbreathingMembrane() {
 		super(slotCost, statusNum);
@@ -34,10 +34,10 @@ public class UnbreathingMembrane extends Artifact {
 				new Status(state, b) {
 			
 					@Override
-					public void onReload(Equipable tool) {
+					public void onReload(Equippable tool) {
 						if (this.inflicted instanceof PlayerBodyData) {
-							if (((PlayerBodyData)this.inflicted).getCurrentTool() instanceof RangedWeapon) {
-								RangedWeapon weapon = (RangedWeapon)((PlayerBodyData)this.inflicted).getCurrentTool();
+							if (this.inflicted.getCurrentTool() instanceof RangedWeapon) {
+								RangedWeapon weapon = (RangedWeapon) this.inflicted.getCurrentTool();
 								weapon.gainAmmo(1.0f);
 							}
 						}

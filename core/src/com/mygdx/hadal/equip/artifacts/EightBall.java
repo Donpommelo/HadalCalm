@@ -1,8 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -10,13 +8,15 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class EightBall extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static int spread = 20;
-	private final static float damageAmp = 0.25f;
+	private static final int spread = 20;
+	private static final float damageAmp = 0.25f;
 	
 	public EightBall() {
 		super(slotCost, statusNum);
@@ -29,8 +29,8 @@ public class EightBall extends Artifact {
 				new Status(state, b) {
 					
 					@Override
-					public void onShoot(Equipable tool) {
-						float newDegrees = (float) (tool.getWeaponVelo().angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
+					public void onShoot(Equippable tool) {
+						float newDegrees = tool.getWeaponVelo().angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 						tool.setWeaponVelo(tool.getWeaponVelo().setAngle(newDegrees));
 					}
 					

@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -23,19 +21,21 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.utils.Stats;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * This is a boss in the game
  * @author Zachary Tu
  */
 public class Boss1 extends EnemyFloating {
 	
-	private final static String name = "SLIGHTLY LARGER FISH";
+	private static final String name = "SLIGHTLY LARGER FISH";
 
     private static final float aiAttackCd = 3.0f;
     private static final float aiAttackCd2 = 2.2f;
     private static final float aiAttackCd3 = 1.5f;
 	
-    private final static int scrapDrop = 15;
+    private static final int scrapDrop = 15;
     
 	private static final int width = 300;
 	private static final int height = 192;
@@ -209,7 +209,7 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, charge1AttackDuration, 1.0f, 1.5f, SoundEffect.BOOMERANG_WHIZ, false);
-		EnemyUtils.moveToPlayer(state, this, attackTarget, charge1Speed, 0.0f);
+		EnemyUtils.moveToPlayer(this, attackTarget, charge1Speed, 0.0f);
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, chargeAttackInterval, charge1Knockback, charge1AttackDuration);
 	}
 	
@@ -261,13 +261,13 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, charge1AttackDuration, 1.0f, 1.5f, SoundEffect.BOOMERANG_WHIZ, false);
-		EnemyUtils.moveToPlayer(state, this, attackTarget, charge1Speed, 0.0f);
+		EnemyUtils.moveToPlayer(this, attackTarget, charge1Speed, 0.0f);
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, chargeAttackInterval, charge1Knockback, charge1AttackDuration);
 		
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 2.0f);
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, charge1AttackDuration, 1.0f, 1.5f, SoundEffect.BOOMERANG_WHIZ, false);
-		EnemyUtils.moveToPlayer(state, this, attackTarget, charge1Speed, 0.0f);
+		EnemyUtils.moveToPlayer(this, attackTarget, charge1Speed, 0.0f);
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, chargeAttackInterval, charge1Knockback, charge1AttackDuration);
 	}
 	
@@ -462,7 +462,7 @@ public class Boss1 extends EnemyFloating {
 		case 0 :
 			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
 			for (int i = 0; i < trackAmount; i++) {
-				EnemyUtils.trackPlayerXY(state, this, attackTarget, trackSpeed, trackInterval, false);
+				EnemyUtils.trackPlayerXY(this, attackTarget, trackSpeed, trackInterval, false);
 			}
 			EnemyUtils.createSoundEntity(state, this, 0.0f, laser1Windup, 1.0f, 0.5f, SoundEffect.BEAM3, true);
 			EnemyUtils.stopStill(this, laser1Windup);
@@ -475,7 +475,7 @@ public class Boss1 extends EnemyFloating {
 		case 1: 
 			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
 			for (int i = 0; i < trackAmount; i++) {
-				EnemyUtils.trackPlayerXY(state, this, attackTarget, trackSpeed, trackInterval, false);
+				EnemyUtils.trackPlayerXY(this, attackTarget, trackSpeed, trackInterval, false);
 			}
 			
 			EnemyUtils.createSoundEntity(state, this, 0.0f, laser1Windup, 1.0f, 0.5f, SoundEffect.BEAM3, true);
@@ -549,7 +549,7 @@ public class Boss1 extends EnemyFloating {
 				final int index = i;
 				getActions().add(new EnemyAction(this, explosionInterval) {
 					
-					private Vector2 location = new Vector2();
+					private final Vector2 location = new Vector2();
 					@Override
 					public void execute() {
 						
@@ -571,7 +571,7 @@ public class Boss1 extends EnemyFloating {
 				final int index = i;
 				getActions().add(new EnemyAction(this, explosionInterval) {
 					
-					private Vector2 location = new Vector2();
+					private final Vector2 location = new Vector2();
 					@Override
 					public void execute() {
 						
@@ -597,7 +597,7 @@ public class Boss1 extends EnemyFloating {
 	
 	private void bouncyBall() {
 		boolean random = GameStateManager.generator.nextBoolean();
-		float baseAngle = 0;
+		float baseAngle;
 		if (random) {
 			EnemyUtils.moveToDummy(state, this, "0", moveSpeed, moveDurationMax);
 			baseAngle = -60.0f;
@@ -634,7 +634,7 @@ public class Boss1 extends EnemyFloating {
 	private static final float spiritDamage= 15.0f;
 	private static final float spiritKnockback= 25.0f;
 	private static final float spiritLifespan= 5.0f;
-	private Vector2 spiritPos = new Vector2();
+	private final Vector2 spiritPos = new Vector2();
 	private void vengefulSpirit() {
 		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 0.0f);
 		
@@ -682,7 +682,7 @@ public class Boss1 extends EnemyFloating {
 						final int index = i;
 						getSecondaryActions().add(new EnemyAction(me, poisonInterval) {
 							
-							private Vector2 location = new Vector2();
+							private final Vector2 location = new Vector2();
 							@Override
 							public void execute() {
 								location.set(EnemyUtils.getLeftSide(state) + index * poisonSize.x, EnemyUtils.floorHeight(state) + poisonSize.y / 2);
@@ -704,7 +704,7 @@ public class Boss1 extends EnemyFloating {
 						final int index = i;
 						getSecondaryActions().add(new EnemyAction(me, poisonInterval) {
 							
-							private Vector2 location = new Vector2();
+							private final Vector2 location = new Vector2();
 							@Override
 							public void execute() {
 								location.set(EnemyUtils.getRightSide(state) - index * poisonSize.x, EnemyUtils.floorHeight(state) + poisonSize.y / 2);

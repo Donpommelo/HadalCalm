@@ -22,7 +22,6 @@ public class InitState extends GameState {
 	
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
-	 * @param gsm
 	 */
 	public InitState(final GameStateManager gsm) {
 		super(gsm);

@@ -8,10 +8,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class TheFinger extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static int pingDamage = 15;
+	private static final int pingDamage = 15;
 	
 	public TheFinger() {
 		super(slotCost, statusNum);

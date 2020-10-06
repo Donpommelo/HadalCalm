@@ -1,7 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -10,8 +10,8 @@ import com.mygdx.hadal.statuses.StatusComposite;
 
 public class MuddlingCup extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
 	public MuddlingCup() {
 		super(slotCost, statusNum);
@@ -24,7 +24,7 @@ public class MuddlingCup extends Artifact {
 			
 			private Vector2 projAngle = new Vector2();
 			@Override
-			public void onAirBlast(Equipable tool) {
+			public void onAirBlast(Equippable tool) {
 				
 				if (inflicted.getCurrentTool() instanceof RangedWeapon) {
 					float projectileSpeed = ((RangedWeapon) inflicted.getCurrentTool()).getProjectileSpeed();

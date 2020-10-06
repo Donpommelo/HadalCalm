@@ -11,17 +11,17 @@ import com.mygdx.hadal.statuses.Status;
 
 public class ChaosConjurant extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 
 	private static final float procCd = 1.0f;
 	
-	private final static float baseDamage = 24.0f;
-	private final static float knockback = 6.0f;
+	private static final float baseDamage = 24.0f;
+	private static final float knockback = 6.0f;
 	
-	private final static float meteorDuration = 1.0f;
-	private final static float meteorInterval = 0.1f;
-	private final static float spread = 10.0f;
+	private static final float meteorDuration = 1.0f;
+	private static final float meteorInterval = 0.1f;
+	private static final float spread = 10.0f;
 	
 	public ChaosConjurant() {
 		super(slotCost, statusNum);

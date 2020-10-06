@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -19,6 +17,8 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * A Turret is an immobile enemy that fires towards players in sight.
  * @author Zachary Tu
@@ -26,9 +26,9 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 public class TurretFlak extends Turret {
 
 	private static final int baseHp = 200;
-	private final static String name = "FLAK TURRET";
+	private static final String name = "FLAK TURRET";
 
-	private final static int scrapDrop = 3;
+	private static final int scrapDrop = 3;
 	
 	private static final float aiAttackCd = 0.5f;
 	
@@ -43,17 +43,17 @@ public class TurretFlak extends Turret {
 	private static final float attackWindup2 = 0.2f;
 	private static final float attackAnimation = 0.2f;
 
-	private final static int numProj = 6;
-	private final static int spread = 10;
+	private static final int numProj = 6;
+	private static final int spread = 10;
 	
-	private final static float baseDamage = 5.0f;
-	private final static float projectileSpeed = 25.0f;
-	private final static float knockback = 15.0f;
-	private final static Vector2 projectileSize = new Vector2(24, 24);
-	private final static float projLifespan = 4.0f;
+	private static final float baseDamage = 5.0f;
+	private static final float projectileSpeed = 25.0f;
+	private static final float knockback = 15.0f;
+	private static final Vector2 projectileSize = new Vector2(24, 24);
+	private static final float projLifespan = 4.0f;
 	
-	private Vector2 startVelo = new Vector2();
-	private Vector2 spreadVelo = new Vector2();
+	private final Vector2 startVelo = new Vector2();
+	private final Vector2 spreadVelo = new Vector2();
 	@Override
 	public void attackInitiate() {
 
@@ -62,7 +62,7 @@ public class TurretFlak extends Turret {
 			EnemyUtils.changeTurretState(this, TurretState.FREE, 0.0f, 0.0f);
 			EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED, 80.0f);
 			
-			EnemyUtils.changeMoveState(state, this, MoveState.ANIM1, attackAnimation);
+			EnemyUtils.changeMoveState(this, MoveState.ANIM1, attackAnimation);
 			animationTime = 0;
 			
 			for (int i = 0; i < numProj; i++) {
@@ -80,7 +80,7 @@ public class TurretFlak extends Turret {
 						
 						startVelo.set(projectileSpeed, projectileSpeed).setAngle(getAttackAngle());
 
-						float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
+						float newDegrees = startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 						spreadVelo.set(startVelo.setAngle(newDegrees));
 						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(spreadVelo, size.x), projectileSize, projLifespan, spreadVelo, getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
 						hbox.setGravity(3.0f);
@@ -93,7 +93,7 @@ public class TurretFlak extends Turret {
 				});
 			}
 
-			EnemyUtils.changeMoveState(state, this, MoveState.DEFAULT, 0.0f);
+			EnemyUtils.changeMoveState(this, MoveState.DEFAULT, 0.0f);
 			EnemyUtils.changeTurretState(this, TurretState.TRACKING, 0.0f, 0.0f);
 		} else {
 			EnemyUtils.changeTurretState(this, TurretState.STARTING, 0.0f, 0.0f);

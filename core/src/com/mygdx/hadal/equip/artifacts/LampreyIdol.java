@@ -11,13 +11,13 @@ import com.mygdx.hadal.utils.Stats;
 
 public class LampreyIdol extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
-	private final static float lifestealPlayer = 0.1f;
-	private final static float lifestealEnemy = 0.02f;
-	private final static float damage = 2.5f;
-	private final static float hpThreshold = 0.5f;
+	private static final float lifestealPlayer = 0.1f;
+	private static final float lifestealEnemy = 0.02f;
+	private static final float damage = 2.5f;
+	private static final float hpThreshold = 0.5f;
 	
 	public LampreyIdol() {
 		super(slotCost, statusNum);
@@ -29,7 +29,7 @@ public class LampreyIdol extends Artifact {
 				new Status(state, b) {
 			
 			private float procCdCount;
-			private float procCd = 1.0f;
+			private static final float procCd = 1.0f;
 			
 			@Override
 			public void timePassing(float delta) {

@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -13,6 +11,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 /**
  * A mouse tracker is tied to a player and tracks that player's mouse pointer
  * @author Zachary Tu
@@ -20,13 +20,13 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class MouseTracker extends HadalEntity {
 	
 	//This tracks the location of the user's (host) mouse
-	private Vector3 tmpVec3 = new Vector3();
+	private final Vector3 tmpVec3 = new Vector3();
 	
 	//This tracks the location of a client mouse sent by packet
-	private Vector2 desiredLocation = new Vector2();
+	private final Vector2 desiredLocation = new Vector2();
 	
 	//Whether this player is the host or not
-	private boolean server;
+	private final boolean server;
 	
 	public MouseTracker(PlayState state, boolean server) {
 		super(state, new Vector2(), new Vector2(1, 1));

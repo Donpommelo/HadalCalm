@@ -9,12 +9,12 @@ import com.mygdx.hadal.statuses.Regeneration;
 
 public class Melon extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.2f;
-	private final static float maxCharge = 25.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.2f;
+	private static final float maxCharge = 25.0f;
 	
-	private final static float duration = 8.0f;
-	private final static float power = 4.0f;
+	private static final float duration = 8.0f;
+	private static final float power = 4.0f;
 	
 	public Melon(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);

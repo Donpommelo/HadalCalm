@@ -12,11 +12,11 @@ import com.mygdx.hadal.utils.Stats;
 
 public class YightKite extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
-	private final static float projSpdReduction = -0.5f;
-	private final static float bonusProjLifespan = 0.5f;
+	private static final float projSpdReduction = -0.5f;
+	private static final float bonusProjLifespan = 0.5f;
 	
 	public YightKite() {
 		super(slotCost, statusNum);
@@ -36,8 +36,8 @@ public class YightKite extends Artifact {
 
 				hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
 					
-					private Vector2 playerPos = new Vector2();
-					private Vector2 entityLocation = new Vector2();
+					private final Vector2 playerPos = new Vector2();
+					private final Vector2 entityLocation = new Vector2();
 					@Override
 					public void create() {
 						playerPos.set(inflicted.getSchmuck().getPosition());

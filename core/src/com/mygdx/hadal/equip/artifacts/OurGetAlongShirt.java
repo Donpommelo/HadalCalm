@@ -2,8 +2,6 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -17,17 +15,17 @@ import com.mygdx.hadal.utils.Constants;
 
 public class OurGetAlongShirt extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float radius = 10.0f;
+	private static final float radius = 10.0f;
 	
-	private final static float procCd = 2.0f;
+	private static final float procCd = 2.0f;
 
-	private final static Vector2 chainSize = new Vector2(20, 20);
-	private final static Sprite chainSprite = Sprite.ORB_BLUE;
+	private static final Vector2 chainSize = new Vector2(20, 20);
+	private static final Sprite chainSprite = Sprite.ORB_BLUE;
 	
-	private final static float chainLength = 1.2f;
+	private static final float chainLength = 1.2f;
 	
 	public OurGetAlongShirt() {
 		super(slotCost, statusNum);
@@ -47,9 +45,9 @@ public class OurGetAlongShirt extends Artifact {
 			private boolean attached;
 			private Schmuck partner;
 			
-			private Hitbox[] links = new Hitbox[6];
-			private Vector2 entityLocation = new Vector2();
-			private Vector2 homeLocation = new Vector2();
+			private final Hitbox[] links = new Hitbox[6];
+			private final Vector2 entityLocation = new Vector2();
+			private final Vector2 homeLocation = new Vector2();
 			@Override
 			public void timePassing(float delta) {
 				
@@ -67,49 +65,41 @@ public class OurGetAlongShirt extends Artifact {
 						procCdCount -= procCd;
 						
 						entityLocation.set(inflicted.getSchmuck().getPosition());
-						state.getWorld().QueryAABB(new QueryCallback() {
+						state.getWorld().QueryAABB(fixture -> {
+							if (fixture.getUserData() instanceof BodyData) {
 
-							@Override
-							public boolean reportFixture(Fixture fixture) {
-								if (fixture.getUserData() instanceof BodyData) {
-									
-									homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
-									homeLocation.set(homeAttempt.getPosition());
-									shortestFraction = 1.0f;
-									
-								  	if (entityLocation.x != homeLocation.x || entityLocation.y != homeLocation.y) {
-								  		
-								  		state.getWorld().rayCast(new RayCastCallback() {
+								homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
+								homeLocation.set(homeAttempt.getPosition());
+								shortestFraction = 1.0f;
 
-											@Override
-											public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-												if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
-													if (fraction < shortestFraction) {
-														shortestFraction = fraction;
-														closestFixture = fixture;
-														return fraction;
-													}
-												} else if (fixture.getUserData() instanceof BodyData) {
-													if (fraction < shortestFraction) {
-														shortestFraction = fraction;
-														closestFixture = fixture;
-														return fraction;
-													}
-												} 
-												return -1.0f;
-											}
-										}, inflicted.getSchmuck().getPosition(), homeLocation);	
-								  		
-								  		if (closestFixture != null) {
-											if (closestFixture.getUserData() instanceof BodyData) {
-												attach(((BodyData) closestFixture.getUserData()).getSchmuck());
-											}
+								  if (entityLocation.x != homeLocation.x || entityLocation.y != homeLocation.y) {
+
+									  state.getWorld().rayCast((fixture1, point, normal, fraction) -> {
+										  if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL) {
+											  if (fraction < shortestFraction) {
+												  shortestFraction = fraction;
+												  closestFixture = fixture1;
+												  return fraction;
+											  }
+										  } else if (fixture1.getUserData() instanceof BodyData) {
+											  if (fraction < shortestFraction) {
+												  shortestFraction = fraction;
+												  closestFixture = fixture1;
+												  return fraction;
+											  }
+										  }
+										  return -1.0f;
+									  }, inflicted.getSchmuck().getPosition(), homeLocation);
+
+									  if (closestFixture != null) {
+										if (closestFixture.getUserData() instanceof BodyData) {
+											attach(((BodyData) closestFixture.getUserData()).getSchmuck());
 										}
-								  	}
-								}
-								return true;
+									}
+								  }
 							}
-						}, entityLocation.x - radius, entityLocation.y - radius, entityLocation.x + radius, entityLocation.y + radius);		
+							return true;
+						}, entityLocation.x - radius, entityLocation.y - radius, entityLocation.x + radius, entityLocation.y + radius);
 					}
 				}
 			}
@@ -203,10 +193,10 @@ public class OurGetAlongShirt extends Artifact {
 			
 			private void deattach() {
 				attached = false;
-				for (int i = 0; i < links.length; i++) {
-					if (links[i] != null) {
-						links[i].setLifeSpan(2.0f);
-						links[i].addStrategy(new ControllerDefault(state, links[i], inflicted));
+				for (final Hitbox link : links) {
+					if (link != null) {
+						link.setLifeSpan(2.0f);
+						link.addStrategy(new ControllerDefault(state, link, inflicted));
 					}
 				}
 			}

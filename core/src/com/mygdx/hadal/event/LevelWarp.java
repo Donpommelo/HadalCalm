@@ -21,11 +21,12 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
  */
 public class LevelWarp extends Event {
 
-	private String level;
-	private String startId;
+	private final String level;
+	private final String startId;
 	
 	//have we warped yet? Do we reset player stats on warp?
-	private boolean warpStart, reset;
+	private boolean warpStart;
+	private final boolean reset;
 	
 	public LevelWarp(PlayState state, String level, boolean reset, String startId) {
 		super(state);
@@ -48,7 +49,7 @@ public class LevelWarp extends Event {
 	@Override
 	public void controller(float delta) {
 		
-		//check warpstart to avoid double loading level. Only the server does warps.
+		//check warpStart to avoid double loading level. Only the server does warps.
 		if (warpStart && state.isServer()) {
 			warpStart = false;
 			

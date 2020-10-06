@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
@@ -25,7 +25,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Triggering Behavior: This event will trigger its connected event when picked up.
  * 
  * Fields:
- * pool: String, comma separated list of equipunlock enum names of all equips that could appear here.
+ * pool: String, comma separated list of equipUnlock enum names of all equips that could appear here.
  * 	if this is equal to "", return any weapon in the random pool.
  * 
  * @author Zachary Tu
@@ -33,10 +33,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class PickupEquip extends Event {
 
 	//This is the weapon that will be picked up when interacting with this event.
-	private Equipable equip;
+	private Equippable equip;
 	private UnlockEquip unlock;
 	
-	private String pool;
+	private final String pool;
 	
 	public PickupEquip(PlayState state, Vector2 startPos, String pool) {
 		super(state, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize));
@@ -77,7 +77,7 @@ public class PickupEquip extends Event {
 				if (equip instanceof NothingWeapon) { return; }
 				
 				//If player inventory is full, replace their current weapon.
-				Equipable temp = p.getPlayerData().pickup(equip);
+				Equippable temp = p.getPlayerData().pickup(equip);
 				setEquip(temp);
 			}
 			
@@ -88,7 +88,7 @@ public class PickupEquip extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true, Constants.BIT_SENSOR, Constants.BIT_PLAYER,	(short) 0, true, eventData);
 		this.body.setType(BodyType.KinematicBody);
 	}
 	
@@ -112,7 +112,7 @@ public class PickupEquip extends Event {
 		setEquip(UnlocktoItem.getUnlock(unlock, null));
 	}
 	
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		if (!(equip instanceof NothingWeapon)) {
@@ -128,9 +128,9 @@ public class PickupEquip extends Event {
 	}
 	
 	/**
-	 * This sets the weapon pickup to a specific equipable
+	 * This sets the weapon pickup to a specific equippable
 	 */
-	public void setEquip(Equipable equip) {
+	public void setEquip(Equippable equip) {
 		this.equip = equip;
 		setEventSprite(equip.getEventSprite());
 		

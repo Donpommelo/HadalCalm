@@ -10,13 +10,13 @@ import com.mygdx.hadal.statuses.Status;
 
 public class RoyalJujubeBang extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
-	private final static float distThreshold = 600.0f;
-	private final static float distDamageBoost = 1.5f;
+	private static final float distThreshold = 600.0f;
+	private static final float distDamageBoost = 1.5f;
 	
-	private final static float particleDura = 1.5f;
+	private static final float particleDura = 1.5f;
 	
 	public RoyalJujubeBang() {
 		super(slotCost, statusNum);

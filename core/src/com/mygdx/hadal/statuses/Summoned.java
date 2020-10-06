@@ -12,7 +12,7 @@ import com.mygdx.hadal.states.PlayState;
 public class Summoned extends Status {
 
 	//this is the player that summoned this unit (and will get credit for its kills)
-	private Player summoner;
+	private final Player summoner;
 	
 	public Summoned(PlayState state, BodyData i, Player summoner) {
 		super(state, i);

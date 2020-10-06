@@ -16,16 +16,16 @@ import com.mygdx.hadal.utils.Constants;
 
 public class BrigglesBladedBoot extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float baseDamage = 30.0f;
-	private final static float knockback = 15.0f;
+	private static final float baseDamage = 30.0f;
+	private static final float knockback = 15.0f;
 
-	private final static float recoil = 40.0f;
+	private static final float recoil = 40.0f;
 
-	private final static Vector2 size = new Vector2(28, 5);
-	private final static Vector2 position = new Vector2(0, -1.5f);
+	private static final Vector2 size = new Vector2(28, 5);
+	private static final Vector2 position = new Vector2(0, -1.5f);
 	
 	public BrigglesBladedBoot() {
 		super(slotCost, statusNum);

@@ -1,7 +1,5 @@
 package com.mygdx.hadal.event;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -12,25 +10,27 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+import java.util.ArrayList;
+
 /**
  * There are ~6 Wave Spawners in arena maps. When a new wave is spawned, each spawner is activated and a new wave of enemies is spawned
  * Triggered Behavior: When triggered, spawn a wave
  * Triggering Behavior: N/A
  * 
  * Fields:
- * pointId: The id of the wave spaen point.This determins which enemies can be spawned here
+ * pointId: The id of the wave spawn point.This determines which enemies can be spawned here
  * extraField: extra field sometimes used for enemy spawns
  * tag: string tag to further specify which enemies can spawn
  * @author Zachary Tu
  */
 public class SpawnerWave extends Event {
 
-	private int pointId;
+	private final int pointId;
 	
-	//this isthe number of the current wave.
+	//this is the number of the current wave.
 	private int waveNum = 1;
-	private int extraField;
-	private ArrayList<WaveTag> tags = new ArrayList<WaveTag>();
+	private final int extraField;
+	private final ArrayList<WaveTag> tags = new ArrayList<>();
 	
 	public SpawnerWave(PlayState state, Vector2 startPos, Vector2 size, int pointId, int extraField, String tag) {
 		super(state, startPos, size);

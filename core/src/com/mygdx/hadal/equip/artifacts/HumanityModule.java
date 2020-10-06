@@ -13,10 +13,10 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 
 public class HumanityModule extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float bonusActiveCharge = 0.25f;
+	private static final float bonusActiveCharge = 0.25f;
 	
 	public HumanityModule() {
 		super(slotCost, statusNum);

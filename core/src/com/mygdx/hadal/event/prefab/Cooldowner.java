@@ -11,10 +11,10 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class Cooldowner extends Prefabrication {
 
 	//Ids of triggered and triggering events
-	private String triggeredId, triggeringId;
+	private final String triggeredId, triggeringId;
 
 	//Number of times it can trigger
-	private float cooldown;
+	private final float cooldown;
 	
 	public Cooldowner(PlayState state, String triggeredId, String triggeringId, float cooldown) {
 		super(state);

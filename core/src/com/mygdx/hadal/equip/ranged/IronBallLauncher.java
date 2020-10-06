@@ -16,22 +16,22 @@ import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
 
 public class IronBallLauncher extends RangedWeapon {
 
-	private final static int clipSize = 1;
-	private final static int ammoSize = 20;
-	private final static float shootCd = 0.25f;
-	private final static float shootDelay = 0.25f;
-	private final static float reloadTime = 0.9f;
-	private final static int reloadAmount = 1;
-	private final static float baseDamage = 80.0f;
-	private final static float recoil = 15.0f;
-	private final static float knockback = 50.0f;
-	private final static float projectileSpeed = 50.0f;
-	private final static Vector2 projectileSize = new Vector2(50, 50);
-	private final static float lifespan = 2.5f;
+	private static final int clipSize = 1;
+	private static final int ammoSize = 20;
+	private static final float shootCd = 0.25f;
+	private static final float shootDelay = 0.25f;
+	private static final float reloadTime = 0.9f;
+	private static final int reloadAmount = 1;
+	private static final float baseDamage = 80.0f;
+	private static final float recoil = 15.0f;
+	private static final float knockback = 50.0f;
+	private static final float projectileSpeed = 50.0f;
+	private static final Vector2 projectileSize = new Vector2(50, 50);
+	private static final float lifespan = 2.5f;
 
-	private final static Sprite projSprite = Sprite.CANNONBALL;
-	private final static Sprite weaponSprite = Sprite.MT_IRONBALL;
-	private final static Sprite eventSprite = Sprite.P_IRONBALL;
+	private static final Sprite projSprite = Sprite.CANNONBALL;
+	private static final Sprite weaponSprite = Sprite.MT_IRONBALL;
+	private static final Sprite eventSprite = Sprite.P_IRONBALL;
 	
 	public IronBallLauncher(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

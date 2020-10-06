@@ -1,10 +1,10 @@
 package com.mygdx.hadal.event.prefab;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
+
+import java.util.ArrayList;
 
 /**
  * This is like a TimedSpawner, except you can specify the trigger to be an event outside of the prefab.
@@ -13,15 +13,15 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class SpawnerPickupTriggered extends Prefabrication {
 
 	//The id of the event that triggers this
-	private String triggeredId;
+	private final String triggeredId;
 	
 	private String pickupId, spawnerId;
 	
 	//How long does it take before the pickup spawns? How much fuel/hp does the pickup regenerate
-	private float power;
+	private final float power;
 		
 	//0 = fuel. 1 = Hp
-	private int type;
+	private final int type;
 	
 	public SpawnerPickupTriggered(PlayState state, int width, int height, int x, int y, String triggeredId, int type, float power) {
 		super(state, width, height, x , y);
@@ -119,7 +119,7 @@ public class SpawnerPickupTriggered extends Prefabrication {
 	
 	@Override
 	public ArrayList<String> getConnectedEvents() {
-		ArrayList<String> events = new ArrayList<String>();
+		ArrayList<String> events = new ArrayList<>();
 		events.add(pickupId);
 		events.add(spawnerId);
 		return events;

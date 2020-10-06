@@ -18,16 +18,16 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class CrownofThorns extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 
 	private static final float thornDamage = 20.0f;
-	private static float thornDuration = 0.25f;
+	private static final float thornDuration = 0.25f;
 	private static final float thornSpeed = 30.0f;
-	private final static float thornKnockback = 15.0f;
-	private final static Vector2 projectileSize = new Vector2(72, 9);
+	private static final float thornKnockback = 15.0f;
+	private static final Vector2 projectileSize = new Vector2(72, 9);
 	
-	private final static Sprite projSprite = Sprite.BULLET;
+	private static final Sprite projSprite = Sprite.BULLET;
 	
 	private static final float procCd = 1.0f;
 	
@@ -48,7 +48,7 @@ public class CrownofThorns extends Artifact {
 				}
 			}
 			
-			Vector2 angle = new Vector2(1, 0);
+			private final Vector2 angle = new Vector2(1, 0);
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
 				

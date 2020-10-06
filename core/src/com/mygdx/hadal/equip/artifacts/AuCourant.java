@@ -11,8 +11,8 @@ import com.mygdx.hadal.utils.Stats;
 
 public class AuCourant extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 3;
+	private static final int statusNum = 1;
+	private static final int slotCost = 3;
 	
 	private static final float bonusReloadSpd = -0.4f;
 	
@@ -33,7 +33,7 @@ public class AuCourant extends Artifact {
 						if (((PlayerBodyData) inflicted).getMultitools()[i].getClipLeft() != ((PlayerBodyData) inflicted).getMultitools()[i].getClipSize()) {
 							if (((PlayerBodyData) inflicted).getMultitools()[i].reload(delta)) {
 								SoundEffect.RELOAD.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
-							};
+							}
 						}
 					}
 				}

@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.ranged;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -15,39 +13,33 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.FiringWeapon;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.Spread;
+import com.mygdx.hadal.strategies.hitbox.*;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class StutterGun extends RangedWeapon {
 
-	private final static int clipSize = 5;
-	private final static int ammoSize = 35;
-	private final static float shootCd = 0.6f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.0f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 18.0f;
-	private final static float recoil = 16.0f;
-	private final static float knockback = 5.0f;
-	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(80, 40);
-	private final static float lifespan = 1.0f;
+	private static final int clipSize = 5;
+	private static final int ammoSize = 35;
+	private static final float shootCd = 0.6f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 1.0f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 18.0f;
+	private static final float recoil = 16.0f;
+	private static final float knockback = 5.0f;
+	private static final float projectileSpeed = 40.0f;
+	private static final Vector2 projectileSize = new Vector2(80, 40);
+	private static final float lifespan = 1.0f;
 	
-	private final static float procCd = 0.09f;
-	private final static float fireDuration = 0.5f;
+	private static final float procCd = 0.09f;
+	private static final float fireDuration = 0.5f;
 	
-	private final static float pitchSpread = 0.4f;
-	private final static int spread = 8;
+	private static final float pitchSpread = 0.4f;
+	private static final int spread = 8;
 
-	private final static Sprite weaponSprite = Sprite.MT_LASERRIFLE;
-	private final static Sprite eventSprite = Sprite.P_LASERRIFLE;
+	private static final Sprite weaponSprite = Sprite.MT_LASERRIFLE;
+	private static final Sprite eventSprite = Sprite.P_LASERRIFLE;
 	
 	public StutterGun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -74,7 +66,7 @@ public class StutterGun extends RangedWeapon {
 	
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		if (processClip(state, shooter)) {
+		if (processClip(shooter)) {
 			shooter.addStatus(new FiringWeapon(state, fireDuration, shooter, shooter, projectileSpeed, 0, 0, projectileSize.x, procCd, this));
 		}
 	}

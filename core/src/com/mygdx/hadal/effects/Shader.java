@@ -29,16 +29,16 @@ public enum Shader {
 	;
 	
 	//filename for the vertex and fragment shaders
-	private String vertId, fragId;
+	private final String vertId, fragId;
 	
 	//the shader program.
 	private ShaderProgram shader;
 	
 	//a list of strategies the shader can use to read game information.
-	private ShaderStrategy[] strategies;
+	private final ShaderStrategy[] strategies;
 	
 	//is this shader displayed in the background or foreground?
-	private boolean background;
+	private final boolean background;
 	
 	Shader(String vertId, String fragId, Boolean background, ShaderStrategy... strategies) {
 		this.vertId = vertId;

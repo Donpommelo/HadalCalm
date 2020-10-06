@@ -24,10 +24,10 @@ import com.mygdx.hadal.utils.Constants;
 
 public class KBKBuddy extends EnemySwimming {
 
-	private final static int baseHp = 200;
-	private final static String name = "SWIMMING KAMABOKO";
+	private static final int baseHp = 200;
+	private static final String name = "SWIMMING KAMABOKO";
 	
-	private final static int scrapDrop = 0;
+	private static final int scrapDrop = 0;
 
 	private static final int width = 384;
 	private static final int height = 384;
@@ -45,7 +45,7 @@ public class KBKBuddy extends EnemySwimming {
 	
 	private static final Sprite sprite = Sprite.KAMABOKO_SWIM;
 	
-	private TextureRegion faceSprite;
+	private final TextureRegion faceSprite;
 	
 	public KBKBuddy(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.KBK_BUDDY, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
@@ -67,12 +67,12 @@ public class KBKBuddy extends EnemySwimming {
 		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
 	}
 	
-	private final static float baseDamage = 10.0f;
-	private final static float knockback = 6.0f;
-	private final static float projectileSpeed = 35.0f;
-	private final static Vector2 projectileSize = new Vector2(50, 50);
-	private final static float lifespan = 3.0f;
-	private final static float range = 900.0f;
+	private static final float baseDamage = 10.0f;
+	private static final float knockback = 6.0f;
+	private static final float projectileSpeed = 35.0f;
+	private static final Vector2 projectileSize = new Vector2(50, 50);
+	private static final float lifespan = 3.0f;
+	private static final float range = 900.0f;
 	@Override
 	public void attackInitiate() {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
@@ -83,7 +83,7 @@ public class KBKBuddy extends EnemySwimming {
 		
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
-			private Vector2 startVelo = new Vector2();
+			private final Vector2 startVelo = new Vector2();
 			@Override
 			public void execute() {
 				
@@ -108,7 +108,7 @@ public class KBKBuddy extends EnemySwimming {
 		});
 	}
 
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);

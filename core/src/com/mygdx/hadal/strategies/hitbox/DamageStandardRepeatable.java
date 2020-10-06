@@ -15,10 +15,10 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class DamageStandardRepeatable extends HitboxStrategy {
 	
 	//the amount of damage and knockback this hbox will inflict
-	private float baseDamage, knockback;
+	private final float baseDamage, knockback;
 	
 	//damage tags determine the type of damage inflicted and is used for certain effects
-	private DamageTypes[] tags;
+	private final DamageTypes[] tags;
 	
 	public DamageStandardRepeatable(PlayState state, Hitbox proj, BodyData user, float damage, float knockback, DamageTypes... tags) {
 		super(state, proj, user);

@@ -20,28 +20,28 @@ import com.mygdx.hadal.utils.Constants;
 
 public class MorningStar extends MeleeWeapon {
 
-	private final static float swingCd = 0.4f;
-	private final static float windup = 0.1f;
+	private static final float swingCd = 0.4f;
+	private static final float windup = 0.1f;
 	
-	private final static Vector2 projectileSize = new Vector2(75, 75);
-	private final static Vector2 chainSize = new Vector2(20, 20);
+	private static final Vector2 projectileSize = new Vector2(75, 75);
+	private static final Vector2 chainSize = new Vector2(20, 20);
 	
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private static final Sprite weaponSprite = Sprite.MT_DEFAULT;
+	private static final Sprite eventSprite = Sprite.P_DEFAULT;
 
-	private final static Sprite chainSprite = Sprite.ORB_ORANGE;
-	private final static Sprite projSprite = Sprite.FLAIL;
+	private static final Sprite chainSprite = Sprite.ORB_ORANGE;
+	private static final Sprite projSprite = Sprite.FLAIL;
 	
-	private final static float baseDamage = 50.0f;
-	private final static float knockback = 60.0f;
+	private static final float baseDamage = 50.0f;
+	private static final float knockback = 60.0f;
 
-	private final static float swingForce = 5000.0f;
-	private final static float range = 60.0f;
-	private final static float chainLength = 1.2f;
+	private static final float swingForce = 5000.0f;
+	private static final float range = 60.0f;
+	private static final float chainLength = 1.2f;
 
 	//this is the hitbox that this weapon extends
 	private Hitbox base, star;
-	private Hitbox[] links = new Hitbox[4];
+	private final Hitbox[] links = new Hitbox[4];
 	
 	//is the hitbox active?
 	private boolean active = false;
@@ -50,7 +50,7 @@ public class MorningStar extends MeleeWeapon {
 		super(user, swingCd, windup, weaponSprite, eventSprite);
 	}
 	
-	private Vector2 projOffset = new Vector2();
+	private final Vector2 projOffset = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
@@ -230,10 +230,10 @@ public class MorningStar extends MeleeWeapon {
 			star.setLifeSpan(2.0f);
 			star.addStrategy(new ControllerDefault(state, star, user.getBodyData()));
 		}
-		for (int i = 0; i < links.length; i++) {
-			if (links[i] != null) {
-				links[i].setLifeSpan(2.0f);
-				links[i].addStrategy(new ControllerDefault(state, links[i], user.getBodyData()));
+		for (final Hitbox link : links) {
+			if (link != null) {
+				link.setLifeSpan(2.0f);
+				link.addStrategy(new ControllerDefault(state, link, user.getBodyData()));
 			}
 		}
 		

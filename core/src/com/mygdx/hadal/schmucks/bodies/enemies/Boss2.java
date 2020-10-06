@@ -1,13 +1,11 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -23,21 +21,12 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSlow;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
-import com.mygdx.hadal.strategies.hitbox.DiePoison;
-import com.mygdx.hadal.strategies.hitbox.DieRagdoll;
-import com.mygdx.hadal.strategies.hitbox.DieSound;
-import com.mygdx.hadal.strategies.hitbox.HomingUnit;
+import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
+
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * This is a boss in the game
@@ -45,16 +34,16 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class Boss2 extends EnemyFloating {
 				
-	private final static String name = "KING KAMABOKO";
+	private static final String name = "KING KAMABOKO";
 
     private static final float aiAttackCd = 2.0f;
     private static final float aiAttackCd2 = 1.5f;
     private static final float aiAttackCd3 = 1.0f;
     
-    private final static int scrapDrop = 15;
+    private static final int scrapDrop = 15;
     
-	private static final int width = 250;
-	private static final int height = 250;
+	private static final float width = 250;
+	private static final float height = 250;
 	
 	private static final int hbWidth = 200;
 	private static final int hbHeight = 150;
@@ -66,8 +55,9 @@ public class Boss2 extends EnemyFloating {
 	
 	private static final Sprite sprite = Sprite.NOTHING;
 	
-	private Body[] links = new Body[5];
-	private TextureRegion headSprite, bodySprite, faceSprite;
+	private final Body[] links = new Body[5];
+	private final TextureRegion headSprite, bodySprite;
+	private TextureRegion faceSprite;
 	
 	private int phase = 1;
 	private static final float phaseThreshold2 = 0.8f;
@@ -134,7 +124,7 @@ public class Boss2 extends EnemyFloating {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 3000 * numPlayers, getBodyData()));
 	}
 	
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {	
 		
@@ -174,7 +164,7 @@ public class Boss2 extends EnemyFloating {
 		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(GameStateManager.generator.nextInt(5));
 	}
 	
-	private final static float driftDurationMax = 5.0f;
+	private static final float driftDurationMax = 5.0f;
 	private int attackNum = 0;
 	@Override
 	public void attackInitiate() {
@@ -296,9 +286,9 @@ public class Boss2 extends EnemyFloating {
 	private static final float bulletInterval3 = 0.8f;
 	private static final int bulletNumber = 3;
 	
-	private final static float homePower = 60.0f;
-	private final static float fragSpeed = 10.0f;
-	private final static int numProj = 6;
+	private static final float homePower = 60.0f;
+	private static final float fragSpeed = 10.0f;
+	private static final int numProj = 6;
 	
 	private void kamabokoShot(int phase) {
 		
@@ -367,13 +357,13 @@ public class Boss2 extends EnemyFloating {
 		});
 	}
 	
-	private final static int driftSpeed = 6;
+	private static final int driftSpeed = 6;
 	private static final int charge1Speed = 50;
 	private static final float charge1Damage = 5.0f;
 	private static final float chargeAttackInterval = 1 / 60.0f;
 
 	private static final int defaultMeleeKB = 50;
-	private final static int returnSpeed = 15;
+	private static final int returnSpeed = 15;
 	private void meleeAttack1() {
 		EnemyUtils.moveToDummy(state, this, "back", driftSpeed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 1.0f);
@@ -486,7 +476,7 @@ public class Boss2 extends EnemyFloating {
 		for (int i = 0; i < slodgeNumber; i++) {
 			getActions().add(new EnemyAction(this, slodgeInterval) {
 				
-				private Vector2 startVelo = new Vector2();
+				private final Vector2 startVelo = new Vector2();
 				@Override
 				public void execute() {
 					startVelo.set(slodgeSpeed, slodgeSpeed).setAngle(getAttackAngle());
@@ -515,9 +505,9 @@ public class Boss2 extends EnemyFloating {
 	private static final int fuguNumber = 3;
 	private static final float fuguInterval = 0.25f;
 	
-	private final static int poisonRadius = 150;
-	private final static float poisonDamage = 0.4f;
-	private final static float poisonDuration = 4.0f;
+	private static final int poisonRadius = 150;
+	private static final float poisonDamage = 0.4f;
+	private static final float poisonDuration = 4.0f;
 	
 	private void fuguShots() {
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
@@ -531,7 +521,7 @@ public class Boss2 extends EnemyFloating {
 			
 			getActions().add(new EnemyAction(this, fuguInterval) {
 				
-				private Vector2 startVelo = new Vector2();
+				private final Vector2 startVelo = new Vector2();
 				@Override
 				public void execute() {
 					SoundEffect.LAUNCHER4.playUniversal(state, getPixelPosition(), 0.4f, 0.8f, false);
@@ -578,15 +568,15 @@ public class Boss2 extends EnemyFloating {
 	public void dispose() {
 		
 		//check destroyed to avoid double-destruction
-		if (destroyed == false) {
+		if (!destroyed) {
 			destroyed = true;
 			alive = false;
 			if (body != null) {
 				world.destroyBody(body);
 				
 				//make sure we delete the links as well
-				for (int i = 0; i < links.length; i++) {
-					world.destroyBody(links[i]);
+				for (final Body link : links) {
+					world.destroyBody(link);
 				}
 			}
 		}

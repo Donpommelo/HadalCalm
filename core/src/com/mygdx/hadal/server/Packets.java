@@ -1,7 +1,5 @@
 package com.mygdx.hadal.server;
 
-import java.util.HashMap;
-
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
@@ -12,17 +10,14 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.save.SharedSetting;
-import com.mygdx.hadal.save.UnlockActives;
-import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.save.UnlockCharacter;
-import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState.TransitionState;
+
+import java.util.HashMap;
 
 /**
  * These are packets sent between the Server and Client.
@@ -348,7 +343,7 @@ public class Packets {
 		 * @param sprite: entity's sprite
 		 * @param synced: should this entity receive a sync packet regularly?
 		 * @param layer: Hitbox or Standard layer? (Hitboxes are rendered underneath other entities)
-		 * @param align: The new object's align type. Used to determine how the client illusioin should be rendered
+		 * @param align: The new object's align type. Used to determine how the client illusion should be rendered
 		 */
 		public CreateEntity(String entityID, Vector2 size, Vector2 pos, float angle, Sprite sprite, boolean synced, ObjectSyncLayers layer, alignType align) {
 			this.entityID = entityID;
@@ -411,7 +406,7 @@ public class Packets {
 		public CreatePlayer() {}
 		
 		/**
-		 * A CreatePlayer is sent fro mthe Server to the Client to tell the client to create a new Player.
+		 * A CreatePlayer is sent from the Server to the Client to tell the client to create a new Player.
 		 * Clients should create this new player, unless it is themselves, in which case they should synchronize it.
 		 * This is because the Client reuses the same ClientState.getPlayer() which they already created.
 		 * 
@@ -606,7 +601,7 @@ public class Packets {
 		
 		/**
 		 * A SyncPlayer is sent from the Server to the Client every engine tick.
-		 * This packet (and similar packets) just tells the client how to change their own Player for ther purpose of their own ui.
+		 * This packet (and similar packets) just tells the client how to change their own Player for their purpose of their own ui.
 		 * @param fuelPercent: The client player's current fuel amount.
 		 * @param currentClip: The client player's current clip amount.
 		 * @param currentAmmo: The client player's current ammo amount.
@@ -730,7 +725,7 @@ public class Packets {
 		 * @param attached: Is this particleEntity attached to another entity?
 		 * @param particle: Particle Effect to be created.
 		 * @param startOn: Does this effect start turned on?
-		 * @param linger: How long does an attached Particleentity persist after its attached entity dies?
+		 * @param linger: How long does an attached Particle Entity persist after its attached entity dies?
 		 * @param lifespan: Duration of a non-attached entity.
 		 * @param scale: The size multiplier of the particle effect
 		 * @param rotate: should this entity rotate to match an attached entity??
@@ -769,7 +764,7 @@ public class Packets {
 		 * 
 		 * @param entityID: ID of the Particle Effect to turn on/off
 		 * @param pos: position of the synced particle effect
-		 * @param offset: if connected to another entity, this is the offest from that entity's position
+		 * @param offset: if connected to another entity, this is the offset from that entity's position
 		 * @param on: Is the Server's version of this effect on or off?
 		 * @param age: age of the entity. (used by client to determine if they missed a packet)
 		 */
@@ -840,7 +835,7 @@ public class Packets {
 		 * A SyncShader is sent from the Server to the Client whenever a new shader is implemented.
 		 * @param entityID: schmuck whose shader to change. (if null, change shader for whole playstate)
 		 * @param shader: enum of the new shader
-		 * @param shaderCount: durationi of shader
+		 * @param shaderCount: duration of shader
 		 */
 		public SyncShader(String entityID, Shader shader, float shaderCount) {
 			this.entityID = entityID;
@@ -897,7 +892,7 @@ public class Packets {
 		 * @param volume: volume of the sound. 1.0f = full volume.
 		 * @param pitch: pitch of the sound. 1.0f - default pitch.
 		 * @param looped: does the sound loop?
-		 * @param volume: does the sound start off on?
+		 * @param on: does the sound start off on?
 		 * @param synced: should this entity receive a sync packet regularly?
 		 */
 		public CreateSound(String entityID, String attachedID, String sound, float volume, float pitch, boolean looped, boolean on, boolean synced) {

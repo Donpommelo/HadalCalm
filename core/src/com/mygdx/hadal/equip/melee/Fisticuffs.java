@@ -16,24 +16,24 @@ import com.mygdx.hadal.strategies.hitbox.Spread;
 
 public class Fisticuffs extends MeleeWeapon {
 
-	private final static float swingCd = 0.08f;
-	private final static float windup = 0.0f;
-	private final static float baseDamage = 28.0f;
+	private static final float swingCd = 0.08f;
+	private static final float windup = 0.0f;
+	private static final float baseDamage = 28.0f;
 
-	private final static Vector2 projectileSize = new Vector2(60, 40);
-	private final static float projectileSpeed = 20.0f;
-	private final static float lifespan = 0.15f;
-	private final static float knockback = 25.0f;
-	private final static Sprite projSprite = Sprite.PUNCH;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
-	private final static int spread = 30;
+	private static final Vector2 projectileSize = new Vector2(60, 40);
+	private static final float projectileSpeed = 20.0f;
+	private static final float lifespan = 0.15f;
+	private static final float knockback = 25.0f;
+	private static final Sprite projSprite = Sprite.PUNCH;
+	private static final Sprite weaponSprite = Sprite.MT_DEFAULT;
+	private static final Sprite eventSprite = Sprite.P_DEFAULT;
+	private static final int spread = 30;
 	
 	public Fisticuffs(Schmuck user) {
 		super(user, swingCd, windup, weaponSprite, eventSprite);
 	}
 	
-	private Vector2 startVelo = new Vector2();
+	private final Vector2 startVelo = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.WOOSH.playUniversal(state, startPosition, 0.75f, false);

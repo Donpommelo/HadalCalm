@@ -10,8 +10,8 @@ import com.mygdx.hadal.statuses.StatusComposite;
 
 public class TyphonFang extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 3;
+	private static final int statusNum = 1;
+	private static final int slotCost = 3;
 	
 	public TyphonFang() {
 		super(slotCost, statusNum);
@@ -24,12 +24,12 @@ public class TyphonFang extends Artifact {
 			@Override
 			public void onKill(BodyData vic) {
 				if (this.inflicted instanceof PlayerBodyData) {
-					if (((PlayerBodyData) this.inflicted).getCurrentTool() instanceof RangedWeapon) {
+					if (this.inflicted.getCurrentTool() instanceof RangedWeapon) {
 						SoundEffect.RELOAD.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
-						RangedWeapon weapon = (RangedWeapon)((PlayerBodyData) this.inflicted).getCurrentTool();
+						RangedWeapon weapon = (RangedWeapon) this.inflicted.getCurrentTool();
 						
 						if (vic instanceof PlayerBodyData) {
-							weapon.gainClip((int) (weapon.getClipSize()));
+							weapon.gainClip(weapon.getClipSize());
 						} else {
 							weapon.gainClip(1);
 						}

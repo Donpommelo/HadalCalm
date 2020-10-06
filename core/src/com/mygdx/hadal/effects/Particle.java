@@ -77,15 +77,14 @@ public enum Particle {
 	;
 	
 	//keep track of the particle pool.
-	private static ParticleEffect prototype;
 	public static ParticleEffectPool effectPool;
-	private final static int poolSize = 75;
+	private static final int poolSize = 75;
 	
 	//this represents the atlas that we read the particle off of.
-	private ParticleType type;
+	private final ParticleType type;
 	
 	//this is the file name of the particle effect.
-	private String particleId;
+	private final String particleId;
 	
 	Particle(ParticleType type, String particleId) {
 		this.type = type;
@@ -96,7 +95,7 @@ public enum Particle {
 	 * sets up the particle pool.
 	 */
 	public static void initParticlePool() {
-		prototype = new ParticleEffect();
+		ParticleEffect prototype = new ParticleEffect();
 		effectPool = new ParticleEffectPool(prototype, 0, poolSize);
 	}
 	
@@ -107,12 +106,8 @@ public enum Particle {
 	public PooledEffect getParticle() {
 		PooledEffect newEffect = effectPool.obtain();
 		newEffect.reset();
-		switch(type) {
-		case DEFAULT:
+		if (type == ParticleType.DEFAULT) {
 			newEffect.load(Gdx.files.internal(particleId), GameStateManager.particleAtlas);
-			break;
-		default:
-			break;
 		}
 		return newEffect;
 	}

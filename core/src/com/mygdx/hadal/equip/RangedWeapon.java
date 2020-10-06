@@ -13,7 +13,7 @@ import com.mygdx.hadal.effects.Sprite;
  * Ranged weapons have a clip size, ammo count and can be reloaded.
  * @author Zachary Tu
  */
-public class RangedWeapon extends Equipable {
+public class RangedWeapon extends Equippable {
 
 	//The percent of ammo remaining, total ammo capacity and amount of ammo remaining.
 	protected float ammoPercent;
@@ -49,11 +49,11 @@ public class RangedWeapon extends Equipable {
 	 * @param shootCd: The delay after using this tool before you can use a tool again.
 	 * @param shootDelay: The delay between pressing the button for this tool and it activating. 
 	 * @param reloadAmount: The amount of clip restored upon one reload
-	 * @param autoreload: Does this weapon automaticall begin reloading when at 0 clip? (exceptions for weapons that perform special actions on reload.)
+	 * @param autoreload: Does this weapon automatically begin reloading when at 0 clip? (exceptions for weapons that perform special actions on reload.)
 	 * @param weaponSprite: The weapon's multitool weapon
 	 * @param eventSprite: The weapon's pickup event sprite
-	 * @param chargeTime: The wepaon's max charge amount (only used for charge weapons)
-	 * @param projectileSize: The wepaon's projectile size. Used to determine projectile starting location offset to avoid wall clipping
+	 * @param chargeTime: The weapon's max charge amount (only used for charge weapons)
+	 * @param projectileSize: The weapon's projectile size. Used to determine projectile starting location offset to avoid wall clipping
 	 */	
 	public RangedWeapon(Schmuck user, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed, float shootCd, float shootDelay, int reloadAmount,
 			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, float projectileSize, float chargeTime) {
@@ -81,7 +81,7 @@ public class RangedWeapon extends Equipable {
 	 * This method is called when a schmuck targets a point with this weapon.
 	 * The weapon is not fired yet. Instead, a vector keeping track of the target is set.
 	 */
-	private Vector2 playerLocation = new Vector2();
+	private final Vector2 playerLocation = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
 		
@@ -104,7 +104,7 @@ public class RangedWeapon extends Equipable {
 	public void execute(PlayState state, BodyData shooter) {
 		
 		//if we are able to fire, shoot gun
-		if (processClip(state, shooter)) {
+		if (processClip(shooter)) {
 			shooter.statusProcTime(new ProcTime.Shoot(this));
 			
 			projOrigin.set(shooter.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize));
@@ -116,9 +116,9 @@ public class RangedWeapon extends Equipable {
 
 	/**
 	 * This process the clip/ammo info of the weapon firing
-	 * @return: boolean of whether the shot was successful or not
+	 * @return boolean of whether the shot was successful or not
 	 */
-	public boolean processClip(PlayState state, BodyData shooter) {
+	public boolean processClip(BodyData shooter) {
 		
 		boolean shotSuccessful = clipLeft > 0;
 		

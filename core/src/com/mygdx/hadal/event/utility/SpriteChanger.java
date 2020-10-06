@@ -27,14 +27,13 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class SpriteChanger extends Event {
 
-	private Sprite newSprite;
-	private String mode;
-	private boolean still;
-	private int frame;
-	private float speed;
-	private String align;
-	private float scale;
-	
+	private final Sprite newSprite;
+	private final String mode;
+	private final boolean still;
+	private final int frame;
+	private final float speed, scale;
+	private final String align;
+
 	public SpriteChanger(PlayState state, String sprite, String mode, boolean still, int frame, float speed, String align, float scale) {
 		super(state);
 		this.newSprite = Sprite.valueOf(sprite);
@@ -56,7 +55,7 @@ public class SpriteChanger extends Event {
 				if (event.getConnectedEvent() != null) {
 					event.getConnectedEvent().setEventSprite(newSprite, still, frame, speed, PlayMode.valueOf(mode));
 					
-					if (align != "NONE") {
+					if (!align.equals("NONE")) {
 						event.getConnectedEvent().setScaleAlign(align);
 					}
 					if (scale != -1) {

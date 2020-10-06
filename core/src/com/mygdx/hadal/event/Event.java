@@ -33,7 +33,7 @@ public class Event extends HadalEntity {
 	private Event connectedEvent;
 
 	//Whether the event will despawn after time.
-	private boolean temporary;
+	private final boolean temporary;
 	protected float duration;
 	
 	//Is this event affected by gravity?
@@ -58,10 +58,10 @@ public class Event extends HadalEntity {
     private eventSyncTypes syncType = eventSyncTypes.ILLUSION;
 	
     //speed of animation for events
-    private final static float animationSpeed = 0.1f;
+    private static final float animationSpeed = 0.1f;
     
     //all pickups will have this height and width as default.
-    public final static int defaultPickupEventSize = 160;
+    public static final int defaultPickupEventSize = 160;
     
     //this is the map object from Tiled that this event was read from.
     protected MapObject blueprint;
@@ -120,7 +120,7 @@ public class Event extends HadalEntity {
 		}
 	}
 
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		
@@ -128,28 +128,28 @@ public class Event extends HadalEntity {
 			entityLocation.set(getPixelPosition());
 			switch (scaleAlign) {
 			case CENTER:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
+				batch.draw(eventSprite.getKeyFrame(animationTime),
 						entityLocation.x - spriteWidth * scale / 2,
 						entityLocation.y - spriteHeight * scale / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case CENTER_STRETCH:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
+				batch.draw(eventSprite.getKeyFrame(animationTime),
 						entityLocation.x - size.x / 2,
 						entityLocation.y - size.y / 2,
 	                    size.x / 2, size.y / 2,
 	                    size.x, size.y, 1, 1, 0);
 				break;
 			case CENTER_BOTTOM:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
+				batch.draw(eventSprite.getKeyFrame(animationTime),
 						entityLocation.x - spriteWidth * scale / 2,
 						entityLocation.y - size.y / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case ROTATE:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
+				batch.draw(eventSprite.getKeyFrame(animationTime),
 						entityLocation.x - size.x / 2,
 						entityLocation.y - size.y / 2,
 						size.x / 2, size.y / 2,
@@ -189,7 +189,7 @@ public class Event extends HadalEntity {
 
 	/**
 	 * This is used for default animations with multiple frames. The result is a looping animation.
-	 * @param sprite
+	 * @param sprite: the event's new sprite
 	 */
 	public void setEventSprite(Sprite sprite) {
 		setEventSprite(sprite, false, 0, animationSpeed, PlayMode.LOOP);
@@ -214,9 +214,9 @@ public class Event extends HadalEntity {
 		}
 		
 		if (still) {
-			this.eventSprite = new Animation<TextureRegion>(speed, sprite.getFrames().get(frame));
+			this.eventSprite = new Animation<>(speed, sprite.getFrames().get(frame));
 		} else {
-			this.eventSprite = new Animation<TextureRegion>(speed, sprite.getFrames());
+			this.eventSprite = new Animation<>(speed, sprite.getFrames());
 		}
 		this.eventSprite.setPlayMode(mode);
 		

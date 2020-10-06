@@ -11,17 +11,17 @@ import com.mygdx.hadal.utils.Stats;
 
 public class OriginCoil extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float slow = 0.02f;
-	private final static float boost = 75.0f;
-	private final static float delay = 0.25f;
+	private static final float slow = 0.02f;
+	private static final float boost = 75.0f;
+	private static final float delay = 0.25f;
 	
-	private final static float bonusProjLife = 1.0f;
-	private final static float bonusReloadSpd = 0.6f;
+	private static final float bonusProjLife = 1.0f;
+	private static final float bonusReloadSpd = 0.6f;
 	
-	private final static float boostInterval = 1 / 60f;
+	private static final float boostInterval = 1 / 60f;
 	
 	public OriginCoil() {
 		super(slotCost, statusNum);

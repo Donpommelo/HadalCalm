@@ -192,8 +192,6 @@ public class Setting {
 		switch(framerate) {
 		case 0:
 			return 30;
-		case 1:
-			return 60;
 		case 2:
 			return 90;
 		case 3:
@@ -208,8 +206,6 @@ public class Setting {
 	 */
 	public static float indexToTimer(int index) {
 		switch(index) {
-		case 0:
-			return 0.0f;
 		case 1:
 			return 60.0f;
 		case 2:
@@ -232,8 +228,6 @@ public class Setting {
 		switch(cursorSize) {
 		case 0:
 			return 16;
-		case 1:
-			return 32;
 		case 2:
 			return 64;
 		default:
@@ -256,8 +250,6 @@ public class Setting {
 			return Color.MAGENTA;
 		case 4:
 			return Color.RED;
-		case 5:
-			return Color.WHITE;
 		case 6:
 			return Color.YELLOW;
 		default:
@@ -279,8 +271,6 @@ public class Setting {
 		switch (hitsoundType) {
 		case 1:
 			return SoundEffect.HITSOUND_BLIP;
-		case 2:
-			return SoundEffect.HITSOUND_COWBELL;
 		case 3:
 			return SoundEffect.HITSOUND_DING;
 		case 4:

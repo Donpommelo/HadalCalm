@@ -21,22 +21,22 @@ import com.mygdx.hadal.strategies.hitbox.DieParticles;
 
 public class DuelingCorkgun extends RangedWeapon {
 
-	private final static int clipSize = 1;
-	private final static int ammoSize = 36;
-	private final static float shootCd = 0.1f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 0.9f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 20.0f;
-	private final static float recoil = 11.0f;
-	private final static float knockback = 90.0f;
-	private final static float projectileSpeed = 55.0f;
-	private final static Vector2 projectileSize = new Vector2(46, 40);
-	private final static float lifespan = 1.0f;
+	private static final int clipSize = 1;
+	private static final int ammoSize = 36;
+	private static final float shootCd = 0.1f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = 0.9f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 20.0f;
+	private static final float recoil = 11.0f;
+	private static final float knockback = 90.0f;
+	private static final float projectileSpeed = 55.0f;
+	private static final Vector2 projectileSize = new Vector2(46, 40);
+	private static final float lifespan = 1.0f;
 	
-	private final static Sprite projSprite = Sprite.CORK;
-	private final static Sprite weaponSprite = Sprite.MT_ICEBERG;
-	private final static Sprite eventSprite = Sprite.P_ICEBERG;
+	private static final Sprite projSprite = Sprite.CORK;
+	private static final Sprite weaponSprite = Sprite.MT_ICEBERG;
+	private static final Sprite eventSprite = Sprite.P_ICEBERG;
 	
 	public DuelingCorkgun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

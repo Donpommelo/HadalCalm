@@ -12,13 +12,13 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class CameraPanZone extends Prefabrication {
 
 	//Zoom percent of the left/lower, right/upper sections
-	private float zoom1, zoom2;
+	private final float zoom1, zoom2;
 	
 	//0 = Vertical  wall. 1 = Horizontal wall
-	private int align;
+	private final int align;
 	
 	//These are the eventIDs of the camera lock points for the left/lower, right/upper sections
-	private String point1, point2;
+	private final String point1, point2;
 	
 	public CameraPanZone(PlayState state, int width, int height, int x, int y, float zoom1, float zoom2, int align, String point1, String point2) {
 		super(state, width, height, x , y);

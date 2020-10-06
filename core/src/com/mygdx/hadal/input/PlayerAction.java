@@ -1,11 +1,11 @@
 package com.mygdx.hadal.input;
-import java.util.HashMap;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.SettingState;
+
+import java.util.HashMap;
 
 /**
  * This enum maps to each possible action the player can perform to an input.
@@ -41,7 +41,7 @@ public enum PlayerAction {
 	
 	//this boolean notes actions that are "toggleable"
 	//these are relevant for resetting when the input processor is temporarily disabled.
-	private boolean toggleable;
+	private final boolean toggleable;
 	
 	PlayerAction(int key, boolean toggleable) {
 		this.key = key;
@@ -108,7 +108,7 @@ public enum PlayerAction {
 	public static void saveKeys() {		
 		Gdx.files.local("save/Keybind.json").writeString("", false);
 		
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		HashMap<String, Integer> map = new HashMap<>();
 		
 		for (PlayerAction a : PlayerAction.values()) {
 			map.put(a.toString(), a.getKey());

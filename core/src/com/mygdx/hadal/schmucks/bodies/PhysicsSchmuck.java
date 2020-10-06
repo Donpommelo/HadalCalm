@@ -11,14 +11,14 @@ import com.mygdx.hadal.states.PlayState;
 public class PhysicsSchmuck extends Schmuck {
 
 	//this the frequency that the physics occurs
-	private final static float controllerInterval = 1 / 60f;
+	private static final float controllerInterval = 1 / 60f;
 	
 	public PhysicsSchmuck(PlayState state, Vector2 startPos, Vector2 size, String name, short hitboxFilter, int baseHp) {
 		super(state, startPos, size, name, hitboxFilter, baseHp);
 	}
 	
-	private Vector2 force = new Vector2();
-	private Vector2 currentVel = new Vector2();
+	private final Vector2 force = new Vector2();
+	private final Vector2 currentVel = new Vector2();
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
@@ -54,8 +54,8 @@ public class PhysicsSchmuck extends Schmuck {
 				break;
 			}
 			
-			float accelX = 0.0f;
-			float accelY = 0.0f;
+			float accelX;
+			float accelY;
 			
 			//Process acceleration based on bodyData stats.
 			if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {

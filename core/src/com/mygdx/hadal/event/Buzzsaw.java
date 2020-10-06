@@ -1,7 +1,6 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -29,17 +28,17 @@ public class Buzzsaw extends Event {
 	private float controllerCount = 0;
 	
 	//Damage done by the saw
-	private float dps;
+	private final float dps;
 	
 	//who does this saw damage?
-	private short filter;
+	private final short filter;
 	
 	//angle the saw is drawn at. Used to make saw spin
 	private float angle;
-	private final static float spinSpeed = 7.5f;
-	private final static float damageInterval = 1 / 60f;
+	private static final float spinSpeed = 7.5f;
+	private static final float damageInterval = 1 / 60f;
 	
-	private final static float spriteScale = 1.4f;
+	private static final float spriteScale = 1.4f;
 	
 	public Buzzsaw(PlayState state, Vector2 startPos, Vector2 size, float dps, short filter) {
 		super(state,  startPos, size);
@@ -81,12 +80,12 @@ public class Buzzsaw extends Event {
 	/**
 	 * We draw the sprite a bit larger than normal to make its hitbox feel more generous to players
 	 */
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		entityLocation.set(getPixelPosition());
 		
-		batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
+		batch.draw(eventSprite.getKeyFrame(animationTime),
 				entityLocation.x - size.x / 2 * spriteScale,
 				entityLocation.y - size.y / 2 * spriteScale,
                 size.x / 2 * spriteScale, size.y / 2 * spriteScale,
@@ -102,15 +101,11 @@ public class Buzzsaw extends Event {
 			return false;
 		} else {
 			entityLocation.set(getPixelPosition());
-			if (
-					state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x * spriteScale / 2, entityLocation.y + size.y * spriteScale / 2, 0) || 
+			return (
+					state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x * spriteScale / 2, entityLocation.y + size.y * spriteScale / 2, 0) ||
 					state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x * spriteScale / 2, entityLocation.y + size.y * spriteScale / 2, 0) ||
 					state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x * spriteScale / 2, entityLocation.y - size.y * spriteScale / 2, 0) ||
-					state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x * spriteScale / 2, entityLocation.y - size.y * spriteScale / 2, 0)) {
-				return true;
-			} else {
-				return false;
-			}
+					state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x * spriteScale / 2, entityLocation.y - size.y * spriteScale / 2, 0));
 		}
 	}
 	

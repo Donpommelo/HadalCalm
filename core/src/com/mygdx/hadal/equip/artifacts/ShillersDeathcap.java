@@ -8,12 +8,12 @@ import com.mygdx.hadal.strategies.hitbox.PoisonTrail;
 
 public class ShillersDeathcap extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
 	private static final int poisonRadius = 100;
 	private static final float poisonDamage = 10 / 60f;
-	private static float poisonDuration = 1.0f;
+	private static final float poisonDuration = 1.0f;
 	private static final float procCd = 1.0f;
 	
 	public ShillersDeathcap() {

@@ -9,10 +9,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class NuclearPunchThrusters extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float bonusKnockback = 0.6f;
+	private static final float bonusKnockback = 0.6f;
 	
 	public NuclearPunchThrusters() {
 		super(slotCost, statusNum);

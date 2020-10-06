@@ -1,8 +1,6 @@
 package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -23,22 +21,22 @@ import com.mygdx.hadal.strategies.hitbox.TravelDistanceDie;
 public class Shocked extends Status {
 
 	//this is the damage of each shock
-	private float damage;
+	private final float damage;
 	
 	//this keeps track of the time between each chain lightning activation
 	private float procCdCount;
-	private final static float procCd = .25f;
+	private static final float procCd = .25f;
 	
 	//these manage the trail that shows the lightning particles
-	private final static Vector2 trailSize = new Vector2(10, 10);
-	private final static float trailSpeed = 120.0f;
-	private final static float trailLifespan = 3.0f;
+	private static final Vector2 trailSize = new Vector2(10, 10);
+	private static final float trailSpeed = 120.0f;
+	private static final float trailLifespan = 3.0f;
 	
 	//the distance that the lightning can jump and the number of jumps it has left.
-	private int radius, chainAmount;
+	private final int radius, chainAmount;
 	
 	//this is the hitbox filter that determines who the lightning can jump to
-	private short filter;
+	private final short filter;
 	
 	//these variables are used for the aabb box querying to determine chain target
 	private Schmuck chainAttempt;
@@ -71,30 +69,26 @@ public class Shocked extends Status {
 	/**
 	 * This is run to activate the next jump of the chain lightning
 	 */
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	private void chain() {
 		if (chainAmount > 0) {
 			SoundEffect.ZAP.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
 			
 			entityLocation.set(inflicted.getSchmuck().getPosition());
 			//find a target closest to the current victim
-			inflicted.getSchmuck().getWorld().QueryAABB(new QueryCallback() {
-
-				@Override
-				public boolean reportFixture(Fixture fixture) {
-					if (fixture.getUserData() instanceof BodyData) {
-						if (((BodyData) fixture.getUserData()).getSchmuck().getHitboxfilter() != filter && ((BodyData) fixture.getUserData()).getSchmuck().isAlive() && inflicted != fixture.getUserData()) {
-							if (chainAttempt == null) {
-								chainAttempt = ((BodyData) fixture.getUserData()).getSchmuck(); 
-								closestDist = chainAttempt.getPosition().dst2(entityLocation);
-							} else if (closestDist > ((BodyData) fixture.getUserData()).getSchmuck().getPosition().dst2(entityLocation)) {
-								chainAttempt = ((BodyData) fixture.getUserData()).getSchmuck(); 
-								closestDist = chainAttempt.getPosition().dst2(entityLocation);
-							}
+			inflicted.getSchmuck().getWorld().QueryAABB(fixture -> {
+				if (fixture.getUserData() instanceof BodyData) {
+					if (((BodyData) fixture.getUserData()).getSchmuck().getHitboxfilter() != filter && ((BodyData) fixture.getUserData()).getSchmuck().isAlive() && inflicted != fixture.getUserData()) {
+						if (chainAttempt == null) {
+							chainAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
+							closestDist = chainAttempt.getPosition().dst2(entityLocation);
+						} else if (closestDist > ((BodyData) fixture.getUserData()).getSchmuck().getPosition().dst2(entityLocation)) {
+							chainAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
+							closestDist = chainAttempt.getPosition().dst2(entityLocation);
 						}
 					}
-					return true;
 				}
+				return true;
 			}, entityLocation.x - radius, entityLocation.y - radius, entityLocation.x + radius, entityLocation.y + radius);
 			
 			if (chainAttempt != null) {

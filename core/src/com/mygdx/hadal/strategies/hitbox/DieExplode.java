@@ -13,11 +13,11 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class DieExplode extends HitboxStrategy {
 	
 	//explosion stats
-	private float explosionDamage, explosionKnockback;
-	private int explosionRadius;
+	private final float explosionDamage, explosionKnockback;
+	private final int explosionRadius;
 	
-	//the hitbox filter of units that can be damaged b ythe explosion.
-	private short filter;
+	//the hitbox filter of units that can be damaged by the explosion.
+	private final short filter;
 	
 	public DieExplode(PlayState state, Hitbox proj, BodyData user, int explosionRadius, float explosionDamage, float explosionKnockback, short filter) {
 		super(state, proj, user);

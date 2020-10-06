@@ -3,7 +3,7 @@ package com.mygdx.hadal.schmucks.bodies;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -25,7 +25,7 @@ public class Schmuck extends HadalEntity {
 	//the name of this schmuck
 	protected String name;
 	
-	//The current movestate of this schmuck
+	//The current MoveState of this schmuck
 	protected MoveState moveState;
 	
 	//user data.
@@ -42,7 +42,7 @@ public class Schmuck extends HadalEntity {
 	protected float shootDelayCount;
 	
 	//The last used tool. This is used to process equipment with a delay between using and executing.
-	protected Equipable usedTool;
+	protected Equippable usedTool;
 	
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
 	protected float controllerCount;
@@ -60,7 +60,7 @@ public class Schmuck extends HadalEntity {
 	 * @param size: body size
 	 * @param name: name of the schmuck to be displayed in ui and for attributed kills
 	 * @param hitboxFilter: who can this entity collide with?
-	 * @param: baseHp: The amount of damage this schmuck can take before dying
+	 * @param baseHp: The amount of damage this schmuck can take before dying
 	 */
 	public Schmuck(PlayState state, Vector2 startPos, Vector2 size, String name, short hitboxFilter, float baseHp) {
 		super(state, startPos, size);
@@ -116,7 +116,7 @@ public class Schmuck extends HadalEntity {
 	 * @param mouseLocation: screen coordinate that represents where the tool is being directed.
 	 * @param wait: Should this tool wait for base cooldowns. No for special tools like built-in airblast/momentum freezing/some enemy attacks
 	 */
-	public void useToolStart(float delta, Equipable tool, short hitbox, Vector2 mouseLocation, boolean wait) {
+	public void useToolStart(float delta, Equippable tool, short hitbox, Vector2 mouseLocation, boolean wait) {
 		
 		getBodyData().statusProcTime(new ProcTime.WhileAttack(delta, tool));
 
@@ -153,15 +153,14 @@ public class Schmuck extends HadalEntity {
 	 * This method is called after the user releases the button for a tool. Mostly used by charge weapons that execute when releasing
 	 * instead of after pressing.
 	 * @param tool: tool to release
-	 * @param mouseLocation: screen coordinate that represents where the tool is being directed.
 	 */
-	public void useToolRelease(Equipable tool, Vector2 mouseLocation) {
+	public void useToolRelease(Equippable tool) {
 		tool.release(state, getBodyData());
 	}	
 	
 	/**
 	 * This is called every engine tick. The server schmuck sends a packet to the corresponding client schmuck.
-	 * This packet updates movestate.
+	 * This packet updates MoveState.
 	 */
 	@Override
 	public void onServerSync() {
@@ -188,7 +187,7 @@ public class Schmuck extends HadalEntity {
 	/**
 	 * This returns the location that a spawned projectile should be created. (for the player, we override to make it spawn near the tip of the gun)
 	 * @param startVelo: the starting speed and direction of the bullet
-	 * @param projSize: the size of the buller
+	 * @param projSize: the size of the bullet
 	 * @return the vector2 position of where the bullet should be spawned relative to the schmuck
 	 */
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {	return getPixelPosition(); }

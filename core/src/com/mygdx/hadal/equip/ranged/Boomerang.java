@@ -20,23 +20,23 @@ import com.mygdx.hadal.strategies.hitbox.ReturnToUser;
 
 public class Boomerang extends RangedWeapon {
 
-	private final static int clipSize = 3;
-	private final static int ammoSize = 24;
-	private final static float shootCd = 0.75f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = .75f;
-	private final static int reloadAmount = 1;
-	private final static float baseDamage = 35.0f;
-	private final static float recoil = 0.0f;
-	private final static float knockback = 30.0f;
-	private final static float projectileSpeed = 60.0f;
-	private final static Vector2 projectileSize = new Vector2(60, 60);
-	private final static float lifespan = 2.5f;
-	private final static float returnAmp = 5.0f;
+	private static final int clipSize = 3;
+	private static final int ammoSize = 24;
+	private static final float shootCd = 0.75f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = .75f;
+	private static final int reloadAmount = 1;
+	private static final float baseDamage = 35.0f;
+	private static final float recoil = 0.0f;
+	private static final float knockback = 30.0f;
+	private static final float projectileSpeed = 60.0f;
+	private static final Vector2 projectileSize = new Vector2(60, 60);
+	private static final float lifespan = 2.5f;
+	private static final float returnAmp = 5.0f;
 	
-	private final static Sprite projSprite = Sprite.BOOMERANG;
-	private final static Sprite weaponSprite = Sprite.MT_BOOMERANG;
-	private final static Sprite eventSprite = Sprite.P_BOOMERANG;
+	private static final Sprite projSprite = Sprite.BOOMERANG;
+	private static final Sprite weaponSprite = Sprite.MT_BOOMERANG;
+	private static final Sprite eventSprite = Sprite.P_BOOMERANG;
 	
 	public Boomerang(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

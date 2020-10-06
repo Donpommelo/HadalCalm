@@ -28,28 +28,28 @@ public class AboutState extends GameState {
 	//options that the player can view
 	private Text aboutOption, miscOption, tipsOption, creditsOption, exitOption;
 	
-	//Dimentions of the setting menu
-	private final static int optionsX = 25;
-	private final static int optionsY = 100;
-	private final static int optionsWidth = 300;
-	private final static int optionsHeight = 600;
+	//Dimensions of the setting menu
+	private static final int optionsX = 25;
+	private static final int optionsY = 100;
+	private static final int optionsWidth = 300;
+	private static final int optionsHeight = 600;
 	
-	private final static int detailsX = 320;
-	private final static int detailsY = 100;
-	private final static int detailsWidth = 800;
-	private final static int detailsHeight = 600;
+	private static final int detailsX = 320;
+	private static final int detailsY = 100;
+	private static final int detailsWidth = 800;
+	private static final int detailsHeight = 600;
 	
-	private final static float optionsScale = 0.5f;
-	private final static float optionsPad = 15.0f;
-	private final static float detailsScale = 0.3f;
+	private static final float optionsScale = 0.5f;
+	private static final float optionsPad = 15.0f;
+	private static final float detailsScale = 0.3f;
 	
-	private final static float titlePad = 25.0f;
-	private final static float detailsPad = 15.0f;
-	private final static int detailsTextWidth = 750;
+	private static final float titlePad = 25.0f;
+	private static final float detailsPad = 15.0f;
+	private static final int detailsTextWidth = 750;
 
 	//this state's background shader
-	private Shader shaderBackground;
-	private TextureRegion bg;
+	private final Shader shaderBackground;
+	private final TextureRegion bg;
 	
 	/**
 	 * Constructor will be called when the player enters the about state from the title menu.
@@ -133,13 +133,7 @@ public class AboutState extends GameState {
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
 						gsm.getApp().fadeOut();
-						gsm.getApp().setRunAfterTransition(new Runnable() {
-
-							@Override
-							public void run() {
-								gsm.removeState(AboutState.class);
-							}
-						});
+						gsm.getApp().setRunAfterTransition(() -> gsm.removeState(AboutState.class));
 			        }
 			    });
 				exitOption.setScale(optionsScale);

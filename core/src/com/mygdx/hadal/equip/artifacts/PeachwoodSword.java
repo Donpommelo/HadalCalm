@@ -10,13 +10,13 @@ import com.mygdx.hadal.statuses.Status;
 
 public class PeachwoodSword extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float spiritLifespan = 6.0f;
-	private final static float spiritDamageEnemy = 15.0f;
-	private final static float spiritDamagePlayer = 50.0f;
-	private final static float spiritKnockback = 8.0f;
+	private static final float spiritLifespan = 6.0f;
+	private static final float spiritDamageEnemy = 15.0f;
+	private static final float spiritDamagePlayer = 50.0f;
+	private static final float spiritKnockback = 8.0f;
 	
 	public PeachwoodSword() {
 		super(slotCost, statusNum);

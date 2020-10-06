@@ -1,14 +1,12 @@
 package com.mygdx.hadal.schmucks.userdata;
 
-import java.util.Arrays;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.artifacts.Artifact;
@@ -20,8 +18,8 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.Packets.SyncPlayerStats;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
@@ -32,13 +30,15 @@ import com.mygdx.hadal.utils.DeathTextUtil;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
+import java.util.Arrays;
+
 /**
  * This is the data for a player and contains player-specific fields like airblast, jump stats, etc.
  * @author Zachary Tu
  */
 public class PlayerBodyData extends BodyData {
 		
-	private final static int numExtraJumps = 1;
+	private static final int numExtraJumps = 1;
 	private int extraJumpsUsed = 0;
 	private static final float jumpPow = 25.0f;
 	
@@ -53,7 +53,7 @@ public class PlayerBodyData extends BodyData {
 	private Loadout loadout;
 	
 	//This is a list of the player's weapons
-	private Equipable[] multitools;
+	private Equippable[] multitools;
 	
 	//This is the player's active item
 	private ActiveItem activeItem;
@@ -82,7 +82,7 @@ public class PlayerBodyData extends BodyData {
 		clearStatuses();
 
 		//Acquire weapons from loadout
-		this.multitools = new Equipable[Loadout.maxWeaponSlots];
+		this.multitools = new Equippable[Loadout.maxWeaponSlots];
 		Arrays.fill(multitools, new NothingWeapon(player));
 		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 			multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
@@ -122,7 +122,7 @@ public class PlayerBodyData extends BodyData {
 			multitools[i] = UnlocktoItem.getUnlock(newLoadout.multitools[i], player);
 		}
 		setEquip();
-		
+
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 			loadout.artifacts[i] = newLoadout.artifacts[i];
 		}
@@ -177,7 +177,7 @@ public class PlayerBodyData extends BodyData {
 		
 		clearStatuses();
 		
-		for (Equipable e : multitools) {
+		for (Equippable e : multitools) {
 			e.setUser(player);
 		}
 		
@@ -251,9 +251,8 @@ public class PlayerBodyData extends BodyData {
 	/**
 	 * Player picks up new weapon.
 	 * @param equip: The new equip to switch in. Replaces current slot if inventory is full.
-	 * @return: If a weapon is dropped to make room for new weapon, return it, otherwise return a Nothing Weapon.
 	 */
-	public Equipable pickup(Equipable equip) {
+	public Equippable pickup(Equippable equip) {
 		
 		UnlockEquip unlock = UnlockEquip.getUnlockFromEquip(equip.getClass());
 		
@@ -265,7 +264,7 @@ public class PlayerBodyData extends BodyData {
 				break;
 			}
 		}
-		Equipable old = multitools[slotToReplace];
+		Equippable old = multitools[slotToReplace];
 		
 		multitools[slotToReplace] = equip;
 		multitools[slotToReplace].setUser(player);
@@ -280,7 +279,7 @@ public class PlayerBodyData extends BodyData {
 	/**
 	 * Player picks up a new Active Item. 
 	 * @param item: Old item if nonempty and a Nothing Item otherwise
-	 * @return
+	 * @return the previous active item (if existent)
 	 */
 	public ActiveItem pickup(ActiveItem item) {
 		
@@ -372,7 +371,7 @@ public class PlayerBodyData extends BodyData {
 			if (loadout.artifacts[indexRemoved] != null) {
 				removeArtifactStatus(artifact);
 			}
-			
+
 			for (int i = indexRemoved; i < Loadout.maxArtifactSlots - 1; i++) {
 				loadout.artifacts[i] = loadout.artifacts[i + 1];
 			}
@@ -489,7 +488,7 @@ public class PlayerBodyData extends BodyData {
 				return Math.min((int) (player.getState().getGsm().getSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
 			}
 		} else {
-			return Math.min((int) (((ClientState) player.getState()).getUiPlay().getOverrideArtifactSlots()), Loadout.maxArtifactSlots);
+			return Math.min(((ClientState) player.getState()).getUiPlay().getOverrideArtifactSlots(), Loadout.maxArtifactSlots);
 		}
 	}
 	
@@ -581,8 +580,8 @@ public class PlayerBodyData extends BodyData {
 		return damage;
 	}
 	
-	private final static float scrapMultiplier = 0.25f;
-	private final static int baseScrapDrop = 1;
+	private static final float scrapMultiplier = 0.25f;
+	private static final int baseScrapDrop = 1;
 	@Override
 	public void die(BodyData perp, DamageTypes... tags) {
 		if (player.isAlive()) {
@@ -590,8 +589,8 @@ public class PlayerBodyData extends BodyData {
 			boolean special = false;
 			
 			//in the case of a disconnect, this is a special death with teleport particles instead of frags
-			for (int i = 0; i < tags.length; i++) {
-				if (tags[i] == DamageTypes.DISCONNECT) {
+			for (final DamageTypes tag : tags) {
+				if (tag == DamageTypes.DISCONNECT) {
 					special = true;
 					break;
 				}
@@ -659,7 +658,7 @@ public class PlayerBodyData extends BodyData {
 
 	public void setExtraJumpsUsed(int extraJumpsUsed) {	this.extraJumpsUsed = extraJumpsUsed; }
 
-	public Equipable[] getMultitools() { return multitools; }
+	public Equippable[] getMultitools() { return multitools; }
 	
 	public ActiveItem getActiveItem() {	return activeItem; }
 

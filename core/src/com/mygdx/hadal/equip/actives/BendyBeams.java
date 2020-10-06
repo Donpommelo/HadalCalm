@@ -20,21 +20,21 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class BendyBeams extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 8.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 8.0f;
 	
-	private final static Vector2 projectileSize = new Vector2(60, 20);
-	private final static float lifespan = 5.0f;
-	private final static float projectileSpeed = 45.0f;
+	private static final Vector2 projectileSize = new Vector2(60, 20);
+	private static final float lifespan = 5.0f;
+	private static final float projectileSpeed = 45.0f;
 	
-	private final static float duration = 1.0f;
+	private static final float duration = 1.0f;
 	
 	private static final float procCd = 0.1f;
 	private static final float damage = 14.0f;
-	private final static float knockback = 20.0f;
+	private static final float knockback = 20.0f;
 
-	private final static Sprite projSprite = Sprite.ORB_ORANGE;
+	private static final Sprite projSprite = Sprite.ORB_ORANGE;
 
 	public BendyBeams(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -47,7 +47,7 @@ public class BendyBeams extends ActiveItem {
 		user.addStatus(new Status(state, duration, false, user, user) {
 			
 			private float procCdCount;
-			private Vector2 startVelo = new Vector2();
+			private final Vector2 startVelo = new Vector2();
 			@Override
 			public void timePassing(float delta) {
 				super.timePassing(delta);

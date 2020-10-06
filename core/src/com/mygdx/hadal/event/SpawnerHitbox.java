@@ -21,7 +21,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * A Hitbox Spawner spawns a hitbox when activated. Spawned hitboxes can have a variety of properties and effects.
  * 
  * Triggered Behavior: When triggered, this will spawn a hitbox.
- * Triggering Behavior: if existant, the spwned hitboxes will be aimed at the body of the connected event (if it has a body).
+ * Triggering Behavior: if existent, the spawned hitboxes will be aimed at the body of the connected event (if it has a body).
  * Alt-Triggered Behavior: When alt-triggered, this spawner changes the number of schmucks it will spawn at once.
  * 
  * Fields:
@@ -32,12 +32,12 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class SpawnerHitbox extends Event {
 	
 	//These are all properties of the spawned hitbox
-	private Vector2 projSize, startVelo;
-	private float lifespan, gravity, restitution, friction, damage, knockback, speed;
-	private boolean sensor, dieOnWall, dieOnSchmuck, adjustAngle;
+	private final Vector2 projSize, startVelo;
+	private final float lifespan, gravity, restitution, friction, damage, knockback, speed;
+	private final boolean sensor, dieOnWall, dieOnSchmuck, adjustAngle;
 	
-	private Sprite sprite;
-	private Particle particle;
+	private final Sprite sprite;
+	private final Particle particle;
 	
 	public SpawnerHitbox(PlayState state, Vector2 startPos, Vector2 size, Vector2 projSize, float lifespan, Vector2 startVelo, boolean sensor, String sprite,
 			String particle, float gravity, float restitution, float friction, float damage, float knockback, boolean dieOnWall, boolean dieOnSchmuck, boolean adjustAngle) {
@@ -64,13 +64,13 @@ public class SpawnerHitbox extends Event {
 	public void create() {
 		this.eventData = new EventData(this) {
 			
-			private Vector2 finalVelo = new Vector2();
+			private final Vector2 finalVelo = new Vector2();
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				
 				finalVelo.set(startVelo);
 				
-				//if we have a conencted event with a body, the hitbox is aimed at the body
+				//if we have a connected event with a body, the hitbox is aimed at the body
 				if (event.getConnectedEvent() != null) {
 					if (event.getConnectedEvent().getBody() != null) {
 						finalVelo.set(event.getConnectedEvent().getBody().getPosition()).sub(event.getBody().getPosition()).nor().scl(speed);

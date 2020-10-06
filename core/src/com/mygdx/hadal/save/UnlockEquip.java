@@ -1,16 +1,17 @@
 package com.mygdx.hadal.save;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.melee.*;
-import com.mygdx.hadal.equip.misc.*;
+import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.equip.ranged.*;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * An UnlockLevel represents a single weapon in the game
@@ -74,12 +75,12 @@ public enum UnlockEquip {
 	;
 	
 	//the weapon that this unlock represents
-	private Class<? extends Equipable> weapon;
+	private final Class<? extends Equippable> weapon;
 	
 	//the weapon's information
 	private InfoItem info;
 	
-	UnlockEquip(Class<? extends Equipable> weapon) {
+	UnlockEquip(Class<? extends Equippable> weapon) {
 		this.weapon = weapon;
 	}
 	
@@ -87,7 +88,7 @@ public enum UnlockEquip {
 	 * This acquires a list of all unlocked weapons (if unlock is true. otherwise just return all weapons that satisfy the tags)
 	 */
 	public static Array<UnlockEquip> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
-		Array<UnlockEquip> items = new Array<UnlockEquip>();
+		Array<UnlockEquip> items = new Array<>();
 		
 		for (UnlockEquip u : UnlockEquip.values()) {
 			
@@ -104,9 +105,9 @@ public enum UnlockEquip {
 	}
 
 	/**
-	 * This method returns the unlock corresponding to a specfic weapon
+	 * This method returns the unlock corresponding to a specific weapon
 	 */
-	public static UnlockEquip getUnlockFromEquip(Class<? extends Equipable> weapon) {
+	public static UnlockEquip getUnlockFromEquip(Class<? extends Equippable> weapon) {
 		for (UnlockEquip unlock: UnlockEquip.values()) {
 			if (unlock.weapon.equals(weapon)) {
 				return unlock;
@@ -121,23 +122,21 @@ public enum UnlockEquip {
 	 */
 	public static String getRandWeapFromPool(PlayState state, String pool) {
 		
-		ArrayList<UnlockTag> defaultTags = new ArrayList<UnlockTag>();
+		ArrayList<UnlockTag> defaultTags = new ArrayList<>();
 		defaultTags.add(UnlockTag.RANDOM_POOL);
 		
 		if (pool.equals("")) {
 			Array<UnlockEquip> unlocks = UnlockEquip.getUnlocks(state, false, defaultTags);
 			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).toString();
 		}
-		
-		ArrayList<String> weapons = new ArrayList<String>();
-		
-		for (String id : pool.split(",")) {
-			weapons.add(id);
-		}
+
+		ArrayList<String> weapons = new ArrayList<>();
+
+		Collections.addAll(weapons, pool.split(","));
 		return weapons.get(GameStateManager.generator.nextInt(weapons.size()));
 	}
 	
-	public Class<? extends Equipable> getWeapon() {	return weapon; }
+	public Class<? extends Equippable> getWeapon() {	return weapon; }
 		
 	public InfoItem getInfo() {	return info; }
 

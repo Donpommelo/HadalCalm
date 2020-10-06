@@ -11,12 +11,12 @@ import com.mygdx.hadal.utils.Stats;
 
 public class TomeOfPhilopatry extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float bonusProjLifespan = 0.5f;
-	private final static float bonusProjDurability = 1.0f;
-	private final static float returnAmp = 4.0f;
+	private static final float bonusProjLifespan = 0.5f;
+	private static final float bonusProjDurability = 1.0f;
+	private static final float returnAmp = 4.0f;
 	
 	public TomeOfPhilopatry() {
 		super(slotCost, statusNum);

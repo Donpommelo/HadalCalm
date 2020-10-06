@@ -19,9 +19,9 @@ import com.mygdx.hadal.strategies.hitbox.OrbitUser;
 
 public class OrbitalShield extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 9.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 9.0f;
 	
 	private static final Vector2 projSize = new Vector2(25, 25);
 	private static final Vector2 spriteSize = new Vector2(40, 40);

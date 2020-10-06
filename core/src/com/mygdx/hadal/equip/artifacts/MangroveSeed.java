@@ -1,18 +1,18 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import java.util.Arrays;
-
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
+import java.util.Arrays;
+
 public class MangroveSeed extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float res = 0.2f;
+	private static final float res = 0.2f;
 	
 	public MangroveSeed() {
 		super(slotCost, statusNum);

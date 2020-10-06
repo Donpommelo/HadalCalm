@@ -1,8 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -19,9 +16,9 @@ import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
-import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
@@ -29,28 +26,11 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitBurn;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSlow;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DamageStatic;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
-import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
-import com.mygdx.hadal.strategies.hitbox.HomingUnit;
-import com.mygdx.hadal.strategies.hitbox.OrbitUser;
-import com.mygdx.hadal.strategies.hitbox.ReturnToUser;
-import com.mygdx.hadal.strategies.hitbox.Spread;
-import com.mygdx.hadal.strategies.hitbox.WaveEntity;
+import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Stats;
+
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This is a boss in the game
@@ -58,12 +38,12 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class Boss4 extends EnemyFloating {
 	
-	private final static String name = "FALSE SUN";
+	private static final String name = "FALSE SUN";
 
     private static final float aiAttackCd = 2.2f;
     private static final float aiAttackCd2 = 1.6f;
 	
-    private final static int scrapDrop = 15;
+    private static final int scrapDrop = 15;
     
 	private static final int width = 360;
 	private static final int height = 360;
@@ -86,7 +66,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float phaseThreshold2 = 0.5f;
 	
 	//the boss's body is composed of multiple scaled up particle effects
-	private ParticleEntity body1, body2, body3;
+	private final ParticleEntity body1, body2, body3;
 	private static final float bodyBaseScale1 = 2.5f;
 	private static final float bodyBaseScale2 = 2.5f;
 	private static final float bodyBaseScale3 = 5.0f;
@@ -133,7 +113,7 @@ public class Boss4 extends EnemyFloating {
 	}
 
 	private float scalingAccumulator;
-	private final static float scalingTime = 1 / 120f;
+	private static final float scalingTime = 1 / 120f;
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
@@ -188,12 +168,12 @@ public class Boss4 extends EnemyFloating {
 		}
 	}
 	
-	private final static int phase1NumAttacks = 3;
-	private final static int phase2NumAttacks = 5;
+	private static final int phase1NumAttacks = 3;
+	private static final int phase2NumAttacks = 5;
 
 	//these lists are used to make the boss perform all attacks in its pool before repeating any
-	private ArrayList<Integer> attacks1 = new ArrayList<Integer>();
-	private ArrayList<Integer> attacks2 = new ArrayList<Integer>();
+	private final ArrayList<Integer> attacks1 = new ArrayList<>();
+	private final ArrayList<Integer> attacks2 = new ArrayList<>();
 	private void phase1Attack() {
 		if (attacks1.isEmpty()) {
 			for (int i = 0; i < phase1NumAttacks; i++) {
@@ -289,7 +269,7 @@ public class Boss4 extends EnemyFloating {
 				SoundEffect.MAGIC3_BURST.playUniversal(state, getPixelPosition(), 0.9f, 0.75f, false);
 				
 				for (int i = 0; i < numShots; i++) {
-					angle.setAngle(angle.angle() + 360 / numShots);
+					angle.setAngle(angle.angle() + 360.0f / numShots);
 					
 					Vector2 startVelo = new Vector2(shot1Speed, 0).setAngle(angle.angle());
 					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, projSize.x), projSize, shot1Lifespan, startVelo, getHitboxfilter(), true, false, enemy, Sprite.LASER_PURPLE);
@@ -307,7 +287,7 @@ public class Boss4 extends EnemyFloating {
 					hbox.addStrategy((new HitboxStrategy(state, hbox, getBodyData()) {
 						
 						private float controllerCount = pushInterval;
-						private Vector2 push = new Vector2(startVelo);
+						private final Vector2 push = new Vector2(startVelo);
 						@Override
 						public void controller(float delta) {
 							
@@ -362,10 +342,10 @@ public class Boss4 extends EnemyFloating {
 				@Override
 				public void execute() {
 					
-					Vector2 startVelo1 = new Vector2(fireSpeed, fireSpeed).setAngle(startAngle + index * 360 / fireballNumber);
+					Vector2 startVelo1 = new Vector2(fireSpeed, fireSpeed).setAngle(startAngle + index * 360.0f / fireballNumber);
 					fireball(startVelo1);
 					
-					Vector2 startVelo2 = new Vector2(fireSpeed, fireSpeed).setAngle(startAngle + index * 360 / fireballNumber + 180);
+					Vector2 startVelo2 = new Vector2(fireSpeed, fireSpeed).setAngle(startAngle + index * 360.0f / fireballNumber + 180);
 					fireball(startVelo2);
 				}
 				
@@ -447,22 +427,22 @@ public class Boss4 extends EnemyFloating {
 	private static final int trailNumber = 5;
 	private static final float trailInterval = 0.5f;
 	
-	private final static Vector2 trailSize = new Vector2(120, 60);
-	private final static float trailSpeed = 200.0f;
-	private final static float trailLifespan = 10.0f;
+	private static final Vector2 trailSize = new Vector2(120, 60);
+	private static final float trailSpeed = 200.0f;
+	private static final float trailLifespan = 10.0f;
 	
 	private static final int laserNumber = 40;
 	private static final float laserInterval = 0.05f;
 	
-	private final static Vector2 laserSpriteSize = new Vector2(180, 90);
-	private final static Vector2 laserSize = new Vector2(120, 60);
-	private final static float laserSpeed = 125.0f;
-	private final static float laserDamage = 7.5f;
-	private final static float laserKB = 12.0f;
+	private static final Vector2 laserSpriteSize = new Vector2(180, 90);
+	private static final Vector2 laserSize = new Vector2(120, 60);
+	private static final float laserSpeed = 125.0f;
+	private static final float laserDamage = 7.5f;
+	private static final float laserKB = 12.0f;
 	
-	private final static int beamDurability = 9;
+	private static final int beamDurability = 9;
 	
-	private final static int[] startingVelos = {30, 60, 120, 150, 210, 240, 300, 330};
+	private static final int[] startingVelos = {30, 60, 120, 150, 210, 240, 300, 330};
 	
 	private void bounceLaser() {
 		changeColor(ParticleColor.BLUE, shot1Windup);
@@ -528,7 +508,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float sighLifespan = 3.0f;
 	
 	private static final float cloudDelay = 1.0f;
-	private final static Vector2 cloudSize = new Vector2(120, 120);
+	private static final Vector2 cloudSize = new Vector2(120, 120);
 	private static final float cloudInterval = 0.1f;
 	private static final float cloudLifespan = 0.75f;
 	private static final float cloudSpeed = 60.0f;
@@ -607,7 +587,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float apocalypseLaseramplitude = 4.0f;
 	private static final float apocalypseLaserFrequency = 25.0f;
 
-	private final static Sprite[] debrisSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
+	private static final Sprite[] debrisSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
 	private static final float rubbleSpeed = 20.0f;
 	private static final float rubbleLifespan = 5.0f;
 	private static final Vector2 rubbleSize = new Vector2(40, 40);
@@ -632,7 +612,7 @@ public class Boss4 extends EnemyFloating {
 		for (int i = 0; i < apocalypseLaserNum; i++) {
 			getActions().add(new EnemyAction(this, apocalypseLaserInterval) {
 				
-				private Vector2 laserOffset = new Vector2();
+				private final Vector2 laserOffset = new Vector2();
 				@Override
 				public void execute() {
 					startVeloLaser.rotate(apocalypseLaserSwivelSpeed);
@@ -696,16 +676,16 @@ public class Boss4 extends EnemyFloating {
 		changeColor(ParticleColor.RED, 0.0f);
 	}
 	
-	private final static float horizontalBulletSpawnOffset = 100.0f;
-	private final static int horizontalBulletNumber = 50;
-	private final static float horizontalBulletInterval = 0.4f;
-	private final static float horizontalBulletSpeed = 8.0f;
-	private final static float horizontalBulletLifespan = 10.0f;
-	private final static float horizontalBulletDamage = 10.0f;
-	private final static float horizontalBulletKB = 15.0f;
-	private final static float horizontalBulletWindDown = 10.0f;
-	private final static Vector2 horizontalBulletSize = new Vector2(70, 35);
-	private final static Vector2 horizontalBulletSpriteSize = new Vector2(100, 50);
+	private static final float horizontalBulletSpawnOffset = 100.0f;
+	private static final int horizontalBulletNumber = 50;
+	private static final float horizontalBulletInterval = 0.4f;
+	private static final float horizontalBulletSpeed = 8.0f;
+	private static final float horizontalBulletLifespan = 10.0f;
+	private static final float horizontalBulletDamage = 10.0f;
+	private static final float horizontalBulletKB = 15.0f;
+	private static final float horizontalBulletWindDown = 10.0f;
+	private static final Vector2 horizontalBulletSize = new Vector2(70, 35);
+	private static final Vector2 horizontalBulletSpriteSize = new Vector2(100, 50);
 	
 	private void horizontalBullets() {
 		changeColor(ParticleColor.PALE_GREEN, shot1Windup);
@@ -748,14 +728,14 @@ public class Boss4 extends EnemyFloating {
 	}
 	
 	private static final int numWillOWisp = 40;
-	private final static float willOWispInterval = 0.1f;
-	private final static float willOWispSpeed = 15.0f;
-	private final static float willOWispLifespan = 10.0f;
-	private final static float willOWispDamage = 11.0f;
-	private final static float willOWispKB = 12.0f;
-	private final static float willOWispHoming = 50.0f;
-	private final static int willOWispSpread = 30;
-	private final static Vector2 willOWispSize = new Vector2(25, 25);
+	private static final float willOWispInterval = 0.1f;
+	private static final float willOWispSpeed = 15.0f;
+	private static final float willOWispLifespan = 10.0f;
+	private static final float willOWispDamage = 11.0f;
+	private static final float willOWispKB = 12.0f;
+	private static final float willOWispHoming = 50.0f;
+	private static final int willOWispSpread = 30;
+	private static final Vector2 willOWispSize = new Vector2(25, 25);
 	
 	private void willOWisp() {
 		changeColor(ParticleColor.VIOLET, shot1Windup);
@@ -788,19 +768,19 @@ public class Boss4 extends EnemyFloating {
 	}
 	
 	private static final int numStar = 32;
-	private final static float starInterval = 0.25f;
+	private static final float starInterval = 0.25f;
 	
-	private final static float starLifespan = 10.0f;
-	private final static float starDamage = 16.0f;
-	private final static float starKB = 18.0f;
-	private final static int starSizeMin = 60;
-	private final static int starSizeMax = 200;
-	private final static int starSpeedMin = 10;
-	private final static int starSpeedMax = 40;
-	private final static int starDistMin = 10;
-	private final static int starDistMax = 50;
+	private static final float starLifespan = 10.0f;
+	private static final float starDamage = 16.0f;
+	private static final float starKB = 18.0f;
+	private static final int starSizeMin = 60;
+	private static final int starSizeMax = 200;
+	private static final int starSpeedMin = 10;
+	private static final int starSpeedMax = 40;
+	private static final int starDistMin = 10;
+	private static final int starDistMax = 50;
 	
-	private final static Sprite[] starSprites = {Sprite.STAR_BLUE, Sprite.STAR_PURPLE, Sprite.STAR_RED, Sprite.STAR_YELLOW};
+	private static final Sprite[] starSprites = {Sprite.STAR_BLUE, Sprite.STAR_PURPLE, Sprite.STAR_RED, Sprite.STAR_YELLOW};
 	private void orbitalStar() {
 		changeColor(ParticleColor.GOLD, shot1Windup);
 		singlePulse();
@@ -903,9 +883,9 @@ public class Boss4 extends EnemyFloating {
 		}
 	}
 	
-	private final static int numReticleWaves = 15;
-	private final static int reticleWavesAmount = 3;
-	private final static float reticleWaveInterval = 0.2f;
+	private static final int numReticleWaves = 15;
+	private static final int reticleWavesAmount = 3;
+	private static final float reticleWaveInterval = 0.2f;
 	
 	private void randomReticleWave() {
 		singleVanish();
@@ -917,7 +897,7 @@ public class Boss4 extends EnemyFloating {
 				
 				@Override
 				public void execute() {
-					randomExplodingReticle(reticleWavesAmount);
+					randomExplodingReticle();
 				}
 			});
 		}
@@ -925,10 +905,10 @@ public class Boss4 extends EnemyFloating {
 		singleReappear();
 	}
 	
-	private Vector2 reticleLocation = new Vector2();
-	private void randomExplodingReticle(int numReticle) {
+	private final Vector2 reticleLocation = new Vector2();
+	private void randomExplodingReticle() {
 		
-		for (int i = 0; i < numReticle; i++) {
+		for (int i = 0; i < reticleWavesAmount; i++) {
 			reticleLocation.set(
 					ThreadLocalRandom.current().nextInt((int) EnemyUtils.getLeftSide(state), (int) EnemyUtils.getRightSide(state)), 
 					ThreadLocalRandom.current().nextInt((int) EnemyUtils.floorHeight(state), (int) EnemyUtils.ceilingHeight(state)));
@@ -941,7 +921,7 @@ public class Boss4 extends EnemyFloating {
 		WeaponUtils.createExplodingReticle(state, position, this, reticleSize, reticleLifespan, explosionDamage, explosionKnockback, explosionRadius);
 	}
 	
-	private final static float teleportDuration = 3.0f;
+	private static final float teleportDuration = 3.0f;
 	
 	//when transitioning from phase 1 to 2, the boss fades, moves off screen, then reappears at the top of the screen
 	private void teleport() {
@@ -1035,7 +1015,7 @@ public class Boss4 extends EnemyFloating {
 		
 		getActions().add(new EnemyAction(this, duration) {
 			
-			private Vector2 addVector = new Vector2();
+			private final Vector2 addVector = new Vector2();
 			@Override
 			public void execute() {
 				Vector2 startVelo1 = new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngle(startAngle);

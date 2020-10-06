@@ -16,19 +16,19 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class DelayedSpawn extends Event {
 
-	private final static Vector2 baseSize = new Vector2(32, 32);
-	private final static float particleScale = 0.5f;
-	private final static float particleScaleBoss = 1.5f;
+	private static final Vector2 baseSize = new Vector2(32, 32);
+	private static final float particleScale = 0.5f;
+	private static final float particleScaleBoss = 1.5f;
 	
 	//the type of enemy that this will spawn
-	private EnemyType type;
+	private final EnemyType type;
 	
 	//field supplied to the newly spawned enemy
-	private short filter;
-	private float extraField;
-	private SpawnerSchmuck spawner;
-	private boolean isBoss;
-	private String bossName;
+	private final short filter;
+	private final float extraField;
+	private final SpawnerSchmuck spawner;
+	private final boolean isBoss;
+	private final String bossName;
 	
 	public DelayedSpawn(PlayState state, Vector2 startPos, float lifespan, EnemyType type, short filter, float extraField, SpawnerSchmuck spawner, boolean isBoss, String bossName) {
 		super(state, startPos, baseSize, lifespan);

@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.ranged;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -10,60 +8,54 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.enemies.DroneBit;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Temporary;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.*;
+
+import java.util.ArrayList;
 
 public class AssaultBits extends RangedWeapon {
 
-	private final static int clipSize = 40;
-	private final static int ammoSize = 200;
-	private final static float shootCd = 0.3f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.25f;
-	private final static int reloadAmount = 0;
-	private final static float recoil = 0.0f;
-	private final static float projectileSpeed = 45.0f;
-	private final static Vector2 projectileSize = new Vector2(40, 20);
-	private final static float lifespan = 1.0f;
+	private static final int clipSize = 40;
+	private static final int ammoSize = 200;
+	private static final float shootCd = 0.3f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 1.25f;
+	private static final int reloadAmount = 0;
+	private static final float recoil = 0.0f;
+	private static final float projectileSpeed = 45.0f;
+	private static final Vector2 projectileSize = new Vector2(40, 20);
+	private static final float lifespan = 1.0f;
 	
-	private final static float summonShootCd = 1.0f;
-	private final static float baseDamage = 15.0f;
-	private final static float knockback = 14.0f;
+	private static final float summonShootCd = 1.0f;
+	private static final float baseDamage = 15.0f;
+	private static final float knockback = 14.0f;
 
-	private final static Sprite projSprite = Sprite.LASER_PURPLE;
-	private final static Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;
-	private final static Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
+	private static final Sprite projSprite = Sprite.LASER_PURPLE;
+	private static final Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;
+	private static final Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
 	
 	//list of bits created
-	private ArrayList<Enemy> bits = new ArrayList<Enemy>();
-	private ArrayList<Enemy> bitsToRemove = new ArrayList<Enemy>();
+	private final ArrayList<Enemy> bits = new ArrayList<>();
 
 	public AssaultBits(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
-	private Vector2 realWeaponVelo = new Vector2();
+	private final Vector2 realWeaponVelo = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
 		super.mouseClicked(delta, state, shooter, faction, mousePosition);
 		realWeaponVelo.set(weaponVelo);
 	}
 	
-	private Vector2 bitVelo = new Vector2(0, projectileSpeed);
+	private final Vector2 bitVelo = new Vector2(0, projectileSpeed);
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 
@@ -71,7 +63,7 @@ public class AssaultBits extends RangedWeapon {
 		if (bits.size() < 3) {
 			SoundEffect.CYBER2.playUniversal(state, startPosition, 0.4f, false);
 			
-			//bits are removed fro mthe list upon death
+			//bits are removed from the list upon death
 			DroneBit bit = new DroneBit(state, startPosition, 0.0f, filter, null) {
 				
 				@Override
@@ -114,6 +106,5 @@ public class AssaultBits extends RangedWeapon {
 		for (Enemy bit: bits) {
 			bit.getBodyData().addStatus(new Temporary(state, 10.0f, bit.getBodyData(), bit.getBodyData(), 0.25f));
 		}
-		bitsToRemove.clear();
 	}
 }

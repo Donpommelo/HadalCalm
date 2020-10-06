@@ -1,10 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -23,32 +19,34 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 
+import java.util.ArrayList;
+
 public class TeslaCoil extends RangedWeapon {
 
-	private final static int clipSize = 3;
-	private final static int ammoSize = 27;
-	private final static float shootCd = 0.3f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.8f;
-	private final static int reloadAmount = 0;
-	private final static float recoil = 0.0f;
-	private final static float projectileSpeed = 100.0f;
-	private final static Vector2 projectileSize = new Vector2(45, 45);
-	private final static float lifespan = 4.5f;
+	private static final int clipSize = 3;
+	private static final int ammoSize = 27;
+	private static final float shootCd = 0.3f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 1.8f;
+	private static final int reloadAmount = 0;
+	private static final float recoil = 0.0f;
+	private static final float projectileSpeed = 100.0f;
+	private static final Vector2 projectileSize = new Vector2(45, 45);
+	private static final float lifespan = 4.5f;
 	
-	private final static Sprite projSprite = Sprite.PYLON;
-	private final static Sprite weaponSprite = Sprite.MT_STORMCALLER;
-	private final static Sprite eventSprite = Sprite.P_STORMCALLER;
+	private static final Sprite projSprite = Sprite.PYLON;
+	private static final Sprite weaponSprite = Sprite.MT_STORMCALLER;
+	private static final Sprite eventSprite = Sprite.P_STORMCALLER;
 
-	private final static float radius = 25.0f;
-	private final static float pulseInterval = 1.0f;
-	private final static float pulseDuration = 0.5f;
-	private final static Vector2 pulseSize = new Vector2(75, 75);
-	private final static float pulseDamage = 40.0f;
-	private final static float pulseKnockback = 20.0f;
+	private static final float radius = 25.0f;
+	private static final float pulseInterval = 1.0f;
+	private static final float pulseDuration = 0.5f;
+	private static final Vector2 pulseSize = new Vector2(75, 75);
+	private static final float pulseDamage = 40.0f;
+	private static final float pulseKnockback = 20.0f;
 	
 	//kep track of all coils laid so far
-	private ArrayList<Hitbox> coilsLaid = new ArrayList<Hitbox>();
+	private final ArrayList<Hitbox> coilsLaid = new ArrayList<>();
 
 	public TeslaCoil(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -66,7 +64,7 @@ public class TeslaCoil extends RangedWeapon {
 		
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
-			private Vector2 startLocation = new Vector2();
+			private final Vector2 startLocation = new Vector2();
 			private float distance;
 			private boolean firstPlanted = false;
 			private boolean planted = false;
@@ -80,7 +78,7 @@ public class TeslaCoil extends RangedWeapon {
 				this.distance = startLocation.dst(endLocation) - projectileSize.x;
 			}
 			
-			private Vector2 entityLocation = new Vector2();
+			private final Vector2 entityLocation = new Vector2();
 			@Override
 			public void controller(float delta) {
 				super.controller(delta);
@@ -105,21 +103,17 @@ public class TeslaCoil extends RangedWeapon {
 						
 						activated = false;
 						entityLocation.set(hbox.getPosition());
-						hbox.getWorld().QueryAABB(new QueryCallback() {
-
-							@Override
-							public boolean reportFixture(Fixture fixture) {
-								if (fixture.getUserData() instanceof HitboxData) {
-									if (coilsLaid.contains(((HitboxData) fixture.getUserData()).getHbox())) {
-										if (!fixture.getUserData().equals(hbox.getHadalData())) {
-											if (((HitboxData) fixture.getUserData()).getHbox().getLinearVelocity().isZero()) {
-												coilPairActivated(state, ((HitboxData) fixture.getUserData()).getHbox());
-											}
+						hbox.getWorld().QueryAABB(fixture -> {
+							if (fixture.getUserData() instanceof HitboxData) {
+								if (coilsLaid.contains(((HitboxData) fixture.getUserData()).getHbox())) {
+									if (!fixture.getUserData().equals(hbox.getHadalData())) {
+										if (((HitboxData) fixture.getUserData()).getHbox().getLinearVelocity().isZero()) {
+											coilPairActivated(state, ((HitboxData) fixture.getUserData()).getHbox());
 										}
 									}
 								}
-								return true;
 							}
+							return true;
 						}, entityLocation.x - radius, entityLocation.y - radius, entityLocation.x + radius, entityLocation.y + radius);
 					}
 					return;
@@ -182,9 +176,9 @@ public class TeslaCoil extends RangedWeapon {
 					}
 					
 					Hitbox hboxDamage = new RangedHitbox(state, new Vector2(hbox.getPixelPosition()).add(hboxOther.getPixelPosition()).scl(0.5f), 
-							new Vector2(hboxOther.getPixelPosition().dst(hbox.getPixelPosition()), pulseSize.x), pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING) {
+							new Vector2(hboxOther.getPixelPosition().dst(hbox.getPixelPosition()), pulseSize.y), pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING) {
 						
-						Vector2 newPosition = new Vector2();
+						private final Vector2 newPosition = new Vector2();
 						
 						@Override
 						public void create() {

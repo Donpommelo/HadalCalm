@@ -14,10 +14,10 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class WaveEntity extends HitboxStrategy {
 	
 	//this is the angle of the hbox compared to the player, the distance and the speed that it rotates
-	private float amplitude, frequency, startAngle;
+	private final float amplitude, frequency, startAngle;
 	
 	//this is the entity that the hbox waves around
-	private HadalEntity target;
+	private final HadalEntity target;
 	
 	public WaveEntity(PlayState state, Hitbox proj, BodyData user, HadalEntity target, float amplitude, float frequency, float startAngle) {
 		super(state, proj, user);
@@ -28,9 +28,9 @@ public class WaveEntity extends HitboxStrategy {
 	}
 	
 	private float timer;
-	private Vector2 lastPos = new Vector2();
-	private Vector2 centerPos = new Vector2();
-	private Vector2 offset = new Vector2();
+	private final Vector2 lastPos = new Vector2();
+	private final Vector2 centerPos = new Vector2();
+	private final Vector2 offset = new Vector2();
 	@Override
 	public void controller(float delta) {
 		if (target.getBody() != null && target.isAlive()) {

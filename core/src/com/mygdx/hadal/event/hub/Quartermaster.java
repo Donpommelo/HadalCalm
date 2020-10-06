@@ -22,7 +22,7 @@ import com.mygdx.hadal.states.PlayState;
 public class Quartermaster extends HubEvent {
 
 	//This contains information about this shop's selection
-	private ShopInfo shopInfo;
+	private final ShopInfo shopInfo;
 	
 	public Quartermaster(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave, String shopId) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.QUARTERMASTER);
@@ -50,7 +50,7 @@ public class Quartermaster extends HubEvent {
 				        	state.getGsm().getRecord().incrementScrap(-shopInfo.getPrices().get(item));
 				        	UnlockManager.setUnlock(state, UnlockType.valueOf(shopInfo.getType()), item, true);
 				        	
-				        	//leave and enter to reset available inventoty
+				        	//leave and enter to reset available inventory
 				        	me.leave();
 				        	me.enter();
 				        	state.getUiExtra().syncData();

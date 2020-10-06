@@ -10,7 +10,7 @@ import com.mygdx.hadal.HadalGame;
  */
 public class Backdrop extends AHadalActor {
 	
-	private TextureRegion backgroundTexture;
+	private final TextureRegion backgroundTexture;
 	private float width = HadalGame.CONFIG_WIDTH;
 	private float height = HadalGame.CONFIG_HEIGHT;
 	

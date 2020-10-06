@@ -20,22 +20,22 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class Speargun extends RangedWeapon {
 
-	private final static int clipSize = 8;
-	private final static int ammoSize = 88;
-	private final static float shootCd = 0.2f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.5f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 40.0f;
-	private final static float recoil = 2.5f;
-	private final static float knockback = 15.0f;
-	private final static float projectileSpeed = 30.0f;
-	private final static Vector2 projectileSize = new Vector2(50, 12);
-	private final static float lifespan = 1.0f;
+	private static final int clipSize = 8;
+	private static final int ammoSize = 88;
+	private static final float shootCd = 0.2f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = 1.5f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 40.0f;
+	private static final float recoil = 2.5f;
+	private static final float knockback = 15.0f;
+	private static final float projectileSpeed = 30.0f;
+	private static final Vector2 projectileSize = new Vector2(50, 12);
+	private static final float lifespan = 1.0f;
 	
-	private final static Sprite projSprite = Sprite.HARPOON;
-	private final static Sprite weaponSprite = Sprite.MT_SPEARGUN;
-	private final static Sprite eventSprite = Sprite.P_SPEARGUN;
+	private static final Sprite projSprite = Sprite.HARPOON;
+	private static final Sprite weaponSprite = Sprite.MT_SPEARGUN;
+	private static final Sprite eventSprite = Sprite.P_SPEARGUN;
 	
 	public Speargun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

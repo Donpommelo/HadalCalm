@@ -16,8 +16,8 @@ public class DeathRagdoll extends Status {
 	private static final float gravity = 1.0f;
 	
 	//this is the sprite of the ragdoll to be spawned and the size of the ragdoll
-	private Sprite sprite;
-	private Vector2 size = new Vector2();
+	private final Sprite sprite;
+	private final Vector2 size = new Vector2();
 	
 	public DeathRagdoll(PlayState state, BodyData p, Sprite sprite, Vector2 size) {
 		super(state, p);

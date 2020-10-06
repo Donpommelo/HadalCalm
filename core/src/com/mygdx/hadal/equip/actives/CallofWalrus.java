@@ -15,16 +15,16 @@ import com.mygdx.hadal.utils.Stats;
 
 public class CallofWalrus extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 10.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 10.0f;
 	
-	private final static float duration = 5.0f;
+	private static final float duration = 5.0f;
 	
-	private final static float spdBuff = 0.5f;
-	private final static float damageBuff = 0.3f;
+	private static final float spdBuff = 0.5f;
+	private static final float damageBuff = 0.3f;
 	
-	private final static float hpCost = 15.0f;
+	private static final float hpCost = 15.0f;
 	
 	public CallofWalrus(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

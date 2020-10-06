@@ -10,11 +10,11 @@ import com.mygdx.hadal.statuses.Status;
 
 public class RadialBarrage extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 12.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 12.0f;
 	
-	private final static float duration = 5.0f;
+	private static final float duration = 5.0f;
 	private static final float procCd = 0.1f;
 	private static final int totalShots = 6;
 
@@ -42,14 +42,14 @@ public class RadialBarrage extends ActiveItem {
 						procCdCount -= procCd;
 						shotsFired++;
 
-						angle.setAngle(angle.angle() + 360 / totalShots);
+						angle.setAngle(angle.angle() + 360.0f / totalShots);
 						user.getCurrentTool().fire(state, user.getSchmuck(), user.getSchmuck().getPixelPosition(), new Vector2(angle), user.getSchmuck().getHitboxfilter());
 					}
 					procCdCount += delta;
 				}
 			});
 			
-			int clipSize = ((RangedWeapon) user.getCurrentTool()).getClipSize();
+			int clipSize = user.getCurrentTool().getClipSize();
 			
 			if (clipSize > 2) {
 				gainChargeByPercent(0.25f);

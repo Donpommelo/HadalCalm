@@ -8,10 +8,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Saligram extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float damageRes = 0.15f;
+	private static final float damageRes = 0.15f;
 	
 	public Saligram() {
 		super(slotCost, statusNum);

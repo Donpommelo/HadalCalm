@@ -15,16 +15,16 @@ import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 
 public class CommutersParasol extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
-	private final static float lifespan = 3.0f;
+	private static final float lifespan = 3.0f;
 		
-	private final static Vector2 size = new Vector2(150, 20);
-	private final static Vector2 position = new Vector2(0, 2.5f);
-	private final static float procCd = 6.0f;
+	private static final Vector2 size = new Vector2(150, 20);
+	private static final Vector2 position = new Vector2(0, 2.5f);
+	private static final float procCd = 6.0f;
 	
-	private final static Sprite sprite = Sprite.ORB_BLUE;
+	private static final Sprite sprite = Sprite.ORB_BLUE;
 	
 	public CommutersParasol() {
 		super(slotCost, statusNum);
@@ -53,9 +53,9 @@ public class CommutersParasol extends Artifact {
 						public void onHit(HadalData fixB) {
 							if (fixB != null) {
 								if (fixB.getType().equals(UserDataTypes.HITBOX)) {
-									if (((Hitbox) fixB.getEntity()).isAlive()) {
+									if (fixB.getEntity().isAlive()) {
 										Vector2 newVelo = new Vector2(fixB.getEntity().getPosition()).sub(inflicted.getSchmuck().getPosition());
-										((Hitbox) fixB.getEntity()).setLinearVelocity(((Hitbox) fixB.getEntity()).getLinearVelocity().setAngle(newVelo.angle()));
+										fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().setAngle(newVelo.angle()));
 										
 										SoundEffect.SPRING.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.2f, false);
 									}

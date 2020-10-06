@@ -1,12 +1,12 @@
 package com.mygdx.hadal.save;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
+
+import java.util.ArrayList;
 
 /**
  * An UnlockCharacter represents a single playable character in the game
@@ -26,9 +26,8 @@ public enum UnlockCharacter {
 			}
 			if (grounded) {
 				switch (frame) {
-				case 0:
-					return 0;
 				case 1:
+				case 7:
 					return 1;
 				case 2:
 					return 2;
@@ -40,29 +39,22 @@ public enum UnlockCharacter {
 					return 5;
 				case 6:
 					return 3.5f;
-				case 7:
-					return 1;
 				default:
 					return 0;
 				}
 			} else {
 				switch (frameHead) {
-				case 0:
-					return 0;
 				case 1:
+				case 7:
 					return 0.5f;
 				case 2:
+				case 6:
 					return 1;
 				case 3:
+				case 5:
 					return 1.5f;
 				case 4:
 					return 2;
-				case 5:
-					return 1.5f;
-				case 6:
-					return 1;
-				case 7:
-					return 0.5f;
 				default:
 					return 0;
 				}
@@ -84,7 +76,7 @@ public enum UnlockCharacter {
 	MOREAU_PARTY(Sprite.SpriteType.MOREAU_PARTY)
 	;
 	
-	private Sprite.SpriteType sprite;
+	private final Sprite.SpriteType sprite;
 	private InfoItem info;
 	
 	UnlockCharacter(Sprite.SpriteType sprite) {
@@ -95,7 +87,7 @@ public enum UnlockCharacter {
 	 * This acquires a list of all unlocked characters (if unlock is true. otherwise just return all characters that satisfy the tags)
 	 */
 	public static Array<UnlockCharacter> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
-		Array<UnlockCharacter> items = new Array<UnlockCharacter>();
+		Array<UnlockCharacter> items = new Array<>();
 		
 		for (UnlockCharacter u : UnlockCharacter.values()) {
 			
@@ -119,22 +111,17 @@ public enum UnlockCharacter {
 	public float getWobbleOffsetBody(int frame, boolean grounded, boolean moving) {
 		if (grounded && moving) {
 			switch (frame) {
-			case 0:
-				return 0;
 			case 1:
+			case 7:
 				return 1;
 			case 2:
 				return 2;
 			case 3:
+			case 5:
+			case 6:
 				return 3;
 			case 4:
 				return 4;
-			case 5:
-				return 3;
-			case 6:
-				return 3;
-			case 7:
-				return 1;
 			default:
 				return 0;
 			}

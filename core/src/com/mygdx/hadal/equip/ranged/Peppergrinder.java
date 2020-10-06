@@ -22,25 +22,25 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class Peppergrinder extends RangedWeapon {
 
-	private final static int clipSize = 60;
-	private final static int ammoSize = 360;
-	private final static float shootCd = 0.06f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.5f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 15.0f;
-	private final static float recoil = 2.5f;
-	private final static float knockback = 10.0f;
-	private final static float projectileSpeed = 20.0f;
-	private final static Vector2 projectileSize = new Vector2(40, 20);
-	private final static float lifespan = 4.0f;
+	private static final int clipSize = 60;
+	private static final int ammoSize = 360;
+	private static final float shootCd = 0.06f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = 1.5f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 15.0f;
+	private static final float recoil = 2.5f;
+	private static final float knockback = 10.0f;
+	private static final float projectileSpeed = 20.0f;
+	private static final Vector2 projectileSize = new Vector2(40, 20);
+	private static final float lifespan = 4.0f;
 	
-	private final static Sprite projSprite = Sprite.LASER_GREEN;
-	private final static Sprite weaponSprite = Sprite.MT_BOILER;
-	private final static Sprite eventSprite = Sprite.P_BOILER;
+	private static final Sprite projSprite = Sprite.LASER_GREEN;
+	private static final Sprite weaponSprite = Sprite.MT_BOILER;
+	private static final Sprite eventSprite = Sprite.P_BOILER;
 	
-	private final static int maxSpread = 24;
-	private final static int spreadChange = 8;
+	private static final int maxSpread = 24;
+	private static final int spreadChange = 8;
 
 	public Peppergrinder(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -67,7 +67,7 @@ public class Peppergrinder extends RangedWeapon {
 			
 			@Override
 			public void create() {
-				float newDegrees = (float) (hbox.getStartVelo().angle() + spread);
+				float newDegrees = hbox.getStartVelo().angle() + spread;
 				hbox.setLinearVelocity(hbox.getLinearVelocity().setAngle(newDegrees));
 			}
 		});

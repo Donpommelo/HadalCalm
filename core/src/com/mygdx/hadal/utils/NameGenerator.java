@@ -1,8 +1,8 @@
 package com.mygdx.hadal.utils;
 
-import java.util.ArrayList;
-
 import com.mygdx.hadal.managers.GameStateManager;
+
+import java.util.ArrayList;
 
 /**
  * why did I make this
@@ -1007,13 +1007,13 @@ public enum NameGenerator {
 	;
 	
 	//This name and the end of this name fragment
-	private String me, endTag;
+	private final String me, endTag;
 	
 	//how likely is this segment to follow any of its predecessors?
-	private int weight;
+	private final int weight;
 	
 	//A list of name fragments that this name fragment can follow.
-	private String[] canFollow;
+	private final String[] canFollow;
 	
 	NameGenerator(String me, String endTag, int weight, String... canFollow) {
 		this.me = me;
@@ -1027,13 +1027,12 @@ public enum NameGenerator {
 	}
 	
 	/**
-	 * This generates a first and last name.
 	 * @param alliteration: Should the 2 names have the same first letter?
-	 * @return
+	 * @return a generated first and last name.
 	 */
 	public static String generateFirstLast(boolean alliteration) {
 		
-		ArrayList<NameGenerator> possibleNexts = new ArrayList<NameGenerator>();
+		ArrayList<NameGenerator> possibleNexts = new ArrayList<>();
 
 		for (NameGenerator gen: NameGenerator.values()) {
 			for (int i = 0; i < gen.canFollow.length; i++) {
@@ -1068,11 +1067,11 @@ public enum NameGenerator {
 	/**
 	 * Recursive case. Randomly select a valid next name fragment
 	 * @param prev: The name so far
-	 * @return: The generated name fragment, plus the rest of the name
+	 * @return The generated name fragment, plus the rest of the name
 	 */
 	public static String generateName(String prev) {
 		
-		ArrayList<NameGenerator> possibleNexts = new ArrayList<NameGenerator>();
+		ArrayList<NameGenerator> possibleNexts = new ArrayList<>();
 		
 		//identify all possible next name fragments
 		for (NameGenerator gen: NameGenerator.values()) {

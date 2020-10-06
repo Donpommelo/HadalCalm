@@ -18,13 +18,13 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 public class Terraformer extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 8.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 8.0f;
 	
-	private final static Vector2 blockSize = new Vector2(96, 96);
-	private final static int blockHp = 150;
-	private final static float blockSpeed = 10.0f;
+	private static final Vector2 blockSize = new Vector2(96, 96);
+	private static final int blockHp = 150;
+	private static final float blockSpeed = 10.0f;
 
 	public Terraformer(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -42,7 +42,7 @@ public class Terraformer extends ActiveItem {
 				body.setLinearVelocity(new Vector2(weaponVelo).nor().scl(blockSpeed));
 				
 				FeetData feetData = new FeetData(UserDataTypes.FEET, this); 
-				Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(1 / 2,  - getSize().y / 2), new Vector2(getSize().x, getSize().y / 8), true, 0, 0, 0, 0,
+				Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f,  - getSize().y / 2), new Vector2(getSize().x, getSize().y / 8), true, 0, 0, 0, 0,
 						Constants.BIT_SENSOR, Constants.BIT_DROPTHROUGHWALL, (short) 0);
 				feet.setUserData(feetData);
 			}

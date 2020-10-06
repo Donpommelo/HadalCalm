@@ -17,14 +17,15 @@ import com.mygdx.hadal.utils.SteeringUtil;
  */
 public class UIObjective extends AHadalActor {
 
-	private PlayState state;
+	private final PlayState state;
 	
-	private TextureRegion icon, arrow;
+	private TextureRegion icon;
+	private final TextureRegion arrow;
+
+	private static final float scale = 0.4f;
 	
-	private final static float scale = 0.4f;
-	
-	private float width, height, arrowWidth, arrowHeight;
-	private float corner;
+	private final float width, height, arrowWidth, arrowHeight;
+	private final float corner;
 	
 	//If there is an objective target that has a display if offscreen, this is that entity.
 	private HadalEntity objectiveTarget;
@@ -42,10 +43,10 @@ public class UIObjective extends AHadalActor {
 		this.arrowHeight = arrow.getRegionHeight() * scale;
 	}
 	
-	private float x, y, angle;
-	private Vector2 toObjective = new Vector2();
-	private Vector2 objectiveLocation = new Vector2();
-	private Vector3 centerPosition = new Vector3();
+	private float x, y;
+	private final Vector2 toObjective = new Vector2();
+	private final Vector2 objectiveLocation = new Vector2();
+	private final Vector3 centerPosition = new Vector3();
 	@Override
     public void draw(Batch batch, float alpha) {
 
@@ -59,7 +60,7 @@ public class UIObjective extends AHadalActor {
 				HadalGame.viewportCamera.unproject(centerPosition);
 				toObjective.set(centerPosition.x, centerPosition.y).sub(objectiveLocation);
 				
-				angle = SteeringUtil.vectorToAngle(toObjective);
+				float angle = SteeringUtil.vectorToAngle(toObjective);
 				
 				if (angle < corner && angle > -(Math.PI + corner)) {
 					x = width;

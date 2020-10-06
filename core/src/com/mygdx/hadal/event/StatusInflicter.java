@@ -20,8 +20,8 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
  */
 public class StatusInflicter extends Event {
 
-	private int stat;
-	private float amount, duration;
+	private final int stat;
+	private final float amount, duration;
 	
 	public StatusInflicter(PlayState state, int stat, float amount, float duration) {
 		super(state);

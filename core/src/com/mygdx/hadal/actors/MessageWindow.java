@@ -1,7 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,14 +13,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.input.PlayerController;
-import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.ConsoleCommandUtil;
+
+import java.util.ArrayList;
 
 /**
  * The MessageWindow is a ui actor that pops up when the player presses the chat button (default binding shift).
@@ -42,21 +42,21 @@ public class MessageWindow {
 	
 	public static final float logPadding = 10.0f;
 	
-	private PlayState state;
-	private Stage stage;
+	private final PlayState state;
+	private final Stage stage;
 	
 	public Table tableOuter, tableInner, tableLog; 
 	
 	private TextField enterMessage;
-	private Text sendMessage, backButton;
+	private Text backButton;
 	private ScrollPane textLog;
 	
 	//is this window currently visible? is this window locked and unable to be toggled?
 	private boolean active, locked;
 	
-	private final static int maxMessageLength = 100;
+	private static final int maxMessageLength = 100;
 	
-	private static ArrayList<String> textRecord = new ArrayList<String>();
+	private static final ArrayList<String> textRecord = new ArrayList<>();
 	
 	public MessageWindow(PlayState state, Stage stage) {
 		this.state = state;
@@ -80,64 +80,52 @@ public class MessageWindow {
 		if (locked) { return; }
 		
 		//enables message to be run and window to be scrolled. Ran after actor enters screen.
-		Runnable enableMsg = new Runnable() {
+		Runnable enableMsg = () -> {
 
-			@Override
-			public void run() {
-				
-				if (stage != null) {
-					stage.setKeyboardFocus(enterMessage);
-					stage.setScrollFocus(textLog);
-					textLog.scrollTo(0, 0, 0, 0);
-				}
-				if (state.getController() != null) {
-					if (state.isServer()) {
-						((PlayerController) state.getController()).resetController();
-					} else {
-						((ClientController) state.getController()).resetController();
-					}
-				}
-				active = true;
+			if (stage != null) {
+				stage.setKeyboardFocus(enterMessage);
+				stage.setScrollFocus(textLog);
+				textLog.scrollTo(0, 0, 0, 0);
 			}
+			if (state.getController() != null) {
+				if (state.isServer()) {
+					((PlayerController) state.getController()).resetController();
+				} else {
+					((ClientController) state.getController()).resetController();
+				}
+			}
+			active = true;
 		};
 		
 		//disables typing and scrolling for actor. Ran after actor exits screen.
-		Runnable disableMsg = new Runnable() {
+		Runnable disableMsg = () -> {
 
-			@Override
-			public void run() {
-				
-				if (!active) { return; }
-				
-				if (stage != null) {
-					stage.setKeyboardFocus(null);
-					if (stage.getScrollFocus() == textLog) {
-						stage.setScrollFocus(null);
-					}
+			if (!active) { return; }
+
+			if (stage != null) {
+				stage.setKeyboardFocus(null);
+				if (stage.getScrollFocus() == textLog) {
+					stage.setScrollFocus(null);
 				}
-				if (state.getController() != null) {
-					if (state.isServer()) {
-						((PlayerController) state.getController()).syncController();
-					} else {
-						((ClientController) state.getController()).syncController();
-					}
-				}
-				active = false;
 			}
+			if (state.getController() != null) {
+				if (state.isServer()) {
+					((PlayerController) state.getController()).syncController();
+				} else {
+					((ClientController) state.getController()).syncController();
+				}
+			}
+			active = false;
 		};
 		
 		if (active) {
 			tableOuter.addAction(Actions.moveTo(windowX, windowYInactive, 0.25f, Interpolation.pow5Out));
 			tableInner.addAction(Actions.sequence(Actions.run(disableMsg), Actions.moveTo(windowX, windowYInactive, 0.25f, Interpolation.pow5Out)));
-			
-			SoundEffect.UISWITCH2.play(state.getGsm(), 1.0f, false);
 		} else {
 			tableOuter.addAction(Actions.moveTo(windowX, windowYActive, 0.5f, Interpolation.pow5Out));
 			tableInner.addAction(Actions.sequence(Actions.run(enableMsg), Actions.moveTo(windowX, windowYActive, 0.25f, Interpolation.pow5Out)));
-			
-			SoundEffect.UISWITCH2.play(state.getGsm(), 1.0f, false);
 		}
-		
+		SoundEffect.UISWITCH2.play(state.getGsm(), 1.0f, false);
 		enterMessage.setText("");
 	}
 	
@@ -196,7 +184,7 @@ public class MessageWindow {
 		enterMessage = new TextField("", GameStateManager.getSkin()) {
 			
 			private boolean typing;
-			private float typingInterval = 0.5f;
+			private static final float typingInterval = 0.5f;
 			private float typeCount;
 			@Override
 			protected InputListener createInputListener () {
@@ -219,7 +207,7 @@ public class MessageWindow {
 		                	toggleWindow();
 		                }
 		                return super.keyUp(event, keycode);
-		            };
+		            }
 		        };
 			}
 			
@@ -244,7 +232,7 @@ public class MessageWindow {
 
 		enterMessage.setMaxLength(maxMessageLength);
 		
-		sendMessage = new Text("SEND", 0, 0, true);
+		Text sendMessage = new Text("SEND", 0, 0, true);
 		sendMessage.setScale(0.3f);
 		
 		backButton = new Text("EXIT", 0, 0, true);
@@ -297,7 +285,7 @@ public class MessageWindow {
 	
 	/**
 	 * This adds a text to the text log. Called whenever a dialog is added to the dialog box.
-	 * @param text
+	 * @param text: the new string we add to the message window
 	 */
 	public void addText(String text) {
 		textRecord.add(text);

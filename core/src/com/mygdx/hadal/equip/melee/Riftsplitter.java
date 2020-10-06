@@ -22,23 +22,23 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class Riftsplitter extends MeleeWeapon {
 
-	private final static float shootCd = 0.5f;
-	private final static float shootDelay = 0.3f;
-	private final static float baseDamage = 20.0f;
-	private final static Vector2 projectileSize = new Vector2(30, 120);
-	private final static float projectileSpeed = 30.0f;
-	private final static float knockback = 15.0f;
-	private final static float lifespan = 0.4f;
+	private static final float shootCd = 0.5f;
+	private static final float shootDelay = 0.3f;
+	private static final float baseDamage = 20.0f;
+	private static final Vector2 projectileSize = new Vector2(30, 120);
+	private static final float projectileSpeed = 30.0f;
+	private static final float knockback = 15.0f;
+	private static final float lifespan = 0.4f;
 	
-	private final static Vector2 shockwaveSize = new Vector2(56, 64);
-	private final static float shockwaveInterval = 0.1f;
-	private final static float shockwaveDamage = 15.0f;
-	private final static float shockwaveSpeed = 15.0f;
-	private final static float shockwaveLifespan = 0.4f;
+	private static final Vector2 shockwaveSize = new Vector2(56, 64);
+	private static final float shockwaveInterval = 0.1f;
+	private static final float shockwaveDamage = 15.0f;
+	private static final float shockwaveSpeed = 15.0f;
+	private static final float shockwaveLifespan = 0.4f;
 
-	private final static Sprite projSprite = Sprite.SPLITTER_A;
-	private final static Sprite weaponSprite = Sprite.MT_SCRAPRIPPER;
-	private final static Sprite eventSprite = Sprite.P_SCRAPRIPPER;
+	private static final Sprite projSprite = Sprite.SPLITTER_A;
+	private static final Sprite weaponSprite = Sprite.MT_SCRAPRIPPER;
+	private static final Sprite eventSprite = Sprite.P_SCRAPRIPPER;
 
 	public Riftsplitter(Schmuck user) {
 		super(user, shootCd, shootDelay, weaponSprite, eventSprite);
@@ -50,7 +50,7 @@ public class Riftsplitter extends MeleeWeapon {
 		SoundEffect.WOOSH.playUniversal(state, shooter.getSchmuck().getPixelPosition(), 1.0f, false);
 	}
 	
-	private Vector2 startVelo = new Vector2();
+	private final Vector2 startVelo = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.4f, false);
@@ -72,7 +72,7 @@ public class Riftsplitter extends MeleeWeapon {
 			public void controller(float delta) {
 				controllerCount += delta;
 
-				//projectile repeatedly creates perpdicular projectiles as it moves in a straight line
+				//projectile repeatedly creates perpendicular projectiles as it moves in a straight line
 				while (controllerCount >= shockwaveInterval) {
 					controllerCount -= shockwaveInterval;
 					createShockwave(0);

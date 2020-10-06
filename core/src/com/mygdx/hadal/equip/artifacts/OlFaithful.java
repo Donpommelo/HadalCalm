@@ -9,13 +9,13 @@ import com.mygdx.hadal.utils.Stats;
 
 public class OlFaithful extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static int bonusSlots = -2;
+	private static final int bonusSlots = -2;
 	private static final float bonusAtkSpd = 0.3f;
 	private static final float bonusReloadSpd = 0.3f;
-	private final static float bonusAmmo = 1.5f;
+	private static final float bonusAmmo = 1.5f;
 	
 	public OlFaithful() {
 		super(slotCost, statusNum);

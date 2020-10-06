@@ -26,10 +26,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class ParticleField extends Event {
 	
-	private Particle particle;
-	private float duration;
-	private float currParticleSpawnTimer = 0f, spawnTimerLimit;
-	private float scale;
+	private final Particle particle;
+	private final float duration;
+	private float currParticleSpawnTimer;
+	private final float spawnTimerLimit;
+	private final float scale;
 	
 	public ParticleField(PlayState state, Vector2 startPos, Vector2 size, Particle particle, float speed, float duration, float scale) {
 		super(state, startPos, size);
@@ -45,8 +46,8 @@ public class ParticleField extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), (short)0, true, eventData);
 	}
 	
-	private Vector2 entityLocation = new Vector2();
-	private Vector2 randLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
+	private final Vector2 randLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		

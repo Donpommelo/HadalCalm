@@ -1,8 +1,5 @@
 package com.mygdx.hadal.states;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.math.Vector3;
@@ -16,6 +13,9 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+
 /**
  * This is a version of the playstate that is provided for Clients.
  * A lot of effects are not processed in this state like statuses and damage. Instead, everything is done based on instructions by the server.
@@ -24,32 +24,31 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class ClientState extends PlayState {
 	
 	//these variables are used to deal with packet loss. Windows to determine when a create/delete packet was dropped and when another packet can be requested
-	public final static float missedCreateThreshold = 2.0f;
-	public final static float missedDeleteThreshold = 2.0f;
-	public final static float initialConnectThreshold = 5.0f;
-	public final static float missedDeleteCooldown = 4.0f;
-	public final static float missedCreateCooldown = 4.0f;
+	public static final float missedCreateThreshold = 2.0f;
+	public static final float missedDeleteThreshold = 2.0f;
+	public static final float initialConnectThreshold = 5.0f;
+	public static final float missedCreateCooldown = 4.0f;
 	
 	//This is a set of all non-hitbox entities in the world mapped from their entityId
-	private LinkedHashMap<String, HadalEntity> entities;
+	private final LinkedHashMap<String, HadalEntity> entities;
 	
 	//This is a set of all hitboxes mapped from their unique entityId
-	private LinkedHashMap<String, HadalEntity> hitboxes;
+	private final LinkedHashMap<String, HadalEntity> hitboxes;
 	
 	//This is a list of sync instructions. It contains [entityId, object to be synced]
-	private ArrayList<Object[]> sync;
+	private final ArrayList<Object[]> sync;
 	
 	//This contains the position of the client's mouse, to be sent to the server
-	private Vector3 mousePosition = new Vector3();
+	private final Vector3 mousePosition = new Vector3();
 	
 	//This is the time since the last missed create packet we send the server. Kept track of to avoid sending too many at once.
 	private float timeSinceLastMissedCreate;
 	
 	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level) {
 		super(gsm, loadout, level, false, null, true, "");
-		entities = new LinkedHashMap<String, HadalEntity>();
-		hitboxes = new LinkedHashMap<String, HadalEntity>();
-		sync = new ArrayList<Object[]>();
+		entities = new LinkedHashMap<>();
+		hitboxes = new LinkedHashMap<>();
+		sync = new ArrayList<>();
 		
 		//client now processes collisions
 		TiledObjectUtil.parseTiledObjectLayerClient(this, map.getLayers().get("collision-layer").getObjects());
@@ -81,14 +80,14 @@ public class ClientState extends PlayState {
 	
 	//these control the frequency that we process world physics.
 	private float physicsAccumulator;
-	private final static float physicsTime = 1 / 200f;
+	private static final float physicsTime = 1 / 200f;
 	
 	//these control the frequency that we send latency checking packets to the server.
 	private float latencyAccumulator;
 	private float lastLatencyCheck, latency;
-	private final static float LatencyCheck = 1.0f;
+	private static final float LatencyCheck = 1.0f;
 	
-	private Vector3 lastMouseLocation = new Vector3();
+	private final Vector3 lastMouseLocation = new Vector3();
 	@Override
 	public void update(float delta) {
 		
@@ -153,7 +152,7 @@ public class ClientState extends PlayState {
 		
 		//All sync instructions are carried out.
 		while (!sync.isEmpty()) {
-			Object[] p = (Object[]) sync.remove(0);
+			Object[] p = sync.remove(0);
 		 	if (p != null) {
 		 		HadalEntity entity = hitboxes.get(p[0]);
 		 		if (entity != null) {
@@ -196,10 +195,10 @@ public class ClientState extends PlayState {
 	@Override
 	public void renderEntities(float delta) {
 		for (HadalEntity schmuck : entities.values()) {
-			renderEntity(schmuck, delta);
+			renderEntity(schmuck);
 		}
 		for (HadalEntity hitbox : hitboxes.values()) {
-			renderEntity(hitbox, delta);
+			renderEntity(hitbox);
 		}
 	}
 	
@@ -279,7 +278,7 @@ public class ClientState extends PlayState {
 	/**
 	 * This is called whenever the client is told to synchronize an object from the world.
 	 * @param entityId: The unique id of the object to be synchronized
-	 * @param o: The SyncEntity Packet to use to sychronize the object
+	 * @param o: The SyncEntity Packet to use to synchronize the object
 	 * @param age: the age of the entity on the server. If we are told to sync an entity we don't have that's old enough, we missed a create packet.
 	 * @param timestamp: the time of the sync on the server.
 	 */
@@ -301,7 +300,7 @@ public class ClientState extends PlayState {
 	/**
 	 * This looks at the entities in the world and returns the one with the given id. 
 	 * @param entityId: Unique id of he object to find
-	 * @return: The found object (or null if nonexistent)
+	 * @return The found object (or null if nonexistent)
 	 */
 	@Override
 	public HadalEntity findEntity(String entityId) {

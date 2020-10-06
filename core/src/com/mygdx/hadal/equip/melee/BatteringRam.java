@@ -24,22 +24,22 @@ import com.mygdx.hadal.utils.Stats;
 
 public class BatteringRam extends MeleeWeapon {
 
-	private final static float shootCd = 0.0f;
-	private final static float shootDelay = 0.0f;
-	private final static Vector2 hitboxSize = new Vector2(90, 120);
-	private final static float knockback = 40.0f;
-	private final static float lifespan = 0.5f;
+	private static final float shootCd = 0.0f;
+	private static final float shootDelay = 0.0f;
+	private static final Vector2 hitboxSize = new Vector2(90, 120);
+	private static final float knockback = 40.0f;
+	private static final float lifespan = 0.5f;
 	
-	private final static Sprite weaponSprite = Sprite.MT_SCRAPRIPPER;
-	private final static Sprite eventSprite = Sprite.P_SCRAPRIPPER;
+	private static final Sprite weaponSprite = Sprite.MT_SCRAPRIPPER;
+	private static final Sprite eventSprite = Sprite.P_SCRAPRIPPER;
 
 	private static final float maxCharge = 0.5f;
 	
-	private final static float minRecoil = 25.0f;
-	private final static float maxRecoil = 175.0f;
+	private static final float minRecoil = 25.0f;
+	private static final float maxRecoil = 175.0f;
 	
-	private final static float minDamage = 15.0f;
-	private final static float maxDamage = 75.0f;
+	private static final float minDamage = 15.0f;
+	private static final float maxDamage = 75.0f;
 	
 	public BatteringRam(Schmuck user) {
 		super(user, shootCd, shootDelay, weaponSprite, eventSprite, maxCharge);

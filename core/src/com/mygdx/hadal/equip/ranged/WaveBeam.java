@@ -23,25 +23,25 @@ import com.mygdx.hadal.strategies.hitbox.WaveEntity;
 
 public class WaveBeam extends RangedWeapon {
 
-	private final static int clipSize = 5;
-	private final static int ammoSize = 25;
-	private final static float shootCd = 0.3f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.5f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 35.0f;
-	private final static float recoil = 12.5f;
-	private final static float knockback = 28.0f;
-	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(60, 30);
-	private final static float lifespan = 1.5f;
+	private static final int clipSize = 5;
+	private static final int ammoSize = 25;
+	private static final float shootCd = 0.3f;
+	private static final float shootDelay = 0;
+	private static final float reloadTime = 1.5f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 35.0f;
+	private static final float recoil = 12.5f;
+	private static final float knockback = 28.0f;
+	private static final float projectileSpeed = 40.0f;
+	private static final Vector2 projectileSize = new Vector2(60, 30);
+	private static final float lifespan = 1.5f;
 	
-	private final static Sprite projSprite = Sprite.LASER_BLUE;
-	private final static Sprite weaponSprite = Sprite.MT_LASERRIFLE;
-	private final static Sprite eventSprite = Sprite.P_LASERRIFLE;
+	private static final Sprite projSprite = Sprite.LASER_BLUE;
+	private static final Sprite weaponSprite = Sprite.MT_LASERRIFLE;
+	private static final Sprite eventSprite = Sprite.P_LASERRIFLE;
 	
-	private final static float amplitude = 1.0f;
-	private final static float frequency = 25.0f;
+	private static final float amplitude = 1.0f;
+	private static final float frequency = 25.0f;
 	
 	public WaveBeam(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

@@ -21,10 +21,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class StartPoint extends Event {
 
-	private String startId;
+	private final String startId;
 	
 	//the timer manages the time until this spawn point will be used again
-	private final static float SpawnTimer = 2.0f;
+	private static final float SpawnTimer = 2.0f;
 	private float spawnCd;
 	
 	public StartPoint(PlayState state, Vector2 startPos, Vector2 size, String startId) {

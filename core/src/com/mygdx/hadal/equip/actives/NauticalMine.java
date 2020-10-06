@@ -10,18 +10,18 @@ import com.mygdx.hadal.states.PlayState;
 
 public class NauticalMine extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 8.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.1f;
+	private static final float maxCharge = 8.0f;
 	
-	private final static float projectileSize = 120;
-	private final static float lifespan = 12.0f;
+	private static final float projectileSize = 120;
+	private static final float lifespan = 12.0f;
 	
-	private final static int explosionRadius = 400;
-	private final static float explosionDamage = 60.0f;
-	private final static float explosionKnockback = 40.0f;
+	private static final int explosionRadius = 400;
+	private static final float explosionDamage = 60.0f;
+	private static final float explosionKnockback = 40.0f;
 	
-	private final static float projectileSpeed = 15.0f;
+	private static final float projectileSpeed = 15.0f;
 	
 	public NauticalMine(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

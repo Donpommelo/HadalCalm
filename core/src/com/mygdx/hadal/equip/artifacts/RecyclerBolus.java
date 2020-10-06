@@ -7,8 +7,8 @@ import com.mygdx.hadal.utils.Stats;
 
 public class RecyclerBolus extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 3;
+	private static final int statusNum = 1;
+	private static final int slotCost = 3;
 	
 	private final float hpBuff = 5.0f;
 	private final int maxStacks = 30;

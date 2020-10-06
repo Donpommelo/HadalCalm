@@ -15,13 +15,13 @@ import com.mygdx.hadal.utils.Stats;
 
 public class GomezsAmygdala extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
 	private final float dura = 2.0f;
-	private final static float procCd = 2.0f;
-	private final static float spdBuff = 0.5f;
-	private final static float damageBuff = 0.3f;
+	private static final float procCd = 2.0f;
+	private static final float spdBuff = 0.5f;
+	private static final float damageBuff = 0.3f;
 	
 	public GomezsAmygdala() {
 		super(slotCost, statusNum);

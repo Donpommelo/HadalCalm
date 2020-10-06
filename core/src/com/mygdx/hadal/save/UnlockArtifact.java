@@ -1,14 +1,14 @@
 package com.mygdx.hadal.save;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.equip.artifacts.Artifact;
+import com.mygdx.hadal.equip.artifacts.*;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.equip.artifacts.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * An UnlockArtifact represents a single artifact in the game
@@ -137,7 +137,7 @@ public enum UnlockArtifact {
 	;
 	
 	//singleton artifact represented by this unlock
-	private Artifact artifactSingleton; 
+	private final Artifact artifactSingleton;
 	
 	//the artifact's information
 	private InfoItem info;
@@ -151,7 +151,7 @@ public enum UnlockArtifact {
 	 * This acquires a list of all unlocked artifacts (if unlock is true. otherwise just return all artifacts that satisfy the tags)
 	 */
 	public static Array<UnlockArtifact> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
-		Array<UnlockArtifact> items = new Array<UnlockArtifact>();
+		Array<UnlockArtifact> items = new Array<>();
 		
 		for (UnlockArtifact u : UnlockArtifact.values()) {
 			
@@ -174,7 +174,7 @@ public enum UnlockArtifact {
 	 */
 	public static String getRandArtfFromPool(PlayState state, String pool) {
 		
-		ArrayList<UnlockTag> defaultTags = new ArrayList<UnlockTag>();
+		ArrayList<UnlockTag> defaultTags = new ArrayList<>();
 		defaultTags.add(UnlockTag.RANDOM_POOL);
 		
 		if (pool.equals("")) {
@@ -182,11 +182,9 @@ public enum UnlockArtifact {
 			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).toString();
 		}
 		
-		ArrayList<String> artifacts = new ArrayList<String>();
-		
-		for (String id : pool.split(",")) {
-			artifacts.add(id);
-		}
+		ArrayList<String> artifacts = new ArrayList<>();
+
+		Collections.addAll(artifacts, pool.split(","));
 		return artifacts.get(GameStateManager.generator.nextInt(artifacts.size()));
 	}
 	

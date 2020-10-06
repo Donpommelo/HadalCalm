@@ -11,11 +11,11 @@ import com.mygdx.hadal.statuses.Status;
 
 public class MissilePod extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 14.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 14.0f;
 	
-	private final static float duration = 1.2f;
+	private static final float duration = 1.2f;
 	
 	private static final float procCd = 0.1f;
 	private static final float damage = 18.0f;
@@ -37,7 +37,7 @@ public class MissilePod extends ActiveItem {
 				super.timePassing(delta);
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					WeaponUtils.createHomingTorpedo(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), damage, 1, 15, new Vector2(0, 5), false, inflicted.getSchmuck().getHitboxfilter());
+					WeaponUtils.createHomingTorpedo(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), damage, 1, new Vector2(0, 5), false, inflicted.getSchmuck().getHitboxfilter());
 				}
 				procCdCount += delta;
 			}

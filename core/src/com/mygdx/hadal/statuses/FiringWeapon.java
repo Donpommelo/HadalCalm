@@ -1,7 +1,7 @@
 package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -14,25 +14,25 @@ import com.mygdx.hadal.states.PlayState;
 public class FiringWeapon extends Status {
 
 	//these keep track of interval until next hbox is spawned
+	private final float procCd;
 	private float procCdCount;
-	private float procCd;
-	
+
 	//The velocity of newly created hboxes
 	private float currentVelo;
 	
-	//Themin value of velocity of hboxes and the rate that the velocity decreases to this min value
-	private float minVelo;
-	private float veloDeprec;
+	//The min value of velocity of hboxes and the rate that the velocity decreases to this min value
+	private final float minVelo;
+	private final float veloDeprec;
 	
 	//size of projectile (used to determine the projectile spawn origin)
-	private float projSize;
-	private Vector2 projOrigin = new Vector2();
-	private Vector2 projVelo = new Vector2();
+	private final float projSize;
+	private final Vector2 projOrigin = new Vector2();
+	private final Vector2 projVelo = new Vector2();
 	
 	//tool used to fire this status
-	private Equipable tool;
+	private final Equippable tool;
 	
-	public FiringWeapon(PlayState state, float i, BodyData p, BodyData v, float projVelo, float minVelo, float veloDeprec, float projSize, float procCd, Equipable tool) {
+	public FiringWeapon(PlayState state, float i, BodyData p, BodyData v, float projVelo, float minVelo, float veloDeprec, float projSize, float procCd, Equippable tool) {
 		super(state, i, false, p, v);
 		this.minVelo = minVelo;
 		this.veloDeprec = veloDeprec;
@@ -62,8 +62,8 @@ public class FiringWeapon extends Status {
 			}
 			projVelo.set(((Player) inflicted.getSchmuck()).getMouse().getPixelPosition()).sub(inflicted.getSchmuck().getPixelPosition());
 			inflicted.getCurrentTool().setWeaponVelo(projVelo.nor().scl(currentVelo));
-			
-			projOrigin = inflicted.getSchmuck().getProjectileOrigin(inflicted.getCurrentTool().getWeaponVelo(), projSize);
+
+			projOrigin.set(inflicted.getSchmuck().getProjectileOrigin(inflicted.getCurrentTool().getWeaponVelo(), projSize));
 			
 			inflicted.statusProcTime(new ProcTime.Shoot(inflicted.getCurrentTool()));
 			inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projOrigin, inflicted.getCurrentTool().getWeaponVelo(), inflicted.getSchmuck().getHitboxfilter());

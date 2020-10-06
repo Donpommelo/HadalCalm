@@ -25,33 +25,31 @@ import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 
 public class ChargeBeam extends RangedWeapon {
 
-	private final static int clipSize = 4;
-	private final static int ammoSize = 16;
-	private final static float shootCd = 0.0f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.3f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 18.0f;
-	private final static float recoil = 7.5f;
-	private final static float knockback = 10.0f;
-	private final static float projectileSpeed = 60.0f;
-	private final static Vector2 projectileSize = new Vector2(28, 28);
-	private final static float lifespan = 0.6f;
+	private static final int clipSize = 4;
+	private static final int ammoSize = 16;
+	private static final float shootCd = 0.0f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 1.3f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 18.0f;
+	private static final float recoil = 7.5f;
+	private static final float knockback = 10.0f;
+	private static final float projectileSpeed = 60.0f;
+	private static final Vector2 projectileSize = new Vector2(28, 28);
+	private static final float lifespan = 0.6f;
 	
-	private final static Sprite projSprite = Sprite.CHARGE_BEAM;
-	private final static Sprite weaponSprite = Sprite.MT_CHARGEBEAM;
-	private final static Sprite eventSprite = Sprite.P_CHARGEBEAM;
+	private static final Sprite projSprite = Sprite.CHARGE_BEAM;
+	private static final Sprite weaponSprite = Sprite.MT_CHARGEBEAM;
+	private static final Sprite eventSprite = Sprite.P_CHARGEBEAM;
 	
 	private static final float maxCharge = 0.5f;
-	private int chargeStage = 0;
-	
 	private ParticleEntity charge, overcharge;
 	
 	public ChargeBeam(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x * 3.0f, maxCharge);
 	}
 	
-	private Vector2 particleOrigin = new Vector2();
+	private final Vector2 particleOrigin = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
@@ -118,6 +116,8 @@ public class ChargeBeam extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 0.8f, false);
+
+		int chargeStage;
 
 		//power of hitbox scales to the amount charged
 		if (chargeCd >= getChargeTime()) {

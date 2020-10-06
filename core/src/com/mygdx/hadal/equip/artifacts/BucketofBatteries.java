@@ -11,14 +11,14 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 
 public class BucketofBatteries extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 3;
+	private static final int statusNum = 1;
+	private static final int slotCost = 3;
 	
-	private final static float baseDamage = 8.0f;
-	private final static int radius = 25;
-	private final static int chainAmount = 3;
+	private static final float baseDamage = 8.0f;
+	private static final int radius = 25;
+	private static final int chainAmount = 3;
 	
-	private final static float procCd = 0.5f;
+	private static final float procCd = 0.5f;
 	
 	public BucketofBatteries() {
 		super(slotCost, statusNum);

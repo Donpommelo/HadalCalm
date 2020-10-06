@@ -21,27 +21,27 @@ import com.mygdx.hadal.strategies.hitbox.DieParticles;
 
 public class SlodgeGun extends RangedWeapon {
 
-	private final static int clipSize = 1;
-	private final static int ammoSize = 25;
-	private final static float shootCd = 0.1f;
-	private final static float shootDelay = 0.25f;
-	private final static float reloadTime = 1.2f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 8.0f;
-	private final static float recoil = 24.0f;
-	private final static float knockback = 5.0f;
-	private final static float projectileSpeed = 25.0f;
-	private final static Vector2 projectileSize = new Vector2(40, 40);
-	private final static float lifespan = 1.5f;
+	private static final int clipSize = 1;
+	private static final int ammoSize = 25;
+	private static final float shootCd = 0.1f;
+	private static final float shootDelay = 0.25f;
+	private static final float reloadTime = 1.2f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 8.0f;
+	private static final float recoil = 24.0f;
+	private static final float knockback = 5.0f;
+	private static final float projectileSpeed = 25.0f;
+	private static final Vector2 projectileSize = new Vector2(40, 40);
+	private static final float lifespan = 1.5f;
 	
-	private final static float procCd = .05f;
+	private static final float procCd = .05f;
 
-	private final static float slowDura = 4.0f;
-	private final static float slow = 0.8f;
-	private final static float fireDuration = 0.8f;
+	private static final float slowDura = 4.0f;
+	private static final float slow = 0.8f;
+	private static final float fireDuration = 0.8f;
 
-	private final static Sprite weaponSprite = Sprite.MT_SLODGEGUN;
-	private final static Sprite eventSprite = Sprite.P_SLODGEGUN;
+	private static final Sprite weaponSprite = Sprite.MT_SLODGEGUN;
+	private static final Sprite eventSprite = Sprite.P_SLODGEGUN;
 	
 	public SlodgeGun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -63,7 +63,7 @@ public class SlodgeGun extends RangedWeapon {
 	
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		if (processClip(state, shooter)) {
+		if (processClip(shooter)) {
 			SoundEffect.DARKNESS1.playUniversal(state, user.getPixelPosition(), 0.9f, false);
 
 			shooter.addStatus(new FiringWeapon(state, fireDuration, shooter, shooter, projectileSpeed, 0, 0, projectileSize.x, procCd, this));

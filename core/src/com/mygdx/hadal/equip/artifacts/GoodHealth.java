@@ -8,10 +8,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class GoodHealth extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
-	private final static int bonusHp = 25;
+	private static final int bonusHp = 25;
 	
 	public GoodHealth() {
 		super(slotCost, statusNum);

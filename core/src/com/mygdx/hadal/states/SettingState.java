@@ -29,7 +29,7 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 
 /**
- * The Setting State allows the player to change their display setttings, key bindings and other stuff like that.
+ * The Setting State allows the player to change their display settings, key bindings and other stuff like that.
  * @author Zachary Tu
  */
 public class SettingState extends GameState {
@@ -45,7 +45,7 @@ public class SettingState extends GameState {
 	private PlayerAction currentlyEditing;
 	
 	//this is a pause state underneath this state. (null if calling this state from the title screen)
-	private PauseState ps;
+	private final PauseState ps;
 	private PlayState playstate;
 	
 	//This determines whether the pause state should be removed or not next engine tick.
@@ -59,43 +59,43 @@ public class SettingState extends GameState {
 	private Slider sound, music, master, hitsound;
 	private CheckBox fullscreen, vsync, debugHitbox, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
 		
-	//Dimentions of the setting menu
-	private final static int optionsX = 25;
-	private final static int optionsY = 100;
-	private final static int optionsWidth = 300;
-	private final static int optionsHeight = 600;
+	//Dimensions of the setting menu
+	private static final int optionsX = 25;
+	private static final int optionsY = 100;
+	private static final int optionsWidth = 300;
+	private static final int optionsHeight = 600;
 	
-	private final static int detailsX = 320;
-	private final static int detailsY = 100;
-	private final static int detailsWidth = 500;
-	private final static int detailsHeight = 600;
+	private static final int detailsX = 320;
+	private static final int detailsY = 100;
+	private static final int detailsWidth = 500;
+	private static final int detailsHeight = 600;
 	
-	private final static int extraX = 820;
-	private final static int extraY = 600;
-	private final static int extraWidth = 240;
-	private final static int extraHeight = 100;
+	private static final int extraX = 820;
+	private static final int extraY = 600;
+	private static final int extraWidth = 240;
+	private static final int extraHeight = 100;
 	
-	private final static float optionsScale = 0.5f;
-	private final static float optionsPad = 15.0f;
-	private final static float detailsScale = 0.3f;
+	private static final float optionsScale = 0.5f;
+	private static final float optionsPad = 15.0f;
+	private static final float detailsScale = 0.3f;
 	
-	private final static float titlePad = 25.0f;
-	private final static float detailsPad = 15.0f;
+	private static final float titlePad = 25.0f;
+	private static final float detailsPad = 15.0f;
 	
 	//These options make it easier to convert the index setting to a displayed string
-	public final static String[] timerChoices = {"NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN"};
-	public final static String[] livesChoices = {"UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES"};
-	public final static String[] loadoutChoices = {"COPY HOST", "SELECTED", "RANDOM"};
-	public final static String[] artifactChoices = {"0", "1", "2", "3", "4", "5", "6"};
-	public final static String[] modeChoices = {"KILLS -> SCORE", "EGGPLANTS -> SCORE"};
-	public final static String[] capacityChoices = {"1", "2", "3", "4", "5", "6"};
+	public static final String[] timerChoices = {"NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN"};
+	public static final String[] livesChoices = {"UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES"};
+	public static final String[] loadoutChoices = {"COPY HOST", "SELECTED", "RANDOM"};
+	public static final String[] artifactChoices = {"0", "1", "2", "3", "4", "5", "6"};
+	public static final String[] modeChoices = {"KILLS -> SCORE", "EGGPLANTS -> SCORE"};
+	public static final String[] capacityChoices = {"1", "2", "3", "4", "5", "6"};
 	
 	//this is the current setting tab the player is using
 	private settingTab currentTab;
 	
 	//this state's background shader
-	private Shader shaderBackground;
-	private TextureRegion bg;
+	private final Shader shaderBackground;
+	private final TextureRegion bg;
 	
 	/**
 	 * Constructor will be called when the player enters the setting state from the title menu or the pause menu.
@@ -208,13 +208,7 @@ public class SettingState extends GameState {
 						//if exiting to title screen, play transition. Otherwise, just remove this state
 						if (ps == null) {
 							gsm.getApp().fadeOut();
-							gsm.getApp().setRunAfterTransition(new Runnable() {
-
-								@Override
-								public void run() {
-									gsm.removeState(SettingState.class);
-								}
-							});
+							gsm.getApp().setRunAfterTransition(() -> gsm.removeState(SettingState.class));
 						} else {
 							gsm.removeState(SettingState.class);
 						}
@@ -320,7 +314,7 @@ public class SettingState extends GameState {
 		Text screen = new Text("RESOLUTION: ", 0, 0, false);
 		screen.setScale(detailsScale);
 		
-		resolutionOptions = new SelectBox<String>(GameStateManager.getSkin());
+		resolutionOptions = new SelectBox<>(GameStateManager.getSkin());
 		resolutionOptions.setItems("1024 X 576", "1280 X 720", "1366 x 768", "1600 X 900", "1920 x 1080", "2560 x 1080");
 		resolutionOptions.setWidth(100);
 		
@@ -338,22 +332,22 @@ public class SettingState extends GameState {
 		Text cursorcolor = new Text("CURSOR COLOR: ", 0, 0, false);
 		cursorcolor.setScale(detailsScale);
 		
-		framerateOptions = new SelectBox<String>(GameStateManager.getSkin());
+		framerateOptions = new SelectBox<>(GameStateManager.getSkin());
 		framerateOptions.setItems("30 fps", "60 fps", "90 fps", "120 fps");
 		
 		framerateOptions.setSelectedIndex(gsm.getSetting().getFramerate());
 		
-		cursorOptions = new SelectBox<String>(GameStateManager.getSkin());
+		cursorOptions = new SelectBox<>(GameStateManager.getSkin());
 		cursorOptions.setItems("DEFAULT", "CROSSHAIR", "DOT");
 		
 		cursorOptions.setSelectedIndex(gsm.getSetting().getCursorType());
 
-		cursorSize = new SelectBox<String>(GameStateManager.getSkin());
+		cursorSize = new SelectBox<>(GameStateManager.getSkin());
 		cursorSize.setItems("SMALL", "MEDIUM", "LARGE");
 		
 		cursorSize.setSelectedIndex(gsm.getSetting().getCursorSize());
 		
-		cursorColor = new SelectBox<String>(GameStateManager.getSkin());
+		cursorColor = new SelectBox<>(GameStateManager.getSkin());
 		cursorColor.setItems("BLACK", "CYAN", "LIME", "MAGENTA", "RED", "WHITE", "YELLOW");
 		
 		cursorColor.setSelectedIndex(gsm.getSetting().getCursorColor());
@@ -479,7 +473,7 @@ public class SettingState extends GameState {
 		Text hitsoundText = new Text("HITSOUND: ", 0, 0, false);
 		hitsoundText.setScale(0.25f);
 		
-		hitsoundOptions = new SelectBox<String>(GameStateManager.getSkin());
+		hitsoundOptions = new SelectBox<>(GameStateManager.getSkin());
 		hitsoundOptions.setItems("NONE", "BLIP", "COWBELL", "DING", "DRUM", "PIANO", "SHREK");
 		hitsoundOptions.setSelectedIndex(gsm.getSetting().getHitsound());
 		
@@ -549,34 +543,34 @@ public class SettingState extends GameState {
 		Text mode = new Text("PVP MODE: ", 0, 0, false);
 		mode.setScale(0.25f);
 		
-		pvpTimerOptions = new SelectBox<String>(GameStateManager.getSkin());
+		pvpTimerOptions = new SelectBox<>(GameStateManager.getSkin());
 		pvpTimerOptions.setItems(timerChoices);
 		pvpTimerOptions.setWidth(100);
 		
 		pvpTimerOptions.setSelectedIndex(gsm.getSetting().getPVPTimer());
 		
-		coopTimerOptions = new SelectBox<String>(GameStateManager.getSkin());
+		coopTimerOptions = new SelectBox<>(GameStateManager.getSkin());
 		coopTimerOptions.setItems(timerChoices);
 		coopTimerOptions.setWidth(100);
 		
 		coopTimerOptions.setSelectedIndex(gsm.getSetting().getCoopTimer());
 		
-		livesOptions = new SelectBox<String>(GameStateManager.getSkin());
+		livesOptions = new SelectBox<>(GameStateManager.getSkin());
 		livesOptions.setItems(livesChoices);
 		
 		livesOptions.setSelectedIndex(gsm.getSetting().getLives());
 		
-		loadoutOptions = new SelectBox<String>(GameStateManager.getSkin());
+		loadoutOptions = new SelectBox<>(GameStateManager.getSkin());
 		loadoutOptions.setItems(loadoutChoices);
 		
 		loadoutOptions.setSelectedIndex(gsm.getSetting().getLoadoutType());
 		
-		artifactSlots = new SelectBox<String>(GameStateManager.getSkin());
+		artifactSlots = new SelectBox<>(GameStateManager.getSkin());
 		artifactSlots.setItems(artifactChoices);
 		
 		artifactSlots.setSelectedIndex(gsm.getSetting().getArtifactSlots());
 		
-		pvpMode = new SelectBox<String>(GameStateManager.getSkin());
+		pvpMode = new SelectBox<>(GameStateManager.getSkin());
 		pvpMode.setItems(modeChoices);
 		
 		pvpMode.setSelectedIndex(gsm.getSetting().getPVPMode());
@@ -623,7 +617,7 @@ public class SettingState extends GameState {
 		multiplayerPause = new CheckBox("Enable Multiplayer Pause?", GameStateManager.getSkin());
 		multiplayerPause.setChecked(gsm.getSetting().isMultiplayerPause());
 		
-		playerCapacity = new SelectBox<String>(GameStateManager.getSkin());
+		playerCapacity = new SelectBox<>(GameStateManager.getSkin());
 		playerCapacity.setItems(capacityChoices);
 		playerCapacity.setWidth(100);
 		
@@ -695,7 +689,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setVerboseDeathMessage(verboseDeathMessage.isChecked());
 			gsm.getSetting().setMultiplayerPause(multiplayerPause.isChecked());
 			gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
-			gsm.getSetting().setPortNumber(Integer.valueOf(portNumber.getText()));
+			gsm.getSetting().setPortNumber(Integer.parseInt(portNumber.getText()));
 			gsm.getSetting().setExportChatLog(exportChatLog.isChecked());
 			gsm.getSetting().saveSetting();
 			miscSelected();
@@ -754,7 +748,7 @@ public class SettingState extends GameState {
 	/**
 	 * This converts a keycode to a readable string
 	 * @param keycode: key to read
-	 * @return: string to return 
+	 * @return string to return
 	 */
 	public static String getKey(int keycode) {
 		

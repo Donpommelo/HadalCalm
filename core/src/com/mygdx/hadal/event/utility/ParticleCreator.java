@@ -26,10 +26,10 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class ParticleCreator extends Event {
 
-	private float duration;
+	private final float duration;
 	private boolean on;
 	
-	private ParticleEntity particles;
+	private final ParticleEntity particles;
 	
 	public ParticleCreator(PlayState state, Particle particle, float duration, boolean startOn) {
 		super(state);

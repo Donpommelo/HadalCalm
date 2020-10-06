@@ -9,11 +9,11 @@ import com.mygdx.hadal.utils.Stats;
 
 public class BloodwoodsGlove extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
-	private final static float bonusActiveCharge = 0.3f;
-	private final static float bonusWeaponCarge = 0.3f;
+	private static final float bonusActiveCharge = 0.3f;
+	private static final float bonusWeaponCarge = 0.3f;
 	
 	public BloodwoodsGlove() {
 		super(slotCost, statusNum);

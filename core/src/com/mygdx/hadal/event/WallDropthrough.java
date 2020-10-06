@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Filter;
-import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -25,7 +24,7 @@ import com.mygdx.hadal.utils.Constants;
  */
 public class WallDropthrough extends Event {
 
-	private ChainShape shape;
+	private final ChainShape shape;
 	private Vector2[] vertices;
 	
 	public WallDropthrough(PlayState state, ChainShape shape) {
@@ -47,7 +46,7 @@ public class WallDropthrough extends Event {
 				if (fixB != null) {
 					if (fixB instanceof FeetData) {
 						
-						HadalEntity entity = ((FeetData) fixB).getEntity();
+						HadalEntity entity = fixB.getEntity();
 						
 						//let a fastfalling player drop through without stopping
 						if (entity instanceof Player) {
@@ -71,7 +70,7 @@ public class WallDropthrough extends Event {
 			public void onRelease(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB instanceof FeetData) {
-						HadalEntity entity = ((FeetData) fixB).getEntity();
+						HadalEntity entity = fixB.getEntity();
 						
 						if (((FeetData) fixB).getTerrain().size() == 1) {
 							Filter filter = entity.getMainFixture().getFilterData();
@@ -101,7 +100,7 @@ public class WallDropthrough extends Event {
         body = state.getWorld().createBody(bdef);
         body.createFixture(shape, 1.0f);
         Filter filter = new Filter();
-		filter.categoryBits = (short) (Constants.BIT_DROPTHROUGHWALL);
+		filter.categoryBits = Constants.BIT_DROPTHROUGHWALL;
 		filter.maskBits = (short) (Constants.BIT_SENSOR | Constants.BIT_PLAYER | Constants.BIT_PROJECTILE);
         body.getFixtureList().get(0).setFilterData(filter);
         body.getFixtureList().get(0).setUserData(eventData);

@@ -20,8 +20,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Dialog extends Event {
 
-	private String[] id;
-	private String type;
+	private final String[] id;
+	private final String type;
 	
 	public Dialog(PlayState state, String id, String type) {
 		super(state);

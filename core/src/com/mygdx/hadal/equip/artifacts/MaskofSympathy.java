@@ -8,10 +8,10 @@ import com.mygdx.hadal.statuses.Status;
 
 public class MaskofSympathy extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float amount = 0.25f;
+	private static final float amount = 0.25f;
 	
 	public MaskofSympathy() {
 		super(slotCost, statusNum);

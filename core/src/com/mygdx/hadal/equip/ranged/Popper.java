@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.ranged;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -13,42 +11,40 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
-import com.mygdx.hadal.strategies.hitbox.DieSound;
+import com.mygdx.hadal.strategies.hitbox.*;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Popper extends RangedWeapon {
 
-	private final static int clipSize = 1;
-	private final static int ammoSize = 22;
-	private final static float shootCd = 0.1f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 0.75f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 55.0f;
-	private final static float recoil = 12.0f;
-	private final static float knockback = 30.0f;
-	private final static float projectileSpeed = 120.0f;
-	private final static Vector2 projectileSize = new Vector2(50, 50);
-	private final static float lifespan = 0.3f;
+	private static final int clipSize = 1;
+	private static final int ammoSize = 22;
+	private static final float shootCd = 0.1f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 0.75f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 55.0f;
+	private static final float recoil = 12.0f;
+	private static final float knockback = 30.0f;
+	private static final float projectileSpeed = 120.0f;
+	private static final Vector2 projectileSize = new Vector2(50, 50);
+	private static final float lifespan = 0.3f;
 	
-	private final static int numProj = 8;
-	private final static int spread = 30;
-	private final static float fragSpeed = 40.0f;
-	private final static Vector2 fragSize = new Vector2(15, 15);
-	private final static float fragLifespan = 1.2f;
-	private final static float fragDamage = 18.0f;
-	private final static float fragKnockback = 2.0f;
+	private static final int numProj = 8;
+	private static final int spread = 30;
+	private static final float fragSpeed = 40.0f;
+	private static final Vector2 fragSize = new Vector2(15, 15);
+	private static final float fragLifespan = 1.2f;
+	private static final float fragDamage = 18.0f;
+	private static final float fragKnockback = 2.0f;
 
-	private final static float projDampen = 10.0f;
-	private final static float fragDampen = 3.0f;
+	private static final float projDampen = 10.0f;
+	private static final float fragDampen = 3.0f;
 	
-	private final static Sprite projSprite = Sprite.POPPER;
-	private final static Sprite fragSprite = Sprite.ORB_PINK;
-	private final static Sprite weaponSprite = Sprite.MT_BOOMERANG;
-	private final static Sprite eventSprite = Sprite.P_BOOMERANG;
+	private static final Sprite projSprite = Sprite.POPPER;
+	private static final Sprite fragSprite = Sprite.ORB_PINK;
+	private static final Sprite weaponSprite = Sprite.MT_BOOMERANG;
+	private static final Sprite eventSprite = Sprite.P_BOOMERANG;
 	
 	public Popper(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -79,7 +75,7 @@ public class Popper extends RangedWeapon {
 			public void die() {
 				Vector2 newVelocity = new Vector2();
 				for (int i = 0; i < numProj; i++) {
-					float newDegrees = (float) (new Vector2(0, 1).angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
+					float newDegrees = new Vector2(0, 1).angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 					newVelocity.set(0, 1).nor().scl(fragSpeed);
 					
 					Hitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan, newVelocity.setAngle(newDegrees), filter, false, true, user, fragSprite) {

@@ -11,15 +11,15 @@ import com.mygdx.hadal.utils.Stats;
 
 public class PetrifiedPayload extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float explosionDamageEnemy = 20.0f;
-	private final static float explosionDamagePlayer = 50.0f;
-	private final static float explosionKnockback = 18.0f;
-	private final static float explosionSize = 200.0f;
+	private static final float explosionDamageEnemy = 20.0f;
+	private static final float explosionDamagePlayer = 50.0f;
+	private static final float explosionKnockback = 18.0f;
+	private static final float explosionSize = 200.0f;
 	
-	private final static float bonusExplosionSize = 0.3f;
+	private static final float bonusExplosionSize = 0.3f;
 	
 	public PetrifiedPayload() {
 		super(slotCost, statusNum);

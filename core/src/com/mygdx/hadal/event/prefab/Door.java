@@ -11,13 +11,13 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class Door extends Prefabrication {
 
 	//This is the speed that the wall will open at.
-	private float speed;
+	private final float speed;
 	
 	//This is the triggering Id of the event that causes the door to open.
-	private String eventId;
+	private final String eventId;
 	
 	//The wall will move this amount in the x and y directions.
-	private int xDisplace, yDisplace;
+	private final int xDisplace, yDisplace;
 	
 	public Door(PlayState state, int width, int height, int x, int y, String eventId, float speed, int xDisplace, int yDisplace) {
 		super(state, width, height, x , y);
@@ -41,7 +41,7 @@ public class Door extends Prefabrication {
 		redirector.getProperties().put("triggeringId", moverId);
 		
 		RectangleMapObject hinge = new RectangleMapObject();
-		hinge.getRectangle().set(x + width / 2 - 16 - xDisplace * 32, y + height / 2 - 16 - yDisplace * 32, 32, 32);
+		hinge.getRectangle().set(x + width / 2.0f - 16 - xDisplace * 32, y + height / 2.0f - 16 - yDisplace * 32, 32, 32);
 		hinge.setName("Dummy");
 		hinge.getProperties().put("triggeredId", hingeId);
 		

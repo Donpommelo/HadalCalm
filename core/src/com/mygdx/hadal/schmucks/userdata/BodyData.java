@@ -1,25 +1,25 @@
 package com.mygdx.hadal.schmucks.userdata;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Shader;
-import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
+import com.mygdx.hadal.equip.Equippable;
+import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.ProcTime.InflictDamage;
 import com.mygdx.hadal.statuses.ProcTime.ReceiveDamage;
 import com.mygdx.hadal.statuses.ProcTime.ReceiveHeal;
+import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Stats;
+
+import java.util.ArrayList;
 
 /**
  * Body data contains the stats and methods of any unit; player or enemy.
@@ -31,8 +31,8 @@ public class BodyData extends HadalData {
 	protected Schmuck schmuck;
 	
 	//schmuck stats
-	private float[] baseStats;
-	private float[] buffedStats;	
+	private final float[] baseStats;
+	private final float[] buffedStats;
 	
 	//Speed on ground
 	private static final float maxGroundXSpeed = 15.0f;
@@ -59,10 +59,10 @@ public class BodyData extends HadalData {
 	private static final float fuelRegen = 8.0f;
 	
 	//duration of flash on receiving damage
-	private final static float flashDuration = 0.1f;
+	private static final float flashDuration = 0.1f;
 	
-	//varianve multiplier applied to every instance of damage
-	private final static float damageVariance = 0.1f;
+	//variance multiplier applied to every instance of damage
+	private static final float damageVariance = 0.1f;
 	
 	protected float currentHp, currentFuel;
 
@@ -71,9 +71,9 @@ public class BodyData extends HadalData {
 	protected ArrayList<Status> statusesChecked;	
 	
 	//the currently equipped tool
-	protected Equipable currentTool;
+	protected Equippable currentTool;
 	
-	//This is the last schumck who damaged this entity. Used for kill credit
+	//This is the last schmuck who damaged this entity. Used for kill credit
 	private BodyData lastDamagedBy;
 	
 	//this is the hp value used by the client ui
@@ -97,8 +97,8 @@ public class BodyData extends HadalData {
 		baseStats[2] = hpRegen;
 		baseStats[3] = fuelRegen;
 		
-		this.statuses = new ArrayList<Status>();
-		this.statusesChecked = new ArrayList<Status>();
+		this.statuses = new ArrayList<>();
+		this.statusesChecked = new ArrayList<>();
 		
 		calcStats();
 
@@ -118,7 +118,7 @@ public class BodyData extends HadalData {
 				
 		ProcTime finalProcTime = o;
 		
-		ArrayList<Status> oldChecked = new ArrayList<Status>();
+		ArrayList<Status> oldChecked = new ArrayList<>();
 		for (Status s : this.statusesChecked) {
 			this.statuses.add(0, s);
 			oldChecked.add(s);
@@ -142,9 +142,7 @@ public class BodyData extends HadalData {
 			}
 		}
 		this.statusesChecked.clear();
-		for(Status s : oldChecked) {
-			this.statusesChecked.add(s);
-		}
+		this.statusesChecked.addAll(oldChecked);
 
 		return finalProcTime;		
 	}
@@ -159,7 +157,7 @@ public class BodyData extends HadalData {
 		
 		boolean added = false;
 		
-		//in the case of re-adding a status, the behavoir depends on the status' stack type
+		//in the case of re-adding a status, the behavior depends on the status' stack type
 		Status old = getStatus(s.getClass());
 		if (old != null) {
 			switch(s.getStackType()) {
@@ -203,7 +201,7 @@ public class BodyData extends HadalData {
 		
 		if (!schmuck.getState().isServer()) { return; }
 		
-		ArrayList<Status> toRemove = new ArrayList<Status>();
+		ArrayList<Status> toRemove = new ArrayList<>();
 		
 		for (Status s: statuses) {
 			if (s.getArtifact() != null) {
@@ -255,10 +253,8 @@ public class BodyData extends HadalData {
 		//Keep Hp% and fuel% constant in case of changing max values
 		float hpPercent = currentHp / getStat(Stats.MAX_HP);
 		float fuelPercent = currentFuel / getStat(Stats.MAX_FUEL);
-		
-		for (int i = 0; i < buffedStats.length; i++) {
-			buffedStats[i] = baseStats[i];
-		}
+
+		System.arraycopy(baseStats, 0, buffedStats, 0, buffedStats.length);
 		statusProcTime(new ProcTime.StatCalc());
 		
 		currentHp = hpPercent * getStat(Stats.MAX_HP);
@@ -296,7 +292,7 @@ public class BodyData extends HadalData {
 		}
 		currentHp -= damage;
 		
-		//Make shmuck flash upon receiving damage
+		//Make schmuck flash upon receiving damage
 		if (damage > 0 && schmuck.getShaderCount() < -flashDuration) {
 			schmuck.setShader(Shader.WHITE, flashDuration);
 			schmuck.impact.onForBurst(0.25f);
@@ -390,7 +386,7 @@ public class BodyData extends HadalData {
 	
 	/**
 	 * This method is called when the schmuck dies. Queue up to be deleted next engine tick.
-	 * @param tags 
+	 * @param tags: the tags that apply to the fatal damage instance
 	 */
 	public void die(BodyData perp, DamageTypes... tags) {
 		if (schmuck.queueDeletion()) {
@@ -407,14 +403,12 @@ public class BodyData extends HadalData {
 
 	public float getCurrentFuel() {	return currentFuel;	}
 
-	public void setCurrentFuel(float currentFuel) {	this.currentFuel = currentFuel; }
-
 	public float getStat(int index) { return buffedStats[index]; }
 	
 	/**
 	 * Set a buffed stat for calcs. If hp or fuel, make sure the current amount does not exceed the max amount
-	 * @param index
-	 * @param amount
+	 * @param index: the number of the stat being modified
+	 * @param amount: the amount to modify the stat by
 	 */
 	public void setStat(int index, float amount) {
 		buffedStats[index] = amount;
@@ -428,9 +422,9 @@ public class BodyData extends HadalData {
 		}
 	}
 	
-	public Equipable getCurrentTool() { return currentTool; }	
+	public Equippable getCurrentTool() { return currentTool; }
 	
-	public void setCurrentTool(Equipable currentTool) { this.currentTool = currentTool; }
+	public void setCurrentTool(Equippable currentTool) { this.currentTool = currentTool; }
 	
 	public float getXGroundSpeed() { return maxGroundXSpeed * (1 + getStat(Stats.GROUND_SPD)); }
 	

@@ -17,7 +17,7 @@ public class SavedLoadout {
 	//This is the player's starting name
 	private String name;
 
-	//max size of name createable in title screen
+	//max size of name creatable in title screen
 	private static final int maxNameLength = 50;
 	
 	//the name used if the nme field is left empty

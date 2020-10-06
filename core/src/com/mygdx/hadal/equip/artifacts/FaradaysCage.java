@@ -8,8 +8,8 @@ import com.mygdx.hadal.statuses.Status;
 
 public class FaradaysCage extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
 	private final float amount = 0.6f;
 	

@@ -12,12 +12,12 @@ import com.mygdx.hadal.statuses.Temporary;
 
 public class FishGang extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 25.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.0f;
+	private static final float maxCharge = 25.0f;
 	
-	private final static int numFish = 5;
-	private final static float fishLifespan = 20.0f;
+	private static final int numFish = 5;
+	private static final float fishLifespan = 20.0f;
 	
 	public FishGang(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);

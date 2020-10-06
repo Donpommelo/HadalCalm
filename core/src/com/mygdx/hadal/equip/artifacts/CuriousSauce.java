@@ -14,8 +14,8 @@ import com.mygdx.hadal.utils.Stats;
 
 public class CuriousSauce extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
 	private static final float procCd = 0.25f;
 	

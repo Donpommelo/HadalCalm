@@ -19,7 +19,7 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class ShaderChanger extends Event {
 
-	private Shader shader;
+	private final Shader shader;
 	
 	public ShaderChanger(PlayState state, String shader) {
 		super(state);

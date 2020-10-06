@@ -126,7 +126,7 @@ public enum SoundEffect {
 	;
 	
 	//this is the filename of the sound
-	private String soundFileName;
+	private final String soundFileName;
 	
 	//this is the sound associated with the effect
 	private Sound sound;
@@ -159,17 +159,15 @@ public enum SoundEffect {
 		if (singleton) {
 			getSound().stop();
 		}
-		
-		long thisSound = getSound().play(volume * gsm.getSetting().getSoundVolume() * gsm.getSetting().getMasterVolume(), pitch, 0.0f);
-		
-		return thisSound;
+
+		return getSound().play(volume * gsm.getSetting().getSoundVolume() * gsm.getSetting().getMasterVolume(), pitch, 0.0f);
 	}
 	
 	/**
 	 * This is used to play sounds that have a source in the world.
 	 * The volume and pan of the sound depends on the location relative to the player listening.
 	 */
-	public long playSourced(PlayState state, Vector2 worldPos, float volume, float pitch, boolean singleton) {
+	public long playSourced(PlayState state, Vector2 worldPos, float volume, float pitch) {
 
 		long soundId = getSound().play();
 
@@ -197,7 +195,7 @@ public enum SoundEffect {
 		if (worldPos == null) {
 			return play(state.getGsm(), volume, pitch, singleton);
 		} else {
-			return playSourced(state, worldPos, volume, pitch, singleton);
+			return playSourced(state, worldPos, volume, pitch);
 		}
 	}
 	
@@ -218,7 +216,7 @@ public enum SoundEffect {
 				if (worldPos == null) {
 					return play(state.getGsm(), volume, pitch, singleton);
 				} else {
-					return playSourced(state, worldPos, volume, pitch, singleton);
+					return playSourced(state, worldPos, volume, pitch);
 				}
 			} else {
 				HadalGame.server.sendPacketToPlayer(player, new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
@@ -226,7 +224,7 @@ public enum SoundEffect {
 		}
 		
 		//this line hopefully doesn't get run. (b/c this should not get run on the client or with no input player)
-		return (long) 0;
+		return 0;
 	}
 	
 	/**
@@ -262,13 +260,13 @@ public enum SoundEffect {
 	
 	//maxDist is the largest distance the player can hear sounds from.
 	//Further sounds will be quieter.
-	private final static float maxDist = 3500.0f;
+	private static final float maxDist = 3500.0f;
 	/**
 	 * updateSoundLocation updates the volume and pan of single instance of a sound.
 	 * This is done based on the sound's location relative to the player.
 	 * This is used for sounds attached to entities. 
 	 */
-	private Vector2 playerPosition = new Vector2();
+	private final Vector2 playerPosition = new Vector2();
 	public void updateSoundLocation(PlayState state, Vector2 worldPos, float volume, long soundId) {
 		Player player = state.getPlayer();
 		if (player.getBody() != null) {
@@ -278,8 +276,8 @@ public enum SoundEffect {
 			float yDist = worldPos.y - playerPosition.y;
 			float dist = Math.abs(xDist) + Math.abs(yDist);
 
-			float pan = 0.0f;
-			float newVolume = 1.0f;
+			float pan;
+			float newVolume;
 			
 			//sound will be played from right/left headphone depending on relative x-coordinate
 			if (xDist > maxDist) {

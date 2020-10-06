@@ -3,11 +3,10 @@ package com.mygdx.hadal.actors;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
+import com.badlogic.gdx.utils.Queue;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.dialog.Dialog;
@@ -18,24 +17,24 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * The Dialogue box is an actor that appears in the staage when a dialogue is initiated. This happens through activating a
+ * The Dialogue box is an actor that appears in the stage when a dialogue is initiated. This happens through activating a
  * Radio event. These events add Dialogues to the queue which are cycled through either by a timer or by player input.
  * @author Zachary Tu
  */
 public class DialogBox extends AHadalActor {
 
 	//This is the font that the text is drawn with.
-	private BitmapFont font;
+	private final BitmapFont font;
 
 	//This is the scale that the text is drawn at.
-	private float scale = 0.35f;
-	private float scaleSmall = 0.25f;
+	private static final float scale = 0.35f;
+	private static final float scaleSmall = 0.25f;
 
 	//This is a queue of dialogues in the order that they will be displayed.
-	private Queue<Dialog> dialogs;
+	private final Queue<Dialog> dialogs;
 
 	//Reference to the gsm. Used to reference gsm fields like the 9patch to draw the window with.
-	private PlayState ps;
+	private final PlayState ps;
 	
 	//This counter keeps track of the lifespan of dialogues that have a set duration
 	private float durationCount = 0;
@@ -67,7 +66,7 @@ public class DialogBox extends AHadalActor {
 		super(x, y);
 		this.ps = ps;
 
-		dialogs = new Queue<Dialog>();
+		dialogs = new Queue<>();
 		
 		font = HadalGame.SYSTEM_FONT_UI;
 		
@@ -75,7 +74,7 @@ public class DialogBox extends AHadalActor {
 	}
 	
 	private float syncAccumulator = 0.0f;
-	private final static float syncTime = 1 / 60f;
+	private static final float syncTime = 1 / 60f;
 	@Override
 	public void act(float delta) {
 		super.act(delta);
@@ -192,12 +191,11 @@ public class DialogBox extends AHadalActor {
 		}
 	}
 	
-	private Dialog first;
 	@Override
     public void draw(Batch batch, float alpha) {	 
 		if (dialogs.size != 0) {
 			
-			first = dialogs.first();
+			Dialog first = dialogs.first();
 			
 			if (first.getType().equals(DialogType.SYSTEM)) {
 				font.setColor(Color.RED);
@@ -226,9 +224,9 @@ public class DialogBox extends AHadalActor {
 				}
 				 
 				if (first.getBust() != null) {
-					batch.draw((TextureRegion) first.getBust().getKeyFrame(animCdCount, true), 
+					batch.draw(first.getBust().getKeyFrame(animCdCount, true),
 								getX() + 10, getY() - 130, 
-								100 / 2, 100 / 2,
+								100 / 2.0f, 100 / 2.0f,
 								120, 120, 1, 1, 0);
 				}
 			}

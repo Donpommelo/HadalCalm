@@ -16,7 +16,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 /**
- * A Sensor is an activating event that will activate a connected event when touching a speficied type of body.
+ * A Sensor is an activating event that will activate a connected event when touching a specified type of body.
  * 
  * Triggered Behavior: N/A.
  * Triggering Behavior: When touching a specified type of body, this event will trigger its connected event.
@@ -27,13 +27,13 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  * event: Boolean that describes whether this sensor touches events. Optional. Default: false
  * enemy: Boolean that describes whether this sensor touches enemies. Optional. Default: false
  * gravity: float that determines the gravity of the object. Optional. Default: 0.0f. Currently only used for falling targets in NASU
- * collision: Do we add a collision hbox to this event? This is used on dynamically spawned pickups so they can have gravity while not pasing through walls.
+ * collision: Do we add a collision hbox to this event? This is used on dynamically spawned pickups so they can have gravity while not passing through walls.
  * @author Zachary Tu
  */
 public class Sensor extends Event {
 
-	private short filter;
-	private boolean collision;
+	private final short filter;
+	private final boolean collision;
 	
 	public Sensor(PlayState state, Vector2 startPos, Vector2 size, boolean player, boolean hbox, boolean event, boolean enemy,	float gravity, boolean collision) {
 		super(state, startPos, size);

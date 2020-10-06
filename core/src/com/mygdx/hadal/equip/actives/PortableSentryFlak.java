@@ -23,17 +23,17 @@ import com.mygdx.hadal.utils.Constants;
 
 public class PortableSentryFlak extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 20.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.1f;
+	private static final float maxCharge = 20.0f;
 	
-	private final static Vector2 projectileSize = new Vector2(70, 70);
-	private final static float lifespan = 3.0f;
+	private static final Vector2 projectileSize = new Vector2(70, 70);
+	private static final float lifespan = 3.0f;
 
-	private final static float projectileSpeed = 60.0f;
-	private final static float turretLifespan = 20.0f;
+	private static final float projectileSpeed = 60.0f;
+	private static final float turretLifespan = 20.0f;
 	
-	private final static Sprite projSprite = Sprite.ORB_BLUE;
+	private static final Sprite projSprite = Sprite.ORB_BLUE;
 
 	public PortableSentryFlak(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);

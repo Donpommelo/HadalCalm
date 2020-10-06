@@ -23,33 +23,33 @@ import com.mygdx.hadal.strategies.hitbox.DieParticles;
 
 public class ColaCannon extends RangedWeapon {
 
-	private final static int clipSize = 1;
-	private final static int ammoSize = 13;
-	private final static float shootCd = 0.1f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.0f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 10.0f;
-	private final static float recoil = 18.0f;
-	private final static float knockback = 7.5f;
-	private final static float projectileSpeed = 55.0f;
-	private final static Vector2 projectileSize = new Vector2(55, 32);
-	private final static float lifespan = 2.0f;
+	private static final int clipSize = 1;
+	private static final int ammoSize = 13;
+	private static final float shootCd = 0.1f;
+	private static final float shootDelay = 0.0f;
+	private static final float reloadTime = 1.0f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 10.0f;
+	private static final float recoil = 18.0f;
+	private static final float knockback = 7.5f;
+	private static final float projectileSpeed = 55.0f;
+	private static final Vector2 projectileSize = new Vector2(55, 32);
+	private static final float lifespan = 2.0f;
 
-	private final static float procCd = .05f;
-	private final static float fireDuration = 2.0f;
-	private final static float veloDeprec = 1.2f;
-	private final static float minVelo = 10.0f;
-	private final static float minDuration = 0.5f;
+	private static final float procCd = .05f;
+	private static final float fireDuration = 2.0f;
+	private static final float veloDeprec = 1.2f;
+	private static final float minVelo = 10.0f;
+	private static final float minDuration = 0.5f;
 
-	private final static Sprite projSprite = Sprite.COLA;
-	private final static Sprite weaponSprite = Sprite.MT_SLODGEGUN;
-	private final static Sprite eventSprite = Sprite.P_SLODGEGUN;
+	private static final Sprite projSprite = Sprite.COLA;
+	private static final Sprite weaponSprite = Sprite.MT_SLODGEGUN;
+	private static final Sprite eventSprite = Sprite.P_SLODGEGUN;
 	
-	private final static float maxCharge = 8000.0f;
-	private final static float noiseThreshold = 1000.0f;
+	private static final float maxCharge = 8000.0f;
+	private static final float noiseThreshold = 1000.0f;
 
-	private Vector2 lastMouse = new Vector2();
+	private final Vector2 lastMouse = new Vector2();
 	private float lastNoise;
 
 	public ColaCannon(Schmuck user) {
@@ -87,7 +87,7 @@ public class ColaCannon extends RangedWeapon {
 	public void release(PlayState state, BodyData bodyData) {
 		
 		//when released, spray weapon at mouse. Spray duration and velocity scale to charge
-		if (processClip(state, bodyData)) {
+		if (processClip(bodyData)) {
 			SoundEffect.POPTAB.playUniversal(state, user.getPixelPosition(), 0.8f, false);
 
 			final float duration = fireDuration * chargeCd / getChargeTime() + minDuration;

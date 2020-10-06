@@ -29,10 +29,10 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Drone extends EnemySwimming {
 
-	private final static int baseHp = 225;
-	private final static String name = "DRONE";
+	private static final int baseHp = 225;
+	private static final String name = "DRONE";
 	
-	private final static int scrapDrop = 5;
+	private static final int scrapDrop = 5;
 
 	private static final int width = 450;
 	private static final int height = 450;
@@ -48,19 +48,19 @@ public class Drone extends EnemySwimming {
 
 	private static final Sprite sprite = Sprite.DRONE_BODY;
 	
-	private final static Sprite projSprite = Sprite.LASER;
+	private static final Sprite projSprite = Sprite.LASER;
 
-	private TextureRegion armBackSprite, armFrontSprite;
-	private Animation<TextureRegion> eyeSprite, dotSprite;
+	private final TextureRegion armBackSprite, armFrontSprite;
+	private final Animation<TextureRegion> eyeSprite, dotSprite;
 	
-	private int eyeType;
+	private final int eyeType;
 	
 	public Drone(PlayState state, Vector2 startPos, float startAngle, short filter, float extraField, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.DRONE, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		armBackSprite = Sprite.DRONE_ARM_BACK.getFrame();
 		armFrontSprite = Sprite.DRONE_ARM_FRONT.getFrame();
-		eyeSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeedFast, Sprite.DRONE_EYE.getFrames());
-		dotSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeedFast, Sprite.DRONE_DOT.getFrames());
+		eyeSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.DRONE_EYE.getFrames());
+		dotSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.DRONE_DOT.getFrames());
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		
 		this.eyeType = (int) extraField;
@@ -85,13 +85,13 @@ public class Drone extends EnemySwimming {
 
 	private static final int laserNumber = 6;
 	private static final float laserInterval = 0.05f;
-	private final static float baseDamage = 8.0f;
-	private final static float knockback = 6.0f;
-	private final static float projectileSpeed = 28.0f;
-	private final static Vector2 projectileSize = new Vector2(60, 30);
-	private final static float lifespan = 3.0f;
-	private final static float range = 900.0f;
-	private final static int spread = 12;
+	private static final float baseDamage = 8.0f;
+	private static final float knockback = 6.0f;
+	private static final float projectileSpeed = 28.0f;
+	private static final Vector2 projectileSize = new Vector2(60, 30);
+	private static final float lifespan = 3.0f;
+	private static final float range = 900.0f;
+	private static final int spread = 12;
 	@Override
 	public void attackInitiate() {
 		
@@ -103,7 +103,7 @@ public class Drone extends EnemySwimming {
 		for (int i = 0; i < laserNumber; i++) {
 			getActions().add(new EnemyAction(this, laserInterval) {
 				
-				private Vector2 startVelo = new Vector2();
+				private final Vector2 startVelo = new Vector2();
 				@Override
 				public void execute() {
 					SoundEffect.LASER2.playUniversal(state, enemy.getPixelPosition(), 0.25f, false);
@@ -135,9 +135,9 @@ public class Drone extends EnemySwimming {
 		
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
-	};
+	}
 	
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		
@@ -157,7 +157,7 @@ public class Drone extends EnemySwimming {
 				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
 		
 		if (eyeType == 1) {
-			batch.draw((TextureRegion) eyeSprite.getKeyFrame(animationTime, false), 
+			batch.draw(eyeSprite.getKeyFrame(animationTime, false),
 					(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
 					entityLocation.y - size.y / 2, 
 					(flip ? -1 : 1) * size.x / 2, 
@@ -166,7 +166,7 @@ public class Drone extends EnemySwimming {
 					(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
 		}
 		if (eyeType == 0) {
-			batch.draw((TextureRegion) dotSprite.getKeyFrame(animationTime, false), 
+			batch.draw(dotSprite.getKeyFrame(animationTime, false),
 					(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
 					entityLocation.y - size.y / 2, 
 					(flip ? -1 : 1) * size.x / 2, 

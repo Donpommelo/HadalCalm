@@ -1,9 +1,5 @@
 package com.mygdx.hadal.event.hub;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -13,6 +9,10 @@ import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.states.PlayState;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 /**
  * The choice branch gives a list of choices, each of which connects to another event
  * @author Zachary Tu
@@ -20,18 +20,18 @@ import com.mygdx.hadal.states.PlayState;
 public class ChoiceBranch extends HubEvent {
 
 	//these are the options that appear in the menu
-	private String[] optionNames;
+	private final String[] optionNames;
 	
 	//this maps each string option to the event that will be activated when the player chooses it.
-	private Map<String, Event> options;
+	private final Map<String, Event> options;
 	
 	//should the menu close after the player chooses an option
-	private boolean closeAfterSelect;
+	private final boolean closeAfterSelect;
 	
 	public ChoiceBranch(PlayState state, Vector2 startPos, Vector2 size, String title, String optionNames, boolean closeAfterSelect, boolean closeOnLeave) {
 		super(state, startPos, size, title, "MISC", true, closeOnLeave, hubTypes.MISC);
 		this.optionNames = optionNames.split(",");
-		options = new LinkedHashMap<String, Event>();
+		options = new LinkedHashMap<>();
 		this.closeAfterSelect = closeAfterSelect;
 	}
 	

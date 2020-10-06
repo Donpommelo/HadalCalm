@@ -15,16 +15,16 @@ import com.mygdx.hadal.managers.AssetList;
 public class Dialog {
 
 	//this contains info about the dialog read from json
-	private DialogInfo info;
+	private final DialogInfo info;
 	
 	//These are the events that triggered and will be triggered by this dialogue respectively.
-	private EventData radio, trigger;
+	private final EventData radio, trigger;
 	
 	//These are the sprite frame of the character ust displayed during the dialog and the speed of its animation
 	private Animation<TextureRegion> bust;
 	private static final float speed = 0.1f;
 	
-	private DialogType type;
+	private final DialogType type;
 	
 	public Dialog(DialogInfo info, EventData radio, EventData trigger, DialogType type) {
 		this.info = info;
@@ -34,17 +34,17 @@ public class Dialog {
 		
 		if (!info.getSprite().equals("")) {
 			characterBusts character = characterBusts.valueOf(info.getSprite());
-			bust = new Animation<TextureRegion>(speed, character.getAtlas().findRegions(character.getSprite()));
+			bust = new Animation<>(speed, character.getAtlas().findRegions(character.getSprite()));
 		}
 	}
 
 	public enum characterBusts {
 		
-		PELICAN_MASKED((TextureAtlas) HadalGame.assetManager.get(AssetList.PELICANATLAS.toString()), "pelican"),		
+		PELICAN_MASKED(HadalGame.assetManager.get(AssetList.PELICANATLAS.toString()), "pelican"),
 		;
 		
-		private TextureAtlas atlas;
-		private String sprite;
+		private final TextureAtlas atlas;
+		private final String sprite;
 		
 		characterBusts(TextureAtlas atlas, String sprite) {
 			this.atlas = atlas;

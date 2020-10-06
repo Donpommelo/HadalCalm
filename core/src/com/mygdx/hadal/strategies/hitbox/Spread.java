@@ -1,11 +1,11 @@
 package com.mygdx.hadal.strategies.hitbox;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This strategy randomly changes a hbox's velocity after it is created.
@@ -14,7 +14,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class Spread extends HitboxStrategy {
 	
 	//this is the range of spread in degrees that the hbox can be set to
-	private int spread;
+	private final int spread;
 	
 	public Spread(PlayState state, Hitbox proj, BodyData user, int spread) {
 		super(state, proj, user);
@@ -23,7 +23,7 @@ public class Spread extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		float newDegrees = (float) (hbox.getStartVelo().angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
+		float newDegrees = hbox.getStartVelo().angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 		hbox.setLinearVelocity(hbox.getLinearVelocity().setAngle(newDegrees));
 	}
 }

@@ -15,13 +15,13 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class ContactUnitShock extends HitboxStrategy {
 	
 	//the damage of each chain shock
-	private float damage;
+	private final float damage;
 	
 	//the distance that the lightning will chain to and the number of total lightning jumps that will occur
-	private int radius, chain;
+	private final int radius, chain;
 	
 	//the hbox filter of the user. This determines which targets the chain lightning will jump to.
-	private short filter;
+	private final short filter;
 	
 	//has this strategy activated yet? This makes sure we do not activate the effect multiple times
 	private boolean shocked;

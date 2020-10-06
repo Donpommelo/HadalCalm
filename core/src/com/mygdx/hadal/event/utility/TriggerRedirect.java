@@ -6,7 +6,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * A Redirecttrigger is an event that can trigger another event while saying that another event did it.
+ * A RedirectTrigger is an event that can trigger another event while saying that another event did it.
  * This is needed because some events (moving platforms, portals) care about which event triggered them for positional purposes
  * although a different event may have been the one to actually trigger them.
  * 

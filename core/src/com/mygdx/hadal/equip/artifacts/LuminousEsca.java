@@ -9,11 +9,11 @@ import com.mygdx.hadal.utils.Stats;
 
 public class LuminousEsca extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private static final int statusNum = 1;
+	private static final int slotCost = 1;
 	
-	private final static float bonusLight = 0.25f;
-	private final static int bonusHp = 10;
+	private static final float bonusLight = 0.25f;
+	private static final int bonusHp = 10;
 
 	public LuminousEsca() {
 		super(slotCost, statusNum);

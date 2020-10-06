@@ -17,7 +17,7 @@ public class ActionController {
 
 	//this is the player that this controller control
 	private Player player;
-	private PlayState state;
+	private final PlayState state;
 	
 	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one. 
 	private boolean leftDown = false;
@@ -32,9 +32,9 @@ public class ActionController {
 	 * onReset is true if this is being called by the controller being synced (from finishing a transition/opening window)
 	 * when this happens, we don't want to trigger jumping/shooting, just reset our button-held statuses
 	 */
-	public boolean keyUp(PlayerAction action, boolean onReset) {
-		if (player == null) { return true; }
-		if (player.getPlayerData() == null) return true;
+	public void keyUp(PlayerAction action, boolean onReset) {
+		if (player == null) { return; }
+		if (player.getPlayerData() == null) return;
 		
 		if (action == PlayerAction.WALK_LEFT) {
 			leftDown = false;
@@ -88,13 +88,11 @@ public class ActionController {
 		else if (action == PlayerAction.CHAT_WHEEL) {
 			state.getChatWheel().setVisibility(false);
 		}
-		
-		return false;
 	}
 	
-	public boolean keyDown(PlayerAction action, boolean onReset) {
-		if (player == null) return true;
-		if (player.getPlayerData() == null) return true;
+	public void keyDown(PlayerAction action, boolean onReset) {
+		if (player == null) return;
+		if (player.getPlayerData() == null) return;
 
 		if (action == PlayerAction.WALK_LEFT) {
 			leftDown = true;
@@ -191,10 +189,6 @@ public class ActionController {
 			state.getChatWheel().setVisibility(true);
 		}
 		
-		else if (action == PlayerAction.WEAPON_CYCLE_DOWN) {
-			player.getPlayerData().switchDown();
-		}
-		
 		else if (action == PlayerAction.PING) {
 			player.ping();
 		}
@@ -204,12 +198,11 @@ public class ActionController {
 				state.getUiHub().leave();
 			}
 		}
-		return false;
 	}
 	
-	public boolean keyDown(PlayerAction action) { return keyDown(action, false); }
+	public void keyDown(PlayerAction action) { keyDown(action, false); }
 
-	public boolean keyUp(PlayerAction action) { return keyUp(action, false); }
+	public void keyUp(PlayerAction action) { keyUp(action, false); }
 
 	public Player getPlayer() {	return player; }
 

@@ -1,7 +1,5 @@
 package com.mygdx.hadal.event;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -10,6 +8,8 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
+
+import java.util.ArrayList;
 
 /**
  * This is a platform that continuously moves towards its connected event.
@@ -31,10 +31,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class MovingPoint extends Event {
 
-	private float speed;
-	private boolean pause, syncConnected;
+	private final float speed;
+	private final boolean pause, syncConnected;
 	
-	private ArrayList<Event> connected = new ArrayList<Event>();
+	private final ArrayList<Event> connected = new ArrayList<>();
 	
 	public MovingPoint(PlayState state, Vector2 startPos, Vector2 size, float speed, boolean pause, boolean syncConnected) {
 		super(state, startPos, size);
@@ -59,7 +59,7 @@ public class MovingPoint extends Event {
 	}
 	
 	
-	private Vector2 dist = new Vector2();
+	private final Vector2 dist = new Vector2();
 	@Override
 	public void controller(float delta) {
 		if (getConnectedEvent() != null) {

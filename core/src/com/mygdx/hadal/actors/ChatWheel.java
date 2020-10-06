@@ -24,26 +24,26 @@ import com.payne.games.piemenu.PieMenu;
  */
 public class ChatWheel {
 
-	private PlayState state;
-	private Stage stage;
+	private final PlayState state;
+	private final Stage stage;
 	
-	private TextureRegion wheelBase, wheelIndicator;
+	private final TextureRegion wheelBase, wheelIndicator;
 	private AnimatedPieMenu wheel;
 	
-	private final static int wheelX = 540;
-	private final static int wheelY = 260;
-	private final static int wheelWidth = 250;
-	private final static int wheelHeight = 250;
+	private static final int wheelX = 540;
+	private static final int wheelY = 260;
+	private static final float wheelWidth = 250.0f;
+	private static final float wheelHeight = 250.0f;
 	
-	private final static int indicatorWidth = 40;
-	private final static int indicatorHeight = 40;
+	private static final float indicatorWidth = 40.0f;
+	private static final float indicatorHeight = 40.0f;
 	
-	private final static float indicatorAmplification = 1.25f;
-	private final static float textScaleUnselected = 0.25f;
-	private final static float wheelThreshold = 0.25f;
-	private final static float borderThickness = 5.0f;
+	private static final float indicatorAmplification = 1.25f;
+	private static final float textScaleUnselected = 0.25f;
+	private static final float wheelThreshold = 0.25f;
+	private static final float borderThickness = 5.0f;
 
-	private final static String[] options = {"temp1", "temp2", "temp3", "temp4", "temp5", "temp6", "READY", "<roll>"};
+	private static final String[] options = {"temp1", "temp2", "temp3", "temp4", "temp5", "temp6", "READY", "<roll>"};
 	
 	//is the chat wheel currently active or not?
 	private boolean active;
@@ -59,10 +59,10 @@ public class ChatWheel {
 	}
 	
 	//we track the location of the mouse so that the wheel can track which direction the player has moved it in.
-	private Vector2 lastMousePosition = new Vector2();
-	private Vector2 pointerPosition = new Vector2();
-	private Vector2 totalDisplace = new Vector2();
-	private Vector2 lastDisplace = new Vector2();
+	private final Vector2 lastMousePosition = new Vector2();
+	private final Vector2 pointerPosition = new Vector2();
+	private final Vector2 totalDisplace = new Vector2();
+	private final Vector2 lastDisplace = new Vector2();
 	public void addTable() {
 		PieMenu.PieMenuStyle style = new PieMenu.PieMenuStyle();
 		style.sliceColor = new Color(1,1,1,0.5f);
@@ -107,8 +107,8 @@ public class ChatWheel {
 		});
 		
 		//add all options to the wheel
-		for (int i = 0; i < options.length; i++) {
-			Text option = new Text(options[i], 0, 0, false);
+		for (final String s : options) {
+			Text option = new Text(s, 0, 0, false);
 			option.setScale(textScaleUnselected);
 			wheel.addActor(option);
 		}

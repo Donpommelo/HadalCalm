@@ -11,12 +11,12 @@ import com.mygdx.hadal.strategies.hitbox.DieSound;
 
 public class BrittlingPowder extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
-	private final static int numFrag = 8;
+	private static final int numFrag = 8;
 	
-	private final static float procCd = 0.5f;
+	private static final float procCd = 0.5f;
 	
 	public BrittlingPowder() {
 		super(slotCost, statusNum);

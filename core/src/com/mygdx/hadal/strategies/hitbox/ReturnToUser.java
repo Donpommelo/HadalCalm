@@ -12,10 +12,10 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class ReturnToUser extends HitboxStrategy {
 	
-	private final static float pushInterval = 1 / 60f;
+	private static final float pushInterval = 1 / 60f;
 	
 	//this is the power that the hbox returns to the user at
-	private float returnAmp;
+	private final float returnAmp;
 	
 	public ReturnToUser(PlayState state, Hitbox proj, BodyData user, float returnAmp) {
 		super(state, proj, user);
@@ -23,12 +23,12 @@ public class ReturnToUser extends HitboxStrategy {
 	}
 	
 	private float controllerCount;
-	private Vector2 diff = new Vector2();
+	private final Vector2 diff = new Vector2();
 	@Override
 	public void controller(float delta) {
 		controllerCount += delta;
 
-		//hbox repeatedly is pushed towards player. Controllercount is checked to ensure framerate does not affect speed
+		//hbox repeatedly is pushed towards player. counter is checked to ensure framerate does not affect speed
 		while (controllerCount >= pushInterval) {
 			controllerCount -= pushInterval;
 			diff.set(creator.getSchmuck().getPixelPosition()).sub(hbox.getPixelPosition());

@@ -1,8 +1,8 @@
 package com.mygdx.hadal.utils;
 
-import java.util.ArrayList;
-
 import com.mygdx.hadal.managers.GameStateManager;
+
+import java.util.ArrayList;
 
 /**
  * a frightful resentment invests like a lens.
@@ -108,16 +108,16 @@ public enum PoetryGenerator {
 	private static final int maxLengthExtras = 2;
 	
 	//This name and the end of this poem fragment
-	private String me, endTag, endPhrase;
+	private final String me, endTag, endPhrase;
 	
 	//how likely is this segment to follow any of its predecessors?
-	private int weight;
+	private final int weight;
 	
 	//this counts the amount of "extra" modifiers (like adjectives/adverbs) This is limited to avoid overly long lines.
-	private int lengthExtra;
+	private final int lengthExtra;
 	
 	//A list of poem fragments that this poem fragment can follow.
-	private String[] canFollow;
+	private final String[] canFollow;
 	
 	PoetryGenerator(String me, String endTag, String endPhrase, int weight, int lengthExtra, String... canFollow) {
 		this.me = me;
@@ -153,11 +153,11 @@ public enum PoetryGenerator {
 	/**
 	 * Recursive case. Randomly select a valid next poem fragment
 	 * @param prev: The poem so far
-	 * @return: The generated poem fragment, plus the rest of the poem
+	 * @return The generated poem fragment, plus the rest of the poem
 	 */
 	public static String generateName(String prev) {
 		
-		ArrayList<PoetryGenerator> possibleNexts = new ArrayList<PoetryGenerator>();
+		ArrayList<PoetryGenerator> possibleNexts = new ArrayList<>();
 		
 		//identify all possible next poetry fragments
 		for (PoetryGenerator gen: PoetryGenerator.values()) {
@@ -185,7 +185,7 @@ public enum PoetryGenerator {
 			return TextFilterUtil.filterPoemTags(next.me);
 		}
 		
-		//filter poem fragments which contain etra text tags
+		//filter poem fragments which contain extra text tags
 		String nextWord = TextFilterUtil.filterPoemTags(generateName(next.endTag));
 		String thisWord = TextFilterUtil.filterPoemTags(next.me);
 		

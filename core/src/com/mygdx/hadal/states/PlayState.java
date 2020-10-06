@@ -1,14 +1,5 @@
 package com.mygdx.hadal.states;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -20,23 +11,14 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.UIExtra;
-import com.mygdx.hadal.actors.UIHub;
-import com.mygdx.hadal.actors.ChatWheel;
-import com.mygdx.hadal.actors.DialogBox;
-import com.mygdx.hadal.actors.MessageWindow;
-import com.mygdx.hadal.actors.ScoreWindow;
-import com.mygdx.hadal.actors.UIObjective;
-import com.mygdx.hadal.actors.UIPlay;
-import com.mygdx.hadal.actors.UIPlayClient;
+import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
-import com.mygdx.hadal.actors.UIArtifacts;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.StartPoint;
@@ -49,9 +31,7 @@ import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.WorldDummy;
+import com.mygdx.hadal.schmucks.bodies.*;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -60,13 +40,12 @@ import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.schmucks.bodies.AnchorPoint;
-import com.mygdx.hadal.schmucks.bodies.ClientPlayer;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.bodies.MouseTracker;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.TiledObjectUtil;
+
+import java.util.*;
+
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * The PlayState is the main state of the game and holds the Box2d world, all characters + gameplay.
@@ -81,9 +60,9 @@ public class PlayState extends GameState {
 	protected InputProcessor controller;
 	
 	//This is the loadout that the player starts off with when they enter the playstate
-	private UnlockEquip[] mapMultitools;
-	private UnlockArtifact[] mapArtifacts;
-	private UnlockActives mapActiveItem;
+	private final UnlockEquip[] mapMultitools;
+	private final UnlockArtifact[] mapArtifacts;
+	private final UnlockActives mapActiveItem;
 	
 	//These process and store the map parsed from the Tiled file.
 	protected TiledMap map;
@@ -94,28 +73,28 @@ public class PlayState extends GameState {
 	protected World world;
 
 	//This holds the mouse location
-	private MouseTracker mouse;
+	private final MouseTracker mouse;
 
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
-	private Set<HadalEntity> removeList;
-	private Set<HadalEntity> createList;
+	private final Set<HadalEntity> removeList;
+	private final Set<HadalEntity> createList;
 	
 	//This is a set of all non-hitbox entities in the world
-	private Set<HadalEntity> entities;
+	private final Set<HadalEntity> entities;
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
-	private Set<HadalEntity> hitboxes;
+	private final Set<HadalEntity> hitboxes;
 	
 	//These sets are used by the Client for removing/adding entities.
 	protected Set<String> removeListClient;
 	protected Set<Object[]> createListClient;
 	
 	//This is a list of packetEffects, given when we receive packets with effects that we want to run in update() rather than whenever
-	private List<PacketEffect> packetEffects;
-	private List<PacketEffect> addPacketEffects;
+	private final List<PacketEffect> packetEffects;
+	private final List<PacketEffect> addPacketEffects;
 	
 	//sourced effects from the world are attributed to this dummy.
-	private WorldDummy worldDummy;
-	private AnchorPoint anchor;
+	private final WorldDummy worldDummy;
+	private final AnchorPoint anchor;
 	
 	//this is the current level
 	protected UnlockLevel level;
@@ -127,17 +106,17 @@ public class PlayState extends GameState {
 	private Vector2 cameraTarget;
 	
 	//the camera is pointed offset of the target by this vector. (this is pretty much only used when focusing on the player)
-	private Vector2 cameraOffset = new Vector2();
+	private final Vector2 cameraOffset = new Vector2();
 	
 	//coordinate the camera is looking at in spectator mode. Unlock cameraTarget, this shouldn't be null
-	private Vector2 spectatorTarget = new Vector2();
+	private final Vector2 spectatorTarget = new Vector2();
 	
 	//are we currently a spectator or not?
 	protected boolean spectatorMode;
 	
 	//These are the bounds of the camera movement. We make the numbers really big so that the default is no bounds.
-	private float[] cameraBounds = {100000.0f, -100000.0f, 100000.0f, -100000.0f};
-	private float[] spectatorBounds = {100000.0f, -100000.0f, 100000.0f, -100000.0f};
+	private final float[] cameraBounds = {100000.0f, -100000.0f, 100000.0f, -100000.0f};
+	private final float[] spectatorBounds = {100000.0f, -100000.0f, 100000.0f, -100000.0f};
 	
 	//are the spectator bounds distinct from the camera bounds?
 	private boolean spectatorBounded;
@@ -152,13 +131,13 @@ public class PlayState extends GameState {
 	protected float zoomDesired;
 	
 	//If a player respawns, they will respawn at the coordinates of a safe point from this list.
-	private ArrayList<StartPoint> savePoints;
+	private final ArrayList<StartPoint> savePoints;
 	
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
-	private HashMap<String, PositionDummy> dummyPoints;
+	private final HashMap<String, PositionDummy> dummyPoints;
 	
 	//Can players hurt each other? Is it the hub map? Is this the server?
-	private boolean pvp, hub, server;
+	private final boolean pvp, hub, server;
 	
 	//Various play state ui elements
 	protected UIPlay uiPlay;
@@ -172,7 +151,7 @@ public class PlayState extends GameState {
 	protected DialogBox dialogBox;
 	
 	//Background and black screen used for transitions
-	private TextureRegion bg;
+	private final TextureRegion bg;
 	private Shader shaderBase;
 	
 	//if we are transitioning to another state, this is that state
@@ -189,14 +168,13 @@ public class PlayState extends GameState {
 	private boolean serverLoaded;
 	
 	//Do players connecting to this have their hp/ammo/etc reset?
-	private boolean reset;
+	private final boolean reset;
 	
 	//do we draw the hitbox lines?
 	private boolean debugHitbox;
 	
 	//global variables.
 	public static final float spriteAnimationSpeedSlow = 0.15f;
-	public static final float spriteAnimationSpeedReallySlow = 0.3f;
 	public static final float spriteAnimationSpeed = 0.08f;
 	public static final float spriteAnimationSpeedFast = 0.04f;
 	
@@ -237,14 +215,14 @@ public class PlayState extends GameState {
 		b2dr = new Box2DDebugRenderer();
 		
 		//Initialize sets to keep track of active entities and packet effects
-		entities = new LinkedHashSet<HadalEntity>();
-		hitboxes = new LinkedHashSet<HadalEntity>();
-		removeList = new LinkedHashSet<HadalEntity>();
-		createList = new LinkedHashSet<HadalEntity>();
-		removeListClient = new LinkedHashSet<String>();
-		createListClient = new LinkedHashSet<Object[]>();
-		packetEffects = new ArrayList<PacketEffect>();
-		addPacketEffects = Collections.synchronizedList(new ArrayList<PacketEffect>());
+		entities = new LinkedHashSet<>();
+		hitboxes = new LinkedHashSet<>();
+		removeList = new LinkedHashSet<>();
+		createList = new LinkedHashSet<>();
+		removeListClient = new LinkedHashSet<>();
+		createListClient = new LinkedHashSet<>();
+		packetEffects = new ArrayList<>();
+		addPacketEffects = Collections.synchronizedList(new ArrayList<>());
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
 		worldDummy = new WorldDummy(this);
@@ -275,7 +253,7 @@ public class PlayState extends GameState {
 		TiledObjectUtil.clearEvents();
 		
 		//Set up "save point" as starting point
-		this.savePoints = new ArrayList<StartPoint>();
+		this.savePoints = new ArrayList<>();
 				
 		//Only the server processes collision objects, events and triggers
 		if (server) {
@@ -294,7 +272,7 @@ public class PlayState extends GameState {
 		this.reset = reset;
 		
 		//Set up dummy points (AI rally points)
-		this.dummyPoints = new HashMap<String, PositionDummy>();
+		this.dummyPoints = new HashMap<>();
 				
 		//Init background image
 		this.bg = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.BACKGROUND2.toString()));
@@ -335,7 +313,7 @@ public class PlayState extends GameState {
 			messageWindow = new MessageWindow(this, stage);
 			chatWheel = new ChatWheel(this, stage);
 			scoreWindow = new ScoreWindow(this);
-			dialogBox = new DialogBox(this, 0, HadalGame.CONFIG_HEIGHT);
+			dialogBox = new DialogBox(this, 0, (int) HadalGame.CONFIG_HEIGHT);
 		}
 		
 		//Add and sync ui elements in case of unpause or new playState
@@ -373,17 +351,17 @@ public class PlayState extends GameState {
 	
 	//these control the frequency that we process world physics.
 	private float physicsAccumulator;
-	private final static float physicsTime = 0.005f;
+	private static final float physicsTime = 0.005f;
 	
 	//these control the frequency that we send sync packets for world entities.
 	private float syncAccumulator;
 	private float syncFastAccumulator;
-	public final static float syncTime = 0.05f;
-	public final static float syncFastTime = 1 / 60f;
-	public final static float syncInterpolation = 0.125f;
+	public static final float syncTime = 0.05f;
+	public static final float syncFastTime = 1 / 60f;
+	public static final float syncInterpolation = 0.125f;
 	
 	private float scoreSyncAccumulator;
-	private final static float ScoreSyncTime = 1.0f;
+	private static final float ScoreSyncTime = 1.0f;
 	
 	private float timer;
 	/**
@@ -531,20 +509,18 @@ public class PlayState extends GameState {
 	 * This does all of the stuff that is needed for both server and client (processing packets, fade and some other misc stuff)
 	 */
 	private float cameraAccumulator;
-	private final static float cameraTime = 1 / 120f;
+	private static final float cameraTime = 1 / 120f;
 	public void processCommonStateProperties(float delta) {
 		
 		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
 		//to run here. This way, they will be carried out at a predictable time.
 		synchronized (addPacketEffects) {
-			for (int i = 0; i < addPacketEffects.size(); i++) {
-				packetEffects.add(addPacketEffects.get(i));
-			}
+			packetEffects.addAll(addPacketEffects);
 			addPacketEffects.clear();
 		}
-		
-		for (int i = 0; i < packetEffects.size(); i++) {
-			packetEffects.get(i).execute();
+
+		for (PacketEffect packetEffect : packetEffects) {
+			packetEffect.execute();
 		}
 		
 		packetEffects.clear();
@@ -567,10 +543,10 @@ public class PlayState extends GameState {
 	 */
 	public void renderEntities(float delta) {
 		for (HadalEntity schmuck : entities) {
-			renderEntity(schmuck, delta);
+			renderEntity(schmuck);
 		}
 		for (HadalEntity hitbox : hitboxes) {
-			renderEntity(hitbox, delta);
+			renderEntity(hitbox);
 		}
 	}
 	
@@ -595,7 +571,7 @@ public class PlayState extends GameState {
 	/**
 	 * This sends a synchronization packet for every synced entity. syncFastEntities() is used for entities that are synced more frequently
 	 */
-	private ArrayList<Object> syncPackets = new ArrayList<Object>();
+	private final ArrayList<Object> syncPackets = new ArrayList<>();
 	public void syncEntities() {
 		
 		for (HadalEntity entity : hitboxes) {
@@ -621,10 +597,9 @@ public class PlayState extends GameState {
 	
 	/**
 	 * This method renders a single entity.
-	 * @param entity
-	 * @param delta
+	 * @param entity: the entity we are rendering
 	 */
-	public void renderEntity(HadalEntity entity, float delta) {
+	public void renderEntity(HadalEntity entity) {
 		
 		if (entity.isVisible()) {
 			if (entity.getShaderCount() > 0) {
@@ -642,7 +617,7 @@ public class PlayState extends GameState {
 	/**
 	 * This is called every update. This resets the camera zoom and makes it move towards the player (or other designated target).
 	 */
-	private final static float spectatorCameraRange = 9000.0f;
+	private static final float spectatorCameraRange = 9000.0f;
 	Vector2 tmpVector2 = new Vector2();
 	Vector3 mousePosition = new Vector3();
 	Vector2 mousePosition2 = new Vector2();
@@ -814,7 +789,7 @@ public class PlayState extends GameState {
 	/**
 	 * transition from one playstate to another with a new level.
 	 * @param level: file of the new map
-	 * @param state: this will either be newlevel or next stage to determine whether we reset hp
+	 * @param state: this will either be a new level or next stage to determine whether we reset hp
 	 * @param nextStartId: The id of the start point to start at (if specified)
 	 */
 	public void loadLevel(UnlockLevel level, TransitionState state, String nextStartId) {
@@ -894,7 +869,7 @@ public class PlayState extends GameState {
 		}
 		
 		
-		Player p = null;
+		Player p;
 		if (!client) {
 			
 			//servers spawn at the starting point if existent. We prefer using the body's position, but can also use the starting position if it hasn't been created yet.
@@ -1055,7 +1030,7 @@ public class PlayState extends GameState {
 		if (player.isSpectator()) {
 			//cannot exit spectator if server is full
 			if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers()) {
-				HadalGame.server.sendNotification(this, player.getConnID(), "", "Could not join! Server is full!", DialogType.SYSTEM);
+				HadalGame.server.sendNotification(player.getConnID(), "", "Could not join! Server is full!", DialogType.SYSTEM);
 				return;
 			}
 			
@@ -1086,11 +1061,7 @@ public class PlayState extends GameState {
 			this.resultsText = resultsText;
 			nextState = state;
 			gsm.getApp().fadeSpecificSpeed(fadeSpeed, fadeDelay);
-			gsm.getApp().setRunAfterTransition(new Runnable() {
-
-				@Override
-				public void run() {	transitionState(); }
-			});
+			gsm.getApp().setRunAfterTransition(this::transitionState);
 		}
 	}
 	
@@ -1167,8 +1138,8 @@ public class PlayState extends GameState {
 	 * @return a save point to spawn a respawned player at
 	 */
 	public StartPoint getSavePoint(String startId) {
-		ArrayList<StartPoint> validStarts = new ArrayList<StartPoint>();
-		ArrayList<StartPoint> readyStarts = new ArrayList<StartPoint>();
+		ArrayList<StartPoint> validStarts = new ArrayList<>();
+		ArrayList<StartPoint> readyStarts = new ArrayList<>();
 		
 		//get a list of all start points that match the startId
 		for (StartPoint s: savePoints) {
@@ -1235,7 +1206,7 @@ public class PlayState extends GameState {
 	
 	/**
 	 * Add a new packet effect as a result of receiving a packet.
-	 * @param effect
+	 * @param effect: the code we want to run at the next engine tick
 	 */
 	public void addPacketEffect(PacketEffect effect) {
 		synchronized (addPacketEffects) {
@@ -1260,7 +1231,7 @@ public class PlayState extends GameState {
 		shaderBase.loadShader(this, null, 0);
 	}
 	
-	private final static float spectatorDefaultZoom = 1.5f;
+	private static final float spectatorDefaultZoom = 1.5f;
 	/**
 	 * Player enters spectator mode. Set up spectator camera and camera bounds
 	 */
@@ -1273,9 +1244,7 @@ public class PlayState extends GameState {
 		this.cameraOffset.set(0, 0);
 		
 		if (spectatorBounded) {
-			for (int i = 0; i < 4; i++) {
-				cameraBounds[i] = spectatorBounds[i];
-			}
+			System.arraycopy(spectatorBounds, 0, cameraBounds, 0, 4);
 		}
 	}
 	
@@ -1298,8 +1267,6 @@ public class PlayState extends GameState {
 	
 	public boolean isSpectatorMode() { return spectatorMode; }
 
-	public boolean isUnlimitedLife() {return unlimitedLife; }
-	
 	public void setUnlimitedLife(boolean lives) { this.unlimitedLife = lives; }
 	
 	public Event getGlobalTimer() {	return globalTimer;	}

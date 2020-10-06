@@ -1,13 +1,12 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -27,17 +26,16 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 public class EnemyCrawling extends Enemy {
 	
 	//this the frequency that the physics occurs
-	private final static float controllerInterval = 1 / 60f;
+	private static final float controllerInterval = 1 / 60f;
 		
 	//this is the boss's sprite
 	private Animation<TextureRegion> floatingSprite;
 
-	//is this enemy moveing left or right? what speed? what are the distances that a chasing enemy will attempt to maintain from its target
+	//is this enemy moving left or right? what speed? what are the distances that a chasing enemy will attempt to maintain from its target
 	private float moveDirection, moveSpeed, minRange, maxRange;
 	private CrawlingState currentState;
 	
 	//feet data used to process enemy groundedness
-	private Fixture feet;
 	private FeetData feetData;
 	
 	public EnemyCrawling(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, String name, Sprite sprite, EnemyType type, float startAngle, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
@@ -48,7 +46,7 @@ public class EnemyCrawling extends Enemy {
 		this.currentState = CrawlingState.STILL;
 		
 		if (!sprite.equals(Sprite.NOTHING)) {
-			this.floatingSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeedFast, sprite.getFrames());
+			this.floatingSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, sprite.getFrames());
 			this.floatingSprite.setPlayMode(PlayMode.LOOP_PINGPONG);
 		}
 	}
@@ -65,15 +63,15 @@ public class EnemyCrawling extends Enemy {
 		if (state.isServer()) {
 			this.feetData = new FeetData(UserDataTypes.FEET, this); 
 			
-			this.feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f,  - hboxSize.y / 2), new Vector2(hboxSize.x - 2, hboxSize.y / 8), true, 0, 0, 0, 0,
+			Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f,  - hboxSize.y / 2), new Vector2(hboxSize.x - 2, hboxSize.y / 8), true, 0, 0, 0, 0,
 					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), hitboxfilter);
 			
 			feet.setUserData(feetData);
 		}
 	}
 
-	private Vector2 force = new Vector2();
-	private Vector2 currentVel = new Vector2();
+	private final Vector2 force = new Vector2();
+	private final Vector2 currentVel = new Vector2();
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);
@@ -132,7 +130,7 @@ public class EnemyCrawling extends Enemy {
 			float desiredXVel = getBodyData().getXGroundSpeed() * moveDirection * moveSpeed;
 			
 			//Process acceleration based on bodyData stats.
-			float accelX = 0.0f;
+			float accelX;
 			if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
 				accelX = getBodyData().getXGroundAccel();
 			} else {
@@ -149,9 +147,9 @@ public class EnemyCrawling extends Enemy {
 	/**
 	 * This method is used by crawling enemies to process running into walls/edges of platforms
 	 */
-	private Vector2 endPt = new Vector2();
-	private Vector2 entityWorldLocation = new Vector2();
-	private final static float distCheck = 3.0f;
+	private final Vector2 endPt = new Vector2();
+	private final Vector2 entityWorldLocation = new Vector2();
+	private static final float distCheck = 3.0f;
 	private float shortestFraction;
 	private void processCollision(boolean avoidPits) {
 		
@@ -164,18 +162,14 @@ public class EnemyCrawling extends Enemy {
 		//raycast in the direction we are walking.
 		if (entityWorldLocation.x != endPt.x || entityWorldLocation.y != endPt.y) {
 			
-			state.getWorld().rayCast(new RayCastCallback() {
-
-				@Override
-				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-					if (fixture.getFilterData().categoryBits == (short) Constants.BIT_WALL) {
-						if (fraction < shortestFraction) {
-							shortestFraction = fraction;
-							return fraction;
-						}
+			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
+				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+					if (fraction < shortestFraction) {
+						shortestFraction = fraction;
+						return fraction;
 					}
-					return -1.0f;
 				}
+				return -1.0f;
 			}, entityWorldLocation, endPt);
 		}
 		
@@ -188,18 +182,14 @@ public class EnemyCrawling extends Enemy {
 			endPt.set(entityWorldLocation).add(moveDirection * distCheck, -distCheck);
 			shortestFraction = 1.0f;
 			if (entityWorldLocation.x != endPt.x || entityWorldLocation.y != endPt.y) {
-				state.getWorld().rayCast(new RayCastCallback() {
-
-					@Override
-					public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-						if (fixture.getFilterData().categoryBits == (short) (Constants.BIT_WALL) ||  fixture.getFilterData().categoryBits == (short) Constants.BIT_DROPTHROUGHWALL) {
-							if (fraction < shortestFraction) {
-								shortestFraction = fraction;
-								return fraction;
-							}
+				state.getWorld().rayCast((fixture, point, normal, fraction) -> {
+					if (fixture.getFilterData().categoryBits == Constants.BIT_WALL ||  fixture.getFilterData().categoryBits == Constants.BIT_DROPTHROUGHWALL) {
+						if (fraction < shortestFraction) {
+							shortestFraction = fraction;
+							return fraction;
 						}
-						return -1.0f;
 					}
+					return -1.0f;
 				}, entityWorldLocation, endPt);
 			}
 			
@@ -210,7 +200,7 @@ public class EnemyCrawling extends Enemy {
 		}
 	}
 
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		
@@ -218,12 +208,10 @@ public class EnemyCrawling extends Enemy {
 		
 		if (moveDirection < 0) {
 			flip = true;
-		} else if (moveDirection > 0) {
-			flip = false;
 		}
 
 		entityLocation.set(getPixelPosition());
-		batch.draw((TextureRegion) floatingSprite.getKeyFrame(animationTime, true), 
+		batch.draw(floatingSprite.getKeyFrame(animationTime, true),
 				(flip ? 0 : size.x) + entityLocation.x - size.x / 2, 
 				entityLocation.y - getHboxSize().y / 2, 
 				size.x / 2,
@@ -253,8 +241,8 @@ public class EnemyCrawling extends Enemy {
 		}
 	}
 	
-	private Vector2 originPt = new Vector2();
-	private Vector2 addVelo = new Vector2();
+	private final Vector2 originPt = new Vector2();
+	private final Vector2 addVelo = new Vector2();
 	@Override
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
 		

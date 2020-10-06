@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.actives;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.WeaponUtils;
@@ -9,18 +7,20 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 public class MeteorStrike extends ActiveItem {
 
-	private final static float usecd = 0.0f;
-	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 20.0f;
+	private static final float usecd = 0.0f;
+	private static final float usedelay = 0.1f;
+	private static final float maxCharge = 20.0f;
 
-	private final static float baseDamage = 24.0f;
-	private final static float knockback = 6.0f;
+	private static final float baseDamage = 24.0f;
+	private static final float knockback = 6.0f;
 	
-	private final static float meteorDuration = 3.0f;
-	private final static float meteorInterval = 0.1f;
-	private final static float spread = 15.0f;
+	private static final float meteorDuration = 3.0f;
+	private static final float meteorInterval = 0.1f;
+	private static final float spread = 15.0f;
 	
 	
 	public MeteorStrike(Schmuck user) {

@@ -1,10 +1,10 @@
 package com.mygdx.hadal.save;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.badlogic.gdx.Gdx;
 import com.mygdx.hadal.managers.GameStateManager;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A record represents the player's persistent saved data.
@@ -31,15 +31,13 @@ public class Record {
 	
 	public Record() {}
 	
-	public boolean updateScore(int score, UnlockLevel level) {
+	public void updateScore(int score, UnlockLevel level) {
 		if (hiScores.containsKey(level.toString())) {
 			if (score > hiScores.get(level.toString())) {
 				hiScores.put(level.toString(), score);
 				saveRecord();
-				return true;
 			}
 		}
-		return false;
 	}
 	
 	/**
@@ -75,7 +73,7 @@ public class Record {
 		Record newRecord = new Record();
 		newRecord.scrap = 0;
 		
-		newRecord.flags = new HashMap<String, Integer>();
+		newRecord.flags = new HashMap<>();
 		newRecord.flags.put("ARTIFACTSLOT1", 1);
 		newRecord.flags.put("ARTIFACTSLOT2", 1);
 		newRecord.flags.put("ARTIFACTSLOT3", 1);
@@ -109,12 +107,12 @@ public class Record {
 		newRecord.flags.put("BOSS1", 0);
 		newRecord.flags.put("PARTY", 0);
 		
-		newRecord.hiScores = new HashMap<String, Integer>();
-		newRecord.unlockEquip = new HashMap<String, Boolean>();
-		newRecord.unlockArtifact = new HashMap<String, Boolean>();
-		newRecord.unlockActive = new HashMap<String, Boolean>();
-		newRecord.unlockCharacter = new HashMap<String, Boolean>();
-		newRecord.unlockLevel = new HashMap<String, Boolean>();
+		newRecord.hiScores = new HashMap<>();
+		newRecord.unlockEquip = new HashMap<>();
+		newRecord.unlockArtifact = new HashMap<>();
+		newRecord.unlockActive = new HashMap<>();
+		newRecord.unlockCharacter = new HashMap<>();
+		newRecord.unlockLevel = new HashMap<>();
 		
 		for (UnlockEquip equip: UnlockEquip.values()) {
 			newRecord.unlockEquip.put(equip.toString(), false);

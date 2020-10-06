@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -15,12 +13,14 @@ import com.mygdx.hadal.statuses.DeathParticles;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Stats;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Leaper1 extends EnemyCrawling {
 
-	private final static int baseHp = 100;
-	private final static String name = "LEAPER";
+	private static final int baseHp = 100;
+	private static final String name = "LEAPER";
 
-	private final static int scrapDrop = 1;
+	private static final int scrapDrop = 1;
 
 	private static final int width = 512;
 	private static final int height = 512;
@@ -62,7 +62,7 @@ public class Leaper1 extends EnemyCrawling {
 	@Override
 	public void attackInitiate() {
 		push(new Vector2(0, 50).rotate(ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-	};
+	}
 	
 	private Vector2 entityLocation = new Vector2();
 	@Override
@@ -73,8 +73,6 @@ public class Leaper1 extends EnemyCrawling {
 		
 		if (getMoveDirection() < 0) {
 			flip = true;
-		} else if (getMoveDirection() > 0) {
-			flip = false;
 		}
 
 		entityLocation.set(getPixelPosition());

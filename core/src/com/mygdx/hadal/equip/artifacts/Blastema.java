@@ -8,11 +8,11 @@ import com.mygdx.hadal.statuses.Status;
 
 public class Blastema extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
-	private final static float regenCd = 5.0f;
-	private final static float regen = 2.0f;
+	private static final float regenCd = 5.0f;
+	private static final float regen = 2.0f;
 	
 	public Blastema() {
 		super(slotCost, statusNum);
@@ -23,7 +23,7 @@ public class Blastema extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount;
-			private float procCd = regenCd;
+			private final float procCd = regenCd;
 			
 			@Override
 			public void timePassing(float delta) {

@@ -7,10 +7,10 @@ import com.mygdx.hadal.statuses.Status;
 
 public class DasBoot extends Artifact {
 
-	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private static final int statusNum = 1;
+	private static final int slotCost = 2;
 	
-	private final static float res = 0.5f;
+	private static final float res = 0.5f;
 	
 	public DasBoot() {
 		super(slotCost, statusNum);

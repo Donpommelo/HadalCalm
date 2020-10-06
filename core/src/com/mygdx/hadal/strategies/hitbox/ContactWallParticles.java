@@ -18,18 +18,19 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class ContactWallParticles extends HitboxStrategy {
 	
-	private final static float defaultDuration = 1.0f;
+	private static final float defaultDuration = 1.0f;
 	
 	//the effect that is to be created.
-	private Particle effect;
+	private final Particle effect;
 	
 	//how long should the particles last?
 	private float duration;
 	
-	//this is the color of the partcile. Can be set using the factory method
+	//this is the color of the particle. Can be set using the factory method
 	private ParticleColor color = ParticleColor.NOTHING;
 	
 	//do we draw the particles at an offset from the hbox? (used for larger hboxes)
+	private final Vector2 offset = new Vector2();
 	private boolean isOffset;
 	
 	public ContactWallParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
@@ -38,7 +39,6 @@ public class ContactWallParticles extends HitboxStrategy {
 		this.duration = defaultDuration;
 	}
 	
-	private Vector2 offset = new Vector2();
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {

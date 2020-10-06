@@ -17,28 +17,28 @@ import com.mygdx.hadal.strategies.hitbox.DieSound;
 
 public class AmitaCannon extends RangedWeapon {
 
-	private final static int clipSize = 4;
-	private final static int ammoSize = 32;
-	private final static float shootCd = 0.4f;
-	private final static float shootDelay = 0.1f;
-	private final static float reloadTime = 1.6f;
-	private final static int reloadAmount = 0;
-	private final static float baseDamage = 7.5f;
-	private final static float recoil = 6.0f;
-	private final static float knockback = 15.0f;
-	private final static float projectileSpeed = 30.0f;
-	private final static Vector2 projectileSize = new Vector2(48, 48);
-	private final static float lifespan = 1.0f;
+	private static final int clipSize = 4;
+	private static final int ammoSize = 32;
+	private static final float shootCd = 0.4f;
+	private static final float shootDelay = 0.1f;
+	private static final float reloadTime = 1.6f;
+	private static final int reloadAmount = 0;
+	private static final float baseDamage = 7.5f;
+	private static final float recoil = 6.0f;
+	private static final float knockback = 15.0f;
+	private static final float projectileSpeed = 30.0f;
+	private static final Vector2 projectileSize = new Vector2(48, 48);
+	private static final float lifespan = 1.0f;
 	
-	private final static int numOrbitals = 8;
-	private final static float orbitalRange = 0.8f;
-	private final static float orbitalSpeed = 360.0f;
-	private final static Vector2 orbitalSize = new Vector2(24, 24);
-	private final static float activatedSpeed = 40.0f;
+	private static final int numOrbitals = 8;
+	private static final float orbitalRange = 0.8f;
+	private static final float orbitalSpeed = 360.0f;
+	private static final Vector2 orbitalSize = new Vector2(24, 24);
+	private static final float activatedSpeed = 40.0f;
 
-	private final static Sprite projSprite = Sprite.ORB_ORANGE;
-	private final static Sprite weaponSprite = Sprite.MT_STORMCALLER;
-	private final static Sprite eventSprite = Sprite.P_STORMCALLER;
+	private static final Sprite projSprite = Sprite.ORB_ORANGE;
+	private static final Sprite weaponSprite = Sprite.MT_STORMCALLER;
+	private static final Sprite eventSprite = Sprite.P_STORMCALLER;
 	
 	public AmitaCannon(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -59,12 +59,12 @@ public class AmitaCannon extends RangedWeapon {
 		center.addStrategy(new DieSound(state, center, user.getBodyData(), SoundEffect.MAGIC3_BURST, 0.5f));
 		center.addStrategy(new HitboxStrategy(state, center, user.getBodyData()) {
 			
-			private Vector2 angle = new Vector2(0, orbitalRange);
+			private final Vector2 angle = new Vector2(0, orbitalRange);
 			
 			@Override
 			public void create() {
 				for (int i = 0; i < numOrbitals; i++) {
-					angle.setAngle(angle.angle() + 360 / numOrbitals);
+					angle.setAngle(angle.angle() + 360.0f / numOrbitals);
 					
 					//we create several orbiting projectiles that circle the invisible center
 					//when the center hits a wall, the orbitals move outwards
@@ -78,8 +78,8 @@ public class AmitaCannon extends RangedWeapon {
 					orbital.addStrategy(new ContactWallDie(state, orbital, user.getBodyData()));
 					orbital.addStrategy(new HitboxStrategy(state, orbital, user.getBodyData()) {
 						
-						private Vector2 centerPos = new Vector2();
-						private Vector2 offset = new Vector2();
+						private final Vector2 centerPos = new Vector2();
+						private final Vector2 offset = new Vector2();
 						private float currentAngle = angle.angle();
 						private boolean activated = false;
 						

@@ -46,7 +46,7 @@ public class DropThroughPlatform extends Event {
 				if (fixB != null) {
 					if (fixB instanceof FeetData) {
 						
-						HadalEntity entity = ((FeetData) fixB).getEntity();
+						HadalEntity entity = fixB.getEntity();
 						
 						//let a fastfalling player drop through without stopping
 						if (entity instanceof Player) {
@@ -65,13 +65,13 @@ public class DropThroughPlatform extends Event {
 			}
 			
 			/**
-			 * When the player's feet sensor leaves the platform, its filter becomes passable by dropthroughs again.
+			 * When the player's feet sensor leaves the platform, its filter becomes passable by dropthrough again.
 			 */
 			@Override
 			public void onRelease(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB instanceof FeetData) {
-						HadalEntity entity = ((FeetData) fixB).getEntity();
+						HadalEntity entity = fixB.getEntity();
 						Filter filter = entity.getMainFixture().getFilterData();
 						filter.maskBits = (short) (filter.maskBits &~ Constants.BIT_DROPTHROUGHWALL);
 						entity.getMainFixture().setFilterData(filter);

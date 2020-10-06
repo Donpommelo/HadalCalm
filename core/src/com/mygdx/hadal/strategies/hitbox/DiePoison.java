@@ -14,11 +14,11 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class DiePoison extends HitboxStrategy {
 	
 	//the amount of damage the poison will deal, how long it will last and its size
-	private float poisonDamage, poisonDuration;
-	private int poisonRadius;
+	private final float poisonDamage, poisonDuration;
+	private final int poisonRadius;
 	
 	//the hbox filter that determines who can be damaged by the poison
-	private short filter;
+	private final short filter;
 	
 	public DiePoison(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {
 		super(state, proj, user);

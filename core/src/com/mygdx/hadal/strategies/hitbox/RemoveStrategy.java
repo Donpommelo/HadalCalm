@@ -13,7 +13,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class RemoveStrategy extends HitboxStrategy {
 	
 	//this is the strategy that we want to remove
-	private Class<? extends HitboxStrategy> toRemove;
+	private final Class<? extends HitboxStrategy> toRemove;
 
 	//have we removed the strategy yet?
 	private boolean removed;
