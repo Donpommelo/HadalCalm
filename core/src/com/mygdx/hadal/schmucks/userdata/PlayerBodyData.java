@@ -44,10 +44,10 @@ public class PlayerBodyData extends BodyData {
 	
 	private static final float fastFallPow = 17.0f;
 
-	private static final int hoverCost = 5;
+	private static final int hoverCost = 4;
 	private static final float hoverPow = 5.0f;
 	
-	private static final int airblastCost = 30;
+	private static final int airblastCost = 25;
 	
 	//This is the player's current loadout
 	private Loadout loadout;

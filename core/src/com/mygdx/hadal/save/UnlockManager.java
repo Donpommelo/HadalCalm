@@ -163,7 +163,19 @@ public class UnlockManager {
 		PVP,
 		ARENA,
 		MULTIPLAYER,
-		SPECIAL
+		SPECIAL,
+
+		OFFENSE,
+		DEFENSE,
+		MOBILITY,
+		FUEL,
+		HEAL,
+		ACTIVE_ITEM,
+		AMMO,
+		WEAPON_DAMAGE,
+		PASSIVE_DAMAGE,
+		PROJECTILE_MODIFIER,
+		GIMMICK,
 	}
 	
 	public enum UnlockType {

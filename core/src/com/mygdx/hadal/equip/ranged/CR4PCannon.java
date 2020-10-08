@@ -29,9 +29,9 @@ public class CR4PCannon extends RangedWeapon {
 	private static final float baseDamage = 15.0f;
 	private static final float recoil = 15.0f;
 	private static final float knockback = 2.2f;
-	private static final float projectileSpeed = 25.0f;
+	private static final float projectileSpeed = 35.0f;
 	private static final Vector2 projectileSize = new Vector2(20, 20);
-	private static final float lifespan = 0.8f;
+	private static final float lifespan = 0.7f;
 	
 	private static final int numProj = 6;
 	private static final int spread = 10;

@@ -73,9 +73,9 @@ public class Screecher extends RangedWeapon {
 		}
 	}
 
-	private Vector2 endPt = new Vector2();
-	private Vector2 newPosition = new Vector2();
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 endPt = new Vector2();
+	private final Vector2 newPosition = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		
@@ -110,7 +110,7 @@ public class Screecher extends RangedWeapon {
 			}, entityLocation, endPt);
 		}
 		
-		//create explosions around the point we raycasted towards
+		//create explosions around the point we raycast towards
 		newPosition.set(user.getPixelPosition()).add(new Vector2(startVelocity).nor().scl(distance * shortestFraction * PPM));
 		newPosition.add(ThreadLocalRandom.current().nextInt(-spread, spread + 1), ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 		

@@ -4,14 +4,22 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.event.hub.HubEvent;
+import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -22,8 +30,10 @@ public class UIHub {
 
 	private final PlayState state;
 	
-	private final Table tableOptions, tableOuter, tableInfo, tableExtra;
+	private final Table tableSearch, tableOptions, tableOuter, tableInfo, tableExtra;
 	private ScrollPane options;
+	private TextField searchName;
+	private SelectBox<String> tagFilter, slotsFilter;
 	
 	//These fields pertain to the extra info window that pops up when mousing over stuff.
 	private Text titleInfo;
@@ -44,8 +54,9 @@ public class UIHub {
 	private static final int optionsWidth = 320;
 	public static final int optionsHeight = 40;
 	public static final int optionsPadding = 10;
-	
-	public static final float optionsScale = 0.40f;
+	private static final int scrollWidth = 330;
+
+	public static final float optionsScale = 0.3f;
 	public static final float optionsScaleSmall = 0.25f;
 	
 	public static final float artifactTagSize = 50.0f;
@@ -61,12 +72,15 @@ public class UIHub {
 	public UIHub(PlayState state) {
 		this.state = state;
 		this.active = false;
-		
+
+		this.tableSearch = new Table();
 		this.tableOptions = new Table();
 		this.tableOuter = new Table();
 		this.tableInfo = new Table();
 		this.tableExtra = new Table();
-		
+
+		tableOuter.setTouchable(Touchable.enabled);
+
 		addTable();
 	}
 	
@@ -99,38 +113,119 @@ public class UIHub {
 		tableInfo.add(extraInfo).width(infoWidth).height(infoHeight);
 		
 		tableOuter.add(tableInfo).bottom();
-		
-		this.options = new ScrollPane(tableOptions, GameStateManager.getSkin());
-		options.setFadeScrollBars(false);
-		
-		tableOuter.add(options).bottom().width(optionsWidth).height(optionsHeightInner);
-		
+		tableOuter.add(tableSearch).width(optionsWidth).height(optionsHeightInner);
+
 		extraInfo.toBack();
 		titleInfo.toFront();
+
+		tableOuter.addCaptureListener(new InputListener() {
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				if (!(event.getTarget() instanceof TextField)) {
+					state.getStage().setKeyboardFocus(null);
+				}
+				return false;
+			}
+		});
 	}
 	
 	/**
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */
-	public void enter() {
+	public void enter(boolean searchable, boolean extraFilters, HubEvent hub) {
 		active = true;
-		
+
 		tableOptions.clear();
+		tableSearch.clear();
 		tableExtra.clear();
-		
+
+		if (searchable) {
+			Text search = new Text("SEARCH: ", 0, 0, false);
+			search.setScale(optionsScale);
+
+			searchName = new TextField("", GameStateManager.getSkin()) {
+
+				@Override
+				protected InputListener createInputListener () {
+
+					return new TextFieldClickListener() {
+
+						@Override
+						public boolean keyUp(InputEvent event, int keycode) {
+							if (keycode == PlayerAction.EXIT_MENU.getKey()) {
+								leave();
+							} else {
+								tableOptions.clear();
+								hub.addOptions(searchName.getText(), indexToFilterSlot(), indexToFilterTag());
+							}
+
+							return super.keyUp(event, keycode);
+						}
+					};
+				}
+			};
+			searchName.setMessageText("SEARCH OPTIONS");
+			tableSearch.add(search);
+			tableSearch.add(searchName).padBottom(optionsPadding).row();
+		}
+
+		if (extraFilters) {
+			Text searchTags = new Text("FILTER TAGS: ", 0, 0, false);
+			searchTags.setScale(optionsScale);
+
+			tagFilter = new SelectBox<>(GameStateManager.getSkin());
+			tagFilter.setItems("ALL", "OFFENSE", "DEFENSE", "MOBILITY", "FUEL", "HEAL", "ACTIVE ITEM", "AMMO",
+					"WEAPON DAMAGE", "PASSIVE DAMAGE", "PROJECTILE_MODIFER", "MISC + DUMB GIMMICKS");
+			tagFilter.addListener(new ChangeListener() {
+
+				@Override
+				public void changed(ChangeEvent event, Actor actor) {
+					tableOptions.clear();
+					hub.addOptions(searchName.getText(), indexToFilterSlot(), indexToFilterTag());
+				}
+			});
+
+			Text searchCost = new Text("FILTER COST: ", 0, 0, false);
+			searchCost.setScale(optionsScale);
+
+			slotsFilter = new SelectBox<>(GameStateManager.getSkin());
+			slotsFilter.setItems("ALL", "0-COST", "1-COST", "2-COST", "3-COST");
+			slotsFilter.addListener(new ChangeListener() {
+
+				@Override
+				public void changed(ChangeEvent event, Actor actor) {
+					tableOptions.clear();
+					hub.addOptions(searchName.getText(), indexToFilterSlot(), indexToFilterTag());
+				}
+			});
+
+			tableSearch.add(searchTags);
+			tableSearch.add(tagFilter).padBottom(optionsPadding).row();
+			tableSearch.add(searchCost);
+			tableSearch.add(slotsFilter).padBottom(optionsPadding).row();
+		}
+
+		this.options = new ScrollPane(tableOptions, GameStateManager.getSkin());
+		options.setFadeScrollBars(false);
+
+		if (searchable) {
+			tableSearch.add(options).colspan(2).expandY().width(scrollWidth);
+		} else {
+			tableSearch.add(options).expandY().width(scrollWidth);
+		}
+
 		tableOuter.setPosition(tableX, tableY);
-		
 		tableOuter.setSize(optionsWidthOuter, optionsHeightOuter);
 		
 		state.getStage().setScrollFocus(options);
-		
 		state.getStage().addActor(tableOuter);
 		
 		tableOuter.addAction(Actions.moveTo(tableX - optionsWidthOuter, tableY, .5f, Interpolation.pow5Out));
 		
 		info = "";
 		
-		SoundEffect.DOORBELL.play(state.getGsm(), 0.4f, false);
+		SoundEffect.DOORBELL.play(state.getGsm(), 0.25f, false);
 	}
 	
 	/**
@@ -145,9 +240,10 @@ public class UIHub {
 			if (state.getStage().getScrollFocus() == options) {
 				state.getStage().setScrollFocus(null);
 			}
+			state.getStage().setKeyboardFocus(null);
 		}
 		
-		SoundEffect.DOORBELL.play(state.getGsm(), 0.4f, false);
+		SoundEffect.DOORBELL.play(state.getGsm(), 0.25f, false);
 	}
 	
 	/**
@@ -212,7 +308,49 @@ public class UIHub {
 		slotsInfo.setScale(0.5f);
 		tableExtra.add(slotsInfo).pad(infoPadding).colspan(12).row();
 	}
-	
+
+	private UnlockTag indexToFilterTag() {
+		if (tagFilter == null) {
+			return UnlockTag.GIMMICK;
+		} else {
+			switch (tagFilter.getSelectedIndex()) {
+				case 0:
+				default:
+					return UnlockTag.RELIQUARY;
+				case 1:
+					return UnlockTag.OFFENSE;
+				case 2:
+					return UnlockTag.DEFENSE;
+				case 3:
+					return UnlockTag.MOBILITY;
+				case 4:
+					return UnlockTag.FUEL;
+				case 5:
+					return UnlockTag.HEAL;
+				case 6:
+					return UnlockTag.ACTIVE_ITEM;
+				case 7:
+					return UnlockTag.AMMO;
+				case 8:
+					return UnlockTag.WEAPON_DAMAGE;
+				case 9:
+					return UnlockTag.PASSIVE_DAMAGE;
+				case 10:
+					return UnlockTag.PROJECTILE_MODIFIER;
+				case 11:
+					return UnlockTag.GIMMICK;
+			}
+		}
+	}
+
+	private int indexToFilterSlot() {
+		if (slotsFilter == null) {
+			return -1;
+		} else {
+			return slotsFilter.getSelectedIndex() - 1;
+		}
+	}
+
 	/**
 	 * This sets the title text when the player enters the hub event
 	 */

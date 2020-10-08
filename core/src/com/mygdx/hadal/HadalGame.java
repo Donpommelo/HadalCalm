@@ -219,6 +219,8 @@ public class HadalGame extends ApplicationAdapter {
 		if (server.getServer() != null) {
 			server.getServer().close();
 		}
+
+		System.exit(0);
 	}	
 	
 	/**

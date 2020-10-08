@@ -28,7 +28,7 @@ public class Airblaster extends MeleeWeapon {
 	private static final Vector2 hitboxSize = new Vector2(175, 175);
 	private static final Vector2 hitboxSpriteSize = new Vector2(260, 260);
 	private static final float knockback = 60.0f;
-	public static final float momentum = 40.0f;
+	public static final float momentum = 50.0f;
 	
 	private static final float reflectVeloAmp = 1.5f;
 

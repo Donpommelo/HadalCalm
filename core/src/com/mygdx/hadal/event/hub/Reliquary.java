@@ -8,7 +8,12 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The Reliquary is a HubEvent that allows the player to change their starting Artifact.
@@ -20,37 +25,65 @@ public class Reliquary extends HubEvent {
 
 	public Reliquary(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.RELIQUARY);
+		this.searchable = true;
+		this.extraFilters = true;
 	}
 	
 	public void enter() {
 		super.enter();
+		addOptions("" , -1, UnlockTag.RELIQUARY);
+	}
+
+	@Override
+	public void addOptions(String search, int slots, UnlockTag tag) {
+		ArrayList<UnlockTag> newTags = new ArrayList<>(tags);
+		if (!tag.equals(UnlockTag.RELIQUARY)) {
+			newTags.add(tag);
+		}
+
+		Pattern pattern = Pattern.compile(search.toLowerCase());
 		final UIHub hub = state.getUiHub();
-		
-		for (UnlockArtifact c: UnlockArtifact.getUnlocks(state, checkUnlock, tags)) {
-			
+
+		for (UnlockArtifact c: UnlockArtifact.getUnlocks(state, checkUnlock, newTags)) {
 			final UnlockArtifact selected = c;
-			Text itemChoose = new Text(selected.getInfo().getName(), 0, 0, true);
-			
-			itemChoose.addListener(new ClickListener() {
-				
-				@Override
-		        public void clicked(InputEvent e, float x, float y) {
-					if (state.isServer()) {
-						state.getPlayer().getPlayerData().addArtifact(selected, false);
-					} else {
-						state.getPlayer().getPlayerData().syncClientLoadoutAddArtifact(selected);
-					}
-					hub.refreshHub();
-		        }
-				
-				@Override
-				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					super.enter(event, x, y, pointer, fromActor);
-					hub.setInfo(selected.getInfo().getName() + "\nCOST: " + selected.getArtifact().getSlotCost() + "\n" + selected.getInfo().getDescription() + " \n \n" + selected.getInfo().getDescriptionLong());
+
+			boolean appear = false;
+			if (search.equals("")) {
+				appear = true;
+			} else {
+				Matcher matcher = pattern.matcher(selected.getInfo().getName().toLowerCase());
+				if (matcher.find()) {
+					appear = true;
 				}
-		    });
-			itemChoose.setScale(UIHub.optionsScale);
-			hub.getTableOptions().add(itemChoose).pad(UIHub.optionsPadding, 0, UIHub.optionsPadding, 0).row();
+			}
+			if (slots != -1) {
+				if (slots != c.getArtifact().getSlotCost()) {
+					appear = false;
+				}
+			}
+			if (appear) {
+				Text itemChoose = new Text(selected.getInfo().getName(), 0, 0, true);
+				itemChoose.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						if (state.isServer()) {
+							state.getPlayer().getPlayerData().addArtifact(selected, false);
+						} else {
+							state.getPlayer().getPlayerData().syncClientLoadoutAddArtifact(selected);
+						}
+						hub.refreshHub();
+					}
+
+					@Override
+					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
+						super.enter(event, x, y, pointer, fromActor);
+						hub.setInfo(selected.getInfo().getName() + "\nCOST: " + selected.getArtifact().getSlotCost() + "\n" + selected.getInfo().getDescription() + " \n \n" + selected.getInfo().getDescriptionLong());
+					}
+				});
+				itemChoose.setScale(UIHub.optionsScale);
+				hub.getTableOptions().add(itemChoose).pad(UIHub.optionsPadding, 0, UIHub.optionsPadding, 0).row();
+			}
 		}
 		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).row();
 		hub.refreshHub();

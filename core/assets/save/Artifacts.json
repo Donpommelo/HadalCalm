@@ -6,6 +6,7 @@ NUMBER_ONE_BOSS_MUG: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        AMMO,
 	]
 }
 EIGHT_BALL: {
@@ -15,6 +16,8 @@ EIGHT_BALL: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
 	]
 }
 ABYSSAL_INSIGNIA: {
@@ -24,6 +27,8 @@ ABYSSAL_INSIGNIA: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
 	]
 }
 ADMINISTRATOR_CARD: {
@@ -32,6 +37,7 @@ ADMINISTRATOR_CARD: {
     descriptionLong: "An inornate identification card printed on sturdy plastic.\n\nSalvagers are rarely promoted to administrative positions, and are thus rarely seen carrying these coveted tokens."
 	tags: [
 		RELIQUARY,
+        GIMMICK,
 	]
 }
 ALBATROSS_NECKLACE: {
@@ -41,6 +47,8 @@ ALBATROSS_NECKLACE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
+        GIMMICK,
 	]
 }
 ANARCHISTS_COOKBOOK: {
@@ -50,6 +58,7 @@ ANARCHISTS_COOKBOOK: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        PASSIVE_DAMAGE,
 	]
 }
 ANCHOR_AMULET: {
@@ -59,6 +68,7 @@ ANCHOR_AMULET: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 ANCIENT_SYNAPSE: {
@@ -68,6 +78,7 @@ ANCIENT_SYNAPSE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 AU_COURANT: {
@@ -77,6 +88,7 @@ AU_COURANT: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        AMMO,
 	]
 }
 BACKPACK_BUDDY: {
@@ -86,6 +98,7 @@ BACKPACK_BUDDY: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        GIMMICK,
 	]
 }
 BLASTEMA: {
@@ -95,6 +108,8 @@ BLASTEMA: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
+        HEAL,
 	]
 }
 BLOODWOODS_GLOVE: {
@@ -104,6 +119,7 @@ BLOODWOODS_GLOVE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        ACTIVE_ITEM,
 	]
 }
 BOTTOM_OF_THE_BARREL: {
@@ -113,6 +129,8 @@ BOTTOM_OF_THE_BARREL: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
 	]
 }
 BRIGGLES_BLADED_BOOT: {
@@ -122,6 +140,8 @@ BRIGGLES_BLADED_BOOT: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        GIMMICK,
 	]
 }
 BRITTLING_POWDER: {
@@ -131,6 +151,8 @@ BRITTLING_POWDER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PROJECTILE_MODIFIER,
 	]
 }
 BUCKET_OF_BATTERIES: {
@@ -140,6 +162,8 @@ BUCKET_OF_BATTERIES: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PROJECTILE_MODIFIER,
 	]
 }
 BUTTONMAN_BUTTONS: {
@@ -149,6 +173,9 @@ BUTTONMAN_BUTTONS: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
+        FUEL,
 	]
 }
 CALL_OF_THE_VOID: {
@@ -158,6 +185,8 @@ CALL_OF_THE_VOID: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
 	]
 }
 CASTAWAYS_TRAVELOGUE: {
@@ -167,6 +196,7 @@ CASTAWAYS_TRAVELOGUE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        FUEL,
 	]
 }
 CATALOG_OF_WANT: {
@@ -176,6 +206,7 @@ CATALOG_OF_WANT: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        ACTIVE_ITEM,
 	]
 }
 CELESTIAL_ANOINTMENT: {
@@ -185,6 +216,7 @@ CELESTIAL_ANOINTMENT: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        ACTIVE_ITEM,
 	]
 }
 CHAOS_CONJURANT: {
@@ -194,6 +226,8 @@ CHAOS_CONJURANT: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PASSIVE_DAMAGE,
 	]
 }
 CLAWS_OF_FESTUS: {
@@ -203,6 +237,7 @@ CLAWS_OF_FESTUS: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        MOBILITY,
 	]
 }
 CLOCKWISE_CAGE: {
@@ -212,6 +247,8 @@ CLOCKWISE_CAGE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
 	]
 }
 CODEX_OF_SALVORS_LAW: {
@@ -221,6 +258,8 @@ CODEX_OF_SALVORS_LAW: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        FUEL,
 	]
 }
 COMMUTERS_PARASOL: {
@@ -230,6 +269,7 @@ COMMUTERS_PARASOL: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 COMPOUND_VITREOUS: {
@@ -239,6 +279,7 @@ COMPOUND_VITREOUS: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        GIMMICK,
 	]
 }
 CONFIDENCE: {
@@ -248,6 +289,8 @@ CONFIDENCE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
 	]
 }
 CROWN_OF_THORNS: {
@@ -257,6 +300,8 @@ CROWN_OF_THORNS: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PASSIVE_DAMAGE,
 	]
 }
 CURIOUS_SAUCE: {
@@ -266,6 +311,7 @@ CURIOUS_SAUCE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        PROJECTILE_MODIFIER,
 	]
 }
 CURSED_CILICE: {
@@ -275,6 +321,7 @@ CURSED_CILICE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        FUEL,
 	]
 }
 DAS_BOOT: {
@@ -284,6 +331,7 @@ DAS_BOOT: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 DEAD_MANS_HAND: {
@@ -293,6 +341,7 @@ DEAD_MANS_HAND: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        GIMMICK,
 	]
 }
 DEPLORABLE_APPARATUS: {
@@ -302,15 +351,18 @@ DEPLORABLE_APPARATUS: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
+        HEAL,
 	]
 }
 EELSKIN_COVER: {
 	name: Eelskin Cover
 	description: "Reduces Drag"
-    descriptionLong: "Ground Drag Reduction: -50%\nAir Drag Reduction: -40%\n\nA slick coat that lets its wearer slide through the water slimily.\n\nAfter an eternity of swallowing bland repast, the God-Eel, Pokey, began to covet the flavor of its subjects."
+    descriptionLong: "Ground Drag Reduction: -60%\nAir Drag Reduction: -40%\n\nA slick coat that lets its wearer slide through the water slimily.\n\nAfter an eternity of swallowing bland repast, the God-Eel, Pokey, began to covet the flavor of its subjects."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        MOBILITY,
 	]
 }
 EMAUDELINES_PRISM: {
@@ -320,6 +372,8 @@ EMAUDELINES_PRISM: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PROJECTILE_MODIFIER,
 	]
 }
 EPHEMERA_PERPETUA: {
@@ -329,6 +383,7 @@ EPHEMERA_PERPETUA: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        ACTIVE_ITEM,
 	]
 }
 EXTRA_ROW_OF_TEETH: {
@@ -338,6 +393,7 @@ EXTRA_ROW_OF_TEETH: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        AMMO,
 	]
 }
 FALLACY_OF_FLESH: {
@@ -347,6 +403,7 @@ FALLACY_OF_FLESH: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        ACTIVE_ITEM,
 	]
 }
 FARADAYS_CAGE: {
@@ -356,6 +413,7 @@ FARADAYS_CAGE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 FEELING_OF_BEING_WATCHED: {
@@ -365,6 +423,8 @@ FEELING_OF_BEING_WATCHED: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
 	]
 }
 FENS_CLIPPED_WINGS: {
@@ -374,6 +434,7 @@ FENS_CLIPPED_WINGS: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        MOBILITY,
 	]
 }
 THE_FINGER: {
@@ -383,6 +444,8 @@ THE_FINGER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        GIMMICK,
 	]
 }
 FORAGERS_HIVE: {
@@ -392,6 +455,8 @@ FORAGERS_HIVE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PASSIVE_DAMAGE,
 	]
 }
 FRACTURE_PLATE: {
@@ -401,6 +466,7 @@ FRACTURE_PLATE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 GEMMULE: {
@@ -410,6 +476,7 @@ GEMMULE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 GLUTTONOUS_GREY_GLOVE: {
@@ -419,6 +486,7 @@ GLUTTONOUS_GREY_GLOVE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        HEAL,
 	]
 }
 GOMEZS_AMYGDALA: {
@@ -428,6 +496,9 @@ GOMEZS_AMYGDALA: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
+        MOBILITY,
 	]
 }
 GOOD_HEALTH: {
@@ -437,6 +508,7 @@ GOOD_HEALTH: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 HEART_OF_SPEROS: {
@@ -446,6 +518,7 @@ HEART_OF_SPEROS: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        AMMO,
 	]
 }
 HOOD_OF_HABIT: {
@@ -455,6 +528,7 @@ HOOD_OF_HABIT: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        MOBILITY,
 	]
 }
 HORNS_OF_AMMON: {
@@ -464,6 +538,7 @@ HORNS_OF_AMMON: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 HUMANITY_MODULE: {
@@ -473,6 +548,8 @@ HUMANITY_MODULE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        ACTIVE_ITEM,
+        GIMMICK,
 	]
 }
 ICE9: {
@@ -482,6 +559,7 @@ ICE9: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        PROJECTILE_MODIFIER,
 	]
 }
 INFORMANTS_TIE: {
@@ -491,6 +569,8 @@ INFORMANTS_TIE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PROJECTILE_MODIFIER,
 	]
 }
 IRON_SIGHTS: {
@@ -500,6 +580,7 @@ IRON_SIGHTS: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
 	]
 }
 JELLOFELLOW_COSPLAY: {
@@ -509,6 +590,8 @@ JELLOFELLOW_COSPLAY: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
+        GIMMICK,
 	]
 }
 KERMUNGLER: {
@@ -518,6 +601,8 @@ KERMUNGLER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        DEFENSE,
 	]
 }
 KINEATER: {
@@ -527,6 +612,7 @@ KINEATER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        GIMMICK,
 	]
 }
 KINESIS_LENS: {
@@ -536,6 +622,7 @@ KINESIS_LENS: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        PROJECTILE_MODIFIER,
 	]
 }
 LAMPREY_IDOL: {
@@ -545,6 +632,7 @@ LAMPREY_IDOL: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        HEAL,
 	]
 }
 LOAMSKIN_LOCKET: {
@@ -554,6 +642,8 @@ LOAMSKIN_LOCKET: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
+        HEAL,
 	]
 }
 LOCH_SHIELD: {
@@ -563,6 +653,7 @@ LOCH_SHIELD: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 LOTUS_LANTERN: {
@@ -571,6 +662,7 @@ LOTUS_LANTERN: {
     descriptionLong: "Bonus Eggplant Drop: 25%\n\nAn ornamental lantern made from waxen paper.\n\nDissatisfied with the gifts of the First Bright One, the Crab-God, Slick, illuminated the abyss below in search of more shining things."
 	tags: [
 		RELIQUARY,
+        GIMMICK,
 	]
 }
 LUMINOUS_ESCA: {
@@ -579,6 +671,8 @@ LUMINOUS_ESCA: {
     descriptionLong: "Bonus Max Hp: +10\n\nA glowing clump of particles used to attract prey.\n\nThrough natural processes, fragments of Bright Ones are shed to form smaller, distinct Bright Ones."
 	tags: [
 		RELIQUARY,
+        DEFENSE,
+        GIMMICK,
 	]
 }
 MACHINE_GHOST: {
@@ -588,6 +682,8 @@ MACHINE_GHOST: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PROJECTILE_MODIFIER,
 	]
 }
 MANGROVE_SEED: {
@@ -597,6 +693,7 @@ MANGROVE_SEED: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 MASK_OF_SYMPATHY: {
@@ -606,6 +703,7 @@ MASK_OF_SYMPATHY: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
 	]
 }
 MATTER_UNIVERSALIZER: {
@@ -615,6 +713,7 @@ MATTER_UNIVERSALIZER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        FUEL,
 	]
 }
 MOON_FLUTHER: {
@@ -624,6 +723,8 @@ MOON_FLUTHER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        MOBILITY,
+        FUEL,
 	]
 }
 MOUTHFUL_OF_BEES: {
@@ -633,6 +734,8 @@ MOUTHFUL_OF_BEES: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PASSIVE_DAMAGE,
 	]
 }
 MOUTHBREATHER_CERTIFICATE: {
@@ -642,6 +745,7 @@ MOUTHBREATHER_CERTIFICATE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 MUDDLING_CUP: {
@@ -651,6 +755,7 @@ MUDDLING_CUP: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
 	]
 }
 NACREOUS_RUDDER: {
@@ -660,6 +765,7 @@ NACREOUS_RUDDER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        MOBILITY,
 	]
 }
 NICE_SHOES: {
@@ -669,6 +775,7 @@ NICE_SHOES: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        MOBILITY,
 	]
 }
 NOTHING: {
@@ -684,6 +791,7 @@ NUCLEAR_PUNCH_THRUSTERS: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
 	]
 }
 NURDLER: {
@@ -693,6 +801,8 @@ NURDLER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PASSIVE_DAMAGE,
 	]
 }
 OL_FAITHFUL: {
@@ -702,6 +812,7 @@ OL_FAITHFUL: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
 	]
 }
 ORIGIN_COIL: {
@@ -711,6 +822,7 @@ ORIGIN_COIL: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        PROJECTILE_MODIFIER,
 	]
 }
 OUR_GET_ALONG_SHIRT: {
@@ -720,6 +832,7 @@ OUR_GET_ALONG_SHIRT: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        GIMMICK,
 	]
 }
 PAIN_SCALE: {
@@ -729,6 +842,7 @@ PAIN_SCALE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        ACTIVE_ITEM,
 	]
 }
 PEACHWOOD_SWORD: {
@@ -738,6 +852,8 @@ PEACHWOOD_SWORD: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PASSIVE_DAMAGE,
 	]
 }
 PEER_PRESSURE: {
@@ -747,6 +863,8 @@ PEER_PRESSURE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PASSIVE_DAMAGE,
 	]
 }
 PELICAN_PLUSH_TOY: {
@@ -756,6 +874,8 @@ PELICAN_PLUSH_TOY: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
+        HEAL,
 	]
 }
 PEPPER: {
@@ -765,6 +885,8 @@ PEPPER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PASSIVE_DAMAGE,
 	]
 }
 PETRIFIED_PAYLOAD: {
@@ -774,6 +896,7 @@ PETRIFIED_PAYLOAD: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
 	]
 }
 PIFFLER: {
@@ -783,6 +906,8 @@ PIFFLER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        PROJECTILE_MODIFIER,
+        GIMMICK,
 	]
 }
 PLUMPOWDER: {
@@ -792,6 +917,7 @@ PLUMPOWDER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        ACTIVE_ITEM,
 	]
 }
 RECYCLER_BOLUS: {
@@ -800,6 +926,7 @@ RECYCLER_BOLUS: {
     descriptionLong: "Max Hp Gained: 5 per Eggplant\nMax Hp Limit: +150\n\nA foul clump of mucus and undigested flesh.\n\nThe resentful ingredients of the Kamaboko-Ya yearn to have their bodies remade in the shapes of the ones that terrorized them in life."
 	tags: [
 		RELIQUARY,
+        DEFENSE,
 	]
 }
 RED_TIDE_TALISMAN: {
@@ -809,6 +936,8 @@ RED_TIDE_TALISMAN: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PROJECTILE_MODIFIER,
 	]
 }
 RING_OF_TESTING: {
@@ -826,6 +955,8 @@ ROYAL_JUJUBE_BANG: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
 	]
 }
 SALIGRAM: {
@@ -835,6 +966,7 @@ SALIGRAM: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 SAMURAI_SHARK: {
@@ -844,6 +976,8 @@ SAMURAI_SHARK: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
 	]
 }
 SEAFOAM_PERIAPT: {
@@ -853,6 +987,8 @@ SEAFOAM_PERIAPT: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PROJECTILE_MODIFIER,
 	]
 }
 SENESCENT_SHIELD: {
@@ -862,6 +998,8 @@ SENESCENT_SHIELD: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
+        PROJECTILE_MODIFIER,
 	]
 }
 SHILLERS_DEATHCAP: {
@@ -871,6 +1009,8 @@ SHILLERS_DEATHCAP: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PROJECTILE_MODIFIER,
 	]
 }
 SHIP_IN_A_BOTTLE: {
@@ -880,6 +1020,7 @@ SHIP_IN_A_BOTTLE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        AMMO,
 	]
 }
 SIMPLE_MIND: {
@@ -889,6 +1030,8 @@ SIMPLE_MIND: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        PROJECTILE_MODIFIER,
+        GIMMICK,
 	]
 }
 SINKING_FEELING: {
@@ -898,6 +1041,7 @@ SINKING_FEELING: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        MOBILITY,
 	]
 }
 SIREN_CHIME: {
@@ -907,6 +1051,7 @@ SIREN_CHIME: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        PROJECTILE_MODIFIER,
 	]
 }
 SKIPPERS_BOX_OF_FUN: {
@@ -916,6 +1061,7 @@ SKIPPERS_BOX_OF_FUN: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        GIMMICK,
 	]
 }
 SWORD_OF_SYZYGY: {
@@ -925,6 +1071,8 @@ SWORD_OF_SYZYGY: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
 	]
 }
 TEMPEST_TEAPOT: {
@@ -934,6 +1082,7 @@ TEMPEST_TEAPOT: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        FUEL,
 	]
 }
 TOME_OF_PHILOPATRY: {
@@ -943,6 +1092,7 @@ TOME_OF_PHILOPATRY: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        PROJECTILE_MODIFIER,
 	]
 }
 TRIGGERFISH_FINGER: {
@@ -952,6 +1102,8 @@ TRIGGERFISH_FINGER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
 	]
 }
 TUNICATE_TUNIC: {
@@ -961,6 +1113,7 @@ TUNICATE_TUNIC: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 TYPHON_FANG: {
@@ -970,6 +1123,7 @@ TYPHON_FANG: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        AMMO,
 	]
 }
 UNBREATHING_MEMBRANE: {
@@ -979,6 +1133,8 @@ UNBREATHING_MEMBRANE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        AMMO,
+        GIMMICK,
 	]
 }
 VESTIGIAL_CHAMBER: {
@@ -988,6 +1144,8 @@ VESTIGIAL_CHAMBER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PASSIVE_DAMAGE,
 	]
 }
 VOID_HYPONOME: {
@@ -997,6 +1155,8 @@ VOID_HYPONOME: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        MOBILITY,
+        FUEL,
 	]
 }
 VOLATILE_DERMIS: {
@@ -1006,6 +1166,8 @@ VOLATILE_DERMIS: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PASSIVE_DAMAGE,
 	]
 }
 WHITE_SMOKER: {
@@ -1015,6 +1177,8 @@ WHITE_SMOKER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PASSIVE_DAMAGE,
 	]
 }
 WHITE_WHALE_CHARM: {
@@ -1024,6 +1188,8 @@ WHITE_WHALE_CHARM: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        WEAPON_DAMAGE,
 	]
 }
 WRATH_OF_THE_FROGMAN: {
@@ -1033,6 +1199,8 @@ WRATH_OF_THE_FROGMAN: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        OFFENSE,
+        PASSIVE_DAMAGE,
 	]
 }
 YIGHT_KITE: {
@@ -1042,6 +1210,7 @@ YIGHT_KITE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        PROJECTILE_MODIFIER,
 	]
 }
 }

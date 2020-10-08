@@ -31,7 +31,7 @@ public class HubEvent extends Event {
 	protected hubTypes type;
 	
 	//should we check unlock status for options? should we close the menu when the player moves far away from the event?
-	protected boolean checkUnlock, closeOnLeave;
+	protected boolean checkUnlock, closeOnLeave, searchable, extraFilters;
 	
 	//options displayed here must have these tags.
 	protected ArrayList<UnlockTag> tags;
@@ -104,7 +104,7 @@ public class HubEvent extends Event {
 	public void enter() {
 		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
-		state.getUiHub().enter();
+		state.getUiHub().enter(searchable, extraFilters, this);
 		open = true;
 	}
 	
@@ -115,7 +115,9 @@ public class HubEvent extends Event {
 		state.getUiHub().leave();
 		open = false;
 	}
-	
+
+	public void addOptions(String search, int slots, UnlockTag tag) {}
+
 	@Override
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.PYRAMID);
