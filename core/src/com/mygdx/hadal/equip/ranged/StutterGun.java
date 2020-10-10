@@ -28,7 +28,7 @@ public class StutterGun extends RangedWeapon {
 	private static final float baseDamage = 18.0f;
 	private static final float recoil = 16.0f;
 	private static final float knockback = 5.0f;
-	private static final float projectileSpeed = 40.0f;
+	private static final float projectileSpeed = 45.0f;
 	private static final Vector2 projectileSize = new Vector2(80, 40);
 	private static final float lifespan = 1.0f;
 	

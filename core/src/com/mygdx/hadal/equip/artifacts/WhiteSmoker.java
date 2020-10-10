@@ -46,7 +46,7 @@ public class WhiteSmoker extends Artifact {
 					procCdCount -= procCd;
 					
 					if (inflicted instanceof PlayerBodyData) {
-						if (((PlayerBodyData)inflicted).getPlayer().isHovering()) {
+						if (((PlayerBodyData) inflicted).getPlayer().isHovering()) {
 							RangedHitbox hbox = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, lifespan, new Vector2(0, -projectileSpeed),
 									inflicted.getSchmuck().getHitboxfilter(), false, true, ((PlayerBodyData) inflicted).getPlayer(), Sprite.NOTHING);
 							hbox.setDurability(3);

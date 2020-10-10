@@ -29,7 +29,7 @@ public class BouncingBlade extends RangedWeapon {
 	private static final float baseDamage = 28.0f;
 	private static final float recoil = 6.0f;
 	private static final float knockback = 25.0f;
-	private static final float projectileSpeed = 40.0f;
+	private static final float projectileSpeed = 45.0f;
 	private static final Vector2 projectileSize = new Vector2(50, 50);
 	private static final float lifespan = 4.0f;
 	

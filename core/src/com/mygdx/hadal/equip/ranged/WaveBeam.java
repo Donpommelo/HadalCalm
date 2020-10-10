@@ -32,7 +32,7 @@ public class WaveBeam extends RangedWeapon {
 	private static final float baseDamage = 35.0f;
 	private static final float recoil = 12.5f;
 	private static final float knockback = 28.0f;
-	private static final float projectileSpeed = 40.0f;
+	private static final float projectileSpeed = 42.0f;
 	private static final Vector2 projectileSize = new Vector2(60, 30);
 	private static final float lifespan = 1.5f;
 	

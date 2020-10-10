@@ -215,6 +215,8 @@ unlockArtifact: {
 	SWORD_OF_SYZYGY: false
 	NURDLER: false
 	ANARCHISTS_COOKBOOK: false
+    NOCTILUCENT_PROMISE: false
+    KUMQUAT: false
 	EIGHT_BALL: false
 	TYPHON_FANG: false
 	PAIN_SCALE: false
@@ -314,6 +316,7 @@ unlockLevel: {
 	PLENUMCHAMBERMAZE: false
 	SANDBOX_ENEMY: false
 	DM_GULLY: false
+	DM_BROUHAHA: false
 	DM_SEESAW: false
 	DM_JUMP: false
 	NOISELESSSEAEXTRA1: false

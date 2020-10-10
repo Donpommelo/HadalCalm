@@ -93,6 +93,7 @@ public class Scrap extends Event {
 	private float delay = primeCd;
 	@Override
 	public void controller(float delta) {
+		super.controller(delta);
 		if (delay >= 0) {
 			delay -= delta;
 		}

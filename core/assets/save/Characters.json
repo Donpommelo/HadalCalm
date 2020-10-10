@@ -2,7 +2,7 @@
 MAXIMILLIAN: {
 	name: MAXIMILLIAN
 	description: ""
-    descriptionLong: ""
+    descriptionLong: "Maximillian Volunteer has a formidible chin which is hidden by the fish biting his head."
 	tags: [
        DORMITORY
     ]
@@ -42,7 +42,7 @@ TELEMACHUS: {
 WANDA: {
 	name: WANDA
 	description: ""
-    descriptionLong: "Wanda is the last surviving specimen of bottlenose dolphin."
+    descriptionLong: "Wanda is the last surviving bottlenose dolphin."
 	tags: [
        DORMITORY
     ]

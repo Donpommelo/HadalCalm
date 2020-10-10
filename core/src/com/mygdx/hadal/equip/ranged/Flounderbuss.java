@@ -26,7 +26,7 @@ public class Flounderbuss extends RangedWeapon {
 	private static final float baseDamage = 15.0f;
 	private static final float recoil = 30.0f;
 	private static final float knockback = 12.0f;
-	private static final float projectileSpeed = 25.0f;
+	private static final float projectileSpeed = 30.0f;
 	private static final Vector2 projectileSize = new Vector2(36, 30);
 	private static final float lifespan = 2.0f;
 	

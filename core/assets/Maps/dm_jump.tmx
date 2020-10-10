@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="185">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="189">
  <properties>
   <property name="pvp" type="bool" value="true"/>
  </properties>
@@ -754,11 +754,31 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="184" name="ScrapSpawn" type="ScrapSpawn" x="2928" y="1136" width="32" height="32">
+  <object id="185" name="ScrapSpawn" type="ScrapSpawn" x="2928" y="1136" width="32" height="32">
    <properties>
     <property name="scrap" type="int" value="1"/>
     <property name="sync" value="USER"/>
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="186" name="Dummy" type="Dummy" x="3584" y="1136" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg1"/>
+    <property name="triggeringId" value="egg2"/>
+   </properties>
+  </object>
+  <object id="187" name="Dummy" type="Dummy" x="2272" y="1136" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg2"/>
+    <property name="triggeringId" value="egg1"/>
+   </properties>
+  </object>
+  <object id="188" name="MovePoint" type="MovePoint" x="2928" y="1136" width="32" height="32">
+   <properties>
+    <property name="connections" value="EGGPLANT_SPAWNER"/>
+    <property name="speed" type="float" value="2.5"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="egg1"/>
    </properties>
   </object>
  </objectgroup>

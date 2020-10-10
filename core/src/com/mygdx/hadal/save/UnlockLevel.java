@@ -49,6 +49,7 @@ public enum UnlockLevel {
 	DM_HORIZON("Maps/dm_horizon.tmx"),
 	DM_REDROCK("Maps/dm_redrock.tmx"),
 
+	DM_BROUHAHA("Maps/dm_brouhaha.tmx"),
 	DM_CAROUSEL("Maps/dm_carousel.tmx"),
 	DM_FALLDOWN("Maps/dm_falldown.tmx"),
 	DM_FLOTSAM("Maps/dm_flotsam.tmx"),

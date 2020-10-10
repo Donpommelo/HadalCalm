@@ -591,6 +591,7 @@ JELLOFELLOW_COSPLAY: {
 		RELIQUARY,
 		RANDOM_POOL,
         DEFENSE,
+        MOBILITY,
         GIMMICK,
 	]
 }
@@ -623,6 +624,17 @@ KINESIS_LENS: {
 		RELIQUARY,
 		RANDOM_POOL,
         PROJECTILE_MODIFIER,
+	]
+}
+KUMQUAT: {
+	name: Kumquat
+	description: "Regenerate Hp upon falling below 50% Hp."
+    descriptionLong: "Hp Regen: 25% Max Hp over 3 seconds\nActivates once per life\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+        DEFENSE,
+        HEAL,
 	]
 }
 LAMPREY_IDOL: {
@@ -776,6 +788,16 @@ NICE_SHOES: {
 		RELIQUARY,
 		RANDOM_POOL,
         MOBILITY,
+	]
+}
+NOCTILUCENT_PROMISE: {
+	name: Noctilucent Promise
+	description: "Temporarily Gain Invulnerability upon Receiving Fatal Damage"
+    descriptionLong: "Invincibility Duration: 5 Seconds\nActivates once per life\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 NOTHING: {
@@ -1133,6 +1155,7 @@ UNBREATHING_MEMBRANE: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+        MOBILITY,
         AMMO,
         GIMMICK,
 	]

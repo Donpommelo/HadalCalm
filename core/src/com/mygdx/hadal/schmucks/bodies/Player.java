@@ -81,7 +81,6 @@ public class Player extends PhysicsSchmuck {
 	private final int toolWidth, toolHeight;
 
 	//Fixtures and user data
-	private Fixture feet, rightSensor, leftSensor;
 	protected FeetData feetData;
 	private FeetData rightData;
 	private FeetData leftData;
@@ -305,23 +304,23 @@ public class Player extends PhysicsSchmuck {
 				hitboxfilter, false, playerData);
 		
 		//On the server, we create several extra fixtures to keep track of feet/sides to determine when the player gets their jump back and what terrain event they are standing on.
-		this.feetData = new FeetData(UserDataTypes.FEET, this); 
-		
-		this.feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
+		this.feetData = new FeetData(UserDataTypes.FEET, this);
+
+		Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
 				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter);
 		
 		feet.setUserData(feetData);
 		
-		this.leftData = new FeetData(UserDataTypes.FEET, this); 
-		
-		this.leftSensor = FixtureBuilder.createFixtureDef(body, new Vector2(-size.x / 2, 0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
+		this.leftData = new FeetData(UserDataTypes.FEET, this);
+
+		Fixture leftSensor = FixtureBuilder.createFixtureDef(body, new Vector2(-size.x / 2, 0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
 				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter);
 		
 		leftSensor.setUserData(leftData);
 		
-		this.rightData = new FeetData(UserDataTypes.FEET, this); 
-		
-		this.rightSensor = FixtureBuilder.createFixtureDef(body, new Vector2(size.x / 2,  0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
+		this.rightData = new FeetData(UserDataTypes.FEET, this);
+
+		Fixture rightSensor = FixtureBuilder.createFixtureDef(body, new Vector2(size.x / 2,  0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
 				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter);
 		
 		rightSensor.setUserData(rightData);
@@ -665,11 +664,7 @@ public class Player extends PhysicsSchmuck {
 		playerData.switchWeapon(slot);
 	}
 	
-	private float armConnectXReal;
-	private float headConnectXReal;
-	private float armRotateXReal;
 	protected Vector2 mouseAngle = new Vector2();
-	private boolean flip;
 	@Override
 	public void render(SpriteBatch batch) {
 
@@ -682,12 +677,12 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//flip determines if the player is facing left or right
-		flip = Math.abs(attackAngle) > 90;
+		boolean flip = Math.abs(attackAngle) > 90;
 		
 		//Depending on which way the player is facing, the connection points of various body parts are slightly offset.
-		armConnectXReal = armConnectX;
-		headConnectXReal = headConnectX;
-		armRotateXReal = armRotateX;
+		float armConnectXReal = armConnectX;
+		float headConnectXReal = headConnectX;
+		float armRotateXReal = armRotateX;
 		
 		float realAttackAngle = attackAngle;
 		if (flip) {

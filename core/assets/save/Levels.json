@@ -123,6 +123,15 @@ RANDOM: {
         ARENA
 	]
 }
+DM_BROUHAHA: {
+	name: DM_BROUHAHA
+	description: ""
+    descriptionLong: "SIZE: LARGE"
+	tags: [
+        PVP,        
+        MULTIPLAYER
+	]
+}
 DM_FALLDOWN: {
 	name: DM_FALLDOWN
 	description: ""
