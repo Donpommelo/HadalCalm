@@ -34,7 +34,7 @@ public class UnbreathingMembrane extends Artifact {
 				new Status(state, b) {
 			
 					@Override
-					public void onReload(Equippable tool) {
+					public void onReloadFinish(Equippable tool) {
 						if (this.inflicted instanceof PlayerBodyData) {
 							if (this.inflicted.getCurrentTool() instanceof RangedWeapon) {
 								RangedWeapon weapon = (RangedWeapon) this.inflicted.getCurrentTool();

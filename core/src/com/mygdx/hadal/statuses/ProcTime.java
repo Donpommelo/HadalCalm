@@ -1,5 +1,6 @@
 package com.mygdx.hadal.statuses;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
@@ -153,17 +154,31 @@ public abstract class ProcTime {
 			return this;
 		}
 	}
-	
-	public static class Reload extends ProcTime {
+
+	public static class ReloadStart extends ProcTime {
+		public Equippable tool;
+
+		public ReloadStart(Equippable tool) {
+			this.tool = tool;
+		}
+
+		@Override
+		public ProcTime statusProcTime(Status status) {
+			status.onReloadStart(tool);
+			return this;
+		}
+	}
+
+	public static class ReloadFinish extends ProcTime {
 		public Equippable tool;
 		
-		public Reload(Equippable tool) {
+		public ReloadFinish(Equippable tool) {
 			this.tool = tool;
 		}
 		
 		@Override
 		public ProcTime statusProcTime(Status status) {
-			status.onReload(tool);
+			status.onReloadFinish(tool);
 			return this;
 		}
 	}
@@ -214,6 +229,18 @@ public abstract class ProcTime {
 		@Override
 		public ProcTime statusProcTime(Status status) {
 			status.onAirBlast(tool);
+			return this;
+		}
+	}
+
+	public static class whileHover extends ProcTime {
+		public Vector2 hoverDirection;
+
+		public whileHover(Vector2 hoverDirection) {	this.hoverDirection = hoverDirection; }
+
+		@Override
+		public ProcTime statusProcTime(Status status) {
+			status.whileHover(hoverDirection);
 			return this;
 		}
 	}

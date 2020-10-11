@@ -133,7 +133,6 @@ public class Player extends PhysicsSchmuck {
 	//Is the player currently shooting/hovering/fastfalling?
 	private boolean shooting;
 	protected boolean hoveringAttempt;
-	protected boolean hovering;
 	protected boolean fastFalling;
 	
 	//This is the percent of reload completed, if reloading. This is used to display the reload ui for all players.
@@ -375,13 +374,11 @@ public class Player extends PhysicsSchmuck {
 			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&	playerData.getCurrentFuel() >= playerData.getHoverCost()) {
 				if (jumpCdCount < 0) {
 					hover();
-					hovering = true;
 				}
 			} else {
 				//turn off hover particles and sound
 				hoverBubbles.turnOff();
-				hovering = false;
-				
+
 				if (hoverSound != null) {
 					hoverSound.turnOff();
 				}
@@ -491,7 +488,8 @@ public class Player extends PhysicsSchmuck {
 		
 		super.controller(delta);
 	}
-	
+
+	private final Vector2 hoverDirection = new Vector2();
 	/**
 	 * Player's Hover power. Costs fuel and continuously pushes the player upwards.
 	 */
@@ -501,8 +499,17 @@ public class Player extends PhysicsSchmuck {
 			//Player will continuously do small upwards bursts that cost fuel.
 			playerData.fuelSpend(playerData.getHoverCost());
 			jumpCdCount = hoverCd;
-			pushMomentumMitigation(0, playerData.getHoverPower());
-			
+
+			hoverDirection.set(0, playerData.getHoverPower());
+
+			if (playerData.getStat(Stats.HOVER_CONTROL) > 0) {
+				hoverDirection.setAngle(attackAngle + 180);
+			}
+
+			pushMomentumMitigation(hoverDirection.x, hoverDirection.y);
+
+			playerData.statusProcTime(new ProcTime.whileHover(hoverDirection));
+
 			if (!invisible) {
 				//turn on hovering particles and sound
 				hoverBubbles.turnOn();
@@ -1006,7 +1013,7 @@ public class Player extends PhysicsSchmuck {
 		super.clientController(delta);
 		//client mouse lerps towards the angle sent by server
 		mouseAngle.setAngleRad(mouseAngle.angleRad()).lerp(serverAttackAngle, 1 / 2f).angleRad();
-		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
+		attackAngle = (float)(Math.atan2(mouseAngle.y, mouseAngle.x) * 180 / Math.PI);
 		typingCdCount -= delta;
 	}
 	
@@ -1070,8 +1077,6 @@ public class Player extends PhysicsSchmuck {
 	public Event getCurrentEvent() { return currentEvent; }
 
 	public void setCurrentEvent(Event currentEvent) { this.currentEvent = currentEvent; }
-
-	public boolean isHovering() { return hovering; }
 
 	public void setHoveringAttempt(boolean hoveringAttempt) { this.hoveringAttempt = hoveringAttempt; }
 

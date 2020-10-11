@@ -59,4 +59,5 @@ public class Stats {
 	public static final int STARTING_CHARGE = 46;
 	public static final int PING_DAMAGE = 47;
 	public static final int REFLECT_DAMAGE = 48;
+	public static final int HOVER_CONTROL = 49;
 }

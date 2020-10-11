@@ -38,7 +38,7 @@ public class RingofTesting extends Artifact {
 				new Status(state, b) {
 			
 			@Override
-			public void onReload(Equippable tool) {
+			public void onReloadFinish(Equippable tool) {
 				Vector2 fragVelo = new Vector2();
 				for (int i = 0; i < numFrag; i++) {
 					float newDegrees = (ThreadLocalRandom.current().nextInt(0, 360));

@@ -629,7 +629,7 @@ KINESIS_LENS: {
 KUMQUAT: {
 	name: Kumquat
 	description: "Regenerate Hp upon falling below 50% Hp."
-    descriptionLong: "Hp Regen: 25% Max Hp over 3 seconds\nActivates once per life\n\n"
+    descriptionLong: "Hp Regen: 25% Max Hp over 3 seconds\nActivates once per life\n\nA sweet and tangy fruit with an aromatic peel.\n\nRemove peels from pickled kumquats and soak them overnight. Grind kumquats, add chili pepper, white pepper and cook on low heat. Add kumquat marinade to savory meat dishes."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -730,7 +730,7 @@ MATTER_UNIVERSALIZER: {
 }
 MOON_FLUTHER: {
 	name: Moon Fluther
-	description: "+Hovering Power"
+	description: "+Hovering Power, -Hovering Cost"
     descriptionLong: "Bonus Hover Power: +25%\nHover Cost Reduction: -25%\n\nA gelatinous wad that is always extended towards the moon.\n\nBright Ones and the elusive Goldfish share a propensity for breaching the layers of the world, albeit, in opposite directions."
 	tags: [
 		RELIQUARY,
@@ -1086,6 +1086,16 @@ SKIPPERS_BOX_OF_FUN: {
         GIMMICK,
 	]
 }
+SOUND_OF_SEAGULLS: {
+	name: Sound of Seagulls
+	description: "Enables Omnidirectional Hovering, -Hovering Cost"
+    descriptionLong: "Hover Cost Reduction: -20%\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+        MOBILITY,
+	]
+}
 SWORD_OF_SYZYGY: {
 	name: Sword of Syzygy
 	description: "+Projectile Pierce, +Damage"
@@ -1101,6 +1111,16 @@ TEMPEST_TEAPOT: {
 	name: Tempest Teapot
 	description: "+Airblast Knockback and Size"
     descriptionLong: "Bonus Airblast Power: +50%\nBonus Airblast Size: +75%\n\nA porcelain teapot whose turbulent contents never settle.\n\nStagnation is the foremost obstacle to Management's visions, so sometimes a Salvager is needed to stir the pot."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+        FUEL,
+	]
+}
+TENUOUS_GRIP_ON_REALITY: {
+	name: Tenuous Grip on Reality
+	description: "Become Invisible upon Reloading an Empty Clip"
+    descriptionLong: ""
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1195,13 +1215,14 @@ VOLATILE_DERMIS: {
 }
 WHITE_SMOKER: {
 	name: White Smoker
-	description: "Fiery Hovering"
-    descriptionLong: "Fire Duration: 4 Seconds\nFire Damage: 2\n\nAn organic tube structure emanating an endless stream of pale smoke.\n\nAs the only sources of energy in an otherwise closed system, Bright Ones foment new life within the vicinity, usually in their own likeness."
+	description: "Fiery Hovering, -Hovering Cost"
+    descriptionLong: "Fire Duration: 4 Seconds\nFire Damage: 2\nHover Cost Reduction: -10%\n\nAn organic tube structure emanating an endless stream of pale smoke.\n\nAs the only sources of energy in an otherwise closed system, Bright Ones foment new life within the vicinity, usually in their own likeness."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
         OFFENSE,
         PASSIVE_DAMAGE,
+        MOBILITY
 	]
 }
 WHITE_WHALE_CHARM: {

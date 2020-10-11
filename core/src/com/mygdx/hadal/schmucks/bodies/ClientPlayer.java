@@ -134,10 +134,7 @@ public class ClientPlayer extends Player {
 			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() && ((ClientState) state).getUiPlay().getOverrideFuelAmount() >= playerData.getHoverCost()) {
 				if (jumpCdCount < 0) {
 					hover();
-					hovering = true;
 				}
-			} else {
-				hovering = false;
 			}
 			
 			if (fastFalling) {

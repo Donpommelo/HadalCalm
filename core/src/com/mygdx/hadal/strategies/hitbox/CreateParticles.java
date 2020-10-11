@@ -16,10 +16,10 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class CreateParticles extends HitboxStrategy {
 	
 	//the effect that is to be created.
-	private Particle effect;
+	private final Particle effect;
 	
 	//how long should the particles last? After the body is deleted?
-	private float duration, linger;
+	private final float duration, linger;
 	
 	//the base size of the particle effect.
 	private float particleSize;
@@ -28,7 +28,7 @@ public class CreateParticles extends HitboxStrategy {
 	private ParticleColor color = ParticleColor.NOTHING;
 	
 	//this is the max hitbox size a particle will try to scale to
-	private static float maxSize = 100.0f;
+	private static final float maxSize = 100.0f;
 	
 	//this is the particle effect that will be displayed
 	private ParticleEntity particle;

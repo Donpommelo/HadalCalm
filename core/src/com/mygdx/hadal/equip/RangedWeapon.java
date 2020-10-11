@@ -171,6 +171,11 @@ public class RangedWeapon extends Equippable {
 		
 		//Keep track of how long schmuck has been reloading. If done, get more ammo.
 		if (reloadCd < getReloadTime()) {
+
+			if (reloadCd == 0) {
+				user.getBodyData().statusProcTime(new ProcTime.ReloadStart(this));
+			}
+
 			reloadCd += delta;
 			
 			return false;
@@ -189,7 +194,7 @@ public class RangedWeapon extends Equippable {
 			
 			reloadCd = 0;
 
-			user.getBodyData().statusProcTime(new ProcTime.Reload(this));
+			user.getBodyData().statusProcTime(new ProcTime.ReloadFinish(this));
 
 			//If clip is full finish reloading.
 			if (clipLeft >= getClipSize()) {
@@ -275,7 +280,7 @@ public class RangedWeapon extends Equippable {
 	}
 	
 	public float getAmmoPercent() { return ammoPercent; }
-	
+
 	public void setClipLeft() {	clipLeft = (int) (clipPercent * getClipSize());	}
 	
 	public void setAmmoLeft() {	ammoLeft = (int) (ammoPercent * getAmmoSize());	}

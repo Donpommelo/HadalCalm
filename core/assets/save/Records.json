@@ -115,9 +115,11 @@ unlockArtifact: {
 	KERMUNGLER: false
 	DEPLORABLE_APPARATUS: false
 	SKIPPERS_BOX_OF_FUN: false
+	KUMQUAT: false
 	NOTHING: false
 	NUCLEAR_PUNCH_THRUSTERS: false
 	CLOCKWISE_CAGE: false
+	TENUOUS_GRIP_ON_REALITY: false
 	PEACHWOOD_SWORD: false
 	WHITE_WHALE_CHARM: false
 	MATTER_UNIVERSALIZER: false
@@ -133,6 +135,7 @@ unlockArtifact: {
 	CHAOS_CONJURANT: false
 	CODEX_OF_SALVORS_LAW: false
 	GOMEZS_AMYGDALA: false
+	SOUND_OF_SEAGULLS: false
 	EXTRA_ROW_OF_TEETH: false
 	VOLATILE_DERMIS: false
 	MOON_FLUTHER: false
@@ -189,6 +192,7 @@ unlockArtifact: {
 	FENS_CLIPPED_WINGS: false
 	SEAFOAM_PERIAPT: false
 	BLASTEMA: false
+	NOCTILUCENT_PROMISE: false
 	SENESCENT_SHIELD: false
 	CROWN_OF_THORNS: false
 	NICE_SHOES: false
@@ -215,8 +219,6 @@ unlockArtifact: {
 	SWORD_OF_SYZYGY: false
 	NURDLER: false
 	ANARCHISTS_COOKBOOK: false
-    NOCTILUCENT_PROMISE: false
-    KUMQUAT: false
 	EIGHT_BALL: false
 	TYPHON_FANG: false
 	PAIN_SCALE: false
@@ -316,7 +318,6 @@ unlockLevel: {
 	PLENUMCHAMBERMAZE: false
 	SANDBOX_ENEMY: false
 	DM_GULLY: false
-	DM_BROUHAHA: false
 	DM_SEESAW: false
 	DM_JUMP: false
 	NOISELESSSEAEXTRA1: false
@@ -339,6 +340,7 @@ unlockLevel: {
 	ARENA_HORIZON: false
 	PLENUMCHAMBEREXTRA1: false
 	SLUICEBOSS: false
+	DM_BROUHAHA: false
 	DERELICT2: false
 	DM_GREY_HERON: false
 }

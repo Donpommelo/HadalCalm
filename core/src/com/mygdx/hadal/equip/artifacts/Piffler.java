@@ -49,7 +49,7 @@ public class Piffler extends Artifact {
 			}
 			
 			@Override
-			public void onReload(Equippable tool) {
+			public void onReloadFinish(Equippable tool) {
 				if (this.inflicted instanceof PlayerBodyData) {
 					if (this.inflicted.getCurrentTool() instanceof RangedWeapon) {
 						RangedWeapon weapon = (RangedWeapon) this.inflicted.getCurrentTool();

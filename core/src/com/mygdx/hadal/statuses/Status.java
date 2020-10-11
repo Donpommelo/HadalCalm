@@ -1,5 +1,6 @@
 package com.mygdx.hadal.statuses;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -91,8 +92,10 @@ public class Status {
 	public void whileAttacking(float delta, Equippable tool) {}
 	
 	public void onShoot(Equippable tool) {}
-	
-	public void onReload(Equippable tool) {}
+
+	public void onReloadStart(Equippable tool) {}
+
+	public void onReloadFinish(Equippable tool) {}
 	
 	public void onHitboxCreation(Hitbox hbox) {}
 	
@@ -101,6 +104,8 @@ public class Status {
 	public void scrapPickup() {}
 	
 	public void onAirBlast(Equippable tool) {}
+
+	public void whileHover(Vector2 hoverDirection) {}
 
 	public void beforeActiveItem(ActiveItem tool) {}
 	
