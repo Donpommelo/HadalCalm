@@ -17,8 +17,6 @@ import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 
-import java.util.HashMap;
-
 /**
  * These are packets sent between the Server and Client.
  * @author Zachary Tu
@@ -251,7 +249,7 @@ public class Packets {
 	}
 	
 	public static class ClientReady {
-		public int playerId;
+		public int playerID;
 		public ClientReady() {}
 		
 		/**
@@ -259,7 +257,7 @@ public class Packets {
 		 * @param playerId: the id of the client who is ready
 		 */
 		public ClientReady(int playerId) {
-			this.playerId = playerId;
+			this.playerID = playerId;
 		}
 	}
 	
@@ -310,18 +308,33 @@ public class Packets {
 	}
 	
 	public static class SyncScore {
-		public HashMap<Integer, SavedPlayerFields> scores;
+		public int connID;
+		public String name;
+		public int wins;
+		public int kills;
+		public int deaths;
+		public int score;
+		public int lives;
+		public int ping;
+
 		public SyncScore() {}
 		
 		/**
 		 * This is sent from the server to the clients to give them their scores for all players
-		 * @param scores: mapping of each players connId to their score
+		 * @param connId: id of the player whose score is being updated.
 		 */
-		public SyncScore(HashMap<Integer, SavedPlayerFields> scores) {
-			this.scores = scores;
+		public SyncScore(int connId, String name, int wins, int kills, int deaths, int score, int lives, int ping) {
+			this.connID = connId;
+			this.name = name;
+			this.wins = wins;
+			this.kills = kills;
+			this.deaths = deaths;
+			this.score = score;
+			this.lives = lives;
+			this.ping = ping;
 		}
 	}
-	
+
 	public static class CreateEntity {
 		public String entityID;
 		public Vector2 pos;
@@ -591,7 +604,6 @@ public class Packets {
 	}
 	
 	public static class SyncPlayerSelf {
-
         public float fuelPercent;
         public int currentClip;
         public int currentAmmo;
@@ -1048,16 +1060,28 @@ public class Packets {
 	}
 	
 	public static class SyncExtraResultsInfo {
-		public HashMap<Integer, SavedPlayerFieldsExtra> scores;
+		public int connID;
+		public String name;
+		public float damageEnemies;
+		public float damageSelf;
+		public float damageAllies;
+		public float damageReceived;
+		public Loadout loadout;
 		
 		public SyncExtraResultsInfo() {}
 		
 		/**
 		 * A SyncExtraResultsInfo is sent from the server to the client when they enter the results screen. This contains information about the match performance
-		 * @param scores: This contains the extra information displayed in the results screen
+		 * @param connId: id of the player whose score is being updated.
 		 */
-		public SyncExtraResultsInfo(HashMap<Integer, SavedPlayerFieldsExtra> scores) {
-			this.scores = scores;
+		public SyncExtraResultsInfo(int connId, String name, float damageEnemies, float damageSelf, float damageAllies, float damageReceived, Loadout loadout) {
+			this.connID = connId;
+			this.name = name;
+			this.damageEnemies = damageEnemies;
+			this.damageSelf = damageSelf;
+			this.damageAllies = damageAllies;
+			this.damageReceived = damageReceived;
+			this.loadout = loadout;
 		}
 	}
 	
@@ -1075,7 +1099,22 @@ public class Packets {
 			this.entityID = entityID;
 		}
 	}
-	
+
+	public static class RemoveScore {
+		public int connID;
+
+		public RemoveScore() {}
+
+		/**
+		 * A RemoveScore is sent from the server to each client when another client disconnects.
+		 * This instructs them to remove that user from the score table
+		 * @param connID: this is the id of the player that disconnected.
+		 */
+		public RemoveScore(int connID) {
+			this.connID = connID;
+		}
+	}
+
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -1130,6 +1169,7 @@ public class Packets {
     	kryo.register(LatencySyn.class);
     	kryo.register(LatencyAck.class);
     	kryo.register(SyncExtraResultsInfo.class);
-    	kryo.register(SyncTyping.class);
+		kryo.register(SyncTyping.class);
+		kryo.register(RemoveScore.class);
     }
 }

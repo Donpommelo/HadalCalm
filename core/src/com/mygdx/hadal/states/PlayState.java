@@ -39,6 +39,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -360,8 +361,8 @@ public class PlayState extends GameState {
 	public static final float syncFastTime = 1 / 60f;
 	public static final float syncInterpolation = 0.125f;
 	
-	private float scoreSyncAccumulator;
-	private static final float ScoreSyncTime = 1.0f;
+	protected float scoreSyncAccumulator;
+	protected static final float ScoreSyncTime = 1.0f;
 	
 	private float timer;
 	/**
@@ -443,10 +444,19 @@ public class PlayState extends GameState {
 		scoreSyncAccumulator += delta;
 		if (scoreSyncAccumulator >= ScoreSyncTime) {
 			scoreSyncAccumulator = 0;
-			if (scoreWindow.isScoreChangeMade()) {
-				scoreWindow.setScoreChangeMade(false);
+			boolean changeMade = false;
+			for (User user : HadalGame.server.getUsers().values()) {
+				if (user.isScoreUpdated()) {
+					changeMade = true;
+					user.setScoreUpdated(false);
+				}
+				SavedPlayerFields score = user.getScores();
+				HadalGame.server.sendToAllUDP(new Packets.SyncScore(user.getScores().getConnID(), score.getNameShort(), score.getWins(),
+					score.getKills(), score.getDeaths(), score.getScore(), score.getLives(), score.getPing()));
+			}
+
+			if (changeMade) {
 				scoreWindow.syncScoreTable();
-				HadalGame.server.sendToAllUDP(new Packets.SyncScore(HadalGame.server.getScores()));
 			}
 		}
 	}
@@ -894,6 +904,13 @@ public class PlayState extends GameState {
 		if (reset) {
 			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2), Particle.TELEPORT, 1.0f, true, particleSyncType.CREATESYNC);
 		}
+
+		//for own player, the server must update their user information
+		if (isServer() && connID == 0) {
+			HadalGame.server.getUsers().get(0).setPlayer(p);
+			HadalGame.server.getUsers().get(0).setMouse(mouse);
+		}
+
 		return p;
 	}
 	
@@ -919,18 +936,13 @@ public class PlayState extends GameState {
 			boolean allded = true;
 			
 			//in pvp, game ends if all players left are on the same team. (if only 1 player, do not register end until all lives are used. mostly for testing)
-			if (pvp && HadalGame.server.getScores().size() > 1) {
+			if (pvp && HadalGame.server.getUsers().size() > 1) {
 				
 				short factionLeft = -1;
-				for (int f: HadalGame.server.getScores().keySet()) {
-					if (HadalGame.server.getScores().get(f).getLives() > 0) {
-						Player playerLeft;
-						if (f == 0) {
-							playerLeft = this.player;
-						} else {
-							playerLeft = HadalGame.server.getPlayers().get(f);
-						}
-						
+				for (User user: HadalGame.server.getUsers().values()) {
+					if (user.getScores().getLives() > 0) {
+						Player playerLeft = user.getPlayer();
+
 						if (playerLeft != null) {
 							resultsText = playerLeft.getName() + " WINS";
 							if (factionLeft == -1) {
@@ -947,8 +959,8 @@ public class PlayState extends GameState {
 				resultsText = "YOU DECEASED";
 				
 				//coop levels end when all players are dead
-				for (SavedPlayerFields f: HadalGame.server.getScores().values()) {
-					if (f.getLives() > 0) {
+				for (User user : HadalGame.server.getUsers().values()) {
+					if (user.getScores().getLives() > 0) {
 						allded = false;
 						break;
 					}
@@ -960,21 +972,23 @@ public class PlayState extends GameState {
 				beginTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay);
 				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay));
 			} else {
-				
-				//the player that dies respawns if there are lives left and becomes a spectator otherwise
-				if (this.player.equals(player)) {
-					if (HadalGame.server.getScores().get(player.getConnID()).getLives() > 0) {
-						beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);
+
+				User dedUser = HadalGame.server.getUsers().get(player.getConnID());
+				if (dedUser != null) {
+					//the player that dies respawns if there are lives left and becomes a spectator otherwise
+					if (this.player.equals(player)) {
+						if (dedUser.getScores().getLives() > 0) {
+							beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);
+						} else {
+							beginTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay);
+						}
 					} else {
-						beginTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay);
-					}
-				} else {
-					
-					//If a client dies, we tell them to transition to a spectator or respawn state.
-					if (HadalGame.server.getScores().get(player.getConnID()).getLives() > 0) {
-						HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay));
-					} else {
-						HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay));
+						//If a client dies, we tell them to transition to a spectator or respawn state.
+						if (dedUser.getScores().getLives() > 0) {
+							HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay));
+						} else {
+							HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay));
+						}
 					}
 				}
 			}
@@ -1029,7 +1043,7 @@ public class PlayState extends GameState {
 		
 		if (player.isSpectator()) {
 			//cannot exit spectator if server is full
-			if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers()) {
+			if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers() + 1) {
 				HadalGame.server.sendNotification(player.getConnID(), "", "Could not join! Server is full!", DialogType.SYSTEM);
 				return;
 			}

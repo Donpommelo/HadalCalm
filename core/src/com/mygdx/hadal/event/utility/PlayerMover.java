@@ -4,6 +4,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.ArrayList;
@@ -52,18 +53,11 @@ public class PlayerMover extends Event {
 						if (all) {
 							
 							//go through all players
-							for (int f: HadalGame.server.getScores().keySet()) {
-
-								Player playerLeft;
-								if (f == 0) {
-									playerLeft = state.getPlayer();
-								} else {
-									playerLeft = HadalGame.server.getPlayers().get(f);
-								}
-								
-								//warp player if they are a different player (or we have exclude turned off)
-								if (!exclude || !p.equals(playerLeft)) {
-									if (playerLeft != null) {
+							for (User user : HadalGame.server.getUsers().values()) {
+								Player playerLeft = user.getPlayer();
+								if (playerLeft != null) {
+									//warp player if they are a different player (or we have exclude turned off)
+									if (!exclude || !p.equals(playerLeft)) {
 										players.add(playerLeft);
 									}
 								}

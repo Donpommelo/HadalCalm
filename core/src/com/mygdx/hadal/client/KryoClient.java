@@ -25,6 +25,7 @@ import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState.TransitionState;
@@ -52,10 +53,9 @@ public class KryoClient {
 	//This is the id of the client's player
     public static String myID;
     
-    //This is a mapping of connIds to corresponding scores for display purposes
-    public HashMap<Integer, SavedPlayerFields> scores;
-    private HashMap<Integer, SavedPlayerFieldsExtra> scoresExtra;
-    
+    //This is a mapping of connIds to corresponding users
+    public HashMap<Integer, User> users;
+
     //this is the client's connection id
     public int connID;
     
@@ -63,8 +63,7 @@ public class KryoClient {
     
     public KryoClient(GameStateManager gameStateManager) {
     	this.gsm = gameStateManager;
-    	scores = new HashMap<>();
-    	scoresExtra = new HashMap<>();
+		users = new HashMap<>();
     }
     
     /**
@@ -211,13 +210,22 @@ public class KryoClient {
         		else if (o instanceof Packets.SyncScore) {
         			final Packets.SyncScore p = (Packets.SyncScore) o;
         			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(() -> {
-							scores = p.scores;
-							cs.getScoreWindow().syncScoreTable();
-						});
+
+					SavedPlayerFields score;
+					if (users.containsKey(p.connID)) {
+						User user = users.get(p.connID);
+						score = user.getScores();
+						user.setScoreUpdated(true);
+					} else {
+						score = new SavedPlayerFields(p.name, p.connID);
+						users.put(p.connID, new User(null, null, score, new SavedPlayerFieldsExtra()));
 					}
+					score.setWins(p.wins);
+					score.setKills(p.kills);
+					score.setDeaths(p.deaths);
+					score.setLives(p.lives);
+					score.setScore(p.score);
+					score.setPing(p.ping);
         		}
         		
         		/*
@@ -263,7 +271,12 @@ public class KryoClient {
         				}
         			}
         		}
-        		
+
+				else if (o instanceof Packets.RemoveScore) {
+					final Packets.RemoveScore p = (Packets.RemoveScore) o;
+					users.remove(p.connID);
+				}
+
         		/*
         		 * Server rejects our connection. Display msg on title screen.
         		 */
@@ -400,7 +413,7 @@ public class KryoClient {
         			
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
 						final ResultsState vs =  (ResultsState) gsm.getStates().peek();
-						Gdx.app.postRunnable(() -> vs.readyPlayer(p.playerId));
+						Gdx.app.postRunnable(() -> vs.readyPlayer(p.playerID));
 					}
         		}
         		
@@ -484,7 +497,18 @@ public class KryoClient {
         		 */
         		else if (o instanceof Packets.SyncExtraResultsInfo) {
         			final Packets.SyncExtraResultsInfo p = (Packets.SyncExtraResultsInfo) o;
-        			scoresExtra = p.scores;
+					SavedPlayerFieldsExtra score;
+					if (users.containsKey(p.connID)) {
+						score = users.get(p.connID).getScoresExtra();
+					} else {
+						score = new SavedPlayerFieldsExtra();
+						users.put(p.connID, new User(null, null, new SavedPlayerFields(p.name, p.connID), score));
+					}
+					score.setDamageDealt(p.damageEnemies);
+					score.setDamageDealtAllies(p.damageAllies);
+					score.setDamageDealtSelf(p.damageSelf);
+					score.setDamageReceived(p.damageReceived);
+					score.setLoadout(p.loadout);
         		}
         	}
         };
@@ -609,7 +633,7 @@ public class KryoClient {
 		else if (o instanceof Packets.CreatePlayer) {
 			final Packets.CreatePlayer p = (Packets.CreatePlayer) o;
 			final ClientState cs = getClientState();
-			
+
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
 
@@ -624,6 +648,12 @@ public class KryoClient {
 
 						//set camera to look at new client player.
 						cs.getCamera().position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
+					}
+
+					if (users.containsKey(p.connID)) {
+						users.get(p.connID).setPlayer(newPlayer);
+					} else {
+						users.put(p.connID, new User(newPlayer, null, new SavedPlayerFields(p.name, p.connID), new SavedPlayerFieldsExtra()));
 					}
 				});
 			}
@@ -834,7 +864,5 @@ public class KryoClient {
 	
 	public Client getClient() {	return client; }
 
-	public HashMap<Integer, SavedPlayerFields> getScores() { return scores; }
-	
-	public HashMap<Integer, SavedPlayerFieldsExtra> getScoresExtra() { return scoresExtra; }
+	public HashMap<Integer, User> getUsers() { return users; }
 }

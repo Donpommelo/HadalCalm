@@ -21,11 +21,11 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.utils.Stats;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 /**
  * The Results screen appears at the end of levels and displays the player's results
@@ -44,7 +44,7 @@ public class ResultsState extends GameState {
 	private final PlayState ps;
 	
 	//This is a list of all the saved player fields (scores) from the completed playstate
-	private ArrayList<SavedPlayerFields> scores;
+	private final ArrayList<SavedPlayerFields> scores;
 	
 	//This i sa mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
 	private final HashMap<SavedPlayerFields, Boolean> ready;
@@ -90,10 +90,16 @@ public class ResultsState extends GameState {
 		scores = new ArrayList<>();
 		
 		if (ps.isServer()) {
-			scores = new ArrayList<>(HadalGame.server.getScores().values());
+
+			for (User user: HadalGame.server.getUsers().values()) {
+				scores.add(user.getScores());
+			}
+
 			gsm.getRecord().updateScore(scores.get(0).getScore(), ps.level);
 		} else {
-			scores = new ArrayList<>(HadalGame.client.getScores().values());
+			for (User user: HadalGame.client.getUsers().values()) {
+				scores.add(user.getScores());
+			}
 		}
 		
 		//Then, we sort according to score and give the winner(s) a win.
@@ -101,21 +107,18 @@ public class ResultsState extends GameState {
 		
 		if (ps.isServer()) {
 			int winningScore = scores.get(0).getScore();
-			for (Entry<Integer, SavedPlayerFields> player: HadalGame.server.getScores().entrySet()) {
-				if (player.getValue().getScore() == winningScore) {
-					player.getValue().win();
+			for (User user : HadalGame.server.getUsers().values()) {
+				SavedPlayerFields score = user.getScores();
+				if (score.getScore() == winningScore) {
+					score.win();
 				}
-				
-				if (player.getKey() == 0) {
-					savePlayerLoadout(0, ps.getPlayer());
-				} else {
-					if (HadalGame.server.getPlayers().get(player.getKey()) != null) {
-						savePlayerLoadout(player.getKey(), HadalGame.server.getPlayers().get(player.getKey()));
-					}
-				}
+				savePlayerLoadout(user);
+
+				SavedPlayerFieldsExtra scoreExtra = user.getScoresExtra();
+				HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(score.getConnID(), score.getNameShort(),
+					scoreExtra.getDamageDealt(), scoreExtra.getDamageDealtSelf(), scoreExtra.getDamageDealtAllies(),
+					scoreExtra.getDamageReceived(), scoreExtra.getLoadout()));
 			}
-			
-			HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(HadalGame.server.getScoresExtra()));
 		}
 		
 		//Finally we initialize the ready map with everyone set to not ready.
@@ -284,14 +287,18 @@ public class ResultsState extends GameState {
 		tableInfo.clear();
 		tableArtifact.clear();
 		
-		SavedPlayerFields field;
-		SavedPlayerFieldsExtra fieldExtra;
+		SavedPlayerFields field = null;
+		SavedPlayerFieldsExtra fieldExtra = null;
+		User user;
 		if (ps.isServer()) {
-			field = HadalGame.server.getScores().get(connId);
-			fieldExtra = HadalGame.server.getScoresExtra().get(connId);
+			user =  HadalGame.server.getUsers().get(connId);
+
 		} else {
-			field = HadalGame.client.getScores().get(connId);
-			fieldExtra = HadalGame.client.getScoresExtra().get(connId);
+			user =  HadalGame.client.getUsers().get(connId);
+		}
+		if (user != null) {
+			field = user.getScores();
+			fieldExtra = user.getScoresExtra();
 		}
 		
 		if (field != null && fieldExtra != null) {
@@ -375,8 +382,9 @@ public class ResultsState extends GameState {
 		if (ps.isServer()) {
 			
 			//The server finds the player that readies, sets their readiness and informs all clients by sending that player's index
-			SavedPlayerFields field = HadalGame.server.getScores().get(playerId);
-			if (field != null) {
+			User user = HadalGame.server.getUsers().get(playerId);
+			if (user != null) {
+				SavedPlayerFields field = user.getScores();
 				ready.put(field, true);
 				HadalGame.server.sendToAllTCP(new Packets.ClientReady(scores.indexOf(field)));
 			}
@@ -417,16 +425,16 @@ public class ResultsState extends GameState {
 		gsm.getApp().fadeOut();
 	}
 	
-	private void savePlayerLoadout(int connId, Player player) {
-		
-		if (HadalGame.server.getScoresExtra().get(connId) != null) {
-			
+	private void savePlayerLoadout(User user) {
+
+		Player player = user.getPlayer();
+		if (player != null) {
 			Loadout loadoutTemp = player.getPlayerData().getLoadout();
-			
+
 			for (int i = (int) (Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i < Loadout.maxWeaponSlots ; i++) {
 				loadoutTemp.multitools[i] = UnlockEquip.NOTHING;
 			}
-			HadalGame.server.getScoresExtra().get(connId).setLoadout(loadoutTemp);
+			user.getScoresExtra().setLoadout(loadoutTemp);
 		}
 	}
 	

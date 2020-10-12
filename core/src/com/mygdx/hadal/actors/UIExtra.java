@@ -7,6 +7,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UITag.uiType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.SavedPlayerFields;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -145,12 +146,18 @@ public class UIExtra extends AHadalActor {
 			hiscore = state.getGsm().getRecord().getHiScores().get(state.getLevel().toString());
 		}
 		
-		SavedPlayerFields field;
-		
+		SavedPlayerFields field = null;
+		User user;
 		if (state.isServer()) {
-			field = HadalGame.server.getScores().get(0);
+			user = HadalGame.server.getUsers().get(0);
+			if (user != null) {
+				field = user.getScores();
+			}
 		} else {
-			field = HadalGame.client.getScores().get(HadalGame.client.connID);
+			user = HadalGame.client.getUsers().get(HadalGame.client.connID);
+			if (user != null) {
+				field = user.getScores();
+			}
 		}
 		
 		if (field != null) {
@@ -172,10 +179,14 @@ public class UIExtra extends AHadalActor {
 		SavedPlayerFields field;
 		
 		if (p == null) {
-			for (SavedPlayerFields eachField: HadalGame.server.getScores().values()) {
+			for (User user: HadalGame.server.getUsers().values()) {
+				SavedPlayerFields eachField = user.getScores();
 				eachField.setScore(eachField.getScore() + score);
 				eachField.setLives(eachField.getLives() + lives);
-				
+
+				//tell score window to update next interval
+				user.setScoreUpdated(true);
+
 				//If all players are losing lives at once and they have 0 lives, they get a game over.
 				if (eachField.getLives() <= 0) {
 					state.levelEnd("GAME OVER");
@@ -183,15 +194,19 @@ public class UIExtra extends AHadalActor {
 				}
 			}
 		} else {
-			field = HadalGame.server.getScores().get(p.getConnID());	
-			if (field != null) {
+			User user = HadalGame.server.getUsers().get(p.getConnID());
+			if (user != null) {
+				field = user.getScores();
 				field.setScore(field.getScore() + score);
 				field.setLives(field.getLives() + lives);
-				
+
 				//If a single player runs out of lives, they die
 				if (field.getLives() <= 0 && lives < 0) {
 					p.getPlayerData().die(state.getWorldDummy().getBodyData(), DamageTypes.LIVES_OUT);
 				}
+
+				//tell score window to update next interval
+				user.setScoreUpdated(true);
 			}
 		}
 		
@@ -199,8 +214,6 @@ public class UIExtra extends AHadalActor {
 			timer = timerSet;
 			timerIncr = timerIncrement;
 		}
-		
-		state.getScoreWindow().setScoreChangeMade(true);
 	}
 	
 	/**

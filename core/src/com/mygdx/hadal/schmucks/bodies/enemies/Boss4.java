@@ -21,6 +21,7 @@ import com.mygdx.hadal.schmucks.bodies.SoundEntity;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -53,7 +54,7 @@ public class Boss4 extends EnemyFloating {
 	
 	private static final float scale = 1.0f;
 	
-	private static final int hp = 7500;
+	private static final int hp = 11000;
 	
 	private static final Sprite sprite = Sprite.NOTHING;
 	
@@ -848,8 +849,8 @@ public class Boss4 extends EnemyFloating {
 			@Override
 			public void execute() {
 				applyHomingReticle(state.getPlayer());
-				for (Player player : HadalGame.server.getPlayers().values()) {
-					applyHomingReticle(player);
+				for (User user : HadalGame.server.getUsers().values()) {
+					applyHomingReticle(user.getPlayer());
 				}
 			}
 		});

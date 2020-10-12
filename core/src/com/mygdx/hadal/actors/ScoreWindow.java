@@ -6,7 +6,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.SharedSetting;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
 
@@ -39,9 +39,6 @@ public class ScoreWindow {
 	private static final float settingsScale = 0.25f;
 	private static final float settingsPadY = 15.0f;
 
-	//has any change to scores been made? This flag is used to determine whether a score sync packet needs to be sent.
-	private boolean scoreChangeMade = true;
-	
 	public ScoreWindow(PlayState state) {
 		this.state = state;
 		
@@ -58,13 +55,12 @@ public class ScoreWindow {
 		
 		//Server must first reset each score at the start of a level (unless just a stage transition)
 		if (state.isServer() && state.isReset()) {
-			for (SavedPlayerFields score: HadalGame.server.getScores().values()) {
-				score.newLevelReset();
-			}
-			for (SavedPlayerFieldsExtra score: HadalGame.server.getScoresExtra().values()) {
-				score.newLevelReset();
+			for (User user : HadalGame.server.getUsers().values()) {
+				user.getScores().newLevelReset();
+				user.getScoresExtra().newLevelReset();
 			}
 		}
+		syncScoreTable();
 		syncSettingTable();
 	}
 	
@@ -81,9 +77,9 @@ public class ScoreWindow {
 		int tableHeight = scoreBaseHeight + scoreTitleHeight * 2;
 		
 		if (state.isServer()) {
-			tableHeight += scoreRowHeight * HadalGame.server.getScores().size();
+			tableHeight += scoreRowHeight * HadalGame.server.getUsers().size();
 		} else {
-			tableHeight += scoreRowHeight * HadalGame.client.getScores().size();
+			tableHeight += scoreRowHeight * HadalGame.client.getUsers().size();
 		}
 		
 		windowScore.setSize(scoreWidth, tableHeight);
@@ -119,15 +115,10 @@ public class ScoreWindow {
 		
 		if (state.isServer()) {
 			
-			for (SavedPlayerFields field: HadalGame.server.getScores().values()) {			
-				
-				String displayedName = field.getName();
-				
-				if (displayedName.length() > maxNameLen) {
-					displayedName = displayedName.substring(0, maxNameLen).concat("...");
-				}
-				
-				Text name = new Text(displayedName, 0, 0, false);
+			for (User user : HadalGame.server.getUsers().values()) {
+				SavedPlayerFields field = user.getScores();
+
+				Text name = new Text(field.getNameAbridged(true, maxNameLen), 0, 0, false);
 				name.setScale(scoreScale);
 				
 				Text kills = new Text(field.getKills() + " ", 0, 0, false);
@@ -148,15 +139,10 @@ public class ScoreWindow {
 				state.getUiExtra().syncData();
 			}
 		} else {
-			for (SavedPlayerFields field: HadalGame.client.getScores().values()) {				
-				
-				String displayedName = field.getName();
-				
-				if (displayedName.length() > maxNameLen) {
-					displayedName = displayedName.substring(0, maxNameLen).concat("...");
-				}
-				
-				Text name = new Text(displayedName, 0, 0, false);
+			for (User user: HadalGame.client.getUsers().values()) {
+				SavedPlayerFields field = user.getScores();
+
+				Text name = new Text(field.getNameAbridged(true, maxNameLen), 0, 0, false);
 				name.setScale(scoreScale);
 				
 				Text kills = new Text(field.getKills() + " ", 0, 0, false);
@@ -296,8 +282,4 @@ public class ScoreWindow {
 		tableSettings.setVisible(visible);
 		windowSettings.setVisible(visible);
 	}
-	
-	public void setScoreChangeMade(boolean scoreChangeMade) { this.scoreChangeMade = scoreChangeMade;}
-	
-	public boolean isScoreChangeMade() { return scoreChangeMade; }
 }

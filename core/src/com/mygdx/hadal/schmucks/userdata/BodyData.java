@@ -11,6 +11,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.ProcTime.InflictDamage;
@@ -330,29 +331,30 @@ public class BodyData extends HadalData {
 						((PlayerBodyData) perp).getActiveItem().gainCharge(damage * ActiveItem.damageChargeMultiplier * ActiveItem.enemyDamageChargeMultiplier);
 					}
 				}
-				
-				SavedPlayerFieldsExtra field = HadalGame.server.getScoresExtra().get(((PlayerBodyData) perp).getPlayer().getConnID());
-
-				//play on-hit sounds. pitched up automatically if fatal. No sounds for self or friendly fire.
-				if (perp.getSchmuck().getHitboxfilter() != schmuck.getHitboxfilter()) {
-					if (currentHp == 0) {
-						((PlayerBodyData) perp).getPlayer().playHitSound(999);
-					} else {
-						((PlayerBodyData) perp).getPlayer().playHitSound(damage);
-					}
-					
-					//track perp's damage dealt
-					if (field != null && damage > 0.0f) {
-						HadalGame.server.getScoresExtra().get(((PlayerBodyData) perp).getPlayer().getConnID()).incrementDamageDealt(damage);
-					}
-					
-				} else {
-					if (field != null && damage > 0.0f) {
-						
-						if (perp.getSchmuck().equals(schmuck)) {
-							HadalGame.server.getScoresExtra().get(((PlayerBodyData) perp).getPlayer().getConnID()).incrementDamageDealtSelf(damage);
+				User userPerp = HadalGame.server.getUsers().get(((PlayerBodyData) perp).getPlayer().getConnID());
+				if (userPerp != null) {
+					SavedPlayerFieldsExtra field = userPerp.getScoresExtra();
+					//play on-hit sounds. pitched up automatically if fatal. No sounds for self or friendly fire.
+					if (perp.getSchmuck().getHitboxfilter() != schmuck.getHitboxfilter()) {
+						if (currentHp == 0) {
+							((PlayerBodyData) perp).getPlayer().playHitSound(999);
 						} else {
-							HadalGame.server.getScoresExtra().get(((PlayerBodyData) perp).getPlayer().getConnID()).incrementDamageDealtAllies(damage);
+							((PlayerBodyData) perp).getPlayer().playHitSound(damage);
+						}
+
+						//track perp's damage dealt
+						if (field != null && damage > 0.0f) {
+							field.incrementDamageDealt(damage);
+						}
+
+					} else {
+						if (field != null && damage > 0.0f) {
+
+							if (perp.getSchmuck().equals(schmuck)) {
+								field.incrementDamageDealtSelf(damage);
+							} else {
+								field.incrementDamageDealtAllies(damage);
+							}
 						}
 					}
 				}

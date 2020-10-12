@@ -22,7 +22,9 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.Packets.SyncPlayerStats;
+import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
@@ -571,9 +573,12 @@ public class PlayerBodyData extends BodyData {
 		float damage = super.receiveDamage(basedamage, knockback, perp, procEffects, tags);
 		
 		if (player.getState().isServer()) {
-			SavedPlayerFieldsExtra field = HadalGame.server.getScoresExtra().get(getPlayer().getConnID());
-			if (field != null && damage > 0.0f) {
-				field.incrementDamageReceived(damage);
+			User user = HadalGame.server.getUsers().get(getPlayer().getConnID());
+			if (user != null) {
+				SavedPlayerFieldsExtra field = user.getScoresExtra();
+				if (damage > 0.0f) {
+					field.incrementDamageReceived(damage);
+				}
 			}
 		}
 		
@@ -603,16 +608,18 @@ public class PlayerBodyData extends BodyData {
 				
 				//process score change if pvp modes (and drop eggplants if suitable mode)
 				if (player.getState().isPvp() && !player.getState().isHub() && player.getState().getGsm().getSetting().getPVPMode() == 1) {
-					int score = (int) (HadalGame.server.getScores().get(player.getConnID()).getScore() * scrapMultiplier);
-					
-					if (score < 0) {
-						score = 0;
+					User user = HadalGame.server.getUsers().get(player.getConnID());
+					if (user != null) {
+						SavedPlayerFields field = user.getScores();
+						int score = (int) (field.getScore() * scrapMultiplier);
+						if (score < 0) {
+							score = 0;
+						}
+						player.getState().getUiExtra().changeFields(player, -score, 0, 0.0f, 0.0f, false);
+						WeaponUtils.spawnScrap(player.getState(), score + baseScrapDrop, player.getPixelPosition(), true);
 					}
-					
-					player.getState().getUiExtra().changeFields(player, -score, 0, 0.0f, 0.0f, false);
-					WeaponUtils.spawnScrap(player.getState(), score + baseScrapDrop, player.getPixelPosition(), true);
 				}
-				
+
 				//Send death notification to all players
 				HadalGame.server.addNotificationToAll(player.getState(), "",  DeathTextUtil.getDeathText(player.getState().getGsm(), perp.getSchmuck(), player, tags), DialogType.KILL);
 			}

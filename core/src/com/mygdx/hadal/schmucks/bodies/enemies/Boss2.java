@@ -50,7 +50,7 @@ public class Boss2 extends EnemyFloating {
 	
 	private static final float scale = 1.0f;
 	
-	private static final int hp = 6000;
+	private static final int hp = 9000;
 	private static final float linkResist = 0.2f;
 	
 	private static final Sprite sprite = Sprite.NOTHING;

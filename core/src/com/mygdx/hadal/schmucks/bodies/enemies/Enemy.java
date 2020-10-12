@@ -14,6 +14,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invisibility;
@@ -133,12 +134,14 @@ public class Enemy extends Schmuck {
 		//if boss, activate on boss spawn statuses for all players
 		if (isBoss && state.isServer()) {
 			state.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
-			for (Player player : HadalGame.server.getPlayers().values()) {
-				player.getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
+			for (User user : HadalGame.server.getUsers().values()) {
+				if (user.getPlayer() != null) {
+					user.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
+				}
 			}
 			
 			//this method should be overloaded for bosses that scale to the number of players
-			multiplayerScaling(HadalGame.server.getPlayers().values().size());
+			multiplayerScaling(HadalGame.server.getUsers().values().size());
 		}
 	}
 

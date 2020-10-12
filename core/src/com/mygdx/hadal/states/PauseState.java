@@ -8,16 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
-import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 
 /**
@@ -290,8 +290,10 @@ public class PauseState extends GameState {
 			if (ps != null) {
 				if (ps.isServer() && ps.isHub()) {
 					ps.getPlayer().getPlayerData().syncArtifacts(false);
-					for (Player player : HadalGame.server.getPlayers().values()) {
-						player.getPlayerData().syncArtifacts(false);
+					for (User user : HadalGame.server.getUsers().values()) {
+						if (user.getPlayer() != null) {
+							user.getPlayer().getPlayerData().syncArtifacts(false);
+						}
 					}
 				}
 				ps.getUiHub().refreshHub();

@@ -11,6 +11,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import java.util.ArrayList;
@@ -189,6 +190,21 @@ public class ClientState extends PlayState {
 			entity.decreaseShaderCount(delta);
 			entity.increaseAnimationTime(delta);
 			entity.increaseTimeSinceLastSync(delta);
+		}
+
+		scoreSyncAccumulator += delta;
+		if (scoreSyncAccumulator >= ScoreSyncTime) {
+			scoreSyncAccumulator = 0;
+			boolean changeMade = false;
+			for (User user : HadalGame.client.getUsers().values()) {
+				if (user.isScoreUpdated()) {
+					changeMade = true;
+					user.setScoreUpdated(false);
+				}
+			}
+			if (changeMade) {
+				scoreWindow.syncScoreTable();
+			}
 		}
 	}
 	
