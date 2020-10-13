@@ -211,7 +211,9 @@ public class Schmuck extends HadalEntity {
 	public float getShootDelayCount() { return shootDelayCount; }
 	
 	public short getHitboxfilter() { return hitboxfilter; }
-	
+
+	public void setHitboxfilter(short hitboxfilter) { this.hitboxfilter = hitboxfilter; }
+
 	public float getBaseHp() { return baseHp; }
 
 	public boolean isGrounded() { return grounded; }

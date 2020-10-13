@@ -8,11 +8,12 @@ public class SharedSetting {
 
 	//these are all the server settings that are visible to clients
 	private int maxPlayers, pvpMode, artifactSlots, pvpTimer, coopTimer, lives, loadoutType;
-	private boolean multiplayerPause;
+	private boolean teamEnabled, multiplayerPause;
 	
 	public SharedSetting() {}
 			
-	public SharedSetting(int maxPlayers, int pvpMode, int artifactSlots, int pvpTimer, int coopTimer, int lives, int loadoutType, boolean multiplayerPause) {
+	public SharedSetting(int maxPlayers, int pvpMode, int artifactSlots, int pvpTimer, int coopTimer, int lives, int loadoutType,
+						 boolean teamEnabled, boolean multiplayerPause) {
 		this.maxPlayers = maxPlayers;
 		this.pvpMode = pvpMode;
 		this.artifactSlots = artifactSlots;
@@ -20,6 +21,7 @@ public class SharedSetting {
 		this.coopTimer = coopTimer;
 		this.lives = lives;
 		this.loadoutType = loadoutType;
+		this.teamEnabled = teamEnabled;
 		this.multiplayerPause = multiplayerPause;
 	}
 
@@ -48,6 +50,10 @@ public class SharedSetting {
 	public int getLoadoutType() { return loadoutType; }
 
 	public void setLoadoutType(int loadoutType) { this.loadoutType = loadoutType; }
+
+	public boolean isTeamEnabled() { return teamEnabled; }
+
+	public void setTeamEnabled(boolean teamEnabled) { this.teamEnabled = teamEnabled; }
 
 	public boolean isMultiplayerPause() { return multiplayerPause; }
 

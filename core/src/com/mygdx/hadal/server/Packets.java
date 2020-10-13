@@ -126,6 +126,7 @@ public class Packets {
 		public UnlockArtifact artifactRemove;
 		public UnlockActives active;
 		public UnlockCharacter character;
+		public AlignmentFilter team;
 		
 		public SyncClientLoadout() {}
 		
@@ -137,13 +138,16 @@ public class Packets {
 		 * @param artifactRemove: An artifact to be removed to this client's loadout
 		 * @param active: An active item to be switched to this client's loadout
 		 * @param character: A character skin to be switched to this client's loadout
+		 * @param team: the team alignment/color to be switched to this client's loadout
 		 */
-		public SyncClientLoadout(UnlockEquip equip, UnlockArtifact artifactAdd, UnlockArtifact artifactRemove, UnlockActives active, UnlockCharacter character) {
+		public SyncClientLoadout(UnlockEquip equip, UnlockArtifact artifactAdd, UnlockArtifact artifactRemove,
+								 UnlockActives active, UnlockCharacter character, AlignmentFilter team) {
 			this.equip = equip;
 			this.artifactAdd = artifactAdd;
 			this.artifactRemove= artifactRemove;
 			this.active = active;
 			this.character = character;
+			this.team = team;
 		}
 	}
 	
@@ -416,6 +420,7 @@ public class Packets {
 		public Vector2 startPosition;
 		public String name;
 		public Loadout loadout;
+		public short hitboxFilter;
 		public CreatePlayer() {}
 		
 		/**
@@ -428,13 +433,15 @@ public class Packets {
 		 * @param startPosition: location of new player. Used by client to focus camera
 		 * @param name: name of the new Player
 		 * @param loadout: loadout of the new Player
+		 * @param hitboxFilter: collision filter of the new player
 		 */
-		public CreatePlayer(String entityID, int connID, Vector2 startPosition, String name, Loadout loadout) {
+		public CreatePlayer(String entityID, int connID, Vector2 startPosition, String name, Loadout loadout, short hitboxFilter) {
             this.entityID = entityID;
             this.connID = connID;
             this.startPosition = startPosition;
             this.name = name;
             this.loadout = loadout;
+            this.hitboxFilter = hitboxFilter;
         }
 	}
 	

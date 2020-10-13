@@ -13,7 +13,8 @@ public class SavedLoadout {
 	private String[] equips;
 	private String[] artifacts;
 	private String active, character;
-	
+	private String team;
+
 	//This is the player's starting name
 	private String name;
 
@@ -42,6 +43,7 @@ public class SavedLoadout {
 		newLoadout.artifacts = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING"};
 		newLoadout.active = "NOTHING";
 		newLoadout.character = "MOREAU";
+		newLoadout.team = "NONE";
 		newLoadout.name = "";
 		
 		Gdx.files.local("save/Loadout.json").writeString(GameStateManager.json.prettyPrint(newLoadout), false);
@@ -66,7 +68,12 @@ public class SavedLoadout {
 		this.character = character;
 		saveLoadout();
 	}
-	
+
+	public void setTeam(String team) {
+		this.team = team;
+		saveLoadout();
+	}
+
 	public void setName(String name) {
 		
 		//prevent players from entering with no name
@@ -86,6 +93,8 @@ public class SavedLoadout {
 	public String getActive() {	return active; }
 
 	public String getCharacter() { return character; }
+
+	public String getTeam() { return team; }
 
 	public String getName() { return name.substring(0, Math.min(name.length(), maxNameLength)); }
 }

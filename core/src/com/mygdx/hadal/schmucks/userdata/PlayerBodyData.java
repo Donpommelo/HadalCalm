@@ -20,11 +20,8 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.*;
 import com.mygdx.hadal.server.Packets.SyncPlayerStats;
-import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
@@ -144,7 +141,8 @@ public class PlayerBodyData extends BodyData {
 	/**
 	 * This is run when the server receives a request from a client to make a change to their loadout.
 	 */
-	public void syncLoadoutFromClient(UnlockEquip equip, UnlockArtifact artifactAdd, UnlockArtifact artifactRemove, UnlockActives active, UnlockCharacter character) {
+	public void syncLoadoutFromClient(UnlockEquip equip, UnlockArtifact artifactAdd, UnlockArtifact artifactRemove,
+									  UnlockActives active, UnlockCharacter character, AlignmentFilter team) {
 		
 		if (equip != null) {
 			pickup(UnlocktoItem.getUnlock(equip, getPlayer()));
@@ -164,7 +162,11 @@ public class PlayerBodyData extends BodyData {
 		
 		if (character != null) {
 			getPlayer().setBodySprite(character);
-        	getPlayer().getPlayerData().getLoadout().character = character;
+        	getLoadout().character = character;
+		}
+
+		if (team != null) {
+			getLoadout().team = team;
 		}
 	}
 	
@@ -521,34 +523,40 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void syncClientLoadoutChangeWeapon(UnlockEquip equip) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(equip, null, null, null, null));
+			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(equip, null, null, null, null, null));
 		}
 	}
 	
 	public void syncClientLoadoutAddArtifact(UnlockArtifact artifact) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, artifact, null, null, null));
+			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, artifact, null, null, null, null));
 		}
 	}
 	
 	public void syncClientLoadoutRemoveArtifact(UnlockArtifact artifact) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, null, artifact, null, null));
+			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, null, artifact, null, null, null));
 		}
 	}
 	
 	public void syncClientLoadoutChangeActive(UnlockActives active) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, active, null));
+			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, active, null, null));
 		}
 	}
 	
 	public void syncClientLoadoutChangeCharacter(UnlockCharacter character) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, null, character));
+			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, null, character, null));
 		}
 	}
-	
+
+	public void syncClientLoadoutChangeTeam(AlignmentFilter team) {
+		if (!player.getState().isServer()) {
+			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, null, null, team));
+		}
+	}
+
 	public void clearStatuses() {
 		statuses.clear();
 		statusesChecked.clear();

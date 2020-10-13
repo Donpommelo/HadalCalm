@@ -176,7 +176,7 @@ unlockArtifact: {
 	KINEATER: false
 	ROYAL_JUJUBE_BANG: false
 	CALL_OF_THE_VOID: false
-	LOCH_SHIELD: false
+	LOCH_SHIELD: true
 	ALBATROSS_NECKLACE: false
 	ANCHOR_AMULET: false
 	LAMPREY_IDOL: false
@@ -195,7 +195,7 @@ unlockArtifact: {
 	NOCTILUCENT_PROMISE: false
 	SENESCENT_SHIELD: false
 	CROWN_OF_THORNS: false
-	NICE_SHOES: false
+	NICE_SHOES: true
 	RED_TIDE_TALISMAN: false
 	HORNS_OF_AMMON: false
 	NUMBER_ONE_BOSS_MUG: false

@@ -17,6 +17,7 @@ public enum Shader {
 	NOTHING("", "", true),
 	CENSURE("shaders/pass.vert", "shaders/censure.frag", true),
 	INVISIBLE("shaders/pass.vert", "shaders/pass.frag", true),
+	GREYSCALE("shaders/pass.vert", "shaders/greyscale.frag", true),
 	OUTLINE("shaders/pass.vert", "shaders/outline.frag", true),
 	SEPIA("shaders/pass.vert", "shaders/sepia.frag", true),
 	WHITE("shaders/pass.vert", "shaders/white.frag", true),

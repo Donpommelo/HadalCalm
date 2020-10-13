@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.Loadout;
@@ -29,6 +31,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -200,20 +203,6 @@ public class Player extends PhysicsSchmuck {
 		this.connID = connID;
 		this.reset = reset;
 		this.start = start;
-		
-		//process player pvp hitbox filter. If newly spawned or coming from non-pvp map, we give a new hbox filter.
-		//Otherwise they get their old hbox filter
-		if (state.isPvp()) {
-			if (oldData == null) {
-				hitboxfilter = PlayState.getPVPFilter();
-			} else {
-				if (oldData.getPlayer().getHitboxfilter() == Constants.PLAYER_HITBOX) {
-					hitboxfilter = PlayState.getPVPFilter();
-				} else {
-					hitboxfilter = oldData.getPlayer().getHitboxfilter();
-				}
-			}
-		}
 		
 		setBodySprite(startLoadout.character);
 		loadParticles();
@@ -675,14 +664,26 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void render(SpriteBatch batch) {
 
+		float transparency = 1.0f;
 		if (invisible) {
-			if (this.equals(state.getPlayer())) {
-				batch.setColor(1.0f,  1.0f, 1.0f, 0.3f);
+			if (state.getPlayer().hitboxfilter == hitboxfilter) {
+				transparency = 0.3f;
+				batch.setColor(1.0f,  1.0f, 1.0f, transparency);
 			} else {
 				return;
 			}
 		}
-		
+
+		Color color;
+		boolean colorChange = false;
+		if (playerData.getLoadout().team.equals(AlignmentFilter.NONE)) {
+			color = new Color(1.0f, 1.0f, 1.0f, transparency);
+		} else {
+			ParticleColor rgb = playerData.getLoadout().team.getColor();
+			color = new Color(rgb.getR(), rgb.getG(), rgb.getB(), transparency);
+			colorChange = true;
+		}
+
 		//flip determines if the player is facing left or right
 		boolean flip = Math.abs(attackAngle) > 90;
 		
@@ -713,17 +714,21 @@ public class Player extends PhysicsSchmuck {
 		//we make location an int to avoid weird blurriness/jitters
 		playerLocation.set(getPixelPosition());
 		playerLocation.set((int) playerLocation.x, (int) playerLocation.y);
-		
+
 		//Draw a bunch of stuff
 		batch.draw(toolSprite, 
 				(flip ? toolWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + armConnectXReal * scale, 
 				playerLocation.y - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
 				(flip ? -armWidth * scale : 0) + armRotateXReal * scale , armRotateY * scale,
 				(flip ? -1 : 1) * toolWidth * scale, toolHeight * scale, 1, 1, realAttackAngle);
-		
-		batch.draw(bodyBackSprite, 
-				(flip ? bodyBackWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + bodyConnectX * scale, 
-				playerLocation.y - hbHeight * scale / 2 + bodyConnectY + yOffset, 
+
+		if (colorChange) {
+			batch.setColor(color);
+		}
+
+		batch.draw(bodyBackSprite,
+				(flip ? bodyBackWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + bodyConnectX * scale,
+				playerLocation.y - hbHeight * scale / 2 + bodyConnectY + yOffset,
 				0, 0,
 				(flip ? -1 : 1) * bodyBackWidth * scale, bodyBackHeight * scale, 1, 1, 0);
 		
@@ -774,7 +779,11 @@ public class Player extends PhysicsSchmuck {
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		}
-		
+
+		if (colorChange) {
+			batch.setColor(1.0f,  1.0f, 1.0f, transparency);
+		}
+
 		batch.draw(headSprite.getKeyFrame(animationTimeExtra, true),
 				(flip ? headWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + headConnectXReal * scale, 
 				playerLocation.y - hbHeight * scale / 2 + headConnectY * scale + yOffsetHead, 
@@ -854,13 +863,13 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		if (visible || equals(state.getPlayer())) {
-			batch.draw(empty, heartX - empty.getWidth() / 2 * uiScale, heartY - empty.getHeight() / 2 * uiScale,
-	                empty.getWidth() / 2, empty.getHeight() / 2,
+			batch.draw(empty, heartX - empty.getWidth() / 2.0f * uiScale, heartY - empty.getHeight() / 2.0f * uiScale,
+	                empty.getWidth() / 2.0f, empty.getHeight() / 2.0f,
 	                empty.getWidth(), empty.getHeight(),
 	                uiScale, uiScale, 0, 0, 0, empty.getWidth(), empty.getHeight(), false, false);
 
-	        batch.draw(full, heartX - full.getWidth() / 2 * uiScale, heartY - full.getHeight() / 2 * uiScale - (int) (full.getHeight() * (1 - hpRatio) * uiScale),
-	                full.getWidth() / 2, full.getHeight() / 2,
+	        batch.draw(full, heartX - full.getWidth() / 2.0f * uiScale, heartY - full.getHeight() / 2.0f * uiScale - (int) (full.getHeight() * (1 - hpRatio) * uiScale),
+	                full.getWidth() / 2.0f, full.getHeight() / 2.0f,
 	                full.getWidth(), full.getHeight(),
 	                uiScale, uiScale, 0, 0, (int) (full.getHeight() * (1 - hpRatio)),
 	                full.getWidth(), full.getHeight(), false, false);
@@ -868,7 +877,7 @@ public class Player extends PhysicsSchmuck {
 		
 		//draw player name
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, name, 
+		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, name,
 				playerLocation.x - Player.hbWidth * Player.scale / 2, 
 				playerLocation.y + Player.hbHeight * Player.scale / 2 + 25);
 		
@@ -957,7 +966,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePlayer(entityID.toString(), connID, getPixelPosition(), name, playerData.getLoadout());
+		return new Packets.CreatePlayer(entityID.toString(), connID, getPixelPosition(), name, playerData.getLoadout(), hitboxfilter);
 	}
 	
 	/**

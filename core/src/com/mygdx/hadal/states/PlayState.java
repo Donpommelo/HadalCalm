@@ -36,12 +36,10 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.server.PacketEffect;
-import com.mygdx.hadal.server.Packets;
-import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.server.*;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.CameraStyles;
+import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import java.util.*;
@@ -266,7 +264,14 @@ public class PlayState extends GameState {
 
 		//Create the player and make the camera focus on it
 		StartPoint getSave = getSavePoint(startId);
-		this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, reset, !server);
+		if (server) {
+			short hitboxFilter = HadalGame.server.getUsers().get(0).getHitBoxFilter().getFilter();
+			this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, reset, false, hitboxFilter);
+		} else {
+			this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, reset, false,
+				Constants.PLAYER_HITBOX);
+		}
+
 		if (getSave != null) {
 			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
 		}
@@ -737,7 +742,9 @@ public class PlayState extends GameState {
 			StartPoint getSave = getSavePoint();
 			
 			//Create a new player
-			player = createPlayer(getSave, gsm.getLoadout().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true, false);
+			short hitboxFilter = HadalGame.server.getUsers().get(0).getHitBoxFilter().getFilter();
+			player = createPlayer(getSave, gsm.getLoadout().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(),
+				0, true, false, hitboxFilter);
 
 			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
 
@@ -827,9 +834,11 @@ public class PlayState extends GameState {
 	 * @param connID: the player's connection id (0 if server)
 	 * @param reset: should we reset the new player's hp/fuel/ammo?
 	 * @param client: is this the client's own player?
+	 * @param hitboxFilter: the new player's collision filter
 	 * @return the newly created player
 	 */
-	public Player createPlayer(StartPoint start, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset, boolean client) {
+	public Player createPlayer(StartPoint start, String name, Loadout altLoadout, PlayerBodyData old, int connID,
+							   boolean reset, boolean client, short hitboxFilter) {
 
 		Loadout newLoadout = new Loadout(altLoadout);
 
@@ -909,6 +918,15 @@ public class PlayState extends GameState {
 		if (isServer() && connID == 0) {
 			HadalGame.server.getUsers().get(0).setPlayer(p);
 			HadalGame.server.getUsers().get(0).setMouse(mouse);
+		}
+
+		//set player pvp hitbox filter.
+		if (isPvp()) {
+			if (gsm.getSetting().isTeamEnabled() && !isHub()) {
+				p.setHitboxfilter(p.getPlayerData().getLoadout().team.getFilter());
+			} else {
+				p.setHitboxfilter(hitboxFilter);
+			}
 		}
 
 		return p;
@@ -1032,6 +1050,13 @@ public class PlayState extends GameState {
 			
 			//we die last so that the on-death transition does not occur (As it will not override the spectator transition unless it is a results screen.)
 			player.getPlayerData().die(worldDummy.getBodyData(), DamageTypes.DISCONNECT);
+
+			//set the spectator's player number to default so they don't take up a player slot
+			User user = HadalGame.server.playerToUser(player);
+			if (user != null) {
+				user.getHitBoxFilter().setUsed(false);
+				user.setHitBoxFilter(AlignmentFilter.NONE);
+			}
 		}
 	}
 	
@@ -1056,6 +1081,12 @@ public class PlayState extends GameState {
 				beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);
 			} else {
 				HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay));
+			}
+
+			//give the new player a player slot
+			User user = HadalGame.server.playerToUser(player);
+			if (user != null) {
+				user.setHitBoxFilter(AlignmentFilter.getUnusedAlignment());
 			}
 		}
 	}

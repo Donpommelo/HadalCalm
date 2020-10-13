@@ -20,7 +20,6 @@ import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DieParticles;
-import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 
 public class KBKSpawner extends EnemySwimming {
@@ -103,7 +102,7 @@ public class KBKSpawner extends EnemySwimming {
 						
 						@Override
 						public void die() {
-							EnemyType.CRAWLER1.generateEnemy(state, hbox.getPixelPosition(), Constants.ENEMY_HITBOX, 0.0f, null);
+							EnemyType.CRAWLER1.generateEnemy(state, hbox.getPixelPosition(), getHitboxfilter(), 0.0f, null);
 						}
 					});
 					

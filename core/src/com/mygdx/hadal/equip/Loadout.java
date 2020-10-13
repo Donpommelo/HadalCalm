@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip;
 
 import com.mygdx.hadal.save.*;
+import com.mygdx.hadal.server.AlignmentFilter;
 
 import java.util.Arrays;
 
@@ -19,6 +20,7 @@ public class Loadout {
 	public UnlockArtifact[] artifacts;
 	public UnlockActives activeItem;
 	public UnlockCharacter character;
+	public AlignmentFilter team;
 	
 	public Loadout() {}
 	
@@ -46,6 +48,7 @@ public class Loadout {
 		
 		activeItem = UnlockActives.valueOf(loadout.getActive());
 		character = UnlockCharacter.valueOf(loadout.getCharacter());
+		team = AlignmentFilter.valueOf(loadout.getTeam());
 	}
 	
 	/**
@@ -67,5 +70,6 @@ public class Loadout {
 
 		activeItem = old.activeItem;
 		character = old.character;
+		team = old.team;
 	}
 }

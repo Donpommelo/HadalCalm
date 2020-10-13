@@ -378,6 +378,7 @@ public class UIHub {
 		NAVIGATIONS,
 		QUARTERMASTER,
 		CODEX,
+		PAINTER,
 		MISC
 	}
 }

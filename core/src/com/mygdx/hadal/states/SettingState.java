@@ -57,7 +57,7 @@ public class SettingState extends GameState {
 	
 	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, hitsoundOptions, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
 	private Slider sound, music, master, hitsound;
-	private CheckBox fullscreen, vsync, debugHitbox, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
+	private CheckBox fullscreen, vsync, debugHitbox, teamEnabled, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
 		
 	//Dimensions of the setting menu
 	private static final int optionsX = 25;
@@ -559,7 +559,10 @@ public class SettingState extends GameState {
 		livesOptions.setItems(livesChoices);
 		
 		livesOptions.setSelectedIndex(gsm.getSetting().getLives());
-		
+
+		teamEnabled = new CheckBox("TEAMS ENABLED?", GameStateManager.getSkin());
+		teamEnabled.setChecked(gsm.getSetting().isTeamEnabled());
+
 		loadoutOptions = new SelectBox<>(GameStateManager.getSkin());
 		loadoutOptions.setItems(loadoutChoices);
 		
@@ -581,6 +584,7 @@ public class SettingState extends GameState {
 		details.add(coopTimerOptions).pad(detailsPad).row();
 		details.add(lives);
 		details.add(livesOptions).pad(detailsPad).row();
+		details.add(teamEnabled).colspan(2).pad(detailsPad).row();
 		details.add(loadout);
 		details.add(loadoutOptions).pad(detailsPad).row();
 		details.add(slots);
@@ -677,6 +681,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setPVPTimer(pvpTimerOptions.getSelectedIndex());
 			gsm.getSetting().setCoopTimer(coopTimerOptions.getSelectedIndex());
 			gsm.getSetting().setLives(livesOptions.getSelectedIndex());
+			gsm.getSetting().setTeamEnabled(teamEnabled.isChecked());
 			gsm.getSetting().setLoadoutType(loadoutOptions.getSelectedIndex());
 			gsm.getSetting().setArtifactSlots(artifactSlots.getSelectedIndex());
 			gsm.getSetting().setPVPMode(pvpMode.getSelectedIndex());

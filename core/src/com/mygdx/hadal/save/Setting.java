@@ -18,7 +18,8 @@ import com.mygdx.hadal.states.PlayState;
 public class Setting {
 
 	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, artifactSlots, portNumber, hitsoundType;
-	private boolean fullscreen, vsync, debugHitbox, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
+	private boolean fullscreen, vsync, debugHitbox, teamEnabled, randomNameAlliteration, consoleEnabled, verboseDeathMessage,
+		multiplayerPause, exportChatLog;
 	private float soundVolume, musicVolume, masterVolume, hitsoundVolume;
 
 	//How long should pvp/coop matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
@@ -126,6 +127,7 @@ public class Setting {
 		pvpTimer = 3;
 		coopTimer = 0;
 		lives = 0;
+		teamEnabled = false;
 		loadoutType = 1;
 		artifactSlots = 4;
 		pvpMode = 0;
@@ -142,7 +144,7 @@ public class Setting {
 	}
 	
 	public SharedSetting generateSharedSetting() {
-		return new SharedSetting(maxPlayers, pvpMode, artifactSlots, pvpTimer, coopTimer, lives, loadoutType, multiplayerPause);
+		return new SharedSetting(maxPlayers, pvpMode, artifactSlots, pvpTimer, coopTimer, lives, loadoutType, teamEnabled, multiplayerPause);
 	}
 	
 	public void setPVPTimer(int pvpTimer) { this.pvpTimer = pvpTimer; }
@@ -150,7 +152,9 @@ public class Setting {
 	public void setCoopTimer(int coopTimer) { this.coopTimer = coopTimer; }
 
 	public void setLives(int lives) { this.lives = lives; }
-	
+
+	public void setTeamEnabled(boolean teamEnabled) { this.teamEnabled = teamEnabled; }
+
 	public void setLoadoutType(int loadoutType) { this.loadoutType = loadoutType; }
 	
 	public void setArtifactSlots(int artifactSlots) { this.artifactSlots = artifactSlots; }
@@ -345,9 +349,11 @@ public class Setting {
 	public float getMasterVolume() { return masterVolume; }
 	
 	public float getHitsoundVolume() { return hitsoundVolume; }
-	
+
+	public boolean isTeamEnabled() { return teamEnabled; }
+
 	public boolean isRandomNameAlliteration() {	return randomNameAlliteration; }
-	
+
 	public boolean isConsoleEnabled() {	return consoleEnabled; }
 	
 	public boolean isVerboseDeathMessage() { return verboseDeathMessage; }

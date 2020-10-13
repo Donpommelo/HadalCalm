@@ -197,6 +197,9 @@ public class ScoreWindow {
 		
 		Text modeField = new Text("MODE: ", 0, 0, false);
 		modeField.setScale(settingsScale);
+
+		Text teamField = new Text("TEAM ENABLED: ", 0, 0, false);
+		teamField.setScale(settingsScale);
 		
 		Text loadoutField = new Text("LOADOUT: ", 0, 0, false);
 		loadoutField.setScale(settingsScale);
@@ -229,7 +232,10 @@ public class ScoreWindow {
 		
 		Text mode = new Text(SettingState.modeChoices[used.getPvpMode()], 0, 0, false);
 		mode.setScale(settingsScale);
-		
+
+		Text team = new Text("" + used.isTeamEnabled(), 0, 0, false);
+		team.setScale(settingsScale);
+
 		Text loadout = new Text(SettingState.loadoutChoices[used.getLoadoutType()], 0, 0, false);
 		loadout.setScale(settingsScale);
 		
@@ -255,6 +261,9 @@ public class ScoreWindow {
 
 		tableSettings.add(modeField).height(settingsRowHeight).padBottom(settingsPadY);
 		tableSettings.add(mode).height(settingsRowHeight).padBottom(settingsPadY).row();
+
+		tableSettings.add(teamField).height(settingsRowHeight).padBottom(settingsPadY);
+		tableSettings.add(team).height(settingsRowHeight).padBottom(settingsPadY).row();
 
 		tableSettings.add(loadoutField).height(settingsRowHeight).padBottom(settingsPadY);
 		tableSettings.add(loadout).height(settingsRowHeight).padBottom(settingsPadY).row();

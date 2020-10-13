@@ -177,6 +177,10 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
+ <objecttype name="Painter" color="#a0a0a4">
+  <property name="name" type="string" default="painter"/>
+  <property name="tag" type="string" default="PAINTER"/>
+ </objecttype>
  <objecttype name="Particle" color="#a0a0a4">
   <property name="duration" type="float" default="0"/>
   <property name="particle" type="string" default="NOTHING"/>

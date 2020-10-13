@@ -209,7 +209,6 @@ public class KryoClient {
         		 */
         		else if (o instanceof Packets.SyncScore) {
         			final Packets.SyncScore p = (Packets.SyncScore) o;
-        			final ClientState cs = getClientState();
 
 					SavedPlayerFields score;
 					if (users.containsKey(p.connID)) {
@@ -637,7 +636,7 @@ public class KryoClient {
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
 
-					Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, true, p.connID == connID);
+					Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, true, p.connID == connID, p.hitboxFilter);
 
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
 					newPlayer.setStartPos(p.startPosition);

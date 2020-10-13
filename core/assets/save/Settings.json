@@ -5,7 +5,6 @@ cursorType: 1
 cursorSize: 1
 cursorColor: 4
 maxPlayers: 3
-pvpMode: 1
 artifactSlots: 4
 portNumber: 11100
 hitsoundType: 1
@@ -19,6 +18,5 @@ musicVolume: 1
 masterVolume: 1
 hitsoundVolume: 0.39
 pvpTimer: 2
-lives: 1
 loadoutType: 1
 }

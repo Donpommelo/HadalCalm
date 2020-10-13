@@ -66,6 +66,10 @@ public class KryoServer {
 				//Identify the player that disconnected
 				User user = users.get(c.getID());
 				if (user != null && ps != null) {
+
+					//free up the disconnected user's player slot
+					user.getHitBoxFilter().setUsed(false);
+
 					Player player = user.getPlayer();
 					if (player != null) {
 						ps.addPacketEffect(() -> {
@@ -274,7 +278,7 @@ public class KryoServer {
 						Player player = user.getPlayer();
 						if (player != null) {
 							ps.addPacketEffect(() -> {
-								player.getPlayerData().syncLoadoutFromClient(p.equip, p.artifactAdd, p.artifactRemove, p.active, p.character);
+								player.getPlayerData().syncLoadoutFromClient(p.equip, p.artifactAdd, p.artifactRemove, p.active, p.character, p.team);
 								player.getPlayerData().syncServerLoadoutChange();
 							});
 						}
@@ -487,20 +491,22 @@ public class KryoServer {
 		ps.addPacketEffect(() -> {
 			StartPoint newSave = ps.getSavePoint();
 
+			//Update that player's fields or give them new ones if they are a new client
+			User user;
+			if (users.containsKey(connId)) {
+				user = users.get(connId);
+			} else {
+				user = new User(null, null, new SavedPlayerFields(name, connId), new SavedPlayerFieldsExtra());
+				users.put(connId, user);
+			}
+
 			//Create a new player with the designated fields and give them a mouse pointer.
-			Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, reset, false);
+			Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, reset, false, user.getHitBoxFilter().getFilter());
 			MouseTracker newMouse = new MouseTracker(ps, false);
 			newPlayer.setMouse(newMouse);
 
-			//Update that player's fields or give them new ones if they are a new client
-			if (users.containsKey(connId)) {
-				User user = users.get(connId);
-				user.setPlayer(newPlayer);
-				user.setMouse(newMouse);
-			} else {
-				User user = new User(newPlayer, newMouse, new SavedPlayerFields(name, connId), new SavedPlayerFieldsExtra());
-				users.put(connId, user);
-			}
+			user.setPlayer(newPlayer);
+			user.setMouse(newMouse);
 
 			//set the client as a spectator if requested
 			newPlayer.setStartSpectator(spectator);
@@ -666,7 +672,18 @@ public class KryoServer {
 			server.sendToAllUDP(p);
 		}
 	}
-	
+
+	public User playerToUser(Player p) {
+		for (User user: users.values()) {
+			if (user.getPlayer() != null) {
+				if (user.getPlayer().equals(p)) {
+					return user;
+				}
+			}
+		}
+		return null;
+	}
+
 	public Server getServer() {	return server; }
 
 	public void setServer(Server server) { this.server = server; }

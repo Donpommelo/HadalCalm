@@ -508,6 +508,13 @@ public class TiledObjectUtil {
 						object.getProperties().get("closeOnLeave", true, Boolean.class));
 				choiceBranchOptions.put((ChoiceBranch) e, object.getProperties().get("options", "", String.class));
 				break;
+			case "Painter":
+				e = new Painter(state, position, size,
+					object.getProperties().get("title", "Choice", String.class),
+					object.getProperties().get("tag", "PAINTER", String.class),
+					object.getProperties().get("unlock", false, boolean.class),
+					object.getProperties().get("closeOnLeave", true, Boolean.class));
+				break;
 			case "Prefab":
 				genPrefab(state, object, rect);
 				break;

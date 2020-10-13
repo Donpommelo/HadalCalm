@@ -38,7 +38,7 @@ public class UIArtifacts {
 
 		addTable();
 		
-		//When starting up normally, the player's data is not loaded yet, and we do not need to sync. 
+		//When starting up normally, the player's data is not loaded yet, and we do not need to sync.
 		if (state.getPlayer().getPlayerData() != null) {
 			syncArtifact();
 		}

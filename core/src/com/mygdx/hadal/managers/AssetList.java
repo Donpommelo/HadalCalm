@@ -20,6 +20,7 @@ public enum AssetList {
 	KAMABOKO_CRAWL_ATL("sprites/kamaboko_crawl.atlas", TextureAtlas.class),
 	KAMABOKO_SWIM_ATL("sprites/kamaboko_swim.atlas", TextureAtlas.class),
 	DRONE_ATL("sprites/drone.atlas", TextureAtlas.class),
+
 	PLAYER_MAXIMILLIAN_ATL("sprites/player/maximillian.atlas", TextureAtlas.class),
 	PLAYER_MOREAU_ATL("sprites/player/moreau.atlas", TextureAtlas.class),
 	PLAYER_MOREAU_FESTIVE_ATL("sprites/player/moreau_festive.atlas", TextureAtlas.class),
@@ -28,6 +29,16 @@ public enum AssetList {
 	PLAYER_TAKANORI_ATL("sprites/player/takanori.atlas", TextureAtlas.class),
 	PLAYER_TELEMACHUS_ATL("sprites/player/telemachus.atlas", TextureAtlas.class),
 	PLAYER_WANDA_ATL("sprites/player/wanda.atlas", TextureAtlas.class),
+
+//	PLAYER_MAXIMILLIAN("sprites/player/maximillian.png", Texture.class),
+//	PLAYER_MOREAU("sprites/player/moreau.png", Texture.class),
+//	PLAYER_MOREAU_FESTIVE("sprites/player/moreau_festive.png", Texture.class),
+//	PLAYER_MOREAU_PARTY("sprites/player/moreau_party.png", Texture.class),
+//	PLAYER_ROCLAIRE("sprites/player/roclaire.png", Texture.class),
+//	PLAYER_TAKANORI("sprites/player/takanori.png", Texture.class),
+//	PLAYER_TELEMACHUS("sprites/player/telemachus.png", Texture.class),
+//	PLAYER_WANDA("sprites/player/wanda.png", Texture.class),
+
 	MULTITOOL_ATL("sprites/player/multitool.atlas", TextureAtlas.class),
 	EVENT_ATL("sprites/events/event.atlas", TextureAtlas.class),
 	

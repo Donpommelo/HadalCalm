@@ -15,7 +15,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathParticles;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 
 public class KBKMedium extends EnemySwimming {
@@ -68,9 +67,9 @@ public class KBKMedium extends EnemySwimming {
 				
 				new ParticleEntity(state, new Vector2(inflicted.getSchmuck().getPixelPosition()), Particle.KAMABOKO_IMPACT, 2.0f, true, particleSyncType.CREATESYNC);
 				
-				EnemyType.SPLITTER_SMALL.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), Constants.ENEMY_HITBOX, 0.0f, null);
-				EnemyType.SPLITTER_SMALL.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), Constants.ENEMY_HITBOX, 0.0f, null);
-				EnemyType.SPLITTER_SMALL.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), Constants.ENEMY_HITBOX, 0.0f, null);
+				EnemyType.SPLITTER_SMALL.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), getHitboxfilter(), 0.0f, null);
+				EnemyType.SPLITTER_SMALL.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), getHitboxfilter(), 0.0f, null);
+				EnemyType.SPLITTER_SMALL.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), getHitboxfilter(), 0.0f, null);
 			}
 		});
 		
