@@ -186,70 +186,6 @@ public enum Sprite {
 	NOTIFICATIONS_ALERT_PING(SpriteType.NOTIFICATIONS, "arrow_ping_red", PlayMode.LOOP_PINGPONG, PlayState.spriteAnimationSpeed),
 	CLEAR_CIRCLE_ALERT(SpriteType.NOTIFICATIONS, "clear_circle_alert"),
 	CLEAR_CIRCLE_EGGPLANT(SpriteType.NOTIFICATIONS, "clear_circle_eggplant"),
-
-	MAXIMILLIAN_RUN(SpriteType.MAXIMILLIAN, "body_run"),
-	MAXIMILLIAN_STILL(SpriteType.MAXIMILLIAN, "body_stand"),
-	MAXIMILLIAN_BACK(SpriteType.MAXIMILLIAN, "body_background"),
-	MAXIMILLIAN_HEAD(SpriteType.MAXIMILLIAN, "head"),
-	MAXIMILLIAN_ARM(SpriteType.MAXIMILLIAN, "arm"),
-	MAXIMILLIAN_GEM_ON(SpriteType.MAXIMILLIAN, "gem_active"),
-	MAXIMILLIAN_GEM_OFF(SpriteType.MAXIMILLIAN, "gem_inactive"),
-	
-	MOREAU_RUN(SpriteType.MOREAU, "body_run"),
-	MOREAU_STILL(SpriteType.MOREAU, "body_stand"),
-	MOREAU_BACK(SpriteType.MOREAU, "body_background"),
-	MOREAU_HEAD(SpriteType.MOREAU, "head"),
-	MOREAU_ARM(SpriteType.MOREAU, "arm"),
-	MOREAU_GEM_ON(SpriteType.MOREAU, "gem_active"),
-	MOREAU_GEM_OFF(SpriteType.MOREAU, "gem_inactive"),
-	
-	ROCLAIRE_RUN(SpriteType.ROCLAIRE, "body_run"),
-	ROCLAIRE_STILL(SpriteType.ROCLAIRE, "body_stand"),
-	ROCLAIRE_BACK(SpriteType.ROCLAIRE, "body_background"),
-	ROCLAIRE_HEAD(SpriteType.ROCLAIRE, "head"),
-	ROCLAIRE_ARM(SpriteType.ROCLAIRE, "arm"),
-	ROCLAIRE_GEM_ON(SpriteType.ROCLAIRE, "gem_active"),
-	ROCLAIRE_GEM_OFF(SpriteType.ROCLAIRE, "gem_inactive"),
-	
-	TAKANORI_RUN(SpriteType.TAKANORI, "body_run"),
-	TAKANORI_STILL(SpriteType.TAKANORI, "body_stand"),
-	TAKANORI_BACK(SpriteType.TAKANORI, "body_background"),
-	TAKANORI_HEAD(SpriteType.TAKANORI, "head"),
-	TAKANORI_ARM(SpriteType.TAKANORI, "arm"),
-	TAKANORI_GEM_ON(SpriteType.TAKANORI, "gem_active"),
-	TAKANORI_GEM_OFF(SpriteType.TAKANORI, "gem_inactive"),
-	
-	TELEMACHUS_RUN(SpriteType.TELEMACHUS, "body_run"),
-	TELEMACHUS_STILL(SpriteType.TELEMACHUS, "body_stand"),
-	TELEMACHUS_BACK(SpriteType.TELEMACHUS, "body_background"),
-	TELEMACHUS_HEAD(SpriteType.TELEMACHUS, "head"),
-	TELEMACHUS_ARM(SpriteType.TELEMACHUS, "arm"),
-	TELEMACHUS_GEM_ON(SpriteType.TELEMACHUS, "gem_active"),
-	TELEMACHUS_GEM_OFF(SpriteType.TELEMACHUS, "gem_inactive"),
-	
-	WANDA_RUN(SpriteType.WANDA, "body_run"),
-	WANDA_STILL(SpriteType.WANDA, "body_stand"),
-	WANDA_BACK(SpriteType.WANDA, "body_background"),
-	WANDA_HEAD(SpriteType.WANDA, "head"),
-	WANDA_ARM(SpriteType.WANDA, "arm"),
-	WANDA_GEM_ON(SpriteType.WANDA, "gem_active"),
-	WANDA_GEM_OFF(SpriteType.WANDA, "gem_inactive"),
-	
-	MOREAU_FESTIVE_RUN(SpriteType.MOREAU_FESTIVE, "body_run"),
-	MOREAU_FESTIVE_STILL(SpriteType.MOREAU_FESTIVE, "body_stand"),
-	MOREAU_FESTIVE_BACK(SpriteType.MOREAU_FESTIVE, "body_background"),
-	MOREAU_FESTIVE_HEAD(SpriteType.MOREAU_FESTIVE, "head"),
-	MOREAU_FESTIVE_ARM(SpriteType.MOREAU_FESTIVE, "arm"),
-	MOREAU_FESTIVE_GEM_ON(SpriteType.MOREAU_FESTIVE, "gem_active"),
-	MOREAU_FESTIVE_GEM_OFF(SpriteType.MOREAU_FESTIVE, "gem_inactive"),
-	
-	MOREAU_PARTY_RUN(SpriteType.MOREAU_PARTY, "body_run"),
-	MOREAU_PARTY_STILL(SpriteType.MOREAU_PARTY, "body_stand"),
-	MOREAU_PARTY_BACK(SpriteType.MOREAU_PARTY, "body_background"),
-	MOREAU_PARTY_HEAD(SpriteType.MOREAU_PARTY, "head"),
-	MOREAU_PARTY_ARM(SpriteType.MOREAU_PARTY, "arm"),
-	MOREAU_PARTY_GEM_ON(SpriteType.MOREAU_PARTY, "gem_active"),
-	MOREAU_PARTY_GEM_OFF(SpriteType.MOREAU_PARTY, "gem_inactive"),
 	
 	TELEMACHUS_POINT(SpriteType.TELEMACHUS_POINT, null),
 	
@@ -331,22 +267,6 @@ public enum Sprite {
 			return HadalGame.assetManager.get(AssetList.UI_ATL.toString());
 		case NOTIFICATIONS:
 			return HadalGame.assetManager.get(AssetList.NOTIFICATION_ATL.toString());
-		case MAXIMILLIAN:
-			return HadalGame.assetManager.get(AssetList.PLAYER_MAXIMILLIAN_ATL.toString());
-		case MOREAU:
-			return HadalGame.assetManager.get(AssetList.PLAYER_MOREAU_ATL.toString());
-		case ROCLAIRE:
-			return HadalGame.assetManager.get(AssetList.PLAYER_ROCLAIRE_ATL.toString());
-		case TAKANORI:
-			return HadalGame.assetManager.get(AssetList.PLAYER_TAKANORI_ATL.toString());
-		case TELEMACHUS:
-			return HadalGame.assetManager.get(AssetList.PLAYER_TELEMACHUS_ATL.toString());
-		case WANDA:
-			return HadalGame.assetManager.get(AssetList.PLAYER_WANDA_ATL.toString());
-		case MOREAU_FESTIVE:
-			return HadalGame.assetManager.get(AssetList.PLAYER_MOREAU_FESTIVE_ATL.toString());
-		case MOREAU_PARTY:
-			return HadalGame.assetManager.get(AssetList.PLAYER_MOREAU_PARTY_ATL.toString());
 		case KAMABOKO:
 			return HadalGame.assetManager.get(AssetList.KAMABOKO_ATL.toString());
 		case KAMABOKO_CRAWL:
@@ -360,21 +280,6 @@ public enum Sprite {
 		default:
 			return null;
 		}
-	}
-	
-	/**
-	 * This is used to get the different sprite parts of the player character
-	 * @param character: the character we are getting the part of
-	 * @param part: this string is the name of the body part.
-	 */
-	public static Sprite getCharacterSprites(SpriteType character, String part) {
-		for (Sprite s: Sprite.values() ) {
-			
-			if (s.type.equals(character) && s.spriteId.equals(part)) {
-				return s;
-			}
-		}
-		return null;
 	}
 	
 	public PlayMode getPlayMode() {	return playMode; }
@@ -397,14 +302,5 @@ public enum Sprite {
 		KAMABOKO_SWIM,
 		DRONE,
 		TELEMACHUS_POINT,
-		
-		MAXIMILLIAN,
-		MOREAU,
-		ROCLAIRE,
-		TAKANORI,
-		TELEMACHUS,
-		WANDA,
-		MOREAU_FESTIVE,
-		MOREAU_PARTY
 	}
 }

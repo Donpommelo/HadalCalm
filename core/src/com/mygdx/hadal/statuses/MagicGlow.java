@@ -1,7 +1,7 @@
 package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -28,7 +28,7 @@ public class MagicGlow extends Status {
 		if (procCdCount >= procCd) {
 			procCdCount -= procCd;
 			ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BRIGHT, 0.0f, procCd, true, particleSyncType.TICKSYNC);
-			particle.setColor(ParticleColor.RANDOM);
+			particle.setColor(HadalColor.RANDOM);
 		}
 		procCdCount += delta;
 	}

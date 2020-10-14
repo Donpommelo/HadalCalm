@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.melee;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -61,8 +61,10 @@ public class Riftsplitter extends MeleeWeapon {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE, DamageTypes.CUTTING));
-		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.TURQOISE));
-		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.TURQOISE));
+		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
+			HadalColor.TURQOISE));
+		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
+			HadalColor.TURQOISE));
 		
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
@@ -87,8 +89,10 @@ public class Riftsplitter extends MeleeWeapon {
 				shockwave.addStrategy(new AdjustAngle(state, shockwave, user.getBodyData()));
 				shockwave.addStrategy(new ContactWallDie(state, shockwave, user.getBodyData()));
 				shockwave.addStrategy(new DamageStandard(state, shockwave, user.getBodyData(), shockwaveDamage, knockback, DamageTypes.MELEE, DamageTypes.CUTTING));
-				shockwave.addStrategy(new ContactWallParticles(state, shockwave, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.TURQOISE));
-				shockwave.addStrategy(new ContactUnitParticles(state, shockwave, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.TURQOISE));
+				shockwave.addStrategy(new ContactWallParticles(state, shockwave, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
+					HadalColor.TURQOISE));
+				shockwave.addStrategy(new ContactUnitParticles(state, shockwave, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
+					HadalColor.TURQOISE));
 			}
 		});
 	}

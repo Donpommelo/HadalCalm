@@ -3,7 +3,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -78,9 +78,9 @@ public class Crawler3 extends EnemyCrawling {
 		}
 		
 		if (attackTarget != null) {
-			EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED, 120.0f);
+			EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, HadalColor.RED, 120.0f);
 			EnemyUtils.changeCrawlingState(this, CrawlingState.STILL, 0.0f, 0.0f);
-			EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED, 120.0f);
+			EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, HadalColor.RED, 120.0f);
 			
 			for (int i = 0; i < numProj; i++) {
 				

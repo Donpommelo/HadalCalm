@@ -2,7 +2,7 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -31,7 +31,7 @@ public class DieParticles extends HitboxStrategy {
 	private static final float maxSize = 100.0f;
 		
 	//this is the color of the particle. change using factory method
-	private ParticleColor color = ParticleColor.NOTHING;
+	private HadalColor color = HadalColor.NOTHING;
 
 	public DieParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration) {
 		super(state, proj, user);
@@ -58,7 +58,7 @@ public class DieParticles extends HitboxStrategy {
 		return this;
 	}
 	
-	public DieParticles setParticleColor(ParticleColor color) {
+	public DieParticles setParticleColor(HadalColor color) {
 		this.color = color;
 		return this;
 	}

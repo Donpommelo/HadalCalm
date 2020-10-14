@@ -3,7 +3,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.equip.WeaponUtils;
@@ -639,7 +639,7 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 0.0f);
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, spiritWindup, 1.0f, 2.0f, SoundEffect.WOOSH, true);
-		EnemyUtils.windupParticles(state, this, spiritWindup, Particle.BRIGHT, ParticleColor.RANDOM, 40.0f);
+		EnemyUtils.windupParticles(state, this, spiritWindup, Particle.BRIGHT, HadalColor.RANDOM, 40.0f);
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		
 		getActions().add(new EnemyAction(this, 0.0f) {

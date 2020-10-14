@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEmitter.ScaledNumericValue;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
@@ -52,7 +52,7 @@ public class ParticleEntity extends HadalEntity {
 	private boolean rotate;
 	
 	//this is the color of the particle. Nothing = base color of the effect.
-	private ParticleColor color = ParticleColor.NOTHING;
+	private HadalColor color = HadalColor.NOTHING;
 	
 	//if attached to an entity, this vector is the offset of the particle from the attached entity's location
 	private final Vector2 offset = new Vector2();
@@ -333,12 +333,12 @@ public class ParticleEntity extends HadalEntity {
 	/**
 	 * Set the color of the particle effect
 	 */
-	public ParticleEntity setColor(ParticleColor color) {
+	public ParticleEntity setColor(HadalColor color) {
 		this.color = color;
 		
-		if (color.equals(ParticleColor.NOTHING)) {
+		if (color.equals(HadalColor.NOTHING)) {
 			return this;
-		} else if (color.equals(ParticleColor.RANDOM)) {
+		} else if (color.equals(HadalColor.RANDOM)) {
 			
 			//for random colors, each emitter is tinted with random r,b,g
 			for (int i = 0; i < effect.getEmitters().size; i++) {

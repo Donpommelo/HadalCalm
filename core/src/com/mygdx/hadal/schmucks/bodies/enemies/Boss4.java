@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.equip.WeaponUtils;
@@ -81,20 +81,20 @@ public class Boss4 extends EnemyFloating {
 			public void render(SpriteBatch batch) {}
 		};
 		
-		body1.setScale(bodyBaseScale1).setColor(ParticleColor.RED).setSyncExtraFields(true);
+		body1.setScale(bodyBaseScale1).setColor(HadalColor.RED).setSyncExtraFields(true);
 		body2 = new ParticleEntity(state, this, Particle.STORM, 1.0f, 0.0f, true, particleSyncType.TICKSYNC) {
 			
 			@Override
 			public void render(SpriteBatch batch) {}
 		};
-		body2.setScale(bodyBaseScale2).setColor(ParticleColor.ORANGE).setSyncExtraFields(true);
+		body2.setScale(bodyBaseScale2).setColor(HadalColor.ORANGE).setSyncExtraFields(true);
 		
 		body3 = new ParticleEntity(state, this, Particle.BRIGHT, 1.0f, 0.0f, true, particleSyncType.TICKSYNC) {
 			
 			@Override
 			public void render(SpriteBatch batch) {}
 		};
-		body3.setScale(bodyBaseScale3).setColor(ParticleColor.RED).setSyncExtraFields(true);
+		body3.setScale(bodyBaseScale3).setColor(HadalColor.RED).setSyncExtraFields(true);
 	}
 	
 	
@@ -260,7 +260,7 @@ public class Boss4 extends EnemyFloating {
 	
 	Vector2 angle = new Vector2(1, 0);
 	private void radialShot1() {
-		changeColor(ParticleColor.VIOLET, shot1Windup);
+		changeColor(HadalColor.VIOLET, shot1Windup);
 		singlePulse();
 		
 		getActions().add(new EnemyAction(this, 0.0f) {
@@ -281,8 +281,10 @@ public class Boss4 extends EnemyFloating {
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), shot1Damage, shot1Knockback, DamageTypes.RANGED));
 					
 					hbox.addStrategy(new ReturnToUser(state, hbox, getBodyData(), returnAmp));
-					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.LASER_TRAIL, 0.0f, particleLinger).setParticleColor(ParticleColor.VIOLET));
-					hbox.addStrategy(new ContactUnitParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.VIOLET));
+					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.LASER_TRAIL, 0.0f, particleLinger).setParticleColor(
+						HadalColor.VIOLET));
+					hbox.addStrategy(new ContactUnitParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
+						HadalColor.VIOLET));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 					hbox.addStrategy((new HitboxStrategy(state, hbox, getBodyData()) {
@@ -306,7 +308,7 @@ public class Boss4 extends EnemyFloating {
 		});
 		
 		singlePulseReturn();
-		changeColor(ParticleColor.RED, 0.0f);
+		changeColor(HadalColor.RED, 0.0f);
 	}
 	
 	private static final float fireWindup = 0.5f;
@@ -325,14 +327,14 @@ public class Boss4 extends EnemyFloating {
 	private static final Vector2 windupSize = new Vector2(120, 120);
 	
 	private void twinFlameSpin() {
-		changeColor(ParticleColor.ORANGE, shot1Windup);
+		changeColor(HadalColor.ORANGE, shot1Windup);
 		singlePulse();
 		singlePulseReturn();
 
 		final float startAngle = getAttackAngle();
 		
-		windupParticle(startAngle, Particle.FIRE, ParticleColor.NOTHING, 40.0f, fireWindup, 0.0f);
-		windupParticle(startAngle + 180, Particle.FIRE, ParticleColor.NOTHING, 40.0f, fireWindup, fireWindup);
+		windupParticle(startAngle, Particle.FIRE, HadalColor.NOTHING, 40.0f, fireWindup, 0.0f);
+		windupParticle(startAngle + 180, Particle.FIRE, HadalColor.NOTHING, 40.0f, fireWindup, fireWindup);
 		EnemyUtils.createSoundEntity(state, this, 0.0f, fireballNumber * fireballInterval, 0.6f, 2.0f, SoundEffect.FLAMETHROWER, true);
 		for (int i = 0; i < fireballNumber; i++) {
 			
@@ -362,7 +364,7 @@ public class Boss4 extends EnemyFloating {
 			});
 		}
 		
-		changeColor(ParticleColor.RED, 0.0f);
+		changeColor(HadalColor.RED, 0.0f);
 	}
 	
 	private static final Vector2 bellSize = new Vector2(225, 225);
@@ -376,7 +378,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float bellInterval = 0.06f;
 	
 	private void bigBangBell() {
-		changeColor(ParticleColor.GOLD, shot1Windup);
+		changeColor(HadalColor.GOLD, shot1Windup);
 		singlePulse();
 		
 		getActions().add(new EnemyAction(this, 0.0f) {
@@ -420,7 +422,7 @@ public class Boss4 extends EnemyFloating {
 		});
 		
 		singlePulseReturn();
-		changeColor(ParticleColor.RED, 0.0f);
+		changeColor(HadalColor.RED, 0.0f);
 	}
 	
 	private static final int laserSpread = 4;
@@ -446,7 +448,7 @@ public class Boss4 extends EnemyFloating {
 	private static final int[] startingVelos = {30, 60, 120, 150, 210, 240, 300, 330};
 	
 	private void bounceLaser() {
-		changeColor(ParticleColor.BLUE, shot1Windup);
+		changeColor(HadalColor.BLUE, shot1Windup);
 		
 		final float startAngle = startingVelos[GameStateManager.generator.nextInt(startingVelos.length)] + ThreadLocalRandom.current().nextInt(-laserSpread, laserSpread + 1);
 		
@@ -472,7 +474,7 @@ public class Boss4 extends EnemyFloating {
 			});
 		}
 		
-		windupParticle(startAngle, Particle.OVERCHARGE, ParticleColor.BLUE, 30.0f, laserNumber * laserInterval, 0.0f);
+		windupParticle(startAngle, Particle.OVERCHARGE, HadalColor.BLUE, 30.0f, laserNumber * laserInterval, 0.0f);
 		
 		Vector2 startVeloLaser = new Vector2(0, laserSpeed).setAngle(startAngle);
 		
@@ -492,7 +494,8 @@ public class Boss4 extends EnemyFloating {
 					
 					laser.addStrategy(new ControllerDefault(state, laser, getBodyData()));
 					laser.addStrategy(new AdjustAngle(state, laser, getBodyData()));
-					laser.addStrategy(new DieParticles(state, laser, getBodyData(), Particle.LASER_IMPACT).setParticleColor(ParticleColor.BLUE));
+					laser.addStrategy(new DieParticles(state, laser, getBodyData(), Particle.LASER_IMPACT).setParticleColor(
+						HadalColor.BLUE));
 					laser.addStrategy(new ContactWallLoseDurability(state, laser, getBodyData()));
 					laser.addStrategy(new DamageStandard(state, laser, getBodyData(), laserDamage, laserKB, DamageTypes.RANGED, DamageTypes.ENERGY));
 					laser.addStrategy(new ContactUnitSound(state, laser, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
@@ -500,7 +503,7 @@ public class Boss4 extends EnemyFloating {
 			});
 		}
 		
-		changeColor(ParticleColor.RED, 0.0f);
+		changeColor(HadalColor.RED, 0.0f);
 	}
 	
 	private static final int sighNumber = 5;
@@ -520,7 +523,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float slowSlow = 0.8f;
 	
 	private void deadStarSigh() {
-		changeColor(ParticleColor.TURQOISE, shot1Windup);
+		changeColor(HadalColor.TURQOISE, shot1Windup);
 		singlePulse();
 		singlePulseReturn();
 		
@@ -541,7 +544,8 @@ public class Boss4 extends EnemyFloating {
 					Hitbox cloud = new Hitbox(state, getPixelPosition().add(startPos), windupSize, sighLifespan, new Vector2(), getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
 
 					cloud.addStrategy(new ControllerDefault(state, cloud, getBodyData()));
-					cloud.addStrategy(new CreateParticles(state, cloud, getBodyData(), Particle.OVERCHARGE, 0.0f, particleLinger).setParticleColor(ParticleColor.BLUE).setParticleSize(60.0f));
+					cloud.addStrategy(new CreateParticles(state, cloud, getBodyData(), Particle.OVERCHARGE, 0.0f, particleLinger).setParticleColor(
+						HadalColor.BLUE).setParticleSize(60.0f));
 					cloud.addStrategy(new HitboxStrategy(state, cloud, getBodyData()) {
 						
 						private float controllerCount;
@@ -576,7 +580,7 @@ public class Boss4 extends EnemyFloating {
 				}
 			});
 		}
-		changeColor(ParticleColor.RED, 2.0f);
+		changeColor(HadalColor.RED, 2.0f);
 	}
 	
 	private static final float apocalypseWindup = 2.0f;
@@ -597,7 +601,7 @@ public class Boss4 extends EnemyFloating {
 	private static final int rubbleSpread = 10;
 	
 	private void apocalypseLaser() {
-		changeColor(ParticleColor.MIDNIGHT_BLUE, shot1Windup);
+		changeColor(HadalColor.MIDNIGHT_BLUE, shot1Windup);
 		singlePulse();
 		singlePulseReturn();
 		
@@ -605,7 +609,7 @@ public class Boss4 extends EnemyFloating {
 		
 		Vector2 startVeloLaser = new Vector2(0, apocalypseLaserSpeed).setAngle(startAngle);
 		Vector2 startPositionLaser = new Vector2();
-		windupParticle(startAngle, Particle.CHARGING, ParticleColor.MIDNIGHT_BLUE, 30.0f, apocalypseWindup, apocalypseWindup);
+		windupParticle(startAngle, Particle.CHARGING, HadalColor.MIDNIGHT_BLUE, 30.0f, apocalypseWindup, apocalypseWindup);
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, apocalypseLaserNum * apocalypseLaserInterval, 1.0f, 0.5f, SoundEffect.BEAM3, true);
 		
@@ -623,7 +627,8 @@ public class Boss4 extends EnemyFloating {
 					
 					laser.addStrategy(new ControllerDefault(state, laser, getBodyData()));
 					laser.addStrategy(new AdjustAngle(state, laser, getBodyData()));
-					laser.addStrategy(new DieParticles(state, laser, getBodyData(), Particle.LASER_IMPACT).setParticleColor(ParticleColor.BLUE));
+					laser.addStrategy(new DieParticles(state, laser, getBodyData(), Particle.LASER_IMPACT).setParticleColor(
+						HadalColor.BLUE));
 					laser.addStrategy(new ContactWallLoseDurability(state, laser, getBodyData()));
 					laser.addStrategy(new DamageStandard(state, laser, getBodyData(), laserDamage, laserKB, DamageTypes.RANGED, DamageTypes.ENERGY));
 					laser.addStrategy(new ContactUnitSound(state, laser, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
@@ -664,8 +669,10 @@ public class Boss4 extends EnemyFloating {
 							hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
 							hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, getBodyData()));
 							hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), laserDamage, laserKB, DamageTypes.ENERGY, DamageTypes.RANGED));
-							hbox.addStrategy(new ContactWallParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.BLUE));
-							hbox.addStrategy(new ContactUnitParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.BLUE));
+							hbox.addStrategy(new ContactWallParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
+								HadalColor.BLUE));
+							hbox.addStrategy(new ContactUnitParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
+								HadalColor.BLUE));
 							hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 							hbox.addStrategy(new WaveEntity(state, hbox, getBodyData(), laser, apocalypseLaseramplitude, apocalypseLaserFrequency, startAngle));
 						}
@@ -674,7 +681,7 @@ public class Boss4 extends EnemyFloating {
 			});
 		}
 		
-		changeColor(ParticleColor.RED, 0.0f);
+		changeColor(HadalColor.RED, 0.0f);
 	}
 	
 	private static final float horizontalBulletSpawnOffset = 100.0f;
@@ -689,7 +696,7 @@ public class Boss4 extends EnemyFloating {
 	private static final Vector2 horizontalBulletSpriteSize = new Vector2(100, 50);
 	
 	private void horizontalBullets() {
-		changeColor(ParticleColor.PALE_GREEN, shot1Windup);
+		changeColor(HadalColor.PALE_GREEN, shot1Windup);
 		singlePulse();
 		singlePulseReturn();
 		
@@ -704,14 +711,14 @@ public class Boss4 extends EnemyFloating {
 				public void execute() {
 					bulletPosition.set(EnemyUtils.getLeftSide(state) - horizontalBulletSpawnOffset, ThreadLocalRandom.current().nextInt((int) EnemyUtils.floorHeight(state), (int) EnemyUtils.ceilingHeight(state)));
 					bulletSpeed.set(horizontalBulletSpeed, 0);
-					fireBullet(Sprite.LASER_TURQUOISE, ParticleColor.TURQOISE);
+					fireBullet(Sprite.LASER_TURQUOISE, HadalColor.TURQOISE);
 					
 					bulletPosition.set(EnemyUtils.getRightSide(state) + horizontalBulletSpawnOffset, ThreadLocalRandom.current().nextInt((int) EnemyUtils.floorHeight(state), (int) EnemyUtils.ceilingHeight(state)));
 					bulletSpeed.set(-horizontalBulletSpeed, 0);
-					fireBullet(Sprite.LASER_GREEN, ParticleColor.PALE_GREEN);
+					fireBullet(Sprite.LASER_GREEN, HadalColor.PALE_GREEN);
 				}
 				
-				private void fireBullet(Sprite sprite, ParticleColor color) {
+				private void fireBullet(Sprite sprite, HadalColor color) {
 					RangedHitbox hbox = new RangedHitbox(state, bulletPosition, horizontalBulletSize, horizontalBulletLifespan, bulletSpeed, getHitboxfilter(), true, false, enemy, sprite);
 					hbox.setSpriteSize(horizontalBulletSpriteSize);
 					
@@ -725,7 +732,7 @@ public class Boss4 extends EnemyFloating {
 				}
 			});
 		}
-		changeColor(ParticleColor.RED, horizontalBulletWindDown);
+		changeColor(HadalColor.RED, horizontalBulletWindDown);
 	}
 	
 	private static final int numWillOWisp = 40;
@@ -739,7 +746,7 @@ public class Boss4 extends EnemyFloating {
 	private static final Vector2 willOWispSize = new Vector2(25, 25);
 	
 	private void willOWisp() {
-		changeColor(ParticleColor.VIOLET, shot1Windup);
+		changeColor(HadalColor.VIOLET, shot1Windup);
 		singlePulse();
 		singlePulseReturn();
 		
@@ -757,7 +764,8 @@ public class Boss4 extends EnemyFloating {
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), willOWispDamage, willOWispKB, DamageTypes.RANGED));
 					hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
-					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.BRIGHT, 0.0f, particleLinger).setParticleColor(ParticleColor.RANDOM));
+					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.BRIGHT, 0.0f, particleLinger).setParticleColor(
+						HadalColor.RANDOM));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), willOWispHoming, getHitboxfilter()));
@@ -765,7 +773,7 @@ public class Boss4 extends EnemyFloating {
 				}
 			});
 		}
-		changeColor(ParticleColor.RED, 0.0f);
+		changeColor(HadalColor.RED, 0.0f);
 	}
 	
 	private static final int numStar = 32;
@@ -783,7 +791,7 @@ public class Boss4 extends EnemyFloating {
 	
 	private static final Sprite[] starSprites = {Sprite.STAR_BLUE, Sprite.STAR_PURPLE, Sprite.STAR_RED, Sprite.STAR_YELLOW};
 	private void orbitalStar() {
-		changeColor(ParticleColor.GOLD, shot1Windup);
+		changeColor(HadalColor.GOLD, shot1Windup);
 		singlePulse();
 		singlePulseReturn();
 		
@@ -809,7 +817,8 @@ public class Boss4 extends EnemyFloating {
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), starDamage, starKB, DamageTypes.RANGED));
-					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.STAR, 0.0f, particleLinger).setParticleColor(ParticleColor.RANDOM));
+					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.STAR, 0.0f, particleLinger).setParticleColor(
+						HadalColor.RANDOM));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 					
@@ -826,7 +835,7 @@ public class Boss4 extends EnemyFloating {
 				}
 			});
 		}
-		changeColor(ParticleColor.RED, 3.0f);
+		changeColor(HadalColor.RED, 3.0f);
 	}
 	
 	private static final float reticleInterval = 0.5f;
@@ -839,7 +848,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float explosionKnockback = 20.0f;
 	
 	private void reticleShots() {
-		changeColor(ParticleColor.HOT_PINK, shot1Windup);
+		changeColor(HadalColor.HOT_PINK, shot1Windup);
 		singlePulse();
 		singlePulseReturn();
 		
@@ -855,7 +864,7 @@ public class Boss4 extends EnemyFloating {
 			}
 		});
 		
-		changeColor(ParticleColor.RED, 1.0f);
+		changeColor(HadalColor.RED, 1.0f);
 	}
 	
 	/**
@@ -890,7 +899,7 @@ public class Boss4 extends EnemyFloating {
 	
 	private void randomReticleWave() {
 		singleVanish();
-		changeColor(ParticleColor.RED, numReticleWaves * reticleWaveInterval);
+		changeColor(HadalColor.RED, numReticleWaves * reticleWaveInterval);
 		
 		//the boss summons a large number of random exploding reticles
 		for (int i = 0; i < numReticleWaves; i++) {
@@ -1000,7 +1009,7 @@ public class Boss4 extends EnemyFloating {
 		});
 	}
 	
-	private void changeColor(ParticleColor color, float duration) {
+	private void changeColor(HadalColor color, float duration) {
 		getActions().add(new EnemyAction(this, duration) {
 			
 			@Override
@@ -1012,7 +1021,7 @@ public class Boss4 extends EnemyFloating {
 	
 	//this creates particles along the boss' perimeter.
 	private static final float WindupOffset = 15.0f;
-	private void windupParticle(float startAngle, Particle particle, ParticleColor color, float particleScale, float lifespan, float duration) {
+	private void windupParticle(float startAngle, Particle particle, HadalColor color, float particleScale, float lifespan, float duration) {
 		
 		getActions().add(new EnemyAction(this, duration) {
 			

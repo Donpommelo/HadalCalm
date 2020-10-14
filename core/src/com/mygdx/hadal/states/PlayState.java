@@ -705,9 +705,6 @@ public class PlayState extends GameState {
 		if (stage != null) {
 			stage.dispose();
 		}
-		if (shaderBase.getShader() != null) {
-			shaderBase.getShader().dispose();
-		}
 	}
 	
 	@Override

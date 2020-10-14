@@ -23,7 +23,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Ragdoll extends HadalEntity {
 	
 	//This is the sprite that will be displayed
-	private final Sprite sprite;
+	private Sprite sprite;
 	private TextureRegion ragdollSprite;
 	
 	//spread is for giving the initial ragdoll a random velocity
@@ -64,6 +64,20 @@ public class Ragdoll extends HadalEntity {
 			ragdollSprite = sprite.getFrame();
 		}
 		
+		setSyncDefault(false);
+	}
+
+	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, TextureRegion textureRegion, Vector2 startVelo, float duration, float gravity, boolean setVelo, boolean sensor) {
+		super(state, startPos, size);
+		this.startVelo = startVelo;
+		this.startAngle = baseAngle;
+		this.ragdollDuration = duration;
+		this.gravity = gravity;
+		this.sensor = sensor;
+		this.setVelo = setVelo;
+		ragdollSprite = textureRegion;
+
+		this.synced = false;
 		setSyncDefault(false);
 	}
 

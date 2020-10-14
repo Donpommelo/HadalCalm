@@ -68,7 +68,9 @@ public abstract class GameState {
 	public OrthographicCamera getCamera() { return camera; }
 	
 	public OrthographicCamera getHud() { return hud; }
-	
+
+	public SpriteBatch getBatch() { return batch; }
+
 	/**
 	 * Do we process state transitions when this state is active?
 	 * (for example, if a pause/setting state is placed over a play state, we don't want a transition when returning to the playstate.)

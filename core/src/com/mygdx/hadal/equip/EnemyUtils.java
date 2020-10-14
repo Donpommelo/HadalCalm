@@ -21,7 +21,7 @@ import com.mygdx.hadal.strategies.hitbox.FixedToOrigin;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -315,10 +315,10 @@ public class EnemyUtils {
 	}
 
 	public static void windupParticles(final PlayState state, Enemy boss, final float duration, Particle particle, float size) {
-		windupParticles(state, boss, duration, particle, ParticleColor.NOTHING, size);
+		windupParticles(state, boss, duration, particle, HadalColor.NOTHING, size);
 	}
 	
-	public static void windupParticles(final PlayState state, Enemy boss, final float duration, Particle particle, ParticleColor color, float size) {
+	public static void windupParticles(final PlayState state, Enemy boss, final float duration, Particle particle, HadalColor color, float size) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {
 			

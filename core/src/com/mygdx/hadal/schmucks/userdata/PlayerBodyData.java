@@ -5,6 +5,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.Loadout;
@@ -100,7 +101,7 @@ public class PlayerBodyData extends BodyData {
 		
 		//Acquire active item
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
-		this.player.setBodySprite(loadout.character);
+		this.player.setBodySprite(loadout.character, loadout.team);
 		
 		//If this is the player being controlled by the user, update artifact ui
 		if (player.equals((player.getState().getPlayer()))) {
@@ -128,7 +129,7 @@ public class PlayerBodyData extends BodyData {
 		saveArtifacts();
 		
 		this.activeItem = UnlocktoItem.getUnlock(newLoadout.activeItem, player);
-		player.setBodySprite(newLoadout.character);
+		player.setBodySprite(newLoadout.character, newLoadout.team);
 		
 		this.loadout = newLoadout;
 		
@@ -161,13 +162,13 @@ public class PlayerBodyData extends BodyData {
 		}
 		
 		if (character != null) {
-			getPlayer().setBodySprite(character);
         	getLoadout().character = character;
 		}
 
 		if (team != null) {
 			getLoadout().team = team;
 		}
+		getPlayer().setBodySprite(character, team);
 	}
 	
 	/**
@@ -599,21 +600,22 @@ public class PlayerBodyData extends BodyData {
 	public void die(BodyData perp, DamageTypes... tags) {
 		if (player.isAlive()) {
 			
-			boolean special = false;
-			
+			DespawnType type = DespawnType.GIB;
+
 			//in the case of a disconnect, this is a special death with teleport particles instead of frags
 			for (final DamageTypes tag : tags) {
 				if (tag == DamageTypes.DISCONNECT) {
-					special = true;
+					type = DespawnType.TELEPORT;
 					break;
 				}
 			}
-			
-			if (special) {
+
+			player.getSpriteHelper().despawn(type, player.getPixelPosition(), player.getLinearVelocity());
+			player.setDespawnType(type);
+			if (type == DespawnType.TELEPORT) {
 				warpAnimation();
 			} else {
-				player.createGibs();
-				
+
 				//process score change if pvp modes (and drop eggplants if suitable mode)
 				if (player.getState().isPvp() && !player.getState().isHub() && player.getState().getGsm().getSetting().getPVPMode() == 1) {
 					User user = HadalGame.server.getUsers().get(player.getConnID());

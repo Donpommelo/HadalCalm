@@ -1,6 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
@@ -12,7 +11,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.PlayerSpriteHelper;
+import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.Loadout;
@@ -57,31 +57,16 @@ public class Player extends PhysicsSchmuck {
 	//Dimension of player sprite parts.
 	public static final int hbWidth = 216;
 	public static final int hbHeight = 516;
-		
-	private static final int bodyConnectX = -100;
-	private static final int bodyConnectY = 0;
-	
-	private static final int headConnectX = -26;
-	private static final int headConnectY = 330;
-	
-	private static final int armConnectX = -304;
-	private static final int armConnectY = 218;
-	
-	private static final int armRotateX = 330;
-	private static final int armRotateY = 50;
-		
+
 	public static final float scale = 0.15f;
 	public static final float uiScale = 0.4f;
-	
-	private TextureRegion bodyBackSprite, armSprite, gemSprite, toolSprite;
-	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
+
+	private final PlayerSpriteHelper spriteHelper;
+	private TextureRegion toolSprite;
 	private final Animation<TextureRegion> typingBubble;
 	
 	private final TextureRegion reload, reloadMeter, reloadBar;
 	private final Texture empty, full;
-	
-	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight, gemHeight, gemWidth;
-	private final int toolWidth, toolHeight;
 
 	//Fixtures and user data
 	protected FeetData feetData;
@@ -190,12 +175,8 @@ public class Player extends PhysicsSchmuck {
 		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), name, Constants.PLAYER_HITBOX, baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
-		
 		toolSprite = Sprite.MT_DEFAULT.getFrame();
-		
-		this.toolHeight = toolSprite.getRegionHeight();
-		this.toolWidth = toolSprite.getRegionWidth();
-		
+
 		this.moveState = MoveState.STAND;
 
 		this.startLoadout = startLoadout;
@@ -203,8 +184,9 @@ public class Player extends PhysicsSchmuck {
 		this.connID = connID;
 		this.reset = reset;
 		this.start = start;
-		
-		setBodySprite(startLoadout.character);
+
+		this.spriteHelper = new PlayerSpriteHelper(this, scale);
+		setBodySprite(startLoadout.character, startLoadout.team);
 		loadParticles();
 		
 		//This schmuck tracks mouse location. Used for projectiles that home towards mouse.
@@ -216,7 +198,7 @@ public class Player extends PhysicsSchmuck {
 		
 		this.empty = new Texture(AssetList.HEART_EMPTY.toString());
 		this.full = new Texture(AssetList.HEART_FULL.toString());
-		typingBubble =  new Animation<>(PlayState.spriteAnimationSpeedSlow, Sprite.NOTIFICATIONS_CHAT.getFrames());
+		this.typingBubble =  new Animation<>(PlayState.spriteAnimationSpeedSlow, Sprite.NOTIFICATIONS_CHAT.getFrames());
 		typingBubble.setPlayMode(PlayMode.LOOP_PINGPONG);
 	}
 	
@@ -224,25 +206,9 @@ public class Player extends PhysicsSchmuck {
 	 * This method prepares the player sprite from various texture regions.
 	 * @param character: the character whose sprite we are switching to.
 	 */
-	public void setBodySprite(UnlockCharacter character) {
+	public void setBodySprite(UnlockCharacter character, AlignmentFilter team) {
 
-		bodyRunSprite =  new Animation<>(PlayState.spriteAnimationSpeed, Sprite.getCharacterSprites(character.getSprite(), "body_run").getFrames());
-		bodyStillSprite =  new Animation<>(PlayState.spriteAnimationSpeed, Sprite.getCharacterSprites(character.getSprite(), "body_stand").getFrames());
-		bodyBackSprite = Sprite.getCharacterSprites(character.getSprite(), "body_background").getFrame();
-		armSprite = Sprite.getCharacterSprites(character.getSprite(), "arm").getFrame();
-		headSprite = new Animation<>(PlayState.spriteAnimationSpeed, Sprite.getCharacterSprites(character.getSprite(), "head").getFrames());
-		gemSprite = Sprite.getCharacterSprites(character.getSprite(), "gem_active").getFrame();
-		
-		this.armWidth = armSprite.getRegionWidth();
-		this.armHeight = armSprite.getRegionHeight();
-		this.headWidth = headSprite.getKeyFrame(animationTime).getRegionWidth();
-		this.headHeight = headSprite.getKeyFrame(animationTime).getRegionHeight();
-		this.bodyWidth = bodyRunSprite.getKeyFrame(animationTime).getRegionWidth();
-		this.bodyHeight = bodyRunSprite.getKeyFrame(animationTime).getRegionHeight();
-		this.bodyBackWidth = bodyBackSprite.getRegionWidth();
-		this.bodyBackHeight = bodyBackSprite.getRegionHeight();
-		this.gemHeight = gemSprite.getRegionHeight();
-		this.gemWidth = gemSprite.getRegionWidth();
+		spriteHelper.setBodySprite(state.getBatch(), character, team);
 		
 		//This line is used when the player swaps skins in loadout screen. It ensures the tool sprite is properly aligned.
 		if (playerData != null) {
@@ -673,124 +639,12 @@ public class Player extends PhysicsSchmuck {
 				return;
 			}
 		}
-
-		Color color;
-		boolean colorChange = false;
-		if (playerData.getLoadout().team.equals(AlignmentFilter.NONE)) {
-			color = new Color(1.0f, 1.0f, 1.0f, transparency);
-		} else {
-			ParticleColor rgb = playerData.getLoadout().team.getColor();
-			color = new Color(rgb.getR(), rgb.getG(), rgb.getB(), transparency);
-			colorChange = true;
-		}
-
-		//flip determines if the player is facing left or right
-		boolean flip = Math.abs(attackAngle) > 90;
-		
-		//Depending on which way the player is facing, the connection points of various body parts are slightly offset.
-		float armConnectXReal = armConnectX;
-		float headConnectXReal = headConnectX;
-		float armRotateXReal = armRotateX;
-		
-		float realAttackAngle = attackAngle;
-		if (flip) {
-			armConnectXReal = bodyWidth - armWidth - armConnectX - 200;
-			headConnectXReal = bodyWidth - headWidth - headConnectX - 200;
-			armRotateXReal = armWidth - armRotateX;
-			realAttackAngle += 180;
-		}
-		
-		//This switch determines the total body y-offset to make the body bob up and down when running.
-		//offset head is separate for some characters to have head bobbing
-		float yOffset;
-		float yOffsetHead;
-		boolean moving = moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT);
-		int bodyFrame = bodyRunSprite.getKeyFrameIndex(animationTime);
-		int headFrame = bodyRunSprite.getKeyFrameIndex(animationTimeExtra);
-		
-		yOffset = playerData.getLoadout().character.getWobbleOffsetBody(bodyFrame, grounded, moving);
-		yOffsetHead = playerData.getLoadout().character.getWobbleOffsetHead(bodyFrame, headFrame, grounded, moving);
-		
 		//we make location an int to avoid weird blurriness/jitters
 		playerLocation.set(getPixelPosition());
 		playerLocation.set((int) playerLocation.x, (int) playerLocation.y);
 
-		//Draw a bunch of stuff
-		batch.draw(toolSprite, 
-				(flip ? toolWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + armConnectXReal * scale, 
-				playerLocation.y - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
-				(flip ? -armWidth * scale : 0) + armRotateXReal * scale , armRotateY * scale,
-				(flip ? -1 : 1) * toolWidth * scale, toolHeight * scale, 1, 1, realAttackAngle);
+		spriteHelper.render(batch, attackAngle, moveState, animationTime, animationTimeExtra, grounded, playerLocation);
 
-		if (colorChange) {
-			batch.setColor(color);
-		}
-
-		batch.draw(bodyBackSprite,
-				(flip ? bodyBackWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + bodyConnectX * scale,
-				playerLocation.y - hbHeight * scale / 2 + bodyConnectY + yOffset,
-				0, 0,
-				(flip ? -1 : 1) * bodyBackWidth * scale, bodyBackHeight * scale, 1, 1, 0);
-		
-		batch.draw(armSprite, 
-				(flip ? armWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + armConnectXReal * scale, 
-				playerLocation.y - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
-				(flip ? -armWidth * scale : 0) + armRotateXReal * scale, armRotateY * scale,
-				(flip ? -1 : 1) * armWidth * scale, armHeight * scale, 1, 1, realAttackAngle);
-		
-		batch.draw(gemSprite, 
-				(flip ? gemWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale, 
-				playerLocation.y - hbHeight * scale / 2 + bodyConnectY + yOffset, 
-				0, 0,
-				(flip ? -1 : 1) * gemWidth * scale, gemHeight * scale, 1, 1, 0);
-		
-		//reverse determines whether the player is running forwards or backwards.
-		if (moveState.equals(MoveState.MOVE_LEFT)) {
-			
-			if (Math.abs(realAttackAngle) > 90) {
-				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
-			} else {
-				bodyRunSprite.setPlayMode(PlayMode.LOOP);
-			}
-			
-			batch.draw(bodyRunSprite.getKeyFrame(animationTime),
-					(flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale, 
-					playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset, 
-					0, 0,
-					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
-		} else if (moveState.equals(MoveState.MOVE_RIGHT)) {
-			if (Math.abs(realAttackAngle) < 90) {
-				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
-			} else {
-				bodyRunSprite.setPlayMode(PlayMode.LOOP);
-			}
-			
-			batch.draw(bodyRunSprite.getKeyFrame(animationTime),
-					(flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale, 
-					playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset, 
-					0, 0,
-					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
-		} else {
-			bodyRunSprite.setPlayMode(PlayMode.LOOP);
-			batch.draw(grounded ? bodyStillSprite.getKeyFrame(animationTime, true) :
-					bodyRunSprite.getKeyFrame(getFreezeFrame(false)),
-					(flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale, 
-					playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset, 
-					0, 0,
-					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
-		}
-
-		if (colorChange) {
-			batch.setColor(1.0f,  1.0f, 1.0f, transparency);
-		}
-
-		batch.draw(headSprite.getKeyFrame(animationTimeExtra, true),
-				(flip ? headWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + headConnectXReal * scale, 
-				playerLocation.y - hbHeight * scale / 2 + headConnectY * scale + yOffsetHead, 
-				0, 0,
-				(flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
-		
-		
 		if (invisible) {
 			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
@@ -898,35 +752,7 @@ public class Player extends PhysicsSchmuck {
 			return reverse ? 1 : 6;
 		}
 	}
-	
-	/**
-	 * This creates a bunch of gib ragdolls when the player dies.
-	 */
-	private static final float gibDuration = 3.0f;
-	private static final float gibGravity = 1.0f;
-	public void createGibs() {
-		if (alive) {
-			playerLocation.set(getPixelPosition());
-			new Ragdoll(state, playerLocation, new Vector2(headWidth, headHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), gibDuration, gibGravity, true, false, true);
-			
-			new Ragdoll(state, playerLocation, new Vector2(bodyWidth, bodyHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), gibDuration, gibGravity, true, false, true);
-			
-			new Ragdoll(state, playerLocation, new Vector2(armWidth, armHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), gibDuration, gibGravity, true, false, true);
-			
-			new Ragdoll(state, playerLocation, new Vector2(bodyBackWidth, bodyBackHeight).scl(scale), 
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), gibDuration, gibGravity, true, false, true);
-			
-			new Ragdoll(state, playerLocation, new Vector2(gemWidth, gemHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), gibDuration, gibGravity, true, false, true);
-			
-			new Ragdoll(state, playerLocation, new Vector2(toolWidth, toolHeight).scl(scale),
-					playerData.getCurrentTool().getWeaponSprite(), getLinearVelocity(), gibDuration, gibGravity, true, false, true);
-		}
-	}
-	
+
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -968,7 +794,11 @@ public class Player extends PhysicsSchmuck {
 	public Object onServerCreate() {
 		return new Packets.CreatePlayer(entityID.toString(), connID, getPixelPosition(), name, playerData.getLoadout(), hitboxfilter);
 	}
-	
+
+	private DespawnType despawnType = DespawnType.GIB;
+	@Override
+	public Object onServerDelete() { return new Packets.DeletePlayer(entityID.toString(), state.getTimer(), despawnType); }
+
 	/**
 	 * This is called every engine tick. 
 	 * The server player sends one packet to the corresponding client player and one to all players.
@@ -1011,6 +841,10 @@ public class Player extends PhysicsSchmuck {
 				filter.maskBits = p.maskBits;
 				getMainFixture().setFilterData(filter);
 			}
+		} else if (o instanceof  Packets.DeletePlayer) {
+			Packets.DeletePlayer p = (Packets.DeletePlayer) o;
+			spriteHelper.despawn(p.type, getPixelPosition(), getLinearVelocity());
+			((ClientState) state).removeEntity(entityID.toString());
 		} else {
 			super.onClientSync(o);
 		}
@@ -1081,6 +915,8 @@ public class Player extends PhysicsSchmuck {
 	
 	public PlayerBodyData getPlayerData() {	return playerData; }
 
+	public TextureRegion getToolSprite() { return this.toolSprite; }
+
 	public void setToolSprite(TextureRegion sprite) { toolSprite = sprite; }
 
 	public Event getCurrentEvent() { return currentEvent; }
@@ -1126,4 +962,8 @@ public class Player extends PhysicsSchmuck {
 	public void startTyping() { this.typingCdCount = 1.0f; }
 	
 	public StartPoint getStart() { return start; }
+
+	public PlayerSpriteHelper getSpriteHelper() { return spriteHelper; }
+
+	public void setDespawnType(DespawnType despawnType) { this.despawnType = despawnType; }
 }

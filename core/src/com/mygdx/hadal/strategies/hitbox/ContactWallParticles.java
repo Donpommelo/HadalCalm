@@ -2,7 +2,7 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -27,7 +27,7 @@ public class ContactWallParticles extends HitboxStrategy {
 	private float duration;
 	
 	//this is the color of the particle. Can be set using the factory method
-	private ParticleColor color = ParticleColor.NOTHING;
+	private HadalColor color = HadalColor.NOTHING;
 	
 	//do we draw the particles at an offset from the hbox? (used for larger hboxes)
 	private final Vector2 offset = new Vector2();
@@ -63,7 +63,7 @@ public class ContactWallParticles extends HitboxStrategy {
 		return this;
 	}
 	
-	public ContactWallParticles setParticleColor(ParticleColor color) {
+	public ContactWallParticles setParticleColor(HadalColor color) {
 		this.color = color;
 		return this;
 	}

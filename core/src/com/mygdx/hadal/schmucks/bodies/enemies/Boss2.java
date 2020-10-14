@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -293,8 +293,8 @@ public class Boss2 extends EnemyFloating {
 	private void kamabokoShot(int phase) {
 		
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
-		EnemyUtils.windupParticles(state, this, bulletWindup1, Particle.CHARGING, ParticleColor.MAGENTA, 80.0f);
-		EnemyUtils.windupParticles(state, this, bulletWindup2, Particle.OVERCHARGE, ParticleColor.MAGENTA, 80.0f);
+		EnemyUtils.windupParticles(state, this, bulletWindup1, Particle.CHARGING, HadalColor.MAGENTA, 80.0f);
+		EnemyUtils.windupParticles(state, this, bulletWindup2, Particle.OVERCHARGE, HadalColor.MAGENTA, 80.0f);
 		for (int i = 0; i < bulletNumber; i++) {
 			if (phase == 1) {
 				shootKamaboko(state, this, bulletDamage, bulletSpeed1, bulletKB, bulletSize, bulletLifespan, bulletInterval1, 1);

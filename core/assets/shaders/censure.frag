@@ -8,8 +8,8 @@ varying vec2 v_texCoords;
 uniform sampler2D u_texture;
 
 void main() {
-  float dx = 15.0 * (1.0 / 256.0);
-  float dy = 10.0 * (1.0 / 256.0);
+  float dx = 15.0 * (1.0 / 1024.0);
+  float dy = 10.0 * (1.0 / 1024.0);
   vec2 coord = vec2(dx * floor(v_texCoords.x / dx), dy * floor(v_texCoords.y / dy));
   gl_FragColor = texture2D(u_texture, coord);
 }

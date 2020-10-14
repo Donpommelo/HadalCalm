@@ -5,7 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
@@ -413,7 +414,25 @@ public class Packets {
 			this.timestamp = timestamp;
         }
 	}
-	
+
+	public static class DeletePlayer {
+		public String entityID;
+		public float timestamp;
+		public DespawnType type;
+		public DeletePlayer() {}
+
+		/**
+		 * A Delete Player is sent from the Server to the Client to tell the Client to delete a player.
+		 * This is separate from delete entity to pass along info about the type of death.
+		 * @param entityID: ID of the entity to be deleted.
+		 */
+		public DeletePlayer(String entityID, float timestamp, DespawnType type) {
+			this.entityID = entityID;
+			this.timestamp = timestamp;
+			this.type = type;
+		}
+	}
+
 	public static class CreatePlayer {
 		public String entityID;
 		public int connID;
@@ -730,7 +749,7 @@ public class Packets {
 		public float scale;
 		public boolean rotate;
 		public boolean synced;
-		public ParticleColor color;
+		public HadalColor color;
 		public CreateParticles() {}
 		
 		/**
@@ -752,7 +771,7 @@ public class Packets {
 		 * @param color: the color tint of the particle
 		 */
 		public CreateParticles(String entityID, String attachedID, Vector2 pos, boolean attached, String particle, boolean startOn, float linger, float lifespan, float scale, boolean rotate, boolean synced, 
-				ParticleColor color) {
+				HadalColor color) {
 			this.entityID = entityID;
 			this.attachedID = attachedID;
 			this.pos = pos;
@@ -805,14 +824,14 @@ public class Packets {
         public float age;
         public float timestamp;
 		public float scale;
-		public ParticleColor color;
+		public HadalColor color;
 		
 		public SyncParticlesExtra() {}
 		
 		/**
 		 * This sync packet is used for particles that sync the extra fields; color and scale.
 		 */
-		public SyncParticlesExtra(String entityID, Vector2 pos, Vector2 offset, boolean on, float age, float timestamp, float scale, ParticleColor color) {
+		public SyncParticlesExtra(String entityID, Vector2 pos, Vector2 offset, boolean on, float age, float timestamp, float scale, HadalColor color) {
 			this.entityID = entityID;
 			this.pos = pos;
 			this.offset = offset;
@@ -1145,7 +1164,8 @@ public class Packets {
     	kryo.register(SyncScore.class);
     	kryo.register(CreateEntity.class);
     	kryo.register(CreateEnemy.class);
-    	kryo.register(DeleteEntity.class);
+		kryo.register(DeleteEntity.class);
+		kryo.register(DeletePlayer.class);
     	kryo.register(CreateEvent.class);
     	kryo.register(CreatePickup.class);
     	kryo.register(SyncPickup.class);

@@ -4,7 +4,7 @@ package com.mygdx.hadal.equip.melee;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -74,7 +74,8 @@ public class BatteringRam extends MeleeWeapon {
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		
 		SoundEffect.WOOSH.playUniversal(state, startPosition, 1.0f, false);
-		new ParticleEntity(user.getState(), user, Particle.BRIGHT, 1.0f, lifespan, true, particleSyncType.TICKSYNC).setColor(ParticleColor.VIOLET);
+		new ParticleEntity(user.getState(), user, Particle.BRIGHT, 1.0f, lifespan, true, particleSyncType.TICKSYNC).setColor(
+			HadalColor.VIOLET);
 		
 		//velocity scales with charge percentage
 		float velocity = chargeCd / getChargeTime() * (maxRecoil - minRecoil) + minRecoil;

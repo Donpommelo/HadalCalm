@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -63,7 +63,8 @@ public class XBomber extends RangedWeapon {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.ENERGY, DamageTypes.RANGED));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.6f));
-		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(ParticleColor.CYAN));
+		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(
+			HadalColor.CYAN));
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
@@ -89,7 +90,8 @@ public class XBomber extends RangedWeapon {
 				
 				cross.addStrategy(new ControllerDefault(state, cross, user.getBodyData()));
 				cross.addStrategy(new DamageConstant(state, cross, user.getBodyData(), crossDamage, new Vector2(startVelocity).nor().scl(knockback), DamageTypes.ENERGY, DamageTypes.RANGED));
-				cross.addStrategy(new ContactUnitParticles(state, cross, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(ParticleColor.CYAN).setDrawOnSelf(false));
+				cross.addStrategy(new ContactUnitParticles(state, cross, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(
+					HadalColor.CYAN).setDrawOnSelf(false));
 				cross.addStrategy(new Static(state, cross, user.getBodyData()));
 			}
 		});

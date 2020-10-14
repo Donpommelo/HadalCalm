@@ -4,7 +4,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColor;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -56,9 +56,9 @@ public class TurretVolley extends Turret {
 	public void attackInitiate() {
 		
 		if (attackTarget != null) {
-			EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED, 80.0f);
+			EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, HadalColor.RED, 80.0f);
 			EnemyUtils.changeTurretState(this, TurretState.FREE, 0.0f, 0.0f);
-			EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED, 80.0f);
+			EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, HadalColor.RED, 80.0f);
 			
 			EnemyUtils.changeMoveState(this, MoveState.ANIM1, attackAnimation);
 			animationTime = 0;

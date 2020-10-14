@@ -554,7 +554,17 @@ public class KryoClient {
 			}
 			return true;
 		}
-		
+
+		else if (o instanceof Packets.DeletePlayer) {
+			final Packets.DeletePlayer p = (Packets.DeletePlayer) o;
+			final ClientState cs = getClientState();
+
+			if (cs != null) {
+				cs.addPacketEffect(() -> cs.syncEntity(p.entityID, p, 0.0f, p.timestamp));
+			}
+			return true;
+		}
+
 		/*
 		 * The Server tells us to create a particle entity.
 		 * Create the designated particles and set its attachedId so that it will connect once it is created.
