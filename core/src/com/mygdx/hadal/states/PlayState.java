@@ -245,7 +245,7 @@ public class PlayState extends GameState {
 		this.shaderBase = Shader.NOTHING;
 		if (map.getProperties().get("shader", String.class) != null) {
 			shaderBase = Shader.valueOf(map.getProperties().get("shader", String.class));
-			shaderBase.loadShader(this, null, 0);
+			shaderBase.loadShader();
 		}
 		
 		//Clear events in the TiledObjectUtil to avoid keeping reference to previous map's events.
@@ -478,16 +478,16 @@ public class PlayState extends GameState {
 		batch.setProjectionMatrix(hud.combined);
 		batch.begin();
 		batch.disableBlending();
-		if (shaderBase.getShader() != null) {
-			shaderBase.getShader().bind();
+		if (shaderBase.getShaderProgram() != null) {
+			shaderBase.getShaderProgram().bind();
 			shaderBase.shaderPlayUpdate(this, timer);
 			shaderBase.shaderDefaultUpdate(timer);
-			batch.setShader(shaderBase.getShader());
+			batch.setShader(shaderBase.getShaderProgram());
 		}
 		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 		
 		//render shader
-		if (shaderBase.getShader() != null) {
+		if (shaderBase.getShaderProgram() != null) {
 			if (shaderBase.isBackground()) {
 				batch.setShader(null);
 			}
@@ -511,7 +511,7 @@ public class PlayState extends GameState {
 		
 		renderEntities(delta);
 		
-		if (shaderBase.getShader() != null) {
+		if (shaderBase.getShaderProgram() != null) {
 			if (!shaderBase.isBackground()) {
 				batch.setShader(null);
 			}
@@ -617,13 +617,14 @@ public class PlayState extends GameState {
 	public void renderEntity(HadalEntity entity) {
 		
 		if (entity.isVisible()) {
-			if (entity.getShaderCount() > 0) {
-				batch.setShader(entity.getShader());
+			if (entity.getShaderCount() > 0 && entity.getShader() != null) {
+				entity.processShaderController();
+				batch.setShader(entity.getShader().getShaderProgram());
 			}
-			
+
 			entity.render(batch);
-			
-			if (entity.getShaderCount() > 0) {
+
+			if (entity.getShaderCount() > 0 && entity.getShader() != null) {
 				batch.setShader(null);
 			}
 		}
@@ -719,8 +720,8 @@ public class PlayState extends GameState {
 			this.camera.position.set(new Vector3(cameraTarget.x, cameraTarget.y, 0));
 		}
 		
-		if(shaderBase.getShader() != null) {
-			shaderBase.getShader().bind();
+		if(shaderBase.getShaderProgram() != null) {
+			shaderBase.getShaderProgram().bind();
 			shaderBase.shaderResize();
 		}
 	}
@@ -959,7 +960,17 @@ public class PlayState extends GameState {
 						Player playerLeft = user.getPlayer();
 
 						if (playerLeft != null) {
-							resultsText = playerLeft.getName() + " WINS";
+
+							if (gsm.getSetting().isTeamEnabled() && !isHub()) {
+								if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
+									resultsText = playerLeft.getPlayerData().getLoadout().team.toString() + " WINS";
+								} else {
+									resultsText = playerLeft.getName() + " WINS";
+								}
+							} else {
+								resultsText = playerLeft.getName() + " WINS";
+							}
+
 							if (factionLeft == -1) {
 								factionLeft = playerLeft.getHitboxfilter();
 							} else {
@@ -1270,7 +1281,7 @@ public class PlayState extends GameState {
 	 */
 	public void setShaderBase(Shader shader) {
 		shaderBase = shader;
-		shaderBase.loadShader(this, null, 0);
+		shaderBase.loadShader();
 	}
 	
 	private static final float spectatorDefaultZoom = 1.5f;

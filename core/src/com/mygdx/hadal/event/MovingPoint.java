@@ -67,7 +67,7 @@ public class MovingPoint extends Event {
 				dist.set(getConnectedEvent().getPixelPosition()).sub(getPixelPosition());
 
 				//If this platform is close enough to its connected event, move to the next event in the chain.
-				if ((int)dist.len2() <= 1) {
+				if ((int) dist.len2() <= 1) {
 					
 					//If no more connected events, make the platform and all connected events stop moving.
 					if (getConnectedEvent().getConnectedEvent() == null) {

@@ -2,8 +2,6 @@ package com.mygdx.hadal.effects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.ShaderStrategy;
 import com.mygdx.hadal.strategies.shader.*;
@@ -34,7 +32,7 @@ public enum Shader {
 	private final String vertId, fragId;
 	
 	//the shader program.
-	private ShaderProgram shader;
+	private ShaderProgram shaderProgram;
 	
 	//a list of strategies the shader can use to read game information.
 	private final ShaderStrategy[] strategies;
@@ -50,30 +48,22 @@ public enum Shader {
 	}
 	
 	/**
-	 * 
-	 * @param state: The game state
-	 * @param entityId: The id of the entity that will be shaded
-	 * @param duration: how long will this shader last?
+	 * Load this shader's shader program
 	 */
-	public void loadShader(PlayState state, String entityId, float duration) {
+	public void loadShader() {
 		
 		if (this.equals(NOTHING)) {
 			return;
 		}
 		
 		//load the shader and create its strategies
-		if (shader == null) {
-			shader = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
+		if (shaderProgram == null) {
+			shaderProgram = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
 		}
-		shader.bind();
+		shaderProgram.bind();
 
 		for (ShaderStrategy strat: strategies) {
-			strat.create(shader);
-		}
-		
-		//The server tells the client to also display the shader
-		if (state.isServer()) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncShader(entityId, this, duration));
+			strat.create(shaderProgram);
 		}
 	}
 	
@@ -86,13 +76,13 @@ public enum Shader {
 		}
 		
 		//load the shader and create its strategies
-		if (shader == null) {
-			shader = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
+		if (shaderProgram == null) {
+			shaderProgram = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
 		}
-		shader.bind();
+		shaderProgram.bind();
 		
 		for (ShaderStrategy strat: strategies) {
-			strat.create(shader);
+			strat.create(shaderProgram);
 		}
 	}
 	
@@ -101,7 +91,7 @@ public enum Shader {
 	 */
 	public void shaderPlayUpdate(PlayState state, float delta) {
 		for (ShaderStrategy strat: strategies) {
-			strat.playController(state, shader, delta);
+			strat.playController(state, shaderProgram, delta);
 		}
 	}
 	
@@ -110,7 +100,17 @@ public enum Shader {
 	 */
 	public void shaderDefaultUpdate(float delta) {
 		for (ShaderStrategy strat: strategies) {
-			strat.defaultController(shader, delta);
+			strat.defaultController(shaderProgram, delta);
+		}
+	}
+
+	/**
+	 * This is a version of shaderPlayUpdate used for entities with temporary shader effects.
+	 * Use this for shaders that keep track of percent completion
+	 */
+	public void shaderEntityUpdate(float completion) {
+		for (ShaderStrategy strat: strategies) {
+			strat.shaderEntityUpdate(shaderProgram, completion);
 		}
 	}
 	
@@ -119,11 +119,11 @@ public enum Shader {
 	 */
 	public void shaderResize() {
 		for (ShaderStrategy strat: strategies) {
-			strat.resize(shader);
+			strat.resize(shaderProgram);
 		}
 	}
 	
-	public ShaderProgram getShader() { return shader; }
+	public ShaderProgram getShaderProgram() { return shaderProgram; }
 	
 	public boolean isBackground() { return background; }
 }

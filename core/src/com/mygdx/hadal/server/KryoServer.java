@@ -424,13 +424,16 @@ public class KryoServer {
 				 */
 				else if (o instanceof Packets.StartSpectate) {
 					final PlayState ps = getPlayState();
-
-					User user = users.get(c.getID());
-					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							ps.becomeSpectator(player);
-						}
+					if (ps != null) {
+						ps.addPacketEffect(() -> {
+							User user = users.get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null) {
+									ps.becomeSpectator(player);
+								}
+							}
+						});
 					}
 				}
 				
@@ -439,13 +442,16 @@ public class KryoServer {
 				 */
 				else if (o instanceof EndSpectate) {
 					final PlayState ps = getPlayState();
-
-					User user = users.get(c.getID());
-					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							ps.exitSpectator(player);
-						}
+					if (ps != null) {
+						ps.addPacketEffect(() -> {
+							User user = users.get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null) {
+									ps.exitSpectator(player);
+								}
+							}
+						});
 					}
 				}
 				

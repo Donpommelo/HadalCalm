@@ -83,9 +83,9 @@ public enum UnlockCharacter {
 		}
 	},
 	MOREAU_FESTIVE(AssetList.PLAYER_MOREAU_FESTIVE_ATL.toString(), AssetList.PLAYER_MOREAU.toString(),
-		0.57f, 0.68f,0.58f, 0.15f, 0.39f,0.10f),
+		.15f, 0.39f,0.10f, 0.57f, 0.68f,0.58f),
 	MOREAU_PARTY(AssetList.PLAYER_MOREAU_PARTY_ATL.toString(), AssetList.PLAYER_MOREAU.toString(),
-		0.57f, 0.68f,0.58f, 0.15f, 0.39f,0.10f)
+		.15f, 0.39f,0.10f, 0.57f, 0.68f,0.58f)
 	;
 	
 	private final String atlas;

@@ -247,9 +247,9 @@ public class AboutState extends GameState {
 		
 		batch.begin();
 		
-		shaderBackground.getShader().bind();
+		shaderBackground.getShaderProgram().bind();
 		shaderBackground.shaderDefaultUpdate(timer);
-		batch.setShader(shaderBackground.getShader());
+		batch.setShader(shaderBackground.getShaderProgram());
 		
 		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 		

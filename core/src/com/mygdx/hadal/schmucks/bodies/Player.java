@@ -728,13 +728,15 @@ public class Player extends PhysicsSchmuck {
 	                uiScale, uiScale, 0, 0, (int) (full.getHeight() * (1 - hpRatio)),
 	                full.getWidth(), full.getHeight(), false, false);
 		}
-		
-		//draw player name
-		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, name,
-				playerLocation.x - Player.hbWidth * Player.scale / 2, 
+
+		if (state.getGsm().getSetting().isDisplayNames()) {
+			//draw player name
+			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, name,
+				playerLocation.x - Player.hbWidth * Player.scale / 2,
 				playerLocation.y + Player.hbHeight * Player.scale / 2 + 25);
-		
+		}
+
 		if (typingCdCount > 0) {
 			batch.draw(typingBubble.getKeyFrame(animationTime, true), playerLocation.x - 25, playerLocation.y + Player.hbHeight * scale / 2 + 20, 50, 40);
 		}

@@ -18,7 +18,7 @@ import com.mygdx.hadal.states.PlayState;
 public class Setting {
 
 	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, artifactSlots, portNumber, hitsoundType;
-	private boolean fullscreen, vsync, debugHitbox, teamEnabled, randomNameAlliteration, consoleEnabled, verboseDeathMessage,
+	private boolean fullscreen, vsync, debugHitbox, displayNames, teamEnabled, randomNameAlliteration, consoleEnabled, verboseDeathMessage,
 		multiplayerPause, exportChatLog;
 	private float soundVolume, musicVolume, masterVolume, hitsoundVolume;
 
@@ -110,6 +110,7 @@ public class Setting {
 		framerate = 1;
 		fullscreen = false;
 		vsync = true;
+		displayNames = true;
 		cursorType = 1;
 		cursorSize = 1;
 		cursorColor = 4;
@@ -295,7 +296,9 @@ public class Setting {
 	public void setFullscreen(boolean fullscreen) { this.fullscreen = fullscreen; }
 
 	public void setVsync(boolean vsync) { this.vsync = vsync; }
-	
+
+	public void setDisplayNames(boolean displayNames) { this.displayNames = displayNames; }
+
 	public void setCursorType(int cursorType) {	this.cursorType = cursorType; }
 
 	public void setCursorSize(int cursorSize) { this.cursorSize = cursorSize; }
@@ -363,7 +366,9 @@ public class Setting {
 	public boolean isExportChatLog() { return exportChatLog; }
 
 	public boolean isDebugHitbox() { return debugHitbox; }
-	
+
+	public boolean isDisplayNames() { return displayNames; }
+
 	public int getPortNumber() { return portNumber; }
 	
 	public int getPVPTimer() { return pvpTimer; }

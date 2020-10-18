@@ -21,7 +21,7 @@ public class ParticleEntity extends HadalEntity {
 
 	//What particles come out of this entity?
 	private final PooledEffect effect;
-	private final Particle particle;
+	public final Particle particle;
 	
 	//Is this entity following another entity?
 	private HadalEntity attachedEntity;

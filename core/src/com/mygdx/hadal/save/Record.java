@@ -140,7 +140,9 @@ public class Record {
 		newRecord.hiScores.put("ARENA_WARP", 0);
 		newRecord.hiScores.put("ARENA_WETWORKS", 0);
 		newRecord.hiScores.put("ARENA_ZIGGURAT", 0);
-		
+
+		newRecord.lastIp = "";
+
 		Gdx.files.local("save/Records.json").writeString(GameStateManager.json.prettyPrint(newRecord), false);
 	}
 	

@@ -21,7 +21,6 @@ allprojects {
         appName = "HadalGame"
         gdxVersion = '1.9.11'
         roboVMVersion = '2.3.8'
-        box2DLightsVersion = '1.4'
         pieMenuVersion = '5.0.0'
     }
 
@@ -52,7 +51,6 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
 		compile group: 'com.esotericsoftware', name: 'kryonet', version: '2.22.0-RC1'
 		compile "com.github.payne911:PieMenu:$pieMenuVersion"
     }

@@ -55,9 +55,11 @@ public class SettingState extends GameState {
 	//This table contains the ui elements of the pause screen
 	private Table options, details, extra;
 	
-	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, hitsoundOptions, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
+	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
+		hitsoundOptions, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
 	private Slider sound, music, master, hitsound;
-	private CheckBox fullscreen, vsync, debugHitbox, teamEnabled, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
+	private CheckBox fullscreen, vsync, debugHitbox, displayNames, teamEnabled, randomNameAlliteration, consoleEnabled,
+		verboseDeathMessage, multiplayerPause, exportChatLog;
 		
 	//Dimensions of the setting menu
 	private static final int optionsX = 25;
@@ -355,10 +357,12 @@ public class SettingState extends GameState {
 		fullscreen = new CheckBox("FULLSCREEN?", GameStateManager.getSkin());
 		vsync = new CheckBox("VSYNC?", GameStateManager.getSkin());
 		debugHitbox = new CheckBox("DRAW DEBUG HITBOX OUTLINES?", GameStateManager.getSkin());
-		
+		displayNames = new CheckBox("DISPLAY NAMES?", GameStateManager.getSkin());
+
 		fullscreen.setChecked(gsm.getSetting().isFullscreen());
 		vsync.setChecked(gsm.getSetting().isVSync());
 		debugHitbox.setChecked(gsm.getSetting().isDebugHitbox());
+		displayNames.setChecked(gsm.getSetting().isDisplayNames());
 
 		details.add(screen);
 		details.add(resolutionOptions).pad(detailsPad).row();
@@ -367,6 +371,7 @@ public class SettingState extends GameState {
 		details.add(fullscreen);
 		details.add(vsync).pad(detailsPad).row();
 		details.add(debugHitbox).colspan(2).pad(detailsPad).row();
+		details.add(displayNames).colspan(2).pad(detailsPad).row();
 		details.add(cursortype);
 		details.add(cursorOptions).pad(detailsPad).row();
 		details.add(cursorsize);
@@ -661,6 +666,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setFullscreen(fullscreen.isChecked());
 			gsm.getSetting().setVsync(vsync.isChecked());
 			gsm.getSetting().setDebugHitbox(debugHitbox.isChecked());
+			gsm.getSetting().setDisplayNames(displayNames.isChecked());
 			gsm.getSetting().setCursorType(cursorOptions.getSelectedIndex());
 			gsm.getSetting().setCursorSize(cursorSize.getSelectedIndex());
 			gsm.getSetting().setCursorColor(cursorColor.getSelectedIndex());
@@ -798,9 +804,9 @@ public class SettingState extends GameState {
 			
 			batch.begin();
 			
-			shaderBackground.getShader().bind();
+			shaderBackground.getShaderProgram().bind();
 			shaderBackground.shaderDefaultUpdate(timer);
-			batch.setShader(shaderBackground.getShader());
+			batch.setShader(shaderBackground.getShaderProgram());
 			
 			batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 			

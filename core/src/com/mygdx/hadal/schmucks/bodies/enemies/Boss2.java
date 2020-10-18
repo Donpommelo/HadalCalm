@@ -125,6 +125,7 @@ public class Boss2 extends EnemyFloating {
 	}
 	
 	private final Vector2 entityLocation = new Vector2();
+	private final Vector2 linkPosition = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {	
 		
@@ -133,11 +134,12 @@ public class Boss2 extends EnemyFloating {
 		if ((realAngle > Math.PI / 2 && realAngle < 3 * Math.PI / 2) || (realAngle < -Math.PI / 2 && realAngle > -3 * Math.PI / 2)) {
 			flip = false;
 		}
-		
+
 		for (int i = links.length - 1; i >= 0; i--) {
-			batch.draw(bodySprite, 
-					(flip ? size.x : 0) + links[i].getPosition().x * PPM - size.x / 2,
-					links[i].getPosition().y * PPM - size.y / 2, 
+			linkPosition.set(links[i].getPosition());
+
+			batch.draw(bodySprite,
+					(flip ? size.x : 0) + linkPosition.x * PPM - size.x / 2, linkPosition.y * PPM - size.y / 2,
 					(flip ? -1 : 1) * size.x / 2, size.y / 2,
 					(flip ? -1 : 1) * size.x, size.y, 1, 1, 
 					(flip ? 0 : 180) + (float) Math.toDegrees(links[i].getAngle()));

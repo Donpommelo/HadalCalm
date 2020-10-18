@@ -1,7 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -54,8 +53,9 @@ public abstract class HadalEntity {
 	protected boolean receivingSyncs;
 
 	//Keeps track of an entity's shader such as when flashing after receiving damage.
-	protected float shaderCount = 0;
-	protected ShaderProgram shader;
+	private float shaderDuration;
+	private float shaderCount = 0;
+	private Shader shader;
 		
 	//This is the id that clients use to track synchronized entities
 	protected UUID entityID;
@@ -391,17 +391,32 @@ public abstract class HadalEntity {
 	
 	public Vector2 getSize() { return size; }
 	
-	public ShaderProgram getShader() { return shader; }
+	public Shader getShader() { return shader; }
 	
 	public float getShaderCount() { return shaderCount; }
 	
 	public void setShader(Shader shader, float shaderCount) { 
-		shader.loadShader(state, entityID.toString(), shaderCount);
-		this.shader = shader.getShader();
+		shader.loadShader();
+		this.shader = shader;
+		this.shaderDuration = shaderCount;
 		this.shaderCount = shaderCount;
+
+		//The server tells the client to also display the shader
+		if (state.isServer()) {
+			HadalGame.server.sendToAllUDP(new Packets.SyncShader(entityID.toString(), shader, shaderCount));
+		}
 	}
 	
-	public void decreaseShaderCount(float i) { shaderCount -= i; }
+	public void decreaseShaderCount(float i) {
+		shaderCount -= i;
+	}
+
+	public void processShaderController() {
+		if (shader.getShaderProgram() != null) {
+			float percentageCompletion = 1.0f - shaderCount / shaderDuration;
+			shader.shaderEntityUpdate(percentageCompletion);
+		}
+	}
 	
 	public void increaseAnimationTime(float i) { animationTime += i; }
 	
