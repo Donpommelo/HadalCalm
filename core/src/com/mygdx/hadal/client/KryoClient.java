@@ -61,10 +61,7 @@ public class KryoClient {
     
     public Listener packetListener;
     
-    public KryoClient(GameStateManager gameStateManager) {
-    	this.gsm = gameStateManager;
-		users = new HashMap<>();
-    }
+    public KryoClient(GameStateManager gameStateManager) { this.gsm = gameStateManager; }
     
     /**
 	 * This is called upon starting a new client. initialize client and whatever
@@ -74,6 +71,7 @@ public class KryoClient {
         kryo.setReferences(true);
         KryoSerialization serialization = new KryoSerialization(kryo);
         this.client = new Client(8192, 4096, serialization);
+		users = new HashMap<>();
         client.start();
         
         registerPackets();
