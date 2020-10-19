@@ -3,9 +3,9 @@ package com.mygdx.hadal.server;
 import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.esotericsoftware.kryonet.serialization.KryoSerialization;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.equip.Loadout;
@@ -408,7 +408,6 @@ public class KryoServer {
 				 */
 				else if (o instanceof Packets.SyncTyping) {
 					final PlayState ps = getPlayState();
-
 					User user = users.get(c.getID());
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();

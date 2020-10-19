@@ -8,6 +8,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.states.ClientState;
@@ -134,13 +135,13 @@ public class Currents extends Event {
 	public Object onServerCreate() {
 		if (blueprint == null) {
 			entityLocation.set(getPixelPosition());
-			
+
 			blueprint = new RectangleMapObject(entityLocation.x - size.x / 2, entityLocation.y - size.y / 2, size.x, size.y);
 			blueprint.setName("CurrentTemp");
 			blueprint.getProperties().put("currentX", vec.x);
 			blueprint.getProperties().put("currentY", vec.y);
 			blueprint.getProperties().put("duration", duration);
 		}
-		return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
+		return new Packets.CreateEvent(entityID.toString(), new EventDto((RectangleMapObject) blueprint), synced);
 	}
 }

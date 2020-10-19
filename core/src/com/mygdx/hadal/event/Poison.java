@@ -9,6 +9,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
@@ -176,6 +177,6 @@ public class Poison extends Event {
 			blueprint.setName("PoisonTemp");
 			blueprint.getProperties().put("duration", duration);
 		}
-		return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
+		return new Packets.CreateEvent(entityID.toString(), new EventDto(blueprint), synced);
 	}
 }

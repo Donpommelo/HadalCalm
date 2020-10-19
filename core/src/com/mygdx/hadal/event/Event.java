@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -14,10 +14,11 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState;
 
 /**
  * An Event is an entity that acts as a catch-all for all misc entities that do not share qualities with schmucks or hitboxes.
@@ -64,7 +65,8 @@ public class Event extends HadalEntity {
     public static final int defaultPickupEventSize = 160;
     
     //this is the map object from Tiled that this event was read from.
-    protected MapObject blueprint;
+    protected RectangleMapObject blueprint;
+    private EventDto dto;
     
     //This particle is turned on when the event is interacted with in a specific way (differs for each event)
     protected ParticleEntity standardParticle;
@@ -241,7 +243,7 @@ public class Event extends HadalEntity {
 			}
 		case USER:
 		case ALL:
-			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
+			return new Packets.CreateEvent(entityID.toString(), dto, synced);
 		default:
 			return null;
 		}
@@ -290,9 +292,13 @@ public class Event extends HadalEntity {
 
 	public void setCullable(boolean cullable) {	this.cullable = cullable; }
 	
-	public MapObject getBlueprint() { return blueprint; }
+	public RectangleMapObject getBlueprint() { return blueprint; }
 
-	public void setBlueprint(MapObject blueprint) {	this.blueprint = blueprint; }
+	public void setBlueprint(RectangleMapObject blueprint) { this.blueprint = blueprint; }
+
+	public EventDto getDto() { return dto; }
+
+	public void setDto(EventDto dto) { this.dto = dto; }
 
 	public enum eventSyncTypes {
 		ILLUSION,

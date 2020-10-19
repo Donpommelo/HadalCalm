@@ -2,12 +2,13 @@ package com.mygdx.hadal.client;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector3;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.serialization.KryoSerialization;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.MusicTrack;
@@ -22,10 +23,7 @@ import com.mygdx.hadal.schmucks.bodies.*;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
-import com.mygdx.hadal.server.Packets;
-import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.server.*;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState.TransitionState;
@@ -677,8 +675,12 @@ public class KryoClient {
 			
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
-					MapObject blueprint = p.blueprint;
-					blueprint.getProperties().put("sync", "USER");
+					EventDto dto = p.blueprint;
+					MapObject blueprint = new RectangleMapObject(dto.getX(), dto.getY(), dto.getWidth(), dto.getHeight());
+					blueprint.setName(dto.getName());
+					for (EventDto.Pair pair: dto.getProperties()) {
+						blueprint.getProperties().put(pair.getKey(), pair.getValue());
+					}
 
 					Event e = TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint);
 

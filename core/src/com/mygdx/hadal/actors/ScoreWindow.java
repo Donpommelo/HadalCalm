@@ -213,7 +213,6 @@ public class ScoreWindow {
 		Text serverSizeField = new Text("SERVER CAPACITY: ", 0, 0, false);
 		serverSizeField.setScale(settingsScale);
 
-		
 		SharedSetting used = state.getGsm().getSharedSetting();
 		if (state.isServer()) {
 			HadalGame.server.sendToAllTCP(new Packets.SyncSharedSettings(state.getGsm().getSharedSetting()));

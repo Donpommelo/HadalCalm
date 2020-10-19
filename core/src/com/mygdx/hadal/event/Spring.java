@@ -9,6 +9,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -92,7 +93,7 @@ public class Spring extends Event {
 			blueprint.getProperties().put("springY", vec.y);
 			blueprint.getProperties().put("duration", duration);
 		}
-		return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
+		return new Packets.CreateEvent(entityID.toString(), new EventDto(blueprint), synced);
 	}
 	
 	@Override

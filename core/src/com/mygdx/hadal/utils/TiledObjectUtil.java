@@ -17,6 +17,7 @@ import com.mygdx.hadal.event.prefab.*;
 import com.mygdx.hadal.event.saves.*;
 import com.mygdx.hadal.event.ui.*;
 import com.mygdx.hadal.event.utility.*;
+import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState;
@@ -567,7 +568,9 @@ public class TiledObjectUtil {
 			if (object.getProperties().get("particle_std", String.class) != null) {
 				e.setStandardParticle(Particle.valueOf(object.getProperties().get("particle_std", String.class)));
 			}
-			e.setBlueprint(object);
+
+			e.setBlueprint((RectangleMapObject) object);
+			e.setDto(new EventDto((RectangleMapObject) object));
 		}
 		return e;
     }

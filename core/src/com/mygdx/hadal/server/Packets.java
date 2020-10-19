@@ -1,6 +1,5 @@
 package com.mygdx.hadal.server;
 
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
@@ -17,6 +16,8 @@ import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState.TransitionState;
+
+import java.util.ArrayList;
 
 /**
  * These are packets sent between the Server and Client.
@@ -466,7 +467,7 @@ public class Packets {
 	
 	public static class CreateEvent {
 		public String entityID;
-        public MapObject blueprint;
+        public EventDto blueprint;
         public boolean synced;
 		public CreateEvent() {}
 		
@@ -478,7 +479,7 @@ public class Packets {
 		 * @param blueprint: MapObject of the event to be parsed in the TiledObjectUtils
 		 * @param synced: should this entity receive a sync packet regularly?
 		 */
-		public CreateEvent(String entityID, MapObject blueprint, boolean synced) {
+		public CreateEvent(String entityID, EventDto blueprint, boolean synced) {
             this.entityID = entityID;
             this.blueprint = blueprint;
             this.synced = synced;
@@ -1171,7 +1172,8 @@ public class Packets {
     	kryo.register(SyncPickup.class);
     	kryo.register(ActivateEvent.class);
     	kryo.register(CreatePlayer.class);
-    	kryo.register(SyncServerLoadout.class);
+		kryo.register(SyncPlayerStats.class);
+		kryo.register(SyncServerLoadout.class);
     	kryo.register(SyncClientLoadout.class);
     	kryo.register(CreateParticles.class);
     	kryo.register(CreateRagdoll.class);
@@ -1198,5 +1200,33 @@ public class Packets {
     	kryo.register(SyncExtraResultsInfo.class);
 		kryo.register(SyncTyping.class);
 		kryo.register(RemoveScore.class);
-    }
+
+		kryo.register(Vector2.class);
+		kryo.register(UnlockLevel.class);
+		kryo.register(UnlockArtifact.class);
+		kryo.register(UnlockArtifact[].class);
+		kryo.register(UnlockActives.class);
+		kryo.register(UnlockCharacter.class);
+		kryo.register(UnlockEquip.class);
+		kryo.register(UnlockEquip[].class);
+		kryo.register(AlignmentFilter.class);
+		kryo.register(Loadout.class);
+		kryo.register(TransitionState.class);
+		kryo.register(DialogType.class);
+		kryo.register(PlayerAction.class);
+		kryo.register(ObjectSyncLayers.class);
+		kryo.register(alignType.class);
+		kryo.register(EnemyType.class);
+		kryo.register(DespawnType.class);
+		kryo.register(MoveState.class);
+		kryo.register(HadalColor.class);
+		kryo.register(Shader.class);
+		kryo.register(Sprite.class);
+		kryo.register(SoundEffect.class);
+		kryo.register(EventDto.class);
+		kryo.register(EventDto.Pair.class);
+		kryo.register(SharedSetting.class);
+
+		kryo.register(ArrayList.class);
+	}
 }
