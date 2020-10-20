@@ -48,9 +48,6 @@ public class KryoClient {
 	//This is the gsm of the client
 	public GameStateManager gsm;
     
-	//This is the id of the client's player
-    public static String myID;
-    
     //This is a mapping of connIds to corresponding users
     public HashMap<Integer, User> users;
 
@@ -81,7 +78,7 @@ public class KryoClient {
         	 */
         	@Override
         	public void connected(Connection c) {
-                sendTCP(new Packets.PlayerConnect(true, gsm.getLoadout().getName(), HadalGame.Version));
+                sendTCP(new Packets.PlayerConnect(true, gsm.getLoadout().getName(), HadalGame.Version, null));
                 connID = c.getID();
             }
         	
@@ -94,7 +91,7 @@ public class KryoClient {
 				
         		//If our client state is still here, the server closed
 				if (cs != null) {
-					addNotification(cs, "", "DISCONNECTED!", DialogType.SYSTEM);
+					addNotification(cs, "", "DISCONNECTED!", DialogType.SYSTEM, -1);
 				}
 				
 				//return to the title. (if our client state is still there, we can do a fade out transition first.
@@ -285,7 +282,18 @@ public class KryoClient {
         			}
         			client.stop();
         		}
-        		
+
+				/*
+				 * Server rejects our connection. Display msg on title screen.
+				 */
+				else if (o instanceof Packets.PasswordRequest) {
+					if (!gsm.getStates().isEmpty()) {
+						if (gsm.getStates().peek() instanceof TitleState) {
+							((TitleState) gsm.getStates().peek()).openPasswordRequest();
+						}
+					}
+				}
+
         		/*
         		 * The Server tells us to load the level.
         		 * Load the level and tell the server we finished.
@@ -322,7 +330,7 @@ public class KryoClient {
         		 * Ask the server to let us connect
         		 */
         		else if (o instanceof Packets.ServerLoaded) {
-        			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getLoadout().getName(), HadalGame.Version);
+        			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getLoadout().getName(), HadalGame.Version, null);
                     sendTCP(connected);
         		}
         		
@@ -374,12 +382,12 @@ public class KryoClient {
         		 * We have received a notification from the server.
         		 * Display the notification
         		 */
-        		else if (o instanceof Packets.Notification) {
-        			final Packets.Notification p = (Packets.Notification) o;
+        		else if (o instanceof Packets.ServerNotification) {
+        			final Packets.ServerNotification p = (Packets.ServerNotification) o;
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						Gdx.app.postRunnable(() -> addNotification(cs, p.name, p.text, p.type));
+						Gdx.app.postRunnable(() -> addNotification(cs, p.name, p.text, p.type, p.connID));
 					}
         		}
         		
@@ -505,6 +513,13 @@ public class KryoClient {
 					score.setDamageReceived(p.damageReceived);
 					score.setLoadout(p.loadout);
         		}
+
+				else if (o instanceof Packets.ClientYeet) {
+					final ClientState cs = getClientState();
+					if (cs != null) {
+						cs.returnToTitle(0.0f);
+					}
+				}
         	}
         };
         
@@ -850,8 +865,8 @@ public class KryoClient {
 	 * @param name: name giving the notification
 	 * @param text: notification text
 	 */
-	public void addNotification(ClientState cs, String name, String text, DialogType type) {
-		cs.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type);
+	public void addNotification(ClientState cs, String name, String text, DialogType type, int connID) {
+		cs.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type, connID);
 	}
 	
 	private void registerPackets() {

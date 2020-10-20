@@ -30,7 +30,9 @@ public class Setting {
 	
 	//for pvp, how should we give new players loadout? (this variable is an index in an array. 0 = start with default, 1 = start with chosen, 2 = start with random)
 	private int loadoutType;
-	
+
+	private String serverPassword;
+
 	public Setting() {}
 	
 	/**
@@ -142,6 +144,7 @@ public class Setting {
 		exportChatLog = false;
 		maxPlayers = 4;
 		portNumber = 11100;
+		serverPassword = "";
 	}
 	
 	public SharedSetting generateSharedSetting() {
@@ -329,6 +332,8 @@ public class Setting {
 	
 	public void setPortNumber(int portNumber) { this.portNumber = portNumber; }
 
+	public void setServerPassword(String serverPassword) { this.serverPassword = serverPassword; }
+
 	public int getResolution() { return resolution; }
 	
 	public int getFramerate() { return framerate; }
@@ -384,4 +389,6 @@ public class Setting {
 	public int getPVPMode() { return pvpMode; }
 
 	public int getMaxPlayers() { return maxPlayers; }
+
+	public String getServerPassword() { return serverPassword; }
 }

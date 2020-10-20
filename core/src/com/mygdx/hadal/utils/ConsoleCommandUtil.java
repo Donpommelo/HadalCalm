@@ -26,7 +26,7 @@ public class ConsoleCommandUtil {
 	public static int parseChatCommand(PlayState state, Player player, String command) {
 		
 		if (command.equals("/roll")) {
-			HadalGame.server.addNotificationToAll(state, "SYSTEM", player.getName() + " Rolled A Number: " + GameStateManager.generator.nextInt(100), DialogType.SYSTEM);
+			HadalGame.server.addNotificationToAll(state, "SYSTEM", player.getName() + " Rolled A Number: " + GameStateManager.generator.nextInt(100), DialogType.SYSTEM, 0);
 			return 0;
 		}
 		
@@ -41,7 +41,7 @@ public class ConsoleCommandUtil {
 				}
 			}
 			
-			HadalGame.server.addNotificationToAll(state, "SYSTEM", message.toString(), DialogType.SYSTEM);
+			HadalGame.server.addNotificationToAll(state, "SYSTEM", message.toString(), DialogType.SYSTEM, 0);
 			return 0;
 		}
 		
@@ -56,12 +56,12 @@ public class ConsoleCommandUtil {
 				}
 			}
 			
-			HadalGame.server.addNotificationToAll(state, "SYSTEM", message, DialogType.SYSTEM);
+			HadalGame.server.addNotificationToAll(state, "SYSTEM", message, DialogType.SYSTEM, 0);
 			return 0;
 		}
 
 		if (command.equals("/active")) {
-			HadalGame.server.addNotificationToAll(state, "SYSTEM", player.getName() + "'s Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM);
+			HadalGame.server.addNotificationToAll(state, "SYSTEM", player.getName() + "'s Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM, 0);
 			return 0;
 		}
 		
@@ -71,7 +71,7 @@ public class ConsoleCommandUtil {
 	public static int parseChatCommandClient(ClientState state, Player player, String command) {
 		
 		if (command.equals("/roll")) {
-			HadalGame.client.sendTCP(new Packets.Notification("SYSTEM", player.getName() + " Rolled A Number: " + GameStateManager.generator.nextInt(100), DialogType.SYSTEM));
+			HadalGame.client.sendTCP(new Packets.ClientNotification("SYSTEM", player.getName() + " Rolled A Number: " + GameStateManager.generator.nextInt(100), DialogType.SYSTEM));
 			return 0;
 		}
 		
@@ -86,7 +86,7 @@ public class ConsoleCommandUtil {
 				}
 			}
 			
-			HadalGame.client.sendTCP(new Packets.Notification("SYSTEM", message, DialogType.SYSTEM));
+			HadalGame.client.sendTCP(new Packets.ClientNotification("SYSTEM", message, DialogType.SYSTEM));
 			return 0;
 		}
 		
@@ -101,12 +101,12 @@ public class ConsoleCommandUtil {
 				}
 			}
 			
-			HadalGame.client.sendTCP(new Packets.Notification("SYSTEM", message, DialogType.SYSTEM));
+			HadalGame.client.sendTCP(new Packets.ClientNotification("SYSTEM", message, DialogType.SYSTEM));
 			return 0;
 		}
 
 		if (command.equals("/active")) {
-			HadalGame.client.sendTCP(new Packets.Notification("SYSTEM", player.getName() + "'s Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM));
+			HadalGame.client.sendTCP(new Packets.ClientNotification("SYSTEM", player.getName() + "'s Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM));
 			return 0;
 		}
 		return -1;

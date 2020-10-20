@@ -141,15 +141,15 @@ public class MessageWindow {
 					if (ConsoleCommandUtil.parseChatCommand(state, state.getPlayer(), enterMessage.getText()) == -1) {
 						if (state.getGsm().getSetting().isConsoleEnabled()) {
 							if (ConsoleCommandUtil.parseConsoleCommand(state, enterMessage.getText()) == -1) {
-								HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), enterMessage.getText(), DialogType.DIALOG);
+								HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), enterMessage.getText(), DialogType.DIALOG, 0);
 							}
 						} else {
-							HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), enterMessage.getText(), DialogType.DIALOG);
+							HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), enterMessage.getText(), DialogType.DIALOG, 0);
 						}
 					}
 				} else {
 					if (ConsoleCommandUtil.parseChatCommandClient((ClientState) state, state.getPlayer(), enterMessage.getText()) == -1) {
-						HadalGame.client.sendTCP(new Packets.Notification(state.getPlayer().getName(), enterMessage.getText(), DialogType.DIALOG));
+						HadalGame.client.sendTCP(new Packets.ClientNotification(state.getPlayer().getName(), enterMessage.getText(), DialogType.DIALOG));
 					}
 				}
 			}

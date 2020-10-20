@@ -14,6 +14,7 @@ import com.mygdx.hadal.dialog.DialogInfo;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -128,7 +129,7 @@ public class DialogBox extends AHadalActor {
 		
 		if (dialog != null) {
 			for (JsonValue d : dialog) {
-				addDialogue(GameStateManager.json.fromJson(DialogInfo.class, d.toJson(OutputType.minimal)), radio, trigger, type);
+				addDialogue(GameStateManager.json.fromJson(DialogInfo.class, d.toJson(OutputType.minimal)), radio, trigger, type, -1);
 			}	
 		}
 	}
@@ -137,33 +138,55 @@ public class DialogBox extends AHadalActor {
 	 * Instead of loading a conversation from the dialog text file, this is used for single dialogs.
 	 * This is useful for dynamic text.
 	 */
-	public void addDialogue(DialogInfo info, EventData radio, EventData trigger, DialogType type) {
-		
-		//this does text filtering/formatting for the new text
-		info.setDisplayedText(ps.getGsm());
-		
-		//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
-		if (dialogs.size == 0) {
-			durationCount = info.getDuration();
-			
-			currX = 0;
-			currY = 0;
-			
-			SoundEffect.BLOP.play(ps.getGsm(), 1.0f, false);
+	public void addDialogue(DialogInfo info, EventData radio, EventData trigger, DialogType type, int connID) {
+
+		boolean displayed = true;
+		User user;
+		if (ps.isServer()) {
+			user = HadalGame.server.getUsers().get(connID);
+		} else {
+			user = HadalGame.client.getUsers().get(connID);
 		}
-		dialogs.addLast(new Dialog(info, radio, trigger, type));
-		
-		//add new dialog to the message log.
-		ps.getMessageWindow().addText(info.getDisplayedText());
+
+		if (user != null) {
+			if (user.isMuted()) {
+				displayed = false;
+			}
+		}
+
+		if (displayed) {
+			//this does text filtering/formatting for the new text
+			info.setDisplayedText(ps.getGsm());
+
+			//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
+			if (dialogs.size == 0) {
+				durationCount = info.getDuration();
+
+				currX = 0;
+				currY = 0;
+
+				SoundEffect.BLOP.play(ps.getGsm(), 1.0f, false);
+			}
+			dialogs.addLast(new Dialog(info, radio, trigger, type));
+
+			//add new dialog to the message log.
+			ps.getMessageWindow().addText(info.getDisplayedText());
+		}
 	}
 	
 	/**
 	 * This is just like the above method, except for a dynamically created dialog
 	 */
-	public void addDialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura, EventData radio, EventData trigger, DialogType type) {
-		addDialogue(new DialogInfo(name, text, sprite, end, override, small, dura), radio, trigger, type);
+	public void addDialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura,
+							EventData radio, EventData trigger, DialogType type, int connID) {
+		addDialogue(new DialogInfo(name, text, sprite, end, override, small, dura), radio, trigger, type, connID);
 	}
-	
+
+	public void addDialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura,
+							EventData radio, EventData trigger, DialogType type) {
+		addDialogue(name, text, sprite, end, override, small, dura, radio, trigger, type, -1);
+	}
+
 	/**
 	 * This method moves to the next dialogue in the queue.
 	 * It is called when the player presses the input that cycles through dialogue.

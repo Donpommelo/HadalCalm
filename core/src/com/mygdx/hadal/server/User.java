@@ -9,7 +9,7 @@ public class User {
     private MouseTracker mouse;
     private SavedPlayerFields scores;
     private SavedPlayerFieldsExtra scoresExtra;
-    private boolean scoreUpdated;
+    private boolean scoreUpdated, muted;
 
     private AlignmentFilter hitBoxFilter;
     private AlignmentFilter teamFilter = AlignmentFilter.NONE;
@@ -43,6 +43,10 @@ public class User {
     public boolean isScoreUpdated() { return scoreUpdated; }
 
     public void setScoreUpdated(boolean scoreUpdated) { this.scoreUpdated = scoreUpdated; }
+
+    public boolean isMuted() { return muted; }
+
+    public void setMuted(boolean muted) { this.muted = muted; }
 
     public AlignmentFilter getHitBoxFilter() { return hitBoxFilter; }
 

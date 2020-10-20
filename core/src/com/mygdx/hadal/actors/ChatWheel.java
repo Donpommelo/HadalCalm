@@ -103,7 +103,6 @@ public class ChatWheel {
 				 
 				 return true;
 			 }
-			
 		});
 		
 		//add all options to the wheel
@@ -143,9 +142,9 @@ public class ChatWheel {
 				
 				if (option != -1 && option < options.length) {
 					if (state.isServer()) {
-						HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), options[option], DialogType.SYSTEM);
+						HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), options[option], DialogType.SYSTEM, 0);
 					} else {
-						HadalGame.client.sendTCP(new Packets.Notification(state.getPlayer().getName(), options[option], DialogType.SYSTEM));
+						HadalGame.client.sendTCP(new Packets.ClientNotification(state.getPlayer().getName(), options[option], DialogType.SYSTEM));
 					}
 				}
 				wheel.animateClosing(0.4f);

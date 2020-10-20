@@ -1,6 +1,8 @@
 package com.mygdx.hadal.actors;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.SharedSetting;
@@ -10,6 +12,8 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
 
+import java.util.Map.Entry;
+
 /**
  * The ScoreWindow is displayed when a player holds a button (default value tab) during a level
  * @author Zachary Tu
@@ -18,8 +22,8 @@ public class ScoreWindow {
 	
 	private final PlayState state;
 	
-	private final Table tableScore, tableSettings;
-	private final MenuWindow windowScore, windowSettings;
+	private final Table tableOptions, tableScore, tableSettings;
+	private final MenuWindow windowOptions, windowScore, windowSettings;
 
 	//Dimensions and position of the results menu
 	private static final int scoreWidth = 1000;
@@ -39,6 +43,10 @@ public class ScoreWindow {
 	private static final float settingsScale = 0.25f;
 	private static final float settingsPadY = 15.0f;
 
+	private static final float optionsWidth = 100.0f;
+	private static final float optionsHeight = 25.0f;
+	private static final float optionsExtraHeight = 25.0f;
+
 	public ScoreWindow(PlayState state) {
 		this.state = state;
 		
@@ -47,12 +55,15 @@ public class ScoreWindow {
 
 		this.tableSettings = new Table();
 		this.windowSettings = new MenuWindow(0, 0, 0, 0);
-		
+
+		this.tableOptions = new Table();
+		this.windowOptions = new MenuWindow(0, 0, 0, 0);
+
 		tableScore.setVisible(false);
 		windowScore.setVisible(false);
 		tableSettings.setVisible(false);
 		windowSettings.setVisible(false);
-		
+
 		//Server must first reset each score at the start of a level (unless just a stage transition)
 		if (state.isServer() && state.isReset()) {
 			for (User user : HadalGame.server.getUsers().values()) {
@@ -115,11 +126,19 @@ public class ScoreWindow {
 		
 		if (state.isServer()) {
 			
-			for (User user : HadalGame.server.getUsers().values()) {
+			for (Entry<Integer, User> entry : HadalGame.server.getUsers().entrySet()) {
+				User user = entry.getValue();
 				SavedPlayerFields field = user.getScores();
 
 				Text name = new Text(field.getNameAbridged(true, maxNameLen), 0, 0, false);
 				name.setScale(scoreScale);
+				name.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						openOptionsWindow(entry, e.getStageX(), e.getStageY());
+					}
+				});
 				
 				Text kills = new Text(field.getKills() + " ", 0, 0, false);
 				kills.setScale(scoreScale);
@@ -139,12 +158,20 @@ public class ScoreWindow {
 				state.getUiExtra().syncData();
 			}
 		} else {
-			for (User user: HadalGame.client.getUsers().values()) {
+			for (Entry<Integer, User> entry: HadalGame.client.getUsers().entrySet()) {
+				User user = entry.getValue();
 				SavedPlayerFields field = user.getScores();
 
 				Text name = new Text(field.getNameAbridged(true, maxNameLen), 0, 0, false);
 				name.setScale(scoreScale);
-				
+				name.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						openOptionsWindow(entry, e.getStageX(), e.getStageY());
+					}
+				});
+
 				Text kills = new Text(field.getKills() + " ", 0, 0, false);
 				kills.setScale(scoreScale);
 				Text death = new Text(field.getDeaths() + " ", 0, 0, false);
@@ -166,6 +193,9 @@ public class ScoreWindow {
 		
 		state.getStage().addActor(windowScore);
 		state.getStage().addActor(tableScore);
+
+		windowOptions.toFront();
+		tableOptions.toFront();
 	}
 	
 	/**
@@ -279,7 +309,86 @@ public class ScoreWindow {
 		state.getStage().addActor(windowSettings);
 		state.getStage().addActor(tableSettings);
 	}
-	
+
+	private void openOptionsWindow(Entry<Integer, User> entry, float x, float y) {
+		User user;
+
+		if (state.isServer()) {
+			user = HadalGame.server.getUsers().get(entry.getKey());
+		} else {
+			user = HadalGame.client.getUsers().get(entry.getKey());
+		}
+
+		tableOptions.clear();
+		tableOptions.remove();
+		windowOptions.remove();
+
+		float height = optionsHeight;
+
+		if (state.isServer()) {
+			if (user.getPlayer() != state.getPlayer()) {
+				height += optionsExtraHeight;
+			}
+		}
+
+		windowOptions.setSize(optionsWidth, height);
+		windowOptions.setPosition(x, y);
+
+		tableOptions.setSize(optionsWidth, height);
+		tableOptions.setPosition(x, y);
+
+		if (user != null) {
+			Text mute = new Text("", 0, 0, true);
+			if (user.isMuted()) {
+				mute.setText("UNMUTE");
+				mute.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						user.setMuted(false);
+
+						user.setMuted(false);
+						tableOptions.remove();
+						windowOptions.remove();
+					}
+				});
+			} else {
+				mute.setText("MUTE");
+				mute.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						user.setMuted(true);
+						tableOptions.remove();
+						windowOptions.remove();
+					}
+				});
+			}
+			mute.setScale(settingsScale);
+			tableOptions.add(mute).pad(5).row();
+
+			if (state.isServer()) {
+				if (user.getPlayer() != state.getPlayer()) {
+					Text ban = new Text("BAN", 0, 0, true);
+					ban.setScale(settingsScale);
+					ban.addListener(new ClickListener() {
+
+						@Override
+						public void clicked(InputEvent e, float x, float y) {
+							HadalGame.server.kickPlayer(state, entry.getValue(), entry.getKey());
+							tableOptions.remove();
+							windowOptions.remove();
+						}
+					});
+					tableOptions.add(ban);
+				}
+			}
+		}
+
+		state.getStage().addActor(windowOptions);
+		state.getStage().addActor(tableOptions);
+	}
+
 	/**
 	 * This sets the visibility of this ui element. 
 	 * Usually, this is toggled on and off with the tab button
@@ -289,5 +398,8 @@ public class ScoreWindow {
 		windowScore.setVisible(visible);
 		tableSettings.setVisible(visible);
 		windowSettings.setVisible(visible);
+
+		tableOptions.remove();
+		windowOptions.remove();
 	}
 }

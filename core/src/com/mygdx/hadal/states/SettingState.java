@@ -36,7 +36,7 @@ public class SettingState extends GameState {
 	
 	//These are all of the display and buttons visible to the player.
 	private Text displayOption, controlOption, audioOption, gameOption, miscOption, exitOption, saveOption, resetOption;
-	private TextField portNumber;
+	private TextField portNumber, serverPassword;
 
 	//This scrollpane holds the options for key bindings
 	private ScrollPane keybinds;
@@ -613,7 +613,10 @@ public class SettingState extends GameState {
 		
 		Text port = new Text("PORT NUMBER: ", 0, 0, false);
 		port.setScale(0.25f);
-		
+
+		Text password = new Text("SERVER PASSWORD: ", 0, 0, false);
+		password.setScale(0.25f);
+
 		randomNameAlliteration = new CheckBox("RANDOM NAME ALLITERATION?", GameStateManager.getSkin());
 		randomNameAlliteration.setChecked(gsm.getSetting().isRandomNameAlliteration());
 		
@@ -636,7 +639,11 @@ public class SettingState extends GameState {
 		portNumber.setMessageText("PORT NUMBER");
 		portNumber.setMaxLength(5);
 		portNumber.setTextFieldFilter(new TextFieldFilter.DigitsOnlyFilter());
-		
+
+		serverPassword = new TextField(gsm.getSetting().getServerPassword(), GameStateManager.getSkin());
+		serverPassword.setMessageText("PASSWORD");
+		serverPassword.setMaxLength(20);
+
 		exportChatLog = new CheckBox("Export Chat Logs on Exit?", GameStateManager.getSkin());
 		exportChatLog.setChecked(gsm.getSetting().isExportChatLog());
 		
@@ -648,6 +655,8 @@ public class SettingState extends GameState {
 		details.add(playerCapacity).colspan(2).pad(detailsPad).row();
 		details.add(port);
 		details.add(portNumber).colspan(2).width(100).pad(detailsPad).row();
+		details.add(password);
+		details.add(serverPassword).colspan(2).width(100).pad(detailsPad).row();
 		details.add(exportChatLog).colspan(2).pad(detailsPad).row();
 	}
 	
@@ -701,6 +710,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setMultiplayerPause(multiplayerPause.isChecked());
 			gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
 			gsm.getSetting().setPortNumber(Integer.parseInt(portNumber.getText()));
+			gsm.getSetting().setServerPassword(serverPassword.getText());
 			gsm.getSetting().setExportChatLog(exportChatLog.isChecked());
 			gsm.getSetting().saveSetting();
 			miscSelected();

@@ -176,18 +176,39 @@ public class KryoServer {
 								sendToTCP(c.getID(), new Packets.ConnectReject("INCOMPATIBLE VERSION. HOST ON VER: " + HadalGame.Version));
 								return;
 							}
+							boolean successfulConnection = false;
 
-							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!", DialogType.SYSTEM);
+							System.out.println("FUG " + gsm.getSetting().getServerPassword() + " " + p.password);
 
-							//clients joining full servers or in the middle of matches join as spectators
-							if (getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers() + 1) {
-								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
-								return;
+							//if no server password, the client connects.
+							if (gsm.getSetting().getServerPassword().equals("")) {
+								successfulConnection = true;
+							} else {
+								//password being null indicates the client just attempted to connect.
+								//otherwise, we check whether the password entered matches
+								if (p.password == null) {
+									sendToTCP(c.getID(), new Packets.PasswordRequest());
+									return;
+								} else if (gsm.getSetting().getServerPassword().equals(p.password)){
+									successfulConnection = true;
+								} else {
+									sendToTCP(c.getID(), new Packets.ConnectReject("INCORRECT PASSWORD"));
+									return;
+								}
 							}
+							if (successfulConnection) {
+								addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!", DialogType.SYSTEM);
 
-							if (!ps.isHub()) {
-								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
-								return;
+								//clients joining full servers or in the middle of matches join as spectators
+								if (getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers() + 1) {
+									sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
+									return;
+								}
+
+								if (!ps.isHub()) {
+									sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
+									return;
+								}
 							}
 						}
                         sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, false));
@@ -375,11 +396,11 @@ public class KryoServer {
 				 * A Client has sent the server a notification.
 				 * Display the notification and echo it to all clients  
 				 */
-				else if (o instanceof Packets.Notification) {
-					final Packets.Notification p = (Packets.Notification) o;
+				else if (o instanceof Packets.ClientNotification) {
+					final Packets.ClientNotification p = (Packets.ClientNotification) o;
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						addNotificationToAll(ps, p.name, p.text, p.type);
+						addNotificationToAll(ps, p.name, p.text, p.type, c.getID());
 					}
 				}
 				
@@ -595,7 +616,7 @@ public class KryoServer {
 	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
 	public void sendNotification(int connId, String name, String text, final DialogType type) {
-		sendToTCP(connId, new Packets.Notification(name, text, type));	
+		sendToTCP(connId, new Packets.ServerNotification(name, text, type, -1));
 	}
 	
 	/**
@@ -605,11 +626,15 @@ public class KryoServer {
 	 * @param text: notification text
 	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
-	public void addNotificationToAll(final PlayState ps, final String name, final String text, final DialogType type) {
+	public void addNotificationToAll(final PlayState ps, final String name, final String text, final DialogType type, final int connID) {
 		if (ps.getDialogBox() != null && server != null) {
-			server.sendToAllTCP(new Packets.Notification(name, text, type));	
-			Gdx.app.postRunnable(() -> ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type));
+			server.sendToAllTCP(new Packets.ServerNotification(name, text, type, connID));
+			Gdx.app.postRunnable(() -> ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type, connID));
 		}
+	}
+
+	public void addNotificationToAll(final PlayState ps, final String name, final String text, final DialogType type) {
+		addNotificationToAll(ps, name, text, type, -1);
 	}
 	
 	/**
@@ -622,7 +647,7 @@ public class KryoServer {
 	 */
 	public void addNotificationToAllExcept(final PlayState ps, int connId, final String name, final String text, final DialogType type) {
 		if (ps.getDialogBox() != null && server != null) {
-			server.sendToAllExceptTCP(connId, new Packets.Notification(name, text, type));
+			server.sendToAllExceptTCP(connId, new Packets.ServerNotification(name, text, type, -1));
 			Gdx.app.postRunnable(() -> ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type));
 		}
 	}
@@ -675,6 +700,13 @@ public class KryoServer {
 	public void sendToAllUDP(Object p) {
 		if (server != null) {
 			server.sendToAllUDP(p);
+		}
+	}
+
+	public void kickPlayer(PlayState ps, User user, int connID) {
+		if (server != null) {
+			addNotificationToAll(ps, user.getPlayer().getName(), " WAS KICKED!", DialogType.SYSTEM);
+			sendToTCP(connID, new Packets.ClientYeet());
 		}
 	}
 

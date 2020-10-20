@@ -20,6 +20,7 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.utils.NameGenerator;
 
 import java.io.IOException;
@@ -32,17 +33,19 @@ import java.io.IOException;
 public class TitleState extends GameState {
 
 	//This table contains the option windows for the title.
-	private Table tableName, tableMain, tableIP;
+	private Table tableName, tableMain, tableIP, tablePassword;
 	
 	//this is the image backdrop of the title state
 	private Backdrop backdrop;
-	
+
 	//These are all of the display and buttons visible to the player.
-	private Text nameDisplay, nameRand, ipDisplay, hostOption, singleOption, joinOption, exitOption, settingsOption, aboutOption, searchOption, notifications, versionNum;
-	
+	private Text notifications;
+
 	//Textfields for the player to enter an ip to connect to or change their name
-	private TextField enterName, enterIP;
-	
+	private TextField enterName, enterIP, enterPassword;
+
+	private MenuWindow passwordWindow;
+
 	//ambient particle effects
 	private final PooledEffect jelly, diatom1, diatom2, diatom3;
 	
@@ -79,6 +82,11 @@ public class TitleState extends GameState {
 	private static final float scaleSide = 0.25f;
 	private static final float optionHeight = 35.0f;
 	private static final float mainOptionHeight = 40.0f;
+
+	private static final int passwordX = 440;
+	private static final int passwordY = 300;
+	private static final int passwordWidth = 400;
+	private static final int passwordHeight = 100;
 
 	private static final int jelly1X = 640;
 	private static final int jelly1Y = 300;
@@ -136,7 +144,11 @@ public class TitleState extends GameState {
 				addActor(new MenuWindow(menuX, menuY, width, height));
 				addActor(new MenuWindow(nameX, nameY, nameWidth, nameHeight));
 				addActor(new MenuWindow(ipX, ipY, ipWidth, ipHeight));
-				
+
+				passwordWindow = new MenuWindow(passwordX, passwordY, passwordWidth, passwordHeight);
+				passwordWindow.setVisible(false);
+				addActor(passwordWindow);
+
 				tableMain = new Table();
 				tableMain.setPosition(menuX, menuY);
 				tableMain.setSize(width, height);
@@ -152,43 +164,43 @@ public class TitleState extends GameState {
 				tableIP.setSize(ipWidth, ipHeight);
 				addActor(tableIP);
 				
-				nameDisplay = new Text("YOUR NAME: ", 0, 0, false);
+				Text nameDisplay = new Text("YOUR NAME: ", 0, 0, false);
 				nameDisplay.setScale(scaleSide);
 				nameDisplay.setHeight(optionHeight);
 				
-				nameRand = new Text("GENERATE RANDOM NAME", 0, 0, true);
+				Text nameRand = new Text("GENERATE RANDOM NAME", 0, 0, true);
 				nameRand.setScale(scaleSide);
 				nameRand.setHeight(optionHeight);
 				
-				ipDisplay = new Text("ENTER IP: ", 0, 0, true);
+				Text ipDisplay = new Text("ENTER IP: ", 0, 0, true);
 				ipDisplay.setScale(scaleSide);
 				ipDisplay.setHeight(optionHeight);
 				
-				joinOption = new Text("JOIN SERVER", 0, 0, true);
+				Text joinOption = new Text("JOIN SERVER", 0, 0, true);
 				joinOption.setScale(scaleSide);
 				joinOption.setHeight(optionHeight);
 				
-				searchOption = new Text("SEARCH FOR NEARBY SERVERS", 0, 0, true);
+				Text searchOption = new Text("SEARCH FOR NEARBY SERVERS", 0, 0, true);
 				searchOption.setScale(scaleSide);
 				searchOption.setHeight(optionHeight);
 				
-				hostOption = new Text("HOST SERVER", 0, 0, true);
+				Text hostOption = new Text("HOST SERVER", 0, 0, true);
 				hostOption.setScale(scale);
 				hostOption.setHeight(optionHeight);
 				
-				singleOption = new Text("SINGLE PLAYER", 0, 0, true);
+				Text singleOption = new Text("SINGLE PLAYER", 0, 0, true);
 				singleOption.setScale(scale);
 				singleOption.setHeight(optionHeight);
 				
-				settingsOption = new Text("OPTIONS", 0, 0, true);
+				Text settingsOption = new Text("OPTIONS", 0, 0, true);
 				settingsOption.setScale(scale);
 				settingsOption.setHeight(optionHeight);
 				
-				aboutOption = new Text("ABOUT", 0, 0, true);
+				Text aboutOption = new Text("ABOUT", 0, 0, true);
 				aboutOption.setScale(scale);
 				aboutOption.setHeight(optionHeight);
 				
-				exitOption = new Text("EXIT", 0, 0, true);
+				Text exitOption = new Text("EXIT", 0, 0, true);
 				exitOption.setScale(scale);
 				exitOption.setHeight(optionHeight);
 				
@@ -196,7 +208,7 @@ public class TitleState extends GameState {
 				notifications.setScale(scale);
 				notifications.setHeight(optionHeight);
 				
-				versionNum = new Text("VERSION: " + HadalGame.Version, versionNumX, versionNumY, false);
+				Text versionNum = new Text("VERSION: " + HadalGame.Version, versionNumX, versionNumY, false);
 				versionNum.setScale(scale);
 				versionNum.setHeight(optionHeight);
 				
@@ -292,11 +304,11 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						setNotification("SEARCHING FOR SERVER...");
-						
 						if (inputDisabled) { return; }
 						inputDisabled = true;
-						
+
+						setNotification("SEARCHING FOR SERVER...");
+
 						SoundEffect.UISWITCH2.play(gsm, 1.0f, false);
 						
 						Gdx.app.postRunnable(() -> {
@@ -394,7 +406,7 @@ public class TitleState extends GameState {
 				} else {
 					enterIP.setText(gsm.getRecord().getLastIp());
 				}
-				
+
 				enterName = new TextField(gsm.getLoadout().getName(), GameStateManager.getSkin());
 				enterName.setMessageText("ENTER NAME");
 				
@@ -420,6 +432,65 @@ public class TitleState extends GameState {
 		app.newMenu(stage);
 		gsm.getApp().fadeIn();
 		inputDisabled = false;
+	}
+
+	/**
+	 * When we connect to a password server, this is run to bring up the password entering window
+	 */
+	public void openPasswordRequest() {
+		passwordWindow.setVisible(true);
+
+		tablePassword = new Table();
+		tablePassword.setPosition(passwordX, passwordY);
+		tablePassword.setSize(passwordWidth, passwordHeight);
+		stage.addActor(tablePassword);
+
+		Text password = new Text("PASSWORD: ", 0, 0, false);
+		password.setScale(scaleSide);
+		password.setHeight(optionHeight);
+
+		enterPassword = new TextField("", GameStateManager.getSkin());
+		enterPassword.setPasswordCharacter('*');
+		enterPassword.setPasswordMode(true);
+		enterPassword.setMessageText("PASSWORD");
+
+		Text connect = new Text("CONNECT", 0, 0, true);
+		connect.setScale(scaleSide);
+		connect.setHeight(optionHeight);
+
+		Text cancel = new Text("CANCEL", 0, 0, true);
+		cancel.setScale(scaleSide);
+		cancel.setHeight(optionHeight);
+
+		connect.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
+				tablePassword.remove();
+				passwordWindow.setVisible(false);
+
+				HadalGame.client.sendTCP(new Packets.PlayerConnect(true, enterName.getText(), HadalGame.Version, enterPassword.getText()));
+			}
+		});
+
+		cancel.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
+				tablePassword.remove();
+				passwordWindow.setVisible(false);
+
+				inputDisabled = false;
+				HadalGame.client.getClient().stop();
+			}
+		});
+
+		tablePassword.add(password).pad(5);
+		tablePassword.add(enterPassword).width(textWidth).height(optionHeight).row();
+		tablePassword.add(connect);
+		tablePassword.add(cancel);
 	}
 
 	@Override

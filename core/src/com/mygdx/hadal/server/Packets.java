@@ -39,11 +39,19 @@ public class Packets {
 			this.msg = msg;
 		}
 	}
-	
+
+	public static class PasswordRequest {
+		/**
+		 * PasswordRequest is sent from the Server to the Client when the client attempts to connect if the server has a pw
+		 */
+		public PasswordRequest() {}
+	}
+
 	public static class PlayerConnect {
 		public boolean firstTime;
 		public String name;
 		public String version;
+		public String password;
 		public PlayerConnect() {}
 		
 		/**
@@ -54,11 +62,13 @@ public class Packets {
 		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
 		 * @param name: Client's selected name and name of their new Player.
 		 * @param version: the version of the game to make sure we are compatible with the host.
+		 * @param password: if the client is entering a password, this is it (otherwise null)
 		 */
-		public PlayerConnect(boolean firstTime, String name, String version) {
+		public PlayerConnect(boolean firstTime, String name, String version, String password) {
 			this.firstTime = firstTime;
 			this.name = name;
 			this.version = version;
+			this.password = password;
 		}
 	}
 	
@@ -234,26 +244,49 @@ public class Packets {
 		}
 	}
 	
-	public static class Notification {
+	public static class ServerNotification {
 		public String name;
 		public String text;
 		public DialogType type;
-		public Notification() {}
+		public int connID;
+		public ServerNotification() {}
 		
 		/**
-		 * A Notification is sent from the Server to the Client to make a notification window appear in their dialog box.
+		 * A ServerNotification is sent from the Server to the Client to make a notification window appear in their dialog box.
 		 * A Notification is sent from the Client to the Server to tell it to relay the message to all clients.
 		 * @param name: The name that will be displayed in the notification
 		 * @param text: The text displayed in the notification
 		 * @param type: type of dialog (dialog, system msg, etc)
+		 *
 		 */
-		public Notification(String name, String text, DialogType type) {
+		public ServerNotification(String name, String text, DialogType type, int connID) {
+			this.name = name;
+			this.text = text;
+			this.type = type;
+			this.connID = connID;
+		}
+	}
+
+	public static class ClientNotification {
+		public String name;
+		public String text;
+		public DialogType type;
+		public ClientNotification() {}
+
+		/**
+		 * A ClientNotification is sent from the Client to the Server to tell it to relay the message to all clients.
+		 * @param name: The name that will be displayed in the notification
+		 * @param text: The text displayed in the notification
+		 * @param type: type of dialog (dialog, system msg, etc)
+		 *
+		 */
+		public ClientNotification(String name, String text, DialogType type) {
 			this.name = name;
 			this.text = text;
 			this.type = type;
 		}
 	}
-	
+
 	public static class ClientReady {
 		public int playerID;
 		public ClientReady() {}
@@ -1142,17 +1175,27 @@ public class Packets {
 		}
 	}
 
+	public static class ClientYeet {
+
+		/**
+		 * A ClientYeet packet is sent to disconnect a client
+		 */
+		public ClientYeet() {}
+	}
+
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
      */
     public static void allPackets(Kryo kryo) {
-    	kryo.register(ConnectReject.class);
+		kryo.register(ConnectReject.class);
+		kryo.register(PasswordRequest.class);
     	kryo.register(PlayerConnect.class);
     	kryo.register(ServerLoaded.class);
     	kryo.register(Paused.class);
     	kryo.register(Unpaused.class);
-    	kryo.register(Notification.class);
+		kryo.register(ServerNotification.class);
+		kryo.register(ClientNotification.class);
     	kryo.register(ClientReady.class);
     	kryo.register(KeyDown.class);
     	kryo.register(KeyUp.class);
@@ -1200,6 +1243,7 @@ public class Packets {
     	kryo.register(SyncExtraResultsInfo.class);
 		kryo.register(SyncTyping.class);
 		kryo.register(RemoveScore.class);
+		kryo.register(ClientYeet.class);
 
 		kryo.register(Vector2.class);
 		kryo.register(UnlockLevel.class);

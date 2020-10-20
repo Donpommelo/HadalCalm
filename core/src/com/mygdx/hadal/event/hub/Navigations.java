@@ -68,7 +68,7 @@ public class Navigations extends HubEvent {
 					} else {
 						
 						//clients suggest maps when clicking
-						HadalGame.client.sendTCP(new Packets.Notification("SYSTEM", state.getPlayer().getName() + " Suggests Map: " + selected.name(), DialogType.SYSTEM));
+						HadalGame.client.sendTCP(new Packets.ClientNotification("SYSTEM", state.getPlayer().getName() + " Suggests Map: " + selected.name(), DialogType.SYSTEM));
 					}
 		        	leave();
 		        }
