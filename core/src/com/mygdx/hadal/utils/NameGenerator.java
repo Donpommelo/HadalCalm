@@ -544,6 +544,7 @@ public enum NameGenerator {
 	JUBE("jube", "end", "u"),
 
 	KA("ka", "end", "a", "e", "i", "o", "u"),
+	KANORI("kanori", "end", "a"),
 	KASHA("kasha", "end", "a"),
 	KACHU("kachu", "end", "i"),
 	KCHOY("kchoy", "end", "o"),
@@ -552,6 +553,7 @@ public enum NameGenerator {
 	KKAIL("kkail", "end", "i"),
 	KOLA("kola", "end", "a", "e", "i", "o", "u"),
 	KRA("kra", "end", "a", "o"),
+	KURAI("kurai", "end", "a"),
 
 	LABASH("labash", "end", "a"),
 	LAF("laf", "end", "o"),
@@ -627,8 +629,11 @@ public enum NameGenerator {
 	LYMPIA("lympia", "end", "o"),
 
 
+	MADA("mafa", "end", "a"),
 	MADEUS("madeus", "end", "a"),
+	MAGUCHI("maguchi", "end", "a"),
 	MANDCHEESE("mandcheese", "end", "a"),
+	MAMOTO("mamoto", "end", "a"),
 	MANUEL("manuel", "end", "e"),
 	MARAJA("maraja", "end", "a"),
 	MARIND("marind", "end", "a"),
@@ -742,6 +747,7 @@ public enum NameGenerator {
 	NOCEROS("noceros", "end", "i"),
 	NOCH("noch", "end", "e"),
 	NONDORF("nondorf", "end", "a"),
+	NPANYA("npanya", "end", "a"),
 	NRIQUE("nrique", "end", "e", "i"),
 	NSTON("nston", "end", "a", "e", "i", "o", "u"),
 	NTACLAUS("ntaclaus", "end", "a"),
@@ -1017,12 +1023,15 @@ public enum NameGenerator {
 	XLEY("xley", "end", "u"),
 	XTER("xter", "end", "a", "e", "i", "o", "u"),
 
+	YAMOTO("yamoto", "end", "i"),
 	YARDEE("yardee", "end", "o"),
 	YENNE("yenne", "end", "a"),
 	YLEE("ylee", "end", "a"),
+	YOKO("yoko", "end", "i"),
 	YONNAISE("yonnaise", "end", "a"),
 	YOTE("yote", "end", "a"),
 
+	ZAEMON("zaemon", "end", "o"),
 	ZARUS("zarus", "end", "a", "e", "i", "o", "u"),
 	ZAZEL("zazel", "end", "a"),
 	ZEBEL("zebel", "end", "a", "e", "i", "o", "u"),

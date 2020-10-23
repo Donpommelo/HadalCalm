@@ -45,13 +45,16 @@ public class ResultsState extends GameState {
 	
 	//This is a list of all the saved player fields (scores) from the completed playstate
 	private final ArrayList<SavedPlayerFields> scores;
-	
+
 	//This i sa mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
 	private final HashMap<SavedPlayerFields, Boolean> ready;
 	
 	//this text is displayed at the top of the state and usually indicates victory or loss
-	private final String text;
-	
+	private String text;
+
+	//if the results text is equal to the magic word, calculate the results text based on score
+	public static final String magicWord = "fug";
+
 	//Dimensions and position of the results menu
 	private static final int width = 1000;
 	private static final int baseHeight = 90;
@@ -88,7 +91,7 @@ public class ResultsState extends GameState {
 		
 		//First, we obtain the list of scores, depending on whether we are the server or client.
 		scores = new ArrayList<>();
-		
+
 		if (ps.isServer()) {
 			for (User user: HadalGame.server.getUsers().values()) {
 				scores.add(user.getScores());
@@ -99,19 +102,14 @@ public class ResultsState extends GameState {
 				scores.add(user.getScores());
 			}
 		}
-		
+
 		//Then, we sort according to score and give the winner(s) a win.
 		scores.sort((a, b) -> b.getScore() - a.getScore());
-		
+
 		if (ps.isServer()) {
-			int winningScore = scores.get(0).getScore();
 			for (User user : HadalGame.server.getUsers().values()) {
 				SavedPlayerFields score = user.getScores();
-				if (score.getScore() == winningScore) {
-					score.win();
-				}
 				savePlayerLoadout(user);
-
 				SavedPlayerFieldsExtra scoreExtra = user.getScoresExtra();
 				HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(score.getConnID(), score.getNameShort(),
 					scoreExtra.getDamageDealt(), scoreExtra.getDamageDealtSelf(), scoreExtra.getDamageDealtAllies(),

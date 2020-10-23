@@ -676,6 +676,7 @@ public class KryoClient {
 					} else {
 						users.put(p.connID, new User(newPlayer, null, new SavedPlayerFields(p.name, p.connID), new SavedPlayerFieldsExtra()));
 					}
+					users.get(p.connID).setTeamFilter(p.loadout.team);
 				});
 			}
 			return true;

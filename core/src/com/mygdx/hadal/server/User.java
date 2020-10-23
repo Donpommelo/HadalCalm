@@ -22,7 +22,7 @@ public class User {
     //is this player muted
     private boolean muted;
 
-    //player's hbox filter (for free for all pvp) and team alignment (for team mode)
+    //player's hbox filter (for free for all pvp)
     private AlignmentFilter hitBoxFilter;
     private AlignmentFilter teamFilter = AlignmentFilter.NONE;
 

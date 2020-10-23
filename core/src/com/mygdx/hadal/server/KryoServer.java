@@ -525,6 +525,7 @@ public class KryoServer {
 
 			user.setPlayer(newPlayer);
 			user.setMouse(newMouse);
+			user.setTeamFilter(loadout.team);
 
 			//set the client as a spectator if requested
 			newPlayer.setStartSpectator(spectator);

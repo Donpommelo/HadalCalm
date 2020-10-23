@@ -127,7 +127,12 @@ public class PlayerBodyData extends BodyData {
 		player.setBodySprite(newLoadout.character, newLoadout.team);
 		
 		this.loadout = newLoadout;
-		
+
+		User user = HadalGame.client.getUsers().get(player.getConnID());
+		if (user != null) {
+			user.setTeamFilter(loadout.team);
+		}
+
 		//If this is the player being controlled by the user, update artifact ui
 		if (player.equals((player.getState().getPlayer()))) {
 			player.getState().getUiArtifact().syncArtifact();
@@ -152,12 +157,11 @@ public class PlayerBodyData extends BodyData {
 			pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(active, getPlayer())));
 		}
 		if (character != null) {
-        	getLoadout().character = character;
+        	setCharacter(character);
 		}
 		if (team != null) {
-			getLoadout().team = team;
+			setTeam(team);
 		}
-		getPlayer().setBodySprite(character, team);
 	}
 	
 	/**
@@ -424,7 +428,25 @@ public class PlayerBodyData extends BodyData {
 		//play sounds for weapon switching
 		SoundEffect.LOCKANDLOAD.playExclusive(player.getState(), null, player, 0.5f, true);
 	}
-	
+
+	/**
+	 * This is called when switching teams.
+	 */
+	public void setTeam(AlignmentFilter team) {
+		loadout.team = team;
+		player.setBodySprite(null, team);
+
+		User user = HadalGame.server.getUsers().get(player.getConnID());
+		if (user != null) {
+			user.setTeamFilter(team);
+		}
+	}
+
+	public void setCharacter(UnlockCharacter character) {
+		loadout.character = character;
+		player.setBodySprite(character, null);
+	}
+
 	/**
 	 * This method saves the player's current artifacts into records
 	 */

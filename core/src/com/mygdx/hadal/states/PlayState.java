@@ -132,7 +132,7 @@ public class PlayState extends GameState {
 	private final HashMap<String, PositionDummy> dummyPoints;
 	
 	//Can players hurt each other? Is it the hub map? Is this the server?
-	private final boolean pvp, hub, server;
+	private final boolean pvp, hub, server, teamEnabled;
 	
 	//Various play state ui elements
 	protected UIPlay uiPlay;
@@ -194,6 +194,7 @@ public class PlayState extends GameState {
 		super(gsm);
 
 		this.server = server;
+		this.teamEnabled = gsm.getSetting().isTeamEnabled();
 		
 		//Maps can have a set loadout. This will override the loadout given as an input to the playstate.
 		this.mapMultitools = level.getMultitools();
@@ -903,8 +904,8 @@ public class PlayState extends GameState {
 
 		//set player pvp hitbox filter.
 		if (isPvp()) {
-			if (gsm.getSetting().isTeamEnabled() && !isHub()) {
-				p.setHitboxfilter(p.getPlayerData().getLoadout().team.getFilter());
+			if (teamEnabled && !isHub()) {
+				p.setHitboxfilter(newLoadout.team.getFilter());
 			} else {
 				p.setHitboxfilter(hitboxFilter);
 			}
@@ -942,7 +943,7 @@ public class PlayState extends GameState {
 						Player playerLeft = user.getPlayer();
 
 						if (playerLeft != null) {
-							if (gsm.getSetting().isTeamEnabled() && !isHub()) {
+							if (teamEnabled && !isHub()) {
 
 								//if team mode, display a win for the team instead
 								if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
@@ -1010,14 +1011,75 @@ public class PlayState extends GameState {
 			}
 		}
 	}
-	
+
+	//This is a list of all the saved player fields (scores) from the completed playstate
+	private final ArrayList<SavedPlayerFields> scores = new ArrayList<>();
+	private final Map<AlignmentFilter, Integer> teamScores = new HashMap<>();
+	private final ArrayList<AlignmentFilter> teamScoresList = new ArrayList<>();
 	/**
 	 * This is called when a level ends. Only called by the server. Begin a transition and tell all clients to follow suit.
-	 * @param text: text displayed in results state?
+	 * @param text: text displayed in results state
 	 */
 	public void levelEnd(String text) {
-		beginTransition(TransitionState.RESULTS, true, text, defaultFadeOutSpeed, deathFadeDelay);
-		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, text, defaultFadeOutSpeed, deathFadeDelay));
+		String resultsText = text;
+		if (text.equals(ResultsState.magicWord)) {
+			for (User user: HadalGame.server.getUsers().values()) {
+				scores.add(user.getScores());
+
+				AlignmentFilter faction;
+
+				if (user.getTeamFilter().equals(AlignmentFilter.NONE)) {
+					faction = user.getHitBoxFilter();
+				} else {
+					faction = user.getTeamFilter();
+				}
+
+				if (teamScores.containsKey(faction)) {
+					teamScores.put(faction, user.getScores().getScore() + teamScores.get(faction));
+				} else {
+					teamScores.put(faction, user.getScores().getScore());
+				}
+			}
+
+			//Then, we sort according to score and give the winner(s) a win.
+			scores.sort((a, b) -> b.getScore() - a.getScore());
+			teamScoresList.addAll(teamScores.keySet());
+			teamScoresList.sort((a, b) -> teamScores.get(b) - teamScores.get(a));
+
+			if (teamEnabled) {
+				AlignmentFilter winningTeam = teamScoresList.get(0);
+				if (winningTeam.isTeam()) {
+					resultsText = winningTeam.toString() + " WINS";
+				} else {
+					for (User user: HadalGame.server.getUsers().values()) {
+						if (user.getHitBoxFilter().equals(winningTeam)) {
+							resultsText = user.getScores().getNameShort() + " WINS";
+						}
+					}
+				}
+			} else {
+				resultsText = scores.get(0).getNameShort() + " WINS";
+			}
+
+			AlignmentFilter winningTeam = teamScoresList.get(0);
+			int winningScore = scores.get(0).getScore();
+
+			for (User user : HadalGame.server.getUsers().values()) {
+				SavedPlayerFields score = user.getScores();
+				if (teamEnabled) {
+					if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
+						score.win();
+					}
+				} else {
+					if (score.getScore() == winningScore) {
+						score.win();
+					}
+				}
+			}
+		}
+
+		beginTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay);
+		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay));
 	}
 	
 	/**
@@ -1299,7 +1361,9 @@ public class PlayState extends GameState {
 	public boolean isPvp() { return pvp; }
 	
 	public boolean isHub() { return hub; }
-	
+
+	public boolean isTeamEnabled() { return teamEnabled; }
+
 	public boolean isSpectatorMode() { return spectatorMode; }
 
 	public void setUnlimitedLife(boolean lives) { this.unlimitedLife = lives; }
