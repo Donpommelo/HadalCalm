@@ -20,7 +20,7 @@ import com.mygdx.hadal.client.KryoClient;
 
 /**
  * HadalGame is the game. This is created upon launching the game. It delegates the rendering + updating logic to the GameStateManager.
- * @author Zachary Tu
+ * @author Dincubus Doncubus
  */
 public class HadalGame extends ApplicationAdapter {
 	
@@ -111,7 +111,7 @@ public class HadalGame extends ApplicationAdapter {
 
 		float delta = Gdx.graphics.getDeltaTime();
 		
-		//update the state, update the ui, render the state, then draw the ui.
+		//update the state, update the ui, render the state, then render the ui.
 		gsm.update(delta);
 		currentMenu.act();
 
@@ -220,6 +220,7 @@ public class HadalGame extends ApplicationAdapter {
 			server.getServer().close();
 		}
 
+		//thi prevents an error upon x-ing out the game
 		System.exit(0);
 	}	
 	

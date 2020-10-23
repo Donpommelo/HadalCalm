@@ -6,7 +6,7 @@ import com.badlogic.gdx.audio.Music;
 /**
  * These are the music tracks in the game
  * We haven;t actually added music yet.
- * @author Zachary Tu
+ * @author Lurvudardus Labourne
  */
 public enum MusicTrack {
 

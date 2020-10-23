@@ -12,7 +12,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 /**
  * A delayed spawn waits for a brief period of time, then dies and spawns a chosen enemy
  * This event is only ever created dynamically and so it does not have any connection behavior and will never be parsed from a tiled map.
- * @author Zachary Tu
+ * @author Juthrop Jourdough
  */
 public class DelayedSpawn extends Event {
 

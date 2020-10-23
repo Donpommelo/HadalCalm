@@ -15,7 +15,7 @@ import com.mygdx.hadal.states.PlayState;
  * Fields:
  * zoom: Sets the zoom of the camera. Optional. Default: 1.0f If zoom is 0, we only set camera focus
  * 
- * @author Zachary Tu
+ * @author Cruphelia Culdwin
  */
 public class CameraChanger extends Event {
 

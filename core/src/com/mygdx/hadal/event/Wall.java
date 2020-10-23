@@ -16,7 +16,7 @@ import com.mygdx.hadal.utils.Constants;
  * Triggering Behavior: N/A.
  * 
  * Fields:
- * @author Zachary Tu
+ * @author Lelfupton Loporon
  */
 public class Wall extends Event {
 
@@ -47,7 +47,6 @@ public class Wall extends Event {
         	vertices[i] = new Vector2();
         	shape.getVertex(i, vertices[i]);
         }
-        
         shape.dispose();
 	}
 	

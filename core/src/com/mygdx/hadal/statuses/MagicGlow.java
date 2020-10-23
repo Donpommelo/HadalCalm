@@ -10,7 +10,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * Magic Glow makes the schmuck glow with colorful particles
  * atm, this is just used to indicate when the hexenhowitzer weapon is fully charged.
- * @author Zachary Tu
+ * @author Rubeck Rigwump
  */
 public class MagicGlow extends Status {
 

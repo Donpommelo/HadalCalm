@@ -28,25 +28,22 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * heal: float heal per 1/60f done by this event
  * filter: short of who this event affects. Default: 0 (all units).
  * 
- * @author Zachary Tu
+ * @author Zospus Ziwick
  */
 public class HealingArea extends Event {
 	
 	private float controllerCount;
 	
-	//Damage done by the poison
 	private final float heal;
-	
+	private final short filter;
+
 	//If created by an dude, this is that dude
 	private final Schmuck perp;
 	
 	//timers manage the rate of particle spawn
 	private float currCrossSpawnTimer;
 	private final float spawnTimerLimit;
-	
-	//filter determines which schmucks are affected by this event
-	private final short filter;
-	
+
 	//the frequency that the heal is applied
 	private static final float healInterval = 1 / 60f;
 	

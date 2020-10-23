@@ -27,7 +27,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Fields:
  * There are a lot of fields. They are all just self-explanatory properties of the hitboxes
  * 
- * @author Zachary Tu
+ * @author Purtoise Pleton
  */
 public class SpawnerHitbox extends Event {
 	

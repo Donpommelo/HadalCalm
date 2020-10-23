@@ -9,7 +9,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy makes a hbox continually create poison tiles as it travels
- * @author Zachary Tu
+ * @author Gigawa Gnoheimer
  */
 public class PoisonTrail extends HitboxStrategy {
 	

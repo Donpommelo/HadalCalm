@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState;
  * Fields:
  * type: type of item to unlock (EQUIP, ARTIFACT, ACTIVE, CHARACTER, LEVEL)
  * item: String name of the item to unlock
- * @author Zachary Tu
+ * @author Trurdelia Tabanero
  */
 public class ItemUnlocker extends Event {
 

@@ -22,7 +22,9 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
 
 /**
  * The PauseState is pulled up by pausing in game.
- * @author Zachary Tu
+ * From here, the player can resume, change settings, exit game.
+ * If a client, they can also use the spectator mode.
+ * @author Yaptista Yihorn
  */
 public class PauseState extends GameState {
 
@@ -43,6 +45,7 @@ public class PauseState extends GameState {
 	private boolean toRemove;
 	
 	//is the game paused underneath this menu?
+	// In multiplayer, the pause menu will be brought up, but the game will not be paused (unless changed in settings)
 	private final boolean paused;
 	
 	//Dimensions of the pause menu
@@ -238,6 +241,8 @@ public class PauseState extends GameState {
 					
 					//we return true here so that the client does not process another pause after the unpause
 					return true;
+				} else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+					ps.getScoreWindow().setVisibility(false);
 				}
 				return false; 
 			}

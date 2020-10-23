@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * The TimedSpawner is a prefab consists of a spawner that, on a timer, spawns an fuel or health pickup.
- * @author Zachary Tu
+ * @author Zessomuffin Zobalante
  */
 public class SpawnerPickupTimed extends Prefabrication {
 

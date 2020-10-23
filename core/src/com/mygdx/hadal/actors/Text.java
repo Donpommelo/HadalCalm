@@ -13,6 +13,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 
 /**
  * Simple actor that displays floating text. Not suitable for long messages.
+ * @author Slirmelo Stufferty
  */
 public class Text extends AHadalActor {
 	

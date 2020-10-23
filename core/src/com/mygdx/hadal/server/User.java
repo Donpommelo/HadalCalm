@@ -3,14 +3,26 @@ package com.mygdx.hadal.server;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 
+/**
+ * A User represents a user playing the game, whether they are host or not.
+ * This contains the data needed to keep track of the player's information (score, team alignment etc)
+ * @author Brineflu Blemherst
+ */
 public class User {
 
+    //player info and relevant entities
     private Player player;
     private MouseTracker mouse;
     private SavedPlayerFields scores;
     private SavedPlayerFieldsExtra scoresExtra;
-    private boolean scoreUpdated, muted;
 
+    //has this player's score been updated? (used to sync score window)
+    private boolean scoreUpdated;
+
+    //is this player muted
+    private boolean muted;
+
+    //player's hbox filter (for free for all pvp) and team alignment (for team mode)
     private AlignmentFilter hitBoxFilter;
     private AlignmentFilter teamFilter = AlignmentFilter.NONE;
 

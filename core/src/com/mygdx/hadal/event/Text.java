@@ -19,7 +19,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Fields:
  * text: string to be displayed
  * scale: float of the sie of the text
- * @author Zachary Tu
+ * @author Whorheart Wanicotti
  */
 public class Text extends Event {
 

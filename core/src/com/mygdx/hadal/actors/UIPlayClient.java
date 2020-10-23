@@ -6,7 +6,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * This is a client version of the UIPlay.
  * The only different thing about this is that it reads its data from "override" fields of the player that are filled by info received from the server.
- * @author Zachary Tu
+ * @author Liggnut Leblatt
  */
 public class UIPlayClient extends UIPlay {
 

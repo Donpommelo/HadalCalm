@@ -8,10 +8,11 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * The UnlockManager manages the player's unlocked weapons, artifacts, etc
- * @author Zachary Tu
+ * @author Proctavio Prolkner
  */
 public class UnlockManager {
 	
@@ -113,31 +114,36 @@ public class UnlockManager {
 		case ACTIVE:
 			state.getGsm().getRecord().getUnlockActive().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", "UNLOCKED ACTIVE: " + getInfo(type, name).getName(), "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
+				state.getDialogBox().addDialogue("", "UNLOCKED ACTIVE: " + Objects.requireNonNull(getInfo(type, name)).getName(),
+					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case ARTIFACT:
 			state.getGsm().getRecord().getUnlockArtifact().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", "UNLOCKED ARTIFACT: " + getInfo(type, name).getName(), "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
+				state.getDialogBox().addDialogue("", "UNLOCKED ARTIFACT: " + Objects.requireNonNull(getInfo(type, name)).getName(),
+					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case CHARACTER:
 			state.getGsm().getRecord().getUnlockCharacter().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", "UNLOCKED CHARACTER: " + getInfo(type, name).getName(), "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
+				state.getDialogBox().addDialogue("", "UNLOCKED CHARACTER: " + Objects.requireNonNull(getInfo(type, name)).getName(),
+					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case EQUIP:
 			state.getGsm().getRecord().getUnlockEquip().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", "UNLOCKED EQUIP: " + getInfo(type, name).getName(), "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
+				state.getDialogBox().addDialogue("", "UNLOCKED EQUIP: " + Objects.requireNonNull(getInfo(type, name)).getName(),
+					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case LEVEL:
 			state.getGsm().getRecord().getUnlockLevel().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", "UNLOCKED LEVEL: " + getInfo(type, name).getName(), "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
+				state.getDialogBox().addDialogue("", "UNLOCKED LEVEL: " + Objects.requireNonNull(getInfo(type, name)).getName(),
+					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		default:

@@ -8,16 +8,16 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy creates a sound when the attached hbox dies
- * @author Zachary Tu
+ * @author Ghuvarius Greatrice
  *
  */
 public class DieSound extends HitboxStrategy {
 	
 	//this is the sound effect that gets played
-	private SoundEffect sound;
+	private final SoundEffect sound;
 	
 	//this is the volume that the sound will get played at.
-	private float volume;
+	private final float volume;
 	
 	//this is the pitch that the sound will get played at. (default is no change. change using factory method.)
 	private float pitch = 1.0f;

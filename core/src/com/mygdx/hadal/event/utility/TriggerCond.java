@@ -25,7 +25,7 @@ import java.util.Map;
  * 
  * triggeringId: Like a multi-trigger, this string should be a comma-separated list of triggeredIds of events that can be triggered.
  * 
- * @author Zachary Tu
+ * @author Kardamom Kotonio
  */
 public class TriggerCond extends Event {
 

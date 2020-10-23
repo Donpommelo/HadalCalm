@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * This is like a TimedSpawner, except you can specify the trigger to be an event outside of the prefab.
- * @author Zachary Tu
+ * @author Lachuguel Libottoms
  */
 public class SpawnerPickupTriggered extends Prefabrication {
 

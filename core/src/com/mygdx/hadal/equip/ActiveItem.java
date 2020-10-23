@@ -13,7 +13,7 @@ import com.mygdx.hadal.utils.Stats;
 
 /**
  * An active item is an item displayed in the lower right corner. They can be used with the spacebar and have a cooldown or some other charging mechanic.
- * @author Zachary Tu
+ * @author Neston Noggby
  */
 public class ActiveItem extends Equippable {
 

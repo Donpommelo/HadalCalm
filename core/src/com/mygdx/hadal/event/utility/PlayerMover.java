@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * all: boolean. do we move all players or not?
  * exclude: boolean. do we exclude the player that activated this? 
  
- * @author Zachary Tu
+ * @author Slalfingo Spehaz
  */
 public class PlayerMover extends Event {
 

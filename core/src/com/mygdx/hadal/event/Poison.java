@@ -29,7 +29,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * damage: float damage per 1/60f done by this event
  * draw: do we draw particles for this event? Default: true
  * filter: who does this event affect? Default: 0 (all units)
- * @author Zachary Tu
+ * @author Clostafa Clurbara
  */
 public class Poison extends Event {
 	

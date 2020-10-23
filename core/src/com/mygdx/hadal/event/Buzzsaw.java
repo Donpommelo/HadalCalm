@@ -21,7 +21,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * damage: float damage per 1/60f done by this event
  * filter: hitbox filter of who this event will damage. default: 0 (hits everyone)
  * 
- * @author Zachary Tu
+ * @author Phurrault Pognatio
  */
 public class Buzzsaw extends Event {
 	

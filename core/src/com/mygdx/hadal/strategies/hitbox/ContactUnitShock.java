@@ -10,7 +10,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy makes a hbox inflicts a shock on users that it makes contact with.
  * Shock creates chain lightning that jumps to nearby targets.
- * @author Zachary Tu
+ * @author Shobonnier Shilbatross
  */
 public class ContactUnitShock extends HitboxStrategy {
 	

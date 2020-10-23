@@ -15,8 +15,8 @@ import com.mygdx.hadal.states.PlayState;
  * 
  * quest: String id of quest checked
  * newVal: Value of the quest to check for. If equal, chain to connected event. Optional. Default: 0
- * 
- * @author Zachary Tu
+ *
+ * @author Teshire Twobrooke
  */
 public class QuestChecker extends Event {
 

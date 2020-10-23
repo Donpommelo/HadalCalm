@@ -8,7 +8,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy makes a hbox return to user
- * @author Zachary Tu
+ * @author Birardo Brozzerella
  */
 public class ReturnToUser extends HitboxStrategy {
 	

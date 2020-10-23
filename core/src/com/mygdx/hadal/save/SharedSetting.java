@@ -2,7 +2,7 @@ package com.mygdx.hadal.save;
 
 /**
  * Shared Settings containing all of the host's settings that should be visible/synced with the clients
- * @author Zachary Tu
+ * @author Lussain Luggfish
  */
 public class SharedSetting {
 

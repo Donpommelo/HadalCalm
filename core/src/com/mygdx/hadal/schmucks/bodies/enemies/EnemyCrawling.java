@@ -21,7 +21,7 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  * Enemies are Schmucks that attack the player.
  * Crawling enemies move right and left along the floor.
  * These enemies can rotate to face the player.
- * @author Zachary Tu
+ * @author Brenkuchary Brarkiful
  */
 public class EnemyCrawling extends Enemy {
 	

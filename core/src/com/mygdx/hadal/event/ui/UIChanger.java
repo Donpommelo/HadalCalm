@@ -16,7 +16,7 @@ import com.mygdx.hadal.states.PlayState;
  * types: This string specifies the uiType enums that will be used for the ui change. This is a comma-separated list of enum names. (or just the text for misc labels)
  * changeType: this is an boolean that specifies whether we clear existing tags before adding these. Default: true
  * 
- * @author Zachary Tu
+ * @author Prangeater Phuadulupe
  */
 public class UIChanger extends Event {
 

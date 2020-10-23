@@ -15,18 +15,33 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * This utility manages the players console commands
  * enter console commands in the message window (default binding: 't')
- * @author Zachary Tu
+ * Command List:
+ * /roll: roll a random number
+ * /weapon: display your currently equipped weapons
+ * /artifact: display your currently equipped artifacts
+ * /active: display your currently equipped active item
+ * @author Handwort Hockett
  */
 public class ConsoleCommandUtil {
 
+	private static final int maxRoll = 100;
+	/**
+	 * This parses a string input and executes a chat command.
+	 * @param state: current state
+	 * @param player: the player executing the command
+	 * @param command: the string text to be interpreted
+	 * @return an int to indicate whether this was parsed as a command (0) or not (-1)
+	 */
 	public static int parseChatCommand(PlayState state, Player player, String command) {
 		
 		if (command.equals("/roll")) {
-			HadalGame.server.addNotificationToAll(state, "SYSTEM", player.getName() + " Rolled A Number: " + GameStateManager.generator.nextInt(100), DialogType.SYSTEM, 0);
+			HadalGame.server.addNotificationToAll(state, "SYSTEM", player.getName() + " Rolled A Number: "
+				+ GameStateManager.generator.nextInt(maxRoll), DialogType.SYSTEM, 0);
 			return 0;
 		}
 		
@@ -47,16 +62,16 @@ public class ConsoleCommandUtil {
 		
 		if (command.equals("/artifact")) {
 			
-			String message = player.getName() + "'s Artifacts: ";
+			StringBuilder message = new StringBuilder(player.getName() + "'s Artifacts: ");
 			
 			for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
 				
 				if (!player.getPlayerData().getLoadout().artifacts[i].equals(UnlockArtifact.NOTHING)) {
-					message += player.getPlayerData().getLoadout().artifacts[i].name() + " ";
+					message.append(player.getPlayerData().getLoadout().artifacts[i].name()).append(" ");
 				}
 			}
 			
-			HadalGame.server.addNotificationToAll(state, "SYSTEM", message, DialogType.SYSTEM, 0);
+			HadalGame.server.addNotificationToAll(state, "SYSTEM", message.toString(), DialogType.SYSTEM, 0);
 			return 0;
 		}
 
@@ -77,31 +92,31 @@ public class ConsoleCommandUtil {
 		
 		if (command.equals("/weapon")) {
 			
-			String message = player.getName() + "'s Weapons: ";
+			StringBuilder message = new StringBuilder(player.getName() + "'s Weapons: ");
 			
 			for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, state.getUiPlay().getOverrideWeaponSlots()); i++) {
 				
 				if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
-					message += player.getPlayerData().getLoadout().multitools[i].name() + " ";
+					message.append(player.getPlayerData().getLoadout().multitools[i].name()).append(" ");
 				}
 			}
 			
-			HadalGame.client.sendTCP(new Packets.ClientNotification("SYSTEM", message, DialogType.SYSTEM));
+			HadalGame.client.sendTCP(new Packets.ClientNotification("SYSTEM", message.toString(), DialogType.SYSTEM));
 			return 0;
 		}
 		
 		if (command.equals("/artifact")) {
 			
-			String message = player.getName() + "'s Artifacts: ";
+			StringBuilder message = new StringBuilder(player.getName() + "'s Artifacts: ");
 			
 			for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
 				
 				if (!player.getPlayerData().getLoadout().artifacts[i].equals(UnlockArtifact.NOTHING)) {
-					message += player.getPlayerData().getLoadout().artifacts[i].name() + " ";
+					message.append(player.getPlayerData().getLoadout().artifacts[i].name()).append(" ");
 				}
 			}
 			
-			HadalGame.client.sendTCP(new Packets.ClientNotification("SYSTEM", message, DialogType.SYSTEM));
+			HadalGame.client.sendTCP(new Packets.ClientNotification("SYSTEM", message.toString(), DialogType.SYSTEM));
 			return 0;
 		}
 
@@ -239,14 +254,16 @@ public class ConsoleCommandUtil {
 		try {
 			UnlockEquip equip = UnlockEquip.valueOf(command.toUpperCase());
 			if (state.getPlayer().isAlive()) {
-				state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(equip, state.getPlayer()));
+				state.getPlayer().getPlayerData().pickup(
+					Objects.requireNonNull(UnlocktoItem.getUnlock(equip, state.getPlayer())));
 			}
 		} catch (IllegalArgumentException ignored) {}
 		
 		try {
 			UnlockActives active = UnlockActives.valueOf(command.toUpperCase());
 			if (state.getPlayer().isAlive()) {
-				state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(active, state.getPlayer()));
+				state.getPlayer().getPlayerData().pickup(
+					Objects.requireNonNull(UnlocktoItem.getUnlock(active, state.getPlayer())));
 			}
 		} catch (IllegalArgumentException ignored) {}
 		

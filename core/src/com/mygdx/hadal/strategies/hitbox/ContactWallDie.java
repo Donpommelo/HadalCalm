@@ -9,7 +9,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy makes a hbox die when it touches a wall
- * @author Zachary Tu
+ * @author Glizma Gniffonso
  */
 public class ContactWallDie extends HitboxStrategy {
 	

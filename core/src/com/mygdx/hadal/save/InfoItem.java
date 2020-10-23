@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * An InfoItem represents the information for a single unlockable item to be loaded/saved to json
- * @author Zachary Tu
+ * @author Cikola Cluthurlando
  */
 public class InfoItem {
 

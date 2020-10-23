@@ -19,7 +19,7 @@ import com.payne.games.piemenu.PieMenu;
 /**
  * This actor represents the chat wheel that can be used to send emotes on the fly.
  * This wheel is displayed in the center of the screen and can be controlled with the mouse.
- * @author Zachary Tu
+ * @author Glacieweitz Glottwrassler
  *
  */
 public class ChatWheel {

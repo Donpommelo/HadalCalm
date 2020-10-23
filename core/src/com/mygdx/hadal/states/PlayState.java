@@ -48,7 +48,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * The PlayState is the main state of the game and holds the Box2d world, all characters + gameplay.
- * @author Zachary Tu
+ * @author Norroway Nigganov
  */
 public class PlayState extends GameState {
 	
@@ -82,10 +82,6 @@ public class PlayState extends GameState {
 	private final Set<HadalEntity> entities;
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
 	private final Set<HadalEntity> hitboxes;
-	
-	//These sets are used by the Client for removing/adding entities.
-	protected Set<String> removeListClient;
-	protected Set<Object[]> createListClient;
 	
 	//This is a list of packetEffects, given when we receive packets with effects that we want to run in update() rather than whenever
 	private final List<PacketEffect> packetEffects;
@@ -218,8 +214,6 @@ public class PlayState extends GameState {
 		hitboxes = new LinkedHashSet<>();
 		removeList = new LinkedHashSet<>();
 		createList = new LinkedHashSet<>();
-		removeListClient = new LinkedHashSet<>();
-		createListClient = new LinkedHashSet<>();
 		packetEffects = new ArrayList<>();
 		addPacketEffects = Collections.synchronizedList(new ArrayList<>());
 		
@@ -282,7 +276,8 @@ public class PlayState extends GameState {
 				
 		//Init background image
 		this.bg = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.BACKGROUND2.toString()));
-		
+
+		//set whether to draw hitbox debug lines or not
 		debugHitbox = gsm.getSetting().isDebugHitbox();
 	}
 			
@@ -295,9 +290,9 @@ public class PlayState extends GameState {
 				//This precaution exists to prevent null pointer when player is not loaded in yet.
 				@Override
 				public void draw() {
-					if (player.getPlayerData() != null) {
-						super.draw();
-					}
+				if (player.getPlayerData() != null) {
+					super.draw();
+				}
 				}
 			};
 		}
@@ -330,7 +325,8 @@ public class PlayState extends GameState {
 
 		app.newMenu(stage);
 		resetController();
-		
+
+		//if we faded out before transitioning to this stage, we should fade in upon showing
 		if (gsm.getApp().getFadeLevel() >= 1.0f) {
 			gsm.getApp().fadeIn();
 		}
@@ -381,10 +377,9 @@ public class PlayState extends GameState {
 	        serverLoaded = true;
 			HadalGame.server.sendToAllTCP(new Packets.ServerLoaded());
 		}
-		
-		physicsAccumulator += delta;
-		
+
 		//this makes the physics separate from the game framerate
+		physicsAccumulator += delta;
 		while (physicsAccumulator >= physicsTime) {
 			physicsAccumulator -= physicsTime;
 			
@@ -430,15 +425,13 @@ public class PlayState extends GameState {
 		
 		//Send client a sync packet if the entity requires.
 		if (HadalGame.server.getServer() != null) {
+
 			syncAccumulator += delta;
-			
 			if (syncAccumulator >= syncTime) {
 				syncAccumulator = 0;
 				syncEntities();
 			}
-			
 			syncFastAccumulator += delta;
-			
 			if (syncFastAccumulator >= syncFastTime) {
 				syncFastAccumulator = 0;
 				syncFastEntities();
@@ -459,7 +452,6 @@ public class PlayState extends GameState {
 				HadalGame.server.sendToAllUDP(new Packets.SyncScore(user.getScores().getConnID(), score.getNameShort(), score.getWins(),
 					score.getKills(), score.getDeaths(), score.getScore(), score.getLives(), score.getPing()));
 			}
-
 			if (changeMade) {
 				scoreWindow.syncScoreTable();
 			}
@@ -478,6 +470,8 @@ public class PlayState extends GameState {
 		batch.setProjectionMatrix(hud.combined);
 		batch.begin();
 		batch.disableBlending();
+
+		//render shader
 		if (shaderBase.getShaderProgram() != null) {
 			shaderBase.getShaderProgram().bind();
 			shaderBase.shaderPlayUpdate(this, timer);
@@ -486,7 +480,6 @@ public class PlayState extends GameState {
 		}
 		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 		
-		//render shader
 		if (shaderBase.getShaderProgram() != null) {
 			if (shaderBase.isBackground()) {
 				batch.setShader(null);
@@ -533,16 +526,13 @@ public class PlayState extends GameState {
 			packetEffects.addAll(addPacketEffects);
 			addPacketEffects.clear();
 		}
-
 		for (PacketEffect packetEffect : packetEffects) {
 			packetEffect.execute();
 		}
-		
 		packetEffects.clear();
 		
 		//Update the game camera.
 		cameraAccumulator += delta;
-		
 		while (cameraAccumulator >= cameraTime) {
 			cameraAccumulator -= cameraTime;
 			cameraUpdate();
@@ -653,12 +643,10 @@ public class PlayState extends GameState {
 				if (spectatorTarget.dst2(mousePosition2) > spectatorCameraRange) {
 					spectatorTarget.lerp(mousePosition2, 0.03f);
 				}
-				
 				tmpVector2.set(spectatorTarget);
 			} else {
 				return;
 			}
-			
 			//make camera target respect camera bounds if not focused on an object
 			if (tmpVector2.x > cameraBounds[0]) {
 				tmpVector2.x = cameraBounds[0];
@@ -675,10 +663,9 @@ public class PlayState extends GameState {
 		} else {
 			tmpVector2.set(cameraTarget);
 		}
-		
-		tmpVector2.add(cameraOffset);
-		
+
 		//this makes the spectator target respect camera bounds
+		tmpVector2.add(cameraOffset);
 		spectatorTarget.set(tmpVector2);
 		CameraStyles.lerpToTarget(camera, tmpVector2);
 	}
@@ -884,11 +871,9 @@ public class PlayState extends GameState {
 		if (mapActiveItem != null) {
 			newLoadout.activeItem = mapActiveItem;
 		}
-		
-		
+
 		Player p;
 		if (!client) {
-			
 			//servers spawn at the starting point if existent. We prefer using the body's position, but can also use the starting position if it hasn't been created yet.
 			if (start != null) {
 				if (start.getBody() != null) {
@@ -897,12 +882,10 @@ public class PlayState extends GameState {
 					p = new Player(this, start.getStartPos(), name, newLoadout, old, connID, reset, start);
 				}
 			} else {
-				
 				//no start point means we create the player at (0,0) I don't think this should ever happen.
 				p = new Player(this, new Vector2(), name, newLoadout, old, connID, reset, null);
 			}
 		} else {
-			
 			//clients always spawn at (0,0), then move when the server tells them to.
 			p = new ClientPlayer(this, new Vector2(), name, newLoadout, null, connID, reset, null);
 		}
@@ -926,7 +909,6 @@ public class PlayState extends GameState {
 				p.setHitboxfilter(hitboxFilter);
 			}
 		}
-
 		return p;
 	}
 	
@@ -945,13 +927,13 @@ public class PlayState extends GameState {
 		}
 				
 		if (!unlimitedLife) {
-			
 			String resultsText = "";
 			
 			//check if all players are out
 			boolean allded = true;
 			
-			//in pvp, game ends if all players left are on the same team. (if only 1 player, do not register end until all lives are used. mostly for testing)
+			//in pvp, game ends if all players left are on the same team.
+			// (if only 1 player, do not register end until all lives are used. mostly for testing)
 			if (pvp && HadalGame.server.getUsers().size() > 1) {
 				
 				short factionLeft = -1;
@@ -960,8 +942,9 @@ public class PlayState extends GameState {
 						Player playerLeft = user.getPlayer();
 
 						if (playerLeft != null) {
-
 							if (gsm.getSetting().isTeamEnabled() && !isHub()) {
+
+								//if team mode, display a win for the team instead
 								if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
 									resultsText = playerLeft.getPlayerData().getLoadout().team.toString() + " WINS";
 								} else {
@@ -1019,7 +1002,6 @@ public class PlayState extends GameState {
 				}
 			}
 		} else {
-			
 			//if there are infinite lives, we respawn the dead player
 			if (this.player.equals(player)) {
 				beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);

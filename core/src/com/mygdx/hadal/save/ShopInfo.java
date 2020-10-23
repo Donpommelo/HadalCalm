@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 /**
  * A ShopInfo includes information about what a shop is selling + prices.
  * This is used by the Quartermaster Hub Event to display selection
- * @author Zachary Tu
+ * @author Lisky Lerzivington
  */
 public class ShopInfo {
 

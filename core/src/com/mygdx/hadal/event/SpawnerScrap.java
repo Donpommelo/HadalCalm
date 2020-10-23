@@ -17,7 +17,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * 
  * Fields:
  * scrap: The amount of scrap to spawn. Default: 0
- * @author Zachary Tu
+ * @author Punga Petherford
  */
 public class SpawnerScrap extends Event {
 

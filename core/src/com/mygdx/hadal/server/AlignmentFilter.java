@@ -6,6 +6,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.save.UnlockCharacter;
 
+/**
+ * The AlignmentFilter corresponds to a chosen "team color" of each player which can be chosen at a hub event.
+ * This color contains the filter necessary to set up team passability.
+ * Team colors also contain a shader used for sprite pre-processing
+ * @author Curnip Chuxley
+ */
 public enum AlignmentFilter {
 
     NONE(-3, HadalColor.NOTHING, HadalColor.NOTHING),
@@ -60,10 +66,17 @@ public enum AlignmentFilter {
     },
     ;
 
+    //the hitbox filter associated with this filter
     private final short filter;
+
+    //is this a team alignment or single player?
     private final boolean team;
+
+    //for color-changing alignments, these represent the primary and secondary colors of the palette
     private final Vector3 color1 = new Vector3();
     private final Vector3 color2 = new Vector3();
+
+    //is this alignment currently being used? (this is for preventing users from having the same filter in free for all)
     private boolean used;
 
     AlignmentFilter(int filter) {
@@ -78,6 +91,12 @@ public enum AlignmentFilter {
         this.color2.set(color2.getR(), color2.getG(), color2.getB());
     }
 
+    /**
+     * For alignments with a preprocessing shader, this returns that shader.
+     * For alignments with non-color-replacing shaders, override this method.
+     * @param character: the character skin this shader is applied to.
+     * @return a shader for the input character
+     */
     public ShaderProgram getShader(UnlockCharacter character) {
         ShaderProgram shader = new ShaderProgram(
             Gdx.files.internal("shaders/pass.vert").readString(),
@@ -92,6 +111,9 @@ public enum AlignmentFilter {
         return shader;
     }
 
+    /**
+     * @return an unused alignment filter.
+     */
     public static AlignmentFilter getUnusedAlignment() {
         for (AlignmentFilter filter: AlignmentFilter.values()) {
             if (!filter.isUsed() && !filter.isTeam()) {

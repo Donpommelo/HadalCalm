@@ -13,7 +13,7 @@ import com.mygdx.hadal.utils.Stats;
 /**
  * Schmucks with Regeneration gradually heal over time
  * This is pretty much just a stat boost to hp regen with sound and particles built in.
- * @author Zachary Tu
+ * @author Svortellini Sporzvlak
  */
 public class Regeneration extends Status {
 

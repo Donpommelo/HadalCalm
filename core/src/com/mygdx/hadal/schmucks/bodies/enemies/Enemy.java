@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 /**
  * enemies are schmucks that attack the player.
- * @author Zachary Tu
+ * @author Doddad Drabbondonato
  */
 public class Enemy extends Schmuck {
 	
@@ -145,13 +145,14 @@ public class Enemy extends Schmuck {
 		}
 	}
 
+	private final Vector2 dist = new Vector2();
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);
 		
 		//move towards movement target, if existent.
 		if (eventTarget != null) {
-			Vector2 dist = new Vector2(eventTarget).sub(getPixelPosition());
+			dist.set(eventTarget).sub(getPixelPosition());
 			
 			//upon reaching target, conclude current action immediately and move on to the next action
 			if ((int) dist.len2() <= 100) {
@@ -237,7 +238,8 @@ public class Enemy extends Schmuck {
 				hpRatio = getBodyData().getOverrideHpPercent();
 			}
 			entityLocation.set(getPixelPosition());
-			batch.draw(hpSprite, hpX + entityLocation.x - hboxSize.x / 2, hpY + entityLocation.y - hboxSize.y / 2, hpSprite.getRegionWidth() * uiScale * hpRatio, hpSprite.getRegionHeight() * uiScale);
+			batch.draw(hpSprite, hpX + entityLocation.x - hboxSize.x / 2, hpY + entityLocation.y - hboxSize.y / 2,
+				hpSprite.getRegionWidth() * uiScale * hpRatio, hpSprite.getRegionHeight() * uiScale);
 		}
 	}
 	
@@ -288,7 +290,8 @@ public class Enemy extends Schmuck {
 				}
 			}
 			return true;
-		}), entityWorldLocation.x - aiRadius, entityWorldLocation.y - aiRadius, entityWorldLocation.x + aiRadius, entityWorldLocation.y + aiRadius);
+		}), entityWorldLocation.x - aiRadius, entityWorldLocation.y - aiRadius,
+			entityWorldLocation.x + aiRadius, entityWorldLocation.y + aiRadius);
 	}
 	
 	@Override

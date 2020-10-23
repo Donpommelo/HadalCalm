@@ -23,7 +23,7 @@ import com.mygdx.hadal.states.PlayState;
  * align: how is the event aligned? default 0; centered on the point and resized to fit the area
  * scale: float. how big is the new sprite? if -1, don't change the scale
  * 
- * @author Zachary Tu
+ * @author Rirnelius Raldelfredo
  */
 public class SpriteChanger extends Event {
 

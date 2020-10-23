@@ -9,7 +9,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 /**
  * A GameState is any state of the game like a menu or the game screen. The game will keep track of each GameState is currently active
  * to receive input and display information to the player.
- * @author Zachary Tu
+ * @author Pratnip Plumbino
  */
 public abstract class GameState {
 	

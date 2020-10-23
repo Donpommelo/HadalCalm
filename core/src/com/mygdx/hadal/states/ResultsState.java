@@ -30,7 +30,7 @@ import java.util.HashMap;
 /**
  * The Results screen appears at the end of levels and displays the player's results
  * In this screen, the player can return to the hub when all players are ready.
- * @author Zachary Tu
+ * @author Juppstein Jodswallop
  */
 public class ResultsState extends GameState {
 
@@ -90,11 +90,9 @@ public class ResultsState extends GameState {
 		scores = new ArrayList<>();
 		
 		if (ps.isServer()) {
-
 			for (User user: HadalGame.server.getUsers().values()) {
 				scores.add(user.getScores());
 			}
-
 			gsm.getRecord().updateScore(scores.get(0).getScore(), ps.level);
 		} else {
 			for (User user: HadalGame.client.getUsers().values()) {
@@ -424,7 +422,11 @@ public class ResultsState extends GameState {
 		}
 		gsm.getApp().fadeOut();
 	}
-	
+
+	/**
+	 * When we load a results state, we store each player's loadout to be displayed.
+	 * @param user: the user whose loadout we are saving
+	 */
 	private void savePlayerLoadout(User user) {
 
 		Player player = user.getPlayer();

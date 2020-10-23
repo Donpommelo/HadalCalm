@@ -28,7 +28,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * gravity: Specifies whether to make the newly-moved object have gravity. Optional. Default: 0.0f
  * (This pretty much only exists to make the NASU minigame work)
  * 
- * @author Zachary Tu
+ * @author Shirpurlsberg Slexanne
  */
 public class EventMover extends Event {
 	

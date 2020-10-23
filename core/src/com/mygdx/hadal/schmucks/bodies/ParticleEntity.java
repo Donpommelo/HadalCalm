@@ -15,7 +15,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * The particle entity is an invisible, ephemeral entity that emits particle effects.
  * Atm, this is needed so that other entities can have particle effects that persist beyond their own disposal.
- * @author Zachary Tu
+ * @author Crobanfoo Crubaum
  */
 public class ParticleEntity extends HadalEntity {
 

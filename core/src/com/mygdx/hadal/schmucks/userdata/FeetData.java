@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * FeetData are attached to sensors used by the player to determine whether they are grounded or not.
  * Additionally, feet are used to process when the player is standing on top of certain events like dropthrough platforms.
- * @author Zachary Tu
+ * @author Twinko Tuldaldwin
  */
 public class FeetData extends HadalData {
 

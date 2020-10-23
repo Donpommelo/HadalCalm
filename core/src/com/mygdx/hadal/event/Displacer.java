@@ -21,8 +21,8 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  * 
  * Fields:
  * displaceX, displaceY: floats that indicate the amount of movement that should be performed.
- * 
- * @author Zachary Tu
+ *
+ * @author Thescargot Twarugula
  */
 public class Displacer extends Event {
 	

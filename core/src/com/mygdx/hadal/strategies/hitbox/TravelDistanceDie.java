@@ -9,7 +9,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * HitboxTravelDistanceDieStrategy is used for hitboxes that travel a set distance and then die
- * @author Zachary Tu
+ * @author Philgzog Pukboo
  */
 public class TravelDistanceDie extends HitboxStrategy {
 	

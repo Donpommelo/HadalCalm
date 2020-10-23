@@ -7,7 +7,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * enemy types represent the different types of enemies and how to spawn them
- * @author Zachary Tu
+ * @author Lecoddad Lorabola
  */
 public enum EnemyType {
 

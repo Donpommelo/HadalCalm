@@ -31,10 +31,11 @@ import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * This is the data for a player and contains player-specific fields like airblast, jump stats, etc.
- * @author Zachary Tu
+ * @author Lallbladder Lemaker
  */
 public class PlayerBodyData extends BodyData {
 		
@@ -91,9 +92,7 @@ public class PlayerBodyData extends BodyData {
 		
 		//acquire artifacts from loadout
 		UnlockArtifact[] artifactsTemp = new UnlockArtifact[Loadout.maxArtifactSlots];
-		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			artifactsTemp[i] = loadout.artifacts[i];
-		}
+		System.arraycopy(loadout.artifacts, 0, artifactsTemp, 0, Loadout.maxArtifactSlots);
 		Arrays.fill(loadout.artifacts, UnlockArtifact.NOTHING);
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 			addArtifact(artifactsTemp[i], false);
@@ -122,10 +121,6 @@ public class PlayerBodyData extends BodyData {
 			multitools[i] = UnlocktoItem.getUnlock(newLoadout.multitools[i], player);
 		}
 		setEquip();
-
-		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			loadout.artifacts[i] = newLoadout.artifacts[i];
-		}
 		saveArtifacts();
 		
 		this.activeItem = UnlocktoItem.getUnlock(newLoadout.activeItem, player);
@@ -144,27 +139,21 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void syncLoadoutFromClient(UnlockEquip equip, UnlockArtifact artifactAdd, UnlockArtifact artifactRemove,
 									  UnlockActives active, UnlockCharacter character, AlignmentFilter team) {
-		
 		if (equip != null) {
-			pickup(UnlocktoItem.getUnlock(equip, getPlayer()));
+			pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(equip, getPlayer())));
 		}
-		
 		if (artifactAdd != null) {
 			addArtifact(artifactAdd, false);
 		}
-		
 		if (artifactRemove != null) {
 			removeArtifact(artifactRemove);
 		}
-		
 		if (active != null) {
-			pickup(UnlocktoItem.getUnlock(active, getPlayer()));
+			pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(active, getPlayer())));
 		}
-		
 		if (character != null) {
         	getLoadout().character = character;
 		}
-
 		if (team != null) {
 			getLoadout().team = team;
 		}
@@ -377,9 +366,8 @@ public class PlayerBodyData extends BodyData {
 				removeArtifactStatus(artifact);
 			}
 
-			for (int i = indexRemoved; i < Loadout.maxArtifactSlots - 1; i++) {
-				loadout.artifacts[i] = loadout.artifacts[i + 1];
-			}
+			System.arraycopy(loadout.artifacts, indexRemoved + 1, loadout.artifacts, indexRemoved,
+				Loadout.maxArtifactSlots - 1 - indexRemoved);
 			loadout.artifacts[Loadout.maxArtifactSlots - 1] = UnlockArtifact.NOTHING;
 		}
 		
@@ -580,7 +568,8 @@ public class PlayerBodyData extends BodyData {
 	@Override
 	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 		float damage = super.receiveDamage(basedamage, knockback, perp, procEffects, tags);
-		
+
+		//this keeps track of total damage received during rounds
 		if (player.getState().isServer()) {
 			User user = HadalGame.server.getUsers().get(getPlayer().getConnID());
 			if (user != null) {
@@ -610,6 +599,7 @@ public class PlayerBodyData extends BodyData {
 				}
 			}
 
+			//despawn sprite helper. This triggers death animations
 			player.getSpriteHelper().despawn(type, player.getPixelPosition(), player.getLinearVelocity());
 			player.setDespawnType(type);
 			if (type == DespawnType.TELEPORT) {

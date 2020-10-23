@@ -11,15 +11,15 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  *  This strategy creates a sound when the hbox hits a wall
  *  It contains additional logic to prevent repeatedly making the sound over and over when the hbox is effectively motionless.
- * @author Zachary Tu
+ * @author Donston Dandrea
  */
 public class ContactWallSound extends HitboxStrategy {
 	
 	//This is the sound effect that gets played
-	private SoundEffect sound;
+	private final SoundEffect sound;
 	
 	//this is the volume the sound gets played at.
-	private float volume;
+	private final float volume;
 	
 	//this is the pitch that the sound will get played at. (default is no change. change using factory method.)
 	private float pitch = 1.0f;

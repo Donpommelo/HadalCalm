@@ -8,7 +8,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy makes hboxes adjust their angle according to their velocity.
  * Usually used by long hitboxes
- * @author Zachary Tu
+ * @author Frurgnerd Frasky
  */
 public class AdjustAngle extends HitboxStrategy {
 	

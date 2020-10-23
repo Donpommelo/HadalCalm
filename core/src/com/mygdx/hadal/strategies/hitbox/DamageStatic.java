@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * This strategy is used by explosives or other non-moving hboxes.
  * Knockback is applied outwards from the center of the hbox.
  * Explosions deal damage to all units but less damage to the user.
- * @author Zachary Tu
+ * @author Blibrooke Bebalante
  */
 public class DamageStatic extends HitboxStrategy {
 	

@@ -8,7 +8,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * A swimming enemy is an floating enemy that uses a certain physics system to swim towards or away from a target (usually the player)
  * this physics system works very similarly to the player's own movement
- * @author Zachary Tu
+ * @author Grulgolois Ghomato
  */
 public class EnemySwimming extends EnemyFloating {
 	

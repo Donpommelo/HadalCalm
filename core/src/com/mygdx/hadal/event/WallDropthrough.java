@@ -20,7 +20,7 @@ import com.mygdx.hadal.utils.Constants;
  * Triggering Behavior: N/A.
  * 
  * Fields:
- * @author Zachary Tu
+ * @author Hizarus Hirfinitzel
  */
 public class WallDropthrough extends Event {
 

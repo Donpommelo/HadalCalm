@@ -30,13 +30,9 @@ import com.mygdx.hadal.managers.GameStateManager;
 
 /**
  * The Setting State allows the player to change their display settings, key bindings and other stuff like that.
- * @author Zachary Tu
+ * @author Shorfutticus Squonzworth
  */
 public class SettingState extends GameState {
-	
-	//These are all of the display and buttons visible to the player.
-	private Text displayOption, controlOption, audioOption, gameOption, miscOption, exitOption, saveOption, resetOption;
-	private TextField portNumber, serverPassword;
 
 	//This scrollpane holds the options for key bindings
 	private ScrollPane keybinds;
@@ -54,7 +50,10 @@ public class SettingState extends GameState {
 	
 	//This table contains the ui elements of the pause screen
 	private Table options, details, extra;
-	
+
+	//These are all of the display and buttons visible to the player.
+	private Text displayOption, controlOption, audioOption, gameOption, miscOption, exitOption, saveOption, resetOption;
+	private TextField portNumber, serverPassword;
 	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
 		hitsoundOptions, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
 	private Slider sound, music, master, hitsound;

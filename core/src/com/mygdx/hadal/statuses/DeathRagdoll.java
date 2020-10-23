@@ -8,7 +8,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * This status makes units spawn a ragdoll upon death. This is used by certain enemies
- * @author Zachary Tu
+ * @author Rameyer Relforpo
  */
 public class DeathRagdoll extends Status {
 	

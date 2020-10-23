@@ -27,7 +27,7 @@ import java.util.ArrayList;
 /**
  * The MessageWindow is a ui actor that pops up when the player presses the chat button (default binding shift).
  * This window lets the player type and send messages.
- * @author Zachary Tu
+ * @author Clehoff Cenderbender
  */
 public class MessageWindow {
 

@@ -21,7 +21,7 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
 
 /**
  * The Navigations is a HubEvent that allows the player to begin a level.
- * @author Zachary Tu
+ * @author Glichamp Gonjspice
  */
 public class Navigations extends HubEvent {
 

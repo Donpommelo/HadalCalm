@@ -11,12 +11,12 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy makes the attached hbox deflect other hboxes it hits.
  * Deflecting just changes the momentum of the other hbox.
- * @author Zachary Tu
+ * @author Brolackett Borbobitha
  */
 public class ContactBlockProjectiles extends HitboxStrategy {
 	
 	//this is the knockback that should be administered to the other hbox
-	private float knockback;
+	private final float knockback;
 	
 	public ContactBlockProjectiles(PlayState state, Hitbox proj, BodyData user, float kb) {
 		super(state, proj, user);

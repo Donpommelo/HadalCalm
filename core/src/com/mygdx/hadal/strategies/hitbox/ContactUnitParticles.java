@@ -13,7 +13,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy generates projectiles whenever the attached hbox makes contact with a unit
- * @author Zachary Tu
+ * @author Flechnold Forseradish
  */
 public class ContactUnitParticles extends HitboxStrategy {
 	

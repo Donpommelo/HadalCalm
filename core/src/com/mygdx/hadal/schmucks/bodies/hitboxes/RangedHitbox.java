@@ -9,7 +9,7 @@ import com.mygdx.hadal.utils.Stats;
 /**
  * A Ranged hitbox is really just a totally normal hitbox.
  * This subclass exists as a means to implement various ranged-specific stats that modify projectile properties.
- * @author Zachary Tu
+ * @author Skurgarita Smalppepper
  */
 public class RangedHitbox extends Hitbox {
 

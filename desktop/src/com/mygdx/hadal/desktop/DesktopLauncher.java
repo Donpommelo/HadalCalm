@@ -11,13 +11,18 @@ public class DesktopLauncher {
 	
 	public static void main (String[] arg) {
 		final LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+
+		//this makes the desktop icons appear
 		config.addIcon("128.png", FileType.Internal);
 		config.addIcon("32.png", FileType.Internal);
 		config.addIcon("16.png", FileType.Internal);
 		config.title = TITLE;
 		config.resizable = false;
 		config.pauseWhenMinimized = false;
+
+		//this line prevents audio from cutting if too many sounds are playing
 		config.audioDeviceSimultaneousSources = 192;
+
 		new LwjglApplication(new HadalGame() {
 			
 			@Override

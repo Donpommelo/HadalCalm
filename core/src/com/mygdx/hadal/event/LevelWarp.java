@@ -17,17 +17,17 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
  * reset: should we reset the player's loadout? Optional. Default: false.
  * startId: which start event should we start at? 
  * 
- * @author Zachary Tu
+ * @author Blascoe Bustule
  */
 public class LevelWarp extends Event {
 
 	private final String level;
+	private final boolean reset;
 	private final String startId;
 	
-	//have we warped yet? Do we reset player stats on warp?
+	//have we warped yet?
 	private boolean warpStart;
-	private final boolean reset;
-	
+
 	public LevelWarp(PlayState state, String level, boolean reset, String startId) {
 		super(state);
 		this.level = level;

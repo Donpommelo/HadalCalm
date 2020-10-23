@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * The LeverActivate is a lever that can be activated whenever. The base is always green and the lever animates when pulled.
- * @author Zachary Tu
+ * @author Bildwin Begory
  */
 public class LeverActivate extends Prefabrication {
 

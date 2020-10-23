@@ -5,6 +5,11 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * An EventDto contains the info sent between server and client needed to create a single event.
+ * This replaces the previous method of sending the entire MapObject.
+ * @author Fruntonette Flambly
+ */
 public class EventDto {
 
     private String name;
@@ -12,15 +17,6 @@ public class EventDto {
     private ArrayList<Pair> properties;
 
     public EventDto() {}
-
-    public EventDto(String name, float x, float y, float width, float height, ArrayList<Pair> properties) {
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.properties = properties;
-    }
 
     public EventDto(RectangleMapObject mapObject) {
         this.name = mapObject.getName();
@@ -49,6 +45,9 @@ public class EventDto {
 
     public ArrayList<Pair> getProperties() { return properties; }
 
+    /**
+     * A Pair is just a serializable key-value used to send the event's properties
+     */
     public static class Pair {
 
         private final String key;

@@ -10,7 +10,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy creates a ragdoll when its hbox dies.
  * the ragdoll will have the same sprite as the hbox itself
- * @author Zachary Tu
+ * @author Ferroway Frasteban
  *
  */
 public class DieRagdoll extends HitboxStrategy {

@@ -11,8 +11,9 @@ import com.badlogic.gdx.utils.Array;
  */
 public class CameraStyles {
 
+    private final static Vector3 position = new Vector3();
     public static void lockOnTarget(Camera camera, Vector2 target) {
-        Vector3 position = camera.position;
+        position.set(camera.position);
         position.x = target.x;
         position.y = target.y;
         camera.position.set(position);
@@ -21,7 +22,7 @@ public class CameraStyles {
 
     public static void lerpToTarget(Camera camera, Vector2 target) {
         // a + (b - a) * lerp factor
-        Vector3 position = camera.position;
+        position.set(camera.position);
         position.x = (int) (camera.position.x + (target.x - camera.position.x) * 0.1f);
         position.y = (int) (camera.position.y + (target.y - camera.position.y) * 0.1f);
         camera.position.set(position);
@@ -29,7 +30,7 @@ public class CameraStyles {
     }
 
     public static void lockAverageBetweenTargets(Camera camera, Vector2 targetA, Vector2 targetB) {
-        Vector3 position = camera.position;
+        position.set(camera.position);
         position.x = (targetA.x + targetB.x) / 2;
         position.y = (targetA.y + targetB.y) / 2;
         camera.position.set(position);
@@ -40,7 +41,7 @@ public class CameraStyles {
         float avgX = (targetA.x + targetB.x) / 2;
         float avgY = (targetA.y + targetB.y) / 2;
 
-        Vector3 position = camera.position;
+        position.set(camera.position);
         position.x = camera.position.x + (avgX - camera.position.x) * 0.1f;
         position.y = camera.position.y + (avgY - camera.position.y) * 0.1f;
         camera.position.set(position);
@@ -48,7 +49,7 @@ public class CameraStyles {
     }
 
     public static boolean searchFocalPoints(OrthographicCamera camera, Array<Vector2> focalPoints, Vector2 target, float threshold) {
-        for(Vector2 point : focalPoints) {
+        for (Vector2 point : focalPoints) {
             if(target.dst(point) < threshold) {
                 float newZoom = (target.dst(point) / threshold) + 0.2f;
                 camera.zoom = camera.zoom + ((newZoom > 1 ? 1 : newZoom) - camera.zoom) * 0.1f;
@@ -60,7 +61,7 @@ public class CameraStyles {
     }
 
     public static void shake(Camera camera, Vector2 displacement, float strength) {
-        Vector3 position = camera.position;
+        position.set(camera.position);
         position.x += displacement.x * strength;
         position.y += displacement.y * strength;
         camera.position.set(position);

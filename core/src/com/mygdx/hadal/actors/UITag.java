@@ -6,7 +6,7 @@ package com.mygdx.hadal.actors;
  * A UITag is anything that can show up in the UIExtra actor in the top corner of the screen. This can include information about 
  * score, lives, other info and can be dynamically changed within a level using the UIChanger event.
  * 
- * @author Zachary Tu
+ * @author Fraptista Flebrooke
  */
 public class UITag {
 
@@ -40,7 +40,6 @@ public class UITag {
 	/**
 	 * These are the various types of tags that can be added/removed from the UI.
 	 * Feel free to add more
-	 * @author Zachary Tu
 	 *
 	 */
 	public enum uiType {

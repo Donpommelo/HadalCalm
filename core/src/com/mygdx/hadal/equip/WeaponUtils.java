@@ -33,7 +33,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 /**
  * This util contains several shortcuts for hitbox-spawning effects for weapons or other items.
  * Includes create explosion, missiles, homing missiles, grenades and bees.
- * @author Zachary Tu
+ * @author Lotticelli Lamhock
  */
 public class WeaponUtils {
 

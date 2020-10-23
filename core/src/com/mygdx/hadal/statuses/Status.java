@@ -11,7 +11,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * A status is a thing that afflicts a schmuck and has some affect for its duration.
- * @author Zachary Tu
+ * @author Whurabeau Wrongenrique
  */
 public class Status {
 

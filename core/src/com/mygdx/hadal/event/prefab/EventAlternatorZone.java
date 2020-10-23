@@ -8,7 +8,7 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  * Event Alternators function like camera pan zones, except can connect to any events, instead of just cameras.
  * This prefab sets up 2 parallel sensors that connect to events with the input eventIds.
  * Each sensor, when touched, set the other sensor to activate the respective event.
- * @author Zachary Tu
+ * @author Brorbland Brirlov
  */
 public class EventAlternatorZone extends Prefabrication {
 

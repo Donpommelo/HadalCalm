@@ -23,7 +23,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * hbox: Boolean that describes whether hitboxes can pass through this. Optional. Default: true
  * event: Boolean that describes whether this sensor touches events. Optional. Default: true
  * enemy: Boolean that describes whether this sensor touches enemies. Optional. Default: true
- * @author Zachary Tu
+ * @author Brarpslinger Briberdash
  */
 public class Platform extends Event {
 

@@ -9,7 +9,7 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  * The Arena Setting Setter reads the player's settings to set up the rules of the survival arena. 
  * This includes rules about timer and sets according ui elements.
  * One of these should be placed in every arena map.
- * @author Zachary Tu
+ * @author Snotalini Swungo
  */
 public class ArenaSettingSetter extends Prefabrication {
 

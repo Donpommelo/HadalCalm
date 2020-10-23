@@ -21,7 +21,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A Turret is an immobile enemy that fires towards players in sight.
- * @author Zachary Tu
+ * @author Floturlov Frehammer
  */
 public class TurretFlak extends Turret {
 

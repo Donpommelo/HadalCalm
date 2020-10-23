@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * This util is used to get an unlock enum and return an instance of that weapon or active item
- * @author Zachary Tu
+ * @author Cribediah Crickett
  */
 public class UnlocktoItem {
 

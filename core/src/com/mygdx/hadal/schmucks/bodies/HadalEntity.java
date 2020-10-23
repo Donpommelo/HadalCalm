@@ -21,9 +21,9 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  * A HadalEntity is anything in the Game world that does stuff.
  * A HadalEntity contains the method to create a Box2d body. It is not a body itself.
  * The entity also runs a method every engine tick. Anything that reacts to anything must be an entity.
- * Children: Schmucks, Hitboxes, Events. Walls are not entities.
+ * Children: Schmucks, Hitboxes, Events.
  * All entities must have a HadalData. Class hierarchy for userData corresponds to that of entities (so far).
- * @author Zachary Tu
+ * @author Wromatillo Wroothpaste
  */
 public abstract class HadalEntity {
 
@@ -288,7 +288,6 @@ public abstract class HadalEntity {
 					nextTimeStamp = (float) o[1];
 				}
 				onClientSync(o[0]);
-				
 			} else {
 				break;
 			}
@@ -394,7 +393,12 @@ public abstract class HadalEntity {
 	public Shader getShader() { return shader; }
 	
 	public float getShaderCount() { return shaderCount; }
-	
+
+	/**
+	 * Set this entity's shader (this will be used when rendering this entity)
+	 * @param shader: shader to use
+	 * @param shaderCount: how long does this shader last?
+	 */
 	public void setShader(Shader shader, float shaderCount) { 
 		shader.loadShader();
 		this.shader = shader;
@@ -411,11 +415,13 @@ public abstract class HadalEntity {
 		shaderCount -= i;
 	}
 
+	/**
+	 * This is run when the entity is rendered.
+	 * Give the shader information about its duration
+	 */
 	public void processShaderController() {
-		if (shader.getShaderProgram() != null) {
-			float percentageCompletion = 1.0f - shaderCount / shaderDuration;
-			shader.shaderEntityUpdate(percentageCompletion);
-		}
+		float percentageCompletion = 1.0f - shaderCount / shaderDuration;
+		shader.shaderEntityUpdate(percentageCompletion);
 	}
 	
 	public void increaseAnimationTime(float i) { animationTime += i; }

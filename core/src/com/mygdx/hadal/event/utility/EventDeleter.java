@@ -12,8 +12,8 @@ import com.mygdx.hadal.states.PlayState;
  * Triggering Behavior: The event that triggers this is deleted, so the triggering behavior just chains to another event.
  *  
  * Fields: N/A
- * 
- * @author Zachary Tu
+ *
+ * @author Bligpoulos Broronica
  */
 public class EventDeleter extends Event {
 	

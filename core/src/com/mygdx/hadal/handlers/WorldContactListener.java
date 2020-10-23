@@ -11,7 +11,7 @@ import com.mygdx.hadal.schmucks.userdata.HitboxData;
 
 /**
  * This listener keeps track of whenever 2 fixtures in the box2d world collide.
- * @author Zachary Tu
+ * @author Blunaldo Blardigrade
  */
 public class WorldContactListener implements ContactListener {
 

@@ -8,7 +8,7 @@ import com.mygdx.hadal.effects.Sprite;
 
 /**
  * Melee weapons are weapons that are not affected by ranged weapon modifiers and have no clip/ammo mechanic
- * @author Zachary Tu
+ * @author Pronkman Pushbird
  */
 public class MeleeWeapon extends Equippable {
 

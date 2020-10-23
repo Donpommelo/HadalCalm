@@ -15,7 +15,7 @@ import com.mygdx.hadal.states.PlayState;
  * count: maxCount. When this event is triggered this many times, it will trigger its connected event.
  * countStart: the number that currentCount will start at. Optional. Default: 0
  * 
- * @author Zachary Tu
+ * @author Sparbacoa Stoppycock
  */
 public class Counter extends Event {
 

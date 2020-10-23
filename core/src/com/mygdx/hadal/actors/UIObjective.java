@@ -1,19 +1,18 @@
 package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.SteeringUtil;
 
 /**
  * UIObjective displays an icon along the periphery of the screen to indicate the location of an objective.
  * These objectives can be set by the objective event.
- * @author Zachary Tu
+ * @author Gnetalini Ghoginald
  */
 public class UIObjective extends AHadalActor {
 
@@ -36,7 +35,7 @@ public class UIObjective extends AHadalActor {
 		
 		this.icon = Sprite.CLEAR_CIRCLE_ALERT.getFrame();
 		this.arrow = Sprite.NOTIFICATIONS_DIRECTIONAL_ARROW.getFrame();
-		this.corner = SteeringUtil.vectorToAngle(new Vector2(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT));
+		this.corner = (float) Math.atan2(-HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 		this.width = icon.getRegionWidth() * scale;
 		this.height = icon.getRegionHeight() * scale;
 		this.arrowWidth = arrow.getRegionWidth() * scale;
@@ -59,9 +58,8 @@ public class UIObjective extends AHadalActor {
 				centerPosition.set(HadalGame.CONFIG_WIDTH / 2, HadalGame.CONFIG_HEIGHT / 2, 0);
 				HadalGame.viewportCamera.unproject(centerPosition);
 				toObjective.set(centerPosition.x, centerPosition.y).sub(objectiveLocation);
-				
-				float angle = SteeringUtil.vectorToAngle(toObjective);
-				
+				float angle = (float) Math.atan2(-toObjective.x, toObjective.y);
+				float tanAngle = (float) (Math.tan(angle) * (HadalGame.CONFIG_HEIGHT / 2 - height));
 				if (angle < corner && angle > -(Math.PI + corner)) {
 					x = width;
 					y = (float) (HadalGame.CONFIG_HEIGHT / 2 - Math.tan(angle + Math.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - width));
@@ -71,11 +69,11 @@ public class UIObjective extends AHadalActor {
 					y = (float) (HadalGame.CONFIG_HEIGHT / 2 + Math.tan(angle - Math.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - width));
 				}
 				else if (angle <= -corner && angle >= corner) {
-					x = (float) (HadalGame.CONFIG_WIDTH / 2 + Math.tan(angle) * (HadalGame.CONFIG_HEIGHT / 2 - height));
+					x = HadalGame.CONFIG_WIDTH / 2 + tanAngle;
 					y = height;
 				}
 				else if (angle >= (Math.PI + corner) || angle <= -(Math.PI + corner)) {				
-					x = (float) (HadalGame.CONFIG_WIDTH / 2 - Math.tan(angle) * (HadalGame.CONFIG_HEIGHT / 2 - height));
+					x = HadalGame.CONFIG_WIDTH / 2 - tanAngle;
 					y = HadalGame.CONFIG_HEIGHT - height;
 				}
 				

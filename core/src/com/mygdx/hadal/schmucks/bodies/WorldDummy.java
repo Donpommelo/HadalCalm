@@ -7,7 +7,7 @@ import com.mygdx.hadal.utils.Constants;
 /**
  * The World Dummy is a schmuck that effects are attributed to when there is no other schmuck to attribute them to.
  * For example, damage dealt by a hazard in the map is inflicted by the world dummy.
- * @author Zachary Tu
+ * @author Nertaboo Nosinger
  */
 public class WorldDummy extends Schmuck {
 

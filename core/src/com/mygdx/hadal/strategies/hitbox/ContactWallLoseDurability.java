@@ -10,7 +10,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy makes an attached hbox lose durability upon contact with a wall.
  * If a hbox's durability reaches 0, it dies.
- * @author Zachary Tu
+ * @author Riximus Ringcott
  */
 public class ContactWallLoseDurability extends HitboxStrategy {
 	

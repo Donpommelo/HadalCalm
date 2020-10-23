@@ -8,7 +8,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy creates an explosion when the attached hbox dies
- * @author Zachary Tu
+ * @author Flumpernickel Floffinity
  */
 public class DieExplode extends HitboxStrategy {
 	

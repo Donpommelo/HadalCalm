@@ -15,7 +15,7 @@ import com.mygdx.hadal.utils.Stats;
 
 /**
  * This is the main ui element. It displays player loadout, hp, fuel.
- * @author Zachary Tu
+ * @author Torbara Trorbmuffin
  */
 public class UIPlay extends AHadalActor {
 

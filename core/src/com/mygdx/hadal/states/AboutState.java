@@ -18,7 +18,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 
 /**
  * The AboutState is selected from the title screen and gives information about the game
- * @author Zachary Tu
+ * @author Snujube Spambly
  */
 public class AboutState extends GameState {
 

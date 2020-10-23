@@ -11,7 +11,7 @@ import com.mygdx.hadal.utils.Constants;
 
 /**
  * This strategy makes a hbox home in on enemies
- * @author Zachary Tu
+ * @author Gogarth Gnornelius
  */
 public class HomingUnit extends HitboxStrategy {
 	

@@ -10,7 +10,7 @@ import com.mygdx.hadal.managers.AssetList;
 
 /**
  * A Dialogue is a instance of a fella saying a thing. These are used by the DialogueBox in a PlayStateStage to display conversations to the player 
- * @author Zachary Tu
+ * @author Bruguana Brilphos
  */
 public class Dialog {
 

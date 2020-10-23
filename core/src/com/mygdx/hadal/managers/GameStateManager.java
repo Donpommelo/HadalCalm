@@ -25,7 +25,7 @@ import java.util.Stack;
 /**
  * The GameStateManager manages a stack of game states. This delegates logic to the current game state.
  * For some reason, we are also making it store several public fields like the game record and atlases.
- * @author Zachary Tu
+ * @author Fartrand Fucciatello
  *
  */
 public class GameStateManager {
@@ -38,7 +38,8 @@ public class GameStateManager {
 	
 	//skin for ui windows as well as other patches and atlases. Why are these kept here? Dunno.
 	private static Skin skin;
-	private static NinePatchDrawable dialogPatch, simplePatch, bossGaugePatch, bossGaugeGreyPatch, bossGaugeRedPatch, bossGaugeCatchupPatch;
+	private static NinePatchDrawable dialogPatch, simplePatch, bossGaugePatch, bossGaugeGreyPatch,
+		bossGaugeRedPatch, bossGaugeCatchupPatch;
 	
 	private static final ArrayList<TextureAtlas> atlases = new ArrayList<>();
 	public static TextureAtlas projectileAtlas, multitoolAtlas, fishAtlas, turretAtlas, eventAtlas, explosionAtlas, uiAtlas;

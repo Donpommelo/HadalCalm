@@ -12,7 +12,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy creates a particle effect when the attached hbox dies
- * @author Zachary Tu
+ * @author Svestarossa Scolomon
  */
 public class DieParticles extends HitboxStrategy {
 	

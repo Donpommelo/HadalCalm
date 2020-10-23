@@ -35,7 +35,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This is a boss in the game
- * @author Zachary Tu
+ * @author Futubbery Frinnifer
  */
 public class Boss4 extends EnemyFloating {
 	
@@ -54,7 +54,7 @@ public class Boss4 extends EnemyFloating {
 	
 	private static final float scale = 1.0f;
 	
-	private static final int hp = 11000;
+	private static final int hp = 10000;
 	
 	private static final Sprite sprite = Sprite.NOTHING;
 	

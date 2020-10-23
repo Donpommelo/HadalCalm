@@ -10,7 +10,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy creates an attached sound when the attached hbox is created
- * @author Zachary Tu
+ * @author Smelgslinger Slarpaccio
  */
 public class CreateSound extends HitboxStrategy {
 	
@@ -18,16 +18,16 @@ public class CreateSound extends HitboxStrategy {
 	private SoundEntity sound;
 	
 	//this is the sound effect that will be played
-	private SoundEffect effect;
+	private final SoundEffect effect;
 	
 	//this is the volume the sound will be played at
-	private float volume;
+	private final float volume;
 	
 	//this is the pitch that the sound will get played at. (default is no change. change using factory method.)
 	private float pitch = 1.0f;
 		
 	//does the sound effect loop or not?
-	private boolean looped;
+	private final boolean looped;
 	
 	public CreateSound(PlayState state, Hitbox proj, BodyData user, SoundEffect effect, float volume, boolean looped) {
 		super(state, proj, user);

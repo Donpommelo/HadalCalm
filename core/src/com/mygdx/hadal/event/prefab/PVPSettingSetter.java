@@ -10,7 +10,7 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  * The PVP Setting Setter reads the player's pvp settings to set up the rules of the pvp match. 
  * This includes rules about timers, number of lives and sets according ui elements.
  * One of these should be placed in every pvp map.
- * @author Zachary Tu
+ * @author Yenerd Yecaster
  */
 public class PVPSettingSetter extends Prefabrication {
 

@@ -18,11 +18,10 @@ import com.mygdx.hadal.states.PlayState;
  * displayOnScreen: boolean of whether to display the ui marker on the objective when it is on screen. Default: false
  * icon: String sprite of what icon to use as the objective marker
  * 
- * @author Zachary Tu
+ * @author Muwort Mollinaire
  */
 public class ObjectiveChanger extends Event {
 
-	//do we display the objective marker?
 	private final boolean displayOffScreen, displayOnScreen;
 	
 	//what objective marker icon do we use?

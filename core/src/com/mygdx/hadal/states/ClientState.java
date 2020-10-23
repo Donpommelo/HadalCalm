@@ -16,15 +16,18 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * This is a version of the playstate that is provided for Clients.
  * A lot of effects are not processed in this state like statuses and damage. Instead, everything is done based on instructions by the server.
- * @author Zachary Tu
+ * @author Frornswoggle Fraginald
  */
 public class ClientState extends PlayState {
 	
-	//these variables are used to deal with packet loss. Windows to determine when a create/delete packet was dropped and when another packet can be requested
+	//these variables are used to deal with packet loss.
+	// Windows to determine when a create/delete packet was dropped and when another packet can be requested
 	public static final float missedCreateThreshold = 2.0f;
 	public static final float missedDeleteThreshold = 2.0f;
 	public static final float initialConnectThreshold = 5.0f;
@@ -37,8 +40,12 @@ public class ClientState extends PlayState {
 	private final LinkedHashMap<String, HadalEntity> hitboxes;
 	
 	//This is a list of sync instructions. It contains [entityId, object to be synced]
-	private final ArrayList<Object[]> sync;
-	
+	private final ArrayList<SyncPacket> sync;
+
+	//These sets are used by the Client for removing/adding entities.
+	private final Set<String> removeListClient;
+	private final Set<CreatePacket> createListClient;
+
 	//This contains the position of the client's mouse, to be sent to the server
 	private final Vector3 mousePosition = new Vector3();
 	
@@ -49,9 +56,11 @@ public class ClientState extends PlayState {
 		super(gsm, loadout, level, false, null, true, "");
 		entities = new LinkedHashMap<>();
 		hitboxes = new LinkedHashMap<>();
+		removeListClient = new LinkedHashSet<>();
+		createListClient = new LinkedHashSet<>();
 		sync = new ArrayList<>();
 		
-		//client now processes collisions
+		//client processes collisions
 		TiledObjectUtil.parseTiledObjectLayerClient(this, map.getLayers().get("collision-layer").getObjects());
 		
 		//client still needs anchor points, world dummies and mouse tracker
@@ -66,13 +75,12 @@ public class ClientState extends PlayState {
 		//we check if we are in a playstate (not paused or in setting menu) b/c we don't reset control in those states
 		if (!gsm.getStates().empty()) {
 			if (gsm.getStates().peek() instanceof PlayState) {
+
 				//Whenever the controller is reset, the client gets a new client controller.
 				controller = new ClientController(player, this);
 				
 				InputMultiplexer inputMultiplexer = new InputMultiplexer();
-				
 				inputMultiplexer.addProcessor(stage);
-				
 				inputMultiplexer.addProcessor(controller);
 				Gdx.input.setInputProcessor(inputMultiplexer);
 			}
@@ -110,20 +118,20 @@ public class ClientState extends PlayState {
 		lastMouseLocation.set(mousePosition);
 		
 		//All entities that are set to be created are created and assigned their entityId
-		for (Object[] pair: createListClient) {
-			if (pair[3].equals(ObjectSyncLayers.HBOX)) {
-				if (hitboxes.putIfAbsent((String) pair[0], (HadalEntity) pair[1]) == null) {
-					((HadalEntity) pair[1]).create();
+		for (CreatePacket packet: createListClient) {
+			if (packet.layer.equals(ObjectSyncLayers.HBOX)) {
+				if (hitboxes.putIfAbsent(packet.entityId, packet.entity) == null) {
+					packet.entity.create();
 				}
 			} else {
-				if (entities.putIfAbsent((String) pair[0], (HadalEntity) pair[1]) == null) {
-					((HadalEntity) pair[1]).create();
+				if (entities.putIfAbsent(packet.entityId, packet.entity) == null) {
+					packet.entity.create();
 				}
 			}
-			if (pair[0] != "") {
-				((HadalEntity) pair[1]).setEntityID((String) pair[0]);
+			if (!packet.entityId.equals("")) {
+				packet.entity.setEntityID(packet.entityId);
 			}
-			((HadalEntity) pair[1]).setReceivingSyncs((boolean) pair[2]);
+			packet.entity.setReceivingSyncs(packet.synced);
 		}
 		createListClient.clear();
 		
@@ -153,25 +161,25 @@ public class ClientState extends PlayState {
 		
 		//All sync instructions are carried out.
 		while (!sync.isEmpty()) {
-			Object[] p = sync.remove(0);
+			SyncPacket p = sync.remove(0);
 		 	if (p != null) {
-		 		HadalEntity entity = hitboxes.get(p[0]);
+		 		HadalEntity entity = hitboxes.get(p.entityId);
 		 		if (entity != null) {
-		 			entity.onReceiveSync(p[1], (float) p[3]);
+		 			entity.onReceiveSync(p.packet, p.timestamp);
 		 			entity.resetTimeSinceLastSync();
 		 		} else {
-		 			entity = entities.get(p[0]);
+		 			entity = entities.get(p.entityId);
 		 			
 		 			//if we have the entity, sync it and reset the time since last sync
 			 		if (entity != null) {
-			 			entity.onReceiveSync(p[1], (float) p[3]);
+			 			entity.onReceiveSync(p.packet, p.timestamp);
 			 			entity.resetTimeSinceLastSync();
 			 		} else {
 			 			
 			 			//if we don't recognize the entity and the entity is of a sufficient age and the client didn't just start up, we may have missed a create packet.
-			 			if ((float) p[2] > missedCreateThreshold && getTimer() > initialConnectThreshold && timeSinceLastMissedCreate > missedCreateCooldown) {
+			 			if (p.age > missedCreateThreshold && getTimer() > initialConnectThreshold && timeSinceLastMissedCreate > missedCreateCooldown) {
 			 				timeSinceLastMissedCreate = 0.0f;
-			 				HadalGame.client.sendUDP(new Packets.MissedCreate((String) p[0]));
+			 				HadalGame.client.sendUDP(new Packets.MissedCreate(p.entityId));
 			 			}
 			 		}
 		 		}
@@ -192,6 +200,7 @@ public class ClientState extends PlayState {
 			entity.increaseTimeSinceLastSync(delta);
 		}
 
+		//periodically update score window if scores have been updated
 		scoreSyncAccumulator += delta;
 		if (scoreSyncAccumulator >= ScoreSyncTime) {
 			scoreSyncAccumulator = 0;
@@ -279,7 +288,7 @@ public class ClientState extends PlayState {
 	 * @param layer: is this layer a hitbox (rendered underneath) or not?
 	 */
 	public void addEntity(String entityId, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {
-		Object[] packet = {entityId, entity, synced, layer};
+		CreatePacket packet = new CreatePacket(entityId, entity, synced, layer);
 		createListClient.add(packet);
 	}
 	
@@ -299,7 +308,7 @@ public class ClientState extends PlayState {
 	 * @param timestamp: the time of the sync on the server.
 	 */
 	public void syncEntity(String entityId, Object o, float age, float timestamp) {
-		Object[] packet = {entityId, o, age, timestamp};
+		SyncPacket packet = new SyncPacket(entityId, o, age, timestamp);
 		sync.add(packet);
 		
 		//if our timer is ahead, we set it to be less than the server so we can linear interpolate to predicted position
@@ -312,7 +321,7 @@ public class ClientState extends PlayState {
 			setTimer(timestamp - 2 * PlayState.syncTime);
 		}
 	}
-	
+
 	/**
 	 * This looks at the entities in the world and returns the one with the given id. 
 	 * @param entityId: Unique id of he object to find
@@ -348,7 +357,41 @@ public class ClientState extends PlayState {
 		
 		super.dispose();
 	}
-	
+
+	/**
+	 * This class represents a packet telling the client to sync an object
+	 */
+	private static class SyncPacket {
+		String entityId;
+		Object packet;
+		float age;
+		float timestamp;
+
+		public SyncPacket(String entityId, Object packet, float age, float timestamp) {
+			this.entityId = entityId;
+			this.packet = packet;
+			this.age = age;
+			this.timestamp = timestamp;
+		}
+	}
+
+	/**
+	 * This class represents a packet telling the client to sync an object
+	 */
+	public static class CreatePacket {
+		String entityId;
+		HadalEntity entity;
+		boolean synced;
+		ObjectSyncLayers layer;
+
+		public CreatePacket(String entityId, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {
+			this.entityId = entityId;
+			this.entity = entity;
+			this.synced = synced;
+			this.layer = layer;
+		}
+	}
+
 	/**
 	 * The destroy and create methods do nothing for the client. 
 	 * Objects cannot be created and destroyed in this way for the client, only by calling add and remove Entity.
@@ -367,8 +410,6 @@ public class ClientState extends PlayState {
 
 	/**
 	 * Z-Axis Layers that entities can be added to. ATM, there is just 1 for hitboxes beneath everything else.
-	 * @author Zachary Tu
-	 *
 	 */
 	public enum ObjectSyncLayers {
 		STANDARD,

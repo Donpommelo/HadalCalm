@@ -16,7 +16,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy gives a hbox "damaging knockback". If an enemy is knocked back by the hbox, it will damage itself upon contact with a wall or unit (the other unit to be contacted will also be damaged)
  * The damage scales to the velocity of the victim.
- * @author Zachary Tu
+ * @author Xilkner Xalgernon
  */
 public class ContactUnitKnockbackDamage extends HitboxStrategy {
 	

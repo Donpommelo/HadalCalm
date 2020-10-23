@@ -15,6 +15,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,7 +23,7 @@ import java.util.regex.Pattern;
  * The Armory is a HubEvent that allows the player to change their equipped weapons.
  * Selecting a weapon replaces currently held weapon.
  * It also changes the current loadout, so the player will have the same loadout upon returning the hub or restarting.
- * @author Zachary Tu
+ * @author Norpo Nospazog
  */
 public class Armory extends HubEvent {
 
@@ -76,8 +77,8 @@ public class Armory extends HubEvent {
 									break;
 								}
 							}
-							state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(selected, state.getPlayer()));
-
+							state.getPlayer().getPlayerData().pickup(
+								Objects.requireNonNull(UnlocktoItem.getUnlock(selected, state.getPlayer())));
 						} else {
 							state.getPlayer().getPlayerData().syncClientLoadoutChangeWeapon(selected);
 

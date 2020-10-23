@@ -8,8 +8,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -30,7 +30,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * This is a boss in the game
- * @author Zachary Tu
+ * @author Maman Momegranite
  */
 public class Boss2 extends EnemyFloating {
 				
@@ -50,7 +50,9 @@ public class Boss2 extends EnemyFloating {
 	
 	private static final float scale = 1.0f;
 	
-	private static final int hp = 9000;
+	private static final int hp = 8000;
+
+	//the boss' links receive reduced damage
 	private static final float linkResist = 0.2f;
 	
 	private static final Sprite sprite = Sprite.NOTHING;

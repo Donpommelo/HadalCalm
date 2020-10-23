@@ -8,8 +8,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Stats;
 
 /**
- * An equippable is anything that takes up and equip slot. This includes melee and ranged weapons
- * @author Zachary Tu
+ * An equippable is anything that takes up an equip slot. This includes melee and ranged weapons
+ * @author Zuvinsky Zidborough
  */
 public abstract class Equippable {
 	

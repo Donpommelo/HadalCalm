@@ -18,7 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * A Ragdoll is a miscellaneous entity that doesn't do a whole heck of a lot.
  * Its main job is to be visible and obey physics. This is useful for on-death ragdoll/frags
  * It also has a couple of other applications like current bubble particle generators
- * @author Zachary Tu
+ * @author Pugma Plilzburger
  */
 public class Ragdoll extends HadalEntity {
 	
@@ -67,6 +67,11 @@ public class Ragdoll extends HadalEntity {
 		setSyncDefault(false);
 	}
 
+	/**
+	 * This alternate constructor is used for ragdolls that do not use a designated sprite (i.e. from a frame buffer)
+	 * Because there is no Sprite, these are not serializable and must be made on both client and server.
+	 * Also, remember to manually dispose of the frame buffer object that is used for this ragdoll
+	 */
 	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, TextureRegion textureRegion, Vector2 startVelo, float duration, float gravity, boolean setVelo, boolean sensor) {
 		super(state, startPos, size);
 		this.startVelo = startVelo;
@@ -86,9 +91,9 @@ public class Ragdoll extends HadalEntity {
 	public void create() {
 		this.hadalData = new HadalData(UserDataTypes.BODY, this);
 		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1, 0.5f, false, false, Constants.BIT_SENSOR,	(short) (Constants.BIT_WALL | Constants.BIT_SENSOR), (short) -1, sensor, hadalData);
-		
+
+		//this makes ragdolls spin and move upon creation
 		setAngularVelocity(startAngle * angleAmp);
-		
 		float newDegrees = startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 		newVelocity.set(startVelo).add(1, 1);
 		
@@ -111,7 +116,6 @@ public class Ragdoll extends HadalEntity {
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
-		
 		ragdollDuration -= delta;
 		
 		if (ragdollDuration <= 0) {

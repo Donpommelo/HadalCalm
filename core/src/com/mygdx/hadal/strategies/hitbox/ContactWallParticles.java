@@ -14,7 +14,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy generates projectiles whenever the attached hbox makes contact with a wall
- * @author Zachary Tu
+ * @author Brugdalena Bequila
  */
 public class ContactWallParticles extends HitboxStrategy {
 	

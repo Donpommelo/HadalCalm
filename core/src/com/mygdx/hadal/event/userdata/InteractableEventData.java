@@ -8,7 +8,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 /**
  * Interactable events can be interacted with by the player. They should only touch the player.
  * When the player is touching one, pressing the interact button will activate its activate method.
- * @author Zachary Tu
+ * @author Phincisco Pleffonso
  */
 public class InteractableEventData extends EventData {
 

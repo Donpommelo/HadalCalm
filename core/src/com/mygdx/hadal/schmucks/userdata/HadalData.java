@@ -7,7 +7,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 /**
  * This is the basic user data of any entity. The only thing this needs to do is keep track of type and basic stuff like that.
- * @author Zachary Tu
+ * @author Perudatter Pranella
  */
 public class HadalData {
 

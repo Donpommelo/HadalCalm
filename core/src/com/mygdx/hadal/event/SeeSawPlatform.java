@@ -19,7 +19,7 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  * Triggering Behavior: N/A
  * 
  * Fields:
- * @author Zachary Tu
+ * @author Quimpus Quectavio
  */
 public class SeeSawPlatform extends Event {
 

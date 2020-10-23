@@ -42,11 +42,13 @@ import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
+import java.util.Objects;
+
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * The player is the entity that the player controls.
- * @author Zachary Tu
+ * @author Ningerbread Nicorice
  */
 public class Player extends PhysicsSchmuck {
 	
@@ -64,7 +66,6 @@ public class Player extends PhysicsSchmuck {
 	private final PlayerSpriteHelper spriteHelper;
 	private TextureRegion toolSprite;
 	private final Animation<TextureRegion> typingBubble;
-	
 	private final TextureRegion reload, reloadMeter, reloadBar;
 	private final Texture empty, full;
 
@@ -198,7 +199,8 @@ public class Player extends PhysicsSchmuck {
 		
 		this.empty = new Texture(AssetList.HEART_EMPTY.toString());
 		this.full = new Texture(AssetList.HEART_FULL.toString());
-		this.typingBubble =  new Animation<>(PlayState.spriteAnimationSpeedSlow, Sprite.NOTIFICATIONS_CHAT.getFrames());
+		this.typingBubble =  new Animation<>(PlayState.spriteAnimationSpeedSlow,
+			Objects.requireNonNull(Sprite.NOTIFICATIONS_CHAT.getFrames()));
 		typingBubble.setPlayMode(PlayMode.LOOP_PINGPONG);
 	}
 	
@@ -436,7 +438,7 @@ public class Player extends PhysicsSchmuck {
 			mouseLocation.set(mouse.getPixelPosition());
 			mouseAngle.set(playerLocation.x, playerLocation.y).sub(mouseLocation.x, mouseLocation.y);
 		}
-		attackAngle = (float)(Math.atan2(mouseAngle.y, mouseAngle.x) * 180 / Math.PI);
+		attackAngle = (float) (Math.atan2(mouseAngle.y, mouseAngle.x) * 180 / Math.PI);
 		
 		//process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
 		playerData.getCurrentTool().update(delta);
@@ -630,7 +632,8 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void render(SpriteBatch batch) {
 
-		float transparency = 1.0f;
+		//process player invisibility
+		float transparency;
 		if (invisible) {
 			if (state.getPlayer().hitboxfilter == hitboxfilter) {
 				transparency = 0.3f;
@@ -639,10 +642,12 @@ public class Player extends PhysicsSchmuck {
 				return;
 			}
 		}
+
 		//we make location an int to avoid weird blurriness/jitters
 		playerLocation.set(getPixelPosition());
 		playerLocation.set((int) playerLocation.x, (int) playerLocation.y);
 
+		//render player sprite using sprite helper
 		spriteHelper.render(batch, attackAngle, moveState, animationTime, animationTimeExtra, grounded, playerLocation);
 
 		if (invisible) {
@@ -737,6 +742,7 @@ public class Player extends PhysicsSchmuck {
 				playerLocation.y + Player.hbHeight * Player.scale / 2 + 25);
 		}
 
+		//display typing bubble if typing
 		if (typingCdCount > 0) {
 			batch.draw(typingBubble.getKeyFrame(animationTime, true), playerLocation.x - 25, playerLocation.y + Player.hbHeight * scale / 2 + 20, 50, 40);
 		}
@@ -797,6 +803,7 @@ public class Player extends PhysicsSchmuck {
 		return new Packets.CreatePlayer(entityID.toString(), connID, getPixelPosition(), name, playerData.getLoadout(), hitboxfilter);
 	}
 
+	//this is the type of death we have. Send to client so they can process the death on their end.
 	private DespawnType despawnType = DespawnType.GIB;
 	@Override
 	public Object onServerDelete() { return new Packets.DeletePlayer(entityID.toString(), state.getTimer(), despawnType); }
@@ -845,6 +852,8 @@ public class Player extends PhysicsSchmuck {
 			}
 		} else if (o instanceof  Packets.DeletePlayer) {
 			Packets.DeletePlayer p = (Packets.DeletePlayer) o;
+
+			//delegate to sprite helper for despawn so it can dispose of frame buffer object
 			spriteHelper.despawn(p.type, getPixelPosition(), getLinearVelocity());
 			((ClientState) state).removeEntity(entityID.toString());
 		} else {

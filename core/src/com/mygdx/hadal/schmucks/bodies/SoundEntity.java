@@ -9,7 +9,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * A SoundEntity is like a ParticleEntity except for Sound. It attaches to another entity and plays sound from that entity's location
  * It also helps sync the sound between server and client.
- * @author Zachary Tu
+ * @author Scelazar Scampbell
  */
 public class SoundEntity extends HadalEntity {
 
@@ -104,7 +104,6 @@ public class SoundEntity extends HadalEntity {
 		}
 		
 		syncAccumulator += delta;
-		
 		if (syncAccumulator >= syncTime) {
 			syncAccumulator = 0;
 			

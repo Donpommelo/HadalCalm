@@ -7,7 +7,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * Temporary designates a schmuck as a summon that awards a summoner the score/kills it gets
- * @author Zachary Tu
+ * @author Lornard Landwich
  */
 public class Summoned extends Status {
 

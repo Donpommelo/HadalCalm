@@ -9,12 +9,12 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy makes a hbox inflicts a burn on users that it makes contact with
- * @author Zachary Tu
+ * @author Jargarine Jemherst
  */
 public class ContactUnitBurn extends HitboxStrategy {
 	
 	//the damage and duration of the burn
-	private float duration, damage;
+	private final float duration, damage;
 	
 	public ContactUnitBurn(PlayState state, Hitbox proj, BodyData user, float duration, float damage) {
 		super(state, proj, user);

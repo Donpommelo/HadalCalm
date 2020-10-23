@@ -15,7 +15,7 @@ import java.util.Collections;
 
 /**
  * An UnlockLevel represents a single weapon in the game
- * @author Zachary Tu
+ * @author Sweshini Sleldous
  */
 public enum UnlockEquip {
 	
@@ -136,7 +136,7 @@ public enum UnlockEquip {
 		return weapons.get(GameStateManager.generator.nextInt(weapons.size()));
 	}
 	
-	public Class<? extends Equippable> getWeapon() {	return weapon; }
+	public Class<? extends Equippable> getWeapon() { return weapon; }
 		
 	public InfoItem getInfo() {	return info; }
 

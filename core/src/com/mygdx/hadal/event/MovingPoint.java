@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * connections: This is a comma-separated list of triggeredIds of events that are "connected" to this platform and will move along it.
  * 	NOTES: DO NOT CONNECT ANY EVENTS THAT DO NOT HAVE A BODY; TIMERS, COUNTERS, ETC.
  * 
- * @author Zachary Tu
+ * @author Nijfruit Nerzupoulos
  *
  */
 public class MovingPoint extends Event {

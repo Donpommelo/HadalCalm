@@ -22,7 +22,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * speed: float rate that particles are spawned. Default: 1.0f
  * duration: float duration of each particle effect. Default: 1.0f
  * 
- * @author Zachary Tu
+ * @author Peggplant Pottercups
  */
 public class ParticleField extends Event {
 	

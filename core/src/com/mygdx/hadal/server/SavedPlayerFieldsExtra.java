@@ -3,8 +3,9 @@ package com.mygdx.hadal.server;
 import com.mygdx.hadal.equip.Loadout;
 
 /**
- * This class contains all the fields that are tracked during a match. These are synced when the results state appears and let clients display information about each player's performance.
- * @author Zachary Tu
+ * This class contains all the fields that are tracked during a match.
+ * These are synced when the results state appears and let clients display information about each player's performance.
+ * @author Shimpernickel Slatatron
  *
  */
 public class SavedPlayerFieldsExtra {

@@ -24,11 +24,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Fields:
  * vec: vector2 of force that is applied to entities that touch this.
  * 
- * @author Zachary Tu
+ * @author Thoggwrangler Tossarian
  */
 public class Spring extends Event {
 	
-	//The vector of force that will be applied to any touching entity.
 	private final Vector2 vec = new Vector2();
 
 	//this is the frequency that the spring sound can play

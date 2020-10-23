@@ -3,7 +3,7 @@ package com.mygdx.hadal.statuses;
 /**
  * This is a list of possible damage tags. These are checked when damage is inflicted/healed for specific effects to check.
  * These are also used for custom kill messages for specific weapons
- * @author Zachary Tu
+ * @author Skankykong Storabeau
  */
 public enum DamageTypes {
 	DEFLECT,

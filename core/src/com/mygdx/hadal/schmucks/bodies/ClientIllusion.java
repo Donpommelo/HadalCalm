@@ -11,10 +11,12 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+import java.util.Objects;
+
 /**
- * A Client Illusion is an eneity created by the client as a default for a synced entity.
+ * A Client Illusion is an entity created by the client as a default for a synced entity.
  * This entity does nothing itself but display a sprite and sync position/angle data from the server.
- * @author Zachary Tu
+ * @author Proggivika Phagwump
  */
 public class ClientIllusion extends HadalEntity {
 	
@@ -27,14 +29,14 @@ public class ClientIllusion extends HadalEntity {
 	//dimensions and angle of the illusion
 	private int spriteWidth;
 	private int spriteHeight;
-	private float scale = 0.25f;
-	private float startAngle;
+	private static final float scale = 0.25f;
+	private final float startAngle;
 	
 	public ClientIllusion(PlayState state, Vector2 startPos, Vector2 size, float startAngle, Sprite sprite, alignType align) {
 		super(state, startPos, size);
 		this.startAngle = startAngle;
 		if (!sprite.equals(Sprite.NOTHING)) {
-			illusionSprite = new Animation<TextureRegion>(sprite.getAnimationSpeed(), sprite.getFrames());
+			illusionSprite = new Animation<>(sprite.getAnimationSpeed(), Objects.requireNonNull(sprite.getFrames()));
 			illusionSprite.setPlayMode(sprite.getPlayMode());
 			this.align = align;
 			spriteWidth = illusionSprite.getKeyFrame(0).getRegionWidth();
@@ -52,14 +54,14 @@ public class ClientIllusion extends HadalEntity {
 	@Override
 	public void controller(float delta) {}
 
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		if (illusionSprite != null) {
 			entityLocation.set(getPixelPosition());
 			switch (align) {
 			case HITBOX:
-				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, false), 
+				batch.draw(illusionSprite.getKeyFrame(animationTime, false),
 						entityLocation.x - size.x / 2, 
 						entityLocation.y - size.y / 2, 
 						size.x / 2, size.y / 2,
@@ -67,28 +69,28 @@ public class ClientIllusion extends HadalEntity {
 						(float) Math.toDegrees(getAngle()));
 				break;
 			case CENTER:
-				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, false), 
+				batch.draw(illusionSprite.getKeyFrame(animationTime, false),
 						entityLocation.x - size.x / 2, 
 						entityLocation.y - size.y / 2, 
 						spriteWidth * scale / 2, spriteHeight * scale / 2,
 						spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case CENTER_STRETCH:
-				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, false), 
+				batch.draw(illusionSprite.getKeyFrame(animationTime, false),
 						entityLocation.x - size.x / 2, 
 						entityLocation.y - size.y / 2, 
 						size.x / 2, size.y / 2,
 						size.x, size.y, 1, 1, 0);
 				break;
 			case CENTER_BOTTOM:
-				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, false),
+				batch.draw(illusionSprite.getKeyFrame(animationTime, false),
 						entityLocation.x - spriteWidth * scale / 2,
 						entityLocation.y - size.y / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case ROTATE:
-				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, false),
+				batch.draw(illusionSprite.getKeyFrame(animationTime, false),
 						entityLocation.x - size.x / 2, 
 						entityLocation.y - size.y / 2, 
 						size.x / 2, size.y / 2,
@@ -106,8 +108,6 @@ public class ClientIllusion extends HadalEntity {
 	 * CENTER_STRETCH: centered and stretched to fit
 	 * CENTER_BOTTOM: centered at bottom of body (used for spawners and stuff like that)
 	 * ROTATE: this is a center-stretch that can rotate
-	 * @author Zachary Tu
-	 *
 	 */
 	public enum alignType {
 		HITBOX,

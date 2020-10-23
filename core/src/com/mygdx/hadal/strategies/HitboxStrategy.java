@@ -8,7 +8,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * A Hbox strategy implements the methods used to affect a hitbox after it has been created
- * @author Zachary Tu
+ * @author Frictuzmo Fressucroix
  */
 public abstract class HitboxStrategy implements IHitboxStrategy {
 

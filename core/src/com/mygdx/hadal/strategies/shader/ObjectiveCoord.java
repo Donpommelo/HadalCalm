@@ -9,7 +9,7 @@ import com.mygdx.hadal.strategies.ShaderStrategy;
 
 /**
  * ObjectiveCoord feeds the shader the objective location.
- * @author Zachary Tu
+ * @author Climingo Clohlrabi
  *
  */
 public class ObjectiveCoord extends ShaderStrategy {

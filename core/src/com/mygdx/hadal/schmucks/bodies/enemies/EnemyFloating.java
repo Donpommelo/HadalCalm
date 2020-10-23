@@ -1,9 +1,9 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -12,7 +12,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * Floating enemies are the basic fish-enemies of the game.
  * These enemies can rotate to face the player.
- * @author Zachary Tu
+ * @author Mebriana Meezy
  */
 public class EnemyFloating extends Enemy {
 				

@@ -20,7 +20,7 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 /**
  * A Turret is an immobile enemy that fires towards players in sight.
- * @author Zachary Tu
+ * @author Thadding Thurrasco
  */
 public class TurretVolley extends Turret {
 

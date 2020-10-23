@@ -12,7 +12,7 @@ import java.util.Collections;
 
 /**
  * An UnlockArtifact represents a single artifact in the game
- * @author Zachary Tu
+ * @author Flarlsberg Flarracuda
  */
 public enum UnlockArtifact {
 	

@@ -11,7 +11,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * Sound Effects each represent a single sound effect in the game. some of these effects can loop.
- * @author Zachary Tu
+ * @author Snogganana Smudorf
  */
 public enum SoundEffect {
 

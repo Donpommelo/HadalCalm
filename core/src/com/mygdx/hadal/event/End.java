@@ -9,16 +9,14 @@ import com.mygdx.hadal.states.PlayState;
  * 
  * Triggered Behavior: When triggered, this will initiate the end of the game.
  * Triggering Behavior: N/A
- * 
- * 
+ *
  * Fields:
  * text: text that will appear in the results screen
  * 
- * @author Zachary Tu
+ * @author Floley Flepperoncino
  */
 public class End extends Event {
 
-	//This is the text displayed in the results screen.
 	private final String text;
 	
 	public End(PlayState state, String text) {

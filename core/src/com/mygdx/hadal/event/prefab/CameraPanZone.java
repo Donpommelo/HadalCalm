@@ -7,7 +7,7 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 /**
  * The CameraPanZone is an event that is drawn between two areas with different camera properties.
  * Think of is at a horizontal or vertical wall that, when passed, makes the camera (un)lock and/or pan. 
- * @author Zachary Tu
+ * @author Bengermine Barsnip
  */
 public class CameraPanZone extends Prefabrication {
 

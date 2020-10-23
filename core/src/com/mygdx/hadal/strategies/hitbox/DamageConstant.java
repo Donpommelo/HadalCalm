@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * This strategy is used by hitboxes that do set knockback on hit regardless of its own position or direction.
  * This is used by airblast
- * @author Zachary Tu
+ * @author Sloglodyte Slefka
  */
 public class DamageConstant extends HitboxStrategy {
 	

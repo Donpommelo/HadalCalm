@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * A Client Prediction Frame contains information about the client player's movement for a single frame.
  * These are collected by the ClientPlayer to predict and extrapolate their position
- * @author Zachary Tu
+ * @author Lardwig Lucroix
  *
  */
 public class ClientPredictionFrame {

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * The WeaponPickup is a prefab that (atm) simply contains a weapon pickup with a spawner sprite and does the alignments.
  * Might add more to this later.
- * @author Zachary Tu
+ * @author Blabiscus Blagherty
  */
 public class SpawnerWeapon extends Prefabrication {
 

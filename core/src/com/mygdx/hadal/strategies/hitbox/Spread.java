@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This strategy randomly changes a hbox's velocity after it is created.
- * @author Zachary Tu
+ * @author Damp Darbchamp
  */
 public class Spread extends HitboxStrategy {
 	

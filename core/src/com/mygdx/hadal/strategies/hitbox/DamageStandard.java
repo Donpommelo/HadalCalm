@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 /**
  * This strategy makes a hbox damage enemies it comes in contact with
- * @author Zachary Tu
+ * @author Clunard Clamhock
  */
 public class DamageStandard extends HitboxStrategy {
 	

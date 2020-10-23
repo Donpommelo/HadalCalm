@@ -15,9 +15,11 @@ import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
 
+import java.util.Objects;
+
 /**
  * The Armory is a HubEvent that allows the player to spend Scrap on unlocks.
- * @author Zachary Tu
+ * @author Bracciatello Bestfruit
  */
 public class Quartermaster extends HubEvent {
 
@@ -40,7 +42,7 @@ public class Quartermaster extends HubEvent {
 			
 			if (checkUnlock && !UnlockManager.checkUnlock(state, UnlockType.valueOf(shopInfo.getType()), item)) {
 
-				Text itemChoose = new Text(info.getName() + ": Cost: " + shopInfo.getPrices().get(item), 0, 0, true);
+				Text itemChoose = new Text(Objects.requireNonNull(info).getName() + ": Cost: " + shopInfo.getPrices().get(item), 0, 0, true);
 				
 				itemChoose.addListener(new ClickListener() {
 					

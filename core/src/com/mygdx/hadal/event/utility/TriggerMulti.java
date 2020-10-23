@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * 
  * triggeringId: This string should be a comma-separated list of triggeredIds of events that can be triggered.
  * NO SPACES IN THIS LIST
- * @author Zachary Tu
+ * @author Crempus Crarzendwich
  */
 public class TriggerMulti extends Event {
 

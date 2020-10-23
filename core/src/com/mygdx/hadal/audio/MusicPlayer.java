@@ -8,7 +8,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * The music player manages music tracks including fade transitions
- * @author Zachary Tu
+ * @author Dichysoisse Duckheart
  */
 public class MusicPlayer {
 

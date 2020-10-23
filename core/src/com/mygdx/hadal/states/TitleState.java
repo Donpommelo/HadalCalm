@@ -28,7 +28,7 @@ import java.io.IOException;
 /**
  * The TitleState is created upon initializing the game and will display an image.
  * This state also gives options to host, join a server as well as set player's name, change settings and exit.
- * @author Zachary Tu
+ * @author Clottercups Clungfisher
  */
 public class TitleState extends GameState {
 
@@ -44,6 +44,7 @@ public class TitleState extends GameState {
 	//Textfields for the player to enter an ip to connect to or change their name
 	private TextField enterName, enterIP, enterPassword;
 
+	//this window pops up when the client connects to a password server
 	private MenuWindow passwordWindow;
 
 	//ambient particle effects
@@ -435,7 +436,7 @@ public class TitleState extends GameState {
 	}
 
 	/**
-	 * When we connect to a password server, this is run to bring up the password entering window
+	 * When we connect to a password server, this is ran to bring up the password entering window
 	 */
 	public void openPasswordRequest() {
 		passwordWindow.setVisible(true);

@@ -16,7 +16,7 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
  * amount: float amount to modify the stat by. default: 0.0f
  * duration: duration of the status. If 0, the status is permanent (until leaving the stage) default: 0.0f
  * 
- * @author Zachary Tu
+ * @author Nurfield Naddam
  */
 public class StatusInflicter extends Event {
 

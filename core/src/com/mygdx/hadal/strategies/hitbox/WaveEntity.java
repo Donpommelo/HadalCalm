@@ -9,7 +9,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy makes a hbox move around its user in a sin wave
- * @author Zachary Tu
+ * @author Tarsula Tranilla
  */
 public class WaveEntity extends HitboxStrategy {
 	

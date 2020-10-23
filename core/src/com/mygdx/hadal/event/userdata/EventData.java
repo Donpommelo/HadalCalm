@@ -13,7 +13,7 @@ import java.util.Set;
 
 /**
  * This is the data for an event. It contains the information needed for the event to activate and be activated
- * @author Zachary Tu
+ * @author Scudding Scaguana
  */
 public class EventData extends HadalData {
 

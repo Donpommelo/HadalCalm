@@ -27,7 +27,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * delay: float delay of how much time until the enemy is spawned. default: 1.0f
  * boss: boolean of whether this spawns a boss enemy
  * bossName: name of the boss spawned (if a boss is spawned)
- * @author Zachary Tu
+ * @author Hafrodite Halligator
  */
 public class SpawnerSchmuck extends Event {
 	

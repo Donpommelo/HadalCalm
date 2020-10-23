@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
@@ -33,7 +32,7 @@ public class LaserRifle extends RangedWeapon {
 	private static final int projectileHeight = 30;
 	private static final float lifespan = 0.25f;
 	
-	private static final Sprite[] projSprites = {Sprite.LASER_BEAM, Sprite.LASER_BEAM, Sprite.LASER_BEAM, Sprite.LASER_BEAM, Sprite.LASER_BEAM};
+	private static final Sprite projSprite = Sprite.LASER_BEAM;
 
 	private static final Vector2 trailSize = new Vector2(30, 30);
 	private static final float trailSpeed = 120.0f;
@@ -74,10 +73,7 @@ public class LaserRifle extends RangedWeapon {
 				return -1.0f;
 			}, entityLocation, endPt);
 		}
-		
-		int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
-		Sprite projSprite = projSprites[randomIndex];
-		
+
 		//Create Hitbox from position to wall using raycast distance. Set angle and position of hitbox and make it static.
 		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2((distance * shortestFraction * PPM), projectileHeight), lifespan, new Vector2(), filter, true, true, user, projSprite) {
 

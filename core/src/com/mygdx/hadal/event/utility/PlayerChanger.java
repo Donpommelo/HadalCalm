@@ -33,7 +33,7 @@ import com.mygdx.hadal.utils.Stats;
  * fuel: Change the player Fuel by this amount. Optional. Default: 0.0f
  * ammo: Change the player amo by this amount. Optional. Default: 0.0f
  * 
- * @author Zachary Tu
+ * @author Lostard Lodrach
  */
 public class PlayerChanger extends Event {
 

@@ -6,7 +6,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 
 /**
  * These utilities take strings and filter certain tags into other stuff
- * @author Zachary Tu
+ * @author Druduh Dilpbrooke
  */
 public class TextFilterUtil {
 

@@ -27,7 +27,7 @@ import java.util.Map;
 
 /**
  * This util parses a Tiled file into an in-game map.
- * @author Zachary Tu
+ * @author Fricieweitz Flogory
  */
 public class TiledObjectUtil {
 	
@@ -40,7 +40,7 @@ public class TiledObjectUtil {
         for (MapObject object : objects) {
             ChainShape shape;
 
-            //Atm, we only parse PolyLines into solid walls
+            //Atm, we only parse PolyLines into solid walls and dropthrough walls
             if (object instanceof PolylineMapObject) {
                 shape = createPolyline((PolylineMapObject) object);
             } else {
@@ -54,12 +54,15 @@ public class TiledObjectUtil {
             }
         }
     }
-    
-    public static void parseTiledObjectLayerClient(ClientState state, MapObjects objects) {
+
+	/**
+	 * Client version of object parsing is identical except different method of adding event to world.
+	 */
+	public static void parseTiledObjectLayerClient(ClientState state, MapObjects objects) {
         for (MapObject object : objects) {
             ChainShape shape;
 
-            //Atm, we only parse PolyLines into solid walls
+            //Atm, we only parse PolyLines into solid walls and dropthrough walls
             if(object instanceof PolylineMapObject) {
                 shape = createPolyline((PolylineMapObject) object);
             } else {
@@ -75,7 +78,8 @@ public class TiledObjectUtil {
             }
         }
     }
-    
+
+    //these maps keep track of all the triggers and connected events
     private static final Map<String, Event> triggeredEvents = new HashMap<>();
     private static final Map<Event, String> triggeringEvents = new HashMap<>();
     private static final Map<TriggerMulti, String> multiTriggeringEvents = new HashMap<>();
@@ -569,6 +573,7 @@ public class TiledObjectUtil {
 				e.setStandardParticle(Particle.valueOf(object.getProperties().get("particle_std", String.class)));
 			}
 
+			//set the event's blueprint and data representation
 			e.setBlueprint((RectangleMapObject) object);
 			e.setDto(new EventDto((RectangleMapObject) object));
 		}
@@ -781,41 +786,47 @@ public class TiledObjectUtil {
     	if (!triggeringId.equals("")) {
     		e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
     	}
-    	
-    	//connect e to any redirect events that blame it for triggers
-    	String myId = redirectTriggeringEvents.get(e);
-    	for (TriggerRedirect key : redirectTriggeringEvents.keySet()) {
-    		if (!redirectTriggeringEvents.get(key).equals("") && redirectTriggeringEvents.get(key).equals(triggeredId)) {
-        		key.setBlame(e);
-    		}
-    	}
-    	
-    	//if e is a redirect trigger, connect it to the event that it blames when it triggers another event
-    	if (myId != null) {
-			if (!myId.equals("")) {
-				((TriggerRedirect) e).setBlame(triggeredEvents.getOrDefault(myId, null));
+
+		String myId;
+
+		//connect e to any redirect events that blame it for triggers
+		for (TriggerRedirect key : redirectTriggeringEvents.keySet()) {
+			if (!redirectTriggeringEvents.get(key).equals("") && redirectTriggeringEvents.get(key).equals(triggeredId)) {
+				key.setBlame(e);
 			}
-    	}
-    	
-    	//connect e to any multi-triggers that trigger it
-    	for (TriggerMulti key : multiTriggeringEvents.keySet()) {
-    		for (String id : multiTriggeringEvents.get(key).split(",")) {
-    			if (!id.equals("") && id.equals(triggeredId)) {
-    				key.addTrigger(e);
-    			}
-    		}
-    	}
-    	
-    	//if e is a multi-trigger, connect it to all events that it triggers
-    	myId = multiTriggeringEvents.get(e);
-    	if (myId != null) {
-    		for (String id : myId.split(",")) {
-    			if (!id.equals("")) {
-    				((TriggerMulti) e).addTrigger(triggeredEvents.getOrDefault(id, null));
-    			}
-    		}
-    	}
-    	
+		}
+
+		//if e is a redirect trigger, connect it to the event that it blames when it triggers another event
+		if (e instanceof TriggerRedirect) {
+			myId = redirectTriggeringEvents.get(e);
+			if (myId != null) {
+				if (!myId.equals("")) {
+					((TriggerRedirect) e).setBlame(triggeredEvents.getOrDefault(myId, null));
+				}
+			}
+		}
+
+		//connect e to any multi-triggers that trigger it
+		for (TriggerMulti key : multiTriggeringEvents.keySet()) {
+			for (String id : multiTriggeringEvents.get(key).split(",")) {
+				if (!id.equals("") && id.equals(triggeredId)) {
+					key.addTrigger(e);
+				}
+			}
+		}
+
+		//if e is a multi-trigger, connect it to all events that it triggers
+		if (e instanceof TriggerMulti) {
+			myId = multiTriggeringEvents.get(e);
+			if (myId != null) {
+				for (String id : myId.split(",")) {
+					if (!id.equals("")) {
+						((TriggerMulti) e).addTrigger(triggeredEvents.getOrDefault(id, null));
+					}
+				}
+			}
+		}
+
     	//connect e to any conditional triggers that can trigger it
     	for (TriggerCond key : condTriggeringEvents.keySet()) {
     		for (String id : condTriggeringEvents.get(key).split(",")) {
@@ -826,16 +837,19 @@ public class TiledObjectUtil {
     	}
     	
     	//if e is a conditional trigger, connect it to each event that it can trigger
-    	myId = condTriggeringEvents.get(e);
-    	if (myId != null) {
-    		for (String id : myId.split(",")) {
-    			if (!id.equals("")) {
-    				((TriggerCond) e).addTrigger(id, triggeredEvents.getOrDefault(id, null));
-    			}
-    		}
-    	}
-    	
-    	//connect e to any move points that connect to it. We don't need a case for when e is a move point b/c the client doesn't process that and we haven't needed to clone move points yet.
+		if (e instanceof TriggerCond) {
+			myId = condTriggeringEvents.get(e);
+			if (myId != null) {
+				for (String id : myId.split(",")) {
+					if (!id.equals("")) {
+						((TriggerCond) e).addTrigger(id, triggeredEvents.getOrDefault(id, null));
+					}
+				}
+			}
+		}
+
+    	//connect e to any move points that connect to it.
+		// We don't need a case for when e is a move point b/c the client doesn't process that and we haven't needed to clone move points yet.
     	for (MovingPoint key : movePointConnections.keySet()) {
     		for (String id : movePointConnections.get(key).split(",")) {
     			if (!id.equals("") && id.equals(triggeredId)) {
@@ -855,15 +869,17 @@ public class TiledObjectUtil {
     	} 
     	
     	//if e is a choice branch, connect it to each event that it can trigger
-    	myId = choiceBranchOptions.get(e);
-    	if (myId != null) {
-    		String[] options = myId.split(",");
-    		for (int i = 0; i < options.length; i++) {
-    			if (!options[i].equals("")) {
-    				((ChoiceBranch) e).addOption(((ChoiceBranch) e).getOptionNames()[i], triggeredEvents.getOrDefault(options[i], null));
-    			}
-    		}
-    	}
+		if (e instanceof ChoiceBranch) {
+			myId = choiceBranchOptions.get(e);
+			if (myId != null) {
+				String[] options = myId.split(",");
+				for (int i = 0; i < options.length; i++) {
+					if (!options[i].equals("")) {
+						((ChoiceBranch) e).addOption(((ChoiceBranch) e).getOptionNames()[i], triggeredEvents.getOrDefault(options[i], null));
+					}
+				}
+			}
+		}
     }
     
     /**
@@ -900,8 +916,7 @@ public class TiledObjectUtil {
     private static ChainShape createPolyline(PolylineMapObject polyline) {
         float[] vertices = polyline.getPolyline().getTransformedVertices();
         Vector2[] worldVertices = new Vector2[vertices.length / 2];
-        
-        
+
         for(int i = 0; i < worldVertices.length; i++) {
             worldVertices[i] = new Vector2(vertices[i * 2] / Constants.PPM, vertices[i * 2 + 1] / Constants.PPM);
         }

@@ -23,7 +23,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Fields:
  * Hp: The integer number of Hp this event has before being destroyed.
  * 
- * @author Zachary Tu
+ * @author Wordita Whenzegnatio
  */
 public class DestructableBlock extends Event {
 

@@ -23,7 +23,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * An Event is an entity that acts as a catch-all for all misc entities that do not share qualities with schmucks or hitboxes.
  * Events include hp/fuel/weapon pickups, currents, schmuck spawners, springs, literally anything else.
- * @author Zachary Tu
+ * @author Bloburger Blunzo
  */
 public class Event extends HadalEntity {
 	
@@ -295,8 +295,6 @@ public class Event extends HadalEntity {
 	public RectangleMapObject getBlueprint() { return blueprint; }
 
 	public void setBlueprint(RectangleMapObject blueprint) { this.blueprint = blueprint; }
-
-	public EventDto getDto() { return dto; }
 
 	public void setDto(EventDto dto) { this.dto = dto; }
 

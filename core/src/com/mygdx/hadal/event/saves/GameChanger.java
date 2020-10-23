@@ -16,7 +16,7 @@ import com.mygdx.hadal.states.PlayState;
  * timerIncr: Float specifying how much the timer should change (usually -1, 0, 1). Optional. Default: 0.0f
  * changeTimer: boolean of whether to change the timer or not
  * 
- * @author Zachary Tu
+ * @author Nonek Nehemoth
  */
 public class GameChanger extends Event {
 

@@ -10,7 +10,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy makes a hbox home in on the player's mouse
- * @author Zachary Tu
+ * @author Lodelaire Lumpus
  */
 public class HomingMouse extends HitboxStrategy {
 	
@@ -18,10 +18,10 @@ public class HomingMouse extends HitboxStrategy {
 	private float controllerCount = 0;
 	
 	//this is the power of the force applied to the hbox when it tries to home.
-	private float homePower;
+	private final float homePower;
 	
 	//this is the entity we home towards. (either the player's mouse or the player)
-	private HadalEntity target;
+	private final HadalEntity target;
 	
 	public HomingMouse(PlayState state, Hitbox proj, BodyData user, float homePower) {
 		super(state, proj, user);
@@ -34,7 +34,7 @@ public class HomingMouse extends HitboxStrategy {
 		}
 	}
 	
-	private Vector2 homingPush = new Vector2();
+	private final Vector2 homingPush = new Vector2();
 	@Override
 	public void controller(float delta) {					
 		controllerCount += delta;

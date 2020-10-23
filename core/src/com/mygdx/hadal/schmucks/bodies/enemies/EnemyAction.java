@@ -2,7 +2,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 /**
  * An EnemyAction is any action that the enemy performs. Most attacks are a sequence of EnemyActions performed in succession.
- * @author Zachary Tu
+ * @author Loshire Lishire
  */
 public class EnemyAction {
 

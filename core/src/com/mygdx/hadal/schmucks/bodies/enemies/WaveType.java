@@ -11,7 +11,7 @@ import java.util.Collections;
 /**
  * A wave contains the info needed to spawn a single wave of arena enemies
  * Notable spawn numbers: 4,5 are grounded. 6 is in the center of the map.
- * @author Zachary Tu
+ * @author Gringo Gnashmael
  */
 public enum WaveType {
 
@@ -120,7 +120,8 @@ public enum WaveType {
 	 */
 	private static final float extraInterval = 0.4f;
 	public void spawnWave(SpawnerWave spawner, int waveNum, int extraField) {
-		
+
+		//this makes each enemy spawn staggered
 		float extraDelay = 0.0f;
 		for (WaveEnemy enemy : enemies) {
 			enemy.createEnemy(spawner, waveNum, extraField, extraDelay);
@@ -176,8 +177,6 @@ public enum WaveType {
 	private static final float waveDelay = 1.0f;
 	/**
 	 * A WaveEnemy represents a single enemy in a wave.
-	 * @author Zachary Tu
-	 *
 	 */
 	public static class WaveEnemy {
 		

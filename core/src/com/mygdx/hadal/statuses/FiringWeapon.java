@@ -9,7 +9,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * This status makes the player fire their weapon at the mouse for a brief period of time.
  * This is used by "spray" type weapons that, when fired, spray a stream of hboxes for a brief period of time
- * @author Zachary Tu
+ * @author Wragatha Wulgham
  */
 public class FiringWeapon extends Status {
 

@@ -25,7 +25,7 @@ import java.util.Map.Entry;
 
 /**
  * This is the server of the game.
- * @author Zachary Tu
+ * @author Nurgarita Nelfram
  */
 public class KryoServer {
 	
@@ -35,7 +35,7 @@ public class KryoServer {
 	//This is the gsm of the server
 	public GameStateManager gsm;
 	
-	//These keep track of all connected players, their mice and scores. Scores is the only one that contains the host.
+	//These keep track of all connected players, their mice and scores.
 	private  HashMap<Integer, User> users;
 
 	public KryoServer(GameStateManager gameStateManager) {
@@ -78,7 +78,7 @@ public class KryoServer {
 							player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageTypes.DISCONNECT);
 							addNotificationToAll(ps, player.getName(), " DISCONNECTED!", DialogType.SYSTEM);
 
-							//remove disconnecting player from all tracked lists
+							//remove disconnecting player from users
 							users.remove(c.getID());
 							ps.getScoreWindow().syncScoreTable();
 							sendToAllTCP(new Packets.RemoveScore(c.getID()));
@@ -91,7 +91,8 @@ public class KryoServer {
 					final ResultsState vs =  (ResultsState) gsm.getStates().peek();
 					Gdx.app.postRunnable(() -> {
 						vs.readyPlayer(c.getID());
-						//remove disconnecting player from all tracked lists
+
+						//remove disconnecting player from users
 						users.remove(c.getID());
 					});
 				}
@@ -176,39 +177,30 @@ public class KryoServer {
 								sendToTCP(c.getID(), new Packets.ConnectReject("INCOMPATIBLE VERSION. HOST ON VER: " + HadalGame.Version));
 								return;
 							}
-							boolean successfulConnection = false;
-
-							System.out.println("FUG " + gsm.getSetting().getServerPassword() + " " + p.password);
 
 							//if no server password, the client connects.
-							if (gsm.getSetting().getServerPassword().equals("")) {
-								successfulConnection = true;
-							} else {
+							if (!gsm.getSetting().getServerPassword().equals("")) {
 								//password being null indicates the client just attempted to connect.
 								//otherwise, we check whether the password entered matches
 								if (p.password == null) {
 									sendToTCP(c.getID(), new Packets.PasswordRequest());
 									return;
-								} else if (gsm.getSetting().getServerPassword().equals(p.password)){
-									successfulConnection = true;
-								} else {
+								} else if (!gsm.getSetting().getServerPassword().equals(p.password)){
 									sendToTCP(c.getID(), new Packets.ConnectReject("INCORRECT PASSWORD"));
 									return;
 								}
 							}
-							if (successfulConnection) {
-								addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!", DialogType.SYSTEM);
+							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!", DialogType.SYSTEM);
 
-								//clients joining full servers or in the middle of matches join as spectators
-								if (getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers() + 1) {
-									sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
-									return;
-								}
+							//clients joining full servers or in the middle of matches join as spectators
+							if (getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers() + 1) {
+								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
+								return;
+							}
 
-								if (!ps.isHub()) {
-									sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
-									return;
-								}
+							if (!ps.isHub()) {
+								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
+								return;
 							}
 						}
                         sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, false));
@@ -703,6 +695,9 @@ public class KryoServer {
 		}
 	}
 
+	/**
+	 * This boots the designated player from the game
+	 */
 	public void kickPlayer(PlayState ps, User user, int connID) {
 		if (server != null) {
 			addNotificationToAll(ps, user.getPlayer().getName(), " WAS KICKED!", DialogType.SYSTEM);
@@ -710,6 +705,10 @@ public class KryoServer {
 		}
 	}
 
+	/**
+	 * @param p: the player
+	 * @return the user corresponding to player p
+	 */
 	public User playerToUser(Player p) {
 		for (User user: users.values()) {
 			if (user.getPlayer() != null) {

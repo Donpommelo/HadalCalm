@@ -14,7 +14,7 @@ import com.mygdx.hadal.managers.GameStateManager.State;
 /**
  * This is the very first called state of the game. This is pretty much a loading screen where the AssetManager is loaded.
  * After loading is complete, we automatically transition into the Title Screen.
- * @author Zachary Tu
+ * @author Gorfblatt Ghordelia
  */
 public class InitState extends GameState {
 

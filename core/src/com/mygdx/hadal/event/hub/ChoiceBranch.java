@@ -15,7 +15,7 @@ import java.util.Map.Entry;
 
 /**
  * The choice branch gives a list of choices, each of which connects to another event
- * @author Zachary Tu
+ * @author Miwolario Mingerbread
  */
 public class ChoiceBranch extends HubEvent {
 

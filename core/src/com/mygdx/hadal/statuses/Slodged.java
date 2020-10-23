@@ -9,7 +9,7 @@ import com.mygdx.hadal.utils.Stats;
 
 /**
  * Slodged units move slower in the ground and air
- * @author Zachary Tu
+ * @author Brenzales Beldason
  */
 public class Slodged extends Status {
 

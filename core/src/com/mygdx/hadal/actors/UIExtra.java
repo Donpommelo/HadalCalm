@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * The UIExtra is an extra ui actor displayed in the upper right hand side.
  * It displays list of strings decided by the uiTags list which can be modified in level with events.
- * @author Zachary Tu
+ * @author Yacardo Yarabba
  */
 public class UIExtra extends AHadalActor {
 
@@ -150,16 +150,12 @@ public class UIExtra extends AHadalActor {
 		User user;
 		if (state.isServer()) {
 			user = HadalGame.server.getUsers().get(0);
-			if (user != null) {
-				field = user.getScores();
-			}
 		} else {
 			user = HadalGame.client.getUsers().get(HadalGame.client.connID);
-			if (user != null) {
-				field = user.getScores();
-			}
 		}
-		
+		if (user != null) {
+			field = user.getScores();
+		}
 		if (field != null) {
 			score = field.getScore();
 			wins = field.getWins();

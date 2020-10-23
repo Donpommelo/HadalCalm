@@ -9,7 +9,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy makes a hbox die when it touches a unit
- * @author Zachary Tu
+ * @author Rashmere Rufferty
  */
 public class ContactUnitDie extends HitboxStrategy {
 	

@@ -33,12 +33,13 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.Objects;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * This is the client of the game
- * @author Zachary Tu
+ * @author Ghulliam Grapplejack
  */
 public class KryoClient {
 	
@@ -732,7 +733,8 @@ public class KryoClient {
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
 					PickupEquip pickup = new PickupEquip(cs, p.pos, "");
-					pickup.setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
+					pickup.setEquip(
+						Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup),null)));
 					cs.addEntity(p.entityID, pickup, p.synced, ObjectSyncLayers.STANDARD);
 				});
 			}

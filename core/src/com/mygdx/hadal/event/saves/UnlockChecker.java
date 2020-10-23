@@ -19,7 +19,7 @@ import com.mygdx.hadal.states.PlayState;
  * item: String id of item unlock checked
  * unlock: we chain to the next event if this is equal to the item's unlock status. Default: false
  * 
- * @author Zachary Tu
+ * @author Hinklin Hadragon
  */
 public class UnlockChecker extends Event {
 

@@ -2,7 +2,7 @@ package com.mygdx.hadal.server;
 
 /**
  * This represents saved fields for a player.
- * @author Zachary Tu
+ * @author Medelaire Morcester
  */
 public class SavedPlayerFields {
 	
@@ -65,7 +65,13 @@ public class SavedPlayerFields {
 	public String getNameShort() { 
 		return name;
 	}
-	
+
+	/**
+	 * This abridges a name according to a max length in characters
+	 * @param includePing: should we include the player's ping in the name?
+	 * @param maxNameLen: the max characters
+	 * @return the new abridged name
+	 */
 	public String getNameAbridged(boolean includePing, int maxNameLen) {
 		String displayedName = getNameShort();
 		if (includePing) {

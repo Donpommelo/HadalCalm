@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 /**
  * This enum maps to each possible action the player can perform to an input.
- * @author Zachary Tu
+ * @author Gnaddam Ghermicelli
  */
 public enum PlayerAction {
 	WALK_RIGHT(Input.Keys.D, true),

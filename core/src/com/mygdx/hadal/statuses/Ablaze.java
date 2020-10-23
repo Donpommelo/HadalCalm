@@ -9,7 +9,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * Ablaze units receive damage over time.
- * @author Zachary Tu
+ * @author Glamhock Glecnicbasket
  */
 public class Ablaze extends Status {
 

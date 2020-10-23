@@ -16,7 +16,7 @@ import com.mygdx.hadal.states.PlayState;
  * quest: String id of quest changed.
  * newVal: new value for the quest. Optional. Default: 0
  * 
- * @author Zachary Tu
+ * @author Vluitcake Veckheart
  */
 public class QuestChanger extends Event {
 

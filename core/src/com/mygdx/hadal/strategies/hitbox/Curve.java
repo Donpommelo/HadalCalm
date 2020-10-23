@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * This strategy makes an hbox's trajectory curve towards a particular coordinates.
  * hboxes start off with optional spread and continuously adjust their movement to aim to a static vector
- * @author Zachary Tu
+ * @author Glovecraft Gronxderf
  */
 public class Curve extends HitboxStrategy {
 	

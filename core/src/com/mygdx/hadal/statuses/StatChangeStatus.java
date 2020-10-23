@@ -5,7 +5,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * This Status represents a change in any Schmuck stat
- * @author Zachary Tu
+ * @author Zukins Zorbcourt
  */
 public class StatChangeStatus extends Status {
 

@@ -19,7 +19,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * 
  * right/left/up/down: Will this set a right/left/up/down bound on the camera (at its own location)
  * spectator: Will this set the camera bounds for normal players or spectators?
- * @author Zachary Tu
+ * @author Frabalante Flircester
  */
 public class CameraBounder extends Event {
 

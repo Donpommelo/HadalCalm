@@ -5,7 +5,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * A Composite Status is a status that contains multiple other statuses.
- * @author Zachary Tu
+ * @author Gnureich Gnulhaz
  */
 public class StatusComposite extends Status {
 

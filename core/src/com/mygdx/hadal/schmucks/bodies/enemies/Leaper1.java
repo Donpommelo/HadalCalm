@@ -37,7 +37,7 @@ public class Leaper1 extends EnemyCrawling {
 	
 	private static final Sprite sprite = Sprite.KAMABOKO_CRAWL;
 	
-	private TextureRegion faceSprite;
+	private final TextureRegion faceSprite;
 	
 	public Leaper1(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.LEAPER1, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
@@ -64,7 +64,7 @@ public class Leaper1 extends EnemyCrawling {
 		push(new Vector2(0, 50).rotate(ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 	}
 	
-	private Vector2 entityLocation = new Vector2();
+	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);

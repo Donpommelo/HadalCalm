@@ -9,7 +9,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This is the default strategy that most hboxes have
  * This process lifespan decreasing, dying and being pushed.
- * @author Zachary Tu
+ * @author Ghitcoin Gokrantz
  */
 public class ControllerDefault extends HitboxStrategy {
 	

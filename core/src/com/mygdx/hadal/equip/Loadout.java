@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 /**
  * A Loadout represents a player's tools, artifact, active item and character skin.
- * @author Zachary Tu
+ * @author Jucker Jarpo
  */
 public class Loadout {
 

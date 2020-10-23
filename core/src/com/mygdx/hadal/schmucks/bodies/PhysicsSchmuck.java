@@ -6,7 +6,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * A Physics schmuck runs custom acceleration physics for their movement.
  * atm, this includes only the player
- * @author Zachary Tu
+ * @author Duldwin Droshibish
  */
 public class PhysicsSchmuck extends Schmuck {
 

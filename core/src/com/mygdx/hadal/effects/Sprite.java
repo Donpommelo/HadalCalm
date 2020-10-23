@@ -8,9 +8,12 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.states.PlayState;
 
+import java.util.Objects;
+
 /**
- * This is a single sprite that can be drawn
- * @author Zachary Tu
+ * This is a single sprite that can be drawn.
+ * More importantly, this can be serialized and sent to the client to tell them what sprite to draw an illusion with.
+ * @author Frungo Friblatt
  */
 public enum Sprite {
 	NOTHING(SpriteType.MISC, ""),
@@ -226,23 +229,22 @@ public enum Sprite {
 	public Array<? extends TextureRegion> getFrames() {
 
 		if (this.equals(NOTHING)) {
-			return null;
+			//return eggplant to avoid needing requireNonNulls
+			return Objects.requireNonNull(getAtlas(SpriteType.EVENT)).findRegions("eggplant");
 		}
 		
 		if (frames == null) {
 			if (spriteId == null) {
-				frames = getAtlas(type).getRegions();
+				frames = Objects.requireNonNull(getAtlas(type)).getRegions();
 			} else {
-				frames = getAtlas(type).findRegions(spriteId);
+				frames = Objects.requireNonNull(getAtlas(type)).findRegions(spriteId);
 			}
 		}
 		
 		return frames;
 	}
 	
-	public TextureRegion getFrame() {
-		return getFrames().get(0);
-	}
+	public TextureRegion getFrame() { return getFrames().get(0); }
 	
 	/**
 	 * Sprite Types refers to which atlas is used to procure the frames.

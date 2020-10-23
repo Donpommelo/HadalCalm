@@ -14,7 +14,7 @@ import com.mygdx.hadal.states.PlayState;
  * continuous: do we apply rotation continuously or instantly? Default: true
  * angle: The amount of rotation to apply (either set its angular velocity or its angle)
  * 
- * @author Zachary Tu
+ * @author Smeggdrop Shudale
  */
 public class Rotator extends Event {
 

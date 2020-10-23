@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This strategy creates a number of projectiles when its hbox dies
- * @author Zachary Tu
+ * @author Squuddeus Swollygag
  */
 public class DieFrag extends HitboxStrategy {
 	
@@ -44,8 +44,9 @@ public class DieFrag extends HitboxStrategy {
 			int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
 			Sprite projSprite = projSprites[randomIndex];
 			
-			Hitbox frag = new Hitbox(state, hbox.getPixelPosition(), projectileSize, lifespan, fragVelo, hbox.getFilter(), true, false, creator.getSchmuck(), projSprite);
-			
+			Hitbox frag = new Hitbox(state, hbox.getPixelPosition(), projectileSize, lifespan, fragVelo, hbox.getFilter(),
+				true, false, creator.getSchmuck(), projSprite);
+
 			frag.addStrategy(new ControllerDefault(state, frag, creator));
 			frag.addStrategy(new DamageStandard(state, frag, creator, baseDamage, knockback, DamageTypes.SHRAPNEL));
 		}

@@ -15,7 +15,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * A mouse tracker is tied to a player and tracks that player's mouse pointer
- * @author Zachary Tu
+ * @author Narsabaum Nolfner
  */
 public class MouseTracker extends HadalEntity {
 	

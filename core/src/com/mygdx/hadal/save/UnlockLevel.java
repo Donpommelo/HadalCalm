@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  * An UnlockLevel represents a single level in the game
- * @author Zachary Tu
+ * @author Yirlotte Yilyde
  */
 public enum UnlockLevel {
 

@@ -14,7 +14,7 @@ import com.mygdx.hadal.states.PlayState;
  * Fields:
  * interval: The time in seconds before this activates its connected event.
  * startOn: Does this timer start on or off? Optional. Default: true
- * @author Zachary Tu
+ * @author Drolgwood Dolgunaldo
  */
 public class Timer extends Event {
 	

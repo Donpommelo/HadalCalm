@@ -17,7 +17,7 @@ import com.mygdx.hadal.utils.Stats;
 /**
  * A Schmuck is an entity that can use equipment like the player or an enemy.
  * They also have some innate stats.
- * @author Zachary Tu
+ * @author Creetcorn Cleddner
  *
  */
 public class Schmuck extends HadalEntity {

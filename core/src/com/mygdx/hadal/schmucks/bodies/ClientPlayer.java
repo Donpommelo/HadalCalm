@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * A ClientPlayer represents a client's own player.
  * This processes things like client prediction
- * @author Zachary Tu
+ * @author Hepepper Hasufferson
  *
  */
 public class ClientPlayer extends Player {
@@ -126,8 +126,8 @@ public class ClientPlayer extends Player {
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
+
 		controllerCount += delta;
-		
 		while (controllerCount >= controllerInterval) {
 			controllerCount -= controllerInterval;
 			

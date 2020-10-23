@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * The Dormitory is a HubEvent that allows the player to change their dude.
  * It also changes the current loadout, so the player will have the same loadout upon returning the hub or restarting.
- * @author Zachary Tu
+ * @author Curjuncel Ciskabbity
  */
 public class Dormitory extends HubEvent {
 

@@ -6,7 +6,7 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 
 /**
  * The Limiter is a prefab that is placed between triggerer and triggered to limit the number of times the trigger can activate
- * @author Zachary Tu
+ * @author Gnathrop Gnurreau
  */
 public class Limiter extends Prefabrication {
 

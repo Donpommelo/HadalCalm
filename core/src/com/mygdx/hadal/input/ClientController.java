@@ -11,7 +11,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * The ClientController controls the player using events to process various player actions.
  * The ClientController is used by the client in a clientstate to map their keystrokes to packets sent to the server
- * @author Zachary Tu
+ * @author Flitcheroo Fenella
  */
 public class ClientController implements InputProcessor {
 	

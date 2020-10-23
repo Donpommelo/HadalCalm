@@ -10,7 +10,9 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * @author Zachary Tu
+ * The Painter is a hub event that allows players to change their color.
+ * When team mode is toggled on by the host, players with the same colors will be on the same team
+ * @author Zagwump Zirmelo
  */
 public class Painter extends HubEvent {
 

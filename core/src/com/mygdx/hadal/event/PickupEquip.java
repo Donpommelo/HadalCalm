@@ -17,6 +17,8 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+import java.util.Objects;
+
 /**
  * This event, when interacted with, will give the player a new weapon.
  * If the player's slots are full, this will replace currently held weapon.
@@ -28,7 +30,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * pool: String, comma separated list of equipUnlock enum names of all equips that could appear here.
  * 	if this is equal to "", return any weapon in the random pool.
  * 
- * @author Zachary Tu
+ * @author Blalexander Bligmac
  */
 public class PickupEquip extends Event {
 
@@ -43,7 +45,7 @@ public class PickupEquip extends Event {
 		this.pool = pool;
 		
 		unlock = UnlockEquip.NOTHING;
-		setEquip(UnlocktoItem.getUnlock(unlock, null));
+		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
 	}
 	
 	@Override
@@ -68,7 +70,7 @@ public class PickupEquip extends Event {
 							standardParticle.turnOn();
 						} else {
 							unlock = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state, msg));
-							setEquip(UnlocktoItem.getUnlock(unlock, null));
+							setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
 						}
 					}
 					return;
@@ -84,7 +86,8 @@ public class PickupEquip extends Event {
 			@Override
 			public void preActivate(EventData activator, Player p) {
 				onActivate(activator, p);
-				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), UnlockEquip.getUnlockFromEquip(equip.getClass()).toString()));
+				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(),
+					Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(equip.getClass())).toString()));
 			}
 		};
 		
@@ -94,13 +97,14 @@ public class PickupEquip extends Event {
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(), UnlockEquip.getUnlockFromEquip(equip.getClass()).toString(), synced);
+		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(),
+			Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(equip.getClass())).toString(), synced);
 	}
 	
 	public void syncEquip(Object o) {
 		if (o instanceof Packets.SyncPickup) {
 			Packets.SyncPickup p = (Packets.SyncPickup) o;
-			setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
+			setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null)));
 		}
 	}
 	
@@ -109,7 +113,7 @@ public class PickupEquip extends Event {
 	 */
 	public void rollWeapon() {
 		unlock = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state, pool));
-		setEquip(UnlocktoItem.getUnlock(unlock, null));
+		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
 	}
 	
 	private final Vector2 entityLocation = new Vector2();

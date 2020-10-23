@@ -20,10 +20,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * global: boolean if the sound is played from a specified location or not (for determining pan)
  * universal: boolean if the sound is played for all players or not
  * 
- * @author Zachary Tu
+ * @author Honjo Himeister
  */
 public class SoundEmitter extends Event {
-	
+
 	private final SoundEffect sound;
 	private final float volume;
 	private final boolean global, universal;

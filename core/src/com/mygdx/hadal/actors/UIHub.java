@@ -24,7 +24,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * The UiHub is an actor that pops up whenever the player interacts with hub elements that pop up a ui window
- * @author Zachary Tu
+ * @author Postein Phunkykong
  */
 public class UIHub {
 
@@ -140,6 +140,7 @@ public class UIHub {
 		tableSearch.clear();
 		tableExtra.clear();
 
+		//for hubs with search bar, let players type in text
 		if (searchable) {
 			Text search = new Text("SEARCH: ", 0, 0, false);
 			search.setScale(optionsScale);
@@ -149,6 +150,7 @@ public class UIHub {
 				@Override
 				protected InputListener createInputListener () {
 
+					//when typing, filter results accordingly
 					return new TextFieldClickListener() {
 
 						@Override
@@ -170,6 +172,7 @@ public class UIHub {
 			tableSearch.add(searchName).padBottom(optionsPadding).row();
 		}
 
+		//if the player can add extra tags to search artifacts, add dropdown for this
 		if (extraFilters) {
 			Text searchTags = new Text("FILTER TAGS: ", 0, 0, false);
 			searchTags.setScale(optionsScale);
@@ -343,6 +346,7 @@ public class UIHub {
 		}
 	}
 
+	//this converts slot cost filter to actual slot cost (because 0 indexing)
 	private int indexToFilterSlot() {
 		if (slotsFilter == null) {
 			return -1;

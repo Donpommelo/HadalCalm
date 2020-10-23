@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * a frightful resentment invests like a lens.
  * otherwise, a selfish thimble writhes.
  * witness! the misshapen crux of cartilage.
- * @author Zachary Tu
+ * @author Jaardvark Jilfibberish
  *
  */
 public enum PoetryGenerator {

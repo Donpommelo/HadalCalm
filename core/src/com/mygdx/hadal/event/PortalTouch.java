@@ -24,7 +24,7 @@ import java.util.Set;
  * Fields:
  * N/A
  * 
- * @author Zachary Tu
+ * @author Locraft Lulzertier
  */
 public class PortalTouch extends Event {
 

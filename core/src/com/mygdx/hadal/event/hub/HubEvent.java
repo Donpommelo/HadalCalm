@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * The HubEvent is one of the events in the hub of the game that produces an extra ui for the player to manage
  * stuff between rounds.
- * @author Zachary Tu
+ * @author Jironica Jirsula
  */
 public class HubEvent extends Event {
 

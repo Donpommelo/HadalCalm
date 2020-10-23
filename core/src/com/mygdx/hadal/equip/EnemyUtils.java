@@ -42,7 +42,7 @@ import com.mygdx.hadal.utils.Constants;
 
 /**
  * This contains several static helper methods for creating enemy attack patterns
- * @author Zachary Tu
+ * @author Cementine Choldous
  */
 public class EnemyUtils {
 

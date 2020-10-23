@@ -16,7 +16,7 @@ import java.util.Map.Entry;
 
 /**
  * The ScoreWindow is displayed when a player holds a button (default value tab) during a level
- * @author Zachary Tu
+ * @author Forgarita Frelphos
  */
 public class ScoreWindow {
 	
@@ -310,6 +310,9 @@ public class ScoreWindow {
 		state.getStage().addActor(tableSettings);
 	}
 
+	/**
+	 * When the player clicks on a name, options to mute/ban appear
+	 */
 	private void openOptionsWindow(Entry<Integer, User> entry, float x, float y) {
 		User user;
 
@@ -323,8 +326,8 @@ public class ScoreWindow {
 		tableOptions.remove();
 		windowOptions.remove();
 
+		//ui height scales to number of options available
 		float height = optionsHeight;
-
 		if (state.isServer()) {
 			if (user.getPlayer() != state.getPlayer()) {
 				height += optionsExtraHeight;
@@ -337,6 +340,7 @@ public class ScoreWindow {
 		tableOptions.setSize(optionsWidth, height);
 		tableOptions.setPosition(x, y);
 
+		//user can mute/unmute players
 		if (user != null) {
 			Text mute = new Text("", 0, 0, true);
 			if (user.isMuted()) {
@@ -367,6 +371,7 @@ public class ScoreWindow {
 			mute.setScale(settingsScale);
 			tableOptions.add(mute).pad(5).row();
 
+			//only host can ban. Host cannot ban self.
 			if (state.isServer()) {
 				if (user.getPlayer() != state.getPlayer()) {
 					Text ban = new Text("BAN", 0, 0, true);

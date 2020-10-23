@@ -5,7 +5,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 
 /**
  * A record represents the player's last loadout.
- * @author Zachary Tu
+ * @author Thoroth Twoman
  */
 public class SavedLoadout {
 

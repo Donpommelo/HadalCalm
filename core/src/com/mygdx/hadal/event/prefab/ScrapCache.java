@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * The Scrap Cache creates some scrap (if the cache flag has not already been raised)
  * Interacting with this item sets the cache to already taken.
- * @author Zachary Tu
+ * @author Neugene Nifferty
  */
 public class ScrapCache extends Prefabrication {
 

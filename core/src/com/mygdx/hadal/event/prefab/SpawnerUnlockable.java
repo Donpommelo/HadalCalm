@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * The Spawner Unlock Prefab creates a designated unlock when triggered (if the item has not already been unlocked)
  * Interacting with this item unlocks it.
- * @author Zachary Tu
+ * @author Sculario Starnitas
  */
 public class SpawnerUnlockable extends Prefabrication {
 

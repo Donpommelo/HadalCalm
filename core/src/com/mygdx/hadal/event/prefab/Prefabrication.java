@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  * A Prefabrication is a shortcut for a collection of pre-connected events.
- * @author Zachary Tu
+ * @author Zoskbach Zilyde
  */
 public abstract class Prefabrication {
 

@@ -25,7 +25,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This is a boss in the game
- * @author Zachary Tu
+ * @author Briburger Blurnip
  */
 public class Boss1 extends EnemyFloating {
 	
@@ -45,7 +45,7 @@ public class Boss1 extends EnemyFloating {
 	
 	private static final float scale = 1.0f;
 	
-	private static final int hp = 8000;
+	private static final int hp = 7000;
 	private static final int moveSpeed = 20;
 	private static final int spinSpeed = 40;
 	

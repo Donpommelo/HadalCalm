@@ -11,7 +11,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy creates an attached particle effect when the attached hbox is created
- * @author Zachary Tu
+ * @author Scollinaire Smoregano
  */
 public class CreateParticles extends HitboxStrategy {
 	

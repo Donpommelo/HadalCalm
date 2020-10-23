@@ -27,7 +27,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Fields:
  * N/A
  * 
- * @author Zachary Tu
+ * @author Frularbus Fortrand
  */
 public class Currents extends Event {
 	
@@ -142,6 +142,6 @@ public class Currents extends Event {
 			blueprint.getProperties().put("currentY", vec.y);
 			blueprint.getProperties().put("duration", duration);
 		}
-		return new Packets.CreateEvent(entityID.toString(), new EventDto((RectangleMapObject) blueprint), synced);
+		return new Packets.CreateEvent(entityID.toString(), new EventDto(blueprint), synced);
 	}
 }

@@ -8,7 +8,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy makes a hbox static and unmoving.
- * @author Zachary Tu
+ * @author Flivich Flodswallop
  */
 public class Static extends HitboxStrategy {
 	

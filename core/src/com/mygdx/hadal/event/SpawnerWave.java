@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * pointId: The id of the wave spawn point.This determines which enemies can be spawned here
  * extraField: extra field sometimes used for enemy spawns
  * tag: string tag to further specify which enemies can spawn
- * @author Zachary Tu
+ * @author Spibriana Svesabella
  */
 public class SpawnerWave extends Event {
 

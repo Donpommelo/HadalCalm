@@ -27,8 +27,8 @@ import com.mygdx.hadal.states.PlayState;
  * Equipment Pickup: used to set the equip to a specific weapon or reroll it
  * Schmuck Spawner: used to change the number of enemies the spawner will spawn
  * Timer: used to start, stop or reset the timer
- * 
- * @author Zachary Tu
+ *
+ * @author Lepepper Lolympia
  */
 public class TriggerAlt extends Event {
 

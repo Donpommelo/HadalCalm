@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 /**
  * These are packets sent between the Server and Client.
- * @author Zachary Tu
+ * @author Wogganov Wrarnando
  */
 public class Packets {
 

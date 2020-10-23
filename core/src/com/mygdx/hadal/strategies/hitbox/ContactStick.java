@@ -11,12 +11,13 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy makes an hbox stick to units or walls upon making contact with them
- * @author Zachary Tu
+ * @author Yategnatio Yelderdash
  */
 public class ContactStick extends HitboxStrategy {
 	
 	//does this hbox stick to walls and units? If so, is it already stuck to anything?
-	private boolean stickToWalls, stickToDudes, stuckToTarget;
+	private final boolean stickToWalls, stickToDudes;
+	private boolean stuckToTarget;
 	
 	//The angle that the projectile should be stuck at
 	private float angle, targetAngle;
@@ -25,17 +26,17 @@ public class ContactStick extends HitboxStrategy {
 	private HadalEntity target;
 	
 	//the offset location of this hbox and the stuck entity's position
-	private Vector2 location = new Vector2();
+	private final Vector2 location = new Vector2();
 	
 	//this stores the relative location of the stuck projectile after accounting for rotation
-	private Vector2 rotatedLocation = new Vector2();
+	private final Vector2 rotatedLocation = new Vector2();
 	
 	public ContactStick(PlayState state, Hitbox proj, BodyData user, boolean walls, boolean dudes) {
 		super(state, proj, user);
 		this.stickToWalls = walls;
 		this.stickToDudes = dudes;
 	}
-	
+
 	@Override
 	public void onHit(HadalData fixB) {
 		
@@ -67,7 +68,7 @@ public class ContactStick extends HitboxStrategy {
 	public void controller(float delta) {
 		
 		//keep a constant distance/angle from the attached entity (or stay still if attached to a wall)
-		if (stuckToTarget && target != null && location != null) {
+		if (stuckToTarget && target != null) {
 			if (target.isAlive()) {
 				rotatedLocation.set(location).rotateRad(target.getAngle() - targetAngle);
 				hbox.setTransform(target.getPosition().add(rotatedLocation), angle + target.getAngle() - targetAngle);

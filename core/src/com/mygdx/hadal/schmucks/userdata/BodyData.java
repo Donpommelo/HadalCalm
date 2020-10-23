@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 /**
  * Body data contains the stats and methods of any unit; player or enemy.
- * @author Zachary Tu
+ * @author Pangosteen Placerola
  */
 public class BodyData extends HadalData {
 
@@ -349,7 +349,6 @@ public class BodyData extends HadalData {
 
 					} else {
 						if (field != null && damage > 0.0f) {
-
 							if (perp.getSchmuck().equals(schmuck)) {
 								field.incrementDamageDealtSelf(damage);
 							} else {
@@ -360,7 +359,6 @@ public class BodyData extends HadalData {
 				}
 			}
 		}
-		
 		return damage;
 	}
 	

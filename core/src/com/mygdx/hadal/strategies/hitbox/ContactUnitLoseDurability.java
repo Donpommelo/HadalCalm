@@ -10,7 +10,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy makes an attached hbox lose durability upon contact with a unit.
  * If a hbox's durability reaches 0, it dies.
- * @author Zachary Tu
+ * @author Burrault Blecnicbasket
  */
 public class ContactUnitLoseDurability extends HitboxStrategy {
 	

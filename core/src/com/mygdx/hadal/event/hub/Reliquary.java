@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  * The Reliquary is a HubEvent that allows the player to change their starting Artifact.
  * Selecting an artifact replaces currently held artifact.
  * It also changes the current loadout, so the player will have the same loadout upon returning the hub or restarting.
- * @author Zachary Tu
+ * @author Trelzubramaniam Twediculous
  */
 public class Reliquary extends HubEvent {
 

@@ -23,7 +23,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Fields:
  * N/A
  * 
- * @author Zachary Tu
+ * @author Thaditya Troseidon
  */
 public class DropThroughPlatform extends Event {
 	

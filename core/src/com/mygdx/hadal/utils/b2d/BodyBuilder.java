@@ -12,7 +12,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * This util is for creating box2d bodies.
- * @author Zachary Tu
+ * @author Shampanelle Sweviticus
  */
 public class BodyBuilder {
 
@@ -32,7 +32,7 @@ public class BodyBuilder {
 	 * @param gIndex: Extra filter. less than 0 = never collide with bodies with same value. greater than 0 = always collide with bodies with same value.
 	 * @param sensor: Can fixtures that collide with this pass through it?
 	 * @param userData: HadalData of the body.
-	 * @return: The newly created body.
+	 * @return The newly created body.
 	 */
     public static Body createBox(final World world, Vector2 startPos, Vector2 size, float grav, float density, float restitution, boolean isStatic, boolean fixedRotate, short cBits, short mBits, short gIndex, 
     		boolean sensor, HadalData userData) {

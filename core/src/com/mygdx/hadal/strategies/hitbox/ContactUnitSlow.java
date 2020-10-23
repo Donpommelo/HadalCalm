@@ -10,7 +10,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy makes a hbox inflicts a slow on users that it makes contact with
- * @author Zachary Tu
+ * @author Juduardo Jiffonso
  */
 public class ContactUnitSlow extends HitboxStrategy {
 	

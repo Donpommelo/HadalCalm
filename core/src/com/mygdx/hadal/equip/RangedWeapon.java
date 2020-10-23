@@ -11,7 +11,7 @@ import com.mygdx.hadal.effects.Sprite;
 /**
  * Ranged Weapons are weapons used by clicking somewhere on the screen to probably fire a projectile or whatever in that direction.
  * Ranged weapons have a clip size, ammo count and can be reloaded.
- * @author Zachary Tu
+ * @author Cutabaga Clolord
  */
 public class RangedWeapon extends Equippable {
 

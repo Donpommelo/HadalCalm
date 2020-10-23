@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * Invisible units cannot be seen by other players, ai enemies and themselves.
  * Invisibility is removed upon attacking
- * @author Zachary Tu
+ * @author Derkhammer Dankabourne
  */
 public class Invisibility extends Status {
 	

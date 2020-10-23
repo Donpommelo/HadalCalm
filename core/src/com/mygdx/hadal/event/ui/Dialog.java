@@ -16,7 +16,7 @@ import com.mygdx.hadal.states.PlayState;
  * Fields:
  * id: string id of the conversation to be displayed. This can be a comma-separated list of dialog ids, in which a random one will be chosen.
  * 
- * @author Zachary Tu
+ * @author Bromato Brardamom
  */
 public class Dialog extends Event {
 

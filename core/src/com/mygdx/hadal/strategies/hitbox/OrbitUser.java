@@ -8,7 +8,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy makes a hbox orbit its user
- * @author Zachary Tu
+ * @author Droddjob Dabird
  */
 public class OrbitUser extends HitboxStrategy {
 	

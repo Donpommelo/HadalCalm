@@ -16,7 +16,7 @@ import com.mygdx.hadal.strategies.hitbox.TravelDistanceDie;
 
 /**
  * Shocked units spread chain lightning to nearby units
- * @author Zachary Tu
+ * @author Frewort Fanswald
  */
 public class Shocked extends Status {
 

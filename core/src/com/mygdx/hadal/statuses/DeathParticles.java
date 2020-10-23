@@ -9,7 +9,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * This status makes units display particles on death. This is used by certain enemies.
- * @author Zachary Tu
+ * @author Graberry Ghumbly
  */
 public class DeathParticles extends Status {
 	

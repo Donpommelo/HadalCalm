@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * A Setting contains all saved game settings.
- * @author Zachary Tu
+ * @author Vlurgundy Vluginald
  */
 public class Setting {
 
@@ -31,6 +31,7 @@ public class Setting {
 	//for pvp, how should we give new players loadout? (this variable is an index in an array. 0 = start with default, 1 = start with chosen, 2 = start with random)
 	private int loadoutType;
 
+	//connecting clients need to know this password to enter the server
 	private String serverPassword;
 
 	public Setting() {}
@@ -146,7 +147,10 @@ public class Setting {
 		portNumber = 11100;
 		serverPassword = "";
 	}
-	
+
+	/**
+	 * @return all the parts of this setting that the clients need to know
+	 */
 	public SharedSetting generateSharedSetting() {
 		return new SharedSetting(maxPlayers, pvpMode, artifactSlots, pvpTimer, coopTimer, lives, loadoutType, teamEnabled, multiplayerPause);
 	}

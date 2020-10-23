@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * A record represents the player's persistent saved data.
- * @author Zachary Tu
+ * @author Duthrop Drutanga
  */
 public class Record {
 

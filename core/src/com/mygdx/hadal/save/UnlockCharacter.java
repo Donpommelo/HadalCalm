@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 /**
  * An UnlockCharacter represents a single playable character in the game
- * @author Zachary Tu
+ * @author Lorlov Leston
  */
 public enum UnlockCharacter {
 
@@ -92,8 +92,9 @@ public enum UnlockCharacter {
 	private final String texture;
 	private InfoItem info;
 
-	private Vector3 color1= new Vector3();
-	private Vector3 color2 = new Vector3();
+	//these are the character's primary and secondary suit colors used for color replacement
+	private final Vector3 color1= new Vector3();
+	private final Vector3 color2 = new Vector3();
 
 	UnlockCharacter(String atlas, String texture, float r1, float g1, float b1, float r2, float g2, float b2) {
 		this.atlas = atlas;
@@ -122,11 +123,17 @@ public enum UnlockCharacter {
 		}
 		return items;
 	}
-	
+
+	/**
+	 * This returns the amount of head wobble. Override this if head wobble is desynchronized from body.
+	 */
 	public float getWobbleOffsetHead(int frame, int frameHead, boolean grounded, boolean moving) {
 		return getWobbleOffsetBody(frame, grounded, moving);
 	}
-	
+
+	/**
+	 * This returns the amount of body wobble depending on the player frame and movement state
+	 */
 	public float getWobbleOffsetBody(int frame, boolean grounded, boolean moving) {
 		if (grounded && moving) {
 			switch (frame) {

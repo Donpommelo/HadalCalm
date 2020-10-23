@@ -24,7 +24,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * This does not have a blueprint and is not parsed from tiled.
  * 
  * If a client picks up scrap, it will be counted towards the host's money.
- * @author Zachary Tu
+ * @author Matannia Muchnold
  */
 public class Scrap extends Event {
 
