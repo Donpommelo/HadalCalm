@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="125" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="38">
+ <properties>
+  <property name="pvp" type="bool" value="true"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="125" height="100">
+  <data encoding="base64" compression="zlib">
+   eAHtm9nS2yAMhf/ue3vRvv+z1rrQDE7QQYAwmJzMZLBZpfMhbAfn7Y0fKkAFqAAVoAJUgApQASpABagAFaACVGBlBf4cxvG7hgZXzRPyXoO3cLjqQ+YxzH8dwD5kvr+PPK/GZO7XyqvpqHrC+6cB7MeR7+VudBGePUqH3ftN49rirbC83LX+6HR3NiP8Q3Ft8fJwt9pG54/Q5O59pjGcu0aX4tpi9PEoQNpY7aLzkQ2vWNYSw14mZI7n/Iz5NpK3zIvdmZfWx9yaKXnee9zeOZGzr3XNZpy/vfXEi+deJ4L3aL65ebBrnPfwVp2Eu7UOROTP4C2+7cg8grdy3zHdkfm3HUEF+kTmgWLepCsyvwmoQDPJPFDMG3T16bDx3/FFzxxXuYFsqC3j9TxPzcNbtL7qU8sV1SfzZ2pe3mT+rN0dc2p4k/kdCZ9truVN5mf97nj25TA6/c3Qs49wlZ/o+lxbxuu5Tc2zj2C3ji2p5YrqkzlmU+KOW8eVIoa1ZWRe5oK4l1vH1KjliuqTuY+J9Xucr3V/LcSwtmxF5nL//B183/dLWN0DmVdL5m5Qel6atfdL5m6EVRVX5S1OkHkZZWl9zq3daD9jVnyrp2SuSuTTUrzW3nNI/Zn3HcifvALxuS2aWW3+HuZ9DjQR6WPZ4MmfxbzkT6B0sCuPRjV1oriX9Kmx6bHuDOYefyCowMJHPSLOe7l79OmxcwZz6xqe+hGIFXaVjlk6lnufdN8AHX+Fo+JCjz4lW1E5meP3dVS7K+91yRzHRG+pMkXplbzFHzLvpYrbI9ZSdjVvsbbEPHeN8exPq69c2/Havpo+1hxE+1XKWtPVfFK7cHTGlep4VjpDn8d3TNJ7RfRfM+GudVHcz/CptHaJ/ld9LNaaP0OfCN9R3M/wicwjqJb7SONe41/SnufI8qj5GmSe12XnXDLfmW7eNzLP67JzLpljuu+O4tyeuORF7tthK2JLyRzrifTp3b/BI48rRT7pM9K40c8963hWuuJzjXDXdQDFvezPab00Xem9x1T3M5lxZ+mYueMVmad2WnGP9mNX9Wkc5XPPqX6541X1SW1N417jGb0Pd7VPaP6lfpzJjDtLx8wdX62PeOq59uVs9eZd6ZOXt9h+1aek05X6qM+7MK/hTeZ4r680T0vlPfMYPUfqdUVTdH3J2ahzfnSaGzvN69Gn1faRcW7txXptRXs3qW4tx14beush23r1abVtFPMof0Zxb9Wrtp3FPEqfWnuk/gjm0f6M4N6iVUubHPNofWrtimY+yp9oO2t1aq2fYz7jGq72l+51hV+6F+45Ru/W6LgtKZm3qHZu4+E9it/ZEt8Zmft0smrdjbf4QeYWTV8+eu9R1u+V4ls9InNV4nXSnZhbe1WvQ9Pn6U7M5V6e3Mvcd2NO7q/JXJ/ddc9A0hnvmJTVn1NjxzhX5pqO+j1rDrH+UXdnTt7Pc2Rn5uT9zFtydmVO3nneuzInb5v3rsxn7q9htdco3XFtJ3M8t8gc67NjKZnvSNX2SfZ+9XeLqNQeLbYE2TtrbRc909/+oo/Rf9w86pb2+pGmqMwzdkQdZMMM5qP0TP3s2T8aaV8ET08fqRaPx6OZ5+K59n8AjzZ7z3P/cfOsJyPt8/CKqIM0Gsl8ZLwgn1Yui+Dp6QNpMIo5eefv/zy8IuqMYJ5bs9N1c+T6iPxZvSyCp6cPpEPLvQ5jOB/DSGct8/CKqKPjWamHexrXjOH7M5e5gLgzrtsZP8ZZRAx7+ngc1zq3nm0Y1/syt+YC88mcc6B9DnjWZdahAlSAClABKkAFqAAV2FeB/yBj67Q=
+  </data>
+ </layer>
+ <objectgroup id="2" name="event-layer">
+  <object id="4" name="Start" type="Start" x="544" y="2272" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="5" name="Start" type="Start" x="1808" y="2592" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="6" name="Start" type="Start" x="2848" y="1856" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="7" name="Start" type="Start" x="1808" y="1120" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="8" name="Prefab" type="PrefabPVPSettingSetter" x="96" y="608" width="32" height="32">
+   <properties>
+    <property name="prefabId" value="PVPSettingSetter"/>
+    <property name="triggeredId" value=""/>
+   </properties>
+  </object>
+  <object id="9" name="Multitrigger" type="Multitrigger" x="96" y="672" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1,w2,w3,w4"/>
+   </properties>
+  </object>
+  <object id="10" name="Prefab" type="PrefabSpawner" x="1776" y="1568" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="11" name="Current" type="Current" x="2656" y="2048" width="96" height="576">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="5"/>
+   </properties>
+  </object>
+  <object id="12" name="Current" type="Current" x="2208" y="1216" width="96" height="288">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="5"/>
+   </properties>
+  </object>
+  <object id="13" name="Current" type="Current" x="1312" y="1792" width="96" height="288">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="5"/>
+   </properties>
+  </object>
+  <object id="14" name="Current" type="Current" x="864" y="672" width="96" height="576">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="5"/>
+   </properties>
+  </object>
+  <object id="15" name="Bounds" type="Bounds" x="1248" y="800" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="16" name="Bounds" type="Bounds" x="2336" y="2560" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="19" name="Dropthrough" type="Dropthrough" x="1728" y="1664" width="192" height="8"/>
+  <object id="20" name="Dropthrough" type="Dropthrough" x="480" y="2624" width="224" height="8"/>
+  <object id="21" name="Dropthrough" type="Dropthrough" x="2912" y="664" width="224" height="8"/>
+  <object id="22" name="Prefab" type="PrefabWeapon" x="2976" y="568" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
+   </properties>
+  </object>
+  <object id="23" name="Prefab" type="PrefabWeapon" x="544" y="2528" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="24" name="Prefab" type="PrefabWeapon" x="1568" y="1088" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w3"/>
+   </properties>
+  </object>
+  <object id="25" name="Prefab" type="PrefabWeapon" x="2080" y="2560" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w4"/>
+   </properties>
+  </object>
+  <object id="26" name="Prefab" type="PrefabSpawner" x="640" y="1880" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="27" name="Prefab" type="PrefabSpawner" x="2880" y="1216" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f2"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="28" name="Dropthrough" type="Dropthrough" x="2760" y="1312" width="344" height="8"/>
+  <object id="29" name="Dropthrough" type="Dropthrough" x="512" y="1976" width="352" height="8"/>
+  <object id="30" name="Spring" type="Spring" x="992" y="2800" width="96" height="16">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="31" name="Spring" type="Spring" x="2688" y="1904" width="96" height="16">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="32" name="ScrapSpawn" type="ScrapSpawn" x="1824" y="832" width="32" height="32">
+   <properties>
+    <property name="scrap" type="int" value="1"/>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="33" name="Dummy" type="Dummy" x="2496" y="832" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg2"/>
+    <property name="triggeringId" value="egg3"/>
+   </properties>
+  </object>
+  <object id="34" name="Dummy" type="Dummy" x="1152" y="832" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg1"/>
+    <property name="triggeringId" value="egg2"/>
+   </properties>
+  </object>
+  <object id="35" name="MovePoint" type="MovePoint" x="1824" y="832" width="32" height="32">
+   <properties>
+    <property name="connections" value="EGGPLANT_SPAWNER"/>
+    <property name="speed" type="float" value="2.5"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="egg2"/>
+   </properties>
+  </object>
+  <object id="36" name="Dummy" type="Dummy" x="2496" y="2368" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg3"/>
+    <property name="triggeringId" value="egg4"/>
+   </properties>
+  </object>
+  <object id="37" name="Dummy" type="Dummy" x="1152" y="2368" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg4"/>
+    <property name="triggeringId" value="egg1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="collision-layer">
+  <object id="1" x="576" y="2944">
+   <polyline points="0,0 160,0 224,-64 288,-64 352,-128 576,-128 672,-224 800,-224 864,-288 1600,-288 1664,-224 2080,-224 2176,-320 2176,-896 2080,-992 2080,-1024 2432,-1024 2528,-1120 2528,-1632 2624,-1728 2624,-1888 2528,-1984 2400,-1984 2400,-2016 2560,-2176 2560,-2496 2464,-2592 2304,-2592 2240,-2528 2176,-2528 2112,-2464 1888,-2464 1792,-2368 1664,-2368 1600,-2304 864,-2304 800,-2368 384,-2368 288,-2272 288,-1696 384,-1600 384,-1568 32,-1568 -64,-1472 -64,-960 -160,-864 -160,-704 -64,-608 64,-608 64,-576 -96,-416 -96,-96 0,0"/>
+  </object>
+  <object id="2" x="1312" y="2208">
+   <polyline points="0,0 256,0 352,-96 736,-96 896,-256 896,-448 704,-448 640,-384 512,-384 448,-448 384,-448 320,-512 96,-512 96,-128 0,-32 0,0"/>
+  </object>
+  <object id="3" x="1408" y="1536">
+   <polyline points="0,0 224,0 288,-64 416,-64 480,0 544,0 608,64 800,64 800,-320 896,-416 896,-448 640,-448 544,-352 160,-352 0,-192 0,0"/>
+  </object>
+ </objectgroup>
+</map>

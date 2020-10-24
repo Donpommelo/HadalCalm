@@ -78,9 +78,6 @@ public enum AlignmentFilter {
         }
     },
 
-
-
-
     ;
 
     //the hitbox filter associated with this filter

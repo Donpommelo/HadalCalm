@@ -1034,6 +1034,7 @@ public enum NameGenerator {
 	ZAEMON("zaemon", "end", "o"),
 	ZARUS("zarus", "end", "a", "e", "i", "o", "u"),
 	ZAZEL("zazel", "end", "a"),
+	ZBOT("zbot", "end", "a"),
 	ZEBEL("zebel", "end", "a", "e", "i", "o", "u"),
 	ZEKIEL("zekiel", "end", "a", "e", "i", "o", "u"),
 	ZERAC("zerac", "end", "a"),
