@@ -29,19 +29,32 @@ public enum AlignmentFilter {
     TEAM_ORANGE(-14, HadalColor.ORANGE, HadalColor.GOLD),
     TEAM_RED(-12, HadalColor.RED, HadalColor.HOT_PINK),
     TEAM_SKY_BLUE(-15, HadalColor.SKY_BLUE, HadalColor.INDIGO),
-    TEAM_SEPIA(-16, HadalColor.NOTHING, HadalColor.NOTHING) {
+
+    TEAM_BLACK_AND_WHITE(-19, HadalColor.NOTHING, HadalColor.NOTHING) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
             ShaderProgram shader = new ShaderProgram(
                 Gdx.files.internal("shaders/pass.vert").readString(),
-                Gdx.files.internal("shaders/sepia.frag").readString());
+                Gdx.files.internal("shaders/blackwhite.frag").readString());
             shader.bind();
             return shader;
         }
     },
 
-    TEAM_INVERT(-17, HadalColor.NOTHING, HadalColor.NOTHING) {
+    TEAM_CENSURE(-20, HadalColor.NOTHING, HadalColor.NOTHING) {
+
+        @Override
+        public ShaderProgram getShader(UnlockCharacter character) {
+            ShaderProgram shader = new ShaderProgram(
+                Gdx.files.internal("shaders/pass.vert").readString(),
+                Gdx.files.internal("shaders/censure.frag").readString());
+            shader.bind();
+            return shader;
+        }
+    },
+
+    TEAM_INVERT(-21, HadalColor.NOTHING, HadalColor.NOTHING) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -53,17 +66,21 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_CENSURE(-18, HadalColor.NOTHING, HadalColor.NOTHING) {
+    TEAM_SEPIA(-22, HadalColor.NOTHING, HadalColor.NOTHING) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
             ShaderProgram shader = new ShaderProgram(
                 Gdx.files.internal("shaders/pass.vert").readString(),
-                Gdx.files.internal("shaders/censure.frag").readString());
+                Gdx.files.internal("shaders/sepia.frag").readString());
             shader.bind();
             return shader;
         }
     },
+
+
+
+
     ;
 
     //the hitbox filter associated with this filter

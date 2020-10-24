@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event.prefab;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.mygdx.hadal.save.Setting;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -78,7 +79,7 @@ public class PVPSettingSetter extends Prefabrication {
 			uiTimer.getProperties().put("tags", "Fight!,EMPTY,LEVEL,SCORE,TIMER");
 			uiTimer.getProperties().put("triggeredId", uiTimerId);
 
-			game.getProperties().put("timer", 5.0f);
+			game.getProperties().put("timer", Setting.indexToTimer(startTimer));
 			game.getProperties().put("timerIncr", -1.0f);
 		} else {
 			uiTimer.getProperties().put("tags", "Fight!,EMPTY,LEVEL,SCORE");
