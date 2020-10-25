@@ -137,7 +137,7 @@ public class RangedWeapon extends Equippable {
 		}
 		
 		//if out of clip, start reloading
-		if (clipLeft <= 0 && autoreload) {
+		if (clipLeft <= 0 && autoreload && getAmmoLeft() > 0) {
 			if (!reloading) {
 				reloading = true;
 				reloadCd = 0;

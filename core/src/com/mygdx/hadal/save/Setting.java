@@ -123,7 +123,7 @@ public class Setting {
 		soundVolume = 1.0f;
 		musicVolume = 1.0f;
 		masterVolume = 0.75f;
-		hitsoundVolume = 0.4f;
+		hitsoundVolume = 0.75f;
 		hitsoundType = 1;
 	}
 	

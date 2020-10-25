@@ -8,15 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldFilter;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
@@ -445,7 +440,24 @@ public class SettingState extends GameState {
 				soundText.setText("SOUND VOLUME: " + (int)(sound.getValue() * 100));
 			}
 		});
-		
+
+		sound.addListener(new InputListener() {
+
+			@Override
+			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+				//when selecting a hitsound, we want to play an example for the player
+				if (hitsoundOptions.getSelectedIndex() != 0) {
+					gsm.getSetting().indexToHitsound(
+						hitsoundOptions.getSelectedIndex()).playNoModifiers(sound.getValue() * master.getValue());
+				}
+			}
+
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
+		});
+
 		Text musicText = new Text("MUSIC VOLUME: " + (int)(gsm.getSetting().getMusicVolume() * 100), 0, 0, false);
 		musicText.setScale(detailsScale);
 		
@@ -473,7 +485,24 @@ public class SettingState extends GameState {
 				masterText.setText("MASTER VOLUME: " + (int)(master.getValue() * 100));
 			}
 		});
-		
+
+		master.addListener(new InputListener() {
+
+			@Override
+			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+				//when selecting a hitsound, we want to play an example for the player
+				if (hitsoundOptions.getSelectedIndex() != 0) {
+					gsm.getSetting().indexToHitsound(
+						hitsoundOptions.getSelectedIndex()).playNoModifiers(sound.getValue() * master.getValue());
+				}
+			}
+
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
+		});
+
 		Text hitsoundText = new Text("HITSOUND: ", 0, 0, false);
 		hitsoundText.setScale(0.25f);
 		
@@ -488,7 +517,8 @@ public class SettingState extends GameState {
 				
 				//when selecting a hitsound, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
-					gsm.getSetting().indexToHitsound(hitsoundOptions.getSelectedIndex()).play(gsm, gsm.getSetting().getHitsoundVolume(), 1.0f, false);
+					gsm.getSetting().indexToHitsound(
+						hitsoundOptions.getSelectedIndex()).playNoModifiers(hitsound.getValue() * master.getValue());
 				}
 			}
 		});
@@ -498,12 +528,28 @@ public class SettingState extends GameState {
 		
 		hitsound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
 		hitsound.setValue(gsm.getSetting().getHitsoundVolume());
-		
 		hitsound.addListener(new ChangeListener() {
-			
+
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				hitsoundVolumeText.setText("HITSOUND VOLUME: " + (int)(hitsound.getValue() * 100));
+			}
+		});
+
+		hitsound.addListener(new InputListener() {
+
+			@Override
+			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+				//when selecting a hitsound, we want to play an example for the player
+				if (hitsoundOptions.getSelectedIndex() != 0) {
+					gsm.getSetting().indexToHitsound(
+						hitsoundOptions.getSelectedIndex()).playNoModifiers(hitsound.getValue() * master.getValue());
+				}
+			}
+
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				return true;
 			}
 		});
 		

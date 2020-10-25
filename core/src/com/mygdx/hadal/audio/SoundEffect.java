@@ -162,7 +162,11 @@ public enum SoundEffect {
 
 		return getSound().play(volume * gsm.getSetting().getSoundVolume() * gsm.getSetting().getMasterVolume(), pitch, 0.0f);
 	}
-	
+
+	public void playNoModifiers(float volume) {
+		getSound().play(volume, 1.0f, 0.0f);
+	}
+
 	/**
 	 * This is used to play sounds that have a source in the world.
 	 * The volume and pan of the sound depends on the location relative to the player listening.
@@ -254,7 +258,8 @@ public enum SoundEffect {
 			if (large) {
 				pitch = 1.5f;
 			}
-			gsm.getSetting().indexToHitsound().play(gsm, gsm.getSetting().getHitsoundVolume(), pitch, true);
+			gsm.getSetting().indexToHitsound().play(gsm,
+				gsm.getSetting().getHitsoundVolume() * gsm.getSetting().getMasterVolume(), pitch, true);
 		}
 	}
 	

@@ -193,7 +193,11 @@ public abstract class Equippable {
 
 	public boolean isReloading() { return reloading; }
 
-	public void setReloading(boolean reloading) { this.reloading = reloading; }
+	public void setReloading(boolean reloading) {
+		if (getAmmoLeft() > 0) {
+		    this.reloading = reloading;
+        }
+	}
 
 	public float getReloadCd() { return reloadCd; }
 	
