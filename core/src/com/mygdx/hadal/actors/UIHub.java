@@ -159,7 +159,7 @@ public class UIHub {
 								leave();
 							} else {
 								tableOptions.clear();
-								hub.addOptions(searchName.getText(), indexToFilterSlot(), indexToFilterTag());
+								hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag());
 							}
 
 							return super.keyUp(event, keycode);
@@ -185,7 +185,7 @@ public class UIHub {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
 					tableOptions.clear();
-					hub.addOptions(searchName.getText(), indexToFilterSlot(), indexToFilterTag());
+					hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag());
 				}
 			});
 
@@ -199,7 +199,7 @@ public class UIHub {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
 					tableOptions.clear();
-					hub.addOptions(searchName.getText(), indexToFilterSlot(), indexToFilterTag());
+					hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag());
 				}
 			});
 
@@ -362,7 +362,11 @@ public class UIHub {
 		this.title = title;
 		titleInfo.setText(title);
 	}
-	
+
+	private String sanitizeSearchInput(String input) {
+		return input.toLowerCase().replace("\\","\\\\");
+	}
+
 	public boolean isActive() { return active; }
 	
 	public void setInfo(String info) { this.info = info; }

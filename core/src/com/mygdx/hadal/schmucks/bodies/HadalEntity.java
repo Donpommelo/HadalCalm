@@ -353,7 +353,9 @@ public abstract class HadalEntity {
 	private final Vector2 pixelPosition = new Vector2();
 	public Vector2 getPixelPosition() {	
 		if (body != null) {
-			return pixelPosition.set(body.getPosition()).scl(PPM); 
+			pixelPosition.set(getPosition()).scl(PPM);
+			pixelPosition.set((int) pixelPosition.x, (int) pixelPosition.y);
+			return pixelPosition;
 		}
 		return pixelPosition;
 	}
@@ -447,7 +449,7 @@ public abstract class HadalEntity {
 	
 	public void resetTimeSinceLastSync() { timeSinceLastSync = 0; }
 
-	public Vector2 getPosition() { 
+	public Vector2 getPosition() {
 		if (body != null) {	return body.getPosition(); }
 		return new Vector2();
 	}

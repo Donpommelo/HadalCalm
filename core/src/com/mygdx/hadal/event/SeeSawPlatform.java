@@ -52,7 +52,7 @@ public class SeeSawPlatform extends Event {
 		RevoluteJointDef joint = new RevoluteJointDef();
 		joint.bodyA = state.getAnchor().getBody();
 		joint.bodyB = body;
-		joint.localAnchorA.set(body.getPosition().x, body.getPosition().y);
+		joint.localAnchorA.set(getPosition().x, getPosition().y);
 		joint.localAnchorB.set(0, 0);
 		joint.enableLimit = true;
 		joint.lowerAngle = (float) (-Math.PI / 3);

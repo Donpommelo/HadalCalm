@@ -82,7 +82,7 @@ public class XBomber extends RangedWeapon {
 					@Override
 					public void create() {
 						super.create();
-						setTransform(body.getPosition().x, body.getPosition().y, (float) (Math.PI / 4 * rotate));
+						setTransform(getPosition().x, getPosition().y, (float) (Math.PI / 4 * rotate));
 					}
 				};
 				

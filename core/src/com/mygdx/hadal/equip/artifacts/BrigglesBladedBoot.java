@@ -10,7 +10,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 import com.mygdx.hadal.utils.Constants;
 
@@ -59,15 +59,13 @@ public class BrigglesBladedBoot extends Artifact {
 					hbox.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 					
 					hbox.addStrategy(new FixedToEntity(state, hbox, inflicted, new Vector2(0, 0), position, false));
-					hbox.addStrategy(new DamageStandard(state, hbox, inflicted, baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MELEE));
+					hbox.addStrategy(new DamageStandardRepeatable(state, hbox, inflicted, baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MELEE));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
 						
 						@Override
 						public void onHit(HadalData fixB) {
 							SoundEffect.KICK1.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.3f, false);
-
 							inflicted.getSchmuck().pushMomentumMitigation(0, recoil);
-							hbox.die();
 						}
 						
 						@Override

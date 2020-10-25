@@ -14,7 +14,6 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,20 +34,15 @@ public class Armory extends HubEvent {
 	@Override
 	public void enter() {
 		super.enter();
-		addOptions("" , 0, UnlockTag.RELIQUARY);
+		addOptions("" , 0, UnlockTag.ARMORY);
 	}
 
 	@Override
 	public void addOptions(String search, int slots, UnlockTag tag) {
-		ArrayList<UnlockTag> newTags = new ArrayList<>(tags);
-		if (!tag.equals(UnlockTag.RELIQUARY)) {
-			newTags.add(tag);
-		}
-
-		Pattern pattern = Pattern.compile(search.toLowerCase());
+		Pattern pattern = Pattern.compile(search);
 		final UIHub hub = state.getUiHub();
 
-		for (UnlockEquip c: UnlockEquip.getUnlocks(state, checkUnlock, newTags)) {
+		for (UnlockEquip c: UnlockEquip.getUnlocks(state, checkUnlock, tags)) {
 			final UnlockEquip selected = c;
 
 			boolean appear = false;
@@ -60,6 +54,7 @@ public class Armory extends HubEvent {
 					appear = true;
 				}
 			}
+
 			if (appear) {
 				Text itemChoose = new Text(selected.getInfo().getName(), 0, 0, true);
 

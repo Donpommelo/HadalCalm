@@ -73,7 +73,7 @@ public class SpawnerHitbox extends Event {
 				//if we have a connected event with a body, the hitbox is aimed at the body
 				if (event.getConnectedEvent() != null) {
 					if (event.getConnectedEvent().getBody() != null) {
-						finalVelo.set(event.getConnectedEvent().getBody().getPosition()).sub(event.getBody().getPosition()).nor().scl(speed);
+						finalVelo.set(event.getConnectedEvent().getPosition()).sub(event.getPosition()).nor().scl(speed);
 					}
 				}
 				

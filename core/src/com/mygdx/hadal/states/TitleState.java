@@ -85,7 +85,7 @@ public class TitleState extends GameState {
 	private static final float mainOptionHeight = 40.0f;
 
 	private static final int passwordX = 440;
-	private static final int passwordY = 300;
+	private static final int passwordY = 320;
 	private static final int passwordWidth = 400;
 	private static final int passwordHeight = 100;
 

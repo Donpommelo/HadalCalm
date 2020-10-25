@@ -177,6 +177,7 @@ public class MessageWindow {
 		
 		tableLog.setWidth(width);
 		tableLog.setHeight(height);
+		tableLog.padBottom(logPadding);
 		
 		textLog = new ScrollPane(tableLog, GameStateManager.getSkin());
 		textLog.setFadeScrollBars(true);
@@ -196,6 +197,10 @@ public class MessageWindow {
 						if (keycode != Keys.ENTER && keycode != PlayerAction.EXIT_MENU.getKey()) {
 							typing = true;
 						}
+
+						//window scrolls to bottom when typing
+						textLog.scrollTo(0, 0, 0, 0);
+
 						return super.keyDown(event, keycode);
 					}
 					

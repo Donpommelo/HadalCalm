@@ -81,7 +81,7 @@ public class ProximityMine extends ActiveItem {
 					WeldJointDef joint = new WeldJointDef();
 					joint.bodyA = floor.getBody();
 					joint.bodyB = hbox.getBody();
-					joint.localAnchorA.set(new Vector2(hbox.getBody().getPosition()).sub(floor.getBody().getPosition()));
+					joint.localAnchorA.set(new Vector2(hbox.getPosition()).sub(floor.getPosition()));
 					joint.localAnchorB.set(0, 0);
 					state.getWorld().createJoint(joint);
 					
@@ -115,7 +115,7 @@ public class ProximityMine extends ActiveItem {
 								WeldJointDef joint = new WeldJointDef();
 								joint.bodyA = floor.getBody();
 								joint.bodyB = hbox.getBody();
-								joint.localAnchorA.set(new Vector2(hbox.getBody().getPosition()).sub(floor.getBody().getPosition()));
+								joint.localAnchorA.set(new Vector2(hbox.getPosition()).sub(floor.getPosition()));
 								joint.localAnchorB.set(0, 0);
 								state.getWorld().createJoint(joint);
 							}

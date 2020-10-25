@@ -78,7 +78,7 @@ public class PortableSentryVolley extends ActiveItem {
 								WeldJointDef joint = new WeldJointDef();
 								joint.bodyA = floor.getBody();
 								joint.bodyB = getBody();
-								joint.localAnchorA.set(new Vector2(getBody().getPosition()).sub(floor.getBody().getPosition()));
+								joint.localAnchorA.set(new Vector2(getPosition()).sub(floor.getPosition()));
 								joint.localAnchorB.set(0, 0);
 								state.getWorld().createJoint(joint);
 							}

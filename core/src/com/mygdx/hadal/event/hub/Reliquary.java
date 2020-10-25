@@ -41,7 +41,7 @@ public class Reliquary extends HubEvent {
 			newTags.add(tag);
 		}
 
-		Pattern pattern = Pattern.compile(search.toLowerCase());
+		Pattern pattern = Pattern.compile(search);
 		final UIHub hub = state.getUiHub();
 
 		for (UnlockArtifact c: UnlockArtifact.getUnlocks(state, checkUnlock, newTags)) {

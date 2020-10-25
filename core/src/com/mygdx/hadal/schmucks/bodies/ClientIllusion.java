@@ -48,7 +48,7 @@ public class ClientIllusion extends HadalEntity {
 	public void create() {
 		this.hadalData = new HadalData(UserDataTypes.EVENT, this);
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 1, 0, false, true, Constants.BIT_SENSOR, (short) (0), (short) 0, true, hadalData);
-		body.setTransform(body.getPosition(), startAngle);
+		body.setTransform(getPosition(), startAngle);
 	}
 
 	@Override

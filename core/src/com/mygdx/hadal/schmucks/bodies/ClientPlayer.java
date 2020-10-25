@@ -39,8 +39,8 @@ public class ClientPlayer extends Player {
 	public void create() {
 		super.create();
 		
-		predictedPosition.set(body.getPosition());
-		lastPosition.set(body.getPosition());
+		predictedPosition.set(getPosition());
+		lastPosition.set(getPosition());
 	}
 	
 	//this is an ordered list of client frames that keep track of the client's velocity and displacement over time
@@ -109,7 +109,7 @@ public class ClientPlayer extends Player {
 				
 				//if our position is too far away from what the server sends us, just rubberband.
 				if (body != null) {
-					if (predictedPosition.dst2(body.getPosition()) > DIST_TOLERANCE) {
+					if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE) {
 						setTransform(predictedPosition, 0.0f);
 						lastPosition.set(predictedPosition);
 					}
@@ -195,10 +195,10 @@ public class ClientPlayer extends Player {
 				float t;
 				t = delta / (latency * (1 + CONVERGE_MULTIPLIER));
 
-				newPosition.set(body.getPosition()).add(extrapolatedPosition.sub(playerWorldLocation).scl(t));
+				newPosition.set(getPosition()).add(extrapolatedPosition.sub(playerWorldLocation).scl(t));
 				setTransform(newPosition, 0.0f);
 			}
-			lastPosition.set(body.getPosition());
+			lastPosition.set(getPosition());
 		}
 	}
 	

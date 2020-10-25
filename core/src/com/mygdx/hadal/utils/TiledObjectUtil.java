@@ -515,7 +515,7 @@ public class TiledObjectUtil {
 				break;
 			case "Painter":
 				e = new Painter(state, position, size,
-					object.getProperties().get("title", "Choice", String.class),
+					object.getProperties().get("title", "Team Color", String.class),
 					object.getProperties().get("tag", "PAINTER", String.class),
 					object.getProperties().get("unlock", false, boolean.class),
 					object.getProperties().get("closeOnLeave", true, Boolean.class));

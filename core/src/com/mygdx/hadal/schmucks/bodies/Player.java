@@ -643,9 +643,7 @@ public class Player extends PhysicsSchmuck {
 			}
 		}
 
-		//we make location an int to avoid weird blurriness/jitters
 		playerLocation.set(getPixelPosition());
-		playerLocation.set((int) playerLocation.x, (int) playerLocation.y);
 
 		//render player sprite using sprite helper
 		spriteHelper.render(batch, attackAngle, moveState, animationTime, animationTimeExtra, grounded, playerLocation);
