@@ -25,19 +25,23 @@ public class Reliquary extends HubEvent {
 
 	public Reliquary(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.RELIQUARY);
-		this.searchable = true;
-		this.extraFilters = true;
 	}
-	
+
+	@Override
 	public void enter() {
-		super.enter();
-		addOptions("" , -1, UnlockTag.RELIQUARY);
+		state.getUiHub().setType(type);
+		state.getUiHub().setTitle(title);
+		state.getUiHub().enter(tag, true, true, true, this,
+			"ALL", "OFFENSE", "DEFENSE", "MOBILITY", "FUEL", "HEAL", "ACTIVE ITEM", "AMMO",
+			"WEAPON DAMAGE", "PASSIVE DAMAGE", "PROJECTILE_MODIFER", "MISC + DUMB GIMMICKS");
+		open = true;
+		addOptions("" , -1, tag);
 	}
 
 	@Override
 	public void addOptions(String search, int slots, UnlockTag tag) {
 		ArrayList<UnlockTag> newTags = new ArrayList<>(tags);
-		if (!tag.equals(UnlockTag.RELIQUARY)) {
+		if (tag != null) {
 			newTags.add(tag);
 		}
 

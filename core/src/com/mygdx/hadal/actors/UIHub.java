@@ -133,7 +133,7 @@ public class UIHub {
 	/**
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */
-	public void enter(boolean searchable, boolean extraFilters, HubEvent hub) {
+	public void enter(UnlockTag tag, boolean searchable, boolean filterTags, boolean filterCost, HubEvent hub, String... tagOptions) {
 		active = true;
 
 		tableOptions.clear();
@@ -159,7 +159,7 @@ public class UIHub {
 								leave();
 							} else {
 								tableOptions.clear();
-								hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag());
+								hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag(tag));
 							}
 
 							return super.keyUp(event, keycode);
@@ -173,22 +173,26 @@ public class UIHub {
 		}
 
 		//if the player can add extra tags to search artifacts, add dropdown for this
-		if (extraFilters) {
+		if (filterTags) {
 			Text searchTags = new Text("FILTER TAGS: ", 0, 0, false);
 			searchTags.setScale(optionsScale);
 
 			tagFilter = new SelectBox<>(GameStateManager.getSkin());
-			tagFilter.setItems("ALL", "OFFENSE", "DEFENSE", "MOBILITY", "FUEL", "HEAL", "ACTIVE ITEM", "AMMO",
-					"WEAPON DAMAGE", "PASSIVE DAMAGE", "PROJECTILE_MODIFER", "MISC + DUMB GIMMICKS");
+			tagFilter.setItems(tagOptions);
 			tagFilter.addListener(new ChangeListener() {
 
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
 					tableOptions.clear();
-					hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag());
+					hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag(tag));
 				}
 			});
 
+			tableSearch.add(searchTags);
+			tableSearch.add(tagFilter).padBottom(optionsPadding).row();
+
+		}
+		if (filterCost) {
 			Text searchCost = new Text("FILTER COST: ", 0, 0, false);
 			searchCost.setScale(optionsScale);
 
@@ -199,12 +203,10 @@ public class UIHub {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
 					tableOptions.clear();
-					hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag());
+					hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag(tag));
 				}
 			});
 
-			tableSearch.add(searchTags);
-			tableSearch.add(tagFilter).padBottom(optionsPadding).row();
 			tableSearch.add(searchCost);
 			tableSearch.add(slotsFilter).padBottom(optionsPadding).row();
 		}
@@ -312,36 +314,71 @@ public class UIHub {
 		tableExtra.add(slotsInfo).pad(infoPadding).colspan(12).row();
 	}
 
-	private UnlockTag indexToFilterTag() {
+	private UnlockTag indexToFilterTag(UnlockTag tag) {
 		if (tagFilter == null) {
-			return UnlockTag.GIMMICK;
+			return null;
 		} else {
-			switch (tagFilter.getSelectedIndex()) {
-				case 0:
+			switch(tag) {
+				case RELIQUARY:
+					switch (tagFilter.getSelectedIndex()) {
+						case 0:
+						default:
+							return null;
+						case 1:
+							return UnlockTag.OFFENSE;
+						case 2:
+							return UnlockTag.DEFENSE;
+						case 3:
+							return UnlockTag.MOBILITY;
+						case 4:
+							return UnlockTag.FUEL;
+						case 5:
+							return UnlockTag.HEAL;
+						case 6:
+							return UnlockTag.ACTIVE_ITEM;
+						case 7:
+							return UnlockTag.AMMO;
+						case 8:
+							return UnlockTag.WEAPON_DAMAGE;
+						case 9:
+							return UnlockTag.PASSIVE_DAMAGE;
+						case 10:
+							return UnlockTag.PROJECTILE_MODIFIER;
+						case 11:
+							return UnlockTag.GIMMICK;
+					}
+					case SINGLEPLAYER:
+						switch (tagFilter.getSelectedIndex()) {
+							case 0:
+							default:
+								return null;
+							case 1:
+								return UnlockTag.ARENA;
+							case 2:
+								return UnlockTag.BOSS;
+							case 3:
+								return UnlockTag.SANDBOX;
+							case 4:
+								return UnlockTag.BIRD;
+						}
+					case MULTIPLAYER:
+						switch (tagFilter.getSelectedIndex()) {
+							case 0:
+							default:
+								return null;
+							case 1:
+								return UnlockTag.PVP;
+							case 2:
+								return UnlockTag.ARENA;
+							case 3:
+								return UnlockTag.BOSS;
+							case 4:
+								return UnlockTag.SANDBOX;
+							case 5:
+								return UnlockTag.BIRD;
+						}
 				default:
-					return UnlockTag.RELIQUARY;
-				case 1:
-					return UnlockTag.OFFENSE;
-				case 2:
-					return UnlockTag.DEFENSE;
-				case 3:
-					return UnlockTag.MOBILITY;
-				case 4:
-					return UnlockTag.FUEL;
-				case 5:
-					return UnlockTag.HEAL;
-				case 6:
-					return UnlockTag.ACTIVE_ITEM;
-				case 7:
-					return UnlockTag.AMMO;
-				case 8:
-					return UnlockTag.WEAPON_DAMAGE;
-				case 9:
-					return UnlockTag.PASSIVE_DAMAGE;
-				case 10:
-					return UnlockTag.PROJECTILE_MODIFIER;
-				case 11:
-					return UnlockTag.GIMMICK;
+					return null;
 			}
 		}
 	}

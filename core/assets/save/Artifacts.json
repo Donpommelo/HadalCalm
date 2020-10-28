@@ -202,7 +202,7 @@ CASTAWAYS_TRAVELOGUE: {
 CATALOG_OF_WANT: {
 	name: Catalog of Want
 	description: "Spend Hp to use Uncharged Actives"
-    descriptionLong: "Hp Cost: 6 Hp per 1 Second Charge\n\nThe last edition of a demonic shopping catalog that has ceased publication.\n\nThe unrequited desires of the drowned are memorialized but not satisfied within the annals of the Pit of tongues."
+    descriptionLong: "Hp Cost: 6 Hp per 1 Second Charge\n\nThe last edition of a demonic shopping catalog that has ceased publication.\n\nThe unrequited desires of the drowned are memorialized but not satisfied within the annals of the Pit of Tongues."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -565,7 +565,7 @@ ICE9: {
 INFORMANTS_TIE: {
 	name: Informant's Tie
 	description: "Homing Projectiles"
-    descriptionLong: "An orange tie ragged from years of nervous hand-rubbing.\n\nThe Whale-God, Callo, inherited humanity's desire to unravel the mysteries of the universe and was easily seduced by the promises of the First Bright One."
+    descriptionLong: "An orange tie ragged from years of nervous hand-rubbing.\n\nThe Whale-God, Callo, inherited humanity's desire to unravel the mysteries of the universe and was easily seduced by the inscrutable murmuring of the First Bright One."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -680,7 +680,7 @@ LOTUS_LANTERN: {
 LUMINOUS_ESCA: {
 	name: Luminous Esca
 	description: "+Max Hp, +Light Radius"
-    descriptionLong: "Bonus Max Hp: +10\n\nA glowing clump of particles used to attract prey.\n\nThrough natural processes, fragments of Bright Ones are shed to form smaller, distinct Bright Ones."
+    descriptionLong: "Bonus Max Hp: +10\n\nA glowing clump of particles used to attract prey.\n\nThrough natural processes, fragments of Bright Ones are shed to form smaller, distinct progeny."
 	tags: [
 		RELIQUARY,
         DEFENSE,
@@ -793,7 +793,7 @@ NICE_SHOES: {
 NOCTILUCENT_PROMISE: {
 	name: Noctilucent Promise
 	description: "Temporarily Gain Invulnerability upon Receiving Fatal Damage"
-    descriptionLong: "Invincibility Duration: 5 Seconds\nActivates once per life\n\n"
+    descriptionLong: "Invincibility Duration: 5 Seconds\nActivates once per life\n\nAn overwhelming brightness buried within a perfectly dark mass.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1089,7 +1089,7 @@ SKIPPERS_BOX_OF_FUN: {
 SOUND_OF_SEAGULLS: {
 	name: Sound of Seagulls
 	description: "Enables Omnidirectional Hovering, -Hovering Cost"
-    descriptionLong: "Hover Cost Reduction: -20%\n\n"
+    descriptionLong: "Hover Cost Reduction: -20%\n\nAn echoing cry that makes you nostalgic for a place you've never been.\n\nTranslated into human language, this sound consists mostly of expletives."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1120,7 +1120,7 @@ TEMPEST_TEAPOT: {
 TENUOUS_GRIP_ON_REALITY: {
 	name: Tenuous Grip on Reality
 	description: "Become Invisible upon Reloading an Empty Clip"
-    descriptionLong: ""
+    descriptionLong: "The creeping realization that your senses are betraying you.\n\nThe true nature of reality is the moon's reflection in the uppermost pot of a miscalibrated water clock."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

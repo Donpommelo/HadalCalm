@@ -14,17 +14,12 @@ import java.util.ArrayList;
  */
 public enum UnlockLevel {
 
-	SSTUNICATE1("Maps/sstunicate1.tmx"),
-	HUB_MULTI("Maps/sstunicate2.tmx"),
+
 	BOSS1("Maps/Boss1.tmx"),
 	BOSS2("Maps/Boss2.tmx"),
 	BOSS3("Maps/Boss3.tmx"),
 	BOSS4("Maps/Boss4.tmx"),
-	
-	SANDBOX_HUB("Maps/sandboxhub.tmx"),
-	SANDBOX_ENEMY("Maps/sandboxenemy.tmx"),
-	SANDBOX_EVENTS("Maps/sandboxevent.tmx"),
-	
+
 	RANDOM("Maps/sstunicate1.tmx"),
 	
 	ARENA_FLOTSAM("Maps/arena_flotsam.tmx"),
@@ -34,6 +29,24 @@ public enum UnlockLevel {
 	ARENA_WARP("Maps/arena_warp.tmx"),
 	ARENA_WETWORKS("Maps/arena_wetworks.tmx"),
 	ARENA_ZIGGURAT("Maps/arena_ziggurat.tmx"),
+
+	DM_BROUHAHA("Maps/dm_brouhaha.tmx"),
+	DM_CAROUSEL("Maps/dm_carousel.tmx"),
+	DM_FALLDOWN("Maps/dm_falldown.tmx"),
+	DM_FLOTSAM("Maps/dm_flotsam.tmx"),
+	DM_GULLY("Maps/dm_gully.tmx"),
+	DM_JUMP("Maps/dm_jump.tmx"),
+	DM_LAGAN("Maps/dm_lagan.tmx"),
+	DM_ORIGINAL("Maps/dm_original.tmx"),
+	DM_PILE("Maps/dm_pile.tmx"),
+	DM_PINWHEEL("Maps/dm_pinwheel.tmx"),
+	DM_PIVOT("Maps/dm_pivot.tmx"),
+	DM_SAWMILL("Maps/dm_sawmill.tmx"),
+	DM_SEESAW("Maps/dm_seesaw.tmx"),
+	DM_THRESHOLD("Maps/dm_threshold.tmx"),
+	DM_WARP("Maps/dm_warp.tmx"),
+	DM_WETWORKS("Maps/dm_wetworks.tmx"),
+	DM_ZIGGURAT("Maps/dm_ziggurat.tmx"),
 
 	DM_FORMOSAN_BLUE_MAGPIE("Maps/dm_formosan_blue_magpie.tmx"),
 	DM_FREE_RANGE("Maps/dm_free_range.tmx"),
@@ -49,23 +62,6 @@ public enum UnlockLevel {
 	DM_HORIZON("Maps/dm_horizon.tmx"),
 	DM_REDROCK("Maps/dm_redrock.tmx"),
 
-	DM_BROUHAHA("Maps/dm_brouhaha.tmx"),
-	DM_CAROUSEL("Maps/dm_carousel.tmx"),
-	DM_FALLDOWN("Maps/dm_falldown.tmx"),
-	DM_FLOTSAM("Maps/dm_flotsam.tmx"),
-	DM_GULLY("Maps/dm_gully.tmx"),
-	DM_JUMP("Maps/dm_jump.tmx"),
-	DM_LAGAN("Maps/dm_lagan.tmx"),
-	DM_ORIGINAL("Maps/dm_original.tmx"),
-	DM_PILE("Maps/dm_pile.tmx"),
-	DM_PINWHEEL("Maps/dm_pinwheel.tmx"),
-	DM_PIVOT("Maps/dm_pivot.tmx"),
-	DM_SAWMILL("Maps/dm_sawmill.tmx"),
-	DM_SEESAW("Maps/dm_seesaw.tmx"),
-	DM_WARP("Maps/dm_warp.tmx"),
-	DM_WETWORKS("Maps/dm_wetworks.tmx"),
-	DM_ZIGGURAT("Maps/dm_ziggurat.tmx"),
-	
 	WRECK1("Maps/wreck1.tmx"),
 	WRECK2("Maps/wreck2.tmx"),
 	WRECK3("Maps/wreck3.tmx"),
@@ -91,6 +87,13 @@ public enum UnlockLevel {
 	SLUICE1("Maps/sluice1.tmx"),
 	SLUICEBOSS("Maps/sluiceboss.tmx"),
 	PARTY("Maps/party.tmx"),
+
+	SANDBOX_HUB("Maps/sandboxhub.tmx"),
+	SANDBOX_ENEMY("Maps/sandboxenemy.tmx"),
+	SANDBOX_EVENTS("Maps/sandboxevent.tmx"),
+
+	SSTUNICATE1("Maps/sstunicate1.tmx"),
+	HUB_MULTI("Maps/sstunicate2.tmx"),
 
 	;
 	

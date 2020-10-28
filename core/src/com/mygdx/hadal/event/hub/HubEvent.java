@@ -31,10 +31,11 @@ public class HubEvent extends Event {
 	protected hubTypes type;
 	
 	//should we check unlock status for options? should we close the menu when the player moves far away from the event?
-	protected boolean checkUnlock, closeOnLeave, searchable, extraFilters;
+	protected boolean checkUnlock, closeOnLeave;
 	
 	//options displayed here must have these tags.
 	protected ArrayList<UnlockTag> tags;
+	protected UnlockTag tag;
 	
 	//the distance the player can move away before the menu disappears
 	private static final float maxDistance = 5.0f;
@@ -49,6 +50,7 @@ public class HubEvent extends Event {
 		this.tags = new ArrayList<>();
 		for (String s: tag.split(",")) {
 			tags.add(UnlockTag.valueOf(s));
+			this.tag = UnlockTag.valueOf(s);
 		}
 	}
 	
@@ -104,7 +106,7 @@ public class HubEvent extends Event {
 	public void enter() {
 		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(searchable, extraFilters, this);
+		state.getUiHub().enter(tag, false, false, false, this);
 		open = true;
 	}
 	

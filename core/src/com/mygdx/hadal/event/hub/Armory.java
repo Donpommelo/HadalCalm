@@ -28,13 +28,16 @@ public class Armory extends HubEvent {
 
 	public Armory(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.ARMORY);
-		this.searchable = true;
 	}
-	
+
+
 	@Override
 	public void enter() {
-		super.enter();
-		addOptions("" , 0, UnlockTag.ARMORY);
+		state.getUiHub().setType(type);
+		state.getUiHub().setTitle(title);
+		state.getUiHub().enter(tag, true, false, false, this);
+		open = true;
+		addOptions("" , 0, tag);
 	}
 
 	@Override

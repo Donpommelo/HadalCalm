@@ -166,11 +166,14 @@ public class UnlockManager {
 		QUARTERMASTER,
 		NASU,
 		MISC,
-		PVP_PHOTO,
+
+		BIRD,
 		PVP,
 		ARENA,
 		MULTIPLAYER,
-		SPECIAL,
+		SINGLEPLAYER,
+		BOSS,
+		SANDBOX,
 
 		OFFENSE,
 		DEFENSE,
