@@ -20,22 +20,21 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class ScalePlatform extends Event {
 
-	private final float minHeight, density, riseSpeed;
+	private final float minHeight, density;
 
-	public ScalePlatform(PlayState state, Vector2 startPos, Vector2 size, float minHeight, float density, float riseSpeed) {
+	public ScalePlatform(PlayState state, Vector2 startPos, Vector2 size, float minHeight, float density) {
 		super(state, startPos, size);
 		setSyncDefault(false);
 		setSyncInstant(true);
 		this.minHeight = minHeight;
 		this.density = density;
-		this.riseSpeed = riseSpeed;
 	}
 	
 	@Override
 	public void create() {
 		this.eventData = new EventData(this, UserDataTypes.WALL);
 
-		this.body = BodyBuilder.createBox(world, startPos, size, 0.0f, density, 0, false, false,
+		this.body = BodyBuilder.createBox(world, startPos, size, -1.0f, density, 0, false, false,
 				Constants.BIT_WALL, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
 
@@ -48,12 +47,9 @@ public class ScalePlatform extends Event {
 		joint.localAnchorA.set(position.x, position.y);
 		joint.localAnchorB.set(0, 0);
 		joint.enableLimit = true;
-		joint.enableMotor = true;
 		joint.upperTranslation = 0;
 		joint.lowerTranslation = minHeight;
 		joint.localAxisA.set(0, 1);
-		joint.motorSpeed = riseSpeed;
-		joint.maxMotorForce = riseSpeed;
 
 		state.getWorld().createJoint(joint);
 	}

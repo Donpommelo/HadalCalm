@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="100" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="31">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="31">
  <properties>
   <property name="pvp" type="bool" value="true"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="70">
   <data encoding="base64" compression="zlib">
-   eJzt08tKxEAURdGATsTX//+tOnAm9k0qyqazFpxhqgo22TYA4B69279Nj9b0aE2P1vRoTY/W/rrH6+ceLrS3cI+vFi/DO+7F87bWZEKLfVaaTGix39EmE3vPvHqLb0eaTPgvjtvbZEKLNXuaTGixbtpkQotzTJpMaHGeW00mtDjXb00mfvru6fxnXsrjpkeJHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokfLSg8AAI77AJvmSmM=
+   eAHtlt2KwjAYBYXdm2X/3v9tt+IGqibxc8rphR1B2iY5p3SmEU8nPxKQgAQkIAEJvCKB3+Wh/O7DoPL+6GIfF2fOlY8+9HHUd8D9sd+7X3nH9HEsH9+L8LcDfX+WZ63sg9Ga5P44u/iq3OCF1nwuz7LFSQXFyOVs/IguGsstTlrH7Djj3ps7sovGkTpp+dmxx3w2drTfqBE74mTUtR6fsV/PuS/W1C7nzzq5b7gfWTMfnevinlsbecZJy8yOIwdtXBczepe5qpPHTfP/07qoEKw7qbS1fXB71EWF3vWaR/vkenX/6tbD+VoXfVaV0ZmTSr7n46MSdM2QwPsy0+M6DKwmejl9rACBU30AaMGIPoJwQbU+ALRgRB9BuKBaHwBaMKKPIFxQrQ8ALRjRRxAuqNYHgBaM6CMIF1TrA0ALRvQRhAuq9QGgBSP6CMIF1foA0IIRfQThgmp9AGjBiD6CcEG1PgC0YEQfQbigWh8AWjCijyBcUK0PAC0Y0UcQLqjWB4AWjOgjCBdU6wNAC0b0EYQLqvUBoAUj+gjCBdX6ANCCEX0E4YJqfQBowYg+gnBBtT4AtGBEH0G4oFofAFowoo8gXFCtDwAtGNFHEC6o3uID3M6IBCQgAQlIQAISkMA/gT+b5kpj
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -79,7 +79,6 @@
    <properties>
     <property name="density" type="float" value="0.1"/>
     <property name="minHeight" type="float" value="-24"/>
-    <property name="riseSpeed" type="float" value="3"/>
    </properties>
   </object>
   <object id="15" name="Start" type="Start" x="640" y="800" width="32" height="32">
@@ -91,35 +90,30 @@
    <properties>
     <property name="density" type="float" value="0.1"/>
     <property name="minHeight" type="float" value="-24"/>
-    <property name="riseSpeed" type="float" value="3"/>
    </properties>
   </object>
   <object id="17" name="Scale" type="Scale" x="1280" y="992" width="288" height="32">
    <properties>
     <property name="density" type="float" value="0.1"/>
     <property name="minHeight" type="float" value="-24"/>
-    <property name="riseSpeed" type="float" value="3"/>
    </properties>
   </object>
   <object id="18" name="Scale" type="Scale" x="1664" y="992" width="288" height="32">
    <properties>
     <property name="density" type="float" value="0.1"/>
     <property name="minHeight" type="float" value="-24"/>
-    <property name="riseSpeed" type="float" value="3"/>
    </properties>
   </object>
   <object id="19" name="Scale" type="Scale" x="2048" y="992" width="288" height="32">
    <properties>
     <property name="density" type="float" value="0.1"/>
     <property name="minHeight" type="float" value="-24"/>
-    <property name="riseSpeed" type="float" value="3"/>
    </properties>
   </object>
   <object id="20" name="Scale" type="Scale" x="2432" y="992" width="288" height="32">
    <properties>
     <property name="density" type="float" value="0.1"/>
     <property name="minHeight" type="float" value="-24"/>
-    <property name="riseSpeed" type="float" value="3"/>
    </properties>
   </object>
   <object id="21" name="Start" type="Start" x="1024" y="800" width="32" height="32">
