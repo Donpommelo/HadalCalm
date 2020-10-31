@@ -174,16 +174,10 @@
         "text": "\nIf you see any more Telepyramids in the world, activate them so you can revisit distant locations whenever you want.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
-    }
+    },
     {
         "name": "Pelican",
-        "text": "\nThe Arena Telepyramid allows you to train your skills in a survival arena mode.",
-        "sprite": "PELICAN_MASKED"
-        "duration": 0
-    }
-    {
-        "name": "Pelican",
-        "text": "\nThe Bonus Telepyramid gives access to a Sandbox as well as a sneak peak at some Boss Fights.",
+        "text": "\nThe other Telepyramids in the hub allow you to train your skills in a survival arena mode, as well as other special modes like boss fights.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
         "end": true

@@ -447,6 +447,12 @@ public class TiledObjectUtil {
 			case "SeeSaw":
 				e = new SeeSawPlatform(state, position, size);
 				break;
+			case "Scale":
+				e = new ScalePlatform(state, position, size,
+					object.getProperties().get("minHeight", -1.0f, float.class),
+					object.getProperties().get("density", 0.5f, float.class),
+					object.getProperties().get("riseSpeed", 1.0f, float.class));
+				break;
 			case "Pusher":
 				e = new Pusher(state,
 						object.getProperties().get("xPush", 0.0f, float.class),

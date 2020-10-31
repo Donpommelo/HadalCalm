@@ -133,6 +133,15 @@ RANDOM: {
         BIRD,
     ]
 }
+DM_BOTTLENECK: {
+	name: DM_BOTTLENECK
+	description: ""
+    descriptionLong: "SIZE: LARGE"
+	tags: [  
+        MULTIPLAYER,
+        PVP,
+	]
+}
 DM_BROUHAHA: {
 	name: DM_BROUHAHA
 	description: ""
@@ -236,6 +245,15 @@ DM_SAWMILL: {
 	name: DM_SAWMILL
 	description: ""
     descriptionLong: "SIZE: SMALL"
+	tags: [
+        MULTIPLAYER,
+        PVP,
+	]
+}
+DM_SCALES: {
+	name: DM_SCALES
+	description: ""
+    descriptionLong: "SIZE: SMALL\n\nAn arena consisting of a series of sinking platforms."
 	tags: [
         MULTIPLAYER,
         PVP,

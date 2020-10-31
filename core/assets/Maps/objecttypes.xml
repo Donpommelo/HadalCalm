@@ -344,6 +344,11 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
+ <objecttype name="Scale" color="#a0a0a4">
+  <property name="density" type="float" default="0.5"/>
+  <property name="minHeight" type="float" default="-1"/>
+  <property name="riseSpeed" type="float" default="1"/>
+ </objecttype>
  <objecttype name="SchmuckSpawn" color="#ff0000">
   <property name="amount" type="int" default="1"/>
   <property name="boss" type="bool" default="false"/>

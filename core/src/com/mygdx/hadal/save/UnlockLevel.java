@@ -30,6 +30,7 @@ public enum UnlockLevel {
 	ARENA_WETWORKS("Maps/arena_wetworks.tmx"),
 	ARENA_ZIGGURAT("Maps/arena_ziggurat.tmx"),
 
+	DM_BOTTLENECK("Maps/dm_bottleneck.tmx"),
 	DM_BROUHAHA("Maps/dm_brouhaha.tmx"),
 	DM_CAROUSEL("Maps/dm_carousel.tmx"),
 	DM_FALLDOWN("Maps/dm_falldown.tmx"),
@@ -42,6 +43,7 @@ public enum UnlockLevel {
 	DM_PINWHEEL("Maps/dm_pinwheel.tmx"),
 	DM_PIVOT("Maps/dm_pivot.tmx"),
 	DM_SAWMILL("Maps/dm_sawmill.tmx"),
+	DM_SCALES("Maps/dm_scales.tmx"),
 	DM_SEESAW("Maps/dm_seesaw.tmx"),
 	DM_THRESHOLD("Maps/dm_threshold.tmx"),
 	DM_WARP("Maps/dm_warp.tmx"),
