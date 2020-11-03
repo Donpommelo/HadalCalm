@@ -22,7 +22,7 @@ ASSAULT_BITS: {
 BANANA: {
 	name: Banana
 	description: "Hold and release the shoot button to fire a bouncy, exploding banana. A longer charge increases projectile velocity."
-    descriptionLong: "Banana Impact Damage: 20\nBanana Explosion Damage: 50\n\nClip Size: 3\nAmmo Capacity: 27\nReload Time: 0.6 Second per Banana\nCharge Duration: 0.3 Second"
+    descriptionLong: "Banana Impact Damage: 15\nBanana Explosion Damage: 45\n\nClip Size: 3\nAmmo Capacity: 27\nReload Time: 0.6 Second per Banana\nCharge Duration: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -32,7 +32,7 @@ BANANA: {
 BATTERING_RAM: {
 	name: Battering Ram
 	description: "Hold and release the shoot button to charge a directional melee rush."
-    descriptionLong: "Impact Damage at Min Charge: 15\nImpact Damage at Max Charge: 75\nDamage Resistance During Charge: 50%\n\nCharge Duration: 0.5 Second"
+    descriptionLong: "Impact Damage at Min Charge: 15\nImpact Damage at Max Charge: 60\nDamage Resistance During Rush: 50%\n\nCharge Duration: 0.5 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,

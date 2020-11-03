@@ -212,7 +212,7 @@ public class SettingState extends GameState {
 			    });
 				exitOption.setScale(optionsScale);
 				
-				saveOption = new Text("SAVE CHANGES?", 0, 0, true);
+				saveOption = new Text("APPLY CHANGES?", 0, 0, true);
 				saveOption.addListener(new ClickListener() {
 					
 					@Override

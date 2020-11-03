@@ -180,7 +180,9 @@ public class HadalGame extends ApplicationAdapter {
 	public void resize(int width, int height) {
 		viewportCamera.update(width, height, true);
 		viewportUI.update(width, height, true);
-		gsm.resize(width, height);
+		if (gsm != null) {
+			gsm.resize(width, height);
+		}
 	}
 	
 	/**

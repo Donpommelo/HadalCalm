@@ -39,7 +39,7 @@ public class BatteringRam extends MeleeWeapon {
 	private static final float maxRecoil = 175.0f;
 	
 	private static final float minDamage = 15.0f;
-	private static final float maxDamage = 75.0f;
+	private static final float maxDamage = 60.0f;
 	
 	public BatteringRam(Schmuck user) {
 		super(user, shootCd, shootDelay, weaponSprite, eventSprite, maxCharge);
@@ -83,6 +83,7 @@ public class BatteringRam extends MeleeWeapon {
 				
 		user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 7.5f, user.getBodyData(), user.getBodyData()));
 		user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.DAMAGE_RES, 0.5f, user.getBodyData(), user.getBodyData()));
+
 		Vector2 push = new Vector2(weaponVelo).nor().scl(velocity);
 		user.pushMomentumMitigation(push.x, push.y);
 		

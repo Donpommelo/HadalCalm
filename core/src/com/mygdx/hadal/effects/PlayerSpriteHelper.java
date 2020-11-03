@@ -273,6 +273,18 @@ public class PlayerSpriteHelper {
     }
 
     /**
+     * This is run when the player is disposed.
+     * In the case of the player being disposed upon level transition, we want to make sure the fbo is cleaned up
+     */
+    public void dispose(DespawnType despawn) {
+        if (despawn.equals(DespawnType.LEVEL_TRANSITION)) {
+            if (fbo != null) {
+                fbo.dispose();
+            }
+        }
+    }
+
+    /**
      * This is run when the player despawns from disconnecting or dying.
      */
     public void despawn(DespawnType type, Vector2 playerLocation, Vector2 playerVelocity) {
@@ -349,6 +361,7 @@ public class PlayerSpriteHelper {
     }
 
     public enum DespawnType {
+        LEVEL_TRANSITION,
         GIB,
         TELEPORT,
     }

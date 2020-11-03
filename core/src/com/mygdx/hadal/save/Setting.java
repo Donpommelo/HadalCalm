@@ -49,7 +49,7 @@ public class Setting {
 	public void setDisplay(HadalGame game, PlayState state) {
 		Monitor currMonitor = Gdx.graphics.getMonitor();
     	DisplayMode displayMode = Gdx.graphics.getDisplayMode(currMonitor);
-    	
+
     	if (fullscreen) {
     		Gdx.graphics.setFullscreenMode(displayMode);
     	} else {
@@ -65,6 +65,9 @@ public class Setting {
     	if (state != null) {
     		state.toggleVisibleHitboxes(debugHitbox);
     	}
+
+    	//resizing here (possibly) deals with some fullscreen camera issues on certain devices
+    	game.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 	
 	/**

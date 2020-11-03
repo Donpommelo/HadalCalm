@@ -765,7 +765,9 @@ public class Player extends PhysicsSchmuck {
 
 		empty.dispose();
 		full.dispose();
-		
+
+		spriteHelper.dispose(despawnType);
+
 		//this is here to prevent the client from not updating the last, fatal instance of damage in the ui
 		playerData.setOverrideHpPercent(0);
 	}
@@ -802,7 +804,7 @@ public class Player extends PhysicsSchmuck {
 	}
 
 	//this is the type of death we have. Send to client so they can process the death on their end.
-	private DespawnType despawnType = DespawnType.GIB;
+	private DespawnType despawnType = DespawnType.LEVEL_TRANSITION;
 	@Override
 	public Object onServerDelete() { return new Packets.DeletePlayer(entityID.toString(), state.getTimer(), despawnType); }
 
