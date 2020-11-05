@@ -122,6 +122,17 @@ BLOODWOODS_GLOVE: {
         ACTIVE_ITEM,
 	]
 }
+BOOK_OF_BURIAL: {
+	name: Book of Burial
+	description: "Drop a Mine Upon Receiving Damage"
+    descriptionLong: "Mine Cooldown: 5 Seconds\nPrime Delay: 2 Seconds\nMine Damage: 50\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+        OFFENSE,
+        PASSIVE_DAMAGE,
+	]
+}
 BOTTOM_OF_THE_BARREL: {
 	name: Bottom of the Barrel
 	description: "+Damage with Low Ammo"
@@ -661,7 +672,7 @@ LOAMSKIN_LOCKET: {
 LOCH_SHIELD: {
 	name: Loch Shield
 	description: "+Fire and Explosion Resistance"
-    descriptionLong: "Fire Damage Resistance: +40%\nExplosion Damage Resistance: +40%\n\nA hefty targe made from salvaged metals.\n\nLarge bodies of water make for ideal holding chambers for Bright Ones, serving as both insulator as well as solvent. "
+    descriptionLong: "Fire Damage Resistance: +40%\nExplosion Damage Resistance: +40%\n\nA hefty targe made from salvaged metals.\n\nThe only thing that separates man from god from fish is a large body of water."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

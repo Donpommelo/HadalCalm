@@ -166,6 +166,7 @@ public class UnlockManager {
 		QUARTERMASTER,
 		NASU,
 		MISC,
+		NEW,
 
 		BIRD,
 		PVP,

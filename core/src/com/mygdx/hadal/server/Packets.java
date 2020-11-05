@@ -1183,6 +1183,16 @@ public class Packets {
 		public ClientYeet() {}
 	}
 
+	public static class SyncEmote {
+		int emoteIndex;
+
+		public SyncEmote() {}
+
+		public SyncEmote(int emoteIndex) {
+			this.emoteIndex = emoteIndex;
+		}
+	}
+
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -1244,6 +1254,7 @@ public class Packets {
 		kryo.register(SyncTyping.class);
 		kryo.register(RemoveScore.class);
 		kryo.register(ClientYeet.class);
+		kryo.register(SyncEmote.class);
 
 		kryo.register(Vector2.class);
 		kryo.register(UnlockLevel.class);

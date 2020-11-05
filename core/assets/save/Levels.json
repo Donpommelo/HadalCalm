@@ -140,6 +140,7 @@ DM_BOTTLENECK: {
 	tags: [  
         MULTIPLAYER,
         PVP,
+        NEW,
 	]
 }
 DM_BROUHAHA: {
@@ -149,6 +150,7 @@ DM_BROUHAHA: {
 	tags: [  
         MULTIPLAYER,
         PVP,
+        NEW,
 	]
 }
 DM_CAROUSEL: {
@@ -205,6 +207,16 @@ DM_LAGAN: {
         PVP,
 	]
 }
+DM_MOONBOUNCE: {
+	name: DM_MOONBOUNCE
+	description: ""
+    descriptionLong: "SIZE: SMALL"
+	tags: [
+        MULTIPLAYER,
+        PVP,
+        NEW,
+	]
+}
 DM_ORIGINAL: {
 	name: DM_ORIGINAL
 	description: ""
@@ -257,6 +269,7 @@ DM_SCALES: {
 	tags: [
         MULTIPLAYER,
         PVP,
+        NEW,
 	]
 }
 DM_SEESAW: {
@@ -275,6 +288,7 @@ DM_THRESHOLD: {
 	tags: [
         MULTIPLAYER,
         PVP,
+        NEW,
 	]
 }
 DM_WARP: {

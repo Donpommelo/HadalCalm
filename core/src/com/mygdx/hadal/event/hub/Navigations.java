@@ -49,7 +49,7 @@ public class Navigations extends HubEvent {
 				this, "ALL", "ARENA", "BOSS", "SANDBOX", "BIRD");
 		} else {
 			state.getUiHub().enter(tag, true, true, false,
-				this, "ALL", "PVP", "ARENA", "BOSS", "SANDBOX", "BIRD");
+				this, "ALL", "PVP", "ARENA", "BOSS", "SANDBOX", "BIRD", "NEW");
 		}
 
 		open = true;

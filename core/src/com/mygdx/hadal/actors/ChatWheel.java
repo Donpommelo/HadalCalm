@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.payne.games.piemenu.AnimatedPieMenu;
@@ -43,7 +45,7 @@ public class ChatWheel {
 	private static final float wheelThreshold = 0.25f;
 	private static final float borderThickness = 5.0f;
 
-	private static final String[] options = {"temp1", "temp2", "temp3", "temp4", "temp5", "temp6", "READY", "<roll>"};
+	private static final String[] options = {"<YES>", "<NO>", "temp3", "temp4", "temp5", "temp6", "READY", "<roll>"};
 	
 	//is the chat wheel currently active or not?
 	private boolean active;
@@ -142,14 +144,31 @@ public class ChatWheel {
 				
 				if (option != -1 && option < options.length) {
 					if (state.isServer()) {
-						HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), options[option], DialogType.SYSTEM, 0);
+						emote(state.getPlayer(), option);
 					} else {
-						HadalGame.client.sendTCP(new Packets.ClientNotification(state.getPlayer().getName(), options[option], DialogType.SYSTEM));
+						HadalGame.client.sendTCP(new Packets.SyncEmote(option));
 					}
 				}
 				wheel.animateClosing(0.4f);
 			}
 		}
 		active = visible;
+	}
+
+	private static final float emoteCd = 2.0f;
+	public void emote(Player player, int emoteIndex) {
+
+		if (player.getEmoteCdCount() < 0) {
+			player.setEmoteCdCount(emoteCd);
+
+			HadalGame.server.addNotificationToAll(state, player.getName(), options[emoteIndex], DialogType.SYSTEM, 0);
+			Sprite emote = Sprite.EMOTE_YES;
+			switch (emoteIndex) {
+				case 1:
+					emote = Sprite.EMOTE_NO;
+					break;
+			}
+			WeaponUtils.emote(state, player, emote);
+		}
 	}
 }

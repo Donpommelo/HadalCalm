@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
@@ -11,6 +12,7 @@ import com.mygdx.hadal.event.Scrap;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.Sensor;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -196,7 +198,88 @@ public class WeaponUtils {
 			}
 		});
 	}
-	
+
+	public static void createProximityMine(PlayState state, Vector2 startPos, Schmuck user, float startVelocity, Vector2 mineSize,
+										   float primeTime, float mineLifespan, float explosionDamage, float explosionKnockback, int explosionRadius) {
+		Hitbox hbox = new RangedHitbox(state, startPos, mineSize, primeTime,  new Vector2(0, -startVelocity),
+			user.getHitboxfilter(), false, false, user, Sprite.LAND_MINE);
+		hbox.setPassability((short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL));
+		hbox.makeUnreflectable();
+		hbox.setGravity(3.0f);
+
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SMOKE).setParticleSize(150));
+		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+
+			private HadalEntity floor;
+			private boolean planted, set;
+			private float primeCount;
+			@Override
+			public void onHit(HadalData fixB) {
+				if (fixB != null) {
+					floor = fixB.getEntity();
+					if (floor != null) {
+						if (floor.getBody() != null) {
+							planted = true;
+						}
+					}
+				}
+			}
+
+			@Override
+			public void controller(float delta) {
+				if (planted) {
+					planted = false;
+					WeldJointDef joint = new WeldJointDef();
+					joint.bodyA = floor.getBody();
+					joint.bodyB = hbox.getBody();
+					joint.localAnchorA.set(new Vector2(hbox.getPosition()).sub(floor.getPosition()));
+					joint.localAnchorB.set(0, 0);
+					state.getWorld().createJoint(joint);
+
+					SoundEffect.SLAP.playUniversal(state, hbox.getPixelPosition(), 0.6f, false);
+					set = true;
+				}
+				if (set) {
+					primeCount += delta;
+					if (primeCount >= primeTime) {
+						SoundEffect.MAGIC27_EVIL.playUniversal(state, hbox.getPixelPosition(), 1.0f, false);
+						hbox.die();
+					}
+				}
+			}
+
+			@Override
+			public void die() {
+				Hitbox mine = new RangedHitbox(state, hbox.getPixelPosition(), mineSize, mineLifespan,  new Vector2(),
+					(short) 0, true, false, user, Sprite.NOTHING);
+				mine.makeUnreflectable();
+
+				mine.addStrategy(new ControllerDefault(state, mine, user.getBodyData()));
+				mine.addStrategy(new ContactUnitDie(state, mine, user.getBodyData()));
+				mine.addStrategy(new DieExplode(state, mine, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
+				mine.addStrategy(new DieSound(state, mine, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f));
+				mine.addStrategy(new HitboxStrategy(state, mine, user.getBodyData()) {
+
+					@Override
+					public void create() {
+						if (floor != null) {
+							if (floor.getBody() != null) {
+								WeldJointDef joint = new WeldJointDef();
+								joint.bodyA = floor.getBody();
+								joint.bodyB = hbox.getBody();
+								joint.localAnchorA.set(new Vector2(hbox.getPosition()).sub(floor.getPosition()));
+								joint.localAnchorB.set(0, 0);
+								state.getWorld().createJoint(joint);
+							}
+						}
+					}
+				});
+			}
+		});
+	}
+
 	private static final Sprite[] projSprites = {Sprite.METEOR_A, Sprite.METEOR_B, Sprite.METEOR_C, Sprite.METEOR_D, Sprite.METEOR_E, Sprite.METEOR_F};
 	private static final Vector2 meteorSize = new Vector2(75, 75);
 	private static final float meteorSpeed = 50.0f;
@@ -297,6 +380,41 @@ public class WeaponUtils {
 
 		hboxPing.addStrategy(new ControllerDefault(state, hboxPing, user.getBodyData()));
 		hboxPing.addStrategy(new Static(state, hboxPing, user.getBodyData()));
+	}
+
+	private static final Vector2 emoteSize = new Vector2(64, 64);
+	private static final float emoteLifespan = 2.0f;
+	private static final int emoteExplodeRadius = 150;
+	private static final float emoteExplodeDamage = 50.0f;
+	private static final float emoteExplodeback = 20;
+
+	public static void emote(PlayState state, Schmuck user, Sprite emote) {
+
+		Hitbox hbox = new RangedHitbox(state, new Vector2(user.getPixelPosition()).add(0, 96.0f), emoteSize,
+			emoteLifespan, new Vector2(), user.getHitboxfilter(), true, false, user, emote);
+		hbox.setSyncDefault(false);
+		hbox.setSyncInstant(true);
+
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+
+		if (user.getBodyData().getStat(Stats.PING_DAMAGE) != 0.0f) {
+			hbox.setRestitution(0.5f);
+			hbox.addStrategy(new Pushable(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(primeDelay));
+			hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), emoteExplodeRadius, emoteExplodeDamage, emoteExplodeback, (short) 0));
+			hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f));
+			hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
+			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+
+				@Override
+				public void create() {
+					super.create();
+					hbox.getBody().setLinearDamping(projDampen);
+				}
+			});
+		} else {
+			hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), new Vector2(0, 3.0f), false));
+		}
 	}
 	
 	public static final int pickupSize = 64;

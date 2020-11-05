@@ -65,6 +65,7 @@ public class FixedToEntity extends HitboxStrategy {
 			} else {
 				hbox.setTransform(hbLocation, hbox.getAngle());
 			}
+			hbox.setLinearVelocity(target.getLinearVelocity());
 		}
 	}
 }

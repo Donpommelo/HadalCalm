@@ -38,6 +38,7 @@ public enum UnlockLevel {
 	DM_GULLY("Maps/dm_gully.tmx"),
 	DM_JUMP("Maps/dm_jump.tmx"),
 	DM_LAGAN("Maps/dm_lagan.tmx"),
+	DM_MOONBOUNCE("Maps/dm_moonbounce.tmx"),
 	DM_ORIGINAL("Maps/dm_original.tmx"),
 	DM_PILE("Maps/dm_pile.tmx"),
 	DM_PINWHEEL("Maps/dm_pinwheel.tmx"),

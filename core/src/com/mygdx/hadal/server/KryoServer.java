@@ -430,7 +430,20 @@ public class KryoServer {
 						}
 					}
 				}
-				
+
+				else if (o instanceof Packets.SyncEmote) {
+					final Packets.SyncEmote p = (Packets.SyncEmote) o;
+
+					final PlayState ps = getPlayState();
+					User user = users.get(c.getID());
+					if (user != null && ps != null) {
+						Player player = user.getPlayer();
+						if (player != null) {
+							ps.getChatWheel().emote(player, p.emoteIndex);
+						}
+					}
+				}
+
 				/*
 				 * A Client has said they want to enter spectator mode
 				 */

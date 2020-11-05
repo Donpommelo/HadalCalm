@@ -157,7 +157,6 @@
     <property name="interval" type="float" value="8"/>
     <property name="power" type="float" value="50"/>
     <property name="prefabId" value="Spawner"/>
-    <property name="triggeredId" value="f2"/>
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
@@ -166,7 +165,6 @@
     <property name="interval" type="float" value="8"/>
     <property name="power" type="float" value="50"/>
     <property name="prefabId" value="Spawner"/>
-    <property name="triggeredId" value="f2"/>
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
@@ -175,7 +173,6 @@
     <property name="interval" type="float" value="8"/>
     <property name="power" type="float" value="50"/>
     <property name="prefabId" value="Spawner"/>
-    <property name="triggeredId" value="f2"/>
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
@@ -184,7 +181,6 @@
     <property name="interval" type="float" value="8"/>
     <property name="power" type="float" value="50"/>
     <property name="prefabId" value="Spawner"/>
-    <property name="triggeredId" value="f2"/>
     <property name="type" type="int" value="0"/>
    </properties>
   </object>

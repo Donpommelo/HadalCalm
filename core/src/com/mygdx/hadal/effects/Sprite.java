@@ -189,7 +189,10 @@ public enum Sprite {
 	NOTIFICATIONS_ALERT_PING(SpriteType.NOTIFICATIONS, "arrow_ping_red", PlayMode.LOOP_PINGPONG, PlayState.spriteAnimationSpeed),
 	CLEAR_CIRCLE_ALERT(SpriteType.NOTIFICATIONS, "clear_circle_alert"),
 	CLEAR_CIRCLE_EGGPLANT(SpriteType.NOTIFICATIONS, "clear_circle_eggplant"),
-	
+
+	EMOTE_YES(SpriteType.EMOTE, "emote_yes", PlayMode.NORMAL, PlayState.spriteAnimationSpeed),
+	EMOTE_NO(SpriteType.EMOTE, "emote_yes", PlayMode.NORMAL, PlayState.spriteAnimationSpeed),
+
 	TELEMACHUS_POINT(SpriteType.TELEMACHUS_POINT, null),
 	
 	//Misc stuff from totlc
@@ -267,6 +270,8 @@ public enum Sprite {
 			return HadalGame.assetManager.get(AssetList.IMPACT_ATLAS.toString());
 		case UI:
 			return HadalGame.assetManager.get(AssetList.UI_ATL.toString());
+		case EMOTE:
+			return HadalGame.assetManager.get(AssetList.EMOTE_ATL.toString());
 		case NOTIFICATIONS:
 			return HadalGame.assetManager.get(AssetList.NOTIFICATION_ATL.toString());
 		case KAMABOKO:
@@ -298,6 +303,7 @@ public enum Sprite {
 		TURRET,
 		IMPACT,
 		UI,
+		EMOTE,
 		NOTIFICATIONS,
 		KAMABOKO,
 		KAMABOKO_CRAWL,

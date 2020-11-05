@@ -28,6 +28,7 @@ public enum UnlockArtifact {
 	BACKPACK_BUDDY(new BackpackBuddy()),
 	BLASTEMA(new Blastema()),
 	BLOODWOODS_GLOVE(new BloodwoodsGlove()),
+	BOOK_OF_BURIAL(new BookofBurial()),
 	BOTTOM_OF_THE_BARREL(new BottomoftheBarrel()),
 	BRIGGLES_BLADED_BOOT(new BrigglesBladedBoot()),
 	BRITTLING_POWDER(new BrittlingPowder()),

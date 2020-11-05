@@ -376,6 +376,8 @@ public class UIHub {
 								return UnlockTag.SANDBOX;
 							case 5:
 								return UnlockTag.BIRD;
+							case 6:
+								return UnlockTag.NEW;
 						}
 				default:
 					return null;

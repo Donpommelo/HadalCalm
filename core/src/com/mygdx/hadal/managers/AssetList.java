@@ -46,6 +46,7 @@ public enum AssetList {
 	UIPATCHATL("ui/window.atlas", TextureAtlas.class),
 	UISKINATL("ui/uiskin.atlas", TextureAtlas.class),
 	UI_ATL("ui/UI.atlas", TextureAtlas.class),
+	EMOTE_ATL("sprites/emote.atlas", TextureAtlas.class),
 	TELEMACHUS_POINT("ui/telemachus_point.atlas", TextureAtlas.class),
 	HEART_EMPTY("ui/heart_meter.png", Texture.class),
 	HEART_FULL("ui/heart_gauge.png", Texture.class),

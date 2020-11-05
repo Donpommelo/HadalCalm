@@ -100,7 +100,9 @@ public class Player extends PhysicsSchmuck {
 	
 	protected static final float pingCd = 1.0f;
 	protected float pingCdCount;
-	
+
+	protected float emoteCdCount;
+
 	//this makes the player animate faster in the air for the "luigi legs"
 	private static final float airAnimationSlow = 3.0f;
 
@@ -412,6 +414,7 @@ public class Player extends PhysicsSchmuck {
 		airblastCdCount -= delta;
 		interactCdCount -= delta;
 		pingCdCount -= delta;
+		emoteCdCount -= delta;
 		hitSoundCdCount -= delta;
 		hitSoundLargeCdCount -= delta;
 		typingCdCount -= delta;
@@ -855,6 +858,7 @@ public class Player extends PhysicsSchmuck {
 
 			//delegate to sprite helper for despawn so it can dispose of frame buffer object
 			spriteHelper.despawn(p.type, getPixelPosition(), getLinearVelocity());
+			setDespawnType(p.type);
 			((ClientState) state).removeEntity(entityID.toString());
 		} else {
 			super.onClientSync(o);
@@ -945,6 +949,10 @@ public class Player extends PhysicsSchmuck {
 	public float getChargePercent() {return chargePercent;}
 
 	public void setChargePercent(float chargePercent) { this.chargePercent = chargePercent; }
+
+	public float getEmoteCdCount() { return emoteCdCount; }
+
+	public void setEmoteCdCount(float emoteCdCount) { this.emoteCdCount = emoteCdCount; }
 
 	public ActionController getController() { return controller; }
 	
