@@ -134,7 +134,7 @@ public class Setting {
 		pvpTimer = 3;
 		coopTimer = 0;
 		lives = 0;
-		teamEnabled = false;
+		teamEnabled = true;
 		loadoutType = 1;
 		artifactSlots = 4;
 		pvpMode = 0;

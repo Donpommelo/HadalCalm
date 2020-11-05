@@ -12,7 +12,7 @@ public class NacreousRudder extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
-	private static final float bonusAccel = 0.3f;
+	private static final float bonusAccel = 0.45f;
 	
 	public NacreousRudder() {
 		super(slotCost, statusNum);

@@ -147,7 +147,7 @@ BOTTOM_OF_THE_BARREL: {
 BRIGGLES_BLADED_BOOT: {
 	name: Briggle's Bladed Boot
 	description: "Damaging Stomps"
-    descriptionLong: "Stomp Damage: 30\n\nThe serrated footwear belonging to a general renown for being armed to the feet.\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft."
+    descriptionLong: "Stomp Damage: 45\n\nThe serrated footwear belonging to a general renown for being armed to the feet.\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -450,8 +450,8 @@ FENS_CLIPPED_WINGS: {
 }
 THE_FINGER: {
 	name: The Finger
-	description: "Your Ping Deals Damage"
-    descriptionLong: "Ping Damage: 15\n\nA single digit, extended in an offensive gesture.\n\nViolence is the foremost form of self-expression permitted to veteran Salvagers."
+	description: "Your Emotes Deal Damage"
+    descriptionLong: "Emote Damage: 40\n\nA single digit, extended in an offensive gesture.\n\nViolence is the foremost form of self-expression permitted to veteran Salvagers."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -784,7 +784,7 @@ MUDDLING_CUP: {
 NACREOUS_RUDDER: {
 	name: Nacreous Rudder
 	description: "+Air/Ground Acceleration"
-    descriptionLong: "Bonus Air Acceleration: +20%\nBonus Ground Acceleration: +20%\n\nA pearlescent rudder used for underwater mobility.\n\nEscaping the pull of the spiral at the world's demarcation requires an equivalent spiral of opposing orientation."
+    descriptionLong: "Bonus Air Acceleration: +45%\nBonus Ground Acceleration: +45%\n\nA pearlescent rudder used for underwater mobility.\n\nEscaping the pull of the spiral at the world's demarcation requires an equivalent spiral of opposing orientation."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

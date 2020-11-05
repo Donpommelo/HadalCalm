@@ -80,9 +80,7 @@ public class DiamondCutter extends MeleeWeapon {
 				
 				private float controllerCount;
 				@Override
-				public void create() {
-					hbox.setAngularVelocity(spinSpeed);
-				}
+				public void create() { hbox.setAngularVelocity(spinSpeed); }
 				
 				private final Vector2 entityLocation = new Vector2();
 				private final Vector2 pulseVelocity = new Vector2();

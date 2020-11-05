@@ -384,23 +384,40 @@ public class WeaponUtils {
 
 	private static final Vector2 emoteSize = new Vector2(64, 64);
 	private static final float emoteLifespan = 2.0f;
+	private static final float emoteLifespanLong = 6.0f;
 	private static final int emoteExplodeRadius = 150;
-	private static final float emoteExplodeDamage = 50.0f;
+	private static final float emoteExplodeDamage = 40.0f;
 	private static final float emoteExplodeback = 20;
 
 	public static void emote(PlayState state, Schmuck user, Sprite emote) {
 
+		boolean special = user.getBodyData().getStat(Stats.PING_DAMAGE) != 0.0f;
+
 		Hitbox hbox = new RangedHitbox(state, new Vector2(user.getPixelPosition()).add(0, 96.0f), emoteSize,
-			emoteLifespan, new Vector2(), user.getHitboxfilter(), true, false, user, emote);
-		hbox.setSyncDefault(false);
-		hbox.setSyncInstant(true);
+			special ? emoteLifespanLong : emoteLifespan, new Vector2(), (short) 0, !special, true, user, emote);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 
-		if (user.getBodyData().getStat(Stats.PING_DAMAGE) != 0.0f) {
+		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+
+			private float controllerCount;
+			private final Vector2 entityLocation = new Vector2();
+			@Override
+			public void controller(float delta) {
+				controllerCount += delta;
+
+				if (controllerCount <= emoteLifespan) {
+					entityLocation.set(user.getPosition()).add(0, 96.f / PPM);
+					hbox.setTransform(entityLocation, hbox.getAngle());
+					hbox.setLinearVelocity(user.getLinearVelocity());
+				}
+			}
+		});
+
+		if (special) {
 			hbox.setRestitution(0.5f);
 			hbox.addStrategy(new Pushable(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(primeDelay));
+			hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(emoteLifespan + 1.0f));
 			hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), emoteExplodeRadius, emoteExplodeDamage, emoteExplodeback, (short) 0));
 			hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f));
 			hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
@@ -412,9 +429,8 @@ public class WeaponUtils {
 					hbox.getBody().setLinearDamping(projDampen);
 				}
 			});
-		} else {
-			hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), new Vector2(0, 3.0f), false));
 		}
+
 	}
 	
 	public static final int pickupSize = 64;

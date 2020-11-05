@@ -190,8 +190,9 @@ public enum Sprite {
 	CLEAR_CIRCLE_ALERT(SpriteType.NOTIFICATIONS, "clear_circle_alert"),
 	CLEAR_CIRCLE_EGGPLANT(SpriteType.NOTIFICATIONS, "clear_circle_eggplant"),
 
-	EMOTE_YES(SpriteType.EMOTE, "emote_yes", PlayMode.NORMAL, PlayState.spriteAnimationSpeed),
-	EMOTE_NO(SpriteType.EMOTE, "emote_yes", PlayMode.NORMAL, PlayState.spriteAnimationSpeed),
+	EMOTE_YES(SpriteType.EMOTE, "emote_yes", PlayMode.NORMAL, PlayState.spriteAnimationSpeedFast),
+	EMOTE_NO(SpriteType.EMOTE, "emote_no", PlayMode.NORMAL, PlayState.spriteAnimationSpeedFast),
+	EMOTE_RAGE(SpriteType.EMOTE, "emote_anger", PlayMode.LOOP, PlayState.spriteAnimationSpeedFast),
 
 	TELEMACHUS_POINT(SpriteType.TELEMACHUS_POINT, null),
 	

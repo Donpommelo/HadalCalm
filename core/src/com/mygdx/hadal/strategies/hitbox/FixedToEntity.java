@@ -41,11 +41,12 @@ public class FixedToEntity extends HitboxStrategy {
 		this(state, proj, user, angle, center, rotate);
 		this.target = target;
 	}
-	
+
+	private final Vector2 hbLocation = new Vector2();
 	@Override
 	public void create() {
 		if (target.isAlive()) {
-			Vector2 hbLocation = target.getPosition().add(center);
+			hbLocation.set(target.getPosition()).add(center);
 			if (rotate) {
 				hbox.setTransform(hbLocation, target.getAngle() + angle.angleRad());
 			} else {
@@ -53,19 +54,18 @@ public class FixedToEntity extends HitboxStrategy {
 			}
 		}
 	}
-	
+
 	@Override
 	public void controller(float delta) {
 		if (!target.isAlive()) {
 			hbox.die();
 		} else {
-			Vector2 hbLocation = target.getPosition().add(center);
+			hbLocation.set(target.getPosition()).add(center);
 			if (rotate) {
 				hbox.setTransform(hbLocation, target.getAngle() + angle.angleRad());
 			} else {
 				hbox.setTransform(hbLocation, hbox.getAngle());
 			}
-			hbox.setLinearVelocity(target.getLinearVelocity());
 		}
 	}
 }
