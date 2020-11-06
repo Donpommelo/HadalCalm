@@ -49,11 +49,12 @@ public class UIHub {
 	public static final int titlePadding = 25;
 	
 	private static final int optionsWidthOuter = 720;
-	private static final int optionsHeightOuter = 580;
+	private static final int optionsHeightOuter = 600;
 	private static final int optionsHeightInner = 520;
 	private static final int optionsWidth = 320;
 	public static final int optionsHeight = 40;
-	public static final int optionsPadding = 10;
+	public static final int optionHeight = 35;
+	public static final int optionPad = 3;
 	private static final int scrollWidth = 330;
 
 	public static final float optionsScale = 0.3f;
@@ -169,7 +170,7 @@ public class UIHub {
 			};
 			searchName.setMessageText("SEARCH OPTIONS");
 			tableSearch.add(search);
-			tableSearch.add(searchName).padBottom(optionsPadding).row();
+			tableSearch.add(searchName).padBottom(optionPad).row();
 		}
 
 		//if the player can add extra tags to search artifacts, add dropdown for this
@@ -189,7 +190,7 @@ public class UIHub {
 			});
 
 			tableSearch.add(searchTags);
-			tableSearch.add(tagFilter).padBottom(optionsPadding).row();
+			tableSearch.add(tagFilter).padBottom(optionPad).row();
 
 		}
 		if (filterCost) {
@@ -208,7 +209,7 @@ public class UIHub {
 			});
 
 			tableSearch.add(searchCost);
-			tableSearch.add(slotsFilter).padBottom(optionsPadding).row();
+			tableSearch.add(slotsFilter).padBottom(optionPad).row();
 		}
 
 		this.options = new ScrollPane(tableOptions, GameStateManager.getSkin());

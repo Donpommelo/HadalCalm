@@ -50,7 +50,7 @@ public class ResultsState extends GameState {
 	private final HashMap<SavedPlayerFields, Boolean> ready;
 	
 	//this text is displayed at the top of the state and usually indicates victory or loss
-	private String text;
+	private final String text;
 
 	//if the results text is equal to the magic word, calculate the results text based on score
 	public static final String magicWord = "fug";
@@ -63,7 +63,9 @@ public class ResultsState extends GameState {
 	private static final int nameWidth = 400;
 	private static final float scale = 0.4f;
 	private static final int maxNameLen = 30;
-	
+
+	private static final int optionHeight = 50;
+
 	private static final int infoWidth = 280;
 	private static final int infoHeight = 500;
 	private static final int infoRowHeight = 20;
@@ -79,7 +81,7 @@ public class ResultsState extends GameState {
 	private static final float artifactTagOffsetX = -100.0f;
 	private static final float artifactTagOffsetY = -60.0f;
 	private static final float artifactTagTargetWidth = 200.0f;
-	
+
 	/**
 	 * Constructor will be called whenever the game transitions into a results state
 	 * @param text: this is the string that is displayed at the top of the result state
@@ -270,9 +272,9 @@ public class ResultsState extends GameState {
 	    });
 		forceReadyOption.setScale(scale);
 		
-		table.add(readyOption).width(nameWidth);
+		table.add(readyOption).height(optionHeight).width(nameWidth);
 		if (ps.isServer()) {
-			table.add(forceReadyOption).colspan(4);
+			table.add(forceReadyOption).height(optionHeight).colspan(4);
 		}
 	}
 	

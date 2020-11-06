@@ -167,52 +167,40 @@ public class TitleState extends GameState {
 				
 				Text nameDisplay = new Text("YOUR NAME: ", 0, 0, false);
 				nameDisplay.setScale(scaleSide);
-				nameDisplay.setHeight(optionHeight);
-				
+
 				Text nameRand = new Text("GENERATE RANDOM NAME", 0, 0, true);
 				nameRand.setScale(scaleSide);
-				nameRand.setHeight(optionHeight);
-				
-				Text ipDisplay = new Text("ENTER IP: ", 0, 0, true);
+
+				Text ipDisplay = new Text("ENTER IP: ", 0, 0, false);
 				ipDisplay.setScale(scaleSide);
-				ipDisplay.setHeight(optionHeight);
-				
+
 				Text joinOption = new Text("JOIN SERVER", 0, 0, true);
 				joinOption.setScale(scaleSide);
-				joinOption.setHeight(optionHeight);
-				
+
 				Text searchOption = new Text("SEARCH FOR NEARBY SERVERS", 0, 0, true);
 				searchOption.setScale(scaleSide);
-				searchOption.setHeight(optionHeight);
-				
+
 				Text hostOption = new Text("HOST SERVER", 0, 0, true);
 				hostOption.setScale(scale);
-				hostOption.setHeight(optionHeight);
-				
+
 				Text singleOption = new Text("SINGLE PLAYER", 0, 0, true);
 				singleOption.setScale(scale);
-				singleOption.setHeight(optionHeight);
-				
+
 				Text settingsOption = new Text("OPTIONS", 0, 0, true);
 				settingsOption.setScale(scale);
-				settingsOption.setHeight(optionHeight);
-				
+
 				Text aboutOption = new Text("ABOUT", 0, 0, true);
 				aboutOption.setScale(scale);
-				aboutOption.setHeight(optionHeight);
-				
+
 				Text exitOption = new Text("EXIT", 0, 0, true);
 				exitOption.setScale(scale);
-				exitOption.setHeight(optionHeight);
-				
+
 				notifications = new Text("", notificationX, notificationY, false);
 				notifications.setScale(scale);
-				notifications.setHeight(optionHeight);
-				
+
 				Text versionNum = new Text("VERSION: " + HadalGame.Version, versionNumX, versionNumY, false);
 				versionNum.setScale(scale);
-				versionNum.setHeight(optionHeight);
-				
+
 				hostOption.addListener(new ClickListener() {
 					
 					@Override
@@ -411,9 +399,9 @@ public class TitleState extends GameState {
 				enterName = new TextField(gsm.getLoadout().getName(), GameStateManager.getSkin());
 				enterName.setMessageText("ENTER NAME");
 				
-				tableName.add(nameDisplay).pad(5);
+				tableName.add(nameDisplay).height(optionHeight).pad(5);
 				tableName.add(enterName).width(textWidth).height(optionHeight).row();
-				tableName.add(nameRand).colspan(2);
+				tableName.add(nameRand).height(optionHeight).colspan(2);
 				
 				tableMain.add(singleOption).height(mainOptionHeight).row();
 				tableMain.add(hostOption).height(mainOptionHeight).row();
@@ -421,10 +409,10 @@ public class TitleState extends GameState {
 				tableMain.add(aboutOption).height(mainOptionHeight).row();
 				tableMain.add(exitOption).height(mainOptionHeight).row();
 				
-				tableIP.add(ipDisplay).pad(5);
+				tableIP.add(ipDisplay).height(optionHeight).pad(5);
 				tableIP.add(enterIP).width(textWidth).height(optionHeight).row();
-				tableIP.add(joinOption);
-				tableIP.add(searchOption);
+				tableIP.add(joinOption).height(optionHeight);
+				tableIP.add(searchOption).height(optionHeight);
 				
 				addActor(notifications);
 				addActor(versionNum);

@@ -193,6 +193,7 @@ public enum Sprite {
 	EMOTE_YES(SpriteType.EMOTE, "emote_yes", PlayMode.NORMAL, PlayState.spriteAnimationSpeedFast),
 	EMOTE_NO(SpriteType.EMOTE, "emote_no", PlayMode.NORMAL, PlayState.spriteAnimationSpeedFast),
 	EMOTE_RAGE(SpriteType.EMOTE, "emote_anger", PlayMode.LOOP, PlayState.spriteAnimationSpeedFast),
+	EMOTE_LOVE(SpriteType.EMOTE, "emote_love", PlayMode.LOOP, PlayState.spriteAnimationSpeedFast),
 
 	TELEMACHUS_POINT(SpriteType.TELEMACHUS_POINT, null),
 	

@@ -325,9 +325,6 @@ public class PlayerSpriteHelper {
         Ragdoll backRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(bodyBackWidth, bodyBackHeight).scl(scale),
                 bodyBackSprite, playerVelocity, gibDuration, gibGravity, true, false);
 
-        Ragdoll gemRagdoll =  new Ragdoll(player.getState(), playerLocation, new Vector2(gemWidth, gemHeight).scl(scale),
-                gemSprite, playerVelocity, gibDuration, gibGravity, true, false);
-
         Ragdoll toolRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(toolWidth, toolHeight).scl(scale),
                 player.getToolSprite(), playerVelocity, gibDuration, gibGravity, true, false);
 
@@ -337,7 +334,6 @@ public class PlayerSpriteHelper {
             ((ClientState) player.getState()).addEntity(bodyRagdoll.getEntityID().toString(), bodyRagdoll, false, ClientState.ObjectSyncLayers.STANDARD);
             ((ClientState) player.getState()).addEntity(armRagdoll.getEntityID().toString(), armRagdoll, false, ClientState.ObjectSyncLayers.STANDARD);
             ((ClientState) player.getState()).addEntity(backRagdoll.getEntityID().toString(), backRagdoll, false, ClientState.ObjectSyncLayers.STANDARD);
-            ((ClientState) player.getState()).addEntity(gemRagdoll.getEntityID().toString(), gemRagdoll, false, ClientState.ObjectSyncLayers.STANDARD);
             ((ClientState) player.getState()).addEntity(toolRagdoll.getEntityID().toString(), toolRagdoll, false, ClientState.ObjectSyncLayers.STANDARD);
         }
     }

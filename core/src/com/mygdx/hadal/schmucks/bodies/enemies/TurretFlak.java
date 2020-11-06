@@ -46,7 +46,7 @@ public class TurretFlak extends Turret {
 	private static final int numProj = 6;
 	private static final int spread = 10;
 	
-	private static final float baseDamage = 5.0f;
+	private static final float baseDamage = 6.0f;
 	private static final float projectileSpeed = 25.0f;
 	private static final float knockback = 15.0f;
 	private static final Vector2 projectileSize = new Vector2(24, 24);

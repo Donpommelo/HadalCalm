@@ -44,7 +44,7 @@ public class TurretVolley extends Turret {
 	private static final float attackWindup2 = 0.2f;
 	private static final float attackAnimation = 0.2f;
 	
-	private static final float baseDamage = 8.0f;
+	private static final float baseDamage = 14.0f;
 	private static final float projectileSpeed = 35.0f;
 	private static final float knockback = 15.0f;
 	private static final Vector2 projectileSize = new Vector2(40, 40);

@@ -45,7 +45,7 @@ public class ChatWheel {
 	private static final float wheelThreshold = 0.25f;
 	private static final float borderThickness = 5.0f;
 
-	private static final String[] options = {"<YES>", "<NO>", "<RAGE>", "temp4", "temp5", "temp6", "READY", "<roll>"};
+	private static final String[] options = {"<YES>", "<NO>", "<RAGE>", "<LOVE>", "temp5", "temp6", "READY", "<roll>"};
 	
 	//is the chat wheel currently active or not?
 	private boolean active;
@@ -169,6 +169,9 @@ public class ChatWheel {
 					break;
 				case 2:
 					emote = Sprite.EMOTE_RAGE;
+					break;
+				case 3:
+					emote = Sprite.EMOTE_LOVE;
 					break;
 			}
 			WeaponUtils.emote(state, player, emote);

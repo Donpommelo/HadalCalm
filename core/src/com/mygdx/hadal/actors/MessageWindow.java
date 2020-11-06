@@ -39,9 +39,11 @@ public class MessageWindow {
 	private static final int windowYInactive = -height;
 	
 	public static final float logScale = 0.25f;
-	
+
 	public static final float logPadding = 10.0f;
-	
+	public static final float optionHeight = 35.0f;
+	public static final float optionPad = 15.0f;
+
 	private final PlayState state;
 	private final Stage stage;
 	
@@ -263,8 +265,8 @@ public class MessageWindow {
 
 		tableInner.add(textLog).colspan(2).expand().pad(15).top().left().row();
 		tableInner.add(enterMessage).colspan(2).expand(1, 0).bottom().row();
-		tableInner.add(backButton).pad(15).bottom().left();
-		tableInner.add(sendMessage).pad(15).bottom().right();
+		tableInner.add(backButton).height(optionHeight).pad(optionPad).bottom().left();
+		tableInner.add(sendMessage).height(optionHeight).pad(optionPad).bottom().right();
 		
 		//windows starts off retracted
 		active = false;

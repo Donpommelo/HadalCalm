@@ -32,7 +32,7 @@ public class Text extends AHadalActor {
 	private final float targetWidth;
 
 	//padding used if this text is a button
-	private static final float padding = 20.0f;
+	private static final float padding = 15.0f;
 	
 	public Text(String text, int x, int y, boolean button) {
 		this(text, x, y, button, false, 0);
@@ -70,12 +70,13 @@ public class Text extends AHadalActor {
 		
 		//draw an additional window beneath this actor to indicate a button
 		if (hover) {
-			 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2, getY() - padding / 2, layout.width + padding, layout.height + padding);
+			 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2, getY(),
+				 getWidth() + padding, getHeight());
 		}
 		
 		 font.getData().setScale(scale);
 		 font.setColor(color);
-         font.draw(batch, text, getX(), getY() + layout.height, targetWidth, Align.left, wrap);
+         font.draw(batch, text, getX(), getY() + getHeight() / 2 + layout.height / 2, targetWidth, Align.left, wrap);
          
          //Return scale and color to default values.
          font.getData().setScale(1.0f);

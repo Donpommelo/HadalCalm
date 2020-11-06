@@ -50,8 +50,10 @@ public class PauseState extends GameState {
 	
 	//Dimensions of the pause menu
 	private static final float width = 500;
-	private static final float height = 300;
+	private static final float height = 250;
 	private static final int extraRowHeight = 100;
+	private static final int optionHeight = 60;
+	private static final int optionPad = 5;
 	private static final float pauseTextScale = 0.5f;
 	
 	/**
@@ -192,23 +194,23 @@ public class PauseState extends GameState {
 			    });
 				
 				table.add(pause).pad(5).expand().top().row();
-				table.add(resumeOption).expand().row();
+				table.add(resumeOption).height(optionHeight).pad(optionPad).row();
 				
 				//don't add return to hub option in singleplayer if hub hasn't been reached yet
 				if (ps.isServer() && (gsm.getRecord().getFlags().get("HUB_REACHED").equals(1) || GameStateManager.currentMode == Mode.MULTI)) {
-					table.add(hubOption).expand().row();
+					table.add(hubOption).height(optionHeight).pad(optionPad).row();
 				}
-				table.add(settingOption).expand().row();
+				table.add(settingOption).height(optionHeight).pad(optionPad).row();
 				
 				//atm, only clients can manually join spectator mode
 				if (ps.isHub() && !ps.isServer() && GameStateManager.currentMode == Mode.MULTI) {
 					if (ps.isSpectatorMode()) {
-						table.add(joinOption).expand().row();
+						table.add(joinOption).height(optionHeight).pad(optionPad).row();
 					} else {
-						table.add(spectateOption).expand().row();
+						table.add(spectateOption).height(optionHeight).pad(optionPad).row();
 					}
 				}
-				table.add(exitOption).expand().row();
+				table.add(exitOption).height(optionHeight).pad(optionPad).row();
 			}
 		};
 		app.newMenu(stage);

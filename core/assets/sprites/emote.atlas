@@ -172,198 +172,372 @@ emote_anger
   orig: 256, 256
   offset: 0, 0
   index: 21
-emote_no
+emote_love
   rotate: false
   xy: 2, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 0
-emote_no
+emote_love
   rotate: false
   xy: 260, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 1
-emote_no
+emote_love
   rotate: false
   xy: 518, 776
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 2
-emote_no
+emote_love
   rotate: false
   xy: 776, 1034
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 3
-emote_no
+emote_love
   rotate: false
   xy: 1034, 1292
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 4
-emote_no
+emote_love
   rotate: false
   xy: 1292, 1550
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 5
-emote_no
-  rotate: false
-  xy: 1292, 1550
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 6
-emote_no
+emote_love
   rotate: false
   xy: 2, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: 7
-emote_no
+  index: 6
+emote_love
   rotate: false
   xy: 260, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: 8
-emote_no
+  index: 7
+emote_love
   rotate: false
   xy: 518, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: 9
-emote_no
+  index: 8
+emote_love
   rotate: false
   xy: 776, 776
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: 10
-emote_no
+  index: 9
+emote_love
   rotate: false
   xy: 1034, 1034
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: 11
-emote_no
+  index: 10
+emote_love
   rotate: false
   xy: 1292, 1292
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: 12
-emote_no
+  index: 11
+emote_love
   rotate: false
   xy: 1550, 1550
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: 13
-emote_no
+  index: 12
+emote_love
   rotate: false
   xy: 260, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: 14
-emote_no
+  index: 13
+emote_love
   rotate: false
   xy: 518, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 14
+emote_love
+  rotate: false
+  xy: 776, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 15
-emote_no
+emote_love
   rotate: false
-  xy: 518, 260
+  xy: 1034, 776
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 16
-emote_no
+emote_love
   rotate: false
-  xy: 518, 260
+  xy: 1292, 1034
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 17
+emote_love
+  rotate: false
+  xy: 1550, 1292
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 18
-emote_no
+emote_love
   rotate: false
-  xy: 518, 260
+  xy: 518, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 19
-emote_no
+emote_love
   rotate: false
-  xy: 518, 260
+  xy: 776, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 20
+emote_love
+  rotate: false
+  xy: 1034, 518
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 21
+emote_love
+  rotate: false
+  xy: 1292, 776
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 22
+emote_love
+  rotate: false
+  xy: 1550, 1034
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 23
 emote_no
   rotate: false
-  xy: 518, 260
+  xy: 776, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: 17
+  index: 0
 emote_no
   rotate: false
-  xy: 518, 260
+  xy: 1034, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 1
+emote_no
+  rotate: false
+  xy: 1292, 518
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 2
+emote_no
+  rotate: false
+  xy: 1550, 776
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 3
+emote_no
+  rotate: false
+  xy: 1034, 2
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 4
+emote_no
+  rotate: false
+  xy: 1292, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 5
+emote_no
+  rotate: false
+  xy: 1292, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 6
+emote_no
+  rotate: false
+  xy: 1550, 518
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 7
+emote_no
+  rotate: false
+  xy: 1292, 2
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 8
+emote_no
+  rotate: false
+  xy: 1550, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 9
+emote_no
+  rotate: false
+  xy: 1550, 2
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 10
+
+emote2.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+emote_no
+  rotate: false
+  xy: 2, 518
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 11
+emote_no
+  rotate: false
+  xy: 2, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 12
+emote_no
+  rotate: false
+  xy: 260, 518
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 13
+emote_no
+  rotate: false
+  xy: 2, 2
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 14
+emote_no
+  rotate: false
+  xy: 260, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 15
+emote_no
+  rotate: false
+  xy: 260, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 22
+emote_no
+  rotate: false
+  xy: 260, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 16
+emote_no
+  rotate: false
+  xy: 260, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 20
 emote_no
   rotate: false
-  xy: 518, 260
+  xy: 260, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 23
+emote_no
+  rotate: false
+  xy: 260, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 18
+emote_no
+  rotate: false
+  xy: 260, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 17
+emote_no
+  rotate: false
+  xy: 260, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 19
+emote_no
+  rotate: false
+  xy: 260, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 21
-emote_no
-  rotate: false
-  xy: 518, 260
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 22
 emote_yes
   rotate: false
-  xy: 776, 518
+  xy: 518, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 0
 emote_yes
   rotate: false
-  xy: 1034, 776
+  xy: 260, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 1
 emote_yes
   rotate: false
-  xy: 1292, 1034
+  xy: 518, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 2
 emote_yes
   rotate: false
-  xy: 1550, 1292
+  xy: 776, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
@@ -398,112 +572,112 @@ emote_yes
   index: 7
 emote_yes
   rotate: false
-  xy: 1292, 776
+  xy: 776, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 8
 emote_yes
   rotate: false
-  xy: 1550, 1034
+  xy: 1034, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 9
 emote_yes
   rotate: false
-  xy: 776, 2
+  xy: 1292, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 10
 emote_yes
   rotate: false
-  xy: 1034, 260
+  xy: 1034, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 11
 emote_yes
   rotate: false
-  xy: 1292, 518
+  xy: 1292, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 12
 emote_yes
   rotate: false
-  xy: 1550, 776
+  xy: 1550, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 13
 emote_yes
   rotate: false
-  xy: 1034, 2
+  xy: 1292, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 14
 emote_yes
   rotate: false
-  xy: 1292, 260
+  xy: 1550, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 15
 emote_yes
   rotate: false
-  xy: 1292, 260
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 22
-emote_yes
-  rotate: false
-  xy: 1292, 260
+  xy: 1550, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 21
 emote_yes
   rotate: false
-  xy: 1292, 260
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 17
-emote_yes
-  rotate: false
-  xy: 1292, 260
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: 20
-emote_yes
-  rotate: false
-  xy: 1292, 260
+  xy: 1550, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 23
 emote_yes
   rotate: false
-  xy: 1292, 260
+  xy: 1550, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: 18
+  index: 20
 emote_yes
   rotate: false
-  xy: 1292, 260
+  xy: 1550, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 22
+emote_yes
+  rotate: false
+  xy: 1550, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 17
+emote_yes
+  rotate: false
+  xy: 1550, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 16
 emote_yes
   rotate: false
-  xy: 1292, 260
+  xy: 1550, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 18
+emote_yes
+  rotate: false
+  xy: 1550, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0

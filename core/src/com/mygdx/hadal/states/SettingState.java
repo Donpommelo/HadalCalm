@@ -72,12 +72,14 @@ public class SettingState extends GameState {
 	private static final int extraHeight = 100;
 	
 	private static final float optionsScale = 0.5f;
-	private static final float optionsPad = 15.0f;
+	private static final float optionHeight = 35.0f;
+	private static final float optionPadding = 10.0f;
 	private static final float detailsScale = 0.3f;
 	
 	private static final float titlePad = 25.0f;
-	private static final float detailsPad = 15.0f;
-	
+	private static final float detailHeight = 35.0f;
+	private static final float detailPad = 10.0f;
+
 	//These options make it easier to convert the index setting to a displayed string
 	public static final String[] timerChoices = {"NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN"};
 	public static final String[] livesChoices = {"UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES"};
@@ -234,15 +236,15 @@ public class SettingState extends GameState {
 			    });
 				resetOption.setScale(optionsScale);
 				
-				options.add(displayOption).pad(optionsPad).row();
-				options.add(controlOption).pad(optionsPad).row();
-				options.add(audioOption).pad(optionsPad).row();
-				options.add(gameOption).pad(optionsPad).row();
-				options.add(miscOption).pad(optionsPad).row();
-				options.add(exitOption).pad(optionsPad).expand().row();
+				options.add(displayOption).height(optionHeight).pad(optionPadding).row();
+				options.add(controlOption).height(optionHeight).pad(optionPadding).row();
+				options.add(audioOption).height(optionHeight).pad(optionPadding).row();
+				options.add(gameOption).height(optionHeight).pad(optionPadding).row();
+				options.add(miscOption).height(optionHeight).pad(optionPadding).row();
+				options.add(exitOption).height(optionHeight).pad(optionPadding).expand().row();
 				
-				extra.add(saveOption).pad(optionsPad).row();
-				extra.add(resetOption).pad(optionsPad).row();
+				extra.add(saveOption).height(optionHeight).pad(optionPadding).row();
+				extra.add(resetOption).height(optionHeight).pad(optionPadding).row();
 			}
 		};
 		app.newMenu(stage);
@@ -359,19 +361,19 @@ public class SettingState extends GameState {
 		displayNames.setChecked(gsm.getSetting().isDisplayNames());
 
 		details.add(screen);
-		details.add(resolutionOptions).pad(detailsPad).row();
+		details.add(resolutionOptions).height(detailHeight).pad(detailPad).row();
 		details.add(framerate);
-		details.add(framerateOptions).pad(detailsPad).row();
+		details.add(framerateOptions).height(detailHeight).pad(detailPad).row();
 		details.add(fullscreen);
-		details.add(vsync).pad(detailsPad).row();
-		details.add(debugHitbox).colspan(2).pad(detailsPad).row();
-		details.add(displayNames).colspan(2).pad(detailsPad).row();
+		details.add(vsync).height(detailHeight).pad(detailPad).row();
+		details.add(debugHitbox).colspan(2).height(detailHeight).pad(detailPad).row();
+		details.add(displayNames).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(cursortype);
-		details.add(cursorOptions).pad(detailsPad).row();
+		details.add(cursorOptions).height(detailHeight).pad(detailPad).row();
 		details.add(cursorsize);
-		details.add(cursorSize).pad(detailsPad).row();
+		details.add(cursorSize).height(detailHeight).pad(detailPad).row();
 		details.add(cursorcolor);
-		details.add(cursorColor).pad(detailsPad).row();
+		details.add(cursorColor).height(detailHeight).pad(detailPad).row();
 	}
 	
 	/**
@@ -384,7 +386,7 @@ public class SettingState extends GameState {
 		
 		details.add(new Text("CONTROLS", 0, 0, false)).colspan(2).pad(titlePad).row();
 		
-		VerticalGroup actions = new VerticalGroup().space(detailsPad).pad(titlePad);
+		VerticalGroup actions = new VerticalGroup().pad(titlePad);
 		
 		for (PlayerAction a : PlayerAction.values()) {
 			
@@ -403,6 +405,7 @@ public class SettingState extends GameState {
 			});
 			
 			actionChoose.setScale(detailsScale);
+			actionChoose.setHeight(detailHeight);
 			actions.addActor(actionChoose);
 		}
 		
@@ -554,15 +557,15 @@ public class SettingState extends GameState {
 		});
 		
 		details.add(soundText);
-		details.add(sound).pad(detailsPad).row();
+		details.add(sound).height(detailHeight).pad(detailPad).row();
 		details.add(musicText);
-		details.add(music).pad(detailsPad).row();
+		details.add(music).height(detailHeight).pad(detailPad).row();
 		details.add(masterText);
-		details.add(master).pad(detailsPad).row();
+		details.add(master).height(detailHeight).pad(detailPad).row();
 		details.add(hitsoundText);
-		details.add(hitsoundOptions).pad(detailsPad).row();
+		details.add(hitsoundOptions).height(detailHeight).pad(detailPad).row();
 		details.add(hitsoundVolumeText);
-		details.add(hitsound).pad(detailsPad).row();
+		details.add(hitsound).height(detailHeight).pad(detailPad).row();
 	}
 	
 	/**
@@ -629,18 +632,18 @@ public class SettingState extends GameState {
 		pvpMode.setSelectedIndex(gsm.getSetting().getPVPMode());
 		
 		details.add(pvpTimer);
-		details.add(pvpTimerOptions).pad(detailsPad).row();
+		details.add(pvpTimerOptions).height(detailHeight).pad(detailPad).row();
 		details.add(coopTimer);
-		details.add(coopTimerOptions).pad(detailsPad).row();
+		details.add(coopTimerOptions).height(detailHeight).pad(detailPad).row();
 		details.add(lives);
-		details.add(livesOptions).pad(detailsPad).row();
-		details.add(teamEnabled).colspan(2).pad(detailsPad).row();
+		details.add(livesOptions).height(detailHeight).pad(detailPad).row();
+		details.add(teamEnabled).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(loadout);
-		details.add(loadoutOptions).pad(detailsPad).row();
+		details.add(loadoutOptions).height(detailHeight).pad(detailPad).row();
 		details.add(slots);
-		details.add(artifactSlots).pad(detailsPad).row();
+		details.add(artifactSlots).height(detailHeight).pad(detailPad).row();
 		details.add(mode);
-		details.add(pvpMode).pad(detailsPad).row();
+		details.add(pvpMode).height(detailHeight).pad(detailPad).row();
 	}
 	
 	/**
@@ -692,17 +695,17 @@ public class SettingState extends GameState {
 		exportChatLog = new CheckBox("Export Chat Logs on Exit?", GameStateManager.getSkin());
 		exportChatLog.setChecked(gsm.getSetting().isExportChatLog());
 		
-		details.add(randomNameAlliteration).colspan(2).pad(detailsPad).row();
-		details.add(consoleEnabled).colspan(2).pad(detailsPad).row();
-		details.add(verboseDeathMessage).colspan(2).pad(detailsPad).row();
-		details.add(multiplayerPause).colspan(2).pad(detailsPad).row();
+		details.add(randomNameAlliteration).colspan(2).height(detailHeight).pad(detailPad).row();
+		details.add(consoleEnabled).colspan(2).height(detailHeight).pad(detailPad).row();
+		details.add(verboseDeathMessage).colspan(2).height(detailHeight).pad(detailPad).row();
+		details.add(multiplayerPause).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(maxPlayers);
-		details.add(playerCapacity).colspan(2).pad(detailsPad).row();
+		details.add(playerCapacity).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(port);
-		details.add(portNumber).colspan(2).width(100).pad(detailsPad).row();
+		details.add(portNumber).colspan(2).width(100).height(detailHeight).pad(detailPad).row();
 		details.add(password);
-		details.add(serverPassword).colspan(2).width(100).pad(detailsPad).row();
-		details.add(exportChatLog).colspan(2).pad(detailsPad).row();
+		details.add(serverPassword).colspan(2).width(100).height(detailHeight).pad(detailPad).row();
+		details.add(exportChatLog).colspan(2).height(detailHeight).pad(detailPad).row();
 	}
 	
 	/**

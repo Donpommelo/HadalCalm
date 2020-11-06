@@ -40,11 +40,11 @@ public class AboutState extends GameState {
 	private static final int detailsHeight = 600;
 	
 	private static final float optionsScale = 0.5f;
-	private static final float optionsPad = 15.0f;
+	private static final float optionHeight = 35.0f;
+	private static final float optionPad = 15.0f;
 	private static final float detailsScale = 0.3f;
 	
 	private static final float titlePad = 25.0f;
-	private static final float detailsPad = 15.0f;
 	private static final int detailsTextWidth = 750;
 
 	//this state's background shader
@@ -138,11 +138,11 @@ public class AboutState extends GameState {
 			    });
 				exitOption.setScale(optionsScale);
 				
-				options.add(aboutOption).pad(optionsPad).row();
-				options.add(tipsOption).pad(optionsPad).row();
-				options.add(miscOption).pad(optionsPad).row();
-				options.add(creditsOption).pad(optionsPad).row();
-				options.add(exitOption).pad(optionsPad).expand().row();
+				options.add(aboutOption).height(optionHeight).pad(optionPad).row();
+				options.add(tipsOption).height(optionHeight).pad(optionPad).row();
+				options.add(miscOption).height(optionHeight).pad(optionPad).row();
+				options.add(creditsOption).height(optionHeight).pad(optionPad).row();
+				options.add(exitOption).height(optionHeight).pad(optionPad).expand().row();
 			}
 		};
 		app.newMenu(stage);
@@ -232,9 +232,9 @@ public class AboutState extends GameState {
 		Text sfx = new Text(GameStateManager.miscText.getString("credits"), 0, 0, false, true, detailsTextWidth);
 		sfx.setScale(detailsScale);
 		
-		details.add(dev).pad(detailsPad).row();
-		details.add(art).pad(detailsPad).row();
-		details.add(sfx).pad(detailsPad);
+		details.add(dev).height(optionHeight).row();
+		details.add(art).height(optionHeight).row();
+		details.add(sfx).height(optionHeight);
 	}
 	
 	@Override

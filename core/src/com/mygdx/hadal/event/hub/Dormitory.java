@@ -52,7 +52,7 @@ public class Dormitory extends HubEvent {
 				}
 		    });
 			itemChoose.setScale(UIHub.optionsScale);
-			hub.getTableOptions().add(itemChoose).pad(UIHub.optionsPadding, 0, UIHub.optionsPadding, 0).row();
+			hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
 		}
 		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).row();
 	}
