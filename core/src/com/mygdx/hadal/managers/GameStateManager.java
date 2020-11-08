@@ -316,6 +316,7 @@ public class GameStateManager {
 			case TITLE: return new TitleState(this);
 			case SPLASH: return new InitState(this);
 			case ABOUT: return new AboutState(this);
+			case LOBBY: return new LobbyState(this);
 			default:
 				break;
 		}
@@ -347,7 +348,8 @@ public class GameStateManager {
 		VICTORY,
 		PAUSE,
 		CLIENTPLAY,
-		ABOUT
+		ABOUT,
+		LOBBY
 	}
 	
 	//These are the modes of the game

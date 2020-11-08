@@ -2,11 +2,15 @@ package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -103,7 +107,9 @@ public class TitleState extends GameState {
 	
 	//This boolean determines if input is disabled. input is disabled if the player joins/hosts.
 	private boolean inputDisabled;
-	
+
+	private final TextureRegion gabenTexture;
+
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
 	 */
@@ -117,6 +123,8 @@ public class TitleState extends GameState {
 		this.diatom3.setPosition(diatom3X, diatom3Y);
 		this.jelly = Particle.JELLY.getParticle();
 		this.jelly.setPosition(jelly1X, jelly1Y);
+
+		gabenTexture = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.GABEN.toString()));
 	}
 	
 	@Override
@@ -405,6 +413,37 @@ public class TitleState extends GameState {
 				} else {
 					enterIP.setText(gsm.getRecord().getLastIp());
 				}
+
+				Backdrop gaben = new Backdrop(AssetList.GABEN.toString(), 175, 200) {
+
+					@Override
+					public void draw(Batch batch, float alpha) {
+						batch.draw(gabenTexture, getX(), getY(), getWidth() / 2.0f, getHeight() / 2.0f,
+							getWidth(), getHeight(), 1, 1, getRotation());
+					}
+
+				};
+				gaben.addAction((Actions.repeat(RepeatAction.FOREVER, Actions.rotateBy(360, 1.5f))));
+				gaben.setPosition(850, 180);
+				gaben.setOrigin(175 / 2.0f, 200 / 2.0f);
+
+				gaben.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+
+						if (inputDisabled) { return; }
+						inputDisabled = true;
+
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+
+						//Enter the About State.
+						gsm.getApp().setRunAfterTransition(() -> getGsm().addState(State.LOBBY, TitleState.class));
+						gsm.getApp().fadeOut();
+					}
+				});
+
+				addActor(gaben);
 
 				enterName = new TextField(gsm.getLoadout().getName(), GameStateManager.getSkin());
 				enterName.setMessageText("ENTER NAME");

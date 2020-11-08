@@ -12,11 +12,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.codedisaster.steamworks.SteamException;
+import com.mygdx.hadal.audio.MusicPlayer;
+import com.mygdx.hadal.client.KryoClient;
+import com.mygdx.hadal.client.SteamLobbyManager;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.server.KryoServer;
-import com.mygdx.hadal.audio.MusicPlayer;
-import com.mygdx.hadal.client.KryoClient;
 
 /**
  * HadalGame is the game. This is created upon launching the game. It delegates the rendering + updating logic to the GameStateManager.
@@ -75,6 +77,8 @@ public class HadalGame extends ApplicationAdapter {
   	
   	//this is a black texture used for fading in/out transitions.
     private Texture black;
+
+    private SteamLobbyManager lobbyManager;
     
 	/**
 	 * This creates a game, setting up the sprite batch to render things and the main game camera.
@@ -90,8 +94,15 @@ public class HadalGame extends ApplicationAdapter {
 	    viewportUI = new FitViewport(CONFIG_WIDTH, CONFIG_HEIGHT, hud);
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
-	    
-        gsm = new GameStateManager(this);
+
+	    lobbyManager = new SteamLobbyManager();
+		try {
+			lobbyManager.initializeLobbyManager();
+		} catch (SteamException e) {
+			e.printStackTrace();
+		}
+
+		gsm = new GameStateManager(this);
 		gsm.addState(State.SPLASH, null);
 		
 		client = new KryoClient(gsm);
@@ -171,6 +182,8 @@ public class HadalGame extends ApplicationAdapter {
 		
 		//music player controller is used for fading tracks
 		musicPlayer.controller(delta);
+
+		lobbyManager.controller(delta);
 	}
 	
 	/**
@@ -214,6 +227,8 @@ public class HadalGame extends ApplicationAdapter {
 			SYSTEM_FONT_SPRITE.dispose();
 		}
 
+		lobbyManager.disposeLobbyManager();
+
 		//this prevents an error upon x-ing out the game
 		System.exit(0);
 	}	
@@ -247,4 +262,6 @@ public class HadalGame extends ApplicationAdapter {
 	public OrthographicCamera getCamera() { return camera; }
 
 	public SpriteBatch getBatch() { return batch; }
+
+	public SteamLobbyManager getLobbyManager() { return lobbyManager; }
 }

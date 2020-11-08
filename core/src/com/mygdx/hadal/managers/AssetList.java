@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public enum AssetList {
 
 	TITLE_CARD("Title.png", Texture.class),
+	GABEN("gaben.png", Texture.class),
 	TITLE_BACKGROUND("hadal_title_1280.jpg", Texture.class),
 	RESULTS_CARD("same.png", Texture.class),
 	FIXEDSYS_FONT("fonts/fixedsys.fnt", null),

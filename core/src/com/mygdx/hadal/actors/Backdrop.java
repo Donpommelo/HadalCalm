@@ -18,6 +18,8 @@ public class Backdrop extends AHadalActor {
 		this(backdropName);
 		this.width = width;
 		this.height = height;
+		setWidth(width);
+		setHeight(height);
 	}
 	
 	public Backdrop(String backdropName) {
