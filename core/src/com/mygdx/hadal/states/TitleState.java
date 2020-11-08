@@ -198,8 +198,18 @@ public class TitleState extends GameState {
 				notifications = new Text("", notificationX, notificationY, false);
 				notifications.setScale(scale);
 
-				Text versionNum = new Text("VERSION: " + HadalGame.Version, versionNumX, versionNumY, false);
+				Text versionNum = new Text("VERSION: " + HadalGame.Version, versionNumX, versionNumY, true);
 				versionNum.setScale(scale);
+				versionNum.setHeight(optionHeight);
+
+				versionNum.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						Gdx.net.openURI("https://donpommelo.itch.io/hadal-calm/devlog/193264/103e");
+					}
+				});
 
 				hostOption.addListener(new ClickListener() {
 					

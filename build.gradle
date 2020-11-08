@@ -7,7 +7,6 @@ buildscript {
         jcenter()
     }
     dependencies {
-        
 
     }
 }
@@ -23,6 +22,7 @@ allprojects {
         roboVMVersion = '2.3.8'
         pieMenuVersion = '5.0.0'
         kryonetVersion = '2.22.6'
+        steamworks4jVersion = '1.8.0'
     }
 
     repositories {
@@ -53,6 +53,8 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.github.crykn:kryonet:$kryonetVersion"
         compile "com.github.payne911:PieMenu:$pieMenuVersion"
+        compile "com.code-disaster.steamworks4j:steamworks4j:$steamworks4jVersion"
+        compile "com.code-disaster.steamworks4j:steamworks4j-server:$steamworks4jVersion"
     }
 }
 

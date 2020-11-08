@@ -59,7 +59,8 @@ public class ResultsState extends GameState {
 	private static final int width = 1000;
 	private static final int baseHeight = 90;
 	private static final int titleHeight = 40;
-	private static final int rowHeight = 50;
+	private static final int rowHeight = 30;
+	private static final int rowPad = 20;
 	private static final int nameWidth = 400;
 	private static final float scale = 0.4f;
 	private static final int maxNameLen = 30;
@@ -131,7 +132,7 @@ public class ResultsState extends GameState {
 		stage = new Stage() {
 			{
 				//table height scales to the number of players in the game
-				int tableHeight = baseHeight + titleHeight * 2 + rowHeight * scores.size();
+				int tableHeight = baseHeight + titleHeight * 2 + (rowHeight + rowPad) * scores.size();
 				
 				addActor(new Backdrop(AssetList.RESULTS_CARD.toString()));
 				addActor(new MenuWindow(0, (int) (HadalGame.CONFIG_HEIGHT - tableHeight), width, tableHeight));
@@ -233,10 +234,10 @@ public class ResultsState extends GameState {
 			status.setScale(scale);
 
 			table.add(name).width(nameWidth).height(rowHeight).padBottom(25);
-			table.add(kills).height(rowHeight).padBottom(25);
-			table.add(death).height(rowHeight).padBottom(25);
-			table.add(points).height(rowHeight).padBottom(25);
-			table.add(status).height(rowHeight).padBottom(25).row();
+			table.add(kills).height(rowHeight).padBottom(rowPad);
+			table.add(death).height(rowHeight).padBottom(rowPad);
+			table.add(points).height(rowHeight).padBottom(rowPad);
+			table.add(status).height(rowHeight).padBottom(rowPad).row();
 		}
 
 		//These are all of the display and buttons visible to the player.
@@ -272,7 +273,7 @@ public class ResultsState extends GameState {
 	    });
 		forceReadyOption.setScale(scale);
 		
-		table.add(readyOption).height(optionHeight).width(nameWidth);
+		table.add(readyOption).height(optionHeight);
 		if (ps.isServer()) {
 			table.add(forceReadyOption).height(optionHeight).colspan(4);
 		}

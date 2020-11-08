@@ -213,16 +213,8 @@ public class HadalGame extends ApplicationAdapter {
 		if (SYSTEM_FONT_SPRITE != null) {
 			SYSTEM_FONT_SPRITE.dispose();
 		}
-		
-		//close any active clients/servers
-		if (client.getClient() != null) {
-			client.getClient().close();
-		}
-		if (server.getServer() != null) {
-			server.getServer().close();
-		}
 
-		//thi prevents an error upon x-ing out the game
+		//this prevents an error upon x-ing out the game
 		System.exit(0);
 	}	
 	

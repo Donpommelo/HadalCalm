@@ -52,12 +52,13 @@ public class Setting {
 
     	if (fullscreen) {
     		Gdx.graphics.setFullscreenMode(displayMode);
-    	} else {
+			Gdx.graphics.setVSync(vsync);
+		} else {
     		indexToResolution();
-    	}
+			Gdx.graphics.setVSync(false);
+		}
     	
-    	Gdx.graphics.setVSync(vsync);
-    	
+
     	game.setFrameRate(indexToFramerate());
     	
     	setCursor();

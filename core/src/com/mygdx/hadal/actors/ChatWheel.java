@@ -45,7 +45,7 @@ public class ChatWheel {
 	private static final float wheelThreshold = 0.25f;
 	private static final float borderThickness = 5.0f;
 
-	private static final String[] options = {"<YES>", "<NO>", "<RAGE>", "<LOVE>", "temp5", "temp6", "READY", "<roll>"};
+	private static final String[] options = {"<RAGE>", "<NO>", "<YES>", "<LOVE>", "<SLEEP>", "READY", "<roll>", "<SWEAT>"};
 	
 	//is the chat wheel currently active or not?
 	private boolean active;
@@ -92,17 +92,24 @@ public class ChatWheel {
 			
 			@Override
 	        public boolean mouseMoved(InputEvent event, float x, float y) {
-				 
+				return mouseMoved(event);
+			 }
+
+			 @Override
+			 public void touchDragged (InputEvent event, float x, float y, int pointer) {
+				 mouseMoved(event);
+			 }
+
+			 private boolean mouseMoved(InputEvent event) {
 				 if (event.getListenerActor() != wheel) { return false; }
-				 
+
 				 lastDisplace.set(Gdx.input.getX(), -Gdx.input.getY()).sub(lastMousePosition).scl(indicatorAmplification);
 				 totalDisplace.add(lastDisplace).limit(wheelWidth / 2);
-				 
+
 				 pointerPosition.set(wheel.getX() + wheel.getWidth() / 2, wheel.getY() + wheel.getHeight() / 2).add(totalDisplace);
 				 lastMousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
 
 				 wheel.hoverSliceAtStage(pointerPosition.x, pointerPosition.y);
-				 
 				 return true;
 			 }
 		});
@@ -162,19 +169,29 @@ public class ChatWheel {
 			player.setEmoteCdCount(emoteCd);
 
 			HadalGame.server.addNotificationToAll(state, player.getName(), options[emoteIndex], DialogType.SYSTEM, 0);
-			Sprite emote = Sprite.EMOTE_YES;
-			switch (emoteIndex) {
-				case 1:
-					emote = Sprite.EMOTE_NO;
-					break;
-				case 2:
-					emote = Sprite.EMOTE_RAGE;
-					break;
-				case 3:
-					emote = Sprite.EMOTE_LOVE;
-					break;
-			}
-			WeaponUtils.emote(state, player, emote);
+			WeaponUtils.emote(state, player, indexToEmote(emoteIndex));
 		}
+	}
+
+	private Sprite indexToEmote(int index) {
+		Sprite emote = Sprite.EMOTE_YES;
+		switch (index) {
+			case 0:
+				emote = Sprite.EMOTE_RAGE;
+				break;
+			case 1:
+				emote = Sprite.EMOTE_NO;
+				break;
+			case 3:
+				emote = Sprite.EMOTE_LOVE;
+				break;
+			case 4:
+				emote = Sprite.EMOTE_SLEEP;
+				break;
+			case 7:
+				emote = Sprite.EMOTE_SWEAT;
+				break;
+		}
+		return emote;
 	}
 }
