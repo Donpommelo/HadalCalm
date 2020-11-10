@@ -188,6 +188,9 @@ public class ChatWheel {
 			case 4:
 				emote = Sprite.EMOTE_SLEEP;
 				break;
+			case 5:
+				emote = Sprite.EMOTE_READY;
+				break;
 			case 7:
 				emote = Sprite.EMOTE_SWEAT;
 				break;
