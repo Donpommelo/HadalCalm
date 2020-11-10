@@ -145,4 +145,6 @@ public enum AlignmentFilter {
     public boolean isUsed() { return used; }
 
     public void setUsed(boolean used) { this.used = used; }
+
+    public Vector3 getColor1() { return color1; }
 }

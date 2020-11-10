@@ -5,6 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -12,12 +13,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitKnockbackDamage;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStatic;
-import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
+import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Stats;
 
 public class JumpKick extends ActiveItem {
@@ -47,13 +43,15 @@ public class JumpKick extends ActiveItem {
 		if (right) {
 			particle = Particle.MOREAU_RIGHT;
 		}
-		new ParticleEntity(state, user.getPlayer(), particle, 1.0f, lifespan, true, ParticleEntity.particleSyncType.TICKSYNC).setScale(0.5f);
+		new ParticleEntity(state, user.getPlayer(), particle, 1.0f, 1.0f, true, ParticleEntity.particleSyncType.TICKSYNC)
+			.setScale(0.5f).setPrematureOff(lifespan)
+			.setColor(WeaponUtils.getPlayerColor(user.getPlayer()));
 
 		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 7.5f, user, user));
 		Vector2 push = new Vector2(weaponVelo).nor().scl(recoil);
 		user.getPlayer().pushMomentumMitigation(push.x, push.y);
 		
-		Hitbox hbox = new Hitbox(state, mouseLocation, hitboxSize, lifespan, new Vector2(), user.getPlayer().getHitboxfilter(),  true, true, user.getPlayer(), Sprite.IMPACT);
+		Hitbox hbox = new Hitbox(state, mouseLocation, hitboxSize, lifespan, new Vector2(), user.getPlayer().getHitboxfilter(),  true, true, user.getPlayer(), Sprite.NOTHING);
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));

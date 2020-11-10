@@ -5,8 +5,9 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.ScaledNumericValue;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.effects.Particle;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
@@ -28,7 +29,7 @@ public class ParticleEntity extends HadalEntity {
 	private String attachedId;
 	
 	//How long this entity will last after deletion, the interval that this effect is turned on, the lifespan of this entity
-	private float linger, interval, lifespan;
+	private float linger, interval, lifespan, prematureTurnOff;
 	
 	//Has the attached entity despawned yet?
 	private boolean despawn;
@@ -142,6 +143,9 @@ public class ParticleEntity extends HadalEntity {
 				} else {
 					((ClientState) state).removeEntity(entityID.toString());
 				}
+			} else if (lifespan <= prematureTurnOff) {
+				prematureTurnOff = 0.0f;
+				turnOff();
 			}
 		}
 		
@@ -358,7 +362,24 @@ public class ParticleEntity extends HadalEntity {
 		
 		return this;
 	}
-	
+
+	public ParticleEntity setColor(Vector3 color) {
+
+		for (int i = 0; i < effect.getEmitters().size; i++) {
+			float[] colors = effect.getEmitters().get(i).getTint().getColors();
+			colors[0] = color.x;
+			colors[1] = color.y;
+			colors[2] = color.z;
+		}
+
+		return this;
+	}
+
+	public ParticleEntity setPrematureOff(float timeLeft) {
+		prematureTurnOff = timeLeft;
+		return this;
+	}
+
 	public void setSyncExtraFields(boolean syncExtraFields) { this.syncExtraFields = syncExtraFields; }
 	
 	public PooledEffect getEffect() { return effect; }

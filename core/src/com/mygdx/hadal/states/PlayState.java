@@ -625,9 +625,9 @@ public class PlayState extends GameState {
 	 * This is called every update. This resets the camera zoom and makes it move towards the player (or other designated target).
 	 */
 	private static final float spectatorCameraRange = 9000.0f;
-	Vector2 tmpVector2 = new Vector2();
-	Vector3 mousePosition = new Vector3();
-	Vector2 mousePosition2 = new Vector2();
+	final Vector2 tmpVector2 = new Vector2();
+	final Vector3 mousePosition = new Vector3();
+	final Vector2 mousePosition2 = new Vector2();
 	protected void cameraUpdate() {
 		zoom = zoom + (zoomDesired - zoom) * 0.1f;
 		
@@ -649,18 +649,7 @@ public class PlayState extends GameState {
 				return;
 			}
 			//make camera target respect camera bounds if not focused on an object
-			if (tmpVector2.x > cameraBounds[0]) {
-				tmpVector2.x = cameraBounds[0];
-			}
-			if (tmpVector2.x < cameraBounds[1]) {
-				tmpVector2.x = cameraBounds[1];
-			}		
-			if (tmpVector2.y > cameraBounds[2]) {
-				tmpVector2.y = cameraBounds[2];
-			}
-			if (tmpVector2.y < cameraBounds[3]) {
-				tmpVector2.y = cameraBounds[3];
-			}
+			boundCamera(tmpVector2);
 		} else {
 			tmpVector2.set(cameraTarget);
 		}
@@ -669,6 +658,22 @@ public class PlayState extends GameState {
 		tmpVector2.add(cameraOffset);
 		spectatorTarget.set(tmpVector2);
 		CameraStyles.lerpToTarget(camera, tmpVector2);
+	}
+
+	private void boundCamera(Vector2 tempCamera) {
+		//make camera target respect camera bounds if not focused on an object
+		if (tempCamera.x > cameraBounds[0]) {
+			tempCamera.x = cameraBounds[0];
+		}
+		if (tempCamera.x < cameraBounds[1]) {
+			tempCamera.x = cameraBounds[1];
+		}
+		if (tempCamera.y > cameraBounds[2]) {
+			tempCamera.y = cameraBounds[2];
+		}
+		if (tempCamera.y < cameraBounds[3]) {
+			tempCamera.y = cameraBounds[3];
+		}
 	}
 	
 	/**
@@ -695,20 +700,23 @@ public class PlayState extends GameState {
 			stage.dispose();
 		}
 	}
-	
+
+	final Vector2 resizeTmpVector2 = new Vector2();
 	@Override
 	public void resize(int width, int height) {
 		
 		//This refocuses the camera to avoid camera moving after resizing
 		if (cameraTarget == null) {
 			if (player.getBody() != null && player.isAlive()) {
-				this.camera.position.set(new Vector3(player.getPixelPosition().x, player.getPixelPosition().y, 0));
+				resizeTmpVector2.set(player.getPixelPosition().x, player.getPixelPosition().y);
 			}
 		} else {
-			this.camera.position.set(new Vector3(cameraTarget.x, cameraTarget.y, 0));
+			resizeTmpVector2.set(cameraTarget.x, cameraTarget.y);
 		}
-		
-		if(shaderBase.getShaderProgram() != null) {
+		boundCamera(resizeTmpVector2);
+		this.camera.position.set(new Vector3(resizeTmpVector2.x, resizeTmpVector2.y, 0));
+
+		if (shaderBase.getShaderProgram() != null) {
 			shaderBase.getShaderProgram().bind();
 			shaderBase.shaderResize();
 		}

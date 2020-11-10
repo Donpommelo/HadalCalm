@@ -6,7 +6,9 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -74,7 +76,13 @@ public class BatteringRam extends MeleeWeapon {
 		if (right) {
 			particle = Particle.MOREAU_RIGHT;
 		}
-		new ParticleEntity(user.getState(), user, particle, 1.0f, lifespan, true, ParticleEntity.particleSyncType.TICKSYNC).setScale(0.5f);
+
+		if (user instanceof Player) {
+			new ParticleEntity(user.getState(), user, particle, 1.0f, 1.0f, true, ParticleEntity.particleSyncType.TICKSYNC)
+				.setScale(0.5f).setPrematureOff(lifespan * (1 - (chargeCd / getChargeTime())))
+				.setColor(WeaponUtils.getPlayerColor((Player) user));
+		}
+
 
 		//velocity scales with charge percentage
 		float velocity = chargeCd / getChargeTime() * (maxRecoil - minRecoil) + minRecoil;
@@ -86,7 +94,7 @@ public class BatteringRam extends MeleeWeapon {
 		Vector2 push = new Vector2(weaponVelo).nor().scl(velocity);
 		user.pushMomentumMitigation(push.x, push.y);
 		
-		Hitbox hbox = new Hitbox(state, mouseLocation, hitboxSize, lifespan, new Vector2(), user.getHitboxfilter(), true, true, user, Sprite.IMPACT);
+		Hitbox hbox = new Hitbox(state, mouseLocation, hitboxSize, lifespan, new Vector2(), user.getHitboxfilter(), true, true, user, Sprite.NOTHING);
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

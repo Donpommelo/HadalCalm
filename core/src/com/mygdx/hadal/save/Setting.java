@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Graphics.Monitor;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.mygdx.hadal.HadalGame;
@@ -33,6 +34,8 @@ public class Setting {
 
 	//connecting clients need to know this password to enter the server
 	private String serverPassword;
+
+	private static Cursor lastCursor;
 
 	public Setting() {}
 	
@@ -78,8 +81,13 @@ public class Setting {
 	 * cursorType == 2: dot cursor
 	 */
 	public void setCursor() {
+		if (lastCursor != null) {
+			lastCursor.dispose();
+		}
+
 		if (cursorType == 0) {
 			Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
+			lastCursor = null;
 		} else {
 			Pixmap pm = new Pixmap(indexToCursorSize(), indexToCursorSize(), Pixmap.Format.RGBA8888);
 			pm.setColor(indexToCursorColor());
@@ -92,8 +100,10 @@ public class Setting {
 			if (cursorType == 2) {
 				pm.fillCircle(indexToCursorSize() / 2, indexToCursorSize() / 2, indexToCursorSize() / 3);
 			}
-			
-	    	Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, indexToCursorSize() / 2, indexToCursorSize() / 2));
+
+			Cursor newCursor = Gdx.graphics.newCursor(pm, indexToCursorSize() / 2, indexToCursorSize() / 2);
+	    	Gdx.graphics.setCursor(newCursor);
+			lastCursor = newCursor;
 	    	pm.dispose();
 		}
 	}

@@ -1,10 +1,11 @@
 package com.mygdx.hadal.equip;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.Event.eventSyncTypes;
@@ -15,12 +16,14 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -430,9 +433,19 @@ public class WeaponUtils {
 				}
 			});
 		}
-
 	}
-	
+
+	public static Vector3 getPlayerColor(Player player) {
+		Loadout loadout = player.getPlayerData().getLoadout();
+		if (loadout.team.equals(AlignmentFilter.NONE)) {
+			return loadout.character.getColor1();
+		} else if (loadout.team.getColor1().isZero()) {
+			return loadout.character.getColor1();
+		} else {
+			return loadout.team.getColor1();
+		}
+	}
+
 	public static final int pickupSize = 64;
 	public static void createPickup(PlayState state, Vector2 startPos, final pickupTypes type, final float power) {
 
