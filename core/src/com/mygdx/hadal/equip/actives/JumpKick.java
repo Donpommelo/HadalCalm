@@ -5,6 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -39,6 +40,14 @@ public class JumpKick extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.WOOSH.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
+
+		boolean right = weaponVelo.x > 0;
+
+		Particle particle = Particle.MOREAU_LEFT;
+		if (right) {
+			particle = Particle.MOREAU_RIGHT;
+		}
+		new ParticleEntity(state, user.getPlayer(), particle, 1.0f, lifespan, true, ParticleEntity.particleSyncType.TICKSYNC).setScale(0.5f);
 
 		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 7.5f, user, user));
 		Vector2 push = new Vector2(weaponVelo).nor().scl(recoil);

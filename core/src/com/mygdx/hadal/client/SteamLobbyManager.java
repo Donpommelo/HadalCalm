@@ -158,7 +158,6 @@ public class SteamLobbyManager {
         SteamAPI.loadLibraries();
 
         if (!SteamAPI.init()) {
-            SteamAPI.printDebugInfo(System.err);
             return false;
         }
 

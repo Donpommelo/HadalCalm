@@ -66,9 +66,12 @@ public enum Particle {
 	SLODGE(ParticleType.DEFAULT, "particles/slodge.particle"),	
 	SLODGE_STATUS(ParticleType.DEFAULT, "particles/slodge_status.particle"),	
 	BRIGHT(ParticleType.DEFAULT, "particles/bright.particle"),	
-	STORM(ParticleType.DEFAULT, "particles/storm.particle"),	
-	PARTY(ParticleType.DEFAULT, "particles/party_ball.particle"),	
-	
+	STORM(ParticleType.DEFAULT, "particles/storm.particle"),
+	PARTY(ParticleType.DEFAULT, "particles/party_ball.particle"),
+	MOREAU_LEFT(ParticleType.DEFAULT, "particles/moreau_blur_left.particle"),
+	MOREAU_RIGHT(ParticleType.DEFAULT, "particles/moreau_blur_right.particle"),
+
+
 	CONFETTI(ParticleType.DEFAULT, "particles/confetti.particle"),	
 	STAR(ParticleType.DEFAULT, "particles/star_effect.particle"),	
 

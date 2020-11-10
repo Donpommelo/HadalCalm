@@ -196,7 +196,7 @@ public enum Sprite {
 	EMOTE_LOVE(SpriteType.EMOTE, "emote_love", PlayMode.LOOP, PlayState.spriteAnimationSpeedFast),
 	EMOTE_SLEEP(SpriteType.EMOTE, "emote_sleep", PlayMode.LOOP, PlayState.spriteAnimationSpeedFast),
 	EMOTE_SWEAT(SpriteType.EMOTE, "emote_tears", PlayMode.LOOP, PlayState.spriteAnimationSpeedFast),
-	EMOTE_READY(SpriteType.EMOTE, "emote_ready", PlayMode.NORMAL, PlayState.spriteAnimationSpeedFast),
+	EMOTE_READY(SpriteType.EMOTE, "emote_ready", PlayMode.LOOP, 0.5f),
 
 	TELEMACHUS_POINT(SpriteType.TELEMACHUS_POINT, null),
 	
