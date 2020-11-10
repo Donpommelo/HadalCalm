@@ -113,7 +113,7 @@ public class LobbyState extends GameState {
                 });
                 exitOption.setScale(optionsScale);
 
-                notifications = new Text("", 800, 300, false);
+                notifications = new Text("", 500, 120, false);
                 notifications.setScale(0.5f);
 
                 options.add(hostOption).height(optionHeight).pad(optionPad).row();

@@ -49,6 +49,7 @@ public class KryoServer {
 	public void init(boolean start) {
 		Kryo kryo = new Kryo();
 		kryo.setReferences(true);
+
 		KryoSerialization serialization = new KryoSerialization(kryo);
 		this.server = new Server(16384, 8192, serialization);
 		this.users = new HashMap<>();
@@ -56,7 +57,7 @@ public class KryoServer {
 		users.put(0, new User(null, null, new SavedPlayerFields(gsm.getLoadout().getName(), 0), new SavedPlayerFieldsExtra()));
 
 		if (!start) { return; }
-		
+
 		Listener packetListener = new Listener() {
 			
 			@Override

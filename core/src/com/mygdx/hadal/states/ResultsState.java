@@ -418,7 +418,7 @@ public class ResultsState extends GameState {
 		if (ps.isServer()) {
 			gsm.getApp().setRunAfterTransition(() -> {
 				gsm.removeState(ResultsState.class);
-				gsm.gotoHubState();
+				gsm.gotoHubState(TitleState.class);
 			});
 		}
 		gsm.getApp().fadeOut();

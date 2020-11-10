@@ -1,8 +1,12 @@
 package com.mygdx.hadal.client;
 
+import com.badlogic.gdx.Gdx;
 import com.codedisaster.steamworks.*;
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.LobbyState;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,8 +40,7 @@ public class SteamLobbyManager {
 
         @Override
         public void onLobbyEnter(SteamID steamIDLobby, int chatPermissions, boolean blocked, SteamMatchmaking.ChatRoomEnterResponse response) {
-            String hostAddress = matchmaking.getLobbyData(steamIDLobby, LobbyDataKey);
-            lobbyState.setNotification("MEEP");
+            lobbyState.setNotification("JOINED LOBBY");
         }
 
         @Override
@@ -57,7 +60,17 @@ public class SteamLobbyManager {
 
         @Override
         public void onLobbyGameCreated(SteamID steamIDLobby, SteamID steamIDGameServer, int ip, short port) {
+            HadalGame.client.init();
+            GameStateManager.currentMode = GameStateManager.Mode.MULTI;
+            Gdx.app.postRunnable(() -> {
 
+                //Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
+                try {
+                    HadalGame.client.getClient().connect(5000, String.valueOf(ip), port, port);
+                } catch (IOException ex) {
+                    lobbyState.setNotification("FAILED TO CONNECT TO SERVER: " );
+                }
+            });
         }
 
         @Override
@@ -79,10 +92,22 @@ public class SteamLobbyManager {
         public void onLobbyCreated(SteamResult result, SteamID steamIDLobby) {
 
             if (result == SteamResult.OK) {
+                lobbyState.setNotification("LOBY MAID");
+
+                //Start up the server in multiplayer mode
+                HadalGame.server.init(true);
+                GameStateManager.currentMode = GameStateManager.Mode.MULTI;
+
+                //Enter the Hub State.
+                gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState(LobbyState.class));
+                gsm.getApp().fadeOut();
+
                 lobbies.put(getNativeHandle(steamIDLobby), steamIDLobby);
                 matchmaking.setLobbyData(steamIDLobby, LobbyDataKey, LobbyDataValue);
+                matchmaking.setLobbyGameServer(steamIDLobby, 0, (short) gsm.getSetting().getPortNumber(), steamIDLobby);
 
-                lobbyState.setNotification("LOBY MAID");
+            } else {
+                lobbyState.setNotification("FAILED TO MAKE LOBBY: " + result);
             }
         }
 
@@ -90,8 +115,10 @@ public class SteamLobbyManager {
         public void onFavoritesListAccountsUpdated(SteamResult result) {}
     };
 
-    public SteamLobbyManager() {
+    private GameStateManager gsm;
 
+    public SteamLobbyManager(GameStateManager gsm) {
+        this.gsm = gsm;
     }
 
     public void createLobby(int maxMembers, LobbyState lobbyState) {

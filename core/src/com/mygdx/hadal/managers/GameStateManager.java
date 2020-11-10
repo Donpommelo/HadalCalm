@@ -290,17 +290,17 @@ public class GameStateManager {
 	/**
 	 * This method is just a shortcut for returning to the hub state with a clean loadout
 	 */
-	public void gotoHubState() {
+	public void gotoHubState(Class<? extends GameState> lastState) {
 		if (currentMode == Mode.SINGLE) {
 			
 			//if the player has not done the tutorial yet, they are spawned into the tutorial section. Otherwise, they are spawned into the hub
 			if (getRecord().getFlags().get("HUB_REACHED").equals(0)) {
-				addPlayState(UnlockLevel.WRECK1, new Loadout(loadout), null, TitleState.class, true, "");
+				addPlayState(UnlockLevel.WRECK1, new Loadout(loadout), null, lastState, true, "");
 			} else {
-				addPlayState(UnlockLevel.SSTUNICATE1, new Loadout(loadout), null, TitleState.class, true, "");
+				addPlayState(UnlockLevel.SSTUNICATE1, new Loadout(loadout), null, lastState, true, "");
 			}
 		} else if (currentMode == Mode.MULTI) {
-			addPlayState(UnlockLevel.HUB_MULTI, new Loadout(loadout), null, TitleState.class, true, "");
+			addPlayState(UnlockLevel.HUB_MULTI, new Loadout(loadout), null, lastState, true, "");
 		}
 	}
 	

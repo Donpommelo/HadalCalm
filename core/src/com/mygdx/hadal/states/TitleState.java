@@ -237,7 +237,7 @@ public class TitleState extends GameState {
 						GameStateManager.currentMode = Mode.MULTI;
 						
 						//Enter the Hub State.
-						gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState());
+						gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState(TitleState.class));
 						gsm.getApp().fadeOut();
 			        }
 			    });
@@ -260,7 +260,7 @@ public class TitleState extends GameState {
 						GameStateManager.currentMode = Mode.SINGLE;
 						
 						//Enter the Hub State.
-						gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState());
+						gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState(TitleState.class));
 						gsm.getApp().fadeOut();
 			        }
 			    });

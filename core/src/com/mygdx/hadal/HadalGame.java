@@ -95,16 +95,16 @@ public class HadalGame extends ApplicationAdapter {
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
 
-	    lobbyManager = new SteamLobbyManager();
+		gsm = new GameStateManager(this);
+		gsm.addState(State.SPLASH, null);
+
+		lobbyManager = new SteamLobbyManager(gsm);
 		try {
 			lobbyManager.initializeLobbyManager();
 		} catch (SteamException e) {
 			e.printStackTrace();
 		}
 
-		gsm = new GameStateManager(this);
-		gsm.addState(State.SPLASH, null);
-		
 		client = new KryoClient(gsm);
 		server = new KryoServer(gsm);
 		
