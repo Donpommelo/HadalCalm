@@ -103,7 +103,11 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="21" name="Dropthrough" type="Dropthrough" x="3392" y="1856" width="352" height="8"/>
+  <object id="21" name="Dropthrough" type="Dropthrough" x="3392" y="1856" width="352" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="22" name="ScrapSpawn" type="ScrapSpawn" x="2816" y="1056" width="32" height="32">
    <properties>
     <property name="scrap" type="int" value="1"/>
@@ -111,10 +115,26 @@
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
    </properties>
   </object>
-  <object id="23" name="Dropthrough" type="Dropthrough" x="3872" y="2144" width="352" height="8"/>
-  <object id="25" name="Dropthrough" type="Dropthrough" x="3872" y="1568" width="352" height="8"/>
-  <object id="27" name="Dropthrough" type="Dropthrough" x="3872" y="992" width="352" height="8"/>
-  <object id="28" name="Dropthrough" type="Dropthrough" x="3392" y="1280" width="352" height="8"/>
+  <object id="23" name="Dropthrough" type="Dropthrough" x="3872" y="2144" width="352" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="25" name="Dropthrough" type="Dropthrough" x="3872" y="1568" width="352" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="27" name="Dropthrough" type="Dropthrough" x="3872" y="992" width="352" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="28" name="Dropthrough" type="Dropthrough" x="3392" y="1280" width="352" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="29" name="Prefab" type="PrefabSpawner" x="2760" y="1272" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="25"/>

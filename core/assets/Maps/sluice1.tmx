@@ -38,7 +38,11 @@
     <property name="triggeredId" value="warp1"/>
    </properties>
   </object>
-  <object id="5" name="Dropthrough" type="Dropthrough" x="288" y="544" width="160" height="8"/>
+  <object id="5" name="Dropthrough" type="Dropthrough" x="288" y="544" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="6" name="Start" type="Start" x="1376" y="448" width="32" height="32">
    <properties>
     <property name="startId" value="start1"/>

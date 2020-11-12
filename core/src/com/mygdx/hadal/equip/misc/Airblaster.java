@@ -31,6 +31,8 @@ public class Airblaster extends MeleeWeapon {
 	public static final float momentum = 50.0f;
 	
 	private static final float reflectVeloAmp = 1.5f;
+	public static final float reflectVeloMin = 20.0f;
+	public static final float reflectVeloMax = 80.0f;
 
 	public Airblaster(Schmuck user) {
 		super(user, swingCd, windup, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
@@ -59,9 +61,10 @@ public class Airblaster extends MeleeWeapon {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
-					if (fixB.getType().equals(UserDataTypes.HITBOX)){
+					if (fixB.getType().equals(UserDataTypes.HITBOX)) {
 						if (fixB.getEntity().isAlive()) {
-							fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().scl(reflectVeloAmp).setAngle(startVelocity.angle()));
+							fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().scl(reflectVeloAmp).
+								clamp(reflectVeloMin, reflectVeloMax).setAngle(startVelocity.angle()));
 						}
 					}
 				}

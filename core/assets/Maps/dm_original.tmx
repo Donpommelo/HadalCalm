@@ -52,40 +52,47 @@
    <properties>
     <property name="currentX" type="float" value="1.25"/>
     <property name="currentY" type="float" value="1.25"/>
+    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="23" name="Current" type="Current" x="1024" y="1824" width="512" height="256">
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="2.5"/>
+    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="26" name="Current" type="Current" x="640" y="2368" width="192" height="416">
    <properties>
     <property name="currentX" type="float" value="1.5"/>
     <property name="currentY" type="float" value="0.5"/>
+    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="28" name="Spring" type="Spring" x="1152" y="2840" width="32" height="8">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="75"/>
    </properties>
   </object>
   <object id="36" name="Spring" type="Spring" x="352" y="2744" width="32" height="8">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
    </properties>
   </object>
-  <object id="37" name="Spring" type="Spring" x="2112" y="1792" width="32" height="32">
+  <object id="37" name="Spring" type="Spring" x="2112" y="1816" width="32" height="8">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
    </properties>
   </object>
   <object id="38" name="Spring" type="Spring" x="2528" y="2456" width="32" height="8">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
    </properties>

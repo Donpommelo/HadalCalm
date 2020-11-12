@@ -67,12 +67,36 @@
     <property name="triggeringId" value="sc1"/>
    </properties>
   </object>
-  <object id="13" name="Dropthrough" type="Dropthrough" x="1472" y="2104" width="128" height="8"/>
-  <object id="14" name="Dropthrough" type="Dropthrough" x="1280" y="1952" width="128" height="8"/>
-  <object id="15" name="Dropthrough" type="Dropthrough" x="1760" y="1888" width="160" height="8"/>
-  <object id="16" name="Dropthrough" type="Dropthrough" x="1664" y="1376" width="128" height="8"/>
-  <object id="17" name="Dropthrough" type="Dropthrough" x="576" y="1008" width="96" height="8"/>
-  <object id="18" name="Dropthrough" type="Dropthrough" x="640" y="744" width="96" height="8"/>
+  <object id="13" name="Dropthrough" type="Dropthrough" x="1472" y="2104" width="128" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="14" name="Dropthrough" type="Dropthrough" x="1280" y="1952" width="128" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="15" name="Dropthrough" type="Dropthrough" x="1760" y="1888" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="16" name="Dropthrough" type="Dropthrough" x="1664" y="1376" width="128" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="17" name="Dropthrough" type="Dropthrough" x="576" y="1008" width="96" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="18" name="Dropthrough" type="Dropthrough" x="640" y="744" width="96" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="20" name="Dummy" type="Dummy" x="2432" y="1888" width="32" height="32">
    <properties>
     <property name="triggeredId" value="dummy0"/>
@@ -362,7 +386,11 @@
     <property name="triggeringId" value="tofloor1"/>
    </properties>
   </object>
-  <object id="95" name="Dropthrough" type="Dropthrough" x="2400" y="2304" width="160" height="8"/>
+  <object id="95" name="Dropthrough" type="Dropthrough" x="2400" y="2304" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="96" name="Sensor" type="Sensor" x="3424" y="2560" width="96" height="160">
    <properties>
     <property name="triggeredId" value=""/>
@@ -391,12 +419,14 @@
   </object>
   <object id="102" name="Text" type="Text" x="736" y="2496" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="interact: (fuginteractfug)"/>
    </properties>
   </object>
   <object id="103" name="Text" type="Text" x="320" y="2336" width="256" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="left: (fugleftfug)   right: (fugrightfug)"/>
    </properties>
@@ -416,12 +446,14 @@
   </object>
   <object id="111" name="Text" type="Text" x="1472" y="2176" width="96" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="jump/hover: (fugjumpfug)"/>
    </properties>
   </object>
   <object id="112" name="Text" type="Text" x="1280" y="2016" width="96" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="boost: (fugboostfug)"/>
    </properties>
@@ -458,6 +490,7 @@
   </object>
   <object id="120" name="Text" type="Text" x="1728" y="1696" width="96" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="fast fall: (fugcrouchfug)"/>
    </properties>

@@ -107,6 +107,7 @@
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="10"/>
+    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="20" name="Start" type="Start" x="2976" y="1376" width="32" height="32">

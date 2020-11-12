@@ -204,6 +204,7 @@
   </object>
   <object id="28" name="Spring" type="Spring" x="368" y="2048" width="96" height="16">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="100"/>
    </properties>
@@ -241,12 +242,14 @@
   </object>
   <object id="44" name="Spring" type="Spring" x="3320" y="2040" width="96" height="16">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="120"/>
    </properties>
   </object>
   <object id="45" name="Spring" type="Spring" x="2056" y="2096" width="96" height="16">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="120"/>
    </properties>

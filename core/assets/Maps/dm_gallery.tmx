@@ -91,24 +91,28 @@
   </object>
   <object id="21" name="Spring" type="Spring" x="2141" y="2363" width="96" height="16">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="100"/>
    </properties>
   </object>
   <object id="22" name="Spring" type="Spring" x="2948.75" y="2322.5" width="96" height="16">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="100"/>
    </properties>
   </object>
   <object id="23" name="Spring" type="Spring" x="3585.83" y="2591" width="96" height="16">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="100"/>
    </properties>
   </object>
   <object id="24" name="Spring" type="Spring" x="1482.67" y="2428.36" width="96" height="16">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="100"/>
    </properties>

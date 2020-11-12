@@ -391,7 +391,11 @@
     <property name="triggeredId" value="warp2"/>
    </properties>
   </object>
-  <object id="64" name="Dropthrough" type="Dropthrough" x="448" y="9568" width="224" height="8"/>
+  <object id="64" name="Dropthrough" type="Dropthrough" x="448" y="9568" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="65" name="Pusher" type="Pusher" x="640" y="9824" width="32" height="32">
    <properties>
     <property name="triggeredId" value="push1"/>

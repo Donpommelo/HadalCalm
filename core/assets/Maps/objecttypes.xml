@@ -22,6 +22,7 @@
  <objecttype name="Buzzsaw" color="#a0a0a4">
   <property name="damage" type="float" default="0"/>
   <property name="filter" type="int" default="0"/>
+  <property name="independent" type="bool" default="false"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
@@ -54,6 +55,7 @@
   <property name="currentX" type="float" default="0"/>
   <property name="currentY" type="float" default="0"/>
   <property name="duration" type="float" default="0"/>
+  <property name="independent" type="bool" default="false"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
@@ -85,7 +87,9 @@
   <property name="title" type="string" default="Dormitory"/>
   <property name="unlock" type="bool" default="true"/>
  </objecttype>
- <objecttype name="Dropthrough" color="#55ff7f"/>
+ <objecttype name="Dropthrough" color="#55ff7f">
+  <property name="independent" type="bool" default="false"/>
+ </objecttype>
  <objecttype name="Dummy" color="#ffff00">
   <property name="dummyId" type="string"/>
   <property name="triggeredId" type="string"/>
@@ -145,6 +149,7 @@
  </objecttype>
  <objecttype name="Heal" color="#a0a0a4">
   <property name="heal" type="float" default="0"/>
+  <property name="independent" type="bool" default="false"/>
  </objecttype>
  <objecttype name="ItemUnlock" color="#a0a0a4">
   <property name="item" type="string"/>
@@ -190,6 +195,7 @@
  </objecttype>
  <objecttype name="ParticleField" color="#a0a0a4">
   <property name="duration" type="float" default="1"/>
+  <property name="independent" type="bool" default="false"/>
   <property name="particle" type="string"/>
   <property name="scale" type="float" default="1"/>
   <property name="speed" type="float" default="1"/>
@@ -200,6 +206,7 @@
   <property name="enemy" type="bool" default="true"/>
   <property name="event" type="bool" default="true"/>
   <property name="hbox" type="bool" default="true"/>
+  <property name="independent" type="bool" default="false"/>
   <property name="player" type="bool" default="true"/>
   <property name="restitution" type="float" default="0"/>
   <property name="triggeredId" type="string"/>
@@ -223,6 +230,7 @@
   <property name="damage" type="float" default="0"/>
   <property name="draw" type="bool" default="true"/>
   <property name="filter" type="int" default="0"/>
+  <property name="independent" type="bool" default="false"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
@@ -387,7 +395,8 @@
   <property name="universal" type="bool" default="true"/>
   <property name="volume" type="float" default="1"/>
  </objecttype>
- <objecttype name="Spring" color="#a0a0a4">
+ <objecttype name="Spring" color="#005500">
+  <property name="independent" type="bool" default="false"/>
   <property name="springX" type="float" default="0"/>
   <property name="springY" type="float" default="0"/>
  </objecttype>
@@ -418,7 +427,8 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
- <objecttype name="Text" color="#a0a0a4">
+ <objecttype name="Text" color="#000000">
+  <property name="independent" type="bool" default="false"/>
   <property name="scale" type="float" default="0.5"/>
   <property name="text" type="string"/>
  </objecttype>

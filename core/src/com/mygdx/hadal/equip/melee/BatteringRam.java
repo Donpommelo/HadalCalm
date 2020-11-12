@@ -25,7 +25,7 @@ public class BatteringRam extends MeleeWeapon {
 	private static final Vector2 hitboxSize = new Vector2(90, 120);
 	private static final float knockback = 40.0f;
 	private static final float lifespan = 0.5f;
-	
+
 	private static final Sprite weaponSprite = Sprite.MT_SCRAPRIPPER;
 	private static final Sprite eventSprite = Sprite.P_SCRAPRIPPER;
 
@@ -36,7 +36,10 @@ public class BatteringRam extends MeleeWeapon {
 	
 	private static final float minDamage = 15.0f;
 	private static final float maxDamage = 60.0f;
-	
+
+	private static final float minParticleTermination = 0.9f;
+	private static final float maxParticleTermination = 0.6f;
+
 	public BatteringRam(Schmuck user) {
 		super(user, shootCd, shootDelay, weaponSprite, eventSprite, maxCharge);
 	}
@@ -77,9 +80,11 @@ public class BatteringRam extends MeleeWeapon {
 			particle = Particle.MOREAU_RIGHT;
 		}
 
+		float particleLifespan = (1 - chargeCd / getChargeTime()) * (minParticleTermination - maxParticleTermination) + maxParticleTermination;
+
 		if (user instanceof Player) {
 			new ParticleEntity(user.getState(), user, particle, 1.0f, 1.0f, true, ParticleEntity.particleSyncType.TICKSYNC)
-				.setScale(0.5f).setPrematureOff(lifespan * (1 - (chargeCd / getChargeTime())))
+				.setScale(0.5f).setPrematureOff(particleLifespan)
 				.setColor(WeaponUtils.getPlayerColor((Player) user));
 		}
 

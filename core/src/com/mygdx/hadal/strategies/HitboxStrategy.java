@@ -5,6 +5,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 
 /**
  * A Hbox strategy implements the methods used to affect a hitbox after it has been created
@@ -40,7 +41,7 @@ public abstract class HitboxStrategy implements IHitboxStrategy {
 	public void onHit(HadalData fixB) {}
 	
 	@Override
-	public void receiveDamage(float basedamage, Vector2 knockback) {}
+	public void receiveDamage(float basedamage, Vector2 knockback, DamageTypes... tags) {}
 	
 	@Override
 	public void die() {}

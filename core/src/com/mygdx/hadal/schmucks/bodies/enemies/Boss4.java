@@ -393,7 +393,7 @@ public class Boss4 extends EnemyFloating {
 				
 				bell.addStrategy(new ControllerDefault(state, bell, getBodyData()));
 				bell.addStrategy(new CreateParticles(state, bell, getBodyData(), Particle.LIGHTNING, 0.0f, particleLinger).setParticleSize(30.0f));
-				bell.addStrategy(new HomingUnit(state, bell, getBodyData(), bellHomingSpeed, getHitboxfilter()));
+				bell.addStrategy(new HomingUnit(state, bell, getBodyData(), bellHomingSpeed));
 				
 				bell.addStrategy((new HitboxStrategy(state, bell, getBodyData()) {
 					
@@ -768,7 +768,7 @@ public class Boss4 extends EnemyFloating {
 						HadalColor.RANDOM));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
-					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), willOWispHoming, getHitboxfilter()));
+					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), willOWispHoming));
 					hbox.addStrategy(new Spread(state, hbox, getBodyData(), willOWispSpread));
 				}
 			});

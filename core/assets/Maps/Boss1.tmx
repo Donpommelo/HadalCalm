@@ -22,7 +22,11 @@
     <property name="triggeringId" value="enterleft"/>
    </properties>
   </object>
-  <object id="5" name="Dropthrough" type="Dropthrough" x="672" y="1568" width="288" height="8"/>
+  <object id="5" name="Dropthrough" type="Dropthrough" x="672" y="1568" width="288" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="6" name="Dummy" type="Dummy" x="736" y="1952" width="32" height="32">
    <properties>
     <property name="dummyId" value="0"/>
@@ -78,8 +82,16 @@
     <property name="dummyId" value="floor"/>
    </properties>
   </object>
-  <object id="17" name="Dropthrough" type="Dropthrough" x="736" y="2272" width="320" height="8"/>
-  <object id="18" name="Dropthrough" type="Dropthrough" x="1312" y="2272" width="320" height="8"/>
+  <object id="17" name="Dropthrough" type="Dropthrough" x="736" y="2272" width="320" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="18" name="Dropthrough" type="Dropthrough" x="1312" y="2272" width="320" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="19" name="Sensor" type="Sensor" x="1440" y="1792" width="32" height="864">
    <properties>
     <property name="triggeredId" value=""/>

@@ -133,6 +133,9 @@ public class Currents extends Event {
 	 */
 	@Override
 	public Object onServerCreate() {
+
+		if (independent) { return null; }
+
 		if (blueprint == null) {
 			entityLocation.set(getPixelPosition());
 

@@ -228,7 +228,11 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="152" name="Dropthrough" type="Dropthrough" x="1440" y="1120" width="160" height="8"/>
+  <object id="152" name="Dropthrough" type="Dropthrough" x="1440" y="1120" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="153" name="ScrapSpawn" type="ScrapSpawn" x="1504" y="320" width="32" height="32">
    <properties>
     <property name="scrap" type="int" value="1"/>

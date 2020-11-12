@@ -24,12 +24,17 @@
     <property name="triggeringId" value="defaultcamera"/>
    </properties>
   </object>
-  <object id="6" name="Dropthrough" type="Dropthrough" x="1504" y="1312" width="288" height="8"/>
+  <object id="6" name="Dropthrough" type="Dropthrough" x="1504" y="1312" width="288" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="7" name="Dropthrough" type="Dropthrough" x="2432" y="1312" width="288" height="8"/>
   <object id="8" name="Platform" type="Platform" x="1952" y="1408" width="288" height="32">
    <properties>
     <property name="event" type="bool" value="true"/>
     <property name="friction" type="float" value="0"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="triggeredId" value=""/>
    </properties>
@@ -73,6 +78,7 @@
    <properties>
     <property name="enemy" type="bool" value="true"/>
     <property name="event" type="bool" value="false"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="sprite" value="NOTHING"/>
    </properties>
@@ -80,6 +86,7 @@
   <object id="15" name="ParticleField" type="ParticleField" x="1472" y="1440" width="32" height="160">
    <properties>
     <property name="duration" type="float" value="5"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="SHADOW_CLOAK"/>
     <property name="speed" type="float" value="2"/>
    </properties>
@@ -183,7 +190,11 @@
     <property name="triggeringId" value="bounds1a,bounds2a"/>
    </properties>
   </object>
-  <object id="41" name="Dropthrough" type="Dropthrough" x="1952" y="1088" width="288" height="8"/>
+  <object id="41" name="Dropthrough" type="Dropthrough" x="1952" y="1088" width="288" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="42" name="Text" type="Text" x="960" y="1440" width="32" height="32">
    <properties>
     <property name="text" value="HUB"/>

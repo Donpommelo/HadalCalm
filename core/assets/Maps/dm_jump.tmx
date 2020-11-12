@@ -306,6 +306,7 @@
   <object id="87" name="Poison" type="Poison" x="1984" y="2656" width="1920" height="192">
    <properties>
     <property name="damage" type="float" value="5"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="poison1"/>
    </properties>
   </object>

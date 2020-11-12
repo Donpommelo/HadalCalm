@@ -154,18 +154,21 @@
   </object>
   <object id="35" name="Spring" type="Spring" x="1952" y="2256" width="96" height="16">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="100"/>
    </properties>
   </object>
   <object id="36" name="Spring" type="Spring" x="3008" y="2320" width="96" height="16">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="100"/>
    </properties>
   </object>
   <object id="37" name="Spring" type="Spring" x="3712" y="2288" width="96" height="16">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="100"/>
    </properties>
@@ -197,9 +200,21 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="41" name="Dropthrough" type="Dropthrough" x="2048" y="1600" width="160" height="8"/>
-  <object id="42" name="Dropthrough" type="Dropthrough" x="2816" y="1440" width="160" height="8"/>
-  <object id="43" name="Dropthrough" type="Dropthrough" x="3616" y="1664" width="160" height="8"/>
+  <object id="41" name="Dropthrough" type="Dropthrough" x="2048" y="1600" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="42" name="Dropthrough" type="Dropthrough" x="2816" y="1440" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="43" name="Dropthrough" type="Dropthrough" x="3616" y="1664" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="44" name="ScrapSpawn" type="ScrapSpawn" x="2816" y="416" width="32" height="32">
    <properties>
     <property name="scrap" type="int" value="1"/>

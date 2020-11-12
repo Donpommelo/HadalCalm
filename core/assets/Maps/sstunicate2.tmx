@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="182">
+ <editorsettings>
+  <export target="sstunicate2..tmx" format="tmx"/>
+ </editorsettings>
  <properties>
   <property name="hub" type="bool" value="true"/>
   <property name="lives" type="bool" value="true"/>
@@ -18,9 +21,21 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
-  <object id="8" name="Dropthrough" type="Dropthrough" x="2368" y="1856" width="160" height="8"/>
-  <object id="9" name="Dropthrough" type="Dropthrough" x="1728" y="1856" width="320" height="8"/>
-  <object id="10" name="Dropthrough" type="Dropthrough" x="2048" y="1664" width="320" height="8"/>
+  <object id="8" name="Dropthrough" type="Dropthrough" x="2368" y="1856" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="9" name="Dropthrough" type="Dropthrough" x="1728" y="1856" width="320" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="10" name="Dropthrough" type="Dropthrough" x="2048" y="1664" width="320" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="11" name="Dormitory" type="Dormitory" x="2304" y="2080" width="96" height="96">
    <properties>
     <property name="triggeredId" value="dormitory"/>
@@ -50,7 +65,11 @@
     <property name="triggeringId" value="enterfromcenter"/>
    </properties>
   </object>
-  <object id="17" name="Dropthrough" type="Dropthrough" x="2528" y="2752" width="448" height="8"/>
+  <object id="17" name="Dropthrough" type="Dropthrough" x="2528" y="2752" width="448" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="18" name="Dummy" type="Dummy" x="2816" y="1280" width="32" height="32">
    <properties>
     <property name="triggeredId" value="floor3"/>
@@ -68,11 +87,13 @@
   </object>
   <object id="24" name="Platform" type="Platform" x="2688" y="2336" width="288" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="elevatorfloor"/>
    </properties>
   </object>
   <object id="25" name="Platform" type="Platform" x="2688" y="2048" width="288" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="elevatorceiling"/>
    </properties>
   </object>
@@ -360,35 +381,44 @@
   </object>
   <object id="100" name="Text" type="Text" x="1728" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="ARMORY"/>
    </properties>
   </object>
   <object id="101" name="Text" type="Text" x="1920" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="RELIQUARY"/>
    </properties>
   </object>
   <object id="102" name="Text" type="Text" x="2112" y="2080" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="DISPENSARY"/>
    </properties>
   </object>
   <object id="103" name="Text" type="Text" x="1824" y="1984" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="NAVIGATIONS"/>
    </properties>
   </object>
   <object id="105" name="Text" type="Text" x="2304" y="2080" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="DORMITORY"/>
    </properties>
   </object>
-  <object id="107" name="Dropthrough" type="Dropthrough" x="2016" y="1184" width="352" height="8"/>
+  <object id="107" name="Dropthrough" type="Dropthrough" x="2016" y="1184" width="352" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="108" name="Timer" type="Timer" x="480" y="128" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="0"/>
@@ -714,6 +744,7 @@
   </object>
   <object id="175" name="Text" type="Text" x="1472" y="2080" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="COMMUNICATIONS"/>
    </properties>
@@ -727,6 +758,7 @@
   <object id="178" name="Painter" type="Painter" x="2176" y="1568" width="96" height="96"/>
   <object id="179" name="Text" type="Text" x="2176" y="1568" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="PAINTER"/>
    </properties>

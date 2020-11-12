@@ -6,8 +6,11 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.utils.Constants;
+
+import java.util.Arrays;
 
 /**
  * This strategy makes a hbox home in on enemies
@@ -22,10 +25,13 @@ public class HomingUnit extends HitboxStrategy {
 	private Schmuck homeAttempt;
 	private Fixture closestFixture;
 	private float shortestFraction = 1.0f;
-	
-	//this is the faction filter that describes which units this should home towards.
-	private final short filter;
-	
+
+	//when airblasted, should this hbox be disrupted and look for another homing target?
+	private boolean disruptable;
+
+	//time delay before the homing kicks into effect
+	private float delay;
+
 	//this is the power of the force applied to the hbox when it tries to home.
 	private final float homePower;
 
@@ -35,17 +41,21 @@ public class HomingUnit extends HitboxStrategy {
 	private static final float pushInterval = 1 / 60f;
 	private float controllerCount = 0;
 	
-	public HomingUnit(PlayState state, Hitbox proj, BodyData user, float homePower, short filter) {
+	public HomingUnit(PlayState state, Hitbox proj, BodyData user, float homePower) {
 		super(state, proj, user);
 		this.homePower = homePower;
-		this.filter = filter;
 	}
 	
 	private final Vector2 entityLocation = new Vector2();
 	private final Vector2 homeLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
-		
+
+		if (delay > 0) {
+			delay -= delta;
+			return;
+		}
+
 		//if we have a target, home towards it. Otherwise search for nearby targets
 		if (homing != null && homing.isAlive()) {
 			controllerCount += delta;
@@ -73,7 +83,7 @@ public class HomingUnit extends HitboxStrategy {
 									  return fraction;
 								  }
 							  } else if (fixture1.getUserData() instanceof BodyData) {
-								  if (((BodyData) fixture1.getUserData()).getSchmuck().getHitboxfilter() != filter) {
+								  if (((BodyData) fixture1.getUserData()).getSchmuck().getHitboxfilter() != hbox.getFilter()) {
 									  if (fraction < shortestFraction) {
 										  shortestFraction = fraction;
 										  closestFixture = fixture1;
@@ -95,7 +105,16 @@ public class HomingUnit extends HitboxStrategy {
 			}, entityLocation.x - homeRadius, entityLocation.y - homeRadius, entityLocation.x + homeRadius, entityLocation.y + homeRadius);
 		}
 	}
-	
+
+	private static final float disruptDelay = 1.0f;
+	@Override
+	public void receiveDamage(float basedamage, Vector2 knockback, DamageTypes... tags) {
+		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && disruptable) {
+			delay = disruptDelay;
+			homing = null;
+		}
+	}
+
 	private final Vector2 homingPush = new Vector2();
 	/**
 	 * This method pushes a hbox towards its homing target
@@ -129,5 +148,15 @@ public class HomingUnit extends HitboxStrategy {
 			.sub(entityLocation).nor().scl(homePower * hbox.getMass());
 		}
 		hbox.applyForceToCenter(homingPush);
+	}
+
+	public HomingUnit setDisruptable(boolean disruptable) {
+		this.disruptable = disruptable;
+		return this;
+	}
+
+	public HomingUnit setDelay(float delay) {
+		this.delay = delay;
+		return this;
 	}
 }

@@ -180,7 +180,11 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="32" name="Dropthrough" type="Dropthrough" x="2208" y="1760" width="160" height="8"/>
+  <object id="32" name="Dropthrough" type="Dropthrough" x="2208" y="1760" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="33" name="Platform" type="Platform" x="1152" y="1600" width="864" height="160">
    <properties>
     <property name="align" value="ROTATE"/>
@@ -561,7 +565,11 @@
     <property name="triggeringId" value="push1,enterleft"/>
    </properties>
   </object>
-  <object id="85" name="Dropthrough" type="Dropthrough" x="3360" y="2496" width="288" height="8"/>
+  <object id="85" name="Dropthrough" type="Dropthrough" x="3360" y="2496" width="288" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="86" name="Bounds" type="Bounds" x="5568" y="2208" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
@@ -572,7 +580,11 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="87" name="Dropthrough" type="Dropthrough" x="3424" y="1600" width="160" height="8"/>
+  <object id="87" name="Dropthrough" type="Dropthrough" x="3424" y="1600" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="88" name="Prefab" type="PrefabSpawnerUnlock" x="3456" y="1664" width="96" height="96">
    <properties>
     <property name="name" value="BRITTLING_POWDER"/>

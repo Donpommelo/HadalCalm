@@ -87,11 +87,31 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="17" name="Dropthrough" type="Dropthrough" x="1408" y="2112" width="512" height="8"/>
-  <object id="21" name="Dropthrough" type="Dropthrough" x="2336" y="2528" width="544" height="8"/>
-  <object id="22" name="Dropthrough" type="Dropthrough" x="3072" y="1600" width="512" height="8"/>
-  <object id="23" name="Dropthrough" type="Dropthrough" x="256" y="1888" width="512" height="8"/>
-  <object id="24" name="Dropthrough" type="Dropthrough" x="960" y="1536" width="512" height="8"/>
+  <object id="17" name="Dropthrough" type="Dropthrough" x="1408" y="2112" width="512" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="21" name="Dropthrough" type="Dropthrough" x="2336" y="2528" width="544" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="22" name="Dropthrough" type="Dropthrough" x="3072" y="1600" width="512" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="23" name="Dropthrough" type="Dropthrough" x="256" y="1888" width="512" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="24" name="Dropthrough" type="Dropthrough" x="960" y="1536" width="512" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="25" name="Prefab" type="PrefabSpawner" x="1616" y="2016" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="8"/>

@@ -74,7 +74,10 @@ public class Event extends HadalEntity {
     //Does this event send a sync packet to client every engine tick?
     //Default is no with the exception of moving platforms and connected events. (+specifically chosen events in the map, like nasu)
     protected boolean synced = false;
-    
+
+    //independent events are created on both client and server and never sync. These are usually static events
+    protected boolean independent = false;
+
     //will the event not be drawn when off screen?
     private boolean cullable = true;
     
@@ -233,6 +236,9 @@ public class Event extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate() {
+
+		if (independent) { return null; }
+
 		switch(syncType) {
 		case ILLUSION:
 		case SERVER:
@@ -291,7 +297,9 @@ public class Event extends HadalEntity {
 	public void setSynced(boolean synced) {	this.synced = synced; }
 
 	public void setCullable(boolean cullable) {	this.cullable = cullable; }
-	
+
+	public void setIndependent(boolean independent) { this.independent = independent; }
+
 	public RectangleMapObject getBlueprint() { return blueprint; }
 
 	public void setBlueprint(RectangleMapObject blueprint) { this.blueprint = blueprint; }

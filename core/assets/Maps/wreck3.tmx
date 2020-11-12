@@ -113,12 +113,21 @@
   </object>
   <object id="19" name="Spring" type="Spring" x="1088" y="2800" width="96" height="16">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
    </properties>
   </object>
-  <object id="20" name="Dropthrough" type="Dropthrough" x="800" y="2400" width="672" height="8"/>
-  <object id="21" name="Dropthrough" type="Dropthrough" x="960" y="1664" width="352" height="8"/>
+  <object id="20" name="Dropthrough" type="Dropthrough" x="800" y="2400" width="672" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="21" name="Dropthrough" type="Dropthrough" x="960" y="1664" width="352" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="22" name="Prefab" type="PrefabSpawner" x="1088" y="1568" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="3"/>
@@ -128,7 +137,11 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="23" name="Dropthrough" type="Dropthrough" x="960" y="704" width="352" height="8"/>
+  <object id="23" name="Dropthrough" type="Dropthrough" x="960" y="704" width="352" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="24" name="Prefab" type="PrefabSpawner" x="1088" y="608" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="3"/>

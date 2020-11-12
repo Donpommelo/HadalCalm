@@ -119,8 +119,8 @@ public class HealingArea extends Event {
 			currCrossSpawnTimer -= spawnTimerLimit;
 			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
-			ParticleEntity poison = new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
-			((ClientState) state).addEntity(poison.getEntityID().toString(), poison, false, ObjectSyncLayers.STANDARD);
+			ParticleEntity heal = new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
+			((ClientState) state).addEntity(heal.getEntityID().toString(), heal, false, ObjectSyncLayers.STANDARD);
 		}
 	}
 	
@@ -129,6 +129,9 @@ public class HealingArea extends Event {
 	 */
 	@Override
 	public Object onServerCreate() {
+
+		if (independent) { return null; }
+
 		if (blueprint == null) {
 			entityLocation.set(getPixelPosition());
 			

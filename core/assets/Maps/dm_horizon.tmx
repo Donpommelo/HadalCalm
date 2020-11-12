@@ -99,12 +99,36 @@
     <property name="triggeredId" value="w3"/>
    </properties>
   </object>
-  <object id="23" name="Dropthrough" type="Dropthrough" x="1312" y="1088" width="288" height="8"/>
-  <object id="24" name="Dropthrough" type="Dropthrough" x="2400" y="1088" width="288" height="8"/>
-  <object id="25" name="Dropthrough" type="Dropthrough" x="2944" y="864" width="288" height="8"/>
-  <object id="26" name="Dropthrough" type="Dropthrough" x="800" y="864" width="288" height="8"/>
-  <object id="27" name="Dropthrough" type="Dropthrough" x="2400" y="576" width="288" height="8"/>
-  <object id="28" name="Dropthrough" type="Dropthrough" x="1312" y="576" width="288" height="8"/>
+  <object id="23" name="Dropthrough" type="Dropthrough" x="1312" y="1088" width="288" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="24" name="Dropthrough" type="Dropthrough" x="2400" y="1088" width="288" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="25" name="Dropthrough" type="Dropthrough" x="2944" y="864" width="288" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="26" name="Dropthrough" type="Dropthrough" x="800" y="864" width="288" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="27" name="Dropthrough" type="Dropthrough" x="2400" y="576" width="288" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="28" name="Dropthrough" type="Dropthrough" x="1312" y="576" width="288" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="29" name="Prefab" type="PrefabSpawner" x="896" y="768" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="8"/>

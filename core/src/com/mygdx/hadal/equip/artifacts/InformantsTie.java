@@ -34,7 +34,7 @@ public class InformantsTie extends Artifact {
 				
 				if (!hbox.isEffectsMovement()) { return; } 
 				
-				hbox.addStrategy(new HomingUnit(state, hbox, b, homePower, inflicted.getSchmuck().getHitboxfilter()));
+				hbox.addStrategy(new HomingUnit(state, hbox, b, homePower));
 				hbox.setGravity(0.0f);
 			}
 		});

@@ -38,9 +38,21 @@
     <property name="triggeredId" value="warp0"/>
    </properties>
   </object>
-  <object id="8" name="Dropthrough" type="Dropthrough" x="2368" y="1856" width="160" height="8"/>
-  <object id="9" name="Dropthrough" type="Dropthrough" x="1728" y="1856" width="320" height="8"/>
-  <object id="10" name="Dropthrough" type="Dropthrough" x="2048" y="1664" width="320" height="8"/>
+  <object id="8" name="Dropthrough" type="Dropthrough" x="2368" y="1856" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="9" name="Dropthrough" type="Dropthrough" x="1728" y="1856" width="320" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="10" name="Dropthrough" type="Dropthrough" x="2048" y="1664" width="320" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="11" name="Dormitory" type="Dormitory" x="2304" y="2080" width="96" height="96">
    <properties>
     <property name="triggeredId" value="dormitory"/>
@@ -70,7 +82,11 @@
     <property name="triggeringId" value="enterfromcenter"/>
    </properties>
   </object>
-  <object id="17" name="Dropthrough" type="Dropthrough" x="2528" y="2752" width="448" height="8"/>
+  <object id="17" name="Dropthrough" type="Dropthrough" x="2528" y="2752" width="448" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="18" name="Dummy" type="Dummy" x="2816" y="1280" width="32" height="32">
    <properties>
     <property name="triggeredId" value="floor3"/>
@@ -88,11 +104,13 @@
   </object>
   <object id="24" name="Platform" type="Platform" x="2688" y="2336" width="288" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="elevatorfloor"/>
    </properties>
   </object>
   <object id="25" name="Platform" type="Platform" x="2688" y="2048" width="288" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="elevatorceiling"/>
    </properties>
   </object>
@@ -362,7 +380,7 @@
     <property name="triggeringId" value=""/>
    </properties>
   </object>
-  <object id="74" name="Prefab" type="PrefabAlternator" x="2688" y="2464" width="288" height="96">
+  <object id="74" name="Prefab" type="PrefabAlternator" x="2688" y="2488" width="288" height="96">
    <properties>
     <property name="align" type="int" value="1"/>
     <property name="event1" value="enterf1"/>
@@ -487,41 +505,51 @@
   </object>
   <object id="100" name="Text" type="Text" x="1728" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="ARMORY"/>
    </properties>
   </object>
   <object id="101" name="Text" type="Text" x="1920" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="RELIQUARY"/>
    </properties>
   </object>
   <object id="102" name="Text" type="Text" x="2112" y="2080" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="DISPENSARY"/>
    </properties>
   </object>
   <object id="103" name="Text" type="Text" x="1728" y="1984" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="NAVIGATIONS"/>
    </properties>
   </object>
   <object id="104" name="Text" type="Text" x="2240" y="896" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="QUARTERMASTER"/>
    </properties>
   </object>
   <object id="105" name="Text" type="Text" x="2304" y="2080" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="DORMITORY"/>
    </properties>
   </object>
-  <object id="107" name="Dropthrough" type="Dropthrough" x="2016" y="1184" width="448" height="8"/>
+  <object id="107" name="Dropthrough" type="Dropthrough" x="2016" y="1184" width="448" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="108" name="Bounds" type="Bounds" x="544" y="832" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
@@ -532,6 +560,7 @@
   </object>
   <object id="112" name="Text" type="Text" x="2368" y="1088" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="GUNS"/>
    </properties>
@@ -544,6 +573,7 @@
   </object>
   <object id="114" name="Text" type="Text" x="2208" y="1088" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="ARTIFACTS"/>
    </properties>
@@ -556,6 +586,7 @@
   </object>
   <object id="116" name="Text" type="Text" x="2048" y="1088" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="ACTIVES"/>
    </properties>
@@ -570,6 +601,7 @@
   </object>
   <object id="118" name="Text" type="Text" x="1920" y="1984" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="ARENA"/>
    </properties>
@@ -614,6 +646,7 @@
   </object>
   <object id="125" name="Text" type="Text" x="1536" y="2080" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="COMMUNICATIONS"/>
    </properties>

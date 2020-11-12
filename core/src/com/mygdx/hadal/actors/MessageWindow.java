@@ -264,8 +264,8 @@ public class MessageWindow {
 		});
 
 		tableInner.add(textLog).colspan(2).expand().pad(15).top().left().row();
-		tableInner.add(enterMessage).colspan(2).expand(1, 0).bottom().row();
 		tableInner.add(backButton).height(optionHeight).pad(optionPad).bottom().left();
+		tableInner.add(enterMessage).expand(1, 0);
 		tableInner.add(sendMessage).height(optionHeight).pad(optionPad).bottom().right();
 		
 		//windows starts off retracted

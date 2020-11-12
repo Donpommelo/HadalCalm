@@ -42,16 +42,17 @@ public class HitboxData extends HadalData {
 		if (!hbox.isAlive()) { return 0.0f; }
 		
 		//process hbox reflections/deflections
-		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT) && hbox.isAlive() && hbox.isReflectable()) {
+		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT) && hbox.isReflectable()) {
 			super.receiveDamage(basedamage, knockback, perp, procEffects, tags);
 		}
 		
-		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && hbox.isAlive()  && hbox.isReflectable()) {
+		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && hbox.isReflectable()) {
 			Filter filter = hbox.getBody().getFixtureList().get(0).getFilterData();
 			filter.groupIndex = (short) 0;
 			hbox.getBody().getFixtureList().get(0).setFilterData(filter);
 			hbox.setDamageMultiplier(reflectMultiplier * (1 + perp.getStat(Stats.REFLECT_DAMAGE)));
-			
+			hbox.setFilter(filter.groupIndex);
+
 			//reflecting a projectile should take ownership of it
 			for (HitboxStrategy strat: hbox.getStrategies()) {
 				strat.setCreator(perp);
@@ -60,7 +61,7 @@ public class HitboxData extends HadalData {
 		
 		//this is used for hitboxes hat are capable of receiving damage and knockback
 		for (HitboxStrategy s : hbox.getStrategies()) {
-			s.receiveDamage(basedamage, knockback);
+			s.receiveDamage(basedamage, knockback, tags);
 		}
 		
 		return basedamage;

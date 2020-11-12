@@ -74,7 +74,7 @@ public class TiledObjectUtil {
                 state.addEntity(wall.getEntityID().toString(), wall, false, ObjectSyncLayers.STANDARD);
             } else {
             	Wall wall = new Wall(state, shape);
-                state.addEntity(wall.getEntityID().toString(),wall, false, ObjectSyncLayers.STANDARD);
+                state.addEntity(wall.getEntityID().toString(), wall, false, ObjectSyncLayers.STANDARD);
             }
         }
     }
@@ -95,11 +95,24 @@ public class TiledObjectUtil {
      * @param objects: The list of Tiled objects to parse into events.
      */
     public static void parseTiledEventLayer(PlayState state, MapObjects objects) {
-    	for(MapObject object : objects) {
+    	for (MapObject object : objects) {
     		parseTiledEvent(state, object);
     	}
     }
-    
+
+	public static void parseTiledEventLayerClient(ClientState state, MapObjects objects) {
+		for (MapObject object : objects) {
+			if (object.getProperties().get("independent", boolean.class) != null) {
+				if (object.getProperties().get("independent", boolean.class)) {
+					Event e = parseTiledEvent(state, object);
+					if (e != null) {
+						state.addEntity(e.getEntityID().toString(), e, false, ObjectSyncLayers.STANDARD);
+					}
+				}
+			}
+		}
+	}
+
     /**
      * This parses a single tiled map object into an event
      * @param state: The Playstate that the event will be placed into
@@ -567,6 +580,9 @@ public class TiledObjectUtil {
 			}
 			if (object.getProperties().get("cullable", boolean.class) != null) {
 				e.setCullable(object.getProperties().get("cullable", boolean.class));
+			}
+			if (object.getProperties().get("independent", boolean.class) != null) {
+				e.setIndependent(object.getProperties().get("independent", boolean.class));
 			}
 			if (object.getProperties().get("gravity", float.class) != null) {
 				e.setGravity(object.getProperties().get("gravity", float.class));

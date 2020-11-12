@@ -118,7 +118,7 @@ public class WeaponUtils {
 			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), torpedoBaseDamage, torpedoBaseKnockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
 			hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), torpedoExplosionRadius, damage, torpedoExplosionKnockback, filter));
-			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), torpedoHoming, filter));
+			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), torpedoHoming));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), torpedoSpread));
 			hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
 			hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
@@ -139,12 +139,12 @@ public class WeaponUtils {
 		for (int i = 0; i < numBees; i++) {
 			
 			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(beeWidth, beeHeight), beeLifespan, startVelocity, filter, false, procEffects, user, beeSprite);
-			
+			hbox.setDensity(0.5f);
 			hbox.setDurability(beeDurability);
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user.getBodyData(), beeBaseDamage, beeKnockback, DamageTypes.BEES, DamageTypes.RANGED));	
-			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), beeHoming, filter));
+			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), beeHoming).setDisruptable(true));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), beeSpread));
 			hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.BEE_BUZZ, 0.5f, true));
 		}
@@ -161,7 +161,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new ControllerDefault(state, hbox, creator));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, creator));
 		hbox.addStrategy(new DamageStandard(state, hbox, creator, spiritDamage, spiritKnockback, DamageTypes.MAGIC, DamageTypes.RANGED));
-		hbox.addStrategy(new HomingUnit(state, hbox, creator, spiritHoming, filter));
+		hbox.addStrategy(new HomingUnit(state, hbox, creator, spiritHoming));
 		hbox.addStrategy(new CreateParticles(state, hbox, creator, particle, 0.0f, 1.0f).setParticleColor(HadalColor.RANDOM));
 		
 		hbox.addStrategy(new DieSound(state, hbox, creator, SoundEffect.DARKNESS1, 0.25f));

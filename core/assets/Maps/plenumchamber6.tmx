@@ -35,12 +35,36 @@
     <property name="triggeredId" value="warp1"/>
    </properties>
   </object>
-  <object id="5" name="Dropthrough" type="Dropthrough" x="3648" y="408" width="288" height="8"/>
-  <object id="6" name="Dropthrough" type="Dropthrough" x="3648" y="600" width="288" height="8"/>
-  <object id="7" name="Dropthrough" type="Dropthrough" x="4096" y="864" width="288" height="8"/>
-  <object id="8" name="Dropthrough" type="Dropthrough" x="1320" y="2496" width="408" height="8"/>
-  <object id="9" name="Dropthrough" type="Dropthrough" x="544" y="2144" width="160" height="8"/>
-  <object id="10" name="Dropthrough" type="Dropthrough" x="256" y="1792" width="160" height="8"/>
+  <object id="5" name="Dropthrough" type="Dropthrough" x="3648" y="408" width="288" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="6" name="Dropthrough" type="Dropthrough" x="3648" y="600" width="288" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="7" name="Dropthrough" type="Dropthrough" x="4096" y="864" width="288" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="8" name="Dropthrough" type="Dropthrough" x="1320" y="2496" width="408" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="9" name="Dropthrough" type="Dropthrough" x="544" y="2144" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="10" name="Dropthrough" type="Dropthrough" x="256" y="1792" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="11" name="Multitrigger" type="Multitrigger" x="224" y="288" width="32" height="32">
    <properties>
     <property name="triggeredId" value="entertop"/>
@@ -104,7 +128,11 @@
     <property name="triggeringId" value=""/>
    </properties>
   </object>
-  <object id="19" name="Dropthrough" type="Dropthrough" x="3840" y="1432" width="160" height="8"/>
+  <object id="19" name="Dropthrough" type="Dropthrough" x="3840" y="1432" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="20" name="QuestCheck" type="QuestCheck" x="224" y="608" width="32" height="32">
    <properties>
     <property name="check" type="int" value="1"/>
@@ -541,7 +569,11 @@
     <property name="triggeringId" value="w4count"/>
    </properties>
   </object>
-  <object id="81" name="Dropthrough" type="Dropthrough" x="1408" y="2944" width="224" height="8"/>
+  <object id="81" name="Dropthrough" type="Dropthrough" x="1408" y="2944" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="82" name="Start" type="Start" x="1504" y="2976" width="32" height="32">
    <properties>
     <property name="startId" value="start1"/>
@@ -575,7 +607,11 @@
     <property name="triggeringId" value="push1,entertop"/>
    </properties>
   </object>
-  <object id="87" name="Dropthrough" type="Dropthrough" x="3360" y="1984" width="160" height="8"/>
+  <object id="87" name="Dropthrough" type="Dropthrough" x="3360" y="1984" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="88" name="Start" type="Start" x="3424" y="2016" width="32" height="32">
    <properties>
     <property name="startId" value="start2"/>
@@ -622,7 +658,11 @@
     <property name="triggeredId" value="warp4"/>
    </properties>
   </object>
-  <object id="95" name="Dropthrough" type="Dropthrough" x="4288" y="1984" width="160" height="8"/>
+  <object id="95" name="Dropthrough" type="Dropthrough" x="4288" y="1984" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="96" name="Prefab" type="PrefabWeapon" x="544" y="2336" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>

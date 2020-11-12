@@ -119,6 +119,7 @@ public class MovingPoint extends Event {
 			
 			if (syncConnected) {
 				e.setSynced(true);
+				e.setIndependent(false);
 			}
 		}
 	}

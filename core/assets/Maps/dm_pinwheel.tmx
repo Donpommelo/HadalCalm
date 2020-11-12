@@ -211,7 +211,7 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="136" name="ScrapSpawn" type="ScrapSpawn" x="1472" y="384" width="32" height="32">
+  <object id="136" name="ScrapSpawn" type="ScrapSpawn" x="1488" y="384" width="32" height="32">
    <properties>
     <property name="scrap" type="int" value="1"/>
     <property name="sync" value="USER"/>
@@ -230,7 +230,7 @@
     <property name="triggeringId" value="egg1"/>
    </properties>
   </object>
-  <object id="139" name="MovePoint" type="MovePoint" x="1472" y="384" width="32" height="32">
+  <object id="139" name="MovePoint" type="MovePoint" x="1488" y="384" width="32" height="32">
    <properties>
     <property name="connections" value="EGGPLANT_SPAWNER"/>
     <property name="speed" type="float" value="2.5"/>

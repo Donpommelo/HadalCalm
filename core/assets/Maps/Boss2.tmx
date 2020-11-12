@@ -80,7 +80,11 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="19" name="Platform" type="Platform" x="1536" y="1344" width="992" height="96"/>
+  <object id="19" name="Platform" type="Platform" x="1536" y="1344" width="992" height="96">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="23" name="Dummy" type="Dummy" x="1568" y="480" width="928" height="32">
    <properties>
     <property name="dummyId" value="ceiling"/>
@@ -99,6 +103,7 @@
   <object id="26" name="ParticleField" type="ParticleField" x="1216" y="1536" width="1728" height="48">
    <properties>
     <property name="duration" type="float" value="5"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="KAMABOKO_SHOWER"/>
     <property name="scale" type="float" value="2"/>
     <property name="speed" type="float" value="1"/>

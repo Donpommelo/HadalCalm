@@ -333,7 +333,7 @@ public class Boss2 extends EnemyFloating {
 				hbox.addStrategy(new DieSound(state, hbox, getBodyData(), SoundEffect.SQUISH, 0.75f).setPitch(0.8f));
 				
 				if (type >= 2) {
-					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), homePower, getHitboxfilter()));
+					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), homePower));
 				}
 				if (type == 3) {
 					hbox.addStrategy(new HitboxStrategy(state, hbox, getBodyData()) {

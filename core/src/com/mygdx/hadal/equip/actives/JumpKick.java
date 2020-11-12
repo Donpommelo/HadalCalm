@@ -27,6 +27,7 @@ public class JumpKick extends ActiveItem {
 	private static final float baseDamage = 20.0f;
 	private static final Vector2 hitboxSize = new Vector2(90, 120);
 	private static final float lifespan = 0.5f;
+	private static final float particleLifespan = 0.6f;
 	private static final float knockback = 90.0f;
 	
 	public JumpKick(Schmuck user) {
@@ -44,7 +45,7 @@ public class JumpKick extends ActiveItem {
 			particle = Particle.MOREAU_RIGHT;
 		}
 		new ParticleEntity(state, user.getPlayer(), particle, 1.0f, 1.0f, true, ParticleEntity.particleSyncType.TICKSYNC)
-			.setScale(0.5f).setPrematureOff(lifespan)
+			.setScale(0.5f).setPrematureOff(particleLifespan)
 			.setColor(WeaponUtils.getPlayerColor(user.getPlayer()));
 
 		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 7.5f, user, user));

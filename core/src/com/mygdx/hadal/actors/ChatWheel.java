@@ -89,14 +89,14 @@ public class ChatWheel {
 		wheel.setInnerRadiusPercent(wheelThreshold);
 
 		wheel.setPieMenuListener(new ClickListener() {
-			
+
 			@Override
 	        public boolean mouseMoved(InputEvent event, float x, float y) {
 				return mouseMoved(event);
 			 }
 
 			 @Override
-			 public void touchDragged (InputEvent event, float x, float y, int pointer) {
+			 public void touchDragged(InputEvent event, float x, float y, int pointer) {
 				 mouseMoved(event);
 			 }
 
@@ -190,6 +190,9 @@ public class ChatWheel {
 				break;
 			case 5:
 				emote = Sprite.EMOTE_READY;
+				break;
+			case 6:
+				emote = Sprite.EMOTE_DICE;
 				break;
 			case 7:
 				emote = Sprite.EMOTE_SWEAT;
