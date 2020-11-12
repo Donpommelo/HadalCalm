@@ -53,7 +53,7 @@ public class HadalGame extends ApplicationAdapter {
     public static KryoClient client;
     public static KryoServer server;
     
-    public static BitmapFont SYSTEM_FONT_UI, SYSTEM_FONT_SPRITE;
+    public static BitmapFont SYSTEM_FONT_UI, SYSTEM_FONT_UI_SMALL, SYSTEM_FONT_SPRITE;
     public static Color DEFAULT_TEXT_COLOR;
  
 	//currentMenu is whatever stage is being drawn in the current gameState
@@ -222,6 +222,9 @@ public class HadalGame extends ApplicationAdapter {
 		
 		if (SYSTEM_FONT_UI != null) {
 			SYSTEM_FONT_UI.dispose();
+		}
+		if (SYSTEM_FONT_UI_SMALL != null) {
+			SYSTEM_FONT_UI_SMALL.dispose();
 		}
 		if (SYSTEM_FONT_SPRITE != null) {
 			SYSTEM_FONT_SPRITE.dispose();

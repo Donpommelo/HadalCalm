@@ -34,7 +34,7 @@ public class TextFilterUtil {
 		filteredText = filterTag(filteredText, "<noun1>");
 		filteredText = filterTag(filteredText, "<noun_abstract>");
 		filteredText = filterTag(filteredText, "<noun_material>");
-		
+
 		filteredText = filterRoll(filteredText);
 		filteredText = filterHotkeys(filteredText);
 		filteredText = filterPoem(filteredText);

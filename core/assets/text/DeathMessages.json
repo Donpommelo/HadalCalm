@@ -78,6 +78,9 @@
         {
             "message": "<perp> punched out all of <vic>'s blood.", "weight": 1, namedPerp: true
         }
+        {
+            "message": "<perp> beat <vic> half to death, twice.", "weight": 1, namedPerp: true
+        }
     ]
 "RANGED":  [
         {
@@ -113,7 +116,10 @@
             "message": "<perp> victimized <vic>.", "weight": 1, namedPerp: true
         }
         {
-            "message": "<perp> voided the warranty on <vic>'s body.", "weight": 1, namedPerp: true
+            "message": "<perp> did the needful to <vic>'s <body part>.", "weight": 1, namedPerp: true
+        }
+        {
+            "message": "<perp> voided the warranty on <vic>'s <body part>.", "weight": 1, namedPerp: true
         }
         {
             "message": "<perp> created a new job opening in <vic>'s department.", "weight": 1, namedPerp: true
@@ -183,7 +189,7 @@
             "message": "<perp> cured <vic>'s iron deficiency.", "weight": 1, namedPerp: true
         }
         {
-            "message": "<vic> failed to outsmart <perp>'s bullets.", "weight": 1, namedPerp: true
+            "message": "<vic> failed to outsmart <perp>'s bullets.", "weight": 10, namedPerp: true
         }
         {
             "message": "<perp> filled <vic> with more holes than a slice of this fine gorgombert.", "weight": 1, namedPerp: true
@@ -220,7 +226,7 @@
             "message": "<perp> bifurcated <vic>.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> sliced, diced and julienned <vic>.", "weight": 25, namedPerp: true
+            "message": "<perp> sliced, diced, and julienned <vic>.", "weight": 25, namedPerp: true
         }
         {
             "message": "<perp> taught <vic> not to play with power tools.", "weight": 25, namedPerp: true
@@ -344,7 +350,7 @@
             "message": "<perp> gave <vic> a toaster bath.", "weight": 5, namedPerp: true
         }
         {
-            "message": "<perp> zapped <vic> to the extreme.", "weight": 1, namedPerp: true
+            "message": "<perp> zapped <vic> to the extreme.", "weight": 3, namedPerp: true
         }
     ]
 "MAGIC":  [
@@ -384,6 +390,9 @@
         }
         {
             "message": "<perp> killed <vic> with nerve gas.", "weight": 5, namedPerp: true
+        }
+        {
+            "message": "<perp> pozzed <vic> to death.", "weight": 5, namedPerp: true
         }
         {
             "message": "<perp> polluted <vic> to death.", "weight": 25, namedPerp: true
@@ -465,7 +474,7 @@
             "message": "<perp> ruptured <vic>'s <body part> with a concussive wave.", "weight": 15, namedPerp: true
         }
         {
-            "message": "<perp> showed <vic> the song of their people.", "weight": 1, namedPerp: true
+            "message": "<perp> showed <vic> the song of their people.", "weight": 3, namedPerp: true
         }
     ]
 "STUTTER":  [

@@ -31,9 +31,13 @@ import java.util.ArrayList;
  */
 public class MessageWindow {
 
-	private static final int width = 500;
+	private static final int width = 480;
+	private static final int scrollWidth = 460;
+	private static final int scrollBarPadding = 20;
 	private static final int height = 250;
-	
+
+	private static final int inputWidth = 300;
+
 	private static final int windowX = 440;
 	private static final int windowYActive = 0;
 	private static final int windowYInactive = -height;
@@ -166,7 +170,7 @@ public class MessageWindow {
 	private void addTable() {
 		tableOuter.clear();
 		tableInner.clear();
-		
+
 		stage.addActor(tableOuter);
 		stage.addActor(tableInner);
 		tableOuter.setPosition(windowX, windowYInactive);
@@ -177,13 +181,11 @@ public class MessageWindow {
 		tableInner.setHeight(height);
 		tableOuter.add(new MenuWindow(0, 0, width, height));
 		
-		tableLog.setWidth(width);
-		tableLog.setHeight(height);
 		tableLog.padBottom(logPadding);
 		
 		textLog = new ScrollPane(tableLog, GameStateManager.getSkin());
 		textLog.setFadeScrollBars(true);
-		
+
 		enterMessage = new TextField("", GameStateManager.getSkin()) {
 			
 			private boolean typing;
@@ -238,7 +240,7 @@ public class MessageWindow {
 		};
 
 		enterMessage.setMaxLength(maxMessageLength);
-		
+
 		Text sendMessage = new Text("SEND", 0, 0, true);
 		sendMessage.setScale(0.3f);
 		
@@ -263,10 +265,10 @@ public class MessageWindow {
 			}
 		});
 
-		tableInner.add(textLog).colspan(2).expand().pad(15).top().left().row();
-		tableInner.add(backButton).height(optionHeight).pad(optionPad).bottom().left();
-		tableInner.add(enterMessage).expand(1, 0);
-		tableInner.add(sendMessage).height(optionHeight).pad(optionPad).bottom().right();
+		tableInner.add(textLog).colspan(3).width(scrollWidth).expandY().pad(optionPad).top().left().row();
+		tableInner.add(backButton).height(optionHeight).pad(0, optionPad, optionPad, optionPad).bottom().left();
+		tableInner.add(enterMessage).width(inputWidth).height(optionHeight).bottom().center();
+		tableInner.add(sendMessage).height(optionHeight).pad(0, optionPad, optionPad, optionPad).bottom().right();
 		
 		//windows starts off retracted
 		active = false;
@@ -303,10 +305,10 @@ public class MessageWindow {
 	 * After adding a text to the dialog record, we create a text actor for it and add that to the dialog box actor.
 	 */
 	private void addTextLine(String text) {
-		Text newEntry = new Text(text, 0, 0, false, true, width - 50);
+		Text newEntry = new Text(text, 0, 0, false, true, scrollWidth - scrollBarPadding);
 		newEntry.setScale(logScale);
 
-		tableLog.add(newEntry).pad(logPadding, logPadding, logPadding, logPadding).left().row();
+		tableLog.add(newEntry).pad(logPadding, 0, logPadding, scrollBarPadding).width(scrollWidth - scrollBarPadding).left().row();
 		textLog.scrollTo(0, 0, 0, 0);
 	}
 	

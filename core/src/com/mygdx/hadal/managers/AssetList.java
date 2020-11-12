@@ -10,7 +10,8 @@ public enum AssetList {
 	TITLE_BACKGROUND("hadal_title_1280.jpg", Texture.class),
 	RESULTS_CARD("same.png", Texture.class),
 	FIXEDSYS_FONT("fonts/fixedsys.fnt", null),
-	
+	VERDANA_FONT("fonts/verdana.fnt", null),
+
 	// Player and enemy sprites.
 	PROJ_1_ATL("sprites/projectiles.atlas", TextureAtlas.class),
 	NOTIFICATION_ATL("sprites/notifications.atlas", TextureAtlas.class),

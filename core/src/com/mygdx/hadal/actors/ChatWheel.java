@@ -5,9 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.effects.Sprite;
@@ -73,7 +71,22 @@ public class ChatWheel {
 		style.separatorWidth = borderThickness;
 				
 		wheel = new AnimatedPieMenu(wheelBase, style, wheelWidth / 2) {
-			
+
+			@Override
+			public void act(float delta) {
+				if (active) {
+					lastDisplace.set(Gdx.input.getX(), -Gdx.input.getY()).sub(lastMousePosition).scl(indicatorAmplification);
+					totalDisplace.add(lastDisplace).limit(wheelWidth / 2);
+
+					pointerPosition.set(wheel.getX() + wheel.getWidth() / 2, wheel.getY() + wheel.getHeight() / 2).add(totalDisplace);
+					lastMousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
+
+					wheel.hoverSliceAtStage(pointerPosition.x, pointerPosition.y);
+				}
+
+				super.act(delta);
+			}
+
 			@Override
 			public void draw(Batch batch, float alpha) {
 				super.draw(batch, alpha);
@@ -88,35 +101,9 @@ public class ChatWheel {
 		wheel.setMiddleCancel(true);
 		wheel.setInnerRadiusPercent(wheelThreshold);
 
-		wheel.setPieMenuListener(new ClickListener() {
-
-			@Override
-	        public boolean mouseMoved(InputEvent event, float x, float y) {
-				return mouseMoved(event);
-			 }
-
-			 @Override
-			 public void touchDragged(InputEvent event, float x, float y, int pointer) {
-				 mouseMoved(event);
-			 }
-
-			 private boolean mouseMoved(InputEvent event) {
-				 if (event.getListenerActor() != wheel) { return false; }
-
-				 lastDisplace.set(Gdx.input.getX(), -Gdx.input.getY()).sub(lastMousePosition).scl(indicatorAmplification);
-				 totalDisplace.add(lastDisplace).limit(wheelWidth / 2);
-
-				 pointerPosition.set(wheel.getX() + wheel.getWidth() / 2, wheel.getY() + wheel.getHeight() / 2).add(totalDisplace);
-				 lastMousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
-
-				 wheel.hoverSliceAtStage(pointerPosition.x, pointerPosition.y);
-				 return true;
-			 }
-		});
-		
 		//add all options to the wheel
-		for (final String s : options) {
-			Text option = new Text(s, 0, 0, false);
+		for (int i = 0; i < options.length; i ++) {
+			Backdrop option = new Backdrop(indexToEmote(i), 50, 50, getFrameIndex(i)).setMirror();
 			option.setScale(textScaleUnselected);
 			wheel.addActor(option);
 		}
@@ -132,7 +119,7 @@ public class ChatWheel {
 			if (!active) {
 				//play the wheel fan animation and make no options highlighted
 				wheel.animateOpening(0.4f);
-				wheel.setHoveredIndex(-1);
+				wheel.setHoveredIndex(PieMenu.NO_SELECTION);
 				
 				//keep track of the players mouse location so we know how they move relative to this vector
 				lastMousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
@@ -199,5 +186,23 @@ public class ChatWheel {
 				break;
 		}
 		return emote;
+	}
+
+	private int getFrameIndex(int index) {
+		switch (index) {
+			case 1:
+			case 2:
+			case 4:
+				return 20;
+			case 5:
+				return 1;
+			case 0:
+			case 3:
+			case 7:
+				return 10;
+			case 6:
+			default:
+				return 0;
+		}
 	}
 }
