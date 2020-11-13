@@ -64,7 +64,7 @@ public class MessageWindow {
 	private static final int maxMessageLength = 80;
 	private static final int padding = 10;
 
-	private static final float inactiveTransparency = 0.25f;
+	private static final float inactiveTransparency = 0.5f;
 	private static final float inactiveFadeDelay = 5.0f;
 	private float inactiveFadeCount;
 
@@ -81,13 +81,13 @@ public class MessageWindow {
 			@Override
 			public void act(float delta) {
 				super.act(delta);
-
 				if (!active) {
+					if (inactiveFadeCount > inactiveFadeDelay) {
+						invisible = true;
+					}
+
 					if (inactiveFadeCount <= inactiveFadeDelay) {
 						inactiveFadeCount += delta;
-						if (inactiveFadeCount > inactiveFadeDelay) {
-							invisible = true;
-						}
 					}
 				}
 			}

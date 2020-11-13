@@ -13,6 +13,7 @@ import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.ConsoleCommandUtil;
 import com.payne.games.piemenu.AnimatedPieMenu;
 import com.payne.games.piemenu.PieMenu;
 
@@ -43,7 +44,7 @@ public class ChatWheel {
 	private static final float wheelThreshold = 0.25f;
 	private static final float borderThickness = 5.0f;
 
-	private static final String[] options = {"<RAGE>", "<NO>", "<YES>", "<LOVE>", "<SLEEP>", "READY", "<roll>", "<SWEAT>"};
+	private static final String[] options = {"RAGE", "NO", "YES", "LOVE", "SLEEP", "READY", "/roll", "SWEAT"};
 	
 	//is the chat wheel currently active or not?
 	private boolean active;
@@ -155,7 +156,12 @@ public class ChatWheel {
 		if (player.getEmoteCdCount() < 0) {
 			player.setEmoteCdCount(emoteCd);
 
-			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, 0);
+			//special logic for the emote that does a chat command
+			if (emoteIndex == 6) {
+				ConsoleCommandUtil.parseChatCommand(state, state.getPlayer(), options[emoteIndex]);
+			} else {
+				HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, 0);
+			}
 			WeaponUtils.emote(state, player, indexToEmote(emoteIndex));
 		}
 	}

@@ -28,7 +28,7 @@ public class KillFeedMessage extends AHadalActor {
     private static final float targetWidth = 325;
     private static final float padding = 10;
 
-    private float lifespan = 5.0f;
+    private float lifespan = 8.0f;
 
     private final TextureRegion grey;
     private final float textX;

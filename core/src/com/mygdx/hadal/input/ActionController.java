@@ -82,7 +82,6 @@ public class ActionController {
 		}
 
 		else if (action == PlayerAction.MESSAGE_WINDOW) {
-			System.out.println("FUG");
 			state.getMessageWindow().toggleWindow();
 		}
 
