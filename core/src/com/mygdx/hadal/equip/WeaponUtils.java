@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
@@ -443,6 +444,18 @@ public class WeaponUtils {
 			return loadout.character.getColor1();
 		} else {
 			return loadout.team.getColor1();
+		}
+	}
+
+	private static final Vector3 rgb = new Vector3();
+	public static String getPlayerColorName(Schmuck schmuck) {
+		if (schmuck instanceof Player) {
+			Player player = (Player) schmuck;
+			rgb.set(getPlayerColor(player));
+			String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
+			return "[" + hex + "]" + player.getName() + "[]";
+		} else {
+			return schmuck.getName();
 		}
 	}
 

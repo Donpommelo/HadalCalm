@@ -155,7 +155,7 @@ public class ChatWheel {
 		if (player.getEmoteCdCount() < 0) {
 			player.setEmoteCdCount(emoteCd);
 
-			HadalGame.server.addNotificationToAll(state, player.getName(), options[emoteIndex], DialogType.SYSTEM, 0);
+			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, 0);
 			WeaponUtils.emote(state, player, indexToEmote(emoteIndex));
 		}
 	}

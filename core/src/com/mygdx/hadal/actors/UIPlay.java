@@ -50,7 +50,6 @@ public class UIPlay extends AHadalActor {
 	private static final float fontScaleLarge = 0.5f;
 	private static final float fontScaleSmall = 0.25f;
 
-	
 	//This variable manages the delay of hp decreasing after receiving damage
 	private static final float hpCatchup = 0.01f;
 	private static final float bossHpCatchup = 0.002f;

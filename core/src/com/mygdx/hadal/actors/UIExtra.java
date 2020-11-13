@@ -23,7 +23,7 @@ public class UIExtra extends AHadalActor {
 	private final PlayState state;
 	private final BitmapFont font;
 	
-	private static final int x = 225;
+	private static final int x = 10;
 	private static final int width = 200;
 	private static final int y = 10;
 	private static final float scale = 0.25f;
@@ -84,7 +84,7 @@ public class UIExtra extends AHadalActor {
 			}
 		}
 		font.getData().setScale(scale);
-		font.draw(batch, text.toString(), HadalGame.CONFIG_WIDTH - x, HadalGame.CONFIG_HEIGHT - y, width, Align.right, true);
+		font.draw(batch, text.toString(), x, HadalGame.CONFIG_HEIGHT - y, width, Align.left, true);
 	}
 
 	/**
@@ -93,7 +93,6 @@ public class UIExtra extends AHadalActor {
 	 * @param clear: Do we clear all the existing ui tags first?
 	 */
 	public void changeTypes(String tags, boolean clear) {
-		
 		if (clear) {
 			uiTags.clear();
 		}

@@ -16,6 +16,7 @@ import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState.TransitionState;
+import com.mygdx.hadal.statuses.DamageTypes;
 
 import java.util.ArrayList;
 
@@ -248,7 +249,6 @@ public class Packets {
 		public String name;
 		public String text;
 		public DialogType type;
-		public int connID;
 		public ServerNotification() {}
 		
 		/**
@@ -257,31 +257,47 @@ public class Packets {
 		 * @param name: The name that will be displayed in the notification
 		 * @param text: The text displayed in the notification
 		 * @param type: type of dialog (dialog, system msg, etc)
+		 */
+		public ServerNotification(String name, String text, DialogType type) {
+			this.name = name;
+			this.text = text;
+			this.type = type;
+		}
+	}
+
+	public static class ServerChat {
+		public String text;
+		public DialogType type;
+		public int connID;
+		public ServerChat() {}
+
+		/**
+		 * A ServerChat is sent from the Server to the Client to make a text appear in message window.
+		 * A Notification is sent from the Client to the Server to tell it to relay the message to all clients.
+		 * @param text: The text displayed in the notification
+		 * @param type: type of dialog (dialog, system msg, etc)
+		 * @param connID: user that sent the chat
 		 *
 		 */
-		public ServerNotification(String name, String text, DialogType type, int connID) {
-			this.name = name;
+		public ServerChat(String text, DialogType type, int connID) {
 			this.text = text;
 			this.type = type;
 			this.connID = connID;
 		}
 	}
 
-	public static class ClientNotification {
-		public String name;
+	public static class ClientChat {
 		public String text;
 		public DialogType type;
-		public ClientNotification() {}
+		public ClientChat() {}
 
 		/**
-		 * A ClientNotification is sent from the Client to the Server to tell it to relay the message to all clients.
-		 * @param name: The name that will be displayed in the notification
+		 * A ClientChat is sent from the Client to the Server to tell it to relay the message to all clients.
 		 * @param text: The text displayed in the notification
 		 * @param type: type of dialog (dialog, system msg, etc)
 		 *
 		 */
-		public ClientNotification(String name, String text, DialogType type) {
-			this.name = name;
+		public ClientChat(String text, DialogType type) {
 			this.text = text;
 			this.type = type;
 		}
@@ -1184,12 +1200,26 @@ public class Packets {
 	}
 
 	public static class SyncEmote {
-		int emoteIndex;
+		public int emoteIndex;
 
 		public SyncEmote() {}
 
 		public SyncEmote(int emoteIndex) {
 			this.emoteIndex = emoteIndex;
+		}
+	}
+
+	public static class SyncKillMessage {
+		public int connId;
+		public String entityId;
+		public DamageTypes[] tags;
+
+		public SyncKillMessage() {}
+
+		public SyncKillMessage(int connId, String entityId, DamageTypes... tags) {
+			this.connId = connId;
+			this.entityId = entityId;
+			this.tags = tags;
 		}
 	}
 
@@ -1205,7 +1235,8 @@ public class Packets {
     	kryo.register(Paused.class);
     	kryo.register(Unpaused.class);
 		kryo.register(ServerNotification.class);
-		kryo.register(ClientNotification.class);
+		kryo.register(ServerChat.class);
+		kryo.register(ClientChat.class);
     	kryo.register(ClientReady.class);
     	kryo.register(KeyDown.class);
     	kryo.register(KeyUp.class);
@@ -1255,6 +1286,7 @@ public class Packets {
 		kryo.register(RemoveScore.class);
 		kryo.register(ClientYeet.class);
 		kryo.register(SyncEmote.class);
+		kryo.register(SyncKillMessage.class);
 
 		kryo.register(Vector2.class);
 		kryo.register(UnlockLevel.class);
@@ -1281,6 +1313,8 @@ public class Packets {
 		kryo.register(EventDto.class);
 		kryo.register(EventDto.Pair.class);
 		kryo.register(SharedSetting.class);
+		kryo.register(DamageTypes.class);
+		kryo.register(DamageTypes[].class);
 
 		kryo.register(ArrayList.class);
 	}

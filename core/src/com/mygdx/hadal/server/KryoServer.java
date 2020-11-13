@@ -386,14 +386,14 @@ public class KryoServer {
 				}
 				
 				/*
-				 * A Client has sent the server a notification.
+				 * A Client has sent the server a message.
 				 * Display the notification and echo it to all clients  
 				 */
-				else if (o instanceof Packets.ClientNotification) {
-					final Packets.ClientNotification p = (Packets.ClientNotification) o;
+				else if (o instanceof Packets.ClientChat) {
+					final Packets.ClientChat p = (Packets.ClientChat) o;
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						addNotificationToAll(ps, p.name, p.text, p.type, c.getID());
+						addChatToAll(ps, p.text, p.type, c.getID());
 					}
 				}
 				
@@ -623,7 +623,7 @@ public class KryoServer {
 	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
 	public void sendNotification(int connId, String name, String text, final DialogType type) {
-		sendToTCP(connId, new Packets.ServerNotification(name, text, type, -1));
+		sendToTCP(connId, new Packets.ServerNotification(name, text, type));
 	}
 	
 	/**
@@ -633,15 +633,18 @@ public class KryoServer {
 	 * @param text: notification text
 	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
-	public void addNotificationToAll(final PlayState ps, final String name, final String text, final DialogType type, final int connID) {
+	public void addNotificationToAll(final PlayState ps, final String name, final String text, final DialogType type) {
 		if (ps.getDialogBox() != null && server != null) {
-			server.sendToAllTCP(new Packets.ServerNotification(name, text, type, connID));
-			Gdx.app.postRunnable(() -> ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type, connID));
+			server.sendToAllTCP(new Packets.ServerNotification(name, text, type));
+			Gdx.app.postRunnable(() -> ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type));
 		}
 	}
 
-	public void addNotificationToAll(final PlayState ps, final String name, final String text, final DialogType type) {
-		addNotificationToAll(ps, name, text, type, -1);
+	public void addChatToAll(final PlayState ps, final String text, final DialogType type, final int connID) {
+		if (ps.getMessageWindow() != null && server != null) {
+			server.sendToAllTCP(new Packets.ServerChat(text, type, connID));
+			Gdx.app.postRunnable(() -> ps.getMessageWindow().addText(text, type, connID));
+		}
 	}
 	
 	/**
@@ -654,7 +657,7 @@ public class KryoServer {
 	 */
 	public void addNotificationToAllExcept(final PlayState ps, int connId, final String name, final String text, final DialogType type) {
 		if (ps.getDialogBox() != null && server != null) {
-			server.sendToAllExceptTCP(connId, new Packets.ServerNotification(name, text, type, -1));
+			server.sendToAllExceptTCP(connId, new Packets.ServerNotification(name, text, type));
 			Gdx.app.postRunnable(() -> ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type));
 		}
 	}

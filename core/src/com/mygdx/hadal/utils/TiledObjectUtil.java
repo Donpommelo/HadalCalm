@@ -186,7 +186,7 @@ public class TiledObjectUtil {
 			case "UI":
 				e = new UIChanger(state,
 						object.getProperties().get("tags", "", String.class),
-						object.getProperties().get("clear", false, boolean.class));
+						object.getProperties().get("clear", true, boolean.class));
 				break;
 			case "Game":
 				e = new GameChanger(state,

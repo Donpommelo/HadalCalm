@@ -14,7 +14,6 @@ import com.mygdx.hadal.dialog.DialogInfo;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -28,13 +27,13 @@ public class DialogBox extends AHadalActor {
 	private final BitmapFont font;
 
 	//This is the scale that the text is drawn at.
-	private static final float scale = 0.35f;
+	private static final float scale = 0.25f;
 	private static final float scaleSmall = 0.25f;
 
 	//This is a queue of dialogues in the order that they will be displayed.
 	private final Queue<Dialog> dialogs;
 
-	//Reference to the gsm. Used to reference gsm fields like the 9patch to draw the window with.
+	//Reference to the gsm. Used to reference gsm fields
 	private final PlayState ps;
 	
 	//This counter keeps track of the lifespan of dialogues that have a set duration
@@ -42,20 +41,28 @@ public class DialogBox extends AHadalActor {
 	
 	//These 2 variables track the location of the dialogue box
 	private float currX, currY;
-	
+
+	private static final int boxX = 340;
+	private static final int boxY = 720;
+
 	//These 2 variables keep track of the dialogue box's final location. These exist to make the box grow/move upon initiating
-	private static final int maxX = 950;
+	private static final int maxX = 600;
 	private static final int maxY = 150;
 	
-	private static final int maxXSmall = 700;
+	private static final int maxXSmall = 600;
 	private static final int maxYSmall = 80;
 	
-	private static final int maxTextWidth = 790;
-	private static final int maxTextWidthSmall = 675;
+	private static final int maxTextWidth = 590;
+	private static final int maxTextWidthSmall = 590;
 
 	private static final int advanceWidth = 50;
 	private static final int advanceHeight = 30;
-	
+
+	private static final int bustHeight = 120;
+	private static final int bustWidth = 120;
+	private static final int bustOffsetX = 10;
+	private static final int bustOffsetY = -130;
+
 	//This float is the ratio of the max dimensions of the window before the text appears.
 	//For example, the text will appear when the window's x = maxX * this variable
 	private static final float textAppearThreshold = 0.9f;
@@ -63,8 +70,8 @@ public class DialogBox extends AHadalActor {
 	//this keeps track of the actor's animation frames
 	protected float animCdCount;
 	
-	public DialogBox(PlayState ps, int x, int y) {
-		super(x, y);
+	public DialogBox(PlayState ps) {
+		super(boxX, boxY);
 		this.ps = ps;
 
 		dialogs = new Queue<>();
@@ -129,7 +136,7 @@ public class DialogBox extends AHadalActor {
 		
 		if (dialog != null) {
 			for (JsonValue d : dialog) {
-				addDialogue(GameStateManager.json.fromJson(DialogInfo.class, d.toJson(OutputType.minimal)), radio, trigger, type, -1);
+				addDialogue(GameStateManager.json.fromJson(DialogInfo.class, d.toJson(OutputType.minimal)), radio, trigger, type);
 			}	
 		}
 	}
@@ -138,54 +145,29 @@ public class DialogBox extends AHadalActor {
 	 * Instead of loading a conversation from the dialog text file, this is used for single dialogs.
 	 * This is useful for dynamic text.
 	 */
-	public void addDialogue(DialogInfo info, EventData radio, EventData trigger, DialogType type, int connID) {
+	public void addDialogue(DialogInfo info, EventData radio, EventData trigger, DialogType type) {
 
-		boolean displayed = true;
-		User user;
-		if (ps.isServer()) {
-			user = HadalGame.server.getUsers().get(connID);
-		} else {
-			user = HadalGame.client.getUsers().get(connID);
+		//this does text filtering/formatting for the new text
+		info.setDisplayedText(ps.getGsm());
+
+		//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
+		if (dialogs.size == 0) {
+			durationCount = info.getDuration();
+
+			currX = 0;
+			currY = 0;
+
+			SoundEffect.BLOP.play(ps.getGsm(), 1.0f, false);
 		}
-
-		//do not display messages from muted players
-		if (user != null) {
-			if (user.isMuted()) {
-				displayed = false;
-			}
-		}
-
-		if (displayed) {
-			//this does text filtering/formatting for the new text
-			info.setDisplayedText(ps.getGsm());
-
-			//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
-			if (dialogs.size == 0) {
-				durationCount = info.getDuration();
-
-				currX = 0;
-				currY = 0;
-
-				SoundEffect.BLOP.play(ps.getGsm(), 1.0f, false);
-			}
-			dialogs.addLast(new Dialog(info, radio, trigger, type));
-
-			//add new dialog to the message log.
-			ps.getMessageWindow().addText(info.getDisplayedText());
-		}
+		dialogs.addLast(new Dialog(info, radio, trigger, type));
 	}
 	
 	/**
 	 * This is just like the above method, except for a dynamically created dialog
 	 */
 	public void addDialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura,
-							EventData radio, EventData trigger, DialogType type, int connID) {
-		addDialogue(new DialogInfo(name, text, sprite, end, override, small, dura), radio, trigger, type, connID);
-	}
-
-	public void addDialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura,
 							EventData radio, EventData trigger, DialogType type) {
-		addDialogue(name, text, sprite, end, override, small, dura, radio, trigger, type, -1);
+		addDialogue(new DialogInfo(name, text, sprite, end, override, small, dura), radio, trigger, type);
 	}
 
 	/**
@@ -229,7 +211,6 @@ public class DialogBox extends AHadalActor {
 				font.getData().setScale(scaleSmall);
 				GameStateManager.getSimplePatch().draw(batch, getX(), getY() - currY, currX, currY);
 				 
-
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxXSmall * textAppearThreshold) {
 					font.draw(batch, first.getInfo().getDisplayedText(), getX() + 20, getY() - 20, maxTextWidthSmall, Align.left, true);
@@ -249,9 +230,7 @@ public class DialogBox extends AHadalActor {
 				 
 				if (first.getBust() != null) {
 					batch.draw(first.getBust().getKeyFrame(animCdCount, true),
-								getX() + 10, getY() - 130, 
-								100 / 2.0f, 100 / 2.0f,
-								120, 120, 1, 1, 0);
+								getX() + bustOffsetX, getY() + bustOffsetY, bustWidth, bustHeight);
 				}
 			}
 			

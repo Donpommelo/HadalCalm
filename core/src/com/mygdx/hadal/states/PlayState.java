@@ -142,6 +142,7 @@ public class PlayState extends GameState {
 	protected UIHub uiHub;
 	protected MessageWindow messageWindow;
 	protected ChatWheel chatWheel;
+	protected KillFeed killFeed;
 	protected ScoreWindow scoreWindow;
 	protected DialogBox dialogBox;
 	
@@ -314,8 +315,9 @@ public class PlayState extends GameState {
 			
 			messageWindow = new MessageWindow(this, stage);
 			chatWheel = new ChatWheel(this, stage);
+			killFeed = new KillFeed(this);
 			scoreWindow = new ScoreWindow(this);
-			dialogBox = new DialogBox(this, 0, (int) HadalGame.CONFIG_HEIGHT);
+			dialogBox = new DialogBox(this);
 		}
 		
 		//Add and sync ui elements in case of unpause or new playState
@@ -1433,7 +1435,9 @@ public class PlayState extends GameState {
 	public InputProcessor getController() { return controller; }
 
 	public MessageWindow getMessageWindow() { return messageWindow; }
-	
+
+	public KillFeed getKillFeed() { return killFeed; }
+
 	public ChatWheel getChatWheel() { return chatWheel; }
 	
 	public ScoreWindow getScoreWindow() { return scoreWindow; }	

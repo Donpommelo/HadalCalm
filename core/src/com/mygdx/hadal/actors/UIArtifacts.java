@@ -5,8 +5,6 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
 
-import java.util.ArrayList;
-
 /**
  * This ui element appears in the bottom middle of the screen and displays a list of the player's artifacts
  * These statuses are in the form of an Artifact Tag, an object that allows the player to get more info by mousing over
@@ -17,7 +15,6 @@ public class UIArtifacts {
 
 	private final PlayState state;
 	
-	private final ArrayList<ArtifactIcon> artifacts;
 	private final Table table;
 	
 	private static final int tagWidth = 25;
@@ -34,10 +31,8 @@ public class UIArtifacts {
 		this.state = state;
 		this.table = new Table().left().top();
 
-		this.artifacts = new ArrayList<>();
-
 		addTable();
-		
+
 		//When starting up normally, the player's data is not loaded yet, and we do not need to sync.
 		if (state.getPlayer().getPlayerData() != null) {
 			syncArtifact();
@@ -49,12 +44,10 @@ public class UIArtifacts {
 	 */
 	public void syncArtifact() {
 		table.clear();
-		artifacts.clear();
 		if (state.getPlayer().getPlayerData() != null) {
-			
 			for (UnlockArtifact a : state.getPlayer().getPlayerData().getLoadout().artifacts) {
 				if (!a.equals(UnlockArtifact.NOTHING)) {
-					artifacts.add(addTag(a));
+					addTag(a);
 				}
 			}
 		}
@@ -62,15 +55,13 @@ public class UIArtifacts {
 	
 	/**
 	 * This methods adds a artifact Tag to the ui. This puts in the visible ui element.
-	 * @param u: new artifact
-	 * @return corresponding status tag
+	 * @param u : new artifact
 	 */
-	private ArtifactIcon addTag(UnlockArtifact u) {
+	private void addTag(UnlockArtifact u) {
 		ArtifactIcon newTag = new ArtifactIcon(u, u.getInfo().getName() + "\n" + u.getInfo().getDescription(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 		newTag.setWidth(tagWidth);
 		newTag.setHeight(tagHeight);
 		table.add(newTag).width(tagWidth).height(tagHeight);
-		return newTag;
 	}
 	
 	public void addTable() {

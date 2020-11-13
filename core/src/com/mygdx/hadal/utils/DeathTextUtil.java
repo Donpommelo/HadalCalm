@@ -3,6 +3,7 @@ package com.mygdx.hadal.utils;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.dialog.DeathMessage;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -97,8 +98,12 @@ public class DeathTextUtil {
 	 * filter a death message to include perp and vic names.
 	 */
 	public static String filterDeathMessage(Schmuck perp, Player vic, String message) {
-		String filteredMessage = message.replaceAll("<vic>", vic.getName());
-		filteredMessage = filteredMessage.replaceAll("<perp>", perp.getName());
+
+		String vicName = WeaponUtils.getPlayerColorName(vic);
+		String perpName = WeaponUtils.getPlayerColorName(perp);
+
+		String filteredMessage = message.replaceAll("<vic>", vicName);
+		filteredMessage = filteredMessage.replaceAll("<perp>", perpName);
 		return filteredMessage;
 	}
 	
@@ -106,26 +111,29 @@ public class DeathTextUtil {
 	 * Simple death messages only indicate perpetrator and victim
 	 */
 	public static String getDeathTextAbridged(Schmuck perp, Player vic, DamageTypes... tags) {
-		
+
+		String vicName = WeaponUtils.getPlayerColorName(vic);
+		String perpName = WeaponUtils.getPlayerColorName(perp);
+
 		if (tags.length > 0) {
 			switch (tags[0]) {
 			case LIVES_OUT:
-				return vic.getName() + " ran out of lives.";
+				return vicName + " ran out of lives.";
 			case DISCONNECT:
-				return vic.getName() + " disconnected.";
+				return vicName + " disconnected.";
 			default:
 				break;
 			}
 		}
 
 		if (perp.equals(vic)) {
-			return vic.getName() + " killed themself.";
+			return vicName + " killed themself.";
 		} else if (perp instanceof Player) {
-			return perp.getName() + " killed " + vic.getName() + ".";
+			return perpName + " killed " + vicName + ".";
 		} else if (perp instanceof Enemy) {
-			return vic.getName() + " was killed by a " + perp.getName() + ".";
+			return vicName + " was killed by a " + perpName + ".";
 		} else {
-			return vic.getName() + " died.";
+			return vicName + " died.";
 		}
 	}
 }

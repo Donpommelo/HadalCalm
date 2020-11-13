@@ -40,14 +40,14 @@ public class ConsoleCommandUtil {
 	public static int parseChatCommand(PlayState state, Player player, String command) {
 		
 		if (command.equals("/roll")) {
-			HadalGame.server.addNotificationToAll(state, "SYSTEM", player.getName() + " Rolled A Number: "
+			HadalGame.server.addChatToAll(state,"Rolled A Number: "
 				+ GameStateManager.generator.nextInt(maxRoll), DialogType.SYSTEM, 0);
 			return 0;
 		}
 		
 		if (command.equals("/weapon")) {
 			
-			StringBuilder message = new StringBuilder(player.getName() + "'s Weapons: ");
+			StringBuilder message = new StringBuilder("Weapons: ");
 			
 			for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
 
@@ -56,13 +56,13 @@ public class ConsoleCommandUtil {
 				}
 			}
 			
-			HadalGame.server.addNotificationToAll(state, "SYSTEM", message.toString(), DialogType.SYSTEM, 0);
+			HadalGame.server.addChatToAll(state, message.toString(), DialogType.SYSTEM, 0);
 			return 0;
 		}
 		
 		if (command.equals("/artifact")) {
 			
-			StringBuilder message = new StringBuilder(player.getName() + "'s Artifacts: ");
+			StringBuilder message = new StringBuilder("Artifacts: ");
 			
 			for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
 				
@@ -71,12 +71,12 @@ public class ConsoleCommandUtil {
 				}
 			}
 			
-			HadalGame.server.addNotificationToAll(state, "SYSTEM", message.toString(), DialogType.SYSTEM, 0);
+			HadalGame.server.addChatToAll(state,message.toString(), DialogType.SYSTEM, 0);
 			return 0;
 		}
 
 		if (command.equals("/active")) {
-			HadalGame.server.addNotificationToAll(state, "SYSTEM", player.getName() + "'s Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM, 0);
+			HadalGame.server.addChatToAll(state,"Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM, 0);
 			return 0;
 		}
 		
@@ -86,13 +86,13 @@ public class ConsoleCommandUtil {
 	public static int parseChatCommandClient(ClientState state, Player player, String command) {
 		
 		if (command.equals("/roll")) {
-			HadalGame.client.sendTCP(new Packets.ClientNotification("SYSTEM", player.getName() + " Rolled A Number: " + GameStateManager.generator.nextInt(100), DialogType.SYSTEM));
+			HadalGame.client.sendTCP(new Packets.ClientChat("Rolled A Number: " + GameStateManager.generator.nextInt(100), DialogType.SYSTEM));
 			return 0;
 		}
 		
 		if (command.equals("/weapon")) {
 			
-			StringBuilder message = new StringBuilder(player.getName() + "'s Weapons: ");
+			StringBuilder message = new StringBuilder("Weapons: ");
 			
 			for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, state.getUiPlay().getOverrideWeaponSlots()); i++) {
 				
@@ -101,13 +101,13 @@ public class ConsoleCommandUtil {
 				}
 			}
 			
-			HadalGame.client.sendTCP(new Packets.ClientNotification("SYSTEM", message.toString(), DialogType.SYSTEM));
+			HadalGame.client.sendTCP(new Packets.ClientChat(message.toString(), DialogType.SYSTEM));
 			return 0;
 		}
 		
 		if (command.equals("/artifact")) {
 			
-			StringBuilder message = new StringBuilder(player.getName() + "'s Artifacts: ");
+			StringBuilder message = new StringBuilder("Artifacts: ");
 			
 			for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
 				
@@ -116,12 +116,12 @@ public class ConsoleCommandUtil {
 				}
 			}
 			
-			HadalGame.client.sendTCP(new Packets.ClientNotification("SYSTEM", message.toString(), DialogType.SYSTEM));
+			HadalGame.client.sendTCP(new Packets.ClientChat(message.toString(), DialogType.SYSTEM));
 			return 0;
 		}
 
 		if (command.equals("/active")) {
-			HadalGame.client.sendTCP(new Packets.ClientNotification("SYSTEM", player.getName() + "'s Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM));
+			HadalGame.client.sendTCP(new Packets.ClientChat("Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM));
 			return 0;
 		}
 		return -1;

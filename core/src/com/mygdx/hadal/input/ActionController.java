@@ -80,7 +80,12 @@ public class ActionController {
 				HadalGame.server.sendPacketToPlayer(player, new Packets.Paused(player.getName(), false));
 			}
 		}
-		
+
+		else if (action == PlayerAction.MESSAGE_WINDOW) {
+			System.out.println("FUG");
+			state.getMessageWindow().toggleWindow();
+		}
+
 		else if (action == PlayerAction.SCORE_WINDOW) {
 			state.getScoreWindow().setVisibility(false);
 		}
@@ -177,10 +182,6 @@ public class ActionController {
 			player.getPlayerData().switchDown();
 		}
 		
-		else if (action == PlayerAction.MESSAGE_WINDOW) {
-			state.getMessageWindow().toggleWindow();
-		}
-
 		else if (action == PlayerAction.SCORE_WINDOW) {
 			state.getScoreWindow().setVisibility(true);
 		}

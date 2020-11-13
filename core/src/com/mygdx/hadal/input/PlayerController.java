@@ -92,10 +92,6 @@ public class PlayerController implements InputProcessor {
 			player.getController().keyDown(PlayerAction.WEAPON_CYCLE_UP);
 		} 
 		
-		else if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
-			player.getController().keyDown(PlayerAction.MESSAGE_WINDOW);
-		} 
-		
 		else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
 			player.getController().keyDown(PlayerAction.SCORE_WINDOW);
 		} 
@@ -141,8 +137,12 @@ public class PlayerController implements InputProcessor {
 		
 		else if (keycode == PlayerAction.PAUSE.getKey()) {
 			player.getController().keyUp(PlayerAction.PAUSE);
-		} 
-		
+		}
+
+		else if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
+			player.getController().keyUp(PlayerAction.MESSAGE_WINDOW);
+		}
+
 		else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
 			player.getController().keyUp(PlayerAction.SCORE_WINDOW);
 		}	

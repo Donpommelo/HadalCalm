@@ -2,7 +2,6 @@ package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
@@ -26,7 +25,6 @@ import com.mygdx.hadal.server.Packets.SyncPlayerStats;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.utils.DeathTextUtil;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -643,7 +641,8 @@ public class PlayerBodyData extends BodyData {
 				}
 
 				//Send death notification to all players
-				HadalGame.server.addNotificationToAll(player.getState(), "",  DeathTextUtil.getDeathText(player.getState().getGsm(), perp.getSchmuck(), player, tags), DialogType.KILL);
+				player.getState().getKillFeed().addMessage(perp.getSchmuck(), player, tags);
+				HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(player.getConnID(), perp.getSchmuck().getEntityID().toString(), tags));
 			}
 			
 			schmuck.getState().onPlayerDeath(player, perp.getSchmuck());

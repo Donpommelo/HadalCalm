@@ -65,7 +65,8 @@ public class SettingState extends GameState {
 	private static final int detailsY = 100;
 	private static final int detailsWidth = 500;
 	private static final int detailsHeight = 600;
-	
+	private static final int scrollWidth = 480;
+
 	private static final int extraX = 820;
 	private static final int extraY = 600;
 	private static final int extraWidth = 240;
@@ -384,9 +385,9 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.CONTROLS;
 		
-		details.add(new Text("CONTROLS", 0, 0, false)).colspan(2).pad(titlePad).row();
+		details.add(new Text("CONTROLS", 0, 0, false)).pad(titlePad).row();
 		
-		VerticalGroup actions = new VerticalGroup().pad(titlePad);
+		VerticalGroup actions = new VerticalGroup().space(optionPadding);
 		
 		for (PlayerAction a : PlayerAction.values()) {
 			
@@ -399,13 +400,15 @@ public class SettingState extends GameState {
 				public void clicked(InputEvent e, float x, float y) {
 					
 					//Clicking any option will highlight it and designate it as the next to update.
-					((Text) e.getListenerActor()).setText(action.toString() + ":==   " + getKey(action.getKey()) + " <--");					
+					((Text) e.getListenerActor()).setText(action.toString() + ":==   " + getKey(action.getKey()) + " <--");
 					currentlyEditing = action;
+
+					actionChoose.setHeight(detailHeight);
 				}
 			});
-			
 			actionChoose.setScale(detailsScale);
 			actionChoose.setHeight(detailHeight);
+
 			actions.addActor(actionChoose);
 		}
 		
@@ -416,7 +419,7 @@ public class SettingState extends GameState {
 		keybinds = new ScrollPane(actions, GameStateManager.getSkin());
 		keybinds.setSize(detailsWidth, detailsHeight);
 		
-		details.add(keybinds);
+		details.add(keybinds).width(scrollWidth).expandY().pad(optionPadding);
 		stage.setScrollFocus(keybinds);
 	}
 	

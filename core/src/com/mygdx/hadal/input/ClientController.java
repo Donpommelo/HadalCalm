@@ -126,10 +126,6 @@ public class ClientController implements InputProcessor {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WEAPON_CYCLE_DOWN));
 		} 
 		
-		else if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
-			state.getMessageWindow().toggleWindow();
-		} 
-		
 		else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
 			state.getScoreWindow().setVisibility(true);
 		} 
@@ -196,8 +192,12 @@ public class ClientController implements InputProcessor {
 		
 		else if (keycode == PlayerAction.PAUSE.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.PAUSE));
-		} 
-		
+		}
+
+		else if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
+			state.getMessageWindow().toggleWindow();
+		}
+
 		else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
 			state.getScoreWindow().setVisibility(false);
 		}

@@ -92,7 +92,7 @@ public class KryoClient {
 				
         		//If our client state is still here, the server closed
 				if (cs != null) {
-					addNotification(cs, "", "DISCONNECTED!", DialogType.SYSTEM, -1);
+					addNotification(cs, "", "DISCONNECTED!", DialogType.SYSTEM);
 				}
 				
 				//return to the title. (if our client state is still there, we can do a fade out transition first.
@@ -378,7 +378,38 @@ public class KryoClient {
         				}
         			}
         		}
-        		
+
+				/*
+				 * We have received a notification from the server.
+				 * Display the notification
+				 */
+				else if (o instanceof Packets.SyncKillMessage) {
+					final Packets.SyncKillMessage p = (Packets.SyncKillMessage) o;
+					final ClientState cs = getClientState();
+
+					if (cs != null) {
+						User user = users.get(p.connId);
+						if (user != null) {
+							HadalEntity entity = cs.findEntity(p.entityId);
+							if (entity instanceof Schmuck) {
+								Gdx.app.postRunnable(() -> cs.getKillFeed().addMessage((Schmuck) entity, user.getPlayer(), p.tags));
+							}
+						}
+					}
+				}
+
+				/*
+				 * A Client has sent the server a message.
+				 * Display the notification and echo it to all clients
+				 */
+				else if (o instanceof Packets.ServerChat) {
+					final Packets.ServerChat p = (Packets.ServerChat) o;
+					final ClientState cs = getClientState();
+					if (cs != null) {
+						Gdx.app.postRunnable(() -> cs.getMessageWindow().addText(p.text, p.type, p.connID));
+					}
+				}
+
         		/*
         		 * We have received a notification from the server.
         		 * Display the notification
@@ -386,9 +417,9 @@ public class KryoClient {
         		else if (o instanceof Packets.ServerNotification) {
         			final Packets.ServerNotification p = (Packets.ServerNotification) o;
         			final ClientState cs = getClientState();
-					
+
 					if (cs != null) {
-						Gdx.app.postRunnable(() -> addNotification(cs, p.name, p.text, p.type, p.connID));
+						Gdx.app.postRunnable(() -> addNotification(cs, p.name, p.text, p.type));
 					}
         		}
         		
@@ -868,8 +899,8 @@ public class KryoClient {
 	 * @param name: name giving the notification
 	 * @param text: notification text
 	 */
-	public void addNotification(ClientState cs, String name, String text, DialogType type, int connID) {
-		cs.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type, connID);
+	public void addNotification(ClientState cs, String name, String text, DialogType type) {
+		cs.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type);
 	}
 	
 	private void registerPackets() {

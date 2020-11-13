@@ -83,6 +83,8 @@ public class ResultsState extends GameState {
 	private static final float artifactTagOffsetY = -60.0f;
 	private static final float artifactTagTargetWidth = 200.0f;
 
+	private static final int messageX = 440;
+	private static final int messageY = 0;
 	/**
 	 * Constructor will be called whenever the game transitions into a results state
 	 * @param text: this is the string that is displayed at the top of the result state
@@ -169,9 +171,8 @@ public class ResultsState extends GameState {
 			ps.getMessageWindow().toggleWindow();
 		}
 		ps.getMessageWindow().setLocked(true);
-		stage.addActor(ps.getMessageWindow().tableOuter);
-		stage.addActor(ps.getMessageWindow().tableInner);
-		
+		ps.getMessageWindow().table.setPosition(messageX, messageY);
+		stage.addActor(ps.getMessageWindow().table);
 		gsm.getApp().fadeIn();
 		app.newMenu(stage);
 	}
@@ -444,8 +445,7 @@ public class ResultsState extends GameState {
 	//we update the message window to take input
 	@Override
 	public void update(float delta) {
-		ps.getMessageWindow().tableOuter.act(delta);
-		ps.getMessageWindow().tableInner.act(delta);
+		ps.getMessageWindow().table.act(delta);
 	}
 
 	@Override
