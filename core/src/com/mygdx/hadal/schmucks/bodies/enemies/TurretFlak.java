@@ -26,8 +26,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class TurretFlak extends Turret {
 
 	private static final int baseHp = 200;
-	private static final String name = "FLAK TURRET";
-
 	private static final int scrapDrop = 3;
 	
 	private static final float aiAttackCd = 0.5f;
@@ -35,7 +33,7 @@ public class TurretFlak extends Turret {
 	private static final float scale = 0.5f;
 	
 	public TurretFlak(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, name, EnemyType.TURRET_FLAK, startAngle, filter, baseHp, aiAttackCd, scrapDrop, scale, spawner);		
+		super(state, startPos, EnemyType.TURRET_FLAK, startAngle, filter, baseHp, aiAttackCd, scrapDrop, scale, spawner);
 		moveState = MoveState.DEFAULT;
 	}
 	

@@ -18,8 +18,7 @@ import com.mygdx.hadal.utils.Stats;
 public class Swimmer2 extends EnemySwimming {
 
 	private static final int baseHp = 174;
-	private static final String name = "FIREBREATHING KAMABOKO";
-	
+
 	private static final int scrapDrop = 1;
 
 	private static final int width = 512;
@@ -39,7 +38,7 @@ public class Swimmer2 extends EnemySwimming {
 	private final TextureRegion faceSprite;
 	
 	public Swimmer2(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.SWIMMER2, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.SWIMMER2, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(GameStateManager.generator.nextInt(5));
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		

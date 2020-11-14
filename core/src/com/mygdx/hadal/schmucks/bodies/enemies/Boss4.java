@@ -39,8 +39,6 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Boss4 extends EnemyFloating {
 	
-	private static final String name = "FALSE SUN";
-
     private static final float aiAttackCd = 2.2f;
     private static final float aiAttackCd2 = 1.6f;
 	
@@ -73,7 +71,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float bodyBaseScale3 = 5.0f;
 	
 	public Boss4(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), name, sprite, EnemyType.BOSS4, filter, hp, aiAttackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS4, filter, hp, aiAttackCd, scrapDrop, spawner);
 
 		body1 = new ParticleEntity(state, this, Particle.WORMHOLE, 1.0f, 0.0f, true, particleSyncType.TICKSYNC) {
 			

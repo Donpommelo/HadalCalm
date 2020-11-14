@@ -19,8 +19,7 @@ import com.mygdx.hadal.utils.Stats;
 public class Scissorfish extends EnemySwimming {
 
 	private static final int baseHp = 100;
-	private static final String name = "SCISSORFISH";
-	
+
 	private static final int scrapDrop = 2;
 	
 	private static final int width = 72;
@@ -40,7 +39,7 @@ public class Scissorfish extends EnemySwimming {
 	private static final Sprite sprite = Sprite.FISH_SCISSOR;
 	
 	public Scissorfish(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), name, sprite, EnemyType.SCISSORFISH, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.SCISSORFISH, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		
 		setNoiseRadius(noiseRadius);

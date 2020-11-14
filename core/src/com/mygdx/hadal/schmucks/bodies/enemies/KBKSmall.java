@@ -17,8 +17,7 @@ import com.mygdx.hadal.utils.Stats;
 public class KBKSmall extends EnemySwimming {
 
 	private static final int baseHp = 10;
-	private static final String name = "KAMABOKLING";
-	
+
 	private static final int scrapDrop = 1;
 
 	private static final int width = 256;
@@ -38,7 +37,7 @@ public class KBKSmall extends EnemySwimming {
 	private final TextureRegion faceSprite;
 	
 	public KBKSmall(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.SPLITTER_SMALL, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.SPLITTER_SMALL, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(GameStateManager.generator.nextInt(5));
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		

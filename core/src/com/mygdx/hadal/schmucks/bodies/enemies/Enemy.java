@@ -94,8 +94,8 @@ public class Enemy extends Schmuck {
 	 //This is the event that spawner this enemy. Is null for the client and for enemies spawned in other ways.
     protected SpawnerSchmuck spawner;
     
-	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, String name, Sprite sprite, EnemyType type, short filter, float baseHp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
-		super(state, startPos, size, name, filter, baseHp);
+	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, float baseHp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
+		super(state, startPos, size, type.getName(), filter, baseHp);
 		this.hboxSize = hboxSize;
 		this.type = type;
 		this.attackCd = attackCd;
@@ -352,7 +352,9 @@ public class Enemy extends Schmuck {
 		}
 		return attackTarget;
 	}
-	
+
+	public EnemyType getEnemyType() { return type; }
+
 	public void setBoss(boolean isBoss) { this.isBoss = isBoss; }
 	
 	public boolean isBoss() { return isBoss; }

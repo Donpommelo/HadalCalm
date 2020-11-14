@@ -22,8 +22,6 @@ import com.mygdx.hadal.utils.Stats;
 public class Drone extends EnemySwimming {
 
 	private static final int baseHp = 225;
-	private static final String name = "DRONE";
-	
 	private static final int scrapDrop = 5;
 
 	private static final int width = 450;
@@ -48,7 +46,7 @@ public class Drone extends EnemySwimming {
 	private final int eyeType;
 	
 	public Drone(PlayState state, Vector2 startPos, float startAngle, short filter, float extraField, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.DRONE, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.DRONE, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		armBackSprite = Sprite.DRONE_ARM_BACK.getFrame();
 		armFrontSprite = Sprite.DRONE_ARM_FRONT.getFrame();
 		eyeSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.DRONE_EYE.getFrames());

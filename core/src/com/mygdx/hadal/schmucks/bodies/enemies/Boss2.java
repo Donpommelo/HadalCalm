@@ -34,8 +34,6 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  */
 public class Boss2 extends EnemyFloating {
 				
-	private static final String name = "KING KAMABOKO";
-
     private static final float aiAttackCd = 2.0f;
     private static final float aiAttackCd2 = 1.5f;
     private static final float aiAttackCd3 = 1.0f;
@@ -66,7 +64,7 @@ public class Boss2 extends EnemyFloating {
 	private static final float phaseThreshold3 = 0.4f;
 	
 	public Boss2(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), name, sprite, EnemyType.BOSS2, filter, hp, aiAttackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS2, filter, hp, aiAttackCd, scrapDrop, spawner);
 		this.headSprite = Sprite.KAMABOKO_BODY.getFrames().get(0);
 		this.bodySprite = Sprite.KAMABOKO_BODY.getFrames().get(1);
 		setFaceSprite();

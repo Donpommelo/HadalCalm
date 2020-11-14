@@ -20,6 +20,7 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.server.*;
 import com.mygdx.hadal.server.Packets.SyncPlayerStats;
 import com.mygdx.hadal.states.ClientState;
@@ -641,8 +642,16 @@ public class PlayerBodyData extends BodyData {
 				}
 
 				//Send death notification to all players
-				player.getState().getKillFeed().addMessage(perp.getSchmuck(), player, tags);
-				HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(player.getConnID(), perp.getSchmuck().getEntityID().toString(), tags));
+				if (perp instanceof PlayerBodyData) {
+					player.getState().getKillFeed().addMessage(((Player) perp.getSchmuck()), player, null, tags);
+					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(((Player) perp.getSchmuck()).getConnID(), player.getConnID(), null, tags));
+				} else if (perp.getSchmuck() instanceof Enemy) {
+					player.getState().getKillFeed().addMessage(null, player, ((Enemy) perp.getSchmuck()).getEnemyType(), tags);
+					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnID(), ((Enemy) perp.getSchmuck()).getEnemyType(), tags));
+				} else {
+					player.getState().getKillFeed().addMessage(null, player, null, tags);
+					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnID(), null, tags));
+				}
 			}
 			
 			schmuck.getState().onPlayerDeath(player, perp.getSchmuck());

@@ -448,12 +448,18 @@ public class WeaponUtils {
 	}
 
 	private static final Vector3 rgb = new Vector3();
-	public static String getPlayerColorName(Schmuck schmuck) {
+	public static String getPlayerColorName(Schmuck schmuck, int maxNameLen) {
 		if (schmuck instanceof Player) {
 			Player player = (Player) schmuck;
+			String displayedName = player.getName();
+
+			if (displayedName.length() > maxNameLen) {
+				displayedName = displayedName.substring(0, maxNameLen).concat("...");
+			}
+
 			rgb.set(getPlayerColor(player));
 			String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
-			return "[" + hex + "]" + player.getName() + "[]";
+			return "[" + hex + "]" + displayedName + "[]";
 		} else {
 			return schmuck.getName();
 		}

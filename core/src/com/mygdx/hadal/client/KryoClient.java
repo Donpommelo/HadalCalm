@@ -388,11 +388,16 @@ public class KryoClient {
 					final ClientState cs = getClientState();
 
 					if (cs != null) {
-						User user = users.get(p.connId);
-						if (user != null) {
-							HadalEntity entity = cs.findEntity(p.entityId);
-							if (entity instanceof Schmuck) {
-								Gdx.app.postRunnable(() -> cs.getKillFeed().addMessage((Schmuck) entity, user.getPlayer(), p.tags));
+						User vic = users.get(p.vicConnId);
+						if (vic != null) {
+							User perp = users.get(p.perpConnId);
+
+							if (perp != null) {
+								Gdx.app.postRunnable(() -> cs.getKillFeed()
+									.addMessage(perp.getPlayer(), vic.getPlayer(), p.enemyType, p.tags));
+							} else {
+								Gdx.app.postRunnable(() -> cs.getKillFeed()
+									.addMessage(null, vic.getPlayer(), p.enemyType, p.tags));
 							}
 						}
 					}
@@ -693,6 +698,7 @@ public class KryoClient {
 
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
 					newPlayer.setStartPos(p.startPosition);
+					newPlayer.setConnID(p.connID);
 					cs.addEntity(p.entityID, newPlayer, true, ObjectSyncLayers.STANDARD);
 
 					if (p.connID == connID) {

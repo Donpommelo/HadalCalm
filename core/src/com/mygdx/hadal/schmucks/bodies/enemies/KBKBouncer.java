@@ -16,7 +16,6 @@ import com.mygdx.hadal.utils.Stats;
 public class KBKBouncer extends EnemyCrawling {
 
 	private static final int baseHp = 100;
-	private static final String name = "BOUNCING KAMABOKO";
 
 	private static final int scrapDrop = 1;
 
@@ -39,7 +38,7 @@ public class KBKBouncer extends EnemyCrawling {
 	private final TextureRegion faceSprite;
 	
 	public KBKBouncer(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.BOUNCER, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.BOUNCER, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(GameStateManager.generator.nextInt(5));
 		setCurrentState(CrawlingState.BACK_FORTH);
 	}

@@ -29,8 +29,6 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Boss1 extends EnemyFloating {
 	
-	private static final String name = "SLIGHTLY LARGER FISH";
-
     private static final float aiAttackCd = 3.0f;
     private static final float aiAttackCd2 = 2.2f;
     private static final float aiAttackCd3 = 1.5f;
@@ -56,7 +54,7 @@ public class Boss1 extends EnemyFloating {
 	private static final float phaseThreshold3 = 0.4f;
 	
 	public Boss1(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), name, sprite, EnemyType.BOSS1, filter, hp, aiAttackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS1, filter, hp, aiAttackCd, scrapDrop, spawner);
 	}
 	
 	@Override

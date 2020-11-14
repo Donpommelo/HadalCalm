@@ -19,8 +19,6 @@ import com.mygdx.hadal.utils.Stats;
 public class DroneBit extends EnemySwimming {
 
 	private static final int baseHp = 125;
-	private static final String name = "DRONE BIT";
-	
 	private static final int scrapDrop = 0;
 
 	private static final int width = 450;
@@ -45,7 +43,7 @@ public class DroneBit extends EnemySwimming {
 	private final Animation<TextureRegion> eyeSprite;
 	
 	public DroneBit(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.DRONE_BIT, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.DRONE_BIT, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		armBackSprite = Sprite.DRONE_ARM_BACK.getFrame();
 		armFrontSprite = Sprite.DRONE_ARM_FRONT.getFrame();
 		eyeSprite = new Animation<>(PlayState.spriteAnimationSpeed, Sprite.DRONE_EYE.getFrames());

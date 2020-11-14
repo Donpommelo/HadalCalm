@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
@@ -41,27 +42,29 @@ public class MessageWindow {
 	private static final int height = 200;
 
 	private static final int windowX = 0;
-	private static final int windowY = 120;
+	private static final int windowY = 130;
 
-	public static final float logScale = 0.25f;
+	public static final float logScale = 0.3f;
 
 	public static final float logPadding = 7.5f;
 	private static final int inputWidth = 200;
-	public static final float inputHeight = 15.0f;
+	public static final float inputHeight = 20.0f;
 	public static final float inputPad = 5.0f;
+	public static final float optionHeight = 35.0f;
 
 	private final PlayState state;
 	private final Stage stage;
 	
 	public Table table, tableLog;
-	
 	private TextField enterMessage;
+	private Text backButton, sendButton;
 	private ScrollPane textLog;
 	
 	//is this window currently active/invisible? is this window locked and unable to be toggled?
 	private boolean active, invisible, locked;
 
 	private static final int maxMessageLength = 80;
+	private static final int maxNameLength = 30;
 	private static final int padding = 10;
 
 	private static final float inactiveTransparency = 0.5f;
@@ -198,7 +201,6 @@ public class MessageWindow {
 	private void addTable() {
 		table.clear();
 		stage.addActor(table);
-
 		table.setPosition(windowX, windowY);
 		table.setWidth(width);
 		table.setHeight(height);
@@ -260,11 +262,35 @@ public class MessageWindow {
             	}
             }
 		};
-
 		enterMessage.setMaxLength(maxMessageLength);
 
-		table.add(textLog).width(scrollWidth).expandY().pad(inputPad).top().left().row();
+		backButton = new Text("EXIT", 0, 0, true);
+		backButton.setScale(logScale);
+
+		sendButton = new Text("SEND", 0, 0, true);
+		sendButton.setScale(logScale);
+
+		//sending a message should return focus to the playstate
+		sendButton.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				sendMessage();
+			}
+		});
+
+		backButton.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				toggleWindow();
+			}
+		});
+
+		table.add(textLog).colspan(3).width(scrollWidth).expandY().pad(inputPad).top().left().row();
+		table.add(backButton).height(optionHeight).pad(inputPad).bottom().left();
 		table.add(enterMessage).width(inputWidth).height(inputHeight).bottom().center();
+		table.add(sendButton).height(optionHeight).pad(inputPad).bottom().right();
 
 		//windows starts off retracted
 		fadeOut();
@@ -303,13 +329,14 @@ public class MessageWindow {
 		//do not display messages from muted players
 		if (user != null) {
 			if (!user.isMuted()) {
-				textRecord.add(user.getPlayer().getName() + ": " + text);
-
+				String newText = "";
 				if (type.equals(DialogType.SYSTEM)) {
-					addTextLine("[RED]" + user.getPlayer().getName() + ": " + text + " []");
+					newText = "[RED]" + user.getPlayer().getName() + ": " + text + " []";
 				} else {
-					addTextLine(WeaponUtils.getPlayerColorName(user.getPlayer()) + ": " + text + " []");
+					newText = WeaponUtils.getPlayerColorName(user.getPlayer(), maxNameLength) + ": " + text + " []";
 				}
+				addTextLine(newText);
+				textRecord.add(newText);
 			}
 		}
 	}
@@ -331,16 +358,19 @@ public class MessageWindow {
 
 	private void fadeOut() {
 		textLog.setTouchable(Touchable.disabled);
+		backButton.setVisible(false);
 		enterMessage.setVisible(false);
+		sendButton.setVisible(false);
 		active = false;
-
 		invisible = false;
 		inactiveFadeCount = 0.0f;
 	}
 
 	private void fadeIn() {
-		enterMessage.setVisible(true);
 		textLog.setTouchable(Touchable.enabled);
+		backButton.setVisible(true);
+		enterMessage.setVisible(true);
+		sendButton.setVisible(true);
 		active = true;
 		invisible = false;
 		inactiveFadeCount = 0.0f;

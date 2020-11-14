@@ -19,7 +19,6 @@ import com.mygdx.hadal.utils.Stats;
 public class Crawler2 extends EnemyCrawling {
 
 	private static final int baseHp = 100;
-	private static final String name = "CHARGER";
 
 	private static final int scrapDrop = 2;
 
@@ -35,7 +34,7 @@ public class Crawler2 extends EnemyCrawling {
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
 	
 	public Crawler2(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), name, sprite, EnemyType.CRAWLER2, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.CRAWLER2, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 
 		EnemyUtils.changeCrawlingState(this, CrawlingState.AVOID_PITS, 0.5f, 0.0f);
 	}

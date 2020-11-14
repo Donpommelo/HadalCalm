@@ -1210,15 +1210,17 @@ public class Packets {
 	}
 
 	public static class SyncKillMessage {
-		public int connId;
-		public String entityId;
+		public int perpConnId;
+		public int vicConnId;
+		public EnemyType enemyType;
 		public DamageTypes[] tags;
 
 		public SyncKillMessage() {}
 
-		public SyncKillMessage(int connId, String entityId, DamageTypes... tags) {
-			this.connId = connId;
-			this.entityId = entityId;
+		public SyncKillMessage(int perpConnId, int vicConnId, EnemyType enemyType, DamageTypes... tags) {
+			this.perpConnId = perpConnId;
+			this.vicConnId = vicConnId;
+			this.enemyType = enemyType;
 			this.tags = tags;
 		}
 	}

@@ -11,7 +11,7 @@ import com.mygdx.hadal.states.PlayState;
  */
 public enum EnemyType {
 
-	DELAYEDSPAWN() {
+	DELAYEDSPAWN("") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -19,7 +19,7 @@ public enum EnemyType {
 		}
 	},
 	
-	CRAWLER1() {
+	CRAWLER1("CRAWLING KAMABOKO") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -27,7 +27,7 @@ public enum EnemyType {
 		}
 	},
 	
-	CRAWLER1BIG() {
+	CRAWLER1BIG("GIGA CRAWLING KAMABOKO") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -35,7 +35,7 @@ public enum EnemyType {
 		}
 	},
 	
-	CRAWLER2() {
+	CRAWLER2("CHARGER") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -43,7 +43,7 @@ public enum EnemyType {
 		}
 	},
 	
-	CRAWLER3() {
+	CRAWLER3("SPITTING CRAWLER") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -51,7 +51,7 @@ public enum EnemyType {
 		}
 	},
 	
-	LEAPER1() {
+	LEAPER1("LEAPER") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -59,7 +59,7 @@ public enum EnemyType {
 		}
 	},
 	
-	SWIMMER1() {
+	SWIMMER1("SWIMMING KAMABOKO") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -67,7 +67,7 @@ public enum EnemyType {
 		}
 	},
 	
-	SWIMMER2() {
+	SWIMMER2("FIREBREATHING KAMABOKO") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -75,7 +75,7 @@ public enum EnemyType {
 		}
 	},
 	
-	SCISSORFISH() {
+	SCISSORFISH("SCISSORFISH") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -83,7 +83,7 @@ public enum EnemyType {
 		}
 	},
 	
-	SPITTLEFISH() {
+	SPITTLEFISH("SPITTLEFISH") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -91,7 +91,7 @@ public enum EnemyType {
 		}
 	},
 	
-	TORPEDOFISH() {
+	TORPEDOFISH("TORPEDOFISH") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -99,7 +99,7 @@ public enum EnemyType {
 		}
 	},
 	
-	SPLITTER_SMALL() {
+	SPLITTER_SMALL("KAMABOKLING") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -107,7 +107,7 @@ public enum EnemyType {
 		}
 	},
 	
-	SPLITTER_MEDIUM() {
+	SPLITTER_MEDIUM("KAMABOKO MASS") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -115,7 +115,7 @@ public enum EnemyType {
 		}
 	},
 	
-	SPLITTER_LARGE() {
+	SPLITTER_LARGE("GREATER KAMABOKO MASS") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -123,7 +123,7 @@ public enum EnemyType {
 		}
 	},
 	
-	SPAWNER() {
+	SPAWNER("KAMABOKO SPAWNER") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -131,7 +131,7 @@ public enum EnemyType {
 		}
 	},
 	
-	BOUNCER() {
+	BOUNCER("BOUNCING KAMABOKO") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -139,7 +139,7 @@ public enum EnemyType {
 		}
 	},
 	
-	KBK_BUDDY() {
+	KBK_BUDDY("KAMABOKO BUDDY") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -147,7 +147,7 @@ public enum EnemyType {
 		}
 	},
 	
-	DRONE_BIT() {
+	DRONE_BIT("DRONE BIT") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -155,7 +155,7 @@ public enum EnemyType {
 		}
 	},
 	
-	MISCFISH() {
+	MISCFISH("MISCELLANEOUS FISH") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -170,7 +170,7 @@ public enum EnemyType {
 		}
 	},
 	
-	TURRET_FLAK() {
+	TURRET_FLAK("FLAK TURRET") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -178,7 +178,7 @@ public enum EnemyType {
 		}
 	},
 	
-	TURRET_VOLLEY() {
+	TURRET_VOLLEY("VOLLEY TURRET") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -186,7 +186,7 @@ public enum EnemyType {
 		}
 	},
 	
-	DRONE() {
+	DRONE("DRONE") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -194,7 +194,7 @@ public enum EnemyType {
 		}
 	},
 	
-	BOSS1() {
+	BOSS1("SLIGHTLY LARGER FISH") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -202,7 +202,7 @@ public enum EnemyType {
 		}
 	},
 	
-	BOSS2() {
+	BOSS2("KING KAMABOKO") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -210,7 +210,7 @@ public enum EnemyType {
 		}
 	},
 	
-	TURRET_BOSS() {
+	TURRET_BOSS("TURRET BOSS") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -218,7 +218,7 @@ public enum EnemyType {
 		}
 	},
 	
-	BOSS4() {
+	BOSS4("FALSE SUN") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
@@ -226,7 +226,13 @@ public enum EnemyType {
 		}
 	},
 	;
-	
+
+	private final String name;
+
+	EnemyType(String name) {
+		this.name = name;
+	}
+
 	/**
 	 * This generates an enemy of the chosen type
 	 * @param state: state to spawn the enemy in
@@ -244,4 +250,6 @@ public enum EnemyType {
 	public void generateEnemyDelayed(PlayState state, Vector2 startPos, float lifespan, short filter, float extraField, SpawnerSchmuck spawner, boolean isBoss, String bossName) {
 		new DelayedSpawn(state, startPos, lifespan, this, filter, extraField, spawner, isBoss, bossName);
 	}
+
+	public String getName() { return name; }
 }

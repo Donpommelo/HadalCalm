@@ -35,7 +35,7 @@ public class ScoreWindow {
 	private static final float scorePadX = 20.0f;
 	private static final float scorePadY = 25.0f;
 
-	private static final int maxNameLen = 30;
+	private static final int maxNameLen = 25;
 
 	private static final int settingsWidth = 280;
 	private static final int settingsHeight = 500;

@@ -29,8 +29,8 @@ public class EnemySwimming extends EnemyFloating {
 	//this vector controls the movement of the enemy
 	private final Vector2 moveDirection = new Vector2();
 	
-	public EnemySwimming(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, String name, Sprite sprite, EnemyType type, float startAngle, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
-		super(state, startPos, size, hboxSize, name, sprite, type, filter, hp, attackCd, scrapDrop, spawner);
+	public EnemySwimming(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, float startAngle, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
+		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, scrapDrop, spawner);
 		this.moveSpeed = 1.0f;
 		this.moveDirection.set(1, 0).setAngle(startAngle);
 		currentState = SwimmingState.STILL;

@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.DeathTextUtil;
@@ -24,21 +24,21 @@ public class KillFeedMessage extends AHadalActor {
 
     private final String message;
 
-    private static final float scale = 0.25f;
+    private static final float scale = 0.3f;
     private static final float targetWidth = 325;
     private static final float padding = 10;
 
-    private float lifespan = 8.0f;
+    private float lifespan = 10.0f;
 
     private final TextureRegion grey;
     private final float textX;
 
-    public KillFeedMessage(PlayState ps, Schmuck perp, Player player, DamageTypes... tags) {
+    public KillFeedMessage(PlayState ps, Player perp, Player vic, EnemyType type, DamageTypes... tags) {
         font = HadalGame.SYSTEM_FONT_UI_SMALL;
         font.getData().setScale(scale);
 
         color = Color.WHITE;
-        message = TextFilterUtil.filterGameText(ps.getGsm(), DeathTextUtil.getDeathText(ps.getGsm(), perp, player, tags));
+        message = TextFilterUtil.filterGameText(ps.getGsm(), DeathTextUtil.getDeathText(ps.getGsm(), perp, vic, type, tags));
         layout = new GlyphLayout();
         layout.setText(font, message, color, targetWidth, Align.left, true);
         setWidth(layout.width);

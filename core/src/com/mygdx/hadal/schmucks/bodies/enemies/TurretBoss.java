@@ -13,8 +13,6 @@ import com.mygdx.hadal.states.PlayState;
 public class TurretBoss extends Turret {
 
 	private static final int baseHp = 6000;
-	private static final String name = "TURRET BOSS";
-	
 	private static final int scrapDrop = 30;
 	
 	private static final float aiAttackCd = 3.0f;
@@ -22,7 +20,7 @@ public class TurretBoss extends Turret {
 	private static final float scale = 1.5f;
 	
 	public TurretBoss(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, name, EnemyType.TURRET_BOSS, startAngle, filter, baseHp, aiAttackCd, scrapDrop, scale, spawner);		
+		super(state, startPos, EnemyType.TURRET_BOSS, startAngle, filter, baseHp, aiAttackCd, scrapDrop, scale, spawner);
 		moveState = MoveState.DEFAULT;
 		setCurrentState(TurretState.TRACKING);
 	}

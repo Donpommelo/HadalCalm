@@ -3,7 +3,7 @@ package com.mygdx.hadal.actors;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -56,8 +56,8 @@ public class KillFeed {
         addTable();
     }
 
-    public void addMessage(Schmuck perp, Player player, DamageTypes... tags) {
-        KillFeedMessage message = new KillFeedMessage(ps, perp, player, tags);
+    public void addMessage(Player perp, Player vic, EnemyType type, DamageTypes... tags) {
+        KillFeedMessage message = new KillFeedMessage(ps, perp, vic, type, tags);
         messages.add(message);
         feed.addActor(message);
     }

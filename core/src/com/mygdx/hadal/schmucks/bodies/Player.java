@@ -146,7 +146,7 @@ public class Player extends PhysicsSchmuck {
 	private Loadout startLoadout;
 	
 	//This is the connection id of the player (0 if server)
-	private final int connID;
+	private int connID;
 	
 	//should we reset this player's playerData stuff upon creation
 	private final boolean reset;
@@ -973,6 +973,8 @@ public class Player extends PhysicsSchmuck {
 	public void setMouse(MouseTracker mouse) { this.mouse = mouse; }
 
 	public int getConnID() { return connID;	}
+
+	public void setConnID(int connID) { this.connID = connID; }
 	
 	public void setScaling(boolean scaling) { this.scaling = scaling; }
 	

@@ -6,8 +6,7 @@ import com.mygdx.hadal.dialog.DeathMessage;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.statuses.DamageTypes;
 
 import java.util.ArrayList;
@@ -22,33 +21,35 @@ public class DeathTextUtil {
 	/**
 	 * The player can toggle on "verbose death messages" in settings for simple or complex death messages
 	 */
-	public static String getDeathText(GameStateManager gsm, Schmuck perp, Player vic, DamageTypes... tags) {
+	public static String getDeathText(GameStateManager gsm, Player perp, Player vic, EnemyType type, DamageTypes... tags) {
 		if (gsm.getSetting().isVerboseDeathMessage()) {
-			return getDeathTextVerbose(perp, vic, tags);
+			return getDeathTextVerbose(perp, vic, type, tags);
 		} else {
-			return getDeathTextAbridged(perp, vic, tags);
+			return getDeathTextAbridged(perp, vic, type, tags);
 		}
 	}
 	
 	/**
 	 * verbose text messages read damage tags and randomly choose a valid string from a file
 	 */
-	public static String getDeathTextVerbose(Schmuck perp, Player vic, DamageTypes... tags) {
+	public static String getDeathTextVerbose(Player perp, Player vic, EnemyType type, DamageTypes... tags) {
 		
 		ArrayList<String> possibleMessages = new ArrayList<>();
 		
 		boolean namedPerp = false;
-		
+
 		//in the case or suicide or death to an enemy, obtain valid messages.
 		//set 'namedPerp' to only search for messages that specify a victim and a perpetrator.
-		if (perp.equals(vic)) {
-			possibleMessages.addAll(getValidMessages("SUICIDE", false));
-		} else if (perp instanceof Player) {
-			namedPerp = true;
-		} else if (perp instanceof Enemy) {
+		if (perp != null) {
+			if (perp.getConnID() == vic.getConnID()) {
+				possibleMessages.addAll(getValidMessages("SUICIDE", false));
+			} else {
+				namedPerp = true;
+			}
+		} else if (type != null) {
 			possibleMessages.addAll(getValidMessages("ENEMY", false));
-		} 
-		
+		}
+
 		//iterate through all tags and add all valid messages
 		if (tags.length > 0) {
 			for (final DamageTypes tag : tags) {
@@ -65,7 +66,7 @@ public class DeathTextUtil {
 		
 		//obtain random message and filter tags
 		int randomIndex = GameStateManager.generator.nextInt(possibleMessages.size());
-		return filterDeathMessage(perp, vic, possibleMessages.get(randomIndex));
+		return filterDeathMessage(perp, vic, type, possibleMessages.get(randomIndex));
 	}
 	
 	/**
@@ -93,14 +94,22 @@ public class DeathTextUtil {
 		}
 		return possibleMessages;
 	}
-	
+
+
+	private static final int maxNameLength = 25;
 	/**
 	 * filter a death message to include perp and vic names.
 	 */
-	public static String filterDeathMessage(Schmuck perp, Player vic, String message) {
+	public static String filterDeathMessage(Player perp, Player vic, EnemyType type, String message) {
 
-		String vicName = WeaponUtils.getPlayerColorName(vic);
-		String perpName = WeaponUtils.getPlayerColorName(perp);
+		String vicName = WeaponUtils.getPlayerColorName(vic, maxNameLength);
+		String perpName = "";
+		if (type != null) {
+			perpName = type.getName();
+		}
+		if (perp != null) {
+			perpName = WeaponUtils.getPlayerColorName(perp, maxNameLength);
+		}
 
 		String filteredMessage = message.replaceAll("<vic>", vicName);
 		filteredMessage = filteredMessage.replaceAll("<perp>", perpName);
@@ -110,10 +119,10 @@ public class DeathTextUtil {
 	/**
 	 * Simple death messages only indicate perpetrator and victim
 	 */
-	public static String getDeathTextAbridged(Schmuck perp, Player vic, DamageTypes... tags) {
+	public static String getDeathTextAbridged(Player perp, Player vic, EnemyType type, DamageTypes... tags) {
 
-		String vicName = WeaponUtils.getPlayerColorName(vic);
-		String perpName = WeaponUtils.getPlayerColorName(perp);
+		String vicName = WeaponUtils.getPlayerColorName(vic, maxNameLength);
+		String perpName = WeaponUtils.getPlayerColorName(perp, maxNameLength);
 
 		if (tags.length > 0) {
 			switch (tags[0]) {
@@ -126,12 +135,14 @@ public class DeathTextUtil {
 			}
 		}
 
-		if (perp.equals(vic)) {
-			return vicName + " killed themself.";
-		} else if (perp instanceof Player) {
-			return perpName + " killed " + vicName + ".";
-		} else if (perp instanceof Enemy) {
-			return vicName + " was killed by a " + perpName + ".";
+		if (perp != null) {
+			if (perp.getConnID() == vic.getConnID()) {
+				return vicName + " killed themself.";
+			} else {
+				return perpName + " killed " + vicName + ".";
+			}
+		} else if (type != null) {
+			return vicName + " was killed by a " + type.name() + ".";
 		} else {
 			return vicName + " died.";
 		}
