@@ -437,13 +437,17 @@ public class WeaponUtils {
 	}
 
 	public static Vector3 getPlayerColor(Player player) {
-		Loadout loadout = player.getPlayerData().getLoadout();
-		if (loadout.team.equals(AlignmentFilter.NONE)) {
-			return loadout.character.getColor1();
-		} else if (loadout.team.getColor1().isZero()) {
-			return loadout.character.getColor1();
+		if (player.getPlayerData() != null) {
+			Loadout loadout = player.getPlayerData().getLoadout();
+			if (loadout.team.equals(AlignmentFilter.NONE)) {
+				return loadout.character.getColor1();
+			} else if (loadout.team.getColor1().isZero()) {
+				return loadout.character.getColor1();
+			} else {
+				return loadout.team.getColor1();
+			}
 		} else {
-			return loadout.team.getColor1();
+			return new Vector3();
 		}
 	}
 

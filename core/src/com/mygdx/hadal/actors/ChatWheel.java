@@ -204,8 +204,9 @@ public class ChatWheel {
 				return 1;
 			case 0:
 			case 3:
-			case 7:
 				return 10;
+			case 7:
+				return 15;
 			case 6:
 			default:
 				return 0;
