@@ -237,6 +237,7 @@ public class Event extends HadalEntity {
 	@Override
 	public Object onServerCreate() {
 
+		//independent events do not send a create packet when created, b/c the client creates it themselves
 		if (independent) { return null; }
 
 		switch(syncType) {

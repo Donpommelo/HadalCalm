@@ -28,7 +28,8 @@ public class ParticleEntity extends HadalEntity {
 	private HadalEntity attachedEntity;
 	private String attachedId;
 	
-	//How long this entity will last after deletion, the interval that this effect is turned on, the lifespan of this entity
+	//How long this entity will last after deletion, the interval that this effect is turned on
+	// , the lifespan of this entity, how much time before dying does the effect turn off?
 	private float linger, interval, lifespan, prematureTurnOff;
 	
 	//Has the attached entity despawned yet?
@@ -144,6 +145,8 @@ public class ParticleEntity extends HadalEntity {
 					((ClientState) state).removeEntity(entityID.toString());
 				}
 			} else if (lifespan <= prematureTurnOff) {
+
+				//if the effect is designated to turn off before dying, do that here.
 				prematureTurnOff = 0.0f;
 				turnOff();
 			}
@@ -363,6 +366,9 @@ public class ParticleEntity extends HadalEntity {
 		return this;
 	}
 
+	/**
+	 * This setColor is used for an rgb vector instead of a preset color.
+	 */
 	public ParticleEntity setColor(Vector3 color) {
 
 		for (int i = 0; i < effect.getEmitters().size; i++) {

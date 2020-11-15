@@ -12,6 +12,11 @@ import java.util.Map;
 
 import static com.codedisaster.steamworks.SteamNativeHandle.getNativeHandle;
 
+/**
+ *
+ * @author Falmham Fluham
+ *
+ */
 public class SteamLobbyManager {
 
     public boolean connectedToSteam;

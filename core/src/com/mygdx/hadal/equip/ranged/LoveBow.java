@@ -34,7 +34,7 @@ public class LoveBow extends RangedWeapon {
 	private static final int ammoSize = 50;
 	private static final float shootCd = 0.0f;
 	private static final float shootDelay = 0.0f;
-	private static final float reloadTime = 1.0f;
+	private static final float reloadTime = 0.8f;
 	private static final int reloadAmount = 0;
 	private static final float recoil = 5.0f;
 	private static final float knockback = 30.0f;

@@ -641,7 +641,7 @@ public class PlayerBodyData extends BodyData {
 					}
 				}
 
-				//Send death notification to all players
+				//Send death notification to all players.
 				if (perp instanceof PlayerBodyData) {
 					player.getState().getKillFeed().addMessage(((Player) perp.getSchmuck()), player, null, tags);
 					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(((Player) perp.getSchmuck()).getConnID(), player.getConnID(), null, tags));

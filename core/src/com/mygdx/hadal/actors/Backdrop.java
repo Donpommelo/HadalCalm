@@ -8,6 +8,7 @@ import com.mygdx.hadal.effects.Sprite;
 
 /**
  * Static background actor for any screen that just needs a still image
+ * This is now also used for smaller non-background images
  */
 public class Backdrop extends AHadalActor {
 	
@@ -15,6 +16,7 @@ public class Backdrop extends AHadalActor {
 	private float width = HadalGame.CONFIG_WIDTH;
 	private float height = HadalGame.CONFIG_HEIGHT;
 
+	//should we reflect the sprite left-to-right (used for icons in chat wheel)
 	private boolean mirror;
 
 	public Backdrop(String backdropName, float width, float height) {
@@ -29,6 +31,9 @@ public class Backdrop extends AHadalActor {
 		this.backgroundTexture = new TextureRegion((Texture) HadalGame.assetManager.get(backdropName));
 	}
 
+	/**
+	 * This constructor is used for the image icons in the chat wheel.
+	 */
 	public Backdrop(Sprite sprite, float width, float height, int frameIndex) {
 		this.backgroundTexture = sprite.getFrames().get(frameIndex);
 		this.width = width;

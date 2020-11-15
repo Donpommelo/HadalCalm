@@ -22,7 +22,7 @@ ASSAULT_BITS: {
 BANANA: {
 	name: Banana
 	description: "Hold and release the shoot button to fire a bouncy, exploding banana. A longer charge increases projectile velocity."
-    descriptionLong: "Banana Impact Damage: 15\nBanana Explosion Damage: 45\n\nClip Size: 3\nAmmo Capacity: 27\nReload Time: 0.6 Second per Banana\nCharge Duration: 0.3 Second"
+    descriptionLong: "Banana Impact Damage: 15\nBanana Explosion Damage: 40\n\nClip Size: 3\nAmmo Capacity: 27\nReload Time: 0.6 Second per Banana\nCharge Duration: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -42,7 +42,7 @@ BATTERING_RAM: {
 BEEGUN: {
 	name: Beehive
 	description: "Release a swarm of bees that home in and damage enemies."
-    descriptionLong: "Bee Damage: 6\n\nClip Size: 24\nAmmo Capacity: 96\nReload Time: 1.8 Seconds\nAttack Cooldown: 0.3 Second"
+    descriptionLong: "Bee Damage: 6\n\nClip Size: 20\nAmmo Capacity: 96\nReload Time: 1.9 Seconds\nAttack Cooldown: 0.4 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -237,7 +237,7 @@ LASER_RIFLE: {
 LOVE_BOW: {
 	name: Love Bow
 	description: "Charge and fire arrows. In co-op mode, these projectiles heal allies."
-    descriptionLong: "Arrow Damage at Min Charge: 25\nArrow Damage at Max Charge: 60\nArrow Heal on Allies: 12\n\nClip Size: 1\nAmmo Capacity: 50\nReload Time: 1 Second\nCharge Duration: 0.25 Second"
+    descriptionLong: "Arrow Damage at Min Charge: 25\nArrow Damage at Max Charge: 70\nArrow Heal on Allies: 12\n\nClip Size: 1\nAmmo Capacity: 50\nReload Time: 1 Second\nCharge Duration: 0.25 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,

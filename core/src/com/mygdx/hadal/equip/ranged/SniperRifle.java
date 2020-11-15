@@ -28,7 +28,7 @@ public class SniperRifle extends RangedWeapon {
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.4f;
 	private static final int reloadAmount = 0;
-	private static final float baseDamage = 60.0f;
+	private static final float baseDamage = 55.0f;
 	private static final float recoil = 15.0f;
 	private static final float knockback = 45.0f;
 	private static final float projectileSpeed = 75.0f;

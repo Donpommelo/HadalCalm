@@ -44,7 +44,7 @@ public class Banana extends RangedWeapon {
 	private static final float projectileMaxSpeed = 60.0f;
 
 	private static final int explosionRadius = 200;
-	private static final float explosionDamage = 45.0f;
+	private static final float explosionDamage = 40.0f;
 	private static final float explosionKnockback = 45.0f;
 	
 	public Banana(Schmuck user) {

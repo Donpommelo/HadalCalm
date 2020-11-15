@@ -366,7 +366,6 @@ public class WeaponUtils {
 	private static final Vector2 pingSize = new Vector2(60, 54);
 	private static final Vector2 pingArrowSize = new Vector2(60, 33);
 	private static final float pingLifespan = 2.0f;
-	private static final float pingKnockback = 10.0f;
 	public static void ping(PlayState state, Vector2 startPos, Schmuck user, short filter) {
 		SoundEffect.PING.playUniversal(state, startPos, 0.6f, false);
 
@@ -374,11 +373,7 @@ public class WeaponUtils {
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
-		
-		if (user.getBodyData().getStat(Stats.PING_DAMAGE) != 0.0f) {
-			hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), user.getBodyData().getStat(Stats.PING_DAMAGE), pingKnockback));
-		}
-		
+
 		Hitbox hboxPing = new RangedHitbox(state, new Vector2(startPos).add(0, -10), pingArrowSize, pingLifespan, new Vector2(), filter, true, false, user, Sprite.NOTIFICATIONS_ALERT_PING);
 		hboxPing.setSpriteSize(pingArrowSize);
 
@@ -418,6 +413,7 @@ public class WeaponUtils {
 			}
 		});
 
+		//with the Finger equipped, emotes detach and explode
 		if (special) {
 			hbox.setRestitution(0.5f);
 			hbox.addStrategy(new Pushable(state, hbox, user.getBodyData()));
@@ -436,7 +432,13 @@ public class WeaponUtils {
 		}
 	}
 
+	/**
+	 * This method returns a player's "color" corresponding to their team color or their character with no team.
+	 * This is used to color code player name as well as for streak particle coloring
+	 */
 	public static Vector3 getPlayerColor(Player player) {
+
+		//return empty vector if player's data has not been created yet.
 		if (player.getPlayerData() != null) {
 			Loadout loadout = player.getPlayerData().getLoadout();
 			if (loadout.team.equals(AlignmentFilter.NONE)) {
@@ -452,6 +454,11 @@ public class WeaponUtils {
 	}
 
 	private static final Vector3 rgb = new Vector3();
+
+	/**
+	 * This returns a string corresponding to a player's colored name. (optionally abridged)
+	 * Used for kill feed messages and chat window names.
+	 */
 	public static String getPlayerColorName(Schmuck schmuck, int maxNameLen) {
 		if (schmuck instanceof Player) {
 			Player player = (Player) schmuck;
@@ -461,6 +468,7 @@ public class WeaponUtils {
 				displayedName = displayedName.substring(0, maxNameLen).concat("...");
 			}
 
+			//get the player's color and use color markup to add color tags.
 			rgb.set(getPlayerColor(player));
 			String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
 			return "[" + hex + "]" + displayedName + "[]";

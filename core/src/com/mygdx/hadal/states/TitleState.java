@@ -109,6 +109,8 @@ public class TitleState extends GameState {
 
 	private final TextureRegion gabenTexture;
 
+	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/195946/103f";
+
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
 	 */
@@ -214,7 +216,7 @@ public class TitleState extends GameState {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-						Gdx.net.openURI("https://donpommelo.itch.io/hadal-calm/devlog/193264/103e");
+						Gdx.net.openURI(versionURL);
 					}
 				});
 

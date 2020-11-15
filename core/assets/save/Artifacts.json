@@ -753,7 +753,7 @@ MOON_FLUTHER: {
 MOUTHFUL_OF_BEES: {
 	name: Mouthful of Bees
 	description: "Release Bees Upon Receiving Damage or Dying"
-    descriptionLong: "Release 1 Bee per 15 Damage received.\nRelease 6 Bees on death.\n\nMRRMPH MMPH MRRGL FRRRMRGRRRG GGGRRMRRFRG!"
+    descriptionLong: "Release 1 Bee per 20 Damage received.\nRelease 5 Bees on death.\n\nMRRMPH MMPH MRRGL FRRRMRGRRRG GGGRRMRRFRG!"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

@@ -52,8 +52,8 @@ public class DialogBox extends AHadalActor {
 	private static final int maxXSmall = 600;
 	private static final int maxYSmall = 80;
 	
-	private static final int maxTextWidth = 590;
-	private static final int maxTextWidthSmall = 590;
+	private static final int maxTextWidth = 440;
+	private static final int maxTextWidthSmall = 575;
 
 	private static final int advanceWidth = 50;
 	private static final int advanceHeight = 30;
@@ -80,7 +80,8 @@ public class DialogBox extends AHadalActor {
 		
 		animCdCount = 0;
 	}
-	
+
+	//accumulator used to make dialog box movement not tied to framerate
 	private float syncAccumulator = 0.0f;
 	private static final float syncTime = 1 / 60f;
 	@Override
@@ -123,6 +124,7 @@ public class DialogBox extends AHadalActor {
 	 * @param radio: This is the event that triggered this dialogue if one exists. This field lets us make the dialogue link
 	 * to another event upon completion.
 	 * @param trigger: This is the event that will be triggered when the dialogue completes.
+	 * @param type: type of dialog. (Atm this is used to make system messages a different color)
 	 */
 	public void addDialogue(String id, EventData radio, EventData trigger, DialogType type) {
 		
@@ -202,7 +204,8 @@ public class DialogBox extends AHadalActor {
 		if (dialogs.size != 0) {
 			
 			Dialog first = dialogs.first();
-			
+
+			//system messages are red to distinguish them from story dialog
 			if (first.getType().equals(DialogType.SYSTEM)) {
 				font.setColor(Color.RED);
 			}

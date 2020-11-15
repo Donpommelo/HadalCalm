@@ -251,7 +251,10 @@ public class KryoClient {
 						cs.addPacketEffect(cs::syncLatency);
 					}
 				}
-        		
+
+        		/*
+        		 * Server tells us a player started typing. Make typing bubble appear above their head.
+        		 */
         		else if (o instanceof Packets.SyncTyping) {
         			final Packets.SyncTyping p = (Packets.SyncTyping) o;
         			final ClientState cs = getClientState();
@@ -265,6 +268,9 @@ public class KryoClient {
         			}
         		}
 
+        		/*
+        		 * Server tells us a player has disconnected so we must remove them from user list.
+        		 */
 				else if (o instanceof Packets.RemoveScore) {
 					final Packets.RemoveScore p = (Packets.RemoveScore) o;
 					users.remove(p.connID);
@@ -380,17 +386,17 @@ public class KryoClient {
         		}
 
 				/*
-				 * We have received a notification from the server.
-				 * Display the notification
+				 * We have received a kill message from the server.
+				 * Display the message
 				 */
 				else if (o instanceof Packets.SyncKillMessage) {
 					final Packets.SyncKillMessage p = (Packets.SyncKillMessage) o;
 					final ClientState cs = getClientState();
 
 					if (cs != null) {
-						User vic = users.get(p.vicConnId);
+						User vic = users.get(p.vicConnID);
 						if (vic != null) {
-							User perp = users.get(p.perpConnId);
+							User perp = users.get(p.perpConnID);
 
 							if (perp != null) {
 								Gdx.app.postRunnable(() -> cs.getKillFeed()
@@ -404,8 +410,7 @@ public class KryoClient {
 				}
 
 				/*
-				 * A Client has sent the server a message.
-				 * Display the notification and echo it to all clients
+				 * Server sends a chat message to the client
 				 */
 				else if (o instanceof Packets.ServerChat) {
 					final Packets.ServerChat p = (Packets.ServerChat) o;
@@ -551,6 +556,9 @@ public class KryoClient {
 					score.setLoadout(p.loadout);
         		}
 
+        		/*
+        		 * Server has kicked client. Get yeeted.
+        		 */
 				else if (o instanceof Packets.ClientYeet) {
 					final ClientState cs = getClientState();
 					if (cs != null) {

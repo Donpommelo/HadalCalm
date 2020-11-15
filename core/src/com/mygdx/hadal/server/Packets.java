@@ -1204,22 +1204,34 @@ public class Packets {
 
 		public SyncEmote() {}
 
+		/**
+		 * A SyncEmote is sent from the client to the server to indicate that they want to use a emote
+		 * @param emoteIndex: index in list of emotes the client wishes to use
+		 */
 		public SyncEmote(int emoteIndex) {
 			this.emoteIndex = emoteIndex;
 		}
 	}
 
 	public static class SyncKillMessage {
-		public int perpConnId;
-		public int vicConnId;
+		public int perpConnID;
+		public int vicConnID;
 		public EnemyType enemyType;
 		public DamageTypes[] tags;
 
 		public SyncKillMessage() {}
 
-		public SyncKillMessage(int perpConnId, int vicConnId, EnemyType enemyType, DamageTypes... tags) {
-			this.perpConnId = perpConnId;
-			this.vicConnId = vicConnId;
+		/**
+		 * A SyncKillMessage is sent from the server to the client when a player dies.
+		 * This provides the client with the needed information to display a kill message in their feed
+		 * @param perpConnID: the connID of the perp (-1 if no player perp)
+		 * @param vicConnID: the connID of the vic
+		 * @param enemyType: the type of enemy that killed the player (null if not an enemy kill)
+		 * @param tags: damage tags of the last instance of damage.
+		 */
+		public SyncKillMessage(int perpConnID, int vicConnID, EnemyType enemyType, DamageTypes... tags) {
+			this.perpConnID = perpConnID;
+			this.vicConnID = vicConnID;
 			this.enemyType = enemyType;
 			this.tags = tags;
 		}

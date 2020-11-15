@@ -227,6 +227,7 @@ public enum EnemyType {
 	},
 	;
 
+	//this is the name that shows up in the kill feed when you die to this enemy
 	private final String name;
 
 	EnemyType(String name) {

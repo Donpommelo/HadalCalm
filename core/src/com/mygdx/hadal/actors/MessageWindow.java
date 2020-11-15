@@ -67,7 +67,10 @@ public class MessageWindow {
 	private static final int maxNameLength = 30;
 	private static final int padding = 10;
 
+	//alpha of an inactive text window
 	private static final float inactiveTransparency = 0.5f;
+
+	//inactive message window disappears after this many seconds of no messages.
 	private static final float inactiveFadeDelay = 5.0f;
 	private float inactiveFadeCount;
 
@@ -84,6 +87,8 @@ public class MessageWindow {
 			@Override
 			public void act(float delta) {
 				super.act(delta);
+
+				//keep track of how long the window is inactive. Make invisible after enough time.
 				if (!active) {
 					if (inactiveFadeCount > inactiveFadeDelay) {
 						invisible = true;
@@ -100,6 +105,7 @@ public class MessageWindow {
 
 				if (invisible) { return; }
 
+				//inactive message windows are drawn with reduced alpha
 				if (!active) {
 					batch.setColor(1.0f,  1.0f, 1.0f, inactiveTransparency);
 				}
@@ -133,6 +139,7 @@ public class MessageWindow {
 		//window is locked in the results state
 		if (locked) { return; }
 
+		//log scrolls to bottom when opened.
 		textLog.scrollTo(0, 0, 0, 0);
 		if (active) {
 			stage.setKeyboardFocus(null);
@@ -247,6 +254,8 @@ public class MessageWindow {
 			@Override
             public void act(float delta) {
             	super.act(delta);
+
+            	//after typing any key, the player is "typing" for some time where an icon will be drawn above them
             	typeCount += delta;
             	if (typeCount >= typingInterval) {
             		typeCount = 0;
@@ -299,7 +308,8 @@ public class MessageWindow {
 		for (String s: textRecord) {
 			addTextLine(s);
 		}
-		
+
+		//this makes clicking outside the window exit it.
 		state.getStage().addCaptureListener(new InputListener() {
 
 			@Override
@@ -330,9 +340,13 @@ public class MessageWindow {
 		if (user != null) {
 			if (!user.isMuted()) {
 				String newText = "";
+
+				//system messages are all red.
 				if (type.equals(DialogType.SYSTEM)) {
 					newText = "[RED]" + user.getPlayer().getName() + ": " + text + " []";
 				} else {
+
+					//normal chat messages color names according to the player's team color
 					newText = WeaponUtils.getPlayerColorName(user.getPlayer(), maxNameLength) + ": " + text + " []";
 				}
 				addTextLine(newText);
@@ -356,6 +370,9 @@ public class MessageWindow {
 		inactiveFadeCount = 0.0f;
 	}
 
+	/**
+	 * When fading out, we disable inputs, hide actors and set actor as active
+	 */
 	private void fadeOut() {
 		textLog.setTouchable(Touchable.disabled);
 		backButton.setVisible(false);
@@ -366,6 +383,9 @@ public class MessageWindow {
 		inactiveFadeCount = 0.0f;
 	}
 
+	/**
+	 * When fading in, we enable inputs, show actors and set actor as inactive
+	 */
 	private void fadeIn() {
 		textLog.setTouchable(Touchable.enabled);
 		backButton.setVisible(true);

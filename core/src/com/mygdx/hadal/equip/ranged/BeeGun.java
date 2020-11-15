@@ -9,11 +9,11 @@ import com.mygdx.hadal.states.PlayState;
 
 public class BeeGun extends RangedWeapon {
 
-	private static final int clipSize = 24;
+	private static final int clipSize = 20;
 	private static final int ammoSize = 96;
-	private static final float shootCd = 0.3f;
+	private static final float shootCd = 0.4f;
 	private static final float shootDelay = 0;
-	private static final float reloadTime = 1.8f;
+	private static final float reloadTime = 1.9f;
 	private static final int reloadAmount = 0;
 	private static final float recoil = 0.0f;
 	private static final float projectileSpeedStart = 15.0f;

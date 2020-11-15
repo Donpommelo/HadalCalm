@@ -662,6 +662,9 @@ public class PlayState extends GameState {
 		CameraStyles.lerpToTarget(camera, tmpVector2);
 	}
 
+	/**
+	 * This makes an input camera vector obey camera bounds.
+	 */
 	private void boundCamera(Vector2 tempCamera) {
 		//make camera target respect camera bounds if not focused on an object
 		if (tempCamera.x > cameraBounds[0]) {

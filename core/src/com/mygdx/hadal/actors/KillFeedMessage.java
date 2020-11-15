@@ -16,6 +16,10 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.DeathTextUtil;
 import com.mygdx.hadal.utils.TextFilterUtil;
 
+/**
+ * A Kill Feed Message is a single actor displayed in the Kill Feed to represent a single death.
+ * @author Hapricorn Harbifferty
+ */
 public class KillFeedMessage extends AHadalActor {
 
     private final BitmapFont font;
@@ -28,9 +32,13 @@ public class KillFeedMessage extends AHadalActor {
     private static final float targetWidth = 325;
     private static final float padding = 10;
 
+    //kill messages go away after 10 seconds
     private float lifespan = 10.0f;
 
+    //grey region drawn underneath text to improve visibility
     private final TextureRegion grey;
+
+    //The actor is drawn at an x-offset to make the text align left while still being constant distance from right side
     private final float textX;
 
     public KillFeedMessage(PlayState ps, Player perp, Player vic, EnemyType type, DamageTypes... tags) {
@@ -51,6 +59,7 @@ public class KillFeedMessage extends AHadalActor {
     @Override
     public void draw(Batch batch, float alpha) {
 
+        //draw grey box under message
         batch.draw(grey, textX - padding / 2, getY() - padding / 2, getWidth() + padding, getHeight() + padding);
 
         font.getData().setScale(scale);
@@ -58,6 +67,9 @@ public class KillFeedMessage extends AHadalActor {
         font.draw(batch, message, textX, getY() + getHeight() / 2 + layout.height / 2, targetWidth, Align.left, true);
     }
 
+    /**
+     * This is called when the actor acts to keep track of when the message disappears
+     */
     public boolean decrementLifespan(float delta) {
         lifespan -= delta;
         return lifespan <= 0;

@@ -13,8 +13,8 @@ public class MouthfulofBees extends Artifact {
 	private static final int slotCost = 1;
 
 	private static final float beeSpeed = 8.0f;
-	private static final float damagePerBee = 15.0f;
-	private static final int beesOnDeath = 6;
+	private static final float damagePerBee = 20.0f;
+	private static final int beesOnDeath = 5;
 	
 	public MouthfulofBees() {
 		super(slotCost, statusNum);

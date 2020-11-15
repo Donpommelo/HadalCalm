@@ -44,6 +44,7 @@ public class ChatWheel {
 	private static final float wheelThreshold = 0.25f;
 	private static final float borderThickness = 5.0f;
 
+	//this is a list of all the emote options
 	private static final String[] options = {"RAGE", "NO", "YES", "LOVE", "SLEEP", "READY", "/roll", "SWEAT"};
 	
 	//is the chat wheel currently active or not?
@@ -75,16 +76,18 @@ public class ChatWheel {
 
 			@Override
 			public void act(float delta) {
+
+				//an active chat wheel tracks player mouse movement
 				if (active) {
 					lastDisplace.set(Gdx.input.getX(), -Gdx.input.getY()).sub(lastMousePosition).scl(indicatorAmplification);
 					totalDisplace.add(lastDisplace).limit(wheelWidth / 2);
 
+					//the chat wheel pointer moves based on the total mouse displacement while active. (limited by wheel radius)
 					pointerPosition.set(wheel.getX() + wheel.getWidth() / 2, wheel.getY() + wheel.getHeight() / 2).add(totalDisplace);
 					lastMousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
 
 					wheel.hoverSliceAtStage(pointerPosition.x, pointerPosition.y);
 				}
-
 				super.act(delta);
 			}
 
@@ -112,10 +115,13 @@ public class ChatWheel {
 		wheel.setVisible(false);
 		stage.addActor(wheel);
 	}
-	
-	
+
+	/**
+	 * This is called when the chat wheel button is pressed or released.
+	 * @param visible: do we make the wheel visible or invisible (button being pressed or released)?
+	 */
 	public void setVisibility(boolean visible) {
-		
+
 		if (visible) {
 			if (!active) {
 				//play the wheel fan animation and make no options highlighted
@@ -136,8 +142,10 @@ public class ChatWheel {
 			//do the chat if wheel is active
 			if (active) {
 				int option = wheel.getHoveredIndex();
-				
+
 				if (option != -1 && option < options.length) {
+
+					//server processes the emote. clients send packet to server
 					if (state.isServer()) {
 						emote(state.getPlayer(), option);
 					} else {
@@ -150,13 +158,19 @@ public class ChatWheel {
 		active = visible;
 	}
 
+	//players cannot use emotes when they are on cooldown
 	private static final float emoteCd = 2.0f;
+	/**
+	 * This method processes a single emote use.
+	 * @param player: the player doing the emote
+	 * @param emoteIndex: the index of the list of emotes
+	 */
 	public void emote(Player player, int emoteIndex) {
 
 		if (player.getEmoteCdCount() < 0) {
 			player.setEmoteCdCount(emoteCd);
 
-			//special logic for the emote that does a chat command
+			//special logic for the emote that does a chat command (/roll)
 			if (emoteIndex == 6) {
 				ConsoleCommandUtil.parseChatCommand(state, state.getPlayer(), options[emoteIndex]);
 			} else {
@@ -166,6 +180,11 @@ public class ChatWheel {
 		}
 	}
 
+	/**
+	 *
+	 * @param index: index in list of emote
+	 * @return the sprite of the emote
+	 */
 	private Sprite indexToEmote(int index) {
 		Sprite emote = Sprite.EMOTE_YES;
 		switch (index) {
@@ -194,6 +213,11 @@ public class ChatWheel {
 		return emote;
 	}
 
+	/**
+	 *
+	 * @param index: index in list of emote
+	 * @return the frame of the emote's sprite that should represent it in the wheel.
+	 */
 	private int getFrameIndex(int index) {
 		switch (index) {
 			case 1:

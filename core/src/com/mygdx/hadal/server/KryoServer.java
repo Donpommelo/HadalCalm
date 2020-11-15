@@ -432,6 +432,9 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * The client tried to emote. make them emote, if possible
+				 */
 				else if (o instanceof Packets.SyncEmote) {
 					final Packets.SyncEmote p = (Packets.SyncEmote) o;
 
@@ -640,6 +643,13 @@ public class KryoServer {
 		}
 	}
 
+	/**
+	 * This sends a chat message to all clients and also the server themselves
+	 * @param ps: server's current playstate
+	 * @param text: the content of the chat message
+	 * @param type: type of chat (system, normal chat)
+	 * @param connID: connID of the player sending the chat message
+	 */
 	public void addChatToAll(final PlayState ps, final String text, final DialogType type, final int connID) {
 		if (ps.getMessageWindow() != null && server != null) {
 			server.sendToAllTCP(new Packets.ServerChat(text, type, connID));
