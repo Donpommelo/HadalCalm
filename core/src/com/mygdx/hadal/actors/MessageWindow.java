@@ -26,6 +26,7 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.ConsoleCommandUtil;
+import com.mygdx.hadal.utils.TextFilterUtil;
 
 import java.util.ArrayList;
 
@@ -71,7 +72,7 @@ public class MessageWindow {
 	private static final float inactiveTransparency = 0.5f;
 
 	//inactive message window disappears after this many seconds of no messages.
-	private static final float inactiveFadeDelay = 5.0f;
+	private static final float inactiveFadeDelay = 8.0f;
 	private float inactiveFadeCount;
 
 	private static final ArrayList<String> textRecord = new ArrayList<>();
@@ -303,7 +304,7 @@ public class MessageWindow {
 
 		//windows starts off retracted
 		fadeOut();
-		
+		addTextLine(TextFilterUtil.filterHotkeys(GameStateManager.miscText.getString("start")));
 		//load previously sent messages so chat log doesn't clear on level transition
 		for (String s: textRecord) {
 			addTextLine(s);

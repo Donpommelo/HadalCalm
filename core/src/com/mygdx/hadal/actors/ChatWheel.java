@@ -172,9 +172,9 @@ public class ChatWheel {
 
 			//special logic for the emote that does a chat command (/roll)
 			if (emoteIndex == 6) {
-				ConsoleCommandUtil.parseChatCommand(state, state.getPlayer(), options[emoteIndex]);
+				ConsoleCommandUtil.parseChatCommand(state, player, options[emoteIndex]);
 			} else {
-				HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, 0);
+				HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, player.getConnID());
 			}
 			WeaponUtils.emote(state, player, indexToEmote(emoteIndex));
 		}

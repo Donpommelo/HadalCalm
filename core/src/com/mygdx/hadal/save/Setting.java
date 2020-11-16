@@ -157,7 +157,7 @@ public class Setting {
 		verboseDeathMessage = true;
 		multiplayerPause = false;
 		exportChatLog = false;
-		maxPlayers = 4;
+		maxPlayers = 5;
 		portNumber = 11100;
 		serverPassword = "";
 	}

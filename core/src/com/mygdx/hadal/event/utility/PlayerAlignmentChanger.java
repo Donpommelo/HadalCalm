@@ -39,8 +39,6 @@ public class PlayerAlignmentChanger extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 
-				System.out.println(activator + " " + p);
-
 				if (p != null) {
 					if (state.isServer()) {
 						User user = HadalGame.server.getUsers().get(p.getConnID());

@@ -33,7 +33,7 @@ public class KillFeedMessage extends AHadalActor {
     private static final float padding = 10;
 
     //kill messages go away after 10 seconds
-    private float lifespan = 10.0f;
+    private float lifespan = 18.0f;
 
     //grey region drawn underneath text to improve visibility
     private final TextureRegion grey;

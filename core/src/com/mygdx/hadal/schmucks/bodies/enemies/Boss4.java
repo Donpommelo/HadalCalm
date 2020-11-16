@@ -370,7 +370,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float bellSpeed = 15.0f;
 	private static final float bellDamage = 4.5f;
 	private static final float bellHomingSpeed = 30.0f;
-	private static final int bellHomingRadius = 80;
+	private static final int bellHomingRadius = 120;
 	private static final float bellKB = 1.0f;
 	private static final float bellLifespan = 12.0f;
 	
@@ -741,7 +741,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float willOWispDamage = 11.0f;
 	private static final float willOWispKB = 12.0f;
 	private static final float willOWispHoming = 50.0f;
-	private static final int willOWispHomingRadius = 80;
+	private static final int willOWispHomingRadius = 120;
 	private static final int willOWispSpread = 30;
 	private static final Vector2 willOWispSize = new Vector2(25, 25);
 	

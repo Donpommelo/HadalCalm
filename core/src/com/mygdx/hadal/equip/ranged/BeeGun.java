@@ -21,7 +21,7 @@ public class BeeGun extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_BEEGUN;
 	private static final Sprite eventSprite = Sprite.P_BEEGUN;
 
-	private static final int homeRadius = 25;
+	private static final int homeRadius = 20;
 
 	public BeeGun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 23);

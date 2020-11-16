@@ -14,7 +14,7 @@ public class ForagersHive extends Artifact {
 	
 	private static final float procCd = 0.8f;
 	private static final float beeSpeed = 15.0f;
-	private static final int homeRadius = 60;
+	private static final int homeRadius = 20;
 
 	public ForagersHive() {
 		super(slotCost, statusNum);

@@ -267,7 +267,13 @@ public class Enemy extends Schmuck {
 
 				  if (entityWorldLocation.x != homeLocation.x || entityWorldLocation.y != homeLocation.y) {
 					  world.rayCast((fixture1, point, normal, fraction) -> {
-						  if (fixture1.getUserData() instanceof BodyData) {
+						  if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL) {
+							  if (fraction < shortestFraction) {
+								  shortestFraction = fraction;
+								  closestFixture = fixture1;
+								  return fraction;
+							  }
+						  } else if (fixture1.getUserData() instanceof BodyData) {
 							  if (((BodyData) fixture1.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
 								  if (fraction < shortestFraction) {
 

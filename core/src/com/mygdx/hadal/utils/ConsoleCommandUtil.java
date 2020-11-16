@@ -79,7 +79,17 @@ public class ConsoleCommandUtil {
 			HadalGame.server.addChatToAll(state,"Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM, 0);
 			return 0;
 		}
-		
+
+		if (command.equals("/team")) {
+			HadalGame.server.addChatToAll(state, "Team: " + player.getPlayerData().getLoadout().team.name(), DialogType.SYSTEM, 0);
+			return 0;
+		}
+
+		if (command.equals("/help")) {
+			state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(GameStateManager.miscText.getString("help")), DialogType.SYSTEM, 0);
+			return 0;
+		}
+
 		return -1;
 	}
 	
@@ -124,6 +134,17 @@ public class ConsoleCommandUtil {
 			HadalGame.client.sendTCP(new Packets.ClientChat("Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM));
 			return 0;
 		}
+
+		if (command.equals("/team")) {
+			HadalGame.client.sendTCP(new Packets.ClientChat("Team: " + player.getPlayerData().getLoadout().team.name(), DialogType.SYSTEM));
+			return 0;
+		}
+
+		if (command.equals("/help")) {
+			state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(GameStateManager.miscText.getString("help")), DialogType.SYSTEM, 0);
+			return 0;
+		}
+
 		return -1;
 	}
 	

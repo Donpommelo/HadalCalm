@@ -139,7 +139,7 @@ public class TextFilterUtil {
 	 * This filters tags into chosen hotkeys. used in the tutorial
 	 * The reason we have the fugs here is b/c tiled doesn't like '<', '>' characters
 	 */
-	private static String filterHotkeys(String text) {
+	public static String filterHotkeys(String text) {
 		String filteredText = text;
 		filteredText = filteredText.replaceAll("fugdialogfug", PlayerAction.DIALOGUE.getKeyText());
 		filteredText = filteredText.replaceAll("fugpausefug", PlayerAction.PAUSE.getKeyText());
@@ -156,7 +156,8 @@ public class TextFilterUtil {
 		filteredText = filteredText.replaceAll("fugreloadfug", PlayerAction.RELOAD.getKeyText());
 		filteredText = filteredText.replaceAll("fugactivefug", PlayerAction.ACTIVE_ITEM.getKeyText());
 		filteredText = filteredText.replaceAll("fugmessagefug", PlayerAction.MESSAGE_WINDOW.getKeyText());
-		
+		filteredText = filteredText.replaceAll("fugchatwheelfug", PlayerAction.CHAT_WHEEL.getKeyText());
+
 		return filteredText;
 	}
 }
