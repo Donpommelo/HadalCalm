@@ -42,7 +42,6 @@ public class Nurdler extends Artifact {
 			
 			private float procCdCount = procCd;
 			private final Vector2 startVelo = new Vector2();
-			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {

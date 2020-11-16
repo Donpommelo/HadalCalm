@@ -337,6 +337,11 @@ public class TiledObjectUtil {
 						object.getProperties().get("all", false, boolean.class),
 						object.getProperties().get("exclude", false, boolean.class));
 				break;
+			case "PlayerAlign":
+				e = new PlayerAlignmentChanger(state,
+					object.getProperties().get("pvp", true, boolean.class),
+					object.getProperties().get("filter", (float) Constants.PLAYER_HITBOX, float.class));
+				break;
 			case "TouchPortal":
 				e = new PortalTouch(state, position, size);
 				break;

@@ -369,7 +369,7 @@ public class ScoreWindow {
 				});
 			}
 			mute.setScale(settingsScale);
-			tableOptions.add(mute).pad(5).row();
+			tableOptions.add(mute).height(optionsHeight).pad(5).row();
 
 			//only host can ban. Host cannot ban self.
 			if (state.isServer()) {
@@ -385,7 +385,7 @@ public class ScoreWindow {
 							windowOptions.remove();
 						}
 					});
-					tableOptions.add(ban);
+					tableOptions.add(ban).height(optionsHeight);
 				}
 			}
 		}

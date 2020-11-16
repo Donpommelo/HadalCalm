@@ -370,6 +370,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float bellSpeed = 15.0f;
 	private static final float bellDamage = 4.5f;
 	private static final float bellHomingSpeed = 30.0f;
+	private static final int bellHomingRadius = 80;
 	private static final float bellKB = 1.0f;
 	private static final float bellLifespan = 12.0f;
 	
@@ -391,7 +392,7 @@ public class Boss4 extends EnemyFloating {
 				
 				bell.addStrategy(new ControllerDefault(state, bell, getBodyData()));
 				bell.addStrategy(new CreateParticles(state, bell, getBodyData(), Particle.LIGHTNING, 0.0f, particleLinger).setParticleSize(30.0f));
-				bell.addStrategy(new HomingUnit(state, bell, getBodyData(), bellHomingSpeed));
+				bell.addStrategy(new HomingUnit(state, bell, getBodyData(), bellHomingSpeed, bellHomingRadius));
 				
 				bell.addStrategy((new HitboxStrategy(state, bell, getBodyData()) {
 					
@@ -740,6 +741,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float willOWispDamage = 11.0f;
 	private static final float willOWispKB = 12.0f;
 	private static final float willOWispHoming = 50.0f;
+	private static final int willOWispHomingRadius = 80;
 	private static final int willOWispSpread = 30;
 	private static final Vector2 willOWispSize = new Vector2(25, 25);
 	
@@ -766,7 +768,7 @@ public class Boss4 extends EnemyFloating {
 						HadalColor.RANDOM));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
-					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), willOWispHoming));
+					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), willOWispHoming, willOWispHomingRadius));
 					hbox.addStrategy(new Spread(state, hbox, getBodyData(), willOWispSpread));
 				}
 			});

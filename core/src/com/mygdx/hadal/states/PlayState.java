@@ -917,7 +917,7 @@ public class PlayState extends GameState {
 
 		//set player pvp hitbox filter.
 		if (isPvp()) {
-			if (teamEnabled && !isHub()) {
+			if (teamEnabled) {
 				if (newLoadout.team.equals(AlignmentFilter.NONE)) {
 					p.setHitboxfilter(hitboxFilter);
 				} else {

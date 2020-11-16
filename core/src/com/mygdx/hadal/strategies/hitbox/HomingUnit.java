@@ -36,14 +36,15 @@ public class HomingUnit extends HitboxStrategy {
 	private final float homePower;
 
 	//this is the distance that the hbox will search for a homing target.
-	private static final int homeRadius = 2000;
+	private final int homeRadius;
 	
 	private static final float pushInterval = 1 / 60f;
 	private float controllerCount = 0;
 	
-	public HomingUnit(PlayState state, Hitbox proj, BodyData user, float homePower) {
+	public HomingUnit(PlayState state, Hitbox proj, BodyData user, float homePower, int homeRadius) {
 		super(state, proj, user);
 		this.homePower = homePower;
+		this.homeRadius = homeRadius;
 	}
 	
 	private final Vector2 entityLocation = new Vector2();

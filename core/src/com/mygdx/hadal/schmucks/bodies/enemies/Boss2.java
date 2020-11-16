@@ -287,8 +287,9 @@ public class Boss2 extends EnemyFloating {
 	private static final float bulletInterval2 = 0.6f;
 	private static final float bulletInterval3 = 0.8f;
 	private static final int bulletNumber = 3;
-	
+
 	private static final float homePower = 60.0f;
+	private static final int homeRadius = 100;
 	private static final float fragSpeed = 10.0f;
 	private static final int numProj = 6;
 	
@@ -331,7 +332,7 @@ public class Boss2 extends EnemyFloating {
 				hbox.addStrategy(new DieSound(state, hbox, getBodyData(), SoundEffect.SQUISH, 0.75f).setPitch(0.8f));
 				
 				if (type >= 2) {
-					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), homePower));
+					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), homePower, homeRadius));
 				}
 				if (type == 3) {
 					hbox.addStrategy(new HitboxStrategy(state, hbox, getBodyData()) {

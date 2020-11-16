@@ -16,17 +16,19 @@ public class BeeGun extends RangedWeapon {
 	private static final float reloadTime = 1.9f;
 	private static final int reloadAmount = 0;
 	private static final float recoil = 0.0f;
-	private static final float projectileSpeedStart = 15.0f;
+	private static final float projectileSpeedStart = 20.0f;
 
 	private static final Sprite weaponSprite = Sprite.MT_BEEGUN;
 	private static final Sprite eventSprite = Sprite.P_BEEGUN;
-	
+
+	private static final int homeRadius = 25;
+
 	public BeeGun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 23);
 	}
 
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		WeaponUtils.createBees(state, startPosition, user, 1, startVelocity, true, filter);
+		WeaponUtils.createBees(state, startPosition, user, 1, homeRadius, startVelocity, true, filter);
 	}
 }

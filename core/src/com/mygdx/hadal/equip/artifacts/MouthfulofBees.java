@@ -12,10 +12,11 @@ public class MouthfulofBees extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 
-	private static final float beeSpeed = 8.0f;
+	private static final float beeSpeed = 15.0f;
 	private static final float damagePerBee = 20.0f;
 	private static final int beesOnDeath = 5;
-	
+	private static final int homeRadius = 60;
+
 	public MouthfulofBees() {
 		super(slotCost, statusNum);
 	}
@@ -29,7 +30,8 @@ public class MouthfulofBees extends Artifact {
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
 				
 				if (damage > 0) {
-					WeaponUtils.createBees(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), (int) (damage / damagePerBee), new Vector2(0, beeSpeed), false, inflicted.getSchmuck().getHitboxfilter());
+					WeaponUtils.createBees(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(),
+						(int) (damage / damagePerBee), homeRadius, new Vector2(0, beeSpeed), false, inflicted.getSchmuck().getHitboxfilter());
 				}
 
 				return damage;
@@ -37,7 +39,8 @@ public class MouthfulofBees extends Artifact {
 			
 			@Override
 			public void onDeath(BodyData perp) {
-				WeaponUtils.createBees(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), beesOnDeath, new Vector2(0, beeSpeed), false, inflicted.getSchmuck().getHitboxfilter());
+				WeaponUtils.createBees(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(),
+					beesOnDeath, homeRadius, new Vector2(0, beeSpeed), false, inflicted.getSchmuck().getHitboxfilter());
 			}
 		};
 		return enchantment;

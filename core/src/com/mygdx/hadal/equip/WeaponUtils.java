@@ -106,7 +106,8 @@ public class WeaponUtils {
 	private static final float torpedoLifespan = 8.0f;
 	private static final int torpedoSpread = 30;
 	private static final float torpedoHoming = 100;
-	
+	private static final int torpedoHomingRadius = 100;
+
 	public static void createHomingTorpedo(PlayState state, Vector2 startPos, Schmuck user, float damage, int numTorp, Vector2 startVelocity, boolean procEffects, short filter) {
 		
 		for (int i = 0; i < numTorp; i++) {
@@ -119,7 +120,7 @@ public class WeaponUtils {
 			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), torpedoBaseDamage, torpedoBaseKnockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
 			hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), torpedoExplosionRadius, damage, torpedoExplosionKnockback, filter));
-			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), torpedoHoming));
+			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), torpedoHoming, torpedoHomingRadius));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), torpedoSpread));
 			hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
 			hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
@@ -132,10 +133,10 @@ public class WeaponUtils {
 	private static final int beeHeight = 18;
 	private static final int beeDurability = 5;
 	private static final float beeLifespan = 5.0f;
-	private static final int beeSpread = 60;
-	private static final float beeHoming = 100;
-	
-	public static Hitbox createBees(PlayState state, Vector2 startPos, Schmuck user, int numBees, Vector2 startVelocity, boolean procEffects, short filter) {
+	private static final int beeSpread = 25;
+	private static final float beeHoming = 75;
+
+	public static void createBees(PlayState state, Vector2 startPos, Schmuck user, int numBees, int homeRadius, Vector2 startVelocity, boolean procEffects, short filter) {
 
 		for (int i = 0; i < numBees; i++) {
 			
@@ -145,24 +146,23 @@ public class WeaponUtils {
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user.getBodyData(), beeBaseDamage, beeKnockback, DamageTypes.BEES, DamageTypes.RANGED));	
-			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), beeHoming).setDisruptable(true));
+			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), beeHoming, homeRadius).setDisruptable(true));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), beeSpread));
 			hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.BEE_BUZZ, 0.5f, true));
 		}
-		
-		return null;
 	}
 	
 	private static final int spiritSize = 25;
 	private static final float spiritHoming = 80;
-	public static void releaseVengefulSpirits(PlayState state, Vector2 startPos, float spiritLifespan, float spiritDamage, float spiritKnockback, BodyData creator, Particle particle, short filter) {		
+	private static final int spiritHomingRadius = 100;
+	public static void releaseVengefulSpirits(PlayState state, Vector2 startPos, float spiritLifespan, float spiritDamage, float spiritKnockback, BodyData creator, Particle particle, short filter) {
 		
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(spiritSize, spiritSize), spiritLifespan, new Vector2(), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, creator));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, creator));
 		hbox.addStrategy(new DamageStandard(state, hbox, creator, spiritDamage, spiritKnockback, DamageTypes.MAGIC, DamageTypes.RANGED));
-		hbox.addStrategy(new HomingUnit(state, hbox, creator, spiritHoming));
+		hbox.addStrategy(new HomingUnit(state, hbox, creator, spiritHoming, spiritHomingRadius));
 		hbox.addStrategy(new CreateParticles(state, hbox, creator, particle, 0.0f, 1.0f).setParticleColor(HadalColor.RANDOM));
 		
 		hbox.addStrategy(new DieSound(state, hbox, creator, SoundEffect.DARKNESS1, 0.25f));

@@ -87,7 +87,7 @@ public class SettingState extends GameState {
 	public static final String[] loadoutChoices = {"COPY HOST", "SELECTED", "RANDOM"};
 	public static final String[] artifactChoices = {"0", "1", "2", "3", "4", "5", "6"};
 	public static final String[] modeChoices = {"KILLS -> SCORE", "EGGPLANTS -> SCORE"};
-	public static final String[] capacityChoices = {"1", "2", "3", "4", "5", "6"};
+	public static final String[] capacityChoices = {"1", "2", "3", "4", "5", "6", "7", "8"};
 	
 	//this is the current setting tab the player is using
 	private settingTab currentTab;

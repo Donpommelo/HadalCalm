@@ -13,7 +13,9 @@ public class ForagersHive extends Artifact {
 	private static final int slotCost = 1;
 	
 	private static final float procCd = 0.8f;
-	
+	private static final float beeSpeed = 15.0f;
+	private static final int homeRadius = 60;
+
 	public ForagersHive() {
 		super(slotCost, statusNum);
 	}
@@ -23,7 +25,7 @@ public class ForagersHive extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount = procCd;
-			
+			private final Vector2 startVelo = new Vector2();
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {
@@ -40,7 +42,8 @@ public class ForagersHive extends Artifact {
 				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					WeaponUtils.createBees(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), 1, new Vector2(1, 1), false, inflicted.getSchmuck().getHitboxfilter());
+					WeaponUtils.createBees(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), 1, homeRadius,
+						startVelo.set(tool.getWeaponVelo()).nor().scl(beeSpeed), false, inflicted.getSchmuck().getHitboxfilter());
 				}
 			}
 		};
