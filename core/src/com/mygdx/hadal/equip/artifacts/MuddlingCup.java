@@ -22,7 +22,7 @@ public class MuddlingCup extends Artifact {
 		enchantment[0] = new StatusComposite(state, b, 
 				new Status(state, b) {
 			
-			private Vector2 projAngle = new Vector2();
+			private final Vector2 projAngle = new Vector2();
 			@Override
 			public void onAirBlast(Equippable tool) {
 				

@@ -61,7 +61,7 @@ public class KBKBuddy extends EnemySwimming {
 		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
 	}
 	
-	private static final float baseDamage = 10.0f;
+	private static final float baseDamage = 16.0f;
 	private static final float knockback = 6.0f;
 	private static final float projectileSpeed = 35.0f;
 	private static final Vector2 projectileSize = new Vector2(50, 50);

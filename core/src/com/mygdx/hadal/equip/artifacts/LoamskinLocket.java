@@ -11,7 +11,7 @@ public class LoamskinLocket extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
-	private static final int bonusHp = 40;
+	private static final int bonusHp = 60;
 	
 	public LoamskinLocket() {
 		super(slotCost, statusNum);

@@ -671,6 +671,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="SWIMMER1"/>
+    <property name="limit" type="int" value="5"/>
     <property name="triggeredId" value="testSpawn1"/>
    </properties>
   </object>

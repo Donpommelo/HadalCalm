@@ -1,7 +1,6 @@
 package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
@@ -47,11 +46,8 @@ public class HitboxData extends HadalData {
 		}
 		
 		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && hbox.isReflectable()) {
-			Filter filter = hbox.getBody().getFixtureList().get(0).getFilterData();
-			filter.groupIndex = (short) 0;
-			hbox.getBody().getFixtureList().get(0).setFilterData(filter);
 			hbox.setDamageMultiplier(reflectMultiplier * (1 + perp.getStat(Stats.REFLECT_DAMAGE)));
-			hbox.setFilter(filter.groupIndex);
+			hbox.setFilter((short) 0);
 
 			//reflecting a projectile should take ownership of it
 			for (HitboxStrategy strat: hbox.getStrategies()) {

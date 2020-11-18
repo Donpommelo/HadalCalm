@@ -11,10 +11,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.CreateSound;
-import com.mygdx.hadal.strategies.hitbox.DamageStatic;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Maelstrom extends RangedWeapon {
 
@@ -83,7 +80,7 @@ public class Maelstrom extends RangedWeapon {
 					pulse.setEffectsMovement(false);
 
 					pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-					pulse.addStrategy(new DamageStatic(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
+					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED).setStaticKnockback(true));
 					pulse.addStrategy(new HitboxStrategy(state, pulse, user.getBodyData()) {
 						
 						@Override

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
@@ -288,7 +289,12 @@ public class Hitbox extends HadalEntity {
 	
 	public void setFriction(float friction) { this.friction = friction; }
 	
-	public void setFilter(short filter) { this.filter = filter; }
+	public void setFilter(short filter) {
+		Filter oldFilter = body.getFixtureList().get(0).getFilterData();
+		oldFilter.groupIndex = filter;
+		body.getFixtureList().get(0).setFilterData(oldFilter);
+		this.filter = filter;
+	}
 
 	public void setPassability(short passability) { this.passability = passability; }
 

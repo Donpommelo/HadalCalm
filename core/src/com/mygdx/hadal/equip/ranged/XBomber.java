@@ -2,8 +2,8 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -12,16 +12,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageConstant;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
-import com.mygdx.hadal.strategies.hitbox.DieSound;
-import com.mygdx.hadal.strategies.hitbox.Static;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class XBomber extends RangedWeapon {
 
@@ -89,7 +80,8 @@ public class XBomber extends RangedWeapon {
 				cross.makeUnreflectable();
 				
 				cross.addStrategy(new ControllerDefault(state, cross, user.getBodyData()));
-				cross.addStrategy(new DamageConstant(state, cross, user.getBodyData(), crossDamage, new Vector2(startVelocity).nor().scl(knockback), DamageTypes.ENERGY, DamageTypes.RANGED));
+				cross.addStrategy(new DamageStandard(state, cross, user.getBodyData(), crossDamage, knockback, DamageTypes.ENERGY, DamageTypes.RANGED)
+				.setConstantKnockback(true, startVelocity));
 				cross.addStrategy(new ContactUnitParticles(state, cross, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(
 					HadalColor.CYAN).setDrawOnSelf(false));
 				cross.addStrategy(new Static(state, cross, user.getBodyData()));

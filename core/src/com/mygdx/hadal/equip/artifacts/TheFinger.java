@@ -11,7 +11,7 @@ public class TheFinger extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
-	private static final int pingDamage = 15;
+	private static final int pingDamage = 1;
 	
 	public TheFinger() {
 		super(slotCost, statusNum);

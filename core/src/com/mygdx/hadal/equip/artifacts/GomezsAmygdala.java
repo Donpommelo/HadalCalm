@@ -21,7 +21,7 @@ public class GomezsAmygdala extends Artifact {
 	private final float dura = 2.0f;
 	private static final float procCd = 2.0f;
 	private static final float spdBuff = 0.5f;
-	private static final float damageBuff = 0.3f;
+	private static final float damageBuff = 0.4f;
 	
 	public GomezsAmygdala() {
 		super(slotCost, statusNum);

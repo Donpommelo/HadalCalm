@@ -24,7 +24,9 @@ public class FixedToEntity extends HitboxStrategy {
 	
 	//this is the entity that this hbox is fixed to. Usually the user for melee hboxes. Some hboxes have another hboxes fixed to them like sticky bombs
 	private HadalEntity target;
-	
+
+	private boolean attachedToUser;
+
 	public FixedToEntity(PlayState state, Hitbox proj, BodyData user, Vector2 angle, Vector2 center, boolean rotate) {
 		super(state, proj, user);
 		this.center.set(center);
@@ -35,11 +37,13 @@ public class FixedToEntity extends HitboxStrategy {
 		hbox.setSyncInstant(true);
 		
 		this.target = creator.getSchmuck();
+		this.attachedToUser = true;
 	}
 	
 	public FixedToEntity(PlayState state, Hitbox proj, BodyData user, HadalEntity target, Vector2 angle, Vector2 center, boolean rotate) {
 		this(state, proj, user, angle, center, rotate);
 		this.target = target;
+		this.attachedToUser = false;
 	}
 
 	private final Vector2 hbLocation = new Vector2();
@@ -65,6 +69,12 @@ public class FixedToEntity extends HitboxStrategy {
 				hbox.setTransform(hbLocation, target.getAngle() + angle.angleRad());
 			} else {
 				hbox.setTransform(hbLocation, hbox.getAngle());
+			}
+
+			if (attachedToUser) {
+				if (creator.getSchmuck().getHitboxfilter() != hbox.getFilter()) {
+					hbox.setFilter(creator.getSchmuck().getHitboxfilter());
+				}
 			}
 		}
 	}

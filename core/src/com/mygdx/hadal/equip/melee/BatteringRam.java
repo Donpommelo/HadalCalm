@@ -104,7 +104,7 @@ public class BatteringRam extends MeleeWeapon {
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
-		hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), damage, knockback, DamageTypes.MELEE));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), damage, knockback, DamageTypes.MELEE).setStaticKnockback(true));
 		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), new Vector2(), false));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.KICK1, 1.0f, true));
 		

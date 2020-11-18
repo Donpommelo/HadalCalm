@@ -12,7 +12,7 @@ NUMBER_ONE_BOSS_MUG: {
 EIGHT_BALL: {
 	name: "8-Ball"
 	description: "+Damage and -Accuracy"
-    descriptionLong: "Bonus Damage: +25%\nProjectile Spread: +20\n\nAn inky black sphere made of smooth ivory.\n\nWithin the Midnight Pool, each ball lands in its predetermined pocket regardless of the angle of the stroke."
+    descriptionLong: "Bonus Damage: +30%\nProjectile Spread: +20\n\nAn inky black sphere made of smooth ivory.\n\nWithin the Midnight Pool, each ball lands in its predetermined pocket regardless of the angle of the stroke."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -43,7 +43,7 @@ ADMINISTRATOR_CARD: {
 ALBATROSS_NECKLACE: {
 	name: Albatross Necklace
 	description: "+Max Hp, Become Heavier"
-    descriptionLong: "Bonus Max Hp: 60\nWeight Increase: +75%\n\nA burdensome necklet in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
+    descriptionLong: "Bonus Max Hp: 75\nWeight Increase: +75%\n\nA burdensome necklet in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -192,7 +192,7 @@ BUTTONMAN_BUTTONS: {
 CALL_OF_THE_VOID: {
 	name: Call of the Void
 	description: "+Damage Amplification, -Damage Resistance"
-    descriptionLong: "Damage Amplification: +30%\nDamage Resistance: -30%\n\nA sinister mark in the shape of a spiral.\n\nThe ocean's genesis was wrought by the blessing of the Spiral and its terminus will be defined in the same manner."
+    descriptionLong: "Bonus Damage: +30%\nDamage Resistance: -30%\n\nA sinister mark in the shape of a spiral.\n\nThe ocean's genesis was wrought by the blessing of the Spiral and its terminus will be defined in the same manner."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -265,7 +265,7 @@ CLOCKWISE_CAGE: {
 CODEX_OF_SALVORS_LAW: {
 	name: Codex of Salvor's Law
 	description: "+Max Fuel, +Reflected Projectile Damage"
-    descriptionLong: "Bonus Max Fuel: 15\nBonus Reflect Damage: +50%\n\nA leatherbound tome requesting that salvagers try a little harder to get along.\n\nA rigorous system once presided over inter-salvager affairs before the endless expanse of ocean made such interactions infrequent."
+    descriptionLong: "Bonus Max Fuel: 20\nBonus Reflect Damage: +50%\n\nA leatherbound tome requesting that salvagers try a little harder to get along.\n\nA rigorous system once presided over inter-salvager affairs before the endless expanse of ocean made such interactions infrequent."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -338,7 +338,7 @@ CURSED_CILICE: {
 DAS_BOOT: {
 	name: Das Boot
 	description: "+Damage Resistance While Reloading"
-    descriptionLong: "Reloading Damage Resistance: +50%\n\nA metal shoe complete with dorsal periscope.\n\nHumanity's countless attempts to breach the abyss have recently become less about curiosity and more about necessity."
+    descriptionLong: "Reloading Damage Resistance: +40%\n\nA metal shoe complete with dorsal periscope.\n\nHumanity's countless attempts to breach the abyss have recently become less about curiosity and more about necessity."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -389,8 +389,8 @@ EMAUDELINES_PRISM: {
 }
 EPHEMERA_PERPETUA: {
 	name: Ephemera Perpetua
-	description: "Charge Active Item on Eggplant Pickup"
-    descriptionLong: "Item Charge: 2 Seconds\n\n<adjective> <noun_abstract> of <color> <noun_material>.\n\n<poem>"
+	description: "Charge Active Item upon Killing Enemies"
+    descriptionLong: "Item Charge: 10 Seconds on Player Kill, 1.0 Second on Monster Kill\n\n<adjective> <noun_abstract> of <color> <noun_material>.\n\n<poem>"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -409,12 +409,12 @@ EXTRA_ROW_OF_TEETH: {
 }
 FALLACY_OF_FLESH: {
 	name: Fallacy of Flesh
-	description: "Charge Active Item upon Killing Enemies"
-    descriptionLong: "Item Charge: 10 Seconds on Player Kill, 1.0 Second on Monster Kill\n\nAn illegible riddle carved into the flesh of an unknown beast.\n\nThe many gods floating within the empty ocean have nothing to subsist upon besides each other."
+	description: "+Max Hp"
+    descriptionLong: "Bonus Max Hp: +70\n\nAn illegible riddle carved into the flesh of an unknown beast.\n\nThe many gods floating within the empty ocean have nothing to subsist upon besides each other."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
-        ACTIVE_ITEM,
+        DEFENSE,
 	]
 }
 FARADAYS_CAGE: {
@@ -473,7 +473,7 @@ FORAGERS_HIVE: {
 FRACTURE_PLATE: {
 	name: Fracture Plate
 	description: "Periodically gain a Damage Blocking Shield"
-    descriptionLong: "Shield Cooldown: 5 Seconds Without Receiving Damage\n\nShield Damage Block: 15\n\nA calcified plate consisting of several nondescript bones fused together.\n\nThe deepest layers of the ocean are reserved for those who shouldered the heaviest burdens in life."
+    descriptionLong: "Shield Cooldown: 4 Seconds Without Receiving Damage\n\nShield Damage Block: 20\n\nA calcified plate consisting of several nondescript bones fused together.\n\nThe deepest layers of the ocean are reserved for those who shouldered the heaviest burdens in life."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -515,7 +515,7 @@ GOMEZS_AMYGDALA: {
 GOOD_HEALTH: {
 	name: Good Health
 	description: "+Max Hp"
-    descriptionLong: "Bonus Max Hp: +25\n\nThe manifestation of good physical health.\n\nThe strict exercise regimen followed by Salvagers ensures that they remain too preoccupied to start getting the wrong idea again."
+    descriptionLong: "Bonus Max Hp: +40\n\nThe manifestation of good physical health.\n\nThe strict exercise regimen followed by Salvagers ensures that they remain too preoccupied to start getting the wrong idea again."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -535,7 +535,7 @@ HEART_OF_SPEROS: {
 HOOD_OF_HABIT: {
 	name: Hood of Habit
 	description: "Become Invisible upon Receiving Critical Damage"
-    descriptionLong: "Hp Threshold: 25\nInvisibility Duration: 8 Seconds\n\nA ragged hood saturated with the stench of smoke.\n\nMuch to the chagrin of its residents, the Noiseless Sea has never kicked its addiction to cyclical destruction and rebirth."
+    descriptionLong: "Hp Threshold: 50% Max Hp\nInvisibility Duration: 8 Seconds\n\nA ragged hood saturated with the stench of smoke.\n\nMuch to the chagrin of its residents, the Noiseless Sea has never kicked its addiction to cyclical destruction and rebirth."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -597,7 +597,7 @@ IRON_SIGHTS: {
 JELLOFELLOW_COSPLAY: {
 	name: Jellofellow Cosplay
 	description: "+Max Hp, Bouncy!"
-    descriptionLong: "Bonus Max Hp: +40\n\nA costume of a long-forgotten cartoon character.\n\nThe more thoroughly erased a civilization, the more imperceptible the difference between its historical figures and cereal-box mascots."
+    descriptionLong: "Bonus Max Hp: +60\n\nA costume of a long-forgotten cartoon character.\n\nThe more thoroughly erased a civilization, the more imperceptible the difference between its historical figures and cereal-box mascots."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -640,7 +640,7 @@ KINESIS_LENS: {
 KUMQUAT: {
 	name: Kumquat
 	description: "Regenerate Hp upon falling below 50% Hp."
-    descriptionLong: "Hp Regen: 25% Max Hp over 3 seconds\nActivates once per life\n\nA sweet and tangy fruit with an aromatic peel.\n\nRemove peels from pickled kumquats and soak them overnight. Grind kumquats, add chili pepper, white pepper and cook on low heat. Add kumquat marinade to savory meat dishes."
+    descriptionLong: "Hp Regen: 25% Max Hp over 2 seconds\nActivates once per life\n\nA sweet and tangy fruit with an aromatic peel.\n\nRemove peels from pickled kumquats and soak them overnight. Grind kumquats, add chili pepper, white pepper and cook on low heat. Add kumquat marinade to savory meat dishes."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -661,7 +661,7 @@ LAMPREY_IDOL: {
 LOAMSKIN_LOCKET: {
 	name: Loamskin Locket
 	description: "+Max Hp, Bonus Hp Starts Unfilled"
-    descriptionLong: "Bonus Max Hp: +40\n\nA locket containing a glass capsule filled with fertile soil.\n\nTo the unborn, the Garden of the Neptune King offers a vivid taste of long lost terrestrial warmth."
+    descriptionLong: "Bonus Max Hp: +60\n\nA locket containing a glass capsule filled with fertile soil.\n\nTo the unborn, the Garden of the Neptune King offers a vivid taste of long lost terrestrial warmth."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -681,19 +681,21 @@ LOCH_SHIELD: {
 }
 LOTUS_LANTERN: {
 	name: Lotus Lantern
-	description: "+Eggplant Drops"
-    descriptionLong: "Bonus Eggplant Drop: 25%\n\nAn ornamental lantern made from waxen paper.\n\nDissatisfied with the gifts of the First Bright One, the Crab-God, Slick, illuminated the abyss below in search of more shining things."
+	description: "+Max Hp, +Eggplant Drops"
+    descriptionLong: "Bonus Max Hp: +15\nBonus Eggplant Drop: 25%\n\nAn ornamental lantern made from waxen paper.\n\nDissatisfied with the gifts of the First Bright One, the Crab-God, Slick, illuminated the abyss below in search of more shining things."
 	tags: [
 		RELIQUARY,
+        RANDOM_POOL,
         GIMMICK,
 	]
 }
 LUMINOUS_ESCA: {
 	name: Luminous Esca
 	description: "+Max Hp, +Light Radius"
-    descriptionLong: "Bonus Max Hp: +10\n\nA glowing clump of particles used to attract prey.\n\nThrough natural processes, fragments of Bright Ones are shed to form smaller, distinct progeny."
+    descriptionLong: "Bonus Max Hp: +15\n\nA glowing clump of particles used to attract prey.\n\nThrough natural processes, fragments of Bright Ones are shed to form smaller, distinct progeny."
 	tags: [
 		RELIQUARY,
+        RANDOM_POOL,
         DEFENSE,
         GIMMICK,
 	]
@@ -784,7 +786,7 @@ MUDDLING_CUP: {
 NACREOUS_RUDDER: {
 	name: Nacreous Rudder
 	description: "+Air/Ground Acceleration"
-    descriptionLong: "Bonus Air Acceleration: +45%\nBonus Ground Acceleration: +45%\n\nA pearlescent rudder used for underwater mobility.\n\nEscaping the pull of the spiral at the world's demarcation requires an equivalent spiral of opposing orientation."
+    descriptionLong: "Bonus Air Acceleration: +50%\nBonus Ground Acceleration: +50%\n\nA pearlescent rudder used for underwater mobility.\n\nEscaping the pull of the spiral at the world's demarcation requires an equivalent spiral of opposing orientation."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -819,8 +821,8 @@ NOTHING: {
 }
 NUCLEAR_PUNCH_THRUSTERS: {
 	name: Nuclear Punch Thrusters
-	description: "+Attack Knockback"
-    descriptionLong: "Bonus Knockback: +60%\n\nA mechanized gauntlet powered with the wrath of a dying sun.\n\nThe physics-defying nature of the False Sun would pique the interest of researchers were there still civilizations left to power."
+	description: "+Attack Knockback, +Damage Amplification"
+    descriptionLong: "Bonus Knockback: +60%\nBonus Damage: +10%\n\nA mechanized gauntlet powered with the wrath of a dying sun.\n\nThe physics-defying nature of the False Sun would pique the interest of researchers were there still civilizations left to power."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -945,8 +947,8 @@ PIFFLER: {
 }
 PLUMPOWDER: {
 	name: Plumpowder
-	description: "Active Items are Fully Charged upon Spawning"
-    descriptionLong: "A satchel of sweet and acidic crystals.\n\nThe taste is better when you have less of it than you want."
+	description: "Active Items are Charged upon Spawning"
+    descriptionLong: "Starting Charge: 80%\n\nA satchel of sweet and acidic crystals.\n\nThe taste is better when you have less of it than you want."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -965,7 +967,7 @@ RECYCLER_BOLUS: {
 RED_TIDE_TALISMAN: {
 	name: Red Tide Talisman
 	description: "Fiery Projectiles"
-    descriptionLong: "Fire Duration: 5 Seconds\nFire Damage: 3 Per Second.\n\nA crimson pendant emitting an unhealthful warmth.\n\nA sudden influx of life precipitates a sudden influx of death."
+    descriptionLong: "Fire Duration: 4 Seconds\nFire Damage: 3 Per Second.\n\nA crimson pendant emitting an unhealthful warmth.\n\nA sudden influx of life precipitates a sudden influx of death."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1049,7 +1051,7 @@ SHILLERS_DEATHCAP: {
 SHIP_IN_A_BOTTLE: {
 	name: Ship in a Bottle
 	description: "+Ammo Capacity"
-    descriptionLong: "Bonus Ammo: +40%\n\nAn intricate model galleon inside of a glass bottle.\n\nWe require a million little hands to construct the ship and a single big one to break the bottle."
+    descriptionLong: "Bonus Ammo: +50%\n\nAn intricate model galleon inside of a glass bottle.\n\nWe require a million little hands to construct the ship and a single big one to break the bottle."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1109,8 +1111,8 @@ SOUND_OF_SEAGULLS: {
 }
 SWORD_OF_SYZYGY: {
 	name: Sword of Syzygy
-	description: "+Projectile Pierce, +Damage"
-    descriptionLong: "Bonus Damage: +15%\nProjectile Pierce: +3 Enemies\n\nA light thrusting-sword with a hilt in the likeness of a lunar eclipse.\n\nInexplicable phenomena is said to occur when sunken Bright Ones align with their heavenly counterparts."
+	description: "+Projectile Pierce, +Damage Amplification"
+    descriptionLong: "Projectile Pierce: +3 Enemies\nBonus Damage: +15%\n\nA light thrusting-sword with a hilt in the likeness of a lunar eclipse.\n\nInexplicable phenomena is said to occur when sunken Bright Ones align with their heavenly counterparts."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

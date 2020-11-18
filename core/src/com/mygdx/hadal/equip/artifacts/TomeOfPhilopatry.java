@@ -31,11 +31,10 @@ public class TomeOfPhilopatry extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				
-				if (!hbox.isEffectsMovement()) { return; } 
-				
-				hbox.addStrategy(new ReturnToUser(state, hbox, b, hbox.getStartVelo().len() * returnAmp));
-				hbox.setGravity(0.0f);
+				if (hbox.isEffectsMovement()) {
+					hbox.addStrategy(new ReturnToUser(state, hbox, b, hbox.getStartVelo().len() * returnAmp));
+					hbox.setGravity(0.0f);
+				}
 			}
 		});
 		

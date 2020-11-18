@@ -144,7 +144,7 @@ public class Boss4 extends EnemyFloating {
 	
 	@Override
 	public void multiplayerScaling(int numPlayers) {
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 3000 * numPlayers, getBodyData()));
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 2000 * numPlayers, getBodyData()));
 	}
 	
 	private int attackNum;
@@ -411,7 +411,7 @@ public class Boss4 extends EnemyFloating {
 							pulse.setSyncDefault(false);
 							pulse.makeUnreflectable();
 							pulse.addStrategy(new ControllerDefault(state, pulse, getBodyData()));
-							pulse.addStrategy(new DamageStatic(state, pulse, getBodyData(), bellDamage, bellKB, DamageTypes.MELEE));
+							pulse.addStrategy(new DamageStandard(state, pulse, getBodyData(), bellDamage, bellKB, DamageTypes.MELEE).setStaticKnockback(true));
 							pulse.addStrategy(new FixedToEntity(state, pulse, getBodyData(), bell, new Vector2(), new Vector2(), true));
 							pulse.addStrategy(new ContactUnitSound(state, pulse, getBodyData(), SoundEffect.ZAP, 0.6f, true));
 						}

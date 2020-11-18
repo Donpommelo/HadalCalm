@@ -10,7 +10,7 @@ public class AlbatrossNecklace extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
-	private static final float bonusHp = 60.0f;
+	private static final float bonusHp = 75.0f;
 	private static final float gravityScale = 1.75f;
 	
 	public AlbatrossNecklace() {

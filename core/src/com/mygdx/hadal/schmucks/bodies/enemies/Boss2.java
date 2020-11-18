@@ -121,7 +121,7 @@ public class Boss2 extends EnemyFloating {
 	
 	@Override
 	public void multiplayerScaling(int numPlayers) {
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 3000 * numPlayers, getBodyData()));
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 1800 * numPlayers, getBodyData()));
 	}
 	
 	private final Vector2 entityLocation = new Vector2();

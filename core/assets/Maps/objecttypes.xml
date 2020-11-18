@@ -367,6 +367,7 @@
   <property name="delay" type="float" default="1"/>
   <property name="enemyId" type="string"/>
   <property name="extra" type="int" default="0"/>
+  <property name="limit" type="int" default="0"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>

@@ -141,7 +141,7 @@ public class Enemy extends Schmuck {
 			}
 			
 			//this method should be overloaded for bosses that scale to the number of players
-			multiplayerScaling(HadalGame.server.getUsers().values().size());
+			multiplayerScaling(HadalGame.server.getNumPlayers());
 		}
 	}
 

@@ -57,7 +57,7 @@ public class JumpKick extends ActiveItem {
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user , Particle.SPARKS));
-		hbox.addStrategy(new DamageStatic(state, hbox, user, baseDamage, knockback, DamageTypes.MELEE));
+		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.MELEE).setStaticKnockback(true));
 		hbox.addStrategy(new FixedToEntity(state, hbox, user, new Vector2(), new Vector2(), false));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user, SoundEffect.KICK1, 1.0f, true));
 		hbox.addStrategy(new ContactUnitKnockbackDamage(state, hbox, user));

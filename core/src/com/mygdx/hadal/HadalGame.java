@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.codedisaster.steamworks.SteamException;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.client.SteamLobbyManager;
@@ -98,12 +97,12 @@ public class HadalGame extends ApplicationAdapter {
 		gsm = new GameStateManager(this);
 		gsm.addState(State.SPLASH, null);
 
-		lobbyManager = new SteamLobbyManager(gsm);
-		try {
-			lobbyManager.initializeLobbyManager();
-		} catch (SteamException e) {
-			e.printStackTrace();
-		}
+//		lobbyManager = new SteamLobbyManager(gsm);
+//		try {
+//			lobbyManager.initializeLobbyManager();
+//		} catch (SteamException e) {
+//			e.printStackTrace();
+//		}
 
 		client = new KryoClient(gsm);
 		server = new KryoServer(gsm);
@@ -183,7 +182,7 @@ public class HadalGame extends ApplicationAdapter {
 		//music player controller is used for fading tracks
 		musicPlayer.controller(delta);
 
-		lobbyManager.controller(delta);
+//		lobbyManager.controller(delta);
 	}
 	
 	/**
@@ -230,7 +229,7 @@ public class HadalGame extends ApplicationAdapter {
 			SYSTEM_FONT_SPRITE.dispose();
 		}
 
-		lobbyManager.disposeLobbyManager();
+//		lobbyManager.disposeLobbyManager();
 
 		//this prevents an error upon x-ing out the game
 		System.exit(0);

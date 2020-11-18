@@ -15,7 +15,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStatic;
+import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -31,7 +31,7 @@ public class DiamondCutter extends MeleeWeapon {
 
 	private static final Sprite projSprite = Sprite.BUZZSAW;
 	
-	private static final float baseDamage = 6.0f;
+	private static final float baseDamage = 7.5f;
 	private static final float knockback = 0.0f;
 
 	private static final float range = 75.0f;
@@ -75,7 +75,6 @@ public class DiamondCutter extends MeleeWeapon {
 			hbox.makeUnreflectable();
 			
 			hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL, 0.0f, 1.0f));
-			hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.CUTTING, DamageTypes.MELEE));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
 				private float controllerCount;
@@ -110,7 +109,7 @@ public class DiamondCutter extends MeleeWeapon {
 						pulse.makeUnreflectable();
 						
 						pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-						pulse.addStrategy(new DamageStatic(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
+						pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE).setStaticKnockback(true));
 					}
 				}
 				

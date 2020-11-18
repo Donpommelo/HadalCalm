@@ -17,7 +17,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStatic;
+import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 import java.util.ArrayList;
 
@@ -198,7 +198,8 @@ public class TeslaCoil extends RangedWeapon {
 					hboxDamage.setEffectsVisual(false);
 					
 					hboxDamage.addStrategy(new ControllerDefault(state, hboxDamage, user.getBodyData()));
-					hboxDamage.addStrategy(new DamageStatic(state, hboxDamage, user.getBodyData(), pulseDamage, pulseKnockback, DamageTypes.ENERGY, DamageTypes.RANGED));
+					hboxDamage.addStrategy(new DamageStandard(state, hboxDamage, user.getBodyData(), pulseDamage, pulseKnockback,
+						DamageTypes.ENERGY, DamageTypes.RANGED).setStaticKnockback(true));
 				}
 			}
 		});

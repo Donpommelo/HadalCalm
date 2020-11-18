@@ -1,43 +1,25 @@
 package com.mygdx.hadal.equip;
 
-import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
-import com.mygdx.hadal.schmucks.bodies.enemies.Turret.TurretState;
-import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitBurn;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.CreateSound;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DamageStatic;
-import com.mygdx.hadal.strategies.hitbox.DieSound;
-import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
-import com.mygdx.hadal.strategies.hitbox.FixedToOrigin;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
-import com.mygdx.hadal.schmucks.bodies.enemies.EnemyAction;
-import com.mygdx.hadal.schmucks.bodies.enemies.EnemyCrawling;
+import com.mygdx.hadal.schmucks.bodies.enemies.*;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyCrawling.CrawlingState;
-import com.mygdx.hadal.schmucks.bodies.enemies.EnemyFloating;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyFloating.FloatingState;
-import com.mygdx.hadal.schmucks.bodies.enemies.EnemySwimming;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemySwimming.SwimmingState;
-import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
+import com.mygdx.hadal.schmucks.bodies.enemies.Turret.TurretState;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 
 /**
@@ -282,7 +264,7 @@ public class EnemyUtils {
 					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				}
 				
-				hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
+				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE).setStaticKnockback(true));
 				hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2(), true));
 				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 				hbox.addStrategy((new HitboxStrategy(state, hbox, enemy.getBodyData()) {
@@ -305,7 +287,7 @@ public class EnemyUtils {
 							pulse.setSyncDefault(false);
 							pulse.makeUnreflectable();
 							pulse.addStrategy(new ControllerDefault(state, pulse, enemy.getBodyData()));
-							pulse.addStrategy(new DamageStatic(state, pulse, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
+							pulse.addStrategy(new DamageStandard(state, pulse, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE).setStaticKnockback(true));
 							pulse.addStrategy(new FixedToEntity(state, pulse, enemy.getBodyData(), new Vector2(), new Vector2(), true));
 						}
 					}

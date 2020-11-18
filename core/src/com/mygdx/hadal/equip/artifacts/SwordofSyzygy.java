@@ -10,7 +10,7 @@ import com.mygdx.hadal.utils.Stats;
 public class SwordofSyzygy extends Artifact {
 
 	private static final int statusNum = 1;
-	private static final int slotCost = 2;
+	private static final int slotCost = 1;
 	
 	private static final float bonusProjDurability = 3.0f;
 	private static final float bonusDamageAmp = 0.15f;

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -8,9 +9,10 @@ import com.mygdx.hadal.statuses.Status;
 public class EphemeraPerpetua extends Artifact {
 
 	private static final int statusNum = 1;
-	private static final int slotCost = 2;
-	
-	private final float amount = 2.0f;
+	private static final int slotCost = 1;
+
+	private final float amountEnemy = 1.0f;
+	private final float amountPlayer = 10.0f;
 	
 	public EphemeraPerpetua() {
 		super(slotCost, statusNum);
@@ -19,11 +21,16 @@ public class EphemeraPerpetua extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new Status(state, b) {
-			
+
 			@Override
-			public void scrapPickup() {
-				if (inflicted instanceof PlayerBodyData) {
-					((PlayerBodyData) inflicted).getActiveItem().gainCharge(amount);
+			public void onKill(BodyData vic) {
+				SoundEffect.MAGIC1_ACTIVE.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
+
+				if (vic instanceof PlayerBodyData) {
+					((PlayerBodyData) inflicted).getActiveItem().gainCharge(amountPlayer);
+
+				} else {
+					((PlayerBodyData) inflicted).getActiveItem().gainCharge(amountEnemy);
 				}
 			}
 		};

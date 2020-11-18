@@ -230,7 +230,7 @@ public class RangedWeapon extends Equippable {
 		if (clipLeft >= getClipSize()) {
 			clipLeft = getClipSize();
 		}
-		clipPercent = (float)clipLeft / getClipSize();
+		clipPercent = (float) clipLeft / getClipSize();
 	}
 	
 	@Override

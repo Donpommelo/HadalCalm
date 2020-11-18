@@ -145,7 +145,7 @@ public class WeaponUtils {
 			hbox.setDurability(beeDurability);
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user.getBodyData(), beeBaseDamage, beeKnockback, DamageTypes.BEES, DamageTypes.RANGED));	
+			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), beeBaseDamage, beeKnockback, DamageTypes.BEES, DamageTypes.RANGED).setRepeatable(true));
 			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), beeHoming, homeRadius).setDisruptable(true));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), beeSpread));
 			hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.BEE_BUZZ, 0.5f, true));

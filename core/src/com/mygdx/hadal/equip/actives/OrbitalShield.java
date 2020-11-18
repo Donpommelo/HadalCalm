@@ -13,8 +13,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
-import com.mygdx.hadal.strategies.hitbox.DamageStatic;
+import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.OrbitUser;
 
 public class OrbitalShield extends ActiveItem {
@@ -52,8 +51,7 @@ public class OrbitalShield extends ActiveItem {
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
-		hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user, projDamage, 0, DamageTypes.MAGIC));
-		hbox.addStrategy(new DamageStatic(state, hbox, user, 0, projKnockback, DamageTypes.MAGIC));
+		hbox.addStrategy(new DamageStandard(state, hbox, user, projDamage, projKnockback, DamageTypes.MAGIC).setStaticKnockback(true).setRepeatable(true));
 		hbox.addStrategy(new OrbitUser(state, hbox, user, startAngle, projRange, projSpeed));
 
 		return hbox;

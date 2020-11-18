@@ -13,7 +13,7 @@ public class Plumpowder extends Artifact {
 	private static final int slotCost = 2;
 	
 	
-	private static final float startCharge = 1.0f;
+	private static final float startCharge = 0.8f;
 	public Plumpowder() {
 		super(slotCost, statusNum);
 	}

@@ -79,12 +79,16 @@ public class KryoServer {
 							player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageTypes.DISCONNECT);
 							addNotificationToAll(ps, player.getName(), " DISCONNECTED!", DialogType.SYSTEM);
 
-							//remove disconnecting player from users
-							users.remove(c.getID());
-							ps.getScoreWindow().syncScoreTable();
-							sendToAllTCP(new Packets.RemoveScore(c.getID()));
+
 						});
 					}
+					ps.addPacketEffect(() -> {
+
+						//remove disconnecting player from users
+						users.remove(c.getID());
+						ps.getScoreWindow().syncScoreTable();
+						sendToAllTCP(new Packets.RemoveScore(c.getID()));
+					});
 				}
 
 				//If in a victory state, count a disconnect as ready so disconnected players don't prevent return to hub.

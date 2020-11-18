@@ -16,7 +16,7 @@ public class EightBall extends Artifact {
 	private static final int slotCost = 1;
 	
 	private static final int spread = 20;
-	private static final float damageAmp = 0.25f;
+	private static final float damageAmp = 0.3f;
 	
 	public EightBall() {
 		super(slotCost, statusNum);

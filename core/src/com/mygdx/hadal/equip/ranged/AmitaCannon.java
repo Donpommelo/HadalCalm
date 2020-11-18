@@ -12,7 +12,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
+import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
 
 public class AmitaCannon extends RangedWeapon {
@@ -74,7 +74,7 @@ public class AmitaCannon extends RangedWeapon {
 					orbital.setEffectsMovement(false);
 					
 					orbital.addStrategy(new ControllerDefault(state, orbital, user.getBodyData()));
-					orbital.addStrategy(new DamageStandardRepeatable(state, orbital, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+					orbital.addStrategy(new DamageStandard(state, orbital, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED).setRepeatable(true));
 					orbital.addStrategy(new ContactWallDie(state, orbital, user.getBodyData()));
 					orbital.addStrategy(new HitboxStrategy(state, orbital, user.getBodyData()) {
 						

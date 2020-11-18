@@ -12,7 +12,7 @@ public class Kumquat extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 
-	private static final float regenDuration = 3.0f;
+	private static final float regenDuration = 2.0f;
 
 	public Kumquat() {
 		super(slotCost, statusNum);

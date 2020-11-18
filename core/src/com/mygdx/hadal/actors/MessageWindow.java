@@ -197,6 +197,8 @@ public class MessageWindow {
 						HadalGame.client.sendTCP(new Packets.ClientChat(enterMessage.getText(), DialogType.DIALOG));
 					}
 				}
+			} else {
+				toggleWindow();
 			}
 		}
 		enterMessage.setText("");

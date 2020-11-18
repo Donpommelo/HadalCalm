@@ -22,7 +22,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * 
  * Fields:
  * id: The id of the type of enemy to spawn
- * limit: The number of enemies to spawn simultaneously
+ * numEnemies: The number of enemies to spawn simultaneously
+ * limit: the max number of enemies that can be spawned at once. If 0, no limit is used.
  * extraField: Extra field for enemies that require more information (like turret subtypes)
  * delay: float delay of how much time until the enemy is spawned. default: 1.0f
  * boss: boolean of whether this spawns a boss enemy
@@ -30,7 +31,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * @author Hafrodite Halligator
  */
 public class SpawnerSchmuck extends Event {
-	
+
+	private int numEnemies;
 	private int limit;
 	private final int extraField;
 	private final float delay;
@@ -38,13 +40,14 @@ public class SpawnerSchmuck extends Event {
 	private final String bossName;
 	
 	//this is the amount of enemies left
-	private int amountLeft = 0;
+	private int amountLeft;
 		
 	private final EnemyType type;
 	
-	public SpawnerSchmuck(PlayState state, Vector2 startPos, Vector2 size, String schmuckId, int limit, int extraField, float delay, boolean boss, String bossName) {
+	public SpawnerSchmuck(PlayState state, Vector2 startPos, Vector2 size, String schmuckId,int numEnemies,  int limit, int extraField, float delay, boolean boss, String bossName) {
 		super(state, startPos, size);
 		this.type = EnemyType.valueOf(schmuckId);
+		this.numEnemies = numEnemies;
 		this.limit = limit;
 		this.extraField = extraField;
 		this.delay = delay;
@@ -60,11 +63,13 @@ public class SpawnerSchmuck extends Event {
 			public void onActivate(EventData activator, Player p) {
 				
 				if (activator.getEvent() instanceof TriggerAlt) {
-					limit += Integer.parseInt(((TriggerAlt) activator.getEvent()).getMessage());
+					numEnemies += Integer.parseInt(((TriggerAlt) activator.getEvent()).getMessage());
 				} else {
-					for (int i = 0; i < limit; i++) {
-						amountLeft++;
-						type.generateEnemyDelayed(state, event.getPixelPosition(), delay, Constants.ENEMY_HITBOX, extraField, (SpawnerSchmuck) event, boss, bossName);
+					if (amountLeft < limit || limit == 0) {
+						for (int i = 0; i < numEnemies; i++) {
+							amountLeft++;
+							type.generateEnemyDelayed(state, event.getPixelPosition(), delay, Constants.ENEMY_HITBOX, extraField, (SpawnerSchmuck) event, boss, bossName);
+						}
 					}
 				}
 			}

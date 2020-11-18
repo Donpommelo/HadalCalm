@@ -17,7 +17,7 @@ public class InformantsTie extends Artifact {
 	private static final float projSpdReduction = -0.5f;
 	private static final float bonusProjLifespan = 0.5f;
 	private static final float homePower = 60.0f;
-	private static final int homeRadius =80;
+	private static final int homeRadius = 50;
 
 	public InformantsTie() {
 		super(slotCost, statusNum);

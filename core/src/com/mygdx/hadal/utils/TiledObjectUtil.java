@@ -256,6 +256,7 @@ public class TiledObjectUtil {
 				e = new SpawnerSchmuck(state, position, size,
 						object.getProperties().get("enemyId", String.class),
 						object.getProperties().get("amount", 1, int.class),
+						object.getProperties().get("limit", 0, int.class),
 						object.getProperties().get("extra", 0, int.class),
 						object.getProperties().get("delay", 1.0f, float.class),
 						object.getProperties().get("boss", false, boolean.class),

@@ -5,13 +5,14 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.utils.Stats;
 
 public class HoodofHabit extends Artifact {
 
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
-	private static final float hpThreshold = 25.0f;
+	private static final float hpThreshold = 0.5f;
 	private static final float invisDuration = 8.0f;
 	
 	private static final float procCd = 1.0f;
@@ -36,8 +37,9 @@ public class HoodofHabit extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {				
 				if (procCdCount >= procCd) {
-					procCdCount = 0;
-					if (inflicted.getCurrentHp() > hpThreshold && inflicted.getCurrentHp() - damage <= hpThreshold) {
+					if (inflicted.getCurrentHp() > hpThreshold * inflicted.getStat(Stats.MAX_HP) &&
+						inflicted.getCurrentHp() - damage <= hpThreshold * inflicted.getStat(Stats.MAX_HP)) {
+						procCdCount = 0;
 						inflicted.addStatus(new Invisibility(state, invisDuration, inflicted, inflicted));
 					}
 				}

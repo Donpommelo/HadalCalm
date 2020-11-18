@@ -11,7 +11,7 @@ public class JelloFellowCosplay extends Artifact {
 	private static final int slotCost = 1;
 	
 	private static final float bounce = 1.0f;
-	private static final float bonusHp = 40.0f;
+	private static final float bonusHp = 60.0f;
 	
 	public JelloFellowCosplay() {
 		super(slotCost, statusNum);

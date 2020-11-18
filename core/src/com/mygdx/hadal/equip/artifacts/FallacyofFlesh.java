@@ -1,18 +1,17 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.utils.Stats;
 
 public class FallacyofFlesh extends Artifact {
 
 	private static final int statusNum = 1;
-	private static final int slotCost = 1;
-	
-	private final float amountEnemy = 1.0f;
-	private final float amountPlayer = 10.0f;
+	private static final int slotCost = 3;
+
+	private static final int bonusHp = 70;
 	
 	public FallacyofFlesh() {
 		super(slotCost, statusNum);
@@ -20,20 +19,7 @@ public class FallacyofFlesh extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, b) {
-
-			@Override
-			public void onKill(BodyData vic) {
-				SoundEffect.MAGIC1_ACTIVE.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
-				
-				if (vic instanceof PlayerBodyData) {
-					((PlayerBodyData) inflicted).getActiveItem().gainCharge(amountPlayer);
-
-				} else {
-					((PlayerBodyData) inflicted).getActiveItem().gainCharge(amountEnemy);
-				}
-			}
-		};
+		enchantment[0] = new StatChangeStatus(state, Stats.MAX_HP, bonusHp, b);
 		return enchantment;
 	}
 }

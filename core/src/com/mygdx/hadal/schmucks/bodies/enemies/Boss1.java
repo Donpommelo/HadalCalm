@@ -66,7 +66,7 @@ public class Boss1 extends EnemyFloating {
 
 	@Override
 	public void multiplayerScaling(int numPlayers) {
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 2500 * numPlayers, getBodyData()));
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 1500 * numPlayers, getBodyData()));
 	}
 	
 	private int attackNum = 0;

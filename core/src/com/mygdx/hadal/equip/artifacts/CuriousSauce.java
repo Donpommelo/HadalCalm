@@ -40,12 +40,14 @@ public class CuriousSauce extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				hbox.addStrategy(new RemoveStrategy(state, hbox, b, ContactWallDie.class));
-				hbox.setSensor(false);
-				
-				if (procCdCount >= procCd) {
-					procCdCount = 0;
-					hbox.addStrategy(new ContactWallSound(state, hbox, b, SoundEffect.SPRING, 0.1f));
+				if (hbox.isEffectsMovement()) {
+					hbox.addStrategy(new RemoveStrategy(state, hbox, b, ContactWallDie.class));
+					hbox.setSensor(false);
+
+					if (procCdCount >= procCd) {
+						procCdCount = 0;
+						hbox.addStrategy(new ContactWallSound(state, hbox, b, SoundEffect.SPRING, 0.1f));
+					}
 				}
 			}
 		});
