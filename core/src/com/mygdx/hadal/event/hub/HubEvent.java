@@ -36,6 +36,9 @@ public class HubEvent extends Event {
 	//options displayed here must have these tags.
 	protected ArrayList<UnlockTag> tags;
 	protected UnlockTag tag;
+	protected UnlockTag lastTag = UnlockTag.ALL;
+	protected String lastSearch = "";
+	protected int lastSlot;
 	
 	//the distance the player can move away before the menu disappears
 	private static final float maxDistance = 5.0f;
@@ -118,7 +121,11 @@ public class HubEvent extends Event {
 		open = false;
 	}
 
-	public void addOptions(String search, int slots, UnlockTag tag) {}
+	public void addOptions(String search, int slots, UnlockTag tag) {
+		lastTag = tag;
+		lastSearch = search;
+		lastSlot = slots;
+	}
 
 	@Override
 	public void loadDefaultProperties() {
@@ -126,4 +133,10 @@ public class HubEvent extends Event {
 		setSyncType(eventSyncTypes.USER);
 		setSynced(true);
 	}
+
+	public String getLastSearch() { return lastSearch; }
+
+	public int getLastSlot() { return lastSlot; }
+
+	public UnlockTag getLastTag() { return lastTag; }
 }

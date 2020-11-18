@@ -19,7 +19,7 @@ public class PVPSettingSetter extends Prefabrication {
 	private static final String weaponTimerId = "spawnWeapons";
 	private static final String playerStartId = "playerstart";
 	private static final float eggplantSpawnTimer = 2.0f;
-	private static final float weaponSpawnTimer = 25.0f;
+	private static final float weaponSpawnTimer = 15.0f;
 	private static final float pvpMatchZoom = 1.5f;
 	
 	public PVPSettingSetter(PlayState state) {

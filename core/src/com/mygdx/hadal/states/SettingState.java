@@ -84,7 +84,7 @@ public class SettingState extends GameState {
 	//These options make it easier to convert the index setting to a displayed string
 	public static final String[] timerChoices = {"NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN"};
 	public static final String[] livesChoices = {"UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES"};
-	public static final String[] loadoutChoices = {"COPY HOST", "SELECTED", "RANDOM"};
+	public static final String[] loadoutChoices = {"SELECTED", "COPY HOST", "RANDOM", "WEAPON DROPS"};
 	public static final String[] artifactChoices = {"0", "1", "2", "3", "4", "5", "6"};
 	public static final String[] modeChoices = {"KILLS -> SCORE", "EGGPLANTS -> SCORE"};
 	public static final String[] capacityChoices = {"1", "2", "3", "4", "5", "6", "7", "8"};

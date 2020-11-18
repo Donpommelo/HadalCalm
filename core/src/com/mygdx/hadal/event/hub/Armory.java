@@ -37,11 +37,12 @@ public class Armory extends HubEvent {
 		state.getUiHub().setTitle(title);
 		state.getUiHub().enter(tag, true, false, false, this);
 		open = true;
-		addOptions("" , 0, tag);
+		addOptions(lastSearch, lastSlot, lastTag);
 	}
 
 	@Override
 	public void addOptions(String search, int slots, UnlockTag tag) {
+		super.addOptions(search, slots, tag);
 		Pattern pattern = Pattern.compile(search);
 		final UIHub hub = state.getUiHub();
 

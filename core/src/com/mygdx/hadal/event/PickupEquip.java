@@ -16,6 +16,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import java.util.Objects;
 
@@ -39,7 +40,9 @@ public class PickupEquip extends Event {
 	private UnlockEquip unlock;
 	
 	private final String pool;
-	
+
+	private boolean drop;
+
 	public PickupEquip(PlayState state, Vector2 startPos, String pool) {
 		super(state, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize));
 		this.pool = pool;
@@ -47,7 +50,15 @@ public class PickupEquip extends Event {
 		unlock = UnlockEquip.NOTHING;
 		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
 	}
-	
+
+	public PickupEquip(PlayState state, Vector2 startPos, UnlockEquip equip, float lifespan) {
+		super(state, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize), lifespan);
+		this.pool = "";
+		this.drop = true;
+		unlock = equip;
+		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
+	}
+
 	@Override
 	public void create() {
 		this.eventData = new InteractableEventData(this) {
@@ -91,8 +102,17 @@ public class PickupEquip extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true, Constants.BIT_SENSOR, Constants.BIT_PLAYER,	(short) 0, true, eventData);
-		this.body.setType(BodyType.KinematicBody);
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true,
+			Constants.BIT_SENSOR, Constants.BIT_PLAYER,	(short) 0, true, eventData);
+
+		if (drop) {
+			FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size), false, 0, 0, 0.0f, 1.0f,
+				Constants.BIT_PROJECTILE, (short) (Constants.BIT_DROPTHROUGHWALL | Constants.BIT_WALL), (short) 0).setUserData(eventData);
+			synced = true;
+
+		} else {
+			this.body.setType(BodyType.KinematicBody);
+		}
 	}
 	
 	@Override

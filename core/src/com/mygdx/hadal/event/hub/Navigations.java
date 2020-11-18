@@ -35,6 +35,9 @@ public class Navigations extends HubEvent {
 	public Navigations(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, String level, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.NAVIGATIONS);
 		this.level = level;
+		if (this.tag.equals(UnlockTag.MULTIPLAYER)) {
+			this.lastTag = UnlockTag.CURATED;
+		}
 	}
 
 	@Override
@@ -49,15 +52,16 @@ public class Navigations extends HubEvent {
 				this, "ALL", "ARENA", "BOSS", "SANDBOX", "BIRD");
 		} else {
 			state.getUiHub().enter(tag, true, true, false,
-				this, "ALL", "PVP", "ARENA", "BOSS", "SANDBOX", "BIRD", "NEW");
+				this, "CURATED", "ALL", "PVP", "ARENA", "BOSS", "SANDBOX", "BIRD");
 		}
 
 		open = true;
-		addOptions("" , -1, tag);
+		addOptions(lastSearch, -1, lastTag);
 	}
 
 	@Override
 	public void addOptions(String search, int slots, UnlockTag tag) {
+		super.addOptions(search, slots, tag);
 		ArrayList<UnlockTag> newTags = new ArrayList<>(tags);
 		if (tag != null) {
 			newTags.add(tag);
@@ -91,7 +95,7 @@ public class Navigations extends HubEvent {
 						if (state.isServer()) {
 							//select a random valid map if selecting the random option
 							if (selected.equals(UnlockLevel.RANDOM)) {
-								state.loadLevel(UnlockLevel.getRandomMap(state, tags), TransitionState.NEWLEVEL, "");
+								state.loadLevel(UnlockLevel.getRandomMap(state, newTags), TransitionState.NEWLEVEL, "");
 							} else {
 								state.loadLevel(selected, TransitionState.NEWLEVEL, "");
 							}

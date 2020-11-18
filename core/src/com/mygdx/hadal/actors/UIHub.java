@@ -169,6 +169,7 @@ public class UIHub {
 				}
 			};
 			searchName.setMessageText("SEARCH OPTIONS");
+			searchName.setText(hub.getLastSearch());
 			tableSearch.add(search);
 			tableSearch.add(searchName).padBottom(optionPad).row();
 		}
@@ -180,6 +181,15 @@ public class UIHub {
 
 			tagFilter = new SelectBox<>(GameStateManager.getSkin());
 			tagFilter.setItems(tagOptions);
+
+			if (hub.getLastTag() != null) {
+				for (String tagName: tagOptions) {
+					if (tagName.equals(hub.getLastTag().name())) {
+						tagFilter.setSelected(tagName);
+					}
+				}
+			}
+
 			tagFilter.addListener(new ChangeListener() {
 
 				@Override
@@ -199,6 +209,8 @@ public class UIHub {
 
 			slotsFilter = new SelectBox<>(GameStateManager.getSkin());
 			slotsFilter.setItems("ALL", "0-COST", "1-COST", "2-COST", "3-COST");
+			slotsFilter.setSelectedIndex(hub.getLastSlot() + 1);
+
 			slotsFilter.addListener(new ChangeListener() {
 
 				@Override
@@ -317,14 +329,14 @@ public class UIHub {
 
 	private UnlockTag indexToFilterTag(UnlockTag tag) {
 		if (tagFilter == null) {
-			return null;
+			return UnlockTag.ALL;
 		} else {
 			switch(tag) {
 				case RELIQUARY:
 					switch (tagFilter.getSelectedIndex()) {
 						case 0:
 						default:
-							return null;
+							return UnlockTag.ALL;
 						case 1:
 							return UnlockTag.OFFENSE;
 						case 2:
@@ -352,7 +364,7 @@ public class UIHub {
 						switch (tagFilter.getSelectedIndex()) {
 							case 0:
 							default:
-								return null;
+								return UnlockTag.ALL;
 							case 1:
 								return UnlockTag.ARENA;
 							case 2:
@@ -366,22 +378,22 @@ public class UIHub {
 						switch (tagFilter.getSelectedIndex()) {
 							case 0:
 							default:
-								return null;
+								return UnlockTag.CURATED;
 							case 1:
-								return UnlockTag.PVP;
+								return UnlockTag.ALL;
 							case 2:
-								return UnlockTag.ARENA;
+								return UnlockTag.PVP;
 							case 3:
-								return UnlockTag.BOSS;
+								return UnlockTag.ARENA;
 							case 4:
-								return UnlockTag.SANDBOX;
+								return UnlockTag.BOSS;
 							case 5:
-								return UnlockTag.BIRD;
+								return UnlockTag.SANDBOX;
 							case 6:
-								return UnlockTag.NEW;
+								return UnlockTag.BIRD;
 						}
 				default:
-					return null;
+					return UnlockTag.ALL;
 			}
 		}
 	}

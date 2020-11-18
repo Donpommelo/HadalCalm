@@ -23,14 +23,18 @@ public enum AlignmentFilter {
     PLAYER6(-9),
     PLAYER7(-10),
     PLAYER8(-11),
+    PLAYER9(-12),
+    PLAYER10(-13),
 
-    TEAM_CHARTREUSE(-13, HadalColor.CHARTREUSE, HadalColor.GREEN),
-    TEAM_PLUM(-14, HadalColor.PLUM, HadalColor.VIOLET),
-    TEAM_ORANGE(-14, HadalColor.ORANGE, HadalColor.GOLD),
-    TEAM_RED(-12, HadalColor.RED, HadalColor.HOT_PINK),
-    TEAM_SKY_BLUE(-15, HadalColor.SKY_BLUE, HadalColor.INDIGO),
+    TEAM_CHARTREUSE(-16, HadalColor.CHARTREUSE, HadalColor.PALE_GREEN),
+    TEAM_CRIMSON(-17, HadalColor.CRIMSON, HadalColor.RED),
+    TEAM_GREY(-18, HadalColor.GREY, HadalColor.DARK_GREY),
+    TEAM_PLUM(-19, HadalColor.PLUM, HadalColor.VIOLET),
+    TEAM_ORANGE(-20, HadalColor.ORANGE, HadalColor.GOLD),
+    TEAM_SKY_BLUE(-21, HadalColor.SKY_BLUE, HadalColor.TURQOISE),
+    TEAM_TAN(-22, HadalColor.TAN, HadalColor.BROWN),
 
-    TEAM_BLACK_AND_WHITE(-19, HadalColor.NOTHING, HadalColor.NOTHING) {
+    TEAM_BLACK_AND_WHITE(-25, HadalColor.NOTHING, HadalColor.NOTHING) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -42,7 +46,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_CENSURE(-20, HadalColor.NOTHING, HadalColor.NOTHING) {
+    TEAM_CENSURE(-26, HadalColor.NOTHING, HadalColor.NOTHING) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -54,7 +58,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_INVERT(-21, HadalColor.NOTHING, HadalColor.NOTHING) {
+    TEAM_INVERT(-27, HadalColor.NOTHING, HadalColor.NOTHING) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -66,7 +70,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_SEPIA(-22, HadalColor.NOTHING, HadalColor.NOTHING) {
+    TEAM_SEPIA(-28, HadalColor.NOTHING, HadalColor.NOTHING) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {

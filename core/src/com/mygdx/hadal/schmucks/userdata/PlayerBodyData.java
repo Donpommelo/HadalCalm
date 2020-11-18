@@ -11,6 +11,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
+import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.UnlockActives;
@@ -606,6 +607,7 @@ public class PlayerBodyData extends BodyData {
 	
 	private static final float scrapMultiplier = 0.25f;
 	private static final int baseScrapDrop = 1;
+	private static final float equipDropLifepan = 10.0f;
 	@Override
 	public void die(BodyData perp, DamageTypes... tags) {
 		if (player.isAlive()) {
@@ -617,6 +619,13 @@ public class PlayerBodyData extends BodyData {
 				if (tag == DamageTypes.DISCONNECT) {
 					type = DespawnType.TELEPORT;
 					break;
+				}
+			}
+
+			//in weapon drop mode, players will drop their currently held weapon on death (unless it is default weapon or nothing)
+			if (player.getState().getGsm().getSetting().getLoadoutType() == 3) {
+				if (!loadout.multitools[currentSlot].equals(UnlockEquip.NOTHING) && !loadout.multitools[currentSlot].equals(UnlockEquip.SPEARGUN)) {
+					new PickupEquip(player.getState(), player.getPixelPosition(), loadout.multitools[currentSlot], equipDropLifepan);
 				}
 			}
 

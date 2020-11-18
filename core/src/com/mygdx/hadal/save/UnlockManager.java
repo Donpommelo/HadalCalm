@@ -72,10 +72,13 @@ public class UnlockManager {
 			if (item == null) {
 				return false;
 			}
-
-			for (int j = 0; j < item.getTags().size(); j++) {
-				if (tag.equals(item.getTags().get(j))) {
-					tagPresent = true;
+			if (tag.equals(UnlockTag.ALL)) {
+				tagPresent = true;
+			} else {
+				for (int j = 0; j < item.getTags().size(); j++) {
+					if (tag.equals(item.getTags().get(j))) {
+						tagPresent = true;
+					}
 				}
 			}
 			if (!tagPresent) {
@@ -166,8 +169,9 @@ public class UnlockManager {
 		QUARTERMASTER,
 		NASU,
 		MISC,
-		NEW,
 
+		ALL,
+		CURATED,
 		BIRD,
 		PVP,
 		ARENA,

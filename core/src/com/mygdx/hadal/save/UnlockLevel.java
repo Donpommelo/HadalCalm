@@ -148,6 +148,7 @@ public enum UnlockLevel {
 	public static UnlockLevel getRandomMap(PlayState state, ArrayList<UnlockTag> tags) {
 		
 		Array<UnlockLevel> dm = getUnlocks(state, false, tags);
+
 		if (dm.size > 0) {
 			UnlockLevel level = dm.get(GameStateManager.generator.nextInt(dm.size));
 			
@@ -158,7 +159,7 @@ public enum UnlockLevel {
 				return getRandomMap(state, tags);
 			}
 		} else {
-			return SSTUNICATE1;
+			return getRandomMap(state, new ArrayList<>());
 		}
 	}
 		

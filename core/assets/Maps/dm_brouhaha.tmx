@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="125" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="38">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="125" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="45">
  <properties>
   <property name="pvp" type="bool" value="true"/>
  </properties>
@@ -15,7 +15,7 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="5" name="Start" type="Start" x="1808" y="2592" width="32" height="32">
+  <object id="5" name="Start" type="Start" x="1504" y="2592" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
@@ -25,7 +25,7 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="7" name="Start" type="Start" x="1808" y="1120" width="32" height="32">
+  <object id="7" name="Start" type="Start" x="1600" y="1120" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
@@ -39,7 +39,7 @@
   <object id="9" name="Multitrigger" type="Multitrigger" x="96" y="672" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
-    <property name="triggeringId" value="w1,w2,w3,w4"/>
+    <property name="triggeringId" value="w1,w2,w3,w4,w5"/>
    </properties>
   </object>
   <object id="10" name="Prefab" type="PrefabSpawner" x="1776" y="1568" width="96" height="96">
@@ -122,13 +122,13 @@
     <property name="triggeredId" value="w1"/>
    </properties>
   </object>
-  <object id="24" name="Prefab" type="PrefabWeapon" x="1568" y="1088" width="96" height="96">
+  <object id="24" name="Prefab" type="PrefabWeapon" x="1856" y="1088" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w3"/>
    </properties>
   </object>
-  <object id="25" name="Prefab" type="PrefabWeapon" x="2080" y="2560" width="96" height="96">
+  <object id="25" name="Prefab" type="PrefabWeapon" x="1776" y="2560" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w4"/>
@@ -212,6 +212,42 @@
    <properties>
     <property name="triggeredId" value="egg4"/>
     <property name="triggeringId" value="egg1"/>
+   </properties>
+  </object>
+  <object id="38" name="Start" type="Start" x="2208" y="1024" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="39" name="Start" type="Start" x="2080" y="2592" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="40" name="Start" type="Start" x="1504" y="1632" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="41" name="Start" type="Start" x="2080" y="1696" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="42" name="Start" type="Start" x="768" y="1920" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="43" name="Start" type="Start" x="2816" y="1248" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="44" name="Prefab" type="PrefabWeapon" x="1856" y="1728" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w5"/>
    </properties>
   </object>
  </objectgroup>

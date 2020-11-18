@@ -127,6 +127,9 @@
         {
             "message": "<perp> bullied <vic> to death", "weight": 1, namedPerp: true
         }
+         {
+            "message": "<perp> spared <vic> the boredoom of their future", "weight": 1, namedPerp: true
+        }
         {
             "message": "<perp> fed local wildlife with <vic>'s body", "weight": 1, namedPerp: true
         }
@@ -368,31 +371,34 @@
     ]
 "POISON":  [
         {
-            "message": "<vic> insists its just a flu", "weight": 25, namedPerp: false
+            "message": "<vic> insists its just a flu", "weight": 20, namedPerp: false
         }
         {
             "message": "<vic> died from ligma", "weight": 5, namedPerp: false
         }
         {
-            "message": "<perp> killed <vic> with poison", "weight": 25, namedPerp: true
+            "message": "<perp> killed <vic> with poison", "weight": 20, namedPerp: true
         }
         {
             "message": "<perp> killed <vic> with ligma", "weight": 5, namedPerp: true
         }
         {
-            "message": "<perp>'s toxicity was too much for <vic> to handle", "weight": 25, namedPerp: true
+            "message": "<perp>'s toxicity was too much for <vic> to handle", "weight": 20, namedPerp: true
         }
         {
             "message": "<perp> killed <vic> with nerve gas", "weight": 5, namedPerp: true
         }
         {
+            "message": "<perp> tainted the well of <vic>'s discourse", "weight": 5, namedPerp: true
+        }
+        {
             "message": "<perp> pozzed <vic> to death", "weight": 5, namedPerp: true
         }
         {
-            "message": "<perp> polluted <vic> to death", "weight": 25, namedPerp: true
+            "message": "<perp> polluted <vic> to death", "weight": 20, namedPerp: true
         }
         {
-            "message": "<perp> killed <vic> with a miasmic fog", "weight": 25, namedPerp: true
+            "message": "<perp> killed <vic> with a miasmic fog", "weight": 20, namedPerp: true
         }
     ]
 "POKING":  [

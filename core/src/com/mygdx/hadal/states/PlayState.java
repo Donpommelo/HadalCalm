@@ -845,8 +845,11 @@ public class PlayState extends GameState {
 		if (pvp && !hub) {
 			switch(gsm.getSetting().getLoadoutType()) {
 			
-			//copy setting: each player starts with the same loadout as the host (used for custom games)
+			//select setting: each player starts with the weapons they selected in the hub
 			case 0:
+				break;
+			//copy setting: each player starts with the same loadout as the host (used for custom games)
+			case 1:
 				for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 					newLoadout.multitools[i] = UnlockEquip.valueOf(gsm.getLoadout().getEquips()[i]);
 				}
@@ -855,13 +858,16 @@ public class PlayState extends GameState {
 				}
 				newLoadout.activeItem = UnlockActives.valueOf(gsm.getLoadout().getActive());
 				break;
-			//select setting: each player starts with the weapons they selected in the hub
-			case 1:
-				break;
 			//random setting: each player starts with random weapons
 			case 2:
 				for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 					newLoadout.multitools[i] = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(this, ""));
+				}
+				break;
+			case 3:
+				newLoadout.multitools[0] = UnlockEquip.SPEARGUN;
+				for (int i = 1; i < Loadout.maxWeaponSlots; i++) {
+					newLoadout.multitools[i] = UnlockEquip.NOTHING;
 				}
 				break;
 			}

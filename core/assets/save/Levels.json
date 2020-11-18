@@ -131,6 +131,7 @@ RANDOM: {
         PVP,
         ARENA,
         BIRD,
+        CURATED,
     ]
 }
 DM_BOTTLENECK: {
@@ -140,7 +141,7 @@ DM_BOTTLENECK: {
 	tags: [  
         MULTIPLAYER,
         PVP,
-        NEW,
+        CURATED,
 	]
 }
 DM_BROUHAHA: {
@@ -150,7 +151,7 @@ DM_BROUHAHA: {
 	tags: [  
         MULTIPLAYER,
         PVP,
-        NEW,
+        CURATED,
 	]
 }
 DM_CAROUSEL: {
@@ -178,6 +179,7 @@ DM_FLOTSAM: {
 	tags: [
         MULTIPLAYER,
         PVP,
+        CURATED,
 	]
 }
 DM_GULLY: {
@@ -205,6 +207,7 @@ DM_LAGAN: {
 	tags: [
         MULTIPLAYER,
         PVP,
+        CURATED,
 	]
 }
 DM_MOONBOUNCE: {
@@ -214,7 +217,6 @@ DM_MOONBOUNCE: {
 	tags: [
         MULTIPLAYER,
         PVP,
-        NEW,
 	]
 }
 DM_ORIGINAL: {
@@ -269,7 +271,6 @@ DM_SCALES: {
 	tags: [
         MULTIPLAYER,
         PVP,
-        NEW,
 	]
 }
 DM_SEESAW: {
@@ -288,7 +289,7 @@ DM_THRESHOLD: {
 	tags: [
         MULTIPLAYER,
         PVP,
-        NEW,
+        CURATED,
 	]
 }
 DM_WARP: {
@@ -298,6 +299,7 @@ DM_WARP: {
 	tags: [
         MULTIPLAYER,
         PVP,
+        CURATED,
 	]
 }
 DM_WETWORKS: {
@@ -307,6 +309,7 @@ DM_WETWORKS: {
 	tags: [
         MULTIPLAYER,
         PVP,
+        CURATED,
 	]
 }
 DM_ZIGGURAT: {
