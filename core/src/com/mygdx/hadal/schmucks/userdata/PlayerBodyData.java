@@ -607,7 +607,7 @@ public class PlayerBodyData extends BodyData {
 	
 	private static final float scrapMultiplier = 0.25f;
 	private static final int baseScrapDrop = 1;
-	private static final float equipDropLifepan = 10.0f;
+	private static final float equipDropLifepan = 15.0f;
 	@Override
 	public void die(BodyData perp, DamageTypes... tags) {
 		if (player.isAlive()) {
