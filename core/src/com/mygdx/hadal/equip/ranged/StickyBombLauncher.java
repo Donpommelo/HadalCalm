@@ -9,19 +9,13 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.strategies.hitbox.ContactStick;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DieExplode;
-import com.mygdx.hadal.strategies.hitbox.DieSound;
-import com.mygdx.hadal.strategies.hitbox.FlashNearDeath;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class StickyBombLauncher extends RangedWeapon {
 
 	private static final int clipSize = 6;
 	private static final int ammoSize = 36;
-	private static final float shootCd = 0.25f;
+	private static final float shootCd = 0.3f;
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.25f;
 	private static final int reloadAmount = 0;
@@ -32,7 +26,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private static final float lifespan = 5.0f;
 	
 	private static final int explosionRadius = 200;
-	private static final float explosionDamage = 55.0f;
+	private static final float explosionDamage = 50.0f;
 	private static final float explosionKnockback = 25.0f;	
 	
 	private static final Sprite projSprite = Sprite.STICKYBOMB;
@@ -70,8 +64,6 @@ public class StickyBombLauncher extends RangedWeapon {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.25f));
-		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.SQUISH, 0.8f));
-		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SQUISH, 0.8f, false));
 		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, true));
 		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
 		

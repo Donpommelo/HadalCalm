@@ -41,7 +41,7 @@ public class ConsoleCommandUtil {
 		
 		if (command.equals("/roll")) {
 			HadalGame.server.addChatToAll(state,"Rolled A Number: "
-				+ GameStateManager.generator.nextInt(maxRoll), DialogType.SYSTEM, 0);
+				+ GameStateManager.generator.nextInt(maxRoll), DialogType.SYSTEM, player.getConnID());
 			return 0;
 		}
 		

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -45,6 +46,7 @@ public class ContactStick extends HitboxStrategy {
 		if (!stuckToTarget) {
 			if (fixB != null) {
 				if (fixB.getType().equals(UserDataTypes.BODY) && stickToDudes) {
+					SoundEffect.SQUISH.playUniversal(state, hbox.getPixelPosition(), 0.8f, 1.0f, false);
 					stuckToTarget = true;
 					
 					target = fixB.getEntity();
@@ -53,6 +55,7 @@ public class ContactStick extends HitboxStrategy {
 					location.set(hbox.getPosition().x - target.getPosition().x, hbox.getPosition().y - target.getPosition().y);	
 				}
 				if (fixB.getType().equals(UserDataTypes.WALL) && stickToWalls) {
+					SoundEffect.SQUISH.playUniversal(state, hbox.getPixelPosition(), 0.8f, 1.0f, false);
 					stuckToTarget = true;
 					
 					target = fixB.getEntity();
