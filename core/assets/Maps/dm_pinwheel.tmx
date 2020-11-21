@@ -68,7 +68,7 @@
     <property name="event" type="bool" value="true"/>
     <property name="friction" type="float" value="0"/>
     <property name="player" type="bool" value="true"/>
-    <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat1"/>
@@ -89,7 +89,7 @@
     <property name="event" type="bool" value="true"/>
     <property name="friction" type="float" value="0"/>
     <property name="player" type="bool" value="true"/>
-    <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat2"/>
@@ -110,7 +110,7 @@
     <property name="event" type="bool" value="true"/>
     <property name="friction" type="float" value="0"/>
     <property name="player" type="bool" value="true"/>
-    <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat4"/>
@@ -131,7 +131,7 @@
     <property name="event" type="bool" value="true"/>
     <property name="friction" type="float" value="0"/>
     <property name="player" type="bool" value="true"/>
-    <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat3"/>

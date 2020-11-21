@@ -51,9 +51,7 @@ public enum AssetList {
 	UI_ATL("ui/UI.atlas", TextureAtlas.class),
 	EMOTE_ATL("sprites/emote/emote.atlas", TextureAtlas.class),
 	TELEMACHUS_POINT("ui/telemachus_point.atlas", TextureAtlas.class),
-	HEART_EMPTY("ui/heart_meter.png", Texture.class),
-	HEART_FULL("ui/heart_gauge.png", Texture.class),
-	
+
 	BOSSGAUGEATLAS("ui/gauge.atlas", TextureAtlas.class),
 
 	PELICANATLAS("sprites/busts/portrait_pelican.atlas", TextureAtlas.class),

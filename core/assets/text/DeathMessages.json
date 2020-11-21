@@ -128,7 +128,7 @@
             "message": "<perp> bullied <vic> to death", "weight": 1, namedPerp: true
         }
          {
-            "message": "<perp> spared <vic> the boredoom of their future", "weight": 1, namedPerp: true
+            "message": "<perp> spared <vic> the boredom of their future", "weight": 1, namedPerp: true
         }
         {
             "message": "<perp> fed local wildlife with <vic>'s body", "weight": 1, namedPerp: true

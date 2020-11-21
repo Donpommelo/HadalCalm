@@ -45,7 +45,7 @@ public class Platform extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
-		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
+		setEventSprite(Sprite.UI_RELOAD_BAR);
 		setScaleAlign("CENTER_STRETCH");
 		setSyncType(eventSyncTypes.ALL);
 	}

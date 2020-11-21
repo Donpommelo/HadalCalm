@@ -24,7 +24,7 @@ public class Plumpowder extends Artifact {
 			
 			@Override
 			public void playerCreate() {
-				((Player) inflicted.getSchmuck()).getPlayerData().getActiveItem().setCurrentChargePercent(1.0f);
+				((Player) inflicted.getSchmuck()).getPlayerData().getActiveItem().setCurrentChargePercent(startCharge);
 			}
 		};
 		return enchantment;

@@ -23,7 +23,7 @@
     <property name="event" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
-    <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat1"/>
@@ -91,7 +91,7 @@
     <property name="event" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
-    <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat2"/>
@@ -113,7 +113,7 @@
     <property name="event" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
-    <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat3"/>
@@ -135,7 +135,7 @@
     <property name="event" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
-    <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat4"/>
@@ -149,7 +149,7 @@
     <property name="event" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
-    <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat5"/>
@@ -163,7 +163,7 @@
     <property name="event" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
-    <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat6"/>
@@ -206,7 +206,7 @@
     <property name="event" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
-    <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat7"/>
@@ -228,7 +228,7 @@
     <property name="event" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
-    <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat8"/>

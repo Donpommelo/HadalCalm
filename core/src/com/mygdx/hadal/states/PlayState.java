@@ -1414,7 +1414,9 @@ public class PlayState extends GameState {
 	public void setStartId(String startId) { this.startId = startId; }
 
 	public void toggleVisibleHitboxes(boolean debugHitbox) { this.debugHitbox = debugHitbox; }
-	
+
+	public UIPlay getUiPlay() { return uiPlay; }
+
 	public UIExtra getUiExtra() { return uiExtra; }
 
 	public UIArtifacts getUiArtifact() { return uiArtifact; }

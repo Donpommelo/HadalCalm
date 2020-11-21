@@ -247,4 +247,10 @@ public class UIPlay extends AHadalActor {
 	 * This simply clears the boss hp bar from the ui
 	 */
 	public void clearBoss() { bossFight = false; }
+
+	public float getHpRatio() { return hpRatio; }
+
+	public float getFuelRatio() { return fuelRatio; }
+
+	public float getFuelCutoffRatio() { return fuelCutoffRatio; }
 }

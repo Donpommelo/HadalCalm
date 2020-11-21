@@ -1,6 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -21,7 +20,6 @@ import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.input.ActionController;
-import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -66,8 +64,7 @@ public class Player extends PhysicsSchmuck {
 	private final PlayerSpriteHelper spriteHelper;
 	private TextureRegion toolSprite;
 	private final Animation<TextureRegion> typingBubble;
-	private final TextureRegion reload, reloadMeter, reloadBar;
-	private final Texture empty, full;
+	private final TextureRegion reload, reloadMeter, reloadBar, hpBar, fuelBar, fuelCutoff;
 
 	//Fixtures and user data
 	protected FeetData feetData;
@@ -198,9 +195,9 @@ public class Player extends PhysicsSchmuck {
 		this.reload = Sprite.UI_RELOAD.getFrame();
 		this.reloadMeter = Sprite.UI_RELOAD_METER.getFrame();
 		this.reloadBar = Sprite.UI_RELOAD_BAR.getFrame();
-		
-		this.empty = new Texture(AssetList.HEART_EMPTY.toString());
-		this.full = new Texture(AssetList.HEART_FULL.toString());
+		this.hpBar = Sprite.UI_MAIN_HEALTHBAR.getFrame();
+		this.fuelBar = Sprite.UI_MAIN_FUELBAR.getFrame();
+		this.fuelCutoff = Sprite.UI_MAIN_FUEL_CUTOFF.getFrame();
 		this.typingBubble =  new Animation<>(PlayState.spriteAnimationSpeedSlow,
 			Objects.requireNonNull(Sprite.NOTIFICATIONS_CHAT.getFrames()));
 		typingBubble.setPlayMode(PlayMode.LOOP_PINGPONG);
@@ -630,7 +627,14 @@ public class Player extends PhysicsSchmuck {
 	public void switchToSlot(int slot) {
 		playerData.switchWeapon(slot);
 	}
-	
+
+	private static final int barX = 20;
+	private static final int barY = -35;
+	private static final int hpWidth = 5;
+	private static final int hpHeight = 75;
+	private static final int flipRange = 75;
+	private static final int cutoffThickness = 3;
+	private boolean barRight;
 	protected Vector2 mouseAngle = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
@@ -686,22 +690,12 @@ public class Player extends PhysicsSchmuck {
 			chargeDelayed = 0.0f;
 		}
 		
-		//This draws a heart by the player's sprite to indicate hp remaining
-		float heartX = playerLocation.x - Player.hbWidth * scale - empty.getWidth() * uiScale + 5;
-		float heartY = playerLocation.y + Player.hbHeight * scale / 2 + 5;
-		
-		float hpRatio;
-		
 		//render "out of ammo"
 		if (state.isServer()) {
-			hpRatio = playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP);
-			
 			if (playerData.getCurrentTool().isOutofAmmo()) {
 				HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "OUT OF AMMO", textX + 12, textY + reload.getRegionHeight() * uiScale);
 			}
 		} else {
-			hpRatio = playerData.getOverrideHpPercent();
-			
 			if (playerData.isOverrideOutOfAmmo()) {
 				HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "OUT OF AMMO", textX + 12, textY + reload.getRegionHeight() * uiScale);
 			}
@@ -710,7 +704,7 @@ public class Player extends PhysicsSchmuck {
 		boolean visible = false;
 		
 		//draw hp heart if using certain effects, looking at self, or in spectator mode
-		if (state.isSpectatorMode()) {
+		if (state.isSpectatorMode() || equals(state.getPlayer())) {
 			visible = true;
 		} else if (state.isServer()) {
 			if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
@@ -721,18 +715,43 @@ public class Player extends PhysicsSchmuck {
 				visible = true;
 			}
 		}
-		
-		if (visible || equals(state.getPlayer())) {
-			batch.draw(empty, heartX - empty.getWidth() / 2.0f * uiScale, heartY - empty.getHeight() / 2.0f * uiScale,
-	                empty.getWidth() / 2.0f, empty.getHeight() / 2.0f,
-	                empty.getWidth(), empty.getHeight(),
-	                uiScale, uiScale, 0, 0, 0, empty.getWidth(), empty.getHeight(), false, false);
 
-	        batch.draw(full, heartX - full.getWidth() / 2.0f * uiScale, heartY - full.getHeight() / 2.0f * uiScale - (int) (full.getHeight() * (1 - hpRatio) * uiScale),
-	                full.getWidth() / 2.0f, full.getHeight() / 2.0f,
-	                full.getWidth(), full.getHeight(),
-	                uiScale, uiScale, 0, 0, (int) (full.getHeight() * (1 - hpRatio)),
-	                full.getWidth(), full.getHeight(), false, false);
+		float hpX, hpRatio, fuelRatio, fuelCutoffRatio;
+		if (visible) {
+			if (barRight) {
+				hpX = playerLocation.x + barX;
+				if (attackAngle > 180 - flipRange || attackAngle < -180 + flipRange) {
+					barRight = false;
+				}
+			} else {
+				hpX = playerLocation.x - barX - hpWidth - 5;
+				if (attackAngle < flipRange && attackAngle > - flipRange) {
+					barRight = true;
+				}
+			}
+
+			if (equals(state.getPlayer())) {
+				hpRatio = state.getUiPlay().getHpRatio();
+				fuelRatio = state.getUiPlay().getFuelRatio();
+				fuelCutoffRatio = state.getUiPlay().getFuelCutoffRatio();
+				if (barRight) {
+					batch.draw(fuelBar, hpX, playerLocation.y + barY, hpWidth, hpHeight * fuelRatio);
+					batch.draw(hpBar, hpX + hpWidth, playerLocation.y + barY, hpWidth, hpHeight * hpRatio);
+					batch.draw(fuelCutoff, hpX, playerLocation.y + barY + fuelCutoffRatio * hpHeight, hpWidth, cutoffThickness);
+
+				} else {
+					batch.draw(fuelBar, hpX - hpWidth, playerLocation.y + barY, hpWidth, hpHeight * fuelRatio);
+					batch.draw(hpBar, hpX, playerLocation.y + barY, hpWidth, hpHeight * hpRatio);
+					batch.draw(fuelCutoff, hpX - hpWidth, playerLocation.y + barY + fuelCutoffRatio * hpHeight, hpWidth, cutoffThickness);
+				}
+			} else {
+				if (state.isServer()) {
+					hpRatio = playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP);
+				} else {
+					hpRatio = playerData.getOverrideHpPercent();
+				}
+				batch.draw(hpBar, hpX, playerLocation.y + barY, hpWidth, hpHeight * hpRatio);
+			}
 		}
 
 		if (state.getGsm().getSetting().isDisplayNames()) {
@@ -765,9 +784,6 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void dispose() {
 		super.dispose();
-
-		empty.dispose();
-		full.dispose();
 
 		spriteHelper.dispose(despawnType);
 
