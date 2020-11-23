@@ -64,7 +64,7 @@ public class Player extends PhysicsSchmuck {
 	private final PlayerSpriteHelper spriteHelper;
 	private TextureRegion toolSprite;
 	private final Animation<TextureRegion> typingBubble;
-	private final TextureRegion reload, reloadMeter, reloadBar, hpBar, fuelBar, fuelCutoff;
+	private final TextureRegion reload, reloadMeter, reloadBar, hpBar, hpBarFade, fuelBar, fuelCutoff;
 
 	//Fixtures and user data
 	protected FeetData feetData;
@@ -196,6 +196,7 @@ public class Player extends PhysicsSchmuck {
 		this.reloadMeter = Sprite.UI_RELOAD_METER.getFrame();
 		this.reloadBar = Sprite.UI_RELOAD_BAR.getFrame();
 		this.hpBar = Sprite.UI_MAIN_HEALTHBAR.getFrame();
+		this.hpBarFade = Sprite.UI_MAIN_HEALTH_MISSING.getFrame();
 		this.fuelBar = Sprite.UI_MAIN_FUELBAR.getFrame();
 		this.fuelCutoff = Sprite.UI_MAIN_FUEL_CUTOFF.getFrame();
 		this.typingBubble =  new Animation<>(PlayState.spriteAnimationSpeedSlow,
@@ -736,11 +737,13 @@ public class Player extends PhysicsSchmuck {
 				fuelCutoffRatio = state.getUiPlay().getFuelCutoffRatio();
 				if (barRight) {
 					batch.draw(fuelBar, hpX, playerLocation.y + barY, hpWidth, hpHeight * fuelRatio);
+					batch.draw(hpBarFade, hpX + hpWidth, playerLocation.y + barY, hpWidth, hpHeight);
 					batch.draw(hpBar, hpX + hpWidth, playerLocation.y + barY, hpWidth, hpHeight * hpRatio);
 					batch.draw(fuelCutoff, hpX, playerLocation.y + barY + fuelCutoffRatio * hpHeight, hpWidth, cutoffThickness);
 
 				} else {
 					batch.draw(fuelBar, hpX - hpWidth, playerLocation.y + barY, hpWidth, hpHeight * fuelRatio);
+					batch.draw(hpBarFade, hpX, playerLocation.y + barY, hpWidth, hpHeight);
 					batch.draw(hpBar, hpX, playerLocation.y + barY, hpWidth, hpHeight * hpRatio);
 					batch.draw(fuelCutoff, hpX - hpWidth, playerLocation.y + barY + fuelCutoffRatio * hpHeight, hpWidth, cutoffThickness);
 				}
@@ -750,6 +753,7 @@ public class Player extends PhysicsSchmuck {
 				} else {
 					hpRatio = playerData.getOverrideHpPercent();
 				}
+				batch.draw(hpBarFade, hpX, playerLocation.y + barY, hpWidth, hpHeight);
 				batch.draw(hpBar, hpX, playerLocation.y + barY, hpWidth, hpHeight * hpRatio);
 			}
 		}
