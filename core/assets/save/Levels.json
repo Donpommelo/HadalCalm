@@ -292,6 +292,16 @@ DM_THRESHOLD: {
         CURATED,
 	]
 }
+DM_QUADRANT: {
+	name: DM_QUADRANT
+	description: ""
+    descriptionLong: "SIZE: LARGE"
+	tags: [
+        MULTIPLAYER,
+        PVP,
+        CURATED,
+	]
+}
 DM_WARP: {
 	name: DM_WARP
 	description: ""

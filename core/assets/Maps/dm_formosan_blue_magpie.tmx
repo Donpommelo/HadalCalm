@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="35">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="37">
  <properties>
   <property name="pvp" type="bool" value="true"/>
  </properties>
@@ -46,7 +46,7 @@
   <object id="22" name="Multitrigger" type="Multitrigger" x="160" y="3552" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
-    <property name="triggeringId" value="w1,w2"/>
+    <property name="triggeringId" value="w1,w2,w3,w4"/>
    </properties>
   </object>
   <object id="24" name="Bounds" type="Bounds" x="960" y="544" width="32" height="32">
@@ -119,6 +119,18 @@
   <object id="34" name="Dropthrough" type="Dropthrough" x="2368" y="576" width="352" height="8">
    <properties>
     <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="35" name="Prefab" type="PrefabWeapon" x="1776" y="1432" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w3"/>
+   </properties>
+  </object>
+  <object id="36" name="Prefab" type="PrefabWeapon" x="3864" y="1184" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w4"/>
    </properties>
   </object>
  </objectgroup>

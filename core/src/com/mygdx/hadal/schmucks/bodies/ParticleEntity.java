@@ -208,10 +208,8 @@ public class ParticleEntity extends HadalEntity {
 	}
 	
 	@Override
-	public void render(SpriteBatch batch) {
-		effect.draw(batch, Gdx.graphics.getDeltaTime());
-	}
-	
+	public void render(SpriteBatch batch) {	effect.draw(batch, Gdx.graphics.getDeltaTime()); }
+
 	@Override
 	public void dispose() {	
 		if (!destroyed) {

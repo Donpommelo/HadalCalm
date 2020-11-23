@@ -8,7 +8,7 @@ uniform float u_time;
 void main() {
 	vec2 coord = 7.5f * gl_FragCoord.xy / u_resolution;
 
-	for (int n = 1; n < 8; n++){
+	for (int n = 1; n < 8; n++) {
 		float i = float(n);
 		coord += vec2(0.7 / i * sin(i * coord.y + u_time + 0.3 * i) + 0.8, 0.4 / i * sin(coord.x + u_time + 0.3 * i) + 1.6);
 	}

@@ -221,8 +221,8 @@ public class Player extends PhysicsSchmuck {
 	 * This method prepares the various particle emitting entities attached to the player.
 	 */
 	public void loadParticles() {
-		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
 		dustCloud = new ParticleEntity(state, this, Particle.DUST, 1.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
+		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
 	}
 	
 	/**
@@ -629,10 +629,10 @@ public class Player extends PhysicsSchmuck {
 	}
 
 	private static final int barX = 20;
-	private static final int barY = -35;
+	private static final int barY = 0;
 	private static final int hpWidth = 5;
-	private static final int hpHeight = 75;
-	private static final int flipRange = 75;
+	private static final int hpHeight = 40;
+	private static final int flipRange = 80;
 	private static final int cutoffThickness = 3;
 	private boolean barRight;
 	protected Vector2 mouseAngle = new Vector2();

@@ -439,6 +439,7 @@ public class UIHub {
 		QUARTERMASTER,
 		CODEX,
 		PAINTER,
+		WALLPAPER,
 		MISC
 	}
 }

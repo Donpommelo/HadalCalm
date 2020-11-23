@@ -457,6 +457,10 @@
   <property name="type" type="string"/>
   <property name="unlock" type="bool" default="false"/>
  </objecttype>
+ <objecttype name="Wallpaper" color="#a0a0a4">
+  <property name="tag" type="string" default="WALLPAPER"/>
+  <property name="title" type="string" default="Wallpaper"/>
+ </objecttype>
  <objecttype name="Warp" color="#a0a0a4">
   <property name="level" type="string"/>
   <property name="reset" type="bool" default="false"/>

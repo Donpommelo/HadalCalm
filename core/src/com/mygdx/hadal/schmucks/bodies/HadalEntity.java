@@ -421,8 +421,9 @@ public abstract class HadalEntity {
 	 * This is run when the entity is rendered.
 	 * Give the shader information about its duration
 	 */
-	public void processShaderController() {
+	public void processShaderController(float timer) {
 		float percentageCompletion = 1.0f - shaderCount / shaderDuration;
+		shader.shaderPlayUpdate(state, timer);
 		shader.shaderEntityUpdate(percentageCompletion);
 	}
 	

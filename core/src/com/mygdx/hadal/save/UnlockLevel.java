@@ -14,6 +14,14 @@ import java.util.ArrayList;
  */
 public enum UnlockLevel {
 
+	DM_BOTTLENECK("Maps/dm_bottleneck.tmx"),
+	DM_BROUHAHA("Maps/dm_brouhaha.tmx"),
+	DM_FLOTSAM("Maps/dm_flotsam.tmx"),
+	DM_LAGAN("Maps/dm_lagan.tmx"),
+	DM_THRESHOLD("Maps/dm_threshold.tmx"),
+	DM_WARP("Maps/dm_warp.tmx"),
+	DM_QUADRANT("Maps/dm_quadrant.tmx"),
+	DM_WETWORKS("Maps/dm_wetworks.tmx"),
 
 	BOSS1("Maps/Boss1.tmx"),
 	BOSS2("Maps/Boss2.tmx"),
@@ -30,14 +38,10 @@ public enum UnlockLevel {
 	ARENA_WETWORKS("Maps/arena_wetworks.tmx"),
 	ARENA_ZIGGURAT("Maps/arena_ziggurat.tmx"),
 
-	DM_BOTTLENECK("Maps/dm_bottleneck.tmx"),
-	DM_BROUHAHA("Maps/dm_brouhaha.tmx"),
 	DM_CAROUSEL("Maps/dm_carousel.tmx"),
 	DM_FALLDOWN("Maps/dm_falldown.tmx"),
-	DM_FLOTSAM("Maps/dm_flotsam.tmx"),
 	DM_GULLY("Maps/dm_gully.tmx"),
 	DM_JUMP("Maps/dm_jump.tmx"),
-	DM_LAGAN("Maps/dm_lagan.tmx"),
 	DM_MOONBOUNCE("Maps/dm_moonbounce.tmx"),
 	DM_ORIGINAL("Maps/dm_original.tmx"),
 	DM_PILE("Maps/dm_pile.tmx"),
@@ -46,9 +50,6 @@ public enum UnlockLevel {
 	DM_SAWMILL("Maps/dm_sawmill.tmx"),
 	DM_SCALES("Maps/dm_scales.tmx"),
 	DM_SEESAW("Maps/dm_seesaw.tmx"),
-	DM_THRESHOLD("Maps/dm_threshold.tmx"),
-	DM_WARP("Maps/dm_warp.tmx"),
-	DM_WETWORKS("Maps/dm_wetworks.tmx"),
 	DM_ZIGGURAT("Maps/dm_ziggurat.tmx"),
 
 	DM_FORMOSAN_BLUE_MAGPIE("Maps/dm_formosan_blue_magpie.tmx"),

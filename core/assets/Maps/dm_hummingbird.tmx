@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="67">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="74">
  <properties>
   <property name="pvp" type="bool" value="true"/>
  </properties>
@@ -58,7 +58,7 @@
   <object id="11" name="Multitrigger" type="Multitrigger" x="256" y="3584" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
-    <property name="triggeringId" value="w1,w2"/>
+    <property name="triggeringId" value="w1,w2,w3,w4"/>
    </properties>
   </object>
   <object id="13" name="Player" type="Player" x="3104" y="3616" width="32" height="32">
@@ -350,6 +350,38 @@
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
     <property name="triggeringId" value="startTimer,rotate2"/>
+   </properties>
+  </object>
+  <object id="67" name="Prefab" type="PrefabWeapon" x="3248" y="2808" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w3"/>
+   </properties>
+  </object>
+  <object id="68" name="Prefab" type="PrefabWeapon" x="1976" y="2184" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w4"/>
+   </properties>
+  </object>
+  <object id="69" name="Start" type="Start" x="4832" y="2688" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="71" name="Start" type="Start" x="2432" y="1536" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="72" name="Start" type="Start" x="3904" y="1952" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="73" name="Start" type="Start" x="3904" y="864" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
  </objectgroup>

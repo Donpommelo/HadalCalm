@@ -1,7 +1,6 @@
 package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
@@ -542,10 +541,7 @@ public class TitleState extends GameState {
 	}
 
 	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(40/255f, 51/255f, 77/255f, 1.0f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	}
+	public void render(float delta) {}
 	
 	@Override
 	public void dispose() {	

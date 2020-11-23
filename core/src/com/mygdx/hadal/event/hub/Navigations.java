@@ -35,9 +35,6 @@ public class Navigations extends HubEvent {
 	public Navigations(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, String level, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.NAVIGATIONS);
 		this.level = level;
-		if (this.tag.equals(UnlockTag.MULTIPLAYER)) {
-			this.lastTag = UnlockTag.CURATED;
-		}
 	}
 
 	@Override

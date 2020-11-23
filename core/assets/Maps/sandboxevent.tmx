@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="181">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="183">
  <properties>
+  <property name="customShader" type="bool" value="true"/>
   <property name="lives" type="bool" value="true"/>
   <property name="pvp" type="bool" value="true"/>
   <property name="startUI" value="SANDBOX,EMPTY,SCRAP"/>
@@ -44,46 +45,11 @@
     <property name="synced" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="21" name="Shader" type="Shader" x="480" y="1696" width="32" height="32">
-   <properties>
-    <property name="duration" type="float" value="0"/>
-    <property name="shader" value="SPLASH"/>
-    <property name="triggeredId" value="shaderTest1"/>
-   </properties>
-  </object>
-  <object id="24" name="Shader" type="Shader" x="640" y="1696" width="32" height="32">
-   <properties>
-    <property name="duration" type="float" value="0"/>
-    <property name="shader" value="DRIP"/>
-    <property name="triggeredId" value="shaderTest2"/>
-   </properties>
-  </object>
-  <object id="26" name="Shader" type="Shader" x="800" y="1696" width="32" height="32">
-   <properties>
-    <property name="duration" type="float" value="0"/>
-    <property name="shader" value="WAVE"/>
-    <property name="triggeredId" value="shaderTest3"/>
-   </properties>
-  </object>
-  <object id="28" name="Shader" type="Shader" x="960" y="1696" width="32" height="32">
-   <properties>
-    <property name="duration" type="float" value="0"/>
-    <property name="shader" value="WHIRLPOOL"/>
-    <property name="triggeredId" value="shaderTest4"/>
-   </properties>
-  </object>
   <object id="37" name="Current" type="Current" x="2496" y="1184" width="160" height="160">
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="3"/>
     <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="41" name="Shader" type="Shader" x="1120" y="1696" width="32" height="32">
-   <properties>
-    <property name="duration" type="float" value="0"/>
-    <property name="shader" value="PLAYER_LIGHT"/>
-    <property name="triggeredId" value="shaderTest5"/>
    </properties>
   </object>
   <object id="42" name="Dropthrough" type="Dropthrough" x="768" y="1024" width="576" height="8">
@@ -250,11 +216,6 @@
     <property name="triggeringId" value="door1"/>
    </properties>
   </object>
-  <object id="86" name="Text" type="Text" x="512" y="1312" width="32" height="32">
-   <properties>
-    <property name="text" value="SHADERS"/>
-   </properties>
-  </object>
   <object id="89" name="Text" type="Text" x="1472" y="992" width="32" height="32">
    <properties>
     <property name="text" value="UNLOCKS"/>
@@ -416,13 +377,6 @@
    <properties>
     <property name="sync" value="USER"/>
     <property name="triggeredId" value="objectiveMarker"/>
-   </properties>
-  </object>
-  <object id="129" name="ChoiceBranch" type="ChoiceBranch" x="512" y="1408" width="96" height="96">
-   <properties>
-    <property name="optionNames" value="SPLASH,DRIP,WAVE,WHIRLPOOL,LIGHT"/>
-    <property name="options" value="shaderTest1,shaderTest2,shaderTest3,shaderTest4,shaderTest5"/>
-    <property name="title" value="SHADERS"/>
    </properties>
   </object>
   <object id="130" name="Text" type="Text" x="896" y="1280" width="32" height="32">

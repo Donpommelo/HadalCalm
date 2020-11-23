@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 
@@ -18,7 +19,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Setting {
 
-	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, artifactSlots, portNumber, hitsoundType;
+	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, artifactSlots, portNumber,
+		hitsoundType, customShader;
 	private boolean fullscreen, vsync, debugHitbox, displayNames, teamEnabled, randomNameAlliteration, consoleEnabled, verboseDeathMessage,
 		multiplayerPause, exportChatLog;
 	private float soundVolume, musicVolume, masterVolume, hitsoundVolume;
@@ -309,6 +311,23 @@ public class Setting {
 			return SoundEffect.HITSOUND_COWBELL;
 		}
 	}
+
+	public Shader indexToShader() {
+		switch (customShader) {
+			case 1:
+				return Shader.SPLASH;
+			case 2:
+				return Shader.WAVE;
+			case 3:
+				return Shader.DRIP;
+			case 4:
+				return Shader.WIGGLE_STATIC;
+			case 5:
+				return Shader.PLASMA;
+			default:
+				return Shader.NOTHING;
+		}
+	}
 	
 	public void setResolution(int resolution) { this.resolution = resolution; }
 
@@ -323,6 +342,8 @@ public class Setting {
 	public void setCursorType(int cursorType) {	this.cursorType = cursorType; }
 
 	public void setCursorSize(int cursorSize) { this.cursorSize = cursorSize; }
+
+	public void setCustomShader(int customShader) { this.customShader = customShader; }
 
 	public void setCursorColor(int cursorColor) { this.cursorColor = cursorColor; }
 
@@ -365,7 +386,9 @@ public class Setting {
 	public int getCursorSize() { return cursorSize; }
 	
 	public int getCursorColor() { return cursorColor; }
-	
+
+	public int getCustomShader() { return customShader; }
+
 	public int getHitsound() { return hitsoundType; }
 	
 	public float getSoundVolume() {	return soundVolume; }

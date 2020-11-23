@@ -3,7 +3,6 @@ package com.mygdx.hadal.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -22,6 +21,7 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.StartPoint;
+import com.mygdx.hadal.event.hub.Wallpaper;
 import com.mygdx.hadal.event.utility.PositionDummy;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.PlayerController;
@@ -235,11 +235,14 @@ public class PlayState extends GameState {
 		this.hub = map.getProperties().get("hub", false, Boolean.class);
 		this.unlimitedLife = map.getProperties().get("lives", false, boolean.class);
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
-		this.zoomDesired = zoom;	
+		this.zoomDesired = zoom;
 
 		//load map shader
 		this.shaderBase = Shader.NOTHING;
-		if (map.getProperties().get("shader", String.class) != null) {
+
+		if (map.getProperties().get("customShader", false, Boolean.class) ) {
+			shaderBase = Wallpaper.shaders[gsm.getSetting().getCustomShader()];
+		} else if (map.getProperties().get("shader", String.class) != null) {
 			shaderBase = Shader.valueOf(map.getProperties().get("shader", String.class));
 			shaderBase.loadShader();
 		}
@@ -466,20 +469,17 @@ public class PlayState extends GameState {
 	 */
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		//Render Background
 		batch.setProjectionMatrix(hud.combined);
-		batch.begin();
 		batch.disableBlending();
+		batch.begin();
 
 		//render shader
 		if (shaderBase.getShaderProgram() != null) {
-			shaderBase.getShaderProgram().bind();
+			batch.setShader(shaderBase.getShaderProgram());
 			shaderBase.shaderPlayUpdate(this, timer);
 			shaderBase.shaderDefaultUpdate(timer);
-			batch.setShader(shaderBase.getShaderProgram());
 		}
 		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 		
@@ -488,9 +488,10 @@ public class PlayState extends GameState {
 				batch.setShader(null);
 			}
 		}
-		batch.enableBlending();
+		//batch.enableBlending();
 		batch.end();
-		
+		batch.enableBlending();
+
 		//Render Tiled Map + world
 		tmr.setView(camera);
 		tmr.render();				
@@ -504,14 +505,9 @@ public class PlayState extends GameState {
 		//Iterate through entities in the world to render visible entities
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		
+
 		renderEntities(delta);
 		
-		if (shaderBase.getShaderProgram() != null) {
-			if (!shaderBase.isBackground()) {
-				batch.setShader(null);
-			}
-		}
 		batch.end();
 	}	
 	
@@ -608,11 +604,11 @@ public class PlayState extends GameState {
 	 * @param entity: the entity we are rendering
 	 */
 	public void renderEntity(HadalEntity entity) {
-		
+
 		if (entity.isVisible()) {
 			if (entity.getShaderCount() > 0 && entity.getShader() != null) {
-				entity.processShaderController();
 				batch.setShader(entity.getShader().getShaderProgram());
+				entity.processShaderController(timer);
 			}
 
 			entity.render(batch);
