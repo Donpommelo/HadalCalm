@@ -163,6 +163,16 @@ DM_CAROUSEL: {
         PVP,
 	]
 }
+DM_FACILITY: {
+	name: DM_FACILITY
+	description: ""
+    descriptionLong: "SIZE: LARGE"
+	tags: [
+        MULTIPLAYER,
+        PVP,
+        CURATED
+	]
+}
 DM_FALLDOWN: {
 	name: DM_FALLDOWN
 	description: ""
@@ -284,6 +294,16 @@ DM_SEESAW: {
 }
 DM_THRESHOLD: {
 	name: DM_THRESHOLD
+	description: ""
+    descriptionLong: "SIZE: LARGE"
+	tags: [
+        MULTIPLAYER,
+        PVP,
+        CURATED,
+	]
+}
+DM_TOWERS: {
+	name: DM_TOWERS
 	description: ""
     descriptionLong: "SIZE: LARGE"
 	tags: [

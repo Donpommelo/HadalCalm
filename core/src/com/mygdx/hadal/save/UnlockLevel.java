@@ -16,9 +16,11 @@ public enum UnlockLevel {
 
 	DM_BOTTLENECK("Maps/dm_bottleneck.tmx"),
 	DM_BROUHAHA("Maps/dm_brouhaha.tmx"),
+	DM_FACILITY("Maps/dm_facility.tmx"),
 	DM_FLOTSAM("Maps/dm_flotsam.tmx"),
 	DM_LAGAN("Maps/dm_lagan.tmx"),
 	DM_THRESHOLD("Maps/dm_threshold.tmx"),
+	DM_TOWERS("Maps/dm_towers.tmx"),
 	DM_WARP("Maps/dm_warp.tmx"),
 	DM_QUADRANT("Maps/dm_quadrant.tmx"),
 	DM_WETWORKS("Maps/dm_wetworks.tmx"),

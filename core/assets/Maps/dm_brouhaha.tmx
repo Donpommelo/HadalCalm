@@ -55,28 +55,28 @@
   <object id="11" name="Current" type="Current" x="2656" y="2048" width="96" height="576">
    <properties>
     <property name="currentX" type="float" value="0"/>
-    <property name="currentY" type="float" value="5"/>
+    <property name="currentY" type="float" value="4.5"/>
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="12" name="Current" type="Current" x="2208" y="1216" width="96" height="288">
    <properties>
     <property name="currentX" type="float" value="0"/>
-    <property name="currentY" type="float" value="5"/>
+    <property name="currentY" type="float" value="4.5"/>
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="13" name="Current" type="Current" x="1312" y="1792" width="96" height="288">
    <properties>
     <property name="currentX" type="float" value="0"/>
-    <property name="currentY" type="float" value="5"/>
+    <property name="currentY" type="float" value="4.5"/>
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="14" name="Current" type="Current" x="864" y="672" width="96" height="576">
    <properties>
     <property name="currentX" type="float" value="0"/>
-    <property name="currentY" type="float" value="5"/>
+    <property name="currentY" type="float" value="4.5"/>
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>

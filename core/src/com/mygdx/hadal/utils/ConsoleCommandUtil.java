@@ -141,7 +141,7 @@ public class ConsoleCommandUtil {
 		}
 
 		if (command.equals("/help")) {
-			state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(GameStateManager.miscText.getString("help")), DialogType.SYSTEM, 0);
+			state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(GameStateManager.miscText.getString("help")), DialogType.SYSTEM, player.getConnID());
 			return 0;
 		}
 

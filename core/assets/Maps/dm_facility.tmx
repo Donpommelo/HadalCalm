@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="76">
+ <properties>
+  <property name="customShader" type="bool" value="true"/>
+  <property name="pvp" type="bool" value="true"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="200" height="120">
+  <data encoding="base64" compression="zlib">
+   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
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="640" y="2656">
+   <polyline points="0,0 160,160 1120,160 1280,320 2784,320 2944,160 2944,-448 3936,-448 4096,-608 5056,-608 5216,-768 5216,-1632 5376,-1792 5376,-2144 5216,-2304 2432,-2304 2272,-2144 2272,-1536 0,-1536 -160,-1376 -160,-1024 0,-864 0,0"/>
+  </object>
+  <object id="2" x="864" y="2496">
+   <polyline points="0,0 96,96 384,96 384,0 192,0 96,-96 96,-160 0,-160 0,0"/>
+  </object>
+  <object id="4" x="864" y="2112">
+   <polyline points="0,0 256,0 288,-32 544,-32 544,-96 512,-128 352,-128 256,-224 0,-224 0,0"/>
+  </object>
+  <object id="5" x="864" y="1664">
+   <polyline points="0,0 96,0 96,-96 224,-224 608,-224 832,0 928,0 1024,-96 1024,-160 864,-160 704,-320 128,-320 0,-192 0,0"/>
+  </object>
+  <object id="6" x="2112" y="1568">
+   <polyline points="0,0 96,96 192,96 416,-128 704,-128 704,0 800,0 800,-224 320,-224 160,-64 0,-64 0,0"/>
+  </object>
+  <object id="7" x="2464" y="2048">
+   <polyline points="0,0 192,0 352,160 352,224 448,224 448,-320 352,-320 192,-160 96,-160 0,-64 0,0"/>
+  </object>
+  <object id="8" x="1408" y="2592">
+   <polyline points="0,0 512,0 512,-96 416,-96 320,-192 192,-192 96,-96 0,-96 0,0"/>
+  </object>
+  <object id="9" x="2080" y="2592">
+   <polyline points="0,0 1056,0 1056,-96 0,-96 0,0"/>
+  </object>
+  <object id="29" x="4576" y="1824">
+   <polyline points="0,0 512,0 512,-96 416,-96 320,-192 192,-192 96,-96 0,-96 0,0"/>
+  </object>
+  <object id="48" x="3360" y="1824">
+   <polyline points="0,0 1056,0 1056,-96 0,-96 0,0"/>
+  </object>
+  <object id="50" x="5248" y="1824">
+   <polyline points="0,0 288,0 384,-96 384,-256 288,-256 288,-192 192,-96 0,-96 0,0"/>
+  </object>
+  <object id="51" x="5088" y="1312">
+   <polyline points="0,0 256,0 288,32 544,32 544,-192 288,-192 192,-96 32,-96 0,-64 0,0"/>
+  </object>
+  <object id="52" x="4608" y="800">
+   <polyline points="0,0 96,96 192,96 416,-128 800,-128 928,0 928,96 1024,96 1024,-96 896,-224 320,-224 160,-64 0,-64 0,0"/>
+  </object>
+  <object id="53" x="3584" y="800">
+   <polyline points="0,0 96,0 96,-128 384,-128 608,96 704,96 800,0 800,-64 640,-64 480,-224 0,-224 0,0"/>
+  </object>
+  <object id="54" x="3584" y="1504">
+   <polyline points="0,0 96,0 96,-64 256,-224 448,-224 448,-288 352,-384 256,-384 96,-544 0,-544 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="17" name="Multitrigger" type="Multitrigger" x="320" y="800" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1,w2,w3,w4,w5,w6"/>
+   </properties>
+  </object>
+  <object id="18" name="Prefab" type="PrefabPVPSettingSetter" x="320" y="736" width="32" height="32">
+   <properties>
+    <property name="prefabId" value="PVPSettingSetter"/>
+    <property name="triggeredId" value=""/>
+   </properties>
+  </object>
+  <object id="19" name="Start" type="Start" x="1632" y="2336" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="20" name="Start" type="Start" x="1280" y="1920" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="21" name="Start" type="Start" x="2592" y="1824" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="22" name="Start" type="Start" x="3872" y="1056" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="23" name="Start" type="Start" x="5184" y="1152" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="24" name="Start" type="Start" x="4832" y="1568" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="25" name="Start" type="Start" x="3424" y="1664" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="26" name="Start" type="Start" x="3040" y="2432" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="27" name="Bounds" type="Bounds" x="5152" y="2624" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="28" name="Bounds" type="Bounds" x="1344" y="704" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="30" name="Dropthrough" type="Dropthrough" x="3136" y="1344" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="31" name="Dropthrough" type="Dropthrough" x="3136" y="576" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="32" name="Dropthrough" type="Dropthrough" x="3360" y="960" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="33" name="Dropthrough" type="Dropthrough" x="2912" y="960" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="34" name="Dropthrough" type="Dropthrough" x="2912" y="1728" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="35" name="Dropthrough" type="Dropthrough" x="3360" y="2208" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="36" name="Dropthrough" type="Dropthrough" x="3360" y="2496" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="37" name="Dropthrough" type="Dropthrough" x="2912" y="2208" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="38" name="Prefab" type="PrefabSpawner" x="3200" y="1248" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="39" name="Prefab" type="PrefabWeapon" x="2976" y="864" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="40" name="Prefab" type="PrefabWeapon" x="3424" y="2112" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
+   </properties>
+  </object>
+  <object id="41" name="Prefab" type="PrefabWeapon" x="1088" y="2400" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w3"/>
+   </properties>
+  </object>
+  <object id="42" name="Prefab" type="PrefabWeapon" x="5312" y="1632" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w4"/>
+   </properties>
+  </object>
+  <object id="43" name="Prefab" type="PrefabWeapon" x="5440" y="1024" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w5"/>
+   </properties>
+  </object>
+  <object id="44" name="Prefab" type="PrefabWeapon" x="960" y="1792" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w6"/>
+   </properties>
+  </object>
+  <object id="45" name="Prefab" type="PrefabSpawner" x="2976" y="2112" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="46" name="Prefab" type="PrefabSpawner" x="3424" y="864" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="47" name="ScrapSpawn" type="ScrapSpawn" x="3232" y="384" width="32" height="32">
+   <properties>
+    <property name="scrap" type="int" value="1"/>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="55" name="Dropthrough" type="Dropthrough" x="4384" y="576" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="56" name="Prefab" type="PrefabSpawner" x="4448" y="480" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="57" name="Dropthrough" type="Dropthrough" x="1888" y="1344" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="58" name="Prefab" type="PrefabSpawner" x="1952" y="1248" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="60" name="Prefab" type="PrefabSpawner" x="2080" y="2880" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="61" name="Prefab" type="PrefabSpawner" x="4320" y="2112" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="62" name="Dropthrough" type="Dropthrough" x="4320" y="1216" width="352" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="63" name="Dropthrough" type="Dropthrough" x="1824" y="1984" width="352" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="64" name="Spring" type="Spring" x="1952" y="1968" width="96" height="16">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="80"/>
+   </properties>
+  </object>
+  <object id="65" name="Spring" type="Spring" x="4448" y="1200" width="96" height="16">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="80"/>
+   </properties>
+  </object>
+  <object id="66" name="Spring" type="Spring" x="3264" y="2960" width="96" height="16">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="80"/>
+   </properties>
+  </object>
+  <object id="67" name="Dropthrough" type="Dropthrough" x="640" y="2336" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="69" name="Prefab" type="PrefabSpawner" x="704" y="2240" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="70" name="Dropthrough" type="Dropthrough" x="480" y="1344" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="71" name="Prefab" type="PrefabSpawner" x="544" y="1248" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="72" name="Dropthrough" type="Dropthrough" x="5792" y="576" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="73" name="Prefab" type="PrefabSpawner" x="5856" y="480" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="74" name="Dropthrough" type="Dropthrough" x="5632" y="1568" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="75" name="Prefab" type="PrefabSpawner" x="5696" y="1472" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

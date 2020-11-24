@@ -252,7 +252,7 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="47" name="Start" type="Start" x="3392" y="1472" width="32" height="32">
+  <object id="47" name="Start" type="Start" x="3328" y="1472" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
