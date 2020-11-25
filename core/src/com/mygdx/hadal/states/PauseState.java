@@ -14,6 +14,7 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.server.Packets;
@@ -149,7 +150,7 @@ public class PauseState extends GameState {
 					public void clicked(InputEvent e, float x, float y) {
 			        	
 			        	//Setting pops a setting state on top of the pause state.
-			        	gsm.addSettingState(me, PauseState.class);
+			        	gsm.addState(State.SETTING, me);
 			        	SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 			        }
 			    });

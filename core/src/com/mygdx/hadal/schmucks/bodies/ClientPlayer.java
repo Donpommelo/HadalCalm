@@ -213,6 +213,8 @@ public class ClientPlayer extends Player {
 	
 	@Override
 	public void hover() {
+		if (!predicting) { return; }
+
 		if (jumpCdCount < 0) {
 			
 			//Player will continuously do small upwards bursts that cost fuel.
@@ -223,6 +225,8 @@ public class ClientPlayer extends Player {
 	
 	@Override
 	public void jump() {
+		if (!predicting) { return; }
+
 		if (grounded) {
 			if (jumpCdCount < 0) {
 				
@@ -245,6 +249,8 @@ public class ClientPlayer extends Player {
 	private final Vector2 mousePos = new Vector2();
 	@Override
 	public void airblast() {
+		if (!predicting) { return; }
+
 		if (airblastCdCount < 0) {
 			if (((ClientState) state).getUiPlay().getOverrideFuelAmount() > ((ClientState) state).getUiPlay().getOverrideAirblastCost()) {
 				mousePos.set(((ClientState) state).getMousePosition().x,((ClientState) state).getMousePosition().y);
@@ -254,7 +260,14 @@ public class ClientPlayer extends Player {
 			airblastBuffered = true;
 		}
 	}
-	
+
+	@Override
+	protected void applyForce(float delta) {
+		if (predicting) {
+			super.applyForce(delta);
+		}
+	}
+
 	@Override
 	public void onClientSync(Object o) {
 		if (o instanceof Packets.SyncPlayerAll) {

@@ -179,14 +179,14 @@ public class GameStateManager {
 	 * This code adds the new input state, replacing and disposing the previous state if existent.
 	 * Due to states getting more different fields, this should only be used for simple states.
 	 * @param state: The new state
-	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
+	 * @param peekState: the state we are adding on top of. ensures no accidental double-adding
 	 */
-	public void addState(State state, Class<? extends GameState> lastState) {
+	public void addState(State state, GameState peekState) {
 		if (states.empty()) {
-			states.push(getState(state));
+			states.push(getState(state, peekState));
 			states.peek().show();
-		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(getState(state));
+		} else if (states.peek().getClass().equals(peekState.getClass())) {
+			states.push(getState(state, peekState));
 			states.peek().show();
 		}
 	}
@@ -244,21 +244,6 @@ public class GameStateManager {
 	}
 	
 	/**
-	 * Called when game setting menu is pulled up. This adds a SettingState to the stack
-	 * @param ps: This is the pausestate we are putting the setting state on. (null if calling from title state)
-	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
-	 */
-	public void addSettingState(PauseState ps, Class<? extends GameState> lastState) {
-		if (states.empty()) {
-			states.push(new SettingState(this, ps));
-			states.peek().show();
-		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new SettingState(this, ps));
-			states.peek().show();
-		}
-	}
-	
-	/**
 	 * This is called at the end of levels to display the results of the game
 	 * @param ps: This is the playstate we are putting the resultstate on
 	 * @param text: this text is displayed at the top of the results state. Declares win or loss (or anything else)
@@ -307,15 +292,17 @@ public class GameStateManager {
 	/**
 	 * This is called upon adding a new state. It maps each state enum to the actual gameState that will be added to the stack
 	 * @param state: enum for the new type of state to be added
+	 * @param peekState: the state underneath this state
 	 * @return A new instance of the gameState corresponding to the input enum
 	 * NOTE: we no longer use this for any more complicated state that requires extra fields 
 	 * Only used for: (TITLE, SPLASH, ABOUT)
 	 */
-	public GameState getState(State state) {
+	public GameState getState(State state, GameState peekState) {
 		switch(state) {
 			case TITLE: return new TitleState(this);
 			case SPLASH: return new InitState(this);
-			case ABOUT: return new AboutState(this);
+			case ABOUT: return new AboutState(this, peekState);
+			case SETTING: return new SettingState(this, peekState);
 			case LOBBY: return new LobbyState(this);
 			default:
 				break;
@@ -342,8 +329,8 @@ public class GameStateManager {
 	//This enum lists all the different types of gamestates.
 	public enum State {
 		SPLASH,
-		CONTROL,
 		TITLE,
+		SETTING,
 		PLAY, 
 		VICTORY,
 		PAUSE,

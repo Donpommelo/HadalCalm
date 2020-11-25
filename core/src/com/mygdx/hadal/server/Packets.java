@@ -1,10 +1,10 @@
 package com.mygdx.hadal.server;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.esotericsoftware.kryo.Kryo;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
@@ -799,7 +799,7 @@ public class Packets {
 		public float scale;
 		public boolean rotate;
 		public boolean synced;
-		public HadalColor color;
+		public Vector3 color;
 		public CreateParticles() {}
 		
 		/**
@@ -821,7 +821,7 @@ public class Packets {
 		 * @param color: the color tint of the particle
 		 */
 		public CreateParticles(String entityID, String attachedID, Vector2 pos, boolean attached, String particle, boolean startOn, float linger, float lifespan, float scale, boolean rotate, boolean synced, 
-				HadalColor color) {
+				Vector3 color) {
 			this.entityID = entityID;
 			this.attachedID = attachedID;
 			this.pos = pos;
@@ -874,14 +874,14 @@ public class Packets {
         public float age;
         public float timestamp;
 		public float scale;
-		public HadalColor color;
+		public Vector3 color;
 		
 		public SyncParticlesExtra() {}
 		
 		/**
 		 * This sync packet is used for particles that sync the extra fields; color and scale.
 		 */
-		public SyncParticlesExtra(String entityID, Vector2 pos, Vector2 offset, boolean on, float age, float timestamp, float scale, HadalColor color) {
+		public SyncParticlesExtra(String entityID, Vector2 pos, Vector2 offset, boolean on, float age, float timestamp, float scale, Vector3 color) {
 			this.entityID = entityID;
 			this.pos = pos;
 			this.offset = offset;
@@ -1303,6 +1303,7 @@ public class Packets {
 		kryo.register(SyncKillMessage.class);
 
 		kryo.register(Vector2.class);
+		kryo.register(Vector3.class);
 		kryo.register(UnlockLevel.class);
 		kryo.register(UnlockArtifact.class);
 		kryo.register(UnlockArtifact[].class);
@@ -1320,7 +1321,6 @@ public class Packets {
 		kryo.register(EnemyType.class);
 		kryo.register(DespawnType.class);
 		kryo.register(MoveState.class);
-		kryo.register(HadalColor.class);
 		kryo.register(Shader.class);
 		kryo.register(Sprite.class);
 		kryo.register(SoundEffect.class);

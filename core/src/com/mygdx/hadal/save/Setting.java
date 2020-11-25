@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 
@@ -21,8 +20,8 @@ public class Setting {
 
 	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, artifactSlots, portNumber,
 		hitsoundType, customShader;
-	private boolean fullscreen, vsync, debugHitbox, displayNames, teamEnabled, randomNameAlliteration, consoleEnabled, verboseDeathMessage,
-		multiplayerPause, exportChatLog;
+	private boolean fullscreen, vsync, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration,
+		consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
 	private float soundVolume, musicVolume, masterVolume, hitsoundVolume;
 
 	//How long should pvp/coop matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
@@ -130,6 +129,7 @@ public class Setting {
 		fullscreen = false;
 		vsync = true;
 		displayNames = true;
+		displayHp = true;
 		cursorType = 1;
 		cursorSize = 1;
 		cursorColor = 4;
@@ -312,23 +312,6 @@ public class Setting {
 		}
 	}
 
-	public Shader indexToShader() {
-		switch (customShader) {
-			case 1:
-				return Shader.SPLASH;
-			case 2:
-				return Shader.WAVE;
-			case 3:
-				return Shader.DRIP;
-			case 4:
-				return Shader.WIGGLE_STATIC;
-			case 5:
-				return Shader.PLASMA;
-			default:
-				return Shader.NOTHING;
-		}
-	}
-	
 	public void setResolution(int resolution) { this.resolution = resolution; }
 
 	public void setFramerate(int framerate) { this.framerate = framerate; }
@@ -338,6 +321,8 @@ public class Setting {
 	public void setVsync(boolean vsync) { this.vsync = vsync; }
 
 	public void setDisplayNames(boolean displayNames) { this.displayNames = displayNames; }
+
+	public void setDisplayHp(boolean displayHp) { this.displayHp = displayHp; }
 
 	public void setCursorType(int cursorType) {	this.cursorType = cursorType; }
 
@@ -414,6 +399,8 @@ public class Setting {
 	public boolean isDebugHitbox() { return debugHitbox; }
 
 	public boolean isDisplayNames() { return displayNames; }
+
+	public boolean isDisplayHp() { return displayHp; }
 
 	public int getPortNumber() { return portNumber; }
 	

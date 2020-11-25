@@ -641,7 +641,9 @@ public class KryoClient {
 					cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
 					entity.setScale(p.scale);
 					entity.setRotate(p.rotate);
-					entity.setColor(p.color);
+					if (!p.color.isZero()) {
+						entity.setColor(p.color);
+					}
 				});
 			}
 			return true;
@@ -899,7 +901,7 @@ public class KryoClient {
 			} else if (currentState instanceof PauseState) {
 				return (ClientState) (((PauseState) currentState).getPs());
 			} else if (currentState instanceof SettingState) {
-				return (ClientState) (((SettingState) currentState).getPs());
+				return (ClientState) (((SettingState) currentState).getPlayState());
 			} else if (currentState instanceof ResultsState) {
 				return (ClientState) (((ResultsState) currentState).getPs());
 			}

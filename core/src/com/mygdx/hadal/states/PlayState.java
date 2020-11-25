@@ -860,8 +860,9 @@ public class PlayState extends GameState {
 					newLoadout.multitools[i] = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(this, ""));
 				}
 				break;
+			//weapon drop mode: players start off with basic speargun
 			case 3:
-				newLoadout.multitools[0] = UnlockEquip.SPEARGUN;
+				newLoadout.multitools[0] = UnlockEquip.SPEARGUN_NERFED;
 				for (int i = 1; i < Loadout.maxWeaponSlots; i++) {
 					newLoadout.multitools[i] = UnlockEquip.NOTHING;
 				}

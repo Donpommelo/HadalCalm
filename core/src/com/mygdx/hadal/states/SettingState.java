@@ -4,23 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldFilter;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 
 /**
@@ -35,9 +32,9 @@ public class SettingState extends GameState {
 	//This is the hotkey option that the player has selected to change
 	private PlayerAction currentlyEditing;
 	
-	//this is a pause state underneath this state. (null if calling this state from the title screen)
-	private final PauseState ps;
-	private PlayState playstate;
+	//this is the state underneath this state.
+	private final GameState peekState;
+	private PlayState playState;
 	
 	//This determines whether the pause state should be removed or not next engine tick.
 	//We do this instead of removing right away in case we remove as a result of receiving a packet from another player unpausing (which can happen whenever).
@@ -45,6 +42,7 @@ public class SettingState extends GameState {
 	
 	//This table contains the ui elements of the pause screen
 	private Table options, details, extra;
+	private MenuWindow windowOptions, windowDetails, windowExtra;
 
 	//These are all of the display and buttons visible to the player.
 	private Text displayOption, controlOption, audioOption, gameOption, miscOption, exitOption, saveOption, resetOption;
@@ -52,23 +50,29 @@ public class SettingState extends GameState {
 	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
 		hitsoundOptions, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
 	private Slider sound, music, master, hitsound;
-	private CheckBox fullscreen, vsync, debugHitbox, displayNames, teamEnabled, randomNameAlliteration, consoleEnabled,
+	private CheckBox fullscreen, vsync, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration, consoleEnabled,
 		verboseDeathMessage, multiplayerPause, exportChatLog;
 		
 	//Dimensions of the setting menu
-	private static final int optionsX = 25;
+	private static final int optionsX = -1025;
 	private static final int optionsY = 100;
+	private static final int optionsXEnabled = 25;
+	private static final int optionsYEnabled = 100;
 	private static final int optionsWidth = 300;
 	private static final int optionsHeight = 600;
 	
-	private static final int detailsX = 320;
+	private static final int detailsX = -730;
 	private static final int detailsY = 100;
+	private static final int detailsXEnabled = 320;
+	private static final int detailsYEnabled = 100;
 	private static final int detailsWidth = 500;
 	private static final int detailsHeight = 600;
 	private static final int scrollWidth = 480;
 
-	private static final int extraX = 820;
+	private static final int extraX = -230;
 	private static final int extraY = 600;
+	private static final int extraXEnabled = 820;
+	private static final int extraYEnabled = 600;
 	private static final int extraWidth = 240;
 	private static final int extraHeight = 100;
 	
@@ -92,33 +96,28 @@ public class SettingState extends GameState {
 	//this is the current setting tab the player is using
 	private settingTab currentTab;
 	
-	//this state's background shader
-	private final Shader shaderBackground;
-	private final TextureRegion bg;
-	
 	/**
 	 * Constructor will be called when the player enters the setting state from the title menu or the pause menu.
 	 */
-	public SettingState(GameStateManager gsm, PauseState ps) {
+	public SettingState(GameStateManager gsm, GameState peekState) {
 		super(gsm);
-		this.ps = ps;
+		this.peekState = peekState;
 		
-		if (ps != null) {
-			playstate = ps.getPs();
+		if (peekState instanceof PauseState) {
+			playState = ((PauseState) peekState).getPs();
 		}
-		
-		shaderBackground = Shader.WAVE;
-		shaderBackground.loadDefaultShader();
-		this.bg = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.BACKGROUND2.toString()));
 	}
 
 	@Override
 	public void show() {
 		stage = new Stage() {
 			{
-				addActor(new MenuWindow(optionsX, optionsY, optionsWidth, optionsHeight));
-				addActor(new MenuWindow(detailsX, detailsY, detailsWidth, detailsHeight));
-				addActor(new MenuWindow(extraX, extraY, extraWidth, extraHeight));
+				windowOptions = new MenuWindow(optionsX, optionsY, optionsWidth, optionsHeight);
+				windowDetails = new MenuWindow(detailsX, detailsY, detailsWidth, detailsHeight);
+				windowExtra = new MenuWindow(extraX, extraY, extraWidth, extraHeight);
+				addActor(windowOptions);
+				addActor(windowDetails);
+				addActor(windowExtra);
 				
 				options = new Table();
 				options.setPosition(optionsX, optionsY);
@@ -192,7 +191,7 @@ public class SettingState extends GameState {
 			    });
 				miscOption.setScale(optionsScale);
 				
-				if (playstate == null) {
+				if (playState == null) {
 					exitOption = new Text("EXIT?", 0, 0, true);
 				} else {
 					exitOption = new Text("RETURN?", 0, 0, true);
@@ -205,12 +204,7 @@ public class SettingState extends GameState {
 						SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
 						
 						//if exiting to title screen, play transition. Otherwise, just remove this state
-						if (ps == null) {
-							gsm.getApp().fadeOut();
-							gsm.getApp().setRunAfterTransition(() -> gsm.removeState(SettingState.class));
-						} else {
-							gsm.removeState(SettingState.class);
-						}
+						transitionOut(() -> gsm.removeState(SettingState.class));
 			        }
 			    });
 				exitOption.setScale(optionsScale);
@@ -250,11 +244,8 @@ public class SettingState extends GameState {
 		};
 		app.newMenu(stage);
 		
-		//fade in the state upon opening it if the game is faded out at all. (from a title screen transition)
-		if (gsm.getApp().getFadeLevel() >= 1.0f) {
-			gsm.getApp().fadeIn();
-		}
-		
+		transitionIn();
+
 		//the setting state input processor accounts for the player changing their hotkeys
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(new InputProcessor() {
@@ -304,7 +295,7 @@ public class SettingState extends GameState {
 	 * This is called whenever the player selects the DISPLAY tab
 	 */
 	private void displaySelected() {
-		details.clear();
+		details.clearChildren();
 		currentlyEditing = null;
 		currentTab = settingTab.DISPLAY;
 		
@@ -355,11 +346,13 @@ public class SettingState extends GameState {
 		vsync = new CheckBox("VSYNC?", GameStateManager.getSkin());
 		debugHitbox = new CheckBox("DRAW DEBUG HITBOX OUTLINES?", GameStateManager.getSkin());
 		displayNames = new CheckBox("DISPLAY NAMES?", GameStateManager.getSkin());
+		displayHp = new CheckBox("DISPLAY HP BAR?", GameStateManager.getSkin());
 
 		fullscreen.setChecked(gsm.getSetting().isFullscreen());
 		vsync.setChecked(gsm.getSetting().isVSync());
 		debugHitbox.setChecked(gsm.getSetting().isDebugHitbox());
 		displayNames.setChecked(gsm.getSetting().isDisplayNames());
+		displayHp.setChecked(gsm.getSetting().isDisplayHp());
 
 		details.add(screen);
 		details.add(resolutionOptions).height(detailHeight).pad(detailPad).row();
@@ -368,7 +361,8 @@ public class SettingState extends GameState {
 		details.add(fullscreen);
 		details.add(vsync).height(detailHeight).pad(detailPad).row();
 		details.add(debugHitbox).colspan(2).height(detailHeight).pad(detailPad).row();
-		details.add(displayNames).colspan(2).height(detailHeight).pad(detailPad).row();
+		details.add(displayNames);
+		details.add(displayHp).height(detailHeight).pad(detailPad).row();
 		details.add(cursortype);
 		details.add(cursorOptions).height(detailHeight).pad(detailPad).row();
 		details.add(cursorsize);
@@ -381,7 +375,7 @@ public class SettingState extends GameState {
 	 * This is called whenever the player selects the CONTROLS tab
 	 */
 	private void controlsSelected() {
-		details.clear();
+		details.clearChildren();
 		currentlyEditing = null;
 		currentTab = settingTab.CONTROLS;
 		
@@ -427,7 +421,7 @@ public class SettingState extends GameState {
 	 * This is called whenever the player selects the AUDIO tab
 	 */
 	private void audioSelected() {
-		details.clear();
+		details.clearChildren();
 		currentlyEditing = null;
 		currentTab = settingTab.AUDIO;
 		
@@ -575,7 +569,7 @@ public class SettingState extends GameState {
 	 * This is called whenever the player selects the GAME tab
 	 */
 	private void gameSelected() {
-		details.clear();
+		details.clearChildren();
 		currentlyEditing = null;
 		currentTab = settingTab.GAMEPLAY;
 		
@@ -653,7 +647,7 @@ public class SettingState extends GameState {
 	 * This is called whenever the player selects the MISC tab
 	 */
 	private void miscSelected() {
-		details.clear();
+		details.clearChildren();
 		currentlyEditing = null;
 		currentTab = settingTab.MISC;
 		
@@ -727,10 +721,11 @@ public class SettingState extends GameState {
 			gsm.getSetting().setVsync(vsync.isChecked());
 			gsm.getSetting().setDebugHitbox(debugHitbox.isChecked());
 			gsm.getSetting().setDisplayNames(displayNames.isChecked());
+			gsm.getSetting().setDisplayHp(displayHp.isChecked());
 			gsm.getSetting().setCursorType(cursorOptions.getSelectedIndex());
 			gsm.getSetting().setCursorSize(cursorSize.getSelectedIndex());
 			gsm.getSetting().setCursorColor(cursorColor.getSelectedIndex());
-			gsm.getSetting().setDisplay(gsm.getApp(), playstate);
+			gsm.getSetting().setDisplay(gsm.getApp(), playState);
 			gsm.getSetting().saveSetting();
 			displaySelected();
 			break;
@@ -781,7 +776,7 @@ public class SettingState extends GameState {
 			break;
 		case DISPLAY:
 			gsm.getSetting().resetDisplay();
-			gsm.getSetting().setDisplay(gsm.getApp(), playstate);
+			gsm.getSetting().setDisplay(gsm.getApp(), playState);
 			gsm.getSetting().saveSetting();
 			displaySelected();
 			break;
@@ -810,13 +805,37 @@ public class SettingState extends GameState {
 		gsm.setSharedSetting(gsm.getSetting().generateSharedSetting());
 		
 		//the server should update their scoretable when settings are changed
-		if (ps != null) {
-			if (ps.getPs().isServer()) {
-				ps.getPs().getScoreWindow().syncSettingTable();
+		if (playState != null) {
+			if (playState.isServer()) {
+				playState.getScoreWindow().syncSettingTable();
 			}
 		}
 	}
-	
+
+	private static final float transitionDuration = 0.4f;
+	private static final Interpolation intp = Interpolation.fastSlow;
+	private void transitionOut(Runnable runnable) {
+		options.addAction(Actions.moveTo(optionsX, optionsY, transitionDuration, intp));
+		windowOptions.addAction(Actions.moveTo(optionsX, optionsY, transitionDuration, intp));
+
+		details.addAction(Actions.moveTo(detailsX, detailsY, transitionDuration, intp));
+		windowDetails.addAction(Actions.moveTo(detailsX, detailsY, transitionDuration, intp));
+
+		extra.addAction(Actions.moveTo(extraX, extraY, transitionDuration, intp));
+		windowExtra.addAction(Actions.sequence(Actions.moveTo(extraX, extraY, transitionDuration, intp), Actions.run(runnable)));
+	}
+
+	private void transitionIn() {
+		options.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, transitionDuration, intp));
+		windowOptions.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, transitionDuration, intp));
+
+		details.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, transitionDuration, intp));
+		windowDetails.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, transitionDuration, intp));
+
+		extra.addAction(Actions.moveTo(extraXEnabled, extraYEnabled, transitionDuration, intp));
+		windowExtra.addAction(Actions.moveTo(extraXEnabled, extraYEnabled, transitionDuration, intp));
+	}
+
 	/**
 	 * This converts a keycode to a readable string
 	 * @param keycode: key to read
@@ -840,40 +859,31 @@ public class SettingState extends GameState {
 	@Override
 	public void update(float delta) {
 		//The playstate underneath should have their camera focus and ui act (letting dialog appear + disappear)
-		if (ps != null) {
-			ps.update(delta);
+		if (peekState != null) {
+			peekState.update(delta);
 		}
 		
 		//If the state has been unpaused, remove it
 		if (toRemove) {
-			gsm.removeState(SettingState.class);
-			gsm.removeState(PauseState.class);
+			transitionOut(() -> {
+				gsm.removeState(SettingState.class);
+				gsm.removeState(PauseState.class);
+			});
 		}
 	}
 	
-	private float timer;
 	@Override
 	public void render(float delta) {
-		
 		//Render the playstate and playstate ui underneath
-		if (ps != null) {
-			ps.getPs().render(delta);
-			ps.getPs().stage.getViewport().apply();
-			ps.getPs().stage.draw();
+		if (playState != null) {
+			playState.render(delta);
+			playState.stage.getViewport().apply();
+			playState.stage.draw();
 		} else {
-			timer += delta;
-			
-			batch.begin();
-			
-			shaderBackground.getShaderProgram().bind();
-			shaderBackground.shaderDefaultUpdate(timer);
-			batch.setShader(shaderBackground.getShaderProgram());
-			
-			batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-			
-			batch.setShader(null);
-			
-			batch.end();
+			peekState.render(delta);
+			peekState.stage.getViewport().apply();
+			peekState.stage.act();
+			peekState.stage.draw();
 		}
 	}
 	
@@ -885,17 +895,11 @@ public class SettingState extends GameState {
 		stage.dispose();
 	}
 	
-	public PlayState getPs() { return ps.getPs(); }
+	public PlayState getPlayState() { return playState; }
 	
 	@Override
-	public boolean processTransitions() { 
-		
-		//if this is a setting state over a title state, we don't process transitions
-		if (ps == null) {
-			return true;
-		} else {
-			return ps.processTransitions();
-		}
+	public boolean processTransitions() {
+		return peekState.processTransitions();
 	}
 	
 	public enum settingTab {

@@ -54,7 +54,7 @@ public class ParticleEntity extends HadalEntity {
 	private boolean rotate;
 	
 	//this is the color of the particle. Nothing = base color of the effect.
-	private HadalColor color = HadalColor.NOTHING;
+	private final Vector3 color = new Vector3();
 	
 	//if attached to an entity, this vector is the offset of the particle from the attached entity's location
 	private final Vector2 offset = new Vector2();
@@ -228,9 +228,11 @@ public class ParticleEntity extends HadalEntity {
 	public Object onServerCreate() {
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), offset, true, particle.toString(), on, linger, lifespan, scale, rotate, sync.equals(particleSyncType.TICKSYNC), color);
+				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), offset,
+					true, particle.toString(), on, linger, lifespan, scale, rotate, sync.equals(particleSyncType.TICKSYNC), color);
 			} else {
-				return new Packets.CreateParticles(entityID.toString(), null, startPos, false, particle.toString(), on, linger, lifespan, scale, rotate, sync.equals(particleSyncType.TICKSYNC), color);
+				return new Packets.CreateParticles(entityID.toString(), null, startPos, false,
+					particle.toString(), on, linger, lifespan, scale, rotate, sync.equals(particleSyncType.TICKSYNC), color);
 			}
 		} else {
 			return null;
@@ -339,7 +341,7 @@ public class ParticleEntity extends HadalEntity {
 	 * Set the color of the particle effect
 	 */
 	public ParticleEntity setColor(HadalColor color) {
-		this.color = color;
+		this.color.set(color.getR(), color.getG(), color.getB());
 		
 		if (color.equals(HadalColor.NOTHING)) {
 			return this;
@@ -368,7 +370,7 @@ public class ParticleEntity extends HadalEntity {
 	 * This setColor is used for an rgb vector instead of a preset color.
 	 */
 	public ParticleEntity setColor(Vector3 color) {
-
+		this.color.set(color);
 		for (int i = 0; i < effect.getEmitters().size; i++) {
 			float[] colors = effect.getEmitters().get(i).getTint().getColors();
 			colors[0] = color.x;

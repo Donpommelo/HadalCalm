@@ -134,7 +134,7 @@ public class WeaponUtils {
 	private static final int beeDurability = 5;
 	private static final float beeLifespan = 5.0f;
 	private static final int beeSpread = 25;
-	private static final float beeHoming = 75;
+	private static final float beeHoming = 90;
 
 	public static void createBees(PlayState state, Vector2 startPos, Schmuck user, int numBees, int homeRadius, Vector2 startVelocity, boolean procEffects, short filter) {
 

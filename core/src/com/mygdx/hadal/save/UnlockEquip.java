@@ -71,7 +71,8 @@ public enum UnlockEquip {
 	XBOMBER(XBomber.class),
 	
 	NOTHING(NothingWeapon.class),
-	
+	SPEARGUN_NERFED(SpeargunNerfed.class),
+
 	;
 	
 	//the weapon that this unlock represents

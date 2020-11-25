@@ -57,7 +57,8 @@ public class SamsonOption extends ActiveItem {
 					float randY = (float) ((Math.random() * hbox.getSize().y) - (hbox.getSize().y / 2) + hbox.getPixelPosition().y);
 					
 					SoundEffect.EXPLOSION6.playUniversal(state, explosionPosition.set(randX, randY), 0.5f, false);
-					WeaponUtils.createExplosion(state, explosionPosition, explosionRadius, user.getSchmuck(), explosionDamage, explosionKnockback, (short) 0);
+					WeaponUtils.createExplosion(state, explosionPosition, explosionRadius, user.getSchmuck(), explosionDamage, explosionKnockback,
+						user.getSchmuck().getHitboxfilter());
 				}
 			}
 		});

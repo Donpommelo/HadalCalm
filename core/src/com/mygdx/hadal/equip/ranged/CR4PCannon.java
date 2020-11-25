@@ -27,14 +27,14 @@ public class CR4PCannon extends RangedWeapon {
 	private static final float reloadTime = 1.2f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 15.0f;
-	private static final float recoil = 15.0f;
+	private static final float recoil = 11.0f;
 	private static final float knockback = 2.2f;
 	private static final float projectileSpeed = 35.0f;
 	private static final Vector2 projectileSize = new Vector2(20, 20);
 	private static final float lifespan = 0.7f;
 	
-	private static final int numProj = 6;
-	private static final int spread = 10;
+	private static final int numProj = 9;
+	private static final int spread = 15;
 	
 	private static final Sprite[] projSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
 	private static final Sprite weaponSprite = Sprite.MT_SHOTGUN;

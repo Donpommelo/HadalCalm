@@ -704,8 +704,8 @@ public class Player extends PhysicsSchmuck {
 		
 		boolean visible = false;
 		
-		//draw hp heart if using certain effects, looking at self, or in spectator mode
-		if (state.isSpectatorMode() || equals(state.getPlayer())) {
+		//draw hp heart if using certain effects, looking at self/ally, or in spectator mode
+		if (state.isSpectatorMode() || hitboxfilter == state.getPlayer().hitboxfilter) {
 			visible = true;
 		} else if (state.isServer()) {
 			if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
@@ -732,20 +732,22 @@ public class Player extends PhysicsSchmuck {
 			}
 
 			if (equals(state.getPlayer())) {
-				hpRatio = state.getUiPlay().getHpRatio();
-				fuelRatio = state.getUiPlay().getFuelRatio();
-				fuelCutoffRatio = state.getUiPlay().getFuelCutoffRatio();
-				if (barRight) {
-					batch.draw(fuelBar, hpX, playerLocation.y + barY, hpWidth, hpHeight * fuelRatio);
-					batch.draw(hpBarFade, hpX + hpWidth, playerLocation.y + barY, hpWidth, hpHeight);
-					batch.draw(hpBar, hpX + hpWidth, playerLocation.y + barY, hpWidth, hpHeight * hpRatio);
-					batch.draw(fuelCutoff, hpX, playerLocation.y + barY + fuelCutoffRatio * hpHeight, hpWidth, cutoffThickness);
+				if (state.getGsm().getSetting().isDisplayHp()) {
+					hpRatio = state.getUiPlay().getHpRatio();
+					fuelRatio = state.getUiPlay().getFuelRatio();
+					fuelCutoffRatio = state.getUiPlay().getFuelCutoffRatio();
+					if (barRight) {
+						batch.draw(fuelBar, hpX, playerLocation.y + barY, hpWidth, hpHeight * fuelRatio);
+						batch.draw(hpBarFade, hpX + hpWidth, playerLocation.y + barY, hpWidth, hpHeight);
+						batch.draw(hpBar, hpX + hpWidth, playerLocation.y + barY, hpWidth, hpHeight * hpRatio);
+						batch.draw(fuelCutoff, hpX, playerLocation.y + barY + fuelCutoffRatio * hpHeight, hpWidth, cutoffThickness);
 
-				} else {
-					batch.draw(fuelBar, hpX - hpWidth, playerLocation.y + barY, hpWidth, hpHeight * fuelRatio);
-					batch.draw(hpBarFade, hpX, playerLocation.y + barY, hpWidth, hpHeight);
-					batch.draw(hpBar, hpX, playerLocation.y + barY, hpWidth, hpHeight * hpRatio);
-					batch.draw(fuelCutoff, hpX - hpWidth, playerLocation.y + barY + fuelCutoffRatio * hpHeight, hpWidth, cutoffThickness);
+					} else {
+						batch.draw(fuelBar, hpX - hpWidth, playerLocation.y + barY, hpWidth, hpHeight * fuelRatio);
+						batch.draw(hpBarFade, hpX, playerLocation.y + barY, hpWidth, hpHeight);
+						batch.draw(hpBar, hpX, playerLocation.y + barY, hpWidth, hpHeight * hpRatio);
+						batch.draw(fuelCutoff, hpX - hpWidth, playerLocation.y + barY + fuelCutoffRatio * hpHeight, hpWidth, cutoffThickness);
+					}
 				}
 			} else {
 				if (state.isServer()) {

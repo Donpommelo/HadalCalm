@@ -2,18 +2,15 @@ package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Shader;
-import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 
 /**
@@ -24,18 +21,23 @@ public class AboutState extends GameState {
 
 	//This table contains the ui elements of the pause screen
 	private Table options, details;
-	
+	private MenuWindow windowOptions, windowDetails;
+
 	//options that the player can view
 	private Text aboutOption, miscOption, tipsOption, creditsOption, exitOption;
 	
 	//Dimensions of the setting menu
-	private static final int optionsX = 25;
+	private static final int optionsX = -1125;
 	private static final int optionsY = 100;
+	private static final int optionsXEnabled = 25;
+	private static final int optionsYEnabled = 100;
 	private static final int optionsWidth = 300;
 	private static final int optionsHeight = 600;
-	
-	private static final int detailsX = 320;
+
+	private static final int detailsX = -830;
 	private static final int detailsY = 100;
+	private static final int detailsXEnabled = 320;
+	private static final int detailsYEnabled = 100;
 	private static final int detailsWidth = 800;
 	private static final int detailsHeight = 600;
 	
@@ -47,19 +49,15 @@ public class AboutState extends GameState {
 	private static final float titlePad = 25.0f;
 	private static final int detailsTextWidth = 750;
 
-	//this state's background shader
-	private final Shader shaderBackground;
-	private final TextureRegion bg;
-	
+	//this is the state underneath this state.
+	private final GameState peekState;
+
 	/**
 	 * Constructor will be called when the player enters the about state from the title menu.
 	 */
-	public AboutState(final GameStateManager gsm) {
+	public AboutState(final GameStateManager gsm, GameState peekState) {
 		super(gsm);
-		
-		shaderBackground = Shader.SPLASH;
-		shaderBackground.loadDefaultShader();
-		this.bg = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.BACKGROUND2.toString()));
+		this.peekState = peekState;
 	}
 	
 	@Override
@@ -67,9 +65,11 @@ public class AboutState extends GameState {
 		
 		stage = new Stage() {
 			{
-				addActor(new MenuWindow(optionsX, optionsY, optionsWidth, optionsHeight));
-				addActor(new MenuWindow(detailsX, detailsY, detailsWidth, detailsHeight));
-				
+				windowOptions = new MenuWindow(optionsX, optionsY, optionsWidth, optionsHeight);
+				windowDetails = new MenuWindow(detailsX, detailsY, detailsWidth, detailsHeight);
+				addActor(windowOptions);
+				addActor(windowDetails);
+
 				options = new Table();
 				options.setPosition(optionsX, optionsY);
 				options.setSize(optionsWidth, optionsHeight);
@@ -126,14 +126,13 @@ public class AboutState extends GameState {
 			    });
 				creditsOption.setScale(optionsScale);
 				
-				exitOption = new Text("EXIT?", 0, 0, true);
+				exitOption = new Text("RETURN?", 0, 0, true);
 				exitOption.addListener(new ClickListener() {
 					
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
-						gsm.getApp().fadeOut();
-						gsm.getApp().setRunAfterTransition(() -> gsm.removeState(AboutState.class));
+						transitionOut(() -> gsm.removeState(AboutState.class));
 			        }
 			    });
 				exitOption.setScale(optionsScale);
@@ -146,7 +145,7 @@ public class AboutState extends GameState {
 			}
 		};
 		app.newMenu(stage);
-		gsm.getApp().fadeIn();
+		transitionIn();
 		
 		//start off with about selected
 		aboutSelected();
@@ -156,7 +155,7 @@ public class AboutState extends GameState {
 	 * This is called whenever the player selects the ABOUT tab
 	 */
 	private void aboutSelected() {
-		details.clear();
+		details.clearChildren();
 		
 		details.add(new Text("ABOUT", 0, 0, false)).colspan(2).pad(titlePad).row();
 		
@@ -170,7 +169,7 @@ public class AboutState extends GameState {
 	 * This is called whenever the player selects the TIPS tab
 	 */
 	private void tipsSelected() {
-		details.clear();
+		details.clearChildren();
 		
 		details.add(new Text("TIPS", 0, 0, false)).colspan(2).pad(titlePad).row();
 		
@@ -184,7 +183,7 @@ public class AboutState extends GameState {
 	 * This is called whenever the player selects the MISC tab
 	 */
 	private void miscSelected() {
-		details.clear();
+		details.clearChildren();
 		
 		details.add(new Text("MISC", 0, 0, false)).colspan(2).pad(titlePad).row();
 		
@@ -198,7 +197,7 @@ public class AboutState extends GameState {
 	 * This is called whenever the player selects the CREDITS tab
 	 */
 	private void creditsSelected() {
-		details.clear();
+		details.clearChildren();
 		
 		details.add(new Text("CREDITS", 0, 0, false)).colspan(2).pad(titlePad).row();
 		
@@ -236,26 +235,36 @@ public class AboutState extends GameState {
 		details.add(art).height(optionHeight).row();
 		details.add(sfx).height(optionHeight);
 	}
-	
-	@Override
-	public void update(float delta) {}
 
-	private float timer;
+	private static final float transitionDuration = 0.4f;
+	private static final Interpolation intp = Interpolation.fastSlow;
+	private void transitionOut(Runnable runnable) {
+		options.addAction(Actions.moveTo(optionsX, optionsY, transitionDuration, intp));
+		windowOptions.addAction(Actions.moveTo(optionsX, optionsY, transitionDuration, intp));
+
+		details.addAction(Actions.moveTo(detailsX, detailsY, transitionDuration, intp));
+		windowDetails.addAction(Actions.sequence(Actions.moveTo(detailsX, detailsY, transitionDuration, intp), Actions.run(runnable)));
+	}
+
+	private void transitionIn() {
+		options.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, transitionDuration, intp));
+		windowOptions.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, transitionDuration, intp));
+
+		details.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, transitionDuration, intp));
+		windowDetails.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, transitionDuration, intp));
+	}
+
+	@Override
+	public void update(float delta) {
+		peekState.update(delta);
+	}
+
 	@Override
 	public void render(float delta) {
-		timer += delta;
-		
-		batch.begin();
-		
-		shaderBackground.getShaderProgram().bind();
-		shaderBackground.shaderDefaultUpdate(timer);
-		batch.setShader(shaderBackground.getShaderProgram());
-		
-		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-		
-		batch.setShader(null);
-		
-		batch.end();
+		peekState.render(delta);
+		peekState.stage.getViewport().apply();
+		peekState.stage.act();
+		peekState.stage.draw();
 	}
 	
 	@Override

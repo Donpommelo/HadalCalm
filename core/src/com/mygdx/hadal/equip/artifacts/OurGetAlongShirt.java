@@ -50,7 +50,11 @@ public class OurGetAlongShirt extends Artifact {
 			private final Vector2 homeLocation = new Vector2();
 			@Override
 			public void timePassing(float delta) {
-				
+
+				if (state.isHub()) {
+					return;
+				}
+
 				if (attached) {
 					if (partner != null) {
 						if (!partner.isAlive()) {

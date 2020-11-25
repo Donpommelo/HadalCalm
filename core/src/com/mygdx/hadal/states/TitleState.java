@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -36,7 +38,7 @@ public class TitleState extends GameState {
 
 	//This table contains the option windows for the title.
 	private Table tableName, tableMain, tableIP, tablePassword;
-	
+
 	//this is the image backdrop of the title state
 	private Backdrop backdrop;
 
@@ -47,29 +49,37 @@ public class TitleState extends GameState {
 	private TextField enterName, enterIP, enterPassword;
 
 	//this window pops up when the client connects to a password server
-	private MenuWindow passwordWindow;
+	private MenuWindow nameWindow, mainWindow, ipWindow, passwordWindow;
 
 	//ambient particle effects
 	private final PooledEffect jelly, diatom1, diatom2, diatom3;
 	
 	//Dimensions and position of the title menu
 	private static final int titleX = 140;
-	private static final int titleY = 500;
+	private static final int titleY = 720;
+	private static final int titleXEnabled = 140;
+	private static final int titleYEnabled = 500;
 	private static final int titleWidth = 1000;
 	private static final int titleHeight = 208;
 	
 	private static final int menuX = 540;
-	private static final int menuY = 40;
+	private static final int menuY = -240;
+	private static final int menuXEnabled = 540;
+	private static final int menuYEnabled = 40;
 	private static final int width = 200;
 	private static final int height = 240;
 	
 	private static final int nameX = 40;
-	private static final int nameY = 180;
+	private static final int nameY = -100;
+	private static final int nameXEnabled = 40;
+	private static final int nameYEnabled = 180;
 	private static final int nameWidth = 460;
 	private static final int nameHeight = 100;
 	
 	private static final int ipX = 40;
-	private static final int ipY = 40;
+	private static final int ipY = -240;
+	private static final int ipXEnabled = 40;
+	private static final int ipYEnabled = 40;
 	private static final int ipWidth = 460;
 	private static final int ipHeight = 100;
 	
@@ -108,7 +118,7 @@ public class TitleState extends GameState {
 
 	private final TextureRegion gabenTexture;
 
-	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/197313/103h";
+	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/198553/103i";
 
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -129,7 +139,8 @@ public class TitleState extends GameState {
 	
 	@Override
 	public void show() {
-		
+		final TitleState me = this;
+
 		stage = new Stage() {
 			{
 				addActor(new Backdrop(AssetList.TITLE_BACKGROUND.toString()) {
@@ -137,7 +148,6 @@ public class TitleState extends GameState {
 					@Override
 				    public void draw(Batch batch, float alpha) {
 						super.draw(batch, alpha);
-						
 						//draw particles here to avoid drawing them underneath the background. (b/c stage renders above state.render())
 						diatom1.draw(batch, 0);
 						diatom2.draw(batch, 0);
@@ -150,9 +160,12 @@ public class TitleState extends GameState {
 				backdrop.setY(titleY);
 				
 				addActor(backdrop);
-				addActor(new MenuWindow(menuX, menuY, width, height));
-				addActor(new MenuWindow(nameX, nameY, nameWidth, nameHeight));
-				addActor(new MenuWindow(ipX, ipY, ipWidth, ipHeight));
+				mainWindow = new MenuWindow(menuX, menuY, width, height);
+				nameWindow = new MenuWindow(nameX, nameY, nameWidth, nameHeight);
+				ipWindow = new MenuWindow(ipX, ipY, ipWidth, ipHeight);
+				addActor(mainWindow);
+				addActor(nameWindow);
+				addActor(ipWindow);
 
 				passwordWindow = new MenuWindow(passwordX, passwordY, passwordWidth, passwordHeight);
 				passwordWindow.setVisible(false);
@@ -347,8 +360,7 @@ public class TitleState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						
 						//Enter the Setting State.
-						gsm.getApp().setRunAfterTransition(() -> getGsm().addSettingState(null, TitleState.class));
-						gsm.getApp().fadeOut();
+						transitionOut(() -> getGsm().addState(State.SETTING, me));
 			        }
 			    });
 				
@@ -364,8 +376,7 @@ public class TitleState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						
 						//Enter the About State.
-						gsm.getApp().setRunAfterTransition(() -> getGsm().addState(State.ABOUT, TitleState.class));
-						gsm.getApp().fadeOut();
+						transitionOut(() -> getGsm().addState(State.ABOUT, me));
 			        }
 			    });
 				
@@ -469,8 +480,13 @@ public class TitleState extends GameState {
 			}
 		};
 		app.newMenu(stage);
-		gsm.getApp().fadeIn();
-		inputDisabled = false;
+
+		if (gsm.getApp().getFadeLevel() >= 1.0f) {
+			gsm.getApp().fadeIn();
+		}
+
+		inputDisabled = true;
+		transitionIn(() -> inputDisabled = false);
 	}
 
 	/**
@@ -530,6 +546,36 @@ public class TitleState extends GameState {
 		tablePassword.add(enterPassword).width(textWidth).height(optionHeight).row();
 		tablePassword.add(connect);
 		tablePassword.add(cancel);
+	}
+
+	private static final float transitionDuration = 0.4f;
+	private static final Interpolation intp = Interpolation.fastSlow;
+	private void transitionOut(Runnable runnable) {
+		backdrop.addAction(Actions.moveTo(titleX, titleY, transitionDuration, intp));
+
+		tableMain.addAction(Actions.moveTo(menuX, menuY, transitionDuration, intp));
+		mainWindow.addAction(Actions.moveTo(menuX, menuY, transitionDuration, intp));
+
+		tableIP.addAction(Actions.moveTo(ipX, ipY, transitionDuration, intp));
+		ipWindow.addAction(Actions.moveTo(ipX, ipY, transitionDuration, intp));
+
+		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(nameX, nameY, transitionDuration, intp)));
+		nameWindow.addAction(Actions.moveTo(nameX, nameY, transitionDuration, intp));
+
+		notifications.setText("");
+	}
+
+	private void transitionIn(Runnable runnable) {
+		backdrop.addAction(Actions.moveTo(titleXEnabled, titleYEnabled, transitionDuration, intp));
+
+		tableMain.addAction(Actions.moveTo(menuXEnabled, menuYEnabled, transitionDuration, intp));
+		mainWindow.addAction(Actions.moveTo(menuXEnabled, menuYEnabled, transitionDuration, intp));
+
+		tableIP.addAction(Actions.moveTo(ipXEnabled, ipYEnabled, transitionDuration, intp));
+		ipWindow.addAction(Actions.moveTo(ipXEnabled, ipYEnabled, transitionDuration, intp));
+
+		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(nameXEnabled, nameYEnabled, transitionDuration, intp)));
+		nameWindow.addAction(Actions.moveTo(nameXEnabled, nameYEnabled, transitionDuration, intp));
 	}
 
 	@Override

@@ -411,6 +411,15 @@ SPEARGUN: {
 		RANGED,
 	]
 }
+SPEARGUN_NERFED: {
+	name: Speargun
+	description: "A simple weapon that fires arcing harpoons."
+    descriptionLong: "Harpoon Damage: 25\n\nClip Size: 8\nAmmo Capacity: 88\nReload Time: 1.5 Seconds\nAttack Cooldown: 0.2 Second"
+	tags: [
+        MISC,
+        RANGED
+    ]
+}
 STICKY_BOMB_LAUNCHER: {
 	name: "Stickybomb-Launcher"
 	description: "Fires bombs that stick to enemies and walls. Press the Reload button to detonate all active bombs."

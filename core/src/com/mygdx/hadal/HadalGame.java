@@ -30,7 +30,7 @@ public class HadalGame extends ApplicationAdapter {
 	public static final float CONFIG_HEIGHT = 720.0f;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String Version = "1.0.3h";
+	public static final String Version = "1.0.3i";
 	
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
@@ -139,7 +139,6 @@ public class HadalGame extends ApplicationAdapter {
 		if (fadeLevel > 0.0f) {
 			batch.setProjectionMatrix(hud.combined);
 			batch.begin();
-			
 			batch.setColor(1.0f, 1.0f, 1.0f, fadeLevel);
 			batch.draw(black, 0.0f, 0.0f, CONFIG_WIDTH, CONFIG_HEIGHT);
 			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);

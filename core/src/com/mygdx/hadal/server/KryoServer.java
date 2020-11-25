@@ -380,7 +380,7 @@ public class KryoServer {
 								}
 								if (gsm.getStates().peek() instanceof SettingState) {
 									final SettingState ss = (SettingState) gsm.getStates().peek();
-									addNotificationToAll(ss.getPs(), player.getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
+									addNotificationToAll(ss.getPlayState(), player.getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
 									ss.setToRemove(true);
 								}
 								HadalGame.server.sendToAllTCP(new Packets.Unpaused(player.getName()));
@@ -614,7 +614,7 @@ public class KryoServer {
 			} else if (currentState instanceof PauseState) {
 				return ((PauseState) currentState).getPs();
 			} else if (currentState instanceof SettingState) {
-				return ((SettingState) currentState).getPs();
+				return ((SettingState) currentState).getPlayState();
 			} else if (currentState instanceof ResultsState) {
 				return ((ResultsState) currentState).getPs();
 			}
