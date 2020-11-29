@@ -72,7 +72,7 @@ BOOMERANG: {
 BOUNCING_BLADE: {
 	name: Bouncing Blades
 	description: "Fires a spinning blade in a straight line that bounces off of surfaces."
-    descriptionLong: "Blade Damage: 28\nBlades bounce up to 7 Times\n\nClip Size: 5\nAmmo Capacity: 30\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.3 Second"
+    descriptionLong: "Blade Damage: 32\nBlades bounce up to 7 Times\n\nClip Size: 5\nAmmo Capacity: 30\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -102,7 +102,7 @@ COLACANNON: {
 CR4PCANNON: {
 	name: Cr4p Cannon
 	description: "Fires a short-ranged shotgun-burst of scrap metal."
-    descriptionLong: "Scrap Number: 6\nScrap Damage: 15\n\nClip Size: 2\nAmmo Capacity: 22\nReload Time: 1.2 Seconds\nAttack Cooldown: 0.15 Second"
+    descriptionLong: "Scrap Number: 9\nScrap Damage: 11\n\nClip Size: 2\nAmmo Capacity: 22\nReload Time: 1.2 Seconds\nAttack Cooldown: 0.15 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -177,7 +177,7 @@ GRENADE_LAUNCHER: {
 HEXENHOWITZER: {
 	name: Hexenhowitzer
 	description: "Fires magic bolts that build charge when they inflict damage. When fully charged, the rate of fire and spread dramatically increase temporarily."
-    descriptionLong: "Bolt Damage: 22\n\nThis weapon is ammoless\nAttack Cooldown: 0.4 Second\n(When charged: 0.07 Second for 32 shots)"
+    descriptionLong: "Bolt Damage: 22\n\nThis weapon is ammoless\nAttack Cooldown: 0.35 Second\n(When charged: 0.07 Second for 32 shots)"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -197,7 +197,7 @@ ICEBERG: {
 IRON_BALL_LAUNCHER: {
 	name: Iron Ball Launcher
 	description: "Fires a singular, heavy cannonball." 
-    descriptionLong: "Cannonball damage: 80\n\nClip Size: 1\nAmmo Capacity: 20\nReload Time: 0.9 Second"
+    descriptionLong: "Cannonball damage: 80\n\nClip Size: 1\nAmmo Capacity: 20\nReload Time: 0.75 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -355,7 +355,7 @@ RETICLE_STRIKE: {
 RIFTSPLITTER: {
 	name: Riftsplitter
 	description: "Fire a short-ranged blade-beam that creates several shockwave."
-    descriptionLong: "Blade-Beam Damage: 20\nShockwave damage: 15\nAttack Cooldown: 0.5 Second\nAttack Delay: 0.3 Second"
+    descriptionLong: "Blade-Beam Damage: 25\nShockwave damage: 15\nAttack Cooldown: 0.5 Second\nAttack Delay: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -365,7 +365,7 @@ RIFTSPLITTER: {
 SCRAPRIPPER: {
 	name: Scrapripper
 	description: "Perform a close-range, melee swing."
-    descriptionLong: "Melee Damage: 60\nAttack Cooldown: 0.5 Second"
+    descriptionLong: "Melee Damage: 60\nAttack Cooldown: 0.45 Second"
 	tags: [
 		ARMORY,
         RANDOM_POOL,

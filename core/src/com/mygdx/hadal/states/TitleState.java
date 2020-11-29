@@ -118,7 +118,7 @@ public class TitleState extends GameState {
 
 	private final TextureRegion gabenTexture;
 
-	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/198553/103i";
+	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/199082/103j";
 
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.

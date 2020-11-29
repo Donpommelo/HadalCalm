@@ -24,7 +24,7 @@ public class DiamondCutter extends MeleeWeapon {
 	private static final float swingCd = 0.0f;
 	private static final float windup = 0.0f;
 	
-	private static final Vector2 projectileSize = new Vector2(75, 75);
+	private static final Vector2 projectileSize = new Vector2(90, 90);
 	
 	private static final Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private static final Sprite eventSprite = Sprite.P_DEFAULT;
@@ -34,7 +34,7 @@ public class DiamondCutter extends MeleeWeapon {
 	private static final float baseDamage = 7.5f;
 	private static final float knockback = 0.0f;
 
-	private static final float range = 75.0f;
+	private static final float range = 80.0f;
 	private static final float spinSpeed = 8.0f;
 	private static final float spinInterval = 1 / 60f;
 	

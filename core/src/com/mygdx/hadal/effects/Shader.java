@@ -24,6 +24,7 @@ public enum Shader {
 	INVERT("shaders/pass.vert", "shaders/invert.frag", true),
 	SPLASH("shaders/pass.vert", "shaders/splash.frag", true, new Resolution(), new Timer()),
 	DRIP("shaders/pass.vert", "shaders/drip.frag", true, new Resolution(), new Timer()),
+	NORTHERN_LIGHTS("shaders/pass.vert", "shaders/northern_lights.frag", true, new Resolution(), new Timer()),
 	PLASMA("shaders/pass.vert", "shaders/plasma.frag", true, new Resolution(), new Timer()),
 	WAVE("shaders/pass.vert", "shaders/wave.frag", true, new Resolution(), new Timer()),
 	WIGGLE_STATIC("shaders/pass.vert", "shaders/wigglestatic.frag", true, new Resolution(), new Timer()),

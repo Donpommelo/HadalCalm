@@ -38,7 +38,7 @@ public class Popper extends RangedWeapon {
 	private static final float fragDamage = 18.0f;
 	private static final float fragKnockback = 2.0f;
 
-	private static final float projDampen = 10.0f;
+	private static final float projDampen = 9.0f;
 	private static final float fragDampen = 3.0f;
 	
 	private static final Sprite projSprite = Sprite.POPPER;

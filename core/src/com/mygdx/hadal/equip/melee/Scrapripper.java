@@ -15,7 +15,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class Scrapripper extends MeleeWeapon {
 
-	private static final float shootCd = 0.5f;
+	private static final float shootCd = 0.45f;
 	private static final float shootDelay = 0.0f;
 	private static final float baseDamage = 60.0f;
 	private static final Vector2 hitboxSize = new Vector2(200, 120);

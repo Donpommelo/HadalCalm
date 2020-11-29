@@ -32,14 +32,14 @@ public class Kamabokannon extends RangedWeapon {
 	private static final float baseDamage = 13.0f;
 	private static final float recoil = 3.0f;
 	private static final float knockback = 6.0f;
-	private static final float projectileSpeed = 28.0f;
+	private static final float projectileSpeed = 30.0f;
 	private static final Vector2 projectileSize = new Vector2(60, 50);
 	private static final float lifespan = 2.0f;
 	
 	private static final Sprite weaponSprite = Sprite.MT_BOILER;
 	private static final Sprite eventSprite = Sprite.P_BOILER;
 	
-	private static final float maxCharge = 0.3f;
+	private static final float maxCharge = 0.25f;
 	private static final float lerpSpeed = 0.2f;
 
 	private SoundEntity oozeSound;

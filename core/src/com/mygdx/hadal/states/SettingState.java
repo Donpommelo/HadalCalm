@@ -190,13 +190,8 @@ public class SettingState extends GameState {
 			        }
 			    });
 				miscOption.setScale(optionsScale);
-				
-				if (playState == null) {
-					exitOption = new Text("EXIT?", 0, 0, true);
-				} else {
-					exitOption = new Text("RETURN?", 0, 0, true);
-				}
-				
+
+				exitOption = new Text("RETURN?", 0, 0, true);
 				exitOption.addListener(new ClickListener() {
 					
 					@Override

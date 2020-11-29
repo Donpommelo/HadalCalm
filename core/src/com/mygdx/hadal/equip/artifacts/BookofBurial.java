@@ -23,7 +23,7 @@ public class BookofBurial extends Artifact {
 
 	private static final float primeDelay = 2.0f;
 
-	private static final float procCd = 5.0f;
+	private static final float procCd = 7.5f;
 
 	public BookofBurial() {
 		super(slotCost, statusNum);

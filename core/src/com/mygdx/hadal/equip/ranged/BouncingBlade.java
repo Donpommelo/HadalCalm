@@ -20,7 +20,7 @@ public class BouncingBlade extends RangedWeapon {
 	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.4f;
 	private static final int reloadAmount = 0;
-	private static final float baseDamage = 28.0f;
+	private static final float baseDamage = 32.0f;
 	private static final float recoil = 6.0f;
 	private static final float knockback = 25.0f;
 	private static final float projectileSpeed = 45.0f;

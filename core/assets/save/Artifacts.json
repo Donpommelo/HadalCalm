@@ -125,7 +125,7 @@ BLOODWOODS_GLOVE: {
 BOOK_OF_BURIAL: {
 	name: Book of Burial
 	description: "Drop a Mine Upon Receiving Damage"
-    descriptionLong: "Mine Cooldown: 5 Seconds\nPrime Delay: 2 Seconds\nMine Damage: 50\n\n"
+    descriptionLong: "Mine Cooldown: 7.5 Seconds\nPrime Delay: 2 Seconds\nMine Damage: 50\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -597,7 +597,7 @@ IRON_SIGHTS: {
 JELLOFELLOW_COSPLAY: {
 	name: Jellofellow Cosplay
 	description: "+Max Hp, Bouncy!"
-    descriptionLong: "Bonus Max Hp: +60\n\nA costume of a long-forgotten cartoon character.\n\nThe more thoroughly erased a civilization, the more imperceptible the difference between its historical figures and cereal-box mascots."
+    descriptionLong: "Bonus Max Hp: +40\n\nA costume of a long-forgotten cartoon character.\n\nThe more thoroughly erased a civilization, the more imperceptible the difference between its historical figures and cereal-box mascots."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -724,7 +724,7 @@ MANGROVE_SEED: {
 MASK_OF_SYMPATHY: {
 	name: Mask of Sympathy
 	description: "Reflects Incoming Damage"
-    descriptionLong: "Damage Reflected: 25% of Damage Received\n\nAn uncomfortable ritual mask possessing several gold-sealed cracks.\n\nThe three former Gods that once governed the Noiseless Sea had unusually little enmity with their celestial usurpers."
+    descriptionLong: "Damage Reflected: 10% of Damage Received\n\nAn uncomfortable ritual mask possessing several gold-sealed cracks.\n\nThe three former Gods that once governed the Noiseless Sea had unusually little enmity with their celestial usurpers."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

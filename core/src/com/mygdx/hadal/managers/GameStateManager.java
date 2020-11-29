@@ -303,7 +303,7 @@ public class GameStateManager {
 			case SPLASH: return new InitState(this);
 			case ABOUT: return new AboutState(this, peekState);
 			case SETTING: return new SettingState(this, peekState);
-			case LOBBY: return new LobbyState(this);
+			case LOBBY: return new LobbyState(this, peekState);
 			default:
 				break;
 		}
