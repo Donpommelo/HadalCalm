@@ -24,7 +24,7 @@ public class LaserRifle extends RangedWeapon {
 	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.4f;
 	private static final int reloadAmount = 0;
-	private static final float baseDamage = 22.0f;
+	private static final float baseDamage = 24.0f;
 	private static final float recoil = 2.5f;
 	private static final float knockback = 12.0f;
 	private static final float projectileSpeed = 20.0f;

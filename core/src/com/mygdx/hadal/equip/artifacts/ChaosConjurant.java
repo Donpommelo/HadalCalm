@@ -14,7 +14,7 @@ public class ChaosConjurant extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 
-	private static final float procCd = 1.0f;
+	private static final float procCd = 5.0f;
 	
 	private static final float baseDamage = 24.0f;
 	private static final float knockback = 6.0f;

@@ -17,7 +17,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class DamageHeadshot extends HitboxStrategy {
 	
 	//the top percent of the units body that counts as a "head"
-	private static final float headshotThreshold = 0.18f;
+	private static final float headshotThreshold = 0.15f;
 	
 	//the amount of damage and knockback this hbox will inflict
 	private final float bonusDamage;

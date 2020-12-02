@@ -21,8 +21,8 @@ public class ReticleStrike extends RangedWeapon {
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 0.9f;
 	private static final int reloadAmount = 1;
-	private static final float recoil = 12.0f;
-	private static final float projectileSpeed = 30.0f;
+	private static final float recoil = 16.0f;
+	private static final float projectileSpeed = 45.0f;
 	private static final Vector2 projectileSize = new Vector2(50, 50);
 	private static final float lifespan = 2.0f;
 
@@ -32,7 +32,7 @@ public class ReticleStrike extends RangedWeapon {
 	
 	private static final float reticleSize = 80.0f;
 	private static final float reticleSizeSquared = 6500.0f;
-	private static final float reticleLifespan = 0.5f;
+	private static final float reticleLifespan = 0.65f;
 	private static final int explosionRadius = 100;
 	private static final float explosionDamage = 40.0f;
 	private static final float explosionKnockback = 20.0f;

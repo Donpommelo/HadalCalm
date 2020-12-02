@@ -24,7 +24,7 @@ public class TractorBeam extends ActiveItem {
 
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 8.0f;
+	private static final float maxCharge = 6.0f;
 	
 	private static final float primaryDamage = 25.0f;
 	private static final float secondaryDamage = 25.0f;

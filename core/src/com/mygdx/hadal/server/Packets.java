@@ -624,6 +624,8 @@ public class Packets {
 	public static class SyncPickup {
 		public String entityID;
         public String newPickup;
+		public float age;
+		public float timestamp;
         public SyncPickup() {}
         
         /**
@@ -633,9 +635,11 @@ public class Packets {
          * @param entityID: ID of the activated Pickup
          * @param newPickup: enum name of the new pickup.
          */
-		public SyncPickup(String entityID, String newPickup) {
+		public SyncPickup(String entityID, String newPickup, float age, float timestamp) {
 			this.entityID = entityID;
             this.newPickup = newPickup;
+			this.age = age;
+			this.timestamp = timestamp;
 		}
 	}
 	

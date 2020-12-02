@@ -170,7 +170,7 @@ NOTHING: {
 ORBITAL_SHIELD: {
 	name: Orbital Shield
 	description: "Create several projectiles that orbit the user."
-    descriptionLong: "Charge: 9 Seconds\nShield Duration: 6 Seconds\nOrbitals: 3\nOrbital Damage: 20\n\n"
+    descriptionLong: "Charge: 11 Seconds\nShield Duration: 5 Seconds\nOrbitals: 3\nOrbital Damage: 20\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -259,7 +259,7 @@ SAMSON_OPTION: {
 SPIRIT_RELEASE: {
 	name: Spirit Release
 	description: "Release several homing vengeful spirits."
-    descriptionLong: "Charge: 10 Seconds\nSpirits: 3\nSpirit Damage: 40\n\n"
+    descriptionLong: "Charge: 10 Seconds\nSpirits: 3\nSpirit Damage: 45\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,

@@ -233,7 +233,7 @@ CELESTIAL_ANOINTMENT: {
 CHAOS_CONJURANT: {
 	name: Chaos Conjurant
 	description: "Summon Meteors upon Receiving Damage"
-    descriptionLong: "Meteor Cooldown: 1 Second\nMeteor Number: 5\nMeteor Damage: 24\n\nA reagent of newly-formed and disorderly energy.\n\nManagement has long sought communion with inexplicable forces in the hopes of defying the natural order that has consigned the world to stagnation."
+    descriptionLong: "Meteor Cooldown: 5 Seconds\nMeteor Number: 5\nMeteor Damage: 24\n\nA reagent of newly-formed and disorderly energy.\n\nManagement has long sought communion with inexplicable forces in the hopes of defying the natural order that has consigned the world to stagnation."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1218,7 +1218,7 @@ VOID_HYPONOME: {
 VOLATILE_DERMIS: {
 	name: Volatile Dermis
 	description: "Shock Foes upon Receiving Damage"
-    descriptionLong: "Lightning Cooldown: 3 Seconds\nLightning Damage: 15\nLightning Chain: 3\n\nA fleshy sheet crackling with an unstable current.\n\nEven the incomprehensible beings of the deep can be affected by a little negative reinforcement."
+    descriptionLong: "Lightning Cooldown: 4 Seconds\nLightning Damage: 15\nLightning Chain: 3\n\nA fleshy sheet crackling with an unstable current.\n\nEven the incomprehensible beings of the deep can be affected by a little negative reinforcement."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

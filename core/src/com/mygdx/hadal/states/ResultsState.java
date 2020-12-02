@@ -8,10 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.ArtifactIcon;
-import com.mygdx.hadal.actors.Backdrop;
-import com.mygdx.hadal.actors.MenuWindow;
-import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -137,19 +134,17 @@ public class ResultsState extends GameState {
 				int tableHeight = baseHeight + titleHeight * 2 + (rowHeight + rowPad) * scores.size();
 				
 				addActor(new Backdrop(AssetList.RESULTS_CARD.toString()));
-				addActor(new MenuWindow(0, (int) (HadalGame.CONFIG_HEIGHT - tableHeight), width, tableHeight));
-				table = new Table();
+				table = new WindowTable();
 				table.setPosition(0, HadalGame.CONFIG_HEIGHT - tableHeight);
 				table.setSize(width, tableHeight);
 				addActor(table);
 				syncScoreTable();
 				
-				tableInfoOuter = new Table();
+				tableInfoOuter = new WindowTable();
 
 				infoPlayerName = new Text("", 0, 0, false);
 				infoPlayerName.setScale(infoTextScale);
 				
-				addActor(new MenuWindow((int) (HadalGame.CONFIG_WIDTH - infoWidth), (int) (HadalGame.CONFIG_HEIGHT - infoHeight), infoWidth, infoHeight));
 				tableInfo = new Table();
 				tableArtifact = new Table();
 

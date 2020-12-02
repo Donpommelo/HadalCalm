@@ -28,15 +28,15 @@ public class Vajra extends RangedWeapon {
 	private static final int reloadAmount = 0;
 
 	private static final float recoil = 4.0f;
-	private static final float baseDamage = 20.0f;
+	private static final float baseDamage = 28.0f;
 	private static final float knockback = 5.0f;
-	private static final float projectileSpeedStart = 30.0f;
+	private static final float projectileSpeedStart = 36.0f;
 	private static final Vector2 projectileSize = new Vector2(84, 30);
 	private static final float lifespan = 1.0f;
 	
 	private static final float chainDamage = 25.0f;
-	private static final int chainRadius = 25;
-	private static final int chainAmount = 6;
+	private static final int chainRadius = 20;
+	private static final int chainAmount = 5;
 	
 	private static final Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;
 	private static final Sprite eventSprite = Sprite.P_CHAINLIGHTNING;

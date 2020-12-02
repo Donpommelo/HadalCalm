@@ -11,11 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldFilter;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.WindowTable;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -42,10 +41,9 @@ public class SettingState extends GameState {
 	
 	//This table contains the ui elements of the pause screen
 	private Table options, details, extra;
-	private MenuWindow windowOptions, windowDetails, windowExtra;
 
 	//These are all of the display and buttons visible to the player.
-	private Text displayOption, controlOption, audioOption, gameOption, miscOption, exitOption, saveOption, resetOption;
+	private Text displayOption, controlOption, audioOption, serverOption, miscOption, exitOption, saveOption, resetOption;
 	private TextField portNumber, serverPassword;
 	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
 		hitsoundOptions, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
@@ -79,8 +77,8 @@ public class SettingState extends GameState {
 	private static final float optionsScale = 0.5f;
 	private static final float optionHeight = 35.0f;
 	private static final float optionPadding = 10.0f;
-	private static final float detailsScale = 0.3f;
-	
+	private static final float detailsScale = 0.25f;
+
 	private static final float titlePad = 25.0f;
 	private static final float detailHeight = 35.0f;
 	private static final float detailPad = 10.0f;
@@ -112,26 +110,19 @@ public class SettingState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
-				windowOptions = new MenuWindow(optionsX, optionsY, optionsWidth, optionsHeight);
-				windowDetails = new MenuWindow(detailsX, detailsY, detailsWidth, detailsHeight);
-				windowExtra = new MenuWindow(extraX, extraY, extraWidth, extraHeight);
-				addActor(windowOptions);
-				addActor(windowDetails);
-				addActor(windowExtra);
-				
-				options = new Table();
+				options = new WindowTable();
 				options.setPosition(optionsX, optionsY);
 				options.setSize(optionsWidth, optionsHeight);
 				options.top();
 				addActor(options);
 				
-				details = new Table();
+				details = new WindowTable();
 				details.setPosition(detailsX, detailsY);
 				details.setSize(detailsWidth, detailsHeight);
 				details.top();
 				addActor(details);
 				
-				extra = new Table();
+				extra = new WindowTable();
 				extra.setPosition(extraX, extraY);
 				extra.setSize(extraWidth, extraHeight);
 				addActor(extra);
@@ -169,16 +160,16 @@ public class SettingState extends GameState {
 			    });
 				audioOption.setScale(optionsScale);
 				
-				gameOption = new Text("GAME", 0, 0, true);
-				gameOption.addListener(new ClickListener() {
+				serverOption = new Text("SERVER", 0, 0, true);
+				serverOption.addListener(new ClickListener() {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-						gameSelected();
+						serverSelected();
 			        }
 			    });
-				gameOption.setScale(optionsScale);
+				serverOption.setScale(optionsScale);
 				
 				miscOption = new Text("MISC", 0, 0, true);
 				miscOption.addListener(new ClickListener() {
@@ -229,7 +220,7 @@ public class SettingState extends GameState {
 				options.add(displayOption).height(optionHeight).pad(optionPadding).row();
 				options.add(controlOption).height(optionHeight).pad(optionPadding).row();
 				options.add(audioOption).height(optionHeight).pad(optionPadding).row();
-				options.add(gameOption).height(optionHeight).pad(optionPadding).row();
+				options.add(serverOption).height(optionHeight).pad(optionPadding).row();
 				options.add(miscOption).height(optionHeight).pad(optionPadding).row();
 				options.add(exitOption).height(optionHeight).pad(optionPadding).expand().row();
 				
@@ -563,42 +554,57 @@ public class SettingState extends GameState {
 	/**
 	 * This is called whenever the player selects the GAME tab
 	 */
-	private void gameSelected() {
+	private void serverSelected() {
 		details.clearChildren();
 		currentlyEditing = null;
-		currentTab = settingTab.GAMEPLAY;
+		currentTab = settingTab.SERVER;
 		
-		details.add(new Text("GAMEPLAY", 0, 0, false)).colspan(2).pad(titlePad).row();
-		
+		details.add(new Text("SERVER RULES", 0, 0, false)).colspan(2).pad(titlePad).row();
+
+		Text maxPlayers = new Text("MAX SERVER SIZE: ", 0, 0, false);
+		maxPlayers.setScale(detailsScale);
+
+		Text port = new Text("PORT NUMBER: ", 0, 0, false);
+		port.setScale(0.25f);
+
+		Text password = new Text("SERVER PASSWORD: ", 0, 0, false);
+		password.setScale(detailsScale);
+
 		Text pvpTimer = new Text("PVP MATCH TIME: ", 0, 0, false);
-		pvpTimer.setScale(0.25f);
-		
-		Text coopTimer = new Text("COOP MATCH TIME: ", 0, 0, false);
-		coopTimer.setScale(0.25f);
+		pvpTimer.setScale(detailsScale);
 		
 		Text lives = new Text("LIVES: ", 0, 0, false);
-		lives.setScale(0.25f);
+		lives.setScale(detailsScale);
 		
 		Text loadout = new Text("LOADOUT: ", 0, 0, false);
-		loadout.setScale(0.25f);
+		loadout.setScale(detailsScale);
 		
-		Text slots = new Text("MULTIPLAYER ARTIFACT SLOTS: ", 0, 0, false);
-		slots.setScale(0.25f);
+		Text slots = new Text("ARTIFACT SLOTS: ", 0, 0, false);
+		slots.setScale(detailsScale);
 		
 		Text mode = new Text("PVP MODE: ", 0, 0, false);
-		mode.setScale(0.25f);
-		
+		mode.setScale(detailsScale);
+
+		portNumber = new TextField(String.valueOf(gsm.getSetting().getPortNumber()), GameStateManager.getSkin());
+		portNumber.setMessageText("PORT NUMBER");
+		portNumber.setMaxLength(5);
+		portNumber.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
+
+		serverPassword = new TextField(gsm.getSetting().getServerPassword(), GameStateManager.getSkin());
+		serverPassword.setMessageText("PASSWORD");
+		serverPassword.setMaxLength(20);
+
+		playerCapacity = new SelectBox<>(GameStateManager.getSkin());
+		playerCapacity.setItems(capacityChoices);
+		playerCapacity.setWidth(100);
+
+		playerCapacity.setSelectedIndex(gsm.getSetting().getMaxPlayers());
+
 		pvpTimerOptions = new SelectBox<>(GameStateManager.getSkin());
 		pvpTimerOptions.setItems(timerChoices);
 		pvpTimerOptions.setWidth(100);
 		
 		pvpTimerOptions.setSelectedIndex(gsm.getSetting().getPVPTimer());
-		
-		coopTimerOptions = new SelectBox<>(GameStateManager.getSkin());
-		coopTimerOptions.setItems(timerChoices);
-		coopTimerOptions.setWidth(100);
-		
-		coopTimerOptions.setSelectedIndex(gsm.getSetting().getCoopTimer());
 		
 		livesOptions = new SelectBox<>(GameStateManager.getSkin());
 		livesOptions.setItems(livesChoices);
@@ -622,11 +628,16 @@ public class SettingState extends GameState {
 		pvpMode.setItems(modeChoices);
 		
 		pvpMode.setSelectedIndex(gsm.getSetting().getPVPMode());
-		
+
+		details.add(maxPlayers);
+		details.add(playerCapacity).colspan(2).height(detailHeight).pad(detailPad).row();
+		details.add(port);
+		details.add(portNumber).colspan(2).width(100).height(detailHeight).pad(detailPad).row();
+		details.add(password);
+		details.add(serverPassword).colspan(2).width(100).height(detailHeight).pad(detailPad).row();
+
 		details.add(pvpTimer);
 		details.add(pvpTimerOptions).height(detailHeight).pad(detailPad).row();
-		details.add(coopTimer);
-		details.add(coopTimerOptions).height(detailHeight).pad(detailPad).row();
 		details.add(lives);
 		details.add(livesOptions).height(detailHeight).pad(detailPad).row();
 		details.add(teamEnabled).colspan(2).height(detailHeight).pad(detailPad).row();
@@ -647,15 +658,15 @@ public class SettingState extends GameState {
 		currentTab = settingTab.MISC;
 		
 		details.add(new Text("MISCELLANEOUS", 0, 0, false)).colspan(2).pad(titlePad).row();
-		
-		Text maxPlayers = new Text("MAX SERVER SIZE: ", 0, 0, false);
-		maxPlayers.setScale(0.25f);
-		
-		Text port = new Text("PORT NUMBER: ", 0, 0, false);
-		port.setScale(0.25f);
 
-		Text password = new Text("SERVER PASSWORD: ", 0, 0, false);
-		password.setScale(0.25f);
+		Text coopTimer = new Text("SURVIVAL MATCH TIME: ", 0, 0, false);
+		coopTimer.setScale(detailsScale);
+
+		coopTimerOptions = new SelectBox<>(GameStateManager.getSkin());
+		coopTimerOptions.setItems(timerChoices);
+		coopTimerOptions.setWidth(100);
+
+		coopTimerOptions.setSelectedIndex(gsm.getSetting().getCoopTimer());
 
 		randomNameAlliteration = new CheckBox("RANDOM NAME ALLITERATION?", GameStateManager.getSkin());
 		randomNameAlliteration.setChecked(gsm.getSetting().isRandomNameAlliteration());
@@ -669,34 +680,15 @@ public class SettingState extends GameState {
 		multiplayerPause = new CheckBox("Enable Multiplayer Pause?", GameStateManager.getSkin());
 		multiplayerPause.setChecked(gsm.getSetting().isMultiplayerPause());
 		
-		playerCapacity = new SelectBox<>(GameStateManager.getSkin());
-		playerCapacity.setItems(capacityChoices);
-		playerCapacity.setWidth(100);
-		
-		playerCapacity.setSelectedIndex(gsm.getSetting().getMaxPlayers());
-		
-		portNumber = new TextField(String.valueOf(gsm.getSetting().getPortNumber()), GameStateManager.getSkin());
-		portNumber.setMessageText("PORT NUMBER");
-		portNumber.setMaxLength(5);
-		portNumber.setTextFieldFilter(new TextFieldFilter.DigitsOnlyFilter());
-
-		serverPassword = new TextField(gsm.getSetting().getServerPassword(), GameStateManager.getSkin());
-		serverPassword.setMessageText("PASSWORD");
-		serverPassword.setMaxLength(20);
-
 		exportChatLog = new CheckBox("Export Chat Logs on Exit?", GameStateManager.getSkin());
 		exportChatLog.setChecked(gsm.getSetting().isExportChatLog());
-		
+
+		details.add(coopTimer);
+		details.add(coopTimerOptions).height(detailHeight).pad(detailPad).row();
 		details.add(randomNameAlliteration).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(consoleEnabled).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(verboseDeathMessage).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(multiplayerPause).colspan(2).height(detailHeight).pad(detailPad).row();
-		details.add(maxPlayers);
-		details.add(playerCapacity).colspan(2).height(detailHeight).pad(detailPad).row();
-		details.add(port);
-		details.add(portNumber).colspan(2).width(100).height(detailHeight).pad(detailPad).row();
-		details.add(password);
-		details.add(serverPassword).colspan(2).width(100).height(detailHeight).pad(detailPad).row();
 		details.add(exportChatLog).colspan(2).height(detailHeight).pad(detailPad).row();
 	}
 	
@@ -733,25 +725,25 @@ public class SettingState extends GameState {
 			gsm.getSetting().saveSetting();
 			audioSelected();
 			break;
-		case GAMEPLAY:
+		case SERVER:
+			gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
+			gsm.getSetting().setPortNumber(Integer.parseInt(portNumber.getText()));
+			gsm.getSetting().setServerPassword(serverPassword.getText());
 			gsm.getSetting().setPVPTimer(pvpTimerOptions.getSelectedIndex());
-			gsm.getSetting().setCoopTimer(coopTimerOptions.getSelectedIndex());
 			gsm.getSetting().setLives(livesOptions.getSelectedIndex());
 			gsm.getSetting().setTeamEnabled(teamEnabled.isChecked());
 			gsm.getSetting().setLoadoutType(loadoutOptions.getSelectedIndex());
 			gsm.getSetting().setArtifactSlots(artifactSlots.getSelectedIndex());
 			gsm.getSetting().setPVPMode(pvpMode.getSelectedIndex());
 			gsm.getSetting().saveSetting();
-			gameSelected();
+			serverSelected();
 			break;
 		case MISC:
+			gsm.getSetting().setCoopTimer(coopTimerOptions.getSelectedIndex());
 			gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
 			gsm.getSetting().setConsoleEnabled(consoleEnabled.isChecked());
 			gsm.getSetting().setVerboseDeathMessage(verboseDeathMessage.isChecked());
 			gsm.getSetting().setMultiplayerPause(multiplayerPause.isChecked());
-			gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
-			gsm.getSetting().setPortNumber(Integer.parseInt(portNumber.getText()));
-			gsm.getSetting().setServerPassword(serverPassword.getText());
 			gsm.getSetting().setExportChatLog(exportChatLog.isChecked());
 			gsm.getSetting().saveSetting();
 			miscSelected();
@@ -779,10 +771,10 @@ public class SettingState extends GameState {
 			gsm.getSetting().resetAudio();
 			gsm.getSetting().saveSetting();
 			audioSelected();
-		case GAMEPLAY:
-			gsm.getSetting().resetGameplay();
+		case SERVER:
+			gsm.getSetting().resetServer();
 			gsm.getSetting().saveSetting();
-			gameSelected();
+			serverSelected();
 			break;
 		case MISC:
 			gsm.getSetting().resetMisc();
@@ -807,28 +799,18 @@ public class SettingState extends GameState {
 		}
 	}
 
-	private static final float transitionDuration = 0.4f;
+	private static final float transitionDuration = 0.25f;
 	private static final Interpolation intp = Interpolation.fastSlow;
 	private void transitionOut(Runnable runnable) {
 		options.addAction(Actions.moveTo(optionsX, optionsY, transitionDuration, intp));
-		windowOptions.addAction(Actions.moveTo(optionsX, optionsY, transitionDuration, intp));
-
 		details.addAction(Actions.moveTo(detailsX, detailsY, transitionDuration, intp));
-		windowDetails.addAction(Actions.moveTo(detailsX, detailsY, transitionDuration, intp));
-
-		extra.addAction(Actions.moveTo(extraX, extraY, transitionDuration, intp));
-		windowExtra.addAction(Actions.sequence(Actions.moveTo(extraX, extraY, transitionDuration, intp), Actions.run(runnable)));
+		extra.addAction(Actions.sequence(Actions.moveTo(extraX, extraY, transitionDuration, intp), Actions.run(runnable)));
 	}
 
 	private void transitionIn() {
 		options.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, transitionDuration, intp));
-		windowOptions.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, transitionDuration, intp));
-
 		details.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, transitionDuration, intp));
-		windowDetails.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, transitionDuration, intp));
-
 		extra.addAction(Actions.moveTo(extraXEnabled, extraYEnabled, transitionDuration, intp));
-		windowExtra.addAction(Actions.moveTo(extraXEnabled, extraYEnabled, transitionDuration, intp));
 	}
 
 	/**
@@ -901,7 +883,7 @@ public class SettingState extends GameState {
 		DISPLAY,
 		CONTROLS,
 		AUDIO,
-		GAMEPLAY,
+		SERVER,
 		MISC,
 	}
 }

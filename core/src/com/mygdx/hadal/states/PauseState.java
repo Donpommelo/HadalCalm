@@ -9,13 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
-import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.WindowTable;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
+import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.User;
@@ -94,9 +94,7 @@ public class PauseState extends GameState {
 					menuHeight += extraRowHeight;
 				}
 				
-				addActor(new MenuWindow((int) (HadalGame.CONFIG_WIDTH / 2 - width / 2), (int) (HadalGame.CONFIG_HEIGHT / 2 - menuHeight / 2), (int) width, (int) menuHeight));
-				
-				table = new Table();
+				table = new WindowTable();
 				table.setLayoutEnabled(true);
 				table.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - menuHeight / 2);
 				table.setSize(width, menuHeight);

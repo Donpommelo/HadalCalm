@@ -370,6 +370,12 @@ public class ParticleEntity extends HadalEntity {
 	 * This setColor is used for an rgb vector instead of a preset color.
 	 */
 	public ParticleEntity setColor(Vector3 color) {
+
+		//this is a silly hack that lets clients determine random colors themselves
+		if (color.x == -1.0) {
+			return setColor(HadalColor.RANDOM);
+		}
+
 		this.color.set(color);
 		for (int i = 0; i < effect.getEmitters().size; i++) {
 			float[] colors = effect.getEmitters().get(i).getTint().getColors();

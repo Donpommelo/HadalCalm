@@ -624,7 +624,7 @@ public class PlayerBodyData extends BodyData {
 
 			//in weapon drop mode, players will drop their currently held weapon on death (unless it is default weapon or nothing)
 			if (player.getState().getGsm().getSetting().getLoadoutType() == 3 && !player.getState().isHub()) {
-				if (!loadout.multitools[currentSlot].equals(UnlockEquip.NOTHING) && !loadout.multitools[currentSlot].equals(UnlockEquip.SPEARGUN)) {
+				if (!loadout.multitools[currentSlot].equals(UnlockEquip.NOTHING) && !loadout.multitools[currentSlot].equals(UnlockEquip.SPEARGUN_NERFED)) {
 					new PickupEquip(player.getState(), player.getPixelPosition(), loadout.multitools[currentSlot], equipDropLifepan);
 				}
 			}

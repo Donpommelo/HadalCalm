@@ -342,6 +342,8 @@ public class WeaponUtils {
 					
 					
 					Hitbox hbox = new Hitbox(state, new Vector2(originPt), meteorSize, lifespan, new Vector2(0, -meteorSpeed), user.getHitboxfilter(), true, false, user, projSprite);
+					hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+
 					hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.FIRE, DamageTypes.MAGIC));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

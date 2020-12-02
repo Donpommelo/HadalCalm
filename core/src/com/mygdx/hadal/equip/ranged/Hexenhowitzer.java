@@ -41,7 +41,7 @@ public class Hexenhowitzer extends RangedWeapon {
 	private static final Vector2 projectileSize = new Vector2(50, 25);
 	private static final float lifespan = 1.5f;
 	
-	private static final float maxCharge = 80.0f;
+	private static final float maxCharge = 64.0f;
 	private static final float chargeLostPerShot = 2.5f;
 
 	private static final Sprite weaponSprite = Sprite.MT_TORPEDO;
@@ -50,7 +50,7 @@ public class Hexenhowitzer extends RangedWeapon {
 	private static final float pitchSpread = 0.4f;
 	
 	private static final float superchargedShootCd = 0.07f;
-	private static final float enemyChargeMultiplier = 0.25f;
+	private static final float enemyChargeMultiplier = 0.2f;
 	private static final int spread = 18;
 	private boolean supercharged = false;
 	private Status glowing;

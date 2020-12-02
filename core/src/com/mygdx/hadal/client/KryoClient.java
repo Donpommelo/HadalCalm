@@ -142,23 +142,6 @@ public class KryoClient {
         		} 
         		
         		/*
-        		 * The server tells the equip pickup event to sync to display the correct item
-        		 */
-        		else if (o instanceof Packets.SyncPickup) {
-        			Packets.SyncPickup p = (Packets.SyncPickup) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						HadalEntity entity = cs.findEntity(p.entityID);
-						if (entity != null) {
-							if (entity instanceof PickupEquip) {
-								((PickupEquip) entity).syncEquip(p);
-							}
-						}
-					}
-        		}
-        		
-        		/*
         		 * The server tells up to update our player's stats when we get buffs
         		 * Change override values that are displayed in our ui
         		 */
@@ -308,8 +291,8 @@ public class KryoClient {
         		else if (o instanceof Packets.LoadLevel) {
         			final Packets.LoadLevel p = (Packets.LoadLevel) o;
         			final ClientState cs = getClientState();
-        			
-        			//we must set the playstate's next state so that other transitions (respawns) do not override this transition
+
+					//we must set the playstate's next state so that other transitions (respawns) do not override this transition
         			if (cs != null) {
         				cs.setNextState(TransitionState.NEWLEVEL);
         			}
@@ -783,6 +766,8 @@ public class KryoClient {
 					PickupEquip pickup = new PickupEquip(cs, p.pos, "");
 					pickup.setEquip(
 						Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup),null)));
+					pickup.serverPos.set(pickup.getStartPos()).scl(1 / PPM);
+
 					cs.addEntity(p.entityID, pickup, p.synced, ObjectSyncLayers.STANDARD);
 				});
 			}
@@ -848,7 +833,17 @@ public class KryoClient {
 			}
 			return true;
 		}
-		
+
+		else if (o instanceof Packets.SyncPickup) {
+			Packets.SyncPickup p = (Packets.SyncPickup) o;
+			final ClientState cs = getClientState();
+
+			if (cs != null) {
+				cs.syncEntity(p.entityID, p, p.age, p.timestamp);
+			}
+			return true;
+		}
+
 		else if (o instanceof Packets.SyncHitSound) {
 			Packets.SyncHitSound p = (Packets.SyncHitSound) o;
 			final ClientState cs = getClientState();

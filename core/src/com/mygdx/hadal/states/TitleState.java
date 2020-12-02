@@ -15,8 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Backdrop;
-import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.WindowTable;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.AssetList;
@@ -48,9 +48,6 @@ public class TitleState extends GameState {
 	//Textfields for the player to enter an ip to connect to or change their name
 	private TextField enterName, enterIP, enterPassword;
 
-	//this window pops up when the client connects to a password server
-	private MenuWindow nameWindow, mainWindow, ipWindow, passwordWindow;
-
 	//ambient particle effects
 	private final PooledEffect jelly, diatom1, diatom2, diatom3;
 	
@@ -68,21 +65,21 @@ public class TitleState extends GameState {
 	private static final int menuYEnabled = 40;
 	private static final int width = 200;
 	private static final int height = 240;
-	
+
 	private static final int nameX = 40;
 	private static final int nameY = -100;
 	private static final int nameXEnabled = 40;
 	private static final int nameYEnabled = 180;
 	private static final int nameWidth = 460;
 	private static final int nameHeight = 100;
-	
+
 	private static final int ipX = 40;
 	private static final int ipY = -240;
 	private static final int ipXEnabled = 40;
 	private static final int ipYEnabled = 40;
 	private static final int ipWidth = 460;
 	private static final int ipHeight = 100;
-	
+
 	private static final int notificationX = 40;
 	private static final int notificationY = 300;
 	
@@ -160,32 +157,22 @@ public class TitleState extends GameState {
 				backdrop.setY(titleY);
 				
 				addActor(backdrop);
-				mainWindow = new MenuWindow(menuX, menuY, width, height);
-				nameWindow = new MenuWindow(nameX, nameY, nameWidth, nameHeight);
-				ipWindow = new MenuWindow(ipX, ipY, ipWidth, ipHeight);
-				addActor(mainWindow);
-				addActor(nameWindow);
-				addActor(ipWindow);
 
-				passwordWindow = new MenuWindow(passwordX, passwordY, passwordWidth, passwordHeight);
-				passwordWindow.setVisible(false);
-				addActor(passwordWindow);
-
-				tableMain = new Table();
+				tableMain = new WindowTable();
 				tableMain.setPosition(menuX, menuY);
 				tableMain.setSize(width, height);
 				addActor(tableMain);
-				
-				tableName = new Table();
-				tableName.setPosition(nameX, nameY);
-				tableName.setSize(nameWidth, nameHeight);
-				addActor(tableName);
-				
-				tableIP = new Table();
+
+				tableIP = new WindowTable();
 				tableIP.setPosition(ipX, ipY);
 				tableIP.setSize(ipWidth, ipHeight);
 				addActor(tableIP);
-				
+
+				tableName = new WindowTable();
+				tableName.setPosition(nameX, nameY);
+				tableName.setSize(nameWidth, nameHeight);
+				addActor(tableName);
+
 				Text nameDisplay = new Text("YOUR NAME: ", 0, 0, false);
 				nameDisplay.setScale(scaleSide);
 
@@ -252,7 +239,7 @@ public class TitleState extends GameState {
 						//Enter the Hub State.
 						gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState(TitleState.class));
 						gsm.getApp().fadeOut();
-			        }
+					}
 			    });
 				
 				singleOption.addListener(new ClickListener() {
@@ -278,75 +265,6 @@ public class TitleState extends GameState {
 			        }
 			    });
 				
-				joinOption.addListener(new ClickListener() {
-					
-					@Override
-			        public void clicked(InputEvent e, float x, float y) {
-						
-						if (inputDisabled) { return; }
-						inputDisabled = true;
-						
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-						
-						//Save current name into records.
-						gsm.getLoadout().setName(enterName.getText());
-						
-						//Start up the Client
-						HadalGame.client.init();
-						GameStateManager.currentMode = Mode.MULTI;
-						
-						setNotification("SEARCHING FOR SERVER!");
-						//Attempt to connect to the chosen ip
-						Gdx.app.postRunnable(() -> {
-
-							//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
-							try {
-								//trim whitespace from ip
-								String trimmedIp = enterIP.getText().trim();
-
-								HadalGame.client.getClient().connect(5000, trimmedIp, gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
-
-								//save last joined ip if successful
-								gsm.getRecord().setlastIp(trimmedIp);
-
-								setNotification("CONNECTED TO SERVER: " + trimmedIp);
-							} catch (IOException ex) {
-								setNotification("FAILED TO CONNECT TO SERVER!");
-
-								//Let the player attempt to connect again after finishing
-								inputDisabled = false;
-							}
-						 });
-			        }
-			    });
-				
-				searchOption.addListener(new ClickListener() {
-					
-					@Override
-			        public void clicked(InputEvent e, float x, float y) {
-						if (inputDisabled) { return; }
-						inputDisabled = true;
-
-						setNotification("SEARCHING FOR SERVER...");
-
-						SoundEffect.UISWITCH2.play(gsm, 1.0f, false);
-						
-						Gdx.app.postRunnable(() -> {
-							//Search network for nearby hosts
-							enterIP.setText(HadalGame.client.searchServer());
-
-							//Set notification according to result
-							if (enterIP.getText().equals("NO IP FOUND")) {
-								setNotification("SERVER NOT FOUND!");
-							} else {
-								setNotification("FOUND SERVER: " + enterIP.getText());
-							}
-
-							//Let the player attempt to connect again after finishing
-							inputDisabled = false;
-						});
-			        }
-			    });
 
 				//Control Option leads player to control state to change settings
 				settingsOption.addListener(new ClickListener() {
@@ -415,15 +333,82 @@ public class TitleState extends GameState {
 			            return false;
 			         }
 		         });
-				
+
 				enterIP = new TextField("", GameStateManager.getSkin());
-				
+
 				//retrieve last joined ip if existent
 				if (gsm.getRecord().getLastIp().equals("")) {
 					enterIP.setMessageText("ENTER IP");
 				} else {
 					enterIP.setText(gsm.getRecord().getLastIp());
 				}
+
+				joinOption.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+
+						if (inputDisabled) { return; }
+						inputDisabled = true;
+
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+
+						//Start up the Client
+						HadalGame.client.init();
+						GameStateManager.currentMode = GameStateManager.Mode.MULTI;
+
+						setNotification("SEARCHING FOR SERVER!");
+						//Attempt to connect to the chosen ip
+						Gdx.app.postRunnable(() -> {
+
+							//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
+							try {
+								//trim whitespace from ip
+								String trimmedIp = enterIP.getText().trim();
+
+								HadalGame.client.getClient().connect(5000, trimmedIp, gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
+
+								//save last joined ip if successful
+								gsm.getRecord().setlastIp(trimmedIp);
+
+								setNotification("CONNECTED TO SERVER: " + trimmedIp);
+							} catch (IOException ex) {
+								setNotification("FAILED TO CONNECT TO SERVER!");
+
+								//Let the player attempt to connect again after finishing
+								inputDisabled = false;
+							}
+						});
+					}
+				});
+
+				searchOption.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						if (inputDisabled) { return; }
+						inputDisabled = true;
+
+						setNotification("SEARCHING FOR SERVER...");
+
+						SoundEffect.UISWITCH2.play(gsm, 1.0f, false);
+
+						Gdx.app.postRunnable(() -> {
+							//Search network for nearby hosts
+							enterIP.setText(HadalGame.client.searchServer());
+
+							//Set notification according to result
+							if (enterIP.getText().equals("NO IP FOUND")) {
+								setNotification("SERVER NOT FOUND!");
+							} else {
+								setNotification("FOUND SERVER: " + enterIP.getText());
+							}
+
+							//Let the player attempt to connect again after finishing
+							inputDisabled = false;
+						});
+					}
+				});
 
 //				Backdrop gaben = new Backdrop(AssetList.GABEN.toString(), 175, 200) {
 //
@@ -447,10 +432,7 @@ public class TitleState extends GameState {
 //						inputDisabled = true;
 //
 //						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-//
-//						//Enter the About State.
-//						gsm.getApp().setRunAfterTransition(() -> getGsm().addState(State.LOBBY, TitleState.class));
-//						gsm.getApp().fadeOut();
+//						transitionOut(() -> getGsm().addState(State.LOBBY, me));
 //					}
 //				});
 //
@@ -469,12 +451,12 @@ public class TitleState extends GameState {
 				tableMain.add(settingsOption).height(mainOptionHeight).row();
 				tableMain.add(aboutOption).height(mainOptionHeight).row();
 				tableMain.add(exitOption).height(mainOptionHeight).row();
-				
+
 				tableIP.add(ipDisplay).height(optionHeight).pad(5);
 				tableIP.add(enterIP).width(textWidth).height(optionHeight).row();
 				tableIP.add(joinOption).height(optionHeight);
 				tableIP.add(searchOption).height(optionHeight);
-				
+
 				addActor(notifications);
 				addActor(versionNum);
 			}
@@ -493,9 +475,7 @@ public class TitleState extends GameState {
 	 * When we connect to a password server, this is ran to bring up the password entering window
 	 */
 	public void openPasswordRequest() {
-		passwordWindow.setVisible(true);
-
-		tablePassword = new Table();
+		tablePassword = new WindowTable();
 		tablePassword.setPosition(passwordX, passwordY);
 		tablePassword.setSize(passwordWidth, passwordHeight);
 		stage.addActor(tablePassword);
@@ -523,7 +503,7 @@ public class TitleState extends GameState {
 			public void clicked(InputEvent e, float x, float y) {
 				SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
 				tablePassword.remove();
-				passwordWindow.setVisible(false);
+				tablePassword.setVisible(true);
 
 				HadalGame.client.sendTCP(new Packets.PlayerConnect(true, enterName.getText(), HadalGame.Version, enterPassword.getText()));
 			}
@@ -535,7 +515,7 @@ public class TitleState extends GameState {
 			public void clicked(InputEvent e, float x, float y) {
 				SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
 				tablePassword.remove();
-				passwordWindow.setVisible(false);
+				tablePassword.setVisible(false);
 
 				inputDisabled = false;
 				HadalGame.client.getClient().stop();
@@ -548,19 +528,14 @@ public class TitleState extends GameState {
 		tablePassword.add(cancel);
 	}
 
-	private static final float transitionDuration = 0.4f;
+	private static final float transitionDuration = 0.25f;
 	private static final Interpolation intp = Interpolation.fastSlow;
 	private void transitionOut(Runnable runnable) {
 		backdrop.addAction(Actions.moveTo(titleX, titleY, transitionDuration, intp));
 
 		tableMain.addAction(Actions.moveTo(menuX, menuY, transitionDuration, intp));
-		mainWindow.addAction(Actions.moveTo(menuX, menuY, transitionDuration, intp));
-
 		tableIP.addAction(Actions.moveTo(ipX, ipY, transitionDuration, intp));
-		ipWindow.addAction(Actions.moveTo(ipX, ipY, transitionDuration, intp));
-
 		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(nameX, nameY, transitionDuration, intp)));
-		nameWindow.addAction(Actions.moveTo(nameX, nameY, transitionDuration, intp));
 
 		notifications.setText("");
 	}
@@ -569,13 +544,8 @@ public class TitleState extends GameState {
 		backdrop.addAction(Actions.moveTo(titleXEnabled, titleYEnabled, transitionDuration, intp));
 
 		tableMain.addAction(Actions.moveTo(menuXEnabled, menuYEnabled, transitionDuration, intp));
-		mainWindow.addAction(Actions.moveTo(menuXEnabled, menuYEnabled, transitionDuration, intp));
-
 		tableIP.addAction(Actions.moveTo(ipXEnabled, ipYEnabled, transitionDuration, intp));
-		ipWindow.addAction(Actions.moveTo(ipXEnabled, ipYEnabled, transitionDuration, intp));
-
 		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(nameXEnabled, nameYEnabled, transitionDuration, intp)));
-		nameWindow.addAction(Actions.moveTo(nameXEnabled, nameYEnabled, transitionDuration, intp));
 	}
 
 	@Override

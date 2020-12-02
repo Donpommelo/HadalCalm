@@ -49,6 +49,7 @@ public class PickupEquip extends Event {
 		
 		unlock = UnlockEquip.NOTHING;
 		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
+		setSynced(true);
 	}
 
 	public PickupEquip(PlayState state, Vector2 startPos, UnlockEquip equip, float lifespan) {
@@ -57,6 +58,7 @@ public class PickupEquip extends Event {
 		this.drop = true;
 		unlock = equip;
 		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
+		setSynced(true);
 	}
 
 	@Override
@@ -93,13 +95,6 @@ public class PickupEquip extends Event {
 				Equippable temp = p.getPlayerData().pickup(equip);
 				setEquip(temp);
 			}
-			
-			@Override
-			public void preActivate(EventData activator, Player p) {
-				onActivate(activator, p);
-				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(),
-					Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(equip.getClass())).toString()));
-			}
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true,
@@ -108,8 +103,6 @@ public class PickupEquip extends Event {
 		if (drop) {
 			FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size), false, 0, 0, 0.0f, 1.0f,
 				Constants.BIT_PROJECTILE, (short) (Constants.BIT_DROPTHROUGHWALL | Constants.BIT_WALL), (short) 0).setUserData(eventData);
-			synced = true;
-
 		} else {
 			this.body.setType(BodyType.KinematicBody);
 		}
@@ -120,14 +113,29 @@ public class PickupEquip extends Event {
 		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(),
 			Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(equip.getClass())).toString(), synced);
 	}
-	
-	public void syncEquip(Object o) {
+
+	@Override
+	public void onServerSync() {
+
+		//we only want to sync position data if the pickup is from a weapon drop
+		if (drop) {
+			super.onServerSync();
+		}
+		state.getSyncPackets().add(new Packets.SyncPickup(entityID.toString(),
+			Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(equip.getClass())).toString(), entityAge, state.getTimer()));
+	}
+
+	@Override
+	public void onClientSync(Object o) {
+
 		if (o instanceof Packets.SyncPickup) {
 			Packets.SyncPickup p = (Packets.SyncPickup) o;
 			setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null)));
+		} else {
+			super.onClientSync(o);
 		}
 	}
-	
+
 	/**
 	 * this rolls a random weapon
 	 */

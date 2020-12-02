@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.WindowTable;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
 
@@ -21,7 +21,6 @@ public class AboutState extends GameState {
 
 	//This table contains the ui elements of the pause screen
 	private Table options, details;
-	private MenuWindow windowOptions, windowDetails;
 
 	//options that the player can view
 	private Text aboutOption, miscOption, tipsOption, creditsOption, exitOption;
@@ -65,18 +64,13 @@ public class AboutState extends GameState {
 		
 		stage = new Stage() {
 			{
-				windowOptions = new MenuWindow(optionsX, optionsY, optionsWidth, optionsHeight);
-				windowDetails = new MenuWindow(detailsX, detailsY, detailsWidth, detailsHeight);
-				addActor(windowOptions);
-				addActor(windowDetails);
-
-				options = new Table();
+				options = new WindowTable();
 				options.setPosition(optionsX, optionsY);
 				options.setSize(optionsWidth, optionsHeight);
 				options.top();
 				addActor(options);
 				
-				details = new Table();
+				details = new WindowTable();
 				details.setPosition(detailsX, detailsY);
 				details.setSize(detailsWidth, detailsHeight);
 				details.top();
@@ -236,22 +230,16 @@ public class AboutState extends GameState {
 		details.add(sfx).height(optionHeight);
 	}
 
-	private static final float transitionDuration = 0.4f;
+	private static final float transitionDuration = 0.25f;
 	private static final Interpolation intp = Interpolation.fastSlow;
 	private void transitionOut(Runnable runnable) {
 		options.addAction(Actions.moveTo(optionsX, optionsY, transitionDuration, intp));
-		windowOptions.addAction(Actions.moveTo(optionsX, optionsY, transitionDuration, intp));
-
-		details.addAction(Actions.moveTo(detailsX, detailsY, transitionDuration, intp));
-		windowDetails.addAction(Actions.sequence(Actions.moveTo(detailsX, detailsY, transitionDuration, intp), Actions.run(runnable)));
+		details.addAction(Actions.sequence(Actions.moveTo(detailsX, detailsY, transitionDuration, intp), Actions.run(runnable)));
 	}
 
 	private void transitionIn() {
 		options.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, transitionDuration, intp));
-		windowOptions.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, transitionDuration, intp));
-
 		details.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, transitionDuration, intp));
-		windowDetails.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, transitionDuration, intp));
 	}
 
 	@Override

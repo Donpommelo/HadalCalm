@@ -17,7 +17,6 @@ public class DesktopLauncher {
 		config.addIcon("32.png", FileType.Internal);
 		config.addIcon("16.png", FileType.Internal);
 		config.title = TITLE;
-		config.resizable = false;
 		config.pauseWhenMinimized = false;
 
 		//this line prevents audio from cutting if too many sounds are playing

@@ -40,7 +40,7 @@ public class Kamabokannon extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_BOILER;
 	
 	private static final float maxCharge = 0.25f;
-	private static final float lerpSpeed = 0.2f;
+	private static final float lerpSpeed = 0.4f;
 
 	private SoundEntity oozeSound;
 	

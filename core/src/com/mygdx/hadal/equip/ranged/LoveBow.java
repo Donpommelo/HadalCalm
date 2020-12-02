@@ -34,7 +34,7 @@ public class LoveBow extends RangedWeapon {
 	private static final int ammoSize = 50;
 	private static final float shootCd = 0.0f;
 	private static final float shootDelay = 0.0f;
-	private static final float reloadTime = 0.8f;
+	private static final float reloadTime = 0.6f;
 	private static final int reloadAmount = 0;
 	private static final float recoil = 5.0f;
 	private static final float knockback = 30.0f;
@@ -46,7 +46,7 @@ public class LoveBow extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_SPEARGUN;
 	private static final Sprite eventSprite = Sprite.P_SPEARGUN;
 	
-	private static final float baseHeal = 12.0f;
+	private static final float baseHeal = 10.0f;
 	private static final float maxCharge = 0.25f;
 	private static final float projectileMaxSpeed = 65.0f;
 	private static final float selfHitDelay = 0.1f;

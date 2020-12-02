@@ -52,7 +52,7 @@ BEEGUN: {
 BOILER: {
 	name: Boiler
 	description: "Fires a short-ranged spray of flame that ignites foes."
-    descriptionLong: "Projectile Damage: 4.5\nBurn Duration: 5 Seconds\nBurn Damage: 3 per Second\n\nClip Size: 90\nAmmo Capacity: 270\nReload Time: 1.5 Seconds\nAttack Cooldown: 0.04 Second"
+    descriptionLong: "Projectile Damage: 5\nBurn Duration: 5 Seconds\nBurn Damage: 3 per Second\n\nClip Size: 90\nAmmo Capacity: 270\nReload Time: 1.5 Seconds\nAttack Cooldown: 0.04 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -62,7 +62,7 @@ BOILER: {
 BOOMERANG: {
 	name: Boomerang
 	description: "Fires a boomerang that returns to player."
-    descriptionLong: "Boomerang Damage: 35\n\nClip Size: 3\nAmmo Capacity: 24\nReload Time: 0.75 Second per Boomerang\nAttack Cooldown: 0.75 Second"
+    descriptionLong: "Boomerang Damage: 30\n\nClip Size: 3\nAmmo Capacity: 24\nReload Time: 0.75 Second per Boomerang\nAttack Cooldown: 0.75 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -130,7 +130,7 @@ DIAMOND_CUTTER: {
 DUELING_CORKGUN: {
 	name: Dueling Corkgun
 	description: "Fires a fast moving cork. This weapon deals additional damage when knocking enemies into walls or other enemies."
-    descriptionLong: "Cork Damage: 20\n\nClip Size: 1\nAmmo Capacity: 36\nReload Time: 0.9 Second"
+    descriptionLong: "Cork Damage: 20\n\nClip Size: 1\nAmmo Capacity: 36\nReload Time: 0.8 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -227,7 +227,7 @@ LASER_GUIDED_ROCKET: {
 LASER_RIFLE: {
 	name: Laser Rifle
 	description: "Fires a straight, piercing laser."
-    descriptionLong: "Laser Damage: 22\n\nClip Size: 8\nAmmo Capacity: 56\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.5 Second"
+    descriptionLong: "Laser Damage: 24\n\nClip Size: 8\nAmmo Capacity: 56\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.5 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -237,7 +237,7 @@ LASER_RIFLE: {
 LOVE_BOW: {
 	name: Love Bow
 	description: "Charge and fire arrows. In co-op mode, these projectiles heal allies."
-    descriptionLong: "Arrow Damage at Min Charge: 25\nArrow Damage at Max Charge: 70\nArrow Heal on Allies: 12\n\nClip Size: 1\nAmmo Capacity: 50\nReload Time: 1 Second\nCharge Duration: 0.25 Second"
+    descriptionLong: "Arrow Damage at Min Charge: 25\nArrow Damage at Max Charge: 60\nArrow Heal on Allies: 10\n\nClip Size: 1\nAmmo Capacity: 50\nReload Time: 0.6 Second\nCharge Duration: 0.25 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -345,7 +345,7 @@ POPPER: {
 RETICLE_STRIKE: {
 	name: Reticle Strike
 	description: "Create a line of exploding reticles."
-    descriptionLong: "Explosion Damage: 40\nExplosion Delay 0.5 Second\n\nClip Size: 1\nAmmo Capacity: 25\nReload Time: 0.9 Second"
+    descriptionLong: "Explosion Damage: 40\nExplosion Delay 0.65 Second\n\nClip Size: 1\nAmmo Capacity: 25\nReload Time: 0.9 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -423,7 +423,7 @@ SPEARGUN_NERFED: {
 STICKY_BOMB_LAUNCHER: {
 	name: "Stickybomb-Launcher"
 	description: "Fires bombs that stick to enemies and walls. Press the Reload button to detonate all active bombs."
-    descriptionLong: "Explosion Damage: 55\nThis weapon does not manually reload\n\nClip Size: 6\nAmmo Capacity: 36\nReload Time: 1.25 Seconds\nAttack Cooldown: 0.25 Second"
+    descriptionLong: "Explosion Damage: 55\nThis weapon does not manually reload\n\nClip Size: 6\nAmmo Capacity: 36\nReload Time: 1.25 Seconds\nAttack Cooldown: 0.35 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -493,7 +493,7 @@ WAVE_BEAM: {
 XBOMBER: {
 	name: X-Bomber
 	description: "Fires a bomb that explodes in a pair of x-shaped lasers."
-    descriptionLong: "Bomb Impact Damage: 20\nX-Laser Damage: 24\n\nClip Size: 2\nAmmo Capacity: 26\nReload Time: 1.2 Seconds\nAttack Cooldown: 0.3 Second"
+    descriptionLong: "Bomb Impact Damage: 24\nX-Laser Damage: 24\n\nClip Size: 2\nAmmo Capacity: 26\nReload Time: 1.2 Seconds\nAttack Cooldown: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -503,7 +503,7 @@ XBOMBER: {
 VAJRA: {
 	name: Vajra
 	description: "Fire a vajra that releases chain lightning upon contact."
-    descriptionLong: "Vajra Damage: 20\nLightning Damage: 25\nLightning Chains: 6 Enemies\n\nClip Size: 3\nAmmo Capacity: 21\nReload Time: 1.1 Seconds\nAttack Cooldown: 0.4 Second"
+    descriptionLong: "Vajra Damage: 28\nLightning Damage: 25\nLightning Chains: 5 Enemies\n\nClip Size: 3\nAmmo Capacity: 21\nReload Time: 1.1 Seconds\nAttack Cooldown: 0.4 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,

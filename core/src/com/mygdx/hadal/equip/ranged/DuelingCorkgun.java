@@ -25,7 +25,7 @@ public class DuelingCorkgun extends RangedWeapon {
 	private static final int ammoSize = 36;
 	private static final float shootCd = 0.1f;
 	private static final float shootDelay = 0;
-	private static final float reloadTime = 0.9f;
+	private static final float reloadTime = 0.8f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 20.0f;
 	private static final float recoil = 11.0f;

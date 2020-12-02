@@ -15,7 +15,7 @@ public class SpiritRelease extends ActiveItem {
 	private static final float usedelay = 0.0f;
 	private static final float maxCharge = 10.0f;
 	
-	private static final float spiritDamage= 40.0f;
+	private static final float spiritDamage= 45.0f;
 	private static final float spiritKnockback= 25.0f;
 	private static final float spiritLifespan= 7.5f;
 	

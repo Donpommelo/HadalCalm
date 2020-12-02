@@ -12,7 +12,7 @@ public class VolatileDermis extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
-	private static final float procCd = 3.0f;
+	private static final float procCd = 4.0f;
 	
 	private static final float chainDamage = 15.0f;
 	private static final int chainRadius = 10;

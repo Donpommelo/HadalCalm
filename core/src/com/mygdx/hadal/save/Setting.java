@@ -61,7 +61,6 @@ public class Setting {
     		indexToResolution();
 			Gdx.graphics.setVSync(false);
 		}
-    	
 
     	game.setFrameRate(indexToFramerate());
     	
@@ -71,7 +70,7 @@ public class Setting {
     		state.toggleVisibleHitboxes(debugHitbox);
     	}
 
-    	//resizing here (possibly) deals with some fullscreen camera issues on certain devices
+    	//resizing here (possibly) deals with some fullscreen camera issues on certain devices?
     	game.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 	
@@ -117,7 +116,7 @@ public class Setting {
 		Setting newSetting = new Setting();
 		newSetting.resetDisplay();
 		newSetting.resetAudio();
-		newSetting.resetGameplay();
+		newSetting.resetServer();
 		newSetting.resetMisc();
 		
 		Gdx.files.local("save/Settings.json").writeString(GameStateManager.json.prettyPrint(newSetting), false);
@@ -143,9 +142,11 @@ public class Setting {
 		hitsoundType = 1;
 	}
 	
-	public void resetGameplay() {
+	public void resetServer() {
+		maxPlayers = 5;
+		portNumber = 11100;
+		serverPassword = "";
 		pvpTimer = 3;
-		coopTimer = 0;
 		lives = 0;
 		teamEnabled = true;
 		loadoutType = 0;
@@ -154,14 +155,12 @@ public class Setting {
 	}
 	
 	public void resetMisc() {
+		coopTimer = 0;
 		randomNameAlliteration = true;
 		consoleEnabled = true;
 		verboseDeathMessage = true;
 		multiplayerPause = false;
 		exportChatLog = false;
-		maxPlayers = 5;
-		portNumber = 11100;
-		serverPassword = "";
 	}
 
 	/**
