@@ -51,6 +51,17 @@ ALBATROSS_NECKLACE: {
         GIMMICK,
 	]
 }
+AMDAHLS_LOTUS: {
+	name: Amdahl's Lotus
+	description: "+Damage and Fuel Regeneration when Match Timer is low"
+    descriptionLong: "Timer Threshold: 10% Max Timer\nBonus Damage: +40%\nFuel Regeneration: +8 per Second\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+        OFFENSE,
+        FUEL,
+	]
+}
 ANARCHISTS_COOKBOOK: {
 	name: Anarchist's Cookbook
 	description: "Periodically Spawns Bombs"
@@ -101,6 +112,18 @@ BACKPACK_BUDDY: {
         GIMMICK,
 	]
 }
+BENTHIC_DESIRES: {
+	name: Benthic Desires
+	description: "Regenerate Hp and Fuel when not moving"
+    descriptionLong: "Hp Regeneration: 5 per Second\nFuel Regeneration: 8 per Second\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+        DEFENSE,
+        HEAL,
+        FUEL,
+	]
+}
 BLASTEMA: {
 	name: Blastema
 	description: "Temporarily Boosts Hp Regeneration upon Receiving Damage"
@@ -147,7 +170,7 @@ BOTTOM_OF_THE_BARREL: {
 BRIGGLES_BLADED_BOOT: {
 	name: Briggle's Bladed Boot
 	description: "Damaging Stomps"
-    descriptionLong: "Stomp Damage: 45\n\nThe serrated footwear belonging to a general renown for being armed to the feet.\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft."
+    descriptionLong: "Stomp Damage: 50\n\nThe serrated footwear belonging to a general renown for being armed to the feet.\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -345,6 +368,17 @@ DAS_BOOT: {
         DEFENSE,
 	]
 }
+DAY_AT_THE_FAIR: {
+	name: Day at the Fair
+	description: "+Max Hp, -Knockback Resistance"
+    descriptionLong: "Max Hp: +25\nKnockback Resistance: -150%\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+        DEFENSE,
+        MOBILITY,
+	]
+}
 DEAD_MANS_HAND: {
 	name: Dead Man's Hand
 	description: "+1 Weapon Slot"
@@ -358,12 +392,22 @@ DEAD_MANS_HAND: {
 DEPLORABLE_APPARATUS: {
 	name: Deplorable Apparatus
 	description: "-Max Hp, +Hp Regen"
-    descriptionLong: "Max Hp Reduction: -40\nHp Regeneration: 12 per Second\nUpon Receiving Danmage, Cancel Regen for 1s\n\nA rusty, surgically-attached life granting machine.\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself."
+    descriptionLong: "Max Hp Reduction: -40\nHp Regeneration: 12 per Second\nUpon Receiving Damage, Cancel Regen for 1s\n\nA rusty, surgically-attached life granting machine.\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
         DEFENSE,
         HEAL,
+	]
+}
+DIATOMACEOUS_EARTH: {
+	name: Diatomaceous Earth
+	description: "Temporarily boosts Damage Resistance and Knockback Resistance upon using Active Item"
+    descriptionLong: "Buff Duration: 20% of Active Item Charge Time\nDamage Resistance: +50%\nKnockback Resistance: +90%\n\n."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 EELSKIN_COVER: {
@@ -503,7 +547,7 @@ GLUTTONOUS_GREY_GLOVE: {
 GOMEZS_AMYGDALA: {
 	name: Gomez's Amygdala
 	description: "Temporarily Boosts Speed and Damage upon Receiving Damage"
-    descriptionLong: "Buff Duration: 2 Seconds\nBonus Speed: +50%\nBonus Damage: +30%\n\nA piece of grey matter floating in fluid and radiating with psychic energy.\n\nBright Ones are receptive to the primal emotions of passersby, making it paramount to suppress fear in their presence."
+    descriptionLong: "Buff Duration: 2 Seconds\nBonus Speed: +50%\nBonus Damage: +40%\n\nA piece of grey matter floating in fluid and radiating with psychic energy.\n\nBright Ones are receptive to the primal emotions of passersby, making it paramount to suppress fear in their presence."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -530,6 +574,16 @@ HEART_OF_SPEROS: {
 		RELIQUARY,
 		RANDOM_POOL,
         AMMO,
+	]
+}
+HONEYED_TENEBRAE: {
+	name: Honeyed Tenebrae
+	description: "+Bee Resistnace"
+    descriptionLong: "Bee Damage Resistance: +70%\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+        DEFENSE,
 	]
 }
 HOOD_OF_HABIT: {
@@ -640,7 +694,7 @@ KINESIS_LENS: {
 KUMQUAT: {
 	name: Kumquat
 	description: "Regenerate Hp upon falling below 50% Hp."
-    descriptionLong: "Hp Regen: 25% Max Hp over 2 seconds\nActivates once per life\n\nA sweet and tangy fruit with an aromatic peel.\n\nRemove peels from pickled kumquats and soak them overnight. Grind kumquats, add chili pepper, white pepper and cook on low heat. Add kumquat marinade to savory meat dishes."
+    descriptionLong: "Hp Regen: 25% Max Hp over 1 second\nActivates once per life\n\nA sweet and tangy fruit with an aromatic peel.\n\nRemove peels from pickled kumquats and soak them overnight. Grind kumquats, add chili pepper, white pepper and cook on low heat. Add kumquat marinade to savory meat dishes."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -723,8 +777,8 @@ MANGROVE_SEED: {
 }
 MASK_OF_SYMPATHY: {
 	name: Mask of Sympathy
-	description: "Reflects Incoming Damage"
-    descriptionLong: "Damage Reflected: 10% of Damage Received\n\nAn uncomfortable ritual mask possessing several gold-sealed cracks.\n\nThe three former Gods that once governed the Noiseless Sea had unusually little enmity with their celestial usurpers."
+	description: "Drains Enemy Fuel upon Receiving Damage"
+    descriptionLong: "Fuel Drained: 50% of Damage Received\n\nAn uncomfortable ritual mask possessing several gold-sealed cracks.\n\nThe three former Gods that once governed the Noiseless Sea had unusually little enmity with their celestial usurpers."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

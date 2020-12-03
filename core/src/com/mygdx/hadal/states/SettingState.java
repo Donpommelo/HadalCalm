@@ -84,7 +84,7 @@ public class SettingState extends GameState {
 	private static final float detailPad = 10.0f;
 
 	//These options make it easier to convert the index setting to a displayed string
-	public static final String[] timerChoices = {"NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN"};
+	public static final String[] timerChoices = {"NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN", "6 MIN", "7 MIN", "8 MIN", "9 MIN", "10 MIN"};
 	public static final String[] livesChoices = {"UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES"};
 	public static final String[] loadoutChoices = {"SELECTED", "COPY HOST", "RANDOM", "WEAPON DROPS"};
 	public static final String[] artifactChoices = {"0", "1", "2", "3", "4", "5", "6"};

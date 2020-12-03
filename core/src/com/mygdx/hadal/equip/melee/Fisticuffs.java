@@ -16,9 +16,9 @@ import com.mygdx.hadal.strategies.hitbox.Spread;
 
 public class Fisticuffs extends MeleeWeapon {
 
-	private static final float swingCd = 0.08f;
+	private static final float swingCd = 0.07f;
 	private static final float windup = 0.0f;
-	private static final float baseDamage = 28.0f;
+	private static final float baseDamage = 36.0f;
 
 	private static final Vector2 projectileSize = new Vector2(60, 40);
 	private static final float projectileSpeed = 20.0f;

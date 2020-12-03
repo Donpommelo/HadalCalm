@@ -35,7 +35,7 @@ public class UIExtra extends AHadalActor {
 	private int scrap, score, hiscore, lives, wins;
 	
 	//Timer is used for timed scripted events. timerIncr is how much the timer should tick every update cycle (usually -1, 0 or 1)
-	private float timer, timerIncr;
+	private float maxTimer, timer, timerIncr;
 	
 	public UIExtra(PlayState state) {
 		this.state = state;
@@ -206,6 +206,7 @@ public class UIExtra extends AHadalActor {
 		}
 		
 		if (changeTimer) {
+			maxTimer = timerSet;
 			timer = timerSet;
 			timerIncr = timerIncrement;
 		}
@@ -227,6 +228,8 @@ public class UIExtra extends AHadalActor {
 	}
 
 	public float getTimer() { return timer; }
+
+	public float getMaxTimer() { return maxTimer; }
 
 	public void setTimer(float timer) { this.timer = timer; }
 

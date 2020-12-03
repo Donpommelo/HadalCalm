@@ -19,7 +19,7 @@ public class Popper extends RangedWeapon {
 
 	private static final int clipSize = 1;
 	private static final int ammoSize = 22;
-	private static final float shootCd = 0.1f;
+	private static final float shootCd = 0.5f;
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 0.75f;
 	private static final int reloadAmount = 0;

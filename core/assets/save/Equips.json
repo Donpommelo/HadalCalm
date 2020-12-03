@@ -121,7 +121,7 @@ DEEP_SEA_SMELTER: {
 DIAMOND_CUTTER: {
 	name: Diamond Cutter
 	description: "Hold the shoot button to extend a spinning blade that continually damages enemies."
-    descriptionLong: "Blade Damage: 360 per Second"
+    descriptionLong: "Blade Damage: 540 per Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -139,7 +139,7 @@ DUELING_CORKGUN: {
 FISTICUFFS: {
 	name: Fisticuffs
 	description: "punch"
-    descriptionLong: "Punch Damage: 28\nAttack Cooldown: 0.08 Second"
+    descriptionLong: "Punch Damage: 36\nAttack Cooldown: 0.07 Second"
 	tags: [
 		ARMORY,
 	]

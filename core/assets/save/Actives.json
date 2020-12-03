@@ -10,7 +10,7 @@ ANCHOR_SMASH: {
 }
 BENDY_BEAMS: {
 	name: Bendy Beams
-	description: "Fire a barrage of curving projectiles."
+	description: "Fire a barrage of curving projectiles"
     descriptionLong: "Charge: 8 Seconds\nBeam Number: 10\nBeam Damage: 14\n\n"
 	tags: [
 		DISPENSARY,
@@ -19,7 +19,7 @@ BENDY_BEAMS: {
 }
 CALL_OF_WALRUS: {
 	name: Call of Walrus
-	description: "Buffs damage and speed and the cost of Hp."
+	description: "Buffs damage and speed and the cost of Hp"
     descriptionLong: "Charge: 10 Seconds\nSelf Damage: 15\nBuff Duration: 5 Seconds\nBonus Ground Speed: +50%\nBonus Damage: +30%\n\n"
 	tags: [
 		DISPENSARY,
@@ -28,7 +28,7 @@ CALL_OF_WALRUS: {
 }
 DEPTH_CHARGE: {
 	name: Depth Charge
-	description: "Perform an explosive-powered jump."
+	description: "Perform an explosive-powered jump"
     descriptionLong: "Charge: 10 Seconds\nExplosion Number: 4\nExplosion Damage: 40\n\n"
 	tags: [
 		DISPENSARY,
@@ -37,7 +37,7 @@ DEPTH_CHARGE: {
 }
 DODGE_ROLL: {
 	name: Dodge Roll
-	description: "Perform an invulnerable dodge in the direction you are facing."
+	description: "Perform an invulnerable dodge in the direction you are facing"
     descriptionLong: "Charge: 3 Seconds\nInvulnerability Duration: 0.5 Second\n\n"
 	tags: [
 		DISPENSARY,
@@ -46,7 +46,7 @@ DODGE_ROLL: {
 }
 FAFROTSKIES: {
 	name: Fafrotskies
-	description: "Create a storm cloud that drops damaging rain."
+	description: "Create a storm cloud that drops damaging rain"
     descriptionLong: "Charge: 15 Seconds\nCloud Duration: 7.5 Seconds\nRain Interval: 0.1 Second\nRain Damage: 11\n\n"
 	tags: [
 		DISPENSARY,
@@ -64,7 +64,7 @@ FISH_GANG: {
 }
 FORCE_OF_WILL: {
 	name: Force of Will
-	description: "Become invulnerable temporarily."
+	description: "Become invulnerable temporarily"
     descriptionLong: "Charge: 16 Seconds\nInvulnerability Duration: 3 Seconds\n\n"
 	tags: [
 		DISPENSARY,
@@ -73,7 +73,7 @@ FORCE_OF_WILL: {
 }
 HEALING_FIELD: {
 	name: Healing Field
-	description: "Creates a field that regenerates health."
+	description: "Creates a field that regenerates health"
     descriptionLong: "Charge: 100 Damage\nField Duration: 10 Seconds\nHealing: 12 per Second\n\n"
 	tags: [
 		DISPENSARY,
@@ -82,7 +82,7 @@ HEALING_FIELD: {
 }
 HONEYCOMB: {
 	name: Honeycomb
-	description: "Releases a swarm of bees!"
+	description: "Releases a swarm of bees"
     descriptionLong: "Charge: 15 Seconds\nBees: 11\n\n"
 	tags: [
 		DISPENSARY,
@@ -91,8 +91,17 @@ HONEYCOMB: {
 }
 HYDRAULIC_UPPERCUT: {
 	name: Hydraulic Uppercut
-	description: "Perform an upwards attack. User is briefly invulnerable during the attack."
+	description: "Perform an upwards attack. User is briefly invulnerable during the attack"
     descriptionLong: "Charge: 8 Seconds\nUppercut Damage: 60\nInvulnerability Duration: 0.9 Second\n\n"
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+IMMOLATION_AURA: {
+	name: Immolation Aura
+	description: "Ignites self, burning nearby enemies and charge towards mouse"
+    descriptionLong: "Charge: 15 Seconds\nBurn Damage: 4 per Second\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -100,7 +109,7 @@ HYDRAULIC_UPPERCUT: {
 }
 JUMP_KICK: {
 	name: Jump Kick
-	description: "Perform a flying kick. Knock enemies into walls for additional damage scaling to victim's velocity."
+	description: "Perform a flying kick, Knock enemies into walls for additional damage scaling to victim's velocity"
     descriptionLong: "Charge: 8 Seconds\nKick damage: 20\n\n"
 	tags: [
 		DISPENSARY,
@@ -109,7 +118,7 @@ JUMP_KICK: {
 }
 MARINE_SNOWGLOBE: {
 	name: Marine Snowglobe
-	description: "Damage and slow nearby enemies."
+	description: "Damage and slow nearby enemies"
     descriptionLong: "Charge: 10 Seconds\nSnow Damage: 18\nSlow Duration: 5 Seconds\nSlow Amount: -75%\n\n"
 	tags: [
 		DISPENSARY,
@@ -118,7 +127,7 @@ MARINE_SNOWGLOBE: {
 }
 MELON: {
 	name: Melon
-	description: "Restores Hp."
+	description: "Restores Hp"
     descriptionLong: "Charge: 125 Damage\nMelon Healing: 32 over 8 Seconds\n\n"
 	tags: [
 		DISPENSARY,
@@ -127,7 +136,7 @@ MELON: {
 }
 MERIDIAN_MAKER: {
 	name: Meridian Maker
-	description: "Fire a projectile that creates a temporary current in ints path."
+	description: "Fire a projectile that creates a temporary current in ints path"
     descriptionLong: "Charge: 9 Seconds\nProjectile Damage: 40\nCurrent Duration: 6 Seconds\n\n"
 	tags: [
 		DISPENSARY,
@@ -136,7 +145,7 @@ MERIDIAN_MAKER: {
 }
 METEOR_STRIKE: {
 	name: Meteor Strike
-	description: "Summon meteors at mouse location."
+	description: "Summon meteors at mouse location"
     descriptionLong: "Charge: 20 Seconds\nMeteor Duration: 3 Seconds\nMeteor Interval: 0.1 Second\nMeteor damage: 24\n\n"
 	tags: [
 		DISPENSARY,
@@ -145,7 +154,7 @@ METEOR_STRIKE: {
 }
 MISSILE_POD: {
 	name: Missile Pod
-	description: "Fire a barrage of homing missiles."
+	description: "Fire a barrage of homing missiles"
     descriptionLong: "Charge: 14 Seconds\nMissiles: 12\nMissile Damage: 18\n\n"
 	tags: [
 		DISPENSARY,
@@ -154,7 +163,7 @@ MISSILE_POD: {
 }
 NAUTICAL_MINE: {
 	name: Nautical Mine
-	description: "Throws an large naval mine. Mine explodes after being shot a few times."
+	description: "Throws an large naval mine. Mine explodes after being shot a few times"
     descriptionLong: "Charge: 8 Seconds\nMine Damage: 60\nMine Lifespan: 12 Seconds\n\n"
 	tags: [
 		DISPENSARY,
@@ -169,7 +178,7 @@ NOTHING: {
 }
 ORBITAL_SHIELD: {
 	name: Orbital Shield
-	description: "Create several projectiles that orbit the user."
+	description: "Create several projectiles that orbit the user"
     descriptionLong: "Charge: 11 Seconds\nShield Duration: 5 Seconds\nOrbitals: 3\nOrbital Damage: 20\n\n"
 	tags: [
 		DISPENSARY,
@@ -178,7 +187,7 @@ ORBITAL_SHIELD: {
 }
 PLUS_MINUS: {
 	name: Plus Minus
-	description: "Shock nearby enemies with chain lightning."
+	description: "Shock nearby enemies with chain lightning"
     descriptionLong: "Charge: 12 Seconds\nLightning Damage: 15\nLightning Chains: 8 Enemies\n\n"
 	tags: [
 		DISPENSARY,
@@ -187,7 +196,7 @@ PLUS_MINUS: {
 }
 PORTABLE_SENTRY_FLAK: {
 	name: Portable Sentry: Flak
-	description: "Drop a projectile to create an allied turret that fires a close-ranged burst of projectiles."
+	description: "Drop a projectile to create an allied turret that fires a close-ranged burst of projectiles"
     descriptionLong: "Charge: 100 Damage"
 	tags: [
 		DISPENSARY,
@@ -196,7 +205,7 @@ PORTABLE_SENTRY_FLAK: {
 }
 PORTABLE_SENTRY_VOLLEY: {
 	name: Portable Sentry: Volley
-	description: "Drop a projectile to create an allied turret that fires a long-ranged volley of projectiles."
+	description: "Drop a projectile to create an allied turret that fires a long-ranged volley of projectiles"
     descriptionLong: "Charge: 100 Damage"
 	tags: [
 		DISPENSARY,
@@ -205,7 +214,7 @@ PORTABLE_SENTRY_VOLLEY: {
 }
 PROXIMITY_MINE: {
 	name: Proximity Mine
-	description: "Deploy an invisible mine."
+	description: "Deploy an invisible mine"
     descriptionLong: "Charge: 9 Seconds\nPrime Delay: 2 Seconds\nMine Damage: 80\n\n"
 	tags: [
 		DISPENSARY,
@@ -214,7 +223,7 @@ PROXIMITY_MINE: {
 }
 RADIAL_BARRAGE: {
 	name: Radial Barrage
-	description: "Fire currently equipped weapon in all directions."
+	description: "Fire currently equipped weapon in all directions"
     descriptionLong: "Charge: 12 Seconds (reduced for high clip size weapons)\nRadial Shots: 6\nShot Interval 0.1 Second\n\n"
 	tags: [
 		DISPENSARY,
@@ -223,8 +232,8 @@ RADIAL_BARRAGE: {
 }
 RELOADER: {
 	name: Auroreloader
-	description: "Reloads all of your weapons."
-    descriptionLong: "Charge: 75 Damage\n\n"
+	description: "Buffs attack speed and makes weapons not consume clip temporarily"
+    descriptionLong: "Charge: 14 Seconds\n\nBuff Duration: 1.5 Seconds\nBonus Attack Speed: +40%\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -232,7 +241,7 @@ RELOADER: {
 }
 RESERVED_FUEL: {
 	name: Reserved Fuel
-	description: "User regenerates fuel over time."
+	description: "User regenerates fuel over time"
     descriptionLong: "Charge: 15 Seconds\nRegenerates 90 Fuel over 5 Seconds\n\n"
 	tags: [
 		DISPENSARY,
@@ -241,7 +250,7 @@ RESERVED_FUEL: {
 }
 RING_OF_GYGES: {
 	name: Ring of Gyges
-	description: "Become invisible temporarily."
+	description: "Become invisible temporarily"
     descriptionLong: "Charge: 18 Seconds\nInvisibility Duration: 8 Seconds\n\n"
 	tags: [
 		DISPENSARY,
@@ -250,7 +259,7 @@ RING_OF_GYGES: {
 }
 SAMSON_OPTION: {
 	name: Samson Option
-	description: "User dies and creates a series of explosions."
+	description: "User dies and creates a series of explosions"
     descriptionLong: "Charge: 5 Seconds\nExplosion Duration: 1.5 Seconds\nExplosion Interval: 0.15 Second\nExplosion Damage: 75\n\n"
 	tags: [
 		DISPENSARY,
@@ -258,7 +267,7 @@ SAMSON_OPTION: {
 }
 SPIRIT_RELEASE: {
 	name: Spirit Release
-	description: "Release several homing vengeful spirits."
+	description: "Release several homing vengeful spirits"
     descriptionLong: "Charge: 10 Seconds\nSpirits: 3\nSpirit Damage: 45\n\n"
 	tags: [
 		DISPENSARY,
@@ -267,8 +276,17 @@ SPIRIT_RELEASE: {
 }
 SPRING_LOADER: {
 	name: Spring Loader
-	description: "Create a temporary spring at mouse location."
+	description: "Create a temporary spring at mouse location"
     descriptionLong: "Charge: 3 Seconds\nSpring Duration: 6 Seconds\n\n"
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+SUPPLY_DROP: {
+	name: Supply Drop
+	description: "Create a Random Weapon Pickup"
+    descriptionLong: "Charge: 8 Seconds\nStarts off Fully Charged\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -276,8 +294,8 @@ SPRING_LOADER: {
 }
 TAINTED_WATER: {
 	name: Tainted Water
-	description: "Release a poisonous cloud in the direction you are facing."
-    descriptionLong: "Charge: 13 Seconds\nPoison Duration: 2.5 Seconds\nPoison Damage: 108 per Second\n\n"
+	description: "Release a poisonous cloud in the direction you are facing"
+    descriptionLong: "Charge: 13 Seconds\nPoison Duration: 4.5 Seconds\nPoison Damage: 60 per Second\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -285,7 +303,7 @@ TAINTED_WATER: {
 }
 TERRAFORMER: {
 	name: Terraformer
-	description: "Create a destructable block."
+	description: "Create a destructable block"
     descriptionLong: "Charge: 8 Seconds\nBlock Hp: 150\n\n"
 	tags: [
 		DISPENSARY,
@@ -294,7 +312,7 @@ TERRAFORMER: {
 }
 TRACTOR_BEAM: {
 	name: Tractor Beam
-	description: "Fire a projectile that grabs an enemy. Throw victim into walls or other enemies for additional damage."
+	description: "Fire a projectile that grabs an enemy, Throw victim into walls or other enemies for additional damage"
     descriptionLong: "Charge: 8 Seconds\nGrab Duration: 4 Seconds\nImpact Damage: 25\n\n"
 	tags: [
 		DISPENSARY,

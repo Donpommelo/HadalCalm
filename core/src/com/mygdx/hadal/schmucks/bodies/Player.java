@@ -958,6 +958,8 @@ public class Player extends PhysicsSchmuck {
 
 	public Event getCurrentEvent() { return currentEvent; }
 
+	public float getAttackAngle() { return attackAngle; }
+
 	public void setCurrentEvent(Event currentEvent) { this.currentEvent = currentEvent; }
 
 	public void setHoveringAttempt(boolean hoveringAttempt) { this.hoveringAttempt = hoveringAttempt; }

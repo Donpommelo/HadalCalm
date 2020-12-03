@@ -243,6 +243,16 @@ public class Setting {
 			return 240.0f;
 		case 5:
 			return 300.0f;
+		case 6:
+			return 360.0f;
+		case 7:
+			return 420.0f;
+		case 8:
+			return 480.0f;
+		case 9:
+			return 540.0f;
+		case 10:
+			return 600.0f;
 		default:
 			return 0.0f;
 		}

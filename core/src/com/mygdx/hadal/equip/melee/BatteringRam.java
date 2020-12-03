@@ -15,6 +15,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Stats;
 
@@ -88,13 +89,13 @@ public class BatteringRam extends MeleeWeapon {
 				.setColor(WeaponUtils.getPlayerColor((Player) user));
 		}
 
-
 		//velocity scales with charge percentage
 		float velocity = chargeCd / getChargeTime() * (maxRecoil - minRecoil) + minRecoil;
 		float damage = chargeCd / getChargeTime() * (maxDamage - minDamage) + minDamage;
-				
-		user.getBodyData().addStatus(new StatChangeStatus(state, lifespan, Stats.AIR_DRAG, 7.5f, user.getBodyData(), user.getBodyData()));
-		user.getBodyData().addStatus(new StatChangeStatus(state, lifespan, Stats.DAMAGE_RES, 0.5f, user.getBodyData(), user.getBodyData()));
+
+		user.getBodyData().addStatus(new StatusComposite(state, lifespan, false, user.getBodyData(), user.getBodyData(),
+			new StatChangeStatus(state, Stats.AIR_DRAG, 7.5f, user.getBodyData()),
+			new StatChangeStatus(state, Stats.DAMAGE_RES, 0.5f, user.getBodyData())));
 
 		Vector2 push = new Vector2(weaponVelo).nor().scl(velocity);
 		user.pushMomentumMitigation(push.x, push.y);

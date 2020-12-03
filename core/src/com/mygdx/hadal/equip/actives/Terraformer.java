@@ -20,11 +20,11 @@ public class Terraformer extends ActiveItem {
 
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 8.0f;
+	private static final float maxCharge = 9.0f;
 	
-	private static final Vector2 blockSize = new Vector2(96, 96);
-	private static final int blockHp = 150;
-	private static final float blockSpeed = 10.0f;
+	private static final Vector2 blockSize = new Vector2(128, 128);
+	private static final int blockHp = 200;
+	private static final float blockSpeed = 14.0f;
 
 	public Terraformer(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

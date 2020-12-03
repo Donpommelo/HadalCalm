@@ -17,7 +17,7 @@ public class ReticleStrike extends RangedWeapon {
 
 	private static final int clipSize = 1;
 	private static final int ammoSize = 25;
-	private static final float shootCd = 0.1f;
+	private static final float shootCd = 0.5f;
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 0.9f;
 	private static final int reloadAmount = 1;
@@ -51,7 +51,7 @@ public class ReticleStrike extends RangedWeapon {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
-			private Vector2 lastPosition = new Vector2(startPosition);
+			private final Vector2 lastPosition = new Vector2(startPosition);
 			@Override
 			public void controller(float delta) {
 				if (lastPosition.dst2(hbox.getPixelPosition()) > reticleSizeSquared) {
