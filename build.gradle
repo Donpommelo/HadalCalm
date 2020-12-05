@@ -18,7 +18,7 @@ allprojects {
     version = '1.0'
     ext {
         appName = "HadalGame"
-        gdxVersion = '1.9.11'
+        gdxVersion = '1.9.13-SNAPSHOT'
         roboVMVersion = '2.3.8'
         pieMenuVersion = '5.0.0'
         kryonetVersion = '2.22.6'
@@ -39,7 +39,7 @@ project(":desktop") {
 
     dependencies {
         compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     }

@@ -1,6 +1,5 @@
 package com.mygdx.hadal.input;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.hadal.schmucks.bodies.Player;
 
@@ -178,9 +177,9 @@ public class PlayerController implements InputProcessor {
 
 	//This is just a janky way of implementing setting mouse wheel as a hotkey.
 	@Override
-	public boolean scrolled(int amount) {
-		keyDown(amount * 1000);
-		keyUp(-amount * 1000);
+	public boolean scrolled(float amountX, float amountY) {
+		keyDown((int) amountY * 1000);
+		keyUp((int) -amountY * 1000);
 		return false;
 	}
 	
@@ -195,7 +194,7 @@ public class PlayerController implements InputProcessor {
 		//Let game account for all buttons held down before the processor is created.
 		for (PlayerAction a: PlayerAction.values()) {
 			if (a.isToggleable()) {
-				if (Gdx.input.isKeyPressed(a.getKey())) {
+				if (a.isPressed()) {
 					player.getController().keyDown(a, true);
 				} else {
 					player.getController().keyUp(a, true);

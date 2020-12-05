@@ -30,7 +30,6 @@ public class Armory extends HubEvent {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.ARMORY);
 	}
 
-
 	@Override
 	public void enter() {
 		state.getUiHub().setType(type);

@@ -54,7 +54,7 @@ ALBATROSS_NECKLACE: {
 AMDAHLS_LOTUS: {
 	name: Amdahl's Lotus
 	description: "+Damage and Fuel Regeneration when Match Timer is low"
-    descriptionLong: "Timer Threshold: 10% Max Timer\nBonus Damage: +40%\nFuel Regeneration: +8 per Second\n\n"
+    descriptionLong: "Timer Threshold: 10% Max Timer\nBonus Damage: +40%\nFuel Regeneration: +8 per Second\n\nAn immaculate blossom that unfurls during pivotal moments of conflict.\n\nRepresenting upper Management, the lotus conferred upon its bearer the duty of conveying to humanity: commands, responses and eventually, apologies."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -115,7 +115,7 @@ BACKPACK_BUDDY: {
 BENTHIC_DESIRES: {
 	name: Benthic Desires
 	description: "Regenerate Hp and Fuel when not moving"
-    descriptionLong: "Hp Regeneration: 5 per Second\nFuel Regeneration: 8 per Second\n\n"
+    descriptionLong: "Hp Regeneration: 5 per Second\nFuel Regeneration: 8 per Second\n\n\n\nThe Stagnation that muddies the firmament at the bottom of the world is derived from the collective desires of the fearful and the weary."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -148,7 +148,7 @@ BLOODWOODS_GLOVE: {
 BOOK_OF_BURIAL: {
 	name: Book of Burial
 	description: "Drop a Mine Upon Receiving Damage"
-    descriptionLong: "Mine Cooldown: 7.5 Seconds\nPrime Delay: 2 Seconds\nMine Damage: 50\n\n"
+    descriptionLong: "Mine Cooldown: 7.5 Seconds\nPrime Delay: 2 Seconds\nMine Damage: 50\n\nA collection of teachings regarding the sending off of the deceased.\n\nThe knowledge and languages of the Sunk conclude within the Pit of Tongues where they serve as nutrition for things burrowed within the sediment."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

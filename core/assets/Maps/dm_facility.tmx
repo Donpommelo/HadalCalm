@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="76">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="78">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="pvp" type="bool" value="true"/>
@@ -164,15 +164,6 @@
   <object id="37" name="Dropthrough" type="Dropthrough" x="2912" y="2208" width="224" height="8">
    <properties>
     <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="38" name="Prefab" type="PrefabSpawner" x="3200" y="1248" width="96" height="96">
-   <properties>
-    <property name="interval" type="float" value="25"/>
-    <property name="power" type="float" value="50"/>
-    <property name="prefabId" value="Spawner"/>
-    <property name="triggeredId" value="hp1"/>
-    <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="39" name="Prefab" type="PrefabWeapon" x="2976" y="864" width="96" height="96">
@@ -357,6 +348,24 @@
     <property name="power" type="float" value="50"/>
     <property name="prefabId" value="Spawner"/>
     <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="76" name="Prefab" type="PrefabSpawner" x="2176" y="2400" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="77" name="Prefab" type="PrefabSpawner" x="4224" y="1632" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="hp2"/>
+    <property name="type" type="int" value="1"/>
    </properties>
   </object>
  </objectgroup>

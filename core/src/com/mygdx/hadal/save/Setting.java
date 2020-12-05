@@ -20,7 +20,7 @@ public class Setting {
 
 	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, artifactSlots, portNumber,
 		hitsoundType, customShader;
-	private boolean fullscreen, vsync, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration,
+	private boolean fullscreen, autoIconify, vsync, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration,
 		consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
 	private float soundVolume, musicVolume, masterVolume, hitsoundVolume;
 
@@ -63,7 +63,8 @@ public class Setting {
 		}
 
     	game.setFrameRate(indexToFramerate());
-    	
+    	game.setAutoIconify(autoIconify);
+
     	setCursor();
     	
     	if (state != null) {
@@ -127,6 +128,7 @@ public class Setting {
 		framerate = 1;
 		fullscreen = false;
 		vsync = true;
+		autoIconify = true;
 		displayNames = true;
 		displayHp = true;
 		cursorType = 1;
@@ -329,6 +331,8 @@ public class Setting {
 
 	public void setVsync(boolean vsync) { this.vsync = vsync; }
 
+	public void setAutoIconify(boolean autoIconify) { this.autoIconify = autoIconify; }
+
 	public void setDisplayNames(boolean displayNames) { this.displayNames = displayNames; }
 
 	public void setDisplayHp(boolean displayHp) { this.displayHp = displayHp; }
@@ -374,7 +378,9 @@ public class Setting {
 	public boolean isFullscreen() { return fullscreen; }
 	
 	public boolean isVSync() { return vsync; }
-	
+
+	public boolean isAutoIconify() { return autoIconify; }
+
 	public int getCursorType() { return cursorType; }
 	
 	public int getCursorSize() { return cursorSize; }

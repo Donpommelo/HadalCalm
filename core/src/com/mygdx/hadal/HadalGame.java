@@ -30,7 +30,7 @@ public class HadalGame extends ApplicationAdapter {
 	public static final float CONFIG_HEIGHT = 720.0f;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String Version = "1.0.3j";
+	public static final String Version = "1.0.3k";
 	
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
@@ -251,11 +251,13 @@ public class HadalGame extends ApplicationAdapter {
 	public void setRunAfterTransition(Runnable runAfterTransition) { this.runAfterTransition = runAfterTransition; }
 	
 	/**
-	 * This is used to set game framerate dynamically.
+	 * This is used to set game framerate dynamically/iconification.
 	 * This is extended in the desktop launcher to expose the config
 	 */
 	public void setFrameRate(int framerate) {}
-	
+
+	public void setAutoIconify(boolean iconify) {}
+
 	public float getFadeLevel() { return fadeLevel; }
 	
 	public OrthographicCamera getHud() { return hud; }

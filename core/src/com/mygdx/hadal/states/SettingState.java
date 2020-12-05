@@ -48,7 +48,7 @@ public class SettingState extends GameState {
 	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
 		hitsoundOptions, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
 	private Slider sound, music, master, hitsound;
-	private CheckBox fullscreen, vsync, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration, consoleEnabled,
+	private CheckBox fullscreen, vsync, autoIconify, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration, consoleEnabled,
 		verboseDeathMessage, multiplayerPause, exportChatLog;
 		
 	//Dimensions of the setting menu
@@ -60,11 +60,11 @@ public class SettingState extends GameState {
 	private static final int optionsHeight = 600;
 	
 	private static final int detailsX = -730;
-	private static final int detailsY = 100;
+	private static final int detailsY = 20;
 	private static final int detailsXEnabled = 320;
-	private static final int detailsYEnabled = 100;
+	private static final int detailsYEnabled = 20;
 	private static final int detailsWidth = 500;
-	private static final int detailsHeight = 600;
+	private static final int detailsHeight = 680;
 	private static final int scrollWidth = 480;
 
 	private static final int extraX = -230;
@@ -267,8 +267,7 @@ public class SettingState extends GameState {
 
 			//This is just a janky way of implementing setting mouse wheel as a hotkey.
 			@Override
-			public boolean scrolled(int amount) { return keyDown(amount * 1000); }
-			
+			public boolean scrolled(float amountX, float amountY) {	return keyDown((int) amountY * 1000); }
 		});
 		inputMultiplexer.addProcessor(Gdx.input.getInputProcessor());
 		Gdx.input.setInputProcessor(inputMultiplexer);
@@ -330,12 +329,14 @@ public class SettingState extends GameState {
 		
 		fullscreen = new CheckBox("FULLSCREEN?", GameStateManager.getSkin());
 		vsync = new CheckBox("VSYNC?", GameStateManager.getSkin());
-		debugHitbox = new CheckBox("DRAW DEBUG HITBOX OUTLINES?", GameStateManager.getSkin());
+		autoIconify = new CheckBox("MINIMIZE ON ALT_TAB?", GameStateManager.getSkin());
+		debugHitbox = new CheckBox("DRAW DEBUG OUTLINES?", GameStateManager.getSkin());
 		displayNames = new CheckBox("DISPLAY NAMES?", GameStateManager.getSkin());
 		displayHp = new CheckBox("DISPLAY HP BAR?", GameStateManager.getSkin());
 
 		fullscreen.setChecked(gsm.getSetting().isFullscreen());
 		vsync.setChecked(gsm.getSetting().isVSync());
+		autoIconify.setChecked(gsm.getSetting().isAutoIconify());
 		debugHitbox.setChecked(gsm.getSetting().isDebugHitbox());
 		displayNames.setChecked(gsm.getSetting().isDisplayNames());
 		displayHp.setChecked(gsm.getSetting().isDisplayHp());
@@ -346,6 +347,7 @@ public class SettingState extends GameState {
 		details.add(framerateOptions).height(detailHeight).pad(detailPad).row();
 		details.add(fullscreen);
 		details.add(vsync).height(detailHeight).pad(detailPad).row();
+		details.add(autoIconify);
 		details.add(debugHitbox).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(displayNames);
 		details.add(displayHp).height(detailHeight).pad(detailPad).row();
@@ -706,6 +708,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setFramerate(framerateOptions.getSelectedIndex());
 			gsm.getSetting().setFullscreen(fullscreen.isChecked());
 			gsm.getSetting().setVsync(vsync.isChecked());
+			gsm.getSetting().setAutoIconify(autoIconify.isChecked());
 			gsm.getSetting().setDebugHitbox(debugHitbox.isChecked());
 			gsm.getSetting().setDisplayNames(displayNames.isChecked());
 			gsm.getSetting().setDisplayHp(displayHp.isChecked());

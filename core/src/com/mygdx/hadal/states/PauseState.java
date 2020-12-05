@@ -264,7 +264,7 @@ public class PauseState extends GameState {
 			public boolean mouseMoved(int screenX, int screenY) { return false; }
 
 			@Override
-			public boolean scrolled(int amount) { return false; }
+			public boolean scrolled(float amountX, float amountY) {	return false; }
 		});
 		
 		//if the game isn't actually paused, the player can still control the game underneath

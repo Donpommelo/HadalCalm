@@ -1,34 +1,39 @@
 package com.mygdx.hadal.desktop;
 
-import com.badlogic.gdx.Files.FileType;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.mygdx.hadal.HadalGame;
 
 public class DesktopLauncher {
-	
+
 	private static final String TITLE = "Hadal Calm";
-	
+	public static final int CONFIG_WIDTH = 1280;
+	public static final int CONFIG_HEIGHT = 720;
+
 	public static void main (String[] arg) {
-		final LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		final Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
 		//this makes the desktop icons appear
-		config.addIcon("128.png", FileType.Internal);
-		config.addIcon("32.png", FileType.Internal);
-		config.addIcon("16.png", FileType.Internal);
-		config.title = TITLE;
-		config.pauseWhenMinimized = false;
+		config.setWindowIcon("128.png", "32.png","16.png");
+		config.setTitle(TITLE);
 
 		//this line prevents audio from cutting if too many sounds are playing
-		config.audioDeviceSimultaneousSources = 192;
+		config.setAudioConfig(192, 512, 9);
+		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+		config.setAutoIconify(true);
 
-		new LwjglApplication(new HadalGame() {
+		new Lwjgl3Application(new HadalGame() {
 			
 			@Override
 			public void setFrameRate(int framerate) {
 				
 				//This exposes config to the app to change fps during runtime.
-				config.foregroundFPS = framerate;
+				config.setForegroundFPS(framerate);
+			}
+
+			@Override
+			public void setAutoIconify(boolean iconify) {
+				config.setAutoIconify(iconify);
 			}
 			
 		}, config);
