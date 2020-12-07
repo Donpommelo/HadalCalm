@@ -40,9 +40,9 @@ public class SimpleMind extends Artifact {
 			@Override
 			public void onShoot(Equippable tool) {
 				if (tool.getWeaponVelo().x > 0) {
-					tool.setWeaponVelo(tool.getWeaponVelo().setAngle(0));
+					tool.setWeaponVelo(tool.getWeaponVelo().setAngleDeg(0));
 				} else {
-					tool.setWeaponVelo(tool.getWeaponVelo().setAngle(180));
+					tool.setWeaponVelo(tool.getWeaponVelo().setAngleDeg(180));
 				}
 			}
 		});

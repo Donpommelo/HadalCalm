@@ -130,7 +130,7 @@ public class Player extends PhysicsSchmuck {
 	protected float chargePercent, chargeDelayed;
 	
 	//particles and sounds used by the player
-	private ParticleEntity hoverBubbles, dustCloud;
+	protected ParticleEntity hoverBubbles, dustCloud;
 	private SoundEntity runSound, hoverSound, reloadSound;
 	
 	//This is the controller that causes this player to perform actions
@@ -222,8 +222,10 @@ public class Player extends PhysicsSchmuck {
 	 * This method prepares the various particle emitting entities attached to the player.
 	 */
 	public void loadParticles() {
-		dustCloud = new ParticleEntity(state, this, Particle.DUST, 1.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
-		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
+		if (state.isServer()) {
+			dustCloud = new ParticleEntity(state, this, Particle.DUST, 1.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
+			hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
+		}
 	}
 	
 	/**
@@ -461,7 +463,7 @@ public class Player extends PhysicsSchmuck {
 			hoverDirection.set(0, playerData.getHoverPower());
 
 			if (playerData.getStat(Stats.HOVER_CONTROL) > 0) {
-				hoverDirection.setAngle(attackAngle + 180);
+				hoverDirection.setAngleDeg(attackAngle + 180);
 			}
 
 			pushMomentumMitigation(hoverDirection.x, hoverDirection.y);

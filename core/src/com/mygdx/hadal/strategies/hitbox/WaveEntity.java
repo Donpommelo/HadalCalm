@@ -35,7 +35,7 @@ public class WaveEntity extends HitboxStrategy {
 	public void controller(float delta) {
 		if (target.getBody() != null && target.isAlive()) {
 			timer += delta;
-			offset.set(0, (float) (amplitude * Math.sin(timer * frequency))).setAngle(hbox.getLinearVelocity().angle() + startAngle);
+			offset.set(0, (float) (amplitude * Math.sin(timer * frequency))).setAngleDeg(hbox.getLinearVelocity().angleDeg() + startAngle);
 			
 			centerPos.set(target.getPosition()).add(offset);
 			hbox.setTransform(centerPos, lastPos.sub(centerPos).angleRad());

@@ -20,10 +20,11 @@ public class DesktopLauncher {
 
 		//this line prevents audio from cutting if too many sounds are playing
 		config.setAudioConfig(192, 512, 9);
-		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 		config.setAutoIconify(true);
 
 		config.setResizable(true);
+
+		// These two lines were edited because without settings like this, Vsync gets applied twice, slowing things way down.
 		config.useVsync(false);
 		config.setForegroundFPS(60);
 
@@ -43,7 +44,7 @@ public class DesktopLauncher {
 			
 			@Override
 			public void setFrameRate(int framerate) {
-				
+
 				//This exposes config to the app to change fps during runtime.
 				config.setForegroundFPS(framerate);
 			}

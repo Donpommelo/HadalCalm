@@ -268,9 +268,9 @@ public class Boss4 extends EnemyFloating {
 				SoundEffect.MAGIC3_BURST.playUniversal(state, getPixelPosition(), 0.9f, 0.75f, false);
 				
 				for (int i = 0; i < numShots; i++) {
-					angle.setAngle(angle.angle() + 360.0f / numShots);
+					angle.setAngleDeg(angle.angleDeg() + 360.0f / numShots);
 					
-					Vector2 startVelo = new Vector2(shot1Speed, 0).setAngle(angle.angle());
+					Vector2 startVelo = new Vector2(shot1Speed, 0).setAngleDeg(angle.angleDeg());
 					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, projSize.x), projSize, shot1Lifespan, startVelo, getHitboxfilter(), true, false, enemy, Sprite.LASER_PURPLE);
 					hbox.setSpriteSize(projSpriteSize);
 					hbox.setAdjustAngle(true);
@@ -343,10 +343,10 @@ public class Boss4 extends EnemyFloating {
 				@Override
 				public void execute() {
 					
-					Vector2 startVelo1 = new Vector2(fireSpeed, fireSpeed).setAngle(startAngle + index * 360.0f / fireballNumber);
+					Vector2 startVelo1 = new Vector2(fireSpeed, fireSpeed).setAngleDeg(startAngle + index * 360.0f / fireballNumber);
 					fireball(startVelo1);
 					
-					Vector2 startVelo2 = new Vector2(fireSpeed, fireSpeed).setAngle(startAngle + index * 360.0f / fireballNumber + 180);
+					Vector2 startVelo2 = new Vector2(fireSpeed, fireSpeed).setAngleDeg(startAngle + index * 360.0f / fireballNumber + 180);
 					fireball(startVelo2);
 				}
 				
@@ -451,8 +451,8 @@ public class Boss4 extends EnemyFloating {
 		
 		final float startAngle = startingVelos[GameStateManager.generator.nextInt(startingVelos.length)] + ThreadLocalRandom.current().nextInt(-laserSpread, laserSpread + 1);
 		
-		Vector2 startVeloTrail = new Vector2(0, trailSpeed).setAngle(startAngle);
-		Vector2 startPosLaser = new Vector2(getPixelPosition()).add(new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngle(startAngle));
+		Vector2 startVeloTrail = new Vector2(0, trailSpeed).setAngleDeg(startAngle);
+		Vector2 startPosLaser = new Vector2(getPixelPosition()).add(new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngleDeg(startAngle));
 		
 		//the boss first sends out a series of trails that mark a path
 		for (int i = 0; i < trailNumber; i++) {
@@ -475,7 +475,7 @@ public class Boss4 extends EnemyFloating {
 		
 		windupParticle(startAngle, Particle.OVERCHARGE, HadalColor.BLUE, 30.0f, laserNumber * laserInterval, 0.0f);
 		
-		Vector2 startVeloLaser = new Vector2(0, laserSpeed).setAngle(startAngle);
+		Vector2 startVeloLaser = new Vector2(0, laserSpeed).setAngleDeg(startAngle);
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, laserNumber * laserInterval, 1.0f, 2.0f, SoundEffect.BEAM3, true);
 		
@@ -538,8 +538,8 @@ public class Boss4 extends EnemyFloating {
 					
 					float startAngle = getAttackAngle() + ThreadLocalRandom.current().nextInt(-sighSpread, sighSpread + 1) * index;
 					
-					Vector2 startPos = new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngle(startAngle);
-					Vector2 startVeloCloud = new Vector2(0, cloudSpeed).setAngle(startAngle);
+					Vector2 startPos = new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngleDeg(startAngle);
+					Vector2 startVeloCloud = new Vector2(0, cloudSpeed).setAngleDeg(startAngle);
 					Hitbox cloud = new Hitbox(state, getPixelPosition().add(startPos), windupSize, sighLifespan, new Vector2(), getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
 
 					cloud.addStrategy(new ControllerDefault(state, cloud, getBodyData()));
@@ -606,7 +606,7 @@ public class Boss4 extends EnemyFloating {
 		
 		float startAngle = 240;
 		
-		Vector2 startVeloLaser = new Vector2(0, apocalypseLaserSpeed).setAngle(startAngle);
+		Vector2 startVeloLaser = new Vector2(0, apocalypseLaserSpeed).setAngleDeg(startAngle);
 		Vector2 startPositionLaser = new Vector2();
 		windupParticle(startAngle, Particle.CHARGING, HadalColor.MIDNIGHT_BLUE, 30.0f, apocalypseWindup, apocalypseWindup);
 		
@@ -619,8 +619,8 @@ public class Boss4 extends EnemyFloating {
 				private final Vector2 laserOffset = new Vector2();
 				@Override
 				public void execute() {
-					startVeloLaser.rotate(apocalypseLaserSwivelSpeed);
-					startPositionLaser.set(getPixelPosition()).add(laserOffset.set(0, getHboxSize().x / 2 + WindupOffset).setAngle(startVeloLaser.angle()));
+					startVeloLaser.rotateDeg(apocalypseLaserSwivelSpeed);
+					startPositionLaser.set(getPixelPosition()).add(laserOffset.set(0, getHboxSize().x / 2 + WindupOffset).setAngleDeg(startVeloLaser.angleDeg()));
 					Hitbox laser = new RangedHitbox(state, startPositionLaser, laserSize, trailLifespan, startVeloLaser, getHitboxfilter(), true, false, enemy, Sprite.LASER_BLUE);
 					laser.setSpriteSize(laserSpriteSize);
 					
@@ -758,7 +758,7 @@ public class Boss4 extends EnemyFloating {
 				public void execute() {
 					SoundEffect.BOTTLE_ROCKET.playUniversal(state, getPixelPosition(), 0.25f, 0.5f, false);
 					
-					Vector2 startVelo = new Vector2(0, willOWispSpeed).setAngle(getAttackAngle());
+					Vector2 startVelo = new Vector2(0, willOWispSpeed).setAngleDeg(getAttackAngle());
 					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, willOWispSize.x), willOWispSize, willOWispLifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
@@ -1028,7 +1028,7 @@ public class Boss4 extends EnemyFloating {
 			private final Vector2 addVector = new Vector2();
 			@Override
 			public void execute() {
-				Vector2 startVelo1 = new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngle(startAngle);
+				Vector2 startVelo1 = new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngleDeg(startAngle);
 				Hitbox hbox1 = new Hitbox(state, getPixelPosition().add(startVelo1), windupSize, lifespan, new Vector2(), getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
 
 				hbox1.addStrategy(new ControllerDefault(state, hbox1, getBodyData()));

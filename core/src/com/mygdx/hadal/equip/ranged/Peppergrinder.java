@@ -69,8 +69,8 @@ public class Peppergrinder extends RangedWeapon {
 			
 			@Override
 			public void create() {
-				float newDegrees = hbox.getStartVelo().angle() + spread;
-				hbox.setLinearVelocity(hbox.getLinearVelocity().setAngle(newDegrees));
+				float newDegrees = hbox.getStartVelo().angleDeg() + spread;
+				hbox.setLinearVelocity(hbox.getLinearVelocity().setAngleDeg(newDegrees));
 			}
 		});
 		

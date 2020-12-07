@@ -54,8 +54,14 @@ public class WeaponUtils {
 	public static Hitbox createExplosion(PlayState state, Vector2 startPos, float size, Schmuck user, float explosionDamage, float explosionKnockback, short filter) {
 		
 		float newSize = size * (1 + user.getBodyData().getStat(Stats.EXPLOSION_SIZE));
-		
-		Hitbox hbox = new Hitbox(state, startPos, new Vector2(newSize, newSize), 0.4f, new Vector2(0, 0), filter, true, false, user, boomSprite);
+
+		//this prevents players from damaging allies with explosives in the hub
+		short actualFilter = filter;
+		if (user.getHitboxfilter() == Constants.PLAYER_HITBOX && state.isHub()) {
+			actualFilter = Constants.PLAYER_HITBOX;
+		}
+
+		Hitbox hbox = new Hitbox(state, startPos, new Vector2(newSize, newSize), 0.4f, new Vector2(0, 0), actualFilter, true, false, user, boomSprite);
 		hbox.setSpriteSize(new Vector2(newSize, newSize).scl(explosionSpriteScaling));
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));

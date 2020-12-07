@@ -183,13 +183,17 @@ public class Event extends HadalEntity {
 	public void loadDefaultProperties() {}
 	
 	public void setStandardParticle(Particle particle) {
-		this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false, particleSyncType.TICKSYNC);
+		if (state.isServer()) {
+			this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false, particleSyncType.TICKSYNC);
+		}
 	}
 
 	public ParticleEntity getStandardParticle() { return standardParticle; }
 
 	public void addAmbientParticle(Particle particle) {
-		new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.CREATESYNC);	
+		if (state.isServer()) {
+			new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.CREATESYNC);
+		}
 	}
 
 	/**

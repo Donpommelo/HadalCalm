@@ -78,7 +78,12 @@ public class PauseState extends GameState {
 	public void show() {
 		
 		final PauseState me = this;
-		
+
+		//b/c the pause state can get shown multiple times without getting removed, we must get rid of stage if already created
+		if (stage != null) {
+			stage.dispose();
+		}
+
 		stage = new Stage() {
 			{
 				//make the menu size adjust based on how many options are available

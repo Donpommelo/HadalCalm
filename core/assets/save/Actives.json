@@ -101,7 +101,7 @@ HYDRAULIC_UPPERCUT: {
 IMMOLATION_AURA: {
 	name: Immolation Aura
 	description: "Ignites self, burning nearby enemies and charge towards mouse"
-    descriptionLong: "Charge: 15 Seconds\nBurn Damage: 4 per Second\n\n"
+    descriptionLong: "Charge: 13 Seconds\nBurn Damage: 300 per Second\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,

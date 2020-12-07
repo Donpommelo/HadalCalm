@@ -40,14 +40,14 @@ public class Curve extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		float newDegrees = hbox.getStartVelo().angle();
+		float newDegrees = hbox.getStartVelo().angleDeg();
 		
 		if (ThreadLocalRandom.current().nextBoolean()) {
 			newDegrees += (ThreadLocalRandom.current().nextInt(spreadMin, spreadMax));
 		} else {
 			newDegrees -= (ThreadLocalRandom.current().nextInt(spreadMin, spreadMax));
 		}
-		hbox.setLinearVelocity(hbox.getLinearVelocity().setAngle(newDegrees));
+		hbox.setLinearVelocity(hbox.getLinearVelocity().setAngleDeg(newDegrees));
 	}
 	
 	private float controllerCount;

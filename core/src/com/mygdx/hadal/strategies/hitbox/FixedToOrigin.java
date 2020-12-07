@@ -32,7 +32,7 @@ public class FixedToOrigin extends HitboxStrategy {
 	@Override
 	public void create() {
 		if (enemy.isAlive()) {
-			hbLocation.set(enemy.getProjectileOrigin(attackAngle.setAngle(enemy.getAttackAngle()), hbox.getSize().x)).scl(1 / PPM);
+			hbLocation.set(enemy.getProjectileOrigin(attackAngle.setAngleDeg(enemy.getAttackAngle()), hbox.getSize().x)).scl(1 / PPM);
 			if (rotate) {
 				hbox.setTransform(hbLocation, hbox.getStartVelo().angleRad());
 			} else {
@@ -46,7 +46,7 @@ public class FixedToOrigin extends HitboxStrategy {
 		if (!enemy.isAlive()) {
 			hbox.die();
 		} else {
-			hbLocation.set(enemy.getProjectileOrigin(attackAngle.setAngle(enemy.getAttackAngle()), hbox.getSize().x)).scl(1 / PPM);
+			hbLocation.set(enemy.getProjectileOrigin(attackAngle.setAngleDeg(enemy.getAttackAngle()), hbox.getSize().x)).scl(1 / PPM);
 			if (rotate) {
 				hbox.setTransform(hbLocation, hbox.getStartVelo().angleRad());
 			} else {

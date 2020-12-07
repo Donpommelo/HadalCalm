@@ -23,7 +23,7 @@ public class Spread extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		float newDegrees = hbox.getStartVelo().angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
-		hbox.setLinearVelocity(hbox.getLinearVelocity().setAngle(newDegrees));
+		float newDegrees = hbox.getStartVelo().angleDeg() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
+		hbox.setLinearVelocity(hbox.getLinearVelocity().setAngleDeg(newDegrees));
 	}
 }

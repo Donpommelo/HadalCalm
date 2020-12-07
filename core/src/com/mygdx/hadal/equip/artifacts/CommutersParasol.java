@@ -55,7 +55,7 @@ public class CommutersParasol extends Artifact {
 								if (fixB.getType().equals(UserDataTypes.HITBOX)) {
 									if (fixB.getEntity().isAlive()) {
 										Vector2 newVelo = new Vector2(fixB.getEntity().getPosition()).sub(inflicted.getSchmuck().getPosition());
-										fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().setAngle(newVelo.angle()));
+										fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().setAngleDeg(newVelo.angleDeg()));
 										
 										SoundEffect.SPRING.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.2f, false);
 									}

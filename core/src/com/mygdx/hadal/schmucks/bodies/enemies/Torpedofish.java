@@ -92,7 +92,7 @@ public class Torpedofish extends EnemySwimming {
 					return;
 				}
 				
-				startVelo.set(projectileSpeed, projectileSpeed).setAngle(getAttackAngle());
+				startVelo.set(projectileSpeed, projectileSpeed).setAngleDeg(getAttackAngle());
 				
 				if (startVelo.len2() < range * range) {
 					startVelo.nor().scl(projectileSpeed);

@@ -47,7 +47,7 @@ public class Poison extends Event {
 
 	private float currPoisonSpawnTimer;
 	private final float spawnTimerLimit;
-	private final short filter;
+	private short filter;
 	
 	private static final float damageInterval = 1 / 60f;
 	
@@ -63,7 +63,7 @@ public class Poison extends Event {
 		
 		randomParticles = size.x > 100;
 		
-		if (!randomParticles && draw) {
+		if (!randomParticles && draw && state.isServer()) {
 			new ParticleEntity(state, this, Particle.POISON, 0, 0, true, particleSyncType.CREATESYNC);
 		}
 	}
@@ -74,21 +74,27 @@ public class Poison extends Event {
 	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, float duration, Schmuck perp, boolean draw, short filter) {
 		super(state,  startPos, size, duration);
 		this.dps = dps;
+
 		this.filter = filter;
 		
 		if (perp == null) {
 			this.perp = state.getWorldDummy();
 		} else {
 			this.perp = perp;
+
+			//this prevents team killing using poison in the hub
+			if (perp.getHitboxfilter() == Constants.PLAYER_HITBOX && state.isHub()) {
+				this.filter = Constants.PLAYER_HITBOX;
+			}
 		}
-		
+
 		this.draw = draw;
 		this.on = true;
 		spawnTimerLimit = 4096f / (size.x * size.y);
 		
 		randomParticles = size.x > 100;
 		
-		if (!randomParticles && draw) {
+		if (!randomParticles && draw && state.isServer()) {
 			new ParticleEntity(state, this, Particle.POISON, 1.5f, 0, true, particleSyncType.CREATESYNC);
 		}
 	}

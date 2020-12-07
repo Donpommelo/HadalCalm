@@ -32,7 +32,7 @@ public class OrbitUser extends HitboxStrategy {
 		
 		if (creator.getSchmuck().getBody() != null && creator.getSchmuck().isAlive()) {
 			playerPos.set(creator.getSchmuck().getPosition());
-			offset.set(0, distance).setAngle(angle);
+			offset.set(0, distance).setAngleDeg(angle);
 			hbox.setTransform(playerPos.add(offset), (float) (angle * Math.PI / 180));
 		} else {
 			hbox.die();

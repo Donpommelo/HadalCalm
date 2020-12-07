@@ -42,7 +42,7 @@ public class RadialBarrage extends ActiveItem {
 						procCdCount -= procCd;
 						shotsFired++;
 
-						angle.setAngle(angle.angle() + 360.0f / totalShots);
+						angle.setAngleDeg(angle.angleDeg() + 360.0f / totalShots);
 						user.getCurrentTool().fire(state, user.getSchmuck(), user.getSchmuck().getPixelPosition(), new Vector2(angle), user.getSchmuck().getHitboxfilter());
 					}
 					procCdCount += delta;

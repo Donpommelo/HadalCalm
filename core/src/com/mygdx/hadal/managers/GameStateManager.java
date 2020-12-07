@@ -172,6 +172,8 @@ public class GameStateManager {
 		if (skin != null) {
 			skin.dispose();
 		}
+
+		Particle.disposeParticlePool();
 	}
 	
 	/**

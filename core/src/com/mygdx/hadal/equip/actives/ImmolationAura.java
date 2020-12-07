@@ -19,9 +19,9 @@ public class ImmolationAura extends ActiveItem {
 
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 15.0f;
+	private static final float maxCharge = 13.0f;
 
-	private static final float baseDamage = 4.0f;
+	private static final float baseDamage = 5.0f;
 	private static final Vector2 hitboxSize = new Vector2(120, 120);
 	private static final float lifespan = 3.0f;
 	private static final float knockback = 0.2f;
@@ -67,7 +67,7 @@ public class ImmolationAura extends ActiveItem {
 					pulse.addStrategy(new ControllerDefault(state, pulse, user));
 					pulse.addStrategy(new DamageStandard(state, pulse, user, baseDamage, knockback, DamageTypes.MELEE).setStaticKnockback(true));
 
-					hoverDirection.setAngle(user.getPlayer().getAttackAngle() + 180);
+					hoverDirection.setAngleDeg(user.getPlayer().getAttackAngle() + 180);
 					user.getPlayer().pushMomentumMitigation(hoverDirection.x, hoverDirection.y);
 				}
 			}

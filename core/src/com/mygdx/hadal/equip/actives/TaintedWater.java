@@ -30,7 +30,7 @@ public class TaintedWater extends ActiveItem {
 	private static final Vector2 poisonSize = new Vector2(101, 50);
 	private static final float poisonSizeSquared = 11000f;
 	private static final float poisonSpread = 75f;
-	private static final float poisonDamage = 0.6f;
+	private static final float poisonDamage = 0.75f;
 	private static final float poisonDuration = 2.5f;
 	
 	public TaintedWater(Schmuck user) {

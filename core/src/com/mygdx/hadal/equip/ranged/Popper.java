@@ -75,10 +75,10 @@ public class Popper extends RangedWeapon {
 			public void die() {
 				Vector2 newVelocity = new Vector2();
 				for (int i = 0; i < numProj; i++) {
-					float newDegrees = new Vector2(0, 1).angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
+					float newDegrees = new Vector2(0, 1).angleDeg() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 					newVelocity.set(0, 1).nor().scl(fragSpeed);
 					
-					Hitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan, newVelocity.setAngle(newDegrees), filter, false, true, user, fragSprite) {
+					Hitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan, newVelocity.setAngleDeg(newDegrees), filter, false, true, user, fragSprite) {
 						
 						@Override
 						public void create() {

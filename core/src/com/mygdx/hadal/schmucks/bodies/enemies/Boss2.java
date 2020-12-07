@@ -319,7 +319,7 @@ public class Boss2 extends EnemyFloating {
 			public void execute() {
 				SoundEffect.SPIT.playUniversal(state, getPixelPosition(), 0.8f, 0.6f, false);
 				
-				Vector2 startVelo = new Vector2(0, projSpeed).setAngle(getAttackAngle());
+				Vector2 startVelo = new Vector2(0, projSpeed).setAngleDeg(getAttackAngle());
 				Hitbox hbox = new Hitbox(state, getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
@@ -342,7 +342,7 @@ public class Boss2 extends EnemyFloating {
 							Vector2 fragVelo = new Vector2(0, fragSpeed);
 							Vector2 fragPosition = new Vector2(hbox.getPixelPosition());
 							for (int i = 0; i < numProj; i++) {
-								fragVelo.setAngle(60 * i);
+								fragVelo.setAngleDeg(60 * i);
 								fragPosition.set(hbox.getPixelPosition()).add(new Vector2(fragVelo).nor().scl(5));
 								Hitbox frag = new Hitbox(state, fragPosition, new Vector2(size, size), lifespan, fragVelo, getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 								frag.addStrategy(new ControllerDefault(state, frag, getBodyData()));
@@ -482,7 +482,7 @@ public class Boss2 extends EnemyFloating {
 				private final Vector2 startVelo = new Vector2();
 				@Override
 				public void execute() {
-					startVelo.set(slodgeSpeed, slodgeSpeed).setAngle(getAttackAngle());
+					startVelo.set(slodgeSpeed, slodgeSpeed).setAngleDeg(getAttackAngle());
 					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, slodgeSize.x), slodgeSize, slodgeLifespan, startVelo, getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
 					hbox.setRestitution(0.5f);
 					hbox.setGravity(3.0f);
@@ -529,7 +529,7 @@ public class Boss2 extends EnemyFloating {
 				public void execute() {
 					SoundEffect.LAUNCHER4.playUniversal(state, getPixelPosition(), 0.4f, 0.8f, false);
 					
-					startVelo.set(fuguSpeed, fuguSpeed).setAngle(getAttackAngle());
+					startVelo.set(fuguSpeed, fuguSpeed).setAngleDeg(getAttackAngle());
 					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, fuguSize.x), fuguSize, fuguLifespan, startVelo, getHitboxfilter(), false, true, enemy, Sprite.FUGU);
 					hbox.setGravity(3.0f);
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));

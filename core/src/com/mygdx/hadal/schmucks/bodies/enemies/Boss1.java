@@ -613,7 +613,7 @@ public class Boss1 extends EnemyFloating {
 				public void execute() {
 					SoundEffect.SPRING.playUniversal(state, getPixelPosition(), 0.5f, 0.8f, false);
 					
-					Vector2 startVelo = new Vector2(ballSpeed, ballSpeed).setAngle(getAttackAngle());
+					Vector2 startVelo = new Vector2(ballSpeed, ballSpeed).setAngleDeg(getAttackAngle());
 					Hitbox hbox = new Hitbox(state, getProjectileOrigin(startVelo, ballSize), new Vector2(ballSize, ballSize), ballLifespan, startVelo, getHitboxfilter(), false, true, enemy, Sprite.ORB_RED);
 					hbox.setGravity(10.0f);
 					hbox.setRestitution(1);

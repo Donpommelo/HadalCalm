@@ -65,7 +65,7 @@ public class Airblaster extends MeleeWeapon {
 					if (fixB.getType().equals(UserDataTypes.HITBOX)) {
 						if (fixB.getEntity().isAlive()) {
 							fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().scl(reflectVeloAmp).
-								clamp(reflectVeloMin, reflectVeloMax).setAngle(startVelocity.angle()));
+								clamp(reflectVeloMin, reflectVeloMax).setAngleDeg(startVelocity.angleDeg()));
 						}
 					}
 				}

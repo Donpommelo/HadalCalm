@@ -64,7 +64,7 @@ public class AmitaCannon extends RangedWeapon {
 			@Override
 			public void create() {
 				for (int i = 0; i < numOrbitals; i++) {
-					angle.setAngle(angle.angle() + 360.0f / numOrbitals);
+					angle.setAngleDeg(angle.angleDeg() + 360.0f / numOrbitals);
 					
 					//we create several orbiting projectiles that circle the invisible center
 					//when the center hits a wall, the orbitals move outwards
@@ -80,7 +80,7 @@ public class AmitaCannon extends RangedWeapon {
 						
 						private final Vector2 centerPos = new Vector2();
 						private final Vector2 offset = new Vector2();
-						private float currentAngle = angle.angle();
+						private float currentAngle = angle.angleDeg();
 						private boolean activated = false;
 						
 						@Override
@@ -90,11 +90,11 @@ public class AmitaCannon extends RangedWeapon {
 								currentAngle += orbitalSpeed * delta;
 								
 								centerPos.set(center.getPosition());
-								offset.set(0, orbitalRange).setAngle(currentAngle);
+								offset.set(0, orbitalRange).setAngleDeg(currentAngle);
 								orbital.setTransform(centerPos.add(offset), orbital.getBody().getAngle());
 							} else if (!activated) {
 								activated = true;
-								hbox.setLinearVelocity(new Vector2(0, activatedSpeed).setAngle(currentAngle));
+								hbox.setLinearVelocity(new Vector2(0, activatedSpeed).setAngleDeg(currentAngle));
 								hbox.setLifeSpan(lifespan);
 							}
 						}

@@ -138,6 +138,11 @@ public class TitleState extends GameState {
 	public void show() {
 		final TitleState me = this;
 
+		//b/c the title state can get shown multiple times without getting removed, we must get rid of stage if already created
+		if (stage != null) {
+			stage.dispose();
+		}
+
 		stage = new Stage() {
 			{
 				addActor(new Backdrop(AssetList.TITLE_BACKGROUND.toString()) {
@@ -319,7 +324,7 @@ public class TitleState extends GameState {
 						SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
 						enterName.setText(NameGenerator.generateFirstLast(gsm.getSetting().isRandomNameAlliteration()));
 			        	setNotification("RANDOM NAME GENERATED!");
-			        }
+				        }
 				});
 				
 				//If the player clicks outside of a text field, the field should be deselected
@@ -352,6 +357,9 @@ public class TitleState extends GameState {
 						inputDisabled = true;
 
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+
+						//Save current name into records.
+						gsm.getLoadout().setName(enterName.getText());
 
 						//Start up the Client
 						HadalGame.client.init();

@@ -85,9 +85,9 @@ public class Scrap extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1.0f, 0, false, true, Constants.BIT_SENSOR, Constants.BIT_PLAYER, (short) 0, true, eventData);
 		FixtureBuilder.createFixtureDef(body, new Vector2(), size, false, 0, 0, 0.0f, 1.0f, Constants.BIT_SENSOR, (short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), (short) 0);
 		
-		float newDegrees = startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
+		float newDegrees = startVelo.angleDeg() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 		newVelocity.set(startVelo);
-		setLinearVelocity(newVelocity.nor().scl(veloAmp).setAngle(newDegrees));
+		setLinearVelocity(newVelocity.nor().scl(veloAmp).setAngleDeg(newDegrees));
 	}
 	
 	private float delay = primeCd;

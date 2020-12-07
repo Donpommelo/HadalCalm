@@ -67,7 +67,7 @@ public class Kamabokannon extends RangedWeapon {
 			controllerCount -= pushInterval;
 			
 			super.mouseClicked(delta, state, shooter, faction, mouseLocation);
-			weaponVelo.setAngle(MathUtils.lerpAngleDeg(aimPointer.angle(), weaponVelo.angle(), lerpSpeed));
+			weaponVelo.setAngleDeg(MathUtils.lerpAngleDeg(aimPointer.angleDeg(), weaponVelo.angleDeg(), lerpSpeed));
 			aimPointer.set(weaponVelo);
 		}
 		

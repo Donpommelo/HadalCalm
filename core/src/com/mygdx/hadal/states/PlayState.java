@@ -289,19 +289,20 @@ public class PlayState extends GameState {
 	@Override
 	public void show() {
 
+		//b/c the play state can get shown multiple times without getting removed, we must get rid of stage if already created
 		if (stage == null) {
 			this.stage = new Stage() {
-				
+
 				//This precaution exists to prevent null pointer when player is not loaded in yet.
 				@Override
 				public void draw() {
-				if (player.getPlayerData() != null) {
-					super.draw();
-				}
+					if (player.getPlayerData() != null) {
+						super.draw();
+					}
 				}
 			};
 		}
-		
+
 		//If ui elements have not been created, create them. (upon first showing the state)
 		if (uiPlay == null) {
 			if (server) {
@@ -324,10 +325,10 @@ public class PlayState extends GameState {
 		}
 		
 		//Add and sync ui elements in case of unpause or new playState
-		this.stage.addActor(uiPlay);
-		this.stage.addActor(uiObjective);
-		this.stage.addActor(uiExtra);
-		this.stage.addActor(dialogBox);
+		stage.addActor(uiPlay);
+		stage.addActor(uiObjective);
+		stage.addActor(uiExtra);
+		stage.addActor(dialogBox);
 
 		app.newMenu(stage);
 		resetController();
@@ -908,7 +909,7 @@ public class PlayState extends GameState {
 		}
 		
 		//teleportation particles for reset players (indicates returning to hub)
-		if (reset) {
+		if (reset && isServer()) {
 			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2), Particle.TELEPORT, 1.0f, true, particleSyncType.CREATESYNC);
 		}
 

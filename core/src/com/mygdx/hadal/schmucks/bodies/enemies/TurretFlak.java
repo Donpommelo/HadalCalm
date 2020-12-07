@@ -76,10 +76,10 @@ public class TurretFlak extends Turret {
 							SoundEffect.SHOTGUN.playUniversal(state, enemy.getPixelPosition(), 0.75f, 0.75f, false);
 						}
 						
-						startVelo.set(projectileSpeed, projectileSpeed).setAngle(getAttackAngle());
+						startVelo.set(projectileSpeed, projectileSpeed).setAngleDeg(getAttackAngle());
 
-						float newDegrees = startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
-						spreadVelo.set(startVelo.setAngle(newDegrees));
+						float newDegrees = startVelo.angleDeg() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
+						spreadVelo.set(startVelo.setAngleDeg(newDegrees));
 						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(spreadVelo, size.x), projectileSize, projLifespan, spreadVelo, getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
 						hbox.setGravity(3.0f);
 						

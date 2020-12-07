@@ -58,7 +58,7 @@ public class CrownofThorns extends Artifact {
 					SoundEffect.SPIKE.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.2f, false);
 					
 					for (int i = 0; i < 6; i++) {
-						angle.setAngle(angle.angle() + 60);
+						angle.setAngleDeg(angle.angleDeg() + 60);
 						Hitbox hbox = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, thornDuration, new Vector2(angle).nor().scl(thornSpeed), inflicted.getSchmuck().getHitboxfilter(), 
 								true, false, inflicted.getSchmuck(), projSprite);
 						

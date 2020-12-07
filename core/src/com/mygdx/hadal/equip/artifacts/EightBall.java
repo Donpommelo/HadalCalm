@@ -30,8 +30,8 @@ public class EightBall extends Artifact {
 					
 					@Override
 					public void onShoot(Equippable tool) {
-						float newDegrees = tool.getWeaponVelo().angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
-						tool.setWeaponVelo(tool.getWeaponVelo().setAngle(newDegrees));
+						float newDegrees = tool.getWeaponVelo().angleDeg() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
+						tool.setWeaponVelo(tool.getWeaponVelo().setAngleDeg(newDegrees));
 					}
 					
 				});

@@ -97,11 +97,18 @@ public enum Particle {
 	/**
 	 * sets up the particle pool.
 	 */
+	private static ParticleEffect prototype;
 	public static void initParticlePool() {
-		ParticleEffect prototype = new ParticleEffect();
+		prototype = new ParticleEffect();
 		effectPool = new ParticleEffectPool(prototype, 0, poolSize);
 	}
-	
+
+	public static void disposeParticlePool() {
+		if (prototype != null) {
+			prototype.dispose();
+		}
+	}
+
 	/**
 	 * When we get a particle, we obtain it from the pool, reset it and load it.
 	 * resetting is necessary to prevent the very first particle from not showing up properly

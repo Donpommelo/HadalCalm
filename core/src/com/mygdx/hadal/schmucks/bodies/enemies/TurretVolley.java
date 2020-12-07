@@ -74,7 +74,7 @@ public class TurretVolley extends Turret {
 							SoundEffect.AR15.playUniversal(state, enemy.getPixelPosition(), 0.75f, false);
 						}
 						
-						startVelo.set(projectileSpeed, projectileSpeed).setAngle(getAttackAngle());
+						startVelo.set(projectileSpeed, projectileSpeed).setAngleDeg(getAttackAngle());
 
 						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, projLifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
 						

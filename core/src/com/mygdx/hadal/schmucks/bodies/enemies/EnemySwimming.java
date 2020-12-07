@@ -32,7 +32,7 @@ public class EnemySwimming extends EnemyFloating {
 	public EnemySwimming(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, float startAngle, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
 		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, scrapDrop, spawner);
 		this.moveSpeed = 1.0f;
-		this.moveDirection.set(1, 0).setAngle(startAngle);
+		this.moveDirection.set(1, 0).setAngleDeg(startAngle);
 		currentState = SwimmingState.STILL;
 	}
 	

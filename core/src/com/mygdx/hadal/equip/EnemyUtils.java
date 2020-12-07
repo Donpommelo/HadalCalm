@@ -306,7 +306,7 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				Vector2 startVelo = new Vector2(0, 1).setAngle(enemy.getAttackAngle());
+				Vector2 startVelo = new Vector2(0, 1).setAngleDeg(enemy.getAttackAngle());
 				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), duration, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 				hbox.setSyncDefault(false);
 				hbox.setSyncInstant(true);
@@ -350,7 +350,7 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle());
+				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
 				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
@@ -369,7 +369,7 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle());
+				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
 				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
@@ -386,7 +386,7 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle());
+				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
 				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
@@ -402,7 +402,7 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle());
+				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
 				Hitbox hbox = new Hitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));

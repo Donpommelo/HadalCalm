@@ -131,7 +131,11 @@ public class ParticleEntity extends HadalEntity {
 			linger -= delta;
 			
 			if (linger <= 0) {
-				this.queueDeletion();
+				if (state.isServer()) {
+					this.queueDeletion();
+				} else {
+					((ClientState) state).removeEntity(entityID.toString());
+				}
 			}
 		}
 
@@ -211,12 +215,13 @@ public class ParticleEntity extends HadalEntity {
 	public void render(SpriteBatch batch) {	effect.draw(batch, Gdx.graphics.getDeltaTime()); }
 
 	@Override
-	public void dispose() {	
+	public void dispose() {
 		if (!destroyed) {
 			
 			//return the effect back to the particle pool
 			effect.reset();
 			effect.free();
+			effect.dispose();
 		}
 		super.dispose();
 	}

@@ -94,13 +94,13 @@ public class Ragdoll extends HadalEntity {
 
 		//this makes ragdolls spin and move upon creation
 		setAngularVelocity(startAngle * angleAmp);
-		float newDegrees = startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
+		float newDegrees = startVelo.angleDeg() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 		newVelocity.set(startVelo).add(1, 1);
 		
 		if (setVelo) {
-			setLinearVelocity(newVelocity.nor().scl(veloAmp).setAngle(newDegrees));
+			setLinearVelocity(newVelocity.nor().scl(veloAmp).setAngleDeg(newDegrees));
 		} else {
-			setLinearVelocity(newVelocity.setAngle(newDegrees));
+			setLinearVelocity(newVelocity.setAngleDeg(newDegrees));
 		}
 	}
 
