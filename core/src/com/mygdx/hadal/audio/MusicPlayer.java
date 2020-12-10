@@ -18,8 +18,9 @@ public class MusicPlayer {
     private Music currentSong;
 	
     //this is the song to be played next
-    private MusicTrack nextSong;
-    
+	private MusicTrack nextTrack;
+	private MusicTrack currentTrack;
+
     //this is the rate at which the sound volume changes (default: 0, -x for fading out and +x for fading in)
   	private float fade;
 
@@ -45,19 +46,20 @@ public class MusicPlayer {
 				volume = 0.0f;
 				fade = 0.0f;
 				
-				if (nextSong != null) {
+				if (nextTrack != null) {
 					stop();
 					
-					currentSong = nextSong.getMusic();
+					currentSong = nextTrack.getMusic();
 					currentSong.setLooping(true);
 					currentSong.play();
-					
+					currentTrack = nextTrack;
+
 					maxVolume = nextVolume;
 					volume = 0.0f;
 					
 					fade = defaultFadeInSpeed;
 					
-					nextSong = null;
+					nextTrack = null;
 				} else {
 					pause();
 				}
@@ -75,20 +77,29 @@ public class MusicPlayer {
 	public void playSong(MusicTrack music, float volume) {
 		if (currentSong != null) {
 			fade = defaultFadeOutSpeed;
-			nextSong = music;
+			nextTrack = music;
 			nextVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
 		} else {
 			currentSong = music.getMusic();
 			currentSong.setLooping(true);
 			currentSong.play();
-			
+			currentTrack = music;
 			maxVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
 
 			fade = defaultFadeInSpeed;
 		}
 	}
 
-	//server plays a song and tells all clients to play the same song
+	public void playSongIfNotAlreadyPlaying(MusicTrack music, float volume) {
+    	if (music != null) {
+			if (!music.equals(currentTrack)) {
+				playSong(music, volume);
+			}
+		}
+	}
+
+
+		//server plays a song and tells all clients to play the same song
 	public void syncSong(PlayState state, MusicTrack music, float volume) {
 		
 		if (state.isServer()) {
@@ -132,4 +143,6 @@ public class MusicPlayer {
 			currentSong.dispose(); 
 		}
 	}
+
+	public Music getCurrentSong() { return currentSong; }
 }

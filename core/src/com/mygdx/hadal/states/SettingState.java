@@ -13,8 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.WindowTable;
+import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -46,7 +48,8 @@ public class SettingState extends GameState {
 	private Text displayOption, controlOption, audioOption, serverOption, miscOption, exitOption, saveOption, resetOption;
 	private TextField portNumber, serverPassword;
 	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
-		hitsoundOptions, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
+		hitsoundOptions, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, pvpHp,
+		playerCapacity;
 	private Slider sound, music, master, hitsound;
 	private CheckBox fullscreen, vsync, autoIconify, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration, consoleEnabled,
 		verboseDeathMessage, multiplayerPause, exportChatLog;
@@ -89,6 +92,7 @@ public class SettingState extends GameState {
 	public static final String[] loadoutChoices = {"SELECTED", "COPY HOST", "RANDOM", "WEAPON DROPS"};
 	public static final String[] artifactChoices = {"0", "1", "2", "3", "4", "5", "6"};
 	public static final String[] modeChoices = {"KILLS -> SCORE", "EGGPLANTS -> SCORE"};
+	public static final String[] hpChoices = {"100", "125", "150", "175", "200"};
 	public static final String[] capacityChoices = {"1", "2", "3", "4", "5", "6", "7", "8"};
 	
 	//this is the current setting tab the player is using
@@ -459,7 +463,7 @@ public class SettingState extends GameState {
 				musicText.setText("MUSIC VOLUME: " + (int)(music.getValue() * 100));
 			}
 		});
-		
+
 		Text masterText = new Text("MASTER VOLUME: " + (int)(gsm.getSetting().getMasterVolume() * 100), 0, 0, false);
 		masterText.setScale(detailsScale);
 		
@@ -540,7 +544,34 @@ public class SettingState extends GameState {
 				return true;
 			}
 		});
-		
+
+		Text soundRoom = new Text ("SOUND ROOM", 0, 0, false);
+		soundRoom.setScale(optionsScale);
+
+		Text track1 = new Text ("PLAY TITLE_THEME", 0, 0, false);
+		track1.setScale(detailsScale);
+
+		track1.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+				HadalGame.musicPlayer.playSong(MusicTrack.TITLE, 1.0f);
+			}
+		});
+
+		Text track2 = new Text ("PLAY TITLE_THEME_V2", 0, 0, false);
+		track2.setScale(detailsScale);
+
+		track2.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+				HadalGame.musicPlayer.playSong(MusicTrack.TITLE_V2, 1.0f);
+			}
+		});
+
 		details.add(soundText);
 		details.add(sound).height(detailHeight).pad(detailPad).row();
 		details.add(musicText);
@@ -551,6 +582,9 @@ public class SettingState extends GameState {
 		details.add(hitsoundOptions).height(detailHeight).pad(detailPad).row();
 		details.add(hitsoundVolumeText);
 		details.add(hitsound).height(detailHeight).pad(detailPad).row();
+		details.add(soundRoom).colspan(2).pad(titlePad).row();
+		details.add(track1).height(detailHeight).pad(detailPad).row();
+		details.add(track2).height(detailHeight).pad(detailPad).row();
 	}
 	
 	/**
@@ -586,6 +620,9 @@ public class SettingState extends GameState {
 		
 		Text mode = new Text("PVP MODE: ", 0, 0, false);
 		mode.setScale(detailsScale);
+
+		Text hp = new Text("PVP HP: ", 0, 0, false);
+		hp.setScale(detailsScale);
 
 		portNumber = new TextField(String.valueOf(gsm.getSetting().getPortNumber()), GameStateManager.getSkin());
 		portNumber.setMessageText("PORT NUMBER");
@@ -631,6 +668,11 @@ public class SettingState extends GameState {
 		
 		pvpMode.setSelectedIndex(gsm.getSetting().getPVPMode());
 
+		pvpHp = new SelectBox<>(GameStateManager.getSkin());
+		pvpHp.setItems(hpChoices);
+
+		pvpHp.setSelectedIndex(gsm.getSetting().getPVPHp());
+
 		details.add(maxPlayers);
 		details.add(playerCapacity).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(port);
@@ -649,6 +691,8 @@ public class SettingState extends GameState {
 		details.add(artifactSlots).height(detailHeight).pad(detailPad).row();
 		details.add(mode);
 		details.add(pvpMode).height(detailHeight).pad(detailPad).row();
+		details.add(hp);
+		details.add(pvpHp).height(detailHeight).pad(detailPad).row();
 	}
 	
 	/**
@@ -725,6 +769,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setMasterVolume(master.getValue());
 			gsm.getSetting().setHitsoundType(hitsoundOptions.getSelectedIndex());
 			gsm.getSetting().setHitsoundVolume(hitsound.getValue());
+			gsm.getSetting().setAudio();
 			gsm.getSetting().saveSetting();
 			audioSelected();
 			break;
@@ -738,6 +783,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setLoadoutType(loadoutOptions.getSelectedIndex());
 			gsm.getSetting().setArtifactSlots(artifactSlots.getSelectedIndex());
 			gsm.getSetting().setPVPMode(pvpMode.getSelectedIndex());
+			gsm.getSetting().setPVPHp(pvpHp.getSelectedIndex());
 			gsm.getSetting().saveSetting();
 			serverSelected();
 			break;

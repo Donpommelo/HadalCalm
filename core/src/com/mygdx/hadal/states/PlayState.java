@@ -337,6 +337,8 @@ public class PlayState extends GameState {
 		if (gsm.getApp().getFadeLevel() >= 1.0f) {
 			gsm.getApp().fadeIn();
 		}
+
+		HadalGame.musicPlayer.playSong(null, 1.0f);
 	}
 
 	/**

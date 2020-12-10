@@ -10,7 +10,8 @@ import com.badlogic.gdx.audio.Music;
  */
 public enum MusicTrack {
 
-	OFFICE("music/OfficeMusic.mp3"),
+	TITLE("music/title.mp3"),
+	TITLE_V2("music/title_v2.mp3"),
 	;
 	
 	private final String musicFileName;

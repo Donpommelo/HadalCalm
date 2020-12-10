@@ -172,7 +172,8 @@ public class Player extends PhysicsSchmuck {
 	 * we are a new player and use our old one if we are respawning
 	 */
 	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
-		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), name, Constants.PLAYER_HITBOX, baseHp);
+		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), name, Constants.PLAYER_HITBOX,
+			state.isPvp() ? state.getGsm().getSetting().indexToHp() : baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
 		toolSprite = Sprite.MT_DEFAULT.getFrame();

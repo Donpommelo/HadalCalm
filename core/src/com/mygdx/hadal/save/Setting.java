@@ -18,8 +18,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Setting {
 
-	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, artifactSlots, portNumber,
-		hitsoundType, customShader;
+	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, pvpHp, artifactSlots,
+		portNumber, hitsoundType, customShader;
 	private boolean fullscreen, autoIconify, vsync, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration,
 		consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
 	private float soundVolume, musicVolume, masterVolume, hitsoundVolume;
@@ -108,7 +108,11 @@ public class Setting {
 	    	pm.dispose();
 		}
 	}
-	
+
+	public void setAudio() {
+		HadalGame.musicPlayer.setVolume(musicVolume);
+	}
+
 	/**
 	 * a new setting is created if no valid setting is found
 	 * This new record has default values for all fields
@@ -154,6 +158,7 @@ public class Setting {
 		loadoutType = 0;
 		artifactSlots = 4;
 		pvpMode = 0;
+		pvpHp = 0;
 	}
 	
 	public void resetMisc() {
@@ -186,13 +191,15 @@ public class Setting {
 
 	public void setPVPMode(int pvpMode) { this.pvpMode = pvpMode; }
 
+	public void setPVPHp(int pvpHp) { this.pvpHp = pvpHp; }
+
 	public void setMaxPlayers(int maxPlayers) { this.maxPlayers = maxPlayers; }
 	
 	/**
 	 * Convert resolution from index in list to actual setting
 	 */
 	public void indexToResolution() {
-		switch(resolution) {
+		switch (resolution) {
 		case 0:
 			Gdx.graphics.setWindowedMode(1024, 576);
 			break;
@@ -218,7 +225,7 @@ public class Setting {
 	 * Convert framerate from index in list to actual framerate
 	 */
 	public int indexToFramerate() {
-		switch(framerate) {
+		switch (framerate) {
 		case 0:
 			return 10;
 		case 2:
@@ -234,7 +241,7 @@ public class Setting {
 	 * Convert timer from index in list to actual time amount
 	 */
 	public static float indexToTimer(int index) {
-		switch(index) {
+		switch (index) {
 		case 1:
 			return 60.0f;
 		case 2:
@@ -264,7 +271,7 @@ public class Setting {
 	 * Convert cursor size from index in list
 	 */
 	public int indexToCursorSize() {
-		switch(cursorSize) {
+		switch (cursorSize) {
 		case 0:
 			return 16;
 		case 2:
@@ -278,7 +285,7 @@ public class Setting {
 	 * Convert cursor color from index in list
 	 */
 	public Color indexToCursorColor() {
-		switch(cursorColor) {
+		switch (cursorColor) {
 		case 0:
 			return Color.BLACK;
 		case 1:
@@ -293,6 +300,21 @@ public class Setting {
 			return Color.YELLOW;
 		default:
 			return Color.WHITE;
+		}
+	}
+
+	public int indexToHp() {
+		switch(pvpHp) {
+			case 1:
+				return 125;
+			case 2:
+				return 150;
+			case 3:
+				return 175;
+			case 4:
+				return 200;
+			default:
+				return 100;
 		}
 	}
 	
@@ -430,6 +452,8 @@ public class Setting {
 	public int getArtifactSlots() { return artifactSlots; }
 	
 	public int getPVPMode() { return pvpMode; }
+
+	public int getPVPHp() { return pvpHp; }
 
 	public int getMaxPlayers() { return maxPlayers; }
 
