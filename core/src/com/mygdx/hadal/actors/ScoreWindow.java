@@ -221,6 +221,9 @@ public class ScoreWindow {
 		
 		Text coopTimerField = new Text("COOP TIMER:", 0, 0, false);
 		coopTimerField.setScale(settingsScale);
+
+		Text pvpHpField = new Text("PVP BASE HP:", 0, 0, false);
+		pvpHpField.setScale(settingsScale);
 		
 		Text livesField = new Text("LIVES: ", 0, 0, false);
 		livesField.setScale(settingsScale);
@@ -255,7 +258,10 @@ public class ScoreWindow {
 		
 		Text coopTimer = new Text(SettingState.timerChoices[used.getCoopTimer()], 0, 0, false);
 		coopTimer.setScale(settingsScale);
-		
+
+		Text pvpHp = new Text(SettingState.hpChoices[used.getPVPHp()], 0, 0, false);
+		pvpHp.setScale(settingsScale);
+
 		Text lives = new Text(SettingState.livesChoices[used.getLives()], 0, 0, false);
 		lives.setScale(settingsScale);
 		
@@ -284,7 +290,10 @@ public class ScoreWindow {
 		
 		tableSettings.add(coopTimerField).height(settingsRowHeight).padBottom(settingsPadY);
 		tableSettings.add(coopTimer).height(settingsRowHeight).padBottom(settingsPadY).row();
-		
+
+		tableSettings.add(pvpHpField).height(settingsRowHeight).padBottom(settingsPadY);
+		tableSettings.add(pvpHp).height(settingsRowHeight).padBottom(settingsPadY).row();
+
 		tableSettings.add(livesField).height(settingsRowHeight).padBottom(settingsPadY);
 		tableSettings.add(lives).height(settingsRowHeight).padBottom(settingsPadY).row();
 

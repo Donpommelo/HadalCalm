@@ -73,7 +73,7 @@ public class MusicPlayer {
 		}
 	}
 	
-	// Play a non-tracklist song.
+	// Play a song.
 	public void playSong(MusicTrack music, float volume) {
 		if (currentSong != null) {
 			fade = defaultFadeOutSpeed;
@@ -99,7 +99,7 @@ public class MusicPlayer {
 	}
 
 
-		//server plays a song and tells all clients to play the same song
+	//server plays a song and tells all clients to play the same song
 	public void syncSong(PlayState state, MusicTrack music, float volume) {
 		
 		if (state.isServer()) {

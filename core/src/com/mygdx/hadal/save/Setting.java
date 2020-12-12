@@ -174,7 +174,7 @@ public class Setting {
 	 * @return all the parts of this setting that the clients need to know
 	 */
 	public SharedSetting generateSharedSetting() {
-		return new SharedSetting(maxPlayers, pvpMode, artifactSlots, pvpTimer, coopTimer, lives, loadoutType, teamEnabled, multiplayerPause);
+		return new SharedSetting(maxPlayers, pvpMode, artifactSlots, pvpTimer, pvpHp, coopTimer, lives, loadoutType, teamEnabled, multiplayerPause);
 	}
 	
 	public void setPVPTimer(int pvpTimer) { this.pvpTimer = pvpTimer; }
