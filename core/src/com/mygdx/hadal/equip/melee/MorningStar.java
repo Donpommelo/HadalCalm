@@ -101,7 +101,7 @@ public class MorningStar extends MeleeWeapon {
 				}
 				
 				if (!linked) {
-					if (user.getBody() != null) {
+					if (user.getBody() != null && base.getBody() != null) {
 						linked = true;
 						RevoluteJointDef joint1 = new RevoluteJointDef();
 						joint1.bodyA = user.getBody();
@@ -138,7 +138,7 @@ public class MorningStar extends MeleeWeapon {
 					
 					if (!linked) {
 						if (currentI == 0) { 
-							if (base.getBody() != null) {
+							if (base.getBody() != null && hbox.getBody() != null) {
 								linked = true;
 								RevoluteJointDef joint1 = new RevoluteJointDef();
 								joint1.bodyA = base.getBody();
@@ -151,7 +151,7 @@ public class MorningStar extends MeleeWeapon {
 								state.getWorld().createJoint(joint1);
 							}
 						} else {
-							if (links[currentI - 1].getBody() != null) {
+							if (links[currentI - 1].getBody() != null && hbox.getBody() != null) {
 								linked = true;
 								
 								RevoluteJointDef joint1 = new RevoluteJointDef();
@@ -193,7 +193,7 @@ public class MorningStar extends MeleeWeapon {
 			public void controller(float delta) {
 				
 				if (!linked) {
-					if (links[links.length - 1].getBody() != null) {
+					if (links[links.length - 1].getBody() != null && hbox.getBody() != null) {
 						linked = true;
 						
 						RevoluteJointDef joint1 = new RevoluteJointDef();

@@ -173,7 +173,7 @@ public class ClientPlayer extends Player {
 			//we add a new prediction frame to our list with our current displacement/velocity
 			ClientPredictionFrame frame = new ClientPredictionFrame(delta);
 			frame.positionChange.set(playerWorldLocation).sub(lastPosition);
-			frame.velocity.set(body.getLinearVelocity());
+			frame.velocity.set(getLinearVelocity());
 			frames.add(frame);
 			historyDuration += delta;
 			
@@ -189,7 +189,7 @@ public class ClientPlayer extends Player {
 			//when predicting, we extrapolate our position based on our prediction plus our current velocity given the current latency.
 			if (predicting) {
 				
-				extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(body.getLinearVelocity()).scl((CONVERGE_MULTIPLIER) * latency));
+				extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(getLinearVelocity()).scl((CONVERGE_MULTIPLIER) * latency));
 				fug.set(extrapolatedPosition);
 				
 				float t;

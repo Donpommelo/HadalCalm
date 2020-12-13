@@ -941,7 +941,7 @@ public class Boss4 extends EnemyFloating {
 			
 			@Override
 			public void execute() {
-				setTransform(new Vector2(-100, -100), body.getAngle());
+				setTransform(new Vector2(-100, -100), getAngle());
 			}
 		});
 		
@@ -952,7 +952,7 @@ public class Boss4 extends EnemyFloating {
 				Event ceiling = state.getDummyPoint("ceiling");
 				
 				if (ceiling != null) {
-					setTransform(new Vector2(ceiling.getPosition()), body.getAngle());
+					setTransform(new Vector2(ceiling.getPosition()), getAngle());
 				}
 			}
 		});

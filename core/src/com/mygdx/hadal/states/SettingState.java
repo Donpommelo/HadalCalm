@@ -548,7 +548,19 @@ public class SettingState extends GameState {
 		Text soundRoom = new Text ("SOUND ROOM", 0, 0, false);
 		soundRoom.setScale(optionsScale);
 
-		Text track1 = new Text ("PLAY TITLE_THEME", 0, 0, false);
+		Text track0 = new Text ("STOP SONG", 0, 0, true);
+		track0.setScale(detailsScale);
+
+		track0.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+				HadalGame.musicPlayer.stop();
+			}
+		});
+
+		Text track1 = new Text ("PLAY TITLE_THEME", 0, 0, true);
 		track1.setScale(detailsScale);
 
 		track1.addListener(new ClickListener() {
@@ -560,7 +572,7 @@ public class SettingState extends GameState {
 			}
 		});
 
-		Text track2 = new Text ("PLAY TITLE_THEME_V2", 0, 0, false);
+		Text track2 = new Text ("PLAY TITLE_THEME_V2", 0, 0, true);
 		track2.setScale(detailsScale);
 
 		track2.addListener(new ClickListener() {
@@ -583,6 +595,7 @@ public class SettingState extends GameState {
 		details.add(hitsoundVolumeText);
 		details.add(hitsound).height(detailHeight).pad(detailPad).row();
 		details.add(soundRoom).colspan(2).pad(titlePad).row();
+		details.add(track0).height(detailHeight).pad(detailPad).row();
 		details.add(track1).height(detailHeight).pad(detailPad).row();
 		details.add(track2).height(detailHeight).pad(detailPad).row();
 	}

@@ -302,7 +302,7 @@ public class PlayerSpriteHelper {
 
     private static final float gibDuration = 3.0f;
     private static final float gibGravity = 1.0f;
-    public void createGibs(Vector2 playerLocation, Vector2 playerVelocity) {
+    private void createGibs(Vector2 playerLocation, Vector2 playerVelocity) {
         Ragdoll headRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(headWidth, headHeight).scl(scale),
 					headSprite.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false) {
 

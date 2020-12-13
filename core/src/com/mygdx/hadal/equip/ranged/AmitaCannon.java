@@ -91,7 +91,7 @@ public class AmitaCannon extends RangedWeapon {
 								
 								centerPos.set(center.getPosition());
 								offset.set(0, orbitalRange).setAngleDeg(currentAngle);
-								orbital.setTransform(centerPos.add(offset), orbital.getBody().getAngle());
+								orbital.setTransform(centerPos.add(offset), orbital.getAngle());
 							} else if (!activated) {
 								activated = true;
 								hbox.setLinearVelocity(new Vector2(0, activatedSpeed).setAngleDeg(currentAngle));

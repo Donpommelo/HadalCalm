@@ -142,7 +142,7 @@ public class OurGetAlongShirt extends Artifact {
 								
 								if (!linked) {
 									if (currentI == 0) { 
-										if (inflicted.getSchmuck().getBody() != null) {
+										if (inflicted.getSchmuck().getBody() != null && hbox.getBody() != null) {
 											linked = true;
 											RevoluteJointDef joint1 = new RevoluteJointDef();
 											joint1.bodyA = inflicted.getSchmuck().getBody();
@@ -155,7 +155,7 @@ public class OurGetAlongShirt extends Artifact {
 											state.getWorld().createJoint(joint1);
 										}
 									} else {
-										if (links[currentI - 1].getBody() != null) {
+										if (links[currentI - 1].getBody() != null && hbox.getBody() != null) {
 											linked = true;
 											
 											RevoluteJointDef joint1 = new RevoluteJointDef();
@@ -170,7 +170,7 @@ public class OurGetAlongShirt extends Artifact {
 									}
 									
 									if (currentI == links.length - 1) {
-										if (partner.getBody() != null) {
+										if (partner.getBody() != null && hbox.getBody() != null) {
 											linked = true;
 											
 											RevoluteJointDef joint1 = new RevoluteJointDef();

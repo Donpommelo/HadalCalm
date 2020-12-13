@@ -18,11 +18,13 @@ public class Static extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		WeldJointDef joint = new WeldJointDef();
-		joint.bodyA = state.getAnchor().getBody();
-		joint.bodyB = hbox.getBody();
-		joint.localAnchorA.set(hbox.getPosition().x, hbox.getPosition().y);
-		joint.localAnchorB.set(0, 0);
-		state.getWorld().createJoint(joint);
+		if (hbox.getBody() != null) {
+			WeldJointDef joint = new WeldJointDef();
+			joint.bodyA = state.getAnchor().getBody();
+			joint.bodyB = hbox.getBody();
+			joint.localAnchorA.set(hbox.getPosition().x, hbox.getPosition().y);
+			joint.localAnchorB.set(0, 0);
+			state.getWorld().createJoint(joint);
+		}
 	}
 }

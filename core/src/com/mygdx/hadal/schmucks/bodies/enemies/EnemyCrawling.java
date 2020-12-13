@@ -230,11 +230,9 @@ public class EnemyCrawling extends Enemy {
 	public void onClientSync(Object o) {
 		if (o instanceof Packets.SyncEntity) {
 			Packets.SyncEntity p = (Packets.SyncEntity) o;
-			if (body != null) {
-				prevPos.set(serverPos);
-				serverPos.set(p.pos);
-				body.setLinearVelocity(p.velocity);
-			}
+			prevPos.set(serverPos);
+			serverPos.set(p.pos);
+			setLinearVelocity(p.velocity);
 			moveDirection = p.angle;
 		} else {
 			super.onClientSync(o);

@@ -129,6 +129,7 @@ public abstract class HadalEntity {
 			alive = false;
 			if (body != null) {
 				world.destroyBody(body);
+				body = null;
 			}
 		}
 	}
@@ -191,13 +192,13 @@ public abstract class HadalEntity {
 	 */
 	public void onServerSync() {
 		if (body != null && syncDefault) {
-			state.getSyncPackets().add(new Packets.SyncEntity(entityID.toString(), getPosition(), body.getLinearVelocity(), getAngle(), entityAge, state.getTimer(), false));
+			state.getSyncPackets().add(new Packets.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(), getAngle(), entityAge, state.getTimer(), false));
 		}
 	}
 	
 	public void onServerSyncFast() {
 		if (body != null && syncInstant) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), body.getLinearVelocity(), getAngle(), entityAge, state.getTimer(), true));
+			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(), getAngle(), entityAge, state.getTimer(), true));
 		}
 	}
 	
@@ -323,7 +324,7 @@ public abstract class HadalEntity {
 						}
 
 						//set velocity to make entity move smoother between syncs
-						body.setLinearVelocity(lerpVelo.lerp(serverVelo, elapsedTime));
+						setLinearVelocity(lerpVelo.lerp(serverVelo, elapsedTime));
 					}
 				}
 			}
@@ -335,14 +336,12 @@ public abstract class HadalEntity {
 	 */
 	private final Vector2 entityLocation = new Vector2();
 	public boolean isVisible() {
-		if (body == null) {
-			return false;
-		}
+		if (body == null) { return false; }
 		entityLocation.set(getPixelPosition());
 		
 		//check the center + 4 corners of the entity to see if we should render this entity
 		if (state.getCamera().frustum.pointInFrustum(entityLocation.x, entityLocation.y, 0)) { return true; }
-		float bodyAngle = body.getAngle();
+		float bodyAngle = getAngle();
 		float cosAng = (float) Math.cos(bodyAngle);
 		float sinAng = (float) Math.sin(bodyAngle);
 		if (state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x / 2 * cosAng - size.y / 2 * sinAng, entityLocation.y + size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
@@ -506,7 +505,7 @@ public abstract class HadalEntity {
 		}
 	}
 	
-	public void setLinearVelocity (Vector2 position) {
+	public void setLinearVelocity(Vector2 position) {
 		if (alive && body != null) {
 			body.setLinearVelocity(position);
 		}

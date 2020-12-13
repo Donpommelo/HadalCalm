@@ -196,7 +196,7 @@ public class AboutState extends GameState {
 		details.add(new Text("CREDITS", 0, 0, false)).colspan(2).pad(titlePad).row();
 		
 		//dev and art options have url links
-		Text dev = new Text("DONPOMMELO", 0, 0, true);
+		Text dev = new Text("PROGRAMMING: DONPOMMELO", 0, 0, true);
 		dev.setScale(detailsScale);
 		dev.setColor(Color.RED);
 		
@@ -209,7 +209,7 @@ public class AboutState extends GameState {
 	        }
 	    });
 		
-		Text art = new Text("SHOEBANFOO", 0, 0, true);
+		Text art = new Text("ART: SHOEBANFOO", 0, 0, true);
 		art.setScale(detailsScale);
 		art.setColor(Color.RED);
 		
@@ -221,12 +221,26 @@ public class AboutState extends GameState {
 				Gdx.net.openURI("https://www.instagram.com/shoebanfoo/");
 	        }
 	    });
-		
+
+		Text music = new Text("MUSIC: VCRCHITECT", 0, 0, true);
+		music.setScale(detailsScale);
+		music.setColor(Color.RED);
+
+		music.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+				Gdx.net.openURI("https://soundcloud.com/vcrchitect/");
+			}
+		});
+
 		Text sfx = new Text(GameStateManager.miscText.getString("credits"), 0, 0, false, true, detailsTextWidth);
 		sfx.setScale(detailsScale);
 		
 		details.add(dev).height(optionHeight).row();
 		details.add(art).height(optionHeight).row();
+		details.add(music).height(optionHeight).row();
 		details.add(sfx).height(optionHeight);
 	}
 

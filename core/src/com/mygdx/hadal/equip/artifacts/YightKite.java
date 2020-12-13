@@ -47,7 +47,7 @@ public class YightKite extends Artifact {
 					public void controller(float delta) {
 						if (inflicted.getSchmuck().getBody() != null) {
 							entityLocation.set(inflicted.getSchmuck().getPosition());
-							hbox.setTransform(new Vector2(hbox.getPosition()).add(entityLocation).sub(playerPos), hbox.getBody().getAngle());
+							hbox.setTransform(new Vector2(hbox.getPosition()).add(entityLocation).sub(playerPos), hbox.getAngle());
 							playerPos.set(entityLocation);
 						}
 					}

@@ -63,7 +63,7 @@ public class Curve extends HitboxStrategy {
 			
 			if (!found) {
 				entityLocation.set(hbox.getPixelPosition());
-				hbox.getBody().setLinearVelocity(hbox.getLinearVelocity().lerp(lerpTowards.set(startTarget).sub(entityLocation).nor().scl(startSpeed), lerp));
+				hbox.setLinearVelocity(hbox.getLinearVelocity().lerp(lerpTowards.set(startTarget).sub(entityLocation).nor().scl(startSpeed), lerp));
 				
 				if (entityLocation.dst2(startTarget) < boundDist * boundDist) {
 					found = true;

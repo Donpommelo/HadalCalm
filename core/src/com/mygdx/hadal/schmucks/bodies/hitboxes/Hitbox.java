@@ -227,6 +227,7 @@ public class Hitbox extends HadalEntity {
 	
 	@Override
 	public Fixture getMainFixture() {
+		if (body == null) { return null; }
 		if (sensor) {
 			return super.getMainFixture();
 		} else {
@@ -290,10 +291,12 @@ public class Hitbox extends HadalEntity {
 	public void setFriction(float friction) { this.friction = friction; }
 	
 	public void setFilter(short filter) {
-		Filter oldFilter = body.getFixtureList().get(0).getFilterData();
-		oldFilter.groupIndex = filter;
-		body.getFixtureList().get(0).setFilterData(oldFilter);
-		this.filter = filter;
+		if (body != null) {
+			Filter oldFilter = body.getFixtureList().get(0).getFilterData();
+			oldFilter.groupIndex = filter;
+			body.getFixtureList().get(0).setFilterData(oldFilter);
+			this.filter = filter;
+		}
 	}
 
 	public void setPassability(short passability) { this.passability = passability; }

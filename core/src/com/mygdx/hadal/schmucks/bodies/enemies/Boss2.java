@@ -576,7 +576,8 @@ public class Boss2 extends EnemyFloating {
 			alive = false;
 			if (body != null) {
 				world.destroyBody(body);
-				
+				body = null;
+
 				//make sure we delete the links as well
 				for (final Body link : links) {
 					world.destroyBody(link);

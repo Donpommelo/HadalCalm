@@ -87,9 +87,12 @@ public class TeslaCoil extends RangedWeapon {
 				if (firstPlanted) {
 					firstPlanted = false;
 					planted = true;
-					hbox.setLinearVelocity(0, 0);
-					hbox.getBody().setType(BodyType.StaticBody);
-					
+
+					if (hbox.getBody() != null) {
+						hbox.setLinearVelocity(0, 0);
+						hbox.getBody().setType(BodyType.StaticBody);
+					}
+
 					SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.5f, false);
 				}
 				

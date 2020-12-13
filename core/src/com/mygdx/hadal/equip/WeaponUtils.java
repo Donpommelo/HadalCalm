@@ -239,7 +239,7 @@ public class WeaponUtils {
 
 			@Override
 			public void controller(float delta) {
-				if (planted) {
+				if (planted && floor.getBody() != null && hbox.getBody() != null) {
 					planted = false;
 					WeldJointDef joint = new WeldJointDef();
 					joint.bodyA = floor.getBody();
@@ -275,7 +275,7 @@ public class WeaponUtils {
 					@Override
 					public void create() {
 						if (floor != null) {
-							if (floor.getBody() != null) {
+							if (floor.getBody() != null && hbox.getBody() != null) {
 								WeldJointDef joint = new WeldJointDef();
 								joint.bodyA = floor.getBody();
 								joint.bodyB = hbox.getBody();

@@ -61,7 +61,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 						if (procCdCount < procCd) {
 							procCdCount += delta;
 						}
-						lastVelo = Math.min(vic.getSchmuck().getBody().getLinearVelocity().len2(), maxDamage);
+						lastVelo = Math.min(vic.getSchmuck().getLinearVelocity().len2(), maxDamage);
 					}
 					
 					@Override

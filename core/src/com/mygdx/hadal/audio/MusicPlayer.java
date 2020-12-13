@@ -80,7 +80,7 @@ public class MusicPlayer {
 			nextTrack = music;
 			nextVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
 		} else {
-			currentSong = music.getMusic();
+		    currentSong = music.getMusic();
 			currentSong.setLooping(true);
 			currentSong.play();
 			currentTrack = music;
