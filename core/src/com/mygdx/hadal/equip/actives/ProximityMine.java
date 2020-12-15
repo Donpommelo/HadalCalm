@@ -11,10 +11,10 @@ public class ProximityMine extends ActiveItem {
 
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.1f;
-	private static final float maxCharge = 9.0f;
+	private static final float maxCharge = 12.0f;
 	
 	private static final Vector2 projectileSize = new Vector2(75, 30);
-	private static final float mineLifespan = 24.0f;
+	private static final float mineLifespan = 18.0f;
 
 	private static final float projectileSpeed = 60.0f;
 	

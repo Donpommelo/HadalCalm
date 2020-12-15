@@ -11,7 +11,7 @@ public class GoodHealth extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
-	private static final int bonusHp = 40;
+	private static final float bonusHp = 0.4f;
 	
 	public GoodHealth() {
 		super(slotCost, statusNum);
@@ -19,7 +19,7 @@ public class GoodHealth extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatChangeStatus(state, Stats.MAX_HP, bonusHp, b);
+		enchantment[0] = new StatChangeStatus(state, Stats.MAX_HP_PERCENT, bonusHp, b);
 		return enchantment;
 	}
 }

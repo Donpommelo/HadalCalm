@@ -11,7 +11,7 @@ public class JelloFellowCosplay extends Artifact {
 	private static final int slotCost = 1;
 	
 	private static final float bounce = 1.0f;
-	private static final float bonusHp = 40.0f;
+	private static final float bonusHp = 0.4f;
 	
 	public JelloFellowCosplay() {
 		super(slotCost, statusNum);
@@ -33,7 +33,7 @@ public class JelloFellowCosplay extends Artifact {
 			
 			@Override
 			public void statChanges() {
-				inflicted.setStat(Stats.MAX_HP, inflicted.getStat(Stats.MAX_HP) + bonusHp);
+				inflicted.setStat(Stats.MAX_HP_PERCENT, inflicted.getStat(Stats.MAX_HP_PERCENT) + bonusHp);
 			}
 		};
 		

@@ -60,4 +60,6 @@ public class Stats {
 	public static final int PING_DAMAGE = 47;
 	public static final int REFLECT_DAMAGE = 48;
 	public static final int HOVER_CONTROL = 49;
+	public static final int MAX_HP_PERCENT = 50;
+
 }

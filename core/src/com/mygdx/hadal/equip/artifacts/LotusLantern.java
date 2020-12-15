@@ -13,7 +13,7 @@ public class LotusLantern extends Artifact {
 	private static final int slotCost = 1;
 	
 	private static final float extraScrap = 0.25f;
-	private static final int bonusHp = 15;
+	private static final float bonusHp = 0.15f;
 
 	public LotusLantern() {
 		super(slotCost, statusNum);
@@ -23,7 +23,7 @@ public class LotusLantern extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
 				new StatChangeStatus(state, Stats.EXTRA_SCRAP, extraScrap, b),
-				new StatChangeStatus(state, Stats.MAX_HP, bonusHp, b));
+				new StatChangeStatus(state, Stats.MAX_HP_PERCENT, bonusHp, b));
 		return enchantment;
 	}
 }

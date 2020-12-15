@@ -11,7 +11,7 @@ public class FallacyofFlesh extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 3;
 
-	private static final int bonusHp = 70;
+	private static final float bonusHp = 0.7f;
 	
 	public FallacyofFlesh() {
 		super(slotCost, statusNum);
@@ -19,7 +19,7 @@ public class FallacyofFlesh extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatChangeStatus(state, Stats.MAX_HP, bonusHp, b);
+		enchantment[0] = new StatChangeStatus(state, Stats.MAX_HP_PERCENT, bonusHp, b);
 		return enchantment;
 	}
 }

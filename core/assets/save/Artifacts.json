@@ -105,7 +105,7 @@ AU_COURANT: {
 BACKPACK_BUDDY: {
 	name: Backpack Buddy
 	description: "+Artifact Slot, -Max Hp"
-    descriptionLong: "Max Hp Reduction: -25\n\nA sodden doll once occupying a child's backpack\n\nWhile some Sunk cling to relics of their former lives, they inevitably reach their final destinations empty-handed."
+    descriptionLong: "Max Hp Reduction: -25%\n\nA sodden doll once occupying a child's backpack\n\nWhile some Sunk cling to relics of their former lives, they inevitably reach their final destinations empty-handed."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -371,7 +371,7 @@ DAS_BOOT: {
 DAY_AT_THE_FAIR: {
 	name: Day at the Fair
 	description: "+Max Hp, -Knockback Resistance"
-    descriptionLong: "Max Hp: +25\nKnockback Resistance: -150%\n\nSome mirthful fairgrounds reflected in a handful of colorful balloons\n\nLike all things that hold particular value, the childhood memories of the departed are delivered to the Sunk Emporium to be packaged for resale."
+    descriptionLong: "Max Hp: +25%\nKnockback Resistance: -150%\n\nSome mirthful fairgrounds reflected in a handful of colorful balloons\n\nLike all things that hold particular value, the childhood memories of the departed are delivered to the Sunk Emporium to be packaged for resale."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -392,7 +392,7 @@ DEAD_MANS_HAND: {
 DEPLORABLE_APPARATUS: {
 	name: Deplorable Apparatus
 	description: "-Max Hp, +Hp Regen"
-    descriptionLong: "Max Hp Reduction: -40\nHp Regeneration: 12 per Second\nUpon Receiving Damage, Cancel Regen for 1s\n\nA rusty, surgically-attached life granting machine\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself."
+    descriptionLong: "Max Hp Reduction: -40%\nHp Regeneration: 12 per Second\nUpon Receiving Damage, Cancel Regen for 1s\n\nA rusty, surgically-attached life granting machine\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -454,7 +454,7 @@ EXTRA_ROW_OF_TEETH: {
 FALLACY_OF_FLESH: {
 	name: Fallacy of Flesh
 	description: "+Max Hp"
-    descriptionLong: "Bonus Max Hp: +70\n\nAn illegible riddle carved into the flesh of an unknown beast\n\nThe many gods floating within the empty ocean have nothing to subsist upon besides each other."
+    descriptionLong: "Bonus Max Hp: +70%\n\nAn illegible riddle carved into the flesh of an unknown beast\n\nThe many gods floating within the empty ocean have nothing to subsist upon besides each other."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -559,7 +559,7 @@ GOMEZS_AMYGDALA: {
 GOOD_HEALTH: {
 	name: Good Health
 	description: "+Max Hp"
-    descriptionLong: "Bonus Max Hp: +40\n\nThe manifestation of good physical health\n\nThe strict exercise regimen followed by Salvagers ensures that they remain too preoccupied to start getting the wrong idea again."
+    descriptionLong: "Bonus Max Hp: +40%\n\nThe manifestation of good physical health\n\nThe strict exercise regimen followed by Salvagers ensures that they remain too preoccupied to start getting the wrong idea again."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -651,7 +651,7 @@ IRON_SIGHTS: {
 JELLOFELLOW_COSPLAY: {
 	name: Jellofellow Cosplay
 	description: "+Max Hp, Bouncy!"
-    descriptionLong: "Bonus Max Hp: +40\n\nA costume of a long-forgotten cartoon character\n\nThe more thoroughly erased a civilization, the more imperceptible the difference between its historical figures and cereal-box mascots."
+    descriptionLong: "Bonus Max Hp: +40%\n\nA costume of a long-forgotten cartoon character\n\nThe more thoroughly erased a civilization, the more imperceptible the difference between its historical figures and cereal-box mascots."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -715,7 +715,7 @@ LAMPREY_IDOL: {
 LOAMSKIN_LOCKET: {
 	name: Loamskin Locket
 	description: "+Max Hp, Bonus Hp Starts Unfilled"
-    descriptionLong: "Bonus Max Hp: +60\n\nA locket containing a glass capsule filled with fertile soil\n\nTo the unborn, the Garden of the Neptune King offers a vivid taste of long lost terrestrial warmth."
+    descriptionLong: "Bonus Max Hp: +60%\n\nA locket containing a glass capsule filled with fertile soil\n\nTo the unborn, the Garden of the Neptune King offers a vivid taste of long lost terrestrial warmth."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -736,17 +736,18 @@ LOCH_SHIELD: {
 LOTUS_LANTERN: {
 	name: Lotus Lantern
 	description: "+Max Hp, +Eggplant Drops"
-    descriptionLong: "Bonus Max Hp: +15\nBonus Eggplant Drop: 25%\n\nAn ornamental lantern made from waxen paper\n\nDissatisfied with the gifts of the First Bright One, the Crab-God, Slick, illuminated the abyss below in search of more shining things."
+    descriptionLong: "Bonus Max Hp: +15%\nBonus Eggplant Drop: 25%\n\nAn ornamental lantern made from waxen paper\n\nDissatisfied with the gifts of the First Bright One, the Crab-God, Slick, illuminated the abyss below in search of more shining things."
 	tags: [
 		RELIQUARY,
         RANDOM_POOL,
+        DEFENSE,
         GIMMICK,
 	]
 }
 LUMINOUS_ESCA: {
 	name: Luminous Esca
 	description: "+Max Hp, +Light Radius"
-    descriptionLong: "Bonus Max Hp: +15\n\nA glowing clump of particles used to attract prey\n\nThrough natural processes, fragments of Bright Ones are shed to form smaller, distinct progeny."
+    descriptionLong: "Bonus Max Hp: +15%\n\nA glowing clump of particles used to attract prey\n\nThrough natural processes, fragments of Bright Ones are shed to form smaller, distinct progeny."
 	tags: [
 		RELIQUARY,
         RANDOM_POOL,
@@ -1012,7 +1013,7 @@ PLUMPOWDER: {
 RECYCLER_BOLUS: {
 	name: Recycler Bolus
 	description: "Gain Max Hp upon Eggplant Pickup"
-    descriptionLong: "Max Hp Gained: 5 per Eggplant\nMax Hp Limit: +150\n\nA foul clump of mucus and undigested flesh\n\nThe resentful ingredients of the Kamaboko-Ya yearn to have their bodies remade in the shapes of the ones that terrorized them in life."
+    descriptionLong: "Max Hp Gained: +5% per Eggplant\nMax Hp Limit: +150%\n\nA foul clump of mucus and undigested flesh\n\nThe resentful ingredients of the Kamaboko-Ya yearn to have their bodies remade in the shapes of the ones that terrorized them in life."
 	tags: [
 		RELIQUARY,
         DEFENSE,

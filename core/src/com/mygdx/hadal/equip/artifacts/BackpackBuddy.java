@@ -12,7 +12,7 @@ public class BackpackBuddy extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 0;
 	
-	private static final int hpReduction = -25;
+	private static final float hpReduction = -0.25f;
 	private static final int bonusArtifactSlots = 1;
 	
 	public BackpackBuddy() {
@@ -22,7 +22,7 @@ public class BackpackBuddy extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b,
-				new StatChangeStatus(state, Stats.MAX_HP, hpReduction, b),
+				new StatChangeStatus(state, Stats.MAX_HP_PERCENT, hpReduction, b),
 				new StatChangeStatus(state, Stats.ARTIFACT_SLOTS, bonusArtifactSlots, b));
 		return enchantment;
 	}

@@ -13,7 +13,7 @@ public class DayattheFair extends Artifact {
 	private static final int slotCost = 1;
 
 	private static final float bonusKnockbackRes = -1.5f;
-	private static final int bonusHp = 25;
+	private static final float bonusHp = 0.25f;
 
 	public DayattheFair() {
 		super(slotCost, statusNum);
@@ -23,7 +23,7 @@ public class DayattheFair extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b,
 			new StatChangeStatus(state, Stats.KNOCKBACK_RES, bonusKnockbackRes, b),
-			new StatChangeStatus(state, Stats.MAX_HP, bonusHp, b));
+			new StatChangeStatus(state, Stats.MAX_HP_PERCENT, bonusHp, b));
 		return enchantment;
 	}
 }

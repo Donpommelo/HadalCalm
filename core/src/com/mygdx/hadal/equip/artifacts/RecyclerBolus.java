@@ -10,7 +10,7 @@ public class RecyclerBolus extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 3;
 	
-	private final float hpBuff = 5.0f;
+	private final float hpBuff = 0.05f;
 	private final int maxStacks = 30;
 	
 	public RecyclerBolus() {
@@ -40,7 +40,7 @@ public class RecyclerBolus extends Artifact {
 			
 			@Override
 			public void statChanges() {
-				inflicted.setStat(Stats.MAX_HP, inflicted.getStat(Stats.MAX_HP) + currentStacks * hpBuff);
+				inflicted.setStat(Stats.MAX_HP, inflicted.getStat(Stats.MAX_HP_PERCENT) + currentStacks * hpBuff);
 			}
 		};
 		return enchantment;

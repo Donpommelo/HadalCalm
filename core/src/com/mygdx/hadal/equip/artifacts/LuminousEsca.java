@@ -13,7 +13,7 @@ public class LuminousEsca extends Artifact {
 	private static final int slotCost = 1;
 	
 	private static final float bonusLight = 0.25f;
-	private static final int bonusHp = 15;
+	private static final float bonusHp = 0.15f;
 
 	public LuminousEsca() {
 		super(slotCost, statusNum);
@@ -23,7 +23,7 @@ public class LuminousEsca extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
 				new StatChangeStatus(state, Stats.LIGHT_RADIUS, bonusLight, b), 
-				new StatChangeStatus(state, Stats.MAX_HP, bonusHp, b));
+				new StatChangeStatus(state, Stats.MAX_HP_PERCENT, bonusHp, b));
 		return enchantment;
 	}
 }

@@ -250,14 +250,17 @@ public class BodyData extends HadalData {
 	 * This occurs when statuses are added/removed or equipment is equipped
 	 */
 	public void calcStats() {
-		
+
 		//Keep Hp% and fuel% constant in case of changing max values
 		float hpPercent = currentHp / getStat(Stats.MAX_HP);
 		float fuelPercent = currentFuel / getStat(Stats.MAX_FUEL);
 
 		System.arraycopy(baseStats, 0, buffedStats, 0, buffedStats.length);
 		statusProcTime(new ProcTime.StatCalc());
-		
+
+		//this is used for percentage based hp modifiers
+		setStat(Stats.MAX_HP, getStat(Stats.MAX_HP) * (1.0f + getStat(Stats.MAX_HP_PERCENT)));
+
 		currentHp = hpPercent * getStat(Stats.MAX_HP);
 		currentFuel = fuelPercent * getStat(Stats.MAX_FUEL);
 		

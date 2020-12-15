@@ -215,7 +215,7 @@ PORTABLE_SENTRY_VOLLEY: {
 PROXIMITY_MINE: {
 	name: Proximity Mine
 	description: "Deploy an invisible mine"
-    descriptionLong: "Charge: 9 Seconds\nPrime Delay: 2 Seconds\nMine Damage: 80\n\n"
+    descriptionLong: "Charge: 12 Seconds\nPrime Delay: 2 Seconds\nMine Damage: 80\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,

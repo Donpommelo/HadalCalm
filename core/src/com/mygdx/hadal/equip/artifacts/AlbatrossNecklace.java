@@ -10,7 +10,7 @@ public class AlbatrossNecklace extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
-	private static final float bonusHp = 75.0f;
+	private static final float bonusHp = 0.75f;
 	private static final float gravityScale = 1.75f;
 	
 	public AlbatrossNecklace() {
@@ -33,7 +33,7 @@ public class AlbatrossNecklace extends Artifact {
 			
 			@Override
 			public void statChanges() {
-				inflicted.setStat(Stats.MAX_HP, inflicted.getStat(Stats.MAX_HP) + bonusHp);
+				inflicted.setStat(Stats.MAX_HP_PERCENT, inflicted.getStat(Stats.MAX_HP_PERCENT) + bonusHp);
 			}
 		};
 		return enchantment;

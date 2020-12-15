@@ -13,7 +13,7 @@ public class DeplorableApparatus extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
-	private static final float hpReduction = -40.0f;
+	private static final float hpReduction = -0.4f;
 	private static final float hpRegen = 12.0f;
 	
 	private static final float procCd = 1.0f;
@@ -25,7 +25,7 @@ public class DeplorableApparatus extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.MAX_HP, hpReduction, b), 
+				new StatChangeStatus(state, Stats.MAX_HP_PERCENT, hpReduction, b),
 				new Status(state, b) {
 			
 			private float procCdCount = procCd;

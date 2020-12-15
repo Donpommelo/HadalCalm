@@ -34,7 +34,7 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="104" name="Bounds" type="Bounds" x="1984" y="1248" width="32" height="32">
+  <object id="104" name="Bounds" type="Bounds" x="1984" y="1312" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
@@ -43,7 +43,7 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="108" name="Sensor" type="Sensor" x="256" y="1984" width="2528" height="96">
+  <object id="108" name="Sensor" type="Sensor" x="256" y="2048" width="2528" height="32">
    <properties>
     <property name="triggeringId" value="outOfBounds"/>
    </properties>
