@@ -51,7 +51,7 @@ public class KryoServer {
 		kryo.setReferences(true);
 
 		KryoSerialization serialization = new KryoSerialization(kryo);
-		this.server = new Server(16384, 8192, serialization);
+		this.server = new Server(65536, 32768, serialization);
 		this.users = new HashMap<>();
 
 		users.put(0, new User(null, null, new SavedPlayerFields(gsm.getLoadout().getName(), 0), new SavedPlayerFieldsExtra()));

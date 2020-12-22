@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.WindowTable;
+import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
@@ -28,7 +29,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 public class SettingState extends GameState {
 
 	//This scrollpane holds the options for key bindings
-	private ScrollPane keybinds;
+	private ScrollPane keybinds, musicTracks;
 	
 	//This is the hotkey option that the player has selected to change
 	private PlayerAction currentlyEditing;
@@ -548,41 +549,46 @@ public class SettingState extends GameState {
 		Text soundRoom = new Text ("SOUND ROOM", 0, 0, false);
 		soundRoom.setScale(optionsScale);
 
-		Text track0 = new Text ("STOP SONG", 0, 0, true);
-		track0.setScale(detailsScale);
+		Text stop = new Text ("STOP SONG", 0, 0, true);
+		stop.setScale(detailsScale);
 
-		track0.addListener(new ClickListener() {
+		stop.addListener(new ClickListener() {
 
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
 				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+				HadalGame.musicPlayer.setMusicState(null);
 				HadalGame.musicPlayer.stop();
 			}
 		});
 
-		Text track1 = new Text ("PLAY TITLE_THEME", 0, 0, true);
-		track1.setScale(detailsScale);
+		VerticalGroup tracks = new VerticalGroup().space(optionPadding);
 
-		track1.addListener(new ClickListener() {
+		for (MusicTrack track: MusicTrack.values()) {
+			Text trackListen = new Text("PLAY: " + track.toString(), 0, 0, true);
 
-			@Override
-			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
-				HadalGame.musicPlayer.playSong(MusicTrack.TITLE, 1.0f);
-			}
-		});
+			trackListen.addListener(new ClickListener() {
 
-		Text track2 = new Text ("PLAY TITLE_THEME_V2", 0, 0, true);
-		track2.setScale(detailsScale);
+				@Override
+				public void clicked(InputEvent e, float x, float y) {
+					SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+					HadalGame.musicPlayer.playSong(track, 1.0f);
+					HadalGame.musicPlayer.setMusicState(MusicPlayer.MusicState.FREE);
+				}
+			});
 
-		track2.addListener(new ClickListener() {
+			trackListen.setScale(detailsScale);
+			trackListen.setHeight(detailHeight);
 
-			@Override
-			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
-				HadalGame.musicPlayer.playSong(MusicTrack.TITLE_V2, 1.0f);
-			}
-		});
+			tracks.addActor(trackListen);
+		}
+
+		if (musicTracks != null) {
+			musicTracks.remove();
+		}
+
+		musicTracks = new ScrollPane(tracks, GameStateManager.getSkin());
+		musicTracks.setSize(detailsWidth, detailsHeight);
 
 		details.add(soundText);
 		details.add(sound).height(detailHeight).pad(detailPad).row();
@@ -595,9 +601,9 @@ public class SettingState extends GameState {
 		details.add(hitsoundVolumeText);
 		details.add(hitsound).height(detailHeight).pad(detailPad).row();
 		details.add(soundRoom).colspan(2).pad(titlePad).row();
-		details.add(track0).height(detailHeight).pad(detailPad).row();
-		details.add(track1).height(detailHeight).pad(detailPad).row();
-		details.add(track2).height(detailHeight).pad(detailPad).row();
+		details.add(stop).height(detailHeight).pad(detailPad).row();
+		details.add(musicTracks).colspan(2).width(scrollWidth).expandY().pad(detailPad);
+		stage.setScrollFocus(musicTracks);
 	}
 	
 	/**
@@ -905,7 +911,7 @@ public class SettingState extends GameState {
 		//If the state has been unpaused, remove it
 		if (toRemove) {
 			transitionOut(() -> {
-				gsm.removeState(SettingState.class);
+				gsm.removeState(SettingState.class, false);
 				gsm.removeState(PauseState.class);
 			});
 		}

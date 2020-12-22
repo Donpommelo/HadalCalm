@@ -11,6 +11,7 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.utils.Constants;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -46,6 +47,8 @@ public class RingofTesting extends Artifact {
 
 					Hitbox frag = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, lifespan, fragVelo, inflicted.getSchmuck().getHitboxfilter(), 
 							true, false, inflicted.getSchmuck(), Sprite.FLOUNDER_A);
+					frag.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+
 					frag.setSyncDefault(false);
 					frag.setSyncInstant(true);
 					frag.addStrategy(new ControllerDefault(state, frag, inflicted));

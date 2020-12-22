@@ -110,7 +110,7 @@ public class Setting {
 	}
 
 	public void setAudio() {
-		HadalGame.musicPlayer.setVolume(musicVolume);
+		HadalGame.musicPlayer.setVolume(musicVolume * masterVolume);
 	}
 
 	/**

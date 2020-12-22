@@ -54,7 +54,7 @@ ALBATROSS_NECKLACE: {
 AMDAHLS_LOTUS: {
 	name: Amdahl's Lotus
 	description: "+Damage and Fuel Regeneration when Match Timer is low"
-    descriptionLong: "Timer Threshold: 10% Max Timer\nBonus Damage: +40%\nFuel Regeneration: +8 per Second\n\nAn immaculate blossom that unfurls during pivotal moments of conflict\n\nRepresenting upper Management, the lotus conferred upon its bearer the duty of conveying to humanity: commands, responses and eventually, apologies."
+    descriptionLong: "Timer Threshold: 20% Max Timer\nBonus Damage: +40%\nFuel Regeneration: +8 per Second\n\nAn immaculate blossom that unfurls during pivotal moments of conflict\n\nRepresenting upper Management, the lotus conferred upon its bearer the duty of conveying to humanity: commands, responses and eventually, apologies."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

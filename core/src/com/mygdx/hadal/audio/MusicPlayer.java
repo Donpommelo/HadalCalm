@@ -19,7 +19,7 @@ public class MusicPlayer {
 	
     //this is the song to be played next
 	private MusicTrack nextTrack;
-	private MusicTrack currentTrack;
+	private MusicState currentTrackType;
 
     //this is the rate at which the sound volume changes (default: 0, -x for fading out and +x for fading in)
   	private float fade;
@@ -27,7 +27,7 @@ public class MusicPlayer {
   	//the volume of the sound and the max volume the sound will fade in to.
   	private float volume, maxVolume, nextVolume;
   	
-  //default values for sound fading
+  	//default values for sound fading
   	private static final float defaultFadeInSpeed = 1.0f;
   	private static final float defaultFadeOutSpeed = -1.0f;
   	
@@ -48,11 +48,10 @@ public class MusicPlayer {
 				
 				if (nextTrack != null) {
 					stop();
-					
+
 					currentSong = nextTrack.getMusic();
 					currentSong.setLooping(true);
 					currentSong.play();
-					currentTrack = nextTrack;
 
 					maxVolume = nextVolume;
 					volume = 0.0f;
@@ -75,25 +74,48 @@ public class MusicPlayer {
 	
 	// Play a song.
 	public void playSong(MusicTrack music, float volume) {
-		if (currentSong != null) {
+    	if (currentSong != null) {
 			fade = defaultFadeOutSpeed;
 			nextTrack = music;
 			nextVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
 		} else {
-		    currentSong = music.getMusic();
-			currentSong.setLooping(true);
-			currentSong.play();
-			currentTrack = music;
-			maxVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
-
+    		if (music != null) {
+				currentSong = music.getMusic();
+				currentSong.setLooping(true);
+				currentSong.play();
+				maxVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
+			}
 			fade = defaultFadeInSpeed;
 		}
 	}
 
-	public void playSongIfNotAlreadyPlaying(MusicTrack music, float volume) {
-    	if (music != null) {
-			if (!music.equals(currentTrack)) {
-				playSong(music, volume);
+	private static final MusicTrack[] titleTracks = {MusicTrack.TITLE, MusicTrack.TITLE_V2};
+	private static final MusicTrack[] hubTracks = {MusicTrack.HUB, MusicTrack.HUB_V2, MusicTrack.HUB_V3};
+	private static final MusicTrack[] matchTracks = {MusicTrack.CONFIDENCE, MusicTrack.SURRENDER, MusicTrack.WHIPLASH, MusicTrack.ORGAN_GRINDER};
+
+	public void playSong(MusicState type, float volume) {
+
+		if (currentTrackType == MusicState.FREE) { return; }
+
+		if (currentTrackType != type) {
+			currentTrackType = type;
+			int randomIndex;
+			switch (type) {
+				case MENU:
+					randomIndex = GameStateManager.generator.nextInt(titleTracks.length);
+					playSong(titleTracks[randomIndex], volume);
+					break;
+				case HUB:
+					randomIndex = GameStateManager.generator.nextInt(hubTracks.length);
+					playSong(hubTracks[randomIndex], volume);
+					break;
+				case MATCH:
+					randomIndex = GameStateManager.generator.nextInt(matchTracks.length);
+					playSong(matchTracks[randomIndex], volume);
+					break;
+				case NOTHING:
+					playSong((MusicTrack) null, volume);
+					break;
 			}
 		}
 	}
@@ -125,7 +147,7 @@ public class MusicPlayer {
 
 	// Stops the current song.
 	public void stop() {
-	    if (currentSong != null) {
+		if (currentSong != null) {
 	        currentSong.stop();
 			currentSong.dispose(); 
 	    }
@@ -144,5 +166,13 @@ public class MusicPlayer {
 		}
 	}
 
-	public Music getCurrentSong() { return currentSong; }
+	public void setMusicState(MusicState state) { currentTrackType = state; }
+
+	public enum MusicState {
+    	MENU,
+		HUB,
+		MATCH,
+		NOTHING,
+		FREE,
+	}
 }

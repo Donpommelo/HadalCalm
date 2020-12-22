@@ -13,7 +13,7 @@ public class BookofBurial extends Artifact {
 	private static final int slotCost = 2;
 
 	private static final Vector2 projectileSize = new Vector2(75, 30);
-	private static final float mineLifespan = 24.0f;
+	private static final float mineLifespan = 18.0f;
 
 	private static final float projectileSpeed = 60.0f;
 
@@ -42,7 +42,6 @@ public class BookofBurial extends Artifact {
 				}
 			}
 			
-			private final Vector2 angle = new Vector2(1, 0);
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
 				

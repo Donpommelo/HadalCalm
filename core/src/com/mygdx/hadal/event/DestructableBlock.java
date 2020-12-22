@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
@@ -9,6 +10,8 @@ import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.server.EventDto;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
@@ -49,6 +52,9 @@ public class DestructableBlock extends Event {
 			
 			@Override
 			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+
+				if (!state.isServer()) { return basedamage; }
+
 				hp -= basedamage;
 				
 				if (basedamage > 0) {
@@ -77,6 +83,18 @@ public class DestructableBlock extends Event {
 				Constants.BIT_WALL, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
 	}
+
+	@Override
+	public Object onServerCreate() {
+		if (blueprint == null) {
+			blueprint = new RectangleMapObject(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, size.x, size.y);
+			blueprint.setName("Destr_Obj");
+			blueprint.getProperties().put("Hp", hp);
+			blueprint.getProperties().put("static", isStatic);
+		}
+		return new Packets.CreateEvent(entityID.toString(), new EventDto(blueprint), synced);
+	}
+
 	
 	@Override
 	public void loadDefaultProperties() {

@@ -12,7 +12,7 @@ public class NoctilucentPromise extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 
-	private static final float invulnDura = 5.0f;
+	private static final float invulnDura = 4.0f;
 
 	public NoctilucentPromise() {
 		super(slotCost, statusNum);

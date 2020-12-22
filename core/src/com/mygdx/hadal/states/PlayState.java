@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
+import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
@@ -336,6 +337,12 @@ public class PlayState extends GameState {
 		//if we faded out before transitioning to this stage, we should fade in upon showing
 		if (gsm.getApp().getFadeLevel() >= 1.0f) {
 			gsm.getApp().fadeIn();
+		}
+
+		if (isHub()) {
+			HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.HUB, 1.0f);
+		} else {
+			HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.MATCH, 1.0f);
 		}
 	}
 
@@ -752,9 +759,9 @@ public class PlayState extends GameState {
 		case RESULTS:
 
 			//get a results screen
-			gsm.removeState(SettingState.class);
-			gsm.removeState(PauseState.class);
-			gsm.removeState(PlayState.class);
+			gsm.removeState(SettingState.class, false);
+			gsm.removeState(PauseState.class, false);
+			gsm.removeState(PlayState.class, false);
 			gsm.addResultsState(this, resultsText, TitleState.class);
 			break;
 		case SPECTATOR:
@@ -769,22 +776,22 @@ public class PlayState extends GameState {
 		case NEWLEVEL:
 			
 			//remove this state and add a new play state with a fresh loadout
-			gsm.removeState(SettingState.class);
-			gsm.removeState(PauseState.class);
-			gsm.removeState(PlayState.class);
+			gsm.removeState(SettingState.class, false);
+			gsm.removeState(PauseState.class, false);
+			gsm.removeState(PlayState.class, false);
 			gsm.addPlayState(nextLevel, new Loadout(gsm.getLoadout()), player.getPlayerData(), TitleState.class, true, nextStartId);
 			break;
 		case NEXTSTAGE:
 			
 			//remove this state and add a new play state with the player's current loadout and stats
-			gsm.removeState(SettingState.class);
-			gsm.removeState(PauseState.class);
-			gsm.removeState(PlayState.class);
+			gsm.removeState(SettingState.class, false);
+			gsm.removeState(PauseState.class, false);
+			gsm.removeState(PlayState.class, false);
 			gsm.addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
 			break;
 		case TITLE:
-			gsm.removeState(SettingState.class);
-			gsm.removeState(PauseState.class);
+			gsm.removeState(SettingState.class, false);
+			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class);
 			
 			//add a notification to the title state if specified in transition state

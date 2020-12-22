@@ -17,6 +17,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Backdrop;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.WindowTable;
+import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.AssetList;
@@ -115,7 +116,7 @@ public class TitleState extends GameState {
 
 	private final TextureRegion gabenTexture;
 
-	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/203952/103m";
+	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/204943/103n";
 
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -245,7 +246,7 @@ public class TitleState extends GameState {
 						gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState(TitleState.class));
 						gsm.getApp().fadeOut();
 					}
-			    });
+				});
 				
 				singleOption.addListener(new ClickListener() {
 					
@@ -474,6 +475,8 @@ public class TitleState extends GameState {
 		if (gsm.getApp().getFadeLevel() >= 1.0f) {
 			gsm.getApp().fadeIn();
 		}
+
+		HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.MENU, 1.0f);
 
 		inputDisabled = true;
 		transitionIn(() -> inputDisabled = false);

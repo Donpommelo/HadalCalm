@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
+import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -165,6 +166,9 @@ public class ResultsState extends GameState {
 		if (!ps.getMessageWindow().isActive()) {
 			ps.getMessageWindow().toggleWindow();
 		}
+
+		HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.NOTHING, 1.0f);
+
 		ps.getMessageWindow().setLocked(true);
 		ps.getMessageWindow().table.setPosition(messageX, messageY);
 		stage.addActor(ps.getMessageWindow().table);
@@ -413,7 +417,7 @@ public class ResultsState extends GameState {
 	public void returnToHub() {
 		if (ps.isServer()) {
 			gsm.getApp().setRunAfterTransition(() -> {
-				gsm.removeState(ResultsState.class);
+				gsm.removeState(ResultsState.class, false);
 				gsm.gotoHubState(TitleState.class);
 			});
 		}

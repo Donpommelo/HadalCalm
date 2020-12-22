@@ -66,7 +66,7 @@ public class KryoClient {
 		Kryo kryo = new Kryo();
         kryo.setReferences(true);
         KryoSerialization serialization = new KryoSerialization(kryo);
-        this.client = new Client(8192, 4096, serialization);
+        this.client = new Client(65536, 32768, serialization);
 		users = new HashMap<>();
         client.start();
         
@@ -97,9 +97,9 @@ public class KryoClient {
 				
 				//return to the title. (if our client state is still there, we can do a fade out transition first.
         		Gdx.app.postRunnable(() -> {
-					gsm.removeState(ResultsState.class);
-					gsm.removeState(SettingState.class);
-					gsm.removeState(PauseState.class);
+					gsm.removeState(ResultsState.class, false);
+					gsm.removeState(SettingState.class, false);
+					gsm.removeState(PauseState.class, false);
 
 					if (cs != null) {
 						cs.returnToTitle(1.5f);

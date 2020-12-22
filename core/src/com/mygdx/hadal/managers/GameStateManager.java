@@ -266,10 +266,17 @@ public class GameStateManager {
 	 * @param lastState: the state we expect to remove. ensures no double-removing
 	 */
 	public void removeState(Class<? extends GameState> lastState) {
+		removeState(lastState, true);
+	}
+
+	public void removeState(Class<? extends GameState> lastState, boolean showNext) {
 		if (!states.empty()) {
 			if (states.peek().getClass().equals(lastState)) {
 				states.pop().dispose();
-				states.peek().show();
+
+				if (showNext) {
+					states.peek().show();
+				}
 			}
 		}
 	}

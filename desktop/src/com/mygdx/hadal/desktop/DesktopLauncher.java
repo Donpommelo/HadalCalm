@@ -1,10 +1,7 @@
 package com.mygdx.hadal.desktop;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowAdapter;
 import com.mygdx.hadal.HadalGame;
 
 public class DesktopLauncher {
@@ -12,6 +9,7 @@ public class DesktopLauncher {
 	private static final String TITLE = "Hadal Calm";
 
 	public static void main (String[] arg) {
+
 		final Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
 		//this makes the desktop icons appear
@@ -24,36 +22,36 @@ public class DesktopLauncher {
 
 		config.setResizable(true);
 
-		// These two lines were edited because without settings like this, Vsync gets applied twice, slowing things way down.
-		config.useVsync(false);
-		config.setForegroundFPS(60);
-
-		//this lets us decide whether to iconify or not dynamically in the settings menu
-		final boolean[] autoIconify = {true};
-		config.setWindowListener(new Lwjgl3WindowAdapter() {
-
-			@Override
-			public void iconified(boolean isIconified) {
-				if (!autoIconify[0] && isIconified) {
-					Gdx.app.postRunnable(() -> ((Lwjgl3Graphics) Gdx.graphics).getWindow().restoreWindow());
-				}
-			}
-		});
+//		// These two lines were edited because without settings like this, Vsync gets applied twice, slowing things way down.
+//		config.useVsync(false);
+//		config.setForegroundFPS(60);
+//
+//		//this lets us decide whether to iconify or not dynamically in the settings menu
+//		final boolean[] autoIconify = {true};
+//		config.setWindowListener(new Lwjgl3WindowAdapter() {
+//
+//			@Override
+//			public void iconified(boolean isIconified) {
+//				if (!autoIconify[0] && isIconified) {
+//					Gdx.app.postRunnable(() -> ((Lwjgl3Graphics) Gdx.graphics).getWindow().restoreWindow());
+//				}
+//			}
+//		});
 
 		new Lwjgl3Application(new HadalGame() {
-			
+
 			@Override
 			public void setFrameRate(int framerate) {
 
 				//This exposes config to the app to change fps during runtime.
-				config.setForegroundFPS(framerate);
+				//config.setForegroundFPS(framerate);
 			}
 
 			@Override
 			public void setAutoIconify(boolean iconify) {
-				autoIconify[0] = iconify;
+				//autoIconify[0] = iconify;
 			}
-			
+
 		}, config);
 	}
 }
