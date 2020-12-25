@@ -1146,6 +1146,7 @@ public class Packets {
 		public float damageSelf;
 		public float damageAllies;
 		public float damageReceived;
+		public boolean won;
 		public Loadout loadout;
 		
 		public SyncExtraResultsInfo() {}
@@ -1154,13 +1155,14 @@ public class Packets {
 		 * A SyncExtraResultsInfo is sent from the server to the client when they enter the results screen. This contains information about the match performance
 		 * @param connId: id of the player whose score is being updated.
 		 */
-		public SyncExtraResultsInfo(int connId, String name, float damageEnemies, float damageSelf, float damageAllies, float damageReceived, Loadout loadout) {
+		public SyncExtraResultsInfo(int connId, String name, float damageEnemies, float damageSelf, float damageAllies, float damageReceived, boolean won, Loadout loadout) {
 			this.connID = connId;
 			this.name = name;
 			this.damageEnemies = damageEnemies;
 			this.damageSelf = damageSelf;
 			this.damageAllies = damageAllies;
 			this.damageReceived = damageReceived;
+			this.won = won;
 			this.loadout = loadout;
 		}
 	}

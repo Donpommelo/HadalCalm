@@ -960,7 +960,8 @@ public class PlayState extends GameState {
 			
 			//check if all players are out
 			boolean allded = true;
-			
+			AlignmentFilter winningTeam = AlignmentFilter.NONE;
+
 			//in pvp, game ends if all players left are on the same team.
 			// (if only 1 player, do not register end until all lives are used. mostly for testing)
 			if (pvp && HadalGame.server.getUsers().size() > 1) {
@@ -976,8 +977,10 @@ public class PlayState extends GameState {
 								//if team mode, display a win for the team instead
 								if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
 									resultsText = playerLeft.getPlayerData().getLoadout().team.toString() + " WINS";
+									winningTeam = user.getTeamFilter();
 								} else {
 									resultsText = playerLeft.getName() + " WINS";
+									winningTeam = user.getHitBoxFilter();
 								}
 							} else {
 								resultsText = playerLeft.getName() + " WINS";
@@ -1007,6 +1010,20 @@ public class PlayState extends GameState {
 			
 			//if the match is over (all players dead in co-op or all but one team dead in pvp), all players go to results screen
 			if (allded) {
+
+				for (User user : HadalGame.server.getUsers().values()) {
+					SavedPlayerFields score = user.getScores();
+					if (teamEnabled) {
+						if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
+							score.win();
+						}
+					} else {
+						if (user.getScores().getLives() > 0) {
+							score.win();
+						}
+					}
+				}
+
 				beginTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay);
 				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay));
 			} else {
@@ -1048,7 +1065,7 @@ public class PlayState extends GameState {
 	 * This is called when a level ends. Only called by the server. Begin a transition and tell all clients to follow suit.
 	 * @param text: text displayed in results state
 	 */
-	public void levelEnd(String text) {
+	public void levelEnd(String text, boolean victory) {
 		String resultsText = text;
 		if (text.equals(ResultsState.magicWord)) {
 			for (User user: HadalGame.server.getUsers().values()) {
@@ -1104,7 +1121,11 @@ public class PlayState extends GameState {
 					}
 				}
 			}
-		}
+		} else if (victory) {
+            for (User user: HadalGame.server.getUsers().values()) {
+                user.getScores().win();
+            }
+        }
 
 		beginTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay);
 		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay));

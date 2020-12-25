@@ -405,6 +405,7 @@ public class SettingState extends GameState {
 		
 		keybinds = new ScrollPane(actions, GameStateManager.getSkin());
 		keybinds.setSize(detailsWidth, detailsHeight);
+		keybinds.setFadeScrollBars(false);
 		
 		details.add(keybinds).width(scrollWidth).expandY().pad(optionPadding);
 		stage.setScrollFocus(keybinds);
@@ -589,6 +590,7 @@ public class SettingState extends GameState {
 
 		musicTracks = new ScrollPane(tracks, GameStateManager.getSkin());
 		musicTracks.setSize(detailsWidth, detailsHeight);
+		musicTracks.setFadeScrollBars(false);
 
 		details.add(soundText);
 		details.add(sound).height(detailHeight).pad(detailPad).row();

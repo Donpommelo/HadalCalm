@@ -18,7 +18,7 @@ public class TaintedWater extends ActiveItem {
 
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 13.0f;
+	private static final float maxCharge = 12.0f;
 	
 	private static final float duration = 4.0f;
 

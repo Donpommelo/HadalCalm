@@ -99,6 +99,7 @@
   <property name="text" type="string"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
+  <property name="victory" type="bool" default="true"/>
  </objecttype>
  <objecttype name="Equip" color="#a0a0a4">
   <property name="pool" type="string"/>

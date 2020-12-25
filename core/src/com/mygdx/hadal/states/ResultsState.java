@@ -1,8 +1,12 @@
 package com.mygdx.hadal.states;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -34,7 +38,7 @@ public class ResultsState extends GameState {
 
 	//This table contains the options for the title.
 	private Table table, tableInfo, tableInfoOuter, tableArtifact;
-	private ScrollPane infoScroll;
+	private ScrollPane infoScroll, charactersScroll;
 
 	private Text infoPlayerName;
 	
@@ -44,7 +48,9 @@ public class ResultsState extends GameState {
 	//This is a list of all the saved player fields (scores) from the completed playstate
 	private final ArrayList<SavedPlayerFields> scores;
 
-	//This i sa mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
+    private final ArrayList<PlayerResultsIcon> icons;
+
+    //This i sa mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
 	private final HashMap<SavedPlayerFields, Boolean> ready;
 	
 	//this text is displayed at the top of the state and usually indicates victory or loss
@@ -54,35 +60,41 @@ public class ResultsState extends GameState {
 	public static final String magicWord = "fug";
 
 	//Dimensions and position of the results menu
-	private static final int width = 1000;
-	private static final int baseHeight = 90;
+	private static final int tableX = 20;
+	private static final int tableY = 240;
+	private static final int tableWidth = 1240;
+	private static final int tableHeight = 460;
+	private static final int characterScrollHeight = 310;
+
+	private static final int infoX = 980;
+	private static final int infoY = 20;
+	private static final int infoWidth = 280;
+	private static final int infoHeight = 200;
+
+	private static final int infoRowHeight = 20;
+	private static final float infoTextScale = 0.25f;
+	private static final float infoPadY = 15.0f;
+	private static final float infoPadYSmall = 5.0f;
+
+	public static final int infoNameHeight = 30;
+	public static final int infoScrollHeight = 100;
+	public static final int infoNamePadding = 15;
+
 	private static final int titleHeight = 40;
-	private static final int rowHeight = 30;
-	private static final int rowPad = 20;
-	private static final int nameWidth = 400;
 	private static final float scale = 0.4f;
 	private static final int maxNameLen = 30;
 
 	private static final int optionHeight = 50;
 
-	private static final int infoWidth = 280;
-	private static final int infoHeight = 500;
-	private static final int infoRowHeight = 20;
-	private static final float infoTextScale = 0.25f;
-	private static final float infoPadY = 15.0f;
-	private static final float infoPadYSmall = 5.0f;
-	
-	public static final int infoNameHeight = 40;
-	public static final int infoScrollHeight = 440;
-	public static final int infoNamePadding = 20;
-	
 	public static final float artifactTagSize = 40.0f;
 	private static final float artifactTagOffsetX = -100.0f;
 	private static final float artifactTagOffsetY = -60.0f;
 	private static final float artifactTagTargetWidth = 200.0f;
 
-	private static final int messageX = 440;
-	private static final int messageY = 0;
+	private static final float scrollAcceleration = 8.0f;
+
+	private static final int messageX = 20;
+	private static final int messageY = 20;
 	/**
 	 * Constructor will be called whenever the game transitions into a results state
 	 * @param text: this is the string that is displayed at the top of the result state
@@ -94,6 +106,7 @@ public class ResultsState extends GameState {
 		
 		//First, we obtain the list of scores, depending on whether we are the server or client.
 		scores = new ArrayList<>();
+		icons = new ArrayList<>();
 
 		if (ps.isServer()) {
 			for (User user: HadalGame.server.getUsers().values()) {
@@ -106,8 +119,8 @@ public class ResultsState extends GameState {
 			}
 		}
 
-		//Then, we sort according to score and give the winner(s) a win.
-		scores.sort((a, b) -> b.getScore() - a.getScore());
+		//Then, we sort according to score and give the winner(s) a win. Being on the winning team overrides score
+		scores.sort((a, b) -> (b.getScore() + (b.isWonLast() ? 1000 : 0)) - (a.getScore() + (a.isWonLast() ? 1000 : 0)));
 
 		if (ps.isServer()) {
 			for (User user : HadalGame.server.getUsers().values()) {
@@ -116,7 +129,7 @@ public class ResultsState extends GameState {
 				SavedPlayerFieldsExtra scoreExtra = user.getScoresExtra();
 				HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(score.getConnID(), score.getNameShort(),
 					scoreExtra.getDamageDealt(), scoreExtra.getDamageDealtSelf(), scoreExtra.getDamageDealtAllies(),
-					scoreExtra.getDamageReceived(), scoreExtra.getLoadout()));
+					scoreExtra.getDamageReceived(), score.isWonLast(), scoreExtra.getLoadout()));
 			}
 		}
 		
@@ -131,16 +144,14 @@ public class ResultsState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
-				//table height scales to the number of players in the game
-				int tableHeight = baseHeight + titleHeight * 2 + (rowHeight + rowPad) * scores.size();
-				
 				addActor(new Backdrop(AssetList.RESULTS_CARD.toString()));
+
 				table = new WindowTable();
-				table.setPosition(0, HadalGame.CONFIG_HEIGHT - tableHeight);
-				table.setSize(width, tableHeight);
+				table.setPosition(tableX, tableY);
+				table.setSize(tableWidth, tableHeight);
 				addActor(table);
 				syncScoreTable();
-				
+
 				tableInfoOuter = new WindowTable();
 
 				infoPlayerName = new Text("", 0, 0, false);
@@ -151,11 +162,19 @@ public class ResultsState extends GameState {
 
 				infoScroll = new ScrollPane(tableInfo, GameStateManager.getSkin());
 				infoScroll.setFadeScrollBars(false);
+
+				infoScroll.addListener(new InputListener() {
+
+					@Override
+					public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+						stage.setScrollFocus(infoScroll);
+					}
+				});
 				
 				tableInfoOuter.add(infoPlayerName).pad(infoNamePadding).height(infoNameHeight).row();
 				tableInfoOuter.add(tableArtifact).height(infoNameHeight).row();
 				tableInfoOuter.add(infoScroll).width(infoWidth).height(infoScrollHeight);
-				tableInfoOuter.setPosition(HadalGame.CONFIG_WIDTH - infoWidth, HadalGame.CONFIG_HEIGHT - infoHeight);
+				tableInfoOuter.setPosition(infoX, infoY);
 				tableInfoOuter.setSize(infoWidth, infoHeight);
 				
 				addActor(tableInfoOuter);
@@ -174,6 +193,44 @@ public class ResultsState extends GameState {
 		stage.addActor(ps.getMessageWindow().table);
 		gsm.getApp().fadeIn();
 		app.newMenu(stage);
+
+		InputMultiplexer inputMultiplexer = new InputMultiplexer();
+
+		inputMultiplexer.addProcessor(stage);
+
+		inputMultiplexer.addProcessor(new InputProcessor() {
+
+			@Override
+			public boolean keyDown(int keycode) { return false;	}
+
+			@Override
+			public boolean keyUp(int keycode) { return false; }
+
+			@Override
+			public boolean keyTyped(char character) { return false; }
+
+			@Override
+			public boolean touchDown(int screenX, int screenY, int pointer, int button) { return false; }
+
+			@Override
+			public boolean touchUp(int screenX, int screenY, int pointer, int button) { return false; }
+
+			@Override
+			public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
+
+			@Override
+			public boolean mouseMoved(int screenX, int screenY) { return false; }
+
+			@Override
+			public boolean scrolled(float amountX, float amountY) {
+				if (charactersScroll != null) {
+					charactersScroll.setScrollX(charactersScroll.getScrollX() + amountY * scrollAcceleration);
+					return true;
+				}
+				return false;
+			}
+		});
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
 	/**
@@ -182,63 +239,60 @@ public class ResultsState extends GameState {
 	 */
 	public void syncScoreTable() {
 		table.clear();
-		
+
+		final Table tableCharacters = new Table();
+		charactersScroll = new ScrollPane(tableCharacters, GameStateManager.getSkin());
+		charactersScroll.setFadeScrollBars(false);
+
+		charactersScroll.addListener(new InputListener() {
+
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+				stage.setScrollFocus(null);
+			}
+		});
+
 		Text title = new Text(text, 0, 0, false);
 		title.setScale(scale);
-		
-		Text playerLabel = new Text("PLAYER", 0, 0, false);
-		playerLabel.setScale(scale);
-		
-		Text killsLabel = new Text("KILLS", 0, 0, false);
-		killsLabel.setScale(scale);
-		
-		Text deathsLabel = new Text("DEATHS", 0, 0, false);
-		deathsLabel.setScale(scale);
-		
-		Text scoreLabel = new Text("SCORE", 0, 0, false);
-		scoreLabel.setScale(scale);
-		
-		Text statusLabel = new Text("STATUS", 0, 0, false);
-		statusLabel.setScale(scale);
-		
-		table.add(title).height(titleHeight).colspan(5).row();
-		table.add(playerLabel).width(nameWidth).height(titleHeight).padRight(20);
-		table.add(killsLabel).height(titleHeight).padRight(20);
-		table.add(deathsLabel).height(titleHeight).padRight(20);
-		table.add(scoreLabel).height(titleHeight).padRight(20);
-		table.add(statusLabel).height(titleHeight).row();
-		
-		for (SavedPlayerFields score: scores) {
-			
-			Text name = new Text(score.getNameAbridged(true, maxNameLen), 0, 0, false);
-			name.setColor(Color.RED);
-			name.setScale(scale);
-			
-			//mousing over player name brings up window with extra information
-			name.addListener(new ClickListener() {
-		        
-				@Override
-				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					super.enter(event, x, y, pointer, fromActor);
-					syncInfoTable(score.getConnID());
-				}
-					    });
-			
-			Text kills = new Text(score.getKills() + " ", 0, 0, false);
-			kills.setScale(scale);
-			Text death = new Text(score.getDeaths() + " ", 0, 0, false);
-			death.setScale(scale);
-			Text points = new Text(score.getScore() + " ", 0, 0, false);
-			points.setScale(scale);
-			Text status = new Text(ready.get(score) ? "READY" : "WAITING", 0, 0, false);
-			status.setScale(scale);
 
-			table.add(name).width(nameWidth).height(rowHeight).padBottom(25);
-			table.add(kills).height(rowHeight).padBottom(rowPad);
-			table.add(death).height(rowHeight).padBottom(rowPad);
-			table.add(points).height(rowHeight).padBottom(rowPad);
-			table.add(status).height(rowHeight).padBottom(rowPad).row();
+		for (SavedPlayerFields score: scores) {
+
+			int connId = score.getConnID();
+
+			SavedPlayerFields field = null;
+			SavedPlayerFieldsExtra fieldExtra = null;
+			User user;
+			if (ps.isServer()) {
+				user =  HadalGame.server.getUsers().get(connId);
+
+			} else {
+				user =  HadalGame.client.getUsers().get(connId);
+			}
+			if (user != null) {
+				field = user.getScores();
+				fieldExtra = user.getScoresExtra();
+			}
+
+			if (field != null && fieldExtra != null) {
+				PlayerResultsIcon icon = new PlayerResultsIcon(this, batch, field, fieldExtra);
+
+				icon.addListener(new ClickListener() {
+
+					@Override
+					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
+						super.enter(event, x, y, pointer, fromActor);
+						syncInfoTable(score.getConnID());
+					}
+				});
+
+				tableCharacters.add(icon);
+
+				icons.add(icon);
+			}
 		}
+
+		table.add(title).height(titleHeight).colspan(2).row();
+		table.add(charactersScroll).expandX().height(characterScrollHeight).colspan(2).row();
 
 		//These are all of the display and buttons visible to the player.
 		final Text readyOption = new Text("RETURN TO LOADOUT?", 0, 0, true);
@@ -275,7 +329,7 @@ public class ResultsState extends GameState {
 		
 		table.add(readyOption).height(optionHeight);
 		if (ps.isServer()) {
-			table.add(forceReadyOption).height(optionHeight).colspan(4);
+			table.add(forceReadyOption).height(optionHeight);
 		}
 	}
 	
@@ -385,12 +439,16 @@ public class ResultsState extends GameState {
 			if (user != null) {
 				SavedPlayerFields field = user.getScores();
 				ready.put(field, true);
+				int iconId = scores.indexOf(field);
+				icons.get(iconId).setReady(true);
+
 				HadalGame.server.sendToAllTCP(new Packets.ClientReady(scores.indexOf(field)));
 			}
 		} else {
 			
 			//Clients just find the player based on that index and sets them as ready.
 			ready.put(scores.get(playerId), true);
+			icons.get(playerId).setReady(true);
 		}
 		
 		//When all players are ready, reddy will be true and we return to the hub
@@ -401,10 +459,7 @@ public class ResultsState extends GameState {
 				break;
 			}
 		}
-		
-		//sync score table to display new readiness
-		syncScoreTable();
-		
+
 		//When the server is ready, we return to hub and tell all clients to do the same.
 		if (reddy) {
 			returnToHub();
@@ -451,7 +506,13 @@ public class ResultsState extends GameState {
 	public void render(float delta) {}
 
 	@Override
-	public void dispose() {	stage.dispose(); }
+	public void dispose() {
+	    stage.dispose();
+
+	    for (PlayerResultsIcon icon: icons) {
+	        icon.dispose();
+        }
+	}
 	
 	public PlayState getPs() { return ps; }
 }

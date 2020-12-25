@@ -407,7 +407,8 @@ public class TiledObjectUtil {
 				break;
 			case "End":
 				e = new End(state,
-						object.getProperties().get("text", "", String.class));
+						object.getProperties().get("text", "", String.class),
+						object.getProperties().get("victory", true, boolean.class));
 				break;
 			case "Destr_Obj":
 				e = new DestructableBlock(state, position, size,

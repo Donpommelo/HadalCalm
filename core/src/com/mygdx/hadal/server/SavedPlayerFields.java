@@ -11,6 +11,7 @@ public class SavedPlayerFields {
 	
 	//Player's stored stats
 	private int wins, kills, deaths, score, lives, ping, connID;
+	private boolean wonLast;
 	
 	//this unused constructor is needed by kryo for serialization
 	public SavedPlayerFields() {}
@@ -49,9 +50,13 @@ public class SavedPlayerFields {
 		this.deaths = 0;
 		this.score = 0;
 		this.lives = 1;
+		wonLast = false;
 	}
 	
-	public void win() { wins++; }
+	public void win() {
+		wins++;
+		wonLast = true;
+	}
 
 	//this gets the name displayed in score windows. Gives an indication of which player is the host
 	public String getName() { 
@@ -86,7 +91,11 @@ public class SavedPlayerFields {
 	}
 
 	public int getConnID() { return connID; }
-	
+
+	public boolean isWonLast() { return wonLast; }
+
+	public void setWonLast(boolean wonLast) { this.wonLast = wonLast; }
+
 	public int getWins() { return wins; }
 
 	public void setWins(int wins) { this.wins = wins; }

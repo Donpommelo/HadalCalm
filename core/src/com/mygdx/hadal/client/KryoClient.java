@@ -525,18 +525,22 @@ public class KryoClient {
         		 */
         		else if (o instanceof Packets.SyncExtraResultsInfo) {
         			final Packets.SyncExtraResultsInfo p = (Packets.SyncExtraResultsInfo) o;
-					SavedPlayerFieldsExtra score;
+					SavedPlayerFields score;
+					SavedPlayerFieldsExtra scoreExtra;
 					if (users.containsKey(p.connID)) {
-						score = users.get(p.connID).getScoresExtra();
+						scoreExtra = users.get(p.connID).getScoresExtra();
+						score = users.get(p.connID).getScores();
 					} else {
-						score = new SavedPlayerFieldsExtra();
-						users.put(p.connID, new User(null, null, new SavedPlayerFields(p.name, p.connID), score));
+						scoreExtra = new SavedPlayerFieldsExtra();
+						score = new SavedPlayerFields(p.name, p.connID);
+						users.put(p.connID, new User(null, null, score, scoreExtra));
 					}
-					score.setDamageDealt(p.damageEnemies);
-					score.setDamageDealtAllies(p.damageAllies);
-					score.setDamageDealtSelf(p.damageSelf);
-					score.setDamageReceived(p.damageReceived);
-					score.setLoadout(p.loadout);
+					scoreExtra.setDamageDealt(p.damageEnemies);
+					scoreExtra.setDamageDealtAllies(p.damageAllies);
+					scoreExtra.setDamageDealtSelf(p.damageSelf);
+					scoreExtra.setDamageReceived(p.damageReceived);
+					scoreExtra.setLoadout(p.loadout);
+					score.setWonLast(p.won);
         		}
 
         		/*

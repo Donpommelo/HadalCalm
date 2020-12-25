@@ -17,9 +17,9 @@ public class CallofWalrus extends ActiveItem {
 
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 10.0f;
+	private static final float maxCharge = 8.0f;
 	
-	private static final float duration = 5.0f;
+	private static final float duration = 4.0f;
 	
 	private static final float spdBuff = 0.5f;
 	private static final float damageBuff = 0.3f;

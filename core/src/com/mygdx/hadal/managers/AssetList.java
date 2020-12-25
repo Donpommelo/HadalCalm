@@ -32,6 +32,7 @@ public enum AssetList {
 	PLAYER_TAKANORI_ATL("sprites/player/takanori.atlas", TextureAtlas.class),
 	PLAYER_TELEMACHUS_ATL("sprites/player/telemachus.atlas", TextureAtlas.class),
 	PLAYER_WANDA_ATL("sprites/player/wanda.atlas", TextureAtlas.class),
+	PLAYER_EXTRA_ATL("sprites/player/characterExtra.atlas", TextureAtlas.class),
 
 	PLAYER_MAXIMILLIAN("sprites/player/maximillian.png", Texture.class),
 	PLAYER_MOREAU("sprites/player/moreau.png", Texture.class),

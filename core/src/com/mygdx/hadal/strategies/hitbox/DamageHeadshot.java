@@ -21,19 +21,37 @@ public class DamageHeadshot extends HitboxStrategy {
 	
 	//the amount of damage and knockback this hbox will inflict
 	private final float bonusDamage;
-	
-	public DamageHeadshot(PlayState state, Hitbox proj, BodyData user, float damage) {
+	private final float maxCharge;
+
+	public DamageHeadshot(PlayState state, Hitbox proj, BodyData user, float damage, float maxCharge) {
 		super(state, proj, user);
 		this.bonusDamage = damage;
+		this.maxCharge = maxCharge;
 	}
-	
+
+	private float currentCharge;
+	@Override
+	public void controller(float delta) {
+		if (currentCharge < maxCharge) {
+			currentCharge += delta;
+			if (currentCharge > maxCharge) {
+				currentCharge = maxCharge;
+			}
+		}
+	}
+
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
 			if (fixB instanceof PlayerBodyData) {
 				PlayerBodyData p = (PlayerBodyData) fixB;
 				if ((hbox.getPixelPosition().y - p.getPlayer().getPixelPosition().y) > headshotThreshold * Player.hbHeight * Player.scale) {
-					hbox.setDamageMultiplier(hbox.getDamageMultiplier() + bonusDamage);
+
+					float headshotBonus = currentCharge / maxCharge * bonusDamage;
+
+					System.out.println(headshotBonus);
+
+					hbox.setDamageMultiplier(hbox.getDamageMultiplier() + headshotBonus);
 				}
 			}
 		}

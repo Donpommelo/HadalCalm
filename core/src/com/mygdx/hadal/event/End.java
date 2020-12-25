@@ -18,10 +18,12 @@ import com.mygdx.hadal.states.PlayState;
 public class End extends Event {
 
 	private final String text;
-	
-	public End(PlayState state, String text) {
+	private final boolean victory;
+
+	public End(PlayState state, String text, boolean victory) {
 		super(state);
 		this.text = text;
+		this.victory = victory;
 	}
 	
 	@Override
@@ -31,7 +33,7 @@ public class End extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				state.levelEnd(text);
+				state.levelEnd(text, victory);
 			}
 		};
 	}

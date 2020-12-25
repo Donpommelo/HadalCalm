@@ -200,7 +200,20 @@ public enum Sprite {
 	EMOTE_READY(SpriteType.EMOTE, "emote_ready", PlayMode.LOOP, 0.5f),
 
 	TELEMACHUS_POINT(SpriteType.TELEMACHUS_POINT, null),
-	
+
+	MOREAU_BUFF(SpriteType.CHARACTER_EXTRA, "moreau_buff"),
+	MOREAU_SLUG(SpriteType.CHARACTER_EXTRA, "moreau_slug"),
+	MAXIMILLIAN_BUFF(SpriteType.CHARACTER_EXTRA, "maximillian_buff"),
+	MAXIMILLIAN_SLUG(SpriteType.CHARACTER_EXTRA, "maximillian_slug"),
+	ROCLAIRE_BUFF(SpriteType.CHARACTER_EXTRA, "roclaire_buff"),
+	ROCLAIRE_SLUG(SpriteType.CHARACTER_EXTRA, "roclaire_slug"),
+	TAKANORI_BUFF(SpriteType.CHARACTER_EXTRA, "takanori_buff"),
+	TAKANORI_SLUG(SpriteType.CHARACTER_EXTRA, "takanori_slug"),
+	TELEMACHUS_BUFF(SpriteType.CHARACTER_EXTRA, "telemachus_buff"),
+	TELEMACHUS_SLUG(SpriteType.CHARACTER_EXTRA, "telemachus_slug"),
+	WANDA_BUFF(SpriteType.CHARACTER_EXTRA, "wanda_buff"),
+	WANDA_SLUG(SpriteType.CHARACTER_EXTRA, "wanda_slug"),
+
 	//Misc stuff from totlc
 	IMPACT(SpriteType.IMPACT, "impact"),
 	;
@@ -290,6 +303,8 @@ public enum Sprite {
 			return HadalGame.assetManager.get(AssetList.DRONE_ATL.toString());
 		case TELEMACHUS_POINT:
 			return HadalGame.assetManager.get(AssetList.TELEMACHUS_POINT.toString());
+		case CHARACTER_EXTRA:
+			return HadalGame.assetManager.get(AssetList.PLAYER_EXTRA_ATL.toString());
 		default:
 			return null;
 		}
@@ -316,5 +331,6 @@ public enum Sprite {
 		KAMABOKO_SWIM,
 		DRONE,
 		TELEMACHUS_POINT,
+		CHARACTER_EXTRA,
 	}
 }

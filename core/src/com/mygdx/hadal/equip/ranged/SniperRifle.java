@@ -26,7 +26,7 @@ public class SniperRifle extends RangedWeapon {
 	private static final int ammoSize = 21;
 	private static final float shootCd = 0.5f;
 	private static final float shootDelay = 0.0f;
-	private static final float reloadTime = 1.4f;
+	private static final float reloadTime = 1.3f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 55.0f;
 	private static final float recoil = 15.0f;
@@ -38,8 +38,9 @@ public class SniperRifle extends RangedWeapon {
 	private static final Sprite projSprite = Sprite.BULLET;
 	private static final Sprite weaponSprite = Sprite.MT_SPEARGUN;
 	private static final Sprite eventSprite = Sprite.P_SPEARGUN;
-	
-	private static final float bonusDamage = 1.0f;
+
+	private static final float bonusDamage = 1.2f;
+	private static final float maxCharge = 0.25f;
 
 	public SniperRifle(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -56,7 +57,7 @@ public class SniperRifle extends RangedWeapon {
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageHeadshot(state, hbox, user.getBodyData(), bonusDamage));
+		hbox.addStrategy(new DamageHeadshot(state, hbox, user.getBodyData(), bonusDamage, maxCharge));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.SNIPE, DamageTypes.RANGED));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.5f));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 1.0f).setParticleColor(
