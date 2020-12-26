@@ -4,16 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.audio.MusicPlayer;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -49,6 +54,7 @@ public class ResultsState extends GameState {
 	private final ArrayList<SavedPlayerFields> scores;
 
     private final ArrayList<PlayerResultsIcon> icons;
+	private final ArrayList<PooledEffect> effects;
 
     //This i sa mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
 	private final HashMap<SavedPlayerFields, Boolean> ready;
@@ -66,9 +72,11 @@ public class ResultsState extends GameState {
 	private static final int tableHeight = 460;
 	private static final int characterScrollHeight = 310;
 
-	private static final int infoX = 980;
+	private static final int infoXEnabled = 880;
+	private static final int infoYEnabled = 20;
+	private static final int infoX = 1280;
 	private static final int infoY = 20;
-	private static final int infoWidth = 280;
+	private static final int infoWidth = 380;
 	private static final int infoHeight = 200;
 
 	private static final int infoRowHeight = 20;
@@ -91,6 +99,9 @@ public class ResultsState extends GameState {
 	private static final float artifactTagOffsetY = -60.0f;
 	private static final float artifactTagTargetWidth = 200.0f;
 
+	private static final float particleOffsetX = 75.0f;
+	private static final float particleOffsetY = 150.0f;
+
 	private static final float scrollAcceleration = 8.0f;
 
 	private static final int messageX = 20;
@@ -107,6 +118,7 @@ public class ResultsState extends GameState {
 		//First, we obtain the list of scores, depending on whether we are the server or client.
 		scores = new ArrayList<>();
 		icons = new ArrayList<>();
+		effects = new ArrayList<>();
 
 		if (ps.isServer()) {
 			for (User user: HadalGame.server.getUsers().values()) {
@@ -274,13 +286,31 @@ public class ResultsState extends GameState {
 			}
 
 			if (field != null && fieldExtra != null) {
-				PlayerResultsIcon icon = new PlayerResultsIcon(this, batch, field, fieldExtra);
+
+				PooledEffect effect = null;
+				if (field.isWonLast()) {
+					effect = Particle.PARTY.getParticle();
+					effects.add(effect);
+				}
+
+				final PooledEffect finalEffect = effect;
+				PlayerResultsIcon icon = new PlayerResultsIcon(this, batch, field, fieldExtra) {
+
+					@Override
+					public void draw(Batch batch, float alpha) {
+						super.draw(batch, alpha);
+						if (finalEffect != null) {
+							finalEffect.setPosition(getX() + particleOffsetX, getY() + particleOffsetY);
+							finalEffect.draw(batch, 0.0f);
+						}
+					}
+				};
 
 				icon.addListener(new ClickListener() {
 
 					@Override
-					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
-						super.enter(event, x, y, pointer, fromActor);
+					public void clicked (InputEvent event, float x, float y) {
+						super.clicked(event, x, y);
 						syncInfoTable(score.getConnID());
 					}
 				});
@@ -288,6 +318,7 @@ public class ResultsState extends GameState {
 				tableCharacters.add(icon);
 
 				icons.add(icon);
+
 			}
 		}
 
@@ -336,94 +367,103 @@ public class ResultsState extends GameState {
 	/**
 	 * This fills the window with stats for the designated player
 	 */
+	private int currentConnId = -1;
+	private static final float transitionDuration = 0.1f;
+	private static final Interpolation intp = Interpolation.fastSlow;
 	public void syncInfoTable(int connId) {
-		tableInfo.clear();
-		tableArtifact.clear();
-		
-		SavedPlayerFields field = null;
-		SavedPlayerFieldsExtra fieldExtra = null;
-		User user;
-		if (ps.isServer()) {
-			user =  HadalGame.server.getUsers().get(connId);
 
-		} else {
-			user =  HadalGame.client.getUsers().get(connId);
-		}
-		if (user != null) {
-			field = user.getScores();
-			fieldExtra = user.getScoresExtra();
-		}
-		
-		if (field != null && fieldExtra != null) {
-			
-			infoPlayerName.setText(field.getNameAbridged(false, maxNameLen));
-			
-			//display player's loadout (if synced properly)
-			if (fieldExtra.getLoadout() != null) {
-				
-				for (UnlockArtifact c: fieldExtra.getLoadout().artifacts) {
-					if (!c.equals(UnlockArtifact.NOTHING)) {
-						ArtifactIcon newTag = new ArtifactIcon(c, c.getInfo().getName() + "\n" + c.getInfo().getDescription(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
-						tableArtifact.add(newTag).width(artifactTagSize).height(artifactTagSize);
-					}
-				}
-				
-				for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
-					if (!fieldExtra.getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
-						Text weaponField = new Text("WEAPON" + (i + 1) + ": ", 0, 0, false);
-						weaponField.setScale(infoTextScale);
-						Text weapon = new Text(fieldExtra.getLoadout().multitools[i].name(), 0, 0, false);
-						weapon.setScale(infoTextScale);
-						tableInfo.add(weaponField).height(infoRowHeight).left().padBottom(infoPadYSmall);
-						tableInfo.add(weapon).height(infoRowHeight).left().padBottom(infoPadYSmall).row();
-					}
-				}
-				Text activeField = new Text("ACTIVE: ", 0, 0, false);
-				activeField.setScale(infoTextScale);
-				Text active = new Text(fieldExtra.getLoadout().activeItem.name(), 0, 0, false);
-				active.setScale(infoTextScale);
-				tableInfo.add(activeField).height(infoRowHeight).left().padBottom(infoPadYSmall);
-				tableInfo.add(active).height(infoRowHeight).left().padBottom(infoPadYSmall).row();
+		if (currentConnId == connId) { return; }
+		currentConnId = connId;
+
+		tableInfoOuter.addAction(Actions.sequence(Actions.moveTo(infoX, infoY, transitionDuration, intp), Actions.run(() -> {
+			tableInfo.clear();
+			tableArtifact.clear();
+
+			SavedPlayerFields field = null;
+			SavedPlayerFieldsExtra fieldExtra = null;
+			User user;
+			if (ps.isServer()) {
+				user =  HadalGame.server.getUsers().get(connId);
+
+			} else {
+				user =  HadalGame.client.getUsers().get(connId);
 			}
-			
-			Text damageDealtField = new Text("DAMAGE DEALT: ", 0, 0, false);
-			damageDealtField.setScale(infoTextScale);
-			
-			Text damageAllyField = new Text("FRIENDLY FIRE: ", 0, 0, false);
-			damageAllyField.setScale(infoTextScale);
-			
-			Text damageSelfField = new Text("SELF-DAMAGE: ", 0, 0, false);
-			damageSelfField.setScale(infoTextScale);
-			
-			Text damageReceivedField = new Text("DAMAGE RECEIVED: ", 0, 0, false);
-			damageReceivedField.setScale(infoTextScale);
-			
-			Text damageDealt = new Text("" + (int) fieldExtra.getDamageDealt(), 0, 0, false);
-			damageDealt.setScale(infoTextScale);
-			
-			Text damageAlly = new Text("" + (int) fieldExtra.getDamageDealtAllies(), 0, 0, false);
-			damageAlly.setScale(infoTextScale);
-			
-			Text damageSelf = new Text("" + (int) fieldExtra.getDamageDealtSelf(), 0, 0, false);
-			damageSelf.setScale(infoTextScale);
-			
-			Text damageReceived = new Text("" + (int) fieldExtra.getDamageReceived(), 0, 0, false);
-			damageReceived.setScale(infoTextScale);
-			
-			tableInfo.add(damageDealtField).height(infoRowHeight).padBottom(infoPadY);
-			tableInfo.add(damageDealt).height(infoRowHeight).padBottom(infoPadY).row();
-			
-			tableInfo.add(damageAllyField).height(infoRowHeight).padBottom(infoPadY);
-			tableInfo.add(damageAlly).height(infoRowHeight).padBottom(infoPadY).row();
-			
-			tableInfo.add(damageSelfField).height(infoRowHeight).padBottom(infoPadY);
-			tableInfo.add(damageSelf).height(infoRowHeight).padBottom(infoPadY).row();
-			
-			tableInfo.add(damageReceivedField).height(infoRowHeight).padBottom(infoPadY);
-			tableInfo.add(damageReceived).height(infoRowHeight).padBottom(infoPadY).row();
-		} else {
-			infoPlayerName.setText("");
-		}
+			if (user != null) {
+				field = user.getScores();
+				fieldExtra = user.getScoresExtra();
+			}
+
+			if (field != null && fieldExtra != null) {
+
+				infoPlayerName.setText(field.getNameAbridged(false, maxNameLen));
+
+				//display player's loadout (if synced properly)
+				if (fieldExtra.getLoadout() != null) {
+
+					for (UnlockArtifact c: fieldExtra.getLoadout().artifacts) {
+						if (!c.equals(UnlockArtifact.NOTHING)) {
+							ArtifactIcon newTag = new ArtifactIcon(c, c.getInfo().getName() + "\n" + c.getInfo().getDescription(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
+							tableArtifact.add(newTag).width(artifactTagSize).height(artifactTagSize);
+						}
+					}
+
+					for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+						if (!fieldExtra.getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
+							Text weaponField = new Text("WEAPON" + (i + 1) + ": ", 0, 0, false);
+							weaponField.setScale(infoTextScale);
+							Text weapon = new Text(fieldExtra.getLoadout().multitools[i].name(), 0, 0, false);
+							weapon.setScale(infoTextScale);
+							tableInfo.add(weaponField).height(infoRowHeight).left().padBottom(infoPadYSmall);
+							tableInfo.add(weapon).height(infoRowHeight).left().padBottom(infoPadYSmall).row();
+						}
+					}
+					Text activeField = new Text("ACTIVE: ", 0, 0, false);
+					activeField.setScale(infoTextScale);
+					Text active = new Text(fieldExtra.getLoadout().activeItem.name(), 0, 0, false);
+					active.setScale(infoTextScale);
+					tableInfo.add(activeField).height(infoRowHeight).left().padBottom(infoPadYSmall);
+					tableInfo.add(active).height(infoRowHeight).left().padBottom(infoPadYSmall).row();
+				}
+
+				Text damageDealtField = new Text("DAMAGE DEALT: ", 0, 0, false);
+				damageDealtField.setScale(infoTextScale);
+
+				Text damageAllyField = new Text("FRIENDLY FIRE: ", 0, 0, false);
+				damageAllyField.setScale(infoTextScale);
+
+				Text damageSelfField = new Text("SELF-DAMAGE: ", 0, 0, false);
+				damageSelfField.setScale(infoTextScale);
+
+				Text damageReceivedField = new Text("DAMAGE RECEIVED: ", 0, 0, false);
+				damageReceivedField.setScale(infoTextScale);
+
+				Text damageDealt = new Text("" + (int) fieldExtra.getDamageDealt(), 0, 0, false);
+				damageDealt.setScale(infoTextScale);
+
+				Text damageAlly = new Text("" + (int) fieldExtra.getDamageDealtAllies(), 0, 0, false);
+				damageAlly.setScale(infoTextScale);
+
+				Text damageSelf = new Text("" + (int) fieldExtra.getDamageDealtSelf(), 0, 0, false);
+				damageSelf.setScale(infoTextScale);
+
+				Text damageReceived = new Text("" + (int) fieldExtra.getDamageReceived(), 0, 0, false);
+				damageReceived.setScale(infoTextScale);
+
+				tableInfo.add(damageDealtField).height(infoRowHeight).padBottom(infoPadY);
+				tableInfo.add(damageDealt).height(infoRowHeight).padBottom(infoPadY).row();
+
+				tableInfo.add(damageAllyField).height(infoRowHeight).padBottom(infoPadY);
+				tableInfo.add(damageAlly).height(infoRowHeight).padBottom(infoPadY).row();
+
+				tableInfo.add(damageSelfField).height(infoRowHeight).padBottom(infoPadY);
+				tableInfo.add(damageSelf).height(infoRowHeight).padBottom(infoPadY).row();
+
+				tableInfo.add(damageReceivedField).height(infoRowHeight).padBottom(infoPadY);
+				tableInfo.add(damageReceived).height(infoRowHeight).padBottom(infoPadY).row();
+			} else {
+				infoPlayerName.setText("");
+			}
+		}), Actions.moveTo(infoXEnabled, infoYEnabled, transitionDuration, intp)));
 	}
 	
 	/**
@@ -497,9 +537,23 @@ public class ResultsState extends GameState {
 	}
 	
 	//we update the message window to take input
+	private static final float particleCooldown = 1.5f;
+	private float particleCounter;
 	@Override
 	public void update(float delta) {
 		ps.getMessageWindow().table.act(delta);
+
+		particleCounter += delta;
+
+		if (particleCounter >= particleCooldown) {
+			particleCounter = 0.0f;
+			for (PooledEffect effect: effects) {
+				effect.start();
+			}
+		}
+		for (PooledEffect effect: effects) {
+			effect.update(delta);
+		}
 	}
 
 	@Override
@@ -512,6 +566,10 @@ public class ResultsState extends GameState {
 	    for (PlayerResultsIcon icon: icons) {
 	        icon.dispose();
         }
+
+		for (PooledEffect effect: effects) {
+			effect.free();
+		}
 	}
 	
 	public PlayState getPs() { return ps; }

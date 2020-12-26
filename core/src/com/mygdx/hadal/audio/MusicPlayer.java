@@ -89,9 +89,10 @@ public class MusicPlayer {
 		}
 	}
 
-	private static final MusicTrack[] titleTracks = {MusicTrack.TITLE, MusicTrack.TITLE_V2};
+	private static final MusicTrack[] titleTracks = {MusicTrack.TITLE};
 	private static final MusicTrack[] hubTracks = {MusicTrack.HUB, MusicTrack.HUB_V2, MusicTrack.HUB_V3};
-	private static final MusicTrack[] matchTracks = {MusicTrack.CONFIDENCE, MusicTrack.SURRENDER, MusicTrack.WHIPLASH, MusicTrack.ORGAN_GRINDER};
+	private static final MusicTrack[] matchTracks = {MusicTrack.CONFIDENCE, MusicTrack.FIGHT1, MusicTrack.SURRENDER,
+		MusicTrack.WHIPLASH, MusicTrack.ORGAN_GRINDER};
 
 	public void playSong(MusicState type, float volume) {
 
@@ -102,8 +103,7 @@ public class MusicPlayer {
 			int randomIndex;
 			switch (type) {
 				case MENU:
-					randomIndex = GameStateManager.generator.nextInt(titleTracks.length);
-					playSong(titleTracks[randomIndex], volume);
+					playSong(titleTracks[0], volume);
 					break;
 				case HUB:
 					randomIndex = GameStateManager.generator.nextInt(hubTracks.length);

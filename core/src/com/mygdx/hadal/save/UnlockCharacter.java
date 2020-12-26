@@ -90,10 +90,10 @@ public enum UnlockCharacter {
 		}
 	},
 	MOREAU_FESTIVE(AssetList.PLAYER_MOREAU_FESTIVE_ATL.toString(), AssetList.PLAYER_MOREAU.toString(),
-		Sprite.MOREAU_SLUG, Sprite.MOREAU_BUFF,
+		Sprite.MOREAU_FESTIVE_SLUG, Sprite.MOREAU_FESTIVE_BUFF,
 		.15f, 0.39f,0.10f, 0.57f, 0.68f,0.58f),
 	MOREAU_PARTY(AssetList.PLAYER_MOREAU_PARTY_ATL.toString(), AssetList.PLAYER_MOREAU.toString(),
-		Sprite.MOREAU_SLUG, Sprite.MOREAU_BUFF,
+		Sprite.MOREAU_PARTY_SLUG, Sprite.MOREAU_PARTY_BUFF,
 		.15f, 0.39f,0.10f, 0.57f, 0.68f,0.58f)
 	;
 	

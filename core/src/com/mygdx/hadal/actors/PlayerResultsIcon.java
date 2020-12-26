@@ -45,7 +45,7 @@ public class PlayerResultsIcon extends AHadalActor {
 		font = HadalGame.SYSTEM_FONT_UI;
 
 		this.name = fields.getNameAbridged(false, maxNameLen);
-		name = "\nScore: " + fields.getKills() + " / " + fields.getDeaths();
+		name += "\nScore: " + fields.getKills() + " / " + fields.getDeaths();
 
 		boolean eggplants;
 		if (state.getPs().isServer()) {
@@ -115,9 +115,9 @@ public class PlayerResultsIcon extends AHadalActor {
 		font.getData().setScale(fontScale);
 		font.draw(batch, name, getX(),getY() + getHeight());
 
-		//if (ready) {
+		if (ready) {
 			batch.draw(readyIcon, getX() + readyWidth, getY() + playerSprite.getRegionHeight() * spriteScale, -readyWidth, readyHeight);
-		//}
+		}
     }
 
     public void dispose() {

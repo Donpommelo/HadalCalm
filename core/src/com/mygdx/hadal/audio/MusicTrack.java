@@ -10,16 +10,16 @@ import com.badlogic.gdx.audio.Music;
  */
 public enum MusicTrack {
 
-	TITLE("music/title.mp3"),
-	TITLE_V2("music/title_v2.mp3"),
-	HUB("music/hub.mp3"),
-	HUB_V2("music/hub_v2.mp3"),
-	HUB_V3("music/hub_v3.mp3"),
+	TITLE("music/title.ogg"),
+	HUB("music/hub.ogg"),
+	HUB_V2("music/hub_v2.ogg"),
+	HUB_V3("music/hub_v3.ogg"),
+	FIGHT1("music/fight1.ogg"),
 
-	CONFIDENCE("music/confidence.mp3"),
-	ORGAN_GRINDER("music/organgrinder.mp3"),
-	SURRENDER("music/surrender.mp3"),
-	WHIPLASH("music/whiplash.mp3"),
+	CONFIDENCE("music/confidence.ogg"),
+	ORGAN_GRINDER("music/organ_grinder.ogg"),
+	SURRENDER("music/surrender.ogg"),
+	WHIPLASH("music/whiplash.ogg"),
 
 	;
 	
