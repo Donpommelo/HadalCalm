@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.save.UnlockCharacter;
@@ -20,15 +21,19 @@ public class PlayerResultsIcon extends AHadalActor {
 
 	private final BitmapFont font;
 
-	private static final float fontScale = 0.23f;
+	private static final float fontScale = 0.22f;
 	private static final float spriteScale = 0.25f;
-	private static final int maxNameLen = 30;
+	private static final int maxNameLen = 25;
 
-	private static final float readyWidth = 64.0f;
-	private static final float readyHeight = 64.0f;
+	private static final float readyWidth = 96.0f;
+	private static final float readyHeight = 96.0f;
 
 	private static final float spriteHeight = 922.0f;
 	private static final float spriteWidth = 614.0f;
+
+	private static final float textOffsetX = 20.0f;
+	private static final float textOffsetY = -20.0f;
+	private static final float textWidth = 125.0f;
 
 	protected GlyphLayout layout;
 
@@ -113,7 +118,7 @@ public class PlayerResultsIcon extends AHadalActor {
 		batch.draw(playerSprite, getX(), getY(), playerSprite.getRegionWidth() * spriteScale, playerSprite.getRegionHeight() * spriteScale);
 
 		font.getData().setScale(fontScale);
-		font.draw(batch, name, getX(),getY() + getHeight());
+		font.draw(batch, name, getX() + textOffsetX,getY() + textOffsetY, textWidth, Align.center, true);
 
 		if (ready) {
 			batch.draw(readyIcon, getX() + readyWidth, getY() + playerSprite.getRegionHeight() * spriteScale, -readyWidth, readyHeight);

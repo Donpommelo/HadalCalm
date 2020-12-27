@@ -3,7 +3,6 @@ package com.mygdx.hadal.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.math.Interpolation;
@@ -42,7 +41,7 @@ import java.util.HashMap;
 public class ResultsState extends GameState {
 
 	//This table contains the options for the title.
-	private Table table, tableInfo, tableInfoOuter, tableArtifact;
+	private Table table, tableInfo, tableInfoOuter, tableArtifact, tableExtra;
 	private ScrollPane infoScroll, charactersScroll;
 
 	private Text infoPlayerName;
@@ -70,7 +69,7 @@ public class ResultsState extends GameState {
 	private static final int tableY = 240;
 	private static final int tableWidth = 1240;
 	private static final int tableHeight = 460;
-	private static final int characterScrollHeight = 310;
+	private static final int characterScrollHeight = 400;
 
 	private static final int infoXEnabled = 880;
 	private static final int infoYEnabled = 20;
@@ -87,6 +86,11 @@ public class ResultsState extends GameState {
 	public static final int infoNameHeight = 30;
 	public static final int infoScrollHeight = 100;
 	public static final int infoNamePadding = 15;
+
+	private static final int tableExtraX = 420;
+	private static final int tableExtraY = 20;
+	private static final int tableExtraWidth = 440;
+	private static final int tableExtraHeight = 200;
 
 	private static final int titleHeight = 40;
 	private static final float scale = 0.4f;
@@ -182,7 +186,7 @@ public class ResultsState extends GameState {
 						stage.setScrollFocus(infoScroll);
 					}
 				});
-				
+
 				tableInfoOuter.add(infoPlayerName).pad(infoNamePadding).height(infoNameHeight).row();
 				tableInfoOuter.add(tableArtifact).height(infoNameHeight).row();
 				tableInfoOuter.add(infoScroll).width(infoWidth).height(infoScrollHeight);
@@ -190,6 +194,48 @@ public class ResultsState extends GameState {
 				tableInfoOuter.setSize(infoWidth, infoHeight);
 				
 				addActor(tableInfoOuter);
+
+				tableExtra = new WindowTable();
+
+				//These are all of the display and buttons visible to the player.
+				final Text readyOption = new Text("RETURN TO LOADOUT?", 0, 0, true);
+
+				readyOption.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+
+						//When pressed, the ready option indicates to the server that that player is ready.
+						if (ps.isServer()) {
+							readyPlayer(0);
+						} else {
+							HadalGame.client.sendTCP(new Packets.ClientReady());
+						}
+					}
+				});
+				readyOption.setScale(scale);
+
+				final Text forceReadyOption = new Text("FORCE RETURN?", 0, 0, true);
+
+				forceReadyOption.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+
+						//When pressed, the force ready option forces a transition.
+						returnToHub();
+					}
+				});
+				forceReadyOption.setScale(scale);
+
+				tableExtra.add(readyOption).height(optionHeight).row();
+				if (ps.isServer()) {
+					tableExtra.add(forceReadyOption).height(optionHeight);
+				}
+
+				tableExtra.setPosition(tableExtraX, tableExtraY);
+				tableExtra.setSize(tableExtraWidth, tableExtraHeight);
+				addActor(tableExtra);
 			}
 		};
 		
@@ -318,50 +364,11 @@ public class ResultsState extends GameState {
 				tableCharacters.add(icon);
 
 				icons.add(icon);
-
 			}
 		}
 
-		table.add(title).height(titleHeight).colspan(2).row();
-		table.add(charactersScroll).expandX().height(characterScrollHeight).colspan(2).row();
-
-		//These are all of the display and buttons visible to the player.
-		final Text readyOption = new Text("RETURN TO LOADOUT?", 0, 0, true);
-		readyOption.setColor(Color.RED);
-		
-		readyOption.addListener(new ClickListener() {
-	        
-			@Override
-			public void clicked(InputEvent e, float x, float y) {
-	        	
-	        	//When pressed, the ready option indicates to the server that that player is ready.
-	        	if (ps.isServer()) {
-	        		readyPlayer(0);
-	        	} else {
-	        		HadalGame.client.sendTCP(new Packets.ClientReady());
-	        	}
-	        }
-	    });
-		readyOption.setScale(scale);
-
-		final Text forceReadyOption = new Text("FORCE RETURN?", 0, 0, true);
-		forceReadyOption.setColor(Color.RED);
-		
-		forceReadyOption.addListener(new ClickListener() {
-	        
-			@Override
-			public void clicked(InputEvent e, float x, float y) {
-	        	
-	        	//When pressed, the force ready option forces a transition.
-				returnToHub();
-	        }
-	    });
-		forceReadyOption.setScale(scale);
-		
-		table.add(readyOption).height(optionHeight);
-		if (ps.isServer()) {
-			table.add(forceReadyOption).height(optionHeight);
-		}
+		table.add(title).height(titleHeight).row();
+		table.add(charactersScroll).expandX().height(characterScrollHeight).row();
 	}
 	
 	/**
