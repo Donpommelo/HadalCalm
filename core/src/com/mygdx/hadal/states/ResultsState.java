@@ -23,12 +23,10 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User;
-import com.mygdx.hadal.utils.Stats;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,6 +91,7 @@ public class ResultsState extends GameState {
 	private static final int tableExtraHeight = 200;
 
 	private static final int titleHeight = 40;
+	private static final float resultsScale = 0.6f;
 	private static final float scale = 0.4f;
 	private static final int maxNameLen = 30;
 
@@ -138,17 +137,6 @@ public class ResultsState extends GameState {
 		//Then, we sort according to score and give the winner(s) a win. Being on the winning team overrides score
 		scores.sort((a, b) -> (b.getScore() + (b.isWonLast() ? 1000 : 0)) - (a.getScore() + (a.isWonLast() ? 1000 : 0)));
 
-		if (ps.isServer()) {
-			for (User user : HadalGame.server.getUsers().values()) {
-				SavedPlayerFields score = user.getScores();
-				savePlayerLoadout(user);
-				SavedPlayerFieldsExtra scoreExtra = user.getScoresExtra();
-				HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(score.getConnID(), score.getNameShort(),
-					scoreExtra.getDamageDealt(), scoreExtra.getDamageDealtSelf(), scoreExtra.getDamageDealtAllies(),
-					scoreExtra.getDamageReceived(), score.isWonLast(), scoreExtra.getLoadout()));
-			}
-		}
-		
 		//Finally we initialize the ready map with everyone set to not ready.
 		ready = new HashMap<>();
 		for (SavedPlayerFields score: scores) {
@@ -311,7 +299,7 @@ public class ResultsState extends GameState {
 		});
 
 		Text title = new Text(text, 0, 0, false);
-		title.setScale(scale);
+		title.setScale(resultsScale);
 
 		for (SavedPlayerFields score: scores) {
 
@@ -526,23 +514,6 @@ public class ResultsState extends GameState {
 		gsm.getApp().fadeOut();
 	}
 
-	/**
-	 * When we load a results state, we store each player's loadout to be displayed.
-	 * @param user: the user whose loadout we are saving
-	 */
-	private void savePlayerLoadout(User user) {
-
-		Player player = user.getPlayer();
-		if (player != null) {
-			Loadout loadoutTemp = player.getPlayerData().getLoadout();
-
-			for (int i = (int) (Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i < Loadout.maxWeaponSlots ; i++) {
-				loadoutTemp.multitools[i] = UnlockEquip.NOTHING;
-			}
-			user.getScoresExtra().setLoadout(loadoutTemp);
-		}
-	}
-	
 	//we update the message window to take input
 	private static final float particleCooldown = 1.5f;
 	private float particleCounter;

@@ -16,6 +16,7 @@ public class MusicPlayer {
 	
 	//this is the song currently playing
     private Music currentSong;
+    private MusicTrack currentTrack;
 	
     //this is the song to be played next
 	private MusicTrack nextTrack;
@@ -45,11 +46,12 @@ public class MusicPlayer {
 			if (volume <= 0.0f) {
 				volume = 0.0f;
 				fade = 0.0f;
-				
+
 				if (nextTrack != null) {
 					stop();
 
 					currentSong = nextTrack.getMusic();
+					currentTrack = nextTrack;
 					currentSong.setLooping(true);
 					currentSong.play();
 
@@ -81,6 +83,7 @@ public class MusicPlayer {
 		} else {
     		if (music != null) {
 				currentSong = music.getMusic();
+				currentTrack = music;
 				currentSong.setLooping(true);
 				currentSong.play();
 				maxVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
@@ -96,7 +99,7 @@ public class MusicPlayer {
 
 	public void playSong(MusicState type, float volume) {
 
-		if (currentTrackType == MusicState.FREE) { return; }
+		if (currentTrackType == MusicState.FREE && currentSong != null) { return; }
 
 		if (currentTrackType != type) {
 			currentTrackType = type;
@@ -149,7 +152,9 @@ public class MusicPlayer {
 	public void stop() {
 		if (currentSong != null) {
 	        currentSong.stop();
-			currentSong.dispose(); 
+			currentSong.dispose();
+			currentSong = null;
+			currentTrack = null;
 	    }
 	}
 
@@ -168,11 +173,22 @@ public class MusicPlayer {
 
 	public void setMusicState(MusicState state) { currentTrackType = state; }
 
+	public void setMusicPosition(float position) {
+		if (currentSong != null) {
+			currentSong.setPosition(position);
+		}
+	}
+
+	public Music getCurrentSong() { return currentSong; }
+
+	public MusicTrack getCurrentTrack() { return currentTrack; }
+
 	public enum MusicState {
     	MENU,
 		HUB,
 		MATCH,
 		NOTHING,
 		FREE,
+		SOUND_ROOM,
 	}
 }

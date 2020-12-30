@@ -35,6 +35,9 @@ public class PlayerResultsIcon extends AHadalActor {
 	private static final float textOffsetY = -20.0f;
 	private static final float textWidth = 125.0f;
 
+	private static final float readyOffsetX = 20.0f;
+	private static final float readyOffsetY = 140.0f;
+
 	protected GlyphLayout layout;
 
 	private TextureRegion playerSprite;
@@ -121,7 +124,7 @@ public class PlayerResultsIcon extends AHadalActor {
 		font.draw(batch, name, getX() + textOffsetX,getY() + textOffsetY, textWidth, Align.center, true);
 
 		if (ready) {
-			batch.draw(readyIcon, getX() + readyWidth, getY() + playerSprite.getRegionHeight() * spriteScale, -readyWidth, readyHeight);
+			batch.draw(readyIcon, getX() + readyWidth + readyOffsetX, getY() + readyOffsetY, -readyWidth, readyHeight);
 		}
     }
 

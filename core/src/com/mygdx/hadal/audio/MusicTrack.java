@@ -10,24 +10,26 @@ import com.badlogic.gdx.audio.Music;
  */
 public enum MusicTrack {
 
-	TITLE("music/title.ogg"),
-	HUB("music/hub.ogg"),
-	HUB_V2("music/hub_v2.ogg"),
-	HUB_V3("music/hub_v3.ogg"),
-	FIGHT1("music/fight1.ogg"),
+	TITLE("music/title.ogg", 192),
+	HUB("music/hub.ogg", 131),
+	HUB_V2("music/hub_v2.ogg", 161),
+	HUB_V3("music/hub_v3.ogg", 161),
+	FIGHT1("music/fight1.ogg", 164),
 
-	CONFIDENCE("music/confidence.ogg"),
-	ORGAN_GRINDER("music/organ_grinder.ogg"),
-	SURRENDER("music/surrender.ogg"),
-	WHIPLASH("music/whiplash.ogg"),
+	CONFIDENCE("music/confidence.ogg", 216),
+	ORGAN_GRINDER("music/organ_grinder.ogg", 114),
+	SURRENDER("music/surrender.ogg", 141),
+	WHIPLASH("music/whiplash.ogg", 85),
 
 	;
 	
 	private final String musicFileName;
+	private final int trackLength;
 	private Music music;
-	
-	MusicTrack(String musicFileName) {
+
+	MusicTrack(String musicFileName, int trackLength) {
 		this.musicFileName = musicFileName;
+		this.trackLength = trackLength;
 	}
 	
 	public Music getMusic() {
@@ -37,4 +39,6 @@ public enum MusicTrack {
 		}
 		return music;
 	}
+
+	public int getTrackLength() { return trackLength; }
 }

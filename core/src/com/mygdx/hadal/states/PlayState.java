@@ -41,6 +41,7 @@ import com.mygdx.hadal.server.*;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import java.util.*;
@@ -1014,8 +1015,10 @@ public class PlayState extends GameState {
 				for (User user : HadalGame.server.getUsers().values()) {
 					SavedPlayerFields score = user.getScores();
 					if (teamEnabled) {
-						if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
-							score.win();
+						if (winningTeam != AlignmentFilter.NONE) {
+							if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
+								score.win();
+							}
 						}
 					} else {
 						if (user.getScores().getLives() > 0) {
@@ -1023,9 +1026,7 @@ public class PlayState extends GameState {
 						}
 					}
 				}
-
-				beginTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay);
-				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay));
+				transitionToResultsState(resultsText);
 			} else {
 
 				User dedUser = HadalGame.server.getUsers().get(player.getConnID());
@@ -1127,10 +1128,33 @@ public class PlayState extends GameState {
             }
         }
 
+		transitionToResultsState(resultsText);
+	}
+
+	private void transitionToResultsState(String resultsText) {
+
+		for (User user : HadalGame.server.getUsers().values()) {
+			SavedPlayerFields score = user.getScores();
+
+			Player resultsPlayer = user.getPlayer();
+			Loadout loadoutTemp = resultsPlayer.getPlayerData().getLoadout();
+
+			for (int i = (int) (Loadout.baseWeaponSlots + resultsPlayer.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i < Loadout.maxWeaponSlots ; i++) {
+				loadoutTemp.multitools[i] = UnlockEquip.NOTHING;
+			}
+
+			user.getScoresExtra().setLoadout(loadoutTemp);
+			SavedPlayerFieldsExtra scoreExtra = user.getScoresExtra();
+
+			HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(score.getConnID(), score.getNameShort(),
+				scoreExtra.getDamageDealt(), scoreExtra.getDamageDealtSelf(), scoreExtra.getDamageDealtAllies(),
+				scoreExtra.getDamageReceived(), score.isWonLast(), scoreExtra.getLoadout()));
+		}
+
 		beginTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay);
 		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay));
 	}
-	
+
 	/**
 	 * This is used to make a specific player a spectator after a transition.
 	 * This is only run by the server

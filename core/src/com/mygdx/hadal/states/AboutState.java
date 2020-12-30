@@ -4,12 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.WindowTable;
+import com.mygdx.hadal.audio.MusicPlayer;
+import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
 
@@ -21,10 +25,13 @@ public class AboutState extends GameState {
 
 	//This table contains the ui elements of the pause screen
 	private Table options, details;
+	private CheckBox continuePlaying;
 
 	//options that the player can view
-	private Text aboutOption, miscOption, tipsOption, creditsOption, exitOption;
-	
+	private Text aboutOption, miscOption, tipsOption, soundRoomOption, creditsOption, exitOption, trackText, trackTime;
+	private ScrollPane musicTracks;
+	private Slider musicTime;
+
 	//Dimensions of the setting menu
 	private static final int optionsX = -1125;
 	private static final int optionsY = 100;
@@ -44,12 +51,24 @@ public class AboutState extends GameState {
 	private static final float optionHeight = 35.0f;
 	private static final float optionPad = 15.0f;
 	private static final float detailsScale = 0.3f;
-	
+	private static final float optionPadding = 10.0f;
+
 	private static final float titlePad = 25.0f;
 	private static final int detailsTextWidth = 750;
 
+	private static final int scrollHeight = 380;
+	private static final int scrollWidth = 330;
+	private static final float detailHeight = 35.0f;
+	private static final float detailPad = 10.0f;
+	private static final float sliderWidth = 400.0f;
+	private static final float songTitleWidth = 300.0f;
+
+	private static final float extraWidth = 400.0f;
+	private static final int extraHeight = 120;
+
 	//this is the state underneath this state.
 	private final GameState peekState;
+	private PlayState playState;
 
 	/**
 	 * Constructor will be called when the player enters the about state from the title menu.
@@ -57,6 +76,10 @@ public class AboutState extends GameState {
 	public AboutState(final GameStateManager gsm, GameState peekState) {
 		super(gsm);
 		this.peekState = peekState;
+
+		if (peekState instanceof PauseState) {
+			playState = ((PauseState) peekState).getPs();
+		}
 	}
 	
 	@Override
@@ -75,7 +98,18 @@ public class AboutState extends GameState {
 				details.setSize(detailsWidth, detailsHeight);
 				details.top();
 				addActor(details);
-				
+
+				soundRoomOption = new Text("SOUND ROOM", 0, 0, true);
+				soundRoomOption.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						soundRoomSelected();
+					}
+				});
+				soundRoomOption.setScale(optionsScale);
+
 				aboutOption = new Text("ABOUT", 0, 0, true);
 				aboutOption.addListener(new ClickListener() {
 			        
@@ -86,7 +120,7 @@ public class AboutState extends GameState {
 			        }
 			    });
 				aboutOption.setScale(optionsScale);
-				
+
 				tipsOption = new Text("TIPS", 0, 0, true);
 				tipsOption.addListener(new ClickListener() {
 			        
@@ -130,7 +164,8 @@ public class AboutState extends GameState {
 			        }
 			    });
 				exitOption.setScale(optionsScale);
-				
+
+				options.add(soundRoomOption).height(optionHeight).pad(optionPad).row();
 				options.add(aboutOption).height(optionHeight).pad(optionPad).row();
 				options.add(tipsOption).height(optionHeight).pad(optionPad).row();
 				options.add(miscOption).height(optionHeight).pad(optionPad).row();
@@ -142,7 +177,7 @@ public class AboutState extends GameState {
 		transitionIn();
 		
 		//start off with about selected
-		aboutSelected();
+		soundRoomSelected();
 	}
 
 	/**
@@ -158,7 +193,134 @@ public class AboutState extends GameState {
 		
 		details.add(about);
 	}
-	
+
+	private void soundRoomSelected() {
+		details.clearChildren();
+
+		details.add(new Text("SOUND ROOM", 0, 0, false)).colspan(2).pad(titlePad).row();
+
+		trackText = new Text("", 0, 0, false);
+		trackText.setScale(detailsScale);
+
+		musicTime = new Slider(0.0f, 0.0f, 1.0f, false, GameStateManager.getSkin()) {
+
+			@Override
+			public float getPrefWidth() { return sliderWidth; }
+
+		};
+
+		musicTime.addListener(new InputListener() {
+
+			@Override
+			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+				if (HadalGame.musicPlayer.getCurrentSong() != null) {
+					HadalGame.musicPlayer.setMusicPosition(musicTime.getValue());
+				}
+			}
+
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) { return true; }
+		});
+
+		VerticalGroup tracks = new VerticalGroup().space(optionPadding);
+
+		for (MusicTrack track: MusicTrack.values()) {
+			Text trackListen = new Text("PLAY: " + track.toString(), 0, 0, true);
+
+			trackListen.addListener(new ClickListener() {
+
+				@Override
+				public void clicked(InputEvent e, float x, float y) {
+					SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+					HadalGame.musicPlayer.playSong(track, 1.0f);
+					setTrack(track);
+				}
+			});
+
+			trackListen.setScale(detailsScale);
+			trackListen.setHeight(detailHeight);
+
+			tracks.addActor(trackListen);
+		}
+
+		if (musicTracks != null) {
+			musicTracks.remove();
+		}
+
+		musicTracks = new ScrollPane(tracks, GameStateManager.getSkin());
+		musicTracks.setFadeScrollBars(false);
+
+		trackTime = new Text("", 0, 0, false);
+		trackTime.setScale(detailsScale);
+
+		Text play = new Text ("PLAY", 0, 0, true);
+		play.setScale(detailsScale);
+
+		play.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+
+				if (HadalGame.musicPlayer.getCurrentSong() != null) {
+					if (!HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
+						HadalGame.musicPlayer.getCurrentSong().setPosition(musicTime.getValue());
+						HadalGame.musicPlayer.play();
+					}
+				}
+			}
+		});
+
+		Text pause = new Text ("PAUSE", 0, 0, true);
+		pause.setScale(detailsScale);
+
+		pause.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+
+				if (HadalGame.musicPlayer.getCurrentSong() != null) {
+					if (HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
+						HadalGame.musicPlayer.pause();
+					}
+				}
+			}
+		});
+
+		Text stop = new Text ("STOP", 0, 0, true);
+		stop.setScale(detailsScale);
+
+		stop.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+				HadalGame.musicPlayer.stop();
+				setTrack(null);
+			}
+		});
+
+		continuePlaying = new CheckBox("CONTINUE PLAYING AFTER EXITING?", GameStateManager.getSkin());
+
+		details.add(trackText).width(songTitleWidth).pad(detailPad);
+		details.add(musicTime).row();
+
+		details.add(musicTracks).width(scrollWidth).height(scrollHeight).expandY().pad(detailPad);
+		stage.setScrollFocus(musicTracks);
+
+		final Table soundRoomExtra = new Table();
+		details.add(soundRoomExtra).top().size(extraWidth, extraHeight);
+		soundRoomExtra.add(trackTime).colspan(3).height(optionHeight).pad(detailPad).row();
+		soundRoomExtra.add(play).height(optionHeight).pad(detailPad);
+		soundRoomExtra.add(pause).height(optionHeight).pad(detailPad);
+		soundRoomExtra.add(stop).height(optionHeight).pad(detailPad).row();
+		soundRoomExtra.add(continuePlaying).colspan(3).height(optionHeight).pad(detailPad).row();
+
+		HadalGame.musicPlayer.setMusicState(MusicPlayer.MusicState.NOTHING);
+		setTrack(HadalGame.musicPlayer.getCurrentTrack());
+	}
+
 	/**
 	 * This is called whenever the player selects the TIPS tab
 	 */
@@ -259,18 +421,65 @@ public class AboutState extends GameState {
 	@Override
 	public void update(float delta) {
 		peekState.update(delta);
+
+		if (musicTime != null && HadalGame.musicPlayer.getCurrentSong() != null) {
+
+			if (!musicTime.isDragging() && HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
+				musicTime.setValue(HadalGame.musicPlayer.getCurrentSong().getPosition());
+			}
+			trackTime.setText(secondsToMinutes((int) musicTime.getValue()) + " / " +
+				secondsToMinutes(HadalGame.musicPlayer.getCurrentTrack().getTrackLength()));
+		}
 	}
 
 	@Override
 	public void render(float delta) {
-		peekState.render(delta);
-		peekState.stage.getViewport().apply();
-		peekState.stage.act();
-		peekState.stage.draw();
+		if (playState != null) {
+			playState.render(delta);
+			playState.stage.getViewport().apply();
+			playState.stage.draw();
+		} else {
+			peekState.render(delta);
+			peekState.stage.getViewport().apply();
+			peekState.stage.act();
+			peekState.stage.draw();
+		}
 	}
 	
 	@Override
 	public void dispose() {	
-		stage.dispose(); 
+		stage.dispose();
+
+		if (continuePlaying != null) {
+			if (continuePlaying.isChecked() && HadalGame.musicPlayer.getCurrentSong() != null) {
+				if (HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
+					HadalGame.musicPlayer.setMusicState(MusicPlayer.MusicState.FREE);
+				}
+			}
+		}
+	}
+
+	private void setTrack(MusicTrack track) {
+		musicTime.setValue(0.0f);
+		if (track != null) {
+			musicTime.setRange(0.0f, track.getTrackLength());
+			trackText.setText("NOW PLAYING: " + track.toString());
+		} else {
+			musicTime.setRange(0.0f, 0.0f);
+			trackText.setText("NOW PLAYING: NOTHING");
+		}
+	}
+
+	private String secondsToMinutes(int seconds) {
+
+		int m = seconds / 60;
+		int s = seconds % 60;
+
+		if (s < 10) {
+			return m + ":0" + s;
+
+		} else {
+			return m + ":" + s;
+		}
 	}
 }

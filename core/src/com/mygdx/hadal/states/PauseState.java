@@ -33,7 +33,7 @@ public class PauseState extends GameState {
 	private Table table;
 	
 	//These are all of the display and buttons visible to the player.
-	private Text pause, resumeOption, hubOption, settingOption, spectateOption, joinOption, exitOption;
+	private Text pause, resumeOption, hubOption, extraOption, settingOption, spectateOption, joinOption, exitOption;
 	
 	//This is the playstate that the pause state must be placed on top of.
 	private final PlayState ps;
@@ -51,11 +51,11 @@ public class PauseState extends GameState {
 	
 	//Dimensions of the pause menu
 	private static final float width = 500;
-	private static final float height = 250;
-	private static final int extraRowHeight = 100;
-	private static final int optionHeight = 60;
+	private static final float height = 240;
+	private static final int extraRowHeight = 80;
+	private static final int optionHeight = 48;
 	private static final int optionPad = 5;
-	private static final float pauseTextScale = 0.5f;
+	private static final float pauseTextScale = 0.3f;
 	
 	/**
 	 * Constructor will be called whenever a player pauses.
@@ -116,6 +116,7 @@ public class PauseState extends GameState {
 				resumeOption = new Text("RESUME", 0, 0, true);
 				hubOption = new Text("RETURN TO HUB", 0, 0, true);
 				settingOption = new Text("SETTINGS", 0, 0, true);
+				extraOption = new Text("EXTRA", 0, 0, true);
 				spectateOption = new Text("SPECTATE", 0, 0, true);
 				joinOption = new Text("JOIN", 0, 0, true);
 				exitOption = new Text("EXIT TO TITLE", 0, 0, true);
@@ -157,6 +158,17 @@ public class PauseState extends GameState {
 			        	SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 			        }
 			    });
+
+				extraOption.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+
+						//Setting pops a setting state on top of the pause state.
+						gsm.addState(State.ABOUT, me);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+					}
+				});
 				
 				spectateOption.addListener(new ClickListener() {
 			        
@@ -205,7 +217,8 @@ public class PauseState extends GameState {
 					table.add(hubOption).height(optionHeight).pad(optionPad).row();
 				}
 				table.add(settingOption).height(optionHeight).pad(optionPad).row();
-				
+				table.add(extraOption).height(optionHeight).pad(optionPad).row();
+
 				//atm, only clients can manually join spectator mode
 				if (ps.isHub() && !ps.isServer() && GameStateManager.currentMode == Mode.MULTI) {
 					if (ps.isSpectatorMode()) {
