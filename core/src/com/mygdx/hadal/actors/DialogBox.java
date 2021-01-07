@@ -93,7 +93,7 @@ public class DialogBox extends AHadalActor {
 		while (syncAccumulator >= syncTime) {
 			syncAccumulator -= syncTime;
 
-			//Keep track of duration of dialogues
+			//Keep track of duration of dialogues and advance when duration completes
 			if (durationCount > 0) {
 				durationCount -= syncTime;
 				

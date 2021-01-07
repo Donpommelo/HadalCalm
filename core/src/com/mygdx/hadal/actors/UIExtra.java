@@ -89,7 +89,7 @@ public class UIExtra extends AHadalActor {
 
 	/**
 	 * This adds tags to the ui
-	 * @param tags: These are the tags that should be added. This is a comma-separated string of each uiType. If a string matches no tag types, we just display the text as is.
+	 * @param tags: These are the tags that should be added. This is a comma-separated string of each uiType.
 	 * @param clear: Do we clear all the existing ui tags first?
 	 */
 	public void changeTypes(String tags, boolean clear) {
@@ -107,7 +107,8 @@ public class UIExtra extends AHadalActor {
 					uiTags.add(new UITag(tag));
 				}
 			}
-			
+
+			//If a string matches no tag types, we just display the text as is.
 			if (!found) {
 				uiTags.add(new UITag(uiType.MISC, type));
 			}

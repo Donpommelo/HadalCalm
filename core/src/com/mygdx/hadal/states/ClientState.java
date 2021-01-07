@@ -150,7 +150,7 @@ public class ClientState extends PlayState {
 		removeListClient.clear();
 		
 		//process camera, ui, any received packets
-		processCommonStateProperties(delta);
+		processCommonStateProperties(delta, false);
 		
 		//this makes the latency checking separate from the game framerate
 		latencyAccumulator += delta;

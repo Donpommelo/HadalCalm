@@ -783,7 +783,6 @@ public class Packets {
 		 * A SyncLoadout is sent from the Server to the Client when any Player in the world changes their loadout.
 		 * Upon receiving this packet, clients adjust their versions of that Player to have the new loadout.
 		 * 
-		 * 
 		 * @param entityId: ID of the player to change
 		 * @param loadout: Player's new loadout
 		 */
@@ -1113,6 +1112,8 @@ public class Packets {
 		public SyncSpectator() {}
 
 		/**
+		 * A SyncSpectator is send from the server to the client when transitioning to the results screen.
+		 * This lets the client know which users were spectators
 		 */
 		public SyncSpectator(int connID, boolean spectator) {
 			this.connID = connID;

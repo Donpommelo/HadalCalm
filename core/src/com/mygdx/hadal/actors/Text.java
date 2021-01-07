@@ -80,7 +80,11 @@ public class Text extends AHadalActor {
 		 cache.setAlphas(alpha);
 		 cache.draw(batch);
     }
-	
+
+	/**
+	 * This is run when the actor is created or the size/text is changed.
+	 * This sets the hitbox of the actor according to the text size
+	 */
 	public void updateHitBox() {
 		font.getData().setScale(scale);
 		layout = new GlyphLayout();

@@ -293,6 +293,8 @@ public class PlayerSpriteHelper {
                 createGibs(playerLocation, playerVelocity);
                 break;
             case TELEPORT:
+
+                //if the player disconnects/becomes a spectator, we dispose of the fbo right away.
                 if (fbo != null) {
                     fbo.dispose();
                 }

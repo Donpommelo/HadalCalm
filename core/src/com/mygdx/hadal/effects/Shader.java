@@ -73,25 +73,6 @@ public enum Shader {
 	}
 	
 	/**
-	 * This is a version of loadShader used for backgrounds of non-playstate states.
-	 */
-	public void loadDefaultShader() {
-		if (this.equals(NOTHING)) {
-			return;
-		}
-		
-		//load the shader and create its strategies
-		if (shaderProgram == null) {
-			shaderProgram = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
-		}
-		shaderProgram.bind();
-		
-		for (ShaderStrategy strat: strategies) {
-			strat.create(shaderProgram);
-		}
-	}
-	
-	/**
 	 * This is run every game update and defers to the shader strategies to process game information
 	 */
 	public void shaderPlayUpdate(PlayState state, float delta) {

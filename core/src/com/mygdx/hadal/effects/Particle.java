@@ -103,6 +103,9 @@ public enum Particle {
 		effectPool = new ParticleEffectPool(prototype, 0, poolSize);
 	}
 
+	/**
+	 * When we close the game, we should dispose of the particle prototype
+	 */
 	public static void disposeParticlePool() {
 		if (prototype != null) {
 			prototype.dispose();

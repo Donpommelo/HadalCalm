@@ -180,9 +180,6 @@ public class AboutState extends GameState {
 		soundRoomSelected();
 	}
 
-	/**
-	 * This is called whenever the player selects the ABOUT tab
-	 */
 	private void aboutSelected() {
 		details.clearChildren();
 		
@@ -202,13 +199,16 @@ public class AboutState extends GameState {
 		trackText = new Text("", 0, 0, false);
 		trackText.setScale(detailsScale);
 
+		//the slider sets its position based on the song duration
 		musicTime = new Slider(0.0f, 0.0f, 1.0f, false, GameStateManager.getSkin()) {
 
+			//hack necessary to set length
 			@Override
 			public float getPrefWidth() { return sliderWidth; }
 
 		};
 
+		//this lets the player set music position by dragging slider
 		musicTime.addListener(new InputListener() {
 
 			@Override
@@ -224,6 +224,7 @@ public class AboutState extends GameState {
 
 		VerticalGroup tracks = new VerticalGroup().space(optionPadding);
 
+		//show list of available songs
 		for (MusicTrack track: MusicTrack.values()) {
 			Text trackListen = new Text("PLAY: " + track.toString(), 0, 0, true);
 
@@ -322,9 +323,6 @@ public class AboutState extends GameState {
 		setTrack(HadalGame.musicPlayer.getCurrentTrack());
 	}
 
-	/**
-	 * This is called whenever the player selects the TIPS tab
-	 */
 	private void tipsSelected() {
 		details.clearChildren();
 		
@@ -336,9 +334,6 @@ public class AboutState extends GameState {
 		details.add(tips);
 	}
 	
-	/**
-	 * This is called whenever the player selects the MISC tab
-	 */
 	private void miscSelected() {
 		details.clearChildren();
 		
@@ -350,9 +345,6 @@ public class AboutState extends GameState {
 		details.add(misc);
 	}
 
-	/**
-	 * This is called whenever the player selects the CREDITS tab
-	 */
 	private void creditsSelected() {
 		details.clearChildren();
 		
@@ -423,6 +415,7 @@ public class AboutState extends GameState {
 	public void update(float delta) {
 		peekState.update(delta);
 
+		//set music slider position if a song is playing
 		if (musicTime != null && HadalGame.musicPlayer.getCurrentSong() != null) {
 
 			if (!musicTime.isDragging() && HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
@@ -483,4 +476,6 @@ public class AboutState extends GameState {
 			return m + ":" + s;
 		}
 	}
+
+	public PlayState getPlayState() { return playState; }
 }

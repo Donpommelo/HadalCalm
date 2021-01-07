@@ -526,6 +526,9 @@ public class ResultsState extends GameState {
 	public void update(float delta) {
 		ps.getMessageWindow().table.act(delta);
 
+		//this lets us continue to process packets. (mostly used for disconnects)
+		ps.processCommonStateProperties(delta, true);
+
 		particleCounter += delta;
 
 		if (particleCounter >= particleCooldown) {

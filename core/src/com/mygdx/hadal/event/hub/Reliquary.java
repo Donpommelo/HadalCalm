@@ -73,6 +73,8 @@ public class Reliquary extends HubEvent {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
+						if (state.getPlayer().getPlayerData() == null) { return; }
+
 						if (state.isServer()) {
 							state.getPlayer().getPlayerData().addArtifact(selected, false);
 						} else {

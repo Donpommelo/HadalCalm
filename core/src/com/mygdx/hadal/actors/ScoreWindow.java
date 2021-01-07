@@ -84,7 +84,8 @@ public class ScoreWindow {
 		tableScore.clear();
 		tableScore.remove();
 		windowScore.remove();
-		
+
+		//set table dimensions and location
 		int tableHeight = scoreBaseHeight + scoreTitleHeight * 2;
 		
 		if (state.isServer()) {
@@ -98,7 +99,8 @@ public class ScoreWindow {
 		
 		tableScore.setSize(scoreWidth, tableHeight);
 		tableScore.setPosition(0, HadalGame.CONFIG_HEIGHT - tableHeight);
-		
+
+		//add table headings
 		Text title = new Text(state.getLevel().toString(), 0, 0, false);
 		title.setScale(scoreScale);
 		
@@ -123,71 +125,15 @@ public class ScoreWindow {
 		tableScore.add(deathsLabel).height(scoreTitleHeight).padRight(scorePadX);
 		tableScore.add(scoreLabel).height(scoreTitleHeight).padRight(scorePadX);
 		tableScore.add(winsLabel).height(scoreTitleHeight).row();
-		
+
+		//add table entry for each player
 		if (state.isServer()) {
-			
 			for (Entry<Integer, User> entry : HadalGame.server.getUsers().entrySet()) {
-				User user = entry.getValue();
-				SavedPlayerFields field = user.getScores();
-
-				Text name = new Text(field.getNameAbridged(true, maxNameLen), 0, 0, false);
-				name.setScale(scoreScale);
-				name.addListener(new ClickListener() {
-
-					@Override
-					public void clicked(InputEvent e, float x, float y) {
-						openOptionsWindow(entry, e.getStageX(), e.getStageY());
-					}
-				});
-				
-				Text kills = new Text(field.getKills() + " ", 0, 0, false);
-				kills.setScale(scoreScale);
-				Text death = new Text(field.getDeaths() + " ", 0, 0, false);
-				death.setScale(scoreScale);
-				Text points = new Text(field.getScore() + " ", 0, 0, false);
-				points.setScale(scoreScale);
-				Text wins = new Text(field.getWins() + " ", 0, 0, false);
-				wins.setScale(scoreScale);
-
-				tableScore.add(name).width(scoreNameWidth).height(scoreRowHeight).padBottom(scorePadY).align(Align.center);
-				tableScore.add(kills).height(scoreRowHeight).padBottom(scorePadY);
-				tableScore.add(death).height(scoreRowHeight).padBottom(scorePadY);
-				tableScore.add(points).height(scoreRowHeight).padBottom(scorePadY);
-				tableScore.add(wins).height(scoreRowHeight).padBottom(scorePadY).row();
-				
-				state.getUiExtra().syncData();
+				addEntry(entry.getKey(), entry.getValue());
 			}
 		} else {
 			for (Entry<Integer, User> entry: HadalGame.client.getUsers().entrySet()) {
-				User user = entry.getValue();
-				SavedPlayerFields field = user.getScores();
-
-				Text name = new Text(field.getNameAbridged(true, maxNameLen), 0, 0, false);
-				name.setScale(scoreScale);
-				name.addListener(new ClickListener() {
-
-					@Override
-					public void clicked(InputEvent e, float x, float y) {
-						openOptionsWindow(entry, e.getStageX(), e.getStageY());
-					}
-				});
-
-				Text kills = new Text(field.getKills() + " ", 0, 0, false);
-				kills.setScale(scoreScale);
-				Text death = new Text(field.getDeaths() + " ", 0, 0, false);
-				death.setScale(scoreScale);
-				Text points = new Text(field.getScore() + " ", 0, 0, false);
-				points.setScale(scoreScale);
-				Text wins = new Text(field.getWins() + " ", 0, 0, false);
-				wins.setScale(scoreScale);
-
-				tableScore.add(name).width(scoreNameWidth).height(scoreRowHeight).padBottom(scorePadY).align(Align.center);
-				tableScore.add(kills).height(scoreRowHeight).padBottom(scorePadY);
-				tableScore.add(death).height(scoreRowHeight).padBottom(scorePadY);
-				tableScore.add(points).height(scoreRowHeight).padBottom(scorePadY);
-				tableScore.add(wins).height(scoreRowHeight).padBottom(scorePadY).row();
-				
-				state.getUiExtra().syncData();
+				addEntry(entry.getKey(), entry.getValue());
 			}
 		}
 		
@@ -206,13 +152,15 @@ public class ScoreWindow {
 		tableSettings.clear();
 		tableSettings.remove();
 		windowSettings.remove();
-		
+
+		//set table dimensions and location
 		windowSettings.setSize(settingsWidth, settingsHeight);
 		windowSettings.setPosition(HadalGame.CONFIG_WIDTH - settingsWidth, HadalGame.CONFIG_HEIGHT - settingsHeight);
 		
 		tableSettings.setSize(settingsWidth, settingsHeight);
 		tableSettings.setPosition(HadalGame.CONFIG_WIDTH - settingsWidth, HadalGame.CONFIG_HEIGHT - settingsHeight);
-		
+
+		//add table headings
 		Text title = new Text("SERVER SETTINGS", 0, 0, false);
 		title.setScale(settingsScale);
 		
@@ -246,13 +194,15 @@ public class ScoreWindow {
 		Text serverSizeField = new Text("SERVER CAPACITY: ", 0, 0, false);
 		serverSizeField.setScale(settingsScale);
 
+		//obtain settings. (host settings for clients)
 		SharedSetting used = state.getGsm().getSharedSetting();
 		if (state.isServer()) {
 			HadalGame.server.sendToAllTCP(new Packets.SyncSharedSettings(state.getGsm().getSharedSetting()));
 		} else {
 			used = state.getGsm().getHostSetting();
 		}
-		
+
+		//set and add setting info
 		Text pvpTimer = new Text(SettingState.timerChoices[used.getPVPTimer()], 0, 0, false);
 		pvpTimer.setScale(settingsScale);
 		
@@ -322,14 +272,7 @@ public class ScoreWindow {
 	/**
 	 * When the player clicks on a name, options to mute/ban appear
 	 */
-	private void openOptionsWindow(Entry<Integer, User> entry, float x, float y) {
-		User user;
-
-		if (state.isServer()) {
-			user = HadalGame.server.getUsers().get(entry.getKey());
-		} else {
-			user = HadalGame.client.getUsers().get(entry.getKey());
-		}
+	private void openOptionsWindow(int connID, User user, float x, float y) {
 
 		tableOptions.clear();
 		tableOptions.remove();
@@ -338,7 +281,7 @@ public class ScoreWindow {
 		//ui height scales to number of options available
 		float height = optionsHeight;
 		if (state.isServer()) {
-			if (user.getPlayer() != state.getPlayer()) {
+			if (connID != 0) {
 				height += optionsExtraHeight;
 			}
 		}
@@ -359,7 +302,6 @@ public class ScoreWindow {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						user.setMuted(false);
-
 						user.setMuted(false);
 						tableOptions.remove();
 						windowOptions.remove();
@@ -380,16 +322,17 @@ public class ScoreWindow {
 			mute.setScale(settingsScale);
 			tableOptions.add(mute).height(optionsHeight).pad(5).row();
 
-			//only host can ban. Host cannot ban self.
+			//only host can ban.
 			if (state.isServer()) {
-				if (user.getPlayer() != state.getPlayer()) {
+				//host cannot ban self
+				if (connID != 0) {
 					Text ban = new Text("BAN", 0, 0, true);
 					ban.setScale(settingsScale);
 					ban.addListener(new ClickListener() {
 
 						@Override
 						public void clicked(InputEvent e, float x, float y) {
-							HadalGame.server.kickPlayer(state, entry.getValue(), entry.getKey());
+							HadalGame.server.kickPlayer(state, user, connID);
 							tableOptions.remove();
 							windowOptions.remove();
 						}
@@ -401,6 +344,38 @@ public class ScoreWindow {
 
 		state.getStage().addActor(windowOptions);
 		state.getStage().addActor(tableOptions);
+	}
+
+	//helper method for adding a single entry to the score window
+	private void addEntry(int connID, User user) {
+		SavedPlayerFields field = user.getScores();
+
+		Text name = new Text(field.getNameAbridged(true, maxNameLen), 0, 0, false);
+		name.setScale(scoreScale);
+		name.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				openOptionsWindow(connID, user, e.getStageX(), e.getStageY());
+			}
+		});
+
+		Text kills = new Text(field.getKills() + " ", 0, 0, false);
+		kills.setScale(scoreScale);
+		Text death = new Text(field.getDeaths() + " ", 0, 0, false);
+		death.setScale(scoreScale);
+		Text points = new Text(field.getScore() + " ", 0, 0, false);
+		points.setScale(scoreScale);
+		Text wins = new Text(field.getWins() + " ", 0, 0, false);
+		wins.setScale(scoreScale);
+
+		tableScore.add(name).width(scoreNameWidth).height(scoreRowHeight).padBottom(scorePadY).align(Align.center);
+		tableScore.add(kills).height(scoreRowHeight).padBottom(scorePadY);
+		tableScore.add(death).height(scoreRowHeight).padBottom(scorePadY);
+		tableScore.add(points).height(scoreRowHeight).padBottom(scorePadY);
+		tableScore.add(wins).height(scoreRowHeight).padBottom(scorePadY).row();
+
+		state.getUiExtra().syncData();
 	}
 
 	/**

@@ -31,7 +31,10 @@ public enum MusicTrack {
 		this.musicFileName = musicFileName;
 		this.trackLength = trackLength;
 	}
-	
+
+	/**
+	 * load the music if not already loaded and return it
+	 */
 	public Music getMusic() {
 		
 		if (music == null) {

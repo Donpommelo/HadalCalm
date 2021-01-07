@@ -35,6 +35,8 @@ public class Painter extends HubEvent {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
+						if (state.getPlayer().getPlayerData() == null) { return; }
+
 						if (state.isServer()) {
 							state.getPlayer().getPlayerData().setTeam(selected);
 							state.getPlayer().getPlayerData().syncServerLoadoutChange();

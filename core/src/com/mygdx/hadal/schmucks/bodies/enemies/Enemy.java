@@ -222,8 +222,10 @@ public class Enemy extends Schmuck {
 		
 		//draw hp bar if certain effects are used
 		if (state.isServer()) {
-			if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
-				visible = true;
+			if (state.getPlayer().getPlayerData() != null) {
+				if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
+					visible = true;
+				}
 			}
 		} else {
 			if (((ClientState) state).getUiPlay().getHealthVisibility() > 0) {

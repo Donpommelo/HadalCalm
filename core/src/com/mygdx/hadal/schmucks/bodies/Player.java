@@ -289,7 +289,7 @@ public class Player extends PhysicsSchmuck {
 		playerData.switchWeapon(currentSlot);
 				
 		//if this is the client creating their own player, tell the server we are ready to sync player-related stuff
-		if (!state.isServer() && state.getPlayer().equals(this)) {
+		if (!state.isServer() && this.equals(state.getPlayer())) {
 			Packets.ClientPlayerCreated connected = new Packets.ClientPlayerCreated();
             HadalGame.client.sendTCP(connected);
 		}

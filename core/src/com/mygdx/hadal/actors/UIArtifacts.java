@@ -33,10 +33,7 @@ public class UIArtifacts {
 
 		addTable();
 
-		//When starting up normally, the player's data is not loaded yet, and we do not need to sync.
-		if (state.getPlayer().getPlayerData() != null) {
-			syncArtifact();
-		}
+		syncArtifact();
 	}
 	
 	/**
@@ -44,6 +41,9 @@ public class UIArtifacts {
 	 */
 	public void syncArtifact() {
 		table.clear();
+
+		//When starting up normally, the player's data is not loaded yet, and we do not need to sync.
+		//data will also be null if the player spawns in as a spectator
 		if (state.getPlayer().getPlayerData() != null) {
 			for (UnlockArtifact a : state.getPlayer().getPlayerData().getLoadout().artifacts) {
 				if (!a.equals(UnlockArtifact.NOTHING)) {

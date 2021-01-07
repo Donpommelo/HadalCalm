@@ -261,19 +261,23 @@ public class GameStateManager {
 		}
 	}
 	
-	/**
-	 * Remove the top state from the stack
-	 * @param lastState: the state we expect to remove. ensures no double-removing
-	 */
+
 	public void removeState(Class<? extends GameState> lastState) {
 		removeState(lastState, true);
 	}
 
+	/**
+	 * Remove the top state from the stack
+	 * @param lastState: the state we expect to remove. ensures no double-removing
+	 * @param showNext: do we show the state underneath
+	 */
 	public void removeState(Class<? extends GameState> lastState, boolean showNext) {
 		if (!states.empty()) {
 			if (states.peek().getClass().equals(lastState)) {
 				states.pop().dispose();
 
+				//when we remove multiple states at once, we don't want to show after every removal.
+				//this is necessary b/c, atm music transitions occur upon showing certain states
 				if (showNext) {
 					states.peek().show();
 				}

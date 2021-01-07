@@ -70,6 +70,9 @@ public class ChatWheel {
 	private static final float emoteCd = 2.0f;
 	private float emoteCount = 2.0f;
 
+	/**
+	 * This creates the chat wheel elements
+	 */
 	public void addTable() {
 		PieMenu.PieMenuStyle style = new PieMenu.PieMenuStyle();
 		style.sliceColor = new Color(1,1,1,0.5f);
@@ -93,6 +96,7 @@ public class ChatWheel {
 					wheel.hoverSliceAtStage(pointerPosition.x, pointerPosition.y);
 				}
 
+				//decrement emote cooldown
 				if (emoteCount > 0.0f) {
 					emoteCount -= delta;
 				}
@@ -154,6 +158,7 @@ public class ChatWheel {
 
 				if (option != -1 && option < options.length) {
 
+					//if emote is off cooldown, execute the emote
 					if (emoteCount <= 0.0f) {
 						emoteCount = emoteCd;
 						//server processes the emote. clients send packet to server
@@ -182,7 +187,9 @@ public class ChatWheel {
 		} else {
 			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, player.getConnID());
 		}
-		WeaponUtils.emote(state, player, indexToEmote(emoteIndex));
+		if (player.getPlayerData() != null) {
+			WeaponUtils.emote(state, player, indexToEmote(emoteIndex));
+		}
 	}
 
 	/**

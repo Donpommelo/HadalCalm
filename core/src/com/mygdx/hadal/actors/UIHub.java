@@ -81,7 +81,6 @@ public class UIHub {
 		this.tableExtra = new Table();
 
 		tableOuter.setTouchable(Touchable.enabled);
-
 		addTable();
 	}
 	
@@ -285,48 +284,54 @@ public class UIHub {
 		tableExtra.add(slotsTitle).colspan(12).pad(infoPadding).row();
 		
 		boolean artifactsEmpty = true;
-		
-		for (UnlockArtifact c: state.getPlayer().getPlayerData().getLoadout().artifacts) {
-			
-			if (!c.equals(UnlockArtifact.NOTHING)) {
-				artifactsEmpty = false;
-				final ArtifactIcon newTag = new ArtifactIcon(c, "UNEQUIP?\n" + c.getInfo().getName(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
-				
-				newTag.addListener(new ClickListener() {
-					
-					@Override
-			        public void clicked(InputEvent e, float x, float y) {
-						if (state.isServer()) {
-							state.getPlayer().getPlayerData().removeArtifact(newTag.getArtifact());
-						} else {
-							state.getPlayer().getPlayerData().syncClientLoadoutRemoveArtifact(newTag.getArtifact());
+
+		if (state.getPlayer().getPlayerData() != null) {
+			for (UnlockArtifact c: state.getPlayer().getPlayerData().getLoadout().artifacts) {
+
+				if (!c.equals(UnlockArtifact.NOTHING)) {
+					artifactsEmpty = false;
+					final ArtifactIcon newTag = new ArtifactIcon(c, "UNEQUIP?\n" + c.getInfo().getName(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
+
+					newTag.addListener(new ClickListener() {
+
+						@Override
+						public void clicked(InputEvent e, float x, float y) {
+							if (state.isServer()) {
+								state.getPlayer().getPlayerData().removeArtifact(newTag.getArtifact());
+							} else {
+								state.getPlayer().getPlayerData().syncClientLoadoutRemoveArtifact(newTag.getArtifact());
+							}
+							refreshHub();
 						}
-						refreshHub();
-			        }
-					
-					@Override
-					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
-						super.enter(event, x, y, pointer, fromActor);
-						info = newTag.getArtifact().getInfo().getName() + "\nCOST: " + newTag.getArtifact().getArtifact().getSlotCost() + "\n" + newTag.getArtifact().getInfo().getDescription() + " \n \n" + 
-						newTag.getArtifact().getInfo().getDescriptionLong();
-					}
-			    });
-				tableExtra.add(newTag).width(artifactTagSize).height(artifactTagSize);
+
+						@Override
+						public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
+							super.enter(event, x, y, pointer, fromActor);
+							info = newTag.getArtifact().getInfo().getName() + "\nCOST: " + newTag.getArtifact().getArtifact().getSlotCost() + "\n" + newTag.getArtifact().getInfo().getDescription() + " \n \n" +
+								newTag.getArtifact().getInfo().getDescriptionLong();
+						}
+					});
+					tableExtra.add(newTag).width(artifactTagSize).height(artifactTagSize);
+				}
 			}
+
+			if (artifactsEmpty) {
+				Text slotsEmpty = new Text("N / A", 0, 0, false);
+				slotsEmpty.setScale(0.5f);
+				tableExtra.add(slotsEmpty).height(artifactTagSize).colspan(12);
+			}
+
+			tableExtra.row();
+
+			Text slotsInfo = new Text("SLOTS REMAINING: " + state.getPlayer().getPlayerData().getArtifactSlotsRemaining(), 0, 0, false);
+			slotsInfo.setScale(0.5f);
+			tableExtra.add(slotsInfo).pad(infoPadding).colspan(12).row();
 		}
-		if (artifactsEmpty) {
-			Text slotsEmpty = new Text("N / A", 0, 0, false);
-			slotsEmpty.setScale(0.5f);
-			tableExtra.add(slotsEmpty).height(artifactTagSize).colspan(12);
-		}
-		
-		tableExtra.row();
-		
-		Text slotsInfo = new Text("SLOTS REMAINING: " + state.getPlayer().getPlayerData().getArtifactSlotsRemaining(), 0, 0, false);
-		slotsInfo.setScale(0.5f);
-		tableExtra.add(slotsInfo).pad(infoPadding).colspan(12).row();
 	}
 
+	/**
+	 * Helper method that returns a tag depending on which hub event is being used
+	 */
 	private UnlockTag indexToFilterTag(UnlockTag tag) {
 		if (tagFilter == null) {
 			return UnlockTag.ALL;
@@ -415,6 +420,9 @@ public class UIHub {
 		titleInfo.setText(title);
 	}
 
+	/**
+	 * This removes problematic characters from search queries
+	 */
 	private String sanitizeSearchInput(String input) {
 		return input.toLowerCase().replace("\\","\\\\");
 	}

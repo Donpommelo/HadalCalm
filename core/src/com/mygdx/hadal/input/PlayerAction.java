@@ -117,6 +117,11 @@ public enum PlayerAction {
 		Gdx.files.local("save/Keybind.json").writeString(GameStateManager.json.toJson(map), true);
 	}
 
+	/**
+	 * This returns if a key is currently pressed
+	 * Whether a key is pressed depends on whether it is a keyboard or mouse button.
+	 * This is used when controls are reset
+	 */
 	public boolean isPressed() {
 		if (0 <= key && key <= 2) {
 			return Gdx.input.isButtonPressed(key);

@@ -46,42 +46,51 @@ public class ConsoleCommandUtil {
 		}
 		
 		if (command.equals("/weapon")) {
-			
-			StringBuilder message = new StringBuilder("Weapons: ");
-			
-			for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
 
-				if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
-					message.append(player.getPlayerData().getLoadout().multitools[i].name()).append(" ");
+			if (player.getPlayerData() != null) {
+				StringBuilder message = new StringBuilder("Weapons: ");
+
+				for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
+
+					if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
+						message.append(player.getPlayerData().getLoadout().multitools[i].name()).append(" ");
+					}
 				}
+
+				HadalGame.server.addChatToAll(state, message.toString(), DialogType.SYSTEM, 0);
 			}
-			
-			HadalGame.server.addChatToAll(state, message.toString(), DialogType.SYSTEM, 0);
+
 			return 0;
 		}
 		
 		if (command.equals("/artifact")) {
-			
-			StringBuilder message = new StringBuilder("Artifacts: ");
-			
-			for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
-				
-				if (!player.getPlayerData().getLoadout().artifacts[i].equals(UnlockArtifact.NOTHING)) {
-					message.append(player.getPlayerData().getLoadout().artifacts[i].name()).append(" ");
+			if (player.getPlayerData() != null) {
+				StringBuilder message = new StringBuilder("Artifacts: ");
+
+				for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
+
+					if (!player.getPlayerData().getLoadout().artifacts[i].equals(UnlockArtifact.NOTHING)) {
+						message.append(player.getPlayerData().getLoadout().artifacts[i].name()).append(" ");
+					}
 				}
+
+				HadalGame.server.addChatToAll(state,message.toString(), DialogType.SYSTEM, 0);
 			}
-			
-			HadalGame.server.addChatToAll(state,message.toString(), DialogType.SYSTEM, 0);
+
 			return 0;
 		}
 
 		if (command.equals("/active")) {
-			HadalGame.server.addChatToAll(state,"Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM, 0);
+			if (player.getPlayerData() != null) {
+				HadalGame.server.addChatToAll(state,"Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM, 0);
+			}
 			return 0;
 		}
 
 		if (command.equals("/team")) {
-			HadalGame.server.addChatToAll(state, "Team: " + player.getPlayerData().getLoadout().team.name(), DialogType.SYSTEM, 0);
+			if (player.getPlayerData() != null) {
+				HadalGame.server.addChatToAll(state, "Team: " + player.getPlayerData().getLoadout().team.name(), DialogType.SYSTEM, 0);
+			}
 			return 0;
 		}
 
@@ -101,42 +110,48 @@ public class ConsoleCommandUtil {
 		}
 		
 		if (command.equals("/weapon")) {
-			
-			StringBuilder message = new StringBuilder("Weapons: ");
-			
-			for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, state.getUiPlay().getOverrideWeaponSlots()); i++) {
-				
-				if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
-					message.append(player.getPlayerData().getLoadout().multitools[i].name()).append(" ");
+			if (player.getPlayerData() != null) {
+				StringBuilder message = new StringBuilder("Weapons: ");
+
+				for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, state.getUiPlay().getOverrideWeaponSlots()); i++) {
+
+					if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
+						message.append(player.getPlayerData().getLoadout().multitools[i].name()).append(" ");
+					}
 				}
+				HadalGame.client.sendTCP(new Packets.ClientChat(message.toString(), DialogType.SYSTEM));
 			}
-			
-			HadalGame.client.sendTCP(new Packets.ClientChat(message.toString(), DialogType.SYSTEM));
 			return 0;
 		}
 		
 		if (command.equals("/artifact")) {
-			
-			StringBuilder message = new StringBuilder("Artifacts: ");
-			
-			for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
-				
-				if (!player.getPlayerData().getLoadout().artifacts[i].equals(UnlockArtifact.NOTHING)) {
-					message.append(player.getPlayerData().getLoadout().artifacts[i].name()).append(" ");
+			if (player.getPlayerData() != null) {
+				StringBuilder message = new StringBuilder("Artifacts: ");
+
+				for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
+
+					if (!player.getPlayerData().getLoadout().artifacts[i].equals(UnlockArtifact.NOTHING)) {
+						message.append(player.getPlayerData().getLoadout().artifacts[i].name()).append(" ");
+					}
 				}
+
+				HadalGame.client.sendTCP(new Packets.ClientChat(message.toString(), DialogType.SYSTEM));
 			}
-			
-			HadalGame.client.sendTCP(new Packets.ClientChat(message.toString(), DialogType.SYSTEM));
+
 			return 0;
 		}
 
 		if (command.equals("/active")) {
-			HadalGame.client.sendTCP(new Packets.ClientChat("Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM));
+			if (player.getPlayerData() != null) {
+				HadalGame.client.sendTCP(new Packets.ClientChat("Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM));
+			}
 			return 0;
 		}
 
 		if (command.equals("/team")) {
-			HadalGame.client.sendTCP(new Packets.ClientChat("Team: " + player.getPlayerData().getLoadout().team.name(), DialogType.SYSTEM));
+			if (player.getPlayerData() != null) {
+				HadalGame.client.sendTCP(new Packets.ClientChat("Team: " + player.getPlayerData().getLoadout().team.name(), DialogType.SYSTEM));
+			}
 			return 0;
 		}
 

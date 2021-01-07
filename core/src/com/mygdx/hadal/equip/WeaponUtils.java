@@ -571,7 +571,7 @@ public class WeaponUtils {
 		
 		int modifiedAmount;
 		
-		if (statCheck) {
+		if (statCheck && state.getPlayer().getPlayerData() != null) {
 			if (state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount < 1.0f && state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) > 0) {
 				modifiedAmount = amount + 1;
 			} else {

@@ -1,7 +1,7 @@
 package com.mygdx.hadal.effects;
 
 /**
- * A particle color represents the rgb of a color that a particle can be tinted
+ * A particle color represents the rgb of a color that a particle/sprite can be tinted
  * @author Nardelia Noms
  */
 public enum HadalColor {

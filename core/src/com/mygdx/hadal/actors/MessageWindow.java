@@ -143,11 +143,14 @@ public class MessageWindow {
 		//log scrolls to bottom when opened.
 		textLog.scrollTo(0, 0, 0, 0);
 		if (active) {
+
+			//reset keyboard and scroll focus when closing window
 			stage.setKeyboardFocus(null);
 			if (stage.getScrollFocus() == textLog) {
 				stage.setScrollFocus(null);
 			}
 
+			//sync controller to avoid sticky keys (set all keys to current held position)
 			if (state.getController() != null) {
 				if (state.isServer()) {
 					((PlayerController) state.getController()).syncController();
@@ -157,9 +160,12 @@ public class MessageWindow {
 			}
 			fadeOut();
 		} else {
+
+			//when opening this window, focus keyboard and scroll on it
 			stage.setKeyboardFocus(enterMessage);
 			stage.setScrollFocus(textLog);
 
+			//reset controller to avoid sticky keys (releases all held keys)
 			if (state.getController() != null) {
 				if (state.isServer()) {
 					((PlayerController) state.getController()).resetController();
@@ -183,6 +189,8 @@ public class MessageWindow {
 		if (active) {
 			if (!enterMessage.getText().equals("")) {
 				if (state.isServer()) {
+
+					//if this is a console commend, execute it. (if it is used by host and console is enabled)
 					if (ConsoleCommandUtil.parseChatCommand(state, state.getPlayer(), enterMessage.getText()) == -1) {
 						if (state.getGsm().getSetting().isConsoleEnabled()) {
 							if (ConsoleCommandUtil.parseConsoleCommand(state, enterMessage.getText()) == -1) {
@@ -193,11 +201,15 @@ public class MessageWindow {
 						}
 					}
 				} else {
+
+					//if this is a chat command, execute it.
 					if (ConsoleCommandUtil.parseChatCommandClient((ClientState) state, state.getPlayer(), enterMessage.getText()) == -1) {
 						HadalGame.client.sendTCP(new Packets.ClientChat(enterMessage.getText(), DialogType.DIALOG));
 					}
 				}
 			} else {
+
+				//hitting enter with no text typed closes the window
 				toggleWindow();
 			}
 		}
@@ -221,10 +233,13 @@ public class MessageWindow {
 		textLog.setFadeScrollBars(true);
 
 		enterMessage = new TextField("", GameStateManager.getSkin()) {
-			
+
+			//this is used to indicate if the player is typing
 			private boolean typing;
-			private static final float typingInterval = 0.5f;
 			private float typeCount;
+
+			//player is "typing" 0.5 seconds after they type last.
+			private static final float typingInterval = 0.5f;
 			@Override
 			protected InputListener createInputListener () {
 				
@@ -232,6 +247,8 @@ public class MessageWindow {
 					
 					@Override
 		            public boolean keyDown(InputEvent event, int keycode) {
+
+						//unless we are exiting/entering, typing should indicate that the player is typing
 						if (keycode != Keys.ENTER && keycode != PlayerAction.EXIT_MENU.getKey()) {
 							typing = true;
 						}
@@ -262,6 +279,8 @@ public class MessageWindow {
             	typeCount += delta;
             	if (typeCount >= typingInterval) {
             		typeCount = 0;
+
+            		//if typing, we notify other players that we are typing to display the speech bubble
             		if (typing) {
             			typing = false;
             			state.getPlayer().startTyping();
@@ -282,7 +301,6 @@ public class MessageWindow {
 		sendButton = new Text("SEND", 0, 0, true);
 		sendButton.setScale(logScale);
 
-		//sending a message should return focus to the playstate
 		sendButton.addListener(new ClickListener() {
 
 			@Override
@@ -290,7 +308,6 @@ public class MessageWindow {
 				sendMessage();
 			}
 		});
-
 		backButton.addListener(new ClickListener() {
 
 			@Override
@@ -306,7 +323,10 @@ public class MessageWindow {
 
 		//windows starts off retracted
 		fadeOut();
+
+		//add starting text to give instructions to players
 		addTextLine(TextFilterUtil.filterHotkeys(GameStateManager.miscText.getString("start")));
+
 		//load previously sent messages so chat log doesn't clear on level transition
 		for (String s: textRecord) {
 			addTextLine(s);
@@ -342,14 +362,14 @@ public class MessageWindow {
 		//do not display messages from muted players
 		if (user != null) {
 			if (!user.isMuted()) {
-				String newText = "";
+				String newText;
 
 				//system messages are all red.
 				if (type.equals(DialogType.SYSTEM)) {
 					newText = "[RED]" + user.getPlayer().getName() + ": " + text + " []";
 				} else if (user.getPlayer() == null) {
 
-					//text is white if player is a spectator
+					//text is white if player is a spectator or otherwise has no player
 					newText = "[WHITE]" + user.getScores().getNameShort() + ": " + text + " []";
 				} else {
 
@@ -373,6 +393,7 @@ public class MessageWindow {
 		tableLog.add(newEntry).pad(logPadding, 0, logPadding, scrollBarPadding).width(scrollWidth - scrollBarPadding).left().row();
 		textLog.scrollTo(0, 0, 0, 0);
 
+		//new text makes the window visible and resets the inactive fade time
 		invisible = false;
 		inactiveFadeCount = 0.0f;
 	}

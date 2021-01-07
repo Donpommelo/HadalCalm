@@ -8,10 +8,12 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ * The Common Controller is used for inputs that can be carried out without a player entity present.
+ * This includes chatting, pausing, checking score, exiting menu, advancing dialog
+ * @author Courdough Clegnatio
  */
 public class CommonController implements InputProcessor {
 
-	//this is the player that this controller control
 	private final PlayState state;
 
 	public CommonController(PlayState state) {
@@ -53,16 +55,19 @@ public class CommonController implements InputProcessor {
 	public void keyUp(PlayerAction action) {
 
 		if (action == PlayerAction.PAUSE) {
-
 			if (state.isServer()) {
 				if (GameStateManager.currentMode == GameStateManager.Mode.SINGLE) {
+
+					//in single player, pausing pauses the game normally
 					state.getGsm().addPauseState(state, state.getGsm().getLoadout().getName(), PlayState.class, true);
-				} else if (state.getGsm().getSetting().isMultiplayerPause()) {
-					state.getGsm().addPauseState(state, state.getGsm().getLoadout().getName(), PlayState.class, state.getGsm().getSetting().isMultiplayerPause());
 				} else {
-					state.getGsm().addPauseState(state, "", PlayState.class, false);
+
+					//in multiplayer, pausing depends on setting
+					state.getGsm().addPauseState(state, state.getGsm().getLoadout().getName(), PlayState.class, state.getGsm().getSetting().isMultiplayerPause());
 				}
 			} else {
+
+				//clients bring up their own menu if pause is disabled and messages server otherwise
 				if (state.getGsm().getHostSetting().isMultiplayerPause()) {
 					HadalGame.client.sendTCP(new Packets.Paused(state.getGsm().getLoadout().getName()));
 				} else {

@@ -20,6 +20,8 @@ public class MusicPlayer {
 	
     //this is the song to be played next
 	private MusicTrack nextTrack;
+
+	//the "mode" of the music. This determines behavior when trying to switch songs
 	private MusicState currentTrackType;
 
     //this is the rate at which the sound volume changes (default: 0, -x for fading out and +x for fading in)
@@ -65,6 +67,8 @@ public class MusicPlayer {
 					pause();
 				}
 			}
+
+			//cap volume at max if we exceed it
 			if (volume >= maxVolume) {
 				volume = maxVolume;
 				fade = 0.0f;
@@ -74,13 +78,16 @@ public class MusicPlayer {
 		}
 	}
 	
-	// Play a song.
+	// Play a song. music can be null to indicate we want to stop the current song.
 	public void playSong(MusicTrack music, float volume) {
+
+    	//if we are playing another track, we make it fade out first
     	if (currentSong != null) {
 			fade = defaultFadeOutSpeed;
 			nextTrack = music;
 			nextVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
 		} else {
+			//if starting a new song, set designated track as next song and fade in
     		if (music != null) {
 				currentSong = music.getMusic();
 				currentTrack = music;
@@ -99,8 +106,10 @@ public class MusicPlayer {
 
 	public void playSong(MusicState type, float volume) {
 
+		//in "free" mode, the player chose a song in the sound room to persist even after level transitions
 		if (currentTrackType == MusicState.FREE && currentSong != null) { return; }
 
+		//otherwise play a random track that matches the designated "mode"
 		if (currentTrackType != type) {
 			currentTrackType = type;
 			int randomIndex;
@@ -134,21 +143,18 @@ public class MusicPlayer {
 		playSong(music, volume);
 	}
 	
-	// Resumes the current song.
 	public void play() {
 	    if (currentSong != null) {
 	        currentSong.play();
 	    }
 	}
 
-	// Pauses the current song.
 	public void pause() {
 	    if (currentSong != null) {
 	        currentSong.pause();
 	    }
 	}
 
-	// Stops the current song.
 	public void stop() {
 		if (currentSong != null) {
 	        currentSong.stop();

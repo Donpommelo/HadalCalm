@@ -78,8 +78,6 @@ public class KryoServer {
 							//Inform all that the player disconnected and kill the player
 							player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageTypes.DISCONNECT);
 							addNotificationToAll(ps, player.getName(), " DISCONNECTED!", DialogType.SYSTEM);
-
-
 						});
 					}
 					ps.addPacketEffect(() -> {
@@ -96,9 +94,6 @@ public class KryoServer {
 					final ResultsState vs =  (ResultsState) gsm.getStates().peek();
 					Gdx.app.postRunnable(() -> {
 						vs.readyPlayer(c.getID());
-
-						//remove disconnecting player from users
-						users.remove(c.getID());
 					});
 				}
 			}
@@ -633,7 +628,9 @@ public class KryoServer {
 				return ((PauseState) currentState).getPs();
 			} else if (currentState instanceof SettingState) {
 				return ((SettingState) currentState).getPlayState();
-			} else if (currentState instanceof ResultsState) {
+			} else if (currentState instanceof AboutState) {
+				return ((AboutState) currentState).getPlayState();
+			}else if (currentState instanceof ResultsState) {
 				return ((ResultsState) currentState).getPs();
 			}
 		}

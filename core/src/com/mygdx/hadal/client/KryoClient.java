@@ -75,7 +75,7 @@ public class KryoClient {
         packetListener = new Listener() {
         	
         	/**
-        	 * Upon connecting to server, send a playerConnect packet with your name.
+        	 * Upon connecting to server, send a playerConnect packet with your name and version.
         	 */
         	@Override
         	public void connected(Connection c) {
@@ -163,7 +163,7 @@ public class KryoClient {
         		}
         		
         		/*
-        		 * A sound is played on the server side that should be echoed to all clients
+        		 * A sound is played on the server side that we should echo
         		 */
         		else if (o instanceof Packets.SyncSoundSingle) {
         			final Packets.SyncSoundSingle p = (Packets.SyncSoundSingle) o;
@@ -187,21 +187,28 @@ public class KryoClient {
         		else if (o instanceof Packets.SyncScore) {
         			final Packets.SyncScore p = (Packets.SyncScore) o;
 
-					SavedPlayerFields score;
-					if (users.containsKey(p.connID)) {
-						User user = users.get(p.connID);
-						score = user.getScores();
-						user.setScoreUpdated(true);
-					} else {
-						score = new SavedPlayerFields(p.name, p.connID);
-						users.put(p.connID, new User(null, null, score, new SavedPlayerFieldsExtra()));
+					final ClientState cs = getClientState();
+					if (cs != null) {
+						cs.addPacketEffect(() -> {
+							SavedPlayerFields score;
+
+							//update score or create a new user if existing score not found
+							if (users.containsKey(p.connID)) {
+								User user = users.get(p.connID);
+								score = user.getScores();
+								user.setScoreUpdated(true);
+							} else {
+								score = new SavedPlayerFields(p.name, p.connID);
+								users.put(p.connID, new User(null, null, score, new SavedPlayerFieldsExtra()));
+							}
+							score.setWins(p.wins);
+							score.setKills(p.kills);
+							score.setDeaths(p.deaths);
+							score.setLives(p.lives);
+							score.setScore(p.score);
+							score.setPing(p.ping);
+						});
 					}
-					score.setWins(p.wins);
-					score.setKills(p.kills);
-					score.setDeaths(p.deaths);
-					score.setLives(p.lives);
-					score.setScore(p.score);
-					score.setPing(p.ping);
         		}
         		
         		/*
@@ -256,7 +263,12 @@ public class KryoClient {
         		 */
 				else if (o instanceof Packets.RemoveScore) {
 					final Packets.RemoveScore p = (Packets.RemoveScore) o;
-					users.remove(p.connID);
+					final ClientState cs = getClientState();
+					if (cs != null) {
+						cs.addPacketEffect(() -> {
+							users.remove(p.connID);
+						});
+					}
 				}
 
         		/*
@@ -274,7 +286,7 @@ public class KryoClient {
         		}
 
 				/*
-				 * Server rejects our connection. Display msg on title screen.
+				 * Server requests a password. Display password field on title screen.
 				 */
 				else if (o instanceof Packets.PasswordRequest) {
 					if (!gsm.getStates().isEmpty()) {
@@ -301,6 +313,7 @@ public class KryoClient {
 						gsm.getApp().setRunAfterTransition(() -> {
 							gsm.removeState(ResultsState.class);
 							gsm.removeState(SettingState.class);
+							gsm.removeState(AboutState.class);
 							gsm.removeState(PauseState.class);
 
 							boolean spectator = false;
@@ -525,22 +538,28 @@ public class KryoClient {
         		 */
         		else if (o instanceof Packets.SyncExtraResultsInfo) {
         			final Packets.SyncExtraResultsInfo p = (Packets.SyncExtraResultsInfo) o;
-					SavedPlayerFields score;
-					SavedPlayerFieldsExtra scoreExtra;
-					if (users.containsKey(p.connID)) {
-						scoreExtra = users.get(p.connID).getScoresExtra();
-						score = users.get(p.connID).getScores();
-					} else {
-						scoreExtra = new SavedPlayerFieldsExtra();
-						score = new SavedPlayerFields(p.name, p.connID);
-						users.put(p.connID, new User(null, null, score, scoreExtra));
+
+					final ClientState cs = getClientState();
+					if (cs != null) {
+						cs.addPacketEffect(() -> {
+							SavedPlayerFields score;
+							SavedPlayerFieldsExtra scoreExtra;
+							if (users.containsKey(p.connID)) {
+								scoreExtra = users.get(p.connID).getScoresExtra();
+								score = users.get(p.connID).getScores();
+							} else {
+								scoreExtra = new SavedPlayerFieldsExtra();
+								score = new SavedPlayerFields(p.name, p.connID);
+								users.put(p.connID, new User(null, null, score, scoreExtra));
+							}
+							scoreExtra.setDamageDealt(p.damageEnemies);
+							scoreExtra.setDamageDealtAllies(p.damageAllies);
+							scoreExtra.setDamageDealtSelf(p.damageSelf);
+							scoreExtra.setDamageReceived(p.damageReceived);
+							scoreExtra.setLoadout(p.loadout);
+							score.setWonLast(p.won);
+						});
 					}
-					scoreExtra.setDamageDealt(p.damageEnemies);
-					scoreExtra.setDamageDealtAllies(p.damageAllies);
-					scoreExtra.setDamageDealtSelf(p.damageSelf);
-					scoreExtra.setDamageReceived(p.damageReceived);
-					scoreExtra.setLoadout(p.loadout);
-					score.setWonLast(p.won);
         		}
 
 				else if (o instanceof Packets.SyncSpectator) {
@@ -908,6 +927,8 @@ public class KryoClient {
 				return (ClientState) (((PauseState) currentState).getPs());
 			} else if (currentState instanceof SettingState) {
 				return (ClientState) (((SettingState) currentState).getPlayState());
+			} else if (currentState instanceof AboutState) {
+				return (ClientState) (((AboutState) currentState).getPlayState());
 			} else if (currentState instanceof ResultsState) {
 				return (ClientState) (((ResultsState) currentState).getPs());
 			}

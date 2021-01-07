@@ -30,6 +30,8 @@ public class ClientController implements InputProcessor {
 	//note that moving, jumping, crouching, airblast are processed on client end for prediction purposes
 	@Override
 	public boolean keyDown(int keycode) {
+
+		//we return false here b/c if the player is a spectator, we want input to be deferred to common controller
 		if (player == null) { return false; }
 		if (player.getPlayerData() == null) return false;
 		if (!HadalGame.client.getClient().isConnected()) { return false; }
@@ -129,6 +131,8 @@ public class ClientController implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
+
+		//we return false here b/c if the player is a spectator, we want input to be deferred to common controller
 		if (player == null) { return false; }
 		if (player.getPlayerData() == null) return false;
 		if (!HadalGame.client.getClient().isConnected()) { return false; }

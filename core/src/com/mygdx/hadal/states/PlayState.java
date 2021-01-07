@@ -55,7 +55,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  */
 public class PlayState extends GameState {
 	
-	//This is an entity representing the player. Atm, player is not initialized here, but rather by a "Player Spawn" event in the map.
+	//This is an entity representing the player's controlled entity.
 	protected Player player;
 	
 	//This is the player's controller that receives inputs
@@ -426,7 +426,7 @@ public class PlayState extends GameState {
 		removeList.clear();
 		
 		//process camera, ui, any received packets
-		processCommonStateProperties(delta);
+		processCommonStateProperties(delta, false);
 		
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
 		controllerEntities(delta);
@@ -516,10 +516,11 @@ public class PlayState extends GameState {
 	/**
 	 * This is run in the update method and is just a helper to avoid repeating code in both the server/client states.
 	 * This does all of the stuff that is needed for both server and client (processing packets, fade and some other misc stuff)
+	 * postgame is used so that the state can continue processing packets in the results state
 	 */
 	private float cameraAccumulator;
 	private static final float cameraTime = 1 / 120f;
-	public void processCommonStateProperties(float delta) {
+	public void processCommonStateProperties(float delta, boolean postGame) {
 		
 		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
 		//to run here. This way, they will be carried out at a predictable time.
@@ -531,17 +532,19 @@ public class PlayState extends GameState {
 			packetEffect.execute();
 		}
 		packetEffects.clear();
-		
-		//Update the game camera.
-		cameraAccumulator += delta;
-		while (cameraAccumulator >= cameraTime) {
-			cameraAccumulator -= cameraTime;
-			cameraUpdate();
+
+		if (!postGame) {
+			//Update the game camera.
+			cameraAccumulator += delta;
+			while (cameraAccumulator >= cameraTime) {
+				cameraAccumulator -= cameraTime;
+				cameraUpdate();
+			}
+
+			//Increment the game timer, if exists
+			uiExtra.incrementTimer(delta);
+			timer += delta;
 		}
-		
-		//Increment the game timer, if exists
-		uiExtra.incrementTimer(delta);
-		timer += delta;
 	}
 	
 	/**

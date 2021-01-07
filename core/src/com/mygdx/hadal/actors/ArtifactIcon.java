@@ -74,7 +74,8 @@ public class ArtifactIcon extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {
 		batch.draw(ready, getX(), getY(), getWidth(), getHeight());
-         
+
+		//this displays additional artifact information when this actor is moused over
          if (mouseOver) {
         	 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2 + textOffsetX, getY() - padding / 2 + textOffsetY, layout.width + padding, layout.height + padding);
         	 font.setColor(color);

@@ -66,6 +66,8 @@ public class Armory extends HubEvent {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 
+						if (state.getPlayer().getPlayerData() == null) { return; }
+
 						int slotToReplace = state.getPlayer().getPlayerData().getCurrentSlot();
 
 						if (state.isServer()) {

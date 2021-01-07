@@ -20,6 +20,8 @@ public class PlayerController implements InputProcessor {
 	
 	@Override
 	public boolean keyDown(int keycode) {
+
+		//we return false here b/c if the player is a spectator, we want input to be deferred to common controller
 		if (player == null) return false;
 		if (player.getController() == null) return false;
 
@@ -100,8 +102,10 @@ public class PlayerController implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if (player == null) { return true; }
-		if (player.getController() == null) { return true; }
+
+		//we return false here b/c if the player is a spectator, we want input to be deferred to common controller
+		if (player == null) { return false; }
+		if (player.getController() == null) { return false; }
 		
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 			player.getController().keyUp(PlayerAction.WALK_LEFT);

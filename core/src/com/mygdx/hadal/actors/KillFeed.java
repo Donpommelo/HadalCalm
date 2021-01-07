@@ -79,6 +79,9 @@ public class KillFeed {
         feed.addActor(message);
     }
 
+    /**
+     * This simply creates the table and sets its properties.
+     */
     public void addTable() {
         ps.getStage().addActor(feed);
 
