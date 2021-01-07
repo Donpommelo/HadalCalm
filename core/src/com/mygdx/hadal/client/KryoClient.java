@@ -347,7 +347,7 @@ public class KryoClient {
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
         				final ClientState cs = (ClientState) gsm.getStates().peek();
 
-        				cs.addPacketEffect(() -> cs.getGsm().addPauseState(cs, p.pauser, ClientState.class, p.paused));
+        				cs.addPacketEffect(() -> cs.getGsm().addPauseState(cs, p.pauser, ClientState.class, true));
         			}
         		}
         		
@@ -542,6 +542,13 @@ public class KryoClient {
 					scoreExtra.setLoadout(p.loadout);
 					score.setWonLast(p.won);
         		}
+
+				else if (o instanceof Packets.SyncSpectator) {
+					final Packets.SyncSpectator p = (Packets.SyncSpectator) o;
+					if (users.containsKey(p.connID)) {
+						users.get(p.connID).setSpectator(p.spectator);
+					}
+				}
 
         		/*
         		 * Server has kicked client. Get yeeted.

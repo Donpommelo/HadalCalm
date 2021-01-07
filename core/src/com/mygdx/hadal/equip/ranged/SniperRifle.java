@@ -39,8 +39,8 @@ public class SniperRifle extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_SPEARGUN;
 	private static final Sprite eventSprite = Sprite.P_SPEARGUN;
 
-	private static final float bonusDamage = 1.2f;
-	private static final float maxCharge = 0.25f;
+	private static final float bonusDamage = 1.5f;
+	private static final float maxCharge = 0.24f;
 
 	public SniperRifle(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

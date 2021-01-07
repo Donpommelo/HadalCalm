@@ -7,6 +7,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIPlayClient;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.ClientController;
+import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -72,7 +73,7 @@ public class ClientState extends PlayState {
 	
 	@Override
 	public void resetController() {
-		
+
 		//we check if we are in a playstate (not paused or in setting menu) b/c we don't reset control in those states
 		if (!gsm.getStates().empty()) {
 			if (gsm.getStates().peek() instanceof PlayState) {
@@ -83,6 +84,7 @@ public class ClientState extends PlayState {
 				InputMultiplexer inputMultiplexer = new InputMultiplexer();
 				inputMultiplexer.addProcessor(stage);
 				inputMultiplexer.addProcessor(controller);
+				inputMultiplexer.addProcessor(new CommonController(this));
 				Gdx.input.setInputProcessor(inputMultiplexer);
 			}
 		}
@@ -236,7 +238,7 @@ public class ClientState extends PlayState {
 			spectatorMode = false;
 			
 			//Inform the server that we have finished transitioning to tell them to make us a new player.
-			HadalGame.client.sendTCP(new Packets.ClientFinishRespawn());
+			HadalGame.client.sendTCP(new Packets.ClientFinishRespawn(new Loadout(gsm.getLoadout())));
 			
 			//Make nextState null so we can transition again
 			nextState = null;
@@ -252,9 +254,9 @@ public class ClientState extends PlayState {
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player
 			gsm.getApp().fadeIn();
-			
+
 			setSpectatorMode();
-			
+
 			//sometimes, the client can miss the server's delete packet. if so, delete own player automatically
 			if (player != null) {
 				if (player.isAlive()) {

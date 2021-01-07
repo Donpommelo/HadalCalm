@@ -347,6 +347,10 @@ public class MessageWindow {
 				//system messages are all red.
 				if (type.equals(DialogType.SYSTEM)) {
 					newText = "[RED]" + user.getPlayer().getName() + ": " + text + " []";
+				} else if (user.getPlayer() == null) {
+
+					//text is white if player is a spectator
+					newText = "[WHITE]" + user.getScores().getNameShort() + ": " + text + " []";
 				} else {
 
 					//normal chat messages color names according to the player's team color

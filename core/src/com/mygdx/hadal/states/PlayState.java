@@ -25,6 +25,7 @@ import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.event.hub.Wallpaper;
 import com.mygdx.hadal.event.utility.PositionDummy;
 import com.mygdx.hadal.handlers.WorldContactListener;
+import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -293,16 +294,7 @@ public class PlayState extends GameState {
 
 		//b/c the play state can get shown multiple times without getting removed, we must get rid of stage if already created
 		if (stage == null) {
-			this.stage = new Stage() {
-
-				//This precaution exists to prevent null pointer when player is not loaded in yet.
-				@Override
-				public void draw() {
-					if (player.getPlayerData() != null) {
-						super.draw();
-					}
-				}
-			};
+			this.stage = new Stage();
 		}
 
 		//If ui elements have not been created, create them. (upon first showing the state)
@@ -361,6 +353,7 @@ public class PlayState extends GameState {
 				InputMultiplexer inputMultiplexer = new InputMultiplexer();
 				inputMultiplexer.addProcessor(stage);
 				inputMultiplexer.addProcessor(controller);
+				inputMultiplexer.addProcessor(new CommonController(this));
 				Gdx.input.setInputProcessor(inputMultiplexer);
 			}
 		}
@@ -969,29 +962,31 @@ public class PlayState extends GameState {
 				
 				short factionLeft = -1;
 				for (User user: HadalGame.server.getUsers().values()) {
-					if (user.getScores().getLives() > 0) {
-						Player playerLeft = user.getPlayer();
+					if (!user.isSpectator()) {
+						if (user.getScores().getLives() > 0) {
+							Player playerLeft = user.getPlayer();
 
-						if (playerLeft != null) {
-							if (teamEnabled && !isHub()) {
+							if (playerLeft != null) {
+								if (teamEnabled && !isHub()) {
 
-								//if team mode, display a win for the team instead
-								if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
-									resultsText = playerLeft.getPlayerData().getLoadout().team.toString() + " WINS";
-									winningTeam = user.getTeamFilter();
+									//if team mode, display a win for the team instead
+									if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
+										resultsText = playerLeft.getPlayerData().getLoadout().team.toString() + " WINS";
+										winningTeam = user.getTeamFilter();
+									} else {
+										resultsText = playerLeft.getName() + " WINS";
+										winningTeam = user.getHitBoxFilter();
+									}
 								} else {
 									resultsText = playerLeft.getName() + " WINS";
-									winningTeam = user.getHitBoxFilter();
 								}
-							} else {
-								resultsText = playerLeft.getName() + " WINS";
-							}
 
-							if (factionLeft == -1) {
-								factionLeft = playerLeft.getHitboxfilter();
-							} else {
-								if (factionLeft != playerLeft.getHitboxfilter()) {
-									allded = false;
+								if (factionLeft == -1) {
+									factionLeft = playerLeft.getHitboxfilter();
+								} else {
+									if (factionLeft != playerLeft.getHitboxfilter()) {
+										allded = false;
+									}
 								}
 							}
 						}
@@ -1002,9 +997,11 @@ public class PlayState extends GameState {
 				
 				//coop levels end when all players are dead
 				for (User user : HadalGame.server.getUsers().values()) {
-					if (user.getScores().getLives() > 0) {
-						allded = false;
-						break;
+					if (!user.isSpectator()) {
+						if (user.getScores().getLives() > 0) {
+							allded = false;
+							break;
+						}
 					}
 				}
 			}
@@ -1013,16 +1010,18 @@ public class PlayState extends GameState {
 			if (allded) {
 
 				for (User user : HadalGame.server.getUsers().values()) {
-					SavedPlayerFields score = user.getScores();
-					if (teamEnabled) {
-						if (winningTeam != AlignmentFilter.NONE) {
-							if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
+					if (!user.isSpectator()) {
+						SavedPlayerFields score = user.getScores();
+						if (teamEnabled) {
+							if (winningTeam != AlignmentFilter.NONE) {
+								if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
+									score.win();
+								}
+							}
+						} else {
+							if (user.getScores().getLives() > 0) {
 								score.win();
 							}
-						}
-					} else {
-						if (user.getScores().getLives() > 0) {
-							score.win();
 						}
 					}
 				}
@@ -1070,20 +1069,22 @@ public class PlayState extends GameState {
 		String resultsText = text;
 		if (text.equals(ResultsState.magicWord)) {
 			for (User user: HadalGame.server.getUsers().values()) {
-				scores.add(user.getScores());
+				if (!user.isSpectator()) {
+					scores.add(user.getScores());
 
-				AlignmentFilter faction;
+					AlignmentFilter faction;
 
-				if (user.getTeamFilter().equals(AlignmentFilter.NONE)) {
-					faction = user.getHitBoxFilter();
-				} else {
-					faction = user.getTeamFilter();
-				}
+					if (user.getTeamFilter().equals(AlignmentFilter.NONE)) {
+						faction = user.getHitBoxFilter();
+					} else {
+						faction = user.getTeamFilter();
+					}
 
-				if (teamScores.containsKey(faction)) {
-					teamScores.put(faction, user.getScores().getScore() + teamScores.get(faction));
-				} else {
-					teamScores.put(faction, user.getScores().getScore());
+					if (teamScores.containsKey(faction)) {
+						teamScores.put(faction, user.getScores().getScore() + teamScores.get(faction));
+					} else {
+						teamScores.put(faction, user.getScores().getScore());
+					}
 				}
 			}
 
@@ -1098,8 +1099,10 @@ public class PlayState extends GameState {
 					resultsText = winningTeam.toString() + " WINS";
 				} else {
 					for (User user: HadalGame.server.getUsers().values()) {
-						if (user.getHitBoxFilter().equals(winningTeam)) {
-							resultsText = user.getScores().getNameShort() + " WINS";
+						if (!user.isSpectator()) {
+							if (user.getHitBoxFilter().equals(winningTeam)) {
+								resultsText = user.getScores().getNameShort() + " WINS";
+							}
 						}
 					}
 				}
@@ -1111,20 +1114,37 @@ public class PlayState extends GameState {
 			int winningScore = scores.get(0).getScore();
 
 			for (User user : HadalGame.server.getUsers().values()) {
-				SavedPlayerFields score = user.getScores();
-				if (teamEnabled) {
-					if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
-						score.win();
-					}
-				} else {
-					if (score.getScore() == winningScore) {
-						score.win();
+				if (!user.isSpectator()) {
+					SavedPlayerFields score = user.getScores();
+					if (teamEnabled) {
+
+						AlignmentFilter faction;
+
+						if (user.getTeamFilter().equals(AlignmentFilter.NONE)) {
+							faction = user.getHitBoxFilter();
+						} else {
+							faction = user.getTeamFilter();
+						}
+
+						if (teamScores.containsKey(faction)) {
+							score.setTeamScore(teamScores.get(faction));
+						}
+
+						if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
+							score.win();
+						}
+					} else {
+						if (score.getScore() == winningScore) {
+							score.win();
+						}
 					}
 				}
 			}
 		} else if (victory) {
             for (User user: HadalGame.server.getUsers().values()) {
-                user.getScores().win();
+                if (!user.isSpectator()) {
+					user.getScores().win();
+				}
             }
         }
 
@@ -1135,20 +1155,22 @@ public class PlayState extends GameState {
 
 		for (User user : HadalGame.server.getUsers().values()) {
 			SavedPlayerFields score = user.getScores();
+			if (!user.isSpectator()) {
+				Player resultsPlayer = user.getPlayer();
+				Loadout loadoutTemp = resultsPlayer.getPlayerData().getLoadout();
 
-			Player resultsPlayer = user.getPlayer();
-			Loadout loadoutTemp = resultsPlayer.getPlayerData().getLoadout();
+				for (int i = (int) (Loadout.baseWeaponSlots + resultsPlayer.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i < Loadout.maxWeaponSlots ; i++) {
+					loadoutTemp.multitools[i] = UnlockEquip.NOTHING;
+				}
 
-			for (int i = (int) (Loadout.baseWeaponSlots + resultsPlayer.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i < Loadout.maxWeaponSlots ; i++) {
-				loadoutTemp.multitools[i] = UnlockEquip.NOTHING;
+				user.getScoresExtra().setLoadout(loadoutTemp);
+				SavedPlayerFieldsExtra scoreExtra = user.getScoresExtra();
+
+				HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(score.getConnID(), score.getNameShort(),
+					scoreExtra.getDamageDealt(), scoreExtra.getDamageDealtSelf(), scoreExtra.getDamageDealtAllies(),
+					scoreExtra.getDamageReceived(), score.isWonLast(), scoreExtra.getLoadout()));
 			}
-
-			user.getScoresExtra().setLoadout(loadoutTemp);
-			SavedPlayerFieldsExtra scoreExtra = user.getScoresExtra();
-
-			HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(score.getConnID(), score.getNameShort(),
-				scoreExtra.getDamageDealt(), scoreExtra.getDamageDealtSelf(), scoreExtra.getDamageDealtAllies(),
-				scoreExtra.getDamageReceived(), score.isWonLast(), scoreExtra.getLoadout()));
+			HadalGame.server.sendToAllTCP(new Packets.SyncSpectator(score.getConnID(), user.isSpectator()));
 		}
 
 		beginTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay);
@@ -1159,59 +1181,60 @@ public class PlayState extends GameState {
 	 * This is used to make a specific player a spectator after a transition.
 	 * This is only run by the server
 	 */
-	public void becomeSpectator(Player player) {
-		
-		if (!player.isSpectator()) {
-			player.setSpectator(true);
-			
-			HadalGame.server.addNotificationToAll(this, "", player.getName() + " became a spectator!", DialogType.SYSTEM);
-			
-			//for host, start transition. otherwise, send transition packet
-			if (this.player.equals(player)) {
-				beginTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay);
-			} else {
-				HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay));
-			}
-			
-			//we die last so that the on-death transition does not occur (As it will not override the spectator transition unless it is a results screen.)
-			player.getPlayerData().die(worldDummy.getBodyData(), DamageTypes.DISCONNECT);
+	public void becomeSpectator(Player player, boolean notification) {
+		User user = HadalGame.server.playerToUser(player);
 
-			//set the spectator's player number to default so they don't take up a player slot
-			User user = HadalGame.server.playerToUser(player);
-			if (user != null) {
-				user.getHitBoxFilter().setUsed(false);
-				user.setHitBoxFilter(AlignmentFilter.NONE);
+		if (user != null) {
+			if (!user.isSpectator()) {
+				if (notification) {
+					HadalGame.server.addNotificationToAll(this,"",player.getName() + " became a spectator!", DialogType.SYSTEM);
+				}
+
+				startSpectator(user, player.getConnID());
+
+				//we die last so that the on-death transition does not occur (As it will not override the spectator transition unless it is a results screen.)
+				player.getPlayerData().die(worldDummy.getBodyData(), DamageTypes.DISCONNECT);
 			}
 		}
+	}
+
+	public void startSpectator(User user, int connId) {
+		HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay));
+
+		//set the spectator's player number to default so they don't take up a player slot
+		user.getHitBoxFilter().setUsed(false);
+		user.setHitBoxFilter(AlignmentFilter.NONE);
+		user.setSpectator(true);
 	}
 	
 	/**
 	 * This is used to make a specific spectator a player after a transition.
 	 * This is only run by the server
 	 */
-	public void exitSpectator(Player player) {
-		
-		if (player.isSpectator()) {
-			//cannot exit spectator if server is full
-			if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers() + 1) {
-				HadalGame.server.sendNotification(player.getConnID(), "", "Could not join! Server is full!", DialogType.SYSTEM);
-				return;
-			}
-			
-			player.setSpectator(false);
-			HadalGame.server.addNotificationToAll(this, "", player.getName() + " stopped spectating and joined the game!", DialogType.SYSTEM);
+	public void exitSpectator(User user) {
 
-			//for host, start transition. otherwise, send transition packet
-			if (this.player.equals(player)) {
-				beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);
-			} else {
-				HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay));
-			}
+		if (user != null) {
+			if (user.isSpectator()) {
+				SavedPlayerFields score = user.getScores();
 
-			//give the new player a player slot
-			User user = HadalGame.server.playerToUser(player);
-			if (user != null) {
+				//cannot exit spectator if server is full
+				if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers() + 1) {
+					HadalGame.server.sendNotification(score.getConnID(), "", "Could not join! Server is full!", DialogType.SYSTEM);
+					return;
+				}
+
+				HadalGame.server.addNotificationToAll(this, "", score.getNameShort() + " stopped spectating and joined the game!", DialogType.SYSTEM);
+
+				//for host, start transition. otherwise, send transition packet
+				if (score.getConnID() == 0) {
+					beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);
+				} else {
+					HadalGame.server.sendToTCP(score.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay));
+				}
+
+				//give the new player a player slot
 				user.setHitBoxFilter(AlignmentFilter.getUnusedAlignment());
+				user.setSpectator(false);
 			}
 		}
 	}

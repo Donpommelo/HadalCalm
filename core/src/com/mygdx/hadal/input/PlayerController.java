@@ -20,8 +20,8 @@ public class PlayerController implements InputProcessor {
 	
 	@Override
 	public boolean keyDown(int keycode) {
-		if (player == null) return true;
-		if (player.getController() == null) return true;
+		if (player == null) return false;
+		if (player.getController() == null) return false;
 
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 			player.getController().keyDown(PlayerAction.WALK_LEFT);
@@ -78,11 +78,7 @@ public class PlayerController implements InputProcessor {
 		else if (keycode == PlayerAction.SWITCH_TO_4.getKey()) {
 			player.getController().keyDown(PlayerAction.SWITCH_TO_4);
 		} 
-		
-		else if (keycode == PlayerAction.DIALOGUE.getKey()) {
-			player.getController().keyDown(PlayerAction.DIALOGUE);
-		} 
-		
+
 		else if (keycode == PlayerAction.WEAPON_CYCLE_DOWN.getKey()) {
 			player.getController().keyDown(PlayerAction.WEAPON_CYCLE_DOWN);
 		} 
@@ -90,22 +86,15 @@ public class PlayerController implements InputProcessor {
 		else if (keycode == PlayerAction.WEAPON_CYCLE_UP.getKey()) {
 			player.getController().keyDown(PlayerAction.WEAPON_CYCLE_UP);
 		} 
-		
-		else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
-			player.getController().keyDown(PlayerAction.SCORE_WINDOW);
-		} 
-		
+
 		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			player.getController().keyDown(PlayerAction.CHAT_WHEEL);
 		}
-		
+
 		else if (keycode == PlayerAction.PING.getKey()) {
 			player.getController().keyDown(PlayerAction.PING);
 		}
 		
-		else if (keycode == PlayerAction.EXIT_MENU.getKey()) {
-			player.getController().keyDown(PlayerAction.EXIT_MENU);
-		}
 		return false;
 	}
 
@@ -132,24 +121,12 @@ public class PlayerController implements InputProcessor {
 		
 		else if (keycode == PlayerAction.FIRE.getKey()) {
 			player.getController().keyUp(PlayerAction.FIRE);
-		} 
-		
-		else if (keycode == PlayerAction.PAUSE.getKey()) {
-			player.getController().keyUp(PlayerAction.PAUSE);
 		}
 
-		else if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
-			player.getController().keyUp(PlayerAction.MESSAGE_WINDOW);
-		}
-
-		else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
-			player.getController().keyUp(PlayerAction.SCORE_WINDOW);
-		}	
-		
 		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			player.getController().keyUp(PlayerAction.CHAT_WHEEL);
 		}
-		
+
 		return false;
 	}
 

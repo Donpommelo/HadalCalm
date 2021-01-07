@@ -77,6 +77,9 @@ public class CameraBounder extends Event {
 				state.getSpectatorBounds()[3] = getPixelPosition().y;
 			}
 		}
+
+		//this line lets player-less spectators have camera bounds
+		eventData.onActivate(null, null);
 	}
 	
 	@Override

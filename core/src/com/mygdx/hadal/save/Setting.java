@@ -155,10 +155,10 @@ public class Setting {
 		pvpTimer = 3;
 		lives = 0;
 		teamEnabled = true;
-		loadoutType = 0;
+		loadoutType = 3;
 		artifactSlots = 4;
 		pvpMode = 0;
-		pvpHp = 0;
+		pvpHp = 2;
 	}
 	
 	public void resetMisc() {

@@ -68,7 +68,7 @@ public class PauseState extends GameState {
 		
 		//When the server pauses, it sends a message to all clients to pause them as well.
 		if (ps.isServer() && paused) {
-			HadalGame.server.sendToAllTCP(new Packets.Paused(pauser, true));
+			HadalGame.server.sendToAllTCP(new Packets.Paused(pauser));
 		}
 		
 		SoundEffect.POSITIVE.play(gsm, 1.0f, false);
@@ -176,7 +176,7 @@ public class PauseState extends GameState {
 					public void clicked(InputEvent e, float x, float y) {
 						unpause();
 						if (ps.isServer()) {
-							ps.becomeSpectator(ps.getPlayer());
+							ps.becomeSpectator(ps.getPlayer(), true);
 						} else {
 							HadalGame.client.sendTCP(new Packets.StartSpectate());
 						}
@@ -189,7 +189,7 @@ public class PauseState extends GameState {
 					public void clicked(InputEvent e, float x, float y) {
 						unpause();
 						if (ps.isServer()) {
-							ps.exitSpectator(ps.getPlayer());
+							ps.exitSpectator(HadalGame.server.playerToUser(ps.getPlayer()));
 						} else {
 							HadalGame.client.sendTCP(new Packets.EndSpectate());
 						}
@@ -316,7 +316,9 @@ public class PauseState extends GameState {
 					ps.getPlayer().getPlayerData().syncArtifacts(false);
 					for (User user : HadalGame.server.getUsers().values()) {
 						if (user.getPlayer() != null) {
-							user.getPlayer().getPlayerData().syncArtifacts(false);
+							if (user.getPlayer().getPlayerData() != null) {
+								user.getPlayer().getPlayerData().syncArtifacts(false);
+							}
 						}
 					}
 				}

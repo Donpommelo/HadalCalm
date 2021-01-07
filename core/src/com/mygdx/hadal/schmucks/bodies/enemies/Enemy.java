@@ -136,7 +136,9 @@ public class Enemy extends Schmuck {
 			state.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
 			for (User user : HadalGame.server.getUsers().values()) {
 				if (user.getPlayer() != null) {
-					user.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
+					if (user.getPlayer().getPlayerData() != null) {
+						user.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
+					}
 				}
 			}
 			

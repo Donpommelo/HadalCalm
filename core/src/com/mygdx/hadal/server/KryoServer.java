@@ -230,19 +230,21 @@ public class KryoServer {
 						ps.addPacketEffect(() -> {
 							ps.catchUpClient(c.getID());
 
-							//client joins as a spectator if their packet specifies so, or if there were previously a spectator and are joining a non-hub level
+							//client joins as a spectator if their packet specifies so,
+							//or if they were previously a spectator and are joining a non-hub level
 							boolean spectator = p.spectator || (p.lastSpectator && !ps.isHub());
 
 							//If the client has already been created, we create a new player, otherwise we reuse their old data.
 							User user = users.get(c.getID());
 							if (user != null) {
+
+								//if the player is told to start as a spectator or was a spectator prior to the match, they join as a spectator
+								if (user.isSpectator()) {
+									spectator = true;
+								}
+
 								Player player = user.getPlayer();
 								if (player != null) {
-
-									//if the player is told to start as a spectator or was a spectator prior to the match, they join as a spectator
-									if (player.isStartSpectator()) {
-										spectator = true;
-									}
 
 									//alive check prevents duplicate players if entering/respawning simultaneously
 									if (!player.isAlive()) {
@@ -346,6 +348,8 @@ public class KryoServer {
 				 * We spawn a new player for them
 				 */
 				else if (o instanceof Packets.ClientFinishRespawn) {
+					final Packets.ClientFinishRespawn p = (Packets.ClientFinishRespawn) o;
+
 					final PlayState ps = getPlayState();
 					//acquire the client's name and data
 					User user = users.get(c.getID());
@@ -357,6 +361,11 @@ public class KryoServer {
 								String playerName = player.getName();
 								createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), player.getPlayerData(), true, false);
 							}
+						} else {
+
+							//player is respawning from spectator and has no player
+							SavedPlayerFields score = user.getScores();
+							createNewClientPlayer(ps, c.getID(), score.getNameShort(), p.loadout, null, true, false);
 						}
 					}
 				}
@@ -400,7 +409,20 @@ public class KryoServer {
 						addChatToAll(ps, p.text, p.type, c.getID());
 					}
 				}
-				
+
+				/*
+				 * client tries to pause. We pause the game if pause is enabled
+				 */
+				else if (o instanceof Packets.Paused) {
+					final Packets.Paused p = (Packets.Paused) o;
+					final PlayState ps = getPlayState();
+					if (ps != null) {
+						if (gsm.getSetting().isMultiplayerPause()) {
+							ps.addPacketEffect(() -> gsm.addPauseState(ps, p.pauser, PlayState.class, true));
+						}
+					}
+				}
+
 				/*
 				 * Respond to this packet sent from the client periodically so the client knows their latency.
 				 */
@@ -463,7 +485,7 @@ public class KryoServer {
 							if (user != null) {
 								Player player = user.getPlayer();
 								if (player != null) {
-									ps.becomeSpectator(player);
+									ps.becomeSpectator(player, true);
 								}
 							}
 						});
@@ -476,15 +498,7 @@ public class KryoServer {
 				else if (o instanceof EndSpectate) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						ps.addPacketEffect(() -> {
-							User user = users.get(c.getID());
-							if (user != null) {
-								Player player = user.getPlayer();
-								if (player != null) {
-									ps.exitSpectator(player);
-								}
-							}
-						});
+						ps.addPacketEffect(() -> ps.exitSpectator(users.get(c.getID())));
 					}
 				}
 				
@@ -539,17 +553,21 @@ public class KryoServer {
 				users.put(connId, user);
 			}
 
-			//Create a new player with the designated fields and give them a mouse pointer.
-			Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, reset, false, user.getHitBoxFilter().getFilter());
-			MouseTracker newMouse = new MouseTracker(ps, false);
-			newPlayer.setMouse(newMouse);
-
-			user.setPlayer(newPlayer);
-			user.setMouse(newMouse);
 			user.setTeamFilter(loadout.team);
 
 			//set the client as a spectator if requested
-			newPlayer.setStartSpectator(spectator);
+			if (spectator) {
+				ps.startSpectator(user, connId);
+			} else {
+				//Create a new player with the designated fields and give them a mouse pointer.
+				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, reset, false, user.getHitBoxFilter().getFilter());
+				MouseTracker newMouse = new MouseTracker(ps, false);
+				newPlayer.setMouse(newMouse);
+
+				user.setPlayer(newPlayer);
+				user.setMouse(newMouse);
+				user.setSpectator(false);
+			}
 		});
 	}
 	
@@ -683,10 +701,8 @@ public class KryoServer {
 		int playerNum = 0;
 		
 		for (Entry<Integer, User> conn: users.entrySet()) {
-			if (conn.getValue().getPlayer() != null) {
-				if (!conn.getValue().getPlayer().isSpectator()) {
-					playerNum++;
-				}
+			if (!conn.getValue().isSpectator()) {
+				playerNum++;
 			}
 		}
 		return playerNum;

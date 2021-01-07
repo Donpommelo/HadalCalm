@@ -98,8 +98,6 @@ public class Player extends PhysicsSchmuck {
 	protected static final float pingCd = 1.0f;
 	protected float pingCdCount;
 
-	protected float emoteCdCount;
-
 	//this makes the player animate faster in the air for the "luigi legs"
 	private static final float airAnimationSlow = 3.0f;
 
@@ -150,9 +148,6 @@ public class Player extends PhysicsSchmuck {
 	
 	//this is the point we are starting at.
 	private final StartPoint start;
-	
-	//does this player start off as a spectator. Is this player currently a spectator?
-	private boolean startSpectator, spectator;
 	
 	//is the player currently typing in chat? (yes if this float is greater that 0.0f)
 	protected float typingCdCount;
@@ -236,8 +231,7 @@ public class Player extends PhysicsSchmuck {
 	public void create() {
 		alive = true;
 		destroyed = false;
-		spectator = false;
-		
+
 		//create the player's input controller
 		controller = new ActionController(this, state);
 		
@@ -320,12 +314,7 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void controller(float delta) {
 		controllerCount += delta;
-		
-		//set this player as spectator if so requested
-		if (startSpectator) {
-			state.becomeSpectator(this);
-		}
-		
+
 		//This line ensures that this runs every 1/60 second regardless of computer speed.
 		while (controllerCount >= controllerInterval) {
 			controllerCount -= controllerInterval;
@@ -415,7 +404,6 @@ public class Player extends PhysicsSchmuck {
 		airblastCdCount -= delta;
 		interactCdCount -= delta;
 		pingCdCount -= delta;
-		emoteCdCount -= delta;
 		hitSoundCdCount -= delta;
 		hitSoundLargeCdCount -= delta;
 		typingCdCount -= delta;
@@ -977,23 +965,11 @@ public class Player extends PhysicsSchmuck {
 
 	public void setChargePercent(float chargePercent) { this.chargePercent = chargePercent; }
 
-	public float getEmoteCdCount() { return emoteCdCount; }
-
-	public void setEmoteCdCount(float emoteCdCount) { this.emoteCdCount = emoteCdCount; }
-
 	public ActionController getController() { return controller; }
 	
 	public Loadout getStartLoadout() { return startLoadout; }
 
 	public void setStartLoadout(Loadout startLoadout) { this.startLoadout = startLoadout; }
-	
-	public boolean isStartSpectator() { return startSpectator; }
-
-	public void setStartSpectator(boolean startSpectator) { this.startSpectator = startSpectator; }
-	
-	public boolean isSpectator() { return spectator; }
-
-	public void setSpectator(boolean spectator) { this.spectator = spectator; }
 
 	public MouseTracker getMouse() { return mouse; }
 

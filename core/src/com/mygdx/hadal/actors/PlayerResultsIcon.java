@@ -57,9 +57,9 @@ public class PlayerResultsIcon extends AHadalActor {
 
 		boolean eggplants;
 		if (state.getPs().isServer()) {
-			eggplants = state.getGsm().getSetting().getPVPMode() == 1;
+			eggplants = state.getGsm().getSetting().getPVPMode() == 1 && state.getPs().isPvp();
 		} else {
-			eggplants = state.getGsm().getSharedSetting().getPvpMode() == 1;
+			eggplants = state.getGsm().getSharedSetting().getPvpMode() == 1 && state.getPs().isPvp();
 		}
 
 		if (eggplants) {

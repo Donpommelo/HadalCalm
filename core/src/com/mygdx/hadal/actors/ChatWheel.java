@@ -65,6 +65,11 @@ public class ChatWheel {
 	private final Vector2 pointerPosition = new Vector2();
 	private final Vector2 totalDisplace = new Vector2();
 	private final Vector2 lastDisplace = new Vector2();
+
+	//players cannot use emotes when they are on cooldown
+	private static final float emoteCd = 2.0f;
+	private float emoteCount = 2.0f;
+
 	public void addTable() {
 		PieMenu.PieMenuStyle style = new PieMenu.PieMenuStyle();
 		style.sliceColor = new Color(1,1,1,0.5f);
@@ -73,7 +78,6 @@ public class ChatWheel {
 		style.separatorWidth = borderThickness;
 				
 		wheel = new AnimatedPieMenu(wheelBase, style, wheelWidth / 2) {
-
 			@Override
 			public void act(float delta) {
 
@@ -88,6 +92,11 @@ public class ChatWheel {
 
 					wheel.hoverSliceAtStage(pointerPosition.x, pointerPosition.y);
 				}
+
+				if (emoteCount > 0.0f) {
+					emoteCount -= delta;
+				}
+
 				super.act(delta);
 			}
 
@@ -145,11 +154,14 @@ public class ChatWheel {
 
 				if (option != -1 && option < options.length) {
 
-					//server processes the emote. clients send packet to server
-					if (state.isServer()) {
-						emote(state.getPlayer(), option);
-					} else {
-						HadalGame.client.sendTCP(new Packets.SyncEmote(option));
+					if (emoteCount <= 0.0f) {
+						emoteCount = emoteCd;
+						//server processes the emote. clients send packet to server
+						if (state.isServer()) {
+							emote(state.getPlayer(), option);
+						} else {
+							HadalGame.client.sendTCP(new Packets.SyncEmote(option));
+						}
 					}
 				}
 				wheel.animateClosing(0.4f);
@@ -158,26 +170,19 @@ public class ChatWheel {
 		active = visible;
 	}
 
-	//players cannot use emotes when they are on cooldown
-	private static final float emoteCd = 2.0f;
 	/**
 	 * This method processes a single emote use.
 	 * @param player: the player doing the emote
 	 * @param emoteIndex: the index of the list of emotes
 	 */
 	public void emote(Player player, int emoteIndex) {
-
-		if (player.getEmoteCdCount() < 0) {
-			player.setEmoteCdCount(emoteCd);
-
-			//special logic for the emote that does a chat command (/roll)
-			if (emoteIndex == 6) {
-				ConsoleCommandUtil.parseChatCommand(state, player, options[emoteIndex]);
-			} else {
-				HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, player.getConnID());
-			}
-			WeaponUtils.emote(state, player, indexToEmote(emoteIndex));
+		//special logic for the emote that does a chat command (/roll)
+		if (emoteIndex == 6) {
+			ConsoleCommandUtil.parseChatCommand(state, player, options[emoteIndex]);
+		} else {
+			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, player.getConnID());
 		}
+		WeaponUtils.emote(state, player, indexToEmote(emoteIndex));
 	}
 
 	/**

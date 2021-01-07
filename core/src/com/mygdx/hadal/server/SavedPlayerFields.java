@@ -10,7 +10,7 @@ public class SavedPlayerFields {
 	private String name;
 	
 	//Player's stored stats
-	private int wins, kills, deaths, score, lives, ping, connID;
+	private int wins, kills, deaths, score, teamScore, lives, ping, connID;
 	private boolean wonLast;
 	
 	//this unused constructor is needed by kryo for serialization
@@ -49,6 +49,7 @@ public class SavedPlayerFields {
 		this.kills = 0;
 		this.deaths = 0;
 		this.score = 0;
+		this.teamScore = 0;
 		this.lives = 1;
 		wonLast = false;
 	}
@@ -111,7 +112,11 @@ public class SavedPlayerFields {
 	public int getScore() {	return score; }
 
 	public void setScore(int score) { this.score = score; }
-	
+
+	public int getTeamScore() {	return teamScore; }
+
+	public void setTeamScore(int teamScore) { this.teamScore = teamScore; }
+
 	public int getLives() { return lives; }
 
 	public void setLives(int lives) { this.lives = lives; }

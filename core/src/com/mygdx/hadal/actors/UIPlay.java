@@ -140,7 +140,9 @@ public class UIPlay extends AHadalActor {
 	
 	@Override
     public void draw(Batch batch, float alpha) {
-		
+
+		if (state.getPlayer().getPlayerData() == null) { return; }
+
 		batch.setProjectionMatrix(state.getHud().combined);
 		calcVars();
 		

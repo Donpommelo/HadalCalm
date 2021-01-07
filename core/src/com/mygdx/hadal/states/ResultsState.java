@@ -99,7 +99,7 @@ public class ResultsState extends GameState {
 
 	public static final float artifactTagSize = 40.0f;
 	private static final float artifactTagOffsetX = -100.0f;
-	private static final float artifactTagOffsetY = -60.0f;
+	private static final float artifactTagOffsetY = 60.0f;
 	private static final float artifactTagTargetWidth = 200.0f;
 
 	private static final float particleOffsetX = 75.0f;
@@ -125,17 +125,23 @@ public class ResultsState extends GameState {
 
 		if (ps.isServer()) {
 			for (User user: HadalGame.server.getUsers().values()) {
-				scores.add(user.getScores());
+				if (!user.isSpectator()) {
+					scores.add(user.getScores());
+				}
 			}
 			gsm.getRecord().updateScore(scores.get(0).getScore(), ps.level);
 		} else {
 			for (User user: HadalGame.client.getUsers().values()) {
-				scores.add(user.getScores());
+				if (!user.isSpectator()) {
+					scores.add(user.getScores());
+				}
 			}
 		}
 
 		//Then, we sort according to score and give the winner(s) a win. Being on the winning team overrides score
-		scores.sort((a, b) -> (b.getScore() + (b.isWonLast() ? 1000 : 0)) - (a.getScore() + (a.isWonLast() ? 1000 : 0)));
+		scores.sort((a, b) ->
+			(b.getScore() + b.getTeamScore() * 1000 + (b.isWonLast() ? 9999 : 0))
+			- (a.getScore() + a.getTeamScore() * 1000 + (a.isWonLast() ? 9999 : 0)));
 
 		//Finally we initialize the ready map with everyone set to not ready.
 		ready = new HashMap<>();
@@ -310,7 +316,6 @@ public class ResultsState extends GameState {
 			User user;
 			if (ps.isServer()) {
 				user =  HadalGame.server.getUsers().get(connId);
-
 			} else {
 				user =  HadalGame.client.getUsers().get(connId);
 			}
@@ -471,7 +476,7 @@ public class ResultsState extends GameState {
 			
 			//The server finds the player that readies, sets their readiness and informs all clients by sending that player's index
 			User user = HadalGame.server.getUsers().get(playerId);
-			if (user != null) {
+			if (user != null && !user.isSpectator()) {
 				SavedPlayerFields field = user.getScores();
 				ready.put(field, true);
 				int iconId = scores.indexOf(field);

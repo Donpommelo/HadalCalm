@@ -30,8 +30,8 @@ public class ClientController implements InputProcessor {
 	//note that moving, jumping, crouching, airblast are processed on client end for prediction purposes
 	@Override
 	public boolean keyDown(int keycode) {
-		if (player == null) { return true; }
-		if (player.getPlayerData() == null) return true;
+		if (player == null) { return false; }
+		if (player.getPlayerData() == null) return false;
 		if (!HadalGame.client.getClient().isConnected()) { return false; }
 		
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
@@ -58,14 +58,12 @@ public class ClientController implements InputProcessor {
 		
 		else if (keycode == PlayerAction.JUMP.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.JUMP));
-			
 			player.setHoveringAttempt(true);
 			player.jump();
 		} 
 		
 		else if (keycode == PlayerAction.CROUCH.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.CROUCH));
-			
 			player.setFastFalling(true);
 		} 
 		
@@ -87,7 +85,6 @@ public class ClientController implements InputProcessor {
 		
 		else if (keycode == PlayerAction.BOOST.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.BOOST));
-			
 			player.airblast();
 		} 
 		
@@ -110,23 +107,13 @@ public class ClientController implements InputProcessor {
 		else if (keycode == PlayerAction.SWITCH_TO_4.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.SWITCH_TO_4));
 		} 
-		
-		else if (keycode == PlayerAction.DIALOGUE.getKey()) {
-			if (state.getDialogBox() != null) {
-				state.getDialogBox().nextDialogue();
-			}
-		} 
-		
+
 		else if (keycode == PlayerAction.WEAPON_CYCLE_UP.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WEAPON_CYCLE_UP));
 		} 
 		
 		else if (keycode == PlayerAction.WEAPON_CYCLE_DOWN.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WEAPON_CYCLE_DOWN));
-		} 
-		
-		else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
-			state.getScoreWindow().setVisibility(true);
 		} 
 		
 		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
@@ -136,19 +123,14 @@ public class ClientController implements InputProcessor {
 		else if (keycode == PlayerAction.PING.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.PING));
 		}
-		
-		else if (keycode == PlayerAction.EXIT_MENU.getKey()) {
-			if (state.getUiHub().isActive()) {
-				state.getUiHub().leave();
-			}
-		}
+
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if (player == null) { return true; }
-		if (player.getPlayerData() == null) return true;
+		if (player == null) { return false; }
+		if (player.getPlayerData() == null) return false;
 		if (!HadalGame.client.getClient().isConnected()) { return false; }
 
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
@@ -188,18 +170,6 @@ public class ClientController implements InputProcessor {
 		else if (keycode == PlayerAction.FIRE.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.FIRE));
 		} 
-		
-		else if (keycode == PlayerAction.PAUSE.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.PAUSE));
-		}
-
-		else if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
-			state.getMessageWindow().toggleWindow();
-		}
-
-		else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
-			state.getScoreWindow().setVisibility(false);
-		}
 		
 		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			state.getChatWheel().setVisibility(false);

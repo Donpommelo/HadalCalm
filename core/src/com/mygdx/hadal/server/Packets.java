@@ -192,13 +192,19 @@ public class Packets {
 	}
 	
 	public static class ClientFinishRespawn {
+		public Loadout loadout;
+
+		public ClientFinishRespawn() {}
+
 		/**
 		 * A ClientFinishRespawn is sent from the Client to the Server upon finishing their fade-to-black after receiving a ClientStartTransition Packet.
-		 * 
+		 *
 		 * If the client is respawning, the server creates the new client player upon receiving this message.
-		 * 		 
+		 *
 		 */
-		public ClientFinishRespawn() {}
+		public ClientFinishRespawn(Loadout loadout) {
+			this.loadout = loadout;
+		}
 	}
 	
 	public static class ServerLoaded {
@@ -213,18 +219,15 @@ public class Packets {
 	
 	public static class Paused {
 		public String pauser;
-		public boolean paused;
 		public Paused() {}
 		
 		/**
 		 * Paused is sent from the Server to the Client to indicate that the game has been paused.
-		 * Clients never send this to Server, because "their pauses" are carried out by the Player they control in the Server's world.
+		 * Clients send this to the server is multiplayer is enabled.
 		 * @param pauser: This is the name of the Player who paused.
-		 * @param paused: is the game actually paused, or is it still running underneath the pause menu
 		 */
-		public Paused(String pauser, boolean paused) {
+		public Paused(String pauser) {
 			this.pauser = pauser;
-			this.paused = paused;
 		}
 	}
 	
@@ -1103,6 +1106,20 @@ public class Packets {
 		public EndSpectate() {}
 	}
 
+	public static class SyncSpectator {
+		public int connID;
+		public boolean spectator;
+
+		public SyncSpectator() {}
+
+		/**
+		 */
+		public SyncSpectator(int connID, boolean spectator) {
+			this.connID = connID;
+			this.spectator = spectator;
+		}
+	}
+
 	public static class SyncSharedSettings {
 		public SharedSetting settings;
 		
@@ -1297,7 +1314,8 @@ public class Packets {
     	kryo.register(MissedCreate.class);
     	kryo.register(MissedDelete.class);
     	kryo.register(StartSpectate.class);
-    	kryo.register(EndSpectate.class);
+		kryo.register(EndSpectate.class);
+		kryo.register(SyncSpectator.class);
     	kryo.register(SyncSharedSettings.class);
     	kryo.register(LatencySyn.class);
     	kryo.register(LatencyAck.class);

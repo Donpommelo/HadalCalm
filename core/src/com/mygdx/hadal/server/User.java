@@ -22,6 +22,9 @@ public class User {
     //is this player muted
     private boolean muted;
 
+    //is the player a spectator?
+    private boolean spectator;
+
     //player's hbox filter (for free for all pvp)
     private AlignmentFilter hitBoxFilter;
     private AlignmentFilter teamFilter = AlignmentFilter.NONE;
@@ -59,6 +62,10 @@ public class User {
     public boolean isMuted() { return muted; }
 
     public void setMuted(boolean muted) { this.muted = muted; }
+
+    public boolean isSpectator() { return spectator; }
+
+    public void setSpectator(boolean spectator) { this.spectator = spectator; }
 
     public AlignmentFilter getHitBoxFilter() { return hitBoxFilter; }
 

@@ -310,8 +310,9 @@ public class AboutState extends GameState {
 		stage.setScrollFocus(musicTracks);
 
 		final Table soundRoomExtra = new Table();
+
 		details.add(soundRoomExtra).top().size(extraWidth, extraHeight);
-		soundRoomExtra.add(trackTime).colspan(3).height(optionHeight).pad(detailPad).row();
+		soundRoomExtra.add(trackTime).colspan(2).height(optionHeight).pad(detailPad).row();
 		soundRoomExtra.add(play).height(optionHeight).pad(detailPad);
 		soundRoomExtra.add(pause).height(optionHeight).pad(detailPad);
 		soundRoomExtra.add(stop).height(optionHeight).pad(detailPad).row();

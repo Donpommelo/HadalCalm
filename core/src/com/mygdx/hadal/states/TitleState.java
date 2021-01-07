@@ -116,7 +116,7 @@ public class TitleState extends GameState {
 
 	private final TextureRegion gabenTexture;
 
-	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/208020/103o";
+	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/209177/104";
 
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -375,7 +375,7 @@ public class TitleState extends GameState {
 								//trim whitespace from ip
 								String trimmedIp = enterIP.getText().trim();
 
-								HadalGame.client.getClient().connect(5000, trimmedIp, gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
+								HadalGame.client.getClient().connect(8000, trimmedIp, gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
 
 								//save last joined ip if successful
 								gsm.getRecord().setlastIp(trimmedIp);
