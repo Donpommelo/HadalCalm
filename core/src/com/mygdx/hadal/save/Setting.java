@@ -131,7 +131,7 @@ public class Setting {
 		resolution = 1;
 		framerate = 1;
 		fullscreen = false;
-		vsync = true;
+		vsync = false;
 		autoIconify = true;
 		displayNames = true;
 		displayHp = true;
@@ -149,12 +149,12 @@ public class Setting {
 	}
 	
 	public void resetServer() {
-		maxPlayers = 5;
+		maxPlayers = 7;
 		portNumber = 11100;
 		serverPassword = "";
 		pvpTimer = 3;
 		lives = 0;
-		teamEnabled = true;
+		teamEnabled = false;
 		loadoutType = 3;
 		artifactSlots = 4;
 		pvpMode = 0;

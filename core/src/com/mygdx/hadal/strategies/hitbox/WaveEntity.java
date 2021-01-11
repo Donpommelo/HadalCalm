@@ -26,22 +26,29 @@ public class WaveEntity extends HitboxStrategy {
 		this.frequency = frequency;
 		this.startAngle = startAngle;
 	}
-	
+
+	private float controllerCount;
 	private float timer;
+	private static final float pushInterval = 1 / 60f;
 	private final Vector2 lastPos = new Vector2();
 	private final Vector2 centerPos = new Vector2();
 	private final Vector2 offset = new Vector2();
 	@Override
 	public void controller(float delta) {
-		if (target.getBody() != null && target.isAlive()) {
-			timer += delta;
-			offset.set(0, (float) (amplitude * Math.sin(timer * frequency))).setAngleDeg(hbox.getLinearVelocity().angleDeg() + startAngle);
-			
-			centerPos.set(target.getPosition()).add(offset);
-			hbox.setTransform(centerPos, lastPos.sub(centerPos).angleRad());
-			lastPos.set(centerPos);
-		} else {
-			hbox.die();
+		controllerCount += delta;
+		timer += delta;
+		while (controllerCount >= pushInterval) {
+			controllerCount -= pushInterval;
+
+			if (target.getBody() != null && target.isAlive()) {
+				offset.set(0, (float) (amplitude * Math.sin(timer * frequency))).setAngleDeg(hbox.getLinearVelocity().angleDeg() + startAngle);
+
+				centerPos.set(target.getPosition()).add(offset);
+				hbox.setTransform(centerPos, lastPos.sub(centerPos).angleRad());
+				lastPos.set(centerPos);
+			} else {
+				hbox.die();
+			}
 		}
 	}
 }

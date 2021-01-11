@@ -74,40 +74,47 @@ public class Turret extends Enemy {
 		super.create();
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
-	
+
+	private float controllerCount;
+	private static final float pushInterval = 1 / 60f;
 	private final Vector2 entityWorldLocation = new Vector2();
 	private final Vector2 targetWorldLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
-		
-		float dist = (desiredAngle - attackAngle) % 360;
-		attackAngle = attackAngle + (2 * dist % 360 - dist) * 0.04f;
-		
-		switch(currentState) {
-			case STARTING:
-				desiredAngle = startAngle;
-				break;
-			case TRACKING:
-				if (attackTarget != null) {
-					if (attackTarget.isAlive()) {
-						entityWorldLocation.set(getPosition());
-						targetWorldLocation.set(attackTarget.getPosition());
-						desiredAngle =  (float)(Math.atan2(
+
+		controllerCount += delta;
+		while (controllerCount >= pushInterval) {
+			controllerCount -= pushInterval;
+
+			float dist = (desiredAngle - attackAngle) % 360;
+			attackAngle = attackAngle + (2 * dist % 360 - dist) * 0.04f;
+
+			switch(currentState) {
+				case STARTING:
+					desiredAngle = startAngle;
+					break;
+				case TRACKING:
+					if (attackTarget != null) {
+						if (attackTarget.isAlive()) {
+							entityWorldLocation.set(getPosition());
+							targetWorldLocation.set(attackTarget.getPosition());
+							desiredAngle =  (float)(Math.atan2(
 								targetWorldLocation.y - entityWorldLocation.y ,
 								targetWorldLocation.x - entityWorldLocation.x) * 180 / Math.PI);
-						if (desiredAngle < 0) {
-							if (desiredAngle < -90) {
-								desiredAngle = 180;
-							} else {
-								desiredAngle = 0;
+							if (desiredAngle < 0) {
+								if (desiredAngle < -90) {
+									desiredAngle = 180;
+								} else {
+									desiredAngle = 0;
+								}
 							}
 						}
 					}
-				}
-				break;
-		default:
-			break;
+					break;
+				default:
+					break;
+			}
 		}
 	}
 	

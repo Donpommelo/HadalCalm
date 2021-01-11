@@ -36,7 +36,7 @@ public class KryoServer {
 	public GameStateManager gsm;
 	
 	//These keep track of all connected players, their mice and scores.
-	private  HashMap<Integer, User> users;
+	private HashMap<Integer, User> users;
 
 	public KryoServer(GameStateManager gameStateManager) {
 		this.gsm = gameStateManager;
@@ -76,7 +76,9 @@ public class KryoServer {
 						ps.addPacketEffect(() -> {
 
 							//Inform all that the player disconnected and kill the player
-							player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageTypes.DISCONNECT);
+							if (player.getPlayerData() != null) {
+								player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageTypes.DISCONNECT);
+							}
 							addNotificationToAll(ps, player.getName(), " DISCONNECTED!", DialogType.SYSTEM);
 						});
 					}
@@ -386,6 +388,11 @@ public class KryoServer {
 									final SettingState ss = (SettingState) gsm.getStates().peek();
 									addNotificationToAll(ss.getPlayState(), player.getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
 									ss.setToRemove(true);
+								}
+								if (gsm.getStates().peek() instanceof AboutState) {
+									final AboutState as = (AboutState) gsm.getStates().peek();
+									addNotificationToAll(as.getPlayState(), player.getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
+									as.setToRemove(true);
 								}
 								HadalGame.server.sendToAllTCP(new Packets.Unpaused(player.getName()));
 							}

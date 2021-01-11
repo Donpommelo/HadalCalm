@@ -24,6 +24,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.server.*;
+import com.mygdx.hadal.server.User.UserDto;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState.TransitionState;
@@ -99,6 +100,7 @@ public class KryoClient {
         		Gdx.app.postRunnable(() -> {
 					gsm.removeState(ResultsState.class, false);
 					gsm.removeState(SettingState.class, false);
+					gsm.removeState(AboutState.class, false);
 					gsm.removeState(PauseState.class, false);
 
 					if (cs != null) {
@@ -265,9 +267,7 @@ public class KryoClient {
 					final Packets.RemoveScore p = (Packets.RemoveScore) o;
 					final ClientState cs = getClientState();
 					if (cs != null) {
-						cs.addPacketEffect(() -> {
-							users.remove(p.connID);
-						});
+						cs.addPacketEffect(() -> users.remove(p.connID));
 					}
 				}
 
@@ -378,6 +378,10 @@ public class KryoClient {
             				final SettingState ss = (SettingState) gsm.getStates().peek();
             				ss.setToRemove(true);
         				}
+						if (gsm.getStates().peek() instanceof AboutState) {
+							final AboutState as = (AboutState) gsm.getStates().peek();
+							as.setToRemove(true);
+						}
         			}
         		}
 
@@ -542,32 +546,18 @@ public class KryoClient {
 					final ClientState cs = getClientState();
 					if (cs != null) {
 						cs.addPacketEffect(() -> {
-							SavedPlayerFields score;
-							SavedPlayerFieldsExtra scoreExtra;
-							if (users.containsKey(p.connID)) {
-								scoreExtra = users.get(p.connID).getScoresExtra();
-								score = users.get(p.connID).getScores();
-							} else {
-								scoreExtra = new SavedPlayerFieldsExtra();
-								score = new SavedPlayerFields(p.name, p.connID);
-								users.put(p.connID, new User(null, null, score, scoreExtra));
+
+							users.clear();
+
+							for (int i = 0; i < p.users.length; i++) {
+							    UserDto user = p.users[i];
+								User updatedUser = new User(null, null, user.scores, user.scoresExtra);
+								updatedUser.setSpectator(user.spectator);
+								users.put(user.scores.getConnID(), updatedUser);
 							}
-							scoreExtra.setDamageDealt(p.damageEnemies);
-							scoreExtra.setDamageDealtAllies(p.damageAllies);
-							scoreExtra.setDamageDealtSelf(p.damageSelf);
-							scoreExtra.setDamageReceived(p.damageReceived);
-							scoreExtra.setLoadout(p.loadout);
-							score.setWonLast(p.won);
 						});
 					}
         		}
-
-				else if (o instanceof Packets.SyncSpectator) {
-					final Packets.SyncSpectator p = (Packets.SyncSpectator) o;
-					if (users.containsKey(p.connID)) {
-						users.get(p.connID).setSpectator(p.spectator);
-					}
-				}
 
         		/*
         		 * Server has kicked client. Get yeeted.

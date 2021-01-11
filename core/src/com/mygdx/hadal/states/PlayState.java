@@ -17,6 +17,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.MusicPlayer;
+import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
@@ -39,6 +40,7 @@ import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.*;
+import com.mygdx.hadal.server.User.UserDto;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.Constants;
@@ -332,10 +334,16 @@ public class PlayState extends GameState {
 			gsm.getApp().fadeIn();
 		}
 
+		MusicTrack newTrack = null;
 		if (isHub()) {
-			HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.HUB, 1.0f);
+			newTrack = HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.HUB, 1.0f);
 		} else {
-			HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.MATCH, 1.0f);
+			newTrack = HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.MATCH, 1.0f);
+		}
+		if (newTrack != null) {
+			MusicIcon icon = new MusicIcon(newTrack);
+			stage.addActor(icon);
+			icon.animateIcon();
 		}
 	}
 
@@ -757,6 +765,7 @@ public class PlayState extends GameState {
 
 			//get a results screen
 			gsm.removeState(SettingState.class, false);
+			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class, false);
 			gsm.addResultsState(this, resultsText, TitleState.class);
@@ -774,6 +783,7 @@ public class PlayState extends GameState {
 			
 			//remove this state and add a new play state with a fresh loadout
 			gsm.removeState(SettingState.class, false);
+			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class, false);
 			gsm.addPlayState(nextLevel, new Loadout(gsm.getLoadout()), player.getPlayerData(), TitleState.class, true, nextStartId);
@@ -782,12 +792,14 @@ public class PlayState extends GameState {
 			
 			//remove this state and add a new play state with the player's current loadout and stats
 			gsm.removeState(SettingState.class, false);
+			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class, false);
 			gsm.addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
 			break;
 		case TITLE:
 			gsm.removeState(SettingState.class, false);
+			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class);
 			
@@ -1070,13 +1082,14 @@ public class PlayState extends GameState {
 	 */
 	public void levelEnd(String text, boolean victory) {
 		String resultsText = text;
+
+		//magic word indicates that we generate the results text dynamically based on score
 		if (text.equals(ResultsState.magicWord)) {
 			for (User user: HadalGame.server.getUsers().values()) {
 				if (!user.isSpectator()) {
 					scores.add(user.getScores());
 
 					AlignmentFilter faction;
-
 					if (user.getTeamFilter().equals(AlignmentFilter.NONE)) {
 						faction = user.getHitBoxFilter();
 					} else {
@@ -1154,14 +1167,21 @@ public class PlayState extends GameState {
 		transitionToResultsState(resultsText);
 	}
 
+	/**
+	 * This is run by the server to transition to the results screen
+	 */
 	private void transitionToResultsState(String resultsText) {
 
+		UserDto[] users = new UserDto[HadalGame.server.getUsers().size()];
+
+		int userIndex = 0;
 		for (User user : HadalGame.server.getUsers().values()) {
 			SavedPlayerFields score = user.getScores();
 			if (!user.isSpectator()) {
 				Player resultsPlayer = user.getPlayer();
 				Loadout loadoutTemp = resultsPlayer.getPlayerData().getLoadout();
 
+				//save the user's loadout to be visible in the results screen
 				for (int i = (int) (Loadout.baseWeaponSlots + resultsPlayer.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i < Loadout.maxWeaponSlots ; i++) {
 					loadoutTemp.multitools[i] = UnlockEquip.NOTHING;
 				}
@@ -1169,14 +1189,13 @@ public class PlayState extends GameState {
 				user.getScoresExtra().setLoadout(loadoutTemp);
 				SavedPlayerFieldsExtra scoreExtra = user.getScoresExtra();
 
-				HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(score.getConnID(), score.getNameShort(),
-					scoreExtra.getDamageDealt(), scoreExtra.getDamageDealtSelf(), scoreExtra.getDamageDealtAllies(),
-					scoreExtra.getDamageReceived(), score.isWonLast(), scoreExtra.getLoadout()));
+				users[userIndex] = new UserDto(score, scoreExtra, user.isSpectator());
+				userIndex++;
 			}
-			HadalGame.server.sendToAllTCP(new Packets.SyncSpectator(score.getConnID(), user.isSpectator()));
 		}
 
 		beginTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay);
+		HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(users));
 		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay));
 	}
 

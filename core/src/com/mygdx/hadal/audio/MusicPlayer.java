@@ -104,10 +104,12 @@ public class MusicPlayer {
 	private static final MusicTrack[] matchTracks = {MusicTrack.CONFIDENCE, MusicTrack.FIGHT1, MusicTrack.SURRENDER,
 		MusicTrack.WHIPLASH, MusicTrack.ORGAN_GRINDER};
 
-	public void playSong(MusicState type, float volume) {
+	public MusicTrack playSong(MusicState type, float volume) {
+
+		MusicTrack track = null;
 
 		//in "free" mode, the player chose a song in the sound room to persist even after level transitions
-		if (currentTrackType == MusicState.FREE && currentSong != null) { return; }
+		if (currentTrackType == MusicState.FREE && currentSong != null) { return null; }
 
 		//otherwise play a random track that matches the designated "mode"
 		if (currentTrackType != type) {
@@ -115,23 +117,26 @@ public class MusicPlayer {
 			int randomIndex;
 			switch (type) {
 				case MENU:
-					playSong(titleTracks[0], volume);
+					track = titleTracks[0];
+					playSong(track, volume);
 					break;
 				case HUB:
 					randomIndex = GameStateManager.generator.nextInt(hubTracks.length);
-					playSong(hubTracks[randomIndex], volume);
+					track = hubTracks[randomIndex];
+					playSong(track, volume);
 					break;
 				case MATCH:
 					randomIndex = GameStateManager.generator.nextInt(matchTracks.length);
-					playSong(matchTracks[randomIndex], volume);
+					track = matchTracks[randomIndex];
+					playSong(track, volume);
 					break;
 				case NOTHING:
 					playSong((MusicTrack) null, volume);
 					break;
 			}
 		}
+		return track;
 	}
-
 
 	//server plays a song and tells all clients to play the same song
 	public void syncSong(PlayState state, MusicTrack music, float volume) {

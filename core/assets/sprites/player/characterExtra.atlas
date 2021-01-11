@@ -6,28 +6,28 @@ filter: Linear,Linear
 repeat: none
 maximillian_buff
   rotate: false
-  xy: 2, 928
+  xy: 2, 966
   size: 614, 922
   orig: 614, 922
   offset: 0, 0
   index: -1
 maximillian_slug
   rotate: false
-  xy: 2, 465
-  size: 614, 461
-  orig: 614, 461
+  xy: 2, 484
+  size: 614, 480
+  orig: 614, 480
   offset: 0, 0
   index: -1
 moreau_buff
   rotate: false
-  xy: 618, 928
+  xy: 618, 966
   size: 614, 922
   orig: 614, 922
   offset: 0, 0
   index: -1
 moreau_festive_buff
   rotate: false
-  xy: 618, 4
+  xy: 618, 42
   size: 614, 922
   orig: 614, 922
   offset: 0, 0
@@ -35,20 +35,20 @@ moreau_festive_buff
 moreau_festive_slug
   rotate: false
   xy: 2, 2
-  size: 614, 461
-  orig: 614, 461
+  size: 614, 480
+  orig: 614, 480
   offset: 0, 0
   index: -1
 moreau_party_buff
   rotate: false
-  xy: 1234, 928
+  xy: 1234, 966
   size: 614, 922
   orig: 614, 922
   offset: 0, 0
   index: -1
 roclaire_buff
   rotate: false
-  xy: 1234, 4
+  xy: 1234, 42
   size: 614, 922
   orig: 614, 922
   offset: 0, 0
@@ -61,56 +61,56 @@ filter: Linear,Linear
 repeat: none
 moreau_party_slug
   rotate: false
-  xy: 618, 467
-  size: 614, 461
-  orig: 614, 461
+  xy: 618, 524
+  size: 614, 480
+  orig: 614, 480
   offset: 0, 0
   index: -1
 moreau_slug
   rotate: false
-  xy: 1234, 1391
-  size: 614, 461
-  orig: 614, 461
+  xy: 1234, 1448
+  size: 614, 480
+  orig: 614, 480
   offset: 0, 0
   index: -1
 roclaire_slug
   rotate: false
-  xy: 1234, 928
-  size: 614, 461
-  orig: 614, 461
+  xy: 1234, 966
+  size: 614, 480
+  orig: 614, 480
   offset: 0, 0
   index: -1
 takanori_buff
   rotate: false
-  xy: 2, 930
+  xy: 2, 1006
   size: 614, 922
   orig: 614, 922
   offset: 0, 0
   index: -1
 takanori_slug
   rotate: false
-  xy: 618, 4
-  size: 614, 461
-  orig: 614, 461
+  xy: 618, 42
+  size: 614, 480
+  orig: 614, 480
   offset: 0, 0
   index: -1
 telemachus_buff
   rotate: false
-  xy: 2, 6
+  xy: 2, 82
   size: 614, 922
   orig: 614, 922
   offset: 0, 0
   index: -1
 telemachus_slug
   rotate: false
-  xy: 1234, 465
-  size: 614, 461
-  orig: 614, 461
+  xy: 1234, 484
+  size: 614, 480
+  orig: 614, 480
   offset: 0, 0
   index: -1
 wanda_buff
   rotate: false
-  xy: 618, 930
+  xy: 618, 1006
   size: 614, 922
   orig: 614, 922
   offset: 0, 0
@@ -118,7 +118,7 @@ wanda_buff
 wanda_slug
   rotate: false
   xy: 1234, 2
-  size: 614, 461
-  orig: 614, 461
+  size: 614, 480
+  orig: 614, 480
   offset: 0, 0
   index: -1

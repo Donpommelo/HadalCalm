@@ -70,6 +70,10 @@ public class AboutState extends GameState {
 	private final GameState peekState;
 	private PlayState playState;
 
+	//This determines whether the pause state should be removed or not next engine tick.
+	//We do this instead of removing right away in case we remove as a result of receiving a packet from another player unpausing (which can happen whenever).
+	private boolean toRemove;
+
 	/**
 	 * Constructor will be called when the player enters the about state from the title menu.
 	 */
@@ -424,6 +428,14 @@ public class AboutState extends GameState {
 			trackTime.setText(secondsToMinutes((int) musicTime.getValue()) + " / " +
 				secondsToMinutes(HadalGame.musicPlayer.getCurrentTrack().getTrackLength()));
 		}
+
+		//If the state has been unpaused, remove it
+		if (toRemove) {
+			transitionOut(() -> {
+				gsm.removeState(AboutState.class, false);
+				gsm.removeState(PauseState.class);
+			});
+		}
 	}
 
 	@Override
@@ -439,7 +451,10 @@ public class AboutState extends GameState {
 			peekState.stage.draw();
 		}
 	}
-	
+
+	//This is called when the setting state is designated to be removed. (if another player unpauses)
+	public void setToRemove(boolean toRemove) {	this.toRemove = toRemove; }
+
 	@Override
 	public void dispose() {	
 		stage.dispose();

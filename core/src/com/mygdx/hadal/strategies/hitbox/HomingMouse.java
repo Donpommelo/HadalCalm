@@ -15,7 +15,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class HomingMouse extends HitboxStrategy {
 	
 	private static final float pushInterval = 1 / 60f;
-	private float controllerCount = 0;
+	private float controllerCount;
 	
 	//this is the power of the force applied to the hbox when it tries to home.
 	private final float homePower;
@@ -38,7 +38,6 @@ public class HomingMouse extends HitboxStrategy {
 	@Override
 	public void controller(float delta) {					
 		controllerCount += delta;
-
 		while (controllerCount >= pushInterval) {
 			controllerCount -= pushInterval;
 			

@@ -42,52 +42,59 @@ public class EnemyFloating extends Enemy {
 		}
 	}
 
+	private float floatCount;
+	private static final float pushInterval = 1 / 60f;
 	private final Vector2 entityWorldLocation = new Vector2();
 	private final Vector2 targetWorldLocation = new Vector2();
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);
-		
-		//lerp towards desired angle
-		float dist = (desiredAngle - attackAngle) % 360;
-		attackAngle = attackAngle + (2 * dist % 360 - dist) * trackSpeed;		
-		
-		//when spinning, spin at a constant speed. When tracking, set desired angle to face player
-		switch(currentState) {
-		case ROTATING:
-			desiredAngle += spinSpeed;
-			break;
-		case SPINNING:
-			attackAngle += spinSpeed;
-			break;
-		case TRACKING_PLAYER:
-			//rotate towards attack target
-			if (attackTarget != null) {				
-				if (attackTarget.isAlive()) {
-					entityWorldLocation.set(getPosition());
-					targetWorldLocation.set(attackTarget.getPosition());
-					desiredAngle = (float)(Math.atan2(
-							targetWorldLocation.y - entityWorldLocation.y ,
-							targetWorldLocation.x - entityWorldLocation.x) * 180 / Math.PI);
-				}
-			} else {
-				//if there is no attack target, attempt to rotate towards movement target
-				if (getMoveTarget() != null) {				
-					if (getMoveTarget().isAlive()) {
-						entityWorldLocation.set(getPosition());
-						targetWorldLocation.set(getMoveTarget().getPosition());
-						
-						desiredAngle = (float)(Math.atan2(
+
+		floatCount += delta;
+		while (floatCount >= pushInterval) {
+			floatCount -= pushInterval;
+
+			//lerp towards desired angle
+			float dist = (desiredAngle - attackAngle) % 360;
+			attackAngle = attackAngle + (2 * dist % 360 - dist) * trackSpeed;
+
+			//when spinning, spin at a constant speed. When tracking, set desired angle to face player
+			switch(currentState) {
+				case ROTATING:
+					desiredAngle += spinSpeed;
+					break;
+				case SPINNING:
+					attackAngle += spinSpeed;
+					break;
+				case TRACKING_PLAYER:
+					//rotate towards attack target
+					if (attackTarget != null) {
+						if (attackTarget.isAlive()) {
+							entityWorldLocation.set(getPosition());
+							targetWorldLocation.set(attackTarget.getPosition());
+							desiredAngle = (float)(Math.atan2(
 								targetWorldLocation.y - entityWorldLocation.y ,
 								targetWorldLocation.x - entityWorldLocation.x) * 180 / Math.PI);
+						}
+					} else {
+						//if there is no attack target, attempt to rotate towards movement target
+						if (getMoveTarget() != null) {
+							if (getMoveTarget().isAlive()) {
+								entityWorldLocation.set(getPosition());
+								targetWorldLocation.set(getMoveTarget().getPosition());
+
+								desiredAngle = (float)(Math.atan2(
+									targetWorldLocation.y - entityWorldLocation.y ,
+									targetWorldLocation.x - entityWorldLocation.x) * 180 / Math.PI);
+							}
+						}
 					}
-				}
+					break;
+				default:
+					break;
 			}
-			break;
-		default:
-			break;
+			setAngle((float) ((attackAngle) * Math.PI / 180));
 		}
-		setAngle((float) ((attackAngle) * Math.PI / 180));
 	}
 	
 	/**

@@ -85,7 +85,7 @@ ANCHOR_AMULET: {
 ANCIENT_SYNAPSE: {
 	name: Ancient Synapse
 	description: "Delays Incoming Damage"
-    descriptionLong: "Delayed Damage: 12 per Second\n\nThe petrified nervous tissue of a drowned behemoth\n\nTo those willing to abandon physical sensation, the Noiseless Sea offers a quiet and peaceful haven to observe eternity."
+    descriptionLong: "Delayed Damage: 12% Max Hp per Second\n\nThe petrified nervous tissue of a drowned behemoth\n\nTo those willing to abandon physical sensation, the Noiseless Sea offers a quiet and peaceful haven to observe eternity."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

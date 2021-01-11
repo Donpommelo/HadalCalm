@@ -247,6 +247,7 @@ public class ClientState extends PlayState {
 			
 			//immediately transition to the results screen
 			gsm.removeState(SettingState.class, false);
+			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(ClientState.class, false);
 			gsm.addResultsState(this, resultsText, TitleState.class);
@@ -271,10 +272,12 @@ public class ClientState extends PlayState {
 		case NEXTSTAGE:
 			//In these cases, we wait for the server to create a new playstate in which we connect again
 			gsm.removeState(SettingState.class, false);
+			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			break;
 		case TITLE:
 			gsm.removeState(SettingState.class, false);
+			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(ClientState.class);
 			break;

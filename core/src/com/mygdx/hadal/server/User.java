@@ -39,6 +39,21 @@ public class User {
         hitBoxFilter = AlignmentFilter.getUnusedAlignment();
     }
 
+    public static class UserDto {
+
+        public SavedPlayerFields scores;
+        public SavedPlayerFieldsExtra scoresExtra;
+        public boolean spectator;
+
+        public UserDto() {}
+
+        public UserDto(SavedPlayerFields scores, SavedPlayerFieldsExtra scoresExtra, boolean spectator) {
+            this.scores = scores;
+            this.scoresExtra = scoresExtra;
+            this.spectator = spectator;
+        }
+    }
+
     public Player getPlayer() { return player; }
 
     public void setPlayer(Player player) { this.player = player; }

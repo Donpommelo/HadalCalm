@@ -32,7 +32,7 @@ public class AmitaCannon extends RangedWeapon {
 	
 	private static final int numOrbitals = 8;
 	private static final float orbitalRange = 0.8f;
-	private static final float orbitalSpeed = 360.0f;
+	private static final float orbitalSpeed = 720.0f;
 	private static final Vector2 orbitalSize = new Vector2(24, 24);
 	private static final float activatedSpeed = 40.0f;
 
@@ -82,20 +82,25 @@ public class AmitaCannon extends RangedWeapon {
 						private final Vector2 offset = new Vector2();
 						private float currentAngle = angle.angleDeg();
 						private boolean activated = false;
-						
+						private float controllerCount;
+						private static final float pushInterval = 1 / 60f;
 						@Override
 						public void controller(float delta) {
-							
-							if (center.getBody() != null && center.isAlive()) {
-								currentAngle += orbitalSpeed * delta;
-								
-								centerPos.set(center.getPosition());
-								offset.set(0, orbitalRange).setAngleDeg(currentAngle);
-								orbital.setTransform(centerPos.add(offset), orbital.getAngle());
-							} else if (!activated) {
-								activated = true;
-								hbox.setLinearVelocity(new Vector2(0, activatedSpeed).setAngleDeg(currentAngle));
-								hbox.setLifeSpan(lifespan);
+							controllerCount += delta;
+							while (controllerCount >= pushInterval) {
+								controllerCount -= pushInterval;
+
+								if (center.getBody() != null && center.isAlive()) {
+									currentAngle += orbitalSpeed * delta;
+
+									centerPos.set(center.getPosition());
+									offset.set(0, orbitalRange).setAngleDeg(currentAngle);
+									orbital.setTransform(centerPos.add(offset), orbital.getAngle());
+								} else if (!activated) {
+									activated = true;
+									hbox.setLinearVelocity(new Vector2(0, activatedSpeed).setAngleDeg(currentAngle));
+									hbox.setLifeSpan(lifespan);
+								}
 							}
 						}
 					});

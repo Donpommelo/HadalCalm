@@ -5,13 +5,14 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.utils.Stats;
 
 public class AncientSynapse extends Artifact {
 
 	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
-	private static final float degen = 10.0f;
+	private static final float degen = 0.12f;
 	
 	private static final float procCd = 1 / 60f;
 	
@@ -31,7 +32,7 @@ public class AncientSynapse extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					if (damageLeft > 0) {
-						float damage = delta * degen;
+						float damage = delta * degen * inflicted.getStat(Stats.MAX_HP);
 						inflicted.receiveDamage(damage, new Vector2(), inflicted, false);
 						damageLeft -= damage;
 					}

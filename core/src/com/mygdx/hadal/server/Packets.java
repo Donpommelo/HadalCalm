@@ -14,6 +14,7 @@ import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
+import com.mygdx.hadal.server.User.UserDto;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -1105,22 +1106,6 @@ public class Packets {
 		public EndSpectate() {}
 	}
 
-	public static class SyncSpectator {
-		public int connID;
-		public boolean spectator;
-
-		public SyncSpectator() {}
-
-		/**
-		 * A SyncSpectator is send from the server to the client when transitioning to the results screen.
-		 * This lets the client know which users were spectators
-		 */
-		public SyncSpectator(int connID, boolean spectator) {
-			this.connID = connID;
-			this.spectator = spectator;
-		}
-	}
-
 	public static class SyncSharedSettings {
 		public SharedSetting settings;
 		
@@ -1158,30 +1143,15 @@ public class Packets {
 	}
 	
 	public static class SyncExtraResultsInfo {
-		public int connID;
-		public String name;
-		public float damageEnemies;
-		public float damageSelf;
-		public float damageAllies;
-		public float damageReceived;
-		public boolean won;
-		public Loadout loadout;
-		
+		public UserDto[] users;
+
 		public SyncExtraResultsInfo() {}
 		
 		/**
 		 * A SyncExtraResultsInfo is sent from the server to the client when they enter the results screen. This contains information about the match performance
-		 * @param connId: id of the player whose score is being updated.
 		 */
-		public SyncExtraResultsInfo(int connId, String name, float damageEnemies, float damageSelf, float damageAllies, float damageReceived, boolean won, Loadout loadout) {
-			this.connID = connId;
-			this.name = name;
-			this.damageEnemies = damageEnemies;
-			this.damageSelf = damageSelf;
-			this.damageAllies = damageAllies;
-			this.damageReceived = damageReceived;
-			this.won = won;
-			this.loadout = loadout;
+		public SyncExtraResultsInfo(UserDto[] users) {
+			this.users = users;
 		}
 	}
 	
@@ -1316,7 +1286,6 @@ public class Packets {
     	kryo.register(MissedDelete.class);
     	kryo.register(StartSpectate.class);
 		kryo.register(EndSpectate.class);
-		kryo.register(SyncSpectator.class);
     	kryo.register(SyncSharedSettings.class);
     	kryo.register(LatencySyn.class);
     	kryo.register(LatencyAck.class);
@@ -1354,6 +1323,10 @@ public class Packets {
 		kryo.register(SharedSetting.class);
 		kryo.register(DamageTypes.class);
 		kryo.register(DamageTypes[].class);
+		kryo.register(UserDto.class);
+		kryo.register(UserDto[].class);
+		kryo.register(SavedPlayerFields.class);
+		kryo.register(SavedPlayerFieldsExtra.class);
 
 		kryo.register(ArrayList.class);
 	}
