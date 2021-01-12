@@ -1,7 +1,11 @@
 package com.mygdx.hadal.save;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.artifacts.*;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
@@ -151,12 +155,23 @@ public enum UnlockArtifact {
 	
 	//the artifact's information
 	private InfoItem info;
-	
+
+	private final String spriteId;
+
 	UnlockArtifact(Artifact artifact) {
+		this(artifact, "artifact");
+	}
+
+	UnlockArtifact(Artifact artifact, String spriteId) {
 		this.artifactSingleton = artifact;
+		this.spriteId = spriteId;
 		artifactSingleton.setUnlock(this);
 	}
-	
+
+	public TextureRegion getFrame() {
+		return ((TextureAtlas) HadalGame.assetManager.get(AssetList.ARTIFACT_ATL.toString())).findRegion(spriteId);
+	}
+
 	/**
 	 * This acquires a list of all unlocked artifacts (if unlock is true. otherwise just return all artifacts that satisfy the tags)
 	 */

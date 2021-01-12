@@ -112,19 +112,20 @@ public class GameStateManager {
 	 */
 	public void loadAssets() {
 		skin = new Skin();
-		skin.addRegions(HadalGame.assetManager.get(AssetList.UISKINATL.toString()));
+		skin.addRegions(HadalGame.assetManager.get(AssetList.UISKIN_ATL.toString()));
 		skin.add("default-font", HadalGame.SYSTEM_FONT_SPRITE);
 		skin.load(Gdx.files.internal("ui/uiskin.json"));
 		
-		dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_dialogue"));
-		simplePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_simple"));
+		dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCH_ATL.toString())).createPatch("UI_box_dialogue"));
+		simplePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCH_ATL.toString())).createPatch("UI_box_simple"));
 		
-		bossGaugePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge"));
-		bossGaugeGreyPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge_grey"));
-		bossGaugeRedPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge_red"));
-		bossGaugeCatchupPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge_dark_red"));
+		bossGaugePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGE_ATL.toString())).createPatch("boss_gauge"));
+		bossGaugeGreyPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGE_ATL.toString())).createPatch("boss_gauge_grey"));
+		bossGaugeRedPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGE_ATL.toString())).createPatch("boss_gauge_red"));
+		bossGaugeCatchupPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGE_ATL
+			.toString())).createPatch("boss_gauge_dark_red"));
 		
-		atlases.add(GameStateManager.particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString()));
+		atlases.add(GameStateManager.particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATL.toString()));
 		atlases.add(GameStateManager.projectileAtlas = HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString()));
 		atlases.add(GameStateManager.multitoolAtlas = HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString()));
 		atlases.add(GameStateManager.fishAtlas = HadalGame.assetManager.get(AssetList.FISH_ATL.toString()));
@@ -132,7 +133,7 @@ public class GameStateManager {
 		atlases.add(GameStateManager.eventAtlas = HadalGame.assetManager.get(AssetList.EVENT_ATL.toString()));
 		atlases.add(GameStateManager.uiAtlas = HadalGame.assetManager.get(AssetList.UI_ATL.toString()));
 		atlases.add(GameStateManager.explosionAtlas = HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString()));
-		atlases.add(GameStateManager.impactAtlas = HadalGame.assetManager.get(AssetList.IMPACT_ATLAS.toString()));
+		atlases.add(GameStateManager.impactAtlas = HadalGame.assetManager.get(AssetList.IMPACT_ATL.toString()));
 		
 		//initialize pooled particle effects
 		Particle.initParticlePool();

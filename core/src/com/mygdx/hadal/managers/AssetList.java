@@ -45,25 +45,27 @@ public enum AssetList {
 	EVENT_ATL("sprites/events/event.atlas", TextureAtlas.class),
 	
 	// Particle effects.
-	PARTICLE_ATLAS("particles/particles.atlas", TextureAtlas.class),
+	PARTICLE_ATL("particles/particles.atlas", TextureAtlas.class),
 	
-	UIPATCHATL("ui/window.atlas", TextureAtlas.class),
-	UISKINATL("ui/uiskin.atlas", TextureAtlas.class),
+	UIPATCH_ATL("ui/window.atlas", TextureAtlas.class),
+	UISKIN_ATL("ui/uiskin.atlas", TextureAtlas.class),
 	UI_ATL("ui/UI.atlas", TextureAtlas.class),
 	MUSIC_ATL("ui/music.atlas", TextureAtlas.class),
 	EMOTE_ATL("sprites/emote/emote.atlas", TextureAtlas.class),
 	TELEMACHUS_POINT("ui/telemachus_point.atlas", TextureAtlas.class),
 
-	BOSSGAUGEATLAS("ui/gauge.atlas", TextureAtlas.class),
+	BOSSGAUGE_ATL("ui/gauge.atlas", TextureAtlas.class),
 
-	PELICANATLAS("sprites/busts/portrait_pelican.atlas", TextureAtlas.class),
+	PELICAN_ATL("sprites/busts/portrait_pelican.atlas", TextureAtlas.class),
 	
 	BACKGROUND1("under_da_sea.jpg", Texture.class),
 	BACKGROUND2("under_da_sea_no_rocks.jpg", Texture.class),
     BLACK("black.png", Texture.class),
-	
+
+	ARTIFACT_ATL("sprites/artifact.atlas", TextureAtlas.class),
+
 	//misc stuff from totlc
-	IMPACT_ATLAS("particles/totlc/impact.atlas", TextureAtlas.class),
+	IMPACT_ATL("particles/totlc/impact.atlas", TextureAtlas.class),
 	
 	;
 	//Enum constructor and methods.

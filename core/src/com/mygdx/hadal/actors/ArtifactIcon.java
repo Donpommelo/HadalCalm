@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 
@@ -31,7 +30,7 @@ public class ArtifactIcon extends AHadalActor {
 	private final Color color;
 	protected GlyphLayout layout;
 	
-	private final TextureRegion ready;
+	private final TextureRegion icon;
 	private final String text;
 	
 	private final float textOffsetX, textOffsetY, targetWidth;
@@ -50,7 +49,7 @@ public class ArtifactIcon extends AHadalActor {
 		font.getData().setScale(scale);
 		color = Color.WHITE;
 		
-		this.ready = Sprite.UI_MO_READY.getFrame();
+		this.icon = artifact.getFrame();
 		
 		layout = new GlyphLayout();
 		layout.setText(font, text, color, targetWidth, Align.left, true);
@@ -73,7 +72,7 @@ public class ArtifactIcon extends AHadalActor {
 	
 	@Override
     public void draw(Batch batch, float alpha) {
-		batch.draw(ready, getX(), getY(), getWidth(), getHeight());
+		batch.draw(icon, getX(), getY(), getWidth(), getHeight());
 
 		//this displays additional artifact information when this actor is moused over
          if (mouseOver) {

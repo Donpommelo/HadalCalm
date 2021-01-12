@@ -40,7 +40,7 @@ public class Dialog {
 
 	public enum characterBusts {
 		
-		PELICAN_MASKED(HadalGame.assetManager.get(AssetList.PELICANATLAS.toString()), "pelican"),
+		PELICAN_MASKED(HadalGame.assetManager.get(AssetList.PELICAN_ATL.toString()), "pelican"),
 		;
 		
 		private final TextureAtlas atlas;

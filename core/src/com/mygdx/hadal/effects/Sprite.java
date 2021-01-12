@@ -290,7 +290,7 @@ public enum Sprite {
 		case TURRET:
 			return HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
 		case IMPACT:
-			return HadalGame.assetManager.get(AssetList.IMPACT_ATLAS.toString());
+			return HadalGame.assetManager.get(AssetList.IMPACT_ATL.toString());
 		case UI:
 			return HadalGame.assetManager.get(AssetList.UI_ATL.toString());
 		case EMOTE:

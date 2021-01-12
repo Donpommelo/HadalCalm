@@ -23,13 +23,14 @@ public class MusicIcon extends AHadalActor {
 	private static final float maxWidth = 300.0f;
 
 	private static final float scale = 0.3f;
-	private static final float animspeed = 0.05f;
-	private static final float iconOffsetX = -50.0f;
-	private static final float iconOffsetY = 10.0f;
+	private static final float animspeed = 0.04f;
+	private static final float iconOffsetX = -85.0f;
+	private static final float iconOffsetY = -40.0f;
 	private static final float iconWidth = 90.0f;
 	private static final float iconHeight = 90.0f;
 
-	private static final float startX = 1280.0f;
+	private static final float startX = 1330.0f;
+	private static final float endX = 1280.0f;
 	private static final float startY = 600.0f;
 
 	public MusicIcon(MusicTrack track) {
@@ -69,14 +70,14 @@ public class MusicIcon extends AHadalActor {
 			getX() + iconOffsetX, getY() + iconOffsetY, iconWidth, iconHeight);
 	}
 
-	private static final float transitionDuration = 0.25f;
+	private static final float transitionDuration = 0.5f;
 	private static final Interpolation intp = Interpolation.fastSlow;
 	private static final float visibleDuration = 6.0f;
 	public void animateIcon() {
 
 		addAction(Actions.sequence(
 			Actions.moveTo(startX, startY),
-			Actions.moveTo(startX - getWidth() - paddingX, startY, transitionDuration, intp),
+			Actions.moveTo(endX - getWidth() - paddingX, startY, transitionDuration, intp),
 			Actions.delay(visibleDuration),
 			Actions.moveTo(startX, startY, transitionDuration, intp),
 			Actions.removeActor()));
