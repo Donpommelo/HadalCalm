@@ -1,6 +1,6 @@
 
 artifact.png
-size: 512,256
+size: 1024,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -11,9 +11,30 @@ artifact
   orig: 164, 164
   offset: 0, 0
   index: -1
-artifact_generic
+artifact_1bossmug
   rotate: false
   xy: 168, 2
+  size: 164, 164
+  orig: 164, 164
+  offset: 0, 0
+  index: -1
+artifact_8ball
+  rotate: false
+  xy: 334, 2
+  size: 164, 164
+  orig: 164, 164
+  offset: 0, 0
+  index: -1
+artifact_abyssal
+  rotate: false
+  xy: 500, 2
+  size: 164, 164
+  orig: 164, 164
+  offset: 0, 0
+  index: -1
+artifact_generic
+  rotate: false
+  xy: 666, 2
   size: 164, 164
   orig: 164, 164
   offset: 0, 0

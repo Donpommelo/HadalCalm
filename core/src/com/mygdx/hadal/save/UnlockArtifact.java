@@ -20,9 +20,9 @@ import java.util.Collections;
  */
 public enum UnlockArtifact {
 	
-	NUMBER_ONE_BOSS_MUG(new Number1BossMug()),
-	EIGHT_BALL(new EightBall()),
-	ABYSSAL_INSIGNIA(new AbyssalInsignia()),
+	NUMBER_ONE_BOSS_MUG(new Number1BossMug(), "artifact_8ball"),
+	EIGHT_BALL(new EightBall(), "artifact_1bossmug"),
+	ABYSSAL_INSIGNIA(new AbyssalInsignia(), "artifact_abyssal"),
 	ADMINISTRATOR_CARD(new AdministratorCard()),
 	ALBATROSS_NECKLACE(new AlbatrossNecklace()),
 	AMDAHLS_LOTUS(new AmdahlsLotus()),

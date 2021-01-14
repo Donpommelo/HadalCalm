@@ -1,9 +1,11 @@
 package com.mygdx.hadal.event.hub;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.hadal.actors.AHadalActor;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
@@ -22,6 +24,10 @@ import java.util.regex.Pattern;
  * @author Trelzubramaniam Twediculous
  */
 public class Reliquary extends HubEvent {
+
+	private static final int iconWidth = 40;
+	private static final int iconHeight = 40;
+	private static final int iconOffsetX = 15;
 
 	public Reliquary(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.RELIQUARY);
@@ -69,7 +75,16 @@ public class Reliquary extends HubEvent {
 			}
 			if (appear) {
 				Text itemChoose = new Text(selected.getInfo().getName(), 0, 0, true);
-				itemChoose.addListener(new ClickListener() {
+
+				AHadalActor icon = new AHadalActor() {
+
+					@Override
+					public void draw(Batch batch, float alpha) {
+						batch.draw(c.getFrame(), hub.getTableOptions().getX() + iconOffsetX, getY(), iconWidth, iconHeight);
+					}
+				};
+
+				ClickListener artifactListener = new ClickListener() {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
@@ -88,12 +103,16 @@ public class Reliquary extends HubEvent {
 						super.enter(event, x, y, pointer, fromActor);
 						hub.setInfo(selected.getInfo().getName() + "\nCOST: " + selected.getArtifact().getSlotCost() + "\n" + selected.getInfo().getDescription() + " \n \n" + selected.getInfo().getDescriptionLong());
 					}
-				});
+				};
+
+				itemChoose.addListener(artifactListener);
+				icon.addListener(artifactListener);
 				itemChoose.setScale(UIHub.optionsScale);
-				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
+				hub.getTableOptions().add(icon).height(iconHeight).width(iconWidth);
+				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeightLarge).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
 			}
 		}
-		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).row();
+		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).colspan(2).row();
 		hub.refreshHub();
 	}
 }

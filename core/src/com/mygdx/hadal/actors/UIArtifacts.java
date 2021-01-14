@@ -17,8 +17,8 @@ public class UIArtifacts {
 	
 	private final Table table;
 	
-	private static final int tagWidth = 25;
-	private static final int tagHeight = 25;
+	private static final int tagWidth = 40;
+	private static final int tagHeight = 40;
 	
 	private static final int tableX = 475;
 	private static final int tableY = 10;

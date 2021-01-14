@@ -54,6 +54,7 @@ public class UIHub {
 	private static final int optionsWidth = 320;
 	public static final int optionsHeight = 40;
 	public static final int optionHeight = 35;
+	public static final int optionHeightLarge = 45;
 	public static final int optionPad = 3;
 	private static final int scrollWidth = 330;
 
