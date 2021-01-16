@@ -468,6 +468,9 @@ public class WeaponUtils {
 	 * Used for kill feed messages and chat window names.
 	 */
 	public static String getPlayerColorName(Schmuck schmuck, int maxNameLen) {
+
+		if (schmuck == null) { return ""; }
+
 		if (schmuck instanceof Player) {
 			Player player = (Player) schmuck;
 			String displayedName = player.getName();
