@@ -33,6 +33,7 @@ public class DroneBit extends EnemySwimming {
 
 	private static final float scale = 0.15f;
 	private static final float noiseRadius = 2.0f;
+	private static final float trackSpeed = 0.6f;
 
 	private static final float minRange = 0.0f;
 	private static final float maxRange = 1.0f;
@@ -50,6 +51,7 @@ public class DroneBit extends EnemySwimming {
 		eyeSprite.setPlayMode(PlayMode.NORMAL);
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		setNoiseRadius(noiseRadius);
+		setTrackSpeed(trackSpeed);
 	}
 	
 	@Override

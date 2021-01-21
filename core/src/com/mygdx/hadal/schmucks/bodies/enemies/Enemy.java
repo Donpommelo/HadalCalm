@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -75,7 +76,7 @@ public class Enemy extends Schmuck {
 	protected float attackAngle, desiredAngle;
 	
 	//This is a dummy event in the map that the enemy is moving towards
-	private Vector2 eventTarget;
+	private Event eventTarget;
 	
 	//The action queues and current action hold the enemy' queued up actions. (secondary action is for 2 different actions occurring simultaneously)
 	private final ArrayList<EnemyAction> actions;
@@ -154,7 +155,7 @@ public class Enemy extends Schmuck {
 		
 		//move towards movement target, if existent.
 		if (eventTarget != null) {
-			dist.set(eventTarget).sub(getPixelPosition());
+			dist.set(eventTarget.getPixelPosition()).sub(getPixelPosition());
 			
 			//upon reaching target, conclude current action immediately and move on to the next action
 			if ((int) dist.len2() <= 100) {
@@ -377,9 +378,9 @@ public class Enemy extends Schmuck {
 
 	public void setMoveSpeed(int moveSpeed) { this.moveSpeed = moveSpeed; }
 	
-	public Vector2 getMovementTarget() { return eventTarget; }
+	public Event getMovementTarget() { return eventTarget; }
 
-	public void setMovementTarget(Vector2 movementTarget) { this.eventTarget = movementTarget; }
+	public void setMovementTarget(Event movementTarget) { this.eventTarget = movementTarget; }
 
 	public ArrayList<EnemyAction> getActions()  {return actions; }
 

@@ -29,6 +29,7 @@ public enum UnlockLevel {
 	BOSS2("Maps/Boss2.tmx"),
 	BOSS3("Maps/Boss3.tmx"),
 	BOSS4("Maps/Boss4.tmx"),
+	BOSS5("Maps/Boss5.tmx"),
 
 	RANDOM("Maps/sstunicate1.tmx"),
 	

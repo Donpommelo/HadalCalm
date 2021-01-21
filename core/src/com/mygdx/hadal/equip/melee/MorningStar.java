@@ -35,7 +35,7 @@ public class MorningStar extends MeleeWeapon {
 	private static final float baseDamage = 50.0f;
 	private static final float knockback = 60.0f;
 
-	private static final float swingForce = 5000.0f;
+	private static final float swingForce = 7500.0f;
 	private static final float range = 60.0f;
 	private static final float chainLength = 1.2f;
 
@@ -86,7 +86,8 @@ public class MorningStar extends MeleeWeapon {
 		base = new Hitbox(state, shooter.getSchmuck().getPixelPosition(), chainSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, false, user, chainSprite);
 		base.setDensity(1.0f);
 		base.makeUnreflectable();
-		
+		base.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+
 		base.addStrategy(new HitboxStrategy(state, base, user.getBodyData()) {
 			
 			private boolean linked = false;
@@ -128,7 +129,8 @@ public class MorningStar extends MeleeWeapon {
 			links[i] = new Hitbox(state, shooter.getSchmuck().getPixelPosition(), chainSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, false, user, chainSprite);
 			links[i].setDensity(1.0f);
 			links[i].makeUnreflectable();
-			
+			links[i].setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+
 			links[i].addStrategy(new HitboxStrategy(state, links[i], user.getBodyData()) {
 				
 				private boolean linked = false;

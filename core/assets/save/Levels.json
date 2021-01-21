@@ -41,6 +41,16 @@ BOSS4: {
         BOSS,
     ]
 }
+BOSS5: {
+	name: BOSS: NEPTUNE KING TERRAZZA
+	description: ""
+    descriptionLong: "Boss fight with Neptune King Terrazza."
+	tags: [
+        MULTIPLAYER,
+        SINGLEPLAYER,
+        BOSS,
+    ]
+}
 SANDBOX_HUB: {
 	name: SANDBOX_HUB
 	description: ""

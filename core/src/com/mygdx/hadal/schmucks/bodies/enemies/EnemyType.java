@@ -225,6 +225,14 @@ public enum EnemyType {
 			return new Boss4(state, startPos, filter, spawner);
 		}
 	},
+
+	BOSS5("NEPTUNE KING TERRAZZA") {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new Boss5(state, startPos, filter, spawner);
+		}
+	},
 	;
 
 	//this is the name that shows up in the kill feed when you die to this enemy

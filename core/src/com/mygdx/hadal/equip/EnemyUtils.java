@@ -35,9 +35,9 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				Event dummy = state.getDummyPoint(dummyId);
-				
+
 				if (dummy != null) {
-					enemy.setMovementTarget(dummy.getPixelPosition());
+					enemy.setMovementTarget(dummy);
 					enemy.setMoveSpeed(speed);
 				}
 			}

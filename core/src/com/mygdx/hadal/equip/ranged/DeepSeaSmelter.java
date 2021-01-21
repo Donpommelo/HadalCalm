@@ -30,7 +30,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 	private static final float baseDamage = 15.0f;
 	private static final float recoil = 6.0f;
 	private static final float knockback = 22.0f;
-	private static final float projectileSpeed = 40.0f;
+	private static final float projectileSpeed = 45.0f;
 	private static final Vector2 projectileSize = new Vector2(50, 15);
 	private static final float lifespan = 1.0f;
 	
