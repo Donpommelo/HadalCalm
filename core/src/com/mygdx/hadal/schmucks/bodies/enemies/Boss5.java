@@ -15,6 +15,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
+import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Boss5 extends EnemyFloating {
 
-    private static final float aiAttackCd = 2.2f;
+    private static final float aiAttackCd = 2.1f;
     private static final float aiAttackCd2 = 1.6f;
 
     private static final int scrapDrop = 15;
@@ -38,12 +39,12 @@ public class Boss5 extends EnemyFloating {
 
 	private static final float scale = 1.0f;
 
-	private static final int hp = 10000;
+	private static final int hp = 8000;
 
 	private static final Sprite sprite = Sprite.ORB_BLUE;
 
 	private int phase = 1;
-	private static final float phaseThreshold2 = 0.5f;
+	private static final float phaseThreshold2 = 0.0f;
 
 	public Boss5(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS5, filter, hp, aiAttackCd, scrapDrop, spawner);
@@ -57,7 +58,7 @@ public class Boss5 extends EnemyFloating {
 	
 	@Override
 	public void multiplayerScaling(int numPlayers) {
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 2000 * numPlayers, getBodyData()));
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 1400 * numPlayers, getBodyData()));
 	}
 	
 	private int attackNum;
@@ -66,13 +67,10 @@ public class Boss5 extends EnemyFloating {
 		attackNum++;
 		if (phase == 1) {
 			phase1Attack();
-		} else if (phase == 2) {
-
 		}
 	}
 	
 	private static final int phase1NumAttacks = 4;
-	private static final int phase2NumAttacks = 5;
 
 	//these lists are used to make the boss perform all attacks in its pool before repeating any
 	private final ArrayList<Integer> attacks1 = new ArrayList<>();
@@ -89,7 +87,7 @@ public class Boss5 extends EnemyFloating {
 			}
 		}
 
-//		if (attackNum % 2 == 0) {
+		if (attackNum % 2 == 0) {
 			int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
 
 			switch(nextAttack) {
@@ -97,50 +95,63 @@ public class Boss5 extends EnemyFloating {
 					tripleRadialBurst();
 					break;
 				case 1:
+					sporeBurst();
+					break;
+				case 2:
+					seedBomber();
+					break;
+				case 3:
+					poisonSpew();
+					break;
+			}
+
+		} else {
+			int nextAttack = attacks2.remove(GameStateManager.generator.nextInt(attacks2.size()));
+			switch(nextAttack) {
+				case 0:
+					orbitalCharge();
+					break;
+				case 1:
 					vineLash(true);
 					break;
 				case 2:
-					vineLash(false);
+					scytheAttack();
 					break;
 				case 3:
-					sowSeed();
+					spreadingShadow();
 					break;
 			}
-
-//		} else {
-//			int nextAttack = attacks2.remove(GameStateManager.generator.nextInt(attacks2.size()));
-//		}
-	}
-	
-	
-	private void phase2Attack() {
-		if (attacks1.isEmpty()) {
-			for (int i = 0; i < phase2NumAttacks; i++) {
-				attacks1.add(i);
-			}
 		}
-		
-		int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
 	}
-
-
+	
+	private static final int move1Speed = 30;
 	private static final int charge1Speed = 40;
 	private static final float moveDurationMax = 5.0f;
 	private void tripleRadialBurst() {
-		radialBurst("0");
-		radialBurst("2");
-		radialBurst("1");
-		radialBurst("3");
+
+		if (GameStateManager.generator.nextInt(2) == 0) {
+			EnemyUtils.moveToDummy(state, this, "0", move1Speed, moveDurationMax);
+			radialBurst("0");
+			radialBurst("2");
+			radialBurst("1");
+			radialBurst("3");
+		} else {
+			EnemyUtils.moveToDummy(state, this, "4", move1Speed, moveDurationMax);
+			radialBurst("4");
+			radialBurst("2");
+			radialBurst("3");
+			radialBurst("1");
+		}
 	}
 
 	private static final float radialWindup = 0.5f;
 
 	private static final int numShots = 15;
 
-	private static final float shot1Damage = 20.0f;
-	private static final float shot1Lifespan = 5.0f;
+	private static final float shot1Damage = 22.0f;
+	private static final float shot1Lifespan = 7.0f;
 	private static final float shot1Knockback = 20.0f;
-	private static final float shot1Speed = 8.0f;
+	private static final float shot1Speed = 7.0f;
 
 	private static final Vector2 projSize = new Vector2(40, 40);
 	private static final Vector2 projSpriteSize = new Vector2(60, 60);
@@ -159,8 +170,8 @@ public class Boss5 extends EnemyFloating {
 					angle.setAngleDeg(angle.angleDeg() + 360.0f / numShots);
 
 					Vector2 startVelo = new Vector2(shot1Speed, 0).setAngleDeg(angle.angleDeg());
-					RangedHitbox
-						hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, projSize.x), projSize, shot1Lifespan, startVelo, getHitboxfilter(), true, false, enemy, Sprite.LASER_PURPLE);
+					RangedHitbox hbox = new RangedHitbox(state, enemy.getPixelPosition(), projSize,	shot1Lifespan, startVelo,
+						getHitboxfilter(), true, false, enemy, Sprite.LASER_PURPLE);
 					hbox.setSpriteSize(projSpriteSize);
 					hbox.setAdjustAngle(true);
 
@@ -183,13 +194,18 @@ public class Boss5 extends EnemyFloating {
 	private static final float vineSpeed = 20.0f;
 	private static final float vineGrowth1 = 1.5f;
 	private static final float vineGrowth2 = 1.0f;
-	private static final float vineLifespan = 3.0f;
+	private static final float vineLifespan = 5.0f;
 	private static final int vineBendSpreadMin = 15;
 	private static final int vineBendSpreadMax = 30;
 	private static final int vineSplitSpreadMin = 30;
 	private static final int vineSplitSpreadMax = 45;
 	private void vineLash(boolean split) {
-		EnemyUtils.moveToDummy(state, this, "0", charge1Speed, moveDurationMax);
+		if (GameStateManager.generator.nextInt(2) == 0) {
+			EnemyUtils.moveToDummy(state, this, "0", charge1Speed, moveDurationMax);
+		} else {
+			EnemyUtils.moveToDummy(state, this, "4", charge1Speed, moveDurationMax);
+
+		}
 		windupParticle(Particle.BRIGHT, HadalColor.GREEN, 40.0f, vineWindup, vineWindup);
 
 		getActions().add(new EnemyAction(this, 0.0f) {
@@ -241,17 +257,30 @@ public class Boss5 extends EnemyFloating {
 	}
 
 	private static final float seedWindup = 1.5f;
-	private static final int seedMoveSpeed = 18;
-	private static final int seedNumber = 6;
+	private static final int seedMoveSpeed = 15;
+	private static final int seedNumber = 9;
 	private static final float seedSpeed = 15.0f;
 	private static final float seedLifespan = 5.0f;
 	private static final float seedVineGrowth = 1.5f;
 	private static final float seedVineLifespan = 4.0f;
-	private static final float seedInterval = 0.8f;
+	private static final float seedInterval = 0.5f;
+
+	private void seedBomber() {
+
+		if (GameStateManager.generator.nextInt(2) == 0) {
+			EnemyUtils.moveToDummy(state, this, "0", charge1Speed, moveDurationMax);
+			windupParticle(Particle.BRIGHT, HadalColor.GREEN, 40.0f, seedWindup, seedWindup);
+			sowSeed();
+			EnemyUtils.moveToDummy(state, this, "4", seedMoveSpeed, moveDurationMax);
+		} else {
+			EnemyUtils.moveToDummy(state, this, "4", charge1Speed, moveDurationMax);
+			windupParticle(Particle.BRIGHT, HadalColor.GREEN, 40.0f, seedWindup, seedWindup);
+			sowSeed();
+			EnemyUtils.moveToDummy(state, this, "0", seedMoveSpeed, moveDurationMax);
+		}
+	}
 
 	private void sowSeed() {
-		EnemyUtils.moveToDummy(state, this, "0", charge1Speed, moveDurationMax);
-		windupParticle(Particle.BRIGHT, HadalColor.GREEN, 40.0f, seedWindup, seedWindup);
 		getActions().add(new EnemyAction(this, 0.0f) {
 
 			@Override
@@ -282,14 +311,374 @@ public class Boss5 extends EnemyFloating {
 					});
 				}
 			}
-	 	});
-		EnemyUtils.moveToDummy(state, this, "4", seedMoveSpeed, moveDurationMax);
+		});
+	}
+
+	private void poisonSpew() {
+		if (GameStateManager.generator.nextInt(2) == 0) {
+			poisonSpewSingle("1");
+			poisonSpewSingle("3");
+		} else {
+			poisonSpewSingle("3");
+			poisonSpewSingle("1");
+		}
+	}
+
+	private static final float poisonWindup = 0.5f;
+	private static final float poisonCooldown = 2.0f;
+	private static final float poisonBreathSpeed = 10.0f;
+	private static final float poisonCloudSpeed = 20.0f;
+	private static final float poison1Lifespan = 5.0f;
+	private static final float poison2Lifespan = 2.0f;
+	private static final float poisonBreathLifespan = 1.5f;
+	private static final float poisonCloudLifespan = 6.0f;
+	private static final float poisonDamage = 0.3f;
+	private static final Vector2 poisonSize = new Vector2(250, 101);
+	private static final Vector2 poisonCloudSize = new Vector2(101, 250);
+	private void poisonSpewSingle(String dummyId) {
+		EnemyUtils.moveToDummy(state, this, dummyId, move1Speed, moveDurationMax);
+		windupParticle(Particle.POISON, HadalColor.GREEN, 40.0f, poisonWindup, poisonWindup);
+
+		getActions().add(new EnemyAction(this, 0.0f) {
+
+			@Override
+			public void execute() {
+
+				RangedHitbox poison = new RangedHitbox(state, enemy.getPixelPosition(), poisonSize, poison1Lifespan, new Vector2(0, -poisonBreathSpeed),
+					getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
+				poison.setPassability(Constants.BIT_WALL);
+
+				poison.makeUnreflectable();
+
+				poison.addStrategy(new ControllerDefault(state, poison, getBodyData()));
+				poison.addStrategy(new ContactWallDie(state, poison, getBodyData()));
+				poison.addStrategy(new PoisonTrail(state, poison, getBodyData(), poisonSize, (int) poisonSize.y, poisonDamage, poisonBreathLifespan, getHitboxfilter()));
+				poison.addStrategy(new HitboxStrategy(state, poison, getBodyData()) {
+
+						 @Override
+						 public void die() {
+							 createPoisonWave(1);
+							 createPoisonWave(-1);
+						 }
+
+						 private void createPoisonWave(int direction) {
+							 RangedHitbox hbox = new RangedHitbox(state, poison.getPixelPosition(), poisonSize, poison2Lifespan,
+								 new Vector2(direction * poisonCloudSpeed, 0), getHitboxfilter(), false, false, enemy, Sprite.NOTHING);
+							 hbox.makeUnreflectable();
+							 hbox.setGravity(1.0f);
+
+							 hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
+							 hbox.addStrategy(new PoisonTrail(state, hbox, getBodyData(), poisonCloudSize, (int) poisonCloudSize.x,
+								 poisonDamage, poisonCloudLifespan, getHitboxfilter()));
+						 }
+					 }
+				);
+			}
+		});
+		windupParticle(Particle.POISON, HadalColor.GREEN, 40.0f, poisonCooldown, poisonCooldown);
+	}
+
+	private static final float sporeWindup = 1.5f;
+	private static final int burstNumber = 4;
+	private static final float sporeSpeed = 15.0f;
+	private static final float sporeLifespan = 3.0f;
+	private static final float sporeFragLifespan = 6.0f;
+	private static final float sporeDamage = 8.0f;
+	private static final float sporeKB = 5.0f;
+	private static final float sporeFragDamage = 6.0f;
+	private static final float sporeFragKB = 8.0f;
+	private static final float sporeInterval = 1.0f;
+	private static final Vector2 sporeSize = new Vector2(80, 80);
+	private static final Vector2 sporeFragSize = new Vector2(30, 30);
+
+	private static final float sporeHoming = 50.0f;
+	private static final int sporeHomingRadius = 120;
+
+	private static final int sporeFragNumber = 16;
+	private static final int sporeSpread = 16;
+	private static final float fragSpeed = 40.0f;
+	private static final float fragVeloSpread = 0.4f;
+	private static final float fragSizeSpread = 0.25f;
+	private static final float fragDampen = 2.0f;
+
+	private void sporeBurst() {
+		EnemyUtils.moveToDummy(state, this, "2", move1Speed, moveDurationMax);
+		windupParticle(Particle.BRIGHT, HadalColor.BLUE, 40.0f, sporeWindup, sporeWindup);
+
+		for (int i = 0; i < burstNumber; i++) {
+			getActions().add(new EnemyAction(this, sporeInterval) {
+
+				@Override
+				public void execute() {
+					Vector2 startVelo = new Vector2(0, sporeSpeed).setAngleDeg(getAttackAngle());
+					RangedHitbox hbox = new RangedHitbox(state, enemy.getPixelPosition(), sporeSize, sporeLifespan,
+						startVelo, getHitboxfilter(), false, false, enemy, Sprite.ORB_BLUE);
+					hbox.setRestitution(1.0f);
+
+					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), sporeDamage, sporeKB, DamageTypes.RANGED));
+					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
+					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), sporeHoming, sporeHomingRadius));
+					hbox.addStrategy(new FlashNearDeath(state, hbox, getBodyData(), 0.5f));
+					hbox.addStrategy(new HitboxStrategy(state, hbox, getBodyData()) {
+
+						private final Vector2 newVelocity = new Vector2();
+						private final Vector2 newSize = new Vector2();
+						@Override
+						public void die() {
+							for (int i = 0; i < sporeFragNumber; i++) {
+								newVelocity.set(hbox.getLinearVelocity()).nor().scl(fragSpeed).scl((ThreadLocalRandom.current().nextFloat() * fragVeloSpread + 1 - fragVeloSpread / 2));
+								newSize.set(sporeFragSize).scl((ThreadLocalRandom.current().nextFloat() * fragSizeSpread + 1 - fragSizeSpread / 2));
+
+								RangedHitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), new Vector2(newSize), sporeFragLifespan,
+								  new Vector2(newVelocity), getHitboxfilter(), true, false, enemy, Sprite.ORB_BLUE) {
+
+									@Override
+									public void create() {
+										super.create();
+										getBody().setLinearDamping(fragDampen);
+									}
+								};
+
+								frag.addStrategy(new ControllerDefault(state, frag, getBodyData()));
+								frag.addStrategy(new DamageStandard(state, frag, getBodyData(), sporeFragDamage, sporeFragKB, DamageTypes.RANGED).setStaticKnockback(true));
+								frag.addStrategy(new ContactUnitDie(state, frag, getBodyData()));
+								frag.addStrategy(new ContactWallDie(state, frag, getBodyData()));
+								frag.addStrategy(new Spread(state, frag, getBodyData(), sporeSpread));
+						  }
+					   }
+				   });
+				}
+			});
+		}
+	}
+
+	private static final float scytheWindup = 1.0f;
+	private static final float scytheCooldown = 2.5f;
+	private static final float scytheLifespan = 2.5f;
+	private static final float scytheDamage = 26.0f;
+	private static final float scytheKB = 20.0f;
+	private static final float scytheSpinSpeed = 0.5f;
+	private static final float scytheAmplitude = 30.0f;
+	private static final float scytheFrequency = 1.2f;
+	private static final float scytheSpread = 90.0f;
+	private static final float scytheAngleFrequency = 0.8f;
+	private static final Vector2 scytheSize = new Vector2(300, 100);
+	private void scytheAttack() {
+		int rand = GameStateManager.generator.nextInt(3);
+		if (rand== 0) {
+			EnemyUtils.moveToDummy(state, this, "1", move1Speed, moveDurationMax);
+		} else if (rand == 1) {
+			EnemyUtils.moveToDummy(state, this, "2", move1Speed, moveDurationMax);
+		} else {
+			EnemyUtils.moveToDummy(state, this, "3", move1Speed, moveDurationMax);
+		}
+		windupParticle(Particle.BRIGHT, HadalColor.BLUE, 40.0f, scytheWindup, scytheWindup);
+		scytheSingle(0);
+		scytheSingle(90);
+		scytheSingle(180);
+		scytheSingle(270);
+		windupParticle(Particle.BRIGHT, HadalColor.BLUE, 40.0f, scytheCooldown, scytheCooldown);
+	}
+
+	private void scytheSingle(float startAngle) {
+		getActions().add(new EnemyAction(this, 0.0f) {
+
+			@Override
+			public void execute() {
+				RangedHitbox scythe = new RangedHitbox(state, enemy.getPixelPosition(), scytheSize,
+					scytheLifespan, new Vector2(), getHitboxfilter(), true, false, enemy, Sprite.LASER_TURQUOISE);
+
+				scythe.addStrategy(new ControllerDefault(state, scythe, getBodyData()));
+				scythe.addStrategy(new DamageStandard(state, scythe, getBodyData(), scytheDamage, scytheKB, DamageTypes.RANGED));
+				scythe.addStrategy(new HitboxStrategy(state, scythe, getBodyData()) {
+
+					private float controllerCount;
+					private float timer;
+					private float angle;
+					private static final float pushInterval = 1 / 60f;
+					private final Vector2 offset = new Vector2();
+					private final Vector2 centerPos = new Vector2();
+					@Override
+					public void controller(float delta) {
+						controllerCount += delta;
+						timer += delta;
+						while (controllerCount >= pushInterval) {
+							controllerCount -= pushInterval;
+							angle += scytheSpinSpeed;
+							if (getBody() != null && isAlive()) {
+								offset.set(0, (float) (scytheAmplitude * Math.sin(timer * scytheFrequency)))
+									.setAngleDeg((float) (startAngle + scytheSpread * Math.sin(timer * scytheAngleFrequency)));
+
+								centerPos.set(enemy.getPosition()).add(offset);
+								hbox.setTransform(centerPos, angle);
+							} else {
+								hbox.die();
+							}
+						}
+					}
+				});
+			}
+		});
+	}
+
+	private static final int orbitalChargeSpeed = 24;
+	private static final int orbitalChargeSpeedGrowth = 8;
+	private static final int orbitalNum = 8;
+	private static final float orbitalWindup = 1.5f;
+	private static final float orbitalLifespan = 4.5f;
+	private static final float orbitalRange = 9.0f;
+	private static final float orbitalDamage = 10.0f;
+	private static final float orbitalKB = 12.0f;
+	private static final float orbitalSpeed = 240.0f;
+	private static final float orbitalRangeIncreaseSpeed = 0.06f;
+	private static final Vector2 orbitalSize = new Vector2(60, 60);
+
+	private void orbitalCharge() {
+		if (GameStateManager.generator.nextInt(2) == 0) {
+			EnemyUtils.moveToDummy(state, this, "0", move1Speed, moveDurationMax);
+			orbitalChargeSingle();
+			windupParticle(Particle.BRIGHT, HadalColor.RED, 40.0f, orbitalWindup, orbitalWindup);
+			EnemyUtils.moveToDummy(state, this, "1", orbitalChargeSpeed, moveDurationMax);
+			EnemyUtils.moveToDummy(state, this, "2", orbitalChargeSpeed + orbitalChargeSpeedGrowth, moveDurationMax);
+			EnemyUtils.moveToDummy(state, this, "3", orbitalChargeSpeed + 2 * orbitalChargeSpeedGrowth, moveDurationMax);
+			EnemyUtils.moveToDummy(state, this, "4", orbitalChargeSpeed + 3 * orbitalChargeSpeedGrowth, moveDurationMax);
+		} else {
+			EnemyUtils.moveToDummy(state, this, "4", move1Speed, moveDurationMax);
+			orbitalChargeSingle();
+			windupParticle(Particle.BRIGHT, HadalColor.RED, 40.0f, orbitalWindup, orbitalWindup);
+			EnemyUtils.moveToDummy(state, this, "3", orbitalChargeSpeed, moveDurationMax);
+			EnemyUtils.moveToDummy(state, this, "2", orbitalChargeSpeed + orbitalChargeSpeedGrowth, moveDurationMax);
+			EnemyUtils.moveToDummy(state, this, "1", orbitalChargeSpeed + 2 * orbitalChargeSpeedGrowth, moveDurationMax);
+			EnemyUtils.moveToDummy(state, this, "0", orbitalChargeSpeed + 3 * orbitalChargeSpeedGrowth, moveDurationMax);
+		}
+		EnemyUtils.moveToDummy(state, this, "2", orbitalChargeSpeed + 4 * orbitalChargeSpeedGrowth, moveDurationMax);
+
+	}
+
+	private void orbitalChargeSingle() {
+		getActions().add(new EnemyAction(this, 0.0f) {
+
+			private final Vector2 angle = new Vector2(0, orbitalRange);
+			@Override
+			public void execute() {
+				for (int i = 0; i < orbitalNum; i++) {
+					angle.setAngleDeg(angle.angleDeg() + 360.0f / orbitalNum);
+					RangedHitbox orbital = new RangedHitbox(state, enemy.getPixelPosition(), orbitalSize,
+						orbitalLifespan, new Vector2(), getHitboxfilter(), true, false, enemy, Sprite.STAR_RED);
+
+					orbital.addStrategy(new ControllerDefault(state, orbital, getBodyData()));
+					orbital.addStrategy(new DamageStandard(state, orbital, getBodyData(), orbitalDamage, orbitalKB, DamageTypes.RANGED).setStaticKnockback(true).setRepeatable(true));
+					orbital.addStrategy(new HitboxStrategy(state, orbital, getBodyData()) {
+
+						private final Vector2 centerPos = new Vector2();
+						private final Vector2 offset = new Vector2();
+						private float currentAngle = angle.angleDeg();
+						private float controllerCount;
+						private float currentRange;
+						private static final float pushInterval = 1 / 60f;
+						@Override
+						public void controller(float delta) {
+							controllerCount += delta;
+							while (controllerCount >= pushInterval) {
+								controllerCount -= pushInterval;
+
+								if (enemy.getBody() != null && enemy.isAlive()) {
+									currentAngle += orbitalSpeed * delta;
+
+									centerPos.set(enemy.getPosition());
+									offset.set(0, currentRange).setAngleDeg(currentAngle);
+									orbital.setTransform(centerPos.add(offset), orbital.getAngle());
+
+									if (currentRange < orbitalRange) {
+										currentRange += orbitalRangeIncreaseSpeed;
+									}
+								} else {
+									die();
+								}
+							}
+						}
+					});
+				}
+			}
+		});
+	}
+	private static final int shadowChargeSpeed = 45;
+	private static final int shadowNum = 12;
+	private static final float shadowInterval = 0.05f;
+	private static final float shadowLifespan = 5.0f;
+	private static final float shadowDamage = 19.0f;
+	private static final float shadowKB = 15.0f;
+	private static final float shadowDelay = 3.0f;
+	private static final float shadowSpeed = 25.0f;
+	private static final Vector2 shadowSize = new Vector2(25, 25);
+
+	private void spreadingShadow() {
+		if (GameStateManager.generator.nextInt(2) == 0) {
+			EnemyUtils.moveToDummy(state, this, "0", move1Speed, moveDurationMax);
+			windupParticle(Particle.SHADOW_CLOAK, HadalColor.NOTHING, 40.0f, orbitalWindup, orbitalWindup);
+			spreadingShadowSingle("2");
+			windupParticle(Particle.SHADOW_CLOAK, HadalColor.NOTHING, 40.0f, orbitalWindup, orbitalWindup);
+			spreadingShadowSingle("4");
+		} else {
+			EnemyUtils.moveToDummy(state, this, "4", move1Speed, moveDurationMax);
+			windupParticle(Particle.SHADOW_CLOAK, HadalColor.NOTHING, 40.0f, orbitalWindup, orbitalWindup);
+			spreadingShadowSingle("2");
+			windupParticle(Particle.SHADOW_CLOAK, HadalColor.NOTHING, 40.0f, orbitalWindup, orbitalWindup);
+			spreadingShadowSingle("0");
+		}
+	}
+
+	private void spreadingShadowSingle(String dummyId) {
+		getActions().add(new EnemyAction(this, 0.0f) {
+
+			@Override
+			public void execute() {
+				for (int i = 0; i < shadowNum; i++) {
+					final float me = i;
+					getSecondaryActions().add(new EnemyAction(enemy, shadowInterval) {
+
+						@Override
+						public void execute() {
+							RangedHitbox shadow = new RangedHitbox(state, getPixelPosition(), shadowSize, shadowLifespan, new Vector2(),
+								getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
+
+							final Vector2 savedVelo = new Vector2(getLinearVelocity());
+
+							if (!savedVelo.isZero()) {
+								shadow.addStrategy(new ControllerDefault(state, shadow, getBodyData()));
+								shadow.addStrategy(new DamageStandard(state, shadow, getBodyData(), shadowDamage, shadowKB, DamageTypes.RANGED));
+								shadow.addStrategy(new ContactUnitDie(state, shadow, getBodyData()));
+								shadow.addStrategy(new ContactWallDie(state, shadow, getBodyData()));
+								shadow.addStrategy(new CreateParticles(state, shadow, getBodyData(), Particle.SHADOW_PATH, 0.0f, 1.0f));
+								shadow.addStrategy((new HitboxStrategy(state, shadow, getBodyData()) {
+
+									private float controller;
+									private boolean activated;
+									private final Vector2 delayVelo = new Vector2();
+									@Override
+									public void controller(float delta) {
+										controller += delta;
+										if ((controller > shadowDelay - me * shadowInterval) && !activated) {
+											activated = true;
+											delayVelo.set(savedVelo).rotate90(me % 2 == 1 ? 1 : -1).nor().scl(shadowSpeed);
+											shadow.setLinearVelocity(delayVelo);
+										}
+									}
+								}));
+							}
+						}
+					});
+				}
+			}
+		});
+		EnemyUtils.moveToDummy(state, this, dummyId, shadowChargeSpeed, moveDurationMax);
 	}
 
 	private static final Vector2 vineSize = new Vector2(80, 40);
 	private static final Vector2 vineSpriteSize = new Vector2(120, 60);
 	private static final float vineDamage = 18.0f;
-	private static final float vineKnockback = 20.0f;
+	private static final float vineKB = 20.0f;
 
 	private Hitbox createVine(Vector2 startPosition, Vector2 startVelo, float growthTime, float lifespan, int spreadMin, int spreadMax, int bendLength, int bendSpread) {
 		RangedHitbox hbox = new RangedHitbox(state, startPosition, vineSize, growthTime, startVelo, getHitboxfilter(), false, false, this, Sprite.NOTHING);
@@ -322,7 +711,7 @@ public class Boss5 extends EnemyFloating {
 					vine.setSpriteSize(vineSpriteSize);
 
 					vine.addStrategy(new ControllerDefault(state, vine, getBodyData()));
-					vine.addStrategy(new DamageStandard(state, vine, getBodyData(), vineDamage, vineKnockback, DamageTypes.RANGED));
+					vine.addStrategy(new DamageStandard(state, vine, getBodyData(), vineDamage, vineKB, DamageTypes.RANGED).setStaticKnockback(true));
 
 					vineCount++;
 

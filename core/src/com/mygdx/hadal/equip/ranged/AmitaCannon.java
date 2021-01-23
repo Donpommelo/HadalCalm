@@ -60,7 +60,6 @@ public class AmitaCannon extends RangedWeapon {
 		center.addStrategy(new HitboxStrategy(state, center, user.getBodyData()) {
 			
 			private final Vector2 angle = new Vector2(0, orbitalRange);
-			
 			@Override
 			public void create() {
 				for (int i = 0; i < numOrbitals; i++) {

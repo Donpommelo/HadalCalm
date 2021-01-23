@@ -24,7 +24,7 @@ public class PoisonTrail extends HitboxStrategy {
 	private final Vector2 lastPosition = new Vector2();
 	private final Vector2 poisonSize = new Vector2();
 	
-	public PoisonTrail(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {
+	public PoisonTrail(PlayState state, Hitbox proj, BodyData user, Vector2 poisonSize, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {
 		super(state, proj, user);
 		this.poisonRadius = poisonRadius;
 		this.poisonDamage = poisonDamage;
@@ -32,7 +32,7 @@ public class PoisonTrail extends HitboxStrategy {
 		this.filter = filter;
 		
 		lastPosition.set(proj.getStartPos());
-		poisonSize.set(poisonRadius, poisonRadius);
+		this.poisonSize.set(poisonSize);
 	}
 	
 	private final Vector2 entityLocation = new Vector2();
