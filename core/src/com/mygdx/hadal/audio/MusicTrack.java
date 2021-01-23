@@ -16,6 +16,7 @@ public enum MusicTrack {
 	HUB_V3("music/hub_v3.ogg", 161),
 	FIGHT1("music/fight1.ogg", 164),
 
+	AURAL_FIXATION("music/aural_fixation.ogg", 149),
 	CONFIDENCE("music/confidence.ogg", 216),
 	ORGAN_GRINDER("music/organ_grinder.ogg", 114),
 	SURRENDER("music/surrender.ogg", 141),
