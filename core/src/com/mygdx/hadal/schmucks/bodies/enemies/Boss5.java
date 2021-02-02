@@ -423,7 +423,7 @@ public class Boss5 extends EnemyFloating {
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), sporeDamage, sporeKB, DamageTypes.RANGED));
 					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), sporeHoming, sporeHomingRadius));
-					hbox.addStrategy(new FlashNearDeath(state, hbox, getBodyData(), 0.5f));
+					hbox.addStrategy(new FlashNearDeath(state, hbox, getBodyData(), 1.0f));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, getBodyData()) {
 
@@ -579,7 +579,7 @@ public class Boss5 extends EnemyFloating {
 			EnemyUtils.moveToDummy(state, this, "1", orbitalChargeSpeed + 2 * orbitalChargeSpeedGrowth, moveDurationMax);
 			EnemyUtils.moveToDummy(state, this, "0", orbitalChargeSpeed + 3 * orbitalChargeSpeedGrowth, moveDurationMax);
 		}
-		EnemyUtils.moveToDummy(state, this, "2", orbitalChargeSpeed + 4 * orbitalChargeSpeedGrowth, moveDurationMax);
+		EnemyUtils.moveToDummy(state, this, "2", orbitalChargeSpeed + 3 * orbitalChargeSpeedGrowth, moveDurationMax);
 
 	}
 

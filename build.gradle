@@ -18,7 +18,7 @@ allprojects {
     version = '1.0'
     ext {
         appName = "HadalGame"
-        gdxVersion = '1.9.13'
+        gdxVersion = '1.9.14'
         roboVMVersion = '2.3.8'
         pieMenuVersion = '5.0.0'
         kryonetVersion = '2.22.6'

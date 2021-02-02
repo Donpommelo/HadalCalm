@@ -551,9 +551,12 @@ public class KryoClient {
 
 							for (int i = 0; i < p.users.length; i++) {
 							    UserDto user = p.users[i];
-								User updatedUser = new User(null, null, user.scores, user.scoresExtra);
-								updatedUser.setSpectator(user.spectator);
-								users.put(user.scores.getConnID(), updatedUser);
+								User updatedUser;
+							    if (user != null) {
+									updatedUser = new User(null, null, user.scores, user.scoresExtra);
+									updatedUser.setSpectator(user.spectator);
+									users.put(user.scores.getConnID(), updatedUser);
+								}
 							}
 						});
 					}

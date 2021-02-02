@@ -62,7 +62,7 @@ public class Setting {
 			Gdx.graphics.setVSync(false);
 		}
 
-    	game.setFrameRate(indexToFramerate());
+		Gdx.graphics.setForegroundFPS(indexToFramerate());
     	game.setAutoIconify(autoIconify);
 
     	setCursor();

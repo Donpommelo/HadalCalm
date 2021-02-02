@@ -251,11 +251,9 @@ public class HadalGame extends ApplicationAdapter {
 	public void setRunAfterTransition(Runnable runAfterTransition) { this.runAfterTransition = runAfterTransition; }
 	
 	/**
-	 * This is used to set game framerate dynamically/iconification.
+	 * This is used to set game iconification dynamically.
 	 * This is extended in the desktop launcher to expose the config
 	 */
-	public void setFrameRate(int framerate) {}
-
 	public void setAutoIconify(boolean iconify) {}
 
 	public float getFadeLevel() { return fadeLevel; }

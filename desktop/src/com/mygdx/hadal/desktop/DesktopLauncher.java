@@ -41,13 +41,6 @@ public class DesktopLauncher {
 		new Lwjgl3Application(new HadalGame() {
 
 			@Override
-			public void setFrameRate(int framerate) {
-
-				//This exposes config to the app to change fps during runtime.
-				//config.setForegroundFPS(framerate);
-			}
-
-			@Override
 			public void setAutoIconify(boolean iconify) {
 				//autoIconify[0] = iconify;
 			}
