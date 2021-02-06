@@ -243,12 +243,14 @@ public class TitleState extends GameState {
 
 						//enable upnp
 						if (gsm.getSetting().isEnableUPNP()) {
-							try {
-								upnp("TCP", "hadal-upnp-tcp");
-								upnp("UDP", "hadal-upnp-udp");
-							} catch (ParserConfigurationException | SAXException | IOException parserConfigurationException) {
-								parserConfigurationException.printStackTrace();
-							}
+							new Thread(() -> {
+								try {
+									upnp("TCP", "hadal-upnp-tcp");
+									upnp("UDP", "hadal-upnp-udp");
+								} catch (ParserConfigurationException | SAXException | IOException parserConfigurationException) {
+									parserConfigurationException.printStackTrace();
+								}
+							}).start();
 						}
 
 						//Save current name into records.
@@ -565,8 +567,8 @@ public class TitleState extends GameState {
 			int port = gsm.getSetting().getPortNumber();
 
 			PortMappingEntry portMapping = new PortMappingEntry();
-			if (!d.getSpecificPortMappingEntry(port,protocol, portMapping)) {
-				if (!d.addPortMapping(port, port, localAddress.getHostAddress(), protocol,descr)) {
+			if (!d.getSpecificPortMappingEntry(port, protocol, portMapping)) {
+				if (!d.addPortMapping(port, port, localAddress.getHostAddress(), protocol, descr)) {
 					Gdx.app.log("UPNP", "FAILED TO MAP PORT");
 				} else {
 					Gdx.app.log("UPNP", "SUCCESSFULLY MAPPED");
