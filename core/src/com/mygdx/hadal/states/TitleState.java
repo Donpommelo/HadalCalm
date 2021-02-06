@@ -27,8 +27,14 @@ import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.utils.NameGenerator;
+import org.bitlet.weupnp.GatewayDevice;
+import org.bitlet.weupnp.GatewayDiscover;
+import org.bitlet.weupnp.PortMappingEntry;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.net.InetAddress;
 
 /**
  * The TitleState is created upon initializing the game and will display an image.
@@ -234,7 +240,17 @@ public class TitleState extends GameState {
 						inputDisabled = true;
 						
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-						
+
+						//enable upnp
+						if (gsm.getSetting().isEnableUPNP()) {
+							try {
+								upnp("TCP", "hadal-upnp-tcp");
+								upnp("UDP", "hadal-upnp-udp");
+							} catch (ParserConfigurationException | SAXException | IOException parserConfigurationException) {
+								parserConfigurationException.printStackTrace();
+							}
+						}
+
 						//Save current name into records.
 						gsm.getLoadout().setName(enterName.getText());
 						
@@ -537,6 +553,28 @@ public class TitleState extends GameState {
 		tablePassword.add(enterPassword).width(textWidth).height(optionHeight).row();
 		tablePassword.add(connect);
 		tablePassword.add(cancel);
+	}
+
+	private void upnp(String protocol, String descr) throws ParserConfigurationException, SAXException, IOException {
+		GatewayDiscover discover = new GatewayDiscover();
+		discover.discover();
+		GatewayDevice d = discover.getValidGateway();
+		if (d != null) {
+			InetAddress localAddress = d.getLocalAddress();
+
+			int port = gsm.getSetting().getPortNumber();
+
+			PortMappingEntry portMapping = new PortMappingEntry();
+			if (!d.getSpecificPortMappingEntry(port,protocol, portMapping)) {
+				if (!d.addPortMapping(port, port, localAddress.getHostAddress(), protocol,descr)) {
+					Gdx.app.log("UPNP", "FAILED TO MAP PORT");
+				} else {
+					Gdx.app.log("UPNP", "SUCCESSFULLY MAPPED");
+				}
+			} else {
+				Gdx.app.log("UPNP", "ALREADY MAPPED");
+			}
+		}
 	}
 
 	private static final float transitionDuration = 0.25f;

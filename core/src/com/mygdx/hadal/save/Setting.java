@@ -21,7 +21,7 @@ public class Setting {
 	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, pvpHp, artifactSlots,
 		portNumber, hitsoundType, customShader;
 	private boolean fullscreen, autoIconify, vsync, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration,
-		consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
+		consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP;
 	private float soundVolume, musicVolume, masterVolume, hitsoundVolume;
 
 	//How long should pvp/coop matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
@@ -168,6 +168,7 @@ public class Setting {
 		verboseDeathMessage = true;
 		multiplayerPause = false;
 		exportChatLog = false;
+		enableUPNP = false;
 	}
 
 	/**
@@ -387,6 +388,8 @@ public class Setting {
 
 	public void setExportChatLog(boolean exportChatLog) { this.exportChatLog = exportChatLog; }
 
+	public void setEnableUPNP(boolean enableUPNP) { this.enableUPNP = enableUPNP; }
+
 	public void setDebugHitbox(boolean debugHitbox) { this.debugHitbox = debugHitbox; }
 	
 	public void setPortNumber(int portNumber) { this.portNumber = portNumber; }
@@ -432,6 +435,8 @@ public class Setting {
 	public boolean isMultiplayerPause() { return multiplayerPause; }
 	
 	public boolean isExportChatLog() { return exportChatLog; }
+
+	public boolean isEnableUPNP() { return enableUPNP; }
 
 	public boolean isDebugHitbox() { return debugHitbox; }
 

@@ -50,7 +50,7 @@ public class SettingState extends GameState {
 		playerCapacity;
 	private Slider sound, music, master, hitsound;
 	private CheckBox fullscreen, vsync, autoIconify, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration, consoleEnabled,
-		verboseDeathMessage, multiplayerPause, exportChatLog;
+		verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP;
 		
 	//Dimensions of the setting menu
 	private static final int optionsX = -1025;
@@ -698,6 +698,9 @@ public class SettingState extends GameState {
 		exportChatLog = new CheckBox("Export Chat Logs on Exit?", GameStateManager.getSkin());
 		exportChatLog.setChecked(gsm.getSetting().isExportChatLog());
 
+		enableUPNP = new CheckBox("Enable Universal Plug-and-Play?", GameStateManager.getSkin());
+		enableUPNP.setChecked(gsm.getSetting().isEnableUPNP());
+
 		details.add(coopTimer);
 		details.add(coopTimerOptions).height(detailHeight).pad(detailPad).row();
 		details.add(randomNameAlliteration).colspan(2).height(detailHeight).pad(detailPad).row();
@@ -705,6 +708,7 @@ public class SettingState extends GameState {
 		details.add(verboseDeathMessage).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(multiplayerPause).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(exportChatLog).colspan(2).height(detailHeight).pad(detailPad).row();
+		details.add(enableUPNP).colspan(2).height(detailHeight).pad(detailPad).row();
 	}
 	
 	/**
@@ -763,6 +767,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setVerboseDeathMessage(verboseDeathMessage.isChecked());
 			gsm.getSetting().setMultiplayerPause(multiplayerPause.isChecked());
 			gsm.getSetting().setExportChatLog(exportChatLog.isChecked());
+			gsm.getSetting().setEnableUPNP(enableUPNP.isChecked());
 			gsm.getSetting().saveSetting();
 			miscSelected();
 			break;

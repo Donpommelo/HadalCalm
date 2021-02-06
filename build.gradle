@@ -23,6 +23,7 @@ allprojects {
         pieMenuVersion = '5.0.0'
         kryonetVersion = '2.22.6'
         steamworks4jVersion = '1.8.0'
+        weupnpVersion = '0.1.4'
     }
 
     repositories {
@@ -30,7 +31,8 @@ allprojects {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
-        maven { url 'https://jitpack.io' }
+        maven { url "https://jitpack.io" }
+        maven { url "https://mvnrepository.com/artifact/org.bitlet/weupnp" }
     }
 }
 
@@ -55,6 +57,7 @@ project(":core") {
         compile "com.github.payne911:PieMenu:$pieMenuVersion"
         compile "com.code-disaster.steamworks4j:steamworks4j:$steamworks4jVersion"
         compile "com.code-disaster.steamworks4j:steamworks4j-server:$steamworks4jVersion"
+        compile "org.bitlet:weupnp:$weupnpVersion"
     }
 }
 
