@@ -567,6 +567,7 @@ public class TitleState extends GameState {
 			int port = gsm.getSetting().getPortNumber();
 
 			PortMappingEntry portMapping = new PortMappingEntry();
+			d.deletePortMapping(port, protocol);
 			if (!d.getSpecificPortMappingEntry(port, protocol, portMapping)) {
 				if (!d.addPortMapping(port, port, localAddress.getHostAddress(), protocol, descr)) {
 					Gdx.app.log("UPNP", "FAILED TO MAP PORT");
