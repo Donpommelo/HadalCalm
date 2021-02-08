@@ -161,7 +161,11 @@ public enum Sprite {
 	TURRET_BASE(SpriteType.TURRET, "base"),
 	TURRET_FLAK(SpriteType.TURRET, "flak"),
 	TURRET_VOLLEY(SpriteType.TURRET, "volley"),
-	
+
+	NEPTUNE_KING_CORE(SpriteType.NEPTUNE_KING, "terrazza_core"),
+	NEPTUNE_KING_BODY(SpriteType.NEPTUNE_KING, "terrazza_body"),
+	NEPTUNE_KING_CROWN(SpriteType.NEPTUNE_KING, "terrazza_crown"),
+
 	//ui
 	UI_MAIN_OVERLAY(SpriteType.UI, "UI_main_overlay"),
 	UI_MAIN_RELOAD(SpriteType.UI, "UI_main_reloading"),
@@ -305,6 +309,8 @@ public enum Sprite {
 			return HadalGame.assetManager.get(AssetList.KAMABOKO_SWIM_ATL.toString());
 		case DRONE:
 			return HadalGame.assetManager.get(AssetList.DRONE_ATL.toString());
+		case NEPTUNE_KING:
+			return HadalGame.assetManager.get(AssetList.NEPTUNE_KING_ATL.toString());
 		case TELEMACHUS_POINT:
 			return HadalGame.assetManager.get(AssetList.TELEMACHUS_POINT.toString());
 		case CHARACTER_EXTRA:
@@ -334,6 +340,7 @@ public enum Sprite {
 		KAMABOKO_CRAWL,
 		KAMABOKO_SWIM,
 		DRONE,
+		NEPTUNE_KING,
 		TELEMACHUS_POINT,
 		CHARACTER_EXTRA,
 	}

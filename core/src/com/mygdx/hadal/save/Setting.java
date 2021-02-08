@@ -168,7 +168,7 @@ public class Setting {
 		verboseDeathMessage = true;
 		multiplayerPause = false;
 		exportChatLog = false;
-		enableUPNP = false;
+		enableUPNP = true;
 	}
 
 	/**

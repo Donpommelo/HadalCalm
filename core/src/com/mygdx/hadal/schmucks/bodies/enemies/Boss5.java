@@ -1,5 +1,8 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.HadalColor;
@@ -47,8 +50,18 @@ public class Boss5 extends EnemyFloating {
 	private int phase = 1;
 	private static final float phaseThreshold2 = 0.0f;
 
+	private final Animation<TextureRegion> coreSprite, bodySprite;
+	private final TextureRegion crownSprite;
+	private static final float crownWidth = 89;
+	private static final float crownHeight = 84;
+	private static final float crownOffsetX = 0.0f;
+	private static final float crownOffsetY= 110.0f;
+
 	public Boss5(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS5, filter, hp, aiAttackCd, scrapDrop, spawner);
+		this.coreSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.NEPTUNE_KING_CORE.getFrames());
+		this.bodySprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.NEPTUNE_KING_BODY.getFrames());
+		this.crownSprite = Sprite.NEPTUNE_KING_CROWN.getFrame();
 	}
 
 	@Override
@@ -56,7 +69,27 @@ public class Boss5 extends EnemyFloating {
 		super.create();
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
 	}
-	
+
+	private final Vector2 entityLocation = new Vector2();
+	@Override
+	public void render(SpriteBatch batch) {
+		entityLocation.set(getPixelPosition());
+		batch.draw(coreSprite.getKeyFrame(animationTime, true),
+			entityLocation.x - size.x / 2,entityLocation.y - size.y / 2,
+			size.x / 2, size.y / 2,
+			size.x, size.y, 1, 1, 0);
+
+		batch.draw(bodySprite.getKeyFrame(animationTime, true),
+			entityLocation.x - size.x / 2,entityLocation.y - size.y / 2,
+			size.x / 2, size.y / 2,
+			size.x, size.y, 1, 1, 0);
+
+		batch.draw(crownSprite,
+			entityLocation.x - crownWidth / 2 + crownOffsetX,entityLocation.y - crownHeight / 2 + crownOffsetY,
+			crownWidth / 2, crownHeight / 2,
+			crownWidth, crownHeight, 1, 1, 0);
+	}
+
 	@Override
 	public void multiplayerScaling(int numPlayers) {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 1400 * numPlayers, getBodyData()));
@@ -461,9 +494,9 @@ public class Boss5 extends EnemyFloating {
 		}
 	}
 
-	private static final float scytheWindup = 1.0f;
+	private static final float scytheWindup = 0.5f;
 	private static final float scytheCooldown = 2.5f;
-	private static final float scytheLifespan = 2.5f;
+	private static final float scytheLifespan = 3.0f;
 	private static final float scytheDamage = 6.0f;
 	private static final float scytheKB = 2.5f;
 	private static final float scytheSpinSpeed = 0.5f;
@@ -504,25 +537,30 @@ public class Boss5 extends EnemyFloating {
 				scythe.addStrategy(new CreateSound(state, scythe, getBodyData(), SoundEffect.WOOSH, 0.4f, true).setPitch(0.6f));
 				scythe.addStrategy(new HitboxStrategy(state, scythe, getBodyData()) {
 
-					private float controllerCount, pulseCount;
+					private float delayCount, controllerCount, pulseCount;
 					private float timer;
 					private float angle;
+					private static final float delay = 0.5f;
 					private static final float pushInterval = 1 / 60f;
 					private static final float pulseInterval = 0.06f;
 					private final Vector2 offset = new Vector2();
 					private final Vector2 centerPos = new Vector2();
 					@Override
 					public void controller(float delta) {
+
+						if (delayCount < delay) {
+							delayCount += delta;
+						} else {
+							pulseCount += delta;
+							timer += delta;
+						}
 						controllerCount += delta;
-						pulseCount += delta;
-						timer += delta;
 						while (controllerCount >= pushInterval) {
 							controllerCount -= pushInterval;
 							angle += scytheSpinSpeed;
 							if (getBody() != null && isAlive()) {
 								offset.set(0, (float) (scytheAmplitude * Math.sin(timer * scytheFrequency)))
 									.setAngleDeg((float) (startAngle + scytheSpread * Math.sin(timer * scytheAngleFrequency)));
-
 								centerPos.set(enemy.getPosition()).add(offset);
 								hbox.setTransform(centerPos, angle);
 							} else {
