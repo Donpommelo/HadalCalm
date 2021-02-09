@@ -22,9 +22,9 @@ public class DesktopLauncher {
 
 		config.setResizable(true);
 
-//		// These two lines were edited because without settings like this, Vsync gets applied twice, slowing things way down.
-//		config.useVsync(false);
-//		config.setForegroundFPS(60);
+		// These two lines were edited because without settings like this, Vsync gets applied twice, slowing things way down.
+		config.useVsync(false);
+		config.setForegroundFPS(60);
 //
 //		//this lets us decide whether to iconify or not dynamically in the settings menu
 //		final boolean[] autoIconify = {true};

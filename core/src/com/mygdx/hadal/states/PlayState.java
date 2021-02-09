@@ -1178,16 +1178,19 @@ public class PlayState extends GameState {
 		for (User user : HadalGame.server.getUsers().values()) {
 			SavedPlayerFields score = user.getScores();
 			Player resultsPlayer = user.getPlayer();
-			Loadout loadoutTemp = resultsPlayer.getPlayerData().getLoadout();
 
-			//save the user's loadout to be visible in the results screen
-			for (int i = (int) (Loadout.baseWeaponSlots + resultsPlayer.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i < Loadout.maxWeaponSlots ; i++) {
-				loadoutTemp.multitools[i] = UnlockEquip.NOTHING;
+			if (resultsPlayer != null) {
+				Loadout loadoutTemp = resultsPlayer.getPlayerData().getLoadout();
+
+				//save the user's loadout to be visible in the results screen
+				for (int i = (int) (Loadout.baseWeaponSlots + resultsPlayer.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i < Loadout.maxWeaponSlots ; i++) {
+					loadoutTemp.multitools[i] = UnlockEquip.NOTHING;
+				}
+				user.getScoresExtra().setLoadout(loadoutTemp);
+
 			}
 
-			user.getScoresExtra().setLoadout(loadoutTemp);
 			SavedPlayerFieldsExtra scoreExtra = user.getScoresExtra();
-
 			users[userIndex] = new UserDto(score, scoreExtra, user.isSpectator());
 			userIndex++;
 		}
