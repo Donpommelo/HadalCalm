@@ -21,9 +21,10 @@ allprojects {
         gdxVersion = '1.9.14'
         roboVMVersion = '2.3.8'
         pieMenuVersion = '5.0.0'
-        kryonetVersion = '2.22.6'
+        kryonetVersion = '2.22.7'
         steamworks4jVersion = '1.8.0'
         weupnpVersion = '0.1.4'
+        socketioVersion = '2.0.0'
     }
 
     repositories {
@@ -58,6 +59,7 @@ project(":core") {
         compile "com.code-disaster.steamworks4j:steamworks4j:$steamworks4jVersion"
         compile "com.code-disaster.steamworks4j:steamworks4j-server:$steamworks4jVersion"
         compile "org.bitlet:weupnp:$weupnpVersion"
+        compile "io.socket:socket.io-client:$socketioVersion"
     }
 }
 

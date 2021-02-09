@@ -1,10 +1,8 @@
 package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -120,9 +118,7 @@ public class TitleState extends GameState {
 	//This boolean determines if input is disabled. input is disabled if the player joins/hosts.
 	private boolean inputDisabled;
 
-	private final TextureRegion gabenTexture;
-
-	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/215381/104c";
+	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/220577/104d";
 
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -137,8 +133,6 @@ public class TitleState extends GameState {
 		this.diatom3.setPosition(diatom3X, diatom3Y);
 		this.jelly = Particle.JELLY.getParticle();
 		this.jelly.setPosition(jelly1X, jelly1Y);
-
-		gabenTexture = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.GABEN.toString()));
 	}
 	
 	@Override
@@ -245,8 +239,8 @@ public class TitleState extends GameState {
 						if (gsm.getSetting().isEnableUPNP()) {
 							new Thread(() -> {
 								try {
-									upnp("TCP", "hadal-upnp-tcp");
-									upnp("UDP", "hadal-upnp-udp");
+									upnp("TCP", "hadal-upnp-tcp", gsm.getSetting().getPortNumber());
+									upnp("UDP", "hadal-upnp-udp", gsm.getSetting().getPortNumber());
 								} catch (ParserConfigurationException | SAXException | IOException parserConfigurationException) {
 									parserConfigurationException.printStackTrace();
 								}
@@ -318,7 +312,7 @@ public class TitleState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						
 						//Enter the About State.
-						transitionOut(() -> getGsm().addState(State.ABOUT, me));
+						transitionOut(() -> getGsm().addState(State.LOBBY, me));
 			        }
 			    });
 				
@@ -437,34 +431,6 @@ public class TitleState extends GameState {
 					}
 				});
 
-//				Backdrop gaben = new Backdrop(AssetList.GABEN.toString(), 175, 200) {
-//
-//					@Override
-//					public void draw(Batch batch, float alpha) {
-//						batch.draw(gabenTexture, getX(), getY(), getWidth() / 2.0f, getHeight() / 2.0f,
-//							getWidth(), getHeight(), 1, 1, getRotation());
-//					}
-//
-//				};
-//				gaben.addAction((Actions.repeat(RepeatAction.FOREVER, Actions.rotateBy(360, 1.5f))));
-//				gaben.setPosition(850, 180);
-//				gaben.setOrigin(175 / 2.0f, 200 / 2.0f);
-//
-//				gaben.addListener(new ClickListener() {
-//
-//					@Override
-//					public void clicked(InputEvent e, float x, float y) {
-//
-//						if (inputDisabled) { return; }
-//						inputDisabled = true;
-//
-//						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-//						transitionOut(() -> getGsm().addState(State.LOBBY, me));
-//					}
-//				});
-//
-//				addActor(gaben);
-
 				enterName = new TextField(gsm.getLoadout().getName(), GameStateManager.getSkin());
 				enterName.setMaxLength(SavedLoadout.maxNameLength);
 				enterName.setMessageText("ENTER NAME");
@@ -557,14 +523,12 @@ public class TitleState extends GameState {
 		tablePassword.add(cancel);
 	}
 
-	private void upnp(String protocol, String descr) throws ParserConfigurationException, SAXException, IOException {
+	public static void upnp(String protocol, String descr, int port) throws ParserConfigurationException, SAXException, IOException {
 		GatewayDiscover discover = new GatewayDiscover();
 		discover.discover();
 		GatewayDevice d = discover.getValidGateway();
 		if (d != null) {
 			InetAddress localAddress = d.getLocalAddress();
-
-			int port = gsm.getSetting().getPortNumber();
 
 			PortMappingEntry portMapping = new PortMappingEntry();
 			d.deletePortMapping(port, protocol);

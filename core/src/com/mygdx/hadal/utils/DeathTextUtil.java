@@ -40,7 +40,7 @@ public class DeathTextUtil {
 
 		//in the case or suicide or death to an enemy, obtain valid messages.
 		//set 'namedPerp' to only search for messages that specify a victim and a perpetrator.
-		if (perp != null) {
+		if (perp != null && vic != null) {
 			if (perp.getConnID() == vic.getConnID()) {
 				possibleMessages.addAll(getValidMessages("SUICIDE", false));
 			} else {

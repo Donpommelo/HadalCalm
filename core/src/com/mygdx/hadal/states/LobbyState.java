@@ -16,8 +16,18 @@ import com.mygdx.hadal.actors.WindowTable;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Map;
 
 public class LobbyState extends GameState {
@@ -127,7 +137,9 @@ public class LobbyState extends GameState {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
                         SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-                        gsm.getApp().getLobbyManager().requestLobbyList(10, me);
+                        //gsm.getApp().getLobbyManager().requestLobbyList(10, me);
+
+                        retrieveLobbies();
                     }
                 });
                 searchOption.setScale(optionsScale);
@@ -191,20 +203,45 @@ public class LobbyState extends GameState {
 
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
+
+                        if (inputDisabled) { return; }
+                        inputDisabled = true;
+
+                        if (gsm.getSetting().isEnableUPNP()) {
+                            try {
+                                TitleState.upnp("TCP", "TEST", 8080);
+                            } catch (ParserConfigurationException parserConfigurationException) {
+                                parserConfigurationException.printStackTrace();
+                            } catch (SAXException saxException) {
+                                saxException.printStackTrace();
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+                        }
+
+                        JSONObject lobbyData = new JSONObject();
+                        try {
+                            lobbyData.put("ip", getPublicIp());
+                            lobbyData.put("name", "TEST");
+                        } catch (JSONException jsonException) {
+                            Gdx.app.log("LOBBY", "FAILED TO CREATE LOBBY " + jsonException);
+                        }
+
+                        if (socket == null) {
+                            connectSocket();
+                            configSocketEvents();
+                        }
+                        socket.emit("makeLobby", lobbyData.toString());
+
                         SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 
-                        if (gsm.getApp().getLobbyManager().connectedToSteam) {
-                            gsm.getApp().getLobbyManager().createLobby(5, me);
-                        } else {
-                            notifications.setText("NOT CONNECTED TO STEAM");
+                        //Start up the server in multiplayer mode
+                        HadalGame.server.init(true);
+                        GameStateManager.currentMode = GameStateManager.Mode.MULTI;
 
-                            HadalGame.server.init(true);
-                            GameStateManager.currentMode = GameStateManager.Mode.MULTI;
-
-                            //Enter the Hub State.
-                            gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState(LobbyState.class));
-                            gsm.getApp().fadeOut();
-                        }
+                        //Enter the Hub State.
+                        gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState(LobbyState.class));
+                        gsm.getApp().fadeOut();
                     }
                 });
                 hostOption.setScale(optionsScale);
@@ -247,6 +284,77 @@ public class LobbyState extends GameState {
 
         inputDisabled = true;
         transitionIn(() -> inputDisabled = false);
+    }
+
+    private Socket socket;
+    private final static String serverIP = "http://localhost:8080";
+    public void connectSocket() {
+        try {
+            socket = IO.socket(serverIP);
+            socket.connect();
+        } catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void configSocketEvents() {
+        if (socket == null) return;
+
+        socket.on(Socket.EVENT_CONNECT, args -> {
+            System.out.println("CONNECTED");
+            Gdx.app.log("LOBBY", "CONNECTED");
+        }).on("handshake", args -> {
+            Gdx.app.log("LOBBY", "HANDSHAKE RECEIVED");
+        }).on("receiveLobbies", args -> {
+            Gdx.app.log("LOBBY", "LOBBIES RECEIVED " + args[0]);
+
+            JSONArray lobbies = (JSONArray) args[0];
+            updateLobbies(lobbies);
+        });
+    }
+
+    public void retrieveLobbies() {
+        if (socket == null) {
+            connectSocket();
+            configSocketEvents();
+        }
+        socket.emit("getLobbies");
+    }
+
+    public void updateLobbies(JSONArray lobbies) {
+        try {
+            tableOptions.clear();
+            for (int i = 0; i < lobbies.length(); i++) {
+                String lobbyName = lobbies.getJSONObject(i).getString("name");
+                String lobbyIP = lobbies.getJSONObject(i).getString("ip");
+
+                Text lobbyOption = new Text(lobbyName + " ", 0, 0, false);
+                lobbyOption.addListener(new ClickListener() {
+
+                    @Override
+                    public void clicked(InputEvent e, float x, float y) {
+                        SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+                        setNotification("JOINED LOBBY");
+
+                        HadalGame.client.init();
+                        GameStateManager.currentMode = GameStateManager.Mode.MULTI;
+                        Gdx.app.postRunnable(() -> {
+
+                            //Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
+                            try {
+                                HadalGame.client.getClient().connect(5000, String.valueOf(lobbyIP),
+                                    gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
+                            } catch (IOException ex) {
+                                setNotification("FAILED TO CONNECT TO SERVER: " + ex);
+                            }
+                        });
+                    }
+                });
+                tableOptions.add(lobbyOption).row();
+            }
+        } catch (JSONException e) {
+            Gdx.app.log("LOBBY", "FAILED TO PARSE LOBBY LIST: " + e);
+        }
     }
 
     public void updateLobbies(Map<Long, SteamID> lobbies) {
@@ -360,5 +468,26 @@ public class LobbyState extends GameState {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    public static String getPublicIp() {
+        BufferedReader in = null;
+        try {
+            URL whatismyip = new URL("http://checkip.amazonaws.com");
+            in = new BufferedReader(new InputStreamReader(
+                whatismyip.openStream()));
+            return in.readLine();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e2) {
+                    e2.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 }

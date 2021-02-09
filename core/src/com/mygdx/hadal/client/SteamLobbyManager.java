@@ -6,10 +6,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.LobbyState;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -129,7 +126,7 @@ public class SteamLobbyManager {
 
                 lobbies.put(getNativeHandle(steamIDLobby), steamIDLobby);
                 matchmaking.setLobbyData(steamIDLobby, LobbyDataKey, LobbyDataValue);
-                matchmaking.setLobbyData(steamIDLobby, LobbyIpKey, getPublicIp());
+                matchmaking.setLobbyData(steamIDLobby, LobbyIpKey, LobbyState.getPublicIp());
                 matchmaking.setLobbyGameServer(steamIDLobby, 0, (short) gsm.getSetting().getPortNumber(), steamIDLobby);
 
             } else {
@@ -208,26 +205,5 @@ public class SteamLobbyManager {
             callbackAccumulator -= callbackTime;
             SteamAPI.runCallbacks();
         }
-    }
-
-    public static String getPublicIp() {
-        BufferedReader in = null;
-        try {
-            URL whatismyip = new URL("http://checkip.amazonaws.com");
-            in = new BufferedReader(new InputStreamReader(
-                whatismyip.openStream()));
-            return in.readLine();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e2) {
-                    e2.printStackTrace();
-                }
-            }
-        }
-        return null;
     }
 }
