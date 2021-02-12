@@ -35,7 +35,7 @@ public class MusicIcon extends AHadalActor {
 
 	public MusicIcon(MusicTrack track) {
 
-		text = track.toString();
+		text = track.getMusicName();
 		font = HadalGame.SYSTEM_FONT_UI;
 
 		font.getData().setScale(scale);

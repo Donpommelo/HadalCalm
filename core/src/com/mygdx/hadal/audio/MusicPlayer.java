@@ -101,8 +101,8 @@ public class MusicPlayer {
 
 	private static final MusicTrack[] titleTracks = {MusicTrack.TITLE};
 	private static final MusicTrack[] hubTracks = {MusicTrack.HUB, MusicTrack.HUB_V2, MusicTrack.HUB_V3};
-	private static final MusicTrack[] matchTracks = {MusicTrack.AURAL_FIXATION, MusicTrack.CONFIDENCE, MusicTrack.FIGHT1,
-		MusicTrack.SURRENDER, MusicTrack.WHIPLASH, MusicTrack.ORGAN_GRINDER};
+	private static final MusicTrack[] matchTracks = {MusicTrack.AURAL_FIXATION, MusicTrack.CONFIDENCE, MusicTrack.RED_EYE,
+		MusicTrack.SLEEPING_COGS, MusicTrack.SURRENDER, MusicTrack.WHIPLASH, MusicTrack.ORGAN_GRINDER};
 
 	public MusicTrack playSong(MusicState type, float volume) {
 

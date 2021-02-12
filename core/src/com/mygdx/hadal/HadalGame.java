@@ -14,10 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.client.KryoClient;
-import com.mygdx.hadal.client.SteamLobbyManager;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.server.KryoServer;
+import io.socket.client.Socket;
 import org.bitlet.weupnp.GatewayDevice;
 import org.bitlet.weupnp.GatewayDiscover;
 import org.bitlet.weupnp.PortMappingEntry;
@@ -59,8 +59,10 @@ public class HadalGame extends ApplicationAdapter {
     //Client and server for networking are static fields in the main game
     public static KryoClient client;
     public static KryoServer server;
-    
-    public static BitmapFont SYSTEM_FONT_UI, SYSTEM_FONT_UI_SMALL, SYSTEM_FONT_SPRITE;
+    //socket is used to connect to matchmaking server
+	public static Socket socket;
+
+	public static BitmapFont SYSTEM_FONT_UI, SYSTEM_FONT_UI_SMALL, SYSTEM_FONT_SPRITE;
     public static Color DEFAULT_TEXT_COLOR;
  
 	//currentMenu is whatever stage is being drawn in the current gameState
@@ -85,8 +87,6 @@ public class HadalGame extends ApplicationAdapter {
   	//this is a black texture used for fading in/out transitions.
     private Texture black;
 
-    private SteamLobbyManager lobbyManager;
-    
 	/**
 	 * This creates a game, setting up the sprite batch to render things and the main game camera.
 	 * This also initializes the Gamestate Manager.
@@ -110,13 +110,6 @@ public class HadalGame extends ApplicationAdapter {
 			upnp("TCP", "hadal-upnp-tcp", gsm.getSetting().getPortNumber());
 			upnp("UDP", "hadal-upnp-udp", gsm.getSetting().getPortNumber());
 		}
-
-//		lobbyManager = new SteamLobbyManager(gsm);
-//		try {
-//			lobbyManager.initializeLobbyManager();
-//		} catch (SteamException e) {
-//			e.printStackTrace();
-//		}
 
 		client = new KryoClient(gsm);
 		server = new KryoServer(gsm);
@@ -194,8 +187,6 @@ public class HadalGame extends ApplicationAdapter {
 		
 		//music player controller is used for fading tracks
 		musicPlayer.controller(delta);
-
-//		lobbyManager.controller(delta);
 	}
 	
 	/**
@@ -241,8 +232,6 @@ public class HadalGame extends ApplicationAdapter {
 		if (SYSTEM_FONT_SPRITE != null) {
 			SYSTEM_FONT_SPRITE.dispose();
 		}
-
-//		lobbyManager.disposeLobbyManager();
 
 		//this prevents an error upon x-ing out the game
 		System.exit(0);
@@ -307,6 +296,4 @@ public class HadalGame extends ApplicationAdapter {
 	public OrthographicCamera getCamera() { return camera; }
 
 	public SpriteBatch getBatch() { return batch; }
-
-	public SteamLobbyManager getLobbyManager() { return lobbyManager; }
 }

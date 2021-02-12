@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.codedisaster.steamworks.SteamID;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.WindowTable;
@@ -28,7 +27,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Map;
 
 public class LobbyState extends GameState {
 
@@ -248,16 +246,18 @@ public class LobbyState extends GameState {
 
                         setNotification("SERVER HOSTED");
 
-                        JSONObject lobbyData = new JSONObject();
-                        try {
-                            lobbyData.put("ip", getPublicIp());
-                            lobbyData.put("name", enterName.getText());
-                        } catch (JSONException jsonException) {
-                            Gdx.app.log("LOBBY", "FAILED TO CREATE LOBBY " + jsonException);
-                        }
+                        if (HadalGame.socket != null) {
+                            JSONObject lobbyData = new JSONObject();
+                            try {
+                                lobbyData.put("ip", getPublicIp());
+                                lobbyData.put("name", enterName.getText());
+                                lobbyData.put("playerNum", 1);
+                                lobbyData.put("playerCapacity", gsm.getSetting().getMaxPlayers() + 1);
+                            } catch (JSONException jsonException) {
+                                Gdx.app.log("LOBBY", "FAILED TO CREATE LOBBY " + jsonException);
+                            }
 
-                        if (socket != null) {
-                            socket.emit("makeLobby", lobbyData.toString());
+                            HadalGame.socket.emit("makeLobby", lobbyData.toString());
                         }
 
                         SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
@@ -312,12 +312,12 @@ public class LobbyState extends GameState {
         app.newMenu(stage);
         stage.setScrollFocus(options);
 
-        if (socket == null) {
+        if (HadalGame.socket == null) {
             connectSocket();
             configSocketEvents();
         }
 
-        socket.emit("end");
+        HadalGame.socket.emit("end");
         retrieveLobbies();
 
         if (gsm.getApp().getFadeLevel() >= 1.0f) {
@@ -328,14 +328,13 @@ public class LobbyState extends GameState {
         transitionIn(() -> inputDisabled = false);
     }
 
-    private Socket socket;
     private final static String serverIP = "http://151.213.181.107";
     private final static String serverPort = "8080";
     public void connectSocket() {
         try {
-            socket = IO.socket(serverIP + ":" + serverPort);
-            socket.connect();
-            if (!socket.connected()) {
+            HadalGame.socket = IO.socket(serverIP + ":" + serverPort);
+            HadalGame.socket.connect();
+            if (!HadalGame.socket.connected()) {
                 setNotification("COULD NOT FIND MATCHMAKING SERVER");
             }
         } catch (Exception e) {
@@ -344,9 +343,9 @@ public class LobbyState extends GameState {
     }
 
     public void configSocketEvents() {
-        if (socket == null) return;
+        if (HadalGame.socket == null) return;
 
-        socket.on(Socket.EVENT_CONNECT, args -> {
+        HadalGame.socket.on(Socket.EVENT_CONNECT, args -> {
             Gdx.app.log("LOBBY", "CONNECTED");
         }).on(Socket.EVENT_DISCONNECT, args -> {
             Gdx.app.log("LOBBY", "DISCONNECTED");
@@ -361,11 +360,11 @@ public class LobbyState extends GameState {
     }
 
     public void retrieveLobbies() {
-        if (socket == null) {
+        if (HadalGame.socket == null) {
             connectSocket();
             configSocketEvents();
         }
-        socket.emit("getLobbies");
+        HadalGame.socket.emit("getLobbies");
     }
 
     public void updateLobbies(JSONArray lobbies) {
@@ -374,17 +373,16 @@ public class LobbyState extends GameState {
             for (int i = 0; i < lobbies.length(); i++) {
                 String lobbyName = lobbies.getJSONObject(i).getString("name");
                 String lobbyIP = lobbies.getJSONObject(i).getString("ip");
+                int playerNum = lobbies.getJSONObject(i).getInt("playerNum");
+                int playerCapacity = lobbies.getJSONObject(i).getInt("playerCapacity");
 
-                Text lobbyOption = new Text(lobbyName + " ", 0, 0, true);
+                Text lobbyOption = new Text(lobbyName + " " + playerNum + " / " + playerCapacity, 0, 0, true);
                 lobbyOption.addListener(new ClickListener() {
 
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
                         SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
                         setNotification("JOINED LOBBY");
-
-                        //Save current name into records.
-                        gsm.getLoadout().setName(enterName.getText());
 
                         HadalGame.client.init();
                         GameStateManager.currentMode = GameStateManager.Mode.MULTI;
@@ -414,27 +412,6 @@ public class LobbyState extends GameState {
 
         } catch (JSONException e) {
             Gdx.app.log("LOBBY", "FAILED TO PARSE LOBBY LIST: " + e);
-        }
-    }
-
-    public void updateLobbies(Map<Long, SteamID> lobbies) {
-        setNotification("Lobbies Retrieved");
-
-        tableOptions.clear();
-
-        final LobbyState me = this;
-
-        for (Map.Entry<Long, SteamID> lobby : lobbies.entrySet()) {
-            Text lobbyOption = new Text(Long.toHexString(lobby.getKey()) + " ", 0, 0, true);
-            lobbyOption.addListener(new ClickListener() {
-
-                @Override
-                public void clicked(InputEvent e, float x, float y) {
-                    SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-                    gsm.getApp().getLobbyManager().joinLobby(lobby.getKey(), me);
-                }
-            });
-            tableOptions.add(lobbyOption).row();
         }
     }
 
@@ -540,8 +517,8 @@ public class LobbyState extends GameState {
     public void dispose() {
         stage.dispose();
 
-        if (socket != null) {
-            socket.disconnect();
+        if (HadalGame.socket != null) {
+            HadalGame.socket.disconnect();
         }
     }
 
@@ -555,9 +532,9 @@ public class LobbyState extends GameState {
         BufferedReader in = null;
         try {
             URL whatismyip = new URL("http://checkip.amazonaws.com");
-            in = new BufferedReader(new InputStreamReader(
-                whatismyip.openStream()));
-            return in.readLine();
+            in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+            HadalGame.myIp = in.readLine();
+            return HadalGame.myIp;
         } catch (IOException ioException) {
             ioException.printStackTrace();
         } finally {

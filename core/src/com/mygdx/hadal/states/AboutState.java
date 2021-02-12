@@ -230,7 +230,7 @@ public class AboutState extends GameState {
 
 		//show list of available songs
 		for (MusicTrack track: MusicTrack.values()) {
-			Text trackListen = new Text("PLAY: " + track.toString(), 0, 0, true);
+			Text trackListen = new Text("PLAY: " + track.getMusicName(), 0, 0, true);
 
 			trackListen.addListener(new ClickListener() {
 

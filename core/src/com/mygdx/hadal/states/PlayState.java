@@ -46,6 +46,8 @@ import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.TiledObjectUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.*;
 
@@ -378,9 +380,10 @@ public class PlayState extends GameState {
 	public static final float syncFastTime = 1 / 60f;
 	public static final float syncInterpolation = 0.125f;
 	
-	protected float scoreSyncAccumulator;
-	protected static final float ScoreSyncTime = 1.0f;
-	
+	protected float scoreSyncAccumulator, lobbySyncAccumulator;
+	protected static final float scoreSyncTime = 1.0f;
+	protected static final float lobbySyncTime = 15.0f;
+
 	private float timer;
 	/**
 	 * Every engine tick, the GameState must process all entities in it according to the time elapsed.
@@ -456,7 +459,7 @@ public class PlayState extends GameState {
 		
 		//send periodic sync packets for score
 		scoreSyncAccumulator += delta;
-		if (scoreSyncAccumulator >= ScoreSyncTime) {
+		if (scoreSyncAccumulator >= scoreSyncTime) {
 			scoreSyncAccumulator = 0;
 			boolean changeMade = false;
 			for (User user : HadalGame.server.getUsers().values()) {
@@ -470,6 +473,23 @@ public class PlayState extends GameState {
 			}
 			if (changeMade) {
 				scoreWindow.syncScoreTable();
+			}
+		}
+
+		//send server info to matchmaking server
+		lobbySyncAccumulator += delta;
+		if (lobbySyncAccumulator >= lobbySyncTime) {
+			lobbySyncAccumulator = 0;
+			if (HadalGame.socket != null) {
+				JSONObject lobbyData = new JSONObject();
+				try {
+					lobbyData.put("playerNum", HadalGame.server.getNumPlayers());
+					lobbyData.put("playerCapacity", gsm.getSetting().getMaxPlayers() + 1);
+				} catch (JSONException jsonException) {
+					Gdx.app.log("LOBBY", "FAILED TO SEND LOBBY INFO " + jsonException);
+				}
+
+				HadalGame.socket.emit("updateLobby", lobbyData.toString());
 			}
 		}
 	}

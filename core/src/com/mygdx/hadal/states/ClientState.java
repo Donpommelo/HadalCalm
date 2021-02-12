@@ -205,7 +205,7 @@ public class ClientState extends PlayState {
 
 		//periodically update score window if scores have been updated
 		scoreSyncAccumulator += delta;
-		if (scoreSyncAccumulator >= ScoreSyncTime) {
+		if (scoreSyncAccumulator >= scoreSyncTime) {
 			scoreSyncAccumulator = 0;
 			boolean changeMade = false;
 			for (User user : HadalGame.client.getUsers().values()) {

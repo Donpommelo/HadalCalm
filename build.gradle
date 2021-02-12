@@ -18,11 +18,10 @@ allprojects {
     version = '1.0'
     ext {
         appName = "HadalGame"
-        gdxVersion = '1.9.14'
+        gdxVersion = '1.9.13'
         roboVMVersion = '2.3.8'
         pieMenuVersion = '5.0.0'
         kryonetVersion = '2.22.7'
-        steamworks4jVersion = '1.8.0'
         weupnpVersion = '0.1.4'
         socketioVersion = '2.0.0'
     }
@@ -56,8 +55,6 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.github.crykn:kryonet:$kryonetVersion"
         compile "com.github.payne911:PieMenu:$pieMenuVersion"
-        compile "com.code-disaster.steamworks4j:steamworks4j:$steamworks4jVersion"
-        compile "com.code-disaster.steamworks4j:steamworks4j-server:$steamworks4jVersion"
         compile "org.bitlet:weupnp:$weupnpVersion"
         compile "io.socket:socket.io-client:$socketioVersion"
     }
