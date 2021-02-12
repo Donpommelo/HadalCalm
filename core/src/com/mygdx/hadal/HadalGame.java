@@ -18,6 +18,14 @@ import com.mygdx.hadal.client.SteamLobbyManager;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.server.KryoServer;
+import org.bitlet.weupnp.GatewayDevice;
+import org.bitlet.weupnp.GatewayDiscover;
+import org.bitlet.weupnp.PortMappingEntry;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.net.InetAddress;
 
 /**
  * HadalGame is the game. This is created upon launching the game. It delegates the rendering + updating logic to the GameStateManager.
@@ -96,6 +104,12 @@ public class HadalGame extends ApplicationAdapter {
 
 		gsm = new GameStateManager(this);
 		gsm.addState(State.SPLASH, null);
+
+		//enable upnp
+		if (gsm.getSetting().isEnableUPNP()) {
+			upnp("TCP", "hadal-upnp-tcp", gsm.getSetting().getPortNumber());
+			upnp("UDP", "hadal-upnp-udp", gsm.getSetting().getPortNumber());
+		}
 
 //		lobbyManager = new SteamLobbyManager(gsm);
 //		try {
@@ -232,8 +246,38 @@ public class HadalGame extends ApplicationAdapter {
 
 		//this prevents an error upon x-ing out the game
 		System.exit(0);
-	}	
-	
+	}
+
+	//this is the player's external ip that other clients will connect to
+	public static String myIp;
+	private static void upnp(String protocol, String descr, int port) {
+		new Thread(() -> {
+			try {
+				GatewayDiscover discover = new GatewayDiscover();
+				discover.discover();
+				GatewayDevice d = discover.getValidGateway();
+				if (d != null) {
+					InetAddress localAddress = d.getLocalAddress();
+					myIp = d.getExternalIPAddress();
+
+					PortMappingEntry portMapping = new PortMappingEntry();
+					d.deletePortMapping(port, protocol);
+					if (!d.getSpecificPortMappingEntry(port, protocol, portMapping)) {
+						if (!d.addPortMapping(port, port, localAddress.getHostAddress(), protocol, descr)) {
+							Gdx.app.log("UPNP", "FAILED TO MAP PORT");
+						} else {
+							Gdx.app.log("UPNP", "SUCCESSFULLY MAPPED");
+						}
+					} else {
+						Gdx.app.log("UPNP", "ALREADY MAPPED");
+					}
+				}
+			} catch (ParserConfigurationException | SAXException | IOException parserConfigurationException) {
+				Gdx.app.log("UPNP", "ERROR WHEN MAPPING uPnP PORT");
+			}
+		}).start();
+	}
+
 	/**
 	 * This makes the game fade at a specific speed. Can be positive or negative to fade out or in
 	 */

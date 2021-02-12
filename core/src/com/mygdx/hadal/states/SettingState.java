@@ -274,8 +274,16 @@ public class SettingState extends GameState {
 		inputMultiplexer.addProcessor(Gdx.input.getInputProcessor());
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		
-		//start off with display selected
-		displaySelected();
+		//start off with display selected unless this menu is called from lobby
+		if (gsm.getStates().size() > 1) {
+			if (gsm.getStates().get(gsm.getStates().size() - 2) instanceof LobbyState) {
+				serverSelected();
+			} else {
+				displaySelected();
+			}
+		} else {
+			displaySelected();
+		}
 	}
 	
 	/**
@@ -698,7 +706,7 @@ public class SettingState extends GameState {
 		exportChatLog = new CheckBox("Export Chat Logs on Exit?", GameStateManager.getSkin());
 		exportChatLog.setChecked(gsm.getSetting().isExportChatLog());
 
-		enableUPNP = new CheckBox("Enable Universal Plug-and-Play?", GameStateManager.getSkin());
+		enableUPNP = new CheckBox("Enable uPnP? (Requires Restart)", GameStateManager.getSkin());
 		enableUPNP.setChecked(gsm.getSetting().isEnableUPNP());
 
 		details.add(coopTimer);

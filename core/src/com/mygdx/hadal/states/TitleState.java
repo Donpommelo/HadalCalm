@@ -23,16 +23,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.SavedLoadout;
-import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.utils.NameGenerator;
-import org.bitlet.weupnp.GatewayDevice;
-import org.bitlet.weupnp.GatewayDiscover;
-import org.bitlet.weupnp.PortMappingEntry;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.InetAddress;
 
 /**
  * The TitleState is created upon initializing the game and will display an image.
@@ -42,7 +33,7 @@ import java.net.InetAddress;
 public class TitleState extends GameState {
 
 	//This table contains the option windows for the title.
-	private Table tableName, tableMain, tableIP, tablePassword;
+	private Table tableName, tableMain;
 
 	//this is the image backdrop of the title state
 	private Backdrop backdrop;
@@ -50,8 +41,8 @@ public class TitleState extends GameState {
 	//These are all of the display and buttons visible to the player.
 	private Text notifications;
 
-	//Textfields for the player to enter an ip to connect to or change their name
-	private TextField enterName, enterIP, enterPassword;
+	//Textfields for the player to change their name
+	private TextField enterName;
 
 	//ambient particle effects
 	private final PooledEffect jelly, diatom1, diatom2, diatom3;
@@ -72,21 +63,14 @@ public class TitleState extends GameState {
 	private static final int height = 240;
 
 	private static final int nameX = 40;
-	private static final int nameY = -100;
+	private static final int nameY = -240;
 	private static final int nameXEnabled = 40;
-	private static final int nameYEnabled = 180;
+	private static final int nameYEnabled = 40;
 	private static final int nameWidth = 460;
-	private static final int nameHeight = 100;
-
-	private static final int ipX = 40;
-	private static final int ipY = -240;
-	private static final int ipXEnabled = 40;
-	private static final int ipYEnabled = 40;
-	private static final int ipWidth = 460;
-	private static final int ipHeight = 100;
+	private static final int nameHeight = 120;
 
 	private static final int notificationX = 40;
-	private static final int notificationY = 300;
+	private static final int notificationY = 180;
 	
 	private static final int versionNumX = 1060;
 	private static final int versionNumY = 40;
@@ -97,11 +81,6 @@ public class TitleState extends GameState {
 	private static final float scaleSide = 0.25f;
 	private static final float optionHeight = 35.0f;
 	private static final float mainOptionHeight = 40.0f;
-
-	private static final int passwordX = 440;
-	private static final int passwordY = 320;
-	private static final int passwordWidth = 400;
-	private static final int passwordHeight = 100;
 
 	private static final int jelly1X = 640;
 	private static final int jelly1Y = 300;
@@ -169,11 +148,6 @@ public class TitleState extends GameState {
 				tableMain.setSize(width, height);
 				addActor(tableMain);
 
-				tableIP = new WindowTable();
-				tableIP.setPosition(ipX, ipY);
-				tableIP.setSize(ipWidth, ipHeight);
-				addActor(tableIP);
-
 				tableName = new WindowTable();
 				tableName.setPosition(nameX, nameY);
 				tableName.setSize(nameWidth, nameHeight);
@@ -185,19 +159,10 @@ public class TitleState extends GameState {
 				Text nameRand = new Text("GENERATE RANDOM NAME", 0, 0, true);
 				nameRand.setScale(scaleSide);
 
-				Text ipDisplay = new Text("ENTER IP: ", 0, 0, false);
-				ipDisplay.setScale(scaleSide);
+				Text multiOption = new Text("MULTIPLAYER", 0, 0, true);
+				multiOption.setScale(scale);
 
-				Text joinOption = new Text("JOIN SERVER", 0, 0, true);
-				joinOption.setScale(scaleSide);
-
-				Text searchOption = new Text("SEARCH FOR NEARBY SERVERS", 0, 0, true);
-				searchOption.setScale(scaleSide);
-
-				Text hostOption = new Text("HOST SERVER", 0, 0, true);
-				hostOption.setScale(scale);
-
-				Text singleOption = new Text("SINGLE PLAYER", 0, 0, true);
+				Text singleOption = new Text("SINGLEPLAYER", 0, 0, true);
 				singleOption.setScale(scale);
 
 				Text settingsOption = new Text("OPTIONS", 0, 0, true);
@@ -225,38 +190,21 @@ public class TitleState extends GameState {
 					}
 				});
 
-				hostOption.addListener(new ClickListener() {
+				multiOption.addListener(new ClickListener() {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						
+
 						if (inputDisabled) { return; }
 						inputDisabled = true;
-						
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 
-						//enable upnp
-						if (gsm.getSetting().isEnableUPNP()) {
-							new Thread(() -> {
-								try {
-									upnp("TCP", "hadal-upnp-tcp", gsm.getSetting().getPortNumber());
-									upnp("UDP", "hadal-upnp-udp", gsm.getSetting().getPortNumber());
-								} catch (ParserConfigurationException | SAXException | IOException parserConfigurationException) {
-									parserConfigurationException.printStackTrace();
-								}
-							}).start();
-						}
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 
 						//Save current name into records.
 						gsm.getLoadout().setName(enterName.getText());
-						
-						//Start up the server in multiplayer mode
-						HadalGame.server.init(true);
-						GameStateManager.currentMode = Mode.MULTI;
-						
-						//Enter the Hub State.
-						gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState(TitleState.class));
-						gsm.getApp().fadeOut();
+
+						//Enter the Lobby State.
+						transitionOut(() -> getGsm().addState(State.LOBBY, me));
 					}
 				});
 				
@@ -312,7 +260,7 @@ public class TitleState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						
 						//Enter the About State.
-						transitionOut(() -> getGsm().addState(State.LOBBY, me));
+						transitionOut(() -> getGsm().addState(State.ABOUT, me));
 			        }
 			    });
 				
@@ -352,85 +300,6 @@ public class TitleState extends GameState {
 			         }
 		         });
 
-				enterIP = new TextField("", GameStateManager.getSkin());
-
-				//retrieve last joined ip if existent
-				if (gsm.getRecord().getLastIp().equals("")) {
-					enterIP.setMessageText("ENTER IP");
-				} else {
-					enterIP.setText(gsm.getRecord().getLastIp());
-				}
-
-				joinOption.addListener(new ClickListener() {
-
-					@Override
-					public void clicked(InputEvent e, float x, float y) {
-
-						if (inputDisabled) { return; }
-						inputDisabled = true;
-
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-
-						//Save current name into records.
-						gsm.getLoadout().setName(enterName.getText());
-
-						//Start up the Client
-						HadalGame.client.init();
-						GameStateManager.currentMode = GameStateManager.Mode.MULTI;
-
-						setNotification("SEARCHING FOR SERVER!");
-						//Attempt to connect to the chosen ip
-						Gdx.app.postRunnable(() -> {
-
-							//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
-							try {
-								//trim whitespace from ip
-								String trimmedIp = enterIP.getText().trim();
-
-								HadalGame.client.getClient().connect(8000, trimmedIp, gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
-
-								//save last joined ip if successful
-								gsm.getRecord().setlastIp(trimmedIp);
-
-								setNotification("CONNECTED TO SERVER: " + trimmedIp);
-							} catch (IOException ex) {
-								setNotification("FAILED TO CONNECT TO SERVER!");
-
-								//Let the player attempt to connect again after finishing
-								inputDisabled = false;
-							}
-						});
-					}
-				});
-
-				searchOption.addListener(new ClickListener() {
-
-					@Override
-					public void clicked(InputEvent e, float x, float y) {
-						if (inputDisabled) { return; }
-						inputDisabled = true;
-
-						setNotification("SEARCHING FOR SERVER...");
-
-						SoundEffect.UISWITCH2.play(gsm, 1.0f, false);
-
-						Gdx.app.postRunnable(() -> {
-							//Search network for nearby hosts
-							enterIP.setText(HadalGame.client.searchServer());
-
-							//Set notification according to result
-							if (enterIP.getText().equals("NO IP FOUND")) {
-								setNotification("SERVER NOT FOUND!");
-							} else {
-								setNotification("FOUND SERVER: " + enterIP.getText());
-							}
-
-							//Let the player attempt to connect again after finishing
-							inputDisabled = false;
-						});
-					}
-				});
-
 				enterName = new TextField(gsm.getLoadout().getName(), GameStateManager.getSkin());
 				enterName.setMaxLength(SavedLoadout.maxNameLength);
 				enterName.setMessageText("ENTER NAME");
@@ -440,15 +309,10 @@ public class TitleState extends GameState {
 				tableName.add(nameRand).height(optionHeight).colspan(2);
 				
 				tableMain.add(singleOption).height(mainOptionHeight).row();
-				tableMain.add(hostOption).height(mainOptionHeight).row();
+				tableMain.add(multiOption).height(mainOptionHeight).row();
 				tableMain.add(settingsOption).height(mainOptionHeight).row();
 				tableMain.add(aboutOption).height(mainOptionHeight).row();
 				tableMain.add(exitOption).height(mainOptionHeight).row();
-
-				tableIP.add(ipDisplay).height(optionHeight).pad(5);
-				tableIP.add(enterIP).width(textWidth).height(optionHeight).row();
-				tableIP.add(joinOption).height(optionHeight);
-				tableIP.add(searchOption).height(optionHeight);
 
 				addActor(notifications);
 				addActor(versionNum);
@@ -466,91 +330,12 @@ public class TitleState extends GameState {
 		transitionIn(() -> inputDisabled = false);
 	}
 
-	/**
-	 * When we connect to a password server, this is ran to bring up the password entering window
-	 */
-	public void openPasswordRequest() {
-		tablePassword = new WindowTable();
-		tablePassword.setPosition(passwordX, passwordY);
-		tablePassword.setSize(passwordWidth, passwordHeight);
-		stage.addActor(tablePassword);
-
-		Text password = new Text("PASSWORD: ", 0, 0, false);
-		password.setScale(scaleSide);
-		password.setHeight(optionHeight);
-
-		enterPassword = new TextField("", GameStateManager.getSkin());
-		enterPassword.setPasswordCharacter('*');
-		enterPassword.setPasswordMode(true);
-		enterPassword.setMessageText("PASSWORD");
-
-		Text connect = new Text("CONNECT", 0, 0, true);
-		connect.setScale(scaleSide);
-		connect.setHeight(optionHeight);
-
-		Text cancel = new Text("CANCEL", 0, 0, true);
-		cancel.setScale(scaleSide);
-		cancel.setHeight(optionHeight);
-
-		connect.addListener(new ClickListener() {
-
-			@Override
-			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
-				tablePassword.remove();
-				tablePassword.setVisible(true);
-
-				HadalGame.client.sendTCP(new Packets.PlayerConnect(true, enterName.getText(), HadalGame.Version, enterPassword.getText()));
-			}
-		});
-
-		cancel.addListener(new ClickListener() {
-
-			@Override
-			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
-				tablePassword.remove();
-				tablePassword.setVisible(false);
-
-				inputDisabled = false;
-				HadalGame.client.getClient().stop();
-			}
-		});
-
-		tablePassword.add(password).pad(5);
-		tablePassword.add(enterPassword).width(textWidth).height(optionHeight).row();
-		tablePassword.add(connect);
-		tablePassword.add(cancel);
-	}
-
-	public static void upnp(String protocol, String descr, int port) throws ParserConfigurationException, SAXException, IOException {
-		GatewayDiscover discover = new GatewayDiscover();
-		discover.discover();
-		GatewayDevice d = discover.getValidGateway();
-		if (d != null) {
-			InetAddress localAddress = d.getLocalAddress();
-
-			PortMappingEntry portMapping = new PortMappingEntry();
-			d.deletePortMapping(port, protocol);
-			if (!d.getSpecificPortMappingEntry(port, protocol, portMapping)) {
-				if (!d.addPortMapping(port, port, localAddress.getHostAddress(), protocol, descr)) {
-					Gdx.app.log("UPNP", "FAILED TO MAP PORT");
-				} else {
-					Gdx.app.log("UPNP", "SUCCESSFULLY MAPPED");
-				}
-			} else {
-				Gdx.app.log("UPNP", "ALREADY MAPPED");
-			}
-		}
-	}
-
 	private static final float transitionDuration = 0.25f;
 	private static final Interpolation intp = Interpolation.fastSlow;
 	private void transitionOut(Runnable runnable) {
 		backdrop.addAction(Actions.moveTo(titleX, titleY, transitionDuration, intp));
 
 		tableMain.addAction(Actions.moveTo(menuX, menuY, transitionDuration, intp));
-		tableIP.addAction(Actions.moveTo(ipX, ipY, transitionDuration, intp));
 		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(nameX, nameY, transitionDuration, intp)));
 
 		notifications.setText("");
@@ -560,7 +345,6 @@ public class TitleState extends GameState {
 		backdrop.addAction(Actions.moveTo(titleXEnabled, titleYEnabled, transitionDuration, intp));
 
 		tableMain.addAction(Actions.moveTo(menuXEnabled, menuYEnabled, transitionDuration, intp));
-		tableIP.addAction(Actions.moveTo(ipXEnabled, ipYEnabled, transitionDuration, intp));
 		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(nameXEnabled, nameYEnabled, transitionDuration, intp)));
 	}
 
@@ -589,9 +373,4 @@ public class TitleState extends GameState {
 	 * @param notification: new text
 	 */
 	public void setNotification(String notification) { notifications.setText(notification); }
-
-	/**
-	 * Lets the state take input again. Used by clients after receiving reject message from server
-	 */
-	public void setInputDisabled(boolean inputDisabled) { this.inputDisabled = inputDisabled; }
 }

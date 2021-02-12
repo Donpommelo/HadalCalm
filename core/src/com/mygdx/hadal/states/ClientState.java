@@ -250,6 +250,7 @@ public class ClientState extends PlayState {
 			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(ClientState.class, false);
+			gsm.addResultsState(this, resultsText, LobbyState.class);
 			gsm.addResultsState(this, resultsText, TitleState.class);
 			break;
 		case SPECTATOR:

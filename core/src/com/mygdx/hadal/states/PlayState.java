@@ -768,6 +768,7 @@ public class PlayState extends GameState {
 			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class, false);
+			gsm.addResultsState(this, resultsText, LobbyState.class);
 			gsm.addResultsState(this, resultsText, TitleState.class);
 			break;
 		case SPECTATOR:
@@ -786,6 +787,7 @@ public class PlayState extends GameState {
 			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class, false);
+			gsm.addPlayState(nextLevel, new Loadout(gsm.getLoadout()), player.getPlayerData(), LobbyState.class, true, nextStartId);
 			gsm.addPlayState(nextLevel, new Loadout(gsm.getLoadout()), player.getPlayerData(), TitleState.class, true, nextStartId);
 			break;
 		case NEXTSTAGE:
@@ -795,6 +797,7 @@ public class PlayState extends GameState {
 			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class, false);
+			gsm.addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), LobbyState.class, false, nextStartId);
 			gsm.addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
 			break;
 		case TITLE:
@@ -807,6 +810,9 @@ public class PlayState extends GameState {
 			if (!gsm.getStates().isEmpty()) {
 				if (gsm.getStates().peek() instanceof TitleState) {
 					((TitleState) gsm.getStates().peek()).setNotification(resultsText);
+				}
+				if (gsm.getStates().peek() instanceof LobbyState) {
+					((LobbyState) gsm.getStates().peek()).setNotification(resultsText);
 				}
 			}
 			break;
@@ -1178,7 +1184,6 @@ public class PlayState extends GameState {
 		for (User user : HadalGame.server.getUsers().values()) {
 			SavedPlayerFields score = user.getScores();
 			Player resultsPlayer = user.getPlayer();
-
 			if (resultsPlayer != null) {
 				Loadout loadoutTemp = resultsPlayer.getPlayerData().getLoadout();
 

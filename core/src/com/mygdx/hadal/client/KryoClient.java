@@ -277,9 +277,9 @@ public class KryoClient {
         		else if (o instanceof Packets.ConnectReject) {
         			final Packets.ConnectReject p = (Packets.ConnectReject) o;
         			if (!gsm.getStates().isEmpty()) {
-        				if (gsm.getStates().peek() instanceof TitleState) {
-        					((TitleState) gsm.getStates().peek()).setNotification(p.msg);
-        					((TitleState) gsm.getStates().peek()).setInputDisabled(false);
+        				if (gsm.getStates().peek() instanceof LobbyState) {
+        					((LobbyState) gsm.getStates().peek()).setNotification(p.msg);
+        					((LobbyState) gsm.getStates().peek()).setInputDisabled(false);
         				}
         			}
         			client.stop();
@@ -290,8 +290,8 @@ public class KryoClient {
 				 */
 				else if (o instanceof Packets.PasswordRequest) {
 					if (!gsm.getStates().isEmpty()) {
-						if (gsm.getStates().peek() instanceof TitleState) {
-							((TitleState) gsm.getStates().peek()).openPasswordRequest();
+						if (gsm.getStates().peek() instanceof LobbyState) {
+							((LobbyState) gsm.getStates().peek()).openPasswordRequest();
 						}
 					}
 				}
@@ -322,7 +322,7 @@ public class KryoClient {
 							}
 
 							gsm.removeState(ClientState.class);
-							gsm.addClientPlayState(p.level, new Loadout(gsm.getLoadout()), TitleState.class);
+							gsm.addClientPlayState(p.level, new Loadout(gsm.getLoadout()), LobbyState.class);
 							HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator, gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
 						});
 					});

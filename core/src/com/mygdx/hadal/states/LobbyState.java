@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.codedisaster.steamworks.SteamID;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
@@ -21,9 +23,7 @@ import io.socket.client.Socket;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,41 +33,48 @@ import java.util.Map;
 public class LobbyState extends GameState {
 
     //This table contains the ui elements of the pause screen
-    private Table joinLobby, tableOptions, joinIP, host, tablePassword;
+    private Table joinLobby, lobbyTable, notificationTable, tableOptions, joinIP, host, tablePassword;
     private ScrollPane options;
+    private VerticalGroup lobbyOptions;
 
     private TextField enterName, enterIP, enterPassword;
 
     //options that the player can view
     private Text hostOption, searchOption, exitOption, notifications;
 
+    private static final int maxLobbyNameLength = 30;
+
     //Dimensions of the setting menu
-    private static final int joinX = -980;
-    private static final int joinY = 160;
-    private static final int joinXEnabled = 40;
-    private static final int joinYEnabled = 180;
+    private static final int joinX = 1650;
+    private static final int joinY = 240;
+    private static final int joinXEnabled = 660;
+    private static final int joinYEnabled = 240;
     private static final int joinWidth = 580;
-    private static final int joinHeight = 500;
+    private static final int joinHeight = 440;
     private static final int scrollWidth = 550;
     private static final int scrollHeight = 250;
 
-    private static final int ipX = -780;
-    private static final int ipY = 40;
-    private static final int ipXEnabled = 40;
-    private static final int ipYEnabled = 40;
+    private static final int ipX = 1540;
+    private static final int ipY = 100;
+    private static final int ipXEnabled = 720;
+    private static final int ipYEnabled = 100;
     private static final int ipWidth = 460;
     private static final int ipHeight = 100;
     private static final int textWidth = 260;
 
-    private static final int hostX = 1650;
-    private static final int hostY = 40;
-    private static final int hostXEnabled = 660;
-    private static final int hostYEnabled = 40;
+    private static final int hostX = -980;
+    private static final int hostY = 100;
+    private static final int hostXEnabled = 40;
+    private static final int hostYEnabled = 100;
     private static final int hostWidth = 580;
-    private static final int hostHeight = 640;
+    private static final int hostHeight = 580;
 
-    private static final int exitX = 20;
-    private static final int exitY = 680;
+    private static final int notificationX = 40;
+    private static final int notificationY = -240;
+    private static final int notificationXEnabled = 40;
+    private static final int notificationYEnabled = 40;
+    private static final int notificationWidth = 580;
+    private static final int notificationHeight = 60;
 
     private static final int passwordX = 440;
     private static final int passwordY = 320;
@@ -77,13 +84,12 @@ public class LobbyState extends GameState {
 
     private static final float optionsScale = 0.5f;
     private static final float optionHeight = 35.0f;
-    private static final float optionPad = 15.0f;
-    private static final float detailsScale = 0.3f;
+    private static final float optionScale = 0.3f;
+    private static final float optionPad = 10.0f;
 
     private static final float titlePad = 25.0f;
     private static final float titleScale = 0.5f;
     private static final float subtitleScale = 0.25f;
-    private static final int detailsTextWidth = 750;
 
     //this is the state underneath this state.
     private final GameState peekState;
@@ -100,7 +106,6 @@ public class LobbyState extends GameState {
     public void show() {
 
         final LobbyState me = this;
-
         stage = new Stage() {
             {
                 joinLobby = new WindowTable();
@@ -120,18 +125,26 @@ public class LobbyState extends GameState {
                 joinIP.setSize(ipWidth, ipHeight);
                 addActor(joinIP);
 
-                tableOptions = new WindowTable();
+                notificationTable = new WindowTable();
+                notificationTable.setPosition(notificationX, notificationY);
+                notificationTable.setSize(notificationWidth, notificationHeight);
+                addActor(notificationTable);
 
-                Text title = new Text("JOIN", 0, 0, false);
-                title.setScale(titleScale);
+                tableOptions = new WindowTable();
+                lobbyTable = new WindowTable();
+
+                Text joinTitle = new Text("JOIN", 0, 0, false);
+                joinTitle.setScale(titleScale);
 
                 Text lobbiesTitle = new Text("LOBBIES", 0, 0, false);
                 lobbiesTitle.setScale(subtitleScale);
 
-                options = new ScrollPane(tableOptions, GameStateManager.getSkin());
+                lobbyOptions = new VerticalGroup().pad(optionPad).align(Align.topLeft);
+
+                options = new ScrollPane(lobbyOptions, GameStateManager.getSkin());
                 options.setFadeScrollBars(false);
 
-                searchOption = new Text("SEARCH", 0, 0, true);
+                searchOption = new Text("REFRESH?", 0, 0, true);
                 searchOption.addListener(new ClickListener() {
 
                     @Override
@@ -156,7 +169,7 @@ public class LobbyState extends GameState {
                     enterIP.setText(gsm.getRecord().getLastIp());
                 }
 
-                Text joinOptionIP = new Text("CONNECT TO IP", 0, 0, true);
+                Text joinOptionIP = new Text("CONNECT TO IP?", 0, 0, true);
                 joinOptionIP.setScale(subtitleScale);
 
                 joinOptionIP.addListener(new ClickListener() {
@@ -182,7 +195,7 @@ public class LobbyState extends GameState {
                                 //trim whitespace from ip
                                 String trimmedIp = enterIP.getText().trim();
 
-                                HadalGame.client.getClient().connect(5000, trimmedIp, gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
+                                HadalGame.client.getClient().connect(8000, trimmedIp, gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
 
                                 //save last joined ip if successful
                                 gsm.getRecord().setlastIp(trimmedIp);
@@ -198,7 +211,33 @@ public class LobbyState extends GameState {
                     }
                 });
 
-                hostOption = new Text("HOST", 0, 0, true);
+                Text hostTitle = new Text("HOST", 0, 0, false);
+                hostTitle.setScale(titleScale);
+
+                Text enterNameText = new Text("SERVER NAME: ", 0, 0, true);
+                enterNameText.setScale(subtitleScale);
+                enterName = new TextField(gsm.getLoadout().getName() + "'s Lobby", GameStateManager.getSkin());
+                enterName.setMaxLength(maxLobbyNameLength);
+                enterName.setMessageText("ENTER NAME");
+
+                Text serverSettings = new Text("CHANGE SERVER SETTINGS?", 0, 0, true);
+                serverSettings.addListener(new ClickListener() {
+
+                    @Override
+                    public void clicked(InputEvent e, float x, float y) {
+
+                        if (inputDisabled) { return; }
+                        inputDisabled = true;
+
+                        SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+
+                        //Enter the Setting State.
+                        transitionOut(() -> getGsm().addState(GameStateManager.State.SETTING, me));
+                    }
+                });
+                serverSettings.setScale(optionsScale);
+
+                hostOption = new Text("CREATE SERVER?", 0, 0, true);
                 hostOption.addListener(new ClickListener() {
 
                     @Override
@@ -207,31 +246,19 @@ public class LobbyState extends GameState {
                         if (inputDisabled) { return; }
                         inputDisabled = true;
 
-                        if (gsm.getSetting().isEnableUPNP()) {
-                            try {
-                                TitleState.upnp("TCP", "TEST", 8080);
-                            } catch (ParserConfigurationException parserConfigurationException) {
-                                parserConfigurationException.printStackTrace();
-                            } catch (SAXException saxException) {
-                                saxException.printStackTrace();
-                            } catch (IOException ioException) {
-                                ioException.printStackTrace();
-                            }
-                        }
+                        setNotification("SERVER HOSTED");
 
                         JSONObject lobbyData = new JSONObject();
                         try {
                             lobbyData.put("ip", getPublicIp());
-                            lobbyData.put("name", "TEST");
+                            lobbyData.put("name", enterName.getText());
                         } catch (JSONException jsonException) {
                             Gdx.app.log("LOBBY", "FAILED TO CREATE LOBBY " + jsonException);
                         }
 
-                        if (socket == null) {
-                            connectSocket();
-                            configSocketEvents();
+                        if (socket != null) {
+                            socket.emit("makeLobby", lobbyData.toString());
                         }
-                        socket.emit("makeLobby", lobbyData.toString());
 
                         SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 
@@ -246,7 +273,7 @@ public class LobbyState extends GameState {
                 });
                 hostOption.setScale(optionsScale);
 
-                exitOption = new Text("RETURN?", exitX, exitY, true);
+                exitOption = new Text("RETURN?", 0, 0, true);
                 exitOption.addListener(new ClickListener() {
 
                     @Override
@@ -258,25 +285,40 @@ public class LobbyState extends GameState {
                 });
                 exitOption.setScale(optionsScale);
 
-                notifications = new Text("", 100, 100, false);
-                notifications.setScale(optionsScale);
+                notifications = new Text("", 0, 0, false, true, scrollWidth);
+                notifications.setScale(subtitleScale);
 
-                joinLobby.add(title).colspan(2).height(optionHeight).pad(titlePad).row();
-                joinLobby.add(lobbiesTitle).colspan(2).height(optionHeight).pad(titlePad).left().row();
-                joinLobby.add(options).colspan(2).height(scrollHeight).width(scrollWidth).row();
-                joinLobby.add(searchOption).height(optionHeight);
+                joinLobby.add(joinTitle).colspan(2).height(optionHeight).pad(titlePad).row();
+                joinLobby.add(lobbiesTitle).height(optionHeight).pad(titlePad).left();
+                joinLobby.add(searchOption).height(optionHeight).pad(titlePad).right().row();
+
+                lobbyTable.add(options);
+                joinLobby.add(lobbyTable).colspan(2).height(scrollHeight).width(scrollWidth).pad(optionPad).row();
 
                 joinIP.add(ipDisplay).height(optionHeight).pad(5);
                 joinIP.add(enterIP).width(textWidth).height(optionHeight).row();
                 joinIP.add(joinOptionIP).height(optionHeight);
 
-                host.add(hostOption).colspan(2).height(optionHeight).pad(titlePad).row();
+                notificationTable.add(notifications).pad(optionPad).expandX().left();
 
-                addActor(exitOption);
-                addActor(notifications);
+                host.add(hostTitle).colspan(2).height(optionHeight).pad(titlePad).row();
+                host.add(enterNameText).height(optionHeight).pad(titlePad);
+                host.add(enterName).width(textWidth).height(optionHeight).pad(titlePad).row();
+                host.add(serverSettings).colspan(2).height(optionHeight).pad(optionPad).row();
+                host.add(hostOption).colspan(2).height(optionHeight).pad(optionPad).row();
+                host.add(exitOption).height(optionHeight).pad(optionPad).expandY().bottom().left().row();
             }
         };
         app.newMenu(stage);
+        stage.setScrollFocus(options);
+
+        if (socket == null) {
+            connectSocket();
+            configSocketEvents();
+        }
+
+        socket.emit("end");
+        retrieveLobbies();
 
         if (gsm.getApp().getFadeLevel() >= 1.0f) {
             gsm.getApp().fadeIn();
@@ -287,13 +329,17 @@ public class LobbyState extends GameState {
     }
 
     private Socket socket;
-    private final static String serverIP = "http://localhost:8080";
+    private final static String serverIP = "http://151.213.181.107";
+    private final static String serverPort = "8080";
     public void connectSocket() {
         try {
-            socket = IO.socket(serverIP);
+            socket = IO.socket(serverIP + ":" + serverPort);
             socket.connect();
-        } catch(Exception e){
-            System.out.println(e);
+            if (!socket.connected()) {
+                setNotification("COULD NOT FIND MATCHMAKING SERVER");
+            }
+        } catch (Exception e) {
+            Gdx.app.log("LOBBY", "FAILED TO CONNECT SOCKET");
         }
     }
 
@@ -301,8 +347,9 @@ public class LobbyState extends GameState {
         if (socket == null) return;
 
         socket.on(Socket.EVENT_CONNECT, args -> {
-            System.out.println("CONNECTED");
             Gdx.app.log("LOBBY", "CONNECTED");
+        }).on(Socket.EVENT_DISCONNECT, args -> {
+            Gdx.app.log("LOBBY", "DISCONNECTED");
         }).on("handshake", args -> {
             Gdx.app.log("LOBBY", "HANDSHAKE RECEIVED");
         }).on("receiveLobbies", args -> {
@@ -323,18 +370,21 @@ public class LobbyState extends GameState {
 
     public void updateLobbies(JSONArray lobbies) {
         try {
-            tableOptions.clear();
+            lobbyOptions.clear();
             for (int i = 0; i < lobbies.length(); i++) {
                 String lobbyName = lobbies.getJSONObject(i).getString("name");
                 String lobbyIP = lobbies.getJSONObject(i).getString("ip");
 
-                Text lobbyOption = new Text(lobbyName + " ", 0, 0, false);
+                Text lobbyOption = new Text(lobbyName + " ", 0, 0, true);
                 lobbyOption.addListener(new ClickListener() {
 
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
                         SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
                         setNotification("JOINED LOBBY");
+
+                        //Save current name into records.
+                        gsm.getLoadout().setName(enterName.getText());
 
                         HadalGame.client.init();
                         GameStateManager.currentMode = GameStateManager.Mode.MULTI;
@@ -345,25 +395,37 @@ public class LobbyState extends GameState {
                                 HadalGame.client.getClient().connect(5000, String.valueOf(lobbyIP),
                                     gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
                             } catch (IOException ex) {
-                                setNotification("FAILED TO CONNECT TO SERVER: " + ex);
+                                Gdx.app.log("LOBBY", "FAILED TO JOIN: " + ex);
                             }
                         });
                     }
                 });
-                tableOptions.add(lobbyOption).row();
+                lobbyOption.setScale(optionScale);
+                lobbyOption.setHeight(optionHeight);
+
+                lobbyOptions.addActor(lobbyOption);
             }
+
+            if (lobbies.length() == 0) {
+                setNotification("NO LOBBIES FOUND");
+            } else {
+                setNotification("LOBBIES RETRIEVED");
+            }
+
         } catch (JSONException e) {
             Gdx.app.log("LOBBY", "FAILED TO PARSE LOBBY LIST: " + e);
         }
     }
 
     public void updateLobbies(Map<Long, SteamID> lobbies) {
+        setNotification("Lobbies Retrieved");
+
         tableOptions.clear();
 
         final LobbyState me = this;
 
         for (Map.Entry<Long, SteamID> lobby : lobbies.entrySet()) {
-            Text lobbyOption = new Text(Long.toHexString(lobby.getKey()) + " ", 0, 0, false);
+            Text lobbyOption = new Text(Long.toHexString(lobby.getKey()) + " ", 0, 0, true);
             lobbyOption.addListener(new ClickListener() {
 
                 @Override
@@ -452,25 +514,44 @@ public class LobbyState extends GameState {
     private void transitionOut(Runnable runnable) {
         joinLobby.addAction(Actions.moveTo(joinX, joinY, transitionDuration, intp));
         joinIP.addAction(Actions.moveTo(ipX, ipY, transitionDuration, intp));
+        notificationTable.addAction(Actions.moveTo(notificationX, notificationY, transitionDuration, intp));
         host.addAction(Actions.sequence(Actions.moveTo(hostX, hostY, transitionDuration, intp), Actions.run(runnable)));
     }
 
     private void transitionIn(Runnable runnable) {
         joinLobby.addAction(Actions.moveTo(joinXEnabled, joinYEnabled, transitionDuration, intp));
         joinIP.addAction(Actions.moveTo(ipXEnabled, ipYEnabled, transitionDuration, intp));
+        notificationTable.addAction(Actions.moveTo(notificationXEnabled, notificationYEnabled, transitionDuration, intp));
         host.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(hostXEnabled, hostYEnabled, transitionDuration, intp)));
     }
 
-    public void setNotification(String notification) { notifications.setText(notification); }
+    public void setNotification(String notification) {
+        if (!notification.equals("")) {
+            notificationTable.addAction(Actions.sequence(
+                Actions.moveTo(notificationX, notificationY, transitionDuration, intp),
+                Actions.run(() -> notifications.setText(notification)),
+                Actions.moveTo(notificationXEnabled, notificationYEnabled, transitionDuration, intp)));
+        }
+    }
 
     public void setInputDisabled(boolean inputDisabled) { this.inputDisabled = inputDisabled; }
 
     @Override
     public void dispose() {
         stage.dispose();
+
+        if (socket != null) {
+            socket.disconnect();
+        }
     }
 
     public static String getPublicIp() {
+
+        //if the player has already retrieved their ip when enabling upnp, this step is unnecessary.
+        if (!HadalGame.myIp.equals("")) {
+            return HadalGame.myIp;
+        }
+
         BufferedReader in = null;
         try {
             URL whatismyip = new URL("http://checkip.amazonaws.com");

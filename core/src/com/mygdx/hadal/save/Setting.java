@@ -62,7 +62,9 @@ public class Setting {
 			Gdx.graphics.setVSync(false);
 		}
 
-		Gdx.graphics.setForegroundFPS(indexToFramerate());
+    	//fps is locked to 60 until lag gets sorted out
+		//Gdx.graphics.setForegroundFPS(indexToFramerate());
+
     	game.setAutoIconify(autoIconify);
 
     	setCursor();

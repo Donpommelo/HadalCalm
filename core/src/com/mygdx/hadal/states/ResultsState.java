@@ -513,6 +513,7 @@ public class ResultsState extends GameState {
 		if (ps.isServer()) {
 			gsm.getApp().setRunAfterTransition(() -> {
 				gsm.removeState(ResultsState.class, false);
+				gsm.gotoHubState(LobbyState.class);
 				gsm.gotoHubState(TitleState.class);
 			});
 		}

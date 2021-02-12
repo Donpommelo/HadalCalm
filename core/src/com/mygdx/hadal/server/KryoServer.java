@@ -523,8 +523,8 @@ public class KryoServer {
 		try {
 			server.bind(gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
 		} catch (IOException e) {
-			if (gsm.getStates().peek() instanceof TitleState) {
-				((TitleState) gsm.getStates().peek()).setNotification("COULD NOT OPEN SERVER AT PORT: " + gsm.getSetting().getPortNumber());
+			if (gsm.getStates().peek() instanceof LobbyState) {
+				((LobbyState) gsm.getStates().peek()).setNotification("COULD NOT OPEN SERVER AT PORT: " + gsm.getSetting().getPortNumber());
 			}
 		}	
 		registerPackets();
@@ -752,7 +752,9 @@ public class KryoServer {
 	 */
 	public void kickPlayer(PlayState ps, User user, int connID) {
 		if (server != null) {
-			addNotificationToAll(ps, user.getPlayer().getName(), " WAS KICKED!", DialogType.SYSTEM);
+			if (user.getPlayer() != null) {
+				addNotificationToAll(ps, user.getPlayer().getName(), " WAS KICKED!", DialogType.SYSTEM);
+			}
 			sendToTCP(connID, new Packets.ClientYeet());
 		}
 	}

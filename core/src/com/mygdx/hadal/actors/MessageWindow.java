@@ -361,7 +361,7 @@ public class MessageWindow {
 
 		//do not display messages from muted players
 		if (user != null) {
-			if (!user.isMuted()) {
+			if (!user.isMuted() && user.getPlayer() != null) {
 				String newText;
 
 				//system messages are all red.
