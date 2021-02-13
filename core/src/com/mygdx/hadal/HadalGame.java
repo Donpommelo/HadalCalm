@@ -238,7 +238,7 @@ public class HadalGame extends ApplicationAdapter {
 	}
 
 	//this is the player's external ip that other clients will connect to
-	public static String myIp;
+	public static String myIp = "";
 	private static void upnp(String protocol, String descr, int port) {
 		new Thread(() -> {
 			try {
