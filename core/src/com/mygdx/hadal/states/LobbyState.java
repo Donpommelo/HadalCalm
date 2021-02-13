@@ -315,6 +315,9 @@ public class LobbyState extends GameState {
         if (HadalGame.socket == null) {
             connectSocket();
             configSocketEvents();
+        } else if (!HadalGame.socket.connected()) {
+            connectSocket();
+            configSocketEvents();
         }
 
         HadalGame.socket.emit("end");
@@ -361,6 +364,9 @@ public class LobbyState extends GameState {
 
     public void retrieveLobbies() {
         if (HadalGame.socket == null) {
+            connectSocket();
+            configSocketEvents();
+        } else if (!HadalGame.socket.connected()) {
             connectSocket();
             configSocketEvents();
         }
