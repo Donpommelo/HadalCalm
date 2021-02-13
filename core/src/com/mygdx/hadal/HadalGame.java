@@ -109,6 +109,7 @@ public class HadalGame extends ApplicationAdapter {
 		if (gsm.getSetting().isEnableUPNP()) {
 			upnp("TCP", "hadal-upnp-tcp", gsm.getSetting().getPortNumber());
 			upnp("UDP", "hadal-upnp-udp", gsm.getSetting().getPortNumber());
+			upnp("TCP", "hadal-upnp-lobby", 8080);
 		}
 
 		client = new KryoClient(gsm);
