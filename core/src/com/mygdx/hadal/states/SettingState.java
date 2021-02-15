@@ -50,7 +50,7 @@ public class SettingState extends GameState {
 		playerCapacity;
 	private Slider sound, music, master, hitsound;
 	private CheckBox fullscreen, vsync, autoIconify, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration, consoleEnabled,
-		verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP;
+		verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD;
 		
 	//Dimensions of the setting menu
 	private static final int optionsX = -1025;
@@ -709,6 +709,9 @@ public class SettingState extends GameState {
 		enableUPNP = new CheckBox("Enable uPnP? (Requires Restart)", GameStateManager.getSkin());
 		enableUPNP.setChecked(gsm.getSetting().isEnableUPNP());
 
+		hideHUD = new CheckBox("Hide HUD?", GameStateManager.getSkin());
+		hideHUD.setChecked(gsm.getSetting().isHideHUD());
+
 		details.add(coopTimer);
 		details.add(coopTimerOptions).height(detailHeight).pad(detailPad).row();
 		details.add(randomNameAlliteration).colspan(2).height(detailHeight).pad(detailPad).row();
@@ -717,6 +720,7 @@ public class SettingState extends GameState {
 		details.add(multiplayerPause).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(exportChatLog).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(enableUPNP).colspan(2).height(detailHeight).pad(detailPad).row();
+		details.add(hideHUD).colspan(2).height(detailHeight).pad(detailPad).row();
 	}
 	
 	/**
@@ -776,6 +780,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setMultiplayerPause(multiplayerPause.isChecked());
 			gsm.getSetting().setExportChatLog(exportChatLog.isChecked());
 			gsm.getSetting().setEnableUPNP(enableUPNP.isChecked());
+			gsm.getSetting().setHideHUD(hideHUD.isChecked());
 			gsm.getSetting().saveSetting();
 			miscSelected();
 			break;

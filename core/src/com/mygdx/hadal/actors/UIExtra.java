@@ -47,7 +47,8 @@ public class UIExtra extends AHadalActor {
 	private final StringBuilder text = new StringBuilder();
 	@Override
     public void draw(Batch batch, float alpha) {
-		
+		if (state.getGsm().getSetting().isHideHUD()) { return; }
+
 		text.setLength(0);
 
 		for (UITag uiTag : uiTags) {

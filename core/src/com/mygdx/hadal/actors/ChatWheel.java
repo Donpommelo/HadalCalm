@@ -106,6 +106,7 @@ public class ChatWheel {
 
 			@Override
 			public void draw(Batch batch, float alpha) {
+				if (state.getGsm().getSetting().isHideHUD()) { return; }
 				super.draw(batch, alpha);
 				batch.draw(wheelIndicator, pointerPosition.x - indicatorWidth / 2, pointerPosition.y - indicatorHeight / 2, indicatorWidth, indicatorHeight);
 			}

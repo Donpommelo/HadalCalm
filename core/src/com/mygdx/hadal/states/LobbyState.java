@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.WindowTable;
+import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
@@ -327,6 +328,8 @@ public class LobbyState extends GameState {
             gsm.getApp().fadeIn();
         }
 
+        HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.MENU, 1.0f);
+
         inputDisabled = true;
         transitionIn(() -> inputDisabled = false);
     }
@@ -363,14 +366,9 @@ public class LobbyState extends GameState {
     }
 
     public void retrieveLobbies() {
-        if (HadalGame.socket == null) {
-            connectSocket();
-            configSocketEvents();
-        } else if (!HadalGame.socket.connected()) {
-            connectSocket();
-            configSocketEvents();
+        if (HadalGame.socket != null) {
+            HadalGame.socket.emit("getLobbies");
         }
-        HadalGame.socket.emit("getLobbies");
     }
 
     public void updateLobbies(JSONArray lobbies) {

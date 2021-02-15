@@ -50,6 +50,7 @@ public class UIObjective extends AHadalActor {
     public void draw(Batch batch, float alpha) {
 
 		if (state.getPlayer().getPlayerData() == null) { return; }
+		if (state.getGsm().getSetting().isHideHUD()) { return; }
 
 		//This math calculates the location of the objective icon
 		if (objectiveTarget != null && state.getPlayer().getBody() != null) {

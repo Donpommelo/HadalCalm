@@ -105,6 +105,7 @@ public class MessageWindow {
 			public void draw(Batch batch, float parentAlpha) {
 
 				if (invisible) { return; }
+				if (state.getGsm().getSetting().isHideHUD()) { return; }
 
 				//inactive message windows are drawn with reduced alpha
 				if (!active) {

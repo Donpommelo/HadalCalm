@@ -336,7 +336,7 @@ public class PlayState extends GameState {
 			gsm.getApp().fadeIn();
 		}
 
-		MusicTrack newTrack = null;
+		MusicTrack newTrack;
 		if (isHub()) {
 			newTrack = HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.HUB, 1.0f);
 		} else {
@@ -475,23 +475,6 @@ public class PlayState extends GameState {
 				scoreWindow.syncScoreTable();
 			}
 		}
-
-		//send server info to matchmaking server
-		lobbySyncAccumulator += delta;
-		if (lobbySyncAccumulator >= lobbySyncTime) {
-			lobbySyncAccumulator = 0;
-			if (HadalGame.socket != null) {
-				JSONObject lobbyData = new JSONObject();
-				try {
-					lobbyData.put("playerNum", HadalGame.server.getNumPlayers());
-					lobbyData.put("playerCapacity", gsm.getSetting().getMaxPlayers() + 1);
-				} catch (JSONException jsonException) {
-					Gdx.app.log("LOBBY", "FAILED TO SEND LOBBY INFO " + jsonException);
-				}
-
-				HadalGame.socket.emit("updateLobby", lobbyData.toString());
-			}
-		}
 	}
 	
 	/**
@@ -560,6 +543,26 @@ public class PlayState extends GameState {
 			packetEffect.execute();
 		}
 		packetEffects.clear();
+
+		if (isServer()) {
+			//send server info to matchmaking server
+			lobbySyncAccumulator += delta;
+			if (lobbySyncAccumulator >= lobbySyncTime) {
+				lobbySyncAccumulator = 0;
+				if (HadalGame.socket != null) {
+					if (HadalGame.socket.connected()) {
+						JSONObject lobbyData = new JSONObject();
+						try {
+							lobbyData.put("playerNum", HadalGame.server.getNumPlayers());
+							lobbyData.put("playerCapacity", gsm.getSetting().getMaxPlayers() + 1);
+						} catch (JSONException jsonException) {
+							Gdx.app.log("LOBBY", "FAILED TO SEND LOBBY INFO " + jsonException);
+						}
+						HadalGame.socket.emit("updateLobby", lobbyData.toString());
+					}
+				}
+			}
+		}
 
 		if (!postGame) {
 			//Update the game camera.
