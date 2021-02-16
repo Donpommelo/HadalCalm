@@ -142,7 +142,6 @@ public class UIPlay extends AHadalActor {
     public void draw(Batch batch, float alpha) {
 
 		if (state.getPlayer().getPlayerData() == null) { return; }
-		if (state.getGsm().getSetting().isHideHUD()) { return; }
 
 		batch.setProjectionMatrix(state.getHud().combined);
 		calcVars();
@@ -166,6 +165,8 @@ public class UIPlay extends AHadalActor {
 			GameStateManager.getBossGaugeRedPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpRatio, bossBarHeight, bossScale, bossScale, 0);
 			GameStateManager.getBossGaugePatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
 		}
+
+		if (state.getGsm().getSetting().isHideHUD()) { return; }
 				
 		//do not render in spectator mode
 		if (state.isSpectatorMode()) { return; }

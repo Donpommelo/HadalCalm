@@ -472,7 +472,7 @@ public class AboutState extends GameState {
 		musicTime.setValue(0.0f);
 		if (track != null) {
 			musicTime.setRange(0.0f, track.getTrackLength());
-			trackText.setText("NOW PLAYING: " + track.toString());
+			trackText.setText("NOW PLAYING: " + track.getMusicName());
 		} else {
 			musicTime.setRange(0.0f, 0.0f);
 			trackText.setText("NOW PLAYING: NOTHING");
