@@ -24,10 +24,10 @@ import com.mygdx.hadal.strategies.hitbox.DieParticles;
 public class ColaCannon extends RangedWeapon {
 
 	private static final int clipSize = 1;
-	private static final int ammoSize = 13;
+	private static final int ammoSize = 17;
 	private static final float shootCd = 0.1f;
 	private static final float shootDelay = 0.0f;
-	private static final float reloadTime = 1.0f;
+	private static final float reloadTime = 2.0f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 10.0f;
 	private static final float recoil = 18.0f;
@@ -38,7 +38,7 @@ public class ColaCannon extends RangedWeapon {
 
 	private static final float procCd = .05f;
 	private static final float fireDuration = 2.0f;
-	private static final float veloDeprec = 1.2f;
+	private static final float veloDeprec = 1.1f;
 	private static final float minVelo = 10.0f;
 	private static final float minDuration = 0.5f;
 
@@ -98,6 +98,8 @@ public class ColaCannon extends RangedWeapon {
 			charging = false;
 			chargeCd = 0;
 			lastNoise = 0;
+
+			setReloadCd(reloadTime - duration);
 		}
 	}
 	

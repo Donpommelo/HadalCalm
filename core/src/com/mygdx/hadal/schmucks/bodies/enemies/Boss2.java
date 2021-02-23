@@ -325,7 +325,6 @@ public class Boss2 extends EnemyFloating {
 				hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
-				hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 				hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 1.0f));
 				hbox.addStrategy(new DieParticles(state, hbox, getBodyData(), Particle.KAMABOKO_IMPACT));
 				hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));

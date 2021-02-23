@@ -14,7 +14,7 @@ public class FishGang extends ActiveItem {
 
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 25.0f;
+	private static final float maxCharge = 28.0f;
 	
 	private static final int numFish = 5;
 	private static final float fishLifespan = 20.0f;

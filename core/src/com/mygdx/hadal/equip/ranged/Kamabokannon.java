@@ -27,7 +27,7 @@ public class Kamabokannon extends RangedWeapon {
 	private static final int ammoSize = 500;
 	private static final float shootCd = 0.08f;
 	private static final float shootDelay = 0;
-	private static final float reloadTime = 1.8f;
+	private static final float reloadTime = 1.3f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 13.0f;
 	private static final float recoil = 3.0f;

@@ -24,9 +24,9 @@ public class MeridianMaker extends ActiveItem {
 
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.1f;
-	private static final float maxCharge = 9.0f;
+	private static final float maxCharge = 8.0f;
 	
-	private static final float baseDamage = 40.0f;
+	private static final float baseDamage = 45.0f;
 	private static final float knockback = 0.0f;
 	private static final Vector2 projectileSize = new Vector2(40, 40);
 	private static final float lifespan = 6.0f;

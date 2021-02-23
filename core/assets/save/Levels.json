@@ -8,7 +8,7 @@ HUB_MULTI: {
 BOSS1: {
 	name: BOSS: SLIGHTLY LARGER FISH
 	description: ""
-    descriptionLong: "Boss fight with a Slightly Larger Fish."
+    descriptionLong: "Boss fight with a Slightly Larger Fish"
 	tags: [
         MULTIPLAYER,
         SINGLEPLAYER,
@@ -18,7 +18,7 @@ BOSS1: {
 BOSS2: {
 	name: BOSS: KING KAMABOKO
 	description: ""
-    descriptionLong: "Boss fight with King Kamaboko."
+    descriptionLong: "Boss fight with King Kamaboko"
 	tags: [
         MULTIPLAYER,
         SINGLEPLAYER,
@@ -34,7 +34,7 @@ BOSS3: {
 BOSS4: {
 	name: BOSS: FALSE SUN
 	description: ""
-    descriptionLong: "Boss fight with the False Sun."
+    descriptionLong: "Boss fight with the False Sun"
 	tags: [
         MULTIPLAYER,
         SINGLEPLAYER,
@@ -44,7 +44,17 @@ BOSS4: {
 BOSS5: {
 	name: BOSS: NEPTUNE KING TERRAZZA
 	description: ""
-    descriptionLong: "Boss fight with Neptune King Terrazza."
+    descriptionLong: "Boss fight with Neptune King Terrazza"
+	tags: [
+        MULTIPLAYER,
+        SINGLEPLAYER,
+        BOSS,
+    ]
+}
+BOSS6: {
+	name: BOSS: GILT-SCALED SERAPH
+	description: ""
+    descriptionLong: "Boss fight with the Gilt-Scaled Seraph"
 	tags: [
         MULTIPLAYER,
         SINGLEPLAYER,

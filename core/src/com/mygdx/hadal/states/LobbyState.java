@@ -32,7 +32,7 @@ import java.net.URL;
 public class LobbyState extends GameState {
 
     //This table contains the ui elements of the pause screen
-    private Table joinLobby, lobbyTable, notificationTable, tableOptions, joinIP, host, tablePassword;
+    private Table joinLobby, lobbyTable, notificationTable, joinIP, host, tablePassword;
     private ScrollPane options;
     private VerticalGroup lobbyOptions;
 
@@ -96,6 +96,13 @@ public class LobbyState extends GameState {
     //This boolean determines if input is disabled. input is disabled if the player joins/hosts.
     private boolean inputDisabled;
 
+    private static final float refreshCd = 4.0f;
+    private float refreshCdCount = refreshCd;
+
+    private boolean connectionAttempted;
+    private static final float connectionTimeout = 8.0f;
+    private float connectionDuration;
+
     public LobbyState(final GameStateManager gsm,  GameState peekState) {
         super(gsm);
         this.peekState = peekState;
@@ -129,7 +136,6 @@ public class LobbyState extends GameState {
                 notificationTable.setSize(notificationWidth, notificationHeight);
                 addActor(notificationTable);
 
-                tableOptions = new WindowTable();
                 lobbyTable = new WindowTable();
 
                 Text joinTitle = new Text("JOIN", 0, 0, false);
@@ -148,10 +154,12 @@ public class LobbyState extends GameState {
 
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
-                        SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-                        //gsm.getApp().getLobbyManager().requestLobbyList(10, me);
+                        if (refreshCdCount >= refreshCd) {
+                            SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 
-                        retrieveLobbies();
+                            retrieveLobbies();
+                            refreshCdCount = 0.0f;
+                        }
                     }
                 });
                 searchOption.setScale(optionsScale);
@@ -321,7 +329,10 @@ public class LobbyState extends GameState {
             configSocketEvents();
         }
 
-        HadalGame.socket.emit("end");
+        if (HadalGame.socket != null) {
+            HadalGame.socket.emit("end");
+        }
+
         retrieveLobbies();
 
         if (gsm.getApp().getFadeLevel() >= 1.0f) {
@@ -334,17 +345,18 @@ public class LobbyState extends GameState {
         transitionIn(() -> inputDisabled = false);
     }
 
-    private final static String serverIP = "http://151.213.181.107";
-    private final static String serverPort = "8080";
+    private final static String serverIP = "https://hadalcalm-lobby-server.herokuapp.com/";
     public void connectSocket() {
         try {
-            HadalGame.socket = IO.socket(serverIP + ":" + serverPort);
+            HadalGame.socket = IO.socket(serverIP);
             HadalGame.socket.connect();
-            if (!HadalGame.socket.connected()) {
-                setNotification("COULD NOT FIND MATCHMAKING SERVER");
-            }
+
+            connectionAttempted = true;
+            connectionDuration = 0.0f;
+
+            setNotification("SEARCHING FOR MATCHMAKING SERVER");
         } catch (Exception e) {
-            Gdx.app.log("LOBBY", "FAILED TO CONNECT SOCKET");
+            Gdx.app.log("LOBBY", "FAILED TO CONNECT SOCKET: " + e);
         }
     }
 
@@ -353,6 +365,8 @@ public class LobbyState extends GameState {
 
         HadalGame.socket.on(Socket.EVENT_CONNECT, args -> {
             Gdx.app.log("LOBBY", "CONNECTED");
+            connectionAttempted = false;
+
         }).on(Socket.EVENT_DISCONNECT, args -> {
             Gdx.app.log("LOBBY", "DISCONNECTED");
         }).on("handshake", args -> {
@@ -377,6 +391,7 @@ public class LobbyState extends GameState {
             for (int i = 0; i < lobbies.length(); i++) {
                 String lobbyName = lobbies.getJSONObject(i).getString("name");
                 String lobbyIP = lobbies.getJSONObject(i).getString("ip");
+
                 int playerNum = lobbies.getJSONObject(i).getInt("playerNum");
                 int playerCapacity = lobbies.getJSONObject(i).getInt("playerCapacity");
 
@@ -386,7 +401,7 @@ public class LobbyState extends GameState {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
                         SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-                        setNotification("JOINED LOBBY");
+                        setNotification("JOINING LOBBY");
 
                         HadalGame.client.init();
                         GameStateManager.currentMode = GameStateManager.Mode.MULTI;
@@ -422,6 +437,19 @@ public class LobbyState extends GameState {
     @Override
     public void update(float delta) {
         peekState.update(delta);
+
+        if (refreshCdCount < refreshCd) {
+            refreshCdCount += delta;
+        }
+
+        if (connectionAttempted && connectionDuration < connectionTimeout) {
+            connectionDuration += delta;
+
+            if (connectionDuration > connectionTimeout) {
+                connectionAttempted = false;
+                setNotification("FAILED TO FIND MATCHMAKING SERVER");
+            }
+        }
     }
 
     @Override

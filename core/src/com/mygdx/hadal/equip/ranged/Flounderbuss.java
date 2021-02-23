@@ -37,7 +37,7 @@ public class Flounderbuss extends RangedWeapon {
 	private static final float maxCharge = 0.5f;
 	private static final float veloSpread = 0.6f;
 
-	private static final int maxNumProj = 12;
+	private static final int maxNumProj = 15;
 	private static final int spread = 20;
 	
 	public Flounderbuss(Schmuck user) {

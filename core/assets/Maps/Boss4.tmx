@@ -14,7 +14,7 @@
   <object id="3" name="Multitrigger" type="Multitrigger" x="224" y="416" width="32" height="32">
    <properties>
     <property name="triggeredId" value="playerstart"/>
-    <property name="triggeringId" value="camera1,bounds1,bounds2"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
    </properties>
   </object>
   <object id="170" name="Dropthrough" type="Dropthrough" x="1152" y="1000" width="288" height="8">

@@ -241,7 +241,7 @@ public class RangedWeapon extends Equippable {
 		if (clipSize * user.getBodyData().getStat(Stats.RANGED_CLIP) > 0 && clipSize * user.getBodyData().getStat(Stats.RANGED_CLIP) < 1) {
 			return clipSize + 1;
 		} else {
-			return (int) (clipSize * (1 + user.getBodyData().getStat(Stats.RANGED_CLIP)));
+			return (int) (clipSize * (1 +  user.getBodyData().getStat(Stats.RANGED_CLIP)));
 		}
 	}
 
@@ -254,7 +254,7 @@ public class RangedWeapon extends Equippable {
 		if (ammoLeft >= getAmmoSize()) {
 			ammoLeft = getAmmoSize();
 		}
-		ammoPercent = (float)ammoLeft / getAmmoSize();
+		ammoPercent = (float) ammoLeft / getAmmoSize();
 	}
 	
 	@Override

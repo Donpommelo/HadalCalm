@@ -23,7 +23,7 @@ public class SamsonOption extends ActiveItem {
 	private static final Vector2 projectileSize = new Vector2(400, 400);
 	private static final float duration = 1.5f;
 
-	private static final float procCd = 0.15f;
+	private static final float procCd = 0.12f;
 
 	private static final int explosionRadius = 200;
 	private static final float explosionDamage = 75.0f;

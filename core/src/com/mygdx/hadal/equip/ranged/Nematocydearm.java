@@ -21,13 +21,13 @@ public class Nematocydearm extends RangedWeapon {
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 0.9f;
 	private static final int reloadAmount = 0;
-	private static final float baseDamage = 35.0f;
+	private static final float baseDamage = 33.0f;
 	private static final float recoil = 0.0f;
 	private static final float knockback = 20.0f;
 	private static final float projectileSpeed = 45.0f;
 	private static final Vector2 projectileSize = new Vector2(91, 35);
 	private static final Vector2 stickySize = new Vector2(70, 25);
-	private static final float lifespan = 8.0f;
+	private static final float lifespan = 7.0f;
 	
 	private static final int spread = 5;
 

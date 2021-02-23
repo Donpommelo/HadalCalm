@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="80" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="51">
+ <properties>
+  <property name="customShader" type="bool" value="true"/>
+  <property name="zoom" type="float" value="1.5"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="80" height="90">
+  <data encoding="base64" compression="zlib">
+   eJzt3LtuAyEQRmF8v9uF/f7PalxQWFoWr3/YZeAcabpMFH1FHKaIc0RERERERPO28nNmorNO+G39PJjonPDDz7jfzc+mwbnP4Pexuya+h9UuLm2o+LVsF0oZ/uvXg11ozPAfv57sQjHDqX492oWGDKf6pb6+9aZ64Pddab/Yezn1TrSyV9ov9nnd6h5++OFndw+/uvwObviWcWxkj7//tPDTwk8LPy38tPDTwk+L+4u2x/sj7x5++OFndw+/uvys3FG4vywTflr4aeGnhZ8Wflr4aXF/0fZ4f+Tdww8//Ozu4VeXn5U7CveXZcJPCz8t/LTw08JPCz8t7i/aHu+PvHv44Yef3T386vKzckfh/rJM+Gmpfk8/+5I/YMXt/Lyc/nu2R8MhO+VzqifDmJ3i14vhmJ3q17phyi6HXzBc+v+QlpiUXS6/ngc//Gr2i70Tmd/ey0RERERWegNlrGLl
+  </data>
+ </layer>
+ <objectgroup id="3" name="collision-layer">
+  <object id="1" x="224" y="640">
+   <polyline points="0,0 0,1696 160,1856 1856,1856 2016,1696 2016,0 1856,-160 160,-160 0,0"/>
+  </object>
+  <object id="2" x="448" y="704">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="5" x="896" y="704">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="6" x="1344" y="704">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="7" x="1792" y="704">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="8" x="1792" y="1152">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="9" x="1344" y="1152">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="10" x="896" y="1152">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="11" x="448" y="1152">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="13" x="448" y="1600">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="14" x="896" y="1600">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="15" x="1344" y="1600">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="16" x="1792" y="1600">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="17" x="1792" y="2048">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="18" x="1344" y="2048">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="19" x="896" y="2048">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="20" x="448" y="2048">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="event-layer">
+  <object id="22" name="Start" type="Start" x="1024" y="1472" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="23" name="Bounds" type="Bounds" x="1024" y="864" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="24" name="Bounds" type="Bounds" x="1408" y="2080" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+   </properties>
+  </object>
+  <object id="25" name="Multitrigger" type="Multitrigger" x="160" y="256" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="26" name="Dummy" type="Dummy" x="320" y="576" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="0"/>
+   </properties>
+  </object>
+  <object id="27" name="Dummy" type="Dummy" x="768" y="576" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="1"/>
+   </properties>
+  </object>
+  <object id="28" name="Dummy" type="Dummy" x="1216" y="576" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="2"/>
+   </properties>
+  </object>
+  <object id="29" name="Dummy" type="Dummy" x="1664" y="576" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="3"/>
+   </properties>
+  </object>
+  <object id="30" name="Dummy" type="Dummy" x="2112" y="576" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="4"/>
+   </properties>
+  </object>
+  <object id="31" name="Dummy" type="Dummy" x="320" y="1024" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="5"/>
+   </properties>
+  </object>
+  <object id="32" name="Dummy" type="Dummy" x="768" y="1024" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="6"/>
+   </properties>
+  </object>
+  <object id="33" name="Dummy" type="Dummy" x="1216" y="1024" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="7"/>
+   </properties>
+  </object>
+  <object id="34" name="Dummy" type="Dummy" x="1664" y="1024" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="8"/>
+   </properties>
+  </object>
+  <object id="35" name="Dummy" type="Dummy" x="2112" y="1024" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="9"/>
+   </properties>
+  </object>
+  <object id="36" name="Dummy" type="Dummy" x="320" y="1472" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="10"/>
+   </properties>
+  </object>
+  <object id="37" name="Dummy" type="Dummy" x="768" y="1472" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="11"/>
+   </properties>
+  </object>
+  <object id="38" name="Dummy" type="Dummy" x="1216" y="1472" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="12"/>
+   </properties>
+  </object>
+  <object id="39" name="Dummy" type="Dummy" x="1664" y="1472" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="13"/>
+   </properties>
+  </object>
+  <object id="40" name="Dummy" type="Dummy" x="320" y="1920" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="15"/>
+   </properties>
+  </object>
+  <object id="41" name="Dummy" type="Dummy" x="768" y="1920" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="16"/>
+   </properties>
+  </object>
+  <object id="42" name="Dummy" type="Dummy" x="1216" y="1920" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="17"/>
+   </properties>
+  </object>
+  <object id="43" name="Dummy" type="Dummy" x="1664" y="1920" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="18"/>
+   </properties>
+  </object>
+  <object id="44" name="Dummy" type="Dummy" x="320" y="2368" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="20"/>
+   </properties>
+  </object>
+  <object id="45" name="Dummy" type="Dummy" x="768" y="2368" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="21"/>
+   </properties>
+  </object>
+  <object id="46" name="Dummy" type="Dummy" x="1216" y="2368" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="22"/>
+   </properties>
+  </object>
+  <object id="47" name="Dummy" type="Dummy" x="1664" y="2368" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="23"/>
+   </properties>
+  </object>
+  <object id="48" name="Dummy" type="Dummy" x="2112" y="1472" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="14"/>
+   </properties>
+  </object>
+  <object id="49" name="Dummy" type="Dummy" x="2112" y="1920" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="19"/>
+   </properties>
+  </object>
+  <object id="50" name="Dummy" type="Dummy" x="2080" y="2368" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="24"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

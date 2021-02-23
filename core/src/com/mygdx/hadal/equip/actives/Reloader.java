@@ -21,7 +21,7 @@ public class Reloader extends ActiveItem {
 	private static final float maxCharge = 14.0f;
 
 	private static final float duration = 1.5f;
-	private static final float bonusAtkSpd = 0.4f;
+	private static final float bonusAtkSpd = 0.3f;
 
 	public Reloader(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

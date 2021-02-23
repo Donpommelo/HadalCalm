@@ -7,7 +7,7 @@
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="80">
   <data encoding="base64" compression="zlib">
-   eAHtnMtugzAURNP3u1m0//+tNQukyMJO5tiw6AwSqggcPPdM0qiLcjpli4EYiIEYiIEYiIEYiIEYiIEYiIEYiIEYiIEYiIEYiIEYiIEYiIEYiIEYiIEYiIEYiIEYiIEYmGngrtzsPftuDu7Fsh7L9efsuzl4m9jHV7nXQ/arDr477+dZfSxdfJY923UDH+WSVicz+kgX1zuor2h1MtpHuqhN33681clIH+nidvetK+tOaB/pomVYf/2yE9qHyukpvYj17wjVK+W87OrTUq+U0xN6EdQr5bzs6tNSr5TTE3oR1CvlvOzq01KvlNMTehHUK+W87OrTUq+U0xN6EdQr5bzs6tNSr5TTE3oR1CvlvOzq01KvlNMTehHUK+W87OrTUq+U0xN6EdQr5bzs6tNSr5TTE3oR1CvlvOzq01KvlNMTehHUK+W87OrTUq+U0xN6EdQr5bzs6tNSr5TTE3oR1CvlvOzq01KvlNMTehHUK+W87OrTUq+U0xN6EdQr5bzs6tNSr5TTE3oR1CvlvOzq01KvlNMTehHUK+W87OrTUq+U0xN6EdQr5bzs6tNSr5TTE3oR1OvK/RRdz5OVPZX79Z7FMXu9Vvyjcyzr/ZZ9ee4F/X+1hZ3ZyWWm1vM4Zq5X4m9uR+eo1xvpY1YndaZWH7PW2yyivHh0jq31RvsYdbSVqdfH6HozuljzjXxeW3PP6IM6amVa5+39HHFRd3J0jt56s/pYO+l9H9fn1u+wnvfeuaWT+p7k+OgcvfVm9tFzl3O3PTdM7eOlvCfzjKv9HLzWv0xzHAMxEAMxEAMx8G8M/AE8UimD
+   eAHt3NlOIzEUhOGw7+QC3v9ZcV9Eao7ay28bi6gKqTUTKNPnfAWBuZicTn6zgAUsYAELWMACFrCABSxgAQtYwAIWsIAFLGABC1jAAhawgAUsYAELWMACFrBAu8BNir76WmZwW6nmPn387GuZwYv7WGbd8nXtPv7X9/+MPj7S99idr6rBZ8Pz/mgfWxfv6fJbXeAtRWqdjPThLuodxEStk94+3EWUbn9c6qSnD3fRbp9L5jqhfbiLnDB//1EntI9ank+lfSL+e7vmS/Paunx76kvzfCLtE9SX5rV1+fbUl+b5RNonqC/Na+vy7akvzfOJtE9QX5rX1uXbU1+a5xNpn6C+NK+ty7envjTPJ9I+QX1pXluXb099aZ5PpH2C+tK8ti7fnvrSPJ9I+wT1pXltXb499aV5PpH2CepL89q6fHvqS/N8Iu0T1JfmtXX59tSX5vlE2ieoL81r6/LtqS/N84m0T1BfmtfW5dtTX5rnE2mfoL40r63Lt6e+NM8n0j5BfWleW5dvT31pnk+kfYL60ry2Lt+e+tI8n0j7BPWleW1dvj31pXk+kfYJ6kvz2rp8e+pL83wi7RPUN+a/Et/jZMKH9PlKr1kz+3658VfPsd3vO13719Gg/19tOzuzk6OZ9vPNvl+pi2jzl3Pk9u7pY5ZRbqboMOt+I11cZprxtVjau7ePUaPSTJfd458zLGInq+eo3W+kj95OajPFHvaPZ3ayeo6W+432cemk9PM4fqz2PL33P/r71kn8nD2PV8/Rcr8ZfRyZ+X2/f29q9XAffW6tvjTnPq6rj6f0XO3Xfltn8Bx/AfRjC1jAAlci8AN/T0q7
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -19,7 +19,7 @@
   <object id="2" name="Multitrigger" type="Multitrigger" x="224" y="512" width="32" height="32">
    <properties>
     <property name="triggeredId" value="playerstart"/>
-    <property name="triggeringId" value="camera1,bounds1,bounds2"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
    </properties>
   </object>
   <object id="3" name="Timer" type="Timer" x="224" y="448" width="32" height="32">
