@@ -56,7 +56,10 @@ public class Enemy extends Schmuck {
     
     //This is the entity this enemy is trying to attack
   	protected HadalEntity attackTarget;
-  	
+
+  	//Can this enemy track attack targets through walls? (currently only used for gss boss)
+  	protected boolean trackThroughWalls;
+
   	//This is the entity this enemy is trying to move towards. (if null, the enemy moves towards the attack target)
   	private HadalEntity moveTarget;
   	
@@ -272,7 +275,7 @@ public class Enemy extends Schmuck {
 
 				  if (entityWorldLocation.x != homeLocation.x || entityWorldLocation.y != homeLocation.y) {
 					  world.rayCast((fixture1, point, normal, fraction) -> {
-						  if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL) {
+						  if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL && !trackThroughWalls) {
 							  if (fraction < shortestFraction) {
 								  shortestFraction = fraction;
 								  closestFixture = fixture1;

@@ -45,8 +45,6 @@ public class Boss5 extends EnemyFloating {
 
 	private static final int hp = 8000;
 
-	private static final Sprite sprite = Sprite.ORB_BLUE;
-
 	private int phase = 1;
 	private static final float phaseThreshold2 = 0.0f;
 
@@ -58,7 +56,7 @@ public class Boss5 extends EnemyFloating {
 	private static final float crownOffsetY= 110.0f;
 
 	public Boss5(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS5, filter, hp, aiAttackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), Sprite.NOTHING, EnemyType.BOSS5, filter, hp, aiAttackCd, scrapDrop, spawner);
 		this.coreSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.NEPTUNE_KING_CORE.getFrames());
 		this.bodySprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.NEPTUNE_KING_BODY.getFrames());
 		this.crownSprite = Sprite.NEPTUNE_KING_CROWN.getFrame();

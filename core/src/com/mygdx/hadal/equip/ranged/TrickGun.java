@@ -130,13 +130,13 @@ public class TrickGun extends RangedWeapon {
 				@Override
 				public void create() {
 					this.startLocation.set(hbox.getPixelPosition());
-					this.distance = startLocation.dst(pos1);
+					this.distance = startLocation.dst2(pos1);
 				}
 				
 				@Override
 				public void controller(float delta) {
 					if (!firstReached) {
-						if (startLocation.dst(hbox.getPixelPosition()) >= distance) {
+						if (startLocation.dst2(hbox.getPixelPosition()) >= distance) {
 							
 							if (!pos2.equals(pos1)) {
 								target.set(pos2).sub(hbox.getPixelPosition());
