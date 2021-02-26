@@ -226,7 +226,7 @@ public enum EnemyType {
 		}
 	},
 
-	BOSS5("NEPTUNE KING TERRAZZA") {
+	BOSS5("NEPTUNE KING TYRRAZZA") {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {

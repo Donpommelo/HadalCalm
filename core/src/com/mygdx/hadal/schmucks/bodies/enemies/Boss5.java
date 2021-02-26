@@ -11,6 +11,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
@@ -60,6 +61,8 @@ public class Boss5 extends EnemyFloating {
 		this.coreSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.NEPTUNE_KING_CORE.getFrames());
 		this.bodySprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.NEPTUNE_KING_BODY.getFrames());
 		this.crownSprite = Sprite.NEPTUNE_KING_CROWN.getFrame();
+
+		new ParticleEntity(state, this, Particle.TYRRAZZA_TRAIL, 1.0f, 0.0f, true, ParticleEntity.particleSyncType.TICKSYNC);
 	}
 
 	@Override
@@ -798,6 +801,8 @@ public class Boss5 extends EnemyFloating {
 					vine.addStrategy(new ControllerDefault(state, vine, getBodyData()));
 					vine.addStrategy(new ContactUnitSound(state, vine, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 					vine.addStrategy(new DamageStandard(state, vine, getBodyData(), vineDamage, vineKB, DamageTypes.RANGED).setStaticKnockback(true));
+					vine.addStrategy(new CreateParticles(state, vine, getBodyData(), Particle.DANGER_BLUE, 0.0f, 1.0f));
+					vine.addStrategy(new DieParticles(state, vine, getBodyData(), Particle.PLANT_FRAG));
 
 					vineCount++;
 

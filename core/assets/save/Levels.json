@@ -42,9 +42,9 @@ BOSS4: {
     ]
 }
 BOSS5: {
-	name: BOSS: NEPTUNE KING TERRAZZA
+	name: BOSS: NEPTUNE KING TYRRAZZA
 	description: ""
-    descriptionLong: "Boss fight with Neptune King Terrazza"
+    descriptionLong: "Boss fight with Neptune King Tyrrazza"
 	tags: [
         MULTIPLAYER,
         SINGLEPLAYER,

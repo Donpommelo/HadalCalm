@@ -1,7 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -35,7 +35,9 @@ public class CreateParticles extends HitboxStrategy {
 	
 	//does the particle rotate to match the velocity of the hbox (used for stuff like chain lightning)
 	private boolean rotate;
-	
+
+	private float velocity;
+
 	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger) {
 		super(state, proj, user);
 		this.effect = effect;
@@ -61,6 +63,10 @@ public class CreateParticles extends HitboxStrategy {
 		
 		particle.setRotate(rotate);
 		particle.setColor(color);
+
+		if (velocity != 0) {
+			particle.setParticleVelocity(velocity);
+		}
 	}
 	
 	public CreateParticles setRotate(boolean rotate) {
@@ -75,6 +81,11 @@ public class CreateParticles extends HitboxStrategy {
 	
 	public CreateParticles setParticleColor(HadalColor color) {
 		this.color = color;
+		return this;
+	}
+
+	public CreateParticles setParticleVelocity(float velocity) {
+		this.velocity = velocity;
 		return this;
 	}
 }

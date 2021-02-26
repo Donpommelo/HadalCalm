@@ -334,12 +334,24 @@ public class ParticleEntity extends HadalEntity {
 	public void setParticleAngle(float angle) {
         
 		float newAngle = (float) (angle * 180 / Math.PI + 180);
-		for (int i = 0; i < effect.getEmitters().size; i++) {                          
-           ScaledNumericValue val = effect.getEmitters().get(i).getRotation();
+		for (int i = 0; i < effect.getEmitters().size; i++) {
+			ScaledNumericValue val = effect.getEmitters().get(i).getRotation();
 
-           val.setHigh(newAngle, newAngle);                                           
-           val.setLow(newAngle);
+            val.setHigh(newAngle, newAngle);
+            val.setLow(newAngle);
         }
+	}
+
+	public void setParticleVelocity(float angle) {
+
+		float newAngle = (float) (angle * 180 / Math.PI + 180);
+		for (int i = 0; i < effect.getEmitters().size; i++) {
+			ScaledNumericValue val = effect.getEmitters().get(i).getAngle();
+
+			float rotation = newAngle - val.getLowMax();
+			val.setHigh(val.getHighMin() + rotation, val.getHighMax() + rotation);
+			val.setLow(rotation);
+		}
 	}
 
 	/**

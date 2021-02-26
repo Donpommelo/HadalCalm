@@ -52,6 +52,7 @@ public class Nematocydearm extends RangedWeapon {
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.POKING, DamageTypes.RANGED).setStaticKnockback(true));
 		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.6f, true));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DANGER_RED, 0.0f, 1.0f));
 		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
 			HadalColor.SKY_BLUE));
 		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, false));
