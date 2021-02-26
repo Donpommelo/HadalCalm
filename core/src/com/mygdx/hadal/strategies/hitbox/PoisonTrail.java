@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -23,7 +24,9 @@ public class PoisonTrail extends HitboxStrategy {
 	//the time interval between creating poison
 	private final Vector2 lastPosition = new Vector2();
 	private final Vector2 poisonSize = new Vector2();
-	
+
+	private Particle particle = Particle.POISON;
+
 	public PoisonTrail(PlayState state, Hitbox proj, BodyData user, Vector2 poisonSize, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {
 		super(state, proj, user);
 		this.poisonRadius = poisonRadius;
@@ -41,7 +44,12 @@ public class PoisonTrail extends HitboxStrategy {
 		entityLocation.set(hbox.getPixelPosition());
 		if (lastPosition.dst(entityLocation) > poisonRadius) {
 			lastPosition.set(entityLocation);
-			new Poison(state, entityLocation, poisonSize, poisonDamage, poisonDuration, creator.getSchmuck(), true, filter);
+			new Poison(state, entityLocation, poisonSize, poisonDamage, poisonDuration, creator.getSchmuck(), true, filter).setParticle(particle);
 		}
+	}
+
+	public PoisonTrail setParticle(Particle particle) {
+		this.particle = particle;
+		return this;
 	}
 }

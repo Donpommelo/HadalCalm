@@ -62,7 +62,7 @@ public class Boss5 extends EnemyFloating {
 		this.bodySprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.NEPTUNE_KING_BODY.getFrames());
 		this.crownSprite = Sprite.NEPTUNE_KING_CROWN.getFrame();
 
-		new ParticleEntity(state, this, Particle.TYRRAZZA_TRAIL, 1.0f, 0.0f, true, ParticleEntity.particleSyncType.TICKSYNC);
+		new ParticleEntity(state, this, Particle.TYRRAZZA_TRAIL, 1.0f, 0.0f, true, ParticleEntity.particleSyncType.TICKSYNC).setScale(2.0f);
 	}
 
 	@Override
@@ -193,7 +193,7 @@ public class Boss5 extends EnemyFloating {
 	Vector2 angle = new Vector2(1, 0);
 	private void radialBurst(String dummyId) {
 		EnemyUtils.moveToDummy(state, this, dummyId, charge1Speed, moveDurationMax);
-		windupParticle(Particle.FIRE, HadalColor.VIOLET, 40.0f, radialWindup, radialWindup);
+		windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.VIOLET, 40.0f, radialWindup, radialWindup);
 
 		getActions().add(new EnemyAction(this, 0.0f) {
 
@@ -213,9 +213,9 @@ public class Boss5 extends EnemyFloating {
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), shot1Damage, shot1Knockback, DamageTypes.RANGED));
 
-					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.LASER_TRAIL, 0.0f, particleLinger).setParticleColor(
+					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, particleLinger).setParticleColor(
 						HadalColor.VIOLET));
-					hbox.addStrategy(new ContactUnitParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
+					hbox.addStrategy(new DieParticles(state, hbox, getBodyData(), Particle.DIATOM_IMPACT_SMALL).setParticleColor(
 						HadalColor.VIOLET));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
@@ -241,7 +241,7 @@ public class Boss5 extends EnemyFloating {
 			EnemyUtils.moveToDummy(state, this, "4", charge1Speed, moveDurationMax);
 
 		}
-		windupParticle(Particle.BRIGHT, HadalColor.GREEN, 40.0f, vineWindup, vineWindup);
+		windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.GREEN, 40.0f, vineWindup, vineWindup);
 
 		getActions().add(new EnemyAction(this, 0.0f) {
 
@@ -303,12 +303,12 @@ public class Boss5 extends EnemyFloating {
 
 		if (GameStateManager.generator.nextInt(2) == 0) {
 			EnemyUtils.moveToDummy(state, this, "0", charge1Speed, moveDurationMax);
-			windupParticle(Particle.BRIGHT, HadalColor.GREEN, 40.0f, seedWindup, seedWindup);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.GREEN, 40.0f, seedWindup, seedWindup);
 			sowSeed();
 			EnemyUtils.moveToDummy(state, this, "4", seedMoveSpeed, moveDurationMax);
 		} else {
 			EnemyUtils.moveToDummy(state, this, "4", charge1Speed, moveDurationMax);
-			windupParticle(Particle.BRIGHT, HadalColor.GREEN, 40.0f, seedWindup, seedWindup);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.GREEN, 40.0f, seedWindup, seedWindup);
 			sowSeed();
 			EnemyUtils.moveToDummy(state, this, "0", seedMoveSpeed, moveDurationMax);
 		}
@@ -372,7 +372,7 @@ public class Boss5 extends EnemyFloating {
 	private static final Vector2 poisonCloudSize = new Vector2(101, 250);
 	private void poisonSpewSingle(String dummyId) {
 		EnemyUtils.moveToDummy(state, this, dummyId, move1Speed, moveDurationMax);
-		windupParticle(Particle.POISON, HadalColor.GREEN, 40.0f, poisonWindup, poisonWindup);
+		windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.GREEN, 40.0f, poisonWindup, poisonWindup);
 
 		getActions().add(new EnemyAction(this, 0.0f) {
 
@@ -387,7 +387,8 @@ public class Boss5 extends EnemyFloating {
 				poison.addStrategy(new ControllerDefault(state, poison, getBodyData()));
 				poison.addStrategy(new ContactWallDie(state, poison, getBodyData()));
 				poison.addStrategy(new CreateSound(state, poison, getBodyData(), SoundEffect.OOZE, 0.8f, true));
-				poison.addStrategy(new PoisonTrail(state, poison, getBodyData(), poisonSize, (int) poisonSize.y, poisonDamage, poisonBreathLifespan, getHitboxfilter()));
+				poison.addStrategy(new PoisonTrail(state, poison, getBodyData(), poisonSize, (int) poisonSize.y, poisonDamage, poisonBreathLifespan, getHitboxfilter())
+				.setParticle(Particle.POLLEN_POISON));
 				poison.addStrategy(new HitboxStrategy(state, poison, getBodyData()) {
 
 						 @Override
@@ -405,13 +406,13 @@ public class Boss5 extends EnemyFloating {
 
 							 hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 							 hbox.addStrategy(new PoisonTrail(state, hbox, getBodyData(), poisonCloudSize, (int) poisonCloudSize.x,
-								 poisonDamage, poisonCloudLifespan, getHitboxfilter()));
+								 poisonDamage, poisonCloudLifespan, getHitboxfilter()).setParticle(Particle.POLLEN_POISON));
 						 }
 					 }
 				);
 			}
 		});
-		windupParticle(Particle.POISON, HadalColor.GREEN, 40.0f, poisonCooldown, poisonCooldown);
+		windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.GREEN, 40.0f, poisonCooldown, poisonCooldown);
 	}
 
 	private static final float sporeWindup = 1.5f;
@@ -439,7 +440,7 @@ public class Boss5 extends EnemyFloating {
 
 	private void sporeBurst() {
 		EnemyUtils.moveToDummy(state, this, "2", move1Speed, moveDurationMax);
-		windupParticle(Particle.BRIGHT, HadalColor.BLUE, 40.0f, sporeWindup, sporeWindup);
+		windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.BLUE, 40.0f, sporeWindup, sporeWindup);
 
 		for (int i = 0; i < burstNumber; i++) {
 			getActions().add(new EnemyAction(this, sporeInterval) {
@@ -459,6 +460,7 @@ public class Boss5 extends EnemyFloating {
 					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), sporeHoming, sporeHomingRadius));
 					hbox.addStrategy(new FlashNearDeath(state, hbox, getBodyData(), 1.0f));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, particleLinger));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, getBodyData()) {
 
 						private final Vector2 newVelocity = new Vector2();
@@ -516,12 +518,12 @@ public class Boss5 extends EnemyFloating {
 		} else {
 			EnemyUtils.moveToDummy(state, this, "3", move1Speed, moveDurationMax);
 		}
-		windupParticle(Particle.BRIGHT, HadalColor.BLUE, 40.0f, scytheWindup, scytheWindup);
+		windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.BLUE, 40.0f, scytheWindup, scytheWindup);
 		scytheSingle(0);
 		scytheSingle(90);
 		scytheSingle(180);
 		scytheSingle(270);
-		windupParticle(Particle.BRIGHT, HadalColor.BLUE, 40.0f, scytheCooldown, scytheCooldown);
+		windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.BLUE, 40.0f, scytheCooldown, scytheCooldown);
 	}
 
 	private void scytheSingle(float startAngle) {
@@ -605,7 +607,7 @@ public class Boss5 extends EnemyFloating {
 		if (GameStateManager.generator.nextInt(2) == 0) {
 			EnemyUtils.moveToDummy(state, this, "0", move1Speed, moveDurationMax);
 			orbitalChargeSingle();
-			windupParticle(Particle.BRIGHT, HadalColor.RED, 40.0f, orbitalWindup, orbitalWindup);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.RED, 40.0f, orbitalWindup, orbitalWindup);
 			EnemyUtils.moveToDummy(state, this, "1", orbitalChargeSpeed, moveDurationMax);
 			EnemyUtils.moveToDummy(state, this, "2", orbitalChargeSpeed + orbitalChargeSpeedGrowth, moveDurationMax);
 			EnemyUtils.moveToDummy(state, this, "3", orbitalChargeSpeed + 2 * orbitalChargeSpeedGrowth, moveDurationMax);
@@ -613,7 +615,7 @@ public class Boss5 extends EnemyFloating {
 		} else {
 			EnemyUtils.moveToDummy(state, this, "4", move1Speed, moveDurationMax);
 			orbitalChargeSingle();
-			windupParticle(Particle.BRIGHT, HadalColor.RED, 40.0f, orbitalWindup, orbitalWindup);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.RED, 40.0f, orbitalWindup, orbitalWindup);
 			EnemyUtils.moveToDummy(state, this, "3", orbitalChargeSpeed, moveDurationMax);
 			EnemyUtils.moveToDummy(state, this, "2", orbitalChargeSpeed + orbitalChargeSpeedGrowth, moveDurationMax);
 			EnemyUtils.moveToDummy(state, this, "1", orbitalChargeSpeed + 2 * orbitalChargeSpeedGrowth, moveDurationMax);
@@ -689,15 +691,15 @@ public class Boss5 extends EnemyFloating {
 	private void spreadingShadow() {
 		if (GameStateManager.generator.nextInt(2) == 0) {
 			EnemyUtils.moveToDummy(state, this, "0", move1Speed, moveDurationMax);
-			windupParticle(Particle.SHADOW_CLOAK, HadalColor.NOTHING, 40.0f, orbitalWindup, orbitalWindup);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.NOTHING, 40.0f, orbitalWindup, orbitalWindup);
 			spreadingShadowSingle("2");
-			windupParticle(Particle.SHADOW_CLOAK, HadalColor.NOTHING, 40.0f, orbitalWindup, orbitalWindup);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.NOTHING, 40.0f, orbitalWindup, orbitalWindup);
 			spreadingShadowSingle("4");
 		} else {
 			EnemyUtils.moveToDummy(state, this, "4", move1Speed, moveDurationMax);
-			windupParticle(Particle.SHADOW_CLOAK, HadalColor.NOTHING, 40.0f, orbitalWindup, orbitalWindup);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.NOTHING, 40.0f, orbitalWindup, orbitalWindup);
 			spreadingShadowSingle("2");
-			windupParticle(Particle.SHADOW_CLOAK, HadalColor.NOTHING, 40.0f, orbitalWindup, orbitalWindup);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.NOTHING, 40.0f, orbitalWindup, orbitalWindup);
 			spreadingShadowSingle("0");
 		}
 	}
@@ -725,7 +727,8 @@ public class Boss5 extends EnemyFloating {
 								shadow.addStrategy(new DamageStandard(state, shadow, getBodyData(), shadowDamage, shadowKB, DamageTypes.RANGED));
 								shadow.addStrategy(new ContactUnitDie(state, shadow, getBodyData()));
 								shadow.addStrategy(new ContactWallDie(state, shadow, getBodyData()));
-								shadow.addStrategy(new CreateParticles(state, shadow, getBodyData(), Particle.SHADOW_PATH, 0.0f, 1.0f));
+								shadow.addStrategy(new CreateParticles(state, shadow, getBodyData(), Particle.POLYGON, 0.0f, 1.0f));
+								shadow.addStrategy(new DieParticles(state, shadow, getBodyData(), Particle.DIATOM_IMPACT_SMALL, 1.0f));
 								shadow.addStrategy(new ContactUnitSound(state, shadow, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 								shadow.addStrategy((new HitboxStrategy(state, shadow, getBodyData()) {
 
