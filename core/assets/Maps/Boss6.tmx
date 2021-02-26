@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="55">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="68">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="zoom" type="float" value="1.5"/>
@@ -7,13 +7,10 @@
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="80" height="90">
   <data encoding="base64" compression="zlib">
-   eAHt3MlywjAQBFCy78kh+f9vjTj4oiCG7sYpt9xUuaiQGTN+HtBy4HDIIwIRiEAEIhCBCEQgAhGIwP8K3LS3e80xNLgtbsd9+/9XjqHBS/yGNpf0Tfy0z9c1/D5aD99NeHxe8L2l+h3t3tsx4+OtXVRlqPjNbLf0Q2XI+u3B7hJDxm9PdpUh6rdHu3OGqF8Vv7zXrM/9eqLyQONndVuuC/VA40fr5Wqd6JKHeqjxyxoI7XOXPPS60HgXB7ZO1AONZ+tyyUM90HgXB7ZO1AONZ+tyyUM9qvinNtCf2ot5XiYAg2eXPHU8rfwGPNO8HD/tVsYvfpqAlp3+i58moGWn/7bt57KPwta5dv/153dZR7B1VvPh3gONZ+tyyUM90HgXB7ZO1AONZ+tyyUM90HgXB7ZO1KOKd9lHYetUx4PKT5tdbT87fto9il/8NAEtO/0XP01Ay07/bduP3ddwyVu7//rzs/N6l7xqPtx7oPEuDmydqAcaz9blkod6oPEuDmydqAcaz9blkod6VPHsvoZLnjoeVH7a7Gr72fHT7lH84qcJaNnpv/hpAlp2+m/bfi77KGyda/dff36XdQRbZzUf7j3QeLYulzzUA413cWDrRD3QeLYulzzUA413cWDrRD2qeJd9FLZOdTyo/LTZ1faz46fdI9Xvu739o1aCbfZDq/ynHct35fG5+jz23secPRqesmP99mY4slP89mJ4zk71m92wsruG32I442+k9mPF8Vr7gxk/+nPs+e/4/e0ppB/it67faJ146jc29vha9bsi7SszjwhEIAIRiEAEImAh8AtlrGLl
+   eAHt3MtKxFAQhGFv4AXUhb7/sxoXA3owlH8XoymmhEEx1ZPOl9acZDFXV/2qQAUqUIEKVKACFahABSrwtwLX2+6e+to1uBGn427b/trXrsFj/XZtfjM39fP+vqjf8zavtxf8eln+l1E/lRf/DuI3r9cD5UHz8UDiAKgHzYvdx2+mHjQfDyQOgHrQvNh9/GbqQfPxQOIAqAfNi93Hb6YeNL93v6zuE1PqqIebP90D0XVSSh09LppPcZj2ST1oftpXSh31oPkUh2mf1IPmp32l1FEPlb/fVig/PZ95ECuXlDr3eqr8BFP85vp5p7B+9fMEvOrOX/08Aa+683dsv5TnKNM+zz1/6/un3EdM+1Tr4dWD5qd9pdRRD5pPcZj2ST1oftpXSh31oPkUh2mf1EPlU56jTPt0rwfKz1tdHb+6ft45ql/9PAGvuvNXP0/Aq+78Hdtv+lwjpe7c87e+/3Rdn1Kn1sOrB82nOEz7pB40P+0rpY560HyKw7RP6kHz075S6qiHyk+fa6TUudcD5eetro5fXT/vHNWvfp6AV935q58n4FV3/o7tl/IcZdrnuedvff+U+4hpn2o9vHrQ/LSvlDrqQfMpDtM+qQfNT/tKqaMeNJ/iMO2Teqh8ynOUaZ/u9UD5eaur41fXzztH9aufJ+BVd/7q5wl41Z2///V723Z/yZ+H+r4d/2mt/fldrefWef1a25/r585A5+/73yP1VH5794k/fcbGJf5Ofa6Id7VqdQUqUIEKVKACFfg7gQ84uV5x
   </data>
  </layer>
  <objectgroup id="3" name="collision-layer">
-  <object id="1" x="224" y="640">
-   <polyline points="0,0 0,1696 160,1856 1856,1856 2016,1696 2016,0 1856,-160 160,-160 0,0"/>
-  </object>
   <object id="2" x="448" y="704">
    <polyline points="0,0 224,0 224,224 0,224 0,0"/>
   </object>
@@ -62,6 +59,9 @@
   <object id="20" x="448" y="2048">
    <polyline points="0,0 224,0 224,224 0,224 0,0"/>
   </object>
+  <object id="66" x="224" y="2496">
+   <polyline points="0,0 2016,0 2016,-2016 0,-2016 0,0"/>
+  </object>
  </objectgroup>
  <objectgroup id="4" name="event-layer">
   <object id="22" name="Start" type="Start" x="1024" y="1472" width="32" height="32">
@@ -83,7 +83,7 @@
     <property name="triggeredId" value="bounds1"/>
    </properties>
   </object>
-  <object id="25" name="Multitrigger" type="Multitrigger" x="160" y="256" width="32" height="32">
+  <object id="25" name="Multitrigger" type="Multitrigger" x="160" y="160" width="32" height="32">
    <properties>
     <property name="triggeredId" value="playerstart"/>
     <property name="triggeringId" value="bounds1,bounds2"/>
@@ -232,17 +232,104 @@
     <property name="triggeredId" value="fitewin"/>
    </properties>
   </object>
-  <object id="53" name="Timer" type="Timer" x="160" y="160" width="32" height="32">
+  <object id="53" name="Timer" type="Timer" x="160" y="96" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="1"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="initLimiter"/>
    </properties>
   </object>
-  <object id="54" name="Multitrigger" type="Multitrigger" x="224" y="160" width="32" height="32">
+  <object id="54" name="Multitrigger" type="Multitrigger" x="224" y="96" width="32" height="32">
    <properties>
     <property name="triggeredId" value="initLimiter"/>
     <property name="triggeringId" value="startTimer,w1,w2,spawn0"/>
+   </properties>
+  </object>
+  <object id="56" name="Timer" type="Timer" x="160" y="224" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="20"/>
+    <property name="triggeringId" value="spawnWeapons"/>
+   </properties>
+  </object>
+  <object id="57" name="Multitrigger" type="Multitrigger" x="224" y="224" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1,w2"/>
+   </properties>
+  </object>
+  <object id="58" name="Prefab" type="PrefabWeapon" x="512" y="1504" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="59" name="Prefab" type="PrefabWeapon" x="1856" y="1504" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
+   </properties>
+  </object>
+  <object id="60" name="Prefab" type="PrefabSpawner" x="512" y="1952" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="61" name="Prefab" type="PrefabSpawner" x="1856" y="1952" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f2"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="62" name="Prefab" type="PrefabSpawner" x="960" y="1056" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f3"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="63" name="Prefab" type="PrefabSpawner" x="1408" y="1056" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f4"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="64" name="Prefab" type="PrefabSpawner" x="512" y="608" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f5"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="65" name="Prefab" type="PrefabSpawner" x="1856" y="608" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f6"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="67" name="Prefab" type="PrefabSpawner" x="1184" y="2400" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="30"/>
+    <property name="power" type="float" value="40"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
    </properties>
   </object>
  </objectgroup>

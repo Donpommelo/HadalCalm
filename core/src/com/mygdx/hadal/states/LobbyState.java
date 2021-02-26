@@ -100,7 +100,7 @@ public class LobbyState extends GameState {
     private float refreshCdCount = refreshCd;
 
     private boolean connectionAttempted;
-    private static final float connectionTimeout = 8.0f;
+    private static final float connectionTimeout = 10.0f;
     private float connectionDuration;
 
     public LobbyState(final GameStateManager gsm,  GameState peekState) {
@@ -413,6 +413,7 @@ public class LobbyState extends GameState {
                                     gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
                             } catch (IOException ex) {
                                 Gdx.app.log("LOBBY", "FAILED TO JOIN: " + ex);
+                                setNotification("FAILED TO CONNECT TO LOBBY");
                             }
                         });
                     }

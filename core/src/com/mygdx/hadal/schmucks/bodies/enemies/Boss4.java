@@ -462,6 +462,7 @@ public class Boss4 extends EnemyFloating {
 				public void execute() {
 					
 					Hitbox trail = new RangedHitbox(state, startPosLaser, trailSize, trailLifespan, startVeloTrail, getHitboxfilter(), false, false, enemy, Sprite.NOTHING);
+					trail.makeUnreflectable();
 					trail.setDurability(beamDurability);
 					trail.setRestitution(1.0f);
 
@@ -840,7 +841,7 @@ public class Boss4 extends EnemyFloating {
 	
 	private static final float reticleInterval = 0.5f;
 	private static final float reticleFollowDuration = 8.0f;
-	private static final float reticleLifespan = 1.25f;
+	private static final float reticleLifespan = 1.5f;
 	private static final float reticleSize = 150;
 	
 	private static final int explosionRadius = 225;

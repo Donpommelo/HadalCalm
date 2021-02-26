@@ -41,7 +41,7 @@ bee
   index: 0
 bee
   rotate: false
-  xy: 1955, 217
+  xy: 261, 10
   size: 52, 46
   orig: 52, 46
   offset: 0, 0
@@ -74,13 +74,6 @@ blue_star
   orig: 284, 284
   offset: 0, 0
   index: 3
-boomerang
-  rotate: false
-  xy: 1964, 2
-  size: 40, 38
-  orig: 40, 38
-  offset: 0, 0
-  index: -1
 bouncing_blade
   rotate: false
   xy: 802, 426
@@ -132,18 +125,11 @@ cola
   index: 0
 cola
   rotate: false
-  xy: 1955, 183
+  xy: 1964, 30
   size: 55, 32
   orig: 55, 32
   offset: 0, 0
   index: 1
-cola
-  rotate: false
-  xy: 1954, 1072
-  size: 55, 32
-  orig: 55, 32
-  offset: 0, 0
-  index: 2
 cork
   rotate: false
   xy: 658, 428
@@ -167,7 +153,7 @@ debris_c
   index: -1
 debris_d
   rotate: false
-  xy: 1964, 135
+  xy: 417, 9
   size: 46, 46
   orig: 46, 46
   offset: 0, 0
@@ -202,7 +188,7 @@ diatom_d
   index: -1
 diatom_shot_b
   rotate: false
-  xy: 1955, 373
+  xy: 1955, 310
   size: 84, 41
   orig: 84, 41
   offset: 0, 0
@@ -235,9 +221,16 @@ fugu
   orig: 63, 65
   offset: 0, 0
   index: -1
+goldfish
+  rotate: false
+  xy: 1968, 1245
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
 grenade
   rotate: false
-  xy: 2009, 220
+  xy: 2009, 64
   size: 37, 43
   orig: 37, 43
   offset: 0, 0
@@ -258,7 +251,7 @@ iceberg
   index: -1
 iron_ball
   rotate: false
-  xy: 1964, 88
+  xy: 1964, 155
   size: 44, 45
   orig: 44, 45
   offset: 0, 0
@@ -328,18 +321,11 @@ laser_beam
   index: 5
 laser_beam
   rotate: false
-  xy: 261, 3
+  xy: 315, 3
   size: 100, 52
   orig: 100, 52
   offset: 0, 0
   index: 6
-laser_beam_blue
-  rotate: false
-  xy: 363, 3
-  size: 100, 52
-  orig: 100, 52
-  offset: 0, 0
-  index: -1
 meteor_a
   rotate: false
   xy: 790, 2
@@ -475,9 +461,16 @@ open_hand
   index: -1
 orb_blue
   rotate: false
-  xy: 1964, 42
+  xy: 1964, 109
   size: 44, 44
   orig: 44, 44
+  offset: 0, 0
+  index: -1
+orb_orange
+  rotate: false
+  xy: 1964, 64
+  size: 43, 43
+  orig: 43, 43
   offset: 0, 0
   index: -1
 orb_red
@@ -587,28 +580,28 @@ slag
   index: -1
 spit
   rotate: false
-  xy: 1955, 346
+  xy: 1955, 283
   size: 86, 25
   orig: 86, 25
   offset: 0, 0
   index: 0
 spit
   rotate: false
-  xy: 1955, 319
+  xy: 1955, 256
   size: 86, 25
   orig: 86, 25
   offset: 0, 0
   index: 1
 spit
   rotate: false
-  xy: 1955, 292
+  xy: 1955, 229
   size: 86, 25
   orig: 86, 25
   offset: 0, 0
   index: 2
 spit
   rotate: false
-  xy: 1955, 265
+  xy: 1955, 202
   size: 86, 25
   orig: 86, 25
   offset: 0, 0
@@ -627,13 +620,6 @@ splitter1
   orig: 157, 304
   offset: 0, 0
   index: -1
-spore
-  rotate: false
-  xy: 2006, 2
-  size: 38, 38
-  orig: 38, 38
-  offset: 0, 0
-  index: -1
 spore_cluster
   rotate: false
   xy: 1968, 1319
@@ -643,14 +629,14 @@ spore_cluster
   index: -1
 sticky
   rotate: false
-  xy: 1968, 1244
+  xy: 1968, 1170
   size: 69, 73
   orig: 69, 73
   offset: 0, 0
   index: 0
 sticky
   rotate: false
-  xy: 1968, 1169
+  xy: 1968, 1095
   size: 69, 73
   orig: 69, 73
   offset: 0, 0
@@ -713,7 +699,7 @@ torpedo
   index: -1
 trick
   rotate: false
-  xy: 1968, 1106
+  xy: 1955, 353
   size: 71, 61
   orig: 71, 61
   offset: 0, 0
@@ -787,163 +773,184 @@ size: 2048,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+boomerang
+  rotate: false
+  xy: 1979, 861
+  size: 40, 38
+  orig: 40, 38
+  offset: 0, 0
+  index: -1
 cola
   rotate: false
-  xy: 2, 44
+  xy: 104, 117
+  size: 55, 32
+  orig: 55, 32
+  offset: 0, 0
+  index: 2
+cola
+  rotate: false
+  xy: 778, 745
   size: 55, 32
   orig: 55, 32
   offset: 0, 0
   index: 3
 debris_a
   rotate: false
-  xy: 2, 2
+  xy: 1934, 814
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 debris_b
   rotate: false
-  xy: 1934, 841
+  xy: 2, 2
   size: 44, 40
   orig: 44, 40
   offset: 0, 0
   index: -1
 diatom_shot_a
   rotate: false
-  xy: 1934, 883
+  xy: 2, 44
   size: 97, 51
   orig: 97, 51
   offset: 0, 0
   index: -1
+laser_beam_blue
+  rotate: false
+  xy: 574, 725
+  size: 100, 52
+  orig: 100, 52
+  offset: 0, 0
+  index: -1
 laser_beam_green
   rotate: false
-  xy: 574, 706
+  xy: 1934, 955
   size: 100, 52
   orig: 100, 52
   offset: 0, 0
   index: -1
 laser_beam_orange
   rotate: false
-  xy: 1934, 936
+  xy: 2, 97
   size: 100, 52
   orig: 100, 52
   offset: 0, 0
   index: -1
 laser_beam_purple
   rotate: false
-  xy: 2, 78
+  xy: 676, 725
   size: 100, 52
   orig: 100, 52
   offset: 0, 0
   index: -1
 laser_beam_turquoise
   rotate: false
-  xy: 676, 706
+  xy: 1934, 901
   size: 100, 52
   orig: 100, 52
   offset: 0, 0
   index: -1
-orb_orange
+orb_pink
   rotate: false
-  xy: 104, 87
+  xy: 1934, 856
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: -1
-orb_pink
+spore
   rotate: false
-  xy: 778, 715
-  size: 43, 43
-  orig: 43, 43
+  xy: 48, 4
+  size: 38, 38
+  orig: 38, 38
   offset: 0, 0
   index: -1
 underminer
   rotate: false
-  xy: 288, 474
+  xy: 288, 493
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 0
 underminer
   rotate: false
-  xy: 574, 760
+  xy: 574, 779
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 1
 underminer
   rotate: false
-  xy: 288, 244
+  xy: 288, 263
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 2
 underminer
   rotate: false
-  xy: 846, 760
+  xy: 846, 779
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 3
 underminer
   rotate: false
-  xy: 1118, 760
+  xy: 1118, 779
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 4
 underminer
   rotate: false
-  xy: 1118, 760
+  xy: 1118, 779
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 7
 underminer
   rotate: false
-  xy: 1390, 760
+  xy: 1390, 779
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 5
 underminer
   rotate: false
-  xy: 1662, 760
+  xy: 1662, 779
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 6
 underminer
   rotate: false
-  xy: 288, 14
+  xy: 288, 33
   size: 270, 228
   orig: 270, 228
   offset: 0, 0
   index: 8
 yellow_star
   rotate: false
-  xy: 2, 704
+  xy: 2, 723
   size: 284, 284
   orig: 284, 284
   offset: 0, 0
   index: 0
 yellow_star
   rotate: false
-  xy: 2, 418
+  xy: 2, 437
   size: 284, 284
   orig: 284, 284
   offset: 0, 0
   index: 1
 yellow_star
   rotate: false
-  xy: 288, 704
+  xy: 288, 723
   size: 284, 284
   orig: 284, 284
   offset: 0, 0
   index: 2
 yellow_star
   rotate: false
-  xy: 2, 132
+  xy: 2, 151
   size: 284, 284
   orig: 284, 284
   offset: 0, 0

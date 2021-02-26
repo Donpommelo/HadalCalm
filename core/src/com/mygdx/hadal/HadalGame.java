@@ -252,6 +252,7 @@ public class HadalGame extends ApplicationAdapter {
 					PortMappingEntry portMapping = new PortMappingEntry();
 					d.deletePortMapping(port, protocol);
 					if (!d.getSpecificPortMappingEntry(port, protocol, portMapping)) {
+
 						if (!d.addPortMapping(port, port, localAddress.getHostAddress(), protocol, descr)) {
 							Gdx.app.log("UPNP", "FAILED TO MAP PORT");
 						} else {
@@ -262,7 +263,7 @@ public class HadalGame extends ApplicationAdapter {
 					}
 				}
 			} catch (ParserConfigurationException | SAXException | IOException parserConfigurationException) {
-				Gdx.app.log("UPNP", "ERROR WHEN MAPPING uPnP PORT");
+				Gdx.app.log("UPNP", "ERROR WHEN MAPPING UPNP PORT");
 			}
 		}).start();
 	}

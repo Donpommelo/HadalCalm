@@ -121,7 +121,6 @@ public class Boss5 extends EnemyFloating {
 
 		if (attackNum % 2 == 0) {
 			int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
-
 			switch(nextAttack) {
 				case 0:
 					orbitalCharge();
@@ -204,7 +203,7 @@ public class Boss5 extends EnemyFloating {
 
 					Vector2 startVelo = new Vector2(shot1Speed, 0).setAngleDeg(angle.angleDeg());
 					RangedHitbox hbox = new RangedHitbox(state, enemy.getPixelPosition(), projSize,	shot1Lifespan, startVelo,
-						getHitboxfilter(), true, false, enemy, Sprite.LASER_PURPLE);
+						getHitboxfilter(), true, false, enemy, Sprite.DIATOM_SHOT_A);
 					hbox.setSpriteSize(projSpriteSize);
 					hbox.setAdjustAngle(true);
 
@@ -503,7 +502,7 @@ public class Boss5 extends EnemyFloating {
 	private static final float scytheFrequency = 1.2f;
 	private static final float scytheSpread = 90.0f;
 	private static final float scytheAngleFrequency = 0.8f;
-	private static final Vector2 scytheSize = new Vector2(300, 100);
+	private static final Vector2 scytheSize = new Vector2(240, 80);
 	private void scytheAttack() {
 		int rand = GameStateManager.generator.nextInt(3);
 		if (rand== 0) {
@@ -752,7 +751,7 @@ public class Boss5 extends EnemyFloating {
 		EnemyUtils.moveToDummy(state, this, dummyId, shadowChargeSpeed, moveDurationMax);
 	}
 
-	private static final Vector2 seedSize = new Vector2(59, 40);
+	private static final Vector2 seedSize = new Vector2(45, 30);
 	private static final Vector2 vineSize = new Vector2(80, 40);
 	private static final Vector2 vineSpriteSize = new Vector2(120, 120);
 	private static final float vineDamage = 18.0f;

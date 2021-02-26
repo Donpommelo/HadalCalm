@@ -63,7 +63,7 @@ public class Airblaster extends MeleeWeapon {
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB.getType().equals(UserDataTypes.HITBOX)) {
-						if (fixB.getEntity().isAlive()) {
+						if (fixB.getEntity().isAlive() && ((Hitbox) fixB.getEntity()).isReflectable()) {
 							fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().scl(reflectVeloAmp).
 								clamp(reflectVeloMin, reflectVeloMax).setAngleDeg(startVelocity.angleDeg()));
 						}
