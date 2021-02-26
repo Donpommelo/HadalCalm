@@ -447,7 +447,7 @@ public class Boss5 extends EnemyFloating {
 
 					Vector2 startVelo = new Vector2(0, sporeSpeed).setAngleDeg(getAttackAngle());
 					RangedHitbox hbox = new RangedHitbox(state, enemy.getPixelPosition(), sporeSize, sporeLifespan,
-						startVelo, getHitboxfilter(), false, false, enemy, Sprite.SPORE_CLUSTER);
+						startVelo, getHitboxfilter(), false, false, enemy, Sprite.SPORE_CLUSTER_MILD);
 					hbox.setRestitution(1.0f);
 
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
@@ -469,7 +469,7 @@ public class Boss5 extends EnemyFloating {
 								newSize.set(sporeFragSize).scl((ThreadLocalRandom.current().nextFloat() * fragSizeSpread + 1 - fragSizeSpread / 2));
 
 								RangedHitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), new Vector2(newSize), sporeFragLifespan,
-								  new Vector2(newVelocity), getHitboxfilter(), true, false, enemy, Sprite.SPORE) {
+								  new Vector2(newVelocity), getHitboxfilter(), false, false, enemy, Sprite.SPORE_MILD) {
 
 									@Override
 									public void create() {
@@ -477,6 +477,7 @@ public class Boss5 extends EnemyFloating {
 										getBody().setLinearDamping(fragDampen);
 									}
 								};
+								frag.setRestitution(1.0f);
 
 								frag.addStrategy(new ControllerDefault(state, frag, getBodyData()));
 								frag.addStrategy(new DamageStandard(state, frag, getBodyData(), sporeFragDamage, sporeFragKB, DamageTypes.RANGED).setStaticKnockback(true));

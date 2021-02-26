@@ -137,6 +137,10 @@ public class Enemy extends Schmuck {
 		
 		//if boss, activate on boss spawn statuses for all players
 		if (isBoss && state.isServer()) {
+
+			//this method should be overloaded for bosses that scale to the number of players
+			multiplayerScaling(HadalGame.server.getNumPlayers());
+
 			state.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
 			for (User user : HadalGame.server.getUsers().values()) {
 				if (user.getPlayer() != null) {
@@ -145,9 +149,6 @@ public class Enemy extends Schmuck {
 					}
 				}
 			}
-			
-			//this method should be overloaded for bosses that scale to the number of players
-			multiplayerScaling(HadalGame.server.getNumPlayers());
 		}
 	}
 

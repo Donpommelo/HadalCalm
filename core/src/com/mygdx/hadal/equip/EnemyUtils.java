@@ -257,7 +257,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				
-				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), duration, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), new Vector2(300, 300), duration, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 				hbox.makeUnreflectable();
 				
 				if (!permanent) {

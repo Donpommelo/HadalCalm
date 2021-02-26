@@ -150,16 +150,16 @@ public class Boss6 extends EnemyFloating {
 	}
 
 	private static final float chaseDamage = 1.1f;
-	private static final int chaseKnockback = 9;
+	private static final int chaseKnockback = 12;
 	private static final float meleeAttackInterval = 1 / 60.0f;
 	private static final int spinSpeed = 40;
 	private static final float chaseCd = 0.5f;
 
 	private static final float moveDurationMax = 5.0f;
-	private static final int chase1Speed = 18;
-	private static final float chase1Interval = 0.7f;
-	private static final int chase2Speed = 24;
-	private static final float chase2Interval = 0.5f;
+	private static final int chase1Speed = 16;
+	private static final float chase1Interval = 0.8f;
+	private static final int chase2Speed = 21;
+	private static final float chase2Interval = 0.6f;
 
 	private static final float gridDistance = 224;
 	private final Vector2 bossLocation = new Vector2();
@@ -273,7 +273,7 @@ public class Boss6 extends EnemyFloating {
 	private static final Vector2 bombSize = new Vector2(120, 120);
 	private static final Vector2 waveSize = new Vector2(20, 20);
 	private static final float bombLifespan = 6.0f;
-	private static final float waveSpeed = 35.0f;
+	private static final float waveSpeed = 50.0f;
 	private static final float bombDamage = 20.0f;
 	private static final float bombKB = 15.0f;
 	private void crossBomb() {
@@ -441,7 +441,7 @@ public class Boss6 extends EnemyFloating {
 	}
 
 	private static final float pillarWindup = 1.0f;
-	private static final float pillarCooldown = 1.5f;
+	private static final float pillarCooldown = 2.5f;
 	private static final float spawnerLifespan = 4.0f;
 	private static final Vector2 spawnerSize = new Vector2(150, 150);
 	private static final Vector2 pillarSize = new Vector2(40, 40);
@@ -543,7 +543,7 @@ public class Boss6 extends EnemyFloating {
 
 				trail.addStrategy(new ControllerDefault(state, trail, getBodyData()));
 				trail.addStrategy(new AdjustAngle(state, trail, getBodyData()));
-				trail.addStrategy(new CreateParticles(state, trail, getBodyData(), Particle.LASER_TRAIL_SLOW, 0.0f, particleLinger).setParticleSize(40.0f));
+				trail.addStrategy(new CreateParticles(state, trail, getBodyData(), Particle.LASER_TRAIL_SLOW, 0.0f, particleLinger).setParticleSize(15.0f));
 				trail.addStrategy(new TravelDistanceDie(state, trail, getBodyData(), endPosition.dst(startPosition) / PPM));
 			}
 		});
@@ -560,7 +560,7 @@ public class Boss6 extends EnemyFloating {
 		trail.addStrategy(new ControllerDefault(state, trail, getBodyData()));
 		trail.addStrategy(new AdjustAngle(state, trail, getBodyData()));
 		trail.addStrategy(new ContactWallDie(state, trail, getBodyData()));
-		trail.addStrategy(new CreateParticles(state, trail, getBodyData(), Particle.LASER_TRAIL_SLOW, 0.0f, particleLinger).setParticleSize(40.0f));
+		trail.addStrategy(new CreateParticles(state, trail, getBodyData(), Particle.LASER_TRAIL_SLOW, 0.0f, particleLinger).setParticleSize(15.0f));
 	}
 
 	private int chooseRandomPoint(boolean horizontal) {
