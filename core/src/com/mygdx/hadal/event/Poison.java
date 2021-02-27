@@ -48,8 +48,11 @@ public class Poison extends Event {
 	private float currPoisonSpawnTimer;
 	private final float spawnTimerLimit;
 	private short filter;
-	
+
 	private static final float damageInterval = 1 / 60f;
+
+	private float particleLifespan = 1.5f;
+	private float particleInterval = 4096f;
 
 	private Particle poisonParticle = Particle.POISON;
 
@@ -61,7 +64,7 @@ public class Poison extends Event {
 		this.draw = draw;
 		this.on = true;
 		
-		spawnTimerLimit = 4096f / (size.x * size.y);
+		spawnTimerLimit = particleInterval / (size.x * size.y);
 		
 		randomParticles = size.x > 100;
 		
@@ -92,12 +95,12 @@ public class Poison extends Event {
 
 		this.draw = draw;
 		this.on = true;
-		spawnTimerLimit = 4096f / (size.x * size.y);
+		spawnTimerLimit = particleInterval / (size.x * size.y);
 		
 		randomParticles = size.x > 100;
 		
 		if (!randomParticles && draw && state.isServer()) {
-			new ParticleEntity(state, this, poisonParticle, 1.5f, 0, true, particleSyncType.CREATESYNC);
+			new ParticleEntity(state, this, poisonParticle, particleLifespan, 0, true, particleSyncType.CREATESYNC);
 		}
 	}
 	
@@ -112,7 +115,8 @@ public class Poison extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR,
+			(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
 	}
 	
 	private final Vector2 entityLocation = new Vector2();
@@ -143,7 +147,7 @@ public class Poison extends Event {
 					currPoisonSpawnTimer -= spawnTimerLimit;
 					int randX = (int) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
 					int randY = (int) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
-					new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle, 1.5f, true, particleSyncType.NOSYNC);
+					new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle, particleLifespan, true, particleSyncType.NOSYNC);
 				}
 			}
 		}
@@ -166,7 +170,7 @@ public class Poison extends Event {
 					currPoisonSpawnTimer -= spawnTimerLimit;
 					int randX = (int) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
 					int randY = (int) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
-					ParticleEntity poison = new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle, 1.5f, true, particleSyncType.NOSYNC);
+					ParticleEntity poison = new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle, particleLifespan, true, particleSyncType.NOSYNC);
 					((ClientState) state).addEntity(poison.getEntityID().toString(), poison, false, ObjectSyncLayers.STANDARD);
 				}
 			}
@@ -193,6 +197,16 @@ public class Poison extends Event {
 
 	public Poison setParticle(Particle particle) {
 		this.poisonParticle = particle;
+		return this;
+	}
+
+	public Poison setParticleLifespan(float particleLifespan) {
+		this.particleLifespan = particleLifespan;
+		return this;
+	}
+
+	public Poison setParticleInterval(float particleInterval) {
+		this.particleInterval = particleInterval;
 		return this;
 	}
 }

@@ -149,7 +149,7 @@ public class Boss6 extends EnemyFloating {
 		}
 	}
 
-	private static final float chaseDamage = 1.1f;
+	private static final float chaseDamage = 1.3f;
 	private static final int chaseKnockback = 12;
 	private static final float meleeAttackInterval = 1 / 60.0f;
 	private static final int spinSpeed = 40;
@@ -228,7 +228,7 @@ public class Boss6 extends EnemyFloating {
 
 	private static final float charge1Windup = 1.0f;
 	private static final int charge1Speed = 150;
-	private static final float chargeDamage = 25.0f;
+	private static final float chargeDamage = 28.0f;
 	private static final float chargeDuration = 1.4f;
 	private static final int chargeKnockback = 16;
 
@@ -274,7 +274,7 @@ public class Boss6 extends EnemyFloating {
 	private static final Vector2 waveSize = new Vector2(20, 20);
 	private static final float bombLifespan = 6.0f;
 	private static final float waveSpeed = 50.0f;
-	private static final float bombDamage = 20.0f;
+	private static final float bombDamage = 22.0f;
 	private static final float bombKB = 15.0f;
 	private void crossBomb() {
 
@@ -448,7 +448,7 @@ public class Boss6 extends EnemyFloating {
 	private static final float spawnerDelay = 1.0f;
 	private static final float pillarInterval = 0.05f;
 	private static final float pillarSpeed = 60.0f;
-	private static final float pillarDamage = 5.0f;
+	private static final float pillarDamage = 6.0f;
 	private static final float pillarKB = 5.0f;
 	private static final int pillarSpread = 60;
 

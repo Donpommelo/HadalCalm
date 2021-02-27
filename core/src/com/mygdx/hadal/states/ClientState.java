@@ -15,10 +15,7 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This is a version of the playstate that is provided for Clients.
@@ -39,7 +36,12 @@ public class ClientState extends PlayState {
 	
 	//This is a set of all hitboxes mapped from their unique entityId
 	private final LinkedHashMap<String, HadalEntity> hitboxes;
-	
+
+	//This is a set of all hitboxes mapped from their unique entityId
+	private final LinkedHashMap<String, HadalEntity> effects;
+
+	private final ArrayList<Map<String, HadalEntity>> entityLists = new ArrayList<>();
+
 	//This is a list of sync instructions. It contains [entityId, object to be synced]
 	private final ArrayList<SyncPacket> sync;
 
@@ -57,6 +59,10 @@ public class ClientState extends PlayState {
 		super(gsm, loadout, level, false, null, true, "");
 		entities = new LinkedHashMap<>();
 		hitboxes = new LinkedHashMap<>();
+		effects = new LinkedHashMap<>();
+		entityLists.add(hitboxes);
+		entityLists.add(entities);
+		entityLists.add(effects);
 		removeListClient = new LinkedHashSet<>();
 		createListClient = new LinkedHashSet<>();
 		sync = new ArrayList<>();
@@ -126,6 +132,10 @@ public class ClientState extends PlayState {
 				if (hitboxes.putIfAbsent(packet.entityId, packet.entity) == null) {
 					packet.entity.create();
 				}
+			} else if (packet.layer.equals(ObjectSyncLayers.EFFECT)) {
+				if (effects.putIfAbsent(packet.entityId, packet.entity) == null) {
+					packet.entity.create();
+				}
 			} else {
 				if (entities.putIfAbsent(packet.entityId, packet.entity) == null) {
 					packet.entity.create();
@@ -144,8 +154,9 @@ public class ClientState extends PlayState {
 			if (entity != null) {
 				entity.dispose();
 			}
-			entities.remove(key);
-			hitboxes.remove(key);
+			for (Map<String, HadalEntity> m: entityLists) {
+				m.remove(key);
+			}
 		}
 		removeListClient.clear();
 		
@@ -171,36 +182,38 @@ public class ClientState extends PlayState {
 		 			entity.onReceiveSync(p.packet, p.timestamp);
 		 			entity.resetTimeSinceLastSync();
 		 		} else {
-		 			entity = entities.get(p.entityId);
-		 			
-		 			//if we have the entity, sync it and reset the time since last sync
-			 		if (entity != null) {
-			 			entity.onReceiveSync(p.packet, p.timestamp);
-			 			entity.resetTimeSinceLastSync();
-			 		} else {
-			 			
-			 			//if we don't recognize the entity and the entity is of a sufficient age and the client didn't just start up, we may have missed a create packet.
-			 			if (p.age > missedCreateThreshold && getTimer() > initialConnectThreshold && timeSinceLastMissedCreate > missedCreateCooldown) {
-			 				timeSinceLastMissedCreate = 0.0f;
-			 				HadalGame.client.sendUDP(new Packets.MissedCreate(p.entityId));
-			 			}
-			 		}
-		 		}
+					entity = effects.get(p.entityId);
+					if (entity != null) {
+						entity.onReceiveSync(p.packet, p.timestamp);
+						entity.resetTimeSinceLastSync();
+					} else {
+						entity = entities.get(p.entityId);
+
+						//if we have the entity, sync it and reset the time since last sync
+						if (entity != null) {
+							entity.onReceiveSync(p.packet, p.timestamp);
+							entity.resetTimeSinceLastSync();
+						} else {
+
+							//if we don't recognize the entity and the entity is of a sufficient age and the client didn't just start up, we may have missed a create packet.
+							if (p.age > missedCreateThreshold && getTimer() > initialConnectThreshold && timeSinceLastMissedCreate > missedCreateCooldown) {
+								timeSinceLastMissedCreate = 0.0f;
+								HadalGame.client.sendUDP(new Packets.MissedCreate(p.entityId));
+							}
+						}
+					}
+				}
 		 	}
 		}
 		
 		//While most objects don't do any processing on client side, the clientController is run for the exceptions.
-		for (HadalEntity entity : hitboxes.values()) {
-			entity.clientController(delta);
-			entity.decreaseShaderCount(delta);
-			entity.increaseAnimationTime(delta);
-			entity.increaseTimeSinceLastSync(delta);
-		}
-		for (HadalEntity entity : entities.values()) {
-			entity.clientController(delta);
-			entity.decreaseShaderCount(delta);
-			entity.increaseAnimationTime(delta);
-			entity.increaseTimeSinceLastSync(delta);
+		for (Map<String, HadalEntity> m: entityLists) {
+			for (HadalEntity entity : m.values()) {
+				entity.clientController(delta);
+				entity.decreaseShaderCount(delta);
+				entity.increaseAnimationTime(delta);
+				entity.increaseTimeSinceLastSync(delta);
+			}
 		}
 
 		//periodically update score window if scores have been updated
@@ -222,11 +235,10 @@ public class ClientState extends PlayState {
 	
 	@Override
 	public void renderEntities(float delta) {
-		for (HadalEntity schmuck : entities.values()) {
-			renderEntity(schmuck);
-		}
-		for (HadalEntity hitbox : hitboxes.values()) {
-			renderEntity(hitbox);
+		for (Map<String, HadalEntity> m: entityLists) {
+			for (HadalEntity entity : m.values()) {
+				renderEntity(entity);
+			}
 		}
 	}
 	
@@ -340,8 +352,13 @@ public class ClientState extends PlayState {
 		if (entity != null) {
 			return entity;
 		} else {
-			return hitboxes.get(entityId);
-		} 
+			entity = effects.get(entityId);
+			if (entity != null) {
+				return entity;
+			} else {
+				return hitboxes.get(entityId);
+			}
+		}
 	}
 	
 	/**
@@ -355,13 +372,12 @@ public class ClientState extends PlayState {
 	public void dispose() {
 		
 		//clean up all client entities. (some entities require running their dispose() to function properly (soundEntities turning off)
-		for (HadalEntity schmuck : entities.values()) {
-			schmuck.dispose();
+		for (Map<String, HadalEntity> m: entityLists) {
+			for (HadalEntity entity : m.values()) {
+				entity.dispose();
+			}
 		}
-		for (HadalEntity hitbox : hitboxes.values()) {
-			hitbox.dispose();
-		}
-		
+
 		super.dispose();
 	}
 
@@ -420,6 +436,7 @@ public class ClientState extends PlayState {
 	 */
 	public enum ObjectSyncLayers {
 		STANDARD,
-		HBOX
+		HBOX,
+		EFFECT
 	}
 }

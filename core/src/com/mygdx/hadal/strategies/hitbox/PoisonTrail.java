@@ -26,6 +26,8 @@ public class PoisonTrail extends HitboxStrategy {
 	private final Vector2 poisonSize = new Vector2();
 
 	private Particle particle = Particle.POISON;
+	private float lifespan = 1.5f;
+	private float interval = 4096f;
 
 	public PoisonTrail(PlayState state, Hitbox proj, BodyData user, Vector2 poisonSize, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {
 		super(state, proj, user);
@@ -44,12 +46,15 @@ public class PoisonTrail extends HitboxStrategy {
 		entityLocation.set(hbox.getPixelPosition());
 		if (lastPosition.dst(entityLocation) > poisonRadius) {
 			lastPosition.set(entityLocation);
-			new Poison(state, entityLocation, poisonSize, poisonDamage, poisonDuration, creator.getSchmuck(), true, filter).setParticle(particle);
+			new Poison(state, entityLocation, poisonSize, poisonDamage, poisonDuration, creator.getSchmuck(), true, filter)
+				.setParticle(particle).setParticleLifespan(lifespan).setParticleInterval(interval);
 		}
 	}
 
-	public PoisonTrail setParticle(Particle particle) {
+	public PoisonTrail setParticle(Particle particle, float lifespan, float interval) {
 		this.particle = particle;
+		this.lifespan = lifespan;
+		this.interval = interval;
 		return this;
 	}
 }

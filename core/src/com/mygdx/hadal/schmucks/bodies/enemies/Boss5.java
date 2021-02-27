@@ -17,6 +17,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.DeathParticles;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -25,6 +26,8 @@ import com.mygdx.hadal.utils.Stats;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * This is a boss in the game
@@ -69,6 +72,8 @@ public class Boss5 extends EnemyFloating {
 	public void create() {
 		super.create();
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
+		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.DIATOM_IMPACT_LARGE, 1.0f));
+
 	}
 
 	private final Vector2 entityLocation = new Vector2();
@@ -129,7 +134,7 @@ public class Boss5 extends EnemyFloating {
 					orbitalCharge();
 					break;
 				case 1:
-					vineLash(true);
+					vineLash();
 					break;
 				case 2:
 					scytheAttack();
@@ -213,10 +218,8 @@ public class Boss5 extends EnemyFloating {
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), shot1Damage, shot1Knockback, DamageTypes.RANGED));
 
-					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, particleLinger).setParticleColor(
-						HadalColor.VIOLET));
-					hbox.addStrategy(new DieParticles(state, hbox, getBodyData(), Particle.DIATOM_IMPACT_SMALL).setParticleColor(
-						HadalColor.VIOLET));
+					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, particleLinger));
+					hbox.addStrategy(new DieParticles(state, hbox, getBodyData(), Particle.DIATOM_IMPACT_SMALL));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 					hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
@@ -227,14 +230,13 @@ public class Boss5 extends EnemyFloating {
 
 	private static final float vineWindup = 1.5f;
 	private static final float vineSpeed = 20.0f;
-	private static final float vineGrowth1 = 1.5f;
-	private static final float vineGrowth2 = 1.0f;
+	private static final float vineGrowth = 1.0f;
 	private static final float vineLifespan = 5.0f;
 	private static final int vineBendSpreadMin = 15;
 	private static final int vineBendSpreadMax = 30;
 	private static final int vineSplitSpreadMin = 30;
 	private static final int vineSplitSpreadMax = 45;
-	private void vineLash(boolean split) {
+	private void vineLash() {
 		if (GameStateManager.generator.nextInt(2) == 0) {
 			EnemyUtils.moveToDummy(state, this, "0", charge1Speed, moveDurationMax);
 		} else {
@@ -248,7 +250,7 @@ public class Boss5 extends EnemyFloating {
 			@Override
 			public void execute() {
 				Vector2 vineVelo = new Vector2(0, vineSpeed).setAngleDeg(attackAngle);
-				Hitbox vine = createVine(enemy.getPixelPosition(), vineVelo, split ? vineGrowth2 : vineGrowth1, vineLifespan,
+				Hitbox vine = createVine(enemy.getPixelPosition(), vineVelo, vineGrowth, vineLifespan,
 					vineBendSpreadMin, vineBendSpreadMax, 2, 1);
 				vine.addStrategy(new HitboxStrategy(state, vine, getBodyData()) {
 
@@ -256,18 +258,16 @@ public class Boss5 extends EnemyFloating {
 					public void die() {
 						float newDegrees = hbox.getLinearVelocity().angleDeg() + (ThreadLocalRandom.current().nextInt(vineSplitSpreadMin, vineSplitSpreadMax));
 						angle.set(0, vineSpeed).setAngleDeg(newDegrees);
-						Hitbox split1 = createVine(hbox.getPixelPosition(), angle, split ? vineGrowth2 : vineGrowth1, vineLifespan,
+						Hitbox split1 = createVine(hbox.getPixelPosition(), angle, vineGrowth, vineLifespan,
 							vineBendSpreadMin, vineBendSpreadMax, 2, 1);
 
 						newDegrees = hbox.getLinearVelocity().angleDeg() - (ThreadLocalRandom.current().nextInt(vineSplitSpreadMin, vineSplitSpreadMax));
 						angle.set(0, vineSpeed).setAngleDeg(newDegrees);
-						Hitbox split2 = createVine(hbox.getPixelPosition(), angle, split ? vineGrowth2 : vineGrowth1, vineLifespan,
+						Hitbox split2 = createVine(hbox.getPixelPosition(), angle, vineGrowth, vineLifespan,
 							vineBendSpreadMin, vineBendSpreadMax, 2, 1);
 
-						if (split) {
-							extraSplit(split1);
-							extraSplit(split2);
-						}
+						extraSplit(split1);
+						extraSplit(split2);
 					}
 
 					private void extraSplit(Hitbox hbox) {
@@ -277,11 +277,13 @@ public class Boss5 extends EnemyFloating {
 							   public void die() {
 								   float newDegrees = hbox.getLinearVelocity().angleDeg() + (ThreadLocalRandom.current().nextInt(vineSplitSpreadMin, vineSplitSpreadMax));
 								   angle.set(0, vineSpeed).setAngleDeg(newDegrees);
-								   createVine(hbox.getPixelPosition(), angle, vineGrowth2, vineLifespan, vineBendSpreadMin, vineBendSpreadMax, 2, 1);
+								   createVine(hbox.getPixelPosition(), angle,
+									   vineGrowth, vineLifespan, vineBendSpreadMin, vineBendSpreadMax, 2, 1);
 
 								   newDegrees = hbox.getLinearVelocity().angleDeg() - (ThreadLocalRandom.current().nextInt(vineSplitSpreadMin, vineSplitSpreadMax));
 								   angle.set(0, vineSpeed).setAngleDeg(newDegrees);
-								   createVine(hbox.getPixelPosition(), angle, vineGrowth2, vineLifespan, vineBendSpreadMin, vineBendSpreadMax, 2, 1);
+								   createVine(hbox.getPixelPosition(), angle,
+									   vineGrowth, vineLifespan, vineBendSpreadMin, vineBendSpreadMax, 2, 1);
 							   }
 						   }
 						);
@@ -368,6 +370,8 @@ public class Boss5 extends EnemyFloating {
 	private static final float poisonBreathLifespan = 1.5f;
 	private static final float poisonCloudLifespan = 6.0f;
 	private static final float poisonDamage = 0.3f;
+	private static final float poisonParticleLifespan = 3.0f;
+	private static final float poisonParticleInterval = 512.0f;
 	private static final Vector2 poisonSize = new Vector2(250, 101);
 	private static final Vector2 poisonCloudSize = new Vector2(101, 250);
 	private void poisonSpewSingle(String dummyId) {
@@ -388,7 +392,7 @@ public class Boss5 extends EnemyFloating {
 				poison.addStrategy(new ContactWallDie(state, poison, getBodyData()));
 				poison.addStrategy(new CreateSound(state, poison, getBodyData(), SoundEffect.OOZE, 0.8f, true));
 				poison.addStrategy(new PoisonTrail(state, poison, getBodyData(), poisonSize, (int) poisonSize.y, poisonDamage, poisonBreathLifespan, getHitboxfilter())
-				.setParticle(Particle.POLLEN_POISON));
+				.setParticle(Particle.POLLEN_POISON, poisonParticleLifespan, poisonParticleInterval));
 				poison.addStrategy(new HitboxStrategy(state, poison, getBodyData()) {
 
 						 @Override
@@ -406,7 +410,8 @@ public class Boss5 extends EnemyFloating {
 
 							 hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 							 hbox.addStrategy(new PoisonTrail(state, hbox, getBodyData(), poisonCloudSize, (int) poisonCloudSize.x,
-								 poisonDamage, poisonCloudLifespan, getHitboxfilter()).setParticle(Particle.POLLEN_POISON));
+								 poisonDamage, poisonCloudLifespan, getHitboxfilter())
+								 .setParticle(Particle.POLLEN_POISON, poisonParticleLifespan, poisonParticleInterval));
 						 }
 					 }
 				);
@@ -487,7 +492,6 @@ public class Boss5 extends EnemyFloating {
 								frag.addStrategy(new ControllerDefault(state, frag, getBodyData()));
 								frag.addStrategy(new DamageStandard(state, frag, getBodyData(), sporeFragDamage, sporeFragKB, DamageTypes.RANGED).setStaticKnockback(true));
 								frag.addStrategy(new ContactUnitDie(state, frag, getBodyData()));
-								frag.addStrategy(new ContactWallDie(state, frag, getBodyData()));
 								frag.addStrategy(new ContactUnitSound(state, frag, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 								frag.addStrategy(new Spread(state, frag, getBodyData(), sporeSpread));
 						  }
@@ -500,7 +504,7 @@ public class Boss5 extends EnemyFloating {
 
 	private static final float scytheWindup = 0.5f;
 	private static final float scytheCooldown = 2.5f;
-	private static final float scytheLifespan = 3.0f;
+	private static final float scytheLifespan = 3.2f;
 	private static final float scytheDamage = 6.0f;
 	private static final float scytheKB = 2.5f;
 	private static final float scytheSpinSpeed = 0.25f;
@@ -539,6 +543,8 @@ public class Boss5 extends EnemyFloating {
 
 				scythe.addStrategy(new ControllerDefault(state, scythe, getBodyData()));
 				scythe.addStrategy(new CreateSound(state, scythe, getBodyData(), SoundEffect.WOOSH, 0.4f, true).setPitch(0.6f));
+				scythe.addStrategy(new DieParticles(state, scythe, getBodyData(), Particle.DIATOM_IMPACT_SMALL));
+
 				scythe.addStrategy(new HitboxStrategy(state, scythe, getBodyData()) {
 
 					private float delayCount, controllerCount, pulseCount;
@@ -591,16 +597,17 @@ public class Boss5 extends EnemyFloating {
 		});
 	}
 
-	private static final int orbitalChargeSpeed = 24;
-	private static final int orbitalChargeSpeedGrowth = 8;
+	private static final int orbitalChargeSpeed = 30;
 	private static final int orbitalNum = 8;
 	private static final float orbitalWindup = 1.5f;
-	private static final float orbitalLifespan = 4.5f;
-	private static final float orbitalRange = 8.0f;
+	private static final float orbitalPause = 0.4f;
+	private static final float orbitalLifespan = 5.5f;
+	private static final float orbitalRange = 8.5f;
 	private static final float orbitalDamage = 12.0f;
 	private static final float orbitalKB = 12.0f;
-	private static final float orbitalSpeed = 180.0f;
-	private static final float orbitalRangeIncreaseSpeed = 0.06f;
+	private static final float orbitalSpeed = 240.0f;
+	private static final float orbitalRangeIncreaseSpeed = 0.1f;
+	private static final float orbitalSpinSpeed = 0.4f;
 	private static final Vector2 orbitalSize = new Vector2(80, 80);
 
 	private void orbitalCharge() {
@@ -609,19 +616,25 @@ public class Boss5 extends EnemyFloating {
 			orbitalChargeSingle();
 			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.RED, 40.0f, orbitalWindup, orbitalWindup);
 			EnemyUtils.moveToDummy(state, this, "1", orbitalChargeSpeed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "2", orbitalChargeSpeed + orbitalChargeSpeedGrowth, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "3", orbitalChargeSpeed + 2 * orbitalChargeSpeedGrowth, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "4", orbitalChargeSpeed + 3 * orbitalChargeSpeedGrowth, moveDurationMax);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.RED, 40.0f, orbitalPause, orbitalPause);
+			EnemyUtils.moveToDummy(state, this, "2", orbitalChargeSpeed, moveDurationMax);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.RED, 40.0f, orbitalPause, orbitalPause);
+			EnemyUtils.moveToDummy(state, this, "3", orbitalChargeSpeed, moveDurationMax);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.RED, 40.0f, orbitalPause, orbitalPause);
+			EnemyUtils.moveToDummy(state, this, "4", orbitalChargeSpeed, moveDurationMax);
 		} else {
 			EnemyUtils.moveToDummy(state, this, "4", move1Speed, moveDurationMax);
 			orbitalChargeSingle();
 			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.RED, 40.0f, orbitalWindup, orbitalWindup);
 			EnemyUtils.moveToDummy(state, this, "3", orbitalChargeSpeed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "2", orbitalChargeSpeed + orbitalChargeSpeedGrowth, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "1", orbitalChargeSpeed + 2 * orbitalChargeSpeedGrowth, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "0", orbitalChargeSpeed + 3 * orbitalChargeSpeedGrowth, moveDurationMax);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.RED, 40.0f, orbitalPause, orbitalPause);
+			EnemyUtils.moveToDummy(state, this, "2", orbitalChargeSpeed, moveDurationMax);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.RED, 40.0f, orbitalPause, orbitalPause);
+			EnemyUtils.moveToDummy(state, this, "1", orbitalChargeSpeed, moveDurationMax);
+			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.RED, 40.0f, orbitalPause, orbitalPause);
+			EnemyUtils.moveToDummy(state, this, "0", orbitalChargeSpeed, moveDurationMax);
 		}
-		EnemyUtils.moveToDummy(state, this, "2", orbitalChargeSpeed + 3 * orbitalChargeSpeedGrowth, moveDurationMax);
+		EnemyUtils.moveToDummy(state, this, "2", orbitalChargeSpeed, moveDurationMax);
 
 	}
 
@@ -647,19 +660,20 @@ public class Boss5 extends EnemyFloating {
 						private float currentAngle = angle.angleDeg();
 						private float controllerCount;
 						private float currentRange;
+						private float orbitalAngle;
 						private static final float pushInterval = 1 / 60f;
 						@Override
 						public void controller(float delta) {
 							controllerCount += delta;
 							while (controllerCount >= pushInterval) {
 								controllerCount -= pushInterval;
-
+								orbitalAngle += orbitalSpinSpeed;
 								if (enemy.getBody() != null && enemy.isAlive()) {
 									currentAngle += orbitalSpeed * delta;
 
 									centerPos.set(enemy.getPosition());
 									offset.set(0, currentRange).setAngleDeg(currentAngle);
-									orbital.setTransform(centerPos.add(offset), orbital.getAngle());
+									orbital.setTransform(centerPos.add(offset), orbitalAngle);
 
 									if (currentRange < orbitalRange) {
 										currentRange += orbitalRangeIncreaseSpeed;
@@ -727,8 +741,7 @@ public class Boss5 extends EnemyFloating {
 								shadow.addStrategy(new DamageStandard(state, shadow, getBodyData(), shadowDamage, shadowKB, DamageTypes.RANGED));
 								shadow.addStrategy(new ContactUnitDie(state, shadow, getBodyData()));
 								shadow.addStrategy(new ContactWallDie(state, shadow, getBodyData()));
-								shadow.addStrategy(new CreateParticles(state, shadow, getBodyData(), Particle.POLYGON, 0.0f, 1.0f));
-								shadow.addStrategy(new DieParticles(state, shadow, getBodyData(), Particle.DIATOM_IMPACT_SMALL, 1.0f));
+								shadow.addStrategy(new CreateParticles(state, shadow, getBodyData(), Particle.POLLEN_FIRE, 0.0f, 1.0f));
 								shadow.addStrategy(new ContactUnitSound(state, shadow, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 								shadow.addStrategy((new HitboxStrategy(state, shadow, getBodyData()) {
 
@@ -759,6 +772,7 @@ public class Boss5 extends EnemyFloating {
 	}
 
 	private static final Vector2 seedSize = new Vector2(45, 30);
+	private static final Vector2 vineInvisSize = new Vector2(40, 40);
 	private static final Vector2 vineSize = new Vector2(80, 40);
 	private static final Vector2 vineSpriteSize = new Vector2(120, 120);
 	private static final float vineDamage = 18.0f;
@@ -768,7 +782,7 @@ public class Boss5 extends EnemyFloating {
 	private Hitbox createVine(Vector2 startPosition, Vector2 startVelo, float growthTime, float lifespan, int spreadMin, int spreadMax, int bendLength, int bendSpread) {
 		SoundEffect.ATTACK1.playUniversal(state, getPixelPosition(), 0.4f, 0.5f, false);
 
-		RangedHitbox hbox = new RangedHitbox(state, startPosition, vineSize, growthTime, startVelo, getHitboxfilter(), false, false, this, Sprite.NOTHING);
+		RangedHitbox hbox = new RangedHitbox(state, startPosition, vineInvisSize, growthTime, startVelo, getHitboxfilter(), false, false, this, Sprite.NOTHING);
 		hbox.setSyncDefault(false);
 		hbox.makeUnreflectable();
 		hbox.setRestitution(1.0f);
@@ -793,10 +807,13 @@ public class Boss5 extends EnemyFloating {
 					RangedHitbox vine = new RangedHitbox(state, hbox.getPixelPosition(), vineSize, lifespan, new Vector2(),
 						getHitboxfilter(), true, false, creator.getSchmuck(), projSprite) {
 
+						private final Vector2 newPosition = new Vector2();
 						@Override
 						public void create() {
 							super.create();
-							setTransform(getPosition(), (float) (Math.atan2(hbox.getLinearVelocity().y, hbox.getLinearVelocity().x)));
+							float newAngle = (float)(Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x));
+							newPosition.set(getPosition()).add(new Vector2(hbox.getLinearVelocity()).nor().scl(vineSize.x / 2 / PPM));
+							setTransform(newPosition.x, newPosition.y, newAngle);
 						}
 					};
 					vine.setSpriteSize(vineSpriteSize);
@@ -804,11 +821,10 @@ public class Boss5 extends EnemyFloating {
 					vine.addStrategy(new ControllerDefault(state, vine, getBodyData()));
 					vine.addStrategy(new ContactUnitSound(state, vine, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 					vine.addStrategy(new DamageStandard(state, vine, getBodyData(), vineDamage, vineKB, DamageTypes.RANGED).setStaticKnockback(true));
-					vine.addStrategy(new CreateParticles(state, vine, getBodyData(), Particle.DANGER_BLUE, 0.0f, 1.0f));
+					vine.addStrategy(new CreateParticles(state, vine, getBodyData(), Particle.DANGER_RED, 0.0f, 1.0f));
 					vine.addStrategy(new DieParticles(state, vine, getBodyData(), Particle.PLANT_FRAG));
 
 					vineCount++;
-
 					if (vineCount >= nextBend) {
 						hbox.setLinearVelocity(hbox.getLinearVelocity().rotateDeg((bendRight ? -1 : 1) * ThreadLocalRandom.current().nextInt(spreadMin, spreadMax)));
 						bendRight = !bendRight;
@@ -823,10 +839,13 @@ public class Boss5 extends EnemyFloating {
 				RangedHitbox vine = new RangedHitbox(state, hbox.getPixelPosition(), vineSize, lifespan, new Vector2(),
 					getHitboxfilter(), true, false, creator.getSchmuck(), Sprite.VINE_B) {
 
+					private final Vector2 newPosition = new Vector2();
 					@Override
 					public void create() {
 						super.create();
-						setTransform(getPosition(), (float) (Math.atan2(hbox.getLinearVelocity().y, hbox.getLinearVelocity().x)));
+						float newAngle = (float)(Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x));
+						newPosition.set(getPosition()).add(new Vector2(hbox.getLinearVelocity()).nor().scl(vineSize.x / 2 / PPM));
+						setTransform(newPosition.x, newPosition.y, newAngle);
 					}
 				};
 				vine.setSpriteSize(vineSpriteSize);
@@ -861,7 +880,7 @@ public class Boss5 extends EnemyFloating {
 						if (!enemy.isAlive()) {
 							hbox.die();
 						} else {
-							hbox.setTransform(addVector.set(getPixelPosition()).scl(1.0f / 32), 0);
+							hbox.setTransform(addVector.set(getPixelPosition()).scl(1.0f / PPM), 0);
 						}
 					}
 				});

@@ -644,9 +644,12 @@ public class KryoClient {
 					} else {
 						entity = new ParticleEntity(cs, p.pos, Particle.valueOf(p.particle), p.lifespan, p.startOn, particleSyncType.NOSYNC);
 					}
-					cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
+					cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.EFFECT);
 					entity.setScale(p.scale);
 					entity.setRotate(p.rotate);
+					if (p.velocity != 0) {
+						entity.setParticleVelocity(p.velocity);
+					}
 					if (!p.color.isZero()) {
 						entity.setColor(p.color);
 					}

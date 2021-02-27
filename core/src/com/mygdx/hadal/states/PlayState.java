@@ -89,7 +89,11 @@ public class PlayState extends GameState {
 	private final Set<HadalEntity> entities;
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
 	private final Set<HadalEntity> hitboxes;
-	
+	//This is a set of all particle effects. This is separate to draw effects above other bodies
+	private final Set<HadalEntity> effects;
+
+	private final ArrayList<Set<HadalEntity>> entityLists = new ArrayList<>();
+
 	//This is a list of packetEffects, given when we receive packets with effects that we want to run in update() rather than whenever
 	private final List<PacketEffect> packetEffects;
 	private final List<PacketEffect> addPacketEffects;
@@ -221,6 +225,11 @@ public class PlayState extends GameState {
 		//Initialize sets to keep track of active entities and packet effects
 		entities = new LinkedHashSet<>();
 		hitboxes = new LinkedHashSet<>();
+		effects = new LinkedHashSet<>();
+		entityLists.add(hitboxes);
+		entityLists.add(entities);
+		entityLists.add(effects);
+
 		removeList = new LinkedHashSet<>();
 		createList = new LinkedHashSet<>();
 		packetEffects = new ArrayList<>();
@@ -410,6 +419,8 @@ public class PlayState extends GameState {
 		for (HadalEntity entity: createList) {
 			if (entity instanceof Hitbox) {
 				hitboxes.add(entity);
+			} else if (entity instanceof ParticleEntity) {
+				effects.add(entity);
 			} else {
 				entities.add(entity);
 			}
@@ -424,8 +435,9 @@ public class PlayState extends GameState {
 
 		//All entities that are set to be removed are removed.
 		for (HadalEntity entity: removeList) {
-			entities.remove(entity);
-			hitboxes.remove(entity);
+			for (Set<HadalEntity> s: entityLists) {
+				s.remove(entity);
+			}
 			entity.dispose();
 			
 			//Upon deleting an entity, tell the clients so they can follow suit.
@@ -582,11 +594,10 @@ public class PlayState extends GameState {
 	 * Render all entities in the world
 	 */
 	public void renderEntities(float delta) {
-		for (HadalEntity schmuck : entities) {
-			renderEntity(schmuck);
-		}
-		for (HadalEntity hitbox : hitboxes) {
-			renderEntity(hitbox);
+		for (Set<HadalEntity> s: entityLists) {
+			for (HadalEntity entity : s) {
+				renderEntity(entity);
+			}
 		}
 	}
 	
@@ -594,17 +605,13 @@ public class PlayState extends GameState {
 	 * Run the controller method for all entities in the world
 	 */
 	public void controllerEntities(float delta) {
-		for (HadalEntity entity : hitboxes) {
-			entity.controller(delta);
-			entity.decreaseShaderCount(delta);
-			entity.increaseAnimationTime(delta);
-			entity.increaseEntityAge(delta);
-		}
-		for (HadalEntity entity : entities) {
-			entity.controller(delta);
-			entity.decreaseShaderCount(delta);
-			entity.increaseAnimationTime(delta);
-			entity.increaseEntityAge(delta);
+		for (Set<HadalEntity> s: entityLists) {
+			for (HadalEntity entity : s) {
+				entity.controller(delta);
+				entity.decreaseShaderCount(delta);
+				entity.increaseAnimationTime(delta);
+				entity.increaseEntityAge(delta);
+			}
 		}
 	}
 	
@@ -613,12 +620,11 @@ public class PlayState extends GameState {
 	 */
 	private final ArrayList<Object> syncPackets = new ArrayList<>();
 	public void syncEntities() {
-		
-		for (HadalEntity entity : hitboxes) {
-			entity.onServerSync();
-		}
-		for (HadalEntity entity : entities) {
-			entity.onServerSync();
+
+		for (Set<HadalEntity> s: entityLists) {
+			for (HadalEntity entity : s) {
+				entity.onServerSync();
+			}
 		}
 		for (Object o: syncPackets) {
 			HadalGame.server.sendToAllUDP(o);
@@ -627,11 +633,10 @@ public class PlayState extends GameState {
 	}
 	
 	public void syncFastEntities() {
-		for (HadalEntity entity : hitboxes) {
-			entity.onServerSyncFast();
-		}
-		for (HadalEntity entity : entities) {
-			entity.onServerSyncFast();
+		for (Set<HadalEntity> s: entityLists) {
+			for (HadalEntity entity : s) {
+				entity.onServerSyncFast();
+			}
 		}
 	}
 	
@@ -720,11 +725,10 @@ public class PlayState extends GameState {
 	public void dispose() {
 		b2dr.dispose();
 		
-		for (HadalEntity schmuck : entities) {
-			schmuck.dispose();
-		}
-		for (HadalEntity hitbox : hitboxes) {
-			hitbox.dispose();
+		for (Set<HadalEntity> s: entityLists) {
+			for (HadalEntity entity : s) {
+				entity.dispose();
+			}
 		}
 		for (HadalEntity entity : removeList) {
 			entity.dispose();
@@ -1329,14 +1333,11 @@ public class PlayState extends GameState {
 	 */
 	public HadalEntity findEntity(String entityId) {
 
-		for (HadalEntity schmuck : entities) {
-			if (schmuck.getEntityID().toString().equals(entityId)) {
-				return schmuck;
-			}
-		}
-		for (HadalEntity hitbox : hitboxes) {
-			if (hitbox.getEntityID().toString().equals(entityId)) {
-				return hitbox;
+		for (Set<HadalEntity> s: entityLists) {
+			for (HadalEntity entity : s) {
+				if (entity.getEntityID().toString().equals(entityId)) {
+					return entity;
+				}
 			}
 		}
 		return null;
@@ -1363,16 +1364,13 @@ public class PlayState extends GameState {
 	 * @param connId: connId of the new client
 	 */
 	public void catchUpClient(int connId) {
-		for (HadalEntity entity : entities) {
-			Object packet = entity.onServerCreate();
-			if (packet != null) {
-				HadalGame.server.sendToUDP(connId, packet);
-			}
-		}
-		for (HadalEntity entity : hitboxes) {
-			Object packet = entity.onServerCreate();
-			if (packet != null) {
-				HadalGame.server.sendToUDP(connId, packet);
+
+		for (Set<HadalEntity> s: entityLists) {
+			for (HadalEntity entity : s) {
+				Object packet = entity.onServerCreate();
+				if (packet != null) {
+					HadalGame.server.sendToUDP(connId, packet);
+				}
 			}
 		}
 	}

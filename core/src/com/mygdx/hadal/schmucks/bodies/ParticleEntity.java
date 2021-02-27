@@ -52,7 +52,10 @@ public class ParticleEntity extends HadalEntity {
 	
 	//does this effect rotate to match an attached entity?
 	private boolean rotate;
-	
+
+	//this is the default angle of the particle velocity
+	private float velocity;
+
 	//this is the color of the particle. Nothing = base color of the effect.
 	private final Vector3 color = new Vector3();
 	
@@ -234,10 +237,10 @@ public class ParticleEntity extends HadalEntity {
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
 				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), offset,
-					true, particle.toString(), on, linger, lifespan, scale, rotate, sync.equals(particleSyncType.TICKSYNC), color);
+					true, particle.toString(), on, linger, lifespan, scale, rotate, velocity, sync.equals(particleSyncType.TICKSYNC), color);
 			} else {
 				return new Packets.CreateParticles(entityID.toString(), null, startPos, false,
-					particle.toString(), on, linger, lifespan, scale, rotate, sync.equals(particleSyncType.TICKSYNC), color);
+					particle.toString(), on, linger, lifespan, scale, rotate, velocity, sync.equals(particleSyncType.TICKSYNC), color);
 			}
 		} else {
 			return null;
@@ -343,6 +346,7 @@ public class ParticleEntity extends HadalEntity {
 	}
 
 	public void setParticleVelocity(float angle) {
+		this.velocity = angle;
 
 		float newAngle = (float) (angle * 180 / Math.PI + 180);
 		for (int i = 0; i < effect.getEmitters().size; i++) {

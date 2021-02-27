@@ -805,6 +805,7 @@ public class Packets {
 		public float lifespan;
 		public float scale;
 		public boolean rotate;
+		public float velocity;
 		public boolean synced;
 		public Vector3 color;
 		public CreateParticles() {}
@@ -823,12 +824,13 @@ public class Packets {
 		 * @param linger: How long does an attached Particle Entity persist after its attached entity dies?
 		 * @param lifespan: Duration of a non-attached entity.
 		 * @param scale: The size multiplier of the particle effect
-		 * @param rotate: should this entity rotate to match an attached entity??
+		 * @param rotate: should this entity rotate to match an attached entity?
+		 * @param velocity: the velocity of the particles. (0 means to set the as the default)
 		 * @param synced: should this entity receive a sync packet regularly?
 		 * @param color: the color tint of the particle
 		 */
-		public CreateParticles(String entityID, String attachedID, Vector2 pos, boolean attached, String particle, boolean startOn, float linger, float lifespan, float scale, boolean rotate, boolean synced, 
-				Vector3 color) {
+		public CreateParticles(String entityID, String attachedID, Vector2 pos, boolean attached, String particle, boolean startOn, float linger,
+			float lifespan, float scale, boolean rotate, float velocity, boolean synced, Vector3 color) {
 			this.entityID = entityID;
 			this.attachedID = attachedID;
 			this.pos = pos;
@@ -839,6 +841,7 @@ public class Packets {
 			this.lifespan = lifespan;
 			this.scale = scale;
 			this.rotate = rotate;
+			this.velocity = velocity;
 			this.synced = synced;
 			this.color = color;
 		}
