@@ -136,13 +136,9 @@ public enum AlignmentFilter {
         for (AlignmentFilter filter: AlignmentFilter.values()) {
             if (!filter.isUsed() && !filter.isTeam()) {
                 filter.setUsed(true);
-
-                Gdx.app.log("ALIGNMENT FILTER", "UNUSED ALIGNMENT FILTER GOTTEN: " + filter);
-
                 return filter;
             }
         }
-        Gdx.app.log("ALIGNMENT FILTER", "BIG FUG");
         return NONE;
     }
 

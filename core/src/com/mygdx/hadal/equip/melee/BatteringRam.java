@@ -51,7 +51,7 @@ public class BatteringRam extends MeleeWeapon {
 		
 		charging = true;
 		
-		//while held, build charge until maximum (if not reloading)
+		//while held, build charge until maximum
 		if (chargeCd < getChargeTime()) {
 			setChargeCd(chargeCd + delta);
 		}

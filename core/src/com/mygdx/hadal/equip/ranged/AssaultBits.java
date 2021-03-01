@@ -45,7 +45,7 @@ public class AssaultBits extends RangedWeapon {
 	private final ArrayList<Enemy> bits = new ArrayList<>();
 
 	public AssaultBits(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, summonShootCd);
 	}
 	
 	private final Vector2 realWeaponVelo = new Vector2();
@@ -59,26 +59,8 @@ public class AssaultBits extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 
-		//if there are fewer than 3 bits, summon a bit and go on cooldown for longer
-		if (bits.size() < 3) {
-			SoundEffect.CYBER2.playUniversal(state, startPosition, 0.4f, false);
-			
-			//bits are removed from the list upon death
-			DroneBit bit = new DroneBit(state, startPosition, 0.0f, filter, null) {
-				
-				@Override
-				public boolean queueDeletion() {
-					bits.remove(this);
-					return super.queueDeletion();
-				}
-			};
-			bit.setMoveTarget(user);
-			bit.setAttackTarget(((Player) user).getMouse());
-			bits.add(bit);
-			
-			user.setShootCdCount(summonShootCd);
-		}
-			
+		if (bits.isEmpty()) { return; }
+
 		//each bit fires at the mouse
 		SoundEffect.SHOOT2.playUniversal(state, startPosition, 0.6f, false);
 
@@ -99,7 +81,41 @@ public class AssaultBits extends RangedWeapon {
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		}
 	}
-	
+
+	@Override
+	public void update(float delta) {
+		if (bits.size() < 3) {
+			setCharging(true);
+
+			if (chargeCd < getChargeTime()) {
+				chargeCd += delta;
+
+				if (chargeCd >= getChargeTime()) {
+					chargeCd = 0.0f;
+
+					SoundEffect.CYBER2.playUniversal(user.getState(), user.getPixelPosition(), 0.4f, false);
+
+					//bits are removed from the list upon death
+					DroneBit bit = new DroneBit(user.getState(), user.getPixelPosition(), 0.0f, user.getHitboxfilter(), null) {
+
+						@Override
+						public boolean queueDeletion() {
+							bits.remove(this);
+							return super.queueDeletion();
+						}
+					};
+					bit.setMoveTarget(user);
+					bit.setAttackTarget(((Player) user).getMouse());
+					bits.add(bit);
+
+					if (bits.size() >= 3) {
+						setCharging(false);
+					}
+				}
+			}
+		}
+	}
+
 	@Override
 	public void unequip(PlayState state) {
 		
