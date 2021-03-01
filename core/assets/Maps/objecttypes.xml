@@ -236,6 +236,7 @@
   <property name="draw" type="bool" default="true"/>
   <property name="filter" type="int" default="0"/>
   <property name="independent" type="bool" default="false"/>
+  <property name="particle" type="string" default="POISON"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>

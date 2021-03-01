@@ -547,6 +547,8 @@ public class KryoClient {
 					if (cs != null) {
 						cs.addPacketEffect(() -> {
 
+							//temporarily store user info so we can attach old player to updated user
+							HashMap<Integer, User> usersTemp = new HashMap<>(users);
 							users.clear();
 
 							for (int i = 0; i < p.users.length; i++) {
@@ -555,6 +557,12 @@ public class KryoClient {
 							    if (user != null) {
 									updatedUser = new User(null, null, user.scores, user.scoresExtra);
 									updatedUser.setSpectator(user.spectator);
+
+									User userOld = usersTemp.get(user.scores.getConnID());
+									if (userOld != null) {
+										updatedUser.setPlayer(userOld.getPlayer());
+									}
+
 									users.put(user.scores.getConnID(), updatedUser);
 								}
 							}

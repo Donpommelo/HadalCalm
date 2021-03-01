@@ -1219,7 +1219,6 @@ public class PlayState extends GameState {
 					loadoutTemp.multitools[i] = UnlockEquip.NOTHING;
 				}
 				user.getScoresExtra().setLoadout(loadoutTemp);
-
 			}
 
 			SavedPlayerFieldsExtra scoreExtra = user.getScoresExtra();

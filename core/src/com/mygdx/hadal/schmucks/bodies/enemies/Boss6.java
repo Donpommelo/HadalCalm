@@ -227,8 +227,8 @@ public class Boss6 extends EnemyFloating {
 	}
 
 	private static final float charge1Windup = 1.0f;
-	private static final int charge1Speed = 150;
-	private static final float chargeDamage = 28.0f;
+	private static final int charge1Speed = 120;
+	private static final float chargeDamage = 35.0f;
 	private static final float chargeDuration = 1.4f;
 	private static final int chargeKnockback = 16;
 
@@ -244,7 +244,8 @@ public class Boss6 extends EnemyFloating {
 				 hbox.makeUnreflectable();
 
 				 hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-				 hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), chargeDamage, chargeKnockback, DamageTypes.MELEE).setStaticKnockback(true).setRepeatable(true));
+				 hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), chargeDamage, chargeKnockback, DamageTypes.MELEE)
+					 .setStaticKnockback(true).setRepeatable(true));
 				 hbox.addStrategy(new FixedToEntity(state, hbox, getBodyData(), new Vector2(), new Vector2(), true));
 				 hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 			 }
@@ -359,8 +360,8 @@ public class Boss6 extends EnemyFloating {
 	private static final float laserKB = 12.0f;
 
 	private void singleBeam(float startAngle) {
-		Hitbox laser = new RangedHitbox(state, getPixelPosition(), laserSize, trailLifespan, new Vector2(0, laserSpeed).setAngleDeg(startAngle),
-			getHitboxfilter(), true, false, this, Sprite.DIATOM_B);
+		Hitbox laser = new RangedHitbox(state, new Vector2(state.getDummyPoint(zones[currentX][currentY]).getPixelPosition()), laserSize, trailLifespan,
+			new Vector2(0, laserSpeed).setAngleDeg(startAngle), getHitboxfilter(), true, false, this, Sprite.DIATOM_B);
 
 		laser.addStrategy(new ControllerDefault(state, laser, getBodyData()));
 		laser.addStrategy(new AdjustAngle(state, laser, getBodyData()));
@@ -401,22 +402,22 @@ public class Boss6 extends EnemyFloating {
 	private static final Vector2 spiralSize = new Vector2(150, 150);
 	private static final float spiralLifespan = 10.0f;
 	private static final float spiralSpeed = 20.0f;
-	private static final float spiralDamage = 22.0f;
-	private static final float spiralKB = 20.0f;
+	private static final float spiralDamage = 6.0f;
+	private static final float spiralKB = 10.0f;
 	private void spiralSingle(float angle, int clockwise) {
 
-		Hitbox spiral = new RangedHitbox(state, getPixelPosition(), spiralSize, spiralLifespan,
+		Hitbox spiral = new RangedHitbox(state, new Vector2(state.getDummyPoint(zones[currentX][currentY]).getPixelPosition()), spiralSize, spiralLifespan,
 			new Vector2(0, spiralSpeed).setAngleDeg(angle), getHitboxfilter(),true, false, this, Sprite.DIATOM_D);
 		spiral.makeUnreflectable();
 
 		spiral.addStrategy(new ControllerDefault(state, spiral, getBodyData()));
-		spiral.addStrategy(new DamageStandard(state, spiral, getBodyData(), spiralDamage, spiralKB, DamageTypes.RANGED).setRepeatable(true));
-		spiral.addStrategy(new ContactUnitSound(state, spiral, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 		spiral.addStrategy(new HitboxStrategy(state, spiral, getBodyData()) {
 
 			private final Vector2 startLocation = new Vector2();
 			private float distance = gridDistance * 2;
+			private float pulseCount;
 			private boolean firstLoop;
+			private static final float pulseInterval = 0.06f;
 			@Override
 			public void create() { this.startLocation.set(hbox.getPixelPosition()); }
 
@@ -435,6 +436,20 @@ public class Boss6 extends EnemyFloating {
 						startLocation.set(hbox.getPixelPosition());
 						hbox.setLinearVelocity(hbox.getLinearVelocity().rotate90(clockwise));
 					}
+				}
+				pulseCount += delta;
+				while (pulseCount >= pulseInterval) {
+					pulseCount -= pulseInterval;
+
+					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), hbox.getSize(), pulseInterval,
+						new Vector2(0, 0), getHitboxfilter(), true, false, creator.getSchmuck(), Sprite.NOTHING);
+					pulse.setSyncDefault(false);
+					pulse.makeUnreflectable();
+
+					pulse.addStrategy(new ControllerDefault(state, pulse, getBodyData()));
+					pulse.addStrategy(new DamageStandard(state, pulse, getBodyData(), spiralDamage, spiralKB, DamageTypes.RANGED).setStaticKnockback(true));
+					pulse.addStrategy(new FixedToEntity(state, pulse, getBodyData(), spiral, new Vector2(), new Vector2(), true));
+					pulse.addStrategy(new ContactUnitSound(state, pulse, getBodyData(), SoundEffect.ZAP, 0.6f, true));
 				}
 			}
 		});

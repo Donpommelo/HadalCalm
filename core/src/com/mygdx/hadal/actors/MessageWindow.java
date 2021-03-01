@@ -353,6 +353,7 @@ public class MessageWindow {
 	 * @param text: the new string we add to the message window
 	 */
 	public void addText(String text, DialogType type, int connID) {
+
 		User user;
 		if (state.isServer()) {
 			user = HadalGame.server.getUsers().get(connID);
@@ -362,12 +363,12 @@ public class MessageWindow {
 
 		//do not display messages from muted players
 		if (user != null) {
-			if (!user.isMuted() && user.getPlayer() != null) {
+			if (!user.isMuted()) {
 				String newText;
 
 				//system messages are all red.
 				if (type.equals(DialogType.SYSTEM)) {
-					newText = "[RED]" + user.getPlayer().getName() + ": " + text + " []";
+					newText = "[RED]" + user.getScores().getNameShort() + ": " + text + " []";
 				} else if (user.getPlayer() == null) {
 
 					//text is white if player is a spectator or otherwise has no player

@@ -136,10 +136,25 @@ public enum AlignmentFilter {
         for (AlignmentFilter filter: AlignmentFilter.values()) {
             if (!filter.isUsed() && !filter.isTeam()) {
                 filter.setUsed(true);
+
+                Gdx.app.log("ALIGNMENT FILTER", "UNUSED ALIGNMENT FILTER GOTTEN: " + filter);
+
                 return filter;
             }
         }
+        Gdx.app.log("ALIGNMENT FILTER", "BIG FUG");
         return NONE;
+    }
+
+    /**
+     * This makes all the teams usable again. It is called when a server is made.
+     */
+    public static void resetUsedAlignments() {
+        for (AlignmentFilter filter: AlignmentFilter.values()) {
+            if (!filter.isTeam()) {
+                filter.setUsed(false);
+            }
+        }
     }
 
     public short getFilter() { return filter; }

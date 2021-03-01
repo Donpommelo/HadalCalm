@@ -400,6 +400,10 @@ public class LobbyState extends GameState {
 
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
+
+                        if (inputDisabled) { return; }
+                        inputDisabled = true;
+
                         SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
                         setNotification("JOINING LOBBY");
 
@@ -414,6 +418,7 @@ public class LobbyState extends GameState {
                             } catch (IOException ex) {
                                 Gdx.app.log("LOBBY", "FAILED TO JOIN: " + ex);
                                 setNotification("FAILED TO CONNECT TO LOBBY");
+                                inputDisabled = false;
                             }
                         });
                     }

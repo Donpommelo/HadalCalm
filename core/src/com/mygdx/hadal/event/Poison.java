@@ -54,10 +54,15 @@ public class Poison extends Event {
 	private float particleLifespan = 1.5f;
 	private float particleInterval = 4096f;
 
-	private Particle poisonParticle = Particle.POISON;
+	private Particle poisonParticle;
 
 	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, boolean draw, short filter) {
+		this(state, startPos, size, "POISON", dps, draw, filter);
+	}
+
+	public Poison(PlayState state, Vector2 startPos, Vector2 size, String particle, float dps, boolean draw, short filter) {
 		super(state,  startPos, size);
+		this.poisonParticle = Particle.valueOf(particle);
 		this.dps = dps;
 		this.filter = filter;
 		this.perp = state.getWorldDummy();
@@ -72,14 +77,17 @@ public class Poison extends Event {
 			new ParticleEntity(state, this, poisonParticle, 0, 0, true, particleSyncType.CREATESYNC);
 		}
 	}
-	
+
+	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, float duration, Schmuck perp, boolean draw, short filter) {
+		this(state, startPos, size, "POISON", dps, duration, perp, draw, filter);
+	}
 	/**
 	 * This constructor is used for when this event is created temporarily.
 	 */
-	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, float duration, Schmuck perp, boolean draw, short filter) {
+	public Poison(PlayState state, Vector2 startPos, Vector2 size, String particle, float dps, float duration, Schmuck perp, boolean draw, short filter) {
 		super(state,  startPos, size, duration);
+		this.poisonParticle = Particle.valueOf(particle);
 		this.dps = dps;
-
 		this.filter = filter;
 		
 		if (perp == null) {
@@ -190,6 +198,7 @@ public class Poison extends Event {
 			
 			blueprint = new RectangleMapObject(entityLocation.x - size.x / 2, entityLocation.y - size.y / 2, size.x, size.y);
 			blueprint.setName("PoisonTemp");
+			blueprint.getProperties().put("particle", poisonParticle.toString());
 			blueprint.getProperties().put("duration", duration);
 		}
 		return new Packets.CreateEvent(entityID.toString(), new EventDto(blueprint), synced);

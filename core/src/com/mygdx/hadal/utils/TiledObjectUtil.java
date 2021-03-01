@@ -423,7 +423,8 @@ public class TiledObjectUtil {
 				break;
 			case "PoisonTemp":
 				e = new Poison(state, position, size,
-						object.getProperties().get("damage", 0.0f, float.class),
+					object.getProperties().get("particle", "POISON", String.class),
+					object.getProperties().get("damage", 0.0f, float.class),
 						object.getProperties().get("duration", 0.0f, float.class),
 						state.getWorldDummy(),
 						object.getProperties().get("draw", true, boolean.class),
@@ -431,6 +432,7 @@ public class TiledObjectUtil {
 				break;
 			case "Poison":
 				e = new Poison(state, position, size,
+						object.getProperties().get("particle", "POISON", String.class),
 						object.getProperties().get("damage", 0.0f, float.class),
 						object.getProperties().get("draw", true, boolean.class),
 						object.getProperties().get("filter", (short) 0, short.class));

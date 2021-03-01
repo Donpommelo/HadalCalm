@@ -77,27 +77,26 @@ public class AssaultBits extends RangedWeapon {
 			bits.add(bit);
 			
 			user.setShootCdCount(summonShootCd);
-		} else {
+		}
 			
-			//when 3 bits are active, all 3 fire shots at the mouse
-			SoundEffect.SHOOT2.playUniversal(state, startPosition, 0.6f, false);
+		//each bit fires at the mouse
+		SoundEffect.SHOOT2.playUniversal(state, startPosition, 0.6f, false);
 
-			for (Enemy bit: bits) {
-				
-				bitVelo.setAngleRad(bit.getAngle() + startVelocity.angleRad() - realWeaponVelo.angleRad());
-				Hitbox hbox = new RangedHitbox(state, bit.getProjectileOrigin(bitVelo, projectileSize.x), projectileSize, lifespan, new Vector2(bitVelo), filter, true, true, user, projSprite);
-				
-				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.BULLET, DamageTypes.RANGED));
-				hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-					HadalColor.VIOLET));
-				hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-					HadalColor.VIOLET));
-				hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.3f, true));
-				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-			}
+		for (Enemy bit: bits) {
+
+			bitVelo.setAngleRad(bit.getAngle() + startVelocity.angleRad() - realWeaponVelo.angleRad());
+			Hitbox hbox = new RangedHitbox(state, bit.getProjectileOrigin(bitVelo, projectileSize.x), projectileSize, lifespan, new Vector2(bitVelo), filter, true, true, user, projSprite);
+
+			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.BULLET, DamageTypes.RANGED));
+			hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
+				HadalColor.VIOLET));
+			hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
+				HadalColor.VIOLET));
+			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.3f, true));
+			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		}
 	}
 	

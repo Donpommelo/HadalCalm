@@ -72,7 +72,7 @@ public class Boss5 extends EnemyFloating {
 	public void create() {
 		super.create();
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
-		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.DIATOM_IMPACT_LARGE, 1.0f));
+		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.DIATOM_IMPACT_LARGE, 5.0f));
 
 	}
 
@@ -505,7 +505,7 @@ public class Boss5 extends EnemyFloating {
 	private static final float scytheWindup = 0.5f;
 	private static final float scytheCooldown = 2.5f;
 	private static final float scytheLifespan = 3.2f;
-	private static final float scytheDamage = 6.0f;
+	private static final float scytheDamage = 5.5f;
 	private static final float scytheKB = 2.5f;
 	private static final float scytheSpinSpeed = 0.25f;
 	private static final float scytheAmplitude = 30.0f;
@@ -698,7 +698,7 @@ public class Boss5 extends EnemyFloating {
 	private static final float shadowLifespan = 5.0f;
 	private static final float shadowDamage = 22.0f;
 	private static final float shadowKB = 15.0f;
-	private static final float shadowDelay = 3.0f;
+	private static final float shadowDelay = 2.5f;
 	private static final float shadowSpeed = 25.0f;
 	private static final Vector2 shadowSize = new Vector2(30, 30);
 

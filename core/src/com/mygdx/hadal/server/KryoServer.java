@@ -54,6 +54,9 @@ public class KryoServer {
 		this.server = new Server(65536, 32768, serialization);
 		this.users = new HashMap<>();
 
+		//reset used teams. This is needed to prevent all the usable "alignments" from being used up if server is remade
+		AlignmentFilter.resetUsedAlignments();
+
 		users.put(0, new User(null, null, new SavedPlayerFields(gsm.getLoadout().getName(), 0), new SavedPlayerFieldsExtra()));
 
 		if (!start) { return; }
@@ -541,7 +544,8 @@ public class KryoServer {
 	 * @param reset: Do we want to reset the new player's hp/fuel/ammo etc?
 	 * @param spectator: is this player created as a spectator?
 	 */
-	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout, final PlayerBodyData data, final boolean reset, final boolean spectator) {
+	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout,
+									  final PlayerBodyData data, final boolean reset, final boolean spectator) {
 
 		ps.addPacketEffect(() -> {
 			StartPoint newSave = ps.getSavePoint();
