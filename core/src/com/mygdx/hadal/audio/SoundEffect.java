@@ -10,7 +10,7 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * Sound Effects each represent a single sound effect in the game. some of these effects can loop.
+ * Sound Effects each represent a single sound effect in the game. some of these effects can loop. (ogg files)
  * @author Snogganana Smudorf
  */
 public enum SoundEffect {
@@ -184,7 +184,7 @@ public enum SoundEffect {
 	
 	/**
 	 * This plays a sound effect for all players.
-	 * This is only run by the host. I think.
+	 * This is only run by the host.
 	 */
 	public long playUniversal(PlayState state, Vector2 worldPos, float volume, boolean singleton) {
 		return playUniversal(state, worldPos, volume, 1.0f, singleton);
@@ -274,7 +274,9 @@ public enum SoundEffect {
 	private final Vector2 playerPosition = new Vector2();
 	public void updateSoundLocation(PlayState state, Vector2 worldPos, float volume, long soundId) {
 		Player player = state.getPlayer();
-		if (player.getBody() != null) {
+
+		//check if player exists and is alive (to avoid sudden sound change on death)
+		if (player.getBody() != null && player.isAlive()) {
 			
 			playerPosition.set(player.getPixelPosition());
 			float xDist = worldPos.x - playerPosition.x;

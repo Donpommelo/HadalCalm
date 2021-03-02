@@ -29,7 +29,8 @@ public class FixtureBuilder {
 	 * @param gIndex: Extra filter. less than 0 = never collide with fixture with same value. greater than 0 = always collide with fixture with same value.
 	 * @return a Fixture.
 	 */
-	public static Fixture createFixtureDef(Body body, Vector2 center, Vector2 size, boolean sensor, float angle, float density, float restitution, float friction, short cBits, short mBits, short gIndex) {
+	public static Fixture createFixtureDef(Body body, Vector2 center, Vector2 size, boolean sensor, float angle,
+										   float density, float restitution, float friction, short cBits, short mBits, short gIndex) {
 		FixtureDef fixtureDef = new FixtureDef();
 		
 		PolygonShape pShape = new PolygonShape();

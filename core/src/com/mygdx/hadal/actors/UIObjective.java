@@ -81,8 +81,11 @@ public class UIObjective extends AHadalActor {
 				}
 				
 				batch.draw(icon, x - width / 2, y - height / 2, width, height);
-				batch.draw(arrow, x + width / 2 + 1, y - arrowHeight / 2, - width / 2 - 1, arrowHeight / 2, arrowWidth, arrowHeight, 1, 1, (float) (180 * angle / Math.PI - 90));
+				batch.draw(arrow, x + width / 2 + 1, y - arrowHeight / 2, - width / 2 - 1, arrowHeight / 2,
+					arrowWidth, arrowHeight, 1, 1, (float) (180 * angle / Math.PI - 90));
 			} else if (displayObjectiveOnScreen) {
+
+				//if desired, we display an on-screen objective icon directly on top of the objective
 				batch.setProjectionMatrix(state.getCamera().combined);
 				x = objectiveLocation.x;
 				y = objectiveLocation.y;

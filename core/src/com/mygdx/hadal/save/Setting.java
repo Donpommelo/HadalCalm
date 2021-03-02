@@ -36,6 +36,7 @@ public class Setting {
 	//connecting clients need to know this password to enter the server
 	private String serverPassword;
 
+	//this is the last cursor used. We save this so we can dispose of it properly
 	private static Cursor lastCursor;
 
 	public Setting() {}
@@ -54,6 +55,7 @@ public class Setting {
 		Monitor currMonitor = Gdx.graphics.getMonitor();
     	DisplayMode displayMode = Gdx.graphics.getDisplayMode(currMonitor);
 
+    	//set fullscreen + vsync. No vsync is used if not in fullscreen
     	if (fullscreen) {
     		Gdx.graphics.setFullscreenMode(displayMode);
 			Gdx.graphics.setVSync(vsync);
@@ -84,6 +86,8 @@ public class Setting {
 	 * cursorType == 2: dot cursor
 	 */
 	public void setCursor() {
+
+		//when we set a new cursor, we dispose of the old one (if existent)
 		if (lastCursor != null) {
 			lastCursor.dispose();
 		}
@@ -146,7 +150,7 @@ public class Setting {
 		soundVolume = 1.0f;
 		musicVolume = 1.0f;
 		masterVolume = 0.75f;
-		hitsoundVolume = 0.75f;
+		hitsoundVolume = 0.5f;
 		hitsoundType = 1;
 	}
 	

@@ -5,7 +5,6 @@ import com.badlogic.gdx.audio.Music;
 
 /**
  * These are the music tracks in the game
- * We haven;t actually added music yet.
  * @author Lurvudardus Labourne
  */
 public enum MusicTrack {
@@ -26,7 +25,11 @@ public enum MusicTrack {
 	;
 
 	private final String musicFileName;
+
+	//this is the name that will appear in the music icon pop in ui.
 	private final String musicName;
+
+	//time in seconds. Used to control track position in sound room
 	private final int trackLength;
 	private Music music;
 

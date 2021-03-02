@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class DeathTextUtil {
 
 	/**
+	 * This returns a death message for a specific kill
 	 * The player can toggle on "verbose death messages" in settings for simple or complex death messages
 	 */
 	public static String getDeathText(GameStateManager gsm, Player perp, Player vic, EnemyType type, DamageTypes... tags) {

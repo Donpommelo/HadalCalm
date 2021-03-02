@@ -16,6 +16,8 @@ import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.states.ResultsState;
 
 /**
+ * A PlayerResultsIcon represents a single player in the results screen.
+ * These are ordered by score
  */
 public class PlayerResultsIcon extends AHadalActor {
 
@@ -43,6 +45,7 @@ public class PlayerResultsIcon extends AHadalActor {
 	private TextureRegion playerSprite;
 	private final TextureRegion readyIcon;
 
+	//this string identifies the player as well as their score information
 	private String name;
 
 	private final FrameBuffer fbo;
@@ -55,6 +58,7 @@ public class PlayerResultsIcon extends AHadalActor {
 		this.name = fields.getNameAbridged(false, maxNameLen);
 		name += "\nScore: " + fields.getKills() + " / " + fields.getDeaths();
 
+		//if this is a pvp match with eggplants, we want to add that information to the text
 		boolean eggplants;
 		if (state.getPs().isServer()) {
 			eggplants = state.getGsm().getSetting().getPVPMode() == 1 && state.getPs().isPvp();
@@ -70,6 +74,7 @@ public class PlayerResultsIcon extends AHadalActor {
 
 		UnlockCharacter character = fieldsExtra.getLoadout().character;
 
+		//if the player won the game, we display a winning sprite. Otherwise: sluggo.
 		if (fields.isWonLast()) {
 			this.playerSprite = character.getBuffSprite().getFrame();
 		} else {
@@ -79,6 +84,7 @@ public class PlayerResultsIcon extends AHadalActor {
 		setHeight(spriteHeight * spriteScale);
 		setWidth(spriteWidth * spriteScale);
 
+		//Based on the player color, we create an fbo to accurately display their sprite.
 		AlignmentFilter team = fieldsExtra.getLoadout().team;
 
 		fbo = new FrameBuffer(Pixmap.Format.RGBA4444, playerSprite.getRegionWidth(), playerSprite.getRegionHeight(), true);

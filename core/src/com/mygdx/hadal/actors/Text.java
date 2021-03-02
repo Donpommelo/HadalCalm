@@ -13,7 +13,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
 
 /**
- * Simple actor that displays floating text. Not suitable for long messages.
+ * Simple actor that displays floating text.
  * @author Slirmelo Stufferty
  */
 public class Text extends AHadalActor {
@@ -76,6 +76,8 @@ public class Text extends AHadalActor {
 			 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2, getY(),
 				 getWidth() + padding, getHeight());
 		 }
+
+		 //we use a text cache here so that we can more easily control the text's transparency
 		 cache.setPosition(getX(), getY() + getHeight() / 2 + layout.height / 2);
 		 cache.setAlphas(alpha);
 		 cache.draw(batch);

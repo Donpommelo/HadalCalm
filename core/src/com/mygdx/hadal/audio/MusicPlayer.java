@@ -99,6 +99,7 @@ public class MusicPlayer {
 		}
 	}
 
+	//these arrays hold different types of songs. Whe na song is played, it will be chosen randomly from one list
 	private static final MusicTrack[] titleTracks = {MusicTrack.TITLE};
 	private static final MusicTrack[] hubTracks = {MusicTrack.HUB, MusicTrack.HUB_V2, MusicTrack.HUB_V3};
 	private static final MusicTrack[] matchTracks = {MusicTrack.AURAL_FIXATION, MusicTrack.CONFIDENCE, MusicTrack.RED_EYE,
@@ -138,7 +139,10 @@ public class MusicPlayer {
 		return track;
 	}
 
-	//server plays a song and tells all clients to play the same song
+	/**
+	 * 	server plays a song and tells all clients to play the same song
+	 * 	Tentatively, this is not used; clients and servers play music independently.
+	 */
 	public void syncSong(PlayState state, MusicTrack music, float volume) {
 		
 		if (state.isServer()) {

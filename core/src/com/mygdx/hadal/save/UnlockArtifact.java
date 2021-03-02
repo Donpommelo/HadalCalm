@@ -156,6 +156,7 @@ public enum UnlockArtifact {
 	//the artifact's information
 	private InfoItem info;
 
+	//The string id of the artifact's icon in the artifact texture atlas
 	private final String spriteId;
 
 	UnlockArtifact(Artifact artifact) {
@@ -168,6 +169,9 @@ public enum UnlockArtifact {
 		artifactSingleton.setUnlock(this);
 	}
 
+	/**
+	 * This returns the sprite representing this artifact in the ui
+	 */
 	public TextureRegion getFrame() {
 		return ((TextureAtlas) HadalGame.assetManager.get(AssetList.ARTIFACT_ATL.toString())).findRegion(spriteId);
 	}
@@ -185,7 +189,6 @@ public enum UnlockArtifact {
 			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.ARTIFACT, u.toString())) {
 				get = false;
 			}
-			
 			if (get) {
 				items.add(u);
 			}

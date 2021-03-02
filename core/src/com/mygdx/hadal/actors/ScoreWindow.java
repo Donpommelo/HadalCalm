@@ -302,7 +302,6 @@ public class ScoreWindow {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						user.setMuted(false);
-						user.setMuted(false);
 						tableOptions.remove();
 						windowOptions.remove();
 					}

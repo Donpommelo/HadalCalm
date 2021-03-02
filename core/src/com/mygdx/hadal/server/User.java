@@ -39,6 +39,10 @@ public class User {
         hitBoxFilter = AlignmentFilter.getUnusedAlignment();
     }
 
+    /**
+     * A UserDto is a data object used to send user info from server to client
+     * This is sent upon going to results state to give clients accurate score information
+     */
     public static class UserDto {
 
         public SavedPlayerFields scores;

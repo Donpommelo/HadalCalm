@@ -131,6 +131,7 @@ public enum AlignmentFilter {
 
     /**
      * @return an unused alignment filter.
+     * this is used when a new user is added to give them a unique "player number"
      */
     public static AlignmentFilter getUnusedAlignment() {
         for (AlignmentFilter filter: AlignmentFilter.values()) {

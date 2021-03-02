@@ -289,9 +289,11 @@ public class UIHub {
 		if (state.getPlayer().getPlayerData() != null) {
 			for (UnlockArtifact c: state.getPlayer().getPlayerData().getLoadout().artifacts) {
 
+				//display all equipped artifacts and give option to unequip
 				if (!c.equals(UnlockArtifact.NOTHING)) {
 					artifactsEmpty = false;
-					final ArtifactIcon newTag = new ArtifactIcon(c, "UNEQUIP?\n" + c.getInfo().getName(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
+					final ArtifactIcon newTag = new ArtifactIcon(c, "UNEQUIP?\n" + c.getInfo().getName(),
+						artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 
 					newTag.addListener(new ClickListener() {
 
@@ -308,7 +310,8 @@ public class UIHub {
 						@Override
 						public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 							super.enter(event, x, y, pointer, fromActor);
-							info = newTag.getArtifact().getInfo().getName() + "\nCOST: " + newTag.getArtifact().getArtifact().getSlotCost() + "\n" + newTag.getArtifact().getInfo().getDescription() + " \n \n" +
+							info = newTag.getArtifact().getInfo().getName() + "\nCOST: " + newTag.getArtifact().getArtifact().getSlotCost() +
+								"\n" + newTag.getArtifact().getInfo().getDescription() + " \n \n" +
 								newTag.getArtifact().getInfo().getDescriptionLong();
 						}
 					});

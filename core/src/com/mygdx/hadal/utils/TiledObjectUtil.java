@@ -100,6 +100,10 @@ public class TiledObjectUtil {
     	}
     }
 
+	/**
+	 * client's version of this method only adds events that are marked as "independent"
+	 * This usually applies to static events like springs or currents
+	 */
 	public static void parseTiledEventLayerClient(ClientState state, MapObjects objects) {
 		for (MapObject object : objects) {
 			if (object.getProperties().get("independent", boolean.class) != null) {
@@ -610,7 +614,7 @@ public class TiledObjectUtil {
 				e.setStandardParticle(Particle.valueOf(object.getProperties().get("particle_std", String.class)));
 			}
 
-			//set the event's blueprint and data representation
+			//set the event's blueprint and data representation. This is used for sending client event info
 			e.setBlueprint((RectangleMapObject) object);
 			e.setDto(new EventDto((RectangleMapObject) object));
 		}
@@ -781,7 +785,8 @@ public class TiledObjectUtil {
     		for (String id : movePointConnections.get(key).split(",")) {
     			if (!id.equals("")) {
         			key.addConnection(triggeredEvents.getOrDefault(id, null));
-        			
+
+        			//for prefabs, connect to the event parts that are specified to be moveable
         			Prefabrication prefab = prefabrications.getOrDefault(id, null);
         			if (prefab != null) {
         				for (String e: prefab.getConnectedEvents()) {
@@ -954,7 +959,7 @@ public class TiledObjectUtil {
         float[] vertices = polyline.getPolyline().getTransformedVertices();
         Vector2[] worldVertices = new Vector2[vertices.length / 2];
 
-        for(int i = 0; i < worldVertices.length; i++) {
+        for (int i = 0; i < worldVertices.length; i++) {
             worldVertices[i] = new Vector2(vertices[i * 2] / Constants.PPM, vertices[i * 2 + 1] / Constants.PPM);
         }
         ChainShape cs = new ChainShape();

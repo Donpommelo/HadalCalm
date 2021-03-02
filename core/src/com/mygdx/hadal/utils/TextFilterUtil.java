@@ -85,8 +85,7 @@ public class TextFilterUtil {
 	}
 	
 	/**
-	 * filters every tag into a random color
-	 * This is not used for anything in particular.
+	 * filters every tag into a random word that matches that tag
 	 */	
 	private static String filterTag(String text, String tag) {
 		String filteredText = text;

@@ -11,6 +11,8 @@ public class SavedPlayerFields {
 	
 	//Player's stored stats
 	private int wins, kills, deaths, score, teamScore, lives, ping, connID;
+
+	//did the player win their last game? This is used to let the client know who won in the results screen.
 	private boolean wonLast;
 	
 	//this unused constructor is needed by kryo for serialization

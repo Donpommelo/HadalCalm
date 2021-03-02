@@ -59,6 +59,7 @@ public class HadalGame extends ApplicationAdapter {
     //Client and server for networking are static fields in the main game
     public static KryoClient client;
     public static KryoServer server;
+
     //socket is used to connect to matchmaking server
 	public static Socket socket;
 
@@ -239,17 +240,30 @@ public class HadalGame extends ApplicationAdapter {
 
 	//this is the player's external ip that other clients will connect to
 	public static String myIp = "";
+
+	/**
+	 * This attempts to enable upnp on the client's router
+	 * @param protocol: tcp or udp
+	 * @param descr: Not used for anything rn except logging
+	 * @param port: what port to map to
+	 */
 	private static void upnp(String protocol, String descr, int port) {
+
+		//We do these on a separate thread to avoid initial loading times
 		new Thread(() -> {
 			try {
 				GatewayDiscover discover = new GatewayDiscover();
 				discover.discover();
 				GatewayDevice d = discover.getValidGateway();
+
+				//Attempt to find router and acquire its information
 				if (d != null) {
 					InetAddress localAddress = d.getLocalAddress();
 					myIp = d.getExternalIPAddress();
 
 					PortMappingEntry portMapping = new PortMappingEntry();
+
+					//delete existing mappings before attempting to create a new one
 					d.deletePortMapping(port, protocol);
 					if (!d.getSpecificPortMappingEntry(port, protocol, portMapping)) {
 

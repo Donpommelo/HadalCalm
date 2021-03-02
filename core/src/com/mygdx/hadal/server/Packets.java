@@ -127,7 +127,8 @@ public class Packets {
 	public static class ClientPlayerCreated {
 		
 		/**
-		 * ClientPlayerCreated is sent from the Client to the server when they create their own player. This prompts the server to sync all fields that require a player to already have been created.
+		 * ClientPlayerCreated is sent from the Client to the server when they create their own player.
+		 * This prompts the server to sync all fields that require a player to already have been created.
 		 * At the moment, this just includes the client's loadout
 		 */
 		public ClientPlayerCreated() {}
@@ -178,8 +179,8 @@ public class Packets {
 		 * to transition as well.
 		 * Clients receiving this begin fading to black the same way the Server does.
 		 * @param state: Are we transitioning to a new level, a gameover screen or whatever else?
-		 * @param override: Should this override other transitions.
-		 * @param resultsText: If transitioning to a results screen, what text should be displayed
+		 * @param override: Should this override other transitions?
+		 * @param resultsText: If transitioning to a results screen, what text should be displayed?
 		 * @param fadeSpeed: speed of the fade transition
 		 * @param fadeDelay: Amount of delay before transition
 		 */
@@ -198,9 +199,9 @@ public class Packets {
 		public ClientFinishRespawn() {}
 
 		/**
-		 * A ClientFinishRespawn is sent from the Client to the Server upon finishing their fade-to-black after receiving a ClientStartTransition Packet.
-		 *
+		 * A ClientFinishRespawn is sent from the Client to the Server upon finishing their fade-to-black after receiving a ClientStartTransition Packet
 		 * If the client is respawning, the server creates the new client player upon receiving this message.
+		 * @param loadout: the loadout that the client will be respawning with
 		 *
 		 */
 		public ClientFinishRespawn(Loadout loadout) {
@@ -312,8 +313,8 @@ public class Packets {
 		public ClientReady() {}
 		
 		/**
-		 * This is sent from the client to the server at the results screen to indicate the client is ready to return.
-		 * @param playerId: the id of the client who is ready
+		 * This is sent from the server to all clients to indicate that a client is ready to return to the hub
+ 		 * @param playerId: the id of the client who is ready
 		 */
 		public ClientReady(int playerId) {
 			this.playerID = playerId;
@@ -462,6 +463,7 @@ public class Packets {
 		/**
 		 * A Delete Entity is sent from the Server to the Client to tell the Client to delete an Entity.
 		 * @param entityID: ID of the entity to be deleted.
+		 * @param timestamp: when this deletion occurred. Used to handle the possibility of packet loss.
 		 */
 		public DeleteEntity(String entityID, float timestamp) {
 			this.entityID = entityID;
@@ -479,6 +481,8 @@ public class Packets {
 		 * A Delete Player is sent from the Server to the Client to tell the Client to delete a player.
 		 * This is separate from delete entity to pass along info about the type of death.
 		 * @param entityID: ID of the entity to be deleted.
+		 * @param timestamp: when this deletion occurred. Used to handle the possibility of packet loss.
+		 * @param type: type of deletion for animation purpose (death, disconnect teleport etc)
 		 */
 		public DeletePlayer(String entityID, float timestamp, DespawnType type) {
 			this.entityID = entityID;
@@ -612,6 +616,7 @@ public class Packets {
 		 * @param velocity: linear velocity of the entity
 		 * @param angle: body angle of the new entity.
 		 * @param age: age of the entity. (used by client to determine if they missed a packet)
+		 * @param timestamp: time of sync. Used for client prediction.
 		 * @param instant: should the client entity instantly copy the server or interpolate?
 		 */
 		public SyncEntity(String entityID, Vector2 pos, Vector2 velocity, float angle, float age, float timestamp, boolean instant) {
@@ -638,6 +643,8 @@ public class Packets {
          * 
          * @param entityID: ID of the activated Pickup
          * @param newPickup: enum name of the new pickup.
+		 * @param age: age of the entity. (used by client to determine if they missed a packet)
+		 * @param timestamp: time of sync. Used for client prediction.
          */
 		public SyncPickup(String entityID, String newPickup, float age, float timestamp) {
 			this.entityID = entityID;
@@ -678,6 +685,7 @@ public class Packets {
 		 * @param entityID: ID of the Schmuck to be synced
 		 * @param moveState: The State of the Schmuck. Used for animations on the Client's end
 		 * @param hpPercent: The percent of remaining hp this schmuck has.
+		 * @param timestamp: time of sync. Used for client prediction.
 		 */
 		public SyncSchmuck(String entityID, MoveState moveState, float hpPercent, float timestamp) {
 			this.entityID = entityID;
@@ -865,6 +873,7 @@ public class Packets {
 		 * @param offset: if connected to another entity, this is the offset from that entity's position
 		 * @param on: Is the Server's version of this effect on or off?
 		 * @param age: age of the entity. (used by client to determine if they missed a packet)
+		 * @param timestamp: time of sync. Used for client prediction.
 		 */
 		public SyncParticles(String entityID, Vector2 pos, Vector2 offset, boolean on, float age, float timestamp) {
 			this.entityID = entityID;
@@ -1022,6 +1031,7 @@ public class Packets {
 		 * @param volume: new volume of the soundentity
 		 * @param on: is the soundentity on?
 		 * @param age: age of the entity. (used by client to determine if they missed a packet)
+		 * @param timestamp: time of sync. Used for client prediction.
 		 */
 		public SyncSound(String entityID, Vector2 pos, float volume, boolean on, float age, float timestamp) {
 			this.entityID = entityID;
@@ -1151,7 +1161,8 @@ public class Packets {
 		public SyncExtraResultsInfo() {}
 		
 		/**
-		 * A SyncExtraResultsInfo is sent from the server to the client when they enter the results screen. This contains information about the match performance
+		 * A SyncExtraResultsInfo is sent from the server to the client when they enter the results screen.
+		 * @param users: This contains information about the match performance
 		 */
 		public SyncExtraResultsInfo(UserDto[] users) {
 			this.users = users;

@@ -256,6 +256,8 @@ public class Boss5 extends EnemyFloating {
 
 					@Override
 					public void die() {
+
+						//when vine dies, it creates 2 vines that branch in separate directions
 						float newDegrees = hbox.getLinearVelocity().angleDeg() + (ThreadLocalRandom.current().nextInt(vineSplitSpreadMin, vineSplitSpreadMax));
 						angle.set(0, vineSpeed).setAngleDeg(newDegrees);
 						Hitbox split1 = createVine(hbox.getPixelPosition(), angle, vineGrowth, vineLifespan,
@@ -266,6 +268,7 @@ public class Boss5 extends EnemyFloating {
 						Hitbox split2 = createVine(hbox.getPixelPosition(), angle, vineGrowth, vineLifespan,
 							vineBendSpreadMin, vineBendSpreadMax, 2, 1);
 
+						//each of the 2 branching vines will split again after dying
 						extraSplit(split1);
 						extraSplit(split2);
 					}
@@ -558,6 +561,7 @@ public class Boss5 extends EnemyFloating {
 					@Override
 					public void controller(float delta) {
 
+						//scythes delay some before moving outward
 						if (delayCount < delay) {
 							delayCount += delta;
 						} else {
@@ -567,8 +571,12 @@ public class Boss5 extends EnemyFloating {
 						controllerCount += delta;
 						while (controllerCount >= pushInterval) {
 							controllerCount -= pushInterval;
+
+							//this makes scythes rotate
 							angle += scytheSpinSpeed;
 							if (getBody() != null && isAlive()) {
+
+								//scythes move along a sin wave in arc from user
 								offset.set(0, (float) (scytheAmplitude * Math.sin(timer * scytheFrequency)))
 									.setAngleDeg((float) (startAngle + scytheSpread * Math.sin(timer * scytheAngleFrequency)));
 								centerPos.set(enemy.getPosition()).add(offset);
@@ -675,6 +683,7 @@ public class Boss5 extends EnemyFloating {
 									offset.set(0, currentRange).setAngleDeg(currentAngle);
 									orbital.setTransform(centerPos.add(offset), orbitalAngle);
 
+									//orbitals start off near boss and expand outwards
 									if (currentRange < orbitalRange) {
 										currentRange += orbitalRangeIncreaseSpeed;
 									}
@@ -734,9 +743,11 @@ public class Boss5 extends EnemyFloating {
 							RangedHitbox shadow = new RangedHitbox(state, getPixelPosition(), shadowSize, shadowLifespan, new Vector2(),
 								getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
 
+							//projectile saves boss velocity
 							final Vector2 savedVelo = new Vector2(getLinearVelocity());
 							shadow.addStrategy(new ControllerDefault(state, shadow, getBodyData()));
 
+							//if boss is not moving, hbox does nothing
 							if (!savedVelo.isZero()) {
 								shadow.addStrategy(new DamageStandard(state, shadow, getBodyData(), shadowDamage, shadowKB, DamageTypes.RANGED));
 								shadow.addStrategy(new ContactUnitDie(state, shadow, getBodyData()));
@@ -751,6 +762,8 @@ public class Boss5 extends EnemyFloating {
 									@Override
 									public void controller(float delta) {
 										controller += delta;
+
+										//upon activation, projectile moves perpendicular to saved velocity
 										if ((controller > shadowDelay - me * shadowInterval) && !activated) {
 											activated = true;
 											delayVelo.set(savedVelo).rotate90(me % 2 == 1 ? 1 : -1).nor().scl(shadowSpeed);
@@ -782,6 +795,7 @@ public class Boss5 extends EnemyFloating {
 	private Hitbox createVine(Vector2 startPosition, Vector2 startVelo, float growthTime, float lifespan, int spreadMin, int spreadMax, int bendLength, int bendSpread) {
 		SoundEffect.ATTACK1.playUniversal(state, getPixelPosition(), 0.4f, 0.5f, false);
 
+		//create an invisible hitbox that makes the vines as it moves
 		RangedHitbox hbox = new RangedHitbox(state, startPosition, vineInvisSize, growthTime, startVelo, getHitboxfilter(), false, false, this, Sprite.NOTHING);
 		hbox.setSyncDefault(false);
 		hbox.makeUnreflectable();
@@ -798,6 +812,8 @@ public class Boss5 extends EnemyFloating {
 			@Override
 			public void controller(float delta) {
 				entityLocation.set(hbox.getPixelPosition());
+
+				//after moving distance equal to a vine, the hbox spawns a vine with random sprite
 				if (lastPosition.dst(entityLocation) > vineSize.x) {
 					lastPosition.set(entityLocation);
 
@@ -811,6 +827,8 @@ public class Boss5 extends EnemyFloating {
 						@Override
 						public void create() {
 							super.create();
+
+							//vines match hbox velocity but are drawn at an offset so they link together better
 							float newAngle = (float)(Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x));
 							newPosition.set(getPosition()).add(new Vector2(hbox.getLinearVelocity()).nor().scl(vineSize.x / 2 / PPM));
 							setTransform(newPosition.x, newPosition.y, newAngle);
@@ -826,6 +844,8 @@ public class Boss5 extends EnemyFloating {
 
 					vineCount++;
 					if (vineCount >= nextBend) {
+
+						//hbox's velocity changes randomly to make vine wobble
 						hbox.setLinearVelocity(hbox.getLinearVelocity().rotateDeg((bendRight ? -1 : 1) * ThreadLocalRandom.current().nextInt(spreadMin, spreadMax)));
 						bendRight = !bendRight;
 						vineCount = 0;
@@ -836,6 +856,8 @@ public class Boss5 extends EnemyFloating {
 
 			@Override
 			public void die() {
+
+				//uon death, make a vine tip sprite
 				RangedHitbox vine = new RangedHitbox(state, hbox.getPixelPosition(), vineSize, lifespan, new Vector2(),
 					getHitboxfilter(), true, false, creator.getSchmuck(), Sprite.VINE_B) {
 

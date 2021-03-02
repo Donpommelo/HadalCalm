@@ -203,7 +203,8 @@ public class GameStateManager {
 	 * @param reset: do we reset player stats in the new play state?
 	 * @param startId: the id of the playstate's start point (i.e, if the map has multiple starts, which one do we use?)
 	 */
-	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState, boolean reset, String startId) {
+	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState,
+							 boolean reset, String startId) {
 		if (states.empty()) {
 			states.push(new PlayState(this, loadout, map, true, old, reset, startId));
 			states.peek().show();

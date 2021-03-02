@@ -75,7 +75,9 @@ public class MessageWindow {
 	private static final float inactiveFadeDelay = 8.0f;
 	private float inactiveFadeCount;
 
+	//this tracks all text messages. Used for saving text logs to docs
 	private static final ArrayList<String> textRecord = new ArrayList<>();
+
 	private final TextureRegion grey;
 
 	public MessageWindow(PlayState state, Stage stage) {
@@ -89,7 +91,7 @@ public class MessageWindow {
 			public void act(float delta) {
 				super.act(delta);
 
-				//keep track of how long the window is inactive. Make invisible after enough time.
+				//keep track of how long the window is inactive. Make invisible after enough time inactive.
 				if (!active) {
 					if (inactiveFadeCount > inactiveFadeDelay) {
 						invisible = true;
@@ -104,6 +106,7 @@ public class MessageWindow {
 			@Override
 			public void draw(Batch batch, float parentAlpha) {
 
+				//don't draw window if it has been inactive too long or if hud is hidden
 				if (invisible) { return; }
 				if (state.getGsm().getSetting().isHideHUD()) { return; }
 
@@ -333,6 +336,11 @@ public class MessageWindow {
 			addTextLine(s);
 		}
 
+		//level transitions should not make the text window reappear
+		if (!state.isHub()) {
+			invisible = true;
+		}
+
 		//this makes clicking outside the window exit it.
 		state.getStage().addCaptureListener(new InputListener() {
 
@@ -431,7 +439,7 @@ public class MessageWindow {
 	public boolean isActive() { return active; }
 	
 	/**
-	 * this is used to create the result's version of the message window
+	 * this is used to create the result screen's version of the message window
 	 * this makes the window locked into being active
 	 */
 	public void setLocked(boolean locked) { this.locked = locked; }

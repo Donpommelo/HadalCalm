@@ -166,6 +166,7 @@ public class UIPlay extends AHadalActor {
 			GameStateManager.getBossGaugePatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
 		}
 
+		//hide rest of ui if specified in settings. We don't want to hide boss ui.
 		if (state.getGsm().getSetting().isHideHUD()) { return; }
 				
 		//do not render in spectator mode

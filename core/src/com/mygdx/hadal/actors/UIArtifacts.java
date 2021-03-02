@@ -58,7 +58,8 @@ public class UIArtifacts {
 	 * @param u : new artifact
 	 */
 	private void addTag(UnlockArtifact u) {
-		ArtifactIcon newTag = new ArtifactIcon(u, u.getInfo().getName() + "\n" + u.getInfo().getDescription(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
+		ArtifactIcon newTag = new ArtifactIcon(u, u.getInfo().getName() + "\n" + u.getInfo().getDescription(),
+			artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 		newTag.setWidth(tagWidth);
 		newTag.setHeight(tagHeight);
 		table.add(newTag).width(tagWidth).height(tagHeight);

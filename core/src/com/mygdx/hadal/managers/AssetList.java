@@ -13,18 +13,7 @@ public enum AssetList {
 	FIXEDSYS_FONT("fonts/fixedsys.fnt", null),
 	VERDANA_FONT("fonts/verdana.fnt", null),
 
-	// Player and enemy sprites.
-	PROJ_1_ATL("sprites/projectiles.atlas", TextureAtlas.class),
-	NOTIFICATION_ATL("sprites/notifications.atlas", TextureAtlas.class),
-	BOOM_1_ATL("sprites/boom.atlas", TextureAtlas.class),
-	TURRET_ATL("sprites/turret.atlas", TextureAtlas.class),
-	FISH_ATL("sprites/fish.atlas", TextureAtlas.class),
-	KAMABOKO_ATL("sprites/king_kamaboko.atlas", TextureAtlas.class),
-	KAMABOKO_CRAWL_ATL("sprites/kamaboko_crawl.atlas", TextureAtlas.class),
-	KAMABOKO_SWIM_ATL("sprites/kamaboko_swim.atlas", TextureAtlas.class),
-	DRONE_ATL("sprites/drone.atlas", TextureAtlas.class),
-	NEPTUNE_KING_ATL("sprites/neptuneking.atlas", TextureAtlas.class),
-
+	//Player Sprites
 	PLAYER_MAXIMILLIAN_ATL("sprites/player/maximillian.atlas", TextureAtlas.class),
 	PLAYER_MOREAU_ATL("sprites/player/moreau.atlas", TextureAtlas.class),
 	PLAYER_MOREAU_FESTIVE_ATL("sprites/player/moreau_festive.atlas", TextureAtlas.class),
@@ -42,21 +31,33 @@ public enum AssetList {
 	PLAYER_TELEMACHUS("sprites/player/telemachus.png", Texture.class),
 	PLAYER_WANDA("sprites/player/wanda.png", Texture.class),
 
+	// Object Sprites
+	PROJ_1_ATL("sprites/projectiles.atlas", TextureAtlas.class),
+	NOTIFICATION_ATL("sprites/notifications.atlas", TextureAtlas.class),
+	BOOM_1_ATL("sprites/boom.atlas", TextureAtlas.class),
 	MULTITOOL_ATL("sprites/player/multitool.atlas", TextureAtlas.class),
 	EVENT_ATL("sprites/events/event.atlas", TextureAtlas.class),
-	
+
 	// Particle effects.
 	PARTICLE_ATL("particles/particles.atlas", TextureAtlas.class),
-	
+
+	//Enemy Sprites
+	TURRET_ATL("sprites/turret.atlas", TextureAtlas.class),
+	FISH_ATL("sprites/fish.atlas", TextureAtlas.class),
+	KAMABOKO_ATL("sprites/king_kamaboko.atlas", TextureAtlas.class),
+	KAMABOKO_CRAWL_ATL("sprites/kamaboko_crawl.atlas", TextureAtlas.class),
+	KAMABOKO_SWIM_ATL("sprites/kamaboko_swim.atlas", TextureAtlas.class),
+	DRONE_ATL("sprites/drone.atlas", TextureAtlas.class),
+	NEPTUNE_KING_ATL("sprites/neptuneking.atlas", TextureAtlas.class),
+
+	//UI
 	UIPATCH_ATL("ui/window.atlas", TextureAtlas.class),
 	UISKIN_ATL("ui/uiskin.atlas", TextureAtlas.class),
 	UI_ATL("ui/UI.atlas", TextureAtlas.class),
 	MUSIC_ATL("ui/music.atlas", TextureAtlas.class),
 	EMOTE_ATL("sprites/emote/emote.atlas", TextureAtlas.class),
 	TELEMACHUS_POINT("ui/telemachus_point.atlas", TextureAtlas.class),
-
 	BOSSGAUGE_ATL("ui/gauge.atlas", TextureAtlas.class),
-
 	PELICAN_ATL("sprites/busts/portrait_pelican.atlas", TextureAtlas.class),
 	
 	BACKGROUND1("under_da_sea.jpg", Texture.class),

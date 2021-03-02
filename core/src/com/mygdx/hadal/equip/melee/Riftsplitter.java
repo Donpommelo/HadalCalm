@@ -24,7 +24,7 @@ public class Riftsplitter extends MeleeWeapon {
 
 	private static final float shootCd = 0.5f;
 	private static final float shootDelay = 0.3f;
-	private static final float baseDamage = 25.0f;
+	private static final float baseDamage = 30.0f;
 	private static final Vector2 projectileSize = new Vector2(30, 120);
 	private static final float projectileSpeed = 30.0f;
 	private static final float knockback = 15.0f;
@@ -32,7 +32,7 @@ public class Riftsplitter extends MeleeWeapon {
 	
 	private static final Vector2 shockwaveSize = new Vector2(56, 64);
 	private static final float shockwaveInterval = 0.1f;
-	private static final float shockwaveDamage = 15.0f;
+	private static final float shockwaveDamage = 17.0f;
 	private static final float shockwaveSpeed = 15.0f;
 	private static final float shockwaveLifespan = 0.4f;
 

@@ -362,7 +362,6 @@ public class KryoServer {
 								createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), player.getPlayerData(), true, false);
 							}
 						} else {
-
 							//player is respawning from spectator and has no player
 							SavedPlayerFields score = user.getScores();
 							createNewClientPlayer(ps, c.getID(), score.getNameShort(), p.loadout, null, true, false);

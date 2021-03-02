@@ -64,10 +64,9 @@ public class Scrap extends Event {
 					//in single player, scrap gives the player 1 unit of currency
 					if (GameStateManager.currentMode == Mode.SINGLE) {
 						state.getGsm().getRecord().incrementScrap(1);
-					}
-					
-					//in eggplant mode, we increase the players score by 1
-					if (state.getGsm().getSetting().getPVPMode() == 1) {
+					} else if (state.getGsm().getSetting().getPVPMode() == 1) {
+
+						//in eggplant mode, we increase the players score by 1
 						state.getUiExtra().changeFields(((PlayerBodyData) fixB).getPlayer(), 1, 0, 0.0f, 0.0f, false);
 					}
 					

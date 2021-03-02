@@ -10,6 +10,8 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 
 /**
+ * This icon is displayed at the start of levels to show the player the currently playing song
+ * @author Boguana Blitherford
  */
 public class MusicIcon extends AHadalActor {
 

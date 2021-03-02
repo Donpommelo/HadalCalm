@@ -32,7 +32,6 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
-import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -96,7 +95,7 @@ public class KryoClient {
 					addNotification(cs, "", "DISCONNECTED!", DialogType.SYSTEM);
 				}
 				
-				//return to the title. (if our client state is still there, we can do a fade out transition first.
+				//return to the lobby state. (if our client state is still there, we can do a fade out transition first.
         		Gdx.app.postRunnable(() -> {
 					gsm.removeState(ResultsState.class, false);
 					gsm.removeState(SettingState.class, false);
@@ -104,7 +103,7 @@ public class KryoClient {
 					gsm.removeState(PauseState.class, false);
 
 					if (cs != null) {
-						cs.returnToTitle(1.5f);
+						cs.returnToTitle(1.0f);
 					} else {
 						gsm.removeState(ClientState.class);
 					}
@@ -124,7 +123,7 @@ public class KryoClient {
         		} else if (HadalGame.client.receiveAddRemovePacket(o)) {
         			return;
         		}
-        		
+
         		/*
         		 * The client is told to update its own stats.
         		 * These are stats only relevant to one client.
@@ -272,7 +271,7 @@ public class KryoClient {
 				}
 
         		/*
-        		 * Server rejects our connection. Display msg on title screen.
+        		 * Server rejects our connection. Display msg on lobby screen.
         		 */
         		else if (o instanceof Packets.ConnectReject) {
         			final Packets.ConnectReject p = (Packets.ConnectReject) o;
@@ -286,7 +285,7 @@ public class KryoClient {
         		}
 
 				/*
-				 * Server requests a password. Display password field on title screen.
+				 * Server requests a password. Display password field on lobby screen.
 				 */
 				else if (o instanceof Packets.PasswordRequest) {
 					if (!gsm.getStates().isEmpty()) {
@@ -456,9 +455,11 @@ public class KryoClient {
         		else if (o instanceof Packets.ClientReady) {
         			final Packets.ClientReady p = (Packets.ClientReady) o;
         			
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
-						final ResultsState vs =  (ResultsState) gsm.getStates().peek();
-						Gdx.app.postRunnable(() -> vs.readyPlayer(p.playerID));
+        			if (!gsm.getStates().empty()) {
+						if (gsm.getStates().peek() instanceof ResultsState) {
+							final ResultsState vs =  (ResultsState) gsm.getStates().peek();
+							Gdx.app.postRunnable(() -> vs.readyPlayer(p.playerID));
+						}
 					}
         		}
         		
@@ -526,7 +527,7 @@ public class KryoClient {
         		
         		/*
         		 * we are told by the server to play a new music track
-        		 * atm, this only happens when we are in the playstate.
+        		 * atm, this isn't used b/c music is played independently
         		 */
         		else if (o instanceof Packets.SyncMusic) {
         			final Packets.SyncMusic p = (Packets.SyncMusic) o;
@@ -735,6 +736,7 @@ public class KryoClient {
 						cs.getCamera().position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
 					}
 
+					//attatch new player to respective user (or create if nonexistent)
 					if (users.containsKey(p.connID)) {
 						users.get(p.connID).setPlayer(newPlayer);
 					} else {
@@ -903,22 +905,6 @@ public class KryoClient {
 	}
 	
 	/**
-	 * Search for nearby servers.
-	 * @return The address of the server if found and a "Nope" otherwise
-	 */
-	public String searchServer() {
-		if (client == null) { init(); }
-		
-		InetAddress address = client.discoverHost(gsm.getSetting().getPortNumber(), 5000);
-		
-		String start = "NO IP FOUND";
-		
-    	if (address != null) { start = address.getHostAddress(); }
-    	
-    	return start;
-	}
-	
-	/**
 	 * Similar to getPlayState for server. This returns the ClientState, even if it is underneath a pause or setting state.
 	 * @return The current clientstate
 	 */
@@ -945,6 +931,7 @@ public class KryoClient {
 	 * @param cs: Client's current clientstate
 	 * @param name: name giving the notification
 	 * @param text: notification text
+	 * @param type: the type of dialog (system message, story dialog, etc)
 	 */
 	public void addNotification(ClientState cs, String name, String text, DialogType type) {
 		cs.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type);

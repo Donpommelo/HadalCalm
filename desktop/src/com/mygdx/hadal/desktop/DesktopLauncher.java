@@ -17,7 +17,8 @@ public class DesktopLauncher {
 		config.setTitle(TITLE);
 
 		//this line prevents audio from cutting if too many sounds are playing
-		config.setAudioConfig(192, 512, 9);
+		//I also increased bufferCount to hopefully prevent "unable to allocate audio buffers" error
+		config.setAudioConfig(192, 512, 11);
 		config.setAutoIconify(true);
 
 		config.setResizable(true);

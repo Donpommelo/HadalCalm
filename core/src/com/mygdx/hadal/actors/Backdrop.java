@@ -16,7 +16,7 @@ public class Backdrop extends AHadalActor {
 	private float width = HadalGame.CONFIG_WIDTH;
 	private float height = HadalGame.CONFIG_HEIGHT;
 
-	//should we reflect the sprite left-to-right (used for icons in chat wheelb/c those are also used as hboxes)
+	//should we reflect the sprite left-to-right (used for icons in chat wheel b/c those are also used as hboxes)
 	private boolean mirror;
 
 	public Backdrop(String backdropName, float width, float height) {

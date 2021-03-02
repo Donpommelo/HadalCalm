@@ -34,7 +34,8 @@ public class LoadingBackdrop extends AHadalActor {
     public void draw(Batch batch, float alpha) {
 		
 		//Draw the animation at the percentage of progress
-        batch.draw(loading.getKeyFrame(HadalGame.assetManager.getProgress() * loading.getAnimationDuration(), true), (HadalGame.CONFIG_WIDTH - width) / 2, (HadalGame.CONFIG_HEIGHT - height) / 2, width, height);
+        batch.draw(loading.getKeyFrame(HadalGame.assetManager.getProgress() * loading.getAnimationDuration(), true),
+			(HadalGame.CONFIG_WIDTH - width) / 2, (HadalGame.CONFIG_HEIGHT - height) / 2, width, height);
     }
 	
 	public TextureAtlas getAtlas() { return atlas; }

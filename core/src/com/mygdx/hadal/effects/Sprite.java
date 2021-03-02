@@ -278,7 +278,6 @@ public enum Sprite {
 	public Array<? extends TextureRegion> getFrames() {
 
 		if (this.equals(NOTHING)) {
-			//return eggplant to avoid needing requireNonNulls
 			return Objects.requireNonNull(getAtlas(SpriteType.EVENT)).findRegions("eggplant");
 		}
 		

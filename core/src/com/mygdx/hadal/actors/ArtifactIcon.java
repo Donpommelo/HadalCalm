@@ -15,6 +15,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
 
 /**
  * An Artifact icon is a ui element that corresponds to a single artifact in the reliquary hub event.
+ * These are also used in the current artifacts ui and results screen
  * @author Ghargarine Ghoatmeal
  */
 public class ArtifactIcon extends AHadalActor {

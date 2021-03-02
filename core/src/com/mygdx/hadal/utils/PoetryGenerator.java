@@ -149,6 +149,7 @@ public enum PoetryGenerator {
 	}
 	
 	//this keeps track of how many "extra length" poem segments have been added.
+	//If we have too many "extra length" segments, we stop adding more to avoid overly long poems
 	private static int currentLengthExtra;
 	/**
 	 * Recursive case. Randomly select a valid next poem fragment
@@ -197,7 +198,8 @@ public enum PoetryGenerator {
 				}
 			}
 		}
-		
+
+		//append proper end phase (if existent)
 		if (!next.endPhrase.equals("")) {
 			return thisWord + nextWord + TextFilterUtil.filterPoemTags(generateName(next.endPhrase));
 		}
