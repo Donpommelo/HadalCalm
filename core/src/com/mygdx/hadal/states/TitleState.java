@@ -97,7 +97,7 @@ public class TitleState extends GameState {
 	//This boolean determines if input is disabled. input is disabled if the player joins/hosts.
 	private boolean inputDisabled;
 
-	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/226528/104f";
+	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/228045/105";
 
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.

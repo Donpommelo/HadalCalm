@@ -154,6 +154,15 @@ RANDOM: {
         CURATED,
     ]
 }
+DM_AGGYDAGGY: {
+	name: DM_AGGYDAGGY
+	description: ""
+    descriptionLong: "SIZE: LARGE"
+	tags: [  
+        MULTIPLAYER,
+        PVP,
+	]
+}
 DM_BOTTLENECK: {
 	name: DM_BOTTLENECK
 	description: ""

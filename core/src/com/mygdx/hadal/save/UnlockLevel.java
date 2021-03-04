@@ -42,6 +42,7 @@ public enum UnlockLevel {
 	ARENA_WETWORKS("Maps/arena_wetworks.tmx"),
 	ARENA_ZIGGURAT("Maps/arena_ziggurat.tmx"),
 
+	DM_AGGYDAGGY("Maps/dm_aggydaggy.tmx"),
 	DM_CAROUSEL("Maps/dm_carousel.tmx"),
 	DM_FALLDOWN("Maps/dm_falldown.tmx"),
 	DM_GULLY("Maps/dm_gully.tmx"),
