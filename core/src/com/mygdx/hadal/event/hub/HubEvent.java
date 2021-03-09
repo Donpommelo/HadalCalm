@@ -86,7 +86,7 @@ public class HubEvent extends Event {
 	@Override
 	public void controller(float delta) {
 		if (open && closeOnLeave) {
-			if (getPosition().dst(state.getPlayer().getPosition()) > maxDistance) {
+			if (getPosition().dst2(state.getPlayer().getPosition()) > maxDistance * maxDistance) {
 				leave();
 				open = false;
 			}
@@ -96,7 +96,7 @@ public class HubEvent extends Event {
 	@Override
 	public void clientController(float delta) {
 		if (open && closeOnLeave) {
-			if (getPosition().dst(state.getPlayer().getPosition()) > maxDistance) {
+			if (getPosition().dst2(state.getPlayer().getPosition()) > maxDistance * maxDistance) {
 				leave();
 				open = false;
 			}

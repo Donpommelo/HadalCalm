@@ -29,7 +29,7 @@ public class TravelDistanceDie extends HitboxStrategy {
 	
 	@Override
 	public void controller(float delta) {
-		if (startLocation.dst(hbox.getPosition()) >= distance) {
+		if (startLocation.dst2(hbox.getPosition()) >= distance * distance) {
 			hbox.die();
 		}
 	}

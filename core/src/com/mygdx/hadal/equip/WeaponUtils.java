@@ -34,6 +34,8 @@ import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
@@ -51,7 +53,8 @@ public class WeaponUtils {
 	private static final Sprite missileSprite = Sprite.MISSILE_B;
 	private static final Sprite beeSprite = Sprite.BEE;
 
-	public static Hitbox createExplosion(PlayState state, Vector2 startPos, float size, Schmuck user, float explosionDamage, float explosionKnockback, short filter) {
+	public static Hitbox createExplosion(PlayState state, Vector2 startPos, float size, Schmuck user,
+										 float explosionDamage, float explosionKnockback, short filter) {
 		
 		float newSize = size * (1 + user.getBodyData().getStat(Stats.EXPLOSION_SIZE));
 
@@ -61,11 +64,13 @@ public class WeaponUtils {
 			actualFilter = Constants.PLAYER_HITBOX;
 		}
 
-		Hitbox hbox = new Hitbox(state, startPos, new Vector2(newSize, newSize), 0.4f, new Vector2(0, 0), actualFilter, true, false, user, boomSprite);
+		Hitbox hbox = new Hitbox(state, startPos, new Vector2(newSize, newSize), 0.4f, new Vector2(0, 0),
+			actualFilter, true, false, user, boomSprite);
 		hbox.setSpriteSize(new Vector2(newSize, newSize).scl(explosionSpriteScaling));
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ExplosionDefault(state, hbox, user.getBodyData(), explosionDamage, explosionKnockback, selfDamageReduction, DamageTypes.EXPLOSIVE));
+		hbox.addStrategy(new ExplosionDefault(state, hbox, user.getBodyData(), explosionDamage, explosionKnockback,
+			selfDamageReduction, DamageTypes.EXPLOSIVE));
 		
 		return hbox;
 	}
@@ -114,11 +119,13 @@ public class WeaponUtils {
 	private static final float torpedoHoming = 100;
 	private static final int torpedoHomingRadius = 100;
 
-	public static void createHomingTorpedo(PlayState state, Vector2 startPos, Schmuck user, float damage, int numTorp, Vector2 startVelocity, boolean procEffects, short filter) {
+	public static void createHomingTorpedo(PlayState state, Vector2 startPos, Schmuck user, float damage, int numTorp,
+										   Vector2 startVelocity, boolean procEffects, short filter) {
 		
 		for (int i = 0; i < numTorp; i++) {
 			
-			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(torpedoWidth, torpedoHeight), torpedoLifespan, startVelocity, filter, true, procEffects, user, missileSprite);
+			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(torpedoWidth, torpedoHeight), torpedoLifespan,
+				startVelocity, filter, true, procEffects, user, missileSprite);
 
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
@@ -142,11 +149,13 @@ public class WeaponUtils {
 	private static final int beeSpread = 25;
 	private static final float beeHoming = 90;
 
-	public static void createBees(PlayState state, Vector2 startPos, Schmuck user, int numBees, int homeRadius, Vector2 startVelocity, boolean procEffects, short filter) {
+	public static void createBees(PlayState state, Vector2 startPos, Schmuck user, int numBees, int homeRadius,
+								  Vector2 startVelocity, boolean procEffects, short filter) {
 
 		for (int i = 0; i < numBees; i++) {
 			
-			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(beeWidth, beeHeight), beeLifespan, startVelocity, filter, false, procEffects, user, beeSprite);
+			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(beeWidth, beeHeight), beeLifespan,
+				startVelocity, filter, false, procEffects, user, beeSprite);
 			hbox.setDensity(0.5f);
 			hbox.setDurability(beeDurability);
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -161,9 +170,11 @@ public class WeaponUtils {
 	private static final int spiritSize = 25;
 	private static final float spiritHoming = 80;
 	private static final int spiritHomingRadius = 100;
-	public static void releaseVengefulSpirits(PlayState state, Vector2 startPos, float spiritLifespan, float spiritDamage, float spiritKnockback, BodyData creator, Particle particle, short filter) {
+	public static void releaseVengefulSpirits(PlayState state, Vector2 startPos, float spiritLifespan, float spiritDamage,
+											  float spiritKnockback, BodyData creator, Particle particle, short filter) {
 		
-		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(spiritSize, spiritSize), spiritLifespan, new Vector2(), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
+		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(spiritSize, spiritSize), spiritLifespan,
+			new Vector2(), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, creator));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, creator));
@@ -174,8 +185,10 @@ public class WeaponUtils {
 		hbox.addStrategy(new DieSound(state, hbox, creator, SoundEffect.DARKNESS1, 0.25f));
 	}
 	
-	public static void createExplodingReticle(PlayState state, Vector2 startPos, Schmuck user, float reticleSize, float reticleLifespan, float explosionDamage, float explosionKnockback, int explosionRadius) {
-		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(reticleSize, reticleSize), reticleLifespan, new Vector2(), user.getHitboxfilter(), true, false, user, Sprite.CROSSHAIR);
+	public static void createExplodingReticle(PlayState state, Vector2 startPos, Schmuck user, float reticleSize,
+											  float reticleLifespan, float explosionDamage, float explosionKnockback, int explosionRadius) {
+		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(reticleSize, reticleSize), reticleLifespan,
+			new Vector2(), user.getHitboxfilter(), true, false, user, Sprite.CROSSHAIR);
 		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -188,8 +201,10 @@ public class WeaponUtils {
 	
 	private static final float primeDelay = 1.0f;
 	private static final float projDampen = 1.0f;
-	public static void createNauticalMine(PlayState state, Vector2 startPos, Schmuck user, Vector2 startVelocity, float mineSize, float mineLifespan, float explosionDamage, float explosionKnockback, int explosionRadius) {
-		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(mineSize, mineSize), mineLifespan, startVelocity, (short) 0, false, false, user, Sprite.NAVAL_MINE);
+	public static void createNauticalMine(PlayState state, Vector2 startPos, Schmuck user, Vector2 startVelocity,
+										  float mineSize, float mineLifespan, float explosionDamage, float explosionKnockback, int explosionRadius) {
+		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(mineSize, mineSize), mineLifespan, startVelocity,
+			(short) 0, false, false, user, Sprite.NAVAL_MINE);
 		hbox.setRestitution(0.5f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -296,8 +311,10 @@ public class WeaponUtils {
 	private static final float range = 1500.0f;
 	private static final float lifespan = 5.0f;
 	
-	public static void createMeteors(PlayState state, Vector2 startPos, Schmuck user, float meteorDuration, float meteorInterval, float spread, float baseDamage, float knockback) {
-		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(1, 1), meteorDuration, new Vector2(), (short) 0, false, false, user, Sprite.NOTHING);
+	public static void createMeteors(PlayState state, Vector2 startPos, Schmuck user, float meteorDuration, float meteorInterval,
+									 float spread, float baseDamage, float knockback) {
+		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(1, 1), meteorDuration, new Vector2(),
+			(short) 0, false, false, user, Sprite.NOTHING);
 		hbox.makeUnreflectable();
 		hbox.setSyncDefault(false);
 		
@@ -370,7 +387,115 @@ public class WeaponUtils {
 			}
 		});
 	}
-	
+
+	private static final Sprite[] vineSprites = {Sprite.VINE_A, Sprite.VINE_C, Sprite.VINE_D};
+	public static Hitbox createVine(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelo,
+									int vineNum, float lifespan, float vineDamage, float vineKB,
+									int spreadMin, int spreadMax, int bendLength, int bendSpread,
+									Vector2 vineInvisSize, Vector2 vineSize, Vector2 vineSpriteSize, int splitNum) {
+
+		SoundEffect.ATTACK1.playUniversal(state, user.getPixelPosition(), 0.4f, 0.5f, false);
+
+		//create an invisible hitbox that makes the vines as it moves
+		RangedHitbox hbox = new RangedHitbox(state, startPosition, vineInvisSize, lifespan, startVelo, user.getHitboxfilter(),
+			false, false, user, Sprite.NOTHING);
+		hbox.setSyncDefault(false);
+		hbox.makeUnreflectable();
+		hbox.setRestitution(1.0f);
+
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+
+			private final Vector2 lastPosition = new Vector2();
+			private final Vector2 entityLocation = new Vector2();
+			private int vineCount, vineCountTotal, nextBend;
+			private boolean bendRight;
+			private float displacement;
+			private final Vector2 angle = new Vector2();
+
+			@Override
+			public void controller(float delta) {
+				entityLocation.set(hbox.getPixelPosition());
+
+				displacement += lastPosition.dst(entityLocation);
+				lastPosition.set(entityLocation);
+
+				//after moving distance equal to a vine, the hbox spawns a vine with random sprite
+				if (displacement > vineSize.x) {
+					displacement = 0.0f;
+
+					int randomIndex = GameStateManager.generator.nextInt(vineSprites.length);
+					Sprite projSprite = vineSprites[randomIndex];
+
+					RangedHitbox vine = new RangedHitbox(state, hbox.getPixelPosition(), vineSize, lifespan, new Vector2(),
+						user.getHitboxfilter(), true, false, creator.getSchmuck(),
+						vineCountTotal == vineNum ? Sprite.VINE_B : projSprite) {
+
+						private final Vector2 newPosition = new Vector2();
+						@Override
+						public void create() {
+							super.create();
+
+							//vines match hbox velocity but are drawn at an offset so they link together better
+							float newAngle = (float)(Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x));
+							newPosition.set(getPosition()).add(new Vector2(hbox.getLinearVelocity()).nor().scl(vineSize.x / 2 / PPM));
+							setTransform(newPosition.x, newPosition.y, newAngle);
+						}
+					};
+					vine.setSpriteSize(vineSpriteSize);
+
+					vine.addStrategy(new ControllerDefault(state, vine, user.getBodyData()));
+					vine.addStrategy(new ContactUnitSound(state, vine, user.getBodyData(), SoundEffect.STAB, 0.6f, true));
+					vine.addStrategy(new DamageStandard(state, vine, user.getBodyData(), vineDamage, vineKB, DamageTypes.RANGED).setStaticKnockback(true));
+					vine.addStrategy(new CreateParticles(state, vine, user.getBodyData(), Particle.DANGER_RED, 0.0f, 1.0f).setParticleSize(90.0f));
+					vine.addStrategy(new DieParticles(state, vine, user.getBodyData(), Particle.PLANT_FRAG));
+					vine.addStrategy(new Static(state, vine, user.getBodyData()));
+
+					vineCount++;
+					vineCountTotal++;
+					if (vineCount >= nextBend) {
+
+						//hbox's velocity changes randomly to make vine wobble
+						hbox.setLinearVelocity(hbox.getLinearVelocity().rotateDeg((bendRight ? -1 : 1) * ThreadLocalRandom
+							.current().nextInt(spreadMin, spreadMax)));
+						bendRight = !bendRight;
+						vineCount = 0;
+						nextBend = bendLength + (ThreadLocalRandom.current().nextInt(-bendSpread, bendSpread + 1));
+					}
+					if (vineCountTotal > vineNum) {
+						hbox.die();
+					}
+				}
+			}
+
+			@Override
+			public void die() {
+
+				if (splitNum > 0) {
+					//when vine dies, it creates 2 vines that branch in separate directions
+					float
+						newDegrees =
+						hbox.getLinearVelocity().angleDeg() +
+							(ThreadLocalRandom.current().nextInt(spreadMin, spreadMax));
+					angle.set(hbox.getLinearVelocity()).setAngleDeg(newDegrees);
+					WeaponUtils.createVine(state, user, hbox.getPixelPosition(), angle, vineNum, lifespan,
+						vineDamage, vineKB, spreadMin, spreadMax, 2, 1,
+						vineInvisSize, vineSize, vineSpriteSize, splitNum - 1);
+
+					newDegrees =
+						hbox.getLinearVelocity().angleDeg() -
+							(ThreadLocalRandom.current().nextInt(spreadMin, spreadMax));
+					angle.set(hbox.getLinearVelocity()).setAngleDeg(newDegrees);
+					WeaponUtils.createVine(state, user, hbox.getPixelPosition(), angle, vineNum, lifespan,
+						vineDamage, vineKB, spreadMin, spreadMax, 2, 1,
+						vineInvisSize, vineSize, vineSpriteSize, splitNum - 1);
+				}
+			}
+		});
+
+		return hbox;
+	}
+
 	private static final Vector2 pingSize = new Vector2(60, 54);
 	private static final Vector2 pingArrowSize = new Vector2(60, 33);
 	private static final float pingLifespan = 2.0f;

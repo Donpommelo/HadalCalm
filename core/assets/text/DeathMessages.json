@@ -64,6 +64,9 @@
         {
             "message": "<vic> didn't fly so good", "weight": 1, namedPerp: false
         }
+        {
+            "message": "They never found <vic>'s body", "weight": 1, namedPerp: false
+        }
     ]
 "MELEE":  [
         {
@@ -80,6 +83,9 @@
         }
         {
             "message": "<perp> beat <vic> half to death, twice", "weight": 1, namedPerp: true
+        }
+        {
+            "message": "<perp> broke <vic>'s <body part> with their bare hands", "weight": 1, namedPerp: true
         }
     ]
 "RANGED":  [
@@ -102,6 +108,9 @@
         }
         {
             "message": "<perp> deleted <vic>", "weight": 1, namedPerp: true
+        }
+        {
+            "message": "<perp> rustled <vic>'s jimmies", "weight": 1, namedPerp: true
         }
         {
             "message": "<perp> fragged <vic>", "weight": 1, namedPerp: true
@@ -172,6 +181,9 @@
         }
         {
             "message": "<perp> gave <vic> lead poisoning", "weight": 15, namedPerp: true
+        }
+        {
+            "message": "<perp> blammed <vic>", "weight": 15, namedPerp: true
         }
         {
             "message": "<perp> mowed down <vic> in cold blood", "weight": 15, namedPerp: true
@@ -371,16 +383,28 @@
     ]
 "POISON":  [
         {
-            "message": "<vic> insists its just a flu", "weight": 20, namedPerp: false
+            "message": "<vic> was killed by poison", "weight": 20, namedPerp: false
         }
         {
             "message": "<vic> died from ligma", "weight": 5, namedPerp: false
+        }
+        {
+            "message": "<vic> insists its just a flu", "weight": 10, namedPerp: false
+        }
+        {
+            "message": "<vic> will be recorded as a COVID-19 related fatality", "weight": 10, namedPerp: false
+        }
+        {
+            "message": "<vic> died from aids", "weight": 10, namedPerp: false
         }
         {
             "message": "<perp> killed <vic> with poison", "weight": 20, namedPerp: true
         }
         {
             "message": "<perp> killed <vic> with ligma", "weight": 5, namedPerp: true
+        }
+        {
+            "message": "<perp> is the cancer killing <vic>", "weight": 5, namedPerp: true
         }
         {
             "message": "<perp>'s toxicity was too much for <vic> to handle", "weight": 20, namedPerp: true
@@ -474,7 +498,7 @@
             "message": "<perp> ruptured <vic>'s <body part> with a concussive wave", "weight": 15, namedPerp: true
         }
         {
-            "message": "<perp> showed <vic> the song of their people", "weight": 3, namedPerp: true
+            "message": "<perp> showed <vic> the song of their people", "weight": 15, namedPerp: true
         }
     ]
 "STUTTER":  [

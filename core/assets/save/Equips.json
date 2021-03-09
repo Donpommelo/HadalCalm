@@ -342,6 +342,16 @@ POPPER: {
 		RANGED,
 	]
 }
+PUFFBALLER: {
+	name: Puffballer
+	description: ""
+    descriptionLong: ""
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 RETICLE_STRIKE: {
 	name: Reticle Strike
 	description: "Create a line of exploding reticles."
@@ -474,6 +484,16 @@ UNDERMINER: {
 	name: Underminer
 	description: "Fires drills that burrow into walls and creates a radial barrage of explosives mini-drills."
     descriptionLong: "Drill Damage: 40\nMini-Drill Impact Damage: 15\nMini-Drill Explosion Damage: 25\n\nClip Size: 1\nAmmo Capacity: 22\nReload Time: 0.5 Second"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+VINE_SOWER: {
+	name: Vine Sower
+	description: ""
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,

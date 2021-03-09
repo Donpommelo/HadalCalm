@@ -92,7 +92,8 @@ public class DropThroughPlatform extends Event {
 			}
 		};
 
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true, Constants.BIT_DROPTHROUGHWALL, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PLAYER | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true,
+			Constants.BIT_DROPTHROUGHWALL, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PLAYER | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				(short) 0, false, eventData);
 		
 		this.body.setType(BodyDef.BodyType.KinematicBody);

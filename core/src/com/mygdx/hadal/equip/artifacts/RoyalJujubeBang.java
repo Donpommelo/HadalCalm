@@ -29,10 +29,10 @@ public class RoyalJujubeBang extends Artifact {
 			@Override
 			public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) {
 				
-				float dist = vic.getSchmuck().getPixelPosition().dst(inflicted.getSchmuck().getPixelPosition());
+				float distSquared = vic.getSchmuck().getPixelPosition().dst2(inflicted.getSchmuck().getPixelPosition());
 				
 				float boost = 1.0f;
-				if (dist > distThreshold) {
+				if (distSquared > distThreshold * distThreshold) {
 					boost = distDamageBoost;
 					new ParticleEntity(state, vic.getSchmuck(), Particle.EXPLOSION, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
 				}

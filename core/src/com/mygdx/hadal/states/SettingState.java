@@ -50,7 +50,7 @@ public class SettingState extends GameState {
 		playerCapacity;
 	private Slider sound, music, master, hitsound;
 	private CheckBox fullscreen, vsync, autoIconify, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration, consoleEnabled,
-		verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD;
+		verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack;
 		
 	//Dimensions of the setting menu
 	private static final int optionsX = -1025;
@@ -343,6 +343,7 @@ public class SettingState extends GameState {
 		debugHitbox = new CheckBox("DRAW DEBUG OUTLINES?", GameStateManager.getSkin());
 		displayNames = new CheckBox("DISPLAY NAMES?", GameStateManager.getSkin());
 		displayHp = new CheckBox("DISPLAY HP BAR?", GameStateManager.getSkin());
+		mouseCameraTrack = new CheckBox("CAMERA MOUSE FOLLOW?", GameStateManager.getSkin());
 
 		fullscreen.setChecked(gsm.getSetting().isFullscreen());
 		vsync.setChecked(gsm.getSetting().isVSync());
@@ -350,6 +351,7 @@ public class SettingState extends GameState {
 		debugHitbox.setChecked(gsm.getSetting().isDebugHitbox());
 		displayNames.setChecked(gsm.getSetting().isDisplayNames());
 		displayHp.setChecked(gsm.getSetting().isDisplayHp());
+		mouseCameraTrack.setChecked(gsm.getSetting().isMouseCameraTrack());
 
 		details.add(screen);
 		details.add(resolutionOptions).height(detailHeight).pad(detailPad).row();
@@ -367,6 +369,7 @@ public class SettingState extends GameState {
 		details.add(cursorSize).height(detailHeight).pad(detailPad).row();
 		details.add(cursorcolor);
 		details.add(cursorColor).height(detailHeight).pad(detailPad).row();
+		details.add(mouseCameraTrack).colspan(2).height(detailHeight).pad(detailPad).row();
 	}
 	
 	/**
@@ -744,6 +747,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setCursorType(cursorOptions.getSelectedIndex());
 			gsm.getSetting().setCursorSize(cursorSize.getSelectedIndex());
 			gsm.getSetting().setCursorColor(cursorColor.getSelectedIndex());
+			gsm.getSetting().setMouseCameraTrack(mouseCameraTrack.isChecked());
 			gsm.getSetting().setDisplay(gsm.getApp(), playState);
 			gsm.getSetting().saveSetting();
 			displaySelected();

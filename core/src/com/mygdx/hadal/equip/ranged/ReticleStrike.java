@@ -23,7 +23,7 @@ public class ReticleStrike extends RangedWeapon {
 	private static final int reloadAmount = 1;
 	private static final float recoil = 16.0f;
 	private static final float projectileSpeed = 45.0f;
-	private static final Vector2 projectileSize = new Vector2(50, 50);
+	private static final Vector2 projectileSize = new Vector2(10, 10);
 	private static final float lifespan = 2.0f;
 
 	private static final Sprite projSprite = Sprite.NOTHING;

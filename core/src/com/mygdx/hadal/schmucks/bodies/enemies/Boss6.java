@@ -7,6 +7,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -120,7 +121,7 @@ public class Boss6 extends EnemyFloating {
 					break;
 			}
 		} else {
-			chase(10, chase1Interval, chase1Speed, 0, 0, 5);
+			chase(8, chase1Interval, chase1Speed, 0, 0, 5);
 		}
 	}
 
@@ -132,8 +133,6 @@ public class Boss6 extends EnemyFloating {
 		}
 
 		if (attackNum % 2 == 0) {
-			chase(16, chase2Interval, chase2Speed, 0, 0, 4);
-		} else {
 			int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
 			switch(nextAttack) {
 				case 0:
@@ -146,10 +145,12 @@ public class Boss6 extends EnemyFloating {
 					jesusBeams();
 					break;
 			}
+		} else {
+			chase(13, chase2Interval, chase2Speed, 0, 0, 4);
 		}
 	}
 
-	private static final float chaseDamage = 1.3f;
+	private static final float chaseDamage = 1.5f;
 	private static final int chaseKnockback = 12;
 	private static final float meleeAttackInterval = 1 / 60.0f;
 	private static final int spinSpeed = 40;
@@ -229,45 +230,54 @@ public class Boss6 extends EnemyFloating {
 	private static final float charge1Windup = 1.0f;
 	private static final int charge1Speed = 120;
 	private static final float chargeDamage = 35.0f;
-	private static final float chargeDuration = 1.4f;
-	private static final int chargeKnockback = 16;
+	private static final float chargeDuration = 0.09f;
+	private static final int chargeKnockback = 25;
 
 	private void charge(int chargeNum, boolean horizontal) {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, charge1Windup);
 
-		getActions().add(new EnemyAction(this, 0.0f) {
-
-			 @Override
-			 public void execute() {
-				 Hitbox hbox = new Hitbox(state, getPixelPosition(), enemy.getHboxSize(), chargeDuration, new Vector2(), getHitboxfilter(),
-					 true, false, enemy, Sprite.NOTHING);
-				 hbox.makeUnreflectable();
-
-				 hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-				 hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), chargeDamage, chargeKnockback, DamageTypes.MELEE)
-					 .setStaticKnockback(true).setRepeatable(true));
-				 hbox.addStrategy(new FixedToEntity(state, hbox, getBodyData(), new Vector2(), new Vector2(), true));
-				 hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
-			 }
-		});
-
 		for (int i = 0; i < chargeNum; i++) {
 			int location1 = chooseRandomPoint(horizontal);
+			int squaresTraveled;
+			final String nextMove;
 
 			if (horizontal) {
 				createTrailBetweenPoints(state.getDummyPoint(zones[currentX][currentY]).getPixelPosition(), state.getDummyPoint(zones[location1][currentY]).getPixelPosition());
-
+				squaresTraveled = Math.abs(location1 - currentX);
 				currentX = location1;
-
-				EnemyUtils.moveToDummy(state, this, zones[location1][currentY], charge1Speed, moveDurationMax);
+				nextMove = zones[location1][currentY];
 			} else {
 				createTrailBetweenPoints(state.getDummyPoint(zones[currentX][currentY]).getPixelPosition(), state.getDummyPoint(zones[currentX][location1]).getPixelPosition());
-
+				squaresTraveled = Math.abs(location1 - currentY);
 				currentY = location1;
-
-				EnemyUtils.moveToDummy(state, this, zones[currentX][location1], charge1Speed, moveDurationMax);
+				nextMove = zones[currentX][location1];
 			}
 			horizontal = !horizontal;
+
+			final int finalSquaresTraveled = squaresTraveled;
+			getActions().add(new EnemyAction(this, moveDurationMax) {
+
+				@Override
+				public void execute() {
+					Hitbox hbox = new Hitbox(state, getPixelPosition(), getHboxSize(),
+						chargeDuration * finalSquaresTraveled, new Vector2(), getHitboxfilter(),
+						true, false, enemy, Sprite.NOTHING);
+					hbox.makeUnreflectable();
+
+					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), chargeDamage, chargeKnockback, DamageTypes.MELEE)
+						.setStaticKnockback(true).setRepeatable(true));
+					hbox.addStrategy(new FixedToEntity(state, hbox, getBodyData(), new Vector2(), new Vector2(), true));
+					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+
+					Event dummy = state.getDummyPoint(nextMove);
+
+					if (dummy != null) {
+						enemy.setMovementTarget(dummy);
+						enemy.setMoveSpeed(charge1Speed);
+					}
+				}
+			 });
 		}
 	}
 
@@ -290,6 +300,8 @@ public class Boss6 extends EnemyFloating {
 
 			@Override
 			public void die() {
+				SoundEffect.EXPLOSION9.playUniversal(state, hbox.getPixelPosition(), 0.5f, 0.5f, false);
+
 				WeaponUtils.createExplosion(state, hbox.getPixelPosition(), gridDistance,
 					creator.getSchmuck(), bombDamage, bombKB, creator.getSchmuck().getHitboxfilter());
 				explode(0);
@@ -302,6 +314,7 @@ public class Boss6 extends EnemyFloating {
 				Hitbox wave = new RangedHitbox(state, new Vector2(bomb.getPixelPosition()).add(new Vector2(0, gridDistance).setAngleDeg(startAngle)),
 					waveSize, trailLifespan, new Vector2(0, waveSpeed).setAngleDeg(startAngle),
 					getHitboxfilter(),true, false, creator.getSchmuck(), Sprite.NOTHING);
+				wave.makeUnreflectable();
 
 				wave.addStrategy(new ControllerDefault(state, wave, getBodyData()));
 				wave.addStrategy(new ContactWallDie(state, wave, getBodyData()));
@@ -314,7 +327,7 @@ public class Boss6 extends EnemyFloating {
 					@Override
 					public void controller(float delta) {
 						entityLocation.set(hbox.getPixelPosition());
-						if (lastPosition.dst(entityLocation) > gridDistance) {
+						if (lastPosition.dst2(entityLocation) > gridDistance * gridDistance) {
 							lastPosition.set(entityLocation);
 							WeaponUtils.createExplosion(state, hbox.getPixelPosition(), gridDistance,
 								creator.getSchmuck(), bombDamage, bombKB, creator.getSchmuck().getHitboxfilter());
@@ -341,10 +354,16 @@ public class Boss6 extends EnemyFloating {
 		});
 
 		for (int i = 0; i < beamNum; i++) {
+			final int finalI = i;
 			getActions().add(new EnemyAction(this, beamInterval) {
 
 				@Override
 				public void execute() {
+
+					if (finalI == 0) {
+						SoundEffect.ROLLING_ROCKET.playUniversal(state, getPixelPosition(), 0.5f, 2.5f, false);
+					}
+
 					singleBeam(0);
 					singleBeam(90);
 					singleBeam(180);
@@ -354,7 +373,7 @@ public class Boss6 extends EnemyFloating {
 		}
 	}
 
-	private static final Vector2 laserSize = new Vector2(150, 150);
+	private static final Vector2 laserSize = new Vector2(165, 165);
 	private static final float laserSpeed = 60.0f;
 	private static final float laserDamage = 9.0f;
 	private static final float laserKB = 12.0f;
@@ -386,6 +405,7 @@ public class Boss6 extends EnemyFloating {
 
 			@Override
 			public void execute() {
+				SoundEffect.MAGIC3_BURST.playUniversal(state, getPixelPosition(), 1.1f, 0.75f, false);
 
 				spiralSingle(0, direction ? 1 : -1);
 				spiralSingle(180, direction ? 1 : -1);
@@ -399,8 +419,8 @@ public class Boss6 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, spiralCooldown);
 	}
 
-	private static final Vector2 spiralSize = new Vector2(150, 150);
-	private static final float spiralLifespan = 10.0f;
+	private static final Vector2 spiralSize = new Vector2(165, 165);
+	private static final float spiralLifespan = 12.0f;
 	private static final float spiralSpeed = 20.0f;
 	private static final float spiralDamage = 6.0f;
 	private static final float spiralKB = 10.0f;
@@ -423,7 +443,7 @@ public class Boss6 extends EnemyFloating {
 
 			@Override
 			public void controller(float delta) {
-				if (startLocation.dst(hbox.getPixelPosition()) >= distance) {
+				if (startLocation.dst2(hbox.getPixelPosition()) >= distance * distance) {
 
 					if (distance >= gridDistance * 8) {
 						hbox.die();

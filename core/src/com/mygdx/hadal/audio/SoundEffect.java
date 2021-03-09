@@ -277,35 +277,33 @@ public enum SoundEffect {
 
 		//check if player exists and is alive (to avoid sudden sound change on death)
 		if (player.getBody() != null && player.isAlive()) {
-			
 			playerPosition.set(player.getPixelPosition());
-			float xDist = worldPos.x - playerPosition.x;
-			float yDist = worldPos.y - playerPosition.y;
-			float dist = Math.abs(xDist) + Math.abs(yDist);
-
-			float pan;
-			float newVolume;
-			
-			//sound will be played from right/left headphone depending on relative x-coordinate
-			if (xDist > maxDist) {
-				pan = 1.0f;
-			} else if (xDist < -maxDist) {
-				pan = -1.0f;
-			} else {
-				pan = xDist / maxDist;
-			}
-			
-			//sound volume scales inversely to distance from sound
-			if (dist > maxDist) {
-				newVolume = 0.0f;
-			} else if (dist <= 0) {
-				newVolume = 1.0f;
-			} else {
-				newVolume = (maxDist - dist) / maxDist;
-			}
-			getSound().setPan(soundId, pan, newVolume * volume * state.getGsm().getSetting().getSoundVolume() * state.getGsm().getSetting().getMasterVolume());
-		} else {
-			getSound().setVolume(soundId, state.getGsm().getSetting().getSoundVolume() * state.getGsm().getSetting().getMasterVolume());
 		}
+
+		float xDist = worldPos.x - playerPosition.x;
+		float yDist = worldPos.y - playerPosition.y;
+		float dist = Math.abs(xDist) + Math.abs(yDist);
+
+		float pan;
+		float newVolume;
+
+		//sound will be played from right/left headphone depending on relative x-coordinate
+		if (xDist > maxDist) {
+			pan = 1.0f;
+		} else if (xDist < -maxDist) {
+			pan = -1.0f;
+		} else {
+			pan = xDist / maxDist;
+		}
+
+		//sound volume scales inversely to distance from sound
+		if (dist > maxDist) {
+			newVolume = 0.0f;
+		} else if (dist <= 0) {
+			newVolume = 1.0f;
+		} else {
+			newVolume = (maxDist - dist) / maxDist;
+		}
+		getSound().setPan(soundId, pan, newVolume * volume * state.getGsm().getSetting().getSoundVolume() * state.getGsm().getSetting().getMasterVolume());
 	}
 }

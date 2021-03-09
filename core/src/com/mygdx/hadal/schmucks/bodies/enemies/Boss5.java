@@ -9,6 +9,7 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -230,12 +231,18 @@ public class Boss5 extends EnemyFloating {
 
 	private static final float vineWindup = 1.5f;
 	private static final float vineSpeed = 20.0f;
-	private static final float vineGrowth = 1.0f;
+	private static final int vineNum = 8;
 	private static final float vineLifespan = 5.0f;
 	private static final int vineBendSpreadMin = 15;
 	private static final int vineBendSpreadMax = 30;
-	private static final int vineSplitSpreadMin = 30;
-	private static final int vineSplitSpreadMax = 45;
+
+	private static final Vector2 vineInvisSize = new Vector2(40, 40);
+	private static final Vector2 vineSize = new Vector2(80, 40);
+	private static final Vector2 vineSpriteSize = new Vector2(120, 120);
+
+	private static final Vector2 seedSize = new Vector2(45, 30);
+	private static final float vineDamage = 18.0f;
+	private static final float vineKB = 20.0f;
 	private void vineLash() {
 		if (GameStateManager.generator.nextInt(2) == 0) {
 			EnemyUtils.moveToDummy(state, this, "0", charge1Speed, moveDurationMax);
@@ -250,50 +257,11 @@ public class Boss5 extends EnemyFloating {
 			@Override
 			public void execute() {
 				Vector2 vineVelo = new Vector2(0, vineSpeed).setAngleDeg(attackAngle);
-				Hitbox vine = createVine(enemy.getPixelPosition(), vineVelo, vineGrowth, vineLifespan,
-					vineBendSpreadMin, vineBendSpreadMax, 2, 1);
-				vine.addStrategy(new HitboxStrategy(state, vine, getBodyData()) {
-
-					@Override
-					public void die() {
-
-						//when vine dies, it creates 2 vines that branch in separate directions
-						float newDegrees = hbox.getLinearVelocity().angleDeg() + (ThreadLocalRandom.current().nextInt(vineSplitSpreadMin, vineSplitSpreadMax));
-						angle.set(0, vineSpeed).setAngleDeg(newDegrees);
-						Hitbox split1 = createVine(hbox.getPixelPosition(), angle, vineGrowth, vineLifespan,
-							vineBendSpreadMin, vineBendSpreadMax, 2, 1);
-
-						newDegrees = hbox.getLinearVelocity().angleDeg() - (ThreadLocalRandom.current().nextInt(vineSplitSpreadMin, vineSplitSpreadMax));
-						angle.set(0, vineSpeed).setAngleDeg(newDegrees);
-						Hitbox split2 = createVine(hbox.getPixelPosition(), angle, vineGrowth, vineLifespan,
-							vineBendSpreadMin, vineBendSpreadMax, 2, 1);
-
-						//each of the 2 branching vines will split again after dying
-						extraSplit(split1);
-						extraSplit(split2);
-					}
-
-					private void extraSplit(Hitbox hbox) {
-						hbox.addStrategy(new HitboxStrategy(state, hbox, getBodyData()) {
-
-							   @Override
-							   public void die() {
-								   float newDegrees = hbox.getLinearVelocity().angleDeg() + (ThreadLocalRandom.current().nextInt(vineSplitSpreadMin, vineSplitSpreadMax));
-								   angle.set(0, vineSpeed).setAngleDeg(newDegrees);
-								   createVine(hbox.getPixelPosition(), angle,
-									   vineGrowth, vineLifespan, vineBendSpreadMin, vineBendSpreadMax, 2, 1);
-
-								   newDegrees = hbox.getLinearVelocity().angleDeg() - (ThreadLocalRandom.current().nextInt(vineSplitSpreadMin, vineSplitSpreadMax));
-								   angle.set(0, vineSpeed).setAngleDeg(newDegrees);
-								   createVine(hbox.getPixelPosition(), angle,
-									   vineGrowth, vineLifespan, vineBendSpreadMin, vineBendSpreadMax, 2, 1);
-							   }
-						   }
-						);
-					}
-				});
+				WeaponUtils.createVine(state, enemy, enemy.getPixelPosition(), vineVelo, vineNum, vineLifespan,
+					vineDamage, vineKB, vineBendSpreadMin, vineBendSpreadMax, 2, 1,
+					vineInvisSize, vineSize, vineSpriteSize, 2);
 			}
-	 });
+	 	});
 	}
 
 	private static final float seedWindup = 1.5f;
@@ -301,7 +269,7 @@ public class Boss5 extends EnemyFloating {
 	private static final int seedNumber = 9;
 	private static final float seedSpeed = 15.0f;
 	private static final float seedLifespan = 5.0f;
-	private static final float seedVineGrowth = 1.5f;
+	private static final int seedVineNum = 12;
 	private static final float seedVineLifespan = 4.0f;
 	private static final float seedInterval = 0.5f;
 	private void seedBomber() {
@@ -342,8 +310,9 @@ public class Boss5 extends EnemyFloating {
 
 									 @Override
 									 public void die() {
-										 createVine(hbox.getPixelPosition(), new Vector2(0, vineSpeed), seedVineGrowth, seedVineLifespan,
-											 vineBendSpreadMin, vineBendSpreadMax, 2, 1);
+										 WeaponUtils.createVine(state, enemy, hbox.getPixelPosition(), new Vector2(0, vineSpeed), seedVineNum, seedVineLifespan,
+											 vineDamage, vineKB, vineBendSpreadMin, vineBendSpreadMax, 2, 1,
+											 vineInvisSize, vineSize, vineSpriteSize, 0);
 									 }
 								 }
 							);
@@ -475,7 +444,7 @@ public class Boss5 extends EnemyFloating {
 						private final Vector2 newSize = new Vector2();
 						@Override
 						public void die() {
-							SoundEffect.EXPLOSION_FUN.playUniversal(state, getPixelPosition(), 1.0f, 0.6f, false);
+							SoundEffect.EXPLOSION_FUN.playUniversal(state, hbox.getPixelPosition(), 1.0f, 0.6f, false);
 
 							for (int i = 0; i < sporeFragNumber; i++) {
 								newVelocity.set(hbox.getLinearVelocity()).nor().scl(fragSpeed).scl((ThreadLocalRandom.current().nextFloat() * fragVeloSpread + 1 - fragVeloSpread / 2));
@@ -782,103 +751,6 @@ public class Boss5 extends EnemyFloating {
 			}
 		});
 		EnemyUtils.moveToDummy(state, this, dummyId, shadowChargeSpeed, moveDurationMax);
-	}
-
-	private static final Vector2 seedSize = new Vector2(45, 30);
-	private static final Vector2 vineInvisSize = new Vector2(40, 40);
-	private static final Vector2 vineSize = new Vector2(80, 40);
-	private static final Vector2 vineSpriteSize = new Vector2(120, 120);
-	private static final float vineDamage = 18.0f;
-	private static final float vineKB = 20.0f;
-	private static final Sprite[] projSprites = {Sprite.VINE_A, Sprite.VINE_C, Sprite.VINE_D};
-
-	private Hitbox createVine(Vector2 startPosition, Vector2 startVelo, float growthTime, float lifespan, int spreadMin, int spreadMax, int bendLength, int bendSpread) {
-		SoundEffect.ATTACK1.playUniversal(state, getPixelPosition(), 0.4f, 0.5f, false);
-
-		//create an invisible hitbox that makes the vines as it moves
-		RangedHitbox hbox = new RangedHitbox(state, startPosition, vineInvisSize, growthTime, startVelo, getHitboxfilter(), false, false, this, Sprite.NOTHING);
-		hbox.setSyncDefault(false);
-		hbox.makeUnreflectable();
-		hbox.setRestitution(1.0f);
-
-		hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-		hbox.addStrategy(new HitboxStrategy(state, hbox, getBodyData()) {
-
-			private final Vector2 lastPosition = new Vector2();
-			private final Vector2 entityLocation = new Vector2();
-			private int vineCount, nextBend;
-			private boolean bendRight;
-
-			@Override
-			public void controller(float delta) {
-				entityLocation.set(hbox.getPixelPosition());
-
-				//after moving distance equal to a vine, the hbox spawns a vine with random sprite
-				if (lastPosition.dst(entityLocation) > vineSize.x) {
-					lastPosition.set(entityLocation);
-
-					int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
-					Sprite projSprite = projSprites[randomIndex];
-
-					RangedHitbox vine = new RangedHitbox(state, hbox.getPixelPosition(), vineSize, lifespan, new Vector2(),
-						getHitboxfilter(), true, false, creator.getSchmuck(), projSprite) {
-
-						private final Vector2 newPosition = new Vector2();
-						@Override
-						public void create() {
-							super.create();
-
-							//vines match hbox velocity but are drawn at an offset so they link together better
-							float newAngle = (float)(Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x));
-							newPosition.set(getPosition()).add(new Vector2(hbox.getLinearVelocity()).nor().scl(vineSize.x / 2 / PPM));
-							setTransform(newPosition.x, newPosition.y, newAngle);
-						}
-					};
-					vine.setSpriteSize(vineSpriteSize);
-
-					vine.addStrategy(new ControllerDefault(state, vine, getBodyData()));
-					vine.addStrategy(new ContactUnitSound(state, vine, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
-					vine.addStrategy(new DamageStandard(state, vine, getBodyData(), vineDamage, vineKB, DamageTypes.RANGED).setStaticKnockback(true));
-					vine.addStrategy(new CreateParticles(state, vine, getBodyData(), Particle.DANGER_RED, 0.0f, 1.0f));
-					vine.addStrategy(new DieParticles(state, vine, getBodyData(), Particle.PLANT_FRAG));
-
-					vineCount++;
-					if (vineCount >= nextBend) {
-
-						//hbox's velocity changes randomly to make vine wobble
-						hbox.setLinearVelocity(hbox.getLinearVelocity().rotateDeg((bendRight ? -1 : 1) * ThreadLocalRandom.current().nextInt(spreadMin, spreadMax)));
-						bendRight = !bendRight;
-						vineCount = 0;
-						nextBend = bendLength + (ThreadLocalRandom.current().nextInt(-bendSpread, bendSpread + 1));
-					}
-				}
-			}
-
-			@Override
-			public void die() {
-
-				//uon death, make a vine tip sprite
-				RangedHitbox vine = new RangedHitbox(state, hbox.getPixelPosition(), vineSize, lifespan, new Vector2(),
-					getHitboxfilter(), true, false, creator.getSchmuck(), Sprite.VINE_B) {
-
-					private final Vector2 newPosition = new Vector2();
-					@Override
-					public void create() {
-						super.create();
-						float newAngle = (float)(Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x));
-						newPosition.set(getPosition()).add(new Vector2(hbox.getLinearVelocity()).nor().scl(vineSize.x / 2 / PPM));
-						setTransform(newPosition.x, newPosition.y, newAngle);
-					}
-				};
-				vine.setSpriteSize(vineSpriteSize);
-
-				vine.addStrategy(new ControllerDefault(state, vine, getBodyData()));
-				vine.addStrategy(new ContactUnitSound(state, vine, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
-				vine.addStrategy(new DamageStandard(state, vine, getBodyData(), vineDamage, vineKB, DamageTypes.RANGED).setStaticKnockback(true));
-			}
-		});
-
-		return hbox;
 	}
 
 	private static final Vector2 windupSize = new Vector2(90, 90);

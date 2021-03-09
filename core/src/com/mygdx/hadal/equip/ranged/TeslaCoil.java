@@ -81,8 +81,7 @@ public class TeslaCoil extends RangedWeapon {
 			private final Vector2 entityLocation = new Vector2();
 			@Override
 			public void controller(float delta) {
-				super.controller(delta);
-				
+
 				//planted coils stop and activates
 				if (firstPlanted) {
 					firstPlanted = false;
@@ -123,7 +122,7 @@ public class TeslaCoil extends RangedWeapon {
 				}
 				
 				//After reaching the location clicked, the coil is marked as planted
-				if (startLocation.dst(hbox.getPixelPosition()) >= distance) {
+				if (startLocation.dst2(hbox.getPixelPosition()) >= distance * distance) {
 					firstPlanted = true;
 					controllerCount = pulseInterval;
 				}

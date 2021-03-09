@@ -44,7 +44,7 @@ public class PoisonTrail extends HitboxStrategy {
 	@Override
 	public void controller(float delta) {
 		entityLocation.set(hbox.getPixelPosition());
-		if (lastPosition.dst(entityLocation) > poisonRadius) {
+		if (lastPosition.dst2(entityLocation) > poisonRadius * poisonRadius) {
 			lastPosition.set(entityLocation);
 			new Poison(state, entityLocation, poisonSize, poisonDamage, poisonDuration, creator.getSchmuck(), true, filter)
 				.setParticle(particle).setParticleLifespan(lifespan).setParticleInterval(interval);

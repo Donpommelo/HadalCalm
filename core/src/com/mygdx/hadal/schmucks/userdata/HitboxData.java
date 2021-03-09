@@ -53,6 +53,9 @@ public class HitboxData extends HadalData {
 			for (HitboxStrategy strat: hbox.getStrategies()) {
 				strat.setCreator(perp);
 			}
+
+			//reset hbox's lifespan
+			hbox.setLifeSpan(hbox.getMaxLifespan());
 		}
 		
 		//this is used for hitboxes hat are capable of receiving damage and knockback

@@ -63,7 +63,7 @@ public class Enemy extends Schmuck {
   	//This is the entity this enemy is trying to move towards. (if null, the enemy moves towards the attack target)
   	private HadalEntity moveTarget;
   	
-	//This is the duration until the enemy will attack gain
+	//This is the duration until the enemy will attack again
     private float aiAttackCdCount = 0.0f;
     
     //This is the duration until the enemy will perform the next action in its action queue (or secondary action queue)
@@ -178,6 +178,8 @@ public class Enemy extends Schmuck {
 		if (aiActionCdCount > 0) {
 			aiActionCdCount -= delta;
 		} else {
+
+			//if enemy is done with their current action, decrement attack cooldown
 			if (aiAttackCdCount > 0) {
 				aiAttackCdCount -= delta;
 			}
@@ -185,23 +187,22 @@ public class Enemy extends Schmuck {
 		if (aiSecondaryActionCdCount > 0) {
 			aiSecondaryActionCdCount -= delta;
 		}
-		
-		//after attack cooldown, acquire target and initiate next attack.
-		if (aiAttackCdCount <= 0) {
-			aiAttackCdCount = attackCd;
-			acquireTarget();
-			attackInitiate();
-		}
 
 		//Action finishing action, attempt to perform next action. If action queue is empty, begin cooldown until next attack
 		if (aiActionCdCount <= 0 || currentAction == null) {
 			if (!actions.isEmpty()) {
+
+				//get next action and add it begin executing it. Set its duration as our cooldown
 				currentAction = actions.remove(0);
 				aiActionCdCount = currentAction.getDuration();
 				currentAction.execute();
 			} else {
+
+				//if we have no more actions left, we start our cooldown until our next attack
 				if (aiAttackCdCount <= 0) {
 					aiAttackCdCount = attackCd;
+					acquireTarget();
+					attackInitiate();
 				}
 			}
 		}
