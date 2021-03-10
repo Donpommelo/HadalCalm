@@ -343,7 +343,7 @@ public class SettingState extends GameState {
 		debugHitbox = new CheckBox("DRAW DEBUG OUTLINES?", GameStateManager.getSkin());
 		displayNames = new CheckBox("DISPLAY NAMES?", GameStateManager.getSkin());
 		displayHp = new CheckBox("DISPLAY HP BAR?", GameStateManager.getSkin());
-		mouseCameraTrack = new CheckBox("CAMERA MOUSE FOLLOW?", GameStateManager.getSkin());
+		mouseCameraTrack = new CheckBox("CAMERA AIM FOCUS?", GameStateManager.getSkin());
 
 		fullscreen.setChecked(gsm.getSetting().isFullscreen());
 		vsync.setChecked(gsm.getSetting().isVSync());

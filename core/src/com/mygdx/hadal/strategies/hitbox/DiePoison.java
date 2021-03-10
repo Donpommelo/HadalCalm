@@ -30,6 +30,7 @@ public class DiePoison extends HitboxStrategy {
 	
 	@Override
 	public void die() {
-		new Poison(state, this.hbox.getPixelPosition(), new Vector2(poisonRadius, poisonRadius), poisonDamage, poisonDuration, creator.getSchmuck(), true, filter);
+		new Poison(state, this.hbox.getPixelPosition(), new Vector2(poisonRadius, poisonRadius), poisonDamage, poisonDuration,
+			creator.getSchmuck(), true, filter);
 	}
 }

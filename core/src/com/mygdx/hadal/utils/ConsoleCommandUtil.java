@@ -286,22 +286,18 @@ public class ConsoleCommandUtil {
 	 * The player enters "eq x" to set their current weapon or active item to x (where x is the enum name of the equippable)
 	 */
 	public static int setEquip(PlayState state, String command) {
-		
-		try {
-			UnlockEquip equip = UnlockEquip.valueOf(command.toUpperCase());
-			if (state.getPlayer().isAlive()) {
-				state.getPlayer().getPlayerData().pickup(
-					Objects.requireNonNull(UnlocktoItem.getUnlock(equip, state.getPlayer())));
-			}
-		} catch (IllegalArgumentException ignored) {}
-		
-		try {
-			UnlockActives active = UnlockActives.valueOf(command.toUpperCase());
-			if (state.getPlayer().isAlive()) {
-				state.getPlayer().getPlayerData().pickup(
-					Objects.requireNonNull(UnlocktoItem.getUnlock(active, state.getPlayer())));
-			}
-		} catch (IllegalArgumentException ignored) {}
+
+		UnlockEquip equip = UnlockEquip.getByName(command.toUpperCase());
+		if (state.getPlayer().isAlive()) {
+			state.getPlayer().getPlayerData().pickup(
+				Objects.requireNonNull(UnlocktoItem.getUnlock(equip, state.getPlayer())));
+		}
+
+		UnlockActives active = UnlockActives.getByName(command.toUpperCase());
+		if (state.getPlayer().isAlive()) {
+			state.getPlayer().getPlayerData().pickup(
+				Objects.requireNonNull(UnlocktoItem.getUnlock(active, state.getPlayer())));
+		}
 		
 		return -1;
 	}
@@ -329,7 +325,7 @@ public class ConsoleCommandUtil {
 	public static int warp(PlayState state, String command) {
 		
 		try {
-			UnlockLevel level = UnlockLevel.valueOf(command.toUpperCase());
+			UnlockLevel level = UnlockLevel.getByName(command.toUpperCase());
 			state.loadLevel(level, TransitionState.NEWLEVEL, "");
 			return 0;
 		} catch (IllegalArgumentException ignored) {}

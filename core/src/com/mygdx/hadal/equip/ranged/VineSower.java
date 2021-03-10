@@ -26,7 +26,7 @@ public class VineSower extends RangedWeapon {
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.4f;
 	private static final int reloadAmount = 0;
-	private static final float baseDamage = 30.0f;
+	private static final float baseDamage = 28.0f;
 	private static final float recoil = 10.0f;
 	private static final float knockback = 10.0f;
 	private static final float projectileSpeed = 29.0f;
@@ -91,7 +91,7 @@ public class VineSower extends RangedWeapon {
 
 		RangedHitbox hbox = new RangedHitbox(state, startPosition, seedSize, lifespan, new Vector2(startVelocity), filter, true, true, user, projSprite);
 		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR | Constants.BIT_DROPTHROUGHWALL));
-		hbox.setGravity(3.5f);
+		hbox.setGravity(1.5f);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));

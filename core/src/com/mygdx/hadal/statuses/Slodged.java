@@ -41,7 +41,7 @@ public class Slodged extends Status {
 		super.timePassing(delta);
 		
 		if (slodge == null) {
-			slodge = new ParticleEntity(state, inflicted.getSchmuck(), particle, duration, 0.0f, true, particleSyncType.TICKSYNC);
+			slodge = new ParticleEntity(state, inflicted.getSchmuck(), particle, 0, 0.0f, true, particleSyncType.TICKSYNC);
 		}
 	}
 	

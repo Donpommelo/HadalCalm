@@ -14,13 +14,16 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  *
  */
 public class DieRagdoll extends HitboxStrategy {
-	
+
+	private static final float ragdollDuration = 0.75f;
+
 	public DieRagdoll(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);
 	}
 	
 	@Override
 	public void die() {
-		new Ragdoll(state, this.hbox.getPixelPosition(), hbox.getSize(), hbox.getSprite(), new Vector2(), 0.75f, 1.0f, false, false, true);
+		new Ragdoll(state, this.hbox.getPixelPosition(), hbox.getSize(), hbox.getSprite(), new Vector2(), ragdollDuration,
+			1.0f, false, false, true);
 	}
 }

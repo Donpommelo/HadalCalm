@@ -54,9 +54,9 @@ public class LevelWarp extends Event {
 			warpStart = false;
 			
 			if (reset) {
-				state.loadLevel(UnlockLevel.valueOf(level), TransitionState.NEWLEVEL, startId);
+				state.loadLevel(UnlockLevel.getByName(level), TransitionState.NEWLEVEL, startId);
 			} else {
-				state.loadLevel(UnlockLevel.valueOf(level), TransitionState.NEXTSTAGE, startId);
+				state.loadLevel(UnlockLevel.getByName(level), TransitionState.NEXTSTAGE, startId);
 			}
 		}
 	}

@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.save.UnlockCharacter;
 
+import java.util.HashMap;
+
 /**
  * The AlignmentFilter corresponds to a chosen "team color" of each player which can be chosen at a hub event.
  * This color contains the filter necessary to set up team passability.
@@ -163,4 +165,14 @@ public enum AlignmentFilter {
     public void setUsed(boolean used) { this.used = used; }
 
     public Vector3 getColor1() { return color1; }
+
+    private static final HashMap<String, AlignmentFilter> UnlocksByName = new HashMap<>();
+    static {
+        for (AlignmentFilter u: AlignmentFilter.values()) {
+            UnlocksByName.put(u.toString(), u);
+        }
+    }
+    public static AlignmentFilter getByName(String s) {
+        return UnlocksByName.getOrDefault(s, NONE);
+    }
 }

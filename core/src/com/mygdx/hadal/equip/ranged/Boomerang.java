@@ -19,7 +19,7 @@ public class Boomerang extends RangedWeapon {
 	private static final int ammoSize = 24;
 	private static final float shootCd = 0.75f;
 	private static final float shootDelay = 0;
-	private static final float reloadTime = .75f;
+	private static final float reloadTime = 0.75f;
 	private static final int reloadAmount = 1;
 	private static final float baseDamage = 30.0f;
 	private static final float recoil = 0.0f;

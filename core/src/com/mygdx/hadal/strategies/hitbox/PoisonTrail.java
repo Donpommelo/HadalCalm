@@ -25,6 +25,7 @@ public class PoisonTrail extends HitboxStrategy {
 	private final Vector2 lastPosition = new Vector2();
 	private final Vector2 poisonSize = new Vector2();
 
+	//default fields that can be changed using factory method for alternate poison styles
 	private Particle particle = Particle.POISON;
 	private float lifespan = 1.5f;
 	private float interval = 4096f;

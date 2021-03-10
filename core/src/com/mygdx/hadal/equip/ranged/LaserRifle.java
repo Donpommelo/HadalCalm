@@ -108,6 +108,7 @@ public class LaserRifle extends RangedWeapon {
 		Hitbox trail = new RangedHitbox(state, user.getPixelPosition(), trailSize, trailLifespan, startVelocity.nor().scl(trailSpeed), filter, true, true, user, projSprite);
 		trail.setEffectsHit(false);
 		trail.setEffectsMovement(false);
+		trail.makeUnreflectable();
 
 		trail.addStrategy(new ControllerDefault(state, trail, user.getBodyData()));
 		trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance * shortestFraction));

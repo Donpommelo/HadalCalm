@@ -46,7 +46,8 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 				Vector2 hitboxSize = new Vector2();
 				hitboxSize.set(vic.getSchmuck().getSize()).add(5, 5);
 				
-				Hitbox hbox = new Hitbox(state, new Vector2(), hitboxSize, lifespan, new Vector2(), creator.getSchmuck().getHitboxfilter(),  true, true, creator.getSchmuck(), Sprite.NOTHING);
+				Hitbox hbox = new Hitbox(state, new Vector2(), hitboxSize, lifespan, new Vector2(), creator.getSchmuck().getHitboxfilter(),
+					true, true, creator.getSchmuck(), Sprite.NOTHING);
 				hbox.makeUnreflectable();
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, creator));
@@ -73,7 +74,8 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 								if (fixB.getType().equals(UserDataTypes.WALL)) {
 									if (lastVelo > speedThreshold) {
 										vic.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);
-										new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f, true, particleSyncType.CREATESYNC);
+										new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
+											true, particleSyncType.CREATESYNC);
 										hbox.die();
 									}
 								}
@@ -83,7 +85,8 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 									if (lastVelo > speedThreshold) {
 										vic.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);
 										fixB.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);
-										new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f, true, particleSyncType.CREATESYNC);
+										new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
+											true, particleSyncType.CREATESYNC);
 										hbox.die();
 									}
 								}

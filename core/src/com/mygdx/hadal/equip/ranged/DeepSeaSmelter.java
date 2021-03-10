@@ -2,8 +2,8 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -13,16 +13,14 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Ablaze;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.utils.Stats;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class DeepSeaSmelter extends RangedWeapon {
 
-	private static final int clipSize = 1;
-	private static final int ammoSize = 1;
+	private static final int clipSize = 500;
+	private static final int ammoSize = 0;
 	private static final float shootCd = 0.12f;
 	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.0f;
@@ -40,7 +38,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 	
 	private static final float pitchSpread = 0.4f;
 	
-	private static final float projSpacing = 20.0f;
+	private static final float projSpacing = 16.0f;
 
 	private static final float maxCharge = 4.5f;
 	private static final float chargePerShot = 2.75f;
@@ -73,16 +71,11 @@ public class DeepSeaSmelter extends RangedWeapon {
 	
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		
-		//this is the same as the super method except we skip the clip size check
-		shooter.statusProcTime(new ProcTime.Shoot(this));
-		
-		projOrigin.set(shooter.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize.x));
-		
-		user.recoil(mouseLocation, recoil * (1 + shooter.getStat(Stats.RANGED_RECOIL)));
 
-		//Shoot			
-		fire(state, user, projOrigin, weaponVelo, faction);
+		//weapon is disabled when overheated
+		if (overheated) { return; }
+
+		super.execute(state, shooter);
 	}
 	
 	@Override

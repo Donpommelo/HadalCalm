@@ -20,23 +20,23 @@ public class UnlockManager {
 	 * This retrieves the player's unlocks from a file
 	 */
 	public static void retrieveItemInfo() {
-				
+
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Equips.json"))) {
-			UnlockEquip.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
+			UnlockEquip.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Artifacts.json"))) {
-			UnlockArtifact.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
+			UnlockArtifact.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Actives.json"))) {
-			UnlockActives.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
+			UnlockActives.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Characters.json"))) {
-			UnlockCharacter.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
+			UnlockCharacter.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Levels.json"))) {
-			UnlockLevel.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
+			UnlockLevel.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
-	}	
+	}
 	
 	/**
 	 * This acquires the information about an unlock based on its type and name
@@ -44,15 +44,15 @@ public class UnlockManager {
 	public static InfoItem getInfo(UnlockType type, String name) {
 		switch(type) {
 		case ACTIVE:
-			return UnlockActives.valueOf(name).getInfo();
+			return UnlockActives.getByName(name).getInfo();
 		case ARTIFACT:
-			return UnlockArtifact.valueOf(name).getInfo();
+			return UnlockArtifact.getByName(name).getInfo();
 		case CHARACTER:
-			return UnlockCharacter.valueOf(name).getInfo();
+			return UnlockCharacter.getByName(name).getInfo();
 		case EQUIP:
-			return UnlockEquip.valueOf(name).getInfo();
+			return UnlockEquip.getByName(name).getInfo();
 		case LEVEL:
-			return UnlockLevel.valueOf(name).getInfo();
+			return UnlockLevel.getByName(name).getInfo();
 		default:
 			return null;
 		}

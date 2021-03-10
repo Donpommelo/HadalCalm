@@ -37,9 +37,10 @@ public class ClientState extends PlayState {
 	//This is a set of all hitboxes mapped from their unique entityId
 	private final LinkedHashMap<String, HadalEntity> hitboxes;
 
-	//This is a set of all hitboxes mapped from their unique entityId
+	//This is a set of all particle effects mapped from their unique entityId
 	private final LinkedHashMap<String, HadalEntity> effects;
 
+	//this is a list containing all the aforementioned entity lists
 	private final ArrayList<Map<String, HadalEntity>> entityLists = new ArrayList<>();
 
 	//This is a list of sync instructions. It contains [entityId, object to be synced]
@@ -399,7 +400,7 @@ public class ClientState extends PlayState {
 	}
 
 	/**
-	 * This class represents a packet telling the client to sync an object
+	 * This class represents a packet telling the client to create an object
 	 */
 	public static class CreatePacket {
 		String entityId;

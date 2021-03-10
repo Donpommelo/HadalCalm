@@ -27,7 +27,8 @@ public class MagicGlow extends Status {
 		super.timePassing(delta);
 		if (procCdCount >= procCd) {
 			procCdCount -= procCd;
-			ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BRIGHT, 0.0f, procCd, true, particleSyncType.TICKSYNC);
+			ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BRIGHT, 0.0f, procCd,
+				true, particleSyncType.TICKSYNC);
 			particle.setColor(HadalColor.RANDOM);
 		}
 		procCdCount += delta;

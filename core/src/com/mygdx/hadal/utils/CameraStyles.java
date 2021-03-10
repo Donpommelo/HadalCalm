@@ -20,11 +20,11 @@ public class CameraStyles {
         camera.update();
     }
 
-    public static void lerpToTarget(Camera camera, Vector2 target) {
+    public static void lerpToTarget(Camera camera, Vector2 target, float interpolation) {
         // a + (b - a) * lerp factor
         position.set(camera.position);
-        position.x = (int) (camera.position.x + (target.x - camera.position.x) * 0.1f);
-        position.y = (int) (camera.position.y + (target.y - camera.position.y) * 0.1f);
+        position.x = (int) (camera.position.x + (target.x - camera.position.x) * interpolation);
+        position.y = (int) (camera.position.y + (target.y - camera.position.y) * interpolation);
         camera.position.set(position);
         camera.update();
     }
@@ -48,12 +48,13 @@ public class CameraStyles {
         camera.update();
     }
 
-    public static boolean searchFocalPoints(OrthographicCamera camera, Array<Vector2> focalPoints, Vector2 target, float threshold) {
+    public static boolean searchFocalPoints(OrthographicCamera camera, Array<Vector2> focalPoints, Vector2 target,
+                                            float threshold, float interpolation) {
         for (Vector2 point : focalPoints) {
             if (target.dst(point) < threshold) {
                 float newZoom = (target.dst(point) / threshold) + 0.2f;
                 camera.zoom = camera.zoom + ((newZoom > 1 ? 1 : newZoom) - camera.zoom) * 0.1f;
-                CameraStyles.lerpToTarget(camera, point);
+                CameraStyles.lerpToTarget(camera, point, interpolation);
                 return true;
             }
         }

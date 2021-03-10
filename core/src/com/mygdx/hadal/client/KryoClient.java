@@ -734,9 +734,10 @@ public class KryoClient {
 
 						//set camera to look at new client player.
 						cs.getCamera().position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
+						cs.getCameraFocusAim().set(p.startPosition);
 					}
 
-					//attatch new player to respective user (or create if nonexistent)
+					//attach new player to respective user (or create if nonexistent)
 					if (users.containsKey(p.connID)) {
 						users.get(p.connID).setPlayer(newPlayer);
 					} else {
@@ -801,7 +802,7 @@ public class KryoClient {
 				cs.addPacketEffect(() -> {
 					PickupEquip pickup = new PickupEquip(cs, p.pos, "");
 					pickup.setEquip(
-						Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup),null)));
+						Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.getByName(p.newPickup),null)));
 					pickup.serverPos.set(pickup.getStartPos()).scl(1 / PPM);
 
 					cs.addEntity(p.entityID, pickup, p.synced, ObjectSyncLayers.STANDARD);

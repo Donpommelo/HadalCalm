@@ -13,7 +13,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class ContactUnitBurn extends HitboxStrategy {
 	
-	//the damage and duration of the burn
+	//the damage per second and duration of the burn
 	private final float duration, damage;
 	
 	public ContactUnitBurn(PlayState state, Hitbox proj, BodyData user, float duration, float damage) {

@@ -31,7 +31,7 @@ public class HumanityModule extends Artifact {
 			@Override
 			public void afterActiveItem(ActiveItem tool) {
 
-				ActiveItem item = UnlocktoItem.getUnlock(UnlockActives.valueOf(UnlockActives.getRandItemFromPool(state, "")), null);
+				ActiveItem item = UnlocktoItem.getUnlock(UnlockActives.getByName(UnlockActives.getRandItemFromPool(state, "")), null);
 
 				if (item != null) {
 					((Player) inflicted.getSchmuck()).getPlayerData().pickup(item);

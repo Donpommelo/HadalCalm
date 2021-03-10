@@ -16,7 +16,8 @@ public class ContactUnitSlow extends HitboxStrategy {
 	
 	//the percentage and duration of the slow
 	private final float duration, slow;
-	
+
+	//particle that will be rendered on the unit to indicate slow
 	private final Particle particle;
 	
 	public ContactUnitSlow(PlayState state, Hitbox proj, BodyData user, float duration, float slow, Particle particle) {

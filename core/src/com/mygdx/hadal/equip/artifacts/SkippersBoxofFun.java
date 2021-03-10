@@ -41,7 +41,7 @@ public class SkippersBoxofFun extends Artifact {
 					SoundEffect.MAGIC27_EVIL.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.5f, false);
 
 					Equippable
-                        equip = UnlocktoItem.getUnlock(UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state, "")), null);
+                        equip = UnlocktoItem.getUnlock(UnlockEquip.getByName(UnlockEquip.getRandWeapFromPool(state, "")), null);
 					((Player) inflicted.getSchmuck()).getPlayerData().pickup(equip);
 					
 					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE_TOTLC, 1.0f, particleDura, true, particleSyncType.CREATESYNC);

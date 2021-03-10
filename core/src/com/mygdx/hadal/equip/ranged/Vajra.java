@@ -10,13 +10,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitShock;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Vajra extends RangedWeapon {
 
@@ -30,8 +24,8 @@ public class Vajra extends RangedWeapon {
 	private static final float recoil = 4.0f;
 	private static final float baseDamage = 28.0f;
 	private static final float knockback = 5.0f;
-	private static final float projectileSpeedStart = 36.0f;
-	private static final Vector2 projectileSize = new Vector2(84, 30);
+	private static final float projectileSpeedStart = 40.0f;
+	private static final Vector2 projectileSize = new Vector2(70, 24);
 	private static final float lifespan = 1.0f;
 	
 	private static final float chainDamage = 25.0f;

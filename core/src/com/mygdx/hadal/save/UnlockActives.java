@@ -10,6 +10,7 @@ import com.mygdx.hadal.states.PlayState;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * An UnlockArtifact represents a single artifact in the game
@@ -124,4 +125,14 @@ public enum UnlockActives {
 	public InfoItem getInfo() {	return info; }
 	
 	public void setInfo(InfoItem info) { this.info = info; }
+
+	private static final HashMap<String, UnlockActives> UnlocksByName = new HashMap<>();
+	static {
+		for (UnlockActives u: UnlockActives.values()) {
+			UnlocksByName.put(u.toString(), u);
+		}
+	}
+	public static UnlockActives getByName(String s) {
+		return UnlocksByName.getOrDefault(s, NOTHING);
+	}
 }

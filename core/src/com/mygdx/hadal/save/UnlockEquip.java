@@ -12,13 +12,14 @@ import com.mygdx.hadal.states.PlayState;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * An UnlockLevel represents a single weapon in the game
  * @author Sweshini Sleldous
  */
 public enum UnlockEquip {
-	
+
 	AMITA_CANNON(AmitaCannon.class),
 	ASSAULT_BITS(AssaultBits.class),
 	BANANA(Banana.class),
@@ -50,15 +51,15 @@ public enum UnlockEquip {
 	MORAYGUN(Moraygun.class),
 	MORNING_STAR(MorningStar.class),
 	NEMATOCYDEARM(Nematocydearm.class),
+	PARTY_POPPER(PartyPopper.class),
 	PEARL_REVOLVER(PearlRevolver.class),
 	PEPPERGRINDER(Peppergrinder.class),
-	POPPER(Popper.class),
 	PUFFBALLER(Puffballer.class),
 	RETICLE_STRIKE(ReticleStrike.class),
 	RIFTSPLITTER(Riftsplitter.class),
 	SCRAPRIPPER(Scrapripper.class),
 	SCREECHER(Screecher.class),
-	SLODGEGUN(SlodgeGun.class),
+	SLODGE_NOZZLE(SlodgeNozzle.class),
 	SNIPER_RIFLE(SniperRifle.class),
 	SPEARGUN(Speargun.class),
 	STICKY_BOMB_LAUNCHER(StickyBombLauncher.class),
@@ -144,4 +145,14 @@ public enum UnlockEquip {
 	public InfoItem getInfo() {	return info; }
 
 	public void setInfo(InfoItem info) { this.info = info; }
+
+	private static final HashMap<String, UnlockEquip> UnlocksByName = new HashMap<>();
+	static {
+		for (UnlockEquip u: UnlockEquip.values()) {
+			UnlocksByName.put(u.toString(), u);
+		}
+	}
+	public static UnlockEquip getByName(String s) {
+		return UnlocksByName.getOrDefault(s, NOTHING);
+	}
 }

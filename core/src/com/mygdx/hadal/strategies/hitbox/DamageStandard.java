@@ -25,9 +25,18 @@ public class DamageStandard extends HitboxStrategy {
 	//this contains all the units this hbox has damaged. Used to avoid damaging the same unit multiple times.
 	private final ArrayList<HadalData> damaged;
 
+	//can this hitbox damage its own user?
 	private boolean selfDamageable = true;
 
-	private boolean staticKnockback, constantKnockback, repeatable;
+	//static knockback pushes units away from center from hbox
+	private boolean staticKnockback;
+
+	//constant knockback pushes units by knockbackDirection regardless of angle of collision
+	private boolean constantKnockback;
+
+	//can this hbox collide with the same unit multiple times?
+	private boolean repeatable;
+
 	private final Vector2 knockbackDirection = new Vector2();
 
 	public DamageStandard(PlayState state, Hitbox proj, BodyData user, float damage, float knockback, DamageTypes... tags) {

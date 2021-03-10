@@ -24,7 +24,7 @@ public class Curve extends HitboxStrategy {
 	private static final float pushInterval = 1 / 60f;
 	
 	//has the hbox reached its target yet? if so, stop adjusting its movement.
-	private boolean found = false;
+	private boolean found;
 	
 	//this is the distance from the target where the hbox will stop curving. This value is squared to avoid having to calculate a square root.
 	private static final float boundDist = 60.0f;

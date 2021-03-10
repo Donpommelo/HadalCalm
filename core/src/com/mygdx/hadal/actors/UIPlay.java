@@ -46,8 +46,9 @@ public class UIPlay extends AHadalActor {
 	private static final int activeWidth = 20;
 	private static final int activeHeight = 120;
 	private static final int activeTextY = 30;
-	
+
 	private static final float fontScaleLarge = 0.5f;
+	private static final float fontScaleMedium = 0.4f;
 	private static final float fontScaleSmall = 0.25f;
 
 	//This variable manages the delay of hp decreasing after receiving damage
@@ -209,7 +210,13 @@ public class UIPlay extends AHadalActor {
 
 		font.getData().setScale(fontScaleSmall);
 		font.draw(batch, state.getPlayer().getPlayerData().getCurrentTool().getName(), mainX + 48, mainY + 90, 100, -1, true);
-		font.getData().setScale(fontScaleLarge);
+
+		//we want to use a smaller font for high clip size weapons
+		if (weaponText.length() > 5) {
+			font.getData().setScale(fontScaleMedium);
+		} else {
+			font.getData().setScale(fontScaleLarge);
+		}
 		font.draw(batch, weaponText, mainX + 48, mainY + 40);
 		font.getData().setScale(fontScaleSmall);
 		font.draw(batch, ammoText, mainX + 48, mainY + 60);

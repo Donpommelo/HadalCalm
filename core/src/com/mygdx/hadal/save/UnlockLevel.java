@@ -7,6 +7,7 @@ import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * An UnlockLevel represents a single level in the game
@@ -185,5 +186,15 @@ public enum UnlockLevel {
 
 	public UnlockActives getActiveItem() { return activeItem; }
 
-	public void setActiveItem(UnlockActives activeItem) { this.activeItem = activeItem; }	
+	public void setActiveItem(UnlockActives activeItem) { this.activeItem = activeItem; }
+
+	private static final HashMap<String, UnlockLevel> UnlocksByName = new HashMap<>();
+	static {
+		for (UnlockLevel u: UnlockLevel.values()) {
+			UnlocksByName.put(u.toString(), u);
+		}
+	}
+	public static UnlockLevel getByName(String s) {
+		return UnlocksByName.getOrDefault(s, HUB_MULTI);
+	}
 }

@@ -82,7 +82,7 @@ public class PickupEquip extends Event {
 							rollWeapon();
 							standardParticle.turnOn();
 						} else {
-							unlock = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state, msg));
+							unlock = UnlockEquip.getByName(UnlockEquip.getRandWeapFromPool(state, msg));
 							setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
 						}
 					}
@@ -130,7 +130,7 @@ public class PickupEquip extends Event {
 
 		if (o instanceof Packets.SyncPickup) {
 			Packets.SyncPickup p = (Packets.SyncPickup) o;
-			setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null)));
+			setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.getByName(p.newPickup), null)));
 		} else {
 			super.onClientSync(o);
 		}
@@ -140,7 +140,7 @@ public class PickupEquip extends Event {
 	 * this rolls a random weapon
 	 */
 	public void rollWeapon() {
-		unlock = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state, pool));
+		unlock = UnlockEquip.getByName(UnlockEquip.getRandWeapFromPool(state, pool));
 		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
 	}
 	

@@ -22,7 +22,7 @@ public class DieParticles extends HitboxStrategy {
 	private final Particle effect;
 	
 	//how long should the particles last?
-	private final float duration;
+	private float duration = defaultDuration;
 	
 	//the base size of the particle effect.
 	private float particleSize;
@@ -33,19 +33,15 @@ public class DieParticles extends HitboxStrategy {
 	//this is the color of the particle. change using factory method
 	private HadalColor color = HadalColor.NOTHING;
 
-	public DieParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration) {
+	public DieParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
 		super(state, proj, user);
 		this.effect = effect;
-		this.duration = duration;
 	}
-	
-	public DieParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
-		this(state, proj, user, effect, defaultDuration);
-	}
-	
+
 	@Override
 	public void die() {
-		ParticleEntity particle = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), effect, duration, true, particleSyncType.CREATESYNC).setColor(color);
+		ParticleEntity particle = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), effect, duration,
+			true, particleSyncType.CREATESYNC).setColor(color);
 		if (particleSize == 0) {
 			particle.setScale(hbox.getScale());
 		} else {
@@ -60,6 +56,11 @@ public class DieParticles extends HitboxStrategy {
 	
 	public DieParticles setParticleColor(HadalColor color) {
 		this.color = color;
+		return this;
+	}
+
+	public DieParticles setParticleDuration(float duration) {
+		this.duration = duration;
 		return this;
 	}
 }

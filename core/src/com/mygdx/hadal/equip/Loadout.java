@@ -33,22 +33,22 @@ public class Loadout {
 		artifacts = new UnlockArtifact[maxArtifactSlots];
 		Arrays.fill(multitools, UnlockEquip.NOTHING);
 		Arrays.fill(artifacts, UnlockArtifact.NOTHING);
-		
+
 		for (int i = 0; i < maxWeaponSlots; i++) {
 			if (loadout.getEquips().length > i) {
-				multitools[i] = UnlockEquip.valueOf(loadout.getEquips()[i]);
+				multitools[i] = UnlockEquip.getByName(loadout.getEquips()[i]);
 			}
 		}
 		
 		for (int i = 0; i < maxArtifactSlots; i++) {
 			if (loadout.getArtifacts().length > i) {
-				artifacts[i] = UnlockArtifact.valueOf(loadout.getArtifacts()[i]);
+				artifacts[i] = UnlockArtifact.getByName(loadout.getArtifacts()[i]);
 			}
 		}
 		
-		activeItem = UnlockActives.valueOf(loadout.getActive());
-		character = UnlockCharacter.valueOf(loadout.getCharacter());
-		team = AlignmentFilter.valueOf(loadout.getTeam());
+		activeItem = UnlockActives.getByName(loadout.getActive());
+		character = UnlockCharacter.getByName(loadout.getCharacter());
+		team = AlignmentFilter.getByName(loadout.getTeam());
 	}
 	
 	/**

@@ -49,8 +49,6 @@ public class DamageHeadshot extends HitboxStrategy {
 
 					float headshotBonus = currentCharge / maxCharge * bonusDamage;
 
-					System.out.println(headshotBonus);
-
 					hbox.setDamageMultiplier(hbox.getDamageMultiplier() + headshotBonus);
 				}
 			}

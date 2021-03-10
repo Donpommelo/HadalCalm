@@ -12,6 +12,7 @@ import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * An UnlockCharacter represents a single playable character in the game
@@ -187,4 +188,14 @@ public enum UnlockCharacter {
 	public Vector3 getColor1() { return color1; }
 
 	public Vector3 getColor2() { return color2; }
+
+	private static final HashMap<String, UnlockCharacter> UnlocksByName = new HashMap<>();
+	static {
+		for (UnlockCharacter u: UnlockCharacter.values()) {
+			UnlocksByName.put(u.toString(), u);
+		}
+	}
+	public static UnlockCharacter getByName(String s) {
+		return UnlocksByName.getOrDefault(s, MOREAU);
+	}
 }

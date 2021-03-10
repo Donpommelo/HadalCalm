@@ -289,6 +289,7 @@ public class PlayState extends GameState {
 
 		if (getSave != null) {
 			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
+			this.cameraFocusAim.set(getSave.getStartPos());
 		}
 		this.reset = reset;
 		
@@ -664,10 +665,13 @@ public class PlayState extends GameState {
 	 * This is called every update. This resets the camera zoom and makes it move towards the player (or other designated target).
 	 */
 	private static final float spectatorCameraRange = 9000.0f;
-	private static final float mouseCameraTrack = 0.3f;
+	private static final float mouseCameraTrack = 0.5f;
+	private static final float cameraInterpolation = 0.08f;
+	private static final float cameraAimInterpolation = 0.025f;
 	final Vector2 tmpVector2 = new Vector2();
 	final Vector3 mousePosition = new Vector3();
 	final Vector2 mousePosition2 = new Vector2();
+	final Vector2 cameraFocusAim = new Vector2();
 	protected void cameraUpdate() {
 		zoom = zoom + (zoomDesired - zoom) * 0.1f;
 		
@@ -693,7 +697,9 @@ public class PlayState extends GameState {
 
 			//if enabled, camera tracks mouse position
 			if (gsm.getSetting().isMouseCameraTrack()) {
-				tmpVector2.mulAdd(mousePosition2, mouseCameraTrack).scl(1.0f / (1.0f + mouseCameraTrack));
+				cameraFocusAim.x = (int) (cameraFocusAim.x + (mousePosition2.x - cameraFocusAim.x) * cameraAimInterpolation);
+				cameraFocusAim.y = (int) (cameraFocusAim.y + (mousePosition2.y - cameraFocusAim.y) * cameraAimInterpolation);
+				tmpVector2.mulAdd(cameraFocusAim, mouseCameraTrack).scl(1.0f / (1.0f + mouseCameraTrack));
 			}
 			//make camera target respect camera bounds if not focused on an object
 			boundCamera(tmpVector2);
@@ -703,7 +709,7 @@ public class PlayState extends GameState {
 
 		tmpVector2.add(cameraOffset);
 		spectatorTarget.set(tmpVector2);
-		CameraStyles.lerpToTarget(camera, tmpVector2);
+		CameraStyles.lerpToTarget(camera, tmpVector2, cameraInterpolation);
 	}
 
 	/**
@@ -789,6 +795,7 @@ public class PlayState extends GameState {
 				0, true, false, hitboxFilter);
 
 			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
+			this.cameraFocusAim.set(getSave.getStartPos());
 
 			((PlayerController) controller).setPlayer(player);
 
@@ -904,17 +911,17 @@ public class PlayState extends GameState {
 			//copy setting: each player starts with the same loadout as the host (used for custom games)
 			case 1:
 				for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
-					newLoadout.multitools[i] = UnlockEquip.valueOf(gsm.getLoadout().getEquips()[i]);
+					newLoadout.multitools[i] = UnlockEquip.getByName(gsm.getLoadout().getEquips()[i]);
 				}
 				for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-					newLoadout.artifacts[i] = UnlockArtifact.valueOf(gsm.getLoadout().getArtifacts()[i]);
+					newLoadout.artifacts[i] = UnlockArtifact.getByName(gsm.getLoadout().getArtifacts()[i]);
 				}
-				newLoadout.activeItem = UnlockActives.valueOf(gsm.getLoadout().getActive());
+				newLoadout.activeItem = UnlockActives.getByName(gsm.getLoadout().getActive());
 				break;
 			//random setting: each player starts with random weapons
 			case 2:
 				for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
-					newLoadout.multitools[i] = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(this, ""));
+					newLoadout.multitools[i] = UnlockEquip.getByName(UnlockEquip.getRandWeapFromPool(this, ""));
 				}
 				break;
 			//weapon drop mode: players start off with basic speargun
@@ -1562,6 +1569,8 @@ public class PlayState extends GameState {
 	public void setCameraOffset(float offsetX, float offsetY) {	cameraOffset.set(offsetX, offsetY); }
 	
 	public Vector2 getCameraTarget() {	return cameraTarget; }
+
+	public Vector2 getCameraFocusAim() { return cameraFocusAim; }
 
 	public float[] getCameraBounds() { return cameraBounds; }
 

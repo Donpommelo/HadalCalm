@@ -18,7 +18,7 @@ public class XBomber extends RangedWeapon {
 
 	private static final int clipSize = 2;
 	private static final int ammoSize = 26;
-	private static final float shootCd = 0.3f;
+	private static final float shootCd = 0.2f;
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.2f;
 	private static final int reloadAmount = 0;

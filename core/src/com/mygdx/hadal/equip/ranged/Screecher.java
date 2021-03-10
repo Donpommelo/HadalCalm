@@ -2,6 +2,8 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -14,6 +16,7 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.Static;
 import com.mygdx.hadal.utils.Constants;
@@ -25,23 +28,21 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class Screecher extends RangedWeapon {
 
-	private static final int clipSize = 40;
-	private static final int ammoSize = 160;
-	private static final float shootCd = 0.1f;
+	private static final int clipSize = 60;
+	private static final int ammoSize = 240;
+	private static final float shootCd = 0.15f;
 	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.2f;
 	private static final int reloadAmount = 0;
-	private static final float baseDamage = 8.0f;
+	private static final float baseDamage = 12.0f;
 	private static final float recoil = 1.5f;
 	private static final float knockback = 6.0f;
 	private static final float projectileSpeed = 10.0f;
 	private static final int range = 24;
 	private static final Vector2 projectileSize = new Vector2(120, 120);
-	private static final float lifespan = 0.5f;
+	private static final float lifespan = 0.3f;
 	private static final int spread = 1;
 	
-	private static final Sprite projSprite = Sprite.IMPACT;
-
 	private static final Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private static final Sprite eventSprite = Sprite.P_DEFAULT;
 	
@@ -114,17 +115,23 @@ public class Screecher extends RangedWeapon {
 		newPosition.set(user.getPixelPosition()).add(new Vector2(startVelocity).nor().scl(distance * shortestFraction * PPM));
 		newPosition.add(ThreadLocalRandom.current().nextInt(-spread, spread + 1), ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 		
-		Hitbox hbox = new RangedHitbox(state, newPosition, projectileSize, lifespan, new Vector2(), filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, newPosition, projectileSize, lifespan, new Vector2(), filter, true, true, user, Sprite.NOTHING);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.POLYGON, 0.0f, 1.0f).setParticleColor(
+			HadalColor.RANDOM));
+
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.SOUND, DamageTypes.RANGED)
 		.setConstantKnockback(true, startVelocity));
 		
-		Hitbox flash = new RangedHitbox(state, startPosition, flashSize, flashDuration, new Vector2(), filter, true, true, user, projSprite);
+		Hitbox flash = new RangedHitbox(state, startPosition, flashSize, flashDuration, new Vector2(), filter, true, true, user, Sprite.NOTHING);
 		
 		flash.addStrategy(new ControllerDefault(state, flash, user.getBodyData()));
 		flash.addStrategy(new Static(state, flash, user.getBodyData()));
+		flash.addStrategy(new CreateParticles(state, flash, user.getBodyData(), Particle.POLYGON, 0.0f, 1.0f).setParticleColor(
+			HadalColor.RANDOM));
+
 	}
 	
 	@Override

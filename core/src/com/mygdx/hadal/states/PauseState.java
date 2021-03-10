@@ -51,8 +51,8 @@ public class PauseState extends GameState {
 	
 	//Dimensions of the pause menu
 	private static final float width = 500;
-	private static final float height = 240;
-	private static final int extraRowHeight = 80;
+	private static final float height = 275;
+	private static final int extraRowHeight = 55;
 	private static final int optionHeight = 48;
 	private static final int optionPad = 5;
 	private static final float pauseTextScale = 0.3f;
