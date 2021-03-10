@@ -144,7 +144,7 @@ public class Setting {
 		cursorType = 1;
 		cursorSize = 1;
 		cursorColor = 4;
-		mouseCameraTrack = false;
+		mouseCameraTrack = true;
 	}
 	
 	public void resetAudio() {

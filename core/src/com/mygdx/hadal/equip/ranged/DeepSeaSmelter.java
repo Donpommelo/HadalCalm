@@ -38,7 +38,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 	
 	private static final float pitchSpread = 0.4f;
 	
-	private static final float projSpacing = 16.0f;
+	private static final float projSpacing = 12.0f;
 
 	private static final float maxCharge = 4.5f;
 	private static final float chargePerShot = 2.75f;

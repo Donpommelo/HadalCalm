@@ -65,6 +65,7 @@ public class KryoClient {
 	public void init() {
 		Kryo kryo = new Kryo();
         kryo.setReferences(true);
+
         KryoSerialization serialization = new KryoSerialization(kryo);
         this.client = new Client(65536, 32768, serialization);
 		users = new HashMap<>();
