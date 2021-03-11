@@ -129,19 +129,25 @@ public class ClientState extends PlayState {
 		
 		//All entities that are set to be created are created and assigned their entityId
 		for (CreatePacket packet: createListClient) {
+			HadalEntity oldEntity;
 			if (packet.layer.equals(ObjectSyncLayers.HBOX)) {
-				if (hitboxes.putIfAbsent(packet.entityId, packet.entity) == null) {
-					packet.entity.create();
-				}
+				oldEntity = hitboxes.get(packet.entityId);
+				hitboxes.put(packet.entityId, packet.entity);
 			} else if (packet.layer.equals(ObjectSyncLayers.EFFECT)) {
-				if (effects.putIfAbsent(packet.entityId, packet.entity) == null) {
-					packet.entity.create();
-				}
+				oldEntity = effects.get(packet.entityId);
+				effects.put(packet.entityId, packet.entity);
 			} else {
-				if (entities.putIfAbsent(packet.entityId, packet.entity) == null) {
-					packet.entity.create();
-				}
+				oldEntity = entities.get(packet.entityId);
+				entities.put(packet.entityId, packet.entity);
 			}
+
+			//we replace old entity with same tag b/c we must never dispose of something that hasn't been created
+			//also, we must create anything that has been initialized to avoid leaking memory
+			if (oldEntity != null) {
+				oldEntity.dispose();
+			}
+			packet.entity.create();
+
 			if (!packet.entityId.equals("")) {
 				packet.entity.setEntityID(packet.entityId);
 			}

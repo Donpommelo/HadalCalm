@@ -42,6 +42,7 @@ public enum UnlockEquip {
 	ICEBERG(Iceberg.class),
 	IRON_BALL_LAUNCHER(IronBallLauncher.class),
 	KAMABOKANNON(Kamabokannon.class),
+	KILLER_BEAT(KillerBeat.class),
 	LASER_GUIDED_ROCKET(LaserGuidedRocket.class),
 	LASER_RIFLE(LaserRifle.class),
 	LOVE_BOW(LoveBow.class),

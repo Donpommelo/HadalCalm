@@ -311,17 +311,17 @@ public class KryoClient {
         			Gdx.app.postRunnable(() -> {
 						gsm.getApp().fadeOut();
 						gsm.getApp().setRunAfterTransition(() -> {
-							gsm.removeState(ResultsState.class);
-							gsm.removeState(SettingState.class);
-							gsm.removeState(AboutState.class);
-							gsm.removeState(PauseState.class);
+							gsm.removeState(ResultsState.class, false);
+							gsm.removeState(SettingState.class, false);
+							gsm.removeState(AboutState.class, false);
+							gsm.removeState(PauseState.class, false);
 
 							boolean spectator = false;
 							if (cs != null) {
 								spectator = cs.isSpectatorMode();
 							}
 
-							gsm.removeState(ClientState.class);
+							gsm.removeState(ClientState.class, false);
 							gsm.addClientPlayState(p.level, new Loadout(gsm.getLoadout()), LobbyState.class);
 							HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator, gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
 						});

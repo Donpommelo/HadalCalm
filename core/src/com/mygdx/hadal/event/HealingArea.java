@@ -120,7 +120,7 @@ public class HealingArea extends Event {
 			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
 			ParticleEntity heal = new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
-			((ClientState) state).addEntity(heal.getEntityID().toString(), heal, false, ObjectSyncLayers.STANDARD);
+			((ClientState) state).addEntity(heal.getEntityID().toString(), heal, false, ObjectSyncLayers.EFFECT);
 		}
 	}
 	

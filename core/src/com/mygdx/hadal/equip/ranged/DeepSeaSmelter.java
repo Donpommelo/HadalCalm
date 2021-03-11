@@ -129,12 +129,6 @@ public class DeepSeaSmelter extends RangedWeapon {
 	@Override
 	public void equip(PlayState state) {}
 	
-	@Override
-	public boolean reload(float delta) { 
-		reloading = false;
-		return false;
-	}
-	
 	//custom charging text to convey overheat information
 	@Override
 	public String getChargeText() {

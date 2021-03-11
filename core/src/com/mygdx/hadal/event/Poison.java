@@ -179,7 +179,7 @@ public class Poison extends Event {
 					int randX = (int) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
 					int randY = (int) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
 					ParticleEntity poison = new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle, particleLifespan, true, particleSyncType.NOSYNC);
-					((ClientState) state).addEntity(poison.getEntityID().toString(), poison, false, ObjectSyncLayers.STANDARD);
+					((ClientState) state).addEntity(poison.getEntityID().toString(), poison, false, ObjectSyncLayers.EFFECT);
 				}
 			}
 		}

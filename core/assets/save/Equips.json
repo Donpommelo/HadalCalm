@@ -214,6 +214,16 @@ KAMABOKANNON: {
 		RANGED,
 	]
 }
+KILLER_BEAT: {
+	name: Killer Beat
+	description: ""
+    descriptionLong: ""
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 LASER_GUIDED_ROCKET: {
 	name: Laser-Guided Rocket
 	description: "Fires a rocket that homes in towards your mouse."

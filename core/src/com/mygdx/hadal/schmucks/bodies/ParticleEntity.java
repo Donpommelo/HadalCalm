@@ -104,7 +104,9 @@ public class ParticleEntity extends HadalEntity {
 	}
 	
 	@Override
-	public void create() {}
+	public void create() {
+
+	}
 
 	private final Vector2 attachedLocation = new Vector2();
 	@Override
