@@ -218,18 +218,14 @@ public class ConsoleCommandUtil {
 	 * This lets the player display certain information in the text log using "print <>"
 	 */
 	public static int print(PlayState state, String command) {
-		
-		switch(command) {
-		case "camera":
-			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA TARGET: " + state.getCameraTarget(), DialogType.SYSTEM);
-			break;
-		case "cameraBounds":
-			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA BOUNDS: " +
-					Arrays.toString(state.getCameraBounds()), DialogType.SYSTEM);
-			break;
-		case "playerLoc":
-			HadalGame.server.addNotificationToAll(state, "GAEM", "PLAYER LOCATION: " + state.getPlayer().getPosition(), DialogType.SYSTEM);
-			break;
+
+		switch (command) {
+			case "camera" -> HadalGame.server.addNotificationToAll(state,"GAEM",
+				"CAMERA TARGET: " + state.getCameraTarget(), DialogType.SYSTEM);
+			case "cameraBounds" -> HadalGame.server.addNotificationToAll(state, "GAEM",
+				"CAMERA BOUNDS: " +Arrays.toString(state.getCameraBounds()), DialogType.SYSTEM);
+			case "playerLoc" -> HadalGame.server.addNotificationToAll(state,"GAEM",
+				"PLAYER LOCATION: " + state.getPlayer().getPosition(), DialogType.SYSTEM);
 		}
 		return -1;
 	}

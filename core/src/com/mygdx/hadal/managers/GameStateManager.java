@@ -14,6 +14,7 @@ import com.mygdx.hadal.actors.MessageWindow;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.save.Record;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.*;

@@ -1,11 +1,7 @@
 apply plugin: "java"
 
-sourceCompatibility = 1.8
+sourceCompatibility = 15
+targetCompatibility = 15
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
-
-
-eclipse.project {
-    name = appName + "-core"
-}
