@@ -4,11 +4,14 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.mygdx.hadal.HadalGame;
 
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+
 public class DesktopLauncher {
 
 	private static final String TITLE = "Hadal Calm";
 
-	public static void main (String[] arg) {
+	public static void main (String[] arg) throws FileNotFoundException {
 
 		final Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
@@ -38,7 +41,7 @@ public class DesktopLauncher {
 //				}
 //			}
 //		});
-
+		System.setErr(new PrintStream("err.txt"));
 		new Lwjgl3Application(new HadalGame() {
 
 			@Override

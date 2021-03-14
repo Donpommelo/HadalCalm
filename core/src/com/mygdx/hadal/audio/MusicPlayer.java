@@ -50,7 +50,7 @@ public class MusicPlayer {
 				fade = 0.0f;
 
 				if (nextTrack != null) {
-					stop();
+					float lastVolume = freshenUpSong();
 
 					currentSong = nextTrack.getMusic();
 					currentTrack = nextTrack;
@@ -58,7 +58,7 @@ public class MusicPlayer {
 					currentSong.play();
 
 					maxVolume = nextVolume;
-					volume = 0.0f;
+					volume = lastVolume;
 					
 					fade = defaultFadeInSpeed;
 					
@@ -117,23 +117,21 @@ public class MusicPlayer {
 			currentTrackType = type;
 			int randomIndex;
 			switch (type) {
-				case MENU:
+				case MENU -> {
 					track = titleTracks[0];
 					playSong(track, volume);
-					break;
-				case HUB:
+				}
+				case HUB -> {
 					randomIndex = GameStateManager.generator.nextInt(hubTracks.length);
 					track = hubTracks[randomIndex];
 					playSong(track, volume);
-					break;
-				case MATCH:
+				}
+				case MATCH -> {
 					randomIndex = GameStateManager.generator.nextInt(matchTracks.length);
 					track = matchTracks[randomIndex];
 					playSong(track, volume);
-					break;
-				case NOTHING:
-					playSong((MusicTrack) null, volume);
-					break;
+				}
+				case NOTHING -> playSong((MusicTrack) null, volume);
 			}
 		}
 		return track;
@@ -151,6 +149,20 @@ public class MusicPlayer {
 		
 		playSong(music, volume);
 	}
+
+	/**
+	 * A magical function to address some wonkiness between the music fade and a new song on the next scene
+	 */
+	private float freshenUpSong() {
+		float volume = 1;
+		if (currentSong != null) {
+			volume = currentSong.getVolume();
+			currentSong.stop();
+			currentSong = null;
+			currentTrack = null;
+		}
+		return volume;
+	}
 	
 	public void play() {
 	    if (currentSong != null) {
@@ -167,7 +179,6 @@ public class MusicPlayer {
 	public void stop() {
 		if (currentSong != null) {
 	        currentSong.stop();
-			currentSong.dispose();
 			currentSong = null;
 			currentTrack = null;
 	    }
