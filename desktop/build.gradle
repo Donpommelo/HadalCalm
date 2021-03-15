@@ -1,15 +1,12 @@
-plugins { id 'org.beryx.runtime' version '1.12.2' }
 apply plugin: "java"
 
-sourceCompatibility = 15
-targetCompatibility = 15
+sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-mainClassName = "com.mygdx.hadal.desktop.DesktopLauncher"
-def osName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
+project.ext.mainClassName = "com.mygdx.hadal.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../core/assets");
 
-task runGame(dependsOn: classes, type: JavaExec) {
+task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
@@ -27,48 +24,32 @@ task debug(dependsOn: classes, type: JavaExec) {
 }
 
 task dist(type: Jar) {
-    duplicatesStrategy = "INCLUDE"
-    from files(sourceSets.main.output.classesDirs)
+    from files(sourceSets.main.output.classesDir)
     from files(sourceSets.main.output.resourcesDir)
+    from {configurations.compile.collect {zipTree(it)}}
     from files(project.assetsDir);
-
+ 
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
-    from {
-        configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it)}
-    }
-    with jar
-    destinationDirectory = file("$buildDir/lib")
 }
-jpackageImage.dependsOn dist
 
 dist.dependsOn classes
 
-runtime {
-    options = ['--strip-debug',
-               '--compress', '2',
-               '--no-header-files',
-               '--no-man-pages',
-               '--strip-native-commands',
-               '--vm', 'server']
-    modules = ['java.base' ,
-               'java.desktop',
-               'java.logging',
-               'java.sql',
-               'java.xml',
-               'jdk.unsupported']
-    distDir = file(buildDir)
-
-    jpackage {
-        //jpackageHome = '/usr/lib/jvm/open-jdk'
-        mainJar = dist.archiveFileName.get()
-        if (osName.contains('windows')) {
-            imageOptions = ["--icon", file("../icons/icon.ico")]
-        } else if (osName.contains('linux')) {
-            imageOptions = ["--icon", file("../icons/icon.png")]
-        } else if (osName.contains('mac')) {
-            imageOptions = ["--icon", file("../icons/icon.icns")]
-        }
+eclipse {
+    project {
+        name = appName + "-desktop"
+        linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/core/assets'
     }
+}
+
+task afterEclipseImport(description: "Post processing after project generation", group: "IDE") {
+  doLast {
+    def classpath = new XmlParser().parse(file(".classpath"))
+    new Node(classpath, "classpathentry", [ kind: 'src', path: 'assets' ]);
+    def writer = new FileWriter(file(".classpath"))
+    def printer = new XmlNodePrinter(new PrintWriter(writer))
+    printer.setPreserveWhitespace(true)
+    printer.print(classpath)
+  }
 }

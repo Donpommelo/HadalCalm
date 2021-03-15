@@ -117,21 +117,23 @@ public class MusicPlayer {
 			currentTrackType = type;
 			int randomIndex;
 			switch (type) {
-				case MENU -> {
+				case MENU:
 					track = titleTracks[0];
 					playSong(track, volume);
-				}
-				case HUB -> {
+					break;
+				case HUB:
 					randomIndex = GameStateManager.generator.nextInt(hubTracks.length);
 					track = hubTracks[randomIndex];
 					playSong(track, volume);
-				}
-				case MATCH -> {
+					break;
+				case MATCH:
 					randomIndex = GameStateManager.generator.nextInt(matchTracks.length);
 					track = matchTracks[randomIndex];
 					playSong(track, volume);
-				}
-				case NOTHING -> playSong((MusicTrack) null, volume);
+					break;
+				case NOTHING:
+					playSong((MusicTrack) null, volume);
+					break;
 			}
 		}
 		return track;
@@ -163,7 +165,7 @@ public class MusicPlayer {
 		}
 		return volume;
 	}
-	
+
 	public void play() {
 	    if (currentSong != null) {
 	        currentSong.play();
