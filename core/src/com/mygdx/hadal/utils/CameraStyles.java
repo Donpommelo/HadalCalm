@@ -1,5 +1,7 @@
 package com.mygdx.hadal.utils;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
@@ -10,6 +12,41 @@ import com.badlogic.gdx.utils.Array;
  * These utils describe various tools for moving the camera.
  */
 public class CameraStyles {
+
+    private static boolean mouseHeld;
+    private final static Vector2 lastMousePosition = new Vector2();
+    private final static Vector2 mousePosition = new Vector2();
+    public static void spectatorDragCamera(Vector2 target) {
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            mousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
+            if (mouseHeld) {
+                target.add(lastMousePosition).sub(mousePosition);
+            }
+            mouseHeld = true;
+            lastMousePosition.set(mousePosition);
+
+        } else {
+            mouseHeld = false;
+        }
+    }
+
+    /**
+     * This makes an input camera vector obey camera bounds.
+     */
+    public static void obeyCameraBounds(Vector2 tempCamera, float[] cameraBounds) {
+        if (tempCamera.x > cameraBounds[0]) {
+            tempCamera.x = cameraBounds[0];
+        }
+        if (tempCamera.x < cameraBounds[1]) {
+            tempCamera.x = cameraBounds[1];
+        }
+        if (tempCamera.y > cameraBounds[2]) {
+            tempCamera.y = cameraBounds[2];
+        }
+        if (tempCamera.y < cameraBounds[3]) {
+            tempCamera.y = cameraBounds[3];
+        }
+    }
 
     private final static Vector3 position = new Vector3();
     public static void lockOnTarget(Camera camera, Vector2 target) {
