@@ -31,23 +31,23 @@ jobs:
         run: chmod +x butler && chmod +x gradlew
 
       - name: Build jar
-        run: ./gradlew lwjgl3:jar
+        run: ./gradlew desktop:jar
 
       - name: Build package image
-        run: ./gradlew lwjgl3:jpackageImage
+        run: ./gradlew desktop:jpackageImage
 
       - name: Build deb/rpm
-        run: ./gradlew lwjgl3:jpackage
+        run: ./gradlew desktop:jpackage
 
       - name: Fix file names
-        run: mv lwjgl3/build/lib/*.jar HadalCalm_linux.jar && mv lwjgl3/build/jpackage/*.deb HadalCalm.deb && mv lwjgl3/build/jpackage/*.rpm HadalCalm.rpm
+        run: mv desktop/build/lib/*.jar HadalCalm_linux.jar && mv desktop/build/jpackage/*.deb HadalCalm.deb && mv desktop/build/jpackage/*.rpm HadalCalm.rpm
 
       - run: ./butler push HadalCalm.jar donpommelo/HadalCalm:linux-jar
 
-      - run: ./butler push lwjgl3/build/jpackage/HadalCalm donpommelo/HadalCalm:linux-image
+      - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/HadalCalm:linux-image
       
-      - run: ./butler push FireAndIce.deb donpommelo/HadalCalm:linux-deb
-      - run: ./butler push FireAndIce.rpm donpommelo/HadalCalm:linux-rpm
+      - run: ./butler push HadalCalm.deb donpommelo/HadalCalm:linux-deb
+      - run: ./butler push HadalCalm.rpm donpommelo/HadalCalm:linux-rpm
       
   windows:
     runs-on: windows-latest
@@ -66,23 +66,22 @@ jobs:
         run: Expand-Archive -DestinationPath . butler.zip
 
       - name: Build jar
-        run: ./gradlew.bat lwjgl3:jar
+        run: ./gradlew.bat desktop:jar
 
       - name: Build package image
-        run: ./gradlew.bat lwjgl3:jpackageImage
+        run: ./gradlew.bat desktop:jpackageImage
 
       - name: Build exe/msi
-        run: ./gradlew.bat lwjgl3:jpackage
+        run: ./gradlew.bat desktop:jpackage
 
       - name: Fix file names
-        run: mv lwjgl3/build/lib/*.jar HadalCalm_windows.jar && mv lwjgl3/build/jpackage/*.exe HadalCalm.exe && mv lwjgl3/build/jpackage/*.msi HadalCalm.msi
+        run: mv desktop/build/lib/*.jar HadalCalm_windows.jar && mv desktop/build/jpackage/*.exe HadalCalm.exe && mv desktop/build/jpackage/*.msi HadalCalm.msi
 
-      - run: ./butler push HadalCalm_windows.jar lyze237/HadalCalm:windows-jar
+      - run: ./butler push HadalCalm_windows.jar donpommelo/HadalCalm:windows-jar
 
-      - run: ./butler push lwjgl3/build/jpackage/HadalCalm donpommelo/HadalCalm:windows-image
+      - run: ./butler push decktop/build/jpackage/HadalCalm donpommelo/HadalCalm:windows-image
 
-      - run: ./butler push FireAndIce.exe donpommelo/HadalCalm:windows-exe
-      - run: ./butler push FireAndIce.msi donpommelo/HadalCalm:windows-msi
+      - run: ./butler push HadalCalm.exe donpommelo/HadalCalm:windows-exe
+      - run: ./butler push HadalCalm.msi donpommelo/HadalCalm:windows-msi
 
-      - run: ./butler push FireAndIce.deb lyze237/FireAndIce:linux-deb
       - run: ./butler push FireAndIce.rpm lyze237/FireAndIce:linux-rpm
