@@ -1,49 +1,55 @@
-plugins { id 'org.beryx.runtime' version '1.12.2' }
-apply plugin: "java"
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.beryx:badass-runtime-plugin:1.12.2"
+    }
+}
 
-sourceCompatibility = 15
-targetCompatibility = 15
+apply plugin: 'application'
+apply plugin: 'org.beryx.runtime'
+
+sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 sourceSets.main.java.srcDirs = [ "src/" ]
+mainClassName = 'com.mygdx.hadal.desktop.DesktopLauncher'
+sourceCompatibility = 15.0
 
-mainClassName = "com.mygdx.hadal.desktop.DesktopLauncher"
 def osName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
-project.ext.assetsDir = new File("../core/assets");
 
-task runGame(dependsOn: classes, type: JavaExec) {
-    main = project.mainClassName
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-    workingDir = project.assetsDir
-    ignoreExitValue = true
+dependencies {
+    implementation project(":core")
+    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 }
 
-task debug(dependsOn: classes, type: JavaExec) {
-    main = project.mainClassName
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-    workingDir = project.assetsDir
-    ignoreExitValue = true
-    debug = true
+import org.gradle.internal.os.OperatingSystem
+
+run {
+    workingDir = rootProject.file('assets').path
+    setIgnoreExitValue(true)
+
+    if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
+        // Required to run LWJGL3 Java apps on MacOS
+        jvmArgs += "-XstartOnFirstThread"
+    }
 }
 
-task dist(type: Jar) {
-    duplicatesStrategy = "INCLUDE"
-    from files(sourceSets.main.output.classesDirs)
-    from files(sourceSets.main.output.resourcesDir)
-    from files(project.assetsDir);
-
+jar {
+    destinationDirectory = file("$buildDir/lib")
+    archiveFileName = "${appName}-${archiveVersion.get()}.jar"
+    exclude('linux/arm32/**', 'linux/arm64/**')
+    dependsOn configurations.runtimeClasspath
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
-    from {
-        configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it)}
-    }
-    with jar
-    destinationDirectory = file("$buildDir/lib")
 }
-jpackageImage.dependsOn dist
 
-dist.dependsOn classes
+jpackageImage.dependsOn jar
 
 runtime {
     options = ['--strip-debug',
@@ -61,8 +67,7 @@ runtime {
     distDir = file(buildDir)
 
     jpackage {
-        //jpackageHome = '/usr/lib/jvm/open-jdk'
-        mainJar = dist.archiveFileName.get()
+        mainJar = jar.archiveFileName.get()
         if (osName.contains('windows')) {
             imageOptions = ["--icon", file("../icons/icon.ico")]
         } else if (osName.contains('linux')) {
