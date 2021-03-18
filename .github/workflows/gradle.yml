@@ -42,12 +42,12 @@ jobs:
       - name: Fix file names
         run: mv desktop/build/lib/*.jar HadalCalm_linux.jar && mv desktop/build/jpackage/*.deb HadalCalm.deb && mv desktop/build/jpackage/*.rpm HadalCalm.rpm
 
-      - run: ./butler push HadalCalm.jar donpommelo/HadalCalm:linux-jar
+      - run: ./butler push HadalCalm.jar donpommelo/hadal-calm:linux-jar
 
-      - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/HadalCalm:linux-image
+      - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/hadal-calm:linux-image
       
-      - run: ./butler push HadalCalm.deb donpommelo/HadalCalm:linux-deb
-      - run: ./butler push HadalCalm.rpm donpommelo/HadalCalm:linux-rpm
+      - run: ./butler push HadalCalm.deb donpommelo/hadal-calm:linux-deb
+      - run: ./butler push HadalCalm.rpm donpommelo/hadal-calm:linux-rpm
       
   windows:
     runs-on: windows-latest
@@ -77,11 +77,11 @@ jobs:
       - name: Fix file names
         run: mv desktop/build/lib/*.jar HadalCalm_windows.jar && mv desktop/build/jpackage/*.exe HadalCalm.exe && mv desktop/build/jpackage/*.msi HadalCalm.msi
 
-      - run: ./butler push HadalCalm_windows.jar donpommelo/HadalCalm:windows-jar
+      - run: ./butler push HadalCalm_windows.jar donpommelo/hadal-calm:windows-jar
 
-      - run: ./butler push decktop/build/jpackage/HadalCalm donpommelo/HadalCalm:windows-image
+      - run: ./butler push decktop/build/jpackage/HadalCalm donpommelo/hadal-calm:windows-image
 
-      - run: ./butler push HadalCalm.exe donpommelo/HadalCalm:windows-exe
-      - run: ./butler push HadalCalm.msi donpommelo/HadalCalm:windows-msi
+      - run: ./butler push HadalCalm.exe donpommelo/hadal-calm:windows-exe
+      - run: ./butler push HadalCalm.msi donpommelo/hadal-calm:windows-msi
 
       - run: ./butler push FireAndIce.rpm lyze237/FireAndIce:linux-rpm
