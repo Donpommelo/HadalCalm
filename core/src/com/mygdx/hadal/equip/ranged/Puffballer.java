@@ -17,16 +17,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Puffballer extends RangedWeapon {
 
-	private static final int clipSize = 3;
-	private static final int ammoSize = 30;
+	private static final int clipSize = 4;
+	private static final int ammoSize = 40;
 	private static final float shootCd = 0.5f;
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.4f;
 	private static final int reloadAmount = 0;
-	private static final float baseDamage = 18.0f;
+	private static final float baseDamage = 24.0f;
 	private static final float recoil = 2.5f;
 	private static final float knockback = 5.0f;
-	private static final float projectileSpeed = 21.0f;
+	private static final float projectileSpeed = 24.0f;
 	private static final Vector2 projectileSize = new Vector2(40, 40);
 	private static final float lifespan = 3.0f;
 
@@ -35,7 +35,7 @@ public class Puffballer extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_TORPEDO;
 
 	private static final float sporeFragLifespan = 3.0f;
-	private static final float sporeFragDamage = 8.0f;
+	private static final float sporeFragDamage = 9.0f;
 	private static final float sporeFragKB = 8.0f;
 	private static final Vector2 sporeFragSize = new Vector2(15, 15);
 

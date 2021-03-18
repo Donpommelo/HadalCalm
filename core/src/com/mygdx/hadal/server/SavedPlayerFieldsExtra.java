@@ -24,17 +24,25 @@ public class SavedPlayerFieldsExtra {
 
 	public float getDamageDealt() { return damageDealtEnemies; }
 
+	public void setDamageDealt(float damageDealtEnemies) { this.damageDealtEnemies = damageDealtEnemies; }
+
 	public void incrementDamageDealt(float damageDealt) { this.damageDealtEnemies += damageDealt; }
 	
 	public float getDamageDealtSelf() { return damageDealtSelf; }
+
+	public void setDamageDealtSelf(float damageDealtSelf) { this.damageDealtSelf = damageDealtSelf; }
 
 	public void incrementDamageDealtSelf(float damageDealt) { this.damageDealtSelf += damageDealt; }
 	
 	public float getDamageDealtAllies() { return damageDealtAllies; }
 
+	public void setDamageDealtAllies(float damageDealtAllies) { this.damageDealtAllies = damageDealtAllies; }
+
 	public void incrementDamageDealtAllies(float damageDealt) { this.damageDealtAllies += damageDealt; }
 
 	public float getDamageReceived() { return damageReceived; }
+
+	public void setDamageReceived(float damageReceived) { this.damageReceived = damageReceived; }
 
 	public void incrementDamageReceived(float damageReceived) {	this.damageReceived += damageReceived; }
 

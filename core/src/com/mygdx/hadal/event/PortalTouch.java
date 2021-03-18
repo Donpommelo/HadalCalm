@@ -103,6 +103,6 @@ public class PortalTouch extends Event {
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.PORTAL);
 		setStandardParticle(Particle.MOMENTUM);
-		addAmbientParticle(Particle.PORTAL);
+		addAmbientParticle(Particle.PORTAL, 0, -20);
 	}
 }

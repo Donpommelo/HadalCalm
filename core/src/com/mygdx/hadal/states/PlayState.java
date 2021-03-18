@@ -664,7 +664,6 @@ public class PlayState extends GameState {
 	/**
 	 * This is called every update. This resets the camera zoom and makes it move towards the player (or other designated target).
 	 */
-	private static final float spectatorCameraRange = 9000.0f;
 	private static final float mouseCameraTrack = 0.5f;
 	private static final float cameraInterpolation = 0.08f;
 	private static final float cameraAimInterpolation = 0.025f;
@@ -682,27 +681,29 @@ public class PlayState extends GameState {
 			HadalGame.viewportCamera.unproject(mousePosition);
 			mousePosition2.set(mousePosition.x, mousePosition.y);
 
+			CameraStyles.spectatorDragCamera(spectatorTarget);
+			tmpVector2.set(spectatorTarget);
 			if (player.getBody() != null && player.isAlive()) {
 				tmpVector2.set(player.getPixelPosition());
-			} else if (spectatorMode) {
-				
-				//in spectator mode, the camera tracks the mouse
-				if (spectatorTarget.dst2(mousePosition2) > spectatorCameraRange) {
-					spectatorTarget.lerp(mousePosition2, 0.03f);
+
+				//if enabled, camera tracks mouse position
+				if (gsm.getSetting().isMouseCameraTrack()) {
+					cameraFocusAim.x = (int) (cameraFocusAim.x + (mousePosition2.x - cameraFocusAim.x) * cameraAimInterpolation);
+					cameraFocusAim.y = (int) (cameraFocusAim.y + (mousePosition2.y - cameraFocusAim.y) * cameraAimInterpolation);
+					tmpVector2.mulAdd(cameraFocusAim, mouseCameraTrack).scl(1.0f / (1.0f + mouseCameraTrack));
 				}
+
+			} else if (spectatorMode) {
+
+				//in spectator mode, the camera moves when dragging the mouse
+				CameraStyles.spectatorDragCamera(spectatorTarget);
 				tmpVector2.set(spectatorTarget);
 			} else {
 				return;
 			}
 
-			//if enabled, camera tracks mouse position
-			if (gsm.getSetting().isMouseCameraTrack()) {
-				cameraFocusAim.x = (int) (cameraFocusAim.x + (mousePosition2.x - cameraFocusAim.x) * cameraAimInterpolation);
-				cameraFocusAim.y = (int) (cameraFocusAim.y + (mousePosition2.y - cameraFocusAim.y) * cameraAimInterpolation);
-				tmpVector2.mulAdd(cameraFocusAim, mouseCameraTrack).scl(1.0f / (1.0f + mouseCameraTrack));
-			}
 			//make camera target respect camera bounds if not focused on an object
-			boundCamera(tmpVector2);
+			CameraStyles.obeyCameraBounds(tmpVector2, cameraBounds);
 		} else {
 			tmpVector2.set(cameraTarget);
 		}
@@ -712,25 +713,6 @@ public class PlayState extends GameState {
 		CameraStyles.lerpToTarget(camera, tmpVector2, cameraInterpolation);
 	}
 
-	/**
-	 * This makes an input camera vector obey camera bounds.
-	 */
-	private void boundCamera(Vector2 tempCamera) {
-		//make camera target respect camera bounds if not focused on an object
-		if (tempCamera.x > cameraBounds[0]) {
-			tempCamera.x = cameraBounds[0];
-		}
-		if (tempCamera.x < cameraBounds[1]) {
-			tempCamera.x = cameraBounds[1];
-		}
-		if (tempCamera.y > cameraBounds[2]) {
-			tempCamera.y = cameraBounds[2];
-		}
-		if (tempCamera.y < cameraBounds[3]) {
-			tempCamera.y = cameraBounds[3];
-		}
-	}
-	
 	/**
 	 * This is called upon exiting. Dispose of all created fields.
 	 */
@@ -767,7 +749,8 @@ public class PlayState extends GameState {
 		} else {
 			resizeTmpVector2.set(cameraTarget.x, cameraTarget.y);
 		}
-		boundCamera(resizeTmpVector2);
+		CameraStyles.obeyCameraBounds(resizeTmpVector2, cameraBounds);
+
 		this.camera.position.set(new Vector3(resizeTmpVector2.x, resizeTmpVector2.y, 0));
 
 		if (shaderBase.getShaderProgram() != null) {

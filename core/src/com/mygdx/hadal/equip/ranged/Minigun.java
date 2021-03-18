@@ -25,8 +25,8 @@ import com.mygdx.hadal.strategies.hitbox.Spread;
 public class Minigun extends RangedWeapon {
 
 	private static final int clipSize = 200;
-	private static final int ammoSize = 600;
-	private static final float shootCd = 0.07f;
+	private static final int ammoSize = 800;
+	private static final float shootCd = 0.05f;
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 2.0f;
 	private static final int reloadAmount = 0;

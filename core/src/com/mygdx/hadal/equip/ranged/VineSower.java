@@ -29,7 +29,7 @@ public class VineSower extends RangedWeapon {
 	private static final float baseDamage = 28.0f;
 	private static final float recoil = 10.0f;
 	private static final float knockback = 10.0f;
-	private static final float projectileSpeed = 29.0f;
+	private static final float projectileSpeed = 34.0f;
 	private static final Vector2 projectileSize = new Vector2(40, 31);
 	private static final float lifespan = 5.0f;
 
@@ -44,7 +44,7 @@ public class VineSower extends RangedWeapon {
 
 	private static final Vector2 seedSize = new Vector2(45, 30);
 	private static final float vineSpeed = 28.0f;
-	private static final float vineDamage = 12.0f;
+	private static final float vineDamage = 16.0f;
 	private static final float vineKB = 20.0f;
 
 	private static final int vineBendSpreadMin = 15;

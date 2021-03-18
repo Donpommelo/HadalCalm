@@ -61,6 +61,7 @@
   <object id="9" name="Switch" type="Switch" x="832" y="1376" width="96" height="96">
    <properties>
     <property name="particle_amb" value="PORTAL"/>
+    <property name="particle_offsetY" type="float" value="-20"/>
     <property name="sprite" value="PORTAL"/>
     <property name="triggeringId" value="toEnemy"/>
    </properties>
@@ -87,6 +88,7 @@
   <object id="13" name="Switch" type="Switch" x="896" y="1056" width="96" height="96">
    <properties>
     <property name="particle_amb" value="PORTAL"/>
+    <property name="particle_offsetY" type="float" value="-20"/>
     <property name="sprite" value="PORTAL"/>
     <property name="triggeringId" value="toHub"/>
    </properties>
@@ -106,6 +108,7 @@
   <object id="17" name="Switch" type="Switch" x="640" y="1376" width="96" height="96">
    <properties>
     <property name="particle_amb" value="PORTAL"/>
+    <property name="particle_offsetY" type="float" value="-20"/>
     <property name="sprite" value="PORTAL"/>
     <property name="triggeringId" value="toEvents"/>
    </properties>
