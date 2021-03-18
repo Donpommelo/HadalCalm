@@ -42,7 +42,7 @@ jobs:
       - name: Fix file names
         run: mv desktop/build/lib/*.jar HadalCalm_linux.jar && mv desktop/build/jpackage/*.deb HadalCalm.deb && mv desktop/build/jpackage/*.rpm HadalCalm.rpm
 
-      - run: ./butler push HadalCalm.jar donpommelo/hadal-calm:linux-jar
+      - run: ./butler push HadalCalm_linux.jar donpommelo/hadal-calm:linux-jar
 
       - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/hadal-calm:linux-image
       
@@ -83,5 +83,3 @@ jobs:
 
       - run: ./butler push HadalCalm.exe donpommelo/hadal-calm:windows-exe
       - run: ./butler push HadalCalm.msi donpommelo/hadal-calm:windows-msi
-
-      - run: ./butler push FireAndIce.rpm lyze237/FireAndIce:linux-rpm
