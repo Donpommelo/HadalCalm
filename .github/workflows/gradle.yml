@@ -1,0 +1,87 @@
+# This workflow will build a vidya gaem and upload it to itch.io
+
+name: Build Hadal Calm and upload it to itch.io
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+  
+jobs:
+  linux:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 15
+        uses: actions/setup-java@v1
+        with:
+          java-version: 15
+
+      - name: Download butler
+        run: wget https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -O butler.zip
+
+      - name: Unzip buttler
+        run: unzip butler.zip
+
+      - name: Fix permissions
+        run: chmod +x butler && chmod +x gradlew
+
+      - name: Build jar
+        run: ./gradlew desktop:jar
+
+      - name: Build package image
+        run: ./gradlew desktop:jpackageImage
+
+      - name: Build deb/rpm
+        run: ./gradlew desktop:jpackage
+
+      - name: Fix file names
+        run: mv desktop/build/lib/*.jar HadalCalm_linux.jar && mv desktop/build/jpackage/*.deb HadalCalm.deb && mv desktop/build/jpackage/*.rpm HadalCalm.rpm
+
+      - run: ./butler push HadalCalm.jar donpommelo/HadalCalm:linux-jar
+
+      - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/HadalCalm:linux-image
+      
+      - run: ./butler push HadalCalm.deb donpommelo/HadalCalm:linux-deb
+      - run: ./butler push HadalCalm.rpm donpommelo/HadalCalm:linux-rpm
+      
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 15
+        uses: actions/setup-java@v1
+        with:
+          java-version: 15
+
+      - name: Download Butler
+        run: Invoke-WebRequest -Uri https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -OutFile butler.zip
+
+      - name: Extract butler
+        run: Expand-Archive -DestinationPath . butler.zip
+
+      - name: Build jar
+        run: ./gradlew.bat desktop:jar
+
+      - name: Build package image
+        run: ./gradlew.bat desktop:jpackageImage
+
+      - name: Build exe/msi
+        run: ./gradlew.bat desktop:jpackage
+
+      - name: Fix file names
+        run: mv desktop/build/lib/*.jar HadalCalm_windows.jar && mv desktop/build/jpackage/*.exe HadalCalm.exe && mv desktop/build/jpackage/*.msi HadalCalm.msi
+
+      - run: ./butler push HadalCalm_windows.jar donpommelo/HadalCalm:windows-jar
+
+      - run: ./butler push decktop/build/jpackage/HadalCalm donpommelo/HadalCalm:windows-image
+
+      - run: ./butler push HadalCalm.exe donpommelo/HadalCalm:windows-exe
+      - run: ./butler push HadalCalm.msi donpommelo/HadalCalm:windows-msi
+
+      - run: ./butler push FireAndIce.rpm lyze237/FireAndIce:linux-rpm
