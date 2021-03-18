@@ -69,6 +69,7 @@ runtime {
 
     jpackage {
         mainJar = jar.archiveFileName.get()
+        imageName = appName;
         if (osName.contains('windows')) {
             imageOptions = ["--icon", file("../icons/icon.ico")]
         } else if (osName.contains('linux')) {

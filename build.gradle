@@ -47,7 +47,7 @@ configure(subprojects) {
 
 subprojects {
     version = '0.0.' + getGitHash()
-    ext.appName = 'HadalGame'
+    ext.appName = 'HadalCalm'
     repositories {
         mavenLocal()
         mavenCentral()
