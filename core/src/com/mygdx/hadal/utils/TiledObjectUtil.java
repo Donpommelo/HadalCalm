@@ -608,7 +608,10 @@ public class TiledObjectUtil {
 				e.setGravity(object.getProperties().get("gravity", float.class));
 			}
 			if (object.getProperties().get("particle_amb", String.class) != null) {
-				e.addAmbientParticle(Particle.valueOf(object.getProperties().get("particle_amb", String.class)));
+				float offsetX = object.getProperties().get("particle_offsetX", 0.0f, float.class);
+				float offsetY = object.getProperties().get("particle_offsetY", 0.0f, float.class);
+				e.addAmbientParticle(Particle.valueOf(object.getProperties().get("particle_amb", String.class)),
+					offsetX, offsetY);
 			}
 			if (object.getProperties().get("particle_std", String.class) != null) {
 				e.setStandardParticle(Particle.valueOf(object.getProperties().get("particle_std", String.class)));

@@ -190,10 +190,15 @@ public class Event extends HadalEntity {
 
 	public ParticleEntity getStandardParticle() { return standardParticle; }
 
-	public void addAmbientParticle(Particle particle) {
+	public void addAmbientParticle(Particle particle, float xOffset, float yOffset) {
 		if (state.isServer()) {
-			new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.CREATESYNC);
+			new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.CREATESYNC,
+				new Vector2(xOffset, yOffset));
 		}
+	}
+
+	public void addAmbientParticle(Particle particle) {
+		addAmbientParticle(particle, 0, 0);
 	}
 
 	/**

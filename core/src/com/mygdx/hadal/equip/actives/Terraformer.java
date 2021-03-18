@@ -20,7 +20,7 @@ public class Terraformer extends ActiveItem {
 
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 9.0f;
+	private static final float maxCharge = 8.0f;
 	
 	private static final Vector2 blockSize = new Vector2(128, 128);
 	private static final int blockHp = 200;

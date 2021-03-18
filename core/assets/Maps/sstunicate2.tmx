@@ -523,6 +523,7 @@
   <object id="82" name="Switch" type="Switch" x="1248" y="928" width="96" height="96">
    <properties>
     <property name="particle_amb" value="PORTAL"/>
+    <property name="particle_offsetY" type="float" value="-20"/>
     <property name="sprite" value="PORTAL"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="toFite"/>
@@ -543,6 +544,7 @@
   <object id="85" name="Switch" type="Switch" x="4064" y="960" width="96" height="96">
    <properties>
     <property name="particle_amb" value="PORTAL"/>
+    <property name="particle_offsetY" type="float" value="-20"/>
     <property name="sprite" value="PORTAL"/>
     <property name="triggeringId" value="toHub"/>
    </properties>

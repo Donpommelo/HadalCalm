@@ -5,6 +5,8 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -21,13 +23,14 @@ public class HydraulicUppercut extends ActiveItem {
 	private static final float usedelay = 0.0f;
 	private static final float maxCharge = 8.0f;
 	
-	private static final float recoil = 150.0f;
+	private static final float recoil = 180.0f;
 
 	private static final float baseDamage = 60.0f;
 	private static final Vector2 hitboxSize = new Vector2(150, 150);
 	private static final float lifespan = 0.5f;
 	private static final float knockback = 75.0f;
-	
+	private static final float particleLifespan = 0.6f;
+
 	public HydraulicUppercut(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
@@ -35,6 +38,16 @@ public class HydraulicUppercut extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.WOOSH.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
+
+		boolean right = weaponVelo.x > 0;
+
+		Particle particle = Particle.MOREAU_LEFT;
+		if (right) {
+			particle = Particle.MOREAU_RIGHT;
+		}
+		new ParticleEntity(state, user.getPlayer(), particle, 1.0f, 1.0f, true, ParticleEntity.particleSyncType.TICKSYNC)
+			.setScale(0.5f).setPrematureOff(particleLifespan)
+			.setColor(WeaponUtils.getPlayerColor(user.getPlayer()));
 
 		user.addStatus(new Invulnerability(state, 0.9f, user, user));
 		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 6.0f, user, user));

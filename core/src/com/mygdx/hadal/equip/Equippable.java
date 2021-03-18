@@ -194,7 +194,7 @@ public abstract class Equippable {
 	public boolean isReloading() { return reloading; }
 
 	public void setReloading(boolean reloading) {
-		if (getAmmoLeft() > 0) {
+		if (getAmmoLeft() > 0 && getClipLeft() < getClipSize()) {
 		    this.reloading = reloading;
         }
 	}

@@ -164,7 +164,7 @@ MISSILE_POD: {
 NAUTICAL_MINE: {
 	name: Nautical Mine
 	description: "Throws an large naval mine. Mine explodes after being shot a few times"
-    descriptionLong: "Charge: 8 Seconds\nMine Damage: 60\nMine Lifespan: 12 Seconds\n\n"
+    descriptionLong: "Charge: 8 Seconds\nMine Damage: 75\nMine Lifespan: 12 Seconds\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -188,7 +188,7 @@ ORBITAL_SHIELD: {
 PLUS_MINUS: {
 	name: Plus Minus
 	description: "Shock nearby enemies with chain lightning"
-    descriptionLong: "Charge: 12 Seconds\nLightning Damage: 15\nLightning Chains: 8 Enemies\n\n"
+    descriptionLong: "Charge: 12 Seconds\nLightning Damage: 18\nLightning Chains: 8 Enemies\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -260,7 +260,7 @@ RING_OF_GYGES: {
 SAMSON_OPTION: {
 	name: Samson Option
 	description: "User dies and creates a series of explosions"
-    descriptionLong: "Charge: 5 Seconds\nExplosion Duration: 1.5 Seconds\nExplosion Interval: 0.15 Second\nExplosion Damage: 75\n\n"
+    descriptionLong: "Charge: 5 Seconds\nExplosion Duration: 1.5 Seconds\nExplosion Interval: 0.12 Second\nExplosion Damage: 75\n\n"
 	tags: [
 		DISPENSARY,
 	]
@@ -295,7 +295,7 @@ SUPPLY_DROP: {
 TAINTED_WATER: {
 	name: Tainted Water
 	description: "Release a poisonous cloud in the direction you are facing"
-    descriptionLong: "Charge: 13 Seconds\nPoison Duration: 4.5 Seconds\nPoison Damage: 60 per Second\n\n"
+    descriptionLong: "Charge: 10 Seconds\nPoison Duration: 4.5 Seconds\nPoison Damage: 60 per Second\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -304,7 +304,7 @@ TAINTED_WATER: {
 TERRAFORMER: {
 	name: Terraformer
 	description: "Create a destructable block"
-    descriptionLong: "Charge: 8 Seconds\nBlock Hp: 150\n\n"
+    descriptionLong: "Charge: 8 Seconds\nBlock Hp: 200\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -313,7 +313,7 @@ TERRAFORMER: {
 TRACTOR_BEAM: {
 	name: Tractor Beam
 	description: "Fire a projectile that grabs an enemy, Throw victim into walls or other enemies for additional damage"
-    descriptionLong: "Charge: 8 Seconds\nGrab Duration: 4 Seconds\nImpact Damage: 25\n\n"
+    descriptionLong: "Charge: 8 Seconds\nGrab Duration: 4 Seconds\nPrimary Impact Damage: 30\nSecondary Impact Damage: 40\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,

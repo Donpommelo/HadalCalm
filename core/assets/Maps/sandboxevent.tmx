@@ -411,6 +411,7 @@
   <object id="171" name="Switch" type="Switch" x="1504" y="512" width="96" height="96">
    <properties>
     <property name="particle_amb" value="PORTAL"/>
+    <property name="particle_offsetY" type="float" value="-20"/>
     <property name="sprite" value="PORTAL"/>
     <property name="triggeringId" value="toHub"/>
    </properties>
