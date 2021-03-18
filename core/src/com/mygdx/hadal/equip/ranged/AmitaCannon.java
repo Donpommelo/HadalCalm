@@ -26,7 +26,7 @@ public class AmitaCannon extends RangedWeapon {
 	private static final float baseDamage = 8.8f;
 	private static final float recoil = 6.0f;
 	private static final float knockback = 13.0f;
-	private static final float projectileSpeed = 35.0f;
+	private static final float projectileSpeed = 38.0f;
 	private static final Vector2 projectileSize = new Vector2(48, 48);
 	private static final float lifespan = 1.0f;
 	

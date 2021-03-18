@@ -97,8 +97,6 @@ public class TitleState extends GameState {
 	//This boolean determines if input is disabled. input is disabled if the player joins/hosts.
 	private boolean inputDisabled;
 
-	private static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/231465/105b";
-
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
 	 */
@@ -186,7 +184,7 @@ public class TitleState extends GameState {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-						Gdx.net.openURI(versionURL);
+						Gdx.net.openURI(HadalGame.versionURL);
 					}
 				});
 

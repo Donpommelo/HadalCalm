@@ -51,7 +51,7 @@ public class Hexenhowitzer extends RangedWeapon {
 	
 	private static final float superchargedShootCd = 0.07f;
 	private static final float enemyChargeMultiplier = 0.2f;
-	private static final int spread = 18;
+	private static final int spread = 14;
 	private boolean supercharged = false;
 	private Status glowing;
 	

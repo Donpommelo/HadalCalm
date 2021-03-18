@@ -31,7 +31,7 @@ public class Peppergrinder extends RangedWeapon {
 	private static final float baseDamage = 15.0f;
 	private static final float recoil = 2.5f;
 	private static final float knockback = 10.0f;
-	private static final float projectileSpeed = 24.0f;
+	private static final float projectileSpeed = 28.0f;
 	private static final Vector2 projectileSize = new Vector2(40, 20);
 	private static final float lifespan = 4.0f;
 	

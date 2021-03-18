@@ -288,6 +288,11 @@ public enum SoundEffect {
 			playerPosition.set(player.getPixelPosition());
 		}
 
+		//as a spectator, the center of the camera is treated as the player location
+		if (state.isSpectatorMode()) {
+			playerPosition.set(state.getCamera().position.x, state.getCamera().position.y);
+		}
+
 		float xDist = worldPos.x - playerPosition.x;
 		float yDist = worldPos.y - playerPosition.y;
 		float dist = Math.abs(xDist) + Math.abs(yDist);

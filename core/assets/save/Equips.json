@@ -216,8 +216,8 @@ KAMABOKANNON: {
 }
 KILLER_BEAT: {
 	name: Killer Beat
-	description: ""
-    descriptionLong: ""
+	description: "Fire a stream of sound waves. Fire right when the meter fills up to create a shotgun-blast instead."
+    descriptionLong: "Sound Wave Damage: 25\n\nClip Size: 180\nAmmo Capacity: 0\nMeter Charge Time: 1 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -247,7 +247,7 @@ LASER_RIFLE: {
 LOVE_BOW: {
 	name: Love Bow
 	description: "Hold and release to fire arrows. In co-op mode, these projectiles heal allies."
-    descriptionLong: "Arrow Damage at Min Charge: 25\nArrow Damage at Max Charge: 60\nArrow Heal on Allies: 10\n\nClip Size: 1\nAmmo Capacity: 50\nReload Time: 0.6 Second\nCharge Duration: 0.25 Second"
+    descriptionLong: "Arrow Damage at Min Charge: 25\nArrow Damage at Max Charge: 60\nArrow Heal on Allies: 15\n\nClip Size: 1\nAmmo Capacity: 50\nReload Time: 0.6 Second\nCharge Duration: 0.25 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -277,7 +277,7 @@ MAELSTROM: {
 MINIGUN: {
 	name: Minigun
 	description: "Heavy firepower but requires charging. User is slowed when firing this weapon."
-    descriptionLong: "Bullet Damage: 20\nWindup Duration: 0.5 Second\n\nClip Size: 200\nAmmo Capacity: 600\nReload Time: 2 Second\nAttack Cooldown: 0.07 Second"
+    descriptionLong: "Bullet Damage: 20\nWindup Duration: 0.5 Second\n\nClip Size: 200\nAmmo Capacity: 600\nReload Time: 2 Second\nAttack Cooldown: 0.05 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -335,7 +335,7 @@ PARTY_POPPER: {
 PEARL_REVOLVER: {
 	name: Pearl Revolver
 	description: "Fires pearls quickly in a straight line. Rapidly tap the shoot button to fire faster."
-    descriptionLong: "Pearl Damage: 33\n\nClip Size: 6\nAmmo Capacity: 48\nReload Time: 0.6 Second\nAttack Cooldown: 0.3 Second"
+    descriptionLong: "Pearl Damage: 35\n\nClip Size: 6\nAmmo Capacity: 48\nReload Time: 0.6 Second\nAttack Cooldown: 0.3 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -355,7 +355,7 @@ PEPPERGRINDER: {
 PUFFBALLER: {
 	name: Puffballer
 	description: "Fires a spore cluster that bursts at target location."
-    descriptionLong: "Cluster Damage: 18\nSpore Damage: 8\nSpore Number: 10\nSpore Lifespan: 3 Seconds\n\nClip Size: 3\nAmmo Capacity: 30\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.5 Second"
+    descriptionLong: "Cluster Damage: 24\nSpore Damage: 9\nSpore Number: 10\nSpore Lifespan: 3 Seconds\n\nClip Size: 4\nAmmo Capacity: 40\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.5 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,

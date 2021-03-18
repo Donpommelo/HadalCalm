@@ -4,6 +4,7 @@ buildscript {
         mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        jcenter()
     }
     dependencies {
 
@@ -11,6 +12,7 @@ buildscript {
 }
 
 allprojects {
+    apply plugin: "eclipse"
     apply plugin: "idea"
 
     version = '1.0'
@@ -36,28 +38,28 @@ allprojects {
 
 project(":desktop") {
     apply plugin: "java"
-    sourceCompatibility = 15
-    targetCompatibility = 15
 
     dependencies {
-        implementation project(":core")
-        implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-        implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        compile project(":core")
+        compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     }
 }
 
 project(":core") {
     apply plugin: "java"
-    sourceCompatibility = 15
-    targetCompatibility = 15
 
     dependencies {
-        implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
-        implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        implementation "com.github.crykn:kryonet:$kryonetVersion"
-        implementation "com.github.payne911:PieMenu:$pieMenuVersion"
-        implementation "org.bitlet:weupnp:$weupnpVersion"
-        implementation "io.socket:socket.io-client:$socketioVersion"
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile "com.github.crykn:kryonet:$kryonetVersion"
+        compile "com.github.payne911:PieMenu:$pieMenuVersion"
+        compile "org.bitlet:weupnp:$weupnpVersion"
+        compile "io.socket:socket.io-client:$socketioVersion"
     }
+}
+
+tasks.eclipse.doLast {
+    delete ".project"
 }
