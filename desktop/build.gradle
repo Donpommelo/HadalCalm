@@ -39,6 +39,7 @@ run {
 }
 
 jar {
+    duplicatesStrategy = "INCLUDE"
     destinationDirectory = file("$buildDir/lib")
     archiveFileName = "${appName}-${archiveVersion.get()}.jar"
     exclude('linux/arm32/**', 'linux/arm64/**')
