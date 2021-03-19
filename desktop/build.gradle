@@ -17,7 +17,7 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 mainClassName = 'com.mygdx.hadal.desktop.DesktopLauncher'
 sourceCompatibility = 15.0
 
-def osName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
+project.ext.assetsDir = new File("../core/assets");
 
 dependencies {
     implementation project(":core")
@@ -40,6 +40,8 @@ run {
 
 jar {
     duplicatesStrategy = "INCLUDE"
+    from files(project.assetsDir);
+
     destinationDirectory = file("$buildDir/lib")
     archiveFileName = "${appName}-${archiveVersion.get()}.jar"
     exclude('linux/arm32/**', 'linux/arm64/**')
@@ -70,11 +72,11 @@ runtime {
     jpackage {
         mainJar = jar.archiveFileName.get()
         imageName = appName;
-        if (osName.contains('windows')) {
+        if (OperatingSystem.current().isWindows()) {
             imageOptions = ["--icon", file("../icons/icon.ico")]
-        } else if (osName.contains('linux')) {
+        } else if (OperatingSystem.current().isLinux()) {
             imageOptions = ["--icon", file("../icons/icon.png")]
-        } else if (osName.contains('mac')) {
+        } else if (OperatingSystem.current().isMacOsX()) {
             imageOptions = ["--icon", file("../icons/icon.icns")]
         }
     }
