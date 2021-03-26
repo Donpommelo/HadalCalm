@@ -81,10 +81,10 @@ jobs:
           java-version: 15
 
       - name: Download butler
-        run: curl -k -o butler.zip https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default
+        run: curl -o butler.zip https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default
 
-      - name: Unzip buttler
-        run: unzip butler.zip
+      - name: Unzip butler
+        run: 7z x butler.zip
 
       - name: Build jar
         run: ./gradlew.bat desktop:jar
