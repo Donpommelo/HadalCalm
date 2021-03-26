@@ -17,7 +17,7 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 mainClassName = 'com.mygdx.hadal.desktop.DesktopLauncher'
 sourceCompatibility = 15.0
 
-project.ext.assetsDir = new File("../core/assets");
+project.ext.assetsDir = new File("../core/assets")
 
 dependencies {
     implementation project(":core")
@@ -40,7 +40,7 @@ run {
 
 jar {
     duplicatesStrategy = "INCLUDE"
-    from files(project.assetsDir);
+    from files(project.assetsDir)
 
     project.delete("../core/assets/save/ChatLog.json")
     project.delete("../core/assets/save/Loadout.json")
@@ -78,7 +78,9 @@ runtime {
 
     jpackage {
         mainJar = jar.archiveFileName.get()
-        imageName = appName;
+        imageName = appName
+        appVersion = "1.0.0"
+
         if (OperatingSystem.current().isWindows()) {
             imageOptions = ["--icon", file("../icons/icon.ico")]
         } else if (OperatingSystem.current().isLinux()) {

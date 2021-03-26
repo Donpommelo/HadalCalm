@@ -81,19 +81,19 @@ jobs:
           java-version: 15
 
       - name: Download butler
-        run: curl https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default -o butler.zip
+        run: curl -L -o butler.zip https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default
 
-      - name: Unzip buttler
+      - name: Unzip butler
         run: unzip butler.zip
 
       - name: Build jar
-        run: ./gradlew.bat desktop:jar
+        run: ./gradlew desktop:jar
 
       - name: Build package image
-        run: ./gradlew.bat desktop:jpackageImage
+        run: ./gradlew desktop:jpackageImage
 
       - name: Fix file names
-        run: mv desktop/build/lib/*.jar HadalCalm_macos.jar && mv desktop/build/jpackage/HadalCalm desktop/build/jpackage/HadalCalm.app
+        run: mv desktop/build/lib/*.jar HadalCalm_macos.jar && mv desktop/build/jpackage/HadalCalm HadalCalm.app
 
       - run: ./butler push HadalCalm_macos.jar donpommelo/hadal-calm:macos-jar
       - run: ./butler push desktop/build/jpackage/HadalCalm.app donpommelo/hadal-calm:macos-image
