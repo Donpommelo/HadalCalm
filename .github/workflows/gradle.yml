@@ -81,7 +81,7 @@ jobs:
           java-version: 15
 
       - name: Download butler
-        run: curl https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default -o butler.zip
+        run: curl -k -o butler.zip https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default
 
       - name: Unzip buttler
         run: unzip butler.zip
