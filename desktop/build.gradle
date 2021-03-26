@@ -87,6 +87,7 @@ runtime {
             imageOptions = ["--icon", file("../icons/icon.png")]
         } else if (OperatingSystem.current().isMacOsX()) {
             imageOptions = ["--icon", file("../icons/icon.icns")]
+            jvmArgs += "-XstartOnFirstThread"
         }
     }
 }
