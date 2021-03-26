@@ -93,7 +93,7 @@ jobs:
         run: ./gradlew desktop:jpackageImage
 
       - name: Fix file names
-        run: mv desktop/build/lib/*.jar HadalCalm_macos.jar && mv desktop/build/jpackage/HadalCalm HadalCalm.app
+        run: mv desktop/build/lib/*.jar HadalCalm_macos.jar
 
       - run: ./butler push HadalCalm_macos.jar donpommelo/hadal-calm:macos-jar
-      - run: ./butler push desktop/build/jpackage/HadalCalm.app donpommelo/hadal-calm:macos-image
+      - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/hadal-calm:macos-image
