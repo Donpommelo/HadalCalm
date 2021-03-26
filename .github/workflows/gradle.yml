@@ -87,10 +87,10 @@ jobs:
         run: unzip butler.zip
 
       - name: Build jar
-        run: sudo ./gradlew desktop:jar
+        run: ./gradlew desktop:jar
 
       - name: Build package image
-        run: sudo ./gradlew desktop:jpackageImage
+        run: ./gradlew desktop:jpackageImage
 
       - name: Fix file names
         run: mv desktop/build/lib/*.jar HadalCalm_macos.jar && mv desktop/build/jpackage/HadalCalm desktop/build/jpackage/HadalCalm.app
