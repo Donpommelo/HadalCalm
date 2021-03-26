@@ -482,13 +482,9 @@ public class EnemyUtils {
 	
 	public static int moveToRandomWall(PlayState state, Enemy boss, int speed, float duration) {
 		int rand = GameStateManager.generator.nextInt(2);
-		switch(rand) {
-		case 0:
-			EnemyUtils.moveToDummy(state, boss, "3", speed, duration);
-			break;
-		case 1:
-			EnemyUtils.moveToDummy(state, boss, "5", speed, duration);
-			break;
+		switch (rand) {
+			case 0 -> EnemyUtils.moveToDummy(state, boss, "3", speed, duration);
+			case 1 -> EnemyUtils.moveToDummy(state, boss, "5", speed, duration);
 		}
 		return rand;
 	}

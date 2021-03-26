@@ -298,44 +298,26 @@ public enum Sprite {
 	 * Sprite Types refers to which atlas is used to procure the frames.
 	 */
 	public static TextureAtlas getAtlas(SpriteType type) {
-		switch (type) {
-		case EVENT:
-			return HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
-		case EXPLOSION:
-			return HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString());
-		case PROJECTILE:
-			return HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString());
-		case WEAPON:
-			return HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
-		case FISH:
-			return HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
-		case TURRET:
-			return HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
-		case IMPACT:
-			return HadalGame.assetManager.get(AssetList.IMPACT_ATL.toString());
-		case UI:
-			return HadalGame.assetManager.get(AssetList.UI_ATL.toString());
-		case EMOTE:
-			return HadalGame.assetManager.get(AssetList.EMOTE_ATL.toString());
-		case NOTIFICATIONS:
-			return HadalGame.assetManager.get(AssetList.NOTIFICATION_ATL.toString());
-		case KAMABOKO:
-			return HadalGame.assetManager.get(AssetList.KAMABOKO_ATL.toString());
-		case KAMABOKO_CRAWL:
-			return HadalGame.assetManager.get(AssetList.KAMABOKO_CRAWL_ATL.toString());
-		case KAMABOKO_SWIM:
-			return HadalGame.assetManager.get(AssetList.KAMABOKO_SWIM_ATL.toString());
-		case DRONE:
-			return HadalGame.assetManager.get(AssetList.DRONE_ATL.toString());
-		case NEPTUNE_KING:
-			return HadalGame.assetManager.get(AssetList.NEPTUNE_KING_ATL.toString());
-		case TELEMACHUS_POINT:
-			return HadalGame.assetManager.get(AssetList.TELEMACHUS_POINT.toString());
-		case CHARACTER_EXTRA:
-			return HadalGame.assetManager.get(AssetList.PLAYER_EXTRA_ATL.toString());
-		default:
-			return null;
-		}
+		return switch (type) {
+			case EVENT -> HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
+			case EXPLOSION -> HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString());
+			case PROJECTILE -> HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString());
+			case WEAPON -> HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
+			case FISH -> HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
+			case TURRET -> HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
+			case IMPACT -> HadalGame.assetManager.get(AssetList.IMPACT_ATL.toString());
+			case UI -> HadalGame.assetManager.get(AssetList.UI_ATL.toString());
+			case EMOTE -> HadalGame.assetManager.get(AssetList.EMOTE_ATL.toString());
+			case NOTIFICATIONS -> HadalGame.assetManager.get(AssetList.NOTIFICATION_ATL.toString());
+			case KAMABOKO -> HadalGame.assetManager.get(AssetList.KAMABOKO_ATL.toString());
+			case KAMABOKO_CRAWL -> HadalGame.assetManager.get(AssetList.KAMABOKO_CRAWL_ATL.toString());
+			case KAMABOKO_SWIM -> HadalGame.assetManager.get(AssetList.KAMABOKO_SWIM_ATL.toString());
+			case DRONE -> HadalGame.assetManager.get(AssetList.DRONE_ATL.toString());
+			case NEPTUNE_KING -> HadalGame.assetManager.get(AssetList.NEPTUNE_KING_ATL.toString());
+			case TELEMACHUS_POINT -> HadalGame.assetManager.get(AssetList.TELEMACHUS_POINT.toString());
+			case CHARACTER_EXTRA -> HadalGame.assetManager.get(AssetList.PLAYER_EXTRA_ATL.toString());
+			default -> null;
+		};
 	}
 	
 	public PlayMode getPlayMode() {	return playMode; }

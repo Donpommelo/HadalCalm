@@ -1,5 +1,6 @@
 package com.mygdx.hadal.utils;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.equip.Loadout;
@@ -99,6 +100,12 @@ public class ConsoleCommandUtil {
 			return 0;
 		}
 
+		if (command.equals("/killme")) {
+			if (player.getPlayerData() != null) {
+				player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false);
+			}
+		}
+
 		return -1;
 	}
 	
@@ -160,6 +167,12 @@ public class ConsoleCommandUtil {
 			return 0;
 		}
 
+		if (command.equals("/killme")) {
+			if (player.getPlayerData() != null) {
+				HadalGame.client.sendTCP(new Packets.ClientYeet());
+			}
+		}
+
 		return -1;
 	}
 	
@@ -218,18 +231,14 @@ public class ConsoleCommandUtil {
 	 * This lets the player display certain information in the text log using "print <>"
 	 */
 	public static int print(PlayState state, String command) {
-		
-		switch(command) {
-		case "camera":
-			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA TARGET: " + state.getCameraTarget(), DialogType.SYSTEM);
-			break;
-		case "cameraBounds":
-			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA BOUNDS: " +
-					Arrays.toString(state.getCameraBounds()), DialogType.SYSTEM);
-			break;
-		case "playerLoc":
-			HadalGame.server.addNotificationToAll(state, "GAEM", "PLAYER LOCATION: " + state.getPlayer().getPosition(), DialogType.SYSTEM);
-			break;
+
+		switch (command) {
+			case "camera" -> HadalGame.server.addNotificationToAll(state,"GAEM",
+				"CAMERA TARGET: " + state.getCameraTarget(), DialogType.SYSTEM);
+			case "cameraBounds" -> HadalGame.server.addNotificationToAll(state, "GAEM",
+				"CAMERA BOUNDS: " + Arrays.toString(state.getCameraBounds()), DialogType.SYSTEM);
+			case "playerLoc" -> HadalGame.server.addNotificationToAll(state,"GAEM",
+				"PLAYER LOCATION: " + state.getPlayer().getPosition(),	DialogType.SYSTEM);
 		}
 		return -1;
 	}

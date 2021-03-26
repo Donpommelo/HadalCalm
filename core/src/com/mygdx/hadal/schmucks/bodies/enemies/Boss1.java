@@ -81,19 +81,11 @@ public class Boss1 extends EnemyFloating {
 				spawnAdds();
 			} else {
 				int randomIndex = GameStateManager.generator.nextInt(4);
-				switch(randomIndex) {
-				case 0: 
-					chargeAttack1();
-					break;
-				case 1: 
-					chargeAttack2();
-					break;
-				case 2: 
-					fireBreath();
-					break;
-				case 3: 
-					fallingDebris();
-					break;
+				switch (randomIndex) {
+					case 0 -> chargeAttack1();
+					case 1 -> chargeAttack2();
+					case 2 -> fireBreath();
+					case 3 -> fallingDebris();
 				}
 			}
 		}
@@ -105,38 +97,20 @@ public class Boss1 extends EnemyFloating {
 				spawnAdds();
 			} else if (attackNum % 2 == 0) {
 				int randomIndex = GameStateManager.generator.nextInt(5);
-				switch(randomIndex) {
-				case 0: 
-					chargeAttack3();
-					break;
-				case 1: 
-					chargeAttack4();
-					break;
-				case 2: 
-					fireBreath2();
-					break;
-				case 3: 
-					horizontalLaser();
-					break;
-				case 4: 
-					sweepingLaser();
-					break;
+				switch (randomIndex) {
+					case 0 -> chargeAttack3();
+					case 1 -> chargeAttack4();
+					case 2 -> fireBreath2();
+					case 3 -> horizontalLaser();
+					case 4 -> sweepingLaser();
 				}
 			} else {
 				int randomIndex = GameStateManager.generator.nextInt(4);
-				switch(randomIndex) {
-				case 0: 
-					bouncyBall();
-					break;
-				case 1: 
-					vengefulSpirit();
-					break;
-				case 2: 
-					poisonCloud();
-					break;
-				case 3: 
-					fallingDebris();
-					break;
+				switch (randomIndex) {
+					case 0 -> bouncyBall();
+					case 1 -> vengefulSpirit();
+					case 2 -> poisonCloud();
+					case 3 -> fallingDebris();
 				}
 			}
 		}
@@ -144,41 +118,21 @@ public class Boss1 extends EnemyFloating {
 		if (phase == 3) {
 			if (attackNum % 2 == 0) {
 				int randomIndex = GameStateManager.generator.nextInt(6);
-				switch(randomIndex) {
-				case 0: 
-					chargeAttack3();
-					break;
-				case 1: 
-					chargeAttack5();
-					break;
-				case 2: 
-					fireBreath2();
-					break;
-				case 3: 
-					sweepingLaser();
-					break;
-				case 4: 
-					horizontalLaser();
-					break;
-				case 5:
-					rotatingLaser();
-					break;
+				switch (randomIndex) {
+					case 0 -> chargeAttack3();
+					case 1 -> chargeAttack5();
+					case 2 -> fireBreath2();
+					case 3 -> sweepingLaser();
+					case 4 -> horizontalLaser();
+					case 5 -> rotatingLaser();
 				}
 			} else {
 				int randomIndex = GameStateManager.generator.nextInt(4);
-				switch(randomIndex) {
-				case 0: 
-					bouncyBall();
-					break;
-				case 1: 
-					vengefulSpirit();
-					break;
-				case 2: 
-					fallingDebris();
-					break;
-				case 3: 
-					poisonCloud();
-					break;
+				switch (randomIndex) {
+					case 0 -> bouncyBall();
+					case 1 -> vengefulSpirit();
+					case 2 -> fallingDebris();
+					case 3 -> poisonCloud();
 				}
 			}
 			fallingDebrisPassive();
@@ -220,32 +174,32 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.meleeAttackContinuous(state, this, charge2Damage, chargeAttackInterval, charge2Knockback, charge2AttackDuration);
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, charge2AttackDuration, 1.0f, 0.5f, SoundEffect.WOOSH, true);
-		
+
 		switch (corner) {
-		case 0:
-			EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
-			break;
-		case 1:
-			EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
-			break;
-		case 2:
-			EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
-			break;
-		case 3:
-			EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
-			break;
+			case 0 -> {
+				EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
+			}
+			case 1 -> {
+				EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
+			}
+			case 2 -> {
+				EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
+			}
+			case 3 -> {
+				EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
+			}
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
@@ -279,38 +233,38 @@ public class Boss1 extends EnemyFloating {
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, charge2AttackDuration, 1.0f, 0.5f, SoundEffect.WOOSH, true);
 		switch (corner) {
-		case 0:
-			EnemyUtils.moveToDummy(state, this, "3", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "5", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
-			break;
-		case 1:
-			EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "3", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "5", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
-			break;
-		case 2:
-			EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "5", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "3", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
-			break;
-		case 3:
-			EnemyUtils.moveToDummy(state, this, "5", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "3", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
-			break;
+			case 0 -> {
+				EnemyUtils.moveToDummy(state, this, "3", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "5", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
+			}
+			case 1 -> {
+				EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "3", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "5", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
+			}
+			case 2 -> {
+				EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "5", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "3", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
+			}
+			case 3 -> {
+				EnemyUtils.moveToDummy(state, this, "5", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "3", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
+			}
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
@@ -325,34 +279,34 @@ public class Boss1 extends EnemyFloating {
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, charge2AttackDuration, 1.0f, 0.5f, SoundEffect.WOOSH, true);
 		switch (corner) {
-		case 0:
-			EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
-			break;
-		case 1:
-			EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
-			break;
-		case 2:
-			EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
-			break;
-		case 3:
-			EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
-			EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
-			break;
+			case 0 -> {
+				EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
+			}
+			case 1 -> {
+				EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
+			}
+			case 2 -> {
+				EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
+			}
+			case 3 -> {
+				EnemyUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "1", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "7", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
+				EnemyUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
+			}
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
@@ -379,18 +333,20 @@ public class Boss1 extends EnemyFloating {
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, fireballNumber * fireballInterval, 0.6f, 1.5f, SoundEffect.FLAMETHROWER, true);
 		switch (wall) {
-		case 0 :
-			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
-			for (int i = 0; i < fireballNumber; i++) {
-				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+			case 0 -> {
+				EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
+				for (int i = 0; i < fireballNumber; i++) {
+					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
+						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+				}
 			}
-			break;
-		case 1: 
-			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
-			for (int i = 0; i < fireballNumber; i++) {
-				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+			case 1 -> {
+				EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
+				for (int i = 0; i < fireballNumber; i++) {
+					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
+						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+				}
 			}
-			break;
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
@@ -404,38 +360,44 @@ public class Boss1 extends EnemyFloating {
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, fireballNumber * fireballInterval, 0.6f, 1.5f, SoundEffect.FLAMETHROWER, true);
 		switch (wall) {
-		case 0 :
-			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
-			for (int i = 0; i < fireballNumber; i++) {
-				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+			case 0 -> {
+				EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
+				for (int i = 0; i < fireballNumber; i++) {
+					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
+						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+				}
+				EnemyUtils.changeFloatingState(this, FloatingState.FREE, 90.0f, 0.0f);
+				EnemyUtils.createSoundEntity(state,this,0.0f,fireballNumber * fireballInterval * 2,
+					0.6f, 2.0f, SoundEffect.FLAMETHROWER,true);
+				for (int i = 0; i < fireballNumber; i++) {
+					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
+						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+				}
+				EnemyUtils.changeFloatingState(this, FloatingState.FREE, -60.0f, 0.0f);
+				for (int i = 0; i < fireballNumber; i++) {
+					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
+						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+				}
 			}
-			
-			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 90.0f, 0.0f);
-			EnemyUtils.createSoundEntity(state, this, 0.0f, fireballNumber * fireballInterval * 2, 0.6f, 2.0f, SoundEffect.FLAMETHROWER, true);
-			for (int i = 0; i < fireballNumber; i++) {
-				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+			case 1 -> {
+				EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
+				for (int i = 0; i < fireballNumber; i++) {
+					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
+						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+				}
+				EnemyUtils.changeFloatingState(this, FloatingState.FREE, -270.0f, 0.0f);
+				EnemyUtils.createSoundEntity(state,this,0.0f,fireballNumber * fireballInterval * 2,
+					0.6f, 2.0f, SoundEffect.FLAMETHROWER,true);
+				for (int i = 0; i < fireballNumber; i++) {
+					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
+						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+				}
+				EnemyUtils.changeFloatingState(this, FloatingState.FREE, -120.0f, 0.0f);
+				for (int i = 0; i < fireballNumber; i++) {
+					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
+						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+				}
 			}
-			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -60.0f, 0.0f);
-			for (int i = 0; i < fireballNumber; i++) {
-				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
-			}
-			break;
-		case 1: 
-			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
-			for (int i = 0; i < fireballNumber; i++) {
-				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
-			}
-			
-			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -270.0f, 0.0f);
-			EnemyUtils.createSoundEntity(state, this, 0.0f, fireballNumber * fireballInterval * 2, 0.6f, 2.0f, SoundEffect.FLAMETHROWER, true);
-			for (int i = 0; i < fireballNumber; i++) {
-				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
-			}
-			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -120.0f, 0.0f);
-			for (int i = 0; i < fireballNumber; i++) {
-				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
-			}
-			break;
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
@@ -457,33 +419,34 @@ public class Boss1 extends EnemyFloating {
 	private void horizontalLaser() {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		switch (wall) {
-		case 0 :
-			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
-			for (int i = 0; i < trackAmount; i++) {
-				EnemyUtils.trackPlayerXY(this, attackTarget, trackSpeed, trackInterval, false);
+			case 0 -> {
+				EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
+				for (int i = 0; i < trackAmount; i++) {
+					EnemyUtils.trackPlayerXY(this, attackTarget, trackSpeed, trackInterval, false);
+				}
+				EnemyUtils.createSoundEntity(state, this, 0.0f, laser1Windup, 1.0f, 0.5f, SoundEffect.BEAM3, true);
+				EnemyUtils.stopStill(this, laser1Windup);
+				EnemyUtils.createSoundEntity(state,this,0.0f,laser1Amount * laser1Interval,
+					1.0f,2.0f,	SoundEffect.BEAM3,true);
+				for (int i = 0; i < laser1Amount; i++) {
+					EnemyUtils.fireLaser(state,this, laser1Damage, laser1Speed, laserKnockback, laserSize,
+						laserLifespan, laser1Interval, Particle.LASER);
+				}
 			}
-			EnemyUtils.createSoundEntity(state, this, 0.0f, laser1Windup, 1.0f, 0.5f, SoundEffect.BEAM3, true);
-			EnemyUtils.stopStill(this, laser1Windup);
-			
-			EnemyUtils.createSoundEntity(state, this, 0.0f, laser1Amount * laser1Interval, 1.0f, 2.0f, SoundEffect.BEAM3, true);
-			for (int i = 0; i < laser1Amount; i++) {
-				EnemyUtils.fireLaser(state, this, laser1Damage, laser1Speed, laserKnockback, laserSize, laserLifespan, laser1Interval, Particle.LASER);
+			case 1 -> {
+				EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
+				for (int i = 0; i < trackAmount; i++) {
+					EnemyUtils.trackPlayerXY(this, attackTarget, trackSpeed, trackInterval, false);
+				}
+				EnemyUtils.createSoundEntity(state, this, 0.0f, laser1Windup, 1.0f, 0.5f, SoundEffect.BEAM3, true);
+				EnemyUtils.stopStill(this, laser1Windup);
+				EnemyUtils.createSoundEntity(state,this,0.0f,laser1Amount * laser1Interval,
+					1.0f,2.0f,	SoundEffect.BEAM3,true);
+				for (int i = 0; i < laser1Amount; i++) {
+					EnemyUtils.fireLaser(state,this, laser1Damage, laser1Speed, laserKnockback, laserSize,
+						laserLifespan, laser1Interval, Particle.LASER);
+				}
 			}
-			break;
-		case 1: 
-			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
-			for (int i = 0; i < trackAmount; i++) {
-				EnemyUtils.trackPlayerXY(this, attackTarget, trackSpeed, trackInterval, false);
-			}
-			
-			EnemyUtils.createSoundEntity(state, this, 0.0f, laser1Windup, 1.0f, 0.5f, SoundEffect.BEAM3, true);
-			EnemyUtils.stopStill(this, laser1Windup);
-			
-			EnemyUtils.createSoundEntity(state, this, 0.0f, laser1Amount * laser1Interval, 1.0f, 2.0f, SoundEffect.BEAM3, true);
-			for (int i = 0; i < laser1Amount; i++) {
-				EnemyUtils.fireLaser(state, this, laser1Damage, laser1Speed, laserKnockback, laserSize, laserLifespan, laser1Interval, Particle.LASER);
-			}
-			break;
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
@@ -534,52 +497,60 @@ public class Boss1 extends EnemyFloating {
 		
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 0.0f);
 		EnemyUtils.windupParticles(state, this, laser3Windup, Particle.LASER_PULSE, 40.0f);
-		
+
 		switch (wall) {
-		case 0 :
-			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -15.0f, 0.0f);
-			
-			EnemyUtils.createSoundEntity(state, this, 0.0f, laser3Amount * laser2Interval, 1.0f, 2.0f, SoundEffect.BEAM3, true);
-			for (int i = 0; i < laser3Amount; i++) {
-				EnemyUtils.fireLaser(state, this, laser3Damage, laser3Speed, laser3Knockback, laserSize, laserLifespan, laser2Interval, Particle.LASER_PULSE);
+			case 0 -> {
+				EnemyUtils.changeFloatingState(this, FloatingState.FREE, -15.0f, 0.0f);
+				EnemyUtils.createSoundEntity(state,this,0.0f,laser3Amount * laser2Interval,
+					1.0f,2.0f, SoundEffect.BEAM3,true);
+				for (int i = 0; i < laser3Amount; i++) {
+					EnemyUtils.fireLaser(state,this, laser3Damage,	laser3Speed, laser3Knockback, laserSize,
+						laserLifespan, laser2Interval, Particle.LASER_PULSE);
+				}
+				for (int i = 1; i <= explosionNumber; i++) {
+					final int index = i;
+					getActions().add(new EnemyAction(this, explosionInterval) {
+
+						private final Vector2 location = new Vector2();
+
+						@Override
+						public void execute() {
+
+							location.set(EnemyUtils.getLeftSide(state) + index * explosionSize / 2,
+								EnemyUtils.floorHeight(state));
+							SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
+							WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage,
+								explosionKnockback,	getHitboxfilter());
+						}
+					});
+				}
 			}
-			for (int i = 1; i <= explosionNumber; i++) {
-				final int index = i;
-				getActions().add(new EnemyAction(this, explosionInterval) {
-					
-					private final Vector2 location = new Vector2();
-					@Override
-					public void execute() {
-						
-						location.set(EnemyUtils.getLeftSide(state) + index * explosionSize / 2, EnemyUtils.floorHeight(state));
-						SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
-						WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage, explosionKnockback, getHitboxfilter());
-					}
-				});
+			case 1 -> {
+				EnemyUtils.changeFloatingState(this, FloatingState.FREE, -165.0f, 0.0f);
+				EnemyUtils.createSoundEntity(state,this,0.0f,laser3Amount * laser2Interval,
+					1.0f,2.0f, SoundEffect.BEAM3,true);
+				for (int i = 0; i < laser3Amount; i++) {
+					EnemyUtils.fireLaser(state,this, laser3Damage,	laser3Speed, laser3Knockback, laserSize,
+						laserLifespan, laser2Interval, Particle.LASER_PULSE);
+				}
+				for (int i = 1; i <= explosionNumber; i++) {
+					final int index = i;
+					getActions().add(new EnemyAction(this, explosionInterval) {
+
+						private final Vector2 location = new Vector2();
+
+						@Override
+						public void execute() {
+
+							location.set(EnemyUtils.getRightSide(state) - index * explosionSize / 2,
+								EnemyUtils.floorHeight(state));
+							SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
+							WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage,
+								explosionKnockback,	getHitboxfilter());
+						}
+					});
+				}
 			}
-			break;
-		case 1: 
-			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -165.0f, 0.0f);
-			
-			EnemyUtils.createSoundEntity(state, this, 0.0f, laser3Amount * laser2Interval, 1.0f, 2.0f, SoundEffect.BEAM3, true);
-			for (int i = 0; i < laser3Amount; i++) {
-				EnemyUtils.fireLaser(state, this, laser3Damage, laser3Speed, laserKnockback, laserSize, laserLifespan, laser2Interval, Particle.LASER_PULSE);
-			}
-			for (int i = 1; i <= explosionNumber; i++) {
-				final int index = i;
-				getActions().add(new EnemyAction(this, explosionInterval) {
-					
-					private final Vector2 location = new Vector2();
-					@Override
-					public void execute() {
-						
-						location.set(EnemyUtils.getRightSide(state) - index * explosionSize / 2, EnemyUtils.floorHeight(state));
-						SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
-						WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage, explosionKnockback, getHitboxfilter());
-					}
-				});
-			}
-			break;
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}

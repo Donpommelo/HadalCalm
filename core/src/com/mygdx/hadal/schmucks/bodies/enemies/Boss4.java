@@ -187,29 +187,17 @@ public class Boss4 extends EnemyFloating {
 		
 		if (attackNum % 2 == 0) {
 			int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
-			switch(nextAttack) {
-			case 0: 
-				reticleShots();
-				break;
-			case 1: 
-				deadStarSigh();
-				break;
-			case 2: 
-				bigBangBell();
-				break;
+			switch (nextAttack) {
+				case 0 -> reticleShots();
+				case 1 -> deadStarSigh();
+				case 2 -> bigBangBell();
 			}
 		} else {
 			int nextAttack = attacks2.remove(GameStateManager.generator.nextInt(attacks2.size()));
-			switch(nextAttack) {
-			case 0: 
-				radialShot1();
-				break;
-			case 1: 
-				twinFlameSpin();
-				break;
-			case 2: 
-				bounceLaser();
-				break;
+			switch (nextAttack) {
+				case 0 -> radialShot1();
+				case 1 -> twinFlameSpin();
+				case 2 -> bounceLaser();
 			}
 		}
 	}
@@ -223,22 +211,12 @@ public class Boss4 extends EnemyFloating {
 		}
 		
 		int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
-		switch(nextAttack) {
-		case 0: 
-			apocalypseLaser();
-			break;
-		case 1: 
-			horizontalBullets();
-			break;
-		case 2: 
-			orbitalStar();
-			break;
-		case 3: 
-			randomReticleWave();
-			break;
-		case 4: 
-			willOWisp();
-			break;
+		switch (nextAttack) {
+			case 0 -> apocalypseLaser();
+			case 1 -> horizontalBullets();
+			case 2 -> orbitalStar();
+			case 3 -> randomReticleWave();
+			case 4 -> willOWisp();
 		}
 	}
 	

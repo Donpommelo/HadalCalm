@@ -309,7 +309,7 @@ public class BodyData extends HadalData {
 		schmuck.applyLinearImpulse(new Vector2(knockback).scl(kbScale));
 		
 		//Give credit for kills to last schmuck (besides self) who damaged this schmuck
-		if (!perp.equals(this)) {
+		if (!perp.equals(this) && !perp.equals(schmuck.getState().getWorldDummy().getBodyData())) {
 			lastDamagedBy = perp;
 		}
 		

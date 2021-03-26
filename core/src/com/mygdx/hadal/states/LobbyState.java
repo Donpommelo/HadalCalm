@@ -366,13 +366,10 @@ public class LobbyState extends GameState {
         HadalGame.socket.on(Socket.EVENT_CONNECT, args -> {
             Gdx.app.log("LOBBY", "CONNECTED");
             connectionAttempted = false;
-
-        }).on(Socket.EVENT_DISCONNECT, args -> {
-            Gdx.app.log("LOBBY", "DISCONNECTED");
-        }).on("handshake", args -> {
-            Gdx.app.log("LOBBY", "HANDSHAKE RECEIVED");
-        }).on("receiveLobbies", args -> {
-            Gdx.app.log("LOBBY", "LOBBIES RECEIVED " + args[0]);
+        })
+            .on(Socket.EVENT_DISCONNECT, args -> Gdx.app.log("LOBBY", "DISCONNECTED"))
+            .on("handshake", args -> Gdx.app.log("LOBBY", "HANDSHAKE RECEIVED"))
+            .on("receiveLobbies", args -> { Gdx.app.log("LOBBY", "LOBBIES RECEIVED " + args[0]);
 
             JSONArray lobbies = (JSONArray) args[0];
             updateLobbies(lobbies);

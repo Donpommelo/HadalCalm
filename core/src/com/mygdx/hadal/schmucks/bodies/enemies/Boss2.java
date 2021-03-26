@@ -182,22 +182,12 @@ public class Boss2 extends EnemyFloating {
 				if (attackNum % 2 == 1) {
 					
 					int randomIndex = GameStateManager.generator.nextInt(5);
-					switch(randomIndex) {
-					case 0: 
-						meleeAttack1();
-						break;
-					case 1: 
-						meleeAttack2();
-						break;
-					case 2: 
-						fireBreath();
-						break;
-					case 3: 
-						slodgeBreath();
-						break;
-					case 4: 
-						fuguShots();
-						break;
+					switch (randomIndex) {
+						case 0 -> meleeAttack1();
+						case 1 -> meleeAttack2();
+						case 2 -> fireBreath();
+						case 3 -> slodgeBreath();
+						case 4 -> fuguShots();
 					}
 				} else {
 					kamabokoShot(1);
@@ -218,22 +208,12 @@ public class Boss2 extends EnemyFloating {
 				if (attackNum % 2 == 1) {
 					
 					int randomIndex = GameStateManager.generator.nextInt(5);
-					switch(randomIndex) {
-					case 0: 
-						meleeAttack1();
-						break;
-					case 1: 
-						meleeAttack2();
-						break;
-					case 2: 
-						fireBreath();
-						break;
-					case 3: 
-						slodgeBreath();
-						break;
-					case 4: 
-						fuguShots();
-						break;
+					switch (randomIndex) {
+						case 0 -> meleeAttack1();
+						case 1 -> meleeAttack2();
+						case 2 -> fireBreath();
+						case 3 -> slodgeBreath();
+						case 4 -> fuguShots();
 					}
 				} else {
 					kamabokoShot(2);
@@ -248,22 +228,12 @@ public class Boss2 extends EnemyFloating {
 		if (phase == 3) {
 			if (attackNum % 2 == 1) {
 				int randomIndex = GameStateManager.generator.nextInt(5);
-				switch(randomIndex) {
-				case 0: 
-					meleeAttack1();
-					break;
-				case 1: 
-					meleeAttack2();
-					break;
-				case 2: 
-					fireBreath();
-					break;
-				case 3: 
-					slodgeBreath();
-					break;
-				case 4: 
-					fuguShots();
-					break;
+				switch (randomIndex) {
+					case 0 -> meleeAttack1();
+					case 1 -> meleeAttack2();
+					case 2 -> fireBreath();
+					case 3 -> slodgeBreath();
+					case 4 -> fuguShots();
 				}
 			} else {
 				kamabokoShot(3);
@@ -386,39 +356,41 @@ public class Boss2 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 1.0f);
 		
 		int rand = GameStateManager.generator.nextInt(2);
-		switch(rand) {
-			case 0:
+		switch (rand) {
+			case 0 -> {
 				EnemyUtils.moveToDummy(state, this, "highLeft", thrashSpeed, driftDurationMax);
-				EnemyUtils.createSoundEntity(state, this, 0.0f, chargeAttackInterval, 1.0f, 1.5f, SoundEffect.WOOSH, false);
-				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
+				EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
+					1.0f,1.5f, SoundEffect.WOOSH,false);
+				EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
 				EnemyUtils.moveToDummy(state, this, "platformLeft", thrashDownSpeed, driftDurationMax);
-				
 				EnemyUtils.moveToDummy(state, this, "highCenter", thrashSpeed, driftDurationMax);
-				EnemyUtils.createSoundEntity(state, this, 0.0f, chargeAttackInterval, 1.0f, 1.5f, SoundEffect.WOOSH, false);
-				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
+				EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
+					1.0f,1.5f, SoundEffect.WOOSH,false);
+				EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
 				EnemyUtils.moveToDummy(state, this, "platformCenter", thrashDownSpeed, driftDurationMax);
-				
 				EnemyUtils.moveToDummy(state, this, "highRight", thrashSpeed, driftDurationMax);
-				EnemyUtils.createSoundEntity(state, this, 0.0f, chargeAttackInterval, 1.0f, 1.5f, SoundEffect.WOOSH, false);
-				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
+				EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
+					1.0f,1.5f, SoundEffect.WOOSH,false);
+				EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
 				EnemyUtils.moveToDummy(state, this, "platformRight", thrashDownSpeed, driftDurationMax);
-				break;
-			case 1:
+			}
+			case 1 -> {
 				EnemyUtils.moveToDummy(state, this, "highRight", thrashSpeed, driftDurationMax);
-				EnemyUtils.createSoundEntity(state, this, 0.0f, chargeAttackInterval, 1.0f, 1.5f, SoundEffect.WOOSH, false);
-				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
+				EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
+					1.0f,1.5f, SoundEffect.WOOSH,false);
+				EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
 				EnemyUtils.moveToDummy(state, this, "platformRight", thrashDownSpeed, driftDurationMax);
-				
 				EnemyUtils.moveToDummy(state, this, "highCenter", thrashSpeed, driftDurationMax);
-				EnemyUtils.createSoundEntity(state, this, 0.0f, chargeAttackInterval, 1.0f, 1.5f, SoundEffect.WOOSH, false);
-				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
+				EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
+					1.0f,1.5f, SoundEffect.WOOSH,false);
+				EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
 				EnemyUtils.moveToDummy(state, this, "platformCenter", thrashDownSpeed, driftDurationMax);
-				
 				EnemyUtils.moveToDummy(state, this, "highLeft", thrashSpeed, driftDurationMax);
-				EnemyUtils.createSoundEntity(state, this, 0.0f, chargeAttackInterval, 1.0f, 1.5f, SoundEffect.WOOSH, false);
-				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
+				EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
+					1.0f,1.5f, SoundEffect.WOOSH,false);
+				EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
 				EnemyUtils.moveToDummy(state, this, "platformLeft", thrashDownSpeed, driftDurationMax);
-				break;
+			}
 		}
 		
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, getAngle(), 0.0f);

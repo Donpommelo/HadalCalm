@@ -340,70 +340,39 @@ public class UIHub {
 		if (tagFilter == null) {
 			return UnlockTag.ALL;
 		} else {
-			switch(tag) {
-				case RELIQUARY:
-					switch (tagFilter.getSelectedIndex()) {
-						case 0:
-						default:
-							return UnlockTag.ALL;
-						case 1:
-							return UnlockTag.OFFENSE;
-						case 2:
-							return UnlockTag.DEFENSE;
-						case 3:
-							return UnlockTag.MOBILITY;
-						case 4:
-							return UnlockTag.FUEL;
-						case 5:
-							return UnlockTag.HEAL;
-						case 6:
-							return UnlockTag.ACTIVE_ITEM;
-						case 7:
-							return UnlockTag.AMMO;
-						case 8:
-							return UnlockTag.WEAPON_DAMAGE;
-						case 9:
-							return UnlockTag.PASSIVE_DAMAGE;
-						case 10:
-							return UnlockTag.PROJECTILE_MODIFIER;
-						case 11:
-							return UnlockTag.GIMMICK;
-					}
-					case SINGLEPLAYER:
-						switch (tagFilter.getSelectedIndex()) {
-							case 0:
-							default:
-								return UnlockTag.ALL;
-							case 1:
-								return UnlockTag.ARENA;
-							case 2:
-								return UnlockTag.BOSS;
-							case 3:
-								return UnlockTag.SANDBOX;
-							case 4:
-								return UnlockTag.BIRD;
-						}
-					case MULTIPLAYER:
-						switch (tagFilter.getSelectedIndex()) {
-							case 0:
-							default:
-								return UnlockTag.CURATED;
-							case 1:
-								return UnlockTag.ALL;
-							case 2:
-								return UnlockTag.PVP;
-							case 3:
-								return UnlockTag.ARENA;
-							case 4:
-								return UnlockTag.BOSS;
-							case 5:
-								return UnlockTag.SANDBOX;
-							case 6:
-								return UnlockTag.BIRD;
-						}
-				default:
-					return UnlockTag.ALL;
-			}
+			return switch (tag) {
+				case RELIQUARY -> switch (tagFilter.getSelectedIndex()) {
+					default -> UnlockTag.ALL;
+					case 1 -> UnlockTag.OFFENSE;
+					case 2 -> UnlockTag.DEFENSE;
+					case 3 -> UnlockTag.MOBILITY;
+					case 4 -> UnlockTag.FUEL;
+					case 5 -> UnlockTag.HEAL;
+					case 6 -> UnlockTag.ACTIVE_ITEM;
+					case 7 -> UnlockTag.AMMO;
+					case 8 -> UnlockTag.WEAPON_DAMAGE;
+					case 9 -> UnlockTag.PASSIVE_DAMAGE;
+					case 10 -> UnlockTag.PROJECTILE_MODIFIER;
+					case 11 -> UnlockTag.GIMMICK;
+				};
+				case SINGLEPLAYER -> switch (tagFilter.getSelectedIndex()) {
+					default -> UnlockTag.ALL;
+					case 1 -> UnlockTag.ARENA;
+					case 2 -> UnlockTag.BOSS;
+					case 3 -> UnlockTag.SANDBOX;
+					case 4 -> UnlockTag.BIRD;
+				};
+				case MULTIPLAYER -> switch (tagFilter.getSelectedIndex()) {
+					default -> UnlockTag.CURATED;
+					case 1 -> UnlockTag.ALL;
+					case 2 -> UnlockTag.PVP;
+					case 3 -> UnlockTag.ARENA;
+					case 4 -> UnlockTag.BOSS;
+					case 5 -> UnlockTag.SANDBOX;
+					case 6 -> UnlockTag.BIRD;
+				};
+				default -> UnlockTag.ALL;
+			};
 		}
 	}
 

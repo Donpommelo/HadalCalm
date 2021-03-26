@@ -1,6 +1,7 @@
 package com.mygdx.hadal.server;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -514,6 +515,26 @@ public class KryoServer {
 					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
 						final ResultsState vs = (ResultsState) gsm.getStates().peek();
 						Gdx.app.postRunnable(() -> vs.readyPlayer(c.getID()));
+					}
+				}
+
+				/*
+				 *A Client has typed /killme and wants their player to be killed (not disconnected)
+				 */
+				else if (o instanceof Packets.ClientYeet) {
+					final PlayState ps = getPlayState();
+					if (ps != null) {
+						ps.addPacketEffect(() -> {
+							User user = users.get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null) {
+									if (player.getPlayerData() != null) {
+										player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false);
+									}
+								}
+							}
+						});
 					}
 				}
 			}

@@ -42,20 +42,13 @@ public class UnlockManager {
 	 * This acquires the information about an unlock based on its type and name
 	 */
 	public static InfoItem getInfo(UnlockType type, String name) {
-		switch(type) {
-		case ACTIVE:
-			return UnlockActives.getByName(name).getInfo();
-		case ARTIFACT:
-			return UnlockArtifact.getByName(name).getInfo();
-		case CHARACTER:
-			return UnlockCharacter.getByName(name).getInfo();
-		case EQUIP:
-			return UnlockEquip.getByName(name).getInfo();
-		case LEVEL:
-			return UnlockLevel.getByName(name).getInfo();
-		default:
-			return null;
-		}
+		return switch (type) {
+			case ACTIVE -> UnlockActives.getByName(name).getInfo();
+			case ARTIFACT -> UnlockArtifact.getByName(name).getInfo();
+			case CHARACTER -> UnlockCharacter.getByName(name).getInfo();
+			case EQUIP -> UnlockEquip.getByName(name).getInfo();
+			case LEVEL -> UnlockLevel.getByName(name).getInfo();
+		};
 	}
 	
 	/**
@@ -92,20 +85,13 @@ public class UnlockManager {
 	 * This returns if a certain unlock item is unlocked or not
 	 */
 	public static boolean checkUnlock(PlayState state, UnlockType type, String name) {
-		switch(type) {
-		case ACTIVE:
-			return state.getGsm().getRecord().getUnlockActive().getOrDefault(name, false);
-		case ARTIFACT:
-			return state.getGsm().getRecord().getUnlockArtifact().getOrDefault(name, false);
-		case CHARACTER:
-			return state.getGsm().getRecord().getUnlockCharacter().getOrDefault(name, false);
-		case EQUIP:
-			return state.getGsm().getRecord().getUnlockEquip().getOrDefault(name, false);
-		case LEVEL:
-			return state.getGsm().getRecord().getUnlockLevel().getOrDefault(name, false);
-		default:
-			return false;
-		}
+		return switch (type) {
+			case ACTIVE -> state.getGsm().getRecord().getUnlockActive().getOrDefault(name, false);
+			case ARTIFACT -> state.getGsm().getRecord().getUnlockArtifact().getOrDefault(name, false);
+			case CHARACTER -> state.getGsm().getRecord().getUnlockCharacter().getOrDefault(name, false);
+			case EQUIP -> state.getGsm().getRecord().getUnlockEquip().getOrDefault(name, false);
+			case LEVEL -> state.getGsm().getRecord().getUnlockLevel().getOrDefault(name, false);
+		};
 	}
 	
 	/**

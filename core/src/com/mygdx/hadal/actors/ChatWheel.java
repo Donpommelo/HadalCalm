@@ -199,31 +199,16 @@ public class ChatWheel {
 	 * @return the sprite of the emote
 	 */
 	private Sprite indexToEmote(int index) {
-		Sprite emote = Sprite.EMOTE_YES;
-		switch (index) {
-			case 0:
-				emote = Sprite.EMOTE_RAGE;
-				break;
-			case 1:
-				emote = Sprite.EMOTE_NO;
-				break;
-			case 3:
-				emote = Sprite.EMOTE_LOVE;
-				break;
-			case 4:
-				emote = Sprite.EMOTE_SLEEP;
-				break;
-			case 5:
-				emote = Sprite.EMOTE_READY;
-				break;
-			case 6:
-				emote = Sprite.EMOTE_DICE;
-				break;
-			case 7:
-				emote = Sprite.EMOTE_SWEAT;
-				break;
-		}
-		return emote;
+		return switch (index) {
+			case 0 -> Sprite.EMOTE_RAGE;
+			case 1 -> Sprite.EMOTE_NO;
+			case 3 -> Sprite.EMOTE_LOVE;
+			case 4 -> Sprite.EMOTE_SLEEP;
+			case 5 -> Sprite.EMOTE_READY;
+			case 6 -> Sprite.EMOTE_DICE;
+			case 7 -> Sprite.EMOTE_SWEAT;
+			default -> Sprite.EMOTE_YES;
+		};
 	}
 
 	/**
@@ -232,21 +217,12 @@ public class ChatWheel {
 	 * @return the frame of the emote's sprite that should represent it in the wheel.
 	 */
 	private int getFrameIndex(int index) {
-		switch (index) {
-			case 1:
-			case 2:
-			case 4:
-				return 20;
-			case 5:
-				return 1;
-			case 0:
-			case 3:
-				return 10;
-			case 7:
-				return 15;
-			case 6:
-			default:
-				return 0;
-		}
+		return switch (index) {
+			case 1, 2, 4 -> 20;
+			case 5 -> 1;
+			case 0, 3 -> 10;
+			case 7 -> 15;
+			default -> 0;
+		};
 	}
 }

@@ -730,64 +730,64 @@ public class SettingState extends GameState {
 	 * Save the player chosen settings of whichever tab they are editing
 	 */
 	private void saveSettings() {
-		switch(currentTab) {
-		case CONTROLS:
-			PlayerAction.saveKeys();
-			controlsSelected();
-			break;
-		case DISPLAY:
-			gsm.getSetting().setResolution(resolutionOptions.getSelectedIndex());
-			gsm.getSetting().setFramerate(framerateOptions.getSelectedIndex());
-			gsm.getSetting().setFullscreen(fullscreen.isChecked());
-			gsm.getSetting().setVsync(vsync.isChecked());
-			gsm.getSetting().setAutoIconify(autoIconify.isChecked());
-			gsm.getSetting().setDebugHitbox(debugHitbox.isChecked());
-			gsm.getSetting().setDisplayNames(displayNames.isChecked());
-			gsm.getSetting().setDisplayHp(displayHp.isChecked());
-			gsm.getSetting().setCursorType(cursorOptions.getSelectedIndex());
-			gsm.getSetting().setCursorSize(cursorSize.getSelectedIndex());
-			gsm.getSetting().setCursorColor(cursorColor.getSelectedIndex());
-			gsm.getSetting().setMouseCameraTrack(mouseCameraTrack.isChecked());
-			gsm.getSetting().setDisplay(gsm.getApp(), playState);
-			gsm.getSetting().saveSetting();
-			displaySelected();
-			break;
-		case AUDIO:
-			gsm.getSetting().setSoundVolume(sound.getValue());
-			gsm.getSetting().setMusicVolume(music.getValue());
-			gsm.getSetting().setMasterVolume(master.getValue());
-			gsm.getSetting().setHitsoundType(hitsoundOptions.getSelectedIndex());
-			gsm.getSetting().setHitsoundVolume(hitsound.getValue());
-			gsm.getSetting().setAudio();
-			gsm.getSetting().saveSetting();
-			audioSelected();
-			break;
-		case SERVER:
-			gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
-			gsm.getSetting().setPortNumber(Integer.parseInt(portNumber.getText()));
-			gsm.getSetting().setServerPassword(serverPassword.getText());
-			gsm.getSetting().setPVPTimer(pvpTimerOptions.getSelectedIndex());
-			gsm.getSetting().setLives(livesOptions.getSelectedIndex());
-			gsm.getSetting().setTeamEnabled(teamEnabled.isChecked());
-			gsm.getSetting().setLoadoutType(loadoutOptions.getSelectedIndex());
-			gsm.getSetting().setArtifactSlots(artifactSlots.getSelectedIndex());
-			gsm.getSetting().setPVPMode(pvpMode.getSelectedIndex());
-			gsm.getSetting().setPVPHp(pvpHp.getSelectedIndex());
-			gsm.getSetting().saveSetting();
-			serverSelected();
-			break;
-		case MISC:
-			gsm.getSetting().setCoopTimer(coopTimerOptions.getSelectedIndex());
-			gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
-			gsm.getSetting().setConsoleEnabled(consoleEnabled.isChecked());
-			gsm.getSetting().setVerboseDeathMessage(verboseDeathMessage.isChecked());
-			gsm.getSetting().setMultiplayerPause(multiplayerPause.isChecked());
-			gsm.getSetting().setExportChatLog(exportChatLog.isChecked());
-			gsm.getSetting().setEnableUPNP(enableUPNP.isChecked());
-			gsm.getSetting().setHideHUD(hideHUD.isChecked());
-			gsm.getSetting().saveSetting();
-			miscSelected();
-			break;
+		switch (currentTab) {
+			case CONTROLS -> {
+				PlayerAction.saveKeys();
+				controlsSelected();
+			}
+			case DISPLAY -> {
+				gsm.getSetting().setResolution(resolutionOptions.getSelectedIndex());
+				gsm.getSetting().setFramerate(framerateOptions.getSelectedIndex());
+				gsm.getSetting().setFullscreen(fullscreen.isChecked());
+				gsm.getSetting().setVsync(vsync.isChecked());
+				gsm.getSetting().setAutoIconify(autoIconify.isChecked());
+				gsm.getSetting().setDebugHitbox(debugHitbox.isChecked());
+				gsm.getSetting().setDisplayNames(displayNames.isChecked());
+				gsm.getSetting().setDisplayHp(displayHp.isChecked());
+				gsm.getSetting().setCursorType(cursorOptions.getSelectedIndex());
+				gsm.getSetting().setCursorSize(cursorSize.getSelectedIndex());
+				gsm.getSetting().setCursorColor(cursorColor.getSelectedIndex());
+				gsm.getSetting().setMouseCameraTrack(mouseCameraTrack.isChecked());
+				gsm.getSetting().setDisplay(gsm.getApp(), playState);
+				gsm.getSetting().saveSetting();
+				displaySelected();
+			}
+			case AUDIO -> {
+				gsm.getSetting().setSoundVolume(sound.getValue());
+				gsm.getSetting().setMusicVolume(music.getValue());
+				gsm.getSetting().setMasterVolume(master.getValue());
+				gsm.getSetting().setHitsoundType(hitsoundOptions.getSelectedIndex());
+				gsm.getSetting().setHitsoundVolume(hitsound.getValue());
+				gsm.getSetting().setAudio();
+				gsm.getSetting().saveSetting();
+				audioSelected();
+			}
+			case SERVER -> {
+				gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
+				gsm.getSetting().setPortNumber(Integer.parseInt(portNumber.getText()));
+				gsm.getSetting().setServerPassword(serverPassword.getText());
+				gsm.getSetting().setPVPTimer(pvpTimerOptions.getSelectedIndex());
+				gsm.getSetting().setLives(livesOptions.getSelectedIndex());
+				gsm.getSetting().setTeamEnabled(teamEnabled.isChecked());
+				gsm.getSetting().setLoadoutType(loadoutOptions.getSelectedIndex());
+				gsm.getSetting().setArtifactSlots(artifactSlots.getSelectedIndex());
+				gsm.getSetting().setPVPMode(pvpMode.getSelectedIndex());
+				gsm.getSetting().setPVPHp(pvpHp.getSelectedIndex());
+				gsm.getSetting().saveSetting();
+				serverSelected();
+			}
+			case MISC -> {
+				gsm.getSetting().setCoopTimer(coopTimerOptions.getSelectedIndex());
+				gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
+				gsm.getSetting().setConsoleEnabled(consoleEnabled.isChecked());
+				gsm.getSetting().setVerboseDeathMessage(verboseDeathMessage.isChecked());
+				gsm.getSetting().setMultiplayerPause(multiplayerPause.isChecked());
+				gsm.getSetting().setExportChatLog(exportChatLog.isChecked());
+				gsm.getSetting().setEnableUPNP(enableUPNP.isChecked());
+				gsm.getSetting().setHideHUD(hideHUD.isChecked());
+				gsm.getSetting().saveSetting();
+				miscSelected();
+			}
 		}
 		updateSharedSettings();
 	}

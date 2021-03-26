@@ -16,11 +16,12 @@ public class CameraStyles {
     private static boolean mouseHeld;
     private final static Vector2 lastMousePosition = new Vector2();
     private final static Vector2 mousePosition = new Vector2();
+    private final static float dragMultiplier = 2.5f;
     public static void spectatorDragCamera(Vector2 target) {
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             mousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
             if (mouseHeld) {
-                target.add(lastMousePosition).sub(mousePosition);
+                target.add(lastMousePosition.sub(mousePosition).scl(dragMultiplier));
             }
             mouseHeld = true;
             lastMousePosition.set(mousePosition);

@@ -109,16 +109,10 @@ public class Boss6 extends EnemyFloating {
 		if (attackNum % 2 == 0) {
 			int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
 
-			switch(nextAttack) {
-				case 0:
-					charge(5, GameStateManager.generator.nextBoolean());
-					break;
-				case 1:
-					spiralAttack(false);
-					break;
-				case 2:
-					crossBeam();
-					break;
+			switch (nextAttack) {
+				case 0 -> charge(5, GameStateManager.generator.nextBoolean());
+				case 1 -> spiralAttack(false);
+				case 2 -> crossBeam();
 			}
 		} else {
 			chase(8, chase1Interval, chase1Speed, 0, 0, 5);
@@ -134,16 +128,10 @@ public class Boss6 extends EnemyFloating {
 
 		if (attackNum % 2 == 0) {
 			int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
-			switch(nextAttack) {
-				case 0:
-					charge(10, GameStateManager.generator.nextBoolean());
-					break;
-				case 1:
-					spiralAttack(true);
-					break;
-				case 2:
-					jesusBeams();
-					break;
+			switch (nextAttack) {
+				case 0 -> charge(10, GameStateManager.generator.nextBoolean());
+				case 1 -> spiralAttack(true);
+				case 2 -> jesusBeams();
 			}
 		} else {
 			chase(13, chase2Interval, chase2Speed, 0, 0, 4);
@@ -601,21 +589,26 @@ public class Boss6 extends EnemyFloating {
 	private int chooseRandomPoint(boolean horizontal) {
 		int[] options;
 		switch (horizontal ? currentX : currentY) {
-			case 0:
+			case 0 -> {
 				options = new int[] {2, 3, 4};
 				return options[GameStateManager.generator.nextInt(options.length)];
-			case 1:
+			}
+			case 1 -> {
 				options = new int[] {3, 4};
 				return options[GameStateManager.generator.nextInt(options.length)];
-			case 2:
+			}
+			case 2 -> {
 				options = new int[] {0, 4};
 				return options[GameStateManager.generator.nextInt(options.length)];
-			case 3:
+			}
+			case 3 -> {
 				options = new int[] {0, 1};
 				return options[GameStateManager.generator.nextInt(options.length)];
-			case 4:
+			}
+			case 4 -> {
 				options = new int[] {0, 1, 2};
 				return options[GameStateManager.generator.nextInt(options.length)];
+			}
 		}
 		return 2;
 	}

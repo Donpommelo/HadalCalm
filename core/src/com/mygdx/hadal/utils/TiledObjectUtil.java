@@ -136,431 +136,307 @@ public class TiledObjectUtil {
 
 		//Go through every event type to create events
 		switch (object.getName()) {
-			case "Start":
+			case "Start" -> {
 				e = new StartPoint(state, position, size,
-						object.getProperties().get("startId", "", String.class));
+					object.getProperties().get("startId", "", String.class));
 				state.addSavePoint((StartPoint) e);
-				break;
-			case "Switch":
-				e = new Switch(state, position, size);
-				break;
-			case "Sensor":
-				e = new Sensor(state, position, size,
-						object.getProperties().get("player", true, boolean.class),
-						object.getProperties().get("hbox", false, boolean.class),
-						object.getProperties().get("event", false, boolean.class),
-						object.getProperties().get("enemy", false, boolean.class),
-						object.getProperties().get("gravity", 0.0f, float.class),
-						object.getProperties().get("collision", false, boolean.class));
-				break;
-			case "Timer":
-				e =	new Timer(state,
-						object.getProperties().get("interval", 0.0f, float.class),
-						object.getProperties().get("startOn", true, boolean.class));
-				break;
-			case "Counter":
-				e =	new Counter(state,
-						object.getProperties().get("count", int.class),
-						object.getProperties().get("countStart", 0, int.class));
-				break;
-			case "Multitrigger":
+			}
+			case "Switch" -> e = new Switch(state, position, size);
+			case "Sensor" -> e = new Sensor(state, position, size,
+				object.getProperties().get("player", true, boolean.class),
+				object.getProperties().get("hbox", false, boolean.class),
+				object.getProperties().get("event", false, boolean.class),
+				object.getProperties().get("enemy", false, boolean.class),
+				object.getProperties().get("gravity", 0.0f, float.class),
+				object.getProperties().get("collision", false, boolean.class));
+			case "Timer" -> e = new Timer(state,
+				object.getProperties().get("interval", 0.0f, float.class),
+				object.getProperties().get("startOn", true, boolean.class));
+			case "Counter" -> e = new Counter(state,
+				object.getProperties().get("count", int.class),
+				object.getProperties().get("countStart", 0, int.class));
+			case "Multitrigger" -> {
 				e = new TriggerMulti(state);
 				multiTriggeringEvents.put((TriggerMulti) e,
-						object.getProperties().get("triggeringId", "", String.class));
-				break;
-			case "Condtrigger":
+					object.getProperties().get("triggeringId", "", String.class));
+			}
+			case "Condtrigger" -> {
 				e = new TriggerCond(state,
-						object.getProperties().get("start", "", String.class));
+					object.getProperties().get("start", "", String.class));
 				condTriggeringEvents.put((TriggerCond) e,
-						object.getProperties().get("triggeringId", "", String.class));
-				break;
-			case "Alttrigger":
-				e = new TriggerAlt(state,
-						object.getProperties().get("message", "", String.class));
-				break;
-			case "Redirecttrigger":
+					object.getProperties().get("triggeringId", "", String.class));
+			}
+			case "Alttrigger" -> e = new TriggerAlt(state,
+				object.getProperties().get("message", "", String.class));
+			case "Redirecttrigger" -> {
 				e = new TriggerRedirect(state);
 				redirectTriggeringEvents.put((TriggerRedirect) e,
-						object.getProperties().get("blameId", "", String.class));
-				break;
-			case "Dummy":
-				e = new PositionDummy(state, position, size,
-						object.getProperties().get("dummyId", "", String.class));
-				break;
-			case "UI":
-				e = new UIChanger(state,
-						object.getProperties().get("tags", "", String.class),
-						object.getProperties().get("clear", true, boolean.class));
-				break;
-			case "Game":
-				e = new GameChanger(state,
-						object.getProperties().get("lives", 0, int.class),
-						object.getProperties().get("score", 0, int.class),
-						object.getProperties().get("timer", 0.0f, float.class),
-						object.getProperties().get("timerIncr", 0.0f, float.class),
-						object.getProperties().get("changeTimer", true, boolean.class));
-				break;
-			case "Camera":
-				e = new CameraChanger(state,
-						object.getProperties().get("zoom", 1.0f, float.class),
-						object.getProperties().get("offsetX", 0.0f, float.class),
-						object.getProperties().get("offsetY", 0.0f, float.class));
-				break;
-			case "Shader":
-				e = new ShaderChanger(state,
-						object.getProperties().get("shader", String.class));
-				break;
-			case "Bounds":
-				e = new CameraBounder(state, position, size,
-						object.getProperties().get("right", false, boolean.class),
-						object.getProperties().get("left", false, boolean.class),
-						object.getProperties().get("up", false, boolean.class),
-						object.getProperties().get("down", false, boolean.class),
-						object.getProperties().get("spectator", false, boolean.class));
-				break;
-			case "Sound":
-				e = new SoundEmitter(state, position, size,
-						object.getProperties().get("sound", String.class),
-						object.getProperties().get("float", 1.0f, float.class),
-						object.getProperties().get("global", true, boolean.class),
-						object.getProperties().get("universal", true, boolean.class));
-				break;
-			case "Objective":
-				e = new ObjectiveChanger(state,
-						object.getProperties().get("displayOffScreen", false, boolean.class),
-						object.getProperties().get("displayOnScreen", false, boolean.class),
-						object.getProperties().get("icon", "CLEAR_CIRCLE_ALERT", String.class));
-				break;
-			case "Player":
-				e = new PlayerChanger(state,
-						object.getProperties().get("hp", 0.0f, float.class),
-						object.getProperties().get("fuel", 0.0f, float.class),
-						object.getProperties().get("ammo", 0.0f, float.class));
-				break;
-			case "StatChange":
-				e = new StatusInflicter(state,
-						object.getProperties().get("stat", 0, int.class),
-						object.getProperties().get("amount", 0.0f, float.class),
-						object.getProperties().get("duration", 0.0f, float.class));
-				break;
-			case "Particle":
-				e = new ParticleCreator(state,
-						Particle.valueOf(object.getProperties().get("particle", String.class)),
-						object.getProperties().get("duration", 0.0f, float.class),
-						object.getProperties().get("startOn", false, Boolean.class));
-				break;
-			case "ParticleField":
-				e = new ParticleField(state, position, size,
-						Particle.valueOf(object.getProperties().get("particle", "NOTHING", String.class)),
-						object.getProperties().get("speed", 1.0f, float.class),
-						object.getProperties().get("duration", 1.0f, float.class),
-						object.getProperties().get("scale", 1.0f, float.class));
-				break;
-			case "SchmuckSpawn":
-				e = new SpawnerSchmuck(state, position, size,
-						object.getProperties().get("enemyId", String.class),
-						object.getProperties().get("amount", 1, int.class),
-						object.getProperties().get("limit", 0, int.class),
-						object.getProperties().get("extra", 0, int.class),
-						object.getProperties().get("delay", 1.0f, float.class),
-						object.getProperties().get("boss", false, boolean.class),
-						object.getProperties().get("bossname", "", String.class));
-				break;
-			case "WaveSpawn":
-				e = new SpawnerWave(state, position, size,
-						object.getProperties().get("point", 1, int.class),
-						object.getProperties().get("extra", 0, int.class),
-						object.getProperties().get("tag", "", String.class));
-				break;
-			case "HboxSpawn":
-				e = new SpawnerHitbox(state, position, size,
-						new Vector2(object.getProperties().get("sizeX", float.class),
-								object.getProperties().get("sizeY", float.class)),
-						object.getProperties().get("lifespan", float.class),
-						new Vector2(object.getProperties().get("veloX", 0.0f, float.class),
-								object.getProperties().get("veloY", 0.0f, float.class)),
-						object.getProperties().get("sensor", true, boolean.class),
-						object.getProperties().get("sprite", "NOTHING", String.class),
-						object.getProperties().get("particle", "NOTHING", String.class),
-						object.getProperties().get("gravity", 1.0f, float.class),
-						object.getProperties().get("restitution", 0.0f, float.class),
-						object.getProperties().get("friction", 1.0f, float.class),
-						object.getProperties().get("damage", 0.0f, float.class),
-						object.getProperties().get("knockback", 0.0f, float.class),
-						object.getProperties().get("dieWall", true, boolean.class),
-						object.getProperties().get("dieSchmuck", true, boolean.class),
-						object.getProperties().get("adjustangle", true, boolean.class));
-				break;
-			case "ScrapSpawn":
-				e = new SpawnerScrap(state, position, size,
-						object.getProperties().get("scrap", 0, int.class));
-				break;
-			case "EventClone":
-				e = new EventCloner(state, position, size);
-				break;
-			case "EventDelete":
-				e = new EventDeleter(state);
-				break;
-			case "EventMove":
-				e = new EventMover(state, position, size,
-						object.getProperties().get("gravity", -1.0f, float.class));
-				break;
-			case "SpriteChange":
-
-				e = new SpriteChanger(state,
-						object.getProperties().get("newSprite", String.class),
-						object.getProperties().get("mode", "NORMAL", String.class),
-						object.getProperties().get("still", false, boolean.class),
-						object.getProperties().get("frame", 0, int.class),
-						object.getProperties().get("speed", 0.8f, float.class),
-						object.getProperties().get("align", "NONE", String.class),
-						object.getProperties().get("scale", -1.0f, float.class));
-				break;
-			case "QuestChange":
-				e = new QuestChanger(state,
-						object.getProperties().get("quest", String.class),
-						object.getProperties().get("change", 0, int.class));
-				break;
-			case "QuestCheck":
-				e = new QuestChecker(state,
-						object.getProperties().get("quest", String.class),
-						object.getProperties().get("check", 0, int.class));
-				break;
-			case "ItemUnlock":
-				e = new ItemUnlocker(state,
-						object.getProperties().get("type", String.class),
-						object.getProperties().get("item", String.class));
-				break;
-			case "UnlockCheck":
-				e = new UnlockChecker(state,
-						object.getProperties().get("type", String.class),
-						object.getProperties().get("item", String.class),
-						object.getProperties().get("unlock", false, Boolean.class));
-				break;
-			case "PlayerMove":
-				e = new PlayerMover(state,
-						object.getProperties().get("all", false, boolean.class),
-						object.getProperties().get("exclude", false, boolean.class));
-				break;
-			case "PlayerAlign":
-				e = new PlayerAlignmentChanger(state,
-					object.getProperties().get("pvp", true, boolean.class),
-					object.getProperties().get("filter", (float) Constants.PLAYER_HITBOX, float.class));
-				break;
-			case "TouchPortal":
-				e = new PortalTouch(state, position, size);
-				break;
-			case "WrapPortal":
-				e = new PortalWrap(state, position, size,
-						object.getProperties().get("axis", true, boolean.class),
-						object.getProperties().get("direction", false, boolean.class));
-				break;
-			case "Text":
-				e = new Text(state, position, size,
-						object.getProperties().get("text", String.class),
-						object.getProperties().get("scale", 0.5f, float.class));
-				break;
-			case "CurrentTemp": {
-				Vector2	power =	new Vector2(
-						object.getProperties().get("currentX", 0.0f, float.class),
-						object.getProperties().get("currentY", 0.0f, float.class));
-				e =	new Currents(state, position, size,	power,
-						object.getProperties().get("duration", 0.0f, float.class));
-				break;
+					object.getProperties().get("blameId", "", String.class));
 			}
-			case "Current": {
-				Vector2	power =	new Vector2(
-						object.getProperties().get("currentX", 0.0f, float.class),
-						object.getProperties().get("currentY", 0.0f, float.class));
+			case "Dummy" -> e = new PositionDummy(state, position, size,
+				object.getProperties().get("dummyId", "", String.class));
+			case "UI" -> e = new UIChanger(state,
+				object.getProperties().get("tags", "", String.class),
+				object.getProperties().get("clear", true, boolean.class));
+			case "Game" -> e = new GameChanger(state,
+				object.getProperties().get("lives", 0, int.class),
+				object.getProperties().get("score", 0, int.class),
+				object.getProperties().get("timer", 0.0f, float.class),
+				object.getProperties().get("timerIncr", 0.0f, float.class),
+				object.getProperties().get("changeTimer", true, boolean.class));
+			case "Camera" -> e = new CameraChanger(state,
+				object.getProperties().get("zoom", 1.0f, float.class),
+				object.getProperties().get("offsetX", 0.0f, float.class),
+				object.getProperties().get("offsetY", 0.0f, float.class));
+			case "Shader" -> e = new ShaderChanger(state,
+				object.getProperties().get("shader", String.class));
+			case "Bounds" -> e = new CameraBounder(state, position, size,
+				object.getProperties().get("right", false, boolean.class),
+				object.getProperties().get("left", false, boolean.class),
+				object.getProperties().get("up", false, boolean.class),
+				object.getProperties().get("down", false, boolean.class),
+				object.getProperties().get("spectator", false, boolean.class));
+			case "Sound" -> e = new SoundEmitter(state, position, size,
+				object.getProperties().get("sound", String.class),
+				object.getProperties().get("float", 1.0f, float.class),
+				object.getProperties().get("global", true, boolean.class),
+				object.getProperties().get("universal", true, boolean.class));
+			case "Objective" -> e = new ObjectiveChanger(state,
+				object.getProperties().get("displayOffScreen", false, boolean.class),
+				object.getProperties().get("displayOnScreen", false, boolean.class),
+				object.getProperties().get("icon", "CLEAR_CIRCLE_ALERT", String.class));
+			case "Player" -> e = new PlayerChanger(state,
+				object.getProperties().get("hp", 0.0f, float.class),
+				object.getProperties().get("fuel", 0.0f, float.class),
+				object.getProperties().get("ammo", 0.0f, float.class));
+			case "StatChange" -> e = new StatusInflicter(state,
+				object.getProperties().get("stat", 0, int.class),
+				object.getProperties().get("amount", 0.0f, float.class),
+				object.getProperties().get("duration", 0.0f, float.class));
+			case "Particle" -> e = new ParticleCreator(state,
+				Particle.valueOf(object.getProperties().get("particle", String.class)),
+				object.getProperties().get("duration", 0.0f, float.class),
+				object.getProperties().get("startOn", false, Boolean.class));
+			case "ParticleField" -> e = new ParticleField(state, position, size,
+				Particle.valueOf(object.getProperties().get("particle", "NOTHING", String.class)),
+				object.getProperties().get("speed", 1.0f, float.class),
+				object.getProperties().get("duration", 1.0f, float.class),
+				object.getProperties().get("scale", 1.0f, float.class));
+			case "SchmuckSpawn" -> e = new SpawnerSchmuck(state, position, size,
+				object.getProperties().get("enemyId", String.class),
+				object.getProperties().get("amount", 1, int.class),
+				object.getProperties().get("limit", 0, int.class),
+				object.getProperties().get("extra", 0, int.class),
+				object.getProperties().get("delay", 1.0f, float.class),
+				object.getProperties().get("boss", false, boolean.class),
+				object.getProperties().get("bossname", "", String.class));
+			case "WaveSpawn" -> e = new SpawnerWave(state, position, size,
+				object.getProperties().get("point", 1, int.class),
+				object.getProperties().get("extra", 0, int.class),
+				object.getProperties().get("tag", "", String.class));
+			case "HboxSpawn" -> e = new SpawnerHitbox(state, position, size,
+				new Vector2(object.getProperties().get("sizeX", float.class),
+					object.getProperties().get("sizeY", float.class)),
+				object.getProperties().get("lifespan", float.class),
+				new Vector2(object.getProperties().get("veloX", 0.0f, float.class),
+					object.getProperties().get("veloY", 0.0f, float.class)),
+				object.getProperties().get("sensor", true, boolean.class),
+				object.getProperties().get("sprite", "NOTHING", String.class),
+				object.getProperties().get("particle", "NOTHING", String.class),
+				object.getProperties().get("gravity", 1.0f, float.class),
+				object.getProperties().get("restitution", 0.0f, float.class),
+				object.getProperties().get("friction", 1.0f, float.class),
+				object.getProperties().get("damage", 0.0f, float.class),
+				object.getProperties().get("knockback", 0.0f, float.class),
+				object.getProperties().get("dieWall", true, boolean.class),
+				object.getProperties().get("dieSchmuck", true, boolean.class),
+				object.getProperties().get("adjustangle", true, boolean.class));
+			case "ScrapSpawn" -> e = new SpawnerScrap(state, position, size,
+				object.getProperties().get("scrap", 0, int.class));
+			case "EventClone" -> e = new EventCloner(state, position, size);
+			case "EventDelete" -> e = new EventDeleter(state);
+			case "EventMove" -> e = new EventMover(state, position, size,
+				object.getProperties().get("gravity", -1.0f, float.class));
+			case "SpriteChange" -> e = new SpriteChanger(state,
+				object.getProperties().get("newSprite", String.class),
+				object.getProperties().get("mode", "NORMAL", String.class),
+				object.getProperties().get("still", false, boolean.class),
+				object.getProperties().get("frame", 0, int.class),
+				object.getProperties().get("speed", 0.8f, float.class),
+				object.getProperties().get("align", "NONE", String.class),
+				object.getProperties().get("scale", -1.0f, float.class));
+			case "QuestChange" -> e = new QuestChanger(state,
+				object.getProperties().get("quest", String.class),
+				object.getProperties().get("change", 0, int.class));
+			case "QuestCheck" -> e = new QuestChecker(state,
+				object.getProperties().get("quest", String.class),
+				object.getProperties().get("check", 0, int.class));
+			case "ItemUnlock" -> e = new ItemUnlocker(state,
+				object.getProperties().get("type", String.class),
+				object.getProperties().get("item", String.class));
+			case "UnlockCheck" -> e = new UnlockChecker(state,
+				object.getProperties().get("type", String.class),
+				object.getProperties().get("item", String.class),
+				object.getProperties().get("unlock", false, Boolean.class));
+			case "PlayerMove" -> e = new PlayerMover(state,
+				object.getProperties().get("all", false, boolean.class),
+				object.getProperties().get("exclude", false, boolean.class));
+			case "PlayerAlign" -> e = new PlayerAlignmentChanger(state,
+				object.getProperties().get("pvp", true, boolean.class),
+				object.getProperties().get("filter", (float) Constants.PLAYER_HITBOX, float.class));
+			case "TouchPortal" -> e = new PortalTouch(state, position, size);
+			case "WrapPortal" -> e = new PortalWrap(state, position, size,
+				object.getProperties().get("axis", true, boolean.class),
+				object.getProperties().get("direction", false, boolean.class));
+			case "Text" -> e = new Text(state, position, size,
+				object.getProperties().get("text", String.class),
+				object.getProperties().get("scale", 0.5f, float.class));
+			case "CurrentTemp" -> {
+				Vector2 power = new Vector2(
+					object.getProperties().get("currentX", 0.0f, float.class),
+					object.getProperties().get("currentY", 0.0f, float.class));
+				e = new Currents(state, position, size, power,
+					object.getProperties().get("duration", 0.0f, float.class));
+			}
+			case "Current" -> {
+				Vector2 power = new Vector2(
+					object.getProperties().get("currentX", 0.0f, float.class),
+					object.getProperties().get("currentY", 0.0f, float.class));
 				e = new Currents(state, position, size, power);
-				break;
 			}
-			case "Displacer": {
-				Vector2	power =	new Vector2(
-						object.getProperties().get("displaceX", 0.0f, float.class),
-						object.getProperties().get("displaceY", 0.0f, float.class));
+			case "Displacer" -> {
+				Vector2 power = new Vector2(
+					object.getProperties().get("displaceX", 0.0f, float.class),
+					object.getProperties().get("displaceY", 0.0f, float.class));
 				e = new Displacer(state, position, size, power);
-				break;
 			}
-			case "SpringTemp": {
-				Vector2	power =	new Vector2(
-						object.getProperties().get("springX", 0.0f, float.class),
-						object.getProperties().get("springY", 0.0f, float.class));
+			case "SpringTemp" -> {
+				Vector2 power = new Vector2(
+					object.getProperties().get("springX", 0.0f, float.class),
+					object.getProperties().get("springY", 0.0f, float.class));
 				e = new Spring(state, position, size, power,
-						object.getProperties().get("duration", 0.0f, float.class));
-				break;
+					object.getProperties().get("duration", 0.0f, float.class));
 			}
-			case "Spring": {
-				Vector2	power =	new Vector2(
-						object.getProperties().get("springX", 0.0f, float.class),
-						object.getProperties().get("springY", 0.0f, float.class));
+			case "Spring" -> {
+				Vector2 power = new Vector2(
+					object.getProperties().get("springX", 0.0f, float.class),
+					object.getProperties().get("springY", 0.0f, float.class));
 				e = new Spring(state, position, size, power);
-				break;
 			}
-			case "Equip":
-				e = new PickupEquip(state, position,
-						object.getProperties().get("pool", "", String.class));
-				break;
-			case "Dropthrough":
-				e = new DropThroughPlatform(state, position, size);
-				break;
-			case "Dialog":
-				e =	new Dialog(state,
-						object.getProperties().get("textId", String.class),
-						object.getProperties().get("dialogType", "DIALOG", String.class));
-				break;
-			case "End":
-				e = new End(state,
-						object.getProperties().get("text", "", String.class),
-						object.getProperties().get("victory", true, boolean.class));
-				break;
-			case "Destr_Obj":
-				e = new DestructableBlock(state, position, size,
-						object.getProperties().get("Hp", 100, int.class),
-						object.getProperties().get("static", true, boolean.class));
-				break;
-			case "Warp":
-				e = new LevelWarp(state,
-						object.getProperties().get("level", String.class),
-						object.getProperties().get("reset", false, Boolean.class),
-						object.getProperties().get("startId", "", String.class));
-				break;
-			case "PoisonTemp":
-				e = new Poison(state, position, size,
-					object.getProperties().get("particle", "POISON", String.class),
-					object.getProperties().get("damage", 0.0f, float.class),
-						object.getProperties().get("duration", 0.0f, float.class),
-						state.getWorldDummy(),
-						object.getProperties().get("draw", true, boolean.class),
-						object.getProperties().get("filter", (short) 0, short.class));
-				break;
-			case "Poison":
-				e = new Poison(state, position, size,
-						object.getProperties().get("particle", "POISON", String.class),
-						object.getProperties().get("damage", 0.0f, float.class),
-						object.getProperties().get("draw", true, boolean.class),
-						object.getProperties().get("filter", (short) 0, short.class));
-				break;
-			case "HealTemp":
-				e = new HealingArea(state, position, size,
-						object.getProperties().get("heal", 0.0f, float.class),
-						object.getProperties().get("duration", 0.0f, float.class),
-						state.getWorldDummy(),
-						object.getProperties().get("filter", (short) 0, short.class));
-				break;
-			case "Heal":
-				e = new HealingArea(state, position, size,
-						object.getProperties().get("heal", 0.0f, float.class),
-						object.getProperties().get("filter", (short) 0, short.class));
-				break;
-			case "Buzzsaw":
-				e = new Buzzsaw(state, position, size,
-						object.getProperties().get("damage", 0.0f, float.class),
-						object.getProperties().get("filter", (short) 0, short.class));
-				break;
-			case "MovePoint":
+			case "Equip" -> e = new PickupEquip(state, position,
+				object.getProperties().get("pool", "", String.class));
+			case "Dropthrough" -> e = new DropThroughPlatform(state, position, size);
+			case "Dialog" -> e = new Dialog(state,
+				object.getProperties().get("textId", String.class),
+				object.getProperties().get("dialogType", "DIALOG", String.class));
+			case "End" -> e = new End(state,
+				object.getProperties().get("text", "", String.class),
+				object.getProperties().get("victory", true, boolean.class));
+			case "Destr_Obj" -> e = new DestructableBlock(state, position, size,
+				object.getProperties().get("Hp", 100, int.class),
+				object.getProperties().get("static", true, boolean.class));
+			case "Warp" -> e = new LevelWarp(state,
+				object.getProperties().get("level", String.class),
+				object.getProperties().get("reset", false, Boolean.class),
+				object.getProperties().get("startId", "", String.class));
+			case "PoisonTemp" -> e = new Poison(state, position, size,
+				object.getProperties().get("particle", "POISON", String.class),
+				object.getProperties().get("damage", 0.0f, float.class),
+				object.getProperties().get("duration", 0.0f, float.class),
+				state.getWorldDummy(),
+				object.getProperties().get("draw", true, boolean.class),
+				object.getProperties().get("filter", (short) 0, short.class));
+			case "Poison" -> e = new Poison(state, position, size,
+				object.getProperties().get("particle", "POISON", String.class),
+				object.getProperties().get("damage", 0.0f, float.class),
+				object.getProperties().get("draw", true, boolean.class),
+				object.getProperties().get("filter", (short) 0, short.class));
+			case "HealTemp" -> e = new HealingArea(state, position, size,
+				object.getProperties().get("heal", 0.0f, float.class),
+				object.getProperties().get("duration", 0.0f, float.class),
+				state.getWorldDummy(),
+				object.getProperties().get("filter", (short) 0, short.class));
+			case "Heal" -> e = new HealingArea(state, position, size,
+				object.getProperties().get("heal", 0.0f, float.class),
+				object.getProperties().get("filter", (short) 0, short.class));
+			case "Buzzsaw" -> e = new Buzzsaw(state, position, size,
+				object.getProperties().get("damage", 0.0f, float.class),
+				object.getProperties().get("filter", (short) 0, short.class));
+			case "MovePoint" -> {
 				e = new MovingPoint(state, position, size,
-						object.getProperties().get("speed", 1.0f, float.class),
-						object.getProperties().get("pause", false, boolean.class),
-						object.getProperties().get("syncConnected", true, boolean.class));
+					object.getProperties().get("speed", 1.0f, float.class),
+					object.getProperties().get("pause", false, boolean.class),
+					object.getProperties().get("syncConnected", true, boolean.class));
 				movePointConnections.put((MovingPoint) e, object.getProperties().get("connections", "", String.class));
-				break;
-			case "Rotator":
-				e = new Rotator(state,
-						object.getProperties().get("continuous", true, boolean.class),
-						object.getProperties().get("angle", 0.0f, float.class));
-				break;
-			case "SeeSaw":
-				e = new SeeSawPlatform(state, position, size);
-				break;
-			case "Scale":
-				e = new ScalePlatform(state, position, size,
-					object.getProperties().get("minHeight", -1.0f, float.class),
-					object.getProperties().get("density", 0.5f, float.class));
-				break;
-			case "Pusher":
-				e = new Pusher(state,
-						object.getProperties().get("xPush", 0.0f, float.class),
-						object.getProperties().get("yPush", 0.0f, float.class));
-				break;
-			case "Platform":
-				e = new Platform(state,	position, size,
-						object.getProperties().get("restitution", 0.0f, float.class),
-						object.getProperties().get("wall", true, boolean.class),
-						object.getProperties().get("player", true, boolean.class),
-						object.getProperties().get("hbox", true, boolean.class),
-						object.getProperties().get("event", true, boolean.class),
-						object.getProperties().get("enemy", true, boolean.class));
-				break;
-			case "Armory":
-				e = new Armory(state, position, size,
-						object.getProperties().get("title", "Armory", String.class),
-						object.getProperties().get("tag", "ARMORY", String.class),
-						object.getProperties().get("unlock", true, Boolean.class),
-						object.getProperties().get("closeOnLeave", true, Boolean.class));
-				break;
-			case "Reliquary":
-				e = new Reliquary(state, position, size,
-						object.getProperties().get("title", "Reliquary", String.class),
-						object.getProperties().get("tag", "RELIQUARY", String.class),
-						object.getProperties().get("unlock", true, Boolean.class),
-						object.getProperties().get("closeOnLeave", true, Boolean.class));
-				break;
-			case "Dispensary":
-				e = new Dispensary(state, position, size,
-						object.getProperties().get("title", "Dispensary", String.class),
-						object.getProperties().get("tag", "DISPENSARY", String.class),
-						object.getProperties().get("unlock", true, Boolean.class),
-						object.getProperties().get("closeOnLeave", true, Boolean.class));
-				break;
-			case "Dormitory":
-				e = new Dormitory(state, position, size,
-						object.getProperties().get("title", "Dormitory", String.class),
-						object.getProperties().get("tag", "DORMITORY", String.class),
-						object.getProperties().get("unlock", true, Boolean.class),
-						object.getProperties().get("closeOnLeave", true, Boolean.class));
-				break;
-			case "Navigation":
-				e = new Navigations(state, position, size,
-						object.getProperties().get("title", "Navigations", String.class),
-						object.getProperties().get("tag", "NAVIGATIONS", String.class),
-						object.getProperties().get("level", "", String.class),
-						object.getProperties().get("unlock", true, Boolean.class),
-						object.getProperties().get("closeOnLeave", true, Boolean.class));
-				break;
-			case "Quartermaster":
-				e = new Quartermaster(state, position, size,
-						object.getProperties().get("title", "Quartermaster", String.class),
-						object.getProperties().get("tag", "QUARTERMASTER", String.class),
-						object.getProperties().get("unlock", true, Boolean.class),
-						object.getProperties().get("closeOnLeave", true, Boolean.class),
-						object.getProperties().get("shopId", String.class));
-				break;
-			case "ChoiceBranch":
+			}
+			case "Rotator" -> e = new Rotator(state,
+				object.getProperties().get("continuous", true, boolean.class),
+				object.getProperties().get("angle", 0.0f, float.class));
+			case "SeeSaw" -> e = new SeeSawPlatform(state, position, size);
+			case "Scale" -> e = new ScalePlatform(state, position, size,
+				object.getProperties().get("minHeight", -1.0f, float.class),
+				object.getProperties().get("density", 0.5f, float.class));
+			case "Pusher" -> e = new Pusher(state,
+				object.getProperties().get("xPush", 0.0f, float.class),
+				object.getProperties().get("yPush", 0.0f, float.class));
+			case "Platform" -> e = new Platform(state, position, size,
+				object.getProperties().get("restitution", 0.0f, float.class),
+				object.getProperties().get("wall", true, boolean.class),
+				object.getProperties().get("player", true, boolean.class),
+				object.getProperties().get("hbox", true, boolean.class),
+				object.getProperties().get("event", true, boolean.class),
+				object.getProperties().get("enemy", true, boolean.class));
+			case "Armory" -> e = new Armory(state, position, size,
+				object.getProperties().get("title", "Armory", String.class),
+				object.getProperties().get("tag", "ARMORY", String.class),
+				object.getProperties().get("unlock", true, Boolean.class),
+				object.getProperties().get("closeOnLeave", true, Boolean.class));
+			case "Reliquary" -> e = new Reliquary(state, position, size,
+				object.getProperties().get("title", "Reliquary", String.class),
+				object.getProperties().get("tag", "RELIQUARY", String.class),
+				object.getProperties().get("unlock", true, Boolean.class),
+				object.getProperties().get("closeOnLeave", true, Boolean.class));
+			case "Dispensary" -> e = new Dispensary(state, position, size,
+				object.getProperties().get("title", "Dispensary", String.class),
+				object.getProperties().get("tag", "DISPENSARY", String.class),
+				object.getProperties().get("unlock", true, Boolean.class),
+				object.getProperties().get("closeOnLeave", true, Boolean.class));
+			case "Dormitory" -> e = new Dormitory(state, position, size,
+				object.getProperties().get("title", "Dormitory", String.class),
+				object.getProperties().get("tag", "DORMITORY", String.class),
+				object.getProperties().get("unlock", true, Boolean.class),
+				object.getProperties().get("closeOnLeave", true, Boolean.class));
+			case "Navigation" -> e = new Navigations(state, position, size,
+				object.getProperties().get("title", "Navigations", String.class),
+				object.getProperties().get("tag", "NAVIGATIONS", String.class),
+				object.getProperties().get("level", "", String.class),
+				object.getProperties().get("unlock", true, Boolean.class),
+				object.getProperties().get("closeOnLeave", true, Boolean.class));
+			case "Quartermaster" -> e = new Quartermaster(state, position, size,
+				object.getProperties().get("title", "Quartermaster", String.class),
+				object.getProperties().get("tag", "QUARTERMASTER", String.class),
+				object.getProperties().get("unlock", true, Boolean.class),
+				object.getProperties().get("closeOnLeave", true, Boolean.class),
+				object.getProperties().get("shopId", String.class));
+			case "ChoiceBranch" -> {
 				e = new ChoiceBranch(state, position, size,
-						object.getProperties().get("title", "Choice", String.class),
-						object.getProperties().get("optionNames", "", String.class),
-						object.getProperties().get("closeAfterSelect", false, boolean.class),
-						object.getProperties().get("closeOnLeave", true, Boolean.class));
+					object.getProperties().get("title", "Choice", String.class),
+					object.getProperties().get("optionNames", "", String.class),
+					object.getProperties().get("closeAfterSelect", false, boolean.class),
+					object.getProperties().get("closeOnLeave", true, Boolean.class));
 				choiceBranchOptions.put((ChoiceBranch) e, object.getProperties().get("options", "", String.class));
-				break;
-			case "Painter":
-				e = new Painter(state, position, size,
-					object.getProperties().get("title", "Team Color", String.class),
-					object.getProperties().get("tag", "PAINTER", String.class),
-					object.getProperties().get("unlock", false, boolean.class),
-					object.getProperties().get("closeOnLeave", true, Boolean.class));
-				break;
-			case "Wallpaper":
-				e = new Wallpaper(state, position, size,
-					object.getProperties().get("title", "Wallpaper", String.class),
-					object.getProperties().get("tag", "WALLPAPER", String.class),
-					object.getProperties().get("unlock", false, boolean.class),
-					object.getProperties().get("closeOnLeave", true, Boolean.class));
-				break;
-			case "Prefab":
-				genPrefab(state, object, rect);
-				break;
+			}
+			case "Painter" -> e = new Painter(state, position, size,
+				object.getProperties().get("title", "Team Color", String.class),
+				object.getProperties().get("tag", "PAINTER", String.class),
+				object.getProperties().get("unlock", false, boolean.class),
+				object.getProperties().get("closeOnLeave", true, Boolean.class));
+			case "Wallpaper" -> e = new Wallpaper(state, position, size,
+				object.getProperties().get("title", "Wallpaper", String.class),
+				object.getProperties().get("tag", "WALLPAPER", String.class),
+				object.getProperties().get("unlock", false, boolean.class),
+				object.getProperties().get("closeOnLeave", true, Boolean.class));
+			case "Prefab" -> genPrefab(state, object, rect);
 		}
 		
 		//Extra, universal functions to change event sprite properties		
@@ -632,90 +508,62 @@ public class TiledObjectUtil {
      */
     public static void genPrefab(PlayState state, MapObject object, Rectangle rect) {
     	
-    	Prefabrication p = null;
+    	Prefabrication p = switch (object.getProperties().get("prefabId", "", String.class)) {
+			case "Door" -> new Door(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+				object.getProperties().get("triggeredId", "", String.class),
+				object.getProperties().get("speed", 1.0f, float.class),
+				object.getProperties().get("xDisplace", 0, int.class),
+				object.getProperties().get("yDisplace", 0, int.class));
+			case "Spawner" -> new SpawnerPickupTimed(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+				object.getProperties().get("interval", 1.0f, float.class),
+				object.getProperties().get("type", 0, int.class),
+				object.getProperties().get("power", 0.0f, float.class));
+			case "SpawnerTriggered" -> new SpawnerPickupTriggered(state, (int) rect.width, (int) rect.height, (int) rect.x,	(int) rect.y,
+				object.getProperties().get("triggeredId", "", String.class),
+				object.getProperties().get("type", 0, int.class),
+				object.getProperties().get("power", 0.0f, float.class));
+			case "SpawnerUnlock" -> new SpawnerUnlockable(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+				object.getProperties().get("triggeredId", "", String.class),
+				object.getProperties().get("triggeringId", "", String.class),
+				object.getProperties().get("type", "", String.class),
+				object.getProperties().get("name", "", String.class));
+			case "ScrapCache" -> new ScrapCache(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+				object.getProperties().get("triggeredId", "", String.class),
+				object.getProperties().get("triggeringId", "", String.class),
+				object.getProperties().get("cacheId", "", String.class),
+				object.getProperties().get("amount", 0, int.class));
+			case "Camera" -> new CameraPanZone(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+				object.getProperties().get("zoom1", 1.0f, float.class),
+				object.getProperties().get("zoom2", 1.0f, float.class),
+				object.getProperties().get("align", 0, int.class),
+				object.getProperties().get("point1", "", String.class),
+				object.getProperties().get("point2", "", String.class));
+			case "Alternator" -> new EventAlternatorZone(state,	(int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+				object.getProperties().get("align", 0, int.class),
+				object.getProperties().get("event1", "", String.class),
+				object.getProperties().get("event2", "", String.class));
+			case "Limit" -> new Limiter(state,
+				object.getProperties().get("triggeredId", "", String.class),
+				object.getProperties().get("triggeringId", "", String.class),
+				object.getProperties().get("limit", 0, int.class));
+			case "Cooldown" -> new Cooldowner(state,
+				object.getProperties().get("triggeredId", "", String.class),
+				object.getProperties().get("triggeringId", "", String.class),
+				object.getProperties().get("cooldown", 0.0f, float.class));
+			case "Weapon" -> new SpawnerWeapon(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+				object.getProperties().get("triggeredId", "", String.class),
+				object.getProperties().get("triggeringId", "", String.class),
+				object.getProperties().get("pool", "", String.class));
+			case "LeverActivate" -> new LeverActivate(state, (int) rect.width, (int) rect.height, (int) rect.x,	(int) rect.y,
+				object.getProperties().get("triggeringId", "", String.class));
+			case "LeverActivateOnce" -> new LeverActivateOnce(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+				object.getProperties().get("triggeringId", "", String.class));
+			case "PVPSettingSetter" -> new PVPSettingSetter(state);
+			case "ArenaSettingSetter" -> new ArenaSettingSetter(state);
+			default -> null;
+		};
 
-		switch (object.getProperties().get("prefabId", "", String.class)) {
-			case "Door":
-				p = new Door(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
-						object.getProperties().get("triggeredId", "", String.class),
-						object.getProperties().get("speed", 1.0f, float.class),
-						object.getProperties().get("xDisplace", 0, int.class),
-						object.getProperties().get("yDisplace", 0, int.class));
-				break;
-			case "Spawner":
-				p = new SpawnerPickupTimed(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
-						object.getProperties().get("interval", 1.0f, float.class),
-						object.getProperties().get("type", 0, int.class),
-						object.getProperties().get("power", 0.0f, float.class));
-				break;
-			case "SpawnerTriggered":
-				p = new SpawnerPickupTriggered(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
-						object.getProperties().get("triggeredId", "", String.class),
-						object.getProperties().get("type", 0, int.class),
-						object.getProperties().get("power", 0.0f, float.class));
-				break;
-			case "SpawnerUnlock":
-				p = new SpawnerUnlockable(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
-						object.getProperties().get("triggeredId", "", String.class),
-						object.getProperties().get("triggeringId", "", String.class),
-						object.getProperties().get("type", "", String.class),
-						object.getProperties().get("name", "", String.class));
-				break;
-			case "ScrapCache":
-				p = new ScrapCache(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
-						object.getProperties().get("triggeredId", "", String.class),
-						object.getProperties().get("triggeringId", "", String.class),
-						object.getProperties().get("cacheId", "", String.class),
-						object.getProperties().get("amount", 0, int.class));
-				break;
-			case "Camera":
-				p = new CameraPanZone(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
-						object.getProperties().get("zoom1", 1.0f, float.class),
-						object.getProperties().get("zoom2", 1.0f, float.class),
-						object.getProperties().get("align", 0, int.class),
-						object.getProperties().get("point1", "", String.class),
-						object.getProperties().get("point2", "", String.class));
-				break;
-			case "Alternator":
-				p = new EventAlternatorZone(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
-						object.getProperties().get("align", 0, int.class),
-						object.getProperties().get("event1", "", String.class),
-						object.getProperties().get("event2", "", String.class));
-				break;
-			case "Limit":
-				p = new Limiter(state,
-						object.getProperties().get("triggeredId", "", String.class),
-						object.getProperties().get("triggeringId", "", String.class),
-						object.getProperties().get("limit", 0, int.class));
-				break;
-			case "Cooldown":
-				p = new Cooldowner(state,
-						object.getProperties().get("triggeredId", "", String.class),
-						object.getProperties().get("triggeringId", "", String.class),
-						object.getProperties().get("cooldown", 0.0f, float.class));
-				break;
-			case "Weapon":
-				p = new SpawnerWeapon(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
-						object.getProperties().get("triggeredId", "", String.class),
-						object.getProperties().get("triggeringId", "", String.class),
-						object.getProperties().get("pool", "", String.class));
-				break;
-			case "LeverActivate":
-				p = new LeverActivate(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
-						object.getProperties().get("triggeringId", "", String.class));
-				break;
-			case "LeverActivateOnce":
-				p = new LeverActivateOnce(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
-						object.getProperties().get("triggeringId", "", String.class));
-				break;
-			case "PVPSettingSetter":
-				p = new PVPSettingSetter(state);
-				break;
-			case "ArenaSettingSetter":
-				p = new ArenaSettingSetter(state);
-				break;
-		}
-    	if (p != null) {
+		if (p != null) {
         	p.generateParts();
     	}
     	prefabrications.put(object.getProperties().get("triggeredId", "", String.class), p);

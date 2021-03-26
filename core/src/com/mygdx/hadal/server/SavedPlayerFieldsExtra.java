@@ -30,8 +30,6 @@ public class SavedPlayerFieldsExtra {
 	
 	public float getDamageDealtSelf() { return damageDealtSelf; }
 
-	public void setDamageDealtSelf(float damageDealtSelf) { this.damageDealtSelf = damageDealtSelf; }
-
 	public void incrementDamageDealtSelf(float damageDealt) { this.damageDealtSelf += damageDealt; }
 	
 	public float getDamageDealtAllies() { return damageDealtAllies; }

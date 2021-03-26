@@ -130,36 +130,20 @@ public class Boss5 extends EnemyFloating {
 
 		if (attackNum % 2 == 0) {
 			int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
-			switch(nextAttack) {
-				case 0:
-					orbitalCharge();
-					break;
-				case 1:
-					vineLash();
-					break;
-				case 2:
-					scytheAttack();
-					break;
-				case 3:
-					spreadingShadow();
-					break;
+			switch (nextAttack) {
+				case 0 -> orbitalCharge();
+				case 1 -> vineLash();
+				case 2 -> scytheAttack();
+				case 3 -> spreadingShadow();
 			}
 
 		} else {
 			int nextAttack = attacks2.remove(GameStateManager.generator.nextInt(attacks2.size()));
-			switch(nextAttack) {
-				case 0:
-					tripleRadialBurst();
-					break;
-				case 1:
-					sporeBurst();
-					break;
-				case 2:
-					seedBomber();
-					break;
-				case 3:
-					poisonSpew();
-					break;
+			switch (nextAttack) {
+				case 0 -> tripleRadialBurst();
+				case 1 -> sporeBurst();
+				case 2 -> seedBomber();
+				case 3 -> poisonSpew();
 			}
 		}
 	}

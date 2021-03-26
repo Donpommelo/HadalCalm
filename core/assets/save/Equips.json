@@ -414,7 +414,7 @@ SLODGE_NOZZLE: {
 }
 SNIPER_RIFLE: {
 	name: Sniper Rifle
-	description: "Long-ranged weapon that can headshot. Head deals bonus damage at long range."
+	description: "Long-ranged weapon that can headshot. Headshots deal bonus damage at long range."
     descriptionLong: "Bullet Damage: 55\nMax Bonus Headshot Damage: +175%\n\nClip Size: 1\nAmmo Capacity: 21\nReload Time: 1.3 Seconds"
 	tags: [
 		ARMORY,

@@ -37,39 +37,23 @@ public enum UnlockCharacter {
 				return 0;
 			}
 			if (grounded) {
-				switch (frame) {
-				case 1:
-				case 7:
-					return 1;
-				case 2:
-					return 2;
-				case 3:
-					return 3;
-				case 4:
-					return 4;
-				case 5:
-					return 5;
-				case 6:
-					return 3.5f;
-				default:
-					return 0;
-				}
+				return switch (frame) {
+					case 1, 7 -> 1;
+					case 2 -> 2;
+					case 3 -> 3;
+					case 4 -> 4;
+					case 5 -> 5;
+					case 6 -> 3.5f;
+					default -> 0;
+				};
 			} else {
-				switch (frameHead) {
-				case 1:
-				case 7:
-					return 0.5f;
-				case 2:
-				case 6:
-					return 1;
-				case 3:
-				case 5:
-					return 1.5f;
-				case 4:
-					return 2;
-				default:
-					return 0;
-				}
+				return switch (frameHead) {
+					case 1, 7 -> 0.5f;
+					case 2, 6 -> 1;
+					case 3, 5 -> 1.5f;
+					case 4 -> 2;
+					default -> 0;
+				};
 			}
 		}
 		
@@ -153,21 +137,13 @@ public enum UnlockCharacter {
 	 */
 	public float getWobbleOffsetBody(int frame, boolean grounded, boolean moving) {
 		if (grounded && moving) {
-			switch (frame) {
-			case 1:
-			case 7:
-				return 1;
-			case 2:
-				return 2;
-			case 3:
-			case 5:
-			case 6:
-				return 3;
-			case 4:
-				return 4;
-			default:
-				return 0;
-			}
+			return switch (frame) {
+				case 1, 7 -> 1;
+				case 2 -> 2;
+				case 3, 5, 6 -> 3;
+				case 4 -> 4;
+				default -> 0;
+			};
 		} else {
 			return 0;
 		}

@@ -40,7 +40,6 @@ jobs:
         run: mv desktop/build/lib/*.jar HadalCalm_linux.jar
 
       - run: ./butler push HadalCalm_linux.jar donpommelo/hadal-calm:linux-jar
-
       - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/hadal-calm:linux-image
       
   windows:
@@ -69,5 +68,32 @@ jobs:
         run: mv desktop/build/lib/*.jar HadalCalm_windows.jar
 
       - run: ./butler push HadalCalm_windows.jar donpommelo/hadal-calm:windows-jar
-
       - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/hadal-calm:windows-image
+
+  macos:
+    runs-on: macosx-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 15
+        uses: actions/setup-java@v1
+        with:
+          java-version: 15
+
+      - name: Download butler
+        run: curl https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default -o butler.zip
+
+      - name: Unzip buttler
+        run: unzip butler.zip
+
+      - name: Build jar
+        run: ./gradlew.bat desktop:jar
+
+      - name: Build package image
+        run: ./gradlew.bat desktop:jpackageImage
+
+      - name: Fix file names
+        run: mv desktop/build/lib/*.jar HadalCalm_macos.jar && mv desktop/build/jpackage/HadalCalm desktop/build/jpackage/HadalCalm.app
+
+      - run: ./butler push HadalCalm_macos.jar donpommelo/hadal-calm:macos-jar
+      - run: ./butler push desktop/build/jpackage/HadalCalm.app donpommelo/hadal-calm:macos-image

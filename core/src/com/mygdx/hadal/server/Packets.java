@@ -1202,7 +1202,9 @@ public class Packets {
 	public static class ClientYeet {
 
 		/**
-		 * A ClientYeet packet is sent to disconnect a client
+		 * A ClientYeet packet is sent from server to client to disconnect the client
+		 * It is also sent from client to server to tell the server to kill the client's player.
+		 * Why use the same packet for completely different purposes? no reason.
 		 */
 		public ClientYeet() {}
 	}

@@ -209,24 +209,12 @@ public class Setting {
 	 */
 	public void indexToResolution() {
 		switch (resolution) {
-		case 0:
-			Gdx.graphics.setWindowedMode(1024, 576);
-			break;
-		case 1:
-			Gdx.graphics.setWindowedMode(1280, 720);
-			break;
-		case 2:
-			Gdx.graphics.setWindowedMode(1366, 768);
-			break;
-		case 3:
-			Gdx.graphics.setWindowedMode(1600, 900);
-			break;
-		case 4:
-			Gdx.graphics.setWindowedMode(1920, 1080);
-			break;
-		case 5:
-			Gdx.graphics.setWindowedMode(2560, 1080);
-			break;
+			case 0 -> Gdx.graphics.setWindowedMode(1024, 576);
+			case 1 -> Gdx.graphics.setWindowedMode(1280, 720);
+			case 2 -> Gdx.graphics.setWindowedMode(1366, 768);
+			case 3 -> Gdx.graphics.setWindowedMode(1600, 900);
+			case 4 -> Gdx.graphics.setWindowedMode(1920, 1080);
+			case 5 -> Gdx.graphics.setWindowedMode(2560, 1080);
 		}
 	}
 	
@@ -234,97 +222,67 @@ public class Setting {
 	 * Convert framerate from index in list to actual framerate
 	 */
 	public int indexToFramerate() {
-		switch (framerate) {
-		case 0:
-			return 10;
-		case 2:
-			return 90;
-		case 3:
-			return 120;
-		default:
-			return 60;
-		}
+		return switch (framerate) {
+			case 0 -> 10;
+			case 2 -> 90;
+			case 3 -> 120;
+			default -> 60;
+		};
 	}
 	
 	/**
 	 * Convert timer from index in list to actual time amount
 	 */
 	public static float indexToTimer(int index) {
-		switch (index) {
-		case 1:
-			return 60.0f;
-		case 2:
-			return 120.0f;
-		case 3:
-			return 180.0f;
-		case 4:
-			return 240.0f;
-		case 5:
-			return 300.0f;
-		case 6:
-			return 360.0f;
-		case 7:
-			return 420.0f;
-		case 8:
-			return 480.0f;
-		case 9:
-			return 540.0f;
-		case 10:
-			return 600.0f;
-		default:
-			return 0.0f;
-		}
+		return switch (index) {
+			case 1 -> 60.0f;
+			case 2 -> 120.0f;
+			case 3 -> 180.0f;
+			case 4 -> 240.0f;
+			case 5 -> 300.0f;
+			case 6 -> 360.0f;
+			case 7 -> 420.0f;
+			case 8 -> 480.0f;
+			case 9 -> 540.0f;
+			case 10 -> 600.0f;
+			default -> 0.0f;
+		};
 	}
 	
 	/**
 	 * Convert cursor size from index in list
 	 */
 	public int indexToCursorSize() {
-		switch (cursorSize) {
-		case 0:
-			return 16;
-		case 2:
-			return 64;
-		default:
-			return 32;
-		}
+		return switch (cursorSize) {
+			case 0 -> 16;
+			case 2 -> 64;
+			default -> 32;
+		};
 	}
 	
 	/**
 	 * Convert cursor color from index in list
 	 */
 	public Color indexToCursorColor() {
-		switch (cursorColor) {
-		case 0:
-			return Color.BLACK;
-		case 1:
-			return Color.CYAN;
-		case 2:
-			return Color.LIME;
-		case 3:
-			return Color.MAGENTA;
-		case 4:
-			return Color.RED;
-		case 6:
-			return Color.YELLOW;
-		default:
-			return Color.WHITE;
-		}
+		return switch (cursorColor) {
+			case 0 -> Color.BLACK;
+			case 1 -> Color.CYAN;
+			case 2 -> Color.LIME;
+			case 3 -> Color.MAGENTA;
+			case 4 -> Color.RED;
+			case 6 -> Color.YELLOW;
+			default -> Color.WHITE;
+		};
 	}
 
 	public int indexToHp() {
-		switch(pvpHp) {
-			case 1:
-				return 125;
-			case 2:
-				return 150;
-			case 3:
-				return 175;
-			case 4:
-				return 200;
-			default:
-				return 100;
-		}
+		return switch (pvpHp) {
+			case 1 -> 125;
+			case 2 -> 150;
+			case 3 -> 175;
+			case 4 -> 200;
+			default -> 100;
+		};
 	}
 	
 	/**
@@ -338,20 +296,14 @@ public class Setting {
 	 * Get a sound effect corresponding to a certain hitsound. (this is used for previewing hitsounds)
 	 */
 	public SoundEffect indexToHitsound(int hitsoundType) {
-		switch (hitsoundType) {
-		case 1:
-			return SoundEffect.HITSOUND_BLIP;
-		case 3:
-			return SoundEffect.HITSOUND_DING;
-		case 4:
-			return SoundEffect.HITSOUND_DRUM;
-		case 5:
-			return SoundEffect.HITSOUND_PIANO;
-		case 6:
-			return SoundEffect.HITSOUND_SHREK;
-		default:
-			return SoundEffect.HITSOUND_COWBELL;
-		}
+		return switch (hitsoundType) {
+			case 1 -> SoundEffect.HITSOUND_BLIP;
+			case 3 -> SoundEffect.HITSOUND_DING;
+			case 4 -> SoundEffect.HITSOUND_DRUM;
+			case 5 -> SoundEffect.HITSOUND_PIANO;
+			case 6 -> SoundEffect.HITSOUND_SHREK;
+			default -> SoundEffect.HITSOUND_COWBELL;
+		};
 	}
 
 	public void setResolution(int resolution) { this.resolution = resolution; }

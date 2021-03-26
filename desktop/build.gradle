@@ -42,6 +42,13 @@ jar {
     duplicatesStrategy = "INCLUDE"
     from files(project.assetsDir);
 
+    project.delete("../core/assets/save/ChatLog.json")
+    project.delete("../core/assets/save/Loadout.json")
+    project.delete("../core/assets/save/Keybind.json")
+    project.delete("../core/assets/save/Record.json")
+    project.delete("../core/assets/save/Settings.json")
+    project.delete("../core/assets/err.txt")
+
     destinationDirectory = file("$buildDir/lib")
     archiveFileName = "${appName}-${archiveVersion.get()}.jar"
     exclude('linux/arm32/**', 'linux/arm64/**')
