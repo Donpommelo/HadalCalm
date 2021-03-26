@@ -71,7 +71,7 @@ jobs:
       - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/hadal-calm:windows-image
 
   macos:
-    runs-on: macos-latest
+    runs-on: macosx-latest
     steps:
       - uses: actions/checkout@v2
 
