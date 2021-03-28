@@ -59,9 +59,9 @@ jobs:
         run: ./gradlew.bat desktop:jpackageImage
 
       - name: Fix file names
-        run: mv desktop/build/lib/*.jar HadalCalm_windows.jar
+        run: mv desktop/build/lib/*.jar HadalCalm.jar
 
-      - run: ./butler push HadalCalm_windows.jar donpommelo/hadal-calm:windows-linux-macos-jar
+      - run: ./butler push HadalCalm.jar donpommelo/hadal-calm:windows-linux-macos-jar
       - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/hadal-calm:windows-image
 
 #  macos:
