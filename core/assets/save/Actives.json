@@ -231,7 +231,7 @@ RADIAL_BARRAGE: {
 	]
 }
 RELOADER: {
-	name: Auroreloader
+	name: Autoreloader
 	description: "Buffs attack speed and makes weapons not consume clip temporarily"
     descriptionLong: "Charge: 14 Seconds\n\nBuff Duration: 1.5 Seconds\nBonus Attack Speed: +40%\n\n"
 	tags: [

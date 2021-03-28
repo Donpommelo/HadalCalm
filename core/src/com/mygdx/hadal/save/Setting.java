@@ -156,10 +156,10 @@ public class Setting {
 	}
 	
 	public void resetServer() {
-		maxPlayers = 7;
+		maxPlayers = 9;
 		portNumber = 11100;
 		serverPassword = "";
-		pvpTimer = 3;
+		pvpTimer = 5;
 		lives = 0;
 		teamEnabled = false;
 		loadoutType = 3;
