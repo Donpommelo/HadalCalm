@@ -592,7 +592,7 @@ public class Player extends PhysicsSchmuck {
 	 * Player begins reloading.
 	 */
 	public void reload() {
-		playerData.getCurrentTool().setReloading(true);
+		playerData.getCurrentTool().setReloading(true, false);
 	}
 	
 	/**
@@ -854,7 +854,7 @@ public class Player extends PhysicsSchmuck {
 			getPlayerData().setCurrentSlot(p.currentSlot);
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
 			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
-			getPlayerData().getCurrentTool().setReloading(p.reloading);
+			getPlayerData().getCurrentTool().setReloading(p.reloading, true);
 			reloadPercent = p.reloadPercent;
 			getPlayerData().getCurrentTool().setCharging(p.charging);
 			chargePercent = p.chargePercent;

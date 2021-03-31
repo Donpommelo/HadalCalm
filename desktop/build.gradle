@@ -47,7 +47,7 @@ jar {
     project.delete("../core/assets/save/Keybind.json")
     project.delete("../core/assets/save/Record.json")
     project.delete("../core/assets/save/Settings.json")
-    project.delete("../core/assets/err.txt")
+//    project.delete("../core/assets/err.txt")
 
     destinationDirectory = file("$buildDir/lib")
     archiveFileName = "${appName}-${archiveVersion.get()}.jar"

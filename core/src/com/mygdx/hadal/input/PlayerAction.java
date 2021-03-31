@@ -42,7 +42,9 @@ public enum PlayerAction {
 	//this boolean notes actions that are "toggleable"
 	//these are relevant for resetting when the input processor is temporarily disabled.
 	private final boolean toggleable;
-	
+
+	private final static HashMap<Integer, PlayerAction> hotkeys = new HashMap<>();
+
 	PlayerAction(int key, boolean toggleable) {
 		this.key = key;
 		this.toggleable = toggleable;
@@ -50,7 +52,10 @@ public enum PlayerAction {
 	
 	public int getKey() { return key; }
 	
-	public void setKey(int key) { this.key = key; }
+	public void setKey(int key) {
+		this.key = key;
+		hotkeys.put(key, this);
+	}
 	
 	//this returns the text representing the button bound to this action. Used when text refers to a hotkey
 	public String getKeyText() { return SettingState.getKey(key); }
@@ -115,6 +120,10 @@ public enum PlayerAction {
 		}
 		
 		Gdx.files.local("save/Keybind.json").writeString(GameStateManager.json.toJson(map), true);
+	}
+
+	public static PlayerAction hotkeyToAction(int key) {
+		return hotkeys.get(key);
 	}
 
 	/**

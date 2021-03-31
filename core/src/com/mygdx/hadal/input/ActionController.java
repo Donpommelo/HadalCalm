@@ -4,6 +4,9 @@ import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 /**
  * The Action Controller receives actions from a player controller or packets from clients and uses them to make a player 
  * perform actions.
@@ -154,6 +157,30 @@ public class ActionController {
 		
 		else if (action == PlayerAction.PING) {
 			player.ping();
+		}
+	}
+
+	private float lastTimestamp;
+	private HashSet<PlayerAction> keysHeld = new HashSet<>();
+	public void syncClientKeyStrokes(PlayerAction[] actions, float timestamp) {
+		if (timestamp > lastTimestamp) {
+			lastTimestamp = timestamp;
+
+			HashSet<PlayerAction> keysHeldNew = new HashSet<>(Arrays.asList(actions));
+
+			for (PlayerAction a : keysHeldNew) {
+				if (!keysHeld.contains(a)) {
+					keyDown(a);
+				}
+			}
+
+			for (PlayerAction a : keysHeld) {
+				if (!keysHeldNew.contains(a)) {
+					keyUp(a);
+				}
+			}
+
+			keysHeld = keysHeldNew;
 		}
 	}
 	

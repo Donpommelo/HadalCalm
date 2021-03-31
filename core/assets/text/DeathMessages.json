@@ -33,6 +33,15 @@
             "message": "Stop hitting yourself, <vic>", "weight": 1, namedPerp: false
         }
         {
+            "message": "<vic> committed die", "weight": 1, namedPerp: false
+        }
+        {
+            "message": "<vic> an heroed", "weight": 1, namedPerp: false
+        }
+        {
+            "message": "<vic> was never gonna make it", "weight": 1, namedPerp: false
+        }
+        {
             "message": "<vic> committed sudoku", "weight": 1, namedPerp: false
         }
     ]

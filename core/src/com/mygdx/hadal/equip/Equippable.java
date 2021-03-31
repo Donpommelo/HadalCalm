@@ -136,7 +136,7 @@ public abstract class Equippable {
 	 * this is run when an equippable is equipped. reset charge + reload
 	 */
 	public void equip(PlayState state) {
-		setReloading(getClipLeft() == 0 && this instanceof RangedWeapon);
+		setReloading(getClipLeft() == 0 && this instanceof RangedWeapon, false);
 		setCharging(false);
 		setReloadCd(0);
 		setChargeCd(0);
@@ -193,8 +193,8 @@ public abstract class Equippable {
 
 	public boolean isReloading() { return reloading; }
 
-	public void setReloading(boolean reloading) {
-		if (getAmmoLeft() > 0 && getClipLeft() < getClipSize()) {
+	public void setReloading(boolean reloading, boolean override) {
+		if ((getAmmoLeft() > 0 && getClipLeft() < getClipSize()) || override) {
 		    this.reloading = reloading;
         }
 	}

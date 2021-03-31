@@ -112,31 +112,11 @@ public class KryoServer {
 			public void received(final Connection c, Object o) {
 
 				/*
-				 * A Client has performed an action involving pressing a key down
-				 * Register the keystroke for that client's player.
-				 */
-				if (o instanceof Packets.KeyDown) {
-					final Packets.KeyDown p = (Packets.KeyDown) o;
-					final PlayState ps = getPlayState();
-					User user = users.get(c.getID());
-					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							ps.addPacketEffect(() -> {
-								if (player.getController() != null) {
-									player.getController().keyDown(p.action);
-								}
-							});
-						}
-					}
-				}
-				
-				/*
 				 * A Client has performed an action involving pressing a key up
 				 * Register the keystroke for that client's player.
 				 */
-				else if (o instanceof Packets.KeyUp) {
-					final Packets.KeyUp p = (Packets.KeyUp) o;
+				if (o instanceof Packets.SyncKeyStrokes) {
+					final Packets.SyncKeyStrokes p = (Packets.SyncKeyStrokes) o;
 					final PlayState ps = getPlayState();
 
 					User user = users.get(c.getID());
@@ -145,7 +125,7 @@ public class KryoServer {
 						if (player != null) {
 							ps.addPacketEffect(() -> {
 								if (player.getController() != null) {
-									player.getController().keyUp(p.action);
+									player.getController().syncClientKeyStrokes(p.actions, p.timestamp);
 								}
 							});
 						}

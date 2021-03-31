@@ -8,6 +8,7 @@ import com.mygdx.hadal.actors.UIPlayClient;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.input.CommonController;
+import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -105,7 +106,10 @@ public class ClientState extends PlayState {
 	private float latencyAccumulator;
 	private float lastLatencyCheck, latency;
 	private static final float LatencyCheck = 1.0f;
-	
+
+	private float inputAccumulator;
+	private static final float inputSyncTime = 1 / 30f;
+
 	private final Vector3 lastMouseLocation = new Vector3();
 	@Override
 	public void update(float delta) {
@@ -122,8 +126,18 @@ public class ClientState extends PlayState {
 		//Send mouse position to the server.
 		mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		HadalGame.viewportCamera.unproject(mousePosition);
-		if (!lastMouseLocation.equals(mousePosition)) {
-			HadalGame.client.sendUDP(new Packets.MouseMove(mousePosition.x, mousePosition.y));
+
+		inputAccumulator += delta;
+		while (inputAccumulator >= inputSyncTime) {
+			inputAccumulator -= inputSyncTime;
+			if (!lastMouseLocation.equals(mousePosition)) {
+				HadalGame.client.sendUDP(new Packets.MouseMove(mousePosition.x, mousePosition.y));
+			}
+			if (controller != null) {
+				HadalGame.client.sendUDP(new Packets.SyncKeyStrokes(((ClientController) controller)
+					.getButtonsHeld().toArray(new PlayerAction[0]), getTimer()));
+				((ClientController) controller).postKeystrokeSync();
+			}
 		}
 		lastMouseLocation.set(mousePosition);
 		

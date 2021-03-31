@@ -48,12 +48,12 @@ public class TitleState extends GameState {
 	private final PooledEffect jelly, diatom1, diatom2, diatom3;
 	
 	//Dimensions and position of the title menu
-	private static final int titleX = 140;
+	private static final int titleX = 240;
 	private static final int titleY = 720;
-	private static final int titleXEnabled = 140;
-	private static final int titleYEnabled = 500;
-	private static final int titleWidth = 1000;
-	private static final int titleHeight = 208;
+	private static final int titleXEnabled = 240;
+	private static final int titleYEnabled = 360;
+	private static final int titleWidth = 800;
+	private static final int titleHeight = 370;
 	
 	private static final int menuX = 540;
 	private static final int menuY = -240;

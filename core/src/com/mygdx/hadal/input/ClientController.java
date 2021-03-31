@@ -4,8 +4,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+
+import java.util.HashSet;
 
 /**
  * The ClientController controls the player using events to process various player actions.
@@ -16,7 +17,11 @@ public class ClientController implements InputProcessor {
 	
 	private final Player player;
 	private final PlayState state;
-	
+
+	private final HashSet<PlayerAction> buttonsHeld = new HashSet<>();
+	private final HashSet<PlayerAction> buttonsJustPressed = new HashSet<>();
+	private final HashSet<PlayerAction> buttonsJustReleased = new HashSet<>();
+
 	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one. 
 	private boolean leftDown;
 	private boolean rightDown;
@@ -35,10 +40,15 @@ public class ClientController implements InputProcessor {
 		if (player == null) { return false; }
 		if (player.getPlayerData() == null) return false;
 		if (!HadalGame.client.getClient().isConnected()) { return false; }
-		
+
+		PlayerAction action = PlayerAction.hotkeyToAction(keycode);
+		if (action != null) {
+			buttonsHeld.add(action);
+			buttonsJustPressed.add(action);
+		}
+
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WALK_LEFT));
-			
+
 			leftDown = true;
 			if (!rightDown) {
 				player.setMoveState(MoveState.MOVE_LEFT);
@@ -48,8 +58,7 @@ public class ClientController implements InputProcessor {
 		} 
 		
 		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WALK_RIGHT));
-			
+
 			rightDown = true;
 			if (!leftDown) {
 				player.setMoveState(MoveState.MOVE_RIGHT);
@@ -59,71 +68,20 @@ public class ClientController implements InputProcessor {
 		} 
 		
 		else if (keycode == PlayerAction.JUMP.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.JUMP));
 			player.setHoveringAttempt(true);
 			player.jump();
 		} 
 		
 		else if (keycode == PlayerAction.CROUCH.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.CROUCH));
 			player.setFastFalling(true);
 		} 
-		
-		else if (keycode == PlayerAction.INTERACT.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.INTERACT));
-		} 
-		
-		else if (keycode == PlayerAction.ACTIVE_ITEM.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.ACTIVE_ITEM));
-		} 
-		
-		else if (keycode == PlayerAction.RELOAD.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.RELOAD));
-		} 
-		
-		else if (keycode == PlayerAction.FIRE.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.FIRE));
-		} 
-		
-		else if (keycode == PlayerAction.BOOST.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.BOOST));
-			player.airblast();
-		} 
-		
-		else if (keycode == PlayerAction.SWITCH_TO_LAST.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.SWITCH_TO_LAST));
-		} 
-		
-		else if (keycode == PlayerAction.SWITCH_TO_1.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.SWITCH_TO_1));
-		} 
-		
-		else if (keycode == PlayerAction.SWITCH_TO_2.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.SWITCH_TO_2));
-		} 
-		
-		else if (keycode == PlayerAction.SWITCH_TO_3.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.SWITCH_TO_3));
-		} 
-		
-		else if (keycode == PlayerAction.SWITCH_TO_4.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.SWITCH_TO_4));
-		} 
 
-		else if (keycode == PlayerAction.WEAPON_CYCLE_UP.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WEAPON_CYCLE_UP));
-		} 
-		
-		else if (keycode == PlayerAction.WEAPON_CYCLE_DOWN.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WEAPON_CYCLE_DOWN));
+		else if (keycode == PlayerAction.BOOST.getKey()) {
+			player.airblast();
 		} 
 		
 		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			state.getChatWheel().setVisibility(true);
-		}
-		
-		else if (keycode == PlayerAction.PING.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.PING));
 		}
 
 		return false;
@@ -137,9 +95,17 @@ public class ClientController implements InputProcessor {
 		if (player.getPlayerData() == null) return false;
 		if (!HadalGame.client.getClient().isConnected()) { return false; }
 
+		PlayerAction action = PlayerAction.hotkeyToAction(keycode);
+		if (action != null) {
+			if (buttonsJustPressed.contains(action)) {
+				buttonsJustReleased.add(action);
+			} else {
+				buttonsHeld.remove(action);
+			}
+		}
+
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.WALK_LEFT));
-			
+
 			leftDown = false;
 			if (rightDown) {
 				player.setMoveState(MoveState.MOVE_RIGHT);
@@ -149,8 +115,7 @@ public class ClientController implements InputProcessor {
 		} 
 		
 		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.WALK_RIGHT));
-			
+
 			rightDown = false;
 			if (leftDown) {
 				player.setMoveState(MoveState.MOVE_LEFT);
@@ -160,19 +125,11 @@ public class ClientController implements InputProcessor {
 		} 
 		
 		else if (keycode == PlayerAction.JUMP.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.JUMP));
-			
 			player.setHoveringAttempt(false);
 		} 
 		
 		else if (keycode == PlayerAction.CROUCH.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.CROUCH));
-			
 			player.setFastFalling(false);
-		} 
-		
-		else if (keycode == PlayerAction.FIRE.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.FIRE));
 		} 
 		
 		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
@@ -241,4 +198,14 @@ public class ClientController implements InputProcessor {
 			}
 		}
 	}
+
+	public void postKeystrokeSync() {
+		buttonsJustPressed.clear();
+		for (PlayerAction action: buttonsJustReleased) {
+			buttonsHeld.remove(action);
+		}
+		buttonsJustReleased.clear();
+	}
+
+	public HashSet<PlayerAction> getButtonsHeld() { return buttonsHeld; }
 }

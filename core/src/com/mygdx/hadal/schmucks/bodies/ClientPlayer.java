@@ -276,7 +276,7 @@ public class ClientPlayer extends Player {
 			getPlayerData().setCurrentSlot(p.currentSlot);
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
 			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
-			getPlayerData().getCurrentTool().setReloading(p.reloading);
+			getPlayerData().getCurrentTool().setReloading(p.reloading, true);
 			reloadPercent = p.reloadPercent;
 			getPlayerData().getCurrentTool().setCharging(p.charging);
 			chargePercent = p.chargePercent;

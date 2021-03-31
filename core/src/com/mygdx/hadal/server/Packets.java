@@ -321,35 +321,18 @@ public class Packets {
 		}
 	}
 	
-	public static class KeyDown {
-		public PlayerAction action;
-		public KeyDown() {}
-		
-		/**
-		 * A KeyDown is sent from the Client to the Server whenever they press a key down that results in some action being taken.
-		 * The Server takes these actions and makes the client's Player execute them.
-		 * @param a: The action taken by the client.
-		 */
-		public KeyDown(PlayerAction a) {
-			this. action = a;
+	public static class SyncKeyStrokes {
+		public PlayerAction[] actions;
+		public float timestamp;
+
+		public SyncKeyStrokes() {}
+
+		public SyncKeyStrokes(PlayerAction[] actions, float timestamp) {
+			this.actions = actions;
+			this.timestamp = timestamp;
 		}
 	}
-	
-	public static class KeyUp {
-		public PlayerAction action;
-		public KeyUp() {}
-		
-		/**
-		 * A KeyDown is sent from the Client to the Server whenever they release a key that results in some action being taken.
-		 * The Server takes these actions and makes the client's Player execute them.
-		 * 
-		 * @param a: The action taken by the client.
-		 */
-		public KeyUp(PlayerAction a) {
-			this.action = a;
-		}
-	}
-	
+
 	public static class MouseMove {
 		public float x, y;
 		public MouseMove() {}
@@ -1262,8 +1245,7 @@ public class Packets {
 		kryo.register(ServerChat.class);
 		kryo.register(ClientChat.class);
     	kryo.register(ClientReady.class);
-    	kryo.register(KeyDown.class);
-    	kryo.register(KeyUp.class);
+		kryo.register(SyncKeyStrokes.class);
     	kryo.register(MouseMove.class);
     	kryo.register(LoadLevel.class);
     	kryo.register(ClientLoaded.class);
@@ -1326,6 +1308,7 @@ public class Packets {
 		kryo.register(TransitionState.class);
 		kryo.register(DialogType.class);
 		kryo.register(PlayerAction.class);
+		kryo.register(PlayerAction[].class);
 		kryo.register(ObjectSyncLayers.class);
 		kryo.register(alignType.class);
 		kryo.register(EnemyType.class);
