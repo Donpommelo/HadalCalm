@@ -62,7 +62,7 @@ jobs:
         run: mv desktop/build/lib/*.jar HadalCalm.jar
 
       - name: Copy zip.dll
-        run: copy /Y desktop/build/jpackage/HadalCalm/runtime/bin/zip.dll desktop/build/jpackage/HadalCalm/
+        run: cp /Y desktop/build/jpackage/HadalCalm/runtime/bin/zip.dll desktop/build/jpackage/HadalCalm
 
       - run: ./butler push HadalCalm.jar donpommelo/hadal-calm:windows-linux-macos-jar
       - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/hadal-calm:windows-image
