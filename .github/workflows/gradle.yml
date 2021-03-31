@@ -62,10 +62,7 @@ jobs:
         run: mv desktop/build/lib/*.jar HadalCalm.jar
 
       - name: Copy zip.dll
-        uses: canastro/copy-file-action@master
-        with:
-          source: "desktop/build/jpackage/HadalCalm/runtime/bin/zip.dll"
-          target: "desktop/build/jpackage/HadalCalm/zip.dll"
+        run: cp "desktop/build/jpackage/HadalCalm/runtime/bin/zip.dll" "desktop/build/jpackage/HadalCalm"
 
       - run: ./butler push HadalCalm.jar donpommelo/hadal-calm:windows-linux-macos-jar
       - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/hadal-calm:windows-image
