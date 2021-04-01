@@ -13,13 +13,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Kamabokannon extends RangedWeapon {
 
@@ -29,7 +23,7 @@ public class Kamabokannon extends RangedWeapon {
 	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.3f;
 	private static final int reloadAmount = 0;
-	private static final float baseDamage = 13.0f;
+	private static final float baseDamage = 15.0f;
 	private static final float recoil = 3.0f;
 	private static final float knockback = 6.0f;
 	private static final float projectileSpeed = 33.0f;
@@ -40,7 +34,7 @@ public class Kamabokannon extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_BOILER;
 	
 	private static final float maxCharge = 0.25f;
-	private static final float lerpSpeed = 0.4f;
+	private static final float lerpSpeed = 0.3f;
 
 	private SoundEntity oozeSound;
 	
@@ -48,12 +42,11 @@ public class Kamabokannon extends RangedWeapon {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
 	}
 	
-	private float controllerCount = 0;
-	private static final float pushInterval = 1 / 60f;
-	private final Vector2 aimPointer = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
-		controllerCount += delta;
+		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
+		mousePointer.set(weaponVelo);
+		weaponVelo.set(aimPointer);
 
 		if (reloading || getClipLeft() == 0) {
 			if (oozeSound != null) {
@@ -61,16 +54,7 @@ public class Kamabokannon extends RangedWeapon {
 			}
 			return;
 		}
-		
-		//while held, lerp towards mouse pointer
-		while (controllerCount >= pushInterval) {
-			controllerCount -= pushInterval;
-			
-			super.mouseClicked(delta, state, shooter, faction, mouseLocation);
-			weaponVelo.setAngleDeg(MathUtils.lerpAngleDeg(aimPointer.angleDeg(), weaponVelo.angleDeg(), lerpSpeed));
-			aimPointer.set(weaponVelo);
-		}
-		
+
 		charging = true;
 		
 		//while held, build charge until maximum (if not reloading)
@@ -128,6 +112,20 @@ public class Kamabokannon extends RangedWeapon {
 		if (oozeSound != null) {
 			oozeSound.terminate();
 			oozeSound = null;
+		}
+	}
+
+	private float controllerCount;
+	private static final float pushInterval = 1 / 60f;
+	private final Vector2 mousePointer = new Vector2();
+	private final Vector2 aimPointer = new Vector2();
+	@Override
+	public void update(float delta) {
+		controllerCount += delta;
+
+		while (controllerCount >= pushInterval) {
+			controllerCount -= pushInterval;
+			aimPointer.setAngleDeg(MathUtils.lerpAngleDeg(aimPointer.angleDeg(), mousePointer.angleDeg(), lerpSpeed));
 		}
 	}
 }

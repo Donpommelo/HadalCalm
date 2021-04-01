@@ -13,6 +13,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
+import com.mygdx.hadal.utils.Constants;
 
 public class XBomber extends RangedWeapon {
 
@@ -78,7 +79,8 @@ public class XBomber extends RangedWeapon {
 				};
 				
 				cross.makeUnreflectable();
-				
+				cross.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+
 				cross.addStrategy(new ControllerDefault(state, cross, user.getBodyData()));
 				cross.addStrategy(new DamageStandard(state, cross, user.getBodyData(), crossDamage, knockback, DamageTypes.ENERGY, DamageTypes.RANGED)
 				.setConstantKnockback(true, startVelocity));

@@ -94,8 +94,9 @@ public class LaserRifle extends RangedWeapon {
 		};
 		hbox.setEffectsVisual(false);
 		hbox.setEffectsMovement(false);
-		
 		hbox.makeUnreflectable();
+
+		hbox.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.ENERGY, DamageTypes.RANGED)
@@ -109,6 +110,8 @@ public class LaserRifle extends RangedWeapon {
 		trail.setEffectsHit(false);
 		trail.setEffectsMovement(false);
 		trail.makeUnreflectable();
+
+		trail.setPassability((short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 
 		trail.addStrategy(new ControllerDefault(state, trail, user.getBodyData()));
 		trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance * shortestFraction));

@@ -207,7 +207,7 @@ IRON_BALL_LAUNCHER: {
 KAMABOKANNON: {
 	name: Kamabokannon
 	description: "Charge and fire a powerful but difficult to control spray of kamaboko."
-    descriptionLong: "Kamaboko Damage: 13\nWindup Duration: 0.25 Second\n\nClip Size: 100\nAmmo Capacity: 500\nReload Time: 1.3 Seconds\nAttack Cooldown: 0.08 Second"
+    descriptionLong: "Kamaboko Damage: 15\nWindup Duration: 0.25 Second\n\nClip Size: 100\nAmmo Capacity: 500\nReload Time: 1.3 Seconds\nAttack Cooldown: 0.08 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
