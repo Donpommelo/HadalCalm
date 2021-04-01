@@ -281,7 +281,7 @@ public class Player extends PhysicsSchmuck {
 		//If the player is spawning into a new level, initialize loadout and give brief invulnerability.
 		if (reset) {
 			playerData.initLoadout();
-			playerData.addStatus(new Invulnerability(state, 3.0f, playerData, playerData));
+			playerData.addStatus(new Invulnerability(state, 2.0f, playerData, playerData));
 		} else {
 			playerData.updateOldData(this);
 		}

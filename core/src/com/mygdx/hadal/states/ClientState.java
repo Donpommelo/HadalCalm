@@ -108,7 +108,7 @@ public class ClientState extends PlayState {
 	private static final float LatencyCheck = 1.0f;
 
 	private float inputAccumulator;
-	private static final float inputSyncTime = 1 / 30f;
+	private static final float inputSyncTime = 1 / 60f;
 
 	private final Vector3 lastMouseLocation = new Vector3();
 	@Override
@@ -127,12 +127,14 @@ public class ClientState extends PlayState {
 		mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		HadalGame.viewportCamera.unproject(mousePosition);
 
+		if (!lastMouseLocation.equals(mousePosition)) {
+			HadalGame.client.sendUDP(new Packets.MouseMove(mousePosition.x, mousePosition.y));
+		}
+
 		inputAccumulator += delta;
 		while (inputAccumulator >= inputSyncTime) {
 			inputAccumulator -= inputSyncTime;
-			if (!lastMouseLocation.equals(mousePosition)) {
-				HadalGame.client.sendUDP(new Packets.MouseMove(mousePosition.x, mousePosition.y));
-			}
+
 			if (controller != null) {
 				HadalGame.client.sendUDP(new Packets.SyncKeyStrokes(((ClientController) controller)
 					.getButtonsHeld().toArray(new PlayerAction[0]), getTimer()));
