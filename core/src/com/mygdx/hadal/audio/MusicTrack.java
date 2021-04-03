@@ -18,8 +18,10 @@ public enum MusicTrack {
 	CONFIDENCE("music/confidence.ogg", "Confidence", 216),
 	ORGAN_GRINDER("music/organ_grinder.ogg", "Organ Grinder", 114),
 	RED_EYE("music/red_eye.ogg", "Red Eye", 164),
+	SHARKTOOTH("music/sharktooth.ogg", "Sharktooth", 156),
 	SLEEPING_COGS("music/sleeping_cogs.ogg", "Sleeping Cogs", 176),
 	SURRENDER("music/surrender.ogg", "Surrender", 141),
+	WAKE_DANCER("music/wake_dancer.ogg", "Wake Dancer", 214),
 	WHIPLASH("music/whiplash.ogg", "Whiplash", 85),
 
 	;
