@@ -15,8 +15,8 @@ import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Nematocydearm extends RangedWeapon {
 
-	private static final int clipSize = 7;
-	private static final int ammoSize = 49;
+	private static final int clipSize = 4;
+	private static final int ammoSize = 40;
 	private static final float shootCd = 0.1f;
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 0.9f;

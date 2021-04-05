@@ -21,14 +21,14 @@ import java.util.ArrayList;
 public class ClientPlayer extends Player {
 
 	//this represents how precisely we lerp towards the server position
-	private static final float CONVERGE_MULTIPLIER = 0.05f;
+	private static final float CONVERGE_MULTIPLIER = 0.02f;
 	
 	//these are the amounts of latency in seconds under which the prediction strategy will kick in.
-	private static final float LATENCY_THRESHOLD_MIN = 0.08f;
-	private static final float LATENCY_THRESHOLD_MAX = 0.1f;
+	private static final float LATENCY_THRESHOLD_MIN = 0.1f;
+	private static final float LATENCY_THRESHOLD_MAX = 0.4f;
 	
 	//tolerance variables. if the prediction is incorrect by more than these thresholds, we must adjust our predictions
-	private static final float VELO_TOLERANCE = 200.0f;
+//	private static final float VELO_TOLERANCE = 200.0f;
 	private static final float DIST_TOLERANCE = 12.0f;
 	
 	public ClientPlayer(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
@@ -66,39 +66,40 @@ public class ClientPlayer extends Player {
 	public void onReceiveSync(Object o, float timestamp) {
 		super.onReceiveSync(o, timestamp);
 		
-		float latency = ((ClientState) state).getLatency();
-		float dt = Math.max(0.0f, historyDuration - latency);
-		
-		historyDuration -= dt;
-		
-		//we remove each frame in our history that is older than our latency
-		while (!frames.isEmpty() && dt > 0) {
-			ClientPredictionFrame frame = frames.get(0);
-			if (dt >= frame.delta) {
-				dt -= frame.delta;
-				frames.remove(0);
-			} else {
-				
-				//the last frame is trimmed so the total amount of time in our history is equal to our latency
-				float t = 1 - dt / frame.delta;
-				frame.delta -= dt;
-				frame.positionChange.scl(t);
-				break;
-			}
-		}
-		
 		if (o instanceof Packets.SyncEntity) {
 			Packets.SyncEntity p = (Packets.SyncEntity) o;
-			
+
+			float latency = ((ClientState) state).getLatency();
+			float dt = Math.max(0.0f, historyDuration - latency);
+
+			historyDuration -= dt;
+
+			//we remove each frame in our history that is older than our latency
+			while (!frames.isEmpty() && dt > 0) {
+				ClientPredictionFrame frame = frames.get(0);
+				if (dt >= frame.delta) {
+					dt -= frame.delta;
+					frames.remove(0);
+				} else {
+
+					//the last frame is trimmed so the total amount of time in our history is equal to our latency
+					float t = 1 - dt / frame.delta;
+					frame.delta -= dt;
+					frame.positionChange.scl(t);
+					break;
+				}
+			}
+
 			if (!frames.isEmpty()) {
 				
 				//if our velocity is outside the range of tolerance, edit each frame with the new velocity
-				if (p.velocity.dst2(frames.get(0).velocity) > VELO_TOLERANCE) {
-					for (ClientPredictionFrame frame: frames) {
-						frame.velocity = p.velocity;
-						frame.positionChange = p.velocity.scl(frame.delta);
-					}
-				}
+//				if (p.velocity.dst2(frames.get(0).velocity) > VELO_TOLERANCE) {
+//
+//					for (ClientPredictionFrame frame: frames) {
+//						frame.velocity = p.velocity;
+//						frame.positionChange = p.velocity.scl(frame.delta);
+//					}
+//				}
 				
 				//we predict our position is equal to what the server sent us, plus our total displacement in the time it took for that position to reach us
 				predictedPosition.set(p.pos);
@@ -109,7 +110,8 @@ public class ClientPlayer extends Player {
 				
 				//if our position is too far away from what the server sends us, just rubberband.
 				if (body != null) {
-					if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE) {
+					if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE && predicting) {
+
 						setTransform(predictedPosition, 0.0f);
 						lastPosition.set(predictedPosition);
 					}
@@ -131,13 +133,14 @@ public class ClientPlayer extends Player {
 		while (controllerCount >= controllerInterval) {
 			controllerCount -= controllerInterval;
 			
-			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() && ((ClientState) state).getUiPlay().getOverrideFuelAmount() >= playerData.getHoverCost()) {
+			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&
+				((ClientState) state).getUiPlay().getOverrideFuelAmount() >= playerData.getHoverCost()) {
 				if (jumpCdCount < 0) {
 					hover();
 				}
 			}
 			
-			if (fastFalling) {
+			if (fastFalling && predicting) {
 				fastFall();
 			}
 		}

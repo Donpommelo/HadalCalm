@@ -12,7 +12,7 @@ public class RadialBarrage extends ActiveItem {
 
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 12.0f;
+	private static final float maxCharge = 20.0f;
 	
 	private static final float duration = 5.0f;
 	private static final float procCd = 0.1f;
@@ -51,14 +51,17 @@ public class RadialBarrage extends ActiveItem {
 			
 			int clipSize = user.getCurrentTool().getClipSize();
 			
-			if (clipSize > 2) {
-				gainChargeByPercent(0.25f);
+			if (clipSize > 1) {
+				gainChargeByPercent(0.20f);
+			}
+			if (clipSize > 3) {
+				gainChargeByPercent(0.20f);
 			}
 			if (clipSize > 6) {
-				gainChargeByPercent(0.25f);
+				gainChargeByPercent(0.20f);
 			}
-			if (clipSize > 12) {
-				gainChargeByPercent(0.25f);
+			if (clipSize > 9) {
+				gainChargeByPercent(0.30f);
 			}
 		}
 	}

@@ -150,10 +150,6 @@ public class ActionController {
 		else if (action == PlayerAction.WEAPON_CYCLE_DOWN) {
 			player.getPlayerData().switchDown();
 		}
-
-		else if (action == PlayerAction.CHAT_WHEEL) {
-			state.getChatWheel().setVisibility(true);
-		}
 		
 		else if (action == PlayerAction.PING) {
 			player.ping();

@@ -25,7 +25,7 @@ public class Fugun extends RangedWeapon {
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.1f;
 	private static final int reloadAmount = 1;
-	private static final float baseDamage = 30.0f;
+	private static final float baseDamage = 35.0f;
 	private static final float recoil = 0.0f;
 	private static final float knockback = 12.5f;
 	private static final float projectileSpeed = 45.0f;

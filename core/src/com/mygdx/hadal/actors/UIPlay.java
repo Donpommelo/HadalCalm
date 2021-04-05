@@ -133,20 +133,17 @@ public class UIPlay extends AHadalActor {
 		ammoText = state.getPlayer().getPlayerData().getCurrentTool().getAmmoText();
 		numWeaponSlots = state.getPlayer().getPlayerData().getNumWeaponSlots();
 		activePercent = state.getPlayer().getPlayerData().getActiveItem().chargePercent();
-		
-		if (bossFight && boss.getBody() != null) {
-			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP);
-		}
 	}
 	
 	@Override
     public void draw(Batch batch, float alpha) {
 
-		if (state.getPlayer().getPlayerData() == null) { return; }
-
 		batch.setProjectionMatrix(state.getHud().combined);
-		calcVars();
-		
+
+		if (bossFight && boss.getBody() != null) {
+			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP);
+		}
+
 		//Draw boss hp bar, if existent
 		if (bossFight && boss.getBody() != null) {
 			font.getData().setScale(fontScaleSmall);
@@ -166,6 +163,9 @@ public class UIPlay extends AHadalActor {
 			GameStateManager.getBossGaugeRedPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpRatio, bossBarHeight, bossScale, bossScale, 0);
 			GameStateManager.getBossGaugePatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
 		}
+
+		if (state.getPlayer().getPlayerData() == null) { return; }
+		calcVars();
 
 		//hide rest of ui if specified in settings. We don't want to hide boss ui.
 		if (state.getGsm().getSetting().isHideHUD()) { return; }

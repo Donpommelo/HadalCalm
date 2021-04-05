@@ -22,11 +22,11 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class Riftsplitter extends MeleeWeapon {
 
-	private static final float shootCd = 0.5f;
-	private static final float shootDelay = 0.3f;
+	private static final float shootCd = 0.4f;
+	private static final float shootDelay = 0.2f;
 	private static final float baseDamage = 30.0f;
 	private static final Vector2 projectileSize = new Vector2(30, 120);
-	private static final float projectileSpeed = 30.0f;
+	private static final float projectileSpeed = 33.0f;
 	private static final float knockback = 15.0f;
 	private static final float lifespan = 0.5f;
 	

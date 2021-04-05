@@ -45,7 +45,7 @@ public class Minigun extends RangedWeapon {
 	
 	private static final float maxCharge = 0.5f;
 	private static final float selfSlowDura = 0.1f;
-	private static final float selfSlowMag = 0.75f;
+	private static final float selfSlowMag = 0.6f;
 	
 	private SoundEntity fireSound;
 	

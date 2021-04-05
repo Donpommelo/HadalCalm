@@ -30,7 +30,7 @@ public class BatteringRam extends MeleeWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_SCRAPRIPPER;
 	private static final Sprite eventSprite = Sprite.P_SCRAPRIPPER;
 
-	private static final float maxCharge = 0.4f;
+	private static final float maxCharge = 0.3f;
 	
 	private static final float minRecoil = 25.0f;
 	private static final float maxRecoil = 175.0f;

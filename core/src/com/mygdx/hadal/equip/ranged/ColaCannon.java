@@ -38,7 +38,7 @@ public class ColaCannon extends RangedWeapon {
 
 	private static final float procCd = .05f;
 	private static final float fireDuration = 2.0f;
-	private static final float veloDeprec = 1.1f;
+	private static final float veloDeprec = 1.0f;
 	private static final float minVelo = 10.0f;
 	private static final float minDuration = 0.5f;
 

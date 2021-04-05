@@ -26,7 +26,7 @@ public class MarineSnowglobe extends ActiveItem {
 	private static final Vector2 projectileSize = new Vector2(400, 400);
 	private static final float duration = 0.5f;
 
-	private static final float projectileDamage = 18.0f;
+	private static final float projectileDamage = 24.0f;
 	private static final float projectileKB = 15.0f;
 	
 	private static final float slowDuration = 5.0f;

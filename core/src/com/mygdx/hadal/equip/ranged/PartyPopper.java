@@ -32,7 +32,7 @@ public class PartyPopper extends RangedWeapon {
 	
 	private static final int numProj = 8;
 	private static final int spread = 30;
-	private static final float fragSpeed = 40.0f;
+	private static final float fragSpeed = 50.0f;
 	private static final Vector2 fragSize = new Vector2(15, 15);
 	private static final float fragLifespan = 1.2f;
 	private static final float fragDamage = 19.0f;

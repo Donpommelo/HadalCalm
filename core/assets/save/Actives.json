@@ -56,7 +56,7 @@ FAFROTSKIES: {
 FISH_GANG: {
 	name: Fish Gang
 	description: "Summon a Fish Gang"
-    descriptionLong: "Charge: 125 Damage\nFish Number: 5\n\n"
+    descriptionLong: "Charge: 160 Damage\nFish Number: 5\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -119,7 +119,7 @@ JUMP_KICK: {
 MARINE_SNOWGLOBE: {
 	name: Marine Snowglobe
 	description: "Damage and slow nearby enemies"
-    descriptionLong: "Charge: 10 Seconds\nSnow Damage: 18\nSlow Duration: 5 Seconds\nSlow Amount: -75%\n\n"
+    descriptionLong: "Charge: 10 Seconds\nSnow Damage: 24\nSlow Duration: 5 Seconds\nSlow Amount: -75%\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -146,7 +146,7 @@ MERIDIAN_MAKER: {
 METEOR_STRIKE: {
 	name: Meteor Strike
 	description: "Summon meteors at mouse location"
-    descriptionLong: "Charge: 20 Seconds\nMeteor Duration: 3 Seconds\nMeteor Interval: 0.1 Second\nMeteor damage: 24\n\n"
+    descriptionLong: "Charge: 20 Seconds\nMeteor Duration: 3.5 Seconds\nMeteor Interval: 0.1 Second\nMeteor damage: 24\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -224,7 +224,7 @@ PROXIMITY_MINE: {
 RADIAL_BARRAGE: {
 	name: Radial Barrage
 	description: "Fire currently equipped weapon in all directions"
-    descriptionLong: "Charge: 12 Seconds (reduced for high clip size weapons)\nRadial Shots: 6\nShot Interval 0.1 Second\n\n"
+    descriptionLong: "Charge: 20 Seconds (reduced for high clip size weapons)\nRadial Shots: 6\nShot Interval 0.1 Second\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
