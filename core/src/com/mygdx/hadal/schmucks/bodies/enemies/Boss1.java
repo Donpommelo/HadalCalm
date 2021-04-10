@@ -1,15 +1,15 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.event.SpawnerSchmuck;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -80,7 +80,7 @@ public class Boss1 extends EnemyFloating {
 				setAttackCd(aiAttackCd2);
 				spawnAdds();
 			} else {
-				int randomIndex = GameStateManager.generator.nextInt(4);
+				int randomIndex = MathUtils.random(3);
 				switch (randomIndex) {
 					case 0 -> chargeAttack1();
 					case 1 -> chargeAttack2();
@@ -96,7 +96,7 @@ public class Boss1 extends EnemyFloating {
 				setAttackCd(aiAttackCd3);
 				spawnAdds();
 			} else if (attackNum % 2 == 0) {
-				int randomIndex = GameStateManager.generator.nextInt(5);
+				int randomIndex = MathUtils.random(4);
 				switch (randomIndex) {
 					case 0 -> chargeAttack3();
 					case 1 -> chargeAttack4();
@@ -105,7 +105,7 @@ public class Boss1 extends EnemyFloating {
 					case 4 -> sweepingLaser();
 				}
 			} else {
-				int randomIndex = GameStateManager.generator.nextInt(4);
+				int randomIndex = MathUtils.random(3);
 				switch (randomIndex) {
 					case 0 -> bouncyBall();
 					case 1 -> vengefulSpirit();
@@ -117,7 +117,7 @@ public class Boss1 extends EnemyFloating {
 		
 		if (phase == 3) {
 			if (attackNum % 2 == 0) {
-				int randomIndex = GameStateManager.generator.nextInt(6);
+				int randomIndex = MathUtils.random(5);
 				switch (randomIndex) {
 					case 0 -> chargeAttack3();
 					case 1 -> chargeAttack5();
@@ -127,7 +127,7 @@ public class Boss1 extends EnemyFloating {
 					case 5 -> rotatingLaser();
 				}
 			} else {
-				int randomIndex = GameStateManager.generator.nextInt(4);
+				int randomIndex = MathUtils.random(3);
 				switch (randomIndex) {
 					case 0 -> bouncyBall();
 					case 1 -> vengefulSpirit();
@@ -466,7 +466,7 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.createSoundEntity(state, this, 0.0f, laser2Windup, 1.0f, 0.5f, SoundEffect.BEAM3, true);
 		EnemyUtils.windupParticles(state, this, laser2Windup, Particle.LASER_PULSE, 40.0f);
 
-		boolean random = GameStateManager.generator.nextBoolean();
+		boolean random = MathUtils.randomBoolean();
 		
 		if (random) {
 			EnemyUtils.changeFloatingState(this, FloatingState.ROTATING, rotateSpeed, 0.0f);
@@ -565,9 +565,8 @@ public class Boss1 extends EnemyFloating {
 	private static final float ballInterval= 1.0f;
 	
 	private void bouncyBall() {
-		boolean random = GameStateManager.generator.nextBoolean();
 		float baseAngle;
-		if (random) {
+		if (MathUtils.randomBoolean()) {
 			EnemyUtils.moveToDummy(state, this, "0", moveSpeed, moveDurationMax);
 			baseAngle = -60.0f;
 		} else {

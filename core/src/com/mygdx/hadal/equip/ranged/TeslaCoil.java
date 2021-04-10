@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.audio.SoundEffect;
@@ -192,7 +193,7 @@ public class TeslaCoil extends RangedWeapon {
 							newPosition.set(hboxOther.getPixelPosition()).sub(hbox.getPixelPosition());
 
 							//Rotate hitbox to match angle of fire.
-							float newAngle = (float)(Math.atan2(newPosition.y , newPosition.x));
+							float newAngle = MathUtils.atan2(newPosition.y , newPosition.x);
 							setTransform(getPosition().x, getPosition().y, newAngle);
 						}
 					};

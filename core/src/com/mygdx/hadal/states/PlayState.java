@@ -5,9 +5,11 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -159,7 +161,7 @@ public class PlayState extends GameState {
 	
 	//Background and black screen used for transitions
 	private final TextureRegion bg;
-	private Shader shaderBase;
+	private Shader shaderBase, shaderTile;
 	
 	//if we are transitioning to another state, this is that state
 	protected TransitionState nextState;
@@ -242,9 +244,34 @@ public class PlayState extends GameState {
 		//The mouse tracker is the player's mouse position
 		mouse = new MouseTracker(this, true);
 
+		PlayState me = this;
 		//load map
 		map = new TmxMapLoader().load(level.getMap());
-		tmr = new OrthogonalTiledMapRenderer(map, batch);
+		tmr = new OrthogonalTiledMapRenderer(map, batch) {
+
+			@Override
+			public void render () {
+				beginRender();
+
+				if (shaderTile.getShaderProgram() != null) {
+					batch.setShader(shaderTile.getShaderProgram());
+					shaderTile.shaderPlayUpdate(me, timer);
+					shaderTile.shaderDefaultUpdate(timer);
+				}
+
+				for (MapLayer layer : map.getLayers()) {
+					renderMapLayer(layer);
+				}
+
+				if (shaderTile.getShaderProgram() != null) {
+					if (shaderTile.isBackground()) {
+						batch.setShader(null);
+					}
+				}
+
+				endRender();
+			}
+		};
 
 		//Get map settings from the collision layer of the map
 		this.pvp = map.getProperties().get("pvp", false, Boolean.class);
@@ -255,6 +282,7 @@ public class PlayState extends GameState {
 
 		//load map shader
 		this.shaderBase = Shader.NOTHING;
+		this.shaderTile = Shader.NOTHING;
 
 		if (map.getProperties().get("customShader", false, Boolean.class) ) {
 			shaderBase = Wallpaper.shaders[gsm.getSetting().getCustomShader()];
@@ -514,13 +542,13 @@ public class PlayState extends GameState {
 				batch.setShader(null);
 			}
 		}
-		//batch.enableBlending();
+
 		batch.end();
 		batch.enableBlending();
 
 		//Render Tiled Map + world
 		tmr.setView(camera);
-		tmr.render();				
+		tmr.render();
 
 		//Render debug lines for box2d objects.
 		if (debugHitbox) {
@@ -756,6 +784,11 @@ public class PlayState extends GameState {
 		if (shaderBase.getShaderProgram() != null) {
 			shaderBase.getShaderProgram().bind();
 			shaderBase.shaderResize();
+		}
+
+		if (shaderTile.getShaderProgram() != null) {
+			shaderTile.getShaderProgram().bind();
+			shaderTile.shaderResize();
 		}
 	}
 	
@@ -1404,10 +1437,10 @@ public class PlayState extends GameState {
 		
 		//if any start points haven't been used recently, pick one of them randomly. Otherwise pick a random valid start point
 		if (readyStarts.isEmpty()) {
-			int randomIndex = GameStateManager.generator.nextInt(validStarts.size());
+			int randomIndex = MathUtils.random(validStarts.size() - 1);
 			return validStarts.get(randomIndex);
 		} else {
-			int randomIndex = GameStateManager.generator.nextInt(readyStarts.size());
+			int randomIndex = MathUtils.random(readyStarts.size() - 1);
 			return readyStarts.get(randomIndex);
 		}
 	}
@@ -1467,6 +1500,11 @@ public class PlayState extends GameState {
 	public void setShaderBase(Shader shader) {
 		shaderBase = shader;
 		shaderBase.loadShader();
+	}
+
+	public void setShaderTile(Shader shader) {
+		shaderTile = shader;
+		shaderTile.loadShader();
 	}
 	
 	private static final float spectatorDefaultZoom = 1.5f;

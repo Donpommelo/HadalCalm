@@ -1,7 +1,7 @@
 package com.mygdx.hadal.save;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
@@ -157,7 +157,7 @@ public enum UnlockLevel {
 		Array<UnlockLevel> dm = getUnlocks(state, false, tags);
 
 		if (dm.size > 0) {
-			UnlockLevel level = dm.get(GameStateManager.generator.nextInt(dm.size));
+			UnlockLevel level = dm.get(MathUtils.random(dm.size - 1));
 			
 			//ensures we do not random the random map
 			if (level != UnlockLevel.RANDOM) {

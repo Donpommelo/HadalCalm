@@ -1,7 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -32,7 +32,7 @@ public class SamuraiShark extends Artifact {
 				
 				if (!hbox.isEffectsHit()) { return; } 
 				
-				if (GameStateManager.generator.nextDouble() < critChance) {
+				if (MathUtils.randomBoolean(critChance)) {
 					hbox.setStartVelo(hbox.getStartVelo().scl(critSpeedMultiplier));
 					hbox.addStrategy(new DieParticles(state, hbox, b, Particle.EXPLOSION));
 					hbox.setDamageMultiplier(critDamageBoost);

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.utils;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.managers.GameStateManager;
 
 import java.util.ArrayList;
@@ -1084,9 +1085,9 @@ public enum NameGenerator {
 			}
 		}
 		
-		int randomIndex = GameStateManager.generator.nextInt(possibleNexts.size());
+		int randomIndex = MathUtils.random(possibleNexts.size() - 1);
 		NameGenerator next1 = possibleNexts.get(randomIndex);
-		NameGenerator next2 = alliteration ? possibleNexts.get(randomIndex) : possibleNexts.get(GameStateManager.generator.nextInt(possibleNexts.size()));
+		NameGenerator next2 = alliteration ? possibleNexts.get(randomIndex) : possibleNexts.get(MathUtils.random(possibleNexts.size() - 1));
 		
 		String firstName = next1.me + generateName(next1.endTag);
 		String lastName = next2.me + generateName(next2.endTag);
@@ -1127,7 +1128,7 @@ public enum NameGenerator {
 		if (possibleNexts.isEmpty()) { return ""; }
 		
 		//pick a random possibly next fragment and add it.
-		int randomIndex = GameStateManager.generator.nextInt(possibleNexts.size());
+		int randomIndex = MathUtils.random(possibleNexts.size() - 1);
 		NameGenerator next = possibleNexts.get(randomIndex);
 		
 		if (next.endTag.equals("end")) {

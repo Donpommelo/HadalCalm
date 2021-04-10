@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.effects.Sprite;
@@ -77,8 +78,8 @@ public class DroneBit extends EnemySwimming {
 	@Override
 	public void render(SpriteBatch batch) {
 		boolean flip = true;
-		double realAngle = getAngle() % (Math.PI * 2);
-		if ((realAngle > Math.PI / 2 && realAngle < 3 * Math.PI / 2) || (realAngle < -Math.PI / 2 && realAngle > -3 * Math.PI / 2)) {
+		float realAngle = getAngle() % (MathUtils.PI * 2);
+		if ((realAngle > MathUtils.PI / 2 && realAngle < 3 * MathUtils.PI / 2) || (realAngle < -MathUtils.PI / 2 && realAngle > -3 * MathUtils.PI / 2)) {
 			flip = false;
 		}
 		
@@ -89,7 +90,7 @@ public class DroneBit extends EnemySwimming {
 				(flip ? -1 : 1) * size.x / 2, 
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
+				(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 		
 		batch.draw(eyeSprite.getKeyFrame(animationTime, false),
 				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
@@ -97,7 +98,7 @@ public class DroneBit extends EnemySwimming {
 				(flip ? -1 : 1) * size.x / 2, 
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
+				(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 		
 		super.render(batch);
 		
@@ -107,6 +108,6 @@ public class DroneBit extends EnemySwimming {
 				(flip ? -1 : 1) * size.x / 2, 
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
+				(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 	}
 }

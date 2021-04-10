@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -87,7 +88,7 @@ public class LaserRifle extends RangedWeapon {
 				setLifeSpan(lifespan);
 
 				//Rotate hitbox to match angle of fire.
-				float newAngle = (float)(Math.atan2(startVelocity.y , startVelocity.x));
+				float newAngle = MathUtils.atan2(startVelocity.y , startVelocity.x);
 				newPosition.set(getPosition()).add(new Vector2(startVelocity).nor().scl(size.x / 2 / PPM));
 				setTransform(newPosition.x, newPosition.y, newAngle);
 			}

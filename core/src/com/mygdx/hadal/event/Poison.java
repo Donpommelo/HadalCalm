@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -153,8 +154,8 @@ public class Poison extends Event {
 				currPoisonSpawnTimer += delta;
 				while (currPoisonSpawnTimer >= spawnTimerLimit) {
 					currPoisonSpawnTimer -= spawnTimerLimit;
-					int randX = (int) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
-					int randY = (int) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
+					int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
+					int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
 					new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle, particleLifespan, true, particleSyncType.NOSYNC);
 				}
 			}
@@ -176,8 +177,8 @@ public class Poison extends Event {
 				currPoisonSpawnTimer += delta;
 				while (currPoisonSpawnTimer >= spawnTimerLimit) {
 					currPoisonSpawnTimer -= spawnTimerLimit;
-					int randX = (int) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
-					int randY = (int) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
+					int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
+					int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
 					ParticleEntity poison = new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle, particleLifespan, true, particleSyncType.NOSYNC);
 					((ClientState) state).addEntity(poison.getEntityID().toString(), poison, false, ObjectSyncLayers.EFFECT);
 				}

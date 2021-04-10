@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
@@ -13,7 +14,6 @@ import com.mygdx.hadal.event.Event.eventSyncTypes;
 import com.mygdx.hadal.event.Scrap;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.Sensor;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -342,7 +342,7 @@ public class WeaponUtils {
 						hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.FALLING, 0.5f, false));
 					}
 					
-					originPt.set(startPos).add((GameStateManager.generator.nextFloat() -  0.5f) * spread, 0);
+					originPt.set(startPos).add((MathUtils.random() -  0.5f) * spread, 0);
 					endPt.set(originPt).add(0, -range);
 					shortestFraction = 1.0f;
 					
@@ -360,7 +360,7 @@ public class WeaponUtils {
 					endPt.set(originPt).add(0, -range * shortestFraction).scl(PPM);
 					originPt.set(endPt).add(0, range);
 					
-					int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
+					int randomIndex = MathUtils.random(projSprites.length - 1);
 					Sprite projSprite = projSprites[randomIndex];
 					
 					
@@ -424,7 +424,7 @@ public class WeaponUtils {
 				if (displacement > vineSize.x) {
 					displacement = 0.0f;
 
-					int randomIndex = GameStateManager.generator.nextInt(vineSprites.length);
+					int randomIndex = MathUtils.random(vineSprites.length - 1);
 					Sprite projSprite = vineSprites[randomIndex];
 
 					RangedHitbox vine = new RangedHitbox(state, hbox.getPixelPosition(), vineSize, lifespan, new Vector2(),
@@ -437,7 +437,7 @@ public class WeaponUtils {
 							super.create();
 
 							//vines match hbox velocity but are drawn at an offset so they link together better
-							float newAngle = (float)(Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x));
+							float newAngle = MathUtils.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x);
 							newPosition.set(getPosition()).add(new Vector2(hbox.getLinearVelocity()).nor().scl(vineSize.x / 2 / PPM));
 							setTransform(newPosition.x, newPosition.y, newAngle);
 						}

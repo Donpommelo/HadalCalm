@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.effects.Sprite;
@@ -55,8 +56,8 @@ public class SeeSawPlatform extends Event {
 		joint.localAnchorA.set(getPosition().x, getPosition().y);
 		joint.localAnchorB.set(0, 0);
 		joint.enableLimit = true;
-		joint.lowerAngle = (float) (-Math.PI / 3);
-		joint.upperAngle = (float) (Math.PI / 3);
+		joint.lowerAngle = -MathUtils.PI / 3;
+		joint.upperAngle = MathUtils.PI / 3;
 		state.getWorld().createJoint(joint);
 		
 		//create the segment fixtures. Each responds to knockback and applies it to the respective parts of the platform

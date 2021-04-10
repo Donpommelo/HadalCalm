@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -66,7 +67,7 @@ public class ClientIllusion extends HadalEntity {
 						entityLocation.y - size.y / 2, 
 						size.x / 2, size.y / 2,
 						size.x, size.y, -1, 1, 
-						(float) Math.toDegrees(getAngle()));
+						MathUtils.radDeg * getAngle());
 				break;
 			case CENTER:
 				batch.draw(illusionSprite.getKeyFrame(animationTime, false),
@@ -95,7 +96,7 @@ public class ClientIllusion extends HadalEntity {
 						entityLocation.y - size.y / 2, 
 						size.x / 2, size.y / 2,
 						size.x, size.y, 1, 1, 
-						(float) Math.toDegrees(getAngle()));
+						MathUtils.radDeg * getAngle());
 			default:
 				break;
 			}

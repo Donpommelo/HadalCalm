@@ -2,6 +2,7 @@ package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
@@ -35,7 +36,7 @@ public class UIObjective extends AHadalActor {
 		
 		this.icon = Sprite.CLEAR_CIRCLE_ALERT.getFrame();
 		this.arrow = Sprite.NOTIFICATIONS_DIRECTIONAL_ARROW.getFrame();
-		this.corner = (float) Math.atan2(-HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
+		this.corner = MathUtils.atan2(-HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 		this.width = icon.getRegionWidth() * scale;
 		this.height = icon.getRegionHeight() * scale;
 		this.arrowWidth = arrow.getRegionWidth() * scale;
@@ -61,28 +62,28 @@ public class UIObjective extends AHadalActor {
 				centerPosition.set(HadalGame.CONFIG_WIDTH / 2, HadalGame.CONFIG_HEIGHT / 2, 0);
 				HadalGame.viewportCamera.unproject(centerPosition);
 				toObjective.set(centerPosition.x, centerPosition.y).sub(objectiveLocation);
-				float angle = (float) Math.atan2(-toObjective.x, toObjective.y);
+				float angle = MathUtils.atan2(-toObjective.x, toObjective.y);
 				float tanAngle = (float) (Math.tan(angle) * (HadalGame.CONFIG_HEIGHT / 2 - height));
-				if (angle < corner && angle > -(Math.PI + corner)) {
+				if (angle < corner && angle > -(MathUtils.PI + corner)) {
 					x = width;
-					y = (float) (HadalGame.CONFIG_HEIGHT / 2 - Math.tan(angle + Math.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - width));
+					y = (float) (HadalGame.CONFIG_HEIGHT / 2 - Math.tan(angle + MathUtils.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - width));
 				}
-				else if (angle > -corner && angle < (Math.PI + corner)) {
+				else if (angle > -corner && angle < (MathUtils.PI + corner)) {
 					x = HadalGame.CONFIG_WIDTH - width;
-					y = (float) (HadalGame.CONFIG_HEIGHT / 2 + Math.tan(angle - Math.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - width));
+					y = (float) (HadalGame.CONFIG_HEIGHT / 2 + Math.tan(angle - MathUtils.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - width));
 				}
 				else if (angle <= -corner && angle >= corner) {
 					x = HadalGame.CONFIG_WIDTH / 2 + tanAngle;
 					y = height;
 				}
-				else if (angle >= (Math.PI + corner) || angle <= -(Math.PI + corner)) {				
+				else if (angle >= (MathUtils.PI + corner) || angle <= -(MathUtils.PI + corner)) {
 					x = HadalGame.CONFIG_WIDTH / 2 - tanAngle;
 					y = HadalGame.CONFIG_HEIGHT - height;
 				}
 				
 				batch.draw(icon, x - width / 2, y - height / 2, width, height);
 				batch.draw(arrow, x + width / 2 + 1, y - arrowHeight / 2, - width / 2 - 1, arrowHeight / 2,
-					arrowWidth, arrowHeight, 1, 1, (float) (180 * angle / Math.PI - 90));
+					arrowWidth, arrowHeight, 1, 1, 180 * angle / MathUtils.PI - 90);
 			} else if (displayObjectiveOnScreen) {
 
 				//if desired, we display an on-screen objective icon directly on top of the objective

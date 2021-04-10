@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.HadalColor;
@@ -74,7 +75,7 @@ public class XBomber extends RangedWeapon {
 					@Override
 					public void create() {
 						super.create();
-						setTransform(getPosition().x, getPosition().y, (float) (Math.PI / 4 * rotate));
+						setTransform(getPosition().x, getPosition().y, MathUtils.PI / 4 * rotate);
 					}
 				};
 				

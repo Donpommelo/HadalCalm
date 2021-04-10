@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.actives;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.enemies.Scissorfish;
@@ -26,8 +27,8 @@ public class FishGang extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		for (int i = 0; i < numFish; i++) {
-			
-			if (Math.random() > 0.4f) {
+			float randFloat = MathUtils.random();
+			if (randFloat > 0.4f) {
 				new Scissorfish(state, user.getPlayer().getPixelPosition(), 0.0f, user.getPlayer().getHitboxfilter(), null) {
 					
 					@Override
@@ -38,7 +39,7 @@ public class FishGang extends ActiveItem {
 					}
 				};
 				
-			} else if (Math.random() > 0.7f){
+			} else if (randFloat > 0.7f){
 				new Spittlefish(state, user.getPlayer().getPixelPosition(), 0.0f, user.getPlayer().getHitboxfilter(), null) {
 					
 					@Override

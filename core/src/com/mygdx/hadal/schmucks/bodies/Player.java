@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -430,7 +431,7 @@ public class Player extends PhysicsSchmuck {
 			mouseLocation.set(mouse.getPixelPosition());
 			mouseAngle.set(playerLocation.x, playerLocation.y).sub(mouseLocation.x, mouseLocation.y);
 		}
-		attackAngle = (float) (Math.atan2(mouseAngle.y, mouseAngle.x) * 180 / Math.PI);
+		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
 		
 		//process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
 		playerData.getCurrentTool().update(delta);
@@ -884,7 +885,7 @@ public class Player extends PhysicsSchmuck {
 		super.clientController(delta);
 		//client mouse lerps towards the angle sent by server
 		mouseAngle.setAngleRad(mouseAngle.angleRad()).lerp(serverAttackAngle, 1 / 2f).angleRad();
-		attackAngle = (float)(Math.atan2(mouseAngle.y, mouseAngle.x) * 180 / Math.PI);
+		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
 		typingCdCount -= delta;
 	}
 	

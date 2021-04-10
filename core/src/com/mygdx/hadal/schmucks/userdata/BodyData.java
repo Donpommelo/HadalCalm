@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.userdata;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Shader;
@@ -287,7 +288,7 @@ public class BodyData extends HadalData {
 		float damage = basedamage;
 		damage -= basedamage * (getStat(Stats.DAMAGE_RES));
 		damage += basedamage * (perp.getStat(Stats.DAMAGE_AMP));
-		damage += basedamage * (-damageVariance + Math.random() * 2 * damageVariance);
+		damage += basedamage * (-damageVariance + MathUtils.random() * 2 * damageVariance);
 		
 		//proc effects and inflict damage
 		if (procEffects) {

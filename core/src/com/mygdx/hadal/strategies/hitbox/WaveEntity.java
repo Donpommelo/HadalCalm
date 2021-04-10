@@ -1,5 +1,6 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -41,7 +42,7 @@ public class WaveEntity extends HitboxStrategy {
 			controllerCount -= pushInterval;
 
 			if (target.getBody() != null && target.isAlive()) {
-				offset.set(0, (float) (amplitude * Math.sin(timer * frequency))).setAngleDeg(hbox.getLinearVelocity().angleDeg() + startAngle);
+				offset.set(0, amplitude * MathUtils.sin(timer * frequency)).setAngleDeg(hbox.getLinearVelocity().angleDeg() + startAngle);
 
 				centerPos.set(target.getPosition()).add(offset);
 				hbox.setTransform(centerPos, lastPos.sub(centerPos).angleRad());

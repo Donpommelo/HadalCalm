@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.actives;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
@@ -53,8 +54,8 @@ public class SamsonOption extends ActiveItem {
 				}
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					float randX = (float) ((Math.random() * hbox.getSize().x) - (hbox.getSize().x / 2) + hbox.getPixelPosition().x);
-					float randY = (float) ((Math.random() * hbox.getSize().y) - (hbox.getSize().y / 2) + hbox.getPixelPosition().y);
+					float randX = (MathUtils.random() * hbox.getSize().x) - (hbox.getSize().x / 2) + hbox.getPixelPosition().x;
+					float randY = (MathUtils.random() * hbox.getSize().y) - (hbox.getSize().y / 2) + hbox.getPixelPosition().y;
 					
 					SoundEffect.EXPLOSION6.playUniversal(state, explosionPosition.set(randX, randY), 0.5f, false);
 					WeaponUtils.createExplosion(state, explosionPosition, explosionRadius, user.getSchmuck(), explosionDamage, explosionKnockback,

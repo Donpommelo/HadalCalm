@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -159,7 +160,7 @@ public class Event extends HadalEntity {
 						entityLocation.y - size.y / 2,
 						size.x / 2, size.y / 2,
 	                    size.x, size.y, 
-	                    1, 1, (float) Math.toDegrees(getAngle()));
+	                    1, 1, MathUtils.radDeg * getAngle());
 				break;
 			default:
 				break;

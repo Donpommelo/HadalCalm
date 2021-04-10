@@ -1,5 +1,6 @@
 package com.mygdx.hadal.utils;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.dialog.DeathMessage;
@@ -66,7 +67,7 @@ public class DeathTextUtil {
 		}
 		
 		//obtain random message and filter tags
-		int randomIndex = GameStateManager.generator.nextInt(possibleMessages.size());
+		int randomIndex = MathUtils.random(possibleMessages.size() - 1);
 		return filterDeathMessage(perp, vic, type, possibleMessages.get(randomIndex));
 	}
 	

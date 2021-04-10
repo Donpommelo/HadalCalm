@@ -1,6 +1,6 @@
 package com.mygdx.hadal.utils;
 
-import com.mygdx.hadal.managers.GameStateManager;
+import com.badlogic.gdx.math.MathUtils;
 
 import java.util.ArrayList;
 
@@ -178,7 +178,7 @@ public enum PoetryGenerator {
 		if (possibleNexts.isEmpty()) { return ""; }
 		
 		//pick a random possible next fragment and add it.
-		int randomIndex = GameStateManager.generator.nextInt(possibleNexts.size());
+		int randomIndex = MathUtils.random(possibleNexts.size() - 1);
 		PoetryGenerator next = possibleNexts.get(randomIndex);
 		currentLengthExtra += next.lengthExtra;
 		

@@ -20,7 +20,6 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.*;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Stack;
 
 /**
@@ -61,9 +60,6 @@ public class GameStateManager {
 	public static Json json = new Json();
 	public static JsonReader reader = new JsonReader();
 	
-	//Not sure if this is a sensible thing to do, but we have an rng here so I don't need to make one whenever elsewhere
-	public static Random generator;
-	
 	//are we in single or multiplayer mode?
 	public static Mode currentMode = Mode.SINGLE;
 	
@@ -98,8 +94,6 @@ public class GameStateManager {
 		miscText = reader.parse(Gdx.files.internal("text/MiscText.json"));
 		randomText = reader.parse(Gdx.files.internal("text/RandomText.json"));
 		shops = reader.parse(Gdx.files.internal("save/Shops.json"));
-		
-		generator = new Random();
 		
 		//set the game's display to match the player's saved settings
 		setting.setDisplay(app, null);

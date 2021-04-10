@@ -1,6 +1,7 @@
 package com.mygdx.hadal.audio;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
@@ -115,20 +116,17 @@ public class MusicPlayer {
 		//otherwise play a random track that matches the designated "mode"
 		if (currentTrackType != type) {
 			currentTrackType = type;
-			int randomIndex;
 			switch (type) {
 				case MENU -> {
 					track = titleTracks[0];
 					playSong(track, volume);
 				}
 				case HUB -> {
-					randomIndex = GameStateManager.generator.nextInt(hubTracks.length);
-					track = hubTracks[randomIndex];
+					track = hubTracks[MathUtils.random(hubTracks.length - 1)];
 					playSong(track, volume);
 				}
 				case MATCH -> {
-					randomIndex = GameStateManager.generator.nextInt(matchTracks.length);
-					track = matchTracks[randomIndex];
+					track = matchTracks[MathUtils.random(matchTracks.length - 1)];
 					playSong(track, volume);
 				}
 				case NOTHING -> playSong((MusicTrack) null, volume);

@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.effects.Sprite;
@@ -99,9 +100,9 @@ public class Turret extends Enemy {
 						if (attackTarget.isAlive()) {
 							entityWorldLocation.set(getPosition());
 							targetWorldLocation.set(attackTarget.getPosition());
-							desiredAngle =  (float)(Math.atan2(
+							desiredAngle =  MathUtils.atan2(
 								targetWorldLocation.y - entityWorldLocation.y ,
-								targetWorldLocation.x - entityWorldLocation.x) * 180 / Math.PI);
+								targetWorldLocation.x - entityWorldLocation.x) * MathUtils.radDeg;
 							if (desiredAngle < 0) {
 								if (desiredAngle < -90) {
 									desiredAngle = 180;

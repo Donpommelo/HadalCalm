@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -98,8 +99,8 @@ public class HealingArea extends Event {
 		currCrossSpawnTimer += delta;
 		while (currCrossSpawnTimer >= spawnTimerLimit) {
 			currCrossSpawnTimer -= spawnTimerLimit;
-			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
-			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
+			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
+			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
 			new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
 		}
 	}
@@ -117,8 +118,8 @@ public class HealingArea extends Event {
 		currCrossSpawnTimer += delta;
 		while (currCrossSpawnTimer >= spawnTimerLimit) {
 			currCrossSpawnTimer -= spawnTimerLimit;
-			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
-			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
+			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
+			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
 			ParticleEntity heal = new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
 			((ClientState) state).addEntity(heal.getEntityID().toString(), heal, false, ObjectSyncLayers.EFFECT);
 		}

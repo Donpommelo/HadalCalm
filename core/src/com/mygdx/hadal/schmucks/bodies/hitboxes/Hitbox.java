@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -162,7 +163,7 @@ public class Hitbox extends HadalEntity {
 		
 		//hboxes that adjust their angle start off transformed.
 		if (adjustAngle) {
-			setTransform(getPosition(), (float) (Math.atan2(getLinearVelocity().y, getLinearVelocity().x)));
+			setTransform(getPosition(), MathUtils.atan2(getLinearVelocity().y, getLinearVelocity().x));
 		}
 	}
 	
@@ -211,7 +212,7 @@ public class Hitbox extends HadalEntity {
 					entityLocation.y - spriteSize.y / 2, 
 					spriteSize.x / 2, spriteSize.y / 2,
 					spriteSize.x, spriteSize.y, -1, 1, 
-					(float) Math.toDegrees(getAngle()));
+					MathUtils.radDeg * getAngle());
 		}
 	}
 	

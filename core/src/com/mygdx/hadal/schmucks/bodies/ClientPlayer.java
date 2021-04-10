@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.client.ClientPredictionFrame;
 import com.mygdx.hadal.equip.Loadout;
@@ -169,7 +170,7 @@ public class ClientPlayer extends Player {
 		playerLocation.set(getPixelPosition());
 		playerWorldLocation.set(getPosition());
 		mouseAngle.set(playerLocation.x, playerLocation.y).sub(((ClientState) state).getMousePosition().x, ((ClientState) state).getMousePosition().y);
-		attackAngle = (float)(Math.atan2(mouseAngle.y, mouseAngle.x) * 180 / Math.PI);
+		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
 		
 		if (body != null && alive) {
 			

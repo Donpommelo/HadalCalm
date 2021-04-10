@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.HadalColor;
@@ -11,7 +12,6 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -129,7 +129,7 @@ public class Boss5 extends EnemyFloating {
 		}
 
 		if (attackNum % 2 == 0) {
-			int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
+			int nextAttack = attacks1.remove(MathUtils.random(attacks1.size() - 1));
 			switch (nextAttack) {
 				case 0 -> orbitalCharge();
 				case 1 -> vineLash();
@@ -138,7 +138,7 @@ public class Boss5 extends EnemyFloating {
 			}
 
 		} else {
-			int nextAttack = attacks2.remove(GameStateManager.generator.nextInt(attacks2.size()));
+			int nextAttack = attacks2.remove(MathUtils.random(attacks2.size() - 1));
 			switch (nextAttack) {
 				case 0 -> tripleRadialBurst();
 				case 1 -> sporeBurst();
@@ -153,7 +153,7 @@ public class Boss5 extends EnemyFloating {
 	private static final float moveDurationMax = 5.0f;
 	private void tripleRadialBurst() {
 
-		if (GameStateManager.generator.nextInt(2) == 0) {
+		if (MathUtils.randomBoolean()) {
 			EnemyUtils.moveToDummy(state, this, "0", move1Speed, moveDurationMax);
 			radialBurst("0");
 			radialBurst("2");
@@ -228,7 +228,7 @@ public class Boss5 extends EnemyFloating {
 	private static final float vineDamage = 18.0f;
 	private static final float vineKB = 20.0f;
 	private void vineLash() {
-		if (GameStateManager.generator.nextInt(2) == 0) {
+		if (MathUtils.randomBoolean()) {
 			EnemyUtils.moveToDummy(state, this, "0", charge1Speed, moveDurationMax);
 		} else {
 			EnemyUtils.moveToDummy(state, this, "4", charge1Speed, moveDurationMax);
@@ -258,7 +258,7 @@ public class Boss5 extends EnemyFloating {
 	private static final float seedInterval = 0.5f;
 	private void seedBomber() {
 
-		if (GameStateManager.generator.nextInt(2) == 0) {
+		if (MathUtils.randomBoolean()) {
 			EnemyUtils.moveToDummy(state, this, "0", charge1Speed, moveDurationMax);
 			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.GREEN, 40.0f, seedWindup, seedWindup);
 			sowSeed();
@@ -308,7 +308,7 @@ public class Boss5 extends EnemyFloating {
 	}
 
 	private void poisonSpew() {
-		if (GameStateManager.generator.nextInt(2) == 0) {
+		if (MathUtils.randomBoolean()) {
 			poisonSpewSingle("1");
 			poisonSpewSingle("3");
 		} else {
@@ -470,8 +470,8 @@ public class Boss5 extends EnemyFloating {
 	private static final float scytheAngleFrequency = 0.8f;
 	private static final Vector2 scytheSize = new Vector2(240, 80);
 	private void scytheAttack() {
-		int rand = GameStateManager.generator.nextInt(3);
-		if (rand== 0) {
+		int rand = MathUtils.random(2);
+		if (rand == 0) {
 			EnemyUtils.moveToDummy(state, this, "1", move1Speed, moveDurationMax);
 		} else if (rand == 1) {
 			EnemyUtils.moveToDummy(state, this, "2", move1Speed, moveDurationMax);
@@ -530,8 +530,8 @@ public class Boss5 extends EnemyFloating {
 							if (getBody() != null && isAlive()) {
 
 								//scythes move along a sin wave in arc from user
-								offset.set(0, (float) (scytheAmplitude * Math.sin(timer * scytheFrequency)))
-									.setAngleDeg((float) (startAngle + scytheSpread * Math.sin(timer * scytheAngleFrequency)));
+								offset.set(0, scytheAmplitude * MathUtils.sin(timer * scytheFrequency))
+									.setAngleDeg(startAngle + scytheSpread * MathUtils.sin(timer * scytheAngleFrequency));
 								centerPos.set(enemy.getPosition()).add(offset);
 								hbox.setTransform(centerPos, angle);
 							} else {
@@ -572,7 +572,7 @@ public class Boss5 extends EnemyFloating {
 	private static final Vector2 orbitalSize = new Vector2(80, 80);
 
 	private void orbitalCharge() {
-		if (GameStateManager.generator.nextInt(2) == 0) {
+		if (MathUtils.randomBoolean()) {
 			EnemyUtils.moveToDummy(state, this, "0", move1Speed, moveDurationMax);
 			orbitalChargeSingle();
 			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.RED, 40.0f, orbitalWindup, orbitalWindup);
@@ -665,7 +665,7 @@ public class Boss5 extends EnemyFloating {
 	private static final Vector2 shadowSize = new Vector2(30, 30);
 
 	private void spreadingShadow() {
-		if (GameStateManager.generator.nextInt(2) == 0) {
+		if (MathUtils.randomBoolean()) {
 			EnemyUtils.moveToDummy(state, this, "0", move1Speed, moveDurationMax);
 			windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.NOTHING, 40.0f, orbitalWindup, orbitalWindup);
 			spreadingShadowSingle("2");

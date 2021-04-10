@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.HadalColor;
@@ -9,7 +10,6 @@ import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.SpawnerSchmuck;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
@@ -107,10 +107,10 @@ public class Boss6 extends EnemyFloating {
 		}
 
 		if (attackNum % 2 == 0) {
-			int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
+			int nextAttack = attacks1.remove(MathUtils.random(attacks1.size() - 1));
 
 			switch (nextAttack) {
-				case 0 -> charge(5, GameStateManager.generator.nextBoolean());
+				case 0 -> charge(5, MathUtils.randomBoolean());
 				case 1 -> spiralAttack(false);
 				case 2 -> crossBeam();
 			}
@@ -127,9 +127,9 @@ public class Boss6 extends EnemyFloating {
 		}
 
 		if (attackNum % 2 == 0) {
-			int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
+			int nextAttack = attacks1.remove(MathUtils.random(attacks1.size() - 1));
 			switch (nextAttack) {
-				case 0 -> charge(10, GameStateManager.generator.nextBoolean());
+				case 0 -> charge(10, MathUtils.randomBoolean());
 				case 1 -> spiralAttack(true);
 				case 2 -> jesusBeams();
 			}
@@ -387,7 +387,7 @@ public class Boss6 extends EnemyFloating {
 		currentX = 2;
 		currentY = 2;
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, spiralWindup);
-		boolean direction = GameStateManager.generator.nextBoolean();
+		boolean direction = MathUtils.randomBoolean();
 
 		getActions().add(new EnemyAction(this, 0) {
 
@@ -481,7 +481,7 @@ public class Boss6 extends EnemyFloating {
 		currentX = 0;
 		currentY = 0;
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, pillarWindup);
-		boolean direction = GameStateManager.generator.nextBoolean();
+		boolean direction = MathUtils.randomBoolean();
 
 		for (int i = 0; i < 5; i++) {
 			if (direction) {
@@ -591,23 +591,23 @@ public class Boss6 extends EnemyFloating {
 		switch (horizontal ? currentX : currentY) {
 			case 0 -> {
 				options = new int[] {2, 3, 4};
-				return options[GameStateManager.generator.nextInt(options.length)];
+				return options[MathUtils.random(options.length - 1)];
 			}
 			case 1 -> {
 				options = new int[] {3, 4};
-				return options[GameStateManager.generator.nextInt(options.length)];
+				return options[MathUtils.random(options.length - 1)];
 			}
 			case 2 -> {
 				options = new int[] {0, 4};
-				return options[GameStateManager.generator.nextInt(options.length)];
+				return options[MathUtils.random(options.length - 1)];
 			}
 			case 3 -> {
 				options = new int[] {0, 1};
-				return options[GameStateManager.generator.nextInt(options.length)];
+				return options[MathUtils.random(options.length - 1)];
 			}
 			case 4 -> {
 				options = new int[] {0, 1, 2};
-				return options[GameStateManager.generator.nextInt(options.length)];
+				return options[MathUtils.random(options.length - 1)];
 			}
 		}
 		return 2;

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
@@ -87,7 +88,7 @@ public class Underminer extends RangedWeapon {
 			public void controller(float delta) {
 				
 				if (!activated) {
-					hbox.setTransform(hbox.getPosition(), (float) (Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x)));
+					hbox.setTransform(hbox.getPosition(), MathUtils.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x));
 				}
 				
 				if (drilling && invuln <= 0) {
@@ -106,7 +107,7 @@ public class Underminer extends RangedWeapon {
 				
 				if (activated) {
 					for (int i = 0; i < numDrills; i++) {
-						float angleOffset = (float) (hbox.getAngle() + Math.toRadians((float) i / numDrills * 360));
+						float angleOffset = hbox.getAngle() + MathUtils.degRad * i / numDrills * 360;
 						entityLocation.set(hbox.getPosition());
 						angle.set(entityLocation).add(raycast.setAngleRad(angleOffset));
 						wallDetected = false;

@@ -1,8 +1,8 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.event.SpawnerWave;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.utils.Constants;
 
 import java.util.ArrayList;
@@ -167,7 +167,7 @@ public enum WaveType {
 			}
 
 			if (!waves.isEmpty()) {
-				currentWave = waves.get(GameStateManager.generator.nextInt(waves.size));
+				currentWave = waves.get(MathUtils.random(waves.size - 1));
 			}
 		}
 		return currentWave;
@@ -223,7 +223,7 @@ public enum WaveType {
 				if (pointId.length == 0) {
 					thisId = 1;
 				} else {
-					thisId = pointId[GameStateManager.generator.nextInt(pointId.length)];
+					thisId = pointId[MathUtils.random(pointId.length - 1)];
 				}
 			}
 

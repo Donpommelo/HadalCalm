@@ -1,5 +1,6 @@
 package com.mygdx.hadal.utils;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
@@ -30,7 +31,7 @@ import java.util.Objects;
  */
 public class ConsoleCommandUtil {
 
-	private static final int maxRoll = 100;
+	public static final int maxRoll = 100;
 	/**
 	 * This parses a string input and executes a chat command.
 	 * @param state: current state
@@ -42,7 +43,7 @@ public class ConsoleCommandUtil {
 		
 		if (command.equals("/roll")) {
 			HadalGame.server.addChatToAll(state,"Rolled A Number: "
-				+ GameStateManager.generator.nextInt(maxRoll), DialogType.SYSTEM, player.getConnID());
+				+ MathUtils.random(maxRoll), DialogType.SYSTEM, player.getConnID());
 			return 0;
 		}
 		
@@ -112,7 +113,7 @@ public class ConsoleCommandUtil {
 	public static int parseChatCommandClient(ClientState state, Player player, String command) {
 		
 		if (command.equals("/roll")) {
-			HadalGame.client.sendTCP(new Packets.ClientChat("Rolled A Number: " + GameStateManager.generator.nextInt(100), DialogType.SYSTEM));
+			HadalGame.client.sendTCP(new Packets.ClientChat("Rolled A Number: " + MathUtils.random(maxRoll), DialogType.SYSTEM));
 			return 0;
 		}
 		

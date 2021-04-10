@@ -1,5 +1,6 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -21,6 +22,6 @@ public class AdjustAngle extends HitboxStrategy {
 	
 	@Override
 	public void controller(float delta) {
-		hbox.setTransform(hbox.getPosition(), (float) (Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x)));
+		hbox.setTransform(hbox.getPosition(), MathUtils.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x));
 	}
 }

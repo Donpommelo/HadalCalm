@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -57,8 +58,8 @@ public class ParticleField extends Event {
 		currParticleSpawnTimer += delta;
 		while (currParticleSpawnTimer >= spawnTimerLimit) {
 			currParticleSpawnTimer -= spawnTimerLimit;
-			float randX = (float) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
-			float randY = (float) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
+			float randX = (MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x;
+			float randY = (MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y;
 			new ParticleEntity(state, randLocation.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC).setScale(scale);
 		}
 	}
@@ -74,8 +75,8 @@ public class ParticleField extends Event {
 		currParticleSpawnTimer += delta;
 		while (currParticleSpawnTimer >= spawnTimerLimit) {
 			currParticleSpawnTimer -= spawnTimerLimit;
-			float randX = (float) ((Math.random() * size.x) - (size.x / 2) + entityLocation.x);
-			float randY = (float) ((Math.random() * size.y) - (size.y / 2) + entityLocation.y);
+			float randX = (MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x;
+			float randY = (MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y;
 			ParticleEntity field = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC);
 			((ClientState) state).addEntity(field.getEntityID().toString(), field, false, ObjectSyncLayers.EFFECT);
 		}

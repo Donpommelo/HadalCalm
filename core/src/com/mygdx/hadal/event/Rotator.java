@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -45,7 +46,7 @@ public class Rotator extends Event {
 					}
 				} else {
 					if (getConnectedEvent() != null) {
-						getConnectedEvent().setTransform(getConnectedEvent().getPosition(), (float) (angle * Math.PI / 180));
+						getConnectedEvent().setTransform(getConnectedEvent().getPosition(), angle * MathUtils.degRad);
 					}
 				}
 			}

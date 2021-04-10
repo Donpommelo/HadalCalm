@@ -4,11 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.ScaledNumericValue;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -338,7 +338,7 @@ public class ParticleEntity extends HadalEntity {
 	 */
 	public void setParticleAngle(float angle) {
         
-		float newAngle = (float) (angle * 180 / Math.PI + 180);
+		float newAngle = angle * MathUtils.radDeg + 180;
 		for (int i = 0; i < effect.getEmitters().size; i++) {
 			ScaledNumericValue val = effect.getEmitters().get(i).getRotation();
 
@@ -350,7 +350,7 @@ public class ParticleEntity extends HadalEntity {
 	public void setParticleVelocity(float angle) {
 		this.velocity = angle;
 
-		float newAngle = (float) (angle * 180 / Math.PI + 180);
+		float newAngle = angle * MathUtils.radDeg + 180;
 		for (int i = 0; i < effect.getEmitters().size; i++) {
 			ScaledNumericValue val = effect.getEmitters().get(i).getAngle();
 
@@ -373,9 +373,9 @@ public class ParticleEntity extends HadalEntity {
 			//for random colors, each emitter is tinted with random r,b,g
 			for (int i = 0; i < effect.getEmitters().size; i++) {
 				float[] colors = effect.getEmitters().get(i).getTint().getColors();
-				colors[0] = GameStateManager.generator.nextFloat();
-				colors[1] = GameStateManager.generator.nextFloat();
-				colors[2] = GameStateManager.generator.nextFloat();
+				colors[0] = MathUtils.random();
+				colors[1] = MathUtils.random();
+				colors[2] = MathUtils.random();
 			}
 		} else {
 			for (int i = 0; i < effect.getEmitters().size; i++) {

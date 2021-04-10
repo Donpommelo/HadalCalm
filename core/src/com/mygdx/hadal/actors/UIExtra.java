@@ -218,7 +218,13 @@ public class UIExtra extends AHadalActor {
 	 * This increments the timer for timed levels. When time runs out, we want to run an event designated in the map (if it exists)
 	 * @param delta: amount of time that has passed since last update
 	 */
+	private final static float notificationThreshold = 10.0f;
 	public void incrementTimer(float delta) {
+
+		if (timer > notificationThreshold && timer + (timerIncr * delta) < notificationThreshold) {
+			state.getKillFeed().addNotification("10 SECONDS REMAINING");
+		}
+
 		timer += (timerIncr * delta);
 		
 		if (timer <= 0 && timerIncr < 0) {

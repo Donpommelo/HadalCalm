@@ -2,11 +2,11 @@ package com.mygdx.hadal.save;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.artifacts.*;
 import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
@@ -208,13 +208,13 @@ public enum UnlockArtifact {
 		
 		if (pool.equals("")) {
 			Array<UnlockArtifact> unlocks = UnlockArtifact.getUnlocks(state, false, defaultTags);
-			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).toString();
+			return unlocks.get(MathUtils.random(unlocks.size - 1)).toString();
 		}
 		
 		ArrayList<String> artifacts = new ArrayList<>();
 
 		Collections.addAll(artifacts, pool.split(","));
-		return artifacts.get(GameStateManager.generator.nextInt(artifacts.size()));
+		return artifacts.get(MathUtils.random(artifacts.size() - 1));
 	}
 	
 	public Artifact getArtifact() { return artifactSingleton; }

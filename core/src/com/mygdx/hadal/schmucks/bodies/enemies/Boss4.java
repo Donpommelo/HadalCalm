@@ -2,18 +2,18 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.SpawnerSchmuck;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -186,14 +186,14 @@ public class Boss4 extends EnemyFloating {
 		}
 		
 		if (attackNum % 2 == 0) {
-			int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
+			int nextAttack = attacks1.remove(MathUtils.random(attacks1.size() - 1));
 			switch (nextAttack) {
 				case 0 -> reticleShots();
 				case 1 -> deadStarSigh();
 				case 2 -> bigBangBell();
 			}
 		} else {
-			int nextAttack = attacks2.remove(GameStateManager.generator.nextInt(attacks2.size()));
+			int nextAttack = attacks2.remove(MathUtils.random(attacks2.size()));
 			switch (nextAttack) {
 				case 0 -> radialShot1();
 				case 1 -> twinFlameSpin();
@@ -210,7 +210,7 @@ public class Boss4 extends EnemyFloating {
 			}
 		}
 		
-		int nextAttack = attacks1.remove(GameStateManager.generator.nextInt(attacks1.size()));
+		int nextAttack = attacks1.remove(MathUtils.random(attacks1.size()));
 		switch (nextAttack) {
 			case 0 -> apocalypseLaser();
 			case 1 -> horizontalBullets();
@@ -427,7 +427,7 @@ public class Boss4 extends EnemyFloating {
 	private void bounceLaser() {
 		changeColor(HadalColor.BLUE, shot1Windup);
 		
-		final float startAngle = startingVelos[GameStateManager.generator.nextInt(startingVelos.length)] + ThreadLocalRandom.current().nextInt(-laserSpread, laserSpread + 1);
+		final float startAngle = startingVelos[MathUtils.random(startingVelos.length - 1)] + ThreadLocalRandom.current().nextInt(-laserSpread, laserSpread + 1);
 		
 		Vector2 startVeloTrail = new Vector2(0, trailSpeed).setAngleDeg(startAngle);
 		Vector2 startPosLaser = new Vector2(getPixelPosition()).add(new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngleDeg(startAngle));
@@ -622,7 +622,7 @@ public class Boss4 extends EnemyFloating {
 						//each laser kicks up debris that flies upwards
 						@Override
 						public void die() {
-							int randomIndex = GameStateManager.generator.nextInt(debrisSprites.length);
+							int randomIndex = MathUtils.random(debrisSprites.length - 1);
 							Sprite projSprite = debrisSprites[randomIndex];
 							Hitbox frag = new Hitbox(state, new Vector2(hbox.getPixelPosition()), rubbleSize, rubbleLifespan, new Vector2(0, rubbleSpeed), getHitboxfilter(), true, false, enemy, projSprite);
 							frag.setGravity(1.0f);
@@ -790,7 +790,7 @@ public class Boss4 extends EnemyFloating {
 					float starDist = ThreadLocalRandom.current().nextInt(starDistMin, starDistMax);
 					
 					RangedHitbox hbox = new RangedHitbox(state, new Vector2(), new Vector2(starSize, starSize), starLifespan, new Vector2(), getHitboxfilter(), true, true, enemy, 
-							starSprites[GameStateManager.generator.nextInt(starSprites.length)]);
+							starSprites[MathUtils.random(starSprites.length - 1)]);
 					hbox.makeUnreflectable();
 					hbox.setSpriteSize(new Vector2(starSize * 2.0f, starSize * 2.0f));
 					

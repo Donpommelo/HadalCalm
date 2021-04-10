@@ -1,8 +1,8 @@
 package com.mygdx.hadal.event.utility;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
@@ -48,7 +48,7 @@ public class TriggerCond extends Event {
 				} else {
 					if (condition.equals("random")) {
 						Object[] values = triggered.values().toArray();
-						((Event) values[GameStateManager.generator.nextInt(values.length)]).getEventData().preActivate(this, p);
+						((Event) values[MathUtils.random(values.length - 1)]).getEventData().preActivate(this, p);
 					} else {
 						if (triggered.get(condition) != null) {
 							triggered.get(condition).getEventData().preActivate(this, p);

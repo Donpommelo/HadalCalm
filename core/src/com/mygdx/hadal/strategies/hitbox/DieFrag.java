@@ -1,8 +1,8 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -41,7 +41,7 @@ public class DieFrag extends HitboxStrategy {
 			float newDegrees = (ThreadLocalRandom.current().nextInt(0, 360));
 			fragVelo.set(0, fragSpeed).setAngleDeg(newDegrees);
 
-			int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
+			int randomIndex = MathUtils.random(projSprites.length - 1);
 			Sprite projSprite = projSprites[randomIndex];
 			
 			Hitbox frag = new Hitbox(state, hbox.getPixelPosition(), projectileSize, lifespan, fragVelo, hbox.getFilter(),

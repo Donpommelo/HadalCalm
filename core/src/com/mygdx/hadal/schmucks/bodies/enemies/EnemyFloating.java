@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -72,9 +73,9 @@ public class EnemyFloating extends Enemy {
 						if (attackTarget.isAlive()) {
 							entityWorldLocation.set(getPosition());
 							targetWorldLocation.set(attackTarget.getPosition());
-							desiredAngle = (float)(Math.atan2(
+							desiredAngle = MathUtils.atan2(
 								targetWorldLocation.y - entityWorldLocation.y ,
-								targetWorldLocation.x - entityWorldLocation.x) * 180 / Math.PI);
+								targetWorldLocation.x - entityWorldLocation.x) * 180 / MathUtils.PI;
 						}
 					} else {
 						//if there is no attack target, attempt to rotate towards movement target
@@ -83,9 +84,9 @@ public class EnemyFloating extends Enemy {
 								entityWorldLocation.set(getPosition());
 								targetWorldLocation.set(getMoveTarget().getPosition());
 
-								desiredAngle = (float)(Math.atan2(
+								desiredAngle = MathUtils.atan2(
 									targetWorldLocation.y - entityWorldLocation.y ,
-									targetWorldLocation.x - entityWorldLocation.x) * 180 / Math.PI);
+									targetWorldLocation.x - entityWorldLocation.x) * 180 / MathUtils.PI;
 							}
 						}
 					}
@@ -93,7 +94,7 @@ public class EnemyFloating extends Enemy {
 				default:
 					break;
 			}
-			setAngle((float) ((attackAngle) * Math.PI / 180));
+			setAngle(attackAngle * MathUtils.degRad);
 		}
 	}
 	
@@ -105,8 +106,8 @@ public class EnemyFloating extends Enemy {
 	public void render(SpriteBatch batch) {
 		
 		boolean flip = true;
-		double realAngle = getAngle() % (Math.PI * 2);
-		if ((realAngle > Math.PI / 2 && realAngle < 3 * Math.PI / 2) || (realAngle < -Math.PI / 2 && realAngle > -3 * Math.PI / 2)) {
+		float realAngle = getAngle() % (MathUtils.PI * 2);
+		if ((realAngle > MathUtils.PI / 2 && realAngle < 3 * MathUtils.PI / 2) || (realAngle < -MathUtils.PI / 2 && realAngle > -3 * MathUtils.PI / 2)) {
 			flip = false;
 		}
 		
@@ -117,7 +118,7 @@ public class EnemyFloating extends Enemy {
 				(flip ? -1 : 1) * size.x / 2, 
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
+				(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 		super.render(batch);
 	}
 	

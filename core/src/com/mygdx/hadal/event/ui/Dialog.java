@@ -1,9 +1,9 @@
 package com.mygdx.hadal.event.ui;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
@@ -37,8 +37,7 @@ public class Dialog extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (id.length != 0) {
-					int randomIndex = GameStateManager.generator.nextInt(id.length);
-					String dialogId = id[randomIndex];
+					String dialogId = id[MathUtils.random(id.length - 1)];
 					
 					if (event.getConnectedEvent() != null) {
 						state.getDialogBox().addDialogue(dialogId, this, event.getConnectedEvent().getEventData(), DialogType.valueOf(type));

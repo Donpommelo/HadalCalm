@@ -1,5 +1,6 @@
 package com.mygdx.hadal.utils;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -93,7 +94,7 @@ public class TextFilterUtil {
 		while (filteredText.contains(tag)) {
 			JsonValue value = GameStateManager.randomText.get(tag);
 			
-			int randomIndex = GameStateManager.generator.nextInt(value.asStringArray().length);
+			int randomIndex = MathUtils.random(value.asStringArray().length - 1);
 			filteredText = filteredText.replaceFirst(tag, value.asStringArray()[randomIndex]);
 		}
 		
@@ -105,7 +106,7 @@ public class TextFilterUtil {
 	 */
 	private static String filterRoll(String text) {
 		String filteredText = text;
-		filteredText = filteredText.replaceAll("<roll>", "roll: " + GameStateManager.generator.nextInt(100));
+		filteredText = filteredText.replaceAll("<roll>", "roll: " + MathUtils.random(ConsoleCommandUtil.maxRoll));
 		
 		return filteredText;
 	}

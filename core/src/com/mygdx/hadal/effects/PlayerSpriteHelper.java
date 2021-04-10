@@ -112,6 +112,7 @@ public class PlayerSpriteHelper {
         //obtain new texture and create new frame buffer object
         Texture tex = character.getTexture();
         TextureAtlas atlas = character.getAtlas();
+
         fbo = new FrameBuffer(Pixmap.Format.RGBA4444, tex.getWidth(), tex.getHeight(), true);
 
         fbo.begin();

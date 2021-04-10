@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.HadalColor;
@@ -132,8 +133,8 @@ public class Drone extends EnemySwimming {
 	public void render(SpriteBatch batch) {
 		
 		boolean flip = true;
-		double realAngle = getAngle() % (Math.PI * 2);
-		if ((realAngle > Math.PI / 2 && realAngle < 3 * Math.PI / 2) || (realAngle < -Math.PI / 2 && realAngle > -3 * Math.PI / 2)) {
+		float realAngle = getAngle() % (MathUtils.PI * 2);
+		if ((realAngle > MathUtils.PI / 2 && realAngle < 3 * MathUtils.PI / 2) || (realAngle < -MathUtils.PI / 2 && realAngle > -3 * MathUtils.PI / 2)) {
 			flip = false;
 		}
 		
@@ -144,7 +145,7 @@ public class Drone extends EnemySwimming {
 				(flip ? -1 : 1) * size.x / 2, 
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
+				(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 		
 		if (eyeType == 1) {
 			batch.draw(eyeSprite.getKeyFrame(animationTime, false),
@@ -153,7 +154,7 @@ public class Drone extends EnemySwimming {
 					(flip ? -1 : 1) * size.x / 2, 
 					size.y / 2,
 					(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-					(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
+					(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 		}
 		if (eyeType == 0) {
 			batch.draw(dotSprite.getKeyFrame(animationTime, false),
@@ -162,7 +163,7 @@ public class Drone extends EnemySwimming {
 					(flip ? -1 : 1) * size.x / 2, 
 					size.y / 2,
 					(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-					(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
+					(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 		}
 		
 		
@@ -174,6 +175,6 @@ public class Drone extends EnemySwimming {
 				(flip ? -1 : 1) * size.x / 2, 
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
+				(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 	}
 }

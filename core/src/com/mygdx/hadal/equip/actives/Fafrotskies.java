@@ -1,11 +1,11 @@
 package com.mygdx.hadal.equip.actives;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
@@ -13,12 +13,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Fafrotskies extends ActiveItem {
 
@@ -64,7 +59,7 @@ public class Fafrotskies extends ActiveItem {
 				while (controllerCount >= rainInterval) {
 					controllerCount -= rainInterval;
 					
-					Hitbox rain = new Hitbox(state, new Vector2(hbox.getPixelPosition()).add((GameStateManager.generator.nextFloat() -  0.5f) * hbox.getSize().x, 0), rainSize, lifespan, new Vector2(0, -rainSpeed),
+					Hitbox rain = new Hitbox(state, new Vector2(hbox.getPixelPosition()).add((MathUtils.random() -  0.5f) * hbox.getSize().x, 0), rainSize, lifespan, new Vector2(0, -rainSpeed),
 							user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), Sprite.SPIT);
 					
 					rain.addStrategy(new ControllerDefault(state, rain, user));

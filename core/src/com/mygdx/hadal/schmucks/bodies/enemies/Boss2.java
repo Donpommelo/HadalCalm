@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -13,7 +14,6 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -130,8 +130,8 @@ public class Boss2 extends EnemyFloating {
 	public void render(SpriteBatch batch) {	
 		
 		boolean flip = true;
-		double realAngle = getAngle() % (Math.PI * 2);
-		if ((realAngle > Math.PI / 2 && realAngle < 3 * Math.PI / 2) || (realAngle < -Math.PI / 2 && realAngle > -3 * Math.PI / 2)) {
+		float realAngle = getAngle() % (MathUtils.PI * 2);
+		if ((realAngle > MathUtils.PI / 2 && realAngle < 3 * MathUtils.PI / 2) || (realAngle < -MathUtils.PI / 2 && realAngle > -3 * MathUtils.PI / 2)) {
 			flip = false;
 		}
 
@@ -142,7 +142,7 @@ public class Boss2 extends EnemyFloating {
 					(flip ? size.x : 0) + linkPosition.x * PPM - size.x / 2, linkPosition.y * PPM - size.y / 2,
 					(flip ? -1 : 1) * size.x / 2, size.y / 2,
 					(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-					(flip ? 0 : 180) + (float) Math.toDegrees(links[i].getAngle()));
+					(flip ? 0 : 180) + MathUtils.radDeg * links[i].getAngle());
 		}
 		
 		entityLocation.set(getPixelPosition());
@@ -151,19 +151,19 @@ public class Boss2 extends EnemyFloating {
 				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
+				(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 		
 		batch.draw(faceSprite, 
 				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
 				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
+				(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 	}
 	
 	//this changes the boss' face to a random one
 	public void setFaceSprite() {
-		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(GameStateManager.generator.nextInt(5));
+		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(MathUtils.random(4));
 	}
 	
 	private static final float driftDurationMax = 5.0f;
@@ -181,7 +181,7 @@ public class Boss2 extends EnemyFloating {
 			} else {
 				if (attackNum % 2 == 1) {
 					
-					int randomIndex = GameStateManager.generator.nextInt(5);
+					int randomIndex = MathUtils.random(4);
 					switch (randomIndex) {
 						case 0 -> meleeAttack1();
 						case 1 -> meleeAttack2();
@@ -207,7 +207,7 @@ public class Boss2 extends EnemyFloating {
 			} else {
 				if (attackNum % 2 == 1) {
 					
-					int randomIndex = GameStateManager.generator.nextInt(5);
+					int randomIndex = MathUtils.random(4);
 					switch (randomIndex) {
 						case 0 -> meleeAttack1();
 						case 1 -> meleeAttack2();
@@ -227,7 +227,7 @@ public class Boss2 extends EnemyFloating {
 		
 		if (phase == 3) {
 			if (attackNum % 2 == 1) {
-				int randomIndex = GameStateManager.generator.nextInt(5);
+				int randomIndex = MathUtils.random(4);
 				switch (randomIndex) {
 					case 0 -> meleeAttack1();
 					case 1 -> meleeAttack2();
@@ -355,44 +355,40 @@ public class Boss2 extends EnemyFloating {
 		EnemyUtils.moveToDummy(state, this, "back", driftSpeed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 1.0f);
 		
-		int rand = GameStateManager.generator.nextInt(2);
-		switch (rand) {
-			case 0 -> {
-				EnemyUtils.moveToDummy(state, this, "highLeft", thrashSpeed, driftDurationMax);
-				EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
-					1.0f,1.5f, SoundEffect.WOOSH,false);
-				EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
-				EnemyUtils.moveToDummy(state, this, "platformLeft", thrashDownSpeed, driftDurationMax);
-				EnemyUtils.moveToDummy(state, this, "highCenter", thrashSpeed, driftDurationMax);
-				EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
-					1.0f,1.5f, SoundEffect.WOOSH,false);
-				EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
-				EnemyUtils.moveToDummy(state, this, "platformCenter", thrashDownSpeed, driftDurationMax);
-				EnemyUtils.moveToDummy(state, this, "highRight", thrashSpeed, driftDurationMax);
-				EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
-					1.0f,1.5f, SoundEffect.WOOSH,false);
-				EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
-				EnemyUtils.moveToDummy(state, this, "platformRight", thrashDownSpeed, driftDurationMax);
-			}
-			case 1 -> {
-				EnemyUtils.moveToDummy(state, this, "highRight", thrashSpeed, driftDurationMax);
-				EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
-					1.0f,1.5f, SoundEffect.WOOSH,false);
-				EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
-				EnemyUtils.moveToDummy(state, this, "platformRight", thrashDownSpeed, driftDurationMax);
-				EnemyUtils.moveToDummy(state, this, "highCenter", thrashSpeed, driftDurationMax);
-				EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
-					1.0f,1.5f, SoundEffect.WOOSH,false);
-				EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
-				EnemyUtils.moveToDummy(state, this, "platformCenter", thrashDownSpeed, driftDurationMax);
-				EnemyUtils.moveToDummy(state, this, "highLeft", thrashSpeed, driftDurationMax);
-				EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
-					1.0f,1.5f, SoundEffect.WOOSH,false);
-				EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
-				EnemyUtils.moveToDummy(state, this, "platformLeft", thrashDownSpeed, driftDurationMax);
-			}
+		if (MathUtils.randomBoolean()) {
+			EnemyUtils.moveToDummy(state, this, "highLeft", thrashSpeed, driftDurationMax);
+			EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
+				1.0f,1.5f, SoundEffect.WOOSH,false);
+			EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
+			EnemyUtils.moveToDummy(state, this, "platformLeft", thrashDownSpeed, driftDurationMax);
+			EnemyUtils.moveToDummy(state, this, "highCenter", thrashSpeed, driftDurationMax);
+			EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
+				1.0f,1.5f, SoundEffect.WOOSH,false);
+			EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
+			EnemyUtils.moveToDummy(state, this, "platformCenter", thrashDownSpeed, driftDurationMax);
+			EnemyUtils.moveToDummy(state, this, "highRight", thrashSpeed, driftDurationMax);
+			EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
+				1.0f,1.5f, SoundEffect.WOOSH,false);
+			EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
+			EnemyUtils.moveToDummy(state, this, "platformRight", thrashDownSpeed, driftDurationMax);
+		} else {
+			EnemyUtils.moveToDummy(state, this, "highRight", thrashSpeed, driftDurationMax);
+			EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
+				1.0f,1.5f, SoundEffect.WOOSH,false);
+			EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
+			EnemyUtils.moveToDummy(state, this, "platformRight", thrashDownSpeed, driftDurationMax);
+			EnemyUtils.moveToDummy(state, this, "highCenter", thrashSpeed, driftDurationMax);
+			EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
+				1.0f,1.5f, SoundEffect.WOOSH,false);
+			EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
+			EnemyUtils.moveToDummy(state, this, "platformCenter", thrashDownSpeed, driftDurationMax);
+			EnemyUtils.moveToDummy(state, this, "highLeft", thrashSpeed, driftDurationMax);
+			EnemyUtils.createSoundEntity(state,this,0.0f, chargeAttackInterval,
+				1.0f,1.5f, SoundEffect.WOOSH,false);
+			EnemyUtils.meleeAttackContinuous(state,this, thrash1Damage, chargeAttackInterval, defaultMeleeKB,0.25f);
+			EnemyUtils.moveToDummy(state, this, "platformLeft", thrashDownSpeed, driftDurationMax);
 		}
-		
+
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, getAngle(), 0.0f);
 		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
 	}

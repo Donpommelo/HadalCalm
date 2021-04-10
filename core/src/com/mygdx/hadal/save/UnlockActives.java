@@ -1,9 +1,9 @@
 package com.mygdx.hadal.save;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.actives.*;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
@@ -112,12 +112,12 @@ public enum UnlockActives {
 		
 		if (pool.equals("")) {
 			Array<UnlockActives> unlocks = UnlockActives.getUnlocks(state, false, defaultTags);
-			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).toString();
+			return unlocks.get(MathUtils.random(unlocks.size - 1)).toString();
 		}
 		
 		ArrayList<String> weapons = new ArrayList<>();
 		Collections.addAll(weapons, pool.split(","));
-		return weapons.get(GameStateManager.generator.nextInt(weapons.size()));
+		return weapons.get(MathUtils.random(weapons.size() - 1));
 	}
 	
 	public Class<? extends ActiveItem> getActive() { return active; }

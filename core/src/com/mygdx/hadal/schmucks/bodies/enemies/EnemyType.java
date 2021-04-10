@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.DelayedSpawn;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -159,7 +160,7 @@ public enum EnemyType {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
-			double randNum = Math.random();
+			double randNum = MathUtils.random();
 			if (randNum < 0.3f) {
 				return new Scissorfish(state, startPos, extraField, filter, spawner);
 			} else if (randNum < 0.7f) {

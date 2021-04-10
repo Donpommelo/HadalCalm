@@ -1,12 +1,12 @@
 package com.mygdx.hadal.equip;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.enemies.*;
@@ -425,9 +425,8 @@ public class EnemyUtils {
 				
 				if (ceiling != null) {
 					
-					int randomIndex = GameStateManager.generator.nextInt(debrisSprites.length);
-					Sprite projSprite = debrisSprites[randomIndex];
-					Hitbox hbox = new Hitbox(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((GameStateManager.generator.nextFloat() -  0.5f) * ceiling.getSize().x, 0)),
+					Sprite projSprite = debrisSprites[MathUtils.random(debrisSprites.length - 1)];
+					Hitbox hbox = new Hitbox(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((MathUtils.random() -  0.5f) * ceiling.getSize().x, 0)),
 							new Vector2(size, size), lifespan, new Vector2(), enemy.getHitboxfilter(), true, true, enemy, projSprite);
 					hbox.setDurability(2);
 					hbox.setGravity(1.0f);
@@ -453,7 +452,7 @@ public class EnemyUtils {
 				
 				if (ceiling != null) {
 					
-					type.generateEnemy(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((GameStateManager.generator.nextFloat() -  0.5f) * ceiling.getSize().x, 0)),
+					type.generateEnemy(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((MathUtils.random() -  0.5f) * ceiling.getSize().x, 0)),
 							enemy.getHitboxfilter(), extraField, null);
 				}
 			}
@@ -461,7 +460,7 @@ public class EnemyUtils {
 	}
 	
 	public static int moveToRandomCorner(PlayState state, Enemy boss, int speed, float duration) {
-		int rand = GameStateManager.generator.nextInt(4);
+		int rand = MathUtils.random(3);
 		switch(rand) {
 		case 0:
 			EnemyUtils.moveToDummy(state, boss, "0", speed, duration);
@@ -481,7 +480,7 @@ public class EnemyUtils {
 	}
 	
 	public static int moveToRandomWall(PlayState state, Enemy boss, int speed, float duration) {
-		int rand = GameStateManager.generator.nextInt(2);
+		int rand = MathUtils.random(1);
 		switch (rand) {
 			case 0 -> EnemyUtils.moveToDummy(state, boss, "3", speed, duration);
 			case 1 -> EnemyUtils.moveToDummy(state, boss, "5", speed, duration);
