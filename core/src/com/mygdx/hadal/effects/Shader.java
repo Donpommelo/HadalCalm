@@ -22,6 +22,7 @@ public enum Shader {
 	SEPIA("shaders/pass.vert", "shaders/sepia.frag", true),
 	WHITE("shaders/pass.vert", "shaders/white.frag", true),
 	INVERT("shaders/pass.vert", "shaders/invert.frag", true),
+	CLOUD("shaders/pass.vert", "shaders/cloud.frag", true, new Resolution(), new Timer()),
 	SPLASH("shaders/pass.vert", "shaders/splash.frag", true, new Resolution(), new Timer()),
 	DRIP("shaders/pass.vert", "shaders/drip.frag", true, new Resolution(), new Timer()),
 	NORTHERN_LIGHTS("shaders/pass.vert", "shaders/northern_lights.frag", true, new Resolution(), new Timer()),
