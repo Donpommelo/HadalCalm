@@ -2,11 +2,13 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -69,6 +71,11 @@ public class FootballSpawner extends Event {
         state.getUiObjective().setDisplayObjectiveOffScreen(true);
         state.getUiObjective().setIconType(Sprite.CLEAR_CIRCLE_ALERT);
         state.getUiObjective().setObjectiveTarget(ball);
+
+        if (state.isServer()) {
+            HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(ball.getEntityID().toString(),
+                true, false, Sprite.CLEAR_CIRCLE_ALERT));
+        }
     }
 
     @Override

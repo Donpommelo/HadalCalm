@@ -564,6 +564,7 @@ public class TiledObjectUtil {
 				object.getProperties().get("triggeringId", "", String.class));
 			case "PVPSettingSetter" -> new PVPSettingSetter(state);
 			case "ArenaSettingSetter" -> new ArenaSettingSetter(state);
+			case "SpecialSettingSetter" -> new SpecialSettingSetter(state);
 			default -> null;
 		};
 

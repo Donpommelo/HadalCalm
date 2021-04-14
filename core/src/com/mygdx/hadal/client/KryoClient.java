@@ -510,6 +510,20 @@ public class KryoClient {
 						});
 					}
         		}
+
+        		else if (o instanceof Packets.SyncObjectiveMarker) {
+        			final Packets.SyncObjectiveMarker p = (Packets.SyncObjectiveMarker) o;
+        			final ClientState cs = getClientState();
+
+        			if (cs != null) {
+        				cs.addPacketEffect(() -> {
+							cs.getUiObjective().setObjectiveTargetID(p.entityID);
+							cs.getUiObjective().setDisplayObjectiveOffScreen(p.displayOffScreen);
+							cs.getUiObjective().setDisplayObjectiveOnScreen(p.displayOnScreen);
+							cs.getUiObjective().setIconType(p.icon);
+						});
+					}
+				}
         		
         		/*
         		 * When a shader in the server changes, we are told to echo that change.

@@ -144,8 +144,8 @@ public class PlayState extends GameState {
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
 	private final HashMap<String, PositionDummy> dummyPoints;
 	
-	//Can players hurt each other? Is it the hub map? Is this the server?
-	private final boolean pvp, hub, server, killsScore;
+	//Can players hurt each other? Is it the hub map? Is this the server? Do kills give score? Can players damage each other?
+	private final boolean pvp, hub, server, killsScore, noDamage;
 	private final int teamMode;
 	
 	//Various play state ui elements
@@ -281,6 +281,7 @@ public class PlayState extends GameState {
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;
 		this.teamMode = map.getProperties().get("teamType", gsm.getSetting().getTeamType(), Integer.class);
+		this.noDamage = map.getProperties().get("noDamage", false, boolean.class);
 
 		//load map shader
 		this.shaderBase = Shader.NOTHING;
@@ -1024,7 +1025,7 @@ public class PlayState extends GameState {
 		}
 
 		//set player pvp hitbox filter.
-		if (isPvp()) {
+		if (isPvp() && !noDamage) {
 			if (teamMode != 0) {
 				if (newLoadout.team.equals(AlignmentFilter.NONE)) {
 					p.setHitboxfilter(hitboxFilter);

@@ -29,6 +29,7 @@ public class UIObjective extends AHadalActor {
 	
 	//If there is an objective target that has a display if offscreen, this is that entity.
 	private HadalEntity objectiveTarget;
+	private String objectiveTargetID;
 	private boolean displayObjectiveOffScreen, displayObjectiveOnScreen;
 	
 	public UIObjective(PlayState state) {
@@ -55,7 +56,7 @@ public class UIObjective extends AHadalActor {
 
 		//This math calculates the location of the objective icon
 		if (objectiveTarget != null && state.getPlayer().getBody() != null) {
-			
+
 			objectiveLocation.set(objectiveTarget.getPixelPosition());
 			
 			if (!objectiveTarget.isVisible() && displayObjectiveOffScreen) {
@@ -94,11 +95,23 @@ public class UIObjective extends AHadalActor {
 				batch.setProjectionMatrix(state.getHud().combined);
 			}
 		}
+
+		if (!state.isServer()) {
+			if (objectiveTargetID != null) {
+				HadalEntity newObjective = state.findEntity(objectiveTargetID);
+				if (newObjective != null) {
+					objectiveTarget = newObjective;
+					objectiveTargetID = null;
+				}
+			}
+		}
 	}
 
 	public void setObjectiveTarget(HadalEntity objectiveTarget) { this.objectiveTarget = objectiveTarget; }
 
 	public HadalEntity getObjectiveTarget() { return objectiveTarget; }
+
+	public void setObjectiveTargetID(String objectiveTargetID) { this.objectiveTargetID = objectiveTargetID; }
 
 	public void setDisplayObjectiveOffScreen(boolean displayObjectiveOffScreen) { this.displayObjectiveOffScreen = displayObjectiveOffScreen; }
 

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="50">
+ <properties>
+  <property name="customShader" type="bool" value="true"/>
+  <property name="killScore" type="bool" value="false"/>
+  <property name="noDamage" type="bool" value="true"/>
+  <property name="pvp" type="bool" value="true"/>
+  <property name="teamType" type="int" value="1"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="160" height="100">
+  <data encoding="base64" compression="zlib">
+   eAHtnNmymzAMQNN9bx/a///WogfP6DreY8tKfJhhwhYkHR24BGhvNwYIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQg8JbAn2uWEQaxA28tWTcXx2UeF8UBqwHf8C3lAP7hRcoLq2X4h39WrqXiePHv15XI72tM5bhymcT9sGAcqcVTLo8yb+3nhd5kKNUjuf68xh/XONK30r5L60LcFQA+XjstxU6t+7YikWufu7i2xF1U8t1uU7xlWeyA5Nx7PhpxNo57l/CDCzz5J6W0uJDqkXDq7YecS8JQixu2W/2Zq03nOppDrcY49mr3pA5v/klOuziV4kpeFsNqB0o16tgW7glPj/5JXrs45eJKThaDhQNSY+1vxYzzbQuvHG/NQU9bHReS+y5OKSYtLGdso1n/vXb4ecZOne8jxVtzCNOW7u1E9ukK/u8aQ93yaTXomDJ9koNezslWvU7FSbm307+THEz146RlOfd2+4eDr29hyT0P/uHg6zpYc8+Lf5LHqnv/r9td/5W13IOyqkIcK434Z9UJuzj4Z8eaSPcE8O+eCUvsCOBfnbVcI38fGN/Xdz19i3cDeUptu+71419ZgZbfZ7lr1h3Xqy39TOW7615/S77lDs1bm+Kil1n3s8c9eT4WP8P4Og9N856+JPJoffdsh4P4l29tCxs5Prw/m219xiy1WB/jLYzzHZq7Rp/rUtMe2Xh3L3So1UGPjEMNqz9Tzull3tg8i3uhby0OemMs/bcatGvx9I5eS7/iazo9b/We4Ez+3mpqOSZm1l/aV+xcmN/hXilP1s0lUHNwbrT83oJv+hP38rxeaU3JQas6tXdh2vp6xKpW4twTyP0Wvt9yzZLgnP7EvzWsPe4V/zx25Zyc8O+cXnusFP88duWcnPDvnF57rBT/PHblnJw8+ie/hXe9m3ZO5/dXWnrXyCo7fd9FT+94L8iqZuLcbiX3xAOrQTsXT+9wULiU3nt+xvOyt5pq7nnxT/Kwvhedux4Jx8aOY+KRc0FLr70xxr/yvwl9Fgdb3PN4jONf2T/h493BVvfwr9xr678NpXcypFd6FAfja0Uv//4t/v/MdN56ese7RrVrHMnPatAsUtPW/kndPQ7GOe/It6WfcZ4yv8M94duSr2xnMaS46GU7+il1i4P6vefWaS///q0l313vcuOfxZFFjBwB/MuRYbkFAfyzoEyMHAH8y5FhuQWBZ/Fv1+8zix6cHKPl/oIVH/1bV0/jnlUH9sSpOWiVlXYuTOOeFf29cUoOWmUWnAufp7gnz8fiZyfx/DO+a9PrTc7B3v2Mbh+8k8+T3Gt5Pub9GfNoz+PvpRyMt1k1r/1bxdvTuabnvQBhs4pJqp+7OKWYpPJbsUz7t4J3qrY45oq4OVYt9x7i/CyeQe7ilIub4zd7ecx6pgu52lIxZ8YtMfLo3y5OpbglhjPXtbogucbX57X5lmusOP7qv3fe/Cs5ELPR88Kpxj9er39P1eLOdKy0L11TPB1cqOUaf+/R+RC3lPfoOk/+7eLaEneUb+/3aq6ICyPnsdp+a+tHju/4eE/Nj9TiKZcat9r61n72ejS6fS1f1r995/oUHqM+9X7vFJ7U2Xcc9Xo0uj196evLKbxGfer93ik8qbPvOOv1aHR7+tLXl1N4jfrE9yAAAQhAAAIQgAAEIAABCEAAAicS+A+73LUi
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="13" x="1408" y="1760">
+   <polyline points="0,0 32,32 256,32 384,-96 544,-96 544,-192 96,-192 0,-96 0,0"/>
+  </object>
+  <object id="14" x="1440" y="2144">
+   <polyline points="0,0 224,0 352,128 512,128 512,224 64,224 -32,128 -32,32 0,0"/>
+  </object>
+  <object id="15" x="2848" y="2368">
+   <polyline points="0,0 448,0 544,-96 544,-192 512,-224 288,-224 160,-96 0,-96 0,0"/>
+  </object>
+  <object id="16" x="2848" y="1664">
+   <polyline points="0,0 160,0 288,128 512,128 544,96 544,0 448,-96 0,-96 0,0"/>
+  </object>
+  <object id="36" x="384" y="2656">
+   <polyline points="0,0 160,160 224,96 608,96 704,0 960,0 1120,160 1792,160 1792,32 1888,-64 2144,-64 2240,32 2240,160 2912,160 3072,0 3328,0 3424,96 3808,96 3872,160 4032,0 3872,-160 3872,-480 3968,-576 3968,-800 3872,-896 3872,-1216 4032,-1376 3872,-1536 3808,-1472 3424,-1472 3328,-1376 3072,-1376 2912,-1536 2240,-1536 2240,-1408 2144,-1312 1888,-1312 1792,-1408 1792,-1536 1120,-1536 960,-1376 704,-1376 608,-1472 224,-1472 160,-1536 0,-1376 160,-1216 160,-896 64,-800 64,-576 160,-480 160,-160 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="2" name="Start" type="Start" x="3776" y="1888" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="3" name="Start" type="Start" x="928" y="1888" width="32" height="32">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="4" name="FootballSpawn" type="FootballSpawn" x="2384" y="1888" width="32" height="32"/>
+  <object id="6" name="FootballGoal" type="FootballGoal" x="448" y="1792" width="64" height="352"/>
+  <object id="7" name="FootballGoal" type="FootballGoal" x="4288" y="1792" width="64" height="352">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="17" name="Dropthrough" type="Dropthrough" x="2512" y="1984" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="18" name="Dropthrough" type="Dropthrough" x="2064" y="1984" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="20" name="Dropthrough" type="Dropthrough" x="3968" y="2176" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="21" name="Dropthrough" type="Dropthrough" x="608" y="2176" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="22" name="Dropthrough" type="Dropthrough" x="608" y="1760" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="23" name="Dropthrough" type="Dropthrough" x="3968" y="1760" width="224" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="24" name="Dropthrough" type="Dropthrough" x="3616" y="1984" width="256" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="25" name="Dropthrough" type="Dropthrough" x="928" y="1984" width="256" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="26" name="Start" type="Start" x="992" y="1888" width="32" height="32">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="27" name="Start" type="Start" x="1088" y="1888" width="32" height="32">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="28" name="Start" type="Start" x="1152" y="1888" width="32" height="32">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="29" name="Start" type="Start" x="3616" y="1888" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="30" name="Start" type="Start" x="3680" y="1888" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="31" name="Start" type="Start" x="3840" y="1888" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="33" name="Bounds" type="Bounds" x="3456" y="2368" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="34" name="Bounds" type="Bounds" x="1216" y="1536" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="35" name="Prefab" type="PrefabSpecialSettingSetter" x="320" y="640" width="32" height="32">
+   <properties>
+    <property name="prefabId" value="SpecialSettingSetter"/>
+    <property name="triggeredId" value=""/>
+   </properties>
+  </object>
+  <object id="37" name="Spring" type="Spring" x="2048" y="2800" width="96" height="16">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="38" name="Spring" type="Spring" x="2656" y="2800" width="96" height="16">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="39" name="Spring" type="Spring" x="3544" y="2640" width="96" height="16">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="40" name="Spring" type="Spring" x="1168" y="2640" width="96" height="16">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="41" name="Current" type="Current" x="384" y="2592" width="224" height="224">
+   <properties>
+    <property name="currentX" type="float" value="6"/>
+    <property name="currentY" type="float" value="6"/>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="42" name="Current" type="Current" x="384" y="1120" width="224" height="224">
+   <properties>
+    <property name="currentX" type="float" value="6"/>
+    <property name="currentY" type="float" value="-6"/>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="43" name="Current" type="Current" x="4192" y="1120" width="224" height="224">
+   <properties>
+    <property name="currentX" type="float" value="-6"/>
+    <property name="currentY" type="float" value="-6"/>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="44" name="Current" type="Current" x="4192" y="2592" width="224" height="224">
+   <properties>
+    <property name="currentX" type="float" value="-6"/>
+    <property name="currentY" type="float" value="6"/>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="45" name="Prefab" type="PrefabSpawner" x="2352" y="2496" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="46" name="Prefab" type="PrefabSpawner" x="1504" y="2048" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="47" name="Prefab" type="PrefabSpawner" x="3200" y="2048" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f2"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="48" name="Prefab" type="PrefabSpawner" x="2944" y="1472" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f4"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="49" name="Prefab" type="PrefabSpawner" x="1760" y="1472" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f3"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

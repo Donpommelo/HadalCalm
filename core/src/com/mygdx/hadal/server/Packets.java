@@ -1246,6 +1246,22 @@ public class Packets {
 		}
 	}
 
+	public static class SyncObjectiveMarker {
+		public String entityID;
+		public boolean displayOnScreen;
+		public boolean displayOffScreen;
+		public Sprite icon;
+
+		public SyncObjectiveMarker() {}
+
+		public SyncObjectiveMarker(String entityID, boolean displayOffScreen, boolean displayOnScreen, Sprite icon) {
+			this.entityID = entityID;
+			this.displayOffScreen = displayOffScreen;
+			this.displayOnScreen = displayOnScreen;
+			this.icon = icon;
+		}
+	}
+
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -1310,6 +1326,7 @@ public class Packets {
 		kryo.register(SyncEmote.class);
 		kryo.register(SyncKillMessage.class);
 		kryo.register(SyncAssignedTeams.class);
+		kryo.register(SyncObjectiveMarker.class);
 
 		kryo.register(int[].class);
 		kryo.register(Vector2.class);
