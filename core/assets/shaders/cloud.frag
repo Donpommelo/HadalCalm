@@ -3,6 +3,7 @@ precision mediump float;
 #endif
 
 uniform vec2 u_resolution;
+uniform vec3 u_camera;
 uniform float u_time;
 
 float random (in vec2 _st) {
@@ -41,7 +42,10 @@ float fbm (in vec2 _st) {
 }
 
 void main() {
-    vec2 st = 3.0 * gl_FragCoord.xy / u_resolution;
+    vec2 coord = 3.0 * gl_FragCoord.xy / u_resolution;
+    vec2 cameraCoord = u_camera.xy / u_resolution;
+    vec2 st = vec2(coord.x + cameraCoord.x, coord.y + cameraCoord.y);
+
     vec3 color = vec3(0.0);
 
     vec2 q = vec2(0.);

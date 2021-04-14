@@ -63,7 +63,7 @@ public class FootballSpawner extends Event {
         }
     }
 
-    private static final float pushMultiplier = 0.5f;
+    private static final float pushMultiplier = 0.6f;
     private void spawnBall() {
         ball = WeaponUtils.createNauticalMine(state, getPixelPosition(), state.getWorldDummy(), new Vector2(),
             projectileSize, lifespan, explosionDamage, explosionKnockback, explosionRadius, pushMultiplier);

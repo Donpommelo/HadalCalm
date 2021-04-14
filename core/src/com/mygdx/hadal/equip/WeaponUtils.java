@@ -209,7 +209,9 @@ public class WeaponUtils {
 		hbox.setRestitution(0.5f);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactGoalScore(state, hbox, user.getBodyData()));
+		if (pushMultiplier != 1.0f) {
+			hbox.addStrategy(new ContactGoalScore(state, hbox, user.getBodyData()));
+		}
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Pushable(state, hbox, user.getBodyData(), pushMultiplier));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(primeDelay));
