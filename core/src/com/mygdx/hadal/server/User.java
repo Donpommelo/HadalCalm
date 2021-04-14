@@ -13,8 +13,8 @@ public class User {
     //player info and relevant entities
     private Player player;
     private MouseTracker mouse;
-    private SavedPlayerFields scores;
-    private SavedPlayerFieldsExtra scoresExtra;
+    private final SavedPlayerFields scores;
+    private final SavedPlayerFieldsExtra scoresExtra;
 
     //has this player's score been updated? (used to sync score window)
     private boolean scoreUpdated;
@@ -27,6 +27,8 @@ public class User {
 
     //player's hbox filter (for free for all pvp)
     private AlignmentFilter hitBoxFilter;
+
+    //the player's selected team alignment
     private AlignmentFilter teamFilter = AlignmentFilter.NONE;
 
     public User(Player player, MouseTracker mouse, SavedPlayerFields scores, SavedPlayerFieldsExtra scoresExtra) {
@@ -68,11 +70,7 @@ public class User {
 
     public SavedPlayerFields getScores() { return scores; }
 
-    public void setScores(SavedPlayerFields scores) { this.scores = scores; }
-
     public SavedPlayerFieldsExtra getScoresExtra() { return scoresExtra; }
-
-    public void setScoresExtra(SavedPlayerFieldsExtra scoresExtra) { this.scoresExtra = scoresExtra; }
 
     public boolean isScoreUpdated() { return scoreUpdated; }
 

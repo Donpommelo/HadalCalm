@@ -314,10 +314,10 @@ public class Packets {
 		
 		/**
 		 * This is sent from the server to all clients to indicate that a client is ready to return to the hub
- 		 * @param playerId: the id of the client who is ready
+ 		 * @param playerID: the id of the client who is ready
 		 */
-		public ClientReady(int playerId) {
-			this.playerID = playerId;
+		public ClientReady(int playerID) {
+			this.playerID = playerID;
 		}
 	}
 	
@@ -364,10 +364,10 @@ public class Packets {
 		
 		/**
 		 * This is sent from the server to the clients to give them their scores for all players
-		 * @param connId: id of the player whose score is being updated.
+		 * @param connID: id of the player whose score is being updated.
 		 */
-		public SyncScore(int connId, String name, int wins, int kills, int deaths, int score, int lives, int ping) {
-			this.connID = connId;
+		public SyncScore(int connID, String name, int wins, int kills, int deaths, int score, int lives, int ping) {
+			this.connID = connID;
 			this.name = name;
 			this.wins = wins;
 			this.kills = kills;
@@ -639,6 +639,7 @@ public class Packets {
 	
 	public static class ActivateEvent {
 		public String entityID;
+		public int connID;
 		public ActivateEvent() {}
 		
 		/**
@@ -647,8 +648,9 @@ public class Packets {
          * 
 		 * @param entityID: ID of the activated Pickup
 		 */
-		public ActivateEvent(String entityID) {
+		public ActivateEvent(String entityID, int connID) {
             this.entityID = entityID;
+            this.connID = connID;
         }
 	}
 	
@@ -775,11 +777,11 @@ public class Packets {
 		 * A SyncLoadout is sent from the Server to the Client when any Player in the world changes their loadout.
 		 * Upon receiving this packet, clients adjust their versions of that Player to have the new loadout.
 		 * 
-		 * @param entityId: ID of the player to change
+		 * @param entityID: ID of the player to change
 		 * @param loadout: Player's new loadout
 		 */
-		public SyncServerLoadout(String entityId, Loadout loadout) {
-			this.entityID = entityId;
+		public SyncServerLoadout(String entityID, Loadout loadout) {
+			this.entityID = entityID;
 			this.loadout = loadout;
 		}
 	}
@@ -899,6 +901,8 @@ public class Packets {
 		public String uiTags;
 		public float timer;
 		public float timerIncr;
+		public AlignmentFilter[] teams;
+		public int[] scores;
 		public SyncUI() {}
 		
 		/**
@@ -908,10 +912,12 @@ public class Packets {
 		 * @param timer: what to set the global game timer to
 		 * @param timerIncr: How much should the timer be incrementing by (probably +-1 or 0)
 		 */
-		public SyncUI(String uiTags, float timer, float timerIncr) {
+		public SyncUI(String uiTags, float timer, float timerIncr, AlignmentFilter[] teams, int[] scores) {
 			this.uiTags = uiTags;
 			this.timer = timer;
 			this.timerIncr = timerIncr;
+			this.teams = teams;
+			this.scores = scores;
 		}
 	}
 	
@@ -1230,6 +1236,16 @@ public class Packets {
 		}
 	}
 
+	public static class SyncAssignedTeams {
+		public AlignmentFilter[] teams;
+
+		public SyncAssignedTeams() {}
+
+		public SyncAssignedTeams(AlignmentFilter[] teams) {
+			this.teams = teams;
+		}
+	}
+
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -1293,7 +1309,9 @@ public class Packets {
 		kryo.register(ClientYeet.class);
 		kryo.register(SyncEmote.class);
 		kryo.register(SyncKillMessage.class);
+		kryo.register(SyncAssignedTeams.class);
 
+		kryo.register(int[].class);
 		kryo.register(Vector2.class);
 		kryo.register(Vector3.class);
 		kryo.register(UnlockLevel.class);
@@ -1304,6 +1322,7 @@ public class Packets {
 		kryo.register(UnlockEquip.class);
 		kryo.register(UnlockEquip[].class);
 		kryo.register(AlignmentFilter.class);
+		kryo.register(AlignmentFilter[].class);
 		kryo.register(Loadout.class);
 		kryo.register(TransitionState.class);
 		kryo.register(DialogType.class);

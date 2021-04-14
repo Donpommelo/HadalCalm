@@ -138,7 +138,8 @@ public class TiledObjectUtil {
 		switch (object.getName()) {
 			case "Start" -> {
 				e = new StartPoint(state, position, size,
-					object.getProperties().get("startId", "", String.class));
+					object.getProperties().get("startId", "", String.class),
+					object.getProperties().get("teamIndex", 0, Integer.class));
 				state.addSavePoint((StartPoint) e);
 			}
 			case "Switch" -> e = new Switch(state, position, size);
@@ -386,6 +387,9 @@ public class TiledObjectUtil {
 				object.getProperties().get("hbox", true, boolean.class),
 				object.getProperties().get("event", true, boolean.class),
 				object.getProperties().get("enemy", true, boolean.class));
+			case "FootballGoal" -> e = new FootballGoal(state, position, size,
+				object.getProperties().get("teamIndex", 0, Integer.class));
+			case "FootballSpawn" -> e = new FootballSpawner(state, position, size);
 			case "Armory" -> e = new Armory(state, position, size,
 				object.getProperties().get("title", "Armory", String.class),
 				object.getProperties().get("tag", "ARMORY", String.class),

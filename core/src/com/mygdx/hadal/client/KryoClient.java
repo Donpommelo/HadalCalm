@@ -226,7 +226,14 @@ public class KryoClient {
 							HadalEntity entity = cs.findEntity(p.entityID);
 							if (entity != null) {
 								if (entity instanceof Event) {
-									((Event) entity).getEventData().onActivate(null, null);
+
+									if (users.containsKey(p.connID)) {
+										User user = users.get(p.connID);
+										Player player = user.getPlayer();
+										((Event) entity).getEventData().onActivate(null, player);
+									} else {
+										((Event) entity).getEventData().onActivate(null, null);
+									}
 								}
 							}
 						});
@@ -495,9 +502,11 @@ public class KryoClient {
 					
 					if (cs != null) {
 						cs.addPacketEffect(() -> {
-							cs.getUiExtra().changeTypes(p.uiTags, true);
+							AlignmentFilter.currentTeams = p.teams;
+							AlignmentFilter.teamScores = p.scores;
 							cs.getUiExtra().setTimer(p.timer);
 							cs.getUiExtra().setTimerIncr(p.timerIncr);
+							cs.getUiExtra().changeTypes(p.uiTags, true);
 						});
 					}
         		}

@@ -550,4 +550,13 @@ PARTY: {
 		NAVIGATIONS,
 	]
 }
+FOOTBALL_GREEN: {
+	name: FOOTBALL_GREEN
+	description: ""
+    descriptionLong: ""
+	tags: [
+        MULTIPLAYER,
+		NAVIGATIONS,
+	]
+}
 }

@@ -201,15 +201,17 @@ public class WeaponUtils {
 	
 	private static final float primeDelay = 1.0f;
 	private static final float projDampen = 1.0f;
-	public static void createNauticalMine(PlayState state, Vector2 startPos, Schmuck user, Vector2 startVelocity,
-										  float mineSize, float mineLifespan, float explosionDamage, float explosionKnockback, int explosionRadius) {
+	public static Hitbox createNauticalMine(PlayState state, Vector2 startPos, Schmuck user,
+											Vector2 startVelocity, float mineSize, float mineLifespan, float explosionDamage,
+											float explosionKnockback, int explosionRadius, float pushMultiplier) {
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(mineSize, mineSize), mineLifespan, startVelocity,
 			(short) 0, false, false, user, Sprite.NAVAL_MINE);
 		hbox.setRestitution(0.5f);
-		
+
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactGoalScore(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new Pushable(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new Pushable(state, hbox, user.getBodyData(), pushMultiplier));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(primeDelay));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f));
@@ -222,6 +224,8 @@ public class WeaponUtils {
 				hbox.getBody().setLinearDamping(projDampen);
 			}
 		});
+
+		return hbox;
 	}
 
 	public static void createProximityMine(PlayState state, Vector2 startPos, Schmuck user, float startVelocity, Vector2 mineSize,
@@ -549,7 +553,7 @@ public class WeaponUtils {
 		//with the Finger equipped, emotes detach and explode
 		if (special) {
 			hbox.setRestitution(0.5f);
-			hbox.addStrategy(new Pushable(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new Pushable(state, hbox, user.getBodyData(), 1.0f));
 			hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(emoteLifespan + 1.0f));
 			hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), emoteExplodeRadius, emoteExplodeDamage, emoteExplodeback, (short) 0));
 			hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f));

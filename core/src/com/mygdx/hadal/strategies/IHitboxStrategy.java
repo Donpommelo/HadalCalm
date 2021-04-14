@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -24,7 +25,7 @@ public interface IHitboxStrategy {
 	void onHit(HadalData fixB);
 	
 	//this runs the hbox "receives damage" usually by being hit by another hbox.
-	void receiveDamage(float basedamage, Vector2 knockback, DamageTypes... tags);
+	void receiveDamage(BodyData perp, float basedamage, Vector2 knockback, DamageTypes... tags);
 	
 	//this is run when the hitbox dies
 	void die();

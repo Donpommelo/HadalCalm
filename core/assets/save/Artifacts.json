@@ -403,7 +403,7 @@ DEPLORABLE_APPARATUS: {
 DIATOMACEOUS_EARTH: {
 	name: Diatomaceous Earth
 	description: "Temporarily boosts Damage Resistance and Knockback Resistance upon using Active Item"
-    descriptionLong: "Buff Duration: 20% of Charge Time\nDamage Resistance: +50%\nKnockback Resistance: +90%\n\nThe powdery remains of countless microscopic Bright Ones\n\nWhile not as luminous as a living specimen, the husks left behind by dead or transcendant Bright Ones are known to have unusual properties of their own."
+    descriptionLong: "Buff Duration: 20% of Charge Time\nDamage Resistance: +50%\nKnockback Resistance: +90%\n\nThe powdery remains of countless microscopic Bright Ones\n\nWhile not as luminous as a living specimen, the husks left behind by dead or transcendent Bright Ones are known to have unusual properties of their own."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

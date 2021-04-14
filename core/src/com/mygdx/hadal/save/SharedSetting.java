@@ -7,13 +7,13 @@ package com.mygdx.hadal.save;
 public class SharedSetting {
 
 	//these are all the server settings that are visible to clients
-	private int maxPlayers, pvpMode, artifactSlots, pvpTimer, pvpHp, coopTimer, lives, loadoutType;
-	private boolean teamEnabled, multiplayerPause;
+	private int maxPlayers, pvpMode, artifactSlots, pvpTimer, pvpHp, coopTimer, lives, loadoutType, teamType;
+	private boolean multiplayerPause;
 	
 	public SharedSetting() {}
 			
 	public SharedSetting(int maxPlayers, int pvpMode, int artifactSlots, int pvpTimer, int pvpHp, int coopTimer,
-						 int lives, int loadoutType, boolean teamEnabled, boolean multiplayerPause) {
+						 int lives, int loadoutType, int teamType, boolean multiplayerPause) {
 		this.maxPlayers = maxPlayers;
 		this.pvpMode = pvpMode;
 		this.artifactSlots = artifactSlots;
@@ -22,7 +22,7 @@ public class SharedSetting {
 		this.coopTimer = coopTimer;
 		this.lives = lives;
 		this.loadoutType = loadoutType;
-		this.teamEnabled = teamEnabled;
+		this.teamType = teamType;
 		this.multiplayerPause = multiplayerPause;
 	}
 
@@ -42,7 +42,7 @@ public class SharedSetting {
 
 	public int getLoadoutType() { return loadoutType; }
 
-	public boolean isTeamEnabled() { return teamEnabled; }
+	public int getTeamType() { return teamType; }
 
 	public boolean isMultiplayerPause() { return multiplayerPause; }
 }

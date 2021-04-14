@@ -51,6 +51,7 @@ public class UITag {
 		TIMER,
 		MISC,
 		LEVEL,
+		TEAMSCORE,
 		EMPTY
 	}
 }

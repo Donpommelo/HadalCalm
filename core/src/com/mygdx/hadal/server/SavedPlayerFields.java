@@ -30,18 +30,23 @@ public class SavedPlayerFields {
 	/**
 	 * This is called when this player kills another player
 	 */
-	public void registerKill() {
+	public void registerKill(boolean incrementScore) {
 		kills++;
-		score++;
+		if (incrementScore) {
+			score++;
+		}
 	}
 	
 	/**
 	 * This is called when this player dies
 	 */
-	public void registerDeath() {
+	public void registerDeath(boolean incrementScore) {
 		deaths++;
-		score--;
 		lives--;
+
+		if (incrementScore) {
+			score--;
+		}
 	}
 
 	/**

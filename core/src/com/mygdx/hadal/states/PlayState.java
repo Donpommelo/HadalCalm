@@ -145,7 +145,8 @@ public class PlayState extends GameState {
 	private final HashMap<String, PositionDummy> dummyPoints;
 	
 	//Can players hurt each other? Is it the hub map? Is this the server?
-	private final boolean pvp, hub, server, teamEnabled;
+	private final boolean pvp, hub, server, killsScore;
+	private final int teamMode;
 	
 	//Various play state ui elements
 	protected UIPlay uiPlay;
@@ -208,8 +209,7 @@ public class PlayState extends GameState {
 		super(gsm);
 
 		this.server = server;
-		this.teamEnabled = gsm.getSetting().isTeamEnabled();
-		
+
 		//Maps can have a set loadout. This will override the loadout given as an input to the playstate.
 		this.mapMultitools = level.getMultitools();
 		this.mapArtifacts = level.getArtifacts();
@@ -277,8 +277,10 @@ public class PlayState extends GameState {
 		this.pvp = map.getProperties().get("pvp", false, Boolean.class);
 		this.hub = map.getProperties().get("hub", false, Boolean.class);
 		this.unlimitedLife = map.getProperties().get("lives", false, boolean.class);
+		this.killsScore = map.getProperties().get("killScore", pvp, boolean.class);
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;
+		this.teamMode = map.getProperties().get("teamType", gsm.getSetting().getTeamType(), Integer.class);
 
 		//load map shader
 		this.shaderBase = Shader.NOTHING;
@@ -306,19 +308,21 @@ public class PlayState extends GameState {
 		}
 
 		//Create the player and make the camera focus on it
-		StartPoint getSave = getSavePoint(startId);
 		if (server) {
+			StartPoint getSave = getSavePoint(startId, HadalGame.server.getUsers().get(0));
+
 			short hitboxFilter = HadalGame.server.getUsers().get(0).getHitBoxFilter().getFilter();
 			this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, reset, false, hitboxFilter);
+
+			if (getSave != null) {
+				this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
+				this.cameraFocusAim.set(getSave.getStartPos());
+			}
 		} else {
-			this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, reset, false,
+			this.player = createPlayer(null, gsm.getLoadout().getName(), loadout, old, 0, reset, false,
 				Constants.PLAYER_HITBOX);
 		}
 
-		if (getSave != null) {
-			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
-			this.cameraFocusAim.set(getSave.getStartPos());
-		}
 		this.reset = reset;
 		
 		//Set up dummy points (AI rally points)
@@ -803,7 +807,7 @@ public class PlayState extends GameState {
 			
 			spectatorMode = false;
 			
-			StartPoint getSave = getSavePoint();
+			StartPoint getSave = getSavePoint(HadalGame.server.getUsers().get(0));
 			
 			//Create a new player
 			short hitboxFilter = HadalGame.server.getUsers().get(0).getHitBoxFilter().getFilter();
@@ -890,7 +894,12 @@ public class PlayState extends GameState {
 		if (!server) { return; }
 
 		if (nextState == null) {
-			
+
+			//if auto-assign team is on, we do the assignment here
+			if (teamMode == 1) {
+				AlignmentFilter.autoAssignTeams(2);
+			}
+
 			//begin transitioning to the designated next level
 			nextLevel = level;
 			this.nextStartId = nextStartId;
@@ -919,7 +928,7 @@ public class PlayState extends GameState {
 
 		//for pvp matches, set loadout depending on pvp settings
 		if (pvp && !hub) {
-			switch(gsm.getSetting().getLoadoutType()) {
+			switch (gsm.getSetting().getLoadoutType()) {
 			
 			//select setting: each player starts with the weapons they selected in the hub
 			case 0:
@@ -969,6 +978,22 @@ public class PlayState extends GameState {
 			newLoadout.activeItem = mapActiveItem;
 		}
 
+		if (isServer()) {
+
+			User user = HadalGame.server.getUsers().get(connID);
+			if (user != null) {
+
+				//on auto-assign team mode, player teams are set to their "override" value
+				if (teamMode == 1 && isPvp()) {
+					newLoadout.team = user.getTeamFilter();
+				} else {
+
+					//otherwise, we use this line to set their "team" value to their chosen color
+					user.setTeamFilter(newLoadout.team);
+				}
+			}
+		}
+
 		Player p;
 		if (!client) {
 			//servers spawn at the starting point if existent. We prefer using the body's position, but can also use the starting position if it hasn't been created yet.
@@ -1000,7 +1025,7 @@ public class PlayState extends GameState {
 
 		//set player pvp hitbox filter.
 		if (isPvp()) {
-			if (teamEnabled) {
+			if (teamMode != 0) {
 				if (newLoadout.team.equals(AlignmentFilter.NONE)) {
 					p.setHitboxfilter(hitboxFilter);
 				} else {
@@ -1045,7 +1070,7 @@ public class PlayState extends GameState {
 							Player playerLeft = user.getPlayer();
 
 							if (playerLeft != null) {
-								if (teamEnabled && !isHub()) {
+								if (teamMode != 0 && !isHub()) {
 
 									//if team mode, display a win for the team instead
 									if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
@@ -1090,7 +1115,7 @@ public class PlayState extends GameState {
 				for (User user : HadalGame.server.getUsers().values()) {
 					if (!user.isSpectator()) {
 						SavedPlayerFields score = user.getScores();
-						if (teamEnabled) {
+						if (teamMode != 0) {
 							if (winningTeam != AlignmentFilter.NONE) {
 								if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
 									score.win();
@@ -1172,7 +1197,7 @@ public class PlayState extends GameState {
 			teamScoresList.addAll(teamScores.keySet());
 			teamScoresList.sort((a, b) -> teamScores.get(b) - teamScores.get(a));
 
-			if (teamEnabled) {
+			if (teamMode != 0) {
 				AlignmentFilter winningTeam = teamScoresList.get(0);
 				if (winningTeam.isTeam()) {
 					resultsText = winningTeam.toString() + " WINS";
@@ -1195,7 +1220,7 @@ public class PlayState extends GameState {
 			for (User user : HadalGame.server.getUsers().values()) {
 				if (!user.isSpectator()) {
 					SavedPlayerFields score = user.getScores();
-					if (teamEnabled) {
+					if (teamMode != 0) {
 
 						AlignmentFilter faction;
 
@@ -1408,23 +1433,34 @@ public class PlayState extends GameState {
 	 * This acquires the level's save points. If none, respawn at starting location. If many, choose one randomly
 	 * @return a save point to spawn a respawned player at
 	 */
-	public StartPoint getSavePoint(String startId) {
+	public StartPoint getSavePoint(String startId, User user) {
+
+		if (!isServer()) { return null; }
+
 		ArrayList<StartPoint> validStarts = new ArrayList<>();
 		ArrayList<StartPoint> readyStarts = new ArrayList<>();
 		
 		//get a list of all start points that match the startId
 		for (StartPoint s: savePoints) {
-			if (s.getStartId().equals(startId)) {
+			if (isPvp() && teamMode == 1 && AlignmentFilter.currentTeams.length > s.getTeamIndex()) {
+				if (user.getTeamFilter().equals(AlignmentFilter.currentTeams[s.getTeamIndex()])) {
+					validStarts.add(s);
+				}
+			} else if (s.getStartId().equals(startId)) {
 				validStarts.add(s);
 			}
 		}
 		
 		//if no start points are found, we return the first save point (if existent)
 		if (validStarts.isEmpty()) {
-			if (savePoints.isEmpty()) {
-				return null;
+			if (isPvp() && teamMode == 1) {
+				validStarts.addAll(savePoints);
 			} else {
-				return savePoints.get(0);
+				if (savePoints.isEmpty()) {
+					return null;
+				} else {
+					return savePoints.get(0);
+				}
 			}
 		}
 		
@@ -1448,8 +1484,8 @@ public class PlayState extends GameState {
 	/**
 	 * This returns a single starting point for a newly spawned player to spawn at.
 	 */
-	public StartPoint getSavePoint() {
-		return getSavePoint(startId);
+	public StartPoint getSavePoint(User user) {
+		return getSavePoint(startId, user);
 	}
 	
 	/**
@@ -1483,15 +1519,6 @@ public class PlayState extends GameState {
 		synchronized (addPacketEffects) {
 			addPacketEffects.add(effect);
 		}
-	}
-	
-	/**
-	 * This is used for pvp levels. When a player is spawned, they will get their hitbox filter here so they can hit each other.
-	 */
-	private static short nextFilter = -5;
-	public static short getPVPFilter() {
-		nextFilter--;
-		return nextFilter;
 	}
 	
 	/**
@@ -1538,10 +1565,12 @@ public class PlayState extends GameState {
 	public boolean isReset() { return reset; }
 	
 	public boolean isPvp() { return pvp; }
-	
+
+	public boolean isKillsScore() { return killsScore; }
+
 	public boolean isHub() { return hub; }
 
-	public boolean isTeamEnabled() { return teamEnabled; }
+	public int getTeamMode() { return teamMode; }
 
 	public boolean isSpectatorMode() { return spectatorMode; }
 

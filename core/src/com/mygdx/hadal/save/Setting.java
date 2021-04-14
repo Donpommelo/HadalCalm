@@ -20,18 +20,21 @@ public class Setting {
 
 	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, pvpHp, artifactSlots,
 		portNumber, hitsoundType, customShader;
-	private boolean fullscreen, autoIconify, vsync, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration,
+	private boolean fullscreen, autoIconify, vsync, debugHitbox, displayNames, displayHp, randomNameAlliteration,
 		consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack;
 	private float soundVolume, musicVolume, masterVolume, hitsoundVolume;
 
 	//How long should pvp/coop matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
 	private int pvpTimer, coopTimer;
-	
+
 	//How many lives should players have in pvp? (this variable is an index in an array. 0 = infinite, 1 = 1 life, 2 = 2 lives ... etc)
 	private int lives;
-	
+
 	//for pvp, how should we give new players loadout? (this variable is an index in an array. 0 = start with default, 1 = start with chosen, 2 = start with random)
 	private int loadoutType;
+
+	//for pvp, are there teams? (0 = ffa, 1 = auto assign teams, 2 = manual assign teams)
+	private int teamType;
 
 	//connecting clients need to know this password to enter the server
 	private String serverPassword;
@@ -40,14 +43,14 @@ public class Setting {
 	private static Cursor lastCursor;
 
 	public Setting() {}
-	
+
 	/**
 	 * This simply saves the settings in a designated file
 	 */
 	public void saveSetting() {
 		Gdx.files.local("save/Settings.json").writeString(GameStateManager.json.prettyPrint(this), false);
 	}
-	
+
 	/**
 	 * This sets display settings, changing screen size/vsync/framerate
 	 */
@@ -70,7 +73,7 @@ public class Setting {
     	game.setAutoIconify(autoIconify);
 
     	setCursor();
-    	
+
     	if (state != null) {
     		state.toggleVisibleHitboxes(debugHitbox);
     	}
@@ -78,7 +81,7 @@ public class Setting {
     	//resizing here (possibly) deals with some fullscreen camera issues on certain devices?
     	game.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
-	
+
 	/**
 	 * This sets the player's cursor according to their saved settings
 	 * cursorType == 0: default cursor
@@ -98,7 +101,7 @@ public class Setting {
 		} else {
 			Pixmap pm = new Pixmap(indexToCursorSize(), indexToCursorSize(), Pixmap.Format.RGBA8888);
 			pm.setColor(indexToCursorColor());
-			
+
 			if (cursorType == 1) {
 				pm.drawCircle(indexToCursorSize() / 2, indexToCursorSize() / 2, indexToCursorSize() / 4);
 				pm.drawLine(0, indexToCursorSize() / 2, indexToCursorSize(), indexToCursorSize() / 2);
@@ -129,10 +132,10 @@ public class Setting {
 		newSetting.resetAudio();
 		newSetting.resetServer();
 		newSetting.resetMisc();
-		
+
 		Gdx.files.local("save/Settings.json").writeString(GameStateManager.json.prettyPrint(newSetting), false);
 	}
-	
+
 	public void resetDisplay() {
 		resolution = 1;
 		framerate = 1;
@@ -146,7 +149,7 @@ public class Setting {
 		cursorColor = 4;
 		mouseCameraTrack = true;
 	}
-	
+
 	public void resetAudio() {
 		soundVolume = 1.0f;
 		musicVolume = 1.0f;
@@ -154,20 +157,20 @@ public class Setting {
 		hitsoundVolume = 0.5f;
 		hitsoundType = 1;
 	}
-	
+
 	public void resetServer() {
 		maxPlayers = 9;
 		portNumber = 11100;
 		serverPassword = "";
 		pvpTimer = 5;
 		lives = 0;
-		teamEnabled = false;
+		teamType = 0;
 		loadoutType = 3;
 		artifactSlots = 4;
 		pvpMode = 0;
 		pvpHp = 2;
 	}
-	
+
 	public void resetMisc() {
 		coopTimer = 0;
 		randomNameAlliteration = true;
@@ -183,19 +186,19 @@ public class Setting {
 	 * @return all the parts of this setting that the clients need to know
 	 */
 	public SharedSetting generateSharedSetting() {
-		return new SharedSetting(maxPlayers, pvpMode, artifactSlots, pvpTimer, pvpHp, coopTimer, lives, loadoutType, teamEnabled, multiplayerPause);
+		return new SharedSetting(maxPlayers, pvpMode, artifactSlots, pvpTimer, pvpHp, coopTimer, lives, loadoutType, teamType, multiplayerPause);
 	}
-	
+
 	public void setPVPTimer(int pvpTimer) { this.pvpTimer = pvpTimer; }
-	
+
 	public void setCoopTimer(int coopTimer) { this.coopTimer = coopTimer; }
 
 	public void setLives(int lives) { this.lives = lives; }
 
-	public void setTeamEnabled(boolean teamEnabled) { this.teamEnabled = teamEnabled; }
+	public void setTeamType(int teamType) { this.teamType = teamType; }
 
 	public void setLoadoutType(int loadoutType) { this.loadoutType = loadoutType; }
-	
+
 	public void setArtifactSlots(int artifactSlots) { this.artifactSlots = artifactSlots; }
 
 	public void setPVPMode(int pvpMode) { this.pvpMode = pvpMode; }
@@ -203,7 +206,7 @@ public class Setting {
 	public void setPVPHp(int pvpHp) { this.pvpHp = pvpHp; }
 
 	public void setMaxPlayers(int maxPlayers) { this.maxPlayers = maxPlayers; }
-	
+
 	/**
 	 * Convert resolution from index in list to actual setting
 	 */
@@ -217,7 +220,7 @@ public class Setting {
 			case 5 -> Gdx.graphics.setWindowedMode(2560, 1080);
 		}
 	}
-	
+
 	/**
 	 * Convert framerate from index in list to actual framerate
 	 */
@@ -229,7 +232,7 @@ public class Setting {
 			default -> 60;
 		};
 	}
-	
+
 	/**
 	 * Convert timer from index in list to actual time amount
 	 */
@@ -248,7 +251,7 @@ public class Setting {
 			default -> 0.0f;
 		};
 	}
-	
+
 	/**
 	 * Convert cursor size from index in list
 	 */
@@ -259,7 +262,7 @@ public class Setting {
 			default -> 32;
 		};
 	}
-	
+
 	/**
 	 * Convert cursor color from index in list
 	 */
@@ -284,14 +287,14 @@ public class Setting {
 			default -> 100;
 		};
 	}
-	
+
 	/**
 	 * Get a sound effect corresponding to the player's currently used hitsound.
 	 */
 	public SoundEffect indexToHitsound() {
 		return indexToHitsound(hitsoundType);
 	}
-	
+
 	/**
 	 * Get a sound effect corresponding to a certain hitsound. (this is used for previewing hitsounds)
 	 */
@@ -309,7 +312,7 @@ public class Setting {
 	public void setResolution(int resolution) { this.resolution = resolution; }
 
 	public void setFramerate(int framerate) { this.framerate = framerate; }
-	
+
 	public void setFullscreen(boolean fullscreen) { this.fullscreen = fullscreen; }
 
 	public void setVsync(boolean vsync) { this.vsync = vsync; }
@@ -335,13 +338,13 @@ public class Setting {
 	public void setMusicVolume(float musicVolume) {	this.musicVolume = musicVolume;	}
 
 	public void setMasterVolume(float masterVolume) { this.masterVolume = masterVolume; }
-	
+
 	public void setHitsoundVolume(float hitsoundVolume) { this.hitsoundVolume = hitsoundVolume; }
 
 	public void setRandomNameAlliteration(boolean randomNameAlliteration) { this.randomNameAlliteration = randomNameAlliteration; }
-	
+
 	public void setConsoleEnabled(boolean consoleEnabled) { this.consoleEnabled = consoleEnabled; }
-	
+
 	public void setVerboseDeathMessage(boolean verboseDeathMessage) { this.verboseDeathMessage = verboseDeathMessage; }
 
 	public void setMultiplayerPause(boolean multiplayerPause) { this.multiplayerPause = multiplayerPause; }
@@ -355,40 +358,40 @@ public class Setting {
 	public void setMouseCameraTrack(boolean mouseCameraTrack) { this.mouseCameraTrack = mouseCameraTrack; }
 
 	public void setDebugHitbox(boolean debugHitbox) { this.debugHitbox = debugHitbox; }
-	
+
 	public void setPortNumber(int portNumber) { this.portNumber = portNumber; }
 
 	public void setServerPassword(String serverPassword) { this.serverPassword = serverPassword; }
 
 	public int getResolution() { return resolution; }
-	
+
 	public int getFramerate() { return framerate; }
-	
+
 	public boolean isFullscreen() { return fullscreen; }
-	
+
 	public boolean isVSync() { return vsync; }
 
 	public boolean isAutoIconify() { return autoIconify; }
 
 	public int getCursorType() { return cursorType; }
-	
+
 	public int getCursorSize() { return cursorSize; }
-	
+
 	public int getCursorColor() { return cursorColor; }
 
 	public int getCustomShader() { return customShader; }
 
 	public int getHitsound() { return hitsoundType; }
-	
+
 	public float getSoundVolume() {	return soundVolume; }
 
 	public float getMusicVolume() {	return musicVolume; }
 
 	public float getMasterVolume() { return masterVolume; }
-	
+
 	public float getHitsoundVolume() { return hitsoundVolume; }
 
-	public boolean isTeamEnabled() { return teamEnabled; }
+	public int getTeamType() { return teamType; }
 
 	public boolean isRandomNameAlliteration() {	return randomNameAlliteration; }
 

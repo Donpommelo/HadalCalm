@@ -98,9 +98,7 @@ public class KryoServer {
 				//If in a victory state, count a disconnect as ready so disconnected players don't prevent return to hub.
 				if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
 					final ResultsState vs =  (ResultsState) gsm.getStates().peek();
-					Gdx.app.postRunnable(() -> {
-						vs.readyPlayer(c.getID());
-					});
+					Gdx.app.postRunnable(() -> vs.readyPlayer(c.getID()));
 				}
 			}
 			
@@ -243,7 +241,8 @@ public class KryoServer {
 							}
 
 							//sync client ui elements
-							sendToTCP(c.getID(), new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr()));
+							sendToTCP(c.getID(), new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr(),
+								AlignmentFilter.currentTeams, AlignmentFilter.teamScores));
 							sendToTCP(c.getID(), new Packets.SyncSharedSettings(ps.getGsm().getSharedSetting()));
 						});
 					}
@@ -548,7 +547,6 @@ public class KryoServer {
 									  final PlayerBodyData data, final boolean reset, final boolean spectator) {
 
 		ps.addPacketEffect(() -> {
-			StartPoint newSave = ps.getSavePoint();
 
 			//Update that player's fields or give them new ones if they are a new client
 			User user;
@@ -557,9 +555,11 @@ public class KryoServer {
 			} else {
 				user = new User(null, null, new SavedPlayerFields(name, connId), new SavedPlayerFieldsExtra());
 				users.put(connId, user);
+
+				user.setTeamFilter(loadout.team);
 			}
 
-			user.setTeamFilter(loadout.team);
+			StartPoint newSave = ps.getSavePoint(user);
 
 			//set the client as a spectator if requested
 			if (spectator) {
@@ -592,7 +592,7 @@ public class KryoServer {
 			if (vic != null) {
 				if (users.containsKey(vic.getConnID())) {
 					User user = users.get(vic.getConnID());
-					user.getScores().registerDeath();
+					user.getScores().registerDeath(ps.isKillsScore());
 					user.setScoreUpdated(true);
 				}
 			}
@@ -600,7 +600,7 @@ public class KryoServer {
 			if (perp != null) {
 				if (users.containsKey(perp.getConnID())) {
 					User user = users.get(perp.getConnID());
-					user.getScores().registerKill();
+					user.getScores().registerKill(ps.isKillsScore());
 					user.setScoreUpdated(true);
 				}
 			}

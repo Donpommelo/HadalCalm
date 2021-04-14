@@ -109,7 +109,7 @@ public class HomingUnit extends HitboxStrategy {
 
 	private static final float disruptDelay = 1.0f;
 	@Override
-	public void receiveDamage(float basedamage, Vector2 knockback, DamageTypes... tags) {
+	public void receiveDamage(BodyData perp, float basedamage, Vector2 knockback, DamageTypes... tags) {
 		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && disruptable) {
 			delay = disruptDelay;
 			homing = null;

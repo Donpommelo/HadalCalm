@@ -12,13 +12,16 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Glapricot Gowick
  */
 public class Pushable extends HitboxStrategy {
-	
-	public Pushable(PlayState state, Hitbox proj, BodyData user) {
+
+	private float pushMultiplier;
+
+	public Pushable(PlayState state, Hitbox proj, BodyData user, float pushMultiplier) {
 		super(state, proj, user);
+		this.pushMultiplier = pushMultiplier;
 	}
 	
 	@Override
-	public void receiveDamage(float basedamage, Vector2 knockback, DamageTypes... tags) {
-		hbox.push(knockback);
+	public void receiveDamage(BodyData perp, float basedamage, Vector2 knockback, DamageTypes... tags) {
+		hbox.push(knockback.scl(pushMultiplier));
 	}
 }

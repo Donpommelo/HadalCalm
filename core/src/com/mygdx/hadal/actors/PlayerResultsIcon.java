@@ -56,7 +56,7 @@ public class PlayerResultsIcon extends AHadalActor {
 		font = HadalGame.SYSTEM_FONT_UI;
 
 		this.name = fields.getNameAbridged(false, maxNameLen);
-		name += "\nScore: " + fields.getKills() + " / " + fields.getDeaths();
+		name += "\nK/D: " + fields.getKills() + " / " + fields.getDeaths();
 
 		//if this is a pvp match with eggplants, we want to add that information to the text
 		boolean eggplants;
@@ -68,6 +68,8 @@ public class PlayerResultsIcon extends AHadalActor {
 
 		if (eggplants) {
 			name += "\nEggplants: " + fields.getScore();
+		} else {
+			name += "\nScore: " + fields.getScore();
 		}
 
 		this.readyIcon = Sprite.EMOTE_READY.getFrame();

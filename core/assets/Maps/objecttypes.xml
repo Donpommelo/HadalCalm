@@ -119,6 +119,10 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
+ <objecttype name="FootballGoal" color="#a0a0a4">
+  <property name="teamIndex" type="int" default="0"/>
+ </objecttype>
+ <objecttype name="FootballSpawn" color="#a0a0a4"/>
  <objecttype name="Game" color="#a0a0a4">
   <property name="changeTimer" type="bool" default="true"/>
   <property name="lives" type="int" default="0"/>
@@ -419,7 +423,8 @@
   <property name="triggeringId" type="string"/>
  </objecttype>
  <objecttype name="Start" color="#ffffff">
-  <property name="startId" type="string"/>
+  <property name="startId" type="string" default=""/>
+  <property name="teamIndex" type="int" default="0"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>

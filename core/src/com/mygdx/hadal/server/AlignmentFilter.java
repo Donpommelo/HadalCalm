@@ -3,9 +3,13 @@ package com.mygdx.hadal.server;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.save.UnlockCharacter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -16,7 +20,7 @@ import java.util.HashMap;
  */
 public enum AlignmentFilter {
 
-    NONE(-3, HadalColor.NOTHING, HadalColor.NOTHING),
+    NONE(-3, HadalColor.NOTHING, HadalColor.NOTHING, false),
     PLAYER1(-4),
     PLAYER2(-5),
     PLAYER3(-6),
@@ -48,7 +52,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_CENSURE(-26, HadalColor.NOTHING, HadalColor.NOTHING) {
+    TEAM_CENSURE(-26, HadalColor.NOTHING, HadalColor.NOTHING, false) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -60,7 +64,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_INVERT(-27, HadalColor.NOTHING, HadalColor.NOTHING) {
+    TEAM_INVERT(-27, HadalColor.NOTHING, HadalColor.NOTHING, false) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -99,9 +103,17 @@ public enum AlignmentFilter {
     //is this alignment currently being used? (this is for preventing users from having the same filter in free for all)
     private boolean used;
 
+    //can this team be assigned randomly without anyone picking it? Set to false for the "weird" options
+    private boolean standardChoice = true;
+
     AlignmentFilter(int filter) {
         this.filter = (short) filter;
         this.team = false;
+    }
+
+    AlignmentFilter(int filter, HadalColor color1, HadalColor color2, boolean standardChoice) {
+        this(filter, color1, color2);
+        this.standardChoice = standardChoice;
     }
 
     AlignmentFilter(int filter, HadalColor color1, HadalColor color2) {
@@ -131,6 +143,65 @@ public enum AlignmentFilter {
         return shader;
     }
 
+    public static AlignmentFilter[] currentTeams;
+    public static int[] teamScores;
+    public static void autoAssignTeams(int numTeams) {
+        ArrayList<User> users = new ArrayList<>(HadalGame.server.getUsers().values());
+        Collections.shuffle(users);
+
+        int currentTeam = 0;
+
+        currentTeams = new AlignmentFilter[numTeams];
+        teamScores = new int[numTeams];
+        Arrays.fill(currentTeams, AlignmentFilter.NONE);
+
+        HashMap<User, Integer> teamSelection = new HashMap<>();
+
+        //make all team colors usable
+        for (AlignmentFilter filter: AlignmentFilter.values()) {
+            if (filter.isTeam()) {
+                filter.setUsed(false);
+            }
+        }
+
+        for (User user: users) {
+            if (!user.isSpectator()) {
+                teamSelection.put(user, currentTeam);
+
+                if (user.getTeamFilter() != AlignmentFilter.NONE && currentTeams[currentTeam] == AlignmentFilter.NONE) {
+                    if (!user.getTeamFilter().isUsed()) {
+                        user.getTeamFilter().setUsed(true);
+                        currentTeams[currentTeam] = user.getTeamFilter();
+                    }
+                }
+                currentTeam = (currentTeam + 1) % numTeams;
+            }
+        }
+
+        for (int i = 0; i < currentTeams.length; i++) {
+            if (currentTeams[i] == AlignmentFilter.NONE) {
+                ArrayList<AlignmentFilter> unusedTeams = new ArrayList<>();
+
+                for (AlignmentFilter filter: AlignmentFilter.values()) {
+                    if (filter.isTeam() && filter.standardChoice && !filter.isUsed()) {
+                        unusedTeams.add(filter);
+                    }
+                }
+                Collections.shuffle(unusedTeams);
+                if (!unusedTeams.isEmpty()) {
+                    currentTeams[i] = unusedTeams.get(0);
+                    currentTeams[i].setUsed(true);
+                }
+            }
+        }
+
+        HadalGame.server.sendToAllTCP(new Packets.SyncAssignedTeams(currentTeams));
+
+        for (User user: teamSelection.keySet()) {
+            user.setTeamFilter(currentTeams[teamSelection.get(user)]);
+        }
+    }
+
     /**
      * @return an unused alignment filter.
      * this is used when a new user is added to give them a unique "player number"
@@ -150,9 +221,7 @@ public enum AlignmentFilter {
      */
     public static void resetUsedAlignments() {
         for (AlignmentFilter filter: AlignmentFilter.values()) {
-            if (!filter.isTeam()) {
-                filter.setUsed(false);
-            }
+            filter.setUsed(false);
         }
     }
 

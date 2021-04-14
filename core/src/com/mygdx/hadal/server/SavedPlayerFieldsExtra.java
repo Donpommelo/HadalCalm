@@ -12,7 +12,7 @@ public class SavedPlayerFieldsExtra {
 
 	private float damageDealtEnemies, damageDealtAllies, damageDealtSelf, damageReceived;
 	private Loadout loadout;
-	
+
 	public SavedPlayerFieldsExtra() {}
 	
 	public void newLevelReset() {

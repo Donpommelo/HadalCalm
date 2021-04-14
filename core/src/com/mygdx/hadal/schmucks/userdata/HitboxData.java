@@ -60,7 +60,7 @@ public class HitboxData extends HadalData {
 		
 		//this is used for hitboxes hat are capable of receiving damage and knockback
 		for (HitboxStrategy s : hbox.getStrategies()) {
-			s.receiveDamage(basedamage, knockback, tags);
+			s.receiveDamage(perp, basedamage, knockback, tags);
 		}
 		
 		return basedamage;

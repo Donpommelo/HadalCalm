@@ -47,9 +47,9 @@ public class SettingState extends GameState {
 	private TextField portNumber, serverPassword;
 	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
 		hitsoundOptions, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, pvpHp,
-		playerCapacity;
+		playerCapacity, teamEnabled;
 	private Slider sound, music, master, hitsound;
-	private CheckBox fullscreen, vsync, autoIconify, debugHitbox, displayNames, displayHp, teamEnabled, randomNameAlliteration, consoleEnabled,
+	private CheckBox fullscreen, vsync, autoIconify, debugHitbox, displayNames, displayHp, randomNameAlliteration, consoleEnabled,
 		verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack;
 		
 	//Dimensions of the setting menu
@@ -87,6 +87,7 @@ public class SettingState extends GameState {
 	//These options make it easier to convert the index setting to a displayed string
 	public static final String[] timerChoices = {"NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN", "6 MIN", "7 MIN", "8 MIN", "9 MIN", "10 MIN"};
 	public static final String[] livesChoices = {"UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES"};
+	public static final String[] teamChoices = {"FREE_FOR_ALL", "AUTO_ASSIGN", "MANUAL ASSIGN"};
 	public static final String[] loadoutChoices = {"SELECTED", "COPY HOST", "RANDOM", "WEAPON DROPS"};
 	public static final String[] artifactChoices = {"0", "1", "2", "3", "4", "5", "6"};
 	public static final String[] modeChoices = {"KILLS -> SCORE", "EGGPLANTS -> SCORE"};
@@ -591,7 +592,10 @@ public class SettingState extends GameState {
 		
 		Text lives = new Text("LIVES: ", 0, 0, false);
 		lives.setScale(detailsScale);
-		
+
+		Text teams = new Text("TEAMS: ", 0, 0, false);
+		teams.setScale(detailsScale);
+
 		Text loadout = new Text("LOADOUT: ", 0, 0, false);
 		loadout.setScale(detailsScale);
 		
@@ -616,41 +620,35 @@ public class SettingState extends GameState {
 		playerCapacity = new SelectBox<>(GameStateManager.getSkin());
 		playerCapacity.setItems(capacityChoices);
 		playerCapacity.setWidth(100);
-
 		playerCapacity.setSelectedIndex(gsm.getSetting().getMaxPlayers());
 
 		pvpTimerOptions = new SelectBox<>(GameStateManager.getSkin());
 		pvpTimerOptions.setItems(timerChoices);
 		pvpTimerOptions.setWidth(100);
-		
 		pvpTimerOptions.setSelectedIndex(gsm.getSetting().getPVPTimer());
 		
 		livesOptions = new SelectBox<>(GameStateManager.getSkin());
 		livesOptions.setItems(livesChoices);
-		
 		livesOptions.setSelectedIndex(gsm.getSetting().getLives());
 
-		teamEnabled = new CheckBox("TEAMS ENABLED?", GameStateManager.getSkin());
-		teamEnabled.setChecked(gsm.getSetting().isTeamEnabled());
+		teamEnabled = new SelectBox<>(GameStateManager.getSkin());
+		teamEnabled.setItems(teamChoices);
+		teamEnabled.setSelectedIndex(gsm.getSetting().getTeamType());
 
 		loadoutOptions = new SelectBox<>(GameStateManager.getSkin());
 		loadoutOptions.setItems(loadoutChoices);
-		
 		loadoutOptions.setSelectedIndex(gsm.getSetting().getLoadoutType());
 		
 		artifactSlots = new SelectBox<>(GameStateManager.getSkin());
 		artifactSlots.setItems(artifactChoices);
-		
 		artifactSlots.setSelectedIndex(gsm.getSetting().getArtifactSlots());
 		
 		pvpMode = new SelectBox<>(GameStateManager.getSkin());
 		pvpMode.setItems(modeChoices);
-		
 		pvpMode.setSelectedIndex(gsm.getSetting().getPVPMode());
 
 		pvpHp = new SelectBox<>(GameStateManager.getSkin());
 		pvpHp.setItems(hpChoices);
-
 		pvpHp.setSelectedIndex(gsm.getSetting().getPVPHp());
 
 		details.add(maxPlayers);
@@ -664,7 +662,8 @@ public class SettingState extends GameState {
 		details.add(pvpTimerOptions).height(detailHeight).pad(detailPad).row();
 		details.add(lives);
 		details.add(livesOptions).height(detailHeight).pad(detailPad).row();
-		details.add(teamEnabled).colspan(2).height(detailHeight).pad(detailPad).row();
+		details.add(teams);
+		details.add(teamEnabled).height(detailHeight).pad(detailPad).row();
 		details.add(loadout);
 		details.add(loadoutOptions).height(detailHeight).pad(detailPad).row();
 		details.add(slots);
@@ -768,7 +767,7 @@ public class SettingState extends GameState {
 				gsm.getSetting().setServerPassword(serverPassword.getText());
 				gsm.getSetting().setPVPTimer(pvpTimerOptions.getSelectedIndex());
 				gsm.getSetting().setLives(livesOptions.getSelectedIndex());
-				gsm.getSetting().setTeamEnabled(teamEnabled.isChecked());
+				gsm.getSetting().setTeamType(teamEnabled.getSelectedIndex());
 				gsm.getSetting().setLoadoutType(loadoutOptions.getSelectedIndex());
 				gsm.getSetting().setArtifactSlots(artifactSlots.getSelectedIndex());
 				gsm.getSetting().setPVPMode(pvpMode.getSelectedIndex());

@@ -218,7 +218,7 @@ public class ScoreWindow {
 		Text mode = new Text(SettingState.modeChoices[used.getPvpMode()], 0, 0, false);
 		mode.setScale(settingsScale);
 
-		Text team = new Text("" + used.isTeamEnabled(), 0, 0, false);
+		Text team = new Text(SettingState.teamChoices[used.getTeamType()], 0, 0, false);
 		team.setScale(settingsScale);
 
 		Text loadout = new Text(SettingState.loadoutChoices[used.getLoadoutType()], 0, 0, false);

@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UITag.uiType;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
@@ -36,6 +37,9 @@ public class UIExtra extends AHadalActor {
 	
 	//Timer is used for timed scripted events. timerIncr is how much the timer should tick every update cycle (usually -1, 0 or 1)
 	private float maxTimer, timer, timerIncr;
+
+	//this is the displayed time
+	private int displayedTimer;
 	
 	public UIExtra(PlayState state) {
 		this.state = state;
@@ -47,8 +51,14 @@ public class UIExtra extends AHadalActor {
 	private final StringBuilder text = new StringBuilder();
 	@Override
     public void draw(Batch batch, float alpha) {
+
 		if (state.getGsm().getSetting().isHideHUD()) { return; }
 
+		font.getData().setScale(scale);
+		font.draw(batch, text.toString(), x, HadalGame.CONFIG_HEIGHT - y, width, Align.left, true);
+	}
+
+	private void syncUIText() {
 		text.setLength(0);
 
 		for (UITag uiTag : uiTags) {
@@ -69,7 +79,7 @@ public class UIExtra extends AHadalActor {
 					text.append("WINS: ").append(wins).append("\n");
 					break;
 				case TIMER:
-					text.append("TIMER: ").append((int) timer).append(" S\n");
+					text.append("TIMER: ").append(displayedTimer).append(" S\n");
 					break;
 				case MISC:
 					text.append(uiTag.getMisc()).append("\n");
@@ -77,6 +87,11 @@ public class UIExtra extends AHadalActor {
 				case LEVEL:
 					text.append(state.getLevel().toString()).append("\n");
 					break;
+				case TEAMSCORE:
+					for (int i = 0; i < AlignmentFilter.teamScores.length; i++) {
+						text.append(AlignmentFilter.currentTeams[i].toString()).append(": ")
+							.append(AlignmentFilter.teamScores[i]).append("\n");
+					}
 				case EMPTY:
 					text.append("\n");
 					break;
@@ -84,8 +99,6 @@ public class UIExtra extends AHadalActor {
 					break;
 			}
 		}
-		font.getData().setScale(scale);
-		font.draw(batch, text.toString(), x, HadalGame.CONFIG_HEIGHT - y, width, Align.left, true);
 	}
 
 	/**
@@ -114,6 +127,7 @@ public class UIExtra extends AHadalActor {
 				uiTags.add(new UITag(uiType.MISC, type));
 			}
 		}
+		syncUIText();
 	}
 	
 	private final StringBuilder tags = new StringBuilder();
@@ -162,6 +176,8 @@ public class UIExtra extends AHadalActor {
 			wins = field.getWins();
 			lives = field.getLives();
 		}
+
+		syncUIText();
 	}
 	
 	/**
@@ -212,13 +228,23 @@ public class UIExtra extends AHadalActor {
 			timer = timerSet;
 			timerIncr = timerIncrement;
 		}
+
+		syncUIText();
 	}
-	
+
+	public void changeTeamField(int teamIndex, int scoreChange) {
+		if (teamIndex < AlignmentFilter.teamScores.length && teamIndex >= 0) {
+			int newScore = AlignmentFilter.teamScores[teamIndex];
+			AlignmentFilter.teamScores[teamIndex] =  newScore + scoreChange;
+			syncUIText();
+		}
+	}
+
+	private final static float notificationThreshold = 10.0f;
 	/**
 	 * This increments the timer for timed levels. When time runs out, we want to run an event designated in the map (if it exists)
 	 * @param delta: amount of time that has passed since last update
 	 */
-	private final static float notificationThreshold = 10.0f;
 	public void incrementTimer(float delta) {
 
 		if (timer > notificationThreshold && timer + (timerIncr * delta) < notificationThreshold) {
@@ -226,6 +252,11 @@ public class UIExtra extends AHadalActor {
 		}
 
 		timer += (timerIncr * delta);
+
+		if ((int) timer != displayedTimer) {
+			displayedTimer = (int) timer;
+			syncUIText();
+		}
 		
 		if (timer <= 0 && timerIncr < 0) {
 			if (state.getGlobalTimer() != null) {

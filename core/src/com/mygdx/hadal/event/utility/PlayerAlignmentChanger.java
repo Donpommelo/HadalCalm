@@ -47,7 +47,7 @@ public class PlayerAlignmentChanger extends Event {
 
 						if (user != null) {
 							if (pvp) {
-								if (state.isTeamEnabled()) {
+								if (state.getTeamMode() != 0) {
 									if (p.getStartLoadout().team.equals(AlignmentFilter.NONE)) {
 										newIndex = user.getHitBoxFilter().getFilter();
 									} else {
