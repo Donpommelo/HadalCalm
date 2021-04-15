@@ -283,6 +283,11 @@ public class PlayState extends GameState {
 		this.teamMode = map.getProperties().get("teamType", gsm.getSetting().getTeamType(), Integer.class);
 		this.noDamage = map.getProperties().get("noDamage", false, boolean.class);
 
+		//if auto-assign team is on, we do the assignment here
+		if (teamMode == 1 && isServer()) {
+			AlignmentFilter.autoAssignTeams(2);
+		}
+
 		//load map shader
 		this.shaderBase = Shader.NOTHING;
 		this.shaderTile = Shader.NOTHING;
@@ -895,11 +900,6 @@ public class PlayState extends GameState {
 		if (!server) { return; }
 
 		if (nextState == null) {
-
-			//if auto-assign team is on, we do the assignment here
-			if (teamMode == 1) {
-				AlignmentFilter.autoAssignTeams(2);
-			}
 
 			//begin transitioning to the designated next level
 			nextLevel = level;

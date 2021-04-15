@@ -143,8 +143,8 @@ public enum AlignmentFilter {
         return shader;
     }
 
-    public static AlignmentFilter[] currentTeams;
-    public static int[] teamScores;
+    public static AlignmentFilter[] currentTeams = new AlignmentFilter[] {};
+    public static int[] teamScores = new int[] {};
     public static void autoAssignTeams(int numTeams) {
         ArrayList<User> users = new ArrayList<>(HadalGame.server.getUsers().values());
         Collections.shuffle(users);
