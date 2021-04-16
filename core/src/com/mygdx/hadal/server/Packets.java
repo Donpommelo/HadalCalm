@@ -1241,6 +1241,11 @@ public class Packets {
 
 		public SyncAssignedTeams() {}
 
+		/**
+		 * A SyncAssignedTeams is sent from the server to the client when a new level is loaded with auto-assigned teams.
+		 * The client must receive the team assignments to process their ui
+		 * @param teams: an array of teams
+		 */
 		public SyncAssignedTeams(AlignmentFilter[] teams) {
 			this.teams = teams;
 		}
@@ -1254,6 +1259,14 @@ public class Packets {
 
 		public SyncObjectiveMarker() {}
 
+		/**
+		 * A SyncObjectiveMarker is sent from the server to the client when the objective marker is set to a non-event
+		 * entity. The client sets their objective marker to match the packet
+		 * @param entityID: ID of the entity to mark
+		 * @param displayOffScreen: should the marker be displayed when the target is off screen?
+		 * @param displayOnScreen: should the marker be displayed when the target is on screen?
+		 * @param icon: what icon should be used for the marker?
+		 */
 		public SyncObjectiveMarker(String entityID, boolean displayOffScreen, boolean displayOnScreen, Sprite icon) {
 			this.entityID = entityID;
 			this.displayOffScreen = displayOffScreen;

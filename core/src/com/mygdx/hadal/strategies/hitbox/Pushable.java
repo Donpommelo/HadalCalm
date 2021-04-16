@@ -13,7 +13,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class Pushable extends HitboxStrategy {
 
-	private float pushMultiplier;
+	private final float pushMultiplier;
 
 	public Pushable(PlayState state, Hitbox proj, BodyData user, float pushMultiplier) {
 		super(state, proj, user);

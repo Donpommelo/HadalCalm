@@ -13,7 +13,9 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- *
+ * This strategy makes the hbox "score" when it comes in contact with a "goal" event.
+ * hboxes die when they score
+ * @author Twarvuldemar Thersula
  */
 public class ContactGoalScore extends HitboxStrategy {
 

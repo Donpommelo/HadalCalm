@@ -201,20 +201,24 @@ public class WeaponUtils {
 	
 	private static final float primeDelay = 1.0f;
 	private static final float projDampen = 1.0f;
+	private static final float footballThreshold = 200.0f;
+	private static final float footballDepreciation = 50.0f;
 	public static Hitbox createNauticalMine(PlayState state, Vector2 startPos, Schmuck user,
 											Vector2 startVelocity, float mineSize, float mineLifespan, float explosionDamage,
-											float explosionKnockback, int explosionRadius, float pushMultiplier) {
+											float explosionKnockback, int explosionRadius, float pushMultiplier, boolean event) {
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(mineSize, mineSize), mineLifespan, startVelocity,
 			(short) 0, false, false, user, Sprite.NAVAL_MINE);
 		hbox.setRestitution(0.5f);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		if (pushMultiplier != 1.0f) {
+		if (event) {
 			hbox.addStrategy(new ContactGoalScore(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new DamageThresholdDie(state, hbox, user.getBodyData(), footballThreshold, footballDepreciation));
+		} else {
+			hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(primeDelay));
 		}
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Pushable(state, hbox, user.getBodyData(), pushMultiplier));
-		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(primeDelay));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f));
 		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));

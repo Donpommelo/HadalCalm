@@ -511,7 +511,11 @@ public class KryoClient {
 					}
         		}
 
-        		else if (o instanceof Packets.SyncObjectiveMarker) {
+				/*
+				 * When the server wants us to track a non-event entity, it sends us the id of the target
+				 * (events can use a global objective setter event)
+				 */
+				else if (o instanceof Packets.SyncObjectiveMarker) {
         			final Packets.SyncObjectiveMarker p = (Packets.SyncObjectiveMarker) o;
         			final ClientState cs = getClientState();
 

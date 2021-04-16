@@ -146,6 +146,8 @@ public class PlayState extends GameState {
 	
 	//Can players hurt each other? Is it the hub map? Is this the server? Do kills give score? Can players damage each other?
 	private final boolean pvp, hub, server, killsScore, noDamage;
+
+	//the current level's team mode (ffa, auto assigned or manual assigned)
 	private final int teamMode;
 	
 	//Various play state ui elements
@@ -245,7 +247,7 @@ public class PlayState extends GameState {
 		mouse = new MouseTracker(this, true);
 
 		PlayState me = this;
-		//load map
+		//load map. We override the render so that we can apply a shader to the tileset
 		map = new TmxMapLoader().load(level.getMap());
 		tmr = new OrthogonalTiledMapRenderer(map, batch) {
 
@@ -980,7 +982,6 @@ public class PlayState extends GameState {
 		}
 
 		if (isServer()) {
-
 			User user = HadalGame.server.getUsers().get(connID);
 			if (user != null) {
 

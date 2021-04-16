@@ -6,6 +6,9 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.ShaderStrategy;
 
 /**
+ * CameraCoord feeds the shader the camera location.
+ * @author Plirdelia Pomilius
+ *
  */
 public class CameraCoord extends ShaderStrategy {
 

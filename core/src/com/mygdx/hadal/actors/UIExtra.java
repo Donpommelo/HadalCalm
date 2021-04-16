@@ -58,6 +58,9 @@ public class UIExtra extends AHadalActor {
 		font.draw(batch, text.toString(), x, HadalGame.CONFIG_HEIGHT - y, width, Align.left, true);
 	}
 
+	/**
+	 * This is run whenever the contents of the ui change. It sets the text according to updated tags and info
+	 */
 	private void syncUIText() {
 		text.setLength(0);
 
@@ -232,6 +235,11 @@ public class UIExtra extends AHadalActor {
 		syncUIText();
 	}
 
+	/**
+	 * Change the team score field in the ui
+	 * @param teamIndex: the index of the team we are changing
+	 * @param scoreChange: how much to change their score by
+	 */
 	public void changeTeamField(int teamIndex, int scoreChange) {
 		if (teamIndex < AlignmentFilter.teamScores.length && teamIndex >= 0) {
 			int newScore = AlignmentFilter.teamScores[teamIndex];
@@ -240,6 +248,7 @@ public class UIExtra extends AHadalActor {
 		}
 	}
 
+	//display a time warning when the time is low
 	private final static float notificationThreshold = 10.0f;
 	/**
 	 * This increments the timer for timed levels. When time runs out, we want to run an event designated in the map (if it exists)

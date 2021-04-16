@@ -11,6 +11,17 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+/**
+ * This event spawns a naval-mine-football for the football game mode.
+ * When the mine is destroyed, another will be spawned
+ *
+ * Triggered Behavior: This event is triggered when a team score. Increment score and display notification
+ * Triggering Behavior: N/A
+ *
+ * Fields: teamIndex: int index of the team that is trying to score on this goal
+ *
+ * @author Himilius Huctuford
+ */
 public class FootballGoal extends Event {
 
     private final int teamIndex;
@@ -33,6 +44,7 @@ public class FootballGoal extends Event {
                     standardParticle.onForBurst(1.0f);
                 }
 
+                //give score credit to the player and give notification
                 if (p != null) {
 
                     String playerName = WeaponUtils.getPlayerColorName(p, maxNameLength);

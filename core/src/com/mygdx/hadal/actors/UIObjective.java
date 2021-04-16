@@ -29,6 +29,8 @@ public class UIObjective extends AHadalActor {
 	
 	//If there is an objective target that has a display if offscreen, this is that entity.
 	private HadalEntity objectiveTarget;
+
+	//for the client, this is the id of the entity we want to track (if it hasn't spawned yet)
 	private String objectiveTargetID;
 	private boolean displayObjectiveOffScreen, displayObjectiveOnScreen;
 	
@@ -96,6 +98,7 @@ public class UIObjective extends AHadalActor {
 			}
 		}
 
+		//if client is trying to track a nonexistent entity, we search for it here
 		if (!state.isServer()) {
 			if (objectiveTargetID != null) {
 				HadalEntity newObjective = state.findEntity(objectiveTargetID);

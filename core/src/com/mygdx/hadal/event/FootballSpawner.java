@@ -13,6 +13,17 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+/**
+ * This event spawns a naval-mine-football for the football game mode.
+ * When the mine is destroyed, another will be spawned
+ *
+ * Triggered Behavior: N/A
+ * Triggering Behavior: N/A
+ *
+ * Fields: N/A
+ *
+ * @author Bacott Brembino
+ */
 public class FootballSpawner extends Event {
 
     private static final float projectileSize = 120;
@@ -36,16 +47,19 @@ public class FootballSpawner extends Event {
 
     private Hitbox ball;
     private float spawnCountdown;
-    private static final float spawnDelay = 1.0f;
+    private static final float spawnDelay = 2.5f;
     @Override
     public void controller(float delta) {
 
+        //ball is spawned after a set delay
         if (spawnCountdown > 0.0f) {
             spawnCountdown -= delta;
             if (spawnCountdown <= 0.0f) {
                 spawnBall();
             }
         } else {
+
+            //spawn a ball if it is dead or nonexistent
             boolean ballded = false;
             if (ball == null) {
                 ballded = true;
@@ -64,9 +78,13 @@ public class FootballSpawner extends Event {
     }
 
     private static final float pushMultiplier = 0.6f;
+
+    /**
+     * Spawn a ball at our current location and set the objective marker to track the ball
+     */
     private void spawnBall() {
         ball = WeaponUtils.createNauticalMine(state, getPixelPosition(), state.getWorldDummy(), new Vector2(),
-            projectileSize, lifespan, explosionDamage, explosionKnockback, explosionRadius, pushMultiplier);
+            projectileSize, lifespan, explosionDamage, explosionKnockback, explosionRadius, pushMultiplier, true);
 
         state.getUiObjective().setDisplayObjectiveOffScreen(true);
         state.getUiObjective().setIconType(Sprite.CLEAR_CIRCLE_ALERT);

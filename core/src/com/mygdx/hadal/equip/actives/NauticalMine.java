@@ -31,6 +31,7 @@ public class NauticalMine extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.LAUNCHER.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
 		WeaponUtils.createNauticalMine(state, user.getPlayer().getPixelPosition(), user.getPlayer(),
-			new Vector2(weaponVelo).nor().scl(projectileSpeed), projectileSize, lifespan, explosionDamage, explosionKnockback, explosionRadius, 1.0f);
+			new Vector2(weaponVelo).nor().scl(projectileSpeed), projectileSize, lifespan,
+			explosionDamage, explosionKnockback, explosionRadius, 1.0f, false);
 	}
 }

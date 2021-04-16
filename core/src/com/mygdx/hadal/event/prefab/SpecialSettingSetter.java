@@ -8,7 +8,10 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 
 
 /**
- * @author
+ *	The Special Setting Setter reads the player's settings to set up the rules of the special mode.
+ *  This includes rules about timer and sets according ui elements.
+ *  One of these should be placed in every map with auto-assigned teams
+ * @author Fulfram Frarbhead
  */
 public class SpecialSettingSetter extends Prefabrication {
 

@@ -143,8 +143,16 @@ public enum AlignmentFilter {
         return shader;
     }
 
+    //this array holds the current auto-assigned teams
     public static AlignmentFilter[] currentTeams = new AlignmentFilter[] {};
+
+    //this array holds the scores of each auto-assigned teams
     public static int[] teamScores = new int[] {};
+
+    /**
+     * This is run by the server when a level loads with auto-assigned teams enabled
+     * @param numTeams: how many teams to auto assign players to?
+     */
     public static void autoAssignTeams(int numTeams) {
         ArrayList<User> users = new ArrayList<>(HadalGame.server.getUsers().values());
         Collections.shuffle(users);
@@ -164,6 +172,7 @@ public enum AlignmentFilter {
             }
         }
 
+        //add each non-spectator to a team. If the player has a team color, it will be used as the team's color
         for (User user: users) {
             if (!user.isSpectator()) {
                 teamSelection.put(user, currentTeam);
@@ -178,6 +187,7 @@ public enum AlignmentFilter {
             }
         }
 
+        //if any teams still lack colors, we give them a randomly generated one
         for (int i = 0; i < currentTeams.length; i++) {
             if (currentTeams[i] == AlignmentFilter.NONE) {
                 ArrayList<AlignmentFilter> unusedTeams = new ArrayList<>();
@@ -195,6 +205,7 @@ public enum AlignmentFilter {
             }
         }
 
+        //inform all clients of the new teams and set it in the user's properties
         HadalGame.server.sendToAllTCP(new Packets.SyncAssignedTeams(currentTeams));
 
         for (User user: teamSelection.keySet()) {
