@@ -586,7 +586,8 @@ public class Player extends PhysicsSchmuck {
 	 * Player uses active item.
 	 */
 	public void activeItem() {
-		useToolStart(0, playerData.getActiveItem(), hitboxfilter, mouse.getPixelPosition(), false);
+		playerData.getActiveItem().mouseClicked(0, state, getBodyData(), hitboxfilter, mouse.getPixelPosition());
+		playerData.getActiveItem().execute(state, getBodyData());
 	}
 	
 	/**

@@ -39,7 +39,8 @@ public class Scrapripper extends MeleeWeapon {
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE).setStaticKnockback(true));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE)
+			.setConstantKnockback(true, startVelocity));
 		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), startVelocity, startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLASH, 0.8f, true));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EXPLOSION, 0.0f, 0.2f));
