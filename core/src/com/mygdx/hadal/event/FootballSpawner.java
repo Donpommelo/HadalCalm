@@ -86,9 +86,7 @@ public class FootballSpawner extends Event {
         ball = WeaponUtils.createNauticalMine(state, getPixelPosition(), state.getWorldDummy(), new Vector2(),
             projectileSize, lifespan, explosionDamage, explosionKnockback, explosionRadius, pushMultiplier, true);
 
-        state.getUiObjective().setDisplayObjectiveOffScreen(true);
-        state.getUiObjective().setIconType(Sprite.CLEAR_CIRCLE_ALERT);
-        state.getUiObjective().setObjectiveTarget(ball);
+        state.getUiObjective().addObjective(ball, Sprite.CLEAR_CIRCLE_ALERT, true, false);
 
         if (state.isServer()) {
             HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(ball.getEntityID().toString(),

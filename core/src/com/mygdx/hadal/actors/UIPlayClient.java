@@ -30,9 +30,20 @@ public class UIPlayClient extends UIPlay {
 	
 	@Override
 	public void calcVars() {
-		
+
+		if (state.getPlayer().getPlayerData() != null) {
+			hpRatio = state.getPlayer().getPlayerData().getOverrideHpPercent();
+
+			if (state.getPlayer().getPlayerData().getCurrentTool() instanceof RangedWeapon) {
+				weaponText = overrideClipLeft + "/" + overrideClipSize;
+				ammoText = overrideAmmoSize + "";
+			} else {
+				weaponText = "";
+				ammoText = "";
+			}
+		}
+
 		//Calc the ratios needed to draw the bars
-		hpRatio = state.getPlayer().getPlayerData().getOverrideHpPercent();
 		hpMax = overrideMaxHp;
 		fuelRatio = overrideFuelPercent;
 		fuelCutoffRatio = overrideAirblastCost / overrideMaxFuel;
@@ -41,14 +52,6 @@ public class UIPlayClient extends UIPlay {
 		
 		if (bossFight && boss.getBody() != null) {
 			bossHpRatio = overrideBossHpPercent;
-		}
-		
-		if (state.getPlayer().getPlayerData().getCurrentTool() instanceof RangedWeapon) {
-			weaponText = overrideClipLeft + "/" + overrideClipSize;
-			ammoText = overrideAmmoSize + "";
-		} else {
-			weaponText = "";
-			ammoText = "";
 		}
 	}
 

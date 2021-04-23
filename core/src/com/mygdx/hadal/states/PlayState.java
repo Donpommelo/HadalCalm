@@ -1164,7 +1164,8 @@ public class PlayState extends GameState {
 
 	//This is a list of all the saved player fields (scores) from the completed playstate
 	private final ArrayList<SavedPlayerFields> scores = new ArrayList<>();
-	private final Map<AlignmentFilter, Integer> teamScores = new HashMap<>();
+	private final Map<AlignmentFilter, Integer> teamKills = new HashMap<>();
+	private final Map<AlignmentFilter, Integer> teamDeaths = new HashMap<>();
 	private final ArrayList<AlignmentFilter> teamScoresList = new ArrayList<>();
 	/**
 	 * This is called when a level ends. Only called by the server. Begin a transition and tell all clients to follow suit.
@@ -1186,18 +1187,16 @@ public class PlayState extends GameState {
 						faction = user.getTeamFilter();
 					}
 
-					if (teamScores.containsKey(faction)) {
-						teamScores.put(faction, user.getScores().getScore() + teamScores.get(faction));
-					} else {
-						teamScores.put(faction, user.getScores().getScore());
-					}
+					teamKills.merge(faction, user.getScores().getKills(), Integer::sum);
+					teamDeaths.merge(faction, user.getScores().getDeaths(), Integer::sum);
 				}
 			}
 
 			//Then, we sort according to score and give the winner(s) a win.
-			scores.sort((a, b) -> b.getScore() - a.getScore());
-			teamScoresList.addAll(teamScores.keySet());
-			teamScoresList.sort((a, b) -> teamScores.get(b) - teamScores.get(a));
+			scores.sort((a, b) -> b.getKills() == a.getKills() ? b.getDeaths() - a.getDeaths() : b.getKills() - a.getKills());
+			teamScoresList.addAll(teamKills.keySet());
+			teamScoresList.sort((a, b) -> teamKills.get(b).equals(teamKills.get(a))
+				? teamDeaths.get(b) - teamDeaths.get(a) : teamKills.get(b) - teamKills.get(a));
 
 			if (teamMode != 0) {
 				AlignmentFilter winningTeam = teamScoresList.get(0);
@@ -1217,7 +1216,7 @@ public class PlayState extends GameState {
 			}
 
 			AlignmentFilter winningTeam = teamScoresList.get(0);
-			int winningScore = scores.get(0).getScore();
+			SavedPlayerFields winningScore = scores.get(0);
 
 			for (User user : HadalGame.server.getUsers().values()) {
 				if (!user.isSpectator()) {
@@ -1232,15 +1231,15 @@ public class PlayState extends GameState {
 							faction = user.getTeamFilter();
 						}
 
-						if (teamScores.containsKey(faction)) {
-							score.setTeamScore(teamScores.get(faction));
+						if (teamKills.containsKey(faction)) {
+							score.setTeamScore(teamKills.get(faction));
 						}
 
 						if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
 							score.win();
 						}
 					} else {
-						if (score.getScore() == winningScore) {
+						if (score.getKills() == winningScore.getKills() && score.getDeaths() == winningScore.getDeaths()) {
 							score.win();
 						}
 					}

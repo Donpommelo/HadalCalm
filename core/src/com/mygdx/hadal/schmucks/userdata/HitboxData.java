@@ -25,7 +25,7 @@ public class HitboxData extends HadalData {
 	protected Hitbox hbox;
 
 	//this is a damage multiplier for reflected hitboxes
-	private static final float reflectMultiplier = 2.0f;
+	private static final float reflectMultiplier = 1.4f;
 	
 	/**
 	 * This data is usually initialized after making a hitbox. It is given to the newly created hitbox using the setUserData() method

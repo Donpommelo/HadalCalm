@@ -139,9 +139,12 @@ public class ResultsState extends GameState {
 		}
 
 		//Then, we sort according to score and give the winner(s) a win. Being on the winning team overrides score
-		scores.sort((a, b) ->
-			(b.getScore() + b.getTeamScore() * 1000 + (b.isWonLast() ? 9999 : 0))
-			- (a.getScore() + a.getTeamScore() * 1000 + (a.isWonLast() ? 9999 : 0)));
+		scores.sort((a, b) -> {
+			int cmp = (b.isWonLast() ? 1 : 0) - (a.isWonLast() ? 1 : 0);
+			if (cmp == 0) { cmp = b.getTeamScore() - a.getTeamScore(); }
+			if (cmp == 0) { cmp = b.getScore() - a.getScore(); }
+			return cmp;
+		});
 
 		//Finally we initialize the ready map with everyone set to not ready.
 		ready = new HashMap<>();

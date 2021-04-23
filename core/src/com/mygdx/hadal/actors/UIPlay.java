@@ -125,24 +125,27 @@ public class UIPlay extends AHadalActor {
 	 */
 	public void calcVars() {
 		//Calc the ratios needed to draw the bars
-		hpRatio = state.getPlayer().getPlayerData().getCurrentHp() / state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
-		hpMax = state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
-		fuelRatio = state.getPlayer().getPlayerData().getCurrentFuel() / state.getPlayer().getPlayerData().getStat(Stats.MAX_FUEL);
-		fuelCutoffRatio = state.getPlayer().getPlayerData().getAirblastCost() / state.getPlayer().getPlayerData().getStat(Stats.MAX_FUEL);
-		weaponText = state.getPlayer().getPlayerData().getCurrentTool().getText();
-		ammoText = state.getPlayer().getPlayerData().getCurrentTool().getAmmoText();
-		numWeaponSlots = state.getPlayer().getPlayerData().getNumWeaponSlots();
-		activePercent = state.getPlayer().getPlayerData().getActiveItem().chargePercent();
-	}
-	
-	@Override
-    public void draw(Batch batch, float alpha) {
-
-		batch.setProjectionMatrix(state.getHud().combined);
+		if (state.getPlayer().getPlayerData() != null) {
+			hpRatio = state.getPlayer().getPlayerData().getCurrentHp() / state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
+			hpMax = state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
+			fuelRatio = state.getPlayer().getPlayerData().getCurrentFuel() / state.getPlayer().getPlayerData().getStat(Stats.MAX_FUEL);
+			fuelCutoffRatio = state.getPlayer().getPlayerData().getAirblastCost() / state.getPlayer().getPlayerData().getStat(Stats.MAX_FUEL);
+			weaponText = state.getPlayer().getPlayerData().getCurrentTool().getText();
+			ammoText = state.getPlayer().getPlayerData().getCurrentTool().getAmmoText();
+			numWeaponSlots = state.getPlayer().getPlayerData().getNumWeaponSlots();
+			activePercent = state.getPlayer().getPlayerData().getActiveItem().chargePercent();
+		}
 
 		if (bossFight && boss.getBody() != null) {
 			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP);
 		}
+	}
+	
+	@Override
+    public void draw(Batch batch, float alpha) {
+		batch.setProjectionMatrix(state.getHud().combined);
+
+		calcVars();
 
 		//Draw boss hp bar, if existent
 		if (bossFight && boss.getBody() != null) {
@@ -165,7 +168,6 @@ public class UIPlay extends AHadalActor {
 		}
 
 		if (state.getPlayer().getPlayerData() == null) { return; }
-		calcVars();
 
 		//hide rest of ui if specified in settings. We don't want to hide boss ui.
 		if (state.getGsm().getSetting().isHideHUD()) { return; }
