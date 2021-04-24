@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
@@ -74,34 +75,34 @@ public class KillerBeat extends RangedWeapon {
 
 		Vector2 noteVelo = new Vector2();
 		switch (note) {
-			case 0:
+			case 0 -> {
 				SoundEffect.PIANO_C.playUniversal(state, startPosition, 0.5f, 1.0f, false);
 				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() - (noteSpread * 3));
-				break;
-			case 1:
+			}
+			case 1 -> {
 				SoundEffect.PIANO_D.playUniversal(state, startPosition, 0.5f, 1.0f, false);
 				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() - (noteSpread * 2));
-				break;
-			case 2:
+			}
+			case 2 -> {
 				SoundEffect.PIANO_F.playUniversal(state, startPosition, 0.5f, 1.0f, false);
 				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() - noteSpread);
-				break;
-			case 3:
+			}
+			case 3 -> {
 				SoundEffect.PIANO_G.playUniversal(state, startPosition, 0.5f, 1.0f, false);
 				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg());
-				break;
-			case 4:
+			}
+			case 4 -> {
 				SoundEffect.PIANO_A.playUniversal(state, startPosition, 0.5f, 1.0f, false);
 				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() + noteSpread);
-				break;
-			case 5:
+			}
+			case 5 -> {
 				SoundEffect.PIANO_B.playUniversal(state, startPosition, 0.5f, 1.0f, false);
 				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() + (noteSpread * 2));
-				break;
-			case 6:
+			}
+			case 6 -> {
 				SoundEffect.PIANO_C2.playUniversal(state, startPosition, 0.5f, 1.0f, false);
 				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() + (noteSpread * 3));
-				break;
+			}
 		}
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, noteVelo, filter, true, true, user, projSprite);
@@ -148,7 +149,7 @@ public class KillerBeat extends RangedWeapon {
 	@Override
 	public String getChargeText() {
 
-		if (chargeCd < getChargeTime() * chargeBonusThreshold) {
+		if (((Player) user).getChargePercent() < chargeBonusThreshold) {
 			return "";
 		} else {
 			return "HIT IT!";
