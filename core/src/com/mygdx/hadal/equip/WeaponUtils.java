@@ -586,10 +586,10 @@ public class WeaponUtils {
 			Loadout loadout = player.getPlayerData().getLoadout();
 			if (loadout.team.equals(AlignmentFilter.NONE)) {
 				return loadout.character.getColor1();
-			} else if (loadout.team.getColor1().isZero()) {
+			} else if (loadout.team.getColor1RGB().isZero()) {
 				return loadout.character.getColor1();
 			} else {
-				return loadout.team.getColor1();
+				return loadout.team.getColor1RGB();
 			}
 		} else {
 			return new Vector3();

@@ -34,6 +34,7 @@ public class Currents extends Event {
 	
 	//force applied every 1/60 seconds
 	private final Vector2 vec = new Vector2();
+	private final float angle;
 
 	//This keeps track of engine timer.
 	private float controllerCount;
@@ -47,14 +48,15 @@ public class Currents extends Event {
 	public Currents(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec) {
 		super(state, startPos, size);
 		this.vec.set(vec);
-		
+		this.angle = MathUtils.atan2(vec.y , vec.x);
 		spawnTimerLimit = 5120 / (size.x * size.y);
 	}
 	
 	public Currents(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec, float duration) {
 		super(state, startPos, size, duration);
 		this.vec.set(vec);
-		
+		this.angle = MathUtils.atan2(vec.y , vec.x);
+
 		spawnTimerLimit = 2560 / (size.x * size.y);
 	}
 	
@@ -95,7 +97,9 @@ public class Currents extends Event {
 			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
 			new ParticleEntity(state, new Ragdoll(state, randLocation.set(randX, randY), ragdollSize, Sprite.NOTHING, ragdollVelo, 0.25f, 0.0f, false, true, false),
-					Particle.BUBBLE_TRAIL, 0.5f, 0.0f, true, particleSyncType.NOSYNC);
+					Particle.CURRENT_TRAIL, 0.5f, 0.0f, true, particleSyncType.NOSYNC)
+			.setParticleVelocity(vec.angleRad())
+			.setParticleAngle(vec.angleRad() + 90 * MathUtils.degreesToRadians);
 		}
 	}
 	

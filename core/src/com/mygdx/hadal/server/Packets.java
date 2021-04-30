@@ -1253,6 +1253,7 @@ public class Packets {
 
 	public static class SyncObjectiveMarker {
 		public String entityID;
+		public Vector3 color;
 		public boolean displayOnScreen;
 		public boolean displayOffScreen;
 		public Sprite icon;
@@ -1263,12 +1264,14 @@ public class Packets {
 		 * A SyncObjectiveMarker is sent from the server to the client when the objective marker is set to a non-event
 		 * entity. The client sets their objective marker to match the packet
 		 * @param entityID: ID of the entity to mark
+		 * @param color: rgb color for the objective marker (1, 1, 1 for no change)
 		 * @param displayOffScreen: should the marker be displayed when the target is off screen?
 		 * @param displayOnScreen: should the marker be displayed when the target is on screen?
 		 * @param icon: what icon should be used for the marker?
 		 */
-		public SyncObjectiveMarker(String entityID, boolean displayOffScreen, boolean displayOnScreen, Sprite icon) {
+		public SyncObjectiveMarker(String entityID, Vector3 color, boolean displayOffScreen, boolean displayOnScreen, Sprite icon) {
 			this.entityID = entityID;
+			this.color = color;
 			this.displayOffScreen = displayOffScreen;
 			this.displayOnScreen = displayOnScreen;
 			this.icon = icon;

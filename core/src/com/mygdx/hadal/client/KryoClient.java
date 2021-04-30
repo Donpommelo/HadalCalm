@@ -521,7 +521,8 @@ public class KryoClient {
 
         			if (cs != null) {
         				cs.addPacketEffect(() -> {
-        					cs.getUiObjective().addObjectiveClient(p.entityID, p.icon, p.displayOffScreen, p.displayOnScreen);
+        					cs.getUiObjective().addObjectiveClient(p.entityID, p.icon, p.color,
+								p.displayOffScreen, p.displayOnScreen);
 						});
 					}
 				}

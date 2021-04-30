@@ -1,6 +1,7 @@
 package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
@@ -49,12 +50,19 @@ public class UIObjective extends AHadalActor {
 
 	public void addObjective(HadalEntity objective, Sprite sprite,
 							 boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen) {
-		objectives.add(new ObjectiveMarker(state, objective, sprite, displayObjectiveOffScreen, displayObjectiveOnScreen));
+		addObjective(objective, sprite, new Vector3(), displayObjectiveOffScreen, displayObjectiveOnScreen);
 	}
 
-	public void addObjectiveClient(String objectiveID, Sprite sprite,
+	public void addObjective(HadalEntity objective, Sprite sprite, Vector3 color,
+							 boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen) {
+		objectives.add(new ObjectiveMarker(state, objective, sprite, color,
+			displayObjectiveOffScreen, displayObjectiveOnScreen));
+	}
+
+	public void addObjectiveClient(String objectiveID, Sprite sprite, Vector3 color,
 								   boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen) {
-		ObjectiveMarker newObjective = new ObjectiveMarker(state, null, sprite, displayObjectiveOffScreen, displayObjectiveOnScreen);
+		ObjectiveMarker newObjective = new ObjectiveMarker(state, null, sprite, color,
+			displayObjectiveOffScreen, displayObjectiveOnScreen);
 		newObjective.setObjectiveTargetID(objectiveID);
 		objectives.add(newObjective);
 	}

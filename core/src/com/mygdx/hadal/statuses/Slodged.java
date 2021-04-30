@@ -46,7 +46,7 @@ public class Slodged extends Status {
 	}
 	
 	@Override
-	public void statChanges(){
+	public void statChanges() {
 		inflicted.setStat(Stats.AIR_SPD, -slow);
 		inflicted.setStat(Stats.GROUND_SPD, -slow);
 		inflicted.setStat(Stats.JUMP_POW, -slow);

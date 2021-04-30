@@ -19,6 +19,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -172,6 +173,7 @@ public class TeslaCoil extends RangedWeapon {
 						pulsePosition.add(pulsePath.nor().scl(pulseSize));
 						
 						Hitbox pulse = new RangedHitbox(state, pulsePosition, pulseSize, pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING);
+						pulse.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 						pulse.setEffectsHit(false);
 						
 						pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));

@@ -15,6 +15,8 @@ public class ObjectiveMarker {
     private final PlayState state;
     private final TextureRegion icon;
     private final TextureRegion arrow;
+    private final Vector3 color;
+    private final boolean colored;
 
     private static final float scale = 0.4f;
 
@@ -28,13 +30,15 @@ public class ObjectiveMarker {
     private String objectiveTargetID;
     private final boolean displayObjectiveOffScreen, displayObjectiveOnScreen;
 
-    public ObjectiveMarker(PlayState state, HadalEntity objectiveTarget, Sprite sprite,
+    public ObjectiveMarker(PlayState state, HadalEntity objectiveTarget, Sprite sprite, Vector3 color,
                            boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen) {
         this.state = state;
         this.objectiveTarget = objectiveTarget;
         this.displayObjectiveOffScreen = displayObjectiveOffScreen;
         this.displayObjectiveOnScreen = displayObjectiveOnScreen;
         this.icon = sprite.getFrame();
+        this.color = color;
+        this.colored = !color.equals(new Vector3());
 
         this.arrow = Sprite.NOTIFICATIONS_DIRECTIONAL_ARROW.getFrame();
         this.corner = MathUtils.atan2(-HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
@@ -52,6 +56,10 @@ public class ObjectiveMarker {
         if (objectiveTarget != null) {
 
             objectiveLocation.set(objectiveTarget.getPixelPosition());
+
+            if (colored) {
+                batch.setColor(color.x, color.y, color.z, 1.0f);
+            }
 
             if (!objectiveTarget.isVisible() && displayObjectiveOffScreen) {
                 centerPosition.set(HadalGame.CONFIG_WIDTH / 2, HadalGame.CONFIG_HEIGHT / 2, 0);
@@ -87,6 +95,10 @@ public class ObjectiveMarker {
                 y = objectiveLocation.y;
                 batch.draw(icon, x - width / 2, y - height / 2, width, height);
                 batch.setProjectionMatrix(state.getHud().combined);
+            }
+
+            if (colored) {
+                batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
             }
         }
 

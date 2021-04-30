@@ -1193,7 +1193,7 @@ public class PlayState extends GameState {
 			}
 
 			//Then, we sort according to score and give the winner(s) a win.
-			scores.sort((a, b) -> b.getKills() == a.getKills() ? b.getDeaths() - a.getDeaths() : b.getKills() - a.getKills());
+			scores.sort((a, b) -> b.getKills() == a.getKills() ? a.getDeaths() - b.getDeaths(): b.getKills() - a.getKills());
 			teamScoresList.addAll(teamKills.keySet());
 			teamScoresList.sort((a, b) -> teamKills.get(b).equals(teamKills.get(a))
 				? teamDeaths.get(b) - teamDeaths.get(a) : teamKills.get(b) - teamKills.get(a));

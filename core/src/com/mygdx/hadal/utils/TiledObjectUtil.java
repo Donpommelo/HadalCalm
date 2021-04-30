@@ -390,6 +390,8 @@ public class TiledObjectUtil {
 			case "FootballGoal" -> e = new FootballGoal(state, position, size,
 				object.getProperties().get("teamIndex", 0, Integer.class));
 			case "FootballSpawn" -> e = new FootballSpawner(state, position, size);
+			case "FlagSpawn" -> e = new SpawnerFlag(state, position, size,
+				object.getProperties().get("teamIndex", 0, Integer.class));
 			case "Armory" -> e = new Armory(state, position, size,
 				object.getProperties().get("title", "Armory", String.class),
 				object.getProperties().get("tag", "ARMORY", String.class),

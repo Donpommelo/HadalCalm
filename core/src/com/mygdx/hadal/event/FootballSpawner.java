@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
@@ -27,7 +28,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class FootballSpawner extends Event {
 
     private static final float projectileSize = 120;
-    private static final float lifespan = 120.0f;
+    private static final float lifespan = 180.0f;
 
     private static final int explosionRadius = 400;
     private static final float explosionDamage = 75.0f;
@@ -90,7 +91,7 @@ public class FootballSpawner extends Event {
 
         if (state.isServer()) {
             HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(ball.getEntityID().toString(),
-                true, false, Sprite.CLEAR_CIRCLE_ALERT));
+                new Vector3(), true, false, Sprite.CLEAR_CIRCLE_ALERT));
         }
     }
 

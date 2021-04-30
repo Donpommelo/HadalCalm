@@ -336,7 +336,7 @@ public class ParticleEntity extends HadalEntity {
 	/**
 	 * Set the angle of the particle
 	 */
-	public void setParticleAngle(float angle) {
+	public ParticleEntity setParticleAngle(float angle) {
         
 		float newAngle = angle * MathUtils.radDeg + 180;
 		for (int i = 0; i < effect.getEmitters().size; i++) {
@@ -345,9 +345,10 @@ public class ParticleEntity extends HadalEntity {
             val.setHigh(newAngle, newAngle);
             val.setLow(newAngle);
         }
+		return this;
 	}
 
-	public void setParticleVelocity(float angle) {
+	public ParticleEntity setParticleVelocity(float angle) {
 		this.velocity = angle;
 
 		float newAngle = angle * MathUtils.radDeg + 180;
@@ -358,6 +359,7 @@ public class ParticleEntity extends HadalEntity {
 			val.setHigh(val.getHighMin() + rotation, val.getHighMax() + rotation);
 			val.setLow(rotation);
 		}
+		return this;
 	}
 
 	/**
@@ -385,7 +387,6 @@ public class ParticleEntity extends HadalEntity {
 				colors[2] = color.getB();
 			}
 		}
-		
 		return this;
 	}
 

@@ -559,4 +559,13 @@ FOOTBALL_GREEN: {
 		NAVIGATIONS,
 	]
 }
+CTF_FUG: {
+	name: CTF_FUG
+	description: ""
+    descriptionLong: ""
+	tags: [
+        MULTIPLAYER,
+		NAVIGATIONS,
+	]
+}
 }

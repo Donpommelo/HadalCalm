@@ -585,6 +585,9 @@ public class PlayerBodyData extends BodyData {
 		if (currentFuel > getStat(Stats.MAX_FUEL)) {
 			currentFuel = getStat(Stats.MAX_FUEL);
 		}
+		if (currentFuel < 0) {
+			currentFuel = 0;
+		}
 	}
 	
 	@Override

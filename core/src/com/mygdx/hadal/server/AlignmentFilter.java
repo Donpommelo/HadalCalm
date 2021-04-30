@@ -20,7 +20,7 @@ import java.util.HashMap;
  */
 public enum AlignmentFilter {
 
-    NONE(-3, HadalColor.NOTHING, HadalColor.NOTHING, false),
+    NONE(-3, HadalColor.NOTHING, HadalColor.NOTHING, false, ""),
     PLAYER1(-4),
     PLAYER2(-5),
     PLAYER3(-6),
@@ -32,15 +32,15 @@ public enum AlignmentFilter {
     PLAYER9(-12),
     PLAYER10(-13),
 
-    TEAM_CHARTREUSE(-16, HadalColor.CHARTREUSE, HadalColor.PALE_GREEN),
-    TEAM_CRIMSON(-17, HadalColor.CRIMSON, HadalColor.RED),
-    TEAM_GREY(-18, HadalColor.GREY, HadalColor.DARK_GREY),
-    TEAM_PLUM(-19, HadalColor.PLUM, HadalColor.VIOLET),
-    TEAM_ORANGE(-20, HadalColor.ORANGE, HadalColor.GOLD),
-    TEAM_SKY_BLUE(-21, HadalColor.SKY_BLUE, HadalColor.TURQOISE),
-    TEAM_TAN(-22, HadalColor.TAN, HadalColor.BROWN),
+    TEAM_CHARTREUSE(-16, HadalColor.CHARTREUSE, HadalColor.PALE_GREEN, "CHARTREUSE"),
+    TEAM_CRIMSON(-17, HadalColor.CRIMSON, HadalColor.RED, "CRIMSON"),
+    TEAM_GREY(-18, HadalColor.GREY, HadalColor.DARK_GREY, "GREY"),
+    TEAM_PLUM(-19, HadalColor.PLUM, HadalColor.VIOLET, "PLUM"),
+    TEAM_ORANGE(-20, HadalColor.ORANGE, HadalColor.GOLD, "ORANGE"),
+    TEAM_SKY_BLUE(-21, HadalColor.SKY_BLUE, HadalColor.TURQOISE, "SKY BLUE"),
+    TEAM_TAN(-22, HadalColor.TAN, HadalColor.BROWN, "TAN"),
 
-    TEAM_BLACK_AND_WHITE(-25, HadalColor.NOTHING, HadalColor.NOTHING) {
+    TEAM_BLACK_AND_WHITE(-25, HadalColor.NOTHING, HadalColor.NOTHING, "BLACK AND WHITE") {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -52,7 +52,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_CENSURE(-26, HadalColor.NOTHING, HadalColor.NOTHING, false) {
+    TEAM_CENSURE(-26, HadalColor.NOTHING, HadalColor.NOTHING, false, "CENSURED") {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -64,7 +64,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_INVERT(-27, HadalColor.NOTHING, HadalColor.NOTHING, false) {
+    TEAM_INVERT(-27, HadalColor.NOTHING, HadalColor.NOTHING, false, "INVERT") {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -76,7 +76,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_SEPIA(-28, HadalColor.NOTHING, HadalColor.NOTHING) {
+    TEAM_SEPIA(-28, HadalColor.NOTHING, HadalColor.NOTHING, "SEPIA") {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -97,8 +97,11 @@ public enum AlignmentFilter {
     private final boolean team;
 
     //for color-changing alignments, these represent the primary and secondary colors of the palette
-    private final Vector3 color1 = new Vector3();
-    private final Vector3 color2 = new Vector3();
+    private HadalColor color1 = HadalColor.NOTHING;
+    private final Vector3 color1RGB = new Vector3();
+    private final Vector3 color2RGB = new Vector3();
+
+    private String adjective;
 
     //is this alignment currently being used? (this is for preventing users from having the same filter in free for all)
     private boolean used;
@@ -111,16 +114,18 @@ public enum AlignmentFilter {
         this.team = false;
     }
 
-    AlignmentFilter(int filter, HadalColor color1, HadalColor color2, boolean standardChoice) {
-        this(filter, color1, color2);
+    AlignmentFilter(int filter, HadalColor color1, HadalColor color2, boolean standardChoice, String adjective) {
+        this(filter, color1, color2, adjective);
         this.standardChoice = standardChoice;
     }
 
-    AlignmentFilter(int filter, HadalColor color1, HadalColor color2) {
+    AlignmentFilter(int filter, HadalColor color1, HadalColor color2, String adjective) {
         this.filter = (short) filter;
         this.team = true;
-        this.color1.set(color1.getR(), color1.getG(), color1.getB());
-        this.color2.set(color2.getR(), color2.getG(), color2.getB());
+        this.color1 = color1;
+        this.color1RGB.set(color1.getR(), color1.getG(), color1.getB());
+        this.color2RGB.set(color2.getR(), color2.getG(), color2.getB());
+        this.adjective = adjective;
     }
 
     /**
@@ -137,8 +142,8 @@ public enum AlignmentFilter {
         shader.bind();
         shader.setUniformf("oldcolor1", character.getColor1());
         shader.setUniformf("oldcolor2", character.getColor2());
-        shader.setUniformf("newcolor1", color1);
-        shader.setUniformf("newcolor2", color2);
+        shader.setUniformf("newcolor1", color1RGB);
+        shader.setUniformf("newcolor2", color2RGB);
 
         return shader;
     }
@@ -238,13 +243,17 @@ public enum AlignmentFilter {
 
     public short getFilter() { return filter; }
 
+    public String getAdjective() { return adjective; }
+
     public boolean isTeam() { return team; }
 
     public boolean isUsed() { return used; }
 
     public void setUsed(boolean used) { this.used = used; }
 
-    public Vector3 getColor1() { return color1; }
+    public HadalColor getColor1() { return color1; }
+
+    public Vector3 getColor1RGB() { return color1RGB; }
 
     private static final HashMap<String, AlignmentFilter> UnlocksByName = new HashMap<>();
     static {

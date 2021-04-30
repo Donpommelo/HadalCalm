@@ -53,6 +53,7 @@ public enum Particle {
 
 	BUBBLE_BLAST(ParticleType.DEFAULT, "particles/bubble_blast.particle"),
 	BUBBLE_TRAIL(ParticleType.DEFAULT, "particles/bubble_trail.particle"),
+	CURRENT_TRAIL(ParticleType.DEFAULT, "particles/current_horizontal.particle"),
 	BUBBLE_IMPACT(ParticleType.DEFAULT, "particles/bubble_impact.particle"),
 	DIATOM(ParticleType.DEFAULT, "particles/diatom.particle"),
 	JELLY(ParticleType.DEFAULT, "particles/jelly.particle"),
