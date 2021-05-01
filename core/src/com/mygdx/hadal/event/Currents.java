@@ -127,7 +127,9 @@ public class Currents extends Event {
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
 			
 			Ragdoll ragdoll = new Ragdoll(state, randLocation.set(randX, randY), ragdollSize, Sprite.NOTHING, ragdollVelo, 0.25f, 0.0f, false, true, false);
-			ParticleEntity bubbles = new ParticleEntity(state, ragdoll, Particle.BUBBLE_TRAIL, 0.5f, 0.0f, true, particleSyncType.NOSYNC);
+			ParticleEntity bubbles = new ParticleEntity(state, ragdoll, Particle.CURRENT_TRAIL, 0.5f, 0.0f, true, particleSyncType.NOSYNC)
+				.setParticleVelocity(vec.angleRad())
+				.setParticleAngle(vec.angleRad() + 90 * MathUtils.degreesToRadians);
 			((ClientState) state).addEntity(ragdoll.getEntityID().toString(), ragdoll, false, ObjectSyncLayers.STANDARD);
 			((ClientState) state).addEntity(bubbles.getEntityID().toString(), bubbles, false, ObjectSyncLayers.EFFECT);
 		}
