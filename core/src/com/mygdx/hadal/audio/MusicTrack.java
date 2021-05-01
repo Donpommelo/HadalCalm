@@ -16,6 +16,7 @@ public enum MusicTrack {
 
 	AURAL_FIXATION("music/aural_fixation.ogg", "Aural Fixation", 149),
 	CONFIDENCE("music/confidence.ogg", "Confidence", 216),
+	GOLDEN_SCALES("music/golden_scales.ogg", "Golden Scales", 133),
 	ORGAN_GRINDER("music/organ_grinder.ogg", "Organ Grinder", 114),
 	RED_EYE("music/red_eye.ogg", "Red Eye", 164),
 	SHARKTOOTH("music/sharktooth.ogg", "Sharktooth", 156),

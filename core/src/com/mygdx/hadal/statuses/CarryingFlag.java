@@ -9,7 +9,7 @@ import com.mygdx.hadal.utils.Stats;
 public class CarryingFlag extends Status {
 
 	//this is the magnitude of the slow.
-	private static final float fuelRegen = 0.0f;
+	private static final float fuelRegen = 1.5f;
 
 
 	public CarryingFlag(PlayState state, BodyData i) {

@@ -122,7 +122,7 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="33" name="Bounds" type="Bounds" x="3456" y="2368" width="32" height="32">
+  <object id="33" name="Bounds" type="Bounds" x="3520" y="2368" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
@@ -131,7 +131,7 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="34" name="Bounds" type="Bounds" x="1216" y="1536" width="32" height="32">
+  <object id="34" name="Bounds" type="Bounds" x="1248" y="1536" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>

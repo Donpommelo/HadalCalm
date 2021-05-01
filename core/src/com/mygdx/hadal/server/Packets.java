@@ -1236,6 +1236,16 @@ public class Packets {
 		}
 	}
 
+	public static class SyncNotification {
+		public String message;
+
+		public SyncNotification() {}
+
+		public SyncNotification(String message) {
+			this.message = message;
+		}
+	}
+
 	public static class SyncAssignedTeams {
 		public AlignmentFilter[] teams;
 
@@ -1341,6 +1351,7 @@ public class Packets {
 		kryo.register(ClientYeet.class);
 		kryo.register(SyncEmote.class);
 		kryo.register(SyncKillMessage.class);
+		kryo.register(SyncNotification.class);
 		kryo.register(SyncAssignedTeams.class);
 		kryo.register(SyncObjectiveMarker.class);
 

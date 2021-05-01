@@ -55,7 +55,7 @@ public class SpawnerFlag extends Event {
                 //give score credit to the player and give notification
                 if (p != null) {
                     String playerName = WeaponUtils.getPlayerColorName(p, maxNameLength);
-                    state.getKillFeed().addNotification(playerName + " CAPTURED THE FLAG!");
+                    state.getKillFeed().addNotification(playerName + " CAPTURED THE FLAG!", false);
                     state.getUiExtra().changeFields(p, 1, 0, 0, 0, false);
                 }
             }

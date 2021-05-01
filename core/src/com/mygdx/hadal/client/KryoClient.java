@@ -416,6 +416,16 @@ public class KryoClient {
 					}
 				}
 
+				else if (o instanceof Packets.SyncNotification) {
+					final Packets.SyncNotification p = (Packets.SyncNotification) o;
+					final ClientState cs = getClientState();
+
+					if (cs != null) {
+						Gdx.app.postRunnable(() -> cs.getKillFeed()
+							.addNotification(p.message, false));
+					}
+				}
+
 				/*
 				 * Server sends a chat message to the client
 				 */

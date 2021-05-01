@@ -257,7 +257,7 @@ public class UIExtra extends AHadalActor {
 	public void incrementTimer(float delta) {
 
 		if (timer > notificationThreshold && timer + (timerIncr * delta) < notificationThreshold) {
-			state.getKillFeed().addNotification("10 SECONDS REMAINING");
+			state.getKillFeed().addNotification("10 SECONDS REMAINING", false);
 		}
 
 		timer += (timerIncr * delta);

@@ -5,6 +5,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -125,15 +126,19 @@ public class KillFeed {
         if (perp != null) {
             if (perp.equals(perp.getState().getPlayer()) && perp != vic) {
                 String vicName = WeaponUtils.getPlayerColorName(vic, maxNameLength);
-                addNotification("YOU HAVE SLAIN " + vicName);
+                addNotification("YOU HAVE SLAIN " + vicName, false);
             }
         }
     }
 
-    public void addNotification(String text) {
+    public void addNotification(String text, boolean global) {
         KillFeedMessage message = new KillFeedMessage(text, false);
         notifications.add(message);
         notification.addActor(message);
+
+        if (global && ps.isServer()) {
+            HadalGame.server.sendToAllTCP(new Packets.SyncNotification(text));
+        }
     }
 
     /**

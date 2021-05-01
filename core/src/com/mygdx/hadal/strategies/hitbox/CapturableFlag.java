@@ -93,7 +93,7 @@ public class CapturableFlag extends HitboxStrategy {
 
 				if (teamIndex < AlignmentFilter.currentTeams.length) {
 					String teamColor = AlignmentFilter.currentTeams[teamIndex].getAdjective();
-					state.getKillFeed().addNotification(teamColor + " FLAG WAS DROPPED!");
+					state.getKillFeed().addNotification(teamColor + " FLAG WAS DROPPED!", true);
 				}
 
 			} else {
@@ -108,7 +108,7 @@ public class CapturableFlag extends HitboxStrategy {
 
 				if (teamIndex < AlignmentFilter.currentTeams.length) {
 					String teamColor = AlignmentFilter.currentTeams[teamIndex].getAdjective();
-					state.getKillFeed().addNotification(teamColor + " FLAG WAS RETURNED!");
+					state.getKillFeed().addNotification(teamColor + " FLAG WAS RETURNED!" , true);
 				}
 			}
 		}
