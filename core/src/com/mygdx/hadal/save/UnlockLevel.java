@@ -103,7 +103,7 @@ public enum UnlockLevel {
 	SANDBOX_EVENTS("Maps/sandboxevent.tmx"),
 
 	FOOTBALL_GREEN("Maps/futbol_green.tmx"),
-	CTF_FUG("Maps/ctf_fug.tmx"),
+	CTF_COQUELICOT("Maps/ctf_coquelicot.tmx"),
 
 	SSTUNICATE1("Maps/sstunicate1.tmx"),
 	HUB_MULTI("Maps/sstunicate2.tmx"),

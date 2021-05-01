@@ -559,8 +559,8 @@ FOOTBALL_GREEN: {
 		NAVIGATIONS,
 	]
 }
-CTF_FUG: {
-	name: CTF_FUG
+CTF_COQUELICOT: {
+	name: CTF_COQUELICOT
 	description: ""
     descriptionLong: ""
 	tags: [

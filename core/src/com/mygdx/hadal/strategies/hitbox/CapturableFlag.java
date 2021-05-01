@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.SpawnerFlag;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -30,6 +31,8 @@ public class CapturableFlag extends HitboxStrategy {
 	private float returnTimer;
 
 	private Status flagDebuff;
+
+	private static final int maxNameLength = 25;
 
 	public CapturableFlag(PlayState state, Hitbox proj, BodyData user, int teamIndex) {
 		super(state, proj, user);
@@ -74,6 +77,8 @@ public class CapturableFlag extends HitboxStrategy {
 							target.getPlayerData().addStatus(flagDebuff);
 
 							hbox.getBody().setGravityScale(0.0f);
+							String playerName = WeaponUtils.getPlayerColorName(target, maxNameLength);
+							state.getKillFeed().addNotification(playerName + " PICKED UP THE FLAG!", true);
 						}
 					}
 				}
