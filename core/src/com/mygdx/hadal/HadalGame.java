@@ -38,8 +38,8 @@ public class HadalGame extends ApplicationAdapter {
 	public static final float CONFIG_HEIGHT = 720.0f;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String Version = "1.0.5h";
-	public static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/246181/105h";
+	public static final String Version = "1.0.5i";
+	public static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/248862/105i";
 
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
