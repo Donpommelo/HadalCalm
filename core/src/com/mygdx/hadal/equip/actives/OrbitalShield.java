@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -13,6 +14,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.OrbitUser;
 
@@ -53,6 +55,7 @@ public class OrbitalShield extends ActiveItem {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, projDamage, projKnockback, DamageTypes.MAGIC).setStaticKnockback(true).setRepeatable(true));
 		hbox.addStrategy(new OrbitUser(state, hbox, user, startAngle, projRange, projSpeed));
+		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.STAR_TRAIL, 0.0f, 1.0f));
 
 		return hbox;
 	}

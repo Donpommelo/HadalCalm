@@ -52,6 +52,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -68,9 +69,9 @@ public class PlayState extends GameState {
 	protected InputProcessor controller;
 	
 	//This is the loadout that the player starts off with when they enter the playstate
-	private final UnlockEquip[] mapMultitools;
-	private final UnlockArtifact[] mapArtifacts;
-	private final UnlockActives mapActiveItem;
+	private List<UnlockEquip> mapMultitools;
+	private List<UnlockArtifact> mapArtifacts;
+	private UnlockActives mapActiveItem;
 	
 	//These process and store the map parsed from the Tiled file.
 	protected TiledMap map;
@@ -212,10 +213,6 @@ public class PlayState extends GameState {
 
 		this.server = server;
 
-		//Maps can have a set loadout. This will override the loadout given as an input to the playstate.
-		this.mapMultitools = level.getMultitools();
-		this.mapArtifacts = level.getArtifacts();
-		this.mapActiveItem = level.getActiveItem();
 		this.level = level;
 		this.startId = startId;
         
@@ -276,14 +273,32 @@ public class PlayState extends GameState {
 		};
 
 		//Get map settings from the collision layer of the map
-		this.pvp = map.getProperties().get("pvp", false, Boolean.class);
-		this.hub = map.getProperties().get("hub", false, Boolean.class);
-		this.unlimitedLife = map.getProperties().get("lives", false, boolean.class);
-		this.killsScore = map.getProperties().get("killScore", pvp, boolean.class);
+		this.pvp = level.isPvp();
+		this.hub = level.isHub();
+		this.unlimitedLife = level.isUnlimitedLives();
+		this.killsScore = level.isKillScore();
+		this.noDamage = level.isNoDamage();
+		if (level.getTeamType() == -1) {
+			this.teamMode = gsm.getSetting().getTeamType();
+		} else {
+			this.teamMode = level.getTeamType();
+		}
+
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;
-		this.teamMode = map.getProperties().get("teamType", gsm.getSetting().getTeamType(), Integer.class);
-		this.noDamage = map.getProperties().get("noDamage", false, boolean.class);
+
+		//Maps can have a set loadout. This will override the loadout given as an input to the playstate.
+		if (map.getProperties().get("weapons", String.class) != null) {
+			this.mapMultitools = Arrays.stream(map.getProperties().get("weapons", String.class).split(","))
+				.map(UnlockEquip::getByName).collect(Collectors.toList());
+		}
+		if (map.getProperties().get("artifacts", String.class) != null) {
+			this.mapArtifacts = Arrays.stream(map.getProperties().get("artifacts", String.class).split(","))
+				.map(UnlockArtifact::getByName).collect(Collectors.toList());
+		}
+		if (map.getProperties().get("active", String.class) != null) {
+			this.mapActiveItem = UnlockActives.getByName(map.getProperties().get("active", String.class));
+		}
 
 		//if auto-assign team is on, we do the assignment here
 		if (teamMode == 1 && isServer()) {
@@ -311,6 +326,13 @@ public class PlayState extends GameState {
 		if (server) {
 			TiledObjectUtil.parseTiledObjectLayer(this, map.getLayers().get("collision-layer").getObjects());
 			TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
+
+			for (String layer: level.getExtraLayers()) {
+				if (map.getLayers().get(layer) != null) {
+					TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get(layer).getObjects());
+				}
+			}
+
 			TiledObjectUtil.parseTiledTriggerLayer();
 			TiledObjectUtil.parseDesignatedEvents(this);
 		}
@@ -965,15 +987,15 @@ public class PlayState extends GameState {
 		//some maps specify a specific loadout. Load these, if so (and override other loadout settings)
 		if (mapMultitools != null) {
 			for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
-				if (mapMultitools.length > i) {
-					newLoadout.multitools[i] = mapMultitools[i];
+				if (mapMultitools.size() > i) {
+					newLoadout.multitools[i] = mapMultitools.get(i);
 				}
 			}
 		}
 		if (mapArtifacts != null) {
 			for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-				if (mapArtifacts.length > i) {
-					newLoadout.artifacts[i] = mapArtifacts[i];
+				if (mapArtifacts.size() > i) {
+					newLoadout.artifacts[i] = mapArtifacts.get(i);
 				}
 			}
 		}

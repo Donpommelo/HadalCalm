@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="29">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="37">
  <properties>
   <property name="customShader" type="bool" value="true"/>
-  <property name="pvp" type="bool" value="true"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="100">
@@ -16,12 +15,6 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
-  <object id="1" name="Prefab" type="PrefabPVPSettingSetter" x="96" y="128" width="32" height="32">
-   <properties>
-    <property name="prefabId" value="PVPSettingSetter"/>
-    <property name="triggeredId" value=""/>
-   </properties>
-  </object>
   <object id="2" name="Multitrigger" type="Multitrigger" x="96" y="192" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
@@ -142,7 +135,14 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="24" name="Prefab" type="PrefabSpawner" x="1600" y="1896" width="96" height="96">
+  <object id="23" name="ScrapSpawn" type="ScrapSpawn" x="1632" y="2272" width="32" height="32">
+   <properties>
+    <property name="scrap" type="int" value="1"/>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="31" name="Prefab" type="PrefabSpawner" x="1600" y="1896" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="8"/>
     <property name="power" type="float" value="50"/>
@@ -151,31 +151,88 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="25" name="ScrapSpawn" type="ScrapSpawn" x="1632" y="2272" width="32" height="32">
+ </objectgroup>
+ <objectgroup id="4" name="dm">
+  <object id="32" name="Prefab" type="PrefabPVPSettingSetter" x="160" y="128" width="32" height="32">
+   <properties>
+    <property name="prefabId" value="PVPSettingSetter"/>
+    <property name="triggeredId" value=""/>
+   </properties>
+  </object>
+  <object id="33" name="ScrapSpawn" type="ScrapSpawn" x="1632" y="2272" width="32" height="32">
    <properties>
     <property name="scrap" type="int" value="1"/>
     <property name="sync" value="USER"/>
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
    </properties>
   </object>
-  <object id="26" name="Dummy" type="Dummy" x="1632" y="1152" width="32" height="32">
+  <object id="34" name="Dummy" type="Dummy" x="1632" y="1152" width="32" height="32">
    <properties>
     <property name="triggeredId" value="egg1"/>
     <property name="triggeringId" value="egg2"/>
    </properties>
   </object>
-  <object id="27" name="Dummy" type="Dummy" x="1632" y="2656" width="32" height="32">
+  <object id="35" name="Dummy" type="Dummy" x="1632" y="2656" width="32" height="32">
    <properties>
     <property name="triggeredId" value="egg2"/>
     <property name="triggeringId" value="egg1"/>
    </properties>
   </object>
-  <object id="28" name="MovePoint" type="MovePoint" x="1632" y="2272" width="32" height="32">
+  <object id="36" name="MovePoint" type="MovePoint" x="1632" y="2272" width="32" height="32">
    <properties>
     <property name="connections" value="EGGPLANT_SPAWNER"/>
     <property name="speed" type="float" value="2.5"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="egg1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="arena">
+  <object id="24" name="Prefab" type="PrefabArenaSettingSetter" x="96" y="128" width="32" height="32">
+   <properties>
+    <property name="prefabId" value="ArenaSettingSetter"/>
+   </properties>
+  </object>
+  <object id="25" name="WaveSpawn" type="WaveSpawn" x="960" y="2816" width="32" height="32">
+   <properties>
+    <property name="point" type="int" value="4"/>
+    <property name="tag" value="STANDARD"/>
+    <property name="triggeredId" value="wave4"/>
+   </properties>
+  </object>
+  <object id="26" name="WaveSpawn" type="WaveSpawn" x="2304" y="2816" width="32" height="32">
+   <properties>
+    <property name="point" type="int" value="5"/>
+    <property name="tag" value="STANDARD"/>
+    <property name="triggeredId" value="wave5"/>
+   </properties>
+  </object>
+  <object id="27" name="WaveSpawn" type="WaveSpawn" x="1632" y="2112" width="32" height="32">
+   <properties>
+    <property name="point" type="int" value="6"/>
+    <property name="tag" value="STANDARD"/>
+    <property name="triggeredId" value="wave6"/>
+   </properties>
+  </object>
+  <object id="28" name="WaveSpawn" type="WaveSpawn" x="1024" y="1280" width="32" height="32">
+   <properties>
+    <property name="point" type="int" value="1"/>
+    <property name="tag" value="STANDARD"/>
+    <property name="triggeredId" value="wave1"/>
+   </properties>
+  </object>
+  <object id="29" name="WaveSpawn" type="WaveSpawn" x="1632" y="1024" width="32" height="32">
+   <properties>
+    <property name="point" type="int" value="2"/>
+    <property name="tag" value="STANDARD"/>
+    <property name="triggeredId" value="wave2"/>
+   </properties>
+  </object>
+  <object id="30" name="WaveSpawn" type="WaveSpawn" x="2240" y="1280" width="32" height="32">
+   <properties>
+    <property name="point" type="int" value="3"/>
+    <property name="tag" value="STANDARD"/>
+    <property name="triggeredId" value="wave3"/>
    </properties>
   </object>
  </objectgroup>

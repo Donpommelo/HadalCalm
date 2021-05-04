@@ -71,6 +71,16 @@ SANDBOX_HUB: {
         SANDBOX,
 	]
 }
+ARENA_BROUHAHA: {
+	name: ARENA_BROUHAHA
+	description: ""
+    descriptionLong: "SIZE: MEDIUM"
+	tags: [
+        MULTIPLAYER,       
+        SINGLEPLAYER,
+        ARENA, 
+	]
+}
 ARENA_FLOTSAM: {
 	name: ARENA_FLOTSAM
 	description: ""
@@ -103,6 +113,16 @@ ARENA_LAGAN: {
 }
 ARENA_PILE: {
 	name: ARENA_PILE
+	description: ""
+    descriptionLong: "SIZE: MEDIUM"
+	tags: [
+        MULTIPLAYER,       
+        SINGLEPLAYER,
+        ARENA, 
+	]
+}
+ARENA_THRESHOLD: {
+	name: ARENA_THRESHOLD
 	description: ""
     descriptionLong: "SIZE: MEDIUM"
 	tags: [
@@ -190,6 +210,16 @@ DM_CAROUSEL: {
 	tags: [
         MULTIPLAYER,
         PVP,
+	]
+}
+DM_COQUELICOT: {
+	name: DM_COQUELICOT
+	description: ""
+    descriptionLong: "SIZE: LARGE"
+	tags: [
+        MULTIPLAYER,
+		PVP,
+        CURATED
 	]
 }
 DM_FACILITY: {
@@ -500,6 +530,15 @@ DM_REDROCK: {
         BIRD,
 	]
 }
+CTF_COQUELICOT: {
+	name: CTF_COQUELICOT
+	description: ""
+    descriptionLong: ""
+	tags: [
+        MULTIPLAYER,
+		PVP,
+	]
+}
 SSTUNICATE1: {
 	name: S.S. TUNICATE
 	description: ""
@@ -556,16 +595,7 @@ FOOTBALL_GREEN: {
     descriptionLong: ""
 	tags: [
         MULTIPLAYER,
-		NAVIGATIONS,
-	]
-}
-CTF_COQUELICOT: {
-	name: CTF_COQUELICOT
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-		NAVIGATIONS,
+		PVP,
 	]
 }
 }

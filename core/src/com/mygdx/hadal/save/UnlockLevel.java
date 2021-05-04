@@ -15,16 +15,19 @@ import java.util.HashMap;
  */
 public enum UnlockLevel {
 
-	DM_BOTTLENECK("Maps/dm_bottleneck.tmx"),
-	DM_BROUHAHA("Maps/dm_brouhaha.tmx"),
-	DM_FACILITY("Maps/dm_facility.tmx"),
-	DM_FLOTSAM("Maps/dm_flotsam.tmx"),
-	DM_LAGAN("Maps/dm_lagan.tmx"),
-	DM_THRESHOLD("Maps/dm_threshold.tmx"),
-	DM_TOWERS("Maps/dm_towers.tmx"),
-	DM_WARP("Maps/dm_warp.tmx"),
-	DM_QUADRANT("Maps/dm_quadrant.tmx"),
-	DM_WETWORKS("Maps/dm_wetworks.tmx"),
+	DM_BOTTLENECK("Maps/dm_bottleneck.tmx", true),
+	DM_BROUHAHA("Maps/dm_brouhaha.tmx", true, "dm"),
+	DM_COQUELICOT("Maps/ctf_coquelicot.tmx", true, "dm"),
+	DM_FACILITY("Maps/dm_facility.tmx", true),
+	DM_FLOTSAM("Maps/dm_flotsam.tmx", true, "dm"),
+	DM_LAGAN("Maps/dm_lagan.tmx, true", "dm"),
+	DM_THRESHOLD("Maps/dm_threshold.tmx", true, "dm"),
+	DM_TOWERS("Maps/dm_towers.tmx", true),
+	DM_WARP("Maps/dm_warp.tmx", true, "dm"),
+	DM_QUADRANT("Maps/dm_quadrant.tmx", true),
+	DM_WETWORKS("Maps/dm_wetworks.tmx", true, "dm"),
+
+	CTF_COQUELICOT("Maps/ctf_coquelicot.tmx",true, false, false, false, false, 1, "ctf"),
 
 	BOSS1("Maps/Boss1.tmx"),
 	BOSS2("Maps/Boss2.tmx"),
@@ -34,43 +37,45 @@ public enum UnlockLevel {
 	BOSS6("Maps/Boss6.tmx"),
 
 	RANDOM("Maps/sstunicate1.tmx"),
-	
-	ARENA_FLOTSAM("Maps/arena_flotsam.tmx"),
-	ARENA_HORIZON("Maps/arena_horizon.tmx"),
-	ARENA_LAGAN("Maps/arena_lagan.tmx"),
-	ARENA_PILE("Maps/arena_pile.tmx"),
-	ARENA_WARP("Maps/arena_warp.tmx"),
-	ARENA_WETWORKS("Maps/arena_wetworks.tmx"),
-	ARENA_ZIGGURAT("Maps/arena_ziggurat.tmx"),
 
-	DM_AGGYDAGGY("Maps/dm_aggydaggy.tmx"),
-	DM_CAROUSEL("Maps/dm_carousel.tmx"),
-	DM_FALLDOWN("Maps/dm_falldown.tmx"),
-	DM_GULLY("Maps/dm_gully.tmx"),
-	DM_JUMP("Maps/dm_jump.tmx"),
-	DM_MOONBOUNCE("Maps/dm_moonbounce.tmx"),
-	DM_ORIGINAL("Maps/dm_original.tmx"),
-	DM_PILE("Maps/dm_pile.tmx"),
-	DM_PINWHEEL("Maps/dm_pinwheel.tmx"),
-	DM_PIVOT("Maps/dm_pivot.tmx"),
-	DM_SAWMILL("Maps/dm_sawmill.tmx"),
-	DM_SCALES("Maps/dm_scales.tmx"),
-	DM_SEESAW("Maps/dm_seesaw.tmx"),
-	DM_ZIGGURAT("Maps/dm_ziggurat.tmx"),
+	ARENA_BROUHAHA("Maps/dm_brouhaha.tmx", "arena"),
+	ARENA_FLOTSAM("Maps/dm_flotsam.tmx", "arena"),
+	ARENA_HORIZON("Maps/dm_horizon.tmx", "arena"),
+	ARENA_LAGAN("Maps/dm_lagan.tmx", "arena"),
+	ARENA_PILE("Maps/dm_pile.tmx", "arena"),
+	ARENA_THRESHOLD("Maps/dm_threshold.tmx", "arena"),
+	ARENA_WARP("Maps/dm_warp.tmx", "arena"),
+	ARENA_WETWORKS("Maps/dm_wetworks.tmx", "arena"),
+	ARENA_ZIGGURAT("Maps/dm_ziggurat.tmx", "arena"),
 
-	DM_FORMOSAN_BLUE_MAGPIE("Maps/dm_formosan_blue_magpie.tmx"),
-	DM_FREE_RANGE("Maps/dm_free_range.tmx"),
-	DM_GREY_HERON("Maps/dm_grey_heron.tmx"),
-	DM_HUMMINGBIRD("Maps/dm_hummingbird.tmx"),
-	DM_JAPANESE_WHITEEYE("Maps/dm_japanese_whiteeye.tmx"),
-	DM_LITTLE_BITTERN("Maps/dm_little_bittern.tmx"),
-	DM_PELICAN("Maps/dm_pelican.tmx"),
-	DM_SUPREME_CHAMPION("Maps/dm_supreme_champion.tmx"),
+	DM_AGGYDAGGY("Maps/dm_aggydaggy.tmx", true),
+	DM_CAROUSEL("Maps/dm_carousel.tmx", true),
+	DM_FALLDOWN("Maps/dm_falldown.tmx", true),
+	DM_GULLY("Maps/dm_gully.tmx", true),
+	DM_JUMP("Maps/dm_jump.tmx", true),
+	DM_MOONBOUNCE("Maps/dm_moonbounce.tmx", true),
+	DM_ORIGINAL("Maps/dm_original.tmx", true),
+	DM_PILE("Maps/dm_pile.tmx", true, "dm"),
+	DM_PINWHEEL("Maps/dm_pinwheel.tmx", true),
+	DM_PIVOT("Maps/dm_pivot.tmx", true),
+	DM_SAWMILL("Maps/dm_sawmill.tmx", true),
+	DM_SCALES("Maps/dm_scales.tmx", true),
+	DM_SEESAW("Maps/dm_seesaw.tmx", true),
+	DM_ZIGGURAT("Maps/dm_ziggurat.tmx", true, "dm"),
+
+	DM_FORMOSAN_BLUE_MAGPIE("Maps/dm_formosan_blue_magpie.tmx", true),
+	DM_FREE_RANGE("Maps/dm_free_range.tmx", true),
+	DM_GREY_HERON("Maps/dm_grey_heron.tmx", true),
+	DM_HUMMINGBIRD("Maps/dm_hummingbird.tmx", true),
+	DM_JAPANESE_WHITEEYE("Maps/dm_japanese_whiteeye.tmx", true),
+	DM_LITTLE_BITTERN("Maps/dm_little_bittern.tmx", true),
+	DM_PELICAN("Maps/dm_pelican.tmx", true),
+	DM_SUPREME_CHAMPION("Maps/dm_supreme_champion.tmx", true),
 	
-	DM_FACING_CRABS("Maps/dm_crab.tmx"),
-	DM_GALLERY("Maps/dm_gallery.tmx"),
-	DM_HORIZON("Maps/dm_horizon.tmx"),
-	DM_REDROCK("Maps/dm_redrock.tmx"),
+	DM_FACING_CRABS("Maps/dm_crab.tmx", true),
+	DM_GALLERY("Maps/dm_gallery.tmx", true),
+	DM_HORIZON("Maps/dm_horizon.tmx", true, "dm"),
+	DM_REDROCK("Maps/dm_redrock.tmx", true),
 
 	WRECK1("Maps/wreck1.tmx"),
 	WRECK2("Maps/wreck2.tmx"),
@@ -98,15 +103,14 @@ public enum UnlockLevel {
 	SLUICEBOSS("Maps/sluiceboss.tmx"),
 	PARTY("Maps/party.tmx"),
 
-	SANDBOX_HUB("Maps/sandboxhub.tmx"),
-	SANDBOX_ENEMY("Maps/sandboxenemy.tmx"),
-	SANDBOX_EVENTS("Maps/sandboxevent.tmx"),
+	SANDBOX_HUB("Maps/sandboxhub.tmx", true, false, true, false, true, -1),
+	SANDBOX_ENEMY("Maps/sandboxenemy.tmx", true, false, true, false, true, -1),
+	SANDBOX_EVENTS("Maps/sandboxevent.tmx", true, false, true, false, true, -1),
 
-	FOOTBALL_GREEN("Maps/futbol_green.tmx"),
-	CTF_COQUELICOT("Maps/ctf_coquelicot.tmx"),
+	FOOTBALL_GREEN("Maps/futbol_green.tmx", true, false, false, true, false, 1),
 
-	SSTUNICATE1("Maps/sstunicate1.tmx"),
-	HUB_MULTI("Maps/sstunicate2.tmx"),
+	SSTUNICATE1("Maps/sstunicate1.tmx", false, true, true, false, true, -1),
+	HUB_MULTI("Maps/sstunicate2.tmx", false, true, true, false, true, -1),
 
 	;
 	
@@ -115,23 +119,32 @@ public enum UnlockLevel {
 	
 	//information about the map
 	private InfoItem info;
-	
-	//does the map have any preset loadout information?
-	private UnlockEquip[] multitools;
-	private UnlockArtifact[] artifacts;
-	private UnlockActives activeItem;
-	
-	UnlockLevel(String map, UnlockArtifact[] artifacts, UnlockActives activeItem, UnlockEquip[] multitools) {
-		this(map);
-		this.artifacts = artifacts;
-		this.activeItem = activeItem;
-		this.multitools = multitools;
+
+	private final String[] extraLayers;
+
+	private final boolean pvp, hub, unlimitedLives, killScore, noDamage;
+	private final int teamType;
+
+	UnlockLevel(String map, String... extraLayers) {
+		this(map, false, extraLayers);
 	}
-	
-	UnlockLevel(String map) {
+
+	UnlockLevel(String map, boolean pvp, String... extraLayers) {
+		this(map, pvp, false, false, false, true, -1, extraLayers);
+	}
+
+	UnlockLevel(String map, boolean pvp, boolean hub, boolean unlimitedLives, boolean noDamage, boolean killScore, int teamType,
+				String... extraLayers) {
 		this.map = map;
+		this.pvp = pvp;
+		this.hub = hub;
+		this.unlimitedLives = unlimitedLives;
+		this.noDamage = noDamage;
+		this.killScore = killScore;
+		this.teamType = teamType;
+		this.extraLayers = extraLayers;
 	}
-	
+
 	/**
 	 * This acquires a list of all unlocked maps (if unlock is true. otherwise just return all maps that satisfy the tags)
 	 */
@@ -178,18 +191,20 @@ public enum UnlockLevel {
 	public void setInfo(InfoItem info) { this.info = info; }
 	
 	public String getMap() { return map; }
-	
-	public UnlockEquip[] getMultitools() { return multitools; }
 
-	public void setMultitools(UnlockEquip[] multitools) { this.multitools = multitools; }
+	public String[] getExtraLayers() { return extraLayers; }
 
-	public UnlockArtifact[] getArtifacts() { return artifacts; }
+	public boolean isPvp() { return pvp; }
 
-	public void setArtifacts(UnlockArtifact[] artifacts) { this.artifacts = artifacts; }
+	public boolean isHub() { return hub; }
 
-	public UnlockActives getActiveItem() { return activeItem; }
+	public boolean isUnlimitedLives() { return unlimitedLives; }
 
-	public void setActiveItem(UnlockActives activeItem) { this.activeItem = activeItem; }
+	public boolean isKillScore() { return killScore; }
+
+	public boolean isNoDamage() { return noDamage; }
+
+	public int getTeamType() { return teamType; }
 
 	private static final HashMap<String, UnlockLevel> UnlocksByName = new HashMap<>();
 	static {

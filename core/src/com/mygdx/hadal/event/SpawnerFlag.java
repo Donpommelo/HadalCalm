@@ -112,7 +112,7 @@ public class SpawnerFlag extends Event {
             HadalColor teamColor = AlignmentFilter.currentTeams[teamIndex].getColor1();
             color.set(teamColor.getR(), teamColor.getG(), teamColor.getB());
 
-            flag.addStrategy(new CreateParticles(state, flag, state.getWorldDummy().getBodyData(), Particle.BRIGHT, 0.0f, 1.0f)
+            flag.addStrategy(new CreateParticles(state, flag, state.getWorldDummy().getBodyData(), Particle.BRIGHT_TRAIL, 0.0f, 1.0f)
                 .setParticleColor(teamColor));
         }
 

@@ -2,8 +2,6 @@
 <map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="120">
  <properties>
   <property name="customShader" type="bool" value="true"/>
-  <property name="hub" type="bool" value="true"/>
-  <property name="lives" type="bool" value="true"/>
   <property name="startUI" value="THE S.S. TUNICATE (MULTIPLAYER),EMPTY,SCRAP"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
