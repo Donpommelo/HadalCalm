@@ -16,7 +16,7 @@ public class HumanityModule extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
-	private static final float bonusActiveCharge = 0.25f;
+	private static final float bonusActiveCharge = 0.4f;
 	
 	public HumanityModule() {
 		super(slotCost, statusNum);

@@ -179,7 +179,7 @@ NOTHING: {
 ORBITAL_SHIELD: {
 	name: Orbital Shield
 	description: "Create several projectiles that orbit the user"
-    descriptionLong: "Charge: 11 Seconds\nShield Duration: 5 Seconds\nOrbitals: 3\nOrbital Damage: 20\n\n"
+    descriptionLong: "Charge: 18 Seconds\nShield Duration: 5 Seconds\nOrbitals: 3\nOrbital Damage: 27\n\n"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,

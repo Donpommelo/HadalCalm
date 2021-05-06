@@ -5,7 +5,6 @@ import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.utils.Stats;
 
 public class Kineater extends Artifact {
 
@@ -26,7 +25,7 @@ public class Kineater extends Artifact {
 			public void afterBossSpawn(Enemy boss) { 
 				SoundEffect.MAGIC27_EVIL.playUniversal(state, boss.getPixelPosition(), 1.0f, false);
 
-				boss.getBodyData().setCurrentHp(boss.getBodyData().getStat(Stats.MAX_HP) * (1.0f - hpDrainPercent));
+				boss.getBodyData().setCurrentHp(boss.getBodyData().getCurrentHp() * (1.0f - hpDrainPercent));
 			}
 		};
 		return enchantment;

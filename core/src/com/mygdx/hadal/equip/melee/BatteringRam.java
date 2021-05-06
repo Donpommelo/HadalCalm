@@ -48,12 +48,14 @@ public class BatteringRam extends MeleeWeapon {
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
-		
-		charging = true;
-		
-		//while held, build charge until maximum
-		if (chargeCd < getChargeTime()) {
-			setChargeCd(chargeCd + delta);
+
+		if (shooter.getSchmuck().getShootCdCount() <= 0.0f) {
+			charging = true;
+
+			//while held, build charge until maximum
+			if (chargeCd < getChargeTime()) {
+				setChargeCd(chargeCd + delta);
+			}
 		}
 	}
 	
@@ -62,7 +64,6 @@ public class BatteringRam extends MeleeWeapon {
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
-		
 		if (bodyData.getSchmuck().getShootCdCount() <= 0.0f) {
 			super.execute(state, bodyData);
 			charging = false;

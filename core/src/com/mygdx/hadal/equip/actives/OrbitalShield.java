@@ -22,12 +22,12 @@ public class OrbitalShield extends ActiveItem {
 
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 11.0f;
+	private static final float maxCharge = 18.0f;
 	
 	private static final Vector2 projSize = new Vector2(25, 25);
 	private static final Vector2 spriteSize = new Vector2(40, 40);
 
-	private static final float projDamage= 20.0f;
+	private static final float projDamage= 27.0f;
 	private static final float projKnockback= 25.0f;
 	private static final float projLifespan= 5.0f;
 

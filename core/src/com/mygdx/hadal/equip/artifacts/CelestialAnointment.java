@@ -15,7 +15,7 @@ public class CelestialAnointment extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 3;
 	
-	private static final float bonusActiveCharge = -0.25f;
+	private static final float bonusActiveCharge = -0.15f;
 	private static final float baseDelay = 0.5f;
 	
 	public CelestialAnointment() {

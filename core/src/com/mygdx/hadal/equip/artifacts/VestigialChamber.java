@@ -17,7 +17,7 @@ public class VestigialChamber extends Artifact {
 	private static final float reticleSize = 80.0f;
 	private static final float reticleLifespan = 0.75f;
 	private static final int explosionRadius = 100;
-	private static final float explosionDamage = 18.0f;
+	private static final float explosionDamage = 22.0f;
 	private static final float explosionKnockback = 20.0f;
 	
 	public VestigialChamber() {

@@ -12,8 +12,8 @@ public class TriggerfishFinger extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
-	private static final float bonusAtkSpd = 0.3f;
-	private static final float bonusReloadSpd = 0.3f;
+	private static final float bonusAtkSpd = 0.2f;
+	private static final float bonusReloadSpd = 0.4f;
 	
 	public TriggerfishFinger() {
 		super(slotCost, statusNum);

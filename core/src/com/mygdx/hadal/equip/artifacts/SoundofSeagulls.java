@@ -12,7 +12,7 @@ public class SoundofSeagulls extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 
-	private static final float hoverCostReduction = -0.2f;
+	private static final float hoverCostReduction = -0.25f;
 
 	public SoundofSeagulls() {
 		super(slotCost, statusNum);

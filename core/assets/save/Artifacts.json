@@ -22,8 +22,8 @@ EIGHT_BALL: {
 }
 ABYSSAL_INSIGNIA: {
 	name: Abyssal Insignia
-	description: "+Damage at Low Hp"
-    descriptionLong: "Hp Threshold: 20% Max Hp\nBonus Damage: +100%\n\nA twisted bone sigil used in the worship of Bright Ones\n\nArtifacts carried into the deepest recesses of the abyss find their form warped by an insurmountable pressure."
+	description: "+Attack Speed at Low Hp"
+    descriptionLong: "Hp Threshold: 20% Max Hp\nBonus Attack Speed: +45%\n\nA twisted bone sigil used in the worship of Bright Ones\n\nArtifacts carried into the deepest recesses of the abyss find their form warped by an insurmountable pressure."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -43,7 +43,7 @@ ADMINISTRATOR_CARD: {
 ALBATROSS_NECKLACE: {
 	name: Albatross Necklace
 	description: "+Max Hp, Become Heavier"
-    descriptionLong: "Bonus Max Hp: 75\nWeight Increase: +75%\n\nA burdensome necklet in the form of an albatross wingspan\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
+    descriptionLong: "Bonus Max Hp: 75\nWeight Increase: +60%\n\nA burdensome necklet in the form of an albatross wingspan\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -85,7 +85,7 @@ ANCHOR_AMULET: {
 ANCIENT_SYNAPSE: {
 	name: Ancient Synapse
 	description: "Delays Incoming Damage"
-    descriptionLong: "Delayed Damage: 12% Max Hp per Second\n\nThe petrified nervous tissue of a drowned behemoth\n\nTo those willing to abandon physical sensation, the Noiseless Sea offers a quiet and peaceful haven to observe eternity."
+    descriptionLong: "Delayed Damage: 1 + 25% Total Delayed Damage per Second\n\nThe petrified nervous tissue of a drowned behemoth\n\nTo those willing to abandon physical sensation, the Noiseless Sea offers a quiet and peaceful haven to observe eternity."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -158,8 +158,8 @@ BOOK_OF_BURIAL: {
 }
 BOTTOM_OF_THE_BARREL: {
 	name: Bottom of the Barrel
-	description: "+Damage with Low Ammo"
-    descriptionLong: "Ammo Threshold: 25%\nDamage Bonus: +100%\n\nA wooden slat encrusted with resentful detritus\n\nThe grinders of the Kamaboko-Ya are welcoming to even the lowliest of dregs seeking to be remade."
+	description: "+Damage and Attack Speed with Low Ammo"
+    descriptionLong: "Ammo Threshold: 25%\nBonus Damage: +100%\nBonus Attack Speed: +25%\n\nA wooden slat encrusted with resentful detritus\n\nThe grinders of the Kamaboko-Ya are welcoming to even the lowliest of dregs seeking to be remade."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -170,7 +170,7 @@ BOTTOM_OF_THE_BARREL: {
 BRIGGLES_BLADED_BOOT: {
 	name: Briggle's Bladed Boot
 	description: "Damaging Stomps"
-    descriptionLong: "Stomp Damage: 50\n\nThe serrated footwear belonging to a general renown for being armed to the feet\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft."
+    descriptionLong: "Stomp Damage: 70\n\nThe serrated footwear belonging to a general renown for being armed to the feet\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -246,7 +246,7 @@ CATALOG_OF_WANT: {
 CELESTIAL_ANOINTMENT: {
 	name: Celestial Anointment
 	description: "Active Item Echo, -Active Item Charge Rate"
-    descriptionLong: "Charge Rate Reduction: -25%\n\nA vial of twinkling ichor originating from far above\n\nEven the slightest remnant of a Bright One is best kept insulated within an inert liquid of appropriate volume."
+    descriptionLong: "Charge Rate Reduction: -15%\n\nA vial of twinkling ichor originating from far above\n\nEven the slightest remnant of a Bright One is best kept insulated within an inert liquid of appropriate volume."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -288,7 +288,7 @@ CLOCKWISE_CAGE: {
 CODEX_OF_SALVORS_LAW: {
 	name: Codex of Salvor's Law
 	description: "+Max Fuel, +Reflected Projectile Damage"
-    descriptionLong: "Bonus Max Fuel: 20\nBonus Reflect Damage: +50%\n\nA leatherbound tome requesting that salvagers try a little harder to get along\n\nA rigorous system once presided over inter-salvager affairs before the endless expanse of ocean made such interactions infrequent."
+    descriptionLong: "Bonus Max Fuel: 20\nBonus Reflect Damage: +75%\n\nA leatherbound tome requesting that salvagers try a little harder to get along\n\nA rigorous system once presided over inter-salvager affairs before the endless expanse of ocean made such interactions infrequent."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -403,7 +403,7 @@ DEPLORABLE_APPARATUS: {
 DIATOMACEOUS_EARTH: {
 	name: Diatomaceous Earth
 	description: "Temporarily boosts Damage Resistance and Knockback Resistance upon using Active Item"
-    descriptionLong: "Buff Duration: 20% of Charge Time\nDamage Resistance: +50%\nKnockback Resistance: +90%\n\nThe powdery remains of countless microscopic Bright Ones\n\nWhile not as luminous as a living specimen, the husks left behind by dead or transcendent Bright Ones are known to have unusual properties of their own."
+    descriptionLong: "Buff Duration: 25% of Charge Time\nDamage Resistance: +60%\nKnockback Resistance: +90%\n\nThe powdery remains of countless microscopic Bright Ones\n\nWhile not as luminous as a living specimen, the husks left behind by dead or transcendent Bright Ones are known to have unusual properties of their own."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -495,7 +495,7 @@ FENS_CLIPPED_WINGS: {
 THE_FINGER: {
 	name: The Finger
 	description: "Your Emotes Deal Damage"
-    descriptionLong: "Emote Damage: 40\n\nA single digit, extended in an offensive gesture\n\nViolence is the foremost form of self-expression permitted to veteran Salvagers."
+    descriptionLong: "Emote Damage: 60\n\nA single digit, extended in an offensive gesture\n\nViolence is the foremost form of self-expression permitted to veteran Salvagers."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -609,7 +609,7 @@ HORNS_OF_AMMON: {
 HUMANITY_MODULE: {
 	name: Humanity Module
 	description: "+Active Charge Rate, Reroll Active on Use"
-    descriptionLong: "Bonus Charge Rate: +25%\n\nA disk encoding data in an unreadable format\n\nManagement could never agree amongst themselves which aspects of humanity could not be relinquished without also losing the label of 'human'."
+    descriptionLong: "Bonus Charge Rate: +40%\n\nA disk encoding data in an unreadable format\n\nManagement could never agree amongst themselves which aspects of humanity could not be relinquished without also losing the label of 'human'."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -897,8 +897,8 @@ NURDLER: {
 }
 OL_FAITHFUL: {
 	name: Ol' Faithful
-	description: "-2 Weapon Slots. +Ammo, Reload and Attack Speed"
-    descriptionLong: "Bonus Ammo: +50%\nBonus Reload Speed: +30%\nBonus Attack Speed: +30%\n\nA rugged holster with the initials 'B.M' engraved\n\nThe callous currents of the Noiseless Sea have no qualms with separating a man from his most beloved possession."
+	description: "-2 Weapon Slots. +Ammo, Reload Speed and Damage"
+    descriptionLong: "Bonus Ammo: +50%\nBonus Reload Speed: +30%\nBonus Damage: +45%\n\nA rugged holster with the initials 'B.M' engraved\n\nThe callous currents of the Noiseless Sea have no qualms with separating a man from his most beloved possession."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1157,7 +1157,7 @@ SKIPPERS_BOX_OF_FUN: {
 SOUND_OF_SEAGULLS: {
 	name: Sound of Seagulls
 	description: "Enables Omnidirectional Hovering, -Hovering Cost"
-    descriptionLong: "Hover Cost Reduction: -20%\n\nAn echoing cry that makes you nostalgic for a place you've never been\n\nTranslated into human language, this sound consists mostly of expletives."
+    descriptionLong: "Hover Cost Reduction: -25%\n\nAn echoing cry that makes you nostalgic for a place you've never been\n\nTranslated into human language, this sound consists mostly of expletives."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1208,7 +1208,7 @@ TOME_OF_PHILOPATRY: {
 TRIGGERFISH_FINGER: {
 	name: Triggerfish Finger
 	description: "+Attack Speed, +Reload Speed"
-    descriptionLong: "Bonus Attack Speed: +30%\nBonus Reload Speed: +30%\n\nThe disembodied digit of a fish known for its propensity for violence\n\nA Salvager can blindly fire any shot in the ocean and still know that they have struck the source of their misfortune."
+    descriptionLong: "Bonus Attack Speed: +20%\nBonus Reload Speed: +40%\n\nThe disembodied digit of a fish known for its propensity for violence\n\nA Salvager can blindly fire any shot in the ocean and still know that they have struck the source of their misfortune."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1228,8 +1228,8 @@ TUNICATE_TUNIC: {
 }
 TYPHON_FANG: {
 	name: Typhon Fang
-	description: "-Reload Speed. Refill Clip on Kill"
-    descriptionLong: "Reload Speed Reduction: -50%\nClip Refilled: 50% Max Clip Size\n\nThe razor-sharp tooth of an extinct titan\n\nAccording to Goldfish scripture, any individual that ascends to the uppermost layer of the world is rewarded with divine form."
+	description: "Refill Clip on Kill"
+    descriptionLong: "Clip Refilled on Player Kill: 100% Max Clip Size\nClip Refilled on Monster Kill: 1\n\nThe razor-sharp tooth of an extinct titan\n\nAccording to Goldfish scripture, any individual that ascends to the uppermost layer of the world is rewarded with divine form."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1251,7 +1251,7 @@ UNBREATHING_MEMBRANE: {
 VESTIGIAL_CHAMBER: {
 	name: Vestigial Chamber
 	description: "Projectiles Create Delayed Explosions"
-    descriptionLong: "Explosion Delay: 0.75s\nExplosion Damage: 18\n\nAn obsolete organ used to manipulate density\n\nThe currents of the Noiseless Sea carry objects, not according to their buoyancies, but rather the nature of their desires, regrets and experiences."
+    descriptionLong: "Explosion Delay: 0.75s\nExplosion Damage: 22\n\nAn obsolete organ used to manipulate density\n\nThe currents of the Noiseless Sea carry objects, not according to their buoyancies, but rather the nature of their desires, regrets and experiences."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

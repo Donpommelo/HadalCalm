@@ -29,7 +29,7 @@ public class KBKBuddy extends EnemySwimming {
 	private static final int hboxWidth = 210;
 	private static final int hboxHeight = 90;
 	
-	private static final float attackCd = 0.25f;
+	private static final float attackCd = 0.3f;
 	
 	private static final float scale = 0.25f;
 	private static final float noiseRadius = 3.0f;
