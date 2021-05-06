@@ -89,61 +89,14 @@
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="111" name="FlagSpawn" type="FlagSpawn" x="8800" y="2528" width="224" height="64">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="113" name="Start" type="Start" x="9440" y="2368" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="114" name="Start" type="Start" x="9504" y="2368" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="115" name="Start" type="Start" x="9600" y="2368" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
   <object id="116" name="Dropthrough" type="Dropthrough" x="9408" y="2464" width="320" height="8">
    <properties>
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="117" name="Start" type="Start" x="9664" y="2368" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
   <object id="122" name="Dropthrough" type="Dropthrough" x="800" y="2752" width="320" height="8">
    <properties>
     <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="123" name="Start" type="Start" x="9440" y="2656" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="124" name="Start" type="Start" x="9504" y="2656" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="125" name="Start" type="Start" x="9600" y="2656" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
   <object id="126" name="Dropthrough" type="Dropthrough" x="9408" y="2752" width="320" height="8">
@@ -654,112 +607,6 @@
     <property name="prefabId" value="Spawner"/>
     <property name="triggeredId" value="f9"/>
     <property name="type" type="int" value="0"/>
-   </properties>
-  </object>
-  <object id="205" name="Start" type="Start" x="9664" y="2368" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="206" name="Start" type="Start" x="9600" y="2368" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="207" name="Start" type="Start" x="9504" y="2368" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="208" name="Start" type="Start" x="9440" y="2368" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="209" name="Start" type="Start" x="9664" y="2656" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="210" name="Start" type="Start" x="9600" y="2656" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="211" name="Start" type="Start" x="9504" y="2656" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="212" name="Start" type="Start" x="9440" y="2656" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="213" name="FlagSpawn" type="FlagSpawn" x="8800" y="2528" width="224" height="64">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="214" name="Start" type="Start" x="9664" y="2368" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="215" name="Start" type="Start" x="9600" y="2368" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="216" name="Start" type="Start" x="9504" y="2368" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="217" name="Start" type="Start" x="9440" y="2368" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="218" name="Start" type="Start" x="9664" y="2656" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="219" name="Start" type="Start" x="9600" y="2656" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="220" name="Start" type="Start" x="9504" y="2656" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="221" name="Start" type="Start" x="9440" y="2656" width="32" height="32">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-    <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="222" name="FlagSpawn" type="FlagSpawn" x="8800" y="2528" width="224" height="64">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
    </properties>
   </object>
  </objectgroup>
