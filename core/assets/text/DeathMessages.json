@@ -44,6 +44,9 @@
         {
             "message": "<vic> committed sudoku", "weight": 1, namedPerp: false
         }
+        {
+            "message": "Press F for <vic>", "weight": 1, namedPerp: false
+        }
     ]
 "ENEMY":  [
         {
