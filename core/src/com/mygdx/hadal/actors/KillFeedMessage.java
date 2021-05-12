@@ -18,6 +18,7 @@ import com.mygdx.hadal.utils.TextFilterUtil;
 
 /**
  * A Kill Feed Message is a single actor displayed in the Kill Feed to represent a single death.
+ * This is used both for kill messages i nthe upper right corner as well as notifications
  * @author Hapricorn Harbifferty
  */
 public class KillFeedMessage extends AHadalActor {

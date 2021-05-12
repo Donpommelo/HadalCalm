@@ -165,7 +165,7 @@ public class ClientController implements InputProcessor {
 	@Override
 	public boolean scrolled(float amountX, float amountY) {
 		keyDown((int) amountY * 1000);
-		keyUp((int) -amountY * 1000);
+		keyUp((int) amountY * 1000);
 		return false;
 	}
 

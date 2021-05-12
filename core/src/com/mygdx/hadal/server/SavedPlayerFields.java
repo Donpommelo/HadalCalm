@@ -43,10 +43,6 @@ public class SavedPlayerFields {
 	public void registerDeath(boolean incrementScore) {
 		deaths++;
 		lives--;
-
-		if (incrementScore) {
-			score--;
-		}
 	}
 
 	/**

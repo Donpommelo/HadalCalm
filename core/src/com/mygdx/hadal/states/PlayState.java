@@ -327,6 +327,7 @@ public class PlayState extends GameState {
 			TiledObjectUtil.parseTiledObjectLayer(this, map.getLayers().get("collision-layer").getObjects());
 			TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
 
+			//parse map-specific event layers (used for different modes in the same map)
 			for (String layer: level.getExtraLayers()) {
 				if (map.getLayers().get(layer) != null) {
 					TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get(layer).getObjects());
@@ -1188,6 +1189,7 @@ public class PlayState extends GameState {
 	private final ArrayList<SavedPlayerFields> scores = new ArrayList<>();
 	private final Map<AlignmentFilter, Integer> teamKills = new HashMap<>();
 	private final Map<AlignmentFilter, Integer> teamDeaths = new HashMap<>();
+	private final Map<AlignmentFilter, Integer> teamScores = new HashMap<>();
 	private final ArrayList<AlignmentFilter> teamScoresList = new ArrayList<>();
 	/**
 	 * This is called when a level ends. Only called by the server. Begin a transition and tell all clients to follow suit.
@@ -1211,14 +1213,24 @@ public class PlayState extends GameState {
 
 					teamKills.merge(faction, user.getScores().getKills(), Integer::sum);
 					teamDeaths.merge(faction, user.getScores().getDeaths(), Integer::sum);
+					teamScores.merge(faction, user.getScores().getScore(), Integer::sum);
 				}
 			}
 
-			//Then, we sort according to score and give the winner(s) a win.
-			scores.sort((a, b) -> b.getKills() == a.getKills() ? a.getDeaths() - b.getDeaths(): b.getKills() - a.getKills());
-			teamScoresList.addAll(teamKills.keySet());
-			teamScoresList.sort((a, b) -> teamKills.get(b).equals(teamKills.get(a))
-				? teamDeaths.get(b) - teamDeaths.get(a) : teamKills.get(b) - teamKills.get(a));
+			scores.sort((a, b) -> {
+				int cmp = (b.getScore() - a.getScore());
+				if (cmp == 0) { cmp = b.getKills() - a.getKills(); }
+				if (cmp == 0) { cmp = a.getDeaths() - b.getDeaths(); }
+				return cmp;
+			});
+
+			teamScoresList.addAll(teamScores.keySet());
+			teamScoresList.sort((a, b) -> {
+				int cmp = (teamScores.get(b) - teamScores.get(a));
+				if (cmp == 0) { cmp = teamKills.get(b) - teamKills.get(a); }
+				if (cmp == 0) { cmp = teamDeaths.get(a) - teamDeaths.get(b); }
+				return cmp;
+			});
 
 			if (teamMode != 0) {
 				AlignmentFilter winningTeam = teamScoresList.get(0);

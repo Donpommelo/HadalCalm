@@ -24,11 +24,12 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
  *
- * Triggered Behavior: This event is triggered when a team score. Increment score and display notification
+ * Triggered Behavior: This event is triggered when a team scores. Increment score and display notification
  * Triggering Behavior: N/A
  *
- * Fields: teamIndex: int index of the team that is trying to score on this goal
+ * Fields: teamIndex: int index of the team that is trying to score by bringing enemy flag to this event
  *
+ * @author Noporon Nashmere
  */
 public class SpawnerFlag extends Event {
 
@@ -108,6 +109,8 @@ public class SpawnerFlag extends Event {
         flag.addStrategy(new CapturableFlag(state, flag, state.getWorldDummy().getBodyData(), teamIndex));
 
         Vector3 color = new Vector3();
+
+        //the flag's particle should match the team color
         if (teamIndex < AlignmentFilter.currentTeams.length) {
             HadalColor teamColor = AlignmentFilter.currentTeams[teamIndex].getColor1();
             color.set(teamColor.getR(), teamColor.getG(), teamColor.getB());
@@ -132,6 +135,7 @@ public class SpawnerFlag extends Event {
         setSyncType(eventSyncTypes.ALL);
         addAmbientParticle(Particle.RING);
 
+        //this block of code is used b/c the default particle behavior doesn't like effects with custom colors
         if (state.isServer()) {
             standardParticle = new ParticleEntity(state, this,
                 Particle.DIATOM_IMPACT_LARGE, 0, 0, true, ParticleEntity.particleSyncType.CREATESYNC);

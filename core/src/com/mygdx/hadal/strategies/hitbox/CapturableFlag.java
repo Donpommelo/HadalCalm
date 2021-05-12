@@ -16,6 +16,9 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
+ * This strategy indicates that this hbox is a flag in capture-the-flag mode
+ *
+ * @author Hufferty Hibbooey
  */
 public class CapturableFlag extends HitboxStrategy {
 
@@ -23,13 +26,17 @@ public class CapturableFlag extends HitboxStrategy {
 	private Player target;
 	private Player lastHolder;
 
+	//the team who this flag belongs to
 	private final int teamIndex;
 
+	//is the flag held by a player? Has the flag been removed from its spawn location?
 	private boolean captured, awayFromSpawn;
 
+	//the timer until a dropped flag returns to spawn
 	private static final float returnTime = 10.0f;
 	private float returnTimer;
 
+	//this is a status inflicted upon the flag carrier
 	private Status flagDebuff;
 
 	private static final int maxNameLength = 25;
@@ -48,6 +55,7 @@ public class CapturableFlag extends HitboxStrategy {
 		if (fixB != null) {
 			if (fixB.getEntity() instanceof SpawnerFlag) {
 
+				//if this hbox touches an enemy flag spawn, it is "captured", scoring a point and disappearing
 				if (((SpawnerFlag) fixB.getEntity()).getTeamIndex() != teamIndex) {
 					((EventData) fixB).preActivate(null, lastHolder);
 					hbox.die();
@@ -67,6 +75,7 @@ public class CapturableFlag extends HitboxStrategy {
 			if (fixB != null) {
 				if (fixB instanceof PlayerBodyData) {
 
+					//if the flag touches an enemy player, it is picked up, displaying a notification and tracking the player
 					if (teamIndex < AlignmentFilter.currentTeams.length) {
 						if (((PlayerBodyData) fixB).getLoadout().team != AlignmentFilter.currentTeams[teamIndex]) {
 							captured = true;
@@ -90,6 +99,7 @@ public class CapturableFlag extends HitboxStrategy {
 	@Override
 	public void controller(float delta) {
 
+		//if the flag holder dies, the flag drops and will return after some time
 		if (captured) {
 			if (!target.isAlive()) {
 				captured = false;

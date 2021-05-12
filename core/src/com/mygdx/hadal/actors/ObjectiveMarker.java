@@ -10,13 +10,20 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * An Objective Marker represents a single object that should have a ui element displayed when it is offscreen
+ *
+ * @author Pufka Padatter
+ */
 public class ObjectiveMarker {
 
     private final PlayState state;
     private final TextureRegion icon;
     private final TextureRegion arrow;
-    private final Vector3 color;
+
+    //is this icon colored? if so, what color (rgb)
     private final boolean colored;
+    private final Vector3 color;
 
     private static final float scale = 0.4f;
 
@@ -97,6 +104,7 @@ public class ObjectiveMarker {
                 batch.setProjectionMatrix(state.getHud().combined);
             }
 
+            //if we colored this icon, we must change the batch back to normal
             if (colored) {
                 batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
             }
@@ -115,6 +123,7 @@ public class ObjectiveMarker {
     }
 
     public HadalEntity getObjectiveTarget() { return objectiveTarget; }
+
     public Vector2 getObjectiveLocation() {
         if (objectiveTarget != null) {
             return objectiveTarget.getPixelPosition();

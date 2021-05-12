@@ -416,6 +416,9 @@ public class KryoClient {
 					}
 				}
 
+				/*
+				Server sends a notification to the client. Display it
+				 */
 				else if (o instanceof Packets.SyncNotification) {
 					final Packets.SyncNotification p = (Packets.SyncNotification) o;
 					final ClientState cs = getClientState();

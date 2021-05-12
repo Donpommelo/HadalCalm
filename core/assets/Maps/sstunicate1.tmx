@@ -9,12 +9,12 @@
    eAHtnNmO2zAMRaf7gi4P7f9/ay20DFwDyfDGEklLJ0DgZEJL5LnXjiUr8/LCAwIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAIJLAh62zr0HPt5GF0ZebQPPA7+35M+j5xZ0ZgVEEzAPftw7fDX7+2NpvXsMHG4RCj70HvgXk9X7rAx8EgBa6iPZASw0fCAIFhGZ4AB8ECCt0keUBfCCINDg00wP4YLC4zuazPYAPnEINDqtwjVYhh8GYyzdfQYMKOZQXanCCFTSokMNgzOWbr6BBhRzKCzU4wQoaVMhhMObyzVfQoEIO5YUanGAFDSrkMBhz2ebbvEFbV2D3lX/9e99zrYF3PQE+yLGJzR2NXlfgvY+MD+J9YB4Yua5AXU+AD2J9sPfAyHUFqq5qfCy1uXqL8kCjpuqqxs+lzNhqmu77a752Pdi+C0aeB6wiVVc13vph+5iAHfv768AoD7TMVF3V+MfV82kjYB44XgdGnAfebP3vx6KMF3I8ufdAhO7HKu24tvMQPjgSGv8+2wOtwk/bc7/G/bOzbPOP1zfOZpcLq+CBM9DxwRl6f/e9ugdaFfjgnA9m8AA+wANGgPOBkdC2s5wHrGp8YCT829k80CrHB379W+SMHmh14YNGwfeY1QOtenwwlwdsXtnub7EeyaevJ+pK5wE7rmedVzZ/Z2wj7xd7fPkoxuaVZ12PZP7O2EbeL36ksfKZnRe89wvUeCWXnrH7eyfRrzPuG55lp+qqxp/Nj/1jCKi6qvExVdDLWQKqrmr82fxW3b+NOTzXuB87AVJ1VeM7pblUMzbu9Fzjtt809fCCqqsav5SAHYpVPGA+6eEFVVc1vgOap5rwnFMrxthvF01j7/bsbx2t39nGjV5+xP3/v5hn80H0nMHV+5t1PvGpL5OFd1K/79X4hdFeqnRVVzX+UjAWTlbVVY1fGO2lSld1VeMvBWPhZFVd1fiF0V6qdFVXNf5SMCZK9rje7LU5s2fnke7NX3nXt02EvGQpdryq82TqPNK99r3tlIQ3UVLmg+P/VHhtvsv7e2dbz3ZsT52Pmgh5yVLMB9HHZVa/JUUokFSWHln9FkBeMoUsPbL6LSlCgaSy9MjqtwDykilk6WH93htPvjZ+9X5eEnrBpEyPrOvEe+PJXn8viLxkSlk+uDeePI4vz74vCb1gUlk+KIhi6ZTwwdLy34rHBzcUS7/AB0vLfyseH9xQLP3CfDB6HO8d7/eOW1pcoXjzQa/xerV2BBRLh0aN48/OAzy7/9LiUjwEIAABCEAAAhCAgETgD/ZUMK8=
   </data>
  </layer>
- <objectgroup id="2" name="collision-layer" visible="0">
+ <objectgroup id="2" name="collision-layer">
   <object id="1" x="480" y="2016">
    <polyline points="-320,0 -320,160 1152,160 1248,64 1536,64 1632,160 2112,160 2112,-64 2048,-64 2048,-160 2208,-160 2208,544 1824,544 1824,928 3520,928 3520,768 2688,768 2688,544 2496,544 2496,-1152 1728,-1152 1536,-960 1536,-736 2208,-736 2208,-416 2048,-416 2048,-512 2112,-512 2112,-640 1408,-640 1248,-480 1152,-480 672,0 -320,0"/>
   </object>
  </objectgroup>
- <objectgroup id="3" name="event-layer" visible="0">
+ <objectgroup id="3" name="event-layer">
   <object id="2" name="Start" type="Start" x="288" y="2112" width="32" height="32">
    <properties>
     <property name="startId" value="start0"/>

@@ -1241,6 +1241,10 @@ public class Packets {
 
 		public SyncNotification() {}
 
+		/**
+		 * A SyncNotification is sent from the server to the client to tell them to display a notification
+		 * @param message: the string notification to be displayed
+		 */
 		public SyncNotification(String message) {
 			this.message = message;
 		}

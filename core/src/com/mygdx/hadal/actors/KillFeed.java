@@ -131,6 +131,11 @@ public class KillFeed {
         }
     }
 
+    /**
+     * Adds a notification to the kill feed.
+     * @param text: string notification to be displayed
+     * @param global: does this notification play for all players?
+     */
     public void addNotification(String text, boolean global) {
         KillFeedMessage message = new KillFeedMessage(text, false);
         notifications.add(message);

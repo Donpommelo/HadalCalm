@@ -68,6 +68,8 @@ public class PlayerResultsIcon extends AHadalActor {
 
 		if (eggplants) {
 			name += "\nEggplants: " + fields.getScore();
+		} else {
+			name += "\nScore: " + fields.getScore();
 		}
 
 		this.readyIcon = Sprite.EMOTE_READY.getFrame();

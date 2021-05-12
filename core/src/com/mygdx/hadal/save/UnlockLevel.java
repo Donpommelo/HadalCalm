@@ -120,9 +120,13 @@ public enum UnlockLevel {
 	//information about the map
 	private InfoItem info;
 
+	//this is a list of event layers that this map will parse when loaded. Used for maps with multiple valid modes
 	private final String[] extraLayers;
 
+	//the settings of the map are a field of the unlock so the same map can have multiple modes
 	private final boolean pvp, hub, unlimitedLives, killScore, noDamage;
+
+	//is there a default team mode for this map? (-1 means it goes with the server settings)
 	private final int teamType;
 
 	UnlockLevel(String map, String... extraLayers) {
