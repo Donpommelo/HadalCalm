@@ -319,7 +319,7 @@ public class SettingState extends GameState {
 		cursorcolor.setScale(detailsScale);
 		
 		framerateOptions = new SelectBox<>(GameStateManager.getSkin());
-		framerateOptions.setItems("30 fps", "60 fps", "90 fps", "120 fps");
+		framerateOptions.setItems("30 fps", "60 fps", "90 fps", "120 fps", "240 fps", "uncapped");
 		
 		framerateOptions.setSelectedIndex(gsm.getSetting().getFramerate());
 		

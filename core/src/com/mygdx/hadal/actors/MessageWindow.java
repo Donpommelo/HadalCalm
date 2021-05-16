@@ -213,11 +213,10 @@ public class MessageWindow {
 						HadalGame.client.sendTCP(new Packets.ClientChat(enterMessage.getText(), DialogType.DIALOG));
 					}
 				}
-			} else {
-
-				//hitting enter with no text typed closes the window
-				toggleWindow();
 			}
+
+			//hitting enter closes the window regardless of whether text is present
+			toggleWindow();
 		}
 		enterMessage.setText("");
 	}

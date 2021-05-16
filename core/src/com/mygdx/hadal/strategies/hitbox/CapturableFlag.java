@@ -41,8 +41,11 @@ public class CapturableFlag extends HitboxStrategy {
 
 	private static final int maxNameLength = 25;
 
-	public CapturableFlag(PlayState state, Hitbox proj, BodyData user, int teamIndex) {
+	private final SpawnerFlag spawner;
+
+	public CapturableFlag(PlayState state, Hitbox proj, BodyData user, SpawnerFlag spawner, int teamIndex) {
 		super(state, proj, user);
+		this.spawner = spawner;
 		this.teamIndex = teamIndex;
 
 		hbox.setSyncDefault(false);
@@ -57,15 +60,21 @@ public class CapturableFlag extends HitboxStrategy {
 
 				//if this hbox touches an enemy flag spawn, it is "captured", scoring a point and disappearing
 				if (((SpawnerFlag) fixB.getEntity()).getTeamIndex() != teamIndex) {
-					((EventData) fixB).preActivate(null, lastHolder);
-					hbox.die();
 
-					if (target != null) {
-						if (target.getPlayerData() != null) {
-							if (flagDebuff != null) {
-								target.getPlayerData().removeStatus(flagDebuff);
+					//iin order to capture, you must have your own flag present.
+					if (((SpawnerFlag) fixB.getEntity()).isFlagPresent()) {
+						((EventData) fixB).preActivate(null, lastHolder);
+						hbox.die();
+
+						if (target != null) {
+							if (target.getPlayerData() != null) {
+								if (flagDebuff != null) {
+									target.getPlayerData().removeStatus(flagDebuff);
+								}
 							}
 						}
+					} else {
+						((SpawnerFlag) fixB.getEntity()).triggerFailMessage();
 					}
 				}
 			}
@@ -88,6 +97,8 @@ public class CapturableFlag extends HitboxStrategy {
 							hbox.getBody().setGravityScale(0.0f);
 							String playerName = WeaponUtils.getPlayerColorName(target, maxNameLength);
 							state.getKillFeed().addNotification(playerName + " PICKED UP THE FLAG!", true);
+
+							spawner.setFlagPresent(false);
 						}
 					}
 				}
@@ -107,7 +118,7 @@ public class CapturableFlag extends HitboxStrategy {
 				returnTimer = returnTime;
 
 				if (teamIndex < AlignmentFilter.currentTeams.length) {
-					String teamColor = AlignmentFilter.currentTeams[teamIndex].getAdjective();
+					String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
 					state.getKillFeed().addNotification(teamColor + " FLAG WAS DROPPED!", true);
 				}
 
@@ -122,7 +133,8 @@ public class CapturableFlag extends HitboxStrategy {
 				hbox.die();
 
 				if (teamIndex < AlignmentFilter.currentTeams.length) {
-					String teamColor = AlignmentFilter.currentTeams[teamIndex].getAdjective();
+					String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
+					teamColor = WeaponUtils.getColorName(AlignmentFilter.currentTeams[teamIndex].getColor1(), teamColor);
 					state.getKillFeed().addNotification(teamColor + " FLAG WAS RETURNED!" , true);
 				}
 			}

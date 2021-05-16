@@ -893,6 +893,7 @@ public class PlayState extends GameState {
 			gsm.addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
 			break;
 		case TITLE:
+			gsm.removeState(ResultsState.class);
 			gsm.removeState(SettingState.class, false);
 			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);

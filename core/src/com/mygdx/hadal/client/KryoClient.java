@@ -98,14 +98,14 @@ public class KryoClient {
 				
 				//return to the lobby state. (if our client state is still there, we can do a fade out transition first.
         		Gdx.app.postRunnable(() -> {
-					gsm.removeState(ResultsState.class, false);
-					gsm.removeState(SettingState.class, false);
-					gsm.removeState(AboutState.class, false);
-					gsm.removeState(PauseState.class, false);
 
 					if (cs != null) {
 						cs.returnToTitle(1.0f);
 					} else {
+						gsm.removeState(ResultsState.class);
+						gsm.removeState(SettingState.class, false);
+						gsm.removeState(AboutState.class, false);
+						gsm.removeState(PauseState.class, false);
 						gsm.removeState(ClientState.class);
 					}
 				});

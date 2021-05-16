@@ -228,6 +228,8 @@ public class Setting {
 			case 0 -> 10;
 			case 2 -> 90;
 			case 3 -> 120;
+			case 4 -> 240;
+			case 5 -> 0;
 			default -> 60;
 		};
 	}

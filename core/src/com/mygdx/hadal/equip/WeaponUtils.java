@@ -597,7 +597,6 @@ public class WeaponUtils {
 	}
 
 	private static final Vector3 rgb = new Vector3();
-
 	/**
 	 * This returns a string corresponding to a player's colored name. (optionally abridged)
 	 * Used for kill feed messages and chat window names.
@@ -621,6 +620,12 @@ public class WeaponUtils {
 		} else {
 			return schmuck.getName();
 		}
+	}
+
+	public static String getColorName(HadalColor color, String name) {
+		rgb.set(color.getR(), color.getG(), color.getB());
+		String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
+		return "[" + hex + "]" + name + "[]";
 	}
 
 	public static final int pickupSize = 64;

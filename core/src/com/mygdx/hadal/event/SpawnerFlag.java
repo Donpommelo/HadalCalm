@@ -34,6 +34,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class SpawnerFlag extends Event {
 
     private final int teamIndex;
+    private boolean flagPresent;
 
     public SpawnerFlag(PlayState state, Vector2 startPos, Vector2 size, int teamIndex) {
         super(state, startPos, size);
@@ -97,6 +98,7 @@ public class SpawnerFlag extends Event {
                 }
             }
         }
+        messageCount -= delta;
     }
 
     private static final Vector2 flagSize = new Vector2(80, 80);
@@ -106,7 +108,7 @@ public class SpawnerFlag extends Event {
             (short) 0, false, false, state.getWorldDummy(), Sprite.DIATOM_D);
 
         flag.addStrategy(new ControllerDefault(state, flag, state.getWorldDummy().getBodyData()));
-        flag.addStrategy(new CapturableFlag(state, flag, state.getWorldDummy().getBodyData(), teamIndex));
+        flag.addStrategy(new CapturableFlag(state, flag, state.getWorldDummy().getBodyData(), this, teamIndex));
 
         Vector3 color = new Vector3();
 
@@ -124,6 +126,21 @@ public class SpawnerFlag extends Event {
         if (state.isServer()) {
             HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(flag.getEntityID().toString(),
                 color, true, false, Sprite.CLEAR_CIRCLE_ALERT));
+        }
+
+        flagPresent = true;
+    }
+
+    private static final float messageCooldown = 2.0f;
+    private float messageCount = 0.0f;
+    public void triggerFailMessage() {
+
+        if (messageCount <= 0.0f) {
+            if (teamIndex < AlignmentFilter.currentTeams.length) {
+                messageCount = messageCooldown;
+                String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
+                state.getKillFeed().addNotification(teamColor + " MUST RECOVER THEIR FLAG BEFORE CAPTURING!" , true);
+            }
         }
     }
 
@@ -144,4 +161,8 @@ public class SpawnerFlag extends Event {
             }
         }
     }
+
+    public boolean isFlagPresent() { return flagPresent; }
+
+    public void setFlagPresent(boolean flagPresent) { this.flagPresent = flagPresent; }
 }

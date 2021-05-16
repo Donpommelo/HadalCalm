@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="50">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="53">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="weapons" value="BATTERING_RAM,DUELING_CORKGUN,SCRAPRIPPER"/>
@@ -236,6 +236,26 @@
     <property name="prefabId" value="Spawner"/>
     <property name="triggeredId" value="f3"/>
     <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="50" name="Prefab" type="PrefabWeapon" x="2976" y="2720" width="96" height="96">
+   <properties>
+    <property name="pool" value="DUELING_CORKGUN"/>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
+   </properties>
+  </object>
+  <object id="51" name="Prefab" type="PrefabWeapon" x="1728" y="2720" width="96" height="96">
+   <properties>
+    <property name="pool" value="DUELING_CORKGUN"/>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="52" name="Multitrigger" type="Multitrigger" x="320" y="704" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1,w2"/>
    </properties>
   </object>
  </objectgroup>

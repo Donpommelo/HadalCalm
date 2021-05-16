@@ -319,10 +319,21 @@ public class ClientState extends PlayState {
 			gsm.removeState(PauseState.class, false);
 			break;
 		case TITLE:
+			gsm.removeState(ResultsState.class);
 			gsm.removeState(SettingState.class, false);
 			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(ClientState.class);
+
+			//add a notification to the title state if specified in transition state
+			if (!gsm.getStates().isEmpty()) {
+				if (gsm.getStates().peek() instanceof TitleState) {
+					((TitleState) gsm.getStates().peek()).setNotification(resultsText);
+				}
+				if (gsm.getStates().peek() instanceof LobbyState) {
+					((LobbyState) gsm.getStates().peek()).setNotification(resultsText);
+				}
+			}
 			break;
 		default:
 			break;

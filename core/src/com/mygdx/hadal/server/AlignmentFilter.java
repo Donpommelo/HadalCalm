@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.save.UnlockCharacter;
 
 import java.util.ArrayList;
@@ -243,7 +244,9 @@ public enum AlignmentFilter {
 
     public short getFilter() { return filter; }
 
-    public String getAdjective() { return adjective; }
+    public String getColoredAdjective() {
+        return WeaponUtils.getColorName(color1, adjective);
+    }
 
     public boolean isTeam() { return team; }
 
