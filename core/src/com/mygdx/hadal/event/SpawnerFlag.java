@@ -70,7 +70,7 @@ public class SpawnerFlag extends Event {
 
     private Hitbox flag;
     private float spawnCountdown;
-    private static final float spawnDelay = 2.5f;
+    private static final float spawnDelay = 3.0f;
     @Override
     public void controller(float delta) {
 

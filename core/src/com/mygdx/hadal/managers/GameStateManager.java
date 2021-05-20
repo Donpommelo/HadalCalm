@@ -97,6 +97,7 @@ public class GameStateManager {
 		
 		//set the game's display to match the player's saved settings
 		setting.setDisplay(app, null);
+		setting.setCursor();
 		sharedSetting = setting.generateSharedSetting();
 		hostSetting = setting.generateSharedSetting();
 	}

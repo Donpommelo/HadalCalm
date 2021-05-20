@@ -40,7 +40,7 @@ public class SettingState extends GameState {
 	private boolean toRemove;
 	
 	//This table contains the ui elements of the pause screen
-	private Table options, details, extra;
+	private Table options, details;
 
 	//These are all of the display and buttons visible to the player.
 	private Text displayOption, controlOption, audioOption, serverOption, miscOption, exitOption, saveOption, resetOption;
@@ -68,13 +68,6 @@ public class SettingState extends GameState {
 	private static final int detailsHeight = 680;
 	private static final int scrollWidth = 480;
 
-	private static final int extraX = -230;
-	private static final int extraY = 600;
-	private static final int extraXEnabled = 820;
-	private static final int extraYEnabled = 600;
-	private static final int extraWidth = 240;
-	private static final int extraHeight = 100;
-	
 	private static final float optionsScale = 0.5f;
 	private static final float optionHeight = 35.0f;
 	private static final float optionPadding = 10.0f;
@@ -125,11 +118,6 @@ public class SettingState extends GameState {
 				details.top();
 				addActor(details);
 				
-				extra = new WindowTable();
-				extra.setPosition(extraX, extraY);
-				extra.setSize(extraWidth, extraHeight);
-				addActor(extra);
-
 				displayOption = new Text("DISPLAY", 0, 0, true);
 				displayOption.addListener(new ClickListener() {
 			        
@@ -225,10 +213,9 @@ public class SettingState extends GameState {
 				options.add(audioOption).height(optionHeight).pad(optionPadding).row();
 				options.add(serverOption).height(optionHeight).pad(optionPadding).row();
 				options.add(miscOption).height(optionHeight).pad(optionPadding).row();
+				options.add(saveOption).height(optionHeight).pad(optionPadding).row();
+				options.add(resetOption).height(optionHeight).pad(optionPadding).row();
 				options.add(exitOption).height(optionHeight).pad(optionPadding).expand().row();
-				
-				extra.add(saveOption).height(optionHeight).pad(optionPadding).row();
-				extra.add(resetOption).height(optionHeight).pad(optionPadding).row();
 			}
 		};
 		app.newMenu(stage);
@@ -322,22 +309,33 @@ public class SettingState extends GameState {
 		framerateOptions.setItems("30 fps", "60 fps", "90 fps", "120 fps", "240 fps", "uncapped");
 		
 		framerateOptions.setSelectedIndex(gsm.getSetting().getFramerate());
-		
+
+		ChangeListener cursorChange = new ChangeListener() {
+
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				gsm.getSetting().setCursorType(cursorOptions.getSelectedIndex());
+				gsm.getSetting().setCursorSize(cursorSize.getSelectedIndex());
+				gsm.getSetting().setCursorColor(cursorColor.getSelectedIndex());
+				gsm.getSetting().setCursor();
+			}
+		};
+
 		cursorOptions = new SelectBox<>(GameStateManager.getSkin());
-		cursorOptions.setItems("DEFAULT", "CROSSHAIR", "DOT");
-		
+		cursorOptions.setItems("DEFAULT", "DOT", "CIRCLE DOT", "SMALL RING", "STAR", "BULLSEYE", "CROSS", "DUPLEX", "GERMAN", "X", "FLAT CROSS", "RANGEFINDER", "(o)");
 		cursorOptions.setSelectedIndex(gsm.getSetting().getCursorType());
+		cursorOptions.addListener(cursorChange);
 
 		cursorSize = new SelectBox<>(GameStateManager.getSkin());
 		cursorSize.setItems("SMALL", "MEDIUM", "LARGE");
-		
 		cursorSize.setSelectedIndex(gsm.getSetting().getCursorSize());
-		
+		cursorSize.addListener(cursorChange);
+
 		cursorColor = new SelectBox<>(GameStateManager.getSkin());
 		cursorColor.setItems("BLACK", "CYAN", "LIME", "MAGENTA", "RED", "WHITE", "YELLOW");
-		
 		cursorColor.setSelectedIndex(gsm.getSetting().getCursorColor());
-		
+		cursorColor.addListener(cursorChange);
+
 		fullscreen = new CheckBox("FULLSCREEN?", GameStateManager.getSkin());
 		vsync = new CheckBox("VSYNC?", GameStateManager.getSkin());
 		autoIconify = new CheckBox("MINIMIZE ON ALT_TAB?", GameStateManager.getSkin());
@@ -743,9 +741,6 @@ public class SettingState extends GameState {
 				gsm.getSetting().setDebugHitbox(debugHitbox.isChecked());
 				gsm.getSetting().setDisplayNames(displayNames.isChecked());
 				gsm.getSetting().setDisplayHp(displayHp.isChecked());
-				gsm.getSetting().setCursorType(cursorOptions.getSelectedIndex());
-				gsm.getSetting().setCursorSize(cursorSize.getSelectedIndex());
-				gsm.getSetting().setCursorColor(cursorColor.getSelectedIndex());
 				gsm.getSetting().setMouseCameraTrack(mouseCameraTrack.isChecked());
 				gsm.getSetting().setDisplay(gsm.getApp(), playState);
 				gsm.getSetting().saveSetting();
@@ -842,14 +837,12 @@ public class SettingState extends GameState {
 	private static final Interpolation intp = Interpolation.fastSlow;
 	private void transitionOut(Runnable runnable) {
 		options.addAction(Actions.moveTo(optionsX, optionsY, transitionDuration, intp));
-		details.addAction(Actions.moveTo(detailsX, detailsY, transitionDuration, intp));
-		extra.addAction(Actions.sequence(Actions.moveTo(extraX, extraY, transitionDuration, intp), Actions.run(runnable)));
+		details.addAction(Actions.sequence(Actions.moveTo(detailsX, detailsY, transitionDuration, intp), Actions.run(runnable)));
 	}
 
 	private void transitionIn() {
 		options.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, transitionDuration, intp));
 		details.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, transitionDuration, intp));
-		extra.addAction(Actions.moveTo(extraXEnabled, extraYEnabled, transitionDuration, intp));
 	}
 
 	/**

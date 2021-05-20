@@ -71,8 +71,6 @@ public class Setting {
 
     	game.setAutoIconify(autoIconify);
 
-    	setCursor();
-
     	if (state != null) {
     		state.toggleVisibleHitboxes(debugHitbox);
     	}
@@ -87,6 +85,7 @@ public class Setting {
 	 * cursorType == 1: crosshair cursor
 	 * cursorType == 2: dot cursor
 	 */
+	private static final int pixmapSize = 128;
 	public void setCursor() {
 
 		//when we set a new cursor, we dispose of the old one (if existent)
@@ -98,22 +97,35 @@ public class Setting {
 			Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
 			lastCursor = null;
 		} else {
-			Pixmap pm = new Pixmap(indexToCursorSize(), indexToCursorSize(), Pixmap.Format.RGBA8888);
-			pm.setColor(indexToCursorColor());
 
-			if (cursorType == 1) {
-				pm.drawCircle(indexToCursorSize() / 2, indexToCursorSize() / 2, indexToCursorSize() / 4);
-				pm.drawLine(0, indexToCursorSize() / 2, indexToCursorSize(), indexToCursorSize() / 2);
-				pm.drawLine(indexToCursorSize() / 2, 0, indexToCursorSize() / 2, indexToCursorSize());
-			}
-			if (cursorType == 2) {
-				pm.fillCircle(indexToCursorSize() / 2, indexToCursorSize() / 2, indexToCursorSize() / 3);
+			Pixmap cursor = new Pixmap(Gdx.files.internal(indexToCursorType()));
+
+			Pixmap pm = new Pixmap(pixmapSize, pixmapSize, Pixmap.Format.RGBA8888);
+
+			int scaledWidth = (int) (indexToCursorScale() * cursor.getWidth());
+			int scaledHeight = (int) (indexToCursorScale() * cursor.getHeight());
+
+			pm.drawPixmap(cursor,
+				0, 0, cursor.getWidth() + 1, cursor.getHeight() + 1,
+				(pixmapSize - scaledWidth) / 2, (pixmapSize - scaledHeight) / 2, scaledWidth, scaledHeight);
+
+			Color newColor = indexToCursorColor();
+			for (int y = 0; y < pm.getHeight(); y++) {
+				for (int x = 0; x < pm.getWidth(); x++) {
+					Color color = new Color();
+					Color.rgba8888ToColor(color, pm.getPixel(x, y));
+					if (color.a != 0.0f) {
+						pm.setColor(newColor.r, newColor.g, newColor.b, color.a);
+						pm.fillRectangle(x, y, 1, 1);
+					}
+				}
 			}
 
-			Cursor newCursor = Gdx.graphics.newCursor(pm, indexToCursorSize() / 2, indexToCursorSize() / 2);
+			Cursor newCursor = Gdx.graphics.newCursor(pm, pixmapSize / 2, pixmapSize / 2);
 	    	Gdx.graphics.setCursor(newCursor);
 			lastCursor = newCursor;
 	    	pm.dispose();
+	    	cursor.dispose();
 		}
 	}
 
@@ -143,7 +155,7 @@ public class Setting {
 		autoIconify = true;
 		displayNames = true;
 		displayHp = true;
-		cursorType = 1;
+		cursorType = 3;
 		cursorSize = 1;
 		cursorColor = 4;
 		mouseCameraTrack = true;
@@ -253,14 +265,29 @@ public class Setting {
 		};
 	}
 
-	/**
-	 * Convert cursor size from index in list
-	 */
-	public int indexToCursorSize() {
+	public float indexToCursorScale() {
 		return switch (cursorSize) {
-			case 0 -> 16;
-			case 2 -> 64;
-			default -> 32;
+			case 0 -> 0.5f;
+			case 2 -> 1.0f;
+			default -> 0.75f;
+		};
+	}
+
+	public String indexToCursorType() {
+		return switch (cursorType) {
+			case 1 -> "cursors/crosshair_a.png";
+			case 2 -> "cursors/crosshair_b.png";
+			case 3 -> "cursors/crosshair_c.png";
+			case 4 -> "cursors/crosshair_d.png";
+			case 5 -> "cursors/crosshair_e.png";
+			case 6 -> "cursors/crosshair_f.png";
+			case 7 -> "cursors/crosshair_g.png";
+			case 8 -> "cursors/crosshair_h.png";
+			case 9 -> "cursors/crosshair_i.png";
+			case 10 -> "cursors/crosshair_j.png";
+			case 11 -> "cursors/crosshair_k.png";
+			case 12 -> "cursors/crosshair_l.png";
+			default -> "";
 		};
 	}
 
