@@ -28,7 +28,7 @@ public class Puffballer extends RangedWeapon {
 	private static final float knockback = 5.0f;
 	private static final float projectileSpeed = 27.0f;
 	private static final Vector2 projectileSize = new Vector2(40, 40);
-	private static final float lifespan = 3.0f;
+	private static final float lifespan = 5.0f;
 
 	private static final Sprite projSprite = Sprite.SPORE_CLUSTER_YELLOW;
 	private static final Sprite weaponSprite = Sprite.MT_TORPEDO;

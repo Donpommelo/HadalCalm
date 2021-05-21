@@ -49,7 +49,7 @@ public class StutterGun extends RangedWeapon {
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		
 		float pitch = (ThreadLocalRandom.current().nextFloat() - 0.5f) * pitchSpread;
-		SoundEffect.LASER2.playUniversal(state, user.getPixelPosition(), 0.6f, 1.0f + pitch, false);
+		SoundEffect.LASER2.playUniversal(state, user.getPixelPosition(), 0.5f, 1.0f + pitch, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.LASER_ORANGE);
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));

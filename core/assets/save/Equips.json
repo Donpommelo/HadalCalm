@@ -147,7 +147,7 @@ FISTICUFFS: {
 FLOUNDERBUSS: {
 	name: Flounderbuss
 	description: "Hold and release to fire a burst of fish."
-    descriptionLong: "Fish Damage: 15\nFish Number at Min Charge: 1\nFish Number at Max Charge: 15\n\nClip Size: 1\nAmmo Capacity: 15\nReload Time: 1.0 Second\nCharge Duration: 0.5 Second"
+    descriptionLong: "Fish Damage: 15\nFish Number at Min Charge: 1\nFish Number at Max Charge: 15\n\nClip Size: 1\nAmmo Capacity: 15\nReload Time: 0.8 Second\nCharge Duration: 0.5 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -325,7 +325,7 @@ NOTHING: {
 PARTY_POPPER: {
 	name: Party Popper
 	description: "Fires a popper that explodes at short range into a shower of confetti."
-    descriptionLong: "Popper Damage: 55\nConfetti Damage: 18\nConfetti Number: 8\n\nClip Size: 1\nAmmo Capacity: 22\nReload Time: 0.75 Second"
+    descriptionLong: "Popper Damage: 55\nConfetti Damage: 18\nConfetti Number: 8\n\nClip Size: 1\nAmmo Capacity: 22\nReload Time: 0.6 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -355,7 +355,7 @@ PEPPERGRINDER: {
 PUFFBALLER: {
 	name: Puffballer
 	description: "Fires a spore cluster that bursts at target location."
-    descriptionLong: "Cluster Damage: 26\nSpore Damage: 10\nSpore Number: 10\nSpore Lifespan: 3 Seconds\n\nClip Size: 4\nAmmo Capacity: 40\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.5 Second"
+    descriptionLong: "Cluster Damage: 26\nSpore Damage: 10\nSpore Number: 10\nSpore Lifespan: 5 Seconds\n\nClip Size: 4\nAmmo Capacity: 40\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.5 Second"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -405,7 +405,7 @@ SCREECHER: {
 SLODGE_NOZZLE: {
 	name: Slodge Nozzle
 	description: "Fire a spray of slodge that slows the movement speed of enemies."
-    descriptionLong: "Slodge Damage: 8\nSpray Duration: 0.8 Second\nSpray Interval: 0.05 Second\nSlow Duration: 4 Seconds\n\nClip Size: 1\nAmmo Capacity: 25\nReload Time: 1.2 Seconds"
+    descriptionLong: "Slodge Damage: 11\nSpray Duration: 0.8 Second\nSpray Interval: 0.05 Second\nSlow Duration: 4 Seconds\n\nClip Size: 1\nAmmo Capacity: 25\nReload Time: 1.2 Seconds"
 	tags: [
 		ARMORY,
 		RANDOM_POOL,

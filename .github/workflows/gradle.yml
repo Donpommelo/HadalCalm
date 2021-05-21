@@ -1,74 +1,16 @@
-name: Build Hadal Calm and upload it to itch.io
-
-on:
-  push:
-    branches:
-      - master
-
-env:
-  BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-
-jobs:
-  linux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up JDK 15
-        uses: actions/setup-java@v1
-        with:
-          java-version: 15
-
-      - name: Download butler
-        run: wget https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -O butler.zip
-
-      - name: Unzip buttler
-        run: unzip butler.zip
-
-      - name: Fix permissions
-        run: chmod +x butler && chmod +x gradlew
-
-      - name: Build jar
-        run: ./gradlew desktop:jar
-
-      - name: Build package image
-        run: ./gradlew desktop:jpackageImage
-
-      - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/hadal-calm:linux-image
-
-  windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up JDK 15
-        uses: actions/setup-java@v1
-        with:
-          java-version: 15
-
-      - name: Download Butler
-        run: Invoke-WebRequest -Uri https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -OutFile butler.zip
-
-      - name: Extract butler
-        run: Expand-Archive -DestinationPath . butler.zip
-
-      - name: Build jar
-        run: ./gradlew.bat desktop:jar
-
-      - name: Build package image
-        run: ./gradlew.bat desktop:jpackageImage
-
-      - name: Fix file names
-        run: mv desktop/build/lib/*.jar HadalCalm.jar
-
-      - name: Copy zip.dll
-        run: cp "desktop/build/jpackage/HadalCalm/runtime/bin/zip.dll" "desktop/build/jpackage/HadalCalm"
-
-      - run: ./butler push HadalCalm.jar donpommelo/hadal-calm:windows-linux-macos-jar
-      - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/hadal-calm:windows-image
-
-#  macos:
-#    runs-on: macos-latest
+#name: Build Hadal Calm and upload it to itch.io
+#
+#on:
+#  push:
+#    branches:
+#      - master
+#
+#env:
+#  BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+#
+#jobs:
+#  linux:
+#    runs-on: ubuntu-latest
 #    steps:
 #      - uses: actions/checkout@v2
 #
@@ -78,10 +20,13 @@ jobs:
 #          java-version: 15
 #
 #      - name: Download butler
-#        run: curl -L -o butler.zip https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default
+#        run: wget https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -O butler.zip
 #
-#      - name: Unzip butler
+#      - name: Unzip buttler
 #        run: unzip butler.zip
+#
+#      - name: Fix permissions
+#        run: chmod +x butler && chmod +x gradlew
 #
 #      - name: Build jar
 #        run: ./gradlew desktop:jar
@@ -89,8 +34,63 @@ jobs:
 #      - name: Build package image
 #        run: ./gradlew desktop:jpackageImage
 #
-#      - name: Fix file names
-#        run: mv desktop/build/lib/*.jar HadalCalm_macos.jar
+#      - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/hadal-calm:linux-image
 #
-#      - run: ./butler push HadalCalm_macos.jar donpommelo/hadal-calm:macos-jar
-#      - run: ./butler push desktop/build/jpackage/HadalCalm.app donpommelo/hadal-calm:macos-image
+#  windows:
+#    runs-on: windows-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Set up JDK 15
+#        uses: actions/setup-java@v1
+#        with:
+#          java-version: 15
+#
+#      - name: Download Butler
+#        run: Invoke-WebRequest -Uri https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -OutFile butler.zip
+#
+#      - name: Extract butler
+#        run: Expand-Archive -DestinationPath . butler.zip
+#
+#      - name: Build jar
+#        run: ./gradlew.bat desktop:jar
+#
+#      - name: Build package image
+#        run: ./gradlew.bat desktop:jpackageImage
+#
+#      - name: Fix file names
+#        run: mv desktop/build/lib/*.jar HadalCalm.jar
+#
+#      - name: Copy zip.dll
+#        run: cp "desktop/build/jpackage/HadalCalm/runtime/bin/zip.dll" "desktop/build/jpackage/HadalCalm"
+#
+#      - run: ./butler push HadalCalm.jar donpommelo/hadal-calm:windows-linux-macos-jar
+#      - run: ./butler push desktop/build/jpackage/HadalCalm donpommelo/hadal-calm:windows-image
+#
+##  macos:
+##    runs-on: macos-latest
+##    steps:
+##      - uses: actions/checkout@v2
+##
+##      - name: Set up JDK 15
+##        uses: actions/setup-java@v1
+##        with:
+##          java-version: 15
+##
+##      - name: Download butler
+##        run: curl -L -o butler.zip https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default
+##
+##      - name: Unzip butler
+##        run: unzip butler.zip
+##
+##      - name: Build jar
+##        run: ./gradlew desktop:jar
+##
+##      - name: Build package image
+##        run: ./gradlew desktop:jpackageImage
+##
+##      - name: Fix file names
+##        run: mv desktop/build/lib/*.jar HadalCalm_macos.jar
+##
+##      - run: ./butler push HadalCalm_macos.jar donpommelo/hadal-calm:macos-jar
+##      - run: ./butler push desktop/build/jpackage/HadalCalm.app donpommelo/hadal-calm:macos-image

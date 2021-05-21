@@ -21,7 +21,7 @@ public class Flounderbuss extends RangedWeapon {
 	private static final int ammoSize = 15;
 	private static final float shootCd = 0.0f;
 	private static final float shootDelay = 0.0f;
-	private static final float reloadTime = 1.0f;
+	private static final float reloadTime = 0.8f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 15.0f;
 	private static final float recoil = 30.0f;

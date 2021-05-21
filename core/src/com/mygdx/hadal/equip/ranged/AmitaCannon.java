@@ -55,7 +55,6 @@ public class AmitaCannon extends RangedWeapon {
 		center.addStrategy(new ControllerDefault(state, center, user.getBodyData()));
 		center.addStrategy(new ContactWallDie(state, center, user.getBodyData()));
 		center.addStrategy(new DieSound(state, center, user.getBodyData(), SoundEffect.MAGIC3_BURST, 0.5f));
-		center.addStrategy(new DieParticles(state, center, user.getBodyData(), Particle.ORB_IMPACT));
 		center.addStrategy(new HitboxStrategy(state, center, user.getBodyData()) {
 			
 			private final Vector2 angle = new Vector2(0, orbitalRange);
@@ -74,6 +73,7 @@ public class AmitaCannon extends RangedWeapon {
 					orbital.addStrategy(new ControllerDefault(state, orbital, user.getBodyData()));
 					orbital.addStrategy(new DamageStandard(state, orbital, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED).setRepeatable(true));
 					orbital.addStrategy(new ContactWallDie(state, orbital, user.getBodyData()));
+					orbital.addStrategy(new DieParticles(state, orbital, user.getBodyData(), Particle.ORB_IMPACT));
 					orbital.addStrategy(new HitboxStrategy(state, orbital, user.getBodyData()) {
 						
 						private final Vector2 centerPos = new Vector2();
