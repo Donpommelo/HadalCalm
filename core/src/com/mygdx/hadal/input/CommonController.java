@@ -1,5 +1,6 @@
 package com.mygdx.hadal.input;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -44,6 +45,10 @@ public class CommonController implements InputProcessor {
 			keyUp(PlayerAction.SCORE_WINDOW);
 		} else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			keyUp(PlayerAction.CHAT_WHEEL);
+		} else if (keycode == Input.Buttons.RIGHT) {
+			if (state.isSpectatorMode()) {
+				state.getUiSpectator().findValidSpectatorTarget();
+			}
 		}
 		return false;
 	}
@@ -119,11 +124,13 @@ public class CommonController implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		keyDown(button);
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		keyUp(button);
 		return false;
 	}
 

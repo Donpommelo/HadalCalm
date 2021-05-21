@@ -16,7 +16,6 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.server.Packets.EndSpectate;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -479,7 +478,7 @@ public class KryoServer {
 				/*
 				 * A Client has said they want to exit spectator mode
 				 */
-				else if (o instanceof EndSpectate) {
+				else if (o instanceof Packets.EndSpectate) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						ps.addPacketEffect(() -> ps.exitSpectator(users.get(c.getID())));
@@ -592,7 +591,7 @@ public class KryoServer {
 			if (vic != null) {
 				if (users.containsKey(vic.getConnID())) {
 					User user = users.get(vic.getConnID());
-					user.getScores().registerDeath(ps.isKillsScore());
+					user.getScores().registerDeath();
 					user.setScoreUpdated(true);
 				}
 			}

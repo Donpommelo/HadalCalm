@@ -157,6 +157,7 @@ public class PlayState extends GameState {
 	protected UIExtra uiExtra;
 	protected UIArtifacts uiArtifact;
 	protected UIHub uiHub;
+	protected UISpectator uiSpectator;
 	protected MessageWindow messageWindow;
 	protected ChatWheel chatWheel;
 	protected KillFeed killFeed;
@@ -387,7 +388,8 @@ public class PlayState extends GameState {
 			uiExtra = new UIExtra(this);
 			uiExtra.changeTypes(map.getProperties().get("startUI", "", String.class), true);
 			uiHub = new UIHub(this);
-			
+			uiSpectator = new UISpectator(this);
+
 			messageWindow = new MessageWindow(this, stage);
 			chatWheel = new ChatWheel(this, stage);
 			killFeed = new KillFeed(this);
@@ -400,6 +402,7 @@ public class PlayState extends GameState {
 		stage.addActor(uiObjective);
 		stage.addActor(uiExtra);
 		stage.addActor(dialogBox);
+		stage.addActor(uiSpectator);
 
 		app.newMenu(stage);
 		resetController();
@@ -732,7 +735,6 @@ public class PlayState extends GameState {
 	private static final float cameraAimInterpolation = 0.025f;
 	final Vector2 tmpVector2 = new Vector2();
 	final Vector3 mousePosition = new Vector3();
-	final Vector2 mousePosition2 = new Vector2();
 	final Vector2 cameraFocusAim = new Vector2();
 	protected void cameraUpdate() {
 		zoom = zoom + (zoomDesired - zoom) * 0.1f;
@@ -742,25 +744,22 @@ public class PlayState extends GameState {
 
 			mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			HadalGame.viewportCamera.unproject(mousePosition);
-			mousePosition2.set(mousePosition.x, mousePosition.y);
 
-			CameraStyles.spectatorDragCamera(spectatorTarget);
-			tmpVector2.set(spectatorTarget);
-			if (player.getBody() != null && player.isAlive()) {
+			if (spectatorMode) {
+
+				//in spectator mode, the camera moves when dragging the mouse
+				uiSpectator.spectatorDragCamera(spectatorTarget);
+				tmpVector2.set(spectatorTarget);
+
+			} else if (player.getBody() != null && player.isAlive()) {
 				tmpVector2.set(player.getPixelPosition());
 
 				//if enabled, camera tracks mouse position
 				if (gsm.getSetting().isMouseCameraTrack()) {
-					cameraFocusAim.x = (int) (cameraFocusAim.x + (mousePosition2.x - cameraFocusAim.x) * cameraAimInterpolation);
-					cameraFocusAim.y = (int) (cameraFocusAim.y + (mousePosition2.y - cameraFocusAim.y) * cameraAimInterpolation);
+					cameraFocusAim.x = (int) (cameraFocusAim.x + (mousePosition.x - cameraFocusAim.x) * cameraAimInterpolation);
+					cameraFocusAim.y = (int) (cameraFocusAim.y + (mousePosition.y - cameraFocusAim.y) * cameraAimInterpolation);
 					tmpVector2.mulAdd(cameraFocusAim, mouseCameraTrack).scl(1.0f / (1.0f + mouseCameraTrack));
 				}
-
-			} else if (spectatorMode) {
-
-				//in spectator mode, the camera moves when dragging the mouse
-				CameraStyles.spectatorDragCamera(spectatorTarget);
-				tmpVector2.set(spectatorTarget);
 			} else {
 				return;
 			}
@@ -1645,6 +1644,8 @@ public class PlayState extends GameState {
 	public UIHub getUiHub() { return uiHub; }
 	
 	public UIObjective getUiObjective() { return uiObjective; }
+
+	public UISpectator getUiSpectator() { return uiSpectator; }
 
 	public PositionDummy getDummyPoint(String id) {	return dummyPoints.get(id); }
 	

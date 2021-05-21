@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -10,10 +11,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieSound;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class AmitaCannon extends RangedWeapon {
 
@@ -57,6 +55,7 @@ public class AmitaCannon extends RangedWeapon {
 		center.addStrategy(new ControllerDefault(state, center, user.getBodyData()));
 		center.addStrategy(new ContactWallDie(state, center, user.getBodyData()));
 		center.addStrategy(new DieSound(state, center, user.getBodyData(), SoundEffect.MAGIC3_BURST, 0.5f));
+		center.addStrategy(new DieParticles(state, center, user.getBodyData(), Particle.ORB_IMPACT));
 		center.addStrategy(new HitboxStrategy(state, center, user.getBodyData()) {
 			
 			private final Vector2 angle = new Vector2(0, orbitalRange);

@@ -40,7 +40,7 @@ public class SavedPlayerFields {
 	/**
 	 * This is called when this player dies
 	 */
-	public void registerDeath(boolean incrementScore) {
+	public void registerDeath() {
 		deaths++;
 		lives--;
 	}
