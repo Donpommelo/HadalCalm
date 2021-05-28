@@ -10,6 +10,7 @@ import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.server.Packets;
@@ -57,8 +58,8 @@ public class ClientState extends PlayState {
 	//This is the time since the last missed create packet we send the server. Kept track of to avoid sending too many at once.
 	private float timeSinceLastMissedCreate;
 	
-	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level) {
-		super(gsm, loadout, level, false, null, true, "");
+	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level, GameMode mode) {
+		super(gsm, loadout, level, mode,false, null, true, "");
 		entities = new LinkedHashMap<>();
 		hitboxes = new LinkedHashMap<>();
 		effects = new LinkedHashMap<>();
@@ -74,7 +75,7 @@ public class ClientState extends PlayState {
 		TiledObjectUtil.parseTiledEventLayerClient(this, map.getLayers().get("event-layer").getObjects());
 
 		//parse map-specific event layers (used for different modes in the same map)
-		for (String layer: level.getExtraLayers()) {
+		for (String layer: mode.getExtraLayers()) {
 			if (map.getLayers().get(layer) != null) {
 				TiledObjectUtil.parseTiledEventLayerClient(this, map.getLayers().get(layer).getObjects());
 			}

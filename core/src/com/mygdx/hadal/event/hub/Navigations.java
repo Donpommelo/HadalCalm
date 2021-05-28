@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 public class Navigations extends HubEvent {
 
 	private final String level;
-	
+
 	public Navigations(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, String level, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.NAVIGATIONS);
 		this.level = level;
@@ -47,9 +47,6 @@ public class Navigations extends HubEvent {
 		} else if (tag.equals(UnlockTag.SINGLEPLAYER)) {
 			state.getUiHub().enter(tag, true, true, false,
 				this, "ALL", "ARENA", "BOSS", "SANDBOX", "BIRD");
-		} else {
-			state.getUiHub().enter(tag, true, true, false,
-				this, "CURATED", "ALL", "PVP", "ARENA", "BOSS", "SANDBOX", "BIRD");
 		}
 
 		open = true;
@@ -81,7 +78,7 @@ public class Navigations extends HubEvent {
 				}
 			}
 
-			if (appear || selected.equals(UnlockLevel.RANDOM)) {
+			if (appear) {
 				Text itemChoose = new Text(selected.getInfo().getName(), 0, 0, true);
 
 				itemChoose.addListener(new ClickListener() {
@@ -90,13 +87,7 @@ public class Navigations extends HubEvent {
 					public void clicked(InputEvent e, float x, float y) {
 
 						if (state.isServer()) {
-							//select a random valid map if selecting the random option
-							if (selected.equals(UnlockLevel.RANDOM)) {
-								state.loadLevel(UnlockLevel.getRandomMap(state, newTags), TransitionState.NEWLEVEL, "");
-							} else {
-								state.loadLevel(selected, TransitionState.NEWLEVEL, "");
-							}
-
+							state.loadLevel(selected, TransitionState.NEWLEVEL, "");
 							//play a particle when the player uses this event
 							new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true, particleSyncType.CREATESYNC, new Vector2(0, - me.getSize().y / 2));
 						} else {

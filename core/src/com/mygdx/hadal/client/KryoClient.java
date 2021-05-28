@@ -329,7 +329,7 @@ public class KryoClient {
 							}
 
 							gsm.removeState(ClientState.class, false);
-							gsm.addClientPlayState(p.level, new Loadout(gsm.getLoadout()), LobbyState.class);
+							gsm.addClientPlayState(p.level, p.mode, new Loadout(gsm.getLoadout()), LobbyState.class);
 							HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator, gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
 						});
 					});

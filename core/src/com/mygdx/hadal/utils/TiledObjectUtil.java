@@ -418,6 +418,10 @@ public class TiledObjectUtil {
 				object.getProperties().get("level", "", String.class),
 				object.getProperties().get("unlock", true, Boolean.class),
 				object.getProperties().get("closeOnLeave", true, Boolean.class));
+			case "NavigationMultiplayer" -> e = new NavigationsMultiplayer(state, position, size,
+				object.getProperties().get("title", "Navigations", String.class),
+				object.getProperties().get("tag", "NAVIGATIONS", String.class),
+				object.getProperties().get("closeOnLeave", true, Boolean.class));
 			case "Quartermaster" -> e = new Quartermaster(state, position, size,
 				object.getProperties().get("title", "Quartermaster", String.class),
 				object.getProperties().get("tag", "QUARTERMASTER", String.class),

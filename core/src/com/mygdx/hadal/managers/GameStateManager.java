@@ -14,6 +14,7 @@ import com.mygdx.hadal.actors.MessageWindow;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.Record;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -193,19 +194,20 @@ public class GameStateManager {
 	/**
 	 * This is a addState exclusively for special playstates.
 	 * @param map: level the new playstate will load
+	 * @param mode: the mode of the new map (for maps that are compliant with multiple modes.
 	 * @param loadout: loadout that the player will enter the playstate with
 	 * @param old: old playerdata to persist stuff like equips/hp/whatever
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 * @param reset: do we reset player stats in the new play state?
 	 * @param startId: the id of the playstate's start point (i.e, if the map has multiple starts, which one do we use?)
 	 */
-	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState,
-							 boolean reset, String startId) {
+	public void addPlayState(UnlockLevel map, GameMode mode, Loadout loadout, PlayerBodyData old,
+							 Class<? extends GameState> lastState, boolean reset, String startId) {
 		if (states.empty()) {
-			states.push(new PlayState(this, loadout, map, true, old, reset, startId));
+			states.push(new PlayState(this, loadout, map, mode,true, old, reset, startId));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PlayState(this, loadout, map, true, old, reset, startId));
+			states.push(new PlayState(this, loadout, map, mode,true, old, reset, startId));
 			states.peek().show();
 		}
 	}
@@ -213,15 +215,16 @@ public class GameStateManager {
 	/**
 	 * This is called by clients as an addPlayState for ClientStates.
 	 * @param map: level the new playstate will load
+	 * @param mode: the mode of the new map (for maps that are compliant with multiple modes.
 	 * @param loadout: loadout that the player will enter the playstate with
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
-	public void addClientPlayState(UnlockLevel map, Loadout loadout, Class<? extends GameState> lastState) {
+	public void addClientPlayState(UnlockLevel map, GameMode mode, Loadout loadout, Class<? extends GameState> lastState) {
 		if (states.empty()) {
-			states.push(new ClientState(this, loadout, map));
+			states.push(new ClientState(this, loadout, map, mode));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new ClientState(this, loadout, map));
+			states.push(new ClientState(this, loadout, map, mode));
 			states.peek().show();
 		}
 	}
@@ -291,12 +294,12 @@ public class GameStateManager {
 			
 			//if the player has not done the tutorial yet, they are spawned into the tutorial section. Otherwise, they are spawned into the hub
 			if (getRecord().getFlags().get("HUB_REACHED").equals(0)) {
-				addPlayState(UnlockLevel.WRECK1, new Loadout(loadout), null, lastState, true, "");
+				addPlayState(UnlockLevel.WRECK1, GameMode.CAMPAIGN, new Loadout(loadout), null, lastState, true, "");
 			} else {
-				addPlayState(UnlockLevel.SSTUNICATE1, new Loadout(loadout), null, lastState, true, "");
+				addPlayState(UnlockLevel.SSTUNICATE1, GameMode.HUB, new Loadout(loadout), null, lastState, true, "");
 			}
 		} else if (currentMode == Mode.MULTI) {
-			addPlayState(UnlockLevel.HUB_MULTI, new Loadout(loadout), null, lastState, true, "");
+			addPlayState(UnlockLevel.HUB_MULTI, GameMode.HUB, new Loadout(loadout), null, lastState, true, "");
 		}
 	}
 	

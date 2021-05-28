@@ -24,12 +24,11 @@
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="5" name="Navigation" type="Navigation" x="928" y="1376" width="96" height="96">
+  <object id="5" name="NavigationMultiplayer" type="NavigationMultiplayer" x="928" y="1376" width="96" height="96">
    <properties>
     <property name="tag" value="MULTIPLAYER"/>
     <property name="title" value="Navigations"/>
     <property name="triggeredId" value="navigation1"/>
-    <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
   <object id="6" name="Text" type="Text" x="928" y="1376" width="32" height="32">

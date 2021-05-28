@@ -71,109 +71,6 @@ SANDBOX_HUB: {
         SANDBOX,
 	]
 }
-ARENA_BROUHAHA: {
-	name: ARENA_BROUHAHA
-	description: ""
-    descriptionLong: "SIZE: MEDIUM"
-	tags: [
-        MULTIPLAYER,       
-        SINGLEPLAYER,
-        ARENA, 
-	]
-}
-ARENA_FLOTSAM: {
-	name: ARENA_FLOTSAM
-	description: ""
-    descriptionLong: "SIZE: MEDIUM"
-	tags: [       
-        MULTIPLAYER,       
-        SINGLEPLAYER,
-        ARENA,        
-	]
-}
-ARENA_HORIZON: {
-	name: ARENA_HORIZON
-	description: ""
-    descriptionLong: "SIZE: LARGE"
-	tags: [
-        MULTIPLAYER,       
-        SINGLEPLAYER,
-        ARENA, 
-	]
-}
-ARENA_LAGAN: {
-	name: ARENA_LAGAN
-	description: ""
-    descriptionLong: "SIZE: MEDIUM"
-	tags: [
-        MULTIPLAYER,       
-        SINGLEPLAYER,
-        ARENA, 
-	]
-}
-ARENA_PILE: {
-	name: ARENA_PILE
-	description: ""
-    descriptionLong: "SIZE: MEDIUM"
-	tags: [
-        MULTIPLAYER,       
-        SINGLEPLAYER,
-        ARENA, 
-	]
-}
-ARENA_THRESHOLD: {
-	name: ARENA_THRESHOLD
-	description: ""
-    descriptionLong: "SIZE: MEDIUM"
-	tags: [
-        MULTIPLAYER,       
-        SINGLEPLAYER,
-        ARENA, 
-	]
-}
-ARENA_WARP: {
-	name: ARENA_WARP
-	description: ""
-    descriptionLong: "SIZE: MEDIUM"
-	tags: [
-        MULTIPLAYER,       
-        SINGLEPLAYER,
-        ARENA, 
-	]
-}
-ARENA_WETWORKS: {
-	name: ARENA_WETWORKS
-	description: ""
-    descriptionLong: "SIZE: MEDIUM"
-	tags: [
-        MULTIPLAYER,       
-        SINGLEPLAYER,
-        ARENA, 
-	]
-}
-ARENA_ZIGGURAT: {
-	name: ARENA_ZIGGURAT
-	description: ""
-    descriptionLong: "SIZE: MEDIUM"
-	tags: [
-        MULTIPLAYER,       
-        SINGLEPLAYER,
-        ARENA, 
-	]
-}
-RANDOM: {
-	name: RANDOM
-	description: ""
-    descriptionLong: "Select a map at random."
-	tags: [
-        MULTIPLAYER,       
-        SINGLEPLAYER,
-        PVP,
-        ARENA,
-        BIRD,
-        CURATED,
-    ]
-}
 DM_AGGYDAGGY: {
 	name: DM_AGGYDAGGY
 	description: ""
@@ -210,16 +107,6 @@ DM_CAROUSEL: {
 	tags: [
         MULTIPLAYER,
         PVP,
-	]
-}
-DM_COQUELICOT: {
-	name: DM_COQUELICOT
-	description: ""
-    descriptionLong: "SIZE: LARGE"
-	tags: [
-        MULTIPLAYER,
-		PVP,
-        CURATED
 	]
 }
 DM_FACILITY: {

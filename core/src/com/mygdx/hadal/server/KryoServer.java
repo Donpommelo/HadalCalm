@@ -177,16 +177,16 @@ public class KryoServer {
 
 							//clients joining full servers or in the middle of matches join as spectators
 							if (getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers() + 1) {
-								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
+								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), p.firstTime, true));
 								return;
 							}
 
 							if (!ps.isHub()) {
-								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
+								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), p.firstTime, true));
 								return;
 							}
 						}
-                        sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, false));
+                        sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), p.firstTime, false));
 					}
 				}
 				

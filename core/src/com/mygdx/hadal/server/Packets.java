@@ -10,6 +10,7 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
@@ -76,6 +77,7 @@ public class Packets {
 	
 	public static class LoadLevel {
 		public UnlockLevel level;
+		public GameMode mode;
 		public boolean firstTime;
 		public boolean spectator;
 		public LoadLevel() {}
@@ -86,11 +88,13 @@ public class Packets {
 		 * It is also done when the Client sends a ClientFinishedTransition packet if the Client should load a new level.
 		 * 
 		 * @param level: Level that the Client will load.
+		 * @param mode: mode that the Client will load.
 		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
 		 * @param spectator: Is this client connecting as a spectator?
 		 */
-		public LoadLevel(UnlockLevel level, boolean firstTime, boolean spectator) {
+		public LoadLevel(UnlockLevel level, GameMode mode, boolean firstTime, boolean spectator) {
 			this.level = level;
+			this.mode = mode;
 			this.firstTime = firstTime;
 			this.spectator = spectator;
 		}
@@ -1371,6 +1375,7 @@ public class Packets {
 		kryo.register(UnlockEquip[].class);
 		kryo.register(AlignmentFilter.class);
 		kryo.register(AlignmentFilter[].class);
+		kryo.register(GameMode.class);
 		kryo.register(Loadout.class);
 		kryo.register(TransitionState.class);
 		kryo.register(DialogType.class);

@@ -123,10 +123,10 @@ public class UIHub {
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				if (!(event.getTarget() instanceof TextField)) {
-					state.getStage().setKeyboardFocus(null);
-				}
-				return false;
+			if (!(event.getTarget() instanceof TextField)) {
+				state.getStage().setKeyboardFocus(null);
+			}
+			return false;
 			}
 		});
 	}

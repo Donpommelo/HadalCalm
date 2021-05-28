@@ -32,6 +32,7 @@ import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
@@ -107,7 +108,8 @@ public class PlayState extends GameState {
 	
 	//this is the current level
 	protected UnlockLevel level;
-	
+	protected GameMode mode;
+
 	//This is the id of the start event that we will be spawning on
 	private String startId;
 	
@@ -173,6 +175,7 @@ public class PlayState extends GameState {
 	
 	//If we are transitioning to another level, this is that level.
 	private UnlockLevel nextLevel;
+	private GameMode nextMode;
 	private String nextStartId;
 	
 	//If we are transitioning to a results screen, this is the displayed text;
@@ -204,17 +207,20 @@ public class PlayState extends GameState {
 	 * @param gsm: StateManager
 	 * @param loadout: the loadout that the player should start with
 	 * @param level: the level we are loading into
+	 * @param mode: the mode of the level we are loading into
 	 * @param server: is this the server or not?
 	 * @param old: the data of the previous player (this exists if this play state is part of a stage transition with an existing player)
 	 * @param reset: do we reset the old player's hp/fuel/ammo in the new playstate?
 	 * @param startId: the id of the starting event the player should be spawned at
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean server, PlayerBodyData old, boolean reset, String startId) {
+	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, GameMode mode,
+					 boolean server, PlayerBodyData old, boolean reset, String startId) {
 		super(gsm);
 
 		this.server = server;
 
 		this.level = level;
+		this.mode = mode;
 		this.startId = startId;
         
         //Initialize box2d world and related stuff
@@ -274,15 +280,15 @@ public class PlayState extends GameState {
 		};
 
 		//Get map settings from the collision layer of the map
-		this.pvp = level.isPvp();
-		this.hub = level.isHub();
-		this.unlimitedLife = level.isUnlimitedLives();
-		this.killsScore = level.isKillScore();
-		this.noDamage = level.isNoDamage();
-		if (level.getTeamType() == -1) {
+		this.pvp = mode.isPvp();
+		this.hub = mode.isHub();
+		this.unlimitedLife = mode.isUnlimitedLives();
+		this.killsScore = mode.isKillScore();
+		this.noDamage = mode.isNoDamage();
+		if (mode.getTeamType() == -1) {
 			this.teamMode = gsm.getSetting().getTeamType();
 		} else {
-			this.teamMode = level.getTeamType();
+			this.teamMode = mode.getTeamType();
 		}
 
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
@@ -329,7 +335,7 @@ public class PlayState extends GameState {
 			TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
 
 			//parse map-specific event layers (used for different modes in the same map)
-			for (String layer: level.getExtraLayers()) {
+			for (String layer: mode.getExtraLayers()) {
 				if (map.getLayers().get(layer) != null) {
 					TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get(layer).getObjects());
 				}
@@ -878,8 +884,8 @@ public class PlayState extends GameState {
 			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class, false);
-			gsm.addPlayState(nextLevel, new Loadout(gsm.getLoadout()), player.getPlayerData(), LobbyState.class, true, nextStartId);
-			gsm.addPlayState(nextLevel, new Loadout(gsm.getLoadout()), player.getPlayerData(), TitleState.class, true, nextStartId);
+			gsm.addPlayState(nextLevel, nextMode, new Loadout(gsm.getLoadout()), player.getPlayerData(), LobbyState.class, true, nextStartId);
+			gsm.addPlayState(nextLevel, nextMode, new Loadout(gsm.getLoadout()), player.getPlayerData(), TitleState.class, true, nextStartId);
 			break;
 		case NEXTSTAGE:
 			
@@ -888,8 +894,8 @@ public class PlayState extends GameState {
 			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class, false);
-			gsm.addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), LobbyState.class, false, nextStartId);
-			gsm.addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
+			gsm.addPlayState(nextLevel, nextMode, player.getPlayerData().getLoadout(), player.getPlayerData(), LobbyState.class, false, nextStartId);
+			gsm.addPlayState(nextLevel, nextMode, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
 			break;
 		case TITLE:
 			gsm.removeState(ResultsState.class);
@@ -915,11 +921,12 @@ public class PlayState extends GameState {
 	
 	/**
 	 * transition from one playstate to another with a new level.
-	 * @param level: file of the new map
+	 * @param level: level of the new map
+	 * @param mode: mode of the new map
 	 * @param state: this will either be a new level or next stage to determine whether we reset hp
 	 * @param nextStartId: The id of the start point to start at (if specified)
 	 */
-	public void loadLevel(UnlockLevel level, TransitionState state, String nextStartId) {
+	public void loadLevel(UnlockLevel level, GameMode mode, TransitionState state, String nextStartId) {
 		
 		//The client should never run this; instead transitioning when the server tells it to.
 		if (!server) { return; }
@@ -928,12 +935,17 @@ public class PlayState extends GameState {
 
 			//begin transitioning to the designated next level
 			nextLevel = level;
+			nextMode = mode;
 			this.nextStartId = nextStartId;
 			beginTransition(state, false, "", defaultFadeOutSpeed, defaultFadeDelay);
 			
 			//Server tells clients to begin a transition to the new state
 			HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState, false, "", defaultFadeOutSpeed, defaultFadeDelay));
 		}
+	}
+
+	public void loadLevel(UnlockLevel level, TransitionState state, String nextStartId) {
+		loadLevel(level, level.getModes()[0], state, nextStartId);
 	}
 	
 	/**This creates a player to occupy the playstate
@@ -1626,6 +1638,8 @@ public class PlayState extends GameState {
 	public AnchorPoint getAnchor() { return anchor; }
 
 	public UnlockLevel getLevel() { return level; }
+
+	public GameMode getMode() { return mode; }
 
 	public float getTimer() {return timer; }
 	

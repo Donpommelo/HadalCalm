@@ -183,6 +183,10 @@
   <property name="title" type="string" default="Navigations"/>
   <property name="unlock" type="bool" default="true"/>
  </objecttype>
+ <objecttype name="NavigationMultiplayer" color="#a0a0a4">
+  <property name="tag" type="string" default="NAVIGATION"/>
+  <property name="title" type="string" default="Navigations"/>
+ </objecttype>
  <objecttype name="Objective" color="#a0a0a4">
   <property name="displayOffScreen" type="bool" default="false"/>
   <property name="displayOnScreen" type="bool" default="false"/>

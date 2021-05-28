@@ -27,7 +27,7 @@ public class SamsonOption extends ActiveItem {
 	private static final float procCd = 0.12f;
 
 	private static final int explosionRadius = 200;
-	private static final float explosionDamage = 75.0f;
+	private static final float explosionDamage = 50.0f;
 	private static final float explosionKnockback = 30.0f;
 	
 	public SamsonOption(Schmuck user) {

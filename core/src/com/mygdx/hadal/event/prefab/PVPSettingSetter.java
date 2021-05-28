@@ -87,7 +87,6 @@ public class PVPSettingSetter extends Prefabrication {
 		}
 		TiledObjectUtil.parseTiledEvent(state, uiTimer);
 
-
 		if (startLives != 0) {
 			RectangleMapObject ui = new RectangleMapObject();
 			ui.setName("UI");

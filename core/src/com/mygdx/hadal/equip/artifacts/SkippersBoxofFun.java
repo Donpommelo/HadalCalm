@@ -13,6 +13,8 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
+import java.util.Objects;
+
 public class SkippersBoxofFun extends Artifact {
 
 	private static final int statusNum = 1;
@@ -42,7 +44,7 @@ public class SkippersBoxofFun extends Artifact {
 
 					Equippable
                         equip = UnlocktoItem.getUnlock(UnlockEquip.getByName(UnlockEquip.getRandWeapFromPool(state, "")), null);
-					((Player) inflicted.getSchmuck()).getPlayerData().pickup(equip);
+					((Player) inflicted.getSchmuck()).getPlayerData().pickup(Objects.requireNonNull(equip));
 					
 					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE_TOTLC, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
 				}
