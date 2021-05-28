@@ -53,12 +53,6 @@
     <property name="triggeredId" value="outOfBounds"/>
    </properties>
   </object>
-  <object id="110" name="Prefab" type="PrefabPVPSettingSetter" x="160" y="96" width="32" height="32">
-   <properties>
-    <property name="prefabId" value="PVPSettingSetter"/>
-    <property name="triggeredId" value=""/>
-   </properties>
-  </object>
   <object id="112" name="Platform" type="Platform" x="576" y="960" width="736" height="160">
    <properties>
     <property name="align" value="ROTATE"/>

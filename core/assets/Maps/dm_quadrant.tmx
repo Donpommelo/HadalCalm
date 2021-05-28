@@ -104,12 +104,6 @@
     <property name="triggeringId" value="w1,w2,w3,w4,w5"/>
    </properties>
   </object>
-  <object id="24" name="Prefab" type="PrefabPVPSettingSetter" x="224" y="928" width="32" height="32">
-   <properties>
-    <property name="prefabId" value="PVPSettingSetter"/>
-    <property name="triggeredId" value=""/>
-   </properties>
-  </object>
   <object id="25" name="ScrapSpawn" type="ScrapSpawn" x="2400" y="1824" width="32" height="32">
    <properties>
     <property name="scrap" type="int" value="1"/>

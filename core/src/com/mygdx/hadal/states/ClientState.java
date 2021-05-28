@@ -81,6 +81,8 @@ public class ClientState extends PlayState {
 			}
 		}
 
+		mode.processSettings(this);
+
 		//client still needs anchor points, world dummies and mouse tracker
 		addEntity(getAnchor().getEntityID().toString(), getAnchor(), false, ObjectSyncLayers.STANDARD);
 		addEntity(getWorldDummy().getEntityID().toString(), getWorldDummy(), false, ObjectSyncLayers.STANDARD);

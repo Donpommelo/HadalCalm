@@ -2,18 +2,38 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 public enum GameMode {
 
-    HUB(false, true, true, false, false, -1, ""),
-    SANDBOX(true, false, true, false, false, -1, ""),
-    DEATHMATCH(true, false, false, false, true, -1, "dm"),
-    CAMPAIGN(false, false, false, false, true, -1, ""),
-    SURVIVAL(false, false, false, false, true, -1, "arena"),
+    HUB("HUB", "", new ToggleHub(), new ToggleUnlimitedLife()) {
 
-    CTF(true, false, false, false, false, 1, "ctf"),
-    FOOTBALL(true, false, false, true, false, 1, ""),
+        @Override
+        public boolean isInvisibleInHub() { return true; }
+    },
+
+    DEATHMATCH("DM", "dm",
+        new SetCameraOnSpawn(), new DisplayUITag("SCORE"), new SetLivesOnStart(), new SetTimerOnStart(ResultsState.magicWord),
+        new SpawnWeapons(), new ToggleKillsScore(), new TogglePVP()),
+
+    CAMPAIGN("","") {
+
+        @Override
+        public boolean isInvisibleInHub() { return true; }
+    },
+
+    SURVIVAL("ARENA", "arena",
+        new SetCameraOnSpawn(), new DisplayUITag("SCORE"), new DisplayUITag("HISCORE"), new SetTimerOnStart("VICTORY"),
+        new SpawnWeapons(), new SpawnEnemyWaves()),
+
+    CTF("CTF", "ctf", new SetCameraOnSpawn(), new SetTimerOnStart(ResultsState.magicWord), new DisplayUITag("TEAMSCORE"),
+        new SpawnWeapons(), new TogglePVP(), new ToggleTeamMode(1)),
+
+    FOOTBALL("FOOTBALL","", new SetCameraOnSpawn(), new SetTimerOnStart(ResultsState.magicWord), new DisplayUITag("TEAMSCORE"),
+        new SpawnWeapons(), new ToggleNoDamage(), new TogglePVP(), new ToggleTeamMode(1)),
+
+    SANDBOX("", ""),
 
     ;
 
@@ -22,20 +42,10 @@ public enum GameMode {
 
     private final ModeSetting[] applicableSettings;
 
-    //the settings of the map are a field of the unlock so the same map can have multiple modes
-    private final boolean pvp, hub, unlimitedLives, killScore, noDamage;
+    private final String text;
 
-    //is there a default team mode for this map? (-1 means it goes with the server settings)
-    private final int teamType;
-
-    GameMode(boolean pvp, boolean hub, boolean unlimitedLives, boolean noDamage, boolean killScore, int teamType,
-                String extraLayers, ModeSetting... applicableSettings) {
-        this.pvp = pvp;
-        this.hub = hub;
-        this.unlimitedLives = unlimitedLives;
-        this.noDamage = noDamage;
-        this.killScore = killScore;
-        this.teamType = teamType;
+    GameMode(String text, String extraLayers, ModeSetting... applicableSettings) {
+        this.text = text;
         this.extraLayers = extraLayers.split(",");
         this.applicableSettings = applicableSettings;
     }
@@ -47,6 +57,7 @@ public enum GameMode {
 
         String timerId = TiledObjectUtil.getPrefabTriggerId();
         String multiId = TiledObjectUtil.getPrefabTriggerId();
+        String uiId = TiledObjectUtil.getPrefabTriggerId();
 
         RectangleMapObject playerstart = new RectangleMapObject();
         playerstart.setName("Multitrigger");
@@ -62,36 +73,45 @@ public enum GameMode {
         multi.setName("Multitrigger");
         multi.getProperties().put("triggeredId", multiId);
 
+        RectangleMapObject ui = new RectangleMapObject();
+        ui.setName("UI");
+        ui.getProperties().put("triggeredId", uiId);
+
+        StringBuilder uiTriggerId = new StringBuilder("LEVEL");
         StringBuilder spawnTriggerId = new StringBuilder();
-        StringBuilder startTriggerId = new StringBuilder("timerId");
+        StringBuilder startTriggerId = new StringBuilder(timerId + "," + uiId);
 
         for (ModeSetting setting: applicableSettings) {
-            spawnTriggerId.append(setting.loadSettingSpawn(state));
-            startTriggerId.append(setting.loadSettingStart(state));
+            String newSpawn = setting.loadSettingSpawn(state);
+            String newStart = setting.loadSettingStart(state);
+            String newUi = setting.loadUIStart(state);
+            if (!newSpawn.equals("")) {
+                spawnTriggerId.append(',').append(newSpawn);
+            }
+            if (!newStart.equals("")) {
+                startTriggerId.append(',').append(newStart);
+            }
+            if (!newUi.equals("")) {
+                uiTriggerId.append(',').append(newUi);
+            }
             setting.loadSettingMisc(state);
         }
 
+        ui.getProperties().put("tags", uiTriggerId.toString());
         playerstart.getProperties().put("triggeringId", spawnTriggerId.toString());
         multi.getProperties().put("triggeringId", startTriggerId.toString());
 
         TiledObjectUtil.parseTiledEvent(state, playerstart);
         TiledObjectUtil.parseTiledEvent(state, timer);
         TiledObjectUtil.parseTiledEvent(state, multi);
+        TiledObjectUtil.parseTiledEvent(state, ui);
     }
+
+    public String getText() { return text;}
 
     public String[] getExtraLayers() { return extraLayers; }
 
     public ModeSetting[] getSettings() { return applicableSettings; }
 
-    public boolean isPvp() { return pvp; }
-
-    public boolean isHub() { return hub; }
-
-    public boolean isUnlimitedLives() { return unlimitedLives; }
-
-    public boolean isKillScore() { return killScore; }
-
-    public boolean isNoDamage() { return noDamage; }
-
-    public int getTeamType() { return teamType; }
+    public boolean isInvisibleInHub() { return false; }
 }

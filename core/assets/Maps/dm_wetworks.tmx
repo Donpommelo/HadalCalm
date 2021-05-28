@@ -196,19 +196,8 @@
     <property name="triggeringId" value="egg2"/>
    </properties>
   </object>
-  <object id="41" name="Prefab" type="PrefabPVPSettingSetter" x="320" y="288" width="32" height="32">
-   <properties>
-    <property name="prefabId" value="PVPSettingSetter"/>
-    <property name="triggeredId" value=""/>
-   </properties>
-  </object>
  </objectgroup>
  <objectgroup id="6" name="arena">
-  <object id="30" name="Prefab" type="PrefabArenaSettingSetter" x="256" y="288" width="32" height="32">
-   <properties>
-    <property name="prefabId" value="ArenaSettingSetter"/>
-   </properties>
-  </object>
   <object id="31" name="WaveSpawn" type="WaveSpawn" x="576" y="2112" width="32" height="32">
    <properties>
     <property name="point" type="int" value="4"/>

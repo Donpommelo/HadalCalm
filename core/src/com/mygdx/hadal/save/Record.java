@@ -133,13 +133,16 @@ public class Record {
 		for (UnlockLevel level: UnlockLevel.values()) {
 			newRecord.unlockLevel.put(level.toString(), false);
 		}
-		newRecord.hiScores.put("ARENA_FLOTSAM", 0);
-		newRecord.hiScores.put("ARENA_HORIZON", 0);
-		newRecord.hiScores.put("ARENA_LAGAN", 0);
-		newRecord.hiScores.put("ARENA_PILE", 0);
-		newRecord.hiScores.put("ARENA_WARP", 0);
-		newRecord.hiScores.put("ARENA_WETWORKS", 0);
-		newRecord.hiScores.put("ARENA_ZIGGURAT", 0);
+
+		newRecord.hiScores.put("DM_BROUHAHA", 0);
+		newRecord.hiScores.put("DM_FLOTSAM", 0);
+		newRecord.hiScores.put("DM_HORIZON", 0);
+		newRecord.hiScores.put("DM_LAGAN", 0);
+		newRecord.hiScores.put("DM_THRESHOLD", 0);
+		newRecord.hiScores.put("DM_PILE", 0);
+		newRecord.hiScores.put("DM_WARP", 0);
+		newRecord.hiScores.put("DM_WETWORKS", 0);
+		newRecord.hiScores.put("DM_ZIGGURAT", 0);
 
 		newRecord.lastIp = "";
 

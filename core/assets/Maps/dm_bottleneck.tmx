@@ -33,12 +33,6 @@
     <property name="triggeringId" value="w1,w2,w3,w4,w5"/>
    </properties>
   </object>
-  <object id="8" name="Prefab" type="PrefabPVPSettingSetter" x="704" y="416" width="32" height="32">
-   <properties>
-    <property name="prefabId" value="PVPSettingSetter"/>
-    <property name="triggeredId" value=""/>
-   </properties>
-  </object>
   <object id="10" name="Start" type="Start" x="1760" y="1344" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>

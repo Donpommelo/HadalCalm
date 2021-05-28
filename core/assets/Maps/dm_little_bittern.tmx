@@ -35,12 +35,6 @@
     <property name="triggeringId" value="outOfBounds"/>
    </properties>
   </object>
-  <object id="5" name="Prefab" type="PrefabPVPSettingSetter" x="96" y="3488" width="32" height="32">
-   <properties>
-    <property name="prefabId" value="PVPSettingSetter"/>
-    <property name="triggeredId" value=""/>
-   </properties>
-  </object>
   <object id="10" name="Multitrigger" type="Multitrigger" x="96" y="3552" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>

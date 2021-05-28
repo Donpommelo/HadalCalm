@@ -107,7 +107,7 @@ public class BodyData extends HadalData {
 		currentHp = getStat(Stats.MAX_HP);
 		currentFuel = getStat(Stats.MAX_FUEL);
 		
-		lastDamagedBy = this;
+		lastDamagedBy = schmuck.getState().getWorldDummy().getBodyData();
 	}
 	
 	/**

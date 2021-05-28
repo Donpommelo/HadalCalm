@@ -7,9 +7,23 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 
 public class SetTimerOnStart extends ModeSetting {
 
+    private String endText;
+
+    public SetTimerOnStart(String endText) {
+        this.endText = endText;
+    }
+
+    @Override
+    public String loadUIStart(PlayState state) {
+        int startTimer = state.getGsm().getSetting().getPVPTimer();
+        if (startTimer != 0) {
+            return "TIMER";
+        }
+        return "";
+    }
+
     @Override
     public String loadSettingStart(PlayState state) {
-        String uiTimerId = TiledObjectUtil.getPrefabTriggerId();
         String gameTimerId = TiledObjectUtil.getPrefabTriggerId();
 
         int startTimer = state.getGsm().getSetting().getPVPTimer();
@@ -19,21 +33,19 @@ public class SetTimerOnStart extends ModeSetting {
         game.getProperties().put("sync", "ALL");
         game.getProperties().put("triggeredId", gameTimerId);
 
-        RectangleMapObject uiTimer = new RectangleMapObject();
-        uiTimer.setName("UI");
-        uiTimer.getProperties().put("clear", false);
-
         if (startTimer != 0) {
-            uiTimer.getProperties().put("tags", "TIMER");
-            uiTimer.getProperties().put("triggeredId", uiTimerId);
-
             game.getProperties().put("timer", Setting.indexToTimer(startTimer));
             game.getProperties().put("timerIncr", -1.0f);
         }
 
-        TiledObjectUtil.parseTiledEvent(state, game);
-        TiledObjectUtil.parseTiledEvent(state, uiTimer);
+        RectangleMapObject end = new RectangleMapObject();
+        end.setName("End");
+        end.getProperties().put("text", endText);
+        end.getProperties().put("triggeredId", "runOnGlobalTimerConclude");
 
-        return ",uiTimerId,gameTimerId";
+        TiledObjectUtil.parseTiledEvent(state, game);
+        TiledObjectUtil.parseTiledEvent(state, end);
+
+        return gameTimerId;
     }
 }

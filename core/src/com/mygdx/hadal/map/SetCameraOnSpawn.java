@@ -19,6 +19,6 @@ public class SetCameraOnSpawn extends ModeSetting {
 
         TiledObjectUtil.parseTiledEvent(state, camera1);
 
-        return ",bounds1,bounds2," + gameCameraId;
+        return "bounds1,bounds2," + gameCameraId;
     }
 }

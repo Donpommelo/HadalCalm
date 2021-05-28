@@ -14,12 +14,6 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
-  <object id="2" name="Prefab" type="PrefabPVPSettingSetter" x="128" y="3488" width="32" height="32">
-   <properties>
-    <property name="prefabId" value="PVPSettingSetter"/>
-    <property name="triggeredId" value=""/>
-   </properties>
-  </object>
   <object id="7" name="Multitrigger" type="Multitrigger" x="128" y="3552" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>

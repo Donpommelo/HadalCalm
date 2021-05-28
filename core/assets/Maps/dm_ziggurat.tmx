@@ -144,12 +144,6 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="dm">
-  <object id="35" name="Prefab" type="PrefabPVPSettingSetter" x="224" y="2080" width="32" height="32">
-   <properties>
-    <property name="prefabId" value="PVPSettingSetter"/>
-    <property name="triggeredId" value=""/>
-   </properties>
-  </object>
   <object id="18" name="ScrapSpawn" type="ScrapSpawn" x="1696" y="128" width="32" height="32">
    <properties>
     <property name="scrap" type="int" value="1"/>
@@ -159,11 +153,6 @@
   </object>
  </objectgroup>
  <objectgroup id="5" name="arena">
-  <object id="28" name="Prefab" type="PrefabArenaSettingSetter" x="160" y="2080" width="32" height="32">
-   <properties>
-    <property name="prefabId" value="ArenaSettingSetter"/>
-   </properties>
-  </object>
   <object id="29" name="WaveSpawn" type="WaveSpawn" x="448" y="128" width="32" height="32">
    <properties>
     <property name="tag" value="STANDARD"/>

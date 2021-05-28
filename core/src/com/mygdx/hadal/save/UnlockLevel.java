@@ -19,7 +19,7 @@ public enum UnlockLevel {
 	DM_BROUHAHA("Maps/dm_brouhaha.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
 	DM_FACILITY("Maps/dm_facility.tmx", GameMode.DEATHMATCH),
 	DM_FLOTSAM("Maps/dm_flotsam.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	DM_LAGAN("Maps/dm_lagan.tmx, true", GameMode.DEATHMATCH, GameMode.SURVIVAL),
+	DM_LAGAN("Maps/dm_lagan.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
 	DM_THRESHOLD("Maps/dm_threshold.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
 	DM_TOWERS("Maps/dm_towers.tmx", GameMode.DEATHMATCH),
 	DM_WARP("Maps/dm_warp.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),

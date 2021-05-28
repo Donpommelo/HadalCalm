@@ -1,6 +1,6 @@
 {
 HUB_MULTI: {
-	name: HUB
+	name: S.S. TUNICATE
 	description: ""
     descriptionLong: "Multiplayer Hub Area"
 	tags: []
@@ -72,7 +72,7 @@ SANDBOX_HUB: {
 	]
 }
 DM_AGGYDAGGY: {
-	name: DM_AGGYDAGGY
+	name: AGGYDAGGY
 	description: ""
     descriptionLong: "SIZE: LARGE"
 	tags: [  
@@ -81,7 +81,7 @@ DM_AGGYDAGGY: {
 	]
 }
 DM_BOTTLENECK: {
-	name: DM_BOTTLENECK
+	name: BOTTLENECK
 	description: ""
     descriptionLong: "SIZE: LARGE"
 	tags: [  
@@ -91,7 +91,7 @@ DM_BOTTLENECK: {
 	]
 }
 DM_BROUHAHA: {
-	name: DM_BROUHAHA
+	name: BROUHAHA
 	description: ""
     descriptionLong: "SIZE: LARGE"
 	tags: [  
@@ -101,7 +101,7 @@ DM_BROUHAHA: {
 	]
 }
 DM_CAROUSEL: {
-	name: DM_CAROUSEL
+	name: CAROUSEL
 	description: ""
     descriptionLong: "SIZE: SMALL"
 	tags: [
@@ -110,7 +110,7 @@ DM_CAROUSEL: {
 	]
 }
 DM_FACILITY: {
-	name: DM_FACILITY
+	name: FACILITY
 	description: ""
     descriptionLong: "SIZE: LARGE"
 	tags: [
@@ -120,7 +120,7 @@ DM_FACILITY: {
 	]
 }
 DM_FALLDOWN: {
-	name: DM_FALLDOWN
+	name: FALLDOWN
 	description: ""
     descriptionLong: "SIZE: SMALL\n\nAn arena consisting of a pile of destructable blocks."
 	tags: [
@@ -129,7 +129,7 @@ DM_FALLDOWN: {
 	]
 }
 DM_FLOTSAM: {
-	name: DM_FLOTSAM
+	name: FLOTSAM
 	description: ""
     descriptionLong: "SIZE: MEDIUM"
 	tags: [
@@ -139,7 +139,7 @@ DM_FLOTSAM: {
 	]
 }
 DM_GULLY: {
-	name: DM_GULLY
+	name: GULLY
 	description: ""
     descriptionLong: "SIZE: SMALL"
 	tags: [
@@ -148,7 +148,7 @@ DM_GULLY: {
 	]
 }
 DM_JUMP: {
-	name: DM_JUMP
+	name: JUMP
 	description: ""
     descriptionLong: "SIZE: SMALL\n\nAn arena consisting of falling drop-through platforms over a poisonous pit."
 	tags: [
@@ -157,7 +157,7 @@ DM_JUMP: {
 	]
 }
 DM_LAGAN: {
-	name: DM_LAGAN
+	name: LAGAN
 	description: ""
     descriptionLong: "SIZE: MEDIUM"
 	tags: [
@@ -167,7 +167,7 @@ DM_LAGAN: {
 	]
 }
 DM_MOONBOUNCE: {
-	name: DM_MOONBOUNCE
+	name: MOONBOUNCE
 	description: ""
     descriptionLong: "SIZE: SMALL"
 	tags: [
@@ -176,7 +176,7 @@ DM_MOONBOUNCE: {
 	]
 }
 DM_ORIGINAL: {
-	name: DM_ORIGINAL
+	name: ORIGINAL
 	description: ""
     descriptionLong: "SIZE: LARGE"
 	tags: [
@@ -185,7 +185,7 @@ DM_ORIGINAL: {
 	]
 }
 DM_PILE: {
-	name: DM_PILE
+	name: PILE
 	description: ""
     descriptionLong: "SIZE: SMALL"
 	tags: [
@@ -194,7 +194,7 @@ DM_PILE: {
 	]
 }
 DM_PINWHEEL: {
-	name: DM_PINWHEEL
+	name: PINWHEEL
 	description: ""
     descriptionLong: "SIZE: SMALL\n\nAn arena consisting of rotating platforms."
 	tags: [
@@ -203,7 +203,7 @@ DM_PINWHEEL: {
 	]
 }
 DM_PIVOT: {
-	name: DM_PIVOT
+	name: PIVOT
 	description: ""
     descriptionLong: "SIZE: SMALL"
 	tags: [
@@ -212,7 +212,7 @@ DM_PIVOT: {
 	]
 }
 DM_SAWMILL: {
-	name: DM_SAWMILL
+	name: SAWMILL
 	description: ""
     descriptionLong: "SIZE: SMALL"
 	tags: [
@@ -221,7 +221,7 @@ DM_SAWMILL: {
 	]
 }
 DM_SCALES: {
-	name: DM_SCALES
+	name: SCALES
 	description: ""
     descriptionLong: "SIZE: SMALL\n\nAn arena consisting of a series of sinking platforms."
 	tags: [
@@ -230,7 +230,7 @@ DM_SCALES: {
 	]
 }
 DM_SEESAW: {
-	name: DM_SEESAW
+	name: SEESAW
 	description: ""
     descriptionLong: "SIZE: SMALL\n\nAn arena consisting of a series of see-saw platforms."
 	tags: [
@@ -239,7 +239,7 @@ DM_SEESAW: {
 	]
 }
 DM_THRESHOLD: {
-	name: DM_THRESHOLD
+	name: THRESHOLD
 	description: ""
     descriptionLong: "SIZE: LARGE"
 	tags: [
@@ -249,7 +249,7 @@ DM_THRESHOLD: {
 	]
 }
 DM_TOWERS: {
-	name: DM_TOWERS
+	name: TOWERS
 	description: ""
     descriptionLong: "SIZE: LARGE"
 	tags: [
@@ -259,7 +259,7 @@ DM_TOWERS: {
 	]
 }
 DM_QUADRANT: {
-	name: DM_QUADRANT
+	name: QUADRANT
 	description: ""
     descriptionLong: "SIZE: LARGE"
 	tags: [
@@ -269,7 +269,7 @@ DM_QUADRANT: {
 	]
 }
 DM_WARP: {
-	name: DM_WARP
+	name: WARP
 	description: ""
     descriptionLong: "SIZE: MEDIUM"
 	tags: [
@@ -279,7 +279,7 @@ DM_WARP: {
 	]
 }
 DM_WETWORKS: {
-	name: DM_WETWORKS
+	name: WETWORKS
 	description: ""
     descriptionLong: "SIZE: MEDIUM"
 	tags: [
@@ -289,7 +289,7 @@ DM_WETWORKS: {
 	]
 }
 DM_ZIGGURAT: {
-	name: DM_ZIGGURAT
+	name: ZIGGURAT
 	description: ""
     descriptionLong: "SIZE: MEDIUM"
 	tags: [
@@ -298,7 +298,7 @@ DM_ZIGGURAT: {
 	]
 }
 DM_FORMOSAN_BLUE_MAGPIE: {
-	name: DM_FORMOSAN_BLUE_MAGPIE
+	name: FORMOSAN_BLUE_MAGPIE
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -308,7 +308,7 @@ DM_FORMOSAN_BLUE_MAGPIE: {
 	]
 }
 DM_FREE_RANGE: {
-	name: DM_FREE_RANGE
+	name: FREE_RANGE
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -318,7 +318,7 @@ DM_FREE_RANGE: {
 	]
 }
 DM_GREY_HERON: {
-	name: DM_GREY_HERON
+	name: GREY_HERON
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -328,7 +328,7 @@ DM_GREY_HERON: {
 	]
 }
 DM_HUMMINGBIRD: {
-	name: DM_HUMMINGBIRD
+	name: HUMMINGBIRD
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -338,7 +338,7 @@ DM_HUMMINGBIRD: {
 	]
 }
 DM_JAPANESE_WHITEEYE: {
-	name: DM_JAPANESE_WHITEEYE
+	name: JAPANESE_WHITEEYE
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -348,7 +348,7 @@ DM_JAPANESE_WHITEEYE: {
 	]
 }
 DM_LITTLE_BITTERN: {
-	name: DM_LITTLE_BITTERN
+	name: LITTLE_BITTERN
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -358,7 +358,7 @@ DM_LITTLE_BITTERN: {
 	]
 }
 DM_PELICAN: {
-	name: DM_PELICAN
+	name: PELICAN
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -368,7 +368,7 @@ DM_PELICAN: {
 	]
 }
 DM_SUPREME_CHAMPION: {
-	name: DM_SUPREME_CHAMPION
+	name: SUPREME_CHAMPION
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -378,7 +378,7 @@ DM_SUPREME_CHAMPION: {
 	]
 }
 DM_FACING_CRABS: {
-	name: DM_FACING_CRABS
+	name: FACING_CRABS
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -388,7 +388,7 @@ DM_FACING_CRABS: {
 	]
 }
 DM_GALLERY: {
-	name: DM_GALLERY
+	name: GALLERY
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -398,7 +398,7 @@ DM_GALLERY: {
 	]
 }
 DM_HORIZON: {
-	name: DM_HORIZON
+	name: HORIZON
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -408,7 +408,7 @@ DM_HORIZON: {
 	]
 }
 DM_REDROCK: {
-	name: DM_REDROCK
+	name: REDROCK
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -418,7 +418,7 @@ DM_REDROCK: {
 	]
 }
 CTF_COQUELICOT: {
-	name: CTF_COQUELICOT
+	name: COQUELICOT
 	description: ""
     descriptionLong: ""
 	tags: [
@@ -477,7 +477,7 @@ PARTY: {
 	]
 }
 FOOTBALL_GREEN: {
-	name: FOOTBALL_GREEN
+	name: GREEN
 	description: ""
     descriptionLong: ""
 	tags: [

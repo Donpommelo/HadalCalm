@@ -84,12 +84,6 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="11" name="Prefab" type="PrefabPVPSettingSetter" x="96" y="3488" width="32" height="32">
-   <properties>
-    <property name="prefabId" value="PVPSettingSetter"/>
-    <property name="triggeredId" value=""/>
-   </properties>
-  </object>
   <object id="16" name="Multitrigger" type="Multitrigger" x="96" y="3552" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>

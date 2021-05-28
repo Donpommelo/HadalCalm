@@ -148,10 +148,11 @@ public class PlayState extends GameState {
 	private final HashMap<String, PositionDummy> dummyPoints;
 	
 	//Can players hurt each other? Is it the hub map? Is this the server? Do kills give score? Can players damage each other?
-	private final boolean pvp, hub, server, killsScore, noDamage;
+	private boolean pvp, hub, killsScore, noDamage;
+	private final boolean server;
 
 	//the current level's team mode (ffa, auto assigned or manual assigned)
-	private final int teamMode;
+	private int teamMode;
 	
 	//Various play state ui elements
 	protected UIPlay uiPlay;
@@ -279,18 +280,7 @@ public class PlayState extends GameState {
 			}
 		};
 
-		//Get map settings from the collision layer of the map
-		this.pvp = mode.isPvp();
-		this.hub = mode.isHub();
-		this.unlimitedLife = mode.isUnlimitedLives();
-		this.killsScore = mode.isKillScore();
-		this.noDamage = mode.isNoDamage();
-		if (mode.getTeamType() == -1) {
-			this.teamMode = gsm.getSetting().getTeamType();
-		} else {
-			this.teamMode = mode.getTeamType();
-		}
-
+		this.teamMode = gsm.getSetting().getTeamType();
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;
 
@@ -305,11 +295,6 @@ public class PlayState extends GameState {
 		}
 		if (map.getProperties().get("active", String.class) != null) {
 			this.mapActiveItem = UnlockActives.getByName(map.getProperties().get("active", String.class));
-		}
-
-		//if auto-assign team is on, we do the assignment here
-		if (teamMode == 1 && isServer()) {
-			AlignmentFilter.autoAssignTeams(2);
 		}
 
 		//load map shader
@@ -341,8 +326,15 @@ public class PlayState extends GameState {
 				}
 			}
 
+			mode.processSettings(this);
+
 			TiledObjectUtil.parseTiledTriggerLayer();
 			TiledObjectUtil.parseDesignatedEvents(this);
+		}
+
+		//if auto-assign team is on, we do the assignment here
+		if (teamMode == 1 && isServer()) {
+			AlignmentFilter.autoAssignTeams(2);
 		}
 
 		//Create the player and make the camera focus on it
@@ -1088,7 +1080,7 @@ public class PlayState extends GameState {
 		} else {
 			HadalGame.server.registerKill(null, player);
 		}
-				
+
 		if (!unlimitedLife) {
 			String resultsText = "";
 			
@@ -1145,7 +1137,7 @@ public class PlayState extends GameState {
 					}
 				}
 			}
-			
+
 			//if the match is over (all players dead in co-op or all but one team dead in pvp), all players go to results screen
 			if (allded) {
 
@@ -1613,16 +1605,26 @@ public class PlayState extends GameState {
 	
 	public boolean isPvp() { return pvp; }
 
+	public void setPvp(boolean pvp) { this.pvp = pvp; }
+
 	public boolean isKillsScore() { return killsScore; }
+
+	public void setKillsScore(boolean killsScore) { this.killsScore = killsScore; }
 
 	public boolean isHub() { return hub; }
 
+	public void setHub(boolean hub) { this.hub = hub; }
+
 	public int getTeamMode() { return teamMode; }
+
+	public void setTeamMode(int teamMode) { this.teamMode = teamMode; }
 
 	public boolean isSpectatorMode() { return spectatorMode; }
 
-	public void setUnlimitedLife(boolean lives) { this.unlimitedLife = lives; }
-	
+	public void setUnlimitedLife(boolean unlimitedLife) { this.unlimitedLife = unlimitedLife; }
+
+	public void setNoDamage(boolean noDamage) { this.noDamage = noDamage; }
+
 	public Event getGlobalTimer() {	return globalTimer;	}
 
 	public void setGlobalTimer(Event globalTimer) {	this.globalTimer = globalTimer;	}

@@ -82,7 +82,7 @@ public class NavigationsMultiplayer extends HubEvent {
 						} else {
 
 							//clients suggest maps when clicking
-							HadalGame.client.sendTCP(new Packets.ClientChat("Suggests Map: " + selected.name(), DialogBox.DialogType.SYSTEM));
+							HadalGame.client.sendTCP(new Packets.ClientChat("Suggests Map: " + selected.getInfo().getName(), DialogBox.DialogType.SYSTEM));
 						}
 						leave();
 					}
@@ -108,7 +108,7 @@ public class NavigationsMultiplayer extends HubEvent {
 
 		for (GameMode c: GameMode.values()) {
 
-			if (!c.isHub()) {
+			if (!c.isInvisibleInHub()) {
 				final GameMode selected = c;
 				Text itemChoose = new Text(c.toString(), 0, 0, true);
 
