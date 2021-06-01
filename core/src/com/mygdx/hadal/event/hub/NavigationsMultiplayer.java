@@ -65,6 +65,10 @@ public class NavigationsMultiplayer extends HubEvent {
 					modeCompliant = true;
 					break;
 				}
+				if (selected.getModes()[i] == GameMode.DEATHMATCH && modeChosen == GameMode.GUN_GAME) {
+					modeCompliant = true;
+					break;
+				}
 			}
 
 			if (appear && modeCompliant) {

@@ -30,7 +30,7 @@ public class Kumquat extends Artifact {
 					if (inflicted.getCurrentHp() / inflicted.getStat(Stats.MAX_HP) <= 0.5f) {
 						activated = true;
 
-						float healAmount = 0.25f * inflicted.getStat(Stats.MAX_HP) / regenDuration;
+						float healAmount = 0.35f * inflicted.getStat(Stats.MAX_HP) / regenDuration;
 
 						SoundEffect.EATING.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.8f, false);
 						inflicted.addStatus(new Regeneration(state, regenDuration, inflicted, inflicted, healAmount));

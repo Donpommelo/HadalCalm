@@ -11,6 +11,8 @@ public class TenuousGripOnReality extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 3;
 
+	private static final float bonusInvis = 1.5f;
+
 	public TenuousGripOnReality() {
 		super(slotCost, statusNum);
 	}
@@ -22,7 +24,7 @@ public class TenuousGripOnReality extends Artifact {
 			@Override
 			public void onReloadStart(Equippable tool) {
 				if (tool.getClipLeft() == 0) {
-					inflicted.addStatus(new Invisibility(state, tool.getReloadTime(), inflicted, inflicted));
+					inflicted.addStatus(new Invisibility(state, tool.getReloadTime() * bonusInvis, inflicted, inflicted));
 				}
 			}
 		};

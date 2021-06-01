@@ -25,21 +25,22 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 	
 	//this is the minimum speed the target must be moving to inflict damage
 	private static final float speedThreshold = 30.0f;
-	
+
 	//this is the window of time before the effect activates. prevents it from instakilling a unit already touching a wall.
 	private static final float procCd = 0.03f;
 	
 	//this is the maximum amount of damage that this effect can inflict
 	private static final float maxDamage = 150.0f;
-	
+
 	public ContactUnitKnockbackDamage(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);
 	}
-	
+
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
 			if (fixB.getType().equals(UserDataTypes.BODY)) {
+
 				final BodyData vic = (BodyData) fixB;
 				
 				//hbox size is slightly larger than target so it can contact walls/other units
@@ -51,7 +52,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 				hbox.makeUnreflectable();
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, creator));
-				hbox.addStrategy(new FixedToEntity(state, hbox, vic, new Vector2(), new Vector2(), true));
+				hbox.addStrategy(new FixedToEntity(state, hbox, creator, vic.getSchmuck(), new Vector2(), new Vector2(), true));
 				hbox.addStrategy(new HitboxStrategy(state, hbox, creator) {
 					
 					private float procCdCount;
@@ -68,27 +69,23 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 					@Override
 					public void onHit(HadalData fixB) {
 						if (procCdCount > procCd) {
-							if (fixB != null) {
-								
+							if (fixB != null && lastVelo > speedThreshold) {
+
 								//contact a wall, damage the victim
 								if (fixB.getType().equals(UserDataTypes.WALL)) {
-									if (lastVelo > speedThreshold) {
-										vic.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);
-										new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
-											true, particleSyncType.CREATESYNC);
-										hbox.die();
-									}
+									vic.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);
+									new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
+										true, particleSyncType.CREATESYNC);
+									hbox.die();
 								}
 								
 								//contact another unit, damage both
-								if (fixB.getType().equals(UserDataTypes.BODY)) {
-									if (lastVelo > speedThreshold) {
-										vic.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);
-										fixB.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);
-										new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
-											true, particleSyncType.CREATESYNC);
-										hbox.die();
-									}
+								if (fixB.getType().equals(UserDataTypes.BODY) && !fixB.equals(vic)) {
+									vic.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);
+									fixB.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);
+									new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
+										true, particleSyncType.CREATESYNC);
+									hbox.die();
 								}
 							}
 						}

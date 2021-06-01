@@ -256,7 +256,8 @@ public class KryoServer {
 					if (user != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
-							HadalGame.server.sendToAllTCP(new Packets.SyncServerLoadout(player.getEntityID().toString(), player.getPlayerData().getLoadout()));
+							HadalGame.server.sendToAllTCP(new Packets.SyncServerLoadout(
+								player.getEntityID().toString(), player.getPlayerData().getLoadout(), false));
 							if (player.getStart() != null) {
 								player.getStart().playerStart(player);
 							}
@@ -278,7 +279,7 @@ public class KryoServer {
 						if (player != null) {
 							ps.addPacketEffect(() -> {
 								player.getPlayerData().syncLoadoutFromClient(p.equip, p.artifactAdd, p.artifactRemove, p.active, p.character, p.team);
-								player.getPlayerData().syncServerLoadoutChange();
+								player.getPlayerData().syncServerLoadoutChange(p.save);
 							});
 						}
 					}

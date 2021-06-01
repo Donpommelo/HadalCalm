@@ -52,6 +52,7 @@ public class UITag {
 		MISC,
 		LEVEL,
 		TEAMSCORE,
+		GUNGAME,
 		EMPTY
 	}
 }

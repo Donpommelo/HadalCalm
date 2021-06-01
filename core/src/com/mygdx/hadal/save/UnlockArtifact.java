@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.artifacts.*;
+import com.mygdx.hadal.equip.modeMods.GunGame;
+import com.mygdx.hadal.equip.modeMods.InfiniteAmmo;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
@@ -147,8 +149,10 @@ public enum UnlockArtifact {
 	WHITE_WHALE_CHARM(new WhiteWhaleCharm()),
 	WRATH_OF_THE_FROGMAN(new WrathoftheFrogman()),
 	YIGHT_KITE(new YightKite()),
-	
+
 	NOTHING(new NothingArtifact()),
+	GUN_GAME(new GunGame(), true),
+	INFINITE_AMMO(new InfiniteAmmo(), true),
 	;
 	
 	//singleton artifact represented by this unlock
@@ -160,6 +164,8 @@ public enum UnlockArtifact {
 	//The string id of the artifact's icon in the artifact texture atlas
 	private final String spriteId;
 
+	private boolean invisible;
+
 	UnlockArtifact(Artifact artifact) {
 		this(artifact, "artifact");
 	}
@@ -167,7 +173,14 @@ public enum UnlockArtifact {
 	UnlockArtifact(Artifact artifact, String spriteId) {
 		this.artifactSingleton = artifact;
 		this.spriteId = spriteId;
+		this.invisible = false;
 		artifactSingleton.setUnlock(this);
+	}
+
+	UnlockArtifact(Artifact artifact, boolean invisible) {
+		this(artifact);
+		this.invisible = invisible;
+		setInfo(new InfoItem());
 	}
 
 	/**
@@ -222,6 +235,8 @@ public enum UnlockArtifact {
 	public InfoItem getInfo() {	return info; }
 	
 	public void setInfo(InfoItem info) {this.info = info; }
+
+	public boolean isInvisible() { return invisible; }
 
 	private static final HashMap<String, UnlockArtifact> UnlocksByName = new HashMap<>();
 	static {

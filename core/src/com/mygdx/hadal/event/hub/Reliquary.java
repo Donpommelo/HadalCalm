@@ -91,9 +91,9 @@ public class Reliquary extends HubEvent {
 						if (state.getPlayer().getPlayerData() == null) { return; }
 
 						if (state.isServer()) {
-							state.getPlayer().getPlayerData().addArtifact(selected, false);
+							state.getPlayer().getPlayerData().addArtifact(selected, false, true);
 						} else {
-							state.getPlayer().getPlayerData().syncClientLoadoutAddArtifact(selected);
+							state.getPlayer().getPlayerData().syncClientLoadoutAddArtifact(selected, true);
 						}
 						hub.refreshHub();
 					}

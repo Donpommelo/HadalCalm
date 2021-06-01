@@ -1,6 +1,9 @@
 package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.mygdx.hadal.save.UnlockActives;
+import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -28,10 +31,17 @@ public enum GameMode {
         new SpawnWeapons(), new SpawnEnemyWaves()),
 
     CTF("CTF", "ctf", new SetCameraOnSpawn(), new SetTimerOnStart(ResultsState.magicWord), new DisplayUITag("TEAMSCORE"),
-        new SpawnWeapons(), new TogglePVP(), new ToggleTeamMode(1)),
+        new SpawnWeapons(), new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife()),
 
     FOOTBALL("FOOTBALL","", new SetCameraOnSpawn(), new SetTimerOnStart(ResultsState.magicWord), new DisplayUITag("TEAMSCORE"),
-        new SpawnWeapons(), new ToggleNoDamage(), new TogglePVP(), new ToggleTeamMode(1)),
+        new ToggleNoDamage(), new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife(),
+        new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),
+        new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO)),
+
+    GUN_GAME("GUN GAME", "", new SetCameraOnSpawn(), new SetTimerOnStart(ResultsState.magicWord), new DisplayUITag("GUNGAME"),
+        new TogglePVP(), new ToggleTeamMode(0), new ToggleUnlimitedLife(),
+        new SetLoadoutEquips(UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
+        new SetLoadoutArtifacts(UnlockArtifact.GUN_GAME, UnlockArtifact.INFINITE_AMMO), new SetLoadoutActive(UnlockActives.NOTHING)),
 
     SANDBOX("", ""),
 

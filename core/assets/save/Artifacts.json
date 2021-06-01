@@ -115,7 +115,7 @@ BACKPACK_BUDDY: {
 BENTHIC_DESIRES: {
 	name: Benthic Desires
 	description: "Regenerate Hp and Fuel when not moving"
-    descriptionLong: "Hp Regeneration: 5 per Second\nFuel Regeneration: 8 per Second\n\nAn individual's oneness with the unchanging Earth\n\nThe Stagnation that muddies the firmament at the bottom of the world is derived from the collective desires of the fearful and the weary."
+    descriptionLong: "Hp Regeneration: 6 per Second\nFuel Regeneration: 8 per Second\n\nAn individual's oneness with the unchanging Earth\n\nThe Stagnation that muddies the firmament at the bottom of the world is derived from the collective desires of the fearful and the weary."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -170,7 +170,7 @@ BOTTOM_OF_THE_BARREL: {
 BRIGGLES_BLADED_BOOT: {
 	name: Briggle's Bladed Boot
 	description: "Damaging Stomps"
-    descriptionLong: "Stomp Damage: 70\n\nThe serrated footwear belonging to a general renown for being armed to the feet\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft."
+    descriptionLong: "Stomp Damage: 80\n\nThe serrated footwear belonging to a general renown for being armed to the feet\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -181,7 +181,7 @@ BRIGGLES_BLADED_BOOT: {
 BRITTLING_POWDER: {
 	name: Brittling Powder
 	description: "Projectile Fragmentation"
-    descriptionLong: "Frag Cooldown: 0.5 Second\nFrag Number: 8\nFrag Damage: 2.5\n\nA pouch of insidious powder that renders objects brittle upon the slightest contact\n\nResidents of the Kamaboko-Ya have accepted that the destruction of their physical bodies is a necessary step in the factory's ungodly process."
+    descriptionLong: "Frag Cooldown: 0.5 Second\nFrag Number: 8\nFrag Damage: 14\n\nA pouch of insidious powder that renders objects brittle upon the slightest contact\n\nResidents of the Kamaboko-Ya have accepted that the destruction of their physical bodies is a necessary step in the factory's ungodly process."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -192,7 +192,7 @@ BRITTLING_POWDER: {
 BUCKET_OF_BATTERIES: {
 	name: Bucket of Batteries
 	description: "Projectiles Create Chain Lightning"
-    descriptionLong: "Lightning Cooldown: 0.5 Second\nLightning Damage: 8\nLightning Chains: 3 Enemies\n\nA bucket filled with batteries floating in a dubious liquid\n\nThe Plenum Chamber's mechanical palpitations provide sufficient energy to nearby facilities, but its own power source remains indiscernible."
+    descriptionLong: "Lightning Cooldown: 0.5 Second\nLightning Damage: 11\nLightning Chains: 3 Enemies\n\nA bucket filled with batteries floating in a dubious liquid\n\nThe Plenum Chamber's mechanical palpitations provide sufficient energy to nearby facilities, but its own power source remains indiscernible."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -330,7 +330,7 @@ CONFIDENCE: {
 CROWN_OF_THORNS: {
 	name: Crown of Thorns
 	description: "Drop Thorns upon Receiving Damage"
-    descriptionLong: "Thorns Cooldown: 1 Second\nThorns Number: 6\nThorns Damage: 20\n\nThe body of a spiky echinoderm that doubles as protective headgear\n\nOf all impulses retained by Sunk things, the most common is the simple desire to not be touched."
+    descriptionLong: "Thorns Cooldown: 1 Second\nThorns Number: 6\nThorns Damage: 24\n\nThe body of a spiky echinoderm that doubles as protective headgear\n\nOf all impulses retained by Sunk things, the most common is the simple desire to not be touched."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -371,7 +371,7 @@ DAS_BOOT: {
 DAY_AT_THE_FAIR: {
 	name: Day at the Fair
 	description: "+Max Hp, -Knockback Resistance"
-    descriptionLong: "Max Hp: +25%\nKnockback Resistance: -150%\n\nSome mirthful fairgrounds reflected in a handful of colorful balloons\n\nLike all things that hold particular value, the childhood memories of the departed are delivered to the Sunk Emporium to be packaged for resale."
+    descriptionLong: "Max Hp: +35%\nKnockback Resistance: -150%\n\nSome mirthful fairgrounds reflected in a handful of colorful balloons\n\nLike all things that hold particular value, the childhood memories of the departed are delivered to the Sunk Emporium to be packaged for resale."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -423,7 +423,7 @@ EELSKIN_COVER: {
 EMAUDELINES_PRISM: {
 	name: Emaudeline's Prism
 	description: "Projectile Split-Shot, -Attack Speed, -Reload Speed"
-    descriptionLong: "Ranged Attack Speed Reduction: -50%\nReload Speed Reduction: -30%\n\nA transparent prism that splits light into an incomplete rainbow\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light."
+    descriptionLong: "Ranged Attack Speed Reduction: -50%\nReload Speed Reduction: -45%\n\nA transparent prism that splits light into an incomplete rainbow\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -495,7 +495,7 @@ FENS_CLIPPED_WINGS: {
 THE_FINGER: {
 	name: The Finger
 	description: "Your Emotes Deal Damage"
-    descriptionLong: "Emote Damage: 60\n\nA single digit, extended in an offensive gesture\n\nViolence is the foremost form of self-expression permitted to veteran Salvagers."
+    descriptionLong: "Emote Damage: 75\n\nA single digit, extended in an offensive gesture\n\nViolence is the foremost form of self-expression permitted to veteran Salvagers."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -609,7 +609,7 @@ HORNS_OF_AMMON: {
 HUMANITY_MODULE: {
 	name: Humanity Module
 	description: "+Active Charge Rate, Reroll Active on Use"
-    descriptionLong: "Bonus Charge Rate: +40%\n\nA disk encoding data in an unreadable format\n\nManagement could never agree amongst themselves which aspects of humanity could not be relinquished without also losing the label of 'human'."
+    descriptionLong: "Bonus Charge Rate: +50%\n\nA disk encoding data in an unreadable format\n\nManagement could never agree amongst themselves which aspects of humanity could not be relinquished without also losing the label of 'human'."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -694,7 +694,7 @@ KINESIS_LENS: {
 KUMQUAT: {
 	name: Kumquat
 	description: "Regenerate Hp upon falling below 50% Hp."
-    descriptionLong: "Hp Regen: 25% Max Hp over 1 second\nActivates once per life\n\nA sweet and tangy fruit with an aromatic peel\n\nRemove peels from pickled kumquats and soak them overnight. Grind kumquats, add chili pepper, white pepper and cook on low heat. Add kumquat marinade to savory meat dishes."
+    descriptionLong: "Hp Regen: 35% Max Hp over 1 second\nActivates once per life\n\nA sweet and tangy fruit with an aromatic peel\n\nRemove peels from pickled kumquats and soak them overnight. Grind kumquats, add chili pepper, white pepper and cook on low heat. Add kumquat marinade to savory meat dishes."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1157,7 +1157,7 @@ SKIPPERS_BOX_OF_FUN: {
 SOUND_OF_SEAGULLS: {
 	name: Sound of Seagulls
 	description: "Enables Omnidirectional Hovering, -Hovering Cost"
-    descriptionLong: "Hover Cost Reduction: -25%\n\nAn echoing cry that makes you nostalgic for a place you've never been\n\nTranslated into human language, this sound consists mostly of expletives."
+    descriptionLong: "Hover Cost Reduction: -20%\n\nAn echoing cry that makes you nostalgic for a place you've never been\n\nTranslated into human language, this sound consists mostly of expletives."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1188,7 +1188,7 @@ TEMPEST_TEAPOT: {
 TENUOUS_GRIP_ON_REALITY: {
 	name: Tenuous Grip on Reality
 	description: "Become Invisible upon Reloading an Empty Clip"
-    descriptionLong: "The creeping realization that your senses are betraying you\n\nThe true nature of reality is the moon's reflection in the uppermost pot of a miscalibrated water clock."
+    descriptionLong: "Invisibility Duration: 150% Relod Time\n\nThe creeping realization that your senses are betraying you\n\nThe true nature of reality is the moon's reflection in the uppermost pot of a miscalibrated water clock."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1218,8 +1218,8 @@ TRIGGERFISH_FINGER: {
 }
 TUNICATE_TUNIC: {
 	name: Tunicate Tunic
-	description: "+Knockback Resistance"
-    descriptionLong: "Knockback Resistance: +75%\n\nAn adhesive piece of clothing ideal for staying in place\n\nThe tunicate is known for its tendency to digest its own brain, a habit that marine biologists surmise is the result of an insatiable hunger for brains."
+	description: "+Knockback Resistance, +Max Hp"
+    descriptionLong: "Knockback Resistance: +75%\nBonus Max Mp: +10%\n\nAn adhesive piece of clothing ideal for staying in place\n\nThe tunicate is known for its tendency to digest its own brain, a habit that marine biologists surmise is the result of an insatiable hunger for brains."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1251,7 +1251,7 @@ UNBREATHING_MEMBRANE: {
 VESTIGIAL_CHAMBER: {
 	name: Vestigial Chamber
 	description: "Projectiles Create Delayed Explosions"
-    descriptionLong: "Explosion Delay: 0.75s\nExplosion Damage: 22\n\nAn obsolete organ used to manipulate density\n\nThe currents of the Noiseless Sea carry objects, not according to their buoyancies, but rather the nature of their desires, regrets and experiences."
+    descriptionLong: "Explosion Delay: 0.75s\nExplosion Damage: 28\n\nAn obsolete organ used to manipulate density\n\nThe currents of the Noiseless Sea carry objects, not according to their buoyancies, but rather the nature of their desires, regrets and experiences."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1284,7 +1284,7 @@ VOLATILE_DERMIS: {
 WHITE_SMOKER: {
 	name: White Smoker
 	description: "Fiery Hovering, -Hovering Cost"
-    descriptionLong: "Fire Duration: 4 Seconds\nFire Damage: 2\nHover Cost Reduction: -10%\n\nAn organic tube structure emanating an endless stream of pale smoke\n\nAs the only sources of energy in an otherwise closed system, Bright Ones foment new life within the vicinity, usually in their own likeness."
+    descriptionLong: "Fire Duration: 4 Seconds\nFire Damage: 2\nHover Cost Reduction: -15%\n\nAn organic tube structure emanating an endless stream of pale smoke\n\nAs the only sources of energy in an otherwise closed system, Bright Ones foment new life within the vicinity, usually in their own likeness."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -1307,7 +1307,7 @@ WHITE_WHALE_CHARM: {
 WRATH_OF_THE_FROGMAN: {
 	name: Wrath of the Frogman
 	description: "Fire Missiles When Attacking"
-    descriptionLong: "Missile Interval: 1 Second\nMissile Damage: 18\n\nA pair of webbed gloves worn by amphibious assassins\n\nOnce feared by all submariners, the Frogman's reign of terror ceased when their coastal hunting grounds became submerged."
+    descriptionLong: "Missile Interval: 1 Second\nMissile Damage: 24\n\nA pair of webbed gloves worn by amphibious assassins\n\nOnce feared by all submariners, the Frogman's reign of terror ceased when their coastal hunting grounds became submerged."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

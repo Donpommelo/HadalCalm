@@ -11,7 +11,7 @@ import com.mygdx.hadal.statuses.StatusComposite;
 public class TyphonFang extends Artifact {
 
 	private static final int statusNum = 1;
-	private static final int slotCost = 3;
+	private static final int slotCost = 2;
 	
 	public TyphonFang() {
 		super(slotCost, statusNum);

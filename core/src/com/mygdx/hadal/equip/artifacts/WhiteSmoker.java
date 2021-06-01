@@ -22,7 +22,7 @@ public class WhiteSmoker extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 
-	private static final float hoverCostReduction = -0.1f;
+	private static final float hoverCostReduction = -0.15f;
 
 	private static final float baseDamage = 4.0f;
 	private static final float knockback = 2.0f;

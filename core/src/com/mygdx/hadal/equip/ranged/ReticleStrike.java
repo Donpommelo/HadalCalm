@@ -32,7 +32,7 @@ public class ReticleStrike extends RangedWeapon {
 	
 	private static final float reticleSize = 80.0f;
 	private static final float reticleSizeSquared = 6500.0f;
-	private static final float reticleLifespan = 0.5f;
+	private static final float reticleLifespan = 0.4f;
 	private static final int explosionRadius = 100;
 	private static final float explosionDamage = 40.0f;
 	private static final float explosionKnockback = 20.0f;

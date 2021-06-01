@@ -73,6 +73,7 @@ public class UISpectator extends AHadalActor {
     private boolean freeCam = true;
     private int targetId;
     private Player spectatorTarget;
+    private User spectatorUser;
     public void spectatorDragCamera(Vector2 target) {
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             mousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
@@ -86,9 +87,13 @@ public class UISpectator extends AHadalActor {
             mouseHeld = false;
         }
 
-        if (!freeCam && spectatorTarget != null) {
+        if (!freeCam && spectatorUser != null) {
             if (spectatorTarget.getBody() != null && spectatorTarget.isAlive()) {
                 target.set(spectatorTarget.getPixelPosition());
+            } else if (!spectatorUser.isSpectator() && spectatorUser.getPlayer() != null) {
+                spectatorTarget = spectatorUser.getPlayer();
+            } else {
+                freeCam = false;
             }
         }
     }
@@ -133,6 +138,7 @@ public class UISpectator extends AHadalActor {
             User nextUser = users.get((i + startIndex) % users.size());
 
             if (nextUser.getPlayer().getBody() != null && nextUser.getPlayer().isAlive()) {
+                spectatorUser = nextUser;
                 spectatorTarget = nextUser.getPlayer();
                 targetId = spectatorTarget.getConnID();
                 return true;

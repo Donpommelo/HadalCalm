@@ -12,7 +12,7 @@ public class PeerPressure extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
-	private static final float procCd = 8.0f;
+	private static final float procCd = 11.0f;
 	
 	public PeerPressure() {
 		super(slotCost, statusNum);

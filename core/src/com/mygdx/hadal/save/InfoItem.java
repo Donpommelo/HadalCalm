@@ -15,7 +15,7 @@ public class InfoItem {
 	private String description;
 	private String descriptionLong;
 
-	private ArrayList<UnlockTag> tags;
+	private ArrayList<UnlockTag> tags = new ArrayList<>();
 	
 	public InfoItem() {}
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UITag.uiType;
+import com.mygdx.hadal.equip.modeMods.GunGame;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -95,6 +96,16 @@ public class UIExtra extends AHadalActor {
 						text.append(AlignmentFilter.currentTeams[i].toString()).append(": ")
 							.append(AlignmentFilter.teamScores[i]).append("\n");
 					}
+					break;
+				case GUNGAME:
+					text.append("PROGESS: ").append(score).append("/").append(GunGame.weaponOrder.length).append("\n")
+					.append("NEXT WEAPON: ");
+					if (score + 1 < GunGame.weaponOrder.length) {
+						text.append(GunGame.weaponOrder[score + 1].toString());
+					} else {
+						text.append("VICTORY");
+					}
+					break;
 				case EMPTY:
 					text.append("\n");
 					break;

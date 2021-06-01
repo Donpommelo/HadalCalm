@@ -302,7 +302,7 @@ public class UIHub {
 							if (state.isServer()) {
 								state.getPlayer().getPlayerData().removeArtifact(newTag.getArtifact());
 							} else {
-								state.getPlayer().getPlayerData().syncClientLoadoutRemoveArtifact(newTag.getArtifact());
+								state.getPlayer().getPlayerData().syncClientLoadoutRemoveArtifact(newTag.getArtifact(), true);
 							}
 							refreshHub();
 						}

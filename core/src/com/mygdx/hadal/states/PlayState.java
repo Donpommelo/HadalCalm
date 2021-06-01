@@ -53,7 +53,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -283,19 +282,6 @@ public class PlayState extends GameState {
 		this.teamMode = gsm.getSetting().getTeamType();
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;
-
-		//Maps can have a set loadout. This will override the loadout given as an input to the playstate.
-		if (map.getProperties().get("weapons", String.class) != null) {
-			this.mapMultitools = Arrays.stream(map.getProperties().get("weapons", String.class).split(","))
-				.map(UnlockEquip::getByName).collect(Collectors.toList());
-		}
-		if (map.getProperties().get("artifacts", String.class) != null) {
-			this.mapArtifacts = Arrays.stream(map.getProperties().get("artifacts", String.class).split(","))
-				.map(UnlockArtifact::getByName).collect(Collectors.toList());
-		}
-		if (map.getProperties().get("active", String.class) != null) {
-			this.mapActiveItem = UnlockActives.getByName(map.getProperties().get("active", String.class));
-		}
 
 		//load map shader
 		this.shaderBase = Shader.NOTHING;
@@ -1001,6 +987,8 @@ public class PlayState extends GameState {
 			for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 				if (mapArtifacts.size() > i) {
 					newLoadout.artifacts[i] = mapArtifacts.get(i);
+				} else {
+					newLoadout.artifacts[i] = UnlockArtifact.NOTHING;
 				}
 			}
 		}
@@ -1624,6 +1612,12 @@ public class PlayState extends GameState {
 	public void setUnlimitedLife(boolean unlimitedLife) { this.unlimitedLife = unlimitedLife; }
 
 	public void setNoDamage(boolean noDamage) { this.noDamage = noDamage; }
+
+	public void setMapMultitools(List<UnlockEquip> mapMultitools) { this.mapMultitools = mapMultitools; }
+
+	public void setMapArtifacts(List<UnlockArtifact> mapArtifacts) { this.mapArtifacts = mapArtifacts; }
+
+	public void setMapActiveItem(UnlockActives mapActiveItem) { this.mapActiveItem = mapActiveItem; }
 
 	public Event getGlobalTimer() {	return globalTimer;	}
 

@@ -23,7 +23,7 @@ public class PartyPopper extends RangedWeapon {
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 0.6f;
 	private static final int reloadAmount = 0;
-	private static final float baseDamage = 58.0f;
+	private static final float baseDamage = 61.0f;
 	private static final float recoil = 12.0f;
 	private static final float knockback = 30.0f;
 	private static final float projectileSpeed = 120.0f;
@@ -35,7 +35,7 @@ public class PartyPopper extends RangedWeapon {
 	private static final float fragSpeed = 50.0f;
 	private static final Vector2 fragSize = new Vector2(15, 15);
 	private static final float fragLifespan = 1.2f;
-	private static final float fragDamage = 19.0f;
+	private static final float fragDamage = 20.0f;
 	private static final float fragKnockback = 2.0f;
 
 	private static final float projDampen = 9.0f;

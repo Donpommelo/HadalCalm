@@ -19,7 +19,7 @@ public class BrigglesBladedBoot extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
-	private static final float baseDamage = 70.0f;
+	private static final float baseDamage = 80.0f;
 	private static final float knockback = 15.0f;
 
 	private static final float recoil = 40.0f;

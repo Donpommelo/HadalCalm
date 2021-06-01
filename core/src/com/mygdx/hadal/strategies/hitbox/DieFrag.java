@@ -24,7 +24,7 @@ public class DieFrag extends HitboxStrategy {
 	private static final float lifespan = 0.5f;
 	private static final float fragSpeed = 10.0f;
 	
-	private static final float baseDamage = 10.0f;
+	private static final float baseDamage = 12.0f;
 	private static final float knockback = 5.0f;
 	
 	private static final Sprite[] projSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};

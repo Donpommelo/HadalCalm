@@ -13,7 +13,7 @@ public class DayattheFair extends Artifact {
 	private static final int slotCost = 1;
 
 	private static final float bonusKnockbackRes = -1.5f;
-	private static final float bonusHp = 0.25f;
+	private static final float bonusHp = 0.35f;
 
 	public DayattheFair() {
 		super(slotCost, statusNum);

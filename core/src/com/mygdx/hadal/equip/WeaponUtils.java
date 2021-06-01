@@ -528,7 +528,7 @@ public class WeaponUtils {
 	private static final float emoteLifespan = 1.9f;
 	private static final float emoteLifespanLong = 6.0f;
 	private static final int emoteExplodeRadius = 150;
-	private static final float emoteExplodeDamage = 60.0f;
+	private static final float emoteExplodeDamage = 75.0f;
 	private static final float emoteExplodeback = 20;
 
 	public static void emote(PlayState state, Schmuck user, Sprite emote) {

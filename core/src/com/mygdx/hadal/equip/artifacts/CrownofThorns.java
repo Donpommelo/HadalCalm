@@ -21,7 +21,7 @@ public class CrownofThorns extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 
-	private static final float thornDamage = 20.0f;
+	private static final float thornDamage = 24.0f;
 	private static final float thornDuration = 0.35f;
 	private static final float thornSpeed = 30.0f;
 	private static final float thornKnockback = 15.0f;

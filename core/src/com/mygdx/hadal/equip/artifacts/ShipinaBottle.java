@@ -11,7 +11,7 @@ public class ShipinaBottle extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
-	private static final float bonusAmmo = 0.4f;
+	private static final float bonusAmmo = 0.5f;
 	
 	public ShipinaBottle() {
 		super(slotCost, statusNum);

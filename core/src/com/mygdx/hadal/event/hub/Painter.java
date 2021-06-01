@@ -39,7 +39,7 @@ public class Painter extends HubEvent {
 
 						if (state.isServer()) {
 							state.getPlayer().getPlayerData().setTeam(selected);
-							state.getPlayer().getPlayerData().syncServerLoadoutChange();
+							state.getPlayer().getPlayerData().syncServerLoadoutChange(false);
 						} else {
 							state.getPlayer().getPlayerData().syncClientLoadoutChangeTeam(selected);
 						}

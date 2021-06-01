@@ -6,6 +6,7 @@ import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -143,6 +144,17 @@ public class KillFeed {
 
         if (global && ps.isServer()) {
             HadalGame.server.sendToAllTCP(new Packets.SyncNotification(text));
+        }
+    }
+
+    public void sendNotification(String text, Player player) {
+        if (!ps.getPlayer().equals(player)) {
+            User user = HadalGame.server.getUsers().get(player.getConnID());
+            if (user != null) {
+                HadalGame.server.sendToTCP(player.getConnID(), new Packets.SyncNotification(text));
+            }
+        } else {
+            addNotification(text, false);
         }
     }
 

@@ -313,11 +313,11 @@ public class PauseState extends GameState {
 			//the following code makes sure that, if the host changes artifact slot number, these changes sync immediately.
 			if (ps != null) {
 				if (ps.isServer() && ps.isHub()) {
-					ps.getPlayer().getPlayerData().syncArtifacts(false);
+					ps.getPlayer().getPlayerData().syncArtifacts(false, true);
 					for (User user : HadalGame.server.getUsers().values()) {
 						if (user.getPlayer() != null) {
 							if (user.getPlayer().getPlayerData() != null) {
-								user.getPlayer().getPlayerData().syncArtifacts(false);
+								user.getPlayer().getPlayerData().syncArtifacts(false, true);
 							}
 						}
 					}

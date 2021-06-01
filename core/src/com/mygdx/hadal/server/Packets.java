@@ -146,6 +146,7 @@ public class Packets {
 		public UnlockActives active;
 		public UnlockCharacter character;
 		public AlignmentFilter team;
+		public boolean save;
 		
 		public SyncClientLoadout() {}
 		
@@ -158,15 +159,17 @@ public class Packets {
 		 * @param active: An active item to be switched to this client's loadout
 		 * @param character: A character skin to be switched to this client's loadout
 		 * @param team: the team alignment/color to be switched to this client's loadout
+		 * @param save: do we save this change into records?
 		 */
 		public SyncClientLoadout(UnlockEquip equip, UnlockArtifact artifactAdd, UnlockArtifact artifactRemove,
-								 UnlockActives active, UnlockCharacter character, AlignmentFilter team) {
+								 UnlockActives active, UnlockCharacter character, AlignmentFilter team, boolean save) {
 			this.equip = equip;
 			this.artifactAdd = artifactAdd;
 			this.artifactRemove= artifactRemove;
 			this.active = active;
 			this.character = character;
 			this.team = team;
+			this.save = save;
 		}
 	}
 	
@@ -775,6 +778,7 @@ public class Packets {
 	public static class SyncServerLoadout {
 		public String entityID;
 		public Loadout loadout;
+		public boolean save;
 		public SyncServerLoadout() {}
 		
 		/**
@@ -783,10 +787,12 @@ public class Packets {
 		 * 
 		 * @param entityID: ID of the player to change
 		 * @param loadout: Player's new loadout
+		 * @param save: do we save this loadout change in records?
 		 */
-		public SyncServerLoadout(String entityID, Loadout loadout) {
+		public SyncServerLoadout(String entityID, Loadout loadout, boolean save) {
 			this.entityID = entityID;
 			this.loadout = loadout;
+			this.save = save;
 		}
 	}
 	

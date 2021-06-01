@@ -27,7 +27,7 @@ public class SlodgeNozzle extends RangedWeapon {
 	private static final float shootDelay = 0.25f;
 	private static final float reloadTime = 1.2f;
 	private static final int reloadAmount = 0;
-	private static final float baseDamage = 11.0f;
+	private static final float baseDamage = 10.0f;
 	private static final float recoil = 24.0f;
 	private static final float knockback = 5.0f;
 	private static final float projectileSpeed = 25.0f;

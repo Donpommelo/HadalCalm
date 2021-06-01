@@ -16,7 +16,7 @@ public class KinesisLens extends Artifact {
 	
 	private static final float projSpdReduction = -0.4f;
 	private static final float bonusProjLifespan = 0.4f;
-	private static final float homePower = 150.0f;
+	private static final float homePower = 120.0f;
 
 	public KinesisLens() {
 		super(slotCost, statusNum);

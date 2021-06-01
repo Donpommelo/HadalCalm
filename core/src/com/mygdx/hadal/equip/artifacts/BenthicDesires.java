@@ -12,7 +12,7 @@ public class BenthicDesires extends Artifact {
 	private static final int slotCost = 1;
 
 	private static final float speedThreshold = 2.0f;
-	private static final float hpRegen = 4.0f;
+	private static final float hpRegen = 6.0f;
 	private static final float fuelRegen = 8.0f;
 
 	public BenthicDesires() {
