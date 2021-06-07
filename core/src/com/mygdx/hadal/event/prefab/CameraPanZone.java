@@ -93,15 +93,15 @@ public class CameraPanZone extends Prefabrication {
 		camera2.getProperties().put("zoom", zoom2);
 		camera2.getProperties().put("triggeredId", zoom2Id);
 
-		switch(align) {
-		case 0:
-			sensor1.getRectangle().set(x, y, 8, height);
-			sensor2.getRectangle().set(x + width - 8, y, 8, height);
-			break;
-		case 1:
-			sensor1.getRectangle().set(x, y, width, 8);
-			sensor2.getRectangle().set(x, y + height - 8, width, 8);
-			break;
+		switch (align) {
+			case 0 -> {
+				sensor1.getRectangle().set(x, y, 8, height);
+				sensor2.getRectangle().set(x + width - 8, y, 8, height);
+			}
+			case 1 -> {
+				sensor1.getRectangle().set(x, y, width, 8);
+				sensor2.getRectangle().set(x, y + height - 8, width, 8);
+			}
 		}
 		
 		if (!point1.equals("")) {

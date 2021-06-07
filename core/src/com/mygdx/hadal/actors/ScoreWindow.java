@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.map.SettingLives;
+import com.mygdx.hadal.map.SettingTimer;
 import com.mygdx.hadal.save.SharedSetting;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -167,24 +169,9 @@ public class ScoreWindow {
 		Text pvpTimerField = new Text("PVP TIMER:", 0, 0, false);
 		pvpTimerField.setScale(settingsScale);
 		
-		Text coopTimerField = new Text("COOP TIMER:", 0, 0, false);
-		coopTimerField.setScale(settingsScale);
-
-		Text pvpHpField = new Text("PVP BASE HP:", 0, 0, false);
-		pvpHpField.setScale(settingsScale);
-		
 		Text livesField = new Text("LIVES: ", 0, 0, false);
 		livesField.setScale(settingsScale);
-		
-		Text modeField = new Text("MODE: ", 0, 0, false);
-		modeField.setScale(settingsScale);
 
-		Text teamField = new Text("TEAM ENABLED: ", 0, 0, false);
-		teamField.setScale(settingsScale);
-		
-		Text loadoutField = new Text("LOADOUT: ", 0, 0, false);
-		loadoutField.setScale(settingsScale);
-		
 		Text slotsField = new Text("ARTIFACT SLOTS: ", 0, 0, false);
 		slotsField.setScale(settingsScale);
 		
@@ -203,26 +190,11 @@ public class ScoreWindow {
 		}
 
 		//set and add setting info
-		Text pvpTimer = new Text(SettingState.timerChoices[used.getPVPTimer()], 0, 0, false);
+		Text pvpTimer = new Text(SettingTimer.timerChoices[used.getPVPTimer()], 0, 0, false);
 		pvpTimer.setScale(settingsScale);
 		
-		Text coopTimer = new Text(SettingState.timerChoices[used.getCoopTimer()], 0, 0, false);
-		coopTimer.setScale(settingsScale);
-
-		Text pvpHp = new Text(SettingState.hpChoices[used.getPVPHp()], 0, 0, false);
-		pvpHp.setScale(settingsScale);
-
-		Text lives = new Text(SettingState.livesChoices[used.getLives()], 0, 0, false);
+		Text lives = new Text(SettingLives.livesChoices[used.getLives()], 0, 0, false);
 		lives.setScale(settingsScale);
-		
-		Text mode = new Text(SettingState.modeChoices[used.getPvpMode()], 0, 0, false);
-		mode.setScale(settingsScale);
-
-		Text team = new Text(SettingState.teamChoices[used.getTeamType()], 0, 0, false);
-		team.setScale(settingsScale);
-
-		Text loadout = new Text(SettingState.loadoutChoices[used.getLoadoutType()], 0, 0, false);
-		loadout.setScale(settingsScale);
 		
 		Text slots = new Text(SettingState.artifactChoices[used.getArtifactSlots()], 0, 0, false);
 		slots.setScale(settingsScale);
@@ -238,23 +210,8 @@ public class ScoreWindow {
 		tableSettings.add(pvpTimerField).height(settingsRowHeight).padBottom(settingsPadY);
 		tableSettings.add(pvpTimer).height(settingsRowHeight).padBottom(settingsPadY).row();
 		
-		tableSettings.add(coopTimerField).height(settingsRowHeight).padBottom(settingsPadY);
-		tableSettings.add(coopTimer).height(settingsRowHeight).padBottom(settingsPadY).row();
-
-		tableSettings.add(pvpHpField).height(settingsRowHeight).padBottom(settingsPadY);
-		tableSettings.add(pvpHp).height(settingsRowHeight).padBottom(settingsPadY).row();
-
 		tableSettings.add(livesField).height(settingsRowHeight).padBottom(settingsPadY);
 		tableSettings.add(lives).height(settingsRowHeight).padBottom(settingsPadY).row();
-
-		tableSettings.add(modeField).height(settingsRowHeight).padBottom(settingsPadY);
-		tableSettings.add(mode).height(settingsRowHeight).padBottom(settingsPadY).row();
-
-		tableSettings.add(teamField).height(settingsRowHeight).padBottom(settingsPadY);
-		tableSettings.add(team).height(settingsRowHeight).padBottom(settingsPadY).row();
-
-		tableSettings.add(loadoutField).height(settingsRowHeight).padBottom(settingsPadY);
-		tableSettings.add(loadout).height(settingsRowHeight).padBottom(settingsPadY).row();
 
 		tableSettings.add(slotsField).height(settingsRowHeight).padBottom(settingsPadY);
 		tableSettings.add(slots).height(settingsRowHeight).padBottom(settingsPadY).row();

@@ -9,7 +9,7 @@ public class SetLoadoutActive extends ModeSetting {
 
     public SetLoadoutActive(UnlockActives active) {this.active = active; }
 
-    public void loadSettingMisc(PlayState state) {
+    public void loadSettingMisc(PlayState state, GameMode mode) {
         state.setMapActiveItem(active);
     }
 }

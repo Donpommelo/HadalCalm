@@ -1,16 +1,19 @@
 package com.mygdx.hadal.map;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.states.PlayState;
 
 public class ModeSetting {
 
-    public void setSetting(GameMode mode) {}
+    public void setSetting(PlayState state, GameMode mode, Table table) {}
 
-    public String loadSettingStart(PlayState state) { return ""; }
+    public void saveSetting(PlayState state, GameMode mode) {}
 
-    public String loadUIStart(PlayState state) { return ""; }
+    public String loadSettingStart(PlayState state, GameMode mode) { return ""; }
 
-    public String loadSettingSpawn(PlayState state) { return ""; }
+    public String loadUIStart(PlayState state, GameMode mode) { return ""; }
 
-    public void loadSettingMisc(PlayState state) {}
+    public String loadSettingSpawn(PlayState state, GameMode mode) { return ""; }
+
+    public void loadSettingMisc(PlayState state, GameMode mode) {}
 }

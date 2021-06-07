@@ -9,7 +9,7 @@ public class SpawnEnemyWaves extends ModeSetting {
     private static final float waveSpawnTimer = 15.0f;
 
     @Override
-    public void loadSettingMisc(PlayState state) {
+    public void loadSettingMisc(PlayState state, GameMode mode) {
         String waveTimerId = TiledObjectUtil.getPrefabTriggerId();
         String multiWaveId = TiledObjectUtil.getPrefabTriggerId();
 

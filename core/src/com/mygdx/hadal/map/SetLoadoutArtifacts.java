@@ -14,7 +14,8 @@ public class SetLoadoutArtifacts extends ModeSetting {
         mapArtifacts.addAll(Arrays.asList(artifacts));
     }
 
-    public void loadSettingMisc(PlayState state) {
+    @Override
+    public void loadSettingMisc(PlayState state, GameMode mode) {
         state.setMapArtifacts(mapArtifacts);
     }
 }

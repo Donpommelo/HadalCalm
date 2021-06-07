@@ -21,6 +21,7 @@ import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.input.ActionController;
+import com.mygdx.hadal.map.SettingBaseHp;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -169,7 +170,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
 		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), name, Constants.PLAYER_HITBOX,
-			state.isPvp() ? state.getGsm().getSetting().indexToHp() : baseHp);
+			state.isPvp() ? SettingBaseHp.indexToHp(state.getBaseHp()) : baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
 		toolSprite = Sprite.MT_DEFAULT.getFrame();

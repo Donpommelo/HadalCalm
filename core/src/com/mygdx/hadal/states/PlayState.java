@@ -147,12 +147,12 @@ public class PlayState extends GameState {
 	private final HashMap<String, PositionDummy> dummyPoints;
 	
 	//Can players hurt each other? Is it the hub map? Is this the server? Do kills give score? Can players damage each other?
-	private boolean pvp, hub, killsScore, noDamage;
+	private boolean pvp, hub, killsScore, noDamage, droppableWeapons, eggplantDrops;
 	private final boolean server;
 
-	//the current level's team mode (ffa, auto assigned or manual assigned)
-	private int teamMode;
-	
+	//the current level's team mode (ffa, auto assigned or manual assigned) and base hp
+	private int teamMode, baseHp;
+
 	//Various play state ui elements
 	protected UIPlay uiPlay;
 	protected UIObjective uiObjective;
@@ -279,7 +279,6 @@ public class PlayState extends GameState {
 			}
 		};
 
-		this.teamMode = gsm.getSetting().getTeamType();
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;
 
@@ -942,39 +941,6 @@ public class PlayState extends GameState {
 
 		Loadout newLoadout = new Loadout(altLoadout);
 
-		//for pvp matches, set loadout depending on pvp settings
-		if (pvp && !hub) {
-			switch (gsm.getSetting().getLoadoutType()) {
-			
-			//select setting: each player starts with the weapons they selected in the hub
-			case 0:
-				break;
-			//copy setting: each player starts with the same loadout as the host (used for custom games)
-			case 1:
-				for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
-					newLoadout.multitools[i] = UnlockEquip.getByName(gsm.getLoadout().getEquips()[i]);
-				}
-				for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-					newLoadout.artifacts[i] = UnlockArtifact.getByName(gsm.getLoadout().getArtifacts()[i]);
-				}
-				newLoadout.activeItem = UnlockActives.getByName(gsm.getLoadout().getActive());
-				break;
-			//random setting: each player starts with random weapons
-			case 2:
-				for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
-					newLoadout.multitools[i] = UnlockEquip.getByName(UnlockEquip.getRandWeapFromPool(this, ""));
-				}
-				break;
-			//weapon drop mode: players start off with basic speargun
-			case 3:
-				newLoadout.multitools[0] = UnlockEquip.SPEARGUN_NERFED;
-				for (int i = 1; i < Loadout.maxWeaponSlots; i++) {
-					newLoadout.multitools[i] = UnlockEquip.NOTHING;
-				}
-				break;
-			}
-		}
-		
 		//some maps specify a specific loadout. Load these, if so (and override other loadout settings)
 		if (mapMultitools != null) {
 			for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
@@ -1603,9 +1569,21 @@ public class PlayState extends GameState {
 
 	public void setHub(boolean hub) { this.hub = hub; }
 
+	public boolean isDroppableWeapons() { return droppableWeapons; }
+
+	public void setDroppableWeapons(boolean droppableWeapons) { this.droppableWeapons = droppableWeapons; }
+
+	public boolean isEggplantDrops() { return eggplantDrops; }
+
+	public void setEggplantDrops(boolean eggplantDrops) { this.eggplantDrops = eggplantDrops; }
+
 	public int getTeamMode() { return teamMode; }
 
 	public void setTeamMode(int teamMode) { this.teamMode = teamMode; }
+
+	public int getBaseHp() { return baseHp; }
+
+	public void setBaseHp(int baseHp) { this.baseHp = baseHp; }
 
 	public boolean isSpectatorMode() { return spectatorMode; }
 

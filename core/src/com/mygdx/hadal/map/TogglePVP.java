@@ -5,5 +5,5 @@ import com.mygdx.hadal.states.PlayState;
 public class TogglePVP extends ModeSetting {
 
     @Override
-    public void loadSettingMisc(PlayState state) { state.setPvp(true); }
+    public void loadSettingMisc(PlayState state, GameMode mode) { state.setPvp(true); }
 }

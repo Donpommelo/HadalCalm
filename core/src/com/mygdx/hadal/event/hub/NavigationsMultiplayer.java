@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox;
+import com.mygdx.hadal.actors.ModeSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
@@ -29,6 +30,9 @@ public class NavigationsMultiplayer extends HubEvent {
 
 	private static GameMode modeChosen = GameMode.DEATHMATCH;
 
+	private static final String modesTitle = "GAME MODES";
+	private static final String mapsTitle = "MAPS";
+
 	public NavigationsMultiplayer(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, false, closeOnLeave, hubTypes.NAVIGATIONS);
 	}
@@ -44,6 +48,7 @@ public class NavigationsMultiplayer extends HubEvent {
 
 		Pattern pattern = Pattern.compile(search);
 		final UIHub hub = state.getUiHub();
+		hub.setTitle(mapsTitle);
 		final NavigationsMultiplayer me = this;
 
 		for (UnlockLevel c: UnlockLevel.getUnlocks(state, checkUnlock, newTags)) {
@@ -61,11 +66,7 @@ public class NavigationsMultiplayer extends HubEvent {
 
 			boolean modeCompliant = false;
 			for (int i = 0; i < selected.getModes().length; i++) {
-				if (selected.getModes()[i] == modeChosen) {
-					modeCompliant = true;
-					break;
-				}
-				if (selected.getModes()[i] == GameMode.DEATHMATCH && modeChosen == GameMode.GUN_GAME) {
+				if (selected.getModes()[i] == modeChosen.getCheckCompliance()) {
 					modeCompliant = true;
 					break;
 				}
@@ -108,6 +109,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
+		hub.setTitle(modesTitle);
 		final NavigationsMultiplayer me = this;
 
 		for (GameMode c: GameMode.values()) {
@@ -127,6 +129,8 @@ public class NavigationsMultiplayer extends HubEvent {
 						state.getUiHub().setTitle(title);
 						state.getUiHub().enter(tag, true, false, false, me);
 						addOptions(lastSearch, -1, lastTag);
+
+						ModeSelection.addTable(state, modeChosen, me);
 					}
 				});
 				itemChoose.setScale(UIHub.optionsScale);

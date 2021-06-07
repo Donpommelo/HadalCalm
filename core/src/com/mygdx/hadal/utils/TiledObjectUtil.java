@@ -568,9 +568,6 @@ public class TiledObjectUtil {
 				object.getProperties().get("triggeringId", "", String.class));
 			case "LeverActivateOnce" -> new LeverActivateOnce(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
 				object.getProperties().get("triggeringId", "", String.class));
-			case "PVPSettingSetter" -> new PVPSettingSetter(state);
-			case "ArenaSettingSetter" -> new ArenaSettingSetter(state);
-			case "SpecialSettingSetter" -> new SpecialSettingSetter(state);
 			default -> null;
 		};
 

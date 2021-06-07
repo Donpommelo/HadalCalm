@@ -10,7 +10,13 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.map.SettingLives;
+import com.mygdx.hadal.map.SettingTimer;
 import com.mygdx.hadal.states.PlayState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A Setting contains all saved game settings.
@@ -18,26 +24,16 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Setting {
 
-	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, pvpHp, artifactSlots,
+	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, artifactSlots,
 		portNumber, hitsoundType, customShader;
 	private boolean fullscreen, autoIconify, vsync, debugHitbox, displayNames, displayHp, randomNameAlliteration,
 		consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack;
 	private float soundVolume, musicVolume, masterVolume, hitsoundVolume;
 
-	//How long should pvp/coop matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
-	private int pvpTimer, coopTimer;
-
-	//How many lives should players have in pvp? (this variable is an index in an array. 0 = infinite, 1 = 1 life, 2 = 2 lives ... etc)
-	private int lives;
-
-	//for pvp, how should we give new players loadout? (this variable is an index in an array. 0 = start with default, 1 = start with chosen, 2 = start with random)
-	private int loadoutType;
-
-	//for pvp, are there teams? (0 = ffa, 1 = auto assign teams, 2 = manual assign teams)
-	private int teamType;
-
 	//connecting clients need to know this password to enter the server
 	private String serverPassword;
+
+	private Map<String, Map<String, Integer>> modeSettings;
 
 	//this is the last cursor used. We save this so we can dispose of it properly
 	private static Cursor lastCursor;
@@ -143,6 +139,7 @@ public class Setting {
 		newSetting.resetAudio();
 		newSetting.resetServer();
 		newSetting.resetMisc();
+		newSetting.resetModeSettings();
 
 		Gdx.files.local("save/Settings.json").writeString(GameStateManager.json.prettyPrint(newSetting), false);
 	}
@@ -173,17 +170,10 @@ public class Setting {
 		maxPlayers = 9;
 		portNumber = 11100;
 		serverPassword = "";
-		pvpTimer = 5;
-		lives = 0;
-		teamType = 0;
-		loadoutType = 3;
 		artifactSlots = 4;
-		pvpMode = 0;
-		pvpHp = 2;
 	}
 
 	public void resetMisc() {
-		coopTimer = 0;
 		randomNameAlliteration = true;
 		consoleEnabled = true;
 		verboseDeathMessage = true;
@@ -193,28 +183,44 @@ public class Setting {
 		hideHUD = false;
 	}
 
+	public void resetModeSettings() {
+		modeSettings = new HashMap<>();
+
+		for (GameMode mode: GameMode.values()) {
+			modeSettings.put(mode.toString(), new HashMap<>());
+		}
+	}
+
+	public Integer getModeSetting(GameMode mode, String setting, Integer startValue) {
+		if (modeSettings.containsKey(mode.toString())) {
+			return modeSettings.get(mode.toString()).getOrDefault(setting, startValue);
+		} else {
+			modeSettings.put(mode.toString(), new HashMap<>());
+			return startValue;
+		}
+	}
+
+	public void setModeSetting(GameMode mode, String setting, Integer value) {
+		if (modeSettings.containsKey(mode.toString())) {
+			modeSettings.get(mode.toString()).put(setting, value);
+		} else {
+			HashMap<String, Integer> fug = new HashMap<>();
+			fug.put(setting, value);
+			modeSettings.put(mode.toString(), fug);
+		}
+	}
+
 	/**
 	 * @return all the parts of this setting that the clients need to know
 	 */
 	public SharedSetting generateSharedSetting() {
-		return new SharedSetting(maxPlayers, pvpMode, artifactSlots, pvpTimer, pvpHp, coopTimer, lives, loadoutType, teamType, multiplayerPause);
+		int pvpTimer = modeSettings.get(GameMode.DEATHMATCH.toString()).getOrDefault(SettingTimer.settingTag, SettingTimer.defaultValue);
+		int lives = modeSettings.get(GameMode.DEATHMATCH.toString()).getOrDefault(SettingLives.settingTag, SettingLives.defaultValue);
+
+		return new SharedSetting(maxPlayers, artifactSlots, pvpTimer, lives, multiplayerPause);
 	}
 
-	public void setPVPTimer(int pvpTimer) { this.pvpTimer = pvpTimer; }
-
-	public void setCoopTimer(int coopTimer) { this.coopTimer = coopTimer; }
-
-	public void setLives(int lives) { this.lives = lives; }
-
-	public void setTeamType(int teamType) { this.teamType = teamType; }
-
-	public void setLoadoutType(int loadoutType) { this.loadoutType = loadoutType; }
-
 	public void setArtifactSlots(int artifactSlots) { this.artifactSlots = artifactSlots; }
-
-	public void setPVPMode(int pvpMode) { this.pvpMode = pvpMode; }
-
-	public void setPVPHp(int pvpHp) { this.pvpHp = pvpHp; }
 
 	public void setMaxPlayers(int maxPlayers) { this.maxPlayers = maxPlayers; }
 
@@ -243,25 +249,6 @@ public class Setting {
 			case 4 -> 240;
 			case 5 -> 0;
 			default -> 60;
-		};
-	}
-
-	/**
-	 * Convert timer from index in list to actual time amount
-	 */
-	public static float indexToTimer(int index) {
-		return switch (index) {
-			case 1 -> 60.0f;
-			case 2 -> 120.0f;
-			case 3 -> 180.0f;
-			case 4 -> 240.0f;
-			case 5 -> 300.0f;
-			case 6 -> 360.0f;
-			case 7 -> 420.0f;
-			case 8 -> 480.0f;
-			case 9 -> 540.0f;
-			case 10 -> 600.0f;
-			default -> 0.0f;
 		};
 	}
 
@@ -303,16 +290,6 @@ public class Setting {
 			case 4 -> Color.RED;
 			case 6 -> Color.YELLOW;
 			default -> Color.WHITE;
-		};
-	}
-
-	public int indexToHp() {
-		return switch (pvpHp) {
-			case 1 -> 125;
-			case 2 -> 150;
-			case 3 -> 175;
-			case 4 -> 200;
-			default -> 100;
 		};
 	}
 
@@ -419,8 +396,6 @@ public class Setting {
 
 	public float getHitsoundVolume() { return hitsoundVolume; }
 
-	public int getTeamType() { return teamType; }
-
 	public boolean isRandomNameAlliteration() {	return randomNameAlliteration; }
 
 	public boolean isConsoleEnabled() {	return consoleEnabled; }
@@ -445,19 +420,7 @@ public class Setting {
 
 	public int getPortNumber() { return portNumber; }
 	
-	public int getPVPTimer() { return pvpTimer; }
-	
-	public int getCoopTimer() { return coopTimer; }
-
-	public int getLives() { return lives; }
-	
-	public int getLoadoutType() { return loadoutType; }
-	
 	public int getArtifactSlots() { return artifactSlots; }
-	
-	public int getPVPMode() { return pvpMode; }
-
-	public int getPVPHp() { return pvpHp; }
 
 	public int getMaxPlayers() { return maxPlayers; }
 

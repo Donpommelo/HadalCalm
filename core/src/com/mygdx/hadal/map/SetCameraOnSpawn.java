@@ -9,7 +9,7 @@ public class SetCameraOnSpawn extends ModeSetting {
     private static final float pvpMatchZoom = 1.5f;
 
     @Override
-    public String loadSettingSpawn(PlayState state) {
+    public String loadSettingSpawn(PlayState state, GameMode mode) {
         String gameCameraId = TiledObjectUtil.getPrefabTriggerId();
 
         RectangleMapObject camera1 = new RectangleMapObject();

@@ -10,7 +10,7 @@ public class SpawnWeapons extends ModeSetting {
     private static final float weaponSpawnTimer = 15.0f;
 
     @Override
-    public String loadSettingStart(PlayState state) {
+    public String loadSettingStart(PlayState state, GameMode mode) {
         RectangleMapObject weaponTimer = new RectangleMapObject();
         weaponTimer.setName("Timer");
         weaponTimer.getProperties().put("interval", weaponSpawnTimer);

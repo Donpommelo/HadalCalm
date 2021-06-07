@@ -181,7 +181,7 @@ BRIGGLES_BLADED_BOOT: {
 BRITTLING_POWDER: {
 	name: Brittling Powder
 	description: "Projectile Fragmentation"
-    descriptionLong: "Frag Cooldown: 0.5 Second\nFrag Number: 8\nFrag Damage: 14\n\nA pouch of insidious powder that renders objects brittle upon the slightest contact\n\nResidents of the Kamaboko-Ya have accepted that the destruction of their physical bodies is a necessary step in the factory's ungodly process."
+    descriptionLong: "Frag Cooldown: 0.5 Second\nFrag Number: 8\nFrag Damage: 12\n\nA pouch of insidious powder that renders objects brittle upon the slightest contact\n\nResidents of the Kamaboko-Ya have accepted that the destruction of their physical bodies is a necessary step in the factory's ungodly process."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

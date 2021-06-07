@@ -59,14 +59,7 @@ public class PlayerResultsIcon extends AHadalActor {
 		name += "\nK/D: " + fields.getKills() + " / " + fields.getDeaths();
 
 		//if this is a pvp match with eggplants, we want to add that information to the text
-		boolean eggplants;
-		if (state.getPs().isServer()) {
-			eggplants = state.getGsm().getSetting().getPVPMode() == 1 && state.getPs().isPvp();
-		} else {
-			eggplants = state.getGsm().getHostSetting().getPvpMode() == 1 && state.getPs().isPvp();
-		}
-
-		if (eggplants) {
+		if (state.getPs().isEggplantDrops()) {
 			name += "\nEggplants: " + fields.getScore();
 		} else {
 			name += "\nScore: " + fields.getScore();

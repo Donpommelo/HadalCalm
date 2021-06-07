@@ -5,7 +5,7 @@ import com.mygdx.hadal.states.PlayState;
 public class ToggleNoDamage extends ModeSetting {
 
     @Override
-    public void loadSettingMisc(PlayState state) {
+    public void loadSettingMisc(PlayState state, GameMode mode) {
         state.setNoDamage(true);
     }
 }

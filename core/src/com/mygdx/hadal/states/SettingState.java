@@ -46,8 +46,7 @@ public class SettingState extends GameState {
 	private Text displayOption, controlOption, audioOption, serverOption, miscOption, exitOption, saveOption, resetOption;
 	private TextField portNumber, serverPassword;
 	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
-		hitsoundOptions, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, pvpHp,
-		playerCapacity, teamEnabled;
+		hitsoundOptions, artifactSlots, playerCapacity;
 	private Slider sound, music, master, hitsound;
 	private CheckBox fullscreen, vsync, autoIconify, debugHitbox, displayNames, displayHp, randomNameAlliteration, consoleEnabled,
 		verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack;
@@ -78,13 +77,7 @@ public class SettingState extends GameState {
 	private static final float detailPad = 10.0f;
 
 	//These options make it easier to convert the index setting to a displayed string
-	public static final String[] timerChoices = {"NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN", "6 MIN", "7 MIN", "8 MIN", "9 MIN", "10 MIN"};
-	public static final String[] livesChoices = {"UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES"};
-	public static final String[] teamChoices = {"FREE_FOR_ALL", "AUTO_ASSIGN", "MANUAL ASSIGN"};
-	public static final String[] loadoutChoices = {"SELECTED", "COPY HOST", "RANDOM", "WEAPON DROPS"};
 	public static final String[] artifactChoices = {"0", "1", "2", "3", "4", "5", "6"};
-	public static final String[] modeChoices = {"KILLS -> SCORE", "EGGPLANTS -> SCORE"};
-	public static final String[] hpChoices = {"100", "125", "150", "175", "200"};
 	public static final String[] capacityChoices = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 	
 	//this is the current setting tab the player is using
@@ -585,27 +578,9 @@ public class SettingState extends GameState {
 		Text password = new Text("SERVER PASSWORD: ", 0, 0, false);
 		password.setScale(detailsScale);
 
-		Text pvpTimer = new Text("PVP MATCH TIME: ", 0, 0, false);
-		pvpTimer.setScale(detailsScale);
-		
-		Text lives = new Text("LIVES: ", 0, 0, false);
-		lives.setScale(detailsScale);
-
-		Text teams = new Text("TEAMS: ", 0, 0, false);
-		teams.setScale(detailsScale);
-
-		Text loadout = new Text("LOADOUT: ", 0, 0, false);
-		loadout.setScale(detailsScale);
-		
 		Text slots = new Text("ARTIFACT SLOTS: ", 0, 0, false);
 		slots.setScale(detailsScale);
 		
-		Text mode = new Text("PVP MODE: ", 0, 0, false);
-		mode.setScale(detailsScale);
-
-		Text hp = new Text("PVP HP: ", 0, 0, false);
-		hp.setScale(detailsScale);
-
 		portNumber = new TextField(String.valueOf(gsm.getSetting().getPortNumber()), GameStateManager.getSkin());
 		portNumber.setMessageText("PORT NUMBER");
 		portNumber.setMaxLength(5);
@@ -620,56 +595,18 @@ public class SettingState extends GameState {
 		playerCapacity.setWidth(100);
 		playerCapacity.setSelectedIndex(gsm.getSetting().getMaxPlayers());
 
-		pvpTimerOptions = new SelectBox<>(GameStateManager.getSkin());
-		pvpTimerOptions.setItems(timerChoices);
-		pvpTimerOptions.setWidth(100);
-		pvpTimerOptions.setSelectedIndex(gsm.getSetting().getPVPTimer());
-		
-		livesOptions = new SelectBox<>(GameStateManager.getSkin());
-		livesOptions.setItems(livesChoices);
-		livesOptions.setSelectedIndex(gsm.getSetting().getLives());
-
-		teamEnabled = new SelectBox<>(GameStateManager.getSkin());
-		teamEnabled.setItems(teamChoices);
-		teamEnabled.setSelectedIndex(gsm.getSetting().getTeamType());
-
-		loadoutOptions = new SelectBox<>(GameStateManager.getSkin());
-		loadoutOptions.setItems(loadoutChoices);
-		loadoutOptions.setSelectedIndex(gsm.getSetting().getLoadoutType());
-		
 		artifactSlots = new SelectBox<>(GameStateManager.getSkin());
 		artifactSlots.setItems(artifactChoices);
 		artifactSlots.setSelectedIndex(gsm.getSetting().getArtifactSlots());
 		
-		pvpMode = new SelectBox<>(GameStateManager.getSkin());
-		pvpMode.setItems(modeChoices);
-		pvpMode.setSelectedIndex(gsm.getSetting().getPVPMode());
-
-		pvpHp = new SelectBox<>(GameStateManager.getSkin());
-		pvpHp.setItems(hpChoices);
-		pvpHp.setSelectedIndex(gsm.getSetting().getPVPHp());
-
 		details.add(maxPlayers);
 		details.add(playerCapacity).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(port);
 		details.add(portNumber).colspan(2).width(100).height(detailHeight).pad(detailPad).row();
 		details.add(password);
 		details.add(serverPassword).colspan(2).width(100).height(detailHeight).pad(detailPad).row();
-
-		details.add(pvpTimer);
-		details.add(pvpTimerOptions).height(detailHeight).pad(detailPad).row();
-		details.add(lives);
-		details.add(livesOptions).height(detailHeight).pad(detailPad).row();
-		details.add(teams);
-		details.add(teamEnabled).height(detailHeight).pad(detailPad).row();
-		details.add(loadout);
-		details.add(loadoutOptions).height(detailHeight).pad(detailPad).row();
 		details.add(slots);
 		details.add(artifactSlots).height(detailHeight).pad(detailPad).row();
-		details.add(mode);
-		details.add(pvpMode).height(detailHeight).pad(detailPad).row();
-		details.add(hp);
-		details.add(pvpHp).height(detailHeight).pad(detailPad).row();
 	}
 	
 	/**
@@ -681,15 +618,6 @@ public class SettingState extends GameState {
 		currentTab = settingTab.MISC;
 		
 		details.add(new Text("MISCELLANEOUS", 0, 0, false)).colspan(2).pad(titlePad).row();
-
-		Text coopTimer = new Text("SURVIVAL MATCH TIME: ", 0, 0, false);
-		coopTimer.setScale(detailsScale);
-
-		coopTimerOptions = new SelectBox<>(GameStateManager.getSkin());
-		coopTimerOptions.setItems(timerChoices);
-		coopTimerOptions.setWidth(100);
-
-		coopTimerOptions.setSelectedIndex(gsm.getSetting().getCoopTimer());
 
 		randomNameAlliteration = new CheckBox("RANDOM NAME ALLITERATION?", GameStateManager.getSkin());
 		randomNameAlliteration.setChecked(gsm.getSetting().isRandomNameAlliteration());
@@ -712,8 +640,6 @@ public class SettingState extends GameState {
 		hideHUD = new CheckBox("Hide HUD?", GameStateManager.getSkin());
 		hideHUD.setChecked(gsm.getSetting().isHideHUD());
 
-		details.add(coopTimer);
-		details.add(coopTimerOptions).height(detailHeight).pad(detailPad).row();
 		details.add(randomNameAlliteration).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(consoleEnabled).colspan(2).height(detailHeight).pad(detailPad).row();
 		details.add(verboseDeathMessage).colspan(2).height(detailHeight).pad(detailPad).row();
@@ -760,18 +686,11 @@ public class SettingState extends GameState {
 				gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
 				gsm.getSetting().setPortNumber(Integer.parseInt(portNumber.getText()));
 				gsm.getSetting().setServerPassword(serverPassword.getText());
-				gsm.getSetting().setPVPTimer(pvpTimerOptions.getSelectedIndex());
-				gsm.getSetting().setLives(livesOptions.getSelectedIndex());
-				gsm.getSetting().setTeamType(teamEnabled.getSelectedIndex());
-				gsm.getSetting().setLoadoutType(loadoutOptions.getSelectedIndex());
 				gsm.getSetting().setArtifactSlots(artifactSlots.getSelectedIndex());
-				gsm.getSetting().setPVPMode(pvpMode.getSelectedIndex());
-				gsm.getSetting().setPVPHp(pvpHp.getSelectedIndex());
 				gsm.getSetting().saveSetting();
 				serverSelected();
 			}
 			case MISC -> {
-				gsm.getSetting().setCoopTimer(coopTimerOptions.getSelectedIndex());
 				gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
 				gsm.getSetting().setConsoleEnabled(consoleEnabled.isChecked());
 				gsm.getSetting().setVerboseDeathMessage(verboseDeathMessage.isChecked());

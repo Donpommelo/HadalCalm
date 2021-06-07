@@ -16,29 +16,35 @@ public enum GameMode {
         public boolean isInvisibleInHub() { return true; }
     },
 
-    DEATHMATCH("DM", "dm",
-        new SetCameraOnSpawn(), new DisplayUITag("SCORE"), new SetLivesOnStart(), new SetTimerOnStart(ResultsState.magicWord),
-        new SpawnWeapons(), new ToggleKillsScore(), new TogglePVP()),
-
     CAMPAIGN("","") {
 
         @Override
         public boolean isInvisibleInHub() { return true; }
     },
 
+    DEATHMATCH("DM", "dm",
+        new SetCameraOnSpawn(), new DisplayUITag("SCORE"),
+        new SettingTimer(ResultsState.magicWord), new SettingLives(), new SettingTeamMode(), new SettingBaseHp(), new SettingDroppableWeapons(),
+        new SpawnWeapons(), new ToggleKillsScore(), new TogglePVP()),
+
     SURVIVAL("ARENA", "arena",
-        new SetCameraOnSpawn(), new DisplayUITag("SCORE"), new DisplayUITag("HISCORE"), new SetTimerOnStart("VICTORY"),
+        new SetCameraOnSpawn(), new DisplayUITag("SCORE"), new DisplayUITag("HISCORE"),
+        new SettingTimer("VICTORY"),
         new SpawnWeapons(), new SpawnEnemyWaves()),
 
-    CTF("CTF", "ctf", new SetCameraOnSpawn(), new SetTimerOnStart(ResultsState.magicWord), new DisplayUITag("TEAMSCORE"),
-        new SpawnWeapons(), new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife()),
+    CTF("CTF", "ctf", new SetCameraOnSpawn(), new DisplayUITag("TEAMSCORE"),
+        new SettingTimer(ResultsState.magicWord), new SettingDroppableWeapons(), new SettingBaseHp(),
+        new SpawnWeapons(),
+        new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife()),
 
-    FOOTBALL("FOOTBALL","", new SetCameraOnSpawn(), new SetTimerOnStart(ResultsState.magicWord), new DisplayUITag("TEAMSCORE"),
+    FOOTBALL("FOOTBALL","", new SetCameraOnSpawn(), new DisplayUITag("TEAMSCORE"),
+        new SettingTimer(ResultsState.magicWord),
         new ToggleNoDamage(), new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife(),
         new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),
         new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO)),
 
-    GUN_GAME("GUN GAME", "", new SetCameraOnSpawn(), new SetTimerOnStart(ResultsState.magicWord), new DisplayUITag("GUNGAME"),
+    GUN_GAME("GUN GAME", "", DEATHMATCH, new SetCameraOnSpawn(), new DisplayUITag("GUNGAME"),
+        new SettingTimer(ResultsState.magicWord), new SettingBaseHp(),
         new TogglePVP(), new ToggleTeamMode(0), new ToggleUnlimitedLife(),
         new SetLoadoutEquips(UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
         new SetLoadoutArtifacts(UnlockArtifact.GUN_GAME, UnlockArtifact.INFINITE_AMMO), new SetLoadoutActive(UnlockActives.NOTHING)),
@@ -53,6 +59,14 @@ public enum GameMode {
     private final ModeSetting[] applicableSettings;
 
     private final String text;
+
+    //this is a game mode which has the same set of compliant maps.
+    private GameMode checkCompliance = this;
+
+    GameMode(String text, String extraLayers, GameMode checkCompliance, ModeSetting... applicableSettings) {
+        this(text, extraLayers, applicableSettings);
+        this.checkCompliance = checkCompliance;
+    }
 
     GameMode(String text, String extraLayers, ModeSetting... applicableSettings) {
         this.text = text;
@@ -92,9 +106,10 @@ public enum GameMode {
         StringBuilder startTriggerId = new StringBuilder(timerId + "," + uiId);
 
         for (ModeSetting setting: applicableSettings) {
-            String newSpawn = setting.loadSettingSpawn(state);
-            String newStart = setting.loadSettingStart(state);
-            String newUi = setting.loadUIStart(state);
+            setting.saveSetting(state, this);
+            String newSpawn = setting.loadSettingSpawn(state, this);
+            String newStart = setting.loadSettingStart(state, this);
+            String newUi = setting.loadUIStart(state, this);
             if (!newSpawn.equals("")) {
                 spawnTriggerId.append(',').append(newSpawn);
             }
@@ -104,8 +119,10 @@ public enum GameMode {
             if (!newUi.equals("")) {
                 uiTriggerId.append(',').append(newUi);
             }
-            setting.loadSettingMisc(state);
+            setting.loadSettingMisc(state, this);
         }
+
+        state.getGsm().getSetting().saveSetting();
 
         ui.getProperties().put("tags", uiTriggerId.toString());
         playerstart.getProperties().put("triggeringId", spawnTriggerId.toString());
@@ -120,6 +137,8 @@ public enum GameMode {
     public String getText() { return text;}
 
     public String[] getExtraLayers() { return extraLayers; }
+
+    public GameMode getCheckCompliance() { return checkCompliance; }
 
     public ModeSetting[] getSettings() { return applicableSettings; }
 

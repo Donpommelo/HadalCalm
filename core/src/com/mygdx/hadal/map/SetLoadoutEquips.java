@@ -14,7 +14,8 @@ public class SetLoadoutEquips extends ModeSetting {
         mapWeapons.addAll(Arrays.asList(weapons));
     }
 
-    public void loadSettingMisc(PlayState state) {
+    @Override
+    public void loadSettingMisc(PlayState state, GameMode mode) {
         state.setMapMultitools(mapWeapons);
     }
 }
