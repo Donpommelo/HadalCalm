@@ -99,7 +99,9 @@ public class ModeSelection {
     }
 
     public static void leave(PlayState state) {
-        tableOuter.addAction(Actions.moveTo(tableX, tableY, .5f, Interpolation.pow5Out));
+        if (tableOuter != null) {
+            tableOuter.addAction(Actions.moveTo(tableX, tableY, .5f, Interpolation.pow5Out));
+        }
 
         if (state.getStage() != null) {
             if (state.getStage().getScrollFocus() == settings) {
