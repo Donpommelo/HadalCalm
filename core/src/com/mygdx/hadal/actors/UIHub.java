@@ -227,6 +227,14 @@ public class UIHub {
 		this.options = new ScrollPane(tableOptions, GameStateManager.getSkin());
 		options.setFadeScrollBars(false);
 
+		options.addListener(new InputListener() {
+
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+				state.getStage().setScrollFocus(options);
+			}
+		});
+
 		if (searchable) {
 			tableSearch.add(options).colspan(2).expandY().width(scrollWidth);
 		} else {

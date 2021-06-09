@@ -19,8 +19,8 @@ public class GunGame extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 0;
 
-	public static final UnlockEquip[] weaponOrder = {TORPEDO_LAUNCHER, CR4PCANNON, CHARGE_BEAM, BOILER,
-		SNIPER_RIFLE, BANANA, ICEBERG, LASER_RIFLE, BOUNCING_BLADE, MINIGUN, LASER_GUIDED_ROCKET, BATTERING_RAM,
+	public static final UnlockEquip[] weaponOrder = {TORPEDO_LAUNCHER, CR4PCANNON, CHARGE_BEAM, BOUNCING_BLADE,
+		SNIPER_RIFLE, BANANA, ICEBERG, LASER_RIFLE, BOILER, MINIGUN, LASER_GUIDED_ROCKET, BATTERING_RAM,
 	MORAYGUN, PARTY_POPPER, TRICK_GUN, DUELING_CORKGUN, TESLA_COIL, FISTICUFFS};
 
 	public GunGame() {

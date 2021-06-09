@@ -98,7 +98,7 @@ public class UIExtra extends AHadalActor {
 					}
 					break;
 				case GUNGAME:
-					text.append("PROGESS: ").append(score).append("/").append(GunGame.weaponOrder.length).append("\n")
+					text.append("SCORE: ").append(score).append("/").append(GunGame.weaponOrder.length).append("\n")
 					.append("NEXT WEAPON: ");
 					if (score + 1 < GunGame.weaponOrder.length) {
 						text.append(GunGame.weaponOrder[score + 1].toString());
@@ -232,6 +232,14 @@ public class UIExtra extends AHadalActor {
 					p.getPlayerData().die(state.getWorldDummy().getBodyData(), DamageTypes.LIVES_OUT);
 				}
 
+				if (state.getScoreCap() > 0) {
+					if (field.getScore() >= state.getScoreCap()) {
+						if (state.getGlobalTimer() != null) {
+							state.getGlobalTimer().getEventData().preActivate(null, null);
+						}
+					}
+				}
+
 				//tell score window to update next interval
 				user.setScoreUpdated(true);
 			}
@@ -253,8 +261,17 @@ public class UIExtra extends AHadalActor {
 	 */
 	public void changeTeamField(int teamIndex, int scoreChange) {
 		if (teamIndex < AlignmentFilter.teamScores.length && teamIndex >= 0) {
-			int newScore = AlignmentFilter.teamScores[teamIndex];
-			AlignmentFilter.teamScores[teamIndex] =  newScore + scoreChange;
+			int newScore = AlignmentFilter.teamScores[teamIndex] + scoreChange;
+			AlignmentFilter.teamScores[teamIndex] =  newScore;
+
+			if (state.getScoreCap() > 0) {
+				if (newScore >= state.getScoreCap()) {
+					if (state.getGlobalTimer() != null) {
+						state.getGlobalTimer().getEventData().preActivate(null, null);
+					}
+				}
+			}
+
 			syncUIText();
 		}
 	}

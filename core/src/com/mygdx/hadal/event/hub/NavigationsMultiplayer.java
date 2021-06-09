@@ -31,7 +31,6 @@ public class NavigationsMultiplayer extends HubEvent {
 	private static GameMode modeChosen = GameMode.DEATHMATCH;
 
 	private static final String modesTitle = "GAME MODES";
-	private static final String mapsTitle = "MAPS";
 
 	public NavigationsMultiplayer(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, false, closeOnLeave, hubTypes.NAVIGATIONS);
@@ -48,7 +47,7 @@ public class NavigationsMultiplayer extends HubEvent {
 
 		Pattern pattern = Pattern.compile(search);
 		final UIHub hub = state.getUiHub();
-		hub.setTitle(mapsTitle);
+		hub.setTitle(modeChosen.toString());
 		final NavigationsMultiplayer me = this;
 
 		for (UnlockLevel c: UnlockLevel.getUnlocks(state, checkUnlock, newTags)) {
@@ -126,7 +125,6 @@ public class NavigationsMultiplayer extends HubEvent {
 						modeChosen = selected;
 
 						state.getUiHub().setType(type);
-						state.getUiHub().setTitle(title);
 						state.getUiHub().enter(tag, true, false, false, me);
 						addOptions(lastSearch, -1, lastTag);
 

@@ -13,7 +13,8 @@ public class SettingTimer extends ModeSetting {
 
     private final String endText;
 
-    public static final String[] timerChoices = {"NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN", "6 MIN", "7 MIN", "8 MIN", "9 MIN", "10 MIN"};
+    public static final String[] timerChoices = {"NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN", "6 MIN", "7 MIN",
+        "8 MIN", "9 MIN", "10 MIN", "11 MIN", "12 MIN", "13 MIN", "14 MIN", "15 MIN", "16 MIN", "17 MIN"};
     public static final String settingTag = "timer";
     public static final Integer defaultValue = 5;
 
@@ -82,18 +83,6 @@ public class SettingTimer extends ModeSetting {
      * Convert timer from index in list to actual time amount
      */
     private float indexToTimer(int index) {
-        return switch (index) {
-            case 1 -> 60.0f;
-            case 2 -> 120.0f;
-            case 3 -> 180.0f;
-            case 4 -> 240.0f;
-            case 5 -> 300.0f;
-            case 6 -> 360.0f;
-            case 7 -> 420.0f;
-            case 8 -> 480.0f;
-            case 9 -> 540.0f;
-            case 10 -> 600.0f;
-            default -> 0.0f;
-        };
+        return index * 60.0f;
     }
 }

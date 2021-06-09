@@ -10,6 +10,9 @@ public class SetCameraOnSpawn extends ModeSetting {
 
     @Override
     public String loadSettingSpawn(PlayState state, GameMode mode) {
+
+        state.setZoom(pvpMatchZoom);
+
         String gameCameraId = TiledObjectUtil.getPrefabTriggerId();
 
         RectangleMapObject camera1 = new RectangleMapObject();

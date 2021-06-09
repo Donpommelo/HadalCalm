@@ -23,8 +23,8 @@ public enum GameMode {
     },
 
     DEATHMATCH("DM", "dm",
-        new SetCameraOnSpawn(), new DisplayUITag("SCORE"),
-        new SettingTimer(ResultsState.magicWord), new SettingLives(), new SettingTeamMode(), new SettingBaseHp(), new SettingDroppableWeapons(),
+        new SetCameraOnSpawn(), new SettingScoreCap(), new DisplayUITag("SCORE"),
+        new SettingTimer(ResultsState.magicWord), new SettingLives(), new SettingTeamMode(), new SettingBaseHp(),  new SettingDroppableWeapons(),
         new SpawnWeapons(), new ToggleKillsScore(), new TogglePVP()),
 
     SURVIVAL("ARENA", "arena",
@@ -32,18 +32,21 @@ public enum GameMode {
         new SettingTimer("VICTORY"),
         new SpawnWeapons(), new SpawnEnemyWaves()),
 
-    CTF("CTF", "ctf", new SetCameraOnSpawn(), new DisplayUITag("TEAMSCORE"),
+    CTF("CTF", "ctf",
+        new SetCameraOnSpawn(), new SettingScoreCap(), new DisplayUITag("TEAMSCORE"),
         new SettingTimer(ResultsState.magicWord), new SettingDroppableWeapons(), new SettingBaseHp(),
         new SpawnWeapons(),
         new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife()),
 
-    FOOTBALL("FOOTBALL","", new SetCameraOnSpawn(), new DisplayUITag("TEAMSCORE"),
+    FOOTBALL("FOOTBALL","",
+        new SetCameraOnSpawn(), new SettingScoreCap(), new DisplayUITag("TEAMSCORE"),
         new SettingTimer(ResultsState.magicWord),
         new ToggleNoDamage(), new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife(),
         new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),
         new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO)),
 
-    GUN_GAME("GUN GAME", "", DEATHMATCH, new SetCameraOnSpawn(), new DisplayUITag("GUNGAME"),
+    GUN_GAME("GUN GAME", "", DEATHMATCH,
+        new SetCameraOnSpawn(), new DisplayUITag("GUNGAME"),
         new SettingTimer(ResultsState.magicWord), new SettingBaseHp(),
         new TogglePVP(), new ToggleTeamMode(0), new ToggleUnlimitedLife(),
         new SetLoadoutEquips(UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),

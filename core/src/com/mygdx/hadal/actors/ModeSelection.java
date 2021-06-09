@@ -1,7 +1,9 @@
 package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -16,10 +18,8 @@ import com.mygdx.hadal.states.PlayState;
 
 public class ModeSelection {
 
-    private static Table tableOuter, tableInfo, tableSettings;
+    private static Table tableOuter;
     private static ScrollPane settings;
-
-    private static Text titleInfo, backOption;
 
     private static final float tableX = HadalGame.CONFIG_WIDTH;
     private static final float tableInX = 160;
@@ -29,7 +29,7 @@ public class ModeSelection {
     public static final int titlePadding = 25;
 
     private static final int optionsWidthOuter = 400;
-    private static final int optionsHeightOuter = 385;
+    private static final int optionsHeightOuter = 400;
     public static final int optionsWidth = 390;
     public static final int optionHeight = 30;
     public static final int optionPad = 3;
@@ -45,15 +45,15 @@ public class ModeSelection {
     public static void addTable(PlayState state, GameMode mode, NavigationsMultiplayer nav) {
 
         tableOuter = new WindowTable();
-        tableInfo = new Table();
-        tableSettings = new Table();
+        final Table tableInfo = new Table();
+        final Table tableSettings = new Table();
 
         tableOuter.setTouchable(Touchable.enabled);
 
-        titleInfo = new Text("SETTINGS", 0, 0, false);
+        final Text titleInfo = new Text("SETTINGS", 0, 0, false);
         titleInfo.setScale(titleScale);
 
-        backOption = new Text("BACK", 0, 0, true);
+        final Text backOption = new Text("BACK", 0, 0, true);
         backOption.setScale(optionScale);
 
         backOption.addListener(new ClickListener() {
@@ -74,6 +74,14 @@ public class ModeSelection {
         settings = new ScrollPane(tableSettings, GameStateManager.getSkin());
         settings.setFadeScrollBars(false);
 
+        settings.addListener(new InputListener() {
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                state.getStage().setScrollFocus(settings);
+            }
+        });
+
         tableInfo.add(backOption).height(detailHeight).pad(detailPad).row();
 
         tableOuter.add(titleInfo).pad(titlePadding).height(titleHeight).colspan(2);
@@ -85,7 +93,6 @@ public class ModeSelection {
         tableOuter.setPosition(tableX, tableY);
         tableOuter.setSize(optionsWidthOuter, optionsHeightOuter);
 
-        state.getStage().setScrollFocus(settings);
         state.getStage().addActor(tableOuter);
 
         tableOuter.addAction(Actions.moveTo(tableInX, tableY, .5f, Interpolation.pow5Out));
