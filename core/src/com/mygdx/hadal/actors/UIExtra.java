@@ -101,9 +101,9 @@ public class UIExtra extends AHadalActor {
 					text.append("SCORE: ").append(score).append("/").append(GunGame.weaponOrder.length).append("\n")
 					.append("NEXT WEAPON: ");
 					if (score + 1 < GunGame.weaponOrder.length) {
-						text.append(GunGame.weaponOrder[score + 1].toString());
+						text.append(GunGame.weaponOrder[score + 1].toString()).append("\n");
 					} else {
-						text.append("VICTORY");
+						text.append("VICTORY\n");
 					}
 					break;
 				case EMPTY:

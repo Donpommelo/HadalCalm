@@ -602,6 +602,14 @@ public class KryoServer {
 					User user = users.get(perp.getConnID());
 					user.getScores().registerKill(ps.isKillsScore());
 					user.setScoreUpdated(true);
+
+					if (ps.getScoreCap() > 0) {
+						if (user.getScores().getScore() >= ps.getScoreCap()) {
+							if (ps.getGlobalTimer() != null) {
+								ps.getGlobalTimer().getEventData().preActivate(null, null);
+							}
+						}
+					}
 				}
 			}
 		}

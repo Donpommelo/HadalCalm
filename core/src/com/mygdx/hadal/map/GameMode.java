@@ -109,7 +109,11 @@ public enum GameMode {
         StringBuilder startTriggerId = new StringBuilder(timerId + "," + uiId);
 
         for (ModeSetting setting: applicableSettings) {
-            setting.saveSetting(state, this);
+
+            if (state.isServer()) {
+                setting.saveSetting(state, this);
+            }
+
             String newSpawn = setting.loadSettingSpawn(state, this);
             String newStart = setting.loadSettingStart(state, this);
             String newUi = setting.loadUIStart(state, this);
