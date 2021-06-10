@@ -17,6 +17,9 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.Static;
 
+/**
+ * @author Plungfisher Plubdul
+ */
 public class MarineSnowglobe extends ActiveItem {
 
 	private static final float usecd = 0.0f;

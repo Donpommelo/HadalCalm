@@ -8,6 +8,9 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
+/**
+ * @author Glorseradish Glabberish
+ */
 public class RadialBarrage extends ActiveItem {
 
 	private static final float usecd = 0.0f;

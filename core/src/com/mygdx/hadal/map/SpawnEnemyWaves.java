@@ -4,6 +4,10 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
+/**
+ * This mode setting is used for modes where enemy waves spawners are created and periodically activate
+ * @author Jodrach Jeroro
+ */
 public class SpawnEnemyWaves extends ModeSetting {
 
     private static final float waveSpawnTimer = 15.0f;

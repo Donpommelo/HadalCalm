@@ -10,6 +10,9 @@ import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * @author Gludelaire Grancisco
+ */
 public class HealingField extends ActiveItem {
 
 	private static final float usecd = 0.0f;

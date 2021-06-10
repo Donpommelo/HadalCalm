@@ -16,6 +16,9 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
+/**
+ * @author Nuberry Nolpgins
+ */
 public class Terraformer extends ActiveItem {
 
 	private static final float usecd = 0.0f;

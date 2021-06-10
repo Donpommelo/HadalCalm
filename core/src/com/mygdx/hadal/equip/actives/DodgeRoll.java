@@ -8,6 +8,9 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
 
+/**
+ * @author Mildsinger Motherford
+ */
 public class DodgeRoll extends ActiveItem {
 
 	private static final float usecd = 0.0f;

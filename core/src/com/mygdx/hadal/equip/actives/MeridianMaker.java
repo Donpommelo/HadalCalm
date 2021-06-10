@@ -20,6 +20,9 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.utils.Constants;
 
+/**
+ * @author Hatonio Hadoof
+ */
 public class MeridianMaker extends ActiveItem {
 
 	private static final float usecd = 0.0f;

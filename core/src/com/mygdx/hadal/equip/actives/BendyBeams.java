@@ -18,6 +18,9 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.Curve;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
+/**
+ * @author Flodzilla Fuzekiel
+ */
 public class BendyBeams extends ActiveItem {
 
 	private static final float usecd = 0.0f;

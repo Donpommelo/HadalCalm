@@ -17,6 +17,9 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Stats;
 
+/**
+ * @author Pronghort Phunzales
+ */
 public class HydraulicUppercut extends ActiveItem {
 
 	private static final float usecd = 0.0f;

@@ -53,6 +53,7 @@ public class UITag {
 		LEVEL,
 		TEAMSCORE,
 		GUNGAME,
+		SCOREBOARD,
 		EMPTY
 	}
 }

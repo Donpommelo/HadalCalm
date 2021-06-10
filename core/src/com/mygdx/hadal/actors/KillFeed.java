@@ -147,6 +147,11 @@ public class KillFeed {
         }
     }
 
+    /**
+     * This is run by the server to send a notification to a specific client
+     * @param text: the string to be displayed
+     * @param player: the client to receive the notification
+     */
     public void sendNotification(String text, Player player) {
         if (!ps.getPlayer().equals(player)) {
             User user = HadalGame.server.getUsers().get(player.getConnID());

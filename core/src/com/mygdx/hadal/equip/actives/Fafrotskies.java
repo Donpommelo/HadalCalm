@@ -15,6 +15,9 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 
+/**
+ * @author Midgestein Midgegette
+ */
 public class Fafrotskies extends ActiveItem {
 
 	private static final float usecd = 0.0f;

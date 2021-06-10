@@ -21,6 +21,9 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.utils.Constants;
 
+/**
+ * @author Flagful Freatball
+ */
 public class PortableSentryFlak extends ActiveItem {
 
 	private static final float usecd = 0.0f;

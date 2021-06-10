@@ -107,6 +107,7 @@ public enum UnlockLevel {
 	//information about the map
 	private InfoItem info;
 
+	//these are modes that this map can be selected for
 	private final GameMode[] modes;
 
 	UnlockLevel(String map, GameMode... modes) {

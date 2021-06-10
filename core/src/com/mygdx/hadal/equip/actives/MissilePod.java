@@ -9,6 +9,9 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
+/**
+ * @author Fatatron Falpudding
+ */
 public class MissilePod extends ActiveItem {
 
 	private static final float usecd = 0.0f;

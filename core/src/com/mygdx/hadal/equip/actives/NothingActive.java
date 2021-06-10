@@ -3,6 +3,9 @@ package com.mygdx.hadal.equip.actives;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 
+/**
+ * @author Difield Droothbrush
+ */
 public class NothingActive extends ActiveItem {
 
 	private static final float usecd = 0.0f;

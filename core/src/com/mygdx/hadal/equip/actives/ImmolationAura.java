@@ -15,6 +15,9 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Stats;
 
+/**
+ * @author Suckette Smothro
+ */
 public class ImmolationAura extends ActiveItem {
 
 	private static final float usecd = 0.0f;

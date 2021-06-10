@@ -12,6 +12,9 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Stats;
 
+/**
+ * @author Foworth Frogwump
+ */
 public class ReservedFuel extends ActiveItem {
 
 	private static final float usecd = 0.0f;

@@ -2,11 +2,15 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.mygdx.hadal.actors.ModeSelection;
+import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This mode setting is used for modes where the player can set their base Hp
+ * @author Doltfield Desmith
+ */
 public class SettingBaseHp extends ModeSetting {
 
     private static final String[] hpChoices = {"100", "125", "150", "175", "200"};
@@ -18,15 +22,15 @@ public class SettingBaseHp extends ModeSetting {
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
         Text hp = new Text("BASE HP: ", 0, 0, false);
-        hp.setScale(ModeSelection.detailsScale);
+        hp.setScale(ModeSettingSelection.detailsScale);
 
         hpOptions = new SelectBox<>(GameStateManager.getSkin());
         hpOptions.setItems(hpChoices);
-        hpOptions.setWidth(ModeSelection.optionsWidth);
+        hpOptions.setWidth(ModeSettingSelection.optionsWidth);
         hpOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
 
         table.add(hp);
-        table.add(hpOptions).height(ModeSelection.detailHeight).pad(ModeSelection.detailPad).row();
+        table.add(hpOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
     }
 
     @Override

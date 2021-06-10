@@ -164,6 +164,7 @@ public enum UnlockArtifact {
 	//The string id of the artifact's icon in the artifact texture atlas
 	private final String spriteId;
 
+	//is this artifact hidden in the ui? used for mode modifications that are coded as artifacts
 	private boolean invisible;
 
 	UnlockArtifact(Artifact artifact) {

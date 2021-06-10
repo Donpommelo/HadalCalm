@@ -9,6 +9,9 @@ import com.mygdx.hadal.states.PlayState;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+/**
+ * @author Bleticia Blequat
+ */
 public class MeteorStrike extends ActiveItem {
 
 	private static final float usecd = 0.0f;

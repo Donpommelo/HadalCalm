@@ -21,6 +21,9 @@ import com.mygdx.hadal.utils.Constants;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+/**
+ * @author Louhaha Losemary
+ */
 public class AnchorSmash extends ActiveItem {
 
 	private static final float usecd = 0.0f;

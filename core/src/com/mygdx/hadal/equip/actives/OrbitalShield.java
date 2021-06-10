@@ -18,6 +18,9 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.OrbitUser;
 
+/**
+ * @author Toberdash Twaldbaum
+ */
 public class OrbitalShield extends ActiveItem {
 
 	private static final float usecd = 0.0f;

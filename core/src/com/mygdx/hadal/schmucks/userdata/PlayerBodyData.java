@@ -306,7 +306,9 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
-	 * Add a new artifact. override is used for effects like Administrator's card that overrides normal restrictions
+	 * Add a new artifact.
+	 * @param override whether this change should override artifact limits (like admin's card)
+	 * @param save whether this change should be saved into loadout file (like special mode modifiers shouldn't)
 	 * returns whether the artifact adding was successful
 	 */
 	public boolean addArtifact(UnlockArtifact artifactUnlock, boolean override, boolean save) {
@@ -394,8 +396,11 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
+
 	/**
 	 * This is called when a player's artifacts may change to sync ui and clients
+	 * @param override whether this change should override artifact limits
+	 * @param save whether this change should be saved into loadout file
 	 */
 	public void syncArtifacts(boolean override, boolean save) {
 		
@@ -528,6 +533,8 @@ public class PlayerBodyData extends BodyData {
 	
 	/**
 	 * This is called when a loadout changes on the server side. Send message to all clients announcing change
+	 * the "save" input for this and adding/removing artifacts indicates whether the client should save this change
+	 * It is false for artifact changes that result from mode modifications
 	 */
 	public void syncServerLoadoutChange(boolean save) {
 		if (player.getState().isServer()) {
@@ -543,7 +550,7 @@ public class PlayerBodyData extends BodyData {
 			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(equip, null, null, null, null, null, false));
 		}
 	}
-	
+
 	public void syncClientLoadoutAddArtifact(UnlockArtifact artifact, boolean save) {
 		if (!player.getState().isServer()) {
 			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, artifact, null, null, null, null, save));

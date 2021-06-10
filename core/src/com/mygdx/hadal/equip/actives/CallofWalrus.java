@@ -13,6 +13,9 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
+/**
+ * @author Hedeon Holkner
+ */
 public class CallofWalrus extends ActiveItem {
 
 	private static final float usecd = 0.0f;

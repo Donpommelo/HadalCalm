@@ -16,6 +16,9 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Stats;
 
+/**
+ * @author Krabitha Krenitzel
+ */
 public class JumpKick extends ActiveItem {
 
 	private static final float usecd = 0.0f;

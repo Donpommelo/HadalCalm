@@ -11,6 +11,9 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * @author Wrudaus Wibanfoo
+ */
 public class SpringLoader extends ActiveItem {
 
 	private static final float usecd = 0.0f;

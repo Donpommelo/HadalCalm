@@ -11,6 +11,9 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Summoned;
 import com.mygdx.hadal.statuses.Temporary;
 
+/**
+ * @author Locliff Lifinder
+ */
 public class FishGang extends ActiveItem {
 
 	private static final float usecd = 0.0f;

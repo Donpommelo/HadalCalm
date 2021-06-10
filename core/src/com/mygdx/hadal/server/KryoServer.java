@@ -603,6 +603,7 @@ public class KryoServer {
 					user.getScores().registerKill(ps.isKillsScore());
 					user.setScoreUpdated(true);
 
+					//if the player has reached the score goal, end the game
 					if (ps.getScoreCap() > 0) {
 						if (user.getScores().getScore() >= ps.getScoreCap()) {
 							if (ps.getGlobalTimer() != null) {

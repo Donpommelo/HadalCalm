@@ -6,6 +6,9 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invisibility;
 
+/**
+ * @author Mobourne Manfosteen
+ */
 public class RingofGyges extends ActiveItem {
 
 	private static final float usecd = 0.0f;

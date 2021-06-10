@@ -16,7 +16,12 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
 import com.mygdx.hadal.states.PlayState;
 
-public class ModeSelection {
+/**
+ * The ModeSettingSelection pops up when a player selects the navigations in multiplayer. Depending on the mode selected,
+ * this displays a number of setting options that will be applied to that mode
+ * @author Sloregano Slilanda
+ */
+public class ModeSettingSelection {
 
     private static Table tableOuter;
     private static ScrollPane settings;
@@ -61,11 +66,14 @@ public class ModeSelection {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 leave(state);
+
+                //upon hitting "back", we want to pull open the mode selection menu again
                 state.getUiHub().leave();
                 nav.enter();
             }
         });
 
+        //this clears the setting table and populates it with settings specific to each mode
         tableSettings.clear();
         for (ModeSetting setting: mode.getSettings()) {
             setting.setSetting(state, mode, tableSettings);
@@ -74,6 +82,7 @@ public class ModeSelection {
         settings = new ScrollPane(tableSettings, GameStateManager.getSkin());
         settings.setFadeScrollBars(false);
 
+        //this makes the scroll focus automatically move towards each window when it is moused over
         settings.addListener(new InputListener() {
 
             @Override
@@ -99,6 +108,8 @@ public class ModeSelection {
     }
 
     public static void leave(PlayState state) {
+
+        //tableOuter will be null when the window hasn't been opened yet.
         if (tableOuter != null) {
             tableOuter.addAction(Actions.moveTo(tableX, tableY, .5f, Interpolation.pow5Out));
         }

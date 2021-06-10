@@ -7,6 +7,9 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Regeneration;
 
+/**
+ * @author Grurrault Ghineydew
+ */
 public class Melon extends ActiveItem {
 
 	private static final float usecd = 0.0f;

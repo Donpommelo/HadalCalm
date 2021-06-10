@@ -8,6 +8,10 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
+/**
+ * A Game Mode entails a set of rules/settings that dictates a match
+ * @author Nirabeau Neebone
+ */
 public enum GameMode {
 
     HUB("HUB", "", new ToggleHub(), new ToggleUnlimitedLife()) {
@@ -56,14 +60,17 @@ public enum GameMode {
 
     ;
 
-    //this is a list of event layers that this map will parse when loaded. Used for maps with multiple valid modes
+    //this is a list of event layers that this mode will parse when loaded. Used for maps with multiple valid modes
     private final String[] extraLayers;
 
+    //settings that apply to this mode
     private final ModeSetting[] applicableSettings;
 
+    //this text is displayed in the ui when this mode is selected
     private final String text;
 
     //this is a game mode which has the same set of compliant maps.
+    // Used for modes that have the same set of compliant maps (gun game etc with deathmatch)
     private GameMode checkCompliance = this;
 
     GameMode(String text, String extraLayers, GameMode checkCompliance, ModeSetting... applicableSettings) {
@@ -80,16 +87,19 @@ public enum GameMode {
     private static final String playerStartId = "playerstart";
     public void processSettings(PlayState state) {
 
+        //for maps with no applicable settings, we don't need to add the extra events to the map (campaign maps)
         if (applicableSettings.length == 0) { return; }
 
         String timerId = TiledObjectUtil.getPrefabTriggerId();
         String multiId = TiledObjectUtil.getPrefabTriggerId();
         String uiId = TiledObjectUtil.getPrefabTriggerId();
 
+        //this creates a trigger that will be activated when a player spawns
         RectangleMapObject playerstart = new RectangleMapObject();
         playerstart.setName("Multitrigger");
         playerstart.getProperties().put("triggeredId", playerStartId);
 
+        //this creates a timer that will activate once at the start of the match
         RectangleMapObject timer = new RectangleMapObject();
         timer.setName("Timer");
         timer.getProperties().put("interval", 0.0f);
@@ -100,29 +110,35 @@ public enum GameMode {
         multi.setName("Multitrigger");
         multi.getProperties().put("triggeredId", multiId);
 
+        //this modifies the ui at the start of the match
         RectangleMapObject ui = new RectangleMapObject();
         ui.setName("UI");
         ui.getProperties().put("triggeredId", uiId);
 
+        //using these string builders, we modify the aforementioned events based on the mode's settings
         StringBuilder uiTriggerId = new StringBuilder("LEVEL");
         StringBuilder spawnTriggerId = new StringBuilder();
         StringBuilder startTriggerId = new StringBuilder(timerId + "," + uiId);
 
         for (ModeSetting setting: applicableSettings) {
 
+            //only the server saves their chosen settings.
             if (state.isServer()) {
                 setting.saveSetting(state, this);
+
+                //atm, the client does not need to run this b/c it creates events only the server needs to process.
+                String newStart = setting.loadSettingStart(state, this);
+                if (!newStart.equals("")) {
+                    startTriggerId.append(',').append(newStart);
+                }
             }
 
             String newSpawn = setting.loadSettingSpawn(state, this);
-            String newStart = setting.loadSettingStart(state, this);
             String newUi = setting.loadUIStart(state, this);
             if (!newSpawn.equals("")) {
                 spawnTriggerId.append(',').append(newSpawn);
             }
-            if (!newStart.equals("")) {
-                startTriggerId.append(',').append(newStart);
-            }
+
             if (!newUi.equals("")) {
                 uiTriggerId.append(',').append(newUi);
             }

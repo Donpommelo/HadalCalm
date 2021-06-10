@@ -20,6 +20,9 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.HomingMouse;
 
+/**
+ * @author Bringerbread Brugdanoff
+ */
 public class TractorBeam extends ActiveItem {
 
 	private static final float usecd = 0.0f;

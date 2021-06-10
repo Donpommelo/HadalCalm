@@ -260,7 +260,7 @@ public class UIHub {
 	public void leave() {
 		active = false;
 
-		ModeSelection.leave(state);
+		ModeSettingSelection.leave(state);
 
 		tableOuter.addAction(Actions.moveTo(tableX, tableY, .5f, Interpolation.pow5Out));
 		

@@ -14,6 +14,11 @@ import com.mygdx.hadal.states.PlayState;
 
 import java.util.ArrayList;
 
+/**
+ * The UISpectator is used by spectators to view the game. It features the ability tocycle through spectate targets
+ * as well dragging the free camera.
+ * @author Diphelia Dorlov
+ */
 public class UISpectator extends AHadalActor {
 
     protected PlayState state;
@@ -66,15 +71,24 @@ public class UISpectator extends AHadalActor {
         }
     }
 
+    //is lmb held?
     private boolean mouseHeld;
+
+    //are we in free cam mode?
+    private boolean freeCam = true;
+
     private final Vector2 lastMousePosition = new Vector2();
     private final Vector2 mousePosition = new Vector2();
     private final static float dragMultiplier = 2.5f;
-    private boolean freeCam = true;
+
+    //the player we are spectating, their connID and their user
     private int targetId;
     private Player spectatorTarget;
     private User spectatorUser;
+
     public void spectatorDragCamera(Vector2 target) {
+
+        //when lmb is held, we drag the camera by a factor of the mouse displacement
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             mousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
             if (mouseHeld) {
@@ -87,6 +101,7 @@ public class UISpectator extends AHadalActor {
             mouseHeld = false;
         }
 
+        //if we are spectating another player, the camera moves towards their location (if they have a body)
         if (!freeCam && spectatorUser != null) {
             if (spectatorTarget.getBody() != null && spectatorTarget.isAlive()) {
                 target.set(spectatorTarget.getPixelPosition());
@@ -99,6 +114,10 @@ public class UISpectator extends AHadalActor {
     }
 
     private final ArrayList<User> users = new ArrayList<>();
+
+    /**
+     * This searches for a target to spectatr
+     */
     public void findValidSpectatorTarget() {
 
         User currentUser;
@@ -114,15 +133,21 @@ public class UISpectator extends AHadalActor {
 
         boolean foundTarget = false;
 
+        //if currentUser is null, it means out spectator target is no longer present.
         if (currentUser == null) {
             foundTarget = loopThroughUsers(0);
         } else {
+
+            //if we are cycling to the next target to spectate, we
             for (int i = 0; i < users.size(); i++) {
                 if (users.get(i).equals(currentUser)) {
 
+                    //freecam means we just switched to directed camera and should start from index 0
                     if (freeCam) {
                         foundTarget = loopThroughUsers(i);
                     } else {
+
+                        //otherwise, we cycle to the next player in the list
                         foundTarget = loopThroughUsers(i + 1);
                     }
                     break;
@@ -132,11 +157,18 @@ public class UISpectator extends AHadalActor {
         freeCam = !foundTarget;
     }
 
+    /**
+     * This loops through the user list for a valid spectate target
+     * @param startIndex: the first user to check
+     * @return if we found a valid target or not
+     */
     private boolean loopThroughUsers(int startIndex) {
 
+        //iterate through the users starting at startIndex and wrapping when we hit the end
         for (int i = 0; i < users.size(); i++) {
             User nextUser = users.get((i + startIndex) % users.size());
 
+            //when we hit a user with a valid player (i.e not a spectator), we start spectating them
             if (nextUser.getPlayer().getBody() != null && nextUser.getPlayer().isAlive()) {
                 spectatorUser = nextUser;
                 spectatorTarget = nextUser.getPlayer();

@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox;
-import com.mygdx.hadal.actors.ModeSelection;
+import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
@@ -23,11 +23,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The Navigations is a HubEvent that allows the player to begin a level.
- * @author Glichamp Gonjspice
+ * The NavigationsMultiplayer is a HubEvent that allows the player to select a mode and then a corresponding map
+ * @author Plonnigan Pludardus
  */
 public class NavigationsMultiplayer extends HubEvent {
 
+	//this is the selected game mode
 	private static GameMode modeChosen = GameMode.DEATHMATCH;
 
 	private static final String modesTitle = "GAME MODES";
@@ -63,6 +64,7 @@ public class NavigationsMultiplayer extends HubEvent {
 				}
 			}
 
+			//iterate through the modes that this map can be played with to see if we add it to the options
 			boolean modeCompliant = false;
 			for (int i = 0; i < selected.getModes().length; i++) {
 				if (selected.getModes()[i] == modeChosen.getCheckCompliance()) {
@@ -111,6 +113,7 @@ public class NavigationsMultiplayer extends HubEvent {
 		hub.setTitle(modesTitle);
 		final NavigationsMultiplayer me = this;
 
+		//bring up all game modes that can be selected from the hub
 		for (GameMode c: GameMode.values()) {
 
 			if (!c.isInvisibleInHub()) {
@@ -122,13 +125,14 @@ public class NavigationsMultiplayer extends HubEvent {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 
+						//when selected, we open up a ModeSettingSelection with the given mode's settings
 						modeChosen = selected;
 
 						state.getUiHub().setType(type);
 						state.getUiHub().enter(tag, true, false, false, me);
 						addOptions(lastSearch, -1, lastTag);
 
-						ModeSelection.addTable(state, modeChosen, me);
+						ModeSettingSelection.addTable(state, modeChosen, me);
 					}
 				});
 				itemChoose.setScale(UIHub.optionsScale);

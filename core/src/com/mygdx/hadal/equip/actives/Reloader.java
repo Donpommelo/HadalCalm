@@ -14,6 +14,9 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
+/**
+ * @author Gerrbort Gnolfredo
+ */
 public class Reloader extends ActiveItem {
 
 	private static final float usecd = 0.0f;

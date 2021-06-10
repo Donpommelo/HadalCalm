@@ -14,6 +14,9 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 
+/**
+ * @author Lassafras Lickette
+ */
 public class TaintedWater extends ActiveItem {
 
 	private static final float usecd = 0.0f;

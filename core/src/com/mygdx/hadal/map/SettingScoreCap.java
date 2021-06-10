@@ -2,11 +2,16 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.mygdx.hadal.actors.ModeSelection;
+import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This mode setting is used for modes where the host can designate a score cap
+ * When a player or team reaches the score cap, they are the winner
+ * @author Jignificant Jodardus
+ */
 public class SettingScoreCap extends ModeSetting {
 
     public static final String[] scoreCapChoices = {"UNLIMITED", "1 POINT", "2 POINTS", "3 POINTS", "4 POINTS", "5 POINTS", "6 POINTS",
@@ -21,15 +26,15 @@ public class SettingScoreCap extends ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {
         
         Text scorecap = new Text("SCORE WIN CONDITION: ", 0, 0, false);
-        scorecap.setScale(ModeSelection.detailsScale);
+        scorecap.setScale(ModeSettingSelection.detailsScale);
 
         scoreCapOptions = new SelectBox<>(GameStateManager.getSkin());
         scoreCapOptions.setItems(scoreCapChoices);
-        scoreCapOptions.setWidth(ModeSelection.optionsWidth);
+        scoreCapOptions.setWidth(ModeSettingSelection.optionsWidth);
         scoreCapOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
 
         table.add(scorecap);
-        table.add(scoreCapOptions).height(ModeSelection.detailHeight).pad(ModeSelection.detailPad).row();
+        table.add(scoreCapOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
     }
 
     @Override

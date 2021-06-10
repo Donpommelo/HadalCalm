@@ -2,13 +2,17 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.mygdx.hadal.actors.ModeSelection;
+import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.Arrays;
 
+/**
+ * This mode setting is used for modes where the host can designate weapon drop mode
+ * @author Xibberish Xenchilada
+ */
 public class SettingDroppableWeapons extends ModeSetting {
 
     private static final String settingTag = "weapon_drops";
@@ -21,7 +25,7 @@ public class SettingDroppableWeapons extends ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {
         dropsOptions = new CheckBox("WEAPON DROP MODE?",GameStateManager.getSkin());
         dropsOptions.setChecked(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) == 1);
-        table.add(dropsOptions).height(ModeSelection.detailHeight).pad(ModeSelection.detailPad).top().row();
+        table.add(dropsOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).top().row();
     }
 
     @Override

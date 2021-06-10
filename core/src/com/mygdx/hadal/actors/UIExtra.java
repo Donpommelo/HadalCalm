@@ -40,8 +40,9 @@ public class UIExtra extends AHadalActor {
 	private float maxTimer, timer, timerIncr;
 
 	//this is the displayed time
-	private int displayedTimer;
-	
+	private int currentTimer;
+	private String displayedTimer;
+
 	public UIExtra(PlayState state) {
 		this.state = state;
 		this.font = HadalGame.SYSTEM_FONT_UI;
@@ -83,7 +84,7 @@ public class UIExtra extends AHadalActor {
 					text.append("WINS: ").append(wins).append("\n");
 					break;
 				case TIMER:
-					text.append("TIMER: ").append(displayedTimer).append(" S\n");
+					text.append("TIMER: ").append(displayedTimer).append("\n");
 					break;
 				case MISC:
 					text.append(uiTag.getMisc()).append("\n");
@@ -100,11 +101,16 @@ public class UIExtra extends AHadalActor {
 				case GUNGAME:
 					text.append("SCORE: ").append(score).append("/").append(GunGame.weaponOrder.length).append("\n")
 					.append("NEXT WEAPON: ");
+
+					//display next weapon in gun-game queue, unless we are on the last weapon
 					if (score + 1 < GunGame.weaponOrder.length) {
 						text.append(GunGame.weaponOrder[score + 1].toString()).append("\n");
 					} else {
 						text.append("VICTORY\n");
 					}
+					break;
+				case SCOREBOARD:
+					sortIndividualScores(text);
 					break;
 				case EMPTY:
 					text.append("\n");
@@ -232,6 +238,8 @@ public class UIExtra extends AHadalActor {
 					p.getPlayerData().die(state.getWorldDummy().getBodyData(), DamageTypes.LIVES_OUT);
 				}
 
+
+				//if the player has reached the score goal, end the game
 				if (state.getScoreCap() > 0) {
 					if (field.getScore() >= state.getScoreCap()) {
 						if (state.getGlobalTimer() != null) {
@@ -264,6 +272,7 @@ public class UIExtra extends AHadalActor {
 			int newScore = AlignmentFilter.teamScores[teamIndex] + scoreChange;
 			AlignmentFilter.teamScores[teamIndex] =  newScore;
 
+			//if the team has reached the score goal, end the game
 			if (state.getScoreCap() > 0) {
 				if (newScore >= state.getScoreCap()) {
 					if (state.getGlobalTimer() != null) {
@@ -290,15 +299,56 @@ public class UIExtra extends AHadalActor {
 
 		timer += (timerIncr * delta);
 
-		if ((int) timer != displayedTimer) {
-			displayedTimer = (int) timer;
+		if ((int) timer != currentTimer) {
+			currentTimer = (int) timer;
+
+			//convert the time to minutes:seconds
+			displayedTimer = currentTimer / 60 + ": " + currentTimer % 60;
 			syncUIText();
 		}
-		
+
+		//upon timer running out, a designated event activates
 		if (timer <= 0 && timerIncr < 0) {
 			if (state.getGlobalTimer() != null) {
 				state.getGlobalTimer().getEventData().preActivate(null, null);
 				timerIncr = 0;
+			}
+		}
+	}
+
+	private static final int maxNameLen = 25;
+	private static final int maxScores = 5;
+
+	/**
+	 * For modes with a scoreboard ui tag, we add a sorted list of player scores.
+	 * @param text: the stringbuilder we will be appending the scoreboard text to
+	 */
+	private void sortIndividualScores(StringBuilder text) {
+		ArrayList<SavedPlayerFields> scores = new ArrayList<>();
+
+		if (state.isServer()) {
+			for (User user: HadalGame.server.getUsers().values()) {
+				if (!user.isSpectator()) {
+					scores.add(user.getScores());
+				}
+			}
+		} else {
+			for (User user: HadalGame.client.getUsers().values()) {
+				if (!user.isSpectator()) {
+					scores.add(user.getScores());
+				}
+			}
+		}
+
+		//sort players by score and put the first 5 names on the board
+		scores.sort((a, b) -> b.getScore() - a.getScore());
+
+		int scoreNum = 0;
+		for (SavedPlayerFields score: scores) {
+			text.append(score.getNameAbridged(false, maxNameLen)).append(": ").append(score.getScore()).append("\n");
+			scoreNum++;
+			if (scoreNum > maxScores) {
+				break;
 			}
 		}
 	}

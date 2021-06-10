@@ -8,6 +8,9 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * @author Froginald Frugwump
+ */
 public class NauticalMine extends ActiveItem {
 
 	private static final float usecd = 0.0f;

@@ -15,6 +15,9 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.Static;
 
+/**
+ * @author Larlando Locwump
+ */
 public class SamsonOption extends ActiveItem {
 
 	private static final float usecd = 0.0f;
