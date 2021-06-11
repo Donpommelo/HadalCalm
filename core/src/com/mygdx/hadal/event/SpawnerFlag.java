@@ -48,7 +48,6 @@ public class SpawnerFlag extends Event {
 
             @Override
             public void onActivate(EventData activator, Player p) {
-                state.getUiExtra().changeTeamField(teamIndex, 1);
 
                 if (standardParticle != null) {
                     standardParticle.onForBurst(1.0f);
@@ -60,6 +59,8 @@ public class SpawnerFlag extends Event {
                     state.getKillFeed().addNotification(playerName + " CAPTURED THE FLAG!", false);
                     state.getUiExtra().changeFields(p, 1, 0, 0, 0, false);
                 }
+
+                state.getUiExtra().changeTeamField(teamIndex, 1);
             }
         };
 

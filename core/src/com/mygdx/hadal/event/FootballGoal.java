@@ -38,7 +38,6 @@ public class FootballGoal extends Event {
 
             @Override
             public void onActivate(EventData activator, Player p) {
-                state.getUiExtra().changeTeamField(teamIndex, 1);
 
                 if (standardParticle != null) {
                     standardParticle.onForBurst(1.0f);
@@ -59,6 +58,8 @@ public class FootballGoal extends Event {
                         }
                     }
                 }
+
+                state.getUiExtra().changeTeamField(teamIndex, 1);
             }
         };
 
