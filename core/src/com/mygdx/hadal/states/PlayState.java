@@ -151,7 +151,7 @@ public class PlayState extends GameState {
 	private final boolean server;
 
 	//the current level's team mode (ffa, auto assigned or manual assigned) and base hp
-	private int teamMode, baseHp, scoreCap;
+	private int teamMode, baseHp, scoreCap, teamScoreCap;
 
 	//Various play state ui elements
 	protected UIPlay uiPlay;
@@ -1622,6 +1622,10 @@ public class PlayState extends GameState {
 	public float getScoreCap() {return scoreCap; }
 
 	public void setScoreCap(int scoreCap) { this.scoreCap = scoreCap; }
+
+	public float getTeamScoreCap() {return teamScoreCap; }
+
+	public void setTeamScoreCap(int teamScoreCap) { this.teamScoreCap = teamScoreCap; }
 
 	public void setStartId(String startId) { this.startId = startId; }
 

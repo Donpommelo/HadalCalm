@@ -12,12 +12,12 @@ import com.mygdx.hadal.states.PlayState;
  * When a player or team reaches the score cap, they are the winner
  * @author Jignificant Jodardus
  */
-public class SettingScoreCap extends ModeSetting {
+public class SettingTeamScoreCap extends ModeSetting {
 
     public static final String[] scoreCapChoices = {"UNLIMITED", "1 POINT", "2 POINTS", "3 POINTS", "4 POINTS", "5 POINTS", "6 POINTS",
         "7 POINTS", "8 POINTS", "9 POINTS", "10 POINTS", "11 POINTS", "12 POINTS", "13 POINTS", "14 POINTS", "15 POINTS",
         "16 POINTS", "17 POINTS", "18 POINTS"};
-    public static final String settingTag = "score_cap";
+    public static final String settingTag = "team_score_cap";
     public static final Integer defaultValue = 0;
 
     private SelectBox<String> scoreCapOptions;
@@ -53,6 +53,6 @@ public class SettingScoreCap extends ModeSetting {
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        state.setScoreCap(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
+        state.setTeamScoreCap(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
     }
 }

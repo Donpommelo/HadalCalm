@@ -37,13 +37,13 @@ public enum GameMode {
         new SpawnWeapons(), new SpawnEnemyWaves()),
 
     CTF("CTF", "ctf",
-        new SetCameraOnSpawn(), new SettingScoreCap(), new DisplayUITag("TEAMSCORE"),
+        new SetCameraOnSpawn(), new SettingTeamScoreCap(), new DisplayUITag("TEAMSCORE"),
         new SettingTimer(ResultsState.magicWord), new SettingDroppableWeapons(), new SettingBaseHp(),
         new SpawnWeapons(),
         new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife()),
 
     FOOTBALL("FOOTBALL","",
-        new SetCameraOnSpawn(), new SettingScoreCap(), new DisplayUITag("TEAMSCORE"),
+        new SetCameraOnSpawn(), new SettingTeamScoreCap(), new DisplayUITag("TEAMSCORE"),
         new SettingTimer(ResultsState.magicWord),
         new ToggleNoDamage(), new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife(),
         new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),

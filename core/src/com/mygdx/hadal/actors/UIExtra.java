@@ -273,14 +273,13 @@ public class UIExtra extends AHadalActor {
 			AlignmentFilter.teamScores[teamIndex] =  newScore;
 
 			//if the team has reached the score goal, end the game
-			if (state.getScoreCap() > 0) {
-				if (newScore >= state.getScoreCap()) {
+			if (state.getTeamScoreCap() > 0) {
+				if (newScore >= state.getTeamScoreCap()) {
 					if (state.getGlobalTimer() != null) {
 						state.getGlobalTimer().getEventData().preActivate(null, null);
 					}
 				}
 			}
-
 			syncUIText();
 		}
 	}
@@ -303,7 +302,13 @@ public class UIExtra extends AHadalActor {
 			currentTimer = (int) timer;
 
 			//convert the time to minutes:seconds
-			displayedTimer = currentTimer / 60 + ": " + currentTimer % 60;
+			int seconds = currentTimer % 60;
+			if (seconds < 10) {
+				displayedTimer = currentTimer / 60 + ": 0" + seconds;
+
+			} else {
+				displayedTimer = currentTimer / 60 + ": " + seconds;
+			}
 			syncUIText();
 		}
 
