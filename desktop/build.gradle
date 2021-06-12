@@ -5,7 +5,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.beryx:badass-runtime-plugin:1.12.2"
+        classpath "org.beryx:badass-runtime-plugin:1.12.4"
     }
 }
 
@@ -15,7 +15,7 @@ apply plugin: 'org.beryx.runtime'
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 sourceSets.main.java.srcDirs = [ "src/" ]
 mainClassName = 'com.mygdx.hadal.desktop.DesktopLauncher'
-sourceCompatibility = 15.0
+sourceCompatibility = 16.0
 
 project.ext.assetsDir = new File("../core/assets")
 
@@ -39,7 +39,7 @@ run {
 }
 
 jar {
-    duplicatesStrategy = "INCLUDE"
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     from files(project.assetsDir)
 
 //    project.delete("../core/assets/save/ChatLog.json")

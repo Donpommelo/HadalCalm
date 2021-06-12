@@ -398,7 +398,7 @@ public class ResultsState extends GameState {
 
 			if (field != null && fieldExtra != null) {
 
-				infoPlayerName.setText(field.getNameAbridged(false, maxNameLen));
+				infoPlayerName.setText(field.getNameAbridged(maxNameLen));
 
 				Text damageDealtField = new Text("DAMAGE DEALT: ", 0, 0, false);
 				damageDealtField.setScale(infoTextScale);

@@ -55,7 +55,7 @@ public class PlayerResultsIcon extends AHadalActor {
 	public PlayerResultsIcon(ResultsState state, SpriteBatch batch, SavedPlayerFields fields, SavedPlayerFieldsExtra fieldsExtra) {
 		font = HadalGame.SYSTEM_FONT_UI;
 
-		this.name = fields.getNameAbridged(false, maxNameLen);
+		this.name = fields.getNameAbridged(maxNameLen);
 		name += "\nK/D: " + fields.getKills() + " / " + fields.getDeaths();
 
 		//if this is a pvp match with eggplants, we want to add that information to the text

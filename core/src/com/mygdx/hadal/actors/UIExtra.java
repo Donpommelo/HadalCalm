@@ -1,7 +1,9 @@
 package com.mygdx.hadal.actors;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UITag.uiType;
@@ -90,13 +92,13 @@ public class UIExtra extends AHadalActor {
 					text.append(uiTag.getMisc()).append("\n");
 					break;
 				case LEVEL:
-					text.append(state.getMode().getText()).append("_").append(state.getLevel().getInfo().getName()).append("\n");
+					text.append(state.getMode().getText()).append(" ").append(state.getLevel().getInfo().getName()).append("\n");
 					break;
 				case TEAMSCORE:
-					for (int i = 0; i < AlignmentFilter.teamScores.length; i++) {
-						text.append(AlignmentFilter.currentTeams[i].toString()).append(": ")
-							.append(AlignmentFilter.teamScores[i]).append("\n");
+					if (teamText.isEmpty()) {
+						sortTeamScores();
 					}
+					text.append(teamText.toString());
 					break;
 				case GUNGAME:
 					text.append("SCORE: ").append(score).append("/").append(GunGame.weaponOrder.length).append("\n")
@@ -238,7 +240,6 @@ public class UIExtra extends AHadalActor {
 					p.getPlayerData().die(state.getWorldDummy().getBodyData(), DamageTypes.LIVES_OUT);
 				}
 
-
 				//if the player has reached the score goal, end the game
 				if (state.getScoreCap() > 0) {
 					if (field.getScore() >= state.getScoreCap()) {
@@ -280,6 +281,7 @@ public class UIExtra extends AHadalActor {
 					}
 				}
 			}
+			sortTeamScores();
 			syncUIText();
 		}
 	}
@@ -329,32 +331,27 @@ public class UIExtra extends AHadalActor {
 	 * @param text: the stringbuilder we will be appending the scoreboard text to
 	 */
 	private void sortIndividualScores(StringBuilder text) {
-		ArrayList<SavedPlayerFields> scores = new ArrayList<>();
-
-		if (state.isServer()) {
-			for (User user: HadalGame.server.getUsers().values()) {
-				if (!user.isSpectator()) {
-					scores.add(user.getScores());
-				}
-			}
-		} else {
-			for (User user: HadalGame.client.getUsers().values()) {
-				if (!user.isSpectator()) {
-					scores.add(user.getScores());
+		if (state.getScoreWindow() != null) {
+			int scoreNum = 0;
+			for (User user: state.getScoreWindow().getOrderedUsers()) {
+				text.append(user.getNameAbridgedColored(maxNameLen)).append(": ").append(user.getScores().getScore()).append("\n");
+				scoreNum++;
+				if (scoreNum > maxScores) {
+					break;
 				}
 			}
 		}
+	}
 
-		//sort players by score and put the first 5 names on the board
-		scores.sort((a, b) -> b.getScore() - a.getScore());
-
-		int scoreNum = 0;
-		for (SavedPlayerFields score: scores) {
-			text.append(score.getNameAbridged(false, maxNameLen)).append(": ").append(score.getScore()).append("\n");
-			scoreNum++;
-			if (scoreNum > maxScores) {
-				break;
-			}
+	private static final Vector3 rgb = new Vector3();
+	private final StringBuilder teamText = new StringBuilder();
+	private void sortTeamScores() {
+		teamText.setLength(0);
+		for (int i = 0; i < AlignmentFilter.teamScores.length; i++) {
+			rgb.set(AlignmentFilter.currentTeams[i].getColor1RGB());
+			String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
+			teamText.append("[").append(hex).append("]").append(AlignmentFilter.currentTeams[i].toString())
+				.append("[]").append(": ").append(AlignmentFilter.teamScores[i]).append("\n");
 		}
 	}
 

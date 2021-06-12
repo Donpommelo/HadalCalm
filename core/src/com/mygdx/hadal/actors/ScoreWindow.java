@@ -14,6 +14,7 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
 
+import java.util.ArrayList;
 import java.util.Map.Entry;
 
 /**
@@ -49,9 +50,11 @@ public class ScoreWindow {
 	private static final float optionsHeight = 25.0f;
 	private static final float optionsExtraHeight = 25.0f;
 
+	private final ArrayList<User> orderedUsers = new ArrayList<>();
+
 	public ScoreWindow(PlayState state) {
 		this.state = state;
-		
+
 		this.tableScore = new Table();
 		this.windowScore = new MenuWindow(0, 0, 0, 0);
 
@@ -129,16 +132,27 @@ public class ScoreWindow {
 		tableScore.add(winsLabel).height(scoreTitleHeight).row();
 
 		//add table entry for each player
+		orderedUsers.clear();
 		if (state.isServer()) {
 			for (Entry<Integer, User> entry : HadalGame.server.getUsers().entrySet()) {
-				addEntry(entry.getKey(), entry.getValue());
+				orderedUsers.add(entry.getValue());
 			}
 		} else {
 			for (Entry<Integer, User> entry: HadalGame.client.getUsers().entrySet()) {
-				addEntry(entry.getKey(), entry.getValue());
+				orderedUsers.add(entry.getValue());
 			}
 		}
-		
+
+		orderedUsers.sort((a, b) -> {
+			int cmp = (a.isSpectator() ? 1 : 0) - (b.isSpectator() ? 1 : 0);
+			if (cmp == 0) { cmp = b.getScores().getScore() - a.getScores().getScore(); }
+			return cmp;
+		});
+
+		for (User user: orderedUsers) {
+			addEntry(user.getScores().getConnID(), user);
+		}
+
 		state.getStage().addActor(windowScore);
 		state.getStage().addActor(tableScore);
 
@@ -306,7 +320,9 @@ public class ScoreWindow {
 	private void addEntry(int connID, User user) {
 		SavedPlayerFields field = user.getScores();
 
-		Text name = new Text(field.getNameAbridged(true, maxNameLen), 0, 0, false);
+		String nameText = user.getNameAbridgedColored(maxNameLen);
+
+		Text name = new Text(field.getPingText() + nameText, 0, 0, false);
 		name.setScale(scoreScale);
 		name.addListener(new ClickListener() {
 
@@ -347,4 +363,6 @@ public class ScoreWindow {
 		tableOptions.remove();
 		windowOptions.remove();
 	}
+
+	public ArrayList<User> getOrderedUsers() { return orderedUsers; }
 }

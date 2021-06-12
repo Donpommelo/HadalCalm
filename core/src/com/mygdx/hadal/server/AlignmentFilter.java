@@ -41,7 +41,7 @@ public enum AlignmentFilter {
     TEAM_SKY_BLUE(-21, HadalColor.SKY_BLUE, HadalColor.TURQOISE, "SKY BLUE"),
     TEAM_TAN(-22, HadalColor.TAN, HadalColor.BROWN, "TAN"),
 
-    TEAM_BLACK_AND_WHITE(-25, HadalColor.NOTHING, HadalColor.NOTHING, "BLACK AND WHITE") {
+    TEAM_BLACK_AND_WHITE(-25, HadalColor.GREY, HadalColor.GREY, "BLACK AND WHITE") {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {

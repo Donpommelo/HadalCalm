@@ -63,11 +63,11 @@ public class SavedPlayerFields {
 	}
 
 	//this gets the name displayed in score windows. Gives an indication of which player is the host
-	public String getName() { 
+	public String getPingText() {
 		if (connID == 0) {
-			return "(HOST) " + name; 
+			return "(HOST) ";
 		} else {
-			return "(" + ping + " ms) " + name; 
+			return "(" + ping + " ms) ";
 		}
 	}
 	
@@ -77,16 +77,12 @@ public class SavedPlayerFields {
 
 	/**
 	 * This abridges a name according to a max length in characters
-	 * @param includePing: should we include the player's ping in the name?
 	 * @param maxNameLen: the max characters
 	 * @return the new abridged name
 	 */
-	public String getNameAbridged(boolean includePing, int maxNameLen) {
+	public String getNameAbridged(int maxNameLen) {
 		String displayedName = getNameShort();
-		if (includePing) {
-			displayedName = getName();
-		}
-		
+
 		if (displayedName.length() > maxNameLen) {
 			displayedName = displayedName.substring(0, maxNameLen).concat("...");
 		}

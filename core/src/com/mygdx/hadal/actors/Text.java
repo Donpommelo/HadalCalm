@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -113,6 +114,8 @@ public class Text extends AHadalActor {
 
 	@Override
 	public Color getColor() { return color; }
+
+	public void setColor(Vector3 color) { this.color = new Color(color.x, color.y, color.z, 1.0f); }
 
 	@Override
 	public void setColor(Color color) { this.color = color; }

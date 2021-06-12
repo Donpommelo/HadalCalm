@@ -1,5 +1,7 @@
 package com.mygdx.hadal.server;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 
@@ -39,6 +41,26 @@ public class User {
         scoreUpdated = true;
 
         hitBoxFilter = AlignmentFilter.getUnusedAlignment();
+    }
+
+    private static final Vector3 rgb = new Vector3();
+    public String getNameAbridgedColored(int maxNameLen) {
+        String displayedName = scores.getNameShort();
+
+        if (displayedName.length() > maxNameLen) {
+            displayedName = displayedName.substring(0, maxNameLen).concat("...");
+        }
+
+        if (teamFilter.equals(AlignmentFilter.NONE)) {
+            rgb.setZero();
+        } else if (teamFilter.getColor1RGB().isZero()) {
+            rgb.setZero();
+        } else {
+            rgb.set(teamFilter.getColor1RGB());
+        }
+
+        String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
+        return "[" + hex + "]" + displayedName + "[]";
     }
 
     /**

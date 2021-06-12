@@ -6,12 +6,12 @@ package com.mygdx.hadal.effects;
  */
 public enum HadalColor {
 
-	NOTHING(0.0f, 0.0f, 0.0f),
+	NOTHING(1.0f, 1.0f, 1.0f),
 	RANDOM(-1.0f, -1.0f, -1.0f),
 	CHANGING(0.0f, 0.0f, 0.0f),
 	
-	WHITE(0.0f, 0.0f, 0.0f),
-	BLACK(1.0f, 1.0f, 1.0f),
+	WHITE(1.0f, 1.0f, 1.0f),
+	BLACK(0.0f, 0.0f, 0.0f),
 	
 	RED(1.0f, 0.0f, 0.0f),
 	GREEN(0.0f, 1.0f, 0.0f),
