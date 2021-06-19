@@ -161,7 +161,7 @@ public class Setting {
 	public void resetAudio() {
 		soundVolume = 1.0f;
 		musicVolume = 1.0f;
-		masterVolume = 0.75f;
+		masterVolume = 0.5f;
 		hitsoundVolume = 0.5f;
 		hitsoundType = 1;
 	}

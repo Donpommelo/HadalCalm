@@ -51,9 +51,7 @@ public class User {
             displayedName = displayedName.substring(0, maxNameLen).concat("...");
         }
 
-        if (teamFilter.equals(AlignmentFilter.NONE)) {
-            rgb.setZero();
-        } else if (teamFilter.getColor1RGB().isZero()) {
+        if (teamFilter.getColor1RGB().isZero()) {
             rgb.setZero();
         } else {
             rgb.set(teamFilter.getColor1RGB());

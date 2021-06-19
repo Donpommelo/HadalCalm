@@ -184,7 +184,7 @@ public enum AlignmentFilter {
                 teamSelection.put(user, currentTeam);
 
                 if (user.getTeamFilter() != AlignmentFilter.NONE && currentTeams[currentTeam] == AlignmentFilter.NONE) {
-                    if (!user.getTeamFilter().isUsed()) {
+                    if (!user.getTeamFilter().isUsed() && user.getTeamFilter().standardChoice) {
                         user.getTeamFilter().setUsed(true);
                         currentTeams[currentTeam] = user.getTeamFilter();
                     }

@@ -366,11 +366,13 @@ public class ParticleEntity extends HadalEntity {
 	 * Set the color of the particle effect
 	 */
 	public ParticleEntity setColor(HadalColor color) {
-		this.color.set(color.getR(), color.getG(), color.getB());
-		
+
+		//setting color to nothing means it should be unchanged, not set to white
 		if (color.equals(HadalColor.NOTHING)) {
 			return this;
-		} else if (color.equals(HadalColor.RANDOM)) {
+		}
+
+		if (color.equals(HadalColor.RANDOM)) {
 			
 			//for random colors, each emitter is tinted with random r,b,g
 			for (int i = 0; i < effect.getEmitters().size; i++) {
@@ -379,14 +381,18 @@ public class ParticleEntity extends HadalEntity {
 				colors[1] = MathUtils.random();
 				colors[2] = MathUtils.random();
 			}
-		} else {
-			for (int i = 0; i < effect.getEmitters().size; i++) {
-				float[] colors = effect.getEmitters().get(i).getTint().getColors();
-				colors[0] = color.getR();
-				colors[1] = color.getG();
-				colors[2] = color.getB();
-			}
+			return this;
 		}
+
+		this.color.set(color.getR(), color.getG(), color.getB());
+
+		for (int i = 0; i < effect.getEmitters().size; i++) {
+			float[] colors = effect.getEmitters().get(i).getTint().getColors();
+			colors[0] = color.getR();
+			colors[1] = color.getG();
+			colors[2] = color.getB();
+		}
+
 		return this;
 	}
 
