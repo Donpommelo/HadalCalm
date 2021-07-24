@@ -180,7 +180,7 @@ public class Boss5 extends EnemyFloating {
 	private static final Vector2 projSize = new Vector2(40, 40);
 	private static final Vector2 projSpriteSize = new Vector2(60, 60);
 
-	Vector2 angle = new Vector2(1, 0);
+	final Vector2 angle = new Vector2(1, 0);
 	private void radialBurst(String dummyId) {
 		EnemyUtils.moveToDummy(state, this, dummyId, charge1Speed, moveDurationMax);
 		windupParticle(Particle.DIATOM_TELEGRAPH, HadalColor.VIOLET, 40.0f, radialWindup, radialWindup);

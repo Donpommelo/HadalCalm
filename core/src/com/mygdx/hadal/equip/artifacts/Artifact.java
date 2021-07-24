@@ -7,7 +7,7 @@ import com.mygdx.hadal.statuses.Status;
 
 public class Artifact {
 
-	protected Status[] enchantment;
+	protected final Status[] enchantment;
 	private final int slotCost;
 	
 	private UnlockArtifact unlock;

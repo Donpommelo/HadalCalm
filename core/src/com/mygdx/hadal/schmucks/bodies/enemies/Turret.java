@@ -122,11 +122,8 @@ public class Turret extends Enemy {
 	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
-		boolean flip = false;
-		if (Math.abs(attackAngle) > 90) {
-			flip = true;
-		}
-		
+		boolean flip = Math.abs(attackAngle) > 90;
+
 		float rotationYReal = rotationY;
 		if (flip) {
 			rotationYReal = size.y / scale - rotationY;
@@ -176,8 +173,7 @@ public class Turret extends Enemy {
 	@Override
 	public void onClientSync(Object o) {
 		super.onClientSync(o);
-		if (o instanceof Packets.SyncEntity) {
-			Packets.SyncEntity p = (Packets.SyncEntity) o;
+		if (o instanceof Packets.SyncEntity p) {
 			attackAngle = p.angle;
 		}
 	}
@@ -205,8 +201,6 @@ public class Turret extends Enemy {
 	}
 	
 	public boolean isVisible() { return true; }
-	
-	public TurretState getCurrentState() {	return currentState; }
 
 	public void setCurrentState(TurretState currentState) { this.currentState = currentState; }
 	

@@ -133,17 +133,17 @@ public class ChargeBeam extends RangedWeapon {
 		float damageMultiplier = 1.5f;
 		float kbMultiplier = 1;
 
-		switch(chargeStage) {
-		case 2:
-			sizeMultiplier = 2.0f;
-			damageMultiplier = 5.0f;
-			kbMultiplier = 3.0f;
-			break;
-		case 1:
-			sizeMultiplier = 1.2f;
-			damageMultiplier = 2.5f;
-			kbMultiplier = 2.0f;
-			break;
+		switch (chargeStage) {
+			case 2 -> {
+				sizeMultiplier = 2.0f;
+				damageMultiplier = 5.0f;
+				kbMultiplier = 3.0f;
+			}
+			case 1 -> {
+				sizeMultiplier = 1.2f;
+				damageMultiplier = 2.5f;
+				kbMultiplier = 2.0f;
+			}
 		}
 		
 		final float damageMultiplier2 = damageMultiplier;

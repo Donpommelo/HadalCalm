@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class UISpectator extends AHadalActor {
 
-    protected PlayState state;
+    protected final PlayState state;
     private final BitmapFont font;
 
     private static final int mainX = 0;

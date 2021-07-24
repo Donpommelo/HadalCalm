@@ -43,12 +43,10 @@ public class DamageHeadshot extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			if (fixB instanceof PlayerBodyData) {
-				PlayerBodyData p = (PlayerBodyData) fixB;
+			if (fixB instanceof PlayerBodyData p) {
 				if ((hbox.getPixelPosition().y - p.getPlayer().getPixelPosition().y) > headshotThreshold * Player.hbHeight * Player.scale) {
 
 					float headshotBonus = currentCharge / maxCharge * bonusDamage;
-
 					hbox.setDamageMultiplier(hbox.getDamageMultiplier() + headshotBonus);
 				}
 			}

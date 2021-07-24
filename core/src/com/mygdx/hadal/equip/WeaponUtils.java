@@ -53,8 +53,8 @@ public class WeaponUtils {
 	private static final Sprite missileSprite = Sprite.MISSILE_B;
 	private static final Sprite beeSprite = Sprite.BEE;
 
-	public static Hitbox createExplosion(PlayState state, Vector2 startPos, float size, Schmuck user,
-										 float explosionDamage, float explosionKnockback, short filter) {
+	public static void createExplosion(PlayState state, Vector2 startPos, float size, Schmuck user,
+									   float explosionDamage, float explosionKnockback, short filter) {
 		
 		float newSize = size * (1 + user.getBodyData().getStat(Stats.EXPLOSION_SIZE));
 
@@ -71,8 +71,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ExplosionDefault(state, hbox, user.getBodyData(), explosionDamage, explosionKnockback,
 			selfDamageReduction, DamageTypes.EXPLOSIVE));
-		
-		return hbox;
+
 	}
 	
 	public static void createGrenade(PlayState state, Vector2 startPos, Vector2 size, Schmuck user, float baseDamage, float knockback, float lifespan,
@@ -399,10 +398,10 @@ public class WeaponUtils {
 	}
 
 	private static final Sprite[] vineSprites = {Sprite.VINE_A, Sprite.VINE_C, Sprite.VINE_D};
-	public static Hitbox createVine(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelo,
-									int vineNum, float lifespan, float vineDamage, float vineKB,
-									int spreadMin, int spreadMax, int bendLength, int bendSpread,
-									Vector2 vineInvisSize, Vector2 vineSize, Vector2 vineSpriteSize, int splitNum) {
+	public static void createVine(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelo,
+								  int vineNum, float lifespan, float vineDamage, float vineKB,
+								  int spreadMin, int spreadMax, int bendLength, int bendSpread,
+								  Vector2 vineInvisSize, Vector2 vineSize, Vector2 vineSpriteSize, int splitNum) {
 
 		SoundEffect.ATTACK1.playUniversal(state, user.getPixelPosition(), 0.4f, 0.5f, false);
 
@@ -503,7 +502,6 @@ public class WeaponUtils {
 			}
 		});
 
-		return hbox;
 	}
 
 	private static final Vector2 pingSize = new Vector2(60, 54);
@@ -605,8 +603,7 @@ public class WeaponUtils {
 
 		if (schmuck == null) { return ""; }
 
-		if (schmuck instanceof Player) {
-			Player player = (Player) schmuck;
+		if (schmuck instanceof Player player) {
 			String displayedName = player.getName();
 
 			if (displayedName.length() > maxNameLen) {
@@ -642,10 +639,7 @@ public class WeaponUtils {
 					public void onTouch(HadalData fixB) {
 						super.onTouch(fixB);
 						
-						if (isAlive() && fixB instanceof PlayerBodyData) {
-							
-							
-							PlayerBodyData player = ((PlayerBodyData)fixB);
+						if (isAlive() && fixB instanceof PlayerBodyData player) {
 							switch(type) {
 							case AMMO:
 								

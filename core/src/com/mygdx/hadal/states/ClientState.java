@@ -133,21 +133,16 @@ public class ClientState extends PlayState {
 			world.step(physicsTime, 8, 3);
 		}
 		
-		//Send mouse position to the server.
-		mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-		HadalGame.viewportCamera.unproject(mousePosition);
-
-		if (!lastMouseLocation.equals(mousePosition)) {
-			HadalGame.client.sendUDP(new Packets.MouseMove(mousePosition.x, mousePosition.y));
-		}
-
 		inputAccumulator += delta;
 		while (inputAccumulator >= inputSyncTime) {
 			inputAccumulator -= inputSyncTime;
 
 			if (controller != null) {
-				HadalGame.client.sendUDP(new Packets.SyncKeyStrokes(((ClientController) controller)
-					.getButtonsHeld().toArray(new PlayerAction[0]), getTimer()));
+				mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+				HadalGame.viewportCamera.unproject(mousePosition);
+
+				HadalGame.client.sendUDP(new Packets.SyncKeyStrokes(mousePosition.x, mousePosition.y,
+						((ClientController) controller).getButtonsHeld().toArray(new PlayerAction[0]), getTimer()));
 				((ClientController) controller).postKeystrokeSync();
 			}
 		}

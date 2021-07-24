@@ -44,8 +44,8 @@ public class GameStateManager {
 	
 	private static final ArrayList<TextureAtlas> atlases = new ArrayList<>();
 	public static TextureAtlas projectileAtlas, multitoolAtlas, fishAtlas, turretAtlas, eventAtlas, explosionAtlas, uiAtlas;
-	public static TextureAtlas particleAtlas, impactAtlas, starShotAtlas;
-	
+	public static TextureAtlas particleAtlas, impactAtlas;
+
 	//This is a stored list of all the dialogs/death/misc messages in the game, read from json file.
 	public static JsonValue dialogs, deathMessages, shops, miscText, randomText;
 	
@@ -58,8 +58,8 @@ public class GameStateManager {
 	private SharedSetting sharedSetting, hostSetting;
 	
 	//Json reader here. Use this instead of creating new ones elsewhere.
-	public static Json json = new Json();
-	public static JsonReader reader = new JsonReader();
+	public static final Json json = new Json();
+	public static final JsonReader reader = new JsonReader();
 	
 	//are we in single or multiplayer mode?
 	public static Mode currentMode = Mode.SINGLE;

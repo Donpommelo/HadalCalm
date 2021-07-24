@@ -21,8 +21,7 @@ import com.mygdx.hadal.utils.Constants;
 public class Wall extends Event {
 
 	private final ChainShape shape;
-	private Vector2[] vertices;
-	
+
 	public Wall(PlayState state, ChainShape shape) {
 		super(state);
 		this.shape = shape;
@@ -41,14 +40,12 @@ public class Wall extends Event {
 		filter.maskBits = (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE);
         body.getFixtureList().get(0).setFilterData(filter);
         body.getFixtureList().get(0).setUserData(eventData);
-        
-        vertices = new Vector2[shape.getVertexCount()];
+
+		Vector2[] vertices = new Vector2[shape.getVertexCount()];
         for (int i = 0; i < vertices.length; i++) {
         	vertices[i] = new Vector2();
         	shape.getVertex(i, vertices[i]);
         }
         shape.dispose();
 	}
-	
-	public Vector2[] getVertices() { return vertices; }
 }

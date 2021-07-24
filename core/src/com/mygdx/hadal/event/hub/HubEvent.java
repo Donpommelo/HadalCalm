@@ -25,16 +25,16 @@ public class HubEvent extends Event {
 	protected boolean open;
 	
 	//the string that is displayed in the menu
-	protected String title;
+	protected final String title;
 	
 	//this is the type of hub
-	protected hubTypes type;
+	protected final hubTypes type;
 	
 	//should we check unlock status for options? should we close the menu when the player moves far away from the event?
-	protected boolean checkUnlock, closeOnLeave;
+	protected final boolean checkUnlock, closeOnLeave;
 	
 	//options displayed here must have these tags.
-	protected ArrayList<UnlockTag> tags;
+	protected final ArrayList<UnlockTag> tags;
 	protected UnlockTag tag;
 	protected UnlockTag lastTag = UnlockTag.ALL;
 	protected String lastSearch = "";

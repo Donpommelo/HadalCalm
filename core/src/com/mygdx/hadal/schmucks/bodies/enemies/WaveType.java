@@ -106,10 +106,10 @@ public enum WaveType {
 	;
 	
 	//this is the list of enemies in the wave
-	protected ArrayList<WaveEnemy> enemies = new ArrayList<>();
+	protected final ArrayList<WaveEnemy> enemies = new ArrayList<>();
 	
 	//tags if we want a wave to only spawn at certain spawn points
-	protected ArrayList<WaveTag> tags = new ArrayList<>();
+	protected final ArrayList<WaveTag> tags = new ArrayList<>();
 	
 	WaveType(WaveTag... tags) {
 		Collections.addAll(this.tags, tags);

@@ -56,7 +56,7 @@ public class MessageWindow {
 	private final PlayState state;
 	private final Stage stage;
 	
-	public Table table, tableLog;
+	public final Table table, tableLog;
 	private TextField enterMessage;
 	private Text backButton, sendButton;
 	private ScrollPane textLog;

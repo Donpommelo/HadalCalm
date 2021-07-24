@@ -74,12 +74,12 @@ public class PlayState extends GameState {
 	private UnlockActives mapActiveItem;
 	
 	//These process and store the map parsed from the Tiled file.
-	protected TiledMap map;
-	protected OrthogonalTiledMapRenderer tmr;
+	protected final TiledMap map;
+	protected final OrthogonalTiledMapRenderer tmr;
 	
 	//world manages the Box2d world and physics. b2dr renders debug lines for testing
-	protected Box2DDebugRenderer b2dr;
-	protected World world;
+	protected final Box2DDebugRenderer b2dr;
+	protected final World world;
 
 	//This holds the mouse location
 	private final MouseTracker mouse;
@@ -106,11 +106,11 @@ public class PlayState extends GameState {
 	private final AnchorPoint anchor;
 	
 	//this is the current level
-	protected UnlockLevel level;
-	protected GameMode mode;
+	protected final UnlockLevel level;
+	protected final GameMode mode;
 
 	//This is the id of the start event that we will be spawning on
-	private String startId;
+	private final String startId;
 	
 	//This is the coordinate that the camera tries to focus on when set to aim at an entity. When null, the camera focuses on the player.
 	private Vector2 cameraTarget;
@@ -1193,7 +1193,7 @@ public class PlayState extends GameState {
 			if (teamMode != 0) {
 				AlignmentFilter winningTeam = teamScoresList.get(0);
 				if (winningTeam.isTeam()) {
-					resultsText = winningTeam.toString() + " WINS";
+					resultsText = winningTeam + " WINS";
 				} else {
 					for (User user: HadalGame.server.getUsers().values()) {
 						if (!user.isSpectator()) {
@@ -1626,8 +1626,6 @@ public class PlayState extends GameState {
 	public float getTeamScoreCap() {return teamScoreCap; }
 
 	public void setTeamScoreCap(int teamScoreCap) { this.teamScoreCap = teamScoreCap; }
-
-	public void setStartId(String startId) { this.startId = startId; }
 
 	public void toggleVisibleHitboxes(boolean debugHitbox) { this.debugHitbox = debugHitbox; }
 

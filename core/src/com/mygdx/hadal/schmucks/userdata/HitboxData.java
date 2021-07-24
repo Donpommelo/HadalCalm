@@ -19,10 +19,10 @@ import java.util.Arrays;
 public class HitboxData extends HadalData {
 
 	//reference to game state.
-	protected PlayState state;
+	protected final PlayState state;
 	
 	//The hitbox containing this data
-	protected Hitbox hbox;
+	protected final Hitbox hbox;
 
 	//this is a damage multiplier for reflected hitboxes
 	private static final float reflectMultiplier = 1.4f;

@@ -14,10 +14,10 @@ import com.mygdx.hadal.statuses.DamageTypes;
 public abstract class HitboxStrategy implements IHitboxStrategy {
 
 	//reference to game state.
-	protected PlayState state;
+	protected final PlayState state;
 	
 	//The hitbox containing this data
-	protected Hitbox hbox;
+	protected final Hitbox hbox;
 	
 	//the data of the schmuck who created this hitbox
 	protected BodyData creator;

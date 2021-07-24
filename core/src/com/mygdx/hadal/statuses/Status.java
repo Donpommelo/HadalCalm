@@ -16,13 +16,13 @@ import com.mygdx.hadal.states.PlayState;
 public class Status {
 
 	//References to game fields.
-	protected PlayState state;
+	protected final PlayState state;
 	
 	//How long until the status (if temporary) is removed
 	protected float duration;
 	
 	//Is this status removed when its duration expires?
-	protected boolean perm;
+	protected final boolean perm;
 	
 	//The Data of the Schmuck that received/inflicted this status.
 	protected BodyData inflicter, inflicted;
@@ -112,12 +112,6 @@ public class Status {
 	public void afterActiveItem(ActiveItem tool) {}
 	
 	public void afterBossSpawn(Enemy boss) {}
-	
-	public BodyData getInflicter() { return inflicter; }
-
-	public void setInflicter(BodyData inflicter) { this.inflicter = inflicter; }
-
-	public BodyData getInflicted() { return inflicted; }
 
 	public void setInflicted(BodyData inflicted) { this.inflicted = inflicted; }
 	

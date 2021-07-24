@@ -234,7 +234,7 @@ public class Boss4 extends EnemyFloating {
 	private static final Vector2 projSize = new Vector2(80, 40);
 	private static final Vector2 projSpriteSize = new Vector2(120, 60);
 	
-	Vector2 angle = new Vector2(1, 0);
+	final Vector2 angle = new Vector2(1, 0);
 	private void radialShot1() {
 		changeColor(HadalColor.VIOLET, shot1Windup);
 		singlePulse();

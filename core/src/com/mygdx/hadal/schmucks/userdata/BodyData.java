@@ -69,8 +69,8 @@ public class BodyData extends HadalData {
 	protected float currentHp, currentFuel;
 
 	//statuses inflicted on the unit. statuses checked is used to recursive activate each status effect
-	protected ArrayList<Status> statuses;
-	protected ArrayList<Status> statusesChecked;	
+	protected final ArrayList<Status> statuses;
+	protected final ArrayList<Status> statusesChecked;
 	
 	//the currently equipped tool
 	protected Equippable currentTool;

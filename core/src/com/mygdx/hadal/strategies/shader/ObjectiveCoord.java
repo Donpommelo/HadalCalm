@@ -14,8 +14,8 @@ import com.mygdx.hadal.strategies.ShaderStrategy;
  */
 public class ObjectiveCoord extends ShaderStrategy {
 
-	Vector3 screenCoord = new Vector3();
-	Vector2 objectiveLocation = new Vector2();
+	private final Vector3 screenCoord = new Vector3();
+	private final Vector2 objectiveLocation = new Vector2();
 	@Override
 	public void playController(PlayState state, ShaderProgram shader, float delta) {
 		if (!state.getUiObjective().getObjectives().isEmpty()) {

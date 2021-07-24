@@ -49,9 +49,7 @@ public class DropThroughPlatform extends Event {
 						HadalEntity entity = fixB.getEntity();
 						
 						//let a fastfalling player drop through without stopping
-						if (entity instanceof Player) {
-							Player p = (Player) entity;
-							
+						if (entity instanceof Player p) {
 							if (p.isFastFalling()) { return; }
 						}
 						Filter filter = entity.getMainFixture().getFilterData();

@@ -18,10 +18,10 @@ import java.util.Set;
 public class EventData extends HadalData {
 
 	//this is the event that owns this data
-	protected Event event;
+	protected final Event event;
 	
 	//This is a list of the schmucks touching the event
-	protected Set<HadalEntity> schmucks;
+	protected final Set<HadalEntity> schmucks;
 
 	public EventData(Event event) {
 		super(UserDataTypes.EVENT, event);

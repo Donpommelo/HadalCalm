@@ -44,15 +44,9 @@ public class Timer extends Event {
 				if (activator.getEvent() instanceof TriggerAlt) {
 					String msg = ((TriggerAlt) activator.getEvent()).getMessage();
 					switch (msg) {
-						case "on":
-							((Timer) event).on = true;
-							break;
-						case "off":
-							((Timer) event).on = false;
-							break;
-						case "reset":
-							timeCount = 0;
-							break;
+						case "on" -> ((Timer) event).on = true;
+						case "off" -> ((Timer) event).on = false;
+						case "reset" -> timeCount = 0;
 					}
 				} else {
 					((Timer) event).on = !((Timer) event).on;

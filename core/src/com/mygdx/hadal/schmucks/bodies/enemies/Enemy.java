@@ -37,7 +37,7 @@ public class Enemy extends Schmuck {
 	private final EnemyType type;
 
     //this is the size of the enemy's hitbox
-	protected Vector2 hboxSize;
+	protected final Vector2 hboxSize;
     
     //is this enemy a boss? (makes it show up in the boss ui)
     private boolean isBoss = false;
@@ -85,18 +85,18 @@ public class Enemy extends Schmuck {
 	private final ArrayList<EnemyAction> actions;
 	private EnemyAction currentAction;
 	
-	private ArrayList<EnemyAction> secondaryActions;
+	private final ArrayList<EnemyAction> secondaryActions;
 	private EnemyAction currentSecondaryAction;
 	
 	//this is the enemy sprite
-	protected Sprite sprite;
+	protected final Sprite sprite;
 	private final TextureRegion hpSprite;
 	private static final float uiScale = 0.15f;
 	private static final float hpX = 10.0f;
 	private static final float hpY = 30.0f;
 
 	 //This is the event that spawner this enemy. Is null for the client and for enemies spawned in other ways.
-    protected SpawnerSchmuck spawner;
+    protected final SpawnerSchmuck spawner;
     
 	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, float baseHp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
 		super(state, startPos, size, type.getName(), filter, baseHp);
@@ -321,8 +321,7 @@ public class Enemy extends Schmuck {
 	
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncSchmuck) {
-			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
+		if (o instanceof Packets.SyncSchmuck p) {
 			if (isBoss) {
 				((ClientState) state).getUiPlay().setOverrideBossHpPercent(p.hpPercent);
 				
@@ -383,21 +382,15 @@ public class Enemy extends Schmuck {
 
 	public void setMoveSpeed(int moveSpeed) { this.moveSpeed = moveSpeed; }
 	
-	public Event getMovementTarget() { return eventTarget; }
-
 	public void setMovementTarget(Event movementTarget) { this.eventTarget = movementTarget; }
 
 	public ArrayList<EnemyAction> getActions()  {return actions; }
 
 	public ArrayList<EnemyAction> getSecondaryActions() { return secondaryActions; }
 
-	public void setSecondaryActions(ArrayList<EnemyAction> secondaryActions) { this.secondaryActions = secondaryActions; }
-
 	public float getAttackAngle() {	return attackAngle; }
 
 	public void setAttackAngle(float attackAngle) {	this.attackAngle = attackAngle;	}
-
-	public float getDesiredAngle() { return desiredAngle; }
 
 	public void setDesiredAngle(float desiredAngle) { this.desiredAngle = desiredAngle; }
 	

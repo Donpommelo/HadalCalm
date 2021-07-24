@@ -40,8 +40,6 @@ public class PlayerResultsIcon extends AHadalActor {
 	private static final float readyOffsetX = 20.0f;
 	private static final float readyOffsetY = 140.0f;
 
-	protected GlyphLayout layout;
-
 	private TextureRegion playerSprite;
 	private final TextureRegion readyIcon;
 

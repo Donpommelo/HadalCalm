@@ -128,8 +128,7 @@ public class PickupEquip extends Event {
 	@Override
 	public void onClientSync(Object o) {
 
-		if (o instanceof Packets.SyncPickup) {
-			Packets.SyncPickup p = (Packets.SyncPickup) o;
+		if (o instanceof Packets.SyncPickup p) {
 			setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.getByName(p.newPickup), null)));
 		} else {
 			super.onClientSync(o);

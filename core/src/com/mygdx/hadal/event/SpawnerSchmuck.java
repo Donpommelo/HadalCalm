@@ -33,7 +33,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class SpawnerSchmuck extends Event {
 
 	private int numEnemies;
-	private int limit;
+	private final int limit;
 	private final int extraField;
 	private final float delay;
 	private final boolean boss;

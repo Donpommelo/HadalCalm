@@ -241,8 +241,7 @@ public class Packets {
 	}
 	
 	public static class Unpaused {
-		public String unpauser;
-		public Unpaused() {}
+
 		
 		/**
 		 * Unpaused is sent from Clients to Server and vice-versa whenever any Player unpauses.
@@ -250,11 +249,8 @@ public class Packets {
 		 * If the Server unpauses, or receives an Unpause from any Client, it sends an Unpaused to all clients.
 		 * Clients receiving an Unpause simply unpause their games.
 		 * Note that stuff like Players connecting/disconnecting during an unpause will all occur at once after unpausing.
-		 * @param unpauser: This is the name of the Player who unpaused. Not using it yet, but maybe eventually.
 		 */
-		public Unpaused(String unpauser) {
-			this.unpauser = unpauser;
-		}
+		public Unpaused() {}
 	}
 	
 	public static class ServerNotification {
@@ -329,31 +325,23 @@ public class Packets {
 	}
 	
 	public static class SyncKeyStrokes {
+		public float mouseX, mouseY;
 		public PlayerAction[] actions;
 		public float timestamp;
 
 		public SyncKeyStrokes() {}
 
-		public SyncKeyStrokes(PlayerAction[] actions, float timestamp) {
+		/**
+		 * @param mouseX: X-coordinate of client's mouse
+		 * @param mouseY: Y-coordinate of client's mouse
+		 * @param actions: Array of actions whose button is currently held
+		 * @param timestamp: Time that this imput snapshot was sent
+		 */
+		public SyncKeyStrokes(float mouseX, float mouseY, PlayerAction[] actions, float timestamp) {
+			this.mouseX = mouseX;
+			this.mouseY = mouseY;
 			this.actions = actions;
 			this.timestamp = timestamp;
-		}
-	}
-
-	public static class MouseMove {
-		public float x, y;
-		public MouseMove() {}
-		
-		/**
-		 * A MouseMove is sent from the Client to the Server every engine tick to update location of their mouse.
-		 * The Server uses these packets to synchronize each player's mouse pointer so sprites point weapons right directions.
-		 * 
-		 * @param x: X position of the client's mouse.
-		 * @param y: Y position of the client's mouse.
-		 */
-		public MouseMove(float x, float y) {
-			this.x = x;
-			this.y = y;
 		}
 	}
 	
@@ -714,7 +702,6 @@ public class Packets {
 	public static class SyncPlayerAll {
 		public String entityID;
         public Vector2 attackAngle;
-        public MoveState moveState;
         public boolean grounded;
         public int currentSlot;
         public boolean reloading;
@@ -800,7 +787,6 @@ public class Packets {
 		public String entityID;
 		public String attachedID;
         public Vector2 pos;
-        public Vector2 offset;
         public boolean attached;
 		public String particle;
 		public boolean startOn;
@@ -993,7 +979,7 @@ public class Packets {
 		 * This is distinct from SyncSoundSingle because the sound is attached to an entity that can move/be destroyed etc.
 		 * The volume and pan of the sound is dependent on the relative position of the entity.
 		 * @param entityID: schmuck id of the SoundEntity
-		 * @param attachedID: schmuck id of the entity that the SchmuckEntity is to attach to
+		 * @param attachedID: schmuck id of the entity that the SchmuckEntity is to attached to
 		 * @param sound: The sound effect to play
 		 * @param volume: volume of the sound. 1.0f = full volume.
 		 * @param pitch: pitch of the sound. 1.0f - default pitch.
@@ -1015,7 +1001,6 @@ public class Packets {
 	
 	public static class SyncSound {
 		public String entityID;
-		public Vector2 pos;
 		public float volume;
 		public boolean on;
 		public float age;
@@ -1026,15 +1011,13 @@ public class Packets {
 		/**
 		 * A SyncSound synchronizes a single sound entity and is sent from the server to the client every world-sync.
 		 * @param entityID: schmuck id of the SoundEntity
-		 * @param pos: new position of the soundentity
 		 * @param volume: new volume of the soundentity
 		 * @param on: is the soundentity on?
 		 * @param age: age of the entity. (used by client to determine if they missed a packet)
 		 * @param timestamp: time of sync. Used for client prediction.
 		 */
-		public SyncSound(String entityID, Vector2 pos, float volume, boolean on, float age, float timestamp) {
+		public SyncSound(String entityID, float volume, boolean on, float age, float timestamp) {
 			this.entityID = entityID;
-			this.pos = pos;
 			this.volume = volume;
 			this.on = on;
 			this.age = age;
@@ -1260,21 +1243,6 @@ public class Packets {
 		}
 	}
 
-	public static class SyncAssignedTeams {
-		public AlignmentFilter[] teams;
-
-		public SyncAssignedTeams() {}
-
-		/**
-		 * A SyncAssignedTeams is sent from the server to the client when a new level is loaded with auto-assigned teams.
-		 * The client must receive the team assignments to process their ui
-		 * @param teams: an array of teams
-		 */
-		public SyncAssignedTeams(AlignmentFilter[] teams) {
-			this.teams = teams;
-		}
-	}
-
 	public static class SyncObjectiveMarker {
 		public String entityID;
 		public Vector3 color;
@@ -1318,7 +1286,6 @@ public class Packets {
 		kryo.register(ClientChat.class);
     	kryo.register(ClientReady.class);
 		kryo.register(SyncKeyStrokes.class);
-    	kryo.register(MouseMove.class);
     	kryo.register(LoadLevel.class);
     	kryo.register(ClientLoaded.class);
     	kryo.register(ClientPlayerCreated.class);
@@ -1366,7 +1333,6 @@ public class Packets {
 		kryo.register(SyncEmote.class);
 		kryo.register(SyncKillMessage.class);
 		kryo.register(SyncNotification.class);
-		kryo.register(SyncAssignedTeams.class);
 		kryo.register(SyncObjectiveMarker.class);
 
 		kryo.register(int[].class);

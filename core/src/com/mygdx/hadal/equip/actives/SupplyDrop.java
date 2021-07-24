@@ -18,7 +18,6 @@ public class SupplyDrop extends ActiveItem {
 	private static final float maxCharge = 10.0f;
 
 	private static final float equipDropLifepan = 12.0f;
-	private static final float bonusAtkSpd = 0.4f;
 
 	public SupplyDrop(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

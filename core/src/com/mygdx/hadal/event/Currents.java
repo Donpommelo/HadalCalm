@@ -34,7 +34,6 @@ public class Currents extends Event {
 	
 	//force applied every 1/60 seconds
 	private final Vector2 vec = new Vector2();
-	private final float angle;
 
 	//This keeps track of engine timer.
 	private float controllerCount;
@@ -48,15 +47,12 @@ public class Currents extends Event {
 	public Currents(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec) {
 		super(state, startPos, size);
 		this.vec.set(vec);
-		this.angle = MathUtils.atan2(vec.y , vec.x);
 		spawnTimerLimit = 5120 / (size.x * size.y);
 	}
 	
 	public Currents(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec, float duration) {
 		super(state, startPos, size, duration);
 		this.vec.set(vec);
-		this.angle = MathUtils.atan2(vec.y , vec.x);
-
 		spawnTimerLimit = 2560 / (size.x * size.y);
 	}
 	

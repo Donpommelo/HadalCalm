@@ -60,13 +60,8 @@ public class Loadout {
 		Arrays.fill(multitools, UnlockEquip.NOTHING);
 		Arrays.fill(artifacts, UnlockArtifact.NOTHING);
 
-		for (int i = 0; i < maxWeaponSlots; i++) {
-			multitools[i] = old.multitools[i];
-		}
-
-		for (int i = 0; i < maxArtifactSlots; i++) {
-			artifacts[i] = old.artifacts[i];
-		}
+		System.arraycopy(old.multitools, 0, multitools, 0, maxWeaponSlots);
+		System.arraycopy(old.artifacts, 0, artifacts, 0, maxArtifactSlots);
 
 		activeItem = old.activeItem;
 		character = old.character;

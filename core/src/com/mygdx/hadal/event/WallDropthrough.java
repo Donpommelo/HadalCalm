@@ -25,8 +25,7 @@ import com.mygdx.hadal.utils.Constants;
 public class WallDropthrough extends Event {
 
 	private final ChainShape shape;
-	private Vector2[] vertices;
-	
+
 	public WallDropthrough(PlayState state, ChainShape shape) {
 		super(state);
 		this.shape = shape;
@@ -49,9 +48,7 @@ public class WallDropthrough extends Event {
 						HadalEntity entity = fixB.getEntity();
 						
 						//let a fastfalling player drop through without stopping
-						if (entity instanceof Player) {
-							Player p = (Player) entity;
-							
+						if (entity instanceof Player p) {
 							if (p.isFastFalling()) { return; }
 						}
 						Filter filter = entity.getMainFixture().getFilterData();
@@ -104,8 +101,8 @@ public class WallDropthrough extends Event {
 		filter.maskBits = (short) (Constants.BIT_SENSOR | Constants.BIT_PLAYER | Constants.BIT_PROJECTILE);
         body.getFixtureList().get(0).setFilterData(filter);
         body.getFixtureList().get(0).setUserData(eventData);
-        
-        vertices = new Vector2[shape.getVertexCount()];
+
+		Vector2[] vertices = new Vector2[shape.getVertexCount()];
         for (int i = 0; i < vertices.length; i++) {
         	vertices[i] = new Vector2();
         	shape.getVertex(i, vertices[i]);
@@ -113,6 +110,4 @@ public class WallDropthrough extends Event {
         
         shape.dispose();
 	}
-
-	public Vector2[] getVertices() { return vertices; }
 }

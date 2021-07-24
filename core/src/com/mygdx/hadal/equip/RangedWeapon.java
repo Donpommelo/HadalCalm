@@ -17,26 +17,22 @@ public class RangedWeapon extends Equippable {
 
 	//The percent of ammo remaining, total ammo capacity and amount of ammo remaining.
 	protected float ammoPercent;
-	protected int ammoSize;
+	protected final int ammoSize;
 	protected int ammoLeft;
 	
 	//The percent of clip remaining, total clip size and amount of shots remaining.
 	protected float clipPercent;
-	protected int clipSize;
+	protected final int clipSize;
 	protected int clipLeft;
 	
 	//The amount of clip reloaded upon a single reload. (0 means the whole clip is reloaded)
-	protected int reloadAmount;
+	protected final int reloadAmount;
 	
 	//projectile properties. (size is needed to determine projectile spawn origin)
-	protected float projectileSize;
-	protected float projectileSpeed;
-	
-	//The amount of push the weapon applies to the player when fired.
-	protected float recoil;
+	protected final float projectileSize, projectileSpeed, recoil;
 
 	//Does this weapon automatically start reloading when at 0 clip? (exceptions for weapons with special reload functions)
-	protected boolean autoreload;
+	protected final boolean autoreload;
 
 	/**
 	 * Ranged weapons, like most equipment, is constructed when creating tool spawns or default schmuck loadouts
@@ -99,7 +95,7 @@ public class RangedWeapon extends Equippable {
 	 * This is run after the weapon's shootDelay to actually fire.
 	 * Here, the stored velo, recoil, filter are used to generate a projectile
 	 */
-	protected Vector2 projOrigin = new Vector2();
+	protected final Vector2 projOrigin = new Vector2();
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		

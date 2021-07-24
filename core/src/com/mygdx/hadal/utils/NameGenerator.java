@@ -1,7 +1,6 @@
 package com.mygdx.hadal.utils;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.mygdx.hadal.managers.GameStateManager;
 
 import java.util.ArrayList;
 
@@ -1095,14 +1094,6 @@ public enum NameGenerator {
 		firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
 		lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
 		return firstName + " " + lastName;
-	}
-	
-	/**
-	 * Base Case for recursive name generation.
-	 * Start with a name fragment with a "start" tag
-	 */
-	public static String generateName() {
-		return generateName("start");
 	}
 	
 	/**

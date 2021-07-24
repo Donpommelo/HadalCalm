@@ -19,7 +19,7 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class UIPlay extends AHadalActor {
 
-	protected PlayState state;
+	protected final PlayState state;
 	private final BitmapFont font;
 	
 	private final TextureRegion main, reloading, hp, hpLow, hpMissing, fuel, fuelCutoff;

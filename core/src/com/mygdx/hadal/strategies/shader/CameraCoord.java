@@ -12,7 +12,7 @@ import com.mygdx.hadal.strategies.ShaderStrategy;
  */
 public class CameraCoord extends ShaderStrategy {
 
-	Vector3 cameraLocation = new Vector3();
+	final Vector3 cameraLocation = new Vector3();
 	@Override
 	public void playController(PlayState state, ShaderProgram shader, float delta) {
 		cameraLocation.set(state.getCamera().position);

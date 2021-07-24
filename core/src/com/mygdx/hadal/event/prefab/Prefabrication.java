@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public abstract class Prefabrication {
 
-	protected PlayState state;
+	protected final PlayState state;
 	protected int height, width, x, y;
 	
 	public Prefabrication(PlayState state, int width, int height, int x, int y) {

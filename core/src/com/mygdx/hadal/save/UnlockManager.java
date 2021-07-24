@@ -71,6 +71,7 @@ public class UnlockManager {
 				for (int j = 0; j < item.getTags().size(); j++) {
 					if (tag.equals(item.getTags().get(j))) {
 						tagPresent = true;
+						break;
 					}
 				}
 			}

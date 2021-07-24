@@ -135,7 +135,7 @@ public class PauseState extends GameState {
 			        	
 			        	if (ps.isServer()) {
 			        		//If the server unpauses, send a message and notification to all players to unpause.
-			        		HadalGame.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
+			        		HadalGame.server.sendToAllTCP(new Packets.Unpaused());
 			        		
 			        		if (GameStateManager.currentMode == Mode.SINGLE) {
 				        		ps.loadLevel(UnlockLevel.SSTUNICATE1, TransitionState.NEWLEVEL, "");
@@ -352,13 +352,13 @@ public class PauseState extends GameState {
 
     		if (paused) {
     			//If the server unpauses, send a message and notification to all players to unpause.
-        		HadalGame.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
+        		HadalGame.server.sendToAllTCP(new Packets.Unpaused());
     			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
     		}
 		} else {
 			if (paused) {
 				//If a client unpauses, tell the server so it can echo it to everyone else
-				HadalGame.client.sendTCP(new Packets.Unpaused(ps.getPlayer().getName()));
+				HadalGame.client.sendTCP(new Packets.Unpaused());
 			} else {
 				toRemove = true;
 			}
@@ -370,8 +370,6 @@ public class PauseState extends GameState {
 
 	public PlayState getPs() { return ps; }
 
-	public String getPauser() {	return pauser; }	
-	
 	//if the game isn't really paused, we want to process transitions (if the player dies or level transitions level while menu is visible)
 	@Override
 	public boolean processTransitions() { return !paused; }

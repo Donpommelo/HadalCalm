@@ -20,10 +20,10 @@ public abstract class Equippable {
 	protected String name;
 	
 	//The delay in seconds after using this tool before you can use a tool again.
-	protected float useCd;
+	protected final float useCd;
 	
 	//The delay in seconds between pressing the button for this tool and it activating. 
-	protected float useDelay;
+	protected final float useDelay;
 
 	//Whether this tool is currently in the process of reloading or not.
 	protected boolean reloading;
@@ -41,7 +41,7 @@ public abstract class Equippable {
 	protected float chargeCd;
 	
 	//The amount of time it takes to charge this weapon. (default = 0 for non-charge equips)
-	protected float chargeTime;
+	protected final float chargeTime;
 	
 	//These sprites are how the equip looks when equipped and as a pickup
 	private final Sprite equipSprite, eventSprite;
@@ -49,8 +49,8 @@ public abstract class Equippable {
 	//this is the filter that describes who this equippable can hit
 	protected short faction;
 	
-	protected Vector2 weaponVelo = new Vector2();
-	protected Vector2 mouseLocation = new Vector2();
+	protected final Vector2 weaponVelo = new Vector2();
+	protected final Vector2 mouseLocation = new Vector2();
 	
 	/**
 	 * Equippables are constructed when creating tool spawns or default schmuck loadouts
@@ -220,7 +220,7 @@ public abstract class Equippable {
 
 	public Vector2 getWeaponVelo() { return weaponVelo; }
 
-	public void setWeaponVelo(Vector2 weaponVelo) {	this.weaponVelo = weaponVelo; }
+	public void setWeaponVelo(Vector2 weaponVelo) {	this.weaponVelo.set(weaponVelo); }
 	
 	public Vector2 getMouseLocation() { return mouseLocation; }
 

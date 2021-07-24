@@ -163,7 +163,6 @@ public class SoundEntity extends HadalEntity {
 	/**
 	 * For sounds that are tick synced, send over location and volume to clients as well as whether it is on or not
 	 */
-	private final Vector2 newPos = new Vector2();
 	private final Vector2 attachedLocation = new Vector2();
 	@Override
 	public void onServerSync() {
@@ -171,8 +170,7 @@ public class SoundEntity extends HadalEntity {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
 					attachedLocation.set(attachedEntity.getPixelPosition());
-					newPos.set(attachedLocation.x, attachedLocation.y);
-					state.getSyncPackets().add(new Packets.SyncSound(entityID.toString(), newPos, volume, on, entityAge, state.getTimer()));
+					state.getSyncPackets().add(new Packets.SyncSound(entityID.toString(),  volume, on, entityAge, state.getTimer()));
 				}
 			}
 		}
@@ -183,8 +181,7 @@ public class SoundEntity extends HadalEntity {
 	 */
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncSound) {
-			Packets.SyncSound p = (Packets.SyncSound) o;
+		if (o instanceof Packets.SyncSound p) {
 			volume = p.volume;
 			if (p.on) {
 				turnOn();
@@ -227,8 +224,6 @@ public class SoundEntity extends HadalEntity {
 		on = false;
 		despawn = true;
 	}
-	
-	public void setAttachedEntity(HadalEntity attachedEntity) { this.attachedEntity = attachedEntity; }
 
 	public void setAttachedId(String attachedId) { this.attachedId = attachedId; }
 

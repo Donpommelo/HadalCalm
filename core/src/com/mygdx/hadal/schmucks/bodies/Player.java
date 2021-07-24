@@ -140,7 +140,7 @@ public class Player extends PhysicsSchmuck {
 	private MouseTracker mouse;
 	
 	//This is the loadout that this player starts with.
-	private Loadout startLoadout;
+	private final Loadout startLoadout;
 	
 	//This is the connection id of the player (0 if server)
 	private int connID;
@@ -235,7 +235,7 @@ public class Player extends PhysicsSchmuck {
 		destroyed = false;
 
 		//create the player's input controller
-		controller = new ActionController(this, state);
+		controller = new ActionController(this);
 		
 		//this line syncs the player's inputs so that holding a button will keep that action held after map transitions
 		if (this == state.getPlayer()) {
@@ -630,7 +630,7 @@ public class Player extends PhysicsSchmuck {
 	private static final int flipRange = 80;
 	private static final int cutoffThickness = 3;
 	private boolean barRight;
-	protected Vector2 mouseAngle = new Vector2();
+	protected final Vector2 mouseAngle = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 
@@ -849,8 +849,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncPlayerAll) {
-			Packets.SyncPlayerAll p = (Packets.SyncPlayerAll) o;
+		if (o instanceof Packets.SyncPlayerAll p) {
 
 			serverAttackAngle.setAngleRad(p.attackAngle.angleRad());
 			grounded = p.grounded;
@@ -869,8 +868,7 @@ public class Player extends PhysicsSchmuck {
 				filter.maskBits = p.maskBits;
 				getMainFixture().setFilterData(filter);
 			}
-		} else if (o instanceof  Packets.DeletePlayer) {
-			Packets.DeletePlayer p = (Packets.DeletePlayer) o;
+		} else if (o instanceof Packets.DeletePlayer p) {
 
 			//delegate to sprite helper for despawn so it can dispose of frame buffer object
 			spriteHelper.despawn(p.type, getPixelPosition(), getLinearVelocity());
@@ -966,13 +964,9 @@ public class Player extends PhysicsSchmuck {
 
 	public float getChargePercent() {return chargePercent;}
 
-	public void setChargePercent(float chargePercent) { this.chargePercent = chargePercent; }
-
 	public ActionController getController() { return controller; }
 	
 	public Loadout getStartLoadout() { return startLoadout; }
-
-	public void setStartLoadout(Loadout startLoadout) { this.startLoadout = startLoadout; }
 
 	public MouseTracker getMouse() { return mouse; }
 

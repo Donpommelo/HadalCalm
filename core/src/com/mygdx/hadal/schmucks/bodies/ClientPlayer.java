@@ -67,8 +67,7 @@ public class ClientPlayer extends Player {
 	public void onReceiveSync(Object o, float timestamp) {
 		super.onReceiveSync(o, timestamp);
 		
-		if (o instanceof Packets.SyncEntity) {
-			Packets.SyncEntity p = (Packets.SyncEntity) o;
+		if (o instanceof Packets.SyncEntity p) {
 
 			float latency = ((ClientState) state).getLatency();
 			float dt = Math.max(0.0f, historyDuration - latency);
@@ -274,8 +273,7 @@ public class ClientPlayer extends Player {
 
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncPlayerAll) {
-			Packets.SyncPlayerAll p = (Packets.SyncPlayerAll) o;
+		if (o instanceof Packets.SyncPlayerAll p) {
 
 			getPlayerData().setCurrentSlot(p.currentSlot);
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);

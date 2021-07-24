@@ -133,8 +133,6 @@ public class ActiveItem extends Equippable {
 		return false;
 	}
 
-	public boolean isReady() { return currentCharge >= maxCharge; }
-	
 	public float chargePercent() { return currentCharge / maxCharge; }	
 	
 	public float getMaxCharge() { return maxCharge; }

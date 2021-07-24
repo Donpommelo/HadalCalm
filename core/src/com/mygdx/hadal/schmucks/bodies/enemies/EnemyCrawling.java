@@ -204,11 +204,7 @@ public class EnemyCrawling extends Enemy {
 	@Override
 	public void render(SpriteBatch batch) {
 		
-		boolean flip = false;
-		
-		if (moveDirection < 0) {
-			flip = true;
-		}
+		boolean flip = moveDirection < 0;
 
 		entityLocation.set(getPixelPosition());
 		batch.draw(floatingSprite.getKeyFrame(animationTime, true),
@@ -228,8 +224,7 @@ public class EnemyCrawling extends Enemy {
 	
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncEntity) {
-			Packets.SyncEntity p = (Packets.SyncEntity) o;
+		if (o instanceof Packets.SyncEntity p) {
 			prevPos.set(serverPos);
 			serverPos.set(p.pos);
 			setLinearVelocity(p.velocity);

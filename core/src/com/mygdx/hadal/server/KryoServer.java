@@ -33,7 +33,7 @@ public class KryoServer {
 	private Server server;
 	
 	//This is the gsm of the server
-	public GameStateManager gsm;
+	public final GameStateManager gsm;
 	
 	//These keep track of all connected players, their mice and scores.
 	private HashMap<Integer, User> users;
@@ -95,8 +95,7 @@ public class KryoServer {
 				}
 
 				//If in a victory state, count a disconnect as ready so disconnected players don't prevent return to hub.
-				if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
-					final ResultsState vs =  (ResultsState) gsm.getStates().peek();
+				if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof final ResultsState vs) {
 					Gdx.app.postRunnable(() -> vs.readyPlayer(c.getID()));
 				}
 			}
@@ -109,38 +108,22 @@ public class KryoServer {
 			public void received(final Connection c, Object o) {
 
 				/*
-				 * A Client has performed an action involving pressing a key up
-				 * Register the keystroke for that client's player.
+				 * This packet is sent peridiocally to inform the server of the client's inputs
+				 * this includes what buttons the client is holding as well as their mouse position
 				 */
-				if (o instanceof Packets.SyncKeyStrokes) {
-					final Packets.SyncKeyStrokes p = (Packets.SyncKeyStrokes) o;
+				if (o instanceof final Packets.SyncKeyStrokes p) {
 					final PlayState ps = getPlayState();
 
 					User user = users.get(c.getID());
 					if (user != null && ps != null) {
+
 						Player player = user.getPlayer();
 						if (player != null) {
 							ps.addPacketEffect(() -> {
 								if (player.getController() != null) {
-									player.getController().syncClientKeyStrokes(p.actions, p.timestamp);
+									player.getController().syncClientKeyStrokes(p.mouseX, p.mouseY, p.actions, p.timestamp);
 								}
 							});
-						}
-					}
-				}
-				
-				/*
-				 * A Client sends this every engine tick to send their mouse location.
-				 * Update the client's player's mouse pointer.
-				 */
-				else if (o instanceof Packets.MouseMove) {
-					final Packets.MouseMove p = (Packets.MouseMove) o;
-					final PlayState ps = getPlayState();
-					User user = users.get(c.getID());
-					if (user != null) {
-						final MouseTracker mouse = user.getMouse();
-						if (ps != null && mouse != null) {
-							mouse.setDesiredLocation(p.x, p.y);
 						}
 					}
 				}
@@ -149,8 +132,7 @@ public class KryoServer {
 				 * The Client has connected.
 				 * Notify clients and create a new player for the client. Also, tell the new client what level to load
 				 */
-				else if (o instanceof Packets.PlayerConnect) {
-					final Packets.PlayerConnect p = (Packets.PlayerConnect) o;
+				else if (o instanceof final Packets.PlayerConnect p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						if (p.firstTime) {
@@ -195,8 +177,7 @@ public class KryoServer {
 				 * Announce the new player joining and catchup the new client.
 				 * this is also where we determine if the client is a spectator or not
 				 */
-				else if (o instanceof Packets.ClientLoaded) {
-					final Packets.ClientLoaded p = (Packets.ClientLoaded) o;
+				else if (o instanceof final Packets.ClientLoaded p) {
 					final PlayState ps = getPlayState();
 					//notify players of new joiners
 					if (p.firstTime) {
@@ -269,9 +250,8 @@ public class KryoServer {
 				 * The Client has changed their loadout (in the hub because anywhere else is handled server side)
 				 * Find the client changing and update their player loadout
 				 */
-				else if (o instanceof Packets.SyncClientLoadout) {
-        			final Packets.SyncClientLoadout p = (Packets.SyncClientLoadout) o;
-    				final PlayState ps = getPlayState();
+				else if (o instanceof final Packets.SyncClientLoadout p) {
+					final PlayState ps = getPlayState();
 
     				User user = users.get(c.getID());
 					if (user != null && ps != null) {
@@ -289,9 +269,7 @@ public class KryoServer {
 				 * The Client tells us they might have missed a create packet.
 				 * Check if the entity exists and send a catchup create packet if so. 
 				 */
-				else if (o instanceof Packets.MissedCreate) {
-					
-					final Packets.MissedCreate p = (Packets.MissedCreate) o;
+				else if (o instanceof final Packets.MissedCreate p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						ps.addPacketEffect(() -> {
@@ -310,8 +288,7 @@ public class KryoServer {
 				 * The Client tells us they might have missed a delete packet.
 				 * Check if the entity exists and send a catchup delete packet if not. 
 				 */
-				else if (o instanceof Packets.MissedDelete) {
-					final Packets.MissedDelete p = (Packets.MissedDelete) o;
+				else if (o instanceof final Packets.MissedDelete p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						ps.addPacketEffect(() -> {
@@ -327,8 +304,7 @@ public class KryoServer {
 				 * The client has finished respawning (after transitioning to black.)
 				 * We spawn a new player for them
 				 */
-				else if (o instanceof Packets.ClientFinishRespawn) {
-					final Packets.ClientFinishRespawn p = (Packets.ClientFinishRespawn) o;
+				else if (o instanceof final Packets.ClientFinishRespawn p) {
 
 					final PlayState ps = getPlayState();
 					//acquire the client's name and data
@@ -361,22 +337,19 @@ public class KryoServer {
 
 							//if pauses are enabled, unpause and remove pause state (and setting state)
 							if (player != null && gsm.getSetting().isMultiplayerPause()) {
-								if (gsm.getStates().peek() instanceof PauseState) {
-									final PauseState ps = (PauseState) gsm.getStates().peek();
+								if (gsm.getStates().peek() instanceof final PauseState ps) {
 									addNotificationToAll(ps.getPs(), player.getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
 									ps.setToRemove(true);
 								}
-								if (gsm.getStates().peek() instanceof SettingState) {
-									final SettingState ss = (SettingState) gsm.getStates().peek();
+								if (gsm.getStates().peek() instanceof final SettingState ss) {
 									addNotificationToAll(ss.getPlayState(), player.getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
 									ss.setToRemove(true);
 								}
-								if (gsm.getStates().peek() instanceof AboutState) {
-									final AboutState as = (AboutState) gsm.getStates().peek();
+								if (gsm.getStates().peek() instanceof final AboutState as) {
 									addNotificationToAll(as.getPlayState(), player.getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
 									as.setToRemove(true);
 								}
-								HadalGame.server.sendToAllTCP(new Packets.Unpaused(player.getName()));
+								HadalGame.server.sendToAllTCP(new Packets.Unpaused());
 							}
 						}
         			}
@@ -386,8 +359,7 @@ public class KryoServer {
 				 * A Client has sent the server a message.
 				 * Display the notification and echo it to all clients  
 				 */
-				else if (o instanceof Packets.ClientChat) {
-					final Packets.ClientChat p = (Packets.ClientChat) o;
+				else if (o instanceof final Packets.ClientChat p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						addChatToAll(ps, p.text, p.type, c.getID());
@@ -397,8 +369,7 @@ public class KryoServer {
 				/*
 				 * client tries to pause. We pause the game if pause is enabled
 				 */
-				else if (o instanceof Packets.Paused) {
-					final Packets.Paused p = (Packets.Paused) o;
+				else if (o instanceof final Packets.Paused p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						if (gsm.getSetting().isMultiplayerPause()) {
@@ -410,8 +381,7 @@ public class KryoServer {
 				/*
 				 * Respond to this packet sent from the client periodically so the client knows their latency.
 				 */
-				else if (o instanceof Packets.LatencySyn) {
-					final Packets.LatencySyn p = (Packets.LatencySyn) o;
+				else if (o instanceof final Packets.LatencySyn p) {
 					final PlayState ps = getPlayState();
 
 					User user = users.get(c.getID());
@@ -445,9 +415,7 @@ public class KryoServer {
 				/*
 				 * The client tried to emote. make them emote, if possible
 				 */
-				else if (o instanceof Packets.SyncEmote) {
-					final Packets.SyncEmote p = (Packets.SyncEmote) o;
-
+				else if (o instanceof final Packets.SyncEmote p) {
 					final PlayState ps = getPlayState();
 					User user = users.get(c.getID());
 					if (user != null && ps != null) {
@@ -491,8 +459,7 @@ public class KryoServer {
 				 * Ready that player in the results state.
 				 */
 				else if (o instanceof Packets.ClientReady) {
-					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
-						final ResultsState vs = (ResultsState) gsm.getStates().peek();
+					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof final ResultsState vs) {
 						Gdx.app.postRunnable(() -> vs.readyPlayer(c.getID()));
 					}
 				}
@@ -788,8 +755,6 @@ public class KryoServer {
 	}
 
 	public Server getServer() {	return server; }
-
-	public void setServer(Server server) { this.server = server; }
 
 	public HashMap<Integer, User> getUsers() { return users; }
 }

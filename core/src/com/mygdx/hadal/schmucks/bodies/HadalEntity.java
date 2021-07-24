@@ -29,14 +29,14 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public abstract class HadalEntity {
 
 	//References to game fields.
-	protected PlayState state;
-	protected World world;
+	protected final PlayState state;
+	protected final World world;
 	
 	//Fields common to all entities.
 	protected Body body;
 	protected HadalData hadalData;
-	protected Vector2 size;
-	protected Vector2 startPos;
+	protected final Vector2 size;
+	protected final Vector2 startPos;
 	
 	//is the entity queued up for deletion? has it been destroyed yet?
 	protected boolean alive = true, destroyed = false;
@@ -204,14 +204,14 @@ public abstract class HadalEntity {
 	}
 	
 	//the position of this entity on the server
-	public Vector2 prevPos = new Vector2();
-	public Vector2 serverPos = new Vector2();
+	public final Vector2 prevPos = new Vector2();
+	public final Vector2 serverPos = new Vector2();
 	
-	public Vector2 prevVelo = new Vector2();
-	public Vector2 serverVelo = new Vector2();
+	public final Vector2 prevVelo = new Vector2();
+	public final Vector2 serverVelo = new Vector2();
 	
 	//the angle of this entity on the server
-	public Vector2 serverAngle = new Vector2(1, 0);
+	public final Vector2 serverAngle = new Vector2(1, 0);
 	
 	//should the client entity lerp to the server's position or just adjust instantly?
 	public boolean copyServerInstantly;
@@ -235,8 +235,7 @@ public abstract class HadalEntity {
 	 * @param o: the packet object we are receiving from the server
 	 */
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncEntity) {
-			Packets.SyncEntity p = (Packets.SyncEntity) o;
+		if (o instanceof Packets.SyncEntity p) {
 			if (body != null) {
 				copyServerInstantly = p.instant;
 				
@@ -259,15 +258,15 @@ public abstract class HadalEntity {
 	}
 	
 	//this vector is used to calculate linear interpolation
-	public Vector2 angleAsVector = new Vector2(0, 1);
+	public final Vector2 angleAsVector = new Vector2(0, 1);
 	
 	//the client processes interpolation at this speed regardless of framerate
 	public static final float clientSyncTime = 1 / 60f;
 	private float clientSyncAccumulator = 0.0f;
 	
 	//this extra vector is used b/c interpolation updates the start vector
-	public Vector2 lerpPos = new Vector2();
-	public Vector2 lerpVelo = new Vector2();
+	public final Vector2 lerpPos = new Vector2();
+	public final Vector2 lerpVelo = new Vector2();
 
 	//these are the timestamps of the 2 most recent snapshots
 	protected float prevTimeStamp, nextTimeStamp;
@@ -393,7 +392,7 @@ public abstract class HadalEntity {
 
 	public Vector2 getStartPos() { return startPos;	}
 	
-	public void setStartPos(Vector2 startPos) {	this.startPos = startPos; }
+	public void setStartPos(Vector2 startPos) {	this.startPos.set(startPos); }
 	
 	public Vector2 getSize() { return size; }
 	

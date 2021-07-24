@@ -57,10 +57,6 @@ public class Poison extends Event {
 
 	private Particle poisonParticle;
 
-	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, boolean draw, short filter) {
-		this(state, startPos, size, "POISON", dps, draw, filter);
-	}
-
 	public Poison(PlayState state, Vector2 startPos, Vector2 size, String particle, float dps, boolean draw, short filter) {
 		super(state,  startPos, size);
 		this.poisonParticle = Particle.valueOf(particle);

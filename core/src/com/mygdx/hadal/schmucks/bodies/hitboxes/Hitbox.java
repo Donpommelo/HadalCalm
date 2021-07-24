@@ -36,7 +36,8 @@ public class Hitbox extends HadalEntity {
 	protected Vector2 startVelo;
 		
 	//lifespan is the time in seconds that the hitbox will exist before timing out.
-	protected float maxLifespan, lifeSpan;
+	protected final float maxLifespan;
+	protected float lifeSpan;
 	
 	//filter describes the type of schmuck the hitbox will register a hit on .(player, enemy or neutral)
 	protected short filter;
@@ -93,7 +94,7 @@ public class Hitbox extends HadalEntity {
 	protected HitboxData data;
 	
 	//This is the Schmuck that created the hitbox
-	protected Schmuck creator;
+	protected final Schmuck creator;
 	
 	//strategies contains a bunch of effects that modify a hitbox.
 	//add+remove are strategies that will be added/removed from the hitbox next world-step

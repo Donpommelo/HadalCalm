@@ -289,8 +289,7 @@ public class ParticleEntity extends HadalEntity {
 	 */
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncParticles) {
-			Packets.SyncParticles p = (Packets.SyncParticles) o;
+		if (o instanceof Packets.SyncParticles p) {
 			this.offset.set(p.offset);
 			effect.setPosition(p.pos.x + offset.x, p.pos.y + offset.y);
 
@@ -300,8 +299,7 @@ public class ParticleEntity extends HadalEntity {
 			if (!p.on && (on || !effect.isComplete())) {
 				turnOff();
 			}
-		} else if (o instanceof Packets.SyncParticlesExtra) {
-			Packets.SyncParticlesExtra p = (Packets.SyncParticlesExtra) o;
+		} else if (o instanceof Packets.SyncParticlesExtra p) {
 			this.offset.set(p.offset);
 			effect.setPosition(p.pos.x + offset.x, p.pos.y + offset.y);
 

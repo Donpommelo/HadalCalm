@@ -7,7 +7,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 public class EnemyAction {
 
 	//this boss that performs this action
-	protected Enemy enemy;
+	protected final Enemy enemy;
 	
 	//this is the amount of time that this action will take before the next action in the queue will begin
 	private final float duration;

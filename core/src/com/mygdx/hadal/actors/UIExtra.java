@@ -98,7 +98,7 @@ public class UIExtra extends AHadalActor {
 					if (teamText.isEmpty()) {
 						sortTeamScores();
 					}
-					text.append(teamText.toString());
+					text.append(teamText);
 					break;
 				case GUNGAME:
 					text.append("SCORE: ").append(score).append("/").append(GunGame.weaponOrder.length).append("\n")

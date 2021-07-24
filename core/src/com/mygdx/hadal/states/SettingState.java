@@ -387,7 +387,7 @@ public class SettingState extends GameState {
 				public void clicked(InputEvent e, float x, float y) {
 					
 					//Clicking any option will highlight it and designate it as the next to update.
-					((Text) e.getListenerActor()).setText(action.toString() + ":==   " + getKey(action.getKey()) + " <--");
+					((Text) e.getListenerActor()).setText(action + ":==   " + getKey(action.getKey()) + " <--");
 					currentlyEditing = action;
 
 					actionChoose.setHeight(detailHeight);

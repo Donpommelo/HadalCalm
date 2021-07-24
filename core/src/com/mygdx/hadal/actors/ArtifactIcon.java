@@ -29,7 +29,7 @@ public class ArtifactIcon extends AHadalActor {
 	
 	private static final float scale = 0.25f;
 	private final Color color;
-	protected GlyphLayout layout;
+	protected final GlyphLayout layout;
 	
 	private final TextureRegion icon;
 	private final String text;

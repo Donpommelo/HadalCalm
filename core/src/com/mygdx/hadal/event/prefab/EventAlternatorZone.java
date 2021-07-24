@@ -75,18 +75,17 @@ public class EventAlternatorZone extends Prefabrication {
 		mult2.setName("Multitrigger");
 		mult2.getProperties().put("triggeredId", event2Id);
 		mult2.getProperties().put("triggeringId", event2 + "," + set2Id);
-		
 
 
-		switch(align) {
-		case 0:
-			sensor1.getRectangle().set(x, y, 16, height);
-			sensor2.getRectangle().set(x + width - 16, y, 16, height);
-			break;
-		case 1:
-			sensor1.getRectangle().set(x, y, width, 16);
-			sensor2.getRectangle().set(x, y + height - 16, width, 16);
-			break;
+		switch (align) {
+			case 0 -> {
+				sensor1.getRectangle().set(x, y, 16, height);
+				sensor2.getRectangle().set(x + width - 16, y, 16, height);
+			}
+			case 1 -> {
+				sensor1.getRectangle().set(x, y, width, 16);
+				sensor2.getRectangle().set(x, y + height - 16, width, 16);
+			}
 		}
 		
 		TiledObjectUtil.parseTiledEvent(state, sensor1);

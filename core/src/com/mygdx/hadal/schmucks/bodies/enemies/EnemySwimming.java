@@ -115,8 +115,6 @@ public class EnemySwimming extends EnemyFloating {
 		}
 	}
 	
-	public Vector2 getMoveDirection() { return this.moveDirection; }
-	
 	public void setMoveSpeed(float moveSpeed) { this.moveSpeed = moveSpeed; }
 	
 	public SwimmingState getCurrentState() { return currentState; }

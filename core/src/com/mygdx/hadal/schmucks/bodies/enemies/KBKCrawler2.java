@@ -59,11 +59,8 @@ public class KBKCrawler2 extends EnemyCrawling {
 	public void render(SpriteBatch batch) {
 		super.render(batch);
 		
-		boolean flip = false;
-		
-		if (getMoveDirection() < 0) {
-			flip = true;
-		}
+		boolean flip = getMoveDirection() < 0;
+
 		entityLocation.set(getPixelPosition());
 		batch.draw(faceSprite, 
 				(flip ? 0 : size.x) + entityLocation.x - size.x / 2, 
@@ -71,6 +68,5 @@ public class KBKCrawler2 extends EnemyCrawling {
 				size.x / 2,
 				(flip ? 1 : -1) * size.y / 2, 
 				(flip ? 1 : -1) * size.x, size.y, 1, 1, 0);
-		
 	}
 }

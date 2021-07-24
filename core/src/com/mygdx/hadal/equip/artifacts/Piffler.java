@@ -51,8 +51,7 @@ public class Piffler extends Artifact {
 			@Override
 			public void onReloadFinish(Equippable tool) {
 				if (this.inflicted instanceof PlayerBodyData) {
-					if (this.inflicted.getCurrentTool() instanceof RangedWeapon) {
-						RangedWeapon weapon = (RangedWeapon) this.inflicted.getCurrentTool();
+					if (this.inflicted.getCurrentTool() instanceof RangedWeapon weapon) {
 						weapon.gainAmmo(1.0f);
 					}
 				}

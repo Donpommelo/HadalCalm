@@ -36,8 +36,6 @@ public class ModeSettingSelection {
     private static final int optionsWidthOuter = 400;
     private static final int optionsHeightOuter = 400;
     public static final int optionsWidth = 390;
-    public static final int optionHeight = 30;
-    public static final int optionPad = 3;
 
     private static final float titleScale = 0.8f;
     private static final float optionScale = 0.5f;

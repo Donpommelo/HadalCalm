@@ -73,13 +73,9 @@ public class PlayerSpriteHelper {
      * @param team: the new team color to draw
      */
     public void setBodySprite(SpriteBatch batch, UnlockCharacter character, AlignmentFilter team) {
-        boolean replace = false;
+        boolean replace = this.character != character && character != null;
 
         //replace frame buffer if the input contains a new character or team
-        if (this.character != character && character != null) {
-            replace = true;
-        }
-
         if (this.team != team && team != null) {
             replace = true;
         }

@@ -24,10 +24,9 @@ public class TyphonFang extends Artifact {
 			@Override
 			public void onKill(BodyData vic) {
 				if (this.inflicted instanceof PlayerBodyData) {
-					if (this.inflicted.getCurrentTool() instanceof RangedWeapon) {
+					if (this.inflicted.getCurrentTool() instanceof RangedWeapon weapon) {
 						SoundEffect.RELOAD.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
-						RangedWeapon weapon = (RangedWeapon) this.inflicted.getCurrentTool();
-						
+
 						if (vic instanceof PlayerBodyData) {
 							weapon.gainClip(weapon.getClipSize());
 						} else {

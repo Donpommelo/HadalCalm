@@ -2,7 +2,6 @@ package com.mygdx.hadal.input;
 
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.states.PlayState;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -17,15 +16,12 @@ public class ActionController {
 	//this is the player that this controller control
 	private Player player;
 
-	private final PlayState state;
-
-	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one. 
+	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one.
 	private boolean leftDown = false;
 	private boolean rightDown = false;
 	
-	public ActionController(Player player, PlayState state) {
+	public ActionController(Player player) {
 		this.player = player;
-		this.state = state;
 	}
 	
 	/**
@@ -158,9 +154,13 @@ public class ActionController {
 
 	private float lastTimestamp;
 	private HashSet<PlayerAction> keysHeld = new HashSet<>();
-	public void syncClientKeyStrokes(PlayerAction[] actions, float timestamp) {
+	public void syncClientKeyStrokes(float mouseX, float mouseY, PlayerAction[] actions, float timestamp) {
 		if (timestamp > lastTimestamp) {
 			lastTimestamp = timestamp;
+
+			if (player.getMouse() != null) {
+				player.getMouse().setDesiredLocation(mouseX, mouseY);
+			}
 
 			HashSet<PlayerAction> keysHeldNew = new HashSet<>(Arrays.asList(actions));
 

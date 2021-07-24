@@ -22,11 +22,7 @@ public class SavedPlayerFields {
 		this.name = name;
 		this.connID = connID;
 	}
-	
-	public String getKD() {
-		return kills + "/" + deaths;
-	}
-	
+
 	/**
 	 * This is called when this player kills another player
 	 */
@@ -93,8 +89,6 @@ public class SavedPlayerFields {
 	public int getConnID() { return connID; }
 
 	public boolean isWonLast() { return wonLast; }
-
-	public void setWonLast(boolean wonLast) { this.wonLast = wonLast; }
 
 	public int getWins() { return wins; }
 

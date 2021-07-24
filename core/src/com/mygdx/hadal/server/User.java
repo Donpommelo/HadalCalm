@@ -84,8 +84,6 @@ public class User {
 
     public void setPlayer(Player player) { this.player = player; }
 
-    public MouseTracker getMouse() { return mouse; }
-
     public void setMouse(MouseTracker mouse) { this.mouse = mouse; }
 
     public SavedPlayerFields getScores() { return scores; }

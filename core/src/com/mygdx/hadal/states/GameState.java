@@ -14,10 +14,10 @@ import com.mygdx.hadal.managers.GameStateManager;
 public abstract class GameState {
 	
 	//References to the Game, StateManager and their relevant fields.
-	protected GameStateManager gsm;
-	protected HadalGame app;
-	protected SpriteBatch batch;
-	protected OrthographicCamera camera, hud;
+	protected final GameStateManager gsm;
+	protected final HadalGame app;
+	protected final SpriteBatch batch;
+	protected final OrthographicCamera camera, hud;
 	
 	//This is the stage that is displayed for this state
 	protected Stage stage;

@@ -31,8 +31,8 @@ public abstract class ProcTime {
 	
 	public static class InflictDamage extends ProcTime {
 		public float damage;
-		public BodyData vic;
-		public DamageTypes[] tags;
+		public final BodyData vic;
+		public final DamageTypes[] tags;
 		
 		public InflictDamage(float damage, BodyData vic, DamageTypes...  tags) {
 			this.damage = damage;
@@ -49,8 +49,8 @@ public abstract class ProcTime {
 
 	public static class ReceiveDamage extends ProcTime {
 		public float damage;
-		public BodyData perp;
-		public DamageTypes[] tags;
+		public final BodyData perp;
+		public final DamageTypes[] tags;
 		
 		public ReceiveDamage(float damage, BodyData perp, DamageTypes...  tags) {
 			this.damage = damage;
@@ -67,8 +67,8 @@ public abstract class ProcTime {
 	
 	public static class ReceiveHeal extends ProcTime {
 		public float heal;
-		public BodyData perp;
-		public DamageTypes[] tags;
+		public final BodyData perp;
+		public final DamageTypes[] tags;
 		
 		public ReceiveHeal(float heal, BodyData perp, DamageTypes...  tags) {
 			this.heal = heal;
@@ -84,7 +84,7 @@ public abstract class ProcTime {
 	}
 	
 	public static class TimePass extends ProcTime {
-		public float time;		
+		public final float time;
 		
 		public TimePass(float time) {
 			this.time = time;
@@ -98,7 +98,7 @@ public abstract class ProcTime {
 	}
 
 	public static class Kill extends ProcTime {
-		BodyData vic;
+		public final BodyData vic;
 		
 		public Kill(BodyData vic) {
 			this.vic = vic;
@@ -112,7 +112,7 @@ public abstract class ProcTime {
 	}
 
 	public static class Death extends ProcTime {
-		BodyData perp;
+		public final BodyData perp;
 		
 		public Death(BodyData perp) {
 			this.perp = perp;
@@ -126,8 +126,8 @@ public abstract class ProcTime {
 	}
 	
 	public static class WhileAttack extends ProcTime {
-		public float time;
-		public Equippable tool;
+		public final float time;
+		public final Equippable tool;
 		
 		public WhileAttack(float time, Equippable tool) {
 			this.time = time;
@@ -142,7 +142,7 @@ public abstract class ProcTime {
 	}
 	
 	public static class Shoot extends ProcTime {
-		public Equippable tool;
+		public final Equippable tool;
 		
 		public Shoot(Equippable tool) {
 			this.tool = tool;
@@ -156,7 +156,7 @@ public abstract class ProcTime {
 	}
 
 	public static class ReloadStart extends ProcTime {
-		public Equippable tool;
+		public final Equippable tool;
 
 		public ReloadStart(Equippable tool) {
 			this.tool = tool;
@@ -170,7 +170,7 @@ public abstract class ProcTime {
 	}
 
 	public static class ReloadFinish extends ProcTime {
-		public Equippable tool;
+		public final Equippable tool;
 		
 		public ReloadFinish(Equippable tool) {
 			this.tool = tool;
@@ -184,7 +184,7 @@ public abstract class ProcTime {
 	}
 	
 	public static class CreateHitbox extends ProcTime {
-		public Hitbox hbox;
+		public final Hitbox hbox;
 		
 		public CreateHitbox(Hitbox hbox) {
 			this.hbox = hbox;
@@ -220,7 +220,7 @@ public abstract class ProcTime {
 	}
 
 	public static class Airblast extends ProcTime {
-		public Equippable tool;
+		public final Equippable tool;
 		
 		public Airblast(Equippable tool) {
 			this.tool = tool;
@@ -234,7 +234,7 @@ public abstract class ProcTime {
 	}
 
 	public static class whileHover extends ProcTime {
-		public Vector2 hoverDirection;
+		public final Vector2 hoverDirection;
 
 		public whileHover(Vector2 hoverDirection) {	this.hoverDirection = hoverDirection; }
 
@@ -246,7 +246,7 @@ public abstract class ProcTime {
 	}
 	
 	public static class BeforeActiveUse extends ProcTime {
-		public ActiveItem tool;
+		public final ActiveItem tool;
 		
 		public BeforeActiveUse(ActiveItem tool) {
 			this.tool = tool;
@@ -260,7 +260,7 @@ public abstract class ProcTime {
 	}
 	
 	public static class AfterActiveUse extends ProcTime {
-		public ActiveItem tool;
+		public final ActiveItem tool;
 		
 		public AfterActiveUse(ActiveItem tool) {
 			this.tool = tool;
@@ -274,7 +274,7 @@ public abstract class ProcTime {
 	}
 	
 	public static class AfterBossSpawn extends ProcTime {
-		public Enemy boss;
+		public final Enemy boss;
 		
 		public AfterBossSpawn(Enemy boss) {
 			this.boss = boss;

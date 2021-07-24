@@ -211,9 +211,6 @@ public enum AlignmentFilter {
             }
         }
 
-        //inform all clients of the new teams and set it in the user's properties
-        HadalGame.server.sendToAllTCP(new Packets.SyncAssignedTeams(currentTeams));
-
         for (User user: teamSelection.keySet()) {
             user.setTeamFilter(currentTeams[teamSelection.get(user)]);
         }

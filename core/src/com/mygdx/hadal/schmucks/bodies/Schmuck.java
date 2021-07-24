@@ -32,7 +32,7 @@ public class Schmuck extends HadalEntity {
 	private BodyData bodyData;
 	
 	//the enemy's base hp.
-    protected float baseHp;
+    protected final float baseHp;
     
 	//Is this schmuck currently standing on a solid surface?
 	protected boolean grounded;
@@ -175,8 +175,7 @@ public class Schmuck extends HadalEntity {
 	 */
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncSchmuck) {
-			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
+		if (o instanceof Packets.SyncSchmuck p) {
 			if (!this.equals(state.getPlayer())) {
 				moveState = p.moveState;
 			}

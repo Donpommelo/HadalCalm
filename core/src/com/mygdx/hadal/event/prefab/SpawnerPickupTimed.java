@@ -100,16 +100,16 @@ public class SpawnerPickupTimed extends Prefabrication {
 		effectParticle.getProperties().put("triggeringId", spawnerId);
 
 		switch (type) {
-		case 0:
-			pickup.getProperties().put("sprite", "FUEL");
-			effect.getProperties().put("fuel", power);
-			pickupParticle.getProperties().put("particle", "PICKUP_ENERGY");
-			break;
-		case 1:
-			pickup.getProperties().put("sprite", "MEDPAK");
-			effect.getProperties().put("hp", power);
-			pickupParticle.getProperties().put("particle", "PICKUP_HEALTH");
-			break;
+			case 0 -> {
+				pickup.getProperties().put("sprite", "FUEL");
+				effect.getProperties().put("fuel", power);
+				pickupParticle.getProperties().put("particle", "PICKUP_ENERGY");
+			}
+			case 1 -> {
+				pickup.getProperties().put("sprite", "MEDPAK");
+				effect.getProperties().put("hp", power);
+				pickupParticle.getProperties().put("particle", "PICKUP_HEALTH");
+			}
 		}
 		
 		TiledObjectUtil.parseTiledEvent(state, spawner);

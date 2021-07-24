@@ -115,8 +115,6 @@ public class Text extends AHadalActor {
 	@Override
 	public Color getColor() { return color; }
 
-	public void setColor(Vector3 color) { this.color = new Color(color.x, color.y, color.z, 1.0f); }
-
 	@Override
 	public void setColor(Color color) { this.color = color; }
 

@@ -1,66 +1,66 @@
 {
-MAXIMILLIAN: {
-	name: MAXIMILLIAN
-	description: ""
-    descriptionLong: "Maximillian Volunteer has a formidible chin which is hidden by the fish biting his head."
-	tags: [
-       DORMITORY
+"MAXIMILLIAN": {
+	"name": "MAXIMILLIAN",
+	"description": "",
+    "descriptionLong": "Maximillian Volunteer has a formidible chin which is hidden by the fish biting his head.",
+	"tags": [
+       "DORMITORY"
     ]
-}
-MOREAU: {
-	name: MOREAU
-	description: ""
-    descriptionLong: "Marcel Moreau used to work in a warehouse as the lead box-counter."
-	tags: [
-       DORMITORY
+},
+"MOREAU": {
+	"name": "MOREAU",
+	"description": "",
+    "descriptionLong": "Marcel Moreau used to work in a warehouse as the lead box-counter.",
+	"tags": [
+       "DORMITORY"
     ]
-}
-ROCLAIRE: {
-	name: ROCLAIRE
-	description: ""
-    descriptionLong: "If the wooden bucket on Roclaire's head is removed, she will die."
-	tags: [
-       DORMITORY
+},
+"ROCLAIRE": {
+	"name": "ROCLAIRE",
+	"description": "",
+    "descriptionLong": "If the wooden bucket on Roclaire's head is removed, she will die.",
+	"tags": [
+       "DORMITORY"
     ]
-}
-TAKANORI: {
-	name: TAKANORI
-	description: ""
-    descriptionLong: "Takanori smokes a pack of cigarettes every day."
-	tags: [
-       DORMITORY
+},
+"TAKANORI": {
+	"name": "TAKANORI",
+	"description": "",
+    "descriptionLong": "Takanori smokes a pack of cigarettes every day.",
+	"tags": [
+       "DORMITORY"
     ]
-}
-TELEMACHUS: {
-	name: TELEMACHUS
-	description: ""
-    descriptionLong: "Telemachus is a submarine with a man-shaped ventral extension."
-	tags: [
-       DORMITORY
+},
+"TELEMACHUS": {
+	"name": "TELEMACHUS",
+	"description": "",
+    "descriptionLong": "Telemachus is a submarine with a man-shaped ventral extension.",
+	"tags": [
+       "DORMITORY"
     ]
-}
-WANDA: {
-	name: WANDA
-	description: ""
-    descriptionLong: "Wanda is the last surviving bottlenose dolphin."
-	tags: [
-       DORMITORY
+},
+"WANDA": {
+	"name": "WANDA",
+	"description": "",
+    "descriptionLong": "Wanda is the last surviving bottlenose dolphin.",
+	"tags": [
+       "DORMITORY"
     ]
-}
-MOREAU_FESTIVE: {
-	name: MOREAU_FESTIVE
-	description: ""
-    descriptionLong: "Moreau takes Christmas very seriously."
-	tags: [
-       DORMITORY
+},
+"MOREAU_FESTIVE": {
+	"name": "MOREAU_FESTIVE",
+	"description": "",
+    "descriptionLong": "Moreau takes Christmas very seriously.",
+	"tags": [
+       "DORMITORY"
     ]
-}
-MOREAU_PARTY: {
-	name: MOREAU_PARTY
-	description: ""
-    descriptionLong: "Moreau is always the life of the party."
-	tags: [
-       DORMITORY
+},
+"MOREAU_PARTY": {
+	"name": "MOREAU_PARTY",
+	"description": "",
+    "descriptionLong": "Moreau is always the life of the party.",
+	"tags": [
+       "DORMITORY"
     ]
 }
 }
