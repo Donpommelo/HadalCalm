@@ -14,7 +14,7 @@ public class AuCourant extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 3;
 	
-	private static final float bonusReloadSpd = -0.4f;
+	private static final float bonusReloadSpd = -0.20f;
 	
 	public AuCourant() {
 		super(slotCost, statusNum);

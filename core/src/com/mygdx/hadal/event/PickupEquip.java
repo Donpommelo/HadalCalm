@@ -49,7 +49,6 @@ public class PickupEquip extends Event {
 		
 		unlock = UnlockEquip.NOTHING;
 		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
-		setSynced(true);
 	}
 
 	public PickupEquip(PlayState state, Vector2 startPos, UnlockEquip equip, float lifespan) {
@@ -118,7 +117,7 @@ public class PickupEquip extends Event {
 	public void onServerSync() {
 
 		//we only want to sync position data if the pickup is from a weapon drop
-		if (drop) {
+		if (drop || synced) {
 			super.onServerSync();
 		}
 		state.getSyncPackets().add(new Packets.SyncPickup(entityID.toString(),

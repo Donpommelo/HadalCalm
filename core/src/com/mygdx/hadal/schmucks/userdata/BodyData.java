@@ -58,8 +58,7 @@ public class BodyData extends HadalData {
 	private static final float hpRegen = 0.0f;
 	
 	private static final int maxFuel = 100;
-	private static final float fuelRegen = 8.0f;
-	
+
 	//duration of flash on receiving damage
 	private static final float flashDuration = 0.1f;
 	
@@ -97,8 +96,7 @@ public class BodyData extends HadalData {
 		baseStats[0] = maxHp;
 		baseStats[1] = maxFuel;
 		baseStats[2] = hpRegen;
-		baseStats[3] = fuelRegen;
-		
+
 		this.statuses = new ArrayList<>();
 		this.statusesChecked = new ArrayList<>();
 		

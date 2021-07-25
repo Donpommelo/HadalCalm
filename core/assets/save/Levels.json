@@ -1,488 +1,488 @@
 {
-HUB_MULTI: {
-	name: S.S. TUNICATE
-	description: ""
-    descriptionLong: "Multiplayer Hub Area"
-	tags: []
-}
-BOSS1: {
-	name: BOSS: SLIGHTLY LARGER FISH
-	description: ""
-    descriptionLong: "Boss fight with a Slightly Larger Fish"
-	tags: [
-        MULTIPLAYER,
-        SINGLEPLAYER,
-        BOSS,
+"HUB_MULTI": {
+	"name": "S.S. TUNICATE",
+	"description": "",
+    "descriptionLong": "Multiplayer Hub Area",
+	"tags": []
+},
+"BOSS1": {
+	"name": "BOSS: SLIGHTLY LARGER FISH",
+	"description": "",
+    "descriptionLong": "Boss fight with a Slightly Larger Fish",
+	"tags": [
+        "MULTIPLAYER",
+        "SINGLEPLAYER",
+        "BOSS"
 	]
-}
-BOSS2: {
-	name: BOSS: KING KAMABOKO
-	description: ""
-    descriptionLong: "Boss fight with King Kamaboko"
-	tags: [
-        MULTIPLAYER,
-        SINGLEPLAYER,
-        BOSS,
+},
+"BOSS2": {
+	"name": "BOSS: KING KAMABOKO",
+	"description": "",
+    "descriptionLong": "Boss fight with King Kamaboko",
+	"tags": [
+        "MULTIPLAYER",
+        "SINGLEPLAYER",
+        "BOSS"
     ]
-}
-BOSS3: {
-	name: BOSS3
-	description: ""
-    descriptionLong: ""
-	tags: []
-}
-BOSS4: {
-	name: BOSS: FALSE SUN
-	description: ""
-    descriptionLong: "Boss fight with the False Sun"
-	tags: [
-        MULTIPLAYER,
-        SINGLEPLAYER,
-        BOSS,
+},
+"BOSS3": {
+	"name": "BOSS3",
+	"description": "",
+    "descriptionLong": "",
+	"tags": []
+},
+"BOSS4": {
+	"name": "BOSS: FALSE SUN",
+	"description": "",
+    "descriptionLong": "Boss fight with the False Sun",
+	"tags": [
+        "MULTIPLAYER",
+        "SINGLEPLAYER",
+        "BOSS"
     ]
-}
-BOSS5: {
-	name: BOSS: NEPTUNE KING TYRRAZZA
-	description: ""
-    descriptionLong: "Boss fight with Neptune King Tyrrazza"
-	tags: [
-        MULTIPLAYER,
-        SINGLEPLAYER,
-        BOSS,
+},
+"BOSS5": {
+	"name": "BOSS: NEPTUNE KING TYRRAZZA",
+	"description": "",
+    "descriptionLong": "Boss fight with Neptune King Tyrrazza",
+	"tags": [
+        "MULTIPLAYER",
+        "SINGLEPLAYER",
+        "BOSS"
     ]
-}
-BOSS6: {
-	name: BOSS: GILT-SCALED SERAPH
-	description: ""
-    descriptionLong: "Boss fight with the Gilt-Scaled Seraph"
-	tags: [
-        MULTIPLAYER,
-        SINGLEPLAYER,
-        BOSS,
+},
+"BOSS6": {
+	"name": "BOSS: GILT-SCALED SERAPH",
+	"description": "",
+    "descriptionLong": "Boss fight with the Gilt-Scaled Seraph",
+	"tags": [
+        "MULTIPLAYER",
+        "SINGLEPLAYER",
+        "BOSS"
     ]
-}
-SANDBOX_HUB: {
-	name: SANDBOX_HUB
-	description: ""
-    descriptionLong: "A free space to test events and enemies."
-	tags: [
-        MULTIPLAYER,
-        SINGLEPLAYER,
-        SANDBOX,
+},
+"SANDBOX_HUB": {
+	"name": "SANDBOX_HUB",
+	"description": "",
+    "descriptionLong": "A free space to test events and enemies.",
+	"tags": [
+        "MULTIPLAYER",
+        "SINGLEPLAYER",
+        "SANDBOX"
 	]
-}
-DM_AGGYDAGGY: {
-	name: AGGYDAGGY
-	description: ""
-    descriptionLong: "SIZE: LARGE"
-	tags: [  
-        MULTIPLAYER,
-        PVP,
+},
+"DM_AGGYDAGGY": {
+	"name": "AGGYDAGGY",
+	"description": "",
+    "descriptionLong": "SIZE: LARGE",
+	"tags": [  
+        "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_BOTTLENECK: {
-	name: BOTTLENECK
-	description: ""
-    descriptionLong: "SIZE: LARGE"
-	tags: [  
-        MULTIPLAYER,
-        PVP,
-        CURATED,
+},
+"DM_BOTTLENECK": {
+	"name": "BOTTLENECK",
+	"description": "",
+    "descriptionLong": "SIZE: LARGE",
+	"tags": [  
+        "MULTIPLAYER",
+        "PVP",
+        "CURATED"
 	]
-}
-DM_BROUHAHA: {
-	name: BROUHAHA
-	description: ""
-    descriptionLong: "SIZE: LARGE"
-	tags: [  
-        MULTIPLAYER,
-        PVP,
-        CURATED,
+},
+"DM_BROUHAHA": {
+	"name": "BROUHAHA",
+	"description": "",
+    "descriptionLong": "SIZE: LARGE",
+	"tags": [  
+        "MULTIPLAYER",
+        "PVP",
+        "CURATED"
 	]
-}
-DM_CAROUSEL: {
-	name: CAROUSEL
-	description: ""
-    descriptionLong: "SIZE: SMALL"
-	tags: [
-        MULTIPLAYER,
-        PVP,
+},
+"DM_CAROUSEL": {
+	"name": "CAROUSEL",
+	"description": "",
+    "descriptionLong": "SIZE: SMALL",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_FACILITY: {
-	name: FACILITY
-	description: ""
-    descriptionLong: "SIZE: LARGE"
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        CURATED
+},
+"DM_FACILITY": {
+	"name": "FACILITY",
+	"description": "",
+    "descriptionLong": "SIZE: LARGE",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "CURATED"
 	]
-}
-DM_FALLDOWN: {
-	name: FALLDOWN
-	description: ""
-    descriptionLong: "SIZE: SMALL\n\nAn arena consisting of a pile of destructable blocks."
-	tags: [
-        MULTIPLAYER,
-        PVP,
+},
+"DM_FALLDOWN": {
+	"name": "FALLDOWN",
+	"description": "",
+    "descriptionLong": "SIZE: SMALL\n\nAn arena consisting of a pile of destructable blocks.",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_FLOTSAM: {
-	name: FLOTSAM
-	description: ""
-    descriptionLong: "SIZE: MEDIUM"
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        CURATED,
+},
+"DM_FLOTSAM": {
+	"name": "FLOTSAM",
+	"description": "",
+    "descriptionLong": "SIZE: MEDIUM",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "CURATED"
 	]
-}
-DM_GULLY: {
-	name: GULLY
-	description: ""
-    descriptionLong: "SIZE: SMALL"
-	tags: [
-        MULTIPLAYER,
-        PVP,
+},
+"DM_GULLY": {
+	"name": "GULLY",
+	"description": "",
+    "descriptionLong": "SIZE: SMALL",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_JUMP: {
-	name: JUMP
-	description: ""
-    descriptionLong: "SIZE: SMALL\n\nAn arena consisting of falling drop-through platforms over a poisonous pit."
-	tags: [
-       MULTIPLAYER,
-        PVP,
+},
+"DM_JUMP": {
+	"name": "JUMP",
+	"description": "",
+    "descriptionLong": "SIZE: SMALL\n\nAn arena consisting of falling drop-through platforms over a poisonous pit.",
+	"tags": [
+       "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_LAGAN: {
-	name: LAGAN
-	description: ""
-    descriptionLong: "SIZE: MEDIUM"
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        CURATED,
+},
+"DM_LAGAN": {
+	"name": "LAGAN",
+	"description": "",
+    "descriptionLong": "SIZE: MEDIUM",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "CURATED"
 	]
-}
-DM_MOONBOUNCE: {
-	name: MOONBOUNCE
-	description: ""
-    descriptionLong: "SIZE: SMALL"
-	tags: [
-        MULTIPLAYER,
-        PVP,
+},
+"DM_MOONBOUNCE": {
+	"name": "MOONBOUNCE",
+	"description": "",
+    "descriptionLong": "SIZE: SMALL",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_ORIGINAL: {
-	name: ORIGINAL
-	description: ""
-    descriptionLong: "SIZE: LARGE"
-	tags: [
-        MULTIPLAYER,
-        PVP,
+},
+"DM_ORIGINAL": {
+	"name": "ORIGINAL",
+	"description": "",
+    "descriptionLong": "SIZE: LARGE",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_PILE: {
-	name: PILE
-	description: ""
-    descriptionLong: "SIZE: SMALL"
-	tags: [
-        MULTIPLAYER,
-        PVP,
+},
+"DM_PILE": {
+	"name": "PILE",
+	"description": "",
+    "descriptionLong": "SIZE: SMALL",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_PINWHEEL: {
-	name: PINWHEEL
-	description: ""
-    descriptionLong: "SIZE: SMALL\n\nAn arena consisting of rotating platforms."
-	tags: [
-        MULTIPLAYER,
-        PVP,
+},
+"DM_PINWHEEL": {
+	"name": "PINWHEEL",
+	"description": "",
+    "descriptionLong": "SIZE: SMALL\n\nAn arena consisting of rotating platforms.",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_PIVOT: {
-	name: PIVOT
-	description: ""
-    descriptionLong: "SIZE: SMALL"
-	tags: [
-        MULTIPLAYER,
-        PVP,
+},
+"DM_PIVOT": {
+	"name": "PIVOT",
+	"description": "",
+    "descriptionLong": "SIZE: SMALL",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_SAWMILL: {
-	name: SAWMILL
-	description: ""
-    descriptionLong: "SIZE: SMALL"
-	tags: [
-        MULTIPLAYER,
-        PVP,
+},
+"DM_SAWMILL": {
+	"name": "SAWMILL",
+	"description": "",
+    "descriptionLong": "SIZE: SMALL",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_SCALES: {
-	name: SCALES
-	description: ""
-    descriptionLong: "SIZE: SMALL\n\nAn arena consisting of a series of sinking platforms."
-	tags: [
-        MULTIPLAYER,
-        PVP,
+},
+"DM_SCALES": {
+	"name": "SCALES",
+	"description": "",
+    "descriptionLong": "SIZE: SMALL\n\nAn arena consisting of a series of sinking platforms.",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_SEESAW: {
-	name: SEESAW
-	description: ""
-    descriptionLong: "SIZE: SMALL\n\nAn arena consisting of a series of see-saw platforms."
-	tags: [
-        MULTIPLAYER,
-        PVP,
+},
+"DM_SEESAW": {
+	"name": "SEESAW",
+	"description": "",
+    "descriptionLong": "SIZE: SMALL\n\nAn arena consisting of a series of see-saw platforms.",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_THRESHOLD: {
-	name: THRESHOLD
-	description: ""
-    descriptionLong: "SIZE: LARGE"
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        CURATED,
+},
+"DM_THRESHOLD": {
+	"name": "THRESHOLD",
+	"description": "",
+    "descriptionLong": "SIZE: LARGE",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "CURATED"
 	]
-}
-DM_TOWERS: {
-	name: TOWERS
-	description: ""
-    descriptionLong: "SIZE: LARGE"
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        CURATED,
+},
+"DM_TOWERS": {
+	"name": "TOWERS",
+	"description": "",
+    "descriptionLong": "SIZE: LARGE",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "CURATED"
 	]
-}
-DM_QUADRANT: {
-	name: QUADRANT
-	description: ""
-    descriptionLong: "SIZE: LARGE"
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        CURATED,
+},
+"DM_QUADRANT": {
+	"name": "QUADRANT",
+	"description": "",
+    "descriptionLong": "SIZE: LARGE",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "CURATED"
 	]
-}
-DM_WARP: {
-	name: WARP
-	description: ""
-    descriptionLong: "SIZE: MEDIUM"
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        CURATED,
+},
+"DM_WARP": {
+	"name": "WARP",
+	"description": "",
+    "descriptionLong": "SIZE: MEDIUM",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "CURATED"
 	]
-}
-DM_WETWORKS: {
-	name: WETWORKS
-	description: ""
-    descriptionLong: "SIZE: MEDIUM"
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        CURATED,
+},
+"DM_WETWORKS": {
+	"name": "WETWORKS",
+	"description": "",
+    "descriptionLong": "SIZE: MEDIUM",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "CURATED"
 	]
-}
-DM_ZIGGURAT: {
-	name: ZIGGURAT
-	description: ""
-    descriptionLong: "SIZE: MEDIUM"
-	tags: [
-        MULTIPLAYER,
-        PVP,
+},
+"DM_ZIGGURAT": {
+	"name": "ZIGGURAT",
+	"description": "",
+    "descriptionLong": "SIZE: MEDIUM",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP"
 	]
-}
-DM_FORMOSAN_BLUE_MAGPIE: {
-	name: FORMOSAN_BLUE_MAGPIE
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        BIRD,
+},
+"DM_FORMOSAN_BLUE_MAGPIE": {
+	"name": "FORMOSAN_BLUE_MAGPIE",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "BIRD"
 	]
-}
-DM_FREE_RANGE: {
-	name: FREE_RANGE
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        BIRD,
+},
+"DM_FREE_RANGE": {
+	"name": "FREE_RANGE",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "BIRD"
 	]
-}
-DM_GREY_HERON: {
-	name: GREY_HERON
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        BIRD,
+},
+"DM_GREY_HERON": {
+	"name": "GREY_HERON",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "BIRD"
 	]
-}
-DM_HUMMINGBIRD: {
-	name: HUMMINGBIRD
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        BIRD,
+},
+"DM_HUMMINGBIRD": {
+	"name": "HUMMINGBIRD",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "BIRD"
 	]
-}
-DM_JAPANESE_WHITEEYE: {
-	name: JAPANESE_WHITEEYE
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        BIRD,
+},
+"DM_JAPANESE_WHITEEYE": {
+	"name": "JAPANESE_WHITEEYE",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "BIRD"
 	]
-}
-DM_LITTLE_BITTERN: {
-	name: LITTLE_BITTERN
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        BIRD,
+},
+"DM_LITTLE_BITTERN": {
+	"name": "LITTLE_BITTERN",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "BIRD"
 	]
-}
-DM_PELICAN: {
-	name: PELICAN
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        BIRD,
+},
+"DM_PELICAN": {
+	"name": "PELICAN",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "BIRD"
 	]
-}
-DM_SUPREME_CHAMPION: {
-	name: SUPREME_CHAMPION
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        BIRD,
+},
+"DM_SUPREME_CHAMPION": {
+	"name": "SUPREME_CHAMPION",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "BIRD"
 	]
-}
-DM_FACING_CRABS: {
-	name: FACING_CRABS
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        BIRD,
+},
+"DM_FACING_CRABS": {
+	"name": "FACING_CRABS",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "BIRD"
 	]
-}
-DM_GALLERY: {
-	name: GALLERY
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        BIRD,
+},
+"DM_GALLERY": {
+	"name": "GALLERY",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "BIRD"
 	]
-}
-DM_HORIZON: {
-	name: HORIZON
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        BIRD,
+},
+"DM_HORIZON": {
+	"name": "HORIZON",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "BIRD"
 	]
-}
-DM_REDROCK: {
-	name: REDROCK
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-        PVP,
-        BIRD,
+},
+"DM_REDROCK": {
+	"name": "REDROCK",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+        "PVP",
+        "BIRD"
 	]
-}
-CTF_COQUELICOT: {
-	name: COQUELICOT
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-		PVP,
+},
+"CTF_COQUELICOT": {
+	"name": "COQUELICOT",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+		"PVP"
 	]
-}
-SSTUNICATE1: {
-	name: S.S. TUNICATE
-	description: ""
-    descriptionLong: "Singleplayer Hub Area"
-	tags: [
-		NAVIGATIONS,
-        MULTIPLAYER,
-        SANDBOX,
+},
+"SSTUNICATE1": {
+	"name": "S.S. TUNICATE",
+	"description": "",
+    "descriptionLong": "Singleplayer Hub Area",
+	"tags": [
+		"NAVIGATIONS",
+        "MULTIPLAYER",
+        "SANDBOX"
 	]
-}
-PLENUMCHAMBER4: {
-	name: PLENUM CHAMBER
-	description: ""
-    descriptionLong: ""
-	tags: [
-		NAVIGATIONS,
+},
+"PLENUMCHAMBER4": {
+	"name": "PLENUM CHAMBER",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+		"NAVIGATIONS"
 	]
-}
-DERELICT2: {
-	name: DERELICT
-	description: ""
-    descriptionLong: ""
-	tags: [
-		NAVIGATIONS,
+},
+"DERELICT2": {
+	"name": "DERELICT",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+		"NAVIGATIONS"
 	]
-}
-NOISELESSSEA4: {
-	name: NOISELESS SEA
-	description: ""
-    descriptionLong: ""
-	tags: [
-		NAVIGATIONS,
+},
+"NOISELESSSEA4": {
+	"name": "NOISELESS SEA",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+		"NAVIGATIONS"
 	]
-}
-SLUICE1: {
-	name: THE SLUICE
-	description: ""
-    descriptionLong: ""
-	tags: [
-		NAVIGATIONS,
+},
+"SLUICE1": {
+	"name": "THE SLUICE",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+		"NAVIGATIONS"
 	]
-}
-PARTY: {
-	name: PARTY
-	description: ""
-    descriptionLong: ""
-	tags: [
-		NAVIGATIONS,
+},
+"PARTY": {
+	"name": "PARTY",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+		"NAVIGATIONS"
 	]
-}
-FOOTBALL_GREEN: {
-	name: GREEN
-	description: ""
-    descriptionLong: ""
-	tags: [
-        MULTIPLAYER,
-		PVP,
+},
+"FOOTBALL_GREEN": {
+	"name": "GREEN",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+		"PVP"
 	]
 }
 }

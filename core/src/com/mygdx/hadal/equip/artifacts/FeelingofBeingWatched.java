@@ -12,7 +12,7 @@ public class FeelingofBeingWatched extends Artifact {
 	private static final int slotCost = 1;
 	
 	private static final float fuelThreshold = 0.2f;
-	private static final float bonusDamage = 1.5f;
+	private static final float bonusDamage = 1.4f;
 	
 	public FeelingofBeingWatched() {
 		super(slotCost, statusNum);

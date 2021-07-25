@@ -17,8 +17,9 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class ActiveItem extends Equippable {
 
-	protected float currentCharge, maxCharge;
-	
+	protected final float maxCharge;
+	protected float currentCharge;
+
 	//active items charge slower with damage compared to time (this is so that the numbers are on the same scale)
 	public static final float damageChargeMultiplier = 0.2f;
 	

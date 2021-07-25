@@ -15,7 +15,7 @@ public class EmaudelinesPrism extends Artifact {
 	private static final int slotCost = 3;
 	
 	private static final int spread = 20;
-	private static final float atkSpdReduction = -0.5f;
+	private static final float atkSpdReduction = -0.6f;
 	private static final float reloadSpdReduction = -0.4f;
 	
 	public EmaudelinesPrism() {

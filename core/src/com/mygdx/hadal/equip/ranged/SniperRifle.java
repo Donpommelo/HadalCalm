@@ -16,7 +16,7 @@ public class SniperRifle extends RangedWeapon {
 
 	private static final int clipSize = 1;
 	private static final int ammoSize = 21;
-	private static final float shootCd = 0.5f;
+	private static final float shootCd = 0.4f;
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.3f;
 	private static final int reloadAmount = 0;

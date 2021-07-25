@@ -19,7 +19,7 @@ public class PartyPopper extends RangedWeapon {
 
 	private static final int clipSize = 1;
 	private static final int ammoSize = 22;
-	private static final float shootCd = 0.5f;
+	private static final float shootCd = 0.3f;
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 0.6f;
 	private static final int reloadAmount = 0;
@@ -27,13 +27,13 @@ public class PartyPopper extends RangedWeapon {
 	private static final float recoil = 12.0f;
 	private static final float knockback = 30.0f;
 	private static final float projectileSpeed = 120.0f;
-	private static final Vector2 projectileSize = new Vector2(50, 50);
+	private static final Vector2 projectileSize = new Vector2(60, 60);
 	private static final float lifespan = 0.3f;
 	
 	private static final int numProj = 8;
 	private static final int spread = 30;
 	private static final float fragSpeed = 50.0f;
-	private static final Vector2 fragSize = new Vector2(15, 15);
+	private static final Vector2 fragSize = new Vector2(18, 18);
 	private static final float fragLifespan = 1.2f;
 	private static final float fragDamage = 20.0f;
 	private static final float fragKnockback = 2.0f;
@@ -55,8 +55,7 @@ public class PartyPopper extends RangedWeapon {
 		SoundEffect.CRACKER1.playUniversal(state, startPosition, 1.0f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
-		hbox.setGravity(5.0f);
-		
+
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.PARTY, DamageTypes.RANGED));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.CRACKER2, 0.4f));

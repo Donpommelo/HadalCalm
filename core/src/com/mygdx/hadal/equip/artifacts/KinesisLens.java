@@ -12,7 +12,7 @@ import com.mygdx.hadal.utils.Stats;
 public class KinesisLens extends Artifact {
 
 	private static final int statusNum = 1;
-	private static final int slotCost = 2;
+	private static final int slotCost = 3;
 	
 	private static final float projSpdReduction = -0.4f;
 	private static final float bonusProjLifespan = 0.4f;

@@ -24,10 +24,10 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class Airblaster extends MeleeWeapon {
 
-	private static final float swingCd = 0.5f;
+	private static final float swingCd = 0.25f;
 	private static final float windup = 0.0f;
 	private static final float baseDamage = 0.0f;
-	private static final Vector2 hitboxSize = new Vector2(175, 175);
+	private static final Vector2 hitboxSize = new Vector2(150, 150);
 	private static final float knockback = 60.0f;
 	public static final float momentum = 50.0f;
 	

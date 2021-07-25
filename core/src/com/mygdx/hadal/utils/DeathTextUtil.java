@@ -82,7 +82,7 @@ public class DeathTextUtil {
 			
 			//iterate through all messages that match the input tag
 			for (JsonValue d : values) {
-				DeathMessage message = GameStateManager.json.fromJson(DeathMessage.class, d.toJson(OutputType.minimal));
+				DeathMessage message = GameStateManager.json.fromJson(DeathMessage.class, d.toJson(OutputType.json));
 				if (message != null) {
 					
 					//add multiple instances of the message according to its weight

@@ -138,7 +138,7 @@ public class DialogBox extends AHadalActor {
 		
 		if (dialog != null) {
 			for (JsonValue d : dialog) {
-				addDialogue(GameStateManager.json.fromJson(DialogInfo.class, d.toJson(OutputType.minimal)), radio, trigger, type);
+				addDialogue(GameStateManager.json.fromJson(DialogInfo.class, d.toJson(OutputType.json)), radio, trigger, type);
 			}	
 		}
 	}

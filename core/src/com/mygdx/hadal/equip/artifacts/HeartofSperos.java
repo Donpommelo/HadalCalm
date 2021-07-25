@@ -13,7 +13,7 @@ public class HeartofSperos extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 3;
 	
-	private static final float costReduction = 0.5f;
+	private static final float costReduction = 0.65f;
 	
 	public HeartofSperos() {
 		super(slotCost, statusNum);

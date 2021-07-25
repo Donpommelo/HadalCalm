@@ -12,7 +12,7 @@ public class AncientSynapse extends Artifact {
 	private static final int slotCost = 2;
 
 	private static final float baseDegen = 2.0f;
-	private static final float degen = 0.25f;
+	private static final float degen = 0.2f;
 
 	private static final float procCd = 1 / 60f;
 	

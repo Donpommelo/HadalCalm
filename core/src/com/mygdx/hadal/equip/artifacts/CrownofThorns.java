@@ -23,7 +23,7 @@ public class CrownofThorns extends Artifact {
 
 	private static final float thornDamage = 24.0f;
 	private static final float thornDuration = 0.35f;
-	private static final float thornSpeed = 30.0f;
+	private static final float thornSpeed = 36.0f;
 	private static final float thornKnockback = 15.0f;
 	private static final Vector2 projectileSize = new Vector2(72, 9);
 	

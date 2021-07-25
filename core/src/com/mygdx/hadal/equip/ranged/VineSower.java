@@ -38,12 +38,12 @@ public class VineSower extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_SHOTGUN;
 
 	private static final float maxCharge = 0.4f;
-	private static final int minVineNum = 3;
-	private static final int maxVineNum = 6;
-	private static final float vineLifespan = 2.0f;
+	private static final int minVineNum = 4;
+	private static final int maxVineNum = 7;
+	private static final float vineLifespan = 1.25f;
 
 	private static final Vector2 seedSize = new Vector2(45, 30);
-	private static final float vineSpeed = 28.0f;
+	private static final float vineSpeed = 21.0f;
 	private static final float vineDamage = 16.0f;
 	private static final float vineKB = 20.0f;
 

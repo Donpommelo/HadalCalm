@@ -25,7 +25,7 @@ public class BouncingBlade extends RangedWeapon {
 	private static final float knockback = 25.0f;
 	private static final float projectileSpeed = 45.0f;
 	private static final Vector2 projectileSize = new Vector2(50, 50);
-	private static final float lifespan = 4.0f;
+	private static final float lifespan = 3.0f;
 	
 	private static final Sprite projSprite = Sprite.BUZZSAW;
 	private static final Sprite weaponSprite = Sprite.MT_BLADEGUN;

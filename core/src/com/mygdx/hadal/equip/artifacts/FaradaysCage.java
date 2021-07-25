@@ -11,7 +11,7 @@ public class FaradaysCage extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
-	private final float amount = 0.6f;
+	private final float amount = 0.5f;
 	
 	public FaradaysCage() {
 		super(slotCost, statusNum);
@@ -30,7 +30,7 @@ public class FaradaysCage extends Artifact {
 						return damage - amountReduced;
 					} else {
 						float newDamage = damage - inflicted.getCurrentFuel();
-						((PlayerBodyData) inflicted).fuelGain(inflicted.getCurrentFuel());
+						((PlayerBodyData) inflicted).fuelSpend(inflicted.getCurrentFuel());
 						return newDamage;
 					}
 				}

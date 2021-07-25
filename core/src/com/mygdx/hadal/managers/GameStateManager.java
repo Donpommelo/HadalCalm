@@ -71,7 +71,10 @@ public class GameStateManager {
 	public GameStateManager(HadalGame hadalGame) {
 		this.app = hadalGame;
 		this.states = new Stack<>();
-		
+
+		//we set output settings to json so intellij editor doesn't get pissy about double quotes
+		json.setOutputType(OutputType.json);
+
 		//Load data from saves: hotkeys and unlocks
 		PlayerAction.retrieveKeys();
 		UnlockManager.retrieveItemInfo();
@@ -85,11 +88,11 @@ public class GameStateManager {
 		if (!Gdx.files.internal("save/Settings.json").exists()) {
 			Setting.createNewSetting();
 		}
-		
+
 		//Load player records and game dialogs, also from json
-		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
-		loadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(OutputType.minimal));
-		setting = json.fromJson(Setting.class, reader.parse(Gdx.files.internal("save/Settings.json")).toJson(OutputType.minimal));
+		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.json));
+		loadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(OutputType.json));
+		setting = json.fromJson(Setting.class, reader.parse(Gdx.files.internal("save/Settings.json")).toJson(OutputType.json));
 		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
 		deathMessages = reader.parse(Gdx.files.internal("text/DeathMessages.json"));
 		miscText = reader.parse(Gdx.files.internal("text/MiscText.json"));

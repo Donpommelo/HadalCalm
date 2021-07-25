@@ -14,6 +14,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Ablaze;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.*;
+import com.mygdx.hadal.utils.Stats;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -60,7 +61,9 @@ public class DeepSeaSmelter extends RangedWeapon {
 		
 		if (chargeCd < getChargeTime()) {
 			setCharging(true);
-			setChargeCd(chargeCd + (delta + shootCd) * chargePerShot);
+
+			//we take EQUIP_CHARGE_RATE into account to avoid modifiers from making the weapon overheat faster
+			setChargeCd(chargeCd + (delta + shootCd) * chargePerShot * (1 - user.getBodyData().getStat(Stats.EQUIP_CHARGE_RATE)));
 			
 			if (chargeCd >= getChargeTime()) {
 				user.getBodyData().addStatus(new Ablaze(state, maxCharge, user.getBodyData(), user.getBodyData(), burnDamage));
@@ -115,7 +118,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 	@Override
 	public void update(float delta) {
 		if (chargeCd > 0) {
-			chargeCd -= delta;
+			chargeCd -= (delta * (1 - user.getBodyData().getStat(Stats.EQUIP_CHARGE_RATE)));
 		}
 		
 		//overheat decreases over time and the weapon can be reused when it depletes

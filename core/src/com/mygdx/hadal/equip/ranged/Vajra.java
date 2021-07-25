@@ -22,13 +22,13 @@ public class Vajra extends RangedWeapon {
 	private static final int reloadAmount = 0;
 
 	private static final float recoil = 4.0f;
-	private static final float baseDamage = 28.0f;
+	private static final float baseDamage = 44.0f;
 	private static final float knockback = 5.0f;
-	private static final float projectileSpeedStart = 40.0f;
+	private static final float projectileSpeedStart = 45.0f;
 	private static final Vector2 projectileSize = new Vector2(70, 24);
 	private static final float lifespan = 1.0f;
 	
-	private static final float chainDamage = 25.0f;
+	private static final float chainDamage = 20.0f;
 	private static final int chainRadius = 20;
 	private static final int chainAmount = 5;
 	

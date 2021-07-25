@@ -35,7 +35,7 @@ public class ChargeBeam extends RangedWeapon {
 	private static final float recoil = 7.5f;
 	private static final float knockback = 10.0f;
 	private static final float projectileSpeed = 60.0f;
-	private static final Vector2 projectileSize = new Vector2(28, 28);
+	private static final Vector2 projectileSize = new Vector2(35, 35);
 	private static final float lifespan = 0.6f;
 	
 	private static final Sprite projSprite = Sprite.CHARGE_BEAM;
@@ -176,7 +176,8 @@ public class ChargeBeam extends RangedWeapon {
 		});
 		
 		if (chargeStage == 2) {
-			hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.OVERCHARGE, 0.0f, 1.0f));
+			hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.OVERCHARGE, 0.0f, 1.0f)
+					.setParticleSize(70));
 			hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.OVERCHARGE).setParticleDuration(0.4f));
 		}
 	}

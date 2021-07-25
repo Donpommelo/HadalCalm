@@ -26,7 +26,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private static final float lifespan = 5.0f;
 	
 	private static final int explosionRadius = 200;
-	private static final float explosionDamage = 50.0f;
+	private static final float explosionDamage = 60.0f;
 	private static final float explosionKnockback = 25.0f;	
 	
 	private static final Sprite projSprite = Sprite.STICKYBOMB;

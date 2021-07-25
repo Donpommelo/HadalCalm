@@ -3,375 +3,375 @@
 		{
 			"name": "",
 			"text": "...\nPause: (fugpausefug)\nAdvance Dialog: (fugdialogfug)",
-			"sprite": ""
-			"duration": 0
+			"sprite": "",
+			"duration": 0,
             "small": true
 		},
         {
 			"name": "",
 			"text": "Keys can be rebinded in settings from pause menu.",
-			"sprite": ""
-			"duration": 0
-			"end": true
+			"sprite": "",
+			"duration": 0,
+			"end": true,
             "small": true
 		}
-	]
+	],
 "elevator0": [
 		{
 			"name": "",
 			"text": "The elevator does not appear to be functional.",
-			"sprite": ""
-			"duration": 0
-            "end": true
+			"sprite": "",
+			"duration": 0,
+            "end": true,
             "small": true
 		}
-	]
+	],
 "unfinished0": [
 		{
 			"name": "",
 			"text": "(This area is unfinished)",
-			"sprite": ""
-			"duration": 0
-            "end": true
+			"sprite": "",
+			"duration": 0,
+            "end": true,
             "small": true
 		}
-	]
+	],
 "ENDING0": [
 		{
 			"name": "Pelican",
 			"text": "\nThank you for playing.",
-			"sprite": "PELICAN_MASKED"
+			"sprite": "PELICAN_MASKED",
 			"duration": 0
 		},
         {
 			"name": "Pelican",
 			"text": "\nNow, go and play some pvp.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 0
+			"sprite": "PELICAN_MASKED",
+			"duration": 0,
 			"end": true
 		}
-	]
+	],
 "dialog1": [
 		{
 			"name": "Pelican",
 			"text": "\nAh, excellent!\nAnother Salvager is just what I was hoping would wash up at my doorstep.",
-			"sprite": "PELICAN_MASKED"
+			"sprite": "PELICAN_MASKED",
 			"duration": 0
 		},
         {
 			"name": "Pelican",
 			"text": "\nPlease, call me Pelican.\nWelcome to the S.S. Tunicate, a research vessel under my care.",
-			"sprite": "PELICAN_MASKED"
+			"sprite": "PELICAN_MASKED",
 			"duration": 0
 		},
         {
 			"name": "Pelican",
 			"text": "\nThe currents that govern this murky pool deliver all sunken things right to where they belong.",
-			"sprite": "PELICAN_MASKED"
+			"sprite": "PELICAN_MASKED",
 			"duration": 0
 		},
         {
 			"name": "Pelican",
 			"text": "\nLike so, you to me.",
-			"sprite": "PELICAN_MASKED"
+			"sprite": "PELICAN_MASKED",
 			"duration": 0
 		},
         {
 			"name": "Pelican",
 			"text": "\nBut unfortunately, there are some things that not even the processes of the ocean are immune to.\nYou see, some mysterious force has halted the natural flow of currents.",
-			"sprite": "PELICAN_MASKED"
+			"sprite": "PELICAN_MASKED",
 			"duration": 0
 		},
         {
 			"name": "Pelican",
 			"text": "\nThis represents a considerable problem for the local ecosystem. Stagnant water is no fun after all.\nMakes it awfully hard for fish to get to where they want to go.",
-			"sprite": "PELICAN_MASKED"
+			"sprite": "PELICAN_MASKED",
 			"duration": 0
 		},
         {
 			"name": "Pelican",
 			"text": "\nSo on behalf of the company's board of trustees, I ask that you seek out the bottom of the ocean where we believe the problem to lie.",
-			"sprite": "PELICAN_MASKED"
+			"sprite": "PELICAN_MASKED",
 			"duration": 0
 		},
         {
 			"name": "Pelican",
 			"text": "\nIn the mean time, please make use of the facility's employee services.\nFor a more in-depth tour of the S.S. Tunicate, please interact with the Communications Telepyramid.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 0
+			"sprite": "PELICAN_MASKED",
+			"duration": 0,
             "end": true
 		}
-	]
+	],
 "tourDialog0": [
 		{
 			"name": "Pelican",
 			"text": "\nThe S.S. Tunicate is a research vessel stationed in the middle of the Noiseless Sea.",
-			"sprite": "PELICAN_MASKED"
+			"sprite": "PELICAN_MASKED",
 			"duration": 0
-		}
+		},
         {
 			"name": "Pelican",
 			"text": "\nOur goal in establishing this facility was to create a hospitable environment for remote Salvagers.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 0
+			"sprite": "PELICAN_MASKED",
+			"duration": 0,
             "end": true
 		}
-	]
+	],
 "tourDialog1": [
 		{
 			"name": "Pelican",
 			"text": "\nThis is the vessel's Armory. We hope our diverse selection of company-provided weaponry will assist you along your quest.",
-			"sprite": "PELICAN_MASKED"
+			"sprite": "PELICAN_MASKED",
 			"duration": 0
 		},
         {
 			"name": "Pelican",
 			"text": "\nThe hull of the S.S. Tunicate is above-average in durability, so feel free to test out weapons inside.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 0
+			"sprite": "PELICAN_MASKED",
+			"duration": 0,
             "end": true
 		}
-	]
+	],
 "tourDialog2": [
     {
         "name": "Pelican",
         "text": "\nAt the Reliquary, you can equip and unequip Artifacts that bestow passive benefits.",
-        "sprite": "PELICAN_MASKED"
+        "sprite": "PELICAN_MASKED",
         "duration": 0
     },
     {
         "name": "Pelican",
         "text": "\nTo equip an Artifact, a Salvager must have adequate Artifact Slots. As default, you have 4 slots with more powerful Artifacts taking up more slots.",
-        "sprite": "PELICAN_MASKED"
-        "duration": 0
+        "sprite": "PELICAN_MASKED",
+        "duration": 0,
         "end": true
     }
-]
+],
 "tourDialog3": [
     {
         "name": "Pelican",
         "text": "\nYou can equip an Active Item at the Dispensary. Press <fugactivefug> to use a variety of different powers once your Active Item is fully charged.",
-        "sprite": "PELICAN_MASKED"
+        "sprite": "PELICAN_MASKED",
         "duration": 0
     },
     {
         "name": "Pelican",
         "text": "\nActive Item charge is indicated by the bar underneath the item name. Some items charge over time. Others charge by dealing damage.",
-        "sprite": "PELICAN_MASKED"
-        "duration": 0
+        "sprite": "PELICAN_MASKED",
+        "duration": 0,
         "end": true
     }
-]
+],
 "tourDialog4": [
     {
         "name": "Pelican",
         "text": "\nThe ship's Navigation Telepyramid is used to warp to other Telepyramids that have been activated.",
-        "sprite": "PELICAN_MASKED"
+        "sprite": "PELICAN_MASKED",
         "duration": 0
     },
     {
         "name": "Pelican",
         "text": "\nIf you see any more Telepyramids in the world, activate them so you can revisit distant locations whenever you want.",
-        "sprite": "PELICAN_MASKED"
+        "sprite": "PELICAN_MASKED",
         "duration": 0
     },
     {
         "name": "Pelican",
         "text": "\nThe other Telepyramids in the hub allow you to train your skills in a survival arena mode, as well as other special modes like boss fights.",
-        "sprite": "PELICAN_MASKED"
-        "duration": 0
+        "sprite": "PELICAN_MASKED",
+        "duration": 0,
         "end": true
     }
-]
+],
 "tourDialog5": [
     {
         "name": "Pelican",
         "text": "\nOn the top floor is the Quartermaster. Spend your hard earned currency on new weapons and other items.",
-        "sprite": "PELICAN_MASKED"
+        "sprite": "PELICAN_MASKED",
         "duration": 0
     },
     {
         "name": "Pelican",
         "text": "\n(for the purposes of this demo, all items have been unlocked already)",
-        "sprite": "PELICAN_MASKED"
-        "duration": 0
+        "sprite": "PELICAN_MASKED",
+        "duration": 0,
         "end": true
     }
-]
+],
 "tourDialog6": [
 		{
 			"name": "Pelican",
 			"text": "\nAnd finally, ship Communications can be used to chat with myself.\nI'll always be here in case you forget anything.",
-			"sprite": "PELICAN_MASKED"
+			"sprite": "PELICAN_MASKED",
 			"duration": 0
-		}
+		},
         {
 			"name": "Pelican",
 			"text": "\nOh and one more thing, I've been getting into Poetry lately.\nLet me know if you'd like to hear a poem.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 0
+			"sprite": "PELICAN_MASKED",
+			"duration": 0,
             "end": true
 		}
-	]
+	],
 "poem": [
         {
 			"name": "Pelican",
 			"text": "\nYou want to hear a poem?\nOk! Here it goes~\nAhem...",
-			"sprite": "PELICAN_MASKED"
+			"sprite": "PELICAN_MASKED",
 			"duration": 0
 		},
         {
 			"name": "Pelican",
 			"text": "\n\"<poem>\"",
-			"sprite": "PELICAN_MASKED"
-			"duration": 0
+			"sprite": "PELICAN_MASKED",
+			"duration": 0,
             "end": true
 		}
-	]
+	],
 "poemGood1": [
 
         {
 			"name": "Pelican",
 			"text": "\nReally? Thanks.\nThat really means a lot to me.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
             "end": true
 		}
-	]
+	],
 "poemGood2": [
 
         {
 			"name": "Pelican",
 			"text": "\nAw, thanks.\nYou're flattering me.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
             "end": true
 		}
-	]
+	],
 "poemGood3": [
 
         {
 			"name": "Pelican",
 			"text": "\nI appreciate it.\nI hope you like the next one too.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
             "end": true
 		}
-	]
+	],
 "poemGood4": [
 
         {
 			"name": "Pelican",
 			"text": "\nThank you.\nLet me know if you want another one.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
             "end": true
 		}
-	]
+	],
 "poemGood5": [
 
         {
 			"name": "Pelican",
 			"text": "\nThat's sweet of you.\nI really do try, you know.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
             "end": true
 		}
-	]
+	],
 "poemGood6": [
 
         {
 			"name": "Pelican",
 			"text": "\nThank you.\nI felt like that one turned out well too.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
             "end": true
 		}
-	]
+	],
 "poemBad1": [
 
         {
 			"name": "Pelican",
 			"text": "\nOh. Sorry.\nI'll try harder next time.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
             "end": true
 		}
-	]
+	],
 "poemBad2": [
 
         {
 			"name": "Pelican",
 			"text": "\nOh. Well.\nI'll keep at it.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
             "end": true
 		}
-	]
+	],
 "poemBad3": [
 
         {
 			"name": "Pelican",
 			"text": "\nHmm.\nI hope you like the next one more.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
             "end": true
 		}
-	]
+	],
 "poemBad4": [
 
         {
 			"name": "Pelican",
 			"text": "\nAh.\nI appreciate the honest feedback.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
             "end": true
 		}
-	]
+	],
 "poemBad5": [
 
         {
 			"name": "Pelican",
 			"text": "\nOh.\nI wonder what I'm doing wrong.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
             "end": true
 		}
-	]
+	],
 "poemBad6": [
 
         {
 			"name": "Pelican",
 			"text": "\nAh well.\nThe last guy didn't like it much either.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
             "end": true
 		}
-	]
+	],
 "intro0": [
 		{
 			"name": "Pelican",
 			"text": "<TEMP>",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
 			"end": true
 		}
-	]
+	],
 "intro1A": [
 		{
 			"name": "Pelican",
 			"text": "Welcome back, <name>.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
 			"end": true
 		}
-	]
+	],
 "introMultiA": [
 		{
 			"name": "Pelican",
 			"text": "Welcome back, <name>.",
-			"sprite": "PELICAN_MASKED"
-			"duration": 3
+			"sprite": "PELICAN_MASKED",
+			"duration": 3,
 			"end": true
 		}
 	]

@@ -85,7 +85,7 @@
 "ANCIENT_SYNAPSE": {
 	"name": "Ancient Synapse",
 	"description": "Delays Incoming Damage",
-    "descriptionLong": "Delayed Damage: 1 + 25% Total Delayed Damage per Second\n\nThe petrified nervous tissue of a drowned behemoth\n\nTo those willing to abandon physical sensation, the Noiseless Sea offers a quiet and peaceful haven to observe eternity.",
+    "descriptionLong": "Delayed Damage: 1 + 20% Total Delayed Damage per Second\n\nThe petrified nervous tissue of a drowned behemoth\n\nTo those willing to abandon physical sensation, the Noiseless Sea offers a quiet and peaceful haven to observe eternity.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -95,7 +95,7 @@
 "AU_COURANT": {
 	"name": "Au Courant",
 	"description": "Passively Reloads Inactive Weapons. -Reload Speed",
-    "descriptionLong": "Reload Speed Reduction: -40%\n\nA flowing sash woven from current-swept fabric\n\nAll Sunk things, resigned to their fates, make a habit of keeping current and going with the flow.",
+    "descriptionLong": "Reload Speed Reduction: -20%\n\nA flowing sash woven from current-swept fabric\n\nAll Sunk things, resigned to their fates, make a habit of keeping current and going with the flow.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -115,7 +115,7 @@
 "BENTHIC_DESIRES": {
 	"name": ",Benthic Desires",
 	"description": "Regenerate Hp and Fuel when not moving",
-    "descriptionLong": "Hp Regeneration: 6 per Second\nFuel Regeneration: 8 per Second\n\nAn individual's oneness with the unchanging Earth\n\nThe Stagnation that muddies the firmament at the bottom of the world is derived from the collective desires of the fearful and the weary.",
+    "descriptionLong": "Hp Regeneration: 7 per Second\nFuel Regeneration: 14 per Second\n\nAn individual's oneness with the unchanging Earth\n\nThe Stagnation that muddies the firmament at the bottom of the world is derived from the collective desires of the fearful and the weary.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -225,8 +225,8 @@
 },
 "CASTAWAYS_TRAVELOGUE": {
 	"name": "Castaway's Travelogue",
-	"description": "Not Using Fuel Increases Fuel Regeneration",
-    "descriptionLong": "Fuel Regen: +20 per Second after 2 Seconds without use.\n\nA largely uneventful diary of someone lost at sea\n\nThere is little room for castaways to float in the ever dwindling space above this ocean, yet beneath the next one.",
+	"description": "Restores Fuel Upon Running out of Fuel",
+    "descriptionLong": "Fuel Cooldown: 10s\nFuel Regen: +25.\n\nA largely uneventful diary of someone lost at sea\n\nThere is little room for castaways to float in the ever dwindling space above this ocean, yet beneath the next one.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -236,7 +236,7 @@
 "CATALOG_OF_WANT": {
 	"name": "Catalog of Want",
 	"description": "Spend Hp to use Uncharged Actives",
-    "descriptionLong": "Hp Cost: 6 Hp per 1 Second Charge\n\nThe last edition of a demonic shopping catalog that has ceased publication\n\nThe unrequited desires of the drowned are memorialized but not satisfied within the annals of the Pit of Tongues.",
+    "descriptionLong": "Cooldown: 2 Seconds\nHp Cost: 5 Hp per 1 Second Charge\n\nThe last edition of a demonic shopping catalog that has ceased publication\n\nThe unrequited desires of the drowned are memorialized but not satisfied within the annals of the Pit of Tongues.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -423,7 +423,7 @@
 "EMAUDELINES_PRISM": {
 	"name": "Emaudeline's Prism",
 	"description": "Projectile Split-Shot, -Attack Speed, -Reload Speed",
-    "descriptionLong": "Ranged Attack Speed Reduction: -50%\nReload Speed Reduction: -45%\n\nA transparent prism that splits light into an incomplete rainbow\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light.",
+    "descriptionLong": "Ranged Attack Speed Reduction: -60%\nReload Speed Reduction: -40%\n\nA transparent prism that splits light into an incomplete rainbow\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -464,7 +464,7 @@
 "FARADAYS_CAGE": {
 	"name": "Faraday Cage",
 	"description": "Absorbs Incoming Damage with Fuel",
-    "descriptionLong": "Damage Resistance: 40% of Fuel Consumed\n\nA conductive mesh used to protect from electromagnetic fields\n\nThe presence of Bright Ones often impairs conventional technology, forcing Management to equip Salvagers with equally unfathomable tools.",
+    "descriptionLong": "Damage Resistance: 50% of Fuel Consumed\n\nA conductive mesh used to protect from electromagnetic fields\n\nThe presence of Bright Ones often impairs conventional technology, forcing Management to equip Salvagers with equally unfathomable tools.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -474,7 +474,7 @@
 "FEELING_OF_BEING_WATCHED": {
 	"name": "Feeling of Being Watched",
 	"description": "+Damage with Low Fuel",
-    "descriptionLong": "Fuel Threshold: 20% Max Fuel\nBonus Damage: +50%\n\nThe unyielding gaze of nothing in particular\n\nA salvager cannot avert the gaze of that which he is submerged within.",
+    "descriptionLong": "Fuel Threshold: 20% Max Fuel\nBonus Damage: +40%\n\nThe unyielding gaze of nothing in particular\n\nA salvager cannot avert the gaze of that which he is submerged within.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -569,7 +569,7 @@
 "HEART_OF_SPEROS": {
 	"name": "Heart of Speros",
 	"description": "Use Fuel as Ammo",
-    "descriptionLong": "Fuel Spent: 50% Max Fuel / Weapon Clip Size\n\nThe synthetic heart-replacement belonging to an overworked employee\n\nTo overcome the ocean itself, Management needed to engineer a tool as inexorable as the tides.",
+    "descriptionLong": "Fuel Spent: 65% Max Fuel / Weapon Clip Size\n\nThe synthetic heart-replacement belonging to an overworked employee\n\nTo overcome the ocean itself, Management needed to engineer a tool as inexorable as the tides.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -807,17 +807,6 @@
         "FUEL"
 	]
 },
-"MOUTHFUL_OF_BEES": {
-	"name": "Mouthful of Bees",
-	"description": "Release Bees Upon Receiving Damage or Dying",
-    "descriptionLong": "Release 1 Bee per 20 Damage received.\nRelease 5 Bees on death.\n\nMRRMPH MMPH MRRGL FRRRMRGRRRG GGGRRMRRFRG!",
-	"tags": [
-		"RELIQUARY",
-		"RANDOM_POOL",
-        "OFFENSE",
-        "PASSIVE_DAMAGE"
-	]
-},
 "MOUTHBREATHER_CERTIFICATE": {
 	"name": "Mouthbreather Certificate",
 	"description": "+Self-Damage Resistance",
@@ -826,6 +815,17 @@
 		"RELIQUARY",
 		"RANDOM_POOL",
         "DEFENSE"
+	]
+},
+"MOUTHFUL_OF_BEES": {
+	"name": "Mouthful of Bees",
+	"description": "Release Bees Upon Receiving Damage or Dying",
+	"descriptionLong": "Release 1 Bee per 20 Damage received.\nRelease 5 Bees on death.\n\nMRRMPH MMPH MRRGL FRRRMRGRRRG GGGRRMRRFRG!",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+		"OFFENSE",
+		"PASSIVE_DAMAGE"
 	]
 },
 "MUDDLING_CUP": {

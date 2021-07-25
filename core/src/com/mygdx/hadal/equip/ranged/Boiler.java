@@ -29,9 +29,9 @@ public class Boiler extends RangedWeapon {
 	private static final float baseDamage = 6.0f;
 	private static final float recoil = 1.5f;
 	private static final float knockback = 2.0f;
-	private static final float projectileSpeed = 32.0f;
+	private static final float projectileSpeed = 48.0f;
 	private static final Vector2 projectileSize = new Vector2(100, 50);
-	private static final float lifespan = 0.5f;
+	private static final float lifespan = 0.35f;
 	
 	private static final float fireDuration = 5.0f;
 	private static final float fireDamage = 3.0f;

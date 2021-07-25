@@ -100,6 +100,11 @@ public class Player extends PhysicsSchmuck {
 	protected static final float pingCd = 1.0f;
 	protected float pingCdCount;
 
+	private static final float hoverFuelRegenCd = 1.0f;
+	private static final float airblastFuelRegenCd = 2.0f;
+	private float fuelRegenCdCount;
+	private static final float fuelRegen = 18.0f;
+
 	//this makes the player animate faster in the air for the "luigi legs"
 	private static final float airAnimationSlow = 3.0f;
 
@@ -372,9 +377,14 @@ public class Player extends PhysicsSchmuck {
 			playerData.setExtraJumpsUsed(0);
 		}
 				
-		//process fuel regen
+		//process fuel regen. Base fuel regen is canceled upon using fuel.
+		if (fuelRegenCdCount > 0.0f) {
+			fuelRegenCdCount -= delta;
+		} else {
+			playerData.fuelGain(fuelRegen * delta);
+		}
 		playerData.fuelGain(playerData.getStat(Stats.FUEL_REGEN) * delta);
-		
+
 		//If player is reloading, run the reload method of the current equipment.
 		if (playerData.getCurrentTool().isReloading()) {
 			playerData.getCurrentTool().reload(delta);
@@ -446,7 +456,12 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void hover() {
 		if (jumpCdCount < 0) {
-			
+
+			//hovering sets fuel regen on cooldown
+			if (fuelRegenCdCount < hoverFuelRegenCd) {
+				fuelRegenCdCount = hoverFuelRegenCd;
+			}
+
 			//Player will continuously do small upwards bursts that cost fuel.
 			playerData.fuelSpend(playerData.getHoverCost());
 			jumpCdCount = hoverCd;
@@ -564,6 +579,12 @@ public class Player extends PhysicsSchmuck {
 	public void airblast() {
 		if (airblastCdCount < 0) {
 			if (playerData.getCurrentFuel() >= playerData.getAirblastCost()) {
+
+				//airblasting sets fuel regen on cooldown
+				if (fuelRegenCdCount < airblastFuelRegenCd) {
+					fuelRegenCdCount = airblastFuelRegenCd;
+				}
+
 				playerData.fuelSpend(playerData.getAirblastCost());
 				airblastCdCount = airblastCd;
 				useToolStart(0, airblast, hitboxfilter, mouse.getPixelPosition(), false);

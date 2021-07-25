@@ -5,14 +5,13 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
+import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.utils.Stats;
 
 /**
  * @author Gerrbort Gnolfredo
@@ -21,10 +20,11 @@ public class Reloader extends ActiveItem {
 
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 14.0f;
+	private static final float maxCharge = 13.0f;
 
 	private static final float duration = 1.5f;
-	private static final float bonusAtkSpd = 0.3f;
+	private static final float bonusAtkSpd1 = 0.45f;
+	private static final float bonusAtkSpd2 = 0.3f;
 
 	public Reloader(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -38,11 +38,23 @@ public class Reloader extends ActiveItem {
 			HadalColor.RED);
 
 		user.addStatus(new StatusComposite(state, duration, false, user, user,
-			new StatChangeStatus(state, Stats.TOOL_SPD, bonusAtkSpd, user),
 			new Status(state, user)) {
 
 			@Override
 			public void onShoot(Equippable tool) {
+
+				float modifiedAttackSpeed = bonusAtkSpd1;
+
+				if (tool instanceof RangedWeapon weapon) {
+					if (weapon.getClipSize() <= 1) {
+						modifiedAttackSpeed = 0;
+					} else if (weapon.getClipSize() <= 4) {
+						modifiedAttackSpeed = bonusAtkSpd2;
+					}
+				}
+
+				float cooldown = inflicter.getSchmuck().getShootCdCount();
+				inflicter.getSchmuck().setShootCdCount(cooldown * (1 - modifiedAttackSpeed));
 				tool.gainClip(1);
 			}
 		});
