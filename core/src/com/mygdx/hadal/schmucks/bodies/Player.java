@@ -100,10 +100,10 @@ public class Player extends PhysicsSchmuck {
 	protected static final float pingCd = 1.0f;
 	protected float pingCdCount;
 
-	private static final float hoverFuelRegenCd = 1.0f;
-	private static final float airblastFuelRegenCd = 2.0f;
+	private static final float hoverFuelRegenCd = 0.75f;
+	private static final float airblastFuelRegenCd = 1.5f;
 	private float fuelRegenCdCount;
-	private static final float fuelRegen = 18.0f;
+	private static final float fuelRegen = 20.0f;
 
 	//this makes the player animate faster in the air for the "luigi legs"
 	private static final float airAnimationSlow = 3.0f;
@@ -720,7 +720,7 @@ public class Player extends PhysicsSchmuck {
 		boolean visible = false;
 		
 		//draw hp heart if using certain effects, looking at self/ally, or in spectator mode
-		if (state.isSpectatorMode() || hitboxfilter == state.getPlayer().hitboxfilter) {
+		if (state.isSpectatorMode() || hitboxfilter == state.getPlayer().hitboxfilter || state.isVisibleHp()) {
 			visible = true;
 		} else if (state.isServer()) {
 			if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {

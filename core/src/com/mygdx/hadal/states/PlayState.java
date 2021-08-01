@@ -147,7 +147,7 @@ public class PlayState extends GameState {
 	private final HashMap<String, PositionDummy> dummyPoints;
 	
 	//Can players hurt each other? Is it the hub map? Is this the server? Do kills give score? Can players damage each other?
-	private boolean pvp, hub, killsScore, noDamage, droppableWeapons, eggplantDrops;
+	private boolean pvp, hub, killsScore, noDamage, droppableWeapons, eggplantDrops, visibleHp;
 	private final boolean server;
 
 	//the current level's team mode (ffa, auto assigned or manual assigned) and base hp
@@ -1572,6 +1572,10 @@ public class PlayState extends GameState {
 	public boolean isDroppableWeapons() { return droppableWeapons; }
 
 	public void setDroppableWeapons(boolean droppableWeapons) { this.droppableWeapons = droppableWeapons; }
+
+	public boolean isVisibleHp() { return visibleHp; }
+
+	public void setVisibleHp(boolean visibleHp) { this.visibleHp = visibleHp; }
 
 	public boolean isEggplantDrops() { return eggplantDrops; }
 

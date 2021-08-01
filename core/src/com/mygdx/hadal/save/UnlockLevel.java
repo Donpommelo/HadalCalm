@@ -28,12 +28,12 @@ public enum UnlockLevel {
 
 	CTF_COQUELICOT("Maps/ctf_coquelicot.tmx", GameMode.CTF, GameMode.DEATHMATCH),
 
-	BOSS1("Maps/Boss1.tmx", GameMode.CAMPAIGN),
-	BOSS2("Maps/Boss2.tmx", GameMode.CAMPAIGN),
-	BOSS3("Maps/Boss3.tmx", GameMode.CAMPAIGN),
-	BOSS4("Maps/Boss4.tmx", GameMode.CAMPAIGN),
-	BOSS5("Maps/Boss5.tmx", GameMode.CAMPAIGN),
-	BOSS6("Maps/Boss6.tmx", GameMode.CAMPAIGN),
+	BOSS1("Maps/Boss1.tmx", GameMode.BOSS),
+	BOSS2("Maps/Boss2.tmx", GameMode.BOSS),
+	BOSS3("Maps/Boss3.tmx", GameMode.BOSS),
+	BOSS4("Maps/Boss4.tmx", GameMode.BOSS),
+	BOSS5("Maps/Boss5.tmx", GameMode.BOSS),
+	BOSS6("Maps/Boss6.tmx", GameMode.BOSS),
 
 	DM_AGGYDAGGY("Maps/dm_aggydaggy.tmx", GameMode.DEATHMATCH),
 	DM_CAROUSEL("Maps/dm_carousel.tmx", GameMode.DEATHMATCH),

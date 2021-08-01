@@ -443,7 +443,7 @@
 "STICKY_BOMB_LAUNCHER": {
 	"name": "Stickybomb-Launcher",
 	"description": "Fires bombs that stick to enemies and walls. Press the Reload button to detonate all active bombs.",
-    "descriptionLong": "Explosion Damage: 60\nThis weapon does not manually reload\n\nClip Size: 6\nAmmo Capacity: 36\nReload Time: 1.25 Seconds\nAttack Cooldown: 0.35 Second",
+    "descriptionLong": "Explosion Damage: 55\nThis weapon does not manually reload\n\nClip Size: 6\nAmmo Capacity: 36\nReload Time: 1.25 Seconds\nAttack Cooldown: 0.35 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
@@ -484,6 +484,16 @@
 	"name": "Trick Gun",
 	"description": "Hold, drag and release the shoot button to fire a projectile that changes its trajectory midflight.",
     "descriptionLong": "Projectile Damage: 60\n\nClip Size: 5\nAmmo Capacity: 30\nReload Time: 0.75 Second",
+	"tags": [
+		"ARMORY",
+		"RANDOM_POOL",
+		"RANGED"
+	]
+},
+"TYRRAZZAN_REAPER": {
+	"name": "Tyrraazan Reaper",
+	"description": "",
+    "descriptionLong": "",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",

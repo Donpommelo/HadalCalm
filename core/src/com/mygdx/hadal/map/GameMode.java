@@ -26,9 +26,11 @@ public enum GameMode {
         public boolean isInvisibleInHub() { return true; }
     },
 
+    BOSS("BOSS",""),
+
     DEATHMATCH("DM", "dm",
         new SetCameraOnSpawn(), new SettingScoreCap(), new SettingTimer(ResultsState.magicWord), new DisplayUITag("SCOREBOARD"),
-         new SettingLives(), new SettingTeamMode(), new SettingBaseHp(),  new SettingDroppableWeapons(),
+         new SettingLives(), new SettingTeamMode(), new SettingBaseHp(), new SettingVisibleHp(), new SettingDroppableWeapons(),
         new SpawnWeapons(), new ToggleKillsScore(), new TogglePVP()),
 
     SURVIVAL("ARENA", "arena",
@@ -38,7 +40,7 @@ public enum GameMode {
 
     CTF("CTF", "ctf",
         new SetCameraOnSpawn(), new SettingTeamScoreCap(), new SettingTimer(ResultsState.magicWord),
-        new DisplayUITag("TEAMSCORE"), new SettingDroppableWeapons(), new SettingBaseHp(),
+        new DisplayUITag("TEAMSCORE"), new SettingDroppableWeapons(), new SettingBaseHp(), new SettingVisibleHp(),
         new SpawnWeapons(),
         new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife()),
 
@@ -51,7 +53,7 @@ public enum GameMode {
 
     GUN_GAME("GUN GAME", "", DEATHMATCH,
         new SetCameraOnSpawn(), new SettingTimer(ResultsState.magicWord),
-        new DisplayUITag("GUNGAME"), new SettingBaseHp(),
+        new DisplayUITag("GUNGAME"), new SettingBaseHp(), new SettingVisibleHp(),
         new TogglePVP(), new ToggleTeamMode(0), new ToggleUnlimitedLife(),
         new SetLoadoutEquips(UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
         new SetLoadoutArtifacts(UnlockArtifact.GUN_GAME, UnlockArtifact.INFINITE_AMMO), new SetLoadoutActive(UnlockActives.NOTHING)),

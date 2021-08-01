@@ -68,6 +68,7 @@ public enum UnlockEquip {
 	TESLA_COIL(TeslaCoil.class),
 	TORPEDO_LAUNCHER(TorpedoLauncher.class),
 	TRICK_GUN(TrickGun.class),
+	TYRRAZZAN_REAPER(TyrrazzanReaper.class),
 	UNDERMINER(Underminer.class),
 	VINE_SOWER(VineSower.class),
 	VAJRA(Vajra.class),
