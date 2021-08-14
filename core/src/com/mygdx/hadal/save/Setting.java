@@ -314,6 +314,10 @@ public class Setting {
 		};
 	}
 
+	public Map<String, Integer> getModeSettings(GameMode mode) {
+		return modeSettings.getOrDefault(mode.toString(), null);
+	}
+
 	public void setResolution(int resolution) { this.resolution = resolution; }
 
 	public void setFramerate(int framerate) { this.framerate = framerate; }

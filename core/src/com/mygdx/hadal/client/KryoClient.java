@@ -331,6 +331,13 @@ public class KryoClient {
 					}
 
 					gsm.removeState(ClientState.class, false);
+
+					if (p.modeSettings != null) {
+						for (String key: p.modeSettings.keySet()) {
+							gsm.getSetting().setModeSetting(p.mode, key, p.modeSettings.get(key));
+						}
+					}
+
 					gsm.addClientPlayState(p.level, p.mode, new Loadout(gsm.getLoadout()), LobbyState.class);
 					HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator, gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
 				});

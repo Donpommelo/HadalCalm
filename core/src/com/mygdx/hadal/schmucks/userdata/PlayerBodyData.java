@@ -97,7 +97,12 @@ public class PlayerBodyData extends BodyData {
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 			addArtifact(artifactsTemp[i], false, false);
 		}
-		
+
+		//add map modifiers as 0-cost, overriding, invisible artifacts
+		for (UnlockArtifact modifier: player.getState().getMapModifiers()) {
+			addArtifact(modifier, false, false);
+		}
+
 		//Acquire active item
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
 		this.player.setBodySprite(loadout.character, loadout.team);

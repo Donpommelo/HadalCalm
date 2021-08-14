@@ -21,6 +21,8 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * These are packets sent between the Server and Client.
@@ -78,6 +80,7 @@ public class Packets {
 	public static class LoadLevel {
 		public UnlockLevel level;
 		public GameMode mode;
+		public Map<String, Integer> modeSettings;
 		public boolean firstTime;
 		public boolean spectator;
 		public LoadLevel() {}
@@ -92,9 +95,10 @@ public class Packets {
 		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
 		 * @param spectator: Is this client connecting as a spectator?
 		 */
-		public LoadLevel(UnlockLevel level, GameMode mode, boolean firstTime, boolean spectator) {
+		public LoadLevel(UnlockLevel level, GameMode mode, Map<String, Integer> modeSettings, boolean firstTime, boolean spectator) {
 			this.level = level;
 			this.mode = mode;
+			this.modeSettings = modeSettings;
 			this.firstTime = firstTime;
 			this.spectator = spectator;
 		}
@@ -710,7 +714,7 @@ public class Packets {
         public float chargePercent;
         public boolean outOfAmmo;
         public short maskBits;
-        public boolean invisible;
+        public int invisible;
         public float timestamp;
         
 		public SyncPlayerAll() {}
@@ -721,7 +725,7 @@ public class Packets {
 		 * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
 		 */
 		public SyncPlayerAll(String entityID, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading, float reloadPercent, boolean charging, float chargePercent, 
-				boolean outOfAmmo, short maskBits, boolean invisible, float timestamp) {
+				boolean outOfAmmo, short maskBits, int invisible, float timestamp) {
             this.entityID = entityID;
             this.attackAngle = attackAngle;
             this.grounded = grounded;
@@ -1372,5 +1376,6 @@ public class Packets {
 		kryo.register(SavedPlayerFieldsExtra.class);
 
 		kryo.register(ArrayList.class);
+		kryo.register(HashMap.class);
 	}
 }

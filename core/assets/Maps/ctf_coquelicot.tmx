@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="320" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="241">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="320" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="241">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -110,7 +110,7 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="128" name="Bounds" type="Bounds" x="8864" y="3392" width="32" height="32">
+  <object id="128" name="Bounds" type="Bounds" x="9792" y="3904" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
@@ -119,7 +119,7 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="129" name="Bounds" type="Bounds" x="1632" y="960" width="32" height="32">
+  <object id="129" name="Bounds" type="Bounds" x="704" y="416" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>

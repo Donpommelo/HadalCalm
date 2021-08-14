@@ -1,0 +1,47 @@
+package com.mygdx.hadal.map.modifiers;
+
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.mygdx.hadal.actors.ModeSettingSelection;
+import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.map.ModeSetting;
+import com.mygdx.hadal.states.PlayState;
+
+public class ModeModifier extends ModeSetting {
+
+    private final String settingTag, uiText, name;
+
+    private CheckBox dropsOptions;
+
+    public ModeModifier(String settingTag, String uiText, String name) {
+        this.settingTag = settingTag;
+        this.uiText = uiText;
+        this.name = name;
+    }
+
+    @Override
+    public void setSetting(PlayState state, GameMode mode, Table table) {
+        dropsOptions = new CheckBox(uiText, GameStateManager.getSkin());
+        dropsOptions.getLabel().setColor(Color.WHITE);
+        dropsOptions.setChecked(state.getGsm().getSetting().getModeSetting(mode, settingTag, 0) == 1);
+        table.add(dropsOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).top().row();
+    }
+
+    @Override
+    public void saveSetting(PlayState state, GameMode mode) {
+        state.getGsm().getSetting().setModeSetting(mode, settingTag, dropsOptions.isChecked() ? 1 : 0);
+    }
+
+    @Override
+    public void loadSettingMisc(PlayState state, GameMode mode) {
+        if (state.getGsm().getSetting().getModeSetting(mode, settingTag, 0) == 1) {
+            executeModifier(state);
+        }
+    }
+
+    public void executeModifier(PlayState state) {}
+
+    public String getName() { return name; }
+}

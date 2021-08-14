@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="110" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="83">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="110" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="83">
  <properties>
   <property name="shader" value="PLAYER_LIGHT"/>
   <property name="startUI" value="PLENUM MAZE,EMPTY,SCRAP"/>
@@ -84,7 +84,7 @@
     <property name="triggeringId" value="bounds1l,bounds2l"/>
    </properties>
   </object>
-  <object id="15" name="Bounds" type="Bounds" x="416" y="1664" width="32" height="32">
+  <object id="15" name="Bounds" type="Bounds" x="64" y="1280" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="spectator" type="bool" value="false"/>
@@ -92,7 +92,7 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="16" name="Bounds" type="Bounds" x="2400" y="2880" width="32" height="32">
+  <object id="16" name="Bounds" type="Bounds" x="2464" y="3232" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
@@ -108,7 +108,7 @@
     <property name="triggeringId" value="bounds1r,bounds2r"/>
    </properties>
   </object>
-  <object id="19" name="Bounds" type="Bounds" x="2464" y="576" width="32" height="32">
+  <object id="19" name="Bounds" type="Bounds" x="2208" y="256" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="spectator" type="bool" value="false"/>
@@ -116,7 +116,7 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="20" name="Bounds" type="Bounds" x="5312" y="2880" width="32" height="32">
+  <object id="20" name="Bounds" type="Bounds" x="5600" y="3232" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
@@ -479,7 +479,7 @@
     <property name="triggeredId" value="w2"/>
    </properties>
   </object>
-  <object id="82" name="Bounds" type="Bounds" x="416" y="576" width="32" height="32">
+  <object id="82" name="Bounds" type="Bounds" x="64" y="224" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="spectator" type="bool" value="true"/>

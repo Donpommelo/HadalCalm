@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="50">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="50">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="80" height="80">
   <data encoding="base64" compression="zlib">
@@ -197,14 +197,14 @@
     <property name="speed" type="float" value="2"/>
    </properties>
   </object>
-  <object id="40" name="Bounds" type="Bounds" x="768" y="928" width="32" height="32">
+  <object id="40" name="Bounds" type="Bounds" x="224" y="608" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="41" name="Bounds" type="Bounds" x="1760" y="1376" width="32" height="32">
+  <object id="41" name="Bounds" type="Bounds" x="2368" y="1536" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

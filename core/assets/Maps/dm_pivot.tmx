@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="157">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="157">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="70">
   <data encoding="base64" compression="zlib">
-   eAHtlm1rwjAYRYXty9jb//+3a5FAtUl8PO7KWI9QWpPcWz2nEU8nX3+RwPfyoTyew6DiXxfPcbFyrrz0oY+jPgPuj+c9+5VnTB/H8vG5CH850PG1fNfKPhitSe6P1cVH5Qb/aM378l0ecVJBMXI5Gz+ii8byESetY3aece/NHdlF40idtPzs3GM+Gzvab9SIHXEy6tqOz9hv59wXW2rn63ud7Bv2I1vmo2td7Lm1kXuctMzsPHLQxnUxo3eeqzq53TT/P62LCsG6k0pb2wfXZ11U6F2uubVPLlf33117WN/ros+qMjpzUsn3fLxVgq4ZEnhdZnpch4HNRC+njw0gcKkPAC0Y0UcQLqjWB4AWjOgjCBdU6wNAC0b0EYQLqvUBoAUj+gjCBdX6ANCCEX0E4YJqfQBowYg+gnBBtT4AtGBEH0G4oFofAFowoo8gXFCtDwAtGNFHEC6o1geAFozoIwgXVOsDQAtG9BGEC6r1AaAFI/oIwgXV+gDQghF9BOGCan0AaMGIPoJwQbU+ALRgRB9BuKBaHwBaMKKPIFxQrQ8ALRjRRxAuqNYHgBaM6CMIF1TrA0ALRvQRhAuq9QGgBSP6CMIF1Y/4ALczIgEJSEACEpCABCQgAQlIQAISkMAvEfgBGHlKYw==
+   eAHtlutqAjEYBYX2T+nt/d+2KyUY3U38HHukuCMsidmco85swMPB138k8L18Ka/HMKj418VjXBw5V1760MdenwHPx+Oe/cozpo99+fhchL/s6PpafmvlHIz2JM/H0cVH5QOeaM/78lvucVJBMXI5W9+ji8byHietYzbOuG/d27OLxpE6afnZuMV8tKaLE0ni5JQez0bsL9d1sWZ4q5N1w3rlkvvWe12subWVW5y0zGzc4t+v6WJG7/de1cn1pvn/aV1UCNadVNr6s9DPdVGhd77n2jk53739rnfQ5rrYZlVZnTmp5JuDfnyrBN0zJPC63Ol5tvkw0N1oe/tRHx0gMNUHgBaM6CMIF1TrA0ALRvQRhAuq9QGgBSP6CMIF1foA0IIRfQThgmp9AGjBiD6CcEG1PgC0YEQfQbigWh8AWjCijyBcUK0PAC0Y0UcQLqjWB4AWjOgjCBdU6wNAC0b0EYQLqvUBoAUj+gjCBdX6ANCCEX0E4YJqfQBowYg+gnBBtT4AtGBEH0G4oFofAFowoo8gXFCtDwAtGNFHEC6o1geAFozoIwgXVOsDQAtG9BGEC6r1AaAFI/oIwgXV+gDQghF9BOGC6nt8gI8zIgEJSEACEpCABCQgAQlIQAISkMAfEfgBYHJKYQ==
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -15,13 +15,13 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
-  <object id="96" name="Multitrigger" type="Multitrigger" x="160" y="160" width="32" height="32">
+  <object id="96" name="Multitrigger" type="Multitrigger" x="64" y="32" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
     <property name="triggeringId" value="w1,w2"/>
    </properties>
   </object>
-  <object id="104" name="Bounds" type="Bounds" x="1984" y="1312" width="32" height="32">
+  <object id="104" name="Bounds" type="Bounds" x="2848" y="1856" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
@@ -193,7 +193,7 @@
     <property name="triggeringId" value="mplat3"/>
    </properties>
   </object>
-  <object id="147" name="Bounds" type="Bounds" x="1024" y="736" width="32" height="32">
+  <object id="147" name="Bounds" type="Bounds" x="160" y="160" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>

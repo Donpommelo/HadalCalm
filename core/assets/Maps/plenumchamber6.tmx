@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="103">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="103">
  <properties>
   <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="150" height="100">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -84,7 +84,7 @@
     <property name="zoom" type="float" value="1"/>
    </properties>
   </object>
-  <object id="14" name="Bounds" type="Bounds" x="800" y="672" width="32" height="32">
+  <object id="14" name="Bounds" type="Bounds" x="800" y="256" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="spectator" type="bool" value="true"/>
@@ -92,7 +92,7 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="15" name="Bounds" type="Bounds" x="3808" y="2656" width="32" height="32">
+  <object id="15" name="Bounds" type="Bounds" x="4512" y="3008" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
@@ -102,14 +102,14 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="16" name="Bounds" type="Bounds" x="3872" y="1408" width="32" height="32">
+  <object id="16" name="Bounds" type="Bounds" x="3264" y="1152" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1b"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="17" name="Bounds" type="Bounds" x="3936" y="1696" width="32" height="32">
+  <object id="17" name="Bounds" type="Bounds" x="4512" y="2048" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
@@ -294,7 +294,7 @@
     <property name="triggeringId" value="playerlock1"/>
    </properties>
   </object>
-  <object id="42" name="Bounds" type="Bounds" x="1088" y="864" width="32" height="32">
+  <object id="42" name="Bounds" type="Bounds" x="800" y="608" width="32" height="32">
    <properties>
     <property name="default" type="bool" value="false"/>
     <property name="left" type="bool" value="true"/>
@@ -303,7 +303,7 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="43" name="Bounds" type="Bounds" x="2368" y="1568" width="32" height="32">
+  <object id="43" name="Bounds" type="Bounds" x="2688" y="1888" width="32" height="32">
    <properties>
     <property name="default" type="bool" value="false"/>
     <property name="down" type="bool" value="true"/>
@@ -695,7 +695,7 @@
     <property name="triggeringId" value="enterarena2"/>
    </properties>
   </object>
-  <object id="101" name="Bounds" type="Bounds" x="800" y="672" width="32" height="32">
+  <object id="101" name="Bounds" type="Bounds" x="160" y="608" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="spectator" type="bool" value="true"/>
@@ -704,7 +704,7 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="102" name="Bounds" type="Bounds" x="3616" y="2656" width="32" height="32">
+  <object id="102" name="Bounds" type="Bounds" x="3616" y="3008" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

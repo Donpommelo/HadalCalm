@@ -27,7 +27,7 @@ public class Invisibility extends Status {
 		
 		//set unit's invisibility to true. this is used to turn off movement particles
 		if (inflicted instanceof PlayerBodyData) {
-			((PlayerBodyData) inflicted).getPlayer().setInvisible(true);
+			((PlayerBodyData) inflicted).getPlayer().setInvisible(2);
 		}
 		
 		fadeCount = fadeTime;
@@ -51,7 +51,7 @@ public class Invisibility extends Status {
 		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, particleSyncType.CREATESYNC).setScale(0.5f);
 		
 		if (inflicted instanceof PlayerBodyData) {
-			((PlayerBodyData) inflicted).getPlayer().setInvisible(false);
+			((PlayerBodyData) inflicted).getPlayer().setInvisible(0);
 		}
 	}
 	
@@ -74,7 +74,7 @@ public class Invisibility extends Status {
 	@Override
 	public void onDeath(BodyData perp) {
 		if (inflicted instanceof PlayerBodyData) {
-			((PlayerBodyData) inflicted).getPlayer().setInvisible(false);
+			((PlayerBodyData) inflicted).getPlayer().setInvisible(0);
 		}
 	}
 	

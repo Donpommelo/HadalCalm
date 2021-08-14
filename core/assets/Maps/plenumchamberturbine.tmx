@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="101">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="101">
  <properties>
   <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="200" height="100">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup id="2" name="event-layer">
@@ -109,7 +109,7 @@
     <property name="triggeringId" value="bounds1l,bounds2l,cameradefault"/>
    </properties>
   </object>
-  <object id="21" name="Bounds" type="Bounds" x="928" y="1504" width="32" height="32">
+  <object id="21" name="Bounds" type="Bounds" x="288" y="736" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="spectator" type="bool" value="true"/>
@@ -117,7 +117,7 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="22" name="Bounds" type="Bounds" x="3104" y="2208" width="32" height="32">
+  <object id="22" name="Bounds" type="Bounds" x="3712" y="2592" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
@@ -132,20 +132,11 @@
     <property name="triggeringId" value="bounds1c,bounds2c,cameracenter"/>
    </properties>
   </object>
-  <object id="24" name="Bounds" type="Bounds" x="3424" y="1056" width="32" height="32">
+  <object id="24" name="Bounds" type="Bounds" x="3296" y="1056" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1c"/>
     <property name="up" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="25" name="Bounds" type="Bounds" x="4928" y="1920" width="32" height="32">
-   <properties>
-    <property name="down" type="bool" value="true"/>
-    <property name="left" type="bool" value="false"/>
-    <property name="right" type="bool" value="true"/>
-    <property name="triggeredId" value="bounds2c"/>
-    <property name="up" type="bool" value="false"/>
    </properties>
   </object>
   <object id="26" name="Prefab" type="PrefabAlternator" x="3296" y="1248" width="96" height="352">
@@ -171,7 +162,7 @@
     <property name="triggeredId" value="cameracenterpoint"/>
    </properties>
   </object>
-  <object id="29" name="Bounds" type="Bounds" x="4928" y="1920" width="32" height="32">
+  <object id="29" name="Bounds" type="Bounds" x="5248" y="2432" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
@@ -496,14 +487,14 @@
     <property name="zoom" type="float" value="1"/>
    </properties>
   </object>
-  <object id="75" name="Bounds" type="Bounds" x="5408" y="1504" width="32" height="32">
+  <object id="75" name="Bounds" type="Bounds" x="5280" y="1280" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1r"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="76" name="Bounds" type="Bounds" x="5568" y="1600" width="32" height="32">
+  <object id="76" name="Bounds" type="Bounds" x="6208" y="1792" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
@@ -570,7 +561,7 @@
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="86" name="Bounds" type="Bounds" x="5568" y="2208" width="32" height="32">
+  <object id="86" name="Bounds" type="Bounds" x="5536" y="2432" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

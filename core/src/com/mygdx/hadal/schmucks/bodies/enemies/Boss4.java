@@ -193,7 +193,7 @@ public class Boss4 extends EnemyFloating {
 				case 2 -> bigBangBell();
 			}
 		} else {
-			int nextAttack = attacks2.remove(MathUtils.random(attacks2.size()));
+			int nextAttack = attacks2.remove(MathUtils.random(attacks2.size() - 1));
 			switch (nextAttack) {
 				case 0 -> radialShot1();
 				case 1 -> twinFlameSpin();

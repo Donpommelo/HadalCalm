@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="36">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="36">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -120,14 +120,14 @@
     <property name="springY" type="float" value="80"/>
    </properties>
   </object>
-  <object id="23" name="Bounds" type="Bounds" x="1088" y="640" width="32" height="32">
+  <object id="23" name="Bounds" type="Bounds" x="128" y="96" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="24" name="Bounds" type="Bounds" x="2304" y="1344" width="32" height="32">
+  <object id="24" name="Bounds" type="Bounds" x="3264" y="1856" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

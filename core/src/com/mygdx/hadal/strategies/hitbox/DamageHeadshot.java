@@ -1,6 +1,5 @@
 package com.mygdx.hadal.strategies.hitbox;
 
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -44,8 +43,7 @@ public class DamageHeadshot extends HitboxStrategy {
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
 			if (fixB instanceof PlayerBodyData p) {
-				if ((hbox.getPixelPosition().y - p.getPlayer().getPixelPosition().y) > headshotThreshold * Player.hbHeight * Player.scale) {
-
+				if ((hbox.getPixelPosition().y - p.getPlayer().getPixelPosition().y) > headshotThreshold * p.getPlayer().getSize().y) {
 					float headshotBonus = currentCharge / maxCharge * bonusDamage;
 					hbox.setDamageMultiplier(hbox.getDamageMultiplier() + headshotBonus);
 				}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="183">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="183">
  <properties>
   <property name="startUI" value="THE S.S. TUNICATE (SINGLEPLAYER),EMPTY,SCRAP"/>
  </properties>
@@ -271,14 +271,14 @@
     <property name="zoom" type="float" value="0.8"/>
    </properties>
   </object>
-  <object id="54" name="Bounds" type="Bounds" x="1600" y="1600" width="32" height="32">
+  <object id="54" name="Bounds" type="Bounds" x="1120" y="1280" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds2"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="55" name="Bounds" type="Bounds" x="2400" y="1952" width="32" height="32">
+  <object id="55" name="Bounds" type="Bounds" x="2752" y="2272" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>
@@ -295,14 +295,14 @@
     <property name="triggeringId" value=""/>
    </properties>
   </object>
-  <object id="57" name="Bounds" type="Bounds" x="576" y="2048" width="32" height="32">
+  <object id="57" name="Bounds" type="Bounds" x="256" y="1920" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds2l"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="58" name="Bounds" type="Bounds" x="864" y="2080" width="32" height="32">
+  <object id="58" name="Bounds" type="Bounds" x="1216" y="2272" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>
@@ -333,14 +333,14 @@
     <property name="zoom" type="float" value="0.6"/>
    </properties>
   </object>
-  <object id="66" name="Bounds" type="Bounds" x="2816" y="2528" width="32" height="32">
+  <object id="66" name="Bounds" type="Bounds" x="2816" y="2720" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1s"/>
    </properties>
   </object>
-  <object id="67" name="Bounds" type="Bounds" x="2816" y="1152" width="32" height="32">
+  <object id="67" name="Bounds" type="Bounds" x="2816" y="768" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds2s"/>
@@ -353,14 +353,14 @@
     <property name="triggeringId" value="bounds13,bounds23,cameraf3"/>
    </properties>
   </object>
-  <object id="70" name="Bounds" type="Bounds" x="2272" y="896" width="32" height="32">
+  <object id="70" name="Bounds" type="Bounds" x="1920" y="768" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds23"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="71" name="Bounds" type="Bounds" x="2720" y="1120" width="32" height="32">
+  <object id="71" name="Bounds" type="Bounds" x="3040" y="1376" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>
@@ -393,14 +393,14 @@
     <property name="triggeringId" value="bounds11,bounds21,cameraf1"/>
    </properties>
   </object>
-  <object id="76" name="Bounds" type="Bounds" x="2656" y="2688" width="32" height="32">
+  <object id="76" name="Bounds" type="Bounds" x="2208" y="2464" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds21"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="77" name="Bounds" type="Bounds" x="2848" y="2752" width="32" height="32">
+  <object id="77" name="Bounds" type="Bounds" x="3232" y="3040" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>
@@ -431,14 +431,14 @@
     <property name="triggeringId" value=""/>
    </properties>
   </object>
-  <object id="83" name="Bounds" type="Bounds" x="3456" y="2816" width="32" height="32">
+  <object id="83" name="Bounds" type="Bounds" x="3168" y="2688" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds2r"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="84" name="Bounds" type="Bounds" x="3552" y="2848" width="32" height="32">
+  <object id="84" name="Bounds" type="Bounds" x="3872" y="3040" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>

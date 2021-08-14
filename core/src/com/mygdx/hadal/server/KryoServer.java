@@ -21,6 +21,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -135,6 +136,7 @@ public class KryoServer {
 				else if (o instanceof final Packets.PlayerConnect p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
+						Map<String, Integer> modeSettings = gsm.getSetting().getModeSettings(ps.getMode());
 						if (p.firstTime) {
 							
 							//reject clients with wrong version
@@ -159,16 +161,16 @@ public class KryoServer {
 
 							//clients joining full servers or in the middle of matches join as spectators
 							if (getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers() + 1) {
-								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), p.firstTime, true));
+								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), modeSettings, p.firstTime, true));
 								return;
 							}
 
 							if (!ps.isHub()) {
-								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), p.firstTime, true));
+								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), modeSettings, p.firstTime, true));
 								return;
 							}
 						}
-                        sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), p.firstTime, false));
+                        sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), modeSettings, p.firstTime, false));
 					}
 				}
 				

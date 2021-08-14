@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -62,6 +63,7 @@ public class Player extends PhysicsSchmuck {
 
 	public static final float scale = 0.15f;
 	public static final float uiScale = 0.4f;
+	public static final float playerMass = 2.4489846f;
 
 	private final PlayerSpriteHelper spriteHelper;
 	private TextureRegion toolSprite;
@@ -75,7 +77,7 @@ public class Player extends PhysicsSchmuck {
 	
 	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.) and invisibility (to manage particles without checking statuses every tick)
 	private boolean scaling;
-	protected boolean invisible;
+	protected int invisible;
 	
 	//does the player have a shoot/jump or boost action buffered? (i.e used when still on cd)
 	protected boolean shootBuffered, jumpBuffered, airblastBuffered;
@@ -174,7 +176,9 @@ public class Player extends PhysicsSchmuck {
 	 * we are a new player and use our old one if we are respawning
 	 */
 	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
-		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), name, Constants.PLAYER_HITBOX,
+		super(state, startPos, new Vector2(
+				hbWidth * scale * state.getPlayerDefaultScale(),
+				hbHeight * scale * state.getPlayerDefaultScale()), name, Constants.PLAYER_HITBOX,
 			state.isPvp() ? SettingBaseHp.indexToHp(state.getBaseHp()) : baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
@@ -188,7 +192,7 @@ public class Player extends PhysicsSchmuck {
 		this.reset = reset;
 		this.start = start;
 
-		this.spriteHelper = new PlayerSpriteHelper(this, scale);
+		this.spriteHelper = new PlayerSpriteHelper(this, scale * state.getPlayerDefaultScale());
 		setBodySprite(startLoadout.character, startLoadout.team);
 		loadParticles();
 		
@@ -285,6 +289,11 @@ public class Player extends PhysicsSchmuck {
 		
 		rightSensor.setUserData(rightData);
 
+		//make the player mass constant to avoid mass changing when player is a different size
+		MassData newMass = body.getMassData();
+		newMass.mass = playerMass;
+		body.setMassData(newMass);
+
 		//If the player is spawning into a new level, initialize loadout and give brief invulnerability.
 		if (reset) {
 			playerData.initLoadout();
@@ -343,7 +352,7 @@ public class Player extends PhysicsSchmuck {
 				fastFall();
 			}
 			
-			if ((moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT)) && grounded && !invisible) {
+			if ((moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT)) && grounded && invisible == 0) {
 				
 				//turn on running particles and sound
 				dustCloud.turnOn();
@@ -476,7 +485,7 @@ public class Player extends PhysicsSchmuck {
 
 			playerData.statusProcTime(new ProcTime.whileHover(hoverDirection));
 
-			if (!invisible) {
+			if (invisible == 0) {
 				//turn on hovering particles and sound
 				hoverBubbles.turnOn();
 				if (hoverSound == null) {
@@ -502,9 +511,10 @@ public class Player extends PhysicsSchmuck {
 				jumpCdCount = jumpCd;
 				pushMomentumMitigation(0, playerData.getJumpPower());
 				
-				if (!invisible) {
+				if (invisible == 0) {
 					//activate jump particles and sound
-					new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - hbHeight * scale / 2), Particle.WATER_BURST, 1.0f, true, particleSyncType.CREATESYNC);
+					new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - size.y / 2),
+							Particle.WATER_BURST, 1.0f, true, particleSyncType.CREATESYNC);
 					SoundEffect.JUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
 				}
 			} else {
@@ -517,7 +527,7 @@ public class Player extends PhysicsSchmuck {
 					playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);
 					pushMomentumMitigation(0, playerData.getJumpPower());
 					
-					if (!invisible) {
+					if (invisible == 0) {
 						//activate double-jump particles and sound
 						new ParticleEntity(state, this, Particle.SPLASH, 0.0f, 0.75f, true, particleSyncType.CREATESYNC);
 						SoundEffect.DOUBLEJUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
@@ -657,21 +667,27 @@ public class Player extends PhysicsSchmuck {
 
 		//process player invisibility
 		float transparency;
-		if (invisible) {
+		boolean batchSet = false;
+		if (invisible == 2) {
 			if (state.getPlayer().hitboxfilter == hitboxfilter) {
 				transparency = 0.3f;
 				batch.setColor(1.0f,  1.0f, 1.0f, transparency);
+				batchSet = true;
 			} else {
 				return;
 			}
 		}
-
+		if (invisible == 1) {
+			transparency = 0.3f;
+			batch.setColor(1.0f,  1.0f, 1.0f, transparency);
+			batchSet = true;
+		}
 		playerLocation.set(getPixelPosition());
 
 		//render player sprite using sprite helper
 		spriteHelper.render(batch, attackAngle, moveState, animationTime, animationTimeExtra, grounded, playerLocation);
 
-		if (invisible) {
+		if (batchSet) {
 			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 		
@@ -915,7 +931,7 @@ public class Player extends PhysicsSchmuck {
 	private final Vector2 endPt = new Vector2();
 	private final Vector2 offset = new Vector2();
 	private final Vector2 playerWorldLocation = new Vector2();
-	private static final float spawnDist = 2.0f;
+
 	/**
 	 * This method makes projectiles fired by the player spawn offset to be at the tip of the gun
 	 */
@@ -924,7 +940,7 @@ public class Player extends PhysicsSchmuck {
 		playerWorldLocation.set(getPosition());
 		originPt.set(playerWorldLocation);
 		offset.set(startVelo);
-		endPt.set(playerWorldLocation).add(offset.nor().scl(spawnDist + projSize / 4 / PPM));
+		endPt.set(playerWorldLocation).add(offset.nor().scl((size.x * 2 + projSize / 4) / PPM));
 		shortestFraction = 1.0f;
 		
 		//raycast towards the direction firing. spawn projectile closer to player if a wall is nearby
@@ -941,7 +957,7 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//The -1 here is just to deal with some weird physics stuff that made this act differently on different maps for some reason.
-		return originPt.add(offset.nor().scl((spawnDist + projSize / 4 / PPM) * shortestFraction - 1)).scl(PPM);
+		return originPt.add(offset.nor().scl(((size.x * 2 + projSize / 4) / PPM) * shortestFraction - 1)).scl(PPM);
 	}
 	
 	/**
@@ -999,7 +1015,7 @@ public class Player extends PhysicsSchmuck {
 	
 	public void setScaling(boolean scaling) { this.scaling = scaling; }
 	
-	public void setInvisible(boolean invisible) { this.invisible = invisible; }
+	public void setInvisible(int invisible) { this.invisible = invisible; }
 
 	public void startTyping() { this.typingCdCount = 1.0f; }
 	

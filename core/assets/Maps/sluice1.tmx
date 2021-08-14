@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="57">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="57">
  <properties>
   <property name="startUI" value="THE SLUICE,EMPTY,SCRAP"/>
  </properties>
@@ -102,14 +102,14 @@
     <property name="triggeringId" value="startTimer,sccheck1,sccheck2,sccheck3,finalcheck1,unlock1"/>
    </properties>
   </object>
-  <object id="15" name="Bounds" type="Bounds" x="736" y="768" width="32" height="32">
+  <object id="15" name="Bounds" type="Bounds" x="192" y="384" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="16" name="Bounds" type="Bounds" x="2176" y="1632" width="32" height="32">
+  <object id="16" name="Bounds" type="Bounds" x="2816" y="2016" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

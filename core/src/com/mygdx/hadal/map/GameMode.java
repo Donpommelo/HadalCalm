@@ -1,12 +1,16 @@
 package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.mygdx.hadal.map.modifiers.*;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A Game Mode entails a set of rules/settings that dictates a match
@@ -30,8 +34,10 @@ public enum GameMode {
 
     DEATHMATCH("DM", "dm",
         new SetCameraOnSpawn(), new SettingScoreCap(), new SettingTimer(ResultsState.magicWord), new DisplayUITag("SCOREBOARD"),
-         new SettingLives(), new SettingTeamMode(), new SettingBaseHp(), new SettingVisibleHp(), new SettingDroppableWeapons(),
-        new SpawnWeapons(), new ToggleKillsScore(), new TogglePVP()),
+         new SettingLives(), new SettingTeamMode(), new SettingBaseHp(), new SettingDroppableWeapons(),
+        new SpawnWeapons(), new ToggleKillsScore(), new TogglePVP(),
+         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
+            new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion())),
 
     SURVIVAL("ARENA", "arena",
         new SetCameraOnSpawn(), new SettingTimer("VICTORY"),
@@ -40,7 +46,7 @@ public enum GameMode {
 
     CTF("CTF", "ctf",
         new SetCameraOnSpawn(), new SettingTeamScoreCap(), new SettingTimer(ResultsState.magicWord),
-        new DisplayUITag("TEAMSCORE"), new SettingDroppableWeapons(), new SettingBaseHp(), new SettingVisibleHp(),
+        new DisplayUITag("TEAMSCORE"), new SettingDroppableWeapons(), new SettingBaseHp(), new VisibleHp(),
         new SpawnWeapons(),
         new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife()),
 
@@ -53,7 +59,7 @@ public enum GameMode {
 
     GUN_GAME("GUN GAME", "", DEATHMATCH,
         new SetCameraOnSpawn(), new SettingTimer(ResultsState.magicWord),
-        new DisplayUITag("GUNGAME"), new SettingBaseHp(), new SettingVisibleHp(),
+        new DisplayUITag("GUNGAME"), new SettingBaseHp(), new VisibleHp(),
         new TogglePVP(), new ToggleTeamMode(0), new ToggleUnlimitedLife(),
         new SetLoadoutEquips(UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
         new SetLoadoutArtifacts(UnlockArtifact.GUN_GAME, UnlockArtifact.INFINITE_AMMO), new SetLoadoutActive(UnlockActives.NOTHING)),
@@ -70,6 +76,8 @@ public enum GameMode {
 
     //this text is displayed in the ui when this mode is selected
     private final String text;
+
+    private final List<String> initialNotifications = new ArrayList<>();
 
     //this is a game mode which has the same set of compliant maps.
     // Used for modes that have the same set of compliant maps (gun game etc with deathmatch)
@@ -88,6 +96,8 @@ public enum GameMode {
 
     private static final String playerStartId = "playerstart";
     public void processSettings(PlayState state) {
+
+        initialNotifications.clear();
 
         //for maps with no applicable settings, we don't need to add the extra events to the map (campaign maps)
         if (applicableSettings.length == 0) { return; }
@@ -168,4 +178,6 @@ public enum GameMode {
     public ModeSetting[] getSettings() { return applicableSettings; }
 
     public boolean isInvisibleInHub() { return false; }
+
+    public List<String> getInitialNotifications() { return initialNotifications; }
 }

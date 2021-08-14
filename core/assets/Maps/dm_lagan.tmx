@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="140" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="79">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="140" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="79">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="140" height="100">
   <data encoding="base64" compression="zlib">
@@ -165,14 +165,14 @@
     <property name="triggeringId" value="mplat1"/>
    </properties>
   </object>
-  <object id="34" name="Bounds" type="Bounds" x="1920" y="992" width="32" height="32">
+  <object id="34" name="Bounds" type="Bounds" x="928" y="320" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="35" name="Bounds" type="Bounds" x="3136" y="2176" width="32" height="32">
+  <object id="35" name="Bounds" type="Bounds" x="4128" y="2752" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

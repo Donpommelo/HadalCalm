@@ -109,6 +109,8 @@ public class KillFeed {
         };
 
         addTable();
+
+        initialNotification();
     }
 
     private static final int maxNameLength = 25;
@@ -133,11 +135,12 @@ public class KillFeed {
     }
 
     /**
-     * Adds a notification to the kill feed.
+     * Adds a notification to the center messages.
      * @param text: string notification to be displayed
      * @param global: does this notification play for all players?
      */
     public void addNotification(String text, boolean global) {
+
         KillFeedMessage message = new KillFeedMessage(text, false);
         notifications.add(message);
         notification.addActor(message);
@@ -182,5 +185,11 @@ public class KillFeed {
         notification.setWidth(notificationWidth);
         notification.setHeight(notificationHeight);
         notification.setPosition(HadalGame.CONFIG_WIDTH / 2 - notificationWidth / 2, HadalGame.CONFIG_HEIGHT - notificationY - notificationHeight);
+    }
+
+    private void initialNotification() {
+        for (String notif: ps.getMode().getInitialNotifications()) {
+            addNotification(notif, false);
+        }
     }
 }

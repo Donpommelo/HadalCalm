@@ -6,8 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.artifacts.*;
-import com.mygdx.hadal.equip.modeMods.GunGame;
-import com.mygdx.hadal.equip.modeMods.InfiniteAmmo;
+import com.mygdx.hadal.equip.modeMods.*;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
@@ -153,6 +152,9 @@ public enum UnlockArtifact {
 	NOTHING(new NothingArtifact()),
 	GUN_GAME(new GunGame(), true),
 	INFINITE_AMMO(new InfiniteAmmo(), true),
+	PLAYER_BOUNCE(new PlayerBounce(), true),
+	PLAYER_SLIDE(new PlayerSlide(), true),
+	PLAYER_INVISIBLE(new PlayerInvisible(), true),
 	;
 	
 	//singleton artifact represented by this unlock

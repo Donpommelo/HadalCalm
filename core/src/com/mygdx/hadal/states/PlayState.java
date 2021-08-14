@@ -71,6 +71,7 @@ public class PlayState extends GameState {
 	//This is the loadout that the player starts off with when they enter the playstate
 	private List<UnlockEquip> mapMultitools;
 	private List<UnlockArtifact> mapArtifacts;
+	private final List<UnlockArtifact> mapModifiers = new ArrayList<>();
 	private UnlockActives mapActiveItem;
 	
 	//These process and store the map parsed from the Tiled file.
@@ -148,6 +149,9 @@ public class PlayState extends GameState {
 	
 	//Can players hurt each other? Is it the hub map? Is this the server? Do kills give score? Can players damage each other?
 	private boolean pvp, hub, killsScore, noDamage, droppableWeapons, eggplantDrops, visibleHp;
+	private float playerDefaultScale = 1.0f;
+	private float zoomModifier = 1.0f;
+	private float timeModifier = 1.0f;
 	private final boolean server;
 
 	//the current level's team mode (ffa, auto assigned or manual assigned) and base hp
@@ -450,6 +454,8 @@ public class PlayState extends GameState {
 	@Override
 	public void update(float delta) {
 
+		float modifiedDelta = delta * timeModifier;
+
 		//On the very first tick, server tells all clients that it is loaded
 		if (server && !serverLoaded) {
 	        serverLoaded = true;
@@ -457,7 +463,7 @@ public class PlayState extends GameState {
 		}
 
 		//this makes the physics separate from the game framerate
-		physicsAccumulator += delta;
+		physicsAccumulator += modifiedDelta;
 		while (physicsAccumulator >= physicsTime) {
 			physicsAccumulator -= physicsTime;
 			
@@ -502,7 +508,7 @@ public class PlayState extends GameState {
 		processCommonStateProperties(delta, false);
 		
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
-		controllerEntities(delta);
+		controllerEntities(modifiedDelta);
 		
 		//Send client a sync packet if the entity requires.
 		if (HadalGame.server.getServer() != null) {
@@ -582,7 +588,13 @@ public class PlayState extends GameState {
 		batch.begin();
 
 		renderEntities(delta);
-		
+
+		if (shaderBase.getShaderProgram() != null) {
+			if (!shaderBase.isBackground()) {
+				batch.setShader(null);
+			}
+		}
+
 		batch.end();
 	}	
 	
@@ -720,7 +732,7 @@ public class PlayState extends GameState {
 	final Vector3 mousePosition = new Vector3();
 	final Vector2 cameraFocusAim = new Vector2();
 	protected void cameraUpdate() {
-		zoom = zoom + (zoomDesired - zoom) * 0.1f;
+		zoom = zoom + (zoomDesired * zoomModifier - zoom) * 0.1f;
 		
 		camera.zoom = zoom;
 		if (cameraTarget == null) {
@@ -748,7 +760,7 @@ public class PlayState extends GameState {
 			}
 
 			//make camera target respect camera bounds if not focused on an object
-			CameraStyles.obeyCameraBounds(tmpVector2, cameraBounds);
+			CameraStyles.obeyCameraBounds(tmpVector2, camera, cameraBounds);
 		} else {
 			tmpVector2.set(cameraTarget);
 		}
@@ -794,7 +806,7 @@ public class PlayState extends GameState {
 		} else {
 			resizeTmpVector2.set(cameraTarget.x, cameraTarget.y);
 		}
-		CameraStyles.obeyCameraBounds(resizeTmpVector2, cameraBounds);
+		CameraStyles.obeyCameraBounds(resizeTmpVector2, camera, cameraBounds);
 
 		this.camera.position.set(new Vector3(resizeTmpVector2.x, resizeTmpVector2.y, 0));
 
@@ -917,7 +929,8 @@ public class PlayState extends GameState {
 			beginTransition(state, false, "", defaultFadeOutSpeed, defaultFadeDelay);
 			
 			//Server tells clients to begin a transition to the new state
-			HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState, false, "", defaultFadeOutSpeed, defaultFadeDelay));
+			HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState, false, "",
+					defaultFadeOutSpeed, defaultFadeDelay));
 		}
 	}
 
@@ -1589,6 +1602,18 @@ public class PlayState extends GameState {
 
 	public void setBaseHp(int baseHp) { this.baseHp = baseHp; }
 
+	public float getPlayerDefaultScale() { return playerDefaultScale; }
+
+	public void setPlayerDefaultScale(float playerDefaultScale) { this.playerDefaultScale = playerDefaultScale; }
+
+	public float getZoomModifier() { return zoomModifier; }
+
+	public void setZoomModifier(float zoomModifier) { this.zoomModifier = zoomModifier; }
+
+	public float getTimeModifier() { return timeModifier; }
+
+	public void setTimeModifier(float timeModifier) { this.timeModifier = timeModifier; }
+
 	public boolean isSpectatorMode() { return spectatorMode; }
 
 	public void setUnlimitedLife(boolean unlimitedLife) { this.unlimitedLife = unlimitedLife; }
@@ -1600,6 +1625,10 @@ public class PlayState extends GameState {
 	public void setMapArtifacts(List<UnlockArtifact> mapArtifacts) { this.mapArtifacts = mapArtifacts; }
 
 	public void setMapActiveItem(UnlockActives mapActiveItem) { this.mapActiveItem = mapActiveItem; }
+
+	public void addMapModifier(UnlockArtifact modifier) { this.mapModifiers.add(modifier); }
+
+	public List<UnlockArtifact> getMapModifiers() { return mapModifiers; }
 
 	public Event getGlobalTimer() {	return globalTimer;	}
 

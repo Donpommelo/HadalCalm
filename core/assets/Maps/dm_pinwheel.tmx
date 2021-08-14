@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="140">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="140">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -20,20 +20,20 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="96" name="Multitrigger" type="Multitrigger" x="160" y="160" width="32" height="32">
+  <object id="96" name="Multitrigger" type="Multitrigger" x="64" y="32" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
     <property name="triggeringId" value="w1,w2"/>
    </properties>
   </object>
-  <object id="102" name="Bounds" type="Bounds" x="1024" y="736" width="32" height="32">
+  <object id="102" name="Bounds" type="Bounds" x="160" y="160" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="104" name="Bounds" type="Bounds" x="1984" y="1312" width="32" height="32">
+  <object id="104" name="Bounds" type="Bounds" x="2848" y="1888" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

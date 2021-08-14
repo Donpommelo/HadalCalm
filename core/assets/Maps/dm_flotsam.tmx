@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="60">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="60">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -119,14 +119,14 @@
     <property name="triggeredId" value="w3"/>
    </properties>
   </object>
-  <object id="31" name="Bounds" type="Bounds" x="2176" y="864" width="32" height="32">
+  <object id="31" name="Bounds" type="Bounds" x="1216" y="320" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="32" name="Bounds" type="Bounds" x="3456" y="2080" width="32" height="32">
+  <object id="32" name="Bounds" type="Bounds" x="4416" y="2720" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
