@@ -23,8 +23,8 @@ public class TyrrazzanReaper extends RangedWeapon {
 	private static final float recoil = 4.5f;
 	private static final Vector2 projectileSize = new Vector2(45, 15);
 
-	private static final float rangeMin = 25.0f;
-	private static final float rangeMax = 1000.0f;
+	private static final float rangeMin = 40.0f;
+	private static final float rangeMax = 1200.0f;
 
 	private static final float sizeMax = 2.5f;
 	private static final float sizeMin = 1.0f;

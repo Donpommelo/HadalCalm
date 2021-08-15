@@ -1,6 +1,8 @@
 package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.mygdx.hadal.actors.ModeSettingSelection;
+import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.map.modifiers.ModeModifier;
 import com.mygdx.hadal.states.PlayState;
 
@@ -14,6 +16,11 @@ public class SetModifiers extends ModeSetting {
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
+
+        Text title = new Text("MODIFIERS", 0, 0, false);
+        title.setScale(ModeSettingSelection.detailsScale);
+        table.add(title).colspan(2).row();
+
         for (ModeModifier modifier: modifiers) {
             modifier.setSetting(state, mode, table);
         }

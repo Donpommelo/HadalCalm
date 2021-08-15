@@ -2,6 +2,9 @@ package com.mygdx.hadal.map.modifiers;
 
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * @author Nemongrass Nurlando
+ */
 public class SlowMotion extends ModeModifier {
 
     private static final String settingTag = "slow_motion";

@@ -113,7 +113,7 @@
 	]
 },
 "BENTHIC_DESIRES": {
-	"name": ",Benthic Desires",
+	"name": "Benthic Desires",
 	"description": "Regenerate Hp and Fuel when not moving",
     "descriptionLong": "Hp Regeneration: 7 per Second\nFuel Regeneration: 14 per Second\n\nAn individual's oneness with the unchanging Earth\n\nThe Stagnation that muddies the firmament at the bottom of the world is derived from the collective desires of the fearful and the weary.",
 	"tags": [

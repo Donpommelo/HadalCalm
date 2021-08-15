@@ -34,9 +34,9 @@ public enum GameMode {
 
     DEATHMATCH("DM", "dm",
         new SetCameraOnSpawn(), new SettingScoreCap(), new SettingTimer(ResultsState.magicWord), new DisplayUITag("SCOREBOARD"),
-         new SettingLives(), new SettingTeamMode(), new SettingBaseHp(), new SettingDroppableWeapons(),
+        new SettingLives(), new SettingTeamMode(), new SettingBaseHp(), new SettingDroppableWeapons(),
         new SpawnWeapons(), new ToggleKillsScore(), new TogglePVP(),
-         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
+        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
             new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion())),
 
     SURVIVAL("ARENA", "arena",
@@ -46,9 +46,10 @@ public enum GameMode {
 
     CTF("CTF", "ctf",
         new SetCameraOnSpawn(), new SettingTeamScoreCap(), new SettingTimer(ResultsState.magicWord),
-        new DisplayUITag("TEAMSCORE"), new SettingDroppableWeapons(), new SettingBaseHp(), new VisibleHp(),
-        new SpawnWeapons(),
-        new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife()),
+        new DisplayUITag("TEAMSCORE"), new SettingDroppableWeapons(), new SettingBaseHp(), new SpawnWeapons(),
+        new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife(),
+        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
+            new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion())),
 
     FOOTBALL("FOOTBALL","",
         new SetCameraOnSpawn(), new SettingTeamScoreCap(), new SettingTimer(ResultsState.magicWord),
@@ -59,10 +60,12 @@ public enum GameMode {
 
     GUN_GAME("GUN GAME", "", DEATHMATCH,
         new SetCameraOnSpawn(), new SettingTimer(ResultsState.magicWord),
-        new DisplayUITag("GUNGAME"), new SettingBaseHp(), new VisibleHp(),
+        new DisplayUITag("GUNGAME"), new SettingBaseHp(),
         new TogglePVP(), new ToggleTeamMode(0), new ToggleUnlimitedLife(),
         new SetLoadoutEquips(UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
-        new SetLoadoutArtifacts(UnlockArtifact.GUN_GAME, UnlockArtifact.INFINITE_AMMO), new SetLoadoutActive(UnlockActives.NOTHING)),
+        new SetLoadoutArtifacts(UnlockArtifact.GUN_GAME, UnlockArtifact.INFINITE_AMMO), new SetLoadoutActive(UnlockActives.NOTHING),
+        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
+            new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion())),
 
     SANDBOX("", ""),
 

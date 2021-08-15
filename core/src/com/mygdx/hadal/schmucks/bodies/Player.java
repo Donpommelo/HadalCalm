@@ -102,8 +102,8 @@ public class Player extends PhysicsSchmuck {
 	protected static final float pingCd = 1.0f;
 	protected float pingCdCount;
 
-	private static final float hoverFuelRegenCd = 0.75f;
-	private static final float airblastFuelRegenCd = 1.5f;
+	private static final float hoverFuelRegenCd = 1.0f;
+	private static final float airblastFuelRegenCd = 2.0f;
 	private float fuelRegenCdCount;
 	private static final float fuelRegen = 20.0f;
 
@@ -678,9 +678,11 @@ public class Player extends PhysicsSchmuck {
 			}
 		}
 		if (invisible == 1) {
-			transparency = 0.3f;
-			batch.setColor(1.0f,  1.0f, 1.0f, transparency);
-			batchSet = true;
+			if (state.getPlayer().hitboxfilter != hitboxfilter) {
+				transparency = 0.3f;
+				batch.setColor(1.0f,  1.0f, 1.0f, transparency);
+				batchSet = true;
+			}
 		}
 		playerLocation.set(getPixelPosition());
 

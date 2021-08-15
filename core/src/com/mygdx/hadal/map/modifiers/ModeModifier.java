@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.actors.ModeSettingSelection;
+import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
@@ -23,10 +24,14 @@ public class ModeModifier extends ModeSetting {
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
-        dropsOptions = new CheckBox(uiText, GameStateManager.getSkin());
+        Text title = new Text(uiText, 0, 0, false);
+        title.setScale(ModeSettingSelection.detailsScale);
+
+        dropsOptions = new CheckBox("", GameStateManager.getSkin());
         dropsOptions.getLabel().setColor(Color.WHITE);
         dropsOptions.setChecked(state.getGsm().getSetting().getModeSetting(mode, settingTag, 0) == 1);
-        table.add(dropsOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).top().row();
+        table.add(title);
+        table.add(dropsOptions).height(ModeSettingSelection.detailHeightSmall).pad(ModeSettingSelection.detailPad).top().row();
     }
 
     @Override

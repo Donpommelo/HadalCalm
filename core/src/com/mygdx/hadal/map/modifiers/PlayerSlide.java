@@ -3,6 +3,9 @@ package com.mygdx.hadal.map.modifiers;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * @author Yobaganoush Yogger
+ */
 public class PlayerSlide extends ModeModifier {
 
     private static final String settingTag = "player_slide";

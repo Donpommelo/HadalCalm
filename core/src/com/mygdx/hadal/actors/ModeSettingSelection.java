@@ -41,6 +41,7 @@ public class ModeSettingSelection {
     private static final float optionScale = 0.5f;
 
     public static final float detailHeight = 35.0f;
+    public static final float detailHeightSmall = 20.0f;
     public static final float detailPad = 10.0f;
 
     public static final float detailsScale = 0.25f;
