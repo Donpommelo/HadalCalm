@@ -19,9 +19,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Puffballer extends RangedWeapon {
 
-	private static final int clipSize = 1;
+	private static final int clipSize = 4;
 	private static final int ammoSize = 40;
-	private static final float shootCd = 0.5f;
+	private static final float shootCd = 0.2f;
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.5f;
 	private static final int reloadAmount = 0;
@@ -38,7 +38,7 @@ public class Puffballer extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_TORPEDO;
 	private static final Sprite eventSprite = Sprite.P_TORPEDO;
 
-	private static final float sporeFragLifespan = 2.0f;
+	private static final float sporeFragLifespan = 4.0f;
 	private static final float sporeFragDamage = 10.0f;
 	private static final float sporeFragDamage2 = 15.0f;
 	private static final float sporeFragKB = 8.0f;
@@ -57,6 +57,8 @@ public class Puffballer extends RangedWeapon {
 	//list of hitboxes created
 	private final Queue<Hitbox> puffballs = new Queue<>();
 
+	private boolean held = false;
+
 	public Puffballer(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
@@ -66,8 +68,10 @@ public class Puffballer extends RangedWeapon {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
 
 		if (reloading || getClipLeft() == 0) { return; }
-
-		super.execute(state, shooter);
+		if (!held) {
+			held = true;
+			super.execute(state, shooter);
+		}
 	}
 
 	@Override
@@ -75,6 +79,8 @@ public class Puffballer extends RangedWeapon {
 
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
+		held = false;
+
 		//upon releasing mouse, detonate all laid bombs
 		for (Hitbox puffball : puffballs) {
 			if (puffball.isAlive()) {
@@ -169,5 +175,10 @@ public class Puffballer extends RangedWeapon {
 			frag.addStrategy(new ContactUnitLoseDurability(state, frag, user.getBodyData()));
 			frag.addStrategy(new Spread(state, frag, user.getBodyData(), sporeSpread));
 		}
+	}
+
+	@Override
+	public void unequip(PlayState state) {
+		held = false;
 	}
 }

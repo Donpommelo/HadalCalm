@@ -684,6 +684,7 @@ public class Packets {
         public int currentClip;
         public int currentAmmo;
         public float activeCharge;
+        public float blinded;
         
 		public SyncPlayerSelf() {}
 		
@@ -695,11 +696,12 @@ public class Packets {
 		 * @param currentAmmo: The client player's current ammo amount.
 		 * @param activeCharge: The client player's current active item charge amount.
 		 */
-		public SyncPlayerSelf(float fuelPercent, int currentClip, int currentAmmo, float activeCharge) {
+		public SyncPlayerSelf(float fuelPercent, int currentClip, int currentAmmo, float activeCharge, float blinded) {
             this.fuelPercent = fuelPercent;
             this.currentClip = currentClip;
             this.currentAmmo = currentAmmo;
             this.activeCharge = activeCharge;
+            this.blinded = blinded;
         }
 	}
 	

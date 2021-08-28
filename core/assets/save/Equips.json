@@ -36,7 +36,8 @@
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
-		"RANGED"
+		"RANGED",
+		"MEDIEVAL"
 	]
 },
 "BEEGUN": {
@@ -124,7 +125,8 @@
     "descriptionLong": "Blade Damage: 8.5\nBlade Damage Interval: 0.017 Second",
 	"tags": [
 		"ARMORY",
-		"RANDOM_POOL"
+		"RANDOM_POOL",
+		"MEDIEVAL"
 	]
 },
 "DUELING_CORKGUN": {
@@ -141,7 +143,8 @@
 	"description": "punch",
     "descriptionLong": "Punch Damage: 36\nAttack Cooldown: 0.07 Second",
 	"tags": [
-		"ARMORY"
+		"ARMORY",
+		"MEDIEVAL"
 	]
 },
 "FLOUNDERBUSS": {
@@ -251,7 +254,8 @@
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
-		"RANGED"
+		"RANGED",
+		"MEDIEVAL"
 	]
 },
 "MACHINEGUN": {
@@ -301,7 +305,8 @@
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
-		"RANGED"
+		"RANGED",
+		"MEDIEVAL"
 	]
 },
 "NEMATOCYDEARM": {
@@ -355,7 +360,7 @@
 "PUFFBALLER": {
 	"name": "Puffballer",
 	"description": "Fires a spore cluster that bursts at target location.",
-    "descriptionLong": "Cluster Damage: 26\nSpore Damage: 10\nSpore Number: 10\nSpore Lifespan: 5 Seconds\n\nClip Size: 4\nAmmo Capacity: 40\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.5 Second",
+    "descriptionLong": "Cluster Damage: 42\nSpore Damage: 15\nSpore Number: 10\nSpore Lifespan: 4 Seconds\n\nClip Size: 4\nAmmo Capacity: 40\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.5 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
@@ -389,7 +394,8 @@
 	"tags": [
 		"ARMORY",
         "RANDOM_POOL",
-		"MELEE"
+		"MELEE",
+		"MEDIEVAL"
 	]
 },
 "SCREECHER": {

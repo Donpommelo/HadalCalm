@@ -61,7 +61,8 @@ public enum AssetList {
 	
 	BACKGROUND1("under_da_sea.jpg", Texture.class),
 	BACKGROUND2("under_da_sea_no_rocks.jpg", Texture.class),
-    BLACK("black.png", Texture.class),
+	BLACK("black.png", Texture.class),
+	WHITE("white.png", Texture.class),
 
 	ARTIFACT_ATL("sprites/artifact.atlas", TextureAtlas.class),
 

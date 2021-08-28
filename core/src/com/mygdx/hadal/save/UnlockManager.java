@@ -179,6 +179,8 @@ public class UnlockManager {
 		PASSIVE_DAMAGE,
 		PROJECTILE_MODIFIER,
 		GIMMICK,
+
+		MEDIEVAL,
 	}
 	
 	public enum UnlockType {

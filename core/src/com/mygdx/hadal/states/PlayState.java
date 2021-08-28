@@ -33,10 +33,8 @@ import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
-import com.mygdx.hadal.save.UnlockActives;
-import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.save.*;
+import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.*;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
@@ -72,6 +70,7 @@ public class PlayState extends GameState {
 	private List<UnlockEquip> mapMultitools;
 	private List<UnlockArtifact> mapArtifacts;
 	private final List<UnlockArtifact> mapModifiers = new ArrayList<>();
+	private final List<UnlockManager.UnlockTag> mapEquipTags = new ArrayList<>();
 	private UnlockActives mapActiveItem;
 	
 	//These process and store the map parsed from the Tiled file.
@@ -171,7 +170,7 @@ public class PlayState extends GameState {
 	protected DialogBox dialogBox;
 	
 	//Background and black screen used for transitions
-	private final TextureRegion bg;
+	private final TextureRegion bg, white;
 	private Shader shaderBase, shaderTile;
 	
 	//if we are transitioning to another state, this is that state
@@ -349,6 +348,7 @@ public class PlayState extends GameState {
 				
 		//Init background image
 		this.bg = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.BACKGROUND2.toString()));
+		this.white = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.WHITE.toString()));
 
 		//set whether to draw hitbox debug lines or not
 		debugHitbox = gsm.getSetting().isDebugHitbox();
@@ -548,6 +548,7 @@ public class PlayState extends GameState {
 	/**
 	 * This method renders stuff to the screen after updating.
 	 */
+	private static final float blindFadeDuration = 2.0f;
 	@Override
 	public void render(float delta) {
 
@@ -562,6 +563,7 @@ public class PlayState extends GameState {
 			shaderBase.shaderPlayUpdate(this, timer);
 			shaderBase.shaderDefaultUpdate(timer);
 		}
+
 		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 		
 		if (shaderBase.getShaderProgram() != null) {
@@ -596,6 +598,24 @@ public class PlayState extends GameState {
 		}
 
 		batch.end();
+
+		//add white filter if the player is blinded
+		if (player.getBlinded() > 0.0f) {
+			batch.setProjectionMatrix(hud.combined);
+			batch.begin();
+
+			if (player.getBlinded() < blindFadeDuration) {
+				batch.setColor(1.0f, 1.0f, 1.0f, player.getBlinded() / blindFadeDuration);
+			}
+
+			batch.draw(white, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
+
+			if (player.getBlinded() < blindFadeDuration) {
+				batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+			}
+
+			batch.end();
+		}
 	}	
 	
 	/**
@@ -1629,6 +1649,10 @@ public class PlayState extends GameState {
 	public void addMapModifier(UnlockArtifact modifier) { this.mapModifiers.add(modifier); }
 
 	public List<UnlockArtifact> getMapModifiers() { return mapModifiers; }
+
+	public void addMapEquipTag(UnlockTag mapEquipTag) { this.mapEquipTags.add(mapEquipTag); }
+
+	public List<UnlockTag> getMapEquipTag() { return mapEquipTags; }
 
 	public Event getGlobalTimer() {	return globalTimer;	}
 

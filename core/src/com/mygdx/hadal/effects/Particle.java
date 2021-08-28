@@ -16,6 +16,9 @@ public enum Particle {
 	
 	ARROW_BREAK(ParticleType.DEFAULT, "particles/arrowbreak.particle"),
 	BOULDER_BREAK(ParticleType.DEFAULT, "particles/boulderbreak.particle"),
+	BOW_HEAL(ParticleType.DEFAULT, "particles/bow_heal.particle"),
+	BOW_HURT(ParticleType.DEFAULT, "particles/bow_hurt.particle"),
+	BOW_TRAIL(ParticleType.DEFAULT, "particles/bow_trail.particle"),
 	BULLET_TRAIL(ParticleType.DEFAULT, "particles/bullet_trail.particle"),
 	CASINGS(ParticleType.DEFAULT, "particles/casings.particle"),
 	DEBRIS_DROP(ParticleType.DEFAULT, "particles/debrisdrop.particle"),

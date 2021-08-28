@@ -14,7 +14,8 @@ public class AnarchistsCookbook extends Artifact {
 	
 	private static final float baseDamage = 0.0f;
 	private static final float knockback = 0.0f;
-	private static final Vector2 projectileSize = new Vector2(20, 20);
+	private static final Vector2 spriteSize = new Vector2(60, 141);
+	private static final Vector2 projectileSize = new Vector2(60, 60);
 	private static final float lifespan = 3.0f;
 		
 	private static final int explosionRadius = 150;
@@ -41,7 +42,7 @@ public class AnarchistsCookbook extends Artifact {
 					
 					SoundEffect.LAUNCHER.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.2f, false);
 
-					WeaponUtils.createGrenade(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, inflicted.getSchmuck(), 
+					WeaponUtils.createBomb(state, inflicted.getSchmuck().getPixelPosition(), spriteSize, projectileSize, inflicted.getSchmuck(),
 							baseDamage, knockback, lifespan, new Vector2(0, 0), false, explosionRadius, explosionDamage, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());
 				}
 				procCdCount += delta;

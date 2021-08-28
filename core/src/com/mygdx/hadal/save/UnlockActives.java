@@ -26,6 +26,7 @@ public enum UnlockActives {
 	DODGE_ROLL(DodgeRoll.class),
 	FAFROTSKIES(Fafrotskies.class),
 	FISH_GANG(FishGang.class),
+	FLASH_BANG(Flashbang.class),
 	FORCE_OF_WILL(ForceofWill.class),
 	HEALING_FIELD(HealingField.class),
 	HONEYCOMB(Honeycomb.class),

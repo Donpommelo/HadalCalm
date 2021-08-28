@@ -37,7 +37,7 @@ public enum GameMode {
         new SettingLives(), new SettingTeamMode(), new SettingBaseHp(), new SettingDroppableWeapons(),
         new SpawnWeapons(), new ToggleKillsScore(), new TogglePVP(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
-            new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion())),
+            new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
     SURVIVAL("ARENA", "arena",
         new SetCameraOnSpawn(), new SettingTimer("VICTORY"),
@@ -49,7 +49,7 @@ public enum GameMode {
         new DisplayUITag("TEAMSCORE"), new SettingDroppableWeapons(), new SettingBaseHp(), new SpawnWeapons(),
         new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
-            new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion())),
+            new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
     FOOTBALL("FOOTBALL","",
         new SetCameraOnSpawn(), new SettingTeamScoreCap(), new SettingTimer(ResultsState.magicWord),

@@ -1,8 +1,9 @@
 package com.mygdx.hadal.effects;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
@@ -23,6 +24,7 @@ public enum Sprite {
 	BANANA(SpriteType.PROJECTILE, "banana"),
 	BEAN(SpriteType.PROJECTILE, "bean"),
 	BEE(SpriteType.PROJECTILE, "bee"),
+	BOMB(SpriteType.PROJECTILE, "bomb", PlayMode.NORMAL, 0.6f),
 	BOOM(SpriteType.EXPLOSION, "boom"),
 	BOOMERANG(SpriteType.PROJECTILE, "boomerang"),
 	BULLET(SpriteType.PROJECTILE, "bullet"),
@@ -40,12 +42,13 @@ public enum Sprite {
 	DIATOM_SHOT_A(SpriteType.PROJECTILE, "diatom_shot_a"),
 	DIATOM_SHOT_B(SpriteType.PROJECTILE, "diatom_shot_b"),
 	FLAIL(SpriteType.PROJECTILE, "flail"),
+	FLASH_GRENADE(SpriteType.PROJECTILE, "flashgrenade"),
 	FLOUNDER_A(SpriteType.PROJECTILE, "flounder_a"),
 	FLOUNDER_B(SpriteType.PROJECTILE, "flounder_b"),
 	FUGU(SpriteType.PROJECTILE, "fugu"),
 	GOLDFISH(SpriteType.PROJECTILE, "goldfish"),
 	DRILL(SpriteType.PROJECTILE, "underminer"),
-	GRENADE(SpriteType.PROJECTILE, "grenade"),
+	GRENADE(SpriteType.PROJECTILE, "fraggrenade", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
 	HARPOON(SpriteType.PROJECTILE, "harpoon"),
 	HURRICANE(SpriteType.PROJECTILE, "storm"),
 	ICEBERG(SpriteType.PROJECTILE, "iceberg"),
@@ -222,7 +225,7 @@ public enum Sprite {
 	EMOTE_DICE(SpriteType.EMOTE, "dice_roll", PlayMode.LOOP, PlayState.spriteAnimationSpeedFast),
 	EMOTE_READY(SpriteType.EMOTE, "emote_ready", PlayMode.LOOP, 0.5f),
 
-	TELEMACHUS_POINT(SpriteType.TELEMACHUS_POINT, null),
+	TELEMACHUS_POINT(SpriteType.TELEMACHUS_POINT, ""),
 
 	MOREAU_BUFF(SpriteType.CHARACTER_EXTRA, "moreau_buff"),
 	MOREAU_SLUG(SpriteType.CHARACTER_EXTRA, "moreau_slug"),
@@ -241,6 +244,11 @@ public enum Sprite {
 	MOREAU_PARTY_BUFF(SpriteType.CHARACTER_EXTRA, "moreau_party_buff"),
 	MOREAU_PARTY_SLUG(SpriteType.CHARACTER_EXTRA, "moreau_party_slug"),
 
+	//complex sprites
+	SPARKS(SpriteType.PROJECTILE, 0.02f, new SpriteRep("spark_0", 3),
+			new SpriteRep("spark_1", 3), new SpriteRep("spark_2", 3),
+			new SpriteRep("spark_3", 3), new SpriteRep("spark_4", 3)),
+
 	//Misc stuff from totlc
 	IMPACT(SpriteType.IMPACT, "impact"),
 	;
@@ -252,12 +260,15 @@ public enum Sprite {
 	private final String spriteId;
 	
 	//These are the frames of the sprite.
-	private Array<? extends TextureRegion> frames;
-	
+	private Array<AtlasRegion> frames;
+	private SpriteRep[] complexFrames;
+
 	//how is this sprite animated? and how fast?
 	private PlayMode playMode = PlayMode.LOOP;
 	private float animationSpeed = PlayState.spriteAnimationSpeedFast;
-	
+
+	private boolean complex;
+
 	/**
 	 * This constructor is used for sprites that are animated differently.
 	 */
@@ -272,6 +283,24 @@ public enum Sprite {
 		this.spriteId = spriteId;
 	}
 
+	Sprite(SpriteType type, float animationSpeed, SpriteRep... sprites) {
+		this.type = type;
+		this.animationSpeed = animationSpeed;
+		this.complexFrames = sprites;
+		this.spriteId = "";
+		this.complex = true;
+	}
+
+	public static class SpriteRep {
+		String spriteId;
+		int repeat;
+
+		public SpriteRep(String spriteId, int repeat) {
+			this.spriteId = spriteId;
+			this.repeat = repeat;
+		}
+	}
+
 	/**
 	 * This returns the frames of a given sprite
 	 */
@@ -280,15 +309,28 @@ public enum Sprite {
 		if (this.equals(NOTHING)) {
 			return Objects.requireNonNull(getAtlas(SpriteType.EVENT)).findRegions("eggplant");
 		}
-		
+
 		if (frames == null) {
-			if (spriteId == null) {
-				frames = Objects.requireNonNull(getAtlas(type)).getRegions();
+			if (complex) {
+				frames = new Array<>();
+				for (SpriteRep sprite: complexFrames) {
+					if (sprite.spriteId.equals("")) {
+						frames.addAll(Objects.requireNonNull(getAtlas(type)).getRegions());
+					} else {
+						for (int i = 0; i < sprite.repeat; i++) {
+							frames.addAll(Objects.requireNonNull(getAtlas(type)).findRegions(sprite.spriteId));
+						}
+					}
+				}
 			} else {
-				frames = Objects.requireNonNull(getAtlas(type)).findRegions(spriteId);
+				if (spriteId.equals("")) {
+					frames = Objects.requireNonNull(getAtlas(type)).getRegions();
+				} else {
+					frames = Objects.requireNonNull(getAtlas(type)).findRegions(spriteId);
+				}
 			}
 		}
-		
+
 		return frames;
 	}
 	

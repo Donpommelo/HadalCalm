@@ -63,7 +63,6 @@ public class TeslaCoil extends RangedWeapon {
 		final Vector2 endLocation = new Vector2(this.mouseLocation);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private final Vector2 startLocation = new Vector2();

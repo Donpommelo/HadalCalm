@@ -149,6 +149,9 @@ public class KryoClient {
 					cs.getUiPlay().setOverrideClipLeft(p.currentClip);
 					cs.getUiPlay().setOverrideAmmoSize(p.currentAmmo);
 					cs.getUiPlay().setOverrideActivePercent(p.activeCharge);
+					if (cs.getPlayer() != null) {
+						cs.getPlayer().setBlinded(p.blinded);
+					}
 				}
 			}
 		}

@@ -49,6 +49,8 @@ public class WeaponUtils {
 	private static final float explosionSpriteScaling = 1.5f;
 	private static final Sprite boomSprite = Sprite.BOOM;
 	private static final Sprite grenadeSprite = Sprite.GRENADE;
+	private static final Sprite bombSprite = Sprite.BOMB;
+	private static final Sprite sparkSprite = Sprite.SPARKS;
 	private static final Sprite torpedoSprite = Sprite.TORPEDO;
 	private static final Sprite missileSprite = Sprite.MISSILE_B;
 	private static final Sprite beeSprite = Sprite.BEE;
@@ -82,7 +84,36 @@ public class WeaponUtils {
 		hbox.setRestitution(0.5f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));	
+		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
+		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
+		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.4f));
+		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.2f));
+		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
+	}
+
+	public static void createBomb(PlayState state, Vector2 startPos, Vector2 spriteSize, Vector2 projSize, Schmuck user,
+		  float baseDamage, float knockback, float lifespan, Vector2 startVelocity, boolean procEffects, int explosionRadius,
+		  float explosionDamage, float explosionKnockback, short filter) {
+
+		Hitbox hbox = new RangedHitbox(state, startPos, projSize, lifespan, startVelocity, filter, false, procEffects, user, bombSprite);
+		hbox.setSpriteSize(spriteSize);
+		hbox.setGravity(2.5f);
+		hbox.setRestitution(0.5f);
+
+		Hitbox sparks = new RangedHitbox(state, startPos, projSize, lifespan, startVelocity, filter, true, false, user, sparkSprite);
+		sparks.setSpriteSize(spriteSize);
+		sparks.setEffectsHit(false);
+		sparks.setEffectsVisual(false);
+		sparks.setEffectsMovement(false);
+
+		sparks.addStrategy(new ControllerDefault(state, sparks, user.getBodyData()));
+		sparks.addStrategy(new FixedToEntity(state, sparks, user.getBodyData(), hbox, new Vector2(), new Vector2(), false));
+
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));

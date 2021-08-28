@@ -62,6 +62,15 @@
 		"RANDOM_POOL"
 	]
 },
+"FLASH_BANG": {
+	"name": "Flash Bang",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+		"DISPENSARY",
+		"RANDOM_POOL"
+	]
+},
 "FORCE_OF_WILL": {
 	"name": "Force of Will",
 	"description": "Become invulnerable temporarily",

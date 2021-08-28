@@ -75,9 +75,11 @@ public class Player extends PhysicsSchmuck {
 	private FeetData rightData;
 	private FeetData leftData;
 	
-	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.) and invisibility (to manage particles without checking statuses every tick)
+	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.)
+	//invisibility and blinded are kept track of this way too b/c they effect visuals
 	private boolean scaling;
 	protected int invisible;
+	private float blinded;
 	
 	//does the player have a shoot/jump or boost action buffered? (i.e used when still on cd)
 	protected boolean shootBuffered, jumpBuffered, airblastBuffered;
@@ -880,7 +882,8 @@ public class Player extends PhysicsSchmuck {
 				getMainFixture().getFilterData().maskBits, invisible, state.getTimer()));
 		
 		HadalGame.server.sendPacketToPlayer(this, new Packets.SyncPlayerSelf(playerData.getCurrentFuel() / playerData.getStat(Stats.MAX_FUEL), 
-				playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getAmmoLeft(), playerData.getActiveItem().chargePercent()));
+				playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getAmmoLeft(),
+				playerData.getActiveItem().chargePercent(), blinded));
 	}
 	
 	/**
@@ -1018,6 +1021,10 @@ public class Player extends PhysicsSchmuck {
 	public void setScaling(boolean scaling) { this.scaling = scaling; }
 	
 	public void setInvisible(int invisible) { this.invisible = invisible; }
+
+	public void setBlinded(float blinded) { this.blinded = blinded; }
+
+	public float getBlinded() { return blinded; }
 
 	public void startTyping() { this.typingCdCount = 1.0f; }
 	

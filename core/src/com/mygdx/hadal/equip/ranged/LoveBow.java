@@ -119,7 +119,7 @@ public class LoveBow extends RangedWeapon {
 		hurtbox.addStrategy(new DieParticles(state, hurtbox, user.getBodyData(), Particle.ARROW_BREAK));
 		hurtbox.addStrategy(new DamageStandard(state, hurtbox, user.getBodyData(), damage, knockback, DamageTypes.POKING, DamageTypes.RANGED));
 		hurtbox.addStrategy(new ContactUnitSound(state, hurtbox, user.getBodyData(), SoundEffect.SLASH, 0.4f, true));
-		hurtbox.addStrategy(new CreateParticles(state, hurtbox, user.getBodyData(), Particle.REGEN, 0.0f, 1.0f));
+		hurtbox.addStrategy(new CreateParticles(state, hurtbox, user.getBodyData(), Particle.BOW_TRAIL, 0.0f, 1.0f).setRotate(true));
 		
 		Hitbox healbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), (short) 0, false, false, user, Sprite.NOTHING);
 		healbox.setSyncDefault(false);
@@ -143,11 +143,16 @@ public class LoveBow extends RangedWeapon {
 				if (fixB != null) {
 					//if shooting self after delay or any ally, the arrow will heal. Otherwise, damage is inflicted
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
+
 						if ((fixB == user.getBodyData() && delay <= 0) || (fixB != user.getBodyData() && ((BodyData) fixB).getSchmuck().getHitboxfilter() == user.getHitboxfilter())) {
 							((BodyData) fixB).regainHp(baseHeal, creator, true);
 							SoundEffect.COIN3.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
-							new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.REGEN, 1.0f, true, particleSyncType.CREATESYNC);
+							new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HEAL, 1.0f,
+									true, particleSyncType.CREATESYNC);
 							hurtbox.die();
+						} else if (((BodyData) fixB).getSchmuck().getHitboxfilter() != user.getHitboxfilter()){
+							new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HURT, 1.0f,
+									true, particleSyncType.CREATESYNC);
 						}
 					}
 				}

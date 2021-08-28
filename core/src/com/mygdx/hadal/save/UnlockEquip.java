@@ -130,7 +130,8 @@ public enum UnlockEquip {
 		
 		ArrayList<UnlockTag> defaultTags = new ArrayList<>();
 		defaultTags.add(UnlockTag.RANDOM_POOL);
-		
+		defaultTags.addAll(state.getMapEquipTag());
+
 		if (pool.equals("")) {
 			Array<UnlockEquip> unlocks = UnlockEquip.getUnlocks(state, false, defaultTags);
 			return unlocks.get(MathUtils.random(unlocks.size - 1)).toString();
