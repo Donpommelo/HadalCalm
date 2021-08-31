@@ -27,7 +27,9 @@ public class CR4PCannon extends RangedWeapon {
 	private static final float projectileSpeed = 35.0f;
 	private static final Vector2 projectileSize = new Vector2(20, 20);
 	private static final float lifespan = 0.7f;
-	
+
+	private static final float pitchSpread = 0.4f;
+
 	private static final int numProj = 9;
 	private static final int spread = 15;
 	
@@ -56,6 +58,8 @@ public class CR4PCannon extends RangedWeapon {
 			hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_BODY_HIT, 0.3f, true).setPitchSpread(pitchSpread));
+			hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_CONCRETE_HIT, 0.3f).setPitchSpread(pitchSpread));
 			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.SHRAPNEL, DamageTypes.RANGED));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 		}

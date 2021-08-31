@@ -10,14 +10,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitKnockbackDamage;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class DuelingCorkgun extends RangedWeapon {
 
@@ -55,6 +48,7 @@ public class DuelingCorkgun extends RangedWeapon {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.BULLET, DamageTypes.RANGED));
+		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE1, 0.5f, true));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.5f));
 	}
 }

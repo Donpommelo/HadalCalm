@@ -370,6 +370,8 @@ public class ParticleEntity extends HadalEntity {
 			return this;
 		}
 
+		this.color.set(color.getR(), color.getG(), color.getB());
+
 		if (color.equals(HadalColor.RANDOM)) {
 			
 			//for random colors, each emitter is tinted with random r,b,g
@@ -381,8 +383,6 @@ public class ParticleEntity extends HadalEntity {
 			}
 			return this;
 		}
-
-		this.color.set(color.getR(), color.getG(), color.getB());
 
 		for (int i = 0; i < effect.getEmitters().size; i++) {
 			float[] colors = effect.getEmitters().get(i).getTint().getColors();

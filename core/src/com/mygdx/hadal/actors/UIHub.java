@@ -262,15 +262,17 @@ public class UIHub {
 
 		ModeSettingSelection.leave(state);
 
-		tableOuter.addAction(Actions.moveTo(tableX, tableY, .5f, Interpolation.pow5Out));
-		
-		if (state.getStage() != null) {
-			if (state.getStage().getScrollFocus() == options) {
-				state.getStage().setScrollFocus(null);
-			}
-			state.getStage().setKeyboardFocus(null);
-		}
-		
+		tableOuter.addAction(Actions.sequence(Actions.moveTo(tableX, tableY, .5f, Interpolation.pow5Out),
+			Actions.run(() -> {
+				if (state.getStage() != null) {
+					if (state.getStage().getScrollFocus() == options) {
+						state.getStage().setScrollFocus(null);
+					}
+					state.getStage().setKeyboardFocus(null);
+				}
+			})
+		));
+
 		SoundEffect.DOORBELL.play(state.getGsm(), 0.25f, false);
 	}
 	
@@ -418,8 +420,6 @@ public class UIHub {
 
 	public Table getTableOptions() { return tableOptions; }
 
-	public Table getTableExtra() { return tableExtra; }
-	
 	public enum hubTypes {
 		NONE,
 		ARMORY,

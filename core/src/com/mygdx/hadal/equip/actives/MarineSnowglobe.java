@@ -41,7 +41,7 @@ public class MarineSnowglobe extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.ICE_IMPACT.playUniversal(state, user.getPlayer().getPixelPosition(), 0.9f, 0.5f, false);
+		SoundEffect.FREEZE_IMPACT.playUniversal(state, user.getPlayer().getPixelPosition(), 0.9f, 0.5f, false);
 		
 		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, duration, new Vector2(), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), Sprite.NOTHING);
 		hbox.makeUnreflectable();

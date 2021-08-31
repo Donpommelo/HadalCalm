@@ -40,13 +40,26 @@ public class ModeModifier extends ModeSetting {
     }
 
     @Override
-    public void loadSettingMisc(PlayState state, GameMode mode) {
+    public void loadSettingMisc(PlayState state, GameMode mode) {}
+
+    /**
+     * mode modifiers process thier logic in a separate function so that it can modify the string builder used
+     * for initial notification
+     */
+    public void loadModifier(PlayState state, GameMode mode, StringBuilder text) {
         if (state.getGsm().getSetting().getModeSetting(mode, settingTag, 0) == 1) {
             executeModifier(state);
+            text.append(name).append(", ");
         }
     }
 
     public void executeModifier(PlayState state) {}
+
+    public void setCheck(boolean check) {
+        if (dropsOptions != null) {
+            dropsOptions.setChecked(check);
+        }
+    }
 
     public String getName() { return name; }
 }

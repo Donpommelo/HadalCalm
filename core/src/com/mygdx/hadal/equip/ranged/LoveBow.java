@@ -18,15 +18,7 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
-import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class LoveBow extends RangedWeapon {
 
@@ -119,6 +111,7 @@ public class LoveBow extends RangedWeapon {
 		hurtbox.addStrategy(new DieParticles(state, hurtbox, user.getBodyData(), Particle.ARROW_BREAK));
 		hurtbox.addStrategy(new DamageStandard(state, hurtbox, user.getBodyData(), damage, knockback, DamageTypes.POKING, DamageTypes.RANGED));
 		hurtbox.addStrategy(new ContactUnitSound(state, hurtbox, user.getBodyData(), SoundEffect.SLASH, 0.4f, true));
+		hurtbox.addStrategy(new ContactWallSound(state, hurtbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.8f));
 		hurtbox.addStrategy(new CreateParticles(state, hurtbox, user.getBodyData(), Particle.BOW_TRAIL, 0.0f, 1.0f).setRotate(true));
 		
 		Hitbox healbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), (short) 0, false, false, user, Sprite.NOTHING);

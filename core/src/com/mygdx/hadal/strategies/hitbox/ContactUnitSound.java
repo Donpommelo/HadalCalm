@@ -8,6 +8,8 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * This strategy creates a sound when the hbox hits a player
  * @author Plorbzog Phovington
@@ -22,7 +24,10 @@ public class ContactUnitSound extends HitboxStrategy {
 	
 	//this is the pitch that the sound will get played at. (default is no change. change using factory method.)
 	private float pitch = 1.0f;
-	
+
+	//this is the variance in pitch
+	private float pitchSpread = 0.0f;
+
 	//if the hbox is still, we ignore the velocity requirement before playing a sound. (mostly used for sticky bombs)
 	private final boolean still;
 	
@@ -53,7 +58,9 @@ public class ContactUnitSound extends HitboxStrategy {
 			if (fixB != null) {
 				if (fixB.getType().equals(UserDataTypes.BODY)) {
 					procCdCount = 0;
-					sound.playUniversal(state, hbox.getPixelPosition(), volume, pitch, false);
+
+					float newPitch = pitch + (ThreadLocalRandom.current().nextFloat() - 0.5f) * pitchSpread;
+					sound.playUniversal(state, hbox.getPixelPosition(), volume, newPitch, false);
 				}
 			}
 		}
@@ -61,6 +68,11 @@ public class ContactUnitSound extends HitboxStrategy {
 	
 	public ContactUnitSound setPitch(float pitch) {
 		this.pitch = pitch;
+		return this;
+	}
+
+	public ContactUnitSound setPitchSpread(float pitchSpread) {
+		this.pitchSpread = pitchSpread;
 		return this;
 	}
 }

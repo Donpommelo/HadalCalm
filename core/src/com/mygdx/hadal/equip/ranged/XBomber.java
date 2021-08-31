@@ -56,6 +56,7 @@ public class XBomber extends RangedWeapon {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.ENERGY, DamageTypes.RANGED));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.6f));
+
 		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(
 			HadalColor.CYAN));
 

@@ -10,13 +10,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Speargun extends RangedWeapon {
 
@@ -55,5 +49,6 @@ public class Speargun extends RangedWeapon {
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.POKING, DamageTypes.RANGED));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.8f, true));
+		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.6f));
 	}
 }

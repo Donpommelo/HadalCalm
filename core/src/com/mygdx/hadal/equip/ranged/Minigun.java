@@ -30,7 +30,8 @@ public class Minigun extends RangedWeapon {
 	private static final float projectileSpeed = 50.0f;
 	private static final Vector2 projectileSize = new Vector2(40, 10);
 	private static final float lifespan = 1.5f;
-	
+
+	private static final float pitchSpread = 0.4f;
 	private static final int spread = 8;
 
 	private static final Sprite projSprite = Sprite.BULLET;
@@ -110,7 +111,9 @@ public class Minigun extends RangedWeapon {
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.BULLET, DamageTypes.RANGED));	
+		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_BODY_HIT, 0.5f, true).setPitchSpread(pitchSpread));
+		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_CONCRETE_HIT, 0.5f).setPitchSpread(pitchSpread));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.BULLET, DamageTypes.RANGED));
 		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BULLET_TRAIL, 0.0f, 0.5f).setRotate(true));
 	}

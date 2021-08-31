@@ -8,6 +8,8 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  *  This strategy creates a sound when the hbox hits a wall
  *  It contains additional logic to prevent repeatedly making the sound over and over when the hbox is effectively motionless.
@@ -23,7 +25,9 @@ public class ContactWallSound extends HitboxStrategy {
 	
 	//this is the pitch that the sound will get played at. (default is no change. change using factory method.)
 	private float pitch = 1.0f;
-		
+
+	private float pitchSpread = 0.0f;
+
 	//This is the max interval the sound can be repeated.
 	private static final float procCd = 0.2f;
 	
@@ -50,7 +54,9 @@ public class ContactWallSound extends HitboxStrategy {
 			if (fixB != null) {
 				if (fixB.getType().equals(UserDataTypes.WALL)) {
 					procCdCount = 0;
-					sound.playUniversal(state, hbox.getPixelPosition(), volume, pitch, false);
+
+					float newPitch = pitch + (ThreadLocalRandom.current().nextFloat() - 0.5f) * pitchSpread;
+					sound.playUniversal(state, hbox.getPixelPosition(), volume, newPitch, false);
 				}
 			}
 		}
@@ -58,6 +64,11 @@ public class ContactWallSound extends HitboxStrategy {
 	
 	public ContactWallSound setDuration(float pitch) {
 		this.pitch = pitch;
+		return this;
+	}
+
+	public ContactWallSound setPitchSpread(float pitchSpread) {
+		this.pitchSpread = pitchSpread;
 		return this;
 	}
 }

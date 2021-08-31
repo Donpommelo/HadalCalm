@@ -11,12 +11,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class PearlRevolver extends RangedWeapon {
 
@@ -60,6 +55,7 @@ public class PearlRevolver extends RangedWeapon {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.BULLET, DamageTypes.RANGED));
-		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.5f));
+		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_BODY_HIT, 0.5f, true));
+		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_CONCRETE_HIT, 0.5f));
 	}
 }

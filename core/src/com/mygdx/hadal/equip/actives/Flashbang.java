@@ -62,6 +62,8 @@ public class Flashbang extends ActiveItem {
 
 			@Override
 			public void die() {
+				SoundEffect.FLASHBANG.playUniversal(state, this.hbox.getPixelPosition(), 1.5f, 1.8f, false);
+
 				Hitbox hbox = new Hitbox(state, this.hbox.getPixelPosition(), new Vector2(currentRadius, currentRadius),
 						0.4f, new Vector2(0, 0), (short) 0, true, false, user.getPlayer(), Sprite.NOTHING);
 
