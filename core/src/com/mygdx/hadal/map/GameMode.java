@@ -10,6 +10,7 @@ import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -170,6 +171,16 @@ public enum GameMode {
         TiledObjectUtil.parseTiledEvent(state, timer);
         TiledObjectUtil.parseTiledEvent(state, multi);
         TiledObjectUtil.parseTiledEvent(state, ui);
+    }
+
+    private static final HashMap<String, GameMode> ModesByName = new HashMap<>();
+    static {
+        for (GameMode m: GameMode.values()) {
+            ModesByName.put(m.toString(), m);
+        }
+    }
+    public static GameMode getByName(String s) {
+        return ModesByName.getOrDefault(s, HUB);
     }
 
     public String getText() { return text;}

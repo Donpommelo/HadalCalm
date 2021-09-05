@@ -489,7 +489,7 @@
 "TRICK_GUN": {
 	"name": "Trick Gun",
 	"description": "Hold, drag and release the shoot button to fire a projectile that changes its trajectory midflight.",
-    "descriptionLong": "Projectile Damage: 60\n\nClip Size: 5\nAmmo Capacity: 30\nReload Time: 0.75 Second",
+    "descriptionLong": "Projectile Damage: 60\nClip Size: 5\nAmmo Capacity: 30\nReload Time: 0.75 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
@@ -498,8 +498,8 @@
 },
 "TYRRAZZAN_REAPER": {
 	"name": "Tyrrazzan Reaper",
-	"description": "",
-    "descriptionLong": "",
+	"description": "Click futher from yourself to fire stronger, long-ranged projectiles with less spread",
+    "descriptionLong": "Projectile Damage: 16-55\nClip Size: 10\nAmmoCapacity: 70\nReload Time: 1.4 Second\nAttack Cooldown: 0.15 - 0.6 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",

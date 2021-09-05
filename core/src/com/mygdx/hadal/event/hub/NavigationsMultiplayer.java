@@ -19,6 +19,7 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,10 +32,20 @@ public class NavigationsMultiplayer extends HubEvent {
 	//this is the selected game mode
 	private static GameMode modeChosen = GameMode.DEATHMATCH;
 
+	private final ArrayList<GameMode> gameModes = new ArrayList<>();
+
 	private static final String modesTitle = "GAME MODES";
 
-	public NavigationsMultiplayer(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean closeOnLeave) {
+	public NavigationsMultiplayer(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean closeOnLeave,
+  		String modes) {
 		super(state, startPos, size, title, tag, false, closeOnLeave, hubTypes.NAVIGATIONS);
+		if (modes.equals("")) {
+			Collections.addAll(gameModes, GameMode.values());
+		} else {
+			for (String s: modes.split(",")) {
+				gameModes.add(GameMode.getByName(s));
+			}
+		}
 	}
 
 	@Override
@@ -114,7 +125,7 @@ public class NavigationsMultiplayer extends HubEvent {
 		final NavigationsMultiplayer me = this;
 
 		//bring up all game modes that can be selected from the hub
-		for (GameMode c: GameMode.values()) {
+		for (GameMode c: gameModes) {
 
 			if (!c.isInvisibleInHub()) {
 				final GameMode selected = c;

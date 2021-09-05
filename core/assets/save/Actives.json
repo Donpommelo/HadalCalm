@@ -64,8 +64,8 @@
 },
 "FLASH_BANG": {
 	"name": "Flash Bang",
-	"description": "",
-    "descriptionLong": "",
+	"description": "Throw a Blinding Explosive Projectile",
+    "descriptionLong": "Charge: 11 Seconds\nBase Damage: 30\nBlind Duration: 4.0 Seconds",
 	"tags": [
 		"DISPENSARY",
 		"RANDOM_POOL"

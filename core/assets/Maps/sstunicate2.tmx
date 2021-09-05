@@ -26,6 +26,7 @@
   </object>
   <object id="5" name="NavigationMultiplayer" type="NavigationMultiplayer" x="928" y="1376" width="96" height="96">
    <properties>
+    <property name="modes" value=""/>
     <property name="tag" value="MULTIPLAYER"/>
     <property name="title" value="Navigations"/>
     <property name="triggeredId" value="navigation1"/>

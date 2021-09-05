@@ -291,6 +291,7 @@ public class PlayState extends GameState {
 
 		if (map.getProperties().get("customShader", false, Boolean.class) ) {
 			shaderBase = Wallpaper.shaders[gsm.getSetting().getCustomShader()];
+			shaderBase.loadShader();
 		} else if (map.getProperties().get("shader", String.class) != null) {
 			shaderBase = Shader.valueOf(map.getProperties().get("shader", String.class));
 			shaderBase.loadShader();
