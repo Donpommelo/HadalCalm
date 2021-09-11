@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="36">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="40">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -143,15 +143,35 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="4" name="dm">
-  <object id="18" name="ScrapSpawn" type="ScrapSpawn" x="1696" y="128" width="32" height="32">
+ <objectgroup id="6" name="objective">
+  <object id="36" name="ObjectiveSpawn" type="ObjectiveSpawn" x="1696" y="128" width="32" height="32">
    <properties>
-    <property name="scrap" type="int" value="1"/>
     <property name="sync" value="USER"/>
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
    </properties>
   </object>
+  <object id="37" name="Dummy" type="Dummy" x="2496" y="128" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg2"/>
+    <property name="triggeringId" value="egg3"/>
+   </properties>
+  </object>
+  <object id="38" name="Dummy" type="Dummy" x="896" y="128" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg1"/>
+    <property name="triggeringId" value="egg2"/>
+   </properties>
+  </object>
+  <object id="39" name="MovePoint" type="MovePoint" x="1696" y="128" width="32" height="32">
+   <properties>
+    <property name="connections" value="EGGPLANT_SPAWNER"/>
+    <property name="speed" type="float" value="2.5"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="egg2"/>
+   </properties>
+  </object>
  </objectgroup>
+ <objectgroup id="4" name="dm"/>
  <objectgroup id="5" name="arena">
   <object id="29" name="WaveSpawn" type="WaveSpawn" x="448" y="128" width="32" height="32">
    <properties>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="140" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="79">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="140" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="79">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="140" height="100">
   <data encoding="base64" compression="zlib">
@@ -249,10 +249,9 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="4" name="dm">
-  <object id="74" name="ScrapSpawn" type="ScrapSpawn" x="2528" y="640" width="32" height="32">
+ <objectgroup id="6" name="objective">
+  <object id="74" name="ObjectiveSpawn" type="ObjectiveSpawn" x="2528" y="640" width="32" height="32">
    <properties>
-    <property name="scrap" type="int" value="1"/>
     <property name="sync" value="USER"/>
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
    </properties>
@@ -278,6 +277,7 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup id="4" name="dm"/>
  <objectgroup id="5" name="arena">
   <object id="67" name="WaveSpawn" type="WaveSpawn" x="2528" y="512" width="32" height="32">
    <properties>

@@ -92,7 +92,7 @@ public class UIExtra extends AHadalActor {
 					text.append(uiTag.getMisc()).append("\n");
 					break;
 				case LEVEL:
-					text.append(state.getMode().getText()).append(" ").append(state.getLevel().getInfo().getName()).append("\n");
+					text.append(state.getMode().getInfo().getName()).append(" ").append(state.getLevel().getInfo().getName()).append("\n");
 					break;
 				case TEAMSCORE:
 					if (teamText.isEmpty()) {

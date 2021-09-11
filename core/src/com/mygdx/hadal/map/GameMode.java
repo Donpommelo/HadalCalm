@@ -2,6 +2,7 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.map.modifiers.*;
+import com.mygdx.hadal.save.InfoItem;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
@@ -19,47 +20,47 @@ import java.util.List;
  */
 public enum GameMode {
 
-    HUB("HUB", "", new ToggleHub(), new ToggleUnlimitedLife()) {
+    HUB("", new ToggleHub(), new ToggleUnlimitedLife()) {
 
         @Override
         public boolean isInvisibleInHub() { return true; }
     },
 
-    CAMPAIGN("","") {
+    CAMPAIGN("") {
 
         @Override
         public boolean isInvisibleInHub() { return true; }
     },
 
-    BOSS("BOSS",""),
+    BOSS(""),
 
-    DEATHMATCH("DM", "dm",
+    DEATHMATCH("dm",
         new SetCameraOnSpawn(), new SettingScoreCap(), new SettingTimer(ResultsState.magicWord), new DisplayUITag("SCOREBOARD"),
         new SettingLives(), new SettingTeamMode(), new SettingBaseHp(), new SettingDroppableWeapons(),
         new SpawnWeapons(), new ToggleKillsScore(), new TogglePVP(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
             new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    SURVIVAL("ARENA", "arena",
+    SURVIVAL("arena",
         new SetCameraOnSpawn(), new SettingTimer("VICTORY"),
         new DisplayUITag("SCORE"), new DisplayUITag("HISCORE"),
         new SpawnWeapons(), new SpawnEnemyWaves()),
 
-    CTF("CTF", "ctf",
+    CTF("ctf",
         new SetCameraOnSpawn(), new SettingTeamScoreCap(), new SettingTimer(ResultsState.magicWord),
         new DisplayUITag("TEAMSCORE"), new SettingDroppableWeapons(), new SettingBaseHp(), new SpawnWeapons(),
         new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
             new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    FOOTBALL("FOOTBALL","",
+    FOOTBALL("",
         new SetCameraOnSpawn(), new SettingTeamScoreCap(), new SettingTimer(ResultsState.magicWord),
         new DisplayUITag("TEAMSCORE"),
         new ToggleNoDamage(), new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife(),
         new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),
         new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO)),
 
-    GUN_GAME("GUN GAME", "", DEATHMATCH,
+    GUN_GAME("", DEATHMATCH,
         new SetCameraOnSpawn(), new SettingTimer(ResultsState.magicWord),
         new DisplayUITag("GUNGAME"), new SettingBaseHp(),
         new TogglePVP(), new ToggleTeamMode(0), new ToggleUnlimitedLife(),
@@ -68,7 +69,21 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
             new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion())),
 
-    SANDBOX("", ""),
+    EGGPLANTS("objective", DEATHMATCH,
+            new SetCameraOnSpawn(), new SettingTimer(ResultsState.magicWord), new DisplayUITag("SCOREBOARD"),
+            new SettingBaseHp(), new SettingDroppableWeapons(), new SpawnWeapons(), new ToggleEggplantDrops(),
+            new TogglePVP(), new ToggleTeamMode(0), new ToggleUnlimitedLife(),
+            new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
+                    new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
+
+    KINGMAKER("objective", DEATHMATCH,
+            new SetCameraOnSpawn(), new SettingTimer(ResultsState.magicWord), new DisplayUITag("SCOREBOARD"),
+            new SettingBaseHp(), new SettingDroppableWeapons(), new SpawnWeapons(),
+            new TogglePVP(), new ToggleTeamMode(0), new ToggleUnlimitedLife(),
+            new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
+                    new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
+
+    SANDBOX(""),
 
     ;
 
@@ -78,8 +93,7 @@ public enum GameMode {
     //settings that apply to this mode
     private final ModeSetting[] applicableSettings;
 
-    //this text is displayed in the ui when this mode is selected
-    private final String text;
+    private InfoItem info;
 
     private final List<String> initialNotifications = new ArrayList<>();
 
@@ -87,13 +101,12 @@ public enum GameMode {
     // Used for modes that have the same set of compliant maps (gun game etc with deathmatch)
     private GameMode checkCompliance = this;
 
-    GameMode(String text, String extraLayers, GameMode checkCompliance, ModeSetting... applicableSettings) {
-        this(text, extraLayers, applicableSettings);
+    GameMode(String extraLayers, GameMode checkCompliance, ModeSetting... applicableSettings) {
+        this(extraLayers, applicableSettings);
         this.checkCompliance = checkCompliance;
     }
 
-    GameMode(String text, String extraLayers, ModeSetting... applicableSettings) {
-        this.text = text;
+    GameMode(String extraLayers, ModeSetting... applicableSettings) {
         this.extraLayers = extraLayers.split(",");
         this.applicableSettings = applicableSettings;
     }
@@ -179,11 +192,14 @@ public enum GameMode {
             ModesByName.put(m.toString(), m);
         }
     }
+
+    public InfoItem getInfo() { return info; }
+
+    public void setInfo(InfoItem info) { this.info = info; }
+
     public static GameMode getByName(String s) {
         return ModesByName.getOrDefault(s, HUB);
     }
-
-    public String getText() { return text;}
 
     public String[] getExtraLayers() { return extraLayers; }
 

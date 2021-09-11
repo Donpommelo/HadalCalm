@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="32">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="32">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -34,33 +34,6 @@
   <object id="5" name="Sensor" type="Sensor" x="352" y="2176" width="2528" height="32">
    <properties>
     <property name="triggeringId" value="outOfBounds"/>
-   </properties>
-  </object>
-  <object id="6" name="ScrapSpawn" type="ScrapSpawn" x="1600" y="512" width="32" height="32">
-   <properties>
-    <property name="scrap" type="int" value="1"/>
-    <property name="sync" value="USER"/>
-    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
-   </properties>
-  </object>
-  <object id="7" name="Dummy" type="Dummy" x="2464" y="512" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="egg1"/>
-    <property name="triggeringId" value="egg2"/>
-   </properties>
-  </object>
-  <object id="8" name="Dummy" type="Dummy" x="736" y="512" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="egg2"/>
-    <property name="triggeringId" value="egg1"/>
-   </properties>
-  </object>
-  <object id="9" name="MovePoint" type="MovePoint" x="1600" y="512" width="32" height="32">
-   <properties>
-    <property name="connections" value="EGGPLANT_SPAWNER"/>
-    <property name="speed" type="float" value="2.5"/>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="egg1"/>
    </properties>
   </object>
   <object id="10" name="Multitrigger" type="Multitrigger" x="160" y="160" width="32" height="32">
@@ -182,6 +155,34 @@
    <properties>
     <property name="hp" type="float" value="-1000"/>
     <property name="triggeredId" value="outOfBounds"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="objective">
+  <object id="6" name="ObjectiveSpawn" type="ObjectiveSpawn" x="1600" y="512" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="7" name="Dummy" type="Dummy" x="2464" y="512" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg1"/>
+    <property name="triggeringId" value="egg2"/>
+   </properties>
+  </object>
+  <object id="8" name="Dummy" type="Dummy" x="736" y="512" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg2"/>
+    <property name="triggeringId" value="egg1"/>
+   </properties>
+  </object>
+  <object id="9" name="MovePoint" type="MovePoint" x="1600" y="512" width="32" height="32">
+   <properties>
+    <property name="connections" value="EGGPLANT_SPAWNER"/>
+    <property name="speed" type="float" value="2.5"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="egg1"/>
    </properties>
   </object>
  </objectgroup>

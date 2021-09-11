@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="189">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="189">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -749,9 +749,10 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="185" name="ScrapSpawn" type="ScrapSpawn" x="2928" y="1136" width="32" height="32">
+ </objectgroup>
+ <objectgroup id="4" name="objective">
+  <object id="185" name="ObjectiveSpawn" type="ObjectiveSpawn" x="2928" y="1136" width="32" height="32">
    <properties>
-    <property name="scrap" type="int" value="1"/>
     <property name="sync" value="USER"/>
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
    </properties>

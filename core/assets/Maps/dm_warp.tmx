@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="57">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="57">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -247,10 +247,9 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="4" name="dm">
-  <object id="53" name="ScrapSpawn" type="ScrapSpawn" x="1568" y="736" width="32" height="32">
+ <objectgroup id="6" name="objective">
+  <object id="53" name="ObjectiveSpawn" type="ObjectiveSpawn" x="1568" y="736" width="32" height="32">
    <properties>
-    <property name="scrap" type="int" value="1"/>
     <property name="sync" value="USER"/>
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
    </properties>
@@ -276,6 +275,7 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup id="4" name="dm"/>
  <objectgroup id="5" name="arena">
   <object id="44" name="WaveSpawn" type="WaveSpawn" x="1024" y="1888" width="32" height="32">
    <properties>

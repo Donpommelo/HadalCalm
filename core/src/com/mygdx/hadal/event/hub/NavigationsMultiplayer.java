@@ -145,6 +145,12 @@ public class NavigationsMultiplayer extends HubEvent {
 
 						ModeSettingSelection.addTable(state, modeChosen, me);
 					}
+
+					@Override
+					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
+						super.enter(event, x, y, pointer, fromActor);
+						hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() + " \n \n" + selected.getInfo().getDescriptionLong());
+					}
 				});
 				itemChoose.setScale(UIHub.optionsScale);
 				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();

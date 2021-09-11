@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="125" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="58">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="125" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="58">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -171,45 +171,6 @@
     <property name="springY" type="float" value="100"/>
    </properties>
   </object>
-  <object id="32" name="ScrapSpawn" type="ScrapSpawn" x="1824" y="832" width="32" height="32">
-   <properties>
-    <property name="scrap" type="int" value="1"/>
-    <property name="sync" value="USER"/>
-    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
-   </properties>
-  </object>
-  <object id="33" name="Dummy" type="Dummy" x="2496" y="832" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="egg2"/>
-    <property name="triggeringId" value="egg3"/>
-   </properties>
-  </object>
-  <object id="34" name="Dummy" type="Dummy" x="1152" y="832" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="egg1"/>
-    <property name="triggeringId" value="egg2"/>
-   </properties>
-  </object>
-  <object id="35" name="MovePoint" type="MovePoint" x="1824" y="832" width="32" height="32">
-   <properties>
-    <property name="connections" value="EGGPLANT_SPAWNER"/>
-    <property name="speed" type="float" value="2.5"/>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="egg2"/>
-   </properties>
-  </object>
-  <object id="36" name="Dummy" type="Dummy" x="2496" y="2368" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="egg3"/>
-    <property name="triggeringId" value="egg4"/>
-   </properties>
-  </object>
-  <object id="37" name="Dummy" type="Dummy" x="1152" y="2368" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="egg4"/>
-    <property name="triggeringId" value="egg1"/>
-   </properties>
-  </object>
   <object id="38" name="Start" type="Start" x="2208" y="1024" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
@@ -258,7 +219,13 @@
    <polyline points="0,0 224,0 288,-64 416,-64 480,0 544,0 608,64 800,64 800,-320 896,-416 896,-448 640,-448 544,-352 160,-352 0,-192 0,0"/>
   </object>
  </objectgroup>
- <objectgroup id="4" name="dm">
+ <objectgroup id="6" name="objective">
+  <object id="36" name="Dummy" type="Dummy" x="2496" y="2368" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg3"/>
+    <property name="triggeringId" value="egg4"/>
+   </properties>
+  </object>
   <object id="46" name="MovePoint" type="MovePoint" x="1824" y="832" width="32" height="32">
    <properties>
     <property name="connections" value="EGGPLANT_SPAWNER"/>
@@ -267,9 +234,8 @@
     <property name="triggeringId" value="egg2"/>
    </properties>
   </object>
-  <object id="47" name="ScrapSpawn" type="ScrapSpawn" x="1824" y="832" width="32" height="32">
+  <object id="47" name="ObjectiveSpawn" type="ObjectiveSpawn" x="1824" y="832" width="32" height="32">
    <properties>
-    <property name="scrap" type="int" value="1"/>
     <property name="sync" value="USER"/>
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
    </properties>
@@ -286,12 +252,6 @@
     <property name="triggeringId" value="egg3"/>
    </properties>
   </object>
-  <object id="50" name="Dummy" type="Dummy" x="2496" y="2368" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="egg3"/>
-    <property name="triggeringId" value="egg4"/>
-   </properties>
-  </object>
   <object id="51" name="Dummy" type="Dummy" x="1152" y="2368" width="32" height="32">
    <properties>
     <property name="triggeredId" value="egg4"/>
@@ -299,6 +259,7 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup id="4" name="dm"/>
  <objectgroup id="5" name="arena">
   <object id="52" name="WaveSpawn" type="WaveSpawn" x="1792" y="1120" width="32" height="32">
    <properties>

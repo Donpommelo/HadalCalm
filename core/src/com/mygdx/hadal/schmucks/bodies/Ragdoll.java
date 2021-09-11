@@ -53,8 +53,8 @@ public class Ragdoll extends HadalEntity {
 	
 	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity, boolean setVelo, boolean sensor, boolean synced) {
 		super(state, startPos, size);
-		this.startVelo = startVelo;
-		this.startAngle = baseAngle;
+		this.startVelo = new Vector2(startVelo);
+		this.startAngle = baseAngle * angleAmp;
 		this.ragdollDuration = duration;
 		this.gravity = gravity;
 		this.sprite = sprite;
@@ -76,7 +76,6 @@ public class Ragdoll extends HadalEntity {
 	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, TextureRegion textureRegion, Vector2 startVelo, float duration, float gravity, boolean setVelo, boolean sensor) {
 		super(state, startPos, size);
 		this.startVelo = startVelo;
-		this.startAngle = baseAngle;
 		this.ragdollDuration = duration;
 		this.gravity = gravity;
 		this.sensor = sensor;
@@ -85,6 +84,13 @@ public class Ragdoll extends HadalEntity {
 
 		this.synced = false;
 		setSyncDefault(false);
+
+		//ragdoll spin direction depends on which way it is moving
+		if (startVelo.x >= 0) {
+			this.startAngle = -baseAngle * angleAmp;
+		} else {
+			this.startAngle = baseAngle * angleAmp;
+		}
 	}
 
 	private final Vector2 newVelocity = new Vector2();
@@ -94,7 +100,7 @@ public class Ragdoll extends HadalEntity {
 		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1, 0.5f, false, false, Constants.BIT_SENSOR,	(short) (Constants.BIT_WALL | Constants.BIT_SENSOR), (short) -1, sensor, hadalData);
 
 		//this makes ragdolls spin and move upon creation
-		setAngularVelocity(startAngle * angleAmp);
+		setAngularVelocity(startAngle);
 		float newDegrees = startVelo.angleDeg() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 		newVelocity.set(startVelo).add(1, 1);
 		

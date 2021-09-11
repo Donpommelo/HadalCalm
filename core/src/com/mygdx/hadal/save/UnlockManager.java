@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.ArrayList;
@@ -35,6 +36,9 @@ public class UnlockManager {
 		}
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Levels.json"))) {
 			UnlockLevel.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
+		}
+		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Modes.json"))) {
+			GameMode.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
 		}
 	}
 	

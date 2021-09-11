@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="140" height="125" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="58">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="140" height="125" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="58">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -270,6 +270,8 @@
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup id="4" name="objective">
   <object id="50" name="MovePoint" type="MovePoint" x="2288" y="1936" width="32" height="32">
    <properties>
     <property name="connections" value="EGGPLANT_SPAWNER"/>
@@ -278,9 +280,8 @@
     <property name="triggeringId" value="egg2"/>
    </properties>
   </object>
-  <object id="51" name="ScrapSpawn" type="ScrapSpawn" x="2288" y="1936" width="32" height="32">
+  <object id="51" name="ObjectiveSpawn" type="ObjectiveSpawn" x="2288" y="1936" width="32" height="32">
    <properties>
-    <property name="scrap" type="int" value="1"/>
     <property name="sync" value="USER"/>
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
    </properties>

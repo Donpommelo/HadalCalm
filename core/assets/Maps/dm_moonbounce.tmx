@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="54">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="54">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -277,33 +277,6 @@
     <property name="triggeringId" value="dummy0"/>
    </properties>
   </object>
-  <object id="44" name="ScrapSpawn" type="ScrapSpawn" x="1888" y="768" width="32" height="32">
-   <properties>
-    <property name="scrap" type="int" value="1"/>
-    <property name="sync" value="USER"/>
-    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
-   </properties>
-  </object>
-  <object id="45" name="Dummy" type="Dummy" x="3136" y="768" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="egg1"/>
-    <property name="triggeringId" value="egg2"/>
-   </properties>
-  </object>
-  <object id="46" name="Dummy" type="Dummy" x="672" y="768" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="egg2"/>
-    <property name="triggeringId" value="egg1"/>
-   </properties>
-  </object>
-  <object id="47" name="MovePoint" type="MovePoint" x="1888" y="768" width="32" height="32">
-   <properties>
-    <property name="connections" value="EGGPLANT_SPAWNER"/>
-    <property name="speed" type="float" value="2.5"/>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="egg1"/>
-   </properties>
-  </object>
   <object id="48" name="Prefab" type="PrefabSpawner" x="1856" y="960" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="25"/>
@@ -347,6 +320,34 @@
     <property name="power" type="float" value="50"/>
     <property name="prefabId" value="Spawner"/>
     <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="objective">
+  <object id="44" name="ObjectiveSpawn" type="ObjectiveSpawn" x="1888" y="768" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="45" name="Dummy" type="Dummy" x="3136" y="768" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg1"/>
+    <property name="triggeringId" value="egg2"/>
+   </properties>
+  </object>
+  <object id="46" name="Dummy" type="Dummy" x="672" y="768" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg2"/>
+    <property name="triggeringId" value="egg1"/>
+   </properties>
+  </object>
+  <object id="47" name="MovePoint" type="MovePoint" x="1888" y="768" width="32" height="32">
+   <properties>
+    <property name="connections" value="EGGPLANT_SPAWNER"/>
+    <property name="speed" type="float" value="2.5"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="egg1"/>
    </properties>
   </object>
  </objectgroup>

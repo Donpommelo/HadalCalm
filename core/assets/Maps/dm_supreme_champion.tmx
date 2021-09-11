@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="42">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="42">
  <imagelayer id="4" name="Image Layer 1">
   <image source="../Images/supreme_champion.jpg" width="5184" height="3456"/>
  </imagelayer>
@@ -160,33 +160,6 @@
     <property name="triggeredId" value="w2"/>
    </properties>
   </object>
-  <object id="32" name="ScrapSpawn" type="ScrapSpawn" x="2496" y="320" width="32" height="32">
-   <properties>
-    <property name="scrap" type="int" value="1"/>
-    <property name="sync" value="USER"/>
-    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
-   </properties>
-  </object>
-  <object id="33" name="Dummy" type="Dummy" x="2816" y="320" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="egg1"/>
-    <property name="triggeringId" value="egg2"/>
-   </properties>
-  </object>
-  <object id="34" name="Dummy" type="Dummy" x="2208" y="320" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="egg2"/>
-    <property name="triggeringId" value="egg1"/>
-   </properties>
-  </object>
-  <object id="35" name="MovePoint" type="MovePoint" x="2496" y="320" width="32" height="32">
-   <properties>
-    <property name="connections" value="EGGPLANT_SPAWNER"/>
-    <property name="speed" type="float" value="2.5"/>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="egg1"/>
-   </properties>
-  </object>
   <object id="36" name="Prefab" type="PrefabWeapon" x="1184" y="2072" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
@@ -217,6 +190,34 @@
     <property name="sizeX" type="float" value="40"/>
     <property name="sizeY" type="float" value="40"/>
     <property name="triggeredId" value="eyeglow"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="objective">
+  <object id="32" name="ObjectiveSpawn" type="ObjectiveSpawn" x="2496" y="320" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="33" name="Dummy" type="Dummy" x="2816" y="320" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg1"/>
+    <property name="triggeringId" value="egg2"/>
+   </properties>
+  </object>
+  <object id="34" name="Dummy" type="Dummy" x="2208" y="320" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg2"/>
+    <property name="triggeringId" value="egg1"/>
+   </properties>
+  </object>
+  <object id="35" name="MovePoint" type="MovePoint" x="2496" y="320" width="32" height="32">
+   <properties>
+    <property name="connections" value="EGGPLANT_SPAWNER"/>
+    <property name="speed" type="float" value="2.5"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="egg1"/>
    </properties>
   </object>
  </objectgroup>

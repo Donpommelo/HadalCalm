@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="210" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="88">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="210" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="92">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -307,12 +307,12 @@
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="63" name="Dropthrough" type="Dropthrough" x="3552" y="1344" width="320" height="8">
+  <object id="63" name="Dropthrough" type="Dropthrough" x="3584" y="1344" width="320" height="8">
    <properties>
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="64" name="Dropthrough" type="Dropthrough" x="3200" y="1152" width="288" height="8">
+  <object id="64" name="Dropthrough" type="Dropthrough" x="3200" y="1152" width="320" height="8">
    <properties>
     <property name="independent" type="bool" value="true"/>
    </properties>
@@ -331,7 +331,7 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="67" name="Prefab" type="PrefabSpawner" x="3296" y="1056" width="96" height="96">
+  <object id="67" name="Prefab" type="PrefabSpawner" x="3312" y="1056" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="8"/>
     <property name="power" type="float" value="50"/>
@@ -442,6 +442,34 @@
     <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="80"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="objective">
+  <object id="88" name="ObjectiveSpawn" type="ObjectiveSpawn" x="3344" y="1712" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="89" name="Dummy" type="Dummy" x="3344" y="3696" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg1"/>
+    <property name="triggeringId" value="egg2"/>
+   </properties>
+  </object>
+  <object id="90" name="Dummy" type="Dummy" x="3344" y="624" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg2"/>
+    <property name="triggeringId" value="egg1"/>
+   </properties>
+  </object>
+  <object id="91" name="MovePoint" type="MovePoint" x="3344" y="1712" width="32" height="32">
+   <properties>
+    <property name="connections" value="EGGPLANT_SPAWNER"/>
+    <property name="speed" type="float" value="2.5"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="egg1"/>
    </properties>
   </object>
  </objectgroup>

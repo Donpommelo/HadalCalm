@@ -20,7 +20,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  *
  * @author Hufferty Hibbooey
  */
-public class CapturableFlag extends HitboxStrategy {
+public class FlagCapturable extends HitboxStrategy {
 
 	//this is the entity that this hbox is fixed to. Usually the user for melee hboxes. Some hboxes have another hboxes fixed to them like sticky bombs
 	private Player target;
@@ -43,7 +43,7 @@ public class CapturableFlag extends HitboxStrategy {
 
 	private final SpawnerFlag spawner;
 
-	public CapturableFlag(PlayState state, Hitbox proj, BodyData user, SpawnerFlag spawner, int teamIndex) {
+	public FlagCapturable(PlayState state, Hitbox proj, BodyData user, SpawnerFlag spawner, int teamIndex) {
 		super(state, proj, user);
 		this.spawner = spawner;
 		this.teamIndex = teamIndex;
