@@ -198,10 +198,10 @@ public class WeaponUtils {
 	}
 	
 	private static final int spiritSize = 25;
-	private static final float spiritHoming = 80;
-	private static final int spiritHomingRadius = 100;
+	private static final float spiritHoming = 120;
+	private static final int spiritHomingRadius = 40;
 	public static void releaseVengefulSpirits(PlayState state, Vector2 startPos, float spiritLifespan, float spiritDamage,
-											  float spiritKnockback, BodyData creator, Particle particle, short filter) {
+											  float spiritKnockback, BodyData creator, Particle particle, short filter, boolean attach) {
 		
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(spiritSize, spiritSize), spiritLifespan,
 			new Vector2(), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
@@ -209,7 +209,12 @@ public class WeaponUtils {
 		hbox.addStrategy(new ControllerDefault(state, hbox, creator));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, creator));
 		hbox.addStrategy(new DamageStandard(state, hbox, creator, spiritDamage, spiritKnockback, DamageTypes.MAGIC, DamageTypes.RANGED));
-		hbox.addStrategy(new HomingUnit(state, hbox, creator, spiritHoming, spiritHomingRadius));
+
+		if (attach) {
+			hbox.addStrategy(new HomingUnit(state, hbox, creator, spiritHoming, spiritHomingRadius).setFixedUntilHome(true).setTarget(creator.getSchmuck()));
+		} else {
+			hbox.addStrategy(new HomingUnit(state, hbox, creator, spiritHoming, spiritHomingRadius));
+		}
 		hbox.addStrategy(new CreateParticles(state, hbox, creator, particle, 0.0f, 1.0f).setParticleColor(HadalColor.RANDOM));
 		
 		hbox.addStrategy(new DieSound(state, hbox, creator, SoundEffect.DARKNESS1, 0.25f));

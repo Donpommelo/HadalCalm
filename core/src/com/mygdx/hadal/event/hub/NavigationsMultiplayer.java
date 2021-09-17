@@ -129,7 +129,7 @@ public class NavigationsMultiplayer extends HubEvent {
 
 			if (!c.isInvisibleInHub()) {
 				final GameMode selected = c;
-				Text itemChoose = new Text(c.toString(), 0, 0, true);
+				Text itemChoose = new Text(c.getInfo().getName(), 0, 0, true);
 
 				itemChoose.addListener(new ClickListener() {
 

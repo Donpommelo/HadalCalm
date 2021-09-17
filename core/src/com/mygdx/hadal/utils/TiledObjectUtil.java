@@ -222,7 +222,9 @@ public class TiledObjectUtil {
 				Particle.valueOf(object.getProperties().get("particle", "NOTHING", String.class)),
 				object.getProperties().get("speed", 1.0f, float.class),
 				object.getProperties().get("duration", 1.0f, float.class),
-				object.getProperties().get("scale", 1.0f, float.class));
+				object.getProperties().get("scale", 1.0f, float.class),
+					object.getProperties().get("color", "NOTHING", String.class),
+					object.getProperties().get("team", -1, Integer.class));
 			case "SchmuckSpawn" -> e = new SpawnerSchmuck(state, position, size,
 				object.getProperties().get("enemyId", String.class),
 				object.getProperties().get("amount", 1, int.class),
@@ -393,6 +395,8 @@ public class TiledObjectUtil {
 			case "FootballSpawn" -> e = new FootballSpawner(state, position, size);
 			case "FlagSpawn" -> e = new SpawnerFlag(state, position, size,
 				object.getProperties().get("teamIndex", 0, Integer.class));
+			case "FlagBlock" -> e = new FlagBlocker(state, position, size,
+					object.getProperties().get("teamIndex", 0, Integer.class));
 			case "ObjectiveSpawn" -> e = new SpawnerObjective(state, position, size);
 			case "Armory" -> e = new Armory(state, position, size,
 				object.getProperties().get("title", "Armory", String.class),

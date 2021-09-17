@@ -40,7 +40,7 @@
 	"descriptionLong": "Cycle through all 18 weapons to win the game."
 },
 "EGGPLANTS": {
-	"name": "Eggplants",
+	"name": "Eggplant Hunt",
 	"description": "The player with the most eggplants at the end of the game wins.",
 	"descriptionLong": "Eggplants are dropped by a spawner in the map.\nPlayers drop some of their eggplants on death."
 },

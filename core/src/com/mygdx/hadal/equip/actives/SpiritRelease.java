@@ -33,10 +33,13 @@ public class SpiritRelease extends ActiveItem {
 		SoundEffect.DARKNESS2.playUniversal(state, user.getPlayer().getPixelPosition(), 0.2f, false);
 		
 		spiritPos.set(user.getPlayer().getPixelPosition()).add(0, 100);
-		WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, user, Particle.SHADOW_PATH, user.getPlayer().getHitboxfilter());
+		WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback,
+				user, Particle.SHADOW_PATH, user.getPlayer().getHitboxfilter(), true);
 		spiritPos.set(user.getPlayer().getPixelPosition()).add(100, 0);
-		WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, user, Particle.SHADOW_PATH, user.getPlayer().getHitboxfilter());
+		WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback,
+				user, Particle.SHADOW_PATH, user.getPlayer().getHitboxfilter(), true);
 		spiritPos.set(user.getPlayer().getPixelPosition()).add(-100, 0);
-		WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, user, Particle.SHADOW_PATH, user.getPlayer().getHitboxfilter());
+		WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback,
+				user, Particle.SHADOW_PATH, user.getPlayer().getHitboxfilter(), true);
 	}
 }

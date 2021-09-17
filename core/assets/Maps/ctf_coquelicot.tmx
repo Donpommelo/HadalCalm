@@ -596,7 +596,7 @@
     <property name="interval" type="float" value="8"/>
     <property name="power" type="float" value="50"/>
     <property name="prefabId" value="Spawner"/>
-    <property name="triggeredId" value="f9"/>
+    <property name="triggeredId" value="f10"/>
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
@@ -728,12 +728,6 @@
    <properties>
     <property name="teamIndex" type="int" value="0"/>
     <property name="triggeringId" value="playerstart"/>
-   </properties>
-  </object>
-  <object id="66" name="Prefab" type="PrefabSpecialSettingSetter" x="2016" y="672" width="32" height="32">
-   <properties>
-    <property name="prefabId" value="SpecialSettingSetter"/>
-    <property name="triggeredId" value=""/>
    </properties>
   </object>
   <object id="223" name="Start" type="Start" x="9664" y="2368" width="32" height="32">

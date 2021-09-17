@@ -2,6 +2,7 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.event.FlagBlocker;
 import com.mygdx.hadal.event.SpawnerFlag;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -103,6 +104,14 @@ public class FlagCapturable extends HitboxStrategy {
 					}
 				}
 			}
+		} else {
+			if (fixB != null) {
+				if (fixB.getEntity() instanceof FlagBlocker) {
+					if (((FlagBlocker) fixB.getEntity()).getTeamIndex() != teamIndex) {
+						dropFlag();
+					}
+				}
+			}
 		}
 	}
 
@@ -113,15 +122,7 @@ public class FlagCapturable extends HitboxStrategy {
 		//if the flag holder dies, the flag drops and will return after some time
 		if (captured) {
 			if (!target.isAlive()) {
-				captured = false;
-				hbox.getBody().setGravityScale(1.0f);
-				returnTimer = returnTime;
-
-				if (teamIndex < AlignmentFilter.currentTeams.length) {
-					String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
-					state.getKillFeed().addNotification(teamColor + " FLAG WAS DROPPED!", true);
-				}
-
+				dropFlag();
 			} else {
 				hbLocation.set(target.getPosition());
 				hbox.setTransform(hbLocation, hbox.getAngle());
@@ -138,6 +139,17 @@ public class FlagCapturable extends HitboxStrategy {
 					state.getKillFeed().addNotification(teamColor + " FLAG WAS RETURNED!" , true);
 				}
 			}
+		}
+	}
+
+	private void dropFlag() {
+		captured = false;
+		hbox.getBody().setGravityScale(1.0f);
+		returnTimer = returnTime;
+
+		if (teamIndex < AlignmentFilter.currentTeams.length) {
+			String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
+			state.getKillFeed().addNotification(teamColor + " FLAG WAS DROPPED!", true);
 		}
 	}
 }

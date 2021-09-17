@@ -1,5 +1,7 @@
 package com.mygdx.hadal.effects;
 
+import java.util.HashMap;
+
 /**
  * A particle color represents the rgb of a color that a particle/sprite can be tinted
  * @author Nardelia Noms
@@ -52,5 +54,14 @@ public enum HadalColor {
 	public float getG() { return g; }
 	
 	public float getB() { return b; }
-	
+
+	private static final HashMap<String, HadalColor> ColorsByName = new HashMap<>();
+	static {
+		for (HadalColor c: HadalColor.values()) {
+			ColorsByName.put(c.toString(), c);
+		}
+	}
+	public static HadalColor getByName(String s) {
+		return ColorsByName.getOrDefault(s, NOTHING);
+	}
 }

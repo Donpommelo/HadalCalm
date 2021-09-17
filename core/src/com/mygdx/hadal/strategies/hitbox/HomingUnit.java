@@ -2,6 +2,7 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -40,11 +41,27 @@ public class HomingUnit extends HitboxStrategy {
 	
 	private static final float pushInterval = 1 / 60f;
 	private float controllerCount = 0;
-	
+
+	private boolean fixedUntilHome;
+	private HadalEntity target;
+
 	public HomingUnit(PlayState state, Hitbox proj, BodyData user, float homePower, int homeRadius) {
 		super(state, proj, user);
 		this.homePower = homePower;
 		this.homeRadius = homeRadius;
+	}
+
+	private final Vector2 center = new Vector2();
+	private final Vector2 hbLocation = new Vector2();
+	@Override
+	public void create() {
+		if (fixedUntilHome) {
+			if (target != null) {
+				if (target.isAlive()) {
+					center.set(target.getPosition()).sub(hbox.getPosition());
+				}
+			}
+		}
 	}
 	
 	private final Vector2 entityLocation = new Vector2();
@@ -103,7 +120,16 @@ public class HomingUnit extends HitboxStrategy {
 					}
 				}
 				return true;
-			}, entityLocation.x - homeRadius, entityLocation.y - homeRadius, entityLocation.x + homeRadius, entityLocation.y + homeRadius);
+			}, entityLocation.x - homeRadius, entityLocation.y - homeRadius,
+			entityLocation.x + homeRadius, entityLocation.y + homeRadius);
+			if (fixedUntilHome) {
+				if (target != null) {
+					if (target.isAlive()) {
+						hbLocation.set(target.getPosition()).add(center);
+						hbox.setTransform(hbLocation, hbox.getAngle());
+					}
+				}
+			}
 		}
 	}
 
@@ -158,6 +184,16 @@ public class HomingUnit extends HitboxStrategy {
 
 	public HomingUnit setDelay(float delay) {
 		this.delay = delay;
+		return this;
+	}
+
+	public HomingUnit setFixedUntilHome(boolean fixedUntilHome) {
+		this.fixedUntilHome = fixedUntilHome;
+		return this;
+	}
+
+	public HomingUnit setTarget(HadalEntity target) {
+		this.target = target;
 		return this;
 	}
 }

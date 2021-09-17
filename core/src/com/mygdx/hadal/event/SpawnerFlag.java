@@ -16,6 +16,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
 import com.mygdx.hadal.strategies.hitbox.FlagCapturable;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
@@ -110,6 +111,7 @@ public class SpawnerFlag extends Event {
 
         flag.addStrategy(new ControllerDefault(state, flag, state.getWorldDummy().getBodyData()));
         flag.addStrategy(new FlagCapturable(state, flag, state.getWorldDummy().getBodyData(), this, teamIndex));
+        flag.addStrategy(new DropThroughPassability(state, flag, state.getWorldDummy().getBodyData()));
 
         Vector3 color = new Vector3();
 

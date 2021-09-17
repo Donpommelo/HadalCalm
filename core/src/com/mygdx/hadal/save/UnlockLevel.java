@@ -27,6 +27,7 @@ public enum UnlockLevel {
 	DM_WETWORKS("Maps/dm_wetworks.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
 
 	CTF_COQUELICOT("Maps/ctf_coquelicot.tmx", GameMode.CTF, GameMode.DEATHMATCH),
+	CTF_FILTRATION("Maps/ctf_filtration.tmx", GameMode.CTF, GameMode.DEATHMATCH),
 
 	BOSS1("Maps/Boss1.tmx", GameMode.BOSS),
 	BOSS2("Maps/Boss2.tmx", GameMode.BOSS),

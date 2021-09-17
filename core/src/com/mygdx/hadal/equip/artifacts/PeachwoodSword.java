@@ -31,9 +31,13 @@ public class PeachwoodSword extends Artifact {
 				SoundEffect.DARKNESS2.playUniversal(state, vic.getSchmuck().getPixelPosition(), 0.2f, false);
 
 				if (vic instanceof PlayerBodyData) {
-					WeaponUtils.releaseVengefulSpirits(state, vic.getSchmuck().getPixelPosition(), spiritLifespan, spiritDamagePlayer, spiritKnockback, inflicted, Particle.SHADOW_PATH, inflicted.getSchmuck().getHitboxfilter());
+					WeaponUtils.releaseVengefulSpirits(state, vic.getSchmuck().getPixelPosition(), spiritLifespan,
+							spiritDamagePlayer, spiritKnockback, inflicted, Particle.SHADOW_PATH,
+							inflicted.getSchmuck().getHitboxfilter(), false);
 				} else {
-					WeaponUtils.releaseVengefulSpirits(state, vic.getSchmuck().getPixelPosition(), spiritLifespan, spiritDamageEnemy, spiritKnockback, inflicted, Particle.SHADOW_PATH, inflicted.getSchmuck().getHitboxfilter());
+					WeaponUtils.releaseVengefulSpirits(state, vic.getSchmuck().getPixelPosition(), spiritLifespan,
+							spiritDamageEnemy, spiritKnockback, inflicted, Particle.SHADOW_PATH,
+							inflicted.getSchmuck().getHitboxfilter(), false);
 				}
 				
 			}
@@ -42,7 +46,9 @@ public class PeachwoodSword extends Artifact {
 			public void onDeath(BodyData perp) {
 				SoundEffect.DARKNESS2.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.2f, false);
 
-				WeaponUtils.releaseVengefulSpirits(state, inflicted.getSchmuck().getPixelPosition(), spiritLifespan, spiritDamagePlayer, spiritKnockback, inflicted, Particle.SHADOW_PATH, inflicted.getSchmuck().getHitboxfilter());
+				WeaponUtils.releaseVengefulSpirits(state, inflicted.getSchmuck().getPixelPosition(), spiritLifespan,
+						spiritDamagePlayer, spiritKnockback, inflicted, Particle.SHADOW_PATH,
+						inflicted.getSchmuck().getHitboxfilter(), false);
 			}
 		};
 		return enchantment;

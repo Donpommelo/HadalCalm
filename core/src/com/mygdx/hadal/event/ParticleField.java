@@ -2,13 +2,15 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -32,12 +34,17 @@ public class ParticleField extends Event {
 	private float currParticleSpawnTimer;
 	private final float spawnTimerLimit;
 	private final float scale;
+	private final HadalColor color;
+	private final int teamColorIndex;
 	
-	public ParticleField(PlayState state, Vector2 startPos, Vector2 size, Particle particle, float speed, float duration, float scale) {
+	public ParticleField(PlayState state, Vector2 startPos, Vector2 size, Particle particle, float speed, float duration, float scale,
+				 String color, int teamColorIndex) {
 		super(state, startPos, size);
 		this.particle = particle;
 		this.duration = duration;
 		this.scale = scale;
+		this.color = HadalColor.getByName(color);
+		this.teamColorIndex = teamColorIndex;
 		spawnTimerLimit = 4096f / (size.x * size.y) / speed;
 	}
 	
@@ -60,7 +67,16 @@ public class ParticleField extends Event {
 			currParticleSpawnTimer -= spawnTimerLimit;
 			float randX = (MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x;
 			float randY = (MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y;
-			new ParticleEntity(state, randLocation.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC).setScale(scale);
+			ParticleEntity particleEntity = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC)
+					.setScale(scale);
+			if (!color.equals(HadalColor.NOTHING)) {
+				particleEntity.setColor(color);
+			} else if (teamColorIndex != -1) {
+				if (teamColorIndex < AlignmentFilter.currentTeams.length) {
+					HadalColor teamColor = AlignmentFilter.currentTeams[teamColorIndex].getColor1();
+					particleEntity.setColor(teamColor);
+				}
+			}
 		}
 	}
 	
@@ -77,8 +93,17 @@ public class ParticleField extends Event {
 			currParticleSpawnTimer -= spawnTimerLimit;
 			float randX = (MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x;
 			float randY = (MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y;
-			ParticleEntity field = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC);
-			((ClientState) state).addEntity(field.getEntityID().toString(), field, false, ObjectSyncLayers.EFFECT);
+			ParticleEntity particleEntity = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC);
+			((ClientState) state).addEntity(particleEntity.getEntityID().toString(), particleEntity, false, ObjectSyncLayers.EFFECT);
+
+			if (!color.equals(HadalColor.NOTHING)) {
+				particleEntity.setColor(color);
+			} else if (teamColorIndex != -1) {
+				if (teamColorIndex < AlignmentFilter.currentTeams.length) {
+					HadalColor teamColor = AlignmentFilter.currentTeams[teamColorIndex].getColor1();
+					particleEntity.setColor(teamColor);
+				}
+			}
 		}
 	}
 	

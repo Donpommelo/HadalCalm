@@ -617,11 +617,11 @@ public class Boss1 extends EnemyFloating {
 				SoundEffect.DARKNESS2.playUniversal(state, getPixelPosition(), 0.4f, false);
 				
 				spiritPos.set(getPixelPosition()).add(0, 100);
-				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, getBodyData(), Particle.BRIGHT, getHitboxfilter());
+				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, getBodyData(), Particle.BRIGHT, getHitboxfilter(), false);
 				spiritPos.set(getPixelPosition()).add(100, 0);
-				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, getBodyData(), Particle.BRIGHT, getHitboxfilter());
+				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, getBodyData(), Particle.BRIGHT, getHitboxfilter(), false);
 				spiritPos.set(getPixelPosition()).add(-100, 0);
-				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, getBodyData(), Particle.BRIGHT, getHitboxfilter());
+				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, getBodyData(), Particle.BRIGHT, getHitboxfilter(), false);
 			}
 		});
 	}

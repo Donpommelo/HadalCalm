@@ -426,6 +426,15 @@
 		"PVP"
 	]
 },
+"CTF_FILTRATION": {
+	"name": "FILTRATION",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+		"PVP"
+	]
+},
 "SSTUNICATE1": {
 	"name": "S.S. TUNICATE",
 	"description": "",

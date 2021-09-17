@@ -29,7 +29,7 @@ public class Puffballer extends RangedWeapon {
 	private static final float recoil = 2.5f;
 	private static final float knockback = 5.0f;
 	private static final float projectileSpeed = 8.0f;
-	private static final float projectileSpeed2 = 24.0f;
+	private static final float projectileSpeed2 = 28.0f;
 	private static final Vector2 projectileSize = new Vector2(40, 40);
 	private static final Vector2 projectileSize2 = new Vector2(60, 60);
 	private static final float lifespan = 5.0f;
@@ -38,7 +38,7 @@ public class Puffballer extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_TORPEDO;
 	private static final Sprite eventSprite = Sprite.P_TORPEDO;
 
-	private static final float sporeFragLifespan = 4.0f;
+	private static final float sporeFragLifespan = 5.0f;
 	private static final float sporeFragDamage = 10.0f;
 	private static final float sporeFragDamage2 = 15.0f;
 	private static final float sporeFragKB = 8.0f;
@@ -47,12 +47,12 @@ public class Puffballer extends RangedWeapon {
 
 	private static final int sporeFragNumber = 10;
 	private static final int sporeSpread = 16;
-	private static final float fragSpeed = 8.0f;
+	private static final float fragSpeed = 12.0f;
 	private static final float fragVeloSpread = 0.4f;
 	private static final float fragDampen = 2.0f;
 
 	private static final float deathDelay = 0.8f;
-	private static final float homePower = 50.0f;
+	private static final float homePower = 75.0f;
 
 	//list of hitboxes created
 	private final Queue<Hitbox> puffballs = new Queue<>();
