@@ -143,6 +143,8 @@ public class ResultsState extends GameState {
 			int cmp = (b.isWonLast() ? 1 : 0) - (a.isWonLast() ? 1 : 0);
 			if (cmp == 0) { cmp = b.getTeamScore() - a.getTeamScore(); }
 			if (cmp == 0) { cmp = b.getScore() - a.getScore(); }
+			if (cmp == 0) { cmp = b.getKills() - a.getKills(); }
+			if (cmp == 0) { cmp = a.getDeaths() - b.getDeaths(); }
 			return cmp;
 		});
 

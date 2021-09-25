@@ -336,6 +336,8 @@ public class Packets {
 		public SyncKeyStrokes() {}
 
 		/**
+		 * This is sent from thte client to the server periodically to indicate what keys are currently held
+		 * This also includes mouse information
 		 * @param mouseX: X-coordinate of client's mouse
 		 * @param mouseY: Y-coordinate of client's mouse
 		 * @param actions: Array of actions whose button is currently held

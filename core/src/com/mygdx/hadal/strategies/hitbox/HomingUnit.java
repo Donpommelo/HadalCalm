@@ -122,6 +122,8 @@ public class HomingUnit extends HitboxStrategy {
 				return true;
 			}, entityLocation.x - homeRadius, entityLocation.y - homeRadius,
 			entityLocation.x + homeRadius, entityLocation.y + homeRadius);
+
+			//fixed until home makes the hbox follow the target (not home target) until it finds a homeing target.
 			if (fixedUntilHome) {
 				if (target != null) {
 					if (target.isAlive()) {

@@ -210,6 +210,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new ContactUnitDie(state, hbox, creator));
 		hbox.addStrategy(new DamageStandard(state, hbox, creator, spiritDamage, spiritKnockback, DamageTypes.MAGIC, DamageTypes.RANGED));
 
+		//attached hboxes will follow the player until they have a target to home in on
 		if (attach) {
 			hbox.addStrategy(new HomingUnit(state, hbox, creator, spiritHoming, spiritHomingRadius).setFixedUntilHome(true).setTarget(creator.getSchmuck()));
 		} else {

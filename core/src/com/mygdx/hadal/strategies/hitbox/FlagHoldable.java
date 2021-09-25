@@ -11,6 +11,10 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
+ *  This strategy indicates that a hbox is used as a flag in kingmaker mode. These flags are similar to ctf flags, but
+ *  give the player score gradually when held.
+ *
+ *  @author Himbino Hectmaker
  */
 public class FlagHoldable extends HitboxStrategy {
 
@@ -69,6 +73,7 @@ public class FlagHoldable extends HitboxStrategy {
 				hbLocation.set(target.getPosition());
 				hbox.setTransform(hbLocation, hbox.getAngle());
 
+				//periodically score when holding the flag
 				timeCount += delta;
 				if (timeCount >= 1.0f) {
 					timeCount = 0;

@@ -68,7 +68,7 @@
   </object>
   <object id="19" name="HboxSpawn" type="HboxSpawn" x="2464" y="920" width="32" height="32">
    <properties>
-    <property name="damage" type="float" value="12"/>
+    <property name="damage" type="float" value="25"/>
     <property name="dieSchmuck" type="bool" value="false"/>
     <property name="dieWall" type="bool" value="false"/>
     <property name="friction" type="float" value="0"/>

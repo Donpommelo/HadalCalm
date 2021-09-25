@@ -24,7 +24,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * particle: String name of the particle effect to use. Default: NOTHING
  * speed: float rate that particles are spawned. Default: 1.0f
  * duration: float duration of each particle effect. Default: 1.0f
- * 
+ * scale: float size multiplier on particle size. Default: 1.0f
+ * color: String name of color to tint particle. Default: NOTHING
+ * teamColorIndex: int team. If not -1, particles will be colored equal to team color
+ *
  * @author Peggplant Pottercups
  */
 public class ParticleField extends Event {
@@ -69,6 +72,8 @@ public class ParticleField extends Event {
 			float randY = (MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y;
 			ParticleEntity particleEntity = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC)
 					.setScale(scale);
+
+			//tint particles according to input color or team color
 			if (!color.equals(HadalColor.NOTHING)) {
 				particleEntity.setColor(color);
 			} else if (teamColorIndex != -1) {

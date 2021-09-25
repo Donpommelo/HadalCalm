@@ -1068,7 +1068,7 @@ public class PlayState extends GameState {
 		} else {
 			HadalGame.server.registerKill(null, player);
 		}
-
+		Collection<User> users = HadalGame.server.getUsers().values();
 		if (!unlimitedLife) {
 			String resultsText = "";
 			
@@ -1078,10 +1078,10 @@ public class PlayState extends GameState {
 
 			//in pvp, game ends if all players left are on the same team.
 			// (if only 1 player, do not register end until all lives are used. mostly for testing)
-			if (pvp && HadalGame.server.getUsers().size() > 1) {
+			if (pvp && users.size() > 1) {
 				
 				short factionLeft = -1;
-				for (User user: HadalGame.server.getUsers().values()) {
+				for (User user: users) {
 					if (!user.isSpectator()) {
 						if (user.getScores().getLives() > 0) {
 							Player playerLeft = user.getPlayer();
@@ -1116,7 +1116,7 @@ public class PlayState extends GameState {
 				resultsText = "YOU DECEASED";
 				
 				//coop levels end when all players are dead
-				for (User user : HadalGame.server.getUsers().values()) {
+				for (User user : users) {
 					if (!user.isSpectator()) {
 						if (user.getScores().getLives() > 0) {
 							allded = false;
@@ -1129,7 +1129,7 @@ public class PlayState extends GameState {
 			//if the match is over (all players dead in co-op or all but one team dead in pvp), all players go to results screen
 			if (allded) {
 
-				for (User user : HadalGame.server.getUsers().values()) {
+				for (User user : users) {
 					if (!user.isSpectator()) {
 						SavedPlayerFields score = user.getScores();
 						if (teamMode != 0) {
@@ -1191,8 +1191,9 @@ public class PlayState extends GameState {
 		String resultsText = text;
 
 		//magic word indicates that we generate the results text dynamically based on score
+		Collection<User> users = HadalGame.server.getUsers().values();
 		if (text.equals(ResultsState.magicWord)) {
-			for (User user: HadalGame.server.getUsers().values()) {
+			for (User user: users) {
 				if (!user.isSpectator()) {
 					scores.add(user.getScores());
 
@@ -1229,7 +1230,7 @@ public class PlayState extends GameState {
 				if (winningTeam.isTeam()) {
 					resultsText = winningTeam + " WINS";
 				} else {
-					for (User user: HadalGame.server.getUsers().values()) {
+					for (User user: users) {
 						if (!user.isSpectator()) {
 							if (user.getHitBoxFilter().equals(winningTeam)) {
 								resultsText = user.getScores().getNameShort() + " WINS";
@@ -1244,7 +1245,7 @@ public class PlayState extends GameState {
 			AlignmentFilter winningTeam = teamScoresList.get(0);
 			SavedPlayerFields winningScore = scores.get(0);
 
-			for (User user : HadalGame.server.getUsers().values()) {
+			for (User user : users) {
 				if (!user.isSpectator()) {
 					SavedPlayerFields score = user.getScores();
 					if (teamMode != 0) {
@@ -1257,22 +1258,23 @@ public class PlayState extends GameState {
 							faction = user.getTeamFilter();
 						}
 
-						if (teamKills.containsKey(faction)) {
-							score.setTeamScore(teamKills.get(faction));
+						if (teamScores.containsKey(faction)) {
+							score.setTeamScore(teamScores.get(faction));
 						}
 
 						if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
 							score.win();
 						}
 					} else {
-						if (score.getKills() == winningScore.getKills() && score.getDeaths() == winningScore.getDeaths()) {
+						if (score.getScore() == winningScore.getScore() && score.getKills() == winningScore.getKills()
+								&& score.getDeaths() == winningScore.getDeaths()) {
 							score.win();
 						}
 					}
 				}
 			}
 		} else if (victory) {
-            for (User user: HadalGame.server.getUsers().values()) {
+            for (User user: users) {
                 if (!user.isSpectator()) {
 					user.getScores().win();
 				}

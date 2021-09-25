@@ -20,10 +20,15 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
+ * This is a multi-use event that performs a variety of functions for special modes that require a central objective.
+ * In these modes (eggplant hunt, kingmaker), this event serves as the objective.
+ * Due to there only being a few modes, this event simply contains the logic for each mode.
+ *
+ *  @author Kiwin Krinoceros
  */
 public class SpawnerObjective extends Event {
 
-	//How frequently will this event trigger its connected event?
+	//How frequently will this event spawn eggplants in eggplant hunt?
 	private static final float interval = 2.0f;
 
 	//These keep track of how long until this triggers its connected event and how many times it can trigger again.
@@ -40,6 +45,7 @@ public class SpawnerObjective extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 1, 0, true, true, Constants.BIT_SENSOR, (short) (0), (short) 0, true, eventData);
 		body.setType(BodyType.KinematicBody);
 
+		//in eggplant mode, this event should be visible in the objective ui
 		if (state.getMode().equals(GameMode.EGGPLANTS)) {
 			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_EGGPLANT, true, true);
 			if (state.isServer()) {
@@ -54,6 +60,8 @@ public class SpawnerObjective extends Event {
 	private static final float spawnDelay = 2.0f;
 	@Override
 	public void controller(float delta) {
+
+		//in eggplant mode, spawn scrap periodically
 		if (state.getMode().equals(GameMode.EGGPLANTS)) {
 			timeCount += delta;
 			if (timeCount >= interval) {
@@ -62,6 +70,7 @@ public class SpawnerObjective extends Event {
 			}
 		}
 
+		//in kingmaker, spawn a flag after some time if there is not one active or after a delay after it has been dropped.
 		if (state.getMode().equals(GameMode.KINGMAKER)) {
 			if (spawnCountdown > 0.0f) {
 				spawnCountdown -= delta;

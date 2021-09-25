@@ -24,6 +24,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * hbox: Boolean that describes whether hitboxes can pass through this. Optional. Default: true
  * event: Boolean that describes whether this sensor touches events. Optional. Default: true
  * enemy: Boolean that describes whether this sensor touches enemies. Optional. Default: true
+ * teamIndex: Int index of team that should be unable to pass through this platform. (if 1-, affects all teams) Default: -1
  * @author Brarpslinger Briberdash
  */
 public class Platform extends Event {

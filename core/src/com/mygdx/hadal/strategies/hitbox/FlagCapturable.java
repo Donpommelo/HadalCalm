@@ -106,6 +106,8 @@ public class FlagCapturable extends HitboxStrategy {
 			}
 		} else {
 			if (fixB != null) {
+
+				//if touching a "flag blocker" whule held, the flag is automatically dropped
 				if (fixB.getEntity() instanceof FlagBlocker) {
 					if (((FlagBlocker) fixB.getEntity()).getTeamIndex() != teamIndex) {
 						dropFlag();

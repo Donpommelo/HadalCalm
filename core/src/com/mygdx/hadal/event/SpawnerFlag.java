@@ -138,6 +138,7 @@ public class SpawnerFlag extends Event {
     private float messageCount = 0.0f;
     public void triggerFailMessage() {
 
+        //message is activated when attempting to capture flag while enemy holds your flag
         if (messageCount <= 0.0f) {
             if (teamIndex < AlignmentFilter.currentTeams.length) {
                 messageCount = messageCooldown;
