@@ -22,16 +22,16 @@ import java.util.ArrayList;
 public class ClientPlayer extends Player {
 
 	//this represents how precisely we lerp towards the server position
-	private static final float CONVERGE_MULTIPLIER = 0.05f;
+	private static final float CONVERGE_MULTIPLIER = 0.1f;
 	
 	//these are the amounts of latency in seconds under which the prediction strategy will kick in.
-	private static final float LATENCY_THRESHOLD_MIN = 0.1f;
-	private static final float LATENCY_THRESHOLD_MAX = 0.4f;
+	private static final float LATENCY_THRESHOLD_MIN = 0.01f;
+	private static final float LATENCY_THRESHOLD_MAX = 0.04f;
 	
 	//tolerance variables. if the prediction is incorrect by more than these thresholds, we must adjust our predictions
 //	private static final float VELO_TOLERANCE = 200.0f;
 	private static final float DIST_TOLERANCE = 12.0f;
-	
+
 	public ClientPlayer(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
 		super(state, startPos, name, startLoadout, oldData, connID, reset, start);
 	}
@@ -75,7 +75,7 @@ public class ClientPlayer extends Player {
 			if (p.timestamp < lastTimestamp) { return; }
 
 			lastTimestamp = p.timestamp;
-			float latency = ((ClientState) state).getServerTime() - p.timestamp;
+			float latency = ((ClientState) state).getLatency();
 			float dt = Math.max(0.0f, historyDuration - latency);
 
 			historyDuration -= dt;
@@ -184,7 +184,7 @@ public class ClientPlayer extends Player {
 			frame.velocity.set(getLinearVelocity());
 			frames.add(frame);
 			historyDuration += delta;
-			
+
 			//we do our latency check here. if our latency is too high/low, we switch to/away our predicting mode
 			float latency = ((ClientState) state).getLatency();
 
@@ -193,14 +193,14 @@ public class ClientPlayer extends Player {
 			} else if (!predicting && latency > LATENCY_THRESHOLD_MAX) {
 				predicting = true;
 			}
-			
+
 			//when predicting, we extrapolate our position based on our prediction plus our current velocity given the current latency.
 			if (predicting) {
 				
 				extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(getLinearVelocity())
 						.scl((CONVERGE_MULTIPLIER) * latency));
 				fug.set(extrapolatedPosition);
-				
+
 				float t;
 				t = delta / (latency * (1 + CONVERGE_MULTIPLIER));
 
@@ -215,7 +215,7 @@ public class ClientPlayer extends Player {
 				.sub(((ClientState) state).getMousePosition().x, ((ClientState) state).getMousePosition().y);
 		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
 	}
-	
+
 	@Override
 	public void clientInterpolation() {
 		
