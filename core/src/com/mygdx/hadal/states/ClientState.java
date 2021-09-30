@@ -2,6 +2,7 @@ package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIPlayClient;
@@ -54,7 +55,8 @@ public class ClientState extends PlayState {
 
 	//This contains the position of the client's mouse, to be sent to the server
 	private final Vector3 mousePosition = new Vector3();
-	
+	private final Vector2 playerPosition = new Vector2();
+
 	//This is the time since the last missed create packet we send the server. Kept track of to avoid sending too many at once.
 	private float timeSinceLastMissedCreate;
 	
@@ -117,6 +119,10 @@ public class ClientState extends PlayState {
 	private float lastLatencyCheck, latency;
 	private static final float LatencyCheck = 1.0f;
 
+	//this is the current time on the server. Different from timer, b/c that is delayed so we can interpolate b/w
+	// old snapshots.
+	private float serverTime;
+
 	private float inputAccumulator;
 	private static final float inputSyncTime = 1 / 60f;
 
@@ -141,7 +147,12 @@ public class ClientState extends PlayState {
 				mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 				HadalGame.viewportCamera.unproject(mousePosition);
 
-				HadalGame.client.sendUDP(new Packets.SyncKeyStrokes(mousePosition.x, mousePosition.y,
+				if (player != null) {
+					playerPosition.set(player.getPixelPosition());
+				}
+
+				HadalGame.client.sendUDP(new Packets.SyncKeyStrokes(
+						mousePosition.x, mousePosition.y, playerPosition.x, playerPosition.y,
 						((ClientController) controller).getButtonsHeld().toArray(new PlayerAction[0]), getTimer()));
 				((ClientController) controller).postKeystrokeSync();
 			}
@@ -368,16 +379,6 @@ public class ClientState extends PlayState {
 	public void syncEntity(String entityId, Object o, float age, float timestamp) {
 		SyncPacket packet = new SyncPacket(entityId, o, age, timestamp);
 		sync.add(packet);
-		
-		//if our timer is ahead, we set it to be less than the server so we can linear interpolate to predicted position
-		if (getTimer() > timestamp) {
-			setTimer(timestamp - 2 * PlayState.syncTime);
-		}
-		
-		//if our timer is lagging too far behind, we make it catch up
-		if (getTimer() < timestamp - 2 * PlayState.syncTime) {
-			setTimer(timestamp - 2 * PlayState.syncTime);
-		}
 	}
 
 	/**
@@ -401,10 +402,21 @@ public class ClientState extends PlayState {
 	}
 	
 	/**
-	 * This is run when the server responds to our latency check packet. We calculate our ping and save i.
+	 * This is run when the server responds to our latency check packet. We calculate our ping and save it.
 	 */
-	public void syncLatency() {
+	public void syncLatency(float serverTime) {
 		latency = getTimer() - lastLatencyCheck;
+		this.serverTime = serverTime + latency / 2;
+
+		//if our timer is ahead, we set it to be less than the server so we can linear interpolate to predicted position
+		if (getTimer() > serverTime) {
+			setTimer(serverTime - 2 * PlayState.syncTime);
+		}
+
+		//if our timer is lagging too far behind, we make it catch up
+		if (getTimer() < serverTime - 2 * PlayState.syncTime) {
+			setTimer(serverTime - 2 * PlayState.syncTime);
+		}
 	}
 	
 	@Override
@@ -467,7 +479,9 @@ public class ClientState extends PlayState {
 	public UIPlayClient getUiPlay() { return (UIPlayClient) uiPlay; }
 
 	public float getLatency() { return latency; }
-	
+
+	public float getServerTime() { return serverTime; }
+
 	public Vector3 getMousePosition() { return mousePosition; }
 
 	/**

@@ -238,7 +238,7 @@ public abstract class HadalEntity {
 		if (o instanceof Packets.SyncEntity p) {
 			if (body != null) {
 				copyServerInstantly = p.instant;
-				
+
 				//if copying instantly, set transform. Otherwise, save the position, angle, and set the velocity of the most recent snapshot and the one before it
 				if (copyServerInstantly) {
 					setTransform(p.pos, p.angle);
@@ -288,6 +288,8 @@ public abstract class HadalEntity {
 					prevTimeStamp = nextTimeStamp;
 					nextTimeStamp = (float) o[1];
 				}
+
+				//its ok to sync out of order packets, b/c the interpolation won't do anything
 				onClientSync(o[0]);
 			} else {
 				break;
@@ -313,19 +315,17 @@ public abstract class HadalEntity {
 				
 				float elapsedTime = (state.getTimer() - prevTimeStamp) / (nextTimeStamp - prevTimeStamp);
 				
-				if (elapsedTime <= 1.0f) {
-					if (elapsedTime >= 0.0f) {
-						if (prevPos.dst2(serverPos) > maxLerpRange) {
-							setTransform(serverPos, serverAngle.angleRad());
-						} else {
-							lerpPos.set(prevPos);
-							lerpVelo.set(prevVelo);
-							setTransform(lerpPos.lerp(serverPos, elapsedTime), angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
-						}
-
-						//set velocity to make entity move smoother between syncs
-						setLinearVelocity(lerpVelo.lerp(serverVelo, elapsedTime));
+				if (elapsedTime <= 1.0f && elapsedTime >= 0.0f) {
+					if (prevPos.dst2(serverPos) > maxLerpRange) {
+						setTransform(serverPos, serverAngle.angleRad());
+					} else {
+						lerpPos.set(prevPos);
+						lerpVelo.set(prevVelo);
+						setTransform(lerpPos.lerp(serverPos, elapsedTime), angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
 					}
+
+					//set velocity to make entity move smoother between syncs
+					setLinearVelocity(lerpVelo.lerp(serverVelo, elapsedTime));
 				}
 			}
 		}

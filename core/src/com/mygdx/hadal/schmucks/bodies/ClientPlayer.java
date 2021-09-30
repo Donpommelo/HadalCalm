@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class ClientPlayer extends Player {
 
 	//this represents how precisely we lerp towards the server position
-	private static final float CONVERGE_MULTIPLIER = 0.02f;
+	private static final float CONVERGE_MULTIPLIER = 0.05f;
 	
 	//these are the amounts of latency in seconds under which the prediction strategy will kick in.
 	private static final float LATENCY_THRESHOLD_MIN = 0.1f;
@@ -62,14 +62,20 @@ public class ClientPlayer extends Player {
 	
 	//are we currently predicting client location or just doing the normal interpolation (true if latency is high enough)
 	private boolean predicting;
-	
+
+	private float lastTimestamp;
+
 	@Override
 	public void onReceiveSync(Object o, float timestamp) {
 		super.onReceiveSync(o, timestamp);
 		
 		if (o instanceof Packets.SyncEntity p) {
 
-			float latency = ((ClientState) state).getLatency();
+			//ignore packets sent out of order
+			if (p.timestamp < lastTimestamp) { return; }
+
+			lastTimestamp = p.timestamp;
+			float latency = ((ClientState) state).getServerTime() - p.timestamp;
 			float dt = Math.max(0.0f, historyDuration - latency);
 
 			historyDuration -= dt;
@@ -109,8 +115,8 @@ public class ClientPlayer extends Player {
 				}
 				
 				//if our position is too far away from what the server sends us, just rubberband.
-				if (body != null) {
-					if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE && predicting) {
+				if (body != null && predicting) {
+					if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE) {
 
 						setTransform(predictedPosition, 0.0f);
 						lastPosition.set(predictedPosition);
@@ -123,6 +129,7 @@ public class ClientPlayer extends Player {
 	//most of the code here is just lifted from the Player class to simulate movement actions like jumping, hovering, fastfalling and boosting
 	private final Vector2 playerLocation = new Vector2();
 	private final Vector2 playerWorldLocation = new Vector2();
+	private final Vector2 newPredictedPosition = new Vector2();
 	private final Vector2 newPosition = new Vector2();
 	private final Vector2 fug = new Vector2();
 	@Override
@@ -168,9 +175,7 @@ public class ClientPlayer extends Player {
 		//for the server's own player, the sprite's arm should exactly match their mouse
 		playerLocation.set(getPixelPosition());
 		playerWorldLocation.set(getPosition());
-		mouseAngle.set(playerLocation.x, playerLocation.y).sub(((ClientState) state).getMousePosition().x, ((ClientState) state).getMousePosition().y);
-		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
-		
+
 		if (body != null && alive) {
 			
 			//we add a new prediction frame to our list with our current displacement/velocity
@@ -192,17 +197,23 @@ public class ClientPlayer extends Player {
 			//when predicting, we extrapolate our position based on our prediction plus our current velocity given the current latency.
 			if (predicting) {
 				
-				extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(getLinearVelocity()).scl((CONVERGE_MULTIPLIER) * latency));
+				extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(getLinearVelocity())
+						.scl((CONVERGE_MULTIPLIER) * latency));
 				fug.set(extrapolatedPosition);
 				
 				float t;
 				t = delta / (latency * (1 + CONVERGE_MULTIPLIER));
 
-				newPosition.set(getPosition()).add(extrapolatedPosition.sub(playerWorldLocation).scl(t));
-				setTransform(newPosition, 0.0f);
+				newPredictedPosition.set(getPosition()).add(extrapolatedPosition.sub(playerWorldLocation).scl(t));
+				setTransform(newPredictedPosition, 0.0f);
 			}
 			lastPosition.set(getPosition());
 		}
+
+		newPosition.set(getPixelPosition());
+		mouseAngle.set(newPosition.x, newPosition.y)
+				.sub(((ClientState) state).getMousePosition().x, ((ClientState) state).getMousePosition().y);
+		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
 	}
 	
 	@Override

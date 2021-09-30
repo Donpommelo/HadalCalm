@@ -1,5 +1,6 @@
 package com.mygdx.hadal.input;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.Player;
 
@@ -153,13 +154,20 @@ public class ActionController {
 	}
 
 	private float lastTimestamp;
+	private final Vector2 relativeMouse = new Vector2();
 	private HashSet<PlayerAction> keysHeld = new HashSet<>();
-	public void syncClientKeyStrokes(float mouseX, float mouseY, PlayerAction[] actions, float timestamp) {
+	public void syncClientKeyStrokes(float mouseX, float mouseY, float clientX, float clientY,
+		PlayerAction[] actions, float timestamp) {
+
 		if (timestamp > lastTimestamp) {
 			lastTimestamp = timestamp;
 
+			relativeMouse.set(mouseX, mouseY).sub(clientX, clientY).add(player.getPixelPosition());
+
+			//we want the relative mouse location to get the angle the client is shooting at
+			//this makes high-lag mess with the aim less
 			if (player.getMouse() != null) {
-				player.getMouse().setDesiredLocation(mouseX, mouseY);
+				player.getMouse().setDesiredLocation(relativeMouse.x, relativeMouse.y);
 			}
 
 			HashSet<PlayerAction> keysHeldNew = new HashSet<>(Arrays.asList(actions));

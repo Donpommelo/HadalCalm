@@ -31,7 +31,7 @@ public class FlagBlocker extends Event {
     public void create() {
         this.eventData = new EventData(this);
         this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
-                Constants.BIT_SENSOR, Constants.BIT_PROJECTILE, (short) 0, true, eventData);
+                Constants.BIT_SENSOR, (short) (Constants.BIT_PROJECTILE | Constants.BIT_PLAYER), (short) 0, true, eventData);
     }
 
     public int getTeamIndex() { return teamIndex; }

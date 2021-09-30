@@ -122,7 +122,8 @@ public class KryoServer {
 						if (player != null) {
 							ps.addPacketEffect(() -> {
 								if (player.getController() != null) {
-									player.getController().syncClientKeyStrokes(p.mouseX, p.mouseY, p.actions, p.timestamp);
+									player.getController().syncClientKeyStrokes(p.mouseX, p.mouseY, p.playerX, p.playerY,
+											p.actions, p.timestamp);
 								}
 							});
 						}
@@ -395,8 +396,8 @@ public class KryoServer {
 								user.setScoreUpdated(true);
 							}
 						}
+						server.sendToTCP(c.getID(), new Packets.LatencyAck(ps.getTimer()));
 					}
-					server.sendToTCP(c.getID(), new Packets.LatencyAck());
 				}
 				
 				/*
@@ -488,7 +489,7 @@ public class KryoServer {
 			}
 		};
 		
-//        server.addListener(new Listener.LagListener(100, 100, packetListener));
+//        server.addListener(new Listener.LagListener(0, 200, packetListener));
 		server.addListener(packetListener);
 		
 		try {

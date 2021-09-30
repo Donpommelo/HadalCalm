@@ -43,6 +43,7 @@ public class FlagCapturable extends HitboxStrategy {
 	private static final int maxNameLength = 25;
 
 	private final SpawnerFlag spawner;
+	private FlagBlocker lastBlocker;
 
 	public FlagCapturable(PlayState state, Hitbox proj, BodyData user, SpawnerFlag spawner, int teamIndex) {
 		super(state, proj, user);
@@ -85,21 +86,31 @@ public class FlagCapturable extends HitboxStrategy {
 			if (fixB != null) {
 				if (fixB instanceof PlayerBodyData) {
 
-					//if the flag touches an enemy player, it is picked up, displaying a notification and tracking the player
-					if (teamIndex < AlignmentFilter.currentTeams.length) {
-						if (((PlayerBodyData) fixB).getLoadout().team != AlignmentFilter.currentTeams[teamIndex]) {
-							captured = true;
-							awayFromSpawn = true;
-							target = ((PlayerBodyData) fixB).getPlayer();
-							lastHolder = target;
-							flagDebuff = new CarryingFlag(state, target.getBodyData());
-							target.getPlayerData().addStatus(flagDebuff);
+					boolean blockPickup = false;
+					if (lastBlocker != null) {
+						if (lastBlocker.getEventData().getSchmucks().contains(hbox) &&
+								lastBlocker.getEventData().getSchmucks().contains(fixB.getEntity())) {
+							blockPickup = true;
+						}
+					}
 
-							hbox.getBody().setGravityScale(0.0f);
-							String playerName = WeaponUtils.getPlayerColorName(target, maxNameLength);
-							state.getKillFeed().addNotification(playerName + " PICKED UP THE FLAG!", true);
+					if (!blockPickup) {
+						//if the flag touches an enemy player, it is picked up, displaying a notification and tracking the player
+						if (teamIndex < AlignmentFilter.currentTeams.length) {
+							if (((PlayerBodyData) fixB).getLoadout().team != AlignmentFilter.currentTeams[teamIndex]) {
+								captured = true;
+								awayFromSpawn = true;
+								target = ((PlayerBodyData) fixB).getPlayer();
+								lastHolder = target;
+								flagDebuff = new CarryingFlag(state, target.getBodyData());
+								target.getPlayerData().addStatus(flagDebuff);
 
-							spawner.setFlagPresent(false);
+								hbox.getBody().setGravityScale(0.0f);
+								String playerName = WeaponUtils.getPlayerColorName(target, maxNameLength);
+								state.getKillFeed().addNotification(playerName + " PICKED UP THE FLAG!", true);
+
+								spawner.setFlagPresent(false);
+							}
 						}
 					}
 				}
@@ -111,6 +122,7 @@ public class FlagCapturable extends HitboxStrategy {
 				if (fixB.getEntity() instanceof FlagBlocker) {
 					if (((FlagBlocker) fixB.getEntity()).getTeamIndex() != teamIndex) {
 						dropFlag();
+						lastBlocker = (FlagBlocker) fixB.getEntity();
 					}
 				}
 			}

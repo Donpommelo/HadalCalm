@@ -252,11 +252,13 @@ public class KryoClient {
 		/*
 		 * Server responds to our latency checking packet. record the time and update our latency.
 		 */
-		else if (o instanceof Packets.LatencyAck) {
+		else if (o instanceof final Packets.LatencyAck p) {
 			final ClientState cs = getClientState();
 
 			if (cs != null) {
-				cs.addPacketEffect(cs::syncLatency);
+				cs.addPacketEffect(() -> {
+					cs.syncLatency(p.timestamp);
+				});
 			}
 		}
 

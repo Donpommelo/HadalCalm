@@ -329,7 +329,7 @@ public class Packets {
 	}
 	
 	public static class SyncKeyStrokes {
-		public float mouseX, mouseY;
+		public float mouseX, mouseY, playerX, playerY;
 		public PlayerAction[] actions;
 		public float timestamp;
 
@@ -340,12 +340,16 @@ public class Packets {
 		 * This also includes mouse information
 		 * @param mouseX: X-coordinate of client's mouse
 		 * @param mouseY: Y-coordinate of client's mouse
+		 * @param playerX: X-coordinate of client's player (to the client)
+		 * @param playerY: Y-coordinate of client's player (to the client)
 		 * @param actions: Array of actions whose button is currently held
 		 * @param timestamp: Time that this imput snapshot was sent
 		 */
-		public SyncKeyStrokes(float mouseX, float mouseY, PlayerAction[] actions, float timestamp) {
+		public SyncKeyStrokes(float mouseX, float mouseY, float playerX, float playerY, PlayerAction[] actions, float timestamp) {
 			this.mouseX = mouseX;
 			this.mouseY = mouseY;
+			this.playerX = playerX;
+			this.playerY = playerY;
 			this.actions = actions;
 			this.timestamp = timestamp;
 		}
@@ -1138,11 +1142,15 @@ public class Packets {
 	}
 
 	public static class LatencyAck {
-		
+		public float timestamp;
+
+		public LatencyAck() {}
+
 		/**
 		 * A LatencyAck is sent from the server to the client as a response to a LatencySyn. The time is used to calculate the client's ping.
+		 * @param timestamp: is the server's time at time of response
 		 */
-		public LatencyAck() {}
+		public LatencyAck(float timestamp) { this.timestamp = timestamp; }
 	}
 	
 	public static class SyncExtraResultsInfo {
