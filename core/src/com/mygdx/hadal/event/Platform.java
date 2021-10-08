@@ -2,6 +2,7 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -32,7 +33,9 @@ public class Platform extends Event {
 	private final short filter;
 	private final int teamIndex;
 	private final float restitution;
-	
+
+	private boolean loaded;
+
 	public Platform(PlayState state, Vector2 startPos, Vector2 size, float restitution,
 			boolean wall, boolean player, boolean hbox, boolean event, boolean enemy, int teamIndex) {
 		super(state, startPos ,size);
@@ -43,17 +46,34 @@ public class Platform extends Event {
 	
 	@Override
 	public void create() {
-		short teamFilter;
-		if (teamIndex != -1 && teamIndex < AlignmentFilter.currentTeams.length) {
-			teamFilter = AlignmentFilter.currentTeams[teamIndex].getFilter();
-		} else {
-			teamFilter = 0;
-		}
-
 		this.eventData = new EventData(this, UserDataTypes.WALL);
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 1, restitution, false,
-			true, Constants.BIT_WALL, filter, teamFilter, false, eventData);
+			true, Constants.BIT_WALL, filter, (short) 0, false, eventData);
 		this.body.setType(BodyDef.BodyType.KinematicBody);
+	}
+
+	@Override
+	public void controller(float delta) {
+		super.controller(delta);
+
+		//we need to set team alignments here, because the client doesn't know team alignments uon loading
+		if (!loaded && teamIndex != -1.0f) {
+			short teamFilter;
+			if (teamIndex < AlignmentFilter.currentTeams.length) {
+				loaded = true;
+				teamFilter = AlignmentFilter.currentTeams[teamIndex].getFilter();
+
+				Filter filter = getMainFixture().getFilterData();
+				filter.groupIndex = teamFilter;
+				getMainFixture().setFilterData(filter);
+			}
+		}
+	}
+
+	@Override
+	public void clientController(float delta) {
+		super.clientController(delta);
+		controller(delta);
 	}
 	
 	@Override

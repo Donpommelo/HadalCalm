@@ -87,6 +87,9 @@ public class Spring extends Event {
 	
 	@Override
 	public Object onServerCreate() {
+
+		if (independent) { return null; }
+
 		if (blueprint == null) {
 			blueprint = new RectangleMapObject(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, size.x, size.y);
 			blueprint.setName("SpringTemp");

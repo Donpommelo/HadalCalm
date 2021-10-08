@@ -10,6 +10,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -17,12 +18,11 @@ import java.util.ArrayList;
  * A ClientPlayer represents a client's own player.
  * This processes things like client prediction
  * @author Hepepper Hasufferson
- *
  */
 public class ClientPlayer extends Player {
 
 	//this represents how precisely we lerp towards the server position
-	private static final float CONVERGE_MULTIPLIER = 0.1f;
+	private static final float CONVERGE_MULTIPLIER = 0.02f;
 	
 	//these are the amounts of latency in seconds under which the prediction strategy will kick in.
 	private static final float LATENCY_THRESHOLD_MIN = 0.01f;
@@ -52,7 +52,8 @@ public class ClientPlayer extends Player {
 	
 	//where we predict the client would be on the server
 	private final Vector2 predictedPosition = new Vector2();
-	
+	private final Vector2 rubberbandPosition = new Vector2();
+
 	//where we extrapolate the client will be by the time a packet we send reaches the server accounting for latency
 	private final Vector2 extrapolatedPosition = new Vector2();
 	private final Vector2 extrapolationVelocity = new Vector2();
@@ -97,7 +98,7 @@ public class ClientPlayer extends Player {
 			}
 
 			if (!frames.isEmpty()) {
-				
+
 				//if our velocity is outside the range of tolerance, edit each frame with the new velocity
 //				if (p.velocity.dst2(frames.get(0).velocity) > VELO_TOLERANCE) {
 //
@@ -106,17 +107,38 @@ public class ClientPlayer extends Player {
 //						frame.positionChange = p.velocity.scl(frame.delta);
 //					}
 //				}
-				
+
 				//we predict our position is equal to what the server sent us, plus our total displacement in the time it took for that position to reach us
 				predictedPosition.set(p.pos);
-				
+				rubberbandPosition.setZero();
+
 				for (ClientPredictionFrame frame: frames) {
-					predictedPosition.add(frame.positionChange);
+					rubberbandPosition.add(frame.positionChange);
 				}
-				
+				predictedPosition.add(rubberbandPosition);
+
 				//if our position is too far away from what the server sends us, just rubberband.
 				if (body != null && predicting) {
 					if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE) {
+
+						shortestFraction = 1.0f;
+						if (!p.pos.equals(predictedPosition)) {
+							state.getWorld().rayCast((fixture, point, normal, fraction) -> {
+
+								if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+									if (fraction < shortestFraction) {
+										shortestFraction = fraction;
+										return fraction;
+									}
+								}
+								return -1.0f;
+							}, p.pos, predictedPosition);
+						}
+
+						if (shortestFraction != 1.0f) {
+							float dist = rubberbandPosition.len() * shortestFraction - 1;
+							predictedPosition.set(p.pos).add(rubberbandPosition.nor().scl(dist));
+						}
 
 						setTransform(predictedPosition, 0.0f);
 						lastPosition.set(predictedPosition);
@@ -131,7 +153,9 @@ public class ClientPlayer extends Player {
 	private final Vector2 playerWorldLocation = new Vector2();
 	private final Vector2 newPredictedPosition = new Vector2();
 	private final Vector2 newPosition = new Vector2();
-	private final Vector2 fug = new Vector2();
+	private float predictionCount;
+	private float shortestFraction;
+	private static final float predictionInterval = 1 / 60.0f;
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
@@ -194,20 +218,44 @@ public class ClientPlayer extends Player {
 				predicting = true;
 			}
 
-			//when predicting, we extrapolate our position based on our prediction plus our current velocity given the current latency.
-			if (predicting) {
-				
-				extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(getLinearVelocity())
-						.scl((CONVERGE_MULTIPLIER) * latency));
-				fug.set(extrapolatedPosition);
+			predictionCount += delta;
+			while (predictionCount >= predictionInterval) {
+				predictionCount -= predictionInterval;
 
-				float t;
-				t = delta / (latency * (1 + CONVERGE_MULTIPLIER));
+				//when predicting, we extrapolate our position based on our prediction plus our current velocity given the current latency.
+				if (predicting) {
+					extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(getLinearVelocity())
+							.scl((CONVERGE_MULTIPLIER) * latency));
 
-				newPredictedPosition.set(getPosition()).add(extrapolatedPosition.sub(playerWorldLocation).scl(t));
-				setTransform(newPredictedPosition, 0.0f);
+					float t = predictionInterval / (latency * (1 + CONVERGE_MULTIPLIER));
+
+					newPredictedPosition.set(playerWorldLocation).add(extrapolatedPosition.sub(playerWorldLocation).scl(t));
+
+					shortestFraction = 1.0f;
+					if (!playerWorldLocation.equals(newPredictedPosition)) {
+						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
+
+							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+								if (fraction < shortestFraction) {
+									shortestFraction = fraction;
+									return fraction;
+								}
+							}
+							return -1.0f;
+						}, playerWorldLocation, newPredictedPosition);
+					}
+
+					//scale extrapolation by shortest fraction to avoid predicting through a wall
+					if (shortestFraction != 1.0f) {
+						float dist = extrapolatedPosition.len() * shortestFraction - 1;
+						newPredictedPosition.set(playerWorldLocation).add(extrapolatedPosition.nor().scl(dist));
+					} else {
+						newPredictedPosition.set(playerWorldLocation).add(extrapolatedPosition);
+					}
+					setTransform(newPredictedPosition, 0.0f);
+				}
+				lastPosition.set(getPosition());
 			}
-			lastPosition.set(getPosition());
 		}
 
 		newPosition.set(getPixelPosition());

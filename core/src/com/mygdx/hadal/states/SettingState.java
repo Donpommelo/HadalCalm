@@ -43,7 +43,7 @@ public class SettingState extends GameState {
 	private Table options, details;
 
 	//These are all of the display and buttons visible to the player.
-	private Text displayOption, controlOption, audioOption, serverOption, miscOption, exitOption, saveOption, resetOption;
+	private Text displayOption, controlOption, audioOption, serverOption, miscOption, exitOption, resetOption;
 	private TextField portNumber, serverPassword;
 	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
 		hitsoundOptions, artifactSlots, playerCapacity;
@@ -117,6 +117,7 @@ public class SettingState extends GameState {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						saveSettings();
 						displaySelected();
 			        }
 			    });
@@ -128,6 +129,7 @@ public class SettingState extends GameState {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						saveSettings();
 						controlsSelected();
 			        }
 			    });
@@ -139,6 +141,7 @@ public class SettingState extends GameState {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						saveSettings();
 						audioSelected();
 			        }
 			    });
@@ -150,6 +153,7 @@ public class SettingState extends GameState {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						saveSettings();
 						serverSelected();
 			        }
 			    });
@@ -161,6 +165,7 @@ public class SettingState extends GameState {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						saveSettings();
 						miscSelected();
 			        }
 			    });
@@ -172,25 +177,15 @@ public class SettingState extends GameState {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
-						
+						saveSettings();
+
 						//if exiting to title screen, play transition. Otherwise, just remove this state
 						transitionOut(() -> gsm.removeState(SettingState.class));
 			        }
 			    });
 				exitOption.setScale(optionsScale);
-				
-				saveOption = new Text("APPLY CHANGES?", 0, 0, true);
-				saveOption.addListener(new ClickListener() {
-					
-					@Override
-			        public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
-						saveSettings();
-			        }
-			    });
-				saveOption.setScale(optionsScale);
-				
-				resetOption = new Text("RESET CHANGES?", 0, 0, true);
+
+				resetOption = new Text("RESET SETTINGS?", 0, 0, true);
 				resetOption.addListener(new ClickListener() {
 					
 					@Override
@@ -206,7 +201,6 @@ public class SettingState extends GameState {
 				options.add(audioOption).height(optionHeight).pad(optionPadding).row();
 				options.add(serverOption).height(optionHeight).pad(optionPadding).row();
 				options.add(miscOption).height(optionHeight).pad(optionPadding).row();
-				options.add(saveOption).height(optionHeight).pad(optionPadding).row();
 				options.add(resetOption).height(optionHeight).pad(optionPadding).row();
 				options.add(exitOption).height(optionHeight).pad(optionPadding).expand().row();
 			}
@@ -466,6 +460,20 @@ public class SettingState extends GameState {
 			}
 		});
 
+		music.addListener(new InputListener() {
+
+			@Override
+			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+				gsm.getSetting().setMusicVolume(music.getValue());
+				gsm.getSetting().setAudio();
+			}
+
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
+		});
+
 		Text masterText = new Text("MASTER VOLUME: " + (int)(gsm.getSetting().getMasterVolume() * 100), 0, 0, false);
 		masterText.setScale(detailsScale);
 		
@@ -489,6 +497,9 @@ public class SettingState extends GameState {
 					gsm.getSetting().indexToHitsound(
 						hitsoundOptions.getSelectedIndex()).playNoModifiers(sound.getValue() * master.getValue());
 				}
+
+				gsm.getSetting().setMusicVolume(master.getValue());
+				gsm.getSetting().setAudio();
 			}
 
 			@Override
@@ -654,10 +665,7 @@ public class SettingState extends GameState {
 	 */
 	private void saveSettings() {
 		switch (currentTab) {
-			case CONTROLS -> {
-				PlayerAction.saveKeys();
-				controlsSelected();
-			}
+			case CONTROLS -> PlayerAction.saveKeys();
 			case DISPLAY -> {
 				gsm.getSetting().setResolution(resolutionOptions.getSelectedIndex());
 				gsm.getSetting().setFramerate(framerateOptions.getSelectedIndex());
@@ -670,7 +678,6 @@ public class SettingState extends GameState {
 				gsm.getSetting().setMouseCameraTrack(mouseCameraTrack.isChecked());
 				gsm.getSetting().setDisplay(gsm.getApp(), playState);
 				gsm.getSetting().saveSetting();
-				displaySelected();
 			}
 			case AUDIO -> {
 				gsm.getSetting().setSoundVolume(sound.getValue());
@@ -680,7 +687,6 @@ public class SettingState extends GameState {
 				gsm.getSetting().setHitsoundVolume(hitsound.getValue());
 				gsm.getSetting().setAudio();
 				gsm.getSetting().saveSetting();
-				audioSelected();
 			}
 			case SERVER -> {
 				gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
@@ -688,7 +694,6 @@ public class SettingState extends GameState {
 				gsm.getSetting().setServerPassword(serverPassword.getText());
 				gsm.getSetting().setArtifactSlots(artifactSlots.getSelectedIndex());
 				gsm.getSetting().saveSetting();
-				serverSelected();
 			}
 			case MISC -> {
 				gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
@@ -699,7 +704,6 @@ public class SettingState extends GameState {
 				gsm.getSetting().setEnableUPNP(enableUPNP.isChecked());
 				gsm.getSetting().setHideHUD(hideHUD.isChecked());
 				gsm.getSetting().saveSetting();
-				miscSelected();
 			}
 		}
 		updateSharedSettings();
@@ -709,33 +713,23 @@ public class SettingState extends GameState {
 	 * Reset this tab's settings to the default values
 	 */
 	private void resetSettings() {
-		switch(currentTab) {
-		case CONTROLS:
-			PlayerAction.resetKeys();
-        	controlsSelected();
-			break;
-		case DISPLAY:
-			gsm.getSetting().resetDisplay();
-			gsm.getSetting().setDisplay(gsm.getApp(), playState);
-			gsm.getSetting().saveSetting();
-			displaySelected();
-			break;
-		case AUDIO:
-			gsm.getSetting().resetAudio();
-			gsm.getSetting().saveSetting();
-			audioSelected();
-		case SERVER:
-			gsm.getSetting().resetServer();
-			gsm.getSetting().saveSetting();
-			serverSelected();
-			break;
-		case MISC:
-			gsm.getSetting().resetMisc();
-			gsm.getSetting().saveSetting();
-			miscSelected();
-			break;
-		}
+		PlayerAction.resetKeys();
+		gsm.getSetting().resetDisplay();
+		gsm.getSetting().setDisplay(gsm.getApp(), playState);
+		gsm.getSetting().resetAudio();
+		gsm.getSetting().setAudio();
+		gsm.getSetting().resetServer();
+		gsm.getSetting().resetMisc();
+		gsm.getSetting().saveSetting();
 		updateSharedSettings();
+
+		switch (currentTab) {
+			case CONTROLS -> controlsSelected();
+			case DISPLAY -> displaySelected();
+			case MISC -> miscSelected();
+			case AUDIO -> audioSelected();
+			case SERVER -> serverSelected();
+		}
 	}
 	
 	/**

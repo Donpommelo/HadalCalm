@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.mygdx.hadal.HadalGame;
@@ -878,8 +877,8 @@ public class Player extends PhysicsSchmuck {
 	public void onServerSync() {
 		super.onServerSync();
 		state.getSyncPackets().add(new Packets.SyncPlayerAll(entityID.toString(), mouseAngle, grounded, playerData.getCurrentSlot(), 
-				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo(), 
-				getMainFixture().getFilterData().maskBits, invisible, state.getTimer()));
+				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(),
+				chargePercent, playerData.getCurrentTool().isOutofAmmo(), invisible, state.getTimer()));
 		
 		HadalGame.server.sendPacketToPlayer(this, new Packets.SyncPlayerSelf(playerData.getCurrentFuel() / playerData.getStat(Stats.MAX_FUEL), 
 				playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getAmmoLeft(),
@@ -904,12 +903,7 @@ public class Player extends PhysicsSchmuck {
 			chargePercent = p.chargePercent;
 			getPlayerData().setOverrideOutOfAmmo(p.outOfAmmo);
 			invisible = p.invisible;
-			
-			if (p.maskBits != getMainFixture().getFilterData().maskBits) {
-				Filter filter = getMainFixture().getFilterData();
-				filter.maskBits = p.maskBits;
-				getMainFixture().setFilterData(filter);
-			}
+
 		} else if (o instanceof Packets.DeletePlayer p) {
 
 			//delegate to sprite helper for despawn so it can dispose of frame buffer object

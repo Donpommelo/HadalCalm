@@ -224,7 +224,8 @@ public class KryoServer {
 							}
 
 							//sync client ui elements
-							sendToTCP(c.getID(), new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr(),
+							sendToTCP(c.getID(), new Packets.SyncUI(ps.getUiExtra().getCurrentTags(),
+								ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr(),
 								AlignmentFilter.currentTeams, AlignmentFilter.teamScores));
 							sendToTCP(c.getID(), new Packets.SyncSharedSettings(ps.getGsm().getSharedSetting()));
 						});

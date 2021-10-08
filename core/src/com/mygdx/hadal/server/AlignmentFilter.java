@@ -216,6 +216,11 @@ public enum AlignmentFilter {
         }
     }
 
+    public static void resetTeams() {
+        currentTeams = new AlignmentFilter[0];
+        teamScores = new int[0];
+    }
+
     /**
      * @return an unused alignment filter.
      * this is used when a new user is added to give them a unique "player number"

@@ -8,6 +8,10 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.map.modifiers.ModeModifier;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This mode setting is used for modes that allow the host to select modifiers
+ * @author Quothro Quebberish
+ */
 public class SetModifiers extends ModeSetting {
 
     private final ModeModifier[] modifiers;

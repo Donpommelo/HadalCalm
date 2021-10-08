@@ -324,6 +324,8 @@ public class PlayState extends GameState {
 		//if auto-assign team is on, we do the assignment here
 		if (teamMode == 1 && isServer()) {
 			AlignmentFilter.autoAssignTeams(2);
+		} else {
+			AlignmentFilter.resetTeams();
 		}
 
 		//Create the player and make the camera focus on it

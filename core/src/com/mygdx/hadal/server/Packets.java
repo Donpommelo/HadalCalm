@@ -721,7 +721,6 @@ public class Packets {
         public boolean charging;
         public float chargePercent;
         public boolean outOfAmmo;
-        public short maskBits;
         public int invisible;
         public float timestamp;
         
@@ -733,7 +732,7 @@ public class Packets {
 		 * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
 		 */
 		public SyncPlayerAll(String entityID, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading, float reloadPercent, boolean charging, float chargePercent, 
-				boolean outOfAmmo, short maskBits, int invisible, float timestamp) {
+				boolean outOfAmmo, int invisible, float timestamp) {
             this.entityID = entityID;
             this.attackAngle = attackAngle;
             this.grounded = grounded;
@@ -743,7 +742,6 @@ public class Packets {
             this.charging = charging;
             this.chargePercent = chargePercent;
             this.outOfAmmo = outOfAmmo;
-            this.maskBits = maskBits;
             this.invisible = invisible;
             this.timestamp = timestamp;
         }

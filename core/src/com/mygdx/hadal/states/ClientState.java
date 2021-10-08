@@ -14,6 +14,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -84,6 +85,8 @@ public class ClientState extends PlayState {
 		}
 
 		mode.processSettings(this);
+
+		AlignmentFilter.resetTeams();
 
 		//client still needs anchor points, world dummies and mouse tracker
 		addEntity(getAnchor().getEntityID().toString(), getAnchor(), false, ObjectSyncLayers.STANDARD);
