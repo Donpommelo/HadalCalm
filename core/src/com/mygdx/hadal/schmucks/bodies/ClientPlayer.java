@@ -25,11 +25,10 @@ public class ClientPlayer extends Player {
 	private static final float CONVERGE_MULTIPLIER = 0.02f;
 	
 	//these are the amounts of latency in seconds under which the prediction strategy will kick in.
-	private static final float LATENCY_THRESHOLD_MIN = 0.01f;
-	private static final float LATENCY_THRESHOLD_MAX = 0.04f;
-	
+	private static final float LATENCY_THRESHOLD_MIN = 0.005f;
+	private static final float LATENCY_THRESHOLD_MAX = 0.01f;
+
 	//tolerance variables. if the prediction is incorrect by more than these thresholds, we must adjust our predictions
-//	private static final float VELO_TOLERANCE = 200.0f;
 	private static final float DIST_TOLERANCE = 12.0f;
 
 	public ClientPlayer(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
@@ -99,15 +98,6 @@ public class ClientPlayer extends Player {
 
 			if (!frames.isEmpty()) {
 
-				//if our velocity is outside the range of tolerance, edit each frame with the new velocity
-//				if (p.velocity.dst2(frames.get(0).velocity) > VELO_TOLERANCE) {
-//
-//					for (ClientPredictionFrame frame: frames) {
-//						frame.velocity = p.velocity;
-//						frame.positionChange = p.velocity.scl(frame.delta);
-//					}
-//				}
-
 				//we predict our position is equal to what the server sent us, plus our total displacement in the time it took for that position to reach us
 				predictedPosition.set(p.pos);
 				rubberbandPosition.setZero();
@@ -115,6 +105,7 @@ public class ClientPlayer extends Player {
 				for (ClientPredictionFrame frame: frames) {
 					rubberbandPosition.add(frame.positionChange);
 				}
+
 				predictedPosition.add(rubberbandPosition);
 
 				//if our position is too far away from what the server sends us, just rubberband.
@@ -122,7 +113,7 @@ public class ClientPlayer extends Player {
 					if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE) {
 
 						shortestFraction = 1.0f;
-						if (!p.pos.equals(predictedPosition)) {
+						if (p.pos.x != predictedPosition.x || p.pos.y != predictedPosition.y) {
 							state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
 								if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
@@ -135,7 +126,7 @@ public class ClientPlayer extends Player {
 							}, p.pos, predictedPosition);
 						}
 
-						if (shortestFraction != 1.0f) {
+						if (shortestFraction != 1.0f && !rubberbandPosition.isZero()) {
 							float dist = rubberbandPosition.len() * shortestFraction - 1;
 							predictedPosition.set(p.pos).add(rubberbandPosition.nor().scl(dist));
 						}
@@ -209,6 +200,9 @@ public class ClientPlayer extends Player {
 			frames.add(frame);
 			historyDuration += delta;
 
+			//we adjust predicted position to ensure it is up-to-date. Important b/c
+			predictedPosition.add(frame.positionChange);
+
 			//we do our latency check here. if our latency is too high/low, we switch to/away our predicting mode
 			float latency = ((ClientState) state).getLatency();
 
@@ -232,7 +226,7 @@ public class ClientPlayer extends Player {
 					newPredictedPosition.set(playerWorldLocation).add(extrapolatedPosition.sub(playerWorldLocation).scl(t));
 
 					shortestFraction = 1.0f;
-					if (!playerWorldLocation.equals(newPredictedPosition)) {
+					if (playerWorldLocation.x != newPredictedPosition.x || playerWorldLocation.y != newPredictedPosition.y) {
 						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
 							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
@@ -246,16 +240,14 @@ public class ClientPlayer extends Player {
 					}
 
 					//scale extrapolation by shortest fraction to avoid predicting through a wall
-					if (shortestFraction != 1.0f) {
+					if (shortestFraction != 1.0f && !extrapolatedPosition.isZero()) {
 						float dist = extrapolatedPosition.len() * shortestFraction - 1;
 						newPredictedPosition.set(playerWorldLocation).add(extrapolatedPosition.nor().scl(dist));
-					} else {
-						newPredictedPosition.set(playerWorldLocation).add(extrapolatedPosition);
 					}
 					setTransform(newPredictedPosition, 0.0f);
 				}
-				lastPosition.set(getPosition());
 			}
+			lastPosition.set(getPosition());
 		}
 
 		newPosition.set(getPixelPosition());
@@ -266,7 +258,7 @@ public class ClientPlayer extends Player {
 
 	@Override
 	public void clientInterpolation() {
-		
+
 		//on low-ping mode, we just interpolate our body just like any other entity
 		if (!predicting) {
 			super.clientInterpolation();
