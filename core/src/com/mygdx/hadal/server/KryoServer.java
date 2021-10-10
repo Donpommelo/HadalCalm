@@ -58,7 +58,7 @@ public class KryoServer {
 		//reset used teams. This is needed to prevent all the usable "alignments" from being used up if server is remade
 		AlignmentFilter.resetUsedAlignments();
 
-		users.put(0, new User(null, null, new SavedPlayerFields(gsm.getLoadout().getName(), 0), new SavedPlayerFieldsExtra()));
+		users.put(0, new User(null, new SavedPlayerFields(gsm.getLoadout().getName(), 0), new SavedPlayerFieldsExtra()));
 
 		if (!start) { return; }
 
@@ -305,31 +305,6 @@ public class KryoServer {
 				}
 				
 				/*
-				 * The client has finished respawning (after transitioning to black.)
-				 * We spawn a new player for them
-				 */
-				else if (o instanceof final Packets.ClientFinishRespawn p) {
-
-					final PlayState ps = getPlayState();
-					//acquire the client's name and data
-					User user = users.get(c.getID());
-					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							//alive check prevents duplicate players if entering/respawning simultaneously
-							if (!player.isAlive()) {
-								String playerName = player.getName();
-								createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), player.getPlayerData(), true, false);
-							}
-						} else {
-							//player is respawning from spectator and has no player
-							SavedPlayerFields score = user.getScores();
-							createNewClientPlayer(ps, c.getID(), score.getNameShort(), p.loadout, null, true, false);
-						}
-					}
-				}
-				
-				/*
 				 * A Client has unpaused the game
 				 * Return to the PlayState and inform everyone who unpaused.
 				 */
@@ -451,10 +426,13 @@ public class KryoServer {
 				/*
 				 * A Client has said they want to exit spectator mode
 				 */
-				else if (o instanceof Packets.EndSpectate) {
+				else if (o instanceof final Packets.EndSpectate p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						ps.addPacketEffect(() -> ps.exitSpectator(users.get(c.getID())));
+						ps.addPacketEffect(() -> {
+							users.get(c.getID()).getScoresExtra().setLoadout(p.loadout);
+							ps.exitSpectator(users.get(c.getID()));
+						});
 					}
 				}
 				
@@ -524,7 +502,7 @@ public class KryoServer {
 			if (users.containsKey(connId)) {
 				user = users.get(connId);
 			} else {
-				user = new User(null, null, new SavedPlayerFields(name, connId), new SavedPlayerFieldsExtra());
+				user = new User(null, new SavedPlayerFields(name, connId), new SavedPlayerFieldsExtra());
 				users.put(connId, user);
 
 				user.setTeamFilter(loadout.team);
@@ -542,7 +520,6 @@ public class KryoServer {
 				newPlayer.setMouse(newMouse);
 
 				user.setPlayer(newPlayer);
-				user.setMouse(newMouse);
 				user.setSpectator(false);
 			}
 		});

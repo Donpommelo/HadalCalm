@@ -65,7 +65,7 @@
 "ANARCHISTS_COOKBOOK": {
 	"name": "Anarchist's Cookbook",
 	"description": "Periodically Spawns Bombs",
-    "descriptionLong": "Bomb Spawn Interval: 1 Second\nBomb Damage: 40\n\nA singed manuscript describing the author's favorite baking recipes\n\nAnarchists seeking chaos amidst the Noiseless Sea would be disappointed by the order that arose around newly submerged Bright Ones.",
+    "descriptionLong": "Bomb Spawn Interval: 3 Seconds\nBomb Damage: 40\n\nA singed manuscript describing the author's favorite baking recipes\n\nAnarchists seeking chaos amidst the Noiseless Sea would be disappointed by the order that arose around newly submerged Bright Ones.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",

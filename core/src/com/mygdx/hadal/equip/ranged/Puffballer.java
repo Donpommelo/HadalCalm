@@ -21,7 +21,7 @@ public class Puffballer extends RangedWeapon {
 
 	private static final int clipSize = 4;
 	private static final int ammoSize = 40;
-	private static final float shootCd = 0.2f;
+	private static final float shootCd = 0.8f;
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.5f;
 	private static final int reloadAmount = 0;
@@ -45,7 +45,7 @@ public class Puffballer extends RangedWeapon {
 	private static final Vector2 sporeFragSize = new Vector2(16, 16);
 	private static final Vector2 sporeFragSize2 = new Vector2(24, 24);
 
-	private static final int sporeFragNumber = 10;
+	private static final int sporeFragNumber = 7;
 	private static final int sporeSpread = 16;
 	private static final float fragSpeed = 12.0f;
 	private static final float fragVeloSpread = 0.4f;

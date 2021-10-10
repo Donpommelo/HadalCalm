@@ -19,16 +19,16 @@ public class Kamabokannon extends RangedWeapon {
 
 	private static final int clipSize = 100;
 	private static final int ammoSize = 500;
-	private static final float shootCd = 0.06f;
+	private static final float shootCd = 0.1f;
 	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.3f;
 	private static final int reloadAmount = 0;
-	private static final float baseDamage = 21.0f;
+	private static final float baseDamage = 22.0f;
 	private static final float recoil = 3.0f;
 	private static final float knockback = 6.0f;
 	private static final float projectileSpeed = 34.5f;
 	private static final Vector2 projectileSize = new Vector2(60, 50);
-	private static final float lifespan = 2.0f;
+	private static final float lifespan = 1.0f;
 	
 	private static final Sprite weaponSprite = Sprite.MT_BOILER;
 	private static final Sprite eventSprite = Sprite.P_BOILER;
@@ -120,7 +120,7 @@ public class Kamabokannon extends RangedWeapon {
 	private final Vector2 mousePointer = new Vector2();
 	private final Vector2 aimPointer = new Vector2();
 	@Override
-	public void update(float delta) {
+	public void update(PlayState state, float delta) {
 		controllerCount += delta;
 
 		while (controllerCount >= pushInterval) {

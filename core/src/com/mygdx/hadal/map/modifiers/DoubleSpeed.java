@@ -2,6 +2,10 @@ package com.mygdx.hadal.map.modifiers;
 
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This mode modifier causes the game to run at double speed
+ * @author Pulgernon Phuyardee
+ */
 public class DoubleSpeed extends ModeModifier {
 
     private static final String settingTag = "double_speed";

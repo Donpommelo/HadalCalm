@@ -8,8 +8,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.Invulnerability;
@@ -43,14 +43,19 @@ public class DroneBit extends EnemySwimming {
 	
 	private final TextureRegion armBackSprite, armFrontSprite;
 	private final Animation<TextureRegion> eyeSprite;
-	
+
+	private Player owner;
+
 	public DroneBit(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.DRONE_BIT, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		armBackSprite = Sprite.DRONE_ARM_BACK.getFrame();
 		armFrontSprite = Sprite.DRONE_ARM_FRONT.getFrame();
 		eyeSprite = new Animation<>(PlayState.spriteAnimationSpeed, Sprite.DRONE_EYE.getFrames());
 		eyeSprite.setPlayMode(PlayMode.NORMAL);
-		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
+		setMaxRange(maxRange);
+		setMinRange(minRange);
+		setMoveSpeed(2.0f);
+		setCurrentState(SwimmingState.OTHER);
 		setNoiseRadius(noiseRadius);
 		setTrackSpeed(trackSpeed);
 	}
@@ -70,7 +75,33 @@ public class DroneBit extends EnemySwimming {
 		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), Sprite.DRONE_ARM_BACK, size));
 		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), Sprite.DRONE_ARM_FRONT, size));
 	}
-	
+
+	private static final float tetherRange = 4.0f;
+	private static final Vector2 tether = new Vector2(0, 1);
+	@Override
+	public void controller(float delta) {
+
+		if (owner != null) {
+			if (owner.isAlive()) {
+
+				setMoveSpeed(1.0f);
+
+				getMoveDirection().set(getPosition()).sub(getMoveTarget().getPosition())
+						.add(tether.setAngleDeg(owner.getAttackAngle()).nor().scl(tetherRange));
+
+				float dist = getMoveDirection().len2();
+
+				if (dist > maxRange * maxRange) {
+					getMoveDirection().scl(-1.0f);
+				} else if (dist < maxRange * maxRange && dist > minRange * minRange) {
+					setMoveSpeed(0.0f);
+				}
+			}
+		}
+
+		super.controller(delta);
+	}
+
 	@Override
 	public void acquireTarget() {}
 	
@@ -110,4 +141,6 @@ public class DroneBit extends EnemySwimming {
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
 				(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 	}
+
+	public void setOwner(Player owner) { this.owner = owner; }
 }

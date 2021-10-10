@@ -37,7 +37,7 @@ public class Hexenhowitzer extends RangedWeapon {
 	private static final float baseDamage = 27.0f;
 	private static final float recoil = 4.5f;
 	private static final float knockback = 20.0f;
-	private static final float projectileSpeed = 35.0f;
+	private static final float projectileSpeed = 40.0f;
 	private static final Vector2 projectileSize = new Vector2(50, 25);
 	private static final float lifespan = 1.5f;
 	

@@ -22,7 +22,7 @@ public class AnarchistsCookbook extends Artifact {
 	private static final float explosionDamage = 40.0f;
 	private static final float explosionKnockback = 25.0f;
 	
-	private static final float procCd = 1.0f;
+	private static final float procCd = 3.0f;
 	
 	public AnarchistsCookbook() {
 		super(slotCost, statusNum);

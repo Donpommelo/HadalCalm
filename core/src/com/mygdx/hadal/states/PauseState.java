@@ -12,6 +12,7 @@ import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.WindowTable;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
@@ -191,7 +192,7 @@ public class PauseState extends GameState {
 						if (ps.isServer()) {
 							ps.exitSpectator(HadalGame.server.playerToUser(ps.getPlayer()));
 						} else {
-							HadalGame.client.sendTCP(new Packets.EndSpectate());
+							HadalGame.client.sendTCP(new Packets.EndSpectate(new Loadout(gsm.getLoadout())));
 						}
 			        }
 			    });

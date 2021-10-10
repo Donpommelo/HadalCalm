@@ -10,6 +10,11 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * A Mode Modifier allows the player to select a setting that changes the gameplay of the match
+ * Mode-specific modifiers are saved after starting a match
+ * @author Thugger Triburger
+ */
 public class ModeModifier extends ModeSetting {
 
     private final String settingTag, uiText, name;

@@ -8,6 +8,7 @@ import com.mygdx.hadal.states.PlayState;
 import java.util.Arrays;
 
 /**
+ * In medieval mode, only melee weapons + love bow can be used
  * @author Nemongrass Nurlando
  */
 public class MedievalMode extends ModeModifier {

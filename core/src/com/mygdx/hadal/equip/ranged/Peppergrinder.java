@@ -28,12 +28,12 @@ public class Peppergrinder extends RangedWeapon {
 	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.5f;
 	private static final int reloadAmount = 0;
-	private static final float baseDamage = 15.0f;
+	private static final float baseDamage = 19.0f;
 	private static final float recoil = 2.5f;
 	private static final float knockback = 10.0f;
 	private static final float projectileSpeed = 31.5f;
 	private static final Vector2 projectileSize = new Vector2(40, 20);
-	private static final float lifespan = 4.0f;
+	private static final float lifespan = 2.0f;
 	
 	private static final Sprite projSprite = Sprite.LASER_GREEN;
 	private static final Sprite weaponSprite = Sprite.MT_BOILER;

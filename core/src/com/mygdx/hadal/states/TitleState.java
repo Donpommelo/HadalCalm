@@ -33,7 +33,7 @@ import com.mygdx.hadal.utils.NameGenerator;
 public class TitleState extends GameState {
 
 	//This table contains the option windows for the title.
-	private Table tableName, tableMain;
+	private Table tableName, tableMain, notificationTable;
 
 	//this is the image backdrop of the title state
 	private Backdrop backdrop;
@@ -69,8 +69,12 @@ public class TitleState extends GameState {
 	private static final int nameWidth = 460;
 	private static final int nameHeight = 120;
 
-	private static final int notificationX = 40;
+	private static final int notificationX = -460;
 	private static final int notificationY = 180;
+	private static final int notificationXEnabled = 40;
+	private static final int notificationYEnabled = 180;
+	private static final int notificationWidth = 460;
+	private static final int notificationHeight = 60;
 	
 	private static final int versionNumX = 1060;
 	private static final int versionNumY = 40;
@@ -151,6 +155,11 @@ public class TitleState extends GameState {
 				tableName.setSize(nameWidth, nameHeight);
 				addActor(tableName);
 
+				notificationTable = new WindowTable();
+				notificationTable.setPosition(notificationX, notificationY);
+				notificationTable.setSize(notificationWidth, notificationHeight);
+				addActor(notificationTable);
+
 				Text nameDisplay = new Text("YOUR NAME: ", 0, 0, false);
 				nameDisplay.setScale(scaleSide);
 
@@ -172,7 +181,7 @@ public class TitleState extends GameState {
 				Text exitOption = new Text("EXIT", 0, 0, true);
 				exitOption.setScale(scale);
 
-				notifications = new Text("", notificationX, notificationY, false);
+				notifications = new Text("", 0, 0, false);
 				notifications.setScale(scale);
 
 				Text versionNum = new Text("VERSION: " + HadalGame.Version, versionNumX, versionNumY, true);
@@ -194,6 +203,12 @@ public class TitleState extends GameState {
 			        public void clicked(InputEvent e, float x, float y) {
 
 						if (inputDisabled) { return; }
+
+						if (enterName.getText().isEmpty()) {
+							setNotification("PLEASE ENTER NAME");
+							return;
+						}
+
 						inputDisabled = true;
 
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
@@ -212,6 +227,12 @@ public class TitleState extends GameState {
 			        public void clicked(InputEvent e, float x, float y) {
 						
 						if (inputDisabled) { return; }
+
+						if (enterName.getText().isEmpty()) {
+							setNotification("PLEASE ENTER NAME");
+							return;
+						}
+
 						inputDisabled = true;
 						
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
@@ -312,7 +333,7 @@ public class TitleState extends GameState {
 				tableMain.add(aboutOption).height(mainOptionHeight).row();
 				tableMain.add(exitOption).height(mainOptionHeight).row();
 
-				addActor(notifications);
+				notificationTable.add(notifications).pad(5).expandX().left();
 				addActor(versionNum);
 			}
 		};
@@ -335,7 +356,7 @@ public class TitleState extends GameState {
 
 		tableMain.addAction(Actions.moveTo(menuX, menuY, transitionDuration, intp));
 		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(nameX, nameY, transitionDuration, intp)));
-
+		notificationTable.addAction(Actions.moveTo(notificationX, notificationY, transitionDuration, intp));
 		notifications.setText("");
 	}
 
@@ -370,5 +391,12 @@ public class TitleState extends GameState {
 	 * This method changes the text notification displayed in the title state
 	 * @param notification: new text
 	 */
-	public void setNotification(String notification) { notifications.setText(notification); }
+	public void setNotification(String notification) {
+		if (!notification.equals("")) {
+			notificationTable.addAction(Actions.sequence(
+					Actions.moveTo(notificationX, notificationY, transitionDuration, intp),
+					Actions.run(() -> notifications.setText(notification)),
+					Actions.moveTo(notificationXEnabled, notificationYEnabled, transitionDuration, intp)));
+		}
+	}
 }

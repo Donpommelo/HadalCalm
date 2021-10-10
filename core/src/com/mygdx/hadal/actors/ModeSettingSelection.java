@@ -28,13 +28,13 @@ public class ModeSettingSelection {
 
     private static final float tableX = HadalGame.CONFIG_WIDTH;
     private static final float tableInX = 160;
-    private static final float tableY = 240.0f;
+    private static final float tableY = 100.0f;
 
     public static final int titleHeight = 60;
     public static final int titlePadding = 25;
 
     private static final int optionsWidthOuter = 400;
-    private static final int optionsHeightOuter = 400;
+    private static final int optionsHeightOuter = 540;
     public static final int optionsWidth = 390;
 
     private static final float titleScale = 0.8f;

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -42,7 +43,8 @@ public class PartyPopper extends RangedWeapon {
 	private static final float fragDampen = 3.0f;
 	
 	private static final Sprite projSprite = Sprite.POPPER;
-	private static final Sprite fragSprite = Sprite.ORB_PINK;
+	private static final Sprite[] fragSprites = {Sprite.ORB_PINK, Sprite.ORB_RED, Sprite.ORB_BLUE, Sprite.ORB_YELLOW, Sprite.ORB_ORANGE};
+
 	private static final Sprite weaponSprite = Sprite.MT_BOOMERANG;
 	private static final Sprite eventSprite = Sprite.P_BOOMERANG;
 	
@@ -76,8 +78,12 @@ public class PartyPopper extends RangedWeapon {
 				for (int i = 0; i < numProj; i++) {
 					float newDegrees = new Vector2(0, 1).angleDeg() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 					newVelocity.set(0, 1).nor().scl(fragSpeed);
-					
-					Hitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan, newVelocity.setAngleDeg(newDegrees), filter, false, true, user, fragSprite) {
+
+					int randomIndex = MathUtils.random(fragSprites.length - 1);
+					Sprite projSprite = fragSprites[randomIndex];
+
+					Hitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan,
+							newVelocity.setAngleDeg(newDegrees), filter, false, true, user, projSprite) {
 						
 						@Override
 						public void create() {

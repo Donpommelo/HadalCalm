@@ -151,6 +151,7 @@ public class PlayState extends GameState {
 	private float playerDefaultScale = 1.0f;
 	private float zoomModifier = 1.0f;
 	private float timeModifier = 1.0f;
+	private float respawnTime = 1.5f;
 	private final boolean server;
 
 	//the current level's team mode (ffa, auto assigned or manual assigned) and base hp
@@ -182,7 +183,7 @@ public class PlayState extends GameState {
 	private String nextStartId;
 	
 	//If we are transitioning to a results screen, this is the displayed text;
-	protected String resultsText;
+	protected String resultsText = "";
 	
 	//Has the server finished loading yet?
 	private boolean serverLoaded;
@@ -200,7 +201,7 @@ public class PlayState extends GameState {
 	
 	public static final float defaultFadeOutSpeed = 2.0f;
 	public static final float defaultFadeDelay = 0.0f;
-	public static final float deathFadeDelay = 1.5f;
+	public static final float longFadeDelay = 1.5f;
 
 	//Special designated events parsed from map
 	private Event globalTimer;
@@ -506,10 +507,16 @@ public class PlayState extends GameState {
 			}
 		}
 		removeList.clear();
-		
+
+		if (server) {
+			for (User user: HadalGame.server.getUsers().values()) {
+				user.controller(this, delta);
+			}
+		}
+
 		//process camera, ui, any received packets
 		processCommonStateProperties(delta, false);
-		
+
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
 		controllerEntities(modifiedDelta);
 		
@@ -852,21 +859,8 @@ public class PlayState extends GameState {
 		switch (nextState) {
 		case RESPAWN:
 			gsm.getApp().fadeIn();
-			
 			spectatorMode = false;
 			
-			StartPoint getSave = getSavePoint(HadalGame.server.getUsers().get(0));
-			
-			//Create a new player
-			short hitboxFilter = HadalGame.server.getUsers().get(0).getHitBoxFilter().getFilter();
-			player = createPlayer(getSave, gsm.getLoadout().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(),
-				0, true, false, hitboxFilter);
-
-			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
-			this.cameraFocusAim.set(getSave.getStartPos());
-
-			((PlayerController) controller).setPlayer(player);
-
 			//Make nextState null so we can transition again
 			nextState = null;
 			break;
@@ -949,11 +943,10 @@ public class PlayState extends GameState {
 			nextLevel = level;
 			nextMode = mode;
 			this.nextStartId = nextStartId;
-			beginTransition(state, false, "", defaultFadeOutSpeed, defaultFadeDelay);
-			
-			//Server tells clients to begin a transition to the new state
-			HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState, false, "",
-					defaultFadeOutSpeed, defaultFadeDelay));
+
+			for (User user: HadalGame.server.getUsers().values()) {
+				user.beginTransition(this, state, false, defaultFadeOutSpeed, defaultFadeDelay);
+			}
 		}
 	}
 
@@ -1039,7 +1032,6 @@ public class PlayState extends GameState {
 		//for own player, the server must update their user information
 		if (isServer() && connID == 0) {
 			HadalGame.server.getUsers().get(0).setPlayer(p);
-			HadalGame.server.getUsers().get(0).setMouse(mouse);
 		}
 
 		//set player pvp hitbox filter.
@@ -1153,28 +1145,18 @@ public class PlayState extends GameState {
 				User dedUser = HadalGame.server.getUsers().get(player.getConnID());
 				if (dedUser != null) {
 					//the player that dies respawns if there are lives left and becomes a spectator otherwise
-					if (this.player.equals(player)) {
-						if (dedUser.getScores().getLives() > 0) {
-							beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);
-						} else {
-							beginTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay);
-						}
+					if (dedUser.getScores().getLives() > 0) {
+						dedUser.beginTransition(this, TransitionState.RESPAWN, false, defaultFadeOutSpeed, respawnTime);
 					} else {
-						//If a client dies, we tell them to transition to a spectator or respawn state.
-						if (dedUser.getScores().getLives() > 0) {
-							HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay));
-						} else {
-							HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay));
-						}
+						dedUser.beginTransition(this, TransitionState.SPECTATOR, false, defaultFadeOutSpeed, longFadeDelay);
 					}
 				}
 			}
 		} else {
 			//if there are infinite lives, we respawn the dead player
-			if (this.player.equals(player)) {
-				beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);
-			} else {
-				HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay));
+			User dedUser = HadalGame.server.getUsers().get(player.getConnID());
+			if (dedUser != null) {
+				dedUser.beginTransition(this, TransitionState.RESPAWN, false, defaultFadeOutSpeed, respawnTime);
 			}
 		}
 	}
@@ -1290,6 +1272,7 @@ public class PlayState extends GameState {
 	 * This is run by the server to transition to the results screen
 	 */
 	private void transitionToResultsState(String resultsText) {
+		this.resultsText = resultsText;
 
 		UserDto[] users = new UserDto[HadalGame.server.getUsers().size()];
 
@@ -1311,10 +1294,11 @@ public class PlayState extends GameState {
 			users[userIndex] = new UserDto(score, scoreExtra, user.isSpectator());
 			userIndex++;
 		}
+		HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(users, resultsText));
 
-		beginTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay);
-		HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(users));
-		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay));
+		for (User user: HadalGame.server.getUsers().values()) {
+			user.beginTransition(this, TransitionState.RESULTS, true, defaultFadeOutSpeed, longFadeDelay);
+		}
 	}
 
 	/**
@@ -1339,7 +1323,8 @@ public class PlayState extends GameState {
 	}
 
 	public void startSpectator(User user, int connId) {
-		HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay));
+		user.beginTransition(this, TransitionState.SPECTATOR, false, defaultFadeOutSpeed, longFadeDelay);
+		HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(TransitionState.SPECTATOR, defaultFadeOutSpeed, longFadeDelay));
 
 		//set the spectator's player number to default so they don't take up a player slot
 		user.getHitBoxFilter().setUsed(false);
@@ -1365,16 +1350,12 @@ public class PlayState extends GameState {
 
 				HadalGame.server.addNotificationToAll(this, "", score.getNameShort() + " stopped spectating and joined the game!", DialogType.SYSTEM);
 
-				//for host, start transition. otherwise, send transition packet
-				if (score.getConnID() == 0) {
-					beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);
-				} else {
-					HadalGame.server.sendToTCP(score.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay));
-				}
-
 				//give the new player a player slot
 				user.setHitBoxFilter(AlignmentFilter.getUnusedAlignment());
 				user.setSpectator(false);
+
+				//for host, start transition. otherwise, send transition packet
+				user.beginTransition(this, TransitionState.RESPAWN, false, defaultFadeOutSpeed, longFadeDelay);
 			}
 		}
 	}
@@ -1382,19 +1363,18 @@ public class PlayState extends GameState {
 	/**
 	 * This is called whenever we transition to a new state. Begin transition and set new state.
 	 * @param state: The state we are transitioning towards
-	 * @param override: Does this transition override other transitions?
-	 * @param resultsText: text to be displayed if we transition to a results screen (or for notification in title screen)
 	 * @param fadeSpeed: speed of transition
 	 * @param fadeDelay: amount of delay before transition
 	 */
-	public void beginTransition(TransitionState state, boolean override, String resultsText, float fadeSpeed, float fadeDelay) {
-		
+	public void beginTransition(TransitionState state, float fadeSpeed, float fadeDelay) {
+
 		//If we are already transitioning to a new results state, do not do this unless we tell it to override
-		if (nextState == null || override) {
-			this.resultsText = resultsText;
-			nextState = state;
-			gsm.getApp().fadeSpecificSpeed(fadeSpeed, fadeDelay);
-			gsm.getApp().setRunAfterTransition(this::transitionState);
+		nextState = state;
+		gsm.getApp().fadeSpecificSpeed(fadeSpeed, fadeDelay);
+		gsm.getApp().setRunAfterTransition(this::transitionState);
+
+		if (state.equals(TransitionState.RESPAWN)) {
+			killFeed.addKillInfo(fadeDelay + 1.0f / fadeSpeed);
 		}
 	}
 	
@@ -1409,7 +1389,8 @@ public class PlayState extends GameState {
 		} else {
 			HadalGame.client.getClient().stop();
 		}
-		beginTransition(TransitionState.TITLE, true, "", defaultFadeOutSpeed, delay);
+
+		beginTransition(TransitionState.TITLE, defaultFadeOutSpeed, delay);
 	}
 	
 	/**
@@ -1689,6 +1670,8 @@ public class PlayState extends GameState {
 
 	public void setTeamScoreCap(int teamScoreCap) { this.teamScoreCap = teamScoreCap; }
 
+	public void setRespawnTime(float respawnTime) {	this.respawnTime = respawnTime; }
+
 	public void toggleVisibleHitboxes(boolean debugHitbox) { this.debugHitbox = debugHitbox; }
 
 	public UIPlay getUiPlay() { return uiPlay; }
@@ -1740,4 +1723,8 @@ public class PlayState extends GameState {
 	public ArrayList<Object> getSyncPackets() {	return syncPackets; }
 
 	public void setNextState(TransitionState nextState) { this.nextState = nextState; }
+
+	public TransitionState getNextState() { return nextState; }
+
+	public void setResultsText(String resultsText) { this.resultsText = resultsText; }
 }

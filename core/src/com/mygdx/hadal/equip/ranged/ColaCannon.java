@@ -6,20 +6,16 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.FiringWeapon;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class ColaCannon extends RangedWeapon {
 
@@ -46,8 +42,8 @@ public class ColaCannon extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_SLODGEGUN;
 	private static final Sprite eventSprite = Sprite.P_SLODGEGUN;
 	
-	private static final float maxCharge = 7000.0f;
-	private static final float noiseThreshold = 1000.0f;
+	private static final float maxCharge = 12000.0f;
+	private static final float noiseThreshold = 1800.0f;
 
 	private final Vector2 lastMouse = new Vector2();
 	private float lastNoise;
@@ -55,46 +51,18 @@ public class ColaCannon extends RangedWeapon {
 	public ColaCannon(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
 	}
-	
-	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
-		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
 
-		if (reloading || getClipLeft() == 0) { return; }
-		
-		charging = true;
-		
-		//While held, gain charge equal to mouse movement from location last update
-		if (chargeCd < getChargeTime()) {
-			chargeCd += lastMouse.dst(mouseLocation);
-			if (chargeCd >= getChargeTime()) {
-				chargeCd = getChargeTime();
-			}
-			
-			if (chargeCd > lastNoise + noiseThreshold) {
-				lastNoise += noiseThreshold;
-				SoundEffect.SHAKE.playUniversal(state, user.getPixelPosition(), 1.0f, false);
-				new ParticleEntity(state, new Vector2(user.getPixelPosition()), Particle.COLA_IMPACT, 1.0f, true, particleSyncType.CREATESYNC);
-			}
-		}
-		lastMouse.set(mouseLocation);
-	}
-	
 	@Override
-	public void execute(PlayState state, BodyData shooter) {}
-	
-	@Override
-	public void release(PlayState state, BodyData bodyData) {
-		
+	public void execute(PlayState state, BodyData shooter) {
 		//when released, spray weapon at mouse. Spray duration and velocity scale to charge
-		if (processClip(bodyData)) {
+		if (processClip(shooter)) {
 			SoundEffect.POPTAB.playUniversal(state, user.getPixelPosition(), 0.8f, false);
 
 			final float duration = fireDuration * chargeCd / getChargeTime() + minDuration;
 			final float velocity = projectileSpeed * chargeCd / getChargeTime() + minVelo;
-			
-			bodyData.addStatus(new FiringWeapon(state, duration, bodyData, bodyData, velocity, minVelo, veloDeprec, projectileSize.x, procCd, this));
-			
+
+			shooter.addStatus(new FiringWeapon(state, duration, shooter, shooter, velocity, minVelo, veloDeprec, projectileSize.x, procCd, this));
+
 			charging = false;
 			chargeCd = 0;
 			lastNoise = 0;
@@ -115,5 +83,37 @@ public class ColaCannon extends RangedWeapon {
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.COLA_IMPACT));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.COLA, DamageTypes.RANGED));
+	}
+
+	@Override
+	public void update(PlayState state, float delta) {
+
+		if (reloading || getClipLeft() == 0) { return; }
+
+		charging = true;
+		mouseLocation.set(((Player) user).getMouse().getPixelPosition());
+		//While held, gain charge equal to mouse movement from location last update
+		if (chargeCd < getChargeTime()) {
+			chargeCd += lastMouse.dst(mouseLocation);
+			if (chargeCd >= getChargeTime()) {
+				chargeCd = getChargeTime();
+			}
+
+			if (chargeCd > lastNoise + noiseThreshold) {
+				lastNoise += noiseThreshold;
+				SoundEffect.SHAKE.playUniversal(state, user.getPixelPosition(), 1.0f, false);
+				new ParticleEntity(state, new Vector2(user.getPixelPosition()), Particle.COLA_IMPACT, 1.0f, true, particleSyncType.CREATESYNC);
+			}
+		}
+		lastMouse.set(mouseLocation);
+	}
+
+	@Override
+	public String getChargeText() {
+		if (chargeCd < getChargeTime()) {
+			return "SHAKE MOUSE!";
+		} else {
+			return "RELEASE!";
+		}
 	}
 }

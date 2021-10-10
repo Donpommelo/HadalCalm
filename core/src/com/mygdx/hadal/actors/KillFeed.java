@@ -1,5 +1,8 @@
 package com.mygdx.hadal.actors;
 
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.WeaponUtils;
@@ -10,6 +13,8 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -20,6 +25,7 @@ public class KillFeed {
 
     //Reference to the gsm. Used to reference gsm fields.
     private final PlayState ps;
+    private Table deathInfoTable;
     private final VerticalGroup feed, notification;
 
     private static final int tableX = 10;
@@ -39,6 +45,16 @@ public class KillFeed {
     private static final float notificationWidth = 500;
     private static final float notificationHeight = 300;
 
+    private static final int deathInfoX = -460;
+    private static final int deathInfoY = 330;
+    private static final int deathInfoXEnabled = 0;
+    private static final int deathInfoYEnabled = 330;
+    private static final int deathInfoWidth = 200;
+    private static final int deathInfoHeight = 150;
+
+    private static final float scale = 0.4f;
+    private static final float scaleSide = 0.25f;
+
     //messages displayed in the feed
     private final ArrayList<KillFeedMessage> messages = new ArrayList<>();
 
@@ -50,6 +66,8 @@ public class KillFeed {
 
     //notifications to be removed from the feed
     private final ArrayList<KillFeedMessage> removeNotifications = new ArrayList<>();
+
+    private Text deathInfo;
 
     public KillFeed(PlayState ps) {
         this.ps = ps;
@@ -185,11 +203,61 @@ public class KillFeed {
         notification.setWidth(notificationWidth);
         notification.setHeight(notificationHeight);
         notification.setPosition(HadalGame.CONFIG_WIDTH / 2 - notificationWidth / 2, HadalGame.CONFIG_HEIGHT - notificationY - notificationHeight);
+
+        deathInfoTable = new WindowTable() {
+
+            @Override
+            public void act(float delta) {
+                super.act(delta);
+
+                if (respawnTime > 0.0f) {
+                    respawnTime -= delta;
+
+                    formatDeathTimer();
+
+                    if (respawnTime <= 0.0f) {
+                        deathInfoTable.addAction(Actions.moveTo(deathInfoX, deathInfoY, transitionDuration, intp));
+                        deathInfoTable.setVisible(false);
+                    }
+                }
+            }
+        };
+        deathInfoTable.setPosition(deathInfoX, deathInfoY);
+        deathInfoTable.setSize(deathInfoWidth, deathInfoHeight);
+        ps.getStage().addActor(deathInfoTable);
+
+        deathInfo = new Text("", 0, 0, false);
+        deathInfo.setScale(scale);
     }
 
     private void initialNotification() {
         for (String notif: ps.getMode().getInitialNotifications()) {
             addNotification(notif, false);
         }
+    }
+
+    private float respawnTime;
+    private static final float transitionDuration = 0.25f;
+    private static final Interpolation intp = Interpolation.fastSlow;
+    public void addKillInfo(float respawnTime) {
+        deathInfoTable.clear();
+        this.respawnTime = respawnTime;
+
+        Text deathInfoTitle = new Text("RESPAWN IN: ", 0, 0, false);
+        deathInfoTitle.setScale(scaleSide);
+        deathInfoTable.add(deathInfoTitle).row();
+        deathInfoTable.add(deathInfo);
+        deathInfoTable.setVisible(true);
+
+        deathInfoTable.addAction(Actions.sequence(
+                Actions.moveTo(deathInfoX, deathInfoY, transitionDuration, intp),
+                Actions.run(this::formatDeathTimer),
+                Actions.moveTo(deathInfoXEnabled, deathInfoYEnabled, transitionDuration, intp)));
+    }
+
+    private void formatDeathTimer() {
+        DecimalFormat df = new DecimalFormat("0.0");
+        df.setRoundingMode(RoundingMode.DOWN);
+        deathInfo.setText(df.format(respawnTime) + " S");
     }
 }

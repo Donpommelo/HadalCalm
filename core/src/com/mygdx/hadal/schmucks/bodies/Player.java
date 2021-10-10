@@ -455,7 +455,7 @@ public class Player extends PhysicsSchmuck {
 		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
 		
 		//process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
-		playerData.getCurrentTool().update(delta);
+		playerData.getCurrentTool().update(state, delta);
 		
 		super.controller(delta);
 	}

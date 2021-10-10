@@ -37,14 +37,15 @@ public class LoveBow extends RangedWeapon {
 	private static final Sprite projSprite = Sprite.ARROW;
 	private static final Sprite weaponSprite = Sprite.MT_SPEARGUN;
 	private static final Sprite eventSprite = Sprite.P_SPEARGUN;
-	
-	private static final float baseHeal = 15.0f;
+
+	private static final float minHeal = 15.0f;
+	private static final float maxHeal = 35.0f;
 	private static final float maxCharge = 0.25f;
 	private static final float projectileMaxSpeed = 65.0f;
 	private static final float selfHitDelay = 0.1f;
 	
-	private static final float minDamage = 25.0f;
-	private static final float maxDamage = 60.0f;
+	private static final float minDamage = 34.0f;
+	private static final float maxDamage = 69.0f;
 	
 	private SoundEntity chargeSound;
 
@@ -100,7 +101,8 @@ public class LoveBow extends RangedWeapon {
 		//velocity scales to the charge percent
 		float velocity = chargeCd / getChargeTime() * (projectileMaxSpeed - projectileSpeed) + projectileSpeed;
 		float damage = chargeCd / getChargeTime() * (maxDamage - minDamage) + minDamage;
-		
+		float heal = chargeCd / getChargeTime() * (maxHeal - minHeal) + minHeal;
+
 		Hitbox hurtbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), filter, false, true, user, projSprite);
 		hurtbox.setGravity(1.0f);
 		
@@ -138,7 +140,7 @@ public class LoveBow extends RangedWeapon {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
 
 						if ((fixB == user.getBodyData() && delay <= 0) || (fixB != user.getBodyData() && ((BodyData) fixB).getSchmuck().getHitboxfilter() == user.getHitboxfilter())) {
-							((BodyData) fixB).regainHp(baseHeal, creator, true);
+							((BodyData) fixB).regainHp(heal, creator, true);
 							SoundEffect.COIN3.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
 							new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HEAL, 1.0f,
 									true, particleSyncType.CREATESYNC);

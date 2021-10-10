@@ -21,7 +21,7 @@ public class Fisticuffs extends MeleeWeapon {
 	private static final float baseDamage = 36.0f;
 
 	private static final Vector2 projectileSize = new Vector2(60, 40);
-	private static final float projectileSpeed = 20.0f;
+	private static final float projectileSpeed = 24.0f;
 	private static final float lifespan = 0.15f;
 	private static final float knockback = 25.0f;
 	private static final Sprite projSprite = Sprite.PUNCH;

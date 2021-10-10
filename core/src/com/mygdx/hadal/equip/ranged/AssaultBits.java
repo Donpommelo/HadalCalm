@@ -45,7 +45,8 @@ public class AssaultBits extends RangedWeapon {
 	private final ArrayList<Enemy> bits = new ArrayList<>();
 
 	public AssaultBits(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, summonShootCd);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
+				true, weaponSprite, eventSprite, projectileSize.x, summonShootCd);
 	}
 	
 	private final Vector2 realWeaponVelo = new Vector2();
@@ -83,7 +84,7 @@ public class AssaultBits extends RangedWeapon {
 	}
 
 	@Override
-	public void update(float delta) {
+	public void update(PlayState state, float delta) {
 		if (bits.size() < 3) {
 			setCharging(true);
 
@@ -93,10 +94,10 @@ public class AssaultBits extends RangedWeapon {
 				if (chargeCd >= getChargeTime()) {
 					chargeCd = 0.0f;
 
-					SoundEffect.CYBER2.playUniversal(user.getState(), user.getPixelPosition(), 0.4f, false);
+					SoundEffect.CYBER2.playUniversal(state, user.getPixelPosition(), 0.4f, false);
 
 					//bits are removed from the list upon death
-					DroneBit bit = new DroneBit(user.getState(), user.getPixelPosition(), 0.0f, user.getHitboxfilter(), null) {
+					DroneBit bit = new DroneBit(state, user.getPixelPosition(), 0.0f, user.getHitboxfilter(), null) {
 
 						@Override
 						public boolean queueDeletion() {
@@ -105,6 +106,7 @@ public class AssaultBits extends RangedWeapon {
 						}
 					};
 					bit.setMoveTarget(user);
+					bit.setOwner((Player) user);
 					bit.setAttackTarget(((Player) user).getMouse());
 					bits.add(bit);
 

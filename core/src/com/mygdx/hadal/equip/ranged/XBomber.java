@@ -27,7 +27,7 @@ public class XBomber extends RangedWeapon {
 	private static final float baseDamage = 24.0f;
 	private static final float recoil = 12.0f;
 	private static final float knockback = 30.0f;
-	private static final float projectileSpeed = 40.0f;
+	private static final float projectileSpeed = 48.0f;
 	private static final Vector2 projectileSize = new Vector2(80, 40);
 	private static final float lifespan = 0.5f;
 	

@@ -36,7 +36,7 @@ public enum GameMode {
 
     DEATHMATCH("dm",
         new SetCameraOnSpawn(), new SettingScoreCap(), new SettingTimer(ResultsState.magicWord), new DisplayUITag("SCOREBOARD"),
-        new SettingLives(), new SettingTeamMode(), new SettingBaseHp(), new SettingDroppableWeapons(),
+        new SettingLives(), new SettingTeamMode(), new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
         new SpawnWeapons(), new ToggleKillsScore(), new TogglePVP(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
             new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
@@ -48,8 +48,8 @@ public enum GameMode {
 
     CTF("ctf",
         new SetCameraOnSpawn(), new SettingTeamScoreCap(), new SettingTimer(ResultsState.magicWord),
-        new DisplayUITag("TEAMSCORE"), new SettingDroppableWeapons(), new SettingBaseHp(), new SpawnWeapons(),
-        new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife(),
+        new DisplayUITag("TEAMSCORE"), new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
+        new SpawnWeapons(), new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
             new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
@@ -62,7 +62,7 @@ public enum GameMode {
 
     GUN_GAME("dm", DEATHMATCH,
         new SetCameraOnSpawn(), new SettingTimer(ResultsState.magicWord),
-        new DisplayUITag("GUNGAME"), new SettingBaseHp(),
+        new DisplayUITag("GUNGAME"), new SettingBaseHp(), new SettingRespawnTime(),
         new TogglePVP(), new ToggleUnlimitedLife(),
         new SetLoadoutEquips(UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
         new SetLoadoutArtifacts(UnlockArtifact.GUN_GAME, UnlockArtifact.INFINITE_AMMO), new SetLoadoutActive(UnlockActives.NOTHING),
@@ -71,15 +71,15 @@ public enum GameMode {
 
     EGGPLANTS("objective,dm", DEATHMATCH,
             new SetCameraOnSpawn(), new SettingTimer(ResultsState.magicWord), new DisplayUITag("SCOREBOARD"),
-            new SettingBaseHp(), new SettingDroppableWeapons(), new SpawnWeapons(), new ToggleEggplantDrops(),
-            new TogglePVP(), new ToggleUnlimitedLife(),
+            new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
+            new SpawnWeapons(), new ToggleEggplantDrops(), new TogglePVP(), new ToggleUnlimitedLife(),
             new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
                     new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
     KINGMAKER("objective,dm", DEATHMATCH,
             new SetCameraOnSpawn(), new SettingTimer(ResultsState.magicWord), new DisplayUITag("SCOREBOARD"),
-            new SettingBaseHp(), new SettingDroppableWeapons(), new SpawnWeapons(),
-            new TogglePVP(), new ToggleUnlimitedLife(),
+            new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
+            new SpawnWeapons(), new TogglePVP(), new ToggleUnlimitedLife(),
             new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
                     new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 

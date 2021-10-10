@@ -145,7 +145,7 @@ public abstract class Equippable {
 	/**
 	 * This is run every engine tick for weapons that have an effect that activates over time.
 	 */
-	public void update(float delta) {}
+	public void update(PlayState state, float delta) {}
 	
 	/**
 	 * @return the string representing the weapon in the ui.

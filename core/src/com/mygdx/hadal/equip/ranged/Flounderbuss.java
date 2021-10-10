@@ -37,7 +37,8 @@ public class Flounderbuss extends RangedWeapon {
 	private static final float maxCharge = 0.5f;
 	private static final float veloSpread = 0.6f;
 
-	private static final int maxNumProj = 15;
+	private static final int baseNumProj = 3;
+	private static final int maxNumProj = 13;
 	private static final float pitchSpread = 0.4f;
 	private static final int spread = 20;
 	
@@ -75,7 +76,7 @@ public class Flounderbuss extends RangedWeapon {
 		SoundEffect.SHOTGUN.playUniversal(state, startPosition, 0.75f, 0.75f, false);
 
 		//amount of projectiles scales to charge percent
-		for (int i = 0; i < maxNumProj * chargeCd / getChargeTime() + 1; i++) {
+		for (int i = 0; i < maxNumProj * chargeCd / getChargeTime() + baseNumProj; i++) {
 			
 			int randomIndex = ThreadLocalRandom.current().nextInt(projSprites.length);
 			Sprite projSprite = projSprites[randomIndex];

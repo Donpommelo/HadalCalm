@@ -291,9 +291,6 @@ public class ClientState extends PlayState {
 			gsm.getApp().fadeIn();
 			spectatorMode = false;
 			
-			//Inform the server that we have finished transitioning to tell them to make us a new player.
-			HadalGame.client.sendTCP(new Packets.ClientFinishRespawn(new Loadout(gsm.getLoadout())));
-			
 			//Make nextState null so we can transition again
 			nextState = null;
 			break;

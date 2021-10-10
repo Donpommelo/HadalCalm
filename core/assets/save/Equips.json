@@ -63,7 +63,7 @@
 "BOOMERANG": {
 	"name": "Boomerang",
 	"description": "Fires a boomerang that returns to player.",
-    "descriptionLong": "Boomerang Damage: 30\n\nClip Size: 3\nAmmo Capacity: 24\nReload Time: 0.75 Second per Boomerang\nAttack Cooldown: 0.75 Second",
+    "descriptionLong": "Boomerang Damage: 35\n\nClip Size: 3\nAmmo Capacity: 24\nReload Time: 0.75 Second per Boomerang\nAttack Cooldown: 0.75 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
@@ -73,7 +73,7 @@
 "BOUNCING_BLADE": {
 	"name": "Bouncing Blades",
 	"description": "Fires a spinning blade in a straight line that bounces off of surfaces.",
-    "descriptionLong": "Blade Damage: 32\nBlades bounce up to 5 Times\n\nClip Size: 5\nAmmo Capacity: 30\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.35 Second",
+    "descriptionLong": "Blade Damage: 39\nBlades bounce up to 5 Times\n\nClip Size: 5\nAmmo Capacity: 30\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.7 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
@@ -210,7 +210,7 @@
 "KAMABOKANNON": {
 	"name": "Kamabokannon",
 	"description": "Charge and fire a powerful but difficult to control spray of kamaboko.",
-    "descriptionLong": "Kamaboko Damage: 21\nWindup Duration: 0.25 Second\n\nClip Size: 100\nAmmo Capacity: 500\nReload Time: 1.3 Seconds\nAttack Cooldown: 0.06 Second",
+    "descriptionLong": "Kamaboko Damage: 23\nWindup Duration: 0.25 Second\n\nClip Size: 100\nAmmo Capacity: 500\nReload Time: 1.3 Seconds\nAttack Cooldown: 0.1 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
@@ -220,7 +220,7 @@
 "KILLER_BEAT": {
 	"name": "Killer Beat",
 	"description": "Fire a stream of sound waves. Fire right when the meter fills up to create a shotgun-blast instead.",
-    "descriptionLong": "Sound Wave Damage: 25\n\nClip Size: 180\nAmmo Capacity: 0\nMeter Charge Time: 1 Second",
+    "descriptionLong": "Sound Wave Damage: 25\n\nClip Size: 240\nAmmo Capacity: 0\nMeter Charge Time: 1 Second\nAttack Cooldown: 0.18 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
@@ -250,7 +250,7 @@
 "LOVE_BOW": {
 	"name": "Love Bow",
 	"description": "Hold and release to fire arrows. In co-op mode, these projectiles heal allies.",
-    "descriptionLong": "Arrow Damage at Min Charge: 25\nArrow Damage at Max Charge: 60\nArrow Heal on Allies: 15\n\nClip Size: 1\nAmmo Capacity: 50\nReload Time: 0.6 Second\nCharge Duration: 0.25 Second",
+    "descriptionLong": "Arrow Damage at Min Charge: 35\nArrow Damage at Max Charge: 69\nArrow Heal at Min Charge: 15\nArrow Heal at Max Charge: 35\n\nClip Size: 1\nAmmo Capacity: 50\nReload Time: 0.6 Second\nCharge Duration: 0.25 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
@@ -350,7 +350,7 @@
 "PEPPERGRINDER": {
 	"name": "Peppergrinder",
 	"description": "Fires a sweeping spray of lasers.",
-    "descriptionLong": "Laser Damage: 15\n\nClip Size: 60\nAmmo Capacity: 360\nReload Time: 1.5 Seconds\nAttack Cooldown: 0.06 Second",
+    "descriptionLong": "Laser Damage: 19\n\nClip Size: 60\nAmmo Capacity: 360\nReload Time: 1.5 Seconds\nAttack Cooldown: 0.06 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
@@ -360,7 +360,7 @@
 "PUFFBALLER": {
 	"name": "Puffballer",
 	"description": "Fires a spore cluster that bursts at target location.",
-    "descriptionLong": "Cluster Damage: 42\nSpore Damage: 15\nSpore Number: 10\nSpore Lifespan: 5 Seconds\n\nClip Size: 4\nAmmo Capacity: 40\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.5 Second",
+    "descriptionLong": "Cluster Damage: 42\nSpore Damage: 15\nSpore Number: 7\nSpore Lifespan: 5 Seconds\n\nClip Size: 4\nAmmo Capacity: 40\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.8 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
@@ -421,7 +421,7 @@
 "SNIPER_RIFLE": {
 	"name": "Sniper Rifle",
 	"description": "Long-ranged weapon that can headshot. Headshots deal bonus damage at long range.",
-    "descriptionLong": "Bullet Damage: 55\nMax Bonus Headshot Damage: +175%\n\nClip Size: 1\nAmmo Capacity: 21\nReload Time: 1.3 Seconds",
+    "descriptionLong": "Bullet Damage: 55\nMax Bonus Headshot Damage: +175%\n\nClip Size: 1\nAmmo Capacity: 21\nReload Time: 1.4 Seconds",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",

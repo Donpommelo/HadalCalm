@@ -179,8 +179,6 @@ public class Packets {
 	
 	public static class ClientStartTransition {
 		public TransitionState state;
-		public boolean override;
-		public String resultsText;
 		public float fadeSpeed;
 		public float fadeDelay;
 		public ClientStartTransition() {}
@@ -190,33 +188,13 @@ public class Packets {
 		 * to transition as well.
 		 * Clients receiving this begin fading to black the same way the Server does.
 		 * @param state: Are we transitioning to a new level, a gameover screen or whatever else?
-		 * @param override: Should this override other transitions?
-		 * @param resultsText: If transitioning to a results screen, what text should be displayed?
 		 * @param fadeSpeed: speed of the fade transition
 		 * @param fadeDelay: Amount of delay before transition
 		 */
-		public ClientStartTransition(TransitionState state, boolean override, String resultsText, float fadeSpeed, float fadeDelay) {
+		public ClientStartTransition(TransitionState state, float fadeSpeed, float fadeDelay) {
 			this.state = state;
-			this.override = override;
-			this.resultsText = resultsText;
 			this.fadeSpeed = fadeSpeed;
 			this.fadeDelay = fadeDelay;
-		}
-	}
-	
-	public static class ClientFinishRespawn {
-		public Loadout loadout;
-
-		public ClientFinishRespawn() {}
-
-		/**
-		 * A ClientFinishRespawn is sent from the Client to the Server upon finishing their fade-to-black after receiving a ClientStartTransition Packet
-		 * If the client is respawning, the server creates the new client player upon receiving this message.
-		 * @param loadout: the loadout that the client will be respawning with
-		 *
-		 */
-		public ClientFinishRespawn(Loadout loadout) {
-			this.loadout = loadout;
 		}
 	}
 	
@@ -1104,10 +1082,14 @@ public class Packets {
 	}
 	
 	public static class EndSpectate {
-		
+		public Loadout loadout;
 		/**
 		 * An EndSpectate is sent from the client to the server when the client chooses to stop spectating a game 
 		 */
+		public EndSpectate(Loadout loadout) {
+			this.loadout = loadout;
+		}
+
 		public EndSpectate() {}
 	}
 
@@ -1153,6 +1135,7 @@ public class Packets {
 	
 	public static class SyncExtraResultsInfo {
 		public UserDto[] users;
+		public String resultsText;
 
 		public SyncExtraResultsInfo() {}
 		
@@ -1160,8 +1143,9 @@ public class Packets {
 		 * A SyncExtraResultsInfo is sent from the server to the client when they enter the results screen.
 		 * @param users: This contains information about the match performance
 		 */
-		public SyncExtraResultsInfo(UserDto[] users) {
+		public SyncExtraResultsInfo(UserDto[] users, String resultsText) {
 			this.users = users;
+			this.resultsText = resultsText;
 		}
 	}
 	
@@ -1304,7 +1288,6 @@ public class Packets {
     	kryo.register(ClientLoaded.class);
     	kryo.register(ClientPlayerCreated.class);
     	kryo.register(ClientStartTransition.class);
-    	kryo.register(ClientFinishRespawn.class);
     	kryo.register(SyncScore.class);
     	kryo.register(CreateEntity.class);
     	kryo.register(CreateEnemy.class);

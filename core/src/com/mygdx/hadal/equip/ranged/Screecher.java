@@ -37,7 +37,7 @@ public class Screecher extends RangedWeapon {
 	private static final float baseDamage = 12.0f;
 	private static final float recoil = 1.5f;
 	private static final float knockback = 6.0f;
-	private static final float projectileSpeed = 10.0f;
+	private static final float projectileSpeed = 12.0f;
 	private static final int range = 24;
 	private static final Vector2 projectileSize = new Vector2(120, 120);
 	private static final float lifespan = 0.3f;

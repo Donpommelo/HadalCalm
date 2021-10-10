@@ -71,7 +71,7 @@ public class EnemySwimming extends EnemyFloating {
 		default:
 			break;
 		}
-		
+
 		//process enemy movement noise
 		noiseCdCount += delta;
 		while (noiseCdCount >= noiseCd) {
@@ -126,10 +126,13 @@ public class EnemySwimming extends EnemyFloating {
 	public void setMaxRange(float maxRange) { this.maxRange = maxRange; }
 	
 	public void setNoiseRadius(float noiseRadius) { this.noiseRadius = noiseRadius; }
-	
+
+	public Vector2 getMoveDirection() { return moveDirection; }
+
 	public enum SwimmingState {
 		STILL,
 		WANDER,
-		CHASE
+		CHASE,
+		OTHER,
 	}
 }

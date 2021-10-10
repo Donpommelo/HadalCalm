@@ -27,7 +27,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 	private static final float reloadTime = 1.0f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 15.0f;
-	private static final float recoil = 6.0f;
+	private static final float recoil = 4.0f;
 	private static final float knockback = 22.0f;
 	private static final float projectileSpeed = 45.0f;
 	private static final Vector2 projectileSize = new Vector2(50, 15);
@@ -116,7 +116,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 	
 	//heat level of the weapon decreases over time
 	@Override
-	public void update(float delta) {
+	public void update(PlayState state, float delta) {
 		if (chargeCd > 0) {
 			chargeCd -= (delta * (1 - user.getBodyData().getStat(Stats.EQUIP_CHARGE_RATE)));
 		}

@@ -16,16 +16,16 @@ public class BouncingBlade extends RangedWeapon {
 
 	private static final int clipSize = 5;
 	private static final int ammoSize = 30;
-	private static final float shootCd = 0.35f;
+	private static final float shootCd = 0.7f;
 	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.4f;
 	private static final int reloadAmount = 0;
-	private static final float baseDamage = 32.0f;
+	private static final float baseDamage = 39.0f;
 	private static final float recoil = 6.0f;
 	private static final float knockback = 25.0f;
-	private static final float projectileSpeed = 45.0f;
+	private static final float projectileSpeed = 54.0f;
 	private static final Vector2 projectileSize = new Vector2(50, 50);
-	private static final float lifespan = 3.0f;
+	private static final float lifespan = 1.5f;
 	
 	private static final Sprite projSprite = Sprite.BUZZSAW;
 	private static final Sprite weaponSprite = Sprite.MT_BLADEGUN;
@@ -40,7 +40,7 @@ public class BouncingBlade extends RangedWeapon {
 		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.75f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
-		hbox.setDurability(7);
+		hbox.setDurability(5);
 		hbox.setRestitution(1.0f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

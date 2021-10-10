@@ -211,7 +211,7 @@ public class KryoClient {
 						user.setScoreUpdated(true);
 					} else {
 						score = new SavedPlayerFields(p.name, p.connID);
-						users.put(p.connID, new User(null, null, score, new SavedPlayerFieldsExtra()));
+						users.put(p.connID, new User(null, score, new SavedPlayerFieldsExtra()));
 					}
 					score.setWins(p.wins);
 					score.setKills(p.kills);
@@ -366,7 +366,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 
 			if (cs != null) {
-				cs.addPacketEffect(() -> cs.beginTransition(p.state, p.override, p.resultsText, p.fadeSpeed, p.fadeDelay));
+				cs.addPacketEffect(() -> cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay));
 			}
 		}
 
@@ -578,6 +578,8 @@ public class KryoClient {
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
 
+					cs.setResultsText(p.resultsText);
+
 					//temporarily store user info so we can attach old player to updated user
 					HashMap<Integer, User> usersTemp = new HashMap<>(users);
 					users.clear();
@@ -586,7 +588,7 @@ public class KryoClient {
 						UserDto user = p.users[i];
 						User updatedUser;
 						if (user != null) {
-							updatedUser = new User(null, null, user.scores, user.scoresExtra);
+							updatedUser = new User(null, user.scores, user.scoresExtra);
 							updatedUser.setSpectator(user.spectator);
 
 							User userOld = usersTemp.get(user.scores.getConnID());
@@ -759,7 +761,7 @@ public class KryoClient {
 					if (users.containsKey(p.connID)) {
 						users.get(p.connID).setPlayer(newPlayer);
 					} else {
-						users.put(p.connID, new User(newPlayer, null, new SavedPlayerFields(p.name, p.connID), new SavedPlayerFieldsExtra()));
+						users.put(p.connID, new User(newPlayer, new SavedPlayerFields(p.name, p.connID), new SavedPlayerFieldsExtra()));
 					}
 					users.get(p.connID).setTeamFilter(p.loadout.team);
 				});

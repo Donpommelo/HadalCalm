@@ -48,7 +48,8 @@ public class Banana extends RangedWeapon {
 	private static final float explosionKnockback = 45.0f;
 	
 	public Banana(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
+				true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
 	}
 	
 	@Override
