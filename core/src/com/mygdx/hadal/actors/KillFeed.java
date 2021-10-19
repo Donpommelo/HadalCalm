@@ -67,6 +67,7 @@ public class KillFeed {
     //notifications to be removed from the feed
     private final ArrayList<KillFeedMessage> removeNotifications = new ArrayList<>();
 
+    //this contains information shown when waiting to respawn
     private Text deathInfo;
 
     public KillFeed(PlayState ps) {
@@ -210,6 +211,7 @@ public class KillFeed {
             public void act(float delta) {
                 super.act(delta);
 
+                //increment displayed respawn time (does not actually control respawn, but should be same number)
                 if (respawnTime > 0.0f) {
                     respawnTime -= delta;
 
@@ -230,6 +232,10 @@ public class KillFeed {
         deathInfo.setScale(scale);
     }
 
+    /**
+     * This is run upon starting a match with mode modifiers.
+     * It displays all modifiers
+     */
     private void initialNotification() {
         for (String notif: ps.getMode().getInitialNotifications()) {
             addNotification(notif, false);
@@ -239,6 +245,11 @@ public class KillFeed {
     private float respawnTime;
     private static final float transitionDuration = 0.25f;
     private static final Interpolation intp = Interpolation.fastSlow;
+
+    /**
+     * This iss run upon dying if respawning
+     * @param respawnTime: The amount of time it takes before respawning
+     */
     public void addKillInfo(float respawnTime) {
         deathInfoTable.clear();
         this.respawnTime = respawnTime;
@@ -255,6 +266,9 @@ public class KillFeed {
                 Actions.moveTo(deathInfoXEnabled, deathInfoYEnabled, transitionDuration, intp)));
     }
 
+    /**
+     * format respawn timer to have 2 digits
+     */
     private void formatDeathTimer() {
         DecimalFormat df = new DecimalFormat("0.0");
         df.setRoundingMode(RoundingMode.DOWN);

@@ -62,7 +62,7 @@ public class WeaponUtils {
 
 		//this prevents players from damaging allies with explosives in the hub
 		short actualFilter = filter;
-		if (user.getHitboxfilter() == Constants.PLAYER_HITBOX && state.isHub()) {
+		if (user.getHitboxfilter() == Constants.PLAYER_HITBOX && state.getMode().isHub()) {
 			actualFilter = Constants.PLAYER_HITBOX;
 		}
 
@@ -740,8 +740,9 @@ public class WeaponUtils {
 	/**
 	 * This spawns some amount of scrap events as currency for the player
 	 * @param statCheck: do we take into account the player's bonus scrap drop?
+	 * @param score: does picking up the screp increment the player's score?
 	 */
-	public static void spawnScrap(PlayState state, int amount, Vector2 startPos, boolean statCheck) {
+	public static void spawnScrap(PlayState state, int amount, Vector2 startPos, boolean statCheck, boolean score) {
 		
 		int modifiedAmount;
 		
@@ -756,7 +757,7 @@ public class WeaponUtils {
 		}
 		
 		for (int i = 0; i < modifiedAmount; i++) {
-			new Scrap(state, startPos);
+			new Scrap(state, startPos, score);
 		}
 	}
 	

@@ -22,6 +22,8 @@ public class SettingTeamScoreCap extends ModeSetting {
 
     private SelectBox<String> scoreCapOptions;
 
+    private int teamScoreCap;
+
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
         
@@ -53,6 +55,17 @@ public class SettingTeamScoreCap extends ModeSetting {
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        state.setTeamScoreCap(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
+        teamScoreCap = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
+    }
+
+    @Override
+    public void processTeamScoreChange(PlayState state, GameMode mode, int teamIndex, int newScore) {
+        if (teamScoreCap > 0) {
+            if (newScore >= teamScoreCap) {
+                if (state.getGlobalTimer() != null) {
+                    state.getGlobalTimer().getEventData().preActivate(null, null);
+                }
+            }
+        }
     }
 }

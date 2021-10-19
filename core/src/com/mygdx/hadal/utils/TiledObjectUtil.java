@@ -180,7 +180,6 @@ public class TiledObjectUtil {
 				object.getProperties().get("tags", "", String.class),
 				object.getProperties().get("clear", true, boolean.class));
 			case "Game" -> e = new GameChanger(state,
-				object.getProperties().get("lives", 0, int.class),
 				object.getProperties().get("score", 0, int.class),
 				object.getProperties().get("timer", 0.0f, float.class),
 				object.getProperties().get("timerIncr", 0.0f, float.class),

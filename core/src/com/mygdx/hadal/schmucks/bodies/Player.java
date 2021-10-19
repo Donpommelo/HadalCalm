@@ -21,7 +21,6 @@ import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.input.ActionController;
-import com.mygdx.hadal.map.SettingBaseHp;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -176,11 +175,9 @@ public class Player extends PhysicsSchmuck {
 	 * Note that the starting filter logic goes like this: if not pvp, we just have the default player hbox filter. If pvp, we generate a new hbox filter if 
 	 * we are a new player and use our old one if we are respawning
 	 */
-	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
-		super(state, startPos, new Vector2(
-				hbWidth * scale * state.getPlayerDefaultScale(),
-				hbHeight * scale * state.getPlayerDefaultScale()), name, Constants.PLAYER_HITBOX,
-			state.isPvp() ? SettingBaseHp.indexToHp(state.getBaseHp()) : baseHp);
+	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID,
+	  		boolean reset, StartPoint start) {
+		super(state, startPos, new Vector2(hbWidth * scale,hbHeight * scale), name, Constants.PLAYER_HITBOX, baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
 		toolSprite = Sprite.MT_DEFAULT.getFrame();
@@ -260,10 +257,15 @@ public class Player extends PhysicsSchmuck {
 		
 		//If resetting, this indicates that this is a newly spawned or respawned player. Create new data for it with the provided loadout.
 		//Otherwise, take the input data and reset it to match the new world.
-		if (reset) {
+		//Null is just for safety. Not needed b/c playerData should only be null when resetting,
+		//(no existing player or joining from specatator)
+		if (reset || playerData == null) {
 			playerData = new PlayerBodyData(this, startLoadout);
 		}
-		
+
+		//we scale size here to account for any player size modifiers
+		size.scl(state.getPlayerDefaultScale());
+
 		this.body = BodyBuilder.createBox(world, startPos, size, 1.0f, playerDensity, 0.0f, 0.0f, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				hitboxfilter, false, playerData);
@@ -275,7 +277,7 @@ public class Player extends PhysicsSchmuck {
 				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter);
 		
 		feet.setUserData(feetData);
-		
+
 		this.leftData = new FeetData(UserDataTypes.FEET, this);
 
 		Fixture leftSensor = FixtureBuilder.createFixtureDef(body, new Vector2(-size.x / 2, 0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
@@ -318,6 +320,7 @@ public class Player extends PhysicsSchmuck {
 
 		//activate start point events (these usually just set up camera bounds/zoom and stuff like that)
 		//This line is here so that it does not occur before events are done being created.
+		//We only do this for our own player. For clients, this is run when they send a player created packet
 		if (start != null && state.getPlayer().equals(this)) {
 			start.playerStart(this);
 		}
@@ -739,7 +742,7 @@ public class Player extends PhysicsSchmuck {
 		boolean visible = false;
 		
 		//draw hp heart if using certain effects, looking at self/ally, or in spectator mode
-		if (state.isSpectatorMode() || hitboxfilter == state.getPlayer().hitboxfilter || state.isVisibleHp()) {
+		if (state.isSpectatorMode() || hitboxfilter == state.getPlayer().hitboxfilter) {
 			visible = true;
 		} else if (state.isServer()) {
 			if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {

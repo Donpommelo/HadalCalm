@@ -251,6 +251,13 @@ public class ResultsState extends GameState {
 		gsm.getApp().fadeIn();
 		app.newMenu(stage);
 
+		//this makes the info window start off visible with the player's info
+		if (ps.isServer()) {
+			syncInfoTable(0);
+		} else {
+			syncInfoTable(HadalGame.client.connID);
+		}
+
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
 		inputMultiplexer.addProcessor(stage);
@@ -338,7 +345,7 @@ public class ResultsState extends GameState {
 				}
 
 				final PooledEffect finalEffect = effect;
-				PlayerResultsIcon icon = new PlayerResultsIcon(this, batch, field, fieldExtra) {
+				PlayerResultsIcon icon = new PlayerResultsIcon(batch, field, fieldExtra) {
 
 					@Override
 					public void draw(Batch batch, float alpha) {
@@ -389,11 +396,10 @@ public class ResultsState extends GameState {
 			User user;
 			if (ps.isServer()) {
 				user =  HadalGame.server.getUsers().get(connId);
-
 			} else {
 				user =  HadalGame.client.getUsers().get(connId);
 			}
-			if (user != null) {
+			if (user != null && !user.isSpectator()) {
 				field = user.getScores();
 				fieldExtra = user.getScoresExtra();
 			}

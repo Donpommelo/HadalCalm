@@ -166,7 +166,7 @@ public class KryoServer {
 								return;
 							}
 
-							if (!ps.isHub()) {
+							if (!ps.getMode().isHub()) {
 								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), modeSettings, p.firstTime, true));
 								return;
 							}
@@ -194,7 +194,7 @@ public class KryoServer {
 
 							//client joins as a spectator if their packet specifies so,
 							//or if they were previously a spectator and are joining a non-hub level
-							boolean spectator = p.spectator || (p.lastSpectator && !ps.isHub());
+							boolean spectator = p.spectator || (p.lastSpectator && !ps.getMode().isHub());
 
 							//If the client has already been created, we create a new player, otherwise we reuse their old data.
 							User user = users.get(c.getID());
@@ -211,16 +211,18 @@ public class KryoServer {
 									//alive check prevents duplicate players if entering/respawning simultaneously
 									if (!player.isAlive()) {
 										if (ps.isReset()) {
-											createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset(), spectator);
+											createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(),
+													true, spectator, null);
 										} else {
-											createNewClientPlayer(ps, c.getID(), p.name, player.getPlayerData().getLoadout(), player.getPlayerData(), ps.isReset(), spectator);
+											createNewClientPlayer(ps, c.getID(), p.name, player.getPlayerData().getLoadout(),
+													player.getPlayerData(), false, spectator, null);
 										}
 									}
 								} else {
-									createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator);
+									createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator, null);
 								}
 							} else {
-								createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator);
+								createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator, null);
 							}
 
 							//sync client ui elements
@@ -383,11 +385,13 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					User user = users.get(c.getID());
 					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							player.startTyping();
-							sendToAllExceptUDP(c.getID(), new Packets.SyncTyping(player.getEntityID().toString()));
-						}
+						ps.addPacketEffect(() -> {
+							Player player = user.getPlayer();
+							if (player != null) {
+								player.startTyping();
+								sendToAllExceptUDP(c.getID(), new Packets.SyncTyping(player.getEntityID().toString()));
+							}
+						});
 					}
 				}
 
@@ -398,10 +402,12 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					User user = users.get(c.getID());
 					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							ps.getChatWheel().emote(player, p.emoteIndex);
-						}
+						ps.addPacketEffect(() -> {
+							Player player = user.getPlayer();
+							if (player != null) {
+								ps.getChatWheel().emote(player, p.emoteIndex);
+							}
+						});
 					}
 				}
 
@@ -468,7 +474,7 @@ public class KryoServer {
 			}
 		};
 		
-//        server.addListener(new Listener.LagListener(10, 10, packetListener));
+//        server.addListener(new Listener.LagListener(100, 100, packetListener));
 		server.addListener(packetListener);
 		
 		try {
@@ -493,7 +499,7 @@ public class KryoServer {
 	 * @param spectator: is this player created as a spectator?
 	 */
 	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout,
-									  final PlayerBodyData data, final boolean reset, final boolean spectator) {
+	  final PlayerBodyData data, final boolean reset, final boolean spectator, final StartPoint startPoint) {
 
 		ps.addPacketEffect(() -> {
 
@@ -508,7 +514,12 @@ public class KryoServer {
 				user.setTeamFilter(loadout.team);
 			}
 
-			StartPoint newSave = ps.getSavePoint(user);
+			StartPoint newSave;
+			if (startPoint == null) {
+				newSave = ps.getSavePoint(user);
+			} else {
+				newSave = startPoint;
+			}
 
 			//set the client as a spectator if requested
 			if (spectator) {
@@ -523,45 +534,6 @@ public class KryoServer {
 				user.setSpectator(false);
 			}
 		});
-	}
-	
-	/**
-	 * This is called when a player is killed to update score information
-	 * @param perp: player that kills
-	 * @param vic: player that gets killed
-	 */
-	public void registerKill(Player perp, Player vic) {
-		
-		PlayState ps = getPlayState();
-		
-		if (ps != null) {
-						
-			//update score of client matching the players involved
-			if (vic != null) {
-				if (users.containsKey(vic.getConnID())) {
-					User user = users.get(vic.getConnID());
-					user.getScores().registerDeath();
-					user.setScoreUpdated(true);
-				}
-			}
-			
-			if (perp != null) {
-				if (users.containsKey(perp.getConnID())) {
-					User user = users.get(perp.getConnID());
-					user.getScores().registerKill(ps.isKillsScore());
-					user.setScoreUpdated(true);
-
-					//if the player has reached the score goal, end the game
-					if (ps.getScoreCap() > 0) {
-						if (user.getScores().getScore() >= ps.getScoreCap()) {
-							if (ps.getGlobalTimer() != null) {
-								ps.getGlobalTimer().getEventData().preActivate(null, null);
-							}
-						}
-					}
-				}
-			}
-		}
 	}
 	
 	/**

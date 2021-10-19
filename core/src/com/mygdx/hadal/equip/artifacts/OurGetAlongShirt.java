@@ -51,7 +51,7 @@ public class OurGetAlongShirt extends Artifact {
 			@Override
 			public void timePassing(float delta) {
 
-				if (state.isHub()) {
+				if (state.getMode().isHub()) {
 					return;
 				}
 

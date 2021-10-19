@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.map.modifiers.ModeModifier;
 import com.mygdx.hadal.states.PlayState;
 
@@ -63,6 +64,13 @@ public class SetModifiers extends ModeSetting {
         }
         if (!text.toString().equals(ModifierNotifTag)) {
             mode.getInitialNotifications().add(text.toString());
+        }
+    }
+
+    @Override
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
+        for (ModeModifier modifier: modifiers) {
+            modifier.modifyNewPlayerLoadout(state, mode, newLoadout, connID);
         }
     }
 }

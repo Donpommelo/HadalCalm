@@ -4,7 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -18,6 +20,8 @@ public class SettingBaseHp extends ModeSetting {
     private static final Integer defaultValue = 2;
 
     private SelectBox<String> hpOptions;
+
+    private int baseHpIndex;
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
@@ -40,7 +44,12 @@ public class SettingBaseHp extends ModeSetting {
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        state.setBaseHp(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
+        baseHpIndex = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
+    }
+
+    @Override
+    public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
+        p.setBaseHp(indexToHp(baseHpIndex));
     }
 
     public static int indexToHp(int index) {

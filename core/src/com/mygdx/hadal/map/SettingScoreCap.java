@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -21,6 +22,8 @@ public class SettingScoreCap extends ModeSetting {
     public static final Integer defaultValue = 0;
 
     private SelectBox<String> scoreCapOptions;
+
+    private int scoreCap;
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
@@ -53,6 +56,17 @@ public class SettingScoreCap extends ModeSetting {
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        state.setScoreCap(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
+        scoreCap = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
+    }
+
+    @Override
+    public void processPlayerScoreChange(PlayState state, GameMode mode, Player p, int newScore) {
+        if (scoreCap > 0) {
+            if (newScore >= scoreCap) {
+                if (state.getGlobalTimer() != null) {
+                    state.getGlobalTimer().getEventData().preActivate(null, null);
+                }
+            }
+        }
     }
 }

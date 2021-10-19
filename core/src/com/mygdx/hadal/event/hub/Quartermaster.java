@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
+import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.InfoItem;
 import com.mygdx.hadal.save.ShopInfo;
@@ -55,7 +56,7 @@ public class Quartermaster extends HubEvent {
 				        	//leave and enter to reset available inventory
 				        	me.leave();
 				        	me.enter();
-				        	state.getUiExtra().syncData();
+				        	state.getUiExtra().syncUIText(UITag.uiType.SCRAP);
 			        	}
 			        }
 					

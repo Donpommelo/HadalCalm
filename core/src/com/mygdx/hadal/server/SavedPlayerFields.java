@@ -24,24 +24,6 @@ public class SavedPlayerFields {
 	}
 
 	/**
-	 * This is called when this player kills another player
-	 */
-	public void registerKill(boolean incrementScore) {
-		kills++;
-		if (incrementScore) {
-			score++;
-		}
-	}
-	
-	/**
-	 * This is called when this player dies
-	 */
-	public void registerDeath() {
-		deaths++;
-		lives--;
-	}
-
-	/**
 	 * Upon a new level, reset stats
 	 */
 	public void newLevelReset() {

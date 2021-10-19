@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
@@ -47,7 +48,8 @@ public class PlayerAlignmentChanger extends Event {
 
 						if (user != null) {
 							if (pvp) {
-								if (state.getTeamMode() != 0) {
+								if (state.getMode().getTeamMode().equals(TeamMode.TEAM_AUTO) ||
+										state.getMode().getTeamMode().equals(TeamMode.TEAM_MANUAL)) {
 									if (p.getStartLoadout().team.equals(AlignmentFilter.NONE)) {
 										newIndex = user.getHitBoxFilter().getFilter();
 									} else {

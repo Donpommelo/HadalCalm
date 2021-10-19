@@ -48,7 +48,14 @@ public class StartPoint extends Event {
 			spawnCd -= delta;
 		}
 	}
-	
+
+	/**
+	 * This is run when a start point is selected which occurs slightly before spawning
+	 */
+	public void startPointSelected() {
+		spawnCd = SpawnTimer;
+	}
+
 	/**
 	 * This is run when the player is created to run connected events.
 	 */
@@ -56,7 +63,6 @@ public class StartPoint extends Event {
 		if (getConnectedEvent() != null) {
 			getConnectedEvent().getEventData().preActivate(eventData, p);
 		}
-		spawnCd = SpawnTimer;
 	}
 	
 	public boolean isReady() { return spawnCd <= 0.0f; }

@@ -86,6 +86,7 @@ public class DroneBit extends EnemySwimming {
 
 				setMoveSpeed(1.0f);
 
+				//the bit moves towards a position offset by the player's mouse
 				getMoveDirection().set(getPosition()).sub(getMoveTarget().getPosition())
 						.add(tether.setAngleDeg(owner.getAttackAngle()).nor().scl(tetherRange));
 

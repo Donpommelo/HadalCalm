@@ -3,7 +3,10 @@ package com.mygdx.hadal.actors;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Align;
@@ -13,7 +16,6 @@ import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.states.ResultsState;
 
 /**
  * A PlayerResultsIcon represents a single player in the results screen.
@@ -50,18 +52,11 @@ public class PlayerResultsIcon extends AHadalActor {
 
 	private boolean ready;
 
-	public PlayerResultsIcon(ResultsState state, SpriteBatch batch, SavedPlayerFields fields, SavedPlayerFieldsExtra fieldsExtra) {
+	public PlayerResultsIcon(SpriteBatch batch, SavedPlayerFields fields, SavedPlayerFieldsExtra fieldsExtra) {
 		font = HadalGame.SYSTEM_FONT_UI;
 
 		this.name = fields.getNameAbridged(maxNameLen);
-		name += "\nK/D: " + fields.getKills() + " / " + fields.getDeaths();
-
-		//if this is a pvp match with eggplants, we want to add that information to the text
-		if (state.getPs().isEggplantDrops()) {
-			name += "\nEggplants: " + fields.getScore();
-		} else {
-			name += "\nScore: " + fields.getScore();
-		}
+		name += "\nK/D: " + fields.getKills() + " / " + fields.getDeaths() + "\nScore: " + fields.getScore();
 
 		this.readyIcon = Sprite.EMOTE_READY.getFrame();
 

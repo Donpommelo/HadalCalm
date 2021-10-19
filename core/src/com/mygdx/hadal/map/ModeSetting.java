@@ -1,6 +1,9 @@
 package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -45,4 +48,46 @@ public class ModeSetting {
      * events that must be connected to a global event
      */
     public void loadSettingMisc(PlayState state, GameMode mode) {}
+
+    /**
+     * This is run when creating a new player
+     * @param newLoadout: new player's loadout. edit it to set defaults
+     * @param connID: the id of the user we are creating a player for
+     */
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {}
+
+    /**
+     * This is run immediately after creating a new player
+     * @param newLoadout: new player's loadout. edit it to set defaults
+     * @param p: the player of the user we just created
+     * @param hitboxFilter: the "team alignment" of the new player
+     */
+    public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {}
+
+    /**
+     * This is run when a player dies.
+     * @param perp: the schmuck (not necessarily player) that killed
+     * @param vic: the player that died
+     */
+    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic) {}
+
+    /**
+     * This is run when a player's score changes
+     * @param p: the player whose score is changing
+     * @param scoreIncrement: the amount to change the score by
+     */
+    public void processPlayerScoreChange(PlayState state, GameMode mode, Player p, int scoreIncrement) {}
+
+    /**
+     * This is run when a team's score changes
+     * @param teamIndex: the index of the team we are changing the score of
+     * @param scoreIncrement: The amount to change the score by
+     */
+    public void processTeamScoreChange(PlayState state, GameMode mode, int teamIndex, int scoreIncrement) {}
+
+    /**
+     * This is run when a player runs out of lives
+     * @param p: The player whose lives ran out
+     */
+    public void processPlayerLivesOut(PlayState state,  GameMode mode,Player p) {}
 }

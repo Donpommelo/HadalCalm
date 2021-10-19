@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -77,7 +78,8 @@ public class FlagHoldable extends HitboxStrategy {
 				timeCount += delta;
 				if (timeCount >= 1.0f) {
 					timeCount = 0;
-					state.getUiExtra().changeFields(target, 1, 0, 0.0f, 0.0f, false);
+					state.getMode().processPlayerScoreChange(state, target, 1);
+					SoundEffect.COIN3.playUniversal(state, hbox.getPixelPosition(), 1.0f, false);
 				}
 			}
 		} else if (awayFromSpawn) {

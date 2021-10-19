@@ -338,7 +338,7 @@ public class MessageWindow {
 		}
 
 		//level transitions should not make the text window reappear
-		if (!state.isHub()) {
+		if (!state.getMode().isHub()) {
 			invisible = true;
 		}
 

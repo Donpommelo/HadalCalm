@@ -1,5 +1,6 @@
 package com.mygdx.hadal.map.modifiers;
 
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -19,5 +20,5 @@ public class DoubleSpeed extends ModeModifier {
     }
 
     @Override
-    public void executeModifier(PlayState state) { state.setTimeModifier(state.getTimeModifier() * physicsMultiplier); }
+    public void executeModifier(PlayState state, GameMode mode) { state.setTimeModifier(state.getTimeModifier() * physicsMultiplier); }
 }

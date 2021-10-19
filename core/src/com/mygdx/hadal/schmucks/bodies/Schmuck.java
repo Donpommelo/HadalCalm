@@ -32,7 +32,7 @@ public class Schmuck extends HadalEntity {
 	private BodyData bodyData;
 	
 	//the enemy's base hp.
-    protected final float baseHp;
+    protected float baseHp;
     
 	//Is this schmuck currently standing on a solid surface?
 	protected boolean grounded;
@@ -216,6 +216,8 @@ public class Schmuck extends HadalEntity {
 	public void setHitboxfilter(short hitboxfilter) { this.hitboxfilter = hitboxfilter; }
 
 	public float getBaseHp() { return baseHp; }
+
+	public void setBaseHp(int baseHp) { this.baseHp = baseHp; }
 
 	public boolean isGrounded() { return grounded; }
 

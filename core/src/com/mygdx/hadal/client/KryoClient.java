@@ -127,7 +127,7 @@ public class KryoClient {
 			}
         };
         
-//       client.addListener(new Listener.LagListener(10, 10, packetListener));
+//       client.addListener(new Listener.LagListener(100, 100, packetListener));
        client.addListener(packetListener);
 	}
 

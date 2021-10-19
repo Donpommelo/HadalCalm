@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
+import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockActives;
@@ -321,7 +322,7 @@ public class ConsoleCommandUtil {
 			int scrap = Integer.parseInt(command);
 			if (scrap >= 0) {
 				state.getGsm().getRecord().setScrap(scrap);
-				state.getUiExtra().syncData();
+				state.getUiExtra().syncUIText(UITag.uiType.SCRAP);
 				return 0;
 			}
 		} catch (NumberFormatException ignored) {}

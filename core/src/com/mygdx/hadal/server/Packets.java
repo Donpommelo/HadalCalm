@@ -1084,7 +1084,8 @@ public class Packets {
 	public static class EndSpectate {
 		public Loadout loadout;
 		/**
-		 * An EndSpectate is sent from the client to the server when the client chooses to stop spectating a game 
+		 * An EndSpectate is sent from the client to the server when the client chooses to stop spectating a game
+		 * @param loadout: the client's chosen loadout. sent so the server can give the right loadout to new player
 		 */
 		public EndSpectate(Loadout loadout) {
 			this.loadout = loadout;

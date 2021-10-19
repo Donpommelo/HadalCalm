@@ -66,7 +66,7 @@ public class SpawnerObjective extends Event {
 			timeCount += delta;
 			if (timeCount >= interval) {
 				timeCount = 0;
-				WeaponUtils.spawnScrap(state, 1, getPixelPosition(), false);
+				WeaponUtils.spawnScrap(state, 1, getPixelPosition(), false, true);
 			}
 		}
 

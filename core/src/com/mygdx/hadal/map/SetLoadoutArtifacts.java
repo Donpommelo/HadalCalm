@@ -1,5 +1,6 @@
 package com.mygdx.hadal.map;
 
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
 
@@ -19,7 +20,13 @@ public class SetLoadoutArtifacts extends ModeSetting {
     }
 
     @Override
-    public void loadSettingMisc(PlayState state, GameMode mode) {
-        state.setMapArtifacts(mapArtifacts);
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
+        for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+            if (mapArtifacts.size() > i) {
+                newLoadout.artifacts[i] = mapArtifacts.get(i);
+            } else {
+                newLoadout.artifacts[i] = UnlockArtifact.NOTHING;
+            }
+        }
     }
 }

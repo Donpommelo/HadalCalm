@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -28,10 +29,9 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Scrap extends Event {
 
-	private final Vector2 startVelo = new Vector2(0, 1);
-	
 	private static final Vector2 baseSize = new Vector2(32, 32);
-	
+	private final Vector2 startVelo = new Vector2(0, 1);
+
 	//spread is for giving the initial scrap a random velocity
 	private static final int spread = 90;
 	private static final float veloAmp = 7.5f;
@@ -39,9 +39,13 @@ public class Scrap extends Event {
 	
 	//short delay before scrap can be picked up
 	private static final float primeCd = 0.5f;
-	
-	public Scrap(PlayState state, Vector2 startPos) {
+
+	//does picking up this event increment the player's score?
+	private final boolean score;
+
+	public Scrap(PlayState state, Vector2 startPos, boolean score) {
 		super(state, startPos, baseSize, lifespan);
+		this.score = score;
 
 		setEventSprite(Sprite.NASU);
 		setScaleAlign("CENTER_STRETCH");
@@ -64,13 +68,13 @@ public class Scrap extends Event {
 					//in single player, scrap gives the player 1 unit of currency
 					if (GameStateManager.currentMode == Mode.SINGLE) {
 						state.getGsm().getRecord().incrementScrap(1);
-					} else if (state.isEggplantDrops()) {
+					} else if (score) {
 
 						//in eggplant mode, we increase the players score by 1
-						state.getUiExtra().changeFields(((PlayerBodyData) fixB).getPlayer(), 1, 0, 0.0f, 0.0f, false);
+						state.getMode().processPlayerScoreChange(state, ((PlayerBodyData) fixB).getPlayer(), 1);
 					}
-					
-					state.getUiExtra().syncData();
+
+					state.getUiExtra().syncUIText(UITag.uiType.SCRAP);
 					new ParticleEntity(state, fixB.getEntity(), Particle.SPARKLE, 1.0f, 1.0f, true, particleSyncType.CREATESYNC);
 					
 					//activate effects that activate upon picking up scrap

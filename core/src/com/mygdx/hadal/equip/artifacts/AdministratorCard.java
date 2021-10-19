@@ -30,9 +30,7 @@ public class AdministratorCard extends Artifact {
 			@Override
 			public void playerCreate() {
 
-				if (state.isHub()) {
-					return;
-				}
+				if (state.getMode().isHub()) { return; }
 				
 				if (inflicted.getSchmuck() instanceof Player) {
 					int artifactsAdded = 0;

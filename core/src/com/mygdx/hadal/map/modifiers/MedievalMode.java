@@ -1,11 +1,11 @@
 package com.mygdx.hadal.map.modifiers;
 
+import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
-
-import java.util.Arrays;
 
 /**
  * In medieval mode, only melee weapons + love bow can be used
@@ -24,9 +24,17 @@ public class MedievalMode extends ModeModifier {
     }
 
     @Override
-    public void executeModifier(PlayState state) {
-        state.setMapMultitools(Arrays.asList(BaseEquip));
-        state.setMapActiveItem(UnlockActives.JUMP_KICK);
+    public void executeModifier(PlayState state, GameMode mode) {
         state.addMapEquipTag(UnlockTag.MEDIEVAL);
+    }
+
+    @Override
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
+        for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+            if (BaseEquip.length > i) {
+                newLoadout.multitools[i] = BaseEquip[i];
+            }
+        }
+        newLoadout.activeItem = UnlockActives.JUMP_KICK;
     }
 }

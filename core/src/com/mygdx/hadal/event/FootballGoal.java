@@ -51,15 +51,14 @@ public class FootballGoal extends Event {
                     if (teamIndex < AlignmentFilter.currentTeams.length) {
                         if (p.getStartLoadout().team == AlignmentFilter.currentTeams[teamIndex]) {
                             state.getKillFeed().addNotification(playerName + " SCORED A GOAL!", false);
-                            state.getUiExtra().changeFields(p, 1, 0, 0, 0, false);
+                            state.getMode().processPlayerScoreChange(state, p, 1);
                         } else {
                             state.getKillFeed().addNotification(playerName + " SCORED ON THEIR OWN GOAL!", false);
-                            state.getUiExtra().changeFields(p, -1, 0, 0, 0, false);
+                            state.getMode().processPlayerScoreChange(state, p, -1);
                         }
                     }
                 }
-
-                state.getUiExtra().changeTeamField(teamIndex, 1);
+                state.getMode().processTeamScoreChange(state, teamIndex, 1);
             }
         };
 

@@ -1,11 +1,19 @@
 package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.UITag;
+import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.map.modifiers.*;
 import com.mygdx.hadal.save.InfoItem;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.server.AlignmentFilter;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -20,70 +28,80 @@ import java.util.List;
  */
 public enum GameMode {
 
-    HUB("", new ToggleHub(), new ToggleUnlimitedLife()) {
+    HUB("", new SettingTeamMode(TeamMode.COOP), new SettingLives(0)) {
+
+        @Override
+        public boolean isInvisibleInHub() { return true; }
+
+        @Override
+        public boolean isHub() { return true; }
+    },
+
+    CAMPAIGN("", new SettingTeamMode(TeamMode.COOP), new SettingLives(1)) {
 
         @Override
         public boolean isInvisibleInHub() { return true; }
     },
 
-    CAMPAIGN("") {
-
-        @Override
-        public boolean isInvisibleInHub() { return true; }
-    },
-
-    BOSS(""),
+    BOSS("", new SettingTeamMode(TeamMode.COOP), new SettingLives(1)),
 
     DEATHMATCH("dm",
-        new SetCameraOnSpawn(), new SettingScoreCap(), new SettingTimer(ResultsState.magicWord), new DisplayUITag("SCOREBOARD"),
-        new SettingLives(), new SettingTeamMode(), new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
-        new SpawnWeapons(), new ToggleKillsScore(), new TogglePVP(),
-        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
-            new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
+        new SetCameraOnSpawn(),
+        new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(), new SettingScoreCap(),
+        new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
+        new DisplayUITag("SCOREBOARD"), new SpawnWeapons(), new ToggleKillsScore(),
+        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(),
+            new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
     SURVIVAL("arena",
-        new SetCameraOnSpawn(), new SettingTimer("VICTORY"),
+        new SetCameraOnSpawn(),
+        new SettingTeamMode(TeamMode.COOP), new SettingTimer("VICTORY"), new SettingLives(1),
         new DisplayUITag("SCORE"), new DisplayUITag("HISCORE"),
         new SpawnWeapons(), new SpawnEnemyWaves()),
 
     CTF("ctf",
-        new SetCameraOnSpawn(), new SettingTeamScoreCap(), new SettingTimer(ResultsState.magicWord),
-        new DisplayUITag("TEAMSCORE"), new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
-        new SpawnWeapons(), new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife(),
-        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
-            new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
+        new SetCameraOnSpawn(),
+        new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.magicWord), new SettingTeamScoreCap(), new SettingLives(0),
+        new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
+        new DisplayUITag("TEAMSCORE"), new SpawnWeapons(),
+        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(),
+            new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
     FOOTBALL("",
-        new SetCameraOnSpawn(), new SettingTeamScoreCap(), new SettingTimer(ResultsState.magicWord),
-        new DisplayUITag("TEAMSCORE"),
-        new ToggleNoDamage(), new TogglePVP(), new ToggleTeamMode(1), new ToggleUnlimitedLife(),
+        new SetCameraOnSpawn(),
+        new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.magicWord), new SettingTeamScoreCap(), new SettingLives(0),
+        new DisplayUITag("TEAMSCORE"), new ToggleNoDamage(),
         new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),
         new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO)),
 
     GUN_GAME("dm", DEATHMATCH,
-        new SetCameraOnSpawn(), new SettingTimer(ResultsState.magicWord),
-        new DisplayUITag("GUNGAME"), new SettingBaseHp(), new SettingRespawnTime(),
-        new TogglePVP(), new ToggleUnlimitedLife(),
+        new SetCameraOnSpawn(),
+        new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
+        new SettingBaseHp(), new SettingRespawnTime(),
+        new DisplayUITag("GUNGAME"),
         new SetLoadoutEquips(UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
-        new SetLoadoutArtifacts(UnlockArtifact.GUN_GAME, UnlockArtifact.INFINITE_AMMO), new SetLoadoutActive(UnlockActives.NOTHING),
-        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
-            new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion())),
+        new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO), new SetLoadoutActive(UnlockActives.NOTHING),
+        new ModeGunGame(),
+        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(),
+            new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion())),
 
     EGGPLANTS("objective,dm", DEATHMATCH,
-            new SetCameraOnSpawn(), new SettingTimer(ResultsState.magicWord), new DisplayUITag("SCOREBOARD"),
-            new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
-            new SpawnWeapons(), new ToggleEggplantDrops(), new TogglePVP(), new ToggleUnlimitedLife(),
-            new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
-                    new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
+        new SetCameraOnSpawn(),
+        new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
+        new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
+        new DisplayUITag("SCOREBOARD"), new SpawnWeapons(), new ToggleEggplantDrops(),
+        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(),
+            new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
     KINGMAKER("objective,dm", DEATHMATCH,
-            new SetCameraOnSpawn(), new SettingTimer(ResultsState.magicWord), new DisplayUITag("SCOREBOARD"),
-            new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
-            new SpawnWeapons(), new TogglePVP(), new ToggleUnlimitedLife(),
-            new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
-                    new PlayerMini(), new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
+        new SetCameraOnSpawn(),
+        new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
+        new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
+        new DisplayUITag("SCOREBOARD"), new SpawnWeapons(),
+        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(),
+            new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    SANDBOX(""),
+    SANDBOX("", new SettingTeamMode(TeamMode.COOP), new SettingLives(0)),
 
     ;
 
@@ -100,6 +118,7 @@ public enum GameMode {
     //this is a game mode which has the same set of compliant maps.
     // Used for modes that have the same set of compliant maps (gun game etc with deathmatch)
     private GameMode checkCompliance = this;
+    private TeamMode teamMode = TeamMode.FFA;
 
     GameMode(String extraLayers, GameMode checkCompliance, ModeSetting... applicableSettings) {
         this(extraLayers, applicableSettings);
@@ -186,6 +205,112 @@ public enum GameMode {
         TiledObjectUtil.parseTiledEvent(state, ui);
     }
 
+    /**
+     * This is run when a player is created. This is used to change properties of the player prior to player init
+     * @param newLoadout: the new loadout the player will spawn with. modify to change starting loadout
+     * @param connID: connID of the player being created. We use connID b/c the player isn't created yet
+     */
+    public void processNewPlayerLoadout(PlayState state, Loadout newLoadout, int connID) {
+        if (!state.isServer()) { return; }
+        for (ModeSetting setting: applicableSettings) {
+            setting.processNewPlayerLoadout(state, this, newLoadout, connID);
+        }
+    }
+
+    /**
+     * This is run after a player is created. Used to change player properties that can be set after player init
+     * @param newLoadout: loadout of the new player. used for changing things like player alignment
+     * @param p: new player being created
+     * @param hitboxFilter: the hbox filter alignment. Used for setting team mode options
+     */
+    public void modifyNewPlayer(PlayState state, Loadout newLoadout, Player p, short hitboxFilter) {
+        if (!state.isServer()) { return; }
+        for (ModeSetting setting: applicableSettings) {
+            setting.modifyNewPlayer(state, this, newLoadout, p, hitboxFilter);
+        }
+    }
+
+    /**
+     * This is run when a player dies.
+     * @param perp: the schmuck (not necessarily player) that killed
+     * @param vic: the player that died
+     */
+    public void processPlayerDeath(PlayState state, Schmuck perp, Player vic) {
+        if (!state.isServer()) { return; }
+        if (vic != null) {
+            User user = HadalGame.server.getUsers().get(vic.getConnID());
+            if (user != null) {
+                user.getScores().setDeaths(user.getScores().getDeaths() + 1);
+                user.setScoreUpdated(true);
+            }
+        }
+        if (perp != null) {
+            if (perp instanceof Player player) {
+                User user = HadalGame.server.getUsers().get(player.getConnID());
+                if (user != null) {
+                    user.getScores().setKills(user.getScores().getKills() + 1);
+                    user.setScoreUpdated(true);
+                }
+            }
+        }
+        for (ModeSetting setting : applicableSettings) {
+            setting.processPlayerDeath(state, this, perp, vic);
+        }
+    }
+
+    /**
+     * This is run when a player's score changes
+     * @param p: the player whose score is changing
+     * @param scoreIncrement: the amount to change the score by
+     */
+    public void processPlayerScoreChange(PlayState state, Player p, int scoreIncrement) {
+        if (!state.isServer()) { return; }
+        if (p != null) {
+            User user = HadalGame.server.getUsers().get(p.getConnID());
+            if (user != null) {
+                user.getScores().setScore(user.getScores().getScore() + scoreIncrement);
+
+                for (ModeSetting setting : applicableSettings) {
+                    setting.processPlayerScoreChange(state, this, p, user.getScores().getScore());
+                }
+
+                //tell score window and ui extrato update next interval
+                user.setScoreUpdated(true);
+                state.getUiExtra().syncUIText(UITag.uiType.SCORE);
+            }
+        }
+    }
+
+    /**
+     * This is run when a team's score changes
+     * @param teamIndex: the index of the team we are changing the score of
+     * @param scoreIncrement: The amount to change the score by
+     */
+    public void processTeamScoreChange(PlayState state, int teamIndex, int scoreIncrement) {
+        if (teamIndex < AlignmentFilter.teamScores.length && teamIndex >= 0) {
+            int newScore = AlignmentFilter.teamScores[teamIndex] + scoreIncrement;
+            AlignmentFilter.teamScores[teamIndex] = newScore;
+
+            for (ModeSetting setting : applicableSettings) {
+                setting.processTeamScoreChange(state, this, teamIndex, newScore);
+            }
+
+            //tell ui extra to sync updated score
+            state.getUiExtra().syncUIText(UITag.uiType.TEAMSCORE);
+        }
+    }
+
+    /**
+     * This is run when a player runs out of lives
+     * Atm, this processes things like end game conditions depending on team affiliation
+     * @param p: The player whose lives ran out
+     */
+    public void processPlayerLivesOut(PlayState state, Player p) {
+        for (ModeSetting setting : applicableSettings) {
+            setting.processPlayerLivesOut(state, this, p);
+        }
+    }
+
     private static final HashMap<String, GameMode> ModesByName = new HashMap<>();
     static {
         for (GameMode m: GameMode.values()) {
@@ -209,5 +334,11 @@ public enum GameMode {
 
     public boolean isInvisibleInHub() { return false; }
 
+    public boolean isHub() { return false; }
+
     public List<String> getInitialNotifications() { return initialNotifications; }
+
+    public TeamMode getTeamMode() { return teamMode; }
+
+    public void setTeamMode(TeamMode teamMode) { this.teamMode = teamMode; }
 }

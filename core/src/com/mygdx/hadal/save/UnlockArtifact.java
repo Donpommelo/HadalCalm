@@ -150,11 +150,11 @@ public enum UnlockArtifact {
 	YIGHT_KITE(new YightKite()),
 
 	NOTHING(new NothingArtifact()),
-	GUN_GAME(new GunGame(), true),
 	INFINITE_AMMO(new InfiniteAmmo(), true),
 	PLAYER_BOUNCE(new PlayerBounce(), true),
 	PLAYER_SLIDE(new PlayerSlide(), true),
 	PLAYER_INVISIBLE(new PlayerInvisible(), true),
+	VISIBLE_HP(new VisibleHp(), true),
 	;
 	
 	//singleton artifact represented by this unlock

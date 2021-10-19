@@ -69,13 +69,6 @@ public class ScoreWindow {
 		tableSettings.setVisible(false);
 		windowSettings.setVisible(false);
 
-		//Server must first reset each score at the start of a level (unless just a stage transition)
-		if (state.isServer() && state.isReset()) {
-			for (User user : HadalGame.server.getUsers().values()) {
-				user.getScores().newLevelReset();
-				user.getScoresExtra().newLevelReset();
-			}
-		}
 		syncScoreTable();
 		syncSettingTable();
 	}
@@ -347,7 +340,7 @@ public class ScoreWindow {
 		tableScore.add(points).height(scoreRowHeight).padBottom(scorePadY);
 		tableScore.add(wins).height(scoreRowHeight).padBottom(scorePadY).row();
 
-		state.getUiExtra().syncData();
+		state.getUiExtra().syncUIText(UITag.uiType.ALL);
 	}
 
 	/**

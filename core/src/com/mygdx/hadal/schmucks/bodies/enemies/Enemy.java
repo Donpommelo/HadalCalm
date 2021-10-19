@@ -9,8 +9,8 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.SpawnerSchmuck;
+import com.mygdx.hadal.map.SettingTeamMode;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -129,8 +129,9 @@ public class Enemy extends Schmuck {
 				if (spawner != null) {
 					spawner.onDeath();
 				}
-				if (!state.isPvp() && perp instanceof PlayerBodyData) {
-					HadalGame.server.registerKill((Player) perp.getSchmuck(), null);
+				if (state.getMode().getTeamMode().equals(SettingTeamMode.TeamMode.COOP) && perp instanceof PlayerBodyData) {
+					state.getMode().processPlayerDeath(state, perp.getSchmuck(), null);
+
 				}
 			}
 		});
@@ -312,9 +313,9 @@ public class Enemy extends Schmuck {
 	
 	@Override
 	public boolean queueDeletion() {
-		if (alive) {
-			//defeated enemy drops eggplants
-			WeaponUtils.spawnScrap(state, scrapDrop, getPixelPosition(), true);
+		//defeated enemy drops eggplants in cooperative mode
+		if (alive && state.getMode().getTeamMode().equals(SettingTeamMode.TeamMode.COOP)) {
+			WeaponUtils.spawnScrap(state, scrapDrop, getPixelPosition(), true, false);
 		}
 		return super.queueDeletion();
 	}

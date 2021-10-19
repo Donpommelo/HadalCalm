@@ -71,7 +71,7 @@ public class KBKBuddy extends EnemySwimming {
 	public void attackInitiate() {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
 		
-		if (state.isHub()) {
+		if (state.getMode().isHub()) {
 			return;
 		}
 		

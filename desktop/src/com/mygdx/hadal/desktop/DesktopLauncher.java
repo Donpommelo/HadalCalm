@@ -19,7 +19,7 @@ public class DesktopLauncher {
 		final Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
 		//this makes the desktop icons appear
-		config.setWindowIcon("128.png", "32.png","16.png");
+		config.setWindowIcon("128.png", "32.png", "16.png");
 		config.setTitle(TITLE);
 
 		//this line prevents audio from cutting if too many sounds are playing

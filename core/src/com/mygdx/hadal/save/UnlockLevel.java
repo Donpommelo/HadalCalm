@@ -135,8 +135,20 @@ public enum UnlockLevel {
 		}
 		return items;
 	}
-		
-	public InfoItem getInfo() { return info; }
+
+	/**
+	 * Due to the number of single-player campaign "maps", info items for levels might be null.
+	 * In these cases, we want to return an empty info item with the name for ui purposes
+	 */
+	public InfoItem getInfo() {
+		if (info == null) {
+			info = new InfoItem();
+			info.setName(toString());
+			info.setDescription("");
+			info.setTags(new ArrayList<>());
+		}
+		return info;
+	}
 
 	public void setInfo(InfoItem info) { this.info = info; }
 	

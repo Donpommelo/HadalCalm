@@ -27,10 +27,7 @@ public class UIObjective extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {
 
-		if (state.getPlayer().getPlayerData() == null) { return; }
 		if (state.getGsm().getSetting().isHideHUD()) { return; }
-
-		if (state.getPlayer().getBody() == null) { return; }
 
 		//draw all objective markers. Delete the ones attached to dead objects
 		for (ObjectiveMarker marker: objectives) {

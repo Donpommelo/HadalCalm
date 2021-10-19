@@ -96,7 +96,7 @@ public class PauseState extends GameState {
 				}
 				
 				//extra "spectate" option is added if the player is a client and in multiplayer mode.
-				if (ps.isHub() && !ps.isServer() && GameStateManager.currentMode == Mode.MULTI) {
+				if (ps.getMode().isHub() && !ps.isServer() && GameStateManager.currentMode == Mode.MULTI) {
 					menuHeight += extraRowHeight;
 				}
 				
@@ -221,7 +221,7 @@ public class PauseState extends GameState {
 				table.add(extraOption).height(optionHeight).pad(optionPad).row();
 
 				//atm, only clients can manually join spectator mode
-				if (ps.isHub() && !ps.isServer() && GameStateManager.currentMode == Mode.MULTI) {
+				if (ps.getMode().isHub() && !ps.isServer() && GameStateManager.currentMode == Mode.MULTI) {
 					if (ps.isSpectatorMode()) {
 						table.add(joinOption).height(optionHeight).pad(optionPad).row();
 					} else {
@@ -313,7 +313,7 @@ public class PauseState extends GameState {
 			
 			//the following code makes sure that, if the host changes artifact slot number, these changes sync immediately.
 			if (ps != null) {
-				if (ps.isServer() && ps.isHub()) {
+				if (ps.isServer() && ps.getMode().isHub()) {
 					ps.getPlayer().getPlayerData().syncArtifacts(false, true);
 					for (User user : HadalGame.server.getUsers().values()) {
 						if (user.getPlayer() != null) {

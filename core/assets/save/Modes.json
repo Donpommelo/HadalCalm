@@ -15,7 +15,7 @@
 	"descriptionLong": "Can be played solo or cooperatively with friends."
 },
 "DEATHMATCH": {
-	"name": "DM",
+	"name": "Deathmatch",
 	"description": "Defeat other players to score points.",
 	"descriptionLong": "Players with fewest deaths win tiebreakers.\nCan be played with teams or free-for-all."
 },

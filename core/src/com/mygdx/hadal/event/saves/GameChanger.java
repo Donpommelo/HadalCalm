@@ -20,13 +20,12 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class GameChanger extends Event {
 
-	private final int scoreIncr, livesIncr;
+	private final int scoreIncr;
 	private final float timerSet, timerIncr;
 	private final boolean changeTimer;
 	
-	public GameChanger(PlayState state, int lives, int score, float timerSet, float timerIncr, boolean changeTimer) {
+	public GameChanger(PlayState state, int score, float timerSet, float timerIncr, boolean changeTimer) {
 		super(state);
-		this.livesIncr = lives;
 		this.scoreIncr = score;
 		this.timerSet = timerSet;
 		this.timerIncr = timerIncr;
@@ -39,7 +38,10 @@ public class GameChanger extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				state.getUiExtra().changeFields(p, scoreIncr, livesIncr, timerSet, timerIncr, changeTimer);
+				if (changeTimer) {
+					state.getUiExtra().changeTimer(timerSet, timerIncr);
+				}
+				state.getMode().processPlayerScoreChange(state, p, scoreIncr);
 			}
 		};
 	}

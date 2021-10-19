@@ -33,6 +33,7 @@ import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.*;
@@ -67,12 +68,9 @@ public class PlayState extends GameState {
 	protected InputProcessor controller;
 	
 	//This is the loadout that the player starts off with when they enter the playstate
-	private List<UnlockEquip> mapMultitools;
-	private List<UnlockArtifact> mapArtifacts;
 	private final List<UnlockArtifact> mapModifiers = new ArrayList<>();
 	private final List<UnlockManager.UnlockTag> mapEquipTags = new ArrayList<>();
-	private UnlockActives mapActiveItem;
-	
+
 	//These process and store the map parsed from the Tiled file.
 	protected final TiledMap map;
 	protected final OrthogonalTiledMapRenderer tmr;
@@ -105,20 +103,20 @@ public class PlayState extends GameState {
 	private final WorldDummy worldDummy;
 	private final AnchorPoint anchor;
 	
-	//this is the current level
+	//these the current level (map info) and mode (objective/modifier info)
 	protected final UnlockLevel level;
 	protected final GameMode mode;
 
-	//This is the id of the start event that we will be spawning on
+	//This is the id of the start event that we will be spawning on (for 1-p maps that can be entered from >1 point)
 	private final String startId;
 	
 	//This is the coordinate that the camera tries to focus on when set to aim at an entity. When null, the camera focuses on the player.
 	private Vector2 cameraTarget;
 	
-	//the camera is pointed offset of the target by this vector. (this is pretty much only used when focusing on the player)
+	//the camera offset from the target by this vector. (this is pretty much only used when focusing on the player)
 	private final Vector2 cameraOffset = new Vector2();
 	
-	//coordinate the camera is looking at in spectator mode. Unlock cameraTarget, this shouldn't be null
+	//coordinate the camera is looking at in spectator mode.
 	private final Vector2 spectatorTarget = new Vector2();
 	
 	//are we currently a spectator or not?
@@ -128,16 +126,11 @@ public class PlayState extends GameState {
 	private final float[] cameraBounds = {100000.0f, -100000.0f, 100000.0f, -100000.0f};
 	private final float[] spectatorBounds = {100000.0f, -100000.0f, 100000.0f, -100000.0f};
 	
-	//are the spectator bounds distinct from the camera bounds?
+	//are the spectator bounds distinct from the camera bounds? (relevant mostly for 1-p maps with multiple sets of bounds)
 	private boolean spectatorBounded;
-	
-	//do players have infinite lives in this map?
-	private boolean unlimitedLife;
-	
-	//The current zoom of the camera
-	private float zoom;
 
-	//This is the zoom that the camera will lerp towards
+	//The current zoom of the camera and the zoom that the camera will lerp towards
+	private float zoom;
 	protected float zoomDesired;
 	
 	//If a player respawns, they will respawn at the coordinates of a safe point from this list.
@@ -146,16 +139,11 @@ public class PlayState extends GameState {
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
 	private final HashMap<String, PositionDummy> dummyPoints;
 	
-	//Can players hurt each other? Is it the hub map? Is this the server? Do kills give score? Can players damage each other?
-	private boolean pvp, hub, killsScore, noDamage, droppableWeapons, eggplantDrops, visibleHp;
 	private float playerDefaultScale = 1.0f;
 	private float zoomModifier = 1.0f;
 	private float timeModifier = 1.0f;
 	private float respawnTime = 1.5f;
 	private final boolean server;
-
-	//the current level's team mode (ffa, auto assigned or manual assigned) and base hp
-	private int teamMode, baseHp, scoreCap, teamScoreCap;
 
 	//Various play state ui elements
 	protected UIPlay uiPlay;
@@ -316,6 +304,14 @@ public class PlayState extends GameState {
 				}
 			}
 
+			//Server must first reset each score at the start of a level (unless just a stage transition)
+			if (reset) {
+				for (User user : HadalGame.server.getUsers().values()) {
+					user.getScores().newLevelReset();
+					user.getScoresExtra().newLevelReset();
+				}
+			}
+
 			mode.processSettings(this);
 
 			TiledObjectUtil.parseTiledTriggerLayer();
@@ -323,7 +319,7 @@ public class PlayState extends GameState {
 		}
 
 		//if auto-assign team is on, we do the assignment here
-		if (teamMode == 1 && isServer()) {
+		if (mode.getTeamMode().equals(TeamMode.TEAM_AUTO) && isServer()) {
 			AlignmentFilter.autoAssignTeams(2);
 		} else {
 			AlignmentFilter.resetTeams();
@@ -404,7 +400,7 @@ public class PlayState extends GameState {
 		}
 
 		MusicTrack newTrack;
-		if (isHub()) {
+		if (mode.isHub()) {
 			newTrack = HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.HUB, 1.0f);
 		} else {
 			newTrack = HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.MATCH, 1.0f);
@@ -508,6 +504,7 @@ public class PlayState extends GameState {
 		}
 		removeList.clear();
 
+		//process all user's (atm this handles respawn times)
 		if (server) {
 			for (User user: HadalGame.server.getUsers().values()) {
 				user.controller(this, delta);
@@ -770,13 +767,14 @@ public class PlayState extends GameState {
 			mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			HadalGame.viewportCamera.unproject(mousePosition);
 
-			if (spectatorMode) {
+			//the camera should be draggable as a spectator or during respawn time
+			if (spectatorMode || player.getBody() == null || !player.isAlive()) {
 
 				//in spectator mode, the camera moves when dragging the mouse
 				uiSpectator.spectatorDragCamera(spectatorTarget);
 				tmpVector2.set(spectatorTarget);
 
-			} else if (player.getBody() != null && player.isAlive()) {
+			} else {
 				tmpVector2.set(player.getPixelPosition());
 
 				//if enabled, camera tracks mouse position
@@ -785,8 +783,6 @@ public class PlayState extends GameState {
 					cameraFocusAim.y = (int) (cameraFocusAim.y + (mousePosition.y - cameraFocusAim.y) * cameraAimInterpolation);
 					tmpVector2.mulAdd(cameraFocusAim, mouseCameraTrack).scl(1.0f / (1.0f + mouseCameraTrack));
 				}
-			} else {
-				return;
 			}
 
 			//make camera target respect camera bounds if not focused on an object
@@ -966,49 +962,16 @@ public class PlayState extends GameState {
 	 * @return the newly created player
 	 */
 	public Player createPlayer(StartPoint start, String name, Loadout altLoadout, PlayerBodyData old, int connID,
-							   boolean reset, boolean client, short hitboxFilter) {
+	   		boolean reset, boolean client, short hitboxFilter) {
 
 		Loadout newLoadout = new Loadout(altLoadout);
 
-		//some maps specify a specific loadout. Load these, if so (and override other loadout settings)
-		if (mapMultitools != null) {
-			for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
-				if (mapMultitools.size() > i) {
-					newLoadout.multitools[i] = mapMultitools.get(i);
-				}
-			}
-		}
-		if (mapArtifacts != null) {
-			for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-				if (mapArtifacts.size() > i) {
-					newLoadout.artifacts[i] = mapArtifacts.get(i);
-				} else {
-					newLoadout.artifacts[i] = UnlockArtifact.NOTHING;
-				}
-			}
-		}
-		if (mapActiveItem != null) {
-			newLoadout.activeItem = mapActiveItem;
-		}
-
-		if (isServer()) {
-			User user = HadalGame.server.getUsers().get(connID);
-			if (user != null) {
-
-				//on auto-assign team mode, player teams are set to their "override" value
-				if (teamMode == 1 && isPvp()) {
-					newLoadout.team = user.getTeamFilter();
-				} else {
-
-					//otherwise, we use this line to set their "team" value to their chosen color
-					user.setTeamFilter(newLoadout.team);
-				}
-			}
-		}
+		mode.processNewPlayerLoadout(this, newLoadout, connID);
 
 		Player p;
 		if (!client) {
-			//servers spawn at the starting point if existent. We prefer using the body's position, but can also use the starting position if it hasn't been created yet.
+			//servers spawn at the starting point if existent. We prefer using the body's position,
+			// but can also use the starting position if it hasn't been created yet.
 			if (start != null) {
 				if (start.getBody() != null) {
 					p = new Player(this, start.getPixelPosition(), name, newLoadout, old, connID, reset, start);
@@ -1016,7 +979,7 @@ public class PlayState extends GameState {
 					p = new Player(this, start.getStartPos(), name, newLoadout, old, connID, reset, start);
 				}
 			} else {
-				//no start point means we create the player at (0,0) I don't think this should ever happen.
+				//no start point means we create the player at (0,0). I don't think this should ever happen.
 				p = new Player(this, new Vector2(), name, newLoadout, old, connID, reset, null);
 			}
 		} else {
@@ -1026,7 +989,8 @@ public class PlayState extends GameState {
 		
 		//teleportation particles for reset players (indicates returning to hub)
 		if (reset && isServer()) {
-			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2), Particle.TELEPORT, 1.0f, true, particleSyncType.CREATESYNC);
+			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2),
+					Particle.TELEPORT, 1.0f, true, particleSyncType.CREATESYNC);
 		}
 
 		//for own player, the server must update their user information
@@ -1034,133 +998,11 @@ public class PlayState extends GameState {
 			HadalGame.server.getUsers().get(0).setPlayer(p);
 		}
 
-		//set player pvp hitbox filter.
-		if (isPvp() && !noDamage) {
-			if (teamMode != 0) {
-				if (newLoadout.team.equals(AlignmentFilter.NONE)) {
-					p.setHitboxfilter(hitboxFilter);
-				} else {
-					p.setHitboxfilter(newLoadout.team.getFilter());
-				}
-			} else {
-				p.setHitboxfilter(hitboxFilter);
-			}
-		}
+		mode.modifyNewPlayer(this, newLoadout, p, hitboxFilter);
+
 		return p;
 	}
 	
-	/**
-	 * This is called whenever a player is killed. This is only called by the server.
-	 * @param player: The player that dies
-	 * @param perp: the schmuck that killed
-	 */
-	public void onPlayerDeath(Player player, Schmuck perp) {
-		
-		//Register the kill for score keeping purposes
-		if (perp instanceof Player) {
-			HadalGame.server.registerKill((Player) perp, player);
-		} else {
-			HadalGame.server.registerKill(null, player);
-		}
-		Collection<User> users = HadalGame.server.getUsers().values();
-		if (!unlimitedLife) {
-			String resultsText = "";
-			
-			//check if all players are out
-			boolean allded = true;
-			AlignmentFilter winningTeam = AlignmentFilter.NONE;
-
-			//in pvp, game ends if all players left are on the same team.
-			// (if only 1 player, do not register end until all lives are used. mostly for testing)
-			if (pvp && users.size() > 1) {
-				
-				short factionLeft = -1;
-				for (User user: users) {
-					if (!user.isSpectator()) {
-						if (user.getScores().getLives() > 0) {
-							Player playerLeft = user.getPlayer();
-
-							if (playerLeft != null) {
-								if (teamMode != 0 && !isHub()) {
-
-									//if team mode, display a win for the team instead
-									if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
-										resultsText = playerLeft.getPlayerData().getLoadout().team.toString() + " WINS";
-										winningTeam = user.getTeamFilter();
-									} else {
-										resultsText = playerLeft.getName() + " WINS";
-										winningTeam = user.getHitBoxFilter();
-									}
-								} else {
-									resultsText = playerLeft.getName() + " WINS";
-								}
-
-								if (factionLeft == -1) {
-									factionLeft = playerLeft.getHitboxfilter();
-								} else {
-									if (factionLeft != playerLeft.getHitboxfilter()) {
-										allded = false;
-									}
-								}
-							}
-						}
-					}
-				}
-			} else {
-				resultsText = "YOU DECEASED";
-				
-				//coop levels end when all players are dead
-				for (User user : users) {
-					if (!user.isSpectator()) {
-						if (user.getScores().getLives() > 0) {
-							allded = false;
-							break;
-						}
-					}
-				}
-			}
-
-			//if the match is over (all players dead in co-op or all but one team dead in pvp), all players go to results screen
-			if (allded) {
-
-				for (User user : users) {
-					if (!user.isSpectator()) {
-						SavedPlayerFields score = user.getScores();
-						if (teamMode != 0) {
-							if (winningTeam != AlignmentFilter.NONE) {
-								if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
-									score.win();
-								}
-							}
-						} else {
-							if (user.getScores().getLives() > 0) {
-								score.win();
-							}
-						}
-					}
-				}
-				transitionToResultsState(resultsText);
-			} else {
-
-				User dedUser = HadalGame.server.getUsers().get(player.getConnID());
-				if (dedUser != null) {
-					//the player that dies respawns if there are lives left and becomes a spectator otherwise
-					if (dedUser.getScores().getLives() > 0) {
-						dedUser.beginTransition(this, TransitionState.RESPAWN, false, defaultFadeOutSpeed, respawnTime);
-					} else {
-						dedUser.beginTransition(this, TransitionState.SPECTATOR, false, defaultFadeOutSpeed, longFadeDelay);
-					}
-				}
-			}
-		} else {
-			//if there are infinite lives, we respawn the dead player
-			User dedUser = HadalGame.server.getUsers().get(player.getConnID());
-			if (dedUser != null) {
-				dedUser.beginTransition(this, TransitionState.RESPAWN, false, defaultFadeOutSpeed, respawnTime);
-			}
-		}
-	}
-
 	//This is a list of all the saved player fields (scores) from the completed playstate
 	private final ArrayList<SavedPlayerFields> scores = new ArrayList<>();
 	private final Map<AlignmentFilter, Integer> teamKills = new HashMap<>();
@@ -1209,7 +1051,9 @@ public class PlayState extends GameState {
 				return cmp;
 			});
 
-			if (teamMode != 0) {
+			if (mode.getTeamMode().equals(TeamMode.FFA)) {
+				resultsText = scores.get(0).getNameShort() + " WINS";
+			} else {
 				AlignmentFilter winningTeam = teamScoresList.get(0);
 				if (winningTeam.isTeam()) {
 					resultsText = winningTeam + " WINS";
@@ -1222,8 +1066,6 @@ public class PlayState extends GameState {
 						}
 					}
 				}
-			} else {
-				resultsText = scores.get(0).getNameShort() + " WINS";
 			}
 
 			AlignmentFilter winningTeam = teamScoresList.get(0);
@@ -1232,8 +1074,12 @@ public class PlayState extends GameState {
 			for (User user : users) {
 				if (!user.isSpectator()) {
 					SavedPlayerFields score = user.getScores();
-					if (teamMode != 0) {
-
+					if (mode.getTeamMode().equals(TeamMode.FFA)) {
+						if (score.getScore() == winningScore.getScore() && score.getKills() == winningScore.getKills()
+								&& score.getDeaths() == winningScore.getDeaths()) {
+							score.win();
+						}
+					} else {
 						AlignmentFilter faction;
 
 						if (user.getTeamFilter().equals(AlignmentFilter.NONE)) {
@@ -1247,11 +1093,6 @@ public class PlayState extends GameState {
 						}
 
 						if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
-							score.win();
-						}
-					} else {
-						if (score.getScore() == winningScore.getScore() && score.getKills() == winningScore.getKills()
-								&& score.getDeaths() == winningScore.getDeaths()) {
 							score.win();
 						}
 					}
@@ -1271,7 +1112,7 @@ public class PlayState extends GameState {
 	/**
 	 * This is run by the server to transition to the results screen
 	 */
-	private void transitionToResultsState(String resultsText) {
+	public void transitionToResultsState(String resultsText) {
 		this.resultsText = resultsText;
 
 		UserDto[] users = new UserDto[HadalGame.server.getUsers().size()];
@@ -1454,7 +1295,7 @@ public class PlayState extends GameState {
 		
 		//get a list of all start points that match the startId
 		for (StartPoint s: savePoints) {
-			if (isPvp() && teamMode == 1 && AlignmentFilter.currentTeams.length > s.getTeamIndex()) {
+			if (mode.getTeamMode().equals(TeamMode.TEAM_AUTO) && AlignmentFilter.currentTeams.length > s.getTeamIndex()) {
 				if (user.getTeamFilter().equals(AlignmentFilter.currentTeams[s.getTeamIndex()])) {
 					validStarts.add(s);
 				}
@@ -1465,7 +1306,7 @@ public class PlayState extends GameState {
 		
 		//if no start points are found, we return the first save point (if existent)
 		if (validStarts.isEmpty()) {
-			if (isPvp() && teamMode == 1) {
+			if (mode.getTeamMode().equals(TeamMode.TEAM_AUTO)) {
 				validStarts.addAll(savePoints);
 			} else {
 				if (savePoints.isEmpty()) {
@@ -1486,9 +1327,11 @@ public class PlayState extends GameState {
 		//if any start points haven't been used recently, pick one of them randomly. Otherwise pick a random valid start point
 		if (readyStarts.isEmpty()) {
 			int randomIndex = MathUtils.random(validStarts.size() - 1);
+			validStarts.get(randomIndex).startPointSelected();
 			return validStarts.get(randomIndex);
 		} else {
 			int randomIndex = MathUtils.random(readyStarts.size() - 1);
+			readyStarts.get(randomIndex).startPointSelected();
 			return readyStarts.get(randomIndex);
 		}
 	}
@@ -1575,38 +1418,6 @@ public class PlayState extends GameState {
 	public boolean isServer() { return server; }
 
 	public boolean isReset() { return reset; }
-	
-	public boolean isPvp() { return pvp; }
-
-	public void setPvp(boolean pvp) { this.pvp = pvp; }
-
-	public boolean isKillsScore() { return killsScore; }
-
-	public void setKillsScore(boolean killsScore) { this.killsScore = killsScore; }
-
-	public boolean isHub() { return hub; }
-
-	public void setHub(boolean hub) { this.hub = hub; }
-
-	public boolean isDroppableWeapons() { return droppableWeapons; }
-
-	public void setDroppableWeapons(boolean droppableWeapons) { this.droppableWeapons = droppableWeapons; }
-
-	public boolean isVisibleHp() { return visibleHp; }
-
-	public void setVisibleHp(boolean visibleHp) { this.visibleHp = visibleHp; }
-
-	public boolean isEggplantDrops() { return eggplantDrops; }
-
-	public void setEggplantDrops(boolean eggplantDrops) { this.eggplantDrops = eggplantDrops; }
-
-	public int getTeamMode() { return teamMode; }
-
-	public void setTeamMode(int teamMode) { this.teamMode = teamMode; }
-
-	public int getBaseHp() { return baseHp; }
-
-	public void setBaseHp(int baseHp) { this.baseHp = baseHp; }
 
 	public float getPlayerDefaultScale() { return playerDefaultScale; }
 
@@ -1621,16 +1432,6 @@ public class PlayState extends GameState {
 	public void setTimeModifier(float timeModifier) { this.timeModifier = timeModifier; }
 
 	public boolean isSpectatorMode() { return spectatorMode; }
-
-	public void setUnlimitedLife(boolean unlimitedLife) { this.unlimitedLife = unlimitedLife; }
-
-	public void setNoDamage(boolean noDamage) { this.noDamage = noDamage; }
-
-	public void setMapMultitools(List<UnlockEquip> mapMultitools) { this.mapMultitools = mapMultitools; }
-
-	public void setMapArtifacts(List<UnlockArtifact> mapArtifacts) { this.mapArtifacts = mapArtifacts; }
-
-	public void setMapActiveItem(UnlockActives mapActiveItem) { this.mapActiveItem = mapActiveItem; }
 
 	public void addMapModifier(UnlockArtifact modifier) { this.mapModifiers.add(modifier); }
 
@@ -1662,13 +1463,7 @@ public class PlayState extends GameState {
 	
 	public void setTimer(float timer) { this.timer = timer; }
 
-	public float getScoreCap() {return scoreCap; }
-
-	public void setScoreCap(int scoreCap) { this.scoreCap = scoreCap; }
-
-	public float getTeamScoreCap() {return teamScoreCap; }
-
-	public void setTeamScoreCap(int teamScoreCap) { this.teamScoreCap = teamScoreCap; }
+	public float getRespawnTime() { return respawnTime; }
 
 	public void setRespawnTime(float respawnTime) {	this.respawnTime = respawnTime; }
 

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.map.modifiers;
 
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
 
@@ -17,7 +18,7 @@ public class PlayerSlide extends ModeModifier {
     }
 
     @Override
-    public void executeModifier(PlayState state) {
+    public void executeModifier(PlayState state, GameMode mode) {
         state.addMapModifier(UnlockArtifact.PLAYER_SLIDE);
     }
 }

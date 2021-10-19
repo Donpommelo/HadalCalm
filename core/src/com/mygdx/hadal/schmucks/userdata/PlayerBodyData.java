@@ -8,10 +8,8 @@ import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
-import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.UnlockActives;
@@ -22,8 +20,11 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
-import com.mygdx.hadal.server.*;
+import com.mygdx.hadal.server.AlignmentFilter;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.Packets.SyncPlayerStats;
+import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
@@ -299,7 +300,7 @@ public class PlayerBodyData extends BodyData {
 		loadout.activeItem = unlock;
 		
 		//active items start off charged in the hub
-		if (player.getState().isHub()) {
+		if (player.getState().getMode().isHub()) {
 			activeItem.setCurrentChargePercent(1.0f);
 		} else {
 			activeItem.setCurrentChargePercent(getStat(Stats.STARTING_CHARGE));
@@ -626,9 +627,6 @@ public class PlayerBodyData extends BodyData {
 		return damage;
 	}
 	
-	private static final float scrapMultiplier = 0.25f;
-	private static final int baseScrapDrop = 1;
-	private static final float equipDropLifepan = 12.0f;
 	@Override
 	public void die(BodyData perp, DamageTypes... tags) {
 		if (player.isAlive()) {
@@ -643,33 +641,12 @@ public class PlayerBodyData extends BodyData {
 				}
 			}
 
-			//in weapon drop mode, players will drop their currently held weapon on death (unless it is default weapon or nothing)
-			if (player.getState().isDroppableWeapons()) {
-				if (!loadout.multitools[currentSlot].equals(UnlockEquip.NOTHING) && !loadout.multitools[currentSlot].equals(UnlockEquip.SPEARGUN_NERFED)) {
-					new PickupEquip(player.getState(), player.getPixelPosition(), loadout.multitools[currentSlot], equipDropLifepan);
-				}
-			}
-
 			//despawn sprite helper. This triggers death animations
 			player.getSpriteHelper().despawn(type, player.getPixelPosition(), player.getLinearVelocity());
 			player.setDespawnType(type);
 			if (type == DespawnType.TELEPORT) {
 				warpAnimation();
 			} else {
-
-				//process score change if pvp modes (and drop eggplants if suitable mode)
-				if (player.getState().isEggplantDrops()) {
-					User user = HadalGame.server.getUsers().get(player.getConnID());
-					if (user != null) {
-						SavedPlayerFields field = user.getScores();
-						int score = (int) (field.getScore() * scrapMultiplier);
-						if (score < 0) {
-							score = 0;
-						}
-						player.getState().getUiExtra().changeFields(player, -score, 0, 0.0f, 0.0f, false);
-						WeaponUtils.spawnScrap(player.getState(), score + baseScrapDrop, player.getPixelPosition(), true);
-					}
-				}
 
 				//Send death notification to all players.
 				if (perp instanceof PlayerBodyData) {
@@ -684,8 +661,8 @@ public class PlayerBodyData extends BodyData {
 				}
 			}
 			
-			schmuck.getState().onPlayerDeath(player, perp.getSchmuck());
-			
+			schmuck.getState().getMode().processPlayerDeath(schmuck.getState(), perp.getSchmuck(), player);
+
 			//delete the player's mouse pointer
 			if (player.getMouse() != player.getState().getMouse()) {
 				player.getMouse().queueDeletion();

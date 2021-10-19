@@ -46,7 +46,7 @@ public class CommonController implements InputProcessor {
 		} else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			keyUp(PlayerAction.CHAT_WHEEL);
 		} else if (keycode == Input.Buttons.RIGHT) {
-			if (state.isSpectatorMode()) {
+			if (state.isSpectatorMode() || state.getPlayer().getBody() == null || !state.getPlayer().isAlive()) {
 				state.getUiSpectator().findValidSpectatorTarget();
 			}
 		}

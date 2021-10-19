@@ -1,9 +1,11 @@
 package com.mygdx.hadal.map.modifiers;
 
+import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * This mode setting is used for pvp modes where players can see each other's Hp
+ *  @author Snotalini Swungo
  */
 public class VisibleHp extends ModeModifier {
 
@@ -16,7 +18,7 @@ public class VisibleHp extends ModeModifier {
     }
 
     @Override
-    public void executeModifier(PlayState state) {
-        state.setVisibleHp(true);
+    public void executeModifier(PlayState state, GameMode mode) {
+        state.addMapModifier(UnlockArtifact.VISIBLE_HP);
     }
 }

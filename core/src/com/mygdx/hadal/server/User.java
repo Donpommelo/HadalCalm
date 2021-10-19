@@ -1,10 +1,13 @@
 package com.mygdx.hadal.server;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.input.PlayerController;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
@@ -36,7 +39,10 @@ public class User {
     //the player's selected team alignment
     private AlignmentFilter teamFilter = AlignmentFilter.NONE;
 
+    //the state this user is transitioning to (null if not transitioning)
     private TransitionState nextState;
+
+    private StartPoint startPoint;
 
     public User(Player player, SavedPlayerFields scores, SavedPlayerFieldsExtra scoresExtra) {
         this.player = player;
@@ -47,10 +53,24 @@ public class User {
         hitBoxFilter = AlignmentFilter.getUnusedAlignment();
     }
 
+    private static final float spawnForewarn = 1.0f;
     private float transitionTime;
+    private boolean spawnForewarned;
     public void controller(PlayState state, float delta) {
+
+        //we keep track of each user's transition duration, so that we can make them respawn at the correct time
         if (nextState != null) {
             transitionTime -= delta;
+
+            if (transitionTime <= spawnForewarn && !spawnForewarned) {
+                if (nextState.equals(TransitionState.RESPAWN)) {
+                    spawnForewarned = true;
+                    startPoint = state.getSavePoint(this);
+
+                    new ParticleEntity(state, new Vector2(startPoint.getStartPos()).sub(0, startPoint.getSize().y / 2),
+                            Particle.TELEPORT, 1.0f, true, ParticleEntity.particleSyncType.CREATESYNC);
+                }
+            }
             if (transitionTime <= 0.0f) {
                 if (nextState.equals(TransitionState.RESPAWN)) {
                     respawn(state);
@@ -60,11 +80,20 @@ public class User {
         }
     }
 
+    /**
+     * This is run when a user transitions to another state.
+     * @param state: the play state
+     * @param nextState: the transitionState they are following
+     * @param override: does this change override an existing transition
+     * @param fadeSpeed: the speed at which the screen will fade out
+     * @param fadeDelay: the delay in seconds before the screen fades out
+     */
     public void beginTransition(PlayState state, TransitionState nextState, boolean override, float fadeSpeed, float fadeDelay) {
 
         if (override || this.nextState == null) {
             this.nextState = nextState;
             this.transitionTime = fadeDelay + 1.0f / fadeSpeed;
+            this.spawnForewarned = false;
 
             if (scores.getConnID() == 0) {
                 if (override || state.getNextState() == null) {
@@ -76,17 +105,25 @@ public class User {
         }
     }
 
+    /**
+     * This is run when a player respawns.
+     * Create their new player character
+     * @param state: the play state
+     */
     private void respawn(PlayState state) {
+        if (startPoint == null) {
+            startPoint = state.getSavePoint(this);
+        }
+
         if (scores.getConnID() == 0) {
-            StartPoint getSave = state.getSavePoint(this);
 
             //Create a new player
             short hitboxFilter = getHitBoxFilter().getFilter();
-            state.setPlayer(state.createPlayer(getSave, state.getGsm().getLoadout().getName(), player.getPlayerData().getLoadout(),
+            state.setPlayer(state.createPlayer(startPoint, state.getGsm().getLoadout().getName(), player.getPlayerData().getLoadout(),
                     player.getPlayerData(),0, true, false, hitboxFilter));
 
-            state.getCamera().position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
-            state.getCameraFocusAim().set(getSave.getStartPos());
+            state.getCamera().position.set(new Vector3(startPoint.getStartPos().x, startPoint.getStartPos().y, 0));
+            state.getCameraFocusAim().set(startPoint.getStartPos());
 
             ((PlayerController) state.getController()).setPlayer(player);
         } else {
@@ -95,17 +132,24 @@ public class User {
                 if (!player.isAlive()) {
                     String playerName = player.getName();
                     HadalGame.server.createNewClientPlayer(state, scores.getConnID(), playerName,
-                            player.getPlayerData().getLoadout(), player.getPlayerData(), true, false);
+                            player.getPlayerData().getLoadout(), player.getPlayerData(), true, false, startPoint);
                 }
             } else {
                 //player is respawning from spectator and has no player
                 HadalGame.server.createNewClientPlayer(state, scores.getConnID(), scores.getNameShort(), scoresExtra.getLoadout(),
-                        null, true, false);
+                        null, true, false, startPoint);
             }
         }
     }
 
     private static final Vector3 rgb = new Vector3();
+
+    /**
+     * This returns an abridged version of the user's name
+     * Additionally, the name will be colored according to the user's alignment
+     * @param maxNameLen: Max length of name. Any more will be abridged with ellipses
+     * @return the modified name
+     */
     public String getNameAbridgedColored(int maxNameLen) {
         String displayedName = scores.getNameShort();
 

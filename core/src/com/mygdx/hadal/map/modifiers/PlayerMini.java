@@ -1,7 +1,11 @@
 package com.mygdx.hadal.map.modifiers;
 
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ *  @author Gicciatello Grumpernickel
+ */
 public class PlayerMini extends ModeModifier {
 
     private static final String settingTag = "player_mini";
@@ -16,7 +20,7 @@ public class PlayerMini extends ModeModifier {
     }
 
     @Override
-    public void executeModifier(PlayState state) {
+    public void executeModifier(PlayState state, GameMode mode) {
         state.setPlayerDefaultScale(playerScale);
         state.setZoomModifier(state.getZoomModifier() * zoomModifier);
     }

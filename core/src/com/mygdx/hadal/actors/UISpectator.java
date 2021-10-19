@@ -64,7 +64,7 @@ public class UISpectator extends AHadalActor {
         font.draw(batch, "LMB: DRAG FREE CAM", textX, instructions1Y);
         font.draw(batch, "RMB: CYCLE SPECTATE TARGET", textX, instructions2Y);
 
-        if (state.isHub()) {
+        if (state.getMode().isHub()) {
             font.draw(batch, "JOIN: " + PlayerAction.PAUSE.getKeyText() + " -> JOIN", textX, joinY);
         } else {
             font.draw(batch, "JOIN NEXT ROUND IN HUB", textX, joinY);
@@ -138,7 +138,7 @@ public class UISpectator extends AHadalActor {
             foundTarget = loopThroughUsers(0);
         } else {
 
-            //if we are cycling to the next target to spectate, we
+            //if we are cycling to the next target to spectate, we iterate through users
             for (int i = 0; i < users.size(); i++) {
                 if (users.get(i).equals(currentUser)) {
 

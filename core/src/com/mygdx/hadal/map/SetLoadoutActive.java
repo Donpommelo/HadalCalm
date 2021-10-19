@@ -1,5 +1,6 @@
 package com.mygdx.hadal.map;
 
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.states.PlayState;
 
@@ -13,7 +14,8 @@ public class SetLoadoutActive extends ModeSetting {
 
     public SetLoadoutActive(UnlockActives active) {this.active = active; }
 
-    public void loadSettingMisc(PlayState state, GameMode mode) {
-        state.setMapActiveItem(active);
+    @Override
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
+        newLoadout.activeItem = active;
     }
 }

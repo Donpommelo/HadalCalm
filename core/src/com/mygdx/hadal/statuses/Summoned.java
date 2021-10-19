@@ -1,6 +1,5 @@
 package com.mygdx.hadal.statuses;
 
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -28,7 +27,7 @@ public class Summoned extends Status {
 	@Override
 	public void onKill(BodyData vic) {
 		if (vic.getSchmuck() instanceof Player) {
-			HadalGame.server.registerKill(summoner, null);
+			state.getMode().processPlayerDeath(state, summoner, null);
 		}
 	}
 }

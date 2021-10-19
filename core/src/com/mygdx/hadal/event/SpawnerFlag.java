@@ -16,10 +16,10 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
-import com.mygdx.hadal.strategies.hitbox.FlagCapturable;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
+import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
+import com.mygdx.hadal.strategies.hitbox.FlagCapturable;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -58,10 +58,9 @@ public class SpawnerFlag extends Event {
                 if (p != null) {
                     String playerName = WeaponUtils.getPlayerColorName(p, maxNameLength);
                     state.getKillFeed().addNotification(playerName + " CAPTURED THE FLAG!", false);
-                    state.getUiExtra().changeFields(p, 1, 0, 0, 0, false);
+                    state.getMode().processPlayerScoreChange(state, p, 1);
                 }
-
-                state.getUiExtra().changeTeamField(teamIndex, 1);
+                state.getMode().processTeamScoreChange(state, teamIndex, 1);
             }
         };
 
