@@ -4,6 +4,8 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ * This modifier makes the game world run at half-speed. This affects all bodies.
+ * When active in conjuction with fast forwards modifier, the effects are canceled out
  * @author Nemongrass Nurlando
  */
 public class SlowMotion extends ModeModifier {

@@ -5,6 +5,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ * This mode modifier causes all players to have 0 traction with the ground
  * @author Yobaganoush Yogger
  */
 public class PlayerSlide extends ModeModifier {

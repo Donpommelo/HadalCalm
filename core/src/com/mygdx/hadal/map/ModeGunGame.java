@@ -8,6 +8,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 import static com.mygdx.hadal.save.UnlockEquip.*;
@@ -31,13 +32,13 @@ public class ModeGunGame extends ModeSetting {
 
         //when a player respawns, set their weapon to their last held weapon, determined by score
         if (user != null) {
-            int currentGunIndex = Math.min(user.getScores().getScore(), weaponOrder.length);
+            int currentGunIndex = Math.min(user.getScores().getScore(), weaponOrder.length - 1);
             newLoadout.multitools[0] = weaponOrder[currentGunIndex];
         }
     }
 
     @Override
-    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic) {
+    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
 
         //Note; we don't worry about suicides, b/c the perp counts as the world dummy, not the player themselves
         if (perp instanceof Player player) {

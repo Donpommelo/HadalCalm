@@ -448,7 +448,7 @@ public class ResultsState extends GameState {
 				if (fieldExtra.getLoadout() != null) {
 
 					for (UnlockArtifact c: fieldExtra.getLoadout().artifacts) {
-						if (!c.equals(UnlockArtifact.NOTHING)) {
+						if (!c.equals(UnlockArtifact.NOTHING) && !c.isInvisible()) {
 							ArtifactIcon newTag = new ArtifactIcon(c, c.getInfo().getName() + "\n" + c.getInfo().getDescription(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 							tableArtifact.add(newTag).width(artifactTagSize).height(artifactTagSize);
 						}

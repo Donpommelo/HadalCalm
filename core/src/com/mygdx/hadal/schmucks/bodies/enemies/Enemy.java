@@ -129,9 +129,8 @@ public class Enemy extends Schmuck {
 				if (spawner != null) {
 					spawner.onDeath();
 				}
-				if (state.getMode().getTeamMode().equals(SettingTeamMode.TeamMode.COOP) && perp instanceof PlayerBodyData) {
-					state.getMode().processPlayerDeath(state, perp.getSchmuck(), null);
-
+				if (state.getMode().getTeamMode().equals(SettingTeamMode.TeamMode.COOP) && perp instanceof PlayerBodyData playerData) {
+					state.getMode().processPlayerScoreChange(state, playerData.getPlayer(), 1);
 				}
 			}
 		});

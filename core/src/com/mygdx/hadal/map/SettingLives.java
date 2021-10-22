@@ -10,6 +10,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 
 import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
 
@@ -79,7 +80,7 @@ public class SettingLives extends ModeSetting {
     }
 
     @Override
-    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic) {
+    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
         if (vic != null) {
             if (HadalGame.server.getUsers().containsKey(vic.getConnID())) {
                 User user = HadalGame.server.getUsers().get(vic.getConnID());

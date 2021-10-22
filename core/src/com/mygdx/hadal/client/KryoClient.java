@@ -747,14 +747,17 @@ public class KryoClient {
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
 					newPlayer.setStartPos(p.startPosition);
 					newPlayer.setConnID(p.connID);
+					newPlayer.setScaleModifier(p.scaleModifier);
 					cs.addEntity(p.entityID, newPlayer, true, ObjectSyncLayers.STANDARD);
 
 					if (p.connID == connID) {
 						cs.setPlayer(newPlayer);
 
-						//set camera to look at new client player.
-						cs.getCamera().position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
-						cs.getCameraFocusAim().set(p.startPosition);
+						if (!p.dontMoveCamera) {
+							//set camera to look at new client player.
+							cs.getCamera().position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
+							cs.getCameraFocusAim().set(p.startPosition);
+						}
 					}
 
 					//attach new player to respective user (or create if nonexistent)

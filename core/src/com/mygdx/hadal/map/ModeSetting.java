@@ -5,6 +5,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 
 /**
  * This is a single setting for a mode.
@@ -69,7 +70,7 @@ public class ModeSetting {
      * @param perp: the schmuck (not necessarily player) that killed
      * @param vic: the player that died
      */
-    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic) {}
+    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {}
 
     /**
      * This is run when a player's score changes

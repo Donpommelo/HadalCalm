@@ -139,7 +139,6 @@ public class PlayState extends GameState {
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
 	private final HashMap<String, PositionDummy> dummyPoints;
 	
-	private float playerDefaultScale = 1.0f;
 	private float zoomModifier = 1.0f;
 	private float timeModifier = 1.0f;
 	private float respawnTime = 1.5f;
@@ -181,7 +180,7 @@ public class PlayState extends GameState {
 	
 	//do we draw the hitbox lines?
 	private boolean debugHitbox;
-	
+
 	//global variables.
 	public static final float spriteAnimationSpeedSlow = 0.15f;
 	public static final float spriteAnimationSpeed = 0.08f;
@@ -307,7 +306,7 @@ public class PlayState extends GameState {
 			//Server must first reset each score at the start of a level (unless just a stage transition)
 			if (reset) {
 				for (User user : HadalGame.server.getUsers().values()) {
-					user.getScores().newLevelReset();
+					user.newLevelReset();
 					user.getScoresExtra().newLevelReset();
 				}
 			}
@@ -466,7 +465,7 @@ public class PlayState extends GameState {
 		physicsAccumulator += modifiedDelta;
 		while (physicsAccumulator >= physicsTime) {
 			physicsAccumulator -= physicsTime;
-			
+
 			//The box2d world takes a step. This handles collisions + physics stuff.
 			world.step(physicsTime, 8, 3);
 		}
@@ -495,7 +494,7 @@ public class PlayState extends GameState {
 				s.remove(entity);
 			}
 			entity.dispose();
-			
+
 			//Upon deleting an entity, tell the clients so they can follow suit.
 			Object packet = entity.onServerDelete();
 			if (packet != null) {
@@ -516,7 +515,7 @@ public class PlayState extends GameState {
 
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
 		controllerEntities(modifiedDelta);
-		
+
 		//Send client a sync packet if the entity requires.
 		if (HadalGame.server.getServer() != null) {
 
@@ -968,20 +967,30 @@ public class PlayState extends GameState {
 
 		mode.processNewPlayerLoadout(this, newLoadout, connID);
 
-		Player p;
-		if (!client) {
+		Vector2 overiddenSpawn = new Vector2();
+		if (start != null) {
 			//servers spawn at the starting point if existent. We prefer using the body's position,
 			// but can also use the starting position if it hasn't been created yet.
-			if (start != null) {
-				if (start.getBody() != null) {
-					p = new Player(this, start.getPixelPosition(), name, newLoadout, old, connID, reset, start);
-				} else {
-					p = new Player(this, start.getStartPos(), name, newLoadout, old, connID, reset, start);
-				}
+			if (start.getBody() != null) {
+				overiddenSpawn.set(start.getPixelPosition());
 			} else {
-				//no start point means we create the player at (0,0). I don't think this should ever happen.
-				p = new Player(this, new Vector2(), name, newLoadout, old, connID, reset, null);
+				overiddenSpawn.set(start.getStartPos());
 			}
+		}
+
+		//process spawn overrides if the user specifies being spawned at a set location instead of at a start point
+		if (isServer()) {
+			User user = HadalGame.server.getUsers().get(connID);
+			if (user != null) {
+				if (user.isSpawnOverridden()) {
+					overiddenSpawn.set(user.getOverrideSpawnLocation());
+				}
+			}
+		}
+
+		Player p;
+		if (!client) {
+			p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, reset, start);
 		} else {
 			//clients always spawn at (0,0), then move when the server tells them to.
 			p = new ClientPlayer(this, new Vector2(), name, newLoadout, null, connID, reset, null);
@@ -1138,7 +1147,7 @@ public class PlayState extends GameState {
 		HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(users, resultsText));
 
 		for (User user: HadalGame.server.getUsers().values()) {
-			user.beginTransition(this, TransitionState.RESULTS, true, defaultFadeOutSpeed, longFadeDelay);
+			user.beginTransition(this, TransitionState.RESULTS, true, defaultFadeOutSpeed, defaultFadeDelay);
 		}
 	}
 
@@ -1418,10 +1427,6 @@ public class PlayState extends GameState {
 	public boolean isServer() { return server; }
 
 	public boolean isReset() { return reset; }
-
-	public float getPlayerDefaultScale() { return playerDefaultScale; }
-
-	public void setPlayerDefaultScale(float playerDefaultScale) { this.playerDefaultScale = playerDefaultScale; }
 
 	public float getZoomModifier() { return zoomModifier; }
 

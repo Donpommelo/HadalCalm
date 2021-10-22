@@ -16,6 +16,7 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import java.util.ArrayList;
@@ -99,6 +100,15 @@ public enum GameMode {
         new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
         new DisplayUITag("SCOREBOARD"), new SpawnWeapons(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(),
+            new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
+
+    MATRYOSHKA("dm", DEATHMATCH,
+        new SetCameraOnSpawn(),
+        new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.magicWord),
+        new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
+        new DisplayUITag("LIVES"), new SpawnWeapons(),
+        new ModeMatryoshka(),
+        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
     SANDBOX("", new SettingTeamMode(TeamMode.COOP), new SettingLives(0)),
@@ -235,7 +245,7 @@ public enum GameMode {
      * @param perp: the schmuck (not necessarily player) that killed
      * @param vic: the player that died
      */
-    public void processPlayerDeath(PlayState state, Schmuck perp, Player vic) {
+    public void processPlayerDeath(PlayState state, Schmuck perp, Player vic, DamageTypes... tags) {
         if (!state.isServer()) { return; }
         if (vic != null) {
             User user = HadalGame.server.getUsers().get(vic.getConnID());
@@ -254,7 +264,7 @@ public enum GameMode {
             }
         }
         for (ModeSetting setting : applicableSettings) {
-            setting.processPlayerDeath(state, this, perp, vic);
+            setting.processPlayerDeath(state, this, perp, vic, tags);
         }
     }
 

@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
@@ -61,12 +60,6 @@ public class ModeModifier extends ModeSetting {
 
     public void executeModifier(PlayState state, GameMode mode) {}
 
-    public void modifyNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
-        if (state.getGsm().getSetting().getModeSetting(mode, settingTag, 0) == 1) {
-            processNewPlayerLoadout(state, mode, newLoadout, connID);
-        }
-    }
-
     public void setCheck(boolean check) {
         if (dropsOptions != null) {
             dropsOptions.setChecked(check);
@@ -74,4 +67,6 @@ public class ModeModifier extends ModeSetting {
     }
 
     public String getName() { return name; }
+
+    public String getSettingTag() { return settingTag; }
 }

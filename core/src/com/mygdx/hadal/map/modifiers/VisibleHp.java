@@ -5,6 +5,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ *  This modifier allows all players to see each other's hp bars, for enemies and allies alike
  *  @author Snotalini Swungo
  */
 public class VisibleHp extends ModeModifier {

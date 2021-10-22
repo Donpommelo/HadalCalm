@@ -164,6 +164,7 @@ public class UIExtra extends AHadalActor {
 		//upon timer running out, a designated event activates
 		if (timer <= 0 && timerIncr < 0) {
 			if (state.getGlobalTimer() != null) {
+				state.getKillFeed().addNotification("TIME", false);
 				state.getGlobalTimer().getEventData().preActivate(null, null);
 				timerIncr = 0;
 			}

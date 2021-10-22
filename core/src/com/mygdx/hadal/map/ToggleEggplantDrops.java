@@ -7,6 +7,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 
 /**
  * This mode setting is used for modes where eggplants are spawned.
@@ -18,7 +19,7 @@ public class ToggleEggplantDrops extends ModeSetting {
     private static final int baseScrapDrop = 1;
 
     @Override
-    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic) {
+    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
         User user = HadalGame.server.getUsers().get(vic.getConnID());
         if (user != null) {
             SavedPlayerFields field = user.getScores();

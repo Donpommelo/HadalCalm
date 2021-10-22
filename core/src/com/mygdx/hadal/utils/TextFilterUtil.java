@@ -137,7 +137,7 @@ public class TextFilterUtil {
 	
 	/**
 	 * This filters tags into chosen hotkeys. used in the tutorial
-	 * The reason we have the fugs here is b/c tiled doesn't like '<', '>' characters
+	 * The reason we have the fugs here is b/c tiled doesn't like greater/less than characters
 	 */
 	public static String filterHotkeys(String text) {
 		String filteredText = text;

@@ -45,7 +45,7 @@ public class PlayerSpriteHelper {
     private static final int armRotateY = 50;
 
     private final Player player;
-    private final float scale;
+    private float scale;
 
     private TextureRegion bodyBackSprite, armSprite, gemSprite;
     private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
@@ -354,6 +354,8 @@ public class PlayerSpriteHelper {
         return new TextureRegion(tex, texRegion.getRegionX(), tex.getRegionHeight() - texRegion.getRegionY(),
             texRegion.getRegionWidth(), -texRegion.getRegionHeight());
     }
+
+    public void setScale(float scale) { this.scale = scale; }
 
     public enum DespawnType {
         LEVEL_TRANSITION,

@@ -44,6 +44,9 @@ public class User {
 
     private StartPoint startPoint;
 
+    private final Vector2 overrideSpawnLocation = new Vector2();
+    private boolean spawnOverridden;
+
     public User(Player player, SavedPlayerFields scores, SavedPlayerFieldsExtra scoresExtra) {
         this.player = player;
         this.scores = scores;
@@ -62,6 +65,7 @@ public class User {
         if (nextState != null) {
             transitionTime -= delta;
 
+            //briefly before respawning, we want to flash particles at prospective spawn location
             if (transitionTime <= spawnForewarn && !spawnForewarned) {
                 if (nextState.equals(TransitionState.RESPAWN)) {
                     spawnForewarned = true;
@@ -110,7 +114,8 @@ public class User {
      * Create their new player character
      * @param state: the play state
      */
-    private void respawn(PlayState state) {
+    public void respawn(PlayState state) {
+
         if (startPoint == null) {
             startPoint = state.getSavePoint(this);
         }
@@ -122,8 +127,10 @@ public class User {
             state.setPlayer(state.createPlayer(startPoint, state.getGsm().getLoadout().getName(), player.getPlayerData().getLoadout(),
                     player.getPlayerData(),0, true, false, hitboxFilter));
 
-            state.getCamera().position.set(new Vector3(startPoint.getStartPos().x, startPoint.getStartPos().y, 0));
-            state.getCameraFocusAim().set(startPoint.getStartPos());
+            if (!player.isDontMoveCamera()) {
+                state.getCamera().position.set(new Vector3(startPoint.getStartPos().x, startPoint.getStartPos().y, 0));
+                state.getCameraFocusAim().set(startPoint.getStartPos());
+            }
 
             ((PlayerController) state.getController()).setPlayer(player);
         } else {
@@ -142,8 +149,24 @@ public class User {
         }
     }
 
-    private static final Vector3 rgb = new Vector3();
+    /**
+     * Run when entering a new level
+     * This makes sure things like saved start points are reset
+     */
+    public void newLevelReset() {
+        scores.newLevelReset();
+        nextState = null;
+        startPoint = null;
+        spawnOverridden = false;
+    }
 
+    public void setOverrideSpawn(Vector2 overrideSpawn) {
+        overrideSpawnLocation.set(overrideSpawn);
+        spawnOverridden = true;
+    }
+
+
+    private static final Vector3 rgb = new Vector3();
     /**
      * This returns an abridged version of the user's name
      * Additionally, the name will be colored according to the user's alignment
@@ -213,4 +236,8 @@ public class User {
     public AlignmentFilter getTeamFilter() { return teamFilter; }
 
     public void setTeamFilter(AlignmentFilter teamFilter) { this.teamFilter = teamFilter; }
+
+    public Vector2 getOverrideSpawnLocation() { return overrideSpawnLocation; }
+
+    public boolean isSpawnOverridden() { return spawnOverridden; }
 }

@@ -570,11 +570,10 @@ public class WeaponUtils {
 
 		boolean special = user.getBodyData().getStat(Stats.PING_DAMAGE) != 0.0f;
 
-		Hitbox hbox = new RangedHitbox(state, new Vector2(user.getPixelPosition()).add(0, 88.0f), emoteSize,
+		Hitbox hbox = new RangedHitbox(state, new Vector2(user.getPixelPosition()).add(0, user.getSize().y / 2 + 50), emoteSize,
 			special ? emoteLifespanLong : emoteLifespan, new Vector2(), (short) 0, !special, special, user, emote);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
 			private float controllerCount;
@@ -584,7 +583,7 @@ public class WeaponUtils {
 				controllerCount += delta;
 
 				if (controllerCount <= emoteLifespan) {
-					entityLocation.set(user.getPosition()).add(0, 88.f / PPM);
+					entityLocation.set(user.getPosition()).add(0, (user.getSize().y / 2 + 50) / PPM);
 					hbox.setTransform(entityLocation, hbox.getAngle());
 					hbox.setLinearVelocity(user.getLinearVelocity());
 				}

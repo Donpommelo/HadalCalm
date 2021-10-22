@@ -510,7 +510,6 @@ public class KryoServer {
 			} else {
 				user = new User(null, new SavedPlayerFields(name, connId), new SavedPlayerFieldsExtra());
 				users.put(connId, user);
-
 				user.setTeamFilter(loadout.team);
 			}
 

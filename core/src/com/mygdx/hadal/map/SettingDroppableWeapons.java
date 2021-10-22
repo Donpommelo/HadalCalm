@@ -10,6 +10,7 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 
 /**
  * This mode setting is used for modes where the host can designate weapon drop mode
@@ -54,7 +55,7 @@ public class SettingDroppableWeapons extends ModeSetting {
     }
 
     @Override
-    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic) {
+    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
 
         //in weapon drop mode, players will drop their currently held weapon on death (unless it is default weapon or nothing)
         if (vic != null && droppableWeapons) {

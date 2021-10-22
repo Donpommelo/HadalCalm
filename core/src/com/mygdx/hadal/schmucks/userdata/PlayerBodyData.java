@@ -661,8 +661,6 @@ public class PlayerBodyData extends BodyData {
 				}
 			}
 			
-			schmuck.getState().getMode().processPlayerDeath(schmuck.getState(), perp.getSchmuck(), player);
-
 			//delete the player's mouse pointer
 			if (player.getMouse() != player.getState().getMouse()) {
 				player.getMouse().queueDeletion();
@@ -674,6 +672,8 @@ public class PlayerBodyData extends BodyData {
 			}
 			
 			super.die(perp, tags);
+
+			schmuck.getState().getMode().processPlayerDeath(schmuck.getState(), perp.getSchmuck(), player, tags);
 		}
 	}
 	

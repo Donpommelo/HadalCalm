@@ -7,6 +7,7 @@ import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.map.modifiers.ModeModifier;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -70,7 +71,18 @@ public class SetModifiers extends ModeSetting {
     @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
         for (ModeModifier modifier: modifiers) {
-            modifier.modifyNewPlayerLoadout(state, mode, newLoadout, connID);
+            if (state.getGsm().getSetting().getModeSetting(mode, modifier.getSettingTag(), 0) == 1) {
+                modifier.processNewPlayerLoadout(state, mode, newLoadout, connID);
+            }
+        }
+    }
+
+    @Override
+    public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
+        for (ModeModifier modifier: modifiers) {
+            if (state.getGsm().getSetting().getModeSetting(mode, modifier.getSettingTag(), 0) == 1) {
+                modifier.modifyNewPlayer(state, mode, newLoadout, p, hitboxFilter);
+            }
         }
     }
 }

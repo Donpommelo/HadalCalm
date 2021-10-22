@@ -230,7 +230,7 @@ public class ConsoleCommandUtil {
 	}
 	
 	/**
-	 * This lets the player display certain information in the text log using "print <>"
+	 * This lets the player display certain information in the text log using "print x"
 	 */
 	public static int print(PlayState state, String command) {
 

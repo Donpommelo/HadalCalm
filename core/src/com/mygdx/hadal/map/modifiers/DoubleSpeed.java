@@ -4,7 +4,8 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * This mode modifier causes the game to run at double speed
+ * This modifier makes the game world run at double-speed. This affects all bodies.
+ * When active in conjuction with slo-mo modifier, the effects are canceled out
  * @author Pulgernon Phuyardee
  */
 public class DoubleSpeed extends ModeModifier {

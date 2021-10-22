@@ -39,6 +39,11 @@
 	"description": "Player weapon cycles when they get kills.",
 	"descriptionLong": "Cycle through all 18 weapons to win the game."
 },
+"MATRYOSHKA": {
+	"name": "Matryoshka",
+	"description": "",
+	"descriptionLong": ""
+},
 "EGGPLANTS": {
 	"name": "Eggplant Hunt",
 	"description": "The player with the most eggplants at the end of the game wins.",

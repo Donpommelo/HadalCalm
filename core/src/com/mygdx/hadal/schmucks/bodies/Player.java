@@ -62,6 +62,8 @@ public class Player extends PhysicsSchmuck {
 	public static final float scale = 0.15f;
 	public static final float uiScale = 0.4f;
 	public static final float playerMass = 2.4489846f;
+	private float scaleModifier = 1.0f;
+	private boolean dontMoveCamera;
 
 	private final PlayerSpriteHelper spriteHelper;
 	private TextureRegion toolSprite;
@@ -190,7 +192,7 @@ public class Player extends PhysicsSchmuck {
 		this.reset = reset;
 		this.start = start;
 
-		this.spriteHelper = new PlayerSpriteHelper(this, scale * state.getPlayerDefaultScale());
+		this.spriteHelper = new PlayerSpriteHelper(this, scale);
 		setBodySprite(startLoadout.character, startLoadout.team);
 		loadParticles();
 		
@@ -264,7 +266,7 @@ public class Player extends PhysicsSchmuck {
 		}
 
 		//we scale size here to account for any player size modifiers
-		size.scl(state.getPlayerDefaultScale());
+		size.scl(scaleModifier);
 
 		this.body = BodyBuilder.createBox(world, startPos, size, 1.0f, playerDensity, 0.0f, 0.0f, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
@@ -698,7 +700,7 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		float textX = playerLocation.x - reload.getRegionWidth() * uiScale / 2;
-		float textY = playerLocation.y + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;
+		float textY = playerLocation.y + reload.getRegionHeight() * uiScale + size.y / 2;
 		
 		//render player ui
 		if (playerData.getCurrentTool().isReloading()) {
@@ -801,13 +803,13 @@ public class Player extends PhysicsSchmuck {
 			//draw player name
 			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
 			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, name,
-				playerLocation.x - Player.hbWidth * Player.scale / 2,
-				playerLocation.y + Player.hbHeight * Player.scale / 2 + 25);
+				playerLocation.x - size.x / 2,
+				playerLocation.y + size.y / 2 + 25);
 		}
 
 		//display typing bubble if typing
 		if (typingCdCount > 0) {
-			batch.draw(typingBubble.getKeyFrame(animationTime, true), playerLocation.x - 25, playerLocation.y + Player.hbHeight * scale / 2 + 20, 50, 40);
+			batch.draw(typingBubble.getKeyFrame(animationTime, true), playerLocation.x - 25, playerLocation.y + size.y / 2 + 20, 50, 40);
 		}
 	}
 	
@@ -862,7 +864,8 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePlayer(entityID.toString(), connID, getPixelPosition(), name, playerData.getLoadout(), hitboxfilter);
+		return new Packets.CreatePlayer(entityID.toString(), connID, getPixelPosition(), name, playerData.getLoadout(),
+				hitboxfilter, scaleModifier, dontMoveCamera);
 	}
 
 	//this is the type of death we have. Send to client so they can process the death on their end.
@@ -980,7 +983,12 @@ public class Player extends PhysicsSchmuck {
 	
 	@Override
 	public BodyData getBodyData() { return playerData; }
-	
+
+	public void setScaleModifier(float scaleModifier) {
+		this.spriteHelper.setScale(scale * scaleModifier);
+		this.scaleModifier = scaleModifier;
+	}
+
 	public PlayerBodyData getPlayerData() {	return playerData; }
 
 	public TextureRegion getToolSprite() { return this.toolSprite; }
@@ -1030,4 +1038,8 @@ public class Player extends PhysicsSchmuck {
 	public PlayerSpriteHelper getSpriteHelper() { return spriteHelper; }
 
 	public void setDespawnType(DespawnType despawnType) { this.despawnType = despawnType; }
+
+	public void setDontMoveCamera(boolean dontMoveCamera) {	this.dontMoveCamera = dontMoveCamera; }
+
+	public boolean isDontMoveCamera() { return dontMoveCamera; }
 }

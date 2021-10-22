@@ -464,6 +464,8 @@ public class Packets {
 		public String name;
 		public Loadout loadout;
 		public short hitboxFilter;
+		public float scaleModifier;
+		public boolean dontMoveCamera;
 		public CreatePlayer() {}
 		
 		/**
@@ -477,14 +479,18 @@ public class Packets {
 		 * @param name: name of the new Player
 		 * @param loadout: loadout of the new Player
 		 * @param hitboxFilter: collision filter of the new player
+		 * @param scaleModifier: player body size modification
 		 */
-		public CreatePlayer(String entityID, int connID, Vector2 startPosition, String name, Loadout loadout, short hitboxFilter) {
+		public CreatePlayer(String entityID, int connID, Vector2 startPosition, String name, Loadout loadout,
+					short hitboxFilter, float scaleModifier, boolean dontMoveCamera) {
             this.entityID = entityID;
             this.connID = connID;
             this.startPosition = startPosition;
             this.name = name;
             this.loadout = loadout;
             this.hitboxFilter = hitboxFilter;
+            this.scaleModifier = scaleModifier;
+            this.dontMoveCamera = dontMoveCamera;
         }
 	}
 	
