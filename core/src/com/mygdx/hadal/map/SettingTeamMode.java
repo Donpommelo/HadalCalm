@@ -189,7 +189,7 @@ public class SettingTeamMode extends ModeSetting {
                     }
                 }
             }
-            state.transitionToResultsState(resultsText);
+            state.transitionToResultsState(resultsText, PlayState.longFadeDelay);
         } else {
 
             //the player that dies respawns if there are still others left and becomes a spectator otherwise

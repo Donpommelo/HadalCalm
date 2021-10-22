@@ -5,6 +5,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -18,6 +20,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -109,14 +112,22 @@ public class ResultsState extends GameState {
 
 	private static final int messageX = 20;
 	private static final int messageY = 20;
+
+	private final FrameBuffer fbo;
+	private final TextureRegion snapshot;
+	private final Shader shader;
 	/**
 	 * Constructor will be called whenever the game transitions into a results state
 	 * @param text: this is the string that is displayed at the top of the result state
 	 */
-	public ResultsState(final GameStateManager gsm, String text, PlayState ps) {
+	public ResultsState(final GameStateManager gsm, String text, PlayState ps, FrameBuffer fbo) {
 		super(gsm);
 		this.text = text;
 		this.ps = ps;
+		this.fbo = fbo;
+		this.shader = Shader.PERLIN_FADE;
+		shader.loadShader();
+		this.snapshot = new TextureRegion(fbo.getColorBufferTexture(), 0, fbo.getHeight(), fbo.getWidth(), -fbo.getHeight());
 		
 		//First, we obtain the list of scores, depending on whether we are the server or client.
 		scores = new ArrayList<>();
@@ -258,10 +269,33 @@ public class ResultsState extends GameState {
 			syncInfoTable(HadalGame.client.connID);
 		}
 
+		stage.addActor(new Backdrop(AssetList.RESULTS_CARD.toString()) {
+
+			private float progress;
+			private float timer;
+			private static final float fadeDelay = 2.0f;
+			private static final float fadeDuration = 2.5f;
+
+			@Override
+			public void act(float delta) {
+				super.act(delta);
+				timer += delta;
+				if (timer >= fadeDelay) {
+					progress = (timer - fadeDelay) / fadeDuration;
+				}
+			}
+
+			@Override
+			public void draw(Batch batch, float alpha) {
+				batch.setShader(shader.getShaderProgram());
+				shader.shaderDefaultUpdate(progress);
+				batch.draw(snapshot, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
+				batch.setShader(null);
+			}
+		});
+
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
-
 		inputMultiplexer.addProcessor(stage);
-
 		inputMultiplexer.addProcessor(new InputProcessor() {
 
 			@Override
@@ -560,6 +594,7 @@ public class ResultsState extends GameState {
 	@Override
 	public void dispose() {
 	    stage.dispose();
+		fbo.dispose();
 
 	    for (PlayerResultsIcon icon: icons) {
 	        icon.dispose();

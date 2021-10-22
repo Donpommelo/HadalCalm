@@ -366,7 +366,9 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 
 			if (cs != null) {
-				cs.addPacketEffect(() -> cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay));
+				cs.addPacketEffect(() -> {
+					cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay);
+				});
 			}
 		}
 

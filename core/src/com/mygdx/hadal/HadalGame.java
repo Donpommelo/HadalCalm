@@ -79,7 +79,10 @@ public class HadalGame extends ApplicationAdapter {
   	
   	//Amount of delay before fade transition occurs
   	protected float fadeDelay = 0.0f;
-  	
+
+  	//if set to true, we jump right into transition without fading in/out (set by making fadeDelta 0 in fadeSpecificSpeed())
+  	private boolean skipFade;
+
   	//This is how much the fade changes every engine tick (starts out fading in)
   	protected float fadeDelta = defaultFadeInSpeed;
   	
@@ -161,6 +164,11 @@ public class HadalGame extends ApplicationAdapter {
 			//If we are in the delay period of a transition, decrement the delay
 			if (fadeDelay > 0.0f) {
 				fadeDelay -= delta;
+			} else if (skipFade) {
+				skipFade = false;
+				if (runAfterTransition != null) {
+					Gdx.app.postRunnable(runAfterTransition);
+				}
 			} else if (fadeDelta < 0.0f) {
 				
 				//If we are fading in and not done yet, decrease fade.
@@ -289,6 +297,9 @@ public class HadalGame extends ApplicationAdapter {
 	public void fadeSpecificSpeed(float fadeSpeed, float fadeDelay) { 
 		this.fadeDelta = fadeSpeed; 
 		this.fadeDelay = fadeDelay;
+		if (fadeDelta == 0.0f) {
+			skipFade = true;
+		}
 	}
 
 	public void fadeOut() {	fadeDelta = defaultFadeOutSpeed; }

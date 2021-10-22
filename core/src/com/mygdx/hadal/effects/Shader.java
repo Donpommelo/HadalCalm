@@ -32,6 +32,7 @@ public enum Shader {
 	WORM("shaders/pass.vert", "shaders/worm.frag", true, new Resolution(), new Timer()),
 	WHIRLPOOL("shaders/pass.vert", "shaders/whirlpool.frag", true, new Resolution(), new Timer(), new ObjectiveCoord()),
 	PLAYER_LIGHT("shaders/pass.vert", "shaders/darkness.frag", false, new Resolution(), new PlayerCoord(), new Light()),
+	PERLIN_FADE("shaders/pass.vert", "shaders/perlin.frag", false, new Resolution(), new Timer()),
 	;
 	
 	//filename for the vertex and fragment shaders

@@ -2,6 +2,7 @@ package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
@@ -295,14 +296,16 @@ public class ClientState extends PlayState {
 			nextState = null;
 			break;
 		case RESULTS:
-			
+
+			FrameBuffer fbo = resultsStateFreeze();
+
 			//immediately transition to the results screen
 			gsm.removeState(SettingState.class, false);
 			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(ClientState.class, false);
-			gsm.addResultsState(this, resultsText, LobbyState.class);
-			gsm.addResultsState(this, resultsText, TitleState.class);
+			gsm.addResultsState(this, resultsText, LobbyState.class, fbo);
+			gsm.addResultsState(this, resultsText, TitleState.class, fbo);
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player

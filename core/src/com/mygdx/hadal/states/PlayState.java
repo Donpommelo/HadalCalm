@@ -3,8 +3,11 @@ package com.mygdx.hadal.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -15,6 +18,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
@@ -622,7 +626,7 @@ public class PlayState extends GameState {
 
 			batch.end();
 		}
-	}	
+	}
 	
 	/**
 	 * This is run in the update method and is just a helper to avoid repeating code in both the server/client states.
@@ -861,13 +865,15 @@ public class PlayState extends GameState {
 			break;
 		case RESULTS:
 
+			FrameBuffer fbo = resultsStateFreeze();
+
 			//get a results screen
 			gsm.removeState(SettingState.class, false);
 			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class, false);
-			gsm.addResultsState(this, resultsText, LobbyState.class);
-			gsm.addResultsState(this, resultsText, TitleState.class);
+			gsm.addResultsState(this, resultsText, LobbyState.class, fbo);
+			gsm.addResultsState(this, resultsText, TitleState.class, fbo);
 			break;
 		case SPECTATOR:
 			
@@ -1022,7 +1028,7 @@ public class PlayState extends GameState {
 	 * This is called when a level ends. Only called by the server. Begin a transition and tell all clients to follow suit.
 	 * @param text: text displayed in results state
 	 */
-	public void levelEnd(String text, boolean victory) {
+	public void levelEnd(String text, boolean victory, float fadeDelay) {
 		String resultsText = text;
 
 		//magic word indicates that we generate the results text dynamically based on score
@@ -1115,13 +1121,13 @@ public class PlayState extends GameState {
             }
         }
 
-		transitionToResultsState(resultsText);
+		transitionToResultsState(resultsText, fadeDelay);
 	}
 
 	/**
 	 * This is run by the server to transition to the results screen
 	 */
-	public void transitionToResultsState(String resultsText) {
+	public void transitionToResultsState(String resultsText, float fadeDelay) {
 		this.resultsText = resultsText;
 
 		UserDto[] users = new UserDto[HadalGame.server.getUsers().size()];
@@ -1147,8 +1153,34 @@ public class PlayState extends GameState {
 		HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(users, resultsText));
 
 		for (User user: HadalGame.server.getUsers().values()) {
-			user.beginTransition(this, TransitionState.RESULTS, true, defaultFadeOutSpeed, defaultFadeDelay);
+			user.beginTransition(this, TransitionState.RESULTS, true, 0.0f, fadeDelay);
 		}
+	}
+
+	private static final float endTextY = 700;
+	private static final float endTextWidth = 400;
+	private static final float endTextScale = 2.5f;
+	protected FrameBuffer resultsStateFreeze() {
+		FrameBuffer fbo = new FrameBuffer(Pixmap.Format.RGBA4444, 1280, 720, true);
+
+		fbo.begin();
+
+		//clear buffer, set camera
+		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		batch.getProjectionMatrix().setToOrtho2D(0, 0, fbo.getWidth(), fbo.getHeight());
+		render(0.0f);
+
+		batch.setProjectionMatrix(hud.combined);
+		batch.begin();
+		HadalGame.SYSTEM_FONT_UI.getData().setScale(endTextScale);
+		HadalGame.SYSTEM_FONT_UI.draw(batch, "GAME!",HadalGame.CONFIG_WIDTH / 2 - endTextWidth / 2, endTextY, endTextWidth,
+				Align.center, true);
+		batch.end();
+
+		fbo.end();
+
+		return fbo;
 	}
 
 	/**
@@ -1223,7 +1255,8 @@ public class PlayState extends GameState {
 		gsm.getApp().fadeSpecificSpeed(fadeSpeed, fadeDelay);
 		gsm.getApp().setRunAfterTransition(this::transitionState);
 
-		if (state.equals(TransitionState.RESPAWN)) {
+		//fadeSpeed means we skip the fade. Only relevant during special transitions
+		if (state.equals(TransitionState.RESPAWN) && fadeSpeed != 0.0f) {
 			killFeed.addKillInfo(fadeDelay + 1.0f / fadeSpeed);
 		}
 	}

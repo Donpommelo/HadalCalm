@@ -2,6 +2,7 @@ package com.mygdx.hadal.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -254,13 +255,14 @@ public class GameStateManager {
 	 * @param ps: This is the playstate we are putting the resultstate on
 	 * @param text: this text is displayed at the top of the results state. Declares win or loss (or anything else)
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
+	 * @param fbo: the snapshot of the world in the playstate. used for transitions
 	 */
-	public void addResultsState(PlayState ps, String text, Class<? extends GameState> lastState) {
+	public void addResultsState(PlayState ps, String text, Class<? extends GameState> lastState, FrameBuffer fbo) {
 		if (states.empty()) {
-			states.push(new ResultsState(this, text, ps));
+			states.push(new ResultsState(this, text, ps, fbo));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new ResultsState(this, text, ps));
+			states.push(new ResultsState(this, text, ps, fbo));
 			states.peek().show();
 		}
 	}
