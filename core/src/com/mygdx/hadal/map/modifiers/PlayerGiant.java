@@ -6,18 +6,18 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- *  This modifier shrinks the bodies of all players.
- *  @author Gicciatello Grumpernickel
+ *  This modifier increases the sizes of all players.
+ *  @author Linjsalt Lonkkoff
  */
-public class PlayerMini extends ModeModifier {
+public class PlayerGiant extends ModeModifier {
 
-    private static final String settingTag = "player_mini";
-    private static final String uiText = "SMALL PLAYERS?";
-    private static final String name = "MINI";
+    private static final String settingTag = "player_giant";
+    private static final String uiText = "GIANT PLAYERS?";
+    private static final String name = "GIANT";
 
-    private static final float playerScale = 0.5f;
+    private static final float playerScale = 1.8f;
 
-    public PlayerMini() {
+    public PlayerGiant() {
         super(settingTag, uiText, name);
     }
 
