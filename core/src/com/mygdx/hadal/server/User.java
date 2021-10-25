@@ -104,7 +104,7 @@ public class User {
                     state.beginTransition(nextState, fadeSpeed, fadeDelay);
                 }
             } else {
-                HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(nextState, fadeSpeed, fadeDelay));
+                HadalGame.server.sendToTCP(scores.getConnID(), new Packets.ClientStartTransition(nextState, fadeSpeed, fadeDelay));
             }
         }
     }
