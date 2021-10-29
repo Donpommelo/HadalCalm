@@ -146,6 +146,8 @@ public enum Particle {
 	public PooledEffect getParticle() {
 		PooledEffect newEffect = effectPool.obtain();
 		newEffect.reset();
+
+		//the DEFAULT distinction exists for particles that do not involve the pool (atm just the "nothing" effect)
 		if (type == ParticleType.DEFAULT) {
 			newEffect.load(Gdx.files.internal(particleId), GameStateManager.particleAtlas);
 		}

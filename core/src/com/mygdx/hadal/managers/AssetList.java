@@ -3,6 +3,10 @@ package com.mygdx.hadal.managers;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
+/**
+ * The AssetList maps varioous assets to strings to be loaded and managed by the asseetmanager
+ * @author Rusteban Reldcoin
+ */
 public enum AssetList {
 
 	TITLE_CARD("Title.png", Texture.class),

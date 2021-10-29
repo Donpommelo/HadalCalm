@@ -1,7 +1,7 @@
 package com.mygdx.hadal.utils;
 
 /**
- * This is a list of the stats inf the game. These are all attributes of players and have default values of 0.
+ * This is a list of the stats in the game. These are all attributes of players and have default values of 0.
  * @author Prodchester Phuposter
  */
 public class Stats {

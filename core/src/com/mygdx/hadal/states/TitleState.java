@@ -3,7 +3,6 @@ package com.mygdx.hadal.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,8 +21,9 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.managers.GameStateManager.State;
-import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.utils.NameGenerator;
+
+import static com.mygdx.hadal.utils.Constants.*;
 
 /**
  * The TitleState is created upon initializing the game and will display an image.
@@ -193,7 +193,7 @@ public class TitleState extends GameState {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-						Gdx.net.openURI(HadalGame.versionURL);
+						Gdx.net.openURI(HadalGame.VersionURL);
 					}
 				});
 
@@ -320,7 +320,7 @@ public class TitleState extends GameState {
 		         });
 
 				enterName = new TextField(gsm.getLoadout().getName(), GameStateManager.getSkin());
-				enterName.setMaxLength(SavedLoadout.maxNameLength);
+				enterName.setMaxLength(MAX_NAME_LENGTH_TOTAL);
 				enterName.setMessageText("ENTER NAME");
 				
 				tableName.add(nameDisplay).height(optionHeight).pad(5);
@@ -349,22 +349,20 @@ public class TitleState extends GameState {
 		transitionIn(() -> inputDisabled = false);
 	}
 
-	private static final float transitionDuration = 0.25f;
-	private static final Interpolation intp = Interpolation.fastSlow;
 	private void transitionOut(Runnable runnable) {
-		backdrop.addAction(Actions.moveTo(titleX, titleY, transitionDuration, intp));
+		backdrop.addAction(Actions.moveTo(titleX, titleY, TRANSITION_DURATION, INTP_FASTSLOW));
 
-		tableMain.addAction(Actions.moveTo(menuX, menuY, transitionDuration, intp));
-		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(nameX, nameY, transitionDuration, intp)));
-		notificationTable.addAction(Actions.moveTo(notificationX, notificationY, transitionDuration, intp));
+		tableMain.addAction(Actions.moveTo(menuX, menuY, TRANSITION_DURATION, INTP_FASTSLOW));
+		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(nameX, nameY, TRANSITION_DURATION, INTP_FASTSLOW)));
+		notificationTable.addAction(Actions.moveTo(notificationX, notificationY, TRANSITION_DURATION, INTP_FASTSLOW));
 		notifications.setText("");
 	}
 
 	private void transitionIn(Runnable runnable) {
-		backdrop.addAction(Actions.moveTo(titleXEnabled, titleYEnabled, transitionDuration, intp));
+		backdrop.addAction(Actions.moveTo(titleXEnabled, titleYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
 
-		tableMain.addAction(Actions.moveTo(menuXEnabled, menuYEnabled, transitionDuration, intp));
-		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(nameXEnabled, nameYEnabled, transitionDuration, intp)));
+		tableMain.addAction(Actions.moveTo(menuXEnabled, menuYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
+		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(nameXEnabled, nameYEnabled, TRANSITION_DURATION, INTP_FASTSLOW)));
 	}
 
 	@Override
@@ -394,9 +392,9 @@ public class TitleState extends GameState {
 	public void setNotification(String notification) {
 		if (!notification.equals("")) {
 			notificationTable.addAction(Actions.sequence(
-					Actions.moveTo(notificationX, notificationY, transitionDuration, intp),
+					Actions.moveTo(notificationX, notificationY, TRANSITION_DURATION, INTP_FASTSLOW),
 					Actions.run(() -> notifications.setText(notification)),
-					Actions.moveTo(notificationXEnabled, notificationYEnabled, transitionDuration, intp)));
+					Actions.moveTo(notificationXEnabled, notificationYEnabled, TRANSITION_DURATION, INTP_FASTSLOW)));
 		}
 	}
 }

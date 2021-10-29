@@ -9,6 +9,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * Background actor for initializing screen.
+ * @author Frulfpants Fulnpants
  */
 public class LoadingBackdrop extends AHadalActor {
 	

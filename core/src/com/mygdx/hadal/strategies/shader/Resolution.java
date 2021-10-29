@@ -8,7 +8,6 @@ import com.mygdx.hadal.strategies.ShaderStrategy;
  * A Resolution sets the shader's resolution when it is created.
  * It also updates the shader's resolution when the game window is resized.
  * @author Weezlebub Whekins
- *
  */
 public class Resolution extends ShaderStrategy {
 

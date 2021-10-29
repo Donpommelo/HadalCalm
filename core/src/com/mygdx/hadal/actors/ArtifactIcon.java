@@ -2,7 +2,6 @@ package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -24,11 +23,9 @@ public class ArtifactIcon extends AHadalActor {
 	
 	//This is the artifact that this tag represents
 	private final UnlockArtifact artifact;
-	
-	private final BitmapFont font;
-	
-	private static final float scale = 0.25f;
-	private final Color color;
+
+	private static final float fontScale = 0.25f;
+	private static final Color color = Color.WHITE;
 	protected final GlyphLayout layout;
 	
 	private final TextureRegion icon;
@@ -46,15 +43,12 @@ public class ArtifactIcon extends AHadalActor {
 		this.textOffsetY = textOffsetY;
 		this.targetWidth = targetWidth;
 		
-		font = HadalGame.SYSTEM_FONT_UI;
-		font.getData().setScale(scale);
-		color = Color.WHITE;
-		
 		this.icon = artifact.getFrame();
-		
+
+		HadalGame.FONT_UI.getData().setScale(fontScale);
 		layout = new GlyphLayout();
-		layout.setText(font, text, color, targetWidth, Align.left, true);
-		
+		layout.setText(HadalGame.FONT_UI, text, color, targetWidth, Align.left, true);
+
 		addListener(new ClickListener() {
 			
 			@Override
@@ -78,9 +72,9 @@ public class ArtifactIcon extends AHadalActor {
 		//this displays additional artifact information when this actor is moused over
          if (mouseOver) {
         	 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2 + textOffsetX, getY() - padding / 2 + textOffsetY, layout.width + padding, layout.height + padding);
-        	 font.setColor(color);
-        	 font.getData().setScale(scale);
-        	 font.draw(batch, text, getX() + textOffsetX, getY() + textOffsetY + layout.height, targetWidth, Align.left, true);
+			 HadalGame.FONT_UI.setColor(color);
+			 HadalGame.FONT_UI.getData().setScale(fontScale);
+			 HadalGame.FONT_UI.draw(batch, text, getX() + textOffsetX, getY() + textOffsetY + layout.height, targetWidth, Align.left, true);
          }
     }
 

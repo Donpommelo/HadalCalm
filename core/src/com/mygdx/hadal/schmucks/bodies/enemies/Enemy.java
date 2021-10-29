@@ -49,7 +49,7 @@ public class Enemy extends Schmuck {
 	private float attackCd;
 	
 	//this is the amount of currency dropped when this enemy is defeated
-	private int scrapDrop;
+	private final int scrapDrop;
 	
 	//This is the range that the enemy will be able to detect targets
     protected static final float aiRadius = 2000;
@@ -395,8 +395,4 @@ public class Enemy extends Schmuck {
 	public void setDesiredAngle(float desiredAngle) { this.desiredAngle = desiredAngle; }
 	
 	public void setAttackCd(float attackCd) { this.attackCd = attackCd; }
-
-	public int getScrapDrop() {	return scrapDrop; }
-
-	public void setScrapDrop(int scrapDrop) { this.scrapDrop = scrapDrop; }
 }

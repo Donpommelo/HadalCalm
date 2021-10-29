@@ -28,75 +28,57 @@ public class PlayerController implements InputProcessor {
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 			player.getController().keyDown(PlayerAction.WALK_LEFT);
 		} 
-		
 		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
 			player.getController().keyDown(PlayerAction.WALK_RIGHT);
 		} 
-		
 		else if (keycode == PlayerAction.JUMP.getKey()) {
 			player.getController().keyDown(PlayerAction.JUMP);
 		} 
-		
 		else if (keycode == PlayerAction.CROUCH.getKey()) {
 			player.getController().keyDown(PlayerAction.CROUCH);
 		} 
-		
 		else if (keycode == PlayerAction.INTERACT.getKey()) {
 			player.getController().keyDown(PlayerAction.INTERACT);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.ACTIVE_ITEM.getKey()) {
 			player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.RELOAD.getKey()) {
 			player.getController().keyDown(PlayerAction.RELOAD);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.FIRE.getKey()) {
 			player.getController().keyDown(PlayerAction.FIRE);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.BOOST.getKey()) {
 			player.getController().keyDown(PlayerAction.BOOST);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.SWITCH_TO_LAST.getKey()) {
 			player.getController().keyDown(PlayerAction.SWITCH_TO_LAST);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.SWITCH_TO_1.getKey()) {
 			player.getController().keyDown(PlayerAction.SWITCH_TO_1);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.SWITCH_TO_2.getKey()) {
 			player.getController().keyDown(PlayerAction.SWITCH_TO_2);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.SWITCH_TO_3.getKey()) {
 			player.getController().keyDown(PlayerAction.SWITCH_TO_3);
 		} 
-		
 		else if (keycode == PlayerAction.SWITCH_TO_4.getKey()) {
 			player.getController().keyDown(PlayerAction.SWITCH_TO_4);
-		} 
-
+		}
 		else if (keycode == PlayerAction.WEAPON_CYCLE_DOWN.getKey()) {
 			player.getController().keyDown(PlayerAction.WEAPON_CYCLE_DOWN);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.WEAPON_CYCLE_UP.getKey()) {
 			player.getController().keyDown(PlayerAction.WEAPON_CYCLE_UP);
-		} 
-
+		}
 		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			player.getController().keyDown(PlayerAction.CHAT_WHEEL);
 		}
-
 		else if (keycode == PlayerAction.PING.getKey()) {
 			player.getController().keyDown(PlayerAction.PING);
 		}
-		
 		return false;
 	}
 
@@ -109,28 +91,22 @@ public class PlayerController implements InputProcessor {
 		
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 			player.getController().keyUp(PlayerAction.WALK_LEFT);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
 			player.getController().keyUp(PlayerAction.WALK_RIGHT);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.JUMP.getKey()) {
 			player.getController().keyUp(PlayerAction.JUMP);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.CROUCH.getKey()) {
 			player.getController().keyUp(PlayerAction.CROUCH);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.FIRE.getKey()) {
 			player.getController().keyUp(PlayerAction.FIRE);
 		}
-
 		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			player.getController().keyUp(PlayerAction.CHAT_WHEEL);
 		}
-
 		return false;
 	}
 

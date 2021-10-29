@@ -21,7 +21,7 @@ public class Text extends AHadalActor {
 	protected String text;
 	protected BitmapFont font;
 	protected BitmapFontCache cache;
-	protected Color color;
+	protected Color fontColor;
 	protected GlyphLayout layout;
 
 	protected float scale = 1.0f;
@@ -46,9 +46,9 @@ public class Text extends AHadalActor {
 		this.wrap = wrap;
 		this.targetWidth = targetWidth;
 
-		font = HadalGame.SYSTEM_FONT_UI;
-		color = HadalGame.DEFAULT_TEXT_COLOR;
-		
+		font = HadalGame.FONT_UI;
+		fontColor = HadalGame.DEFAULT_TEXT_COLOR;
+
 		//if the actor is a button, we check if it is moused over to display some visual indication of its size
 		if (button) {
 			this.addListener(new InputListener() {
@@ -90,7 +90,7 @@ public class Text extends AHadalActor {
 	public void updateHitBox() {
 		font.getData().setScale(scale);
 		layout = new GlyphLayout();
-		layout.setText(font, text, color, targetWidth, Align.left, wrap);
+		layout.setText(font, text, fontColor, targetWidth, Align.left, wrap);
 		setWidth(layout.width);
 		setHeight(layout.height);
 
@@ -112,10 +112,10 @@ public class Text extends AHadalActor {
 	}
 
 	@Override
-	public Color getColor() { return color; }
+	public Color getColor() { return fontColor; }
 
 	@Override
-	public void setColor(Color color) { this.color = color; }
+	public void setColor(Color color) { this.fontColor = color; }
 
 	@Override
 	public void setScale(float scale) {

@@ -2,7 +2,6 @@ package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -16,6 +15,9 @@ import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
+
+import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
+import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
 
 /**
  * The AboutState is selected from the title screen and gives information about the game
@@ -403,16 +405,14 @@ public class AboutState extends GameState {
 		details.add(sfx).height(optionHeight);
 	}
 
-	private static final float transitionDuration = 0.25f;
-	private static final Interpolation intp = Interpolation.fastSlow;
 	private void transitionOut(Runnable runnable) {
-		options.addAction(Actions.moveTo(optionsX, optionsY, transitionDuration, intp));
-		details.addAction(Actions.sequence(Actions.moveTo(detailsX, detailsY, transitionDuration, intp), Actions.run(runnable)));
+		options.addAction(Actions.moveTo(optionsX, optionsY, TRANSITION_DURATION, INTP_FASTSLOW));
+		details.addAction(Actions.sequence(Actions.moveTo(detailsX, detailsY, TRANSITION_DURATION, INTP_FASTSLOW), Actions.run(runnable)));
 	}
 
 	private void transitionIn() {
-		options.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, transitionDuration, intp));
-		details.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, transitionDuration, intp));
+		options.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
+		details.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
 	}
 
 	@Override
@@ -486,7 +486,6 @@ public class AboutState extends GameState {
 
 		if (s < 10) {
 			return m + ":0" + s;
-
 		} else {
 			return m + ":" + s;
 		}

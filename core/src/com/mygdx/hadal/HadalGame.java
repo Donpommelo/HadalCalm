@@ -39,9 +39,11 @@ public class HadalGame extends ApplicationAdapter {
 	
 	//this is the game's version. This must match between client and host to connect.
 	public static final String Version = "1.0.6m";
-	public static final String versionURL = "https://donpommelo.itch.io/hadal-calm/devlog/306615/106m";
 
-	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
+	//version url takes player to patch notes page when version is clicked in title screen
+	public static final String VersionURL = "https://donpommelo.itch.io/hadal-calm/devlog/306615/106m";
+
+	//Game cameras and respective viewports. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
 	public static FitViewport viewportCamera, viewportUI;
 
@@ -54,7 +56,7 @@ public class HadalGame extends ApplicationAdapter {
 	//Assetmanager loads the assets of the game.
     public static AssetManager assetManager;
     
-    //this game manages the background music of the game.
+    //musicPlayer manages the background music of the game.
     public static MusicPlayer musicPlayer;
 
     //Client and server for networking are static fields in the main game
@@ -64,8 +66,10 @@ public class HadalGame extends ApplicationAdapter {
     //socket is used to connect to matchmaking server
 	public static Socket socket;
 
-	public static BitmapFont SYSTEM_FONT_UI, SYSTEM_FONT_UI_SMALL, SYSTEM_FONT_SPRITE;
-    public static Color DEFAULT_TEXT_COLOR;
+	//FONT_UI is used for most ui, FONT_UI_ALT is used for things like message window and kill messages
+	//FONT_SPRITE labels sprites in the world. Its scale is always 1.0f and should be considered placeholder
+	public static BitmapFont FONT_UI, FONT_UI_ALT, FONT_SPRITE;
+    public static final Color DEFAULT_TEXT_COLOR = Color.WHITE;
  
 	//currentMenu is whatever stage is being drawn in the current gameState
     private Stage currentMenu;
@@ -110,7 +114,7 @@ public class HadalGame extends ApplicationAdapter {
 		gsm = new GameStateManager(this);
 		gsm.addState(State.SPLASH, null);
 
-		//enable upnp
+		//enable upnp for both tcp and udp
 		if (gsm.getSetting().isEnableUPNP()) {
 			upnp("TCP", "hadal-upnp-tcp", gsm.getSetting().getPortNumber());
 			upnp("UDP", "hadal-upnp-udp", gsm.getSetting().getPortNumber());
@@ -126,7 +130,7 @@ public class HadalGame extends ApplicationAdapter {
 	
 	/**
 	 * This is run every engine tick according to libgdx.
-	 * Here, we tell the gsm to tell the current state of the elapsed time.
+	 * Here, the gsm to tells the current state the elapsed time for game processing purposes.
 	 */
 	@Override
 	public void render() {
@@ -135,7 +139,7 @@ public class HadalGame extends ApplicationAdapter {
 		
 		//update the state, update the ui, render the state, then render the ui.
 		gsm.update(delta);
-		currentMenu.act();
+		currentMenu.act(delta);
 
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -154,7 +158,6 @@ public class HadalGame extends ApplicationAdapter {
 			batch.setColor(1.0f, 1.0f, 1.0f, fadeLevel);
 			batch.draw(black, 0.0f, 0.0f, CONFIG_WIDTH, CONFIG_HEIGHT);
 			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-			
 			batch.end();
 		}
 		
@@ -165,6 +168,8 @@ public class HadalGame extends ApplicationAdapter {
 			if (fadeDelay > 0.0f) {
 				fadeDelay -= delta;
 			} else if (skipFade) {
+
+				//for special transitions, we skip the fade and transition immediately after delay (play ->  results)
 				skipFade = false;
 				if (runAfterTransition != null) {
 					Gdx.app.postRunnable(runAfterTransition);
@@ -233,14 +238,14 @@ public class HadalGame extends ApplicationAdapter {
 		musicPlayer.dispose();
 		black.dispose();
 		
-		if (SYSTEM_FONT_UI != null) {
-			SYSTEM_FONT_UI.dispose();
+		if (FONT_UI != null) {
+			FONT_UI.dispose();
 		}
-		if (SYSTEM_FONT_UI_SMALL != null) {
-			SYSTEM_FONT_UI_SMALL.dispose();
+		if (FONT_UI_ALT != null) {
+			FONT_UI_ALT.dispose();
 		}
-		if (SYSTEM_FONT_SPRITE != null) {
-			SYSTEM_FONT_SPRITE.dispose();
+		if (FONT_SPRITE != null) {
+			FONT_SPRITE.dispose();
 		}
 
 		//this prevents an error upon x-ing out the game
@@ -249,7 +254,6 @@ public class HadalGame extends ApplicationAdapter {
 
 	//this is the player's external ip that other clients will connect to
 	public static String myIp = "";
-
 	/**
 	 * This attempts to enable upnp on the client's router
 	 * @param protocol: tcp or udp
@@ -293,6 +297,8 @@ public class HadalGame extends ApplicationAdapter {
 
 	/**
 	 * This makes the game fade at a specific speed. Can be positive or negative to fade out or in
+	 * @param fadeDelay: How much delay until the fading begins?
+	 * @param fadeSpeed: speed of the fading. IF sest to 0, we skip thte fade entirely
 	 */
 	public void fadeSpecificSpeed(float fadeSpeed, float fadeDelay) { 
 		this.fadeDelta = fadeSpeed; 

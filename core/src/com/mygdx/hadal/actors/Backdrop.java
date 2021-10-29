@@ -9,6 +9,7 @@ import com.mygdx.hadal.effects.Sprite;
 /**
  * Static background actor for any screen that just needs a still image
  * This is now also used for smaller non-background images
+ * @author Shirabeau Shurabeau
  */
 public class Backdrop extends AHadalActor {
 	

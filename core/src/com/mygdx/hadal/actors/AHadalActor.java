@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 /**
 * Basic template Actor class for game.
 * Used for ui + menus and stuff
+ * @author Blajandro Blirklard
 */
 public abstract class AHadalActor extends Actor {
 

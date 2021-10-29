@@ -159,6 +159,19 @@ public enum SoundEffect {
 		}
 		return sound;
 	}
+
+	/**
+	 * This is called when a play state is initiated
+	 * It disposes of sound to free up the memory
+	 */
+	public static void clearSound() {
+		for (SoundEffect effect: SoundEffect.values()) {
+			if (effect.sound != null) {
+				effect.sound.dispose();
+				effect.sound = null;
+			}
+		}
+	}
 	
 	/**
 	 * This plays a single sound for the player and returns the sound id

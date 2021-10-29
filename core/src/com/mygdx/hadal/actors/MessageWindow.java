@@ -30,6 +30,8 @@ import com.mygdx.hadal.utils.TextFilterUtil;
 
 import java.util.ArrayList;
 
+import static com.mygdx.hadal.utils.Constants.*;
+
 /**
  * The MessageWindow is a ui actor that pops up when the player presses the chat button (default binding shift).
  * This window lets the player type and send messages.
@@ -64,8 +66,6 @@ public class MessageWindow {
 	//is this window currently active/invisible? is this window locked and unable to be toggled?
 	private boolean active, invisible, locked;
 
-	private static final int maxMessageLength = 80;
-	private static final int maxNameLength = 30;
 	private static final int padding = 10;
 
 	//alpha of an inactive text window
@@ -78,6 +78,7 @@ public class MessageWindow {
 	//this tracks all text messages. Used for saving text logs to docs
 	private static final ArrayList<String> textRecord = new ArrayList<>();
 
+	//grey image used as background for the message window
 	private final TextureRegion grey;
 
 	public MessageWindow(PlayState state, Stage stage) {
@@ -96,7 +97,6 @@ public class MessageWindow {
 					if (inactiveFadeCount > inactiveFadeDelay) {
 						invisible = true;
 					}
-
 					if (inactiveFadeCount <= inactiveFadeDelay) {
 						inactiveFadeCount += delta;
 					}
@@ -121,17 +121,12 @@ public class MessageWindow {
 					super.draw(batch, parentAlpha);
 				} else {
 					super.draw(batch, inactiveTransparency);
-				}
-
-				if (!active) {
 					batch.setColor(1.0f,  1.0f, 1.0f, 1.0f);
 				}
 			}
 		};
-
 		table.center();
 		this.tableLog = new Table().center();
-
 		addTable();
 	}
 	
@@ -181,7 +176,6 @@ public class MessageWindow {
 			}
 			fadeIn();
 		}
-
 		SoundEffect.UISWITCH2.play(state.getGsm(), 1.0f, false);
 		enterMessage.setText("");
 	}
@@ -207,14 +201,12 @@ public class MessageWindow {
 						}
 					}
 				} else {
-
 					//if this is a chat command, execute it.
 					if (ConsoleCommandUtil.parseChatCommandClient((ClientState) state, state.getPlayer(), enterMessage.getText()) == -1) {
 						HadalGame.client.sendTCP(new Packets.ClientChat(enterMessage.getText(), DialogType.DIALOG));
 					}
 				}
 			}
-
 			//hitting enter closes the window regardless of whether text is present
 			toggleWindow();
 		}
@@ -298,7 +290,7 @@ public class MessageWindow {
             	}
             }
 		};
-		enterMessage.setMaxLength(maxMessageLength);
+		enterMessage.setMaxLength(MAX_MESSAGE_LENGTH);
 
 		backButton = new Text("EXIT", 0, 0, true);
 		backButton.setScale(logScale);
@@ -385,7 +377,7 @@ public class MessageWindow {
 				} else {
 
 					//normal chat messages color names according to the player's team color
-					newText = WeaponUtils.getPlayerColorName(user.getPlayer(), maxNameLength) + ": " + text + " []";
+					newText = WeaponUtils.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_LONG) + ": " + text + " []";
 				}
 				addTextLine(newText);
 				textRecord.add(newText);
@@ -399,7 +391,7 @@ public class MessageWindow {
 	private void addTextLine(String text) {
 		Text newEntry = new Text(text, 0, 0, false, true, scrollWidth - scrollBarPadding);
 		newEntry.setScale(logScale);
-		newEntry.setFont(HadalGame.SYSTEM_FONT_UI_SMALL);
+		newEntry.setFont(HadalGame.FONT_UI_ALT);
 
 		tableLog.add(newEntry).pad(logPadding, 0, logPadding, scrollBarPadding).width(scrollWidth - scrollBarPadding).left().row();
 		textLog.scrollTo(0, 0, 0, 0);

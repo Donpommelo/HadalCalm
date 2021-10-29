@@ -1,7 +1,6 @@
 package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -44,15 +43,14 @@ public class InitState extends GameState {
 	 * This is where we load all of the assets of the game. Done upon this state being shown.
 	 */
 	private void loadAssets() {		
-		HadalGame.SYSTEM_FONT_UI = new BitmapFont(Gdx.files.internal(AssetList.FIXEDSYS_FONT.toString()), false);
-		HadalGame.SYSTEM_FONT_UI.getData().markupEnabled = true;
-		HadalGame.SYSTEM_FONT_UI_SMALL = new BitmapFont(Gdx.files.internal(AssetList.VERDANA_FONT.toString()), false);
-		HadalGame.SYSTEM_FONT_UI_SMALL.getData().markupEnabled = true;
-		HadalGame.SYSTEM_FONT_SPRITE = new BitmapFont();
-		HadalGame.DEFAULT_TEXT_COLOR = Color.WHITE;
-		
-		HadalGame.SYSTEM_FONT_UI.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-		HadalGame.SYSTEM_FONT_SPRITE.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		HadalGame.FONT_UI = new BitmapFont(Gdx.files.internal(AssetList.FIXEDSYS_FONT.toString()), false);
+		HadalGame.FONT_UI.getData().markupEnabled = true;
+		HadalGame.FONT_UI_ALT = new BitmapFont(Gdx.files.internal(AssetList.VERDANA_FONT.toString()), false);
+		HadalGame.FONT_UI_ALT.getData().markupEnabled = true;
+		HadalGame.FONT_SPRITE = new BitmapFont();
+
+		HadalGame.FONT_UI.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		HadalGame.FONT_SPRITE.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		
 		for (AssetList asset: AssetList.values()) {
             if (asset.getType() != null) {

@@ -32,7 +32,6 @@ public class UIArtifacts {
 		this.table = new Table().left().top();
 
 		addTable();
-
 		syncArtifact();
 	}
 	

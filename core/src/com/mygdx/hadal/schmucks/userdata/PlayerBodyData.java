@@ -286,13 +286,11 @@ public class PlayerBodyData extends BodyData {
 	/**
 	 * Player picks up a new Active Item. 
 	 * @param item: Old item if nonempty and a Nothing Item otherwise
-	 * @return the previous active item (if existent)
 	 */
-	public ActiveItem pickup(ActiveItem item) {
+	public void pickup(ActiveItem item) {
 		
 		UnlockActives unlock = UnlockActives.getUnlockFromActive(item.getClass());
 		
-		ActiveItem old = activeItem;
 		activeItem = item;
 		
 		activeItem.setUser(player);
@@ -307,8 +305,6 @@ public class PlayerBodyData extends BodyData {
 		}
 		
 		syncServerLoadoutChange(false);
-
-		return old;
 	}
 	
 	/**
@@ -637,6 +633,10 @@ public class PlayerBodyData extends BodyData {
 			for (final DamageTypes tag : tags) {
 				if (tag == DamageTypes.DISCONNECT) {
 					type = DespawnType.TELEPORT;
+					break;
+				}
+				if (tag == DamageTypes.FIRE || tag == DamageTypes.ENERGY) {
+					type = DespawnType.VAPORIZE;
 					break;
 				}
 			}

@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 
 /**
  * These utils describe various tools for moving the camera.
+ * @author Prelfmuffin Phokra
  */
 public class CameraStyles {
 

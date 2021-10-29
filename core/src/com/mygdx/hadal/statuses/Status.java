@@ -25,7 +25,7 @@ public class Status {
 	protected final boolean perm;
 	
 	//The Data of the Schmuck that received/inflicted this status.
-	protected BodyData inflicter, inflicted;
+	protected final BodyData inflicter, inflicted;
 	
 	//this is the artifact that this status is attached to. (null for non-artifact statuses). This is used to remove an artifact statuses when unequipping
 	private UnlockArtifact artifact;
@@ -113,8 +113,6 @@ public class Status {
 	
 	public void afterBossSpawn(Enemy boss) {}
 
-	public void setInflicted(BodyData inflicted) { this.inflicted = inflicted; }
-	
 	public float getDuration() { return duration; }
 
 	public void setDuration(float duration) { this.duration = duration; }

@@ -165,7 +165,7 @@ public class PauseState extends GameState {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 
-						//Setting pops a setting state on top of the pause state.
+						//Setting pops a about state on top of the pause state.
 						gsm.addState(State.ABOUT, me);
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 					}

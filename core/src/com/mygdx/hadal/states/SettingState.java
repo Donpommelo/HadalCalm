@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -18,6 +17,9 @@ import com.mygdx.hadal.actors.WindowTable;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
+
+import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
+import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
 
 /**
  * The Setting State allows the player to change their display settings, key bindings and other stuff like that.
@@ -82,7 +84,7 @@ public class SettingState extends GameState {
 	
 	//this is the current setting tab the player is using
 	private settingTab currentTab;
-	
+
 	/**
 	 * Constructor will be called when the player enters the setting state from the title menu or the pause menu.
 	 */
@@ -308,6 +310,15 @@ public class SettingState extends GameState {
 			}
 		};
 
+		ChangeListener displayChange = new ChangeListener() {
+
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				saveSettings();
+				gsm.getSetting().setDisplay(gsm.getApp(), playState);
+			}
+		};
+
 		cursorOptions = new SelectBox<>(GameStateManager.getSkin());
 		cursorOptions.setItems("DEFAULT", "DOT", "CIRCLE DOT", "SMALL RING", "STAR", "BULLSEYE", "CROSS", "DUPLEX", "GERMAN", "X", "FLAT CROSS", "RANGEFINDER", "(o)");
 		cursorOptions.setSelectedIndex(gsm.getSetting().getCursorType());
@@ -338,6 +349,16 @@ public class SettingState extends GameState {
 		displayNames.setChecked(gsm.getSetting().isDisplayNames());
 		displayHp.setChecked(gsm.getSetting().isDisplayHp());
 		mouseCameraTrack.setChecked(gsm.getSetting().isMouseCameraTrack());
+
+		fullscreen.addListener(displayChange);
+		vsync.addListener(displayChange);
+		autoIconify.addListener(displayChange);
+		debugHitbox.addListener(displayChange);
+		displayNames.addListener(displayChange);
+		displayHp.addListener(displayChange);
+		mouseCameraTrack.addListener(displayChange);
+		resolutionOptions.addListener(displayChange);
+		framerateOptions.addListener(displayChange);
 
 		details.add(screen);
 		details.add(resolutionOptions).height(detailHeight).pad(detailPad).row();
@@ -746,16 +767,14 @@ public class SettingState extends GameState {
 		}
 	}
 
-	private static final float transitionDuration = 0.25f;
-	private static final Interpolation intp = Interpolation.fastSlow;
 	private void transitionOut(Runnable runnable) {
-		options.addAction(Actions.moveTo(optionsX, optionsY, transitionDuration, intp));
-		details.addAction(Actions.sequence(Actions.moveTo(detailsX, detailsY, transitionDuration, intp), Actions.run(runnable)));
+		options.addAction(Actions.moveTo(optionsX, optionsY, TRANSITION_DURATION, INTP_FASTSLOW));
+		details.addAction(Actions.sequence(Actions.moveTo(detailsX, detailsY, TRANSITION_DURATION, INTP_FASTSLOW), Actions.run(runnable)));
 	}
 
 	private void transitionIn() {
-		options.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, transitionDuration, intp));
-		details.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, transitionDuration, intp));
+		options.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
+		details.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
 	}
 
 	/**

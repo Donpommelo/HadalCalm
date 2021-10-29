@@ -110,7 +110,6 @@ public class PlayerSpriteHelper {
         TextureAtlas atlas = character.getAtlas();
 
         fbo = new FrameBuffer(Pixmap.Format.RGBA4444, tex.getWidth(), tex.getHeight(), true);
-
         fbo.begin();
 
         //clear buffer, set camera
@@ -162,7 +161,6 @@ public class PlayerSpriteHelper {
     }
 
     /**
-     *
      * @param batch: sprite batch to render player to
      * @param attackAngle: the angle of the player's arm
      * @param moveState: is the player currently moving?
@@ -234,7 +232,6 @@ public class PlayerSpriteHelper {
             } else {
                 bodyRunSprite.setPlayMode(Animation.PlayMode.LOOP);
             }
-
             batch.draw(bodyRunSprite.getKeyFrame(animationTime),
                 (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale,
                 playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset,
@@ -246,7 +243,6 @@ public class PlayerSpriteHelper {
             } else {
                 bodyRunSprite.setPlayMode(Animation.PlayMode.LOOP);
             }
-
             batch.draw(bodyRunSprite.getKeyFrame(animationTime),
                 (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale,
                 playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset,
@@ -261,7 +257,6 @@ public class PlayerSpriteHelper {
                 0, 0,
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
         }
-
         batch.draw(headSprite.getKeyFrame(animationTimeExtra, true),
             (flip ? headWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + headConnectXReal * scale,
             playerLocation.y - hbHeight * scale / 2 + headConnectY * scale + yOffsetHead,
@@ -288,6 +283,9 @@ public class PlayerSpriteHelper {
         switch (type) {
             case GIB:
                 createGibs(playerLocation, playerVelocity);
+                break;
+            case VAPORIZE:
+                createRagdoll(playerLocation, playerVelocity);
                 break;
             case TELEPORT:
 
@@ -337,6 +335,88 @@ public class PlayerSpriteHelper {
         }
     }
 
+    private static final int ragdollWidth = 100;
+    private static final int ragdollHeight = 120;
+    private void createRagdoll(Vector2 playerLocation, Vector2 playerVelocity) {
+        FrameBuffer ragdollBuffer = new FrameBuffer(Pixmap.Format.RGBA4444, ragdollWidth, ragdollHeight, true);
+        ragdollBuffer.begin();
+
+        //clear buffer, set camera
+        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        player.getState().getBatch().getProjectionMatrix().setToOrtho2D(0, 0, ragdollBuffer.getWidth(), ragdollBuffer.getHeight());
+
+        //render player
+        player.getState().getBatch().begin();
+        render(player.getState().getBatch(), player.getAttackAngle(), player.getMoveState(), 0.0f, 0.0f,
+                false, new Vector2(ragdollWidth, ragdollHeight).scl(0.5f));
+        player.getState().getBatch().end();
+
+        ragdollBuffer.end();
+        TextureRegion ragdollTexture = new TextureRegion(ragdollBuffer.getColorBufferTexture(), 0,
+                ragdollBuffer.getHeight(), ragdollBuffer.getWidth(), -ragdollBuffer.getHeight());
+
+        Ragdoll bodyRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(ragdollWidth, ragdollHeight),
+                ragdollTexture, playerVelocity, 2.0f, 0.0f, true, false) {
+
+            private Shader shader;
+            private float progress;
+            private float timer;
+            private static final float fadeDelay = 0.5f;
+            private static final float fadeDuration = 1.0f;
+
+            @Override
+            public void create() {
+                super.create();
+                shader = Shader.PERLIN_FADE;
+                shader.loadShader();
+                body.setAngularDamping(4.0f);
+                body.setLinearDamping(3.0f);
+            }
+
+            @Override
+            public void controller(float delta) {
+                super.controller(delta);
+                manageTimer(delta);
+            }
+
+            @Override
+            public void clientController(float delta) {
+                super.clientController(delta);
+                manageTimer(delta);
+            }
+
+            @Override
+            public void render(SpriteBatch batch) {
+                batch.setShader(shader.getShaderProgram());
+                shader.shaderDefaultUpdate(progress);
+                super.render(batch);
+                batch.setShader(null);
+            }
+
+            //we need to dispose of the fbo when the ragdolls are done
+            @Override
+            public void dispose() {
+                super.dispose();
+                if (fbo != null) {
+                    fbo.dispose();
+                }
+                ragdollBuffer.dispose();
+            }
+
+            private void manageTimer(float delta) {
+                timer += delta;
+                if (timer >= fadeDelay) {
+                    progress = (timer - fadeDelay) / fadeDuration;
+                }
+            }
+        };
+
+        if (!player.getState().isServer()) {
+            ((ClientState) player.getState()).addEntity(bodyRagdoll.getEntityID().toString(), bodyRagdoll, false, ClientState.ObjectSyncLayers.STANDARD);
+        }
+    }
+
     /**
      * These 2 methods copy animations and still images from the new frame buffer using the old texture atlas.
      */
@@ -360,6 +440,7 @@ public class PlayerSpriteHelper {
     public enum DespawnType {
         LEVEL_TRANSITION,
         GIB,
+        VAPORIZE,
         TELEPORT,
     }
 }

@@ -9,7 +9,6 @@ import com.mygdx.hadal.utils.Stats;
  * Light feeds the shader the player's light radius stat
  * This is used for lighting shaders that shine brighter when the player has certain items equipped. 
  * @author Manjamin Mundotticini
- *
  */
 public class Light extends ShaderStrategy {
 

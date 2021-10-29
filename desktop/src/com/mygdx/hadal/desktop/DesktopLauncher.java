@@ -10,6 +10,10 @@ import com.mygdx.hadal.HadalGame;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
+/**
+ * The DesktopLauncher launches the game
+ * It is also responsible for starting configuration stuff like window icon, title
+ */
 public class DesktopLauncher {
 
 	private static final String TITLE = "Hadal Calm";
@@ -42,7 +46,11 @@ public class DesktopLauncher {
 				}
 			}
 		});
+
+		//This causes crashes to log in a text file
 		System.setErr(new PrintStream("err.txt"));
+
+		//create app. We override the iconify method to allow that setting to be changed
 		new Lwjgl3Application(new HadalGame() {
 
 			@Override

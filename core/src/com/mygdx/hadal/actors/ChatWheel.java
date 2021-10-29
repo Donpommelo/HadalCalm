@@ -21,7 +21,6 @@ import com.payne.games.piemenu.PieMenu;
  * This actor represents the chat wheel that can be used to send emotes on the fly.
  * This wheel is displayed in the center of the screen and can be controlled with the mouse.
  * @author Glacieweitz Glottwrassler
- *
  */
 public class ChatWheel {
 
@@ -67,8 +66,8 @@ public class ChatWheel {
 	private final Vector2 lastDisplace = new Vector2();
 
 	//players cannot use emotes when they are on cooldown
-	private static final float emoteCd = 2.0f;
-	private float emoteCount = 2.0f;
+	private static final float emoteCd = 1.5f;
+	private float emoteCount = emoteCd;
 
 	/**
 	 * This creates the chat wheel elements
@@ -212,7 +211,6 @@ public class ChatWheel {
 	}
 
 	/**
-	 *
 	 * @param index: index in list of emote
 	 * @return the frame of the emote's sprite that should represent it in the wheel.
 	 */

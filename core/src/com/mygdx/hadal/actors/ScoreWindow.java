@@ -17,6 +17,8 @@ import com.mygdx.hadal.states.SettingState;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
+import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+
 /**
  * The ScoreWindow is displayed when a player holds a button (default value tab) during a level
  * @author Forgarita Frelphos
@@ -37,8 +39,6 @@ public class ScoreWindow {
 	private static final float scoreScale = 0.5f;
 	private static final float scorePadX = 20.0f;
 	private static final float scorePadY = 25.0f;
-
-	private static final int maxNameLen = 25;
 
 	private static final int settingsWidth = 280;
 	private static final int settingsHeight = 500;
@@ -124,7 +124,7 @@ public class ScoreWindow {
 		tableScore.add(scoreLabel).height(scoreTitleHeight).padRight(scorePadX);
 		tableScore.add(winsLabel).height(scoreTitleHeight).row();
 
-		//add table entry for each player
+		//add table entry for each player and sort according to score
 		orderedUsers.clear();
 		if (state.isServer()) {
 			for (Entry<Integer, User> entry : HadalGame.server.getUsers().entrySet()) {
@@ -313,7 +313,7 @@ public class ScoreWindow {
 	private void addEntry(int connID, User user) {
 		SavedPlayerFields field = user.getScores();
 
-		String nameText = user.getNameAbridgedColored(maxNameLen);
+		String nameText = user.getNameAbridgedColored(MAX_NAME_LENGTH);
 
 		Text name = new Text(field.getPingText() + nameText, 0, 0, false);
 		name.setScale(scoreScale);

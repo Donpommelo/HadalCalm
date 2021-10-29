@@ -1,6 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
@@ -16,6 +15,8 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import static com.mygdx.hadal.utils.Constants.*;
 
 /**
  * The Kill Feed is located in the upper right corner of the screen and tracks the kill messages created when players die.
@@ -126,13 +127,10 @@ public class KillFeed {
                 removeMessages.clear();
             }
         };
-
         addTable();
-
         initialNotification();
     }
 
-    private static final int maxNameLength = 25;
     /**
      * This adds a single kill message to the feed
      * @param perp: the killer (if it is a player. Otherwise, this is null)
@@ -147,7 +145,7 @@ public class KillFeed {
 
         if (perp != null) {
             if (perp.equals(perp.getState().getPlayer()) && perp != vic) {
-                String vicName = WeaponUtils.getPlayerColorName(vic, maxNameLength);
+                String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
                 addNotification("YOU HAVE SLAIN " + vicName, false);
             }
         }
@@ -186,7 +184,7 @@ public class KillFeed {
     }
 
     /**
-     * This simply creates the table and sets its properties.
+     * This creates the table and sets its properties.
      */
     public void addTable() {
         ps.getStage().addActor(feed);
@@ -218,7 +216,7 @@ public class KillFeed {
                     formatDeathTimer();
 
                     if (respawnTime <= 0.0f) {
-                        deathInfoTable.addAction(Actions.moveTo(deathInfoX, deathInfoY, transitionDuration, intp));
+                        deathInfoTable.addAction(Actions.moveTo(deathInfoX, deathInfoY, TRANSITION_DURATION, INTP_FASTSLOW));
                         deathInfoTable.setVisible(false);
                     }
                 }
@@ -243,9 +241,6 @@ public class KillFeed {
     }
 
     private float respawnTime;
-    private static final float transitionDuration = 0.25f;
-    private static final Interpolation intp = Interpolation.fastSlow;
-
     /**
      * This iss run upon dying if respawning
      * @param respawnTime: The amount of time it takes before respawning
@@ -261,9 +256,9 @@ public class KillFeed {
         deathInfoTable.setVisible(true);
 
         deathInfoTable.addAction(Actions.sequence(
-                Actions.moveTo(deathInfoX, deathInfoY, transitionDuration, intp),
+                Actions.moveTo(deathInfoX, deathInfoY, TRANSITION_DURATION, INTP_FASTSLOW),
                 Actions.run(this::formatDeathTimer),
-                Actions.moveTo(deathInfoXEnabled, deathInfoYEnabled, transitionDuration, intp)));
+                Actions.moveTo(deathInfoXEnabled, deathInfoYEnabled, TRANSITION_DURATION, INTP_FASTSLOW)));
     }
 
     /**

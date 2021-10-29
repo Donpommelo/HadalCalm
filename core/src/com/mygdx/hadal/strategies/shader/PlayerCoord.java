@@ -10,7 +10,6 @@ import com.mygdx.hadal.strategies.ShaderStrategy;
 /**
  * PlayerCoord feeds the shader the player's location.
  * @author Nargurnaise Neldufinder
- *
  */
 public class PlayerCoord extends ShaderStrategy {
 

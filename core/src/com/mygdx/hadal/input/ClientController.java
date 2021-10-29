@@ -46,7 +46,6 @@ public class ClientController implements InputProcessor {
 			buttonsHeld.add(action);
 			buttonsJustPressed.add(action);
 		}
-
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 
 			leftDown = true;
@@ -55,8 +54,7 @@ public class ClientController implements InputProcessor {
 			} else {
 				player.setMoveState(MoveState.STAND);
 			}
-		} 
-		
+		}
 		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
 
 			rightDown = true;
@@ -65,25 +63,20 @@ public class ClientController implements InputProcessor {
 			} else {
 				player.setMoveState(MoveState.STAND);
 			}
-		} 
-		
+		}
 		else if (keycode == PlayerAction.JUMP.getKey()) {
 			player.setHoveringAttempt(true);
 			player.jump();
-		} 
-		
+		}
 		else if (keycode == PlayerAction.CROUCH.getKey()) {
 			player.setFastFalling(true);
-		} 
-
+		}
 		else if (keycode == PlayerAction.BOOST.getKey()) {
 			player.airblast();
-		} 
-		
+		}
 		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			state.getChatWheel().setVisibility(true);
 		}
-
 		return false;
 	}
 
@@ -103,7 +96,6 @@ public class ClientController implements InputProcessor {
 				buttonsHeld.remove(action);
 			}
 		}
-
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 
 			leftDown = false;
@@ -112,8 +104,7 @@ public class ClientController implements InputProcessor {
 			} else {
 				player.setMoveState(MoveState.STAND);
 			}
-		} 
-		
+		}
 		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
 
 			rightDown = false;
@@ -122,20 +113,16 @@ public class ClientController implements InputProcessor {
 			} else {
 				player.setMoveState(MoveState.STAND);
 			}
-		} 
-		
+		}
 		else if (keycode == PlayerAction.JUMP.getKey()) {
 			player.setHoveringAttempt(false);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.CROUCH.getKey()) {
 			player.setFastFalling(false);
-		} 
-		
+		}
 		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			state.getChatWheel().setVisibility(false);
 		}
-		
 		return false;
 	}
 
@@ -199,6 +186,9 @@ public class ClientController implements InputProcessor {
 		}
 	}
 
+	/**
+	 * This is run periodically for clients to designate just-released buttons as no longer held
+	 */
 	public void postKeystrokeSync() {
 		buttonsJustPressed.clear();
 		for (PlayerAction action: buttonsJustReleased) {

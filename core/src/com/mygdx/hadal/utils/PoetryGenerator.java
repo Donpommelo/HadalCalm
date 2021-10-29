@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * otherwise, a selfish thimble writhes.
  * witness! the misshapen crux of cartilage.
  * @author Jaardvark Jilfibberish
- *
  */
 public enum PoetryGenerator {
 

@@ -16,6 +16,8 @@ import com.mygdx.hadal.statuses.CarryingFlag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
+import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+
 /**
  * This strategy indicates that this hbox is a flag in capture-the-flag mode
  *
@@ -39,8 +41,6 @@ public class FlagCapturable extends HitboxStrategy {
 
 	//this is a status inflicted upon the flag carrier
 	private Status flagDebuff;
-
-	private static final int maxNameLength = 25;
 
 	private final SpawnerFlag spawner;
 	private FlagBlocker lastBlocker;
@@ -106,7 +106,7 @@ public class FlagCapturable extends HitboxStrategy {
 								target.getPlayerData().addStatus(flagDebuff);
 
 								hbox.getBody().setGravityScale(0.0f);
-								String playerName = WeaponUtils.getPlayerColorName(target, maxNameLength);
+								String playerName = WeaponUtils.getPlayerColorName(target, MAX_NAME_LENGTH);
 								state.getKillFeed().addNotification(playerName + " PICKED UP THE FLAG!", true);
 
 								spawner.setFlagPresent(false);

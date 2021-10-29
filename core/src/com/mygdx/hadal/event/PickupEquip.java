@@ -147,13 +147,9 @@ public class PickupEquip extends Event {
 	public void render(SpriteBatch batch) {
 		if (!(equip instanceof NothingWeapon)) {
 			super.render(batch);
-			
+
 			entityLocation.set(getPixelPosition());
-			
-			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-			float y = entityLocation.y + size.y / 2;
-			
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), entityLocation.x - size.x / 2, y);
+			HadalGame.FONT_SPRITE.draw(batch, equip.getName(), entityLocation.x - size.x / 2, entityLocation.y + size.y / 2);
 		}
 	}
 	

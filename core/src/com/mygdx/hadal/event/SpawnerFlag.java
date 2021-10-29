@@ -23,6 +23,8 @@ import com.mygdx.hadal.strategies.hitbox.FlagCapturable;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+
 /**
  *
  * Triggered Behavior: This event is triggered when a team scores. Increment score and display notification
@@ -42,7 +44,6 @@ public class SpawnerFlag extends Event {
         this.teamIndex = teamIndex;
     }
 
-    private static final int maxNameLength = 25;
     @Override
     public void create() {
         this.eventData = new EventData(this) {
@@ -56,7 +57,7 @@ public class SpawnerFlag extends Event {
 
                 //give score credit to the player and give notification
                 if (p != null) {
-                    String playerName = WeaponUtils.getPlayerColorName(p, maxNameLength);
+                    String playerName = WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH);
                     state.getKillFeed().addNotification(playerName + " CAPTURED THE FLAG!", false);
                     state.getMode().processPlayerScoreChange(state, p, 1);
                 }

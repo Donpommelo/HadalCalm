@@ -44,9 +44,6 @@ public class ModeModifier extends ModeSetting {
         state.getGsm().getSetting().setModeSetting(mode, settingTag, dropsOptions.isChecked() ? 1 : 0);
     }
 
-    @Override
-    public void loadSettingMisc(PlayState state, GameMode mode) {}
-
     /**
      * mode modifiers process their logic in a separate function so that it can modify the string builder used
      * for initial notification
@@ -65,8 +62,6 @@ public class ModeModifier extends ModeSetting {
             dropsOptions.setChecked(check);
         }
     }
-
-    public String getName() { return name; }
 
     public String getSettingTag() { return settingTag; }
 }

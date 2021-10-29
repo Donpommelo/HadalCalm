@@ -173,9 +173,6 @@ public class Player extends PhysicsSchmuck {
 	 * @param connID: connection id. 0 if server.
 	 * @param reset: do we reset the player's stats after creating them?
 	 * @param start: the start point that the player spawns at.
-	 * 
-	 * Note that the starting filter logic goes like this: if not pvp, we just have the default player hbox filter. If pvp, we generate a new hbox filter if 
-	 * we are a new player and use our old one if we are respawning
 	 */
 	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID,
 	  		boolean reset, StartPoint start) {
@@ -709,7 +706,7 @@ public class Player extends PhysicsSchmuck {
 			reloadDelayed = Math.min(1.0f, reloadDelayed + (reloadPercent - reloadDelayed) * 0.25f);
 			
 			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * reloadDelayed, reloadBar.getRegionHeight() * uiScale);
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "RELOADING", textX + 12, textY + reload.getRegionHeight() * uiScale);
+			HadalGame.FONT_SPRITE.draw(batch, "RELOADING", textX + 12, textY + reload.getRegionHeight() * uiScale);
 			batch.draw(reloadMeter, textX, textY, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
 			
 			if (reloadDelayed > reloadPercent) {
@@ -724,7 +721,7 @@ public class Player extends PhysicsSchmuck {
 			//Calculate charge progress
 			chargeDelayed = Math.min(1.0f, chargeDelayed + (chargePercent - chargeDelayed) * 0.25f);
 			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * chargeDelayed, reloadBar.getRegionHeight() * uiScale);
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, playerData.getCurrentTool().getChargeText(), textX + 12, textY + reload.getRegionHeight() * uiScale);
+			HadalGame.FONT_SPRITE.draw(batch, playerData.getCurrentTool().getChargeText(), textX + 12, textY + reload.getRegionHeight() * uiScale);
 			batch.draw(reloadMeter, textX, textY, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
 		} else {
 			chargeDelayed = 0.0f;
@@ -733,11 +730,11 @@ public class Player extends PhysicsSchmuck {
 		//render "out of ammo"
 		if (state.isServer()) {
 			if (playerData.getCurrentTool().isOutofAmmo()) {
-				HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "OUT OF AMMO", textX + 12, textY + reload.getRegionHeight() * uiScale);
+				HadalGame.FONT_SPRITE.draw(batch, "OUT OF AMMO", textX + 12, textY + reload.getRegionHeight() * uiScale);
 			}
 		} else {
 			if (playerData.isOverrideOutOfAmmo()) {
-				HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "OUT OF AMMO", textX + 12, textY + reload.getRegionHeight() * uiScale);
+				HadalGame.FONT_SPRITE.draw(batch, "OUT OF AMMO", textX + 12, textY + reload.getRegionHeight() * uiScale);
 			}
 		}
 		
@@ -801,8 +798,7 @@ public class Player extends PhysicsSchmuck {
 
 		if (state.getGsm().getSetting().isDisplayNames()) {
 			//draw player name
-			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, name,
+			HadalGame.FONT_SPRITE.draw(batch, name,
 				playerLocation.x - size.x / 2,
 				playerLocation.y + size.y / 2 + 25);
 		}

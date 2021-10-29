@@ -45,8 +45,8 @@ public class Text extends Event {
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(state.getCamera().combined);
-		HadalGame.SYSTEM_FONT_UI.getData().setScale(scale);
-		HadalGame.SYSTEM_FONT_UI.draw(batch, text, entityLocation.x, entityLocation.y);
+		HadalGame.FONT_UI.getData().setScale(scale);
+		HadalGame.FONT_UI.draw(batch, text, entityLocation.x, entityLocation.y);
 	}
 	
 	@Override

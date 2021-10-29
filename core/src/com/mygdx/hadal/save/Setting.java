@@ -7,9 +7,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.utils.JsonWriter;
+import com.badlogic.gdx.utils.SerializationException;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingLives;
 import com.mygdx.hadal.map.SettingTimer;
@@ -17,6 +18,9 @@ import com.mygdx.hadal.states.PlayState;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.mygdx.hadal.managers.GameStateManager.json;
+import static com.mygdx.hadal.managers.GameStateManager.reader;
 
 /**
  * A Setting contains all saved game settings.
@@ -44,7 +48,22 @@ public class Setting {
 	 * This simply saves the settings in a designated file
 	 */
 	public void saveSetting() {
-		Gdx.files.local("save/Settings.json").writeString(GameStateManager.json.prettyPrint(this), false);
+		Gdx.files.local("save/Settings.json").writeString(json.prettyPrint(this), false);
+	}
+
+	/**
+	 * This retrieves the player's setting at the start of the game
+	 * @return the player's setting (or default setting if file is missing or malformed)
+	 */
+	public static Setting retrieveSetting() {
+		Setting tempSetting;
+		try {
+			tempSetting = json.fromJson(Setting.class, reader.parse(Gdx.files.internal("save/Settings.json")).toJson(JsonWriter.OutputType.json));
+		} catch (SerializationException e) {
+			Setting.createNewSetting();
+			tempSetting = json.fromJson(Setting.class, reader.parse(Gdx.files.internal("save/Settings.json")).toJson(JsonWriter.OutputType.json));
+		}
+		return tempSetting;
 	}
 
 	/**
@@ -141,7 +160,7 @@ public class Setting {
 		newSetting.resetMisc();
 		newSetting.resetModeSettings();
 
-		Gdx.files.local("save/Settings.json").writeString(GameStateManager.json.prettyPrint(newSetting), false);
+		Gdx.files.local("save/Settings.json").writeString(json.prettyPrint(newSetting), false);
 	}
 
 	public void resetDisplay() {
@@ -191,6 +210,9 @@ public class Setting {
 		}
 	}
 
+	/**
+	 * This retrieves a setting specific to a single mode
+	 */
 	public Integer getModeSetting(GameMode mode, String setting, Integer startValue) {
 		if (modeSettings.containsKey(mode.toString())) {
 			return modeSettings.get(mode.toString()).getOrDefault(setting, startValue);
@@ -200,6 +222,9 @@ public class Setting {
 		}
 	}
 
+	/**
+	 * This sets a setting specific to a single mode
+	 */
 	public void setModeSetting(GameMode mode, String setting, Integer value) {
 		if (modeSettings.containsKey(mode.toString())) {
 			modeSettings.get(mode.toString()).put(setting, value);

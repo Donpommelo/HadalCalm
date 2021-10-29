@@ -2,6 +2,7 @@ package com.mygdx.hadal.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.SerializationException;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.SettingState;
 
@@ -94,16 +95,19 @@ public enum PlayerAction {
 	
 	/**
 	 * Retrieve saved bindings from save file.
+	 * If file is missing or malformed, reset and create new keybind file
 	 */
 	public static void retrieveKeys() {
-		
-		if (!Gdx.files.internal("save/Keybind.json").exists()) {
+		try {
+			for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Keybind.json"))) {
+				PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
+			}
+		} catch (SerializationException e) {
 			resetKeys();
 			saveKeys();
-		}
-		
-		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Keybind.json"))) {
-			PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
+			for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Keybind.json"))) {
+				PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
+			}
 		}
 	}
 	
@@ -114,7 +118,6 @@ public enum PlayerAction {
 		Gdx.files.local("save/Keybind.json").writeString("", false);
 		
 		HashMap<String, Integer> map = new HashMap<>();
-		
 		for (PlayerAction a : PlayerAction.values()) {
 			map.put(a.toString(), a.getKey());
 		}

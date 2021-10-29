@@ -38,7 +38,10 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
-import com.mygdx.hadal.save.*;
+import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.*;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -143,7 +146,6 @@ public class PlayState extends GameState {
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
 	private final HashMap<String, PositionDummy> dummyPoints;
 	
-	private float zoomModifier = 1.0f;
 	private float timeModifier = 1.0f;
 	private float respawnTime = 1.5f;
 	private final boolean server;
@@ -211,11 +213,9 @@ public class PlayState extends GameState {
 	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, GameMode mode,
 					 boolean server, PlayerBodyData old, boolean reset, String startId) {
 		super(gsm);
-
-		this.server = server;
-
 		this.level = level;
 		this.mode = mode;
+		this.server = server;
 		this.startId = startId;
         
         //Initialize box2d world and related stuff
@@ -273,13 +273,15 @@ public class PlayState extends GameState {
 				endRender();
 			}
 		};
-
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;
 
 		//load map shader
 		this.shaderBase = Shader.NOTHING;
 		this.shaderTile = Shader.NOTHING;
+
+		//We clear things like music/sound/shaders to periodically free up some memory
+		GameStateManager.clearMemory();
 
 		if (map.getProperties().get("customShader", false, Boolean.class) ) {
 			shaderBase = Wallpaper.shaders[gsm.getSetting().getCustomShader()];
@@ -291,7 +293,7 @@ public class PlayState extends GameState {
 		
 		//Clear events in the TiledObjectUtil to avoid keeping reference to previous map's events.
 		TiledObjectUtil.clearEvents();
-		
+
 		//Set up "save point" as starting point
 		this.savePoints = new ArrayList<>();
 				
@@ -346,7 +348,7 @@ public class PlayState extends GameState {
 
 		this.reset = reset;
 		
-		//Set up dummy points (AI rally points)
+		//Set up dummy points
 		this.dummyPoints = new HashMap<>();
 				
 		//Init background image
@@ -507,7 +509,7 @@ public class PlayState extends GameState {
 		}
 		removeList.clear();
 
-		//process all user's (atm this handles respawn times)
+		//process all users (atm this handles respawn times)
 		if (server) {
 			for (User user: HadalGame.server.getUsers().values()) {
 				user.controller(this, delta);
@@ -599,7 +601,7 @@ public class PlayState extends GameState {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
-		renderEntities(delta);
+		renderEntities();
 
 		if (shaderBase.getShaderProgram() != null) {
 			if (!shaderBase.isBackground()) {
@@ -685,7 +687,7 @@ public class PlayState extends GameState {
 	/**
 	 * Render all entities in the world
 	 */
-	public void renderEntities(float delta) {
+	public void renderEntities() {
 		for (Set<HadalEntity> s: entityLists) {
 			for (HadalEntity entity : s) {
 				renderEntity(entity);
@@ -762,7 +764,7 @@ public class PlayState extends GameState {
 	final Vector3 mousePosition = new Vector3();
 	final Vector2 cameraFocusAim = new Vector2();
 	protected void cameraUpdate() {
-		zoom = zoom + (zoomDesired * zoomModifier - zoom) * 0.1f;
+		zoom = zoom + (zoomDesired - zoom) * 0.1f;
 		
 		camera.zoom = zoom;
 		if (cameraTarget == null) {
@@ -865,6 +867,7 @@ public class PlayState extends GameState {
 			break;
 		case RESULTS:
 
+			//create snapshot to use for transition to results state
 			FrameBuffer fbo = resultsStateFreeze();
 
 			//get a results screen
@@ -1160,6 +1163,9 @@ public class PlayState extends GameState {
 	private static final float endTextY = 700;
 	private static final float endTextWidth = 400;
 	private static final float endTextScale = 2.5f;
+	/**
+	 * @return a snapshot of the player's current perspective. Used for transitioning to results state
+	 */
 	protected FrameBuffer resultsStateFreeze() {
 		FrameBuffer fbo = new FrameBuffer(Pixmap.Format.RGBA4444, 1280, 720, true);
 
@@ -1171,10 +1177,11 @@ public class PlayState extends GameState {
 		batch.getProjectionMatrix().setToOrtho2D(0, 0, fbo.getWidth(), fbo.getHeight());
 		render(0.0f);
 
+		//draw extra ui elements for snapshot
 		batch.setProjectionMatrix(hud.combined);
 		batch.begin();
-		HadalGame.SYSTEM_FONT_UI.getData().setScale(endTextScale);
-		HadalGame.SYSTEM_FONT_UI.draw(batch, "GAME!",HadalGame.CONFIG_WIDTH / 2 - endTextWidth / 2, endTextY, endTextWidth,
+		HadalGame.FONT_UI.getData().setScale(endTextScale);
+		HadalGame.FONT_UI.draw(batch, "GAME!",HadalGame.CONFIG_WIDTH / 2 - endTextWidth / 2, endTextY, endTextWidth,
 				Align.center, true);
 		batch.end();
 
@@ -1313,7 +1320,6 @@ public class PlayState extends GameState {
 	 * @param connId: connId of the new client
 	 */
 	public void catchUpClient(int connId) {
-
 		for (Set<HadalEntity> s: entityLists) {
 			for (HadalEntity entity : s) {
 				Object packet = entity.onServerCreate();
@@ -1460,10 +1466,6 @@ public class PlayState extends GameState {
 	public boolean isServer() { return server; }
 
 	public boolean isReset() { return reset; }
-
-	public float getZoomModifier() { return zoomModifier; }
-
-	public void setZoomModifier(float zoomModifier) { this.zoomModifier = zoomModifier; }
 
 	public float getTimeModifier() { return timeModifier; }
 

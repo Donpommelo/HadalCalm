@@ -32,13 +32,13 @@ public enum Shader {
 	WORM("shaders/pass.vert", "shaders/worm.frag", true, new Resolution(), new Timer()),
 	WHIRLPOOL("shaders/pass.vert", "shaders/whirlpool.frag", true, new Resolution(), new Timer(), new ObjectiveCoord()),
 	PLAYER_LIGHT("shaders/pass.vert", "shaders/darkness.frag", false, new Resolution(), new PlayerCoord(), new Light()),
-	PERLIN_FADE("shaders/pass.vert", "shaders/perlin.frag", false, new Resolution(), new Timer()),
+	PERLIN_FADE("shaders/pass.vert", "shaders/perlin.frag", false, new Resolution(), new Timer(), new RandomSeed()),
 	;
 	
 	//filename for the vertex and fragment shaders
 	private final String vertId, fragId;
 	
-	//the shader program.
+	//the shader program. This is the thing actually used to draw the shader
 	private ShaderProgram shaderProgram;
 	
 	//a list of strategies the shader can use to read game information.
@@ -55,7 +55,7 @@ public enum Shader {
 	}
 	
 	/**
-	 * Load this shader's shader program
+	 * Load this shader's shader program if not created yet. Bind and initate the shader's strategies
 	 */
 	public void loadShader() {
 		
@@ -71,6 +71,19 @@ public enum Shader {
 
 		for (ShaderStrategy strat: strategies) {
 			strat.create(shaderProgram);
+		}
+	}
+
+	/**
+	 * This is called when a play state is initiated
+	 * It disposes of shaders to free up memory
+	 */
+	public static void clearShader() {
+		for (Shader shader: Shader.values()) {
+			if (shader.shaderProgram != null) {
+				shader.shaderProgram.dispose();
+				shader.shaderProgram = null;
+			}
 		}
 	}
 	

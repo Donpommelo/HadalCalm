@@ -12,7 +12,10 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MessageWindow;
+import com.mygdx.hadal.audio.MusicTrack;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.map.GameMode;
@@ -28,7 +31,6 @@ import java.util.Stack;
  * The GameStateManager manages a stack of game states. This delegates logic to the current game state.
  * For some reason, we are also making it store several public fields like the game record and atlases.
  * @author Fartrand Fucciatello
- *
  */
 public class GameStateManager {
 	
@@ -76,24 +78,14 @@ public class GameStateManager {
 		//we set output settings to json so intellij editor doesn't get pissy about double quotes
 		json.setOutputType(OutputType.json);
 
-		//Load data from saves: hotkeys and unlocks
+		//Load data from saves: hotkeys, records, loadout, settings and unlocks
 		PlayerAction.retrieveKeys();
 		UnlockManager.retrieveItemInfo();
-		
-		if (!Gdx.files.internal("save/Records.json").exists()) {
-			Record.createNewRecord();
-		}
-		if (!Gdx.files.internal("save/Loadout.json").exists()) {
-			SavedLoadout.createNewLoadout();
-		}
-		if (!Gdx.files.internal("save/Settings.json").exists()) {
-			Setting.createNewSetting();
-		}
+		record = Record.retrieveRecord();
+		loadout = SavedLoadout.retrieveLoadout();
+		setting = Setting.retrieveSetting();
 
-		//Load player records and game dialogs, also from json
-		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.json));
-		loadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(OutputType.json));
-		setting = json.fromJson(Setting.class, reader.parse(Gdx.files.internal("save/Settings.json")).toJson(OutputType.json));
+		//load text strings.
 		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
 		deathMessages = reader.parse(Gdx.files.internal("text/DeathMessages.json"));
 		miscText = reader.parse(Gdx.files.internal("text/MiscText.json"));
@@ -114,7 +106,7 @@ public class GameStateManager {
 	public void loadAssets() {
 		skin = new Skin();
 		skin.addRegions(HadalGame.assetManager.get(AssetList.UISKIN_ATL.toString()));
-		skin.add("default-font", HadalGame.SYSTEM_FONT_SPRITE);
+		skin.add("default-font", HadalGame.FONT_SPRITE);
 		skin.load(Gdx.files.internal("ui/uiskin.json"));
 		
 		dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCH_ATL.toString())).createPatch("UI_box_dialogue"));
@@ -139,7 +131,7 @@ public class GameStateManager {
 		//initialize pooled particle effects
 		Particle.initParticlePool();
 		
-		//this lets us not declare every attribute of the shader.
+		//this lets us not declare every attribute of shaders.
 		ShaderProgram.pedantic = false;
 	}
 	
@@ -314,7 +306,7 @@ public class GameStateManager {
 	 * @param peekState: the state underneath this state
 	 * @return A new instance of the gameState corresponding to the input enum
 	 * NOTE: we no longer use this for any more complicated state that requires extra fields 
-	 * Only used for: (TITLE, SPLASH, ABOUT)
+	 * Only used for: (TITLE, SPLASH, ABOUT, SETTING, LOBBY)
 	 */
 	public GameState getState(State state, GameState peekState) {
 		switch(state) {
@@ -328,7 +320,17 @@ public class GameStateManager {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * 	We clear things like music/sound to free up some memory.
+	 * 	This is not really necessary rn as it is not a memory leak, but is probably good practice.
+	 */
+	public static void clearMemory() {
+		MusicTrack.clearMusic(HadalGame.musicPlayer);
+		SoundEffect.clearSound();
+		Shader.clearShader();
+	}
+
 	public void resize(int width, int height) {
 		for (GameState gs : states) {
 			gs.resize(width, height);

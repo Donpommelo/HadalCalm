@@ -11,6 +11,8 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
+import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+
 /**
  *  This strategy indicates that a hbox is used as a flag in kingmaker mode. These flags are similar to ctf flags, but
  *  give the player score gradually when held.
@@ -28,8 +30,6 @@ public class FlagHoldable extends HitboxStrategy {
 	//the timer until a dropped flag returns to spawn
 	private static final float returnTime = 10.0f;
 	private float returnTimer;
-
-	private static final int maxNameLength = 25;
 
 	//counter keeps track of player score incrementing
 	private float timeCount = 0;
@@ -51,7 +51,7 @@ public class FlagHoldable extends HitboxStrategy {
 					target = ((PlayerBodyData) fixB).getPlayer();
 
 					hbox.getBody().setGravityScale(0.0f);
-					String playerName = WeaponUtils.getPlayerColorName(target, maxNameLength);
+					String playerName = WeaponUtils.getPlayerColorName(target, MAX_NAME_LENGTH);
 					state.getKillFeed().addNotification(playerName + " PICKED UP THE FLAG!", true);
 				}
 			}

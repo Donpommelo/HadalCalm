@@ -265,9 +265,6 @@ public class RangedWeapon extends Equippable {
 	public int getAmmoLeft() { return ammoLeft; }
 	
 	@Override
-	public void setClipLeft(int clipLeft) {	this.clipLeft = clipLeft; }
-
-	@Override
 	public void setAmmoLeft(int ammoLeft) {	
 		this.ammoLeft = ammoLeft; 
 		if (this.ammoLeft >= getAmmoSize()) {

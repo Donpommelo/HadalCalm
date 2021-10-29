@@ -9,13 +9,13 @@ uniform sampler2D u_texture;
 
 uniform float scale = 5.0;
 uniform float smoothness = 0.1;
-uniform float sneed = 3225.3;
 
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform float u_random;
 
 float random(vec2 co) {
-  float a = sneed;
+  float a = u_random;
   float b = 78.233;
   float c = 43758.5453;
   float dt = dot(co.xy, vec2(a, b));

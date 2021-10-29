@@ -11,6 +11,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+
 /**
  * This event spawns a naval-mine-football for the football game mode.
  * When the mine is destroyed, another will be spawned
@@ -31,7 +33,6 @@ public class FootballGoal extends Event {
         this.teamIndex = teamIndex;
     }
 
-    private static final int maxNameLength = 25;
     @Override
     public void create() {
         this.eventData = new EventData(this) {
@@ -46,7 +47,7 @@ public class FootballGoal extends Event {
                 //give score credit to the player and give notification
                 if (p != null) {
 
-                    String playerName = WeaponUtils.getPlayerColorName(p, maxNameLength);
+                    String playerName = WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH);
 
                     if (teamIndex < AlignmentFilter.currentTeams.length) {
                         if (p.getStartLoadout().team == AlignmentFilter.currentTeams[teamIndex]) {

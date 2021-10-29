@@ -560,18 +560,6 @@ public class KryoClient {
 		}
 
 		/*
-		 * we are told by the server to play a new music track
-		 * atm, this isn't used b/c music is played independently
-		 */
-		else if (o instanceof final Packets.SyncMusic p) {
-			final ClientState cs = getClientState();
-
-			if (cs != null) {
-				cs.addPacketEffect(() -> HadalGame.musicPlayer.playSong(MusicTrack.valueOf(p.music), p.volume));
-			}
-		}
-
-		/*
 		 * We are told by the server each player's extra score info. Set it so we can display in the results state.
 		 */
 		else if (o instanceof final Packets.SyncExtraResultsInfo p) {

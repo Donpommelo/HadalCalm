@@ -287,14 +287,10 @@ public class Event extends HadalEntity {
 	
 	public EventData getEventData() { return eventData; }
 
-	public void setEventData(EventData eventData) {	this.eventData = eventData;	}
-
 	public Event getConnectedEvent() { return connectedEvent; }
 
 	public void setConnectedEvent(Event connectedEvent) { this.connectedEvent = connectedEvent; }
 	
-	public float getGravity() {	return gravity; }
-
 	public void setGravity(float gravity) {	this.gravity = gravity;	}
 	
 	public void setScale(float scale) {	this.scale = scale;	}

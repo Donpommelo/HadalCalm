@@ -171,8 +171,6 @@ public abstract class Equippable {
 	
 	public int getAmmoLeft() { return 0; }
 	
-	public void setClipLeft(int clipLeft) {}
-	
 	public void setAmmoLeft(int clipLeft) {}
 	
 	public float getUseCd() { return useCd;	}
@@ -186,8 +184,6 @@ public abstract class Equippable {
 	public String getName() { return name; }
 	
 	public void setName(String name) { this.name = name; }
-
-	public Schmuck getUser() { return user; }
 
 	public void setUser(Schmuck user) {	this.user = user; }
 
@@ -222,7 +218,5 @@ public abstract class Equippable {
 
 	public void setWeaponVelo(Vector2 weaponVelo) {	this.weaponVelo.set(weaponVelo); }
 	
-	public Vector2 getMouseLocation() { return mouseLocation; }
-
 	public String getChargeText() {	return "CHARGING"; }
 }

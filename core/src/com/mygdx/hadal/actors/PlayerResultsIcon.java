@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -17,17 +16,16 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 
+import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+
 /**
  * A PlayerResultsIcon represents a single player in the results screen.
  * These are ordered by score
  */
 public class PlayerResultsIcon extends AHadalActor {
 
-	private final BitmapFont font;
-
 	private static final float fontScale = 0.22f;
 	private static final float spriteScale = 0.25f;
-	private static final int maxNameLen = 25;
 
 	private static final float readyWidth = 96.0f;
 	private static final float readyHeight = 96.0f;
@@ -48,14 +46,14 @@ public class PlayerResultsIcon extends AHadalActor {
 	//this string identifies the player as well as their score information
 	private String name;
 
+	//this fbo is used to accurately draw their sprite with the correct team color
 	private final FrameBuffer fbo;
 
+	//has this player readied up?
 	private boolean ready;
 
 	public PlayerResultsIcon(SpriteBatch batch, SavedPlayerFields fields, SavedPlayerFieldsExtra fieldsExtra) {
-		font = HadalGame.SYSTEM_FONT_UI;
-
-		this.name = fields.getNameAbridged(maxNameLen);
+		this.name = fields.getNameAbridged(MAX_NAME_LENGTH);
 		name += "\nK/D: " + fields.getKills() + " / " + fields.getDeaths() + "\nScore: " + fields.getScore();
 
 		this.readyIcon = Sprite.EMOTE_READY.getFrame();
@@ -114,8 +112,8 @@ public class PlayerResultsIcon extends AHadalActor {
     public void draw(Batch batch, float alpha) {
 		batch.draw(playerSprite, getX(), getY(), playerSprite.getRegionWidth() * spriteScale, playerSprite.getRegionHeight() * spriteScale);
 
-		font.getData().setScale(fontScale);
-		font.draw(batch, name, getX() + textOffsetX,getY() + textOffsetY, textWidth, Align.center, true);
+		HadalGame.FONT_UI.getData().setScale(fontScale);
+		HadalGame.FONT_UI.draw(batch, name, getX() + textOffsetX,getY() + textOffsetY, textWidth, Align.center, true);
 
 		if (ready) {
 			batch.draw(readyIcon, getX() + readyWidth + readyOffsetX, getY() + readyOffsetY, -readyWidth, readyHeight);

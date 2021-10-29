@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -34,6 +33,8 @@ import com.mygdx.hadal.server.User;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.mygdx.hadal.utils.Constants.*;
+
 /**
  * The Results screen appears at the end of levels and displays the player's results
  * In this screen, the player can return to the hub when all players are ready.
@@ -56,7 +57,7 @@ public class ResultsState extends GameState {
     private final ArrayList<PlayerResultsIcon> icons;
 	private final ArrayList<PooledEffect> effects;
 
-    //This i sa mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
+    //This is a mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
 	private final HashMap<SavedPlayerFields, Boolean> ready;
 	
 	//this text is displayed at the top of the state and usually indicates victory or loss
@@ -96,7 +97,6 @@ public class ResultsState extends GameState {
 	private static final int titleHeight = 40;
 	private static final float resultsScale = 0.6f;
 	private static final float scale = 0.4f;
-	private static final int maxNameLen = 30;
 
 	private static final int optionHeight = 50;
 
@@ -113,6 +113,7 @@ public class ResultsState extends GameState {
 	private static final int messageX = 20;
 	private static final int messageY = 20;
 
+	//these are used to process the fade transition from a playstate
 	private final FrameBuffer fbo;
 	private final TextureRegion snapshot;
 	private final Shader shader;
@@ -269,6 +270,7 @@ public class ResultsState extends GameState {
 			syncInfoTable(HadalGame.client.connID);
 		}
 
+		//this draws the playstate snapshot over the results and makes it gradually dissolve after a delay
 		stage.addActor(new Backdrop(AssetList.RESULTS_CARD.toString()) {
 
 			private float progress;
@@ -294,6 +296,7 @@ public class ResultsState extends GameState {
 			}
 		});
 
+		//this listener makes scrolling move through character scroll pane list
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(stage);
 		inputMultiplexer.addProcessor(new InputProcessor() {
@@ -414,14 +417,12 @@ public class ResultsState extends GameState {
 	 * This fills the window with stats for the designated player
 	 */
 	private int currentConnId = -1;
-	private static final float transitionDuration = 0.1f;
-	private static final Interpolation intp = Interpolation.fastSlow;
 	public void syncInfoTable(int connId) {
 
 		if (currentConnId == connId) { return; }
 		currentConnId = connId;
 
-		tableInfoOuter.addAction(Actions.sequence(Actions.moveTo(infoX, infoY, transitionDuration, intp), Actions.run(() -> {
+		tableInfoOuter.addAction(Actions.sequence(Actions.moveTo(infoX, infoY, TRANSITION_DURATION, INTP_FASTSLOW), Actions.run(() -> {
 			tableInfo.clear();
 			tableArtifact.clear();
 
@@ -440,7 +441,7 @@ public class ResultsState extends GameState {
 
 			if (field != null && fieldExtra != null) {
 
-				infoPlayerName.setText(field.getNameAbridged(maxNameLen));
+				infoPlayerName.setText(field.getNameAbridged(MAX_NAME_LENGTH_LONG));
 
 				Text damageDealtField = new Text("DAMAGE DEALT: ", 0, 0, false);
 				damageDealtField.setScale(infoTextScale);
@@ -508,7 +509,7 @@ public class ResultsState extends GameState {
 			} else {
 				infoPlayerName.setText("");
 			}
-		}), Actions.moveTo(infoXEnabled, infoYEnabled, transitionDuration, intp)));
+		}), Actions.moveTo(infoXEnabled, infoYEnabled, TRANSITION_DURATION, INTP_FASTSLOW)));
 	}
 	
 	/**
@@ -565,11 +566,12 @@ public class ResultsState extends GameState {
 		gsm.getApp().fadeOut();
 	}
 
-	//we update the message window to take input
 	private static final float particleCooldown = 1.5f;
 	private float particleCounter;
 	@Override
 	public void update(float delta) {
+
+		//we update the message window to take input
 		ps.getMessageWindow().table.act(delta);
 
 		//this lets us continue to process packets. (mostly used for disconnects)

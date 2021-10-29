@@ -2,7 +2,6 @@ package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
@@ -13,6 +12,8 @@ import com.mygdx.hadal.states.PlayState;
 
 import java.util.ArrayList;
 
+import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+
 /**
  * The UIExtra is an extra ui actor displayed in the upper left hand side.
  * It displays list of strings decided by the uiTags list which can be modified in level with events.
@@ -21,12 +22,11 @@ import java.util.ArrayList;
 public class UIExtra extends AHadalActor {
 
 	private final PlayState state;
-	private final BitmapFont font;
-	
+
 	private static final int x = 10;
 	private static final int width = 200;
 	private static final int y = 10;
-	private static final float scale = 0.25f;
+	private static final float fontScale = 0.25f;
 	
 	//List of tags that are to be displayed
 	private final ArrayList<UITag> uiTags;
@@ -40,8 +40,6 @@ public class UIExtra extends AHadalActor {
 
 	public UIExtra(PlayState state) {
 		this.state = state;
-		this.font = HadalGame.SYSTEM_FONT_UI;
-		
 		uiTags = new ArrayList<>();
 	}
 	
@@ -51,8 +49,8 @@ public class UIExtra extends AHadalActor {
 
 		if (state.getGsm().getSetting().isHideHUD()) { return; }
 
-		font.getData().setScale(scale);
-		font.draw(batch, text.toString(), x, HadalGame.CONFIG_HEIGHT - y, width, Align.left, true);
+		HadalGame.FONT_UI.getData().setScale(fontScale);
+		HadalGame.FONT_UI.draw(batch, text.toString(), x, HadalGame.CONFIG_HEIGHT - y, width, Align.left, true);
 	}
 
 	/**
@@ -68,8 +66,10 @@ public class UIExtra extends AHadalActor {
 			user = HadalGame.client.getUsers().get(HadalGame.client.connID);
 		}
 
-		for (UITag uiTag : uiTags) {
-			text.append(uiTag.updateTagText(state, changedType, user));
+		if (user != null) {
+			for (UITag uiTag : uiTags) {
+				text.append(uiTag.updateTagText(state, changedType, user));
+			}
 		}
 	}
 
@@ -170,7 +170,6 @@ public class UIExtra extends AHadalActor {
 		}
 	}
 
-	private static final int maxNameLen = 25;
 	private static final int maxScores = 5;
 	/**
 	 * For modes with a scoreboard ui tag, we add a sorted list of player scores.
@@ -181,7 +180,7 @@ public class UIExtra extends AHadalActor {
 			int scoreNum = 0;
 			for (User user: state.getScoreWindow().getOrderedUsers()) {
 				if (!user.isSpectator()) {
-					text.append(user.getNameAbridgedColored(maxNameLen)).append(": ").append(user.getScores().getScore()).append("\n");
+					text.append(user.getNameAbridgedColored(MAX_NAME_LENGTH)).append(": ").append(user.getScores().getScore()).append("\n");
 					scoreNum++;
 					if (scoreNum > maxScores) {
 						break;
@@ -217,5 +216,4 @@ public class UIExtra extends AHadalActor {
 	public float getMaxTimer() { return maxTimer; }
 
 	public String getDisplayedTimer() { return displayedTimer; }
-
 }

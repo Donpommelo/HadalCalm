@@ -11,15 +11,10 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * The Common Controller is used for inputs that can be carried out without a player entity present.
  * This includes chatting, pausing, checking score, exiting menu, advancing dialog
+ *
  * @author Courdough Clegnatio
  */
-public class CommonController implements InputProcessor {
-
-	private final PlayState state;
-
-	public CommonController(PlayState state) {
-		this.state = state;
-	}
+public record CommonController(PlayState state) implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
@@ -79,38 +74,26 @@ public class CommonController implements InputProcessor {
 					state.getGsm().addPauseState(state, "", ClientState.class, false);
 				}
 			}
-		}
-
-		else if (action == PlayerAction.MESSAGE_WINDOW) {
+		} else if (action == PlayerAction.MESSAGE_WINDOW) {
 			state.getMessageWindow().toggleWindow();
-		}
-
-		else if (action == PlayerAction.SCORE_WINDOW) {
+		} else if (action == PlayerAction.SCORE_WINDOW) {
 			state.getScoreWindow().setVisibility(false);
-		}
-		
-		else if (action == PlayerAction.CHAT_WHEEL) {
+		} else if (action == PlayerAction.CHAT_WHEEL) {
 			state.getChatWheel().setVisibility(false);
 		}
 	}
-	
+
 	public void keyDown(PlayerAction action) {
 
 		if (action == PlayerAction.DIALOGUE) {
 			if (state.getDialogBox() != null) {
 				state.getDialogBox().nextDialogue();
 			}
-		}
-		
-		else if (action == PlayerAction.SCORE_WINDOW) {
+		} else if (action == PlayerAction.SCORE_WINDOW) {
 			state.getScoreWindow().setVisibility(true);
-		}
-		
-		else if (action == PlayerAction.CHAT_WHEEL) {
+		} else if (action == PlayerAction.CHAT_WHEEL) {
 			state.getChatWheel().setVisibility(true);
-		}
-
-		else if (action == PlayerAction.EXIT_MENU) {
+		} else if (action == PlayerAction.EXIT_MENU) {
 			if (state.getUiHub().isActive()) {
 				state.getUiHub().leave();
 			}

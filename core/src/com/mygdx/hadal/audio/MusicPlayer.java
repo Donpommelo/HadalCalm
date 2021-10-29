@@ -2,10 +2,7 @@ package com.mygdx.hadal.audio;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.MathUtils;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.server.Packets;
-import com.mygdx.hadal.states.PlayState;
 
 /**
  * The music player manages music tracks including fade transitions
@@ -100,7 +97,7 @@ public class MusicPlayer {
 		}
 	}
 
-	//these arrays hold different types of songs. Whe na song is played, it will be chosen randomly from one list
+	//these arrays hold different types of songs. When a song is played, it will be chosen randomly from one list
 	private static final MusicTrack[] titleTracks = {MusicTrack.TITLE};
 	private static final MusicTrack[] hubTracks = {MusicTrack.HUB, MusicTrack.HUB_V2, MusicTrack.HUB_V3};
 	private static final MusicTrack[] matchTracks = {MusicTrack.AURAL_FIXATION, MusicTrack.CONFIDENCE, MusicTrack.RED_EYE, MusicTrack.SHARKTOOTH,
@@ -137,20 +134,8 @@ public class MusicPlayer {
 	}
 
 	/**
-	 * 	server plays a song and tells all clients to play the same song
-	 * 	Tentatively, this is not used; clients and servers play music independently.
-	 */
-	public void syncSong(PlayState state, MusicTrack music, float volume) {
-		
-		if (state.isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncMusic(music.toString(), volume));
-		}
-		
-		playSong(music, volume);
-	}
-
-	/**
 	 * A magical function to address some wonkiness between the music fade and a new song on the next scene
+	 * And by "magical" I mean neither I nor the person who told me to use it knew why it solved the issue
 	 */
 	private float freshenUpSong() {
 		float volume = 1;

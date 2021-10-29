@@ -123,10 +123,6 @@ public class ClientState extends PlayState {
 	private float lastLatencyCheck, latency;
 	private static final float LatencyCheck = 1.0f;
 
-	//this is the current time on the server. Different from timer, b/c that is delayed so we can interpolate b/w
-	// old snapshots.
-	private float serverTime;
-
 	private float inputAccumulator;
 	private static final float inputSyncTime = 1 / 60f;
 
@@ -277,7 +273,7 @@ public class ClientState extends PlayState {
 	}
 	
 	@Override
-	public void renderEntities(float delta) {
+	public void renderEntities() {
 		for (Map<String, HadalEntity> m: entityLists) {
 			for (HadalEntity entity : m.values()) {
 				renderEntity(entity);
@@ -409,16 +405,16 @@ public class ClientState extends PlayState {
 	 */
 	public void syncLatency(float serverTime) {
 		latency = getTimer() - lastLatencyCheck;
-		this.serverTime = serverTime + latency / 2;
+		float adjustedServerTime = serverTime + latency / 2;
 
 		//if our timer is ahead, we set it to be less than the server so we can linear interpolate to predicted position
-		if (getTimer() > serverTime) {
-			setTimer(serverTime - 2 * PlayState.syncTime);
+		if (getTimer() > adjustedServerTime) {
+			setTimer(adjustedServerTime - 2 * PlayState.syncTime);
 		}
 
 		//if our timer is lagging too far behind, we make it catch up
-		if (getTimer() < serverTime - 2 * PlayState.syncTime) {
-			setTimer(serverTime - 2 * PlayState.syncTime);
+		if (getTimer() < adjustedServerTime - 2 * PlayState.syncTime) {
+			setTimer(adjustedServerTime - 2 * PlayState.syncTime);
 		}
 	}
 	
@@ -436,38 +432,14 @@ public class ClientState extends PlayState {
 	}
 
 	/**
-	 * This class represents a packet telling the client to sync an object
+	 * This record represents a packet telling the client to sync an object
 	 */
-	private static class SyncPacket {
-		String entityId;
-		Object packet;
-		float age;
-		float timestamp;
-
-		public SyncPacket(String entityId, Object packet, float age, float timestamp) {
-			this.entityId = entityId;
-			this.packet = packet;
-			this.age = age;
-			this.timestamp = timestamp;
-		}
-	}
+	private record SyncPacket(String entityId, Object packet, float age, float timestamp) {}
 
 	/**
-	 * This class represents a packet telling the client to create an object
+	 * This record represents a packet telling the client to create an object
 	 */
-	public static class CreatePacket {
-		String entityId;
-		HadalEntity entity;
-		boolean synced;
-		ObjectSyncLayers layer;
-
-		public CreatePacket(String entityId, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {
-			this.entityId = entityId;
-			this.entity = entity;
-			this.synced = synced;
-			this.layer = layer;
-		}
-	}
+	public record CreatePacket(String entityId, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {}
 
 	/**
 	 * The destroy and create methods do nothing for the client. 
@@ -482,8 +454,6 @@ public class ClientState extends PlayState {
 	public UIPlayClient getUiPlay() { return (UIPlayClient) uiPlay; }
 
 	public float getLatency() { return latency; }
-
-	public float getServerTime() { return serverTime; }
 
 	public Vector3 getMousePosition() { return mousePosition; }
 

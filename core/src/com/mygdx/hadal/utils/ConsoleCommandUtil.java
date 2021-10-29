@@ -28,6 +28,10 @@ import java.util.Objects;
  * /weapon: display your currently equipped weapons
  * /artifact: display your currently equipped artifacts
  * /active: display your currently equipped active item
+ * /team: display your current team color
+ * /help: display a help message
+ * /killme: kills the player
+ *
  * @author Handwort Hockett
  */
 public class ConsoleCommandUtil {
@@ -47,22 +51,18 @@ public class ConsoleCommandUtil {
 				+ MathUtils.random(maxRoll), DialogType.SYSTEM, player.getConnID());
 			return 0;
 		}
-		
-		if (command.equals("/weapon")) {
 
+		if (command.equals("/weapon")) {
 			if (player.getPlayerData() != null) {
 				StringBuilder message = new StringBuilder("Weapons: ");
 
 				for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
-
 					if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
 						message.append(player.getPlayerData().getLoadout().multitools[i].name()).append(" ");
 					}
 				}
-
 				HadalGame.server.addChatToAll(state, message.toString(), DialogType.SYSTEM, 0);
 			}
-
 			return 0;
 		}
 		
@@ -76,10 +76,8 @@ public class ConsoleCommandUtil {
 						message.append(player.getPlayerData().getLoadout().artifacts[i].name()).append(" ");
 					}
 				}
-
 				HadalGame.server.addChatToAll(state,message.toString(), DialogType.SYSTEM, 0);
 			}
-
 			return 0;
 		}
 
@@ -105,9 +103,9 @@ public class ConsoleCommandUtil {
 		if (command.equals("/killme")) {
 			if (player.getPlayerData() != null) {
 				player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false);
+				return 0;
 			}
 		}
-
 		return -1;
 	}
 	
@@ -123,7 +121,6 @@ public class ConsoleCommandUtil {
 				StringBuilder message = new StringBuilder("Weapons: ");
 
 				for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, state.getUiPlay().getOverrideWeaponSlots()); i++) {
-
 					if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
 						message.append(player.getPlayerData().getLoadout().multitools[i].name()).append(" ");
 					}
@@ -138,15 +135,12 @@ public class ConsoleCommandUtil {
 				StringBuilder message = new StringBuilder("Artifacts: ");
 
 				for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
-
 					if (!player.getPlayerData().getLoadout().artifacts[i].equals(UnlockArtifact.NOTHING)) {
 						message.append(player.getPlayerData().getLoadout().artifacts[i].name()).append(" ");
 					}
 				}
-
 				HadalGame.client.sendTCP(new Packets.ClientChat(message.toString(), DialogType.SYSTEM));
 			}
-
 			return 0;
 		}
 
@@ -172,9 +166,9 @@ public class ConsoleCommandUtil {
 		if (command.equals("/killme")) {
 			if (player.getPlayerData() != null) {
 				HadalGame.client.sendTCP(new Packets.ClientYeet());
+				return 0;
 			}
 		}
-
 		return -1;
 	}
 	

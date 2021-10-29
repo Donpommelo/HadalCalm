@@ -267,6 +267,7 @@ public enum Sprite {
 	private PlayMode playMode = PlayMode.LOOP;
 	private float animationSpeed = PlayState.spriteAnimationSpeedFast;
 
+	//complex sprites are composed of multiple sprites, each repeated a set amount of time
 	private boolean complex;
 
 	/**
@@ -291,15 +292,10 @@ public enum Sprite {
 		this.complex = true;
 	}
 
-	public static class SpriteRep {
-		String spriteId;
-		int repeat;
-
-		public SpriteRep(String spriteId, int repeat) {
-			this.spriteId = spriteId;
-			this.repeat = repeat;
-		}
-	}
+	/**
+	 * A SpriteRep consists of a single sprite being repeated a set amount of time
+	 */
+	public record SpriteRep(String spriteId, int repeat) {}
 
 	/**
 	 * This returns the frames of a given sprite
@@ -311,6 +307,8 @@ public enum Sprite {
 		}
 
 		if (frames == null) {
+
+			//complex frames are made of several sprites, repeated, lined up back-to-back
 			if (complex) {
 				frames = new Array<>();
 				for (SpriteRep sprite: complexFrames) {
@@ -330,10 +328,9 @@ public enum Sprite {
 				}
 			}
 		}
-
 		return frames;
 	}
-	
+
 	public TextureRegion getFrame() { return getFrames().get(0); }
 	
 	/**

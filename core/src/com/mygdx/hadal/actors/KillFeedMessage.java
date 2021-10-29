@@ -3,7 +3,6 @@ package com.mygdx.hadal.actors;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
@@ -23,15 +22,11 @@ import com.mygdx.hadal.utils.TextFilterUtil;
  */
 public class KillFeedMessage extends AHadalActor {
 
-    private final BitmapFont font;
-    private final Color color;
     private final GlyphLayout layout;
-
     private final String message;
 
     private static final float padding = 10;
-
-    private final float scale;
+    private final float fontScale;
     private final float targetWidth;
     private float lifespan;
 
@@ -57,24 +52,22 @@ public class KillFeedMessage extends AHadalActor {
 
     public KillFeedMessage(String text, boolean killFeed) {
 
+        //different stats depending on if this goes in the kill feed or notification feed
         if (killFeed) {
-            this.scale = killFeedScale;
+            this.fontScale = killFeedScale;
             this.targetWidth = killFeedWidth;
             this.lifespan = killFeedLifespan;
         } else {
-            this.scale = notificationScale;
+            this.fontScale = notificationScale;
             this.targetWidth = notificationWidth;
             this.lifespan = notificationLifespan;
         }
         align = Align.left;
 
-        font = HadalGame.SYSTEM_FONT_UI_SMALL;
-        font.getData().setScale(scale);
-
-        color = Color.WHITE;
         message = text;
         layout = new GlyphLayout();
-        layout.setText(font, message, color, targetWidth, align, true);
+        HadalGame.FONT_UI_ALT.getData().setScale(fontScale);
+        layout.setText(HadalGame.FONT_UI_ALT, message, Color.WHITE, targetWidth, align, true);
         setWidth(layout.width);
         setHeight(layout.height);
 
@@ -93,9 +86,9 @@ public class KillFeedMessage extends AHadalActor {
         //draw grey box under message
         batch.draw(grey, textX - padding / 2, getY() - padding / 2, getWidth() + padding, getHeight() + padding);
 
-        font.getData().setScale(scale);
-        font.setColor(color);
-        font.draw(batch, message, textX, getY() + getHeight() / 2 + layout.height / 2, targetWidth, align, true);
+        HadalGame.FONT_UI_ALT.getData().setScale(fontScale);
+        HadalGame.FONT_UI_ALT.setColor(Color.WHITE);
+        HadalGame.FONT_UI_ALT.draw(batch, message, textX, getY() + getHeight() / 2 + layout.height / 2, targetWidth, align, true);
     }
 
     /**

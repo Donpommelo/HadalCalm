@@ -117,8 +117,6 @@ public class EnemySwimming extends EnemyFloating {
 	
 	public void setMoveSpeed(float moveSpeed) { this.moveSpeed = moveSpeed; }
 	
-	public SwimmingState getCurrentState() { return currentState; }
-
 	public void setCurrentState(SwimmingState currentState) { this.currentState = currentState; }
 
 	public void setMinRange(float minRange) { this.minRange = minRange; }

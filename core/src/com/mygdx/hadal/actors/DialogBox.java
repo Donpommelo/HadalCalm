@@ -2,7 +2,6 @@ package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
@@ -23,12 +22,9 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class DialogBox extends AHadalActor {
 
-	//This is the font that the text is drawn with.
-	private final BitmapFont font;
-
 	//This is the scale that the text is drawn at.
-	private static final float scale = 0.25f;
-	private static final float scaleSmall = 0.25f;
+	private static final float fontScale = 0.25f;
+	private static final float fontScaleSmall = 0.25f;
 
 	//This is a queue of dialogues in the order that they will be displayed.
 	private final Queue<Dialog> dialogs;
@@ -75,9 +71,6 @@ public class DialogBox extends AHadalActor {
 		this.ps = ps;
 
 		dialogs = new Queue<>();
-		
-		font = HadalGame.SYSTEM_FONT_UI;
-		
 		animCdCount = 0;
 	}
 
@@ -207,43 +200,47 @@ public class DialogBox extends AHadalActor {
 
 			//system messages are red to distinguish them from story dialog
 			if (first.getType().equals(DialogType.SYSTEM)) {
-				font.setColor(Color.RED);
+				HadalGame.FONT_UI.setColor(Color.RED);
 			}
 			
 			if (first.getInfo().isSmall()) {
-				font.getData().setScale(scaleSmall);
+				HadalGame.FONT_UI.getData().setScale(fontScaleSmall);
 				GameStateManager.getSimplePatch().draw(batch, getX(), getY() - currY, currX, currY);
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxXSmall * textAppearThreshold) {
-					font.draw(batch, first.getInfo().getDisplayedText(), getX() + 20, getY() - 20, maxTextWidthSmall, Align.left, true);
-					GameStateManager.getSimplePatch().draw(batch, getX() + maxXSmall - advanceWidth, getY() - maxYSmall, advanceWidth, advanceHeight);
-					font.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + maxXSmall - advanceWidth, getY() - maxYSmall - 8 + advanceHeight, maxTextWidthSmall, Align.left, true);
+					HadalGame.FONT_UI.draw(batch, first.getInfo().getDisplayedText(), getX() + 20, getY() - 20,
+						maxTextWidthSmall, Align.left, true);
+					GameStateManager.getSimplePatch().draw(batch, getX() + maxXSmall - advanceWidth, getY() - maxYSmall,
+						advanceWidth, advanceHeight);
+					HadalGame.FONT_UI.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + maxXSmall - advanceWidth,
+						getY() - maxYSmall - 8 + advanceHeight, maxTextWidthSmall, Align.left, true);
 				}
 			} else {
-				font.getData().setScale(scale);
+				HadalGame.FONT_UI.getData().setScale(fontScale);
 				GameStateManager.getDialogPatch().draw(batch, getX(), getY() - currY, currX, currY);
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxX * textAppearThreshold) {
-					font.draw(batch, first.getInfo().getDisplayedText(), getX() + 150, getY() - 20, maxTextWidth, Align.left, true);
-					GameStateManager.getSimplePatch().draw(batch, getX() + maxX - advanceWidth, getY() - maxY, advanceWidth, advanceHeight);
-					font.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + maxX - advanceWidth, getY() - maxY - 8 + advanceHeight, maxTextWidth, Align.left, true);
+					HadalGame.FONT_UI.draw(batch, first.getInfo().getDisplayedText(), getX() + 150, getY() - 20,
+						maxTextWidth, Align.left, true);
+					GameStateManager.getSimplePatch().draw(batch, getX() + maxX - advanceWidth, getY() - maxY,
+						advanceWidth, advanceHeight);
+					HadalGame.FONT_UI.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + maxX - advanceWidth,
+						getY() - maxY - 8 + advanceHeight, maxTextWidth, Align.left, true);
 				}
 				 
 				if (first.getBust() != null) {
 					batch.draw(first.getBust().getKeyFrame(animCdCount, true),
-								getX() + bustOffsetX, getY() + bustOffsetY, bustWidth, bustHeight);
+						getX() + bustOffsetX, getY() + bustOffsetY, bustWidth, bustHeight);
 				}
 			}
-			
+
+			//Return color to default values.
 			if (first.getType().equals(DialogType.SYSTEM)) {
-				font.setColor(HadalGame.DEFAULT_TEXT_COLOR);
+				HadalGame.FONT_UI.setColor(HadalGame.DEFAULT_TEXT_COLOR);
 		    }
 		}
-		 
-	     //Return scale and color to default values.
-	     font.getData().setScale(1.0f);
     }
 	
 	public enum DialogType {

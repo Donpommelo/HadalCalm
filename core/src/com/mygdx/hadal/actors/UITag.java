@@ -7,7 +7,7 @@ import com.mygdx.hadal.states.PlayState;
 import static com.mygdx.hadal.actors.UITag.uiType.ALL;
 
 /**
- * This is not technically an actor but I don't know where else to put it. Maybe move it later
+ * This is not technically an actor but I don't know where else to put it.
  * 
  * A UITag is anything that can show up in the UIExtra actor in the top corner of the screen. This can include information about 
  * score, lives, other info and can be dynamically changed within a level using the UIChanger event.
@@ -19,10 +19,10 @@ public class UITag {
 	private final UIExtra uiExtra;
 
 	//The type of this tag. specifies what kind of information will be displayed.
-	private uiType type;
+	private final uiType type;
 	
 	//If this tag is of the "MISC" type, this variable will hold the string to be displayed. Otherwise, this will be "".
-	private String misc;
+	private final String misc;
 
 	//this is the last String displayed by this tag.
 	//If this tag is not modified, we do not need to recalc things like player score order
@@ -43,6 +43,13 @@ public class UITag {
 	}
 
 	private final StringBuilder text = new StringBuilder();
+
+	/**
+	 * This updates a single tag and is called when that tag is modified
+	 * @param changedType: the type of tag to be modified
+	 * @param user: for tags concerning a player, this is the player's user
+	 * @return the new string to appear in the ui
+	 */
 	public String updateTagText(PlayState state, uiType changedType, User user) {
 
 		if (cachedText.isEmpty() || changedType.equals(type) || changedType.equals(ALL)) {
@@ -94,7 +101,6 @@ public class UITag {
 						text.append("VICTORY");
 					}
 					break;
-
 				case EMPTY:
 				default:
 					break;
@@ -107,11 +113,7 @@ public class UITag {
 
 	public uiType getType() { return type; }
 
-	public void setType(uiType type) { this.type = type; }
-
 	public String getMisc() { return misc; }
-
-	public void setMisc(String misc) { this.misc = misc; }
 
 	/**
 	 * These are the various types of tags that can be added/removed from the UI.

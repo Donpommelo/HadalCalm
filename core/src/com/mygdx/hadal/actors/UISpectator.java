@@ -3,7 +3,6 @@ package com.mygdx.hadal.actors;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.input.PlayerAction;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 public class UISpectator extends AHadalActor {
 
     protected final PlayState state;
-    private final BitmapFont font;
 
     private static final int mainX = 0;
     private static final int mainY = 0;
@@ -40,7 +38,6 @@ public class UISpectator extends AHadalActor {
 
     public UISpectator(PlayState state) {
         this.state = state;
-        this.font = HadalGame.SYSTEM_FONT_UI;
     }
 
     @Override
@@ -50,24 +47,24 @@ public class UISpectator extends AHadalActor {
 
         GameStateManager.getSimplePatch().draw(batch, mainX, mainY, windowWidth, windowHeight);
 
-        font.getData().setScale(fontScaleMedium);
+        HadalGame.FONT_UI.getData().setScale(fontScaleMedium);
 
         if (freeCam) {
-            font.draw(batch, "SPECTATING: FREE CAM", textX, titleY);
+            HadalGame.FONT_UI.draw(batch, "SPECTATING: FREE CAM", textX, titleY);
         } else {
             if (spectatorTarget != null) {
-                font.draw(batch, "SPECTATING: " + spectatorTarget.getName(), textX, titleY);
+                HadalGame.FONT_UI.draw(batch, "SPECTATING: " + spectatorTarget.getName(), textX, titleY);
             } else {
-                font.draw(batch, "SPECTATING: N/A", textX, titleY);
+                HadalGame.FONT_UI.draw(batch, "SPECTATING: N/A", textX, titleY);
             }
         }
-        font.draw(batch, "LMB: DRAG FREE CAM", textX, instructions1Y);
-        font.draw(batch, "RMB: CYCLE SPECTATE TARGET", textX, instructions2Y);
+        HadalGame.FONT_UI.draw(batch, "LMB: DRAG FREE CAM", textX, instructions1Y);
+        HadalGame.FONT_UI.draw(batch, "RMB: CYCLE SPECTATE TARGET", textX, instructions2Y);
 
         if (state.getMode().isHub()) {
-            font.draw(batch, "JOIN: " + PlayerAction.PAUSE.getKeyText() + " -> JOIN", textX, joinY);
+            HadalGame.FONT_UI.draw(batch, "JOIN: " + PlayerAction.PAUSE.getKeyText() + " -> JOIN", textX, joinY);
         } else {
-            font.draw(batch, "JOIN NEXT ROUND IN HUB", textX, joinY);
+            HadalGame.FONT_UI.draw(batch, "JOIN NEXT ROUND IN HUB", textX, joinY);
         }
     }
 
@@ -86,6 +83,10 @@ public class UISpectator extends AHadalActor {
     private Player spectatorTarget;
     private User spectatorUser;
 
+    /**
+     * This is run when the the camera updates when dragged
+     * @param target: the target of the spectator camera
+     */
     public void spectatorDragCamera(Vector2 target) {
 
         //when lmb is held, we drag the camera by a factor of the mouse displacement
@@ -114,7 +115,6 @@ public class UISpectator extends AHadalActor {
     }
 
     private final ArrayList<User> users = new ArrayList<>();
-
     /**
      * This searches for a target to spectatr
      */

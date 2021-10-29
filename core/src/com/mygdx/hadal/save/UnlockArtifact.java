@@ -149,6 +149,7 @@ public enum UnlockArtifact {
 	WRATH_OF_THE_FROGMAN(new WrathoftheFrogman()),
 	YIGHT_KITE(new YightKite()),
 
+	//special artifacts for things like mode modifiers
 	NOTHING(new NothingArtifact()),
 	INFINITE_AMMO(new InfiniteAmmo(), true),
 	PLAYER_BOUNCE(new PlayerBounce(), true),
@@ -177,7 +178,6 @@ public enum UnlockArtifact {
 		this.artifactSingleton = artifact;
 		this.spriteId = spriteId;
 		this.invisible = false;
-		artifactSingleton.setUnlock(this);
 	}
 
 	UnlockArtifact(Artifact artifact, boolean invisible) {

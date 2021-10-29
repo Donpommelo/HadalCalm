@@ -1,7 +1,12 @@
 package com.mygdx.hadal.save;
 
 import com.badlogic.gdx.Gdx;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.badlogic.gdx.utils.JsonWriter;
+import com.badlogic.gdx.utils.SerializationException;
+
+import static com.mygdx.hadal.managers.GameStateManager.json;
+import static com.mygdx.hadal.managers.GameStateManager.reader;
+import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_TOTAL;
 
 /**
  * A record represents the player's last loadout.
@@ -18,9 +23,6 @@ public class SavedLoadout {
 	//This is the player's starting name
 	private String name;
 
-	//max size of name creatable in title screen
-	public static final int maxNameLength = 40;
-	
 	//the name used if the name field is left empty
 	private static final String defaultName = "Anonymous";
 	public SavedLoadout() {}
@@ -29,7 +31,7 @@ public class SavedLoadout {
 	 * This simple saves the record in a designated file
 	 */
 	public void saveLoadout() {
-		Gdx.files.local("save/Loadout.json").writeString(GameStateManager.json.prettyPrint(this), false);
+		Gdx.files.local("save/Loadout.json").writeString(json.prettyPrint(this), false);
 	}
 	
 	/**
@@ -46,7 +48,22 @@ public class SavedLoadout {
 		newLoadout.team = "NONE";
 		newLoadout.name = "";
 		
-		Gdx.files.local("save/Loadout.json").writeString(GameStateManager.json.prettyPrint(newLoadout), false);
+		Gdx.files.local("save/Loadout.json").writeString(json.prettyPrint(newLoadout), false);
+	}
+
+	/**
+	 * This retrieves the player's loadout at the start of the game
+	 * @return the player's saved loadout (or a default loadout if file is missing or malformed)
+	 */
+	public static SavedLoadout retrieveLoadout() {
+		SavedLoadout tempLoadout;
+		try {
+			tempLoadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
+		} catch (SerializationException e) {
+			SavedLoadout.createNewLoadout();
+			tempLoadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
+		}
+		return tempLoadout;
 	}
 	
 	public void setEquips(int index, String equip) {
@@ -80,7 +97,7 @@ public class SavedLoadout {
 		if (name.isEmpty()) {
 			this.name = defaultName;
 		} else {
-			this.name = name.substring(0, Math.min(name.length(), maxNameLength));
+			this.name = name.substring(0, Math.min(name.length(), MAX_NAME_LENGTH_TOTAL));
 		}
 		
 		saveLoadout();
@@ -96,5 +113,5 @@ public class SavedLoadout {
 
 	public String getTeam() { return team; }
 
-	public String getName() { return name.substring(0, Math.min(name.length(), maxNameLength)); }
+	public String getName() { return name.substring(0, Math.min(name.length(), MAX_NAME_LENGTH_TOTAL)); }
 }

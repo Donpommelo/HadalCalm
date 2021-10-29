@@ -15,7 +15,7 @@ import java.util.HashSet;
 public class ActionController {
 
 	//this is the player that this controller control
-	private Player player;
+	private final Player player;
 
 	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one.
 	private boolean leftDown = false;
@@ -41,7 +41,6 @@ public class ActionController {
 				player.setMoveState(MoveState.STAND);
 			}
 		}
-		
 		else if (action == PlayerAction.WALK_RIGHT) {
 			rightDown = false;
 			if (leftDown) {
@@ -50,15 +49,12 @@ public class ActionController {
 				player.setMoveState(MoveState.STAND);
 			}
 		}
-		
 		else if (action == PlayerAction.JUMP) {
 			player.setHoveringAttempt(false);
 		}
-		
 		else if (action == PlayerAction.CROUCH) {
 			player.setFastFalling(false);
 		}
-		
 		else if (action == PlayerAction.FIRE) {
 			if (!onReset) {
 				player.release();
@@ -79,7 +75,6 @@ public class ActionController {
 				player.setMoveState(MoveState.STAND);
 			}
 		}
-		
 		else if (action == PlayerAction.WALK_RIGHT) {
 			rightDown = true;
 			if (!leftDown) {
@@ -88,66 +83,51 @@ public class ActionController {
 				player.setMoveState(MoveState.STAND);
 			}
 		}
-		
 		else if (action == PlayerAction.JUMP) {
 			player.setHoveringAttempt(true);
 			if (!onReset) {
 				player.jump();
 			}
 		}
-		
 		else if (action == PlayerAction.CROUCH) {
 			player.setFastFalling(true);
 		}
-		
 		else if (action == PlayerAction.INTERACT) {
 			player.interact();
 		}
-		
 		else if (action == PlayerAction.ACTIVE_ITEM) {
 			player.activeItem();
 		}
-		
 		else if (action == PlayerAction.RELOAD) {
 			player.reload();
 		}
-		
 		else if (action == PlayerAction.FIRE) {
 			player.startShooting();
 		}
-		
 		else if (action == PlayerAction.BOOST) {
 			player.airblast();
 		}
-		
 		else if (action == PlayerAction.SWITCH_TO_LAST) {
 			player.switchToLast();
 		}
-		
 		else if (action == PlayerAction.SWITCH_TO_1) {
 			player.switchToSlot(1);
 		}
-		
 		else if (action == PlayerAction.SWITCH_TO_2) {
 			player.switchToSlot(2);
 		}
-		
 		else if (action == PlayerAction.SWITCH_TO_3) {
 			player.switchToSlot(3);
 		}
-		
 		else if (action == PlayerAction.SWITCH_TO_4) {
 			player.switchToSlot(4);
 		}
-
 		else if (action == PlayerAction.WEAPON_CYCLE_UP) {
 			player.getPlayerData().switchUp();
 		}
-		
 		else if (action == PlayerAction.WEAPON_CYCLE_DOWN) {
 			player.getPlayerData().switchDown();
 		}
-		
 		else if (action == PlayerAction.PING) {
 			player.ping();
 		}
@@ -156,9 +136,14 @@ public class ActionController {
 	private float lastTimestamp;
 	private final Vector2 relativeMouse = new Vector2();
 	private HashSet<PlayerAction> keysHeld = new HashSet<>();
+
+	/**
+	 * This is run when receiving client inputs. Set client keys as pressed/released and set attack angle
+	 */
 	public void syncClientKeyStrokes(float mouseX, float mouseY, float clientX, float clientY,
 		PlayerAction[] actions, float timestamp) {
 
+		//we want to ignore snapshots sent out of order in favor of the most recent snapshot
 		if (timestamp > lastTimestamp) {
 			lastTimestamp = timestamp;
 
@@ -177,13 +162,11 @@ public class ActionController {
 					keyDown(a);
 				}
 			}
-
 			for (PlayerAction a : keysHeld) {
 				if (!keysHeldNew.contains(a)) {
 					keyUp(a);
 				}
 			}
-
 			keysHeld = keysHeldNew;
 		}
 	}
@@ -191,8 +174,4 @@ public class ActionController {
 	public void keyDown(PlayerAction action) { keyDown(action, false); }
 
 	public void keyUp(PlayerAction action) { keyUp(action, false); }
-
-	public Player getPlayer() {	return player; }
-
-	public void setPlayer(Player player) { this.player = player; }
 }

@@ -325,8 +325,6 @@ public class Hitbox extends HadalEntity {
 
 	public float getDamageMultiplier() { return damageMultiplier; }
 	
-	public boolean isSensor() { return sensor; }
-
 	public void setSensor(boolean sensor) { this.sensor = sensor; }
 
 	public boolean isEffectsVisual() { return effectsVisual; }

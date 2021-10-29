@@ -103,7 +103,7 @@ public class UIHub {
 			@Override
 		    public void draw(Batch batch, float alpha) {
 				super.draw(batch, alpha);
-				font.getData().setScale(0.30f);
+				font.getData().setScale(0.3f);
 				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), optionsWidthOuter, optionsHeightOuter);
 				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), infoWidth, infoHeight);
 			    font.draw(batch, info, getX() + 5, getY() + infoHeight - 25, infoWidth - 10, -1, true);
@@ -162,7 +162,6 @@ public class UIHub {
 								tableOptions.clear();
 								hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag(tag));
 							}
-
 							return super.keyUp(event, keycode);
 						}
 					};
@@ -201,7 +200,6 @@ public class UIHub {
 
 			tableSearch.add(searchTags);
 			tableSearch.add(tagFilter).padBottom(optionPad).row();
-
 		}
 		if (filterCost) {
 			Text searchCost = new Text("FILTER COST: ", 0, 0, false);
@@ -428,7 +426,6 @@ public class UIHub {
 		DORMITORY,
 		NAVIGATIONS,
 		QUARTERMASTER,
-		CODEX,
 		PAINTER,
 		WALLPAPER,
 		MISC

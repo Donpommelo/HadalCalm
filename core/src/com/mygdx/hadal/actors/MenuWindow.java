@@ -5,6 +5,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 
 /**
  * Static background actor for various windows and ui elements.
+ * @author Bogcliff Broldebury
  */
 public class MenuWindow extends AHadalActor {
 	

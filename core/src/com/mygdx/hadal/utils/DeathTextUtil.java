@@ -12,6 +12,8 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 import java.util.ArrayList;
 
+import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+
 /**
  * This utility generates custom kill text when a player is killed
  * 
@@ -98,19 +100,18 @@ public class DeathTextUtil {
 	}
 
 
-	private static final int maxNameLength = 25;
 	/**
 	 * filter a death message to include perp and vic names.
 	 */
 	public static String filterDeathMessage(Player perp, Player vic, EnemyType type, String message) {
 
-		String vicName = WeaponUtils.getPlayerColorName(vic, maxNameLength);
+		String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
 		String perpName = "";
 		if (type != null) {
 			perpName = type.getName();
 		}
 		if (perp != null) {
-			perpName = WeaponUtils.getPlayerColorName(perp, maxNameLength);
+			perpName = WeaponUtils.getPlayerColorName(perp, MAX_NAME_LENGTH);
 		}
 
 		String filteredMessage = message.replaceAll("<vic>", vicName);
@@ -123,8 +124,8 @@ public class DeathTextUtil {
 	 */
 	public static String getDeathTextAbridged(Player perp, Player vic, EnemyType type, DamageTypes... tags) {
 
-		String vicName = WeaponUtils.getPlayerColorName(vic, maxNameLength);
-		String perpName = WeaponUtils.getPlayerColorName(perp, maxNameLength);
+		String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
+		String perpName = WeaponUtils.getPlayerColorName(perp, MAX_NAME_LENGTH);
 
 		if (tags.length > 0) {
 			switch (tags[0]) {

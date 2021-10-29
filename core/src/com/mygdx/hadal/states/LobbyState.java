@@ -1,7 +1,6 @@
 package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -29,6 +28,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import static com.mygdx.hadal.utils.Constants.*;
+
 public class LobbyState extends GameState {
 
     //This table contains the ui elements of the pause screen
@@ -40,8 +41,6 @@ public class LobbyState extends GameState {
 
     //options that the player can view
     private Text hostOption, searchOption, exitOption, notifications;
-
-    private static final int maxLobbyNameLength = 30;
 
     //Dimensions of the setting menu
     private static final int joinX = 1650;
@@ -224,7 +223,7 @@ public class LobbyState extends GameState {
                 Text enterNameText = new Text("SERVER NAME: ", 0, 0, true);
                 enterNameText.setScale(subtitleScale);
                 enterName = new TextField(gsm.getLoadout().getName() + "'s Lobby", GameStateManager.getSkin());
-                enterName.setMaxLength(maxLobbyNameLength);
+                enterName.setMaxLength(MAX_NAME_LENGTH_LONG);
                 enterName.setMessageText("ENTER NAME");
 
                 Text serverSettings = new Text("CHANGE SERVER SETTINGS?", 0, 0, true);
@@ -265,7 +264,6 @@ public class LobbyState extends GameState {
                             } catch (JSONException jsonException) {
                                 Gdx.app.log("LOBBY", "FAILED TO CREATE LOBBY " + jsonException);
                             }
-
                             HadalGame.socket.emit("makeLobby", lobbyData.toString());
                         }
 
@@ -376,12 +374,19 @@ public class LobbyState extends GameState {
         });
     }
 
+    /**
+     * This makes a request to the server for a list of current lobbies
+     */
     public void retrieveLobbies() {
         if (HadalGame.socket != null) {
             HadalGame.socket.emit("getLobbies");
         }
     }
 
+    /**
+     * This is run when we receive lobbies from server to display in the ui window
+     * @param lobbies: the currently active lobbies
+     */
     public void updateLobbies(JSONArray lobbies) {
         try {
             lobbyOptions.clear();
@@ -521,28 +526,26 @@ public class LobbyState extends GameState {
         tablePassword.add(cancel);
     }
 
-    private static final float transitionDuration = 0.25f;
-    private static final Interpolation intp = Interpolation.fastSlow;
     private void transitionOut(Runnable runnable) {
-        joinLobby.addAction(Actions.moveTo(joinX, joinY, transitionDuration, intp));
-        joinIP.addAction(Actions.moveTo(ipX, ipY, transitionDuration, intp));
-        notificationTable.addAction(Actions.moveTo(notificationX, notificationY, transitionDuration, intp));
-        host.addAction(Actions.sequence(Actions.moveTo(hostX, hostY, transitionDuration, intp), Actions.run(runnable)));
+        joinLobby.addAction(Actions.moveTo(joinX, joinY, TRANSITION_DURATION, INTP_FASTSLOW));
+        joinIP.addAction(Actions.moveTo(ipX, ipY, TRANSITION_DURATION, INTP_FASTSLOW));
+        notificationTable.addAction(Actions.moveTo(notificationX, notificationY, TRANSITION_DURATION, INTP_FASTSLOW));
+        host.addAction(Actions.sequence(Actions.moveTo(hostX, hostY, TRANSITION_DURATION, INTP_FASTSLOW), Actions.run(runnable)));
     }
 
     private void transitionIn(Runnable runnable) {
-        joinLobby.addAction(Actions.moveTo(joinXEnabled, joinYEnabled, transitionDuration, intp));
-        joinIP.addAction(Actions.moveTo(ipXEnabled, ipYEnabled, transitionDuration, intp));
-        notificationTable.addAction(Actions.moveTo(notificationXEnabled, notificationYEnabled, transitionDuration, intp));
-        host.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(hostXEnabled, hostYEnabled, transitionDuration, intp)));
+        joinLobby.addAction(Actions.moveTo(joinXEnabled, joinYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
+        joinIP.addAction(Actions.moveTo(ipXEnabled, ipYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
+        notificationTable.addAction(Actions.moveTo(notificationXEnabled, notificationYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
+        host.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(hostXEnabled, hostYEnabled, TRANSITION_DURATION, INTP_FASTSLOW)));
     }
 
     public void setNotification(String notification) {
         if (!notification.equals("")) {
             notificationTable.addAction(Actions.sequence(
-                Actions.moveTo(notificationX, notificationY, transitionDuration, intp),
+                Actions.moveTo(notificationX, notificationY, TRANSITION_DURATION, INTP_FASTSLOW),
                 Actions.run(() -> notifications.setText(notification)),
-                Actions.moveTo(notificationXEnabled, notificationYEnabled, transitionDuration, intp)));
+                Actions.moveTo(notificationXEnabled, notificationYEnabled, TRANSITION_DURATION, INTP_FASTSLOW)));
         }
     }
 
@@ -557,6 +560,9 @@ public class LobbyState extends GameState {
         }
     }
 
+    /**
+     * @return returns the player's public ip for hosting servers
+     */
     public static String getPublicIp() {
 
         //if the player has already retrieved their ip when enabling upnp, this step is unnecessary.
