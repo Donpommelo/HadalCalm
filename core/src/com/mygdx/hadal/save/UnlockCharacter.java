@@ -2,6 +2,7 @@ package com.mygdx.hadal.save;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
@@ -123,6 +124,11 @@ public enum UnlockCharacter {
 			}
 		}
 		return items;
+	}
+
+	public static UnlockCharacter getRandCharFromPool(PlayState state) {
+		Array<UnlockCharacter> unlocks = UnlockCharacter.getUnlocks(state, false, new ArrayList<>());
+		return unlocks.get(MathUtils.random(unlocks.size - 1));
 	}
 
 	/**

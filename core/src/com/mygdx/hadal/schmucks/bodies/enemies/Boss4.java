@@ -210,7 +210,7 @@ public class Boss4 extends EnemyFloating {
 			}
 		}
 		
-		int nextAttack = attacks1.remove(MathUtils.random(attacks1.size()));
+		int nextAttack = attacks1.remove(MathUtils.random(attacks1.size() - 1));
 		switch (nextAttack) {
 			case 0 -> apocalypseLaser();
 			case 1 -> horizontalBullets();

@@ -217,20 +217,20 @@ public enum UnlockArtifact {
 	 * This method returns the name of a artifact randomly selected from the pool.
 	 * @param pool: comma separated list of names of artifact to choose from. if set to "", return any artifact.
 	 */
-	public static String getRandArtfFromPool(PlayState state, String pool) {
+	public static UnlockArtifact getRandArtfFromPool(PlayState state, String pool) {
 		
 		ArrayList<UnlockTag> defaultTags = new ArrayList<>();
 		defaultTags.add(UnlockTag.RANDOM_POOL);
 		
 		if (pool.equals("")) {
 			Array<UnlockArtifact> unlocks = UnlockArtifact.getUnlocks(state, false, defaultTags);
-			return unlocks.get(MathUtils.random(unlocks.size - 1)).toString();
+			return unlocks.get(MathUtils.random(unlocks.size - 1));
 		}
 		
 		ArrayList<String> artifacts = new ArrayList<>();
 
 		Collections.addAll(artifacts, pool.split(","));
-		return artifacts.get(MathUtils.random(artifacts.size() - 1));
+		return UnlockArtifact.getByName(artifacts.get(MathUtils.random(artifacts.size() - 1)));
 	}
 	
 	public Artifact getArtifact() { return artifactSingleton; }

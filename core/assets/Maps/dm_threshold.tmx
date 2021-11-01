@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="140" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="53">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="140" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="142">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -9,7 +9,271 @@
    eAHtneuO3TYMhLdpkqZp2vxI3/9ZY2JBgBhIliiTupwdAyeSbUkkP44lr3128/bGjQRIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgARIgATWE/h5ucDPWQxWqoZaOUsrkq+VG/VCvXj0R71QL9TLeRrwXLee/Ea39fhp2/55ObLq899l2/oyWv93YQzCbjSOq+uyzctaGP9Y5u274X+uYpS1xntyHCvxK7+ecgfGyuqJZk6PQxmsKHt0Im12YqycRjTzCnFo/CvKHr3syFhZeTTzKnFo7CvKll52Zqy8ejTzKnFIvlZuLb38vdI5h+3PV9u7WF4lDurFIYqbptTLDZzAU3fXpJx7levyVeLg/BIjfs4vMRxbo3B+aRGae76le84vMfloceZ6FMOZ80sMx6hRWrrn/BJDusWZ80sMZ84vMRyjRmnpnvNLP+k/rqbfK5+W7uV8re+nfhfSW1IvcYh7WPboBtvstFb1xBhH1D8SssP9nVj+dYXX+o4Wfi9G3hu1+nzzY0vr8dH1UltDviYRR95Zev9y+V9a356ubeg/Xr+yv3Ir+aPHIt7p1uL/dQWdoRm0l6EX0cr/10c52fKpvZ537TvqJUIrEpddQ3CtyNBMtl5KWrFrXsTa1tLMbnqJ0grGVeLw9HpEG9l6wfFnstJ5DGOeua8+2DI6hzYe1Ey0Lcxn5vhZWlFeGIvmSM+vKNUHW0YzxrisZqJtIeOs8bO1IswwFs0R8py5rz7YMppxKR5lEW3L3i/Jz9ER9xPW/yy/rQ2tqy2bG6mv3NAX2c+4D8UYlUW0XtBO9P4sv0v31Zqr6Jg846kPWGZrZhZ3D4uetjP8vtOK5Gnlhjqx+1maUR4z7gGi2eq9VzYbmwesR8fkGQ99wX3hgs8xnzzDPFkryjVKM6Vn37XngDYv6seK0vrRU38yJ7yCVjRHEZrRMXq42zbqw4rS+tGqe7Ryd+1Ez1mWG9p9MhfejStzrs4FT+IZ0Yz1a3a9pRE979GKxKD3hdq/VUb9nIR2s8aNjMermdkasfZacct5r1ZkfHwOMus7BVl6yY7Hoxmbv9n1ll5GtDI7BmsvSy/WRla9VzNZ9nvGbeklaj7v8SWizcl6kfjR/1J+IjiNjlHyxx6jXkbJjvWjXsa4jfZC3qfr3V67Wh9lE9FPfaiVp/M+3f9SXiLyPjpGyR977HTep/tvc6H10VxH9FMfauXpvE/3v5SXiLyPjlHyxx47nffp/ttcaH001xH91IdaeTrv0/0v5SUi76NjlPyxx3bjje+H8N25vtPRGErvdmyfqPdLo/yxH/58p3HYEvvM3Ld+lOq76aWHZymO2rET45upD7RV46jHT+SpvveUJ8aHOZy532K6G8/edyytuOT8ju/GeubPmfpAWy2uu+lF/I/QzI5akdioF6EQv4lm7Hck8Hdt8ToQfdj2q/+PlRoR6qVGJvb43Zyz61xSIkC9lKjkHCtp5iStCJXT9SLz+ujf3ZDvd9tnHT31UVvCWjZcp56uOzNj0O/D41qK+++RrvkXfSntyzMvbx57Y0d7I7ayyM2MwWMrK96ecTFftX1PHj2xl+x5bPXEONJmZgxeWyPxRPUp5at2TPLYs6bgM/naeHfHa7a881yLk+SqFFNmDGjPa6sVU+b5u5zteC5y7vFe17vwyNRDa+xdGHj8iNDMqVoRTis3T552altbr3Cur+1714CdYqdeyn9rcqcc7eQL9UK9ePRIvVAvp+hlpVZpmwRIgARIgARIgARIgARIgARIgARIgARIgARIgAQ+MoHf+f+mbA==
   </data>
  </layer>
- <objectgroup id="2" name="collision-layer">
+ <objectgroup id="7" name="bot-layer">
+  <object id="53" name="BotRallyConnection" type="BotRallyConnection" x="1056" y="2624">
+   <polyline points="0,0 192,-96"/>
+  </object>
+  <object id="54" name="BotRallyConnection" type="BotRallyConnection" x="1056" y="2560">
+   <properties>
+    <property name="multiplier0" type="float" value="0.1"/>
+    <property name="multiplier1" type="float" value="0.1"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="0,64 0,-800"/>
+  </object>
+  <object id="55" name="BotRallyConnection" type="BotRallyConnection" x="1248" y="2528">
+   <polyline points="0,0 224,0"/>
+  </object>
+  <object id="56" name="BotRallyConnection" type="BotRallyConnection" x="1632" y="2496">
+   <polyline points="-160,32 64,32"/>
+  </object>
+  <object id="59" name="BotRallyConnection" type="BotRallyConnection" x="1792" y="2464">
+   <polyline points="-96,64 160,160"/>
+  </object>
+  <object id="60" name="BotRallyConnection" type="BotRallyConnection" x="2112" y="2624">
+   <polyline points="-160,0 64,96"/>
+  </object>
+  <object id="61" name="BotRallyConnection" type="BotRallyConnection" x="2304" y="2656">
+   <polyline points="-128,64 32,64"/>
+  </object>
+  <object id="62" name="BotRallyConnection" type="BotRallyConnection" x="2432" y="2656">
+   <polyline points="-96,64 128,-32"/>
+  </object>
+  <object id="63" name="BotRallyConnection" type="BotRallyConnection" x="2688" y="2496">
+   <polyline points="-128,128 128,32"/>
+  </object>
+  <object id="64" name="BotRallyConnection" type="BotRallyConnection" x="2624" y="2560">
+   <polyline points="192,-32 416,-32"/>
+  </object>
+  <object id="65" name="BotRallyConnection" type="BotRallyConnection" x="3008" y="2528">
+   <polyline points="32,0 256,0"/>
+  </object>
+  <object id="66" name="BotRallyConnection" type="BotRallyConnection" x="3360" y="2496">
+   <polyline points="-96,32 96,128"/>
+  </object>
+  <object id="67" name="BotRallyConnection" type="BotRallyConnection" x="3488" y="2336">
+   <properties>
+    <property name="multiplier0" type="float" value="0.1"/>
+    <property name="multiplier1" type="float" value="0.1"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-32,288 -32,-576"/>
+  </object>
+  <object id="68" name="BotRallyConnection" type="BotRallyConnection" x="1536" y="2240">
+   <polyline points="160,128 416,32"/>
+  </object>
+  <object id="69" name="BotRallyConnection" type="BotRallyConnection" x="1504" y="2272">
+   <polyline points="192,256 192,96"/>
+  </object>
+  <object id="70" name="BotRallyConnection" type="BotRallyConnection" x="1472" y="2272">
+   <polyline points="0,256 224,96"/>
+  </object>
+  <object id="71" name="BotRallyConnection" type="BotRallyConnection" x="2048" y="1824">
+   <polyline points="0,32 160,64"/>
+  </object>
+  <object id="72" name="BotRallyConnection" type="BotRallyConnection" x="2368" y="1856">
+   <polyline points="-160,32 -64,32"/>
+  </object>
+  <object id="73" name="BotRallyConnection" type="BotRallyConnection" x="2400" y="1856">
+   <polyline points="-96,32 64,0"/>
+  </object>
+  <object id="74" name="BotRallyConnection" type="BotRallyConnection" x="1408" y="2208">
+   <polyline points="-160,0 -352,-448"/>
+  </object>
+  <object id="75" name="BotRallyConnection" type="BotRallyConnection" x="1344" y="2208">
+   <polyline points="-96,0 -96,320"/>
+  </object>
+  <object id="76" name="BotRallyConnection" type="BotRallyConnection" x="1440" y="2240">
+   <polyline points="-192,-32 32,288"/>
+  </object>
+  <object id="77" name="BotRallyConnection" type="BotRallyConnection" x="1504" y="2176">
+   <polyline points="-256,32 96,32"/>
+  </object>
+  <object id="78" name="BotRallyConnection" type="BotRallyConnection" x="1696" y="2080">
+   <polyline points="-96,128 -224,448"/>
+  </object>
+  <object id="79" name="BotRallyConnection" type="BotRallyConnection" x="1728" y="2080">
+   <polyline points="-128,128 -32,288"/>
+  </object>
+  <object id="80" name="BotRallyConnection" type="BotRallyConnection" x="1760" y="2048">
+   <polyline points="-160,160 192,224"/>
+  </object>
+  <object id="82" name="BotRallyConnection" type="BotRallyConnection" x="1696" y="2048">
+   <polyline points="-96,160 96,-192"/>
+  </object>
+  <object id="83" name="BotRallyConnection" type="BotRallyConnection" x="1888" y="1952">
+   <polyline points="64,320 -96,-96"/>
+  </object>
+  <object id="84" name="BotRallyConnection" type="BotRallyConnection" x="2016" y="2016">
+   <polyline points="-64,256 32,-160"/>
+  </object>
+  <object id="85" name="BotRallyConnection" type="BotRallyConnection" x="1856" y="1728">
+   <polyline points="-64,128 192,128"/>
+  </object>
+  <object id="86" name="BotRallyConnection" type="BotRallyConnection" x="2112" y="2176">
+   <polyline points="-160,96 -64,96"/>
+  </object>
+  <object id="87" name="BotRallyConnection" type="BotRallyConnection" x="2112" y="2080">
+   <polyline points="-64,192 -64,-224"/>
+  </object>
+  <object id="88" name="BotRallyConnection" type="BotRallyConnection" x="2496" y="2048">
+   <polyline points="-32,224 -32,-192"/>
+  </object>
+  <object id="89" name="BotRallyConnection" type="BotRallyConnection" x="2560" y="2272">
+   <polyline points="-96,0 0,0"/>
+  </object>
+  <object id="90" name="BotRallyConnection" type="BotRallyConnection" x="2528" y="2048">
+   <polyline points="32,224 -64,-192"/>
+  </object>
+  <object id="91" name="BotRallyConnection" type="BotRallyConnection" x="2624" y="1856">
+   <polyline points="-160,0 96,0"/>
+  </object>
+  <object id="92" name="BotRallyConnection" type="BotRallyConnection" x="2656" y="2080">
+   <polyline points="-96,192 64,-224"/>
+  </object>
+  <object id="93" name="BotRallyConnection" type="BotRallyConnection" x="2720" y="2304">
+   <polyline points="-160,-32 192,-96"/>
+  </object>
+  <object id="94" name="BotRallyConnection" type="BotRallyConnection" x="2816" y="2048">
+   <polyline points="96,160 -96,-192"/>
+  </object>
+  <object id="95" name="BotRallyConnection" type="BotRallyConnection" x="2496" y="2336">
+   <polyline points="320,32 64,-64"/>
+  </object>
+  <object id="96" name="BotRallyConnection" type="BotRallyConnection" x="2816" y="2432">
+   <polyline points="0,96 0,-64"/>
+  </object>
+  <object id="97" name="BotRallyConnection" type="BotRallyConnection" x="3072" y="2368">
+   <polyline points="-256,0 -32,160"/>
+  </object>
+  <object id="98" name="BotRallyConnection" type="BotRallyConnection" x="2976" y="2272">
+   <polyline points="-64,-64 -160,96"/>
+  </object>
+  <object id="99" name="BotRallyConnection" type="BotRallyConnection" x="3008" y="2336">
+   <polyline points="-96,-128 32,192"/>
+  </object>
+  <object id="100" name="BotRallyConnection" type="BotRallyConnection" x="3296" y="2208">
+   <polyline points="-384,0 -32,0"/>
+  </object>
+  <object id="101" name="BotRallyConnection" type="BotRallyConnection" x="3232" y="2304">
+   <polyline points="32,-96 32,224"/>
+  </object>
+  <object id="102" name="BotRallyConnection" type="BotRallyConnection" x="3232" y="2336">
+   <polyline points="-192,192 32,-128"/>
+  </object>
+  <object id="103" name="BotRallyConnection" type="BotRallyConnection" x="3392" y="1952">
+   <polyline points="-128,256 64,-192"/>
+  </object>
+  <object id="104" name="BotRallyConnection" type="BotRallyConnection" x="1184" y="1664">
+   <polyline points="96,224 -128,96"/>
+  </object>
+  <object id="105" name="BotRallyConnection" type="BotRallyConnection" x="896" y="1600">
+   <polyline points="0,224 160,160"/>
+  </object>
+  <object id="106" name="BotRallyConnection" type="BotRallyConnection" x="1056" y="1280">
+   <polyline points="0,480 0,160"/>
+  </object>
+  <object id="108" name="BotRallyConnection" type="BotRallyConnection" x="1280" y="1280">
+   <polyline points="32,224 -224,160"/>
+  </object>
+  <object id="109" name="BotRallyConnection" type="BotRallyConnection" x="1472" y="1440">
+   <polyline points="32,64 -160,64"/>
+  </object>
+  <object id="110" name="BotRallyConnection" type="BotRallyConnection" x="1664" y="1344">
+   <polyline points="128,512 -64,256"/>
+  </object>
+  <object id="111" name="BotRallyConnection" type="BotRallyConnection" x="1760" y="1568">
+   <polyline points="-160,320 32,288"/>
+  </object>
+  <object id="112" name="BotRallyConnection" type="BotRallyConnection" x="1760" y="1440">
+   <polyline points="32,416 32,160"/>
+  </object>
+  <object id="113" name="BotRallyConnection" type="BotRallyConnection" x="1824" y="1312">
+   <polyline points="128,96 -32,64"/>
+  </object>
+  <object id="114" name="BotRallyConnection" type="BotRallyConnection" x="1696" y="1248">
+   <polyline points="-192,256 96,128"/>
+  </object>
+  <object id="115" name="BotRallyConnection" type="BotRallyConnection" x="2784" y="1568">
+   <polyline points="-64,288 -64,32"/>
+  </object>
+  <object id="116" name="BotRallyConnection" type="BotRallyConnection" x="2624" y="1344">
+   <polyline points="96,32 -64,64"/>
+  </object>
+  <object id="117" name="BotRallyConnection" type="BotRallyConnection" x="2656" y="1376">
+   <polyline points="64,0 352,128"/>
+  </object>
+  <object id="118" name="BotRallyConnection" type="BotRallyConnection" x="2816" y="1632">
+   <polyline points="96,-32 -96,224"/>
+  </object>
+  <object id="119" name="BotRallyConnection" type="BotRallyConnection" x="3104" y="1504">
+   <polyline points="96,0 -96,0"/>
+  </object>
+  <object id="120" name="BotRallyConnection" type="BotRallyConnection" x="3456" y="1504">
+   <polyline points="0,-64 -256,0"/>
+  </object>
+  <object id="121" name="BotRallyConnection" type="BotRallyConnection" x="3488" y="1536">
+   <polyline points="-32,224 -32,-96"/>
+  </object>
+  <object id="123" name="BotRallyConnection" type="BotRallyConnection" x="3584" y="1792">
+   <polyline points="-128,-32 32,32"/>
+  </object>
+  <object id="124" name="BotRallyConnection" type="BotRallyConnection" x="3328" y="1696">
+   <polyline points="128,64 -96,192"/>
+  </object>
+  <object id="125" name="BotRallyConnection" type="BotRallyConnection" x="3360" y="1600">
+   <polyline points="96,-160 -128,288"/>
+  </object>
+  <object id="126" name="BotRallyConnection" type="BotRallyConnection" x="1216" y="1600">
+   <polyline points="64,288 -160,-160"/>
+  </object>
+  <object id="127" name="BotRallyConnection" type="BotRallyConnection" x="928" y="1504">
+   <polyline points="128,-64 -32,320"/>
+  </object>
+  <object id="128" name="BotRallyConnection" type="BotRallyConnection" x="3520" y="1632">
+   <polyline points="-64,-192 96,192"/>
+  </object>
+  <object id="129" name="BotRallyConnection" type="BotRallyConnection" x="2848" y="1824">
+   <polyline points="-128,32 64,64"/>
+  </object>
+  <object id="130" name="BotRallyConnection" type="BotRallyConnection" x="2816" y="1472">
+   <polyline points="96,128 96,416"/>
+  </object>
+  <object id="131" name="BotRallyConnection" type="BotRallyConnection" x="2816" y="1472">
+   <polyline points="96,128 -96,128"/>
+  </object>
+  <object id="132" name="BotRallyConnection" type="BotRallyConnection" x="2688" y="1536">
+   <polyline points="32,-160 32,64"/>
+  </object>
+  <object id="133" name="BotRallyConnection" type="BotRallyConnection" x="2880" y="1504">
+   <polyline points="128,0 32,96"/>
+  </object>
+  <object id="134" name="BotRallyConnection" type="BotRallyConnection" x="2848" y="1536">
+   <polyline points="160,-32 -128,64"/>
+  </object>
+  <object id="135" name="BotRallyConnection" type="BotRallyConnection" x="2944" y="1376">
+   <polyline points="-224,0 -32,224"/>
+  </object>
+  <object id="136" name="BotRallyConnection" type="BotRallyConnection" x="1792" y="1504">
+   <polyline points="0,96 0,-128"/>
+  </object>
+  <object id="137" name="BotRallyConnection" type="BotRallyConnection" x="1888" y="1568">
+   <polyline points="-384,-64 -96,32"/>
+  </object>
+  <object id="138" name="BotRallyConnection" type="BotRallyConnection" x="1664" y="1600">
+   <polyline points="128,0 -64,0"/>
+  </object>
+  <object id="139" name="BotRallyConnection" type="BotRallyConnection" x="1984" y="1664">
+   <polyline points="-480,-160 -384,-64"/>
+  </object>
+  <object id="140" name="BotRallyConnection" type="BotRallyConnection" x="1952" y="1632">
+   <polyline points="-352,256 -352,-32"/>
+  </object>
+  <object id="141" name="BotRallyConnection" type="BotRallyConnection" x="1728" y="1472">
+   <polyline points="64,-96 -128,128"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="2" name="collision-layer" visible="0">
   <object id="1" x="800" y="2560">
    <polyline points="0,0 96,96 384,96 480,0 864,0 960,96 1120,96 1216,192 1696,192 1792,96 1952,96 2048,0 2432,0 2528,96 2816,96 2912,0 2912,-512 2752,-672 2752,-704 2912,-704 3008,-800 3008,-896 2912,-992 2912,-1408 2752,-1568 1760,-1568 1600,-1408 1600,-1120 1824,-1120 1824,-1024 1536,-1024 1536,-800 1376,-800 1376,-1024 1088,-1024 1088,-1120 1312,-1120 1312,-1408 1152,-1568 160,-1568 0,-1408 0,-992 -96,-896 -96,-800 0,-704 160,-704 160,-672 0,-512 0,0"/>
   </object>
@@ -23,7 +287,7 @@
    <polyline points="0,0 160,0 160,384 416,384 416,480 320,576 224,576 128,672 32,672 -64,576 -160,576 -256,480 -256,384 0,384 0,0"/>
   </object>
  </objectgroup>
- <objectgroup id="3" name="event-layer">
+ <objectgroup id="3" name="event-layer" visible="0">
   <object id="5" name="Start" type="Start" x="1280" y="1856" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
@@ -228,7 +492,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="6" name="objective">
+ <objectgroup id="6" name="objective" visible="0">
   <object id="18" name="MovePoint" type="MovePoint" x="2240" y="1824" width="32" height="32">
    <properties>
     <property name="connections" value="EGGPLANT_SPAWNER"/>
@@ -268,8 +532,8 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="4" name="dm"/>
- <objectgroup id="5" name="arena">
+ <objectgroup id="4" name="dm" visible="0"/>
+ <objectgroup id="5" name="arena" visible="0">
   <object id="45" name="WaveSpawn" type="WaveSpawn" x="2016" y="2240" width="32" height="32">
    <properties>
     <property name="point" type="int" value="4"/>

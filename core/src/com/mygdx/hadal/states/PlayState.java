@@ -24,6 +24,7 @@ import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrack;
+import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
@@ -323,6 +324,9 @@ public class PlayState extends GameState {
 			TiledObjectUtil.parseDesignatedEvents(this);
 		}
 
+		mode.processNewPlayState(this);
+		BotManager.initiateRallyPoints(map);
+
 		//if auto-assign team is on, we do the assignment here
 		if (mode.getTeamMode().equals(TeamMode.TEAM_AUTO) && isServer()) {
 			AlignmentFilter.autoAssignTeams(2);
@@ -465,6 +469,7 @@ public class PlayState extends GameState {
 		if (server && !serverLoaded) {
 	        serverLoaded = true;
 			HadalGame.server.sendToAllTCP(new Packets.ServerLoaded());
+			BotManager.initiateBots(this);
 		}
 
 		//this makes the physics separate from the game framerate
@@ -760,7 +765,7 @@ public class PlayState extends GameState {
 	private static final float mouseCameraTrack = 0.5f;
 	private static final float cameraInterpolation = 0.08f;
 	private static final float cameraAimInterpolation = 0.025f;
-	final Vector2 tmpVector2 = new Vector2();
+	final Vector2 aimFocusVector = new Vector2();
 	final Vector3 mousePosition = new Vector3();
 	final Vector2 cameraFocusAim = new Vector2();
 	protected void cameraUpdate() {
@@ -777,28 +782,28 @@ public class PlayState extends GameState {
 
 				//in spectator mode, the camera moves when dragging the mouse
 				uiSpectator.spectatorDragCamera(spectatorTarget);
-				tmpVector2.set(spectatorTarget);
+				aimFocusVector.set(spectatorTarget);
 
 			} else {
-				tmpVector2.set(player.getPixelPosition());
+				aimFocusVector.set(player.getPixelPosition());
 
 				//if enabled, camera tracks mouse position
 				if (gsm.getSetting().isMouseCameraTrack()) {
 					cameraFocusAim.x = (int) (cameraFocusAim.x + (mousePosition.x - cameraFocusAim.x) * cameraAimInterpolation);
 					cameraFocusAim.y = (int) (cameraFocusAim.y + (mousePosition.y - cameraFocusAim.y) * cameraAimInterpolation);
-					tmpVector2.mulAdd(cameraFocusAim, mouseCameraTrack).scl(1.0f / (1.0f + mouseCameraTrack));
+					aimFocusVector.mulAdd(cameraFocusAim, mouseCameraTrack).scl(1.0f / (1.0f + mouseCameraTrack));
 				}
 			}
 
 			//make camera target respect camera bounds if not focused on an object
-			CameraStyles.obeyCameraBounds(tmpVector2, camera, cameraBounds);
+			CameraStyles.obeyCameraBounds(aimFocusVector, camera, cameraBounds);
 		} else {
-			tmpVector2.set(cameraTarget);
+			aimFocusVector.set(cameraTarget);
 		}
 
-		tmpVector2.add(cameraOffset);
-		spectatorTarget.set(tmpVector2);
-		CameraStyles.lerpToTarget(camera, tmpVector2, cameraInterpolation);
+		aimFocusVector.add(cameraOffset);
+		spectatorTarget.set(aimFocusVector);
+		CameraStyles.lerpToTarget(camera, aimFocusVector, cameraInterpolation);
 	}
 
 	/**
@@ -830,7 +835,9 @@ public class PlayState extends GameState {
 	public void resize(int width, int height) {
 		
 		//This refocuses the camera to avoid camera moving after resizing
-		if (cameraTarget == null) {
+		if (gsm.getSetting().isMouseCameraTrack()) {
+			resizeTmpVector2.set(aimFocusVector.x, aimFocusVector.y);
+		} else if (cameraTarget == null) {
 			if (player.getBody() != null && player.isAlive()) {
 				resizeTmpVector2.set(player.getPixelPosition().x, player.getPixelPosition().y);
 			}
@@ -998,11 +1005,13 @@ public class PlayState extends GameState {
 		}
 
 		Player p;
-		if (!client) {
+		if (connID < 0) {
+			p = new PlayerBot(this, overiddenSpawn, name, newLoadout, old, connID, reset, start);
+		} else if (!client) {
 			p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, reset, start);
 		} else {
 			//clients always spawn at (0,0), then move when the server tells them to.
-			p = new ClientPlayer(this, new Vector2(), name, newLoadout, null, connID, reset, null);
+			p = new PlayerClient(this, new Vector2(), name, newLoadout, null, connID, reset, null);
 		}
 		
 		//teleportation particles for reset players (indicates returning to hub)

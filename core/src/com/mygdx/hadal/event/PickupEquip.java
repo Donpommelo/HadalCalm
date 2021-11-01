@@ -81,7 +81,7 @@ public class PickupEquip extends Event {
 							rollWeapon();
 							standardParticle.turnOn();
 						} else {
-							unlock = UnlockEquip.getByName(UnlockEquip.getRandWeapFromPool(state, msg));
+							unlock = UnlockEquip.getRandWeapFromPool(state, msg);
 							setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
 						}
 					}
@@ -138,7 +138,7 @@ public class PickupEquip extends Event {
 	 * this rolls a random weapon
 	 */
 	public void rollWeapon() {
-		unlock = UnlockEquip.getByName(UnlockEquip.getRandWeapFromPool(state, pool));
+		unlock = UnlockEquip.getRandWeapFromPool(state, pool);
 		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
 	}
 	

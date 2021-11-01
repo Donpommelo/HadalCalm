@@ -44,6 +44,8 @@ public class SavedPlayerFields {
 	public String getPingText() {
 		if (connID == 0) {
 			return "(HOST) ";
+		} else if (connID < 0) {
+			return "(BOT) ";
 		} else {
 			return "(" + ping + " ms) ";
 		}
@@ -67,6 +69,8 @@ public class SavedPlayerFields {
 		
 		return displayedName;
 	}
+
+	public String getName() { return name; }
 
 	public int getConnID() { return connID; }
 

@@ -126,7 +126,7 @@ public enum UnlockEquip {
 	 * This method returns the name of a weapon randomly selected from the pool.
 	 * @param pool: comma separated list of names of weapons to choose from. if set to "", return any weapon in the random pool.
 	 */
-	public static String getRandWeapFromPool(PlayState state, String pool) {
+	public static UnlockEquip getRandWeapFromPool(PlayState state, String pool) {
 		
 		ArrayList<UnlockTag> defaultTags = new ArrayList<>();
 		defaultTags.add(UnlockTag.RANDOM_POOL);
@@ -134,13 +134,13 @@ public enum UnlockEquip {
 
 		if (pool.equals("")) {
 			Array<UnlockEquip> unlocks = UnlockEquip.getUnlocks(state, false, defaultTags);
-			return unlocks.get(MathUtils.random(unlocks.size - 1)).toString();
+			return unlocks.get(MathUtils.random(unlocks.size - 1));
 		}
 
 		ArrayList<String> weapons = new ArrayList<>();
 
 		Collections.addAll(weapons, pool.split(","));
-		return weapons.get(MathUtils.random(weapons.size() - 1));
+		return UnlockEquip.getByName(weapons.get(MathUtils.random(weapons.size() - 1)));
 	}
 	
 	public Class<? extends Equippable> getWeapon() { return weapon; }

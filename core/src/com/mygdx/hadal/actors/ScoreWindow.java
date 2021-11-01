@@ -32,13 +32,13 @@ public class ScoreWindow {
 
 	//Dimensions and position of the results menu
 	private static final int scoreWidth = 1000;
-	private static final int scoreBaseHeight = 75;
+	private static final int scoreBaseHeight = 50;
 	private static final int scoreTitleHeight = 60;
 	private static final int scoreRowHeight = 50;
 	private static final int scoreNameWidth = 500;
 	private static final float scoreScale = 0.5f;
 	private static final float scorePadX = 20.0f;
-	private static final float scorePadY = 25.0f;
+	private static final float scorePadY = 18.0f;
 
 	private static final int settingsWidth = 280;
 	private static final int settingsHeight = 500;
@@ -87,9 +87,9 @@ public class ScoreWindow {
 		int tableHeight = scoreBaseHeight + scoreTitleHeight * 2;
 		
 		if (state.isServer()) {
-			tableHeight += scoreRowHeight * HadalGame.server.getUsers().size();
+			tableHeight += (scoreRowHeight + scorePadY) * HadalGame.server.getUsers().size();
 		} else {
-			tableHeight += scoreRowHeight * HadalGame.client.getUsers().size();
+			tableHeight += (scoreRowHeight + scorePadY) * HadalGame.client.getUsers().size();
 		}
 		
 		windowScore.setSize(scoreWidth, tableHeight);

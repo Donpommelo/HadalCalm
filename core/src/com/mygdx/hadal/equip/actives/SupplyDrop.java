@@ -27,6 +27,6 @@ public class SupplyDrop extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.MAGIC1_ACTIVE.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
-		new PickupEquip(state, user.getPlayer().getPixelPosition(), UnlockEquip.getByName(UnlockEquip.getRandWeapFromPool(state, "")), equipDropLifepan);
+		new PickupEquip(state, user.getPlayer().getPixelPosition(), UnlockEquip.getRandWeapFromPool(state, ""), equipDropLifepan);
 	}
 }

@@ -106,19 +106,19 @@ public enum UnlockActives {
 	 * @param pool: comma separated list of names of weapons to choose from. if set to "", return any weapon in the random pool.
 	 * @return the string name of the randomly selected item
 	 */
-	public static String getRandItemFromPool(PlayState state, String pool) {
+	public static UnlockActives getRandItemFromPool(PlayState state, String pool) {
 		
 		ArrayList<UnlockTag> defaultTags = new ArrayList<>();
 		defaultTags.add(UnlockTag.RANDOM_POOL);
 		
 		if (pool.equals("")) {
 			Array<UnlockActives> unlocks = UnlockActives.getUnlocks(state, false, defaultTags);
-			return unlocks.get(MathUtils.random(unlocks.size - 1)).toString();
+			return unlocks.get(MathUtils.random(unlocks.size - 1));
 		}
 		
 		ArrayList<String> weapons = new ArrayList<>();
 		Collections.addAll(weapons, pool.split(","));
-		return weapons.get(MathUtils.random(weapons.size() - 1));
+		return UnlockActives.getByName(weapons.get(MathUtils.random(weapons.size() - 1)));
 	}
 	
 	public Class<? extends ActiveItem> getActive() { return active; }

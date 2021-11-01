@@ -275,29 +275,29 @@ public class Enemy extends Schmuck {
 				homeLocation.set(homeAttempt.getPosition());
 				shortestFraction = 1.0f;
 
-				  if (entityWorldLocation.x != homeLocation.x || entityWorldLocation.y != homeLocation.y) {
-					  world.rayCast((fixture1, point, normal, fraction) -> {
-						  if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL && !trackThroughWalls) {
+			  	if (entityWorldLocation.x != homeLocation.x || entityWorldLocation.y != homeLocation.y) {
+				  	world.rayCast((fixture1, point, normal, fraction) -> {
+						if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL && !trackThroughWalls) {
+							if (fraction < shortestFraction) {
+							  shortestFraction = fraction;
+							  closestFixture = fixture1;
+							  return fraction;
+							}
+						} else if (fixture1.getUserData() instanceof BodyData) {
+							if (((BodyData) fixture1.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
 							  if (fraction < shortestFraction) {
-								  shortestFraction = fraction;
-								  closestFixture = fixture1;
-								  return fraction;
-							  }
-						  } else if (fixture1.getUserData() instanceof BodyData) {
-							  if (((BodyData) fixture1.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
-								  if (fraction < shortestFraction) {
 
-									  //enemies will not see invisible units
-									  if (((BodyData) fixture1.getUserData()).getStatus(Invisibility.class) == null) {
-										  shortestFraction = fraction;
-										  closestFixture = fixture1;
-										  return fraction;
-									  }
+								  //enemies will not see invisible units
+								  if (((BodyData) fixture1.getUserData()).getStatus(Invisibility.class) == null) {
+									  shortestFraction = fraction;
+									  closestFixture = fixture1;
+									  return fraction;
 								  }
 							  }
-						  }
-						  return -1.0f;
-					  }, entityWorldLocation, homeLocation);
+							}
+						}
+						return -1.0f;
+					}, entityWorldLocation, homeLocation);
 					if (closestFixture != null) {
 						if (closestFixture.getUserData() instanceof BodyData) {
 							attackTarget = ((BodyData) closestFixture.getUserData()).getSchmuck();

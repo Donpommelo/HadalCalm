@@ -29,7 +29,7 @@ import java.util.List;
  */
 public enum GameMode {
 
-    HUB("", new SettingTeamMode(TeamMode.COOP), new SettingLives(0)) {
+    HUB("", new SettingTeamMode(TeamMode.COOP), new SettingLives(0), new SettingBots(0)) {
 
         @Override
         public boolean isInvisibleInHub() { return true; }
@@ -49,7 +49,7 @@ public enum GameMode {
     DEATHMATCH("dm",
         new SetCameraOnSpawn(),
         new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(), new SettingScoreCap(),
-        new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
+        new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingDroppableWeapons(),
         new DisplayUITag("SCOREBOARD"), new SpawnWeapons(), new ToggleKillsScore(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
@@ -213,6 +213,17 @@ public enum GameMode {
         TiledObjectUtil.parseTiledEvent(state, timer);
         TiledObjectUtil.parseTiledEvent(state, multi);
         TiledObjectUtil.parseTiledEvent(state, ui);
+    }
+
+    /**
+     * This is run when a new playstate is initiated.
+     * This should contain logic that must be carried out prior to things like team assignment
+     */
+    public void processNewPlayState(PlayState state) {
+        if (!state.isServer()) { return; }
+        for (ModeSetting setting: applicableSettings) {
+            setting.processNewPlayState(state, this);
+        }
     }
 
     /**
