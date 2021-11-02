@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.map.modifiers.*;
 import com.mygdx.hadal.save.InfoItem;
@@ -22,6 +23,8 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 
 /**
  * A Game Mode entails a set of rules/settings that dictates a match
@@ -216,17 +219,6 @@ public enum GameMode {
     }
 
     /**
-     * This is run when a new playstate is initiated.
-     * This should contain logic that must be carried out prior to things like team assignment
-     */
-    public void processNewPlayState(PlayState state) {
-        if (!state.isServer()) { return; }
-        for (ModeSetting setting: applicableSettings) {
-            setting.processNewPlayState(state, this);
-        }
-    }
-
-    /**
      * This is run when a player is created. This is used to change properties of the player prior to player init
      * @param newLoadout: the new loadout the player will spawn with. modify to change starting loadout
      * @param connID: connID of the player being created. We use connID b/c the player isn't created yet
@@ -330,6 +322,7 @@ public enum GameMode {
         for (ModeSetting setting : applicableSettings) {
             setting.processPlayerLivesOut(state, this, p);
         }
+        state.getKillFeed().addNotification(WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH) + " IS ELIMINATED", true);
     }
 
     private static final HashMap<String, GameMode> ModesByName = new HashMap<>();

@@ -16,13 +16,11 @@ import java.util.ArrayList;
 
 public class SettingBots extends ModeSetting {
 
-    private static final String[] botNumberChoices = {"0", "1", "2", "3", "4", "5", "6"};
+    private static final String[] botNumberChoices = {"0", "1", "2", "3", "4", "5", "6", "7", "8"};
     private static final String settingTag = "bot_number";
     private static final Integer defaultValue = 0;
 
     private SelectBox<String> botNumberOptions;
-
-    private int botNumberIndex;
 
     private int lockedBots;
     private boolean botsChoice;
@@ -54,14 +52,11 @@ public class SettingBots extends ModeSetting {
         }
     }
 
-    @Override
-    public void loadSettingMisc(PlayState state, GameMode mode) {
-        botNumberIndex = botsChoice? state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) : lockedBots;
-    }
-
     private static int lastBotConnID = -1;
     @Override
-    public void processNewPlayState(PlayState state, GameMode mode) {
+    public void loadSettingMisc(PlayState state, GameMode mode) {
+        if (!state.isServer()) { return; }
+        int botNumberIndex = botsChoice ? state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) : lockedBots;
 
         ArrayList<User> oldBots = new ArrayList<>();
 

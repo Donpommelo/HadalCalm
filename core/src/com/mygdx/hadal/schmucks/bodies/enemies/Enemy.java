@@ -270,8 +270,8 @@ public class Enemy extends Schmuck {
 		entityWorldLocation.set(getPosition());
 		//query nearby units
 		world.QueryAABB((fixture -> {
-			if (fixture.getUserData() instanceof BodyData) {
-				homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
+			if (fixture.getUserData() instanceof final BodyData bodyData) {
+				homeAttempt = bodyData.getSchmuck();
 				homeLocation.set(homeAttempt.getPosition());
 				shortestFraction = 1.0f;
 
@@ -283,12 +283,12 @@ public class Enemy extends Schmuck {
 							  closestFixture = fixture1;
 							  return fraction;
 							}
-						} else if (fixture1.getUserData() instanceof BodyData) {
-							if (((BodyData) fixture1.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
+						} else if (fixture1.getUserData() instanceof final BodyData bodyData2) {
+							if (bodyData2.getSchmuck().getHitboxfilter() != hitboxfilter) {
 							  if (fraction < shortestFraction) {
 
 								  //enemies will not see invisible units
-								  if (((BodyData) fixture1.getUserData()).getStatus(Invisibility.class) == null) {
+								  if (bodyData2.getStatus(Invisibility.class) == null) {
 									  shortestFraction = fraction;
 									  closestFixture = fixture1;
 									  return fraction;

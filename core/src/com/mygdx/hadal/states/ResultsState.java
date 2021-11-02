@@ -357,16 +357,15 @@ public class ResultsState extends GameState {
 		title.setScale(resultsScale);
 
 		for (SavedPlayerFields score: scores) {
-
 			int connId = score.getConnID();
 
 			SavedPlayerFields field = null;
 			SavedPlayerFieldsExtra fieldExtra = null;
 			User user;
 			if (ps.isServer()) {
-				user =  HadalGame.server.getUsers().get(connId);
+				user = HadalGame.server.getUsers().get(connId);
 			} else {
-				user =  HadalGame.client.getUsers().get(connId);
+				user = HadalGame.client.getUsers().get(connId);
 			}
 			if (user != null) {
 				field = user.getScores();
@@ -404,8 +403,12 @@ public class ResultsState extends GameState {
 				});
 
 				tableCharacters.add(icon);
-
 				icons.add(icon);
+
+				//bots should automatically ready up
+				if (connId < 0 && ps.isServer()) {
+					readyPlayer(connId);
+				}
 			}
 		}
 

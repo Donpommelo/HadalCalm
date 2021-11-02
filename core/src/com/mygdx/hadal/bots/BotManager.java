@@ -118,7 +118,7 @@ public class BotManager {
         return closestUnobstructed != null ? closestUnobstructed : closestObstructed;
     }
 
-    public static final float upCostModifier = 1.5f;
+    public static final float upCostModifier = 2.0f;
     public static final float downCostModifier = 0.5f;
     public static final float currentVelocityMultiplier = 1.5f;
     public static RallyPoint getNearestPathStarter(World world, Vector2 sourceLocation, Vector2 sourceVelocity, RallyPoint end) {
@@ -132,14 +132,13 @@ public class BotManager {
                 if (tempPointLocation.y > sourceLocation.y) {
                     tempPointLocation.set(tempPointLocation.x, sourceLocation.y + upCostModifier *
                             (tempPointLocation.y - sourceLocation.y));
-                }
-                if (tempPointLocation.y < sourceLocation.y) {
+                } else if (tempPointLocation.y < sourceLocation.y) {
                     tempPointLocation.set(tempPointLocation.x, sourceLocation.y + downCostModifier *
                             (tempPointLocation.y - sourceLocation.y));
                 }
                 tempBotLocation.set(sourceLocation).mulAdd(sourceVelocity, currentVelocityMultiplier);
                 float currentDistTotal = tempBotLocation.dst(tempPointLocation) +
-                        getShortestPath(rallyPoints.get(rallyPoint), end).getDistance();
+                        getShortestPathBetweenPoints(rallyPoints.get(rallyPoint), end).getDistance();
 
                 if (closestUnobstructed == null || currentDistTotal < closestDistUnobstructed) {
                     closestUnobstructed = rallyPoints.get(rallyPoint);
@@ -150,8 +149,15 @@ public class BotManager {
         return closestUnobstructed;
     }
 
+    public static RallyPath getShortestPathBetweenLocations(World world, Vector2 playerLocation, Vector2 targetLocation,
+                Vector2 playerVelocity) {
+        RallyPoint tempPoint = BotManager.getNearestPoint(world, targetLocation);
+        RallyPoint myPoint = BotManager.getNearestPathStarter(world, playerLocation, playerVelocity, tempPoint);
+        return BotManager.getShortestPathBetweenPoints(myPoint, tempPoint);
+    }
+
     private static final Queue<RallyPoint> openSet = new PriorityQueue<>();
-    public static RallyPath getShortestPath(RallyPoint start, RallyPoint end) {
+    public static RallyPath getShortestPathBetweenPoints(RallyPoint start, RallyPoint end) {
 
         if (start == null || end == null) { return null; }
         if (start.getShortestPaths().containsKey(end)) {
@@ -203,6 +209,33 @@ public class BotManager {
             parent.setVisited(true);
         }
         return null;
+    }
+
+    private static final Vector2 aimTemp = new Vector2();
+    public static Vector2 acquireAimTarget(Vector2 sourceLocation, Vector2 targetLocation, Vector2 targetVelocity,
+                                           float projectileSpeed) {
+        aimTemp.set(targetLocation).sub(sourceLocation);
+        float a = targetVelocity.dot(targetVelocity) - projectileSpeed * projectileSpeed;
+        float b = 2 * aimTemp.dot(targetVelocity);
+        float c = aimTemp.dot(aimTemp);
+
+        float quadRoot = b * b - 4 * a * c;
+
+        if (quadRoot < 0) {
+            return targetLocation;
+        }
+        quadRoot = (float) Math.sqrt(quadRoot);
+        float t1 = (-b + quadRoot) / (2 * a);
+        float t2 = (-b - quadRoot) / (2 * a);
+
+        if (t1 > 0 && t1 < t2) {
+            aimTemp.set(targetVelocity).scl(t1).add(targetLocation);
+        } else if (t2 > 0 && t2 < t1) {
+            aimTemp.set(targetVelocity).scl(t2).add(targetLocation);
+        } else {
+            aimTemp.set(targetLocation);
+        }
+        return aimTemp;
     }
 
     private static float shortestFraction;

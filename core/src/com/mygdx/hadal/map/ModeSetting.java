@@ -51,11 +51,6 @@ public class ModeSetting {
     public void loadSettingMisc(PlayState state, GameMode mode) {}
 
     /**
-     * This is run when the playstate is initiated. It sets up anything that must be donw prior to team assignment
-     */
-    public void processNewPlayState(PlayState state, GameMode mode) {}
-
-    /**
      * This is run when creating a new player
      * @param newLoadout: new player's loadout. edit it to set defaults
      * @param connID: the id of the user we are creating a player for

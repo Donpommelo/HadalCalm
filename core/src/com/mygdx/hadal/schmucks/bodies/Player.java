@@ -987,6 +987,8 @@ public class Player extends PhysicsSchmuck {
 
 	public PlayerBodyData getPlayerData() {	return playerData; }
 
+	public FeetData getFeetData() { return feetData; }
+
 	public TextureRegion getToolSprite() { return this.toolSprite; }
 
 	public void setToolSprite(TextureRegion sprite) { toolSprite = sprite; }

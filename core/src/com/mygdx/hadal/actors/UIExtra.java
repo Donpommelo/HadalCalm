@@ -12,7 +12,7 @@ import com.mygdx.hadal.states.PlayState;
 
 import java.util.ArrayList;
 
-import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_SHORT;
 
 /**
  * The UIExtra is an extra ui actor displayed in the upper left hand side.
@@ -24,7 +24,7 @@ public class UIExtra extends AHadalActor {
 	private final PlayState state;
 
 	private static final int x = 10;
-	private static final int width = 200;
+	private static final int width = 240;
 	private static final int y = 10;
 	private static final float fontScale = 0.25f;
 	
@@ -180,7 +180,7 @@ public class UIExtra extends AHadalActor {
 			int scoreNum = 0;
 			for (User user: state.getScoreWindow().getOrderedUsers()) {
 				if (!user.isSpectator()) {
-					text.append(user.getNameAbridgedColored(MAX_NAME_LENGTH)).append(": ").append(user.getScores().getScore()).append("\n");
+					text.append(user.getNameAbridgedColored(MAX_NAME_LENGTH_SHORT)).append(": ").append(user.getScores().getScore()).append("\n");
 					scoreNum++;
 					if (scoreNum > maxScores) {
 						break;

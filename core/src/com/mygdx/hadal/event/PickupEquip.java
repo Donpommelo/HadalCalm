@@ -170,4 +170,6 @@ public class PickupEquip extends Event {
 			}
 		}
 	}
+
+	public Equippable getEquip() { return equip; }
 }

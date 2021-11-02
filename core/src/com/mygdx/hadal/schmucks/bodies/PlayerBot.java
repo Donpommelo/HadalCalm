@@ -42,5 +42,14 @@ public class PlayerBot extends Player {
 //            }
 //            lastPoint = point;
 //        }
+//        batch.end();
+//        debugRenderer.setProjectionMatrix(state.getCamera().combined);
+//        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        debugRenderer.setColor(Color.CYAN);
+//        debugRenderer.circle(getMouse().getPixelPosition().x, getMouse().getPixelPosition().y, 50);
+//        debugRenderer.end();
+//        batch.begin();
 //    }
+
+    public BotController getBotController() { return botController; }
 }

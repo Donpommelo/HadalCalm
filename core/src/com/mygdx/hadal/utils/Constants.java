@@ -25,6 +25,7 @@ public class Constants {
 
     //misc constants
     public static final int MAX_NAME_LENGTH = 25;
+    public static final int MAX_NAME_LENGTH_SHORT = 20;
     public static final int MAX_NAME_LENGTH_LONG = 30;
     public static final int MAX_NAME_LENGTH_TOTAL = 40;
     public static final int MAX_MESSAGE_LENGTH = 80;

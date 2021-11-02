@@ -310,6 +310,8 @@ public class PlayState extends GameState {
 				}
 			}
 
+			mode.processSettings(this);
+
 			//Server must first reset each score at the start of a level (unless just a stage transition)
 			if (reset) {
 				for (User user : HadalGame.server.getUsers().values()) {
@@ -318,14 +320,10 @@ public class PlayState extends GameState {
 				}
 			}
 
-			mode.processSettings(this);
-
 			TiledObjectUtil.parseTiledTriggerLayer();
 			TiledObjectUtil.parseDesignatedEvents(this);
+			BotManager.initiateRallyPoints(map);
 		}
-
-		mode.processNewPlayState(this);
-		BotManager.initiateRallyPoints(map);
 
 		//if auto-assign team is on, we do the assignment here
 		if (mode.getTeamMode().equals(TeamMode.TEAM_AUTO) && isServer()) {
