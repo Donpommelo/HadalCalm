@@ -49,7 +49,8 @@ public class PartyPopper extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_BOOMERANG;
 	
 	public PartyPopper(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override
@@ -101,4 +102,7 @@ public class PartyPopper extends RangedWeapon {
 			}
 		});
 	}
+
+	@Override
+	public float getBotRangeMax() { return 13.0f; }
 }

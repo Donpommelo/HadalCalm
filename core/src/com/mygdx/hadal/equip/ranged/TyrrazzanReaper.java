@@ -51,7 +51,8 @@ public class TyrrazzanReaper extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_GRENADE;
 
 	public TyrrazzanReaper(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedMax, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedMax, shootCd, shootDelay, reloadAmount, true,
+				weaponSprite, eventSprite, projectileSize.x, lifespanMax);
 	}
 
 	private float reloadCounter;

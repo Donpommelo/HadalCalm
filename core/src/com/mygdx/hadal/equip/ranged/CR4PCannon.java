@@ -38,7 +38,8 @@ public class CR4PCannon extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_SHOTGUN;
 	
 	public CR4PCannon(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override

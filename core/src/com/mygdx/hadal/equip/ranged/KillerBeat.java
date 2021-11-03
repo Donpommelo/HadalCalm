@@ -46,7 +46,8 @@ public class KillerBeat extends RangedWeapon {
 	private static final ArrayList<Integer> notes = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6));
 
 	public KillerBeat(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
+				true, weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 		setCharging(true);
 	}
 
@@ -156,4 +157,7 @@ public class KillerBeat extends RangedWeapon {
 			return "HIT IT!";
 		}
 	}
+
+	@Override
+	public float getBotRangeMax() { return bonusProjectileSpeed * lifespan; }
 }

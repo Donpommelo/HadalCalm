@@ -56,7 +56,8 @@ public class Underminer extends RangedWeapon {
 	private static final float explosionKnockback = 18.0f;
 	
 	public Underminer(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override
@@ -112,16 +113,16 @@ public class Underminer extends RangedWeapon {
 						angle.set(entityLocation).add(raycast.setAngleRad(angleOffset));
 						wallDetected = false;
 
-						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-
-							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
-								wallDetected = true;
-							}
-							return -1.0f;
-						}, entityLocation, angle);
+						if (entityLocation.x != angle.x || entityLocation.y != angle.y) {
+							state.getWorld().rayCast((fixture, point, normal, fraction) -> {
+								if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+									wallDetected = true;
+								}
+								return -1.0f;
+							}, entityLocation, angle);
+						}
 
 						if (wallDetected) {
-
 							Hitbox frag = new Hitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan,
 								new Vector2(0, 1).setAngleRad(angleOffset).scl(fragSpeed), filter, true, true, user, projSprite);
 							frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));

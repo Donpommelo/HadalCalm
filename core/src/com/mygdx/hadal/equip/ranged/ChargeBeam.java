@@ -46,7 +46,8 @@ public class ChargeBeam extends RangedWeapon {
 	private ParticleEntity charge, overcharge;
 	
 	public ChargeBeam(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x * 3.0f, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
+				true, weaponSprite, eventSprite, projectileSize.x * 3.0f, lifespan, maxCharge);
 	}
 	
 	private final Vector2 particleOrigin = new Vector2();

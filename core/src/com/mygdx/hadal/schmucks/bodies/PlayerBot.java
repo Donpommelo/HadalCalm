@@ -10,6 +10,7 @@ import com.mygdx.hadal.states.PlayState;
 public class PlayerBot extends Player {
 
     private final BotController botController;
+    private final Vector2 aimWobble = new Vector2(1, 0);
 
     public PlayerBot(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,
             int connID, boolean reset, StartPoint start) {
@@ -52,4 +53,6 @@ public class PlayerBot extends Player {
 //    }
 
     public BotController getBotController() { return botController; }
+
+    public Vector2 getAimWobble() { return aimWobble; }
 }

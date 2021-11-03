@@ -40,7 +40,7 @@ public class AmitaCannon extends RangedWeapon {
 	
 	public AmitaCannon(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-				true, weaponSprite, eventSprite, projectileSize.x);
+				true, weaponSprite, eventSprite, lifespan, projectileSize.x);
 	}
 	
 	@Override

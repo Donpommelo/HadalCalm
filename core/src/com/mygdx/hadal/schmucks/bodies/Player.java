@@ -946,7 +946,6 @@ public class Player extends PhysicsSchmuck {
 		
 		//raycast towards the direction firing. spawn projectile closer to player if a wall is nearby
 		if (originPt.x != endPt.x || originPt.y != endPt.y) {
-
 			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
 				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL && fraction < shortestFraction) {

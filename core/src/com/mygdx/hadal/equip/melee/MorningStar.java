@@ -238,6 +238,8 @@ public class MorningStar extends MeleeWeapon {
 				link.addStrategy(new ControllerDefault(state, link, user.getBodyData()));
 			}
 		}
-		
 	}
+
+	@Override
+	public float getBotRangeMax() { return 5 * chainLength + 2; }
 }

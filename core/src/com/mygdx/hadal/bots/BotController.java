@@ -12,8 +12,6 @@ import com.mygdx.hadal.statuses.Invulnerability;
 
 import java.util.ArrayList;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 public class BotController {
 
     private final PlayerBot player;
@@ -46,10 +44,11 @@ public class BotController {
         }
         while (botMoveCount >= botMoveInterval) {
             botMoveCount -= botMoveInterval;
+            processBotPickup();
+            processBotAttacking(entityWorldLocation);
             processBotMovement(entityWorldLocation);
-            processBotLoadout();
-            processBotAim(entityWorldLocation);
         }
+
         if (jumpDesireCount > 0.0f) {
             jumpDesireCount -= delta;
             if (jumpDesireCount <= 0.0f) {
@@ -64,40 +63,24 @@ public class BotController {
         }
     }
 
-    private void processBotLoadout() {
+    private void processBotPickup() {
         if (player.getCurrentEvent() != null) {
             if (player.getCurrentEvent() instanceof final PickupEquip pickup) {
-                int worseSlot = 0;
-                int minAffinity = 100;
-
-                for (int i = 0; i < player.getPlayerData().getMultitools().length - 1; i++) {
-                    int affinity = BotLoadoutProcessor.calcWeaponAffinity(player, player.getPlayerData().getMultitools()[i]);
-                    if (affinity < minAffinity) {
-                        minAffinity = affinity;
-                        worseSlot = i;
-                    }
-                }
-
-                if (minAffinity < BotLoadoutProcessor.calcWeaponAffinity(player, pickup.getEquip())) {
-                    PlayerAction slotToSwitch = switch (worseSlot) {
-                        default -> PlayerAction.SWITCH_TO_1;
-                        case 1 -> PlayerAction.SWITCH_TO_2;
-                        case 2 -> PlayerAction.SWITCH_TO_3;
-                    };
-                    player.getController().keyDown(slotToSwitch);
-                    player.getController().keyUp(slotToSwitch);
-                    player.getController().keyDown(PlayerAction.INTERACT);
-                    player.getController().keyUp(PlayerAction.INTERACT);
-                }
+                BotLoadoutProcessor.processWeaponPickup(player, pickup);
             }
         }
+    }
 
-        //check each weapon's suitability, switch to whichever is most suitable if it is above a certain threshold
-        //weapon suitability depends on distance, clear line of sight, clip left, bot preferences
-        //if all are below threshold or there is no shootTarget, do proactive loadout activities
-
-        //proactive loadout activities; reload highest suitability weapon that is missing clip
-        //if all weapons are reloaded, switch to highest suitability weapon or charge weapon
+    private final Vector2 shootTargetPosition = new Vector2();
+    private void processBotAttacking(Vector2 playerLocation) {
+        if (shootTarget != null) {
+            if (shootTarget.isAlive()) {
+                shootTargetPosition.set(shootTarget.getPosition());
+                boolean shooting = BotLoadoutProcessor.processWeaponSwitching(player, playerLocation, shootTargetPosition);
+                BotLoadoutProcessor.processWeaponAim(player, shootTargetPosition, shootTarget.getLinearVelocity(), player.getPlayerData().getCurrentTool());
+                BotLoadoutProcessor.processWeaponShooting(player, player.getPlayerData().getCurrentTool(), shooting);
+            }
+        }
     }
 
     private final Vector2 thisLocation = new Vector2();
@@ -144,29 +127,6 @@ public class BotController {
         }
     }
 
-    private final Vector2 mouseLocation = new Vector2();
-    private final Vector2 mouseTarget = new Vector2();
-    private static final float projSpeedTemp = 35.0f;
-    private void processBotAim(Vector2 playerLocation) {
-        boolean shooting = false;
-        if (shootTarget != null) {
-            if (shootTarget.isAlive()) {
-                mouseLocation.set(player.getMouse().getPosition());
-                mouseTarget.set(BotManager.acquireAimTarget(player.getPosition(), shootTarget.getPosition(),
-                        shootTarget.getLinearVelocity(), projSpeedTemp));
-                mouseLocation.set(mouseTarget);
-
-                if (BotManager.raycastUtility(player.getWorld(), playerLocation, mouseLocation) == 1.0f) {
-                    shooting = true;
-                }
-
-                mouseLocation.scl(PPM);
-                player.getMouse().setDesiredLocation(mouseLocation.x, mouseLocation.y);
-            }
-        }
-        BotLoadoutProcessor.processWeaponShooting(player, player.getPlayerData().getCurrentTool(), shooting);
-    }
-
     private static final float searchRadius = 300.0f;
     private static final int affinityThreshold1 = 10;
     private static final int affinityThreshold2 = 20;
@@ -179,7 +139,7 @@ public class BotController {
         int totalAffinity = 0;
         int minAffinity = 100;
         for (int i = 0; i < player.getPlayerData().getMultitools().length - 1; i++) {
-            int affinity = BotLoadoutProcessor.calcWeaponAffinity(player, player.getPlayerData().getMultitools()[i]);
+            int affinity = BotLoadoutProcessor.calcWeaponAffinity(player.getPlayerData().getMultitools()[i]);
             totalAffinity += affinity;
             minAffinity = Math.min(minAffinity, affinity);
         }

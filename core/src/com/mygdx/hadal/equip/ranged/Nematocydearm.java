@@ -36,7 +36,8 @@ public class Nematocydearm extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
 	
 	public Nematocydearm(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override

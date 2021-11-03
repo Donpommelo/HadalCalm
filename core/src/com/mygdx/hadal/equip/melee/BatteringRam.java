@@ -113,4 +113,7 @@ public class BatteringRam extends MeleeWeapon {
 		
 		user.setShootCdCount(0.5f);
 	}
+
+	@Override
+	public float getBotRangeMax() { return 17.0f; }
 }

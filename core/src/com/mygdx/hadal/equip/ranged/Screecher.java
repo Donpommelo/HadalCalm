@@ -53,7 +53,8 @@ public class Screecher extends RangedWeapon {
 	private float shortestFraction;
 	
 	public Screecher(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override
@@ -89,7 +90,6 @@ public class Screecher extends RangedWeapon {
 		
 		//Raycast length of distance until we hit a wall
 		if (entityLocation.x != endPt.x || entityLocation.y != endPt.y) {
-
 			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
 				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
@@ -148,4 +148,7 @@ public class Screecher extends RangedWeapon {
 			screechSound = null;
 		}
 	}
+
+	@Override
+	public float getBotRangeMax() { return range; }
 }

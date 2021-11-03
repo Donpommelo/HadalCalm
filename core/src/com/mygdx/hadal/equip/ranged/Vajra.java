@@ -36,7 +36,8 @@ public class Vajra extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
 	
 	public Vajra(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override

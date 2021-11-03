@@ -145,4 +145,7 @@ public class DiamondCutter extends MeleeWeapon {
 			sawSound = null;
 		}
 	}
+
+	@Override
+	public float getBotRangeMax() { return 4.67f; }
 }

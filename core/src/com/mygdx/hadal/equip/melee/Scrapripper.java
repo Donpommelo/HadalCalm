@@ -45,4 +45,7 @@ public class Scrapripper extends MeleeWeapon {
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLASH, 0.8f, true));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EXPLOSION, 0.0f, 0.2f));
 	}
+
+	@Override
+	public float getBotRangeMax() { return 6.25f; }
 }

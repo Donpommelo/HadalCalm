@@ -46,7 +46,7 @@ public class AssaultBits extends RangedWeapon {
 
 	public AssaultBits(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-				true, weaponSprite, eventSprite, projectileSize.x, summonShootCd);
+				true, weaponSprite, eventSprite, lifespan, projectileSize.x, summonShootCd);
 	}
 	
 	private final Vector2 realWeaponVelo = new Vector2();

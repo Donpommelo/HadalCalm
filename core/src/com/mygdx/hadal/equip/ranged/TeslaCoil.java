@@ -51,7 +51,8 @@ public class TeslaCoil extends RangedWeapon {
 	private final ArrayList<Hitbox> coilsLaid = new ArrayList<>();
 
 	public TeslaCoil(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override

@@ -34,7 +34,8 @@ public class Boomerang extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_BOOMERANG;
 	
 	public Boomerang(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override
@@ -61,4 +62,7 @@ public class Boomerang extends RangedWeapon {
 			}
 		});	
 	}
+
+	@Override
+	public float getBotRangeMax() { return 24.0f; }
 }

@@ -94,4 +94,7 @@ public class Riftsplitter extends MeleeWeapon {
 			}
 		});
 	}
+
+	@Override
+	public float getBotRangeMax() { return projectileSpeed * lifespan; }
 }

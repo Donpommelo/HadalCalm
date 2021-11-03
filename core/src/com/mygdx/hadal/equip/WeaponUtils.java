@@ -172,10 +172,10 @@ public class WeaponUtils {
 	
 	private static final float beeBaseDamage = 6.0f;
 	private static final float beeKnockback = 8.0f;
-	private static final int beeWidth = 20;
+	public static final int beeWidth = 20;
 	private static final int beeHeight = 18;
 	private static final int beeDurability = 5;
-	private static final float beeLifespan = 5.0f;
+	public static final float beeLifespan = 5.0f;
 	private static final int beeSpread = 25;
 	private static final float beeHoming = 90;
 
@@ -393,7 +393,6 @@ public class WeaponUtils {
 					shortestFraction = 1.0f;
 					
 					if (originPt.x != endPt.x || originPt.y != endPt.y) {
-
 						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL && fraction < shortestFraction) {
 								shortestFraction = fraction;

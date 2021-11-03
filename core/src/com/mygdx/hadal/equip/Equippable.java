@@ -219,4 +219,8 @@ public abstract class Equippable {
 	public void setWeaponVelo(Vector2 weaponVelo) {	this.weaponVelo.set(weaponVelo); }
 	
 	public String getChargeText() {	return "CHARGING"; }
+
+	public float getBotRangeMin() { return 0.0f; }
+
+	public float getBotRangeMax() { return 0.0f; }
 }

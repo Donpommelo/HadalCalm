@@ -38,7 +38,8 @@ public class Moraygun extends RangedWeapon {
 	private static final float moveInterval = 0.023f;
 	
 	public Moraygun(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
 	@Override
@@ -89,4 +90,7 @@ public class Moraygun extends RangedWeapon {
 			});
 		}
 	}
+
+	@Override
+	public float getBotRangeMax() { return 80.0f; }
 }

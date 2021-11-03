@@ -7,6 +7,9 @@ import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
+import static com.mygdx.hadal.equip.WeaponUtils.beeLifespan;
+import static com.mygdx.hadal.equip.WeaponUtils.beeWidth;
+
 public class BeeGun extends RangedWeapon {
 
 	private static final int clipSize = 20;
@@ -24,7 +27,8 @@ public class BeeGun extends RangedWeapon {
 	private static final int homeRadius = 20;
 
 	public BeeGun(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 23);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount,
+				true, weaponSprite, eventSprite, beeWidth, beeLifespan);
 	}
 
 	@Override

@@ -108,7 +108,7 @@
    <polyline points="16,32 -48,96"/>
   </object>
   <object id="82" name="BotPoint" type="BotPoint" x="2320" y="2624">
-   <polyline points="144,64 -80,64"/>
+   <polyline points="144,64 -112,64"/>
   </object>
   <object id="83" name="BotPoint" type="BotPoint" x="2120" y="2352">
    <properties>
@@ -121,10 +121,10 @@
    <properties>
     <property name="multiplier0" type="float" value="5"/>
    </properties>
-   <polyline points="-48,32 64,32"/>
+   <polyline points="-48,32 32,32"/>
   </object>
   <object id="86" name="BotPoint" type="BotPoint" x="2176" y="2536">
-   <polyline points="64,152 -32,-328"/>
+   <polyline points="32,152 -32,-328"/>
   </object>
   <object id="87" name="BotPoint" type="BotPoint" x="3384" y="1160">
    <properties>

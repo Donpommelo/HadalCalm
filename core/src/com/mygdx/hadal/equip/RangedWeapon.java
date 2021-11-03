@@ -29,7 +29,7 @@ public class RangedWeapon extends Equippable {
 	protected final int reloadAmount;
 	
 	//projectile properties. (size is needed to determine projectile spawn origin)
-	protected final float projectileSize, projectileSpeed, recoil;
+	protected final float projectileSize, projectileSpeed, projectileLifespan, recoil;
 
 	//Does this weapon automatically start reloading when at 0 clip? (exceptions for weapons with special reload functions)
 	protected final boolean autoreload;
@@ -51,8 +51,9 @@ public class RangedWeapon extends Equippable {
 	 * @param chargeTime: The weapon's max charge amount (only used for charge weapons)
 	 * @param projectileSize: The weapon's projectile size. Used to determine projectile starting location offset to avoid wall clipping
 	 */	
-	public RangedWeapon(Schmuck user, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed, float shootCd, float shootDelay, int reloadAmount,
-			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, float projectileSize, float chargeTime) {
+	public RangedWeapon(Schmuck user, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed,
+			float shootCd, float shootDelay, int reloadAmount, boolean autoreload, Sprite weaponSprite, Sprite eventSprite,
+			float projectileSize, float projectileLifespan, float chargeTime) {
 		super(user, shootCd, shootDelay, weaponSprite, eventSprite, chargeTime);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
@@ -66,11 +67,13 @@ public class RangedWeapon extends Equippable {
 		this.recoil = recoil;
 		this.projectileSpeed = projectileSpeed;
 		this.projectileSize = projectileSize;
+		this.projectileLifespan = projectileLifespan;
 	}
 	
 	public RangedWeapon(Schmuck user, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed, float shootCd, float shootDelay, int reloadAmount,
-			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, float projectileSize) {
-		this(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, autoreload, weaponSprite, eventSprite, projectileSize, 1);
+			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, float projectileSize, float projectileLifespan) {
+		this(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
+				autoreload, weaponSprite, eventSprite, projectileSize, projectileLifespan, 1);
 	}
 
 	/**
@@ -271,6 +274,9 @@ public class RangedWeapon extends Equippable {
 			this.ammoLeft = getAmmoSize();
 		}
 	}
+
+	@Override
+	public float getBotRangeMax() { return projectileSpeed * projectileLifespan; }
 	
 	public float getAmmoPercent() { return ammoPercent; }
 

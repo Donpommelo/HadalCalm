@@ -34,7 +34,8 @@ public class IronBallLauncher extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_IRONBALL;
 	
 	public IronBallLauncher(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override

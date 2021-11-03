@@ -161,7 +161,6 @@ public class EnemyCrawling extends Enemy {
 		
 		//raycast in the direction we are walking.
 		if (entityWorldLocation.x != endPt.x || entityWorldLocation.y != endPt.y) {
-			
 			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
 					if (fraction < shortestFraction) {

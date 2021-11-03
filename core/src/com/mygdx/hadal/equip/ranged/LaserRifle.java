@@ -45,7 +45,8 @@ public class LaserRifle extends RangedWeapon {
 	private float shortestFraction;
 	
 	public LaserRifle(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 0);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+				weaponSprite, eventSprite, lifespan, 0);
 	}
 
 	private final Vector2 endPt = new Vector2();
@@ -62,7 +63,6 @@ public class LaserRifle extends RangedWeapon {
 		
 		//Raycast length of distance until we hit a wall
 		if (entityLocation.x != endPt.x || entityLocation.y != endPt.y) {
-
 			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
 				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
@@ -118,4 +118,7 @@ public class LaserRifle extends RangedWeapon {
 		trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance * shortestFraction));
 		trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 1.0f));
 	}
+
+	@Override
+	public float getBotRangeMax() { return projectileWidth; }
 }

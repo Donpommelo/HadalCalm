@@ -47,4 +47,7 @@ public class Fisticuffs extends MeleeWeapon {
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLAP, 0.8f, true));
 		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 	}
+
+	@Override
+	public float getBotRangeMax() { return projectileSpeed * lifespan; }
 }

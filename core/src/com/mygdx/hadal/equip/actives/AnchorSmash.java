@@ -57,7 +57,6 @@ public class AnchorSmash extends ActiveItem {
 		shortestFraction = 1.0f;
 		
 		if (originPt.x != endPt.x || originPt.y != endPt.y) {
-
 			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL && fraction < shortestFraction) {
 					shortestFraction = fraction;

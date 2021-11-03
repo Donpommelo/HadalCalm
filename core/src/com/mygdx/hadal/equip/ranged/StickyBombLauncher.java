@@ -37,7 +37,8 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final Queue<Hitbox> bombsLaid = new Queue<>();
 
 	public StickyBombLauncher(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, false, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, false,
+				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override
