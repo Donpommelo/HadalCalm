@@ -49,7 +49,7 @@
   <object id="7" name="Multitrigger" type="Multitrigger" x="416" y="672" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,playerstart,w1,tofloor2,tofloor1b"/>
+    <property name="triggeringId" value="startTimer,w1,tofloor2,tofloor1b"/>
    </properties>
   </object>
   <object id="9" name="Bounds" type="Bounds" x="192" y="576" width="32" height="32">
@@ -371,22 +371,6 @@
     <property name="exclude" type="bool" value="true"/>
     <property name="triggeredId" value="arenalock"/>
     <property name="triggeringId" value="playerlock"/>
-   </properties>
-  </object>
-  <object id="78" name="Bounds" type="Bounds" x="992" y="1120" width="32" height="32">
-   <properties>
-    <property name="left" type="bool" value="true"/>
-    <property name="triggeredId" value="bounds1f"/>
-    <property name="up" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="79" name="Bounds" type="Bounds" x="2176" y="2432" width="32" height="32">
-   <properties>
-    <property name="down" type="bool" value="true"/>
-    <property name="left" type="bool" value="false"/>
-    <property name="right" type="bool" value="true"/>
-    <property name="triggeredId" value="bounds2f"/>
-    <property name="up" type="bool" value="false"/>
    </properties>
   </object>
   <object id="80" name="Multitrigger" type="Multitrigger" x="416" y="800" width="32" height="32">

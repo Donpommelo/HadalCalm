@@ -101,7 +101,7 @@ public class BotManager {
             tempPointLocation.set(rallyPoint);
 
             float raycastFraction = raycastUtility(world, sourceLocation, tempPointLocation);
-            float currentDistSquared = raycastFraction * sourceLocation.dst2(tempPointLocation);
+            float currentDistSquared = raycastFraction * raycastFraction * sourceLocation.dst2(tempPointLocation);
 
             if (raycastFraction == 1.0f) {
                 if (closestUnobstructed == null || currentDistSquared < closestDistUnobstructed) {
@@ -137,12 +137,13 @@ public class BotManager {
                             (tempPointLocation.y - sourceLocation.y));
                 }
                 tempBotLocation.set(sourceLocation).mulAdd(sourceVelocity, currentVelocityMultiplier);
-                float currentDistTotal = tempBotLocation.dst(tempPointLocation) +
-                        getShortestPathBetweenPoints(rallyPoints.get(rallyPoint), end).getDistance();
-
-                if (closestUnobstructed == null || currentDistTotal < closestDistUnobstructed) {
-                    closestUnobstructed = rallyPoints.get(rallyPoint);
-                    closestDistUnobstructed = currentDistTotal;
+                RallyPath shortestPath = getShortestPathBetweenPoints(rallyPoints.get(rallyPoint), end);
+                if (shortestPath != null) {
+                    float currentDistTotal = shortestPath.getDistance() + tempBotLocation.dst(tempPointLocation);
+                    if (closestUnobstructed == null || currentDistTotal < closestDistUnobstructed) {
+                        closestUnobstructed = rallyPoints.get(rallyPoint);
+                        closestDistUnobstructed = currentDistTotal;
+                    }
                 }
             }
         }

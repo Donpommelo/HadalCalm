@@ -87,7 +87,8 @@
 	"tags": [  
         "MULTIPLAYER",
         "PVP",
-        "CURATED"
+        "CURATED",
+		"BOT_COMPLIANT"
 	]
 },
 "DM_BROUHAHA": {
@@ -97,7 +98,8 @@
 	"tags": [  
         "MULTIPLAYER",
         "PVP",
-        "CURATED"
+        "CURATED",
+		"BOT_COMPLIANT"
 	]
 },
 "DM_CAROUSEL": {
@@ -144,7 +146,8 @@
     "descriptionLong": "SIZE: SMALL",
 	"tags": [
         "MULTIPLAYER",
-        "PVP"
+        "PVP",
+		"BOT_COMPLIANT"
 	]
 },
 "DM_JUMP": {
@@ -163,7 +166,8 @@
 	"tags": [
         "MULTIPLAYER",
         "PVP",
-        "CURATED"
+        "CURATED",
+		"BOT_COMPLIANT"
 	]
 },
 "DM_MOONBOUNCE": {
@@ -245,7 +249,8 @@
 	"tags": [
         "MULTIPLAYER",
         "PVP",
-        "CURATED"
+        "CURATED",
+		"BOT_COMPLIANT"
 	]
 },
 "DM_TOWERS": {
@@ -275,7 +280,8 @@
 	"tags": [
         "MULTIPLAYER",
         "PVP",
-        "CURATED"
+        "CURATED",
+		"BOT_COMPLIANT"
 	]
 },
 "DM_WETWORKS": {

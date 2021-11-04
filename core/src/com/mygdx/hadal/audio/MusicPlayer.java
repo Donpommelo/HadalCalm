@@ -37,7 +37,7 @@ public class MusicPlayer {
     }
 	 
     public void controller(float delta) {
-		 
+
     	//process music fading. Gradually change music volume until it reaches 0.0 or max volume.
 		if (fade != 0) {
 			volume += delta * fade;
@@ -71,7 +71,7 @@ public class MusicPlayer {
 				volume = maxVolume;
 				fade = 0.0f;
 			}
-			
+
 			setVolume(volume);
 		}
 	}

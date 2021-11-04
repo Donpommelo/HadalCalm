@@ -46,7 +46,7 @@ public class Navigations extends HubEvent {
 			state.getUiHub().enter(tag, true, false, false,this);
 		} else if (tag.equals(UnlockTag.SINGLEPLAYER)) {
 			state.getUiHub().enter(tag, true, true, false,
-				this, "ALL", "ARENA", "BOSS", "SANDBOX", "BIRD");
+				this, "ALL", "ARENA", "BOSS", "SANDBOX", "BOT COMPLIANT", "BIRD");
 		}
 
 		open = true;

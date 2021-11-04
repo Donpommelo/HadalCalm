@@ -379,7 +379,8 @@ public class UIHub {
 					case 3 -> UnlockTag.ARENA;
 					case 4 -> UnlockTag.BOSS;
 					case 5 -> UnlockTag.SANDBOX;
-					case 6 -> UnlockTag.BIRD;
+					case 6 -> UnlockTag.BOT_COMPLIANT;
+					case 7 -> UnlockTag.BIRD;
 				};
 				default -> UnlockTag.ALL;
 			};

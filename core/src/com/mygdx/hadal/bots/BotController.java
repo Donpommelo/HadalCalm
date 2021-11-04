@@ -48,7 +48,6 @@ public class BotController {
             processBotAttacking(entityWorldLocation);
             processBotMovement(entityWorldLocation);
         }
-
         if (jumpDesireCount > 0.0f) {
             jumpDesireCount -= delta;
             if (jumpDesireCount <= 0.0f) {
@@ -74,12 +73,10 @@ public class BotController {
     private final Vector2 shootTargetPosition = new Vector2();
     private void processBotAttacking(Vector2 playerLocation) {
         if (shootTarget != null) {
-            if (shootTarget.isAlive()) {
-                shootTargetPosition.set(shootTarget.getPosition());
-                boolean shooting = BotLoadoutProcessor.processWeaponSwitching(player, playerLocation, shootTargetPosition);
-                BotLoadoutProcessor.processWeaponAim(player, shootTargetPosition, shootTarget.getLinearVelocity(), player.getPlayerData().getCurrentTool());
-                BotLoadoutProcessor.processWeaponShooting(player, player.getPlayerData().getCurrentTool(), shooting);
-            }
+            shootTargetPosition.set(shootTarget.getPosition());
+            boolean shooting = BotLoadoutProcessor.processWeaponSwitching(player, playerLocation, shootTargetPosition, shootTarget.isAlive());
+            BotLoadoutProcessor.processWeaponAim(player, shootTargetPosition, shootTarget.getLinearVelocity(), player.getPlayerData().getCurrentTool());
+            BotLoadoutProcessor.processWeaponShooting(player, player.getPlayerData().getCurrentTool(), shooting);
         }
     }
 

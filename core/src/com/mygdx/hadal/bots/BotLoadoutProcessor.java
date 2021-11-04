@@ -62,14 +62,14 @@ public class BotLoadoutProcessor {
         }
     }
 
-    public static boolean processWeaponSwitching(PlayerBot player, Vector2 playerLocation, Vector2 targetLocation) {
+    public static boolean processWeaponSwitching(PlayerBot player, Vector2 playerLocation, Vector2 targetLocation, boolean targetAlive) {
         boolean shooting = false;
 
         float distSquared = playerLocation.dst2(targetLocation);
         int bestSlot = player.getPlayerData().getCurrentSlot();
         float bestSuitability = BotLoadoutProcessor.calcWeaponSuitability(player.getPlayerData().getMultitools()[bestSlot], distSquared);
 
-        if (BotManager.raycastUtility(player.getWorld(), playerLocation, targetLocation) == 1.0f) {
+        if (BotManager.raycastUtility(player.getWorld(), playerLocation, targetLocation) == 1.0f && targetAlive) {
             for (int i = 0; i < player.getPlayerData().getMultitools().length - 1; i++) {
                 int suitability = BotLoadoutProcessor.calcWeaponSuitability(player.getPlayerData().getMultitools()[i], distSquared);
                 if (suitability > bestSuitability) {
@@ -142,6 +142,9 @@ public class BotLoadoutProcessor {
                 break;
             case KILLER_BEAT:
                 timedFire(player, weapon, shooting);
+                break;
+            case STICKY_BOMB_LAUNCHER:
+                manualReload(player, weapon, shooting);
                 break;
             default:
                 if (shooting) {
@@ -237,6 +240,17 @@ public class BotLoadoutProcessor {
     private static final float killerBeatThreshold = 0.9f;
     private static void timedFire(PlayerBot player, Equippable weapon, boolean shooting) {
         if (shooting && weapon.getChargeCd() >= weapon.getChargeTime() * killerBeatThreshold) {
+            player.getController().keyDown(PlayerAction.FIRE);
+        } else {
+            player.getController().keyUp(PlayerAction.FIRE);
+        }
+    }
+
+    private static void manualReload(PlayerBot player, Equippable weapon, boolean shooting) {
+        if (weapon.getClipLeft() == 0) {
+            player.getController().keyDown(PlayerAction.RELOAD);
+            player.getController().keyUp(PlayerAction.RELOAD);
+        } else if (shooting) {
             player.getController().keyDown(PlayerAction.FIRE);
         } else {
             player.getController().keyUp(PlayerAction.FIRE);

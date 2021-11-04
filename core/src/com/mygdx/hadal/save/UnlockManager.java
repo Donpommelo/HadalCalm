@@ -171,6 +171,7 @@ public class UnlockManager {
 		SINGLEPLAYER,
 		BOSS,
 		SANDBOX,
+		BOT_COMPLIANT,
 
 		OFFENSE,
 		DEFENSE,
