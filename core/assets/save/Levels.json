@@ -262,7 +262,8 @@
 	"tags": [
         "MULTIPLAYER",
         "PVP",
-        "CURATED"
+        "CURATED",
+		"BOT_COMPLIANT"
 	]
 },
 "DM_QUADRANT": {

@@ -9,10 +9,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.StartPoint;
-import com.mygdx.hadal.save.UnlockActives;
-import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.save.UnlockCharacter;
-import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.User;
@@ -69,14 +65,7 @@ public class BotManager {
     private static void initiateBot(PlayState state, User user) {
         StartPoint newSave = state.getSavePoint(user);
 
-        Loadout botLoadout = new Loadout();
-
-        botLoadout.multitools = new UnlockEquip[]{ UnlockEquip.SPEARGUN, UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING };
-        botLoadout.artifacts = new UnlockArtifact[]{ UnlockArtifact.MOON_FLUTHER, UnlockArtifact.GOOD_HEALTH, UnlockArtifact.NOTHING,  UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING,};
-        botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
-        botLoadout.activeItem = UnlockActives.SUPPLY_DROP;
-        botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
-        botLoadout.team = user.getTeamFilter();
+        Loadout botLoadout = BotLoadoutProcessor.getBotLoadout(state, user);
 
         user.getScoresExtra().setLoadout(botLoadout);
 
@@ -101,6 +90,7 @@ public class BotManager {
             tempPointLocation.set(rallyPoint);
 
             float raycastFraction = raycastUtility(world, sourceLocation, tempPointLocation);
+            //dst2 used here to slightly improve performance while being "mostly accurate-ish"
             float currentDistSquared = raycastFraction * raycastFraction * sourceLocation.dst2(tempPointLocation);
 
             if (raycastFraction == 1.0f) {
@@ -126,7 +116,6 @@ public class BotManager {
         float closestDistUnobstructed = 0.0f;
         for (Vector2 rallyPoint: rallyPoints.keySet()) {
             tempPointLocation.set(rallyPoint);
-
             float raycastFraction = raycastUtility(world, sourceLocation, tempPointLocation);
             if (raycastFraction == 1.0f) {
                 if (tempPointLocation.y > sourceLocation.y) {
@@ -139,10 +128,11 @@ public class BotManager {
                 tempBotLocation.set(sourceLocation).mulAdd(sourceVelocity, currentVelocityMultiplier);
                 RallyPath shortestPath = getShortestPathBetweenPoints(rallyPoints.get(rallyPoint), end);
                 if (shortestPath != null) {
-                    float currentDistTotal = shortestPath.getDistance() + tempBotLocation.dst(tempPointLocation);
-                    if (closestUnobstructed == null || currentDistTotal < closestDistUnobstructed) {
+                    float currentDistSquaredTotal = shortestPath.getDistance() * shortestPath.getDistance()
+                            + tempBotLocation.dst2(tempPointLocation);
+                    if (closestUnobstructed == null || currentDistSquaredTotal < closestDistUnobstructed) {
                         closestUnobstructed = rallyPoints.get(rallyPoint);
-                        closestDistUnobstructed = currentDistTotal;
+                        closestDistUnobstructed = currentDistSquaredTotal;
                     }
                 }
             }
@@ -198,7 +188,9 @@ public class BotManager {
             }
             for (RallyPoint neighbor: parent.getConnections().keySet()) {
                 float routeScore = parent.getRouteScore() + parent.getConnections().get(neighbor);
-                float estimatedScore = routeScore + neighbor.getPosition().dst(end.getPosition());
+
+                //dst2 used here to slightly improve performance while being "mostly accurate-ish"
+                float estimatedScore = routeScore * routeScore + neighbor.getPosition().dst2(end.getPosition());
 
                 if (!neighbor.isVisited() || neighbor.getEstimatedScore() > estimatedScore) {
                     neighbor.setPrevious(parent);

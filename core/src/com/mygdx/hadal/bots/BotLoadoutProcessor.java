@@ -1,20 +1,47 @@
 package com.mygdx.hadal.bots;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.save.UnlockActives;
+import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.PlayerBot;
+import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Blinded;
+import com.mygdx.hadal.utils.Stats;
 
 import java.util.Objects;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class BotLoadoutProcessor {
+
+    public static Loadout getBotLoadout(PlayState state, User user) {
+        Loadout botLoadout = new Loadout();
+
+        botLoadout.multitools = new UnlockEquip[]{
+                UnlockEquip.getRandWeapFromPool(state, ""),
+                UnlockEquip.getRandWeapFromPool(state, ""),
+                UnlockEquip.getRandWeapFromPool(state, ""),
+                UnlockEquip.getRandWeapFromPool(state, "") };
+        botLoadout.artifacts = new UnlockArtifact[]{ UnlockArtifact.MOON_FLUTHER, UnlockArtifact.GOOD_HEALTH, UnlockArtifact.NOTHING,  UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING,};
+        botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
+        botLoadout.activeItem = getRandomActiveItem();
+        botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
+        botLoadout.team = user.getTeamFilter();
+
+        return botLoadout;
+    }
 
     public static RallyPath getPathToWeapon(World world, PlayerBot player, Vector2 playerLocation, Vector2 playerVelocity,
                                             float searchRadius, int minAffinity) {
@@ -94,6 +121,8 @@ public class BotLoadoutProcessor {
 
     private static final Vector2 mouseTarget = new Vector2();
     public static void processWeaponAim(PlayerBot player, Vector2 targetLocation, Vector2 targetVelocity, Equippable weapon) {
+        if (player.getPlayerData().getStatus(Blinded.class) != null) { return; }
+
         if (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass())) == UnlockEquip.COLACANNON) {
             if (weapon.getChargeCd() >= weapon.getChargeTime() || weapon.isReloading()) {
                 mouseTarget.set(BotManager.acquireAimTarget(player.getState().getWorld(), player.getPosition(),
@@ -264,5 +293,46 @@ public class BotLoadoutProcessor {
     private static void aimWobble(PlayerBot player) {
         player.getAimWobble().nor().scl(maxWobble);
         player.getAimWobble().setAngleDeg(player.getAimWobble().angleDeg() + wobbleSpeed);
+    }
+
+    private static final float bonusSupplyDropChance = 0.4f;
+    private static final UnlockActives[] botItems = { UnlockActives.ANCHOR_SMASH, UnlockActives.FLASH_BANG,
+            UnlockActives.HONEYCOMB, UnlockActives.MISSILE_POD, UnlockActives.MELON, UnlockActives.MISSILE_POD,
+            UnlockActives.NAUTICAL_MINE, UnlockActives.ORBITAL_SHIELD, UnlockActives.PROXIMITY_MINE, UnlockActives.SPIRIT_RELEASE};
+
+    public static UnlockActives getRandomActiveItem() {
+        if (MathUtils.random() <= bonusSupplyDropChance) {
+            return UnlockActives.SUPPLY_DROP;
+        } else {
+            return botItems[MathUtils.random(botItems.length - 1)];
+        }
+    }
+
+    private static final float healThreshold = 0.8f;
+    public static void processActiveItem(PlayerBot player, ActiveItem weapon, boolean shooting) {
+        switch (Objects.requireNonNull(UnlockActives.getUnlockFromActive(weapon.getClass()))) {
+            case HEALING_FIELD, MELON:
+                if (player.getPlayerData().getCurrentHp() < player.getPlayerData().getStat(Stats.MAX_HP) * healThreshold
+                        && weapon.chargePercent() >= 1.0f) {
+                    player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
+                } else {
+                    player.getController().keyUp(PlayerAction.ACTIVE_ITEM);
+                }
+                break;
+            case SUPPLY_DROP, PROXIMITY_MINE:
+                if (weapon.chargePercent() >= 1.0f) {
+                    player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
+                } else {
+                    player.getController().keyUp(PlayerAction.ACTIVE_ITEM);
+                }
+                break;
+            default:
+                if (shooting && weapon.chargePercent() >= 1.0f) {
+                    player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
+                } else {
+                    player.getController().keyUp(PlayerAction.ACTIVE_ITEM);
+                }
+                break;
+        }
     }
 }

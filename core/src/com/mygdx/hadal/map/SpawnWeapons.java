@@ -11,7 +11,7 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class SpawnWeapons extends ModeSetting {
 
     private static final String weaponTimerId = "spawnWeapons";
-    private static final float weaponSpawnTimer = 15.0f;
+    private static final float weaponSpawnTimer = 10.0f;
 
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {

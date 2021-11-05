@@ -30,9 +30,9 @@ public class BotController {
     }
 
     private float botTargetCount = botTargetInterval;
-    private static final float botTargetInterval = 0.1f;
-    private float botMoveCount;
-    private static final float botMoveInterval = 0.02f;
+    private static final float botTargetInterval = 0.5f;
+    private float botMoveCount = botMoveInterval;
+    private static final float botMoveInterval = 0.05f;
     private final Vector2 entityWorldLocation = new Vector2();
     public void processBotAI(float delta) {
         entityWorldLocation.set(player.getPosition());
@@ -45,7 +45,8 @@ public class BotController {
         while (botMoveCount >= botMoveInterval) {
             botMoveCount -= botMoveInterval;
             processBotPickup();
-            processBotAttacking(entityWorldLocation);
+            boolean shooting = processBotAttacking(entityWorldLocation);
+            processBotActiveItem(shooting);
             processBotMovement(entityWorldLocation);
         }
         if (jumpDesireCount > 0.0f) {
@@ -71,13 +72,19 @@ public class BotController {
     }
 
     private final Vector2 shootTargetPosition = new Vector2();
-    private void processBotAttacking(Vector2 playerLocation) {
+    private boolean processBotAttacking(Vector2 playerLocation) {
         if (shootTarget != null) {
             shootTargetPosition.set(shootTarget.getPosition());
             boolean shooting = BotLoadoutProcessor.processWeaponSwitching(player, playerLocation, shootTargetPosition, shootTarget.isAlive());
             BotLoadoutProcessor.processWeaponAim(player, shootTargetPosition, shootTarget.getLinearVelocity(), player.getPlayerData().getCurrentTool());
             BotLoadoutProcessor.processWeaponShooting(player, player.getPlayerData().getCurrentTool(), shooting);
+            return shooting;
         }
+        return false;
+    }
+
+    private void processBotActiveItem(boolean shooting) {
+        BotLoadoutProcessor.processActiveItem(player, player.getPlayerData().getActiveItem(), shooting);
     }
 
     private final Vector2 thisLocation = new Vector2();
