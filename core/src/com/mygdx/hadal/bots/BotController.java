@@ -82,7 +82,8 @@ public class BotController {
 
     private final Vector2 thisLocation = new Vector2();
     private static final float distanceThreshold = 9.0f;
-    private static final float fastfallThreshold = 8.0f;
+    private static final float fastfallDistThreshold = 8.0f;
+    private static final float fastfallVeloThreshold = -30.0f;
     private void processBotMovement(Vector2 playerLocation) {
         if (!pointPath.isEmpty()) {
             thisLocation.set(pointPath.get(0).getPosition()).sub(playerLocation);
@@ -116,7 +117,8 @@ public class BotController {
             } else {
                 player.getController().keyUp(PlayerAction.JUMP);
             }
-            if (thisLocation.y < -fastfallThreshold || (thisLocation.y < 0 && !player.getFeetData().getTerrain().isEmpty())) {
+            if ((thisLocation.y < -fastfallDistThreshold || (thisLocation.y < 0 && !player.getFeetData().getTerrain().isEmpty()))
+                    && !player.isGrounded() && player.getLinearVelocity().y > fastfallVeloThreshold) {
                 player.getController().keyDown(PlayerAction.CROUCH);
             } else {
                 player.getController().keyUp(PlayerAction.CROUCH);

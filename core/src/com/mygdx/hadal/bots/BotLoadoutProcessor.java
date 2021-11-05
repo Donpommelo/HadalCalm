@@ -96,15 +96,16 @@ public class BotLoadoutProcessor {
     public static void processWeaponAim(PlayerBot player, Vector2 targetLocation, Vector2 targetVelocity, Equippable weapon) {
         if (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass())) == UnlockEquip.COLACANNON) {
             if (weapon.getChargeCd() >= weapon.getChargeTime() || weapon.isReloading()) {
-                mouseTarget.set(BotManager.acquireAimTarget(player.getPosition(), targetLocation, targetVelocity,
-                        ((RangedWeapon) weapon).getProjectileSpeed()));
+                mouseTarget.set(BotManager.acquireAimTarget(player.getState().getWorld(), player.getPosition(),
+                        targetLocation, targetVelocity, ((RangedWeapon) weapon).getProjectileSpeed()));
             } else {
                 BotLoadoutProcessor.aimWobble(player);
                 mouseTarget.set(targetLocation).add(player.getAimWobble());
             }
         } else {
             if (weapon instanceof RangedWeapon ranged) {
-                mouseTarget.set(BotManager.acquireAimTarget(player.getPosition(), targetLocation, targetVelocity, ranged.getProjectileSpeed()));
+                mouseTarget.set(BotManager.acquireAimTarget(player.getState().getWorld(), player.getPosition(),
+                        targetLocation, targetVelocity, ranged.getProjectileSpeed()));
             } else {
                 mouseTarget.set(targetLocation);
             }

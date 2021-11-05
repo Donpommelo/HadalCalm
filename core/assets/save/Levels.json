@@ -77,7 +77,8 @@
     "descriptionLong": "SIZE: LARGE",
 	"tags": [  
         "MULTIPLAYER",
-        "PVP"
+        "PVP",
+		"BOT_COMPLIANT"
 	]
 },
 "DM_BOTTLENECK": {
@@ -291,7 +292,8 @@
 	"tags": [
         "MULTIPLAYER",
         "PVP",
-        "CURATED"
+        "CURATED",
+		"BOT_COMPLIANT"
 	]
 },
 "DM_ZIGGURAT": {
@@ -300,7 +302,8 @@
     "descriptionLong": "SIZE: MEDIUM",
 	"tags": [
         "MULTIPLAYER",
-        "PVP"
+        "PVP",
+		"BOT_COMPLIANT"
 	]
 },
 "DM_FORMOSAN_BLUE_MAGPIE": {

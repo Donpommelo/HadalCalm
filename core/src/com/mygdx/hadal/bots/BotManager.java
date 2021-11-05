@@ -72,7 +72,7 @@ public class BotManager {
         Loadout botLoadout = new Loadout();
 
         botLoadout.multitools = new UnlockEquip[]{ UnlockEquip.SPEARGUN, UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING };
-        botLoadout.artifacts = new UnlockArtifact[]{ UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING,  UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING,};
+        botLoadout.artifacts = new UnlockArtifact[]{ UnlockArtifact.MOON_FLUTHER, UnlockArtifact.GOOD_HEALTH, UnlockArtifact.NOTHING,  UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING,};
         botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
         botLoadout.activeItem = UnlockActives.getRandItemFromPool(state, "");
         botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
@@ -213,7 +213,8 @@ public class BotManager {
     }
 
     private static final Vector2 aimTemp = new Vector2();
-    public static Vector2 acquireAimTarget(Vector2 sourceLocation, Vector2 targetLocation, Vector2 targetVelocity,
+    private static final Vector2 leadDisplace = new Vector2();
+    public static Vector2 acquireAimTarget(World world, Vector2 sourceLocation, Vector2 targetLocation, Vector2 targetVelocity,
                                            float projectileSpeed) {
         aimTemp.set(targetLocation).sub(sourceLocation);
         float a = targetVelocity.dot(targetVelocity) - projectileSpeed * projectileSpeed;
@@ -229,12 +230,16 @@ public class BotManager {
         float t1 = (-b + quadRoot) / (2 * a);
         float t2 = (-b - quadRoot) / (2 * a);
 
-        if (t1 > 0 && t1 < t2) {
-            aimTemp.set(targetVelocity).scl(t1).add(targetLocation);
-        } else if (t2 > 0 && t2 < t1) {
-            aimTemp.set(targetVelocity).scl(t2).add(targetLocation);
-        } else {
-            aimTemp.set(targetLocation);
+        if (t1 > 0 && (t1 < t2 || t2 < 0)) {
+            leadDisplace.set(targetVelocity).scl(t1);
+        } else if (t2 > 0 && (t2 < t1 || t1 < 0)) {
+            leadDisplace.set(targetVelocity).scl(t2);
+        }
+        aimTemp.set(targetLocation).add(leadDisplace);
+
+        float fract = BotManager.raycastUtility(world, targetLocation, aimTemp);
+        if (fract < 1.0f) {
+            aimTemp.set(targetLocation).add(leadDisplace.scl(fract));
         }
         return aimTemp;
     }

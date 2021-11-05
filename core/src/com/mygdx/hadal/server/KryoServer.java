@@ -631,13 +631,13 @@ public class KryoServer {
 	}
 	
 	/**
-	 * This returns the number of non-spectator players. used to determine whether the server is full or not.
+	 * This returns the number of non-spectator, non-bot players. used to determine whether the server is full or not.
 	 */
 	public int getNumPlayers() {
 		int playerNum = 0;
 		
 		for (Entry<Integer, User> conn: users.entrySet()) {
-			if (!conn.getValue().isSpectator()) {
+			if (!conn.getValue().isSpectator() && conn.getKey() >= 0.0f) {
 				playerNum++;
 			}
 		}

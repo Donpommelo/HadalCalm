@@ -408,7 +408,7 @@
    <polyline points="-208,240 -208,-48"/>
   </object>
  </objectgroup>
- <objectgroup id="2" name="event-layer" visible="0">
+ <objectgroup id="2" name="event-layer">
   <object id="4" name="Start" type="Start" x="544" y="2272" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>

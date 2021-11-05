@@ -107,7 +107,18 @@ public class NavigationsMultiplayer extends HubEvent {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() + " \n \n" + selected.getInfo().getDescriptionLong());
+						if (modeChosen.equals(GameMode.DEATHMATCH)) {
+							if (selected.getInfo().getTags().contains(UnlockTag.BOT_COMPLIANT)) {
+								hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() +
+										" \n \n" + selected.getInfo().getDescriptionLong() + " \n \n" + "BOT COMPLIANT");
+							} else {
+								hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() +
+										" \n \n" + selected.getInfo().getDescriptionLong() + " \n \n" + "NOT BOT COMPLIANT");
+							}
+						} else {
+							hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() +
+									" \n \n" + selected.getInfo().getDescriptionLong());
+						}
 					}
 				});
 				itemChoose.setScale(UIHub.optionsScale);
