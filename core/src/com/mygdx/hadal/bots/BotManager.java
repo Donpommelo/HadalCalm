@@ -65,7 +65,7 @@ public class BotManager {
     private static void initiateBot(PlayState state, User user) {
         StartPoint newSave = state.getSavePoint(user);
 
-        Loadout botLoadout = BotLoadoutProcessor.getBotLoadout(state, user);
+        Loadout botLoadout = BotLoadoutProcessor.getBotLoadout(state);
 
         user.getScoresExtra().setLoadout(botLoadout);
 
@@ -79,6 +79,7 @@ public class BotManager {
         user.setSpectator(false);
     }
 
+    private static final float MaxPointDistanceCheck = 40.0f;
     private static final Vector2 tempPointLocation = new Vector2();
     private static final Vector2 tempBotLocation = new Vector2();
     public static RallyPoint getNearestPoint(World world, Vector2 sourceLocation) {
@@ -87,8 +88,10 @@ public class BotManager {
         float closestDistUnobstructed = 0.0f;
         float closestDistObstructed = 0.0f;
         for (Vector2 rallyPoint: rallyPoints.keySet()) {
-            tempPointLocation.set(rallyPoint);
+            if (Math.abs(rallyPoint.x - sourceLocation.x) > MaxPointDistanceCheck ||
+                    Math.abs(rallyPoint.y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
 
+            tempPointLocation.set(rallyPoint);
             float raycastFraction = raycastUtility(world, sourceLocation, tempPointLocation);
             //dst2 used here to slightly improve performance while being "mostly accurate-ish"
             float currentDistSquared = raycastFraction * raycastFraction * sourceLocation.dst2(tempPointLocation);
@@ -115,6 +118,9 @@ public class BotManager {
         RallyPoint closestUnobstructed = null;
         float closestDistUnobstructed = 0.0f;
         for (Vector2 rallyPoint: rallyPoints.keySet()) {
+            if (Math.abs(rallyPoint.x - sourceLocation.x) > MaxPointDistanceCheck ||
+                    Math.abs(rallyPoint.y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
+
             tempPointLocation.set(rallyPoint);
             float raycastFraction = raycastUtility(world, sourceLocation, tempPointLocation);
             if (raycastFraction == 1.0f) {

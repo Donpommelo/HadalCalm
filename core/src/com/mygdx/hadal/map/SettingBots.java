@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
@@ -19,6 +20,7 @@ public class SettingBots extends ModeSetting {
     private static final String[] botNumberChoices = {"0", "1", "2", "3", "4", "5", "6", "7", "8"};
     private static final String settingTag = "bot_number";
     private static final Integer defaultValue = 0;
+    private static final Integer defaultValueSinglePlayer = 1;
 
     private SelectBox<String> botNumberOptions;
 
@@ -38,7 +40,11 @@ public class SettingBots extends ModeSetting {
             botNumberOptions = new SelectBox<>(GameStateManager.getSkin());
             botNumberOptions.setItems(botNumberChoices);
             botNumberOptions.setWidth(ModeSettingSelection.optionsWidth);
-            botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
+            if (GameStateManager.currentMode.equals(GameStateManager.Mode.SINGLE)) {
+                botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValueSinglePlayer));
+            } else {
+                botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
+            }
 
             table.add(bots);
             table.add(botNumberOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
@@ -75,6 +81,10 @@ public class SettingBots extends ModeSetting {
         for (int i = 0; i < botNumberIndex; i++) {
             HadalGame.server.getUsers().put(lastBotConnID, createBotUser());
             lastBotConnID--;
+        }
+
+        if (botNumberIndex > 0) {
+            BotManager.initiateRallyPoints(state.getMap());
         }
     }
 

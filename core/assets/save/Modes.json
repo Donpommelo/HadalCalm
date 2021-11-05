@@ -20,7 +20,7 @@
 	"descriptionLong": "Players with fewest deaths win tiebreakers.\nCan be played with teams or free-for-all."
 },
 "SURVIVAL": {
-	"name": "Arena",
+	"name": "Survival",
 	"description": "Survive against waves of enemies.",
 	"descriptionLong": "\nCan be played solo or cooperatively with friends."
 },

@@ -4,10 +4,10 @@ https://donpommelo.itch.io/hadal-calm
 
 Hadal Calm is a 2D Action-Platformer featuring PVP and Coop combat.
 
-50 different weapons and 100+ unique upgrades.
-Single Player Campaign and 3 boss fights.
-Survival arena and boss challenges for cooperative or single player.
- Fast-paced pvp combat across a variety of maps.
+50 different weapons and 120 unique upgrades.
+Single Player Campaign and 5 boss fights.
+Survival arena and boss challenges for coop or single player.
+Fast-paced pvp combat against players or bots.
 Procedurally generated poetry.
 This game was made using LIBGDX.
 

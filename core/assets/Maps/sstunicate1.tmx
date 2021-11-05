@@ -1027,7 +1027,7 @@
   </object>
   <object id="185" name="NavigationMultiplayer" type="NavigationMultiplayer" x="1920" y="1984" width="96" height="96">
    <properties>
-    <property name="modes" value="BOSS,SURVIVAL,DEATHMATCH"/>
+    <property name="modes" value="DEATHMATCH,BOSS,SURVIVAL"/>
     <property name="tag" value="MULTIPLAYER,BOT_COMPLIANT"/>
     <property name="title" value="Bonus Levels"/>
     <property name="triggeredId" value="navigation1"/>

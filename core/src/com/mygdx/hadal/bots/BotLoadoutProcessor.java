@@ -15,7 +15,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.PlayerBot;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.utils.Stats;
@@ -26,7 +26,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class BotLoadoutProcessor {
 
-    public static Loadout getBotLoadout(PlayState state, User user) {
+    public static Loadout getBotLoadout(PlayState state) {
         Loadout botLoadout = new Loadout();
 
         botLoadout.multitools = new UnlockEquip[]{
@@ -38,7 +38,7 @@ public class BotLoadoutProcessor {
         botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
         botLoadout.activeItem = getRandomActiveItem();
         botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
-        botLoadout.team = user.getTeamFilter();
+        botLoadout.team = AlignmentFilter.getRandomColor();
 
         return botLoadout;
     }
@@ -199,7 +199,7 @@ public class BotLoadoutProcessor {
         };
     }
 
-    private static final float maxTargetRangeSquared = 2000.0f;
+    private static final float maxTargetRangeSquared = 1800.0f;
     private static int calcWeaponSuitability(Equippable weapon, float distanceSquared) {
         if (weapon instanceof final RangedWeapon ranged) {
             if (ranged.getClipLeft() == 0) {

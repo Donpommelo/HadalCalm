@@ -310,8 +310,6 @@ public class PlayState extends GameState {
 				}
 			}
 
-			mode.processSettings(this);
-
 			//Server must first reset each score at the start of a level (unless just a stage transition)
 			if (reset) {
 				for (User user : HadalGame.server.getUsers().values()) {
@@ -320,9 +318,10 @@ public class PlayState extends GameState {
 				}
 			}
 
+			mode.processSettings(this);
+
 			TiledObjectUtil.parseTiledTriggerLayer();
 			TiledObjectUtil.parseDesignatedEvents(this);
-			BotManager.initiateRallyPoints(map);
 		}
 
 		//if auto-assign team is on, we do the assignment here
@@ -776,12 +775,11 @@ public class PlayState extends GameState {
 			HadalGame.viewportCamera.unproject(mousePosition);
 
 			//the camera should be draggable as a spectator or during respawn time
-			if (spectatorMode || player.getBody() == null || !player.isAlive()) {
+			if (spectatorMode) {
 
 				//in spectator mode, the camera moves when dragging the mouse
 				uiSpectator.spectatorDragCamera(spectatorTarget);
 				aimFocusVector.set(spectatorTarget);
-
 			} else {
 				aimFocusVector.set(player.getPixelPosition());
 
@@ -1497,7 +1495,9 @@ public class PlayState extends GameState {
 	public void setPlayer(Player player) { this.player = player; }
 
 	public World getWorld() { return world; }
-	
+
+	public TiledMap getMap() { return map; }
+
 	public WorldDummy getWorldDummy() { return worldDummy; }
 	
 	public AnchorPoint getAnchor() { return anchor; }

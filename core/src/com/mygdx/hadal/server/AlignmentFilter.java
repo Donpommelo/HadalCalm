@@ -2,6 +2,7 @@ package com.mygdx.hadal.server;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.HadalColor;
@@ -32,16 +33,27 @@ public enum AlignmentFilter {
     PLAYER8(-11),
     PLAYER9(-12),
     PLAYER10(-13),
+    PLAYER11(-14),
+    PLAYER12(-15),
+    PLAYER13(-16),
+    PLAYER14(-17),
+    PLAYER15(-18),
+    PLAYER16(-19),
 
-    TEAM_CHARTREUSE(-16, HadalColor.CHARTREUSE, HadalColor.PALE_GREEN, "CHARTREUSE"),
-    TEAM_CRIMSON(-17, HadalColor.CRIMSON, HadalColor.RED, "CRIMSON"),
-    TEAM_GREY(-18, HadalColor.GREY, HadalColor.DARK_GREY, "GREY"),
-    TEAM_PLUM(-19, HadalColor.PLUM, HadalColor.VIOLET, "PLUM"),
-    TEAM_ORANGE(-20, HadalColor.ORANGE, HadalColor.GOLD, "ORANGE"),
-    TEAM_SKY_BLUE(-21, HadalColor.SKY_BLUE, HadalColor.TURQOISE, "SKY BLUE"),
-    TEAM_TAN(-22, HadalColor.TAN, HadalColor.BROWN, "TAN"),
+    TEAM_BANANA(-25, HadalColor.BANANA, HadalColor.BEIGE, "BANANA"),
+    TEAM_CELADON(-26, HadalColor.CELADON, HadalColor.GREEN, "CELADON"),
+    TEAM_CHARTREUSE(-27, HadalColor.CHARTREUSE, HadalColor.PALE_GREEN, "CHARTREUSE"),
+    TEAM_CRIMSON(-28, HadalColor.CRIMSON, HadalColor.RED, "CRIMSON"),
+    TEAM_EGGPLANT(-29, HadalColor.EGGPLANT, HadalColor.GREEN, "EGGPLANT"),
+    TEAM_GREY(-30, HadalColor.GREY, HadalColor.DARK_GREY, "GREY"),
+    TEAM_PLUM(-31, HadalColor.PLUM, HadalColor.VIOLET, "PLUM"),
+    TEAM_ORANGE(-32, HadalColor.ORANGE, HadalColor.GOLD, "ORANGE"),
+    TEAM_SKY_BLUE(-33, HadalColor.SKY_BLUE, HadalColor.TURQOISE, "SKY BLUE"),
+    TEAM_TAN(-34, HadalColor.TAN, HadalColor.BROWN, "TAN"),
+    TEAM_TURQUIOSE(-35, HadalColor.TURQOISE, HadalColor.BLUE, "TURQUOISE"),
+    TEAM_VIOLET(-36, HadalColor.VIOLET, HadalColor.BLUE, "TURQUOISE"),
 
-    TEAM_BLACK_AND_WHITE(-25, HadalColor.GREY, HadalColor.GREY, "BLACK AND WHITE") {
+    TEAM_BLACK_AND_WHITE(-40, HadalColor.GREY, HadalColor.GREY, "BLACK AND WHITE") {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -53,7 +65,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_CENSURE(-26, HadalColor.NOTHING, HadalColor.NOTHING, false, "CENSURED") {
+    TEAM_CENSURE(-41, HadalColor.NOTHING, HadalColor.NOTHING, false, "CENSURED") {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -65,7 +77,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_INVERT(-27, HadalColor.NOTHING, HadalColor.NOTHING, false, "INVERT") {
+    TEAM_INVERT(-42, HadalColor.NOTHING, HadalColor.NOTHING, false, "INVERT") {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -77,7 +89,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_SEPIA(-28, HadalColor.NOTHING, HadalColor.NOTHING, "SEPIA") {
+    TEAM_SEPIA(-43, HadalColor.NOTHING, HadalColor.NOTHING, "SEPIA") {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -233,6 +245,22 @@ public enum AlignmentFilter {
             }
         }
         return NONE;
+    }
+
+    private final static float normalChance = 0.2f;
+    private final static float colorChance = 0.9f;
+    private static final AlignmentFilter[] colors = { TEAM_BANANA, TEAM_CELADON, TEAM_CHARTREUSE, TEAM_CRIMSON, TEAM_EGGPLANT,
+            TEAM_GREY, TEAM_PLUM, TEAM_ORANGE, TEAM_SKY_BLUE, TEAM_TAN, TEAM_TURQUIOSE };
+    private static final AlignmentFilter[] colorsWeird = { TEAM_BLACK_AND_WHITE, TEAM_CENSURE, TEAM_SEPIA, TEAM_INVERT };
+    public static AlignmentFilter getRandomColor() {
+        float random = MathUtils.random();
+        if (random < normalChance) {
+            return NONE;
+        }
+        if (random < colorChance) {
+            return colors[MathUtils.random(colors.length - 1)];
+        }
+        return colorsWeird[MathUtils.random(colorsWeird.length - 1)];
     }
 
     /**

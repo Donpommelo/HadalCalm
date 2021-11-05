@@ -21,11 +21,16 @@ public enum HadalColor {
 	YELLOW(1.0f, 1.0f, 0.0f),
 	MAGENTA(1.0f, 0.0f, 1.0f),
 	CYAN(0.0f, 1.0f, 1.0f),
-	
+
+	BANANA(1.0f, 1.0f, 0.208f),
+	BEIGE(0.96f, 0.96f, 0.863f),
 	BROWN(0.64f, 0.16f, 0.16f),
+	CELADON(0.675f, 0.882f, 0.686f),
 	CHARTREUSE(0.5f, 1.0f, 0.0f),
+	COQUELICOT(1.0f, 0.22f, 0.0f),
 	CRIMSON(0.86f, 0.078f, 0.235f),
 	DARK_GREY(0.663f, 0.663f, 0.663f),
+	EGGPLANT(0.38f, 0.251f, 0.318f),
 	GOLD(0.855f, 0.647f, 0.043f),
 	GREY(0.502f, 0.502f, 0.502f),
 	HOT_PINK(1.0f, 0.41f, 0.71f),
@@ -37,7 +42,7 @@ public enum HadalColor {
 	SKY_BLUE(0.53f, 0.8f, 1.0f),
 	TAN(0.824f, 0.706f, 0.549f),
 	TURQOISE(0.25f, 0.88f, 0.82f),
-	VIOLET(0.9f, 0.5f, 0.9f),
+	VIOLET(0.623f, 0.0f, 1.0f),
 
 	;
 	
