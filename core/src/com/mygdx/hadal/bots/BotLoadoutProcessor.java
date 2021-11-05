@@ -170,14 +170,15 @@ public class BotLoadoutProcessor {
         };
     }
 
+    private static final float maxTargetRangeSquared = 2000.0f;
     private static int calcWeaponSuitability(Equippable weapon, float distanceSquared) {
         if (weapon instanceof final RangedWeapon ranged) {
             if (ranged.getClipLeft() == 0) {
                 return 0;
             }
         }
-        float minSquared = (weapon.getBotRangeMin()) * (weapon.getBotRangeMin());
-        float maxSquared = (weapon.getBotRangeMax()) * (weapon.getBotRangeMax());
+        float minSquared = weapon.getBotRangeMin() * weapon.getBotRangeMin();
+        float maxSquared = Math.min(weapon.getBotRangeMax() * weapon.getBotRangeMax(), maxTargetRangeSquared);
 
         if (distanceSquared < minSquared || distanceSquared > maxSquared) {
             return 0;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="260">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="266">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -567,74 +567,6 @@
   </object>
   <object id="243" name="BotPoint" type="BotPoint" x="3040" y="1160">
    <polyline points="-352,24 -160,-40"/>
-  </object>
-  <object id="245" name="BotPoint" type="BotPoint" x="3184" y="2296">
-   <properties>
-    <property name="multiplier0" type="float" value="1"/>
-   </properties>
-   <polyline points="-128,24 80,8"/>
-  </object>
-  <object id="246" name="BotPoint" type="BotPoint" x="2888" y="2280">
-   <properties>
-    <property name="multiplier0" type="float" value="1"/>
-    <property name="valid1" type="bool" value="false"/>
-   </properties>
-   <polyline points="168,40 -40,24"/>
-  </object>
-  <object id="247" name="BotPoint" type="BotPoint" x="3632" y="2248">
-   <properties>
-    <property name="multiplier0" type="float" value="1"/>
-    <property name="valid1" type="bool" value="false"/>
-   </properties>
-   <polyline points="128,40 -80,24"/>
-  </object>
-  <object id="248" name="BotPoint" type="BotPoint" x="3992" y="2264">
-   <properties>
-    <property name="multiplier0" type="float" value="1"/>
-    <property name="valid1" type="bool" value="false"/>
-   </properties>
-   <polyline points="-232,24 -24,8"/>
-  </object>
-  <object id="249" name="BotPoint" type="BotPoint" x="2136" y="2240">
-   <properties>
-    <property name="multiplier0" type="float" value="1"/>
-    <property name="valid1" type="bool" value="false"/>
-   </properties>
-   <polyline points="-136,16 72,0"/>
-  </object>
-  <object id="250" name="BotPoint" type="BotPoint" x="1896" y="2184">
-   <properties>
-    <property name="multiplier0" type="float" value="1"/>
-    <property name="valid1" type="bool" value="false"/>
-   </properties>
-   <polyline points="104,72 -104,56"/>
-  </object>
-  <object id="251" name="BotPoint" type="BotPoint" x="1664" y="2240">
-   <polyline points="128,0 -96,-264"/>
-  </object>
-  <object id="252" name="BotPoint" type="BotPoint" x="1584" y="1760">
-   <polyline points="80,0 16,0"/>
-  </object>
-  <object id="253" name="BotPoint" type="BotPoint" x="1568" y="1824">
-   <polyline points="0,152 32,-64"/>
-  </object>
-  <object id="254" name="BotPoint" type="BotPoint" x="2408" y="2248">
-   <polyline points="152,120 -200,-8"/>
-  </object>
-  <object id="255" name="BotPoint" type="BotPoint" x="2648" y="2328">
-   <polyline points="200,-24 -88,40"/>
-  </object>
-  <object id="256" name="BotPoint" type="BotPoint" x="3408" y="2288">
-   <polyline points="144,-16 -144,16"/>
-  </object>
-  <object id="257" name="BotPoint" type="BotPoint" x="4032" y="2208">
-   <polyline points="224,32 -64,64"/>
-  </object>
-  <object id="258" name="BotPoint" type="BotPoint" x="4176" y="1800">
-   <polyline points="48,24 -16,24"/>
-  </object>
-  <object id="259" name="BotPoint" type="BotPoint" x="4336" y="2048">
-   <polyline points="-80,192 -112,-224"/>
   </object>
  </objectgroup>
  <objectgroup id="2" name="collision-layer">

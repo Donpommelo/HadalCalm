@@ -74,7 +74,7 @@ public class BotManager {
         botLoadout.multitools = new UnlockEquip[]{ UnlockEquip.SPEARGUN, UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING };
         botLoadout.artifacts = new UnlockArtifact[]{ UnlockArtifact.MOON_FLUTHER, UnlockArtifact.GOOD_HEALTH, UnlockArtifact.NOTHING,  UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING,};
         botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
-        botLoadout.activeItem = UnlockActives.getRandItemFromPool(state, "");
+        botLoadout.activeItem = UnlockActives.SUPPLY_DROP;
         botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
         botLoadout.team = user.getTeamFilter();
 

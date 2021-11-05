@@ -177,6 +177,7 @@
   <object id="115" name="BotPoint" type="BotPoint" x="720" y="3144">
    <properties>
     <property name="multiplier0" type="float" value="5"/>
+    <property name="valid0" type="bool" value="true"/>
    </properties>
    <polyline points="128,72 -16,56"/>
   </object>
@@ -194,7 +195,9 @@
   </object>
   <object id="120" name="BotPoint" type="BotPoint" x="952" y="3112">
    <properties>
-    <property name="multiplier0" type="float" value="5"/>
+    <property name="multiplier0" type="float" value="1"/>
+    <property name="valid0" type="bool" value="false"/>
+    <property name="valid1" type="bool" value="true"/>
    </properties>
    <polyline points="-104,104 -120,280"/>
   </object>
@@ -319,12 +322,18 @@
    <polyline points="32,-136 32,152"/>
   </object>
   <object id="159" name="BotPoint" type="BotPoint" x="680" y="2232">
+   <properties>
+    <property name="valid0" type="bool" value="false"/>
+   </properties>
    <polyline points="-24,-136 120,136"/>
   </object>
   <object id="160" name="BotPoint" type="BotPoint" x="568" y="2360">
    <polyline points="72,40 -56,296"/>
   </object>
   <object id="161" name="BotPoint" type="BotPoint" x="584" y="2304">
+   <properties>
+    <property name="valid0" type="bool" value="false"/>
+   </properties>
    <polyline points="56,96 72,-208"/>
   </object>
   <object id="162" name="BotPoint" type="BotPoint" x="576" y="2272">
@@ -458,7 +467,8 @@
   </object>
   <object id="203" name="BotPoint" type="BotPoint" x="3784" y="3232">
    <properties>
-    <property name="multiplier0" type="float" value="5"/>
+    <property name="multiplier0" type="float" value="1"/>
+    <property name="valid0" type="bool" value="false"/>
    </properties>
    <polyline points="-24,-16 -8,160"/>
   </object>
@@ -556,9 +566,15 @@
    <polyline points="-112,240 16,-80"/>
   </object>
   <object id="239" name="BotPoint" type="BotPoint" x="3984" y="2200">
+   <properties>
+    <property name="valid0" type="bool" value="false"/>
+   </properties>
    <polyline points="-16,200 -32,-104"/>
   </object>
   <object id="240" name="BotPoint" type="BotPoint" x="3944" y="2272">
+   <properties>
+    <property name="valid0" type="bool" value="false"/>
+   </properties>
    <polyline points="8,-176 -136,96"/>
   </object>
   <object id="241" name="BotPoint" type="BotPoint" x="3912" y="2336">

@@ -104,15 +104,15 @@ public class BotController {
                 player.getController().keyUp(PlayerAction.WALK_RIGHT);
             }
             if (thisLocation.y > 0) {
-                if (jumpDesireCount < 0) {
+                if (jumpDesireCount <= 0) {
                     if (player.getPlayerData().getExtraJumpsUsed() < player.getPlayerData().getExtraJumps()) {
                         player.getController().keyDown(PlayerAction.JUMP);
                         player.getController().keyUp(PlayerAction.JUMP);
                         jumpDesireCount = jumpDesireCooldown;
+                    } else {
+                        player.getController().keyDown(PlayerAction.JUMP);
+                        jumpDesireCount = jumpDesireCooldown;
                     }
-                } else {
-                    player.getController().keyDown(PlayerAction.JUMP);
-                    jumpDesireCount = jumpDesireCooldown;
                 }
             } else {
                 player.getController().keyUp(PlayerAction.JUMP);
