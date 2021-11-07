@@ -123,7 +123,9 @@ public class AssaultBits extends RangedWeapon {
 		
 		//all bits are destroyed when weapon is unequipped
 		for (Enemy bit: bits) {
-			bit.getBodyData().addStatus(new Temporary(state, 10.0f, bit.getBodyData(), bit.getBodyData(), 0.25f));
+			if (bit.getBodyData() != null) {
+				bit.getBodyData().addStatus(new Temporary(state, 10.0f, bit.getBodyData(), bit.getBodyData(), 0.25f));
+			}
 		}
 	}
 }
