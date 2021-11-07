@@ -133,8 +133,6 @@ public class BotLoadoutProcessor {
         //calculate "suitability" of currently held weapon. We do this first to favor staying on the same slot in case of ties
         int bestSlot = player.getPlayerData().getCurrentSlot();
 
-        System.out.println((playerLocation.x - targetLocation.x) + " " + (playerLocation.y - targetLocation.y));
-
         //find which held weapon has the highest "suitability" based on distance from a living enemy
         if (BotManager.raycastUtility(player.getWorld(), playerLocation, targetLocation) == 1.0f && targetAlive
                 && Math.abs(playerLocation.x - targetLocation.x) < botVisionX
@@ -176,7 +174,7 @@ public class BotLoadoutProcessor {
     public static void processWeaponAim(PlayerBot player, Vector2 targetLocation, Vector2 targetVelocity, Equippable weapon) {
         if (player.getPlayerData().getStatus(Blinded.class) != null) { return; }
 
-        //atm, the only weapon with different aimiing logic is the cola-cannon, which must be shaken when uncharged
+        //atm, the only weapon with different aiming logic is the cola-cannon, which must be shaken when uncharged
         if (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass())) == UnlockEquip.COLACANNON) {
             if (weapon.getChargeCd() >= weapon.getChargeTime() || weapon.isReloading()) {
                 mouseTarget.set(BotManager.acquireAimTarget(player.getState().getWorld(), player.getPosition(),

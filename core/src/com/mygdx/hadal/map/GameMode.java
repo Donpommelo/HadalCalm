@@ -202,7 +202,6 @@ public enum GameMode {
             if (!newSpawn.equals("")) {
                 spawnTriggerId.append(',').append(newSpawn);
             }
-
             if (!newUi.equals("")) {
                 uiTriggerId.append(',').append(newUi);
             }

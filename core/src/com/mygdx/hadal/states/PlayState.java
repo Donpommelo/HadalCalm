@@ -1310,6 +1310,7 @@ public class PlayState extends GameState {
 	 */
 	public void setBoss(Enemy enemy) {
 		uiPlay.setBoss(enemy, enemy.getName());
+		uiExtra.setBoss();
 	}
 	
 	/**
@@ -1318,6 +1319,7 @@ public class PlayState extends GameState {
 	 */
 	public void clearBoss() {
 		uiPlay.clearBoss();
+		uiExtra.clearBoss();
 	}
 	
 	/**

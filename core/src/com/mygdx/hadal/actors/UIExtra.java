@@ -205,6 +205,16 @@ public class UIExtra extends AHadalActor {
 		}
 	}
 
+	private static String lastTags = "";
+	public void setBoss() {
+		lastTags = getCurrentTags();
+		changeTypes("", true);
+	}
+
+	public void clearBoss() {
+		changeTypes(lastTags, true);
+	}
+
 	public float getTimer() { return timer; }
 
 	public void setTimer(float timer) { this.timer = timer; }
