@@ -126,6 +126,8 @@ public enum GameMode {
 
     private InfoItem info;
 
+    //this contains the strings that will be displayed in the notification window at the start of the game
+    //atm, this is just used to notify of mode modifiers
     private final List<String> initialNotifications = new ArrayList<>();
 
     //this is a game mode which has the same set of compliant maps.
@@ -194,6 +196,7 @@ public enum GameMode {
                 }
             }
 
+            //this creates a comma-separated list of event ids that will be activated upon spawining/starting the game
             String newSpawn = setting.loadSettingSpawn(state, this);
             String newUi = setting.loadUIStart(state, this);
             if (!newSpawn.equals("")) {
@@ -244,7 +247,7 @@ public enum GameMode {
     }
 
     /**
-     * This is run when a player dies.
+     * This is run when a player dies. Change score values and do mode-specific death processing
      * @param perp: the schmuck (not necessarily player) that killed
      * @param vic: the player that died
      */
@@ -272,7 +275,7 @@ public enum GameMode {
     }
 
     /**
-     * This is run when a player's score changes
+     * This is run when a player's score changes. Used for modes where an effect should activate upon score changing
      * @param p: the player whose score is changing
      * @param scoreIncrement: the amount to change the score by
      */
@@ -295,7 +298,7 @@ public enum GameMode {
     }
 
     /**
-     * This is run when a team's score changes
+     * This is run when a team's score changes. Used for modes where an effect should activate upon score changing
      * @param teamIndex: the index of the team we are changing the score of
      * @param scoreIncrement: The amount to change the score by
      */

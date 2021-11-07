@@ -75,7 +75,7 @@ public class EventMover extends Event {
 			getConnectedEvent().setTransform(entityPosition, 0);
 			
 			if (getConnectedEvent() instanceof MovingPoint) {
-				for (Event connect : ((MovingPoint) getConnectedEvent()).getConnected()) {
+				for (Event connect : ((MovingPoint) getConnectedEvent()).getConnected().keySet()) {
 					connect.setTransform(connect.getPosition().add(dist), 0);
 				}
 			}

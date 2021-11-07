@@ -34,8 +34,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class Poison extends Event {
 	
-	private float controllerCount = 0;
-	
 	//Damage done by the poison
 	private final float dps;
 	
@@ -49,8 +47,6 @@ public class Poison extends Event {
 	private float currPoisonSpawnTimer;
 	private final float spawnTimerLimit;
 	private short filter;
-
-	private static final float damageInterval = 1 / 60f;
 
 	private float particleLifespan = 1.5f;
 	private float particleInterval = 4096f;
@@ -123,7 +119,9 @@ public class Poison extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR,
 			(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
 	}
-	
+
+	private float controllerCount;
+	private static final float damageInterval = 1 / 60f;
 	private final Vector2 entityLocation = new Vector2();
 	private final Vector2 randLocation = new Vector2();
 	@Override

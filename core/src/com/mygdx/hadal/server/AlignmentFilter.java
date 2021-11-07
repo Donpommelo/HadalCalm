@@ -252,6 +252,11 @@ public enum AlignmentFilter {
     private static final AlignmentFilter[] colors = { TEAM_BANANA, TEAM_CELADON, TEAM_CHARTREUSE, TEAM_CRIMSON, TEAM_EGGPLANT,
             TEAM_GREY, TEAM_PLUM, TEAM_ORANGE, TEAM_SKY_BLUE, TEAM_TAN, TEAM_TURQUIOSE };
     private static final AlignmentFilter[] colorsWeird = { TEAM_BLACK_AND_WHITE, TEAM_CENSURE, TEAM_SEPIA, TEAM_INVERT };
+
+    /**
+     * Generates a random team color. used for bots. Normal and uncolored alignments are weighted more heavily
+     * @return a random team color
+     */
     public static AlignmentFilter getRandomColor() {
         float random = MathUtils.random();
         if (random < normalChance) {

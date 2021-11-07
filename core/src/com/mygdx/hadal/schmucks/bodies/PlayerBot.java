@@ -7,9 +7,17 @@ import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * A PlayerBot is a player that is controlled by a bot
+ * @author Morcester Mirmalade
+ */
 public class PlayerBot extends Player {
 
+    //this manages all of the player's actions
     private final BotController botController;
+
+    //this is just a vector used for making the player's aim a set distance away from the target
+    //at the moment, this just rotates in a circle around the target when the bot is using thte cola cannon
     private final Vector2 aimWobble = new Vector2(1, 0);
 
     public PlayerBot(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,

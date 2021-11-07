@@ -153,22 +153,24 @@ public class Enemy extends Schmuck {
 	}
 
 	private final Vector2 dist = new Vector2();
+	private final Vector2 targetPosition = new Vector2();
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);
-		
+
 		//move towards movement target, if existent.
 		if (eventTarget != null) {
-			dist.set(eventTarget.getPixelPosition()).sub(getPixelPosition());
-			
+			targetPosition.set(eventTarget.getPosition());
+			dist.set(targetPosition).sub(getPosition());
+
 			//upon reaching target, conclude current action immediately and move on to the next action
-			if ((int) dist.len2() <= 100) {
+			if (dist.len2() <= moveSpeed * moveSpeed * delta * delta) {
+				setTransform(targetPosition, 0);
 				setLinearVelocity(0, 0);
 				eventTarget = null;
 				
 				aiActionCdCount = 0;
 				currentAction = null;
-				
 			} else {
 				setLinearVelocity(dist.nor().scl(moveSpeed));
 			}
@@ -190,14 +192,7 @@ public class Enemy extends Schmuck {
 
 		//Action finishing action, attempt to perform next action. If action queue is empty, begin cooldown until next attack
 		if (aiActionCdCount <= 0 || currentAction == null) {
-			if (!actions.isEmpty()) {
-
-				//get next action and add it begin executing it. Set its duration as our cooldown
-				currentAction = actions.remove(0);
-				aiActionCdCount = currentAction.getDuration();
-				currentAction.execute();
-			} else {
-
+			if (actions.isEmpty()) {
 				//if we have no more actions left, we start our cooldown until our next attack
 				if (aiAttackCdCount <= 0) {
 					aiAttackCdCount = attackCd;
@@ -205,14 +200,22 @@ public class Enemy extends Schmuck {
 					attackInitiate();
 				}
 			}
+			while (!actions.isEmpty()) {
+				//get next action and add it begin executing it. Set its duration as our cooldown
+				currentAction = actions.remove(0);
+				aiActionCdCount = currentAction.getDuration();
+				currentAction.execute();
+				if (aiActionCdCount > 0.0f) { break; }
+			}
 		}
 		
 		//Do the same with secondary action
 		if (aiSecondaryActionCdCount <= 0 || currentSecondaryAction == null) {
-			if (!secondaryActions.isEmpty()) {
+			while (!secondaryActions.isEmpty()) {
 				currentSecondaryAction = secondaryActions.remove(0);
 				aiSecondaryActionCdCount = currentSecondaryAction.getDuration();
 				currentSecondaryAction.execute();
+				if (aiSecondaryActionCdCount > 0.0f) { break; }
 			}
 		}
 	}

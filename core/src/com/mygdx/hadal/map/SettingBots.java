@@ -7,6 +7,7 @@ import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User;
@@ -15,6 +16,12 @@ import com.mygdx.hadal.utils.NameGenerator;
 
 import java.util.ArrayList;
 
+/**
+ * This mode setting sets the number of bots in the game
+ * If an int is provided as an input, the number of bots is locked to that amount.
+ * Otherwise, this presents a ui element that allows the player to choose the number of bots
+ * @author Picycle Proderf
+ */
 public class SettingBots extends ModeSetting {
 
     private static final String[] botNumberChoices = {"0", "1", "2", "3", "4", "5", "6", "7", "8"};
@@ -58,6 +65,7 @@ public class SettingBots extends ModeSetting {
         }
     }
 
+    //this will be the connId of the next bot created.
     private static int lastBotConnID = -1;
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
@@ -66,6 +74,7 @@ public class SettingBots extends ModeSetting {
 
         ArrayList<User> oldBots = new ArrayList<>();
 
+        //go through all existing bots and clear them from the user list
         for (User user: HadalGame.server.getUsers().values()) {
             if (user.getScores().getConnID() < 0) {
                 oldBots.add(user);
@@ -74,8 +83,10 @@ public class SettingBots extends ModeSetting {
         for (User user: oldBots) {
             user.getHitBoxFilter().setUsed(false);
             HadalGame.server.getUsers().remove(user.getScores().getConnID());
+            HadalGame.server.sendToAllTCP(new Packets.RemoveScore(user.getScores().getConnID()));
         }
 
+        //reset next connId, then create each bot while incrementing connId to ensure each has a unique one.
         lastBotConnID = -1;
 
         for (int i = 0; i < botNumberIndex; i++) {
@@ -83,11 +94,13 @@ public class SettingBots extends ModeSetting {
             lastBotConnID--;
         }
 
+        //if any bots are preset, initiate bot rally points, otherwise don't bother
         if (botNumberIndex > 0) {
             BotManager.initiateRallyPoints(state.getMap());
         }
     }
 
+    //this creates a single bot user; giving them a random name and initiating their score fields
     private User createBotUser() {
         String botName = NameGenerator.generateFirstLast(true);
         return new User(null, new SavedPlayerFields(botName, lastBotConnID), new SavedPlayerFieldsExtra());

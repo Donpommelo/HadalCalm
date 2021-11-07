@@ -9,7 +9,10 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * This is a platform that continuously moves towards its connected event.
@@ -34,7 +37,7 @@ public class MovingPoint extends Event {
 	private final float speed;
 	private final boolean pause, syncConnected;
 	
-	private final ArrayList<Event> connected = new ArrayList<>();
+	private final HashMap<Event, Vector2> connected = new HashMap<>();
 	
 	public MovingPoint(PlayState state, Vector2 startPos, Vector2 size, float speed, boolean pause, boolean syncConnected) {
 		super(state, startPos, size);
@@ -51,59 +54,63 @@ public class MovingPoint extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				event.setConnectedEvent(activator.getEvent());
+				needsToStartMoving = true;
 			}
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true, Constants.BIT_SENSOR, (short) 0, (short) 0, false, eventData);
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
-	
-	
+
+
+	private boolean needsToStartMoving = true;
 	private final Vector2 dist = new Vector2();
+	private final Vector2 targetPosition = new Vector2();
+	private final Vector2 tempConnectedPosition = new Vector2();
 	@Override
 	public void controller(float delta) {
 		if (getConnectedEvent() != null) {
 			if (getConnectedEvent().getBody() != null) {
-				dist.set(getConnectedEvent().getPixelPosition()).sub(getPixelPosition());
+				targetPosition.set(getConnectedEvent().getPosition());
+				dist.set(targetPosition).sub(getPosition());
 
-				//If this platform is close enough to its connected event, move to the next event in the chain.
-				if ((int) dist.len2() <= 1) {
-					
-					//If no more connected events, make the platform and all connected events stop moving.
+				if (needsToStartMoving && dist.len2() > delta * delta * speed * speed) {
+					needsToStartMoving = false;
+					//Continually move towards connected event.
+					setLinearVelocity(dist.nor().scl(speed));
+
+					//Move all connected events by same amount.
+					for (Event e : connected.keySet()) {
+						e.setLinearVelocity(dist.nor().scl(speed));
+					}
+				} else if (!needsToStartMoving && dist.len2() < delta * delta * speed * speed) {
+					needsToStartMoving = true;
+					setTransform(targetPosition, 0);
+					for (Map.Entry<Event, Vector2> e : connected.entrySet()) {
+						tempConnectedPosition.set(targetPosition).add(e.getValue());
+						e.getKey().setTransform(tempConnectedPosition, 0);
+					}
+
 					if (getConnectedEvent().getConnectedEvent() == null) {
 						setLinearVelocity(0, 0);
-						
+
 						//Move all connected events by same amount.
-						for (Event e : connected) {
+						for (Event e : connected.keySet()) {
 							e.setLinearVelocity(0, 0);
 						}
 					} else {
-						
-						//activate connected event and connect this event to it (to follow the next dummy point in a path)
 						getConnectedEvent().getConnectedEvent().getEventData().preActivate(eventData, null);
-						setTransform(getConnectedEvent().getPosition(), 0);
-						
 						if (getConnectedEvent().getConnectedEvent().getBody() != null) {
 							setConnectedEvent(getConnectedEvent().getConnectedEvent());
 						} else {
 							if (pause) {
 								setLinearVelocity(0, 0);
-
-								for (Event e : connected) {
+								for (Event e : connected.keySet()) {
 									e.setLinearVelocity(0, 0);
 								}
 							}
 							setConnectedEvent(null);
 						}
-					}
-				} else {
-					
-					//Continually move towards connected event.				
-					setLinearVelocity(dist.nor().scl(speed));
-					
-					//Move all connected events by same amount.
-					for (Event e : connected) {
-						e.setLinearVelocity(dist.nor().scl(speed));
 					}
 				}
 			}
@@ -115,8 +122,7 @@ public class MovingPoint extends Event {
 	 */
 	public void addConnection(Event e) {
 		if (e != null) {
-			connected.add(e);
-			
+			connected.put(e, new Vector2(e.getStartPos()).sub(startPos).scl(1 / PPM));
 			if (syncConnected) {
 				e.setSynced(true);
 				e.setIndependent(false);
@@ -127,5 +133,5 @@ public class MovingPoint extends Event {
 	/**
 	 * This returns all connected events. This is so that event movers can move all connected events at once.
 	 */
-	public ArrayList<Event> getConnected() { return connected; }
+	public HashMap<Event, Vector2> getConnected() { return connected; }
 }

@@ -268,7 +268,7 @@ public class Setting {
 	 */
 	public int indexToFramerate() {
 		return switch (framerate) {
-			case 0 -> 10;
+			case 0 -> 30;
 			case 2 -> 90;
 			case 3 -> 120;
 			case 4 -> 240;

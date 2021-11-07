@@ -10,7 +10,8 @@ public class SavedPlayerFields {
 	private String name;
 	
 	//Player's stored stats
-	private int wins, kills, deaths, score, teamScore, lives, ping, connID;
+	private int wins, kills, deaths, score, teamScore, ping, connID;
+	private int lives = 1;
 
 	//did the player win their last game? This is used to let the client know who won in the results screen.
 	private boolean wonLast;

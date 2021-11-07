@@ -21,6 +21,8 @@ public class ModeMatryoshka extends ModeSetting {
 
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {
+
+        //all players start with 8 lives
         for (User user: HadalGame.server.getUsers().values()) {
             user.getScores().setLives(SizeScaleList.length);
             user.setScoreUpdated(true);
@@ -30,6 +32,8 @@ public class ModeMatryoshka extends ModeSetting {
 
     @Override
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
+
+        //when a new player is spawned, their size is set according to the number of lives they have left
         if (HadalGame.server.getUsers().containsKey(p.getConnID())) {
             User user = HadalGame.server.getUsers().get(p.getConnID());
             if (user != null) {
@@ -46,18 +50,23 @@ public class ModeMatryoshka extends ModeSetting {
             if (HadalGame.server.getUsers().containsKey(vic.getConnID())) {
                 User user = HadalGame.server.getUsers().get(vic.getConnID());
 
+                //When a player dies, they lose 1 life and respawn instantly
                 if (user != null) {
                     user.getScores().setLives(user.getScores().getLives() - 1);
                     if (user.getScores().getLives() <= 0) {
                         mode.processPlayerLivesOut(state, vic);
                     } else {
                         boolean instantRespawn = true;
+
+                        //we don't want players to respawn instantly if they die by falling
                         for (DamageTypes types: tags) {
                             if (types.equals(DamageTypes.BLASTZONE)) {
                                 instantRespawn = false;
                                 break;
                             }
                         }
+
+                        //this ensures that players will respawn in the same location that they died
                         if (instantRespawn) {
                             user.setOverrideSpawn(vic.getPixelPosition());
                             user.respawn(state);

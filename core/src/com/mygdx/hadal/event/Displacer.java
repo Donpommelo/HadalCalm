@@ -52,9 +52,10 @@ public class Displacer extends Event {
 				//when leaving a displacer, we simulate physics by applying a push in the direction of the displacement
 				if (fixB != null) {
 					if (fixB.getEntity().getBody() != null) {
-						fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().add(vec.x * momentumScale, vec.y * momentumScale));
 						if (getConnectedEvent() != null) {
 							fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().add(newOffset.x * momentumScale, newOffset.y * momentumScale));
+						} else {
+							fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().add(vec.x * momentumScale, vec.y * momentumScale));
 						}
 					}
 				}
@@ -65,29 +66,37 @@ public class Displacer extends Event {
 	}
 	
 	private final Vector2 connectedLocation = new Vector2();
+	private float controllerCount;
+	private static final float displaceIntervalCount = 1 / 60f;
 	@Override
 	public void controller(float delta) {
-		if (getConnectedEvent() == null) {
-			
-			//no connected event: displace all affected entities.
-			for (HadalEntity entity : eventData.getSchmucks()) {
-				entity.setTransform(entity.getPosition().add(vec), entity.getAngle());
-			}
-		} else if (getConnectedEvent().isAlive()) {
-			
-			//calculate movement of connected event. Move self and all affected entities by that amount
-			if (offset == null) {
-				offset = new Vector2(getConnectedEvent().getPixelPosition()).sub(startPos).scl(1 / PPM);
-			}
-			connectedLocation.set(getConnectedEvent().getPosition());
-			
-			newOffset.set(connectedLocation).sub(offset).sub(getPosition());
-			
-			for (HadalEntity entity : eventData.getSchmucks()) {
-				entity.setTransform(entity.getPosition().add(newOffset.x, 0), entity.getAngle());
-			}
 
-			setTransform(connectedLocation.sub(offset), getAngle());
+		controllerCount += delta;
+		while (controllerCount >= displaceIntervalCount) {
+			controllerCount -= displaceIntervalCount;
+
+			if (getConnectedEvent() == null) {
+
+				//no connected event: displace all affected entities.
+				for (HadalEntity entity : eventData.getSchmucks()) {
+					entity.setTransform(entity.getPosition().add(vec), entity.getAngle());
+				}
+			} else if (getConnectedEvent().isAlive()) {
+
+				//calculate movement of connected event. Move self and all affected entities by that amount
+				if (offset == null) {
+					offset = new Vector2(getConnectedEvent().getPixelPosition()).sub(startPos).scl(1 / PPM);
+				}
+				connectedLocation.set(getConnectedEvent().getPosition()).sub(offset);
+
+				newOffset.set(connectedLocation).sub(getPosition());
+
+				for (HadalEntity entity : eventData.getSchmucks()) {
+					entity.setTransform(entity.getPosition().add(newOffset.x, 0), entity.getAngle());
+				}
+
+				setTransform(connectedLocation, getAngle());
+			}
 		}
 	}
 }
