@@ -325,6 +325,7 @@ public class Enemy extends Schmuck {
 	
 	@Override
 	public void onClientSync(Object o) {
+		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncSchmuck p) {
 			if (isBoss) {
 				((ClientState) state).getUiPlay().setOverrideBossHpPercent(p.hpPercent);
@@ -335,7 +336,6 @@ public class Enemy extends Schmuck {
 				}
 			}
 		}
-		super.onClientSync(o);
 	}
 	
 	/**

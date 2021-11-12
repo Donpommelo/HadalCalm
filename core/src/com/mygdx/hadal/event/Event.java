@@ -17,6 +17,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState;
@@ -275,11 +276,18 @@ public class Event extends HadalEntity {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public void onServerSync() {
-		if (synced) {
-			super.onServerSync();
+		if (synced && body != null && isSyncDefault()) {
+			float angle = getAngle();
+			if (angle == 0.0f) {
+				state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(),
+						entityAge, state.getTimer()));
+			} else {
+				state.getSyncPackets().add(new PacketsSync.SyncEntityAngled(entityID.toString(), getPosition(), getLinearVelocity(),
+						entityAge, state.getTimer(), angle));
+			}
 		}
 	}
 	

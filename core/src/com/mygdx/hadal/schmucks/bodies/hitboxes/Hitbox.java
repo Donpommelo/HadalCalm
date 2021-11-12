@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -287,10 +288,10 @@ public class Hitbox extends HadalEntity {
 		if (body != null && isSyncInstant()) {
 			float angle = getAngle();
 			if (angle == 0.0f) {
-				state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(),
+				HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(),
 						entityAge, state.getTimer()));
 			} else {
-				state.getSyncPackets().add(new PacketsSync.SyncEntityAngled(entityID.toString(), getPosition(), getLinearVelocity(),
+				HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntityAngled(entityID.toString(), getPosition(), getLinearVelocity(),
 						entityAge, state.getTimer(), angle));
 			}
 		}

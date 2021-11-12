@@ -173,7 +173,7 @@ public class Turret extends Enemy {
 	@Override
 	public void onClientSync(Object o) {
 		super.onClientSync(o);
-		if (o instanceof PacketsSync.SyncEntityAngled p) {
+		if (o instanceof PacketsSync.SyncSchmuckAngled p) {
 			attackAngle = p.angle;
 		}
 	}
