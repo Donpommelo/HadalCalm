@@ -61,7 +61,8 @@ public class Displacer extends Event {
 				}
 			}
 		};
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
+				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
 				(short) 0, true, eventData);
 	}
 	
@@ -94,7 +95,6 @@ public class Displacer extends Event {
 				for (HadalEntity entity : eventData.getSchmucks()) {
 					entity.setTransform(entity.getPosition().add(newOffset.x, 0), entity.getAngle());
 				}
-
 				setTransform(connectedLocation, getAngle());
 			}
 		}

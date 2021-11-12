@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -121,7 +122,14 @@ public class EnemyFloating extends Enemy {
 				(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 		super.render(batch);
 	}
-	
+
+	public void onServerSync() {
+		if (body != null && isSyncDefault()) {
+			state.getSyncPackets().add(new PacketsSync.SyncEntityAngled(entityID.toString(), getPosition(), getLinearVelocity(),
+					entityAge, state.getTimer(), getAngle()));
+		}
+	}
+
 	private final Vector2 originPt = new Vector2();
 	private final Vector2 addVelo = new Vector2();
 	@Override

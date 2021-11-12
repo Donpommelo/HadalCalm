@@ -8,6 +8,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -51,10 +52,10 @@ public class FootballGoal extends Event {
 
                     if (teamIndex < AlignmentFilter.currentTeams.length) {
                         if (p.getStartLoadout().team == AlignmentFilter.currentTeams[teamIndex]) {
-                            state.getKillFeed().addNotification(playerName + " SCORED A GOAL!", false);
+                            state.getKillFeed().addNotification(HText.FOOTBALL_GOAL.text(playerName), false);
                             state.getMode().processPlayerScoreChange(state, p, 1);
                         } else {
-                            state.getKillFeed().addNotification(playerName + " SCORED ON THEIR OWN GOAL!", false);
+                            state.getKillFeed().addNotification(HText.FOOTBALL_GOAL_OWN.text(playerName), false);
                             state.getMode().processPlayerScoreChange(state, p, -1);
                         }
                     }

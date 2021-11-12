@@ -20,7 +20,7 @@ public class ToggleEggplantDrops extends ModeSetting {
 
     @Override
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
-        User user = HadalGame.server.getUsers().get(vic.getConnID());
+        User user = HadalGame.server.getUsers().get(vic.getConnId());
         if (user != null) {
             SavedPlayerFields field = user.getScores();
             int score = (int) (field.getScore() * scrapMultiplier);

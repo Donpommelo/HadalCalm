@@ -11,7 +11,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.server.EventDto;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState;
@@ -116,8 +116,8 @@ public class Poison extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR,
-			(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false,
+				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
 	}
 
 	private float controllerCount;
@@ -134,8 +134,8 @@ public class Poison extends Event {
 				controllerCount -= damageInterval;
 				
 				for (HadalEntity entity : eventData.getSchmucks()) {
-					if (entity instanceof Schmuck) {
-						((Schmuck) entity).getBodyData().receiveDamage(dps, new Vector2(), perp.getBodyData(), true, DamageTypes.POISON);
+					if (entity instanceof Schmuck schmuck) {
+						schmuck.getBodyData().receiveDamage(dps, new Vector2(), perp.getBodyData(), true, DamageTypes.POISON);
 					}
 				}
 			}
@@ -185,9 +185,7 @@ public class Poison extends Event {
 	 */
 	@Override
 	public Object onServerCreate() {
-
 		if (independent) { return null; }
-
 		if (blueprint == null) {
 			entityLocation.set(getPixelPosition());
 			

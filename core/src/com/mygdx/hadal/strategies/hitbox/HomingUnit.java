@@ -86,9 +86,9 @@ public class HomingUnit extends HitboxStrategy {
 			entityLocation.set(hbox.getPosition());
 			//search all nearby enemies and raycast to them to see if there is an unobstructed path.
 			hbox.getWorld().QueryAABB(fixture -> {
-				if (fixture.getUserData() instanceof BodyData) {
+				if (fixture.getUserData() instanceof BodyData bodyData) {
 
-					homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
+					homeAttempt = bodyData.getSchmuck();
 					homeLocation.set(homeAttempt.getPosition());
 					shortestFraction = 1.0f;
 
@@ -100,8 +100,8 @@ public class HomingUnit extends HitboxStrategy {
 									  closestFixture = fixture1;
 									  return fraction;
 								  }
-							  } else if (fixture1.getUserData() instanceof BodyData) {
-								  if (((BodyData) fixture1.getUserData()).getSchmuck().getHitboxfilter() != hbox.getFilter()) {
+							  } else if (fixture1.getUserData() instanceof BodyData targetData) {
+								  if (targetData.getSchmuck().getHitboxfilter() != hbox.getFilter()) {
 									  if (fraction < shortestFraction) {
 										  shortestFraction = fraction;
 										  closestFixture = fixture1;
@@ -113,8 +113,8 @@ public class HomingUnit extends HitboxStrategy {
 						  }, entityLocation, homeLocation);
 
 						if (closestFixture != null) {
-							if (closestFixture.getUserData() instanceof BodyData) {
-								homing = ((BodyData) closestFixture.getUserData()).getSchmuck();
+							if (closestFixture.getUserData() instanceof BodyData homingData) {
+								homing = homingData.getSchmuck();
 							}
 						}
 					}

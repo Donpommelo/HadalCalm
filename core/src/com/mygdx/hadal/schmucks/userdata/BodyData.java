@@ -115,7 +115,6 @@ public class BodyData extends HadalData {
 	 * @return a ProcTime for certain statuses that pass along a modified value (like on damage effects)
 	 */
 	public ProcTime statusProcTime(ProcTime o) {
-				
 		ProcTime finalProcTime = o;
 		
 		ArrayList<Status> oldChecked = new ArrayList<>();
@@ -137,7 +136,7 @@ public class BodyData extends HadalData {
 		}
 		
 		for (Status s : this.statusesChecked) {
-			if(!oldChecked.contains(s)) {
+			if (!oldChecked.contains(s)) {
 				this.statuses.add(s);
 			}
 		}
@@ -152,7 +151,6 @@ public class BodyData extends HadalData {
 	 * @param s: Status to add
 	 */
 	public void addStatus(Status s) {
-		
 		if (!schmuck.getState().isServer()) { return; }
 		
 		boolean added = false;
@@ -185,7 +183,6 @@ public class BodyData extends HadalData {
 	 * Removes a status from this schmuck
 	 */
 	public void removeStatus(Status s) {
-		
 		if (!schmuck.getState().isServer()) { return; }
 		
 		s.onRemove();
@@ -198,7 +195,6 @@ public class BodyData extends HadalData {
 	 * Removes a status from this schmuck
 	 */
 	public void removeArtifactStatus(UnlockArtifact artifact) {
-		
 		if (!schmuck.getState().isServer()) { return; }
 		
 		ArrayList<Status> toRemove = new ArrayList<>();
@@ -210,7 +206,6 @@ public class BodyData extends HadalData {
 				}
 			}
 		}
-		
 		for (Status s: statusesChecked) {
 			if (s.getArtifact() != null) {
 				if (s.getArtifact().equals(artifact)) {
@@ -218,11 +213,9 @@ public class BodyData extends HadalData {
 				}
 			}
 		}
-		
-		for(Status st: toRemove) {
+		for (Status st: toRemove) {
 			removeStatus(st);
 		}
-		
 		calcStats();
 	}
 	
@@ -263,9 +256,9 @@ public class BodyData extends HadalData {
 		currentHp = hpPercent * getStat(Stats.MAX_HP);
 		currentFuel = fuelPercent * getStat(Stats.MAX_FUEL);
 		
-		if (currentTool instanceof RangedWeapon) {
-			((RangedWeapon) currentTool).setClipLeft();
-			((RangedWeapon) currentTool).setAmmoLeft();
+		if (currentTool instanceof RangedWeapon ranged) {
+			ranged.setClipLeft();
+			ranged.setAmmoLeft();
 		}
 	}
 	
@@ -279,7 +272,6 @@ public class BodyData extends HadalData {
 	 */
 	@Override
 	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
-		
 		if (!schmuck.isAlive()) { return 0.0f; }
 		
 		//calculate damage
@@ -323,25 +315,25 @@ public class BodyData extends HadalData {
 		
 		if (schmuck.getState().isServer()) {
 			//charge on-damage active item
-			if (perp instanceof PlayerBodyData) {
-				if (((PlayerBodyData) perp).getActiveItem().getStyle().equals(chargeStyle.byDamageInflict)) {
+			if (perp instanceof PlayerBodyData perpData) {
+				if (perpData.getActiveItem().getStyle().equals(chargeStyle.byDamageInflict)) {
 					
 					//active item charges less against non-player enemies
 					if (this instanceof PlayerBodyData) {
-						((PlayerBodyData) perp).getActiveItem().gainCharge(damage * ActiveItem.damageChargeMultiplier);
+						perpData.getActiveItem().gainCharge(damage * ActiveItem.damageChargeMultiplier);
 					} else {
-						((PlayerBodyData) perp).getActiveItem().gainCharge(damage * ActiveItem.damageChargeMultiplier * ActiveItem.enemyDamageChargeMultiplier);
+						perpData.getActiveItem().gainCharge(damage * ActiveItem.damageChargeMultiplier * ActiveItem.enemyDamageChargeMultiplier);
 					}
 				}
-				User userPerp = HadalGame.server.getUsers().get(((PlayerBodyData) perp).getPlayer().getConnID());
+				User userPerp = HadalGame.server.getUsers().get(perpData.getPlayer().getConnId());
 				if (userPerp != null) {
 					SavedPlayerFieldsExtra field = userPerp.getScoresExtra();
 					//play on-hit sounds. pitched up automatically if fatal. No sounds for self or friendly fire.
 					if (perp.getSchmuck().getHitboxfilter() != schmuck.getHitboxfilter()) {
 						if (currentHp == 0) {
-							((PlayerBodyData) perp).getPlayer().playHitSound(999);
+							perpData.getPlayer().playHitSound(999);
 						} else {
-							((PlayerBodyData) perp).getPlayer().playHitSound(damage);
+							perpData.getPlayer().playHitSound(damage);
 						}
 
 						//track perp's damage dealt

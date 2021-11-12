@@ -407,8 +407,7 @@ public class WeaponUtils {
 					
 					int randomIndex = MathUtils.random(projSprites.length - 1);
 					Sprite projSprite = projSprites[randomIndex];
-					
-					
+
 					Hitbox hbox = new Hitbox(state, new Vector2(originPt), meteorSize, lifespan, new Vector2(0, -meteorSpeed), user.getHitboxfilter(), true, false, user, projSprite);
 					hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 

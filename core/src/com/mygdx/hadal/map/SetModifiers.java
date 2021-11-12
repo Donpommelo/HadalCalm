@@ -9,6 +9,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.map.modifiers.ModeModifier;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 
 /**
  * This mode setting is used for modes that allow the host to select modifiers
@@ -17,7 +18,7 @@ import com.mygdx.hadal.states.PlayState;
 public class SetModifiers extends ModeSetting {
 
     private final ModeModifier[] modifiers;
-    private static final String ModifierNotifTag = "MODIFIERS: ";
+    private static final HText ModifierNotifTag = HText.MODIFIER;
 
     public SetModifiers(ModeModifier... modifiers) {
         this.modifiers = modifiers;
@@ -26,9 +27,9 @@ public class SetModifiers extends ModeSetting {
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
 
-        Text title = new Text("MODIFIERS", 0, 0, false);
+        Text title = new Text(ModifierNotifTag.text(), 0, 0, false);
         title.setScale(ModeSettingSelection.detailsScale);
-        Text uncheck = new Text("UNCHECK ALL?", 0, 0, true);
+        Text uncheck = new Text(HText.MODIFIER_UNCHECK.text(), 0, 0, true);
         uncheck.setScale(ModeSettingSelection.detailsScale);
 
         uncheck.addListener(new ClickListener() {
@@ -58,12 +59,12 @@ public class SetModifiers extends ModeSetting {
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        StringBuilder text = new StringBuilder(ModifierNotifTag);
+        StringBuilder text = new StringBuilder(ModifierNotifTag.text());
 
         for (ModeModifier modifier: modifiers) {
             modifier.loadModifier(state, mode, text);
         }
-        if (!text.toString().equals(ModifierNotifTag)) {
+        if (!text.toString().equals(ModifierNotifTag.text())) {
             mode.getInitialNotifications().add(text.toString());
         }
     }

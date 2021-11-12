@@ -7,7 +7,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -69,7 +69,7 @@ public class PlayerClient extends Player {
 	public void onReceiveSync(Object o, float timestamp) {
 		super.onReceiveSync(o, timestamp);
 		
-		if (o instanceof Packets.SyncEntity p) {
+		if (o instanceof PacketsSync.SyncEntity p) {
 
 			//ignore packets sent out of order
 			if (p.timestamp < lastTimestamp) { return; }
@@ -324,7 +324,9 @@ public class PlayerClient extends Player {
 
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncPlayerAll p) {
+		super.onClientSync(o);
+
+		if (o instanceof PacketsSync.SyncPlayer p) {
 
 			getPlayerData().setCurrentSlot(p.currentSlot);
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
@@ -337,8 +339,6 @@ public class PlayerClient extends Player {
 			invisible = p.invisible;
 			
 			//notably, we omit the syncing of our passability, as that causes weird interactions with dropthrough platforms
-		} else {
-			super.onClientSync(o);
 		}
 	}
 }

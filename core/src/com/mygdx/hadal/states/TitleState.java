@@ -21,7 +21,8 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.managers.GameStateManager.State;
-import com.mygdx.hadal.utils.NameGenerator;
+import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.NameGenerator;
 
 import static com.mygdx.hadal.utils.Constants.*;
 
@@ -160,31 +161,31 @@ public class TitleState extends GameState {
 				notificationTable.setSize(notificationWidth, notificationHeight);
 				addActor(notificationTable);
 
-				Text nameDisplay = new Text("YOUR NAME: ", 0, 0, false);
+				Text nameDisplay = new Text(HText.YOUR_NAME.text(), 0, 0, false);
 				nameDisplay.setScale(scaleSide);
 
-				Text nameRand = new Text("GENERATE RANDOM NAME", 0, 0, true);
+				Text nameRand = new Text(HText.GEN_NAME.text(), 0, 0, true);
 				nameRand.setScale(scaleSide);
 
-				Text multiOption = new Text("MULTIPLAYER", 0, 0, true);
+				Text multiOption = new Text(HText.MULTIPLAYER.text(), 0, 0, true);
 				multiOption.setScale(scale);
 
-				Text singleOption = new Text("SINGLEPLAYER", 0, 0, true);
+				Text singleOption = new Text(HText.SINGLEPLAYER.text(), 0, 0, true);
 				singleOption.setScale(scale);
 
-				Text settingsOption = new Text("OPTIONS", 0, 0, true);
+				Text settingsOption = new Text(HText.SETTINGS.text(), 0, 0, true);
 				settingsOption.setScale(scale);
 
-				Text aboutOption = new Text("EXTRA", 0, 0, true);
+				Text aboutOption = new Text(HText.EXTRA.text(), 0, 0, true);
 				aboutOption.setScale(scale);
 
-				Text exitOption = new Text("EXIT", 0, 0, true);
+				Text exitOption = new Text(HText.EXIT.text(), 0, 0, true);
 				exitOption.setScale(scale);
 
 				notifications = new Text("", 0, 0, false);
 				notifications.setScale(scale);
 
-				Text versionNum = new Text("VERSION: " + HadalGame.Version, versionNumX, versionNumY, true);
+				Text versionNum = new Text(HText.VERSION.text(HadalGame.Version), versionNumX, versionNumY, true);
 				versionNum.setScale(scale);
 				versionNum.setHeight(optionHeight);
 
@@ -205,7 +206,7 @@ public class TitleState extends GameState {
 						if (inputDisabled) { return; }
 
 						if (enterName.getText().isEmpty()) {
-							setNotification("PLEASE ENTER NAME");
+							setNotification(HText.PLEASE_ENTER_NAME.text());
 							return;
 						}
 
@@ -229,7 +230,7 @@ public class TitleState extends GameState {
 						if (inputDisabled) { return; }
 
 						if (enterName.getText().isEmpty()) {
-							setNotification("PLEASE ENTER NAME");
+							setNotification(HText.PLEASE_ENTER_NAME.text());
 							return;
 						}
 
@@ -303,7 +304,7 @@ public class TitleState extends GameState {
 						
 						SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
 						enterName.setText(NameGenerator.generateFirstLast(gsm.getSetting().isRandomNameAlliteration()));
-			        	setNotification("RANDOM NAME GENERATED!");
+			        	setNotification(HText.RAND_NAME_GEN.text());
 				        }
 				});
 				
@@ -321,8 +322,8 @@ public class TitleState extends GameState {
 
 				enterName = new TextField(gsm.getLoadout().getName(), GameStateManager.getSkin());
 				enterName.setMaxLength(MAX_NAME_LENGTH_TOTAL);
-				enterName.setMessageText("ENTER NAME");
-				
+				enterName.setMessageText(HText.ENTER_NAME.text());
+
 				tableName.add(nameDisplay).height(optionHeight).pad(5);
 				tableName.add(enterName).width(textWidth).height(optionHeight).row();
 				tableName.add(nameRand).height(optionHeight).colspan(2);

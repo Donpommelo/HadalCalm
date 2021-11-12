@@ -42,7 +42,7 @@ public class PlayerAlignmentChanger extends Event {
 
 				if (p != null) {
 					if (state.isServer()) {
-						User user = HadalGame.server.getUsers().get(p.getConnID());
+						User user = HadalGame.server.getUsers().get(p.getConnId());
 
 						short newIndex = p.getHitboxfilter();
 

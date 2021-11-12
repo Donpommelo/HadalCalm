@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
@@ -37,7 +36,8 @@ public class Sensor extends Event {
 	
 	public Sensor(PlayState state, Vector2 startPos, Vector2 size, boolean player, boolean hbox, boolean event, boolean enemy,	float gravity, boolean collision) {
 		super(state, startPos, size);
-		this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) | (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
+		this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) |
+				(event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
 		this.gravity = gravity;
 		this.collision = collision;
 	}
@@ -58,11 +58,11 @@ public class Sensor extends Event {
 				
 				if (isAlive()) {
 					if (event.getConnectedEvent() != null) {
-						if (fixB instanceof PlayerBodyData) {
-							event.getConnectedEvent().getEventData().preActivate(this, ((PlayerBodyData) fixB).getPlayer());
-						} else if (fixB instanceof HitboxData) {
-							if (((HitboxData) fixB).getHbox().getCreator().getBodyData() instanceof PlayerBodyData) {
-								event.getConnectedEvent().getEventData().preActivate(this, ((Player) ((HitboxData) fixB).getHbox().getCreator()));
+						if (fixB instanceof PlayerBodyData playerData) {
+							event.getConnectedEvent().getEventData().preActivate(this, playerData.getPlayer());
+						} else if (fixB instanceof HitboxData hboxData) {
+							if (hboxData.getHbox().getCreator().getBodyData() instanceof PlayerBodyData shooterData) {
+								event.getConnectedEvent().getEventData().preActivate(this, shooterData.getPlayer());
 							}
 						} else {
 							event.getConnectedEvent().getEventData().preActivate(this, null);
@@ -76,11 +76,13 @@ public class Sensor extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0, 0, false, false, Constants.BIT_SENSOR, filter,	(short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0, 0, false, false,
+				Constants.BIT_SENSOR, filter, (short) 0, true, eventData);
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 		
 		if (collision) {
-			FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size).scl(2), false, 0, 0, 0.0f, 1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0);
+			FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size).scl(2), false, 0, 0,
+					0.0f, 1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0);
 		}
 	}
 }

@@ -16,8 +16,10 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.text.HText;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -38,6 +40,8 @@ public class KryoServer {
 	
 	//These keep track of all connected players, their mice and scores.
 	private HashMap<Integer, User> users;
+
+	private String serverName = "";
 
 	public KryoServer(GameStateManager gameStateManager) {
 		this.gsm = gameStateManager;
@@ -83,7 +87,7 @@ public class KryoServer {
 							if (player.getPlayerData() != null) {
 								player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageTypes.DISCONNECT);
 							}
-							addNotificationToAll(ps, player.getName(), " DISCONNECTED!", DialogType.SYSTEM);
+							addNotificationToAll(ps, "", HText.CLIENT_DISCONNECTED.text(player.getName()), DialogType.SYSTEM);
 						});
 					}
 					ps.addPacketEffect(() -> {
@@ -142,7 +146,7 @@ public class KryoServer {
 							
 							//reject clients with wrong version
 							if (!p.version.equals(HadalGame.Version)) {
-								sendToTCP(c.getID(), new Packets.ConnectReject("INCOMPATIBLE VERSION. HOST ON VER: " + HadalGame.Version));
+								sendToTCP(c.getID(), new Packets.ConnectReject(HText.INCOMPATIBLE.text(HadalGame.Version)));
 								return;
 							}
 
@@ -154,11 +158,11 @@ public class KryoServer {
 									sendToTCP(c.getID(), new Packets.PasswordRequest());
 									return;
 								} else if (!gsm.getSetting().getServerPassword().equals(p.password)){
-									sendToTCP(c.getID(), new Packets.ConnectReject("INCORRECT PASSWORD"));
+									sendToTCP(c.getID(), new Packets.ConnectReject(HText.INCORRECT_PASSWORD.text()));
 									return;
 								}
 							}
-							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!", DialogType.SYSTEM);
+							addNotificationToAllExcept(ps, c.getID(), "", HText.CLIENT_CONNECTED.text(p.name), DialogType.SYSTEM);
 
 							//clients joining full servers or in the middle of matches join as spectators
 							if (getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers() + 1) {
@@ -184,7 +188,7 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					//notify players of new joiners
 					if (p.firstTime) {
-						sendNotification(c.getID(), ps.getPlayer().getName(), "JOINED SERVER!", DialogType.SYSTEM);
+						sendNotification(c.getID(), "", HText.CLIENT_JOINED.text(serverName), DialogType.SYSTEM);
 					}
 
 					//catch up client
@@ -319,15 +323,15 @@ public class KryoServer {
 							//if pauses are enabled, unpause and remove pause state (and setting state)
 							if (player != null && gsm.getSetting().isMultiplayerPause()) {
 								if (gsm.getStates().peek() instanceof final PauseState ps) {
-									addNotificationToAll(ps.getPs(), player.getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
+									addNotificationToAll(ps.getPs(), "", HText.SERVER_UNPAUSED.text(player.getName()), DialogType.SYSTEM);
 									ps.setToRemove(true);
 								}
 								if (gsm.getStates().peek() instanceof final SettingState ss) {
-									addNotificationToAll(ss.getPlayState(), player.getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
+									addNotificationToAll(ss.getPlayState(), "", HText.SERVER_UNPAUSED.text(player.getName()), DialogType.SYSTEM);
 									ss.setToRemove(true);
 								}
 								if (gsm.getStates().peek() instanceof final AboutState as) {
-									addNotificationToAll(as.getPlayState(), player.getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
+									addNotificationToAll(as.getPlayState(), "", HText.SERVER_UNPAUSED.text(player.getName()), DialogType.SYSTEM);
 									as.setToRemove(true);
 								}
 								HadalGame.server.sendToAllTCP(new Packets.Unpaused());
@@ -480,8 +484,8 @@ public class KryoServer {
 		try {
 			server.bind(gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
 		} catch (IOException e) {
-			if (gsm.getStates().peek() instanceof LobbyState) {
-				((LobbyState) gsm.getStates().peek()).setNotification("COULD NOT OPEN SERVER AT PORT: " + gsm.getSetting().getPortNumber());
+			if (gsm.getStates().peek() instanceof LobbyState lobby) {
+				lobby.setNotification(HText.PORT_FAIL.text(Integer.toString(gsm.getSetting().getPortNumber())));
 			}
 		}	
 		registerPackets();
@@ -533,25 +537,6 @@ public class KryoServer {
 				user.setSpectator(false);
 			}
 		});
-	}
-	
-	/**
-	 * This sends a specific packet to a specific client based on their player 
-	 * @param p: player to send a packet to
-	 * @param o: packet to send
-	 */
-	public void sendPacketToPlayer(Player p, Object o) {
-		
-		if (server == null) { return; }
-		
-		for (Entry<Integer, User> conn: users.entrySet()) {
-			if (conn.getValue().getPlayer() != null) {
-				if (conn.getValue().getPlayer().equals(p)) {
-					server.sendToTCP(conn.getKey(), o);
-					break;
-				}
-			}
-		}
 	}
 	
 	/**
@@ -685,7 +670,7 @@ public class KryoServer {
 	public void kickPlayer(PlayState ps, User user, int connID) {
 		if (server != null) {
 			if (user.getPlayer() != null) {
-				addNotificationToAll(ps, user.getPlayer().getName(), " WAS KICKED!", DialogType.SYSTEM);
+				addNotificationToAll(ps,"", HText.KICKED.text(user.getPlayer().getName()), DialogType.SYSTEM);
 			}
 			sendToTCP(connID, new Packets.ClientYeet());
 		}
@@ -709,4 +694,6 @@ public class KryoServer {
 	public Server getServer() {	return server; }
 
 	public HashMap<Integer, User> getUsers() { return users; }
+
+	public void setServerName(String serverName) { this.serverName = serverName; }
 }

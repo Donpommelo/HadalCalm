@@ -5,14 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.map.SettingLives;
-import com.mygdx.hadal.map.SettingTimer;
 import com.mygdx.hadal.save.SharedSetting;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
+import com.mygdx.hadal.text.HText;
 
 import java.util.ArrayList;
 import java.util.Map.Entry;
@@ -41,7 +40,7 @@ public class ScoreWindow {
 	private static final float scorePadY = 18.0f;
 
 	private static final int settingsWidth = 280;
-	private static final int settingsHeight = 500;
+	private static final int settingsHeight = 300;
 	private static final int settingsRowHeight = 20;
 	private static final float settingsScale = 0.25f;
 	private static final float settingsPadY = 15.0f;
@@ -102,19 +101,19 @@ public class ScoreWindow {
 		Text title = new Text(state.getLevel().toString(), 0, 0, false);
 		title.setScale(scoreScale);
 		
-		Text playerLabel = new Text("PLAYER", 0, 0, false);
+		Text playerLabel = new Text(HText.PLAYER.text(), 0, 0, false);
 		playerLabel.setScale(scoreScale);
 		
-		Text killsLabel = new Text("KILLS", 0, 0, false);
+		Text killsLabel = new Text(HText.KILLS.text(), 0, 0, false);
 		killsLabel.setScale(scoreScale);
 		
-		Text deathsLabel = new Text("DEATHS", 0, 0, false);
+		Text deathsLabel = new Text(HText.DEATHS.text(), 0, 0, false);
 		deathsLabel.setScale(scoreScale);
 		
-		Text scoreLabel = new Text("SCORE", 0, 0, false);
+		Text scoreLabel = new Text(HText.SCORE.text(), 0, 0, false);
 		scoreLabel.setScale(scoreScale);
 		
-		Text winsLabel = new Text("WINS", 0, 0, false);
+		Text winsLabel = new Text(HText.WINS.text(), 0, 0, false);
 		winsLabel.setScale(scoreScale);
 		
 		tableScore.add(title).height(scoreTitleHeight).colspan(5).row();
@@ -170,22 +169,16 @@ public class ScoreWindow {
 		tableSettings.setPosition(HadalGame.CONFIG_WIDTH - settingsWidth, HadalGame.CONFIG_HEIGHT - settingsHeight);
 
 		//add table headings
-		Text title = new Text("SERVER SETTINGS", 0, 0, false);
+		Text title = new Text(HText.SERVER_SETTINGS.text(), 0, 0, false);
 		title.setScale(settingsScale);
-		
-		Text pvpTimerField = new Text("PVP TIMER:", 0, 0, false);
-		pvpTimerField.setScale(settingsScale);
-		
-		Text livesField = new Text("LIVES: ", 0, 0, false);
-		livesField.setScale(settingsScale);
 
-		Text slotsField = new Text("ARTIFACT SLOTS: ", 0, 0, false);
+		Text slotsField = new Text(HText.ARTIFACT_SLOTS.text(), 0, 0, false);
 		slotsField.setScale(settingsScale);
 		
-		Text pauseField = new Text("PAUSE ENABLED: ", 0, 0, false);
+		Text pauseField = new Text(HText.SERVER_PAUSE.text(), 0, 0, false);
 		pauseField.setScale(settingsScale);
 		
-		Text serverSizeField = new Text("SERVER CAPACITY: ", 0, 0, false);
+		Text serverSizeField = new Text(HText.SERVER_CAPACITY.text(), 0, 0, false);
 		serverSizeField.setScale(settingsScale);
 
 		//obtain settings. (host settings for clients)
@@ -196,13 +189,6 @@ public class ScoreWindow {
 			used = state.getGsm().getHostSetting();
 		}
 
-		//set and add setting info
-		Text pvpTimer = new Text(SettingTimer.timerChoices[used.getPVPTimer()], 0, 0, false);
-		pvpTimer.setScale(settingsScale);
-		
-		Text lives = new Text(SettingLives.livesChoices[used.getLives()], 0, 0, false);
-		lives.setScale(settingsScale);
-		
 		Text slots = new Text(SettingState.artifactChoices[used.getArtifactSlots()], 0, 0, false);
 		slots.setScale(settingsScale);
 		
@@ -212,13 +198,7 @@ public class ScoreWindow {
 		Text serverSize = new Text(SettingState.capacityChoices[used.getMaxPlayers()], 0, 0, false);
 		serverSize.setScale(settingsScale);
 		
-		tableSettings.add(title).height(settingsRowHeight).colspan(2).row();
-		
-		tableSettings.add(pvpTimerField).height(settingsRowHeight).padBottom(settingsPadY);
-		tableSettings.add(pvpTimer).height(settingsRowHeight).padBottom(settingsPadY).row();
-		
-		tableSettings.add(livesField).height(settingsRowHeight).padBottom(settingsPadY);
-		tableSettings.add(lives).height(settingsRowHeight).padBottom(settingsPadY).row();
+		tableSettings.add(title).height(settingsRowHeight).expandY().top().colspan(2).row();
 
 		tableSettings.add(slotsField).height(settingsRowHeight).padBottom(settingsPadY);
 		tableSettings.add(slots).height(settingsRowHeight).padBottom(settingsPadY).row();
@@ -260,7 +240,7 @@ public class ScoreWindow {
 		if (user != null) {
 			Text mute = new Text("", 0, 0, true);
 			if (user.isMuted()) {
-				mute.setText("UNMUTE");
+				mute.setText(HText.UNMUTE.text());
 				mute.addListener(new ClickListener() {
 
 					@Override
@@ -271,7 +251,7 @@ public class ScoreWindow {
 					}
 				});
 			} else {
-				mute.setText("MUTE");
+				mute.setText(HText.MUTE.text());
 				mute.addListener(new ClickListener() {
 
 					@Override
@@ -289,7 +269,7 @@ public class ScoreWindow {
 			if (state.isServer()) {
 				//host cannot ban self
 				if (connID != 0) {
-					Text ban = new Text("BAN", 0, 0, true);
+					Text ban = new Text(HText.BAN.text(), 0, 0, true);
 					ban.setScale(settingsScale);
 					ban.addListener(new ClickListener() {
 
@@ -352,7 +332,6 @@ public class ScoreWindow {
 		windowScore.setVisible(visible);
 		tableSettings.setVisible(visible);
 		windowSettings.setVisible(visible);
-
 		tableOptions.remove();
 		windowOptions.remove();
 	}

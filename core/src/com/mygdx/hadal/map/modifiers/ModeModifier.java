@@ -9,6 +9,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 
 /**
  * A Mode Modifier allows the player to select a setting that changes the gameplay of the match
@@ -17,11 +18,12 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class ModeModifier extends ModeSetting {
 
-    private final String settingTag, uiText, name;
+    private final String settingTag;
+    private final HText uiText, name;
 
     private CheckBox dropsOptions;
 
-    public ModeModifier(String settingTag, String uiText, String name) {
+    public ModeModifier(String settingTag, HText uiText, HText name) {
         this.settingTag = settingTag;
         this.uiText = uiText;
         this.name = name;
@@ -29,7 +31,7 @@ public class ModeModifier extends ModeSetting {
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
-        Text title = new Text(uiText, 0, 0, false);
+        Text title = new Text(uiText.text(), 0, 0, false);
         title.setScale(ModeSettingSelection.detailsScale);
 
         dropsOptions = new CheckBox("", GameStateManager.getSkin());
@@ -51,7 +53,7 @@ public class ModeModifier extends ModeSetting {
     public void loadModifier(PlayState state, GameMode mode, StringBuilder text) {
         if (state.getGsm().getSetting().getModeSetting(mode, settingTag, 0) == 1) {
             executeModifier(state, mode);
-            text.append(name).append(", ");
+            text.append(name.text()).append(", ");
         }
     }
 

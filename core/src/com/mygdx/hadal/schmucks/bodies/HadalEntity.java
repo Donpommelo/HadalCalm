@@ -9,7 +9,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
@@ -193,13 +194,15 @@ public abstract class HadalEntity {
 	 */
 	public void onServerSync() {
 		if (body != null && syncDefault) {
-			state.getSyncPackets().add(new Packets.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(), getAngle(), entityAge, state.getTimer(), false));
+			state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(),
+					entityAge, state.getTimer()));
 		}
 	}
 	
 	public void onServerSyncFast() {
 		if (body != null && syncInstant) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(), getAngle(), entityAge, state.getTimer(), true));
+			HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(),
+					entityAge, state.getTimer()));
 		}
 	}
 	
@@ -235,13 +238,16 @@ public abstract class HadalEntity {
 	 * @param o: the packet object we are receiving from the server
 	 */
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncEntity p) {
+		if (o instanceof PacketsSync.SyncEntity p) {
 			if (body != null) {
-				copyServerInstantly = p.instant;
 
+				float angle = 0;
+				if (o instanceof PacketsSync.SyncEntityAngled a) {
+					angle = a.angle;
+				}
 				//if copying instantly, set transform. Otherwise, save the position, angle, and set the velocity of the most recent snapshot and the one before it
 				if (copyServerInstantly) {
-					setTransform(p.pos, p.angle);
+					setTransform(p.pos, angle);
 				} else {
 					prevPos.set(serverPos);
 					serverPos.set(p.pos);
@@ -249,7 +255,7 @@ public abstract class HadalEntity {
 					prevVelo.set(serverVelo);
 					serverVelo.set(p.velocity);
 					
-					serverAngle.setAngleRad(p.angle);			
+					serverAngle.setAngleRad(angle);
 				}
 			}
 		} else if (o instanceof Packets.DeleteEntity) {

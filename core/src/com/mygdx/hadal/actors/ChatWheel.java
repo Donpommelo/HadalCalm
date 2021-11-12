@@ -11,7 +11,7 @@ import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.ConsoleCommandUtil;
 import com.payne.games.piemenu.AnimatedPieMenu;
@@ -185,7 +185,7 @@ public class ChatWheel {
 		if (emoteIndex == 6) {
 			ConsoleCommandUtil.parseChatCommand(state, player, options[emoteIndex]);
 		} else {
-			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, player.getConnID());
+			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, player.getConnId());
 		}
 		if (player.getPlayerData() != null) {
 			WeaponUtils.emote(state, player, indexToEmote(emoteIndex));

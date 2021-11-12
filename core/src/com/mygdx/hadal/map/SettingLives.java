@@ -11,6 +11,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.text.HText;
 
 import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
 
@@ -20,7 +21,6 @@ import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
  */
 public class SettingLives extends ModeSetting {
 
-    public static final String[] livesChoices = {"UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES"};
     public static final String settingTag = "lives";
     public static final Integer defaultValue = 0;
 
@@ -38,7 +38,8 @@ public class SettingLives extends ModeSetting {
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
         if (livesChoice) {
-            Text lives = new Text("LIVES: ", 0, 0, false);
+            String[] livesChoices = HText.SETTING_LIVES_OPTIONS.text().split(",");
+            Text lives = new Text(HText.SETTING_LIVES.text(), 0, 0, false);
             lives.setScale(ModeSettingSelection.detailsScale);
 
             livesOptions = new SelectBox<>(GameStateManager.getSkin());
@@ -82,8 +83,8 @@ public class SettingLives extends ModeSetting {
     @Override
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
         if (vic != null) {
-            if (HadalGame.server.getUsers().containsKey(vic.getConnID())) {
-                User user = HadalGame.server.getUsers().get(vic.getConnID());
+            if (HadalGame.server.getUsers().containsKey(vic.getConnId())) {
+                User user = HadalGame.server.getUsers().get(vic.getConnId());
 
                 if (user != null) {
                     if (unlimitedLives) {

@@ -16,6 +16,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.FiringWeapon;
 import com.mygdx.hadal.strategies.hitbox.*;
+import com.mygdx.hadal.text.HText;
 
 public class ColaCannon extends RangedWeapon {
 
@@ -112,9 +113,9 @@ public class ColaCannon extends RangedWeapon {
 	@Override
 	public String getChargeText() {
 		if (chargeCd < getChargeTime()) {
-			return "SHAKE MOUSE!";
+			return HText.SHAKE_MOUSE.text();
 		} else {
-			return "RELEASE!";
+			return HText.FIRE.text();
 		}
 	}
 }

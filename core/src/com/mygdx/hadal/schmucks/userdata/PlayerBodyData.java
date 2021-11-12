@@ -21,8 +21,8 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.Packets;
-import com.mygdx.hadal.server.Packets.SyncPlayerStats;
+import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.packets.Packets.SyncPlayerStats;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.ClientState;
@@ -137,7 +137,7 @@ public class PlayerBodyData extends BodyData {
 		
 		this.loadout = newLoadout;
 
-		User user = HadalGame.client.getUsers().get(player.getConnID());
+		User user = HadalGame.client.getUsers().get(player.getConnId());
 		if (user != null) {
 			user.setTeamFilter(loadout.team);
 		}
@@ -449,7 +449,7 @@ public class PlayerBodyData extends BodyData {
 		loadout.team = team;
 		player.setBodySprite(null, team);
 
-		User user = HadalGame.server.getUsers().get(player.getConnID());
+		User user = HadalGame.server.getUsers().get(player.getConnId());
 		if (user != null) {
 			user.setTeamFilter(team);
 		}
@@ -464,7 +464,6 @@ public class PlayerBodyData extends BodyData {
 	 * This method saves the player's current artifacts into records
 	 */
 	public void saveArtifacts() {
-		
 		if (player.equals(player.getState().getPlayer())) {
 			for(int i = 0; i < Loadout.maxArtifactSlots; i++) {
 				player.getState().getGsm().getLoadout().setArtifact(i, loadout.artifacts[i].toString());
@@ -489,8 +488,8 @@ public class PlayerBodyData extends BodyData {
 		
 		//if this is a client, we send them a packet telling them to update their ui to match the new stats.
 		if (player.getState().isServer()) {
-			if (player.getConnID() != 0) {
-				HadalGame.server.sendPacketToPlayer(player, new SyncPlayerStats(getCurrentTool().getClipSize(), getStat(Stats.MAX_HP), getStat(Stats.MAX_FUEL), 
+			if (player.getConnId() != 0) {
+				HadalGame.server.sendToTCP(player.getConnId(), new SyncPlayerStats(getCurrentTool().getClipSize(), getStat(Stats.MAX_HP), getStat(Stats.MAX_FUEL),
 						getAirblastCost(), getNumWeaponSlots(), getNumArtifactSlots(), getStat(Stats.HEALTH_VISIBILITY)));
 			}
 		}
@@ -509,7 +508,6 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public int getNumArtifactSlots() {
 		if (player.getState().isServer()) {
-			
 			if (GameStateManager.currentMode == Mode.SINGLE) {
 				return Math.min((int) (player.getState().getGsm().getRecord().getSlotsUnlocked() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
 			} else {
@@ -525,11 +523,9 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public int getArtifactSlotsRemaining() {
 		int slotsUsed = 0;
-		
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
 		}
-		
 		return getNumArtifactSlots() - slotsUsed;
 	}
 	
@@ -611,7 +607,7 @@ public class PlayerBodyData extends BodyData {
 
 		//this keeps track of total damage received during rounds
 		if (player.getState().isServer()) {
-			User user = HadalGame.server.getUsers().get(getPlayer().getConnID());
+			User user = HadalGame.server.getUsers().get(getPlayer().getConnId());
 			if (user != null) {
 				SavedPlayerFieldsExtra field = user.getScoresExtra();
 				if (damage > 0.0f) {
@@ -630,7 +626,7 @@ public class PlayerBodyData extends BodyData {
 			DespawnType type = DespawnType.GIB;
 
 			//in the case of a disconnect, this is a special death with teleport particles instead of frags
-			for (final DamageTypes tag : tags) {
+			for (DamageTypes tag : tags) {
 				if (tag == DamageTypes.DISCONNECT) {
 					type = DespawnType.TELEPORT;
 					break;
@@ -649,15 +645,15 @@ public class PlayerBodyData extends BodyData {
 			} else {
 
 				//Send death notification to all players.
-				if (perp instanceof PlayerBodyData) {
-					player.getState().getKillFeed().addMessage(((Player) perp.getSchmuck()), player, null, tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(((Player) perp.getSchmuck()).getConnID(), player.getConnID(), null, tags));
-				} else if (perp.getSchmuck() instanceof Enemy) {
-					player.getState().getKillFeed().addMessage(null, player, ((Enemy) perp.getSchmuck()).getEnemyType(), tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnID(), ((Enemy) perp.getSchmuck()).getEnemyType(), tags));
+				if (perp instanceof PlayerBodyData playerData) {
+					player.getState().getKillFeed().addMessage(playerData.getPlayer(), player, null, tags);
+					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(playerData.getPlayer().getConnId(), player.getConnId(), null, tags));
+				} else if (perp.getSchmuck() instanceof Enemy enemyData) {
+					player.getState().getKillFeed().addMessage(null, player, enemyData.getEnemyType(), tags);
+					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnId(), enemyData.getEnemyType(), tags));
 				} else {
 					player.getState().getKillFeed().addMessage(null, player, null, tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnID(), null, tags));
+					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnId(), null, tags));
 				}
 			}
 			
@@ -672,7 +668,6 @@ public class PlayerBodyData extends BodyData {
 			}
 			
 			super.die(perp, tags);
-
 			schmuck.getState().getMode().processPlayerDeath(schmuck.getState(), perp.getSchmuck(), player, tags);
 		}
 	}

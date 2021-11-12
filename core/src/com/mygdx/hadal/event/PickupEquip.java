@@ -11,7 +11,7 @@ import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.UnlocktoItem;
@@ -75,8 +75,8 @@ public class PickupEquip extends Event {
 				if (activator != null) {
 					
 					//alt messages can be used to reroll weapon or set it to a specific weapon
-					if (activator.getEvent() instanceof TriggerAlt) {
-						String msg = ((TriggerAlt) activator.getEvent()).getMessage();
+					if (activator.getEvent() instanceof TriggerAlt trigger) {
+						String msg = trigger.getMessage();
 						if (msg.equals("roll")) {
 							rollWeapon();
 							standardParticle.turnOn();

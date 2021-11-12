@@ -12,8 +12,8 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.utils.DeathTextUtil;
-import com.mygdx.hadal.utils.TextFilterUtil;
+import com.mygdx.hadal.text.DeathTextUtil;
+import com.mygdx.hadal.text.TextFilterUtil;
 
 /**
  * A Kill Feed Message is a single actor displayed in the Kill Feed to represent a single death.

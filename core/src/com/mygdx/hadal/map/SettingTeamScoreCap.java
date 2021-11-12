@@ -6,6 +6,7 @@ import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 
 /**
  * This mode setting is used for modes where the host can designate a score cap
@@ -14,9 +15,6 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class SettingTeamScoreCap extends ModeSetting {
 
-    public static final String[] scoreCapChoices = {"UNLIMITED", "1 POINT", "2 POINTS", "3 POINTS", "4 POINTS", "5 POINTS", "6 POINTS",
-        "7 POINTS", "8 POINTS", "9 POINTS", "10 POINTS", "11 POINTS", "12 POINTS", "13 POINTS", "14 POINTS", "15 POINTS",
-        "16 POINTS", "17 POINTS", "18 POINTS"};
     public static final String settingTag = "team_score_cap";
     public static final Integer defaultValue = 0;
 
@@ -26,8 +24,8 @@ public class SettingTeamScoreCap extends ModeSetting {
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
-        
-        Text scorecap = new Text("SCORE WIN CONDITION: ", 0, 0, false);
+        String[] scoreCapChoices = HText.SETTING_SCORECAP_OPTIONS.text().split(",");
+        Text scorecap = new Text(HText.SETTING_SCORECAP.text(), 0, 0, false);
         scorecap.setScale(ModeSettingSelection.detailsScale);
 
         scoreCapOptions = new SelectBox<>(GameStateManager.getSkin());
@@ -48,7 +46,7 @@ public class SettingTeamScoreCap extends ModeSetting {
     public String loadUIStart(PlayState state, GameMode mode) {
         int startScoreCap = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
         if (startScoreCap != 0) {
-            return "FIRST TO " + startScoreCap + " POINT(S) WINS";
+            return HText.SETTING_SCORECAP_UI.text(Integer.toString(startScoreCap));
         }
         return "";
     }

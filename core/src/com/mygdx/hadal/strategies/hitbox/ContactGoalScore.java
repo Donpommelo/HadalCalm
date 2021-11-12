@@ -2,7 +2,6 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.FootballGoal;
-import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -27,8 +26,8 @@ public class ContactGoalScore extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			if (fixB.getEntity() instanceof FootballGoal) {
-				((EventData) fixB).preActivate(null, lastHit);
+			if (fixB.getEntity() instanceof FootballGoal goal) {
+				goal.getEventData().preActivate(null, lastHit);
 				hbox.die();
 			}
 		}
@@ -36,8 +35,8 @@ public class ContactGoalScore extends HitboxStrategy {
 
 	@Override
 	public void receiveDamage(BodyData perp, float basedamage, Vector2 knockback, DamageTypes... tags) {
-		if (perp instanceof PlayerBodyData) {
-			lastHit = (Player) perp.getSchmuck();
+		if (perp instanceof PlayerBodyData playerData) {
+			lastHit = playerData.getPlayer();
 		}
 	}
 }

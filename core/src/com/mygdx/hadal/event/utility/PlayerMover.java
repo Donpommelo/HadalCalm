@@ -66,7 +66,6 @@ public class PlayerMover extends Event {
 							players.add(p);
 						}
 					}
-					
 					if (getConnectedEvent().getStandardParticle() != null && !players.isEmpty()) {
 						getConnectedEvent().getStandardParticle().onForBurst(1.0f);
 					}

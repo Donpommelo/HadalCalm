@@ -3,7 +3,7 @@ package com.mygdx.hadal.schmucks.bodies;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -161,16 +161,14 @@ public class SoundEntity extends HadalEntity {
 	}
 
 	/**
-	 * For sounds that are tick synced, send over location and volume to clients as well as whether it is on or not
+	 * For sounds that are tick synced, send over volume to clients as well as whether it is on or not
 	 */
-	private final Vector2 attachedLocation = new Vector2();
 	@Override
 	public void onServerSync() {
 		if (sync.equals(soundSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
-					attachedLocation.set(attachedEntity.getPixelPosition());
-					state.getSyncPackets().add(new Packets.SyncSound(entityID.toString(),  volume, on, entityAge, state.getTimer()));
+					state.getSyncPackets().add(new Packets.SyncSound(entityID.toString(), volume, on, entityAge, state.getTimer()));
 				}
 			}
 		}

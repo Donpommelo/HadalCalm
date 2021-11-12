@@ -12,8 +12,6 @@ import com.badlogic.gdx.utils.SerializationException;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.map.GameMode;
-import com.mygdx.hadal.map.SettingLives;
-import com.mygdx.hadal.map.SettingTimer;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.HashMap;
@@ -239,10 +237,7 @@ public class Setting {
 	 * @return all the parts of this setting that the clients need to know
 	 */
 	public SharedSetting generateSharedSetting() {
-		int pvpTimer = modeSettings.get(GameMode.DEATHMATCH.toString()).getOrDefault(SettingTimer.settingTag, SettingTimer.defaultValue);
-		int lives = modeSettings.get(GameMode.DEATHMATCH.toString()).getOrDefault(SettingLives.settingTag, SettingLives.defaultValue);
-
-		return new SharedSetting(maxPlayers, artifactSlots, pvpTimer, lives, multiplayerPause);
+		return new SharedSetting(maxPlayers, artifactSlots, multiplayerPause);
 	}
 
 	public void setArtifactSlots(int artifactSlots) { this.artifactSlots = artifactSlots; }

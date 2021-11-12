@@ -43,7 +43,7 @@ public class WallDropthrough extends Event {
 			@Override
 			public void onTouch(HadalData fixB) {
 				if (fixB != null) {
-					if (fixB instanceof FeetData) {
+					if (fixB instanceof FeetData feet) {
 						
 						HadalEntity entity = fixB.getEntity();
 						
@@ -54,8 +54,8 @@ public class WallDropthrough extends Event {
 						Filter filter = entity.getMainFixture().getFilterData();
 						filter.maskBits = (short) (filter.maskBits | Constants.BIT_DROPTHROUGHWALL);
 						entity.getMainFixture().setFilterData(filter);
-						
-						((FeetData) fixB).getTerrain().add(this.event);
+
+						feet.getTerrain().add(this.event);
 					}
 				}
 			}
@@ -66,16 +66,16 @@ public class WallDropthrough extends Event {
 			@Override
 			public void onRelease(HadalData fixB) {
 				if (fixB != null) {
-					if (fixB instanceof FeetData) {
+					if (fixB instanceof FeetData feet) {
 						HadalEntity entity = fixB.getEntity();
 						
-						if (((FeetData) fixB).getTerrain().size() == 1) {
+						if (feet.getTerrain().size() == 1) {
 							Filter filter = entity.getMainFixture().getFilterData();
 							filter.maskBits = (short) (filter.maskBits &~ Constants.BIT_DROPTHROUGHWALL);
 							entity.getMainFixture().setFilterData(filter);
 						}
-						
-						((FeetData) fixB).getTerrain().remove(this.event);
+
+						feet.getTerrain().remove(this.event);
 					}
 				}
 			}

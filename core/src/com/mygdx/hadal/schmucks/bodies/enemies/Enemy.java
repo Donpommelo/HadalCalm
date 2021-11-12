@@ -14,8 +14,9 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invisibility;
@@ -324,7 +325,7 @@ public class Enemy extends Schmuck {
 	
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncSchmuck p) {
+		if (o instanceof PacketsSync.SyncSchmuck p) {
 			if (isBoss) {
 				((ClientState) state).getUiPlay().setOverrideBossHpPercent(p.hpPercent);
 				

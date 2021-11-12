@@ -41,14 +41,13 @@ public class EventCloner extends Event {
 						if (standardParticle != null) {
 							standardParticle.onForBurst(1.0f);
 						}
-						
 						clone.setStartPos(event.getStartPos());
 					}
 				}
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (0), (short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
+				Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
 		this.body.setType(BodyType.KinematicBody);
 	}
 }

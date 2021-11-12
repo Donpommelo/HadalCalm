@@ -37,7 +37,6 @@ public class Buzzsaw extends Event {
 	private float angle;
 	private static final float spinSpeed = 7.5f;
 	private static final float damageInterval = 1 / 60f;
-	
 	private static final float spriteScale = 1.4f;
 	
 	public Buzzsaw(PlayState state, Vector2 startPos, Vector2 size, float dps, short filter) {
@@ -49,7 +48,8 @@ public class Buzzsaw extends Event {
 	@Override
 	public void create() {
 		this.eventData = new EventData(this);
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false,
+				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
 	}
 	
 	@Override
@@ -60,8 +60,8 @@ public class Buzzsaw extends Event {
 			controllerCount -= damageInterval;
 			
 			for (HadalEntity entity : eventData.getSchmucks()) {
-				if (entity instanceof Schmuck) {
-					((Schmuck) entity).getBodyData().receiveDamage(dps, new Vector2(), state.getWorldDummy().getBodyData(), true, DamageTypes.CUTTING);
+				if (entity instanceof Schmuck schmuck) {
+					schmuck.getBodyData().receiveDamage(dps, new Vector2(), state.getWorldDummy().getBodyData(), true, DamageTypes.CUTTING);
 				}
 			}
 		}

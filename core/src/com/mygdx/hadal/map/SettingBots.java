@@ -7,12 +7,13 @@ import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.NameGenerator;
+import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.NameGenerator;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,6 @@ import java.util.ArrayList;
  */
 public class SettingBots extends ModeSetting {
 
-    private static final String[] botNumberChoices = {"0", "1", "2", "3", "4", "5", "6", "7", "8"};
     private static final String settingTag = "bot_number";
     private static final Integer defaultValue = 0;
     private static final Integer defaultValueSinglePlayer = 1;
@@ -41,7 +41,8 @@ public class SettingBots extends ModeSetting {
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
         if (botsChoice) {
-            Text bots = new Text("BOT NUMBER: ", 0, 0, false);
+            String[] botNumberChoices = HText.SETTING_BOT_NUMBER_OPTIONS.text().split(",");
+            Text bots = new Text(HText.SETTING_BOT_NUMBER.text(), 0, 0, false);
             bots.setScale(ModeSettingSelection.detailsScale);
 
             botNumberOptions = new SelectBox<>(GameStateManager.getSkin());

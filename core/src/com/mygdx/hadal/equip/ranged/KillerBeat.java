@@ -13,6 +13,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.*;
+import com.mygdx.hadal.text.HText;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -154,7 +155,7 @@ public class KillerBeat extends RangedWeapon {
 		if (((Player) user).getChargePercent() < chargeBonusThreshold) {
 			return "";
 		} else {
-			return "HIT IT!";
+			return HText.HIT_IT.text();
 		}
 	}
 

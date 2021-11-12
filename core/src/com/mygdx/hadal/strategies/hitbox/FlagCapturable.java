@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.FlagBlocker;
 import com.mygdx.hadal.event.SpawnerFlag;
-import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -15,6 +14,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.CarryingFlag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.text.HText;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 
@@ -58,14 +58,14 @@ public class FlagCapturable extends HitboxStrategy {
 	public void onHit(HadalData fixB) {
 
 		if (fixB != null) {
-			if (fixB.getEntity() instanceof SpawnerFlag) {
+			if (fixB.getEntity() instanceof SpawnerFlag flag) {
 
 				//if this hbox touches an enemy flag spawn, it is "captured", scoring a point and disappearing
-				if (((SpawnerFlag) fixB.getEntity()).getTeamIndex() != teamIndex) {
+				if (flag.getTeamIndex() != teamIndex) {
 
 					//iin order to capture, you must have your own flag present.
-					if (((SpawnerFlag) fixB.getEntity()).isFlagPresent()) {
-						((EventData) fixB).preActivate(null, lastHolder);
+					if (flag.isFlagPresent()) {
+						flag.getEventData().preActivate(null, lastHolder);
 						hbox.die();
 
 						if (target != null) {
@@ -76,7 +76,7 @@ public class FlagCapturable extends HitboxStrategy {
 							}
 						}
 					} else {
-						((SpawnerFlag) fixB.getEntity()).triggerFailMessage();
+						flag.triggerFailMessage();
 					}
 				}
 			}
@@ -84,7 +84,7 @@ public class FlagCapturable extends HitboxStrategy {
 
 		if (!captured) {
 			if (fixB != null) {
-				if (fixB instanceof PlayerBodyData) {
+				if (fixB instanceof PlayerBodyData playerData) {
 
 					boolean blockPickup = false;
 					if (lastBlocker != null) {
@@ -97,17 +97,17 @@ public class FlagCapturable extends HitboxStrategy {
 					if (!blockPickup) {
 						//if the flag touches an enemy player, it is picked up, displaying a notification and tracking the player
 						if (teamIndex < AlignmentFilter.currentTeams.length) {
-							if (((PlayerBodyData) fixB).getLoadout().team != AlignmentFilter.currentTeams[teamIndex]) {
+							if (playerData.getLoadout().team != AlignmentFilter.currentTeams[teamIndex]) {
 								captured = true;
 								awayFromSpawn = true;
-								target = ((PlayerBodyData) fixB).getPlayer();
+								target = playerData.getPlayer();
 								lastHolder = target;
 								flagDebuff = new CarryingFlag(state, target.getBodyData());
 								target.getPlayerData().addStatus(flagDebuff);
 
 								hbox.getBody().setGravityScale(0.0f);
 								String playerName = WeaponUtils.getPlayerColorName(target, MAX_NAME_LENGTH);
-								state.getKillFeed().addNotification(playerName + " PICKED UP THE FLAG!", true);
+								state.getKillFeed().addNotification(HText.CTF_PICKUP.text(playerName), true);
 
 								spawner.setFlagPresent(false);
 							}
@@ -119,10 +119,10 @@ public class FlagCapturable extends HitboxStrategy {
 			if (fixB != null) {
 
 				//if touching a "flag blocker" whule held, the flag is automatically dropped
-				if (fixB.getEntity() instanceof FlagBlocker) {
-					if (((FlagBlocker) fixB.getEntity()).getTeamIndex() != teamIndex) {
+				if (fixB.getEntity() instanceof FlagBlocker blocker) {
+					if (blocker.getTeamIndex() != teamIndex) {
 						dropFlag();
-						lastBlocker = (FlagBlocker) fixB.getEntity();
+						lastBlocker = blocker;
 					}
 				}
 			}
@@ -150,7 +150,7 @@ public class FlagCapturable extends HitboxStrategy {
 				if (teamIndex < AlignmentFilter.currentTeams.length) {
 					String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
 					teamColor = WeaponUtils.getColorName(AlignmentFilter.currentTeams[teamIndex].getColor1(), teamColor);
-					state.getKillFeed().addNotification(teamColor + " FLAG WAS RETURNED!" , true);
+					state.getKillFeed().addNotification(HText.CTF_RETURN.text(teamColor), true);
 				}
 			}
 		}
@@ -163,7 +163,7 @@ public class FlagCapturable extends HitboxStrategy {
 
 		if (teamIndex < AlignmentFilter.currentTeams.length) {
 			String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
-			state.getKillFeed().addNotification(teamColor + " FLAG WAS DROPPED!", true);
+			state.getKillFeed().addNotification(HText.CTF_DROPPED.text(teamColor), true);
 		}
 	}
 }

@@ -32,7 +32,8 @@ public class PortalWrap extends Event {
 	public void create() {
 		this.eventData = new EventData(this);
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, Constants.BIT_PLAYER, (short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
+				Constants.BIT_SENSOR, Constants.BIT_PLAYER, (short) 0, true, eventData);
 	}
 	
 	private final Vector3 newCamera = new Vector3();

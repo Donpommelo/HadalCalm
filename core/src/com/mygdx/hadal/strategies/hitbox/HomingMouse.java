@@ -27,8 +27,8 @@ public class HomingMouse extends HitboxStrategy {
 		super(state, proj, user);
 		this.homePower = homePower;
 		
-		if (user.getSchmuck() instanceof Player) {
-			target = ((Player) user.getSchmuck()).getMouse();
+		if (user.getSchmuck() instanceof Player player) {
+			target = player.getMouse();
 		} else {
 			target = state.getPlayer();
 		}

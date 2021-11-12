@@ -15,6 +15,7 @@ import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
+import com.mygdx.hadal.text.HText;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 
@@ -44,7 +45,7 @@ public class PlayerResultsIcon extends AHadalActor {
 	private final TextureRegion readyIcon;
 
 	//this string identifies the player as well as their score information
-	private String name;
+	private final String name;
 
 	//this fbo is used to accurately draw their sprite with the correct team color
 	private final FrameBuffer fbo;
@@ -53,8 +54,8 @@ public class PlayerResultsIcon extends AHadalActor {
 	private boolean ready;
 
 	public PlayerResultsIcon(SpriteBatch batch, SavedPlayerFields fields, SavedPlayerFieldsExtra fieldsExtra) {
-		this.name = fields.getNameAbridged(MAX_NAME_LENGTH);
-		name += "\nK/D: " + fields.getKills() + " / " + fields.getDeaths() + "\nScore: " + fields.getScore();
+		this.name = HText.RESULTS_INFO.text(fields.getNameAbridged(MAX_NAME_LENGTH), Integer.toString(fields.getKills()),
+				Integer.toString(fields.getDeaths()), Integer.toString(fields.getScore()));
 
 		this.readyIcon = Sprite.EMOTE_READY.getFrame();
 

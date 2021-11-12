@@ -10,7 +10,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.EventDto;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState;
@@ -73,7 +73,8 @@ public class HealingArea extends Event {
 	@Override
 	public void create() {
 		this.eventData = new EventData(this);
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false,
+				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
 	}
 	
 	private final Vector2 entityLocation = new Vector2();
@@ -87,8 +88,8 @@ public class HealingArea extends Event {
 			controllerCount -= healInterval;
 			
 			for (HadalEntity entity : eventData.getSchmucks()) {
-				if (entity instanceof Schmuck) {
-					((Schmuck) entity).getBodyData().regainHp(heal, perp.getBodyData(), true, DamageTypes.REGEN);
+				if (entity instanceof Schmuck schmuck) {
+					schmuck.getBodyData().regainHp(heal, perp.getBodyData(), true, DamageTypes.REGEN);
 				}
 			}
 		}
@@ -130,9 +131,7 @@ public class HealingArea extends Event {
 	 */
 	@Override
 	public Object onServerCreate() {
-
 		if (independent) { return null; }
-
 		if (blueprint == null) {
 			entityLocation.set(getPixelPosition());
 			

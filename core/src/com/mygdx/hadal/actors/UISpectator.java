@@ -10,6 +10,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 
 import java.util.ArrayList;
 
@@ -50,21 +51,21 @@ public class UISpectator extends AHadalActor {
         HadalGame.FONT_UI.getData().setScale(fontScaleMedium);
 
         if (freeCam) {
-            HadalGame.FONT_UI.draw(batch, "SPECTATING: FREE CAM", textX, titleY);
+            HadalGame.FONT_UI.draw(batch, HText.SPECTATING_FREECAM.text(), textX, titleY);
         } else {
             if (spectatorTarget != null) {
-                HadalGame.FONT_UI.draw(batch, "SPECTATING: " + spectatorTarget.getName(), textX, titleY);
+                HadalGame.FONT_UI.draw(batch, HText.SPECTATING.text(spectatorTarget.getName()), textX, titleY);
             } else {
-                HadalGame.FONT_UI.draw(batch, "SPECTATING: N/A", textX, titleY);
+                HadalGame.FONT_UI.draw(batch, HText.SPECTATING_NA.text(), textX, titleY);
             }
         }
-        HadalGame.FONT_UI.draw(batch, "LMB: DRAG FREE CAM", textX, instructions1Y);
-        HadalGame.FONT_UI.draw(batch, "RMB: CYCLE SPECTATE TARGET", textX, instructions2Y);
+        HadalGame.FONT_UI.draw(batch, HText.SPECTATING_LMB.text(), textX, instructions1Y);
+        HadalGame.FONT_UI.draw(batch, HText.SPECTATING_RMB.text(), textX, instructions2Y);
 
         if (state.getMode().isHub()) {
-            HadalGame.FONT_UI.draw(batch, "JOIN: " + PlayerAction.PAUSE.getKeyText() + " -> JOIN", textX, joinY);
+            HadalGame.FONT_UI.draw(batch, HText.JOIN_OPTION.text(PlayerAction.PAUSE.getKeyText()), textX, joinY);
         } else {
-            HadalGame.FONT_UI.draw(batch, "JOIN NEXT ROUND IN HUB", textX, joinY);
+            HadalGame.FONT_UI.draw(batch, HText.JOIN_CANT.text(), textX, joinY);
         }
     }
 
@@ -172,7 +173,7 @@ public class UISpectator extends AHadalActor {
             if (nextUser.getPlayer().getBody() != null && nextUser.getPlayer().isAlive()) {
                 spectatorUser = nextUser;
                 spectatorTarget = nextUser.getPlayer();
-                targetId = spectatorTarget.getConnID();
+                targetId = spectatorTarget.getConnId();
                 return true;
             }
         }

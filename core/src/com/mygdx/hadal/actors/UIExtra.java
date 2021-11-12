@@ -9,6 +9,7 @@ import com.mygdx.hadal.actors.UITag.uiType;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 
 import java.util.ArrayList;
 
@@ -142,7 +143,7 @@ public class UIExtra extends AHadalActor {
 	public void incrementTimer(float delta) {
 
 		if (timer > notificationThreshold && timer + (timerIncr * delta) < notificationThreshold) {
-			state.getKillFeed().addNotification("10 SECONDS REMAINING", false);
+			state.getKillFeed().addNotification(HText.TIMER_REMAINING.text(), false);
 		}
 
 		timer += (timerIncr * delta);

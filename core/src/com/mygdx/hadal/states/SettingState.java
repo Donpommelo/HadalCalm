@@ -17,6 +17,7 @@ import com.mygdx.hadal.actors.WindowTable;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.text.HText;
 
 import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
 import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
@@ -113,7 +114,7 @@ public class SettingState extends GameState {
 				details.top();
 				addActor(details);
 				
-				displayOption = new Text("DISPLAY", 0, 0, true);
+				displayOption = new Text(HText.DISPLAY.text(), 0, 0, true);
 				displayOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -125,7 +126,7 @@ public class SettingState extends GameState {
 			    });
 				displayOption.setScale(optionsScale);
 				
-				controlOption = new Text("CONTROLS", 0, 0, true);
+				controlOption = new Text(HText.CONTROLS.text(), 0, 0, true);
 				controlOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -137,7 +138,7 @@ public class SettingState extends GameState {
 			    });
 				controlOption.setScale(optionsScale);
 				
-				audioOption = new Text("AUDIO", 0, 0, true);
+				audioOption = new Text(HText.AUDIO.text(), 0, 0, true);
 				audioOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -149,7 +150,7 @@ public class SettingState extends GameState {
 			    });
 				audioOption.setScale(optionsScale);
 				
-				serverOption = new Text("SERVER", 0, 0, true);
+				serverOption = new Text(HText.SERVER.text(), 0, 0, true);
 				serverOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -161,7 +162,7 @@ public class SettingState extends GameState {
 			    });
 				serverOption.setScale(optionsScale);
 				
-				miscOption = new Text("MISC", 0, 0, true);
+				miscOption = new Text(HText.MISC.text(), 0, 0, true);
 				miscOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -173,7 +174,7 @@ public class SettingState extends GameState {
 			    });
 				miscOption.setScale(optionsScale);
 
-				exitOption = new Text("RETURN?", 0, 0, true);
+				exitOption = new Text(HText.RETURN.text(), 0, 0, true);
 				exitOption.addListener(new ClickListener() {
 					
 					@Override
@@ -187,7 +188,7 @@ public class SettingState extends GameState {
 			    });
 				exitOption.setScale(optionsScale);
 
-				resetOption = new Text("RESET SETTINGS?", 0, 0, true);
+				resetOption = new Text(HText.RESET.text(), 0, 0, true);
 				resetOption.addListener(new ClickListener() {
 					
 					@Override
@@ -271,31 +272,31 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.DISPLAY;
 		
-		details.add(new Text("DISPLAY", 0, 0, false)).colspan(2).pad(titlePad).row();
+		details.add(new Text(HText.DISPLAY.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
 		
-		Text screen = new Text("RESOLUTION: ", 0, 0, false);
+		Text screen = new Text(HText.RESOLUTION.text(), 0, 0, false);
 		screen.setScale(detailsScale);
 		
 		resolutionOptions = new SelectBox<>(GameStateManager.getSkin());
-		resolutionOptions.setItems("1024 X 576", "1280 X 720", "1366 x 768", "1600 X 900", "1920 x 1080", "2560 x 1080");
+		resolutionOptions.setItems(HText.RESOLUTION_OPTIONS.text().split(","));
 		resolutionOptions.setWidth(100);
 		
 		resolutionOptions.setSelectedIndex(gsm.getSetting().getResolution());
 
-		Text framerate = new Text("FRAMERATE: ", 0, 0, false);
+		Text framerate = new Text(HText.FRAMERATE.text(), 0, 0, false);
 		framerate.setScale(detailsScale);
 		
-		Text cursortype = new Text("CURSOR TYPE: ", 0, 0, false);
+		Text cursortype = new Text(HText.CURSOR_TYPE.text(), 0, 0, false);
 		cursortype.setScale(detailsScale);
 		
-		Text cursorsize = new Text("CURSOR SIZE: ", 0, 0, false);
+		Text cursorsize = new Text(HText.CURSOR_SIZE.text(), 0, 0, false);
 		cursorsize.setScale(detailsScale);
 		
-		Text cursorcolor = new Text("CURSOR COLOR: ", 0, 0, false);
+		Text cursorcolor = new Text(HText.CURSOR_COLOR.text(), 0, 0, false);
 		cursorcolor.setScale(detailsScale);
 		
 		framerateOptions = new SelectBox<>(GameStateManager.getSkin());
-		framerateOptions.setItems("30 fps", "60 fps", "90 fps", "120 fps", "240 fps", "uncapped");
+		framerateOptions.setItems(HText.FRAMERATE_OPTIONS.text().split(","));
 		
 		framerateOptions.setSelectedIndex(gsm.getSetting().getFramerate());
 
@@ -320,27 +321,27 @@ public class SettingState extends GameState {
 		};
 
 		cursorOptions = new SelectBox<>(GameStateManager.getSkin());
-		cursorOptions.setItems("DEFAULT", "DOT", "CIRCLE DOT", "SMALL RING", "STAR", "BULLSEYE", "CROSS", "DUPLEX", "GERMAN", "X", "FLAT CROSS", "RANGEFINDER", "(o)");
+		cursorOptions.setItems(HText.CURSOR_TYPE_OPTIONS.text().split(","));
 		cursorOptions.setSelectedIndex(gsm.getSetting().getCursorType());
 		cursorOptions.addListener(cursorChange);
 
 		cursorSize = new SelectBox<>(GameStateManager.getSkin());
-		cursorSize.setItems("SMALL", "MEDIUM", "LARGE");
+		cursorSize.setItems(HText.CURSOR_SIZE_OPTIONS.text().split(","));
 		cursorSize.setSelectedIndex(gsm.getSetting().getCursorSize());
 		cursorSize.addListener(cursorChange);
 
 		cursorColor = new SelectBox<>(GameStateManager.getSkin());
-		cursorColor.setItems("BLACK", "CYAN", "LIME", "MAGENTA", "RED", "WHITE", "YELLOW");
+		cursorColor.setItems(HText.CURSOR_COLOR_OPTIONS.text().split(","));
 		cursorColor.setSelectedIndex(gsm.getSetting().getCursorColor());
 		cursorColor.addListener(cursorChange);
 
-		fullscreen = new CheckBox("FULLSCREEN?", GameStateManager.getSkin());
-		vsync = new CheckBox("VSYNC?", GameStateManager.getSkin());
-		autoIconify = new CheckBox("MINIMIZE ON ALT_TAB?", GameStateManager.getSkin());
-		debugHitbox = new CheckBox("DRAW DEBUG OUTLINES?", GameStateManager.getSkin());
-		displayNames = new CheckBox("DISPLAY NAMES?", GameStateManager.getSkin());
-		displayHp = new CheckBox("DISPLAY HP BAR?", GameStateManager.getSkin());
-		mouseCameraTrack = new CheckBox("CAMERA AIM FOCUS?", GameStateManager.getSkin());
+		fullscreen = new CheckBox(HText.FULLSCREEN.text(), GameStateManager.getSkin());
+		vsync = new CheckBox(HText.VSYNC.text(), GameStateManager.getSkin());
+		autoIconify = new CheckBox(HText.ALT_TAB.text(), GameStateManager.getSkin());
+		debugHitbox = new CheckBox(HText.DEBUG_OUTLINES.text(), GameStateManager.getSkin());
+		displayNames = new CheckBox(HText.VISIBLE_NAMES.text(), GameStateManager.getSkin());
+		displayHp = new CheckBox(HText.VISIBLE_HP.text(), GameStateManager.getSkin());
+		mouseCameraTrack = new CheckBox(HText.CAMERA_AIM.text(), GameStateManager.getSkin());
 
 		fullscreen.setChecked(gsm.getSetting().isFullscreen());
 		vsync.setChecked(gsm.getSetting().isVSync());
@@ -387,7 +388,7 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.CONTROLS;
 		
-		details.add(new Text("CONTROLS", 0, 0, false)).pad(titlePad).row();
+		details.add(new Text(HText.CONTROLS.text(), 0, 0, false)).pad(titlePad).row();
 		
 		VerticalGroup actions = new VerticalGroup().space(optionPadding);
 		
@@ -434,9 +435,10 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.AUDIO;
 		
-		details.add(new Text("AUDIO", 0, 0, false)).colspan(2).pad(titlePad).row();
+		details.add(new Text(HText.AUDIO .text(), 0, 0, false)).colspan(2).pad(titlePad).row();
 		
-		Text soundText = new Text("SOUND VOLUME: " + (int)(gsm.getSetting().getSoundVolume() * 100), 0, 0, false);
+		Text soundText = new Text(HText.SOUND_VOLUME.text(Integer.toString((int)(gsm.getSetting().getSoundVolume() * 100))),
+				0, 0, false);
 		soundText.setScale(detailsScale);
 		
 		sound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
@@ -446,7 +448,7 @@ public class SettingState extends GameState {
 			
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				soundText.setText("SOUND VOLUME: " + (int)(sound.getValue() * 100));
+				soundText.setText(HText.SOUND_VOLUME.text(Integer.toString(((int)(sound.getValue() * 100)))));
 			}
 		});
 
@@ -467,7 +469,8 @@ public class SettingState extends GameState {
 			}
 		});
 
-		Text musicText = new Text("MUSIC VOLUME: " + (int)(gsm.getSetting().getMusicVolume() * 100), 0, 0, false);
+		Text musicText = new Text(HText.MUSIC_VOLUME.text(Integer.toString((int)(gsm.getSetting().getMusicVolume() * 100))),
+				0, 0, false);
 		musicText.setScale(detailsScale);
 		
 		music = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
@@ -477,7 +480,7 @@ public class SettingState extends GameState {
 			
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				musicText.setText("MUSIC VOLUME: " + (int)(music.getValue() * 100));
+				musicText.setText(HText.MUSIC_VOLUME.text(Integer.toString((int)((music.getValue() * 100)))));
 			}
 		});
 
@@ -495,7 +498,8 @@ public class SettingState extends GameState {
 			}
 		});
 
-		Text masterText = new Text("MASTER VOLUME: " + (int)(gsm.getSetting().getMasterVolume() * 100), 0, 0, false);
+		Text masterText = new Text(HText.MASTER_VOLUME.text(Integer.toString((int)(gsm.getSetting().getMasterVolume() * 100))),
+				0, 0, false);
 		masterText.setScale(detailsScale);
 		
 		master = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
@@ -505,7 +509,7 @@ public class SettingState extends GameState {
 			
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				masterText.setText("MASTER VOLUME: " + (int)(master.getValue() * 100));
+				masterText.setText(HText.MASTER_VOLUME.text(Integer.toString((int)(master.getValue() * 100))));
 			}
 		});
 
@@ -529,11 +533,11 @@ public class SettingState extends GameState {
 			}
 		});
 
-		Text hitsoundText = new Text("HITSOUND: ", 0, 0, false);
+		Text hitsoundText = new Text(HText.HITSOUND.text(), 0, 0, false);
 		hitsoundText.setScale(0.25f);
 		
 		hitsoundOptions = new SelectBox<>(GameStateManager.getSkin());
-		hitsoundOptions.setItems("NONE", "BLIP", "COWBELL", "DING", "DRUM", "PIANO", "SHREK");
+		hitsoundOptions.setItems(HText.HITSOUND_OPTIONS.text().split(","));
 		hitsoundOptions.setSelectedIndex(gsm.getSetting().getHitsound());
 		
 		hitsoundOptions.addListener(new ChangeListener() {
@@ -549,7 +553,8 @@ public class SettingState extends GameState {
 			}
 		});
 		
-		Text hitsoundVolumeText = new Text("HITSOUND VOLUME: " + (int)(gsm.getSetting().getHitsoundVolume() * 100), 0, 0, false);
+		Text hitsoundVolumeText = new Text(HText.HITSOUND_VOLUME.text(Integer.toString((int)(gsm.getSetting().getHitsoundVolume() * 100))),
+				0, 0, false);
 		hitsoundVolumeText.setScale(detailsScale);
 		
 		hitsound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
@@ -558,7 +563,7 @@ public class SettingState extends GameState {
 
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				hitsoundVolumeText.setText("HITSOUND VOLUME: " + (int)(hitsound.getValue() * 100));
+				hitsoundVolumeText.setText(HText.HITSOUND_VOLUME.text(Integer.toString((int)(hitsound.getValue() * 100))));
 			}
 		});
 
@@ -599,27 +604,25 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.SERVER;
 		
-		details.add(new Text("SERVER RULES", 0, 0, false)).colspan(2).pad(titlePad).row();
+		details.add(new Text(HText.SERVER.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
 
-		Text maxPlayers = new Text("MAX SERVER SIZE: ", 0, 0, false);
+		Text maxPlayers = new Text(HText.SERVER_SIZE.text(), 0, 0, false);
 		maxPlayers.setScale(detailsScale);
 
-		Text port = new Text("PORT NUMBER: ", 0, 0, false);
+		Text port = new Text(HText.PORT_NUMBER.text(), 0, 0, false);
 		port.setScale(0.25f);
 
-		Text password = new Text("SERVER PASSWORD: ", 0, 0, false);
+		Text password = new Text(HText.SERVER_PASSWORD.text(), 0, 0, false);
 		password.setScale(detailsScale);
 
-		Text slots = new Text("ARTIFACT SLOTS: ", 0, 0, false);
+		Text slots = new Text(HText.ARTIFACT_SLOTS.text(), 0, 0, false);
 		slots.setScale(detailsScale);
 		
 		portNumber = new TextField(String.valueOf(gsm.getSetting().getPortNumber()), GameStateManager.getSkin());
-		portNumber.setMessageText("PORT NUMBER");
 		portNumber.setMaxLength(5);
 		portNumber.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
 
 		serverPassword = new TextField(gsm.getSetting().getServerPassword(), GameStateManager.getSkin());
-		serverPassword.setMessageText("PASSWORD");
 		serverPassword.setMaxLength(20);
 
 		playerCapacity = new SelectBox<>(GameStateManager.getSkin());
@@ -649,27 +652,27 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.MISC;
 		
-		details.add(new Text("MISCELLANEOUS", 0, 0, false)).colspan(2).pad(titlePad).row();
+		details.add(new Text(HText.MISC.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
 
-		randomNameAlliteration = new CheckBox("RANDOM NAME ALLITERATION?", GameStateManager.getSkin());
+		randomNameAlliteration = new CheckBox(HText.NAME_ALLITERATION.text(), GameStateManager.getSkin());
 		randomNameAlliteration.setChecked(gsm.getSetting().isRandomNameAlliteration());
 		
-		consoleEnabled = new CheckBox("Console Enabled?", GameStateManager.getSkin());
+		consoleEnabled = new CheckBox(HText.CONSOLE_ENABLED.text(), GameStateManager.getSkin());
 		consoleEnabled.setChecked(gsm.getSetting().isConsoleEnabled());
 		
-		verboseDeathMessage = new CheckBox("Verbose Death Messages?", GameStateManager.getSkin());
+		verboseDeathMessage = new CheckBox(HText.VERBOSE_DEATH_MESSAGE.text(), GameStateManager.getSkin());
 		verboseDeathMessage.setChecked(gsm.getSetting().isVerboseDeathMessage());
 		
-		multiplayerPause = new CheckBox("Enable Multiplayer Pause?", GameStateManager.getSkin());
+		multiplayerPause = new CheckBox(HText.MULTIPLAYER_PAUSE.text(), GameStateManager.getSkin());
 		multiplayerPause.setChecked(gsm.getSetting().isMultiplayerPause());
 		
-		exportChatLog = new CheckBox("Export Chat Logs on Exit?", GameStateManager.getSkin());
+		exportChatLog = new CheckBox(HText.EXPORT_CHAT.text(), GameStateManager.getSkin());
 		exportChatLog.setChecked(gsm.getSetting().isExportChatLog());
 
-		enableUPNP = new CheckBox("Enable uPnP? (Requires Restart)", GameStateManager.getSkin());
+		enableUPNP = new CheckBox(HText.UPNP.text(), GameStateManager.getSkin());
 		enableUPNP.setChecked(gsm.getSetting().isEnableUPNP());
 
-		hideHUD = new CheckBox("Hide HUD?", GameStateManager.getSkin());
+		hideHUD = new CheckBox(HText.HIDE_HUD.text(), GameStateManager.getSkin());
 		hideHUD.setChecked(gsm.getSetting().isHideHUD());
 
 		details.add(randomNameAlliteration).colspan(2).height(detailHeight).pad(detailPad).row();

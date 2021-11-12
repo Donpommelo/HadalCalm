@@ -36,8 +36,8 @@ public class ExplosionDefault extends HitboxStrategy {
 		if (fixB != null) {
 			kb.set(fixB.getEntity().getPixelPosition().x - this.hbox.getPixelPosition().x, fixB.getEntity().getPixelPosition().y - this.hbox.getPixelPosition().y);
 			
-			if (fixB instanceof BodyData) {
-				if (((BodyData) fixB).getSchmuck().getHitboxfilter() == creator.getSchmuck().getHitboxfilter()) {
+			if (fixB instanceof BodyData bodyData) {
+				if (bodyData.getSchmuck().getHitboxfilter() == creator.getSchmuck().getHitboxfilter()) {
 					fixB.receiveDamage(baseDamage * selfDamageReduction, kb.nor().scl(knockback), creator, true, tags);
 				} else {
 					fixB.receiveDamage(baseDamage, kb.nor().scl(knockback),	creator, true, tags);

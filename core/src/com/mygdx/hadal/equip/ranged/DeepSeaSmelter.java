@@ -14,6 +14,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Ablaze;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.*;
+import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.Stats;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -137,9 +138,9 @@ public class DeepSeaSmelter extends RangedWeapon {
 	@Override
 	public String getChargeText() {
 		if (overheated) {
-			return "OVERHEATED"; 
+			return HText.OVERHEAT.text();
 		} else {
-			return "HEAT"; 
+			return HText.HEAT.text();
 		}
 	}
 }

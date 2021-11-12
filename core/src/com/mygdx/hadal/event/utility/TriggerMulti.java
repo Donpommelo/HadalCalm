@@ -35,7 +35,6 @@ public class TriggerMulti extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				
 				for (Event e : triggered) {
 					if (e != null) {
 						if (e.getEventData() != null) {

@@ -21,6 +21,7 @@ import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
+import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.Stats;
 
 import java.util.ArrayList;
@@ -176,9 +177,9 @@ public class Hexenhowitzer extends RangedWeapon {
 	@Override
 	public String getChargeText() {
 		if (supercharged) {
-			return "SUPERCHARGE"; 
+			return HText.SUPERCHARGE.text();
 		} else {
-			return "CHARGE"; 
+			return HText.CHARGE.text();
 		}
 	}
 }

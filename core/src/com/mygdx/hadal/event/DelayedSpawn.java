@@ -47,14 +47,14 @@ public class DelayedSpawn extends Event {
 		} else {
 			standardParticle.setScale(particleScale);
 		}
-		
 		setSynced(true);
 	}
 
 	@Override
 	public void create() {
 		this.eventData = new EventData(this);
-		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1.0f, 0, false, true, Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1.0f, 0, false, true,
+				Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
 		
 		if (standardParticle != null) {
 			standardParticle.onForBurst(duration);

@@ -5,6 +5,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.Stats;
 
 /**
@@ -218,7 +219,7 @@ public abstract class Equippable {
 
 	public void setWeaponVelo(Vector2 weaponVelo) {	this.weaponVelo.set(weaponVelo); }
 	
-	public String getChargeText() {	return "CHARGING"; }
+	public String getChargeText() {	return HText.CHARGING.text(); }
 
 	public float getBotRangeMin() { return 0.0f; }
 

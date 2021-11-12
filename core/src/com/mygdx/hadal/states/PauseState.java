@@ -18,9 +18,10 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState.TransitionState;
+import com.mygdx.hadal.text.HText;
 
 /**
  * The PauseState is pulled up by pausing in game.
@@ -108,19 +109,19 @@ public class PauseState extends GameState {
 				
 				//text indicates if the game is actually paused or not (if multiplayer pause is disabled in settings)
 				if (paused) {
-					pause = new Text("PAUSED BY \n" + pauser, 0, 0, false);
+					pause = new Text(HText.PAUSE_BY.text(pauser), 0, 0, false);
 				} else {
-					pause = new Text("GAME NOT PAUSED", 0, 0, false);
+					pause = new Text(HText.PAUSE_NOT.text(), 0, 0, false);
 				}
 				pause.setScale(pauseTextScale);
 				
-				resumeOption = new Text("RESUME", 0, 0, true);
-				hubOption = new Text("RETURN TO HUB", 0, 0, true);
-				settingOption = new Text("SETTINGS", 0, 0, true);
-				extraOption = new Text("EXTRA", 0, 0, true);
-				spectateOption = new Text("SPECTATE", 0, 0, true);
-				joinOption = new Text("JOIN", 0, 0, true);
-				exitOption = new Text("EXIT TO TITLE", 0, 0, true);
+				resumeOption = new Text(HText.RESUME.text(), 0, 0, true);
+				hubOption = new Text(HText.RETURN_HUB.text(), 0, 0, true);
+				settingOption = new Text(HText.SETTINGS.text(), 0, 0, true);
+				extraOption = new Text(HText.EXTRA.text(), 0, 0, true);
+				spectateOption = new Text(HText.SPECTATE.text(), 0, 0, true);
+				joinOption = new Text(HText.REJOIN.text(), 0, 0, true);
+				exitOption = new Text(HText.EXIT.text(), 0, 0, true);
 				
 				resumeOption.addListener(new ClickListener() {
 			        
@@ -354,7 +355,7 @@ public class PauseState extends GameState {
     		if (paused) {
     			//If the server unpauses, send a message and notification to all players to unpause.
         		HadalGame.server.sendToAllTCP(new Packets.Unpaused());
-    			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), "UNPAUSED THE GAME!", DialogType.SYSTEM);
+    			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), HText.UNPAUSED.text(), DialogType.SYSTEM);
     		}
 		} else {
 			if (paused) {

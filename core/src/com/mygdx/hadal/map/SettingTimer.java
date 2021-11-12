@@ -7,6 +7,7 @@ import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 /**
@@ -17,9 +18,6 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class SettingTimer extends ModeSetting {
 
     private final String endText;
-
-    public static final String[] timerChoices = {"NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN", "6 MIN", "7 MIN",
-        "8 MIN", "9 MIN", "10 MIN", "11 MIN", "12 MIN", "13 MIN", "14 MIN", "15 MIN", "16 MIN", "17 MIN"};
     public static final String settingTag = "timer";
     public static final Integer defaultValue = 5;
 
@@ -31,7 +29,8 @@ public class SettingTimer extends ModeSetting {
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
-        Text timer = new Text("MATCH TIME: ", 0, 0, false);
+        String[] timerChoices = HText.SETTING_TIMER_OPTIONS.text().split(",");
+        Text timer = new Text(HText.SETTING_TIMER.text(), 0, 0, false);
         timer.setScale(ModeSettingSelection.detailsScale);
 
         timerOptions = new SelectBox<>(GameStateManager.getSkin());

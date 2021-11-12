@@ -15,6 +15,7 @@ import com.mygdx.hadal.save.ShopInfo;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 
 import java.util.Objects;
 
@@ -43,7 +44,8 @@ public class Quartermaster extends HubEvent {
 			
 			if (checkUnlock && !UnlockManager.checkUnlock(state, UnlockType.valueOf(shopInfo.getType()), item)) {
 
-				Text itemChoose = new Text(Objects.requireNonNull(info).getName() + ": Cost: " + shopInfo.getPrices().get(item), 0, 0, true);
+				Text itemChoose = new Text(HText.QUARTERMASTER_COST.text(Objects.requireNonNull(info).getName(),
+						Integer.toString(shopInfo.getPrices().get(item))), 0, 0, true);
 				
 				itemChoose.addListener(new ClickListener() {
 					
@@ -63,7 +65,7 @@ public class Quartermaster extends HubEvent {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(info.getName() +  "\n\n" + info.getDescription() + " \n\n" + info.getDescriptionLong());
+						hub.setInfo(info.getName() + "\n\n" + info.getDescription() + "\n\n" + info.getDescriptionLong());
 					}
 			    });
 				itemChoose.setScale(UIHub.optionsScaleSmall);

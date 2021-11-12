@@ -34,7 +34,7 @@
 "ADMINISTRATOR_CARD": {
 	"name": "Administrator Card",
 	"description": "Gain 3 Random Artifacts upon Spawning",
-    "descriptionLong": "An inornate identification card printed on sturdy plastic\n\nSalvagers are rarely promoted to administrative positions, and are thus rarely seen carrying these coveted tokens.",
+    "descriptionLong": "An inornate identification card printed on sturdy plastic\n\nSalvagers are rarely promoted to administrative positions, and are thus seldom seen carrying these coveted tokens.",
 	"tags": [
 		"RELIQUARY",
         "GIMMICK"
@@ -54,7 +54,7 @@
 "AMDAHLS_LOTUS": {
 	"name": "Amdahl's Lotus",
 	"description": "+Damage and Fuel Regeneration when Match Timer is low",
-    "descriptionLong": "Timer Threshold: 20% Max Timer\nBonus Damage: +40%\nFuel Regeneration: +8 per Second\n\nAn immaculate blossom that unfurls during pivotal moments of conflict\n\nRepresenting upper Management, the lotus conferred upon its bearer the duty of conveying to humanity: commands, responses and eventually, apologies.",
+    "descriptionLong": "Timer Threshold: 20% Max Timer\nBonus Damage: +40%\nFuel Regeneration: +8 per Second\n\nAn immaculate blossom that unfurls during pivotal moments of conflict\n\nRepresenting Upper Management, the lotus conferred upon its bearer the duty of conveying to humanity: commands, responses and eventually, apologies.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -148,7 +148,7 @@
 "BOOK_OF_BURIAL": {
 	"name": "Book of Burial",
 	"description": "Drop a Mine Upon Receiving Damage",
-    "descriptionLong": "Mine Cooldown: 7.5 Seconds\nPrime Delay: 2 Seconds\nMine Damage: 50\n\nA collection of teachings regarding the sending off of the deceased\n\nThe knowledge and languages of the Sunk conclude within the Pit of Tongues where they serve as nutrition for things burrowed within the sediment.",
+    "descriptionLong": "Mine Cooldown: 7.5 Seconds\nPrime Delay: 2 Seconds\nMine Damage: 50\n\nA collection of teachings regarding the sending off of the deceased\n\nThe knowledge and languages of the Sunk conclude within the Pit of Tongues where they serve as sustenance for things burrowed within the sediment.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -170,7 +170,7 @@
 "BRIGGLES_BLADED_BOOT": {
 	"name": "Briggle's Bladed Boot",
 	"description": "Damaging Stomps",
-    "descriptionLong": "Stomp Damage: 80\n\nThe serrated footwear belonging to a general renown for being armed to the feet\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft.",
+    "descriptionLong": "Stomp Damage: 80\n\nThe serrated footwear belonging to a general renowned for being armed to the feet\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -181,7 +181,7 @@
 "BRITTLING_POWDER": {
 	"name": "Brittling Powder",
 	"description": "Projectile Fragmentation",
-    "descriptionLong": "Frag Cooldown: 0.5 Second\nFrag Number: 8\nFrag Damage: 12\n\nA pouch of insidious powder that renders objects brittle upon the slightest contact\n\nResidents of the Kamaboko-Ya have accepted that the destruction of their physical bodies is a necessary step in the factory's ungodly process.",
+    "descriptionLong": "Frag Cooldown: 0.5 Second\nFrag Number: 8\nFrag Damage: 12\n\nA pouch of insidious powder that renders objects brittle upon the slightest of contact\n\nResidents of the Kamaboko-Ya have accepted that the destruction of their physical bodies is a necessary step in the factory's ungodly process.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -403,7 +403,7 @@
 "DIATOMACEOUS_EARTH": {
 	"name": "Diatomaceous Earth",
 	"description": "Temporarily boosts Damage Resistance and Knockback Resistance upon using Active Item",
-    "descriptionLong": "Buff Duration: 25% of Charge Time\nDamage Resistance: +60%\nKnockback Resistance: +90%\n\nThe powdery remains of countless microscopic Bright Ones\n\nWhile not as luminous as a living specimen, the husks left behind by dead or transcendent Bright Ones are known to have unusual properties of their own.",
+    "descriptionLong": "Buff Duration: 25% of Charge Time\nDamage Resistance: +60%\nKnockback Resistance: +90%\n\nThe powdery remains of countless microscopic Bright Ones\n\nWhile not as luminous as a living specimen, the husks left behind by dead or transcendent Bright Ones are known to have enigmatic properties of their own.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -527,7 +527,7 @@
 "GEMMULE": {
 	"name": "Gemmule",
 	"description": "+Invulnerability Duration upon Spawning",
-    "descriptionLong": "Bonus Spawn Invulnerability Duration: 8 Seconds\n\nA spongy layer of material that functions as a protective coating\n\nThe budding subjects of the Neptune King's Garden must be tended to diligently in order for fruit to be bore.",
+    "descriptionLong": "Bonus Spawn Invulnerability Duration: 8 Seconds\n\nA spongy layer of material that functions as a protective coating\n\nThe budding subjects of the Neptune King's Garden must be tended to diligently if they are to bear fruit.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -537,7 +537,7 @@
 "GLUTTONOUS_GREY_GLOVE": {
 	"name": "Gluttonous Grey Grove",
 	"description": "Occasionally Drop Health upon Killing Enemies",
-    "descriptionLong": "Hp Drop Chance: 100% on Player Kill, 20% on Monster Kill\nHp Pickup: 20\n\nAn article of carnivorous handwear with an appetite for flesh\n\nIt's a fish-eat-fish world out there.",
+    "descriptionLong": "Hp Drop Chance: 100% on Player Kill, 20% on Monster Kill\nHp Pickup: 20\n\nAn article of carnivorous handwear with an appetite for flesh\n\nIt is a fish-eat-fish world out there.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -641,7 +641,7 @@
 "IRON_SIGHTS": {
 	"name": "Iron Sights",
 	"description": "-Recoil, +Projectile Speed",
-    "descriptionLong": "Recoil Reduction: -100%\nBonus Projectile Speed: +25%\n\nA metal scope to be affixed to the end of a firearm\n\nAfter granting the wishes of three Gods, the First Bright One gained a luminosity so intense that even the eye at the bottom of the sea could not stare into it.",
+    "descriptionLong": "Recoil Reduction: -100%\nBonus Projectile Speed: +25%\n\nA metal scope to be affixed to the end of a firearm\n\nAfter granting the wishes of three Gods, the First Bright One attained a luminosity so intense that even the eye at the bottom of the sea could not stare into it.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -651,7 +651,7 @@
 "JELLOFELLOW_COSPLAY": {
 	"name": "Jellofellow Cosplay",
 	"description": "+Max Hp, Bouncy!",
-    "descriptionLong": "Bonus Max Hp: +40%\n\nA costume of a long-forgotten cartoon character\n\nThe more thoroughly erased a civilization, the more imperceptible the difference between its historical figures and cereal-box mascots.",
+    "descriptionLong": "Bonus Max Hp: +40%\n\nA costume of a long-forgotten cartoon character\n\nThe more thoroughly erased a civilization, the smaller the difference between its historical figures and cereal-box mascots.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -674,7 +674,7 @@
 "KINEATER": {
 	"name": "Kineater",
 	"description": "Lowers Boss Hp",
-    "descriptionLong": "Boss Hp Reduction: -15%\n\nA wriggling invertebrate that attaches to host membranes with a hooked tail\n\nBurrowed in the flesh of unsuspecting hosts, parasites are often carried by the currents to destinations not befitting themselves.",
+    "descriptionLong": "Boss Hp Reduction: -15%\n\nA wriggling invertebrate that attaches to host membranes with a hooked tail\n\nBurrowed in the flesh of unsuspecting hosts, parasites are often carried by currents to destinations not befitting themselves.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -715,7 +715,7 @@
 "LOAMSKIN_LOCKET": {
 	"name": "Loamskin Locket",
 	"description": "+Max Hp, Bonus Hp Starts Unfilled",
-    "descriptionLong": "Bonus Max Hp: +60%\n\nA locket containing a glass capsule filled with fertile soil\n\nTo the unborn, the Garden of the Neptune King offers a vivid taste of long-lost terrestrial warmth.",
+    "descriptionLong": "Bonus Max Hp: +60%\n\nA locket containing a glass capsule filled with fertile soil\n\nTo the unborn, the Garden of the Neptune King offers a vivid taste of long-lost,  terrestrial warmth.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -982,7 +982,7 @@
 "PETRIFIED_PAYLOAD": {
 	"name": "Petrified Payload",
 	"description": "Create Explosion upon Killing and Dying, Bigger Explosions",
-    "descriptionLong": "Explosion Damage: 50 on Player Kill, 20 on Monster Kill\nBonus Explosion Size: +30%\n\nA bulging and volatile stack of decrepit munitions\n\nManagement has always had confidence that whatever lied at the bottom of the world could be dealt with using additional firepower.",
+    "descriptionLong": "Explosion Damage: 50 on Player Kill, 20 on Monster Kill\nBonus Explosion Size: +30%\n\nA bulging and volatile stack of decrepit munitions\n\nManagement has always had confidence that whatever lies at the bottom of the world could be dealt with using additional firepower.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -1073,7 +1073,7 @@
 "SEAFOAM_PERIAPT": {
 	"name": "Seafoam Periapt",
 	"description": "+Attack Speed, Antigravity Projectiles",
-    "descriptionLong": "Bonus Reload Speed: +20%\nBonus Ranged Attack Speed: +20%\n\nA porous charm infused with an uplifting froth\n\nNot even the body of the Whale-God, Callo, could contain the knowledge imparted by the First Bright One and, gradually, the excess drifted away in the form of seafoam.",
+    "descriptionLong": "Bonus Reload Speed: +20%\nBonus Ranged Attack Speed: +20%\n\nA porous charm infused with an uplifting froth\n\nNot even the body of the Whale-God, Callo, could contain the knowledge imparted by the First Bright One and, gradually, the excess drifted away as seafoam.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -1167,7 +1167,7 @@
 "SWORD_OF_SYZYGY": {
 	"name": "Sword of Syzygy",
 	"description": "+Projectile Pierce, +Damage Amplification",
-    "descriptionLong": "Projectile Pierce: +3 Enemies\nBonus Damage: +15%\n\nA light thrusting-sword with a hilt in the likeness of a lunar eclipse\n\nInexplicable phenomena is said to occur when sunken Bright Ones align with their heavenly counterparts.",
+    "descriptionLong": "Projectile Pierce: +3 Enemies\nBonus Damage: +15%\n\nA light thrusting-sword with a hilt in the likeness of a lunar eclipse\n\nInexplicable phenomena are said to occur when sunken Bright Ones align with their heavenly counterparts.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",

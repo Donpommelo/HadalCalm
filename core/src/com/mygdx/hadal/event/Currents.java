@@ -10,7 +10,7 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.server.EventDto;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
@@ -136,9 +136,7 @@ public class Currents extends Event {
 	 */
 	@Override
 	public Object onServerCreate() {
-
 		if (independent) { return null; }
-
 		if (blueprint == null) {
 			entityLocation.set(getPixelPosition());
 

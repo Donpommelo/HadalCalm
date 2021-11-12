@@ -1,7 +1,7 @@
 package com.mygdx.hadal.dialog;
 
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.utils.TextFilterUtil;
+import com.mygdx.hadal.text.TextFilterUtil;
 
 /**
  * A DialogInfo is information about a single Dialog.

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -97,7 +97,8 @@ public class Ragdoll extends HadalEntity {
 	@Override
 	public void create() {
 		this.hadalData = new HadalData(UserDataTypes.BODY, this);
-		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1, 0.5f, false, false, Constants.BIT_SENSOR,	(short) (Constants.BIT_WALL | Constants.BIT_SENSOR), (short) -1, sensor, hadalData);
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1, 0.5f, false, false,
+				Constants.BIT_SENSOR, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR), (short) -1, sensor, hadalData);
 
 		//this makes ragdolls spin and move upon creation
 		setAngularVelocity(startAngle);

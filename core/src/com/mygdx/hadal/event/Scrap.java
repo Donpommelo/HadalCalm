@@ -62,7 +62,7 @@ public class Scrap extends Event {
 			
 			@Override
 			public void onTouch(HadalData fixB) {
-				if (isAlive() && fixB instanceof PlayerBodyData && delay <= 0) {
+				if (isAlive() && fixB instanceof PlayerBodyData playerData && delay <= 0) {
 					event.queueDeletion();
 
 					//in single player, scrap gives the player 1 unit of currency
@@ -71,22 +71,23 @@ public class Scrap extends Event {
 					} else if (score) {
 
 						//in eggplant mode, we increase the players score by 1
-						state.getMode().processPlayerScoreChange(state, ((PlayerBodyData) fixB).getPlayer(), 1);
+						state.getMode().processPlayerScoreChange(state, playerData.getPlayer(), 1);
 					}
 
 					state.getUiExtra().syncUIText(UITag.uiType.SCRAP);
 					new ParticleEntity(state, fixB.getEntity(), Particle.SPARKLE, 1.0f, 1.0f, true, particleSyncType.CREATESYNC);
 					
 					//activate effects that activate upon picking up scrap
-					((PlayerBodyData) fixB).statusProcTime(new ProcTime.ScrapPickup());
-					
-					SoundEffect.COIN3.playExclusive(state, getPixelPosition(), ((PlayerBodyData) fixB).getPlayer(), 1.0f, false);
+					playerData.statusProcTime(new ProcTime.ScrapPickup());
+					SoundEffect.COIN3.playExclusive(state, getPixelPosition(), playerData.getPlayer(), 1.0f, false);
 				}
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1.0f, 0, false, true, Constants.BIT_SENSOR, Constants.BIT_PLAYER, (short) 0, true, eventData);
-		FixtureBuilder.createFixtureDef(body, new Vector2(), size, false, 0, 0, 0.0f, 1.0f, Constants.BIT_SENSOR, (short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), (short) 0);
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1.0f, 0, false, true,
+				Constants.BIT_SENSOR, Constants.BIT_PLAYER, (short) 0, true, eventData);
+		FixtureBuilder.createFixtureDef(body, new Vector2(), size, false, 0, 0, 0.0f, 1.0f,
+				Constants.BIT_SENSOR, (short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), (short) 0);
 		
 		float newDegrees = startVelo.angleDeg() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 		newVelocity.set(startVelo);

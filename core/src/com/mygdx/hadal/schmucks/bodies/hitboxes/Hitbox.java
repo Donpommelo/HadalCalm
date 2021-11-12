@@ -14,7 +14,8 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
@@ -260,12 +261,41 @@ public class Hitbox extends HadalEntity {
 	@Override
 	public Object onServerCreate() {
 		if (isSyncDefault() || isSyncInstant()) {
-			return new Packets.CreateEntity(entityID.toString(), spriteSize, getPixelPosition(), getAngle(), sprite, true, ObjectSyncLayers.HBOX, alignType.HITBOX);
+			return new Packets.CreateEntity(entityID.toString(), spriteSize, getPixelPosition(), getAngle(), sprite,
+					true, isSyncInstant(), ObjectSyncLayers.HBOX, alignType.HITBOX);
 		} else {
 			return null;
 		}
 	}
-	
+
+	@Override
+	public void onServerSync() {
+		if (body != null && isSyncDefault()) {
+			float angle = getAngle();
+			if (angle == 0.0f) {
+				state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(),
+						entityAge, state.getTimer()));
+			} else {
+				state.getSyncPackets().add(new PacketsSync.SyncEntityAngled(entityID.toString(), getPosition(), getLinearVelocity(),
+						entityAge, state.getTimer(), angle));
+			}
+		}
+	}
+
+	@Override
+	public void onServerSyncFast() {
+		if (body != null && isSyncInstant()) {
+			float angle = getAngle();
+			if (angle == 0.0f) {
+				state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(),
+						entityAge, state.getTimer()));
+			} else {
+				state.getSyncPackets().add(new PacketsSync.SyncEntityAngled(entityID.toString(), getPosition(), getLinearVelocity(),
+						entityAge, state.getTimer(), angle));
+			}
+		}
+	}
+
 	/**
 	 * Certain strategies lower the hbox durability. hbox dies when durability reaches 0.
 	 */

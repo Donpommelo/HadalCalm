@@ -11,7 +11,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
@@ -217,19 +217,18 @@ public class EnemyCrawling extends Enemy {
 	
 	@Override
 	public void onServerSync() {
-		state.getSyncPackets().add(new Packets.SyncEntity(entityID.toString(), getPosition(), currentVel, moveDirection, entityAge, state.getTimer(), false));
-		state.getSyncPackets().add(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP), state.getTimer()));
+		state.getSyncPackets().add(new PacketsSync.SyncSchmuckAngled(entityID.toString(), getPosition(), currentVel, entityAge,
+				state.getTimer(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP), moveDirection));
 	}
 	
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncEntity p) {
+		super.onClientSync(o);
+		if (o instanceof PacketsSync.SyncEntityAngled p) {
 			prevPos.set(serverPos);
 			serverPos.set(p.pos);
 			setLinearVelocity(p.velocity);
 			moveDirection = p.angle;
-		} else {
-			super.onClientSync(o);
 		}
 	}
 	

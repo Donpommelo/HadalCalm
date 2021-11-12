@@ -62,8 +62,8 @@ public class SpawnerSchmuck extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				
-				if (activator.getEvent() instanceof TriggerAlt) {
-					numEnemies += Integer.parseInt(((TriggerAlt) activator.getEvent()).getMessage());
+				if (activator.getEvent() instanceof TriggerAlt trigger) {
+					numEnemies += Integer.parseInt(trigger.getMessage());
 				} else {
 					if (amountLeft < limit || limit == 0) {
 						for (int i = 0; i < numEnemies; i++) {
@@ -75,7 +75,8 @@ public class SpawnerSchmuck extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
+				Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
 	

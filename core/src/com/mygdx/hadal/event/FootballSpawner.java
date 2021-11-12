@@ -9,7 +9,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -42,7 +42,8 @@ public class FootballSpawner extends Event {
     public void create() {
         this.eventData = new EventData(this);
 
-        this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
+        this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
+                Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
         this.body.setType(BodyDef.BodyType.KinematicBody);
     }
 
@@ -79,7 +80,6 @@ public class FootballSpawner extends Event {
     }
 
     private static final float pushMultiplier = 0.6f;
-
     /**
      * Spawn a ball at our current location and set the objective marker to track the ball
      */

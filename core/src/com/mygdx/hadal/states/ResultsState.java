@@ -25,10 +25,11 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.text.HText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -209,7 +210,7 @@ public class ResultsState extends GameState {
 				tableExtra = new WindowTable();
 
 				//These are all of the display and buttons visible to the player.
-				final Text readyOption = new Text("RETURN TO LOADOUT?", 0, 0, true);
+				final Text readyOption = new Text(HText.RETURN_HUB.text(), 0, 0, true);
 
 				readyOption.addListener(new ClickListener() {
 
@@ -226,7 +227,7 @@ public class ResultsState extends GameState {
 				});
 				readyOption.setScale(scale);
 
-				final Text forceReadyOption = new Text("FORCE RETURN?", 0, 0, true);
+				final Text forceReadyOption = new Text(HText.FORCE_RETURN.text(), 0, 0, true);
 
 				forceReadyOption.addListener(new ClickListener() {
 
@@ -446,16 +447,16 @@ public class ResultsState extends GameState {
 
 				infoPlayerName.setText(field.getNameAbridged(MAX_NAME_LENGTH_LONG));
 
-				Text damageDealtField = new Text("DAMAGE DEALT: ", 0, 0, false);
+				Text damageDealtField = new Text(HText.DAMAGE_DEALT.text(), 0, 0, false);
 				damageDealtField.setScale(infoTextScale);
 
-				Text damageAllyField = new Text("FRIENDLY FIRE: ", 0, 0, false);
+				Text damageAllyField = new Text(HText.FRIENDLY_FIRE.text(), 0, 0, false);
 				damageAllyField.setScale(infoTextScale);
 
-				Text damageSelfField = new Text("SELF-DAMAGE: ", 0, 0, false);
+				Text damageSelfField = new Text(HText.SELF_DAMAGE.text(), 0, 0, false);
 				damageSelfField.setScale(infoTextScale);
 
-				Text damageReceivedField = new Text("DAMAGE RECEIVED: ", 0, 0, false);
+				Text damageReceivedField = new Text(HText.DAMAGE_RECEIVED.text(), 0, 0, false);
 				damageReceivedField.setScale(infoTextScale);
 
 				Text damageDealt = new Text("" + (int) fieldExtra.getDamageDealt(), 0, 0, false);
@@ -494,7 +495,7 @@ public class ResultsState extends GameState {
 
 					for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 						if (!fieldExtra.getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
-							Text weaponField = new Text("WEAPON" + (i + 1) + ": ", 0, 0, false);
+							Text weaponField = new Text(HText.WEAPON.text((i + 1) + ": "), 0, 0, false);
 							weaponField.setScale(infoTextScale);
 							Text weapon = new Text(fieldExtra.getLoadout().multitools[i].name(), 0, 0, false);
 							weapon.setScale(infoTextScale);
@@ -502,7 +503,7 @@ public class ResultsState extends GameState {
 							tableInfo.add(weapon).height(infoRowHeight).left().padBottom(infoPadYSmall).row();
 						}
 					}
-					Text activeField = new Text("ACTIVE: ", 0, 0, false);
+					Text activeField = new Text(HText.ACTIVE.text(), 0, 0, false);
 					activeField.setScale(infoTextScale);
 					Text active = new Text(fieldExtra.getLoadout().activeItem.name(), 0, 0, false);
 					active.setScale(infoTextScale);

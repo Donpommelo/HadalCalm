@@ -44,7 +44,7 @@ public class ModeGunGame extends ModeSetting {
         if (perp instanceof Player player) {
             state.getMode().processPlayerScoreChange(state, player, 1);
 
-            User user = HadalGame.server.getUsers().get(player.getConnID());
+            User user = HadalGame.server.getUsers().get(player.getConnId());
             if (user != null) {
                 int currentGunIndex = user.getScores().getScore();
                 if (currentGunIndex < weaponOrder.length) {

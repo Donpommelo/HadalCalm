@@ -8,7 +8,7 @@ import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.ProcTime;
@@ -166,8 +166,8 @@ public class Schmuck extends HadalEntity {
 	 */
 	@Override
 	public void onServerSync() {
-		super.onServerSync();
-		state.getSyncPackets().add(new Packets.SyncSchmuck(entityID.toString(), moveState, Math.max(0.0f, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)), state.getTimer()));
+		state.getSyncPackets().add(new PacketsSync.SyncSchmuck(entityID.toString(), getPosition(), getLinearVelocity(),
+				entityAge, state.getTimer(), moveState, Math.max(0.0f, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP))));
 	}
 	
 	/**
@@ -175,13 +175,12 @@ public class Schmuck extends HadalEntity {
 	 */
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncSchmuck p) {
+		super.onClientSync(o);
+		if (o instanceof PacketsSync.SyncSchmuck p) {
 			if (!this.equals(state.getPlayer())) {
 				moveState = p.moveState;
 			}
 			getBodyData().setOverrideHpPercent(p.hpPercent);
-		} else {
-			super.onClientSync(o);
 		}
 	}
 	

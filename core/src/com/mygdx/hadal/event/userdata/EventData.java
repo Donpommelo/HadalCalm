@@ -6,7 +6,7 @@ import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -77,7 +77,7 @@ public class EventData extends HadalData {
 				if (p.equals(event.getState().getPlayer())) {
 					onActivate(activator, p);
 				} else if (event.getState().isServer()) {
-					HadalGame.server.sendPacketToPlayer(p, new Packets.ActivateEvent(event.getEntityID().toString(), p.getConnID()));
+					HadalGame.server.sendToTCP(p.getConnId(), new Packets.ActivateEvent(event.getEntityID().toString(), p.getConnId()));
 				}
 			}
 			break;
@@ -86,7 +86,7 @@ public class EventData extends HadalData {
 			if (p == null) {
 				HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID().toString(), -1));
 			} else {
-				HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID().toString(), p.getConnID()));
+				HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID().toString(), p.getConnId()));
 			}
 			break;
 		case ILLUSION:

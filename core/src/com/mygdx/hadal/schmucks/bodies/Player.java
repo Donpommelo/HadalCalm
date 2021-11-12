@@ -31,11 +31,13 @@ import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
+import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -152,7 +154,7 @@ public class Player extends PhysicsSchmuck {
 	private final Loadout startLoadout;
 	
 	//This is the connection id of the player (0 if server)
-	private int connID;
+	private int connId;
 	
 	//should we reset this player's playerData stuff upon creation
 	private final boolean reset;
@@ -170,11 +172,11 @@ public class Player extends PhysicsSchmuck {
 	 * @param name: the player's name
 	 * @param startLoadout: This is the player's starting loadout
 	 * @param oldData: If created after a stage transition, this is the data of the previous player.
-	 * @param connID: connection id. 0 if server.
+	 * @param connId: connection id. 0 if server.
 	 * @param reset: do we reset the player's stats after creating them?
 	 * @param start: the start point that the player spawns at.
 	 */
-	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID,
+	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connId,
 	  		boolean reset, StartPoint start) {
 		super(state, startPos, new Vector2(hbWidth * scale,hbHeight * scale), name, Constants.PLAYER_HITBOX, baseHp);
 		this.name = name;
@@ -185,7 +187,7 @@ public class Player extends PhysicsSchmuck {
 
 		this.startLoadout = startLoadout;
 		this.playerData = oldData;
-		this.connID = connID;
+		this.connId = connId;
 		this.reset = reset;
 		this.start = start;
 
@@ -706,7 +708,7 @@ public class Player extends PhysicsSchmuck {
 			reloadDelayed = Math.min(1.0f, reloadDelayed + (reloadPercent - reloadDelayed) * 0.25f);
 			
 			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * reloadDelayed, reloadBar.getRegionHeight() * uiScale);
-			HadalGame.FONT_SPRITE.draw(batch, "RELOADING", textX + 12, textY + reload.getRegionHeight() * uiScale);
+			HadalGame.FONT_SPRITE.draw(batch, HText.RELOADING.text(), textX + 12, textY + reload.getRegionHeight() * uiScale);
 			batch.draw(reloadMeter, textX, textY, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
 			
 			if (reloadDelayed > reloadPercent) {
@@ -730,11 +732,11 @@ public class Player extends PhysicsSchmuck {
 		//render "out of ammo"
 		if (state.isServer()) {
 			if (playerData.getCurrentTool().isOutofAmmo()) {
-				HadalGame.FONT_SPRITE.draw(batch, "OUT OF AMMO", textX + 12, textY + reload.getRegionHeight() * uiScale);
+				HadalGame.FONT_SPRITE.draw(batch, HText.OUT_OF_AMMO.text(), textX + 12, textY + reload.getRegionHeight() * uiScale);
 			}
 		} else {
 			if (playerData.isOverrideOutOfAmmo()) {
-				HadalGame.FONT_SPRITE.draw(batch, "OUT OF AMMO", textX + 12, textY + reload.getRegionHeight() * uiScale);
+				HadalGame.FONT_SPRITE.draw(batch, HText.OUT_OF_AMMO.text(), textX + 12, textY + reload.getRegionHeight() * uiScale);
 			}
 		}
 		
@@ -860,7 +862,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePlayer(entityID.toString(), connID, getPixelPosition(), name, playerData.getLoadout(),
+		return new Packets.CreatePlayer(entityID.toString(), connId, getPixelPosition(), name, playerData.getLoadout(),
 				hitboxfilter, scaleModifier, dontMoveCamera);
 	}
 
@@ -877,12 +879,18 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void onServerSync() {
-		super.onServerSync();
-		state.getSyncPackets().add(new Packets.SyncPlayerAll(entityID.toString(), mouseAngle, grounded, playerData.getCurrentSlot(), 
-				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(),
-				chargePercent, playerData.getCurrentTool().isOutofAmmo(), invisible, state.getTimer()));
-		
-		HadalGame.server.sendPacketToPlayer(this, new Packets.SyncPlayerSelf(playerData.getCurrentFuel() / playerData.getStat(Stats.MAX_FUEL), 
+		HadalGame.server.sendToAllExceptUDP(connId, new PacketsSync.SyncPlayer(entityID.toString(), getPosition(), getLinearVelocity(), entityAge,	state.getTimer(), moveState,
+				Math.max(0.0f, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
+				mouseAngle, grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().isReloading(), reloadPercent,
+				playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo(), invisible));
+
+		HadalGame.server.sendToUDP(connId, new PacketsSync.SyncPlayerSelf(entityID.toString(), getPosition(),
+				getLinearVelocity(), entityAge,	state.getTimer(), moveState,
+				Math.max(0.0f, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
+				mouseAngle, grounded, playerData.getCurrentSlot(),
+				playerData.getCurrentTool().isReloading(), reloadPercent,
+				playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo(),
+				invisible, playerData.getCurrentFuel() / playerData.getStat(Stats.MAX_FUEL),
 				playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getAmmoLeft(),
 				playerData.getActiveItem().chargePercent(), blinded));
 	}
@@ -892,7 +900,8 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncPlayerAll p) {
+		super.onClientSync(o);
+		if (o instanceof PacketsSync.SyncPlayer p) {
 
 			serverAttackAngle.setAngleRad(p.attackAngle.angleRad());
 			grounded = p.grounded;
@@ -912,8 +921,6 @@ public class Player extends PhysicsSchmuck {
 			spriteHelper.despawn(p.type, getPixelPosition(), getLinearVelocity());
 			setDespawnType(p.type);
 			((ClientState) state).removeEntity(entityID.toString());
-		} else {
-			super.onClientSync(o);
 		}
 	}
 	
@@ -1016,9 +1023,9 @@ public class Player extends PhysicsSchmuck {
 
 	public void setMouse(MouseTracker mouse) { this.mouse = mouse; }
 
-	public int getConnID() { return connID;	}
+	public int getConnId() { return connId;	}
 
-	public void setConnID(int connID) { this.connID = connID; }
+	public void setConnId(int connId) { this.connId = connId; }
 	
 	public void setScaling(boolean scaling) { this.scaling = scaling; }
 	

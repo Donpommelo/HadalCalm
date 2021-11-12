@@ -12,6 +12,7 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 
 import java.util.Collection;
 
@@ -26,7 +27,6 @@ import static com.mygdx.hadal.states.PlayState.longFadeDelay;
  */
 public class SettingTeamMode extends ModeSetting {
 
-    public static final String[] teamChoices = {"FREE_FOR_ALL", "AUTO_ASSIGN", "MANUAL ASSIGN"};
     private static final String settingTag = "team_mode";
     private static final Integer defaultValue = 0;
 
@@ -50,7 +50,8 @@ public class SettingTeamMode extends ModeSetting {
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
         if (teamModeChoice) {
-            Text team = new Text("TEAM MODE: ", 0, 0, false);
+            String[] teamChoices = HText.SETTING_TEAM_MODE_OPTIONS.text().split(",");
+            Text team = new Text(HText.SETTING_TEAM_MODE.text(), 0, 0, false);
             team.setScale(ModeSettingSelection.detailsScale);
 
             teamsOptions = new SelectBox<>(GameStateManager.getSkin());
@@ -122,7 +123,7 @@ public class SettingTeamMode extends ModeSetting {
 
         Collection<User> users = HadalGame.server.getUsers().values();
         if (mode.getTeamMode().equals(TeamMode.COOP) || users.size() <= 1) {
-            resultsText = "YOU DECEASED";
+            resultsText = HText.SETTING_LIVES_OUT.text();
 
             //coop levels end when all players are dead
             for (User user : users) {
@@ -145,14 +146,14 @@ public class SettingTeamMode extends ModeSetting {
 
                             //in free-for-all, living players are qualified to win
                             if (mode.getTeamMode().equals(TeamMode.FFA)) {
-                                resultsText = playerLeft.getName() + " WINS";
+                                resultsText = HText.PLAYER_WINS.text(playerLeft.getName());
                             } else {
                                 //if team mode, living players qualify their team for a win (or themselves if on a solo-team)
                                 if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
-                                    resultsText = playerLeft.getPlayerData().getLoadout().team.toString() + " WINS";
+                                    resultsText = HText.PLAYER_WINS.text(playerLeft.getPlayerData().getLoadout().team.toString());
                                     winningTeam = user.getTeamFilter();
                                 } else {
-                                    resultsText = playerLeft.getName() + " WINS";
+                                    resultsText = HText.PLAYER_WINS.text(playerLeft.getName());
                                     winningTeam = user.getHitBoxFilter();
                                 }
                             }
@@ -193,7 +194,7 @@ public class SettingTeamMode extends ModeSetting {
         } else {
 
             //the player that dies respawns if there are still others left and becomes a spectator otherwise
-            User dedUser = HadalGame.server.getUsers().get(p.getConnID());
+            User dedUser = HadalGame.server.getUsers().get(p.getConnId());
             if (dedUser != null) {
                 if (dedUser.getScores().getLives() > 0) {
                     dedUser.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());

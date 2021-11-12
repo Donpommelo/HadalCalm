@@ -11,7 +11,7 @@ import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Stats;
 
@@ -166,14 +166,14 @@ public class Turret extends Enemy {
 	//Just in case you were confused about this weird packet.
 	@Override
 	public void onServerSync() {
-		state.getSyncPackets().add(new Packets.SyncEntity(entityID.toString(), getPosition(), new Vector2(), attackAngle, entityAge, state.getTimer(), false));
-		state.getSyncPackets().add(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP), state.getTimer()));
+		state.getSyncPackets().add(new PacketsSync.SyncSchmuckAngled(entityID.toString(), getPosition(), new Vector2(), entityAge,
+				state.getTimer(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP), attackAngle));
 	}
 	
 	@Override
 	public void onClientSync(Object o) {
 		super.onClientSync(o);
-		if (o instanceof Packets.SyncEntity p) {
+		if (o instanceof PacketsSync.SyncEntityAngled p) {
 			attackAngle = p.angle;
 		}
 	}

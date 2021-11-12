@@ -10,7 +10,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.EventDto;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -67,7 +67,8 @@ public class Spring extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE),
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
+				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE),
 				(short) 0, true, eventData);
 	}	
 	
@@ -87,7 +88,6 @@ public class Spring extends Event {
 	
 	@Override
 	public Object onServerCreate() {
-
 		if (independent) { return null; }
 
 		if (blueprint == null) {

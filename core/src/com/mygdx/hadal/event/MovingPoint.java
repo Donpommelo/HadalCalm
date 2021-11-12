@@ -58,7 +58,8 @@ public class MovingPoint extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true, Constants.BIT_SENSOR, (short) 0, (short) 0, false, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true,
+				Constants.BIT_SENSOR, (short) 0, (short) 0, false, eventData);
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
 

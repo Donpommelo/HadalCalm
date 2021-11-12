@@ -16,7 +16,8 @@ import com.mygdx.hadal.actors.WindowTable;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.text.HText;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import org.json.JSONArray;
@@ -137,10 +138,10 @@ public class LobbyState extends GameState {
 
                 lobbyTable = new WindowTable();
 
-                Text joinTitle = new Text("JOIN", 0, 0, false);
+                Text joinTitle = new Text(HText.JOIN.text(), 0, 0, false);
                 joinTitle.setScale(titleScale);
 
-                Text lobbiesTitle = new Text("LOBBIES", 0, 0, false);
+                Text lobbiesTitle = new Text(HText.LOBBIES.text(), 0, 0, false);
                 lobbiesTitle.setScale(subtitleScale);
 
                 lobbyOptions = new VerticalGroup().pad(optionPad).align(Align.topLeft);
@@ -148,7 +149,7 @@ public class LobbyState extends GameState {
                 options = new ScrollPane(lobbyOptions, GameStateManager.getSkin());
                 options.setFadeScrollBars(false);
 
-                searchOption = new Text("REFRESH?", 0, 0, true);
+                searchOption = new Text(HText.REFRESH.text(), 0, 0, true);
                 searchOption.addListener(new ClickListener() {
 
                     @Override
@@ -163,19 +164,17 @@ public class LobbyState extends GameState {
                 });
                 searchOption.setScale(optionsScale);
 
-                Text ipDisplay = new Text("ENTER IP: ", 0, 0, false);
+                Text ipDisplay = new Text(HText.ENTER_IP.text(), 0, 0, false);
                 ipDisplay.setScale(subtitleScale);
 
                 enterIP = new TextField("", GameStateManager.getSkin());
 
                 //retrieve last joined ip if existent
-                if (gsm.getRecord().getLastIp().equals("")) {
-                    enterIP.setMessageText("ENTER IP");
-                } else {
+                if (!gsm.getRecord().getLastIp().equals("")) {
                     enterIP.setText(gsm.getRecord().getLastIp());
                 }
 
-                Text joinOptionIP = new Text("CONNECT TO IP?", 0, 0, true);
+                Text joinOptionIP = new Text(HText.CONNECT_IP.text(), 0, 0, true);
                 joinOptionIP.setScale(subtitleScale);
 
                 joinOptionIP.addListener(new ClickListener() {
@@ -192,7 +191,7 @@ public class LobbyState extends GameState {
                         HadalGame.client.init();
                         GameStateManager.currentMode = GameStateManager.Mode.MULTI;
 
-                        setNotification("SEARCHING FOR SERVER!");
+                        setNotification(HText.SEARCHING_SERVER.text());
                         //Attempt to connect to the chosen ip
                         Gdx.app.postRunnable(() -> {
 
@@ -206,9 +205,9 @@ public class LobbyState extends GameState {
                                 //save last joined ip if successful
                                 gsm.getRecord().setlastIp(trimmedIp);
 
-                                setNotification("CONNECTED TO SERVER: " + trimmedIp);
+                                setNotification(HText.CONNECTED.text(trimmedIp));
                             } catch (IOException ex) {
-                                setNotification("FAILED TO CONNECT TO SERVER!");
+                                setNotification(HText.CONNECTION_FAILED.text());
 
                                 //Let the player attempt to connect again after finishing
                                 inputDisabled = false;
@@ -217,16 +216,17 @@ public class LobbyState extends GameState {
                     }
                 });
 
-                Text hostTitle = new Text("HOST", 0, 0, false);
+                Text hostTitle = new Text(HText.HOST.text(), 0, 0, false);
                 hostTitle.setScale(titleScale);
 
-                Text enterNameText = new Text("SERVER NAME: ", 0, 0, true);
+                Text enterNameText = new Text(HText.SERVER_NAME.text(), 0, 0, true);
                 enterNameText.setScale(subtitleScale);
-                enterName = new TextField(gsm.getLoadout().getName() + "'s Lobby", GameStateManager.getSkin());
+                enterName = new TextField(HText.SERVER_NAME_DEFAULT.text(gsm.getLoadout().getName()),
+                        GameStateManager.getSkin());
                 enterName.setMaxLength(MAX_NAME_LENGTH_LONG);
-                enterName.setMessageText("ENTER NAME");
+                enterName.setMessageText(HText.ENTER_NAME.text());
 
-                Text serverSettings = new Text("CHANGE SERVER SETTINGS?", 0, 0, true);
+                Text serverSettings = new Text(HText.SERVER_SETTING_CHANGE.text(), 0, 0, true);
                 serverSettings.addListener(new ClickListener() {
 
                     @Override
@@ -243,7 +243,7 @@ public class LobbyState extends GameState {
                 });
                 serverSettings.setScale(optionsScale);
 
-                hostOption = new Text("CREATE SERVER?", 0, 0, true);
+                hostOption = new Text(HText.SERVER_CREATE.text(), 0, 0, true);
                 hostOption.addListener(new ClickListener() {
 
                     @Override
@@ -252,7 +252,7 @@ public class LobbyState extends GameState {
                         if (inputDisabled) { return; }
                         inputDisabled = true;
 
-                        setNotification("SERVER HOSTED");
+                        setNotification(HText.HOSTED.text());
 
                         if (HadalGame.socket != null) {
                             JSONObject lobbyData = new JSONObject();
@@ -271,6 +271,7 @@ public class LobbyState extends GameState {
 
                         //Start up the server in multiplayer mode
                         HadalGame.server.init(true);
+                        HadalGame.server.setServerName(enterName.getText());
                         GameStateManager.currentMode = GameStateManager.Mode.MULTI;
 
                         //Enter the Hub State.
@@ -280,7 +281,7 @@ public class LobbyState extends GameState {
                 });
                 hostOption.setScale(optionsScale);
 
-                exitOption = new Text("RETURN?", 0, 0, true);
+                exitOption = new Text(HText.RETURN.text(), 0, 0, true);
                 exitOption.addListener(new ClickListener() {
 
                     @Override
@@ -352,7 +353,7 @@ public class LobbyState extends GameState {
             connectionAttempted = true;
             connectionDuration = 0.0f;
 
-            setNotification("SEARCHING FOR MATCHMAKING SERVER");
+            setNotification(HText.SEARCHING_MM.text());
         } catch (Exception e) {
             Gdx.app.log("LOBBY", "FAILED TO CONNECT SOCKET: " + e);
         }
@@ -407,7 +408,7 @@ public class LobbyState extends GameState {
                         inputDisabled = true;
 
                         SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-                        setNotification("JOINING LOBBY");
+                        setNotification(HText.JOINING.text());
 
                         HadalGame.client.init();
                         GameStateManager.currentMode = GameStateManager.Mode.MULTI;
@@ -419,7 +420,7 @@ public class LobbyState extends GameState {
                                     gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
                             } catch (IOException ex) {
                                 Gdx.app.log("LOBBY", "FAILED TO JOIN: " + ex);
-                                setNotification("FAILED TO CONNECT TO LOBBY");
+                                setNotification(HText.CONNECTION_FAILED.text());
                                 inputDisabled = false;
                             }
                         });
@@ -432,9 +433,9 @@ public class LobbyState extends GameState {
             }
 
             if (lobbies.length() == 0) {
-                setNotification("NO LOBBIES FOUND");
+                setNotification(HText.NO_LOBBIES.text());
             } else {
-                setNotification("LOBBIES RETRIEVED");
+                setNotification(HText.LOBBIES_RETRIEVED.text());
             }
 
         } catch (JSONException e) {
@@ -455,7 +456,7 @@ public class LobbyState extends GameState {
 
             if (connectionDuration > connectionTimeout) {
                 connectionAttempted = false;
-                setNotification("FAILED TO FIND MATCHMAKING SERVER");
+                setNotification(HText.CONNECTION_MM_FAILED.text());
             }
         }
     }
@@ -478,20 +479,19 @@ public class LobbyState extends GameState {
         tablePassword.setSize(passwordWidth, passwordHeight);
         stage.addActor(tablePassword);
 
-        Text password = new Text("PASSWORD: ", 0, 0, false);
+        Text password = new Text(HText.PASSWORD.text(), 0, 0, false);
         password.setScale(scaleSide);
         password.setHeight(optionHeight);
 
         enterPassword = new TextField("", GameStateManager.getSkin());
         enterPassword.setPasswordCharacter('*');
         enterPassword.setPasswordMode(true);
-        enterPassword.setMessageText("PASSWORD");
 
-        Text connect = new Text("CONNECT", 0, 0, true);
+        Text connect = new Text(HText.PASSWORD_ENTER.text(), 0, 0, true);
         connect.setScale(scaleSide);
         connect.setHeight(optionHeight);
 
-        Text cancel = new Text("CANCEL", 0, 0, true);
+        Text cancel = new Text(HText.RETURN.text(), 0, 0, true);
         cancel.setScale(scaleSide);
         cancel.setHeight(optionHeight);
 

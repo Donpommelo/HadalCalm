@@ -15,8 +15,9 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,8 +34,6 @@ public class NavigationsMultiplayer extends HubEvent {
 	private static GameMode modeChosen = GameMode.DEATHMATCH;
 
 	private final ArrayList<GameMode> gameModes = new ArrayList<>();
-
-	private static final String modesTitle = "GAME MODES";
 
 	public NavigationsMultiplayer(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean closeOnLeave,
   		String modes) {
@@ -99,7 +98,8 @@ public class NavigationsMultiplayer extends HubEvent {
 						} else {
 
 							//clients suggest maps when clicking
-							HadalGame.client.sendTCP(new Packets.ClientChat("Suggests Map: " + selected.getInfo().getName(), DialogBox.DialogType.SYSTEM));
+							HadalGame.client.sendTCP(new Packets.ClientChat(HText.MAP_SUGGEST.text(selected.getInfo().getName()),
+									DialogBox.DialogType.SYSTEM));
 						}
 						leave();
 					}
@@ -110,14 +110,14 @@ public class NavigationsMultiplayer extends HubEvent {
 						if (modeChosen.equals(GameMode.DEATHMATCH)) {
 							if (selected.getInfo().getTags().contains(UnlockTag.BOT_COMPLIANT)) {
 								hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() +
-										" \n \n" + selected.getInfo().getDescriptionLong() + " \n \n" + "BOT COMPLIANT");
+										"\n\n" + selected.getInfo().getDescriptionLong() + "\n\n" + "BOT COMPLIANT");
 							} else {
 								hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() +
-										" \n \n" + selected.getInfo().getDescriptionLong() + " \n \n" + "NOT BOT COMPLIANT");
+										"\n\n" + selected.getInfo().getDescriptionLong() + "\n\n" + "NOT BOT COMPLIANT");
 							}
 						} else {
 							hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() +
-									" \n \n" + selected.getInfo().getDescriptionLong());
+									"\n\n" + selected.getInfo().getDescriptionLong());
 						}
 					}
 				});
@@ -132,7 +132,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
-		hub.setTitle(modesTitle);
+		hub.setTitle(HText.GAME_MODES.text());
 		final NavigationsMultiplayer me = this;
 
 		//bring up all game modes that can be selected from the hub
@@ -160,7 +160,7 @@ public class NavigationsMultiplayer extends HubEvent {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() + " \n \n" + selected.getInfo().getDescriptionLong());
+						hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() + "\n\n" + selected.getInfo().getDescriptionLong());
 					}
 				});
 				itemChoose.setScale(UIHub.optionsScale);

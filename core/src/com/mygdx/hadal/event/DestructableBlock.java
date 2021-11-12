@@ -11,7 +11,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.EventDto;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
@@ -52,7 +52,6 @@ public class DestructableBlock extends Event {
 			
 			@Override
 			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
-
 				if (!state.isServer()) { return basedamage; }
 
 				hp -= basedamage;
@@ -68,7 +67,8 @@ public class DestructableBlock extends Event {
 				if (hp <= 0) {
 					event.queueDeletion();
 					
-					new ParticleEntity(state, new Vector2(event.getPixelPosition()), Particle.BOULDER_BREAK, 3.0f, true, particleSyncType.CREATESYNC);
+					new ParticleEntity(state, new Vector2(event.getPixelPosition()), Particle.BOULDER_BREAK, 3.0f,
+							true, particleSyncType.CREATESYNC);
 					
 					//activated connected event when destroyed.
 					if (event.getConnectedEvent() != null) {

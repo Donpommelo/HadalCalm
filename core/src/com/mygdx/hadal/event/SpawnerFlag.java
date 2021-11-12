@@ -14,12 +14,13 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
 import com.mygdx.hadal.strategies.hitbox.FlagCapturable;
+import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -58,7 +59,7 @@ public class SpawnerFlag extends Event {
                 //give score credit to the player and give notification
                 if (p != null) {
                     String playerName = WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH);
-                    state.getKillFeed().addNotification(playerName + " CAPTURED THE FLAG!", false);
+                    state.getKillFeed().addNotification(HText.CTF_CAPTURE.text(playerName), false);
                     state.getMode().processPlayerScoreChange(state, p, 1);
                 }
                 state.getMode().processTeamScoreChange(state, teamIndex, 1);
@@ -83,7 +84,6 @@ public class SpawnerFlag extends Event {
                 spawnFlag();
             }
         } else {
-
             //spawn a flag if it is dead or nonexistent
             boolean flagded = false;
             if (flag == null) {
@@ -91,10 +91,8 @@ public class SpawnerFlag extends Event {
             } else if (!flag.isAlive()) {
                 flagded = true;
             }
-
             if (flagded) {
                 spawnCountdown = spawnDelay;
-
                 if (getStandardParticle() != null) {
                     getStandardParticle().onForBurst(spawnDelay);
                 }
@@ -130,7 +128,6 @@ public class SpawnerFlag extends Event {
             HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(flag.getEntityID().toString(),
                 color, true, false, Sprite.CLEAR_CIRCLE_ALERT));
         }
-
         flagPresent = true;
     }
 
@@ -143,7 +140,7 @@ public class SpawnerFlag extends Event {
             if (teamIndex < AlignmentFilter.currentTeams.length) {
                 messageCount = messageCooldown;
                 String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
-                state.getKillFeed().addNotification(teamColor + " MUST RECOVER THEIR FLAG BEFORE CAPTURING!" , true);
+                state.getKillFeed().addNotification(HText.CTF_CAPTURE_FAIL.text(teamColor), true);
             }
         }
     }

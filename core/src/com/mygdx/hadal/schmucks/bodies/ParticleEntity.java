@@ -9,7 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
@@ -104,9 +105,7 @@ public class ParticleEntity extends HadalEntity {
 	}
 	
 	@Override
-	public void create() {
-
-	}
+	public void create() {}
 
 	private final Vector2 attachedLocation = new Vector2();
 	@Override
@@ -277,9 +276,11 @@ public class ParticleEntity extends HadalEntity {
 			
 			//if this particle effect has extra fields (scale and color), sync those as well
 			if (syncExtraFields) {
-				state.getSyncPackets().add(new Packets.SyncParticlesExtra(entityID.toString(), newPos, offset, on, entityAge, state.getTimer(), scale, color));
+				state.getSyncPackets().add(new PacketsSync.SyncParticlesExtra(entityID.toString(), newPos, offset, entityAge,
+						state.getTimer(), on, scale, color));
 			} else {
-				state.getSyncPackets().add(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge, state.getTimer()));
+				state.getSyncPackets().add(new PacketsSync.SyncParticles(entityID.toString(), newPos, offset, entityAge,
+						state.getTimer(), on));
 			}
 		}
 	}
@@ -289,8 +290,8 @@ public class ParticleEntity extends HadalEntity {
 	 */
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncParticles p) {
-			this.offset.set(p.offset);
+		if (o instanceof PacketsSync.SyncParticles p) {
+			this.offset.set(p.velocity);
 			effect.setPosition(p.pos.x + offset.x, p.pos.y + offset.y);
 
 			if (p.on && (!on || effect.isComplete())) {
@@ -299,17 +300,8 @@ public class ParticleEntity extends HadalEntity {
 			if (!p.on && (on || !effect.isComplete())) {
 				turnOff();
 			}
-		} else if (o instanceof Packets.SyncParticlesExtra p) {
-			this.offset.set(p.offset);
-			effect.setPosition(p.pos.x + offset.x, p.pos.y + offset.y);
-
-			if (p.on && (!on || effect.isComplete())) {
-				turnOn();
-			}
-			if (!p.on && (on || !effect.isComplete())) {
-				turnOff();
-			}
-			
+		}
+		if (o instanceof PacketsSync.SyncParticlesExtra p) {
 			setScale(p.scale);
 			setColor(p.color);
 		} else {

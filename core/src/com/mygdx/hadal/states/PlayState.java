@@ -51,7 +51,10 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.*;
 import com.mygdx.hadal.server.User.UserDto;
+import com.mygdx.hadal.server.packets.PacketEffect;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
@@ -1075,16 +1078,16 @@ public class PlayState extends GameState {
 			});
 
 			if (mode.getTeamMode().equals(TeamMode.FFA)) {
-				resultsText = scores.get(0).getNameShort() + " WINS";
+				resultsText = HText.PLAYER_WINS.text(scores.get(0).getNameShort());
 			} else {
 				AlignmentFilter winningTeam = teamScoresList.get(0);
 				if (winningTeam.isTeam()) {
-					resultsText = winningTeam + " WINS";
+					resultsText = HText.PLAYER_WINS.text(winningTeam.getColoredAdjective());
 				} else {
 					for (User user: users) {
 						if (!user.isSpectator()) {
 							if (user.getHitBoxFilter().equals(winningTeam)) {
-								resultsText = user.getScores().getNameShort() + " WINS";
+								resultsText = HText.PLAYER_WINS.text(user.getScores().getNameShort());
 							}
 						}
 					}
@@ -1186,7 +1189,7 @@ public class PlayState extends GameState {
 		batch.setProjectionMatrix(hud.combined);
 		batch.begin();
 		HadalGame.FONT_UI.getData().setScale(endTextScale);
-		HadalGame.FONT_UI.draw(batch, "GAME!",HadalGame.CONFIG_WIDTH / 2 - endTextWidth / 2, endTextY, endTextWidth,
+		HadalGame.FONT_UI.draw(batch, HText.GAME.text(),HadalGame.CONFIG_WIDTH / 2 - endTextWidth / 2, endTextY, endTextWidth,
 				Align.center, true);
 		batch.end();
 
@@ -1205,10 +1208,11 @@ public class PlayState extends GameState {
 		if (user != null) {
 			if (!user.isSpectator()) {
 				if (notification) {
-					HadalGame.server.addNotificationToAll(this,"",player.getName() + " became a spectator!", DialogType.SYSTEM);
+					HadalGame.server.addNotificationToAll(this,"", HText.SPECTATOR_ENTER.text(player.getName()),
+							DialogType.SYSTEM);
 				}
 
-				startSpectator(user, player.getConnID());
+				startSpectator(user, player.getConnId());
 
 				//we die last so that the on-death transition does not occur (As it will not override the spectator transition unless it is a results screen.)
 				player.getPlayerData().die(worldDummy.getBodyData(), DamageTypes.DISCONNECT);
@@ -1238,11 +1242,11 @@ public class PlayState extends GameState {
 
 				//cannot exit spectator if server is full
 				if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers() + 1) {
-					HadalGame.server.sendNotification(score.getConnID(), "", "Could not join! Server is full!", DialogType.SYSTEM);
+					HadalGame.server.sendNotification(score.getConnID(), "", HText.SERVER_FULL.text(), DialogType.SYSTEM);
 					return;
 				}
 
-				HadalGame.server.addNotificationToAll(this, "", score.getNameShort() + " stopped spectating and joined the game!", DialogType.SYSTEM);
+				HadalGame.server.addNotificationToAll(this, "", HText.SPECTATOR_EXIT.text(score.getNameShort()), DialogType.SYSTEM);
 
 				//give the new player a player slot
 				user.setHitBoxFilter(AlignmentFilter.getUnusedAlignment());

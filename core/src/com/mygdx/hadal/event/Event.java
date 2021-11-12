@@ -16,7 +16,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.EventDto;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState;
@@ -254,7 +254,8 @@ public class Event extends HadalEntity {
 		case ILLUSION:
 		case SERVER:
 			if (body != null && !sprite.equals(Sprite.NOTHING)) {
-				return new Packets.CreateEntity(entityID.toString(), size, getPixelPosition(), getAngle(), sprite, synced, ObjectSyncLayers.STANDARD, scaleAlign);
+				return new Packets.CreateEntity(entityID.toString(), size, getPixelPosition(), getAngle(), sprite,
+						synced, isSyncInstant(), ObjectSyncLayers.STANDARD, scaleAlign);
 			} else {
 				return null;
 			}

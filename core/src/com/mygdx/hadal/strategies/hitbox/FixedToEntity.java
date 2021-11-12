@@ -70,7 +70,6 @@ public class FixedToEntity extends HitboxStrategy {
 			} else {
 				hbox.setTransform(hbLocation, hbox.getAngle());
 			}
-
 			if (attachedToUser) {
 				if (creator.getSchmuck().getHitboxfilter() != hbox.getFilter()) {
 					hbox.setFilter(creator.getSchmuck().getHitboxfilter());

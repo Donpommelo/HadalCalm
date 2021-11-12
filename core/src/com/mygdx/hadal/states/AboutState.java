@@ -15,6 +15,7 @@ import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.text.HText;
 
 import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
 import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
@@ -105,7 +106,7 @@ public class AboutState extends GameState {
 				details.top();
 				addActor(details);
 
-				soundRoomOption = new Text("SOUND ROOM", 0, 0, true);
+				soundRoomOption = new Text(HText.SOUND_ROOM.text(), 0, 0, true);
 				soundRoomOption.addListener(new ClickListener() {
 
 					@Override
@@ -116,7 +117,7 @@ public class AboutState extends GameState {
 				});
 				soundRoomOption.setScale(optionsScale);
 
-				aboutOption = new Text("ABOUT", 0, 0, true);
+				aboutOption = new Text(HText.ABOUT.text(), 0, 0, true);
 				aboutOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -127,7 +128,7 @@ public class AboutState extends GameState {
 			    });
 				aboutOption.setScale(optionsScale);
 
-				tipsOption = new Text("TIPS", 0, 0, true);
+				tipsOption = new Text(HText.TIPS.text(), 0, 0, true);
 				tipsOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -138,7 +139,7 @@ public class AboutState extends GameState {
 			    });
 				tipsOption.setScale(optionsScale);
 				
-				miscOption = new Text("MISC", 0, 0, true);
+				miscOption = new Text(HText.MISC.text(), 0, 0, true);
 				miscOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -149,7 +150,7 @@ public class AboutState extends GameState {
 			    });
 				miscOption.setScale(optionsScale);
 				
-				creditsOption = new Text("CREDITS", 0, 0, true);
+				creditsOption = new Text(HText.CREDITS.text(), 0, 0, true);
 				creditsOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -160,7 +161,7 @@ public class AboutState extends GameState {
 			    });
 				creditsOption.setScale(optionsScale);
 				
-				exitOption = new Text("RETURN?", 0, 0, true);
+				exitOption = new Text(HText.RETURN.text(), 0, 0, true);
 				exitOption.addListener(new ClickListener() {
 					
 					@Override
@@ -189,9 +190,8 @@ public class AboutState extends GameState {
 	private void aboutSelected() {
 		details.clearChildren();
 		
-		details.add(new Text("ABOUT", 0, 0, false)).colspan(2).pad(titlePad).row();
-		
-		Text about = new Text(GameStateManager.miscText.getString("about"), 0, 0, false, true, detailsTextWidth);
+		details.add(new Text(HText.ABOUT.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
+		Text about = new Text(HText.INFO_ABOUT.text(), 0, 0, false, true, detailsTextWidth);
 		about.setScale(detailsScale);
 		
 		details.add(about);
@@ -200,8 +200,7 @@ public class AboutState extends GameState {
 	private void soundRoomSelected() {
 		details.clearChildren();
 
-		details.add(new Text("SOUND ROOM", 0, 0, false)).colspan(2).pad(titlePad).row();
-
+		details.add(new Text(HText.SOUND_ROOM.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
 		trackText = new Text("", 0, 0, false);
 		trackText.setScale(detailsScale);
 
@@ -232,7 +231,7 @@ public class AboutState extends GameState {
 
 		//show list of available songs
 		for (MusicTrack track: MusicTrack.values()) {
-			Text trackListen = new Text("PLAY: " + track.getMusicName(), 0, 0, true);
+			Text trackListen = new Text(track.getMusicName(), 0, 0, true);
 
 			trackListen.addListener(new ClickListener() {
 
@@ -260,7 +259,7 @@ public class AboutState extends GameState {
 		trackTime = new Text("", 0, 0, false);
 		trackTime.setScale(detailsScale);
 
-		Text play = new Text ("PLAY", 0, 0, true);
+		Text play = new Text (HText.PLAY.text(), 0, 0, true);
 		play.setScale(detailsScale);
 
 		play.addListener(new ClickListener() {
@@ -278,7 +277,7 @@ public class AboutState extends GameState {
 			}
 		});
 
-		Text pause = new Text ("PAUSE", 0, 0, true);
+		Text pause = new Text (HText.PAUSE.text(), 0, 0, true);
 		pause.setScale(detailsScale);
 
 		pause.addListener(new ClickListener() {
@@ -295,7 +294,7 @@ public class AboutState extends GameState {
 			}
 		});
 
-		Text stop = new Text ("STOP", 0, 0, true);
+		Text stop = new Text (HText.STOP.text(), 0, 0, true);
 		stop.setScale(detailsScale);
 
 		stop.addListener(new ClickListener() {
@@ -308,7 +307,7 @@ public class AboutState extends GameState {
 			}
 		});
 
-		continuePlaying = new CheckBox("CONTINUE PLAYING AFTER EXITING?", GameStateManager.getSkin());
+		continuePlaying = new CheckBox(HText.CONTINUE.text(), GameStateManager.getSkin());
 
 		details.add(trackText).width(songTitleWidth).pad(detailPad);
 		details.add(musicTime).row();
@@ -332,9 +331,8 @@ public class AboutState extends GameState {
 	private void tipsSelected() {
 		details.clearChildren();
 		
-		details.add(new Text("TIPS", 0, 0, false)).colspan(2).pad(titlePad).row();
-		
-		Text tips = new Text(GameStateManager.miscText.getString("tips"), 0, 0, false, true, detailsTextWidth);
+		details.add(new Text(HText.TIPS.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
+		Text tips = new Text(HText.INFO_TIPS.text(), 0, 0, false, true, detailsTextWidth);
 		tips.setScale(detailsScale);
 		
 		details.add(tips);
@@ -343,9 +341,8 @@ public class AboutState extends GameState {
 	private void miscSelected() {
 		details.clearChildren();
 		
-		details.add(new Text("MISC", 0, 0, false)).colspan(2).pad(titlePad).row();
-		
-		Text misc = new Text(GameStateManager.miscText.getString("misc"), 0, 0, false, true, detailsTextWidth);
+		details.add(new Text(HText.MISC.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
+		Text misc = new Text(HText.INFO_MISC.text(), 0, 0, false, true, detailsTextWidth);
 		misc.setScale(detailsScale);
 		
 		details.add(misc);
@@ -354,10 +351,10 @@ public class AboutState extends GameState {
 	private void creditsSelected() {
 		details.clearChildren();
 		
-		details.add(new Text("CREDITS", 0, 0, false)).colspan(2).pad(titlePad).row();
+		details.add(new Text(HText.CREDITS.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
 		
 		//dev and art options have url links
-		Text dev = new Text("PROGRAMMING: DONPOMMELO", 0, 0, true);
+		Text dev = new Text(HText.INFO_CREDITS_CODE.text(), 0, 0, true);
 		dev.setScale(detailsScale);
 		dev.setColor(Color.RED);
 		
@@ -370,7 +367,7 @@ public class AboutState extends GameState {
 	        }
 	    });
 		
-		Text art = new Text("ART: SHOEBANFOO", 0, 0, true);
+		Text art = new Text(HText.INFO_CREDITS_ART.text(), 0, 0, true);
 		art.setScale(detailsScale);
 		art.setColor(Color.RED);
 		
@@ -383,7 +380,7 @@ public class AboutState extends GameState {
 	        }
 	    });
 
-		Text music = new Text("MUSIC: VCRCHITECT", 0, 0, true);
+		Text music = new Text(HText.INFO_CREDITS_MUSIC.text(), 0, 0, true);
 		music.setScale(detailsScale);
 		music.setColor(Color.RED);
 
@@ -396,7 +393,7 @@ public class AboutState extends GameState {
 			}
 		});
 
-		Text sfx = new Text(GameStateManager.miscText.getString("credits"), 0, 0, false, true, detailsTextWidth);
+		Text sfx = new Text(HText.INFO_CREDITS_SOUND.text(), 0, 0, false, true, detailsTextWidth);
 		sfx.setScale(detailsScale);
 		
 		details.add(dev).height(optionHeight).row();
@@ -472,10 +469,10 @@ public class AboutState extends GameState {
 		musicTime.setValue(0.0f);
 		if (track != null) {
 			musicTime.setRange(0.0f, track.getTrackLength());
-			trackText.setText("NOW PLAYING: " + track.getMusicName());
+			trackText.setText(HText.NOW_PLAYING.text(track.getMusicName()));
 		} else {
 			musicTime.setRange(0.0f, 0.0f);
-			trackText.setText("NOW PLAYING: NOTHING");
+			trackText.setText(HText.NOW_PLAYING_DEFAULT.text());
 		}
 	}
 

@@ -50,11 +50,9 @@ public class ContactUnitParticles extends HitboxStrategy {
 			} else {
 				offset.set(fixB.getEntity().getPixelPosition());
 			}
-			
 			if (isOffset) {
 				offset.add(new Vector2(hbox.getLinearVelocity()).nor().scl(hbox.getSize().x / 2));
 			}
-			
 			new ParticleEntity(state, offset, effect, duration, true, particleSyncType.CREATESYNC).setColor(color);
 		}
 	}

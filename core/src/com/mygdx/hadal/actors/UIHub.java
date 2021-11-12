@@ -21,6 +21,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 
 /**
  * The UiHub is an actor that pops up whenever the player interacts with hub elements that pop up a ui window
@@ -143,7 +144,7 @@ public class UIHub {
 
 		//for hubs with search bar, let players type in text
 		if (searchable) {
-			Text search = new Text("SEARCH: ", 0, 0, false);
+			Text search = new Text(HText.SEARCH.text(), 0, 0, false);
 			search.setScale(optionsScale);
 
 			searchName = new TextField("", GameStateManager.getSkin()) {
@@ -167,7 +168,7 @@ public class UIHub {
 					};
 				}
 			};
-			searchName.setMessageText("SEARCH OPTIONS");
+			searchName.setMessageText(HText.SEARCH_OPTIONS.text());
 			searchName.setText(hub.getLastSearch());
 			tableSearch.add(search);
 			tableSearch.add(searchName).padBottom(optionPad).row();
@@ -175,7 +176,7 @@ public class UIHub {
 
 		//if the player can add extra tags to search artifacts, add dropdown for this
 		if (filterTags) {
-			Text searchTags = new Text("FILTER TAGS: ", 0, 0, false);
+			Text searchTags = new Text(HText.FILTER_TAGS.text(), 0, 0, false);
 			searchTags.setScale(optionsScale);
 
 			tagFilter = new SelectBox<>(GameStateManager.getSkin());
@@ -202,11 +203,11 @@ public class UIHub {
 			tableSearch.add(tagFilter).padBottom(optionPad).row();
 		}
 		if (filterCost) {
-			Text searchCost = new Text("FILTER COST: ", 0, 0, false);
+			Text searchCost = new Text(HText.FILTER_COST.text(), 0, 0, false);
 			searchCost.setScale(optionsScale);
 
 			slotsFilter = new SelectBox<>(GameStateManager.getSkin());
-			slotsFilter.setItems("ALL", "0-COST", "1-COST", "2-COST", "3-COST");
+			slotsFilter.setItems(HText.FILTER_COST_OPTIONS.text().split(","));
 			slotsFilter.setSelectedIndex(hub.getLastSlot() + 1);
 
 			slotsFilter.addListener(new ChangeListener() {
@@ -290,7 +291,7 @@ public class UIHub {
 	public void refreshReliquary() {
 		tableExtra.clear();
 		
-		Text slotsTitle = new Text("CURRENT ARTIFACTS:", 0, 0, false);
+		Text slotsTitle = new Text(HText.CURRENT_ARTIFACTS.text(), 0, 0, false);
 		slotsTitle.setScale(0.5f);
 		tableExtra.add(slotsTitle).colspan(12).pad(infoPadding).row();
 		
@@ -302,7 +303,7 @@ public class UIHub {
 				//display all equipped artifacts and give option to unequip
 				if (!c.equals(UnlockArtifact.NOTHING)) {
 					artifactsEmpty = false;
-					final ArtifactIcon newTag = new ArtifactIcon(c, "UNEQUIP?\n" + c.getInfo().getName(),
+					final ArtifactIcon newTag = new ArtifactIcon(c, HText.UNEQUIP.text(c.getInfo().getName()),
 						artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 
 					newTag.addListener(new ClickListener() {
@@ -320,9 +321,9 @@ public class UIHub {
 						@Override
 						public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 							super.enter(event, x, y, pointer, fromActor);
-							info = newTag.getArtifact().getInfo().getName() + "\nCOST: " + newTag.getArtifact().getArtifact().getSlotCost() +
-								"\n" + newTag.getArtifact().getInfo().getDescription() + " \n \n" +
-								newTag.getArtifact().getInfo().getDescriptionLong();
+							info = HText.ARTIFACT_INFO.text(newTag.getArtifact().getInfo().getName(),
+									Integer.toString(newTag.getArtifact().getArtifact().getSlotCost()),
+									newTag.getArtifact().getInfo().getDescription(), newTag.getArtifact().getInfo().getDescriptionLong());
 						}
 					});
 					tableExtra.add(newTag).width(artifactTagSize).height(artifactTagSize);
@@ -330,14 +331,15 @@ public class UIHub {
 			}
 
 			if (artifactsEmpty) {
-				Text slotsEmpty = new Text("N / A", 0, 0, false);
+				Text slotsEmpty = new Text(HText.NA.text(), 0, 0, false);
 				slotsEmpty.setScale(0.5f);
 				tableExtra.add(slotsEmpty).height(artifactTagSize).colspan(12);
 			}
 
 			tableExtra.row();
 
-			Text slotsInfo = new Text("SLOTS REMAINING: " + state.getPlayer().getPlayerData().getArtifactSlotsRemaining(), 0, 0, false);
+			Text slotsInfo = new Text(HText.SLOTS_REMAINING.text(
+					Integer.toString(state.getPlayer().getPlayerData().getArtifactSlotsRemaining())), 0, 0, false);
 			slotsInfo.setScale(0.5f);
 			tableExtra.add(slotsInfo).pad(infoPadding).colspan(12).row();
 		}

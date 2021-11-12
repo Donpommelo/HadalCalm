@@ -52,9 +52,9 @@ public class PortalTouch extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE),
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
+				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE),
 				(short) 0, true, eventData);
-		
 		this.body.setType(BodyType.KinematicBody);
 	}
 	
@@ -63,10 +63,10 @@ public class PortalTouch extends Event {
 		if (getConnectedEvent() != null) {
 			
 			//If teleporting someone to another portal, add them to the justTeleported list so they cannot teleport again right away.
-			if (getConnectedEvent() instanceof PortalTouch) {
+			if (getConnectedEvent() instanceof PortalTouch portal) {
 				for (HadalEntity s : eventData.getSchmucks()) {
 					if (!justTeleported.contains(s)) {
-						((PortalTouch)getConnectedEvent()).getJustTeleported().add(s);
+						portal.getJustTeleported().add(s);
 						s.setTransform(getConnectedEvent().getPosition(), 0);
 						
 						if (getConnectedEvent().getStandardParticle() != null) {
@@ -92,7 +92,6 @@ public class PortalTouch extends Event {
 	 * @return a list of entities that just teleported and cannot teleport using the same portal right away.
 	 */
 	public Set<HadalEntity> getJustTeleported() {
-		
 		if (getStandardParticle() != null) {
 			getStandardParticle().onForBurst(1.0f);
 		}

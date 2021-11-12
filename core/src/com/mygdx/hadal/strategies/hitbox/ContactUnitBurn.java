@@ -24,8 +24,8 @@ public class ContactUnitBurn extends HitboxStrategy {
 	
 	@Override
 	public void onHit(HadalData fixB) {
-		if (fixB instanceof BodyData) {
-			((BodyData) fixB).addStatus(new Ablaze(state, duration, creator, (BodyData) fixB, damage));
+		if (fixB instanceof BodyData bodyData) {
+			bodyData.addStatus(new Ablaze(state, duration, creator, bodyData, damage));
 		}
 	}
 }

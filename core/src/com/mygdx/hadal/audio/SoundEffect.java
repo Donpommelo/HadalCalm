@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -243,7 +243,7 @@ public enum SoundEffect {
 		if (state.isServer() && player != null) {
 			
 			//for the host, we simply play the sound. Otherwise, we send a sound packet to the client
-			if (player.getConnID() == 0) {
+			if (player.getConnId() == 0) {
 				
 				if (worldPos == null) {
 					return play(state.getGsm(), volume, pitch, singleton);
@@ -251,7 +251,7 @@ public enum SoundEffect {
 					return playSourced(state, worldPos, volume, pitch);
 				}
 			} else {
-				HadalGame.server.sendPacketToPlayer(player, new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
+				HadalGame.server.sendToTCP(player.getConnId(), new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
 			}
 		}
 		
@@ -267,10 +267,10 @@ public enum SoundEffect {
 	public static void registerHitSound(GameStateManager gsm, Player player, boolean large) {
 		
 		//play sound right away for host, otherwise send packet
-		if (player.getConnID() == 0) {
+		if (player.getConnId() == 0) {
 			playHitSound(gsm, large);
 		} else {
-			HadalGame.server.sendPacketToPlayer(player, new Packets.SyncHitSound(large));
+			HadalGame.server.sendToTCP(player.getConnId(), new Packets.SyncHitSound(large));
 		}
 	}
 	

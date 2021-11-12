@@ -57,7 +57,6 @@ public class DesktopLauncher {
 			public void setAutoIconify(boolean iconify) {
 				autoIconify[0] = iconify;
 			}
-
 		}, config);
 	}
 }

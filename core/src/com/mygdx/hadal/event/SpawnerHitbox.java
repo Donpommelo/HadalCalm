@@ -87,22 +87,20 @@ public class SpawnerHitbox extends Event {
 				if (!particle.equals(Particle.NOTHING)) {
 					hbox.addStrategy(new CreateParticles(state, hbox, state.getWorldDummy().getBodyData(), particle, 0.0f, 1.0f));
 				}
-				
 				if (dieOnWall) {
 					hbox.addStrategy(new ContactWallDie(state, hbox, state.getWorldDummy().getBodyData()));
 				}
-				
 				if (dieOnSchmuck) {
 					hbox.addStrategy(new ContactUnitDie(state, hbox, state.getWorldDummy().getBodyData()));
 				}
-				
 				if (adjustAngle) {
 					hbox.addStrategy(new AdjustAngle(state, hbox, state.getWorldDummy().getBodyData()));
 				}
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (0), (short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
+				Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
 }

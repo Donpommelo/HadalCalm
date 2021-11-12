@@ -18,6 +18,7 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import java.util.ArrayList;
@@ -51,8 +52,8 @@ public enum GameMode {
 
     DEATHMATCH("dm",
         new SetCameraOnSpawn(),
-        new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(), new SettingScoreCap(),
-        new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingDroppableWeapons(),
+        new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingBots(), new SettingLives(),
+        new SettingScoreCap(), new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
         new DisplayUITag("SCOREBOARD"), new SpawnWeapons(), new ToggleKillsScore(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
@@ -80,8 +81,8 @@ public enum GameMode {
 
     GUN_GAME("dm", DEATHMATCH,
         new SetCameraOnSpawn(),
-        new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
-        new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(),
+        new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.magicWord), new SettingBots(),
+        new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(),
         new DisplayUITag("GUNGAME"),
         new SetLoadoutEquips(UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
         new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO), new SetLoadoutActive(UnlockActives.NOTHING),
@@ -179,7 +180,7 @@ public enum GameMode {
         ui.getProperties().put("triggeredId", uiId);
 
         //using these string builders, we modify the aforementioned events based on the mode's settings
-        StringBuilder uiTriggerId = new StringBuilder("LEVEL");
+        StringBuilder uiTriggerId = new StringBuilder(HText.LEVEL.text());
         StringBuilder spawnTriggerId = new StringBuilder();
         StringBuilder startTriggerId = new StringBuilder(timerId + "," + uiId);
 
@@ -253,7 +254,7 @@ public enum GameMode {
     public void processPlayerDeath(PlayState state, Schmuck perp, Player vic, DamageTypes... tags) {
         if (!state.isServer()) { return; }
         if (vic != null) {
-            User user = HadalGame.server.getUsers().get(vic.getConnID());
+            User user = HadalGame.server.getUsers().get(vic.getConnId());
             if (user != null) {
                 user.getScores().setDeaths(user.getScores().getDeaths() + 1);
                 user.setScoreUpdated(true);
@@ -261,7 +262,7 @@ public enum GameMode {
         }
         if (perp != null) {
             if (perp instanceof Player player) {
-                User user = HadalGame.server.getUsers().get(player.getConnID());
+                User user = HadalGame.server.getUsers().get(player.getConnId());
                 if (user != null) {
                     user.getScores().setKills(user.getScores().getKills() + 1);
                     user.setScoreUpdated(true);
@@ -281,7 +282,7 @@ public enum GameMode {
     public void processPlayerScoreChange(PlayState state, Player p, int scoreIncrement) {
         if (!state.isServer()) { return; }
         if (p != null) {
-            User user = HadalGame.server.getUsers().get(p.getConnID());
+            User user = HadalGame.server.getUsers().get(p.getConnId());
             if (user != null) {
                 user.getScores().setScore(user.getScores().getScore() + scoreIncrement);
 
@@ -324,7 +325,7 @@ public enum GameMode {
         for (ModeSetting setting : applicableSettings) {
             setting.processPlayerLivesOut(state, this, p);
         }
-        state.getKillFeed().addNotification(WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH) + " IS ELIMINATED", true);
+        state.getKillFeed().addNotification(HText.ELIMINATED.text(WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH)), true);
     }
 
     private static final HashMap<String, GameMode> ModesByName = new HashMap<>();

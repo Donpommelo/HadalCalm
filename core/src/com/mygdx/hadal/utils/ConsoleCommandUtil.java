@@ -6,16 +6,17 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
+import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.TextFilterUtil;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -48,7 +49,7 @@ public class ConsoleCommandUtil {
 		
 		if (command.equals("/roll")) {
 			HadalGame.server.addChatToAll(state,"Rolled A Number: "
-				+ MathUtils.random(maxRoll), DialogType.SYSTEM, player.getConnID());
+				+ MathUtils.random(maxRoll), DialogType.SYSTEM, player.getConnId());
 			return 0;
 		}
 
@@ -96,7 +97,7 @@ public class ConsoleCommandUtil {
 		}
 
 		if (command.equals("/help")) {
-			state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(GameStateManager.miscText.getString("help")), DialogType.SYSTEM, 0);
+			state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(HText.INFO_HELP.text()), DialogType.SYSTEM, 0);
 			return 0;
 		}
 
@@ -159,7 +160,7 @@ public class ConsoleCommandUtil {
 		}
 
 		if (command.equals("/help")) {
-			state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(GameStateManager.miscText.getString("help")), DialogType.SYSTEM, player.getConnID());
+			state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(HText.INFO_HELP.text()), DialogType.SYSTEM, player.getConnId());
 			return 0;
 		}
 

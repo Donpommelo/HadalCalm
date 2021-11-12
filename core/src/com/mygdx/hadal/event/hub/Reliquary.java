@@ -12,6 +12,7 @@ import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -38,9 +39,7 @@ public class Reliquary extends HubEvent {
 	public void enter() {
 		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(tag, true, true, true, this,
-			"ALL", "OFFENSE", "DEFENSE", "MOBILITY", "FUEL", "HEAL", "ACTIVE ITEM", "AMMO",
-			"WEAPON DAMAGE", "PASSIVE DAMAGE", "PROJECTILE_MODIFER", "MISC + DUMB GIMMICKS");
+		state.getUiHub().enter(tag, true, true, true, this, HText.RELIQUARY_TAGS.text().split(","));
 		open = true;
 		addOptions(lastSearch, lastSlot, lastTag);
 	}
@@ -101,7 +100,9 @@ public class Reliquary extends HubEvent {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(selected.getInfo().getName() + "\nCOST: " + selected.getArtifact().getSlotCost() + "\n" + selected.getInfo().getDescription() + " \n \n" + selected.getInfo().getDescriptionLong());
+						hub.setInfo(HText.ARTIFACT_INFO.text(selected.getInfo().getName(),
+								Integer.toString(selected.getArtifact().getSlotCost()),
+								selected.getInfo().getDescription(), selected.getInfo().getDescriptionLong()));
 					}
 				};
 

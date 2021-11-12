@@ -15,6 +15,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 
 /**
  * The ModeSettingSelection pops up when a player selects the navigations in multiplayer. Depending on the mode selected,
@@ -54,10 +55,10 @@ public class ModeSettingSelection {
 
         tableOuter.setTouchable(Touchable.enabled);
 
-        final Text titleInfo = new Text("SETTINGS", 0, 0, false);
+        final Text titleInfo = new Text(HText.SETTINGS.text(), 0, 0, false);
         titleInfo.setScale(titleScale);
 
-        final Text backOption = new Text("BACK", 0, 0, true);
+        final Text backOption = new Text(HText.BACK.text(), 0, 0, true);
         backOption.setScale(optionScale);
 
         backOption.addListener(new ClickListener() {

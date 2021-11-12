@@ -3,6 +3,7 @@ package com.mygdx.hadal.actors;
 import com.mygdx.hadal.map.ModeGunGame;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 
 import static com.mygdx.hadal.actors.UITag.uiType.ALL;
 
@@ -57,24 +58,22 @@ public class UITag {
 
 			switch (type) {
 				case SCRAP:
-					text.append("SCRAP: ").append(state.getGsm().getRecord().getScrap());
+					text.append(HText.UI_SCRAP.text(Integer.toString(state.getGsm().getRecord().getScrap())));
 					break;
 				case LIVES:
-					text.append("LIVES: ").append(user.getScores().getLives());
+					text.append(HText.UI_LIVES.text(Integer.toString(user.getScores().getLives())));
 					break;
 				case SCORE:
-					text.append("SCORE: ").append(user.getScores().getScore());
+					text.append(HText.SCORE.text(Integer.toString(user.getScores().getScore())));
 					break;
 				case HISCORE:
 					if (state.getGsm().getRecord().getHiScores().containsKey(state.getLevel().toString())) {
-						text.append("HISCORE: ").append(state.getGsm().getRecord().getHiScores().get(state.getLevel().toString()));
+						text.append(HText.UI_HISCORE.text(Integer.toString(state.getGsm().getRecord().getHiScores()
+								.get(state.getLevel().toString()))));
 					}
 					break;
-				case WINS:
-					text.append("WINS: ").append(user.getScores().getWins());
-					break;
 				case TIMER:
-					text.append("TIMER: ").append(uiExtra.getDisplayedTimer());
+					text.append(HText.UI_TIMER.text(uiExtra.getDisplayedTimer()));
 					break;
 				case MISC:
 					text.append(misc);
@@ -90,15 +89,12 @@ public class UITag {
 					break;
 				case GUNGAME:
 					int score = user.getScores().getScore();
-
-					text.append("SCORE: ").append(score).append("/").append(ModeGunGame.weaponOrder.length).append("\n")
-						.append("NEXT WEAPON: ");
-
-					//display next weapon in gun-game queue, unless we are on the last weapon
 					if (score + 1 < ModeGunGame.weaponOrder.length) {
-						text.append(ModeGunGame.weaponOrder[score + 1].getInfo().getName());
+						text.append(HText.UI_GUNGAME.text(Integer.toString(score), Integer.toString(ModeGunGame.weaponOrder.length),
+								ModeGunGame.weaponOrder[score + 1].getInfo().getName()));
 					} else {
-						text.append("VICTORY");
+						text.append(HText.UI_GUNGAME.text(Integer.toString(score), Integer.toString(ModeGunGame.weaponOrder.length),
+								HText.UI_VICTORY.text()));
 					}
 					break;
 				case EMPTY:
@@ -123,7 +119,6 @@ public class UITag {
 	public enum uiType {
 		SCORE,
 		HISCORE,
-		WINS,
 		SCRAP,
 		LIVES,
 		TIMER,

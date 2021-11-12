@@ -28,9 +28,7 @@ public class EventDeleter extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				
 				activator.getEvent().queueDeletion();
-				
 				if (event.getConnectedEvent() != null) {
 					event.getConnectedEvent().getEventData().preActivate(this, p);
 				}

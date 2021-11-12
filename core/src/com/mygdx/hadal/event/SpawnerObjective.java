@@ -11,7 +11,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
@@ -42,7 +42,8 @@ public class SpawnerObjective extends Event {
 	public void create() {
 		this.eventData = new EventData(this);
 
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 1, 0, true, true, Constants.BIT_SENSOR, (short) (0), (short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 1, 0, true, true,
+				Constants.BIT_SENSOR, (short) (0), (short) 0, true, eventData);
 		body.setType(BodyType.KinematicBody);
 
 		//in eggplant mode, this event should be visible in the objective ui

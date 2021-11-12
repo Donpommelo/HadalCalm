@@ -50,7 +50,7 @@ public class GameStateManager {
 	public static TextureAtlas particleAtlas, impactAtlas;
 
 	//This is a stored list of all the dialogs/death/misc messages in the game, read from json file.
-	public static JsonValue dialogs, deathMessages, shops, miscText, randomText;
+	public static JsonValue dialogs, deathMessages, shops, randomText, gameStrings;
 	
 	//These are the player's saved field. These store player info.
 	private final Record record;
@@ -88,10 +88,10 @@ public class GameStateManager {
 		//load text strings.
 		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
 		deathMessages = reader.parse(Gdx.files.internal("text/DeathMessages.json"));
-		miscText = reader.parse(Gdx.files.internal("text/MiscText.json"));
 		randomText = reader.parse(Gdx.files.internal("text/RandomText.json"));
+		gameStrings = reader.parse(Gdx.files.internal("text/Strings.json"));
 		shops = reader.parse(Gdx.files.internal("save/Shops.json"));
-		
+
 		//set the game's display to match the player's saved settings
 		setting.setDisplay(app, null);
 		setting.setCursor();

@@ -10,6 +10,7 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.text.HText;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 
@@ -45,14 +46,14 @@ public class FlagHoldable extends HitboxStrategy {
 
 		if (!captured) {
 			if (fixB != null) {
-				if (fixB instanceof PlayerBodyData) {
+				if (fixB instanceof PlayerBodyData playerData) {
 					captured = true;
 					awayFromSpawn = true;
-					target = ((PlayerBodyData) fixB).getPlayer();
+					target = playerData.getPlayer();
 
 					hbox.getBody().setGravityScale(0.0f);
 					String playerName = WeaponUtils.getPlayerColorName(target, MAX_NAME_LENGTH);
-					state.getKillFeed().addNotification(playerName + " PICKED UP THE FLAG!", true);
+					state.getKillFeed().addNotification(HText.KM_PICKUP.text(playerName), true);
 				}
 			}
 		}
@@ -69,7 +70,7 @@ public class FlagHoldable extends HitboxStrategy {
 				hbox.getBody().setGravityScale(1.0f);
 				returnTimer = returnTime;
 
-				state.getKillFeed().addNotification("FLAG WAS DROPPED!", true);
+				state.getKillFeed().addNotification(HText.KM_DROPPED.text(), true);
 			} else {
 				hbLocation.set(target.getPosition());
 				hbox.setTransform(hbLocation, hbox.getAngle());
@@ -84,10 +85,9 @@ public class FlagHoldable extends HitboxStrategy {
 			}
 		} else if (awayFromSpawn) {
 			returnTimer -= delta;
-
 			if (returnTimer <= 0.0f) {
 				hbox.die();
-				state.getKillFeed().addNotification("FLAG WAS RETURNED!" , true);
+				state.getKillFeed().addNotification(HText.KM_RETURN.text(), true);
 			}
 		}
 	}

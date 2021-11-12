@@ -3,6 +3,7 @@ package com.mygdx.hadal.map.modifiers;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 
 /**
  *  This modifier makes all players and objects (including bullets and events) have 0 gravity
@@ -11,8 +12,8 @@ import com.mygdx.hadal.states.PlayState;
 public class ZeroGravity extends ModeModifier {
 
     private static final String settingTag = "zero_gravity";
-    private static final String uiText = "ZERO GRAVITY?";
-    private static final String name = "FLOAT";
+    private static final HText uiText = HText.MODIFIER_ZERO_GRAV_UI;
+    private static final HText name = HText.MODIFIER_ZERO_GRAV;
 
     public ZeroGravity() {
         super(settingTag, uiText, name);

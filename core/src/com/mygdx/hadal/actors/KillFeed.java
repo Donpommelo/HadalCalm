@@ -7,10 +7,11 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
-import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.text.HText;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -146,7 +147,7 @@ public class KillFeed {
         if (perp != null) {
             if (perp.equals(perp.getState().getPlayer()) && perp != vic) {
                 String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
-                addNotification("YOU HAVE SLAIN " + vicName, false);
+                addNotification(HText.YOU_HAVE_SLAIN.text(vicName), false);
             }
         }
     }
@@ -174,9 +175,9 @@ public class KillFeed {
      */
     public void sendNotification(String text, Player player) {
         if (!ps.getPlayer().equals(player)) {
-            User user = HadalGame.server.getUsers().get(player.getConnID());
+            User user = HadalGame.server.getUsers().get(player.getConnId());
             if (user != null) {
-                HadalGame.server.sendToTCP(player.getConnID(), new Packets.SyncNotification(text));
+                HadalGame.server.sendToTCP(player.getConnId(), new Packets.SyncNotification(text));
             }
         } else {
             addNotification(text, false);
@@ -242,14 +243,14 @@ public class KillFeed {
 
     private float respawnTime;
     /**
-     * This iss run upon dying if respawning
+     * This is run upon dying if respawning
      * @param respawnTime: The amount of time it takes before respawning
      */
     public void addKillInfo(float respawnTime) {
         deathInfoTable.clear();
         this.respawnTime = respawnTime;
 
-        Text deathInfoTitle = new Text("RESPAWN IN: ", 0, 0, false);
+        Text deathInfoTitle = new Text(HText.RESPAWN_IN.text(), 0, 0, false);
         deathInfoTitle.setScale(scaleSide);
         deathInfoTable.add(deathInfoTitle).row();
         deathInfoTable.add(deathInfo);

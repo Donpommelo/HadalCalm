@@ -34,8 +34,8 @@ public class ModeMatryoshka extends ModeSetting {
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
 
         //when a new player is spawned, their size is set according to the number of lives they have left
-        if (HadalGame.server.getUsers().containsKey(p.getConnID())) {
-            User user = HadalGame.server.getUsers().get(p.getConnID());
+        if (HadalGame.server.getUsers().containsKey(p.getConnId())) {
+            User user = HadalGame.server.getUsers().get(p.getConnId());
             if (user != null) {
                 int livesLeft = Math.min(user.getScores().getLives(), SizeScaleList.length) - 1;
                 p.setScaleModifier(SizeScaleList[livesLeft]);
@@ -47,8 +47,8 @@ public class ModeMatryoshka extends ModeSetting {
     @Override
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
         if (vic != null) {
-            if (HadalGame.server.getUsers().containsKey(vic.getConnID())) {
-                User user = HadalGame.server.getUsers().get(vic.getConnID());
+            if (HadalGame.server.getUsers().containsKey(vic.getConnId())) {
+                User user = HadalGame.server.getUsers().get(vic.getConnId());
 
                 //When a player dies, they lose 1 life and respawn instantly
                 if (user != null) {

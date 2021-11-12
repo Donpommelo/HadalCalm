@@ -11,6 +11,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.text.HText;
 
 /**
  * This mode setting is used for modes where the host can designate weapon drop mode
@@ -28,7 +29,7 @@ public class SettingDroppableWeapons extends ModeSetting {
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
-        dropsOptions = new CheckBox("WEAPON DROP MODE?",GameStateManager.getSkin());
+        dropsOptions = new CheckBox(HText.SETTING_WEAPON_DROP.text(), GameStateManager.getSkin());
         dropsOptions.setChecked(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) == 1);
         table.add(dropsOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).top().row();
     }

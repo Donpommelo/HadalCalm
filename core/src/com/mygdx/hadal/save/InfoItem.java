@@ -1,7 +1,7 @@
 package com.mygdx.hadal.save;
 
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
-import com.mygdx.hadal.utils.TextFilterUtil;
+import com.mygdx.hadal.text.TextFilterUtil;
 
 import java.util.ArrayList;
 
