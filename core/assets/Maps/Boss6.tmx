@@ -2,6 +2,7 @@
 <map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="76">
  <properties>
   <property name="customShader" type="bool" value="true"/>
+  <property name="music" value="BOSS_GOLDFISH_PURGATORY"/>
   <property name="zoom" type="float" value="1.5"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>

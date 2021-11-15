@@ -85,7 +85,7 @@ public class Scrap extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1.0f, 0, false, true,
-				Constants.BIT_SENSOR, Constants.BIT_PLAYER, (short) 0, true, eventData);
+				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_SENSOR), (short) 0, true, eventData);
 		FixtureBuilder.createFixtureDef(body, new Vector2(), size, false, 0, 0, 0.0f, 1.0f,
 				Constants.BIT_SENSOR, (short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), (short) 0);
 		

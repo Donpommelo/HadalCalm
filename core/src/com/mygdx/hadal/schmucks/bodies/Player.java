@@ -31,6 +31,7 @@ import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
@@ -153,8 +154,9 @@ public class Player extends PhysicsSchmuck {
 	//This is the loadout that this player starts with.
 	private final Loadout startLoadout;
 	
-	//This is the connection id of the player (0 if server)
+	//This is the connection id and user of the player (0 if server)
 	private int connId;
+	private User user;
 	
 	//should we reset this player's playerData stuff upon creation
 	private final boolean reset;
@@ -177,7 +179,7 @@ public class Player extends PhysicsSchmuck {
 	 * @param start: the start point that the player spawns at.
 	 */
 	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connId,
-	  		boolean reset, StartPoint start) {
+				  User user, boolean reset, StartPoint start) {
 		super(state, startPos, new Vector2(hbWidth * scale,hbHeight * scale), name, Constants.PLAYER_HITBOX, baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
@@ -188,6 +190,7 @@ public class Player extends PhysicsSchmuck {
 		this.startLoadout = startLoadout;
 		this.playerData = oldData;
 		this.connId = connId;
+		this.user = user;
 		this.reset = reset;
 		this.start = start;
 
@@ -1026,7 +1029,11 @@ public class Player extends PhysicsSchmuck {
 	public int getConnId() { return connId;	}
 
 	public void setConnId(int connId) { this.connId = connId; }
-	
+
+	public User getUser() { return user; }
+
+	public void setUser(User user) { this.user = user; }
+
 	public void setScaling(boolean scaling) { this.scaling = scaling; }
 	
 	public void setInvisible(int invisible) { this.invisible = invisible; }

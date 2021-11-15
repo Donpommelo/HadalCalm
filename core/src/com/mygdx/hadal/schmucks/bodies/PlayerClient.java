@@ -7,6 +7,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -31,8 +32,9 @@ public class PlayerClient extends Player {
 	//tolerance variables. if the prediction is incorrect by more than these thresholds, we must adjust our predictions
 	private static final float DIST_TOLERANCE = 12.0f;
 
-	public PlayerClient(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
-		super(state, startPos, name, startLoadout, oldData, connID, reset, start);
+	public PlayerClient(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,
+						int connID, User user, boolean reset, StartPoint start) {
+		super(state, startPos, name, startLoadout, oldData, connID, user, reset, start);
 	}
 
 	@Override

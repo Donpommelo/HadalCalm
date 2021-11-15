@@ -22,8 +22,8 @@ import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
-import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrack;
+import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
@@ -49,7 +49,10 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.server.*;
+import com.mygdx.hadal.server.AlignmentFilter;
+import com.mygdx.hadal.server.SavedPlayerFields;
+import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.User.UserDto;
 import com.mygdx.hadal.server.packets.PacketEffect;
 import com.mygdx.hadal.server.packets.Packets;
@@ -287,7 +290,7 @@ public class PlayState extends GameState {
 		//We clear things like music/sound/shaders to periodically free up some memory
 		GameStateManager.clearMemory();
 
-		if (map.getProperties().get("customShader", false, Boolean.class) ) {
+		if (map.getProperties().get("customShader", false, Boolean.class)) {
 			shaderBase = Wallpaper.shaders[gsm.getSetting().getCustomShader()];
 			shaderBase.loadShader();
 		} else if (map.getProperties().get("shader", String.class) != null) {
@@ -329,24 +332,27 @@ public class PlayState extends GameState {
 
 		//if auto-assign team is on, we do the assignment here
 		if (mode.getTeamMode().equals(TeamMode.TEAM_AUTO) && isServer()) {
-			AlignmentFilter.autoAssignTeams(2);
+			AlignmentFilter.autoAssignTeams(mode.getTeamNum(), mode.getTeamMode());
+		} else if (mode.getTeamMode().equals(TeamMode.HUMANS_VS_BOTS) && isServer()) {
+			AlignmentFilter.autoAssignTeams(2, mode.getTeamMode());
 		} else {
 			AlignmentFilter.resetTeams();
 		}
 
 		//Create the player and make the camera focus on it
 		if (server) {
-			StartPoint getSave = getSavePoint(startId, HadalGame.server.getUsers().get(0));
-
-			short hitboxFilter = HadalGame.server.getUsers().get(0).getHitBoxFilter().getFilter();
-			this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, reset, false, hitboxFilter);
+			User user = HadalGame.server.getUsers().get(0);
+			StartPoint getSave = getSavePoint(startId, user);
+			short hitboxFilter = user.getHitBoxFilter().getFilter();
+			this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, user, reset,
+					false, hitboxFilter);
 
 			if (getSave != null) {
 				this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
 				this.cameraFocusAim.set(getSave.getStartPos());
 			}
 		} else {
-			this.player = createPlayer(null, gsm.getLoadout().getName(), loadout, old, 0, reset, false,
+			this.player = createPlayer(null, gsm.getLoadout().getName(), loadout, old, 0, null, reset, false,
 				Constants.PLAYER_HITBOX);
 		}
 
@@ -409,11 +415,13 @@ public class PlayState extends GameState {
 		}
 
 		MusicTrack newTrack;
-		if (mode.isHub()) {
-			newTrack = HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.HUB, 1.0f);
+		if (map.getProperties().get("music", String.class) != null) {
+			newTrack =  HadalGame.musicPlayer.playSong(MusicTrackType.getByName(
+					map.getProperties().get("music", String.class)), 1.0f);
 		} else {
-			newTrack = HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.MATCH, 1.0f);
+			newTrack = HadalGame.musicPlayer.playSong(MusicTrackType.MATCH, 1.0f);
 		}
+
 		if (newTrack != null) {
 			MusicIcon icon = new MusicIcon(newTrack);
 			stage.addActor(icon);
@@ -778,8 +786,7 @@ public class PlayState extends GameState {
 			HadalGame.viewportCamera.unproject(mousePosition);
 
 			//the camera should be draggable as a spectator or during respawn time
-			if (spectatorMode) {
-
+			if (spectatorMode || player.getUser().isRespawnCameraSpectator()) {
 				//in spectator mode, the camera moves when dragging the mouse
 				uiSpectator.spectatorDragCamera(spectatorTarget);
 				aimFocusVector.set(spectatorTarget);
@@ -976,7 +983,7 @@ public class PlayState extends GameState {
 	 * @return the newly created player
 	 */
 	public Player createPlayer(StartPoint start, String name, Loadout altLoadout, PlayerBodyData old, int connID,
-	   		boolean reset, boolean client, short hitboxFilter) {
+	   		User user, boolean reset, boolean client, short hitboxFilter) {
 
 		Loadout newLoadout = new Loadout(altLoadout);
 
@@ -995,22 +1002,19 @@ public class PlayState extends GameState {
 
 		//process spawn overrides if the user specifies being spawned at a set location instead of at a start point
 		if (isServer()) {
-			User user = HadalGame.server.getUsers().get(connID);
-			if (user != null) {
-				if (user.isSpawnOverridden()) {
-					overiddenSpawn.set(user.getOverrideSpawnLocation());
-				}
+			if (user.isSpawnOverridden()) {
+				overiddenSpawn.set(user.getOverrideSpawnLocation());
 			}
 		}
 
 		Player p;
 		if (connID < 0) {
-			p = new PlayerBot(this, overiddenSpawn, name, newLoadout, old, connID, reset, start);
+			p = new PlayerBot(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, start);
 		} else if (!client) {
-			p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, reset, start);
+			p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, start);
 		} else {
 			//clients always spawn at (0,0), then move when the server tells them to.
-			p = new PlayerClient(this, new Vector2(), name, newLoadout, null, connID, reset, null);
+			p = new PlayerClient(this, new Vector2(), name, newLoadout, null, connID, user, reset, null);
 		}
 		
 		//teleportation particles for reset players (indicates returning to hub)
@@ -1150,7 +1154,7 @@ public class PlayState extends GameState {
 			if (resultsPlayer != null) {
 				Loadout loadoutTemp = resultsPlayer.getPlayerData().getLoadout();
 
-				//save the user's loadout to be visible in the results screen
+				//this removes any unusable weapons in loadout (Saved in a slot the player cannot use)
 				for (int i = (int) (Loadout.baseWeaponSlots + resultsPlayer.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i < Loadout.maxWeaponSlots ; i++) {
 					loadoutTemp.multitools[i] = UnlockEquip.NOTHING;
 				}
@@ -1176,13 +1180,13 @@ public class PlayState extends GameState {
 	 */
 	protected FrameBuffer resultsStateFreeze() {
 		FrameBuffer fbo = new FrameBuffer(Pixmap.Format.RGBA4444, 1280, 720, true);
-
 		fbo.begin();
 
 		//clear buffer, set camera
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.getProjectionMatrix().setToOrtho2D(0, 0, fbo.getWidth(), fbo.getHeight());
+
 		render(0.0f);
 
 		//draw extra ui elements for snapshot
@@ -1354,7 +1358,7 @@ public class PlayState extends GameState {
 		
 		//get a list of all start points that match the startId
 		for (StartPoint s: savePoints) {
-			if (mode.getTeamMode().equals(TeamMode.TEAM_AUTO) && AlignmentFilter.currentTeams.length > s.getTeamIndex()) {
+			if (mode.isTeamDesignated() && AlignmentFilter.currentTeams.length > s.getTeamIndex()) {
 				if (user.getTeamFilter().equals(AlignmentFilter.currentTeams[s.getTeamIndex()])) {
 					validStarts.add(s);
 				}
@@ -1365,7 +1369,7 @@ public class PlayState extends GameState {
 		
 		//if no start points are found, we return the first save point (if existent)
 		if (validStarts.isEmpty()) {
-			if (mode.getTeamMode().equals(TeamMode.TEAM_AUTO)) {
+			if (mode.isTeamDesignated()) {
 				validStarts.addAll(savePoints);
 			} else {
 				if (savePoints.isEmpty()) {

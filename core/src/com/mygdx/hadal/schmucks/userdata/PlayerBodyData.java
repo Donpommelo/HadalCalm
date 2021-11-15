@@ -21,10 +21,9 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.server.AlignmentFilter;
+import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.Packets.SyncPlayerStats;
-import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
@@ -137,10 +136,7 @@ public class PlayerBodyData extends BodyData {
 		
 		this.loadout = newLoadout;
 
-		User user = HadalGame.client.getUsers().get(player.getConnId());
-		if (user != null) {
-			user.setTeamFilter(loadout.team);
-		}
+		player.getUser().setTeamFilter(loadout.team);
 
 		//If this is the player being controlled by the user, update artifact ui
 		if (player.equals((player.getState().getPlayer()))) {
@@ -271,6 +267,7 @@ public class PlayerBodyData extends BodyData {
 				break;
 			}
 		}
+
 		Equippable old = multitools[slotToReplace];
 		
 		multitools[slotToReplace] = equip;
@@ -448,11 +445,7 @@ public class PlayerBodyData extends BodyData {
 	public void setTeam(AlignmentFilter team) {
 		loadout.team = team;
 		player.setBodySprite(null, team);
-
-		User user = HadalGame.server.getUsers().get(player.getConnId());
-		if (user != null) {
-			user.setTeamFilter(team);
-		}
+		player.getUser().setTeamFilter(team);
 	}
 
 	public void setCharacter(UnlockCharacter character) {
@@ -607,15 +600,11 @@ public class PlayerBodyData extends BodyData {
 
 		//this keeps track of total damage received during rounds
 		if (player.getState().isServer()) {
-			User user = HadalGame.server.getUsers().get(getPlayer().getConnId());
-			if (user != null) {
-				SavedPlayerFieldsExtra field = user.getScoresExtra();
-				if (damage > 0.0f) {
-					field.incrementDamageReceived(damage);
-				}
+			SavedPlayerFieldsExtra field = getPlayer().getUser().getScoresExtra();
+			if (damage > 0.0f) {
+				field.incrementDamageReceived(damage);
 			}
 		}
-		
 		return damage;
 	}
 	

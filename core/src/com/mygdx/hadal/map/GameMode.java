@@ -1,8 +1,9 @@
 package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.mygdx.hadal.HadalGame;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.actors.UITag;
+import com.mygdx.hadal.bots.RallyPath;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
@@ -12,6 +13,7 @@ import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.PlayerBot;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
@@ -93,7 +95,7 @@ public enum GameMode {
     EGGPLANTS("objective,dm", DEATHMATCH,
         new SetCameraOnSpawn(),
         new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
-        new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
+        new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingDroppableWeapons(),
         new DisplayUITag("SCOREBOARD"), new SpawnWeapons(), new ToggleEggplantDrops(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
@@ -135,6 +137,7 @@ public enum GameMode {
     // Used for modes that have the same set of compliant maps (gun game etc with deathmatch)
     private GameMode checkCompliance = this;
     private TeamMode teamMode = TeamMode.FFA;
+    private int teamNum = 2;
 
     GameMode(String extraLayers, GameMode checkCompliance, ModeSetting... applicableSettings) {
         this(extraLayers, applicableSettings);
@@ -254,19 +257,15 @@ public enum GameMode {
     public void processPlayerDeath(PlayState state, Schmuck perp, Player vic, DamageTypes... tags) {
         if (!state.isServer()) { return; }
         if (vic != null) {
-            User user = HadalGame.server.getUsers().get(vic.getConnId());
-            if (user != null) {
-                user.getScores().setDeaths(user.getScores().getDeaths() + 1);
-                user.setScoreUpdated(true);
-            }
+            User user = vic.getUser();
+            user.getScores().setDeaths(user.getScores().getDeaths() + 1);
+            user.setScoreUpdated(true);
         }
         if (perp != null) {
             if (perp instanceof Player player) {
-                User user = HadalGame.server.getUsers().get(player.getConnId());
-                if (user != null) {
-                    user.getScores().setKills(user.getScores().getKills() + 1);
-                    user.setScoreUpdated(true);
-                }
+                User user = player.getUser();
+                user.getScores().setKills(user.getScores().getKills() + 1);
+                user.setScoreUpdated(true);
             }
         }
         for (ModeSetting setting : applicableSettings) {
@@ -282,18 +281,16 @@ public enum GameMode {
     public void processPlayerScoreChange(PlayState state, Player p, int scoreIncrement) {
         if (!state.isServer()) { return; }
         if (p != null) {
-            User user = HadalGame.server.getUsers().get(p.getConnId());
-            if (user != null) {
-                user.getScores().setScore(user.getScores().getScore() + scoreIncrement);
+            User user = p.getUser();
+            user.getScores().setScore(user.getScores().getScore() + scoreIncrement);
 
-                for (ModeSetting setting : applicableSettings) {
-                    setting.processPlayerScoreChange(state, this, p, user.getScores().getScore());
-                }
-
-                //tell score window and ui extrato update next interval
-                user.setScoreUpdated(true);
-                state.getUiExtra().syncUIText(UITag.uiType.SCORE);
+            for (ModeSetting setting : applicableSettings) {
+                setting.processPlayerScoreChange(state, this, p, user.getScores().getScore());
             }
+
+            //tell score window and ui extrato update next interval
+            user.setScoreUpdated(true);
+            state.getUiExtra().syncUIText(UITag.uiType.SCORE);
         }
     }
 
@@ -328,11 +325,25 @@ public enum GameMode {
         state.getKillFeed().addNotification(HText.ELIMINATED.text(WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH)), true);
     }
 
+    public RallyPath processAIPath(PlayState state, PlayerBot p, Vector2 playerLocation, Vector2 playerVelocity) {
+        RallyPath path = null;
+        for (ModeSetting setting : applicableSettings) {
+            if (path == null) {
+                path = setting.processAIPath(state, this, p, playerLocation, playerVelocity);
+            }
+        }
+        return path;
+    }
+
     private static final HashMap<String, GameMode> ModesByName = new HashMap<>();
     static {
         for (GameMode m: GameMode.values()) {
             ModesByName.put(m.toString(), m);
         }
+    }
+
+    public boolean isTeamDesignated() {
+        return teamMode.equals(TeamMode.TEAM_AUTO) || teamMode.equals(TeamMode.HUMANS_VS_BOTS);
     }
 
     public InfoItem getInfo() { return info; }
@@ -358,4 +369,8 @@ public enum GameMode {
     public TeamMode getTeamMode() { return teamMode; }
 
     public void setTeamMode(TeamMode teamMode) { this.teamMode = teamMode; }
+
+    public int getTeamNum() { return teamNum; }
+
+    public void setTeamNum(int teamNum) { this.teamNum = teamNum; }
 }

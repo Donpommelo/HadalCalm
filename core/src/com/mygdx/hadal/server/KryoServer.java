@@ -529,7 +529,8 @@ public class KryoServer {
 				ps.startSpectator(user, connId);
 			} else {
 				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, reset, false, user.getHitBoxFilter().getFilter());
+				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, user, reset, false,
+						user.getHitBoxFilter().getFilter());
 				MouseTracker newMouse = new MouseTracker(ps, false);
 				newPlayer.setMouse(newMouse);
 

@@ -350,7 +350,7 @@ public class BotManager {
         user.getScoresExtra().setLoadout(botLoadout);
 
         Player newPlayer = state.createPlayer(newSave, user.getScores().getName(), user.getScoresExtra().getLoadout(),
-                null, user.getScores().getConnID(), true, false,
+                null, user.getScores().getConnID(), user, true, false,
                 user.getHitBoxFilter().getFilter());
         MouseTracker newMouse = new MouseTracker(state, false);
         newPlayer.setMouse(newMouse);

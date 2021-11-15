@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="266">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="267">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -789,6 +789,7 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
+  <object id="266" name="PickupDelete" type="PickupDelete" x="1216" y="2880" width="3232" height="32"/>
  </objectgroup>
  <objectgroup id="6" name="objective" visible="0">
   <object id="52" name="ObjectiveSpawn" type="ObjectiveSpawn" x="2816" y="416" width="32" height="32">

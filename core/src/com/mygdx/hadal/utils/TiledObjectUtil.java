@@ -397,6 +397,7 @@ public class TiledObjectUtil {
 			case "FlagBlock" -> e = new FlagBlocker(state, position, size,
 					object.getProperties().get("teamIndex", 0, Integer.class));
 			case "ObjectiveSpawn" -> e = new SpawnerObjective(state, position, size);
+			case "PickupDelete" -> e = new PickupDestoyer(state, position, size);
 			case "Armory" -> e = new Armory(state, position, size,
 				object.getProperties().get("title", "Armory", String.class),
 				object.getProperties().get("tag", "ARMORY", String.class),

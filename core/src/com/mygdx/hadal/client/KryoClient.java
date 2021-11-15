@@ -549,6 +549,9 @@ public class KryoClient {
 							if (userOld != null) {
 								updatedUser.setPlayer(userOld.getPlayer());
 							}
+							if (user.scoresExtra.getLoadout() != null) {
+								updatedUser.setTeamFilter(user.scoresExtra.getLoadout().team);
+							}
 							users.put(user.scores.getConnID(), updatedUser);
 						}
 					}
@@ -687,7 +690,8 @@ public class KryoClient {
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
 
-					Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, true, p.connID == connID, p.hitboxFilter);
+					Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, null,
+							true, p.connID == connID, p.hitboxFilter);
 
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
 					newPlayer.setStartPos(p.startPosition);
@@ -712,6 +716,7 @@ public class KryoClient {
 						users.put(p.connID, new User(newPlayer, new SavedPlayerFields(p.name, p.connID), new SavedPlayerFieldsExtra()));
 					}
 					users.get(p.connID).setTeamFilter(p.loadout.team);
+					newPlayer.setUser(users.get(p.connID));
 				});
 			}
 			return true;

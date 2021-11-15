@@ -38,10 +38,10 @@ public class HadalGame extends ApplicationAdapter {
 	public static final float CONFIG_HEIGHT = 720.0f;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String Version = "1.0.7b";
+	public static final String Version = "1.0.7c";
 
 	//version url takes player to patch notes page when version is clicked in title screen
-	public static final String VersionURL = "https://donpommelo.itch.io/hadal-calm/devlog/312347/107b";
+	public static final String VersionURL = "https://donpommelo.itch.io/hadal-calm/devlog/314676/107c";
 
 	//Game cameras and respective viewports. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
@@ -68,7 +68,7 @@ public class HadalGame extends ApplicationAdapter {
 
 	//FONT_UI is used for most ui, FONT_UI_ALT is used for things like message window and kill messages
 	//FONT_SPRITE labels sprites in the world. Its scale is always 1.0f and should be considered placeholder
-	public static BitmapFont FONT_UI, FONT_UI_ALT, FONT_SPRITE;
+	public static BitmapFont FONT_UI, FONT_UI_SKIN, FONT_UI_ALT, FONT_SPRITE;
     public static final Color DEFAULT_TEXT_COLOR = Color.WHITE;
  
 	//currentMenu is whatever stage is being drawn in the current gameState
@@ -143,7 +143,7 @@ public class HadalGame extends ApplicationAdapter {
 
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		viewportCamera.apply();
 		gsm.render(delta);
 		

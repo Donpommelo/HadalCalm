@@ -1,7 +1,6 @@
 package com.mygdx.hadal.audio;
 
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.managers.GameStateManager;
 
 /**
@@ -20,7 +19,7 @@ public class MusicPlayer {
 	private MusicTrack nextTrack;
 
 	//the "mode" of the music. This determines behavior when trying to switch songs
-	private MusicState currentTrackType;
+	private MusicTrackType currentTrackType;
 
     //this is the rate at which the sound volume changes (default: 0, -x for fading out and +x for fading in)
   	private float fade;
@@ -97,38 +96,18 @@ public class MusicPlayer {
 		}
 	}
 
-	//these arrays hold different types of songs. When a song is played, it will be chosen randomly from one list
-	private static final MusicTrack[] titleTracks = {MusicTrack.TITLE};
-	private static final MusicTrack[] hubTracks = {MusicTrack.HUB, MusicTrack.HUB_V2, MusicTrack.HUB_V3};
-	private static final MusicTrack[] matchTracks = {MusicTrack.AURAL_FIXATION, MusicTrack.CONFIDENCE, MusicTrack.RED_EYE, MusicTrack.SHARKTOOTH,
-		MusicTrack.SLEEPING_COGS, MusicTrack.SURRENDER, MusicTrack.WAKE_DANCER, MusicTrack.WHIPLASH, MusicTrack.GOLDEN_SCALES,
-		MusicTrack.ORGAN_GRINDER};
-
-	public MusicTrack playSong(MusicState type, float volume) {
+	public MusicTrack playSong(MusicTrackType type, float volume) {
 
 		MusicTrack track = null;
 
 		//in "free" mode, the player chose a song in the sound room to persist even after level transitions
-		if (currentTrackType == MusicState.FREE && currentSong != null) { return null; }
+		if (currentTrackType == MusicTrackType.FREE && currentSong != null) { return null; }
 
 		//otherwise play a random track that matches the designated "mode"
 		if (currentTrackType != type) {
 			currentTrackType = type;
-			switch (type) {
-				case MENU -> {
-					track = titleTracks[0];
-					playSong(track, volume);
-				}
-				case HUB -> {
-					track = hubTracks[MathUtils.random(hubTracks.length - 1)];
-					playSong(track, volume);
-				}
-				case MATCH -> {
-					track = matchTracks[MathUtils.random(matchTracks.length - 1)];
-					playSong(track, volume);
-				}
-				case NOTHING -> playSong((MusicTrack) null, volume);
-			}
+			track = type.getTrack();
+			playSong(track, volume);
 		}
 		return track;
 	}
@@ -181,7 +160,7 @@ public class MusicPlayer {
 		}
 	}
 
-	public void setMusicState(MusicState state) { currentTrackType = state; }
+	public void setMusicState(MusicTrackType state) { currentTrackType = state; }
 
 	public void setMusicPosition(float position) {
 		if (currentSong != null) {
@@ -192,13 +171,4 @@ public class MusicPlayer {
 	public Music getCurrentSong() { return currentSong; }
 
 	public MusicTrack getCurrentTrack() { return currentTrack; }
-
-	public enum MusicState {
-    	MENU,
-		HUB,
-		MATCH,
-		NOTHING,
-		FREE,
-		SOUND_ROOM,
-	}
 }

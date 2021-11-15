@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="45">
  <properties>
+  <property name="music" value="EXTRA_ROOM"/>
   <property name="startUI" value="CONGRATULATIONS,EMPTY,SCRAP"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>

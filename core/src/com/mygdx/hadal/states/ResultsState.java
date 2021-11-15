@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
-import com.mygdx.hadal.audio.MusicPlayer;
+import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
@@ -25,10 +25,10 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.text.HText;
 
 import java.util.ArrayList;
@@ -66,6 +66,8 @@ public class ResultsState extends GameState {
 
 	//if the results text is equal to the magic word, calculate the results text based on score
 	public static final String magicWord = "fug";
+
+	private boolean won;
 
 	//Dimensions and position of the results menu
 	private static final int tableX = 20;
@@ -140,6 +142,9 @@ public class ResultsState extends GameState {
 			for (User user: HadalGame.server.getUsers().values()) {
 				if (!user.isSpectator()) {
 					scores.add(user.getScores());
+					if (user.getScores().getConnID() == 0) {
+						won = user.getScores().isWonLast();
+					}
 				}
 			}
 			gsm.getRecord().updateScore(scores.get(0).getScore(), ps.level);
@@ -147,6 +152,9 @@ public class ResultsState extends GameState {
 			for (User user: HadalGame.client.getUsers().values()) {
 				if (!user.isSpectator()) {
 					scores.add(user.getScores());
+					if (user.getScores().getConnID() == HadalGame.client.connID) {
+						won = user.getScores().isWonLast();
+					}
 				}
 			}
 		}
@@ -256,7 +264,7 @@ public class ResultsState extends GameState {
 			ps.getMessageWindow().toggleWindow();
 		}
 
-		HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.NOTHING, 1.0f);
+		HadalGame.musicPlayer.playSong(MusicTrackType.NOTHING, 1.0f);
 
 		ps.getMessageWindow().setLocked(true);
 		ps.getMessageWindow().table.setPosition(messageX, messageY);
@@ -274,6 +282,7 @@ public class ResultsState extends GameState {
 		//this draws the playstate snapshot over the results and makes it gradually dissolve after a delay
 		stage.addActor(new Backdrop(AssetList.RESULTS_CARD.toString()) {
 
+			private boolean songPlaying;
 			private float progress;
 			private float timer;
 			private static final float fadeDelay = 2.0f;
@@ -285,6 +294,15 @@ public class ResultsState extends GameState {
 				timer += delta;
 				if (timer >= fadeDelay) {
 					progress = (timer - fadeDelay) / fadeDuration;
+
+					if (!songPlaying) {
+						songPlaying = true;
+						if (won) {
+							HadalGame.musicPlayer.playSong(MusicTrackType.VICTORY, 1.0f);
+						} else {
+							HadalGame.musicPlayer.playSong(MusicTrackType.GAME_OVER, 1.0f);
+						}
+					}
 				}
 			}
 

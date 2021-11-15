@@ -14,7 +14,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Backdrop;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.WindowTable;
-import com.mygdx.hadal.audio.MusicPlayer;
+import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.AssetList;
@@ -344,7 +344,7 @@ public class TitleState extends GameState {
 			gsm.getApp().fadeIn();
 		}
 
-		HadalGame.musicPlayer.playSong(MusicPlayer.MusicState.MENU, 1.0f);
+		HadalGame.musicPlayer.playSong(MusicTrackType.TITLE, 1.0f);
 
 		inputDisabled = true;
 		transitionIn(() -> inputDisabled = false);

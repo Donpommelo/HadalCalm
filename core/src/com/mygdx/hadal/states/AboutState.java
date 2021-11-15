@@ -2,6 +2,7 @@ package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,11 +12,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.WindowTable;
-import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrack;
+import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.text.HText;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
 import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
@@ -28,12 +32,17 @@ public class AboutState extends GameState {
 
 	//This table contains the ui elements of the pause screen
 	private Table options, details;
+	private Text pause;
 	private CheckBox continuePlaying;
 
 	//options that the player can view
 	private Text aboutOption, miscOption, tipsOption, soundRoomOption, creditsOption, exitOption, trackText, trackTime;
 	private ScrollPane musicTracks;
+	private VerticalGroup tracks;
+	private SelectBox<String> loopOptions;
 	private Slider musicTime;
+	private final ArrayList<MusicTrack> shuffleTracks = new ArrayList<>();
+	private int currentTrackIndex;
 
 	//Dimensions of the setting menu
 	private static final int optionsX = -1125;
@@ -63,8 +72,8 @@ public class AboutState extends GameState {
 	private static final int scrollWidth = 330;
 	private static final float detailHeight = 35.0f;
 	private static final float detailPad = 10.0f;
-	private static final float sliderWidth = 400.0f;
-	private static final float songTitleWidth = 300.0f;
+	private static final float sliderWidth = 350.0f;
+	private static final float songTitleWidth = 350.0f;
 
 	private static final float extraWidth = 400.0f;
 	private static final int extraHeight = 120;
@@ -227,7 +236,7 @@ public class AboutState extends GameState {
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) { return true; }
 		});
 
-		VerticalGroup tracks = new VerticalGroup().space(optionPadding);
+		tracks = new VerticalGroup().space(optionPadding);
 
 		//show list of available songs
 		for (MusicTrack track: MusicTrack.values()) {
@@ -239,7 +248,7 @@ public class AboutState extends GameState {
 				public void clicked(InputEvent e, float x, float y) {
 					SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
 					HadalGame.musicPlayer.playSong(track, 1.0f);
-					setTrack(track);
+					setTrack(track, true);
 				}
 			});
 
@@ -259,25 +268,7 @@ public class AboutState extends GameState {
 		trackTime = new Text("", 0, 0, false);
 		trackTime.setScale(detailsScale);
 
-		Text play = new Text (HText.PLAY.text(), 0, 0, true);
-		play.setScale(detailsScale);
-
-		play.addListener(new ClickListener() {
-
-			@Override
-			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
-
-				if (HadalGame.musicPlayer.getCurrentSong() != null) {
-					if (!HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
-						HadalGame.musicPlayer.getCurrentSong().setPosition(musicTime.getValue());
-						HadalGame.musicPlayer.play();
-					}
-				}
-			}
-		});
-
-		Text pause = new Text (HText.PAUSE.text(), 0, 0, true);
+		pause = new Text(HText.PAUSE.text(), 0, 0, true);
 		pause.setScale(detailsScale);
 
 		pause.addListener(new ClickListener() {
@@ -285,10 +276,16 @@ public class AboutState extends GameState {
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
 				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
-
 				if (HadalGame.musicPlayer.getCurrentSong() != null) {
 					if (HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
 						HadalGame.musicPlayer.pause();
+						pause.setText(HText.PLAY.text());
+						pause.setHeight(optionHeight);
+					} else {
+						HadalGame.musicPlayer.getCurrentSong().setPosition(musicTime.getValue());
+						HadalGame.musicPlayer.play();
+						pause.setText(HText.PAUSE.text());
+						pause.setHeight(optionHeight);
 					}
 				}
 			}
@@ -303,14 +300,33 @@ public class AboutState extends GameState {
 			public void clicked(InputEvent e, float x, float y) {
 				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
 				HadalGame.musicPlayer.stop();
-				setTrack(null);
+				setTrack(null, false);
+			}
+		});
+
+		Text next = new Text (HText.NEXT.text(), 0, 0, true);
+		next.setScale(detailsScale);
+
+		next.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+
+				if (HadalGame.musicPlayer.getCurrentSong() != null) {
+					HadalGame.musicPlayer.getCurrentSong().setPosition(HadalGame.musicPlayer.getCurrentTrack().getTrackLength());
+				}
 			}
 		});
 
 		continuePlaying = new CheckBox(HText.CONTINUE.text(), GameStateManager.getSkin());
 
+		loopOptions = new SelectBox<>(GameStateManager.getSkin());
+		loopOptions.setItems(HText.LOOP_OPTIONS.text().split(","));
+		loopOptions.setWidth(100);
+
 		details.add(trackText).width(songTitleWidth).pad(detailPad);
-		details.add(musicTime).row();
+		details.add(musicTime).height(extraHeight).row();
 
 		details.add(musicTracks).width(scrollWidth).height(scrollHeight).expandY().pad(detailPad);
 		stage.setScrollFocus(musicTracks);
@@ -319,13 +335,14 @@ public class AboutState extends GameState {
 
 		details.add(soundRoomExtra).top().size(extraWidth, extraHeight);
 		soundRoomExtra.add(trackTime).colspan(2).height(optionHeight).pad(detailPad).row();
-		soundRoomExtra.add(play).height(optionHeight).pad(detailPad);
 		soundRoomExtra.add(pause).height(optionHeight).pad(detailPad);
-		soundRoomExtra.add(stop).height(optionHeight).pad(detailPad).row();
+		soundRoomExtra.add(stop).height(optionHeight).pad(detailPad);
+		soundRoomExtra.add(next).height(optionHeight).pad(detailPad).row();
 		soundRoomExtra.add(continuePlaying).colspan(3).height(optionHeight).pad(detailPad).row();
+		soundRoomExtra.add(loopOptions).colspan(3).height(optionHeight).pad(detailPad).row();
 
-		HadalGame.musicPlayer.setMusicState(MusicPlayer.MusicState.NOTHING);
-		setTrack(HadalGame.musicPlayer.getCurrentTrack());
+		HadalGame.musicPlayer.setMusicState(MusicTrackType.NOTHING);
+		setTrack(HadalGame.musicPlayer.getCurrentTrack(), true);
 	}
 
 	private void tipsSelected() {
@@ -412,6 +429,7 @@ public class AboutState extends GameState {
 		details.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
 	}
 
+	private boolean loopChecked;
 	@Override
 	public void update(float delta) {
 		peekState.update(delta);
@@ -424,6 +442,34 @@ public class AboutState extends GameState {
 			}
 			trackTime.setText(secondsToMinutes((int) musicTime.getValue()) + " / " +
 				secondsToMinutes(HadalGame.musicPlayer.getCurrentTrack().getTrackLength()));
+
+			if (musicTime.getValue() >= HadalGame.musicPlayer.getCurrentTrack().getTrackLength()) {
+				if (!loopChecked) {
+					loopChecked = true;
+
+					switch (loopOptions.getSelectedIndex()) {
+						case 1 -> {
+							MusicTrack nextTrack = MusicTrack.values()[(currentTrackIndex + 1) % MusicTrack.values().length];
+							HadalGame.musicPlayer.playSong(nextTrack, 1.0f);
+							setTrack(nextTrack, true);
+						}
+						case 2 -> {
+
+							if (shuffleTracks.isEmpty()) {
+								shuffleTracks.addAll(Arrays.asList(MusicTrack.values()));
+							}
+
+							MusicTrack randomTrack = shuffleTracks.get(MathUtils.random(shuffleTracks.size() - 1));
+							HadalGame.musicPlayer.playSong(randomTrack, 1.0f);
+							setTrack(randomTrack, false);
+							shuffleTracks.remove(randomTrack);
+						}
+						case 3 -> HadalGame.musicPlayer.stop();
+					}
+				}
+			} else {
+				loopChecked = false;
+			}
 		}
 
 		//If the state has been unpaused, remove it
@@ -459,17 +505,40 @@ public class AboutState extends GameState {
 		if (continuePlaying != null) {
 			if (continuePlaying.isChecked() && HadalGame.musicPlayer.getCurrentSong() != null) {
 				if (HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
-					HadalGame.musicPlayer.setMusicState(MusicPlayer.MusicState.FREE);
+					HadalGame.musicPlayer.setMusicState(MusicTrackType.FREE);
 				}
 			}
 		}
 	}
 
-	private void setTrack(MusicTrack track) {
+	private void setTrack(MusicTrack track, boolean resetShuffle) {
 		musicTime.setValue(0.0f);
+		pause.setText(HText.PAUSE.text());
+		pause.setHeight(optionHeight);
 		if (track != null) {
+			for (int i = 0; i < MusicTrack.values().length; i++) {
+				if (MusicTrack.values()[i].equals(track)) {
+					currentTrackIndex = i;
+					if (tracks.getChildren().get(currentTrackIndex) != null) {
+						Text songText = ((Text) tracks.getChildren().get(i));
+						songText.setColor(Color.YELLOW);
+						songText.setHeight(detailHeight);
+						int scrollIndex = Math.max(Math.min(i, MusicTrack.values().length - 4), 4) - 4;
+						musicTracks.setScrollPercentY((float) scrollIndex / (MusicTrack.values().length - 9));
+					}
+				} else {
+					Text songText = ((Text) tracks.getChildren().get(i));
+					songText.setColor(Color.WHITE);
+					songText.setHeight(detailHeight);
+				}
+			}
 			musicTime.setRange(0.0f, track.getTrackLength());
 			trackText.setText(HText.NOW_PLAYING.text(track.getMusicName()));
+			if (resetShuffle) {
+				shuffleTracks.clear();
+				shuffleTracks.addAll(Arrays.asList(MusicTrack.values()));
+				shuffleTracks.remove(track);
+			}
 		} else {
 			musicTime.setRange(0.0f, 0.0f);
 			trackText.setText(HText.NOW_PLAYING_DEFAULT.text());

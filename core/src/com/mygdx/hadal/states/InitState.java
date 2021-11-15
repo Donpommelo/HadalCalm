@@ -45,6 +45,8 @@ public class InitState extends GameState {
 	private void loadAssets() {		
 		HadalGame.FONT_UI = new BitmapFont(Gdx.files.internal(AssetList.FIXEDSYS_FONT.toString()), false);
 		HadalGame.FONT_UI.getData().markupEnabled = true;
+		HadalGame.FONT_UI_SKIN = new BitmapFont(Gdx.files.internal(AssetList.FIXEDSYS_FONT.toString()), false);
+		HadalGame.FONT_UI_SKIN.getData().markupEnabled = true;
 		HadalGame.FONT_UI_ALT = new BitmapFont(Gdx.files.internal(AssetList.VERDANA_FONT.toString()), false);
 		HadalGame.FONT_UI_ALT.getData().markupEnabled = true;
 		HadalGame.FONT_SPRITE = new BitmapFont();

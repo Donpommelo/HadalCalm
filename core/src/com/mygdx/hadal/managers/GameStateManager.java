@@ -105,10 +105,11 @@ public class GameStateManager {
 	 */
 	public void loadAssets() {
 		skin = new Skin();
+		skin.add("default-font", HadalGame.FONT_UI_SKIN);
+		skin.getFont("default-font").getData().setScale(0.25f, 0.25f);
 		skin.addRegions(HadalGame.assetManager.get(AssetList.UISKIN_ATL.toString()));
-		skin.add("default-font", HadalGame.FONT_SPRITE);
 		skin.load(Gdx.files.internal("ui/uiskin.json"));
-		
+
 		dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCH_ATL.toString())).createPatch("UI_box_dialogue"));
 		simplePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCH_ATL.toString())).createPatch("UI_box_simple"));
 		

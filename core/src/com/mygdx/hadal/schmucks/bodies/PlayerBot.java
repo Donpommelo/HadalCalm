@@ -5,6 +5,7 @@ import com.mygdx.hadal.bots.BotController;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -21,8 +22,8 @@ public class PlayerBot extends Player {
     private final Vector2 aimWobble = new Vector2(1, 0);
 
     public PlayerBot(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,
-            int connID, boolean reset, StartPoint start) {
-        super(state, startPos, name, startLoadout, oldData, connID, reset, start);
+                     int connID, User user, boolean reset, StartPoint start) {
+        super(state, startPos, name, startLoadout, oldData, connID, user, reset, start);
         this.botController = new BotController(this);
     }
 

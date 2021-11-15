@@ -6,23 +6,25 @@
 	"tags": []
 },
 "BOSS1": {
-	"name": "BOSS: SLIGHTLY LARGER FISH",
+	"name": "SLIGHTLY LARGER FISH",
 	"description": "",
     "descriptionLong": "Boss fight with a Slightly Larger Fish",
 	"tags": [
         "MULTIPLAYER",
         "SINGLEPLAYER",
-        "BOSS"
+        "BOSS",
+		"BOT_COMPLIANT"
 	]
 },
 "BOSS2": {
-	"name": "BOSS: KING KAMABOKO",
+	"name": "KING KAMABOKO",
 	"description": "",
     "descriptionLong": "Boss fight with King Kamaboko",
 	"tags": [
         "MULTIPLAYER",
         "SINGLEPLAYER",
-        "BOSS"
+        "BOSS",
+		"BOT_COMPLIANT"
     ]
 },
 "BOSS3": {
@@ -32,13 +34,14 @@
 	"tags": []
 },
 "BOSS4": {
-	"name": "BOSS: FALSE SUN",
+	"name": "FALSE SUN",
 	"description": "",
     "descriptionLong": "Boss fight with the False Sun",
 	"tags": [
         "MULTIPLAYER",
         "SINGLEPLAYER",
-        "BOSS"
+        "BOSS",
+		"BOT_COMPLIANT"
     ]
 },
 "BOSS5": {
@@ -48,7 +51,8 @@
 	"tags": [
         "MULTIPLAYER",
         "SINGLEPLAYER",
-        "BOSS"
+        "BOSS",
+		"BOT_COMPLIANT"
     ]
 },
 "BOSS6": {
@@ -58,7 +62,8 @@
 	"tags": [
         "MULTIPLAYER",
         "SINGLEPLAYER",
-        "BOSS"
+        "BOSS",
+		"BOT_COMPLIANT"
     ]
 },
 "SANDBOX_HUB": {

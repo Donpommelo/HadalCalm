@@ -87,7 +87,7 @@ public class PickupEquip extends Event {
 					}
 					return;
 				}
-				
+
 				if (equip instanceof NothingWeapon) { return; }
 				
 				//If player inventory is full, replace their current weapon.
@@ -97,7 +97,7 @@ public class PickupEquip extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true,
-			Constants.BIT_SENSOR, Constants.BIT_PLAYER,	(short) 0, true, eventData);
+			Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_SENSOR), (short) 0, true, eventData);
 
 		if (drop) {
 			FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size), false, 0, 0, 0.0f, 1.0f,
@@ -163,6 +163,9 @@ public class PickupEquip extends Event {
 		if (equip instanceof NothingWeapon) {
 			if (standardParticle != null) {
 				standardParticle.turnOff();
+			}
+			if (drop) {
+				queueDeletion();
 			}
 		} else {
 			if (standardParticle != null) {

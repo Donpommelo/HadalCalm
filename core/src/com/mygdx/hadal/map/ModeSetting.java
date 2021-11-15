@@ -1,8 +1,11 @@
 package com.mygdx.hadal.map;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.mygdx.hadal.bots.RallyPath;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.PlayerBot;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -90,5 +93,7 @@ public class ModeSetting {
      * This is run when a player runs out of lives
      * @param p: The player whose lives ran out
      */
-    public void processPlayerLivesOut(PlayState state,  GameMode mode,Player p) {}
+    public void processPlayerLivesOut(PlayState state, GameMode mode, Player p) {}
+
+    public RallyPath processAIPath(PlayState state, GameMode mode, PlayerBot bot, Vector2 playerLocation, Vector2 playerVelocity) { return null; }
 }

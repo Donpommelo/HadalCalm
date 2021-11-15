@@ -83,20 +83,15 @@ public class SettingLives extends ModeSetting {
     @Override
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
         if (vic != null) {
-            if (HadalGame.server.getUsers().containsKey(vic.getConnId())) {
-                User user = HadalGame.server.getUsers().get(vic.getConnId());
-
-                if (user != null) {
-                    if (unlimitedLives) {
-                      user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
-                    } else {
-                        user.getScores().setLives(user.getScores().getLives() - 1);
-                        if (user.getScores().getLives() <= 0) {
-                            mode.processPlayerLivesOut(state, vic);
-                        } else {
-                            user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
-                        }
-                    }
+            User user = vic.getUser();
+            if (unlimitedLives) {
+              user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
+            } else {
+                user.getScores().setLives(user.getScores().getLives() - 1);
+                if (user.getScores().getLives() <= 0) {
+                    mode.processPlayerLivesOut(state, vic);
+                } else {
+                    user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
                 }
             }
         }

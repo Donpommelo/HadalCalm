@@ -34,47 +34,38 @@ public class ModeMatryoshka extends ModeSetting {
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
 
         //when a new player is spawned, their size is set according to the number of lives they have left
-        if (HadalGame.server.getUsers().containsKey(p.getConnId())) {
-            User user = HadalGame.server.getUsers().get(p.getConnId());
-            if (user != null) {
-                int livesLeft = Math.min(user.getScores().getLives(), SizeScaleList.length) - 1;
-                p.setScaleModifier(SizeScaleList[livesLeft]);
-                p.setDontMoveCamera(true);
-            }
-        }
+        int livesLeft = Math.min(p.getUser().getScores().getLives(), SizeScaleList.length) - 1;
+        p.setScaleModifier(SizeScaleList[livesLeft]);
+        p.setDontMoveCamera(true);
     }
 
     @Override
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
         if (vic != null) {
-            if (HadalGame.server.getUsers().containsKey(vic.getConnId())) {
-                User user = HadalGame.server.getUsers().get(vic.getConnId());
 
-                //When a player dies, they lose 1 life and respawn instantly
-                if (user != null) {
-                    user.getScores().setLives(user.getScores().getLives() - 1);
-                    if (user.getScores().getLives() <= 0) {
-                        mode.processPlayerLivesOut(state, vic);
-                    } else {
-                        boolean instantRespawn = true;
+            //When a player dies, they lose 1 life and respawn instantly
+            User user = vic.getUser();
+            user.getScores().setLives(user.getScores().getLives() - 1);
+            if (user.getScores().getLives() <= 0) {
+                mode.processPlayerLivesOut(state, vic);
+            } else {
+                boolean instantRespawn = true;
 
-                        //we don't want players to respawn instantly if they die by falling
-                        for (DamageTypes types: tags) {
-                            if (types.equals(DamageTypes.BLASTZONE)) {
-                                instantRespawn = false;
-                                break;
-                            }
-                        }
-
-                        //this ensures that players will respawn in the same location that they died
-                        if (instantRespawn) {
-                            user.setOverrideSpawn(vic.getPixelPosition());
-                            user.respawn(state);
-                        } else {
-                            user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
-                          }
+                //we don't want players to respawn instantly if they die by falling
+                for (DamageTypes types: tags) {
+                    if (types.equals(DamageTypes.BLASTZONE)) {
+                        instantRespawn = false;
+                        break;
                     }
                 }
+
+                //this ensures that players will respawn in the same location that they died
+                if (instantRespawn) {
+                    user.setOverrideSpawn(vic.getPixelPosition());
+                    user.respawn(state);
+                } else {
+                    user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
+                  }
             }
         }
     }

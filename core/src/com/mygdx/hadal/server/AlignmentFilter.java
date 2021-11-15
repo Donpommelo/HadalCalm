@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.map.SettingTeamMode;
 import com.mygdx.hadal.save.UnlockCharacter;
 
 import java.util.ArrayList;
@@ -171,7 +172,7 @@ public enum AlignmentFilter {
      * This is run by the server when a level loads with auto-assigned teams enabled
      * @param numTeams: how many teams to auto assign players to?
      */
-    public static void autoAssignTeams(int numTeams) {
+    public static void autoAssignTeams(int numTeams, SettingTeamMode.TeamMode mode) {
         ArrayList<User> users = new ArrayList<>(HadalGame.server.getUsers().values());
         Collections.shuffle(users);
 
@@ -193,15 +194,30 @@ public enum AlignmentFilter {
         //add each non-spectator to a team. If the player has a team color, it will be used as the team's color
         for (User user: users) {
             if (!user.isSpectator()) {
-                teamSelection.put(user, currentTeam);
+                if (mode.equals(SettingTeamMode.TeamMode.TEAM_AUTO)) {
+                    teamSelection.put(user, currentTeam);
 
-                if (user.getTeamFilter() != AlignmentFilter.NONE && currentTeams[currentTeam] == AlignmentFilter.NONE) {
-                    if (!user.getTeamFilter().isUsed() && user.getTeamFilter().standardChoice) {
-                        user.getTeamFilter().setUsed(true);
-                        currentTeams[currentTeam] = user.getTeamFilter();
+                    if (user.getTeamFilter() != AlignmentFilter.NONE && currentTeams[currentTeam] == AlignmentFilter.NONE) {
+                        if (!user.getTeamFilter().isUsed() && user.getTeamFilter().standardChoice) {
+                            user.getTeamFilter().setUsed(true);
+                            currentTeams[currentTeam] = user.getTeamFilter();
+                        }
+                    }
+                    currentTeam = (currentTeam + 1) % numTeams;
+                } else if (mode.equals(SettingTeamMode.TeamMode.HUMANS_VS_BOTS)){
+                    if (user.getScores().getConnID() < 0) {
+                        currentTeam = 0;
+                    } else {
+                        currentTeam = 1;
+                    }
+                    teamSelection.put(user, currentTeam);
+                    if (user.getTeamFilter() != AlignmentFilter.NONE && currentTeams[currentTeam] == AlignmentFilter.NONE) {
+                        if (!user.getTeamFilter().isUsed() && user.getTeamFilter().standardChoice) {
+                            user.getTeamFilter().setUsed(true);
+                            currentTeams[currentTeam] = user.getTeamFilter();
+                        }
                     }
                 }
-                currentTeam = (currentTeam + 1) % numTeams;
             }
         }
 

@@ -244,7 +244,6 @@ public enum SoundEffect {
 			
 			//for the host, we simply play the sound. Otherwise, we send a sound packet to the client
 			if (player.getConnId() == 0) {
-				
 				if (worldPos == null) {
 					return play(state.getGsm(), volume, pitch, singleton);
 				} else {

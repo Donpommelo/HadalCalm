@@ -2,7 +2,6 @@ package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
@@ -12,7 +11,6 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.ProcTime.InflictDamage;
@@ -325,29 +323,27 @@ public class BodyData extends HadalData {
 						perpData.getActiveItem().gainCharge(damage * ActiveItem.damageChargeMultiplier * ActiveItem.enemyDamageChargeMultiplier);
 					}
 				}
-				User userPerp = HadalGame.server.getUsers().get(perpData.getPlayer().getConnId());
-				if (userPerp != null) {
-					SavedPlayerFieldsExtra field = userPerp.getScoresExtra();
-					//play on-hit sounds. pitched up automatically if fatal. No sounds for self or friendly fire.
-					if (perp.getSchmuck().getHitboxfilter() != schmuck.getHitboxfilter()) {
-						if (currentHp == 0) {
-							perpData.getPlayer().playHitSound(999);
-						} else {
-							perpData.getPlayer().playHitSound(damage);
-						}
 
-						//track perp's damage dealt
-						if (field != null && damage > 0.0f) {
-							field.incrementDamageDealt(damage);
-						}
-
+				SavedPlayerFieldsExtra field = perpData.getPlayer().getUser().getScoresExtra();
+				//play on-hit sounds. pitched up automatically if fatal. No sounds for self or friendly fire.
+				if (perp.getSchmuck().getHitboxfilter() != schmuck.getHitboxfilter()) {
+					if (currentHp == 0) {
+						perpData.getPlayer().playHitSound(999);
 					} else {
-						if (field != null && damage > 0.0f) {
-							if (perp.getSchmuck().equals(schmuck)) {
-								field.incrementDamageDealtSelf(damage);
-							} else {
-								field.incrementDamageDealtAllies(damage);
-							}
+						perpData.getPlayer().playHitSound(damage);
+					}
+
+					//track perp's damage dealt
+					if (field != null && damage > 0.0f) {
+						field.incrementDamageDealt(damage);
+					}
+
+				} else {
+					if (field != null && damage > 0.0f) {
+						if (perp.getSchmuck().equals(schmuck)) {
+							field.incrementDamageDealtSelf(damage);
+						} else {
+							field.incrementDamageDealtAllies(damage);
 						}
 					}
 				}

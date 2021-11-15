@@ -29,11 +29,10 @@ import java.util.Set;
 public class PortalTouch extends Event {
 
 	//This is a set of schmucks that have just been teleported and cannot teleport instantly until they exit this event.
-	private final Set<HadalEntity> justTeleported;
+	private final Set<HadalEntity> justTeleported = new HashSet<>();
 	
 	public PortalTouch(PlayState state, Vector2 startPos, Vector2 size) {
 		super(state, startPos, size);
-		justTeleported = new HashSet<>();
 	}
 	
 	@Override

@@ -27,7 +27,7 @@ public class Text extends AHadalActor {
 	protected float scale = 1.0f;
 	
 	//is this actor being moused over?
-	private boolean hover;
+	private boolean mouseOver;
 	
 	//does the text wrap? If so, it is set to targetWidth length.
 	private final boolean wrap;
@@ -55,12 +55,12 @@ public class Text extends AHadalActor {
 
 				@Override
 				public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					((Text) event.getTarget()).hover = true;
+					((Text) event.getTarget()).mouseOver = true;
 				}
 
 				@Override
 				public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-					((Text) event.getTarget()).hover = false;
+					((Text) event.getTarget()).mouseOver = false;
 				}
 			});
 		}
@@ -72,7 +72,7 @@ public class Text extends AHadalActor {
     public void draw(Batch batch, float alpha) {
 
 		//draw an additional window beneath this actor to indicate a button
-		 if (hover) {
+		 if (mouseOver) {
 			 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2, getY(),
 				 getWidth() + padding, getHeight());
 		 }
@@ -115,7 +115,10 @@ public class Text extends AHadalActor {
 	public Color getColor() { return fontColor; }
 
 	@Override
-	public void setColor(Color color) { this.fontColor = color; }
+	public void setColor(Color color) {
+		this.fontColor = color;
+		updateHitBox();
+	}
 
 	@Override
 	public void setScale(float scale) {

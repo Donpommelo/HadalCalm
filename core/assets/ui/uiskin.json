@@ -1,6 +1,6 @@
 {
   "com.badlogic.gdx.graphics.g2d.BitmapFont": {
-    "default": { "file": "com/badlogic/gdx/utils/arial-15.fnt" }
+    "default": "default-font"
   },
   "com.badlogic.gdx.graphics.Color": {
     "white": { "r": 1, "g": 1, "b": 1, "a": 1 },
@@ -94,8 +94,8 @@
   },
   "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
     "default": { "checkboxOn": "checkBoxOn", "checkboxOff": "checkBoxOff", "checkboxOver": "checkBoxOver", "checkboxOnDisabled": "checkBoxOnDisabled",
-      "checkboxOffDisabled": "checkBoxOffDisabled", "font": "default", "fontColor": "font", "overFontColor": "fontOver", "downFontColor": "fontDown",
-      "checkedFontColor": "fontChecked", "checkedOverFontColor": "fontCheckedOver", "disabledFontColor": "fontDisabled", "pressedOffsetY": -1, "pressedOffsetX": 1 },
+      "checkboxOffDisabled": "checkBoxOffDisabled", "font": "default", "fontColor": "white", "overFontColor": "white", "downFontColor": "white",
+      "checkedFontColor": "white", "checkedOverFontColor": "white", "disabledFontColor": "fontDisabled", "pressedOffsetY": -1, "pressedOffsetX": 1 },
     "square": { "checkboxOn": "checkBoxSquare", "checkboxOff": "checkBoxOff", "checkboxOver": "checkBoxOver", "checkboxOnDisabled": "checkBoxSquareDisabled",
       "checkboxOffDisabled": "checkBoxOffDisabled", "font": "default", "fontColor": "font", "overFontColor": "fontOver", "downFontColor": "fontDown",
       "checkedFontColor": "fontChecked", "checkedOverFontColor": "fontCheckedOver", "disabledFontColor": "fontDisabled", "pressedOffsetY": -1, "pressedOffsetX": 1 },

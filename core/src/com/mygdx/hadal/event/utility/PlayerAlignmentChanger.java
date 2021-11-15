@@ -1,7 +1,6 @@
 package com.mygdx.hadal.event.utility;
 
 import com.badlogic.gdx.physics.box2d.Filter;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
@@ -42,25 +41,22 @@ public class PlayerAlignmentChanger extends Event {
 
 				if (p != null) {
 					if (state.isServer()) {
-						User user = HadalGame.server.getUsers().get(p.getConnId());
+						User user = p.getUser();
 
-						short newIndex = p.getHitboxfilter();
-
-						if (user != null) {
-							if (pvp) {
-								if (state.getMode().getTeamMode().equals(TeamMode.TEAM_AUTO) ||
-										state.getMode().getTeamMode().equals(TeamMode.TEAM_MANUAL)) {
-									if (p.getStartLoadout().team.equals(AlignmentFilter.NONE)) {
-										newIndex = user.getHitBoxFilter().getFilter();
-									} else {
-										newIndex = user.getTeamFilter().getFilter();
-									}
-								} else {
+						short newIndex;
+						if (pvp) {
+							if (state.getMode().isTeamDesignated() ||
+									state.getMode().getTeamMode().equals(TeamMode.TEAM_MANUAL)) {
+								if (p.getStartLoadout().team.equals(AlignmentFilter.NONE)) {
 									newIndex = user.getHitBoxFilter().getFilter();
+								} else {
+									newIndex = user.getTeamFilter().getFilter();
 								}
 							} else {
-								newIndex = filter;
+								newIndex = user.getHitBoxFilter().getFilter();
 							}
+						} else {
+							newIndex = filter;
 						}
 
 						if (p.getMainFixture() != null) {

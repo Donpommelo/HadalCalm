@@ -68,13 +68,14 @@ public class BotLoadoutProcessor {
             if (fixture.getUserData() instanceof final EventData eventData) {
                 if (eventData.getEvent() instanceof final PickupEquip pickup) {
 
-                    //for all pickps found, calculate a path to it, if the bot wants it more than any of their current weapons
+                    //for all pickups found, calculate a path to it, if the bot wants it more than any of their current weapons
                     if (calcWeaponAffinity(pickup.getEquip()) > minAffinity) {
                         RallyPath tempPath = BotManager.getShortestPathBetweenLocations(world, playerLocation,
                                 pickup.getPosition(), playerVelocity);
                         if (tempPath != null) {
                             if (bestPath[0] != null) {
                                 if (tempPath.getDistance() < bestPath[0].getDistance()) {
+                                    player.getBotController().setMoveTarget(pickup);
                                     bestPath[0] = tempPath;
                                 }
                             } else {
@@ -117,7 +118,7 @@ public class BotLoadoutProcessor {
     }
 
     private static final float botVisionX = 36.0f;
-    private static final float botVisionY= 20.0f;
+    private static final float botVisionY = 19.2f;
     /**
      * This is run prior to the player aiming to determine whether they should switch weapons
      * @param player: the bot player doing the weapon switching
@@ -156,6 +157,7 @@ public class BotLoadoutProcessor {
                     bestSlot = i;
                 }
             }
+            player.getBotController().setDistanceFromTarget(false, false, 0);
         }
         BotLoadoutProcessor.switchToSlot(player, bestSlot);
         return shooting;
@@ -302,14 +304,21 @@ public class BotLoadoutProcessor {
             }
         }
 
+        float maxRange = Math.min(botVisionX, weapon.getBotRangeMax());
         //suitability is determined by weapon's range compared to distance
         float minSquared = weapon.getBotRangeMin() * weapon.getBotRangeMin();
-        float maxSquared = weapon.getBotRangeMax() * weapon.getBotRangeMax();
+        float maxSquared = maxRange * maxRange;
+        float midRange = (maxRange + minSquared) / 2;
 
-        if (distanceSquared < minSquared || distanceSquared > maxSquared) {
-            return 0;
+        boolean inRange = distanceSquared > minSquared && distanceSquared < maxSquared;
+
+        player.getBotController().setDistanceFromTarget(true, inRange,
+                distanceSquared - midRange * midRange);
+
+        if (inRange) {
+            return 10;
         }
-        return 10;
+        return 0;
     }
 
     /**

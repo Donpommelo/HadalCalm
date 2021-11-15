@@ -58,13 +58,14 @@ public class User {
     }
 
     private static final float spawnForewarn = 1.0f;
-    private float transitionTime;
+    private float transitionTime, transitionElapsed;
     private boolean spawnForewarned;
     public void controller(PlayState state, float delta) {
 
         //we keep track of each user's transition duration, so that we can make them respawn at the correct time
         if (nextState != null) {
             transitionTime -= delta;
+            transitionElapsed += delta;
 
             //briefly before respawning, we want to flash particles at prospective spawn location
             if (transitionTime <= spawnForewarn && !spawnForewarned) {
@@ -77,6 +78,7 @@ public class User {
                 }
             }
             if (transitionTime <= 0.0f) {
+                transitionElapsed = 0.0f;
                 if (nextState.equals(TransitionState.RESPAWN)) {
                     respawn(state);
                 }
@@ -98,6 +100,7 @@ public class User {
         if (override || this.nextState == null) {
             this.nextState = nextState;
             this.transitionTime = fadeDelay + 1.0f / fadeSpeed;
+            this.transitionElapsed = 0.0f;
             this.spawnForewarned = false;
 
             if (scores.getConnID() == 0) {
@@ -126,7 +129,7 @@ public class User {
             //Create a new player
             short hitboxFilter = getHitBoxFilter().getFilter();
             state.setPlayer(state.createPlayer(startPoint, state.getGsm().getLoadout().getName(), player.getPlayerData().getLoadout(),
-                    player.getPlayerData(),0, true, false, hitboxFilter));
+                    player.getPlayerData(),0, this, true, false, hitboxFilter));
 
             if (!player.isDontMoveCamera()) {
                 state.getCamera().position.set(new Vector3(startPoint.getStartPos().x, startPoint.getStartPos().y, 0));
@@ -150,6 +153,11 @@ public class User {
         }
     }
 
+    private static final float spectatorDurationThreshold = 1.0f;
+    public boolean isRespawnCameraSpectator() {
+        return transitionElapsed > spectatorDurationThreshold;
+    }
+
     /**
      * Run when entering a new level
      * This makes sure things like saved start points are reset
@@ -159,6 +167,7 @@ public class User {
         nextState = null;
         startPoint = null;
         spawnOverridden = false;
+        transitionElapsed = 0.0f;
     }
 
     public void setOverrideSpawn(Vector2 overrideSpawn) {

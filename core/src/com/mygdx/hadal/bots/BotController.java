@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.PlayerBot;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.User;
@@ -11,6 +12,8 @@ import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.Invulnerability;
 
 import java.util.ArrayList;
+
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * A BotController manages all of a bot's behaviors and cooldowns
@@ -28,12 +31,24 @@ public class BotController {
     private static final float jumpDesireCooldown = 0.4f;
     private float jumpDesireCount;
 
+    private static final float noFuelWaitCooldown = 3.0f;
+    private float noFuelWaitCount;
+
+    private static final float boostDesireCooldown = 0.5f;
+    private boolean boostDesired;
+    private float boostDesireCount;
+
     //this is the cooldown after a bot fires that they will release the fire button
     //It is used for specific weapons that require holding and releasing fire
     private float shootReleaseCount;
 
     //this is the entity that the bot attempts to shoot at
     private Schmuck shootTarget;
+
+    private HadalEntity moveTarget;
+
+    private boolean lineOfSight, inRange;
+    private float targetDistanceSquares;
 
     public BotController(PlayerBot player) {
         this.player = player;
@@ -44,14 +59,24 @@ public class BotController {
     private float botMoveCount = botMoveInterval;
     private static final float botMoveInterval = 0.05f;
     private final Vector2 entityWorldLocation = new Vector2();
+    private final Vector2 entityVelocity = new Vector2();
     public void processBotAI(float delta) {
         entityWorldLocation.set(player.getPosition());
+        entityVelocity.set(player.getLinearVelocity());
         botTargetCount += delta;
         botMoveCount += delta;
 
+        boostDesireCount -= delta;
+        if (boostDesired) {
+            boostDesired = false;
+            boostDesireCount = boostDesireCooldown;
+            player.getController().keyDown(PlayerAction.BOOST);
+            player.getController().keyUp(PlayerAction.BOOST);
+        }
+
         while (botTargetCount >= botTargetInterval) {
             botTargetCount -= botTargetInterval;
-            acquireTarget(entityWorldLocation);
+            acquireTarget(entityWorldLocation, entityVelocity);
         }
         while (botMoveCount >= botMoveInterval) {
             botMoveCount -= botMoveInterval;
@@ -65,6 +90,9 @@ public class BotController {
             if (jumpDesireCount <= 0.0f) {
                 player.getController().keyUp(PlayerAction.JUMP);
             }
+        }
+        if (noFuelWaitCount > 0.0f) {
+            noFuelWaitCount -= delta;
         }
         if (shootReleaseCount > 0.0f) {
             shootReleaseCount -= delta;
@@ -86,7 +114,6 @@ public class BotController {
     }
 
     private final Vector2 shootTargetPosition = new Vector2();
-
     /**
      * This makes the bot attempt to attack their target
      * This process the bot switching weapons, aiming and firing
@@ -116,6 +143,7 @@ public class BotController {
     private final Vector2 thisLocation = new Vector2();
     //this is the distance from a desired node that the bot will consider it "reached" before moving to the next
     private static final float distanceThreshold = 9.0f;
+    private static final float boostThreshold = 300.0f;
 
     //these thresholds determine when the bot will fastfall (must be above their destination and not movign too fast already)
     private static final float fastfallDistThreshold = 8.0f;
@@ -125,15 +153,41 @@ public class BotController {
      * @param playerLocation: the location of the moving bot (to avoid repeatedly calling getPosition)
      */
     private void processBotMovement(Vector2 playerLocation) {
-        if (!pointPath.isEmpty()) {
-            thisLocation.set(pointPath.get(0).getPosition()).sub(playerLocation);
-
-            //if the bot is close enough to their destination, remove the node and begin moving towards the next one
-            if (thisLocation.len2() < distanceThreshold) {
-                pointPath.remove(0);
-                if (!pointPath.isEmpty()) {
-                    thisLocation.set(pointPath.get(0).getPosition()).sub(playerLocation);
+        float distSquared = 0.0f;
+        float collision = 0.0f;
+        boolean approachTarget = false;
+        if (currentMood.equals(BotMood.SEEK_EVENT) || currentMood.equals(BotMood.SEEK_WEAPON)) {
+            if (moveTarget != null) {
+                collision = BotManager.raycastUtility(player.getState().getWorld(), playerLocation, moveTarget.getPosition());
+                if (collision == 1.0f) {
+                    thisLocation.set(moveTarget.getPosition()).sub(playerLocation);
+                    distSquared = thisLocation.len2();
+                    approachTarget = true;
                 }
+            }
+        }
+        if (currentMood.equals(BotMood.SEEK_ENEMY)) {
+            if (shootTarget != null && lineOfSight) {
+                if (shootTarget.isAlive()) {
+                    thisLocation.set(shootTarget.getPosition()).sub(playerLocation);
+                    thisLocation.nor().scl(targetDistanceSquares).scl(0.25f);
+                    approachTarget = true;
+                }
+            }
+        }
+        if (!pointPath.isEmpty() && !approachTarget) {
+            thisLocation.set(pointPath.get(0).getPosition()).sub(playerLocation);
+            collision = BotManager.raycastUtility(player.getState().getWorld(), playerLocation, pointPath.get(0).getPosition());
+            distSquared = thisLocation.len2();
+            approachTarget = true;
+        }
+
+        if (approachTarget) {
+            if (distSquared * collision > boostThreshold && boostDesireCount <= 0.0f && thisLocation.y > 0 &&
+                    player.getPlayerData().getCurrentFuel() >= player.getPlayerData().getAirblastCost()) {
+                player.getMouse().setDesiredLocation((
+                        playerLocation.x - thisLocation.x) * PPM,(playerLocation.y - thisLocation.y) * PPM);
+                boostDesired = true;
             }
 
             //x-direction movement simply decided by direction
@@ -154,8 +208,14 @@ public class BotController {
                         player.getController().keyUp(PlayerAction.JUMP);
                         jumpDesireCount = jumpDesireCooldown;
                     } else {
-                        player.getController().keyDown(PlayerAction.JUMP);
-                        jumpDesireCount = jumpDesireCooldown;
+                        if (player.getPlayerData().getCurrentFuel() >= player.getPlayerData().getHoverCost()) {
+                            if (noFuelWaitCount <= 0) {
+                                player.getController().keyDown(PlayerAction.JUMP);
+                                jumpDesireCount = jumpDesireCooldown;
+                            }
+                        } else {
+                            noFuelWaitCount = noFuelWaitCooldown;
+                        }
                     }
                 }
             } else {
@@ -169,6 +229,13 @@ public class BotController {
             } else {
                 player.getController().keyUp(PlayerAction.CROUCH);
             }
+
+            //if the bot is close enough to their destination, remove the node and begin moving towards the next one
+            if (!pointPath.isEmpty()) {
+                if (distSquared < distanceThreshold) {
+                    pointPath.remove(0);
+                }
+            }
         }
     }
 
@@ -177,14 +244,16 @@ public class BotController {
     private static final int affinityThreshold2 = 20;
     private static final float affinityMultiplier1 = 0.5f;
     private static final float affinityMultiplier2 = 3.0f;
-
     /**
      * This makes the bot search for player targets to pursue
      * @param playerLocation: the location of the attacking bot (to avoid repeatedly calling getPosition)
      */
-    private void acquireTarget(Vector2 playerLocation) {
-        RallyPath bestWeaponPath;
-        RallyPath bestEnemyPath = null;
+    private void acquireTarget(Vector2 playerLocation, Vector2 playerVelocity) {
+        float bestDistanceSoFar = -1.0f;
+        currentMood = BotMood.WANDER;
+
+        RallyPath bestPath = null;
+        RallyPath prospectivePath;
 
         //first we find best path to a weapon pickup.
         int totalAffinity = 0;
@@ -194,11 +263,11 @@ public class BotController {
             totalAffinity += affinity;
             minAffinity = Math.min(minAffinity, affinity);
         }
-        bestWeaponPath = BotLoadoutProcessor.getPathToWeapon(player.getState().getWorld(), player, playerLocation,
-                player.getLinearVelocity(), searchRadius, minAffinity);
+        prospectivePath = BotLoadoutProcessor.getPathToWeapon(player.getState().getWorld(), player, playerLocation,
+                playerVelocity, searchRadius, minAffinity);
 
         //bots desire weapons more if they are not content with their current loadout and less if they are
-        if (bestWeaponPath != null) {
+        if (prospectivePath != null) {
             float weaponDesireMultiplier = 1.0f;
             if (totalAffinity < affinityThreshold1) {
                 weaponDesireMultiplier = affinityMultiplier1;
@@ -206,7 +275,14 @@ public class BotController {
             if (totalAffinity > affinityThreshold2) {
                 weaponDesireMultiplier = affinityMultiplier2;
             }
-            bestWeaponPath.setDistance(bestWeaponPath.getDistance() * weaponDesireMultiplier);
+            prospectivePath.setDistance(prospectivePath.getDistance() * weaponDesireMultiplier);
+        }
+
+        float pathDistance = prospectivePath != null ? prospectivePath.getDistance() : -1;
+        if (pathDistance != -1) {
+            currentMood = BotMood.SEEK_WEAPON;
+            bestDistanceSoFar = pathDistance;
+            bestPath = prospectivePath;
         }
 
         //find best enemy path by looking at all valid targets
@@ -220,15 +296,15 @@ public class BotController {
 
                     //calc the shortest path and compare it to paths to other targets
                     RallyPath tempPath = BotManager.getShortestPathBetweenLocations(player.getState().getWorld(),
-                            playerLocation, user.getPlayer().getPosition(), player.getLinearVelocity());
+                            playerLocation, user.getPlayer().getPosition(), playerVelocity);
                     if (tempPath != null) {
-                        if (bestEnemyPath != null) {
-                            if (tempPath.getDistance() < bestEnemyPath.getDistance()) {
-                                bestEnemyPath = tempPath;
+                        if (prospectivePath != null) {
+                            if (tempPath.getDistance() < prospectivePath.getDistance()) {
+                                prospectivePath = tempPath;
                                 shootTarget = user.getPlayer();
                             }
                         } else {
-                            bestEnemyPath = tempPath;
+                            prospectivePath = tempPath;
                             shootTarget = user.getPlayer();
                         }
                     }
@@ -236,21 +312,30 @@ public class BotController {
             }
         }
 
-        float weaponDistance = bestWeaponPath != null ? bestWeaponPath.getDistance() : -1;
-        float enemyDistance = bestEnemyPath != null ? bestEnemyPath.getDistance() : -1;
-
-        //choose target and mood based on whether path to weapon or enemy is shorter (accounting for multipliers)
-        if (weaponDistance != -1 && (weaponDistance < enemyDistance || enemyDistance == -1)) {
-            currentMood = BotMood.SEEK_WEAPON;
-            pointPath.clear();
-            pointPath.addAll(bestWeaponPath.getPath());
-        } else if (enemyDistance != -1 && (enemyDistance < weaponDistance || weaponDistance == -1)) {
+        pathDistance = prospectivePath != null ? prospectivePath.getDistance() : -1;
+        if (pathDistance != -1 && (pathDistance < bestDistanceSoFar || bestDistanceSoFar == -1.0f)) {
             currentMood = BotMood.SEEK_ENEMY;
-            pointPath.clear();
-            pointPath.addAll(bestEnemyPath.getPath());
-        } else {
-            currentMood = BotMood.WANDER;
+            bestDistanceSoFar = pathDistance;
+            bestPath = prospectivePath;
         }
+
+        prospectivePath = player.getState().getMode().processAIPath(player.getState(), player, playerLocation, playerVelocity);
+        pathDistance = prospectivePath != null ? prospectivePath.getDistance() : -1;
+        if (pathDistance != -1 && (pathDistance < bestDistanceSoFar || bestDistanceSoFar == -1.0f)) {
+            currentMood = BotMood.SEEK_EVENT;
+            bestPath = prospectivePath;
+        }
+
+        if (bestPath != null) {
+            pointPath.clear();
+            pointPath.addAll(bestPath.getPath());
+        }
+    }
+
+    public void setDistanceFromTarget(boolean lineOfSight, boolean inRange, float differenceSquares) {
+        this.lineOfSight = lineOfSight;
+        this.inRange = inRange;
+        this.targetDistanceSquares = differenceSquares;
     }
 
     public ArrayList<RallyPoint> getPointPath() { return pointPath; }
@@ -259,10 +344,12 @@ public class BotController {
 
     public void setShootReleaseCount(float shootReleaseCount) { this.shootReleaseCount = shootReleaseCount; }
 
+    public void setMoveTarget(HadalEntity moveTarget) { this.moveTarget = moveTarget; }
+
     private enum BotMood {
         WANDER,
-        ENGAGE_ENEMY,
         SEEK_ENEMY,
+        SEEK_EVENT,
         SEEK_WEAPON,
     }
 }

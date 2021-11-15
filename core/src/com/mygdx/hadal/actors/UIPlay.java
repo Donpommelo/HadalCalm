@@ -135,6 +135,7 @@ public class UIPlay extends AHadalActor {
 
 		if (bossFight && boss.getBody() != null) {
 			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP);
+			bossHpRatio = bossHpFloor + (bossHpRatio * (1 - bossHpFloor));
 		}
 	}
 
@@ -146,10 +147,6 @@ public class UIPlay extends AHadalActor {
 		while (uiAccumulator >= uiTime) {
 			uiAccumulator -= uiTime;
 
-			//this makes the boss/player hp bar delayed and prevents that delay from varying with framerate
-			if (bossFight && boss.getBody() != null) {
-				bossHpRatio = bossHpFloor + (bossHpRatio * (1 - bossHpFloor));
-			}
 			if (hpDelayed > hpRatio) {
 				hpDelayed -= hpCatchup;
 			} else {

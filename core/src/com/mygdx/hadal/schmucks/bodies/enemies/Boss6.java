@@ -138,7 +138,7 @@ public class Boss6 extends EnemyFloating {
 		}
 	}
 
-	private static final float chaseDamage = 1.5f;
+	private static final float chaseDamage = 4.5f;
 	private static final int chaseKnockback = 12;
 	private static final float meleeAttackInterval = 1 / 60.0f;
 	private static final int spinSpeed = 40;

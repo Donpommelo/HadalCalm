@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="110" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="83">
  <properties>
+  <property name="music" value="LEVEL_PLENUM_MAZE"/>
   <property name="shader" value="PLAYER_LIGHT"/>
   <property name="startUI" value="PLENUM MAZE,EMPTY,SCRAP"/>
  </properties>

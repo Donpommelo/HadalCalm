@@ -1,7 +1,6 @@
 package com.mygdx.hadal.event.userdata;
 
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 
@@ -19,9 +18,8 @@ public class InteractableEventData extends EventData {
 	@Override
 	public void onTouch(HadalData fixB) {
 		if (fixB != null) {	
-			if (fixB.getType().equals(UserDataTypes.BODY)) {
-				PlayerBodyData player = ((PlayerBodyData) fixB);
-				player.getPlayer().setCurrentEvent(event);			
+			if (fixB instanceof PlayerBodyData playerData) {
+				playerData.getPlayer().setCurrentEvent(event);
 			}
 		}
 		super.onTouch(fixB);
@@ -30,10 +28,9 @@ public class InteractableEventData extends EventData {
 	@Override
 	public void onRelease(HadalData fixB) {
 		if (fixB != null) {
-			if (fixB.getType().equals(UserDataTypes.BODY)) {
-				PlayerBodyData player = ((PlayerBodyData) fixB);
-				if (player.getPlayer().getCurrentEvent() == event) {
-					player.getPlayer().setCurrentEvent(null);
+			if (fixB instanceof PlayerBodyData playerData) {
+				if (playerData.getPlayer().getCurrentEvent() == event) {
+					playerData.getPlayer().setCurrentEvent(null);
 				}
 			}
 		}
