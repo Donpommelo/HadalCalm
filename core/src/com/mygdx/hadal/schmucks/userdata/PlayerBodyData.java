@@ -136,7 +136,9 @@ public class PlayerBodyData extends BodyData {
 		
 		this.loadout = newLoadout;
 
-		player.getUser().setTeamFilter(loadout.team);
+		if (player.getUser() != null) {
+			player.getUser().setTeamFilter(loadout.team);
+		}
 
 		//If this is the player being controlled by the user, update artifact ui
 		if (player.equals((player.getState().getPlayer()))) {
@@ -445,7 +447,9 @@ public class PlayerBodyData extends BodyData {
 	public void setTeam(AlignmentFilter team) {
 		loadout.team = team;
 		player.setBodySprite(null, team);
-		player.getUser().setTeamFilter(team);
+		if (player.getUser() != null) {
+			player.getUser().setTeamFilter(team);
+		}
 	}
 
 	public void setCharacter(UnlockCharacter character) {
@@ -600,9 +604,11 @@ public class PlayerBodyData extends BodyData {
 
 		//this keeps track of total damage received during rounds
 		if (player.getState().isServer()) {
-			SavedPlayerFieldsExtra field = getPlayer().getUser().getScoresExtra();
-			if (damage > 0.0f) {
-				field.incrementDamageReceived(damage);
+			if (player.getUser() != null) {
+				SavedPlayerFieldsExtra field = getPlayer().getUser().getScoresExtra();
+				if (damage > 0.0f) {
+					field.incrementDamageReceived(damage);
+				}
 			}
 		}
 		return damage;

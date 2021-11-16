@@ -65,4 +65,7 @@ public class JumpKick extends ActiveItem {
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user, SoundEffect.KICK1, 1.0f, true));
 		hbox.addStrategy(new ContactUnitKnockbackDamage(state, hbox, user));
 	}
+
+	@Override
+	public float getBotRangeMin() { return 15.0f; }
 }

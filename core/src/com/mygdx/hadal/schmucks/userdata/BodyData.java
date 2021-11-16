@@ -324,26 +324,28 @@ public class BodyData extends HadalData {
 					}
 				}
 
-				SavedPlayerFieldsExtra field = perpData.getPlayer().getUser().getScoresExtra();
-				//play on-hit sounds. pitched up automatically if fatal. No sounds for self or friendly fire.
-				if (perp.getSchmuck().getHitboxfilter() != schmuck.getHitboxfilter()) {
-					if (currentHp == 0) {
-						perpData.getPlayer().playHitSound(999);
-					} else {
-						perpData.getPlayer().playHitSound(damage);
-					}
-
-					//track perp's damage dealt
-					if (field != null && damage > 0.0f) {
-						field.incrementDamageDealt(damage);
-					}
-
-				} else {
-					if (field != null && damage > 0.0f) {
-						if (perp.getSchmuck().equals(schmuck)) {
-							field.incrementDamageDealtSelf(damage);
+				if (perpData.getPlayer().getUser() != null) {
+					SavedPlayerFieldsExtra field = perpData.getPlayer().getUser().getScoresExtra();
+					//play on-hit sounds. pitched up automatically if fatal. No sounds for self or friendly fire.
+					if (perp.getSchmuck().getHitboxfilter() != schmuck.getHitboxfilter()) {
+						if (currentHp == 0) {
+							perpData.getPlayer().playHitSound(999);
 						} else {
-							field.incrementDamageDealtAllies(damage);
+							perpData.getPlayer().playHitSound(damage);
+						}
+
+						//track perp's damage dealt
+						if (field != null && damage > 0.0f) {
+							field.incrementDamageDealt(damage);
+						}
+
+					} else {
+						if (field != null && damage > 0.0f) {
+							if (perp.getSchmuck().equals(schmuck)) {
+								field.incrementDamageDealtSelf(damage);
+							} else {
+								field.incrementDamageDealtAllies(damage);
+							}
 						}
 					}
 				}

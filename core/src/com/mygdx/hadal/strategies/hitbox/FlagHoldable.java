@@ -91,4 +91,8 @@ public class FlagHoldable extends HitboxStrategy {
 			}
 		}
 	}
+
+	public Player getTarget() { return target; }
+
+	public boolean isCaptured() { return captured; }
 }

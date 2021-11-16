@@ -62,4 +62,7 @@ public class OrbitalShield extends ActiveItem {
 
 		return hbox;
 	}
+
+	@Override
+	public float getBotRangeMin() { return 9.0f; }
 }

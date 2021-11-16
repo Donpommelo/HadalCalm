@@ -103,8 +103,9 @@ public enum GameMode {
     KINGMAKER("objective,dm", DEATHMATCH,
         new SetCameraOnSpawn(),
         new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
-        new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
+        new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingDroppableWeapons(),
         new DisplayUITag("SCOREBOARD"), new SpawnWeapons(),
+        new ModeKingmaker(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
@@ -258,14 +259,18 @@ public enum GameMode {
         if (!state.isServer()) { return; }
         if (vic != null) {
             User user = vic.getUser();
-            user.getScores().setDeaths(user.getScores().getDeaths() + 1);
-            user.setScoreUpdated(true);
+            if (user != null) {
+                user.getScores().setDeaths(user.getScores().getDeaths() + 1);
+                user.setScoreUpdated(true);
+            }
         }
         if (perp != null) {
             if (perp instanceof Player player) {
                 User user = player.getUser();
-                user.getScores().setKills(user.getScores().getKills() + 1);
-                user.setScoreUpdated(true);
+                if (user != null) {
+                    user.getScores().setKills(user.getScores().getKills() + 1);
+                    user.setScoreUpdated(true);
+                }
             }
         }
         for (ModeSetting setting : applicableSettings) {
@@ -282,15 +287,17 @@ public enum GameMode {
         if (!state.isServer()) { return; }
         if (p != null) {
             User user = p.getUser();
-            user.getScores().setScore(user.getScores().getScore() + scoreIncrement);
+            if (user != null) {
+                user.getScores().setScore(user.getScores().getScore() + scoreIncrement);
 
-            for (ModeSetting setting : applicableSettings) {
-                setting.processPlayerScoreChange(state, this, p, user.getScores().getScore());
+                for (ModeSetting setting : applicableSettings) {
+                    setting.processPlayerScoreChange(state, this, p, user.getScores().getScore());
+                }
+
+                //tell score window and ui extrato update next interval
+                user.setScoreUpdated(true);
+                state.getUiExtra().syncUIText(UITag.uiType.SCORE);
             }
-
-            //tell score window and ui extrato update next interval
-            user.setScoreUpdated(true);
-            state.getUiExtra().syncUIText(UITag.uiType.SCORE);
         }
     }
 

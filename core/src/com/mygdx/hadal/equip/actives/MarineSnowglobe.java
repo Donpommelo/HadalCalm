@@ -55,4 +55,7 @@ public class MarineSnowglobe extends ActiveItem {
 	
 	@Override
 	public float getUseDuration() { return duration; }
+
+	@Override
+	public float getBotRangeMin() { return 5.0f; }
 }

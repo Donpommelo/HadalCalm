@@ -44,20 +44,22 @@ public class ModeGunGame extends ModeSetting {
         if (perp instanceof Player player) {
             state.getMode().processPlayerScoreChange(state, player, 1);
 
-            int currentGunIndex = player.getUser().getScores().getScore();
-            if (currentGunIndex < weaponOrder.length) {
+            if (player.getUser() != null) {
+                int currentGunIndex = player.getUser().getScores().getScore();
+                if (currentGunIndex < weaponOrder.length) {
 
-                //this sets the player's weapon to the new one and syncs client loadouts
-                player.getPlayerData().getMultitools()[0] = UnlocktoItem.getUnlock(weaponOrder[currentGunIndex], player);
-                player.getPlayerData().getLoadout().multitools[0] = weaponOrder[currentGunIndex];
-                player.getPlayerData().setEquip();
-                player.getPlayerData().syncServerLoadoutChange(false);
+                    //this sets the player's weapon to the new one and syncs client loadouts
+                    player.getPlayerData().getMultitools()[0] = UnlocktoItem.getUnlock(weaponOrder[currentGunIndex], player);
+                    player.getPlayerData().getLoadout().multitools[0] = weaponOrder[currentGunIndex];
+                    player.getPlayerData().setEquip();
+                    player.getPlayerData().syncServerLoadoutChange(false);
 
-                String message = weaponOrder[currentGunIndex].getInfo().getName() + ": " + currentGunIndex + "/" + weaponOrder.length;
-                state.getKillFeed().sendNotification(message, player);
-            } else {
-                //upon finishing all weapons, we end the game
-                state.levelEnd(ResultsState.magicWord, false, PlayState.longFadeDelay);
+                    String message = weaponOrder[currentGunIndex].getInfo().getName() + ": " + currentGunIndex + "/" + weaponOrder.length;
+                    state.getKillFeed().sendNotification(message, player);
+                } else {
+                    //upon finishing all weapons, we end the game
+                    state.levelEnd(ResultsState.magicWord, false, PlayState.longFadeDelay);
+                }
             }
         }
     }

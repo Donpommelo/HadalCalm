@@ -211,10 +211,12 @@ public class SettingTeamMode extends ModeSetting {
 
             //the player that dies respawns if there are still others left and becomes a spectator otherwise
             User dedUser = p.getUser();
-            if (dedUser.getScores().getLives() > 0) {
-                dedUser.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
-            } else {
-                dedUser.beginTransition(state, PlayState.TransitionState.SPECTATOR, false, defaultFadeOutSpeed, longFadeDelay);
+            if (dedUser != null) {
+                if (dedUser.getScores().getLives() > 0) {
+                    dedUser.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
+                } else {
+                    dedUser.beginTransition(state, PlayState.TransitionState.SPECTATOR, false, defaultFadeOutSpeed, longFadeDelay);
+                }
             }
         }
     }

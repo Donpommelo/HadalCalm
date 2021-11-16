@@ -786,7 +786,7 @@ public class PlayState extends GameState {
 			HadalGame.viewportCamera.unproject(mousePosition);
 
 			//the camera should be draggable as a spectator or during respawn time
-			if (spectatorMode || player.getUser().isRespawnCameraSpectator()) {
+			if (spectatorMode || player.isRespawnCameraSpectator()) {
 				//in spectator mode, the camera moves when dragging the mouse
 				uiSpectator.spectatorDragCamera(spectatorTarget);
 				aimFocusVector.set(spectatorTarget);

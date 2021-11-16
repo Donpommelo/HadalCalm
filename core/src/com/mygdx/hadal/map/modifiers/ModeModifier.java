@@ -1,6 +1,5 @@
 package com.mygdx.hadal.map.modifiers;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.actors.ModeSettingSelection;
@@ -35,7 +34,6 @@ public class ModeModifier extends ModeSetting {
         title.setScale(ModeSettingSelection.detailsScale);
 
         dropsOptions = new CheckBox("", GameStateManager.getSkin());
-        dropsOptions.getLabel().setColor(Color.WHITE);
         dropsOptions.setChecked(state.getGsm().getSetting().getModeSetting(mode, settingTag, 0) == 1);
         table.add(title);
         table.add(dropsOptions).height(ModeSettingSelection.detailHeightSmall).pad(ModeSettingSelection.detailPad).top().row();

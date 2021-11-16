@@ -78,6 +78,9 @@ public class ContactStick extends HitboxStrategy {
 				hbox.setLinearVelocity(0, 0);
 			} else {
 				stuckToTarget = false;
+				if (hbox.getBody() != null) {
+					hbox.getBody().setGravityScale(1.0f);
+				}
 			}
 		}
 	}

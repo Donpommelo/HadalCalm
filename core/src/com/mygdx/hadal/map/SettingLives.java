@@ -84,14 +84,16 @@ public class SettingLives extends ModeSetting {
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
         if (vic != null) {
             User user = vic.getUser();
-            if (unlimitedLives) {
-              user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
-            } else {
-                user.getScores().setLives(user.getScores().getLives() - 1);
-                if (user.getScores().getLives() <= 0) {
-                    mode.processPlayerLivesOut(state, vic);
-                } else {
+            if (user != null) {
+                if (unlimitedLives) {
                     user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
+                } else {
+                    user.getScores().setLives(user.getScores().getLives() - 1);
+                    if (user.getScores().getLives() <= 0) {
+                        mode.processPlayerLivesOut(state, vic);
+                    } else {
+                        user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
+                    }
                 }
             }
         }

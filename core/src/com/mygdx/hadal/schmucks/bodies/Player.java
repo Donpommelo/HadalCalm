@@ -942,7 +942,6 @@ public class Player extends PhysicsSchmuck {
 	private final Vector2 endPt = new Vector2();
 	private final Vector2 offset = new Vector2();
 	private final Vector2 playerWorldLocation = new Vector2();
-
 	/**
 	 * This method makes projectiles fired by the player spawn offset to be at the tip of the gun
 	 */
@@ -969,7 +968,15 @@ public class Player extends PhysicsSchmuck {
 		//The -1 here is just to deal with some weird physics stuff that made this act differently on different maps for some reason.
 		return originPt.add(offset.nor().scl(((size.x * 2 + projSize / 4) / PPM) * shortestFraction - 1)).scl(PPM);
 	}
-	
+
+	public boolean isRespawnCameraSpectator() {
+		if (user == null) {
+			return false;
+		} else {
+			return user.isRespawnCameraSpectator();
+		}
+	}
+
 	/**
 	 * This makes the player's legs flail more when in the air
 	 */

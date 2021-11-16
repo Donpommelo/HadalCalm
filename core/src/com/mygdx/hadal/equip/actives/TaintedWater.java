@@ -77,4 +77,7 @@ public class TaintedWater extends ActiveItem {
 	
 	@Override
 	public float getUseDuration() { return duration; }
+
+	@Override
+	public float getBotRangeMin() { return 11.0f; }
 }

@@ -44,7 +44,7 @@ public class PlayerAlignmentChanger extends Event {
 						User user = p.getUser();
 
 						short newIndex;
-						if (pvp) {
+						if (pvp && user != null) {
 							if (state.getMode().isTeamDesignated() ||
 									state.getMode().getTeamMode().equals(TeamMode.TEAM_MANUAL)) {
 								if (p.getStartLoadout().team.equals(AlignmentFilter.NONE)) {

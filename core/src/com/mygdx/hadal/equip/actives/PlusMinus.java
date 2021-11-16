@@ -30,4 +30,7 @@ public class PlusMinus extends ActiveItem {
 		SoundEffect.THUNDER.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
 		user.addStatus(new Shocked(state, user, user, chainDamage, chainRadius, chainAmount, user.getSchmuck().getHitboxfilter()));
 	}
+
+	@Override
+	public float getBotRangeMin() { return 7.0f; }
 }

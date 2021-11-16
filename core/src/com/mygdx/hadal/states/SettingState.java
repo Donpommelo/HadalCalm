@@ -405,7 +405,6 @@ public class SettingState extends GameState {
 					//Clicking any option will highlight it and designate it as the next to update.
 					((Text) e.getListenerActor()).setText(action + ":==   " + getKey(action.getKey()) + " <--");
 					currentlyEditing = action;
-
 					actionChoose.setHeight(detailHeight);
 				}
 			});

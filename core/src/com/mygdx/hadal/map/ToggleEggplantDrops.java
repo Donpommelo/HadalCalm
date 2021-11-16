@@ -24,13 +24,15 @@ public class ToggleEggplantDrops extends ModeSetting {
 
     @Override
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
-        SavedPlayerFields field = vic.getUser().getScores();
-        int score = (int) (field.getScore() * scrapMultiplier);
-        if (score < 0) {
-            score = 0;
+        if (vic.getUser() != null) {
+            SavedPlayerFields field = vic.getUser().getScores();
+            int score = (int) (field.getScore() * scrapMultiplier);
+            if (score < 0) {
+                score = 0;
+            }
+            state.getMode().processPlayerScoreChange(state, vic, -score);
+            WeaponUtils.spawnScrap(state, score + baseScrapDrop, vic.getPixelPosition(), true, true);
         }
-        state.getMode().processPlayerScoreChange(state, vic, -score);
-        WeaponUtils.spawnScrap(state, score + baseScrapDrop, vic.getPixelPosition(), true, true);
     }
 
     private static final float searchRadius = 300.0f;

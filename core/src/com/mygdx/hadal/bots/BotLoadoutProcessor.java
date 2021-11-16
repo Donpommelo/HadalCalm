@@ -125,10 +125,8 @@ public class BotLoadoutProcessor {
      * @param playerLocation: the location of the bot player
      * @param targetLocation: the location of the target they are attacking
      * @param targetAlive: I the target alive?
-     * @return boolean of whether the bot has a clear shot at their target
      */
-    public static boolean processWeaponSwitching(PlayerBot player, Vector2 playerLocation, Vector2 targetLocation, boolean targetAlive) {
-        boolean shooting = false;
+    public static void processWeaponSwitching(PlayerBot player, Vector2 playerLocation, Vector2 targetLocation, boolean targetAlive) {
         float distSquared = playerLocation.dst2(targetLocation);
 
         //calculate "suitability" of currently held weapon. We do this first to favor staying on the same slot in case of ties
@@ -138,15 +136,16 @@ public class BotLoadoutProcessor {
         if (BotManager.raycastUtility(player.getWorld(), playerLocation, targetLocation) == 1.0f && targetAlive
                 && Math.abs(playerLocation.x - targetLocation.x) < botVisionX
                 && Math.abs(playerLocation.y - targetLocation.y) < botVisionY) {
-            float bestSuitability = BotLoadoutProcessor.calcWeaponSuitability(player, player.getPlayerData().getMultitools()[bestSlot], distSquared);
+            float bestSuitability = BotLoadoutProcessor.calcWeaponSuitability(player,
+                    player.getPlayerData().getMultitools()[bestSlot], distSquared, 0);
             for (int i = 0; i < player.getPlayerData().getMultitools().length - 1; i++) {
-                int suitability = BotLoadoutProcessor.calcWeaponSuitability(player, player.getPlayerData().getMultitools()[i], distSquared);
+                int suitability = BotLoadoutProcessor.calcWeaponSuitability(player,
+                        player.getPlayerData().getMultitools()[i], distSquared, bestSuitability);
                 if (suitability > bestSuitability) {
                     bestSuitability = suitability;
                     bestSlot = i;
                 }
             }
-            shooting = true;
         } else {
             //if the target is not alive or we don't have a clear line of sight, instead switch to most "proactive" weapon
             float bestProactivity = BotLoadoutProcessor.calcWeaponProactivity(player.getPlayerData().getMultitools()[bestSlot]);
@@ -157,10 +156,9 @@ public class BotLoadoutProcessor {
                     bestSlot = i;
                 }
             }
-            player.getBotController().setDistanceFromTarget(false, false, 0);
+            player.getBotController().setDistanceFromTarget(false, false, -1, -1);
         }
         BotLoadoutProcessor.switchToSlot(player, bestSlot);
-        return shooting;
     }
 
     private static final Vector2 mousePosition = new Vector2();
@@ -283,26 +281,10 @@ public class BotLoadoutProcessor {
     /**
      * This calculates a weapon's "suitability": how much a bot wants to use this weapon when fighting
      * @param weapon: the weapon we are finding suitability of
-     * @param distanceSquared: the distance squared between thte bot and its target
+     * @param distSquared: the distance squared between thte bot and its target
      * @return the weapon's "suitability"
      */
-    private static int calcWeaponSuitability(PlayerBot player, Equippable weapon, float distanceSquared) {
-
-        //out of ammo weapons are never suitable
-        if (weapon instanceof final RangedWeapon ranged) {
-            switch (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass()))) {
-                case COLACANNON, SLODGE_NOZZLE, STUTTERGUN:
-                    if (ranged.getClipLeft() == 0 && player.getPlayerData().getStatus(FiringWeapon.class) == null) {
-                        return 0;
-                    }
-                    break;
-                default:
-                    if (ranged.getClipLeft() == 0) {
-                        return 0;
-                    }
-                    break;
-            }
-        }
+    private static int calcWeaponSuitability(PlayerBot player, Equippable weapon, float distSquared, float bestSuitability) {
 
         float maxRange = Math.min(botVisionX, weapon.getBotRangeMax());
         //suitability is determined by weapon's range compared to distance
@@ -310,15 +292,33 @@ public class BotLoadoutProcessor {
         float maxSquared = maxRange * maxRange;
         float midRange = (maxRange + minSquared) / 2;
 
-        boolean inRange = distanceSquared > minSquared && distanceSquared < maxSquared;
+        boolean inRange = distSquared > minSquared && distSquared < maxSquared;
 
-        player.getBotController().setDistanceFromTarget(true, inRange,
-                distanceSquared - midRange * midRange);
+        int suitability = 0;
+        //out of ammo weapons are never suitable
+        if (weapon instanceof final RangedWeapon ranged) {
+            switch (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass()))) {
+                case COLACANNON, SLODGE_NOZZLE, STUTTERGUN:
+                    if (ranged.getClipLeft() == 0 && player.getPlayerData().getStatus(FiringWeapon.class) == null) {
+                        suitability =  inRange ? 1 : 0;
+                    }
+                    break;
+                default:
+                    if (ranged.getClipLeft() == 0) {
+                        suitability =  inRange ? 1 : 0;
+                    }
+                    break;
+            }
+        }
 
         if (inRange) {
-            return 10;
+            suitability = 10;
         }
-        return 0;
+        if (suitability > bestSuitability) {
+            player.getBotController().setDistanceFromTarget(true, inRange,
+                    distSquared - midRange * midRange, distSquared);
+        }
+        return suitability;
     }
 
     /**
@@ -424,8 +424,8 @@ public class BotLoadoutProcessor {
         }
     }
 
-    private static final float maxWobble = 10.0f;
-    private static final float wobbleSpeed = 30.0f;
+    private static final float maxWobble = 25.0f;
+    private static final float wobbleSpeed = 45.0f;
     /**
      * This makes a bot wobble their aim around in a circle around their target
      * Only used for the cola cannon
@@ -437,8 +437,9 @@ public class BotLoadoutProcessor {
 
     private static final float bonusSupplyDropChance = 0.4f;
     private static final UnlockActives[] botItems = { UnlockActives.ANCHOR_SMASH, UnlockActives.FLASH_BANG,
-            UnlockActives.HONEYCOMB, UnlockActives.MISSILE_POD, UnlockActives.MELON, UnlockActives.MISSILE_POD,
-            UnlockActives.NAUTICAL_MINE, UnlockActives.ORBITAL_SHIELD, UnlockActives.PROXIMITY_MINE, UnlockActives.SPIRIT_RELEASE};
+            UnlockActives.HONEYCOMB, UnlockActives.JUMP_KICK, UnlockActives.MARINE_SNOWGLOBE, UnlockActives.METEOR_STRIKE,
+            UnlockActives.MELON,  UnlockActives.MISSILE_POD, UnlockActives.NAUTICAL_MINE, UnlockActives.ORBITAL_SHIELD,
+            UnlockActives.PLUS_MINUS, UnlockActives.PROXIMITY_MINE, UnlockActives.SPIRIT_RELEASE, UnlockActives.TAINTED_WATER};
 
     /**
      * This returns a random active item out of the items available to bots.
@@ -453,32 +454,39 @@ public class BotLoadoutProcessor {
     }
 
     private static final float healThreshold = 0.8f;
-
     /**
      * This processes the bot's active item
      * @param player: the bot using the active item
      * @param weapon: the item being used
      * @param shooting: whether the bot's target is in sight or not
      */
-    public static void processActiveItem(PlayerBot player, ActiveItem weapon, boolean shooting) {
+    public static void processActiveItem(PlayerBot player, ActiveItem weapon, boolean shooting, float distanceSquared) {
         switch (Objects.requireNonNull(UnlockActives.getUnlockFromActive(weapon.getClass()))) {
             case HEALING_FIELD, MELON:
                 if (player.getPlayerData().getCurrentHp() < player.getPlayerData().getStat(Stats.MAX_HP) * healThreshold
-                        && weapon.chargePercent() >= 1.0f) {
+                        && weapon.isUsable()) {
                     player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
                 } else {
                     player.getController().keyUp(PlayerAction.ACTIVE_ITEM);
                 }
                 break;
             case SUPPLY_DROP, PROXIMITY_MINE:
-                if (weapon.chargePercent() >= 1.0f) {
+                if (weapon.isUsable()) {
+                    player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
+                } else {
+                    player.getController().keyUp(PlayerAction.ACTIVE_ITEM);
+                }
+                break;
+            case JUMP_KICK, MARINE_SNOWGLOBE, ORBITAL_SHIELD, PLUS_MINUS, TAINTED_WATER:
+                if (weapon.isUsable() && distanceSquared > 0.0f &&
+                        distanceSquared < weapon.getBotRangeMin() * weapon.getBotRangeMin()) {
                     player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
                 } else {
                     player.getController().keyUp(PlayerAction.ACTIVE_ITEM);
                 }
                 break;
             default:
-                if (shooting && weapon.chargePercent() >= 1.0f) {
+                if (shooting && weapon.isUsable()) {
                     player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
                 } else {
                     player.getController().keyUp(PlayerAction.ACTIVE_ITEM);

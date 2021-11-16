@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
@@ -337,6 +338,11 @@ public class BotManager {
             }, sourceLocation, endLocation);
         }
         return shortestFraction;
+    }
+
+    public static RallyPath getPathToRandomPoint(World world, Vector2 playerLocation, Vector2 playerVelocity) {
+        RallyPoint point = (RallyPoint) rallyPoints.values().toArray()[MathUtils.random(rallyPoints.size() - 1)];
+        return getShortestPathBetweenLocations(world, playerLocation, point.getPosition(), playerVelocity);
     }
 
     /**
