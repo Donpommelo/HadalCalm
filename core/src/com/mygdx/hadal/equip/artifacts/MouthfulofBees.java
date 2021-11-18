@@ -25,15 +25,12 @@ public class MouthfulofBees extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new Status(state, b) {
 			
-			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-				
 				if (damage > 0) {
 					WeaponUtils.createBees(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(),
 						(int) (damage / damagePerBee), homeRadius, new Vector2(0, beeSpeed), false, inflicted.getSchmuck().getHitboxfilter());
 				}
-
 				return damage;
 			}
 			

@@ -24,7 +24,6 @@ public class Kineater extends Artifact {
 			@Override
 			public void afterBossSpawn(Enemy boss) { 
 				SoundEffect.MAGIC27_EVIL.playUniversal(state, boss.getPixelPosition(), 1.0f, false);
-
 				boss.getBodyData().setCurrentHp(boss.getBodyData().getCurrentHp() * (1.0f - hpDrainPercent));
 			}
 		};

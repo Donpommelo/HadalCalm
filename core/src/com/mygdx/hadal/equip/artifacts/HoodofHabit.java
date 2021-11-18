@@ -13,7 +13,7 @@ public class HoodofHabit extends Artifact {
 	private static final int slotCost = 1;
 	
 	private static final float hpThreshold = 0.5f;
-	private static final float invisDuration = 8.0f;
+	private static final float invisDuration = 10.0f;
 	
 	private static final float procCd = 1.0f;
 	

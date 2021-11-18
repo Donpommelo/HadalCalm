@@ -31,7 +31,6 @@ public class CelestialAnointment extends Artifact {
 			private boolean echoing = false;
 			private ActiveItem item;
 			private float delay;
-			
 			@Override
 			public void timePassing(float delta) {
 				if (echoing) {

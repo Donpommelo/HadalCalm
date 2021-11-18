@@ -10,7 +10,7 @@ public class DasBoot extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
-	private static final float res = 0.4f;
+	private static final float res = 0.55f;
 	
 	public DasBoot() {
 		super(slotCost, statusNum);

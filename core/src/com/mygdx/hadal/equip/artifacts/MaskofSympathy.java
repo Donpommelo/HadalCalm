@@ -23,9 +23,8 @@ public class MaskofSympathy extends Artifact {
 
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-
-				if (!perp.equals(inflicted) && damage > 0 && perp instanceof PlayerBodyData) {
-					((PlayerBodyData) perp).fuelSpend(damage * amount);
+				if (!perp.equals(inflicted) && damage > 0 && perp instanceof PlayerBodyData playerData) {
+					playerData.fuelSpend(damage * amount);
 				}
 				return damage;
 			}

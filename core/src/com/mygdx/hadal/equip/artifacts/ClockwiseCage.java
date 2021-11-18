@@ -23,12 +23,10 @@ public class ClockwiseCage extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount = procCd;
-			
 			private boolean echoing;
 			private float echoCdCount;
 			private Equippable echoTool;
 			private final Vector2 angle = new Vector2();
-			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {

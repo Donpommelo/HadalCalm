@@ -53,8 +53,8 @@
 },
 "AMDAHLS_LOTUS": {
 	"name": "Amdahl's Lotus",
-	"description": "+Damage and Fuel Regeneration when Match Timer is low",
-    "descriptionLong": "Timer Threshold: 20% Max Timer\nBonus Damage: +40%\nFuel Regeneration: +8 per Second\n\nAn immaculate blossom that unfurls during pivotal moments of conflict\n\nRepresenting Upper Management, the lotus conferred upon its bearer the duty of conveying to humanity: commands, responses and eventually, apologies.",
+	"description": "+Hp and Fuel Regeneration when Match Timer is low",
+    "descriptionLong": "Timer Threshold: 20% Max Timer\nHp Regeneration: +30 per Second\nFuel Regeneration: +15 per Second\n\nAn immaculate blossom that unfurls during pivotal moments of conflict\n\nRepresenting Upper Management, the lotus conferred upon its bearer the duty of conveying to humanity: commands, responses and eventually, apologies.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -105,7 +105,7 @@
 "BACKPACK_BUDDY": {
 	"name": "Backpack Buddy",
 	"description": "+Artifact Slot, -Max Hp",
-    "descriptionLong": "Max Hp Reduction: -25%\n\nA sodden doll once occupying a child's backpack\n\nWhile some Sunk cling to relics of their former lives, they inevitably reach their final destinations empty-handed.",
+    "descriptionLong": "Max Hp Reduction: -25%\n\nA sodden doll that once occupied a child's backpack\n\nWhile some Sunk cling to relics of their former lives, they inevitably reach their final destinations empty-handed.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -114,8 +114,8 @@
 },
 "BENTHIC_DESIRES": {
 	"name": "Benthic Desires",
-	"description": "Regenerate Hp and Fuel when not moving",
-    "descriptionLong": "Hp Regeneration: 7 per Second\nFuel Regeneration: 14 per Second\n\nAn individual's oneness with the unchanging Earth\n\nThe Stagnation that muddies the firmament at the bottom of the world is derived from the collective desires of the fearful and the weary.",
+	"description": "Regenerate Fuel when not moving, In Multiplayer, also Regenerate Hp",
+    "descriptionLong": "Hp Regeneration: 9 per Second\nFuel Regeneration: 14 per Second\n\nAn individual's oneness with the unchanging Earth\n\nThe Stagnation that muddies the firmament at the bottom of the world is derived from the collective desires of the fearful and the weary.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -127,7 +127,7 @@
 "BLASTEMA": {
 	"name": "Blastema",
 	"description": "Temporarily Boosts Hp Regeneration upon Receiving Damage",
-    "descriptionLong": "Regen Duration: 5 Seconds\nRegen: 2 per Second\n\nA cluster of self-replicating cells used to regrow damaged tissue\n\nFew products leave the shelves of the Sunk Emporium as quickly as locally-grown spare limbs of all shapes and sizes.",
+    "descriptionLong": "Regen Duration: 5 Seconds\nRegen: 2% Max Hp per Second\n\nA cluster of self-replicating cells used to regrow damaged tissue\n\nFew products leave the shelves of the Sunk Emporium as quickly as locally-grown spare limbs of all shapes and sizes.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -148,7 +148,7 @@
 "BOOK_OF_BURIAL": {
 	"name": "Book of Burial",
 	"description": "Drop a Mine Upon Receiving Damage",
-    "descriptionLong": "Mine Cooldown: 7.5 Seconds\nPrime Delay: 2 Seconds\nMine Damage: 50\n\nA collection of teachings regarding the sending off of the deceased\n\nThe knowledge and languages of the Sunk conclude within the Pit of Tongues where they serve as sustenance for things burrowed within the sediment.",
+    "descriptionLong": "Mine Cooldown: 7.5 Seconds\nPrime Delay: 2 Seconds\nMine Damage: 60\n\nA collection of teachings regarding the sending off of the deceased\n\nThe knowledge and languages of the Sunk conclude within the Pit of Tongues where they serve as sustenance for things burrowed within the sediment.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -226,7 +226,7 @@
 "CASTAWAYS_TRAVELOGUE": {
 	"name": "Castaway's Travelogue",
 	"description": "Restores Fuel Upon Running out of Fuel",
-    "descriptionLong": "Fuel Cooldown: 10s\nFuel Regen: +25.\n\nA largely uneventful diary of someone lost at sea\n\nThere is little room for castaways to float in the ever dwindling space above this ocean, yet beneath the next one.",
+    "descriptionLong": "Fuel Cooldown: 10s\nFuel Regen: +50\n\nA largely uneventful diary of someone lost at sea\n\nThere is little room for castaways to float in the ever dwindling space above this ocean, yet beneath the next one.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -236,7 +236,7 @@
 "CATALOG_OF_WANT": {
 	"name": "Catalog of Want",
 	"description": "Spend Hp to use Uncharged Actives",
-    "descriptionLong": "Cooldown: 2 Seconds\nHp Cost: 5 Hp per 1 Second Charge\n\nThe last edition of a demonic shopping catalog that has ceased publication\n\nThe unrequited desires of the drowned are memorialized but not satisfied within the annals of the Pit of Tongues.",
+    "descriptionLong": "Cooldown: 2 Seconds\nHp Cost: 4 Hp per 1 Second Charge\n\nThe last edition of a demonic shopping catalog that has ceased publication\n\nThe unrequited desires of the drowned are memorialized but not satisfied within the annals of the Pit of Tongues.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -256,7 +256,7 @@
 "CHAOS_CONJURANT": {
 	"name": "Chaos Conjurant",
 	"description": "Summon Meteors upon Receiving Damage",
-    "descriptionLong": "Meteor Cooldown: 5 Seconds\nMeteor Number: 5\nMeteor Damage: 24\n\nA reagent of newly-formed and disorderly energy\n\nManagement has long sought communion with inexplicable forces in the hopes of defying the natural order that has consigned the world to stagnation.",
+    "descriptionLong": "Meteor Cooldown: 5 Seconds\nMeteor Number: 5\nMeteor Damage: 28\n\nA reagent of newly-formed and disorderly energy\n\nManagement has long sought communion with inexplicable forces in the hopes of defying the natural order that has consigned the world to stagnation.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -318,8 +318,8 @@
 },
 "CONFIDENCE": {
 	"name": "Confidence",
-	"description": "+Damage at Max Hp",
-    "descriptionLong": "Bonus Damage: +50%\n\nThe fragile and fleeting feeling that everything will be alright\n\n\"Have faith that this whole ordeal will either hurt very little or very briefly.\"",
+	"description": "+Damage at High Hp",
+    "descriptionLong": "Hp Threshold: 90%\n\nBonus Damage: +50%\n\nThe fragile and fleeting feeling that everything will be alright\n\n\"Have faith that this whole ordeal will either hurt very little or very briefly.\"",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -330,7 +330,7 @@
 "CROWN_OF_THORNS": {
 	"name": "Crown of Thorns",
 	"description": "Drop Thorns upon Receiving Damage",
-    "descriptionLong": "Thorns Cooldown: 1 Second\nThorns Number: 6\nThorns Damage: 24\n\nThe body of a spiky echinoderm that doubles as protective headgear\n\nOf all impulses retained by Sunk things, the most common is the simple desire to not be touched.",
+    "descriptionLong": "Thorns Cooldown: 0.6 Second\nThorns Number: 6\nThorns Damage: 24\n\nThe body of a spiky echinoderm that doubles as protective headgear\n\nOf all impulses retained by Sunk things, the most common is the simple desire to not be touched.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -361,7 +361,7 @@
 "DAS_BOOT": {
 	"name": "Das Boot",
 	"description": "+Damage Resistance While Reloading",
-    "descriptionLong": "Reloading Damage Resistance: +40%\n\nA metal shoe complete with a dorsal periscope\n\nHumanity's countless attempts to breach the abyss have recently become less about curiosity and more about necessity.",
+    "descriptionLong": "Reloading Damage Resistance: +55%\n\nA metal shoe complete with a dorsal periscope\n\nHumanity's countless attempts to breach the abyss have recently become less about curiosity and more about necessity.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -371,7 +371,7 @@
 "DAY_AT_THE_FAIR": {
 	"name": "Day at the Fair",
 	"description": "+Max Hp, -Knockback Resistance",
-    "descriptionLong": "Max Hp: +35%\nKnockback Resistance: -150%\n\nSome mirthful fairgrounds reflected in a handful of colorful balloons\n\nLike all things that hold particular value, the childhood memories of the departed are delivered to the Sunk Emporium to be packaged for resale.",
+    "descriptionLong": "Max Hp: +45%\nKnockback Resistance: -175%\n\nSome mirthful fairgrounds reflected in a handful of colorful balloons\n\nLike all things that hold particular value, the childhood memories of the departed are delivered to the Sunk Emporium to be packaged for resale.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -392,7 +392,7 @@
 "DEPLORABLE_APPARATUS": {
 	"name": "Deplorable Apparatus",
 	"description": "-Max Hp, +Hp Regen",
-    "descriptionLong": "Max Hp Reduction: -40%\nHp Regeneration: 12 per Second\nUpon Receiving Damage, Cancel Regen for 1s\n\nA rusty, surgically-attached life granting machine\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself.",
+    "descriptionLong": "Max Hp Reduction: -40%\nHp Regeneration: 13 per Second\nUpon Receiving Damage, Cancel Regen for 1s\n\nA rusty, surgically-attached life granting machine\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -403,7 +403,7 @@
 "DIATOMACEOUS_EARTH": {
 	"name": "Diatomaceous Earth",
 	"description": "Temporarily boosts Damage Resistance and Knockback Resistance upon using Active Item",
-    "descriptionLong": "Buff Duration: 25% of Charge Time\nDamage Resistance: +60%\nKnockback Resistance: +90%\n\nThe powdery remains of countless microscopic Bright Ones\n\nWhile not as luminous as a living specimen, the husks left behind by dead or transcendent Bright Ones are known to have enigmatic properties of their own.",
+    "descriptionLong": "Buff Duration: 40% of Charge Time\nDamage Resistance: +60%\nKnockback Resistance: +90%\n\nThe powdery remains of countless microscopic Bright Ones\n\nWhile not as luminous as a living specimen, the husks left behind by dead or transcendent Bright Ones are known to have enigmatic properties of their own.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -423,7 +423,7 @@
 "EMAUDELINES_PRISM": {
 	"name": "Emaudeline's Prism",
 	"description": "Projectile Split-Shot, -Attack Speed, -Reload Speed",
-    "descriptionLong": "Ranged Attack Speed Reduction: -60%\nReload Speed Reduction: -40%\n\nA transparent prism that splits light into an incomplete rainbow\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light.",
+    "descriptionLong": "Ranged Attack Speed Reduction: -75%\nReload Speed Reduction: -50%\n\nA transparent prism that splits light into an incomplete rainbow\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -517,7 +517,7 @@
 "FRACTURE_PLATE": {
 	"name": "Fracture Plate",
 	"description": "Periodically gain a Damage Blocking Shield",
-    "descriptionLong": "Shield Cooldown: 4 Seconds Without Receiving Damage\n\nShield Damage Block: 20\n\nA calcified plate consisting of several nondescript bones fused together\n\nThe deepest layers of the ocean are reserved for those who shouldered the heaviest burdens in life.",
+    "descriptionLong": "Shield Cooldown: 4 Seconds Without Receiving Damage\n\nShield Damage Block: 20% Max Hp\n\nA calcified plate consisting of several nondescript bones fused together\n\nThe deepest layers of the ocean are reserved for those who shouldered the heaviest burdens in life.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -589,7 +589,7 @@
 "HOOD_OF_HABIT": {
 	"name": "Hood of Habit",
 	"description": "Become Invisible upon Receiving Critical Damage",
-    "descriptionLong": "Hp Threshold: 50% Max Hp\nInvisibility Duration: 8 Seconds\n\nA ragged hood saturated with the stench of smoke\n\nMuch to the chagrin of its residents, the Noiseless Sea has never kicked its addiction to cyclical destruction and rebirth.",
+    "descriptionLong": "Hp Threshold: 50% Max Hp\nInvisibility Duration: 10 Seconds\n\nA ragged hood saturated with the stench of smoke\n\nMuch to the chagrin of its residents, the Noiseless Sea has never kicked its addiction to cyclical destruction and rebirth.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -887,7 +887,7 @@
 "NURDLER": {
 	"name": "Nurdler",
 	"description": "Fire Pellets When Attacking",
-    "descriptionLong": "Nurdler Interval: 0.2 Second\nNurdler Damage: 12\n\nA handful of hardened, plastic pellets, byproduct of some long-lost industry\n\nThrough inconspicuousness, items of extreme worthlessness can sometimes evade the grinding blades of the Kamaboko-Ya.",
+    "descriptionLong": "Nurdler Interval: 0.2 Second\nNurdler Damage: 15\n\nA handful of hardened, plastic pellets, byproduct of some long-lost industry\n\nThrough inconspicuousness, items of extreme worthlessness can sometimes evade the grinding blades of the Kamaboko-Ya.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -971,7 +971,7 @@
 "PEPPER": {
 	"name": "Pepper",
 	"description": "Damages Nearby Enemies",
-    "descriptionLong": "Damage Interval: 1.5 Seconds\nDamage: 6\n\nA blurry cloud of white noise vaguely in the shape of a cat\n\nBright Ones can take a variety of forms, from colossal stars to the slight blurriness in the corner of your eye.",
+    "descriptionLong": "Damage Interval: 1.5 Seconds\nDamage: 8\n\nA blurry cloud of white noise vaguely in the shape of a cat\n\nBright Ones can take a variety of forms, from colossal stars to the slight blurriness in the corner of your eye.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -1002,8 +1002,8 @@
 },
 "PLUMPOWDER": {
 	"name": "Plumpowder",
-	"description": "Active Items are Charged upon Spawning",
-    "descriptionLong": "Starting Charge: 80%\n\nA satchel of sweet and acidic crystals\n\nThe taste is better when you have less of it than you want.",
+	"description": "Active Items are Fully Charged upon Spawning",
+    "descriptionLong": "A satchel of sweet and acidic crystals\n\nThe taste is better when you have less of it than you want.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -1062,7 +1062,7 @@
 "SAMURAI_SHARK": {
 	"name": "Samurai Shark",
 	"description": "Critical Projectiles",
-    "descriptionLong": "Crit Chance: 10%\nCrit Damage: +50%\nCrit Projectile Speed: +100%\n\nThe ultimate sharpening tool that puts a razor edge on dull blades\n\nThe secret is the tungsten-carbide blades along with a unique angle that gives you a precision edge each and every time.",
+    "descriptionLong": "Crit Chance: 10%\nCrit Damage: +75%\nCrit Projectile Speed: +100%\n\nThe ultimate sharpening tool that puts a razor edge on dull blades\n\nThe secret is the tungsten-carbide blades along with a unique angle that gives you a precision edge each and every time.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -1072,7 +1072,7 @@
 },
 "SEAFOAM_PERIAPT": {
 	"name": "Seafoam Periapt",
-	"description": "+Attack Speed, Antigravity Projectiles",
+	"description": "+Attack Speed, +Reload Speed, Antigravity Projectiles",
     "descriptionLong": "Bonus Reload Speed: +20%\nBonus Ranged Attack Speed: +20%\n\nA porous charm infused with an uplifting froth\n\nNot even the body of the Whale-God, Callo, could contain the knowledge imparted by the First Bright One and, gradually, the excess drifted away as seafoam.",
 	"tags": [
 		"RELIQUARY",
@@ -1095,7 +1095,7 @@
 "SHILLERS_DEATHCAP": {
 	"name": "Shiller's Deathcap",
 	"description": "Projectile Poison Trail",
-    "descriptionLong": "Poison Cooldown: 1 Second\nPoison Damage: 10 Per Second\n\nA tangled fungal protrusion still producing clumps of unsavory spores\n\nBoth Bright Ones and those that congregate in their shadows share the desire for self-propagation.",
+    "descriptionLong": "Poison Cooldown: 1 Second\nPoison Damage: 15 Per Second\n\nA tangled fungal protrusion still producing clumps of unsavory spores\n\nBoth Bright Ones and those that congregate in their shadows share the desire for self-propagation.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -1105,8 +1105,8 @@
 },
 "SHIP_IN_A_BOTTLE": {
 	"name": "Ship in a Bottle",
-	"description": "+Ammo Capacity",
-    "descriptionLong": "Bonus Ammo: +50%\n\nAn intricate model galleon inside of a glass bottle\n\nWe require a million little hands to construct the ship and a single big one to break the bottle.",
+	"description": "+Ammo Capacity, +Reload Speed",
+    "descriptionLong": "Bonus Ammo: +50%\n\nBonus Reload Speed: +15%\n\nAn intricate model galleon inside of a glass bottle\n\nWe require a million little hands to construct the ship and a single big one to break the bottle.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",

@@ -36,7 +36,6 @@ public class RoyalJujubeBang extends Artifact {
 					boost = distDamageBoost;
 					new ParticleEntity(state, vic.getSchmuck(), Particle.EXPLOSION, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
 				}
-
 				return damage * boost;
 			}
 		};

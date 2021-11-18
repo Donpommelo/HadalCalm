@@ -14,7 +14,7 @@ public class Pepper extends Artifact {
 	private static final int slotCost = 1;
 	
 	private static final float radius = 10.0f;
-	private static final float damage = 6.0f;
+	private static final float damage = 8.0f;
 	private static final float particleDuration = 1.0f;
 	
 	private static final float procCd = 1.5f;
@@ -38,10 +38,10 @@ public class Pepper extends Artifact {
 					procCdCount -= procCd;
 					entityLocation.set(inflicted.getSchmuck().getPosition());
 					state.getWorld().QueryAABB(fixture -> {
-						if (fixture.getUserData() instanceof BodyData) {
-							if (((BodyData) fixture.getUserData()).getSchmuck().getHitboxfilter() != inflicted.getSchmuck().getHitboxfilter()) {
-								((BodyData) fixture.getUserData()).receiveDamage(damage, new Vector2(0, 0), inflicted, true);
-								new ParticleEntity(state, ((BodyData) fixture.getUserData()).getSchmuck(), Particle.LIGHTNING, 1.0f, particleDuration, true, particleSyncType.CREATESYNC);
+						if (fixture.getUserData() instanceof BodyData bodyData) {
+							if (bodyData.getSchmuck().getHitboxfilter() != inflicted.getSchmuck().getHitboxfilter()) {
+								bodyData.receiveDamage(damage, new Vector2(0, 0), inflicted, true);
+								new ParticleEntity(state, bodyData.getSchmuck(), Particle.LIGHTNING, 1.0f, particleDuration, true, particleSyncType.CREATESYNC);
 							}
 						}
 						return true;

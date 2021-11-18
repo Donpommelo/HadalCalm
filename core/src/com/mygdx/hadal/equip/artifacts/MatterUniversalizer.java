@@ -29,12 +29,10 @@ public class MatterUniversalizer extends Artifact {
 			@Override
 			public void onKill(BodyData vic) {
 				SoundEffect.MAGIC2_FUEL.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
-
 				new ParticleEntity(state, inflicted.getSchmuck(), Particle.PICKUP_ENERGY, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
 				
 				if (vic instanceof PlayerBodyData) {
 					((PlayerBodyData) inflicted).fuelGain(amountPlayer);
-
 				} else {
 					((PlayerBodyData) inflicted).fuelGain(amountEnemy);
 				}

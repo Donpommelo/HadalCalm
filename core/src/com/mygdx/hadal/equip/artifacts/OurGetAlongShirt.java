@@ -70,9 +70,9 @@ public class OurGetAlongShirt extends Artifact {
 						
 						entityLocation.set(inflicted.getSchmuck().getPosition());
 						state.getWorld().QueryAABB(fixture -> {
-							if (fixture.getUserData() instanceof BodyData) {
+							if (fixture.getUserData() instanceof BodyData bodyData) {
 
-								homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
+								homeAttempt = bodyData.getSchmuck();
 								homeLocation.set(homeAttempt.getPosition());
 								shortestFraction = 1.0f;
 
@@ -96,8 +96,8 @@ public class OurGetAlongShirt extends Artifact {
 									  }, inflicted.getSchmuck().getPosition(), homeLocation);
 
 									  if (closestFixture != null) {
-										if (closestFixture.getUserData() instanceof BodyData) {
-											attach(((BodyData) closestFixture.getUserData()).getSchmuck());
+										if (closestFixture.getUserData() instanceof BodyData closestData) {
+											attach(closestData.getSchmuck());
 										}
 									}
 								  }

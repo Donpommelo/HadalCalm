@@ -19,8 +19,7 @@ public class MachineGhost extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new Status(state, b) {
+		enchantment[0] = new StatusComposite(state, b, new Status(state, b) {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
@@ -28,7 +27,6 @@ public class MachineGhost extends Artifact {
 				hbox.setSensor(true);
 			}
 		});
-		
 		return enchantment;
 	}
 }

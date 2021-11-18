@@ -23,8 +23,8 @@ public class PainScale extends Artifact {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-				if (inflicted instanceof PlayerBodyData && damage > 0) {
-					((PlayerBodyData) inflicted).getActiveItem().gainCharge(damage * amount);
+				if (inflicted instanceof PlayerBodyData playerData && damage > 0) {
+					playerData.getActiveItem().gainCharge(damage * amount);
 				}
 				return damage;
 			}

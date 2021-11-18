@@ -27,7 +27,6 @@ public class VolatileDermis extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount = procCd;
-			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {

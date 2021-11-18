@@ -23,7 +23,6 @@ public class LoamskinLocket extends Artifact {
 			
 			private float previousHealth;
 			private boolean activated = false;
-			
 			@Override
 			public void onInflict() {
 				previousHealth = inflicted.getCurrentHp();

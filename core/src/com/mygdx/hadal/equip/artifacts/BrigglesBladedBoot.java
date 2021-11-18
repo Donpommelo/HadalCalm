@@ -37,7 +37,6 @@ public class BrigglesBladedBoot extends Artifact {
 			
 			private Hitbox hbox;
 			private boolean created;
-			
 			@Override
 			public void onRemove() {
 				if (hbox != null) {
@@ -47,8 +46,7 @@ public class BrigglesBladedBoot extends Artifact {
 					created = false;
 				}
 			}
-			
-			
+
 			@Override
 			public void timePassing(float delta) {
 				if (!created) {

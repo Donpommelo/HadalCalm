@@ -16,7 +16,7 @@ public class ChaosConjurant extends Artifact {
 
 	private static final float procCd = 5.0f;
 	
-	private static final float baseDamage = 24.0f;
+	private static final float baseDamage = 28.0f;
 	private static final float knockback = 6.0f;
 	
 	private static final float meteorDuration = 1.0f;
@@ -46,10 +46,8 @@ public class ChaosConjurant extends Artifact {
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount = 0;
 					new ParticleEntity(state, inflicted.getSchmuck(), Particle.RING, 1.0f, meteorDuration, true, particleSyncType.CREATESYNC).setScale(0.4f);
-
 					WeaponUtils.createMeteors(state, inflicted.getSchmuck().getPosition(), inflicted.getSchmuck(), meteorDuration, meteorInterval, spread, baseDamage, knockback);
 				}
-				
 				return damage;
 			}
 		};

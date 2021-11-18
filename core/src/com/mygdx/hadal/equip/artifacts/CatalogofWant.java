@@ -11,7 +11,7 @@ public class CatalogofWant extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
-	private static final float hpConversion = 5.0f;
+	private static final float hpConversion = 4.0f;
 
 	private static final float procCd = 2.0f;
 

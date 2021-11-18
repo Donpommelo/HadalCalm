@@ -28,7 +28,6 @@ public class OlFaithful extends Artifact {
 				new StatChangeStatus(state, Stats.AMMO_CAPACITY, bonusAmmo, b),
 				new StatChangeStatus(state, Stats.DAMAGE_AMP, bonusDamage, b),
 				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, b));
-		
 		return enchantment;
 	}
 }

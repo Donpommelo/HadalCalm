@@ -17,7 +17,7 @@ public class CastawaysTravelogue extends Artifact {
 	private static final float fuelDuration = 1.0f;
 	private static final float fuelThreshold = 4.0f;
 
-	private static final float procCd = 10.0f;
+	private static final float procCd = 7.5f;
 	
 	public CastawaysTravelogue() {
 		super(slotCost, statusNum);

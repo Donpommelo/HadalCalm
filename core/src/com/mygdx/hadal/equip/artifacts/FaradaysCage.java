@@ -23,14 +23,14 @@ public class FaradaysCage extends Artifact {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {				
-				if (inflicted instanceof PlayerBodyData && damage > 0) {
+				if (inflicted instanceof PlayerBodyData playerData && damage > 0) {
 					float amountReduced = damage * amount;
 					if (inflicted.getCurrentFuel() >= amountReduced) {
-						((PlayerBodyData) inflicted).fuelSpend(amountReduced);
+						playerData.fuelSpend(amountReduced);
 						return damage - amountReduced;
 					} else {
 						float newDamage = damage - inflicted.getCurrentFuel();
-						((PlayerBodyData) inflicted).fuelSpend(inflicted.getCurrentFuel());
+						playerData.fuelSpend(inflicted.getCurrentFuel());
 						return newDamage;
 					}
 				}

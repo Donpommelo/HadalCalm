@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="44">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="74">
  <layer id="1" name="Tile Layer 1" width="180" height="120">
   <data encoding="base64" compression="zlib">
    eAHt0AENAAAAwqD3T20PBxEoDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMDA/8AAUY8AAQ==
@@ -8,6 +8,89 @@
  <imagelayer id="2" name="Image Layer 1">
   <image source="../Images/little_bittern.jpg" width="5184" height="3456"/>
  </imagelayer>
+ <objectgroup id="7" name="bot-layer">
+  <object id="44" name="BotPoint" type="BotPoint" x="152" y="64">
+   <polyline points="104,0 -120,0"/>
+  </object>
+  <object id="45" name="BotPoint" type="BotPoint" x="264" y="64">
+   <polyline points="216,160 -8,0"/>
+  </object>
+  <object id="46" name="BotPoint" type="BotPoint" x="584" y="224">
+   <polyline points="120,128 -104,0"/>
+  </object>
+  <object id="47" name="BotPoint" type="BotPoint" x="840" y="288">
+   <polyline points="88,64 -136,64"/>
+  </object>
+  <object id="48" name="BotPoint" type="BotPoint" x="1064" y="384">
+   <polyline points="56,96 -136,-32"/>
+  </object>
+  <object id="49" name="BotPoint" type="BotPoint" x="1224" y="512">
+   <polyline points="24,192 -104,-32"/>
+  </object>
+  <object id="50" name="BotPoint" type="BotPoint" x="1384" y="672">
+   <polyline points="56,192 -136,32"/>
+  </object>
+  <object id="51" name="BotPoint" type="BotPoint" x="1448" y="992">
+   <polyline points="-8,-128 -8,288"/>
+  </object>
+  <object id="52" name="BotPoint" type="BotPoint" x="1320" y="1216">
+   <polyline points="120,64 -264,32"/>
+  </object>
+  <object id="53" name="BotPoint" type="BotPoint" x="1032" y="1216">
+   <polyline points="24,32 -360,0"/>
+  </object>
+  <object id="54" name="BotPoint" type="BotPoint" x="488" y="1216">
+   <polyline points="184,0 -424,0"/>
+  </object>
+  <object id="55" name="BotPoint" type="BotPoint" x="1736" y="1088">
+   <polyline points="184,224 -296,192"/>
+  </object>
+  <object id="56" name="BotPoint" type="BotPoint" x="2152" y="1312">
+   <polyline points="344,64 -232,0"/>
+  </object>
+  <object id="57" name="BotPoint" type="BotPoint" x="2600" y="1344">
+   <polyline points="216,0 -104,32"/>
+  </object>
+  <object id="58" name="BotPoint" type="BotPoint" x="2984" y="1280">
+   <polyline points="120,64 -168,64"/>
+  </object>
+  <object id="59" name="BotPoint" type="BotPoint" x="3272" y="1344">
+   <polyline points="120,-96 -168,0"/>
+  </object>
+  <object id="60" name="BotPoint" type="BotPoint" x="3496" y="1088">
+   <polyline points="248,160 -104,160"/>
+  </object>
+  <object id="61" name="BotPoint" type="BotPoint" x="3784" y="1152">
+   <polyline points="440,-192 88,-192"/>
+  </object>
+  <object id="62" name="BotPoint" type="BotPoint" x="3848" y="1024">
+   <polyline points="24,-64 -104,224"/>
+  </object>
+  <object id="63" name="BotPoint" type="BotPoint" x="3912" y="1248">
+   <polyline points="312,288 -40,288"/>
+  </object>
+  <object id="64" name="BotPoint" type="BotPoint" x="4168" y="1472">
+   <polyline points="-296,64 -424,-224"/>
+  </object>
+  <object id="65" name="BotPoint" type="BotPoint" x="3592" y="1504">
+   <polyline points="-232,64 -488,-160"/>
+  </object>
+  <object id="66" name="BotPoint" type="BotPoint" x="3496" y="1536">
+   <polyline points="-104,288 -136,32"/>
+  </object>
+  <object id="67" name="BotPoint" type="BotPoint" x="3432" y="1792">
+   <polyline points="792,320 440,320"/>
+  </object>
+  <object id="68" name="BotPoint" type="BotPoint" x="3656" y="1792">
+   <polyline points="88,32 -264,32"/>
+  </object>
+  <object id="69" name="BotPoint" type="BotPoint" x="3784" y="2080">
+   <polyline points="88,32 -40,-256"/>
+  </object>
+  <object id="70" name="BotPoint" type="BotPoint" x="3848" y="1952">
+   <polyline points="24,-416 -104,-128"/>
+  </object>
+ </objectgroup>
  <objectgroup id="3" name="collision-layer">
   <object id="1" x="0" y="0">
    <polyline points="0,0 4640,0 4640,3456 2967,3455.33 2963.33,3333.67 2949.67,3206.67 2944.67,3163.67 2952.33,3061.67 2946,2964.33 2930,2770.67 2922.33,2669.33 2920.67,2625.33 2911,2609.33 2915.67,2513.33 2913,2494.33 2914,2264.33 2914.67,2149.67 2907.33,2130.33 2902.67,2036.33 2894.67,2004 2900.67,1928 2906.67,1910.67 2913.33,1935.33 2922.33,1953.67 2932.33,1942 2924.33,1895 2914,1885.67 2913.33,1869 2919,1864 2913,1852.67 2900,1802.33 2891.33,1797.33 2893,1786 2885.33,1764.67 2870,1768.67 2856,1738.33 2816.33,1671.67 2844.33,1658.67 2909.33,1645.67 3010.67,1603 3048,1582 3079,1553.67 3080.67,1545 3159.67,1535.33 3221.33,1556.33 3317.67,1599.67 3314.67,1611.33 3322.67,1615 3331,1609 3330.67,1602.67 3325,1588 3292.67,1554 3238,1509.67 3196.33,1479.33 3196.33,1461 3181,1433.33 3156,1409.67 3117.67,1389.67 3076.67,1379 3044.33,1372 3002,1369.33 2939,1370 2909.67,1369.67 2856,1367.33 2794,1368.67 2746.67,1372.67 2693.67,1383 2652.67,1394 2612,1407.67 2580,1421.33 2562,1430.33 2539,1434.33 2525,1445.33 2466.33,1432 2445,1422.33 2354.67,1405.33 2282.67,1393.67 2174,1382.67 2060.67,1376 2023,1373.67 1842.33,1361.67 1792.33,1354.33 1718.67,1356.33 1706.33,1353 1628.33,1354.67 1585.67,1352 1533.67,1338.33 1454,1328.67 1316.33,1319.33 1251.67,1312.67 1222.67,1309.67 1139.67,1303.33 1105.75,1296.75 1007.75,1289.25 975.5,1286.5 893.75,1282 826.75,1275.5 783.5,1269.5 738.5,1269.25 666,1261 600,1259 484.545,1256 459.333,1256.33 452,1262 351.333,1253 218,1245.67 104.5,1240 -0.5,1236.5 1,899.5 17,899.5 2.5,860 1,852 100,861 242,859 284.5,853.5 384.5,815.5 448,823 530.5,786.5 552,783 599,752.5 617,745.5 637.5,727.5 669.5,731 727,713 771,691.5 794.5,727 826,678.5 848.5,722.5 844,742 871,815.5 877.5,807 922,786.5 941.5,758.5 940,724.5 905,682.5 862.5,655 874,651.5 887.5,643.5 884.5,630 900,630.5 915,638.5 919.5,634.5 945.5,637 1020,691.5 1089,722.5 1128,726.5 1176.5,751 1136.5,716 1187.5,734 1234,752.5 1193.5,716.5 1161,677 1120,641 1042,604 1020.5,599.5 991,577.5 923,568.5 886.5,572.5 821.5,560.5 839,548.5 883.5,540 950,558.5 971.5,555.5 1005,569 1033.5,567 1115,584.5 1127,593.5 1091.5,545 1053,515 1001.5,492.5 958.5,490.5 1003,474.5 1032,451.5 1016,451 964,438 923.5,429.5 908,433 903,418 872.5,374 824.5,375.5 747,372.5 708.5,381 661,413.5 644,440 641.5,471 652.5,517.5 609.5,496 632,464 628,441 601,416.5 561,397 543,382.5 511.5,375.5 510.5,316 499,293.5 496,268.5 480.5,279 408,274 375,282 342.5,256 393.5,247.5 420,236 347.5,188 290,175.5 262,175 222.5,161 224,153 245.5,150 258.5,138.5 273.5,134.5 230.5,114.5 173,89.5 142,87.5 93.5,115.5 65,144 56.5,161.5 40,161 49.5,137.5 42,117 16.5,115 1.5,100 0,0"/>
@@ -186,6 +269,7 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
+  <object id="73" name="PickupDelete" type="PickupDelete" x="2944" y="3296" width="1696" height="160"/>
  </objectgroup>
  <objectgroup id="6" name="objective">
   <object id="40" name="ObjectiveSpawn" type="ObjectiveSpawn" x="2880" y="928" width="32" height="32">

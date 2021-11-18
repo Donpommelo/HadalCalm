@@ -75,7 +75,7 @@ public class BotLoadoutProcessor {
                         if (tempPath != null) {
                             if (bestPath[0] != null) {
                                 if (tempPath.getDistance() < bestPath[0].getDistance()) {
-                                    player.getBotController().setMoveTarget(pickup);
+                                    player.getBotController().setWeaponTarget(pickup);
                                     bestPath[0] = tempPath;
                                 }
                             } else {

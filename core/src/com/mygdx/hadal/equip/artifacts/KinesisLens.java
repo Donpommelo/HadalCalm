@@ -31,14 +31,12 @@ public class KinesisLens extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				
-				if (!hbox.isEffectsMovement()) { return; } 
+				if (!hbox.isEffectsMovement()) { return; }
 				
 				hbox.addStrategy(new HomingMouse(state, hbox, inflicted, homePower));
 				hbox.setGravity(0.0f);
 			}
 		});
-		
 		return enchantment;
 	}
 }

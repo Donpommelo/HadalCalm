@@ -14,7 +14,7 @@ public class ShillersDeathcap extends Artifact {
 
 	private static final int poisonRadius = 100;
 	private static final Vector2 poisonSize = new Vector2(100, 100);
-	private static final float poisonDamage = 10 / 60f;
+	private static final float poisonDamage = 15 / 60f;
 	private static final float poisonDuration = 1.0f;
 	private static final float procCd = 1.0f;
 	
@@ -27,7 +27,6 @@ public class ShillersDeathcap extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount = procCd;
-			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {
@@ -37,9 +36,7 @@ public class ShillersDeathcap extends Artifact {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				
-				if (!hbox.isEffectsHit()) { return; } 
-				
+				if (!hbox.isEffectsHit()) { return; }
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					hbox.addStrategy(new PoisonTrail(state, hbox, b, poisonSize, poisonRadius, poisonDamage, poisonDuration, b.getSchmuck().getHitboxfilter()));

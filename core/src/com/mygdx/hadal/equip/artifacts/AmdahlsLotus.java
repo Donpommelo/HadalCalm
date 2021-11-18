@@ -17,8 +17,8 @@ public class AmdahlsLotus extends Artifact {
 
 	private static final float timeThreshold = 0.2f;
 
-	private static final float damageBuff = 0.4f;
-	private static final float fuelRegenBuff = 8.0f;
+	private static final float hpRegenBuff = 30.0f;
+	private static final float fuelRegenBuff = 15.0f;
 
 	public AmdahlsLotus() {
 		super(slotCost, statusNum);
@@ -53,7 +53,7 @@ public class AmdahlsLotus extends Artifact {
 
 				inflicted.addStatus(new StatusComposite(state, state.getUiExtra().getTimer(), false, inflicted, inflicted,
 					new StatChangeStatus(state, Stats.FUEL_REGEN, fuelRegenBuff, inflicted),
-					new StatChangeStatus(state, Stats.DAMAGE_AMP, damageBuff, inflicted)));
+					new StatChangeStatus(state, Stats.HP_REGEN, hpRegenBuff, inflicted)));
 			}
 		};
 		return enchantment;

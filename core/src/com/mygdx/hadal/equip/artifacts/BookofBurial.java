@@ -18,7 +18,7 @@ public class BookofBurial extends Artifact {
 	private static final float projectileSpeed = 60.0f;
 
 	private static final int explosionRadius = 250;
-	private static final float explosionDamage = 50.0f;
+	private static final float explosionDamage = 60.0f;
 	private static final float explosionKnockback = 50.0f;
 
 	private static final float primeDelay = 2.0f;
@@ -34,7 +34,6 @@ public class BookofBurial extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount = procCd;
-			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {

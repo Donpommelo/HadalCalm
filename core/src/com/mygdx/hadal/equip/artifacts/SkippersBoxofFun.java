@@ -33,7 +33,6 @@ public class SkippersBoxofFun extends Artifact {
 				new Status(state, b) {
 			
 			private float procCdCount;
-			
 			@Override
 			public void timePassing(float delta) {
 				

@@ -56,7 +56,6 @@ public class WhiteSmoker extends Artifact {
 				hbox.addStrategy(new CreateParticles(state, hbox, inflicted, Particle.FIRE, 0.0f, 1.0f));
 			}
 		});
-		
 		return enchantment;
 	}
 }

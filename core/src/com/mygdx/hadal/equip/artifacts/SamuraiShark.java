@@ -15,7 +15,7 @@ public class SamuraiShark extends Artifact {
 	private static final int slotCost = 1;
 	
 	private final float critChance = 0.15f;
-	private final float critDamageBoost = 1.5f;
+	private final float critDamageBoost = 1.75f;
 	private final float critSpeedMultiplier = 2.0f;
 	
 	public SamuraiShark() {
@@ -39,7 +39,6 @@ public class SamuraiShark extends Artifact {
 				}
 			}
 		});
-		
 		return enchantment;
 	}
 }

@@ -7,6 +7,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.utils.Stats;
 
 public class FracturePlate extends Artifact {
 
@@ -18,7 +19,7 @@ public class FracturePlate extends Artifact {
 	
 	private static final float particleDura = 1.0f;
 	
-	private static final float maxShield = 20.0f;
+	private static final float maxShield = 0.2f;
 
 	private float shield;
 	
@@ -37,8 +38,8 @@ public class FracturePlate extends Artifact {
 					procCdCount -= delta;
 				}
 				
-				if (procCdCount < 0 && shield != maxShield) {
-					shield = maxShield;
+				if (procCdCount < 0 && shield != maxShield * inflicted.getStat(Stats.MAX_HP)) {
+					shield = maxShield * inflicted.getStat(Stats.MAX_HP);
 					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SHIELD, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
 				}
 			}

@@ -22,11 +22,11 @@ public class Nurdler extends Artifact {
 	
 	private static final float procCd = 0.2f;
 	
-	private static final Vector2 projectileSize = new Vector2(14, 14);
+	private static final Vector2 projectileSize = new Vector2(18, 18);
 	private static final float lifespan = 0.5f;
 	private static final Sprite projSprite = Sprite.ORB_BLUE;
 	
-	private static final float baseDamage = 12.0f;
+	private static final float baseDamage = 15.0f;
 	private static final float knockback = 2.5f;
 	private static final int spread = 30;
 	

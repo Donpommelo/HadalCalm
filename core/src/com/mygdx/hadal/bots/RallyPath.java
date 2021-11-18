@@ -11,6 +11,11 @@ public class RallyPath {
     private final ArrayList<RallyPoint> path = new ArrayList<>();
     private float distance;
 
+    public RallyPath(ArrayList<RallyPoint> path, float distance) {
+        this.path.addAll(path);
+        this.distance = distance;
+    }
+
     public ArrayList<RallyPoint> getPath() { return path; }
 
     public float getDistance() { return distance; }

@@ -63,7 +63,7 @@ public class FlagCapturable extends HitboxStrategy {
 				//if this hbox touches an enemy flag spawn, it is "captured", scoring a point and disappearing
 				if (flag.getTeamIndex() != teamIndex) {
 
-					//iin order to capture, you must have your own flag present.
+					//in order to capture, you must have your own flag present.
 					if (flag.isFlagPresent()) {
 						flag.getEventData().preActivate(null, lastHolder);
 						hbox.die();
@@ -166,4 +166,12 @@ public class FlagCapturable extends HitboxStrategy {
 			state.getKillFeed().addNotification(HText.CTF_DROPPED.text(teamColor), true);
 		}
 	}
+
+	public SpawnerFlag getSpawner() { return spawner; }
+
+	public Player getTarget() { return target; }
+
+	public int getTeamIndex() { return teamIndex; }
+
+	public boolean isCaptured() { return captured; }
 }

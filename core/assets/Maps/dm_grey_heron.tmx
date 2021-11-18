@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="27">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="38">
  <layer id="1" name="Tile Layer 1" width="180" height="120">
   <data encoding="base64" compression="zlib">
    eAHt0AENAAAAwqD3T20PBxEoDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMDA/8AAUY8AAQ==
@@ -8,6 +8,35 @@
  <imagelayer id="2" name="Image Layer 1">
   <image source="../Images/grey_heron.jpg" width="5184" height="3456"/>
  </imagelayer>
+ <objectgroup id="6" name="bot-layer">
+  <object id="27" name="BotPoint" type="BotPoint" x="4040" y="1568">
+   <polyline points="88,96 -680,-128"/>
+  </object>
+  <object id="28" name="BotPoint" type="BotPoint" x="4392" y="1632">
+   <polyline points="-136,160 -264,32"/>
+  </object>
+  <object id="29" name="BotPoint" type="BotPoint" x="2856" y="1088">
+   <polyline points="504,352 -72,192"/>
+  </object>
+  <object id="30" name="BotPoint" type="BotPoint" x="2536" y="960">
+   <polyline points="248,320 -168,96"/>
+  </object>
+  <object id="31" name="BotPoint" type="BotPoint" x="2184" y="896">
+   <polyline points="184,160 -168,128"/>
+  </object>
+  <object id="32" name="BotPoint" type="BotPoint" x="1352" y="928">
+   <polyline points="664,96 408,96"/>
+  </object>
+  <object id="33" name="BotPoint" type="BotPoint" x="1640" y="1056">
+   <polyline points="120,-32 -200,256"/>
+  </object>
+  <object id="34" name="BotPoint" type="BotPoint" x="1384" y="1376">
+   <polyline points="56,-64 -584,768"/>
+  </object>
+  <object id="35" name="BotPoint" type="BotPoint" x="552" y="2016">
+   <polyline points="248,128 120,256"/>
+  </object>
+ </objectgroup>
  <objectgroup id="3" name="collision-layer">
   <object id="2" x="0" y="3456">
    <polyline points="0,0 1450.33,-0.333333 1468.67,-59.6667 1484,-359 1457,-549 1424,-656 1314,-864 1266,-1014 1220,-1166 1209,-1299 1242,-1498 1288,-1655 1344,-1833 1069,-1490 956,-1366 906,-1316 851,-1256 894,-1323 986,-1424 1215,-1706 1370,-1924 1440,-2021 1609,-2220 1738,-2316 1881,-2388 1981,-2396 2088,-2395 2194,-2380 2353,-2336 2492,-2284 2628,-2195 2693,-2165 2731,-2128 3020,-2052 3728,-1878 3961,-1805 4087,-1761 4107,-1749 4110,-1742 4090,-1727 3466,-1724 3239,-1745 2725,-1718 2247,-1681 1966,-1585 1779,-1275 1755,-1141 1783,-1038 1788,-999 1851,-904 1926,-818 1997,-696 2026,-587 2074,-375 2096,-291 2104,-173 2108,-82 2107,-1 5184,0 5184,-3456 0,-3456 0,0"/>
@@ -82,6 +111,7 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
+  <object id="37" name="PickupDelete" type="PickupDelete" x="0" y="3360" width="5184" height="96"/>
  </objectgroup>
  <objectgroup id="5" name="objective">
   <object id="20" name="ObjectiveSpawn" type="ObjectiveSpawn" x="2592" y="320" width="32" height="32">

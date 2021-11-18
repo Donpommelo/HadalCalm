@@ -12,7 +12,7 @@ public class VestigialChamber extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
-	private static final float procCd = 2.0f;
+	private static final float procCd = 1.5f;
 	
 	private static final float reticleSize = 80.0f;
 	private static final float reticleLifespan = 0.75f;
@@ -29,7 +29,6 @@ public class VestigialChamber extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount = procCd;
-			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {
@@ -39,8 +38,7 @@ public class VestigialChamber extends Artifact {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				
-				if (!hbox.isEffectsHit()) { return; } 
+				if (!hbox.isEffectsHit()) { return; }
 				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;

@@ -39,13 +39,11 @@ public class PeachwoodSword extends Artifact {
 							spiritDamageEnemy, spiritKnockback, inflicted, Particle.SHADOW_PATH,
 							inflicted.getSchmuck().getHitboxfilter(), false);
 				}
-				
 			}
 			
 			@Override
 			public void onDeath(BodyData perp) {
 				SoundEffect.DARKNESS2.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.2f, false);
-
 				WeaponUtils.releaseVengefulSpirits(state, inflicted.getSchmuck().getPixelPosition(), spiritLifespan,
 						spiritDamagePlayer, spiritKnockback, inflicted, Particle.SHADOW_PATH,
 						inflicted.getSchmuck().getHitboxfilter(), false);

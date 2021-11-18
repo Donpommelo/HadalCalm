@@ -45,7 +45,7 @@ public class BotController {
     //this is the entity that the bot attempts to shoot at
     private Schmuck shootTarget;
 
-    private HadalEntity moveTarget;
+    private HadalEntity weaponTarget, eventTarget;
 
     private boolean lineOfSight, inRange;
     private float midrangeDifferenceSquare, targetDistanceSquare;
@@ -158,11 +158,21 @@ public class BotController {
         float distSquared = 0.0f;
         float collision = 0.0f;
         boolean approachTarget = false;
-        if (currentMood.equals(BotMood.SEEK_EVENT) || currentMood.equals(BotMood.SEEK_WEAPON)) {
-            if (moveTarget != null) {
-                collision = BotManager.raycastUtility(player.getState().getWorld(), playerLocation, moveTarget.getPosition());
+        if (currentMood.equals(BotMood.SEEK_WEAPON)) {
+            if (weaponTarget != null) {
+                collision = BotManager.raycastUtility(player.getState().getWorld(), playerLocation, weaponTarget.getPosition());
                 if (collision == 1.0f) {
-                    thisLocation.set(moveTarget.getPosition()).sub(playerLocation);
+                    thisLocation.set(weaponTarget.getPosition()).sub(playerLocation);
+                    distSquared = thisLocation.len2();
+                    approachTarget = true;
+                }
+            }
+        }
+        if (currentMood.equals(BotMood.SEEK_EVENT)) {
+            if (eventTarget != null) {
+                collision = BotManager.raycastUtility(player.getState().getWorld(), playerLocation, eventTarget.getPosition());
+                if (collision == 1.0f) {
+                    thisLocation.set(eventTarget.getPosition()).sub(playerLocation);
                     distSquared = thisLocation.len2();
                     approachTarget = true;
                 }
@@ -178,6 +188,7 @@ public class BotController {
                 }
             }
         }
+
         if (!pointPath.isEmpty() && !approachTarget) {
             thisLocation.set(pointPath.get(0).getPosition()).sub(playerLocation);
             collision = BotManager.raycastUtility(player.getState().getWorld(), playerLocation, pointPath.get(0).getPosition());
@@ -226,8 +237,9 @@ public class BotController {
             }
 
             //in appropriate situations, bots will use fastfall
-            if ((thisLocation.y < -fastfallDistThreshold || (thisLocation.y < 0 && !player.getFeetData().getTerrain().isEmpty()))
-                    && !player.isGrounded() && player.getLinearVelocity().y > fastfallVeloThreshold) {
+            if (((thisLocation.y < -fastfallDistThreshold && !player.isGrounded()) ||
+                    (thisLocation.y < 0 && !player.getFeetData().getTerrain().isEmpty()))
+                     && player.getLinearVelocity().y > fastfallVeloThreshold) {
                 player.getController().keyDown(PlayerAction.CROUCH);
             } else {
                 player.getController().keyUp(PlayerAction.CROUCH);
@@ -273,18 +285,17 @@ public class BotController {
                 playerVelocity, searchRadius, minAffinity);
 
         //bots desire weapons more if they are not content with their current loadout and less if they are
+        float weaponDesireMultiplier = 1.0f;
         if (prospectivePath != null) {
-            float weaponDesireMultiplier = 1.0f;
             if (totalAffinity < affinityThreshold1) {
                 weaponDesireMultiplier = affinityMultiplier1;
             }
             if (totalAffinity > affinityThreshold2) {
                 weaponDesireMultiplier = affinityMultiplier2;
             }
-            prospectivePath.setDistance(prospectivePath.getDistance() * weaponDesireMultiplier);
         }
 
-        float pathDistance = prospectivePath != null ? prospectivePath.getDistance() : -1;
+        float pathDistance = prospectivePath != null ? prospectivePath.getDistance() * weaponDesireMultiplier : -1;
         if (pathDistance != -1) {
             currentMood = BotMood.SEEK_WEAPON;
             bestDistanceSoFar = pathDistance;
@@ -365,7 +376,9 @@ public class BotController {
 
     public void setCurrentMood(BotMood currentMood) { this.currentMood = currentMood; }
 
-    public void setMoveTarget(HadalEntity moveTarget) { this.moveTarget = moveTarget; }
+    public void setWeaponTarget(HadalEntity weaponTarget) { this.weaponTarget = weaponTarget; }
+
+    public void setEventTarget(HadalEntity eventTarget) { this.eventTarget = eventTarget; }
 
     public enum BotMood {
         DILLY_DALLY,

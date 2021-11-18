@@ -37,7 +37,6 @@ public class TomeOfPhilopatry extends Artifact {
 				}
 			}
 		});
-		
 		return enchantment;
 	}
 }

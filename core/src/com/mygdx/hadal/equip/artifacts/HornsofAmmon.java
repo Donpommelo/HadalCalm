@@ -29,7 +29,6 @@ public class HornsofAmmon extends Artifact {
 				
 				if (damage > threshold) {
 					if (inflicted.getStatus(Invulnerability.class) == null) {
-						
 						SoundEffect.MAGIC18_BUFF.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.5f, false);
 
 						inflicted.receiveDamage(damage, new Vector2(), perp, false, tags);
@@ -37,7 +36,6 @@ public class HornsofAmmon extends Artifact {
 						return 0;
 					}					
 				}
-				
 				return damage;
 			}
 		};

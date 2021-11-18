@@ -47,7 +47,7 @@ public class ToggleEggplantDrops extends ModeSetting {
                         RallyPath tempPath = BotManager.getShortestPathBetweenLocations(state.getWorld(), playerLocation,
                                 scrap.getPosition(), playerVelocity);
                         if (tempPath != null) {
-                            p.getBotController().setMoveTarget(scrap);
+                            p.getBotController().setEventTarget(scrap);
                             bestPath[0] = tempPath;
                         }
                     }

@@ -152,9 +152,10 @@ public class Hitbox extends HadalEntity {
 		}
 		
 		this.data = new HitboxData(state, this);
-		
+
 		this.size.scl(scale);
-		
+		this.spriteSize.scl(scale);
+
 		this.body = BodyBuilder.createBox(world, startPos, size, gravity, density, 0.0f, 0.0f, false, false, Constants.BIT_PROJECTILE, passability, filter, true, data);
 
 		//Non-sensor hitboxes have a non-sensor fixture attached to it. This is used for hboxes that collide with walls but should pass through enemies

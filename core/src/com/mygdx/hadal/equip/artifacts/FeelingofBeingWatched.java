@@ -24,7 +24,6 @@ public class FeelingofBeingWatched extends Artifact {
 			
 			@Override
 			public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) {
-				
 				if (inflicter.getCurrentFuel() <= inflicter.getStat(Stats.MAX_FUEL) * fuelThreshold) {
 					return damage * bonusDamage;
 				}

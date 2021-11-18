@@ -24,11 +24,9 @@ public class BrittlingPowder extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new Status(state, b) {
+		enchantment[0] = new StatusComposite(state, b, new Status(state, b) {
 
 			private float procCdCount = procCd;
-			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {

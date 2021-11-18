@@ -37,6 +37,7 @@ public class PlayerBot extends Player {
 //    @Override
 //    public void render(SpriteBatch batch) {
 //        super.render(batch);
+//
 //        RallyPoint lastPoint = null;
 //        for (RallyPoint point: botController.getPointPath()) {
 //            if (lastPoint != null) {

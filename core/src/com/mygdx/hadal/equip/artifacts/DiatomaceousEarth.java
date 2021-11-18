@@ -16,7 +16,7 @@ public class DiatomaceousEarth extends Artifact {
 	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 
-	private static final float durationMultiplier = 0.25f;
+	private static final float durationMultiplier = 0.4f;
 	private static final float damageResistance = 0.6f;
 	private static final float knockbackResistance = 0.9f;
 

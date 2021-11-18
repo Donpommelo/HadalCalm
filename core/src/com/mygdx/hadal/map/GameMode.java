@@ -68,11 +68,12 @@ public enum GameMode {
 
     CTF("ctf",
         new SetCameraOnSpawn(),
-        new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.magicWord), new SettingTeamScoreCap(), new SettingLives(0),
-        new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
+        new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.magicWord), new SettingBots(),
+        new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(), new SettingDroppableWeapons(),
         new DisplayUITag("TEAMSCORE"), new SpawnWeapons(),
+        new ModeCapturetheFlag(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
-            new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
+        new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
     FOOTBALL("",
         new SetCameraOnSpawn(),

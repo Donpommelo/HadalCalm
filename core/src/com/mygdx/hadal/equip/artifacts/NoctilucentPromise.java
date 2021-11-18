@@ -23,7 +23,6 @@ public class NoctilucentPromise extends Artifact {
 		enchantment[0] = new Status(state, b) {
 
 			private boolean activated;
-
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
 				if (!activated) {

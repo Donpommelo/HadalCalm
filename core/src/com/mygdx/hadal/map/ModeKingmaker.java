@@ -39,9 +39,8 @@ public class ModeKingmaker extends ModeSetting {
                                     return null;
                                 }
                             }
-                            tempPath.setDistance(tempPath.getDistance() * crownDesireMultiplier);
-                            p.getBotController().setMoveTarget(flag);
-                            return tempPath;
+                            p.getBotController().setEventTarget(flag);
+                            return new RallyPath(tempPath.getPath(), tempPath.getDistance() * crownDesireMultiplier);
                         }
                     }
                 }

@@ -23,13 +23,12 @@ public class BottomoftheBarrel extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new Status(state, b) {
+		enchantment[0] = new StatusComposite(state, b, new Status(state, b) {
 
 			@Override
 			public void onShoot(Equippable tool) {
-				if (inflicted.getCurrentTool() instanceof RangedWeapon) {
-					if (((RangedWeapon) inflicted.getCurrentTool()).getAmmoPercent() <= ammoThreshold) {
+				if (inflicted.getCurrentTool() instanceof RangedWeapon ranged) {
+					if (ranged.getAmmoPercent() <= ammoThreshold) {
 						float cooldown = inflicter.getSchmuck().getShootCdCount();
 						inflicter.getSchmuck().setShootCdCount(cooldown * (1 - bonusAttackSpeed));
 					}
@@ -38,8 +37,8 @@ public class BottomoftheBarrel extends Artifact {
 
 			@Override
 			public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) {
-				if (inflicted.getCurrentTool() instanceof RangedWeapon) {
-					if (((RangedWeapon) inflicted.getCurrentTool()).getAmmoPercent() <= ammoThreshold) {
+				if (inflicted.getCurrentTool() instanceof RangedWeapon ranged) {
+					if (ranged.getAmmoPercent() <= ammoThreshold) {
 						return damage * bonusDamage;
 					}
 				}

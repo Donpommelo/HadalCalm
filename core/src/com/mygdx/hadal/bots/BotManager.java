@@ -227,8 +227,7 @@ public class BotManager {
 
             //if the best node is our target, we are done and have our path and its score
             if (parent.equals(end)) {
-                RallyPath path = new RallyPath();
-                path.setDistance(parent.getRouteScore());
+                RallyPath path = new RallyPath(new ArrayList<>(), parent.getRouteScore());
 
                 //walk back from our end node to create our path by addind each parent to the start of the list
                 RallyPoint current = parent;
@@ -241,8 +240,7 @@ public class BotManager {
                 ArrayList<RallyPoint> tempPoints = new ArrayList<>();
                 for (RallyPoint pointInPath: path.getPath()) {
                     tempPoints.add(pointInPath);
-                    RallyPath cachedPath = new RallyPath();
-                    cachedPath.setDistance(pointInPath.getRouteScore());
+                    RallyPath cachedPath = new RallyPath(tempPoints, pointInPath.getRouteScore());
                     cachedPath.getPath().addAll(tempPoints);
                 }
                 start.getShortestPaths().put(end, path);
@@ -328,7 +326,8 @@ public class BotManager {
 
         if (sourceLocation.x != endLocation.x || sourceLocation.y != endLocation.y) {
             world.rayCast((fixture1, point, normal, fraction) -> {
-                if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL) {
+                if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL &&
+                        ((fixture1.getFilterData().maskBits | Constants.BIT_PLAYER) == fixture1.getFilterData().maskBits)) {
                     if (fraction < shortestFraction) {
                         shortestFraction = fraction;
                         return fraction;

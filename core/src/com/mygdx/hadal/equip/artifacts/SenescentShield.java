@@ -20,18 +20,14 @@ public class SenescentShield extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new Status(state, b) {
+		enchantment[0] = new StatusComposite(state, b, new Status(state, b) {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				
-				if (!hbox.isEffectsHit()) { return; } 
-				
+				if (!hbox.isEffectsHit()) { return; }
 				hbox.addStrategy(new ContactBlockProjectiles(state, hbox, b, knockbackProj));
 			}
 		});
-		
 		return enchantment;
 	}
 }

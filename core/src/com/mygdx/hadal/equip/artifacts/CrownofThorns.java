@@ -29,7 +29,7 @@ public class CrownofThorns extends Artifact {
 	
 	private static final Sprite projSprite = Sprite.BULLET;
 	
-	private static final float procCd = 1.0f;
+	private static final float procCd = 0.6f;
 	
 	public CrownofThorns() {
 		super(slotCost, statusNum);
@@ -40,7 +40,6 @@ public class CrownofThorns extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount = procCd;
-			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {
@@ -70,7 +69,6 @@ public class CrownofThorns extends Artifact {
 						hbox.addStrategy(new ContactUnitSound(state, hbox, inflicted, SoundEffect.STAB, 0.25f, true));
 					}
 				}
-				
 				return damage;
 			}
 		};

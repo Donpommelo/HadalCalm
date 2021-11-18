@@ -14,7 +14,7 @@ public class DeplorableApparatus extends Artifact {
 	private static final int slotCost = 2;
 	
 	private static final float hpReduction = -0.4f;
-	private static final float hpRegen = 12.0f;
+	private static final float hpRegen = 13.0f;
 	
 	private static final float procCd = 1.0f;
 	
@@ -29,7 +29,6 @@ public class DeplorableApparatus extends Artifact {
 				new Status(state, b) {
 			
 			private float procCdCount = procCd;
-
 			@Override
 			public void timePassing(float delta) {
 				

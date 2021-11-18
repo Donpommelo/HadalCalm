@@ -28,7 +28,6 @@ public class EphemeraPerpetua extends Artifact {
 
 				if (vic instanceof PlayerBodyData) {
 					((PlayerBodyData) inflicted).getActiveItem().gainCharge(amountPlayer);
-
 				} else {
 					((PlayerBodyData) inflicted).getActiveItem().gainCharge(amountEnemy);
 				}
