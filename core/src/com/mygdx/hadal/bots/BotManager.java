@@ -6,12 +6,12 @@ import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -80,16 +80,15 @@ public class BotManager {
     }
 
     //this is the furthest distance that we will check rally poitns for
-    private static final float MaxPointDistanceCheck = 40.0f;
+    private static final float MaxPointDistanceCheck = 25.0f;
     private static final Vector2 tempPointLocation = new Vector2();
     private static final Vector2 tempBotLocation = new Vector2();
-
     /**
-     * @param world: the current game world
+     * @param targeter: the schmuck looking for nearest point
      * @param sourceLocation: the location of the entity we are looking for a nearest point for
      * @return the rallypoint in the map closest to the input location
      */
-    public static RallyPoint getNearestPoint(World world, Vector2 sourceLocation) {
+    public static RallyPoint getNearestPoint(Schmuck targeter, Vector2 sourceLocation) {
         RallyPoint closestUnobstructed = null;
         RallyPoint closestObstructed = null;
         float closestDistUnobstructed = 0.0f;
@@ -101,7 +100,7 @@ public class BotManager {
                     Math.abs(rallyPoint.y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
 
             tempPointLocation.set(rallyPoint);
-            float raycastFraction = raycastUtility(world, sourceLocation, tempPointLocation);
+            float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation);
             //dst2 used here to slightly improve performance while being "mostly accurate-ish"
             float currentDistSquared = raycastFraction * raycastFraction * sourceLocation.dst2(tempPointLocation);
 
@@ -129,13 +128,13 @@ public class BotManager {
     //this multiplier makes pathfinder take the player's current velocity in account when finding a suitable point
     public static final float currentVelocityMultiplier = 1.5f;
     /**
-     * @param world: the current game world
+     * @param targeter: the schmuck looking for nearest path
      * @param sourceLocation: the location of the entity we are finding a path for
      * @param sourceVelocity: the velocity of the entity we are finding a path for
      * @param end: the rally point we are searching for a path towards
      * @return the first rally point in the path that will lead the bot along the shortest point to the end point
      */
-    public static RallyPoint getNearestPathStarter(World world, Vector2 sourceLocation, Vector2 sourceVelocity, RallyPoint end) {
+    public static RallyPoint getNearestPathStarter(Schmuck targeter, Vector2 sourceLocation, Vector2 sourceVelocity, RallyPoint end) {
         RallyPoint closestUnobstructed = null;
         float closestDistUnobstructed = 0.0f;
 
@@ -145,7 +144,7 @@ public class BotManager {
                     Math.abs(rallyPoint.y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
 
             tempPointLocation.set(rallyPoint);
-            float raycastFraction = raycastUtility(world, sourceLocation, tempPointLocation);
+            float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation);
 
             //if we have a line of sight with the point, check if its distance is less than the nearest point so far
             if (raycastFraction == 1.0f) {
@@ -181,22 +180,21 @@ public class BotManager {
 
     /**
      * This method returns the "shortest" path between two locations
-     * @param world: the current game world
+     * @param targeter: the schmuck looking for the path
      * @param playerLocation: the starting location of the path
      * @param targetLocation: the end location of the path
      * @param playerVelocity: the velocity of the player
      * @return a reasonably short path between input locations
      */
-    public static RallyPath getShortestPathBetweenLocations(World world, Vector2 playerLocation, Vector2 targetLocation,
+    public static RallyPath getShortestPathBetweenLocations(Schmuck targeter, Vector2 playerLocation, Vector2 targetLocation,
                 Vector2 playerVelocity) {
-        RallyPoint tempPoint = BotManager.getNearestPoint(world, targetLocation);
-        RallyPoint myPoint = BotManager.getNearestPathStarter(world, playerLocation, playerVelocity, tempPoint);
+        RallyPoint tempPoint = BotManager.getNearestPoint(targeter, targetLocation);
+        RallyPoint myPoint = BotManager.getNearestPathStarter(targeter, playerLocation, playerVelocity, tempPoint);
         return BotManager.getShortestPathBetweenPoints(myPoint, tempPoint);
     }
 
     //open set used for a* search. Priority queue is used to make it ordered by estimated score
     private static final Queue<RallyPoint> openSet = new PriorityQueue<>();
-
     /**
      * @param start: starting point
      * @param end: ending point
@@ -240,8 +238,7 @@ public class BotManager {
                 ArrayList<RallyPoint> tempPoints = new ArrayList<>();
                 for (RallyPoint pointInPath: path.getPath()) {
                     tempPoints.add(pointInPath);
-                    RallyPath cachedPath = new RallyPath(tempPoints, pointInPath.getRouteScore());
-                    cachedPath.getPath().addAll(tempPoints);
+                    start.getShortestPaths().put(pointInPath, new RallyPath(tempPoints, pointInPath.getRouteScore()));
                 }
                 start.getShortestPaths().put(end, path);
                 return path;
@@ -271,14 +268,14 @@ public class BotManager {
     private static final Vector2 leadDisplace = new Vector2();
     /**
      * This sets the bot's mouse to track its target, taking into account their weapon and the target's movements
-     * @param world: the current game world
+     * @param targeter: the schmuck doing the targetting
      * @param sourceLocation: the location of the aiming bot
      * @param targetLocation: the location of the target the bot is aiming at
      * @param targetVelocity: the velocity of the target the bot is aiming at
      * @param projectileSpeed: the projectile speed of the bot's currently equipped weapon
      * @return a vector determining the location of the bot's mouse after aiming
      */
-    public static Vector2 acquireAimTarget(World world, Vector2 sourceLocation, Vector2 targetLocation, Vector2 targetVelocity,
+    public static Vector2 acquireAimTarget(Schmuck targeter, Vector2 sourceLocation, Vector2 targetLocation, Vector2 targetVelocity,
                                            float projectileSpeed) {
         aimTemp.set(targetLocation).sub(sourceLocation);
 
@@ -305,7 +302,7 @@ public class BotManager {
         aimTemp.set(targetLocation).add(leadDisplace);
 
         //if the new aim vector goes through a wall, we want to stop at the wall location
-        float fract = BotManager.raycastUtility(world, targetLocation, aimTemp);
+        float fract = BotManager.raycastUtility(targeter, targetLocation, aimTemp);
         if (fract < 1.0f) {
             aimTemp.set(targetLocation).add(leadDisplace.scl(fract));
         }
@@ -316,17 +313,17 @@ public class BotManager {
 
     /**
      * a quick raycast utility function used for various methods
-     * @param world: the current game world
+     * @param targeter: the schmuck doing the targetting
      * @param sourceLocation: the location we are raycasting from
      * @param endLocation: the location we are raycasting towards
      * @return the fraction of how far we raycasted before hitting a wall
      */
-    public static float raycastUtility(World world, Vector2 sourceLocation, Vector2 endLocation) {
+    public static float raycastUtility(Schmuck targeter, Vector2 sourceLocation, Vector2 endLocation) {
         shortestFraction = 1.0f;
-
         if (sourceLocation.x != endLocation.x || sourceLocation.y != endLocation.y) {
-            world.rayCast((fixture1, point, normal, fraction) -> {
+            targeter.getWorld().rayCast((fixture1, point, normal, fraction) -> {
                 if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL &&
+                        fixture1.getFilterData().groupIndex != targeter.getHitboxfilter() &&
                         ((fixture1.getFilterData().maskBits | Constants.BIT_PLAYER) == fixture1.getFilterData().maskBits)) {
                     if (fraction < shortestFraction) {
                         shortestFraction = fraction;
@@ -339,9 +336,9 @@ public class BotManager {
         return shortestFraction;
     }
 
-    public static RallyPath getPathToRandomPoint(World world, Vector2 playerLocation, Vector2 playerVelocity) {
+    public static RallyPath getPathToRandomPoint(Schmuck targeter, Vector2 playerLocation, Vector2 playerVelocity) {
         RallyPoint point = (RallyPoint) rallyPoints.values().toArray()[MathUtils.random(rallyPoints.size() - 1)];
-        return getShortestPathBetweenLocations(world, playerLocation, point.getPosition(), playerVelocity);
+        return getShortestPathBetweenLocations(targeter, playerLocation, point.getPosition(), playerVelocity);
     }
 
     /**

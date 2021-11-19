@@ -462,7 +462,8 @@
     "descriptionLong": "",
 	"tags": [
         "MULTIPLAYER",
-		"PVP"
+		"PVP",
+		"BOT_COMPLIANT"
 	]
 },
 "SSTUNICATE1": {

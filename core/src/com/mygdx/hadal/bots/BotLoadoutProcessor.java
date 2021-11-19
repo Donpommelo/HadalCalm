@@ -2,7 +2,6 @@ package com.mygdx.hadal.bots;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.Loadout;
@@ -53,7 +52,6 @@ public class BotLoadoutProcessor {
 
     /**
      * This calculates a path towards a weapon pickup event
-     * @param world: the current game world
      * @param player: the bot player looking for a weapon
      * @param playerLocation: the location of the bot player
      * @param playerVelocity: the velocity of the bot player
@@ -61,26 +59,21 @@ public class BotLoadoutProcessor {
      * @param minAffinity: the lowest affinity of a weapon the bot is holding
      * @return a reasonably short path to a desired weapon pickup event
      */
-    public static RallyPath getPathToWeapon(World world, PlayerBot player, Vector2 playerLocation, Vector2 playerVelocity,
+    public static RallyPath getPathToWeapon(PlayerBot player, Vector2 playerLocation, Vector2 playerVelocity,
                                             float searchRadius, int minAffinity) {
         final RallyPath[] bestPath = new RallyPath[1];
-        world.QueryAABB((fixture -> {
+        player.getWorld().QueryAABB((fixture -> {
             if (fixture.getUserData() instanceof final EventData eventData) {
                 if (eventData.getEvent() instanceof final PickupEquip pickup) {
 
                     //for all pickups found, calculate a path to it, if the bot wants it more than any of their current weapons
                     if (calcWeaponAffinity(pickup.getEquip()) > minAffinity) {
-                        RallyPath tempPath = BotManager.getShortestPathBetweenLocations(world, playerLocation,
+                        RallyPath tempPath = BotManager.getShortestPathBetweenLocations(player, playerLocation,
                                 pickup.getPosition(), playerVelocity);
                         if (tempPath != null) {
-                            if (bestPath[0] != null) {
-                                if (tempPath.getDistance() < bestPath[0].getDistance()) {
-                                    player.getBotController().setWeaponTarget(pickup);
-                                    bestPath[0] = tempPath;
-                                }
-                            } else {
-                                bestPath[0] = tempPath;
-                            }
+                            player.getBotController().setWeaponTarget(pickup);
+                            bestPath[0] = tempPath;
+                            return false;
                         }
                     }
                 }
@@ -133,7 +126,7 @@ public class BotLoadoutProcessor {
         int bestSlot = player.getPlayerData().getCurrentSlot();
 
         //find which held weapon has the highest "suitability" based on distance from a living enemy
-        if (BotManager.raycastUtility(player.getWorld(), playerLocation, targetLocation) == 1.0f && targetAlive
+        if (BotManager.raycastUtility(player, playerLocation, targetLocation) == 1.0f && targetAlive
                 && Math.abs(playerLocation.x - targetLocation.x) < botVisionX
                 && Math.abs(playerLocation.y - targetLocation.y) < botVisionY) {
             float bestSuitability = BotLoadoutProcessor.calcWeaponSuitability(player,
@@ -177,7 +170,7 @@ public class BotLoadoutProcessor {
         //atm, the only weapon with different aiming logic is the cola-cannon, which must be shaken when uncharged
         if (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass())) == UnlockEquip.COLACANNON) {
             if (weapon.getChargeCd() >= weapon.getChargeTime() || weapon.isReloading()) {
-                mouseTarget.set(BotManager.acquireAimTarget(player.getState().getWorld(), player.getPosition(),
+                mouseTarget.set(BotManager.acquireAimTarget(player, player.getPosition(),
                         targetLocation, targetVelocity, ((RangedWeapon) weapon).getProjectileSpeed()));
             } else {
                 BotLoadoutProcessor.aimWobble(player);
@@ -186,7 +179,7 @@ public class BotLoadoutProcessor {
         } else {
             //default behavior: acquire target's predicted position
             if (weapon instanceof RangedWeapon ranged) {
-                mouseTarget.set(BotManager.acquireAimTarget(player.getState().getWorld(), player.getPosition(),
+                mouseTarget.set(BotManager.acquireAimTarget(player, player.getPosition(),
                         targetLocation, targetVelocity, ranged.getProjectileSpeed()));
             } else {
                 mouseTarget.set(targetLocation);

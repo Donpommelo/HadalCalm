@@ -22,6 +22,11 @@ public class ModeCapturetheFlag extends ModeSetting {
 
     private static final HashMap<AlignmentFilter, SpawnerFlag> flagSpawners = new HashMap<>();
 
+    @Override
+    public void loadSettingMisc(PlayState state, GameMode mode) {
+        flagSpawners.clear();
+    }
+
     private static final float flagAttackDesireMultiplier = 0.2f;
     private static final float flagDefendDesireMultiplier = 0.05f;
     private static final float flagReturnDesireMultiplier = 0.02f;
@@ -31,8 +36,7 @@ public class ModeCapturetheFlag extends ModeSetting {
 
         for (ObjectiveMarker objective: state.getUiObjective().getObjectives()) {
             objectiveLocation.set(objective.getObjectiveLocation()).scl(1 / PPM);
-            RallyPath tempPath = BotManager.getShortestPathBetweenLocations(state.getWorld(), playerLocation,
-                    objectiveLocation, playerVelocity);
+            RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation, objectiveLocation, playerVelocity);
             if (tempPath != null) {
                 if (objective.getObjectiveTarget() instanceof Hitbox flag) {
                     if (flag.getStrategies().size() >= 2) {
@@ -49,8 +53,8 @@ public class ModeCapturetheFlag extends ModeSetting {
                                         if (p.equals(capture.getTarget())) {
                                             SpawnerFlag home = flagSpawners.get(p.getPlayerData().getLoadout().team);
                                             if (home != null) {
-                                                tempPath = BotManager.getShortestPathBetweenLocations(state.getWorld(),
-                                                        playerLocation, home.getPosition(), playerVelocity);
+                                                tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation,
+                                                        home.getPosition(), playerVelocity);
                                                 p.getBotController().setEventTarget(home);
                                                 return new RallyPath(tempPath.getPath(), tempPath.getDistance() * flagReturnDesireMultiplier);
                                             }

@@ -23,8 +23,7 @@ public class ModeKingmaker extends ModeSetting {
     public RallyPath processAIPath(PlayState state, GameMode mode, PlayerBot p, Vector2 playerLocation, Vector2 playerVelocity) {
         if (!state.getUiObjective().getObjectives().isEmpty()) {
             objectiveLocation.set(state.getUiObjective().getObjectives().get(0).getObjectiveLocation()).scl(1 / PPM);
-            RallyPath tempPath = BotManager.getShortestPathBetweenLocations(state.getWorld(), playerLocation,
-                    objectiveLocation, playerVelocity);
+            RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation, objectiveLocation, playerVelocity);
             if (tempPath != null) {
                 if (state.getUiObjective().getObjectives().get(0).getObjectiveTarget() instanceof Hitbox flag) {
                     if (flag.getStrategies().size() >= 2) {

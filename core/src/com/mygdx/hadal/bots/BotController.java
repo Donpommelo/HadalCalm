@@ -160,7 +160,7 @@ public class BotController {
         boolean approachTarget = false;
         if (currentMood.equals(BotMood.SEEK_WEAPON)) {
             if (weaponTarget != null) {
-                collision = BotManager.raycastUtility(player.getState().getWorld(), playerLocation, weaponTarget.getPosition());
+                collision = BotManager.raycastUtility(player, playerLocation, weaponTarget.getPosition());
                 if (collision == 1.0f) {
                     thisLocation.set(weaponTarget.getPosition()).sub(playerLocation);
                     distSquared = thisLocation.len2();
@@ -170,7 +170,7 @@ public class BotController {
         }
         if (currentMood.equals(BotMood.SEEK_EVENT)) {
             if (eventTarget != null) {
-                collision = BotManager.raycastUtility(player.getState().getWorld(), playerLocation, eventTarget.getPosition());
+                collision = BotManager.raycastUtility(player, playerLocation, eventTarget.getPosition());
                 if (collision == 1.0f) {
                     thisLocation.set(eventTarget.getPosition()).sub(playerLocation);
                     distSquared = thisLocation.len2();
@@ -191,7 +191,7 @@ public class BotController {
 
         if (!pointPath.isEmpty() && !approachTarget) {
             thisLocation.set(pointPath.get(0).getPosition()).sub(playerLocation);
-            collision = BotManager.raycastUtility(player.getState().getWorld(), playerLocation, pointPath.get(0).getPosition());
+            collision = BotManager.raycastUtility(player, playerLocation, pointPath.get(0).getPosition());
             distSquared = thisLocation.len2();
             approachTarget = true;
         }
@@ -254,7 +254,7 @@ public class BotController {
         }
     }
 
-    private static final float searchRadius = 300.0f;
+    private static final float searchRadius = 60.0f;
     private static final int affinityThreshold1 = 10;
     private static final int affinityThreshold2 = 20;
     private static final float affinityMultiplier1 = 0.5f;
@@ -281,8 +281,7 @@ public class BotController {
             totalAffinity += affinity;
             minAffinity = Math.min(minAffinity, affinity);
         }
-        prospectivePath = BotLoadoutProcessor.getPathToWeapon(player.getState().getWorld(), player, playerLocation,
-                playerVelocity, searchRadius, minAffinity);
+        prospectivePath = BotLoadoutProcessor.getPathToWeapon(player, playerLocation, playerVelocity, searchRadius, minAffinity);
 
         //bots desire weapons more if they are not content with their current loadout and less if they are
         float weaponDesireMultiplier = 1.0f;
@@ -316,8 +315,8 @@ public class BotController {
                         shootTarget = user.getPlayer();
                     }
                     //calc the shortest path and compare it to paths to other targets
-                    RallyPath tempPath = BotManager.getShortestPathBetweenLocations(player.getState().getWorld(),
-                            playerLocation, user.getPlayer().getPosition(), playerVelocity);
+                    RallyPath tempPath = BotManager.getShortestPathBetweenLocations(player, playerLocation,
+                            user.getPlayer().getPosition(), playerVelocity);
                     if (tempPath != null) {
                         if (prospectivePath != null) {
                             if (tempPath.getDistance() < prospectivePath.getDistance()) {
@@ -352,7 +351,7 @@ public class BotController {
             pointPath.clear();
         }
         if (currentMood.equals(BotMood.WANDER) && pointPath.isEmpty()) {
-            bestPath = BotManager.getPathToRandomPoint(player.getState().getWorld(), playerLocation, playerVelocity);
+            bestPath = BotManager.getPathToRandomPoint(player, playerLocation, playerVelocity);
         }
 
         if (bestPath != null) {
