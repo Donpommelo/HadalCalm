@@ -58,32 +58,7 @@ public class FlagCapturable extends HitboxStrategy {
 	public void onHit(HadalData fixB) {
 
 		if (fixB != null) {
-			if (fixB.getEntity() instanceof SpawnerFlag flag) {
-
-				//if this hbox touches an enemy flag spawn, it is "captured", scoring a point and disappearing
-				if (flag.getTeamIndex() != teamIndex) {
-
-					//in order to capture, you must have your own flag present.
-					if (flag.isFlagPresent()) {
-						flag.getEventData().preActivate(null, lastHolder);
-						hbox.die();
-
-						if (target != null) {
-							if (target.getPlayerData() != null) {
-								if (flagDebuff != null) {
-									target.getPlayerData().removeStatus(flagDebuff);
-								}
-							}
-						}
-					} else {
-						flag.triggerFailMessage();
-					}
-				}
-			}
-		}
-
-		if (!captured) {
-			if (fixB != null) {
+			if (!captured) {
 				if (fixB instanceof PlayerBodyData playerData) {
 
 					boolean blockPickup = false;
@@ -114,10 +89,7 @@ public class FlagCapturable extends HitboxStrategy {
 						}
 					}
 				}
-			}
-		} else {
-			if (fixB != null) {
-
+			} else {
 				//if touching a "flag blocker" whule held, the flag is automatically dropped
 				if (fixB.getEntity() instanceof FlagBlocker blocker) {
 					if (blocker.getTeamIndex() != teamIndex) {
@@ -152,6 +124,28 @@ public class FlagCapturable extends HitboxStrategy {
 					teamColor = WeaponUtils.getColorName(AlignmentFilter.currentTeams[teamIndex].getColor1(), teamColor);
 					state.getKillFeed().addNotification(HText.CTF_RETURN.text(teamColor), true);
 				}
+			}
+		}
+	}
+
+	public void checkCapture(SpawnerFlag flag) {
+		//if this hbox touches an enemy flag spawn, it is "captured", scoring a point and disappearing
+		if (flag.getTeamIndex() != teamIndex) {
+
+			//in order to capture, you must have your own flag present.
+			if (flag.isFlagPresent()) {
+				flag.getEventData().preActivate(null, lastHolder);
+				hbox.die();
+
+				if (target != null) {
+					if (target.getPlayerData() != null) {
+						if (flagDebuff != null) {
+							target.getPlayerData().removeStatus(flagDebuff);
+						}
+					}
+				}
+			} else {
+				flag.triggerFailMessage();
 			}
 		}
 	}

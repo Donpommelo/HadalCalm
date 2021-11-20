@@ -9,6 +9,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -74,6 +75,8 @@ public class SpawnerFlag extends Event {
     private Hitbox flag;
     private float spawnCountdown;
     private static final float spawnDelay = 3.0f;
+    private float controllerCount;
+    private static final float checkInterval = 0.5f;
     @Override
     public void controller(float delta) {
 
@@ -98,6 +101,21 @@ public class SpawnerFlag extends Event {
                 }
             }
         }
+
+        controllerCount += delta;
+        if (controllerCount >= checkInterval) {
+            controllerCount = 0.0f;
+            for (HadalEntity entity : eventData.getSchmucks()) {
+                if (entity instanceof Hitbox hbox) {
+                    if (hbox.getStrategies().size() >= 2) {
+                        if (hbox.getStrategies().get(1) instanceof FlagCapturable capture) {
+                            capture.checkCapture(this);
+                        }
+                    }
+                }
+            }
+        }
+
         messageCount -= delta;
     }
 
@@ -107,6 +125,7 @@ public class SpawnerFlag extends Event {
         flag = new RangedHitbox(state, new Vector2(getPixelPosition()), flagSize, flagLifespan, new Vector2(),
             (short) 0, false, false, state.getWorldDummy(), Sprite.DIATOM_D);
 
+        //the order of strats is important; FlagCapturable must be second because somethings check for it by index
         flag.addStrategy(new ControllerDefault(state, flag, state.getWorldDummy().getBodyData()));
         flag.addStrategy(new FlagCapturable(state, flag, state.getWorldDummy().getBodyData(), this, teamIndex));
         flag.addStrategy(new DropThroughPassability(state, flag, state.getWorldDummy().getBodyData()));
@@ -131,7 +150,7 @@ public class SpawnerFlag extends Event {
         flagPresent = true;
     }
 
-    private static final float messageCooldown = 2.0f;
+    private static final float messageCooldown = 5.0f;
     private float messageCount = 0.0f;
     public void triggerFailMessage() {
 

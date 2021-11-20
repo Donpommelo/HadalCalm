@@ -64,7 +64,8 @@ public class PlayerChanger extends Event {
 				}
 				
 				if (data.getCurrentHp() < data.getStat(Stats.MAX_HP) && hp > 0) {
-					data.regainHp(hp, p.getPlayerData(), true, DamageTypes.MEDPAK);
+					data.regainHp(hp * data.getStat(Stats.MAX_HP) / 100, p.getPlayerData(), true,
+							DamageTypes.MEDPAK);
 					activated = true;
 					
 					SoundEffect.MAGIC21_HEAL.playUniversal(state, p.getPixelPosition(), 0.3f, false);

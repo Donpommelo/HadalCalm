@@ -15,8 +15,8 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
  */
 public class CarryingFlag extends Status {
 
-	//this is the magnitude of the slow.
-	private static final float fuelRegen = 4.0f;
+	//this is the amount of fuel regen when carrying the flag.
+	private static final float fuelRegen = 8.0f;
 
 	public CarryingFlag(PlayState state, BodyData i) {
 		super(state, i);

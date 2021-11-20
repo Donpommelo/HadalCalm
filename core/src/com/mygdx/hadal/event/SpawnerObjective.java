@@ -105,6 +105,7 @@ public class SpawnerObjective extends Event {
 		flag = new RangedHitbox(state, new Vector2(getPixelPosition()), flagSize, flagLifespan, new Vector2(),
 				(short) 0, false, false, state.getWorldDummy(), Sprite.DIATOM_D);
 
+		//the order of strats is important; FlagHoldable must be second because somethings check for it by index
 		flag.addStrategy(new ControllerDefault(state, flag, state.getWorldDummy().getBodyData()));
 		flag.addStrategy(new FlagHoldable(state, flag, state.getWorldDummy().getBodyData()));
 		flag.addStrategy(new CreateParticles(state, flag, state.getWorldDummy().getBodyData(), Particle.BRIGHT_TRAIL, 0.0f, 1.0f));

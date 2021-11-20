@@ -169,10 +169,12 @@ public class ResultsState extends GameState {
 			return cmp;
 		});
 
-		//Finally we initialize the ready map with everyone set to not ready.
+		//Finally we initialize the ready map with everyone set to not ready. Bots don't need to ready up
 		ready = new HashMap<>();
 		for (SavedPlayerFields score: scores) {
-			ready.put(score, false);
+			if (score.getConnID() >= 0) {
+				ready.put(score, false);
+			}
 		}
 	}
 	
@@ -425,8 +427,8 @@ public class ResultsState extends GameState {
 				icons.add(icon);
 
 				//bots should automatically ready up
-				if (connId < 0 && ps.isServer()) {
-					readyPlayer(connId);
+				if (connId < 0) {
+					icon.setReady(true);
 				}
 			}
 		}

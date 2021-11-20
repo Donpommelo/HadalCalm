@@ -21,7 +21,6 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class ModeCapturetheFlag extends ModeSetting {
 
     private static final HashMap<AlignmentFilter, SpawnerFlag> flagSpawners = new HashMap<>();
-
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
         flagSpawners.clear();
