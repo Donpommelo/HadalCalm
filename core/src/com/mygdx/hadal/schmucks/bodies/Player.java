@@ -969,14 +969,6 @@ public class Player extends PhysicsSchmuck {
 		return originPt.add(offset.nor().scl(((size.x * 2 + projSize / 4) / PPM) * shortestFraction - 1)).scl(PPM);
 	}
 
-	public boolean isRespawnCameraSpectator() {
-		if (user == null) {
-			return false;
-		} else {
-			return user.isRespawnCameraSpectator();
-		}
-	}
-
 	/**
 	 * This makes the player's legs flail more when in the air
 	 */

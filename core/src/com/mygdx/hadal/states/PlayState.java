@@ -778,23 +778,26 @@ public class PlayState extends GameState {
 	final Vector2 cameraFocusAim = new Vector2();
 	protected void cameraUpdate() {
 		zoom = zoom + (zoomDesired - zoom) * 0.1f;
-		
+
 		camera.zoom = zoom;
+
 		if (cameraTarget == null) {
 
-			mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			HadalGame.viewportCamera.unproject(mousePosition);
-
 			//the camera should be draggable as a spectator or during respawn time
-			if (spectatorMode || player.isRespawnCameraSpectator()) {
+			if (spectatorMode || killFeed.isRespawnSpectator()) {
 				//in spectator mode, the camera moves when dragging the mouse
 				uiSpectator.spectatorDragCamera(spectatorTarget);
 				aimFocusVector.set(spectatorTarget);
-			} else {
+			} else if (player.getPlayerData() != null) {
+
+				//we check for play data being null so client does not try to lerp camera towards starting positioin of (0, 0)
 				aimFocusVector.set(player.getPixelPosition());
 
 				//if enabled, camera tracks mouse position
 				if (gsm.getSetting().isMouseCameraTrack()) {
+					mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+					HadalGame.viewportCamera.unproject(mousePosition);
+
 					cameraFocusAim.x = (int) (cameraFocusAim.x + (mousePosition.x - cameraFocusAim.x) * cameraAimInterpolation);
 					cameraFocusAim.y = (int) (cameraFocusAim.y + (mousePosition.y - cameraFocusAim.y) * cameraAimInterpolation);
 					aimFocusVector.mulAdd(cameraFocusAim, mouseCameraTrack).scl(1.0f / (1.0f + mouseCameraTrack));

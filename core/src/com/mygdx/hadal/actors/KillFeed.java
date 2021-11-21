@@ -237,6 +237,7 @@ public class KillFeed {
         }
     }
 
+    private float totalRespawnTime;
     private float respawnTime;
     /**
      * This is run upon dying if respawning
@@ -244,6 +245,7 @@ public class KillFeed {
      */
     public void addKillInfo(float respawnTime) {
         deathInfoTable.clear();
+        this.totalRespawnTime = respawnTime;
         this.respawnTime = respawnTime;
 
         Text deathInfoTitle = new Text(HText.RESPAWN_IN.text(), 0, 0, false);
@@ -265,5 +267,10 @@ public class KillFeed {
         DecimalFormat df = new DecimalFormat("0.0");
         df.setRoundingMode(RoundingMode.DOWN);
         deathInfo.setText(df.format(respawnTime) + " S");
+    }
+
+    private static final float spectatorDurationThreshold = 1.5f;
+    public boolean isRespawnSpectator() {
+        return respawnTime < totalRespawnTime - spectatorDurationThreshold && deathInfoTable.isVisible();
     }
 }

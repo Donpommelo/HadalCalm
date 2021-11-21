@@ -325,6 +325,7 @@ public abstract class HadalEntity {
 				float elapsedTime = (state.getTimer() - prevTimeStamp) / (nextTimeStamp - prevTimeStamp);
 				
 				if (elapsedTime <= 1.0f && elapsedTime >= 0.0f) {
+
 					if (prevPos.dst2(serverPos) > maxLerpRange) {
 						setTransform(serverPos, serverAngle.angleRad());
 					} else {

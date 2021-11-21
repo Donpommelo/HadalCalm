@@ -58,14 +58,13 @@ public class User {
     }
 
     private static final float spawnForewarn = 1.0f;
-    private float transitionTime, transitionElapsed;
+    private float transitionTime;
     private boolean spawnForewarned;
     public void controller(PlayState state, float delta) {
 
         //we keep track of each user's transition duration, so that we can make them respawn at the correct time
         if (nextState != null) {
             transitionTime -= delta;
-            transitionElapsed += delta;
 
             //briefly before respawning, we want to flash particles at prospective spawn location
             if (transitionTime <= spawnForewarn && !spawnForewarned) {
@@ -78,7 +77,6 @@ public class User {
                 }
             }
             if (transitionTime <= 0.0f) {
-                transitionElapsed = 0.0f;
                 if (nextState.equals(TransitionState.RESPAWN)) {
                     respawn(state);
                 }
@@ -100,7 +98,6 @@ public class User {
         if (override || this.nextState == null) {
             this.nextState = nextState;
             this.transitionTime = fadeDelay + 1.0f / fadeSpeed;
-            this.transitionElapsed = 0.0f;
             this.spawnForewarned = false;
 
             if (scores.getConnID() == 0) {
@@ -153,11 +150,6 @@ public class User {
         }
     }
 
-    private static final float spectatorDurationThreshold = 1.0f;
-    public boolean isRespawnCameraSpectator() {
-        return transitionElapsed > spectatorDurationThreshold;
-    }
-
     /**
      * Run when entering a new level
      * This makes sure things like saved start points are reset
@@ -167,7 +159,6 @@ public class User {
         nextState = null;
         startPoint = null;
         spawnOverridden = false;
-        transitionElapsed = 0.0f;
     }
 
     public void setOverrideSpawn(Vector2 overrideSpawn) {
