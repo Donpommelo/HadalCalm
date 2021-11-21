@@ -23,6 +23,8 @@ public class ObjectiveCoord extends ShaderStrategy {
 			screenCoord.x = objectiveLocation.x;
 			screenCoord.y = objectiveLocation.y;
 			HadalGame.viewportCamera.project(screenCoord);
+		} else {
+			screenCoord.setZero();
 		}
 		shader.setUniformf("u_objective", screenCoord);
 	}

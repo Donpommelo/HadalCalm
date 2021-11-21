@@ -335,8 +335,11 @@ public class BotManager {
     }
 
     public static RallyPath getPathToRandomPoint(Schmuck targeter, Vector2 playerLocation, Vector2 playerVelocity) {
-        RallyPoint point = (RallyPoint) rallyPoints.values().toArray()[MathUtils.random(rallyPoints.size() - 1)];
-        return getShortestPathBetweenLocations(targeter, playerLocation, point.getPosition(), playerVelocity);
+        if (rallyPoints.size() > 0) {
+            RallyPoint point = (RallyPoint) rallyPoints.values().toArray()[MathUtils.random(rallyPoints.size() - 1)];
+            return getShortestPathBetweenLocations(targeter, playerLocation, point.getPosition(), playerVelocity);
+        }
+        return null;
     }
 
     /**

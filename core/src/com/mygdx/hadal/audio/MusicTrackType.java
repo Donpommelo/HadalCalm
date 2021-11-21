@@ -16,7 +16,6 @@ public enum MusicTrackType {
     VICTORY(MusicTrack.RED_BUBBLES),
     GAME_OVER(MusicTrack.FISH_FOOD),
 
-
     BOSS_PLENUM_CHAMBER(MusicTrack.SHARKTOOTH),
     BOSS_KAMABOKOYA(MusicTrack.ORGAN_GRINDER),
     BOSS_GOLDFISH_PURGATORY(MusicTrack.GOLDEN_GLOW),
