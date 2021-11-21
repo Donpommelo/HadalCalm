@@ -16,9 +16,6 @@
   <object id="247" name="BotPoint" type="BotPoint" x="1048" y="2544">
    <polyline points="-216,176 72,176"/>
   </object>
-  <object id="248" name="BotPoint" type="BotPoint" x="1104" y="2792">
-   <polyline points="-144,184 48,184"/>
-  </object>
   <object id="249" name="BotPoint" type="BotPoint" x="1232" y="2920">
    <polyline points="-80,56 112,248"/>
   </object>
@@ -63,23 +60,14 @@
   <object id="261" name="BotPoint" type="BotPoint" x="1200" y="2792">
    <polyline points="-368,-360 -368,-72"/>
   </object>
-  <object id="262" name="BotPoint" type="BotPoint" x="1008" y="2792">
-   <polyline points="-176,-72 -48,184"/>
-  </object>
   <object id="263" name="BotPoint" type="BotPoint" x="1200" y="2856">
    <polyline points="-80,-136 -48,120"/>
-  </object>
-  <object id="264" name="BotPoint" type="BotPoint" x="1232" y="2856">
-   <polyline points="-112,-136 -272,120"/>
   </object>
   <object id="265" name="BotPoint" type="BotPoint" x="1232" y="2824">
    <polyline points="-400,-104 -80,152"/>
   </object>
   <object id="266" name="BotPoint" type="BotPoint" x="2288" y="2824">
-   <polyline points="-112,88 144,88"/>
-  </object>
-  <object id="267" name="BotPoint" type="BotPoint" x="2512" y="2856">
-   <polyline points="-80,56 176,56"/>
+   <polyline points="-112,88 400,88"/>
   </object>
   <object id="268" name="BotPoint" type="BotPoint" x="2672" y="2792">
    <polyline points="16,120 176,-40"/>
@@ -174,32 +162,17 @@
   <object id="299" name="BotPoint" type="BotPoint" x="4240" y="1304">
    <polyline points="-32,104 -32,-88"/>
   </object>
-  <object id="300" name="BotPoint" type="BotPoint" x="4264" y="1200">
-   <polyline points="-56,16 88,48"/>
-  </object>
   <object id="302" name="BotPoint" type="BotPoint" x="3888" y="1760">
    <polyline points="-32,128 -32,-352"/>
   </object>
-  <object id="303" name="BotPoint" type="BotPoint" x="3976" y="1816">
-   <polyline points="-40,72 -120,72"/>
-  </object>
   <object id="304" name="BotPoint" type="BotPoint" x="4024" y="1816">
-   <polyline points="8,72 -88,72"/>
-  </object>
-  <object id="305" name="BotPoint" type="BotPoint" x="4072" y="1896">
-   <polyline points="-40,-8 88,-8"/>
+   <polyline points="8,72 -168,72"/>
   </object>
   <object id="306" name="BotPoint" type="BotPoint" x="4040" y="1896">
    <polyline points="-8,280 -8,-8"/>
   </object>
-  <object id="307" name="BotPoint" type="BotPoint" x="4072" y="1832">
-   <polyline points="-8,-8 -136,56"/>
-  </object>
-  <object id="308" name="BotPoint" type="BotPoint" x="4072" y="1832">
-   <polyline points="88,56 -8,-8"/>
-  </object>
   <object id="309" name="BotPoint" type="BotPoint" x="4232" y="1896">
-   <polyline points="248,-8 -72,-8"/>
+   <polyline points="344,-8 -200,-8"/>
   </object>
   <object id="310" name="BotPoint" type="BotPoint" x="3024" y="2408">
    <polyline points="-144,56 -48,-40"/>
@@ -265,10 +238,7 @@
    <polyline points="-48,-8 144,-8"/>
   </object>
   <object id="332" name="BotPoint" type="BotPoint" x="4624" y="2568">
-   <polyline points="-144,-40 -48,248"/>
-  </object>
-  <object id="333" name="BotPoint" type="BotPoint" x="4624" y="2920">
-   <polyline points="-48,-104 64,40"/>
+   <polyline points="-144,-40 64,392"/>
   </object>
   <object id="334" name="BotPoint" type="BotPoint" x="4784" y="2760">
    <polyline points="-96,200 208,184"/>
@@ -283,10 +253,7 @@
    <polyline points="-16,120 288,136"/>
   </object>
   <object id="338" name="BotPoint" type="BotPoint" x="5712" y="2824">
-   <polyline points="240,-8 128,136"/>
-  </object>
-  <object id="339" name="BotPoint" type="BotPoint" x="5840" y="2664">
-   <polyline points="208,-136 112,152"/>
+   <polyline points="336,-296 128,136"/>
   </object>
   <object id="341" name="BotPoint" type="BotPoint" x="6096" y="2536">
    <polyline points="-48,-8 144,-8"/>
@@ -344,9 +311,6 @@
   <object id="358" name="BotPoint" type="BotPoint" x="4752" y="3536">
    <polyline points="112,48 -80,48"/>
   </object>
-  <object id="359" name="BotPoint" type="BotPoint" x="4432" y="3568">
-   <polyline points="16,16 -176,16"/>
-  </object>
   <object id="360" name="BotPoint" type="BotPoint" x="4496" y="3536">
    <polyline points="64,16 -48,48"/>
   </object>
@@ -363,7 +327,7 @@
    <polyline points="-48,-16 16,48"/>
   </object>
   <object id="365" name="BotPoint" type="BotPoint" x="4208" y="3536">
-   <polyline points="48,48 -48,16"/>
+   <polyline points="240,48 -48,16"/>
   </object>
   <object id="366" name="BotPoint" type="BotPoint" x="4176" y="3568">
    <polyline points="-16,-16 80,208"/>
@@ -385,7 +349,7 @@
    <polyline points="-80,144 48,16"/>
   </object>
   <object id="369" name="BotPoint" type="BotPoint" x="4520" y="1104">
-   <polyline points="-168,144 -8,-16"/>
+   <polyline points="-312,112 -8,-16"/>
   </object>
   <object id="370" name="BotPoint" type="BotPoint" x="4616" y="1040">
    <polyline points="-104,48 280,80"/>
@@ -409,10 +373,7 @@
    <polyline points="-112,88 272,56"/>
   </object>
   <object id="377" name="BotPoint" type="BotPoint" x="5920" y="1152">
-   <polyline points="256,96 96,-64"/>
-  </object>
-  <object id="378" name="BotPoint" type="BotPoint" x="6248" y="1200">
-   <polyline points="-72,48 72,16"/>
+   <polyline points="400,64 96,-64"/>
   </object>
   <object id="379" name="BotPoint" type="BotPoint" x="6368" y="1224">
    <polyline points="-48,184 -48,-8"/>
@@ -460,10 +421,7 @@
    <polyline points="-104,72 152,72"/>
   </object>
   <object id="394" name="BotPoint" type="BotPoint" x="6248" y="1832">
-   <polyline points="120,56 -200,56"/>
-  </object>
-  <object id="395" name="BotPoint" type="BotPoint" x="6408" y="1864">
-   <polyline points="-40,24 88,24"/>
+   <polyline points="248,56 -296,56"/>
   </object>
   <object id="396" name="BotPoint" type="BotPoint" x="6568" y="1864">
    <polyline points="-72,24 24,24"/>
@@ -516,9 +474,6 @@
   <object id="412" name="BotPoint" type="BotPoint" x="6480" y="2216">
    <polyline points="16,-40 -240,312"/>
   </object>
-  <object id="413" name="BotPoint" type="BotPoint" x="3648" y="3376">
-   <polyline points="-64,16 -192,16"/>
-  </object>
   <object id="414" name="BotPoint" type="BotPoint" x="3680" y="3376">
    <polyline points="0,112 -96,16"/>
   </object>
@@ -558,11 +513,8 @@
   <object id="427" name="BotPoint" type="BotPoint" x="7760" y="2760">
    <polyline points="-80,-8 80,152"/>
   </object>
-  <object id="428" name="BotPoint" type="BotPoint" x="7952" y="2920">
-   <polyline points="-112,-8 144,-8"/>
-  </object>
   <object id="429" name="BotPoint" type="BotPoint" x="8208" y="2856">
-   <polyline points="-112,56 144,56"/>
+   <polyline points="-368,56 144,56"/>
   </object>
   <object id="430" name="BotPoint" type="BotPoint" x="5536" y="3648">
    <properties>
@@ -579,7 +531,7 @@
    <polyline points="80,16 -112,16"/>
   </object>
   <object id="433" name="BotPoint" type="BotPoint" x="6128" y="3568">
-   <polyline points="144,16 -48,16"/>
+   <polyline points="240,-16 -48,16"/>
   </object>
   <object id="434" name="BotPoint" type="BotPoint" x="5936" y="3536">
    <polyline points="-272,48 -400,112"/>
@@ -592,9 +544,6 @@
   </object>
   <object id="437" name="BotPoint" type="BotPoint" x="6256" y="3648">
    <polyline points="112,-96 16,128"/>
-  </object>
-  <object id="438" name="BotPoint" type="BotPoint" x="6256" y="3528">
-   <polyline points="16,56 112,24"/>
   </object>
   <object id="439" name="BotPoint" type="BotPoint" x="6384" y="3472">
    <polyline points="48,16 -16,80"/>
@@ -610,9 +559,6 @@
   </object>
   <object id="443" name="BotPoint" type="BotPoint" x="6848" y="3376">
    <polyline points="0,112 96,16"/>
-  </object>
-  <object id="444" name="BotPoint" type="BotPoint" x="7008" y="3344">
-   <polyline points="-64,48 64,48"/>
   </object>
   <object id="445" name="BotPoint" type="BotPoint" x="6720" y="3120">
    <polyline points="32,16 -96,16"/>
@@ -682,17 +628,8 @@
   <object id="465" name="BotPoint" type="BotPoint" x="9464" y="2416">
    <polyline points="-56,16 232,16"/>
   </object>
-  <object id="466" name="BotPoint" type="BotPoint" x="9488" y="2952">
-   <polyline points="-112,24 80,24"/>
-  </object>
   <object id="467" name="BotPoint" type="BotPoint" x="9360" y="2792">
    <polyline points="48,-72 16,184"/>
-  </object>
-  <object id="468" name="BotPoint" type="BotPoint" x="9488" y="2792">
-   <polyline points="80,184 208,-72"/>
-  </object>
-  <object id="469" name="BotPoint" type="BotPoint" x="9488" y="2792">
-   <polyline points="-80,-72 80,184"/>
   </object>
   <object id="470" name="BotPoint" type="BotPoint" x="9488" y="2760">
    <polyline points="-112,216 208,-40"/>
@@ -739,17 +676,11 @@
   <object id="484" name="BotPoint" type="BotPoint" x="5784" y="2344">
    <polyline points="-56,-40 264,184"/>
   </object>
-  <object id="485" name="BotPoint" type="BotPoint" x="6000" y="1896">
-   <polyline points="-48,-8 48,-8"/>
-  </object>
   <object id="486" name="BotPoint" type="BotPoint" x="5880" y="2184">
    <polyline points="72,-296 168,344"/>
   </object>
   <object id="487" name="BotPoint" type="BotPoint" x="4600" y="2344">
    <polyline points="-24,-456 -120,184"/>
-  </object>
-  <object id="488" name="BotPoint" type="BotPoint" x="4528" y="1864">
-   <polyline points="-48,24 48,24"/>
   </object>
   <object id="489" name="BotPoint" type="BotPoint" x="5264" y="1256">
    <polyline points="0,536 0,-40"/>

@@ -6,6 +6,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.bots.BotManager;
+import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -94,6 +95,13 @@ public class SettingBots extends ModeSetting {
             HadalGame.server.getUsers().put(lastBotConnID, createBotUser());
             lastBotConnID--;
         }
+
+        //clear existing rally points to avoid memory leak
+        for (RallyPoint point: BotManager.rallyPoints.values()) {
+            point.getConnections().clear();
+            point.getShortestPaths().clear();
+        }
+        BotManager.rallyPoints.clear();
 
         //if any bots are preset, initiate bot rally points, otherwise don't bother
         if (botNumberIndex > 0) {

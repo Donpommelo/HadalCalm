@@ -35,30 +35,35 @@ public class ModeCapturetheFlag extends ModeSetting {
 
         for (ObjectiveMarker objective: state.getUiObjective().getObjectives()) {
             objectiveLocation.set(objective.getObjectiveLocation()).scl(1 / PPM);
-            RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation, objectiveLocation, playerVelocity);
-            if (tempPath != null) {
-                if (objective.getObjectiveTarget() instanceof Hitbox flag) {
-                    if (flag.getStrategies().size() >= 2) {
-                        if (flag.getStrategies().get(1) instanceof FlagCapturable capture) {
-                            if (capture.getTeamIndex() < AlignmentFilter.currentTeams.length) {
-                                flagSpawners.put(AlignmentFilter.currentTeams[capture.getTeamIndex()], capture.getSpawner());
-                                if (p.getPlayerData().getLoadout().team == AlignmentFilter.currentTeams[capture.getTeamIndex()]) {
-                                    if (capture.isCaptured()) {
+            if (objective.getObjectiveTarget() instanceof Hitbox flag) {
+                if (flag.getStrategies().size() >= 2) {
+                    if (flag.getStrategies().get(1) instanceof FlagCapturable capture) {
+                        if (capture.getTeamIndex() < AlignmentFilter.currentTeams.length) {
+                            flagSpawners.put(AlignmentFilter.currentTeams[capture.getTeamIndex()], capture.getSpawner());
+                            if (p.getPlayerData().getLoadout().team == AlignmentFilter.currentTeams[capture.getTeamIndex()]) {
+                                if (capture.isCaptured()) {
+                                    RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation, objectiveLocation, playerVelocity);
+                                    if (tempPath != null) {
                                         p.getBotController().setEventTarget(flag);
                                         return new RallyPath(tempPath.getPath(), tempPath.getDistance() * flagDefendDesireMultiplier);
                                     }
-                                } else {
-                                    if (capture.isCaptured()) {
-                                        if (p.equals(capture.getTarget())) {
-                                            SpawnerFlag home = flagSpawners.get(p.getPlayerData().getLoadout().team);
-                                            if (home != null) {
-                                                tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation,
-                                                        home.getPosition(), playerVelocity);
+                                }
+                            } else {
+                                if (capture.isCaptured()) {
+                                    if (p.equals(capture.getTarget())) {
+                                        SpawnerFlag home = flagSpawners.get(p.getPlayerData().getLoadout().team);
+                                        if (home != null) {
+                                            RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation,
+                                                    home.getPosition(), playerVelocity);
+                                            if (tempPath != null) {
                                                 p.getBotController().setEventTarget(home);
                                                 return new RallyPath(tempPath.getPath(), tempPath.getDistance() * flagReturnDesireMultiplier);
                                             }
                                         }
-                                    } else {
+                                    }
+                                } else {
+                                    RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation, objectiveLocation, playerVelocity);
+                                    if (tempPath != null) {
                                         p.getBotController().setEventTarget(flag);
                                         return new RallyPath(tempPath.getPath(), tempPath.getDistance() * flagAttackDesireMultiplier);
                                     }

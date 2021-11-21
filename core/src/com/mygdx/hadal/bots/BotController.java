@@ -255,8 +255,10 @@ public class BotController {
     }
 
     private static final float searchRadius = 60.0f;
+    private static final float enemyTargetThreshold = 15.0f;
     private static final int affinityThreshold1 = 10;
     private static final int affinityThreshold2 = 20;
+    private static final int affinityThreshold3 = 25;
     private static final float affinityMultiplier1 = 0.5f;
     private static final float affinityMultiplier2 = 3.0f;
     /**
@@ -267,7 +269,8 @@ public class BotController {
         float bestDistanceSoFar = -1.0f;
 
         RallyPath bestPath = null;
-        RallyPath prospectivePath;
+        RallyPath prospectivePath = null;
+        float pathDistance;
 
         if (!currentMood.equals(BotMood.WANDER)) {
             currentMood = BotMood.DILLY_DALLY;
@@ -281,24 +284,26 @@ public class BotController {
             totalAffinity += affinity;
             minAffinity = Math.min(minAffinity, affinity);
         }
-        prospectivePath = BotLoadoutProcessor.getPathToWeapon(player, playerLocation, playerVelocity, searchRadius, minAffinity);
+        if (totalAffinity < affinityThreshold3) {
+            prospectivePath = BotLoadoutProcessor.getPathToWeapon(player, playerLocation, playerVelocity, searchRadius, minAffinity);
 
-        //bots desire weapons more if they are not content with their current loadout and less if they are
-        float weaponDesireMultiplier = 1.0f;
-        if (prospectivePath != null) {
-            if (totalAffinity < affinityThreshold1) {
-                weaponDesireMultiplier = affinityMultiplier1;
+            //bots desire weapons more if they are not content with their current loadout and less if they are
+            float weaponDesireMultiplier = 1.0f;
+            if (prospectivePath != null) {
+                if (totalAffinity < affinityThreshold1) {
+                    weaponDesireMultiplier = affinityMultiplier1;
+                }
+                if (totalAffinity > affinityThreshold2) {
+                    weaponDesireMultiplier = affinityMultiplier2;
+                }
             }
-            if (totalAffinity > affinityThreshold2) {
-                weaponDesireMultiplier = affinityMultiplier2;
-            }
-        }
 
-        float pathDistance = prospectivePath != null ? prospectivePath.getDistance() * weaponDesireMultiplier : -1;
-        if (pathDistance != -1) {
-            currentMood = BotMood.SEEK_WEAPON;
-            bestDistanceSoFar = pathDistance;
-            bestPath = prospectivePath;
+            pathDistance = prospectivePath != null ? prospectivePath.getDistance() * weaponDesireMultiplier : -1;
+            if (pathDistance != -1) {
+                currentMood = BotMood.SEEK_WEAPON;
+                bestDistanceSoFar = pathDistance;
+                bestPath = prospectivePath;
+            }
         }
 
         //find best enemy path by looking at all valid targets
@@ -318,6 +323,13 @@ public class BotController {
                     RallyPath tempPath = BotManager.getShortestPathBetweenLocations(player, playerLocation,
                             user.getPlayer().getPosition(), playerVelocity);
                     if (tempPath != null) {
+
+                        if (tempPath.getDistance() < enemyTargetThreshold) {
+                            prospectivePath = tempPath;
+                            shootTarget = user.getPlayer();
+                            break;
+                        }
+
                         if (prospectivePath != null) {
                             if (tempPath.getDistance() < prospectivePath.getDistance()) {
                                 prospectivePath = tempPath;

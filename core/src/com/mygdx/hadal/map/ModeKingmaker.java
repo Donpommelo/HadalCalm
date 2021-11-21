@@ -17,27 +17,27 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  */
 public class ModeKingmaker extends ModeSetting {
 
-    private static final float crownDesireMultiplier = 0.1f;
+    private static final float crownDesireMultiplier = 0.05f;
     private final Vector2 objectiveLocation = new Vector2();
     @Override
     public RallyPath processAIPath(PlayState state, GameMode mode, PlayerBot p, Vector2 playerLocation, Vector2 playerVelocity) {
         if (!state.getUiObjective().getObjectives().isEmpty()) {
             objectiveLocation.set(state.getUiObjective().getObjectives().get(0).getObjectiveLocation()).scl(1 / PPM);
-            RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation, objectiveLocation, playerVelocity);
-            if (tempPath != null) {
-                if (state.getUiObjective().getObjectives().get(0).getObjectiveTarget() instanceof Hitbox flag) {
-                    if (flag.getStrategies().size() >= 2) {
+            if (state.getUiObjective().getObjectives().get(0).getObjectiveTarget() instanceof Hitbox flag) {
+                if (flag.getStrategies().size() >= 2) {
 
-                        //this is kinda sketchy code that relies on the fact that capturable flags are only created in 1 place
-                        //and that they are always added as the second strategy
-                        if (flag.getStrategies().get(1) instanceof FlagHoldable capture) {
-                            if (capture.isCaptured()) {
-                                if (p.equals(capture.getTarget())) {
-                                    p.getBotController().getPointPath().clear();
-                                    p.getBotController().setCurrentMood(BotController.BotMood.WANDER);
-                                    return null;
-                                }
+                    //this is kinda sketchy code that relies on the fact that capturable flags are only created in 1 place
+                    //and that they are always added as the second strategy
+                    if (flag.getStrategies().get(1) instanceof FlagHoldable capture) {
+                        if (capture.isCaptured()) {
+                            if (p.equals(capture.getTarget())) {
+                                p.getBotController().getPointPath().clear();
+                                p.getBotController().setCurrentMood(BotController.BotMood.WANDER);
+                                return null;
                             }
+                        }
+                        RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation, objectiveLocation, playerVelocity);
+                        if (tempPath != null) {
                             p.getBotController().setEventTarget(flag);
                             return new RallyPath(tempPath.getPath(), tempPath.getDistance() * crownDesireMultiplier);
                         }

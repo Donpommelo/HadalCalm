@@ -1,12 +1,12 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.ScaledNumericValue;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.server.packets.Packets;
@@ -62,7 +62,11 @@ public class ParticleEntity extends HadalEntity {
 	
 	//if attached to an entity, this vector is the offset of the particle from the attached entity's location
 	private final Vector2 offset = new Vector2();
-	
+	private final Vector2 particleStartPos = new Vector2();
+
+	private final BoundingBox visualBounds = new BoundingBox();
+	private static final float visualBoundsRadius = 200.0f;
+
 	//This constructor creates a particle effect at an area.
 	public ParticleEntity(PlayState state, Vector2 startPos, Particle particle, float lifespan, boolean startOn, particleSyncType sync) {
 		super(state, startPos, new Vector2());
@@ -81,6 +85,8 @@ public class ParticleEntity extends HadalEntity {
 			this.effect.allowCompletion();
 		}
 		this.effect.setPosition(startPos.x, startPos.y);
+		this.visualBounds.inf();
+		this.visualBounds.ext(new Vector3(startPos.x, startPos.y, 0), visualBoundsRadius);
 	}
 	
 	//This constructor creates a particle effect that will follow another entity.
@@ -91,9 +97,13 @@ public class ParticleEntity extends HadalEntity {
 		
 		if (attachedEntity != null) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
-				this.effect.setPosition(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
+				this.visualBounds.inf();
+				this.visualBounds.ext(new Vector3(attachedEntity.getPixelPosition().x + offset.x, attachedEntity.getPixelPosition().y + offset.y, 0), visualBoundsRadius);
+				this.effect.setPosition(attachedEntity.getPixelPosition().x + offset.x, attachedEntity.getPixelPosition().y + offset.y);
 			} else {
-				this.effect.setPosition(attachedEntity.getStartPos().x, attachedEntity.getStartPos().y);
+				this.visualBounds.inf();
+				this.visualBounds.ext(new Vector3(attachedEntity.getStartPos().x + offset.x, attachedEntity.getStartPos().y + offset.y, 0), visualBoundsRadius);
+				this.effect.setPosition(attachedEntity.getStartPos().x + offset.x, attachedEntity.getStartPos().y + offset.y);
 			}
 		}
 	}
@@ -108,6 +118,7 @@ public class ParticleEntity extends HadalEntity {
 	public void create() {}
 
 	private final Vector2 attachedLocation = new Vector2();
+	private final Vector3 visualBoundsExtension = new Vector3();
 	@Override
 	public void controller(float delta) {
 		
@@ -119,6 +130,8 @@ public class ParticleEntity extends HadalEntity {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
 				attachedLocation.set(attachedEntity.getPixelPosition());
 				effect.setPosition(attachedLocation.x + offset.x, attachedLocation.y + offset.y);
+				visualBoundsExtension.set(attachedLocation.x + offset.x, attachedLocation.y + offset.y, 0);
+				visualBounds.ext(visualBoundsExtension, visualBoundsRadius);
 			} else {
 				despawn = true;
 				turnOff();
@@ -194,7 +207,7 @@ public class ParticleEntity extends HadalEntity {
 	 */
 	@Override
 	public boolean isVisible() {
-		return state.getCamera().frustum.boundsInFrustum(effect.getBoundingBox());
+		return state.getCamera().frustum.boundsInFrustum(visualBounds);
 	}
 
 	public void turnOn() {
@@ -216,7 +229,7 @@ public class ParticleEntity extends HadalEntity {
 	}
 	
 	@Override
-	public void render(SpriteBatch batch) {	effect.draw(batch, Gdx.graphics.getDeltaTime()); }
+	public void render(SpriteBatch batch) {	effect.draw(batch); }
 
 	@Override
 	public void dispose() {

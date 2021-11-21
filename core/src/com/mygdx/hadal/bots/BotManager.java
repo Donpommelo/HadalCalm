@@ -26,7 +26,7 @@ import java.util.*;
 public class BotManager {
 
     //this is a list of all bot rally points in the current map mapped to their positions
-    private static final Map<Vector2, RallyPoint> rallyPoints = new HashMap<>();
+    public static final Map<Vector2, RallyPoint> rallyPoints = new HashMap<>();
 
     /**
      * Run on first tick of server playstate. Initiate all bots
@@ -45,8 +45,6 @@ public class BotManager {
      */
     public static void initiateRallyPoints(TiledMap map) {
 
-        //clear existing rally points to avoid memory leak
-        rallyPoints.clear();
         MapLayer botLayer = map.getLayers().get("bot-layer");
         if (botLayer != null) {
             for (MapObject object : botLayer.getObjects()) {
@@ -80,7 +78,7 @@ public class BotManager {
     }
 
     //this is the furthest distance that we will check rally poitns for
-    private static final float MaxPointDistanceCheck = 25.0f;
+    private static final float MaxPointDistanceCheck = 20.0f;
     private static final Vector2 tempPointLocation = new Vector2();
     private static final Vector2 tempBotLocation = new Vector2();
     /**
@@ -139,11 +137,11 @@ public class BotManager {
         float closestDistUnobstructed = 0.0f;
 
         //iterate through all rally points up to a set distance away
-        for (Vector2 rallyPoint: rallyPoints.keySet()) {
-            if (Math.abs(rallyPoint.x - sourceLocation.x) > MaxPointDistanceCheck ||
-                    Math.abs(rallyPoint.y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
+        for (Map.Entry<Vector2, RallyPoint> rallyPoint: rallyPoints.entrySet()) {
+            if (Math.abs(rallyPoint.getKey().x - sourceLocation.x) > MaxPointDistanceCheck ||
+                    Math.abs(rallyPoint.getKey().y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
 
-            tempPointLocation.set(rallyPoint);
+            tempPointLocation.set(rallyPoint.getKey());
             float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation);
 
             //if we have a line of sight with the point, check if its distance is less than the nearest point so far
@@ -161,15 +159,15 @@ public class BotManager {
                 //traveling in the same direction you are already moving quickly should be more desirable
                 tempBotLocation.set(sourceLocation).mulAdd(sourceVelocity, currentVelocityMultiplier);
 
-                //total cosst of path is distance of point to end + distance from entity to point
-                RallyPath shortestPath = getShortestPathBetweenPoints(rallyPoints.get(rallyPoint), end);
+                //total cost of path is distance of point to end + distance from entity to point
+                RallyPath shortestPath = getShortestPathBetweenPoints(rallyPoint.getValue(), end);
                 if (shortestPath != null) {
 
                     //we use squares to avoid calculating a square root; we don't need the shortest path, just short enough
                     float currentDistSquaredTotal = shortestPath.getDistance() * shortestPath.getDistance()
                             + tempBotLocation.dst2(tempPointLocation);
                     if (closestUnobstructed == null || currentDistSquaredTotal < closestDistUnobstructed) {
-                        closestUnobstructed = rallyPoints.get(rallyPoint);
+                        closestUnobstructed = rallyPoint.getValue();
                         closestDistUnobstructed = currentDistSquaredTotal;
                     }
                 }

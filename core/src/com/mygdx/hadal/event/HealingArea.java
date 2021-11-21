@@ -46,6 +46,7 @@ public class HealingArea extends Event {
 	private final float spawnTimerLimit;
 
 	//the frequency that the heal is applied
+	private float particleLifespan = 1.5f;
 	private static final float healInterval = 1 / 60f;
 	
 	/**
@@ -102,7 +103,7 @@ public class HealingArea extends Event {
 			currCrossSpawnTimer -= spawnTimerLimit;
 			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
-			new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
+			new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, particleLifespan, true, particleSyncType.NOSYNC);
 		}
 	}
 	

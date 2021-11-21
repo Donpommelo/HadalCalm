@@ -49,6 +49,7 @@ public class ToggleEggplantDrops extends ModeSetting {
                         if (tempPath != null) {
                             p.getBotController().setEventTarget(scrap);
                             bestPath[0] = tempPath;
+                            return false;
                         }
                     }
                 }
