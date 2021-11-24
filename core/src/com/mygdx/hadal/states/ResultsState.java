@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.audio.MusicTrackType;
@@ -31,9 +33,6 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.text.HText;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import static com.mygdx.hadal.utils.Constants.*;
 
 /**
@@ -48,19 +47,19 @@ public class ResultsState extends GameState {
 	private ScrollPane infoScroll, charactersScroll;
 
 	private Text infoPlayerName;
-	
+
 	//This is the playstate that the results state is placed on top of. Used to access the state's message window
 	private final PlayState ps;
-	
-	//This is a list of all the saved player fields (scores) from the completed playstate
-	private final ArrayList<SavedPlayerFields> scores;
 
-    private final ArrayList<PlayerResultsIcon> icons;
-	private final ArrayList<PooledEffect> effects;
+	//This is a list of all the saved player fields (scores) from the completed playstate
+	private final Array<SavedPlayerFields> scores;
+
+    private final Array<PlayerResultsIcon> icons;
+	private final Array<PooledEffect> effects;
 
     //This is a mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
-	private final HashMap<SavedPlayerFields, Boolean> ready;
-	
+	private final ObjectMap<SavedPlayerFields, Boolean> ready;
+
 	//this text is displayed at the top of the state and usually indicates victory or loss
 	private final String text;
 
@@ -132,11 +131,11 @@ public class ResultsState extends GameState {
 		this.shader = Shader.PERLIN_FADE;
 		shader.loadShader();
 		this.snapshot = new TextureRegion(fbo.getColorBufferTexture(), 0, fbo.getHeight(), fbo.getWidth(), -fbo.getHeight());
-		
+
 		//First, we obtain the list of scores, depending on whether we are the server or client.
-		scores = new ArrayList<>();
-		icons = new ArrayList<>();
-		effects = new ArrayList<>();
+		scores = new Array<>();
+		icons = new Array<>();
+		effects = new Array<>();
 
 		if (ps.isServer()) {
 			for (User user: HadalGame.server.getUsers().values()) {
@@ -170,14 +169,14 @@ public class ResultsState extends GameState {
 		});
 
 		//Finally we initialize the ready map with everyone set to not ready. Bots don't need to ready up
-		ready = new HashMap<>();
+		ready = new ObjectMap<>();
 		for (SavedPlayerFields score: scores) {
 			if (score.getConnID() >= 0) {
 				ready.put(score, false);
 			}
 		}
 	}
-	
+
 	@Override
 	public void show() {
 		stage = new Stage() {
@@ -194,7 +193,7 @@ public class ResultsState extends GameState {
 
 				infoPlayerName = new Text("", 0, 0, false);
 				infoPlayerName.setScale(infoTextScale);
-				
+
 				tableInfo = new Table();
 				tableArtifact = new Table();
 
@@ -214,7 +213,7 @@ public class ResultsState extends GameState {
 				tableInfoOuter.add(infoScroll).width(infoWidth).height(infoScrollHeight);
 				tableInfoOuter.setPosition(infoX, infoY);
 				tableInfoOuter.setSize(infoWidth, infoHeight);
-				
+
 				addActor(tableInfoOuter);
 
 				tableExtra = new WindowTable();
@@ -260,7 +259,7 @@ public class ResultsState extends GameState {
 				addActor(tableExtra);
 			}
 		};
-		
+
 		//we pull up and lock the playstate message window so players can chat in the aftergame.
 		if (!ps.getMessageWindow().isActive()) {
 			ps.getMessageWindow().toggleWindow();
@@ -436,7 +435,7 @@ public class ResultsState extends GameState {
 		table.add(title).height(titleHeight).row();
 		table.add(charactersScroll).expandX().height(characterScrollHeight).row();
 	}
-	
+
 	/**
 	 * This fills the window with stats for the designated player
 	 */
@@ -535,7 +534,7 @@ public class ResultsState extends GameState {
 			}
 		}), Actions.moveTo(infoXEnabled, infoYEnabled, TRANSITION_DURATION, INTP_FASTSLOW)));
 	}
-	
+
 	/**
 	 * This is pressed whenever a player gets ready.
 	 * @param playerId: If this is run by the server, this is the player's connID (or 0, if the host themselves).
@@ -543,24 +542,24 @@ public class ResultsState extends GameState {
 	 */
 	public void readyPlayer(int playerId) {
 		if (ps.isServer()) {
-			
+
 			//The server finds the player that readies, sets their readiness and informs all clients by sending that player's index
 			User user = HadalGame.server.getUsers().get(playerId);
 			if (user != null && !user.isSpectator()) {
 				SavedPlayerFields field = user.getScores();
 				ready.put(field, true);
-				int iconId = scores.indexOf(field);
+				int iconId = scores.indexOf(field, false);
 				icons.get(iconId).setReady(true);
 
 				HadalGame.server.sendToAllTCP(new Packets.ClientReady(iconId));
 			}
 		} else {
-			
+
 			//Clients just find the player based on that index and sets them as ready.
 			ready.put(scores.get(playerId), true);
 			icons.get(playerId).setReady(true);
 		}
-		
+
 		//When all players are ready, reddy will be true and we return to the hub
 		boolean reddy = true;
 		for (boolean b: ready.values()) {
@@ -630,6 +629,6 @@ public class ResultsState extends GameState {
 			effect.free();
 		}
 	}
-	
+
 	public PlayState getPs() { return ps; }
 }

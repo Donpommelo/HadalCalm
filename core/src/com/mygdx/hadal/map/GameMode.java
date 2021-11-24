@@ -2,6 +2,8 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.bots.RallyPath;
 import com.mygdx.hadal.equip.Loadout;
@@ -22,10 +24,6 @@ import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 
@@ -133,7 +131,7 @@ public enum GameMode {
 
     //this contains the strings that will be displayed in the notification window at the start of the game
     //atm, this is just used to notify of mode modifiers
-    private final List<String> initialNotifications = new ArrayList<>();
+    private final Array<String> initialNotifications = new Array<>();
 
     //this is a game mode which has the same set of compliant maps.
     // Used for modes that have the same set of compliant maps (gun game etc with deathmatch)
@@ -343,7 +341,7 @@ public enum GameMode {
         return path;
     }
 
-    private static final HashMap<String, GameMode> ModesByName = new HashMap<>();
+    private static final ObjectMap<String, GameMode> ModesByName = new ObjectMap<>();
     static {
         for (GameMode m: GameMode.values()) {
             ModesByName.put(m.toString(), m);
@@ -359,7 +357,7 @@ public enum GameMode {
     public void setInfo(InfoItem info) { this.info = info; }
 
     public static GameMode getByName(String s) {
-        return ModesByName.getOrDefault(s, HUB);
+        return ModesByName.get(s, HUB);
     }
 
     public String[] getExtraLayers() { return extraLayers; }
@@ -372,7 +370,7 @@ public enum GameMode {
 
     public boolean isHub() { return false; }
 
-    public List<String> getInitialNotifications() { return initialNotifications; }
+    public Array<String> getInitialNotifications() { return initialNotifications; }
 
     public TeamMode getTeamMode() { return teamMode; }
 

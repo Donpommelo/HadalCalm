@@ -2,6 +2,7 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.WaveType;
@@ -9,8 +10,6 @@ import com.mygdx.hadal.schmucks.bodies.enemies.WaveType.WaveTag;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import java.util.ArrayList;
 
 /**
  * There are ~6 Wave Spawners in arena maps. When a new wave is spawned, each spawner is activated and a new wave of enemies is spawned
@@ -30,7 +29,7 @@ public class SpawnerWave extends Event {
 	//this is the number of the current wave.
 	private int waveNum = 1;
 	private final int extraField;
-	private final ArrayList<WaveTag> tags = new ArrayList<>();
+	private final Array<WaveTag> tags = new Array<>();
 	
 	public SpawnerWave(PlayState state, Vector2 startPos, Vector2 size, int pointId, int extraField, String tag) {
 		super(state, startPos, size);

@@ -63,7 +63,9 @@ public class InitState extends GameState {
 
 	@Override
 	public void update(float delta) {
-		if (HadalGame.assetManager.update()) {
+
+		//we block for 17 milliseconds to attempt to maintain ~60 fps
+		if (HadalGame.assetManager.update(17)) {
 			
 			//If we are done loading, go to title state and set up gsm assets (static atlases and stuff like that)
 			gsm.loadAssets();

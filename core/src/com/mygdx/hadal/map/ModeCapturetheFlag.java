@@ -1,6 +1,7 @@
 package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.actors.ObjectiveMarker;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.bots.RallyPath;
@@ -11,8 +12,6 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.FlagCapturable;
 
-import java.util.HashMap;
-
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
@@ -20,7 +19,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  */
 public class ModeCapturetheFlag extends ModeSetting {
 
-    private static final HashMap<AlignmentFilter, SpawnerFlag> flagSpawners = new HashMap<>();
+    private static final ObjectMap<AlignmentFilter, SpawnerFlag> flagSpawners = new ObjectMap<>();
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
         flagSpawners.clear();
@@ -36,7 +35,7 @@ public class ModeCapturetheFlag extends ModeSetting {
         for (ObjectiveMarker objective: state.getUiObjective().getObjectives()) {
             objectiveLocation.set(objective.getObjectiveLocation()).scl(1 / PPM);
             if (objective.getObjectiveTarget() instanceof Hitbox flag) {
-                if (flag.getStrategies().size() >= 2) {
+                if (flag.getStrategies().size >= 2) {
                     if (flag.getStrategies().get(1) instanceof FlagCapturable capture) {
                         if (capture.getTeamIndex() < AlignmentFilter.currentTeams.length) {
                             flagSpawners.put(AlignmentFilter.currentTeams[capture.getTeamIndex()], capture.getSpawner());

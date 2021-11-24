@@ -4,17 +4,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.SharedSetting;
-import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
 import com.mygdx.hadal.text.HText;
-
-import java.util.ArrayList;
-import java.util.Map.Entry;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 
@@ -49,7 +48,7 @@ public class ScoreWindow {
 	private static final float optionsHeight = 25.0f;
 	private static final float optionsExtraHeight = 25.0f;
 
-	private final ArrayList<User> orderedUsers = new ArrayList<>();
+	private final Array<User> orderedUsers = new Array<>();
 
 	public ScoreWindow(PlayState state) {
 		this.state = state;
@@ -86,9 +85,9 @@ public class ScoreWindow {
 		int tableHeight = scoreBaseHeight + scoreTitleHeight * 2;
 		
 		if (state.isServer()) {
-			tableHeight += (scoreRowHeight + scorePadY) * HadalGame.server.getUsers().size();
+			tableHeight += (scoreRowHeight + scorePadY) * HadalGame.server.getUsers().size;
 		} else {
-			tableHeight += (scoreRowHeight + scorePadY) * HadalGame.client.getUsers().size();
+			tableHeight += (scoreRowHeight + scorePadY) * HadalGame.client.getUsers().size;
 		}
 		
 		windowScore.setSize(scoreWidth, tableHeight);
@@ -126,12 +125,12 @@ public class ScoreWindow {
 		//add table entry for each player and sort according to score
 		orderedUsers.clear();
 		if (state.isServer()) {
-			for (Entry<Integer, User> entry : HadalGame.server.getUsers().entrySet()) {
-				orderedUsers.add(entry.getValue());
+			for (ObjectMap.Entry<Integer, User> entry : HadalGame.server.getUsers().entries()) {
+				orderedUsers.add(entry.value);
 			}
 		} else {
-			for (Entry<Integer, User> entry: HadalGame.client.getUsers().entrySet()) {
-				orderedUsers.add(entry.getValue());
+			for (ObjectMap.Entry<Integer, User> entry: HadalGame.client.getUsers().entries()) {
+				orderedUsers.add(entry.value);
 			}
 		}
 
@@ -336,5 +335,5 @@ public class ScoreWindow {
 		windowOptions.remove();
 	}
 
-	public ArrayList<User> getOrderedUsers() { return orderedUsers; }
+	public Array<User> getOrderedUsers() { return orderedUsers; }
 }

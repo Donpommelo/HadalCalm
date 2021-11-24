@@ -1,13 +1,12 @@
 package com.mygdx.hadal.event.utility;
 
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
-
-import java.util.ArrayList;
 
 /**
  * A PlayerMover is an event that transports the player elsewhere when they it is activated.
@@ -29,13 +28,13 @@ public class PlayerMover extends Event {
 	//are we in the middle of moving the player?
 	private boolean moving = false;
 
-	private final ArrayList<Player> players;
+	private final Array<Player> players;
 	
 	public PlayerMover(PlayState state, boolean all, boolean exclude) {
 		super(state);
 		this.all = all;
 		this.exclude = exclude;
-		this.players = new ArrayList<>();
+		this.players = new Array<>();
 	}
 	
 	@Override

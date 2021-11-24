@@ -14,6 +14,8 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
+import java.util.UUID;
+
 /**
  * The particle entity is an invisible, ephemeral entity that emits particle effects.
  * Atm, this is needed so that other entities can have particle effects that persist beyond their own disposal.
@@ -27,7 +29,7 @@ public class ParticleEntity extends HadalEntity {
 	
 	//Is this entity following another entity?
 	private HadalEntity attachedEntity;
-	private String attachedId;
+	private UUID attachedId;
 	
 	//How long this entity will last after deletion, the interval that this effect is turned on
 	// , the lifespan of this entity, how much time before dying does the effect turn off?
@@ -62,7 +64,6 @@ public class ParticleEntity extends HadalEntity {
 	
 	//if attached to an entity, this vector is the offset of the particle from the attached entity's location
 	private final Vector2 offset = new Vector2();
-	private final Vector2 particleStartPos = new Vector2();
 
 	private final BoundingBox visualBounds = new BoundingBox();
 	private static final float visualBoundsRadius = 200.0f;
@@ -151,7 +152,7 @@ public class ParticleEntity extends HadalEntity {
 				if (state.isServer()) {
 					this.queueDeletion();
 				} else {
-					((ClientState) state).removeEntity(entityID.toString());
+					((ClientState) state).removeEntity(entityID);
 				}
 			}
 		}
@@ -163,7 +164,7 @@ public class ParticleEntity extends HadalEntity {
 				if (state.isServer()) {
 					this.queueDeletion();
 				} else {
-					((ClientState) state).removeEntity(entityID.toString());
+					((ClientState) state).removeEntity(entityID);
 				}
 			} else if (lifespan <= prematureTurnOff) {
 
@@ -250,11 +251,11 @@ public class ParticleEntity extends HadalEntity {
 	public Object onServerCreate() {
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), offset,
-					true, particle.toString(), on, linger, lifespan, scale, rotate, velocity, sync.equals(particleSyncType.TICKSYNC), color);
+				return new Packets.CreateParticles(entityID, attachedEntity.getEntityID(), offset,
+					true, particle, on, linger, lifespan, scale, rotate, velocity, sync.equals(particleSyncType.TICKSYNC), color);
 			} else {
-				return new Packets.CreateParticles(entityID.toString(), null, startPos, false,
-					particle.toString(), on, linger, lifespan, scale, rotate, velocity, sync.equals(particleSyncType.TICKSYNC), color);
+				return new Packets.CreateParticles(entityID, entityID, startPos, false,
+					particle, on, linger, lifespan, scale, rotate, velocity, sync.equals(particleSyncType.TICKSYNC), color);
 			}
 		} else {
 			return null;
@@ -264,7 +265,7 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public Object onServerDelete() {
 		if (sync.equals(particleSyncType.TICKSYNC)) {
-			return new Packets.DeleteEntity(entityID.toString(), state.getTimer());
+			return new Packets.DeleteEntity(entityID, state.getTimer());
 		} else {
 			return null;
 		}
@@ -289,10 +290,10 @@ public class ParticleEntity extends HadalEntity {
 			
 			//if this particle effect has extra fields (scale and color), sync those as well
 			if (syncExtraFields) {
-				state.getSyncPackets().add(new PacketsSync.SyncParticlesExtra(entityID.toString(), newPos, offset, entityAge,
+				state.getSyncPackets().add(new PacketsSync.SyncParticlesExtra(entityID, newPos, offset, entityAge,
 						state.getTimer(), on, scale, color));
 			} else {
-				state.getSyncPackets().add(new PacketsSync.SyncParticles(entityID.toString(), newPos, offset, entityAge,
+				state.getSyncPackets().add(new PacketsSync.SyncParticles(entityID, newPos, offset, entityAge,
 						state.getTimer(), on));
 			}
 		}
@@ -433,7 +434,7 @@ public class ParticleEntity extends HadalEntity {
 	
 	public void setDespawn(boolean despawn) { this.despawn = despawn; }
 	
-	public void setAttachedId(String attachedId) { this.attachedId = attachedId; }
+	public void setAttachedId(UUID attachedId) { this.attachedId = attachedId; }
 
 	public void setOffset(Vector2 offset) { this.offset.set(offset); }
 	

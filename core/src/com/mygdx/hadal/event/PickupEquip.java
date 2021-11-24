@@ -109,8 +109,7 @@ public class PickupEquip extends Event {
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(),
-			Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(equip.getClass())).toString(), synced);
+		return new Packets.CreatePickup(entityID, getPixelPosition(), UnlockEquip.getUnlockFromEquip(equip.getClass()), synced);
 	}
 
 	@Override
@@ -120,15 +119,15 @@ public class PickupEquip extends Event {
 		if (drop || synced) {
 			super.onServerSync();
 		}
-		state.getSyncPackets().add(new Packets.SyncPickup(entityID.toString(),
-			Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(equip.getClass())).toString(), entityAge, state.getTimer()));
+		state.getSyncPackets().add(new Packets.SyncPickup(entityID, UnlockEquip.getUnlockFromEquip(equip.getClass()),
+				entityAge, state.getTimer()));
 	}
 
 	@Override
 	public void onClientSync(Object o) {
 
 		if (o instanceof Packets.SyncPickup p) {
-			setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.getByName(p.newPickup), null)));
+			setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(p.newPickup, null)));
 		} else {
 			super.onClientSync(o);
 		}

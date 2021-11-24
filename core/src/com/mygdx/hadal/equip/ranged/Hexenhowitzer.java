@@ -1,9 +1,10 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -24,7 +25,6 @@ import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.Stats;
 
-import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Hexenhowitzer extends RangedWeapon {
@@ -115,13 +115,13 @@ public class Hexenhowitzer extends RangedWeapon {
 			
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
-				private final ArrayList<HadalData> damaged = new ArrayList<>();
+				private final Array<HadalData> damaged = new Array<>();
 
 				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
-							if (!damaged.contains(fixB)) {
+							if (!damaged.contains(fixB, false)) {
 								damaged.add(fixB);
 								
 								//gain charge based on the amount of damage dealt by this weapon's projectiles

@@ -533,7 +533,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void syncServerLoadoutChange(boolean save) {
 		if (player.getState().isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncServerLoadout(player.getEntityID().toString(), loadout, save));
+			HadalGame.server.sendToAllTCP(new Packets.SyncServerLoadout(player.getEntityID(), loadout, save));
 		}
 	}
 	

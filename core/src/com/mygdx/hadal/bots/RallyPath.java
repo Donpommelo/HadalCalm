@@ -1,6 +1,6 @@
 package com.mygdx.hadal.bots;
 
-import java.util.ArrayList;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * A RallyPath consists of a list of Rally Points, as well as an estimated distance it would take to travel
@@ -8,15 +8,15 @@ import java.util.ArrayList;
  */
 public class RallyPath {
 
-    private final ArrayList<RallyPoint> path = new ArrayList<>();
+    private final Array<RallyPoint> path = new Array<>();
     private float distance;
 
-    public RallyPath(ArrayList<RallyPoint> path, float distance) {
+    public RallyPath(Array<RallyPoint> path, float distance) {
         this.path.addAll(path);
         this.distance = distance;
     }
 
-    public ArrayList<RallyPoint> getPath() { return path; }
+    public Array<RallyPoint> getPath() { return path; }
 
     public float getDistance() { return distance; }
 

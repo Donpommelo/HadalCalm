@@ -6,7 +6,6 @@ import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -119,7 +118,7 @@ public enum UnlockLevel {
 	/**
 	 * This acquires a list of all unlocked maps (if unlock is true. otherwise just return all maps that satisfy the tags)
 	 */
-	public static Array<UnlockLevel> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
+	public static Array<UnlockLevel> getUnlocks(PlayState state, boolean unlock, Array<UnlockTag> tags) {
 		Array<UnlockLevel> items = new Array<>();
 		
 		for (UnlockLevel u : UnlockLevel.values()) {
@@ -145,7 +144,7 @@ public enum UnlockLevel {
 			info = new InfoItem();
 			info.setName(toString());
 			info.setDescription("");
-			info.setTags(new ArrayList<>());
+			info.setTags(new Array<>());
 		}
 		return info;
 	}

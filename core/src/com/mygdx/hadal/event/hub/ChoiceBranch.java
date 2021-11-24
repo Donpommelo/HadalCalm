@@ -3,15 +3,13 @@ package com.mygdx.hadal.event.hub;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.OrderedMap;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.states.PlayState;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * The choice branch gives a list of choices, each of which connects to another event
@@ -23,7 +21,7 @@ public class ChoiceBranch extends HubEvent {
 	private final String[] optionNames;
 	
 	//this maps each string option to the event that will be activated when the player chooses it.
-	private final Map<String, Event> options;
+	private final OrderedMap<String, Event> options;
 	
 	//should the menu close after the player chooses an option
 	private final boolean closeAfterSelect;
@@ -31,7 +29,7 @@ public class ChoiceBranch extends HubEvent {
 	public ChoiceBranch(PlayState state, Vector2 startPos, Vector2 size, String title, String optionNames, boolean closeAfterSelect, boolean closeOnLeave) {
 		super(state, startPos, size, title, "MISC", true, closeOnLeave, hubTypes.MISC);
 		this.optionNames = optionNames.split(",");
-		options = new LinkedHashMap<>();
+		options = new OrderedMap<>();
 		this.closeAfterSelect = closeAfterSelect;
 	}
 	
@@ -42,16 +40,16 @@ public class ChoiceBranch extends HubEvent {
 		
 		final ChoiceBranch me = this;
 		
-		for (Entry<String, Event> entry: options.entrySet()) {
+		for (ObjectMap.Entry<String, Event> entry: options.entries()) {
 
-			Text itemChoose = new Text(entry.getKey(), 0, 0, true);
+			Text itemChoose = new Text(entry.key, 0, 0, true);
 			itemChoose.addListener(new ClickListener() {
 				
 				@Override
 		        public void clicked(InputEvent e, float x, float y) {
 					
-					if (entry.getValue() != null) {
-						entry.getValue().getEventData().preActivate(me.getEventData(), state.getPlayer());
+					if (entry.value != null) {
+						entry.value.getEventData().preActivate(me.getEventData(), state.getPlayer());
 						
 						if (closeAfterSelect) {
 							me.leave();

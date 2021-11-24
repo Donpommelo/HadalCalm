@@ -7,4 +7,6 @@ dependencies {
     implementation "com.github.payne911:PieMenu:$pieMenuVersion"
     implementation "org.bitlet:weupnp:$weupnpVersion"
     implementation "io.socket:socket.io-client:$socketioVersion"
+    implementation "io.socket:socket.io-client:$socketioVersion"
+    implementation "com.guardsquare:proguard-gradle:$proguardVersion"
 }

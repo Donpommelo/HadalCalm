@@ -2,15 +2,13 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -37,7 +35,7 @@ public class MovingPoint extends Event {
 	private final float speed;
 	private final boolean pause, syncConnected;
 	
-	private final HashMap<Event, Vector2> connected = new HashMap<>();
+	private final ObjectMap<Event, Vector2> connected = new ObjectMap<>();
 	
 	public MovingPoint(PlayState state, Vector2 startPos, Vector2 size, float speed, boolean pause, boolean syncConnected) {
 		super(state, startPos, size);
@@ -81,22 +79,22 @@ public class MovingPoint extends Event {
 					setLinearVelocity(dist.nor().scl(speed));
 
 					//Move all connected events by same amount.
-					for (Event e : connected.keySet()) {
+					for (Event e : connected.keys()) {
 						e.setLinearVelocity(dist.nor().scl(speed));
 					}
 				} else if (!needsToStartMoving && dist.len2() < delta * delta * speed * speed) {
 					needsToStartMoving = true;
 					setTransform(targetPosition, 0);
-					for (Map.Entry<Event, Vector2> e : connected.entrySet()) {
-						tempConnectedPosition.set(targetPosition).add(e.getValue());
-						e.getKey().setTransform(tempConnectedPosition, 0);
+					for (ObjectMap.Entry<Event, Vector2> e : connected.entries()) {
+						tempConnectedPosition.set(targetPosition).add(e.value);
+						e.key.setTransform(tempConnectedPosition, 0);
 					}
 
 					if (getConnectedEvent().getConnectedEvent() == null) {
 						setLinearVelocity(0, 0);
 
 						//Move all connected events by same amount.
-						for (Event e : connected.keySet()) {
+						for (Event e : connected.keys()) {
 							e.setLinearVelocity(0, 0);
 						}
 					} else {
@@ -106,7 +104,7 @@ public class MovingPoint extends Event {
 						} else {
 							if (pause) {
 								setLinearVelocity(0, 0);
-								for (Event e : connected.keySet()) {
+								for (Event e : connected.keys()) {
 									e.setLinearVelocity(0, 0);
 								}
 							}
@@ -134,5 +132,5 @@ public class MovingPoint extends Event {
 	/**
 	 * This returns all connected events. This is so that event movers can move all connected events at once.
 	 */
-	public HashMap<Event, Vector2> getConnected() { return connected; }
+	public ObjectMap<Event, Vector2> getConnected() { return connected; }
 }

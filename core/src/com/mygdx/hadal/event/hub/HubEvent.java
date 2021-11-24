@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event.hub;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
@@ -11,8 +12,6 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import java.util.ArrayList;
 
 /**
  * The HubEvent is one of the events in the hub of the game that produces an extra ui for the player to manage
@@ -34,7 +33,7 @@ public class HubEvent extends Event {
 	protected final boolean checkUnlock, closeOnLeave;
 	
 	//options displayed here must have these tags.
-	protected final ArrayList<UnlockTag> tags;
+	protected final Array<UnlockTag> tags;
 	protected UnlockTag tag;
 	protected UnlockTag lastTag = UnlockTag.ALL;
 	protected String lastSearch = "";
@@ -50,7 +49,7 @@ public class HubEvent extends Event {
 		this.checkUnlock = checkUnlock;
 		this.closeOnLeave = closeOnLeave;
 		this.type = type;
-		this.tags = new ArrayList<>();
+		this.tags = new Array<>();
 		for (String s: tag.split(",")) {
 			tags.add(UnlockTag.valueOf(s));
 			this.tag = UnlockTag.valueOf(s);

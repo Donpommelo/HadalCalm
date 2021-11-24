@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
@@ -21,17 +22,16 @@ import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
-import com.mygdx.hadal.utils.ConsoleCommandUtil;
 import com.mygdx.hadal.text.TextFilterUtil;
+import com.mygdx.hadal.utils.ConsoleCommandUtil;
 
-import java.util.ArrayList;
-
-import static com.mygdx.hadal.utils.Constants.*;
+import static com.mygdx.hadal.utils.Constants.MAX_MESSAGE_LENGTH;
+import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_LONG;
 
 /**
  * The MessageWindow is a ui actor that pops up when the player presses the chat button (default binding shift).
@@ -77,7 +77,7 @@ public class MessageWindow {
 	private float inactiveFadeCount;
 
 	//this tracks all text messages. Used for saving text logs to docs
-	private static final ArrayList<String> textRecord = new ArrayList<>();
+	private static final Array<String> textRecord = new Array<>();
 
 	//grey image used as background for the message window
 	private final TextureRegion grey;
@@ -283,9 +283,9 @@ public class MessageWindow {
             			typing = false;
             			state.getPlayer().startTyping();
             			if (state.isServer()) {
-            				HadalGame.server.sendToAllUDP(new Packets.SyncTyping(state.getPlayer().getEntityID().toString()));
+            				HadalGame.server.sendToAllUDP(new Packets.SyncTyping(state.getPlayer().getEntityID()));
             			} else {
-            				HadalGame.client.sendUDP(new Packets.SyncTyping(state.getPlayer().getEntityID().toString()));
+            				HadalGame.client.sendUDP(new Packets.SyncTyping(state.getPlayer().getEntityID()));
             			}
             		}
             	}
@@ -428,7 +428,7 @@ public class MessageWindow {
 		inactiveFadeCount = 0.0f;
 	}
 
-	public static ArrayList<String> getTextRecord() { return textRecord; }	
+	public static Array<String> getTextRecord() { return textRecord; }
 	
 	public boolean isActive() { return active; }
 	

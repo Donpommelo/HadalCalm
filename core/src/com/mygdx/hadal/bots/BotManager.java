@@ -6,6 +6,8 @@ import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.StartPoint;
@@ -16,7 +18,8 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 
-import java.util.*;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 /**
  * BotManager contains various utility methods for bot players.
@@ -26,7 +29,7 @@ import java.util.*;
 public class BotManager {
 
     //this is a list of all bot rally points in the current map mapped to their positions
-    public static final Map<Vector2, RallyPoint> rallyPoints = new HashMap<>();
+    public static final ObjectMap<Vector2, RallyPoint> rallyPoints = new ObjectMap<>();
 
     /**
      * Run on first tick of server playstate. Initiate all bots
@@ -93,7 +96,7 @@ public class BotManager {
         float closestDistObstructed = 0.0f;
 
         //iterate through all rally points up to a set distance away
-        for (Vector2 rallyPoint: rallyPoints.keySet()) {
+        for (Vector2 rallyPoint: rallyPoints.keys()) {
             if (Math.abs(rallyPoint.x - sourceLocation.x) > MaxPointDistanceCheck ||
                     Math.abs(rallyPoint.y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
 
@@ -137,11 +140,11 @@ public class BotManager {
         float closestDistUnobstructed = 0.0f;
 
         //iterate through all rally points up to a set distance away
-        for (Map.Entry<Vector2, RallyPoint> rallyPoint: rallyPoints.entrySet()) {
-            if (Math.abs(rallyPoint.getKey().x - sourceLocation.x) > MaxPointDistanceCheck ||
-                    Math.abs(rallyPoint.getKey().y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
+        for (ObjectMap.Entry<Vector2, RallyPoint> rallyPoint: rallyPoints.entries()) {
+            if (Math.abs(rallyPoint.key.x - sourceLocation.x) > MaxPointDistanceCheck ||
+                    Math.abs(rallyPoint.key.y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
 
-            tempPointLocation.set(rallyPoint.getKey());
+            tempPointLocation.set(rallyPoint.key);
             float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation);
 
             //if we have a line of sight with the point, check if its distance is less than the nearest point so far
@@ -160,14 +163,14 @@ public class BotManager {
                 tempBotLocation.set(sourceLocation).mulAdd(sourceVelocity, currentVelocityMultiplier);
 
                 //total cost of path is distance of point to end + distance from entity to point
-                RallyPath shortestPath = getShortestPathBetweenPoints(rallyPoint.getValue(), end);
+                RallyPath shortestPath = getShortestPathBetweenPoints(rallyPoint.value, end);
                 if (shortestPath != null) {
 
                     //we use squares to avoid calculating a square root; we don't need the shortest path, just short enough
                     float currentDistSquaredTotal = shortestPath.getDistance() * shortestPath.getDistance()
                             + tempBotLocation.dst2(tempPointLocation);
                     if (closestUnobstructed == null || currentDistSquaredTotal < closestDistUnobstructed) {
-                        closestUnobstructed = rallyPoint.getValue();
+                        closestUnobstructed = rallyPoint.value;
                         closestDistUnobstructed = currentDistSquaredTotal;
                     }
                 }
@@ -223,17 +226,17 @@ public class BotManager {
 
             //if the best node is our target, we are done and have our path and its score
             if (parent.equals(end)) {
-                RallyPath path = new RallyPath(new ArrayList<>(), parent.getRouteScore());
+                RallyPath path = new RallyPath(new Array<>(), parent.getRouteScore());
 
                 //walk back from our end node to create our path by addind each parent to the start of the list
                 RallyPoint current = parent;
                 do {
-                    path.getPath().add(0, current);
+                    path.getPath().insert(0, current);
                     current = current.getPrevious();
                 } while (current != null);
 
                 //cache shortest paths for all points in the shortest path
-                ArrayList<RallyPoint> tempPoints = new ArrayList<>();
+                Array<RallyPoint> tempPoints = new Array<>();
                 for (RallyPoint pointInPath: path.getPath()) {
                     tempPoints.add(pointInPath);
                     start.getShortestPaths().put(pointInPath, new RallyPath(tempPoints, pointInPath.getRouteScore()));
@@ -243,7 +246,7 @@ public class BotManager {
             }
 
             //iterate through all neighbors to calc their route and estimated score
-            for (RallyPoint neighbor: parent.getConnections().keySet()) {
+            for (RallyPoint neighbor: parent.getConnections().keys()) {
                 float routeScore = parent.getRouteScore() + parent.getConnections().get(neighbor);
 
                 //dst2 used here to slightly improve performance while being "mostly accurate-ish"
@@ -335,8 +338,8 @@ public class BotManager {
     }
 
     public static RallyPath getPathToRandomPoint(Schmuck targeter, Vector2 playerLocation, Vector2 playerVelocity) {
-        if (rallyPoints.size() > 0) {
-            RallyPoint point = (RallyPoint) rallyPoints.values().toArray()[MathUtils.random(rallyPoints.size() - 1)];
+        if (rallyPoints.size > 0) {
+            RallyPoint point = rallyPoints.values().toArray().get(MathUtils.random(rallyPoints.size - 1));
             return getShortestPathBetweenLocations(targeter, playerLocation, point.getPosition(), playerVelocity);
         }
         return null;

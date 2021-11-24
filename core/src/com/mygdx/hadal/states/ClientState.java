@@ -5,6 +5,10 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.OrderedMap;
+import com.badlogic.gdx.utils.OrderedSet;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIPlayClient;
 import com.mygdx.hadal.equip.Loadout;
@@ -16,11 +20,11 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
-import java.util.*;
+import java.util.UUID;
 
 /**
  * This is a version of the playstate that is provided for Clients.
@@ -37,23 +41,23 @@ public class ClientState extends PlayState {
 	public static final float missedCreateCooldown = 4.0f;
 	
 	//This is a set of all non-hitbox entities in the world mapped from their entityId
-	private final LinkedHashMap<String, HadalEntity> entities;
+	private final OrderedMap<UUID, HadalEntity> entities;
 	
 	//This is a set of all hitboxes mapped from their unique entityId
-	private final LinkedHashMap<String, HadalEntity> hitboxes;
+	private final OrderedMap<UUID, HadalEntity> hitboxes;
 
 	//This is a set of all particle effects mapped from their unique entityId
-	private final LinkedHashMap<String, HadalEntity> effects;
+	private final OrderedMap<UUID, HadalEntity> effects;
 
 	//this is a list containing all the aforementioned entity lists
-	private final ArrayList<Map<String, HadalEntity>> entityLists = new ArrayList<>();
+	private final Array<OrderedMap<UUID, HadalEntity>> entityLists = new Array<>();
 
 	//This is a list of sync instructions. It contains [entityId, object to be synced]
-	private final ArrayList<SyncPacket> sync;
+	private final Array<SyncPacket> sync;
 
 	//These sets are used by the Client for removing/adding entities.
-	private final Set<String> removeListClient;
-	private final Set<CreatePacket> createListClient;
+	private final OrderedSet<UUID> removeListClient;
+	private final OrderedSet<CreatePacket> createListClient;
 
 	//This contains the position of the client's mouse, to be sent to the server
 	private final Vector3 mousePosition = new Vector3();
@@ -64,15 +68,15 @@ public class ClientState extends PlayState {
 	
 	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level, GameMode mode) {
 		super(gsm, loadout, level, mode,false, null, true, "");
-		entities = new LinkedHashMap<>();
-		hitboxes = new LinkedHashMap<>();
-		effects = new LinkedHashMap<>();
+		entities = new OrderedMap<>();
+		hitboxes = new OrderedMap<>();
+		effects = new OrderedMap<>();
 		entityLists.add(hitboxes);
 		entityLists.add(entities);
 		entityLists.add(effects);
-		removeListClient = new LinkedHashSet<>();
-		createListClient = new LinkedHashSet<>();
-		sync = new ArrayList<>();
+		removeListClient = new OrderedSet<>();
+		createListClient = new OrderedSet<>();
+		sync = new Array<>();
 		
 		//client processes collisions
 		TiledObjectUtil.parseTiledObjectLayerClient(this, map.getLayers().get("collision-layer").getObjects());
@@ -90,9 +94,9 @@ public class ClientState extends PlayState {
 		AlignmentFilter.resetTeams();
 
 		//client still needs anchor points, world dummies and mouse tracker
-		addEntity(getAnchor().getEntityID().toString(), getAnchor(), false, ObjectSyncLayers.STANDARD);
-		addEntity(getWorldDummy().getEntityID().toString(), getWorldDummy(), false, ObjectSyncLayers.STANDARD);
-		addEntity(getMouse().getEntityID().toString(), getMouse(), false, ObjectSyncLayers.STANDARD);
+		addEntity(getAnchor().getEntityID(), getAnchor(), false, ObjectSyncLayers.STANDARD);
+		addEntity(getWorldDummy().getEntityID(), getWorldDummy(), false, ObjectSyncLayers.STANDARD);
+		addEntity(getMouse().getEntityID(), getMouse(), false, ObjectSyncLayers.STANDARD);
 	}
 	
 	@Override
@@ -180,7 +184,7 @@ public class ClientState extends PlayState {
 			}
 			packet.entity.create();
 
-			if (!packet.entityId.equals("")) {
+			if (packet.entityId != null) {
 				packet.entity.setEntityID(packet.entityId);
 			}
 			packet.entity.setReceivingSyncs(packet.synced);
@@ -188,12 +192,12 @@ public class ClientState extends PlayState {
 		createListClient.clear();
 		
 		//All entities that are set to be removed are removed.
-		for (String key: removeListClient) {
+		for (UUID key: removeListClient) {
 			HadalEntity entity = findEntity(key);
 			if (entity != null) {
 				entity.dispose();
 			}
-			for (Map<String, HadalEntity> m: entityLists) {
+			for (ObjectMap<UUID, HadalEntity> m: entityLists) {
 				m.remove(key);
 			}
 		}
@@ -214,7 +218,7 @@ public class ClientState extends PlayState {
 		
 		//All sync instructions are carried out.
 		while (!sync.isEmpty()) {
-			SyncPacket p = sync.remove(0);
+			SyncPacket p = sync.removeIndex(0);
 		 	if (p != null) {
 		 		HadalEntity entity = hitboxes.get(p.entityId);
 		 		if (entity != null) {
@@ -246,7 +250,7 @@ public class ClientState extends PlayState {
 		}
 		
 		//While most objects don't do any processing on client side, the clientController is run for the exceptions.
-		for (Map<String, HadalEntity> m: entityLists) {
+		for (ObjectMap<UUID, HadalEntity> m: entityLists) {
 			for (HadalEntity entity : m.values()) {
 				entity.clientController(delta);
 				entity.decreaseShaderCount(delta);
@@ -274,7 +278,7 @@ public class ClientState extends PlayState {
 	
 	@Override
 	public void renderEntities() {
-		for (Map<String, HadalEntity> m: entityLists) {
+		for (ObjectMap<UUID, HadalEntity> m: entityLists) {
 			for (HadalEntity entity : m.values()) {
 				renderEntity(entity);
 			}
@@ -312,7 +316,7 @@ public class ClientState extends PlayState {
 			//sometimes, the client can miss the server's delete packet. if so, delete own player automatically
 			if (player != null) {
 				if (player.isAlive()) {
-					removeEntity(player.getEntityID().toString());
+					removeEntity(player.getEntityID());
 				}
 			}
 			
@@ -350,33 +354,38 @@ public class ClientState extends PlayState {
 	
 	/**
 	 * This is called whenever the client is told to add an object to its world.
-	 * @param entityId: The unique id of the new entity
+	 * @param entityId: The uuid of the entity
 	 * @param entity: The entity to be added
 	 * @param synced: should this object receive a regular sync packet from the server?
 	 * @param layer: is this layer a hitbox (rendered underneath) or not?
 	 */
-	public void addEntity(String entityId, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {
+	public void addEntity(UUID entityId, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {
 		CreatePacket packet = new CreatePacket(entityId, entity, synced, layer);
 		createListClient.add(packet);
 	}
-	
+
+	public void addEntity(long uuidMSB, long uuidLSB, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {
+		addEntity(new UUID(uuidMSB, uuidLSB), entity, synced, layer);
+	}
+
 	/**
 	 * This is called whenever the client is told to remove an object from the world.
 	 * @param entityId: The unique id of the object to be removed.
 	 */
-	public void removeEntity(String entityId) {
+	public void removeEntity(UUID entityId) {
 		removeListClient.add(entityId);
 	}
 
 	/**
 	 * This is called whenever the client is told to synchronize an object from the world.
-	 * @param entityId: The unique id of the object to be synchronized
+	 * @param uuidMSB: The most-significant bits of the uuid
+	 * @param uuidLSB: The least-significant bits of the uuid
 	 * @param o: The SyncEntity Packet to use to synchronize the object
 	 * @param age: the age of the entity on the server. If we are told to sync an entity we don't have that's old enough, we missed a create packet.
 	 * @param timestamp: the time of the sync on the server.
 	 */
-	public void syncEntity(String entityId, Object o, float age, float timestamp) {
-		SyncPacket packet = new SyncPacket(entityId, o, age, timestamp);
+	public void syncEntity(long uuidMSB, long uuidLSB, Object o, float age, float timestamp) {
+		SyncPacket packet = new SyncPacket(new UUID(uuidMSB, uuidLSB), o, age, timestamp);
 		sync.add(packet);
 	}
 
@@ -386,7 +395,7 @@ public class ClientState extends PlayState {
 	 * @return The found object (or null if nonexistent)
 	 */
 	@Override
-	public HadalEntity findEntity(String entityId) {
+	public HadalEntity findEntity(UUID entityId) {
 		HadalEntity entity = entities.get(entityId);
 		if (entity != null) {
 			return entity;
@@ -399,7 +408,7 @@ public class ClientState extends PlayState {
 			}
 		}
 	}
-	
+
 	/**
 	 * This is run when the server responds to our latency check packet. We calculate our ping and save it.
 	 */
@@ -422,24 +431,23 @@ public class ClientState extends PlayState {
 	public void dispose() {
 		
 		//clean up all client entities. (some entities require running their dispose() to function properly (soundEntities turning off)
-		for (Map<String, HadalEntity> m: entityLists) {
+		for (ObjectMap<UUID, HadalEntity> m: entityLists) {
 			for (HadalEntity entity : m.values()) {
 				entity.dispose();
 			}
 		}
-
 		super.dispose();
 	}
 
 	/**
 	 * This record represents a packet telling the client to sync an object
 	 */
-	private record SyncPacket(String entityId, Object packet, float age, float timestamp) {}
+	private record SyncPacket(UUID entityId, Object packet, float age, float timestamp) {}
 
 	/**
 	 * This record represents a packet telling the client to create an object
 	 */
-	public record CreatePacket(String entityId, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {}
+	public record CreatePacket(UUID entityId, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {}
 
 	/**
 	 * The destroy and create methods do nothing for the client. 

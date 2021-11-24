@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.IntArray;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -25,7 +26,6 @@ import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 
-import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
@@ -114,8 +114,8 @@ public class Boss5 extends EnemyFloating {
 	private static final int phase1NumAttacks = 4;
 
 	//these lists are used to make the boss perform all attacks in its pool before repeating any
-	private final ArrayList<Integer> attacks1 = new ArrayList<>();
-	private final ArrayList<Integer> attacks2 = new ArrayList<>();
+	private final IntArray attacks1 = new IntArray();
+	private final IntArray attacks2 = new IntArray();
 	private void phase1Attack() {
 		if (attacks1.isEmpty()) {
 			for (int i = 0; i < phase1NumAttacks; i++) {
@@ -129,7 +129,7 @@ public class Boss5 extends EnemyFloating {
 		}
 
 		if (attackNum % 2 == 0) {
-			int nextAttack = attacks1.remove(MathUtils.random(attacks1.size() - 1));
+			int nextAttack = attacks1.removeIndex(MathUtils.random(attacks1.size - 1));
 			switch (nextAttack) {
 				case 0 -> orbitalCharge();
 				case 1 -> vineLash();
@@ -138,7 +138,7 @@ public class Boss5 extends EnemyFloating {
 			}
 
 		} else {
-			int nextAttack = attacks2.remove(MathUtils.random(attacks2.size() - 1));
+			int nextAttack = attacks2.removeIndex(MathUtils.random(attacks2.size - 1));
 			switch (nextAttack) {
 				case 0 -> tripleRadialBurst();
 				case 1 -> sporeBurst();

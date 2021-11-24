@@ -24,7 +24,7 @@ public class ModeKingmaker extends ModeSetting {
         if (!state.getUiObjective().getObjectives().isEmpty()) {
             objectiveLocation.set(state.getUiObjective().getObjectives().get(0).getObjectiveLocation()).scl(1 / PPM);
             if (state.getUiObjective().getObjectives().get(0).getObjectiveTarget() instanceof Hitbox flag) {
-                if (flag.getStrategies().size() >= 2) {
+                if (flag.getStrategies().size >= 2) {
 
                     //this is kinda sketchy code that relies on the fact that capturable flags are only created in 1 place
                     //and that they are always added as the second strategy

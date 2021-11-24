@@ -865,14 +865,14 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePlayer(entityID.toString(), connId, getPixelPosition(), name, playerData.getLoadout(),
+		return new Packets.CreatePlayer(entityID, connId, getPixelPosition(), name, playerData.getLoadout(),
 				hitboxfilter, scaleModifier, dontMoveCamera);
 	}
 
 	//this is the type of death we have. Send to client so they can process the death on their end.
 	private DespawnType despawnType = DespawnType.LEVEL_TRANSITION;
 	@Override
-	public Object onServerDelete() { return new Packets.DeletePlayer(entityID.toString(), state.getTimer(), despawnType); }
+	public Object onServerDelete() { return new Packets.DeletePlayer(entityID, state.getTimer(), despawnType); }
 
 	/**
 	 * This is called every engine tick. 
@@ -882,12 +882,12 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void onServerSync() {
-		HadalGame.server.sendToAllExceptUDP(connId, new PacketsSync.SyncPlayer(entityID.toString(), getPosition(), getLinearVelocity(), entityAge,	state.getTimer(), moveState,
+		HadalGame.server.sendToAllExceptUDP(connId, new PacketsSync.SyncPlayer(entityID, getPosition(), getLinearVelocity(), entityAge,	state.getTimer(), moveState,
 				Math.max(0.0f, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
 				mouseAngle, grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().isReloading(), reloadPercent,
 				playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo(), invisible));
 
-		HadalGame.server.sendToUDP(connId, new PacketsSync.SyncPlayerSelf(entityID.toString(), getPosition(),
+		HadalGame.server.sendToUDP(connId, new PacketsSync.SyncPlayerSelf(entityID, getPosition(),
 				getLinearVelocity(), entityAge,	state.getTimer(), moveState,
 				Math.max(0.0f, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
 				mouseAngle, grounded, playerData.getCurrentSlot(),
@@ -923,7 +923,7 @@ public class Player extends PhysicsSchmuck {
 			//delegate to sprite helper for despawn so it can dispose of frame buffer object
 			spriteHelper.despawn(p.type, getPixelPosition(), getLinearVelocity());
 			setDespawnType(p.type);
-			((ClientState) state).removeEntity(entityID.toString());
+			((ClientState) state).removeEntity(entityID);
 		}
 	}
 	

@@ -50,7 +50,7 @@ public class SpawnerObjective extends Event {
 		if (state.getMode().equals(GameMode.EGGPLANTS)) {
 			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_EGGPLANT, true, true);
 			if (state.isServer()) {
-				HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(getEntityID().toString(),
+				HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(getEntityID(),
 						new Vector3(), true, false, Sprite.CLEAR_CIRCLE_EGGPLANT));
 			}
 		}
@@ -113,7 +113,7 @@ public class SpawnerObjective extends Event {
 		state.getUiObjective().addObjective(flag, Sprite.CLEAR_CIRCLE_ALERT, true, false);
 
 		if (state.isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(flag.getEntityID().toString(),
+			HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(flag.getEntityID(),
 					new Vector3(), true, false, Sprite.CLEAR_CIRCLE_ALERT));
 		}
 	}

@@ -1,10 +1,9 @@
 package com.mygdx.hadal.event.prefab;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
-
-import java.util.ArrayList;
 
 /**
  * The LeverActivate is a lever that can be activated whenever. The base is always green and the lever animates when pulled.
@@ -71,8 +70,8 @@ public class LeverActivate extends Prefabrication {
 	}
 	
 	@Override
-	public ArrayList<String> getConnectedEvents() {
-		ArrayList<String> events = new ArrayList<>();
+	public Array<String> getConnectedEvents() {
+		Array<String> events = new Array<>();
 		events.add(baseId);
 		events.add(leverId);
 		return events;

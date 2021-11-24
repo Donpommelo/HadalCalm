@@ -2,10 +2,8 @@ package com.mygdx.hadal.save;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonWriter;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.SerializationException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.mygdx.hadal.managers.GameStateManager.json;
 import static com.mygdx.hadal.managers.GameStateManager.reader;
@@ -20,18 +18,18 @@ public class Record {
 	private int scrap;
 	
 	//This is a map of the player's quest flags
-	private Map<String, Integer> flags;
+	private ObjectMap<String, Integer> flags;
 	
 	//this is the last ip connected to
 	private String lastIp;
 	
 	//This is a map of the player's unlocks
-	private Map<String, Integer> hiScores;
-	private Map<String, Boolean> unlockEquip;
-	private Map<String, Boolean> unlockArtifact;
-	private Map<String, Boolean> unlockActive;
-	private Map<String, Boolean> unlockCharacter;
-	private Map<String, Boolean> unlockLevel;
+	private ObjectMap<String, Integer> hiScores;
+	private ObjectMap<String, Boolean> unlockEquip;
+	private ObjectMap<String, Boolean> unlockArtifact;
+	private ObjectMap<String, Boolean> unlockActive;
+	private ObjectMap<String, Boolean> unlockCharacter;
+	private ObjectMap<String, Boolean> unlockLevel;
 	
 	public Record() {}
 	
@@ -77,7 +75,7 @@ public class Record {
 		Record newRecord = new Record();
 		newRecord.scrap = 0;
 		
-		newRecord.flags = new HashMap<>();
+		newRecord.flags = new ObjectMap<>();
 		newRecord.flags.put("ARTIFACTSLOT1", 1);
 		newRecord.flags.put("ARTIFACTSLOT2", 1);
 		newRecord.flags.put("ARTIFACTSLOT3", 1);
@@ -111,12 +109,12 @@ public class Record {
 		newRecord.flags.put("BOSS1", 0);
 		newRecord.flags.put("PARTY", 0);
 		
-		newRecord.hiScores = new HashMap<>();
-		newRecord.unlockEquip = new HashMap<>();
-		newRecord.unlockArtifact = new HashMap<>();
-		newRecord.unlockActive = new HashMap<>();
-		newRecord.unlockCharacter = new HashMap<>();
-		newRecord.unlockLevel = new HashMap<>();
+		newRecord.hiScores = new ObjectMap<>();
+		newRecord.unlockEquip = new ObjectMap<>();
+		newRecord.unlockArtifact = new ObjectMap<>();
+		newRecord.unlockActive = new ObjectMap<>();
+		newRecord.unlockCharacter = new ObjectMap<>();
+		newRecord.unlockLevel = new ObjectMap<>();
 		
 		for (UnlockEquip equip: UnlockEquip.values()) {
 			newRecord.unlockEquip.put(equip.toString(), false);
@@ -197,17 +195,17 @@ public class Record {
 		return slots; 
 	}
 	
-	public Map<String, Integer> getFlags() { return flags; }
+	public ObjectMap<String, Integer> getFlags() { return flags; }
 
-	public Map<String, Integer> getHiScores() { return hiScores; }
+	public ObjectMap<String, Integer> getHiScores() { return hiScores; }
 	
-	public Map<String, Boolean> getUnlockEquip() { return unlockEquip; }
+	public ObjectMap<String, Boolean> getUnlockEquip() { return unlockEquip; }
 
-	public Map<String, Boolean> getUnlockArtifact() { return unlockArtifact; }
+	public ObjectMap<String, Boolean> getUnlockArtifact() { return unlockArtifact; }
 
-	public Map<String, Boolean> getUnlockActive() {	return unlockActive; }
+	public ObjectMap<String, Boolean> getUnlockActive() {	return unlockActive; }
 
-	public Map<String, Boolean> getUnlockCharacter() { return unlockCharacter; }
+	public ObjectMap<String, Boolean> getUnlockCharacter() { return unlockCharacter; }
 	
-	public Map<String, Boolean> getUnlockLevel() { return unlockLevel; }	
+	public ObjectMap<String, Boolean> getUnlockLevel() { return unlockLevel; }
 }

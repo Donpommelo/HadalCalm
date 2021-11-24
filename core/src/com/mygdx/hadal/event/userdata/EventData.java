@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.userdata;
 
+import com.badlogic.gdx.utils.ObjectSet;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -7,9 +8,6 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.Packets;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * This is the data for an event. It contains the information needed for the event to activate and be activated
@@ -21,18 +19,18 @@ public class EventData extends HadalData {
 	protected final Event event;
 	
 	//This is a list of the schmucks touching the event
-	protected final Set<HadalEntity> schmucks;
+	protected final ObjectSet<HadalEntity> schmucks;
 
 	public EventData(Event event) {
 		super(UserDataTypes.EVENT, event);
 		this.event = event;
-		this.schmucks = new HashSet<>();
+		this.schmucks = new ObjectSet<>();
 	}
 	
 	public EventData(Event event, UserDataTypes type) {
 		super(type, event);
 		this.event = event;
-		this.schmucks = new HashSet<>();
+		this.schmucks = new ObjectSet<>();
 	}
 	
 	/**
@@ -77,16 +75,16 @@ public class EventData extends HadalData {
 				if (p.equals(event.getState().getPlayer())) {
 					onActivate(activator, p);
 				} else if (event.getState().isServer()) {
-					HadalGame.server.sendToTCP(p.getConnId(), new Packets.ActivateEvent(event.getEntityID().toString(), p.getConnId()));
+					HadalGame.server.sendToTCP(p.getConnId(), new Packets.ActivateEvent(event.getEntityID(), p.getConnId()));
 				}
 			}
 			break;
 		case ALL:
 			onActivate(activator, p);
 			if (p == null) {
-				HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID().toString(), -1));
+				HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), -1));
 			} else {
-				HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID().toString(), p.getConnId()));
+				HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), p.getConnId()));
 			}
 			break;
 		case ILLUSION:
@@ -105,5 +103,5 @@ public class EventData extends HadalData {
 	
 	public Event getEvent() { return event; }
 
-	public Set<HadalEntity> getSchmucks() {	return schmucks; }
+	public ObjectSet<HadalEntity> getSchmucks() {	return schmucks; }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.WeaponUtils;
@@ -14,8 +15,8 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -25,8 +26,6 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import java.util.ArrayList;
 
 /**
  * enemies are schmucks that attack the player.
@@ -83,10 +82,10 @@ public class Enemy extends Schmuck {
 	private Event eventTarget;
 	
 	//The action queues and current action hold the enemy' queued up actions. (secondary action is for 2 different actions occurring simultaneously)
-	private final ArrayList<EnemyAction> actions;
+	private final Array<EnemyAction> actions;
 	private EnemyAction currentAction;
 	
-	private final ArrayList<EnemyAction> secondaryActions;
+	private final Array<EnemyAction> secondaryActions;
 	private EnemyAction currentSecondaryAction;
 	
 	//this is the enemy sprite
@@ -110,8 +109,8 @@ public class Enemy extends Schmuck {
 		
 		this.hpSprite = Sprite.UI_MAIN_HEALTHBAR.getFrame();
 		
-		this.actions = new ArrayList<>();
-		this.secondaryActions = new ArrayList<>();
+		this.actions = new Array<>();
+		this.secondaryActions = new Array<>();
 	}
 	
 	@Override
@@ -203,7 +202,7 @@ public class Enemy extends Schmuck {
 			}
 			while (!actions.isEmpty()) {
 				//get next action and add it begin executing it. Set its duration as our cooldown
-				currentAction = actions.remove(0);
+				currentAction = actions.removeIndex(0);
 				aiActionCdCount = currentAction.getDuration();
 				currentAction.execute();
 				if (aiActionCdCount > 0.0f) { break; }
@@ -213,7 +212,7 @@ public class Enemy extends Schmuck {
 		//Do the same with secondary action
 		if (aiSecondaryActionCdCount <= 0 || currentSecondaryAction == null) {
 			while (!secondaryActions.isEmpty()) {
-				currentSecondaryAction = secondaryActions.remove(0);
+				currentSecondaryAction = secondaryActions.removeIndex(0);
 				aiSecondaryActionCdCount = currentSecondaryAction.getDuration();
 				currentSecondaryAction.execute();
 				if (aiSecondaryActionCdCount > 0.0f) { break; }
@@ -343,7 +342,7 @@ public class Enemy extends Schmuck {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEnemy(entityID.toString(), getPixelPosition(), type, isBoss, name);
+		return new Packets.CreateEnemy(entityID, getPixelPosition(), type, isBoss, name);
 	}
 
 	@Override
@@ -388,9 +387,9 @@ public class Enemy extends Schmuck {
 	
 	public void setMovementTarget(Event movementTarget) { this.eventTarget = movementTarget; }
 
-	public ArrayList<EnemyAction> getActions()  {return actions; }
+	public Array<EnemyAction> getActions()  {return actions; }
 
-	public ArrayList<EnemyAction> getSecondaryActions() { return secondaryActions; }
+	public Array<EnemyAction> getSecondaryActions() { return secondaryActions; }
 
 	public float getAttackAngle() {	return attackAngle; }
 

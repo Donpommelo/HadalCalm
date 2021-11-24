@@ -1,10 +1,9 @@
 package com.mygdx.hadal.schmucks.userdata;
 
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-
-import java.util.ArrayList;
 
 /**
  * FeetData are attached to sensors used by the player to determine whether they are grounded or not.
@@ -14,11 +13,11 @@ import java.util.ArrayList;
 public class FeetData extends HadalData {
 
 	//These are the event(s) we are standing on, if existent
-	private final ArrayList<Event> terrain = new ArrayList<>();
+	private final Array<Event> terrain = new Array<>();
 	
 	public FeetData(UserDataTypes type, HadalEntity entity) {
 		super(type, entity);
 	}
 
-	public ArrayList<Event> getTerrain() { return terrain; }
+	public Array<Event> getTerrain() { return terrain; }
 }

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.text;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.dialog.DeathMessage;
@@ -9,8 +10,6 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.statuses.DamageTypes;
-
-import java.util.ArrayList;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 
@@ -37,8 +36,8 @@ public class DeathTextUtil {
 	 * verbose text messages read damage tags and randomly choose a valid string from a file
 	 */
 	public static String getDeathTextVerbose(Player perp, Player vic, EnemyType type, DamageTypes... tags) {
-		
-		ArrayList<String> possibleMessages = new ArrayList<>();
+
+		Array<String> possibleMessages = new Array<>();
 		
 		boolean namedPerp = false;
 
@@ -69,15 +68,15 @@ public class DeathTextUtil {
 		}
 		
 		//obtain random message and filter tags
-		int randomIndex = MathUtils.random(possibleMessages.size() - 1);
+		int randomIndex = MathUtils.random(possibleMessages.size - 1);
 		return filterDeathMessage(perp, vic, type, possibleMessages.get(randomIndex));
 	}
 	
 	/**
 	 * this helper method obtains valid messages for a single damage tag
 	 */
-	private static ArrayList<String> getValidMessages(String tag, boolean namedPerp) {
-		ArrayList<String> possibleMessages = new ArrayList<>();
+	private static Array<String> getValidMessages(String tag, boolean namedPerp) {
+		Array<String> possibleMessages = new Array<>();
 		
 		JsonValue values = GameStateManager.deathMessages.get(tag);
 		if (values != null) {

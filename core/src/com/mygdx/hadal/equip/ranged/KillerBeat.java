@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.IntArray;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -14,10 +15,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.text.HText;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class KillerBeat extends RangedWeapon {
 
@@ -44,7 +41,8 @@ public class KillerBeat extends RangedWeapon {
 	private static final int bonusNumNotes = 5;
 	private static final int noteSpread = 5;
 
-	private static final ArrayList<Integer> notes = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6));
+	private static final int[] noteArray = {0, 1, 2, 3, 4, 5, 6};
+	private static final IntArray notes = new IntArray(noteArray);
 
 	public KillerBeat(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
@@ -59,7 +57,7 @@ public class KillerBeat extends RangedWeapon {
 			int randNote = MathUtils.random(6);
 			createProjectile(state, user, startPosition, startVelocity, randNote, filter);
 		} else {
-			Collections.shuffle(notes);
+			notes.shuffle();
 			for (int i = 0; i < bonusNumNotes; i++) {
 				Vector2 finalVelocity = new Vector2(startVelocity);
 				finalVelocity.setLength(bonusProjectileSpeed);

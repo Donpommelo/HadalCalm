@@ -174,7 +174,7 @@ public class Poison extends Event {
 					int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 					int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
 					ParticleEntity poison = new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle, particleLifespan, true, particleSyncType.NOSYNC);
-					((ClientState) state).addEntity(poison.getEntityID().toString(), poison, false, ObjectSyncLayers.EFFECT);
+					((ClientState) state).addEntity(poison.getEntityID(), poison, false, ObjectSyncLayers.EFFECT);
 				}
 			}
 		}
@@ -194,7 +194,7 @@ public class Poison extends Event {
 			blueprint.getProperties().put("particle", poisonParticle.toString());
 			blueprint.getProperties().put("duration", duration);
 		}
-		return new Packets.CreateEvent(entityID.toString(), new EventDto(blueprint), synced);
+		return new Packets.CreateEvent(entityID, new EventDto(blueprint), synced);
 	}
 
 	public Poison setParticle(Particle particle) {

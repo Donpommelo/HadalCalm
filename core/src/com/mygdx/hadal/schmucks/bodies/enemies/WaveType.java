@@ -5,9 +5,6 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.event.SpawnerWave;
 import com.mygdx.hadal.utils.Constants;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 /**
  * A wave contains the info needed to spawn a single wave of arena enemies
  * Notable spawn numbers: 4,5 are grounded. 6 is in the center of the map.
@@ -106,13 +103,13 @@ public enum WaveType {
 	;
 	
 	//this is the list of enemies in the wave
-	protected final ArrayList<WaveEnemy> enemies = new ArrayList<>();
+	protected final Array<WaveEnemy> enemies = new Array<>();
 	
 	//tags if we want a wave to only spawn at certain spawn points
-	protected final ArrayList<WaveTag> tags = new ArrayList<>();
+	protected final Array<WaveTag> tags = new Array<>();
 	
 	WaveType(WaveTag... tags) {
-		Collections.addAll(this.tags, tags);
+		this.tags.addAll(tags);
 	}
 	
 	/**
@@ -142,7 +139,7 @@ public enum WaveType {
 	 * This is activated when a wave spawner activates.
 	 * This returns the type of wave to spawn
 	 */
-	public static WaveType getWave(ArrayList<WaveTag> tags, int waveNum) {
+	public static WaveType getWave(Array<WaveTag> tags, int waveNum) {
 		
 		//b/c many wave spawners activate at once, this checks to make sure we only roll a wave type once.
 		//the first spawner chooses a wave at random, and the others spawn from the same wave.
@@ -156,7 +153,7 @@ public enum WaveType {
 				boolean get = false;
 				
 				for (WaveTag tag: tags) {
-					if (wave.tags.contains(tag)) {
+					if (wave.tags.contains(tag, false)) {
 						get = true;
 						break;
 					}

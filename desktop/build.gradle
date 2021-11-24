@@ -39,7 +39,13 @@ run {
 }
 
 jar {
+    archiveFileName = "${appName}.jar"
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    destinationDirectory = file("$buildDir/lib")
+    dependsOn configurations.runtimeClasspath
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    exclude('linux/arm32/**', 'linux/arm64/**', 'META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA')
+
     from files(project.assetsDir)
 
 //    project.delete("../core/assets/save/ChatLog.json")
@@ -49,16 +55,21 @@ jar {
 //    project.delete("../core/assets/save/Settings.json")
 //    project.delete("../core/assets/err.txt")
 
-    destinationDirectory = file("$buildDir/lib")
-    archiveFileName = "${appName}-${archiveVersion.get()}.jar"
-    exclude('linux/arm32/**', 'linux/arm64/**')
-    dependsOn configurations.runtimeClasspath
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
 }
 
+task proguard(type: proguard.gradle.ProGuardTask) {
+    outputs.upToDateWhen { false }
+    configuration 'proguard-rules.pro'
+    libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod", jarfilter: '!**.jar', filter: '!module-info.class'
+
+    injars "build/lib/${appName}-Demo.jar"
+    outjars "build/lib/${appName}.jar"
+}
+
+proguard.dependsOn jar
 jpackageImage.dependsOn jar
 
 runtime {
@@ -77,7 +88,7 @@ runtime {
     distDir = file(buildDir)
 
     jpackage {
-        mainJar = jar.archiveFileName.get()
+        mainJar = "${appName}.jar"
         imageName = appName
         appVersion = "1.0.0"
 
@@ -90,4 +101,8 @@ runtime {
             jvmArgs += "-XstartOnFirstThread"
         }
     }
+}
+
+jpackageImage.doLast {
+    file("build/jpackage/HadalCalm/app/${appName}-Demo.jar").delete()
 }

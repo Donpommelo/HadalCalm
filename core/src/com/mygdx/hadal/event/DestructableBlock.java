@@ -92,7 +92,7 @@ public class DestructableBlock extends Event {
 			blueprint.getProperties().put("Hp", hp);
 			blueprint.getProperties().put("static", isStatic);
 		}
-		return new Packets.CreateEvent(entityID.toString(), new EventDto(blueprint), synced);
+		return new Packets.CreateEvent(entityID, new EventDto(blueprint), synced);
 	}
 
 	

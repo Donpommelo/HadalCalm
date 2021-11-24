@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -11,8 +12,6 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
-
-import java.util.ArrayList;
 
 /**
  * The UISpectator is used by spectators to view the game. It features the ability tocycle through spectate targets
@@ -115,7 +114,7 @@ public class UISpectator extends AHadalActor {
         }
     }
 
-    private final ArrayList<User> users = new ArrayList<>();
+    private final Array<User> users = new Array<>();
     /**
      * This searches for a target to spectatr
      */
@@ -125,10 +124,10 @@ public class UISpectator extends AHadalActor {
 
         users.clear();
         if (state.isServer()) {
-            users.addAll(HadalGame.server.getUsers().values());
+            users.addAll(HadalGame.server.getUsers().values().toArray());
             currentUser = HadalGame.server.getUsers().get(targetId);
         } else {
-            users.addAll(HadalGame.client.getUsers().values());
+            users.addAll(HadalGame.client.getUsers().values().toArray());
             currentUser = HadalGame.client.getUsers().get(targetId);
         }
 
@@ -140,7 +139,7 @@ public class UISpectator extends AHadalActor {
         } else {
 
             //if we are cycling to the next target to spectate, we iterate through users
-            for (int i = 0; i < users.size(); i++) {
+            for (int i = 0; i < users.size; i++) {
                 if (users.get(i).equals(currentUser)) {
 
                     //freecam means we just switched to directed camera and should start from index 0
@@ -166,15 +165,17 @@ public class UISpectator extends AHadalActor {
     private boolean loopThroughUsers(int startIndex) {
 
         //iterate through the users starting at startIndex and wrapping when we hit the end
-        for (int i = 0; i < users.size(); i++) {
-            User nextUser = users.get((i + startIndex) % users.size());
+        for (int i = 0; i < users.size; i++) {
+            User nextUser = users.get((i + startIndex) % users.size);
 
             //when we hit a user with a valid player (i.e not a spectator), we start spectating them
-            if (nextUser.getPlayer().getBody() != null && nextUser.getPlayer().isAlive()) {
-                spectatorUser = nextUser;
-                spectatorTarget = nextUser.getPlayer();
-                targetId = spectatorTarget.getConnId();
-                return true;
+            if (nextUser.getPlayer() != null) {
+                if (nextUser.getPlayer().getBody() != null && nextUser.getPlayer().isAlive()) {
+                    spectatorUser = nextUser;
+                    spectatorTarget = nextUser.getPlayer();
+                    targetId = spectatorTarget.getConnId();
+                    return true;
+                }
             }
         }
         return false;

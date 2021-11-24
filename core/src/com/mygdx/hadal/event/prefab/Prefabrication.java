@@ -1,8 +1,7 @@
 package com.mygdx.hadal.event.prefab;
 
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.states.PlayState;
-
-import java.util.ArrayList;
 
 /**
  * A Prefabrication is a shortcut for a collection of pre-connected events.
@@ -33,5 +32,5 @@ public abstract class Prefabrication {
 	/**
 	 * This returns a list of ids of the events that make up the prefab that should be moved if the prefab is attached to a move point.
 	 */
-	public ArrayList<String> getConnectedEvents() { return new ArrayList<>(); }
+	public Array<String> getConnectedEvents() { return new Array<>(); }
 }

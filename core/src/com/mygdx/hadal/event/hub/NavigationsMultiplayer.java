@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox;
 import com.mygdx.hadal.actors.ModeSettingSelection;
@@ -19,8 +20,6 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,13 +32,13 @@ public class NavigationsMultiplayer extends HubEvent {
 	//this is the selected game mode
 	private static GameMode modeChosen = GameMode.DEATHMATCH;
 
-	private final ArrayList<GameMode> gameModes = new ArrayList<>();
+	private final Array<GameMode> gameModes = new Array<>();
 
 	public NavigationsMultiplayer(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean closeOnLeave,
   		String modes) {
 		super(state, startPos, size, title, tag, false, closeOnLeave, hubTypes.NAVIGATIONS);
 		if (modes.equals("")) {
-			Collections.addAll(gameModes, GameMode.values());
+			gameModes.addAll(GameMode.values());
 		} else {
 			for (String s: modes.split(",")) {
 				gameModes.add(GameMode.getByName(s));
@@ -51,7 +50,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	public void addOptions(String search, int slots, UnlockTag tag) {
 		super.addOptions(search, slots, tag);
 
-		ArrayList<UnlockTag> newTags = new ArrayList<>(tags);
+		Array<UnlockTag> newTags = new Array<>(tags);
 		if (tag != null) {
 			newTags.add(tag);
 		}
@@ -108,7 +107,7 @@ public class NavigationsMultiplayer extends HubEvent {
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
 						if (modeChosen.equals(GameMode.DEATHMATCH)) {
-							if (selected.getInfo().getTags().contains(UnlockTag.BOT_COMPLIANT)) {
+							if (selected.getInfo().getTags().contains(UnlockTag.BOT_COMPLIANT, false)) {
 								hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() +
 										"\n\n" + selected.getInfo().getDescriptionLong() + "\n\n" + "BOT COMPLIANT");
 							} else {

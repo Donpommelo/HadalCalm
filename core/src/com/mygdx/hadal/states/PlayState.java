@@ -18,7 +18,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.*;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
@@ -65,7 +65,9 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -82,8 +84,8 @@ public class PlayState extends GameState {
 	protected InputProcessor controller;
 	
 	//This is the loadout that the player starts off with when they enter the playstate
-	private final List<UnlockArtifact> mapModifiers = new ArrayList<>();
-	private final List<UnlockManager.UnlockTag> mapEquipTags = new ArrayList<>();
+	private final Array<UnlockArtifact> mapModifiers = new Array<>();
+	private final Array<UnlockManager.UnlockTag> mapEquipTags = new Array<>();
 
 	//These process and store the map parsed from the Tiled file.
 	protected final TiledMap map;
@@ -97,17 +99,17 @@ public class PlayState extends GameState {
 	private final MouseTracker mouse;
 
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
-	private final Set<HadalEntity> removeList;
-	private final Set<HadalEntity> createList;
+	private final OrderedSet<HadalEntity> removeList;
+	private final OrderedSet<HadalEntity> createList;
 	
 	//This is a set of all non-hitbox entities in the world
-	private final Set<HadalEntity> entities;
+	private final OrderedSet<HadalEntity> entities;
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
-	private final Set<HadalEntity> hitboxes;
+	private final OrderedSet<HadalEntity> hitboxes;
 	//This is a set of all particle effects. This is separate to draw effects above other bodies
-	private final Set<HadalEntity> effects;
+	private final OrderedSet<HadalEntity> effects;
 
-	private final ArrayList<Set<HadalEntity>> entityLists = new ArrayList<>();
+	private final Array<OrderedSet<HadalEntity>> entityLists = new Array<>();
 
 	//This is a list of packetEffects, given when we receive packets with effects that we want to run in update() rather than whenever
 	private final List<PacketEffect> packetEffects;
@@ -148,10 +150,10 @@ public class PlayState extends GameState {
 	protected float zoomDesired;
 	
 	//If a player respawns, they will respawn at the coordinates of a safe point from this list.
-	private final ArrayList<StartPoint> savePoints;
+	private final Array<StartPoint> savePoints;
 	
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
-	private final HashMap<String, PositionDummy> dummyPoints;
+	private final ObjectMap<String, PositionDummy> dummyPoints;
 	
 	private float timeModifier = 1.0f;
 	private float respawnTime = 1.5f;
@@ -233,17 +235,17 @@ public class PlayState extends GameState {
 		b2dr = new Box2DDebugRenderer();
 		
 		//Initialize sets to keep track of active entities and packet effects
-		entities = new LinkedHashSet<>();
-		hitboxes = new LinkedHashSet<>();
-		effects = new LinkedHashSet<>();
+		entities = new OrderedSet<>();
+		hitboxes = new OrderedSet<>();
+		effects = new OrderedSet<>();
 		entityLists.add(hitboxes);
 		entityLists.add(entities);
 		entityLists.add(effects);
 
-		removeList = new LinkedHashSet<>();
-		createList = new LinkedHashSet<>();
+		removeList = new OrderedSet<>();
+		createList = new OrderedSet<>();
 		packetEffects = new ArrayList<>();
-		addPacketEffects = Collections.synchronizedList(new ArrayList<>());
+		addPacketEffects = java.util.Collections.synchronizedList(new ArrayList<>());
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
 		worldDummy = new WorldDummy(this);
@@ -302,7 +304,7 @@ public class PlayState extends GameState {
 		TiledObjectUtil.clearEvents();
 
 		//Set up "save point" as starting point
-		this.savePoints = new ArrayList<>();
+		this.savePoints = new Array<>();
 				
 		//Only the server processes collision objects, events and triggers
 		if (server) {
@@ -359,7 +361,7 @@ public class PlayState extends GameState {
 		this.reset = reset;
 		
 		//Set up dummy points
-		this.dummyPoints = new HashMap<>();
+		this.dummyPoints = new ObjectMap<>();
 				
 		//Init background image
 		this.bg = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.BACKGROUND2.toString()));
@@ -509,7 +511,7 @@ public class PlayState extends GameState {
 
 		//All entities that are set to be removed are removed.
 		for (HadalEntity entity: removeList) {
-			for (Set<HadalEntity> s: entityLists) {
+			for (ObjectSet<HadalEntity> s: entityLists) {
 				s.remove(entity);
 			}
 			entity.dispose();
@@ -576,7 +578,6 @@ public class PlayState extends GameState {
 	private static final float blindFadeDuration = 2.0f;
 	@Override
 	public void render(float delta) {
-
 		//Render Background
 		batch.setProjectionMatrix(hud.combined);
 		batch.disableBlending();
@@ -701,7 +702,7 @@ public class PlayState extends GameState {
 	 * Render all entities in the world
 	 */
 	public void renderEntities() {
-		for (Set<HadalEntity> s: entityLists) {
+		for (ObjectSet<HadalEntity> s: entityLists) {
 			for (HadalEntity entity : s) {
 				renderEntity(entity);
 			}
@@ -712,7 +713,7 @@ public class PlayState extends GameState {
 	 * Run the controller method for all entities in the world
 	 */
 	public void controllerEntities(float delta) {
-		for (Set<HadalEntity> s: entityLists) {
+		for (ObjectSet<HadalEntity> s: entityLists) {
 			for (HadalEntity entity : s) {
 				entity.controller(delta);
 				entity.decreaseShaderCount(delta);
@@ -725,10 +726,10 @@ public class PlayState extends GameState {
 	/**
 	 * This sends a synchronization packet for every synced entity. syncFastEntities() is used for entities that are synced more frequently
 	 */
-	private final ArrayList<Object> syncPackets = new ArrayList<>();
+	private final Array<Object> syncPackets = new Array<>();
 	public void syncEntities() {
 
-		for (Set<HadalEntity> s: entityLists) {
+		for (ObjectSet<HadalEntity> s: entityLists) {
 			for (HadalEntity entity : s) {
 				entity.onServerSync();
 			}
@@ -740,7 +741,7 @@ public class PlayState extends GameState {
 	}
 	
 	public void syncFastEntities() {
-		for (Set<HadalEntity> s: entityLists) {
+		for (ObjectSet<HadalEntity> s: entityLists) {
 			for (HadalEntity entity : s) {
 				entity.onServerSyncFast();
 			}
@@ -790,7 +791,7 @@ public class PlayState extends GameState {
 				aimFocusVector.set(spectatorTarget);
 			} else if (player.getPlayerData() != null) {
 
-				//we check for play data being null so client does not try to lerp camera towards starting positioin of (0, 0)
+				//we check for play data being null so client does not try to lerp camera towards starting position of (0, 0)
 				aimFocusVector.set(player.getPixelPosition());
 
 				//if enabled, camera tracks mouse position
@@ -821,8 +822,8 @@ public class PlayState extends GameState {
 	@Override
 	public void dispose() {
 		b2dr.dispose();
-		
-		for (Set<HadalEntity> s: entityLists) {
+
+		for (ObjectSet<HadalEntity> s: entityLists) {
 			for (HadalEntity entity : s) {
 				entity.dispose();
 			}
@@ -1037,11 +1038,11 @@ public class PlayState extends GameState {
 	}
 	
 	//This is a list of all the saved player fields (scores) from the completed playstate
-	private final ArrayList<SavedPlayerFields> scores = new ArrayList<>();
-	private final Map<AlignmentFilter, Integer> teamKills = new HashMap<>();
-	private final Map<AlignmentFilter, Integer> teamDeaths = new HashMap<>();
-	private final Map<AlignmentFilter, Integer> teamScores = new HashMap<>();
-	private final ArrayList<AlignmentFilter> teamScoresList = new ArrayList<>();
+	private final Array<SavedPlayerFields> scores = new Array<>();
+	private final ObjectMap<AlignmentFilter, Integer> teamKills = new ObjectMap<>();
+	private final ObjectMap<AlignmentFilter, Integer> teamDeaths = new ObjectMap<>();
+	private final ObjectMap<AlignmentFilter, Integer> teamScores = new ObjectMap<>();
+	private final Array<AlignmentFilter> teamScoresList = new Array<>();
 	/**
 	 * This is called when a level ends. Only called by the server. Begin a transition and tell all clients to follow suit.
 	 * @param text: text displayed in results state
@@ -1050,7 +1051,7 @@ public class PlayState extends GameState {
 		String resultsText = text;
 
 		//magic word indicates that we generate the results text dynamically based on score
-		Collection<User> users = HadalGame.server.getUsers().values();
+		Array<User> users = HadalGame.server.getUsers().values().toArray();
 		if (text.equals(ResultsState.magicWord)) {
 			for (User user: users) {
 				if (!user.isSpectator()) {
@@ -1063,9 +1064,21 @@ public class PlayState extends GameState {
 						faction = user.getTeamFilter();
 					}
 
-					teamKills.merge(faction, user.getScores().getKills(), Integer::sum);
-					teamDeaths.merge(faction, user.getScores().getDeaths(), Integer::sum);
-					teamScores.merge(faction, user.getScores().getScore(), Integer::sum);
+					if (teamKills.containsKey(faction)) {
+						teamKills.put(faction, teamKills.get(faction) + user.getScores().getKills());
+					} else {
+						teamKills.put(faction, user.getScores().getKills());
+					}
+					if (teamDeaths.containsKey(faction)) {
+						teamDeaths.put(faction, teamDeaths.get(faction) + user.getScores().getDeaths());
+					} else {
+						teamDeaths.put(faction, user.getScores().getDeaths());
+					}
+					if (teamScores.containsKey(faction)) {
+						teamScores.put(faction, teamScores.get(faction) + user.getScores().getScore());
+					} else {
+						teamScores.put(faction, user.getScores().getScore());
+					}
 				}
 			}
 
@@ -1076,7 +1089,7 @@ public class PlayState extends GameState {
 				return cmp;
 			});
 
-			teamScoresList.addAll(teamScores.keySet());
+			teamScoresList.addAll(teamScores.keys().toArray());
 			teamScoresList.sort((a, b) -> {
 				int cmp = (teamScores.get(b) - teamScores.get(a));
 				if (cmp == 0) { cmp = teamKills.get(b) - teamKills.get(a); }
@@ -1148,7 +1161,7 @@ public class PlayState extends GameState {
 	public void transitionToResultsState(String resultsText, float fadeDelay) {
 		this.resultsText = resultsText;
 
-		UserDto[] users = new UserDto[HadalGame.server.getUsers().size()];
+		UserDto[] users = new UserDto[HadalGame.server.getUsers().size];
 
 		int userIndex = 0;
 		for (User user : HadalGame.server.getUsers().values()) {
@@ -1303,18 +1316,22 @@ public class PlayState extends GameState {
 	 * This looks for an entity in the world with the given entityId
 	 * this is kinda slow. don't overuse it.
 	 */
-	public HadalEntity findEntity(String entityId) {
+	public HadalEntity findEntity(UUID entityId) {
 
-		for (Set<HadalEntity> s: entityLists) {
+		for (ObjectSet<HadalEntity> s: entityLists) {
 			for (HadalEntity entity : s) {
-				if (entity.getEntityID().toString().equals(entityId)) {
+				if (entity.getEntityID().equals(entityId)) {
 					return entity;
 				}
 			}
 		}
 		return null;
 	}
-	
+
+	public HadalEntity findEntity(long uuidMSB, long uuidLSB) {
+		return findEntity(new UUID(uuidMSB, uuidLSB));
+	}
+
 	/**
 	 * This sets the game's boss, filling the boss ui.
 	 * @param enemy: This is the boss whose hp will be used for the boss hp bar
@@ -1338,7 +1355,7 @@ public class PlayState extends GameState {
 	 * @param connId: connId of the new client
 	 */
 	public void catchUpClient(int connId) {
-		for (Set<HadalEntity> s: entityLists) {
+		for (ObjectSet<HadalEntity> s: entityLists) {
 			for (HadalEntity entity : s) {
 				Object packet = entity.onServerCreate();
 				if (packet != null) {
@@ -1356,8 +1373,8 @@ public class PlayState extends GameState {
 
 		if (!isServer()) { return null; }
 
-		ArrayList<StartPoint> validStarts = new ArrayList<>();
-		ArrayList<StartPoint> readyStarts = new ArrayList<>();
+		Array<StartPoint> validStarts = new Array<>();
+		Array<StartPoint> readyStarts = new Array<>();
 		
 		//get a list of all start points that match the startId
 		for (StartPoint s: savePoints) {
@@ -1392,11 +1409,11 @@ public class PlayState extends GameState {
 		
 		//if any start points haven't been used recently, pick one of them randomly. Otherwise pick a random valid start point
 		if (readyStarts.isEmpty()) {
-			int randomIndex = MathUtils.random(validStarts.size() - 1);
+			int randomIndex = MathUtils.random(validStarts.size - 1);
 			validStarts.get(randomIndex).startPointSelected();
 			return validStarts.get(randomIndex);
 		} else {
-			int randomIndex = MathUtils.random(readyStarts.size() - 1);
+			int randomIndex = MathUtils.random(readyStarts.size - 1);
 			readyStarts.get(randomIndex).startPointSelected();
 			return readyStarts.get(randomIndex);
 		}
@@ -1493,11 +1510,11 @@ public class PlayState extends GameState {
 
 	public void addMapModifier(UnlockArtifact modifier) { this.mapModifiers.add(modifier); }
 
-	public List<UnlockArtifact> getMapModifiers() { return mapModifiers; }
+	public Array<UnlockArtifact> getMapModifiers() { return mapModifiers; }
 
 	public void addMapEquipTag(UnlockTag mapEquipTag) { this.mapEquipTags.add(mapEquipTag); }
 
-	public List<UnlockTag> getMapEquipTag() { return mapEquipTags; }
+	public Array<UnlockTag> getMapEquipTag() { return mapEquipTags; }
 
 	public Event getGlobalTimer() {	return globalTimer;	}
 
@@ -1575,7 +1592,7 @@ public class PlayState extends GameState {
 
 	public void setZoom(float zoom) { this.zoomDesired = zoom; }
 
-	public ArrayList<Object> getSyncPackets() {	return syncPackets; }
+	public Array<Object> getSyncPackets() {	return syncPackets; }
 
 	public void setNextState(TransitionState nextState) { this.nextState = nextState; }
 

@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.WindowTable;
@@ -17,9 +18,6 @@ import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.text.HText;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
 import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
@@ -41,7 +39,7 @@ public class AboutState extends GameState {
 	private VerticalGroup tracks;
 	private SelectBox<String> loopOptions;
 	private Slider musicTime;
-	private final ArrayList<MusicTrack> shuffleTracks = new ArrayList<>();
+	private final Array<MusicTrack> shuffleTracks = new Array<>();
 	private int currentTrackIndex;
 
 	//Dimensions of the setting menu
@@ -280,13 +278,12 @@ public class AboutState extends GameState {
 					if (HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
 						HadalGame.musicPlayer.pause();
 						pause.setText(HText.PLAY.text());
-						pause.setHeight(optionHeight);
 					} else {
 						HadalGame.musicPlayer.getCurrentSong().setPosition(musicTime.getValue());
 						HadalGame.musicPlayer.play();
 						pause.setText(HText.PAUSE.text());
-						pause.setHeight(optionHeight);
 					}
+					pause.setHeight(optionHeight);
 				}
 			}
 		});
@@ -456,13 +453,13 @@ public class AboutState extends GameState {
 						case 2 -> {
 
 							if (shuffleTracks.isEmpty()) {
-								shuffleTracks.addAll(Arrays.asList(MusicTrack.values()));
+								shuffleTracks.addAll(MusicTrack.values());
 							}
 
-							MusicTrack randomTrack = shuffleTracks.get(MathUtils.random(shuffleTracks.size() - 1));
+							MusicTrack randomTrack = shuffleTracks.get(MathUtils.random(shuffleTracks.size- 1));
 							HadalGame.musicPlayer.playSong(randomTrack, 1.0f);
 							setTrack(randomTrack, false);
-							shuffleTracks.remove(randomTrack);
+							shuffleTracks.removeValue(randomTrack, false);
 						}
 						case 3 -> HadalGame.musicPlayer.stop();
 					}
@@ -536,8 +533,8 @@ public class AboutState extends GameState {
 			trackText.setText(HText.NOW_PLAYING.text(track.getMusicName()));
 			if (resetShuffle) {
 				shuffleTracks.clear();
-				shuffleTracks.addAll(Arrays.asList(MusicTrack.values()));
-				shuffleTracks.remove(track);
+				shuffleTracks.addAll(MusicTrack.values());
+				shuffleTracks.removeValue(track, false);
 			}
 		} else {
 			musicTime.setRange(0.0f, 0.0f);

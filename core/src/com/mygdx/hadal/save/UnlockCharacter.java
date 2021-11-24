@@ -5,15 +5,13 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * An UnlockCharacter represents a single playable character in the game
@@ -108,7 +106,7 @@ public enum UnlockCharacter {
 	/**
 	 * This acquires a list of all unlocked characters (if unlock is true. otherwise just return all characters that satisfy the tags)
 	 */
-	public static Array<UnlockCharacter> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
+	public static Array<UnlockCharacter> getUnlocks(PlayState state, boolean unlock, Array<UnlockTag> tags) {
 		Array<UnlockCharacter> items = new Array<>();
 		
 		for (UnlockCharacter u : UnlockCharacter.values()) {
@@ -127,7 +125,7 @@ public enum UnlockCharacter {
 	}
 
 	public static UnlockCharacter getRandCharFromPool(PlayState state) {
-		Array<UnlockCharacter> unlocks = UnlockCharacter.getUnlocks(state, false, new ArrayList<>());
+		Array<UnlockCharacter> unlocks = UnlockCharacter.getUnlocks(state, false, new Array<>());
 		return unlocks.get(MathUtils.random(unlocks.size - 1));
 	}
 
@@ -171,13 +169,13 @@ public enum UnlockCharacter {
 
 	public Vector3 getColor2() { return color2; }
 
-	private static final HashMap<String, UnlockCharacter> UnlocksByName = new HashMap<>();
+	private static final ObjectMap<String, UnlockCharacter> UnlocksByName = new ObjectMap<>();
 	static {
 		for (UnlockCharacter u: UnlockCharacter.values()) {
 			UnlocksByName.put(u.toString(), u);
 		}
 	}
 	public static UnlockCharacter getByName(String s) {
-		return UnlocksByName.getOrDefault(s, MOREAU);
+		return UnlocksByName.get(s, MOREAU);
 	}
 }

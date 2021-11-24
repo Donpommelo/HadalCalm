@@ -97,7 +97,7 @@ public class Spring extends Event {
 			blueprint.getProperties().put("springY", vec.y);
 			blueprint.getProperties().put("duration", duration);
 		}
-		return new Packets.CreateEvent(entityID.toString(), new EventDto(blueprint), synced);
+		return new Packets.CreateEvent(entityID, new EventDto(blueprint), synced);
 	}
 	
 	@Override

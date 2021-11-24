@@ -127,7 +127,7 @@ public class Ragdoll extends HadalEntity {
 		ragdollDuration -= delta;
 		
 		if (ragdollDuration <= 0) {
-			((ClientState) state).removeEntity(entityID.toString());
+			((ClientState) state).removeEntity(entityID);
 		}
 	}
 	
@@ -152,7 +152,7 @@ public class Ragdoll extends HadalEntity {
 	@Override
 	public Object onServerCreate() {
 		if (synced) {
-			return new Packets.CreateRagdoll(entityID.toString(), getPixelPosition(), size, sprite, startVelo, ragdollDuration, gravity, setVelo, sensor);
+			return new Packets.CreateRagdoll(entityID, getPixelPosition(), size, sprite, startVelo, ragdollDuration, gravity, setVelo, sensor);
 		} else {
 			return null;
 		}

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.bots;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.input.PlayerAction;
@@ -10,8 +11,6 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.Invulnerability;
-
-import java.util.ArrayList;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -24,7 +23,7 @@ public class BotController {
     private final PlayerBot player;
 
     //this is the current path of nodes that the bot attempts to go through
-    private final ArrayList<RallyPoint> pointPath = new ArrayList<>();
+    private final Array<RallyPoint> pointPath = new Array<>();
     private BotMood currentMood = BotMood.DILLY_DALLY;
 
     //This is the default cooldown after jumping that a bot will try a jump again
@@ -248,7 +247,7 @@ public class BotController {
             //if the bot is close enough to their destination, remove the node and begin moving towards the next one
             if (!pointPath.isEmpty()) {
                 if (distSquared < distanceThreshold) {
-                    pointPath.remove(0);
+                    pointPath.removeIndex(0);
                 }
             }
         }
@@ -379,7 +378,7 @@ public class BotController {
         this.targetDistanceSquare = targetDistanceSquare;
     }
 
-    public ArrayList<RallyPoint> getPointPath() { return pointPath; }
+    public Array<RallyPoint> getPointPath() { return pointPath; }
 
     public float getShootReleaseCount() { return shootReleaseCount; }
 

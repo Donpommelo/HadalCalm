@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.*;
@@ -21,9 +22,6 @@ import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This util parses a Tiled file into an in-game map.
@@ -71,23 +69,23 @@ public class TiledObjectUtil {
 
             if (object.getProperties().get("dropthrough", false, boolean.class)) {
             	WallDropthrough wall = new WallDropthrough(state, shape);
-                state.addEntity(wall.getEntityID().toString(), wall, false, ObjectSyncLayers.STANDARD);
+                state.addEntity(wall.getEntityID(), wall, false, ObjectSyncLayers.STANDARD);
             } else {
             	Wall wall = new Wall(state, shape);
-                state.addEntity(wall.getEntityID().toString(), wall, false, ObjectSyncLayers.STANDARD);
+                state.addEntity(wall.getEntityID(), wall, false, ObjectSyncLayers.STANDARD);
             }
         }
     }
 
     //these maps keep track of all the triggers and connected events
-    private static final Map<String, Event> triggeredEvents = new HashMap<>();
-    private static final Map<Event, String> triggeringEvents = new HashMap<>();
-    private static final Map<TriggerMulti, String> multiTriggeringEvents = new HashMap<>();
-    private static final Map<TriggerCond, String> condTriggeringEvents = new HashMap<>();
-    private static final Map<TriggerRedirect, String> redirectTriggeringEvents = new HashMap<>();
-    private static final Map<MovingPoint, String> movePointConnections = new HashMap<>();
-    private static final Map<ChoiceBranch, String> choiceBranchOptions = new HashMap<>();
-    private static final Map<String, Prefabrication> prefabrications = new HashMap<>();
+    private static final ObjectMap<String, Event> triggeredEvents = new ObjectMap<>();
+    private static final ObjectMap<Event, String> triggeringEvents = new ObjectMap<>();
+    private static final ObjectMap<TriggerMulti, String> multiTriggeringEvents = new ObjectMap<>();
+    private static final ObjectMap<TriggerCond, String> condTriggeringEvents = new ObjectMap<>();
+    private static final ObjectMap<TriggerRedirect, String> redirectTriggeringEvents = new ObjectMap<>();
+    private static final ObjectMap<MovingPoint, String> movePointConnections = new ObjectMap<>();
+    private static final ObjectMap<ChoiceBranch, String> choiceBranchOptions = new ObjectMap<>();
+    private static final ObjectMap<String, Prefabrication> prefabrications = new ObjectMap<>();
 
     /**
      * Parses Tiled objects into in game events
@@ -110,7 +108,7 @@ public class TiledObjectUtil {
 				if (object.getProperties().get("independent", boolean.class)) {
 					Event e = parseTiledEvent(state, object);
 					if (e != null) {
-						state.addEntity(e.getEntityID().toString(), e, false, ObjectSyncLayers.STANDARD);
+						state.addEntity(e.getEntityID(), e, false, ObjectSyncLayers.STANDARD);
 					}
 				}
 			}
@@ -602,7 +600,7 @@ public class TiledObjectUtil {
      * @param state: this is the state we are adding the newly parsed event to
      */
     public static void parseDesignatedEvents(PlayState state) {
-    	for (String key : triggeredEvents.keySet()) {
+    	for (String key : triggeredEvents.keys()) {
     		if (key.equals(globalTimer)) {
     			state.setGlobalTimer(triggeredEvents.get(key));
     		}
@@ -615,48 +613,48 @@ public class TiledObjectUtil {
     public static void parseTiledTriggerLayer() {
     	
     	//for all triggering effects, connect them to the event they trigger
-    	for (Event key : triggeringEvents.keySet()) {
+    	for (Event key : triggeringEvents.keys()) {
     		if (!triggeringEvents.get(key).equals("")) {
-        		key.setConnectedEvent(triggeredEvents.getOrDefault(triggeringEvents.get(key), null));
+        		key.setConnectedEvent(triggeredEvents.get(triggeringEvents.get(key), null));
     		}
     	}
     	
     	//for all multi-triggers, connect them to each event that they trigger
-    	for (TriggerMulti key : multiTriggeringEvents.keySet()) {
+    	for (TriggerMulti key : multiTriggeringEvents.keys()) {
     		for (String id : multiTriggeringEvents.get(key).split(",")) {
     			if (!id.equals("")) {
-    				key.addTrigger(triggeredEvents.getOrDefault(id, null));
+    				key.addTrigger(triggeredEvents.get(id, null));
     			}
     		}
     	}
     	
     	//for all conditional triggers, connect them to each event that they can possibly trigger
-    	for (TriggerCond key : condTriggeringEvents.keySet()) {
+    	for (TriggerCond key : condTriggeringEvents.keys()) {
     		for (String id : condTriggeringEvents.get(key).split(",")) {
     			if (!id.equals("")) {
-    				key.addTrigger(id, triggeredEvents.getOrDefault(id, null));
+    				key.addTrigger(id, triggeredEvents.get(id, null));
     			}
     		}
     	}
     	
     	//for all redirect triggers, connect them to the event that it blames when it triggers another event
-    	for (TriggerRedirect key : redirectTriggeringEvents.keySet()) {
+    	for (TriggerRedirect key : redirectTriggeringEvents.keys()) {
     		if (!redirectTriggeringEvents.get(key).equals("")) {
-        		key.setBlame(triggeredEvents.getOrDefault(redirectTriggeringEvents.get(key), null));
+        		key.setBlame(triggeredEvents.get(redirectTriggeringEvents.get(key), null));
     		}
     	}
     	
     	//for all move points, connect them to all events that move along with it
-    	for (MovingPoint key : movePointConnections.keySet()) {
+    	for (MovingPoint key : movePointConnections.keys()) {
     		for (String id : movePointConnections.get(key).split(",")) {
     			if (!id.equals("")) {
-        			key.addConnection(triggeredEvents.getOrDefault(id, null));
+        			key.addConnection(triggeredEvents.get(id, null));
 
         			//for prefabs, connect to the event parts that are specified to be moveable
-        			Prefabrication prefab = prefabrications.getOrDefault(id, null);
+        			Prefabrication prefab = prefabrications.get(id, null);
         			if (prefab != null) {
         				for (String e: prefab.getConnectedEvents()) {
-        					key.addConnection(triggeredEvents.getOrDefault(e, null));
+        					key.addConnection(triggeredEvents.get(e, null));
         				}
         			}
     			}
@@ -664,11 +662,11 @@ public class TiledObjectUtil {
     	}
     	
     	//for all choice branches, connect them to each event that corresponds to a choosable option
-    	for (ChoiceBranch branch : choiceBranchOptions.keySet()) {
+    	for (ChoiceBranch branch : choiceBranchOptions.keys()) {
     		String[] options = choiceBranchOptions.get(branch).split(",");
     		for (int i = 0; i < options.length; i++) {
     			if (!options[i].equals("")) {
-        			branch.addOption(branch.getOptionNames()[i], triggeredEvents.getOrDefault(options[i], null));
+        			branch.addOption(branch.getOptionNames()[i], triggeredEvents.get(options[i], null));
     			}
     		}
     	}  
@@ -684,7 +682,7 @@ public class TiledObjectUtil {
     	String triggeredId =  blueprint.getProperties().get("triggeredId", "", String.class);
 
     	//connect e to all the events that trigger it
-    	for (Event key : triggeringEvents.keySet()) {
+    	for (Event key : triggeringEvents.keys()) {
     		if (!triggeringEvents.get(key).equals("") && triggeringEvents.get(key).equals(triggeredId)) {
         		key.setConnectedEvent(e);
     		}
@@ -692,30 +690,30 @@ public class TiledObjectUtil {
     	
     	//connect e to the event that it triggers
     	if (!triggeringId.equals("")) {
-    		e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
+    		e.setConnectedEvent(triggeredEvents.get(triggeringId, null));
     	}
 
 		String myId;
 
 		//connect e to any redirect events that blame it for triggers
-		for (TriggerRedirect key : redirectTriggeringEvents.keySet()) {
+		for (TriggerRedirect key : redirectTriggeringEvents.keys()) {
 			if (!redirectTriggeringEvents.get(key).equals("") && redirectTriggeringEvents.get(key).equals(triggeredId)) {
 				key.setBlame(e);
 			}
 		}
 
 		//if e is a redirect trigger, connect it to the event that it blames when it triggers another event
-		if (e instanceof TriggerRedirect) {
-			myId = redirectTriggeringEvents.get(e);
+		if (e instanceof TriggerRedirect trigger) {
+			myId = redirectTriggeringEvents.get(trigger);
 			if (myId != null) {
 				if (!myId.equals("")) {
-					((TriggerRedirect) e).setBlame(triggeredEvents.getOrDefault(myId, null));
+					trigger.setBlame(triggeredEvents.get(myId, null));
 				}
 			}
 		}
 
 		//connect e to any multi-triggers that trigger it
-		for (TriggerMulti key : multiTriggeringEvents.keySet()) {
+		for (TriggerMulti key : multiTriggeringEvents.keys()) {
 			for (String id : multiTriggeringEvents.get(key).split(",")) {
 				if (!id.equals("") && id.equals(triggeredId)) {
 					key.addTrigger(e);
@@ -724,33 +722,33 @@ public class TiledObjectUtil {
 		}
 
 		//if e is a multi-trigger, connect it to all events that it triggers
-		if (e instanceof TriggerMulti) {
-			myId = multiTriggeringEvents.get(e);
+		if (e instanceof TriggerMulti trigger) {
+			myId = multiTriggeringEvents.get(trigger);
 			if (myId != null) {
 				for (String id : myId.split(",")) {
 					if (!id.equals("")) {
-						((TriggerMulti) e).addTrigger(triggeredEvents.getOrDefault(id, null));
+						trigger.addTrigger(triggeredEvents.get(id, null));
 					}
 				}
 			}
 		}
 
     	//connect e to any conditional triggers that can trigger it
-    	for (TriggerCond key : condTriggeringEvents.keySet()) {
+    	for (TriggerCond key : condTriggeringEvents.keys()) {
     		for (String id : condTriggeringEvents.get(key).split(",")) {
     			if (!id.equals("") && id.equals(triggeredId)) {
-    				key.addTrigger(id, triggeredEvents.getOrDefault(id, null));
+    				key.addTrigger(id, triggeredEvents.get(id, null));
     			}
     		}
     	}
     	
     	//if e is a conditional trigger, connect it to each event that it can trigger
-		if (e instanceof TriggerCond) {
-			myId = condTriggeringEvents.get(e);
+		if (e instanceof TriggerCond trigger) {
+			myId = condTriggeringEvents.get(trigger);
 			if (myId != null) {
 				for (String id : myId.split(",")) {
 					if (!id.equals("")) {
-						((TriggerCond) e).addTrigger(id, triggeredEvents.getOrDefault(id, null));
+						trigger.addTrigger(id, triggeredEvents.get(id, null));
 					}
 				}
 			}
@@ -758,7 +756,7 @@ public class TiledObjectUtil {
 
     	//connect e to any move points that connect to it.
 		// We don't need a case for when e is a move point b/c the client doesn't process that and we haven't needed to clone move points yet.
-    	for (MovingPoint key : movePointConnections.keySet()) {
+    	for (MovingPoint key : movePointConnections.keys()) {
     		for (String id : movePointConnections.get(key).split(",")) {
     			if (!id.equals("") && id.equals(triggeredId)) {
         			key.addConnection(e);
@@ -767,7 +765,7 @@ public class TiledObjectUtil {
     	} 
     	
     	//connect e to any choice branches that can trigger it
-    	for (ChoiceBranch branch : choiceBranchOptions.keySet()) {
+    	for (ChoiceBranch branch : choiceBranchOptions.keys()) {
     		String[] options = choiceBranchOptions.get(branch).split(",");
     		for (int i = 0; i < options.length; i++) {
     			if (!options[i].equals("") && options[i].equals(triggeredId)) {
@@ -777,13 +775,13 @@ public class TiledObjectUtil {
     	} 
     	
     	//if e is a choice branch, connect it to each event that it can trigger
-		if (e instanceof ChoiceBranch) {
-			myId = choiceBranchOptions.get(e);
+		if (e instanceof ChoiceBranch choice) {
+			myId = choiceBranchOptions.get(choice);
 			if (myId != null) {
 				String[] options = myId.split(",");
 				for (int i = 0; i < options.length; i++) {
 					if (!options[i].equals("")) {
-						((ChoiceBranch) e).addOption(((ChoiceBranch) e).getOptionNames()[i], triggeredEvents.getOrDefault(options[i], null));
+						choice.addOption(choice.getOptionNames()[i], triggeredEvents.get(options[i], null));
 					}
 				}
 			}

@@ -1,9 +1,7 @@
 package com.mygdx.hadal.bots;
 
 import com.badlogic.gdx.math.Vector2;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.badlogic.gdx.utils.ObjectMap;
 
 import static com.mygdx.hadal.bots.BotManager.downCostModifier;
 import static com.mygdx.hadal.bots.BotManager.upCostModifier;
@@ -19,10 +17,10 @@ public class RallyPoint implements Comparable<RallyPoint> {
     private final Vector2 position;
 
     //this maps to each of this point's neighbors the distance between the 2 nodes
-    private final Map<RallyPoint, Float> connections = new HashMap<>();
+    private final ObjectMap<RallyPoint, Float> connections = new ObjectMap<>();
 
     //this maps to another RallyPoints a reasonably short RallyPath between the 2 nodes
-    private final Map<RallyPoint, RallyPath> shortestPaths = new HashMap<>();
+    private final ObjectMap<RallyPoint, RallyPath> shortestPaths = new ObjectMap<>();
 
     //these variables are used for a* search
     private RallyPoint previous;
@@ -59,9 +57,9 @@ public class RallyPoint implements Comparable<RallyPoint> {
 
     public Vector2 getPosition() { return position; }
 
-    public Map<RallyPoint, Float> getConnections() { return connections; }
+    public ObjectMap<RallyPoint, Float> getConnections() { return connections; }
 
-    public Map<RallyPoint, RallyPath> getShortestPaths() { return shortestPaths; }
+    public ObjectMap<RallyPoint, RallyPath> getShortestPaths() { return shortestPaths; }
 
     public RallyPoint getPrevious() { return previous; }
 

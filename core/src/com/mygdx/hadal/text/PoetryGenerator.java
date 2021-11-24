@@ -1,8 +1,7 @@
 package com.mygdx.hadal.text;
 
 import com.badlogic.gdx.math.MathUtils;
-
-import java.util.ArrayList;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * a frightful resentment invests like a lens.
@@ -156,8 +155,8 @@ public enum PoetryGenerator {
 	 * @return The generated poem fragment, plus the rest of the poem
 	 */
 	public static String generateName(String prev) {
-		
-		ArrayList<PoetryGenerator> possibleNexts = new ArrayList<>();
+
+		Array<PoetryGenerator> possibleNexts = new Array<>();
 		
 		//identify all possible next poetry fragments
 		for (PoetryGenerator gen: PoetryGenerator.values()) {
@@ -177,7 +176,7 @@ public enum PoetryGenerator {
 		if (possibleNexts.isEmpty()) { return ""; }
 		
 		//pick a random possible next fragment and add it.
-		int randomIndex = MathUtils.random(possibleNexts.size() - 1);
+		int randomIndex = MathUtils.random(possibleNexts.size - 1);
 		PoetryGenerator next = possibleNexts.get(randomIndex);
 		currentLengthExtra += next.lengthExtra;
 		

@@ -121,7 +121,7 @@ public class Event extends HadalEntity {
 				if (state.isServer()) {
 					this.queueDeletion();
 				} else {
-					((ClientState) state).removeEntity(entityID.toString());
+					((ClientState) state).removeEntity(entityID);
 				}
 			}
 		}
@@ -255,14 +255,14 @@ public class Event extends HadalEntity {
 		case ILLUSION:
 		case SERVER:
 			if (body != null && !sprite.equals(Sprite.NOTHING)) {
-				return new Packets.CreateEntity(entityID.toString(), size, getPixelPosition(), getAngle(), sprite,
+				return new Packets.CreateEntity(entityID, size, getPixelPosition(), getAngle(), sprite,
 						synced, isSyncInstant(), ObjectSyncLayers.STANDARD, scaleAlign);
 			} else {
 				return null;
 			}
 		case USER:
 		case ALL:
-			return new Packets.CreateEvent(entityID.toString(), dto, synced);
+			return new Packets.CreateEvent(entityID, dto, synced);
 		default:
 			return null;
 		}
@@ -271,7 +271,7 @@ public class Event extends HadalEntity {
 	@Override
 	public Object onServerDelete() {
 		if (synced) {
-			return new Packets.DeleteEntity(entityID.toString(), state.getTimer());
+			return new Packets.DeleteEntity(entityID, state.getTimer());
 		} else {
 			return null;
 		}
@@ -282,10 +282,10 @@ public class Event extends HadalEntity {
 		if (synced && body != null && isSyncDefault()) {
 			float angle = getAngle();
 			if (angle == 0.0f) {
-				state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(),
+				state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
 						entityAge, state.getTimer()));
 			} else {
-				state.getSyncPackets().add(new PacketsSync.SyncEntityAngled(entityID.toString(), getPosition(), getLinearVelocity(),
+				state.getSyncPackets().add(new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
 						entityAge, state.getTimer(), angle));
 			}
 		}

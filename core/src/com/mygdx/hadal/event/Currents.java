@@ -126,8 +126,8 @@ public class Currents extends Event {
 			ParticleEntity bubbles = new ParticleEntity(state, ragdoll, Particle.CURRENT_TRAIL, 0.5f, 0.0f, true, particleSyncType.NOSYNC)
 				.setParticleVelocity(vec.angleRad())
 				.setParticleAngle(vec.angleRad() + 90 * MathUtils.degreesToRadians);
-			((ClientState) state).addEntity(ragdoll.getEntityID().toString(), ragdoll, false, ObjectSyncLayers.STANDARD);
-			((ClientState) state).addEntity(bubbles.getEntityID().toString(), bubbles, false, ObjectSyncLayers.EFFECT);
+			((ClientState) state).addEntity(ragdoll.getEntityID(), ragdoll, false, ObjectSyncLayers.STANDARD);
+			((ClientState) state).addEntity(bubbles.getEntityID(), bubbles, false, ObjectSyncLayers.EFFECT);
 		}
 	}
 		
@@ -146,6 +146,6 @@ public class Currents extends Event {
 			blueprint.getProperties().put("currentY", vec.y);
 			blueprint.getProperties().put("duration", duration);
 		}
-		return new Packets.CreateEvent(entityID.toString(), new EventDto(blueprint), synced);
+		return new Packets.CreateEvent(entityID, new EventDto(blueprint), synced);
 	}
 }

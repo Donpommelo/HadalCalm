@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.artifacts.*;
 import com.mygdx.hadal.equip.modeMods.*;
@@ -11,10 +12,6 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 /**
  * An UnlockArtifact represents a single artifact in the game
@@ -196,7 +193,7 @@ public enum UnlockArtifact {
 	/**
 	 * This acquires a list of all unlocked artifacts (if unlock is true. otherwise just return all artifacts that satisfy the tags)
 	 */
-	public static Array<UnlockArtifact> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
+	public static Array<UnlockArtifact> getUnlocks(PlayState state, boolean unlock, Array<UnlockTag> tags) {
 		Array<UnlockArtifact> items = new Array<>();
 		
 		for (UnlockArtifact u : UnlockArtifact.values()) {
@@ -218,19 +215,18 @@ public enum UnlockArtifact {
 	 * @param pool: comma separated list of names of artifact to choose from. if set to "", return any artifact.
 	 */
 	public static UnlockArtifact getRandArtfFromPool(PlayState state, String pool) {
-		
-		ArrayList<UnlockTag> defaultTags = new ArrayList<>();
+
+		Array<UnlockTag> defaultTags = new Array<>();
 		defaultTags.add(UnlockTag.RANDOM_POOL);
 		
 		if (pool.equals("")) {
 			Array<UnlockArtifact> unlocks = UnlockArtifact.getUnlocks(state, false, defaultTags);
 			return unlocks.get(MathUtils.random(unlocks.size - 1));
 		}
-		
-		ArrayList<String> artifacts = new ArrayList<>();
 
-		Collections.addAll(artifacts, pool.split(","));
-		return UnlockArtifact.getByName(artifacts.get(MathUtils.random(artifacts.size() - 1)));
+		Array<String> artifacts = new Array<>();
+		artifacts.addAll(pool.split(","));
+		return UnlockArtifact.getByName(artifacts.get(MathUtils.random(artifacts.size - 1)));
 	}
 	
 	public Artifact getArtifact() { return artifactSingleton; }
@@ -241,13 +237,13 @@ public enum UnlockArtifact {
 
 	public boolean isInvisible() { return invisible; }
 
-	private static final HashMap<String, UnlockArtifact> UnlocksByName = new HashMap<>();
+	private static final ObjectMap<String, UnlockArtifact> UnlocksByName = new ObjectMap<>();
 	static {
 		for (UnlockArtifact u: UnlockArtifact.values()) {
 			UnlocksByName.put(u.toString(), u);
 		}
 	}
 	public static UnlockArtifact getByName(String s) {
-		return UnlocksByName.getOrDefault(s, NOTHING);
+		return UnlocksByName.get(s, NOTHING);
 	}
 }

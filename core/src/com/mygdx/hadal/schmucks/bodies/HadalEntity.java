@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -14,7 +15,6 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
@@ -80,7 +80,7 @@ public abstract class HadalEntity {
 		
 		//give this entity a random, unique id
 		this.entityID = UUID.randomUUID();
-		
+
 		//Queue this entity up for creating in the world next engine tick
 		state.create(this);
 	}
@@ -185,7 +185,7 @@ public abstract class HadalEntity {
 	 * This is called when the entity is deleted to return a packet to be sent to the client
 	 * Default: send a packet telling clients to delete this.
 	 */
-	public Object onServerDelete() { return new Packets.DeleteEntity(entityID.toString(), state.getTimer()); }
+	public Object onServerDelete() { return new Packets.DeleteEntity(entityID, state.getTimer()); }
 
 	/**
 	 * This is called to send a packet syncing this entity.
@@ -194,14 +194,14 @@ public abstract class HadalEntity {
 	 */
 	public void onServerSync() {
 		if (body != null && syncDefault) {
-			state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(),
+			state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
 					entityAge, state.getTimer()));
 		}
 	}
 	
 	public void onServerSyncFast() {
 		if (body != null && syncInstant) {
-			HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntity(entityID.toString(), getPosition(), getLinearVelocity(),
+			HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
 					entityAge, state.getTimer()));
 		}
 	}
@@ -220,7 +220,7 @@ public abstract class HadalEntity {
 	public boolean copyServerInstantly;
 	
 	//this is a list of the most recent packets that sync this entity as well as their timestamps
-	private final ArrayList<Object[]> bufferedTimestamps = new ArrayList<>();
+	private final Array<Object[]> bufferedTimestamps = new Array<>();
 	
 	/**
 	 * When we receive a packet from the server, we store it alongside its timestamp
@@ -262,7 +262,7 @@ public abstract class HadalEntity {
 				}
 			}
 		} else if (o instanceof Packets.DeleteEntity) {
-			((ClientState) state).removeEntity(entityID.toString());
+			((ClientState) state).removeEntity(entityID);
 		}
 	}
 	
@@ -290,7 +290,7 @@ public abstract class HadalEntity {
 		//process each buffered snapshot starting from the oldest to the most recent
 		while (!bufferedTimestamps.isEmpty()) {
 			if (state.getTimer() >= nextTimeStamp) {
-				Object[] o = bufferedTimestamps.remove(0);
+				Object[] o = bufferedTimestamps.removeIndex(0);
 				
 				//check timestamp in case snapshots are sent out of order
 				if ((float) o[1] > nextTimeStamp) {
@@ -396,7 +396,7 @@ public abstract class HadalEntity {
 	
 	public UUID getEntityID() { return entityID; }
 	
-	public void setEntityID(String entityID) { this.entityID = UUID.fromString(entityID); }
+	public void setEntityID(UUID entityID) { this.entityID = entityID; }
 
 	public Vector2 getStartPos() { return startPos;	}
 	
@@ -421,7 +421,7 @@ public abstract class HadalEntity {
 
 		//The server tells the client to also display the shader
 		if (state.isServer()) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncShader(entityID.toString(), shader, shaderCount));
+			HadalGame.server.sendToAllUDP(new Packets.SyncShader(entityID, shader, shaderCount));
 		}
 	}
 	
@@ -455,7 +455,7 @@ public abstract class HadalEntity {
 			
 			if (timeSinceLastSync > ClientState.missedDeleteThreshold && state.getTimer() > ClientState.initialConnectThreshold) {
 				timeSinceLastSync = 0;
-				HadalGame.client.sendUDP(new Packets.MissedDelete(entityID.toString()));
+				HadalGame.client.sendUDP(new Packets.MissedDelete(entityID));
 			}
 		}
 	}

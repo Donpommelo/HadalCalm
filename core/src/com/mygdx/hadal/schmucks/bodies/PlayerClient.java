@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.bodies;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.client.ClientPredictionFrame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
@@ -12,8 +13,6 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
-
-import java.util.ArrayList;
 
 /**
  * A ClientPlayer represents a client's own player.
@@ -46,7 +45,7 @@ public class PlayerClient extends Player {
 	}
 	
 	//this is an ordered list of client frames that keep track of the client's velocity and displacement over time
-	private final ArrayList<ClientPredictionFrame> frames = new ArrayList<>();
+	private final Array<ClientPredictionFrame> frames = new Array<>();
 	
 	//the client's most recent position
 	private final Vector2 lastPosition = new Vector2();
@@ -87,7 +86,7 @@ public class PlayerClient extends Player {
 				ClientPredictionFrame frame = frames.get(0);
 				if (dt >= frame.delta) {
 					dt -= frame.delta;
-					frames.remove(0);
+					frames.removeIndex(0);
 				} else {
 
 					//the last frame is trimmed so the total amount of time in our history is equal to our latency

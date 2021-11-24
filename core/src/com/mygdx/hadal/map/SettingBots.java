@@ -2,21 +2,20 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.text.NameGenerator;
-
-import java.util.ArrayList;
 
 /**
  * This mode setting sets the number of bots in the game
@@ -74,7 +73,7 @@ public class SettingBots extends ModeSetting {
         if (!state.isServer()) { return; }
         int botNumberIndex = botsChoice ? state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) : lockedBots;
 
-        ArrayList<User> oldBots = new ArrayList<>();
+        Array<User> oldBots = new Array<>();
 
         //go through all existing bots and clear them from the user list
         for (User user: HadalGame.server.getUsers().values()) {

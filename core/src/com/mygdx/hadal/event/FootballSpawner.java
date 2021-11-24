@@ -90,7 +90,7 @@ public class FootballSpawner extends Event {
         state.getUiObjective().addObjective(ball, Sprite.CLEAR_CIRCLE_ALERT, true, false);
 
         if (state.isServer()) {
-            HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(ball.getEntityID().toString(),
+            HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(ball.getEntityID(),
                 new Vector3(), true, false, Sprite.CLEAR_CIRCLE_ALERT));
         }
     }

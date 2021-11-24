@@ -74,7 +74,7 @@ public class DropThroughPlatform extends Event {
 						filter.maskBits = (short) (filter.maskBits &~ Constants.BIT_DROPTHROUGHWALL);
 						entity.getMainFixture().setFilterData(filter);
 						
-						feet.getTerrain().remove(this.event);
+						feet.getTerrain().removeValue(this.event, false);
 					}
 				}
 			}

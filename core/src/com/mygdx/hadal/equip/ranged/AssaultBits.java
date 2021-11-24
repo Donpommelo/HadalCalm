@@ -1,9 +1,10 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -17,8 +18,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Temporary;
 import com.mygdx.hadal.strategies.hitbox.*;
-
-import java.util.ArrayList;
 
 public class AssaultBits extends RangedWeapon {
 
@@ -42,7 +41,7 @@ public class AssaultBits extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
 	
 	//list of bits created
-	private final ArrayList<Enemy> bits = new ArrayList<>();
+	private final Array<Enemy> bits = new Array<>();
 
 	public AssaultBits(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
@@ -85,7 +84,7 @@ public class AssaultBits extends RangedWeapon {
 
 	@Override
 	public void update(PlayState state, float delta) {
-		if (bits.size() < 3) {
+		if (bits.size< 3) {
 			setCharging(true);
 
 			if (chargeCd < getChargeTime()) {
@@ -101,7 +100,7 @@ public class AssaultBits extends RangedWeapon {
 
 						@Override
 						public boolean queueDeletion() {
-							bits.remove(this);
+							bits.removeValue(this, false);
 							return super.queueDeletion();
 						}
 					};
@@ -110,7 +109,7 @@ public class AssaultBits extends RangedWeapon {
 					bit.setAttackTarget(((Player) user).getMouse());
 					bits.add(bit);
 
-					if (bits.size() >= 3) {
+					if (bits.size >= 3) {
 						setCharging(false);
 					}
 				}

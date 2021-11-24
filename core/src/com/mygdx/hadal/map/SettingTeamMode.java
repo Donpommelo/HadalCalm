@@ -2,6 +2,7 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
@@ -13,8 +14,6 @@ import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
-
-import java.util.Collection;
 
 import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
 import static com.mygdx.hadal.states.PlayState.longFadeDelay;
@@ -137,8 +136,8 @@ public class SettingTeamMode extends ModeSetting {
         boolean allded = true;
         AlignmentFilter winningTeam = AlignmentFilter.NONE;
 
-        Collection<User> users = HadalGame.server.getUsers().values();
-        if (mode.getTeamMode().equals(TeamMode.COOP) || users.size() <= 1) {
+        Array<User> users = HadalGame.server.getUsers().values().toArray();
+        if (mode.getTeamMode().equals(TeamMode.COOP) || users.size <= 1) {
             resultsText = HText.SETTING_LIVES_OUT.text();
 
             //coop levels end when all players are dead

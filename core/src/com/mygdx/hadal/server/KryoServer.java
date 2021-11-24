@@ -2,6 +2,9 @@ package com.mygdx.hadal.server;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -23,8 +26,7 @@ import com.mygdx.hadal.text.HText;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.UUID;
 
 /**
  * This is the server of the game.
@@ -39,7 +41,7 @@ public class KryoServer {
 	public final GameStateManager gsm;
 	
 	//These keep track of all connected players, their mice and scores.
-	private HashMap<Integer, User> users;
+	private ObjectMap<Integer, User> users;
 
 	private String serverName = "";
 
@@ -52,12 +54,21 @@ public class KryoServer {
 	 * start is false if we are loading singleplayer and don't actually want the server to start
 	 */
 	public void init(boolean start) {
-		Kryo kryo = new Kryo();
-		kryo.setReferences(true);
+		Kryo kryo = new Kryo() {
 
+			@Override
+			public boolean isFinal(Class type) {
+				if (type.equals(Array.class) || type.equals(ObjectMap.class) || type.equals(Vector2.class) || type.equals(Vector3.class)) {
+					return true;
+				} else {
+					return super.isFinal(type);
+				}
+			}
+		};
 		KryoSerialization serialization = new KryoSerialization(kryo);
 		this.server = new Server(65536, 32768, serialization);
-		this.users = new HashMap<>();
+
+		this.users = new ObjectMap<>();
 
 		//reset used teams. This is needed to prevent all the usable "alignments" from being used up if server is remade
 		AlignmentFilter.resetUsedAlignments();
@@ -141,7 +152,7 @@ public class KryoServer {
 				else if (o instanceof final Packets.PlayerConnect p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						Map<String, Integer> modeSettings = gsm.getSetting().getModeSettings(ps.getMode());
+						HashMap<String, Integer> modeSettings = gsm.getSetting().getModeSettings(ps.getMode());
 						if (p.firstTime) {
 							
 							//reject clients with wrong version
@@ -248,7 +259,7 @@ public class KryoServer {
 						Player player = user.getPlayer();
 						if (player != null) {
 							HadalGame.server.sendToAllTCP(new Packets.SyncServerLoadout(
-								player.getEntityID().toString(), player.getPlayerData().getLoadout(), false));
+								player.getEntityID(), player.getPlayerData().getLoadout(), false));
 							if (player.getStart() != null) {
 								player.getStart().playerStart(player);
 							}
@@ -283,7 +294,7 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						ps.addPacketEffect(() -> {
-							HadalEntity entity = ps.findEntity(p.entityID);
+							HadalEntity entity = ps.findEntity(p.uuidMSB, p.uuidLSB);
 							if (entity != null) {
 								Object packet = entity.onServerCreate();
 								if (packet != null) {
@@ -302,9 +313,9 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						ps.addPacketEffect(() -> {
-							HadalEntity entity = ps.findEntity(p.entityID);
+							HadalEntity entity = ps.findEntity(p.uuidMSB, p.uuidLSB);
 							if (entity == null) {
-								sendToUDP(c.getID(), new Packets.DeleteEntity(p.entityID, ps.getTimer()));
+								sendToUDP(c.getID(), new Packets.DeleteEntity(new UUID(p.uuidMSB, p.uuidLSB), ps.getTimer()));
 							}
 						});
 					}
@@ -393,7 +404,7 @@ public class KryoServer {
 							Player player = user.getPlayer();
 							if (player != null) {
 								player.startTyping();
-								sendToAllExceptUDP(c.getID(), new Packets.SyncTyping(player.getEntityID().toString()));
+								sendToAllExceptUDP(c.getID(), new Packets.SyncTyping(player.getEntityID()));
 							}
 						});
 					}
@@ -622,8 +633,8 @@ public class KryoServer {
 	public int getNumPlayers() {
 		int playerNum = 0;
 		
-		for (Entry<Integer, User> conn: users.entrySet()) {
-			if (!conn.getValue().isSpectator() && conn.getKey() >= 0.0f) {
+		for (ObjectMap.Entry<Integer, User> conn: users.iterator()) {
+			if (!conn.value.isSpectator() && conn.key >= 0.0f) {
 				playerNum++;
 			}
 		}
@@ -694,7 +705,7 @@ public class KryoServer {
 
 	public Server getServer() {	return server; }
 
-	public HashMap<Integer, User> getUsers() { return users; }
+	public ObjectMap<Integer, User> getUsers() { return users; }
 
 	public void setServerName(String serverName) { this.serverName = serverName; }
 }

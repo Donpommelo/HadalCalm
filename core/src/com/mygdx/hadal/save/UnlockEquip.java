@@ -2,6 +2,7 @@ package com.mygdx.hadal.save;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.melee.*;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
@@ -9,10 +10,6 @@ import com.mygdx.hadal.equip.ranged.*;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 /**
  * An UnlockLevel represents a single weapon in the game
@@ -93,7 +90,7 @@ public enum UnlockEquip {
 	/**
 	 * This acquires a list of all unlocked weapons (if unlock is true. otherwise just return all weapons that satisfy the tags)
 	 */
-	public static Array<UnlockEquip> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
+	public static Array<UnlockEquip> getUnlocks(PlayState state, boolean unlock, Array<UnlockTag> tags) {
 		Array<UnlockEquip> items = new Array<>();
 		
 		for (UnlockEquip u : UnlockEquip.values()) {
@@ -127,8 +124,8 @@ public enum UnlockEquip {
 	 * @param pool: comma separated list of names of weapons to choose from. if set to "", return any weapon in the random pool.
 	 */
 	public static UnlockEquip getRandWeapFromPool(PlayState state, String pool) {
-		
-		ArrayList<UnlockTag> defaultTags = new ArrayList<>();
+
+		Array<UnlockTag> defaultTags = new Array<>();
 		defaultTags.add(UnlockTag.RANDOM_POOL);
 		defaultTags.addAll(state.getMapEquipTag());
 
@@ -137,10 +134,9 @@ public enum UnlockEquip {
 			return unlocks.get(MathUtils.random(unlocks.size - 1));
 		}
 
-		ArrayList<String> weapons = new ArrayList<>();
-
-		Collections.addAll(weapons, pool.split(","));
-		return UnlockEquip.getByName(weapons.get(MathUtils.random(weapons.size() - 1)));
+		Array<String> weapons = new Array<>();
+		weapons.addAll(pool.split(","));
+		return UnlockEquip.getByName(weapons.get(MathUtils.random(weapons.size - 1)));
 	}
 	
 	public Class<? extends Equippable> getWeapon() { return weapon; }
@@ -149,13 +145,13 @@ public enum UnlockEquip {
 
 	public void setInfo(InfoItem info) { this.info = info; }
 
-	private static final HashMap<String, UnlockEquip> UnlocksByName = new HashMap<>();
+	private static final ObjectMap<String, UnlockEquip> UnlocksByName = new ObjectMap<>();
 	static {
 		for (UnlockEquip u: UnlockEquip.values()) {
 			UnlocksByName.put(u.toString(), u);
 		}
 	}
 	public static UnlockEquip getByName(String s) {
-		return UnlocksByName.getOrDefault(s, NOTHING);
+		return UnlocksByName.get(s, NOTHING);
 	}
 }

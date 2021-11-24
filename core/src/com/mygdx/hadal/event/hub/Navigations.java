@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.actors.Text;
@@ -21,7 +22,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.HText;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,7 +57,7 @@ public class Navigations extends HubEvent {
 	@Override
 	public void addOptions(String search, int slots, UnlockTag tag) {
 		super.addOptions(search, slots, tag);
-		ArrayList<UnlockTag> newTags = new ArrayList<>(tags);
+		Array<UnlockTag> newTags = new Array<>(tags);
 		if (tag != null) {
 			newTags.add(tag);
 		}

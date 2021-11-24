@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
@@ -18,8 +19,6 @@ import com.mygdx.hadal.statuses.ProcTime.ReceiveDamage;
 import com.mygdx.hadal.statuses.ProcTime.ReceiveHeal;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Stats;
-
-import java.util.ArrayList;
 
 /**
  * Body data contains the stats and methods of any unit; player or enemy.
@@ -66,8 +65,8 @@ public class BodyData extends HadalData {
 	protected float currentHp, currentFuel;
 
 	//statuses inflicted on the unit. statuses checked is used to recursive activate each status effect
-	protected final ArrayList<Status> statuses;
-	protected final ArrayList<Status> statusesChecked;
+	protected final Array<Status> statuses;
+	protected final Array<Status> statusesChecked;
 	
 	//the currently equipped tool
 	protected Equippable currentTool;
@@ -95,8 +94,8 @@ public class BodyData extends HadalData {
 		baseStats[1] = maxFuel;
 		baseStats[2] = hpRegen;
 
-		this.statuses = new ArrayList<>();
-		this.statusesChecked = new ArrayList<>();
+		this.statuses = new Array<>();
+		this.statusesChecked = new Array<>();
 		
 		calcStats();
 
@@ -114,10 +113,10 @@ public class BodyData extends HadalData {
 	 */
 	public ProcTime statusProcTime(ProcTime o) {
 		ProcTime finalProcTime = o;
-		
-		ArrayList<Status> oldChecked = new ArrayList<>();
+
+		Array<Status> oldChecked = new Array<>();
 		for (Status s : this.statusesChecked) {
-			this.statuses.add(0, s);
+			this.statuses.insert(0, s);
 			oldChecked.add(s);
 		}
 		this.statusesChecked.clear();
@@ -127,14 +126,14 @@ public class BodyData extends HadalData {
 			
 			finalProcTime = tempStatus.statusProcTime(o);
 			
-			if (this.statuses.contains(tempStatus)) {
-				this.statuses.remove(tempStatus);
+			if (this.statuses.contains(tempStatus, false)) {
+				this.statuses.removeValue(tempStatus, false);
 				this.statusesChecked.add(tempStatus);
 			}
 		}
 		
 		for (Status s : this.statusesChecked) {
-			if (!oldChecked.contains(s)) {
+			if (!oldChecked.contains(s, false)) {
 				this.statuses.add(s);
 			}
 		}
@@ -182,10 +181,9 @@ public class BodyData extends HadalData {
 	 */
 	public void removeStatus(Status s) {
 		if (!schmuck.getState().isServer()) { return; }
-		
 		s.onRemove();
-		statuses.remove(s);
-		statusesChecked.remove(s);
+		statuses.removeValue(s, false);
+		statusesChecked.removeValue(s, false);
 		calcStats();
 	}
 	
@@ -194,8 +192,8 @@ public class BodyData extends HadalData {
 	 */
 	public void removeArtifactStatus(UnlockArtifact artifact) {
 		if (!schmuck.getState().isServer()) { return; }
-		
-		ArrayList<Status> toRemove = new ArrayList<>();
+
+		Array<Status> toRemove = new Array<>();
 		
 		for (Status s: statuses) {
 			if (s.getArtifact() != null) {

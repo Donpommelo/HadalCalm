@@ -69,13 +69,13 @@ public class WallDropthrough extends Event {
 					if (fixB instanceof FeetData feet) {
 						HadalEntity entity = fixB.getEntity();
 						
-						if (feet.getTerrain().size() == 1) {
+						if (feet.getTerrain().size== 1) {
 							Filter filter = entity.getMainFixture().getFilterData();
 							filter.maskBits = (short) (filter.maskBits &~ Constants.BIT_DROPTHROUGHWALL);
 							entity.getMainFixture().setFilterData(filter);
 						}
 
-						feet.getTerrain().remove(this.event);
+						feet.getTerrain().removeValue(this.event, false);
 					}
 				}
 			}

@@ -3,6 +3,7 @@ package com.mygdx.hadal.actors;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -14,7 +15,6 @@ import com.mygdx.hadal.text.HText;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import static com.mygdx.hadal.utils.Constants.*;
 
@@ -57,16 +57,16 @@ public class KillFeed {
     private static final float scaleSide = 0.25f;
 
     //messages displayed in the feed
-    private final ArrayList<KillFeedMessage> messages = new ArrayList<>();
+    private final Array<KillFeedMessage> messages = new Array<>();
 
     //messages to be removed from the feed
-    private final ArrayList<KillFeedMessage> removeMessages = new ArrayList<>();
+    private final Array<KillFeedMessage> removeMessages = new Array<>();
 
     //notifications displayed in the feed
-    private final ArrayList<KillFeedMessage> notifications = new ArrayList<>();
+    private final Array<KillFeedMessage> notifications = new Array<>();
 
     //notifications to be removed from the feed
-    private final ArrayList<KillFeedMessage> removeNotifications = new ArrayList<>();
+    private final Array<KillFeedMessage> removeNotifications = new Array<>();
 
     //this contains information shown when waiting to respawn
     private Text deathInfo;
@@ -80,9 +80,9 @@ public class KillFeed {
             public void act(float delta) {
 
                 //if there are too many messages, we remove the oldest one.
-                if (messages.size() > maxMessages) {
+                if (messages.size > maxMessages) {
                     feed.removeActor(messages.get(0));
-                    messages.remove(0);
+                    messages.removeIndex(0);
                 }
 
                 //kill feed messages naturally go away after enough time passes
@@ -95,7 +95,7 @@ public class KillFeed {
                 //remove messages like this to avoid concurrent modification
                 for (KillFeedMessage message : removeMessages) {
                     feed.removeActor(message);
-                    messages.remove(message);
+                    messages.removeValue(message, false);
                 }
                 removeMessages.clear();
             }
@@ -107,9 +107,9 @@ public class KillFeed {
             public void act(float delta) {
 
                 //if there are too many messages, we remove the oldest one.
-                if (notifications.size() > maxNotifications) {
+                if (notifications.size > maxNotifications) {
                     notification.removeActor(notifications.get(0));
-                    notifications.remove(0);
+                    notifications.removeIndex(0);
                 }
 
                 //kill feed messages naturally go away after enough time passes
@@ -122,7 +122,7 @@ public class KillFeed {
                 //remove messages like this to avoid concurrent modification
                 for (KillFeedMessage message : removeNotifications) {
                     notification.removeActor(message);
-                    notifications.remove(message);
+                    notifications.removeValue(message, false);
                 }
                 removeMessages.clear();
             }

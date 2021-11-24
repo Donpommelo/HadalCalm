@@ -4,14 +4,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UITag.uiType;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
-
-import java.util.ArrayList;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_SHORT;
 
@@ -30,7 +29,7 @@ public class UIExtra extends AHadalActor {
 	private static final float fontScale = 0.25f;
 	
 	//List of tags that are to be displayed
-	private final ArrayList<UITag> uiTags;
+	private final Array<UITag> uiTags;
 	
 	//Timer is used for timed scripted events. timerIncr is how much the timer should tick every update cycle (usually -1, 0 or 1)
 	private float maxTimer, timer, timerIncr;
@@ -41,7 +40,7 @@ public class UIExtra extends AHadalActor {
 
 	public UIExtra(PlayState state) {
 		this.state = state;
-		uiTags = new ArrayList<>();
+		uiTags = new Array<>();
 	}
 	
 	private final StringBuilder text = new StringBuilder();

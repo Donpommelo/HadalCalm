@@ -1,10 +1,9 @@
 package com.mygdx.hadal.event.prefab;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
-
-import java.util.ArrayList;
 
 /**
  * The Scrap Cache creates some scrap (if the cache flag has not already been raised)
@@ -94,8 +93,8 @@ public class ScrapCache extends Prefabrication {
 	}
 	
 	@Override
-	public ArrayList<String> getConnectedEvents() {
-		ArrayList<String> events = new ArrayList<>();
+	public Array<String> getConnectedEvents() {
+		Array<String> events = new Array<>();
 		events.add(pickupId);
 		events.add(spawnerId);
 		return events;

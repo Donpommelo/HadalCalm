@@ -1,13 +1,12 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-
-import java.util.ArrayList;
 
 public class AdministratorCard extends Artifact {
 
@@ -25,7 +24,7 @@ public class AdministratorCard extends Artifact {
 		enchantment[0] = new StatusComposite(state, b, 
 				new Status(state, b) {
 			
-			private final ArrayList<UnlockArtifact> unlocks = new ArrayList<>();
+			private final Array<UnlockArtifact> unlocks = new Array<>();
 			
 			@Override
 			public void playerCreate() {

@@ -2,11 +2,12 @@ package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
-import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * UIObjective displays an icon along the periphery of the screen to indicate the location of an objective.
@@ -17,8 +18,8 @@ public class UIObjective extends AHadalActor {
 
 	private final PlayState state;
 
-	private final ArrayList<ObjectiveMarker> objectives = new ArrayList<>();
-	private final ArrayList<ObjectiveMarker> objectivesToRemove = new ArrayList<>();
+	private final Array<ObjectiveMarker> objectives = new Array<>();
+	private final Array<ObjectiveMarker> objectivesToRemove = new Array<>();
 
 	public UIObjective(PlayState state) {
 		this.state = state;
@@ -41,7 +42,7 @@ public class UIObjective extends AHadalActor {
 		}
 
 		for (ObjectiveMarker marker: objectivesToRemove) {
-			objectives.remove(marker);
+			objectives.removeValue(marker, false);
 		}
 		objectivesToRemove.clear();
 	}
@@ -57,7 +58,7 @@ public class UIObjective extends AHadalActor {
 			displayObjectiveOffScreen, displayObjectiveOnScreen));
 	}
 
-	public void addObjectiveClient(String objectiveID, Sprite sprite, Vector3 color,
+	public void addObjectiveClient(UUID objectiveID, Sprite sprite, Vector3 color,
 								   boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen) {
 		ObjectiveMarker newObjective = new ObjectiveMarker(state, null, sprite, color,
 			displayObjectiveOffScreen, displayObjectiveOnScreen);
@@ -65,5 +66,5 @@ public class UIObjective extends AHadalActor {
 		objectives.add(newObjective);
 	}
 
-	public ArrayList<ObjectiveMarker> getObjectives() { return objectives; }
+	public Array<ObjectiveMarker> getObjectives() { return objectives; }
 }

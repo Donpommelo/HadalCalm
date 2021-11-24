@@ -1,6 +1,7 @@
 package com.mygdx.hadal.text;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 
@@ -1214,8 +1215,8 @@ public enum NameGenerator {
 	 * @return a generated first and last name.
 	 */
 	public static String generateFirstLast(boolean alliteration) {
-		
-		ArrayList<NameGenerator> possibleNexts = new ArrayList<>();
+
+		Array<NameGenerator> possibleNexts = new Array<>();
 
 		for (NameGenerator gen: NameGenerator.values()) {
 			for (int i = 0; i < gen.canFollow.length; i++) {
@@ -1227,9 +1228,9 @@ public enum NameGenerator {
 			}
 		}
 		
-		int randomIndex = MathUtils.random(possibleNexts.size() - 1);
+		int randomIndex = MathUtils.random(possibleNexts.size - 1);
 		NameGenerator next1 = possibleNexts.get(randomIndex);
-		NameGenerator next2 = alliteration ? possibleNexts.get(randomIndex) : possibleNexts.get(MathUtils.random(possibleNexts.size() - 1));
+		NameGenerator next2 = alliteration ? possibleNexts.get(randomIndex) : possibleNexts.get(MathUtils.random(possibleNexts.size - 1));
 		
 		String firstName = next1.me + generateName(next1.endTag);
 		String lastName = next2.me + generateName(next2.endTag);
@@ -1245,8 +1246,8 @@ public enum NameGenerator {
 	 * @return The generated name fragment, plus the rest of the name
 	 */
 	public static String generateName(String prev) {
-		
-		ArrayList<NameGenerator> possibleNexts = new ArrayList<>();
+
+		Array<NameGenerator> possibleNexts = new Array<>();
 		
 		//identify all possible next name fragments
 		for (NameGenerator gen: NameGenerator.values()) {
@@ -1262,7 +1263,7 @@ public enum NameGenerator {
 		if (possibleNexts.isEmpty()) { return ""; }
 		
 		//pick a random possibly next fragment and add it.
-		int randomIndex = MathUtils.random(possibleNexts.size() - 1);
+		int randomIndex = MathUtils.random(possibleNexts.size - 1);
 		NameGenerator next = possibleNexts.get(randomIndex);
 		
 		if (next.endTag.equals("end")) {

@@ -15,7 +15,6 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import static com.mygdx.hadal.managers.GameStateManager.json;
 import static com.mygdx.hadal.managers.GameStateManager.reader;
@@ -35,7 +34,7 @@ public class Setting {
 	//connecting clients need to know this password to enter the server
 	private String serverPassword;
 
-	private Map<String, Map<String, Integer>> modeSettings;
+	private HashMap<String, HashMap<String, Integer>> modeSettings;
 
 	//this is the last cursor used. We save this so we can dispose of it properly
 	private static Cursor lastCursor;
@@ -334,7 +333,7 @@ public class Setting {
 		};
 	}
 
-	public Map<String, Integer> getModeSettings(GameMode mode) {
+	public HashMap<String, Integer> getModeSettings(GameMode mode) {
 		return modeSettings.getOrDefault(mode.toString(), null);
 	}
 

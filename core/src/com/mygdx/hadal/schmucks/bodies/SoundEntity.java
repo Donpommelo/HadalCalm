@@ -6,6 +6,8 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 
+import java.util.UUID;
+
 /**
  * A SoundEntity is like a ParticleEntity except for Sound. It attaches to another entity and plays sound from that entity's location
  * It also helps sync the sound between server and client.
@@ -35,7 +37,7 @@ public class SoundEntity extends HadalEntity {
 	
 	//Is this entity following another entity? If so, what is the entity's id (used by client)
 	private HadalEntity attachedEntity;
-	private String attachedId;
+	private UUID attachedId;
 	
 	//how is this entity synced? (this works identically to particle entities)
 	private final soundSyncType sync;
@@ -131,7 +133,7 @@ public class SoundEntity extends HadalEntity {
 			controller(delta);			
 		}
 		if (attachedEntity == null && attachedId != null) {
-			attachedEntity = (state).findEntity(attachedId);
+			attachedEntity = state.findEntity(attachedId);
 			if (on) {
 				sound.getSound().resume(soundId);
 			}
@@ -145,7 +147,7 @@ public class SoundEntity extends HadalEntity {
 	public Object onServerCreate() {
 		if (sync.equals(soundSyncType.CREATESYNC) || sync.equals(soundSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateSound(entityID.toString(), attachedEntity.getEntityID().toString(), sound.toString(), volume, pitch, looped, on, sync.equals(soundSyncType.TICKSYNC));
+				return new Packets.CreateSound(entityID, attachedEntity.getEntityID(), sound, volume, pitch, looped, on, sync.equals(soundSyncType.TICKSYNC));
 			}
 		}
 		return null;
@@ -154,7 +156,7 @@ public class SoundEntity extends HadalEntity {
 	@Override
 	public Object onServerDelete() { 
 		if (sync.equals(soundSyncType.TICKSYNC)) {
-			return new Packets.DeleteEntity(entityID.toString(), state.getTimer());
+			return new Packets.DeleteEntity(entityID, state.getTimer());
 		} else {
 			return null;
 		}
@@ -168,7 +170,7 @@ public class SoundEntity extends HadalEntity {
 		if (sync.equals(soundSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
-					state.getSyncPackets().add(new Packets.SyncSound(entityID.toString(), volume, on, entityAge, state.getTimer()));
+					state.getSyncPackets().add(new Packets.SyncSound(entityID, volume, on, entityAge, state.getTimer()));
 				}
 			}
 		}
@@ -223,7 +225,7 @@ public class SoundEntity extends HadalEntity {
 		despawn = true;
 	}
 
-	public void setAttachedId(String attachedId) { this.attachedId = attachedId; }
+	public void setAttachedId(UUID attachedId) { this.attachedId = attachedId; }
 
 	public enum soundSyncType {
 		NOSYNC,

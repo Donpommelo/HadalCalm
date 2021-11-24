@@ -4,15 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.map.SettingTeamMode;
 import com.mygdx.hadal.save.UnlockCharacter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -173,8 +173,8 @@ public enum AlignmentFilter {
      * @param numTeams: how many teams to auto assign players to?
      */
     public static void autoAssignTeams(int numTeams, SettingTeamMode.TeamMode mode) {
-        ArrayList<User> users = new ArrayList<>(HadalGame.server.getUsers().values());
-        Collections.shuffle(users);
+        Array<User> users = new Array<>(HadalGame.server.getUsers().values().toArray());
+        users.shuffle();
 
         int currentTeam = 0;
 
@@ -182,7 +182,7 @@ public enum AlignmentFilter {
         teamScores = new int[numTeams];
         Arrays.fill(currentTeams, AlignmentFilter.NONE);
 
-        HashMap<User, Integer> teamSelection = new HashMap<>();
+        ObjectMap<User, Integer> teamSelection = new ObjectMap<>();
 
         //make all team colors usable
         for (AlignmentFilter filter: AlignmentFilter.values()) {
@@ -224,14 +224,14 @@ public enum AlignmentFilter {
         //if any teams still lack colors, we give them a randomly generated one
         for (int i = 0; i < currentTeams.length; i++) {
             if (currentTeams[i] == AlignmentFilter.NONE) {
-                ArrayList<AlignmentFilter> unusedTeams = new ArrayList<>();
+                Array<AlignmentFilter> unusedTeams = new Array<>();
 
                 for (AlignmentFilter filter: AlignmentFilter.values()) {
                     if (filter.isTeam() && filter.standardChoice && !filter.isUsed()) {
                         unusedTeams.add(filter);
                     }
                 }
-                Collections.shuffle(unusedTeams);
+                unusedTeams.shuffle();
                 if (!unusedTeams.isEmpty()) {
                     currentTeams[i] = unusedTeams.get(0);
                     currentTeams[i].setUsed(true);
@@ -239,7 +239,7 @@ public enum AlignmentFilter {
             }
         }
 
-        for (User user: teamSelection.keySet()) {
+        for (User user: teamSelection.keys()) {
             user.setTeamFilter(currentTeams[teamSelection.get(user)]);
         }
     }
@@ -309,13 +309,13 @@ public enum AlignmentFilter {
 
     public Vector3 getColor1RGB() { return color1RGB; }
 
-    private static final HashMap<String, AlignmentFilter> UnlocksByName = new HashMap<>();
+    private static final ObjectMap<String, AlignmentFilter> UnlocksByName = new ObjectMap<>();
     static {
         for (AlignmentFilter u: AlignmentFilter.values()) {
             UnlocksByName.put(u.toString(), u);
         }
     }
     public static AlignmentFilter getByName(String s) {
-        return UnlocksByName.getOrDefault(s, NONE);
+        return UnlocksByName.get(s, NONE);
     }
 }

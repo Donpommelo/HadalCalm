@@ -1,10 +1,9 @@
 package com.mygdx.hadal.event.prefab;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
-
-import java.util.ArrayList;
 
 /**
  * The Spawner Unlock Prefab creates a designated unlock when triggered (if the item has not already been unlocked)
@@ -89,8 +88,8 @@ public class SpawnerUnlockable extends Prefabrication {
 	}
 	
 	@Override
-	public ArrayList<String> getConnectedEvents() {
-		ArrayList<String> events = new ArrayList<>();
+	public Array<String> getConnectedEvents() {
+		Array<String> events = new Array<>();
 		events.add(pickupId);
 		events.add(spawnerId);
 		return events;

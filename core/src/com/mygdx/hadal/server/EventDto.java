@@ -1,8 +1,8 @@
 package com.mygdx.hadal.server;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.utils.Array;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -14,7 +14,7 @@ public class EventDto {
 
     private String name;
     private float x, y, width, height;
-    private ArrayList<Pair> properties;
+    private Array<Pair> properties;
 
     public EventDto() {}
 
@@ -25,7 +25,7 @@ public class EventDto {
         this.width = mapObject.getRectangle().width;
         this.height = mapObject.getRectangle().height;
 
-        this.properties = new ArrayList<>();
+        this.properties = new Array<>();
 
         for (Iterator<String> it = mapObject.getProperties().getKeys(); it.hasNext(); ) {
             final String key = it.next();
@@ -43,7 +43,7 @@ public class EventDto {
 
     public float getWidth() { return width; }
 
-    public ArrayList<Pair> getProperties() { return properties; }
+    public Array<Pair> getProperties() { return properties; }
 
     /**
      * A Pair is just a serializable key-value used to send the event's properties

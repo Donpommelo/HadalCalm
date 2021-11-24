@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -20,8 +21,6 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.utils.Constants;
-
-import java.util.ArrayList;
 
 public class TeslaCoil extends RangedWeapon {
 
@@ -48,7 +47,7 @@ public class TeslaCoil extends RangedWeapon {
 	private static final float pulseKnockback = 20.0f;
 	
 	//kep track of all coils laid so far
-	private final ArrayList<Hitbox> coilsLaid = new ArrayList<>();
+	private final Array<Hitbox> coilsLaid = new Array<>();
 
 	public TeslaCoil(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
@@ -109,7 +108,7 @@ public class TeslaCoil extends RangedWeapon {
 						entityLocation.set(hbox.getPosition());
 						hbox.getWorld().QueryAABB(fixture -> {
 							if (fixture.getUserData() instanceof HitboxData) {
-								if (coilsLaid.contains(((HitboxData) fixture.getUserData()).getHbox())) {
+								if (coilsLaid.contains(((HitboxData) fixture.getUserData()).getHbox(), false)) {
 									if (!fixture.getUserData().equals(hbox.getHadalData())) {
 										if (((HitboxData) fixture.getUserData()).getHbox().getLinearVelocity().isZero()) {
 											coilPairActivated(state, ((HitboxData) fixture.getUserData()).getHbox());
@@ -149,7 +148,7 @@ public class TeslaCoil extends RangedWeapon {
 			@Override
 			public void die() {
 				//remove dead coils from list
-				coilsLaid.remove(hbox);
+				coilsLaid.removeValue(hbox, false);
 			}
 			
 			/**

@@ -127,7 +127,7 @@ public class EnemyFloating extends Enemy {
 	@Override
 	public void onServerSync() {
 		if (body != null) {
-			state.getSyncPackets().add(new PacketsSync.SyncSchmuckAngled(entityID.toString(), getPosition(), getLinearVelocity(),
+			state.getSyncPackets().add(new PacketsSync.SyncSchmuckAngled(entityID, getPosition(), getLinearVelocity(),
 					entityAge, state.getTimer(), moveState,
 					Math.max(0.0f, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)), getAngle()));
 		}

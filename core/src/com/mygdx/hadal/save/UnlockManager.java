@@ -1,6 +1,7 @@
 package com.mygdx.hadal.save;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
@@ -9,7 +10,6 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -62,7 +62,7 @@ public class UnlockManager {
 	 * @param tags: a list of tags
 	 * @return whether the item contains any of the tags
 	 */
-	public static boolean checkTags(InfoItem item, ArrayList<UnlockTag> tags) {
+	public static boolean checkTags(InfoItem item, Array<UnlockTag> tags) {
 
 		for (UnlockTag tag : tags) {
 			boolean tagPresent = false;
@@ -73,7 +73,7 @@ public class UnlockManager {
 			if (tag.equals(UnlockTag.ALL)) {
 				tagPresent = true;
 			} else {
-				for (int j = 0; j < item.getTags().size(); j++) {
+				for (int j = 0; j < item.getTags().size; j++) {
 					if (tag.equals(item.getTags().get(j))) {
 						tagPresent = true;
 						break;
@@ -92,11 +92,11 @@ public class UnlockManager {
 	 */
 	public static boolean checkUnlock(PlayState state, UnlockType type, String name) {
 		return switch (type) {
-			case ACTIVE -> state.getGsm().getRecord().getUnlockActive().getOrDefault(name, false);
-			case ARTIFACT -> state.getGsm().getRecord().getUnlockArtifact().getOrDefault(name, false);
-			case CHARACTER -> state.getGsm().getRecord().getUnlockCharacter().getOrDefault(name, false);
-			case EQUIP -> state.getGsm().getRecord().getUnlockEquip().getOrDefault(name, false);
-			case LEVEL -> state.getGsm().getRecord().getUnlockLevel().getOrDefault(name, false);
+			case ACTIVE -> state.getGsm().getRecord().getUnlockActive().get(name, false);
+			case ARTIFACT -> state.getGsm().getRecord().getUnlockArtifact().get(name, false);
+			case CHARACTER -> state.getGsm().getRecord().getUnlockCharacter().get(name, false);
+			case EQUIP -> state.getGsm().getRecord().getUnlockEquip().get(name, false);
+			case LEVEL -> state.getGsm().getRecord().getUnlockLevel().get(name, false);
 		};
 	}
 	

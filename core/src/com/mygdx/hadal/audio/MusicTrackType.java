@@ -1,8 +1,7 @@
 package com.mygdx.hadal.audio;
 
 import com.badlogic.gdx.math.MathUtils;
-
-import java.util.HashMap;
+import com.badlogic.gdx.utils.ObjectMap;
 
 public enum MusicTrackType {
 
@@ -50,13 +49,13 @@ public enum MusicTrackType {
         }
     }
 
-    private static final HashMap<String, MusicTrackType> TracksByName = new HashMap<>();
+    private static final ObjectMap<String, MusicTrackType> TracksByName = new ObjectMap<>();
     static {
         for (MusicTrackType u: MusicTrackType.values()) {
             TracksByName.put(u.toString(), u);
         }
     }
     public static MusicTrackType getByName(String s) {
-        return TracksByName.getOrDefault(s, TITLE);
+        return TracksByName.get(s, TITLE);
     }
 }

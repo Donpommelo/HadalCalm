@@ -2,15 +2,12 @@ package com.mygdx.hadal.save;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.actives.*;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 /**
  * An UnlockArtifact represents a single artifact in the game
@@ -71,7 +68,7 @@ public enum UnlockActives {
 	/**
 	 * This acquires a list of all unlocked actives (if unlock is true. otherwise just return all actives that satisfy the tags)
 	 */
-	public static Array<UnlockActives> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
+	public static Array<UnlockActives> getUnlocks(PlayState state, boolean unlock, Array<UnlockTag> tags) {
 		Array<UnlockActives> items = new Array<>();
 		
 		for (UnlockActives u : UnlockActives.values()) {
@@ -107,18 +104,18 @@ public enum UnlockActives {
 	 * @return the string name of the randomly selected item
 	 */
 	public static UnlockActives getRandItemFromPool(PlayState state, String pool) {
-		
-		ArrayList<UnlockTag> defaultTags = new ArrayList<>();
+
+		Array<UnlockTag> defaultTags = new Array<>();
 		defaultTags.add(UnlockTag.RANDOM_POOL);
 		
 		if (pool.equals("")) {
 			Array<UnlockActives> unlocks = UnlockActives.getUnlocks(state, false, defaultTags);
 			return unlocks.get(MathUtils.random(unlocks.size - 1));
 		}
-		
-		ArrayList<String> weapons = new ArrayList<>();
-		Collections.addAll(weapons, pool.split(","));
-		return UnlockActives.getByName(weapons.get(MathUtils.random(weapons.size() - 1)));
+
+		Array<String> weapons = new Array<>();
+		weapons.addAll(pool.split(","));
+		return UnlockActives.getByName(weapons.get(MathUtils.random(weapons.size - 1)));
 	}
 	
 	public Class<? extends ActiveItem> getActive() { return active; }
@@ -127,13 +124,11 @@ public enum UnlockActives {
 	
 	public void setInfo(InfoItem info) { this.info = info; }
 
-	private static final HashMap<String, UnlockActives> UnlocksByName = new HashMap<>();
+	private static final ObjectMap<String, UnlockActives> UnlocksByName = new ObjectMap<>();
 	static {
 		for (UnlockActives u: UnlockActives.values()) {
 			UnlocksByName.put(u.toString(), u);
 		}
 	}
-	public static UnlockActives getByName(String s) {
-		return UnlocksByName.getOrDefault(s, NOTHING);
-	}
+	public static UnlockActives getByName(String s) { return UnlocksByName.get(s, NOTHING); }
 }

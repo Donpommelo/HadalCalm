@@ -100,7 +100,7 @@ public class ParticleField extends Event {
 			float randX = (MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x;
 			float randY = (MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y;
 			ParticleEntity particleEntity = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC);
-			((ClientState) state).addEntity(particleEntity.getEntityID().toString(), particleEntity, false, ObjectSyncLayers.EFFECT);
+			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectSyncLayers.EFFECT);
 
 			if (!color.equals(HadalColor.NOTHING)) {
 				particleEntity.setColor(color);

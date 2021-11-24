@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MessageWindow;
@@ -24,7 +22,6 @@ import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.*;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 /**
@@ -45,7 +42,7 @@ public class GameStateManager {
 	private static NinePatchDrawable dialogPatch, simplePatch, bossGaugePatch, bossGaugeGreyPatch,
 		bossGaugeRedPatch, bossGaugeCatchupPatch;
 	
-	private static final ArrayList<TextureAtlas> atlases = new ArrayList<>();
+	private static final Array<TextureAtlas> atlases = new Array<>();
 	public static TextureAtlas projectileAtlas, multitoolAtlas, fishAtlas, turretAtlas, eventAtlas, explosionAtlas, uiAtlas;
 	public static TextureAtlas particleAtlas, impactAtlas;
 
@@ -97,6 +94,8 @@ public class GameStateManager {
 		setting.setCursor();
 		sharedSetting = setting.generateSharedSetting();
 		hostSetting = setting.generateSharedSetting();
+
+		Collections.allocateIterators = true;
 	}
 	
 	/**

@@ -107,7 +107,7 @@ public class SpawnerFlag extends Event {
             controllerCount = 0.0f;
             for (HadalEntity entity : eventData.getSchmucks()) {
                 if (entity instanceof Hitbox hbox) {
-                    if (hbox.getStrategies().size() >= 2) {
+                    if (hbox.getStrategies().size >= 2) {
                         if (hbox.getStrategies().get(1) instanceof FlagCapturable capture) {
                             capture.checkCapture(this);
                         }
@@ -144,7 +144,7 @@ public class SpawnerFlag extends Event {
         state.getUiObjective().addObjective(flag, Sprite.CLEAR_CIRCLE_ALERT, color, true, false);
 
         if (state.isServer()) {
-            HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(flag.getEntityID().toString(),
+            HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(flag.getEntityID(),
                 color, true, false, Sprite.CLEAR_CIRCLE_ALERT));
         }
         flagPresent = true;

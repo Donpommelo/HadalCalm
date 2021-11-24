@@ -4,10 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.schmucks.MoveState;
 
+import java.util.UUID;
+
 public class PacketsSync {
 
     public static class SyncEntity {
-        public String entityID;
+        public long uuidMSB, uuidLSB;
         public Vector2 pos;
         public Vector2 velocity;
         public float age;
@@ -25,8 +27,9 @@ public class PacketsSync {
          * @param age: age of the entity. (used by client to determine if they missed a packet)
          * @param timestamp: time of sync. Used for client prediction.
          */
-        public SyncEntity(String entityID, Vector2 pos, Vector2 velocity, float age, float timestamp) {
-            this.entityID = entityID;
+        public SyncEntity(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp) {
+            this.uuidLSB = entityID.getLeastSignificantBits();
+            this.uuidMSB = entityID.getMostSignificantBits();
             this.pos = pos;
             this.velocity = velocity;
             this.age = age;
@@ -49,7 +52,7 @@ public class PacketsSync {
          * @param age: age of the entity. (used by client to determine if they missed a packet)
          * @param timestamp: time of sync. Used for client prediction.
          */
-        public SyncEntityAngled(String entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, float angle) {
+        public SyncEntityAngled(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, float angle) {
             super(entityID, pos, velocity, age, timestamp);
             this.angle = angle;
         }
@@ -69,7 +72,7 @@ public class PacketsSync {
          * @param moveState: The State of the Schmuck. Used for animations on the Client's end
          * @param hpPercent: The percent of remaining hp this schmuck has.
          */
-        public SyncSchmuck(String entityID, Vector2 pos, Vector2 velocity, float age, float timestamp,
+        public SyncSchmuck(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp,
                            MoveState moveState, float hpPercent) {
             super(entityID, pos, velocity, age, timestamp);
             this.moveState = moveState;
@@ -82,7 +85,7 @@ public class PacketsSync {
 
         public SyncSchmuckAngled() {}
 
-        public SyncSchmuckAngled(String entityID, Vector2 pos, Vector2 velocity, float age, float timestamp,
+        public SyncSchmuckAngled(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp,
                                  MoveState moveState, float hpPercent, float angle) {
             super(entityID, pos, velocity, age, timestamp, moveState, hpPercent);
             this.angle = angle;
@@ -107,7 +110,7 @@ public class PacketsSync {
          * This packet (and similar packets) just tell the client how to change their version of each Player.
          * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
          */
-        public SyncPlayer(String entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
+        public SyncPlayer(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
                           float hpPercent, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading,
                           float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo, int invisible) {
             super(entityID, pos, velocity, age, timestamp, moveState, hpPercent);
@@ -140,7 +143,7 @@ public class PacketsSync {
          * @param currentAmmo: The client player's current ammo amount.
          * @param activeCharge: The client player's current active item charge amount.
          */
-        public SyncPlayerSelf(String entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
+        public SyncPlayerSelf(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
                           float hpPercent, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading,
                           float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo, int invisible,
                           float fuelPercent, int currentClip, int currentAmmo, float activeCharge, float blinded) {
@@ -169,7 +172,7 @@ public class PacketsSync {
          * @param age: age of the entity. (used by client to determine if they missed a packet)
          * @param timestamp: time of sync. Used for client prediction.
          */
-        public SyncParticles(String entityID, Vector2 pos, Vector2 offset, float age, float timestamp, boolean on) {
+        public SyncParticles(UUID entityID, Vector2 pos, Vector2 offset, float age, float timestamp, boolean on) {
             super(entityID, pos, offset, age, timestamp);
             this.on = on;
         }
@@ -184,7 +187,7 @@ public class PacketsSync {
         /**
          * This sync packet is used for particles that sync the extra fields; color and scale.
          */
-        public SyncParticlesExtra(String entityID, Vector2 pos, Vector2 offset, float age, float timestamp, boolean on, float scale, Vector3 color) {
+        public SyncParticlesExtra(UUID entityID, Vector2 pos, Vector2 offset, float age, float timestamp, boolean on, float scale, Vector3 color) {
             super(entityID, pos, offset, age, timestamp, on);
             this.scale = scale;
             this.color = color;

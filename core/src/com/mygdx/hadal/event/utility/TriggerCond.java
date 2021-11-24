@@ -1,13 +1,11 @@
 package com.mygdx.hadal.event.utility;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A Conditional trigger is like a multi-trigger, except it only triggers one of the events in its list. Which event it triggers is
@@ -29,7 +27,7 @@ import java.util.Map;
  */
 public class TriggerCond extends Event {
 
-	private final Map<String, Event> triggered = new HashMap<>();
+	private final ObjectMap<String, Event> triggered = new ObjectMap<>();
 	private String condition;
 	
 	public TriggerCond(PlayState state, String start) {
@@ -47,8 +45,7 @@ public class TriggerCond extends Event {
 					condition = trigger.getMessage();
 				} else {
 					if (condition.equals("random")) {
-						Object[] values = triggered.values().toArray();
-						((Event) values[MathUtils.random(values.length - 1)]).getEventData().preActivate(this, p);
+						triggered.values().toArray().get(MathUtils.random(triggered.size - 1)).getEventData().preActivate(this, p);
 					} else {
 						if (triggered.get(condition) != null) {
 							triggered.get(condition).getEventData().preActivate(this, p);
