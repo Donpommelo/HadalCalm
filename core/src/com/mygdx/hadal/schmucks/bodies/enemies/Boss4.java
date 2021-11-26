@@ -1,6 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -116,7 +115,11 @@ public class Boss4 extends EnemyFloating {
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
-		
+
+		body1.getEffect().update(delta);
+		body2.getEffect().update(delta);
+		body3.getEffect().update(delta);
+
 		//the boss grows and shrinks by rescaling its particles. This occurs before it performs actions
 		scalingAccumulator += delta;
 		while (scalingAccumulator >= scalingTime) {
@@ -136,9 +139,9 @@ public class Boss4 extends EnemyFloating {
 	@Override
 	public void render(SpriteBatch batch) {
 		if (state.isServer()) {
-			body1.getEffect().draw(batch, Gdx.graphics.getDeltaTime());
-			body2.getEffect().draw(batch, Gdx.graphics.getDeltaTime());
-			body3.getEffect().draw(batch, Gdx.graphics.getDeltaTime());
+			body1.getEffect().draw(batch);
+			body2.getEffect().draw(batch);
+			body3.getEffect().draw(batch);
 		}
 	}
 	

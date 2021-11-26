@@ -45,7 +45,7 @@
     ]
 },
 "BOSS5": {
-	"name": "BOSS: NEPTUNE KING TYRRAZZA",
+	"name": "NEPTUNE KING TYRRAZZA",
 	"description": "",
     "descriptionLong": "Boss fight with Neptune King Tyrrazza",
 	"tags": [
@@ -56,7 +56,7 @@
     ]
 },
 "BOSS6": {
-	"name": "BOSS: GILT-SCALED SERAPH",
+	"name": "GILT-SCALED SERAPH",
 	"description": "",
     "descriptionLong": "Boss fight with the Gilt-Scaled Seraph",
 	"tags": [

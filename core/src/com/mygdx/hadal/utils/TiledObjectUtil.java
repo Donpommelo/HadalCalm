@@ -591,8 +591,9 @@ public class TiledObjectUtil {
     	nextId++;
     	return id;
     }
-    
-    private static final String globalTimer = "runOnGlobalTimerConclude";
+
+	private static final String globalTimer = "runOnGlobalTimerConclude";
+	private static final String globalSpectatorActivation = "globalSpectatorActivation";
     /**
      * This method parses special events from the Tiled map.
      * Certain events have a special id that makes them tagged for special use in the play state.
@@ -604,6 +605,9 @@ public class TiledObjectUtil {
     		if (key.equals(globalTimer)) {
     			state.setGlobalTimer(triggeredEvents.get(key));
     		}
+			if (key.equals(globalSpectatorActivation)) {
+				state.setSpectatorActivation(triggeredEvents.get(key));
+			}
     	}
     }
     

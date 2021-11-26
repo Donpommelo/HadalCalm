@@ -65,6 +65,15 @@ public class ActionController {
 	
 	public void keyDown(PlayerAction action, boolean onReset) {
 		if (player == null) return;
+
+		if (player.getState().isServer() && player.equals(player.getState().getPlayer()) && player.getState().isSpectatorMode()) {
+			if (action == PlayerAction.INTERACT) {
+				if (player.getState().getSpectatorActivation() != null) {
+					player.getState().getSpectatorActivation().getEventData().onInteract(player);
+				}
+			}
+		}
+
 		if (player.getPlayerData() == null) return;
 
 		if (action == PlayerAction.WALK_LEFT) {

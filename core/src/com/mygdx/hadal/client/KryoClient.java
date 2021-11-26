@@ -695,7 +695,7 @@ public class KryoClient {
 				cs.addPacketEffect(() -> {
 
 					Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, null,
-							true, p.connID == connID, p.hitboxFilter);
+							true, p.connID == connID, false, p.hitboxFilter);
 
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
 					newPlayer.setStartPos(p.startPosition);

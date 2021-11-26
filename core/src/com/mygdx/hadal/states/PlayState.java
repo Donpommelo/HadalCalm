@@ -206,7 +206,7 @@ public class PlayState extends GameState {
 	public static final float longFadeDelay = 1.5f;
 
 	//Special designated events parsed from map
-	private Event globalTimer;
+	private Event globalTimer, spectatorActivation;
 	
 	/**
 	 * Constructor is called upon player beginning a game.
@@ -346,16 +346,23 @@ public class PlayState extends GameState {
 			User user = HadalGame.server.getUsers().get(0);
 			StartPoint getSave = getSavePoint(startId, user);
 			short hitboxFilter = user.getHitBoxFilter().getFilter();
-			this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, user, reset,
-					false, hitboxFilter);
+
+			if (user.isSpectator()) {
+				this.player = user.getPlayer();
+				setSpectatorMode();
+
+			} else {
+				this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, user, reset,
+						false, false, hitboxFilter);
+			}
 
 			if (getSave != null) {
 				this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
 				this.cameraFocusAim.set(getSave.getStartPos());
 			}
 		} else {
-			this.player = createPlayer(null, gsm.getLoadout().getName(), loadout, old, 0, null, reset, false,
-				Constants.PLAYER_HITBOX);
+			this.player = createPlayer(null, gsm.getLoadout().getName(), loadout, old, 0, null, reset,
+					false, false, Constants.PLAYER_HITBOX);
 		}
 
 		this.reset = reset;
@@ -789,6 +796,7 @@ public class PlayState extends GameState {
 				//in spectator mode, the camera moves when dragging the mouse
 				uiSpectator.spectatorDragCamera(spectatorTarget);
 				aimFocusVector.set(spectatorTarget);
+
 			} else if (player.getPlayerData() != null) {
 
 				//we check for play data being null so client does not try to lerp camera towards starting position of (0, 0)
@@ -810,6 +818,7 @@ public class PlayState extends GameState {
 		} else {
 			aimFocusVector.set(cameraTarget);
 		}
+
 
 		aimFocusVector.add(cameraOffset);
 		spectatorTarget.set(aimFocusVector);
@@ -873,7 +882,7 @@ public class PlayState extends GameState {
 	 * This is called when ending a playstate by winning, losing or moving to a new playstate
 	 */	
 	public void transitionState() {
-		
+
 		switch (nextState) {
 		case RESPAWN:
 			gsm.getApp().fadeIn();
@@ -896,7 +905,6 @@ public class PlayState extends GameState {
 			gsm.addResultsState(this, resultsText, TitleState.class, fbo);
 			break;
 		case SPECTATOR:
-			
 			//When ded but other players alive, spectate a player
 			gsm.getApp().fadeIn();
 			setSpectatorMode();
@@ -987,20 +995,25 @@ public class PlayState extends GameState {
 	 * @return the newly created player
 	 */
 	public Player createPlayer(StartPoint start, String name, Loadout altLoadout, PlayerBodyData old, int connID,
-	   		User user, boolean reset, boolean client, short hitboxFilter) {
+	   		User user, boolean reset, boolean client, boolean justJoined, short hitboxFilter) {
 
 		Loadout newLoadout = new Loadout(altLoadout);
 
-		mode.processNewPlayerLoadout(this, newLoadout, connID);
+		mode.processNewPlayerLoadout(this, newLoadout, connID, justJoined);
+
+		StartPoint spawn = start;
+		if (spawn == null) {
+			spawn = getSavePoint(user);
+		}
 
 		Vector2 overiddenSpawn = new Vector2();
-		if (start != null) {
+		if (spawn != null) {
 			//servers spawn at the starting point if existent. We prefer using the body's position,
 			// but can also use the starting position if it hasn't been created yet.
-			if (start.getBody() != null) {
-				overiddenSpawn.set(start.getPixelPosition());
+			if (spawn.getBody() != null) {
+				overiddenSpawn.set(spawn.getPixelPosition());
 			} else {
-				overiddenSpawn.set(start.getStartPos());
+				overiddenSpawn.set(spawn.getStartPos());
 			}
 		}
 
@@ -1013,9 +1026,9 @@ public class PlayState extends GameState {
 
 		Player p;
 		if (connID < 0) {
-			p = new PlayerBot(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, start);
+			p = new PlayerBot(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
 		} else if (!client) {
-			p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, start);
+			p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
 		} else {
 			//clients always spawn at (0,0), then move when the server tells them to.
 			p = new PlayerClient(this, new Vector2(), name, newLoadout, null, connID, user, reset, null);
@@ -1033,7 +1046,6 @@ public class PlayState extends GameState {
 		}
 
 		mode.modifyNewPlayer(this, newLoadout, p, hitboxFilter);
-
 		return p;
 	}
 	
@@ -1483,7 +1495,6 @@ public class PlayState extends GameState {
 		this.zoomDesired = map.getProperties().get("zoom", spectatorDefaultZoom, float.class);
 		this.cameraTarget = null;
 		this.cameraOffset.set(0, 0);
-		
 		if (spectatorBounded) {
 			System.arraycopy(spectatorBounds, 0, cameraBounds, 0, 4);
 		}
@@ -1519,6 +1530,10 @@ public class PlayState extends GameState {
 	public Event getGlobalTimer() {	return globalTimer;	}
 
 	public void setGlobalTimer(Event globalTimer) {	this.globalTimer = globalTimer;	}
+
+	public Event getSpectatorActivation() {	return spectatorActivation;	}
+
+	public void setSpectatorActivation(Event spectatorActivation) {	this.spectatorActivation = spectatorActivation;	}
 
 	public Player getPlayer() {	return player; }
 	
@@ -1575,6 +1590,8 @@ public class PlayState extends GameState {
 	public float[] getSpectatorBounds() { return spectatorBounds; }
 
 	public void setSpectatorBounded(boolean spectatorBounded) { this.spectatorBounded = spectatorBounded; }
+
+	public boolean isSpectatorBounded() { return spectatorBounded; }
 
 	public MouseTracker getMouse() { return mouse; }
 

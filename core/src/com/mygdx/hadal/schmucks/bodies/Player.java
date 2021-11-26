@@ -325,7 +325,7 @@ public class Player extends PhysicsSchmuck {
 		//activate start point events (these usually just set up camera bounds/zoom and stuff like that)
 		//This line is here so that it does not occur before events are done being created.
 		//We only do this for our own player. For clients, this is run when they send a player created packet
-		if (start != null && state.getPlayer().equals(this)) {
+		if (start != null && this.equals(state.getPlayer())) {
 			start.playerStart(this);
 		}
 	}

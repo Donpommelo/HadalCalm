@@ -85,7 +85,7 @@ public class HubEvent extends Event {
 	@Override
 	public void controller(float delta) {
 		if (open && closeOnLeave) {
-			if (getPosition().dst2(state.getPlayer().getPosition()) > maxDistance * maxDistance) {
+			if (getPosition().dst2(state.getPlayer().getPosition()) > maxDistance * maxDistance && !state.isSpectatorMode()) {
 				leave();
 				open = false;
 			}

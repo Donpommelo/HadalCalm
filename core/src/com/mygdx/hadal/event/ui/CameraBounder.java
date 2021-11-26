@@ -25,17 +25,30 @@ public class CameraBounder extends Event {
 
 	//which bound are we setting?
 	private final boolean right, left, up, down;
-	
-	//is this regular camera bound or spectator bound?
-	private final boolean spectator;
-	
+
 	public CameraBounder(PlayState state, Vector2 startPos, Vector2 size, boolean right, boolean left, boolean up, boolean down, boolean spectator) {
 		super(state, startPos, size);
 		this.right = right;
 		this.left = left;
 		this.up = up;
 		this.down = down;
-		this.spectator = spectator;
+		//is this regular camera bound or spectator bound?
+
+		if (spectator) {
+			state.setSpectatorBounded(true);
+			if (right) {
+				state.getSpectatorBounds()[0] = startPos.x;
+			}
+			if (left) {
+				state.getSpectatorBounds()[1] = startPos.x;
+			}
+			if (up) {
+				state.getSpectatorBounds()[2] = startPos.y;
+			}
+			if (down) {
+				state.getSpectatorBounds()[3] = startPos.y;
+			}
+		}
 	}
 	
 	@Override
@@ -63,24 +76,10 @@ public class CameraBounder extends Event {
 				Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
 		this.body.setType(BodyType.KinematicBody);
 		
-		if (spectator) {
-			state.setSpectatorBounded(true);
-			if (right) {
-				state.getSpectatorBounds()[0] = getPixelPosition().x;
-			}
-			if (left) {
-				state.getSpectatorBounds()[1] = getPixelPosition().x;
-			}
-			if (up) {
-				state.getSpectatorBounds()[2] = getPixelPosition().y;
-			}
-			if (down) {
-				state.getSpectatorBounds()[3] = getPixelPosition().y;
-			}
+		//this line lets player-less spectators have camera bounds when the map does not have spectator-specific bounds
+		if (!state.isSpectatorBounded()) {
+			eventData.onActivate(null, null);
 		}
-
-		//this line lets player-less spectators have camera bounds
-		eventData.onActivate(null, null);
 	}
 	
 	@Override

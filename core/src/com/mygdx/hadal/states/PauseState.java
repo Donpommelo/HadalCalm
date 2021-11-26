@@ -97,7 +97,7 @@ public class PauseState extends GameState {
 				}
 				
 				//extra "spectate" option is added if the player is a client and in multiplayer mode.
-				if (ps.getMode().isHub() && !ps.isServer() && GameStateManager.currentMode == Mode.MULTI) {
+				if (ps.getMode().isHub() && GameStateManager.currentMode == Mode.MULTI) {
 					menuHeight += extraRowHeight;
 				}
 				
@@ -222,7 +222,7 @@ public class PauseState extends GameState {
 				table.add(extraOption).height(optionHeight).pad(optionPad).row();
 
 				//atm, only clients can manually join spectator mode
-				if (ps.getMode().isHub() && !ps.isServer() && GameStateManager.currentMode == Mode.MULTI) {
+				if (ps.getMode().isHub() && GameStateManager.currentMode == Mode.MULTI) {
 					if (ps.isSpectatorMode()) {
 						table.add(joinOption).height(optionHeight).pad(optionPad).row();
 					} else {

@@ -96,13 +96,16 @@ public class SettingTeamMode extends ModeSetting {
     }
 
     @Override
-    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
         if (state.isServer()) {
             User user = HadalGame.server.getUsers().get(connID);
             if (user != null) {
 
                 //on auto-assign team mode, player teams are set to their "override" value
                 if (mode.isTeamDesignated()) {
+                    if (justJoined) {
+                        AlignmentFilter.assignNewPlayerToTeam(user);
+                    }
                     newLoadout.team = user.getTeamFilter();
                 } else {
 
@@ -114,7 +117,7 @@ public class SettingTeamMode extends ModeSetting {
     }
 
     @Override
-    public void modifyNewPlayer(PlayState state,  GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
+    public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
         if (!mode.getTeamMode().equals(TeamMode.COOP)) {
             if (mode.getTeamMode().equals(TeamMode.FFA)) {
                 p.setHitboxfilter(hitboxFilter);
@@ -233,6 +236,7 @@ public class SettingTeamMode extends ModeSetting {
         return switch (index) {
             case 1 -> 3;
             case 2 -> 4;
+            case 3-> 5;
             default -> 2;
         };
     }

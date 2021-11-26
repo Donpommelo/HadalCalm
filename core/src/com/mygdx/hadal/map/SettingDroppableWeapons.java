@@ -45,7 +45,7 @@ public class SettingDroppableWeapons extends ModeSetting {
     }
 
     @Override
-    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
         if (state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) == 1) {
             for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
                 if (weaponDropLoadout.length > i) {

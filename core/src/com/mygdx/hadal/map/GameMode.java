@@ -137,6 +137,7 @@ public enum GameMode {
     // Used for modes that have the same set of compliant maps (gun game etc with deathmatch)
     private GameMode checkCompliance = this;
     private TeamMode teamMode = TeamMode.FFA;
+    private boolean joinMidGame = true;
     private int teamNum = 2;
 
     GameMode(String extraLayers, GameMode checkCompliance, ModeSetting... applicableSettings) {
@@ -228,11 +229,12 @@ public enum GameMode {
      * This is run when a player is created. This is used to change properties of the player prior to player init
      * @param newLoadout: the new loadout the player will spawn with. modify to change starting loadout
      * @param connID: connID of the player being created. We use connID b/c the player isn't created yet
+     * @param justJoined: did this player just connect? Used to determine team of new players
      */
-    public void processNewPlayerLoadout(PlayState state, Loadout newLoadout, int connID) {
+    public void processNewPlayerLoadout(PlayState state, Loadout newLoadout, int connID, boolean justJoined) {
         if (!state.isServer()) { return; }
         for (ModeSetting setting: applicableSettings) {
-            setting.processNewPlayerLoadout(state, this, newLoadout, connID);
+            setting.processNewPlayerLoadout(state, this, newLoadout, connID, justJoined);
         }
     }
 
@@ -369,6 +371,10 @@ public enum GameMode {
     public boolean isInvisibleInHub() { return false; }
 
     public boolean isHub() { return false; }
+
+    public boolean isJoinMidGame() { return joinMidGame; }
+
+    public void setJoinMidGame(boolean joinMidGame) { this.joinMidGame = joinMidGame; }
 
     public Array<String> getInitialNotifications() { return initialNotifications; }
 

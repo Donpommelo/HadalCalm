@@ -35,6 +35,7 @@ public enum HadalColor {
 	GREY(0.502f, 0.502f, 0.502f),
 	HOT_PINK(1.0f, 0.41f, 0.71f),
 	INDIGO(0.29f, 0.0f, 0.51f),
+	MAUVE(0.718f, 0.518f, 0.518f),
 	ORANGE(1.0f, 0.55f, 0.0f),
 	PALE_GREEN(0.5f, 1.0f, 0.5f),
 	PLUM(0.87f, 0.6f, 0.87f),

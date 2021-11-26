@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -349,14 +348,12 @@ public class BotManager {
      * This initiates a single bot player, setting up their loadout and score
      */
     private static void initiateBot(PlayState state, User user) {
-        StartPoint newSave = state.getSavePoint(user);
-
         Loadout botLoadout = BotLoadoutProcessor.getBotLoadout(state);
 
         user.getScoresExtra().setLoadout(botLoadout);
 
-        Player newPlayer = state.createPlayer(newSave, user.getScores().getName(), user.getScoresExtra().getLoadout(),
-                null, user.getScores().getConnID(), user, true, false,
+        Player newPlayer = state.createPlayer(null, user.getScores().getName(), user.getScoresExtra().getLoadout(),
+                null, user.getScores().getConnID(), user, true, false, false,
                 user.getHitBoxFilter().getFilter());
         MouseTracker newMouse = new MouseTracker(state, false);
         newPlayer.setMouse(newMouse);

@@ -62,7 +62,8 @@ public class UISpectator extends AHadalActor {
         HadalGame.FONT_UI.draw(batch, HText.SPECTATING_RMB.text(), textX, instructions2Y);
 
         if (state.getMode().isHub()) {
-            HadalGame.FONT_UI.draw(batch, HText.JOIN_OPTION.text(PlayerAction.PAUSE.getKeyText()), textX, joinY);
+            HadalGame.FONT_UI.draw(batch, HText.JOIN_OPTION.text(PlayerAction.PAUSE.getKeyText(), PlayerAction.INTERACT.getKeyText()),
+                    textX, joinY);
         } else {
             HadalGame.FONT_UI.draw(batch, HText.JOIN_CANT.text(), textX, joinY);
         }

@@ -57,8 +57,9 @@ public class ModeSetting {
      * This is run when creating a new player
      * @param newLoadout: new player's loadout. edit it to set defaults
      * @param connID: the id of the user we are creating a player for
+     * @param justJoined: did this player just connect? Used to determine team of new players
      */
-    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {}
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {}
 
     /**
      * This is run immediately after creating a new player

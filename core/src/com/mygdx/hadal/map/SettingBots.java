@@ -67,7 +67,7 @@ public class SettingBots extends ModeSetting {
     }
 
     //this will be the connId of the next bot created.
-    private static int lastBotConnID = -1;
+    private static int lastBotConnID = -2;
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
         if (!state.isServer()) { return; }
@@ -88,7 +88,7 @@ public class SettingBots extends ModeSetting {
         }
 
         //reset next connId, then create each bot while incrementing connId to ensure each has a unique one.
-        lastBotConnID = -1;
+        lastBotConnID = -2;
 
         for (int i = 0; i < botNumberIndex; i++) {
             HadalGame.server.getUsers().put(lastBotConnID, createBotUser());

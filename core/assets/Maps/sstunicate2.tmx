@@ -30,7 +30,7 @@
     <property name="modes" value=""/>
     <property name="tag" value="MULTIPLAYER"/>
     <property name="title" value="Navigations"/>
-    <property name="triggeredId" value="navigation1"/>
+    <property name="triggeredId" value="globalSpectatorActivation"/>
    </properties>
   </object>
   <object id="6" name="Text" type="Text" x="928" y="1376" width="32" height="32">
@@ -252,13 +252,13 @@
     <property name="duration" type="float" value="3"/>
     <property name="particle" value="MOMENTUM"/>
     <property name="triggeredId" value="tourParticle4a"/>
-    <property name="triggeringId" value="navigation1"/>
+    <property name="triggeringId" value="globalSpectatorActivation"/>
    </properties>
   </object>
   <object id="39" name="Camera" type="Camera" x="672" y="2016" width="32" height="32">
    <properties>
     <property name="triggeredId" value="tourCamera4"/>
-    <property name="triggeringId" value="navigation1"/>
+    <property name="triggeringId" value="globalSpectatorActivation"/>
     <property name="zoom" type="float" value="0"/>
    </properties>
   </object>

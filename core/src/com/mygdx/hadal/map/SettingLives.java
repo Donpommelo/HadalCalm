@@ -74,6 +74,7 @@ public class SettingLives extends ModeSetting {
                 user.getScores().setLives(startLives);
                 user.setScoreUpdated(true);
             }
+            mode.setJoinMidGame(false);
         } else {
             unlimitedLives = true;
         }

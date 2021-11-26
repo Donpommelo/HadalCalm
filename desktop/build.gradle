@@ -60,16 +60,16 @@ jar {
     }
 }
 
-task proguard(type: proguard.gradle.ProGuardTask) {
-    outputs.upToDateWhen { false }
-    configuration 'proguard-rules.pro'
-    libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod", jarfilter: '!**.jar', filter: '!module-info.class'
-
-    injars "build/lib/${appName}-Demo.jar"
-    outjars "build/lib/${appName}.jar"
-}
-
-proguard.dependsOn jar
+//task proguard(type: proguard.gradle.ProGuardTask) {
+//    outputs.upToDateWhen { false }
+//    configuration 'proguard-rules.pro'
+//    libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod", jarfilter: '!**.jar', filter: '!module-info.class'
+//
+//    injars "build/lib/${appName}-Demo.jar"
+//    outjars "build/lib/${appName}.jar"
+//}
+//
+//proguard.dependsOn jar
 jpackageImage.dependsOn jar
 
 runtime {

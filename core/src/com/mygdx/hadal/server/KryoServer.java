@@ -181,7 +181,7 @@ public class KryoServer {
 								return;
 							}
 
-							if (!ps.getMode().isHub()) {
+							if (!ps.getMode().isJoinMidGame()) {
 								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), modeSettings, p.firstTime, true));
 								return;
 							}
@@ -227,17 +227,19 @@ public class KryoServer {
 									if (!player.isAlive()) {
 										if (ps.isReset()) {
 											createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(),
-													true, spectator, null);
+													true, spectator, p.firstTime, null);
 										} else {
 											createNewClientPlayer(ps, c.getID(), p.name, player.getPlayerData().getLoadout(),
-													player.getPlayerData(), false, spectator, null);
+													player.getPlayerData(), false, spectator, p.firstTime, null);
 										}
 									}
 								} else {
-									createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator, null);
+									createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator,
+											p.firstTime, null);
 								}
 							} else {
-								createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator, null);
+								createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator,
+										p.firstTime, null);
 							}
 
 							//sync client ui elements
@@ -514,7 +516,7 @@ public class KryoServer {
 	 * @param spectator: is this player created as a spectator?
 	 */
 	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout,
-	  final PlayerBodyData data, final boolean reset, final boolean spectator, final StartPoint startPoint) {
+	  final PlayerBodyData data, final boolean reset, final boolean spectator, boolean justJoined, final StartPoint startPoint) {
 
 		ps.addPacketEffect(() -> {
 
@@ -528,10 +530,8 @@ public class KryoServer {
 				user.setTeamFilter(loadout.team);
 			}
 
-			StartPoint newSave;
-			if (startPoint == null) {
-				newSave = ps.getSavePoint(user);
-			} else {
+			StartPoint newSave = null;
+			if (startPoint != null) {
 				newSave = startPoint;
 			}
 
@@ -540,7 +540,7 @@ public class KryoServer {
 				ps.startSpectator(user, connId);
 			} else {
 				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, user, reset, false,
+				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, user, reset, false, justJoined,
 						user.getHitBoxFilter().getFilter());
 				MouseTracker newMouse = new MouseTracker(ps, false);
 				newPlayer.setMouse(newMouse);

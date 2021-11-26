@@ -27,7 +27,7 @@ public class ModeGunGame extends ModeSetting {
             MORAYGUN, PARTY_POPPER, TRICK_GUN, DUELING_CORKGUN, TESLA_COIL, FISTICUFFS};
 
     @Override
-    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
         User user = HadalGame.server.getUsers().get(connID);
 
         //when a player respawns, set their weapon to their last held weapon, determined by score

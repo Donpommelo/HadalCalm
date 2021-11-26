@@ -94,7 +94,6 @@ public class User {
      * @param fadeDelay: the delay in seconds before the screen fades out
      */
     public void beginTransition(PlayState state, TransitionState nextState, boolean override, float fadeSpeed, float fadeDelay) {
-
         if (override || this.nextState == null) {
             this.nextState = nextState;
             this.transitionTime = fadeDelay + 1.0f / fadeSpeed;
@@ -116,17 +115,12 @@ public class User {
      * @param state: the play state
      */
     public void respawn(PlayState state) {
-
-        if (startPoint == null) {
-            startPoint = state.getSavePoint(this);
-        }
-
         if (scores.getConnID() == 0) {
 
             //Create a new player
             short hitboxFilter = getHitBoxFilter().getFilter();
             state.setPlayer(state.createPlayer(startPoint, state.getGsm().getLoadout().getName(), player.getPlayerData().getLoadout(),
-                    player.getPlayerData(),0, this, true, false, hitboxFilter));
+                    player.getPlayerData(),0, this, true, false, false, hitboxFilter));
 
             if (!player.isDontMoveCamera()) {
                 state.getCamera().position.set(new Vector3(startPoint.getStartPos().x, startPoint.getStartPos().y, 0));
@@ -139,13 +133,13 @@ public class User {
                 //alive check prevents duplicate players if entering/respawning simultaneously
                 if (!player.isAlive()) {
                     String playerName = player.getName();
-                    HadalGame.server.createNewClientPlayer(state, scores.getConnID(), playerName,
-                            player.getPlayerData().getLoadout(), player.getPlayerData(), true, false, startPoint);
+                    HadalGame.server.createNewClientPlayer(state, scores.getConnID(), playerName, player.getPlayerData().getLoadout(),
+                            player.getPlayerData(), true, false, false, startPoint);
                 }
             } else {
                 //player is respawning from spectator and has no player
                 HadalGame.server.createNewClientPlayer(state, scores.getConnID(), scores.getNameShort(), scoresExtra.getLoadout(),
-                        null, true, false, startPoint);
+                        null, true, false, false, startPoint);
             }
         }
     }
