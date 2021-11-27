@@ -9,6 +9,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
@@ -51,7 +52,7 @@ public class DestructableBlock extends Event {
 		this.eventData = new EventData(this, UserDataTypes.WALL) {
 			
 			@Override
-			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
 				if (!state.isServer()) { return basedamage; }
 
 				hp -= basedamage;

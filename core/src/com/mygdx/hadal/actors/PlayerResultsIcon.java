@@ -33,13 +33,14 @@ public class PlayerResultsIcon extends AHadalActor {
 
 	private static final float spriteHeight = 922.0f;
 	private static final float spriteWidth = 614.0f;
+	private static final float spriteOffsetY = 10.0f;
 
 	private static final float textOffsetX = 20.0f;
-	private static final float textOffsetY = -20.0f;
+	private static final float textOffsetY = -10.0f;
 	private static final float textWidth = 125.0f;
 
 	private static final float readyOffsetX = 20.0f;
-	private static final float readyOffsetY = 140.0f;
+	private static final float readyOffsetY = 150.0f;
 
 	private TextureRegion playerSprite;
 	private final TextureRegion readyIcon;
@@ -55,7 +56,7 @@ public class PlayerResultsIcon extends AHadalActor {
 
 	public PlayerResultsIcon(SpriteBatch batch, SavedPlayerFields fields, SavedPlayerFieldsExtra fieldsExtra) {
 		this.name = HText.RESULTS_INFO.text(fields.getNameAbridged(MAX_NAME_LENGTH), Integer.toString(fields.getKills()),
-				Integer.toString(fields.getDeaths()), Integer.toString(fields.getScore()));
+				Integer.toString(fields.getDeaths()), Integer.toString(fields.getAssists()), Integer.toString(fields.getScore()));
 
 		this.readyIcon = Sprite.EMOTE_READY.getFrame();
 
@@ -111,7 +112,7 @@ public class PlayerResultsIcon extends AHadalActor {
 	
 	@Override
     public void draw(Batch batch, float alpha) {
-		batch.draw(playerSprite, getX(), getY(), playerSprite.getRegionWidth() * spriteScale, playerSprite.getRegionHeight() * spriteScale);
+		batch.draw(playerSprite, getX() + spriteOffsetY, getY(), playerSprite.getRegionWidth() * spriteScale, playerSprite.getRegionHeight() * spriteScale);
 
 		HadalGame.FONT_UI.getData().setScale(fontScale);
 		HadalGame.FONT_UI.draw(batch, name, getX() + textOffsetX,getY() + textOffsetY, textWidth, Align.center, true);

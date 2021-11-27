@@ -125,7 +125,8 @@ public class Hexenhowitzer extends RangedWeapon {
 								damaged.add(fixB);
 								
 								//gain charge based on the amount of damage dealt by this weapon's projectiles
-								float damage = fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.MAGIC, DamageTypes.RANGED);
+								float damage = fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(),
+										hbox.getLinearVelocity().nor().scl(knockback), creator, true, hbox, DamageTypes.MAGIC, DamageTypes.RANGED);
 								
 								me.setCharging(true);
 								

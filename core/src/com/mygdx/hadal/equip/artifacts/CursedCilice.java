@@ -4,6 +4,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -39,7 +40,7 @@ public class CursedCilice extends Artifact {
 			}
 			
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
 				if (inflicted instanceof PlayerBodyData && damage > 0) {
 					((PlayerBodyData) inflicted).fuelGain(damage * amount);
 					

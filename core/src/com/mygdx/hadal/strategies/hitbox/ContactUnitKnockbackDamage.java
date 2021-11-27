@@ -73,7 +73,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 
 								//contact a wall, damage the victim
 								if (fixB.getType().equals(UserDataTypes.WALL)) {
-									vic.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);
+									vic.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, DamageTypes.WHACKING);
 									new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
 										true, particleSyncType.CREATESYNC);
 									hbox.die();
@@ -81,8 +81,8 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 								
 								//contact another unit, damage both
 								if (fixB.getType().equals(UserDataTypes.BODY) && !fixB.equals(vic)) {
-									vic.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);
-									fixB.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);
+									vic.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, DamageTypes.WHACKING);
+									fixB.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, DamageTypes.WHACKING);
 									new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
 										true, particleSyncType.CREATESYNC);
 									hbox.die();

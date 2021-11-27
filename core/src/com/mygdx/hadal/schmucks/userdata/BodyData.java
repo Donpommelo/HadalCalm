@@ -11,6 +11,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.ProcTime;
@@ -260,26 +261,27 @@ public class BodyData extends HadalData {
 	
 	/**
 	 * This method is called when this schmuck receives damage.
-	 * @param basedamage: amount of damage received
-	 * @param knockback: amount of knockback to apply.
-	 * @param perp: the schmuck who inflicted damage
-	 * @param procEffects: should this damage proc on-damage effects?
-	 * @param tags: varargs of damage tags
+	 * @param baseDamage : amount of damage received
+	 * @param knockback : amount of knockback to apply.
+	 * @param perp : the schmuck who inflicted damage
+	 * @param procEffects : should this damage proc on-damage effects?
+	 * @param hbox: hbox that inflicted the damage. Null if not inflicted by a hbox
+	 * @param tags : varargs of damage tags
 	 */
 	@Override
-	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+	public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
 		if (!schmuck.isAlive()) { return 0.0f; }
 		
 		//calculate damage
-		float damage = basedamage;
-		damage -= basedamage * (getStat(Stats.DAMAGE_RES));
-		damage += basedamage * (perp.getStat(Stats.DAMAGE_AMP));
-		damage += basedamage * (-damageVariance + MathUtils.random() * 2 * damageVariance);
+		float damage = baseDamage;
+		damage -= baseDamage * (getStat(Stats.DAMAGE_RES));
+		damage += baseDamage * (perp.getStat(Stats.DAMAGE_AMP));
+		damage += baseDamage * (-damageVariance + MathUtils.random() * 2 * damageVariance);
 		
 		//proc effects and inflict damage
 		if (procEffects) {
-			damage = ((InflictDamage) perp.statusProcTime(new ProcTime.InflictDamage(damage, this, tags))).damage;
-			damage = ((ReceiveDamage) statusProcTime(new ProcTime.ReceiveDamage(damage, perp, tags))).damage;
+			damage = ((InflictDamage) perp.statusProcTime(new ProcTime.InflictDamage(damage, this, hbox, tags))).damage;
+			damage = ((ReceiveDamage) statusProcTime(new ProcTime.ReceiveDamage(damage, perp, hbox, tags))).damage;
 		}
 		currentHp -= damage;
 		

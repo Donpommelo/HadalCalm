@@ -41,7 +41,7 @@ public abstract class HitboxStrategy implements IHitboxStrategy {
 	public void onHit(HadalData fixB) {}
 	
 	@Override
-	public void receiveDamage(BodyData perp, float basedamage, Vector2 knockback, DamageTypes... tags) {}
+	public void receiveDamage(BodyData perp, float baseDamage, Vector2 knockback, DamageTypes... tags) {}
 	
 	@Override
 	public void die() {}

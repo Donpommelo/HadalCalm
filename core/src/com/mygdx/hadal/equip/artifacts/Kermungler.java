@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -24,7 +25,7 @@ public class Kermungler extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			@Override
-			public float onDealDamage(float damage, BodyData perp, DamageTypes... tags) {
+			public float onDealDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
 				float finalDamage = damage;
 				finalDamage += damage * damageAmp;
 				finalDamage += damage * (-damageVariance + MathUtils.random() * 2 * damageVariance);
@@ -32,7 +33,7 @@ public class Kermungler extends Artifact {
 			}
 			
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
 				float finalDamage = damage;
 				finalDamage -= damage * damageRes;
 				finalDamage += damage * (-damageVariance + MathUtils.random() * 2 * damageVariance);

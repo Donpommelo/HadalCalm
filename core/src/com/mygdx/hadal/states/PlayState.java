@@ -205,7 +205,7 @@ public class PlayState extends GameState {
 	public static final float defaultFadeDelay = 0.0f;
 	public static final float longFadeDelay = 1.5f;
 
-	//Special designated events parsed from map
+	//Special designated events parsed from map. Event run when a spectating host presses their interact button
 	private Event globalTimer, spectatorActivation;
 	
 	/**
@@ -347,10 +347,13 @@ public class PlayState extends GameState {
 			StartPoint getSave = getSavePoint(startId, user);
 			short hitboxFilter = user.getHitBoxFilter().getFilter();
 
+			//if the host is a spectator, just set their player to their old one instead of creating a new one.
 			if (user.isSpectator()) {
 				this.player = user.getPlayer();
-				setSpectatorMode();
 
+				//setting the old player's state is a janky way of getting its old input processor to register new state's events
+				this.player.setState(this);
+				setSpectatorMode();
 			} else {
 				this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, user, reset,
 						false, false, hitboxFilter);
@@ -796,7 +799,6 @@ public class PlayState extends GameState {
 				//in spectator mode, the camera moves when dragging the mouse
 				uiSpectator.spectatorDragCamera(spectatorTarget);
 				aimFocusVector.set(spectatorTarget);
-
 			} else if (player.getPlayerData() != null) {
 
 				//we check for play data being null so client does not try to lerp camera towards starting position of (0, 0)

@@ -1,6 +1,8 @@
 package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -20,6 +22,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.packets.Packets;
@@ -597,10 +600,20 @@ public class PlayerBodyData extends BodyData {
 			currentFuel = 0;
 		}
 	}
-	
+
+	//mapping of players that damaged this player recently. Value = amount of damage dealt and decreases over time
+	//used to calculate damage reduction from groups and also to process assists
+	private final ObjectMap<PlayerBodyData, Float> recentDamagedBy = new ObjectMap<>();
 	@Override
-	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
-		float damage = super.receiveDamage(basedamage, knockback, perp, procEffects, tags);
+	public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
+		float damage = baseDamage * getGroupDamageReduction(recentDamagedBy.size);
+		damage = super.receiveDamage(damage, knockback, perp, procEffects, hbox, tags);
+
+		if (perp.schmuck.getHitboxfilter() != player.getHitboxfilter()) {
+			if (perp instanceof PlayerBodyData playerData) {
+				recentDamagedBy.put(playerData, recentDamagedBy.get(playerData, 0.0f) + damage);
+			}
+		}
 
 		//this keeps track of total damage received during rounds
 		if (player.getState().isServer()) {
@@ -666,14 +679,53 @@ public class PlayerBodyData extends BodyData {
 			schmuck.getState().getMode().processPlayerDeath(schmuck.getState(), perp.getSchmuck(), player, tags);
 		}
 	}
-	
+
+	private final Array<PlayerBodyData> damagedByToRemove = new Array<>();
+	private static final float decrementOverTime = 8.0f;
+	/**
+	 * This processes the map of players that have damaged this player recently
+	 * @param delta; time since last processing
+	 */
+	public void processRecentDamagedBy(float delta) {
+		damagedByToRemove.clear();
+
+		//decrement the timer for all damaged-by players according to time. Remove players that damaged too long ago
+		for (ObjectMap.Entry<PlayerBodyData, Float> entry: recentDamagedBy) {
+			recentDamagedBy.put(entry.key, entry.value - delta * decrementOverTime);
+
+			if (entry.value <= 0.0f) {
+				damagedByToRemove.add(entry.key);
+			}
+		}
+		for (PlayerBodyData playerData: damagedByToRemove) {
+			recentDamagedBy.remove(playerData);
+		}
+	}
+
+	/**
+	 * @param numDamagedBy: the number of unique players that have recently damaged this player
+	 * @return damage multipler
+	 */
+	private static float getGroupDamageReduction(int numDamagedBy) {
+		return switch (numDamagedBy) {
+			case 0, 1 -> 1.0f;
+			case 2 -> 0.8f;
+			case 3 -> 0.6f;
+			case 4 -> 0.4f;
+			case 5 -> 0.2f;
+			default -> 0.1f;
+		};
+	}
+
 	/**
 	 * This animation is played when entering levels and respawning
 	 */
 	public void warpAnimation() {
 		new ParticleEntity(player.getState(), new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2), Particle.TELEPORT, 0.5f, true, particleSyncType.CREATESYNC);
 	}
-	
+
+	public ObjectMap<PlayerBodyData, Float> getRecentDamagedBy() { return recentDamagedBy; }
+
 	public Player getPlayer() {	return player;}
 	
 	public int getExtraJumps() { return numExtraJumps + (int)getStat(Stats.JUMP_NUM); }

@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.userdata;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.statuses.DamageTypes;
 
 /**
@@ -30,13 +31,14 @@ public class HadalData {
 
 	/**
 	 * This method is called when this entity gets hit. Most non-body entities will only care about the kb.
-	 * @param basedamage: amount of damage received
-	 * @param knockback: amount of knockback to apply.
-	 * @param perp: the schmuck who did this
-	 * @param procEffects: Should this proc status effects?
-	 * @param tags: damage tags
+	 * @param basedamage : amount of damage received
+	 * @param knockback : amount of knockback to apply.
+	 * @param perp : the schmuck who did this
+	 * @param procEffects : Should this proc status effects?
+	 * @param hbox: hbox that inflicted the damage. Null if not inflicted by a hbox
+	 * @param tags : damage tags
 	 */
-	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
 		if (getEntity().isAlive()) {
 			getEntity().push(knockback);
 		}

@@ -38,12 +38,12 @@ public class ExplosionDefault extends HitboxStrategy {
 			
 			if (fixB instanceof BodyData bodyData) {
 				if (bodyData.getSchmuck().getHitboxfilter() == creator.getSchmuck().getHitboxfilter()) {
-					fixB.receiveDamage(baseDamage * selfDamageReduction, kb.nor().scl(knockback), creator, true, tags);
+					fixB.receiveDamage(baseDamage * selfDamageReduction, kb.nor().scl(knockback), creator, true, hbox, tags);
 				} else {
-					fixB.receiveDamage(baseDamage, kb.nor().scl(knockback),	creator, true, tags);
+					fixB.receiveDamage(baseDamage, kb.nor().scl(knockback),	creator, true, hbox, tags);
 				}
 			} else {
-				fixB.receiveDamage(baseDamage, kb.nor().scl(knockback),	creator, true, tags);
+				fixB.receiveDamage(baseDamage, kb.nor().scl(knockback),	creator, true, hbox, tags);
 			}
 		}
 	}

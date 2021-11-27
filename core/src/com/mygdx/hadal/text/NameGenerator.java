@@ -3,8 +3,6 @@ package com.mygdx.hadal.text;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
-import java.util.ArrayList;
-
 /**
  * why did I make this
  * @author Himpanzee Hanicotti

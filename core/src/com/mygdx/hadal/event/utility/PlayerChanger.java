@@ -79,7 +79,8 @@ public class PlayerChanger extends Event {
 				}				
 				
 				if (hp < 0) {
-					data.receiveDamage(-hp, new Vector2(), state.getWorldDummy().getBodyData(), false, DamageTypes.BLASTZONE);
+					data.receiveDamage(-hp, new Vector2(), state.getWorldDummy().getBodyData(), false,
+							null, DamageTypes.BLASTZONE);
 					activated = true;
 					
 					SoundEffect.DAMAGE5.playUniversal(state, p.getPixelPosition(), 0.3f, false);

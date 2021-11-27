@@ -83,8 +83,8 @@ public class Boss2 extends EnemyFloating {
 		BodyData link = new BodyData(this, baseHp) {
 			
 			@Override
-			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
-				me.receiveDamage(basedamage * linkResist, knockback, perp, procEffects, tags);
+			public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
+				me.receiveDamage(baseDamage * linkResist, knockback, perp, procEffects, hbox, tags);
 				return 0;
 			}
 		};

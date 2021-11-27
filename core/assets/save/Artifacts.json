@@ -223,6 +223,16 @@
         "WEAPON_DAMAGE"
 	]
 },
+"CARLOCS_THESIS": {
+	"name": "Carloc's Thesis",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+        "DEFENSE"
+	]
+},
 "CASTAWAYS_TRAVELOGUE": {
 	"name": "Castaway's Travelogue",
 	"description": "Restores Fuel Upon Running out of Fuel",
@@ -459,6 +469,16 @@
 		"RELIQUARY",
 		"RANDOM_POOL",
         "DEFENSE"
+	]
+},
+"FALSE_FACE": {
+	"name": "False Face",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+        "OFFENSE"
 	]
 },
 "FARADAYS_CAGE": {
@@ -710,6 +730,16 @@
 		"RELIQUARY",
 		"RANDOM_POOL",
         "HEAL"
+	]
+},
+"LEATHERBACK": {
+	"name": "Leatherback",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+        "DEFENSE"
 	]
 },
 "LOAMSKIN_LOCKET": {

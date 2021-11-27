@@ -463,6 +463,9 @@ public class Player extends PhysicsSchmuck {
 		
 		//process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
 		playerData.getCurrentTool().update(state, delta);
+
+		//process list of units that damaged this player within the last ~5 seconds
+		playerData.processRecentDamagedBy(delta);
 		
 		super.controller(delta);
 	}

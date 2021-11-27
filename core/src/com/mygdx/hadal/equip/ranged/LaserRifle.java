@@ -95,6 +95,7 @@ public class LaserRifle extends RangedWeapon {
 		};
 		hbox.setEffectsVisual(false);
 		hbox.setEffectsMovement(false);
+		hbox.setPositionBasedOnUser(true);
 		hbox.makeUnreflectable();
 
 		hbox.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));

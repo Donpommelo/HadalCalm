@@ -49,7 +49,7 @@ public class CrownofThorns extends Artifact {
 			
 			private final Vector2 angle = new Vector2(1, 0);
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
 				
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount = 0;

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -23,7 +24,7 @@ public class FeelingofBeingWatched extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			@Override
-			public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) {
+			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageTypes... tags) {
 				if (inflicter.getCurrentFuel() <= inflicter.getStat(Stats.MAX_FUEL) * fuelThreshold) {
 					return damage * bonusDamage;
 				}

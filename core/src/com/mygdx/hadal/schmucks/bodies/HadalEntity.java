@@ -30,7 +30,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public abstract class HadalEntity {
 
 	//References to game fields.
-	protected final PlayState state;
+	protected PlayState state;
 	protected final World world;
 	
 	//Fields common to all entities.
@@ -389,6 +389,8 @@ public abstract class HadalEntity {
 	public HadalData getHadalData() { return hadalData; }
 
 	public PlayState getState() { return state; }
+
+	public void setState(PlayState state) { this.state = state;}
 
 	public World getWorld() { return world;	}
 

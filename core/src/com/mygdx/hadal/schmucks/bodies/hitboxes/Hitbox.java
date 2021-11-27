@@ -91,6 +91,9 @@ public class Hitbox extends HadalEntity {
 	//Should this hbox's angle be set at creation to match velocity?
 	private boolean adjustAngle = false;
 
+	//when calculating things like backstabs, the position of the creator is used instead of the hbox (for things like laser rifle)
+	private boolean positionBasedOnUser = false;
+
 	//hitbox user data. This contains on-hit method
 	protected HitboxData data;
 
@@ -377,6 +380,10 @@ public class Hitbox extends HadalEntity {
 	public boolean isReflectable() { return reflectable; }
 
 	public void setAdjustAngle(boolean adjustAngle) { this.adjustAngle = adjustAngle; }
+
+	public void setPositionBasedOnUser(boolean positionBasedOnUser) { this.positionBasedOnUser = positionBasedOnUser; }
+
+	public boolean isPositionBasedOnUser() { return positionBasedOnUser; }
 
 	public void setSpriteSize(Vector2 spriteSize) { this.spriteSize.set(spriteSize).scl(scale); }
 }

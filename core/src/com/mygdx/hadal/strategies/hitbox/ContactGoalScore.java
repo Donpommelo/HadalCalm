@@ -34,7 +34,7 @@ public class ContactGoalScore extends HitboxStrategy {
 	}
 
 	@Override
-	public void receiveDamage(BodyData perp, float basedamage, Vector2 knockback, DamageTypes... tags) {
+	public void receiveDamage(BodyData perp, float baseDamage, Vector2 knockback, DamageTypes... tags) {
 		if (perp instanceof PlayerBodyData playerData) {
 			lastHit = playerData.getPlayer();
 		}

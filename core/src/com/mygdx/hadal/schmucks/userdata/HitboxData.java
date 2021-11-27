@@ -37,33 +37,33 @@ public class HitboxData extends HadalData {
 	}
 	
 	@Override
-	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
-		if (!hbox.isAlive()) { return 0.0f; }
+	public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
+		if (!this.hbox.isAlive()) { return 0.0f; }
 		
 		//process hbox reflections/deflections
-		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT) && hbox.isReflectable()) {
-			super.receiveDamage(basedamage, knockback, perp, procEffects, tags);
+		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT) && this.hbox.isReflectable()) {
+			super.receiveDamage(baseDamage, knockback, perp, procEffects, hbox, tags);
 		}
 		
-		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && hbox.isReflectable()) {
-			hbox.setDamageMultiplier(reflectMultiplier * (1 + perp.getStat(Stats.REFLECT_DAMAGE)));
-			hbox.setFilter((short) 0);
+		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && this.hbox.isReflectable()) {
+			this.hbox.setDamageMultiplier(reflectMultiplier * (1 + perp.getStat(Stats.REFLECT_DAMAGE)));
+			this.hbox.setFilter((short) 0);
 
 			//reflecting a projectile should take ownership of it
-			for (HitboxStrategy strat: hbox.getStrategies()) {
+			for (HitboxStrategy strat: this.hbox.getStrategies()) {
 				strat.setCreator(perp);
 			}
 
 			//reset hbox's lifespan
-			hbox.setLifeSpan(hbox.getMaxLifespan());
+			this.hbox.setLifeSpan(this.hbox.getMaxLifespan());
 		}
 		
 		//this is used for hitboxes hat are capable of receiving damage and knockback
-		for (HitboxStrategy s : hbox.getStrategies()) {
-			s.receiveDamage(perp, basedamage, knockback, tags);
+		for (HitboxStrategy s : this.hbox.getStrategies()) {
+			s.receiveDamage(perp, baseDamage, knockback, tags);
 		}
 		
-		return basedamage;
+		return baseDamage;
 	}
 	
 	/**

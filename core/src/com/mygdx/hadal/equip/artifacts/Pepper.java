@@ -40,7 +40,7 @@ public class Pepper extends Artifact {
 					state.getWorld().QueryAABB(fixture -> {
 						if (fixture.getUserData() instanceof BodyData bodyData) {
 							if (bodyData.getSchmuck().getHitboxfilter() != inflicted.getSchmuck().getHitboxfilter()) {
-								bodyData.receiveDamage(damage, new Vector2(0, 0), inflicted, true);
+								bodyData.receiveDamage(damage, new Vector2(0, 0), inflicted, true, null);
 								new ParticleEntity(state, bodyData.getSchmuck(), Particle.LIGHTNING, 1.0f, particleDuration, true, particleSyncType.CREATESYNC);
 							}
 						}

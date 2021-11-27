@@ -31,7 +31,7 @@ public class UISpectator extends AHadalActor {
     private static final int instructions2Y = 50;
     private static final int joinY = 25;
 
-    private static final int windowWidth = 300;
+    private static final int windowWidth = 350;
     private static final int windowHeight = 125;
 
     private static final float fontScaleMedium = 0.3f;
@@ -62,8 +62,13 @@ public class UISpectator extends AHadalActor {
         HadalGame.FONT_UI.draw(batch, HText.SPECTATING_RMB.text(), textX, instructions2Y);
 
         if (state.getMode().isHub()) {
-            HadalGame.FONT_UI.draw(batch, HText.JOIN_OPTION.text(PlayerAction.PAUSE.getKeyText(), PlayerAction.INTERACT.getKeyText()),
-                    textX, joinY);
+            if (state.isServer()) {
+                HadalGame.FONT_UI.draw(batch, HText.JOIN_OPTION_HOST.text(PlayerAction.PAUSE.getKeyText(), PlayerAction.INTERACT.getKeyText()),
+                        textX, joinY);
+            } else {
+                HadalGame.FONT_UI.draw(batch, HText.JOIN_OPTION.text(PlayerAction.PAUSE.getKeyText()),
+                        textX, joinY);
+            }
         } else {
             HadalGame.FONT_UI.draw(batch, HText.JOIN_CANT.text(), textX, joinY);
         }
@@ -74,6 +79,9 @@ public class UISpectator extends AHadalActor {
 
     //are we in free cam mode?
     private boolean freeCam = true;
+
+    //has any input been given yet? used to stat off pointing at a player instead of in free-cam mode
+    private boolean firstInputGiven = false;
 
     private final Vector2 lastMousePosition = new Vector2();
     private final Vector2 mousePosition = new Vector2();
@@ -90,8 +98,14 @@ public class UISpectator extends AHadalActor {
      */
     public void spectatorDragCamera(Vector2 target) {
 
+        //this makes the camera start off following a player
+        if (!firstInputGiven) {
+            findValidSpectatorTarget();
+        }
+
         //when lmb is held, we drag the camera by a factor of the mouse displacement
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            firstInputGiven = true;
             mousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
             if (mouseHeld) {
                 target.add(lastMousePosition.sub(mousePosition).scl(dragMultiplier));
@@ -156,6 +170,10 @@ public class UISpectator extends AHadalActor {
             }
         }
         freeCam = !foundTarget;
+
+        if (foundTarget) {
+            firstInputGiven = true;
+        }
     }
 
     /**

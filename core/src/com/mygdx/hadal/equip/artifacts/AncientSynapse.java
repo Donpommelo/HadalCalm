@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -33,7 +34,7 @@ public class AncientSynapse extends Artifact {
 					procCdCount -= procCd;
 					if (damageLeft > 0.0f) {
 						float damage = delta * (baseDegen + degen * damageLeft);
-						inflicted.receiveDamage(damage, new Vector2(), inflicted, false);
+						inflicted.receiveDamage(damage, new Vector2(), inflicted, false, null);
 						damageLeft -= damage;
 					}
 				}
@@ -41,7 +42,7 @@ public class AncientSynapse extends Artifact {
 			}
 			
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
 				damageLeft += damage;
 				return 0;
 			}

@@ -32,11 +32,11 @@ public class ScoreWindow {
 	private static final int scoreWidth = 1000;
 	private static final int scoreBaseHeight = 50;
 	private static final int scoreTitleHeight = 60;
-	private static final int scoreRowHeight = 50;
+	private static final int scoreRowHeight = 40;
 	private static final int scoreNameWidth = 500;
-	private static final float scoreScale = 0.5f;
-	private static final float scorePadX = 20.0f;
-	private static final float scorePadY = 18.0f;
+	private static final float scoreScale = 0.4f;
+	private static final float scorePadX = 25.0f;
+	private static final float scorePadY = 10.0f;
 
 	private static final int settingsWidth = 280;
 	private static final int settingsHeight = 300;
@@ -103,12 +103,9 @@ public class ScoreWindow {
 		Text playerLabel = new Text(HText.PLAYER.text(), 0, 0, false);
 		playerLabel.setScale(scoreScale);
 		
-		Text killsLabel = new Text(HText.KILLS.text(), 0, 0, false);
-		killsLabel.setScale(scoreScale);
-		
-		Text deathsLabel = new Text(HText.DEATHS.text(), 0, 0, false);
-		deathsLabel.setScale(scoreScale);
-		
+		Text kdaLabel = new Text(HText.KDA.text(), 0, 0, false);
+		kdaLabel.setScale(scoreScale);
+
 		Text scoreLabel = new Text(HText.SCORE.text(), 0, 0, false);
 		scoreLabel.setScale(scoreScale);
 		
@@ -117,8 +114,7 @@ public class ScoreWindow {
 		
 		tableScore.add(title).height(scoreTitleHeight).colspan(5).row();
 		tableScore.add(playerLabel).height(scoreTitleHeight).padRight(scorePadX);
-		tableScore.add(killsLabel).height(scoreTitleHeight).padRight(scorePadX);
-		tableScore.add(deathsLabel).height(scoreTitleHeight).padRight(scorePadX);
+		tableScore.add(kdaLabel).height(scoreTitleHeight).padRight(scorePadX);
 		tableScore.add(scoreLabel).height(scoreTitleHeight).padRight(scorePadX);
 		tableScore.add(winsLabel).height(scoreTitleHeight).row();
 
@@ -304,20 +300,17 @@ public class ScoreWindow {
 			}
 		});
 
-		Text kills = new Text(field.getKills() + " ", 0, 0, false);
-		kills.setScale(scoreScale);
-		Text death = new Text(field.getDeaths() + " ", 0, 0, false);
-		death.setScale(scoreScale);
+		Text kda = new Text(field.getKills() + " / " + field.getDeaths() + " / " + field.getAssists(), 0, 0, false);
+		kda.setScale(scoreScale);
 		Text points = new Text(field.getScore() + " ", 0, 0, false);
 		points.setScale(scoreScale);
 		Text wins = new Text(field.getWins() + " ", 0, 0, false);
 		wins.setScale(scoreScale);
 
 		tableScore.add(name).width(scoreNameWidth).height(scoreRowHeight).padBottom(scorePadY).align(Align.center);
-		tableScore.add(kills).height(scoreRowHeight).padBottom(scorePadY);
-		tableScore.add(death).height(scoreRowHeight).padBottom(scorePadY);
-		tableScore.add(points).height(scoreRowHeight).padBottom(scorePadY);
-		tableScore.add(wins).height(scoreRowHeight).padBottom(scorePadY).row();
+		tableScore.add(kda).height(scoreRowHeight).padRight(scorePadX).padBottom(scorePadY);
+		tableScore.add(points).height(scoreRowHeight).padRight(scorePadX).padBottom(scorePadY);
+		tableScore.add(wins).height(scoreRowHeight).padRight(scorePadX).padBottom(scorePadY).row();
 
 		state.getUiExtra().syncUIText(UITag.uiType.ALL);
 	}

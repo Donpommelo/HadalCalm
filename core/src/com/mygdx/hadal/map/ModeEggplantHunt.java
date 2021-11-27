@@ -17,7 +17,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
  * This mode setting is used for modes where eggplants are spawned.
  * @author Twonkeldebeast Twidah
  */
-public class ToggleEggplantDrops extends ModeSetting {
+public class ModeEggplantHunt extends ModeSetting {
 
     private static final float scrapMultiplier = 0.33f;
     private static final int baseScrapDrop = 1;
@@ -42,6 +42,8 @@ public class ToggleEggplantDrops extends ModeSetting {
         final RallyPath[] bestPath = new RallyPath[1];
         state.getWorld().QueryAABB((fixture -> {
             if (bestPath[0] == null) {
+
+                //check for eggplants in thte bot's vinicity and find a path towards a random one
                 if (fixture.getUserData() instanceof final EventData eventData) {
                     if (eventData.getEvent() instanceof final Scrap scrap) {
                         RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation,
@@ -58,10 +60,10 @@ public class ToggleEggplantDrops extends ModeSetting {
         }), playerLocation.x - searchRadius, playerLocation.y - searchRadius,
         playerLocation.x + searchRadius, playerLocation.y + searchRadius);
 
+        //make the path towards eggplants more appealing
         if (bestPath[0] != null) {
             bestPath[0].setDistance(bestPath[0].getDistance() * eggplantDesireMultiplier);
         }
-
         return bestPath[0];
     }
 }

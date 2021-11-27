@@ -10,7 +10,7 @@ public class SavedPlayerFields {
 	private String name;
 	
 	//Player's stored stats
-	private int wins, kills, deaths, score, teamScore, ping, connID;
+	private int wins, kills, deaths, assists, score, teamScore, ping, connID;
 	private int lives = 1;
 
 	//did the player win their last game? This is used to let the client know who won in the results screen.
@@ -30,6 +30,7 @@ public class SavedPlayerFields {
 	public void newLevelReset() {
 		this.kills = 0;
 		this.deaths = 0;
+		this.assists = 0;
 		this.score = 0;
 		this.teamScore = 0;
 		this.lives = 1;
@@ -88,6 +89,10 @@ public class SavedPlayerFields {
 	public int getDeaths() { return deaths; }
 
 	public void setDeaths(int deaths) { this.deaths = deaths; }
+
+	public int getAssists() { return assists; }
+
+	public void setAssists(int assists) { this.assists = assists; }
 
 	public int getScore() {	return score; }
 

@@ -61,7 +61,8 @@ public class Buzzsaw extends Event {
 			
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				if (entity instanceof Schmuck schmuck) {
-					schmuck.getBodyData().receiveDamage(dps, new Vector2(), state.getWorldDummy().getBodyData(), true, DamageTypes.CUTTING);
+					schmuck.getBodyData().receiveDamage(dps, new Vector2(), state.getWorldDummy().getBodyData(), true,
+							null, DamageTypes.CUTTING);
 				}
 			}
 		}

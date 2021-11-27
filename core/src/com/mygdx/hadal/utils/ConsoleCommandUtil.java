@@ -103,7 +103,7 @@ public class ConsoleCommandUtil {
 
 		if (command.equals("/killme")) {
 			if (player.getPlayerData() != null) {
-				player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false);
+				player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false, null);
 				return 0;
 			}
 		}

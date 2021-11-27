@@ -7,9 +7,9 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
@@ -135,7 +135,8 @@ public class Poison extends Event {
 				
 				for (HadalEntity entity : eventData.getSchmucks()) {
 					if (entity instanceof Schmuck schmuck) {
-						schmuck.getBodyData().receiveDamage(dps, new Vector2(), perp.getBodyData(), true, DamageTypes.POISON);
+						schmuck.getBodyData().receiveDamage(dps, new Vector2(), perp.getBodyData(), true,
+								null, DamageTypes.POISON);
 					}
 				}
 			}

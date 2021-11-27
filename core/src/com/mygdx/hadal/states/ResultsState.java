@@ -73,7 +73,7 @@ public class ResultsState extends GameState {
 	private static final int tableY = 240;
 	private static final int tableWidth = 1240;
 	private static final int tableHeight = 460;
-	private static final int characterScrollHeight = 400;
+	private static final int characterScrollHeight = 430;
 
 	private static final int infoXEnabled = 880;
 	private static final int infoYEnabled = 20;

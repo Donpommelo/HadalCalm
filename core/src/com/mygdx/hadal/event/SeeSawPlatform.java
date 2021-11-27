@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -42,7 +43,7 @@ public class SeeSawPlatform extends Event {
 		this.eventData = new EventData(this, UserDataTypes.WALL) {
 			
 			@Override
-			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) { return 0; }
+			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) { return 0; }
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1.0f, 1, 0, false, false, 
@@ -68,7 +69,7 @@ public class SeeSawPlatform extends Event {
 			EventData tempData = new EventData(this, UserDataTypes.WALL) {
 				
 				@Override
-				public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+				public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
 					
 					if (getEntity().isAlive()) {
 						if (getEntity().getBody() != null) {

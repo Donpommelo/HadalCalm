@@ -46,7 +46,7 @@ public class HealingArea extends Event {
 	private final float spawnTimerLimit;
 
 	//the frequency that the heal is applied
-	private float particleLifespan = 1.5f;
+	private static final float particleLifespan = 1.5f;
 	private static final float healInterval = 1 / 60f;
 	
 	/**

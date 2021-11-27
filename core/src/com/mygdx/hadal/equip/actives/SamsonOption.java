@@ -67,7 +67,7 @@ public class SamsonOption extends ActiveItem {
 			}
 		});
 		
-		user.receiveDamage(9999, new Vector2(), user, false);
+		user.receiveDamage(9999, new Vector2(), user, false, null);
 	}
 	
 	@Override

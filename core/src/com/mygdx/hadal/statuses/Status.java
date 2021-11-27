@@ -79,9 +79,9 @@ public class Status {
 		}
 	}
 
-	public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) { return damage;	}
+	public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageTypes... tags) { return damage;	}
 	
-	public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) { return damage; }
+	public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) { return damage; }
 	
 	public float onHeal(float damage, BodyData perp, DamageTypes... tags) { return damage; }
 	

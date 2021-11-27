@@ -21,7 +21,7 @@ public class Pushable extends HitboxStrategy {
 	}
 	
 	@Override
-	public void receiveDamage(BodyData perp, float basedamage, Vector2 knockback, DamageTypes... tags) {
+	public void receiveDamage(BodyData perp, float baseDamage, Vector2 knockback, DamageTypes... tags) {
 		hbox.push(knockback.scl(pushMultiplier));
 	}
 }

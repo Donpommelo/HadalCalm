@@ -9,9 +9,9 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState;
@@ -80,7 +80,8 @@ public class Currents extends Event {
 			
 			//push is done through damage so that +knockback resistance will reduce the push.
 			for (HadalEntity entity : eventData.getSchmucks()) {
-				entity.getHadalData().receiveDamage(0.0f, new Vector2(vec), state.getWorldDummy().getBodyData(), false, DamageTypes.DEFLECT);
+				entity.getHadalData().receiveDamage(0.0f, new Vector2(vec), state.getWorldDummy().getBodyData(),
+						false,null, DamageTypes.DEFLECT);
 			}
 		}
 		
@@ -109,7 +110,8 @@ public class Currents extends Event {
 			
 			//push is done through damage so that +knockback resistance will reduce the push.
 			for (HadalEntity entity : eventData.getSchmucks()) {
-				entity.getHadalData().receiveDamage(0.0f, randLocation.set(vec), state.getWorldDummy().getBodyData(), false, DamageTypes.DEFLECT);
+				entity.getHadalData().receiveDamage(0.0f, randLocation.set(vec), state.getWorldDummy().getBodyData(),
+						false, null, DamageTypes.DEFLECT);
 			}
 		}
 		

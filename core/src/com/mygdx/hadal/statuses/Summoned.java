@@ -1,6 +1,7 @@
 package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
@@ -19,7 +20,7 @@ public class Summoned extends Status {
 	}
 	
 	@Override
-	public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) { 
+	public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageTypes... tags) {
 		summoner.playHitSound(damage);
 		return damage;	
 	}

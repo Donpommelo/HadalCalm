@@ -46,7 +46,7 @@ public class WorldContactListener implements ContactListener {
 	public void endContact(Contact contact) {
 		HadalData fixA = (HadalData) contact.getFixtureA().getUserData();
 		HadalData fixB = (HadalData) contact.getFixtureB().getUserData();
-		
+
 		if (fixA != null) {
 			fixA.setNumContacts(fixA.getNumContacts() - 1);
 			if (fixA.getType().equals(UserDataTypes.EVENT)) {

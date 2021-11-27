@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -37,14 +38,14 @@ public class LampreyIdol extends Artifact {
 					procCdCount -= procCd;
 					
 					if ((inflicter.getCurrentHp() / inflicter.getStat(Stats.MAX_HP)) >= hpThreshold) {
-						inflicter.receiveDamage(damage, new Vector2(0, 0), inflicter, true);
+						inflicter.receiveDamage(damage, new Vector2(0, 0), inflicter, true, null);
 					}
 				}
 				procCdCount += delta;
 			}
 			
 			@Override
-			public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) {
+			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageTypes... tags) {
 				if (vic instanceof PlayerBodyData) {
 					inflicter.regainHp(lifestealPlayer * damage, inflicter, true, DamageTypes.LIFESTEAL);
 				} else {

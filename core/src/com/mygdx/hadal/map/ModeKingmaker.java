@@ -30,12 +30,15 @@ public class ModeKingmaker extends ModeSetting {
                     //and that they are always added as the second strategy
                     if (flag.getStrategies().get(1) instanceof FlagHoldable capture) {
                         if (capture.isCaptured()) {
+                            //if the crown is captured by this bot, start "wandering" to avoid conflict
                             if (p.equals(capture.getTarget())) {
                                 p.getBotController().getPointPath().clear();
                                 p.getBotController().setCurrentMood(BotController.BotMood.WANDER);
                                 return null;
                             }
                         }
+
+                        //attempt to path towards a crown that is uncaptured, or captured by another player
                         RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation, objectiveLocation, playerVelocity);
                         if (tempPath != null) {
                             p.getBotController().setEventTarget(flag);

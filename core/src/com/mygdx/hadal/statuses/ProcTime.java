@@ -32,17 +32,19 @@ public abstract class ProcTime {
 	public static class InflictDamage extends ProcTime {
 		public float damage;
 		public final BodyData vic;
+		public final Hitbox hbox;
 		public final DamageTypes[] tags;
 		
-		public InflictDamage(float damage, BodyData vic, DamageTypes...  tags) {
+		public InflictDamage(float damage, BodyData vic, Hitbox hbox, DamageTypes...  tags) {
 			this.damage = damage;
 			this.vic = vic;
+			this.hbox = hbox;
 			this.tags = tags;
 		}
 		
 		@Override
 		public ProcTime statusProcTime(Status status) {
-			damage = status.onDealDamage(damage, vic, tags);
+			damage = status.onDealDamage(damage, vic, hbox, tags);
 			return this;
 		}
 	}
@@ -50,17 +52,19 @@ public abstract class ProcTime {
 	public static class ReceiveDamage extends ProcTime {
 		public float damage;
 		public final BodyData perp;
+		public final Hitbox hbox;
 		public final DamageTypes[] tags;
 		
-		public ReceiveDamage(float damage, BodyData perp, DamageTypes...  tags) {
+		public ReceiveDamage(float damage, BodyData perp, Hitbox hbox, DamageTypes...  tags) {
 			this.damage = damage;
 			this.perp = perp;
+			this.hbox = hbox;
 			this.tags = tags;
 		}
 		
 		@Override
 		public ProcTime statusProcTime(Status status) {
-			damage = status.onReceiveDamage(damage, perp, tags);
+			damage = status.onReceiveDamage(damage, perp, hbox, tags);
 			return this;
 		}
 	}

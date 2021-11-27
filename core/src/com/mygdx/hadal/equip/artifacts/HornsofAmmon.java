@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -25,13 +26,13 @@ public class HornsofAmmon extends Artifact {
 		enchantment[0] = new Status(state, b) {
 
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
 				
 				if (damage > threshold) {
 					if (inflicted.getStatus(Invulnerability.class) == null) {
 						SoundEffect.MAGIC18_BUFF.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.5f, false);
 
-						inflicted.receiveDamage(damage, new Vector2(), perp, false, tags);
+						inflicted.receiveDamage(damage, new Vector2(), perp, false, damaging, tags);
 						inflicted.addStatus(new Invulnerability(state, invulnDura, inflicted, inflicted));
 						return 0;
 					}					

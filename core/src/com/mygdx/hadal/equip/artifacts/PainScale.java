@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -22,7 +23,7 @@ public class PainScale extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
 				if (inflicted instanceof PlayerBodyData playerData && damage > 0) {
 					playerData.getActiveItem().gainCharge(damage * amount);
 				}

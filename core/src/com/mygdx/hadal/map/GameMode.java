@@ -17,6 +17,7 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.PlayerBot;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
@@ -95,7 +96,7 @@ public enum GameMode {
         new SetCameraOnSpawn(),
         new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
         new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingDroppableWeapons(),
-        new DisplayUITag("SCOREBOARD"), new SpawnWeapons(), new ToggleEggplantDrops(),
+        new DisplayUITag("SCOREBOARD"), new SpawnWeapons(), new ModeEggplantHunt(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
@@ -137,6 +138,8 @@ public enum GameMode {
     // Used for modes that have the same set of compliant maps (gun game etc with deathmatch)
     private GameMode checkCompliance = this;
     private TeamMode teamMode = TeamMode.FFA;
+
+    //will players that join mid game join as players or spectators (spectator for lives-based modes)
     private boolean joinMidGame = true;
     private int teamNum = 2;
 
@@ -263,6 +266,13 @@ public enum GameMode {
             if (user != null) {
                 user.getScores().setDeaths(user.getScores().getDeaths() + 1);
                 user.setScoreUpdated(true);
+            }
+            for (PlayerBodyData playerData: vic.getPlayerData().getRecentDamagedBy().keys()) {
+                User assisted = playerData.getPlayer().getUser();
+                if (assisted != null) {
+                    assisted.getScores().setAssists(assisted.getScores().getAssists() + 1);
+                    assisted.setScoreUpdated(true);
+                }
             }
         }
         if (perp != null) {

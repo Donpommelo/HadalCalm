@@ -114,10 +114,13 @@ public enum AlignmentFilter {
 
     //for color-changing alignments, these represent the primary and secondary colors of the palette
     private HadalColor color1 = HadalColor.NOTHING;
-    private HadalColor colorGroup = HadalColor.NOTHING;
     private final Vector3 color1RGB = new Vector3();
     private final Vector3 color2RGB = new Vector3();
 
+    //color group is a "similar" color that prevent teams from having similar palettes
+    private HadalColor colorGroup = HadalColor.NOTHING;
+
+    //this string describes the team for purposes like flag-capture notifications
     private String adjective;
 
     //is this alignment currently being used? (this is for preventing users from having the same filter in free for all)
@@ -216,6 +219,7 @@ public enum AlignmentFilter {
         for (int i = 0; i < currentTeams.length; i++) {
             Array<AlignmentFilter> unusedTeams = new Array<>();
 
+            //iterate over all team colors. Make sure we do not choose a team similar to any other current team colors
             for (AlignmentFilter filter: AlignmentFilter.values()) {
                 if (!filter.isUsed() && filter.team && filter.standardChoice) {
                     boolean similar = false;
@@ -242,13 +246,21 @@ public enum AlignmentFilter {
         }
     }
 
+    /**
+     * Run when a player connects to an ongoing game that they are allowed to join
+     * @param newUser: the player that just connected
+     */
     public static void assignNewPlayerToTeam(User newUser) {
+
+        //first, we keep track of how many players are on each team
         ObjectMap<AlignmentFilter, Integer> teamSelection = new ObjectMap<>();
         for (User user: HadalGame.server.getUsers().values()) {
             if (!user.isSpectator() && !user.equals(newUser)) {
                 teamSelection.put(user.getTeamFilter(), teamSelection.get(user.getTeamFilter(), 0) + 1);
             }
         }
+
+        //then we add the newly connected player to the team with the fewest players
         int minNumber = -1;
         AlignmentFilter smallestTeam = null;
         for (ObjectMap.Entry<AlignmentFilter, Integer> team: teamSelection.entries()) {
@@ -257,7 +269,7 @@ public enum AlignmentFilter {
                 smallestTeam = team.key;
             }
         }
-        System.out.println(smallestTeam);
+
         if (smallestTeam != null) {
             newUser.setTeamFilter(smallestTeam);
         }

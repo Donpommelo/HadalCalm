@@ -4,6 +4,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -41,7 +42,7 @@ public class ChaosConjurant extends Artifact {
 			}
 			
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
 				
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount = 0;

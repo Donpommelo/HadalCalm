@@ -52,11 +52,13 @@ public class BrigglesBladedBoot extends Artifact {
 				if (!created) {
 					created = true;
 					
-					hbox = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), size, 0, new Vector2(), inflicted.getSchmuck().getHitboxfilter(), true, false, inflicted.getSchmuck(), Sprite.NOTHING);
+					hbox = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), size, 0, new Vector2(),
+							inflicted.getSchmuck().getHitboxfilter(), true, false, inflicted.getSchmuck(), Sprite.NOTHING);
+					hbox.setSyncDefault(false);
 					hbox.makeUnreflectable();
 					hbox.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 					
-					hbox.addStrategy(new FixedToEntity(state, hbox, inflicted, new Vector2(0, 0), position, false));
+					hbox.addStrategy(new FixedToEntity(state, hbox, inflicted, new Vector2(), position, false));
 					hbox.addStrategy(new DamageStandard(state, hbox, inflicted, baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MELEE)
 						.setStaticKnockback(true).setRepeatable(true));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
