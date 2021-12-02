@@ -56,6 +56,7 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.User.UserDto;
 import com.mygdx.hadal.server.packets.PacketEffect;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.CameraStyles;
@@ -585,7 +586,6 @@ public class PlayState extends GameState {
 	/**
 	 * This method renders stuff to the screen after updating.
 	 */
-	private static final float blindFadeDuration = 2.0f;
 	@Override
 	public void render(float delta) {
 		//Render Background
@@ -640,15 +640,9 @@ public class PlayState extends GameState {
 			batch.setProjectionMatrix(hud.combined);
 			batch.begin();
 
-			if (player.getBlinded() < blindFadeDuration) {
-				batch.setColor(1.0f, 1.0f, 1.0f, player.getBlinded() / blindFadeDuration);
-			}
-
+			batch.setColor(1.0f, 1.0f, 1.0f, Blinded.getBlindAmount(player.getBlinded()));
 			batch.draw(white, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-
-			if (player.getBlinded() < blindFadeDuration) {
-				batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-			}
+			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 			batch.end();
 		}
@@ -1173,6 +1167,9 @@ public class PlayState extends GameState {
 	 * This is run by the server to transition to the results screen
 	 */
 	public void transitionToResultsState(String resultsText, float fadeDelay) {
+
+		mode.processGameEnd(this);
+
 		this.resultsText = resultsText;
 
 		UserDto[] users = new UserDto[HadalGame.server.getUsers().size];

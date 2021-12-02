@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -11,23 +12,21 @@ import com.mygdx.hadal.utils.Stats;
 
 public class DeplorableApparatus extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
 	private static final float hpReduction = -0.4f;
 	private static final float hpRegen = 13.0f;
-	
 	private static final float procCd = 1.0f;
 	
 	public DeplorableApparatus() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.MAX_HP_PERCENT, hpReduction, b),
-				new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new StatusComposite(state, p,
+				new StatChangeStatus(state, Stats.MAX_HP_PERCENT, hpReduction, p),
+				new Status(state, p) {
 			
 			private float procCdCount = procCd;
 			@Override
@@ -38,7 +37,7 @@ public class DeplorableApparatus extends Artifact {
 				}
 				
 				if (procCdCount >= procCd) {
-					inflicted.regainHp(hpRegen * delta, inflicted, true, DamageTypes.REGEN);
+					p.regainHp(hpRegen * delta, p, true, DamageTypes.REGEN);
 				}
 			}
 			
@@ -50,6 +49,5 @@ public class DeplorableApparatus extends Artifact {
 				return damage;
 			}
 		});
-		return enchantment;
 	}
 }

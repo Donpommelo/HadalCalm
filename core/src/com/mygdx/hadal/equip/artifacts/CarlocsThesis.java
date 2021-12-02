@@ -3,8 +3,8 @@ package com.mygdx.hadal.equip.artifacts;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -13,19 +13,18 @@ import com.mygdx.hadal.utils.Constants;
 
 public class CarlocsThesis extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 3;
 
 	private static final Vector2 size = new Vector2(200, 200);
 	private static final float redirectAmount = 20;
 
 	public CarlocsThesis() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new Status(state, p) {
 			
 			private Hitbox hbox;
 			private boolean created;
@@ -44,14 +43,14 @@ public class CarlocsThesis extends Artifact {
 				if (!created) {
 					created = true;
 					
-					hbox = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), size, 0, new Vector2(),
-							inflicted.getSchmuck().getHitboxfilter(), true, false, inflicted.getSchmuck(), Sprite.NOTHING);
+					hbox = new Hitbox(state, p.getSchmuck().getPixelPosition(), size, 0, new Vector2(),
+							p.getSchmuck().getHitboxfilter(), true, false, p.getSchmuck(), Sprite.NOTHING);
 					hbox.setSyncDefault(false);
 					hbox.makeUnreflectable();
 					hbox.setPassability(Constants.BIT_PROJECTILE);
 					
-					hbox.addStrategy(new FixedToEntity(state, hbox, inflicted, new Vector2(), new Vector2(), false));
-					hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
+					hbox.addStrategy(new FixedToEntity(state, hbox, p, new Vector2(), new Vector2(), false));
+					hbox.addStrategy(new HitboxStrategy(state, hbox, p) {
 
 						private final Vector2 projectileVelo = new Vector2();
 						private final Vector2 toUserCenter = new Vector2();
@@ -80,6 +79,5 @@ public class CarlocsThesis extends Artifact {
 				}
 			}
 		};
-		return enchantment;
 	}
 }

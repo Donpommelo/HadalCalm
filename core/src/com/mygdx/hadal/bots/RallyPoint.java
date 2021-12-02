@@ -3,9 +3,6 @@ package com.mygdx.hadal.bots;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectMap;
 
-import static com.mygdx.hadal.bots.BotManager.downCostModifier;
-import static com.mygdx.hadal.bots.BotManager.upCostModifier;
-
 /**
  * A RallyPoint represents a single node in a graph that connects different locations in a game map
  * These are used by bots to navigate the map and pathfind
@@ -33,6 +30,9 @@ public class RallyPoint implements Comparable<RallyPoint> {
 
     private final Vector2 connectionTemp = new Vector2();
 
+    //cost modifiers make it so that distance upwards is seen as more costly and distance downwards is seen as cheaper
+    public static final float upCostModifier = 2.0f;
+    public static final float downCostModifier = 0.5f;
     /**
      * Add a single node as a connecting neighbor to this node
      * @param point: the node to add as a neighbot
@@ -76,4 +76,6 @@ public class RallyPoint implements Comparable<RallyPoint> {
     public float getEstimatedScore() { return estimatedScore; }
 
     public void setEstimatedScore(float estimatedScore) { this.estimatedScore = estimatedScore; }
+
+    public record RallyPointMultiplier(RallyPoint point, float multiplier) {}
 }

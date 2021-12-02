@@ -21,7 +21,7 @@ public class Flashbang extends ActiveItem {
 
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 11.0f;
+	private static final float maxCharge = 9.0f;
 
 	private static final float baseDamage = 30.0f;
 	private static final float knockback = 0.0f;
@@ -74,8 +74,8 @@ public class Flashbang extends ActiveItem {
 
 					@Override
 					public void onHit(HadalData fixB) {
-						if (fixB instanceof BodyData) {
-							((BodyData) fixB).addStatus(new Blinded(state, blindDuration, creator, (BodyData) fixB));
+						if (fixB instanceof BodyData bodyData) {
+							bodyData.addStatus(new Blinded(state, blindDuration, creator, bodyData));
 						}
 					}
 				});

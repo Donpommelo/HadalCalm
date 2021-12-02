@@ -71,6 +71,7 @@ public class AnchorSmash extends ActiveItem {
 		
 		Hitbox hbox = new Hitbox(state, originPt, projectileSize, lifespan, new Vector2(0, -projectileSpeed), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), projSprite);
 		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+		hbox.makeUnreflectable();
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MAGIC));

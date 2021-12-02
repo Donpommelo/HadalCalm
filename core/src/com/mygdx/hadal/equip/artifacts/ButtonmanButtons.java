@@ -8,7 +8,6 @@ import com.mygdx.hadal.utils.Stats;
 
 public class ButtonmanButtons extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
 	private final float fuelRegenBuff = 3.0f;
@@ -16,21 +15,20 @@ public class ButtonmanButtons extends Artifact {
 	private final int maxStacks = 6;
 	
 	public ButtonmanButtons() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new Status(state, p) {
 			
 			private int currentStacks;
-			
 			@Override
 			public void onKill(BodyData vic) {
 				if (vic instanceof PlayerBodyData) {
 					if (currentStacks < maxStacks) {
 						currentStacks++;
-						inflicted.calcStats();
+						p.calcStats();
 					}
 				}
 			}
@@ -38,15 +36,14 @@ public class ButtonmanButtons extends Artifact {
 			@Override
 			public void onDeath(BodyData perp) {
 				currentStacks = 0;
-				inflicted.calcStats();
+				p.calcStats();
 			}
 			
 			@Override
 			public void statChanges() {
-				inflicted.setStat(Stats.FUEL_REGEN, inflicted.getStat(Stats.FUEL_REGEN) + currentStacks * fuelRegenBuff);
-				inflicted.setStat(Stats.RANGED_RELOAD, inflicted.getStat(Stats.RANGED_RELOAD) + currentStacks * reloadSpeedBuff);
+				p.setStat(Stats.FUEL_REGEN, p.getStat(Stats.FUEL_REGEN) + currentStacks * fuelRegenBuff);
+				p.setStat(Stats.RANGED_RELOAD, p.getStat(Stats.RANGED_RELOAD) + currentStacks * reloadSpeedBuff);
 			}
 		};
-		return enchantment;
 	}
 }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -19,7 +18,6 @@ import com.mygdx.hadal.utils.Stats;
 
 public class WhiteSmoker extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 
 	private static final float hoverCostReduction = -0.15f;
@@ -34,28 +32,27 @@ public class WhiteSmoker extends Artifact {
 	private static final float fireDamage = 3.0f;
 	
 	public WhiteSmoker() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b,
-				new StatChangeStatus(state, Stats.HOVER_COST, hoverCostReduction, b),
-				new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new StatusComposite(state, p,
+				new StatChangeStatus(state, Stats.HOVER_COST, hoverCostReduction, p),
+				new Status(state, p) {
 
 			@Override
 			public void whileHover(Vector2 hoverDirection) {
-				RangedHitbox hbox = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, lifespan,
+				RangedHitbox hbox = new RangedHitbox(state, p.getSchmuck().getPixelPosition(), projectileSize, lifespan,
 						new Vector2(hoverDirection).nor().scl(-projectileSpeed),
-						inflicted.getSchmuck().getHitboxfilter(), false, true, ((PlayerBodyData) inflicted).getPlayer(), Sprite.NOTHING);
+						p.getSchmuck().getHitboxfilter(), false, true, p.getPlayer(), Sprite.NOTHING);
 				hbox.setDurability(3);
 
-				hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
-				hbox.addStrategy(new ContactUnitBurn(state, hbox, inflicted, fireDuration, fireDamage));
-				hbox.addStrategy(new DamageStandard(state, hbox, inflicted, baseDamage, knockback, DamageTypes.FIRE, DamageTypes.RANGED));
-				hbox.addStrategy(new CreateParticles(state, hbox, inflicted, Particle.FIRE, 0.0f, 1.0f));
+				hbox.addStrategy(new ControllerDefault(state, hbox, p));
+				hbox.addStrategy(new ContactUnitBurn(state, hbox, p, fireDuration, fireDamage));
+				hbox.addStrategy(new DamageStandard(state, hbox, p, baseDamage, knockback, DamageTypes.FIRE, DamageTypes.RANGED));
+				hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.FIRE, 0.0f, 1.0f));
 			}
 		});
-		return enchantment;
 	}
 }

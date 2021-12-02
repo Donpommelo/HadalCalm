@@ -9,27 +9,25 @@ import com.mygdx.hadal.statuses.Status;
 
 public class PainScale extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
 	private final float amount = 0.2f;
 	
 	public PainScale() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new Status(state, p) {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
-				if (inflicted instanceof PlayerBodyData playerData && damage > 0) {
-					playerData.getActiveItem().gainCharge(damage * amount);
+				if (damage > 0) {
+					p.getActiveItem().gainCharge(damage * amount);
 				}
 				return damage;
 			}
 		};
-		return enchantment;
 	}
 }

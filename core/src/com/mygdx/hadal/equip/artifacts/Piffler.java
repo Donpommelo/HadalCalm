@@ -2,7 +2,6 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -14,7 +13,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Piffler extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
 	private static final int spread = 30;
@@ -27,20 +25,20 @@ public class Piffler extends Artifact {
 	private static final float bonusClip = 1.0f;
 
 	public Piffler() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, projSpeedReduction, b),
-				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, bonusAtkSpd, b),
-				new StatChangeStatus(state, Stats.RANGED_CLIP, bonusClip, b),
-				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, projLifeReduction, b),
-				new StatChangeStatus(state, Stats.RANGED_PROJ_SIZE, projectileSizeReduction, b),
-				new StatChangeStatus(state, Stats.RANGED_RECOIL, projRecoilReduction, b),
-				new StatChangeStatus(state, Stats.DAMAGE_AMP, damageReduction, b),
-				new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new StatusComposite(state, p,
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, projSpeedReduction, p),
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, bonusAtkSpd, p),
+				new StatChangeStatus(state, Stats.RANGED_CLIP, bonusClip, p),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, projLifeReduction, p),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SIZE, projectileSizeReduction, p),
+				new StatChangeStatus(state, Stats.RANGED_RECOIL, projRecoilReduction, p),
+				new StatChangeStatus(state, Stats.DAMAGE_AMP, damageReduction, p),
+				new Status(state, p) {
 			
 			@Override
 			public void onShoot(Equippable tool) {
@@ -50,13 +48,10 @@ public class Piffler extends Artifact {
 			
 			@Override
 			public void onReloadFinish(Equippable tool) {
-				if (this.inflicted instanceof PlayerBodyData) {
-					if (this.inflicted.getCurrentTool() instanceof RangedWeapon weapon) {
-						weapon.gainAmmo(1.0f);
-					}
+				if (p.getCurrentTool() instanceof RangedWeapon weapon) {
+					weapon.gainAmmo(1.0f);
 				}
 			}
 		});
-		return enchantment;
 	}
 }

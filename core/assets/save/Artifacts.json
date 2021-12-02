@@ -420,6 +420,16 @@
         "DEFENSE"
 	]
 },
+"DUCK_TAPE": {
+	"name": "Duck Tape",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+        "OFFENSE"
+	]
+},
 "EELSKIN_COVER": {
 	"name": "Eelskin Cover",
 	"description": "Reduces Drag",

@@ -59,6 +59,7 @@ public enum UnlockArtifact {
 	DEAD_MANS_HAND(new DeadMansHand()),
 	DEPLORABLE_APPARATUS(new DeplorableApparatus()),
 	DIATOMACEOUS_EARTH(new DiatomaceousEarth()),
+	DUCK_TAPE(new DuckTape()),
 	EELSKIN_COVER(new EelskinCover()),
 	EMAUDELINES_PRISM(new EmaudelinesPrism()),
 	EPHEMERA_PERPETUA(new EphemeraPerpetua()),

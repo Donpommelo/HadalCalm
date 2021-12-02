@@ -10,32 +10,28 @@ import com.mygdx.hadal.statuses.StatusComposite;
 
 public class TyphonFang extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
 	public TyphonFang() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new StatusComposite(state, p, new Status(state, p) {
 			
 			@Override
 			public void onKill(BodyData vic) {
-				if (this.inflicted instanceof PlayerBodyData) {
-					if (this.inflicted.getCurrentTool() instanceof RangedWeapon weapon) {
-						SoundEffect.RELOAD.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
+				if (p.getCurrentTool() instanceof RangedWeapon weapon) {
+					SoundEffect.RELOAD.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.4f, false);
 
-						if (vic instanceof PlayerBodyData) {
-							weapon.gainClip(weapon.getClipSize());
-						} else {
-							weapon.gainClip(1);
-						}
+					if (vic instanceof PlayerBodyData) {
+						weapon.gainClip(weapon.getClipSize());
+					} else {
+						weapon.gainClip(1);
 					}
 				}
 			}
 		});
-		return enchantment;
 	}
 }

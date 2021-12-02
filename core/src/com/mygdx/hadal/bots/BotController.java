@@ -254,26 +254,17 @@ public class BotController {
     }
 
     private static final float searchRadius = 60.0f;
-    private static final float enemyTargetThreshold = 15.0f;
     private static final int affinityThreshold1 = 10;
     private static final int affinityThreshold2 = 20;
     private static final int affinityThreshold3 = 25;
     private static final float affinityMultiplier1 = 0.5f;
     private static final float affinityMultiplier2 = 3.0f;
+    private final Vector2 targetLocation = new Vector2();
     /**
      * This makes the bot search for player targets to pursue
      * @param playerLocation: the location of the attacking bot (to avoid repeatedly calling getPosition)
      */
     private void acquireTarget(Vector2 playerLocation, Vector2 playerVelocity) {
-        float bestDistanceSoFar = -1.0f;
-
-        RallyPath bestPath = null;
-        RallyPath prospectivePath = null;
-        float pathDistance;
-
-        if (!currentMood.equals(BotMood.WANDER)) {
-            currentMood = BotMood.DILLY_DALLY;
-        }
 
         //first we find best path to a weapon pickup.
         int totalAffinity = 0;
@@ -283,12 +274,13 @@ public class BotController {
             totalAffinity += affinity;
             minAffinity = Math.min(minAffinity, affinity);
         }
+        RallyPoint pickupPoint = null;
+        float weaponDesireMultiplier = 1.0f;
         if (totalAffinity < affinityThreshold3) {
-            prospectivePath = BotLoadoutProcessor.getPathToWeapon(player, playerLocation, playerVelocity, searchRadius, minAffinity);
+            pickupPoint = BotLoadoutProcessor.getPointNearWeapon(player, playerLocation, searchRadius, minAffinity);
 
             //bots desire weapons more if they are not content with their current loadout and less if they are
-            float weaponDesireMultiplier = 1.0f;
-            if (prospectivePath != null) {
+            if (pickupPoint != null) {
                 if (totalAffinity < affinityThreshold1) {
                     weaponDesireMultiplier = affinityMultiplier1;
                 }
@@ -296,79 +288,60 @@ public class BotController {
                     weaponDesireMultiplier = affinityMultiplier2;
                 }
             }
-
-            pathDistance = prospectivePath != null ? prospectivePath.getDistance() * weaponDesireMultiplier : -1;
-            if (pathDistance != -1) {
-                currentMood = BotMood.SEEK_WEAPON;
-                bestDistanceSoFar = pathDistance;
-                bestPath = prospectivePath;
-            }
         }
 
         //find best enemy path by looking at all valid targets
+        Array<RallyPoint.RallyPointMultiplier> targetPoints = new Array<>();
         shootTarget = null;
+        float shortestDistanceSquared = -1;
+        boolean unobtructedTargetFound = false;
         for (User user: HadalGame.server.getUsers().values()) {
             if (user.getPlayer() != null) {
 
                 //we don't want to target dead, invisible or invincible players
                 if (user.getPlayer().isAlive() && player.getHitboxfilter() != user.getPlayer().getHitboxfilter() &&
-                user.getPlayer().getPlayerData().getStatus(Invisibility.class) == null &&
-                user.getPlayer().getPlayerData().getStatus(Invulnerability.class) == null) {
+                        user.getPlayer().getPlayerData().getStatus(Invisibility.class) == null &&
+                        user.getPlayer().getPlayerData().getStatus(Invulnerability.class) == null) {
 
-                    if (shootTarget == null) {
-                        shootTarget = user.getPlayer();
-                    }
-                    //calc the shortest path and compare it to paths to other targets
-                    RallyPath tempPath = BotManager.getShortestPathBetweenLocations(player, playerLocation,
-                            user.getPlayer().getPosition(), playerVelocity);
-                    if (tempPath != null) {
-
-                        if (tempPath.getDistance() < enemyTargetThreshold) {
-                            prospectivePath = tempPath;
-                            shootTarget = user.getPlayer();
-                            break;
-                        }
-
-                        if (prospectivePath != null) {
-                            if (tempPath.getDistance() < prospectivePath.getDistance()) {
-                                prospectivePath = tempPath;
-                                shootTarget = user.getPlayer();
+                    //find shoot target by getting closest target with unobstructed vision
+                    targetLocation.set(user.getPlayer().getPosition());
+                    float distanceSquared = targetLocation.dst2(playerLocation);
+                    boolean unobstructed = BotManager.raycastUtility(player, playerLocation, targetLocation) == 1.0f;
+                    boolean update = false;
+                    if (unobstructed) {
+                        if (unobtructedTargetFound) {
+                            if (shortestDistanceSquared > distanceSquared || shortestDistanceSquared == -1) {
+                                update = true;
                             }
                         } else {
-                            prospectivePath = tempPath;
-                            shootTarget = user.getPlayer();
+                            unobtructedTargetFound = true;
+                            update = true;
                         }
+                    } else {
+                        if (!unobtructedTargetFound) {
+                            if (shortestDistanceSquared > distanceSquared || shortestDistanceSquared == -1) {
+                                update = true;
+                            }
+                        }
+                    }
+                    if (update) {
+                        shootTarget = user.getPlayer();
+                        shortestDistanceSquared = distanceSquared;
+                    }
+                    //calc the shortest path and compare it to paths to other targets
+                    RallyPoint tempPoint = BotManager.getNearestPoint(player, targetLocation);
+                    if (tempPoint != null) {
+                        targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, 1.0f));
                     }
                 }
             }
         }
 
-        pathDistance = prospectivePath != null ? prospectivePath.getDistance() : -1;
-        if (pathDistance != -1 && (pathDistance < bestDistanceSoFar || bestDistanceSoFar == -1.0f)) {
-            currentMood = BotMood.SEEK_ENEMY;
-            bestDistanceSoFar = pathDistance;
-            bestPath = prospectivePath;
-        }
+        Array<RallyPoint> pathStarters = BotManager.getNearestPathStarters(player, playerLocation);
+        Array<RallyPoint.RallyPointMultiplier> eventPoints = player.getState().getMode().processAIPath(player.getState(), player, playerLocation, playerVelocity);
 
-        prospectivePath = player.getState().getMode().processAIPath(player.getState(), player, playerLocation, playerVelocity);
-        pathDistance = prospectivePath != null ? prospectivePath.getDistance() : -1;
-        if (pathDistance != -1 && (pathDistance < bestDistanceSoFar || bestDistanceSoFar == -1.0f)) {
-            currentMood = BotMood.SEEK_EVENT;
-            bestPath = prospectivePath;
-        }
-
-        if (currentMood.equals(BotMood.DILLY_DALLY)) {
-            currentMood = BotMood.WANDER;
-            pointPath.clear();
-        }
-        if (currentMood.equals(BotMood.WANDER) && pointPath.isEmpty()) {
-            bestPath = BotManager.getPathToRandomPoint(player, playerLocation, playerVelocity);
-        }
-
-        if (bestPath != null) {
-            pointPath.clear();
-            pointPath.addAll(bestPath.getPath());
-        }
+        BotManager.requestPathfindingThread(player, playerLocation, playerVelocity, pathStarters,
+                new RallyPoint.RallyPointMultiplier(pickupPoint, weaponDesireMultiplier), targetPoints, eventPoints);
     }
 
     public void setDistanceFromTarget(boolean lineOfSight, boolean inRange, float differenceSquares, float targetDistanceSquare) {
@@ -383,6 +356,8 @@ public class BotController {
     public float getShootReleaseCount() { return shootReleaseCount; }
 
     public void setShootReleaseCount(float shootReleaseCount) { this.shootReleaseCount = shootReleaseCount; }
+
+    public BotMood getCurrentMood() { return currentMood; }
 
     public void setCurrentMood(BotMood currentMood) { this.currentMood = currentMood; }
 

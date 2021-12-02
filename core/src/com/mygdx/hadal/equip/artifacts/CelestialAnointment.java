@@ -2,7 +2,6 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -12,23 +11,22 @@ import com.mygdx.hadal.utils.Stats;
 
 public class CelestialAnointment extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 3;
 	
 	private static final float bonusActiveCharge = -0.15f;
 	private static final float baseDelay = 0.5f;
 	
 	public CelestialAnointment() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.ACTIVE_CHARGE_RATE, bonusActiveCharge, b),
-				new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new StatusComposite(state, p,
+				new StatChangeStatus(state, Stats.ACTIVE_CHARGE_RATE, bonusActiveCharge, p),
+				new Status(state, p) {
 			
-			private boolean echoing = false;
+			private boolean echoing;
 			private ActiveItem item;
 			private float delay;
 			@Override
@@ -39,8 +37,8 @@ public class CelestialAnointment extends Artifact {
 					if (delay <= 0 && item != null) {
 						echoing = false;
 						
-						SoundEffect.MAGIC1_ACTIVE.playUniversal(inflicted.getSchmuck().getState(), inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
-						item.useItem(state, (PlayerBodyData) inflicted);
+						SoundEffect.MAGIC1_ACTIVE.playUniversal(p.getSchmuck().getState(), p.getSchmuck().getPixelPosition(), 0.4f, false);
+						item.useItem(state, p);
 					}
 				}
 			}
@@ -52,6 +50,5 @@ public class CelestialAnointment extends Artifact {
 				echoing = true;
 			}
 		});
-		return enchantment;
 	}
 }

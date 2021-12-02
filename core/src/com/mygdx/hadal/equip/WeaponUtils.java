@@ -270,8 +270,9 @@ public class WeaponUtils {
 		return hbox;
 	}
 
-	public static void createProximityMine(PlayState state, Vector2 startPos, Schmuck user, float startVelocity, Vector2 mineSize,
-										   float primeTime, float mineLifespan, float explosionDamage, float explosionKnockback, int explosionRadius) {
+	private static final Vector2 mineSize = new Vector2(75, 30);
+	public static void createProximityMine(PlayState state, Vector2 startPos, Schmuck user, float startVelocity, float primeTime,
+					   float mineLifespan, float explosionDamage, float explosionKnockback, int explosionRadius) {
 		Hitbox hbox = new RangedHitbox(state, startPos, mineSize, primeTime,  new Vector2(0, -startVelocity),
 			user.getHitboxfilter(), false, false, user, Sprite.LAND_MINE);
 		hbox.setPassability((short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL));
@@ -326,6 +327,7 @@ public class WeaponUtils {
 				Hitbox mine = new RangedHitbox(state, hbox.getPixelPosition(), mineSize, mineLifespan,  new Vector2(),
 					(short) 0, true, false, user, Sprite.NOTHING);
 				mine.makeUnreflectable();
+				mine.setSyncDefault(false);
 
 				mine.addStrategy(new ControllerDefault(state, mine, user.getBodyData()));
 				mine.addStrategy(new ContactUnitDie(state, mine, user.getBodyData()));

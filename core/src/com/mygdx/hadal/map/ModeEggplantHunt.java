@@ -1,8 +1,9 @@
 package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.bots.BotManager;
-import com.mygdx.hadal.bots.RallyPath;
+import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.Scrap;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -38,32 +39,20 @@ public class ModeEggplantHunt extends ModeSetting {
     private static final float searchRadius = 300.0f;
     private static final float eggplantDesireMultiplier = 0.1f;
     @Override
-    public RallyPath processAIPath(PlayState state, GameMode mode, PlayerBot p, Vector2 playerLocation, Vector2 playerVelocity) {
-        final RallyPath[] bestPath = new RallyPath[1];
+    public void processAIPath(PlayState state, GameMode mode, PlayerBot bot, Vector2 playerLocation, Vector2 playerVelocity,
+            Array<RallyPoint.RallyPointMultiplier> path) {
         state.getWorld().QueryAABB((fixture -> {
-            if (bestPath[0] == null) {
+            //check for eggplants in thte bot's vinicity and find a path towards a random one
+            if (fixture.getUserData() instanceof final EventData eventData) {
+                if (eventData.getEvent() instanceof final Scrap scrap) {
 
-                //check for eggplants in thte bot's vinicity and find a path towards a random one
-                if (fixture.getUserData() instanceof final EventData eventData) {
-                    if (eventData.getEvent() instanceof final Scrap scrap) {
-                        RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation,
-                                scrap.getPosition(), playerVelocity);
-                        if (tempPath != null) {
-                            p.getBotController().setEventTarget(scrap);
-                            bestPath[0] = tempPath;
-                            return false;
-                        }
-                    }
+                    bot.getBotController().setEventTarget(scrap);
+                    path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, scrap.getPosition()), eggplantDesireMultiplier));
+                    return false;
                 }
             }
             return true;
         }), playerLocation.x - searchRadius, playerLocation.y - searchRadius,
         playerLocation.x + searchRadius, playerLocation.y + searchRadius);
-
-        //make the path towards eggplants more appealing
-        if (bestPath[0] != null) {
-            bestPath[0].setDistance(bestPath[0].getDistance() * eggplantDesireMultiplier);
-        }
-        return bestPath[0];
     }
 }

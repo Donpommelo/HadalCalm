@@ -5,13 +5,13 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
 public class RoyalJujubeBang extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
 	private static final float distThreshold = 600.0f;
@@ -20,17 +20,17 @@ public class RoyalJujubeBang extends Artifact {
 	private static final float particleDura = 1.5f;
 	
 	public RoyalJujubeBang() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new Status(state, p) {
 			
 			@Override
 			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageTypes... tags) {
 				
-				float distSquared = vic.getSchmuck().getPixelPosition().dst2(inflicted.getSchmuck().getPixelPosition());
+				float distSquared = vic.getSchmuck().getPixelPosition().dst2(p.getSchmuck().getPixelPosition());
 				
 				float boost = 1.0f;
 				if (distSquared > distThreshold * distThreshold) {
@@ -40,6 +40,5 @@ public class RoyalJujubeBang extends Artifact {
 				return damage * boost;
 			}
 		};
-		return enchantment;
 	}
 }

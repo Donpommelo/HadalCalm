@@ -3,13 +3,12 @@ package com.mygdx.hadal.equip.artifacts;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.WeaponUtils;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
 public class AnarchistsCookbook extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
 	private static final float baseDamage = 0.0f;
@@ -25,30 +24,26 @@ public class AnarchistsCookbook extends Artifact {
 	private static final float procCd = 3.0f;
 	
 	public AnarchistsCookbook() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		
-		enchantment[0] = new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment= new Status(state, p) {
 			
 			private float procCdCount;
-			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					
-					SoundEffect.LAUNCHER.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.2f, false);
+					SoundEffect.LAUNCHER.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.2f, false);
 
-					WeaponUtils.createBomb(state, inflicted.getSchmuck().getPixelPosition(), spriteSize, projectileSize, inflicted.getSchmuck(),
-							baseDamage, knockback, lifespan, new Vector2(0, 0), false, explosionRadius, explosionDamage, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());
+					WeaponUtils.createBomb(state, p.getSchmuck().getPixelPosition(), spriteSize, projectileSize, p.getSchmuck(),
+							baseDamage, knockback, lifespan, new Vector2(), false, explosionRadius, explosionDamage, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());
 				}
 				procCdCount += delta;
 			}
 		};
-		
-		return enchantment;
 	}
 }

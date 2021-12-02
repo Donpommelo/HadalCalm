@@ -12,7 +12,6 @@ import com.mygdx.hadal.utils.Stats;
 
 public class LampreyIdol extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
 	private static final float lifestealPlayer = 0.1f;
@@ -21,24 +20,23 @@ public class LampreyIdol extends Artifact {
 	private static final float hpThreshold = 0.5f;
 	
 	public LampreyIdol() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new StatusComposite(state, p,
+				new Status(state, p) {
 			
 			private float procCdCount;
 			private static final float procCd = 1.0f;
-			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					
-					if ((inflicter.getCurrentHp() / inflicter.getStat(Stats.MAX_HP)) >= hpThreshold) {
-						inflicter.receiveDamage(damage, new Vector2(0, 0), inflicter, true, null);
+					if ((p.getCurrentHp() / p.getStat(Stats.MAX_HP)) >= hpThreshold) {
+						p.receiveDamage(damage, new Vector2(), p, true, null);
 					}
 				}
 				procCdCount += delta;
@@ -47,14 +45,12 @@ public class LampreyIdol extends Artifact {
 			@Override
 			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageTypes... tags) {
 				if (vic instanceof PlayerBodyData) {
-					inflicter.regainHp(lifestealPlayer * damage, inflicter, true, DamageTypes.LIFESTEAL);
+					p.regainHp(lifestealPlayer * damage, p, true, DamageTypes.LIFESTEAL);
 				} else {
-					inflicter.regainHp(lifestealEnemy * damage, inflicter, true, DamageTypes.LIFESTEAL);
+					p.regainHp(lifestealEnemy * damage, p, true, DamageTypes.LIFESTEAL);
 				}
 				return damage;
 			}
-			
 		});
-		return enchantment;
 	}
 }

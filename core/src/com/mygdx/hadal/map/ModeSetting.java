@@ -2,7 +2,8 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.mygdx.hadal.bots.RallyPath;
+import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.PlayerBot;
@@ -96,5 +97,8 @@ public class ModeSetting {
      */
     public void processPlayerLivesOut(PlayState state, GameMode mode, Player p) {}
 
-    public RallyPath processAIPath(PlayState state, GameMode mode, PlayerBot bot, Vector2 playerLocation, Vector2 playerVelocity) { return null; }
+    public void processAIPath(PlayState state, GameMode mode, PlayerBot bot, Vector2 playerLocation,
+                              Vector2 playerVelocity, Array<RallyPoint.RallyPointMultiplier> path) {}
+
+    public void processGameEnd(PlayState state, GameMode mode) {}
 }

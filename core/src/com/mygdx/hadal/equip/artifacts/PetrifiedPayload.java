@@ -11,7 +11,6 @@ import com.mygdx.hadal.utils.Stats;
 
 public class PetrifiedPayload extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
 	private static final float explosionDamageEnemy = 20.0f;
@@ -22,29 +21,31 @@ public class PetrifiedPayload extends Artifact {
 	private static final float bonusExplosionSize = 0.3f;
 	
 	public PetrifiedPayload() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.EXPLOSION_SIZE, bonusExplosionSize, b),
-				new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new StatusComposite(state, p,
+				new StatChangeStatus(state, Stats.EXPLOSION_SIZE, bonusExplosionSize, p),
+				new Status(state, p) {
 			
 			@Override
 			public void onKill(BodyData vic) {
 				if (vic instanceof PlayerBodyData) {
-					WeaponUtils.createExplosion(state, vic.getSchmuck().getPixelPosition(), explosionSize, inflicted.getSchmuck(), explosionDamagePlayer, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());
+					WeaponUtils.createExplosion(state, vic.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
+							explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxfilter());
 				} else {
-					WeaponUtils.createExplosion(state, vic.getSchmuck().getPixelPosition(), explosionSize, inflicted.getSchmuck(), explosionDamageEnemy, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());
+					WeaponUtils.createExplosion(state, vic.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
+							explosionDamageEnemy, explosionKnockback, p.getSchmuck().getHitboxfilter());
 				}
 			}
 			
 			@Override
 			public void onDeath(BodyData perp) {
-				WeaponUtils.createExplosion(state, perp.getSchmuck().getPixelPosition(), explosionSize, inflicted.getSchmuck(), explosionDamagePlayer, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());
+				WeaponUtils.createExplosion(state, perp.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
+						explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxfilter());
 			}
 		});
-		return enchantment;
 	}
 }

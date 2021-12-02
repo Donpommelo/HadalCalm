@@ -2,14 +2,13 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 public class VestigialChamber extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
 	private static final float procCd = 1.5f;
@@ -21,12 +20,12 @@ public class VestigialChamber extends Artifact {
 	private static final float explosionKnockback = 20.0f;
 	
 	public VestigialChamber() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new Status(state, p) {
 			
 			private float procCdCount = procCd;
 			@Override
@@ -42,16 +41,16 @@ public class VestigialChamber extends Artifact {
 				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
+					hbox.addStrategy(new HitboxStrategy(state, hbox, p) {
 						
 						@Override
 						public void die() {
-							WeaponUtils.createExplodingReticle(state, hbox.getPixelPosition(), inflicted.getSchmuck(), reticleSize, reticleLifespan, explosionDamage, explosionKnockback, explosionRadius);
+							WeaponUtils.createExplodingReticle(state, hbox.getPixelPosition(), p.getSchmuck(), reticleSize,
+									reticleLifespan, explosionDamage, explosionKnockback, explosionRadius);
 						}
 					});
 				}
 			}
 		};
-		return enchantment;
 	}
 }

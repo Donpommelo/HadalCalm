@@ -29,7 +29,6 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.Packets.SyncPlayerStats;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -190,9 +189,10 @@ public class PlayerBodyData extends BodyData {
 		}
 		
 		for (UnlockArtifact a : loadout.artifacts) {
-			for (Status s : a.getArtifact().loadEnchantments(player.getState(), this)) {
-				addStatus(s);
-				s.setArtifact(a);
+			a.getArtifact().loadEnchantments(player.getState(), this);
+			if (a.getArtifact().getEnchantment() != null) {
+				addStatus(a.getArtifact().getEnchantment());
+				a.getArtifact().getEnchantment().setArtifact(a);
 			}
 		}
 	}
@@ -342,9 +342,10 @@ public class PlayerBodyData extends BodyData {
 			} else {
 
 				//when we reach a NOTHING (empty slot), we add the artifact
-				for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
-					addStatus(s);
-					s.setArtifact(artifactUnlock);
+				newArtifact.loadEnchantments(player.getState(), this);
+				if (newArtifact.getEnchantment() != null) {
+					addStatus(newArtifact.getEnchantment());
+					newArtifact.getEnchantment().setArtifact(artifactUnlock);
 				}
 				loadout.artifacts[i] = artifactUnlock;
 

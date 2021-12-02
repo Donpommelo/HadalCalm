@@ -1,6 +1,5 @@
 package com.mygdx.hadal.equip.actives;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -16,7 +15,6 @@ public class ProximityMine extends ActiveItem {
 	private static final float usedelay = 0.1f;
 	private static final float maxCharge = 12.0f;
 	
-	private static final Vector2 projectileSize = new Vector2(75, 30);
 	private static final float mineLifespan = 18.0f;
 
 	private static final float projectileSpeed = 60.0f;
@@ -33,7 +31,7 @@ public class ProximityMine extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		WeaponUtils.createProximityMine(state, user.getPlayer().getPixelPosition(), user.getPlayer(), projectileSpeed, projectileSize,
+		WeaponUtils.createProximityMine(state, user.getPlayer().getPixelPosition(), user.getPlayer(), projectileSpeed,
 			primeDelay, mineLifespan, explosionDamage, explosionKnockback, explosionRadius);
 	}
 }

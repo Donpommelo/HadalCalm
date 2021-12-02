@@ -10,7 +10,6 @@ import com.mygdx.hadal.statuses.Status;
 
 public class PeachwoodSword extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
 	private static final float spiritLifespan = 6.0f;
@@ -19,12 +18,12 @@ public class PeachwoodSword extends Artifact {
 	private static final float spiritKnockback = 8.0f;
 	
 	public PeachwoodSword() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new Status(state, p) {
 			
 			@Override
 			public void onKill(BodyData vic) {
@@ -32,23 +31,22 @@ public class PeachwoodSword extends Artifact {
 
 				if (vic instanceof PlayerBodyData) {
 					WeaponUtils.releaseVengefulSpirits(state, vic.getSchmuck().getPixelPosition(), spiritLifespan,
-							spiritDamagePlayer, spiritKnockback, inflicted, Particle.SHADOW_PATH,
-							inflicted.getSchmuck().getHitboxfilter(), false);
+							spiritDamagePlayer, spiritKnockback, p, Particle.SHADOW_PATH,
+							p.getSchmuck().getHitboxfilter(), false);
 				} else {
 					WeaponUtils.releaseVengefulSpirits(state, vic.getSchmuck().getPixelPosition(), spiritLifespan,
-							spiritDamageEnemy, spiritKnockback, inflicted, Particle.SHADOW_PATH,
-							inflicted.getSchmuck().getHitboxfilter(), false);
+							spiritDamageEnemy, spiritKnockback, p, Particle.SHADOW_PATH,
+							p.getSchmuck().getHitboxfilter(), false);
 				}
 			}
 			
 			@Override
 			public void onDeath(BodyData perp) {
-				SoundEffect.DARKNESS2.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.2f, false);
-				WeaponUtils.releaseVengefulSpirits(state, inflicted.getSchmuck().getPixelPosition(), spiritLifespan,
-						spiritDamagePlayer, spiritKnockback, inflicted, Particle.SHADOW_PATH,
-						inflicted.getSchmuck().getHitboxfilter(), false);
+				SoundEffect.DARKNESS2.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.2f, false);
+				WeaponUtils.releaseVengefulSpirits(state, p.getSchmuck().getPixelPosition(), spiritLifespan,
+						spiritDamagePlayer, spiritKnockback, p, Particle.SHADOW_PATH,
+						p.getSchmuck().getHitboxfilter(), false);
 			}
 		};
-		return enchantment;
 	}
 }

@@ -2,7 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
@@ -14,23 +14,21 @@ import com.mygdx.hadal.utils.Stats;
 
 public class CuriousSauce extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
 	private static final float procCd = 0.25f;
 	
 	public CuriousSauce() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_RESTITUTION, 1.0f, b),
-				new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new StatusComposite(state, p,
+				new StatChangeStatus(state, Stats.RANGED_PROJ_RESTITUTION, 1.0f, p),
+				new Status(state, p) {
 			
 			private float procCdCount = procCd;
-
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {
@@ -41,17 +39,15 @@ public class CuriousSauce extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				if (hbox.isEffectsMovement()) {
-					hbox.addStrategy(new RemoveStrategy(state, hbox, b, ContactWallDie.class));
+					hbox.addStrategy(new RemoveStrategy(state, hbox, p, ContactWallDie.class));
 					hbox.setSensor(false);
 
 					if (procCdCount >= procCd) {
 						procCdCount = 0;
-						hbox.addStrategy(new ContactWallSound(state, hbox, b, SoundEffect.SPRING, 0.1f));
+						hbox.addStrategy(new ContactWallSound(state, hbox, p, SoundEffect.SPRING, 0.1f));
 					}
 				}
 			}
 		});
-		
-		return enchantment;
 	}
 }

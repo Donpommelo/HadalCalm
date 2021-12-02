@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
@@ -17,7 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RingofTesting extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 0;
 	
 	private static final int numFrag = 500;
@@ -30,13 +29,13 @@ public class RingofTesting extends Artifact {
 	private static final float knockback = 5.0f;
 	
 	public RingofTesting() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new StatusComposite(state, p,
+				new Status(state, p) {
 			
 			@Override
 			public void onReloadFinish(Equippable tool) {
@@ -56,7 +55,5 @@ public class RingofTesting extends Artifact {
 				}
 			}
 		});
-		
-		return enchantment;
 	}
 }

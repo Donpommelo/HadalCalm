@@ -4,7 +4,6 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -12,6 +11,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.PlayerBot;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
@@ -19,6 +19,8 @@ import com.mygdx.hadal.utils.Constants;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * BotManager contains various utility methods for bot players.
@@ -79,10 +81,22 @@ public class BotManager {
         }
     }
 
+    private static ExecutorService executor;
+    public static void initiatePathfindingThreads() { executor = Executors.newFixedThreadPool(1); }
+
+    public static void terminatePathfindingThreads() {
+        executor.shutdown();
+    }
+
+    public static void requestPathfindingThread(PlayerBot player, Vector2 playerLocation, Vector2 playerVelocity, Array<RallyPoint> pathStarters,
+            RallyPoint.RallyPointMultiplier pickupPoint, Array< RallyPoint.RallyPointMultiplier> targetPoints,
+            Array< RallyPoint.RallyPointMultiplier> eventPoints) {
+        executor.submit(new BotPathfindingTask(player, playerLocation, playerVelocity, pathStarters, pickupPoint, targetPoints, eventPoints));
+    }
+
     //this is the furthest distance that we will check rally poitns for
     private static final float MaxPointDistanceCheck = 20.0f;
     private static final Vector2 tempPointLocation = new Vector2();
-    private static final Vector2 tempBotLocation = new Vector2();
     /**
      * @param targeter: the schmuck looking for nearest point
      * @param sourceLocation: the location of the entity we are looking for a nearest point for
@@ -121,76 +135,28 @@ public class BotManager {
         return closestUnobstructed != null ? closestUnobstructed : closestObstructed;
     }
 
-    //cost modifiers make it so that distance upwards is seen as more costly and distance downwards is seen as cheaper
-    public static final float upCostModifier = 2.0f;
-    public static final float downCostModifier = 0.5f;
-
-    //this multiplier makes pathfinder take the player's current velocity in account when finding a suitable point
-    public static final float currentVelocityMultiplier = 1.5f;
     /**
      * @param targeter: the schmuck looking for nearest path
      * @param sourceLocation: the location of the entity we are finding a path for
-     * @param sourceVelocity: the velocity of the entity we are finding a path for
-     * @param end: the rally point we are searching for a path towards
      * @return the first rally point in the path that will lead the bot along the shortest point to the end point
      */
-    public static RallyPoint getNearestPathStarter(Schmuck targeter, Vector2 sourceLocation, Vector2 sourceVelocity, RallyPoint end) {
-        RallyPoint closestUnobstructed = null;
-        float closestDistUnobstructed = 0.0f;
+    public static Array<RallyPoint> getNearestPathStarters(Schmuck targeter, Vector2 sourceLocation) {
+        Array<RallyPoint> pathStarters = new Array<>();
 
         //iterate through all rally points up to a set distance away
-        for (ObjectMap.Entry<Vector2, RallyPoint> rallyPoint: rallyPoints.entries()) {
-            if (Math.abs(rallyPoint.key.x - sourceLocation.x) > MaxPointDistanceCheck ||
-                    Math.abs(rallyPoint.key.y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
+        for (RallyPoint rallyPoint: rallyPoints.values()) {
+            if (Math.abs(rallyPoint.getPosition().x - sourceLocation.x) > MaxPointDistanceCheck ||
+                    Math.abs(rallyPoint.getPosition().y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
 
-            tempPointLocation.set(rallyPoint.key);
+            tempPointLocation.set(rallyPoint.getPosition());
             float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation);
 
             //if we have a line of sight with the point, check if its distance is less than the nearest point so far
             if (raycastFraction == 1.0f) {
-
-                //traveling up less should be less desirable and down should be more desirable
-                if (tempPointLocation.y > sourceLocation.y) {
-                    tempPointLocation.set(tempPointLocation.x, sourceLocation.y + upCostModifier *
-                            (tempPointLocation.y - sourceLocation.y));
-                } else if (tempPointLocation.y < sourceLocation.y) {
-                    tempPointLocation.set(tempPointLocation.x, sourceLocation.y + downCostModifier *
-                            (tempPointLocation.y - sourceLocation.y));
-                }
-
-                //traveling in the same direction you are already moving quickly should be more desirable
-                tempBotLocation.set(sourceLocation).mulAdd(sourceVelocity, currentVelocityMultiplier);
-
-                //total cost of path is distance of point to end + distance from entity to point
-                RallyPath shortestPath = getShortestPathBetweenPoints(rallyPoint.value, end);
-                if (shortestPath != null) {
-
-                    //we use squares to avoid calculating a square root; we don't need the shortest path, just short enough
-                    float currentDistSquaredTotal = shortestPath.getDistance() * shortestPath.getDistance()
-                            + tempBotLocation.dst2(tempPointLocation);
-                    if (closestUnobstructed == null || currentDistSquaredTotal < closestDistUnobstructed) {
-                        closestUnobstructed = rallyPoint.value;
-                        closestDistUnobstructed = currentDistSquaredTotal;
-                    }
-                }
+                pathStarters.add(rallyPoint);
             }
         }
-        return closestUnobstructed;
-    }
-
-    /**
-     * This method returns the "shortest" path between two locations
-     * @param targeter: the schmuck looking for the path
-     * @param playerLocation: the starting location of the path
-     * @param targetLocation: the end location of the path
-     * @param playerVelocity: the velocity of the player
-     * @return a reasonably short path between input locations
-     */
-    public static RallyPath getShortestPathBetweenLocations(Schmuck targeter, Vector2 playerLocation, Vector2 targetLocation,
-                Vector2 playerVelocity) {
-        RallyPoint tempPoint = BotManager.getNearestPoint(targeter, targetLocation);
-        RallyPoint myPoint = BotManager.getNearestPathStarter(targeter, playerLocation, playerVelocity, tempPoint);
-        return BotManager.getShortestPathBetweenPoints(myPoint, tempPoint);
+        return pathStarters;
     }
 
     //open set used for a* search. Priority queue is used to make it ordered by estimated score
@@ -334,14 +300,6 @@ public class BotManager {
             }, sourceLocation, endLocation);
         }
         return shortestFraction;
-    }
-
-    public static RallyPath getPathToRandomPoint(Schmuck targeter, Vector2 playerLocation, Vector2 playerVelocity) {
-        if (rallyPoints.size > 0) {
-            RallyPoint point = rallyPoints.values().toArray().get(MathUtils.random(rallyPoints.size - 1));
-            return getShortestPathBetweenLocations(targeter, playerLocation, point.getPosition(), playerVelocity);
-        }
-        return null;
     }
 
     /**

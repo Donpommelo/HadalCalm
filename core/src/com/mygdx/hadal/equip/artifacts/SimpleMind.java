@@ -2,7 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
@@ -11,7 +11,6 @@ import com.mygdx.hadal.utils.Stats;
 
 public class SimpleMind extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
 	private static final float bonusClipSize = 0.5f;
@@ -20,17 +19,17 @@ public class SimpleMind extends Artifact {
 	private static final float bonusAmmo = 0.5f;
 	
 	public SimpleMind() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_CLIP, bonusClipSize, b),
-				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, bonusAtkSpd, b),
-				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, b),
-				new StatChangeStatus(state, Stats.AMMO_CAPACITY, bonusAmmo, b),
-				new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new StatusComposite(state, p,
+				new StatChangeStatus(state, Stats.RANGED_CLIP, bonusClipSize, p),
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, bonusAtkSpd, p),
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, p),
+				new StatChangeStatus(state, Stats.AMMO_CAPACITY, bonusAmmo, p),
+				new Status(state, p) {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
@@ -46,6 +45,5 @@ public class SimpleMind extends Artifact {
 				}
 			}
 		});
-		return enchantment;
 	}
 }

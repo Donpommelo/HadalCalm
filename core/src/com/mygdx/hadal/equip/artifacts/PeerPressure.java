@@ -1,32 +1,29 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.KBKBuddy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.Summoned;
 
 public class PeerPressure extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 2;
 	
 	private static final float procCd = 11.0f;
 	
 	public PeerPressure() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new Status(state, p) {
 
 			private float procCdCount = procCd;
-			
-			private boolean summonActive = false;
+			private boolean summonActive;
 			private KBKBuddy buddy;
-			
 			@Override
 			public void timePassing(float delta) {
 				
@@ -37,15 +34,15 @@ public class PeerPressure extends Artifact {
 					
 					if (procCdCount >= procCd) {
 						procCdCount = 0;
-						buddy = new KBKBuddy(state, inflicted.getSchmuck().getPixelPosition(), 0.0f, inflicted.getSchmuck().getHitboxfilter(), null) {
+						buddy = new KBKBuddy(state, p.getSchmuck().getPixelPosition(), 0.0f, p.getSchmuck().getHitboxfilter(), null) {
 							
 							@Override
 							public void create() {
 								super.create();
-								getBodyData().addStatus(new Summoned(state, inflicted, (Player) (inflicted.getSchmuck())));
+								getBodyData().addStatus(new Summoned(state, p, p.getPlayer()));
 							}
 						};
-						buddy.setMoveTarget(inflicted.getSchmuck());
+						buddy.setMoveTarget(p.getSchmuck());
 						summonActive = true;
 					} 
 				}
@@ -75,7 +72,5 @@ public class PeerPressure extends Artifact {
 				}
 			}
 		};
-		
-		return enchantment;
 	}
 }

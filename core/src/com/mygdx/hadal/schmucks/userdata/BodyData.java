@@ -164,7 +164,10 @@ public class BodyData extends HadalData {
 				break;
 			case REPLACE:
 				old.setDuration(s.getDuration());
-				break;			
+				break;
+			case INCREMENT_DURATION:
+				old.setDuration(old.getDuration() + s.getDuration());
+				break;
 			}
 		} else {
 			added = true;

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Invulnerability;
@@ -11,35 +12,32 @@ import com.mygdx.hadal.statuses.Status;
 
 public class HornsofAmmon extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 3;
 	
 	private static final float threshold = 5.0f;
 	private static final float invulnDura = 1.0f;
 	
 	public HornsofAmmon() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new Status(state, p) {
 
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
-				
 				if (damage > threshold) {
-					if (inflicted.getStatus(Invulnerability.class) == null) {
-						SoundEffect.MAGIC18_BUFF.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.5f, false);
+					if (p.getStatus(Invulnerability.class) == null) {
+						SoundEffect.MAGIC18_BUFF.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.5f, false);
 
-						inflicted.receiveDamage(damage, new Vector2(), perp, false, damaging, tags);
-						inflicted.addStatus(new Invulnerability(state, invulnDura, inflicted, inflicted));
+						p.receiveDamage(damage, new Vector2(), perp, false, damaging, tags);
+						p.addStatus(new Invulnerability(state, invulnDura, p, p));
 						return 0;
 					}					
 				}
 				return damage;
 			}
 		};
-		return enchantment;
 	}
 }

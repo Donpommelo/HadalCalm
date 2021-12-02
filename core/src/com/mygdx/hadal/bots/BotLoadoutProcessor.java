@@ -54,25 +54,22 @@ public class BotLoadoutProcessor {
      * This calculates a path towards a weapon pickup event
      * @param player: the bot player looking for a weapon
      * @param playerLocation: the location of the bot player
-     * @param playerVelocity: the velocity of the bot player
      * @param searchRadius: this is the max distance that the bot will search search for pickups
      * @param minAffinity: the lowest affinity of a weapon the bot is holding
      * @return a reasonably short path to a desired weapon pickup event
      */
-    public static RallyPath getPathToWeapon(PlayerBot player, Vector2 playerLocation, Vector2 playerVelocity,
-                                            float searchRadius, int minAffinity) {
-        final RallyPath[] bestPath = new RallyPath[1];
+    public static RallyPoint getPointNearWeapon(PlayerBot player, Vector2 playerLocation, float searchRadius, int minAffinity) {
+        final RallyPoint[] bestPoint = new RallyPoint[1];
         player.getWorld().QueryAABB((fixture -> {
             if (fixture.getUserData() instanceof final EventData eventData) {
                 if (eventData.getEvent() instanceof final PickupEquip pickup) {
 
                     //for all pickups found, calculate a path to it, if the bot wants it more than any of their current weapons
                     if (calcWeaponAffinity(pickup.getEquip()) > minAffinity) {
-                        RallyPath tempPath = BotManager.getShortestPathBetweenLocations(player, playerLocation,
-                                pickup.getPosition(), playerVelocity);
-                        if (tempPath != null) {
+                        RallyPoint tempPoint = BotManager.getNearestPoint(player, pickup.getPosition());
+                        if (tempPoint != null) {
                             player.getBotController().setWeaponTarget(pickup);
-                            bestPath[0] = tempPath;
+                            bestPoint[0] = tempPoint;
                             return false;
                         }
                     }
@@ -81,7 +78,7 @@ public class BotLoadoutProcessor {
             return true;
         }), playerLocation.x - searchRadius, playerLocation.y - searchRadius,
             playerLocation.x + searchRadius, playerLocation.y + searchRadius);
-        return bestPath[0];
+        return bestPoint[0];
     }
 
     /**
@@ -165,7 +162,7 @@ public class BotLoadoutProcessor {
      * @param weapon: the weapon the bot is aiming with
      */
     public static void processWeaponAim(PlayerBot player, Vector2 targetLocation, Vector2 targetVelocity, Equippable weapon) {
-        if (player.getPlayerData().getStatus(Blinded.class) != null) { return; }
+        if (player.getBlinded() > Blinded.botBlindThreshold) { return; }
 
         //atm, the only weapon with different aiming logic is the cola-cannon, which must be shaken when uncharged
         if (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass())) == UnlockEquip.COLACANNON) {
@@ -227,7 +224,11 @@ public class BotLoadoutProcessor {
                 if (shooting) {
                     if (weapon.getChargeCd() >= weapon.getChargeTime()) {
                         holdDelayRelease(player, true, defaultShortDelay);
+                    } else {
+                        player.getController().keyUp(PlayerAction.FIRE);
                     }
+                } else {
+                    player.getController().keyUp(PlayerAction.FIRE);
                 }
                 break;
             case DEEP_SEA_SMELTER:

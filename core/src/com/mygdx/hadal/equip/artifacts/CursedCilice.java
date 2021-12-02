@@ -13,27 +13,21 @@ import com.mygdx.hadal.statuses.Status;
 
 public class CursedCilice extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
 	private final float amount = 1.5f;
-	
 	private static final float procCd = 0.5f;
 	private final float particleDura = 1.5f;
 
-	public CursedCilice() {
-		super(slotCost, statusNum);
-	}
+	public CursedCilice() {	super(slotCost); }
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new Status(state, p) {
 			
 			private float procCdCount = procCd;
-
 			@Override
 			public void timePassing(float delta) {
-				
 				if (procCdCount < procCd) {
 					procCdCount += delta;
 				}
@@ -41,19 +35,16 @@ public class CursedCilice extends Artifact {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
-				if (inflicted instanceof PlayerBodyData && damage > 0) {
-					((PlayerBodyData) inflicted).fuelGain(damage * amount);
-					
+				if (damage > 0) {
+					p.fuelGain(damage * amount);
 					if (procCdCount >= procCd) {
 						procCdCount = 0;
-						
-						SoundEffect.MAGIC2_FUEL.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
-						new ParticleEntity(state, inflicted.getSchmuck(), Particle.PICKUP_ENERGY, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
+						SoundEffect.MAGIC2_FUEL.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.4f, false);
+						new ParticleEntity(state, p.getSchmuck(), Particle.PICKUP_ENERGY, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
 					}
 				}
 				return damage;
 			}
 		};
-		return enchantment;
 	}
 }

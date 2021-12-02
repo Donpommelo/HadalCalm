@@ -1,29 +1,26 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
 public class LotusLantern extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
 	private static final float extraScrap = 0.25f;
 	private static final float bonusHp = 0.15f;
 
 	public LotusLantern() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.EXTRA_SCRAP, extraScrap, b),
-				new StatChangeStatus(state, Stats.MAX_HP_PERCENT, bonusHp, b));
-		return enchantment;
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new StatusComposite(state, p,
+				new StatChangeStatus(state, Stats.EXTRA_SCRAP, extraScrap, p),
+				new StatChangeStatus(state, Stats.MAX_HP_PERCENT, bonusHp, p));
 	}
 }

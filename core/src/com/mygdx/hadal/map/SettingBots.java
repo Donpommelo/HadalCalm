@@ -66,6 +66,11 @@ public class SettingBots extends ModeSetting {
         }
     }
 
+    @Override
+    public void processGameEnd(PlayState state, GameMode mode) {
+        BotManager.terminatePathfindingThreads();
+    }
+
     //this will be the connId of the next bot created.
     private static int lastBotConnID = -2;
     @Override
@@ -105,6 +110,7 @@ public class SettingBots extends ModeSetting {
         //if any bots are preset, initiate bot rally points, otherwise don't bother
         if (botNumberIndex > 0) {
             BotManager.initiateRallyPoints(state.getMap());
+            BotManager.initiatePathfindingThreads();
         }
     }
 

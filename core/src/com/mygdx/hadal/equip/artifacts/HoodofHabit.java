@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Invisibility;
@@ -10,24 +11,21 @@ import com.mygdx.hadal.utils.Stats;
 
 public class HoodofHabit extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
 	private static final float hpThreshold = 0.5f;
 	private static final float invisDuration = 10.0f;
-	
 	private static final float procCd = 1.0f;
 	
 	public HoodofHabit() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new Status(state, p) {
 			
 			private float procCdCount = procCd;
-			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {
@@ -38,15 +36,14 @@ public class HoodofHabit extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
 				if (procCdCount >= procCd) {
-					if (inflicted.getCurrentHp() > hpThreshold * inflicted.getStat(Stats.MAX_HP) &&
-						inflicted.getCurrentHp() - damage <= hpThreshold * inflicted.getStat(Stats.MAX_HP)) {
+					if (p.getCurrentHp() > hpThreshold * p.getStat(Stats.MAX_HP) &&
+						p.getCurrentHp() - damage <= hpThreshold * p.getStat(Stats.MAX_HP)) {
 						procCdCount = 0;
-						inflicted.addStatus(new Invisibility(state, invisDuration, inflicted, inflicted));
+						p.addStatus(new Invisibility(state, invisDuration, p, p));
 					}
 				}
 				return damage;
 			}
 		};
-		return enchantment;
 	}
 }

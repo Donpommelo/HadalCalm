@@ -52,7 +52,7 @@ public enum AlignmentFilter {
     TEAM_MAUVE(-34, HadalColor.MAUVE, HadalColor.PLUM, HadalColor.VIOLET, "MAUVE"),
     TEAM_ORANGE(-35, HadalColor.ORANGE, HadalColor.GOLD, HadalColor.ORANGE, "ORANGE"),
     TEAM_SKY_BLUE(-36, HadalColor.SKY_BLUE, HadalColor.TURQOISE, HadalColor.BLUE, "SKY BLUE"),
-    TEAM_TAN(-37, HadalColor.TAN, HadalColor.BROWN, HadalColor.BROWN, "TAN"),
+    TEAM_TAN(-37, HadalColor.TAN, HadalColor.BROWN, HadalColor.ORANGE, "TAN"),
     TEAM_TURQUIOSE(-38, HadalColor.TURQOISE, HadalColor.BLUE, HadalColor.BLUE, "TURQUOISE"),
     TEAM_VIOLET(-39, HadalColor.VIOLET, HadalColor.BLUE, HadalColor.VIOLET, "VIOLET"),
 

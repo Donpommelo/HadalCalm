@@ -5,19 +5,14 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.Spread;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Nurdler extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
 	private static final float procCd = 0.2f;
@@ -33,12 +28,12 @@ public class Nurdler extends Artifact {
 	private static final float projSpeed = 30.0f;
 	
 	public Nurdler() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new Status(state, p) {
 			
 			private float procCdCount = procCd;
 			private final Vector2 startVelo = new Vector2();
@@ -51,25 +46,22 @@ public class Nurdler extends Artifact {
 			
 			@Override
 			public void whileAttacking(float delta, Equippable tool) {
-				
-				if (tool.isReloading()) {
-					return;
-				}
-				
+				if (tool.isReloading()) { return; }
+
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					
-					Hitbox hbox = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, lifespan, startVelo.set(tool.getWeaponVelo()).nor().scl(projSpeed), inflicted.getSchmuck().getHitboxfilter(),
-							true, true, inflicted.getSchmuck(), projSprite);
+					Hitbox hbox = new RangedHitbox(state, p.getSchmuck().getPixelPosition(), projectileSize, lifespan,
+							startVelo.set(tool.getWeaponVelo()).nor().scl(projSpeed), p.getSchmuck().getHitboxfilter(),
+							true, true, p.getSchmuck(), projSprite);
 					
-					hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
-					hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, inflicted));
-					hbox.addStrategy(new ContactWallDie(state, hbox, inflicted));
-					hbox.addStrategy(new DamageStandard(state, hbox, inflicted, baseDamage, knockback, DamageTypes.RANGED));
-					hbox.addStrategy(new Spread(state, hbox, inflicted, spread));
+					hbox.addStrategy(new ControllerDefault(state, hbox, p));
+					hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, p));
+					hbox.addStrategy(new ContactWallDie(state, hbox, p));
+					hbox.addStrategy(new DamageStandard(state, hbox, p, baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new Spread(state, hbox, p, spread));
 				}
 			}
 		};
-		return enchantment;
 	}
 }

@@ -2,45 +2,38 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 
 public class AdministratorCard extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 3;
-	
 	private static final int numArtifacts = 3;
 	
 	public AdministratorCard() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new StatusComposite(state, p,
+				new Status(state, p) {
 			
 			private final Array<UnlockArtifact> unlocks = new Array<>();
-			
 			@Override
 			public void playerCreate() {
-
 				if (state.getMode().isHub()) { return; }
 				
-				if (inflicted.getSchmuck() instanceof Player) {
-					int artifactsAdded = 0;
+				int artifactsAdded = 0;
 
-					while (artifactsAdded < numArtifacts) {
-						UnlockArtifact artifact = UnlockArtifact.getRandArtfFromPool(state, "");
-
-						if (((Player) inflicted.getSchmuck()).getPlayerData().addArtifact(artifact, true, false)) {
-							unlocks.add(artifact);
-							artifactsAdded++;
-						}
+				while (artifactsAdded < numArtifacts) {
+					UnlockArtifact artifact = UnlockArtifact.getRandArtfFromPool(state, "");
+					if (p.addArtifact(artifact, true, false)) {
+						unlocks.add(artifact);
+						artifactsAdded++;
 					}
 				}
 			}
@@ -48,11 +41,10 @@ public class AdministratorCard extends Artifact {
 			@Override
 			public void onDeath(BodyData perp) {
 				for (UnlockArtifact unlock : unlocks) {
-					((Player) inflicted.getSchmuck()).getPlayerData().removeArtifact(unlock);
+					p.removeArtifact(unlock);
 				}
 				unlocks.clear();
 			}
 		});
-		return enchantment;
 	}
 }

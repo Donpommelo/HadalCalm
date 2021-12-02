@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.actors.UITag;
-import com.mygdx.hadal.bots.RallyPath;
+import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
@@ -343,14 +343,18 @@ public enum GameMode {
         state.getKillFeed().addNotification(HText.ELIMINATED.text(WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH)), true);
     }
 
-    public RallyPath processAIPath(PlayState state, PlayerBot p, Vector2 playerLocation, Vector2 playerVelocity) {
-        RallyPath path = null;
+    public Array<RallyPoint.RallyPointMultiplier> processAIPath(PlayState state, PlayerBot p, Vector2 playerLocation, Vector2 playerVelocity) {
+        Array<RallyPoint.RallyPointMultiplier> path = new Array<>();
         for (ModeSetting setting : applicableSettings) {
-            if (path == null) {
-                path = setting.processAIPath(state, this, p, playerLocation, playerVelocity);
-            }
+            setting.processAIPath(state, this, p, playerLocation, playerVelocity, path);
         }
         return path;
+    }
+
+    public void processGameEnd(PlayState state) {
+        for (ModeSetting setting : applicableSettings) {
+            setting.processGameEnd(state, this);
+        }
     }
 
     private static final ObjectMap<String, GameMode> ModesByName = new ObjectMap<>();

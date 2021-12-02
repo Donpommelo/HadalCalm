@@ -1,10 +1,11 @@
 package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.actors.ObjectiveMarker;
 import com.mygdx.hadal.bots.BotManager;
-import com.mygdx.hadal.bots.RallyPath;
+import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.event.SpawnerFlag;
 import com.mygdx.hadal.schmucks.bodies.PlayerBot;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -31,7 +32,8 @@ public class ModeCapturetheFlag extends ModeSetting {
     private static final float flagReturnDesireMultiplier = 0.02f;
     private final Vector2 objectiveLocation = new Vector2();
     @Override
-    public RallyPath processAIPath(PlayState state, GameMode mode, PlayerBot p, Vector2 playerLocation, Vector2 playerVelocity) {
+    public void processAIPath(PlayState state, GameMode mode, PlayerBot bot, Vector2 playerLocation, Vector2 playerVelocity,
+            Array<RallyPoint.RallyPointMultiplier> path) {
         for (ObjectiveMarker objective: state.getUiObjective().getObjectives()) {
             objectiveLocation.set(objective.getObjectiveLocation()).scl(1 / PPM);
             if (objective.getObjectiveTarget() instanceof Hitbox flag) {
@@ -44,37 +46,27 @@ public class ModeCapturetheFlag extends ModeSetting {
                             flagSpawners.put(AlignmentFilter.currentTeams[capture.getTeamIndex()], capture.getSpawner());
 
                             //if it is the bot's team's flag and is captured, we path towards it with high priority
-                            if (p.getPlayerData().getLoadout().team == AlignmentFilter.currentTeams[capture.getTeamIndex()]) {
+                            if (bot.getPlayerData().getLoadout().team == AlignmentFilter.currentTeams[capture.getTeamIndex()]) {
                                 if (capture.isCaptured()) {
-                                    RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation, objectiveLocation, playerVelocity);
-                                    if (tempPath != null) {
-                                        p.getBotController().setEventTarget(flag);
-                                        return new RallyPath(tempPath.getPath(), tempPath.getDistance() * flagDefendDesireMultiplier);
-                                    }
+                                    bot.getBotController().setEventTarget(flag);
+                                    path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, objectiveLocation), flagDefendDesireMultiplier));
                                 }
                             } else {
 
                                 //if this is the enemy's flag and the bot is capturing it, attempt to return home with high priority
                                 if (capture.isCaptured()) {
-                                    if (p.equals(capture.getTarget())) {
-                                        SpawnerFlag home = flagSpawners.get(p.getPlayerData().getLoadout().team);
+                                    if (bot.equals(capture.getTarget())) {
+                                        SpawnerFlag home = flagSpawners.get(bot.getPlayerData().getLoadout().team);
                                         if (home != null) {
-                                            RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation,
-                                                    home.getPosition(), playerVelocity);
-                                            if (tempPath != null) {
-                                                p.getBotController().setEventTarget(home);
-                                                return new RallyPath(tempPath.getPath(), tempPath.getDistance() * flagReturnDesireMultiplier);
-                                            }
+                                            bot.getBotController().setEventTarget(home);
+                                            path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, home.getPosition()), flagReturnDesireMultiplier));
                                         }
                                     }
                                 } else {
 
                                     //otherwise, attempt to path towards an uncaptured enemy flag
-                                    RallyPath tempPath = BotManager.getShortestPathBetweenLocations(p, playerLocation, objectiveLocation, playerVelocity);
-                                    if (tempPath != null) {
-                                        p.getBotController().setEventTarget(flag);
-                                        return new RallyPath(tempPath.getPath(), tempPath.getDistance() * flagAttackDesireMultiplier);
-                                    }
+                                    bot.getBotController().setEventTarget(flag);
+                                    path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, objectiveLocation), flagAttackDesireMultiplier));
                                 }
                             }
                         }
@@ -82,6 +74,5 @@ public class ModeCapturetheFlag extends ModeSetting {
                 }
             }
         }
-        return null;
     }
 }

@@ -131,5 +131,6 @@ public class Status {
 		ADD,
 		REPLACE,
 		IGNORE,
+		INCREMENT_DURATION
 	}
 }

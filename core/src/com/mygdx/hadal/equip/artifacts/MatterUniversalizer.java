@@ -11,7 +11,6 @@ import com.mygdx.hadal.statuses.Status;
 
 public class MatterUniversalizer extends Artifact {
 
-	private static final int statusNum = 1;
 	private static final int slotCost = 1;
 	
 	private final float amountEnemy = 20.f;
@@ -19,25 +18,24 @@ public class MatterUniversalizer extends Artifact {
 	private final float particleDura = 1.5f;
 	
 	public MatterUniversalizer() {
-		super(slotCost, statusNum);
+		super(slotCost);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, b) {
+	public void loadEnchantments(PlayState state, PlayerBodyData p) {
+		enchantment = new Status(state, p) {
 
 			@Override
 			public void onKill(BodyData vic) {
-				SoundEffect.MAGIC2_FUEL.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
-				new ParticleEntity(state, inflicted.getSchmuck(), Particle.PICKUP_ENERGY, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
-				
+				SoundEffect.MAGIC2_FUEL.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.4f, false);
+				new ParticleEntity(state, p.getSchmuck(), Particle.PICKUP_ENERGY, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
+
 				if (vic instanceof PlayerBodyData) {
-					((PlayerBodyData) inflicted).fuelGain(amountPlayer);
+					p.fuelGain(amountPlayer);
 				} else {
-					((PlayerBodyData) inflicted).fuelGain(amountEnemy);
+					p.fuelGain(amountEnemy);
 				}
 			}
 		};
-		return enchantment;
 	}
 }
