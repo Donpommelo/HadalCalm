@@ -1,19 +1,26 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.badlogic.gdx.math.MathUtils;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.event.HealingArea;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
 public class Number1BossMug extends Artifact {
 
 	private static final int slotCost = 1;
 	
-	private static final float ammo = 0.5f;
-	private static final float chance = 0.4f;
-	
+	private static final float procCd = 10.0f;
+
+	private static final Vector2 fieldSize = new Vector2(280, 280);
+	private static final float fieldHeal = 0.2f;
+	private static final float healDuration = 5.0f;
+
 	public Number1BossMug() {
 		super(slotCost);
 	}
@@ -21,12 +28,25 @@ public class Number1BossMug extends Artifact {
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
-			
+
+			private float procCdCount = procCd;
 			@Override
-			public void onKill(BodyData vic) {
-				if (MathUtils.randomBoolean(chance) || vic instanceof PlayerBodyData) {
-					WeaponUtils.createPickup(state, vic.getSchmuck().getPixelPosition(), WeaponUtils.pickupTypes.AMMO, ammo);
+			public void timePassing(float delta) {
+				if (procCdCount < procCd) {
+					procCdCount += delta;
 				}
+			}
+
+			@Override
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
+
+				if (procCdCount >= procCd && damage > 0) {
+					procCdCount -= procCd;
+
+					new SoundEntity(state, new HealingArea(state, p.getSchmuck().getPixelPosition(), fieldSize, fieldHeal, healDuration, p.getSchmuck(), (short) 0),
+							SoundEffect.MAGIC21_HEAL, 0.25f, 1.0f, true, true, SoundEntity.soundSyncType.TICKSYNC);
+				}
+				return damage;
 			}
 		};
 	}

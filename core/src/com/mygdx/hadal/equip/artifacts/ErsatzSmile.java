@@ -9,13 +9,13 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
-public class FalseFace extends Artifact {
+public class ErsatzSmile extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int slotCost = 2;
 
 	private static final float damageAmp = 1.8f;
 
-	public FalseFace() {
+	public ErsatzSmile() {
 		super(slotCost);
 	}
 

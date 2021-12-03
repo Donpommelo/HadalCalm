@@ -13,7 +13,7 @@ public class HoneyedTenebrae extends Artifact {
 
 	private static final int slotCost = 1;
 
-	private static final float res = 0.3f;
+	private static final float res = 0.2f;
 
 	public HoneyedTenebrae() {
 		super(slotCost);

@@ -36,8 +36,8 @@ public class ModeEggplantHunt extends ModeSetting {
         }
     }
 
-    private static final float searchRadius = 300.0f;
-    private static final float eggplantDesireMultiplier = 0.1f;
+    private static final float searchRadius = 50.0f;
+    private static final float eggplantDesireMultiplier = 0.05f;
     @Override
     public void processAIPath(PlayState state, GameMode mode, PlayerBot bot, Vector2 playerLocation, Vector2 playerVelocity,
             Array<RallyPoint.RallyPointMultiplier> path) {

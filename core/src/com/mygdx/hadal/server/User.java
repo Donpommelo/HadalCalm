@@ -7,6 +7,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.input.PlayerController;
+import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.packets.Packets;
@@ -39,6 +40,9 @@ public class User {
 
     //the player's selected team alignment
     private AlignmentFilter teamFilter = AlignmentFilter.NONE;
+
+    //player's primary weapon in their last saved loadout. Only used for clients for the effect of a single artifact
+    private UnlockEquip lastEquippedPrimary = UnlockEquip.NOTHING;
 
     //the state this user is transitioning to (null if not transitioning)
     private TransitionState nextState;
@@ -235,4 +239,8 @@ public class User {
     public Vector2 getOverrideSpawnLocation() { return overrideSpawnLocation; }
 
     public boolean isSpawnOverridden() { return spawnOverridden; }
+
+    public UnlockEquip getLastEquippedPrimary() { return lastEquippedPrimary; }
+
+    public void setLastEquippedPrimary(UnlockEquip lastEquippedPrimary) { this.lastEquippedPrimary = lastEquippedPrimary; }
 }

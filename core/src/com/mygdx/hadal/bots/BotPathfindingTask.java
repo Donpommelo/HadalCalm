@@ -7,8 +7,8 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.schmucks.bodies.PlayerBot;
 
 public record BotPathfindingTask(PlayerBot player, Vector2 playerLocation, Vector2 playerVelocity, Array<RallyPoint> pathStarters,
-         RallyPoint.RallyPointMultiplier pickupPoint, Array<RallyPoint.RallyPointMultiplier> targetPoints,
-         Array<RallyPoint.RallyPointMultiplier> eventPoints) implements Runnable {
+                                 RallyPoint.RallyPointMultiplier pickupPoint, Array<RallyPoint.RallyPointMultiplier> targetPoints,
+                                 Array<RallyPoint.RallyPointMultiplier> eventPoints) implements Runnable {
 
     private static final float enemyTargetThreshold = 15.0f;
     @Override
@@ -35,49 +35,64 @@ public record BotPathfindingTask(PlayerBot player, Vector2 playerLocation, Vecto
             }
         }
 
+        float bestTargetDistance = 0.0f;
         for (RallyPoint.RallyPointMultiplier targetPoint: targetPoints) {
             RallyPath tempPath = getShortestPathBetweenLocations(targetPoint.point());
             if (tempPath != null) {
                 float targetDistance = tempPath.getDistance() * targetPoint.multiplier();
                 if (targetDistance < enemyTargetThreshold) {
                     prospectivePath = tempPath;
+                    bestTargetDistance = targetDistance;
                     break;
                 }
                 if (prospectivePath != null) {
-                    if (targetDistance < prospectivePath.getDistance()) {
+                    if (targetDistance < bestTargetDistance || bestTargetDistance == 0.0f) {
                         prospectivePath = tempPath;
+                        bestTargetDistance = targetDistance;
                     }
                 } else {
                     prospectivePath = tempPath;
+                    bestTargetDistance = targetDistance;
                 }
             }
         }
 
-        pathDistance = prospectivePath != null ? prospectivePath.getDistance() : -1;
+        pathDistance = prospectivePath != null ? bestTargetDistance : -1;
         if (pathDistance != -1 && (pathDistance < bestDistanceSoFar || bestDistanceSoFar == -1.0f)) {
             bestPath[0] = prospectivePath;
             nextMood[0] = BotController.BotMood.SEEK_ENEMY;
             bestDistanceSoFar = pathDistance;
         }
 
+        float bestEventDistance = 0.0f;
         for (RallyPoint.RallyPointMultiplier eventPoint: eventPoints) {
             RallyPath tempPath = getShortestPathBetweenLocations(eventPoint.point());
             if (tempPath != null) {
                 float eventDistance = tempPath.getDistance() * eventPoint.multiplier();
                 if (prospectivePath != null) {
-                    if (eventDistance < prospectivePath.getDistance()) {
+                    if (eventDistance < bestEventDistance || bestEventDistance == 0.0f) {
                         prospectivePath = tempPath;
+                        bestEventDistance = eventDistance;
                     }
                 } else {
                     prospectivePath = tempPath;
+                    bestEventDistance = eventDistance;
                 }
             }
         }
 
-        pathDistance = prospectivePath != null ? prospectivePath.getDistance() : -1;
+        pathDistance = prospectivePath != null ? bestEventDistance : -1;
         if (pathDistance != -1 && (pathDistance < bestDistanceSoFar || bestDistanceSoFar == -1.0f)) {
             bestPath[0] = prospectivePath;
             nextMood[0] = BotController.BotMood.SEEK_EVENT;
+        }
+
+        if (player.getBotController().getCurrentMood().equals(BotController.BotMood.WANDER)) {
+            nextMood[0] = player.getBotController().getCurrentMood();
+        }
+        if ((nextMood[0].equals(BotController.BotMood.WANDER) && player.getBotController().getPointPath().isEmpty()) ||
+                nextMood[0].equals(BotController.BotMood.DILLY_DALLY)) {
+            bestPath[0] = getPathToRandomPoint();
         }
 
         Gdx.app.postRunnable(() -> {
@@ -86,10 +101,6 @@ public record BotPathfindingTask(PlayerBot player, Vector2 playerLocation, Vecto
                 nextMood[0] = BotController.BotMood.WANDER;
                 player.getBotController().getPointPath().clear();
             }
-            if (nextMood[0].equals(BotController.BotMood.WANDER) && player.getBotController().getPointPath().isEmpty()) {
-                bestPath[0] = getPathToRandomPoint();
-            }
-
             if (bestPath[0] != null) {
                 player.getBotController().getPointPath().clear();
                 player.getBotController().getPointPath().addAll(bestPath[0].getPath());

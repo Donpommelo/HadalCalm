@@ -117,7 +117,8 @@ public class LoveBow extends RangedWeapon {
 		hurtbox.addStrategy(new ContactWallSound(state, hurtbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.8f));
 		hurtbox.addStrategy(new CreateParticles(state, hurtbox, user.getBodyData(), Particle.BOW_TRAIL, 0.0f, 1.0f).setRotate(true));
 		
-		Hitbox healbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), (short) 0, false, false, user, Sprite.NOTHING);
+		Hitbox healbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity),
+				(short) 0, false, false, user, Sprite.NOTHING);
 		healbox.setSyncDefault(false);
 		
 		healbox.addStrategy(new ControllerDefault(state, healbox, user.getBodyData()));
@@ -126,7 +127,6 @@ public class LoveBow extends RangedWeapon {
 			
 			//delay exists so the projectile doesn't immediately contact the shooter
 			private float delay = selfHitDelay;
-			
 			@Override
 			public void controller(float delta) {
 				if (delay >= 0) {

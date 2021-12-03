@@ -36,7 +36,7 @@ public class TyrrazzanReaper extends RangedWeapon {
 	private static final float lifespanMin = 0.4f;
 
 	private static final float baseDamageMax = 55.0f;
-	private static final float baseDamageMin = 16.0f;
+	private static final float baseDamageMin = 25.0f;
 
 	private static final float knockbackMax = 19.0f;
 	private static final float knockbackMin = 6.0f;

@@ -29,7 +29,7 @@ public class CrownofThorns extends Artifact {
 	
 	private static final Sprite projSprite = Sprite.BULLET;
 	
-	private static final float procCd = 0.6f;
+	private static final float procCd = 0.5f;
 	
 	public CrownofThorns() {
 		super(slotCost);

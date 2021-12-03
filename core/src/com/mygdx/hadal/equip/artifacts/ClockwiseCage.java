@@ -11,7 +11,7 @@ public class ClockwiseCage extends Artifact {
 	private static final int slotCost = 2;
 	
 	private static final float procCd = 2.0f;
-	private static final float echoCd = 0.25f;
+	private static final float echoCd = 0.2f;
 	
 	public ClockwiseCage() { super(slotCost); }
 

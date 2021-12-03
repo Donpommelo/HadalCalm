@@ -7,14 +7,14 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
-public class DuckTape extends Artifact {
+public class JuryRiggedBindings extends Artifact {
 
 	private static final int slotCost = 3;
 
 	private static final float fireRateMultiplier = 5.0f;
 	private static final float baseFireRate = 0.5f;
 
-	public DuckTape() {
+	public JuryRiggedBindings() {
 		super(slotCost);
 	}
 

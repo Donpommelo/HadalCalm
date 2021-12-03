@@ -19,8 +19,7 @@ public class GomezsAmygdala extends Artifact {
 
 	private static final int slotCost = 2;
 	
-	private final float dura = 2.0f;
-	private static final float procCd = 2.0f;
+	private final float dura = 3.0f;
 	private static final float spdBuff = 0.5f;
 	private static final float damageBuff = 0.4f;
 	
@@ -32,22 +31,22 @@ public class GomezsAmygdala extends Artifact {
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
 			
-			private float procCdCount = procCd;
+			private float procCdCount = dura;
 			@Override
 			public void timePassing(float delta) {
-				if (procCdCount < procCd) {
+				if (procCdCount < dura) {
 					procCdCount += delta;
 				}
 			}
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
-				if (procCdCount >= procCd && damage > 0) {
-					procCdCount -= procCd;
+				if (procCdCount >= dura && damage > 0) {
+					procCdCount -= dura;
 					
 					SoundEffect.MAGIC18_BUFF.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.5f, false);
 
-					new ParticleEntity(state, p.getSchmuck(), Particle.PICKUP_ENERGY, 1.0f, procCd, true, particleSyncType.CREATESYNC);
+					new ParticleEntity(state, p.getSchmuck(), Particle.PICKUP_ENERGY, 1.0f, dura, true, particleSyncType.CREATESYNC);
 					new ParticleEntity(state, p.getSchmuck(), Particle.BRIGHT, 1.0f, dura, true,
 							particleSyncType.CREATESYNC).setColor(HadalColor.RED);
 					

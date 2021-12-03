@@ -31,7 +31,7 @@ public class RallyPoint implements Comparable<RallyPoint> {
     private final Vector2 connectionTemp = new Vector2();
 
     //cost modifiers make it so that distance upwards is seen as more costly and distance downwards is seen as cheaper
-    public static final float upCostModifier = 2.0f;
+    public static final float upCostModifier = 1.5f;
     public static final float downCostModifier = 0.5f;
     /**
      * Add a single node as a connecting neighbor to this node

@@ -12,9 +12,9 @@ public class AncientSynapse extends Artifact {
 
 	private static final int slotCost = 2;
 
-	private static final float baseDegen = 2.0f;
-	private static final float degen = 0.2f;
-	private static final float procCd = 1 / 60f;
+	private static final float baseDegen = 1.0f;
+	private static final float degen = 0.15f;
+	private static final float procCd = 0.02f;
 	
 	public AncientSynapse() {
 		super(slotCost);
@@ -31,7 +31,7 @@ public class AncientSynapse extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					if (damageLeft > 0.0f) {
-						float damage = delta * (baseDegen + degen * damageLeft);
+						float damage = procCd * (baseDegen + degen * damageLeft);
 						p.receiveDamage(damage, new Vector2(), p, false, null);
 						damageLeft -= damage;
 					}

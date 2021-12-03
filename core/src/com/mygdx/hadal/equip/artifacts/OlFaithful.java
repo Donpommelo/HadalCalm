@@ -1,20 +1,18 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.utils.UnlocktoItem;
+
+import java.util.Objects;
 
 public class OlFaithful extends Artifact {
 
-	private static final int slotCost = 1;
-	
-	private static final int bonusSlots = -2;
-	private static final float bonusDamage = 0.45f;
-	private static final float bonusReloadSpd = 0.3f;
-	private static final float bonusAmmo = 1.5f;
-	
+	private static final int slotCost = 3;
+
 	public OlFaithful() {
 		super(slotCost);
 	}
@@ -22,9 +20,23 @@ public class OlFaithful extends Artifact {
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.WEAPON_SLOTS, bonusSlots, p),
-				new StatChangeStatus(state, Stats.AMMO_CAPACITY, bonusAmmo, p),
-				new StatChangeStatus(state, Stats.DAMAGE_AMP, bonusDamage, p),
-				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, p));
+				new Status(state, p) {
+			
+			@Override
+			public void playerCreate() {
+				if (state.getMode().isHub()) { return; }
+
+				UnlockEquip savedEquip;
+				if (p.getPlayer().equals(state.getPlayer())) {
+					savedEquip = UnlockEquip.getByName(state.getGsm().getLoadout().getEquips()[0]);
+				} else {
+					savedEquip = p.getPlayer().getUser().getLastEquippedPrimary();
+				}
+				if (savedEquip != UnlockEquip.NOTHING) {
+					p.getMultitools()[0] = Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.NOTHING, null));
+					p.pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(savedEquip, null)));
+				}
+			}
+		});
 	}
 }

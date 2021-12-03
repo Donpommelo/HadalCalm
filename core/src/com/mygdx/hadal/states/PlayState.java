@@ -204,6 +204,7 @@ public class PlayState extends GameState {
 	
 	public static final float defaultFadeOutSpeed = 2.0f;
 	public static final float defaultFadeDelay = 0.0f;
+	public static final float shortFadeDelay = 0.5f;
 	public static final float longFadeDelay = 1.5f;
 
 	//Special designated events parsed from map. Event run when a spectating host presses their interact button
@@ -1252,8 +1253,8 @@ public class PlayState extends GameState {
 	}
 
 	public void startSpectator(User user, int connId) {
-		user.beginTransition(this, TransitionState.SPECTATOR, false, defaultFadeOutSpeed, longFadeDelay);
-		HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(TransitionState.SPECTATOR, defaultFadeOutSpeed, longFadeDelay));
+		user.beginTransition(this, TransitionState.SPECTATOR, false, defaultFadeOutSpeed, shortFadeDelay);
+		HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(TransitionState.SPECTATOR, defaultFadeOutSpeed, shortFadeDelay));
 
 		//set the spectator's player number to default so they don't take up a player slot
 		user.getHitBoxFilter().setUsed(false);
@@ -1284,7 +1285,7 @@ public class PlayState extends GameState {
 				user.setSpectator(false);
 
 				//for host, start transition. otherwise, send transition packet
-				user.beginTransition(this, TransitionState.RESPAWN, false, defaultFadeOutSpeed, longFadeDelay);
+				user.beginTransition(this, TransitionState.RESPAWN, false, defaultFadeOutSpeed, shortFadeDelay);
 			}
 		}
 	}
@@ -1496,6 +1497,11 @@ public class PlayState extends GameState {
 		this.cameraOffset.set(0, 0);
 		if (spectatorBounded) {
 			System.arraycopy(spectatorBounds, 0, cameraBounds, 0, 4);
+		}
+
+		//this makes the player's artifacts disappear as a spectator
+		if (uiArtifact != null) {
+			uiArtifact.syncArtifact();
 		}
 	}
 	

@@ -13,8 +13,8 @@ public class Blastema extends Artifact {
 
 	private static final int slotCost = 2;
 	
-	private static final float regenCd = 5.0f;
-	private static final float regen = 0.02f;
+	private static final float regenCd = 4.0f;
+	private static final float regen = 0.025f;
 	
 	public Blastema() {
 		super(slotCost);

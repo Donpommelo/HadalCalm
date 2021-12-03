@@ -14,7 +14,7 @@ public class Pepper extends Artifact {
 	private static final int slotCost = 1;
 	
 	private static final float radius = 10.0f;
-	private static final float damage = 8.0f;
+	private static final float damage = 9.0f;
 	private static final float particleDuration = 1.0f;
 	
 	private static final float procCd = 1.5f;

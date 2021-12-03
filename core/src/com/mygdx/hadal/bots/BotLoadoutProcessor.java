@@ -18,6 +18,7 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.statuses.FiringWeapon;
+import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 
 import java.util.Objects;
@@ -123,7 +124,7 @@ public class BotLoadoutProcessor {
         int bestSlot = player.getPlayerData().getCurrentSlot();
 
         //find which held weapon has the highest "suitability" based on distance from a living enemy
-        if (BotManager.raycastUtility(player, playerLocation, targetLocation) == 1.0f && targetAlive
+        if (BotManager.raycastUtility(player, playerLocation, targetLocation, Constants.BIT_PROJECTILE) == 1.0f && targetAlive
                 && Math.abs(playerLocation.x - targetLocation.x) < botVisionX
                 && Math.abs(playerLocation.y - targetLocation.y) < botVisionY) {
             float bestSuitability = BotLoadoutProcessor.calcWeaponSuitability(player,
@@ -213,6 +214,10 @@ public class BotLoadoutProcessor {
             case TRICK_GUN:
                 //holding, and delaying release makes the bot kinda shoot projectiles that bend towards the player. kinda.
                 holdDelayRelease(player, shooting, trickGunDelay);
+                break;
+            case TESLA_COIL:
+                //the same hold-delay-release is used here but with a moderate delay to make the coils tend to be further apart
+                holdDelayRelease(player, shooting, defaultLongDelay);
                 break;
             case PEARL_REVOLVER:
                 //the same hold-delay-release is used here but with a small delay to make the bot rapid-fire
@@ -356,6 +361,7 @@ public class BotLoadoutProcessor {
 
     private static final float trickGunDelay = 0.75f;
     private static final float defaultShortDelay = 0.2f;
+    private static final float defaultLongDelay = 0.6f;
 
     /**
      * This makes a bot hold a weapon for a set delay before releasing

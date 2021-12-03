@@ -19,8 +19,8 @@
 },
 "CALL_OF_WALRUS": {
 	"name": "Call of Walrus",
-	"description": "Buffs damage and speed and the cost of Hp",
-    "descriptionLong": "Charge: 10 Seconds\nSelf Damage: 15\nBuff Duration: 5 Seconds\nBonus Ground Speed: +50%\nBonus Damage: +30%\n\n",
+	"description": "Buffs damage and attack speed of nearby allies",
+    "descriptionLong": "Charge: 12 Seconds\nBuff Duration: 4 Seconds\nBonus Attack Speed: +15%\nBonus Damage: +30%\n\n",
 	"tags": [
 		"DISPENSARY",
 		"RANDOM_POOL"
@@ -65,7 +65,7 @@
 "FLASH_BANG": {
 	"name": "Flash Bang",
 	"description": "Throw a Blinding Explosive Projectile",
-    "descriptionLong": "Charge: 11 Seconds\nBase Damage: 30\nBlind Duration: 4.0 Seconds",
+    "descriptionLong": "Charge: 9 Seconds\nBase Damage: 30\nBlind Duration: 4.0 Seconds",
 	"tags": [
 		"DISPENSARY",
 		"RANDOM_POOL"

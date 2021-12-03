@@ -15,7 +15,7 @@ public class AmdahlsLotus extends Artifact {
 	private static final int slotCost = 1;
 
 	private static final float timeThreshold = 0.2f;
-	private static final float hpRegenBuff = 30.0f;
+	private static final float hpRegenBuff = 40.0f;
 	private static final float fuelRegenBuff = 15.0f;
 
 	public AmdahlsLotus() {

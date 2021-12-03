@@ -92,7 +92,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_SEPIA(-43, HadalColor.WHITE, HadalColor.WHITE, HadalColor.WHITE, "SEPIA") {
+    TEAM_SEPIA(-43, HadalColor.TAN, HadalColor.WHITE, HadalColor.ORANGE, "SEPIA") {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {

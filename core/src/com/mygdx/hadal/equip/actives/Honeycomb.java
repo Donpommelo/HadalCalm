@@ -19,8 +19,8 @@ public class Honeycomb extends ActiveItem {
 	private static final float projectileSpeed = 5.0f;
 	private static final int homeRadius = 60;
 
-	private static final float duration = 1.0f;
-	private static final float procCd = 0.1f;
+	private static final float duration = 1.5f;
+	private static final float procCd = 0.15f;
 
 	public Honeycomb(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

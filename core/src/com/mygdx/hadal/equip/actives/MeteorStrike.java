@@ -25,7 +25,6 @@ public class MeteorStrike extends ActiveItem {
 	private static final float meteorInterval = 0.1f;
 	private static final float spread = 15.0f;
 	
-	
 	public MeteorStrike(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}

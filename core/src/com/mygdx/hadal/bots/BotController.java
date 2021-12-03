@@ -1,5 +1,6 @@
 package com.mygdx.hadal.bots;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
@@ -11,6 +12,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.Invulnerability;
+import com.mygdx.hadal.utils.Constants;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -57,6 +59,7 @@ public class BotController {
     private static final float botTargetInterval = 0.5f;
     private float botMoveCount = botMoveInterval;
     private static final float botMoveInterval = 0.05f;
+    private static final float botMoveVariance = 0.25f;
     private final Vector2 entityWorldLocation = new Vector2();
     private final Vector2 entityVelocity = new Vector2();
     public void processBotAI(float delta) {
@@ -74,11 +77,11 @@ public class BotController {
         }
 
         while (botTargetCount >= botTargetInterval) {
-            botTargetCount -= botTargetInterval;
+            botTargetCount -= botTargetInterval * (1 + (-botMoveVariance + MathUtils.random() * 2 * botMoveVariance));
             acquireTarget(entityWorldLocation, entityVelocity);
         }
         while (botMoveCount >= botMoveInterval) {
-            botMoveCount -= botMoveInterval;
+            botMoveCount -= botMoveInterval * (1 + (-botMoveVariance + MathUtils.random() * 2 * botMoveVariance));
             processBotPickup();
             processBotAttacking(entityWorldLocation);
             processBotActiveItem(lineOfSight, targetDistanceSquare);
@@ -126,8 +129,11 @@ public class BotController {
             BotLoadoutProcessor.processWeaponAim(player, shootTargetPosition, shootTarget.getLinearVelocity(), player.getPlayerData().getCurrentTool());
             BotLoadoutProcessor.processWeaponShooting(player, player.getPlayerData().getCurrentTool(), inRange);
         } else {
-            BotLoadoutProcessor.processWeaponSwitching(player, playerLocation, shootTargetPosition, false);
-            BotLoadoutProcessor.processWeaponAim(player, shootTargetPosition, playerLocation, player.getPlayerData().getCurrentTool());
+
+            //with no target, we aim towards the direction we are moving (set in processbotMovement)
+            thisLocation.add(playerLocation);
+            BotLoadoutProcessor.processWeaponSwitching(player, playerLocation, thisLocation, false);
+            BotLoadoutProcessor.processWeaponAim(player, thisLocation, playerLocation, player.getPlayerData().getCurrentTool());
             BotLoadoutProcessor.processWeaponShooting(player, player.getPlayerData().getCurrentTool(), false);
         }
     }
@@ -159,7 +165,7 @@ public class BotController {
         boolean approachTarget = false;
         if (currentMood.equals(BotMood.SEEK_WEAPON)) {
             if (weaponTarget != null) {
-                collision = BotManager.raycastUtility(player, playerLocation, weaponTarget.getPosition());
+                collision = BotManager.raycastUtility(player, playerLocation, weaponTarget.getPosition(), Constants.BIT_PLAYER);
                 if (collision == 1.0f) {
                     thisLocation.set(weaponTarget.getPosition()).sub(playerLocation);
                     distSquared = thisLocation.len2();
@@ -169,7 +175,7 @@ public class BotController {
         }
         if (currentMood.equals(BotMood.SEEK_EVENT)) {
             if (eventTarget != null) {
-                collision = BotManager.raycastUtility(player, playerLocation, eventTarget.getPosition());
+                collision = BotManager.raycastUtility(player, playerLocation, eventTarget.getPosition(), Constants.BIT_PLAYER);
                 if (collision == 1.0f) {
                     thisLocation.set(eventTarget.getPosition()).sub(playerLocation);
                     distSquared = thisLocation.len2();
@@ -190,7 +196,7 @@ public class BotController {
 
         if (!pointPath.isEmpty() && !approachTarget) {
             thisLocation.set(pointPath.get(0).getPosition()).sub(playerLocation);
-            collision = BotManager.raycastUtility(player, playerLocation, pointPath.get(0).getPosition());
+            collision = BotManager.raycastUtility(player, playerLocation, pointPath.get(0).getPosition(), Constants.BIT_PLAYER);
             distSquared = thisLocation.len2();
             approachTarget = true;
         }
@@ -257,7 +263,7 @@ public class BotController {
     private static final int affinityThreshold1 = 10;
     private static final int affinityThreshold2 = 20;
     private static final int affinityThreshold3 = 25;
-    private static final float affinityMultiplier1 = 0.5f;
+    private static final float affinityMultiplier1 = 0.25f;
     private static final float affinityMultiplier2 = 3.0f;
     private final Vector2 targetLocation = new Vector2();
     /**
@@ -306,7 +312,7 @@ public class BotController {
                     //find shoot target by getting closest target with unobstructed vision
                     targetLocation.set(user.getPlayer().getPosition());
                     float distanceSquared = targetLocation.dst2(playerLocation);
-                    boolean unobstructed = BotManager.raycastUtility(player, playerLocation, targetLocation) == 1.0f;
+                    boolean unobstructed = BotManager.raycastUtility(player, playerLocation, targetLocation, Constants.BIT_PROJECTILE) == 1.0f;
                     boolean update = false;
                     if (unobstructed) {
                         if (unobtructedTargetFound) {

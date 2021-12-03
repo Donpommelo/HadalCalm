@@ -73,7 +73,7 @@
 "BOUNCING_BLADE": {
 	"name": "Bouncing Blades",
 	"description": "Fires a spinning blade in a straight line that bounces off of surfaces.",
-    "descriptionLong": "Blade Damage: 39\nBlades bounce up to 5 Times\n\nClip Size: 5\nAmmo Capacity: 30\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.7 Second",
+    "descriptionLong": "Blade Damage: 42\nBlades bounce up to 5 Times\n\nClip Size: 5\nAmmo Capacity: 30\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.7 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
@@ -499,7 +499,7 @@
 "TYRRAZZAN_REAPER": {
 	"name": "Tyrrazzan Reaper",
 	"description": "Click futher from yourself to fire stronger, long-ranged projectiles with less spread",
-    "descriptionLong": "Projectile Damage: 16-55\nClip Size: 10\nAmmoCapacity: 70\nReload Time: 1.4 Second\nAttack Cooldown: 0.15 - 0.6 Second",
+    "descriptionLong": "Projectile Damage: 25-55\nClip Size: 10\nAmmoCapacity: 70\nReload Time: 1.4 Second\nAttack Cooldown: 0.15 - 0.6 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",

@@ -719,7 +719,7 @@ public class PlayerBodyData extends BodyData {
 	}
 
 	/**
-	 * This animation is played when entering levels and respawning
+	 * This animation is played when disconnecting
 	 */
 	public void warpAnimation() {
 		new ParticleEntity(player.getState(), new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2), Particle.TELEPORT, 0.5f, true, particleSyncType.CREATESYNC);

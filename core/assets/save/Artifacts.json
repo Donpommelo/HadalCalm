@@ -1,8 +1,8 @@
 {
 "NUMBER_ONE_BOSS_MUG": {
 	"name": "#1 Boss Mug",
-	"description": "Drops Ammo upon Killing enemies",
-    "descriptionLong": "Ammo Drop Chance: 100% on Player Kill, 20% on Monster Kill\nAmmo Pickup: 25% Max Ammo\n\nA ceramic coffee mug belonging to the #1 boss\n\nA mug, sunk to the bottom of the sea, carries within itself the entire ocean.",
+	"description": "Create Healing Field upon Receiving Damage",
+    "descriptionLong": "Heal Cooldown: 10s\nField Duration: 5 Seconds\nHealing: 12 per Second\n\nA ceramic coffee mug belonging to the #1 boss\n\nA mug, sunk to the bottom of the sea, carries within itself the entire ocean.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -23,7 +23,7 @@
 "ABYSSAL_INSIGNIA": {
 	"name": "Abyssal Insignia",
 	"description": "+Attack Speed at Low Hp",
-    "descriptionLong": "Hp Threshold: 20% Max Hp\nBonus Attack Speed: +45%\n\nA twisted bone sigil used in the worship of Bright Ones\n\nArtifacts carried into the deepest recesses of the abyss find their form warped by an insurmountable pressure.",
+    "descriptionLong": "Bonus Attack Speed: +10% at 50% Max Hp\nIncreases to up to +50% as Hp decreases\n\nA twisted bone sigil used in the worship of Bright Ones\n\nArtifacts carried into the deepest recesses of the abyss find their form warped by an insurmountable pressure.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -54,7 +54,7 @@
 "AMDAHLS_LOTUS": {
 	"name": "Amdahl's Lotus",
 	"description": "+Hp and Fuel Regeneration when Match Timer is low",
-    "descriptionLong": "Timer Threshold: 20% Max Timer\nHp Regeneration: +30 per Second\nFuel Regeneration: +15 per Second\n\nAn immaculate blossom that unfurls during pivotal moments of conflict\n\nRepresenting Upper Management, the lotus conferred upon its bearer the duty of conveying to humanity: commands, responses and eventually, apologies.",
+    "descriptionLong": "Timer Threshold: 20% Max Timer\nHp Regeneration: +40 per Second\nFuel Regeneration: +15 per Second\n\nAn immaculate blossom that unfurls during pivotal moments of conflict\n\nRepresenting Upper Management, the lotus conferred upon its bearer the duty of conveying to humanity: commands, responses and eventually, apologies.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -85,7 +85,7 @@
 "ANCIENT_SYNAPSE": {
 	"name": "Ancient Synapse",
 	"description": "Delays Incoming Damage",
-    "descriptionLong": "Delayed Damage: 1 + 20% Total Delayed Damage per Second\n\nThe petrified nervous tissue of a drowned behemoth\n\nTo those willing to abandon physical sensation, the Noiseless Sea offers a quiet and peaceful haven to observe eternity.",
+    "descriptionLong": "Delayed Damage: 1 + 15% Total Delayed Damage per Second\n\nThe petrified nervous tissue of a drowned behemoth\n\nTo those willing to abandon physical sensation, the Noiseless Sea offers a quiet and peaceful haven to observe eternity.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -127,7 +127,7 @@
 "BLASTEMA": {
 	"name": "Blastema",
 	"description": "Temporarily Boosts Hp Regeneration upon Receiving Damage",
-    "descriptionLong": "Regen Duration: 5 Seconds\nRegen: 2% Max Hp per Second\n\nA cluster of self-replicating cells used to regrow damaged tissue\n\nFew products leave the shelves of the Sunk Emporium as quickly as locally-grown spare limbs of all shapes and sizes.",
+    "descriptionLong": "Regen Duration: 4 Seconds\nRegen: 2.5% Max Hp per Second\n\nA cluster of self-replicating cells used to regrow damaged tissue\n\nFew products leave the shelves of the Sunk Emporium as quickly as locally-grown spare limbs of all shapes and sizes.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -181,7 +181,7 @@
 "BRITTLING_POWDER": {
 	"name": "Brittling Powder",
 	"description": "Projectile Fragmentation",
-    "descriptionLong": "Frag Cooldown: 0.5 Second\nFrag Number: 8\nFrag Damage: 12\n\nA pouch of insidious powder that renders objects brittle upon the slightest of contact\n\nResidents of the Kamaboko-Ya have accepted that the destruction of their physical bodies is a necessary step in the factory's ungodly process.",
+    "descriptionLong": "Frag Cooldown: 0.5 Second\nFrag Number: 8\nFrag Damage: 15\n\nA pouch of insidious powder that renders objects brittle upon the slightest of contact\n\nResidents of the Kamaboko-Ya have accepted that the destruction of their physical bodies is a necessary step in the factory's ungodly process.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -192,7 +192,7 @@
 "BUCKET_OF_BATTERIES": {
 	"name": "Bucket of Batteries",
 	"description": "Projectiles Create Chain Lightning",
-    "descriptionLong": "Lightning Cooldown: 0.5 Second\nLightning Damage: 11\nLightning Chains: 3 Enemies\n\nA bucket filled with batteries floating in a dubious liquid\n\nThe Plenum Chamber's mechanical palpitations provide sufficient energy to nearby facilities, but its own power source remains indiscernible.",
+    "descriptionLong": "Lightning Cooldown: 0.5 Second\nLightning Damage: 11\nLightning Chains: 4 Enemies\n\nA bucket filled with batteries floating in a dubious liquid\n\nThe Plenum Chamber's mechanical palpitations provide sufficient energy to nearby facilities, but its own power source remains indiscernible.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -203,7 +203,7 @@
 "BUTTONMAN_BUTTONS": {
 	"name": "Buttonman Buttons",
 	"description": "+Fuel Regeneration and Reload Speed upon Player Killstreak",
-    "descriptionLong": "Fuel Regeneration: 3 per Second for every Kill.\nReload Speed: +10% for every Kill.\nKillstreak Reset upon Death.\n\nA handful of buttons commemorating each life taken on behalf of the company\n\nAwards and honors are distributed unsparingly in the Salvaging business to provide a sense of pride or perhaps entanglement.",
+    "descriptionLong": "Fuel Regeneration: 3 per Second for every Kill.\nReload Speed: +15% for every Kill.\nKillstreak Reset upon Death.\n\nA handful of buttons commemorating each life taken on behalf of the company\n\nAwards and honors are distributed unsparingly in the Salvaging business to provide a sense of pride or perhaps entanglement.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -225,8 +225,8 @@
 },
 "CARLOCS_THESIS": {
 	"name": "Carloc's Thesis",
-	"description": "",
-    "descriptionLong": "",
+	"description": "Redirects Incoming Projectiles",
+    "descriptionLong": "Redirection Amount: 25 Degrees\n\n",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -340,7 +340,7 @@
 "CROWN_OF_THORNS": {
 	"name": "Crown of Thorns",
 	"description": "Drop Thorns upon Receiving Damage",
-    "descriptionLong": "Thorns Cooldown: 0.6 Second\nThorns Number: 6\nThorns Damage: 24\n\nThe body of a spiky echinoderm that doubles as protective headgear\n\nOf all impulses retained by Sunk things, the most common is the simple desire to not be touched.",
+    "descriptionLong": "Thorns Cooldown: 0.5 Second\nThorns Number: 6\nThorns Damage: 24\n\nThe body of a spiky echinoderm that doubles as protective headgear\n\nOf all impulses retained by Sunk things, the most common is the simple desire to not be touched.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -381,7 +381,7 @@
 "DAY_AT_THE_FAIR": {
 	"name": "Day at the Fair",
 	"description": "+Max Hp, -Knockback Resistance",
-    "descriptionLong": "Max Hp: +45%\nKnockback Resistance: -175%\n\nSome mirthful fairgrounds reflected in a handful of colorful balloons\n\nLike all things that hold particular value, the childhood memories of the departed are delivered to the Sunk Emporium to be packaged for resale.",
+    "descriptionLong": "Max Hp: +45%\nKnockback Resistance: -150%\n\nSome mirthful fairgrounds reflected in a handful of colorful balloons\n\nLike all things that hold particular value, the childhood memories of the departed are delivered to the Sunk Emporium to be packaged for resale.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -413,21 +413,11 @@
 "DIATOMACEOUS_EARTH": {
 	"name": "Diatomaceous Earth",
 	"description": "Temporarily boosts Damage Resistance and Knockback Resistance upon using Active Item",
-    "descriptionLong": "Buff Duration: 40% of Charge Time\nDamage Resistance: +60%\nKnockback Resistance: +90%\n\nThe powdery remains of countless microscopic Bright Ones\n\nWhile not as luminous as a living specimen, the husks left behind by dead or transcendent Bright Ones are known to have enigmatic properties of their own.",
+    "descriptionLong": "Buff Duration: 50% of Charge Time\nDamage Resistance: +75%\nKnockback Resistance: +90%\n\nThe powdery remains of countless microscopic Bright Ones\n\nWhile not as luminous as a living specimen, the husks left behind by dead or transcendent Bright Ones are known to have enigmatic properties of their own.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
         "DEFENSE"
-	]
-},
-"DUCK_TAPE": {
-	"name": "Duck Tape",
-	"description": "",
-    "descriptionLong": "",
-	"tags": [
-		"RELIQUARY",
-		"RANDOM_POOL",
-        "OFFENSE"
 	]
 },
 "EELSKIN_COVER": {
@@ -461,6 +451,16 @@
         "ACTIVE_ITEM"
 	]
 },
+"ERSATZ_SMILE": {
+	"name": "Ersatz Smile",
+	"description": "+Backstab Damage",
+    "descriptionLong": "Bonus Backstab Damage: +80%\n\n",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+        "OFFENSE"
+	]
+},
 "EXTRA_ROW_OF_TEETH": {
 	"name": "Extra Row of Teeth",
 	"description": "+Clip Size",
@@ -479,16 +479,6 @@
 		"RELIQUARY",
 		"RANDOM_POOL",
         "DEFENSE"
-	]
-},
-"FALSE_FACE": {
-	"name": "False Face",
-	"description": "",
-    "descriptionLong": "",
-	"tags": [
-		"RELIQUARY",
-		"RANDOM_POOL",
-        "OFFENSE"
 	]
 },
 "FARADAYS_CAGE": {
@@ -525,7 +515,7 @@
 "THE_FINGER": {
 	"name": "The Finger",
 	"description": "Your Emotes Deal Damage",
-    "descriptionLong": "Emote Damage: 75\n\nA single digit, extended in an offensive gesture\n\nViolence is the foremost form of self-expression permitted to veteran Salvagers.",
+    "descriptionLong": "Emote Damage: 90\n\nA single digit, extended in an offensive gesture\n\nViolence is the foremost form of self-expression permitted to veteran Salvagers.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -567,7 +557,7 @@
 "GLUTTONOUS_GREY_GLOVE": {
 	"name": "Gluttonous Grey Grove",
 	"description": "Occasionally Drop Health upon Killing Enemies",
-    "descriptionLong": "Hp Drop Chance: 100% on Player Kill, 20% on Monster Kill\nHp Pickup: 20\n\nAn article of carnivorous handwear with an appetite for flesh\n\nIt is a fish-eat-fish world out there.",
+    "descriptionLong": "Hp Drop Chance: 100% on Player Kill, 20% on Monster Kill\nHp Pickup: 25% Victim's Max Hp\n\nAn article of carnivorous handwear with an appetite for flesh\n\nIt is a fish-eat-fish world out there.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -577,7 +567,7 @@
 "GOMEZS_AMYGDALA": {
 	"name": "Gomez's Amygdala",
 	"description": "Temporarily Boosts Speed and Damage upon Receiving Damage",
-    "descriptionLong": "Buff Duration: 2 Seconds\nBonus Speed: +50%\nBonus Damage: +40%\n\nA piece of grey matter floating in fluid and radiating with psychic energy\n\nBright Ones are receptive to the primal emotions of passersby, making it paramount to suppress fear in their presence.",
+    "descriptionLong": "Buff Duration: 3 Seconds\nBonus Speed: +50%\nBonus Damage: +40%\n\nA piece of grey matter floating in fluid and radiating with psychic energy\n\nBright Ones are receptive to the primal emotions of passersby, making it paramount to suppress fear in their presence.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -599,7 +589,7 @@
 "HEART_OF_SPEROS": {
 	"name": "Heart of Speros",
 	"description": "Use Fuel as Ammo",
-    "descriptionLong": "Fuel Spent: 65% Max Fuel / Weapon Clip Size\n\nThe synthetic heart-replacement belonging to an overworked employee\n\nTo overcome the ocean itself, Management needed to engineer a tool as inexorable as the tides.",
+    "descriptionLong": "Fuel Spent: 60% Max Fuel / Weapon Clip Size\n\nThe synthetic heart-replacement belonging to an overworked employee\n\nTo overcome the ocean itself, Management needed to engineer a tool as inexorable as the tides.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -609,7 +599,7 @@
 "HONEYED_TENEBRAE": {
 	"name": "Honeyed Tenebrae",
 	"description": "+Bee Resistnace",
-    "descriptionLong": "Bee Damage Resistance: +70%\n\nA cloyingly sweet lozenge masking a bitter center\n\nGathered in the shadow of the False Sun, God and supplicant both renounced their long-held inhibitions.",
+    "descriptionLong": "Bee Damage Resistance: +80%\n\nA cloyingly sweet lozenge masking a bitter center\n\nGathered in the shadow of the False Sun, God and supplicant both renounced their long-held inhibitions.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -650,7 +640,7 @@
 "ICE9": {
 	"name": "Ice-9",
 	"description": "Slowing Projectiles",
-    "descriptionLong": "Slow Duration: 2 Seconds\nSlow Amount: -80%\n\nA frosty vial of a world-ending substance\n\nThe sunken world was made to be fragile by those who anticipated the need to start over from scratch.",
+    "descriptionLong": "Slow Cooldown: 2 Seconds\nSlow Duration: 2 Seconds\nSlow Amount: -80%\n\nA frosty vial of a world-ending substance\n\nThe sunken world was made to be fragile by those who anticipated the need to start over from scratch.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -688,6 +678,16 @@
         "DEFENSE",
         "MOBILITY",
         "GIMMICK"
+	]
+},
+"JURY_RIGGED_BINDINGS": {
+	"name": "Jury-Rigged Bindings",
+	"description": "Fires Your Inactive Weapons when Attacking",
+    "descriptionLong": "Attack Interval: 20% Attack Speed of Inactive Weapon\n\n",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+        "OFFENSE"
 	]
 },
 "KERMUNGLER": {
@@ -744,8 +744,8 @@
 },
 "LEATHERBACK": {
 	"name": "Leatherback",
-	"description": "",
-    "descriptionLong": "",
+	"description": "+Backstab Resistance",
+    "descriptionLong": "Bonus Backstab Resistance: +60%\n\n",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -786,8 +786,8 @@
 },
 "LUMINOUS_ESCA": {
 	"name": "Luminous Esca",
-	"description": "+Max Hp, +Light Radius",
-    "descriptionLong": "Bonus Max Hp: +15%\n\nA glowing clump of particles used to attract prey\n\nThrough natural processes, fragments of Bright Ones are shed to form smaller, distinct progeny.",
+	"description": "+Light Radius, Gradually Blind Nearby Enemies",
+    "descriptionLong": "4s to Completely Blind Enemies\n\nA glowing clump of particles used to attract prey\n\nThrough natural processes, fragments of Bright Ones are shed to form smaller, distinct progeny.",
 	"tags": [
 		"RELIQUARY",
         "RANDOM_POOL",
@@ -829,7 +829,7 @@
 "MATTER_UNIVERSALIZER": {
 	"name": "Matter Universalizer",
 	"description": "Restores Fuel upon Killing enemies.",
-    "descriptionLong": "Fuel Regenerated: 60 on Player Kill, 20 on Monster Kill\n\nA handheld energy-conversion device\n\nRegardless of what or who enters the grinders of the Kamaboko-Ya, the end result looks and tastes the same.",
+    "descriptionLong": "Fuel Regenerated: 75 on Player Kill, 25 on Monster Kill\n\nA handheld energy-conversion device\n\nRegardless of what or who enters the grinders of the Kamaboko-Ya, the end result looks and tastes the same.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -901,7 +901,7 @@
 "NOCTILUCENT_PROMISE": {
 	"name": "Noctilucent Promise",
 	"description": "Temporarily Gain Invulnerability upon Receiving Fatal Damage",
-    "descriptionLong": "Invincibility Duration: 5 Seconds\nActivates once per life\n\nAn overwhelming brightness buried within a perfectly dark mass\n\nOnly by the hands of Salvagers can Management honor their promise made to those below without reneging on their promise to those above.",
+    "descriptionLong": "Invincibility Duration: 3 Seconds\nActivates once per life\n\nAn overwhelming brightness buried within a perfectly dark mass\n\nOnly by the hands of Salvagers can Management honor their promise made to those below without reneging on their promise to those above.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -937,12 +937,11 @@
 },
 "OL_FAITHFUL": {
 	"name": "Ol' Faithful",
-	"description": "-2 Weapon Slots. +Ammo, Reload Speed and Damage",
-    "descriptionLong": "Bonus Ammo: +50%\nBonus Reload Speed: +30%\nBonus Damage: +45%\n\nA rugged holster with the initials 'B.M' engraved\n\nThe callous currents of the Noiseless Sea have no qualms with separating a man from his most beloved possession.",
+	"description": "Equip Chosen Weapon on Spawn",
+    "descriptionLong": "Equip slot 1 weapon chosen in Hub (instead of default speargun)\n(No effect without Weapon Drops enabled)\n\nA rugged holster with the initials 'B.M' engraved\n\nThe callous currents of the Noiseless Sea have no qualms with separating a man from his most beloved possession.",
 	"tags": [
 		"RELIQUARY",
-		"RANDOM_POOL",
-        "OFFENSE"
+		"RANDOM_POOL"
 	]
 },
 "ORIGIN_COIL": {
@@ -1011,7 +1010,7 @@
 "PEPPER": {
 	"name": "Pepper",
 	"description": "Damages Nearby Enemies",
-    "descriptionLong": "Damage Interval: 1.5 Seconds\nDamage: 8\n\nA blurry cloud of white noise vaguely in the shape of a cat\n\nBright Ones can take a variety of forms, from colossal stars to the slight blurriness in the corner of your eye.",
+    "descriptionLong": "Damage Interval: 1.5 Seconds\nDamage: 9\n\nA blurry cloud of white noise vaguely in the shape of a cat\n\nBright Ones can take a variety of forms, from colossal stars to the slight blurriness in the corner of your eye.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -1102,7 +1101,7 @@
 "SAMURAI_SHARK": {
 	"name": "Samurai Shark",
 	"description": "Critical Projectiles",
-    "descriptionLong": "Crit Chance: 10%\nCrit Damage: +75%\nCrit Projectile Speed: +100%\n\nThe ultimate sharpening tool that puts a razor edge on dull blades\n\nThe secret is the tungsten-carbide blades along with a unique angle that gives you a precision edge each and every time.",
+    "descriptionLong": "Crit Chance: 15%\nCrit Damage: +75%\nCrit Projectile Speed: +100%\n\nThe ultimate sharpening tool that puts a razor edge on dull blades\n\nThe secret is the tungsten-carbide blades along with a unique angle that gives you a precision edge each and every time.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -1228,7 +1227,7 @@
 "TENUOUS_GRIP_ON_REALITY": {
 	"name": "Tenuous Grip on Reality",
 	"description": "Become Invisible upon Reloading an Empty Clip",
-    "descriptionLong": "Invisibility Duration: 150% Relod Time\n\nThe creeping realization that your senses are betraying you\n\nThe true nature of reality is the moon's reflection in the uppermost pot of a miscalibrated water clock.",
+    "descriptionLong": "Invisibility Duration: 150% Reload Time\n\nThe creeping realization that your senses are betraying you\n\nThe true nature of reality is the moon's reflection in the uppermost pot of a miscalibrated water clock.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -1291,7 +1290,7 @@
 "VESTIGIAL_CHAMBER": {
 	"name": "Vestigial Chamber",
 	"description": "Projectiles Create Delayed Explosions",
-    "descriptionLong": "Explosion Delay: 0.75s\nExplosion Damage: 28\n\nAn obsolete organ used to manipulate density\n\nThe currents of the Noiseless Sea carry objects, not according to their buoyancies, but rather the nature of their desires, regrets and experiences.",
+    "descriptionLong": "Explosion Delay: 0.75s\nExplosion Damage: 32\n\nAn obsolete organ used to manipulate density\n\nThe currents of the Noiseless Sea carry objects, not according to their buoyancies, but rather the nature of their desires, regrets and experiences.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -1324,13 +1323,23 @@
 "WHITE_SMOKER": {
 	"name": "White Smoker",
 	"description": "Fiery Hovering, -Hovering Cost",
-    "descriptionLong": "Fire Duration: 4 Seconds\nFire Damage: 2\nHover Cost Reduction: -15%\n\nAn organic tube structure emanating an endless stream of pale smoke\n\nAs the only sources of energy in an otherwise closed system, Bright Ones foment new life within the vicinity, usually in their own likeness.",
+    "descriptionLong": "Fire Duration: 4 Seconds\nFire Damage: 3\nHover Cost Reduction: -15%\n\nAn organic tube structure emanating an endless stream of pale smoke\n\nAs the only sources of energy in an otherwise closed system, Bright Ones foment new life within the vicinity, usually in their own likeness.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
         "OFFENSE",
         "PASSIVE_DAMAGE",
         "MOBILITY"
+	]
+},
+"VOW_OF_EMPTY_HANDS": {
+	"name": "Vow of Empty Hands",
+	"description": "-2 Weapon Slots. +Clip Size, Reload Speed and Damage",
+    "descriptionLong": "Bonus Clip Size: +15%\nBonus Reload Speed: +30%\nBonus Damage: +45%\n\n",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+        "OFFENSE"
 	]
 },
 "WHITE_WHALE_CHARM": {
@@ -1347,7 +1356,7 @@
 "WRATH_OF_THE_FROGMAN": {
 	"name": "Wrath of the Frogman",
 	"description": "Fire Missiles When Attacking",
-    "descriptionLong": "Missile Interval: 1 Second\nMissile Damage: 24\n\nA pair of webbed gloves worn by amphibious assassins\n\nOnce feared by all submariners, the Frogman's reign of terror ceased when their coastal hunting grounds became submerged.",
+    "descriptionLong": "Missile Interval: 1 Second\nMissile Damage: 26\n\nA pair of webbed gloves worn by amphibious assassins\n\nOnce feared by all submariners, the Frogman's reign of terror ceased when their coastal hunting grounds became submerged.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",

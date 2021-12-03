@@ -10,9 +10,10 @@ public class AbyssalInsignia extends Artifact {
 
 	private static final int slotCost = 1;
 	
-	private static final float hpThreshold = 0.2f;
-	private static final float bonusAttackSpeed = 0.45f;
-	
+	private static final float hpThreshold = 0.5f;
+	private static final float bonusAttackSpeedMax = 0.5f;
+	private static final float bonusAttackSpeedMin = 0.1f;
+
 	public AbyssalInsignia() {
 		super(slotCost);
 	}
@@ -23,8 +24,11 @@ public class AbyssalInsignia extends Artifact {
 
 			@Override
 			public void onShoot(Equippable tool) {
-				if (inflicter.getCurrentHp() <= inflicter.getStat(Stats.MAX_HP) * hpThreshold) {
+				float hpPercent = inflicter.getCurrentHp() / inflicter.getStat(Stats.MAX_HP);
+				if (hpPercent < hpThreshold) {
+					float bonusAttackSpeed = bonusAttackSpeedMax - hpPercent / hpThreshold * (bonusAttackSpeedMax - bonusAttackSpeedMin);
 					float cooldown = inflicter.getSchmuck().getShootCdCount();
+					System.out.println(bonusAttackSpeed);
 					inflicter.getSchmuck().setShootCdCount(cooldown * (1 - bonusAttackSpeed));
 				}
 			}

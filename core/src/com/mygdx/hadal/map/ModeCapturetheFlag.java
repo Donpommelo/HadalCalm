@@ -27,7 +27,7 @@ public class ModeCapturetheFlag extends ModeSetting {
         flagSpawners.clear();
     }
 
-    private static final float flagAttackDesireMultiplier = 0.2f;
+    private static final float flagAttackDesireMultiplier = 0.1f;
     private static final float flagDefendDesireMultiplier = 0.05f;
     private static final float flagReturnDesireMultiplier = 0.02f;
     private final Vector2 objectiveLocation = new Vector2();

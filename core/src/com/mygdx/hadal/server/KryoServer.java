@@ -242,6 +242,11 @@ public class KryoServer {
 										p.firstTime, null);
 							}
 
+							//this just updates user's "last primary weapon" which is only used for a single artifact rn
+							User userUpdated = users.get(c.getID());
+							if (userUpdated != null) {
+								userUpdated.setLastEquippedPrimary(p.loadout.multitools[0]);
+							}
 							//sync client ui elements
 							sendToTCP(c.getID(), new Packets.SyncUI(ps.getUiExtra().getCurrentTags(),
 								ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr(),

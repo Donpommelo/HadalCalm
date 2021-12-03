@@ -22,7 +22,7 @@ public class DamageStandard extends HitboxStrategy {
 	private final DamageTypes[] tags;
 	
 	//this contains all the units this hbox has damaged. Used to avoid damaging the same unit multiple times.
-	private final Array<HadalData> damaged;
+	private final Array<HadalData> damaged = new Array<>();
 
 	//can this hitbox damage its own user?
 	private boolean selfDamageable = true;
@@ -43,8 +43,6 @@ public class DamageStandard extends HitboxStrategy {
 		this.baseDamage = damage;
 		this.knockback = knockback;
 		this.tags = tags;
-		
-		damaged = new Array<>();
 	}
 	
 	@Override

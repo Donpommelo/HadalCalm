@@ -89,9 +89,12 @@ public class BotManager {
     }
 
     public static void requestPathfindingThread(PlayerBot player, Vector2 playerLocation, Vector2 playerVelocity, Array<RallyPoint> pathStarters,
-            RallyPoint.RallyPointMultiplier pickupPoint, Array< RallyPoint.RallyPointMultiplier> targetPoints,
-            Array< RallyPoint.RallyPointMultiplier> eventPoints) {
-        executor.submit(new BotPathfindingTask(player, playerLocation, playerVelocity, pathStarters, pickupPoint, targetPoints, eventPoints));
+                                            RallyPoint.RallyPointMultiplier pickupPoint, Array< RallyPoint.RallyPointMultiplier> targetPoints,
+                                        Array< RallyPoint.RallyPointMultiplier> eventPoints) {
+        if (!executor.isShutdown()) {
+            executor.submit(new BotPathfindingTask(player, playerLocation, playerVelocity, pathStarters, pickupPoint,
+                    targetPoints, eventPoints));
+        }
     }
 
     //this is the furthest distance that we will check rally poitns for
@@ -114,7 +117,7 @@ public class BotManager {
                     Math.abs(rallyPoint.y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
 
             tempPointLocation.set(rallyPoint);
-            float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation);
+            float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation, Constants.BIT_PLAYER);
             //dst2 used here to slightly improve performance while being "mostly accurate-ish"
             float currentDistSquared = raycastFraction * raycastFraction * sourceLocation.dst2(tempPointLocation);
 
@@ -149,7 +152,7 @@ public class BotManager {
                     Math.abs(rallyPoint.getPosition().y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
 
             tempPointLocation.set(rallyPoint.getPosition());
-            float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation);
+            float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation, Constants.BIT_PLAYER);
 
             //if we have a line of sight with the point, check if its distance is less than the nearest point so far
             if (raycastFraction == 1.0f) {
@@ -268,7 +271,7 @@ public class BotManager {
         aimTemp.set(targetLocation).add(leadDisplace);
 
         //if the new aim vector goes through a wall, we want to stop at the wall location
-        float fract = BotManager.raycastUtility(targeter, targetLocation, aimTemp);
+        float fract = BotManager.raycastUtility(targeter, targetLocation, aimTemp, Constants.BIT_PROJECTILE);
         if (fract < 1.0f) {
             aimTemp.set(targetLocation).add(leadDisplace.scl(fract));
         }
@@ -284,13 +287,13 @@ public class BotManager {
      * @param endLocation: the location we are raycasting towards
      * @return the fraction of how far we raycasted before hitting a wall
      */
-    public static float raycastUtility(Schmuck targeter, Vector2 sourceLocation, Vector2 endLocation) {
+    public static float raycastUtility(Schmuck targeter, Vector2 sourceLocation, Vector2 endLocation, short mask) {
         shortestFraction = 1.0f;
         if (sourceLocation.x != endLocation.x || sourceLocation.y != endLocation.y) {
             targeter.getWorld().rayCast((fixture1, point, normal, fraction) -> {
                 if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL &&
                         fixture1.getFilterData().groupIndex != targeter.getHitboxfilter() &&
-                        ((fixture1.getFilterData().maskBits | Constants.BIT_PLAYER) == fixture1.getFilterData().maskBits)) {
+                        ((fixture1.getFilterData().maskBits | mask) == fixture1.getFilterData().maskBits)) {
                     if (fraction < shortestFraction) {
                         shortestFraction = fraction;
                         return fraction;

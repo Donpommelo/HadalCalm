@@ -16,7 +16,7 @@ public class CarlocsThesis extends Artifact {
 	private static final int slotCost = 3;
 
 	private static final Vector2 size = new Vector2(200, 200);
-	private static final float redirectAmount = 20;
+	private static final float redirectAmount = 25;
 
 	public CarlocsThesis() {
 		super(slotCost);

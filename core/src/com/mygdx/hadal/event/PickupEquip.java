@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
+import com.mygdx.hadal.equip.ranged.SpeargunNerfed;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
@@ -159,7 +160,7 @@ public class PickupEquip extends Event {
 		this.equip = equip;
 		setEventSprite(equip.getEventSprite());
 		
-		if (equip instanceof NothingWeapon) {
+		if (equip instanceof NothingWeapon || equip instanceof SpeargunNerfed) {
 			if (standardParticle != null) {
 				standardParticle.turnOff();
 			}
