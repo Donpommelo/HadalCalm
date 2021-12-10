@@ -9,6 +9,8 @@ import com.mygdx.hadal.statuses.Regeneration;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Stats;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_PROC;
+
 public class Blastema extends Artifact {
 
 	private static final int slotCost = 2;
@@ -35,7 +37,6 @@ public class Blastema extends Artifact {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
-				
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount -= procCd;
 					
@@ -43,6 +44,6 @@ public class Blastema extends Artifact {
 				}
 				return damage;
 			}
-		};
+		}.setPriority(PRIORITY_PROC);
 	}
 }

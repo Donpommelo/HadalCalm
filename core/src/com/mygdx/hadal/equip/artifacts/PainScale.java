@@ -7,6 +7,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_SCALE;
+
 public class PainScale extends Artifact {
 
 	private static final int slotCost = 2;
@@ -28,6 +30,6 @@ public class PainScale extends Artifact {
 				}
 				return damage;
 			}
-		};
+		}.setPriority(PRIORITY_SCALE);
 	}
 }

@@ -20,11 +20,9 @@ public class ProximityMine extends ActiveItem {
 	private static final float projectileSpeed = 60.0f;
 	
 	private static final int explosionRadius = 250;
-	private static final float explosionDamage = 80.0f;
+	private static final float explosionDamage = 100.0f;
 	private static final float explosionKnockback = 50.0f;
 	
-	private static final float primeDelay = 2.0f;
-
 	public ProximityMine(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
@@ -32,6 +30,6 @@ public class ProximityMine extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		WeaponUtils.createProximityMine(state, user.getPlayer().getPixelPosition(), user.getPlayer(), projectileSpeed,
-			primeDelay, mineLifespan, explosionDamage, explosionKnockback, explosionRadius);
+			mineLifespan, explosionDamage, explosionKnockback, explosionRadius);
 	}
 }

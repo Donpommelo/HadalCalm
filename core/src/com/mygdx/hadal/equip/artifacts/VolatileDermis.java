@@ -9,6 +9,8 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Shocked;
 import com.mygdx.hadal.statuses.Status;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_PROC;
+
 public class VolatileDermis extends Artifact {
 
 	private static final int slotCost = 2;
@@ -41,6 +43,6 @@ public class VolatileDermis extends Artifact {
 				}
 				return damage;
 			}
-		};
+		}.setPriority(PRIORITY_PROC);
 	}
 }

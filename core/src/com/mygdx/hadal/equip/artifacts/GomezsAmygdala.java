@@ -1,8 +1,8 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -14,6 +14,8 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
+
+import static com.mygdx.hadal.utils.Constants.PRIORITY_PROC;
 
 public class GomezsAmygdala extends Artifact {
 
@@ -56,6 +58,6 @@ public class GomezsAmygdala extends Artifact {
 				}
 				return damage;
 			}
-		};
+		}.setPriority(PRIORITY_PROC);
 	}
 }

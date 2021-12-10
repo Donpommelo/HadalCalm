@@ -9,6 +9,8 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.Status;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_LAST;
+
 public class NoctilucentPromise extends Artifact {
 
 	private static final int slotCost = 1;
@@ -39,6 +41,6 @@ public class NoctilucentPromise extends Artifact {
 				}
 				return damage;
 			}
-		};
+		}.setPriority(PRIORITY_LAST);
 	}
 }

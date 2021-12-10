@@ -8,6 +8,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_LAST_LAST;
+
 public class AncientSynapse extends Artifact {
 
 	private static final int slotCost = 2;
@@ -44,6 +46,6 @@ public class AncientSynapse extends Artifact {
 				damageLeft += damage;
 				return 0;
 			}
-		};
+		}.setPriority(PRIORITY_LAST_LAST);
 	}
 }

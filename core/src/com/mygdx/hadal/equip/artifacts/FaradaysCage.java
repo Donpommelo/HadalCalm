@@ -7,6 +7,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_MULT_SCALE;
+
 public class FaradaysCage extends Artifact {
 
 	private static final int slotCost = 2;
@@ -36,6 +38,6 @@ public class FaradaysCage extends Artifact {
 				}
 				return damage;
 			}
-		};
+		}.setPriority(PRIORITY_MULT_SCALE);
 	}
 }

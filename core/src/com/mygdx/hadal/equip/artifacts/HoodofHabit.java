@@ -9,6 +9,8 @@ import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Stats;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_PROC;
+
 public class HoodofHabit extends Artifact {
 
 	private static final int slotCost = 1;
@@ -44,6 +46,6 @@ public class HoodofHabit extends Artifact {
 				}
 				return damage;
 			}
-		};
+		}.setPriority(PRIORITY_PROC);
 	}
 }

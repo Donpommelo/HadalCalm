@@ -9,6 +9,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_SCALE;
+
 public class MouthfulofBees extends Artifact {
 
 	private static final int slotCost = 1;
@@ -40,6 +42,6 @@ public class MouthfulofBees extends Artifact {
 				WeaponUtils.createBees(state, p.getSchmuck().getPixelPosition(), p.getSchmuck(),
 					beesOnDeath, homeRadius, new Vector2(0, beeSpeed), false, p.getSchmuck().getHitboxfilter());
 			}
-		};
+		}.setPriority(PRIORITY_SCALE);
 	}
 }

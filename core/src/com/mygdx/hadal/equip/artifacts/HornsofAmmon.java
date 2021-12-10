@@ -10,6 +10,8 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.Status;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_PROC;
+
 public class HornsofAmmon extends Artifact {
 
 	private static final int slotCost = 3;
@@ -38,6 +40,6 @@ public class HornsofAmmon extends Artifact {
 				}
 				return damage;
 			}
-		};
+		}.setPriority(PRIORITY_PROC);
 	}
 }

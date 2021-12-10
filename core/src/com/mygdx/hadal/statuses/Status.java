@@ -9,11 +9,13 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_DEFAULT;
+
 /**
  * A status is a thing that afflicts a schmuck and has some affect for its duration.
  * @author Whurabeau Wrongenrique
  */
-public class Status {
+public class Status implements Comparable<Status> {
 
 	//References to game fields.
 	protected final PlayState state;
@@ -29,6 +31,8 @@ public class Status {
 	
 	//this is the artifact that this status is attached to. (null for non-artifact statuses). This is used to remove an artifact statuses when unequipping
 	private UnlockArtifact artifact;
+
+	private int priority = PRIORITY_DEFAULT;
 	
 	public Status(PlayState state, float i, Boolean perm, BodyData p, BodyData v) {
 		this.state = state;
@@ -79,10 +83,10 @@ public class Status {
 		}
 	}
 
-	public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageTypes... tags) { return damage;	}
+	public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageTypes... tags) { return damage; }
 	
 	public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) { return damage; }
-	
+
 	public float onHeal(float damage, BodyData perp, DamageTypes... tags) { return damage; }
 	
 	public void onKill(BodyData vic) {}
@@ -126,7 +130,17 @@ public class Status {
 	 * @return stack behavior
 	 */
 	public statusStackType getStackType() {	return statusStackType.ADD;	}
-	
+
+	public Status setPriority(int priority) {
+		this.priority = priority;
+		return this;
+	}
+
+	@Override
+	public int compareTo(Status o) {
+		return priority - o.priority;
+	}
+
 	public enum statusStackType {
 		ADD,
 		REPLACE,

@@ -29,6 +29,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.Packets.SyncPlayerStats;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.utils.CameraUtil;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -625,6 +626,16 @@ public class PlayerBodyData extends BodyData {
 				}
 			}
 		}
+
+		if (player.equals(player.getState().getPlayer()) && damage > 0.0f) {
+			CameraUtil.inflictTrauma(player.getState().getGsm(), damage);
+		}
+		if (player.getState().getUiSpectator() != null) {
+			if (player.equals(player.getState().getUiSpectator().getSpectatorTarget()) && damage > 0.0f) {
+				CameraUtil.inflictTrauma(player.getState().getGsm(), damage);
+			}
+		}
+
 		return damage;
 	}
 	

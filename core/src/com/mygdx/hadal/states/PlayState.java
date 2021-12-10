@@ -59,7 +59,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.text.HText;
-import com.mygdx.hadal.utils.CameraStyles;
+import com.mygdx.hadal.utils.CameraUtil;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -811,15 +811,14 @@ public class PlayState extends GameState {
 			}
 
 			//make camera target respect camera bounds if not focused on an object
-			CameraStyles.obeyCameraBounds(aimFocusVector, camera, cameraBounds);
+			CameraUtil.obeyCameraBounds(aimFocusVector, camera, cameraBounds);
 		} else {
 			aimFocusVector.set(cameraTarget);
 		}
-
-
 		aimFocusVector.add(cameraOffset);
+		CameraUtil.shake(camera, aimFocusVector, cameraTime);
 		spectatorTarget.set(aimFocusVector);
-		CameraStyles.lerpToTarget(camera, aimFocusVector, cameraInterpolation);
+		CameraUtil.lerpToTarget(camera, aimFocusVector, cameraInterpolation);
 	}
 
 	/**
@@ -860,7 +859,7 @@ public class PlayState extends GameState {
 		} else {
 			resizeTmpVector2.set(cameraTarget.x, cameraTarget.y);
 		}
-		CameraStyles.obeyCameraBounds(resizeTmpVector2, camera, cameraBounds);
+		CameraUtil.obeyCameraBounds(resizeTmpVector2, camera, cameraBounds);
 
 		this.camera.position.set(new Vector3(resizeTmpVector2.x, resizeTmpVector2.y, 0));
 

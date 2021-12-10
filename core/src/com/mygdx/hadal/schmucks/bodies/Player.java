@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.UIPlayClient;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.PlayerSpriteHelper;
@@ -39,6 +40,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.utils.CameraUtil;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -906,6 +908,19 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void onClientSync(Object o) {
+		if (o instanceof PacketsSync.SyncSchmuck p) {
+			float difference = getPlayerData().getOverrideHpPercent() - p.hpPercent;
+			if (difference > 0.0f && state.getUiPlay() != null) {
+				if (this.equals(state.getPlayer())) {
+					CameraUtil.inflictTrauma(state.getGsm(), difference * ((UIPlayClient) state.getUiPlay()).getOverrideMaxHp());
+				}
+				if (state.getUiSpectator() != null) {
+					if (this.equals(state.getUiSpectator().getSpectatorTarget())) {
+						CameraUtil.inflictTrauma(state.getGsm(), difference * ((UIPlayClient) state.getUiPlay()).getOverrideMaxHp());
+					}
+				}
+			}
+		}
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncPlayer p) {
 

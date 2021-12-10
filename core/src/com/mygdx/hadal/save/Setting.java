@@ -28,7 +28,7 @@ public class Setting {
 	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, artifactSlots,
 		portNumber, hitsoundType, customShader;
 	private boolean fullscreen, autoIconify, vsync, debugHitbox, displayNames, displayHp, randomNameAlliteration,
-		consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack;
+		consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack, screenShake;
 	private float soundVolume, musicVolume, masterVolume, hitsoundVolume;
 
 	//connecting clients need to know this password to enter the server
@@ -172,6 +172,7 @@ public class Setting {
 		cursorSize = 1;
 		cursorColor = 4;
 		mouseCameraTrack = true;
+		screenShake = true;
 	}
 
 	public void resetAudio() {
@@ -385,6 +386,8 @@ public class Setting {
 
 	public void setMouseCameraTrack(boolean mouseCameraTrack) { this.mouseCameraTrack = mouseCameraTrack; }
 
+	public void setScreenShake(boolean screenShake) { this.screenShake = screenShake; }
+
 	public void setDebugHitbox(boolean debugHitbox) { this.debugHitbox = debugHitbox; }
 
 	public void setPortNumber(int portNumber) { this.portNumber = portNumber; }
@@ -434,6 +437,8 @@ public class Setting {
 	public boolean isHideHUD() { return hideHUD; }
 
 	public boolean isMouseCameraTrack() { return mouseCameraTrack; }
+
+	public boolean isScreenShake() { return screenShake; }
 
 	public boolean isDebugHitbox() { return debugHitbox; }
 

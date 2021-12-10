@@ -11,6 +11,8 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Stats;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_MULT_SCALE;
+
 public class FracturePlate extends Artifact {
 
 	private static final int slotCost = 2;
@@ -58,6 +60,6 @@ public class FracturePlate extends Artifact {
 				}
 				return finalDamage;
 			}
-		};
+		}.setPriority(PRIORITY_MULT_SCALE);
 	}
 }

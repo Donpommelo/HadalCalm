@@ -401,8 +401,8 @@
 },
 "DEPLORABLE_APPARATUS": {
 	"name": "Deplorable Apparatus",
-	"description": "-Max Hp, +Hp Regen",
-    "descriptionLong": "Max Hp Reduction: -40%\nHp Regeneration: 13 per Second\nUpon Receiving Damage, Cancel Regen for 1s\n\nA rusty, surgically-attached life granting machine\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself.",
+	"description": "+Hp Regen",
+    "descriptionLong": "Hp Regeneration: 13 per Second\nUpon Receiving Damage, Cancel Regen for 1s\n\nA rusty, surgically-attached life granting machine\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",

@@ -17,6 +17,8 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_PROC;
+
 public class CrownofThorns extends Artifact {
 
 	private static final int slotCost = 1;
@@ -71,6 +73,6 @@ public class CrownofThorns extends Artifact {
 				}
 				return damage;
 			}
-		};
+		}.setPriority(PRIORITY_PROC);
 	}
 }

@@ -10,6 +10,8 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_SCALE;
+
 public class LampreyIdol extends Artifact {
 
 	private static final int slotCost = 2;
@@ -51,6 +53,6 @@ public class LampreyIdol extends Artifact {
 				}
 				return damage;
 			}
-		});
+		}).setPriority(PRIORITY_SCALE);
 	}
 }

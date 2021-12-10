@@ -121,7 +121,7 @@ public class BodyData extends HadalData {
 			oldChecked.add(s);
 		}
 		this.statusesChecked.clear();
-		
+		statuses.sort();
 		while (!this.statuses.isEmpty()) {
 			Status tempStatus = this.statuses.get(0);
 			

@@ -8,6 +8,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
+import static com.mygdx.hadal.utils.Constants.PRIORITY_PROC;
+
 public class BookofBurial extends Artifact {
 
 	private static final int slotCost = 2;
@@ -16,10 +18,8 @@ public class BookofBurial extends Artifact {
 
 	private static final float projectileSpeed = 60.0f;
 	private static final int explosionRadius = 250;
-	private static final float explosionDamage = 60.0f;
+	private static final float explosionDamage = 75.0f;
 	private static final float explosionKnockback = 50.0f;
-
-	private static final float primeDelay = 2.0f;
 
 	private static final float procCd = 7.5f;
 
@@ -45,10 +45,10 @@ public class BookofBurial extends Artifact {
 					procCdCount = 0;
 
 					WeaponUtils.createProximityMine(state, p.getSchmuck().getPixelPosition(), p.getSchmuck(), projectileSpeed,
-						primeDelay, mineLifespan, explosionDamage, explosionKnockback, explosionRadius);
+						mineLifespan, explosionDamage, explosionKnockback, explosionRadius);
 				}
 				return damage;
 			}
-		};
+		}.setPriority(PRIORITY_PROC);
 	}
 }

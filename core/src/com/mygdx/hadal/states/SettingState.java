@@ -52,7 +52,7 @@ public class SettingState extends GameState {
 		hitsoundOptions, artifactSlots, playerCapacity;
 	private Slider sound, music, master, hitsound;
 	private CheckBox fullscreen, vsync, autoIconify, debugHitbox, displayNames, displayHp, randomNameAlliteration, consoleEnabled,
-		verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack;
+		verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack, screenShake;
 		
 	//Dimensions of the setting menu
 	private static final int optionsX = -1025;
@@ -342,6 +342,7 @@ public class SettingState extends GameState {
 		displayNames = new CheckBox(HText.VISIBLE_NAMES.text(), GameStateManager.getSkin());
 		displayHp = new CheckBox(HText.VISIBLE_HP.text(), GameStateManager.getSkin());
 		mouseCameraTrack = new CheckBox(HText.CAMERA_AIM.text(), GameStateManager.getSkin());
+		screenShake = new CheckBox(HText.SCREEN_SHAKE.text(), GameStateManager.getSkin());
 
 		fullscreen.setChecked(gsm.getSetting().isFullscreen());
 		vsync.setChecked(gsm.getSetting().isVSync());
@@ -350,6 +351,7 @@ public class SettingState extends GameState {
 		displayNames.setChecked(gsm.getSetting().isDisplayNames());
 		displayHp.setChecked(gsm.getSetting().isDisplayHp());
 		mouseCameraTrack.setChecked(gsm.getSetting().isMouseCameraTrack());
+		screenShake.setChecked(gsm.getSetting().isScreenShake());
 
 		fullscreen.addListener(displayChange);
 		vsync.addListener(displayChange);
@@ -358,6 +360,7 @@ public class SettingState extends GameState {
 		displayNames.addListener(displayChange);
 		displayHp.addListener(displayChange);
 		mouseCameraTrack.addListener(displayChange);
+		screenShake.addListener(displayChange);
 		resolutionOptions.addListener(displayChange);
 		framerateOptions.addListener(displayChange);
 
@@ -377,7 +380,8 @@ public class SettingState extends GameState {
 		details.add(cursorSize).height(detailHeight).pad(detailPad).row();
 		details.add(cursorcolor);
 		details.add(cursorColor).height(detailHeight).pad(detailPad).row();
-		details.add(mouseCameraTrack).colspan(2).height(detailHeight).pad(detailPad).row();
+		details.add(mouseCameraTrack);
+		details.add(screenShake).height(detailHeight).pad(detailPad).row();
 	}
 	
 	/**
@@ -699,6 +703,7 @@ public class SettingState extends GameState {
 				gsm.getSetting().setDisplayNames(displayNames.isChecked());
 				gsm.getSetting().setDisplayHp(displayHp.isChecked());
 				gsm.getSetting().setMouseCameraTrack(mouseCameraTrack.isChecked());
+				gsm.getSetting().setScreenShake(screenShake.isChecked());
 				gsm.getSetting().setDisplay(gsm.getApp(), playState);
 				gsm.getSetting().saveSetting();
 			}

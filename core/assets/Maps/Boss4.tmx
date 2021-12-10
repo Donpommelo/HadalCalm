@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="232">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="233">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="BOSS_SHADOW_OF_THE_FALSE_SUN"/>
@@ -295,7 +295,7 @@
   <object id="220" name="Multitrigger" type="Multitrigger" x="288" y="352" width="32" height="32">
    <properties>
     <property name="triggeredId" value="initLimiter"/>
-    <property name="triggeringId" value="startTimer,w1,w2,spawn0"/>
+    <property name="triggeringId" value="startTimer,w1,w2,spawn0,shake"/>
    </properties>
   </object>
   <object id="221" name="Prefab" type="PrefabWeapon" x="864" y="2208" width="96" height="96">
@@ -359,6 +359,13 @@
     <property name="startOn" type="bool" value="false"/>
     <property name="triggeredId" value="fitewin"/>
     <property name="triggeringId" value="levelend"/>
+   </properties>
+  </object>
+  <object id="232" name="Shake" type="Shake" x="352" y="352" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="2"/>
+    <property name="shake" type="float" value="200"/>
+    <property name="triggeredId" value="shake"/>
    </properties>
   </object>
  </objectgroup>

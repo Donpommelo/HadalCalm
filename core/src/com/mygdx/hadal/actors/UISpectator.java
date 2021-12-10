@@ -199,4 +199,6 @@ public class UISpectator extends AHadalActor {
         }
         return false;
     }
+
+    public Player getSpectatorTarget() { return spectatorTarget; }
 }

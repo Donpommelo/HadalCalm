@@ -73,7 +73,6 @@ public class WeaponUtils {
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ExplosionDefault(state, hbox, user.getBodyData(), explosionDamage, explosionKnockback,
 			selfDamageReduction, DamageTypes.EXPLOSIVE));
-
 	}
 	
 	public static void createGrenade(PlayState state, Vector2 startPos, Vector2 size, Schmuck user, float baseDamage, float knockback, float lifespan,
@@ -153,7 +152,6 @@ public class WeaponUtils {
 										   Vector2 startVelocity, boolean procEffects, short filter) {
 		
 		for (int i = 0; i < numTorp; i++) {
-			
 			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(torpedoWidth, torpedoHeight), torpedoLifespan,
 				startVelocity, filter, true, procEffects, user, missileSprite);
 
@@ -183,7 +181,6 @@ public class WeaponUtils {
 								  Vector2 startVelocity, boolean procEffects, short filter) {
 
 		for (int i = 0; i < numBees; i++) {
-			
 			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(beeWidth, beeHeight), beeLifespan,
 				startVelocity, filter, false, procEffects, user, beeSprite);
 			hbox.setDensity(0.5f);
@@ -271,7 +268,9 @@ public class WeaponUtils {
 	}
 
 	private static final Vector2 mineSize = new Vector2(75, 30);
-	public static void createProximityMine(PlayState state, Vector2 startPos, Schmuck user, float startVelocity, float primeTime,
+	private static final float primeTime = 1.5f;
+	private static final float warningTime = 0.5f;
+	public static void createProximityMine(PlayState state, Vector2 startPos, Schmuck user, float startVelocity,
 					   float mineLifespan, float explosionDamage, float explosionKnockback, int explosionRadius) {
 		Hitbox hbox = new RangedHitbox(state, startPos, mineSize, primeTime,  new Vector2(0, -startVelocity),
 			user.getHitboxfilter(), false, false, user, Sprite.LAND_MINE);
@@ -324,15 +323,13 @@ public class WeaponUtils {
 
 			@Override
 			public void die() {
-				Hitbox mine = new RangedHitbox(state, hbox.getPixelPosition(), mineSize, mineLifespan,  new Vector2(),
+				Hitbox mine = new RangedHitbox(state, hbox.getPixelPosition(), new Vector2(explosionRadius, explosionRadius), mineLifespan,  new Vector2(),
 					(short) 0, true, false, user, Sprite.NOTHING);
 				mine.makeUnreflectable();
 				mine.setSyncDefault(false);
 
 				mine.addStrategy(new ControllerDefault(state, mine, user.getBodyData()));
 				mine.addStrategy(new ContactUnitDie(state, mine, user.getBodyData()));
-				mine.addStrategy(new DieExplode(state, mine, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
-				mine.addStrategy(new DieSound(state, mine, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f));
 				mine.addStrategy(new HitboxStrategy(state, mine, user.getBodyData()) {
 
 					@Override
@@ -347,6 +344,20 @@ public class WeaponUtils {
 								state.getWorld().createJoint(joint);
 							}
 						}
+					}
+
+					@Override
+					public void die() {
+						SoundEffect.PING.playUniversal(state, hbox.getPixelPosition(), 0.6f, 1.5f, false);
+						Hitbox explosion = new RangedHitbox(state, hbox.getPixelPosition(), mineSize, warningTime,  new Vector2(),
+								(short) 0, true, false, user, Sprite.LAND_MINE);
+						explosion.makeUnreflectable();
+
+						explosion.addStrategy(new ControllerDefault(state, explosion, user.getBodyData()));
+						explosion.addStrategy(new Static(state, explosion, user.getBodyData()));
+						explosion.addStrategy(new FlashNearDeath(state, explosion, user.getBodyData(), warningTime));
+						explosion.addStrategy(new DieExplode(state, explosion, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
+						explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f));
 					}
 				});
 			}

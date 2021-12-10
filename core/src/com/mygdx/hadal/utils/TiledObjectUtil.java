@@ -194,6 +194,10 @@ public class TiledObjectUtil {
 				object.getProperties().get("up", false, boolean.class),
 				object.getProperties().get("down", false, boolean.class),
 				object.getProperties().get("spectator", false, boolean.class));
+			case "Shake" -> e = new CameraShaker(state,
+					object.getProperties().get("shake", 0.0f, float.class),
+					object.getProperties().get("duration", 0.0f, float.class),
+					object.getProperties().get("interval", 0.1f, float.class));
 			case "Sound" -> e = new SoundEmitter(state, position, size,
 				object.getProperties().get("sound", String.class),
 				object.getProperties().get("float", 1.0f, float.class),
