@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -32,7 +33,7 @@ public class DiatomaceousEarth extends Artifact {
 				SoundEffect.MAGIC1_ACTIVE.playUniversal(p.getSchmuck().getState(), p.getSchmuck().getPixelPosition(), 0.4f, false);
 
 				float dura = tool.getMaxCharge() * durationMultiplier;
-				new ParticleEntity(state, p.getSchmuck(), Particle.RING, 1.0f, dura, true, ParticleEntity.particleSyncType.CREATESYNC).setScale(0.4f);
+				new ParticleEntity(state, p.getSchmuck(), Particle.RING, 1.0f, dura, true, SyncType.CREATESYNC).setScale(0.4f);
 
 				p.addStatus(new StatusComposite(state, dura, false, p, p,
 					new StatChangeStatus(state, Stats.DAMAGE_RES, damageResistance, p),

@@ -40,35 +40,39 @@ public class PlayerAlignmentChanger extends Event {
 			public void onActivate(EventData activator, Player p) {
 
 				if (p != null) {
-					if (state.isServer()) {
-						User user = p.getUser();
+					User user = p.getUser();
 
-						short newIndex;
-						if (pvp && user != null) {
-							if (state.getMode().isTeamDesignated() ||
-									state.getMode().getTeamMode().equals(TeamMode.TEAM_MANUAL)) {
-								if (p.getStartLoadout().team.equals(AlignmentFilter.NONE)) {
-									newIndex = user.getHitBoxFilter().getFilter();
-								} else {
-									newIndex = user.getTeamFilter().getFilter();
-								}
-							} else {
+					short newIndex;
+					if (pvp && user != null) {
+						if (state.getMode().isTeamDesignated() ||
+								state.getMode().getTeamMode().equals(TeamMode.TEAM_MANUAL)) {
+
+							if (p.getStartLoadout().team.equals(AlignmentFilter.NONE)) {
 								newIndex = user.getHitBoxFilter().getFilter();
+							} else {
+								newIndex = user.getTeamFilter().getFilter();
 							}
 						} else {
-							newIndex = filter;
+							newIndex = user.getHitBoxFilter().getFilter();
 						}
+					} else {
+						newIndex = filter;
+					}
 
-						if (p.getMainFixture() != null) {
-							Filter filter = p.getMainFixture().getFilterData();
-							filter.groupIndex = newIndex;
+					if (p.getMainFixture() != null) {
+						Filter filter = p.getMainFixture().getFilterData();
+						filter.groupIndex = newIndex;
 
-							p.getMainFixture().setFilterData(filter);
-							p.setHitboxfilter(newIndex);
-						}
+						p.getMainFixture().setFilterData(filter);
+						p.setHitboxfilter(newIndex);
 					}
 				}
 			}
 		};
+	}
+
+	@Override
+	public void loadDefaultProperties() {
+		setSyncType(eventSyncTypes.ALL);
 	}
 }

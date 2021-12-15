@@ -1,19 +1,20 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.*;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Flounderbuss extends RangedWeapon {
 
@@ -74,28 +75,47 @@ public class Flounderbuss extends RangedWeapon {
 	private final Vector2 newVelocity = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.SHOTGUN.playUniversal(state, startPosition, 0.75f, 0.75f, false);
-
 		//amount of projectiles scales to charge percent
-		for (int i = 0; i < maxNumProj * chargeCd / getChargeTime() + baseNumProj; i++) {
-			
-			int randomIndex = ThreadLocalRandom.current().nextInt(projSprites.length);
-			Sprite projSprite = projSprites[randomIndex];
-			newVelocity.set(startVelocity).scl((ThreadLocalRandom.current().nextFloat() * veloSpread + 1 - veloSpread / 2));
-			
-			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(newVelocity), filter, true, true, user, projSprite);
-			hbox.setGravity(1.5f);
-			hbox.setDurability(2);
-
-			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
-			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.FISH, DamageTypes.RANGED));
-			hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE1, 0.25f, true).setPitchSpread(pitchSpread));
-			hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WET_SPLAT, 0.25f).setPitchSpread(pitchSpread));
-			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
+		int numProj = (int) (maxNumProj * chargeCd / getChargeTime() + baseNumProj);
+		Vector2[] positions = new Vector2[numProj];
+		Vector2[] velocities = new Vector2[numProj];
+		for (int i = 0; i < numProj; i++) {
+			newVelocity.set(startVelocity).scl((MathUtils.random() * veloSpread + 1 - veloSpread / 2));
+			positions[i] = startPosition;
+			velocities[i] = new Vector2(newVelocity);
 		}
+		SyncedAttack.FLOUNDER.initiateSyncedAttackMulti(state, user, positions, velocities);
+	}
+
+	public static Hitbox[] createFlounder(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity) {
+		Hitbox[] hboxes = new Hitbox[startPosition.length];
+		if (startPosition.length != 0) {
+			SoundEffect.SHOTGUN.playSourced(state, startPosition[0], 0.75f, 0.75f);
+			for (int i = 0; i < startPosition.length; i++) {
+
+				int randomIndex = MathUtils.random(projSprites.length - 1);
+				Sprite projSprite = projSprites[randomIndex];
+
+				Hitbox hbox = new RangedHitbox(state, startPosition[i], projectileSize, lifespan, new Vector2(startVelocity[i]),
+						user.getHitboxfilter(), true, true, user, projSprite);
+				hbox.setGravity(1.5f);
+				hbox.setDurability(2);
+
+				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
+				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.FISH, DamageTypes.RANGED));
+				hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE1, 0.25f, true)
+						.setPitchSpread(pitchSpread).setSynced(false));
+				hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WET_SPLAT, 0.25f)
+						.setPitchSpread(pitchSpread).setSynced(false));
+				hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
+
+				hboxes[i] = hbox;
+			}
+		}
+		return hboxes;
 	}
 }

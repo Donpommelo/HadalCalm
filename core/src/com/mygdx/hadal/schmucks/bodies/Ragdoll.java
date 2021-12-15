@@ -5,15 +5,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A Ragdoll is a miscellaneous entity that doesn't do a whole heck of a lot.
@@ -96,13 +94,13 @@ public class Ragdoll extends HadalEntity {
 	private final Vector2 newVelocity = new Vector2();
 	@Override
 	public void create() {
-		this.hadalData = new HadalData(UserDataTypes.BODY, this);
+		this.hadalData = new HadalData(UserDataType.BODY, this);
 		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1, 0.5f, false, false,
 				Constants.BIT_SENSOR, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR), (short) -1, sensor, hadalData);
 
 		//this makes ragdolls spin and move upon creation
 		setAngularVelocity(startAngle);
-		float newDegrees = startVelo.angleDeg() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
+		float newDegrees = startVelo.angleDeg() + MathUtils.random(-spread, spread + 1);
 		newVelocity.set(startVelo).add(1, 1);
 		
 		if (setVelo) {
@@ -150,7 +148,7 @@ public class Ragdoll extends HadalEntity {
 	 * As Default: Upon created, the frag tells the client to create a client illusion tracking it
 	 */
 	@Override
-	public Object onServerCreate() {
+	public Object onServerCreate(boolean catchup) {
 		if (synced) {
 			return new Packets.CreateRagdoll(entityID, getPixelPosition(), size, sprite, startVelo, ragdollDuration, gravity, setVelo, sensor);
 		} else {

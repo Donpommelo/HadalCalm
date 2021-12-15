@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.EventDto;
@@ -67,7 +67,7 @@ public class Poison extends Event {
 		randomParticles = size.x > 100;
 		
 		if (!randomParticles && draw && state.isServer()) {
-			new ParticleEntity(state, this, poisonParticle, 0, 0, true, particleSyncType.CREATESYNC);
+			new ParticleEntity(state, this, poisonParticle, 0, 0, true, SyncType.CREATESYNC);
 		}
 	}
 
@@ -101,7 +101,7 @@ public class Poison extends Event {
 		randomParticles = size.x > 100;
 		
 		if (!randomParticles && draw && state.isServer()) {
-			new ParticleEntity(state, this, poisonParticle, particleLifespan, 0, true, particleSyncType.CREATESYNC);
+			new ParticleEntity(state, this, poisonParticle, particleLifespan, 0, true, SyncType.CREATESYNC);
 		}
 	}
 	
@@ -151,7 +151,7 @@ public class Poison extends Event {
 					currPoisonSpawnTimer -= spawnTimerLimit;
 					int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 					int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
-					new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle, particleLifespan, true, particleSyncType.NOSYNC);
+					new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle, particleLifespan, true, SyncType.NOSYNC);
 				}
 			}
 		}
@@ -174,7 +174,8 @@ public class Poison extends Event {
 					currPoisonSpawnTimer -= spawnTimerLimit;
 					int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 					int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
-					ParticleEntity poison = new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle, particleLifespan, true, particleSyncType.NOSYNC);
+					ParticleEntity poison = new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle,
+							particleLifespan, true, SyncType.NOSYNC);
 					((ClientState) state).addEntity(poison.getEntityID(), poison, false, ObjectSyncLayers.EFFECT);
 				}
 			}
@@ -185,7 +186,7 @@ public class Poison extends Event {
 	 * When server creates poison, clients are told to create the poison in their own worlds
 	 */
 	@Override
-	public Object onServerCreate() {
+	public Object onServerCreate(boolean catchup) {
 		if (independent) { return null; }
 		if (blueprint == null) {
 			entityLocation.set(getPixelPosition());

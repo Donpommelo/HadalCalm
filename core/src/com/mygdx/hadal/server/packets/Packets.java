@@ -17,6 +17,7 @@ import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -145,40 +146,6 @@ public class Packets {
 		 * At the moment, this just includes the client's loadout
 		 */
 		public ClientPlayerCreated() {}
-	}
-	
-	public static class SyncClientLoadout {
-		public UnlockEquip equip;
-		public UnlockArtifact artifactAdd;
-		public UnlockArtifact artifactRemove;
-		public UnlockActives active;
-		public UnlockCharacter character;
-		public AlignmentFilter team;
-		public boolean save;
-		
-		public SyncClientLoadout() {}
-		
-		/**
-		 * A SyncClientWeapon is sent from the Client to the Server when the client attempts to change their loadout in the hub.
-		 * 
-		 * @param equip: An equip to be switched to this client's loadout
-		 * @param artifactAdd: An artifact to be added to this client's loadout
-		 * @param artifactRemove: An artifact to be removed to this client's loadout
-		 * @param active: An active item to be switched to this client's loadout
-		 * @param character: A character skin to be switched to this client's loadout
-		 * @param team: the team alignment/color to be switched to this client's loadout
-		 * @param save: do we save this change into records?
-		 */
-		public SyncClientLoadout(UnlockEquip equip, UnlockArtifact artifactAdd, UnlockArtifact artifactRemove,
-								 UnlockActives active, UnlockCharacter character, AlignmentFilter team, boolean save) {
-			this.equip = equip;
-			this.artifactAdd = artifactAdd;
-			this.artifactRemove= artifactRemove;
-			this.active = active;
-			this.character = character;
-			this.team = team;
-			this.save = save;
-		}
 	}
 	
 	public static class ClientStartTransition {
@@ -340,6 +307,7 @@ public class Packets {
 		public int connID;
 		public String name;
 		public int wins, kills, deaths, score, lives, ping;
+		public boolean spectator;
 
 		public SyncScore() {}
 		
@@ -347,7 +315,7 @@ public class Packets {
 		 * This is sent from the server to the clients to give them their scores for all players
 		 * @param connID: id of the player whose score is being updated.
 		 */
-		public SyncScore(int connID, String name, int wins, int kills, int deaths, int score, int lives, int ping) {
+		public SyncScore(int connID, String name, int wins, int kills, int deaths, int score, int lives, int ping, boolean spectator) {
 			this.connID = connID;
 			this.name = name;
 			this.wins = wins;
@@ -356,6 +324,7 @@ public class Packets {
 			this.score = score;
 			this.lives = lives;
 			this.ping = ping;
+			this.spectator = spectator;
 		}
 	}
 
@@ -398,11 +367,76 @@ public class Packets {
             this.align = align;
         }
 	}
-	
+
+	public static class CreateSyncedAttackSingle {
+		public long uuidMSB, uuidLSB;
+		public long uuidMSBCreator, uuidLSBCreator;
+		public Vector2 pos, velo;
+		public SyncedAttack attack;
+
+		public CreateSyncedAttackSingle() {}
+
+		public CreateSyncedAttackSingle(UUID entityID, UUID creatorID, Vector2 pos, Vector2 velo, SyncedAttack attack) {
+			this.uuidLSB = entityID.getLeastSignificantBits();
+			this.uuidMSB = entityID.getMostSignificantBits();
+			this.uuidLSBCreator = creatorID.getLeastSignificantBits();
+			this.uuidMSBCreator = creatorID.getMostSignificantBits();
+			this.pos = pos;
+			this.velo = velo;
+			this.attack = attack;
+		}
+	}
+
+	public static class CreateSyncedAttackSingleExtra extends CreateSyncedAttackSingle {
+		public float[] extraFields;
+
+		public CreateSyncedAttackSingleExtra() {}
+
+		public CreateSyncedAttackSingleExtra(UUID entityID, UUID creatorID, Vector2 pos, Vector2 velo, float[] extraFields, SyncedAttack attack) {
+			super(entityID, creatorID, pos, velo, attack);
+			this.extraFields = extraFields;
+		}
+	}
+
+	public static class CreateSyncedAttackMulti {
+		public long[] uuidMSB, uuidLSB;
+		public long uuidMSBCreator, uuidLSBCreator;
+		public Vector2[] pos, velo;
+		public SyncedAttack attack;
+
+		public CreateSyncedAttackMulti() {}
+
+		public CreateSyncedAttackMulti(UUID[] entityID, UUID creatorID, Vector2[] pos, Vector2[] velo, SyncedAttack attack) {
+			this.uuidLSB = new long[entityID.length];
+			this.uuidMSB = new long[entityID.length];
+			for (int i = 0; i < entityID.length; i++) {
+				uuidLSB[i] = entityID[i].getLeastSignificantBits();
+				uuidMSB[i] = entityID[i].getMostSignificantBits();
+			}
+			this.uuidLSBCreator = creatorID.getLeastSignificantBits();
+			this.uuidMSBCreator = creatorID.getMostSignificantBits();
+			this.pos = pos;
+			this.velo = velo;
+			this.attack = attack;
+		}
+	}
+
+	public static class CreateSyncedAttackMultiExtra extends CreateSyncedAttackMulti {
+		public float[] extraFields;
+
+		public CreateSyncedAttackMultiExtra() {}
+
+		public CreateSyncedAttackMultiExtra(UUID[] entityID, UUID creatorID, Vector2[] pos, Vector2[] velo, float[] extraFields, SyncedAttack attack) {
+			super(entityID, creatorID, pos, velo, attack);
+			this.extraFields = extraFields;
+		}
+	}
+
 	public static class CreateEnemy {
 		public long uuidMSB, uuidLSB;
 		public Vector2 pos;
 		public EnemyType type;
+		public short hitboxFilter;
 		public boolean boss;
 		public String name;
 		public CreateEnemy() {}
@@ -415,11 +449,12 @@ public class Packets {
 		 * @param boss: is this a boss enemy?
 		 * @param name: if a boss, what name shows up in the ui?
 		 */
-		public CreateEnemy(UUID entityID, Vector2 pos, EnemyType type, boolean boss, String name) {
+		public CreateEnemy(UUID entityID, Vector2 pos, EnemyType type, short hitboxFilter, boolean boss, String name) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
             this.pos = pos;
             this.type = type;
+            this.hitboxFilter = hitboxFilter;
             this.boss = boss;
             this.name = name;
         }
@@ -621,31 +656,6 @@ public class Packets {
         }
 	}
 
-	public static class SyncPlayerStats {
-		public int maxClip;
-        public float maxHp;
-        public float maxFuel;
-        public float airblastCost;
-        public int weaponSlots;
-        public int artifactSlots;
-        public float healthVisible;
-        public SyncPlayerStats() {}
-        
-        /**
-         * A SyncPlayerStats is sent from the server to the client whenever their stats change.
-         * This long list of fields is just the Player-specific information needed for Clients to properly render their own ui.
-         */
-        public SyncPlayerStats(int maxClip, float maxHp, float maxFuel, float airblastCost, int weaponSlots, int artifactSlots, float healthVisible) {
-        	 this.maxClip = maxClip;
-             this.maxHp = maxHp;
-             this.maxFuel = maxFuel;
-             this.airblastCost = airblastCost;
-             this.weaponSlots = weaponSlots;
-             this.artifactSlots = artifactSlots;
-             this.healthVisible = healthVisible;
-        }
-	}
-	
 	public static class SyncServerLoadout {
 		public long uuidMSB, uuidLSB;
 		public Loadout loadout;
@@ -724,7 +734,6 @@ public class Packets {
 	}
 	
 	public static class SyncUI {
-		public String uiTags;
 		public float timer;
 		public float timerIncr;
 		public AlignmentFilter[] teams;
@@ -734,12 +743,10 @@ public class Packets {
 		/**
 		 * A SyncUI is sent from the Server to the Client whenever the ui is updated.
 		 * The client updates their ui to represent the changes.
-		 * @param uiTags: list of ui elements to add
 		 * @param timer: what to set the global game timer to
 		 * @param timerIncr: How much should the timer be incrementing by (probably +-1 or 0)
 		 */
-		public SyncUI(String uiTags, float timer, float timerIncr, AlignmentFilter[] teams, int[] scores) {
-			this.uiTags = uiTags;
+		public SyncUI(float timer, float timerIncr, AlignmentFilter[] teams, int[] scores) {
 			this.timer = timer;
 			this.timerIncr = timerIncr;
 			this.teams = teams;
@@ -1130,12 +1137,14 @@ public class Packets {
 		kryo.register(DeletePlayer.class);
     	kryo.register(CreateEvent.class);
     	kryo.register(CreatePickup.class);
+		kryo.register(CreateSyncedAttackSingle.class);
+		kryo.register(CreateSyncedAttackSingleExtra.class);
+		kryo.register(CreateSyncedAttackMulti.class);
+		kryo.register(CreateSyncedAttackMultiExtra.class);
     	kryo.register(SyncPickup.class);
     	kryo.register(ActivateEvent.class);
     	kryo.register(CreatePlayer.class);
-		kryo.register(SyncPlayerStats.class);
 		kryo.register(SyncServerLoadout.class);
-    	kryo.register(SyncClientLoadout.class);
     	kryo.register(CreateParticles.class);
     	kryo.register(CreateRagdoll.class);
 
@@ -1170,8 +1179,25 @@ public class Packets {
 		kryo.register(PacketsSync.SyncParticles.class);
 		kryo.register(PacketsSync.SyncParticlesExtra.class);
 
+		kryo.register(PacketsLoadout.SyncLoadoutClient.class);
+		kryo.register(PacketsLoadout.SyncEquipClient.class);
+		kryo.register(PacketsLoadout.SyncArtifactAddClient.class);
+		kryo.register(PacketsLoadout.SyncArtifactRemoveClient.class);
+		kryo.register(PacketsLoadout.SyncActiveClient.class);
+		kryo.register(PacketsLoadout.SyncCharacterClient.class);
+		kryo.register(PacketsLoadout.SyncTeamClient.class);
+		kryo.register(PacketsLoadout.SyncEquipServer.class);
+		kryo.register(PacketsLoadout.SyncArtifactServer.class);
+		kryo.register(PacketsLoadout.SyncArtifactRemoveServer.class);
+		kryo.register(PacketsLoadout.SyncActiveServer.class);
+		kryo.register(PacketsLoadout.SyncCharacterServer.class);
+		kryo.register(PacketsLoadout.SyncTeamServer.class);
+
 		kryo.register(int[].class);
+		kryo.register(float[].class);
+		kryo.register(long[].class);
 		kryo.register(Vector2.class);
+		kryo.register(Vector2[].class);
 		kryo.register(Vector3.class);
 		kryo.register(Particle.class);
 		kryo.register(SoundEffect.class);
@@ -1193,6 +1219,7 @@ public class Packets {
 		kryo.register(ObjectSyncLayers.class);
 		kryo.register(alignType.class);
 		kryo.register(EnemyType.class);
+		kryo.register(SyncedAttack.class);
 		kryo.register(DespawnType.class);
 		kryo.register(MoveState.class);
 		kryo.register(Shader.class);
@@ -1207,7 +1234,6 @@ public class Packets {
 		kryo.register(UserDto[].class);
 		kryo.register(SavedPlayerFields.class);
 		kryo.register(SavedPlayerFieldsExtra.class);
-
 
 		kryo.register(Array.class);
 		kryo.register(Object[].class);

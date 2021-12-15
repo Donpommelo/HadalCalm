@@ -49,7 +49,8 @@ public class DepthCharge extends ActiveItem {
 					
 					SoundEffect.EXPLOSION6.playUniversal(state, explosionPos, 0.8f, false);
 					
-					WeaponUtils.createExplosion(state, explosionPos, explosionSize.x, user.getPlayer(), explosionDamage, explosionKnockback, user.getPlayer().getHitboxfilter());
+					WeaponUtils.createExplosion(state, explosionPos, explosionSize.x, user.getPlayer(), explosionDamage,
+							explosionKnockback, user.getPlayer().getHitboxfilter(), true);
 					explosionPos.sub(0, explosionSize.x / 2);
 				}
 				procCdCount += delta;

@@ -62,7 +62,7 @@ public class SamsonOption extends ActiveItem {
 					
 					SoundEffect.EXPLOSION6.playUniversal(state, explosionPosition.set(randX, randY), 0.5f, false);
 					WeaponUtils.createExplosion(state, explosionPosition, explosionRadius, user.getSchmuck(), explosionDamage, explosionKnockback,
-						user.getSchmuck().getHitboxfilter());
+						user.getSchmuck().getHitboxfilter(), true);
 				}
 			}
 		});

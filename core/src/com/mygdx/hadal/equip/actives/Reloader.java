@@ -6,6 +6,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -34,7 +35,7 @@ public class Reloader extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.RELOAD.playUniversal(state, user.getPlayer().getPixelPosition(), 0.4f, false);
 
-		new ParticleEntity(state, user.getSchmuck(), Particle.BRIGHT, 1.0f, duration, true, ParticleEntity.particleSyncType.CREATESYNC).setColor(
+		new ParticleEntity(state, user.getSchmuck(), Particle.BRIGHT, 1.0f, duration, true, SyncType.CREATESYNC).setColor(
 			HadalColor.RED);
 
 		user.addStatus(new StatusComposite(state, duration, false, user, user,

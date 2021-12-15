@@ -15,8 +15,8 @@ import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
@@ -90,7 +90,8 @@ public class Navigations extends HubEvent {
 						if (state.isServer()) {
 							state.loadLevel(selected, TransitionState.NEWLEVEL, "");
 							//play a particle when the player uses this event
-							new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true, particleSyncType.CREATESYNC, new Vector2(0, - me.getSize().y / 2));
+							new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true,
+									SyncType.CREATESYNC, new Vector2(0, - me.getSize().y / 2));
 						} else {
 
 							//clients suggest maps when clicking

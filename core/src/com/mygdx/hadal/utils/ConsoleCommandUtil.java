@@ -121,7 +121,7 @@ public class ConsoleCommandUtil {
 			if (player.getPlayerData() != null) {
 				StringBuilder message = new StringBuilder("Weapons: ");
 
-				for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, state.getUiPlay().getOverrideWeaponSlots()); i++) {
+				for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
 					if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
 						message.append(player.getPlayerData().getLoadout().multitools[i].name()).append(" ");
 					}

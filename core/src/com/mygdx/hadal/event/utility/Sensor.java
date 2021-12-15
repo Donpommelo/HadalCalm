@@ -34,12 +34,17 @@ public class Sensor extends Event {
 
     private final short filter;
     private final boolean collision;
+    private final float cooldown;
 
-    public Sensor(PlayState state, Vector2 startPos, Vector2 size, boolean player, boolean hbox, boolean event, boolean enemy,	float gravity, boolean collision) {
+    private float cooldownCount;
+
+    public Sensor(PlayState state, Vector2 startPos, Vector2 size, boolean player, boolean hbox, boolean event, boolean enemy,
+                  float gravity, float cooldown, boolean collision) {
         super(state, startPos, size);
         this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) |
                 (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
         this.gravity = gravity;
+        this.cooldown = cooldown;
         this.collision = collision;
     }
 
@@ -56,6 +61,7 @@ public class Sensor extends Event {
             @Override
             public void onTouch(HadalData fixB) {
                 super.onTouch(fixB);
+                if (cooldownCount < cooldown) { return; }
 
                 if (isAlive()) {
                     if (event.getConnectedEvent() != null) {
@@ -68,7 +74,7 @@ public class Sensor extends Event {
                         } else {
                             event.getConnectedEvent().getEventData().preActivate(this, null);
                         }
-
+                        cooldownCount = 0.0f;
                         if (standardParticle != null) {
                             standardParticle.onForBurst(1.0f);
                         }
@@ -85,5 +91,10 @@ public class Sensor extends Event {
             FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size).scl(2), false, 0, 0,
                     0.0f, 1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0);
         }
+    }
+
+    @Override
+    public void controller(float delta) {
+        cooldownCount += delta;
     }
 }

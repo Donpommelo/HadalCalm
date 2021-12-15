@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.HealingArea;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
-import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
@@ -30,7 +30,7 @@ public class HealingField extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {	
 		new SoundEntity(state, new HealingArea(state, user.getSchmuck().getPixelPosition(), fieldSize, fieldHeal, healDuration, user.getSchmuck(), (short) 0),
-				SoundEffect.MAGIC21_HEAL, 0.25f, 1.0f, true, true, soundSyncType.TICKSYNC);
+				SoundEffect.MAGIC21_HEAL, 0.25f, 1.0f, true, true, SyncType.TICKSYNC);
 	}
 	
 	@Override

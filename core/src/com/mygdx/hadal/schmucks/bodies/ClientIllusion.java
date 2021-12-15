@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -47,7 +47,7 @@ public class ClientIllusion extends HadalEntity {
 
 	@Override
 	public void create() {
-		this.hadalData = new HadalData(UserDataTypes.EVENT, this);
+		this.hadalData = new HadalData(UserDataType.EVENT, this);
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 1, 0, false, true,
 				Constants.BIT_SENSOR, (short) 0, (short) 0, true, hadalData);
 		body.setTransform(getPosition(), startAngle);

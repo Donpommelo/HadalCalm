@@ -9,7 +9,7 @@ import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
@@ -75,9 +75,6 @@ public class BodyData extends HadalData {
 	//This is the last schmuck who damaged this entity. Used for kill credit
 	private BodyData lastDamagedBy;
 	
-	//this is the hp value used by the client ui
-	private float overrideHpPercent;
-
 	/**
 	 * This is created upon the create() method of any schmuck.
 	 * Schmucks are the Body data type.
@@ -85,7 +82,7 @@ public class BodyData extends HadalData {
 	 * @param maxHp: the unit's hp
 	 */
 	public BodyData(Schmuck schmuck, float maxHp) {
-		super(UserDataTypes.BODY, schmuck);
+		super(UserDataType.BODY, schmuck);
 		this.schmuck = schmuck;	
 		
 		this.baseStats = new float[52];
@@ -114,6 +111,7 @@ public class BodyData extends HadalData {
 	 */
 	public ProcTime statusProcTime(ProcTime o) {
 		ProcTime finalProcTime = o;
+		if (!schmuck.getState().isServer() && !(o instanceof ProcTime.StatCalc)) { return finalProcTime; }
 
 		Array<Status> oldChecked = new Array<>();
 		for (Status s : this.statusesChecked) {
@@ -121,7 +119,10 @@ public class BodyData extends HadalData {
 			oldChecked.add(s);
 		}
 		this.statusesChecked.clear();
+
+		//sorting statuses makes status priority work properly
 		statuses.sort();
+
 		while (!this.statuses.isEmpty()) {
 			Status tempStatus = this.statuses.get(0);
 			
@@ -149,8 +150,7 @@ public class BodyData extends HadalData {
 	 * @param s: Status to add
 	 */
 	public void addStatus(Status s) {
-		if (!schmuck.getState().isServer()) { return; }
-		
+
 		boolean added = false;
 		
 		//in the case of re-adding a status, the behavior depends on the status' stack type
@@ -184,7 +184,6 @@ public class BodyData extends HadalData {
 	 * Removes a status from this schmuck
 	 */
 	public void removeStatus(Status s) {
-		if (!schmuck.getState().isServer()) { return; }
 		s.onRemove();
 		statuses.removeValue(s, false);
 		statusesChecked.removeValue(s, false);
@@ -195,7 +194,6 @@ public class BodyData extends HadalData {
 	 * Removes a status from this schmuck
 	 */
 	public void removeArtifactStatus(UnlockArtifact artifact) {
-		if (!schmuck.getState().isServer()) { return; }
 
 		Array<Status> toRemove = new Array<>();
 		
@@ -273,6 +271,7 @@ public class BodyData extends HadalData {
 	 */
 	@Override
 	public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
+		if (!schmuck.getState().isServer()) { return 0.0f; }
 		if (!schmuck.isAlive()) { return 0.0f; }
 		
 		//calculate damage
@@ -290,7 +289,7 @@ public class BodyData extends HadalData {
 		
 		//Make schmuck flash upon receiving damage
 		if (damage > 0 && schmuck.getShaderCount() < -flashDuration) {
-			schmuck.setShader(Shader.WHITE, flashDuration);
+			schmuck.setShader(Shader.WHITE, flashDuration, true);
 			schmuck.impact.onForBurst(0.25f);
 		}
 		
@@ -365,7 +364,8 @@ public class BodyData extends HadalData {
 	 * @param tags: varargs of damage tags
 	 */
 	public void regainHp(float baseheal, BodyData perp, Boolean procEffects, DamageTypes... tags) {
-		
+		if (!schmuck.getState().isServer()) { return; }
+
 		float heal = baseheal;
 		
 		if (procEffects) {
@@ -397,6 +397,8 @@ public class BodyData extends HadalData {
 	public void setCurrentHp(float currentHp) { this.currentHp = currentHp;	}
 
 	public float getCurrentFuel() {	return currentFuel;	}
+
+	public void setCurrentFuel(float currentFuel) { this.currentFuel = currentFuel;	}
 
 	public float getStat(int index) { return buffedStats[index]; }
 	
@@ -442,8 +444,4 @@ public class BodyData extends HadalData {
 	public float getYAirDeaccel() {	return airYDeaccel * (1 + getStat(Stats.AIR_DRAG)); }
 	
 	public float getFastFallPower() { return fastFallPow * (1 + getStat(Stats.FASTFALL_POW)); }
-	
-	public float getOverrideHpPercent() { return overrideHpPercent; }
-
-	public void setOverrideHpPercent(float overrideHpPercent) {	this.overrideHpPercent = overrideHpPercent;	}
 }

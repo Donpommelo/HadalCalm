@@ -20,12 +20,15 @@ import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -247,9 +250,9 @@ public class KryoServer {
 							if (userUpdated != null) {
 								userUpdated.setLastEquippedPrimary(p.loadout.multitools[0]);
 							}
+
 							//sync client ui elements
-							sendToTCP(c.getID(), new Packets.SyncUI(ps.getUiExtra().getCurrentTags(),
-								ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr(),
+							sendToTCP(c.getID(), new Packets.SyncUI(ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr(),
 								AlignmentFilter.currentTeams, AlignmentFilter.teamScores));
 							sendToTCP(c.getID(), new Packets.SyncSharedSettings(ps.getGsm().getSharedSetting()));
 						});
@@ -278,7 +281,7 @@ public class KryoServer {
 				 * The Client has changed their loadout (in the hub because anywhere else is handled server side)
 				 * Find the client changing and update their player loadout
 				 */
-				else if (o instanceof final Packets.SyncClientLoadout p) {
+				else if (o instanceof final PacketsLoadout.SyncLoadoutClient p) {
 					final PlayState ps = getPlayState();
 
     				User user = users.get(c.getID());
@@ -286,13 +289,29 @@ public class KryoServer {
 						Player player = user.getPlayer();
 						if (player != null) {
 							ps.addPacketEffect(() -> {
-								player.getPlayerData().syncLoadoutFromClient(p.equip, p.artifactAdd, p.artifactRemove, p.active, p.character, p.team);
-								player.getPlayerData().syncServerLoadoutChange(p.save);
+								if (p instanceof PacketsLoadout.SyncEquipClient s) {
+									player.getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(s.equip, player)));
+								}
+								else if (p instanceof PacketsLoadout.SyncArtifactAddClient s) {
+									player.getPlayerData().addArtifact(s.artifactAdd, false, false);
+								}
+								else if (p instanceof PacketsLoadout.SyncArtifactRemoveClient s) {
+									player.getPlayerData().removeArtifact(s.artifactRemove);
+								}
+								else if (p instanceof PacketsLoadout.SyncActiveClient s) {
+									player.getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(s.active, player)));
+								}
+								else if (p instanceof PacketsLoadout.SyncCharacterClient s) {
+									player.getPlayerData().setCharacter(s.character);
+								}
+								else if (p instanceof PacketsLoadout.SyncTeamClient s) {
+									player.getPlayerData().setTeam(s.team);
+								}
 							});
 						}
 					}
         		}
-				
+
 				/*
 				 * The Client tells us they might have missed a create packet.
 				 * Check if the entity exists and send a catchup create packet if so. 
@@ -303,7 +322,7 @@ public class KryoServer {
 						ps.addPacketEffect(() -> {
 							HadalEntity entity = ps.findEntity(p.uuidMSB, p.uuidLSB);
 							if (entity != null) {
-								Object packet = entity.onServerCreate();
+								Object packet = entity.onServerCreate(true);
 								if (packet != null) {
 									sendToUDP(c.getID(), packet);
 								}

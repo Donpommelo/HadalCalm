@@ -2,8 +2,8 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -17,7 +17,6 @@ public class Honeycomb extends ActiveItem {
 	private static final float usedelay = 0.0f;
 	private static final float maxCharge = 15.0f;
 	private static final float projectileSpeed = 5.0f;
-	private static final int homeRadius = 60;
 
 	private static final float duration = 1.5f;
 	private static final float procCd = 0.15f;
@@ -37,8 +36,8 @@ public class Honeycomb extends ActiveItem {
 				super.timePassing(delta);
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					WeaponUtils.createBees(state, user.getSchmuck().getPixelPosition(), user.getSchmuck(), 1,
-						homeRadius, new Vector2(0, projectileSpeed), false, user.getSchmuck().getHitboxfilter());
+					SyncedAttack.BEE.initiateSyncedAttackSingle(state, user.getPlayer(), user.getSchmuck().getPixelPosition(),
+							new Vector2(0, projectileSpeed));
 				}
 				procCdCount += delta;
 			}

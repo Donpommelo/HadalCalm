@@ -60,7 +60,7 @@ public class PacketsSync {
 
     public static class SyncSchmuck extends SyncEntity {
         public MoveState moveState;
-        public float hpPercent;
+        public float currentHp;
 
         public SyncSchmuck() {}
 
@@ -70,13 +70,13 @@ public class PacketsSync {
          * This adjusts the Schmuck's stats and visual information
          *
          * @param moveState: The State of the Schmuck. Used for animations on the Client's end
-         * @param hpPercent: The percent of remaining hp this schmuck has.
+         * @param currentHp: The amount of remaining hp this schmuck has.
          */
         public SyncSchmuck(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp,
-                           MoveState moveState, float hpPercent) {
+                           MoveState moveState, float currentHp) {
             super(entityID, pos, velocity, age, timestamp);
             this.moveState = moveState;
-            this.hpPercent = hpPercent;
+            this.currentHp = currentHp;
         }
     }
 
@@ -86,8 +86,8 @@ public class PacketsSync {
         public SyncSchmuckAngled() {}
 
         public SyncSchmuckAngled(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp,
-                                 MoveState moveState, float hpPercent, float angle) {
-            super(entityID, pos, velocity, age, timestamp, moveState, hpPercent);
+                                 MoveState moveState, float currentHp, float angle) {
+            super(entityID, pos, velocity, age, timestamp, moveState, currentHp);
             this.angle = angle;
         }
     }
@@ -101,6 +101,7 @@ public class PacketsSync {
         public boolean charging;
         public float chargePercent;
         public boolean outOfAmmo;
+        public short maskBits;
         public int invisible;
 
         public SyncPlayer() {}
@@ -111,9 +112,10 @@ public class PacketsSync {
          * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
          */
         public SyncPlayer(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
-                          float hpPercent, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading,
-                          float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo, int invisible) {
-            super(entityID, pos, velocity, age, timestamp, moveState, hpPercent);
+                          float currentHp, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading,
+                          float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo,
+                          short maskBits, int invisible) {
+            super(entityID, pos, velocity, age, timestamp, moveState, currentHp);
             this.attackAngle = attackAngle;
             this.grounded = grounded;
             this.currentSlot = currentSlot;
@@ -122,12 +124,13 @@ public class PacketsSync {
             this.charging = charging;
             this.chargePercent = chargePercent;
             this.outOfAmmo = outOfAmmo;
+            this.maskBits = maskBits;
             this.invisible = invisible;
         }
     }
 
     public static class SyncPlayerSelf extends SyncPlayer {
-        public float fuelPercent;
+        public float currentFuel;
         public int currentClip;
         public int currentAmmo;
         public float activeCharge;
@@ -138,18 +141,18 @@ public class PacketsSync {
         /**
          * A SyncPlayerSelf is sent from the Server to the Client every engine tick.
          * This packet (and similar packets) just tells the client how to change their own Player for their purpose of their own ui.
-         * @param fuelPercent: The client player's current fuel amount.
+         * @param currentFuel: The client player's current fuel amount.
          * @param currentClip: The client player's current clip amount.
          * @param currentAmmo: The client player's current ammo amount.
          * @param activeCharge: The client player's current active item charge amount.
          */
         public SyncPlayerSelf(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
-                          float hpPercent, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading,
-                          float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo, int invisible,
-                          float fuelPercent, int currentClip, int currentAmmo, float activeCharge, float blinded) {
-            super(entityID, pos, velocity, age, timestamp, moveState, hpPercent, attackAngle, grounded, currentSlot, reloading,
-                    reloadPercent, charging, chargePercent, outOfAmmo, invisible);
-            this.fuelPercent = fuelPercent;
+                          float currentHp, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading,
+                          float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo, short maskBits, int invisible,
+                          float currentFuel, int currentClip, int currentAmmo, float activeCharge, float blinded) {
+            super(entityID, pos, velocity, age, timestamp, moveState, currentHp, attackAngle, grounded, currentSlot, reloading,
+                    reloadPercent, charging, chargePercent, outOfAmmo, maskBits, invisible);
+            this.currentFuel = currentFuel;
             this.currentClip = currentClip;
             this.currentAmmo = currentAmmo;
             this.activeCharge = activeCharge;

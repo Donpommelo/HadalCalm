@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
@@ -8,10 +9,12 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -24,8 +27,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.Stats;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Hexenhowitzer extends RangedWeapon {
 
@@ -77,27 +78,9 @@ public class Hexenhowitzer extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		float pitch = (ThreadLocalRandom.current().nextFloat() - 0.5f) * pitchSpread;
-		SoundEffect.BOTTLE_ROCKET.playUniversal(state, startPosition, 0.4f, 1.0f + pitch, false);
-
+		Hitbox hbox = SyncedAttack.HEX.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, supercharged ? 1.0f : 0.0f);
 		final Equippable me = this;
-		
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
-		hbox.setGravity(1.0f);
-		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BRIGHT, 0.0f, 1.0f).setParticleColor(
-			HadalColor.RANDOM));
-		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-		
 		if (supercharged) {
-			
-			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MAGIC, DamageTypes.RANGED));
-			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
-
 			//when charged we deplete charge when shooting and remove visual effect when empty
 			me.setChargeCd(me.getChargeCd() - chargeLostPerShot);
 			if (me.getChargeCd() <= 0.0f) {
@@ -108,40 +91,39 @@ public class Hexenhowitzer extends RangedWeapon {
 					user.getBodyData().removeStatus(glowing);
 				}
 			}
-			
+
 			//when charged, we have a faster fire rate
 			user.setShootCdCount(superchargedShootCd);
-		} else {
-			
+ 		} else {
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-				
+
 				private final Array<HadalData> damaged = new Array<>();
 
 				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
-						if (fixB.getType().equals(UserDataTypes.BODY)) {
+						if (fixB.getType().equals(UserDataType.BODY)) {
 							if (!damaged.contains(fixB, false)) {
 								damaged.add(fixB);
-								
+
 								//gain charge based on the amount of damage dealt by this weapon's projectiles
 								float damage = fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(),
 										hbox.getLinearVelocity().nor().scl(knockback), creator, true, hbox, DamageTypes.MAGIC, DamageTypes.RANGED);
-								
+
 								me.setCharging(true);
-								
+
 								if (fixB instanceof PlayerBodyData) {
 									me.setChargeCd(me.getChargeCd() + damage);
 								} else {
 									me.setChargeCd(me.getChargeCd() + damage * enemyChargeMultiplier);
 								}
-								
+
 								//if fully charged, get a visual effect
 								if (me.getChargeCd() >= getChargeTime() && !supercharged) {
 									supercharged = true;
 									glowing = new MagicGlow(state, user.getBodyData());
 									user.getBodyData().addStatus(glowing);
-									
+
 									SoundEffect.MAGIC25_SPELL.playUniversal(state, startPosition, 0.5f, false);
 								}
 							}
@@ -151,7 +133,43 @@ public class Hexenhowitzer extends RangedWeapon {
 			});
 		}
 	}
-	
+
+	public static Hitbox createHex(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+		float pitch = (MathUtils.random() - 0.5f) * pitchSpread;
+		SoundEffect.BOTTLE_ROCKET.playSourced(state, startPosition, 0.4f, 1.0f + pitch);
+
+		boolean supercharged = false;
+		if (extraFields.length > 0) {
+			if (extraFields[0] == 1.0f) {
+				supercharged = true;
+			}
+		}
+
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+				true, true, user, Sprite.NOTHING);
+		hbox.setGravity(1.0f);
+
+		if (supercharged) {
+			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MAGIC, DamageTypes.RANGED));
+			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
+		} else {
+			//for clients, we don't do the charging so we add this to register kb and damage flashes
+			if (!state.isServer()) {
+				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MAGIC, DamageTypes.RANGED));
+			}
+		}
+
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BRIGHT, 0.0f, 1.0f).setParticleColor(
+				HadalColor.RANDOM).setSyncType(SyncType.NOSYNC));
+		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
+
+		return hbox;
+	}
+
 	//this is to avoid resetting the charge status when reequipping this weapon
 	@Override
 	public void equip(PlayState state) {

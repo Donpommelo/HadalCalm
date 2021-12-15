@@ -1,14 +1,13 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *  This strategy creates a sound when the hbox hits a wall
@@ -33,7 +32,9 @@ public class ContactWallSound extends HitboxStrategy {
 	
 	//this is the slowest the hbox can be moving while still playing the sound
 	private static final float minVelo = 3.0f;
-	
+
+	private boolean synced = true;
+
 	public ContactWallSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume) {
 		super(state, proj, user);
 		this.sound = sound;
@@ -52,11 +53,15 @@ public class ContactWallSound extends HitboxStrategy {
 	public void onHit(HadalData fixB) {
 		if (procCdCount >= procCd && hbox.getLinearVelocity().len2() > minVelo) {
 			if (fixB != null) {
-				if (fixB.getType().equals(UserDataTypes.WALL)) {
+				if (fixB.getType().equals(UserDataType.WALL)) {
 					procCdCount = 0;
 
-					float newPitch = pitch + (ThreadLocalRandom.current().nextFloat() - 0.5f) * pitchSpread;
-					sound.playUniversal(state, hbox.getPixelPosition(), volume, newPitch, false);
+					float newPitch = pitch + (MathUtils.random() - 0.5f) * pitchSpread;
+					if (synced) {
+						sound.playUniversal(state, hbox.getPixelPosition(), volume, newPitch, false);
+					} else {
+						sound.playSourced(state, hbox.getPixelPosition(), volume, newPitch);
+					}
 				}
 			}
 		}
@@ -69,6 +74,11 @@ public class ContactWallSound extends HitboxStrategy {
 
 	public ContactWallSound setPitchSpread(float pitchSpread) {
 		this.pitchSpread = pitchSpread;
+		return this;
+	}
+
+	public ContactWallSound setSynced(boolean synced) {
+		this.synced = synced;
 		return this;
 	}
 }

@@ -5,16 +5,17 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
-import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -68,7 +69,7 @@ public class LoveBow extends RangedWeapon {
 		charging = true;
 		
 		if (chargeCd == 0) {
-			chargeSound = new SoundEntity(state, user, SoundEffect.BOW_STRETCH, 1.0f, 1.0f, true, true, soundSyncType.TICKSYNC);
+			chargeSound = new SoundEntity(state, user, SoundEffect.BOW_STRETCH, 1.0f, 1.0f, true, true, SyncType.TICKSYNC);
 		}
 		
 		//while held, build charge until maximum (if not reloading)
@@ -97,34 +98,46 @@ public class LoveBow extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.BOW_SHOOT.playUniversal(state, startPosition, 0.6f, false);
+		float charge = chargeCd / getChargeTime();
+		SyncedAttack.LOVE_ARROW.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, charge);
+	}
+
+	public static Hitbox createLoveArrow(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] charge) {
+		SoundEffect.BOW_SHOOT.playSourced(state, startPosition, 0.6f);
+
+		float chargeAmount = 0.0f;
+		if (charge.length > 0) {
+			chargeAmount = charge[0];
+		}
 
 		//velocity scales to the charge percent
-		float velocity = chargeCd / getChargeTime() * (projectileMaxSpeed - projectileSpeed) + projectileSpeed;
-		float damage = chargeCd / getChargeTime() * (maxDamage - minDamage) + minDamage;
-		float heal = chargeCd / getChargeTime() * (maxHeal - minHeal) + minHeal;
+		float velocity = chargeAmount * (projectileMaxSpeed - projectileSpeed) + projectileSpeed;
+		float damage = chargeAmount * (maxDamage - minDamage) + minDamage;
+		float heal = chargeAmount * (maxHeal - minHeal) + minHeal;
 
-		Hitbox hurtbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), filter, false, true, user, projSprite);
+		Hitbox hurtbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity),
+				user.getHitboxfilter(), false, true, user, projSprite);
 		hurtbox.setGravity(1.0f);
-		
+
 		hurtbox.addStrategy(new ControllerDefault(state, hurtbox, user.getBodyData()));
 		hurtbox.addStrategy(new AdjustAngle(state, hurtbox, user.getBodyData()));
 		hurtbox.addStrategy(new ContactWallDie(state, hurtbox, user.getBodyData()));
 		hurtbox.addStrategy(new ContactUnitLoseDurability(state, hurtbox, user.getBodyData()));
-		hurtbox.addStrategy(new DieParticles(state, hurtbox, user.getBodyData(), Particle.ARROW_BREAK));
+		hurtbox.addStrategy(new DieParticles(state, hurtbox, user.getBodyData(), Particle.ARROW_BREAK).setSyncType(SyncType.NOSYNC));
 		hurtbox.addStrategy(new DamageStandard(state, hurtbox, user.getBodyData(), damage, knockback, DamageTypes.POKING, DamageTypes.RANGED));
-		hurtbox.addStrategy(new ContactUnitSound(state, hurtbox, user.getBodyData(), SoundEffect.SLASH, 0.4f, true));
-		hurtbox.addStrategy(new ContactWallSound(state, hurtbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.8f));
-		hurtbox.addStrategy(new CreateParticles(state, hurtbox, user.getBodyData(), Particle.BOW_TRAIL, 0.0f, 1.0f).setRotate(true));
-		
+		hurtbox.addStrategy(new ContactUnitSound(state, hurtbox, user.getBodyData(), SoundEffect.SLASH, 0.4f, true).setSynced(false));
+		hurtbox.addStrategy(new ContactWallSound(state, hurtbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.8f).setSynced(false));
+		hurtbox.addStrategy(new CreateParticles(state, hurtbox, user.getBodyData(), Particle.BOW_TRAIL, 0.0f, 1.0f)
+				.setRotate(true).setSyncType(SyncType.NOSYNC));
+
 		Hitbox healbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity),
 				(short) 0, false, false, user, Sprite.NOTHING);
 		healbox.setSyncDefault(false);
-		
+
 		healbox.addStrategy(new ControllerDefault(state, healbox, user.getBodyData()));
-		healbox.addStrategy(new FixedToEntity(state, healbox, user.getBodyData(), hurtbox, new Vector2(), new Vector2(), true));
+		healbox.addStrategy(new FixedToEntity(state, healbox, user.getBodyData(), hurtbox, new Vector2(), new Vector2()).setRotate(true));
 		healbox.addStrategy(new HitboxStrategy(state, healbox, user.getBodyData()) {
-			
+
 			//delay exists so the projectile doesn't immediately contact the shooter
 			private float delay = selfHitDelay;
 			@Override
@@ -133,29 +146,39 @@ public class LoveBow extends RangedWeapon {
 					delay -= delta;
 				}
 			}
-			
+
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
 					//if shooting self after delay or any ally, the arrow will heal. Otherwise, damage is inflicted
-					if (fixB.getType().equals(UserDataTypes.BODY)) {
+					if (fixB.getType().equals(UserDataType.BODY)) {
 
 						if ((fixB == user.getBodyData() && delay <= 0) || (fixB != user.getBodyData() && ((BodyData) fixB).getSchmuck().getHitboxfilter() == user.getHitboxfilter())) {
 							((BodyData) fixB).regainHp(heal, creator, true);
 							SoundEffect.COIN3.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
-							new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HEAL, 1.0f,
-									true, particleSyncType.CREATESYNC);
+							ParticleEntity heal = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HEAL, 1.0f,
+									true, SyncType.NOSYNC);
+							if (!state.isServer()) {
+								((ClientState) state).addEntity(heal.getEntityID(), heal, false, ClientState.ObjectSyncLayers.HBOX);
+							}
 							hurtbox.die();
 						} else if (((BodyData) fixB).getSchmuck().getHitboxfilter() != user.getHitboxfilter()){
-							new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HURT, 1.0f,
-									true, particleSyncType.CREATESYNC);
+							ParticleEntity hurt = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HURT, 1.0f,
+									true, SyncType.NOSYNC);
+							if (!state.isServer()) {
+								((ClientState) state).addEntity(hurt.getEntityID(), hurt, false, ClientState.ObjectSyncLayers.HBOX);
+							}
 						}
 					}
 				}
 			}
-		});	
+		});
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(healbox.getEntityID(), healbox, false, ClientState.ObjectSyncLayers.HBOX);
+		}
+		return hurtbox;
 	}
-	
+
 	@Override
 	public void unequip(PlayState state) {
 		if (chargeSound != null) {

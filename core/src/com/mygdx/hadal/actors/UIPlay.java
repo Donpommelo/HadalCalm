@@ -80,7 +80,7 @@ public class UIPlay extends AHadalActor {
 	private float bossHpDelayed = 1.0f;
 	
 	//This is the percentage of the boss hp bar that is effectively 0 (to prevent the 9patch from displaying weirdly)
-	private static final float bossHpFloor = 0.05f;
+	protected static final float bossHpFloor = 0.05f;
 	protected float bossHpRatio;
 	private final float hpWidthScaled, hpHeightScaled, fuelWidthScaled, fuelHeightScaled, fuelCutoffWidthScaled, fuelCutoffHeightScaled, activeWidthScaled, activeHeightScaled;
 	

@@ -40,23 +40,23 @@ public enum AlignmentFilter {
     PLAYER15(-18),
     PLAYER16(-19),
 
-    TEAM_BANANA(-25, HadalColor.BANANA, HadalColor.BEIGE, HadalColor.YELLOW, "BANANA"),
-    TEAM_CELADON(-26, HadalColor.CELADON, HadalColor.GREEN, HadalColor.GREEN, "CELADON"),
-    TEAM_CHARTREUSE(-27, HadalColor.CHARTREUSE, HadalColor.PALE_GREEN, HadalColor.GREEN, "CHARTREUSE"),
-    TEAM_COQUELICOT(-28, HadalColor.COQUELICOT, HadalColor.RED, HadalColor.RED, "COQUELICOT"),
-    TEAM_CRIMSON(-29, HadalColor.CRIMSON, HadalColor.RED, HadalColor.RED, "CRIMSON"),
-    TEAM_EGGPLANT(-30, HadalColor.EGGPLANT, HadalColor.GREEN, HadalColor.VIOLET, "EGGPLANT"),
-    TEAM_GOLD(-31, HadalColor.GOLD, HadalColor.TAN, HadalColor.ORANGE, "GOLD"),
-    TEAM_GREY(-32, HadalColor.GREY, HadalColor.DARK_GREY, HadalColor.GREY, "GREY"),
-    TEAM_PLUM(-33, HadalColor.PLUM, HadalColor.VIOLET, HadalColor.VIOLET, "PLUM"),
-    TEAM_MAUVE(-34, HadalColor.MAUVE, HadalColor.PLUM, HadalColor.VIOLET, "MAUVE"),
-    TEAM_ORANGE(-35, HadalColor.ORANGE, HadalColor.GOLD, HadalColor.ORANGE, "ORANGE"),
-    TEAM_SKY_BLUE(-36, HadalColor.SKY_BLUE, HadalColor.TURQOISE, HadalColor.BLUE, "SKY BLUE"),
-    TEAM_TAN(-37, HadalColor.TAN, HadalColor.BROWN, HadalColor.ORANGE, "TAN"),
-    TEAM_TURQUIOSE(-38, HadalColor.TURQOISE, HadalColor.BLUE, HadalColor.BLUE, "TURQUOISE"),
-    TEAM_VIOLET(-39, HadalColor.VIOLET, HadalColor.BLUE, HadalColor.VIOLET, "VIOLET"),
+    TEAM_BANANA(-25, HadalColor.BANANA, HadalColor.BEIGE, "BANANA", HadalColor.YELLOW),
+    TEAM_CELADON(-26, HadalColor.CELADON, HadalColor.GREEN, "CELADON", HadalColor.GREEN),
+    TEAM_CHARTREUSE(-27, HadalColor.CHARTREUSE, HadalColor.PALE_GREEN, "CHARTREUSE", HadalColor.GREEN),
+    TEAM_COQUELICOT(-28, HadalColor.COQUELICOT, HadalColor.RED, "COQUELICOT", HadalColor.RED),
+    TEAM_CRIMSON(-29, HadalColor.CRIMSON, HadalColor.RED, "CRIMSON", HadalColor.RED),
+    TEAM_EGGPLANT(-30, HadalColor.EGGPLANT, HadalColor.GREEN, "EGGPLANT", HadalColor.VIOLET),
+    TEAM_GOLD(-31, HadalColor.GOLD, HadalColor.TAN, "GOLD", HadalColor.ORANGE),
+    TEAM_GREY(-32, HadalColor.GREY, HadalColor.DARK_GREY, "GREY", HadalColor.GREY),
+    TEAM_PLUM(-33, HadalColor.PLUM, HadalColor.VIOLET, "PLUM", HadalColor.VIOLET),
+    TEAM_MAUVE(-34, HadalColor.MAUVE, HadalColor.PLUM, "MAUVE", HadalColor.VIOLET),
+    TEAM_ORANGE(-35, HadalColor.ORANGE, HadalColor.GOLD, "ORANGE", HadalColor.ORANGE),
+    TEAM_SKY_BLUE(-36, HadalColor.SKY_BLUE, HadalColor.TURQOISE, "SKY BLUE", HadalColor.BLUE),
+    TEAM_TAN(-37, HadalColor.TAN, HadalColor.BROWN, "TAN", HadalColor.BROWN, HadalColor.ORANGE),
+    TEAM_TURQUIOSE(-38, HadalColor.TURQOISE, HadalColor.BLUE, "TURQUOISE", HadalColor.BLUE, HadalColor.GREEN),
+    TEAM_VIOLET(-39, HadalColor.VIOLET, HadalColor.BLUE, "VIOLET", HadalColor.VIOLET),
 
-    TEAM_BLACK_AND_WHITE(-40, HadalColor.WHITE, HadalColor.BLACK, HadalColor.WHITE, "BLACK AND WHITE") {
+    TEAM_BLACK_AND_WHITE(-40, HadalColor.WHITE, HadalColor.BLACK, "BLACK AND WHITE") {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -118,7 +118,7 @@ public enum AlignmentFilter {
     private final Vector3 color2RGB = new Vector3();
 
     //color group is a "similar" color that prevent teams from having similar palettes
-    private HadalColor colorGroup = HadalColor.NOTHING;
+    private HadalColor[] colorGroup = {};
 
     //this string describes the team for purposes like flag-capture notifications
     private String adjective;
@@ -135,11 +135,11 @@ public enum AlignmentFilter {
     }
 
     AlignmentFilter(int filter, HadalColor color1, HadalColor color2, boolean standardChoice, String adjective) {
-        this(filter, color1, color2, HadalColor.NOTHING, adjective);
+        this(filter, color1, color2, adjective);
         this.standardChoice = standardChoice;
     }
 
-    AlignmentFilter(int filter, HadalColor color1, HadalColor color2, HadalColor colorGroup, String adjective) {
+    AlignmentFilter(int filter, HadalColor color1, HadalColor color2, String adjective, HadalColor... colorGroup) {
         this.filter = (short) filter;
         this.team = true;
         this.color1 = color1;
@@ -224,9 +224,13 @@ public enum AlignmentFilter {
                 if (!filter.isUsed() && filter.team && filter.standardChoice) {
                     boolean similar = false;
                     for (AlignmentFilter alignmentFilter : currentTeams) {
-                        if (alignmentFilter.colorGroup == filter.colorGroup) {
-                            similar = true;
-                            break;
+                        for (HadalColor group1: alignmentFilter.colorGroup) {
+                            for (HadalColor group2: filter.colorGroup) {
+                                if (group1 == group2) {
+                                    similar = true;
+                                    break;
+                                }
+                            }
                         }
                     }
                     if (!similar) {

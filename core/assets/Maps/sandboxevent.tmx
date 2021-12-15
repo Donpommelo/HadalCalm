@@ -3,7 +3,6 @@
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="EXTRA_ROOM"/>
-  <property name="startUI" value="SANDBOX,EMPTY,SCRAP"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <tileset firstgid="25" source="main.tsx"/>

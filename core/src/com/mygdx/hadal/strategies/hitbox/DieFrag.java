@@ -9,8 +9,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * This strategy creates a number of projectiles when its hbox dies
  * @author Squuddeus Swollygag
@@ -38,7 +36,7 @@ public class DieFrag extends HitboxStrategy {
 	public void die() {
 		Vector2 fragVelo = new Vector2();
 		for (int i = 0; i < numFrag; i++) {
-			float newDegrees = (ThreadLocalRandom.current().nextInt(0, 360));
+			float newDegrees = (MathUtils.random(0, 360));
 			fragVelo.set(0, fragSpeed).setAngleDeg(newDegrees);
 
 			int randomIndex = MathUtils.random(projSprites.length - 1);

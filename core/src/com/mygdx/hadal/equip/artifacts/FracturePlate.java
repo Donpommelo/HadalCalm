@@ -1,8 +1,8 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -40,7 +40,7 @@ public class FracturePlate extends Artifact {
 				
 				if (procCdCount < 0 && shield != maxShield * p.getStat(Stats.MAX_HP)) {
 					shield = maxShield * p.getStat(Stats.MAX_HP);
-					new ParticleEntity(state, p.getSchmuck(), Particle.SHIELD, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
+					new ParticleEntity(state, p.getSchmuck(), Particle.SHIELD, 1.0f, particleDura, true, SyncType.CREATESYNC);
 				}
 			}
 			
@@ -56,7 +56,7 @@ public class FracturePlate extends Artifact {
 						finalDamage = damage - shield;
 						shield = 0;
 					}
-					new ParticleEntity(state, p.getSchmuck(), Particle.BOULDER_BREAK, 0.0f, particleDura, true, particleSyncType.CREATESYNC);
+					new ParticleEntity(state, p.getSchmuck(), Particle.BOULDER_BREAK, 0.0f, particleDura, true, SyncType.CREATESYNC);
 				}
 				return finalDamage;
 			}

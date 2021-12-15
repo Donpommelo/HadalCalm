@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -46,7 +47,7 @@ public class AmdahlsLotus extends Artifact {
 
 			private void activateBuff() {
 				SoundEffect.MAGIC18_BUFF.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.5f, false);
-				new ParticleEntity(state, p.getSchmuck(), Particle.RING, 1.0f, 1.0f, true, ParticleEntity.particleSyncType.CREATESYNC).setScale(0.4f);
+				new ParticleEntity(state, p.getSchmuck(), Particle.RING, 1.0f, 1.0f, true, SyncType.CREATESYNC).setScale(0.4f);
 
 				p.addStatus(new StatusComposite(state, state.getUiExtra().getTimer(), false, p, p,
 					new StatChangeStatus(state, Stats.FUEL_REGEN, fuelRegenBuff, p),

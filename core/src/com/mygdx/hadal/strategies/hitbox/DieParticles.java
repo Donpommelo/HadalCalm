@@ -1,12 +1,13 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
@@ -33,6 +34,8 @@ public class DieParticles extends HitboxStrategy {
 	//this is the color of the particle. change using factory method
 	private HadalColor color = HadalColor.NOTHING;
 
+	private SyncType syncType = SyncType.CREATESYNC;
+
 	public DieParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
 		super(state, proj, user);
 		this.effect = effect;
@@ -40,12 +43,16 @@ public class DieParticles extends HitboxStrategy {
 
 	@Override
 	public void die() {
-		ParticleEntity particle = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), effect, duration,
-			true, particleSyncType.CREATESYNC).setColor(color);
+		ParticleEntity particles = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), effect, duration,
+			true, syncType).setColor(color);
 		if (particleSize == 0) {
-			particle.setScale(hbox.getScale());
+			particles.setScale(hbox.getScale());
 		} else {
-			particle.setScale(Math.min(hbox.getSize().x, maxSize) / particleSize);
+			particles.setScale(Math.min(hbox.getSize().x, maxSize) / particleSize);
+		}
+
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectSyncLayers.EFFECT);
 		}
 	}
 	
@@ -61,6 +68,11 @@ public class DieParticles extends HitboxStrategy {
 
 	public DieParticles setParticleDuration(float duration) {
 		this.duration = duration;
+		return this;
+	}
+
+	public DieParticles setSyncType(SyncType syncType) {
+		this.syncType = syncType;
 		return this;
 	}
 }

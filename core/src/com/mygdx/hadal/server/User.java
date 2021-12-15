@@ -8,6 +8,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.packets.Packets;
@@ -77,7 +78,7 @@ public class User {
                     startPoint = state.getSavePoint(this);
 
                     new ParticleEntity(state, new Vector2(startPoint.getStartPos()).sub(0, startPoint.getSize().y / 2),
-                            Particle.TELEPORT, 1.0f, true, ParticleEntity.particleSyncType.CREATESYNC);
+                            Particle.TELEPORT, 1.0f, true, SyncType.CREATESYNC);
                 }
             }
             if (transitionTime <= 0.0f) {

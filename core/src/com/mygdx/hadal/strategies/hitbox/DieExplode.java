@@ -18,17 +18,22 @@ public class DieExplode extends HitboxStrategy {
 	
 	//the hitbox filter of units that can be damaged by the explosion.
 	private final short filter;
-	
-	public DieExplode(PlayState state, Hitbox proj, BodyData user, int explosionRadius, float explosionDamage, float explosionKnockback, short filter) {
+
+	private final boolean synced;
+
+	public DieExplode(PlayState state, Hitbox proj, BodyData user, int explosionRadius, float explosionDamage,
+					  float explosionKnockback, short filter, boolean synced) {
 		super(state, proj, user);
 		this.explosionRadius = explosionRadius;
 		this.explosionDamage = explosionDamage;
 		this.explosionKnockback = explosionKnockback;
 		this.filter = filter;
+		this.synced = synced;
 	}
 	
 	@Override
 	public void die() {
-		WeaponUtils.createExplosion(state, this.hbox.getPixelPosition(), explosionRadius, creator.getSchmuck(), explosionDamage, explosionKnockback, filter);
+		WeaponUtils.createExplosion(state, this.hbox.getPixelPosition(), explosionRadius, creator.getSchmuck(),
+				explosionDamage, explosionKnockback, filter, synced);
 	}
 }

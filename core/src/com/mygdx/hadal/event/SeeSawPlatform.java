@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -40,7 +40,7 @@ public class SeeSawPlatform extends Event {
 	
 	@Override
 	public void create() {
-		this.eventData = new EventData(this, UserDataTypes.WALL) {
+		this.eventData = new EventData(this, UserDataType.WALL) {
 			
 			@Override
 			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) { return 0; }
@@ -66,7 +66,7 @@ public class SeeSawPlatform extends Event {
 			
 			final float sectioncenter = i;
 			
-			EventData tempData = new EventData(this, UserDataTypes.WALL) {
+			EventData tempData = new EventData(this, UserDataType.WALL) {
 				
 				@Override
 				public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {

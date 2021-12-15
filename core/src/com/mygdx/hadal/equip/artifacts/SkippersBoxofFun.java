@@ -4,8 +4,8 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -42,7 +42,7 @@ public class SkippersBoxofFun extends Artifact {
 					Equippable equip = UnlocktoItem.getUnlock(UnlockEquip.getRandWeapFromPool(state, ""), null);
 					p.pickup(Objects.requireNonNull(equip));
 					
-					new ParticleEntity(state, p.getSchmuck(), Particle.SMOKE_TOTLC, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
+					new ParticleEntity(state, p.getSchmuck(), Particle.SMOKE_TOTLC, 1.0f, particleDura, true, SyncType.CREATESYNC);
 				}
 				procCdCount += delta;
 			}

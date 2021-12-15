@@ -5,18 +5,16 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
-import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitBurn;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Boiler extends RangedWeapon {
 
@@ -58,7 +56,8 @@ public class Boiler extends RangedWeapon {
 		}
 		
 		if (fireSound == null) {
-			fireSound = new SoundEntity(state, user, SoundEffect.FLAMETHROWER, 0.8f, 1.0f, true, true, soundSyncType.TICKSYNC);
+			fireSound = new SoundEntity(state, user, SoundEffect.FLAMETHROWER, 0.8f, 1.0f, true,
+					true, SyncType.TICKSYNC);
 		} else {
 			fireSound.turnOn();
 		}
@@ -66,14 +65,7 @@ public class Boiler extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
-		hbox.setDurability(3);
-		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactUnitBurn(state, hbox, user.getBodyData(), fireDuration, fireDamage));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.FIRE, DamageTypes.RANGED));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE, 0.0f, 1.0f));
+		SyncedAttack.BOILER_FIRE.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 	
 	@Override
@@ -89,5 +81,19 @@ public class Boiler extends RangedWeapon {
 			fireSound.terminate();
 			fireSound = null;
 		}
+	}
+
+	public static Hitbox createBoilerFire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+				false, true, user, Sprite.NOTHING);
+		hbox.setDurability(3);
+
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactUnitBurn(state, hbox, user.getBodyData(), fireDuration, fireDamage));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.FIRE, DamageTypes.RANGED));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE, 0.0f, 1.0f)
+				.setSyncType(SyncType.NOSYNC));
+		return hbox;
 	}
 }

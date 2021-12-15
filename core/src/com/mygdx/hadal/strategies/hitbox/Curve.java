@@ -1,12 +1,11 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This strategy makes an hbox's trajectory curve towards a particular coordinates.
@@ -42,10 +41,10 @@ public class Curve extends HitboxStrategy {
 	public void create() {
 		float newDegrees = hbox.getStartVelo().angleDeg();
 		
-		if (ThreadLocalRandom.current().nextBoolean()) {
-			newDegrees += (ThreadLocalRandom.current().nextInt(spreadMin, spreadMax));
+		if (MathUtils.random.nextBoolean()) {
+			newDegrees += (MathUtils.random(spreadMin, spreadMax));
 		} else {
-			newDegrees -= (ThreadLocalRandom.current().nextInt(spreadMin, spreadMax));
+			newDegrees -= (MathUtils.random(spreadMin, spreadMax));
 		}
 		hbox.setLinearVelocity(hbox.getLinearVelocity().setAngleDeg(newDegrees));
 	}

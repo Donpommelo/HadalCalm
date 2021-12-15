@@ -4,10 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.save.UnlockCharacter;
+import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -41,9 +43,9 @@ public class Dormitory extends HubEvent {
 					if (state.isServer()) {
 			        	state.getPlayer().setBodySprite(selected, null);
 			        	state.getPlayer().getPlayerData().getLoadout().character = selected;
-			        	state.getPlayer().getPlayerData().syncServerLoadoutChange(false);
+			        	state.getPlayer().getPlayerData().syncServerCharacterChange(selected);
 					} else {
-						state.getPlayer().getPlayerData().syncClientLoadoutChangeCharacter(selected);
+						HadalGame.client.sendTCP(new PacketsLoadout.SyncCharacterClient(selected));
 					}
 					state.getGsm().getLoadout().setCharacter(selected.toString());
 		        }

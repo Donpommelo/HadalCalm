@@ -10,7 +10,6 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Stats;
 
 /**
  * Floating enemies are the basic fish-enemies of the game.
@@ -128,8 +127,7 @@ public class EnemyFloating extends Enemy {
 	public void onServerSync() {
 		if (body != null) {
 			state.getSyncPackets().add(new PacketsSync.SyncSchmuckAngled(entityID, getPosition(), getLinearVelocity(),
-					entityAge, state.getTimer(), moveState,
-					Math.max(0.0f, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)), getAngle()));
+					entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp(), getAngle()));
 		}
 	}
 

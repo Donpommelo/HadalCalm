@@ -5,9 +5,11 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -35,6 +37,9 @@ public class TyrrazzanReaper extends RangedWeapon {
 	private static final float lifespanMax = 0.8f;
 	private static final float lifespanMin = 0.4f;
 
+	private static final float particleSizeMax = 90.0f;
+	private static final float particleSizeMin = 60.0f;
+
 	private static final float baseDamageMax = 55.0f;
 	private static final float baseDamageMin = 25.0f;
 
@@ -59,39 +64,50 @@ public class TyrrazzanReaper extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 
-		SoundEffect.MAGIC3_BURST.playUniversal(state, startPosition, 0.5f, 0.75f, false);
-
 		float effectiveRange = Math.max(Math.min(this.mouseLocation.dst(startPosition), rangeMax), rangeMin);
 		effectiveRange = (effectiveRange - rangeMin) / (rangeMax - rangeMin);
-
-		float size = effectiveRange * (sizeMax - sizeMin) + sizeMin;
-		float velocity = effectiveRange * (projectileSpeedMax - projectileSpeedMin) + projectileSpeedMin;
-		float damage = effectiveRange * (baseDamageMax - baseDamageMin) + baseDamageMin;
-		float knockback = effectiveRange * (knockbackMax - knockbackMin) + knockbackMin;
 		float cooldown = effectiveRange * (shootCdMax - shootCdMin) + shootCdMin;
-		float lifespan = effectiveRange * (lifespanMax - lifespanMin) + lifespanMin;
-		int spread = (int) ((1 - effectiveRange) * spreadMax);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(projectileSize).scl(size), lifespan,
-				startVelocity.nor().scl(velocity), filter, true, true, user, projSprite);
-
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL, 0.0f, 1.0f));
-		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.DIATOM_IMPACT_SMALL));
-		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), damage, knockback, DamageTypes.BULLET, DamageTypes.RANGED));
-		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.5f));
-		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
+		SyncedAttack.TYRAZZAN_REAPER.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, effectiveRange);
 
 		user.setShootCdCount(cooldown);
-
 		gainClip(1);
 		reloadCounter += cooldown;
 		while (reloadCounter >= getUseCd()) {
 			reloadCounter -= getUseCd();
 			gainClip(-1);
 		}
+	}
+
+	public static Hitbox createTyrrazzanReaper(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+		SoundEffect.MAGIC3_BURST.playSourced(state, startPosition, 0.5f, 0.75f);
+
+		float effectiveRange = 0.0f;
+		if (extraFields.length > 0) {
+			effectiveRange = extraFields[0];
+		}
+		float size = effectiveRange * (sizeMax - sizeMin) + sizeMin;
+		float velocity = effectiveRange * (projectileSpeedMax - projectileSpeedMin) + projectileSpeedMin;
+		float damage = effectiveRange * (baseDamageMax - baseDamageMin) + baseDamageMin;
+		float knockback = effectiveRange * (knockbackMax - knockbackMin) + knockbackMin;
+		float lifespan = effectiveRange * (lifespanMax - lifespanMin) + lifespanMin;
+		float particleSize = effectiveRange * (particleSizeMax - particleSizeMin) + particleSizeMin;
+		int spread = (int) ((1 - effectiveRange) * spreadMax);
+
+		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(projectileSize).scl(size), lifespan,
+				startVelocity.nor().scl(velocity), user.getHitboxfilter(), true, true, user, projSprite);
+
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
+		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.DIATOM_IMPACT_SMALL)
+				.setParticleSize(particleSize).setSyncType(SyncType.NOSYNC));
+		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), damage, knockback, DamageTypes.BULLET, DamageTypes.RANGED));
+		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.5f).setSynced(false));
+		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
+
+		return hbox;
 	}
 }

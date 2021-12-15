@@ -2,10 +2,11 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
@@ -31,12 +32,14 @@ public class CreateParticles extends HitboxStrategy {
 	private static final float maxSize = 100.0f;
 	
 	//this is the particle effect that will be displayed
-	private ParticleEntity particle;
+	private ParticleEntity particles;
 	
 	//does the particle rotate to match the velocity of the hbox (used for stuff like chain lightning)
 	private boolean rotate;
 
 	private float velocity;
+
+	private SyncType syncType = SyncType.CREATESYNC;
 
 	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger) {
 		super(state, proj, user);
@@ -47,25 +50,29 @@ public class CreateParticles extends HitboxStrategy {
 	
 	@Override
 	public void controller(float delta) {
-		if (rotate && particle != null) {
-			particle.setParticleAngle(hbox.getAngle());
+		if (rotate && particles != null) {
+			particles.setParticleAngle(hbox.getAngle());
 		}
 	}
 	
 	@Override
 	public void create() {
-		particle = new ParticleEntity(state, hbox, effect, linger, duration, true, particleSyncType.CREATESYNC);
+		particles = new ParticleEntity(state, hbox, effect, linger, duration, true, syncType);
 		if (particleSize == 0) {
-			particle.setScale(hbox.getScale());
+			particles.setScale(hbox.getScale());
 		} else {
-			particle.setScale(Math.min(hbox.getSize().x, maxSize) / particleSize);
+			particles.setScale(Math.min(hbox.getSize().x, maxSize) / particleSize);
 		}
-		
-		particle.setRotate(rotate);
-		particle.setColor(color);
+
+		particles.setRotate(rotate);
+		particles.setColor(color);
 
 		if (velocity != 0) {
-			particle.setParticleVelocity(velocity);
+			particles.setParticleVelocity(velocity);
+		}
+
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectSyncLayers.EFFECT);
 		}
 	}
 	
@@ -86,6 +93,11 @@ public class CreateParticles extends HitboxStrategy {
 
 	public CreateParticles setParticleVelocity(float velocity) {
 		this.velocity = velocity;
+		return this;
+	}
+
+	public CreateParticles setSyncType(SyncType syncType) {
+		this.syncType = syncType;
 		return this;
 	}
 }

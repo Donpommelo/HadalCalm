@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.audio.SoundEffect;
@@ -8,8 +9,8 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -17,8 +18,6 @@ import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A scrap event is a single currency unit that the player picks up if they touch it.
@@ -75,7 +74,7 @@ public class Scrap extends Event {
 					}
 
 					state.getUiExtra().syncUIText(UITag.uiType.SCRAP);
-					new ParticleEntity(state, fixB.getEntity(), Particle.SPARKLE, 1.0f, 1.0f, true, particleSyncType.CREATESYNC);
+					new ParticleEntity(state, fixB.getEntity(), Particle.SPARKLE, 1.0f, 1.0f, true, SyncType.CREATESYNC);
 					
 					//activate effects that activate upon picking up scrap
 					playerData.statusProcTime(new ProcTime.ScrapPickup());
@@ -89,7 +88,7 @@ public class Scrap extends Event {
 		FixtureBuilder.createFixtureDef(body, new Vector2(), size, false, 0, 0, 0.0f, 1.0f,
 				Constants.BIT_SENSOR, (short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), (short) 0);
 		
-		float newDegrees = startVelo.angleDeg() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
+		float newDegrees = startVelo.angleDeg() + MathUtils.random(-spread, spread + 1);
 		newVelocity.set(startVelo);
 		setLinearVelocity(newVelocity.nor().scl(veloAmp).setAngleDeg(newDegrees));
 	}

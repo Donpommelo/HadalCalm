@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
@@ -71,8 +71,8 @@ public class ParticleField extends Event {
 			currParticleSpawnTimer -= spawnTimerLimit;
 			float randX = (MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x;
 			float randY = (MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y;
-			ParticleEntity particleEntity = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC)
-					.setScale(scale);
+			ParticleEntity particleEntity = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration,
+					true, SyncType.NOSYNC).setScale(scale);
 
 			//tint particles according to input color or team color
 			if (!color.equals(HadalColor.NOTHING)) {
@@ -99,7 +99,8 @@ public class ParticleField extends Event {
 			currParticleSpawnTimer -= spawnTimerLimit;
 			float randX = (MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x;
 			float randY = (MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y;
-			ParticleEntity particleEntity = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration, true, particleSyncType.NOSYNC);
+			ParticleEntity particleEntity = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration,
+					true, SyncType.NOSYNC);
 			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectSyncLayers.EFFECT);
 
 			if (!color.equals(HadalColor.NOTHING)) {

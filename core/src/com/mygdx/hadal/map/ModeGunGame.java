@@ -52,7 +52,7 @@ public class ModeGunGame extends ModeSetting {
                     player.getPlayerData().getMultitools()[0] = UnlocktoItem.getUnlock(weaponOrder[currentGunIndex], player);
                     player.getPlayerData().getLoadout().multitools[0] = weaponOrder[currentGunIndex];
                     player.getPlayerData().setEquip();
-                    player.getPlayerData().syncServerLoadoutChange(false);
+                    player.getPlayerData().syncServerEquipChange(player.getPlayerData().getLoadout().multitools);
 
                     String message = weaponOrder[currentGunIndex].getInfo().getName() + ": " + currentGunIndex + "/" + weaponOrder.length;
                     state.getKillFeed().sendNotification(message, player);

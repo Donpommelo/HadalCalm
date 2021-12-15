@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equippable;
@@ -12,8 +13,6 @@ import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.utils.Constants;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 public class RingofTesting extends Artifact {
 
@@ -41,7 +40,7 @@ public class RingofTesting extends Artifact {
 			public void onReloadFinish(Equippable tool) {
 				Vector2 fragVelo = new Vector2();
 				for (int i = 0; i < numFrag; i++) {
-					float newDegrees = (ThreadLocalRandom.current().nextInt(0, 360));
+					float newDegrees = MathUtils.random(0, 360);
 					fragVelo.set(0, fragSpeed).setAngleDeg(newDegrees);
 
 					Hitbox frag = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, lifespan, fragVelo, inflicted.getSchmuck().getHitboxfilter(), 

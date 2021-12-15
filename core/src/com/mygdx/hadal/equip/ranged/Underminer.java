@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -133,7 +133,7 @@ public class Underminer extends RangedWeapon {
 								@Override
 								public void onHit(HadalData fixB) {
 									if (fixB != null) {
-										if (fixB.getType().equals(UserDataTypes.WALL)) {
+										if (fixB.getType().equals(UserDataType.WALL)) {
 											hbox.die();
 										}
 									}
@@ -151,9 +151,10 @@ public class Underminer extends RangedWeapon {
 										bomb.addStrategy(new AdjustAngle(state, bomb, user.getBodyData()));
 										bomb.addStrategy(new DamageStandard(state, bomb, user.getBodyData(),  fragDamage, fragKnockback, DamageTypes.RANGED));
 										bomb.addStrategy(new ContactWallDie(state, bomb, user.getBodyData()).setDelay(0.1f));
-										bomb.addStrategy(new DieExplode(state, bomb, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, filter));
+										bomb.addStrategy(new DieExplode(state, bomb, user.getBodyData(), explosionRadius, explosionDamage,
+												explosionKnockback, filter, true));
 										bomb.addStrategy(new DieSound(state, bomb, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
-										bomb.addStrategy(new FlashNearDeath(state, bomb, user.getBodyData(), 1.0f));
+										bomb.addStrategy(new FlashNearDeath(state, bomb, user.getBodyData(), 1.0f, true));
 										bomb.addStrategy(new Spread(state, bomb, user.getBodyData(), spread));
 									}
 								}
@@ -167,7 +168,7 @@ public class Underminer extends RangedWeapon {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
-					if (fixB.getType().equals(UserDataTypes.WALL)) {
+					if (fixB.getType().equals(UserDataType.WALL)) {
 						
 						//upon hitting a wall, hbox activates and begins drilling in a straight line
 						if (!drilling) {

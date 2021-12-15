@@ -5,9 +5,11 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -31,41 +33,46 @@ public class Iceberg extends RangedWeapon {
 	private static final Sprite projSprite = Sprite.ICEBERG;
 	private static final Sprite weaponSprite = Sprite.MT_ICEBERG;
 	private static final Sprite eventSprite = Sprite.P_ICEBERG;
-	
+
 	public Iceberg(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
-	
+
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.ICE_IMPACT.playUniversal(state, startPosition, 0.9f, false);
+		SyncedAttack.ICEBERG.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
+	}
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
+	public static Hitbox createIceberg(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		SoundEffect.ICE_IMPACT.playSourced(state, startPosition, 0.9f);
+
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+				false, true, user, projSprite);
 		hbox.setGravity(5);
-		
+
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.RANGED).setRepeatable(true));
 		hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD, 0.0f, 1.0f));
-		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.ICE_IMPACT));
-		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.ICE_IMPACT));
-		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.CHILL_HIT, 0.6f, true));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
+		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.ICE_IMPACT).setSyncType(SyncType.NOSYNC));
+		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.ICE_IMPACT).setSyncType(SyncType.NOSYNC));
+		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.CHILL_HIT, 0.6f, true).setSynced(false));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-			
-			float lastX = 0;
-			
+
+			float lastX;
 			@Override
 			public void controller(float delta) {
-				
+
 				//when we hit a wall, we reverse momentum instead of staying still.
 				//This is necessary b/c we cannot turn restitution up without having the projectile bounce instead of slide,
 				if (hbox.getLinearVelocity().x == 0) {
 					hbox.setLinearVelocity(-lastX, hbox.getLinearVelocity().y);
 				}
-				
+
 				lastX = hbox.getLinearVelocity().x;
 			}
 		});
+		return hbox;
 	}
 }

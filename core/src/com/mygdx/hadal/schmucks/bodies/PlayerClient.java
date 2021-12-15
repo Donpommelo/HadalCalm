@@ -157,7 +157,7 @@ public class PlayerClient extends Player {
 			controllerCount -= controllerInterval;
 			
 			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&
-				((ClientState) state).getUiPlay().getOverrideFuelAmount() >= playerData.getHoverCost()) {
+				playerData.getCurrentFuel() >= playerData.getHoverCost()) {
 				if (jumpCdCount < 0) {
 					hover();
 				}
@@ -307,8 +307,8 @@ public class PlayerClient extends Player {
 		if (!predicting) { return; }
 
 		if (airblastCdCount < 0) {
-			if (((ClientState) state).getUiPlay().getOverrideFuelAmount() > ((ClientState) state).getUiPlay().getOverrideAirblastCost()) {
-				mousePos.set(((ClientState) state).getMousePosition().x,((ClientState) state).getMousePosition().y);
+			if (playerData.getCurrentFuel() >= playerData.getAirblastCost()) {
+				mousePos.set(((ClientState) state).getMousePosition().x, ((ClientState) state).getMousePosition().y);
 				recoil(mousePos, Airblaster.momentum);
 			}
 		} else {

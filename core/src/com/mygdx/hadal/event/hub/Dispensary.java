@@ -4,11 +4,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockManager;
+import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -70,7 +72,7 @@ public class Dispensary extends HubEvent {
 							state.getPlayer().getPlayerData().pickup(
 								Objects.requireNonNull(UnlocktoItem.getUnlock(selected, state.getPlayer())));
 						} else {
-							state.getPlayer().getPlayerData().syncClientLoadoutChangeActive(selected);
+							HadalGame.client.sendTCP(new PacketsLoadout.SyncActiveClient(selected));
 						}
 						state.getGsm().getLoadout().setActive(selected.toString());
 					}

@@ -2,8 +2,8 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -47,7 +47,7 @@ public class ChaosConjurant extends Artifact {
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount = 0;
 					new ParticleEntity(state, p.getSchmuck(), Particle.RING, 1.0f, meteorDuration, true,
-							particleSyncType.CREATESYNC).setScale(0.4f);
+							SyncType.CREATESYNC).setScale(0.4f);
 					WeaponUtils.createMeteors(state, p.getSchmuck().getPosition(), p.getSchmuck(),
 							meteorDuration, meteorInterval, spread, baseDamage, knockback);
 				}

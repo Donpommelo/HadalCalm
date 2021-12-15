@@ -109,7 +109,7 @@ public class PickupEquip extends Event {
 	}
 	
 	@Override
-	public Object onServerCreate() {
+	public Object onServerCreate(boolean catchup) {
 		return new Packets.CreatePickup(entityID, getPixelPosition(), UnlockEquip.getUnlockFromEquip(equip.getClass()), synced);
 	}
 

@@ -76,7 +76,6 @@ public class PlayerResultsIcon extends AHadalActor {
 		AlignmentFilter team = fieldsExtra.getLoadout().team;
 
 		fbo = new FrameBuffer(Pixmap.Format.RGBA4444, playerSprite.getRegionWidth(), playerSprite.getRegionHeight(), true);
-
 		fbo.begin();
 
 		//clear buffer, set camera

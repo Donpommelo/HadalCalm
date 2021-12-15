@@ -6,8 +6,8 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
@@ -60,7 +60,7 @@ public class Spring extends Event {
 
 						SoundEffect.SPRING.playUniversal(state, getPixelPosition(), 0.25f, false);
 						if (state.isServer()) {
-							new ParticleEntity(state, getPixelPosition(), Particle.MOMENTUM, 1.0f, true, particleSyncType.CREATESYNC);
+							new ParticleEntity(state, getPixelPosition(), Particle.MOMENTUM, 1.0f, true, SyncType.CREATESYNC);
 						}
 					}
 				}
@@ -87,7 +87,7 @@ public class Spring extends Event {
 	}
 	
 	@Override
-	public Object onServerCreate() {
+	public Object onServerCreate(boolean catchup) {
 		if (independent) { return null; }
 
 		if (blueprint == null) {

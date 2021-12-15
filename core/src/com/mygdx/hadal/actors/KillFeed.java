@@ -157,7 +157,6 @@ public class KillFeed {
      * @param global: does this notification play for all players?
      */
     public void addNotification(String text, boolean global) {
-
         KillFeedMessage message = new KillFeedMessage(text, false);
         notifications.add(message);
         notification.addActor(message);

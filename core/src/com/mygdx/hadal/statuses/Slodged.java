@@ -1,8 +1,8 @@
 package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Stats;
@@ -41,7 +41,7 @@ public class Slodged extends Status {
 		super.timePassing(delta);
 		
 		if (slodge == null) {
-			slodge = new ParticleEntity(state, inflicted.getSchmuck(), particle, 0, 0.0f, true, particleSyncType.TICKSYNC);
+			slodge = new ParticleEntity(state, inflicted.getSchmuck(), particle, 0, 0.0f, true, SyncType.TICKSYNC);
 		}
 	}
 	

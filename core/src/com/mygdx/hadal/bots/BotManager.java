@@ -85,7 +85,9 @@ public class BotManager {
     public static void initiatePathfindingThreads() { executor = Executors.newFixedThreadPool(1); }
 
     public static void terminatePathfindingThreads() {
-        executor.shutdown();
+        if (executor != null) {
+            executor.shutdown();
+        }
     }
 
     public static void requestPathfindingThread(PlayerBot player, Vector2 playerLocation, Vector2 playerVelocity, Array<RallyPoint> pathStarters,

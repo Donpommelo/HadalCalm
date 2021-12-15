@@ -2,7 +2,7 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
@@ -27,7 +27,7 @@ public class DropThroughPassability extends HitboxStrategy {
 		super.create();
 
 		if (hbox.getBody() != null) {
-			FeetData feetData = new FeetData(UserDataTypes.FEET, hbox);
+			FeetData feetData = new FeetData(UserDataType.FEET, hbox);
 			Fixture	feet = FixtureBuilder.createFixtureDef(hbox.getBody(), new Vector2(1.0f / 2,  - hbox.getSize().y / 2),
 				new Vector2(hbox.getSize().x, hbox.getSize().y / 8), true, 0, 0, 0, 0,
 				Constants.BIT_SENSOR, Constants.BIT_DROPTHROUGHWALL, hbox.getFilter());

@@ -91,7 +91,7 @@ public class Scissorfish extends EnemySwimming {
 					hbox.makeUnreflectable();
 					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), attack1Damage, defaultMeleeKB, DamageTypes.MELEE).setStaticKnockback(true));
-					hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), startVelo, true));
+					hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), startVelo).setRotate(true));
 				}
 			});
 		}

@@ -179,13 +179,14 @@ public abstract class HadalEntity {
 	 * This is called when the entity is created to return a packet to be sent to the client
 	 * Default: no packet is sent for unsynced entities
 	 */
-	public Object onServerCreate() { return null; }
+	public Object onServerCreate(boolean catchup) { return null; }
 	
 	/**
 	 * This is called when the entity is deleted to return a packet to be sent to the client
 	 * Default: send a packet telling clients to delete this.
 	 */
-	public Object onServerDelete() { return new Packets.DeleteEntity(entityID, state.getTimer()); }
+	public Object onServerDelete() {
+		return new Packets.DeleteEntity(entityID, state.getTimer()); }
 
 	/**
 	 * This is called to send a packet syncing this entity.
@@ -278,7 +279,7 @@ public abstract class HadalEntity {
 	public final Vector2 lerpVelo = new Vector2();
 
 	//these are the timestamps of the 2 most recent snapshots
-	protected float prevTimeStamp, nextTimeStamp;
+	public float prevTimeStamp, nextTimeStamp;
 	
 	/**
 	 * This is a replacement to controller() that is run for clients.
@@ -323,18 +324,17 @@ public abstract class HadalEntity {
 			if (!copyServerInstantly) {
 				
 				float elapsedTime = (state.getTimer() - prevTimeStamp) / (nextTimeStamp - prevTimeStamp);
-				
+
 				if (elapsedTime <= 1.0f && elapsedTime >= 0.0f) {
 
 					if (prevPos.dst2(serverPos) > maxLerpRange) {
 						setTransform(serverPos, serverAngle.angleRad());
 					} else {
 						lerpPos.set(prevPos);
-						lerpVelo.set(prevVelo);
 						setTransform(lerpPos.lerp(serverPos, elapsedTime), angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
 					}
-
 					//set velocity to make entity move smoother between syncs
+					lerpVelo.set(prevVelo);
 					setLinearVelocity(lerpVelo.lerp(serverVelo, elapsedTime));
 				}
 			}
@@ -414,15 +414,16 @@ public abstract class HadalEntity {
 	 * Set this entity's shader (this will be used when rendering this entity)
 	 * @param shader: shader to use
 	 * @param shaderCount: how long does this shader last?
+	 * @param synced: does the server need to tell the client to reflect this shader change?
 	 */
-	public void setShader(Shader shader, float shaderCount) { 
+	public void setShader(Shader shader, float shaderCount, boolean synced) {
 		shader.loadShader();
 		this.shader = shader;
 		this.shaderDuration = shaderCount;
 		this.shaderCount = shaderCount;
 
 		//The server tells the client to also display the shader
-		if (state.isServer()) {
+		if (state.isServer() && synced) {
 			HadalGame.server.sendToAllUDP(new Packets.SyncShader(entityID, shader, shaderCount));
 		}
 	}

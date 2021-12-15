@@ -4,13 +4,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -70,24 +71,17 @@ public class Armory extends HubEvent {
 
 						int slotToReplace = state.getPlayer().getPlayerData().getCurrentSlot();
 
-						if (state.isServer()) {
-							for (int i = 0; i < state.getPlayer().getPlayerData().getNumWeaponSlots(); i++) {
-								if (state.getPlayer().getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
-									slotToReplace = i;
-									break;
-								}
+						for (int i = 0; i < state.getPlayer().getPlayerData().getNumWeaponSlots(); i++) {
+							if (state.getPlayer().getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
+								slotToReplace = i;
+								break;
 							}
+						}
+						if (state.isServer()) {
 							state.getPlayer().getPlayerData().pickup(
 								Objects.requireNonNull(UnlocktoItem.getUnlock(selected, state.getPlayer())));
 						} else {
-							state.getPlayer().getPlayerData().syncClientLoadoutChangeWeapon(selected);
-
-							for (int i = 0; i < ((ClientState)state).getUiPlay().getOverrideWeaponSlots(); i++) {
-								if (state.getPlayer().getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
-									slotToReplace = i;
-									break;
-								}
-							}
+							HadalGame.client.sendTCP(new PacketsLoadout.SyncEquipClient(selected));
 						}
 						state.getGsm().getLoadout().setEquips(slotToReplace, selected.toString());
 					}

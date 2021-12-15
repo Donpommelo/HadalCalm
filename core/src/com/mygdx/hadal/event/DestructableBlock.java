@@ -6,9 +6,9 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.EventDto;
@@ -49,7 +49,7 @@ public class DestructableBlock extends Event {
 	@Override
 	public void create() {
 
-		this.eventData = new EventData(this, UserDataTypes.WALL) {
+		this.eventData = new EventData(this, UserDataType.WALL) {
 			
 			@Override
 			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
@@ -62,14 +62,14 @@ public class DestructableBlock extends Event {
 					if (standardParticle != null) {
 						standardParticle.onForBurst(0.5f);
 					}
-					event.setShader(Shader.WHITE, flashDuration);
+					event.setShader(Shader.WHITE, flashDuration, true);
 				}
 				
 				if (hp <= 0) {
 					event.queueDeletion();
 					
 					new ParticleEntity(state, new Vector2(event.getPixelPosition()), Particle.BOULDER_BREAK, 3.0f,
-							true, particleSyncType.CREATESYNC);
+							true, SyncType.CREATESYNC);
 					
 					//activated connected event when destroyed.
 					if (event.getConnectedEvent() != null) {
@@ -86,7 +86,7 @@ public class DestructableBlock extends Event {
 	}
 
 	@Override
-	public Object onServerCreate() {
+	public Object onServerCreate(boolean catchup) {
 		if (blueprint == null) {
 			blueprint = new RectangleMapObject(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, size.x, size.y);
 			blueprint.setName("Destr_Obj");

@@ -6,6 +6,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
@@ -36,16 +37,24 @@ public class Fisticuffs extends MeleeWeapon {
 	private final Vector2 startVelo = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.WOOSH.playUniversal(state, startPosition, 0.75f, false);
+		SyncedAttack.FIST.initiateSyncedAttackSingle(state, user, user.getProjectileOrigin(weaponVelo, projectileSize.x),
+				startVelo.set(startVelocity).nor().scl(projectileSpeed));
+	}
 
-		Hitbox hbox = new Hitbox(state, user.getProjectileOrigin(weaponVelo, projectileSize.x), projectileSize, lifespan, startVelo.set(startVelocity).nor().scl(projectileSpeed), filter, true, true, user, projSprite);
+	public static Hitbox createFist(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		SoundEffect.WOOSH.playSourced(state, startPosition, 0.75f);
+
+		Hitbox hbox = new Hitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+				true, true, user, projSprite);
 		hbox.makeUnreflectable();
-		
+
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
-		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLAP, 0.8f, true));
+		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLAP, 0.8f, true).setSynced(false));
 		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
+
+		return hbox;
 	}
 
 	@Override

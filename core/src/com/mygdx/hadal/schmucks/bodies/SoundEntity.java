@@ -3,7 +3,9 @@ package com.mygdx.hadal.schmucks.bodies;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.UUID;
@@ -40,7 +42,7 @@ public class SoundEntity extends HadalEntity {
 	private UUID attachedId;
 	
 	//how is this entity synced? (this works identically to particle entities)
-	private final soundSyncType sync;
+	private final SyncType sync;
 	
 	//Has the attached entity despawned yet?
 	private boolean despawn;
@@ -49,7 +51,7 @@ public class SoundEntity extends HadalEntity {
 	private static final float defaultFadeInSpeed = 2.0f;
 	private static final float defaultFadeOutSpeed = -2.0f;
 	
-	public SoundEntity(PlayState state, HadalEntity entity, SoundEffect sound, float volume, float pitch, boolean looped, boolean startOn, soundSyncType sync) {
+	public SoundEntity(PlayState state, HadalEntity entity, SoundEffect sound, float volume, float pitch, boolean looped, boolean startOn, SyncType sync) {
 		super(state, new Vector2(), new Vector2());
 		this.attachedEntity = entity;
 		this.sound = sound;
@@ -96,7 +98,11 @@ public class SoundEntity extends HadalEntity {
 				on = false;
 				
 				if (despawn) {
-					this.queueDeletion();
+					if (state.isServer()) {
+						this.queueDeletion();
+					} else {
+						((ClientState) state).removeEntity(entityID);
+					}
 				}
 			}
 			if (volume >= maxVolume) {
@@ -129,7 +135,7 @@ public class SoundEntity extends HadalEntity {
 	public void clientController(float delta) {
 		super.clientController(delta);
 		
-		if (sync.equals(soundSyncType.CREATESYNC) || sync.equals(soundSyncType.NOSYNC)) {
+		if (sync.equals(SyncType.CREATESYNC) || sync.equals(SyncType.NOSYNC)) {
 			controller(delta);			
 		}
 		if (attachedEntity == null && attachedId != null) {
@@ -144,10 +150,10 @@ public class SoundEntity extends HadalEntity {
 	 * When created on the server, tell clients to create if create or tick sync.
 	 */
 	@Override
-	public Object onServerCreate() {
-		if (sync.equals(soundSyncType.CREATESYNC) || sync.equals(soundSyncType.TICKSYNC)) {
+	public Object onServerCreate(boolean catchup) {
+		if (sync.equals(SyncType.CREATESYNC) || sync.equals(SyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateSound(entityID, attachedEntity.getEntityID(), sound, volume, pitch, looped, on, sync.equals(soundSyncType.TICKSYNC));
+				return new Packets.CreateSound(entityID, attachedEntity.getEntityID(), sound, volume, pitch, looped, on, sync.equals(SyncType.TICKSYNC));
 			}
 		}
 		return null;
@@ -155,7 +161,7 @@ public class SoundEntity extends HadalEntity {
 	
 	@Override
 	public Object onServerDelete() { 
-		if (sync.equals(soundSyncType.TICKSYNC)) {
+		if (sync.equals(SyncType.TICKSYNC)) {
 			return new Packets.DeleteEntity(entityID, state.getTimer());
 		} else {
 			return null;
@@ -167,7 +173,7 @@ public class SoundEntity extends HadalEntity {
 	 */
 	@Override
 	public void onServerSync() {
-		if (sync.equals(soundSyncType.TICKSYNC)) {
+		if (sync.equals(SyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
 					state.getSyncPackets().add(new Packets.SyncSound(entityID, volume, on, entityAge, state.getTimer()));
@@ -226,10 +232,4 @@ public class SoundEntity extends HadalEntity {
 	}
 
 	public void setAttachedId(UUID attachedId) { this.attachedId = attachedId; }
-
-	public enum soundSyncType {
-		NOSYNC,
-		CREATESYNC,
-		TICKSYNC
-	}
 }

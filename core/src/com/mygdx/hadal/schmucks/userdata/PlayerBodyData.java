@@ -18,23 +18,21 @@ import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.server.packets.Packets.SyncPlayerStats;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.CameraUtil;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * This is the data for a player and contains player-specific fields like airblast, jump stats, etc.
@@ -88,32 +86,11 @@ public class PlayerBodyData extends BodyData {
 		//Acquire weapons from loadout
 		this.multitools = new Equippable[Loadout.maxWeaponSlots];
 		Arrays.fill(multitools, new NothingWeapon(player));
-		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
-			multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
-		}
-		setEquip();
-		
-		//acquire artifacts from loadout
-		UnlockArtifact[] artifactsTemp = new UnlockArtifact[Loadout.maxArtifactSlots];
-		System.arraycopy(loadout.artifacts, 0, artifactsTemp, 0, Loadout.maxArtifactSlots);
-		Arrays.fill(loadout.artifacts, UnlockArtifact.NOTHING);
-		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			addArtifact(artifactsTemp[i], false, false);
-		}
-
-		//add map modifiers as 0-cost, overriding, invisible artifacts
-		for (UnlockArtifact modifier: player.getState().getMapModifiers()) {
-			addArtifact(modifier, false, false);
-		}
-
-		//Acquire active item
-		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
-		this.player.setBodySprite(loadout.character, loadout.team);
-		
-		//If this is the player being controlled by the user, update artifact ui
-		if (player.equals((player.getState().getPlayer()))) {
-			player.getState().getUiArtifact().syncArtifact();
-		}
+		syncEquip(loadout.multitools);
+		syncArtifact(loadout.artifacts);
+		syncActive(loadout.activeItem);
+		setCharacter(loadout.character);
+		setTeam(loadout.team);
 	}
 	
 	/**
@@ -124,23 +101,49 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void syncLoadout(Loadout loadout, boolean save) {
 		Loadout newLoadout = new Loadout(loadout);
-		
-		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
-			multitools[i] = UnlocktoItem.getUnlock(newLoadout.multitools[i], player);
-		}
-		setEquip();
+
+		syncEquip(newLoadout.multitools);
+		syncArtifact(newLoadout.artifacts);
+		syncActive(newLoadout.activeItem);
+		setCharacter(newLoadout.character);
+		setTeam(newLoadout.team);
 
 		if (save) {
 			saveArtifacts();
 		}
 
-		this.activeItem = UnlocktoItem.getUnlock(newLoadout.activeItem, player);
-		player.setBodySprite(newLoadout.character, newLoadout.team);
-		
 		this.loadout = newLoadout;
 
 		if (player.getUser() != null) {
 			player.getUser().setTeamFilter(loadout.team);
+		}
+	}
+
+	public void syncEquip(UnlockEquip[] equip) {
+		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+			multitools[i] = UnlocktoItem.getUnlock(equip[i], player);
+			loadout.multitools[i] = equip[i];
+		}
+		setEquip();
+	}
+
+	public void syncArtifact(UnlockArtifact[] artifact) {
+
+		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+			removeArtifactStatus(this.loadout.artifacts[i]);
+		}
+		loadout.artifacts = new UnlockArtifact[Loadout.maxArtifactSlots];
+
+		UnlockArtifact[] artifactsTemp = new UnlockArtifact[Loadout.maxArtifactSlots];
+		System.arraycopy(artifact, 0, artifactsTemp, 0, Loadout.maxArtifactSlots);
+		Arrays.fill(loadout.artifacts, UnlockArtifact.NOTHING);
+		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+			addArtifact(artifactsTemp[i], false, false);
+		}
+
+		//add map modifiers as 0-cost, overriding, invisible artifacts
+		for (UnlockArtifact modifier: player.getState().getMapModifiers()) {
+			addArtifact(modifier, false, false);
 		}
 
 		//If this is the player being controlled by the user, update artifact ui
@@ -148,32 +151,12 @@ public class PlayerBodyData extends BodyData {
 			player.getState().getUiArtifact().syncArtifact();
 		}
 	}
-	
-	/**
-	 * This is run when the server receives a request from a client to make a change to their loadout.
-	 */
-	public void syncLoadoutFromClient(UnlockEquip equip, UnlockArtifact artifactAdd, UnlockArtifact artifactRemove,
-									  UnlockActives active, UnlockCharacter character, AlignmentFilter team) {
-		if (equip != null) {
-			pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(equip, getPlayer())));
-		}
-		if (artifactAdd != null) {
-			addArtifact(artifactAdd, false, false);
-		}
-		if (artifactRemove != null) {
-			removeArtifact(artifactRemove);
-		}
-		if (active != null) {
-			pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(active, getPlayer())));
-		}
-		if (character != null) {
-        	setCharacter(character);
-		}
-		if (team != null) {
-			setTeam(team);
-		}
+
+	public void syncActive(UnlockActives active) {
+		this.activeItem = UnlocktoItem.getUnlock(active, player);
+		this.loadout.activeItem = active;
 	}
-	
+
 	/**
 	 * This is run when transitioning the player into a new map/world or respawning
 	 * @param newPlayer: the new player that this data belongs to.
@@ -282,7 +265,7 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 		
 		loadout.multitools[slotToReplace] = unlock;
-		syncServerLoadoutChange(false);
+		syncServerEquipChange(loadout.multitools);
 		return old;
 	}
 	
@@ -306,8 +289,8 @@ public class PlayerBodyData extends BodyData {
 		} else {
 			activeItem.setCurrentChargePercent(getStat(Stats.STARTING_CHARGE));
 		}
-		
-		syncServerLoadoutChange(false);
+
+		syncServerActiveChange(unlock);
 	}
 	
 	/**
@@ -401,7 +384,6 @@ public class PlayerBodyData extends BodyData {
 			}
 		}
 	}
-	
 
 	/**
 	 * This is called when a player's artifacts may change to sync ui and clients
@@ -421,8 +403,7 @@ public class PlayerBodyData extends BodyData {
 		if (player.equals((player.getState().getPlayer()))) {
 			player.getState().getUiArtifact().syncArtifact();
 		}
-		
-		syncServerLoadoutChange(save);
+		syncServerArtifactChange(loadout.artifacts, save);
 		calcStats();
 	}
 	
@@ -487,14 +468,6 @@ public class PlayerBodyData extends BodyData {
 			currentSlot = getNumWeaponSlots() - 1;
 			setEquip();
 		}
-		
-		//if this is a client, we send them a packet telling them to update their ui to match the new stats.
-		if (player.getState().isServer()) {
-			if (player.getConnId() != 0) {
-				HadalGame.server.sendToTCP(player.getConnId(), new SyncPlayerStats(getCurrentTool().getClipSize(), getStat(Stats.MAX_HP), getStat(Stats.MAX_FUEL),
-						getAirblastCost(), getNumWeaponSlots(), getNumArtifactSlots(), getStat(Stats.HEALTH_VISIBILITY)));
-			}
-		}
 	}
 	
 	/**
@@ -509,14 +482,10 @@ public class PlayerBodyData extends BodyData {
 	 * The extra if/else is there b/c artifact slots are checked by the client when they use the reliquary hub event.
 	 */
 	public int getNumArtifactSlots() {
-		if (player.getState().isServer()) {
-			if (GameStateManager.currentMode == Mode.SINGLE) {
-				return Math.min((int) (player.getState().getGsm().getRecord().getSlotsUnlocked() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
-			} else {
-				return Math.min((int) (player.getState().getGsm().getSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
-			}
+		if (GameStateManager.currentMode == Mode.SINGLE) {
+			return Math.min((int) (player.getState().getGsm().getRecord().getSlotsUnlocked() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
 		} else {
-			return Math.min(((ClientState) player.getState()).getUiPlay().getOverrideArtifactSlots(), Loadout.maxArtifactSlots);
+			return Math.min((int) (player.getState().getGsm().getSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
 		}
 	}
 	
@@ -532,53 +501,28 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
-	 * This is called when a loadout changes on the server side. Send message to all clients announcing change
+	 * These are called when a loadout changes on the server side. Send message to all clients announcing change
 	 * the "save" input for this and adding/removing artifacts indicates whether the client should save this change
 	 * It is false for artifact changes that result from mode modifications
 	 */
-	public void syncServerLoadoutChange(boolean save) {
-		if (player.getState().isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncServerLoadout(player.getEntityID(), loadout, save));
-		}
-	}
-	
-	/**
-	 * These are called when a loadout changes on the client side.(Through hub event) Send message to server announcing change
-	 */
-	public void syncClientLoadoutChangeWeapon(UnlockEquip equip) {
-		if (!player.getState().isServer()) {
-			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(equip, null, null, null, null, null, false));
-		}
+	public void syncServerEquipChange(UnlockEquip[] equip) {
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncEquipServer(player.getConnId(), equip));
 	}
 
-	public void syncClientLoadoutAddArtifact(UnlockArtifact artifact, boolean save) {
-		if (!player.getState().isServer()) {
-			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, artifact, null, null, null, null, save));
-		}
-	}
-	
-	public void syncClientLoadoutRemoveArtifact(UnlockArtifact artifact, boolean save) {
-		if (!player.getState().isServer()) {
-			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, null, artifact, null, null, null, save));
-		}
-	}
-	
-	public void syncClientLoadoutChangeActive(UnlockActives active) {
-		if (!player.getState().isServer()) {
-			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, active, null, null, false));
-		}
-	}
-	
-	public void syncClientLoadoutChangeCharacter(UnlockCharacter character) {
-		if (!player.getState().isServer()) {
-			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, null, character, null, false));
-		}
+	public void syncServerArtifactChange(UnlockArtifact[] artifact, boolean save) {
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncArtifactServer(player.getConnId(), artifact, save));
 	}
 
-	public void syncClientLoadoutChangeTeam(AlignmentFilter team) {
-		if (!player.getState().isServer()) {
-			HadalGame.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, null, null, team, false));
-		}
+	public void syncServerActiveChange(UnlockActives active) {
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncActiveServer(player.getConnId(), active));
+	}
+
+	public void syncServerCharacterChange(UnlockCharacter character) {
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncCharacterServer(player.getConnId(), character));
+	}
+
+	public void syncServerTeamChange(AlignmentFilter team) {
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncTeamServer(player.getConnId(), team));
 	}
 
 	public void clearStatuses() {
@@ -627,12 +571,15 @@ public class PlayerBodyData extends BodyData {
 			}
 		}
 
+		//when the player is damaged (or spectator target is damaged) we shake the screen a little
 		if (player.equals(player.getState().getPlayer()) && damage > 0.0f) {
 			CameraUtil.inflictTrauma(player.getState().getGsm(), damage);
 		}
-		if (player.getState().getUiSpectator() != null) {
-			if (player.equals(player.getState().getUiSpectator().getSpectatorTarget()) && damage > 0.0f) {
-				CameraUtil.inflictTrauma(player.getState().getGsm(), damage);
+		if (player.getState().getKillFeed() != null) {
+			if (player.getState().isSpectatorMode() || player.getState().getKillFeed().isRespawnSpectator()) {
+				if (player.equals(player.getState().getUiSpectator().getSpectatorTarget()) && damage > 0.0f) {
+					CameraUtil.inflictTrauma(player.getState().getGsm(), damage);
+				}
 			}
 		}
 
@@ -733,7 +680,8 @@ public class PlayerBodyData extends BodyData {
 	 * This animation is played when disconnecting
 	 */
 	public void warpAnimation() {
-		new ParticleEntity(player.getState(), new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2), Particle.TELEPORT, 0.5f, true, particleSyncType.CREATESYNC);
+		new ParticleEntity(player.getState(), new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2), Particle.TELEPORT,
+				1.0f, true, SyncType.CREATESYNC);
 	}
 
 	public ObjectMap<PlayerBodyData, Float> getRecentDamagedBy() { return recentDamagedBy; }

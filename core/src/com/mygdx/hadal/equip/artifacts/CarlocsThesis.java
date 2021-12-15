@@ -49,7 +49,7 @@ public class CarlocsThesis extends Artifact {
 					hbox.makeUnreflectable();
 					hbox.setPassability(Constants.BIT_PROJECTILE);
 					
-					hbox.addStrategy(new FixedToEntity(state, hbox, p, new Vector2(), new Vector2(), false));
+					hbox.addStrategy(new FixedToEntity(state, hbox, p, new Vector2(), new Vector2()));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, p) {
 
 						private final Vector2 projectileVelo = new Vector2();

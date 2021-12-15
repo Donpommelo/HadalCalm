@@ -21,8 +21,6 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.utils.Stats;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * This is a boss in the game
  * @author Briburger Blurnip
@@ -520,7 +518,7 @@ public class Boss1 extends EnemyFloating {
 								EnemyUtils.floorHeight(state));
 							SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
 							WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage,
-								explosionKnockback,	getHitboxfilter());
+								explosionKnockback,	getHitboxfilter(), true);
 						}
 					});
 				}
@@ -546,7 +544,7 @@ public class Boss1 extends EnemyFloating {
 								EnemyUtils.floorHeight(state));
 							SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
 							WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage,
-								explosionKnockback,	getHitboxfilter());
+								explosionKnockback,	getHitboxfilter(), true);
 						}
 					});
 				}
@@ -575,7 +573,8 @@ public class Boss1 extends EnemyFloating {
 		}
 		
 		for (int i = 0; i < numBalls; i++) {
-			EnemyUtils.changeFloatingState(this, FloatingState.FREE, baseAngle + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)), ballInterval);
+			EnemyUtils.changeFloatingState(this, FloatingState.FREE,
+					baseAngle + MathUtils.random(-spread, spread + 1), ballInterval);
 			
 			getActions().add(new EnemyAction(this, 0.0f) {
 				

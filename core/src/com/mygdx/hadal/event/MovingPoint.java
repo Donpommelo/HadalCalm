@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -47,7 +47,7 @@ public class MovingPoint extends Event {
 	@Override
 	public void create() {
 
-		this.eventData = new EventData(this, UserDataTypes.WALL) {
+		this.eventData = new EventData(this, UserDataType.WALL) {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {

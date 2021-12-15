@@ -112,6 +112,7 @@ public class UISpectator extends AHadalActor {
             }
             mouseHeld = true;
             freeCam = true;
+            spectatorTarget = null;
             lastMousePosition.set(mousePosition);
         } else {
             mouseHeld = false;

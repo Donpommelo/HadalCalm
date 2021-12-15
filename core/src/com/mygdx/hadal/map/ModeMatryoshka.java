@@ -32,7 +32,7 @@ public class ModeMatryoshka extends ModeSetting {
 
     @Override
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
-
+        if (!state.isServer()) { return; }
         //when a new player is spawned, their size is set according to the number of lives they have left
         if (p.getUser() != null) {
             int livesLeft = Math.min(p.getUser().getScores().getLives(), SizeScaleList.length) - 1;

@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.MoveState;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.PacketsSync;
@@ -69,8 +69,10 @@ public class Schmuck extends HadalEntity {
 		this.hitboxfilter = hitboxFilter;
 		this.baseHp = baseHp;
 
+
 		if (state.isServer()) {
-			impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false, particleSyncType.TICKSYNC);
+			impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false,
+					SyncType.TICKSYNC);
 		}
 	}
 
@@ -167,7 +169,7 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		state.getSyncPackets().add(new PacketsSync.SyncSchmuck(entityID, getPosition(), getLinearVelocity(),
-				entityAge, state.getTimer(), moveState, Math.max(0.0f, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP))));
+				entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp()));
 	}
 	
 	/**
@@ -180,7 +182,7 @@ public class Schmuck extends HadalEntity {
 			if (!this.equals(state.getPlayer())) {
 				moveState = p.moveState;
 			}
-			getBodyData().setOverrideHpPercent(p.hpPercent);
+			getBodyData().setCurrentHp(p.currentHp);
 		}
 	}
 	

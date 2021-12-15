@@ -17,18 +17,20 @@ public class FlashNearDeath extends HitboxStrategy {
 	
 	//the duration of each flash
 	private static final float flashDuration = 0.1f;
-	
-	public FlashNearDeath(PlayState state, Hitbox proj, BodyData user, float flashLifespan) {
+
+	private final boolean synced;
+
+	public FlashNearDeath(PlayState state, Hitbox proj, BodyData user, float flashLifespan, boolean synced) {
 		super(state, proj, user);
 		this.flashLifespan = flashLifespan;
+		this.synced = synced;
 	}
 	
 	@Override
 	public void controller(float delta) {
-
 		if (hbox.getLifeSpan() <= flashLifespan) {
 			if (hbox.getShaderCount() < -flashDuration) {
-				hbox.setShader(Shader.WHITE, flashDuration);
+				hbox.setShader(Shader.WHITE, flashDuration, synced);
 			}
 		}
 	}

@@ -60,17 +60,30 @@ public class CameraUtil {
     private static float trauma, currentAngle;
     private static final float noiseSneed = MathUtils.random();
     private static float noise_y;
+    /**
+     * This process screen shake and is run when we update the game camera
+     * @param camera: the camera that is shaking
+     * @param tempCamera: This vector holds the camera's tentative target position
+     * @param delta: This si the amount of game time that has passed
+     */
     public static void shake(OrthographicCamera camera, Vector2 tempCamera, float delta) {
+
+        //decrement trauma according to time and use it to calculate the amount of shaking
         trauma = Math.max(0.0f, trauma - delta * decay);
         float amount = trauma * trauma;
+
+        //increment noise and use it to find the camera's random displacement and rotation
         noise_y++;
         float rotation = maxRotation * amount * NoiseUtil.generateNoise(noiseSneed, noise_y) - currentAngle;
         tempCamera.x += maxOffset.x * amount * NoiseUtil.generateNoise(noiseSneed * 2, noise_y);
         tempCamera.y += maxOffset.y * amount * NoiseUtil.generateNoise(noiseSneed * 3, noise_y);
 
+        //currentAngle is used to keep track of the camera's angle, since rotate() rotates it a set amount
+        //we subtract currentAngle when calculating rotation to rotate to an angle, not by an angle
         currentAngle += rotation;
         camera.rotate(rotation);
 
+        //decrement trauma cooldown for small instances of damage
         traumaCount = Math.max(0.0f, traumaCount - delta);
     }
 
@@ -78,10 +91,17 @@ public class CameraUtil {
     private static final float traumaCooldown = 0.5f;
     private static final float minTrauma = 0.75f;
     private static float traumaCount;
+    /**
+     * This adds some additive screen-shake
+     * @param gsm: game state manager used to check settings to see if we add any shake or not
+     * @param amount: amount of damage (or equivalent metric) of screen-shake to add
+     */
     public static void inflictTrauma(GameStateManager gsm, float amount) {
         if (!gsm.getSetting().isScreenShake()) { return; }
 
         float adjustedAmount = amount * traumaMultiplier;
+
+        //small instances of trauma are set to a constant value but have a cooldown
         if (adjustedAmount < minTrauma) {
             if (traumaCount <= 0.0f) {
                 traumaCount = traumaCooldown;
@@ -90,5 +110,14 @@ public class CameraUtil {
         } else {
             trauma = Math.min(1.0f, adjustedAmount + trauma);
         }
+    }
+
+    public static void resetCameraRotation(OrthographicCamera camera) {
+        camera.rotate(-currentAngle);
+        camera.direction.set(0, 0, -1);
+        camera.up.set(0, 1, 0);
+        currentAngle = 0;
+        trauma = 0;
+        traumaCount = 0;
     }
 }

@@ -3,9 +3,9 @@ package com.mygdx.hadal.strategies.hitbox;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -39,7 +39,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			if (fixB.getType().equals(UserDataTypes.BODY)) {
+			if (fixB.getType().equals(UserDataType.BODY)) {
 
 				final BodyData vic = (BodyData) fixB;
 				
@@ -52,7 +52,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 				hbox.makeUnreflectable();
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, creator));
-				hbox.addStrategy(new FixedToEntity(state, hbox, creator, vic.getSchmuck(), new Vector2(), new Vector2(), true));
+				hbox.addStrategy(new FixedToEntity(state, hbox, creator, vic.getSchmuck(), new Vector2(), new Vector2()).setRotate(true));
 				hbox.addStrategy(new HitboxStrategy(state, hbox, creator) {
 					
 					private float procCdCount;
@@ -72,19 +72,19 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 							if (fixB != null && lastVelo > speedThreshold) {
 
 								//contact a wall, damage the victim
-								if (fixB.getType().equals(UserDataTypes.WALL)) {
+								if (fixB.getType().equals(UserDataType.WALL)) {
 									vic.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, DamageTypes.WHACKING);
 									new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
-										true, particleSyncType.CREATESYNC);
+										true, SyncType.CREATESYNC);
 									hbox.die();
 								}
 								
 								//contact another unit, damage both
-								if (fixB.getType().equals(UserDataTypes.BODY) && !fixB.equals(vic)) {
+								if (fixB.getType().equals(UserDataType.BODY) && !fixB.equals(vic)) {
 									vic.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, DamageTypes.WHACKING);
 									fixB.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, DamageTypes.WHACKING);
 									new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
-										true, particleSyncType.CREATESYNC);
+										true, SyncType.CREATESYNC);
 									hbox.die();
 								}
 							}

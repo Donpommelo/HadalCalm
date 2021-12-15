@@ -13,6 +13,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -25,8 +26,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -66,7 +65,7 @@ public class Boss5 extends EnemyFloating {
 		this.bodySprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.NEPTUNE_KING_BODY.getFrames());
 		this.crownSprite = Sprite.NEPTUNE_KING_CROWN.getFrame();
 
-		new ParticleEntity(state, this, Particle.TYRRAZZA_TRAIL, 1.0f, 0.0f, true, ParticleEntity.particleSyncType.TICKSYNC).setScale(2.0f);
+		new ParticleEntity(state, this, Particle.TYRRAZZA_TRAIL, 1.0f, 0.0f, true, SyncType.TICKSYNC).setScale(2.0f);
 	}
 
 	@Override
@@ -289,7 +288,7 @@ public class Boss5 extends EnemyFloating {
 							seed.setFriction(1.0f);
 
 							seed.addStrategy(new ControllerDefault(state, seed, getBodyData()));
-							seed.addStrategy(new FlashNearDeath(state, seed, getBodyData(), 1.0f));
+							seed.addStrategy(new FlashNearDeath(state, seed, getBodyData(), 1.0f, true));
 							seed.addStrategy(new HitboxStrategy(state, seed, getBodyData()) {
 
 									 @Override
@@ -419,7 +418,7 @@ public class Boss5 extends EnemyFloating {
 					hbox.addStrategy(new AdjustAngle(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), sporeDamage, sporeKB, DamageTypes.RANGED));
 					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), sporeHoming, sporeHomingRadius));
-					hbox.addStrategy(new FlashNearDeath(state, hbox, getBodyData(), 1.0f));
+					hbox.addStrategy(new FlashNearDeath(state, hbox, getBodyData(), 1.0f, true));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, particleLinger));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, getBodyData()) {
@@ -431,8 +430,9 @@ public class Boss5 extends EnemyFloating {
 							SoundEffect.EXPLOSION_FUN.playUniversal(state, hbox.getPixelPosition(), 1.0f, 0.6f, false);
 
 							for (int i = 0; i < sporeFragNumber; i++) {
-								newVelocity.set(hbox.getLinearVelocity()).nor().scl(fragSpeed).scl((ThreadLocalRandom.current().nextFloat() * fragVeloSpread + 1 - fragVeloSpread / 2));
-								newSize.set(sporeFragSize).scl((ThreadLocalRandom.current().nextFloat() * fragSizeSpread + 1 - fragSizeSpread / 2));
+								newVelocity.set(hbox.getLinearVelocity()).nor().scl(fragSpeed)
+										.scl((MathUtils.random() * fragVeloSpread + 1 - fragVeloSpread / 2));
+								newSize.set(sporeFragSize).scl((MathUtils.random() * fragSizeSpread + 1 - fragSizeSpread / 2));
 
 								RangedHitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), new Vector2(newSize), sporeFragLifespan,
 								  new Vector2(newVelocity), getHitboxfilter(), false, false, enemy, Sprite.SPORE_MILD) {
@@ -549,7 +549,7 @@ public class Boss5 extends EnemyFloating {
 
 							pulse.addStrategy(new ControllerDefault(state, pulse, getBodyData()));
 							pulse.addStrategy(new DamageStandard(state, pulse, getBodyData(), scytheDamage, scytheKB, DamageTypes.RANGED).setStaticKnockback(true));
-							pulse.addStrategy(new FixedToEntity(state, pulse, getBodyData(), scythe, new Vector2(), new Vector2(), true));
+							pulse.addStrategy(new FixedToEntity(state, pulse, getBodyData(), scythe, new Vector2(), new Vector2()).setRotate(true));
 							pulse.addStrategy(new ContactUnitSound(state, pulse, getBodyData(), SoundEffect.ZAP, 0.6f, true));
 						}
 					}
@@ -648,7 +648,7 @@ public class Boss5 extends EnemyFloating {
 					});
 
 					if (i == 0) {
-						new SoundEntity(state, orbital, SoundEffect.MAGIC25_SPELL, 0.8f, 0.5f, true, true, SoundEntity.soundSyncType.TICKSYNC);
+						new SoundEntity(state, orbital, SoundEffect.MAGIC25_SPELL, 0.8f, 0.5f, true, true, SyncType.TICKSYNC);
 					}
 				}
 			}

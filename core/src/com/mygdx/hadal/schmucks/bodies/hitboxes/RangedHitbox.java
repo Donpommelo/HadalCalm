@@ -15,9 +15,11 @@ public class RangedHitbox extends Hitbox {
 
 	public RangedHitbox(PlayState state, Vector2 startPos, Vector2 size, float lifespan, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, Sprite sprite) {
 		super(state, startPos, size,
-				lifespan * (1 + creator.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN)),
-				startVelo.scl(1 + creator.getBodyData().getStat(Stats.RANGED_PROJ_SPD)), filter, sensor, procEffects, creator, sprite);
-		
+			lifespan * (1 + creator.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN)),
+				state.isServer() ? startVelo.scl(1 + creator.getBodyData().getStat(Stats.RANGED_PROJ_SPD)) : startVelo,
+				filter, sensor, procEffects, creator, sprite);
+
+		//apply user's projectile modifiers. (clients ignore proj spd because that's already counted for when server sends attack)
 		setScale(getScale() + creator.getBodyData().getStat(Stats.RANGED_PROJ_SIZE));
 		setGravity(getGravity() + creator.getBodyData().getStat(Stats.RANGED_PROJ_GRAVITY));
 		setDurability((int) (getDurability() + creator.getBodyData().getStat(Stats.RANGED_PROJ_DURABILITY)));

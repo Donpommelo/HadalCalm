@@ -18,7 +18,6 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.ProcTime;
@@ -136,18 +135,22 @@ public class Enemy extends Schmuck {
 		});
 		
 		//if boss, activate on boss spawn statuses for all players
-		if (isBoss && state.isServer()) {
+		if (isBoss) {
 
-			//this method should be overloaded for bosses that scale to the number of players
-			multiplayerScaling(HadalGame.server.getNumPlayers());
+			if (state.isServer()) {
+				//this method should be overloaded for bosses that scale to the number of players
+				multiplayerScaling(HadalGame.server.getNumPlayers());
 
-			state.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
-			for (User user : HadalGame.server.getUsers().values()) {
-				if (user.getPlayer() != null) {
-					if (user.getPlayer().getPlayerData() != null) {
-						user.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
+				state.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
+				for (User user : HadalGame.server.getUsers().values()) {
+					if (user.getPlayer() != null) {
+						if (user.getPlayer().getPlayerData() != null) {
+							user.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
+						}
 					}
 				}
+			} else {
+				multiplayerScaling(HadalGame.client.getNumPlayers());
 			}
 		}
 	}
@@ -230,26 +233,16 @@ public class Enemy extends Schmuck {
 		boolean visible = false;
 		
 		//draw hp bar if certain effects are used
-		if (state.isServer()) {
-			if (state.getPlayer().getPlayerData() != null) {
-				if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
-					visible = true;
-				}
-			}
-		} else {
-			if (((ClientState) state).getUiPlay().getHealthVisibility() > 0) {
+		if (state.getPlayer().getPlayerData() != null) {
+			if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
 				visible = true;
 			}
 		}
 		
 		if (visible && !isBoss) {
 			float hpRatio;
-			
-			if (state.isServer()) {
-				hpRatio = getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP);
-			} else {
-				hpRatio = getBodyData().getOverrideHpPercent();
-			}
+
+			hpRatio = getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP);
 			entityLocation.set(getPixelPosition());
 			batch.draw(hpSprite, hpX + entityLocation.x - hboxSize.x / 2, hpY + entityLocation.y - hboxSize.y / 2,
 				hpSprite.getRegionWidth() * uiScale * hpRatio, hpSprite.getRegionHeight() * uiScale);
@@ -327,10 +320,9 @@ public class Enemy extends Schmuck {
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncSchmuck p) {
 			if (isBoss) {
-				((ClientState) state).getUiPlay().setOverrideBossHpPercent(p.hpPercent);
-				
+
 				//clear the boss ui for clients
-				if (p.hpPercent <= 0.0f) {
+				if (p.currentHp <= 0.0f) {
 					state.clearBoss();
 				}
 			}
@@ -341,8 +333,8 @@ public class Enemy extends Schmuck {
 	 * When created in the server, tell the client what kind of enemy was created to sync
 	 */
 	@Override
-	public Object onServerCreate() {
-		return new Packets.CreateEnemy(entityID, getPixelPosition(), type, isBoss, name);
+	public Object onServerCreate(boolean catchup) {
+		return new Packets.CreateEnemy(entityID, getPixelPosition(), type, hitboxfilter, isBoss, name);
 	}
 
 	@Override

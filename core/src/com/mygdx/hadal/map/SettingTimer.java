@@ -58,18 +58,12 @@ public class SettingTimer extends ModeSetting {
 
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {
-        String gameTimerId = TiledObjectUtil.getPrefabTriggerId();
 
         int startTimer = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
 
-        RectangleMapObject game = new RectangleMapObject();
-        game.setName("Game");
-        game.getProperties().put("sync", "ALL");
-        game.getProperties().put("triggeredId", gameTimerId);
-
         if (startTimer != 0) {
-            game.getProperties().put("timer", indexToTimer(startTimer));
-            game.getProperties().put("timerIncr", -1.0f);
+            state.getUiExtra().setTimer(indexToTimer(startTimer));
+            state.getUiExtra().setTimerIncr(-1.0f);
         }
 
         RectangleMapObject end = new RectangleMapObject();
@@ -77,10 +71,9 @@ public class SettingTimer extends ModeSetting {
         end.getProperties().put("text", endText);
         end.getProperties().put("triggeredId", "runOnGlobalTimerConclude");
 
-        TiledObjectUtil.parseTiledEvent(state, game);
         TiledObjectUtil.parseTiledEvent(state, end);
 
-        return gameTimerId;
+        return "";
     }
 
     /**

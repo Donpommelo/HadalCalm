@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -63,7 +63,7 @@ public class TractorBeam extends ActiveItem {
 			public void onHit(HadalData fixB) {						
 					
 				if (fixB != null) {
-					if (fixB.getType().equals(UserDataTypes.BODY)) {
+					if (fixB.getType().equals(UserDataType.BODY)) {
 						
 						final BodyData track = (BodyData) fixB;
 						
@@ -90,11 +90,11 @@ public class TractorBeam extends ActiveItem {
 
 									if (fixB != null && track.getSchmuck().getBody() != null) {
 
-										if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
+										if (fixB.getType().equals(UserDataType.BODY) || fixB.getType().equals(UserDataType.WALL)) {
 											track.receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, grab, DamageTypes.WHACKING);
 										}
 
-										if (fixB.getType().equals(UserDataTypes.BODY)) {
+										if (fixB.getType().equals(UserDataType.BODY)) {
 											fixB.receiveDamage(primaryDamage, hbox.getLinearVelocity().nor().scl(knockback), creator, true, grab, DamageTypes.WHACKING);
 										}
 									} else {

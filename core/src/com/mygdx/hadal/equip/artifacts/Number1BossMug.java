@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.event.HealingArea;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -46,7 +47,7 @@ public class Number1BossMug extends Artifact {
 					procCdCount -= procCd;
 
 					new SoundEntity(state, new HealingArea(state, p.getSchmuck().getPixelPosition(), fieldSize, fieldHeal, healDuration, p.getSchmuck(), (short) 0),
-							SoundEffect.MAGIC21_HEAL, 0.25f, 1.0f, true, true, SoundEntity.soundSyncType.TICKSYNC);
+							SoundEffect.MAGIC21_HEAL, 0.25f, 1.0f, true, true, SyncType.TICKSYNC);
 				}
 				return damage;
 			}

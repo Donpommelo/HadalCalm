@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -9,15 +10,13 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 public class Piffler extends Artifact {
 
 	private static final int slotCost = 1;
 	
 	private static final int spread = 30;
 	private static final float projSpeedReduction = -0.6f;
-	private static final float projLifeReduction = -0.6f;
+	private static final float projLifeReduction = 0.6f;
 	private static final float projRecoilReduction = -0.75f;
 	private static final float damageReduction = -0.25f;
 	private static final float projectileSizeReduction = -0.4f;
@@ -42,7 +41,7 @@ public class Piffler extends Artifact {
 			
 			@Override
 			public void onShoot(Equippable tool) {
-				float newDegrees = tool.getWeaponVelo().angleDeg() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
+				float newDegrees = tool.getWeaponVelo().angleDeg() + MathUtils.random(-spread, spread + 1);
 				tool.setWeaponVelo(tool.getWeaponVelo().setAngleDeg(newDegrees));
 			}
 			

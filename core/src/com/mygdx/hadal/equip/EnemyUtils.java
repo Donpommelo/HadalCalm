@@ -265,7 +265,7 @@ public class EnemyUtils {
 				}
 				
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE).setStaticKnockback(true));
-				hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2(), true));
+				hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2()).setRotate(true));
 				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 				hbox.addStrategy((new HitboxStrategy(state, hbox, enemy.getBodyData()) {
 				
@@ -288,7 +288,7 @@ public class EnemyUtils {
 							pulse.makeUnreflectable();
 							pulse.addStrategy(new ControllerDefault(state, pulse, enemy.getBodyData()));
 							pulse.addStrategy(new DamageStandard(state, pulse, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE).setStaticKnockback(true));
-							pulse.addStrategy(new FixedToEntity(state, pulse, enemy.getBodyData(), new Vector2(), new Vector2(), true));
+							pulse.addStrategy(new FixedToEntity(state, pulse, enemy.getBodyData(), new Vector2(), new Vector2()).setRotate(true));
 						}
 					}
 				}));

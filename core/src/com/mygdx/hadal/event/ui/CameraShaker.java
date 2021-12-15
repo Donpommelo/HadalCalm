@@ -51,6 +51,11 @@ public class CameraShaker extends Event {
 	}
 
 	@Override
+	public void clientController(float delta) {
+		controller(delta);
+	}
+
+	@Override
 	public void loadDefaultProperties() {
 		setSyncType(eventSyncTypes.ALL);
 	}

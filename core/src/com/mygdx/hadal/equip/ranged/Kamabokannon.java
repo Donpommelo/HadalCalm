@@ -6,10 +6,12 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
-import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -68,7 +70,7 @@ public class Kamabokannon extends RangedWeapon {
 				aimPointer.set(weaponVelo);
 				
 				if (oozeSound == null) {
-					oozeSound = new SoundEntity(state, user, SoundEffect.OOZE, 0.8f, 1.0f, true, true, soundSyncType.TICKSYNC);
+					oozeSound = new SoundEntity(state, user, SoundEffect.OOZE, 0.8f, 1.0f, true, true, SyncType.TICKSYNC);
 				} else {
 					oozeSound.turnOn();
 				}
@@ -86,18 +88,26 @@ public class Kamabokannon extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
+		SyncedAttack.KAMABOKO.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
+	}
+
+	public static Hitbox createKamaboko(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+				true, true, user, Sprite.NOTHING);
 		hbox.setGravity(1.0f);
-		
+
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 1.0f));
-		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.KAMABOKO_IMPACT));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 1.0f)
+				.setSyncType(SyncType.NOSYNC));
+		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.KAMABOKO_IMPACT).setSyncType(SyncType.NOSYNC));
+
+		return hbox;
 	}
-	
+
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
 		chargeCd = 0;

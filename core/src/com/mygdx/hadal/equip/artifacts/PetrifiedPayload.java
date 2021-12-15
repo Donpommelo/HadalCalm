@@ -34,17 +34,17 @@ public class PetrifiedPayload extends Artifact {
 			public void onKill(BodyData vic) {
 				if (vic instanceof PlayerBodyData) {
 					WeaponUtils.createExplosion(state, vic.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
-							explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxfilter());
+							explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxfilter(), true);
 				} else {
 					WeaponUtils.createExplosion(state, vic.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
-							explosionDamageEnemy, explosionKnockback, p.getSchmuck().getHitboxfilter());
+							explosionDamageEnemy, explosionKnockback, p.getSchmuck().getHitboxfilter(), true);
 				}
 			}
 			
 			@Override
 			public void onDeath(BodyData perp) {
 				WeaponUtils.createExplosion(state, perp.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
-						explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxfilter());
+						explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxfilter(), true);
 			}
 		});
 	}

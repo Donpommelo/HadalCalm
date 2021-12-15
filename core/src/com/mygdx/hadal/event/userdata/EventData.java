@@ -3,7 +3,7 @@ package com.mygdx.hadal.event.userdata;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -22,12 +22,12 @@ public class EventData extends HadalData {
 	protected final ObjectSet<HadalEntity> schmucks;
 
 	public EventData(Event event) {
-		super(UserDataTypes.EVENT, event);
+		super(UserDataType.EVENT, event);
 		this.event = event;
 		this.schmucks = new ObjectSet<>();
 	}
 	
-	public EventData(Event event, UserDataTypes type) {
+	public EventData(Event event, UserDataType type) {
 		super(type, event);
 		this.event = event;
 		this.schmucks = new ObjectSet<>();

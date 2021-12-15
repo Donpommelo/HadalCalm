@@ -1,5 +1,6 @@
 package com.mygdx.hadal.actors;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -30,9 +31,6 @@ public class UIArtifacts {
 	public UIArtifacts(PlayState state) {
 		this.state = state;
 		this.table = new Table().left().top();
-
-		addTable();
-		syncArtifact();
 	}
 	
 	/**
@@ -67,10 +65,11 @@ public class UIArtifacts {
 		}
 	}
 	
-	public void addTable() {
-		state.getStage().addActor(table);
+	public void addTable(Stage stage) {
+		stage.addActor(table);
 		table.setPosition(tableX, tableY);
 		table.setWidth(HadalGame.CONFIG_WIDTH);
 		table.setHeight(tagHeight);
+		syncArtifact();
 	}
 }

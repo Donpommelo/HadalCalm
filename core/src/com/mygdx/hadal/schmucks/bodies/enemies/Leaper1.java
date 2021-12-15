@@ -13,8 +13,6 @@ import com.mygdx.hadal.statuses.DeathParticles;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Stats;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 public class Leaper1 extends EnemyCrawling {
 
 	private static final int baseHp = 100;
@@ -60,7 +58,7 @@ public class Leaper1 extends EnemyCrawling {
 	private static final int spread = 30;
 	@Override
 	public void attackInitiate() {
-		push(new Vector2(0, 50).rotateDeg(ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
+		push(new Vector2(0, 50).rotateDeg(MathUtils.random(-spread, spread + 1)));
 	}
 	
 	private final Vector2 entityLocation = new Vector2();

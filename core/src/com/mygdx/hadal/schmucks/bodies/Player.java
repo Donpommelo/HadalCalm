@@ -6,10 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.UIPlayClient;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.PlayerSpriteHelper;
@@ -17,16 +17,15 @@ import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.MoveState;
-import com.mygdx.hadal.schmucks.UserDataTypes;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
-import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -234,8 +233,8 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void loadParticles() {
 		if (state.isServer()) {
-			dustCloud = new ParticleEntity(state, this, Particle.DUST, 1.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
-			hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
+			dustCloud = new ParticleEntity(state, this, Particle.DUST, 1.0f, 0.0f, false, SyncType.TICKSYNC, new Vector2(0, -size.y / 2));
+			hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false, SyncType.TICKSYNC, new Vector2(0, -size.y / 2));
 		}
 	}
 	
@@ -277,21 +276,21 @@ public class Player extends PhysicsSchmuck {
 				hitboxfilter, false, playerData);
 		
 		//On the server, we create several extra fixtures to keep track of feet/sides to determine when the player gets their jump back and what terrain event they are standing on.
-		this.feetData = new FeetData(UserDataTypes.FEET, this);
+		this.feetData = new FeetData(UserDataType.FEET, this);
 
 		Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
 				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter);
 		
 		feet.setUserData(feetData);
 
-		this.leftData = new FeetData(UserDataTypes.FEET, this);
+		this.leftData = new FeetData(UserDataType.FEET, this);
 
 		Fixture leftSensor = FixtureBuilder.createFixtureDef(body, new Vector2(-size.x / 2, 0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
 				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter);
 		
 		leftSensor.setUserData(leftData);
 		
-		this.rightData = new FeetData(UserDataTypes.FEET, this);
+		this.rightData = new FeetData(UserDataType.FEET, this);
 
 		Fixture rightSensor = FixtureBuilder.createFixtureDef(body, new Vector2(size.x / 2,  0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
 				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter);
@@ -367,7 +366,7 @@ public class Player extends PhysicsSchmuck {
 				//turn on running particles and sound
 				dustCloud.turnOn();
 				if (runSound == null) {
-					runSound = new SoundEntity(state, this, SoundEffect.RUN, 0.1f, 1.0f, true, true, soundSyncType.TICKSYNC);
+					runSound = new SoundEntity(state, this, SoundEffect.RUN, 0.1f, 1.0f, true, true, SyncType.TICKSYNC);
 				} else {
 					runSound.turnOn();
 				}
@@ -410,7 +409,7 @@ public class Player extends PhysicsSchmuck {
 			
 			//turn on reloading particles and sound
 			if (reloadSound == null) {
-				reloadSound = new SoundEntity(state, this, SoundEffect.RELOAD, 0.2f, 1.0f, true, true, soundSyncType.TICKSYNC);
+				reloadSound = new SoundEntity(state, this, SoundEffect.RELOAD, 0.2f, 1.0f, true, true, SyncType.TICKSYNC);
 			} else {
 				reloadSound.turnOn();
 			}
@@ -502,7 +501,7 @@ public class Player extends PhysicsSchmuck {
 				//turn on hovering particles and sound
 				hoverBubbles.turnOn();
 				if (hoverSound == null) {
-					hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.2f, 1.0f, true, true, soundSyncType.TICKSYNC);
+					hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.2f, 1.0f, true, true, SyncType.TICKSYNC);
 				}
 				hoverSound.turnOn();
 			}
@@ -527,7 +526,7 @@ public class Player extends PhysicsSchmuck {
 				if (invisible == 0) {
 					//activate jump particles and sound
 					new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - size.y / 2),
-							Particle.WATER_BURST, 1.0f, true, particleSyncType.CREATESYNC);
+							Particle.WATER_BURST, 1.0f, true, SyncType.CREATESYNC);
 					SoundEffect.JUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
 				}
 			} else {
@@ -542,7 +541,7 @@ public class Player extends PhysicsSchmuck {
 					
 					if (invisible == 0) {
 						//activate double-jump particles and sound
-						new ParticleEntity(state, this, Particle.SPLASH, 0.0f, 0.75f, true, particleSyncType.CREATESYNC);
+						new ParticleEntity(state, this, Particle.SPLASH, 0.0f, 0.75f, true, SyncType.CREATESYNC);
 						SoundEffect.DOUBLEJUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
 					}
 				} else {
@@ -645,10 +644,11 @@ public class Player extends PhysicsSchmuck {
 	/**
 	 * Player pings at mouse location
 	 */
+	private static final Vector2 notifOffset = new Vector2(0, 35);
 	public void ping() {
 		if (pingCdCount < 0) {
 			pingCdCount = pingCd;
-			WeaponUtils.ping(state, mouse.getPixelPosition(), this, hitboxfilter);
+			SyncedAttack.PING.initiateSyncedAttackSingle(state, this, mouse.getPixelPosition().add(notifOffset), new Vector2());
 		}
 	}
 	
@@ -753,13 +753,11 @@ public class Player extends PhysicsSchmuck {
 		//draw hp heart if using certain effects, looking at self/ally, or in spectator mode
 		if (state.isSpectatorMode() || hitboxfilter == state.getPlayer().hitboxfilter) {
 			visible = true;
-		} else if (state.isServer()) {
-			if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
-				visible = true;
-			}
 		} else {
-			if (((ClientState) state).getUiPlay().getHealthVisibility() > 0) {
-				visible = true;
+			if (state.getPlayer().getPlayerData() != null) {
+				if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
+					visible = true;
+				}
 			}
 		}
 
@@ -796,11 +794,7 @@ public class Player extends PhysicsSchmuck {
 					}
 				}
 			} else {
-				if (state.isServer()) {
-					hpRatio = playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP);
-				} else {
-					hpRatio = playerData.getOverrideHpPercent();
-				}
+				hpRatio = playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP);
 				batch.draw(hpBarFade, hpX, playerLocation.y + barY, hpWidth, hpHeight);
 				batch.draw(hpBar, hpX, playerLocation.y + barY, hpWidth, hpHeight * hpRatio);
 			}
@@ -839,7 +833,7 @@ public class Player extends PhysicsSchmuck {
 		spriteHelper.dispose(despawnType);
 
 		//this is here to prevent the client from not updating the last, fatal instance of damage in the ui
-		playerData.setOverrideHpPercent(0);
+		playerData.setCurrentHp(0);
 	}
 	
 	/**
@@ -869,7 +863,7 @@ public class Player extends PhysicsSchmuck {
 	 * with the desired name and loadout
 	 */
 	@Override
-	public Object onServerCreate() {
+	public Object onServerCreate(boolean catchup) {
 		return new Packets.CreatePlayer(entityID, connId, getPixelPosition(), name, playerData.getLoadout(),
 				hitboxfilter, scaleModifier, dontMoveCamera);
 	}
@@ -887,18 +881,18 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void onServerSync() {
-		HadalGame.server.sendToAllExceptUDP(connId, new PacketsSync.SyncPlayer(entityID, getPosition(), getLinearVelocity(), entityAge,	state.getTimer(), moveState,
-				Math.max(0.0f, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
+		HadalGame.server.sendToAllExceptUDP(connId, new PacketsSync.SyncPlayer(entityID, getPosition(), getLinearVelocity(),
+				entityAge,	state.getTimer(), moveState, getBodyData().getCurrentHp(),
 				mouseAngle, grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().isReloading(), reloadPercent,
-				playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo(), invisible));
+				playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo(),
+				getMainFixture().getFilterData().maskBits, invisible));
 
 		HadalGame.server.sendToUDP(connId, new PacketsSync.SyncPlayerSelf(entityID, getPosition(),
-				getLinearVelocity(), entityAge,	state.getTimer(), moveState,
-				Math.max(0.0f, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
+				getLinearVelocity(), entityAge,	state.getTimer(), moveState, getBodyData().getCurrentHp(),
 				mouseAngle, grounded, playerData.getCurrentSlot(),
 				playerData.getCurrentTool().isReloading(), reloadPercent,
 				playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo(),
-				invisible, playerData.getCurrentFuel() / playerData.getStat(Stats.MAX_FUEL),
+				getMainFixture().getFilterData().maskBits, invisible, playerData.getCurrentFuel(),
 				playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getAmmoLeft(),
 				playerData.getActiveItem().chargePercent(), blinded));
 	}
@@ -908,22 +902,21 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void onClientSync(Object o) {
+
+		//this processes screen shake for the client when their player (or spectator target) receives damage
 		if (o instanceof PacketsSync.SyncSchmuck p) {
-			float difference = getPlayerData().getOverrideHpPercent() - p.hpPercent;
+			float difference = getPlayerData().getCurrentHp() - p.currentHp;
 			if (difference > 0.0f && state.getUiPlay() != null) {
 				if (this.equals(state.getPlayer())) {
-					CameraUtil.inflictTrauma(state.getGsm(), difference * ((UIPlayClient) state.getUiPlay()).getOverrideMaxHp());
+					CameraUtil.inflictTrauma(state.getGsm(), difference);
 				}
-				if (state.getUiSpectator() != null) {
-					if (this.equals(state.getUiSpectator().getSpectatorTarget())) {
-						CameraUtil.inflictTrauma(state.getGsm(), difference * ((UIPlayClient) state.getUiPlay()).getOverrideMaxHp());
-					}
+				if (this.equals(state.getUiSpectator().getSpectatorTarget())) {
+					CameraUtil.inflictTrauma(state.getGsm(), difference);
 				}
 			}
 		}
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncPlayer p) {
-
 			serverAttackAngle.setAngleRad(p.attackAngle.angleRad());
 			grounded = p.grounded;
 			getPlayerData().setCurrentSlot(p.currentSlot);
@@ -936,6 +929,11 @@ public class Player extends PhysicsSchmuck {
 			getPlayerData().setOverrideOutOfAmmo(p.outOfAmmo);
 			invisible = p.invisible;
 
+			if (p.maskBits != getMainFixture().getFilterData().maskBits) {
+				Filter filter = getMainFixture().getFilterData();
+				filter.maskBits = p.maskBits;
+				getMainFixture().setFilterData(filter);
+			}
 		} else if (o instanceof Packets.DeletePlayer p) {
 
 			//delegate to sprite helper for despawn so it can dispose of frame buffer object

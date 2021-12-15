@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
@@ -103,7 +103,7 @@ public class HealingArea extends Event {
 			currCrossSpawnTimer -= spawnTimerLimit;
 			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
-			new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, particleLifespan, true, particleSyncType.NOSYNC);
+			new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, particleLifespan, true, SyncType.NOSYNC);
 		}
 	}
 	
@@ -122,7 +122,7 @@ public class HealingArea extends Event {
 			currCrossSpawnTimer -= spawnTimerLimit;
 			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
-			ParticleEntity heal = new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
+			ParticleEntity heal = new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, 1.5f, true, SyncType.NOSYNC);
 			((ClientState) state).addEntity(heal.getEntityID(), heal, false, ObjectSyncLayers.EFFECT);
 		}
 	}
@@ -131,7 +131,7 @@ public class HealingArea extends Event {
 	 * When server creates healing area, clients are told to create the healing area in their own worlds
 	 */
 	@Override
-	public Object onServerCreate() {
+	public Object onServerCreate(boolean catchup) {
 		if (independent) { return null; }
 		if (blueprint == null) {
 			entityLocation.set(getPixelPosition());

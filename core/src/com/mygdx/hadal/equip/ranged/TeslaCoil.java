@@ -8,19 +8,25 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.Static;
 import com.mygdx.hadal.utils.Constants;
+
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class TeslaCoil extends RangedWeapon {
 
@@ -71,7 +77,6 @@ public class TeslaCoil extends RangedWeapon {
 			private boolean planted = false;
 			private boolean activated = false;
 			private float controllerCount;
-			
 			@Override
 			public void create() {
 				//keep track of the coil's travel distance
@@ -140,7 +145,7 @@ public class TeslaCoil extends RangedWeapon {
 				//unactivated coils should stop and plant when they hit a wall
 				if (fixB == null) {
 					firstPlanted = true;
-				} else if (fixB.getType().equals(UserDataTypes.WALL)){
+				} else if (fixB.getType().equals(UserDataType.WALL)){
 					firstPlanted = true;
 				}
 			}
@@ -157,57 +162,75 @@ public class TeslaCoil extends RangedWeapon {
 			 * @param hboxOther: the other coil to connect to
 			 */
 			public void coilPairActivated(PlayState state, Hitbox hboxOther) {
-				
 				if (!activated) {
-					SoundEffect.ZAP.playUniversal(state, startPosition, 0.4f, false);
-
 					activated = true;
-					
-					//draw a path of hitboxes between the 2 activated coils that damage enemies that pass through
-					Vector2 pulsePosition = new Vector2(hbox.getPixelPosition());
-					Vector2 pulsePath = hboxOther.getPixelPosition().sub(hbox.getPixelPosition());
-					
-					float dist = pulsePath.len();
-					for (int i = 0; i < dist - pulseSize.x; i += pulseSize.x) {
-						pulsePosition.add(pulsePath.nor().scl(pulseSize));
-						
-						Hitbox pulse = new RangedHitbox(state, pulsePosition, pulseSize, pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING);
-						pulse.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
-						pulse.setEffectsHit(false);
-						
-						pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-						pulse.addStrategy(new CreateParticles(state, pulse, user.getBodyData(), Particle.LASER_PULSE, 0.0f, 0.1f).setParticleSize(50));
-					}
-					
-					Hitbox hboxDamage = new RangedHitbox(state, new Vector2(hbox.getPixelPosition()).add(hboxOther.getPixelPosition()).scl(0.5f), 
-							new Vector2(hboxOther.getPixelPosition().dst(hbox.getPixelPosition()), pulseSize.y), pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING) {
-						
-						private final Vector2 newPosition = new Vector2();
-						
-						@Override
-						public void create() {
-							super.create();
-							
-							//this makes the laser hbox's lifespan unmodifiable
-							setLifeSpan(pulseDuration);
-							
-							newPosition.set(hboxOther.getPixelPosition()).sub(hbox.getPixelPosition());
-
-							//Rotate hitbox to match angle of fire.
-							float newAngle = MathUtils.atan2(newPosition.y , newPosition.x);
-							setTransform(getPosition().x, getPosition().y, newAngle);
-						}
-					};
-					hboxDamage.setSyncDefault(false);
-					hboxDamage.setEffectsVisual(false);
-					
-					hboxDamage.addStrategy(new ControllerDefault(state, hboxDamage, user.getBodyData()));
-					hboxDamage.addStrategy(new DamageStandard(state, hboxDamage, user.getBodyData(), pulseDamage, pulseKnockback,
-						DamageTypes.ENERGY, DamageTypes.RANGED).setStaticKnockback(true));
+					Vector2 otherPosition = new Vector2(hboxOther.getPixelPosition());
+					SyncedAttack.TESLA_ACTIVATION.initiateSyncedAttackSingle(state, user, hbox.getPixelPosition(),
+							startVelocity, otherPosition.x, otherPosition.y);
 				}
 			}
 		});
 			
 		coilsLaid.add(hbox);
+	}
+
+	public static Hitbox createTeslaActivation(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
+		SoundEffect.ZAP.playSourced(state, startPosition, 0.4f);
+
+		//draw a path of hitboxes between the 2 activated coils that damage enemies that pass through
+		Vector2 pulsePosition = new Vector2(startPosition);
+		Vector2 otherPosition = new Vector2();
+		Vector2 pulsePath = new Vector2();
+		if (extraFields.length >= 2) {
+			otherPosition.set(extraFields[0], extraFields[1]);
+			pulsePath.set(otherPosition).sub(pulsePosition);
+		}
+
+		float dist = pulsePath.len();
+		for (int i = 0; i < dist - pulseSize.x; i += pulseSize.x) {
+			pulsePosition.add(pulsePath.nor().scl(pulseSize));
+
+			Hitbox pulse = new RangedHitbox(state, pulsePosition, pulseSize, pulseDuration, new Vector2(), user.getHitboxfilter(),
+					true, true, user, Sprite.NOTHING);
+			pulse.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+			pulse.setSyncDefault(false);
+			pulse.setEffectsHit(false);
+
+			pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
+			pulse.addStrategy(new CreateParticles(state, pulse, user.getBodyData(), Particle.LASER_PULSE, 0.0f, 0.1f)
+					.setParticleSize(50).setSyncType(SyncType.NOSYNC));
+
+			if (!state.isServer()) {
+				((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectSyncLayers.HBOX);
+			}
+		}
+
+		Hitbox hboxDamage = new RangedHitbox(state, startPosition, new Vector2(otherPosition.dst(startPosition), pulseSize.y),
+				pulseDuration, new Vector2(), user.getHitboxfilter(), true, true, user, Sprite.NOTHING) {
+
+			private final Vector2 newPosition = new Vector2();
+			@Override
+			public void create() {
+				super.create();
+
+				//this makes the laser hbox's lifespan unmodifiable
+				setLifeSpan(pulseDuration);
+
+				//Rotate hitbox to match angle of fire.
+				newPosition.set(otherPosition).sub(startPosition);
+				float newAngle = MathUtils.atan2(newPosition.y , newPosition.x);
+
+				newPosition.set(startPosition).add(otherPosition).scl(0.5f);
+				setTransform(newPosition.x / PPM, newPosition.y / PPM, newAngle);
+			}
+		};
+		hboxDamage.setEffectsVisual(false);
+
+		hboxDamage.addStrategy(new ControllerDefault(state, hboxDamage, user.getBodyData()));
+		hboxDamage.addStrategy(new DamageStandard(state, hboxDamage, user.getBodyData(), pulseDamage, pulseKnockback,
+				DamageTypes.ENERGY, DamageTypes.RANGED).setStaticKnockback(true));
+		hboxDamage.addStrategy(new Static(state, hboxDamage, user.getBodyData()));
+
+		return hboxDamage;
 	}
 }

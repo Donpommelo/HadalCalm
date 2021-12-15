@@ -46,7 +46,7 @@ public class ImmolationAura extends ActiveItem {
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
-		hbox.addStrategy(new FixedToEntity(state, hbox, user, new Vector2(), new Vector2(), false));
+		hbox.addStrategy(new FixedToEntity(state, hbox, user, new Vector2(), new Vector2()));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user, SoundEffect.KICK1, 1.0f, true));
 		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.FIRE, 0.0f, 1.0f).setParticleSize(40));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {

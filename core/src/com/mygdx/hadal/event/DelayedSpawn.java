@@ -3,6 +3,8 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.states.PlayState;
@@ -29,7 +31,7 @@ public class DelayedSpawn extends Event {
 	private final SpawnerSchmuck spawner;
 	private final boolean isBoss;
 	private final String bossName;
-	
+
 	public DelayedSpawn(PlayState state, Vector2 startPos, float lifespan, EnemyType type, short filter, float extraField, SpawnerSchmuck spawner, boolean isBoss, String bossName) {
 		super(state, startPos, baseSize, lifespan);
 		this.type = type;
@@ -38,16 +40,13 @@ public class DelayedSpawn extends Event {
 		this.spawner = spawner;
 		this.isBoss = isBoss;
 		this.bossName = bossName;
-		
-		setStandardParticle(Particle.RING);
-		
+
 		//bosses create bigger particles
 		if (isBoss) {
-			standardParticle.setScale(particleScaleBoss);
+			new ParticleEntity(state, startPos, Particle.RING, duration, true, SyncType.CREATESYNC).setScale(particleScaleBoss);
 		} else {
-			standardParticle.setScale(particleScale);
+			new ParticleEntity(state, startPos, Particle.RING, duration, true, SyncType.CREATESYNC).setScale(particleScale);
 		}
-		setSynced(true);
 	}
 
 	@Override
@@ -55,10 +54,6 @@ public class DelayedSpawn extends Event {
 		this.eventData = new EventData(this);
 		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1.0f, 0, false, true,
 				Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
-		
-		if (standardParticle != null) {
-			standardParticle.onForBurst(duration);
-		}
 	}
 	
 	@Override

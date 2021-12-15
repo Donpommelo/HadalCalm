@@ -29,7 +29,7 @@ public class UIExtra extends AHadalActor {
 	private static final float fontScale = 0.25f;
 	
 	//List of tags that are to be displayed
-	private final Array<UITag> uiTags;
+	private final Array<UITag> uiTags = new Array<>();
 	
 	//Timer is used for timed scripted events. timerIncr is how much the timer should tick every update cycle (usually -1, 0 or 1)
 	private float maxTimer, timer, timerIncr;
@@ -40,7 +40,6 @@ public class UIExtra extends AHadalActor {
 
 	public UIExtra(PlayState state) {
 		this.state = state;
-		uiTags = new Array<>();
 	}
 	
 	private final StringBuilder text = new StringBuilder();
@@ -79,10 +78,11 @@ public class UIExtra extends AHadalActor {
 	 * @param clear: Do we clear all the existing ui tags first?
 	 */
 	public void changeTypes(String tags, boolean clear) {
+
 		if (clear) {
 			uiTags.clear();
 		}
-		
+
 		for (String type : tags.split(",")) {
 			
 			boolean found = false;
@@ -154,7 +154,6 @@ public class UIExtra extends AHadalActor {
 			int seconds = currentTimer % 60;
 			if (seconds < 10) {
 				displayedTimer = currentTimer / 60 + ": 0" + seconds;
-
 			} else {
 				displayedTimer = currentTimer / 60 + ": " + seconds;
 			}

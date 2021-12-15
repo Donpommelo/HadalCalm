@@ -2,9 +2,8 @@ package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
-import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -31,8 +30,10 @@ public class Regeneration extends Status {
 	
 	@Override
 	public void onInflict() {
-		regenParticles = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, duration, 0.0f, true, particleSyncType.CREATESYNC);
-		regenSound =  new SoundEntity(state, inflicted.getSchmuck(), SoundEffect.MAGIC21_HEAL, 0.25f, 1.0f, true, true, soundSyncType.TICKSYNC);
+		regenParticles = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, duration, 0.0f,
+				true, SyncType.CREATESYNC);
+		regenSound =  new SoundEntity(state, inflicted.getSchmuck(), SoundEffect.MAGIC21_HEAL, 0.25f, 1.0f,
+				true, true, SyncType.TICKSYNC);
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
@@ -20,28 +21,27 @@ public class FixedToEntity extends HitboxStrategy {
 	private final Vector2 angle = new Vector2();
 	
 	//does this hbox rotate when the user does?
-	private final boolean rotate;
-	
+	private boolean rotate;
+
+	//does this hbox kill the entity it is attached to when it dies?
+	private boolean killOnDeath;
+
 	//this is the entity that this hbox is fixed to. Usually the user for melee hboxes. Some hboxes have another hboxes fixed to them like sticky bombs
 	private HadalEntity target;
 
 	private boolean attachedToUser;
 
-	public FixedToEntity(PlayState state, Hitbox proj, BodyData user, Vector2 angle, Vector2 center, boolean rotate) {
+	public FixedToEntity(PlayState state, Hitbox proj, BodyData user, Vector2 angle, Vector2 center) {
 		super(state, proj, user);
 		this.center.set(center);
 		this.angle.set(angle);
-		this.rotate = rotate;
-		
-		hbox.setSyncDefault(false);
-		hbox.setSyncInstant(true);
-		
+
 		this.target = creator.getSchmuck();
 		this.attachedToUser = true;
 	}
 	
-	public FixedToEntity(PlayState state, Hitbox proj, BodyData user, HadalEntity target, Vector2 angle, Vector2 center, boolean rotate) {
-		this(state, proj, user, angle, center, rotate);
+	public FixedToEntity(PlayState state, Hitbox proj, BodyData user, HadalEntity target, Vector2 angle, Vector2 center) {
+		this(state, proj, user, angle, center);
 		this.target = target;
 		this.attachedToUser = false;
 	}
@@ -75,6 +75,30 @@ public class FixedToEntity extends HitboxStrategy {
 					hbox.setFilter(creator.getSchmuck().getHitboxfilter());
 				}
 			}
+			hbox.setLinearVelocity(target.getLinearVelocity());
 		}
+	}
+
+	@Override
+	public void die() {
+		if (killOnDeath) {
+			if (target.isAlive()) {
+				if (hbox.getState().isServer()) {
+					target.queueDeletion();
+				} else {
+					((ClientState) state).removeEntity(target.getEntityID());
+				}
+			}
+		}
+	}
+
+	public FixedToEntity setRotate(boolean rotate) {
+		this.rotate = rotate;
+		return this;
+	}
+
+	public FixedToEntity setKillOnDeath(boolean killOnDeath) {
+		this.killOnDeath = killOnDeath;
+		return this;
 	}
 }

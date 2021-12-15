@@ -5,9 +5,9 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
-import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -43,7 +43,7 @@ public class OrbitalShield extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		new SoundEntity(state, createOrbital(state, user, 0), SoundEffect.MAGIC25_SPELL, 1.0f, 1.0f, true, true, soundSyncType.TICKSYNC);
+		new SoundEntity(state, createOrbital(state, user, 0), SoundEffect.MAGIC25_SPELL, 1.0f, 1.0f, true, true, SyncType.TICKSYNC);
 		
 		createOrbital(state, user, 90);
 		createOrbital(state, user, 180);

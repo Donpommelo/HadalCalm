@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -43,13 +43,13 @@ public class CommutersParasol extends Artifact {
 					hbox.makeUnreflectable();
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, p));
-					hbox.addStrategy(new FixedToEntity(state, hbox, p, new Vector2(), position, false));
+					hbox.addStrategy(new FixedToEntity(state, hbox, p, new Vector2(), position));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, p) {
 						
 						@Override
 						public void onHit(HadalData fixB) {
 							if (fixB != null) {
-								if (fixB.getType().equals(UserDataTypes.HITBOX)) {
+								if (fixB.getType().equals(UserDataType.HITBOX)) {
 									if (fixB.getEntity().isAlive()) {
 										Vector2 newVelo = new Vector2(fixB.getEntity().getPosition()).sub(p.getSchmuck().getPosition());
 										fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().setAngleDeg(newVelo.angleDeg()));

@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.ConsoleCommandUtil;
@@ -25,8 +25,7 @@ import com.payne.games.piemenu.PieMenu;
 public class ChatWheel {
 
 	private final PlayState state;
-	private final Stage stage;
-	
+
 	private final TextureRegion wheelBase, wheelIndicator;
 	private AnimatedPieMenu wheel;
 	
@@ -49,14 +48,10 @@ public class ChatWheel {
 	//is the chat wheel currently active or not?
 	private boolean active;
 	
-	public ChatWheel(PlayState state, Stage stage) {
+	public ChatWheel(PlayState state) {
 		this.state = state;
-		this.stage = stage;
-		
 		this.wheelBase = Sprite.UI_MO_BASE.getFrame();
 		this.wheelIndicator = Sprite.NOTIFICATIONS_CLEAR_CIRCLE.getFrame();
-		
-		addTable();
 	}
 	
 	//we track the location of the mouse so that the wheel can track which direction the player has moved it in.
@@ -72,7 +67,7 @@ public class ChatWheel {
 	/**
 	 * This creates the chat wheel elements
 	 */
-	public void addTable() {
+	public void addTable(Stage stage) {
 		PieMenu.PieMenuStyle style = new PieMenu.PieMenuStyle();
 		style.sliceColor = new Color(1,1,1,0.5f);
 		style.hoverColor = new Color(.7f,.3f,.5f,1);
@@ -188,7 +183,7 @@ public class ChatWheel {
 			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, player.getConnId());
 		}
 		if (player.getPlayerData() != null) {
-			WeaponUtils.emote(state, player, indexToEmote(emoteIndex));
+			SyncedAttack.EMOTE.initiateSyncedAttackSingle(state, player, new Vector2(), new Vector2(), emoteIndex);
 		}
 	}
 
@@ -197,7 +192,7 @@ public class ChatWheel {
 	 * @param index: index in list of emote
 	 * @return the sprite of the emote
 	 */
-	private Sprite indexToEmote(int index) {
+	public static Sprite indexToEmote(int index) {
 		return switch (index) {
 			case 0 -> Sprite.EMOTE_RAGE;
 			case 1 -> Sprite.EMOTE_NO;

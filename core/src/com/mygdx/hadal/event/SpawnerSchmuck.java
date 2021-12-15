@@ -68,7 +68,8 @@ public class SpawnerSchmuck extends Event {
 					if (amountLeft < limit || limit == 0) {
 						for (int i = 0; i < numEnemies; i++) {
 							amountLeft++;
-							type.generateEnemyDelayed(state, event.getPixelPosition(), delay, Constants.ENEMY_HITBOX, extraField, (SpawnerSchmuck) event, boss, bossName);
+							type.generateEnemyDelayed(state, event.getPixelPosition(), delay, Constants.ENEMY_HITBOX, extraField,
+									(SpawnerSchmuck) event, boss, bossName);
 						}
 					}
 				}
@@ -100,7 +101,5 @@ public class SpawnerSchmuck extends Event {
 	}
 	
 	@Override
-	public void loadDefaultProperties() {
-		setStandardParticle(Particle.RING);
-	}
+	public void loadDefaultProperties() { setStandardParticle(Particle.RING); }
 }

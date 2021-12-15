@@ -8,6 +8,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -24,15 +25,15 @@ public class StickyBombLauncher extends RangedWeapon {
 	private static final Vector2 projectileSize = new Vector2(50, 50);
 	private static final Vector2 stickySize = new Vector2(20, 20);
 	private static final float lifespan = 5.0f;
-	
+
 	private static final int explosionRadius = 200;
 	private static final float explosionDamage = 55.0f;
-	private static final float explosionKnockback = 25.0f;	
-	
+	private static final float explosionKnockback = 25.0f;
+
 	private static final Sprite projSprite = Sprite.STICKYBOMB;
 	private static final Sprite weaponSprite = Sprite.MT_STICKYBOMB;
 	private static final Sprite eventSprite = Sprite.P_STICKYBOMB;
-	
+
 	//list of hitboxes created
 	private final Queue<Hitbox> bombsLaid = new Queue<>();
 
@@ -40,10 +41,10 @@ public class StickyBombLauncher extends RangedWeapon {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, false,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
-	
+
 	@Override
 	public boolean reload(float delta) {
-		
+
 		//upon reload, detonate all laid bombs
 		for (Hitbox bomb : bombsLaid) {
 			if (bomb.isAlive()) {
@@ -51,23 +52,30 @@ public class StickyBombLauncher extends RangedWeapon {
 			}
 		}
 		bombsLaid.clear();
-		
+
 		return super.reload(delta);
 	}
-	
+
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.LAUNCHER.playUniversal(state, startPosition, 0.25f, false);
-
-		Hitbox hbox = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, filter, true, true, user, projSprite);
-		hbox.setSpriteSize(projectileSize);
-		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
-		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.25f));
-		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, true));
-		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f));
-		
+		Hitbox hbox = SyncedAttack.STICKY_BOMB.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 		bombsLaid.addLast(hbox);
+	}
+
+	public static Hitbox createStickyBomb(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		SoundEffect.LAUNCHER.playSourced(state, startPosition, 0.25f);
+
+		Hitbox hbox = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, user.getHitboxfilter(),
+				true, true, user, projSprite);
+		hbox.setSpriteSize(projectileSize);
+
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback,
+				(short) 0, false));
+		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.25f).setSynced(false));
+		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, true));
+		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
+
+		return hbox;
 	}
 }

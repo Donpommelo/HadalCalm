@@ -2,16 +2,20 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.*;
+import com.mygdx.hadal.utils.Constants;
 
 public class ReticleStrike extends RangedWeapon {
 
@@ -24,14 +28,15 @@ public class ReticleStrike extends RangedWeapon {
 	private static final float recoil = 16.0f;
 	private static final float projectileSpeed = 80.0f;
 	private static final Vector2 projectileSize = new Vector2(10, 10);
-	private static final float lifespan = 2.0f;
+	private static final float lifespan = 1.2f;
 
 	private static final Sprite projSprite = Sprite.NOTHING;
 	private static final Sprite weaponSprite = Sprite.MT_IRONBALL;
 	private static final Sprite eventSprite = Sprite.P_IRONBALL;
-	
+
 	private static final float reticleSize = 80.0f;
-	private static final float reticleSizeSquared = 6500.0f;
+	private static final float reticleSpacing = 110.0f;
+	private static final float reticleSizeSquared = 12100;
 	private static final float reticleLifespan = 0.6f;
 	private static final int explosionRadius = 100;
 	private static final float explosionDamage = 40.0f;
@@ -44,22 +49,45 @@ public class ReticleStrike extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.LOCKANDLOAD.playUniversal(state, startPosition, 0.8f, false);
+		SyncedAttack.RETICLE_STRIKE.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
+	}
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
-		
+	public static Hitbox createReticleStrike(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		SoundEffect.LOCKANDLOAD.playSourced(state, startPosition, 0.8f);
+
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+				true, true, user, projSprite);
+
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-			
+
 			private final Vector2 lastPosition = new Vector2(startPosition);
 			@Override
 			public void controller(float delta) {
 				if (lastPosition.dst2(hbox.getPixelPosition()) > reticleSizeSquared) {
-					lastPosition.set(hbox.getPixelPosition());
-					WeaponUtils.createExplodingReticle(state, hbox.getPixelPosition(), creator.getSchmuck(), reticleSize, reticleLifespan, explosionDamage, explosionKnockback, explosionRadius);
+					lastPosition.add(new Vector2(hbox.getPixelPosition()).sub(lastPosition).nor().scl(reticleSpacing));
+
+					Hitbox reticle = new RangedHitbox(state, lastPosition, new Vector2(reticleSize, reticleSize), reticleLifespan,
+							new Vector2(), user.getHitboxfilter(), true, false, user, Sprite.CROSSHAIR);
+					reticle.setSyncDefault(false);
+					reticle.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+
+					reticle.addStrategy(new ControllerDefault(state, reticle, user.getBodyData()));
+					reticle.addStrategy(new CreateParticles(state, reticle, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f)
+							.setParticleSize(40.0f).setParticleColor(HadalColor.HOT_PINK).setSyncType(SyncType.NOSYNC));
+					reticle.addStrategy(new DieExplode(state, reticle, user.getBodyData(), explosionRadius, explosionDamage,
+							explosionKnockback, user.getHitboxfilter(), false));
+					reticle.addStrategy(new DieSound(state, reticle, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
+					reticle.addStrategy(new Static(state, reticle, user.getBodyData()));
+
+					if (!state.isServer()) {
+						((ClientState) state).addEntity(reticle.getEntityID(), reticle, false, ClientState.ObjectSyncLayers.HBOX);
+					}
 				}
 			}
 		});
+
+		return hbox;
 	}
 }

@@ -6,9 +6,12 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -53,7 +56,6 @@ public class LaserRifle extends RangedWeapon {
 	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.LASER2.playUniversal(state, startPosition, 0.8f, false);
 
 		//This is the max distance this weapon can shoot (hard coded to scale to weapon range modifiers)
 		float distance = projectileWidth * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
@@ -64,7 +66,6 @@ public class LaserRifle extends RangedWeapon {
 		//Raycast length of distance until we hit a wall
 		if (entityLocation.x != endPt.x || entityLocation.y != endPt.y) {
 			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-
 				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
 					if (fraction < shortestFraction) {
 						shortestFraction = fraction;
@@ -74,16 +75,25 @@ public class LaserRifle extends RangedWeapon {
 				return -1.0f;
 			}, entityLocation, endPt);
 		}
+		SyncedAttack.LASER.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, distance * shortestFraction);
+	}
+
+	public static Hitbox createLaser(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+		float distance = projectileWidth;
+		if (extraFields.length >= 1) {
+			distance = extraFields[0];
+		}
+		SoundEffect.LASER2.playSourced(state, startPosition, 0.8f);
 
 		//Create Hitbox from position to wall using raycast distance. Set angle and position of hitbox and make it static.
-		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2((distance * shortestFraction * PPM), projectileHeight), lifespan, new Vector2(), filter, true, true, user, projSprite) {
+		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(distance * PPM, projectileHeight), lifespan,
+				startVelocity, user.getHitboxfilter(),true, true, user, projSprite) {
 
 			private final Vector2 newPosition = new Vector2();
-			
 			@Override
 			public void create() {
 				super.create();
-				
+
 				//this makes the laser hbox's lifespan unmodifiable
 				setLifeSpan(lifespan);
 
@@ -99,16 +109,18 @@ public class LaserRifle extends RangedWeapon {
 		hbox.makeUnreflectable();
 
 		hbox.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
-		
+
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.ENERGY, DamageTypes.RANGED)
-		.setConstantKnockback(true, startVelocity));
-		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setDrawOnSelf(false));
-		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.6f, true));
+				.setConstantKnockback(true, startVelocity));
+		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setDrawOnSelf(false).setSyncType(SyncType.NOSYNC));
+		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.6f, true).setSynced(false));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
-		
+
 		//the trail creates particles along the projectile's length
-		Hitbox trail = new RangedHitbox(state, user.getPixelPosition(), trailSize, trailLifespan, startVelocity.nor().scl(trailSpeed), filter, true, true, user, projSprite);
+		Hitbox trail = new RangedHitbox(state, user.getPixelPosition(), trailSize, trailLifespan, startVelocity.nor().scl(trailSpeed),
+				user.getHitboxfilter(), true, true, user, Sprite.NOTHING);
+		trail.setSyncDefault(false);
 		trail.setEffectsHit(false);
 		trail.setEffectsMovement(false);
 		trail.makeUnreflectable();
@@ -116,8 +128,12 @@ public class LaserRifle extends RangedWeapon {
 		trail.setPassability((short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 
 		trail.addStrategy(new ControllerDefault(state, trail, user.getBodyData()));
-		trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance * shortestFraction));
-		trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 1.0f));
+		trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance));
+		trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(trail.getEntityID(), trail, false, ClientState.ObjectSyncLayers.EFFECT);
+		}
+		return hbox;
 	}
 
 	@Override

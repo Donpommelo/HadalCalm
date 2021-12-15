@@ -44,8 +44,8 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.*;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -100,21 +100,25 @@ public class PlayState extends GameState {
 	private final MouseTracker mouse;
 
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
-	private final OrderedSet<HadalEntity> removeList;
-	private final OrderedSet<HadalEntity> createList;
-	
+	private final OrderedSet<HadalEntity> removeList = new OrderedSet<>();
+	private final OrderedSet<HadalEntity> createList = new OrderedSet<>();
+
+	//These sets are used by the Client for removing/adding entities.
+	protected final OrderedSet<UUID> removeListClient = new OrderedSet<>();
+	protected final OrderedSet<ClientState.CreatePacket> createListClient = new OrderedSet<>();
+
 	//This is a set of all non-hitbox entities in the world
-	private final OrderedSet<HadalEntity> entities;
+	private final OrderedSet<HadalEntity> entities = new OrderedSet<>();
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
-	private final OrderedSet<HadalEntity> hitboxes;
+	private final OrderedSet<HadalEntity> hitboxes = new OrderedSet<>();
 	//This is a set of all particle effects. This is separate to draw effects above other bodies
-	private final OrderedSet<HadalEntity> effects;
+	private final OrderedSet<HadalEntity> effects = new OrderedSet<>();
 
 	private final Array<OrderedSet<HadalEntity>> entityLists = new Array<>();
 
 	//This is a list of packetEffects, given when we receive packets with effects that we want to run in update() rather than whenever
-	private final List<PacketEffect> packetEffects;
-	private final List<PacketEffect> addPacketEffects;
+	private final List<PacketEffect> packetEffects = new ArrayList<>();
+	private final List<PacketEffect> addPacketEffects = java.util.Collections.synchronizedList(new ArrayList<>());
 	
 	//sourced effects from the world are attributed to this dummy.
 	private final WorldDummy worldDummy;
@@ -151,31 +155,32 @@ public class PlayState extends GameState {
 	protected float zoomDesired;
 	
 	//If a player respawns, they will respawn at the coordinates of a safe point from this list.
-	private final Array<StartPoint> savePoints;
+	private final Array<StartPoint> savePoints = new Array<>();
 	
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
-	private final ObjectMap<String, PositionDummy> dummyPoints;
+	private final ObjectMap<String, PositionDummy> dummyPoints = new ObjectMap<>();
 	
 	private float timeModifier = 1.0f;
 	private float respawnTime = 1.5f;
 	private final boolean server;
 
 	//Various play state ui elements
+	protected final UIArtifacts uiArtifact = new UIArtifacts(this);
+	protected final UIExtra uiExtra = new UIExtra(this);
+	protected final UIObjective uiObjective = new UIObjective(this);
+	protected final UISpectator uiSpectator = new UISpectator(this);
+	protected final ChatWheel chatWheel = new ChatWheel(this);
+	protected final DialogBox dialogBox = new DialogBox(this);
+
 	protected UIPlay uiPlay;
-	protected UIObjective uiObjective;
-	protected UIExtra uiExtra;
-	protected UIArtifacts uiArtifact;
 	protected UIHub uiHub;
-	protected UISpectator uiSpectator;
 	protected MessageWindow messageWindow;
-	protected ChatWheel chatWheel;
 	protected KillFeed killFeed;
 	protected ScoreWindow scoreWindow;
-	protected DialogBox dialogBox;
-	
+
 	//Background and black screen used for transitions
 	private final TextureRegion bg, white;
-	private Shader shaderBase, shaderTile;
+	private Shader shaderBase = Shader.NOTHING, shaderTile = Shader.NOTHING;
 	
 	//if we are transitioning to another state, this is that state
 	protected TransitionState nextState;
@@ -237,18 +242,10 @@ public class PlayState extends GameState {
 		b2dr = new Box2DDebugRenderer();
 		
 		//Initialize sets to keep track of active entities and packet effects
-		entities = new OrderedSet<>();
-		hitboxes = new OrderedSet<>();
-		effects = new OrderedSet<>();
 		entityLists.add(hitboxes);
 		entityLists.add(entities);
 		entityLists.add(effects);
 
-		removeList = new OrderedSet<>();
-		createList = new OrderedSet<>();
-		packetEffects = new ArrayList<>();
-		addPacketEffects = java.util.Collections.synchronizedList(new ArrayList<>());
-		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
 		worldDummy = new WorldDummy(this);
 		anchor = new AnchorPoint(this);
@@ -287,10 +284,6 @@ public class PlayState extends GameState {
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;
 
-		//load map shader
-		this.shaderBase = Shader.NOTHING;
-		this.shaderTile = Shader.NOTHING;
-
 		//We clear things like music/sound/shaders to periodically free up some memory
 		GameStateManager.clearMemory();
 
@@ -305,9 +298,6 @@ public class PlayState extends GameState {
 		//Clear events in the TiledObjectUtil to avoid keeping reference to previous map's events.
 		TiledObjectUtil.clearEvents();
 
-		//Set up "save point" as starting point
-		this.savePoints = new Array<>();
-				
 		//Only the server processes collision objects, events and triggers
 		if (server) {
 			TiledObjectUtil.parseTiledObjectLayer(this, map.getLayers().get("collision-layer").getObjects());
@@ -371,10 +361,7 @@ public class PlayState extends GameState {
 		}
 
 		this.reset = reset;
-		
-		//Set up dummy points
-		this.dummyPoints = new ObjectMap<>();
-				
+
 		//Init background image
 		this.bg = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.BACKGROUND2.toString()));
 		this.white = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.WHITE.toString()));
@@ -399,18 +386,10 @@ public class PlayState extends GameState {
 				uiPlay = new UIPlayClient(this);
 			}
 			
-			uiObjective = new UIObjective(this);
-			uiArtifact = new UIArtifacts(this);
-			uiExtra = new UIExtra(this);
-			uiExtra.changeTypes(map.getProperties().get("startUI", "", String.class), true);
 			uiHub = new UIHub(this);
-			uiSpectator = new UISpectator(this);
-
 			messageWindow = new MessageWindow(this, stage);
-			chatWheel = new ChatWheel(this, stage);
 			killFeed = new KillFeed(this);
 			scoreWindow = new ScoreWindow(this);
-			dialogBox = new DialogBox(this);
 		}
 		
 		//Add and sync ui elements in case of unpause or new playState
@@ -419,6 +398,9 @@ public class PlayState extends GameState {
 		stage.addActor(uiExtra);
 		stage.addActor(dialogBox);
 		stage.addActor(uiSpectator);
+
+		chatWheel.addTable(stage);
+		uiArtifact.addTable(stage);
 
 		app.newMenu(stage);
 		resetController();
@@ -514,7 +496,7 @@ public class PlayState extends GameState {
 			}
 			entity.create();
 			//Upon creating an entity, tell the clients so they can follow suit (if the entity calls for it)
-			Object packet = entity.onServerCreate();
+			Object packet = entity.onServerCreate(false);
 			if (packet != null) {
 				HadalGame.server.sendToAllUDP(packet);
 			}
@@ -576,7 +558,7 @@ public class PlayState extends GameState {
 				}
 				SavedPlayerFields score = user.getScores();
 				HadalGame.server.sendToAllUDP(new Packets.SyncScore(user.getScores().getConnID(), score.getNameShort(), score.getWins(),
-					score.getKills(), score.getDeaths(), score.getScore(), score.getLives(), score.getPing()));
+					score.getKills(), score.getDeaths(), score.getScore(), score.getLives(), score.getPing(), user.isSpectator()));
 			}
 			if (changeMade) {
 				scoreWindow.syncScoreTable();
@@ -816,6 +798,8 @@ public class PlayState extends GameState {
 			aimFocusVector.set(cameraTarget);
 		}
 		aimFocusVector.add(cameraOffset);
+
+		//process camera shaking
 		CameraUtil.shake(camera, aimFocusVector, cameraTime);
 		spectatorTarget.set(aimFocusVector);
 		CameraUtil.lerpToTarget(camera, aimFocusVector, cameraInterpolation);
@@ -843,6 +827,7 @@ public class PlayState extends GameState {
 		if (stage != null) {
 			stage.dispose();
 		}
+		CameraUtil.resetCameraRotation(camera);
 	}
 
 	final Vector2 resizeTmpVector2 = new Vector2();
@@ -1033,7 +1018,7 @@ public class PlayState extends GameState {
 		//teleportation particles for reset players (indicates returning to hub)
 		if (reset && isServer()) {
 			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2),
-					Particle.TELEPORT, 1.0f, true, particleSyncType.CREATESYNC);
+					Particle.TELEPORT, 1.0f, true, SyncType.CREATESYNC);
 		}
 
 		//for own player, the server must update their user information
@@ -1368,7 +1353,7 @@ public class PlayState extends GameState {
 	public void catchUpClient(int connId) {
 		for (ObjectSet<HadalEntity> s: entityLists) {
 			for (HadalEntity entity : s) {
-				Object packet = entity.onServerCreate();
+				Object packet = entity.onServerCreate(true);
 				if (packet != null) {
 					HadalGame.server.sendToUDP(connId, packet);
 				}
@@ -1499,9 +1484,7 @@ public class PlayState extends GameState {
 		}
 
 		//this makes the player's artifacts disappear as a spectator
-		if (uiArtifact != null) {
-			uiArtifact.syncArtifact();
-		}
+		uiArtifact.syncArtifact();
 	}
 	
 	public enum TransitionState {

@@ -1,14 +1,17 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Ablaze;
@@ -16,8 +19,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.Stats;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 public class DeepSeaSmelter extends RangedWeapon {
 
@@ -88,34 +89,49 @@ public class DeepSeaSmelter extends RangedWeapon {
 		
 		//weapon is disabled when overheated
 		if (overheated) { return; }
-		
-		float pitch = (ThreadLocalRandom.current().nextFloat() - 0.5f) * pitchSpread;
-		
-		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.5f, 1.0f + pitch, false);
 
-		createProjectile(state, startPosition, startVelocity, filter, 1);
-		createProjectile(state, startPosition, startVelocity, filter, -1);
-	}
-	
-	private void createProjectile(PlayState state, Vector2 startPosition, Vector2 startVelocity, short filter, int rotate) {
-		projOffset.set(startVelocity).rotate90(rotate).nor().scl(projSpacing);
+		Vector2[] positions = new Vector2[2];
+		Vector2[] velocities = new Vector2[2];
+
+		projOffset.set(startVelocity).rotate90(1).nor().scl(projSpacing);
 		projOrigin.set(startPosition).add(projOffset);
-		
-		Hitbox hbox = new RangedHitbox(state, projOrigin, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
-		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.3f));
-		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLASH, 0.2f, true));
-		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-			HadalColor.YELLOW));
-		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-			HadalColor.YELLOW));
+		positions[0] = new Vector2(projOrigin);
+		velocities[0] = startVelocity;
+		projOffset.set(startVelocity).rotate90(-1).nor().scl(projSpacing);
+		projOrigin.set(startPosition).add(projOffset);
+		positions[1] = new Vector2(projOrigin);
+		velocities[1] = startVelocity;
+
+		SyncedAttack.DEEP_SMELT.initiateSyncedAttackMulti(state, user, positions, velocities);
 	}
-	
+
+	public static Hitbox[] createDeepSmelt(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity) {
+		Hitbox[] hboxes = new Hitbox[startPosition.length];
+		if (startPosition.length != 0) {
+			float pitch = (MathUtils.random() - 0.5f) * pitchSpread;
+			SoundEffect.METAL_IMPACT_1.playSourced(state, startPosition[0], 0.5f, 1.0f + pitch);
+			for (int i = 0; i < startPosition.length; i++) {
+				Hitbox hbox = new RangedHitbox(state, startPosition[i], projectileSize, lifespan, startVelocity[i],
+						user.getHitboxfilter(), true, true, user, projSprite);
+
+				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.3f).setSynced(false));
+				hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLASH, 0.2f, true).setSynced(false));
+				hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
+						HadalColor.YELLOW).setSyncType(SyncType.NOSYNC));
+				hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
+						HadalColor.YELLOW).setSyncType(SyncType.NOSYNC));
+
+				hboxes[i] = hbox;
+			}
+		}
+		return hboxes;
+	}
+
 	//heat level of the weapon decreases over time
 	@Override
 	public void update(PlayState state, float delta) {

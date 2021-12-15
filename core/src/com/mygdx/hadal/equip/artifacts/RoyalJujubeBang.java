@@ -1,8 +1,8 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -35,7 +35,7 @@ public class RoyalJujubeBang extends Artifact {
 				float boost = 1.0f;
 				if (distSquared > distThreshold * distThreshold) {
 					boost = distDamageBoost;
-					new ParticleEntity(state, vic.getSchmuck(), Particle.EXPLOSION, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
+					new ParticleEntity(state, vic.getSchmuck(), Particle.EXPLOSION, 1.0f, particleDura, true, SyncType.CREATESYNC);
 				}
 				return damage * boost;
 			}

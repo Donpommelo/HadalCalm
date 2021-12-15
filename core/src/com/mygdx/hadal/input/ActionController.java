@@ -66,7 +66,7 @@ public class ActionController {
 	public void keyDown(PlayerAction action, boolean onReset) {
 		if (player == null) return;
 
-		//when spectating, host interact activates the map's dsignated "spectator event", if existant
+		//when spectating, host interact activates the map's designated "spectator event", if existant
 		if (player.getState().isServer() && player.equals(player.getState().getPlayer()) && player.getState().isSpectatorMode()) {
 			if (action == PlayerAction.INTERACT) {
 				if (player.getState().getSpectatorActivation() != null) {

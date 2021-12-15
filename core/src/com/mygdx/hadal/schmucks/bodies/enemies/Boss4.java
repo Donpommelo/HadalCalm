@@ -14,11 +14,10 @@ import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.SpawnerSchmuck;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
-import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.server.User;
@@ -29,8 +28,6 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Stats;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This is a boss in the game
@@ -72,21 +69,21 @@ public class Boss4 extends EnemyFloating {
 	public Boss4(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS4, filter, hp, aiAttackCd, scrapDrop, spawner);
 
-		body1 = new ParticleEntity(state, this, Particle.WORMHOLE, 1.0f, 0.0f, true, particleSyncType.TICKSYNC) {
+		body1 = new ParticleEntity(state, this, Particle.WORMHOLE, 1.0f, 0.0f, true, SyncType.TICKSYNC) {
 			
 			@Override
 			public void render(SpriteBatch batch) {}
 		};
 		
 		body1.setScale(bodyBaseScale1).setColor(HadalColor.RED).setSyncExtraFields(true);
-		body2 = new ParticleEntity(state, this, Particle.STORM, 1.0f, 0.0f, true, particleSyncType.TICKSYNC) {
+		body2 = new ParticleEntity(state, this, Particle.STORM, 1.0f, 0.0f, true, SyncType.TICKSYNC) {
 			
 			@Override
 			public void render(SpriteBatch batch) {}
 		};
 		body2.setScale(bodyBaseScale2).setColor(HadalColor.ORANGE).setSyncExtraFields(true);
 		
-		body3 = new ParticleEntity(state, this, Particle.BRIGHT, 1.0f, 0.0f, true, particleSyncType.TICKSYNC) {
+		body3 = new ParticleEntity(state, this, Particle.BRIGHT, 1.0f, 0.0f, true, SyncType.TICKSYNC) {
 			
 			@Override
 			public void render(SpriteBatch batch) {}
@@ -393,7 +390,7 @@ public class Boss4 extends EnemyFloating {
 							pulse.makeUnreflectable();
 							pulse.addStrategy(new ControllerDefault(state, pulse, getBodyData()));
 							pulse.addStrategy(new DamageStandard(state, pulse, getBodyData(), bellDamage, bellKB, DamageTypes.MELEE).setStaticKnockback(true));
-							pulse.addStrategy(new FixedToEntity(state, pulse, getBodyData(), bell, new Vector2(), new Vector2(), true));
+							pulse.addStrategy(new FixedToEntity(state, pulse, getBodyData(), bell, new Vector2(), new Vector2()).setRotate(true));
 							pulse.addStrategy(new ContactUnitSound(state, pulse, getBodyData(), SoundEffect.ZAP, 0.6f, true));
 						}
 					}
@@ -430,7 +427,8 @@ public class Boss4 extends EnemyFloating {
 	private void bounceLaser() {
 		changeColor(HadalColor.BLUE, shot1Windup);
 		
-		final float startAngle = startingVelos[MathUtils.random(startingVelos.length - 1)] + ThreadLocalRandom.current().nextInt(-laserSpread, laserSpread + 1);
+		final float startAngle = startingVelos[MathUtils.random(startingVelos.length - 1)] +
+				MathUtils.random(-laserSpread, laserSpread + 1);
 		
 		Vector2 startVeloTrail = new Vector2(0, trailSpeed).setAngleDeg(startAngle);
 		Vector2 startPosLaser = new Vector2(getPixelPosition()).add(new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngleDeg(startAngle));
@@ -518,7 +516,7 @@ public class Boss4 extends EnemyFloating {
 				@Override
 				public void execute() {
 					
-					float startAngle = getAttackAngle() + ThreadLocalRandom.current().nextInt(-sighSpread, sighSpread + 1) * index;
+					float startAngle = getAttackAngle() + MathUtils.random(-sighSpread, sighSpread + 1) * index;
 					
 					Vector2 startPos = new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngleDeg(startAngle);
 					Vector2 startVeloCloud = new Vector2(0, cloudSpeed).setAngleDeg(startAngle);
@@ -690,11 +688,13 @@ public class Boss4 extends EnemyFloating {
 				
 				@Override
 				public void execute() {
-					bulletPosition.set(EnemyUtils.getLeftSide(state) - horizontalBulletSpawnOffset, ThreadLocalRandom.current().nextInt((int) EnemyUtils.floorHeight(state), (int) EnemyUtils.ceilingHeight(state)));
+					bulletPosition.set(EnemyUtils.getLeftSide(state) - horizontalBulletSpawnOffset,
+							MathUtils.random((int) EnemyUtils.floorHeight(state), (int) EnemyUtils.ceilingHeight(state)));
 					bulletSpeed.set(horizontalBulletSpeed, 0);
 					fireBullet(Sprite.LASER_TURQUOISE, HadalColor.TURQOISE);
 					
-					bulletPosition.set(EnemyUtils.getRightSide(state) + horizontalBulletSpawnOffset, ThreadLocalRandom.current().nextInt((int) EnemyUtils.floorHeight(state), (int) EnemyUtils.ceilingHeight(state)));
+					bulletPosition.set(EnemyUtils.getRightSide(state) + horizontalBulletSpawnOffset,
+							MathUtils.random((int) EnemyUtils.floorHeight(state), (int) EnemyUtils.ceilingHeight(state)));
 					bulletSpeed.set(-horizontalBulletSpeed, 0);
 					fireBullet(Sprite.LASER_GREEN, HadalColor.PALE_GREEN);
 				}
@@ -788,9 +788,9 @@ public class Boss4 extends EnemyFloating {
 				public void execute() {
 					
 					//stars vary in size, speed and distance from the boss
-					float starSize = ThreadLocalRandom.current().nextInt(starSizeMin, starSizeMax);
-					float starSpeed = ThreadLocalRandom.current().nextInt(starSpeedMin, starSpeedMax);
-					float starDist = ThreadLocalRandom.current().nextInt(starDistMin, starDistMax);
+					float starSize = MathUtils.random(starSizeMin, starSizeMax);
+					float starSpeed = MathUtils.random(starSpeedMin, starSpeedMax);
+					float starDist = MathUtils.random(starDistMin, starDistMax);
 					
 					RangedHitbox hbox = new RangedHitbox(state, new Vector2(), new Vector2(starSize, starSize), starLifespan, new Vector2(), getHitboxfilter(), true, true, enemy, 
 							starSprites[MathUtils.random(starSprites.length - 1)]);
@@ -805,7 +805,7 @@ public class Boss4 extends EnemyFloating {
 					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 					
 					if (index % 8 == 0) {
-						new SoundEntity(state, hbox, SoundEffect.MAGIC25_SPELL, 0.8f, 0.5f, true, true, soundSyncType.TICKSYNC);
+						new SoundEntity(state, hbox, SoundEffect.MAGIC25_SPELL, 0.8f, 0.5f, true, true, SyncType.TICKSYNC);
 					}
 					
 					if (index % 2 == 0) {
@@ -902,8 +902,8 @@ public class Boss4 extends EnemyFloating {
 		
 		for (int i = 0; i < reticleWavesAmount; i++) {
 			reticleLocation.set(
-					ThreadLocalRandom.current().nextInt((int) EnemyUtils.getLeftSide(state), (int) EnemyUtils.getRightSide(state)), 
-					ThreadLocalRandom.current().nextInt((int) EnemyUtils.floorHeight(state), (int) EnemyUtils.ceilingHeight(state)));
+					MathUtils.random(EnemyUtils.getLeftSide(state), EnemyUtils.getRightSide(state)),
+					MathUtils.random(EnemyUtils.floorHeight(state), EnemyUtils.ceilingHeight(state)));
 			
 			singleExplodingReticle(reticleLocation);
 		}

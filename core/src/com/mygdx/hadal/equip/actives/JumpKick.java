@@ -6,6 +6,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -47,7 +48,7 @@ public class JumpKick extends ActiveItem {
 		if (right) {
 			particle = Particle.MOREAU_RIGHT;
 		}
-		new ParticleEntity(state, user.getPlayer(), particle, 1.0f, 1.0f, true, ParticleEntity.particleSyncType.TICKSYNC)
+		new ParticleEntity(state, user.getPlayer(), particle, 1.0f, 1.0f, true, SyncType.TICKSYNC)
 			.setScale(0.5f).setPrematureOff(particleLifespan)
 			.setColor(WeaponUtils.getPlayerColor(user.getPlayer()));
 
@@ -61,7 +62,7 @@ public class JumpKick extends ActiveItem {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user , Particle.SPARKS));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.MELEE).setStaticKnockback(true));
-		hbox.addStrategy(new FixedToEntity(state, hbox, user, new Vector2(), new Vector2(), false));
+		hbox.addStrategy(new FixedToEntity(state, hbox, user, new Vector2(), new Vector2()));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user, SoundEffect.KICK1, 1.0f, true));
 		hbox.addStrategy(new ContactUnitKnockbackDamage(state, hbox, user));
 	}

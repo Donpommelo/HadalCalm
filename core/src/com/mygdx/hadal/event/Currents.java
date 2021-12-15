@@ -6,9 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
@@ -94,7 +94,7 @@ public class Currents extends Event {
 			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
 			new ParticleEntity(state, new Ragdoll(state, randLocation.set(randX, randY), ragdollSize, Sprite.NOTHING, ragdollVelo, 0.25f, 0.0f, false, true, false),
-					Particle.CURRENT_TRAIL, 0.5f, 0.0f, true, particleSyncType.NOSYNC)
+					Particle.CURRENT_TRAIL, 0.5f, 0.0f, true, SyncType.NOSYNC)
 			.setParticleVelocity(vec.angleRad())
 			.setParticleAngle(vec.angleRad() + 90 * MathUtils.degreesToRadians);
 		}
@@ -125,7 +125,7 @@ public class Currents extends Event {
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
 			
 			Ragdoll ragdoll = new Ragdoll(state, randLocation.set(randX, randY), ragdollSize, Sprite.NOTHING, ragdollVelo, 0.25f, 0.0f, false, true, false);
-			ParticleEntity bubbles = new ParticleEntity(state, ragdoll, Particle.CURRENT_TRAIL, 0.5f, 0.0f, true, particleSyncType.NOSYNC)
+			ParticleEntity bubbles = new ParticleEntity(state, ragdoll, Particle.CURRENT_TRAIL, 0.5f, 0.0f, true, SyncType.NOSYNC)
 				.setParticleVelocity(vec.angleRad())
 				.setParticleAngle(vec.angleRad() + 90 * MathUtils.degreesToRadians);
 			((ClientState) state).addEntity(ragdoll.getEntityID(), ragdoll, false, ObjectSyncLayers.STANDARD);
@@ -137,7 +137,7 @@ public class Currents extends Event {
 	 * When server creates current, clients are told to create the current in their own worlds
 	 */
 	@Override
-	public Object onServerCreate() {
+	public Object onServerCreate(boolean catchup) {
 		if (independent) { return null; }
 		if (blueprint == null) {
 			entityLocation.set(getPixelPosition());

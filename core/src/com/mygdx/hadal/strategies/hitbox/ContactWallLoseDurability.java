@@ -1,6 +1,6 @@
 package com.mygdx.hadal.strategies.hitbox;
 
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -21,7 +21,7 @@ public class ContactWallLoseDurability extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			if (fixB.getType().equals(UserDataTypes.WALL)) {
+			if (fixB.getType().equals(UserDataType.WALL)) {
 				hbox.lowerDurability();
 			}
 		}

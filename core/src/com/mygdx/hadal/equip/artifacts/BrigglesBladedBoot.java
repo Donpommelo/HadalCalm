@@ -57,7 +57,7 @@ public class BrigglesBladedBoot extends Artifact {
 					hbox.makeUnreflectable();
 					hbox.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 					
-					hbox.addStrategy(new FixedToEntity(state, hbox, p, new Vector2(), position, false));
+					hbox.addStrategy(new FixedToEntity(state, hbox, p, new Vector2(), position));
 					hbox.addStrategy(new DamageStandard(state, hbox, p, baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MELEE)
 						.setStaticKnockback(true).setRepeatable(true));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, p) {

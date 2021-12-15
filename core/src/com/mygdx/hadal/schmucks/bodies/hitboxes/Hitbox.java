@@ -112,6 +112,10 @@ public class Hitbox extends HadalEntity {
 	//this is the size of the sprite. Usually drawn to be the size of the hbox, but can be made larger/smaller
 	private final Vector2 spriteSize = new Vector2();
 
+	private SyncedAttack attack;
+	private float[] extraFields;
+	private boolean syncedMulti;
+
 	/**
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
 	 * parameters are pretty much the same as the fields above.
@@ -179,6 +183,7 @@ public class Hitbox extends HadalEntity {
 	 * Hitboxes track of lifespan.
 	 * This is also where hbox strategies are added/removed to avoid having that happen in world.step
 	 */
+	@Override
 	public void controller(float delta) {
 
 		for (HitboxStrategy s : add) {
@@ -195,6 +200,12 @@ public class Hitbox extends HadalEntity {
 		for (HitboxStrategy s : strategies) {
 			s.controller(delta);
 		}
+	}
+
+	@Override
+	public void clientController(float delta) {
+		super.clientController(delta);
+		controller(delta);
 	}
 
 	@Override
@@ -265,13 +276,22 @@ public class Hitbox extends HadalEntity {
 	 * As Default: Upon created, the hitbox tells the client to create a client illusion tracking it
 	 */
 	@Override
-	public Object onServerCreate() {
+	public Object onServerCreate(boolean catchup) {
+		if (attack != null) {
+			if (catchup) {
+				if (syncedMulti) {
+					attack.syncAttackMulti(new Hitbox[] {this}, extraFields, true);
+				} else {
+					attack.syncAttackSingle(this, extraFields, true);
+				}
+			}
+			return null;
+		}
 		if (isSyncDefault() || isSyncInstant()) {
 			return new Packets.CreateEntity(entityID, spriteSize, getPixelPosition(), getAngle(), sprite,
 					true, isSyncInstant(), ObjectSyncLayers.HBOX, alignType.HITBOX);
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	@Override
@@ -300,6 +320,14 @@ public class Hitbox extends HadalEntity {
 						entityAge, state.getTimer(), angle));
 			}
 		}
+	}
+
+	@Override
+	public void onClientSync(Object o) {
+		if (o instanceof Packets.DeleteEntity) {
+			die();
+		}
+		super.onClientSync(o);
 	}
 
 	/**
@@ -388,4 +416,10 @@ public class Hitbox extends HadalEntity {
 	public boolean isPositionBasedOnUser() { return positionBasedOnUser; }
 
 	public void setSpriteSize(Vector2 spriteSize) { this.spriteSize.set(spriteSize).scl(scale); }
+
+	public void setAttack(SyncedAttack attack) { this.attack = attack; }
+
+	public void setSyncedMulti(boolean syncedMulti) { this.syncedMulti = syncedMulti; }
+
+	public void setExtraFields(float[] extraFields) { this.extraFields = extraFields;}
 }

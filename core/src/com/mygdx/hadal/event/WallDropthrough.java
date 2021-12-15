@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
@@ -33,7 +33,7 @@ public class WallDropthrough extends Event {
 	
 	@Override
 	public void create() {
-		this.eventData = new EventData(this, UserDataTypes.EVENT) {
+		this.eventData = new EventData(this, UserDataType.EVENT) {
 			
 			/**
 			 * When touching the player's foot sensor, this event sets the player's filter to collide with dropthrough platforms.

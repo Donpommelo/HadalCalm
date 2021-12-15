@@ -20,8 +20,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Stats;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
@@ -255,7 +253,7 @@ public class Boss6 extends EnemyFloating {
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), chargeDamage, chargeKnockback, DamageTypes.MELEE)
 						.setStaticKnockback(true).setRepeatable(true));
-					hbox.addStrategy(new FixedToEntity(state, hbox, getBodyData(), new Vector2(), new Vector2(), true));
+					hbox.addStrategy(new FixedToEntity(state, hbox, getBodyData(), new Vector2(), new Vector2()).setRotate(true));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 
 					Event dummy = state.getDummyPoint(nextMove);
@@ -283,7 +281,7 @@ public class Boss6 extends EnemyFloating {
 
 		bomb.addStrategy(new ControllerDefault(state, bomb, getBodyData()));
 		bomb.addStrategy(new CreateParticles(state, bomb, getBodyData(), Particle.RING, 0.0f, particleLinger));
-		bomb.addStrategy(new FlashNearDeath(state, bomb, getBodyData(), 1.0f));
+		bomb.addStrategy(new FlashNearDeath(state, bomb, getBodyData(), 1.0f, true));
 		bomb.addStrategy(new HitboxStrategy(state, bomb, getBodyData()) {
 
 			@Override
@@ -291,7 +289,7 @@ public class Boss6 extends EnemyFloating {
 				SoundEffect.EXPLOSION9.playUniversal(state, hbox.getPixelPosition(), 0.5f, 0.5f, false);
 
 				WeaponUtils.createExplosion(state, hbox.getPixelPosition(), gridDistance,
-					creator.getSchmuck(), bombDamage, bombKB, creator.getSchmuck().getHitboxfilter());
+					creator.getSchmuck(), bombDamage, bombKB, creator.getSchmuck().getHitboxfilter(), true);
 				explode(0);
 				explode(90);
 				explode(180);
@@ -318,7 +316,7 @@ public class Boss6 extends EnemyFloating {
 						if (lastPosition.dst2(entityLocation) > gridDistance * gridDistance) {
 							lastPosition.set(entityLocation);
 							WeaponUtils.createExplosion(state, hbox.getPixelPosition(), gridDistance,
-								creator.getSchmuck(), bombDamage, bombKB, creator.getSchmuck().getHitboxfilter());
+								creator.getSchmuck(), bombDamage, bombKB, creator.getSchmuck().getHitboxfilter(), true);
 						}
 					}
 				});
@@ -456,7 +454,7 @@ public class Boss6 extends EnemyFloating {
 
 					pulse.addStrategy(new ControllerDefault(state, pulse, getBodyData()));
 					pulse.addStrategy(new DamageStandard(state, pulse, getBodyData(), spiralDamage, spiralKB, DamageTypes.RANGED).setStaticKnockback(true));
-					pulse.addStrategy(new FixedToEntity(state, pulse, getBodyData(), spiral, new Vector2(), new Vector2(), true));
+					pulse.addStrategy(new FixedToEntity(state, pulse, getBodyData(), spiral, new Vector2(), new Vector2()).setRotate(true));
 					pulse.addStrategy(new ContactUnitSound(state, pulse, getBodyData(), SoundEffect.ZAP, 0.6f, true));
 				}
 			}
@@ -521,8 +519,7 @@ public class Boss6 extends EnemyFloating {
 									controllerCount -= pillarInterval;
 
 									Vector2 positionOffset = new Vector2(spawner.getPixelPosition())
-										.add(ThreadLocalRandom.current().nextInt(-pillarSpread, pillarSpread + 1),
-											ThreadLocalRandom.current().nextInt(-pillarSpread, pillarSpread + 1));
+										.add(MathUtils.random(-pillarSpread, pillarSpread + 1),	MathUtils.random(-pillarSpread, pillarSpread + 1));
 
 									Hitbox hbox = new RangedHitbox(state, positionOffset, pillarSize, spawnerLifespan,
 										new Vector2(0, pillarSpeed).setAngleDeg(direction ? 270 : 0), getHitboxfilter(),

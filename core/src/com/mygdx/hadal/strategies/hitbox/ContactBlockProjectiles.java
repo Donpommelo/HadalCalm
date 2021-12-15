@@ -1,6 +1,6 @@
 package com.mygdx.hadal.strategies.hitbox;
 
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -26,7 +26,7 @@ public class ContactBlockProjectiles extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			if (fixB.getType().equals(UserDataTypes.HITBOX)) {
+			if (fixB.getType().equals(UserDataType.HITBOX)) {
 				fixB.receiveDamage(0, hbox.getLinearVelocity().nor().scl(knockback), creator, false, hbox, DamageTypes.DEFLECT);
 			}
 		}

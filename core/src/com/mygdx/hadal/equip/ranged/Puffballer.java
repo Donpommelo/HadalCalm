@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Queue;
 import com.mygdx.hadal.audio.SoundEffect;
@@ -14,8 +15,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Puffballer extends RangedWeapon {
 
@@ -157,8 +156,7 @@ public class Puffballer extends RangedWeapon {
 		SoundEffect.EXPLOSION_FUN.playUniversal(state, hbox.getPixelPosition(), 1.0f, 0.6f, false);
 
 		for (int i = 0; i < sporeFragNumber; i++) {
-			newVelocity.setToRandomDirection().scl(fragSpeed)
-					.scl((ThreadLocalRandom.current().nextFloat() * fragVeloSpread + 1 - fragVeloSpread / 2));
+			newVelocity.setToRandomDirection().scl(fragSpeed).scl(MathUtils.random() * fragVeloSpread + 1 - fragVeloSpread / 2);
 
 			RangedHitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), new Vector2(sporeFragSize), sporeFragLifespan,
 					new Vector2(newVelocity), user.getHitboxfilter(), false, false, user, Sprite.SPORE_MILD) {

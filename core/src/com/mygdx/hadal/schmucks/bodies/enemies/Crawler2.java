@@ -82,7 +82,7 @@ public class Crawler2 extends EnemyCrawling {
 						hbox.makeUnreflectable();
 						hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 						hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), attack1Damage, defaultMeleeKB, DamageTypes.MELEE).setStaticKnockback(true));
-						hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2(meleeRange * getMoveDirection(), 0), true));
+						hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2(meleeRange * getMoveDirection(), 0)).setRotate(true));
 					}
 				});
 			}

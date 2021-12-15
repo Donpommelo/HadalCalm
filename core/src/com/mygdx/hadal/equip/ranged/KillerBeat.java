@@ -7,10 +7,12 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -55,64 +57,70 @@ public class KillerBeat extends RangedWeapon {
 
 		if (chargeCd < getChargeTime() * chargeBonusThreshold) {
 			int randNote = MathUtils.random(6);
-			createProjectile(state, user, startPosition, startVelocity, randNote, filter);
+			SyncedAttack.KILLER_NOTES.initiateSyncedAttackMulti(state, user, new Vector2[]{startPosition},
+					new Vector2[]{setNoteVelocity(randNote, startVelocity)}, randNote);
 		} else {
 			notes.shuffle();
+			Vector2[] positions = new Vector2[bonusNumNotes];
+			Vector2[] velocities = new Vector2[bonusNumNotes];
+			float[] extraFields = new float[bonusNumNotes];
 			for (int i = 0; i < bonusNumNotes; i++) {
 				Vector2 finalVelocity = new Vector2(startVelocity);
 				finalVelocity.setLength(bonusProjectileSpeed);
-				createProjectile(state, user, startPosition, finalVelocity, notes.get(i), filter);
+				positions[i] = startPosition;
+				velocities[i] = setNoteVelocity(notes.get(i), finalVelocity);
+				extraFields[i] = notes.get(i);
 			}
+			SyncedAttack.KILLER_NOTES.initiateSyncedAttackMulti(state, user, positions, velocities, extraFields);
 		}
-
 		graceCd = 0;
 		chargeCd = 0.0f;
 	}
 
-	private void createProjectile(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, int note, short filter) {
+	public static Hitbox[] createKillerNotes(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
+		Hitbox[] hboxes = new Hitbox[startPosition.length];
+		if (startPosition.length != 0) {
+			for (int i = 0; i < startPosition.length; i++) {
+				int note = extraFields.length <= i ? 0 : (int) extraFields[i];
+				switch (note) {
+					case 0 -> SoundEffect.PIANO_C.playSourced(state, startPosition[i], 0.5f, 1.0f);
+					case 1 -> SoundEffect.PIANO_D.playSourced(state, startPosition[i], 0.5f, 1.0f);
+					case 2 -> SoundEffect.PIANO_F.playSourced(state, startPosition[i], 0.5f, 1.0f);
+					case 3 -> SoundEffect.PIANO_G.playSourced(state, startPosition[i], 0.5f, 1.0f);
+					case 4 -> SoundEffect.PIANO_A.playSourced(state, startPosition[i], 0.5f, 1.0f);
+					case 5 -> SoundEffect.PIANO_B.playSourced(state, startPosition[i], 0.5f, 1.0f);
+					case 6 -> SoundEffect.PIANO_C2.playSourced(state, startPosition[i], 0.5f, 1.0f);
+				}
 
-		Vector2 noteVelo = new Vector2();
-		switch (note) {
-			case 0 -> {
-				SoundEffect.PIANO_C.playUniversal(state, startPosition, 0.5f, 1.0f, false);
-				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() - (noteSpread * 3));
-			}
-			case 1 -> {
-				SoundEffect.PIANO_D.playUniversal(state, startPosition, 0.5f, 1.0f, false);
-				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() - (noteSpread * 2));
-			}
-			case 2 -> {
-				SoundEffect.PIANO_F.playUniversal(state, startPosition, 0.5f, 1.0f, false);
-				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() - noteSpread);
-			}
-			case 3 -> {
-				SoundEffect.PIANO_G.playUniversal(state, startPosition, 0.5f, 1.0f, false);
-				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg());
-			}
-			case 4 -> {
-				SoundEffect.PIANO_A.playUniversal(state, startPosition, 0.5f, 1.0f, false);
-				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() + noteSpread);
-			}
-			case 5 -> {
-				SoundEffect.PIANO_B.playUniversal(state, startPosition, 0.5f, 1.0f, false);
-				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() + (noteSpread * 2));
-			}
-			case 6 -> {
-				SoundEffect.PIANO_C2.playUniversal(state, startPosition, 0.5f, 1.0f, false);
-				noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() + (noteSpread * 3));
+				Hitbox hbox = new RangedHitbox(state, startPosition[i], projectileSize, lifespan, startVelocity[i], user.getHitboxfilter(),
+						true, true, user, projSprite);
+				hbox.setDurability(2);
+
+				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.ENERGY, DamageTypes.RANGED, DamageTypes.SOUND));
+				hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.RING_TRAIL, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
+				hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.NOTE_IMPACT).setSyncType(SyncType.NOSYNC));
+				hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.NOTE_IMPACT).setSyncType(SyncType.NOSYNC));
+				hboxes[i] = hbox;
 			}
 		}
+		return hboxes;
+	}
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, noteVelo, filter, true, true, user, projSprite);
-		hbox.setDurability(2);
-
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.ENERGY, DamageTypes.RANGED, DamageTypes.SOUND));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.RING_TRAIL, 0.0f, 1.0f));
-		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.NOTE_IMPACT));
-		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.NOTE_IMPACT));
+	private Vector2 setNoteVelocity(int note, Vector2 startVelocity) {
+		Vector2 noteVelo = new Vector2();
+		switch (note) {
+			case 0 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() - (noteSpread * 3));
+			case 1 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() - (noteSpread * 2));
+			case 2 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() - noteSpread);
+			case 3 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg());
+			case 4 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() + noteSpread);
+			case 5 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() + (noteSpread * 2));
+			case 6 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() + (noteSpread * 3));
+		}
+		return noteVelo;
 	}
 
 	//meter charges over time

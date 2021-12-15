@@ -5,8 +5,8 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -92,7 +92,7 @@ public class AnchorSmash extends ActiveItem {
 						landed = true;
 						
 						SoundEffect.METAL_IMPACT_2.playUniversal(state, hboxLocation, 1.0f, false);
-						new ParticleEntity(state, hboxLocation, Particle.BOULDER_BREAK, 0.5f, true, particleSyncType.CREATESYNC);
+						new ParticleEntity(state, hboxLocation, Particle.BOULDER_BREAK, 0.5f, true, SyncType.CREATESYNC);
 					}
 				}
 			}

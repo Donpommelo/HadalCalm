@@ -1,6 +1,6 @@
 package com.mygdx.hadal.strategies.hitbox;
 
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -30,7 +30,7 @@ public class ContactUnitDie extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null && delay <= 0) {
-			if (fixB.getType().equals(UserDataTypes.BODY)) {
+			if (fixB.getType().equals(UserDataType.BODY)) {
 				hbox.die();
 			}
 		}

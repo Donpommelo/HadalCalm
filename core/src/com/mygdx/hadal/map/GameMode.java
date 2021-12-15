@@ -163,7 +163,6 @@ public enum GameMode {
 
         String timerId = TiledObjectUtil.getPrefabTriggerId();
         String multiId = TiledObjectUtil.getPrefabTriggerId();
-        String uiId = TiledObjectUtil.getPrefabTriggerId();
 
         //this creates a trigger that will be activated when a player spawns
         RectangleMapObject playerstart = new RectangleMapObject();
@@ -181,15 +180,10 @@ public enum GameMode {
         multi.setName("Multitrigger");
         multi.getProperties().put("triggeredId", multiId);
 
-        //this modifies the ui at the start of the match
-        RectangleMapObject ui = new RectangleMapObject();
-        ui.setName("UI");
-        ui.getProperties().put("triggeredId", uiId);
-
         //using these string builders, we modify the aforementioned events based on the mode's settings
         StringBuilder uiTriggerId = new StringBuilder(HText.LEVEL.text());
         StringBuilder spawnTriggerId = new StringBuilder();
-        StringBuilder startTriggerId = new StringBuilder(timerId + "," + uiId);
+        StringBuilder startTriggerId = new StringBuilder(timerId);
 
         for (ModeSetting setting: applicableSettings) {
 
@@ -202,14 +196,15 @@ public enum GameMode {
                 if (!newStart.equals("")) {
                     startTriggerId.append(',').append(newStart);
                 }
+
+                //this creates a comma-separated list of event ids that will be activated upon spawning/starting the game
+                String newSpawn = setting.loadSettingSpawn(state, this);
+                if (!newSpawn.equals("")) {
+                    spawnTriggerId.append(',').append(newSpawn);
+                }
             }
 
-            //this creates a comma-separated list of event ids that will be activated upon spawining/starting the game
-            String newSpawn = setting.loadSettingSpawn(state, this);
             String newUi = setting.loadUIStart(state, this);
-            if (!newSpawn.equals("")) {
-                spawnTriggerId.append(',').append(newSpawn);
-            }
             if (!newUi.equals("")) {
                 uiTriggerId.append(',').append(newUi);
             }
@@ -217,15 +212,16 @@ public enum GameMode {
         }
 
         state.getGsm().getSetting().saveSetting();
+        state.getUiExtra().changeTypes(uiTriggerId.toString(), true);
 
-        ui.getProperties().put("tags", uiTriggerId.toString());
         playerstart.getProperties().put("triggeringId", spawnTriggerId.toString());
         multi.getProperties().put("triggeringId", startTriggerId.toString());
 
-        TiledObjectUtil.parseTiledEvent(state, playerstart);
-        TiledObjectUtil.parseTiledEvent(state, timer);
-        TiledObjectUtil.parseTiledEvent(state, multi);
-        TiledObjectUtil.parseTiledEvent(state, ui);
+        if (state.isServer()) {
+            TiledObjectUtil.parseTiledEvent(state, playerstart);
+            TiledObjectUtil.parseTiledEvent(state, timer);
+            TiledObjectUtil.parseTiledEvent(state, multi);
+        }
     }
 
     /**
@@ -248,7 +244,6 @@ public enum GameMode {
      * @param hitboxFilter: the hbox filter alignment. Used for setting team mode options
      */
     public void modifyNewPlayer(PlayState state, Loadout newLoadout, Player p, short hitboxFilter) {
-        if (!state.isServer()) { return; }
         for (ModeSetting setting: applicableSettings) {
             setting.modifyNewPlayer(state, this, newLoadout, p, hitboxFilter);
         }

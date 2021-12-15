@@ -9,6 +9,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -175,7 +176,7 @@ public class SpawnerFlag extends Event {
         //this block of code is used b/c the default particle behavior doesn't like effects with custom colors
         if (state.isServer()) {
             standardParticle = new ParticleEntity(state, this,
-                Particle.DIATOM_IMPACT_LARGE, 0, 0, true, ParticleEntity.particleSyncType.CREATESYNC);
+                Particle.DIATOM_IMPACT_LARGE, 0, 0, true, SyncType.CREATESYNC);
             if (teamIndex < AlignmentFilter.currentTeams.length) {
                 standardParticle.setColor(AlignmentFilter.currentTeams[teamIndex].getColor1());
             }

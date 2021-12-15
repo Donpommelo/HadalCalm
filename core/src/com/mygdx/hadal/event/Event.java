@@ -10,10 +10,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
@@ -186,7 +186,7 @@ public class Event extends HadalEntity {
 	
 	public void setStandardParticle(Particle particle) {
 		if (state.isServer()) {
-			this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false, particleSyncType.TICKSYNC);
+			this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false, SyncType.TICKSYNC);
 		}
 	}
 
@@ -194,7 +194,7 @@ public class Event extends HadalEntity {
 
 	public void addAmbientParticle(Particle particle, float xOffset, float yOffset) {
 		if (state.isServer()) {
-			new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.CREATESYNC,
+			new ParticleEntity(state, this, particle, 0, 0, true, SyncType.CREATESYNC,
 				new Vector2(xOffset, yOffset));
 		}
 	}
@@ -246,7 +246,7 @@ public class Event extends HadalEntity {
 	 * USER and ALL can run on all players, so clients need a copy of the event blueprints to make their own version of the event
 	 */
 	@Override
-	public Object onServerCreate() {
+	public Object onServerCreate(boolean catchup) {
 
 		//independent events do not send a create packet when created, b/c the client creates it themselves
 		if (independent) { return null; }

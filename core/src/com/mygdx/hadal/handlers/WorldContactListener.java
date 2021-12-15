@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 
@@ -24,19 +24,19 @@ public class WorldContactListener implements ContactListener {
 		//Projectiles and events should register hits.
 		if (fixA != null) {
 			fixA.setNumContacts(fixA.getNumContacts() + 1);
-			if (fixA.getType().equals(UserDataTypes.HITBOX)) {
+			if (fixA.getType().equals(UserDataType.HITBOX)) {
 				((HitboxData) fixA).onHit(fixB);
 			}
-			if (fixA.getType().equals(UserDataTypes.EVENT)) {
+			if (fixA.getType().equals(UserDataType.EVENT)) {
 				((EventData) fixA).onTouch(fixB);
 			}
 		}
 		if (fixB != null) {
 			fixB.setNumContacts(fixB.getNumContacts() + 1);
-			if (fixB.getType().equals(UserDataTypes.HITBOX)) {
+			if (fixB.getType().equals(UserDataType.HITBOX)) {
 				((HitboxData) fixB).onHit(fixA);
 			}
-			if (fixB.getType().equals(UserDataTypes.EVENT)) {
+			if (fixB.getType().equals(UserDataType.EVENT)) {
 				((EventData) fixB).onTouch(fixA);
 			}
 		}
@@ -49,13 +49,13 @@ public class WorldContactListener implements ContactListener {
 
 		if (fixA != null) {
 			fixA.setNumContacts(fixA.getNumContacts() - 1);
-			if (fixA.getType().equals(UserDataTypes.EVENT)) {
+			if (fixA.getType().equals(UserDataType.EVENT)) {
 				((EventData) fixA).onRelease(fixB);
 			}
 		}
 		if (fixB != null) {
 			fixB.setNumContacts(fixB.getNumContacts() - 1);
-			if (fixB.getType().equals(UserDataTypes.EVENT)) {
+			if (fixB.getType().equals(UserDataType.EVENT)) {
 				((EventData) fixB).onRelease(fixA);
 			}
 		}

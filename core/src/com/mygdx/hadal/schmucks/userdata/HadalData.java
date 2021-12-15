@@ -1,7 +1,7 @@
 package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -16,7 +16,7 @@ public class HadalData {
 	private int numContacts;
 	
 	//Enum that describes the type of entity. This field is often checked on contact.
-	private final UserDataTypes type;
+	private final UserDataType type;
 	
 	//The entity that owns this data
 	private HadalEntity entity;
@@ -24,7 +24,7 @@ public class HadalData {
 	/**
 	 * aye
 	 */
-	public HadalData(UserDataTypes type, HadalEntity entity) {
+	public HadalData(UserDataType type, HadalEntity entity) {
 		this.type = type;
 		this.entity = entity;
 	}
@@ -49,7 +49,7 @@ public class HadalData {
 
 	public void setNumContacts(int numContacts) { this.numContacts = numContacts; }
 
-	public UserDataTypes getType() { return type; }
+	public UserDataType getType() { return type; }
 
 	public HadalEntity getEntity() { return entity; }
 

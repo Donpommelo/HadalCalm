@@ -199,6 +199,10 @@ public enum SoundEffect {
 	 * This is used to play sounds that have a source in the world.
 	 * The volume and pan of the sound depends on the location relative to the player listening.
 	 */
+	public long playSourced(PlayState state, Vector2 worldPos, float volume) {
+		return playSourced(state, worldPos, volume, 1.0f);
+	}
+
 	public long playSourced(PlayState state, Vector2 worldPos, float volume, float pitch) {
 
 		long soundId = getSound().play();

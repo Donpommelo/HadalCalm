@@ -504,7 +504,7 @@ public class Boss2 extends EnemyFloating {
 					hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), fuguDamage, fuguKB, DamageTypes.POISON, DamageTypes.RANGED));
 					hbox.addStrategy(new DiePoison(state, hbox, getBodyData(), poisonRadius, poisonDamage, poisonDuration, getHitboxfilter()));
-					hbox.addStrategy(new DieRagdoll(state, hbox, getBodyData()));
+					hbox.addStrategy(new DieRagdoll(state, hbox, getBodyData(), true));
 					hbox.addStrategy(new DieSound(state, hbox, getBodyData(), SoundEffect.DEFLATE, 0.25f));
 				}
 			});

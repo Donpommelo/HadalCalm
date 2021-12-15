@@ -13,7 +13,6 @@ import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Stats;
 
 /**
  * A Turret is an immobile enemy that fires towards players in sight.
@@ -167,7 +166,7 @@ public class Turret extends Enemy {
 	@Override
 	public void onServerSync() {
 		state.getSyncPackets().add(new PacketsSync.SyncSchmuckAngled(entityID, getPosition(), new Vector2(), entityAge,
-				state.getTimer(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP), attackAngle));
+				state.getTimer(), moveState, getBodyData().getCurrentHp(), attackAngle));
 	}
 	
 	@Override

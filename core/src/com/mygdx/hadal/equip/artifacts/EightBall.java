@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -7,8 +8,6 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 public class EightBall extends Artifact {
 
@@ -29,7 +28,7 @@ public class EightBall extends Artifact {
 					
 					@Override
 					public void onShoot(Equippable tool) {
-						float newDegrees = tool.getWeaponVelo().angleDeg() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1));
+						float newDegrees = tool.getWeaponVelo().angleDeg() + (MathUtils.random(-spread, spread + 1));
 						tool.setWeaponVelo(tool.getWeaponVelo().setAngleDeg(newDegrees));
 					}
 				});

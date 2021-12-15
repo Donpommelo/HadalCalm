@@ -1,13 +1,18 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -44,59 +49,86 @@ public class Maelstrom extends RangedWeapon {
 
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.WIND2.playUniversal(state, startPosition, 0.8f, false);
+		SyncedAttack.MAELSTROM.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
+	}
 
-		Hitbox storm = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
+	public static Hitbox createMaelstrom(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		SoundEffect.WIND2.playSourced(state, startPosition, 0.8f);
+
+		final Vector2 explosionSize = new Vector2(projectileSize);
+		Hitbox storm = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+				false, true, user, projSprite) {
+
+			private final Vector2 entityLocation = new Vector2();
+			@Override
+			public void render(SpriteBatch batch) {
+
+				if (!alive) { return; }
+
+				if (projectileSprite != null) {
+					entityLocation.set(getPixelPosition());
+					batch.draw(projectileSprite.getKeyFrame(animationTime, false),
+							entityLocation.x - explosionSize.x / 2,
+							entityLocation.y - explosionSize.y / 2,
+							explosionSize.x / 2, explosionSize.y / 2,
+							explosionSize.x, explosionSize.y, -1, 1,
+							MathUtils.radDeg * getAngle());
+				}
+			}
+		};
 		storm.setEffectsHit(false);
 		storm.setEffectsVisual(false);
 		storm.setRestitution(0.5f);
-		
+
 		storm.addStrategy(new ControllerDefault(state, storm, user.getBodyData()));
-		storm.addStrategy(new CreateParticles(state, storm, user.getBodyData(), Particle.STORM, 0.0f, 1.0f));
-		storm.addStrategy(new CreateSound(state, storm, user.getBodyData(), SoundEffect.WIND3, 0.6f, true));
+		storm.addStrategy(new CreateParticles(state, storm, user.getBodyData(), Particle.STORM, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
+		storm.addStrategy(new CreateSound(state, storm, user.getBodyData(), SoundEffect.WIND3, 0.6f, true).setSyncType(SyncType.NOSYNC));
 		storm.addStrategy(new HitboxStrategy(state, storm, user.getBodyData()) {
-			
-			private float controllerCount = 0;
-			private final Vector2 explosionSize = new Vector2(projectileSize);
-			
+
+			private float controllerCount;
 			@Override
 			public void create() {
-				
+
 				//Set hurricane to have constant angular velocity for visual effect.
 				hbox.setAngularVelocity(5);
 			}
-			
+
 			@Override
 			public void controller(float delta) {
-				
+
 				controllerCount += delta;
 
 				//This hbox periodically spawns hboxes on top of itself.
 				while (controllerCount >= explosionInterval) {
 					controllerCount -= explosionInterval;
-					
-					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionDuration, new Vector2(), storm.getFilter(), true, true, user, projSprite);
+
+					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionDuration, new Vector2(),
+							storm.getFilter(), true, true, user, Sprite.NOTHING);
 					pulse.setSyncDefault(false);
-					pulse.setSyncInstant(true);
 					pulse.setEffectsMovement(false);
 
 					pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
 					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED).setStaticKnockback(true));
 					pulse.addStrategy(new HitboxStrategy(state, pulse, user.getBodyData()) {
-						
+
 						@Override
 						public void create() {
 							hbox.setAngle(storm.getAngle());
 							hbox.setAngularVelocity(5);
 						}
 					});
-					
+
 					//spawned hboxes get larger as hbox moves
 					if (explosionSize.x <= explosionMaxSize) {
 						explosionSize.add(explosionGrowth, explosionGrowth);
 					}
+
+					if (!state.isServer()) {
+						((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectSyncLayers.HBOX);
+					}
 				}
 			}
 		});
+		return storm;
 	}
 }

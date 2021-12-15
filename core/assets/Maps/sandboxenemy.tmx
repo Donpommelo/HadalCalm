@@ -3,7 +3,6 @@
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="EXTRA_ROOM"/>
-  <property name="startUI" value="SANDBOX,EMPTY,SCRAP"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="60">

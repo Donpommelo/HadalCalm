@@ -1,8 +1,8 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -18,7 +18,6 @@ public class MouthfulofBees extends Artifact {
 	private static final float beeSpeed = 15.0f;
 	private static final float damagePerBee = 20.0f;
 	private static final int beesOnDeath = 5;
-	private static final int homeRadius = 60;
 
 	public MouthfulofBees() {
 		super(slotCost);
@@ -31,16 +30,19 @@ public class MouthfulofBees extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
 				if (damage > 0) {
-					WeaponUtils.createBees(state, p.getSchmuck().getPixelPosition(), p.getSchmuck(),
-						(int) (damage / damagePerBee), homeRadius, new Vector2(0, beeSpeed), false, p.getSchmuck().getHitboxfilter());
+					int numBees = (int) (damage / damagePerBee);
+					for (int i = 0; i < numBees; i++) {
+						SyncedAttack.BEE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(), new Vector2(0, beeSpeed));
+					}
 				}
 				return damage;
 			}
 			
 			@Override
 			public void onDeath(BodyData perp) {
-				WeaponUtils.createBees(state, p.getSchmuck().getPixelPosition(), p.getSchmuck(),
-					beesOnDeath, homeRadius, new Vector2(0, beeSpeed), false, p.getSchmuck().getHitboxfilter());
+				for (int i = 0; i < beesOnDeath; i++) {
+					SyncedAttack.BEE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(), new Vector2(0, beeSpeed));
+				}
 			}
 		}.setPriority(PRIORITY_SCALE);
 	}

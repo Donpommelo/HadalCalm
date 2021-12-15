@@ -3,10 +3,12 @@ package com.mygdx.hadal.event.hub;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.server.AlignmentFilter;
+import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -39,9 +41,9 @@ public class Painter extends HubEvent {
 
 						if (state.isServer()) {
 							state.getPlayer().getPlayerData().setTeam(selected);
-							state.getPlayer().getPlayerData().syncServerLoadoutChange(false);
+							state.getPlayer().getPlayerData().syncServerTeamChange(selected);
 						} else {
-							state.getPlayer().getPlayerData().syncClientLoadoutChangeTeam(selected);
+							HadalGame.client.sendTCP(new PacketsLoadout.SyncTeamClient(selected));
 						}
 						state.getGsm().getLoadout().setTeam(selected.toString());
 					}

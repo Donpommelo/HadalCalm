@@ -8,7 +8,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.DestructableBlock;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -44,7 +44,7 @@ public class Terraformer extends ActiveItem {
 				super.create();
 				body.setLinearVelocity(new Vector2(weaponVelo).nor().scl(blockSpeed));
 				
-				FeetData feetData = new FeetData(UserDataTypes.FEET, this); 
+				FeetData feetData = new FeetData(UserDataType.FEET, this);
 				Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f,  - getSize().y / 2), new Vector2(getSize().x, getSize().y / 8), true, 0, 0, 0, 0,
 						Constants.BIT_SENSOR, Constants.BIT_DROPTHROUGHWALL, (short) 0);
 				feet.setUserData(feetData);

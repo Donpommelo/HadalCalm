@@ -20,6 +20,7 @@ import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
+import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
 
@@ -313,7 +314,7 @@ public class UIHub {
 							if (state.isServer()) {
 								state.getPlayer().getPlayerData().removeArtifact(newTag.getArtifact());
 							} else {
-								state.getPlayer().getPlayerData().syncClientLoadoutRemoveArtifact(newTag.getArtifact(), true);
+								HadalGame.client.sendTCP(new PacketsLoadout.SyncArtifactRemoveClient(newTag.getArtifact(), true));
 							}
 							refreshHub();
 						}

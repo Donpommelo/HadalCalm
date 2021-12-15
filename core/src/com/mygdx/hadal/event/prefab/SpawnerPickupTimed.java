@@ -74,6 +74,7 @@ public class SpawnerPickupTimed extends Prefabrication {
 		pickup.getProperties().put("sync", "SERVER");
 		pickup.getProperties().put("synced", true);
 		pickup.getProperties().put("scale", 0.25f);
+		pickup.getProperties().put("cooldown", 1.0f);
 		pickup.getProperties().put("triggeredId", pickupId);
 		pickup.getProperties().put("triggeringId", onTouchId);
 		

@@ -7,7 +7,8 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -62,7 +63,7 @@ public class CallofWalrus extends ActiveItem {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
-					if (fixB.getType().equals(UserDataTypes.BODY)) {
+					if (fixB.getType().equals(UserDataType.BODY)) {
 						BodyData ally = (BodyData) fixB;
 						if (ally.getSchmuck().getHitboxfilter() == user.getPlayer().getHitboxfilter()) {
 							if (!buffed.contains(fixB, false)) {
@@ -72,7 +73,7 @@ public class CallofWalrus extends ActiveItem {
 										new StatChangeStatus(state, Stats.DAMAGE_AMP, damageBuff, ally)));
 
 								new ParticleEntity(state, ally.getSchmuck(), Particle.LIGHTNING_CHARGE, 1.0f, buffDuration,
-										true, ParticleEntity.particleSyncType.CREATESYNC).setColor(HadalColor.RED);
+										true, SyncType.CREATESYNC).setColor(HadalColor.RED);
 							}
 						}
 					}

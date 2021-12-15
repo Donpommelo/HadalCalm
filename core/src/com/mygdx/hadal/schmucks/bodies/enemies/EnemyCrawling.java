@@ -9,12 +9,11 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
-import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 /**
@@ -61,7 +60,7 @@ public class EnemyCrawling extends Enemy {
 		getMainFixture().setFilterData(filter);
 		
 		if (state.isServer()) {
-			this.feetData = new FeetData(UserDataTypes.FEET, this); 
+			this.feetData = new FeetData(UserDataType.FEET, this);
 			
 			Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f,  - hboxSize.y / 2), new Vector2(hboxSize.x - 2, hboxSize.y / 8), true, 0, 0, 0, 0,
 					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), hitboxfilter);
@@ -218,7 +217,7 @@ public class EnemyCrawling extends Enemy {
 	@Override
 	public void onServerSync() {
 		state.getSyncPackets().add(new PacketsSync.SyncSchmuckAngled(entityID, getPosition(), currentVel, entityAge,
-				state.getTimer(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP), moveDirection));
+				state.getTimer(), moveState, getBodyData().getCurrentHp(), moveDirection));
 	}
 	
 	@Override
