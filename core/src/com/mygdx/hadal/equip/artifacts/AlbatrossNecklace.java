@@ -21,7 +21,11 @@ public class AlbatrossNecklace extends Artifact {
 			
 			@Override
 			public void onInflict() {
-				p.getSchmuck().setGravityScale(gravityScale);
+				if (p.getPlayer().getBody() != null) {
+					p.getSchmuck().setGravityScale(gravityScale);
+				} else {
+					p.getPlayer().setGravityModifier(gravityScale);
+				}
 			}
 			
 			@Override

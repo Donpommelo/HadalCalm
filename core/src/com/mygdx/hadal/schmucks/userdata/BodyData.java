@@ -295,7 +295,7 @@ public class BodyData extends HadalData {
 		
 		//apply knockback
 		float kbScale = 1;
-		kbScale -= getStat(Stats.KNOCKBACK_RES);
+		kbScale -= Math.min(getStat(Stats.KNOCKBACK_RES), 1.0f);
 		kbScale += perp.getStat(Stats.KNOCKBACK_AMP);
 		schmuck.applyLinearImpulse(new Vector2(knockback).scl(kbScale));
 		

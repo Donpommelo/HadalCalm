@@ -67,6 +67,8 @@ public class Player extends PhysicsSchmuck {
 	public static final float uiScale = 0.4f;
 	public static final float playerMass = 2.4489846f;
 	private float scaleModifier = 1.0f;
+	private float gravityModifier = 1.0f;
+	private float restitutionModifier = 0.0f;
 	private boolean dontMoveCamera;
 
 	private final PlayerSpriteHelper spriteHelper;
@@ -268,40 +270,6 @@ public class Player extends PhysicsSchmuck {
 			playerData = new PlayerBodyData(this, startLoadout);
 		}
 
-		//we scale size here to account for any player size modifiers
-		size.scl(scaleModifier);
-
-		this.body = BodyBuilder.createBox(world, startPos, size, 1.0f, playerDensity, 0.0f, 0.0f, false, true, Constants.BIT_PLAYER, 
-				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
-				hitboxfilter, false, playerData);
-		
-		//On the server, we create several extra fixtures to keep track of feet/sides to determine when the player gets their jump back and what terrain event they are standing on.
-		this.feetData = new FeetData(UserDataType.FEET, this);
-
-		Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter);
-		
-		feet.setUserData(feetData);
-
-		this.leftData = new FeetData(UserDataType.FEET, this);
-
-		Fixture leftSensor = FixtureBuilder.createFixtureDef(body, new Vector2(-size.x / 2, 0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter);
-		
-		leftSensor.setUserData(leftData);
-		
-		this.rightData = new FeetData(UserDataType.FEET, this);
-
-		Fixture rightSensor = FixtureBuilder.createFixtureDef(body, new Vector2(size.x / 2,  0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter);
-		
-		rightSensor.setUserData(rightData);
-
-		//make the player mass constant to avoid mass changing when player is a different size
-		MassData newMass = body.getMassData();
-		newMass.mass = playerMass;
-		body.setMassData(newMass);
-
 		//If the player is spawning into a new level, initialize loadout and give brief invulnerability.
 		if (reset) {
 			playerData.initLoadout();
@@ -309,20 +277,53 @@ public class Player extends PhysicsSchmuck {
 		} else {
 			playerData.updateOldData(this);
 		}
-
 		playerData.switchWeapon(currentSlot);
-				
+
+		//Activate on-spawn effects
+		if (reset) {
+			playerData.statusProcTime(new ProcTime.PlayerCreate());
+		}
+
+		//we scale size here to account for any player size modifiers
+		size.scl(scaleModifier);
+
+		this.body = BodyBuilder.createBox(world, startPos, size, gravityModifier, playerDensity, restitutionModifier, 0.0f, false, true, Constants.BIT_PLAYER,
+				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
+				hitboxfilter, false, playerData);
+
+		//On the server, we create several extra fixtures to keep track of feet/sides to determine when the player gets their jump back and what terrain event they are standing on.
+		this.feetData = new FeetData(UserDataType.FEET, this);
+
+		Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
+				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter);
+
+		feet.setUserData(feetData);
+
+		this.leftData = new FeetData(UserDataType.FEET, this);
+
+		Fixture leftSensor = FixtureBuilder.createFixtureDef(body, new Vector2(-size.x / 2, 0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
+				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter);
+
+		leftSensor.setUserData(leftData);
+
+		this.rightData = new FeetData(UserDataType.FEET, this);
+
+		Fixture rightSensor = FixtureBuilder.createFixtureDef(body, new Vector2(size.x / 2,  0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
+				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter);
+
+		rightSensor.setUserData(rightData);
+
+		//make the player mass constant to avoid mass changing when player is a different size
+		MassData newMass = body.getMassData();
+		newMass.mass = playerMass;
+		body.setMassData(newMass);
+
 		//if this is the client creating their own player, tell the server we are ready to sync player-related stuff
 		if (!state.isServer() && this.equals(state.getPlayer())) {
 			Packets.ClientPlayerCreated connected = new Packets.ClientPlayerCreated();
             HadalGame.client.sendTCP(connected);
 		}
 		
-		//Activate on-spawn effects
-		if (reset) {
-			playerData.statusProcTime(new ProcTime.PlayerCreate());
-		}
-
 		//activate start point events (these usually just set up camera bounds/zoom and stuff like that)
 		//This line is here so that it does not occur before events are done being created.
 		//We only do this for our own player. For clients, this is run when they send a player created packet
@@ -1008,6 +1009,10 @@ public class Player extends PhysicsSchmuck {
 		this.spriteHelper.setScale(scale * scaleModifier);
 		this.scaleModifier = scaleModifier;
 	}
+
+	public void setGravityModifier(float gravityModifier) { this.gravityModifier = gravityModifier; }
+
+	public void setRestitutionModifier(float restitutionModifier) { this.restitutionModifier = restitutionModifier; }
 
 	public PlayerBodyData getPlayerData() {	return playerData; }
 

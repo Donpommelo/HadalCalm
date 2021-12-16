@@ -6,6 +6,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitSlow;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 
 public class Ice9 extends Artifact {
 
@@ -32,11 +33,14 @@ public class Ice9 extends Artifact {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				if (!hbox.isEffectsHit()) { return; }
-				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					hbox.addStrategy(new ContactUnitSlow(state, hbox, p, slowDura, slow, Particle.ICE_CLOUD));
+					if (hbox.isEffectsHit()) {
+						hbox.addStrategy(new ContactUnitSlow(state, hbox, p, slowDura, slow, Particle.ICE_CLOUD));
+					}
+					if (hbox.isEffectsVisual()) {
+						hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.ICE_CLOUD, hbox.getLifeSpan(), 1.0f).setParticleSize(50));
+					}
 				}
 			}
 		};

@@ -26,7 +26,7 @@ public class BatteringRam extends MeleeWeapon {
 
 	private static final float shootCd = 0.0f;
 	private static final float shootDelay = 0.0f;
-	private static final Vector2 hitboxSize = new Vector2(90, 120);
+	private static final Vector2 hitboxSize = new Vector2(75, 100);
 	private static final float knockback = 40.0f;
 	private static final float lifespan = 0.5f;
 
@@ -38,8 +38,8 @@ public class BatteringRam extends MeleeWeapon {
 	private static final float minRecoil = 25.0f;
 	private static final float maxRecoil = 175.0f;
 	
-	private static final float minDamage = 15.0f;
-	private static final float maxDamage = 60.0f;
+	private static final float minDamage = 20.0f;
+	private static final float maxDamage = 70.0f;
 
 	private static final float minParticleTermination = 0.9f;
 	private static final float maxParticleTermination = 0.6f;

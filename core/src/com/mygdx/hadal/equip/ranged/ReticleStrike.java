@@ -69,8 +69,10 @@ public class ReticleStrike extends RangedWeapon {
 					lastPosition.add(new Vector2(hbox.getPixelPosition()).sub(lastPosition).nor().scl(reticleSpacing));
 
 					Hitbox reticle = new RangedHitbox(state, lastPosition, new Vector2(reticleSize, reticleSize), reticleLifespan,
-							new Vector2(), user.getHitboxfilter(), true, false, user, Sprite.CROSSHAIR);
+							new Vector2(), user.getHitboxfilter(), true, true, user, Sprite.CROSSHAIR);
 					reticle.setSyncDefault(false);
+					reticle.setEffectsMovement(false);
+					reticle.setEffectsHit(false);
 					reticle.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 
 					reticle.addStrategy(new ControllerDefault(state, reticle, user.getBodyData()));

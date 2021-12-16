@@ -303,9 +303,11 @@ public class KryoServer {
 								}
 								else if (p instanceof PacketsLoadout.SyncCharacterClient s) {
 									player.getPlayerData().setCharacter(s.character);
+									player.getPlayerData().syncServerCharacterChange(s.character);
 								}
 								else if (p instanceof PacketsLoadout.SyncTeamClient s) {
 									player.getPlayerData().setTeam(s.team);
+									player.getPlayerData().syncServerTeamChange(s.team);
 								}
 							});
 						}

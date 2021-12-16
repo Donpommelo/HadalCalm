@@ -52,13 +52,12 @@ public class ResultsState extends GameState {
 	private final PlayState ps;
 
 	//This is a list of all the saved player fields (scores) from the completed playstate
-	private final Array<SavedPlayerFields> scores;
-
-    private final Array<PlayerResultsIcon> icons;
-	private final Array<PooledEffect> effects;
+	private final Array<SavedPlayerFields> scores = new Array<>();
+    private final Array<PlayerResultsIcon> icons = new Array<>();
+	private final Array<PooledEffect> effects = new Array<>();
 
     //This is a mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
-	private final ObjectMap<SavedPlayerFields, Boolean> ready;
+	private final ObjectMap<SavedPlayerFields, Boolean> ready = new ObjectMap<>();
 
 	//this text is displayed at the top of the state and usually indicates victory or loss
 	private final String text;
@@ -133,10 +132,6 @@ public class ResultsState extends GameState {
 		this.snapshot = new TextureRegion(fbo.getColorBufferTexture(), 0, fbo.getHeight(), fbo.getWidth(), -fbo.getHeight());
 
 		//First, we obtain the list of scores, depending on whether we are the server or client.
-		scores = new Array<>();
-		icons = new Array<>();
-		effects = new Array<>();
-
 		if (ps.isServer()) {
 			for (User user: HadalGame.server.getUsers().values()) {
 				if (!user.isSpectator()) {
@@ -169,7 +164,6 @@ public class ResultsState extends GameState {
 		});
 
 		//Finally we initialize the ready map with everyone set to not ready. Bots don't need to ready up
-		ready = new ObjectMap<>();
 		for (SavedPlayerFields score: scores) {
 			if (score.getConnID() >= 0) {
 				ready.put(score, false);

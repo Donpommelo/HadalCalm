@@ -5,13 +5,13 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
-public class PlayerBounce extends Artifact {
+public class PlayerMatryoshka extends Artifact {
 
 	private static final int slotCost = 0;
 
-	private static final float bounce = 1.0f;
+	private static final float[] SizeScaleList = {0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f};
 
-	public PlayerBounce() { super(slotCost); }
+	public PlayerMatryoshka() { super(slotCost); }
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
@@ -19,16 +19,10 @@ public class PlayerBounce extends Artifact {
 
 			@Override
 			public void onInflict() {
-				if (p.getPlayer().getBody() != null) {
-					p.getSchmuck().setRestitution(bounce);
-				} else {
-					p.getPlayer().setRestitution(bounce);
+				if (p.getPlayer().getUser() != null) {
+					int livesLeft = Math.min(p.getPlayer().getUser().getScores().getLives(), SizeScaleList.length) - 1;
+					p.getPlayer().setScaleModifier(SizeScaleList[livesLeft]);
 				}
-			}
-
-			@Override
-			public void onRemove() {
-				p.getSchmuck().setRestitution(0.0f);
 			}
 		};
 	}

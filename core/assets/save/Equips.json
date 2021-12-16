@@ -32,7 +32,7 @@
 "BATTERING_RAM": {
 	"name": "Battering Ram",
 	"description": "Hold and release the shoot button to charge a directional melee rush.",
-    "descriptionLong": "Impact Damage at Min Charge: 15\nImpact Damage at Max Charge: 60\nDamage Resistance During Rush: 50%\n\nCharge Duration: 0.3 Second",
+    "descriptionLong": "Impact Damage at Min Charge: 20\nImpact Damage at Max Charge: 70\nDamage Resistance During Rush: 50%\n\nCharge Duration: 0.3 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",

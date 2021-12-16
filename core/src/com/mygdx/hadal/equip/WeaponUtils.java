@@ -122,7 +122,7 @@ public class WeaponUtils {
 	
 	private static final float torpedoBaseDamage = 3.0f;
 	private static final float torpedoBaseKnockback = 3.0f;
-	private static final float torpedoExplosionDamage = 26.0f;
+	private static final float torpedoExplosionDamage = 22.0f;
 	private static final float torpedoExplosionKnockback = 16.0f;
 	private static final int torpedoExplosionRadius = 150;
 	private static final Vector2 torpedoSize = new Vector2(60, 14);
@@ -441,7 +441,7 @@ public class WeaponUtils {
 					Sprite projSprite = vineSprites[randomIndex];
 
 					RangedHitbox vine = new RangedHitbox(state, entityLocation, vineSize, lifespan, new Vector2(),
-						user.getHitboxfilter(), true, false, creator.getSchmuck(),
+						user.getHitboxfilter(), true, true, creator.getSchmuck(),
 						vineCountTotal == vineNum ? Sprite.VINE_B : projSprite) {
 
 						private final Vector2 newPosition = new Vector2();
@@ -456,6 +456,7 @@ public class WeaponUtils {
 						}
 					};
 					vine.setSpriteSize(vineSpriteSize);
+					vine.setEffectsMovement(false);
 
 					vine.addStrategy(new ControllerDefault(state, vine, user.getBodyData()));
 					vine.addStrategy(new ContactUnitSound(state, vine, user.getBodyData(), SoundEffect.STAB, 0.6f, true));

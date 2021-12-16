@@ -935,6 +935,16 @@
         "PASSIVE_DAMAGE"
 	]
 },
+"NUTRILOG_PLUS_CRUNCHBAR": {
+	"name": "Nutrilog-Plus Crunchbar",
+	"description": "+Max Hp, +Knockback Resistance, +Player Size\nBonus Max Hp: +100%\nBonus Knockback Resistance: +50%\nBonus Player Size: +80%\nSize Change Activates Upon Spawning\n\n",
+    "descriptionLong": "",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+        "DEFENSE"
+	]
+},
 "OL_FAITHFUL": {
 	"name": "Ol' Faithful",
 	"description": "Equip Chosen Weapon on Spawn",
@@ -1320,6 +1330,16 @@
         "PASSIVE_DAMAGE"
 	]
 },
+"VOW_OF_EMPTY_HANDS": {
+	"name": "Vow of Empty Hands",
+	"description": "-2 Weapon Slots. +Clip Size, Reload Speed and Damage",
+    "descriptionLong": "Bonus Clip Size: +15%\nBonus Reload Speed: +30%\nBonus Damage: +45%\n\n",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+        "OFFENSE"
+	]
+},
 "WHITE_SMOKER": {
 	"name": "White Smoker",
 	"description": "Fiery Hovering, -Hovering Cost",
@@ -1330,16 +1350,6 @@
         "OFFENSE",
         "PASSIVE_DAMAGE",
         "MOBILITY"
-	]
-},
-"VOW_OF_EMPTY_HANDS": {
-	"name": "Vow of Empty Hands",
-	"description": "-2 Weapon Slots. +Clip Size, Reload Speed and Damage",
-    "descriptionLong": "Bonus Clip Size: +15%\nBonus Reload Speed: +30%\nBonus Damage: +45%\n\n",
-	"tags": [
-		"RELIQUARY",
-		"RANDOM_POOL",
-        "OFFENSE"
 	]
 },
 "WHITE_WHALE_CHARM": {
@@ -1356,7 +1366,7 @@
 "WRATH_OF_THE_FROGMAN": {
 	"name": "Wrath of the Frogman",
 	"description": "Fire Missiles When Attacking",
-    "descriptionLong": "Missile Interval: 1 Second\nMissile Damage: 26\n\nA pair of webbed gloves worn by amphibious assassins\n\nOnce feared by all submariners, the Frogman's reign of terror ceased when their coastal hunting grounds became submerged.",
+    "descriptionLong": "Missile Interval: 0.65 Seconds\nMissile Damage: 22\n\nA pair of webbed gloves worn by amphibious assassins\n\nOnce feared by all submariners, the Frogman's reign of terror ceased when their coastal hunting grounds became submerged.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",

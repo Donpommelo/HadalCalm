@@ -37,13 +37,15 @@ public class BucketofBatteries extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				if (!hbox.isEffectsHit()) { return; }
-				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					
-					hbox.addStrategy(new ContactUnitShock(state, hbox, p, baseDamage, radius, chainAmount, p.getSchmuck().getHitboxfilter()));
-					hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.LIGHTNING, hbox.getLifeSpan(), 1.0f).setParticleSize(90));
+
+					if (hbox.isEffectsHit()) {
+						hbox.addStrategy(new ContactUnitShock(state, hbox, p, baseDamage, radius, chainAmount, p.getSchmuck().getHitboxfilter()));
+					}
+					if (hbox.isEffectsVisual()) {
+						hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.LIGHTNING, hbox.getLifeSpan(), 1.0f).setParticleSize(60));
+					}
 				}
 			}
 		});

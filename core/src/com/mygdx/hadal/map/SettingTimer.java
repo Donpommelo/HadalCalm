@@ -62,8 +62,7 @@ public class SettingTimer extends ModeSetting {
         int startTimer = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
 
         if (startTimer != 0) {
-            state.getUiExtra().setTimer(indexToTimer(startTimer));
-            state.getUiExtra().setTimerIncr(-1.0f);
+            state.getUiExtra().changeTimer(indexToTimer(startTimer), -1.0f);
         }
 
         RectangleMapObject end = new RectangleMapObject();

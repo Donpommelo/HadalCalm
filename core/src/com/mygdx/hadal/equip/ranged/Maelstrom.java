@@ -77,7 +77,7 @@ public class Maelstrom extends RangedWeapon {
 			}
 		};
 		storm.setEffectsHit(false);
-		storm.setEffectsVisual(false);
+		storm.setEffectsVisual(true);
 		storm.setRestitution(0.5f);
 
 		storm.addStrategy(new ControllerDefault(state, storm, user.getBodyData()));
@@ -106,6 +106,7 @@ public class Maelstrom extends RangedWeapon {
 							storm.getFilter(), true, true, user, Sprite.NOTHING);
 					pulse.setSyncDefault(false);
 					pulse.setEffectsMovement(false);
+					pulse.setEffectsVisual(false);
 
 					pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
 					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED).setStaticKnockback(true));

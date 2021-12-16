@@ -164,7 +164,7 @@
 "MISSILE_POD": {
 	"name": "Missile Pod",
 	"description": "Fire a barrage of homing missiles",
-    "descriptionLong": "Charge: 14 Seconds\nMissiles: 12\nMissile Damage: 18\n\n",
+    "descriptionLong": "Charge: 15 Seconds\nMissiles: 12\nMissile Damage: 22\n\n",
 	"tags": [
 		"DISPENSARY",
 		"RANDOM_POOL"

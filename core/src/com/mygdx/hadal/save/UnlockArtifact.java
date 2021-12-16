@@ -108,6 +108,7 @@ public enum UnlockArtifact {
 	NOCTILUCENT_PROMISE(new NoctilucentPromise()),
 	NUCLEAR_PUNCH_THRUSTERS(new NuclearPunchThrusters()),
 	NURDLER(new Nurdler()),
+	NUTRILOG_PLUS_CRUNCHBAR(new NutrilogPlusCrunchbar()),
 	OL_FAITHFUL(new OlFaithful()),
 	ORIGIN_COIL(new OriginCoil()),
 	OUR_GET_ALONG_SHIRT(new OurGetAlongShirt()),
@@ -155,8 +156,11 @@ public enum UnlockArtifact {
 	NOTHING(new NothingArtifact()),
 	INFINITE_AMMO(new InfiniteAmmo(), true),
 	PLAYER_BOUNCE(new PlayerBounce(), true),
-	PLAYER_SLIDE(new PlayerSlide(), true),
+	PLAYER_GIANT(new PlayerGiant(), true),
 	PLAYER_INVISIBLE(new PlayerInvisible(), true),
+	PLAYER_MATRYOSHKA(new PlayerMatryoshka(), true),
+	PLAYER_MINI(new PlayerMini(), true),
+	PLAYER_SLIDE(new PlayerSlide(), true),
 	VISIBLE_HP(new VisibleHp(), true),
 	;
 	

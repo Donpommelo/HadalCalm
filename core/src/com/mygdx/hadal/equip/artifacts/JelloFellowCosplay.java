@@ -20,7 +20,13 @@ public class JelloFellowCosplay extends Artifact {
 		enchantment = new Status(state, p) {
 			
 			@Override
-			public void onInflict() { p.getSchmuck().setRestitution(bounce); }
+			public void onInflict() {
+				if (p.getPlayer().getBody() != null) {
+					p.getSchmuck().setRestitution(bounce);
+				} else {
+					p.getPlayer().setRestitutionModifier(bounce);
+				}
+			}
 			
 			@Override
 			public void onRemove() {
