@@ -235,8 +235,10 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void loadParticles() {
 		if (state.isServer()) {
-			dustCloud = new ParticleEntity(state, this, Particle.DUST, 1.0f, 0.0f, false, SyncType.TICKSYNC, new Vector2(0, -size.y / 2));
-			hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false, SyncType.TICKSYNC, new Vector2(0, -size.y / 2));
+			dustCloud = new ParticleEntity(state, this, Particle.DUST, 1.0f, 0.0f, false,
+					SyncType.TICKSYNC, new Vector2(0, -size.y / 2));
+			hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false,
+					SyncType.TICKSYNC, new Vector2(0, -size.y / 2));
 		}
 	}
 	
@@ -894,8 +896,12 @@ public class Player extends PhysicsSchmuck {
 				if (this.equals(state.getPlayer())) {
 					CameraUtil.inflictTrauma(state.getGsm(), difference);
 				}
-				if (this.equals(state.getUiSpectator().getSpectatorTarget())) {
-					CameraUtil.inflictTrauma(state.getGsm(), difference);
+				if (state.getKillFeed() != null) {
+					if (state.isSpectatorMode() || state.getKillFeed().isRespawnSpectator()) {
+						if (this.equals(state.getUiSpectator().getSpectatorTarget())) {
+							CameraUtil.inflictTrauma(state.getGsm(), difference);
+						}
+					}
 				}
 			}
 		}

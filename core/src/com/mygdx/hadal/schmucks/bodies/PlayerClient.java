@@ -110,30 +110,29 @@ public class PlayerClient extends Player {
 
 				predictedPosition.add(rubberbandPosition);
 
+				//if our position is too far away from what the server sends us, just rubberband.
 				if (body != null && predicting) {
-
-					//raycast towards predicted position to avoid predicting through a wall
-					shortestFraction = 1.0f;
-					if (p.pos.x != predictedPosition.x || p.pos.y != predictedPosition.y) {
-						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-
-							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
-								if (fraction < shortestFraction) {
-									shortestFraction = fraction;
-									return fraction;
-								}
-							}
-							return -1.0f;
-						}, p.pos, predictedPosition);
-					}
-
-					if (shortestFraction != 1.0f && !rubberbandPosition.isZero()) {
-						float dist = rubberbandPosition.len() * shortestFraction - 1;
-						predictedPosition.set(p.pos).add(rubberbandPosition.nor().scl(dist));
-					}
-
-					//if our position is too far away from what the server sends us, just rubberband.
 					if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE) {
+
+						shortestFraction = 1.0f;
+						if (p.pos.x != predictedPosition.x || p.pos.y != predictedPosition.y) {
+							state.getWorld().rayCast((fixture, point, normal, fraction) -> {
+
+								if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+									if (fraction < shortestFraction) {
+										shortestFraction = fraction;
+										return fraction;
+									}
+								}
+								return -1.0f;
+							}, p.pos, predictedPosition);
+						}
+
+						if (shortestFraction != 1.0f && !rubberbandPosition.isZero()) {
+							float dist = rubberbandPosition.len() * shortestFraction - 1;
+							predictedPosition.set(p.pos).add(rubberbandPosition.nor().scl(dist));
+						}
+
 						setTransform(predictedPosition, 0.0f);
 						lastPosition.set(predictedPosition);
 					}

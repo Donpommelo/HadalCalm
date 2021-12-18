@@ -483,7 +483,7 @@ public class KryoClient {
 							player.getPlayerData().syncEquip(s.equip);
 						}
 						else if (p instanceof PacketsLoadout.SyncArtifactServer s) {
-							player.getPlayerData().syncArtifact(s.artifact);
+							player.getPlayerData().syncArtifact(s.artifact, true, s.save);
 							cs.getUiHub().refreshHub();
 						}
 						else if (p instanceof PacketsLoadout.SyncActiveServer s) {

@@ -773,6 +773,17 @@
         "DEFENSE"
 	]
 },
+"LOSS_OF_SENSES": {
+	"name": "Loss of Senses",
+	"description": "+Random Max Hp, Obscures Hp",
+    "descriptionLong": "Bonus Max Hp: +25% - +100%\nBonus Hp is random and invisible",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+        "DEFENSE",
+        "GIMMICK"
+	]
+},
 "LOTUS_LANTERN": {
 	"name": "Lotus Lantern",
 	"description": "+Max Hp, +Eggplant Drops",
@@ -935,14 +946,15 @@
         "PASSIVE_DAMAGE"
 	]
 },
-"NUTRILOG_PLUS_CRUNCHBAR": {
-	"name": "Nutrilog-Plus Crunchbar",
-	"description": "+Max Hp, +Knockback Resistance, +Player Size\nBonus Max Hp: +100%\nBonus Knockback Resistance: +50%\nBonus Player Size: +80%\nSize Change Activates Upon Spawning\n\n",
-    "descriptionLong": "",
+"NUTRILOG_CRUNCHBAR_PLUS": {
+	"name": "Nutrilog Crunchbar-Plus",
+	"description": "+Max Hp, +Knockback Resistance, +Player Size",
+    "descriptionLong": "Bonus Max Hp: +100%\nBonus Knockback Resistance: +50%\nBonus Player Size: +80%\nSize Change Activates Upon Spawning\n\n",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
-        "DEFENSE"
+        "DEFENSE",
+        "GIMMICK"
 	]
 },
 "OL_FAITHFUL": {
@@ -1306,6 +1318,17 @@
 		"RANDOM_POOL",
         "OFFENSE",
         "PASSIVE_DAMAGE"
+	]
+},
+"VISE_OF_SHAME": {
+	"name": "Vise of Shame",
+	"description": "-Player Size",
+    "descriptionLong": "",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+        "DEFENSE",
+        "GIMMICK"
 	]
 },
 "VOID_HYPONOME": {

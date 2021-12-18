@@ -87,7 +87,7 @@ public class PlayerBodyData extends BodyData {
 		this.multitools = new Equippable[Loadout.maxWeaponSlots];
 		Arrays.fill(multitools, new NothingWeapon(player));
 		syncEquip(loadout.multitools);
-		syncArtifact(loadout.artifacts);
+		syncArtifact(loadout.artifacts, false, false);
 		syncActive(loadout.activeItem);
 		setCharacter(loadout.character);
 		setTeam(loadout.team);
@@ -103,14 +103,10 @@ public class PlayerBodyData extends BodyData {
 		Loadout newLoadout = new Loadout(loadout);
 
 		syncEquip(newLoadout.multitools);
-		syncArtifact(newLoadout.artifacts);
+		syncArtifact(newLoadout.artifacts, true, save);
 		syncActive(newLoadout.activeItem);
 		setCharacter(newLoadout.character);
 		setTeam(newLoadout.team);
-
-		if (save) {
-			saveArtifacts();
-		}
 
 		this.loadout = newLoadout;
 
@@ -135,7 +131,7 @@ public class PlayerBodyData extends BodyData {
 	 * This syncs a player's artifacts
 	 * @param artifact: the player's new set of artifacts
 	 */
-	public void syncArtifact(UnlockArtifact[] artifact) {
+	public void syncArtifact(UnlockArtifact[] artifact, boolean override, boolean save) {
 
 		//first, removes statuses of existing artifacts
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
@@ -147,12 +143,17 @@ public class PlayerBodyData extends BodyData {
 		System.arraycopy(artifact, 0, artifactsTemp, 0, Loadout.maxArtifactSlots);
 		Arrays.fill(loadout.artifacts, UnlockArtifact.NOTHING);
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			addArtifact(artifactsTemp[i], false, false);
+			addArtifact(artifactsTemp[i], override, save);
 		}
 
 		//add map modifiers as 0-cost, overriding, invisible artifacts
 		for (UnlockArtifact modifier: player.getState().getMapModifiers()) {
 			addArtifact(modifier, false, false);
+		}
+
+		//must save artifacts in case of removing last artifact (since that won't save in syncArtifact)
+		if (save) {
+			saveArtifacts();
 		}
 
 		//If this is the player being controlled by the user, update artifact ui
@@ -381,8 +382,8 @@ public class PlayerBodyData extends BodyData {
 				Loadout.maxArtifactSlots - 1 - indexRemoved);
 			loadout.artifacts[Loadout.maxArtifactSlots - 1] = UnlockArtifact.NOTHING;
 		}
-		
-		syncArtifacts(false, true);
+
+		syncArtifacts(true, true);
 	}
 	
 	/**
@@ -404,15 +405,13 @@ public class PlayerBodyData extends BodyData {
 	 * @param save whether this change should be saved into loadout file
 	 */
 	public void syncArtifacts(boolean override, boolean save) {
-		
 		if (!override) {
 			checkArtifactSlotCosts();
-
-			if (save) {
-				saveArtifacts();
-			}
 		}
-		
+
+		if (save) {
+			saveArtifacts();
+		}
 		if (player.equals((player.getState().getPlayer()))) {
 			player.getState().getUiArtifact().syncArtifact();
 		}
@@ -464,7 +463,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void saveArtifacts() {
 		if (player.equals(player.getState().getPlayer())) {
-			for(int i = 0; i < Loadout.maxArtifactSlots; i++) {
+			for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 				player.getState().getGsm().getLoadout().setArtifact(i, loadout.artifacts[i].toString());
 			}
 		}

@@ -297,7 +297,7 @@ public class KryoServer {
 									player.getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(s.equip, player)));
 								}
 								else if (p instanceof PacketsLoadout.SyncArtifactAddClient s) {
-									player.getPlayerData().addArtifact(s.artifactAdd, false, false);
+									player.getPlayerData().addArtifact(s.artifactAdd, false, s.save);
 								}
 								else if (p instanceof PacketsLoadout.SyncArtifactRemoveClient s) {
 									player.getPlayerData().removeArtifact(s.artifactRemove);
@@ -522,7 +522,7 @@ public class KryoServer {
 			}
 		};
 		
-//        server.addListener(new Listener.LagListener(100, 100, packetListener));
+//        server.addListener(new Listener.LagListener(60, 60, packetListener));
 		server.addListener(packetListener);
 		
 		try {

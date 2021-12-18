@@ -27,7 +27,7 @@ public class AncientSynapse extends Artifact {
 		enchantment = new Status(state, p) {
 
 			private float procCdCount;
-			private float damageLeft = 0;
+			private float damageLeft;
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount >= procCd) {

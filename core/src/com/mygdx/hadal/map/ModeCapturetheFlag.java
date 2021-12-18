@@ -17,6 +17,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  *  This modifier is used for the ctf mode and simply makes bots able to locate and pursue the flags
+ * @author Slurplove Skitonio
  */
 public class ModeCapturetheFlag extends ModeSetting {
 
