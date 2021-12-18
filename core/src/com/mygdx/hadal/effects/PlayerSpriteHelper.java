@@ -45,6 +45,8 @@ public class PlayerSpriteHelper {
     private static final int armRotateY = 50;
 
     private final Player player;
+
+    //scale is changed for player size modifiers
     private float scale;
 
     private TextureRegion bodyBackSprite, armSprite, gemSprite;
@@ -364,10 +366,11 @@ public class PlayerSpriteHelper {
             private float timer;
             private static final float fadeDelay = 0.5f;
             private static final float fadeDuration = 1.0f;
-
             @Override
             public void create() {
                 super.create();
+
+                //initiate shader used for vaporization effect
                 shader = Shader.PERLIN_FADE;
                 shader.loadShader();
                 body.setAngularDamping(4.0f);
@@ -404,6 +407,9 @@ public class PlayerSpriteHelper {
                 ragdollBuffer.dispose();
             }
 
+            /**
+             * This keeps track of shader progress for fading
+             */
             private void manageTimer(float delta) {
                 timer += delta;
                 if (timer >= fadeDelay) {

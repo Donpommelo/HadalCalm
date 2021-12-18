@@ -84,7 +84,7 @@ public enum UnlockCharacter {
 	private final String atlas;
 	private final String texture;
 
-	//these sprites are used i nthe results screen to indicate a win or loss
+	//these sprites are used in the results screen to indicate a win or loss
 	private final Sprite slugTexture, buffTexture;
 
 	private InfoItem info;

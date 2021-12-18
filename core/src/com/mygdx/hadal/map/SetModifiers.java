@@ -29,6 +29,8 @@ public class SetModifiers extends ModeSetting {
 
         Text title = new Text(ModifierNotifTag.text(), 0, 0, false);
         title.setScale(ModeSettingSelection.detailsScale);
+
+        //this gives an option to uncheck all modifiers
         Text uncheck = new Text(HText.MODIFIER_UNCHECK.text(), 0, 0, true);
         uncheck.setScale(ModeSettingSelection.detailsScale);
 
@@ -64,6 +66,8 @@ public class SetModifiers extends ModeSetting {
         for (ModeModifier modifier: modifiers) {
             modifier.loadModifier(state, mode, text);
         }
+
+        //this adds each active modifier to the initial notification that is displayed at thte start of the match
         if (!text.toString().equals(ModifierNotifTag.text())) {
             mode.getInitialNotifications().add(text.toString());
         }

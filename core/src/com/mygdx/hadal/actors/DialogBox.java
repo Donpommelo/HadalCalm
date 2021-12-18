@@ -29,7 +29,7 @@ public class DialogBox extends AHadalActor {
 	//This is a queue of dialogues in the order that they will be displayed.
 	private final Queue<Dialog> dialogs = new Queue<>();
 
-	//Reference to the gsm. Used to reference gsm fields
+	//Reference to the playstate. Used to reference gsm fields
 	private final PlayState ps;
 	
 	//This counter keeps track of the lifespan of dialogues that have a set duration
@@ -72,7 +72,7 @@ public class DialogBox extends AHadalActor {
 	}
 
 	//accumulator used to make dialog box movement not tied to framerate
-	private float syncAccumulator = 0.0f;
+	private float syncAccumulator;
 	private static final float syncTime = 1 / 60f;
 	@Override
 	public void act(float delta) {

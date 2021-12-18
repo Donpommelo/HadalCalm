@@ -22,7 +22,7 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
  */
 public class User {
 
-    //player info and relevant entities
+    //player info and relevant score information
     private Player player;
     private final SavedPlayerFields scores;
     private final SavedPlayerFieldsExtra scoresExtra;
@@ -48,8 +48,10 @@ public class User {
     //the state this user is transitioning to (null if not transitioning)
     private TransitionState nextState;
 
+    //the start point this user will respawn at next. Used to draw particles at the point prior to respawning
     private StartPoint startPoint;
 
+    //used when the player is spawned at a set location instead of using a start point (for matryoshka mode instant repawn)
     private final Vector2 overrideSpawnLocation = new Vector2();
     private boolean spawnOverridden;
 
@@ -127,6 +129,7 @@ public class User {
             state.setPlayer(state.createPlayer(startPoint, state.getGsm().getLoadout().getName(), player.getPlayerData().getLoadout(),
                     player.getPlayerData(),0, this, true, false, false, hitboxFilter));
 
+            //focus camera on start point unless otherwise specified
             if (!player.isDontMoveCamera()) {
                 state.getCamera().position.set(new Vector3(startPoint.getStartPos().x, startPoint.getStartPos().y, 0));
                 state.getCameraFocusAim().set(startPoint.getStartPos());

@@ -132,7 +132,8 @@ public class ClientState extends PlayState {
 			//The box2d world takes a step. This handles collisions + physics stuff.
 			world.step(physicsTime, 8, 3);
 		}
-		
+
+		//repeatedly send client inputs and mouse position to server
 		inputAccumulator += delta;
 		while (inputAccumulator >= inputSyncTime) {
 			inputAccumulator -= inputSyncTime;
@@ -250,7 +251,7 @@ public class ClientState extends PlayState {
 		 	}
 		}
 		
-		//While most objects don't do any processing on client side, the clientController is run for the exceptions.
+		//clientController is run for the objects that process on client side.
 		for (ObjectMap<UUID, HadalEntity> m: entityLists) {
 			for (HadalEntity entity : m.values()) {
 				entity.clientController(delta);
@@ -298,6 +299,7 @@ public class ClientState extends PlayState {
 			break;
 		case RESULTS:
 
+			//create snapshot to use for transition to results state
 			FrameBuffer fbo = resultsStateFreeze();
 
 			//immediately transition to the results screen

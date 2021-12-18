@@ -13,6 +13,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class Pushable extends HitboxStrategy {
 
+	//multiplier to knockback incurred to make hboxes like naval mines extra pushable
 	private final float pushMultiplier;
 
 	public Pushable(PlayState state, Hitbox proj, BodyData user, float pushMultiplier) {

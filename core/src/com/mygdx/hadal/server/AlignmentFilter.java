@@ -49,7 +49,7 @@ public enum AlignmentFilter {
     TEAM_GOLD(-31, HadalColor.GOLD, HadalColor.TAN, "GOLD", HadalColor.ORANGE),
     TEAM_GREY(-32, HadalColor.GREY, HadalColor.DARK_GREY, "GREY", HadalColor.GREY),
     TEAM_PLUM(-33, HadalColor.PLUM, HadalColor.VIOLET, "PLUM", HadalColor.VIOLET),
-    TEAM_MAUVE(-34, HadalColor.MAUVE, HadalColor.PLUM, "MAUVE", HadalColor.VIOLET),
+    TEAM_MAUVE(-34, HadalColor.MAUVE, HadalColor.PLUM, "MAUVE", HadalColor.VIOLET, HadalColor.BROWN),
     TEAM_ORANGE(-35, HadalColor.ORANGE, HadalColor.GOLD, "ORANGE", HadalColor.ORANGE),
     TEAM_SKY_BLUE(-36, HadalColor.SKY_BLUE, HadalColor.TURQOISE, "SKY BLUE", HadalColor.BLUE),
     TEAM_TAN(-37, HadalColor.TAN, HadalColor.BROWN, "TAN", HadalColor.BROWN, HadalColor.ORANGE),
@@ -117,7 +117,7 @@ public enum AlignmentFilter {
     private final Vector3 color1RGB = new Vector3();
     private final Vector3 color2RGB = new Vector3();
 
-    //color group is a "similar" color that prevent teams from having similar palettes
+    //color group are a "similar" colors that are used to prevent teams from having similar palettes
     private HadalColor[] colorGroup = {};
 
     //this string describes the team for purposes like flag-capture notifications
@@ -178,6 +178,7 @@ public enum AlignmentFilter {
     /**
      * This is run by the server when a level loads with auto-assigned teams enabled
      * @param numTeams: how many teams to auto assign players to?
+     * @param mode: mode is used to determine if any special team-assignment rules are needed (like humans vs bots)
      */
     public static void autoAssignTeams(int numTeams, SettingTeamMode.TeamMode mode) {
         Array<User> users = new Array<>(HadalGame.server.getUsers().values().toArray());
@@ -215,7 +216,7 @@ public enum AlignmentFilter {
             }
         }
 
-        //if any teams still lack colors, we give them a randomly generated one
+        //give each team a randomly generated team color
         for (int i = 0; i < currentTeams.length; i++) {
             Array<AlignmentFilter> unusedTeams = new Array<>();
 
@@ -279,6 +280,9 @@ public enum AlignmentFilter {
         }
     }
 
+    /**
+     * upon starting a new match, teams are reset so last match's teams are cleared
+     */
     public static void resetTeams() {
         currentTeams = new AlignmentFilter[0];
         teamScores = new int[0];

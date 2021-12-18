@@ -14,6 +14,8 @@ public class SpawnEnemyWaves extends ModeSetting {
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
+
+        //load settings misc is run by both server and client, so this is needed to avoid creating events for client
         if (!state.isServer()) { return; }
 
         String waveTimerId = TiledObjectUtil.getPrefabTriggerId();

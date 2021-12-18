@@ -18,7 +18,7 @@ public class PlayerBot extends Player {
     private final BotController botController;
 
     //this is just a vector used for making the player's aim a set distance away from the target
-    //at the moment, this just rotates in a circle around the target when the bot is using thte cola cannon
+    //at the moment, this just rotates in a circle around the target when the bot is using the cola cannon
     private final Vector2 aimWobble = new Vector2(1, 0);
 
     public PlayerBot(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,

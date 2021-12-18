@@ -18,8 +18,8 @@ public class ActionController {
 	private final Player player;
 
 	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one.
-	private boolean leftDown = false;
-	private boolean rightDown = false;
+	private boolean leftDown;
+	private boolean rightDown;
 	
 	public ActionController(Player player) {
 		this.player = player;
@@ -31,7 +31,7 @@ public class ActionController {
 	 */
 	public void keyUp(PlayerAction action, boolean onReset) {
 		if (player == null) { return; }
-		if (player.getPlayerData() == null) return;
+		if (player.getPlayerData() == null) { return; }
 		
 		if (action == PlayerAction.WALK_LEFT) {
 			leftDown = false;
@@ -118,19 +118,19 @@ public class ActionController {
 			player.airblast();
 		}
 		else if (action == PlayerAction.SWITCH_TO_LAST) {
-			player.switchToLast();
+			player.getPlayerData().switchToLast();
 		}
 		else if (action == PlayerAction.SWITCH_TO_1) {
-			player.switchToSlot(1);
+			player.getPlayerData().switchWeapon(1);
 		}
 		else if (action == PlayerAction.SWITCH_TO_2) {
-			player.switchToSlot(2);
+			player.getPlayerData().switchWeapon(2);
 		}
 		else if (action == PlayerAction.SWITCH_TO_3) {
-			player.switchToSlot(3);
+			player.getPlayerData().switchWeapon(3);
 		}
 		else if (action == PlayerAction.SWITCH_TO_4) {
-			player.switchToSlot(4);
+			player.getPlayerData().switchWeapon(4);
 		}
 		else if (action == PlayerAction.WEAPON_CYCLE_UP) {
 			player.getPlayerData().switchUp();

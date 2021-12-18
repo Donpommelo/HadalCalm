@@ -34,6 +34,7 @@ public class Setting {
 	//connecting clients need to know this password to enter the server
 	private String serverPassword;
 
+	//list of mode-specific settings for each mode
 	private HashMap<String, HashMap<String, Integer>> modeSettings;
 
 	//this is the last cursor used. We save this so we can dispose of it properly
@@ -105,11 +106,13 @@ public class Setting {
 			lastCursor.dispose();
 		}
 
+		//cursor type 0: cursor is standard arrow
 		if (cursorType == 0) {
 			Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
 			lastCursor = null;
 		} else {
 
+			//draw designated cursor to pixmap
 			Pixmap cursor = new Pixmap(Gdx.files.internal(indexToCursorType()));
 
 			Pixmap pm = new Pixmap(pixmapSize, pixmapSize, Pixmap.Format.RGBA8888);
@@ -121,6 +124,7 @@ public class Setting {
 				0, 0, cursor.getWidth() + 1, cursor.getHeight() + 1,
 				(pixmapSize - scaledWidth) / 2, (pixmapSize - scaledHeight) / 2, scaledWidth, scaledHeight);
 
+			//color pixmap with chosen color
 			Color newColor = indexToCursorColor();
 			for (int y = 0; y < pm.getHeight(); y++) {
 				for (int x = 0; x < pm.getWidth(); x++) {
@@ -133,6 +137,7 @@ public class Setting {
 				}
 			}
 
+			//set new cursor and dispose of last used cursor to prevent memory leak
 			Cursor newCursor = Gdx.graphics.newCursor(pm, pixmapSize / 2, pixmapSize / 2);
 	    	Gdx.graphics.setCursor(newCursor);
 			lastCursor = newCursor;

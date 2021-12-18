@@ -33,9 +33,11 @@ public class ContactUnitSound extends HitboxStrategy {
 	//This is the max interval the sound can be repeated.
 	private static final float procCd = 0.1f;
 	
-	//this is the slowest the hbox can be moving while still playing the sound. This is to avoid non-moving hboxes from repeatedly playing their sound
+	//this is the slowest the hbox can be moving while still playing the sound. This is to avoid non-moving hboxes from
+	// repeatedly playing their sound
 	private static final float minVelo = 3.0f;
 
+	//Does the server notify the client of this sound?
 	private boolean synced = true;
 
 	public ContactUnitSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume, boolean still) {

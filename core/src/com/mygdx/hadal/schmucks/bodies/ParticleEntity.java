@@ -19,7 +19,7 @@ import java.util.UUID;
 
 /**
  * The particle entity is an invisible, ephemeral entity that emits particle effects.
- * Atm, this is needed so that other entities can have particle effects that persist beyond their own disposal.
+ * This is needed so that other entities can have particle effects that persist beyond their own disposal.
  * @author Crobanfoo Crubaum
  */
 public class ParticleEntity extends HadalEntity {
@@ -33,7 +33,7 @@ public class ParticleEntity extends HadalEntity {
 	private UUID attachedId;
 	
 	//How long this entity will last after deletion, the interval that this effect is turned on
-	// , the lifespan of this entity, how much time before dying does the effect turn off?
+	//the lifespan of this entity, how much time before dying does the effect turn off?
 	private float linger, interval, lifespan, prematureTurnOff;
 	
 	//Has the attached entity despawned yet?
@@ -66,6 +66,7 @@ public class ParticleEntity extends HadalEntity {
 	//if attached to an entity, this vector is the offset of the particle from the attached entity's location
 	private final Vector2 offset = new Vector2();
 
+	//visual bounds is used to have a rough bounding box of the particle for culling offscreen effects
 	private final BoundingBox visualBounds = new BoundingBox();
 	private static final float visualBoundsRadius = 200.0f;
 
@@ -87,6 +88,8 @@ public class ParticleEntity extends HadalEntity {
 			this.effect.allowCompletion();
 		}
 		this.effect.setPosition(startPos.x, startPos.y);
+
+		//as default, bounding box exists around the particle with a set size
 		this.visualBounds.inf();
 		this.visualBounds.ext(new Vector3(startPos.x, startPos.y, 0), visualBoundsRadius);
 	}
@@ -96,7 +99,8 @@ public class ParticleEntity extends HadalEntity {
 		this(state, new Vector2(), particle, lifespan, startOn, sync);
 		this.attachedEntity = entity;
 		this.linger = linger;
-		
+
+		//as default, bounding box exists around the attached entity with a set size
 		if (attachedEntity != null) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
 				this.visualBounds.inf();
@@ -158,7 +162,7 @@ public class ParticleEntity extends HadalEntity {
 			}
 		}
 
-		//particles with a timer are deleting when the timer runs out. Clients remove these too if they are processing them independently from the server.
+		//particles with a timer are deleted when the timer runs out. Clients remove these too if they are processing them independently from the server.
 		if (temp) {
 			lifespan -= delta;
 			if (lifespan <= 0) {
@@ -353,6 +357,9 @@ public class ParticleEntity extends HadalEntity {
 		return this;
 	}
 
+	/**
+	 * Set the angle of the particle. Used for things like airblast particle movement
+	 */
 	public ParticleEntity setParticleVelocity(float angle) {
 		this.velocity = angle;
 

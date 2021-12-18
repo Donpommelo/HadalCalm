@@ -56,7 +56,7 @@ public abstract class HadalEntity {
 
 	//Keeps track of an entity's shader such as when flashing after receiving damage.
 	private float shaderDuration;
-	private float shaderCount = 0;
+	private float shaderCount;
 	private Shader shader;
 		
 	//This is the id that clients use to track synchronized entities
@@ -125,7 +125,7 @@ public abstract class HadalEntity {
 	 */
 	public void dispose() {
 		
-		//check of destroyed to avoid double-destruction
+		//check if destroyed to avoid double-destruction
 		if (!destroyed) {
 			destroyed = true;
 			alive = false;
@@ -144,19 +144,16 @@ public abstract class HadalEntity {
 	 */
 	public void recoil(Vector2 push, float power) {
 		if (!alive) { return; }
-		
 		applyLinearImpulse(impulse.set(getPixelPosition()).sub(push).scl(power / getPixelPosition().dst(push)));
 	}
 	
 	public void push(float impulseX, float impulseY) {
 		if (!alive) { return; }
-		
 		applyLinearImpulse(impulse.set(impulseX, impulseY));
 	}
 	
 	public void push(Vector2 push) {
 		if (!alive) { return; }
-
 		applyLinearImpulse(push);
 	}
 
@@ -166,7 +163,6 @@ public abstract class HadalEntity {
 	 */
 	public void pushMomentumMitigation(float impulseX, float impulseY) {
 		if (!alive) { return; }
-		
 		if (getLinearVelocity().y < 0 && impulseY > 0) {
 			setLinearVelocity(getLinearVelocity().x, 0);
 		} else if (getLinearVelocity().y > 0 && impulseY < 0) {
@@ -178,6 +174,7 @@ public abstract class HadalEntity {
 	/**
 	 * This is called when the entity is created to return a packet to be sent to the client
 	 * Default: no packet is sent for unsynced entities
+	 * @param catchup: is this packet sent to catchup a client (on connect or missed create packet)
 	 */
 	public Object onServerCreate(boolean catchup) { return null; }
 	
@@ -207,10 +204,9 @@ public abstract class HadalEntity {
 		}
 	}
 	
-	//the position of this entity on the server
+	//the position and velocity of this entity on the server for the 2 most recent snapshots
 	public final Vector2 prevPos = new Vector2();
 	public final Vector2 serverPos = new Vector2();
-	
 	public final Vector2 prevVelo = new Vector2();
 	public final Vector2 serverVelo = new Vector2();
 	
@@ -272,7 +268,7 @@ public abstract class HadalEntity {
 	
 	//the client processes interpolation at this speed regardless of framerate
 	public static final float clientSyncTime = 1 / 60f;
-	private float clientSyncAccumulator = 0.0f;
+	private float clientSyncAccumulator;
 	
 	//this extra vector is used b/c interpolation updates the start vector
 	public final Vector2 lerpPos = new Vector2();
@@ -280,7 +276,6 @@ public abstract class HadalEntity {
 
 	//these are the timestamps of the 2 most recent snapshots
 	public float prevTimeStamp, nextTimeStamp;
-	
 	/**
 	 * This is a replacement to controller() that is run for clients.
 	 * This is used for things that have to process stuff for the client, and not just server-side

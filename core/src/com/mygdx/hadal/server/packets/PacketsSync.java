@@ -6,6 +6,10 @@ import com.mygdx.hadal.schmucks.MoveState;
 
 import java.util.UUID;
 
+/**
+ * This contains various entity sync packets.
+ * These are sent by each entity from server to client regularly to give information like position
+ */
 public class PacketsSync {
 
     public static class SyncEntity {
@@ -42,15 +46,10 @@ public class PacketsSync {
         public SyncEntityAngled() {}
 
         /**
-         * A SyncEntity is sent from the Server to the Client for every synchronized entity every engine tick.
-         * This packet (and similar packets) just tell the client how to change their version of the entity.
-         * Most basic version just transforms the entity's body.
+         * This is a SyncEntity packet that also specifies the angle of the entity's body.
+         * This is a separate packet to avoid sending that unnecessary data for most entities
          *
-         * @param entityID: ID of the entity to synchronize
-         * @param pos: position of the entity
-         * @param velocity: linear velocity of the entity
-         * @param age: age of the entity. (used by client to determine if they missed a packet)
-         * @param timestamp: time of sync. Used for client prediction.
+         * @param angle: angle of the entity's body.
          */
         public SyncEntityAngled(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, float angle) {
             super(entityID, pos, velocity, age, timestamp);
@@ -85,6 +84,12 @@ public class PacketsSync {
 
         public SyncSchmuckAngled() {}
 
+        /**
+         * This is a SyncSchmuck packet that also specifies the angle of the entity's body.
+         * This is used for rotating schmucks like swimming enemies
+         *
+         * @param angle: angle of the entity's body.
+         */
         public SyncSchmuckAngled(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp,
                                  MoveState moveState, float currentHp, float angle) {
             super(entityID, pos, velocity, age, timestamp, moveState, currentHp);
@@ -145,6 +150,7 @@ public class PacketsSync {
          * @param currentClip: The client player's current clip amount.
          * @param currentAmmo: The client player's current ammo amount.
          * @param activeCharge: The client player's current active item charge amount.
+         * @param blinded: the duration of the player's blind (0 if not blinded)
          */
         public SyncPlayerSelf(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
                           float currentHp, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading,
@@ -168,12 +174,7 @@ public class PacketsSync {
          * A SyncParticles is sent from the Server to the Client every engine tick for every ParticleEntity of the TICKSYNC type.
          * Particles of this nature are dynamically turned on and off in the Server, thus needing this packet.
          *
-         * @param entityID: ID of the Particle Effect to turn on/off
-         * @param pos: position of the synced particle effect
-         * @param offset: if connected to another entity, this is the offset from that entity's position
          * @param on: Is the Server's version of this effect on or off?
-         * @param age: age of the entity. (used by client to determine if they missed a packet)
-         * @param timestamp: time of sync. Used for client prediction.
          */
         public SyncParticles(UUID entityID, Vector2 pos, Vector2 offset, float age, float timestamp, boolean on) {
             super(entityID, pos, offset, age, timestamp);
@@ -189,6 +190,8 @@ public class PacketsSync {
 
         /**
          * This sync packet is used for particles that sync the extra fields; color and scale.
+         * @param scale: size modification of the particle
+         * @param color: if the particle is not using default colors, this is its rgb
          */
         public SyncParticlesExtra(UUID entityID, Vector2 pos, Vector2 offset, float age, float timestamp, boolean on, float scale, Vector3 color) {
             super(entityID, pos, offset, age, timestamp, on);

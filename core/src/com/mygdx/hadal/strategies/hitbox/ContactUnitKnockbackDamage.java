@@ -38,6 +38,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 
 	@Override
 	public void onHit(HadalData fixB) {
+		if (!state.isServer()) { return; }
 		if (fixB != null) {
 			if (fixB.getType().equals(UserDataType.BODY)) {
 
@@ -57,7 +58,6 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 					
 					private float procCdCount;
 					private float lastVelo;
-					
 					@Override
 					public void controller(float delta) {
 						if (procCdCount < procCd) {

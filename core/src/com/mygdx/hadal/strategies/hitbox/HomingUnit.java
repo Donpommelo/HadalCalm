@@ -42,6 +42,7 @@ public class HomingUnit extends HitboxStrategy {
 	private static final float pushInterval = 1 / 60f;
 	private float controllerCount = 0;
 
+	//this makes the hbox fixed to the user until it finds a homing target (used for vengeful spirits)
 	private boolean fixedUntilHome;
 	private HadalEntity target;
 

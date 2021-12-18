@@ -44,7 +44,6 @@ public class UITag {
 	}
 
 	private final StringBuilder text = new StringBuilder();
-
 	/**
 	 * This updates a single tag and is called when that tag is modified
 	 * @param changedType: the type of tag to be modified
@@ -53,6 +52,7 @@ public class UITag {
 	 */
 	public String updateTagText(PlayState state, uiType changedType, User user) {
 
+		//this tag needs updating if relevant fields have been changed or if no text is cached
 		if (cachedText.isEmpty() || changedType.equals(type) || changedType.equals(ALL)) {
 			text.setLength(0);
 

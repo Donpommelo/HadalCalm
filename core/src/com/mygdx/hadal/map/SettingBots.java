@@ -71,7 +71,7 @@ public class SettingBots extends ModeSetting {
         BotManager.terminatePathfindingThreads();
     }
 
-    //this will be the connId of the next bot created.
+    //this will be the connId of the next bot created. -2, b/c some things treat "-1" as indicating a null player
     private static int lastBotConnID = -2;
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
@@ -86,6 +86,8 @@ public class SettingBots extends ModeSetting {
                 oldBots.add(user);
             }
         }
+
+        //ensure that bots from last match are cleared
         for (User user: oldBots) {
             user.getHitBoxFilter().setUsed(false);
             HadalGame.server.getUsers().remove(user.getScores().getConnID());

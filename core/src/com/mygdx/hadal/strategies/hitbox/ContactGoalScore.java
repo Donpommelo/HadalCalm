@@ -18,7 +18,9 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class ContactGoalScore extends HitboxStrategy {
 
+	//the player that last hit the "ball" to be given score credit
 	private Player lastHit;
+
 	public ContactGoalScore(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);
 	}

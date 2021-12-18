@@ -14,7 +14,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
 
 /**
- * The UISpectator is used by spectators to view the game. It features the ability tocycle through spectate targets
+ * The UISpectator is used by spectators to view the game. It features the ability to cycle through spectate targets
  * as well dragging the free camera.
  * @author Diphelia Dorlov
  */
@@ -49,6 +49,7 @@ public class UISpectator extends AHadalActor {
 
         HadalGame.FONT_UI.getData().setScale(fontScaleMedium);
 
+        //display different text if spectating a target or using free-cam, + info about spectator controls
         if (freeCam) {
             HadalGame.FONT_UI.draw(batch, HText.SPECTATING_FREECAM.text(), textX, titleY);
         } else {
@@ -61,6 +62,7 @@ public class UISpectator extends AHadalActor {
         HadalGame.FONT_UI.draw(batch, HText.SPECTATING_LMB.text(), textX, instructions1Y);
         HadalGame.FONT_UI.draw(batch, HText.SPECTATING_RMB.text(), textX, instructions2Y);
 
+        //display info about rejoining (if applicable). Host gets extra info about selecting levels as spectator
         if (state.getMode().isHub()) {
             if (state.isServer()) {
                 HadalGame.FONT_UI.draw(batch, HText.JOIN_OPTION_HOST.text(PlayerAction.PAUSE.getKeyText(), PlayerAction.INTERACT.getKeyText()),
@@ -74,15 +76,16 @@ public class UISpectator extends AHadalActor {
         }
     }
 
-    //is lmb held?
+    //is lmb held? Used to control camera dragging in free-cam mode
     private boolean mouseHeld;
 
     //are we in free cam mode?
     private boolean freeCam = true;
 
-    //has any input been given yet? used to stat off pointing at a player instead of in free-cam mode
+    //has any input been given yet? used to start off pointing at a player instead of in free-cam mode
     private boolean firstInputGiven = false;
 
+    //control camera drag. Multiplier for making dragging a bit faster
     private final Vector2 lastMousePosition = new Vector2();
     private final Vector2 mousePosition = new Vector2();
     private final static float dragMultiplier = 2.5f;
@@ -91,7 +94,6 @@ public class UISpectator extends AHadalActor {
     private int targetId;
     private Player spectatorTarget;
     private User spectatorUser;
-
     /**
      * This is run when the the camera updates when dragged
      * @param target: the target of the spectator camera
@@ -149,7 +151,7 @@ public class UISpectator extends AHadalActor {
 
         boolean foundTarget = false;
 
-        //if currentUser is null, it means out spectator target is no longer present.
+        //if currentUser is null, it means our spectator target is no longer present
         if (currentUser == null) {
             foundTarget = loopThroughUsers(0);
         } else {
@@ -194,6 +196,9 @@ public class UISpectator extends AHadalActor {
                     spectatorUser = nextUser;
                     spectatorTarget = nextUser.getPlayer();
                     targetId = spectatorTarget.getConnId();
+
+                    //sync ui so it shows info for your spectating target
+                    state.getUiExtra().syncUIText(UITag.uiType.ALL);
                     return true;
                 }
             }

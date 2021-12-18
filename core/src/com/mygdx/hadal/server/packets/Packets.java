@@ -42,8 +42,7 @@ public class Packets {
 		
 		/**
 		 * ConnectReject is sent from the Server to the Client to reject a connection.
-		 * This is done when the server is full, or if the server is in the middle of a game. (until we implement spectator mode or player blocking)
-		 * 
+		 * This is done when the server is full, or if the server is in the middle of a game.
 		 * @param msg: message to be displayed by the client
 		 */
 		public ConnectReject(String msg) {
@@ -69,7 +68,6 @@ public class Packets {
 		 * PlayerConnect is sent from the Client to the Server whenever a Player connects to the world.
 		 * Sent when a client first connects to the server, as well as when the client connects to a new world after level transition.
 		 * Treat this as Client: "Create a Player for me in the Server's world."
-		 * 
 		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
 		 * @param name: Client's selected name and name of their new Player.
 		 * @param version: the version of the game to make sure we are compatible with the host.
@@ -95,9 +93,9 @@ public class Packets {
 		 * A LoadLevel is sent from the Server to the Client to tell the Client to transition to a new level.
 		 * This is done when the Server receives a Client's PlayerConnect to tell them what world to load.
 		 * It is also done when the Client sends a ClientFinishedTransition packet if the Client should load a new level.
-		 * 
 		 * @param level: Level that the Client will load.
 		 * @param mode: mode that the Client will load.
+		 * @param modeSettings: Server mode settings for the level to load. Used for client processing of things like ui
 		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
 		 * @param spectator: Is this client connecting as a spectator?
 		 */
@@ -122,7 +120,6 @@ public class Packets {
 		 * A ClientLoaded is sent from the Client to the Server when the Client finishes initializing their ClientState as a result of
 		 * receiving a LoadLevel packet from the Server.
 		 * Server receiving this should welcome the new Client and give them the down-low about the world they just entered.
-		 * 
 		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
 		 * @param lastSpectator: was this client previously a spectator? If so, they will still be a spectator (unless transitioning to a hub)
 		 * @param spectator: Is this client being forced to be a spectator? (by joining mid-session or full server)
@@ -237,7 +234,6 @@ public class Packets {
 		 * @param text: The text displayed in the notification
 		 * @param type: type of dialog (dialog, system msg, etc)
 		 * @param connID: user that sent the chat
-		 *
 		 */
 		public ServerChat(String text, DialogType type, int connID) {
 			this.text = text;
@@ -255,7 +251,6 @@ public class Packets {
 		 * A ClientChat is sent from the Client to the Server to tell it to relay the message to all clients.
 		 * @param text: The text displayed in the notification
 		 * @param type: type of dialog (dialog, system msg, etc)
-		 *
 		 */
 		public ClientChat(String text, DialogType type) {
 			this.text = text;
@@ -291,7 +286,7 @@ public class Packets {
 		 * @param playerX: X-coordinate of client's player (to the client)
 		 * @param playerY: Y-coordinate of client's player (to the client)
 		 * @param actions: Array of actions whose button is currently held
-		 * @param timestamp: Time that this imput snapshot was sent
+		 * @param timestamp: Time that this input snapshot was sent
 		 */
 		public SyncKeyStrokes(float mouseX, float mouseY, float playerX, float playerY, PlayerAction[] actions, float timestamp) {
 			this.mouseX = mouseX;
@@ -312,7 +307,7 @@ public class Packets {
 		public SyncScore() {}
 		
 		/**
-		 * This is sent from the server to the clients to give them their scores for all players
+		 * This is sent from the server to the clients to give them their scores for a player whose score changed
 		 * @param connID: id of the player whose score is being updated.
 		 */
 		public SyncScore(int connID, String name, int wins, int kills, int deaths, int score, int lives, int ping, boolean spectator) {
@@ -330,9 +325,9 @@ public class Packets {
 
 	public static class CreateEntity {
 		public long uuidMSB, uuidLSB;
+		public Vector2 size;
 		public Vector2 pos;
 		public float angle;
-        public Vector2 size;
         public Sprite sprite;
 		public boolean synced;
 		public boolean instant;
@@ -342,7 +337,6 @@ public class Packets {
 		
 		/**
 		 * A CreateEntity is sent from the Server to the Client to tell the Client to create a new Entity.
-		 * 
 		 * @param entityID: ID of the new entity
 		 * @param size: Size of the new entity
 		 * @param pos: position of the new entity
@@ -376,6 +370,15 @@ public class Packets {
 
 		public CreateSyncedAttackSingle() {}
 
+		/**
+		 * A CreateSyncedAttackSingle is sent from server to client to inform them that an attack was executed
+		 * For most weapons, this packages multiple fields of a single attack to send fewer packets
+		 * @param entityID: The entityID of the hitbox this attack will create
+		 * @param creatorID: The entityID of the player that is executing the attack
+		 * @param pos: The starting position of the hbox this attack will create
+		 * @param velo: The starting velocity/trajectory of the hbox this attack will create
+		 * @param attack: the type of attack that is being executed
+		 */
 		public CreateSyncedAttackSingle(UUID entityID, UUID creatorID, Vector2 pos, Vector2 velo, SyncedAttack attack) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
@@ -392,6 +395,11 @@ public class Packets {
 
 		public CreateSyncedAttackSingleExtra() {}
 
+		/**
+		 * A CreateSyncedAttackSingleExtra is like a CreateSyncedAttackSingle except it carries extra information
+		 * so the client can process things like charge levels
+		 * @param extraFields: extra information needed to execute this specific attack
+		 */
 		public CreateSyncedAttackSingleExtra(UUID entityID, UUID creatorID, Vector2 pos, Vector2 velo, float[] extraFields, SyncedAttack attack) {
 			super(entityID, creatorID, pos, velo, attack);
 			this.extraFields = extraFields;
@@ -406,6 +414,15 @@ public class Packets {
 
 		public CreateSyncedAttackMulti() {}
 
+		/**
+		 * A CreateSyncedAttackMulti is like a CreateSyncedAttackSingle except it executes an attack that creates several
+		 * hitboxes like the flounderbuss or party popper.
+		 * @param entityID: The entityID of the hitbox this attack will create
+		 * @param creatorID: The entityID of the player that is executing the attack
+		 * @param pos: The starting positions of the hboxes this attack will create
+		 * @param velo: The starting velocities/trajectories of the hboxes this attack will create
+		 * @param attack: the type of attack that is being executed
+		 */
 		public CreateSyncedAttackMulti(UUID[] entityID, UUID creatorID, Vector2[] pos, Vector2[] velo, SyncedAttack attack) {
 			this.uuidLSB = new long[entityID.length];
 			this.uuidMSB = new long[entityID.length];
@@ -426,6 +443,11 @@ public class Packets {
 
 		public CreateSyncedAttackMultiExtra() {}
 
+		/**
+		 * A CreateSyncedAttackMultiExtra is like a CreateSyncedAttackMulti except it carries extra information
+		 * so thee client can process things like charge levels
+		 * @param extraFields: extra information needed to execute this specific attack
+		 */
 		public CreateSyncedAttackMultiExtra(UUID[] entityID, UUID creatorID, Vector2[] pos, Vector2[] velo, float[] extraFields, SyncedAttack attack) {
 			super(entityID, creatorID, pos, velo, attack);
 			this.extraFields = extraFields;
@@ -446,6 +468,7 @@ public class Packets {
 		 * @param entityID: ID of the new Enemy.
 		 * @param pos: position of the enemy
 		 * @param type: Enemy Type
+		 * @param hitboxFilter: Enemy team filter. Used because some "enemies" may be player summons
 		 * @param boss: is this a boss enemy?
 		 * @param name: if a boss, what name shows up in the ui?
 		 */
@@ -466,7 +489,7 @@ public class Packets {
 		public DeleteEntity() {}
 		
 		/**
-		 * A Delete Entity is sent from the Server to the Client to tell the Client to delete an Entity.
+		 * A DeleteEntity is sent from the Server to the Client to tell the Client to delete an Entity.
 		 * @param entityID: ID of the entity to be deleted.
 		 * @param timestamp: when this deletion occurred. Used to handle the possibility of packet loss.
 		 */
@@ -484,7 +507,7 @@ public class Packets {
 		public DeletePlayer() {}
 
 		/**
-		 * A Delete Player is sent from the Server to the Client to tell the Client to delete a player.
+		 * A DeletePlayer is sent from the Server to the Client to tell the Client to delete a player.
 		 * This is separate from delete entity to pass along info about the type of death.
 		 * @param entityID: ID of the entity to be deleted.
 		 * @param timestamp: when this deletion occurred. Used to handle the possibility of packet loss.
@@ -521,6 +544,7 @@ public class Packets {
 		 * @param loadout: loadout of the new Player
 		 * @param hitboxFilter: collision filter of the new player
 		 * @param scaleModifier: player body size modification
+		 * @param dontMoveCamera: should the client's camera be constant when they die (used for matryoshka mode respawn)
 		 */
 		public CreatePlayer(UUID entityID, int connID, Vector2 startPosition, String name, Loadout loadout,
 					short hitboxFilter, float scaleModifier, boolean dontMoveCamera) {
@@ -572,7 +596,7 @@ public class Packets {
 		 * @param entityID: ID of the new Pickup.
 		 * @param pos: position of the new Pickup
 		 * @param newPickup: The pickup that this event should start with.
-		 * @param synced: should this entity receive a sync packet regularly?
+		 * @param synced: should this entity receive a sync packet regularly? (for weapon drops from players)
          */
 		public CreatePickup(UUID entityID, Vector2 pos, UnlockEquip newPickup, boolean synced) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
@@ -598,6 +622,15 @@ public class Packets {
         /**
          * A CreateRagdoll is sent from the server to the client to tell the client to create a ragdoll with the contained data.
          * Ragdolls are not synced between server and client.
+		 * @param entityID: entityID of the player to create ragdoll for
+		 * @param pos: position to create the new ragdoll
+		 * @param size: size of the ragdolls (in case the player has any size modifiers)
+		 * @param sprite: sprite of the ragdoll to create
+		 * @param velocity: starting velocity of the ragdoll
+		 * @param duration: lifespan of the ragdoll
+		 * @param gravity: effect of gravity on the ragdoll
+		 * @param setVelo: whether to set the velocity of newly created ragdolls
+		 * @param sensor: should the ragdoll not have collisions with other objects?
          */
         public CreateRagdoll(UUID entityID, Vector2 pos, Vector2 size, Sprite sprite, Vector2 velocity, float duration, float gravity, boolean setVelo, boolean sensor) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
@@ -623,7 +656,6 @@ public class Packets {
         /**
          * A SyncPickup is sent from the Server to the Client when a Pickup is activated.
          * Clients receiving this adjust their version of the pickup to hold the new pickup
-         * 
          * @param entityID: ID of the activated Pickup
          * @param newPickup: enum name of the new pickup.
 		 * @param age: age of the entity. (used by client to determine if they missed a packet)
@@ -646,8 +678,8 @@ public class Packets {
 		/**
 		 * A ActivateEvent is sent from the Server to the Client when an Event is activated (For synchronized events).
          * This is used for events that are activated on the Client's end as well. (CameraChangers, Hub Events ... etc)
-         * 
 		 * @param entityID: ID of the activated Pickup
+		 * @param connID: The connection id of the player that activated this event
 		 */
 		public ActivateEvent(UUID entityID, int connID) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
@@ -665,7 +697,6 @@ public class Packets {
 		/**
 		 * A SyncLoadout is sent from the Server to the Client when any Player in the world changes their loadout.
 		 * Upon receiving this packet, clients adjust their versions of that Player to have the new loadout.
-		 * 
 		 * @param entityID: ID of the player to change
 		 * @param loadout: Player's new loadout
 		 * @param save: do we save this loadout change in records?
@@ -698,7 +729,6 @@ public class Packets {
 		 * A CreateParticles is sent from the Server to the Client whenever a synced ParticlesEntity is created.
 		 * Clients simply create the desired particle entity with all of the listed fields.
 		 * Attached information is useful for making most particles sync on create, instead of every engine tick.(unless needed)
-		 * 
 		 * @param entityID: ID of the newly created ParticlesEntity
 		 * @param attachedID: ID of attached entity if it exists and null otherwise
 		 * @param pos: Position of particle entity if not attached to another entity. If attached to an entity. this is the offset from the entity's position
@@ -745,6 +775,8 @@ public class Packets {
 		 * The client updates their ui to represent the changes.
 		 * @param timer: what to set the global game timer to
 		 * @param timerIncr: How much should the timer be incrementing by (probably +-1 or 0)
+		 * @param teams: the list of teams currently active for the match
+		 * @param scores: list of scores for each team
 		 */
 		public SyncUI(float timer, float timerIncr, AlignmentFilter[] teams, int[] scores) {
 			this.timer = timer;
@@ -869,12 +901,12 @@ public class Packets {
 	
 	public static class SyncHitSound {
 		public boolean large;
+		public SyncHitSound() {}
+
 		/**
 		 * A SyncHitSound is a simple packet that just tells the client to play their hitsound.
-		 * large: is this hitsound pitched up as a result of high damage or being fatal?
+		 * @param large: is this hitsound pitched up as a result of high damage or being fatal?
 		 */
-		public SyncHitSound() {}
-		
 		public SyncHitSound(boolean large) {
 			this.large = large;
 		}
@@ -982,6 +1014,7 @@ public class Packets {
 		/**
 		 * A SyncExtraResultsInfo is sent from the server to the client when they enter the results screen.
 		 * @param users: This contains information about the match performance
+		 * @param resultsText: the text to be displayed as the title of the results state
 		 */
 		public SyncExtraResultsInfo(UserDto[] users, String resultsText) {
 			this.users = users;
@@ -1188,7 +1221,6 @@ public class Packets {
 		kryo.register(PacketsLoadout.SyncTeamClient.class);
 		kryo.register(PacketsLoadout.SyncEquipServer.class);
 		kryo.register(PacketsLoadout.SyncArtifactServer.class);
-		kryo.register(PacketsLoadout.SyncArtifactRemoveServer.class);
 		kryo.register(PacketsLoadout.SyncActiveServer.class);
 		kryo.register(PacketsLoadout.SyncCharacterServer.class);
 		kryo.register(PacketsLoadout.SyncTeamServer.class);

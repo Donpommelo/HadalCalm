@@ -50,10 +50,20 @@ public class Blinded extends Status {
 	public static final float botBlindThreshold = 2.0f;
 	public static final float maxBlind = 1.0f;
 	public static final float threshold1Blind = 0.9f;
+
+	/**
+	 * This determines how "blind" a character should be depending on the duration remaining of the status
+	 * @param blindDuration: duration remaining of blind
+	 * @return blind amount (1 being max amount and 0 being no blind at all)
+	 */
 	public static float getBlindAmount(float blindDuration) {
+
+		//if blind duration is more than fade duration, cap blind amount at 1
 		if (blindDuration > blindFadeDuration) {
 			return maxBlind;
 		}
+
+		//while fading, blind lerps towards in 2 separate stages
 		if (blindDuration > blindFadeThreshold1) {
 			return MathUtils.lerp(threshold1Blind, maxBlind, (blindDuration - blindFadeThreshold1) /
 					(blindFadeDuration - blindFadeThreshold1));
@@ -64,6 +74,8 @@ public class Blinded extends Status {
 	@Override
 	public void setDuration(float duration) {
 		this.duration = Math.min(blindFadeDuration + fadeTimer, duration);
+
+		//reset fade timer so stacking blind doesn't make it flicker
 		fadeTimer = fadeCooldown;
 	}
 

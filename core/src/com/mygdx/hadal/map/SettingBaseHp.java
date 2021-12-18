@@ -50,6 +50,8 @@ public class SettingBaseHp extends ModeSetting {
 
     @Override
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
+
+        //note that this is run independently on the client
         p.setBaseHp(indexToHp(baseHpIndex));
     }
 

@@ -51,6 +51,7 @@ public class FlagHoldable extends HitboxStrategy {
 					awayFromSpawn = true;
 					target = playerData.getPlayer();
 
+					//a player captures the crown. Alert players.
 					hbox.getBody().setGravityScale(0.0f);
 					String playerName = WeaponUtils.getPlayerColorName(target, MAX_NAME_LENGTH);
 					state.getKillFeed().addNotification(HText.KM_PICKUP.text(playerName), true);

@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.ObjectMap;
  */
 public class RallyPoint implements Comparable<RallyPoint> {
 
-    //the position of the point. This is used as a unique id
+    //the position of the point. This is also used as a unique id
     private final Vector2 position;
 
     //this maps to each of this point's neighbors the distance between the 2 nodes

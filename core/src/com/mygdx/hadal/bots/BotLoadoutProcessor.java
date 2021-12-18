@@ -68,6 +68,8 @@ public class BotLoadoutProcessor {
                     //for all pickups found, calculate a path to it, if the bot wants it more than any of their current weapons
                     if (calcWeaponAffinity(pickup.getEquip()) > minAffinity) {
                         RallyPoint tempPoint = BotManager.getNearestPoint(player, pickup.getPosition());
+
+                        //tentatively, we stop immediately upon finding an appropriate pickup to path towards
                         if (tempPoint != null) {
                             player.getBotController().setWeaponTarget(pickup);
                             bestPoint[0] = tempPoint;
@@ -108,6 +110,7 @@ public class BotLoadoutProcessor {
         }
     }
 
+    //these limit the bot's vision in the x and y directions to make them behave more human-like
     private static final float botVisionX = 36.0f;
     private static final float botVisionY = 19.2f;
     /**
@@ -115,7 +118,7 @@ public class BotLoadoutProcessor {
      * @param player: the bot player doing the weapon switching
      * @param playerLocation: the location of the bot player
      * @param targetLocation: the location of the target they are attacking
-     * @param targetAlive: I the target alive?
+     * @param targetAlive: Is the target alive?
      */
     public static void processWeaponSwitching(PlayerBot player, Vector2 playerLocation, Vector2 targetLocation, boolean targetAlive) {
         float distSquared = playerLocation.dst2(targetLocation);
@@ -147,6 +150,8 @@ public class BotLoadoutProcessor {
                     bestSlot = i;
                 }
             }
+
+            //this marks the bot as not having vision to prevent them from continuing to try and attack targets through walls
             player.getBotController().setDistanceFromTarget(false, false, -1, -1);
         }
         BotLoadoutProcessor.switchToSlot(player, bestSlot);
@@ -163,6 +168,8 @@ public class BotLoadoutProcessor {
      * @param weapon: the weapon the bot is aiming with
      */
     public static void processWeaponAim(PlayerBot player, Vector2 targetLocation, Vector2 targetVelocity, Equippable weapon) {
+
+        //this makes blind disable the bot's ability to adjust aim
         if (player.getBlinded() > Blinded.botBlindThreshold) { return; }
 
         //atm, the only weapon with different aiming logic is the cola-cannon, which must be shaken when uncharged
@@ -183,6 +190,8 @@ public class BotLoadoutProcessor {
                 mouseTarget.set(targetLocation);
             }
         }
+
+        //bot's mouse lerps towards the predicted position
         mouseTarget.scl(PPM);
         mousePosition.set(player.getMouse().getPixelPosition());
         mousePosition.x = mousePosition.x + (mouseTarget.x - mousePosition.x) * aimInterpolation;
@@ -280,13 +289,14 @@ public class BotLoadoutProcessor {
     /**
      * This calculates a weapon's "suitability": how much a bot wants to use this weapon when fighting
      * @param weapon: the weapon we are finding suitability of
-     * @param distSquared: the distance squared between thte bot and its target
+     * @param distSquared: the distance squared between the bot and its target
+     * @param bestSuitability: the best suitability outside of this weapon. If this weapon is bettwe, adjust bot's distance
      * @return the weapon's "suitability"
      */
     private static int calcWeaponSuitability(PlayerBot player, Equippable weapon, float distSquared, float bestSuitability) {
 
-        float maxRange = Math.min(botVisionX, weapon.getBotRangeMax());
         //suitability is determined by weapon's range compared to distance
+        float maxRange = Math.min(botVisionX, weapon.getBotRangeMax());
         float minSquared = weapon.getBotRangeMin() * weapon.getBotRangeMin();
         float maxSquared = maxRange * maxRange;
         float midRange = (maxRange + minSquared) / 2;
@@ -297,6 +307,8 @@ public class BotLoadoutProcessor {
         //out of ammo weapons are never suitable
         if (weapon instanceof final RangedWeapon ranged) {
             switch (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass()))) {
+
+                //spray-type weapons are suitable when firing to avoid switcing immediately after gaining firing status
                 case COLACANNON, SLODGE_NOZZLE, STUTTERGUN:
                     if (ranged.getClipLeft() == 0 && player.getPlayerData().getStatus(FiringWeapon.class) == null) {
                         suitability =  inRange ? 1 : 0;
@@ -313,6 +325,8 @@ public class BotLoadoutProcessor {
         if (inRange) {
             suitability = 10;
         }
+
+        //use calculated mid-range to set bot's distance parameters to control their micro-movement
         if (suitability > bestSuitability) {
             player.getBotController().setDistanceFromTarget(true, inRange,
                     distSquared - midRange * midRange, distSquared);
@@ -362,7 +376,6 @@ public class BotLoadoutProcessor {
     private static final float trickGunDelay = 0.75f;
     private static final float defaultShortDelay = 0.2f;
     private static final float defaultLongDelay = 0.6f;
-
     /**
      * This makes a bot hold a weapon for a set delay before releasing
      */
@@ -380,7 +393,7 @@ public class BotLoadoutProcessor {
     private static final float smelterDelay = 1.25f;
     private static final float smelterThreshold = 0.85f;
     /**
-     * This makes a bot hold a weapon until its close to overhearing, before they release and wait
+     * This makes a bot hold a weapon until its close to overheating, before they release and wait
      * Only used for the deep sea smelter weapon
      */
     private static void preventOverheat(PlayerBot player, Equippable weapon, boolean shooting) {
@@ -440,7 +453,6 @@ public class BotLoadoutProcessor {
             UnlockActives.HONEYCOMB, UnlockActives.JUMP_KICK, UnlockActives.MARINE_SNOWGLOBE, UnlockActives.METEOR_STRIKE,
             UnlockActives.MELON,  UnlockActives.MISSILE_POD, UnlockActives.NAUTICAL_MINE, UnlockActives.ORBITAL_SHIELD,
             UnlockActives.PLUS_MINUS, UnlockActives.PROXIMITY_MINE, UnlockActives.SPIRIT_RELEASE, UnlockActives.TAINTED_WATER};
-
     /**
      * This returns a random active item out of the items available to bots.
      * Supply drop has an increased chance of spawning
@@ -462,6 +474,7 @@ public class BotLoadoutProcessor {
      */
     public static void processActiveItem(PlayerBot player, ActiveItem weapon, boolean shooting, float distanceSquared) {
         switch (Objects.requireNonNull(UnlockActives.getUnlockFromActive(weapon.getClass()))) {
+            //bots will use healing items when below a threshold of hp
             case HEALING_FIELD, MELON:
                 if (player.getPlayerData().getCurrentHp() < player.getPlayerData().getStat(Stats.MAX_HP) * healThreshold
                         && weapon.isUsable()) {
@@ -470,6 +483,7 @@ public class BotLoadoutProcessor {
                     player.getController().keyUp(PlayerAction.ACTIVE_ITEM);
                 }
                 break;
+            //some active items are used immediately when ready
             case SUPPLY_DROP, PROXIMITY_MINE:
                 if (weapon.isUsable()) {
                     player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
@@ -477,6 +491,7 @@ public class BotLoadoutProcessor {
                     player.getController().keyUp(PlayerAction.ACTIVE_ITEM);
                 }
                 break;
+            //active items that require being withing range of enemies
             case JUMP_KICK, MARINE_SNOWGLOBE, ORBITAL_SHIELD, PLUS_MINUS, TAINTED_WATER:
                 if (weapon.isUsable() && distanceSquared > 0.0f &&
                         distanceSquared < weapon.getBotRangeMin() * weapon.getBotRangeMin()) {

@@ -96,7 +96,7 @@ public class PauseState extends GameState {
 					menuHeight += extraRowHeight;
 				}
 				
-				//extra "spectate" option is added if the player is a client and in multiplayer mode.
+				//extra "spectate" option is added if the player is in multiplayer mode.
 				if (ps.getMode().isHub() && GameStateManager.currentMode == Mode.MULTI) {
 					menuHeight += extraRowHeight;
 				}
@@ -191,7 +191,7 @@ public class PauseState extends GameState {
 					public void clicked(InputEvent e, float x, float y) {
 						unpause();
 						if (ps.isServer()) {
-							ps.exitSpectator(HadalGame.server.playerToUser(ps.getPlayer()));
+							ps.exitSpectator(ps.getPlayer().getUser());
 						} else {
 							HadalGame.client.sendTCP(new Packets.EndSpectate(new Loadout(gsm.getLoadout())));
 						}
@@ -221,7 +221,6 @@ public class PauseState extends GameState {
 				table.add(settingOption).height(optionHeight).pad(optionPad).row();
 				table.add(extraOption).height(optionHeight).pad(optionPad).row();
 
-				//atm, only clients can manually join spectator mode
 				if (ps.getMode().isHub() && GameStateManager.currentMode == Mode.MULTI) {
 					if (ps.isSpectatorMode()) {
 						table.add(joinOption).height(optionHeight).pad(optionPad).row();

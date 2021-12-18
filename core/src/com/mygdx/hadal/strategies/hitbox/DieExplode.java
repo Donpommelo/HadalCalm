@@ -19,6 +19,7 @@ public class DieExplode extends HitboxStrategy {
 	//the hitbox filter of units that can be damaged by the explosion.
 	private final short filter;
 
+	//is the explosion communicated to client or is it processed independently
 	private final boolean synced;
 
 	public DieExplode(PlayState state, Hitbox proj, BodyData user, int explosionRadius, float explosionDamage,

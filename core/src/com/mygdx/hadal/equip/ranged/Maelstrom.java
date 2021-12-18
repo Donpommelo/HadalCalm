@@ -68,10 +68,10 @@ public class Maelstrom extends RangedWeapon {
 				if (projectileSprite != null) {
 					entityLocation.set(getPixelPosition());
 					batch.draw(projectileSprite.getKeyFrame(animationTime, false),
-							entityLocation.x - explosionSize.x / 2,
-							entityLocation.y - explosionSize.y / 2,
-							explosionSize.x / 2, explosionSize.y / 2,
-							explosionSize.x, explosionSize.y, -1, 1,
+							entityLocation.x - explosionSize.x / 2 * getScale(),
+							entityLocation.y - explosionSize.y / 2 * getScale(),
+							explosionSize.x / 2 * getScale(), explosionSize.y / 2 * getScale(),
+							explosionSize.x * getScale(), explosionSize.y * getScale(), -1, 1,
 							MathUtils.radDeg * getAngle());
 				}
 			}

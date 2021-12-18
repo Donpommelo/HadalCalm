@@ -46,6 +46,7 @@ public class KryoServer {
 	//These keep track of all connected players, their mice and scores.
 	private ObjectMap<Integer, User> users;
 
+	//name of the server to be displayed in the lobby state
 	private String serverName = "";
 
 	public KryoServer(GameStateManager gameStateManager) {
@@ -57,6 +58,8 @@ public class KryoServer {
 	 * start is false if we are loading singleplayer and don't actually want the server to start
 	 */
 	public void init(boolean start) {
+
+		//this apparently saves a bit of time when serializing certain classes
 		Kryo kryo = new Kryo() {
 
 			@Override
@@ -127,7 +130,7 @@ public class KryoServer {
 			public void received(final Connection c, Object o) {
 
 				/*
-				 * This packet is sent peridiocally to inform the server of the client's inputs
+				 * This packet is sent periodically to inform the server of the client's inputs
 				 * this includes what buttons the client is holding as well as their mouse position
 				 */
 				if (o instanceof final Packets.SyncKeyStrokes p) {
@@ -184,6 +187,7 @@ public class KryoServer {
 								return;
 							}
 
+							//joining midgame in modes which do not allow for it makes client join as spectator
 							if (!ps.getMode().isJoinMidGame()) {
 								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), modeSettings, p.firstTime, true));
 								return;
@@ -541,6 +545,8 @@ public class KryoServer {
 	 * @param data: The player data of the new player.
 	 * @param reset: Do we want to reset the new player's hp/fuel/ammo etc?
 	 * @param spectator: is this player created as a spectator?
+	 * @param justJoined: Is this a newly connecting client or a newly respawned one?
+	 * @param startPoint: The start point to spawn the new client player at
 	 */
 	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout,
 	  final PlayerBodyData data, final boolean reset, final boolean spectator, boolean justJoined, final StartPoint startPoint) {
@@ -713,21 +719,6 @@ public class KryoServer {
 			}
 			sendToTCP(connID, new Packets.ClientYeet());
 		}
-	}
-
-	/**
-	 * @param p: the player
-	 * @return the user corresponding to player p
-	 */
-	public User playerToUser(Player p) {
-		for (User user: users.values()) {
-			if (user.getPlayer() != null) {
-				if (user.getPlayer().equals(p)) {
-					return user;
-				}
-			}
-		}
-		return null;
 	}
 
 	public Server getServer() {	return server; }

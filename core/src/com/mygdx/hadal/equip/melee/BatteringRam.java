@@ -26,7 +26,7 @@ public class BatteringRam extends MeleeWeapon {
 
 	private static final float shootCd = 0.0f;
 	private static final float shootDelay = 0.0f;
-	private static final Vector2 hitboxSize = new Vector2(75, 100);
+	private static final Vector2 hitboxSize = new Vector2(90, 120);
 	private static final float knockback = 40.0f;
 	private static final float lifespan = 0.5f;
 
@@ -44,6 +44,10 @@ public class BatteringRam extends MeleeWeapon {
 	private static final float minParticleTermination = 0.9f;
 	private static final float maxParticleTermination = 0.6f;
 
+	//keeps track of attack speed without input buffer doing an extra mouse click
+	private static final float innateAttackCooldown = 0.5f;
+	private float innateAttackCdCount;
+
 	public BatteringRam(Schmuck user) {
 		super(user, shootCd, shootDelay, weaponSprite, eventSprite, maxCharge);
 	}
@@ -52,7 +56,7 @@ public class BatteringRam extends MeleeWeapon {
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
 
-		if (shooter.getSchmuck().getShootCdCount() <= 0.0f) {
+		if (innateAttackCdCount <= 0.0f) {
 			charging = true;
 
 			//while held, build charge until maximum
@@ -67,18 +71,18 @@ public class BatteringRam extends MeleeWeapon {
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
-		if (bodyData.getSchmuck().getShootCdCount() <= 0.0f) {
+		if (innateAttackCdCount <= 0.0f) {
 			super.execute(state, bodyData);
-			charging = false;
-			chargeCd = 0;
 		}
+		charging = false;
+		chargeCd = 0;
 	}
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		float charge = chargeCd / getChargeTime();
 		SyncedAttack.BATTERING.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, charge);
-		user.setShootCdCount(0.5f);
+		innateAttackCdCount = innateAttackCooldown * (1 - user.getBodyData().getStat(Stats.TOOL_SPD));
 	}
 
 	public static Hitbox createBattering(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
@@ -130,6 +134,13 @@ public class BatteringRam extends MeleeWeapon {
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.KICK1, 1.0f, true).setSynced(false));
 
 		return hbox;
+	}
+
+	@Override
+	public void update(PlayState state, float delta) {
+		if (innateAttackCdCount > 0) {
+			innateAttackCdCount -= delta;
+		}
 	}
 
 	@Override

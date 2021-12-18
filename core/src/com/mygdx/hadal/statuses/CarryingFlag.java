@@ -29,6 +29,8 @@ public class CarryingFlag extends Status {
 
 	@Override
 	public void onDeath(BodyData perp) {
+
+		//on death, notify players that flag was dropped
 		if (perp instanceof PlayerBodyData playerData) {
 			String playerName = WeaponUtils.getPlayerColorName(playerData.getPlayer(), MAX_NAME_LENGTH);
 			state.getKillFeed().addNotification(HText.CTF_DEFENDED.text(playerName), true);

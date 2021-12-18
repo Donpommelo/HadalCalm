@@ -35,7 +35,7 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 import java.util.Arrays;
 
 /**
- * This is the data for a player and contains player-specific fields like airblast, jump stats, etc.
+ * This is the data for a player and contains player-specific fields like airblast, jump stats, loadout etc.
  * @author Lallbladder Lemaker
  */
 public class PlayerBodyData extends BodyData {
@@ -68,7 +68,7 @@ public class PlayerBodyData extends BodyData {
 	
 	private Player player;
 
-	//This is used by clients to display each player's hp percent in the ui and artifact slots in hub
+	//This is used by clients to display each player's out-of-ammo status
 	private boolean overrideOutOfAmmo;
 	
 	public PlayerBodyData(Player player, Loadout loadout) {
@@ -96,8 +96,8 @@ public class PlayerBodyData extends BodyData {
 	/**
 	 * This is called by the client for players that receive a new loadout from the server.
 	 * We give the player the new loadout information.
-	 * 
 	 * @param loadout: The new loadout for the player
+	 * @param save: should this loadout be saved to the client's saved loadout?
 	 */
 	public void syncLoadout(Loadout loadout, boolean save) {
 		Loadout newLoadout = new Loadout(loadout);
@@ -119,6 +119,10 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 
+	/**
+	 * This syncs a player's equipment
+	 * @param equip: the player's new set of equippables
+	 */
 	public void syncEquip(UnlockEquip[] equip) {
 		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 			multitools[i] = UnlocktoItem.getUnlock(equip[i], player);
@@ -127,8 +131,13 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 	}
 
+	/**
+	 * This syncs a player's artifacts
+	 * @param artifact: the player's new set of artifacts
+	 */
 	public void syncArtifact(UnlockArtifact[] artifact) {
 
+		//first, removes statuses of existing artifacts
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 			removeArtifactStatus(this.loadout.artifacts[i]);
 		}
@@ -152,6 +161,10 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 
+	/**
+	 * This syncs a player's active item
+	 * @param active: the player's new active item
+	 */
 	public void syncActive(UnlockActives active) {
 		this.activeItem = UnlocktoItem.getUnlock(active, player);
 		this.loadout.activeItem = active;
@@ -297,7 +310,7 @@ public class PlayerBodyData extends BodyData {
 	 * Add a new artifact.
 	 * @param override whether this change should override artifact limits (like admin's card)
 	 * @param save whether this change should be saved into loadout file (like special mode modifiers shouldn't)
-	 * returns whether the artifact adding was successful
+	 * @return whether the artifact adding was successful
 	 */
 	public boolean addArtifact(UnlockArtifact artifactUnlock, boolean override, boolean save) {
 
@@ -438,6 +451,9 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 
+	/**
+	 * This is called when switching characters.
+	 */
 	public void setCharacter(UnlockCharacter character) {
 		loadout.character = character;
 		player.setBodySprite(character, null);
@@ -582,7 +598,6 @@ public class PlayerBodyData extends BodyData {
 				}
 			}
 		}
-
 		return damage;
 	}
 	

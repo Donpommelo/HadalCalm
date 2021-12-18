@@ -11,6 +11,13 @@ import com.mygdx.hadal.states.PlayState;
 
 import java.util.UUID;
 
+/**
+ * A SyncedAttack represents an "attack" sent from server to client containing information about hitboxes produced, hitbox strategies,
+ * sound, particles etc. This is used to only send one packet when an attack is executed rather than multiple for each
+ * part of the attack. Additionally, this allows for more specific hbox behavior that would be difficult to synchronize
+ * with client illusions
+ *
+ */
 public enum SyncedAttack {
 
     ASSAULT_BITS_BEAM() {
@@ -438,10 +445,15 @@ public enum SyncedAttack {
 
     ;
 
-    SyncedAttack() {
-
-    }
-
+    /**
+     * This initiates a synced attack that produces a single hitbox
+     * @param state: Current playstate
+     * @param user: User that is executing this attack
+     * @param startPosition: Starting position of the hitbox produced by this attack
+     * @param startVelocity: Starting velocity of the hitbox produced by this attack
+     * @param extraFields: Any extra information required for client to replicate this attack
+     * @return the hitbox that this attack produces
+     */
     public Hitbox initiateSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float... extraFields) {
         Hitbox hbox = performSyncedAttackSingle(state, user, startPosition, startVelocity, extraFields);
         hbox.setAttack(this);
@@ -453,8 +465,17 @@ public enum SyncedAttack {
         return hbox;
     }
 
+    /**
+     * This performs the actual attack and is overridden in each SyncedAttack that produces a single hitbox
+     */
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) { return null; }
 
+    /**
+     * Syncs an executed attack with the client by sending them a packet
+     * @param hbox: Hitbox that is being synced
+     * @param extraFields: Any extra fields of the synced attack
+     * @param catchup: Is this being synced as a result of catchup packet for newly joined player or missed create?
+     */
     public void syncAttackSingle(Hitbox hbox, float[] extraFields, boolean catchup) {
         if (extraFields.length == 0) {
             HadalGame.server.sendToAllUDP(new Packets.CreateSyncedAttackSingle(hbox.getEntityID(), hbox.getCreator().getEntityID(),
@@ -467,6 +488,15 @@ public enum SyncedAttack {
         }
     }
 
+    /**
+     * This initiates a synced attack that produces multiple hitboxes
+     * @param state: Current playstate
+     * @param user: User that is executing this attack
+     * @param startPosition: Starting positions of each hitbox produced by this attack
+     * @param startVelocity: Starting velocities of each hitbox produced by this attack
+     * @param extraFields: Any extra information required for client to replicate this attack
+     * @return the hitboxes that this attack produces
+     */
     public Hitbox[] initiateSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float... extraFields) {
         Hitbox[] hboxes = performSyncedAttackMulti(state, user, startPosition, startVelocity, extraFields);
         for (Hitbox hbox : hboxes) {
@@ -480,8 +510,17 @@ public enum SyncedAttack {
         return hboxes;
     }
 
+    /**
+     * This performs the actual attack and is overridden in each SyncedAttack that produces multiple hitbox
+     */
     public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) { return null; }
 
+    /**
+     * Syncs an executed attack with the client by sending them a packet
+     * @param hboxes: Hitboxes that are being synced
+     * @param extraFields: Any extra fields of the synced attack
+     * @param catchup: Is this being synced as a result of catchup packet for newly joined player or missed create?
+     */
     public void syncAttackMulti(Hitbox[] hboxes, float[] extraFields, boolean catchup) {
         UUID[] hboxID = new UUID[hboxes.length];
         Vector2[] positions = new Vector2[hboxes.length];

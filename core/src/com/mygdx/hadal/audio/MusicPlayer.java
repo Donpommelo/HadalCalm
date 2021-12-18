@@ -74,8 +74,10 @@ public class MusicPlayer {
 			setVolume(volume);
 		}
 	}
-	
-	// Play a song. music can be null to indicate we want to stop the current song.
+
+	/**
+	 * 	Play a song. music can be null to indicate we want to stop the current song.
+ 	 */
 	public void playSong(MusicTrack music, float volume) {
 
     	//if we are playing another track, we make it fade out first
@@ -96,6 +98,9 @@ public class MusicPlayer {
 		}
 	}
 
+	/**
+	 * Play a random song of a specific musicTrackType
+	 */
 	public MusicTrack playSong(MusicTrackType type, float volume) {
 
 		MusicTrack track = null;

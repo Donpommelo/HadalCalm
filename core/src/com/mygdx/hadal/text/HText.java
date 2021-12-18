@@ -3,6 +3,11 @@ package com.mygdx.hadal.text;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.hadal.managers.GameStateManager;
 
+/**
+ * A HText is a string that shows up anywhere in the game. These are managed in 1 place to make it easier to edit
+ * Eventually, this will also be used for language setting changing
+ * @author Spulbbury Stincilart
+ */
 public enum HText {
     STRING_NOT_FOUND("STRING_NOT_FOUND"),
 
@@ -264,14 +269,23 @@ public enum HText {
 
     ;
 
+    //key used to find the text in Strings.json file
     private final String key;
+
+    //cached text if string has been read from json before.
     private String cachedText;
 
     HText(String key) {
         this.key = key;
     }
 
+    /**
+     * @param replace: list of strings to replace tags in string from json
+     * @return String to be displayed in game
+     */
     public String text(String... replace) {
+
+        //no replacements means a static text. Read from file and cache
         if (replace.length == 0) {
             if (cachedText == null) {
                 JsonValue text = GameStateManager.gameStrings.get(key);
@@ -283,6 +297,8 @@ public enum HText {
             }
             return cachedText;
         } else {
+
+            //iterate through replace tags and replace with input strings
             JsonValue text = GameStateManager.gameStrings.get(key);
             if (text != null) {
                 String tempText = text.asString();

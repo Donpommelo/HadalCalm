@@ -29,12 +29,14 @@ public class BotController {
     private BotMood currentMood = BotMood.DILLY_DALLY;
 
     //This is the default cooldown after jumping that a bot will try a jump again
-    private static final float jumpDesireCooldown = 0.4f;
+    private static final float jumpDesireCooldown = 0.3f;
     private float jumpDesireCount;
 
+    //delay after running out of fuel before trying to hover again (prevents stalling out in midair)
     private static final float noFuelWaitCooldown = 3.0f;
     private float noFuelWaitCount;
 
+    //delay after boosting before thte bot will want to boost again
     private static final float boostDesireCooldown = 0.5f;
     private boolean boostDesired;
     private float boostDesireCount;
@@ -46,9 +48,13 @@ public class BotController {
     //this is the entity that the bot attempts to shoot at
     private Schmuck shootTarget;
 
+    //pickup or map objective that the bot will try pathing towards
     private HadalEntity weaponTarget, eventTarget;
 
+    //does the bot have line of sight/is in range with their shoot target
     private boolean lineOfSight, inRange;
+
+    //distance squared between bot andd their shoot target
     private float midrangeDifferenceSquare, targetDistanceSquare;
 
     public BotController(PlayerBot player) {
@@ -68,6 +74,7 @@ public class BotController {
         botTargetCount += delta;
         botMoveCount += delta;
 
+        //if a boost is desired, execute it (run here to account for mouse movement)
         boostDesireCount -= delta;
         if (boostDesired) {
             boostDesired = false;
@@ -85,7 +92,7 @@ public class BotController {
             processBotPickup();
             processBotAttacking(entityWorldLocation);
             processBotActiveItem(lineOfSight, targetDistanceSquare);
-            processBotMovement(entityWorldLocation);
+            processBotMovement(entityWorldLocation, entityVelocity);
         }
         if (jumpDesireCount > 0.0f) {
             jumpDesireCount -= delta;
@@ -147,46 +154,62 @@ public class BotController {
     }
 
     private final Vector2 thisLocation = new Vector2();
+    private final Vector2 predictedSelfLocation = new Vector2();
+
     //this is the distance from a desired node that the bot will consider it "reached" before moving to the next
     private static final float distanceThreshold = 9.0f;
-    private static final float boostThreshold = 300.0f;
+    private static final float boostThreshold = 250.0f;
 
-    //these thresholds determine when the bot will fastfall (must be above their destination and not movign too fast already)
-    private static final float fastfallDistThreshold = 8.0f;
+    //these thresholds determine when the bot will fastfall (must be above their destination and not moving too fast already)
+    private static final float fastfallDistThreshold = 6.0f;
     private static final float fastfallVeloThreshold = -30.0f;
     private static final float playerMovementMultiplier = 0.2f;
+    public static final float currentVelocityMultiplier = 0.05f;
     /**
      * This processes the bot's movements
      * @param playerLocation: the location of the moving bot (to avoid repeatedly calling getPosition)
      */
-    private void processBotMovement(Vector2 playerLocation) {
+    private void processBotMovement(Vector2 playerLocation, Vector2 playerVelocity) {
         float distSquared = 0.0f;
         float collision = 0.0f;
         boolean approachTarget = false;
+
+        //bot considers their own velocity when deciding how they should move
+        predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, currentVelocityMultiplier);
+        float fract = BotManager.raycastUtility(player, targetLocation, predictedSelfLocation, Constants.BIT_PLAYER);
+        if (fract < 1.0f) {
+            predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, currentVelocityMultiplier * fract);
+        }
+
+        //if seeking weapon, raycast towards it and set target location if found
         if (currentMood.equals(BotMood.SEEK_WEAPON)) {
             if (weaponTarget != null) {
-                collision = BotManager.raycastUtility(player, playerLocation, weaponTarget.getPosition(), Constants.BIT_PLAYER);
+                collision = BotManager.raycastUtility(player, predictedSelfLocation, weaponTarget.getPosition(), Constants.BIT_PLAYER);
                 if (collision == 1.0f) {
-                    thisLocation.set(weaponTarget.getPosition()).sub(playerLocation);
+                    thisLocation.set(weaponTarget.getPosition()).sub(predictedSelfLocation);
                     distSquared = thisLocation.len2();
                     approachTarget = true;
                 }
             }
         }
+
+        //if seeking event, raycast towards it and set target location if found
         if (currentMood.equals(BotMood.SEEK_EVENT)) {
             if (eventTarget != null) {
-                collision = BotManager.raycastUtility(player, playerLocation, eventTarget.getPosition(), Constants.BIT_PLAYER);
+                collision = BotManager.raycastUtility(player, predictedSelfLocation, eventTarget.getPosition(), Constants.BIT_PLAYER);
                 if (collision == 1.0f) {
-                    thisLocation.set(eventTarget.getPosition()).sub(playerLocation);
+                    thisLocation.set(eventTarget.getPosition()).sub(predictedSelfLocation);
                     distSquared = thisLocation.len2();
                     approachTarget = true;
                 }
             }
         }
+
+        //if seeking player, raycast towards it and set target location if found
         if (currentMood.equals(BotMood.SEEK_ENEMY)) {
             if (shootTarget != null && lineOfSight) {
                 if (shootTarget.isAlive()) {
-                    thisLocation.set(shootTarget.getPosition()).sub(playerLocation);
+                    thisLocation.set(shootTarget.getPosition()).sub(predictedSelfLocation);
                     thisLocation.nor().scl(midrangeDifferenceSquare).scl(playerMovementMultiplier);
                     distSquared = thisLocation.len2();
                     approachTarget = true;
@@ -194,18 +217,22 @@ public class BotController {
             }
         }
 
+        //if no targets found, follow next point in point path
         if (!pointPath.isEmpty() && !approachTarget) {
-            thisLocation.set(pointPath.get(0).getPosition()).sub(playerLocation);
-            collision = BotManager.raycastUtility(player, playerLocation, pointPath.get(0).getPosition(), Constants.BIT_PLAYER);
+            thisLocation.set(pointPath.get(0).getPosition()).sub(predictedSelfLocation);
+            collision = BotManager.raycastUtility(player, predictedSelfLocation, pointPath.get(0).getPosition(), Constants.BIT_PLAYER);
             distSquared = thisLocation.len2();
             approachTarget = true;
         }
 
+        //if target in vision, move towards it
         if (approachTarget) {
+
+            //if distance to target is above threshold, use boost
             if (distSquared * collision > boostThreshold && boostDesireCount <= 0.0f && thisLocation.y > 0 &&
                     player.getPlayerData().getCurrentFuel() >= player.getPlayerData().getAirblastCost()) {
                 player.getMouse().setDesiredLocation((
-                        playerLocation.x - thisLocation.x) * PPM,(playerLocation.y - thisLocation.y) * PPM);
+                        predictedSelfLocation.x - thisLocation.x) * PPM,(predictedSelfLocation.y - thisLocation.y) * PPM);
                 boostDesired = true;
             }
 
@@ -267,8 +294,9 @@ public class BotController {
     private static final float affinityMultiplier2 = 3.0f;
     private final Vector2 targetLocation = new Vector2();
     /**
-     * This makes the bot search for player targets to pursue
+     * This acquires all the information needed to start a bot pathfinding thread
      * @param playerLocation: the location of the attacking bot (to avoid repeatedly calling getPosition)
+     * @param playerVelocity: the velocity of the attacking bot
      */
     private void acquireTarget(Vector2 playerLocation, Vector2 playerVelocity) {
 
@@ -343,6 +371,7 @@ public class BotController {
             }
         }
 
+        //get nearby points and event point with multipliers
         Array<RallyPoint> pathStarters = BotManager.getNearestPathStarters(player, playerLocation);
         Array<RallyPoint.RallyPointMultiplier> eventPoints = player.getState().getMode().processAIPath(player.getState(), player, playerLocation, playerVelocity);
 
@@ -350,6 +379,9 @@ public class BotController {
                 new RallyPoint.RallyPointMultiplier(pickupPoint, weaponDesireMultiplier), targetPoints, eventPoints);
     }
 
+    /**
+     * Called when targetting to find distance to target. Used to move in a direction that optimizes range
+     */
     public void setDistanceFromTarget(boolean lineOfSight, boolean inRange, float differenceSquares, float targetDistanceSquare) {
         this.lineOfSight = lineOfSight;
         this.inRange = inRange;

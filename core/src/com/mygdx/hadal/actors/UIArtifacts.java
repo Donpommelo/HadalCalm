@@ -34,7 +34,7 @@ public class UIArtifacts {
 	}
 	
 	/**
-	 * This method simply synchronizes the displayed statuses with the player's current statuses.
+	 * This method synchronizes the displayed artifacts with the player's current artifacts.
 	 */
 	public void syncArtifact() {
 		table.clear();

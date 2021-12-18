@@ -42,7 +42,10 @@ public class FlagCapturable extends HitboxStrategy {
 	//this is a status inflicted upon the flag carrier
 	private Status flagDebuff;
 
+	//The spawner that created the flag. Used by bots to locate spawners
 	private final SpawnerFlag spawner;
+
+	//the last "flag blocker" this touched. Used to prevent bringing flags through spawn walls
 	private FlagBlocker lastBlocker;
 
 	public FlagCapturable(PlayState state, Hitbox proj, BodyData user, SpawnerFlag spawner, int teamIndex) {
@@ -61,6 +64,7 @@ public class FlagCapturable extends HitboxStrategy {
 			if (!captured) {
 				if (fixB instanceof PlayerBodyData playerData) {
 
+					//if this is touching a flag blocker, do not register pickups
 					boolean blockPickup = false;
 					if (lastBlocker != null) {
 						if (lastBlocker.getEventData().getSchmucks().contains(hbox) &&
@@ -90,7 +94,7 @@ public class FlagCapturable extends HitboxStrategy {
 					}
 				}
 			} else {
-				//if touching a "flag blocker" whule held, the flag is automatically dropped
+				//if touching a "flag blocker" while held, the flag is automatically dropped
 				if (fixB.getEntity() instanceof FlagBlocker blocker) {
 					if (blocker.getTeamIndex() != teamIndex) {
 						dropFlag();
@@ -128,6 +132,10 @@ public class FlagCapturable extends HitboxStrategy {
 		}
 	}
 
+	/**
+	 * Repeatedly check if the flag is touching its return event.
+	 * This makes it so players do not need to leave and return to their spawner to capture flags
+	 */
 	public void checkCapture(SpawnerFlag flag) {
 		//if this hbox touches an enemy flag spawn, it is "captured", scoring a point and disappearing
 		if (flag.getTeamIndex() != teamIndex) {
@@ -150,6 +158,9 @@ public class FlagCapturable extends HitboxStrategy {
 		}
 	}
 
+	/**
+	 * Drop flag. give notification and set flag properties
+	 */
 	private void dropFlag() {
 		captured = false;
 		hbox.getBody().setGravityScale(1.0f);

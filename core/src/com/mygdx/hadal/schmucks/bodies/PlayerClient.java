@@ -64,6 +64,7 @@ public class PlayerClient extends Player {
 	//are we currently predicting client location or just doing the normal interpolation (true if latency is high enough)
 	private boolean predicting;
 
+	//the game time when we last received a timestamp from the server
 	private float lastTimestamp;
 
 	@Override
@@ -109,29 +110,30 @@ public class PlayerClient extends Player {
 
 				predictedPosition.add(rubberbandPosition);
 
-				//if our position is too far away from what the server sends us, just rubberband.
 				if (body != null && predicting) {
-					if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE) {
 
-						shortestFraction = 1.0f;
-						if (p.pos.x != predictedPosition.x || p.pos.y != predictedPosition.y) {
-							state.getWorld().rayCast((fixture, point, normal, fraction) -> {
+					//raycast towards predicted position to avoid predicting through a wall
+					shortestFraction = 1.0f;
+					if (p.pos.x != predictedPosition.x || p.pos.y != predictedPosition.y) {
+						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
-								if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
-									if (fraction < shortestFraction) {
-										shortestFraction = fraction;
-										return fraction;
-									}
+							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+								if (fraction < shortestFraction) {
+									shortestFraction = fraction;
+									return fraction;
 								}
-								return -1.0f;
-							}, p.pos, predictedPosition);
-						}
+							}
+							return -1.0f;
+						}, p.pos, predictedPosition);
+					}
 
-						if (shortestFraction != 1.0f && !rubberbandPosition.isZero()) {
-							float dist = rubberbandPosition.len() * shortestFraction - 1;
-							predictedPosition.set(p.pos).add(rubberbandPosition.nor().scl(dist));
-						}
+					if (shortestFraction != 1.0f && !rubberbandPosition.isZero()) {
+						float dist = rubberbandPosition.len() * shortestFraction - 1;
+						predictedPosition.set(p.pos).add(rubberbandPosition.nor().scl(dist));
+					}
 
+					//if our position is too far away from what the server sends us, just rubberband.
+					if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE) {
 						setTransform(predictedPosition, 0.0f);
 						lastPosition.set(predictedPosition);
 					}
@@ -201,7 +203,7 @@ public class PlayerClient extends Player {
 			frames.add(frame);
 			historyDuration += delta;
 
-			//we adjust predicted position to ensure it is up-to-date. Important b/c
+			//we adjust predicted position to ensure it is up-to-date
 			predictedPosition.add(frame.positionChange);
 
 			//we do our latency check here. if our latency is too high/low, we switch to/away our predicting mode
@@ -240,7 +242,7 @@ public class PlayerClient extends Player {
 						}, playerWorldLocation, newPredictedPosition);
 					}
 
-					//scale extrapolation by shortest fraction to avoid predicting through a wall
+					//scale extrapolation by shortest fraction to avoid extrapolating through a wall
 					if (shortestFraction != 1.0f && !extrapolatedPosition.isZero()) {
 						float dist = extrapolatedPosition.len() * shortestFraction - 1;
 						newPredictedPosition.set(playerWorldLocation).add(extrapolatedPosition.nor().scl(dist));

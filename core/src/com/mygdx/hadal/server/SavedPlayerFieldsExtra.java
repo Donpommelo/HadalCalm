@@ -10,7 +10,10 @@ import com.mygdx.hadal.equip.Loadout;
  */
 public class SavedPlayerFieldsExtra {
 
+	//tracked stats for a player
 	private float damageDealtEnemies, damageDealtAllies, damageDealtSelf, damageReceived;
+
+	//user's saved loadout to be visible in results state
 	private Loadout loadout;
 
 	public SavedPlayerFieldsExtra() {}

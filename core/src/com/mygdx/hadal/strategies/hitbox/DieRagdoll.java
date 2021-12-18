@@ -18,6 +18,7 @@ public class DieRagdoll extends HitboxStrategy {
 
 	private static final float ragdollDuration = 0.75f;
 
+	//is the creation of this ragdoll communicated to the client or processed independently
 	private final boolean synced;
 
 	public DieRagdoll(PlayState state, Hitbox proj, BodyData user, boolean synced) {

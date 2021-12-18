@@ -8,7 +8,10 @@ import com.badlogic.gdx.utils.Array;
  */
 public class RallyPath {
 
+    //this is a list of points in the path in the order of traversal
     private final Array<RallyPoint> path = new Array<>();
+
+    //approximate distance of the path
     private float distance;
 
     public RallyPath(Array<RallyPoint> path, float distance) {

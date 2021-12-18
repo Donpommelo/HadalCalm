@@ -81,15 +81,21 @@ public class BotManager {
         }
     }
 
+    //executor is used to manage bot pathfinding thread
     private static ExecutorService executor;
     public static void initiatePathfindingThreads() { executor = Executors.newFixedThreadPool(1); }
 
+    //when match ends, we must shutdown executor to close remaining threads
     public static void terminatePathfindingThreads() {
         if (executor != null) {
             executor.shutdown();
         }
     }
 
+    /**
+     * When a bot attempts to pathfind, it requests a thread to perform the search
+     * Inputs info needed to navigate the bot rally point graph so the new thread doesn't need to query the world
+     */
     public static void requestPathfindingThread(PlayerBot player, Vector2 playerLocation, Vector2 playerVelocity, Array<RallyPoint> pathStarters,
                                             RallyPoint.RallyPointMultiplier pickupPoint, Array< RallyPoint.RallyPointMultiplier> targetPoints,
                                         Array< RallyPoint.RallyPointMultiplier> eventPoints) {
@@ -141,9 +147,10 @@ public class BotManager {
     }
 
     /**
+     * Returns nearby visible rally points to pass to pathfinding threads which cannot perform raycasts
      * @param targeter: the schmuck looking for nearest path
      * @param sourceLocation: the location of the entity we are finding a path for
-     * @return the first rally point in the path that will lead the bot along the shortest point to the end point
+     * @return a list of points that could be potential path starters for the targeter
      */
     public static Array<RallyPoint> getNearestPathStarters(Schmuck targeter, Vector2 sourceLocation) {
         Array<RallyPoint> pathStarters = new Array<>();
@@ -167,6 +174,7 @@ public class BotManager {
     //open set used for a* search. Priority queue is used to make it ordered by estimated score
     private static final Queue<RallyPoint> openSet = new PriorityQueue<>();
     /**
+     * Calculate short path with a*. Called by pathfinding task in separate thread, so it canno query the world
      * @param start: starting point
      * @param end: ending point
      * @return a reasonably short path between nodes in a graph using modified a* search or null if none exists
@@ -281,12 +289,12 @@ public class BotManager {
     }
 
     private static float shortestFraction;
-
     /**
      * a quick raycast utility function used for various methods
      * @param targeter: the schmuck doing the targetting
      * @param sourceLocation: the location we are raycasting from
      * @param endLocation: the location we are raycasting towards
+     * @param mask: mask bits of whatever will obstruct the raycast (if used for finding path for movement vs shooting)
      * @return the fraction of how far we raycasted before hitting a wall
      */
     public static float raycastUtility(Schmuck targeter, Vector2 sourceLocation, Vector2 endLocation, short mask) {
@@ -308,7 +316,7 @@ public class BotManager {
     }
 
     /**
-     * This initiates a single bot player, setting up their loadout and score
+     * This initiates a single bot player, setting up their loadout, mouse and score
      */
     private static void initiateBot(PlayState state, User user) {
         Loadout botLoadout = BotLoadoutProcessor.getBotLoadout(state);

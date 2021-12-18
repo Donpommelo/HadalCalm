@@ -118,7 +118,7 @@ public class ScoreWindow {
 		tableScore.add(scoreLabel).height(scoreTitleHeight).padRight(scorePadX);
 		tableScore.add(winsLabel).height(scoreTitleHeight).row();
 
-		//add table entry for each player and sort according to score
+		//add table entry for each player and sort according to score and spectator status
 		orderedUsers.clear();
 		if (state.isServer()) {
 			for (ObjectMap.Entry<Integer, User> entry : HadalGame.server.getUsers().entries()) {
@@ -284,7 +284,9 @@ public class ScoreWindow {
 		state.getStage().addActor(tableOptions);
 	}
 
-	//helper method for adding a single entry to the score window
+	/**
+	 * 	helper method for adding a single entry to the score window
+	 */
 	private void addEntry(int connID, User user) {
 		SavedPlayerFields field = user.getScores();
 
@@ -312,6 +314,7 @@ public class ScoreWindow {
 		tableScore.add(points).height(scoreRowHeight).padRight(scorePadX).padBottom(scorePadY);
 		tableScore.add(wins).height(scoreRowHeight).padRight(scorePadX).padBottom(scorePadY).row();
 
+		//Adding new entries necessitates refreshing ui to account for new player's score
 		state.getUiExtra().syncUIText(UITag.uiType.ALL);
 	}
 

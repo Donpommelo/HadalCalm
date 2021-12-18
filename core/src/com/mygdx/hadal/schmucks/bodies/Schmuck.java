@@ -69,15 +69,12 @@ public class Schmuck extends HadalEntity {
 		this.hitboxfilter = hitboxFilter;
 		this.baseHp = baseHp;
 
-
 		if (state.isServer()) {
 			impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false,
 					SyncType.TICKSYNC);
 		}
 	}
 
-	/**
-	 */
 	@Override
 	public void create() {
 		this.bodyData = new BodyData(this, baseHp);
@@ -118,7 +115,7 @@ public class Schmuck extends HadalEntity {
 	 * @param tool: Equipment that the schmuck wants to use
 	 * @param hitbox: aka filter. Who will be affected by this equipment? Player or enemy or neutral?
 	 * @param mouseLocation: screen coordinate that represents where the tool is being directed.
-	 * @param wait: Should this tool wait for base cooldowns. No for special tools like built-in airblast/momentum freezing/some enemy attacks
+	 * @param wait: Should this tool wait for base cooldowns. No for special tools like built-in airblast
 	 */
 	public void useToolStart(float delta, Equippable tool, short hitbox, Vector2 mouseLocation, boolean wait) {
 		
@@ -163,8 +160,8 @@ public class Schmuck extends HadalEntity {
 	}	
 	
 	/**
-	 * This is called every engine tick. The server schmuck sends a packet to the corresponding client schmuck.
-	 * This packet updates MoveState.
+	 * This is calledregularly to send a packet to the corresponding client schmuck.
+	 * This packet updates MoveState, hp and entity parameters.
 	 */
 	@Override
 	public void onServerSync() {
@@ -187,7 +184,8 @@ public class Schmuck extends HadalEntity {
 	}
 	
 	/**
-	 * This returns the location that a spawned projectile should be created. (for the player, we override to make it spawn near the tip of the gun)
+	 * This returns the location that a spawned projectile should be created.
+	 * (for the player, we override to make it spawn near the tip of the gun)
 	 * @param startVelo: the starting speed and direction of the bullet
 	 * @param projSize: the size of the bullet
 	 * @return the vector2 position of where the bullet should be spawned relative to the schmuck

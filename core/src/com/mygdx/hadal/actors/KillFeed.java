@@ -20,6 +20,8 @@ import static com.mygdx.hadal.utils.Constants.*;
 
 /**
  * The Kill Feed is located in the upper right corner of the screen and tracks the kill messages created when players die.
+ * This also keeps track of notificationis which are displayed similarly in the top center of the screen
+ * This also keeps track of the respawn time window that pops up on the left side of the screen when respawning
  * @author Mukins Murfbort
  */
 public class KillFeed {
@@ -269,6 +271,10 @@ public class KillFeed {
     }
 
     private static final float spectatorDurationThreshold = 1.5f;
+    /**
+     * This keeps track of whether the game is currently in either spectator mode, or respawning (with some delay after death)
+     * This is used to determine if spectator camera features should be active (camera controls, screen shake)
+     */
     public boolean isRespawnSpectator() {
         return respawnTime < totalRespawnTime - spectatorDurationThreshold && deathInfoTable.isVisible();
     }

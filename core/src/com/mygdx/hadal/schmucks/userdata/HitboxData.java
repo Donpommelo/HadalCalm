@@ -44,7 +44,8 @@ public class HitboxData extends HadalData {
 		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT) && this.hbox.isReflectable()) {
 			super.receiveDamage(baseDamage, knockback, perp, procEffects, hbox, tags);
 		}
-		
+
+		//reflected hboxes can damage any unit and have their damage amplified
 		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && this.hbox.isReflectable()) {
 			this.hbox.setDamageMultiplier(reflectMultiplier * (1 + perp.getStat(Stats.REFLECT_DAMAGE)));
 			this.hbox.setFilter((short) 0);
@@ -68,7 +69,6 @@ public class HitboxData extends HadalData {
 	
 	/**
 	 * This method is run when the hitbox collides with something.
-	 * Default behaviour: despawn when touching a wall. Otherwise -1 durability and despawn at 0 durability.
 	 * @param fixB: The fixture the hitbox collides with.
 	 */
 	public void onHit(HadalData fixB) {

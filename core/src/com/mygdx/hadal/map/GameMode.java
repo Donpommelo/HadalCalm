@@ -141,6 +141,8 @@ public enum GameMode {
 
     //will players that join mid game join as players or spectators (spectator for lives-based modes)
     private boolean joinMidGame = true;
+
+    //number of teams i playing on auto team assign mode
     private int teamNum = 2;
 
     GameMode(String extraLayers, GameMode checkCompliance, ModeSetting... applicableSettings) {
@@ -153,9 +155,16 @@ public enum GameMode {
         this.applicableSettings = applicableSettings;
     }
 
+    //id for events run when a player spawns in default pvp maps
     private static final String playerStartId = "playerstart";
+
+    /**
+     * Run when initializing a playstate. This processes mode-specific settings
+     * @param state: playstate being initialized
+     */
     public void processSettings(PlayState state) {
 
+        //initial notifications announces things like modifiers at thte start of the match
         initialNotifications.clear();
 
         //for maps with no applicable settings, we don't need to add the extra events to the map (campaign maps)
@@ -212,6 +221,8 @@ public enum GameMode {
         }
 
         state.getGsm().getSetting().saveSetting();
+
+        //ui text set directly instead of through an event, since ui is initiated immediately
         state.getUiExtra().changeTypes(uiTriggerId.toString(), true);
 
         playerstart.getProperties().put("triggeringId", spawnTriggerId.toString());
@@ -338,6 +349,13 @@ public enum GameMode {
         state.getKillFeed().addNotification(HText.ELIMINATED.text(WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH)), true);
     }
 
+    /**
+     * This is run regularly by bots to find an optimal path through the map accounting for mode-specific events
+     * @param p: Bot player doing the pathfinding
+     * @param playerLocation: loaction of the bot player
+     * @param playerVelocity: current velocity of the bot
+     * @return list of points the bot is looking for with multipliers
+     */
     public Array<RallyPoint.RallyPointMultiplier> processAIPath(PlayState state, PlayerBot p, Vector2 playerLocation, Vector2 playerVelocity) {
         Array<RallyPoint.RallyPointMultiplier> path = new Array<>();
         for (ModeSetting setting : applicableSettings) {
@@ -346,6 +364,9 @@ public enum GameMode {
         return path;
     }
 
+    /**
+     * This is run when the game ends. Atm, this just cleans up bot pathfinding threads
+     */
     public void processGameEnd(PlayState state) {
         for (ModeSetting setting : applicableSettings) {
             setting.processGameEnd(state, this);

@@ -33,6 +33,7 @@ public class ContactWallSound extends HitboxStrategy {
 	//this is the slowest the hbox can be moving while still playing the sound
 	private static final float minVelo = 3.0f;
 
+	//Does the server notify the client of this sound?
 	private boolean synced = true;
 
 	public ContactWallSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume) {

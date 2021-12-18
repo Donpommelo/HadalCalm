@@ -26,6 +26,8 @@ public class ModeEggplantHunt extends ModeSetting {
     @Override
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
         if (vic.getUser() != null) {
+
+            //upon death, lose eggplants and drop them according to how many you have
             SavedPlayerFields field = vic.getUser().getScores();
             int score = (int) (field.getScore() * scrapMultiplier);
             if (score < 0) {
@@ -54,5 +56,8 @@ public class ModeEggplantHunt extends ModeSetting {
             return true;
         }), playerLocation.x - searchRadius, playerLocation.y - searchRadius,
         playerLocation.x + searchRadius, playerLocation.y + searchRadius);
+        if (path.isEmpty()) {
+            bot.getBotController().setEventTarget(null);
+        }
     }
 }

@@ -75,6 +75,8 @@ public class FixedToEntity extends HitboxStrategy {
 					hbox.setFilter(creator.getSchmuck().getHitboxfilter());
 				}
 			}
+
+			//setting velocity here us lets server send orientation information through synced attacks
 			hbox.setLinearVelocity(target.getLinearVelocity());
 		}
 	}

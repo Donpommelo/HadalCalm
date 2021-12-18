@@ -97,8 +97,18 @@ public class ModeSetting {
      */
     public void processPlayerLivesOut(PlayState state, GameMode mode, Player p) {}
 
+    /**
+     * This is run regularly by bots to find an optimal path through the map accounting for mode-specific events
+     * @param bot: Bot player doing the pathfinding
+     * @param playerLocation: loaction of the bot player
+     * @param playerVelocity: current velocity of the bot
+     * @param path: current list of rally points that we will find paths towards
+     */
     public void processAIPath(PlayState state, GameMode mode, PlayerBot bot, Vector2 playerLocation,
                               Vector2 playerVelocity, Array<RallyPoint.RallyPointMultiplier> path) {}
 
+    /**
+     * This is run when the game ends. Atm, this just cleans up bot pathfinding threads
+     */
     public void processGameEnd(PlayState state, GameMode mode) {}
 }

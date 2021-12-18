@@ -23,6 +23,7 @@ public class UIPlayClient extends UIPlay {
 	@Override
 	public void calcVars() {
 
+		//Calc the fields needed to draw the bars. This mostly accounts for fields not synced for the client
 		if (state.getPlayer().getPlayerData() != null) {
 			hpRatio = state.getPlayer().getPlayerData().getCurrentHp() / state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
 			hpMax = state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);

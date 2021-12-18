@@ -158,7 +158,6 @@ public enum UnlockArtifact {
 	PLAYER_BOUNCE(new PlayerBounce(), true),
 	PLAYER_GIANT(new PlayerGiant(), true),
 	PLAYER_INVISIBLE(new PlayerInvisible(), true),
-	PLAYER_MATRYOSHKA(new PlayerMatryoshka(), true),
 	PLAYER_MINI(new PlayerMini(), true),
 	PLAYER_SLIDE(new PlayerSlide(), true),
 	VISIBLE_HP(new VisibleHp(), true),

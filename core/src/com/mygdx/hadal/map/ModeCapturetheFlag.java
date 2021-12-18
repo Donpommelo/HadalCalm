@@ -74,5 +74,8 @@ public class ModeCapturetheFlag extends ModeSetting {
                 }
             }
         }
+        if (path.isEmpty()) {
+            bot.getBotController().setEventTarget(null);
+        }
     }
 }

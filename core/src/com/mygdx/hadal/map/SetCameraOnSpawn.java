@@ -12,6 +12,7 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class SetCameraOnSpawn extends ModeSetting {
 
+    //for pvp matches, this is thte default camera zoom
     private static final float pvpMatchZoom = 1.5f;
 
     @Override

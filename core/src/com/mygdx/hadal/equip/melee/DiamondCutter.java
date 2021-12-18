@@ -19,6 +19,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.utils.Stats;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -40,7 +41,6 @@ public class DiamondCutter extends MeleeWeapon {
 	private static final float range = 90.0f;
 	private static final float spinSpeed = 8.0f;
 	private static final float spinInterval = 1 / 60f;
-	private static final float releaseCooldown = 1.0f;
 
 	//this is the hitbox that this weapon extends
 	private Hitbox hbox;
@@ -50,6 +50,10 @@ public class DiamondCutter extends MeleeWeapon {
 	
 	private SoundEntity sawSound;
 
+	//keeps track of attack speed without input buffer doing an extra mouse click
+	private static final float innateAttackCooldown = 0.5f;
+	private float innateAttackCdCount;
+
 	public DiamondCutter(Schmuck user) {
 		super(user, swingCd, windup, weaponSprite, eventSprite);
 	}
@@ -57,24 +61,26 @@ public class DiamondCutter extends MeleeWeapon {
 	private final Vector2 projOffset = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
-		
-		if (sawSound == null) {
-			sawSound = new SoundEntity(state, user, SoundEffect.DRILL, 0.8f, 1.0f, true, true, SyncType.TICKSYNC);
-		} else {
-			sawSound.turnOn();
-		}
-		
-		if (!held) {
-			held = true;
-			
-			if (hbox != null) {
-				if (hbox.isAlive()) {
-					return;
-				}
+
+		if (innateAttackCdCount <= 0.0f) {
+			if (sawSound == null) {
+				sawSound = new SoundEntity(state, user, SoundEffect.DRILL, 0.8f, 1.0f, true, true, SyncType.TICKSYNC);
+			} else {
+				sawSound.turnOn();
 			}
-			
-			projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(range);
-			hbox = SyncedAttack.DIAMOND_CUTTER.initiateSyncedAttackSingle(state, user, new Vector2(projOffset), new Vector2());
+
+			if (!held) {
+				held = true;
+
+				if (hbox != null) {
+					if (hbox.isAlive()) {
+						return;
+					}
+				}
+
+				projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(range);
+				hbox = SyncedAttack.DIAMOND_CUTTER.initiateSyncedAttackSingle(state, user, new Vector2(projOffset), new Vector2());
+			}
 		}
 	}
 
@@ -145,7 +151,9 @@ public class DiamondCutter extends MeleeWeapon {
 		if (sawSound != null) {
 			sawSound.turnOff();
 		}
-		user.setShootCdCount(releaseCooldown);
+		if (innateAttackCdCount <= 0.0f) {
+			innateAttackCdCount = innateAttackCooldown * (1 - user.getBodyData().getStat(Stats.TOOL_SPD));
+		}
 	}
 	
 	@Override
@@ -157,6 +165,13 @@ public class DiamondCutter extends MeleeWeapon {
 		if (sawSound != null) {
 			sawSound.terminate();
 			sawSound = null;
+		}
+	}
+
+	@Override
+	public void update(PlayState state, float delta) {
+		if (innateAttackCdCount > 0) {
+			innateAttackCdCount -= delta;
 		}
 	}
 

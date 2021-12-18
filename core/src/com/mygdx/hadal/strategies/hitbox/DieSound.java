@@ -22,6 +22,7 @@ public class DieSound extends HitboxStrategy {
 	//this is the pitch that the sound will get played at. (default is no change. change using factory method.)
 	private float pitch = 1.0f;
 
+	//Does the server notify the client of this sound?
 	private boolean synced = true;
 
 	public DieSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume) {

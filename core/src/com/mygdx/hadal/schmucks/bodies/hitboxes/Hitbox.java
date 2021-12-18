@@ -94,7 +94,7 @@ public class Hitbox extends HadalEntity {
 	//when calculating things like backstabs, the position of the creator is used instead of the hbox (for things like laser rifle)
 	private boolean positionBasedOnUser = false;
 
-	//hitbox user data. This contains on-hit method
+	//hitbox user data. This contains on-hit methods
 	protected HitboxData data;
 
 	//This is the Schmuck that created the hitbox
@@ -102,7 +102,9 @@ public class Hitbox extends HadalEntity {
 
 	//strategies contains a bunch of effects that modify a hitbox.
 	//add+remove are strategies that will be added/removed from the hitbox next world-step
-	private final Array<HitboxStrategy> strategies, add, remove;
+	private final Array<HitboxStrategy> strategies = new Array<>();
+	private final Array<HitboxStrategy> add = new Array<>();
+	private final Array<HitboxStrategy> remove = new Array<>();
 
 	//this is the projectile's Sprite and corresponding frames
 	protected Animation<TextureRegion> projectileSprite;
@@ -112,6 +114,7 @@ public class Hitbox extends HadalEntity {
 	//this is the size of the sprite. Usually drawn to be the size of the hbox, but can be made larger/smaller
 	private final Vector2 spriteSize = new Vector2();
 
+	//the synced attack this hbox is a part of as well as the attack's extra fields
 	private SyncedAttack attack;
 	private float[] extraFields;
 	private boolean syncedMulti;
@@ -131,10 +134,6 @@ public class Hitbox extends HadalEntity {
 
 		//Create a new vector to avoid issues with multi-projectile attacks using same velo for all projectiles.
 		this.startVelo = new Vector2(startVelo);
-
-		this.strategies = new Array<>();
-		this.add = new Array<>();
-		this.remove = new Array<>();
 
 		//use Sprite.Nothing for spriteless hitboxes (like ones that just use particles)
 		this.sprite = sprite;
@@ -278,6 +277,7 @@ public class Hitbox extends HadalEntity {
 	@Override
 	public Object onServerCreate(boolean catchup) {
 		if (attack != null) {
+			//for catchup packets, resend synced attack packet (otherwise, create packet should already be sent)
 			if (catchup) {
 				if (syncedMulti) {
 					attack.syncAttackMulti(new Hitbox[] {this}, extraFields, true);

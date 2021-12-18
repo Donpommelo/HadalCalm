@@ -70,9 +70,13 @@ public class ObjectiveMarker {
             }
 
             if (!objectiveTarget.isVisible() && displayObjectiveOffScreen) {
+
+                //identify the angle of the line between the objective and the center of the screen
                 centerPosition.set(HadalGame.CONFIG_WIDTH / 2, HadalGame.CONFIG_HEIGHT / 2, 0);
                 HadalGame.viewportCamera.unproject(centerPosition);
                 toObjective.set(centerPosition.x, centerPosition.y).sub(objectiveLocation);
+
+                //calculate the point of intersection between aforementioned line and the perimeter of the screen
                 float angle = MathUtils.atan2(-toObjective.x, toObjective.y);
                 float tanAngle = (float) (Math.tan(angle) * (HadalGame.CONFIG_HEIGHT / 2 - height));
                 if (angle < corner && angle > -(MathUtils.PI + corner)) {
@@ -125,6 +129,9 @@ public class ObjectiveMarker {
 
     public HadalEntity getObjectiveTarget() { return objectiveTarget; }
 
+    /**
+     * This finds the location of the current game objective. Used for bot ai as well as some shaders
+     */
     public Vector2 getObjectiveLocation() {
         if (objectiveTarget != null) {
             return objectiveTarget.getPixelPosition();

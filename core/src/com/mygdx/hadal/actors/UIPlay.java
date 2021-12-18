@@ -121,7 +121,7 @@ public class UIPlay extends AHadalActor {
 	 * This is in a separate method b/c so client's version (UIPlayClient) can use some overridden values
 	 */
 	public void calcVars() {
-		//Calc the ratios needed to draw the bars
+		//Calc the fields needed to draw the bars
 		if (state.getPlayer().getPlayerData() != null) {
 			hpRatio = state.getPlayer().getPlayerData().getCurrentHp() / state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
 			hpMax = state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
@@ -139,6 +139,7 @@ public class UIPlay extends AHadalActor {
 		}
 	}
 
+	//uiAccumulator used to make hp bar movement not scale to framerate
 	private float uiAccumulator;
 	private static final float uiTime = 1 / 60.0f;
 	@Override
@@ -161,7 +162,7 @@ public class UIPlay extends AHadalActor {
 
 		calcVars();
 
-		//Draw boss hp bar, if existent
+		//Draw boss hp bar, if existent. Do this before player check so spectators can see boss hp
 		if (bossFight && boss.getBody() != null) {
 			HadalGame.FONT_UI.getData().setScale(fontScaleSmall);
 			HadalGame.FONT_UI.draw(batch, bossName, bossNameX, bossNameY);
@@ -243,6 +244,8 @@ public class UIPlay extends AHadalActor {
 				}	
 			}
 		}
+
+		//draw active item ui and charge indicator
 		HadalGame.FONT_UI.draw(batch, state.getPlayer().getPlayerData().getActiveItem().getName(),
 			activeX, mainY + activeHeightScaled + activeTextY);
 		if (activePercent >= 1.0f) {

@@ -3,6 +3,10 @@ package com.mygdx.hadal.audio;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ObjectMap;
 
+/**
+ * A Music Track Type describes the different pools of songs that play at different parts of the game
+ * @author Flangdoof Frawbmaker
+ */
 public enum MusicTrackType {
 
     NOTHING(),
@@ -35,12 +39,16 @@ public enum MusicTrackType {
 
     ;
 
+    //List of tracks that can play at this situation
     private final MusicTrack[] tracks;
 
     MusicTrackType(MusicTrack... tracks) {
         this.tracks = tracks;
     }
 
+    /**
+     * @return a random track from thte available pool
+     */
     public MusicTrack getTrack() {
         if (tracks.length != 0) {
             return tracks[MathUtils.random(tracks.length - 1)];

@@ -19,7 +19,7 @@ public class FixedToOrigin extends HitboxStrategy {
 	private final boolean rotate;
 	
 	//the enemy that this hbox tracks
-	private final  Enemy enemy;
+	private final Enemy enemy;
 	
 	public FixedToOrigin(PlayState state, Hitbox proj, Enemy enemy, boolean rotate) {
 		super(state, proj, enemy.getBodyData());

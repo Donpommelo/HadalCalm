@@ -309,6 +309,7 @@ public class KryoClient {
 
 					gsm.removeState(ClientState.class, false);
 
+					//set mode settings according to what the server sends
 					if (p.modeSettings != null) {
 						for (String key: p.modeSettings.keySet()) {
 							gsm.getSetting().setModeSetting(p.mode, key, p.modeSettings.get(key));
@@ -449,7 +450,7 @@ public class KryoClient {
 		}
 
 		/*
-		 * The Server tells us that a player changed their loadout.
+		 * The Server tells us that a player has received a new loadout after spawning.
 		 * Change their loadout on the client side
 		 */
 		else if (o instanceof final Packets.SyncServerLoadout p) {
@@ -466,6 +467,10 @@ public class KryoClient {
 			}
 		}
 
+		/*
+		 * The Server tells us that a player changed one part of their loadout.
+		 * Change their loadout on the client side
+		 */
 		else if (o instanceof final PacketsLoadout.SyncLoadoutServer p) {
 			final ClientState cs = getClientState();
 
@@ -496,7 +501,7 @@ public class KryoClient {
 		}
 
 		/*
-		 * When a client player is spawned, we are told which ui elements to fill our uiExtra with.
+		 * When a client player is spawned, we are told some ui elements like the current time and team setup
 		 */
 		else if (o instanceof final Packets.SyncUI p) {
 			final ClientState cs = getClientState();
@@ -607,6 +612,9 @@ public class KryoClient {
 			return true;
 		}
 
+		/*
+		 * Server tells us to execute a synced attack. Do so with the parameters provided
+		 */
 		if (o instanceof final Packets.CreateSyncedAttackSingle p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
@@ -620,9 +628,7 @@ public class KryoClient {
 							} else {
 								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo);
 							}
-							hbox.prevPos.set(p.pos).scl(1 / PPM);
 							hbox.serverPos.set(p.pos).scl(1 / PPM);
-							hbox.prevVelo.set(p.velo);
 							hbox.serverVelo.set(p.velo);
 							cs.addEntity(p.uuidMSB, p.uuidLSB, hbox, true, ObjectSyncLayers.HBOX);
 						}
@@ -632,6 +638,9 @@ public class KryoClient {
 			return true;
 		}
 
+		/*
+		 * Server tells us to execute a synced attack that creates multiple hitboxes. Do so with the parameters provided
+		 */
 		if (o instanceof final Packets.CreateSyncedAttackMulti p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
@@ -858,18 +867,20 @@ public class KryoClient {
 		if (o instanceof PacketsSync.SyncPlayerSelf p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
-				cs.syncEntity(p.uuidMSB, p.uuidLSB, p, 0.0f, p.timestamp);
-				if (cs.getUiPlay() != null) {
-					cs.getUiPlay().setOverrideClipLeft(p.currentClip);
-					cs.getUiPlay().setOverrideAmmoSize(p.currentAmmo);
-					cs.getUiPlay().setOverrideActivePercent(p.activeCharge);
-					if (cs.getPlayer() != null) {
-						if (cs.getPlayer().getPlayerData() != null) {
-							cs.getPlayer().getPlayerData().setCurrentFuel(p.currentFuel);
+				cs.addPacketEffect(() -> {
+					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, 0.0f, p.timestamp);
+					if (cs.getUiPlay() != null) {
+						cs.getUiPlay().setOverrideClipLeft(p.currentClip);
+						cs.getUiPlay().setOverrideAmmoSize(p.currentAmmo);
+						cs.getUiPlay().setOverrideActivePercent(p.activeCharge);
+						if (cs.getPlayer() != null) {
+							if (cs.getPlayer().getPlayerData() != null) {
+								cs.getPlayer().getPlayerData().setCurrentFuel(p.currentFuel);
+							}
+							cs.getPlayer().setBlinded(p.blinded);
 						}
-						cs.getPlayer().setBlinded(p.blinded);
 					}
-				}
+				});
 			}
 			return true;
 		}
@@ -877,7 +888,9 @@ public class KryoClient {
 		else if (o instanceof PacketsSync.SyncEntity p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
-				cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.age, p.timestamp);
+				cs.addPacketEffect(() -> {
+					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.age, p.timestamp);
+				});
 			}
 			return true;
 		}
@@ -885,7 +898,9 @@ public class KryoClient {
 		else if (o instanceof Packets.SyncSound p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
-				cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.age, p.timestamp);
+				cs.addPacketEffect(() -> {
+					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.age, p.timestamp);
+				});
 			}
 			return true;
 		}
@@ -893,15 +908,18 @@ public class KryoClient {
 		else if (o instanceof Packets.SyncPickup p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
-				cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.age, p.timestamp);
-			}
+				cs.addPacketEffect(() -> {
+					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.age, p.timestamp);
+				});			}
 			return true;
 		}
 
 		else if (o instanceof Packets.SyncHitSound p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
-				SoundEffect.playHitSound(cs.getGsm(), p.large);
+				cs.addPacketEffect(() -> {
+					SoundEffect.playHitSound(cs.getGsm(), p.large);
+				});
 			}
 			return true;
 		}
@@ -944,7 +962,7 @@ public class KryoClient {
 	}
 
 	/**
-	 * This returns the number of non-spectator, non-bot players. used to determine whether the server is full or not.
+	 * This returns the number of non-spectator, non-bot players. used to determine boss hp scaling.
 	 */
 	public int getNumPlayers() {
 		int playerNum = 0;

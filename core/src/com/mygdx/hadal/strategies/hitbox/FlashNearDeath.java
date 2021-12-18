@@ -18,6 +18,7 @@ public class FlashNearDeath extends HitboxStrategy {
 	//the duration of each flash
 	private static final float flashDuration = 0.1f;
 
+	//Does the server notify the client of this flash?
 	private final boolean synced;
 
 	public FlashNearDeath(PlayState state, Hitbox proj, BodyData user, float flashLifespan, boolean synced) {

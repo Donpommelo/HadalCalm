@@ -520,7 +520,7 @@ public class SettingState extends GameState {
 
 			@Override
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-				//when selecting a hitsound, we want to play an example for the player
+				//when selecting master volume, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
 					gsm.getSetting().indexToHitsound(
 						hitsoundOptions.getSelectedIndex()).playNoModifiers(sound.getValue() * master.getValue());

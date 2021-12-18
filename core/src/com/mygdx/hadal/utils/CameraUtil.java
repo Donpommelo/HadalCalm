@@ -112,6 +112,10 @@ public class CameraUtil {
         }
     }
 
+    /**
+     * This resets camera shake when a playstate is disposed
+     * This prevents leftover screenshake from persisting in the next playstate
+     */
     public static void resetCameraRotation(OrthographicCamera camera) {
         camera.rotate(-currentAngle);
         camera.direction.set(0, 0, -1);

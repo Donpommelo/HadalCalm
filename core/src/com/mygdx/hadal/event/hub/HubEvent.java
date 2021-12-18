@@ -41,7 +41,10 @@ public class HubEvent extends Event {
 	
 	//the distance the player can move away before the menu disappears
 	private static final float maxDistance = 5.0f;
-	
+
+	//the last scroll percent of the
+	private float lastScroll;
+
 	public HubEvent(final PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave, hubTypes type) {
 		super(state, startPos, size);
 		this.open = false;
@@ -72,6 +75,7 @@ public class HubEvent extends Event {
 					leave();
 				} else {
 					enter();
+					setScroll();
 				}
 			}
 		};
@@ -118,6 +122,12 @@ public class HubEvent extends Event {
 	public void leave() {
 		state.getUiHub().leave();
 		open = false;
+		lastScroll = state.getUiHub().getOptions().getScrollY();
+	}
+
+	private void setScroll() {
+		state.getUiHub().getOptions().layout();
+		state.getUiHub().getOptions().setScrollY(lastScroll);
 	}
 
 	public void addOptions(String search, int slots, UnlockTag tag) {

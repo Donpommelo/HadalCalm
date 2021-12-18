@@ -37,6 +37,7 @@ public class CreateParticles extends HitboxStrategy {
 	//does the particle rotate to match the velocity of the hbox (used for stuff like chain lightning)
 	private boolean rotate;
 
+	//velocity of particles. Used for things like airblast bubble movement
 	private float velocity;
 
 	private SyncType syncType = SyncType.CREATESYNC;

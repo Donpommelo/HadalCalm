@@ -72,7 +72,7 @@ public class UIHub {
 	
 	//is this window currently visible?
 	private boolean active;
-		
+
 	public UIHub(PlayState state) {
 		this.state = state;
 		this.active = false;
@@ -137,6 +137,8 @@ public class UIHub {
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */
 	public void enter(UnlockTag tag, boolean searchable, boolean filterTags, boolean filterCost, HubEvent hub, String... tagOptions) {
+		SoundEffect.DOORBELL.play(state.getGsm(), 0.25f, false);
+
 		active = true;
 
 		tableOptions.clear();
@@ -243,21 +245,21 @@ public class UIHub {
 
 		tableOuter.setPosition(tableX, tableY);
 		tableOuter.setSize(optionsWidthOuter, optionsHeightOuter);
-		
+
 		state.getStage().setScrollFocus(options);
 		state.getStage().addActor(tableOuter);
-		
+
 		tableOuter.addAction(Actions.moveTo(tableX - optionsWidthOuter, tableY, .5f, Interpolation.pow5Out));
 		
 		info = "";
-		
-		SoundEffect.DOORBELL.play(state.getGsm(), 0.25f, false);
 	}
 	
 	/**
 	 * Player exits the event. Makes the ui slide out
 	 */
 	public void leave() {
+		SoundEffect.DOORBELL.play(state.getGsm(), 0.25f, false);
+
 		active = false;
 
 		ModeSettingSelection.leave(state);
@@ -272,10 +274,8 @@ public class UIHub {
 				}
 			})
 		));
-
-		SoundEffect.DOORBELL.play(state.getGsm(), 0.25f, false);
 	}
-	
+
 	/**
 	 * This refreshes the ui element when a selection is made.
 	 * atm, this only affects the reliquary due to having to update the artifact slots.
@@ -421,6 +421,8 @@ public class UIHub {
 	public void setType(hubTypes type) { this.type = type; }
 
 	public Table getTableOptions() { return tableOptions; }
+
+	public ScrollPane getOptions() { return options; }
 
 	public enum hubTypes {
 		NONE,

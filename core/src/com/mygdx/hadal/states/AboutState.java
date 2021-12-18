@@ -33,8 +33,10 @@ public class AboutState extends GameState {
 	private Text pause;
 	private CheckBox continuePlaying;
 
-	//options that the player can view
+	//ui elements that the player can view and interact with
 	private Text aboutOption, miscOption, tipsOption, soundRoomOption, creditsOption, exitOption, trackText, trackTime;
+
+	//These manage the sound room music playlist
 	private ScrollPane musicTracks;
 	private VerticalGroup tracks;
 	private SelectBox<String> loopOptions;
@@ -196,7 +198,8 @@ public class AboutState extends GameState {
 
 	private void aboutSelected() {
 		details.clearChildren();
-		
+
+		//about option displays some game information read from json
 		details.add(new Text(HText.ABOUT.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
 		Text about = new Text(HText.INFO_ABOUT.text(), 0, 0, false, true, detailsTextWidth);
 		about.setScale(detailsScale);
@@ -240,6 +243,7 @@ public class AboutState extends GameState {
 		for (MusicTrack track: MusicTrack.values()) {
 			Text trackListen = new Text(track.getMusicName(), 0, 0, true);
 
+			//clicking a track plays it
 			trackListen.addListener(new ClickListener() {
 
 				@Override
@@ -269,6 +273,7 @@ public class AboutState extends GameState {
 		pause = new Text(HText.PAUSE.text(), 0, 0, true);
 		pause.setScale(detailsScale);
 
+		//pausing track sets toggles this button between pausing and playing music
 		pause.addListener(new ClickListener() {
 
 			@Override
@@ -291,6 +296,7 @@ public class AboutState extends GameState {
 		Text stop = new Text (HText.STOP.text(), 0, 0, true);
 		stop.setScale(detailsScale);
 
+		//stop sets track to null
 		stop.addListener(new ClickListener() {
 
 			@Override
@@ -304,6 +310,7 @@ public class AboutState extends GameState {
 		Text next = new Text (HText.NEXT.text(), 0, 0, true);
 		next.setScale(detailsScale);
 
+		//next sets the song position to the end of the track, making the next track immediately start
 		next.addListener(new ClickListener() {
 
 			@Override
@@ -316,8 +323,10 @@ public class AboutState extends GameState {
 			}
 		});
 
+		//this checkbox controls whther the music should continue playing after exiting the sound room
 		continuePlaying = new CheckBox(HText.CONTINUE.text(), GameStateManager.getSkin());
 
+		//loop options decide whether to loop, shuffle, cycle when a song completes
 		loopOptions = new SelectBox<>(GameStateManager.getSkin());
 		loopOptions.setItems(HText.LOOP_OPTIONS.text().split(","));
 		loopOptions.setWidth(100);
@@ -344,7 +353,8 @@ public class AboutState extends GameState {
 
 	private void tipsSelected() {
 		details.clearChildren();
-		
+
+		//about option displays some gameplay tips read from json
 		details.add(new Text(HText.TIPS.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
 		Text tips = new Text(HText.INFO_TIPS.text(), 0, 0, false, true, detailsTextWidth);
 		tips.setScale(detailsScale);
@@ -354,7 +364,8 @@ public class AboutState extends GameState {
 	
 	private void miscSelected() {
 		details.clearChildren();
-		
+
+		//about option displays some miscellaneous text read from json
 		details.add(new Text(HText.MISC.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
 		Text misc = new Text(HText.INFO_MISC.text(), 0, 0, false, true, detailsTextWidth);
 		misc.setScale(detailsScale);
@@ -364,7 +375,8 @@ public class AboutState extends GameState {
 
 	private void creditsSelected() {
 		details.clearChildren();
-		
+
+		//about option displays credit information read from json
 		details.add(new Text(HText.CREDITS.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
 		
 		//dev and art options have url links
@@ -444,18 +456,23 @@ public class AboutState extends GameState {
 				if (!loopChecked) {
 					loopChecked = true;
 
+					//when a song finishes, we may play a new song depending on the loop option selected
 					switch (loopOptions.getSelectedIndex()) {
 						case 1 -> {
+
+							//when cycling, play the next song or thte first song if reaching the end of the list
 							MusicTrack nextTrack = MusicTrack.values()[(currentTrackIndex + 1) % MusicTrack.values().length];
 							HadalGame.musicPlayer.playSong(nextTrack, 1.0f);
 							setTrack(nextTrack, true);
 						}
 						case 2 -> {
 
+							//when shuffling, add all songs to a list and shuffle
 							if (shuffleTracks.isEmpty()) {
 								shuffleTracks.addAll(MusicTrack.values());
 							}
 
+							//play a song from the random list and remove it to ensure cycling through all songs before reshuffling
 							MusicTrack randomTrack = shuffleTracks.get(MathUtils.random(shuffleTracks.size- 1));
 							HadalGame.musicPlayer.playSong(randomTrack, 1.0f);
 							setTrack(randomTrack, false);
@@ -465,6 +482,8 @@ public class AboutState extends GameState {
 					}
 				}
 			} else {
+
+				//loopChecked ensures we do not skip through multiple songs
 				loopChecked = false;
 			}
 		}
@@ -499,6 +518,7 @@ public class AboutState extends GameState {
 	public void dispose() {	
 		stage.dispose();
 
+		//if we want to continue playing the song after closing, set music state to free
 		if (continuePlaying != null) {
 			if (continuePlaying.isChecked() && HadalGame.musicPlayer.getCurrentSong() != null) {
 				if (HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
@@ -508,11 +528,20 @@ public class AboutState extends GameState {
 		}
 	}
 
+	/**
+	 * This sets the song room's currently played track
+	 * @param track: track to play
+	 * @param resetShuffle: do we reset the shuffle playlist when setting this track?
+	 */
 	private void setTrack(MusicTrack track, boolean resetShuffle) {
 		musicTime.setValue(0.0f);
+
+		//pause/play text should be set to pause since a song is now playing
 		pause.setText(HText.PAUSE.text());
 		pause.setHeight(optionHeight);
 		if (track != null) {
+
+			//iterate through all tracks to color the one playing yellow and all others as white.
 			for (int i = 0; i < MusicTrack.values().length; i++) {
 				if (MusicTrack.values()[i].equals(track)) {
 					currentTrackIndex = i;
@@ -520,6 +549,8 @@ public class AboutState extends GameState {
 						Text songText = ((Text) tracks.getChildren().get(i));
 						songText.setColor(Color.YELLOW);
 						songText.setHeight(detailHeight);
+
+						//scroll to the newly set track
 						int scrollIndex = Math.max(Math.min(i, MusicTrack.values().length - 4), 4) - 4;
 						musicTracks.setScrollPercentY((float) scrollIndex / (MusicTrack.values().length - 9));
 					}
@@ -531,6 +562,8 @@ public class AboutState extends GameState {
 			}
 			musicTime.setRange(0.0f, track.getTrackLength());
 			trackText.setText(HText.NOW_PLAYING.text(track.getMusicName()));
+
+			//if resetting shuffle, clear and readd all tracks to it except the newly set track
 			if (resetShuffle) {
 				shuffleTracks.clear();
 				shuffleTracks.addAll(MusicTrack.values());
@@ -542,6 +575,10 @@ public class AboutState extends GameState {
 		}
 	}
 
+	/**
+	 * @param seconds amount of seconds
+	 * @return string representation of minutes:seconds to have constant character length
+	 */
 	private String secondsToMinutes(int seconds) {
 
 		int m = seconds / 60;

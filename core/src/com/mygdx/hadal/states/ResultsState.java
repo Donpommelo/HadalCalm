@@ -46,6 +46,7 @@ public class ResultsState extends GameState {
 	private Table table, tableInfo, tableInfoOuter, tableArtifact, tableExtra;
 	private ScrollPane infoScroll, charactersScroll;
 
+	//this displays extra post-game stats about a selected player
 	private Text infoPlayerName;
 
 	//This is the playstate that the results state is placed on top of. Used to access the state's message window
@@ -65,6 +66,7 @@ public class ResultsState extends GameState {
 	//if the results text is equal to the magic word, calculate the results text based on score
 	public static final String magicWord = "fug";
 
+	//did this player win the last game?
 	private boolean won;
 
 	//Dimensions and position of the results menu
@@ -259,6 +261,7 @@ public class ResultsState extends GameState {
 			ps.getMessageWindow().toggleWindow();
 		}
 
+		//we start off playing no music. Results music only starts after playstate transition fade occurs
 		HadalGame.musicPlayer.playSong(MusicTrackType.NOTHING, 1.0f);
 
 		ps.getMessageWindow().setLocked(true);
@@ -267,7 +270,7 @@ public class ResultsState extends GameState {
 		gsm.getApp().fadeIn();
 		app.newMenu(stage);
 
-		//this makes the info window start off visible with the player's info
+		//this makes the info window start off visible with the player's own post-game stats
 		if (ps.isServer()) {
 			syncInfoTable(0);
 		} else {
@@ -282,7 +285,6 @@ public class ResultsState extends GameState {
 			private float timer;
 			private static final float fadeDelay = 2.0f;
 			private static final float fadeDuration = 2.5f;
-
 			@Override
 			public void act(float delta) {
 				super.act(delta);
@@ -290,6 +292,7 @@ public class ResultsState extends GameState {
 				if (timer >= fadeDelay) {
 					progress = (timer - fadeDelay) / fadeDuration;
 
+					//after the delay, we bgein playing results music depending on the player's own victory status
 					if (!songPlaying) {
 						songPlaying = true;
 						if (won) {
@@ -370,6 +373,7 @@ public class ResultsState extends GameState {
 		Text title = new Text(text, 0, 0, false);
 		title.setScale(resultsScale);
 
+		//for each player, get their field and create a results icon for them
 		for (SavedPlayerFields score: scores) {
 			int connId = score.getConnID();
 
@@ -388,6 +392,7 @@ public class ResultsState extends GameState {
 
 			if (field != null && fieldExtra != null) {
 
+				//winners should have party particles over their head
 				PooledEffect effect = null;
 				if (field.isWonLast()) {
 					effect = Particle.PARTY.getParticle();
@@ -407,6 +412,7 @@ public class ResultsState extends GameState {
 					}
 				};
 
+				//clicking the player's icon displays their post-game stats and loadout
 				icon.addListener(new ClickListener() {
 
 					@Override
@@ -436,9 +442,11 @@ public class ResultsState extends GameState {
 	private int currentConnId = -1;
 	public void syncInfoTable(int connId) {
 
+		//only refresh table if we are pulling up stats for a different player than who is already being displayed
 		if (currentConnId == connId) { return; }
 		currentConnId = connId;
 
+		//info table slides in and shows the new text
 		tableInfoOuter.addAction(Actions.sequence(Actions.moveTo(infoX, infoY, TRANSITION_DURATION, INTP_FASTSLOW), Actions.run(() -> {
 			tableInfo.clear();
 			tableArtifact.clear();
@@ -496,7 +504,7 @@ public class ResultsState extends GameState {
 				tableInfo.add(damageReceivedField).height(infoRowHeight).padBottom(infoPadY);
 				tableInfo.add(damageReceived).height(infoRowHeight).padBottom(infoPadY).row();
 
-				//display player's loadout (if synced properly)
+				//display player's weapons, artifacts and active items (if synced properly)
 				if (fieldExtra.getLoadout() != null) {
 
 					for (UnlockArtifact c: fieldExtra.getLoadout().artifacts) {

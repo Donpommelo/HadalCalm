@@ -36,7 +36,7 @@ public class KillFeedMessage extends AHadalActor {
     //The actor is drawn at an x-offset to make the text align left while still being constant distance from right side
     private final float textX;
 
-    private final int align;
+    private final int align = Align.left;
 
     private static final float killFeedScale = 0.3f;
     private static final float killFeedWidth = 325;
@@ -62,7 +62,6 @@ public class KillFeedMessage extends AHadalActor {
             this.targetWidth = notificationWidth;
             this.lifespan = notificationLifespan;
         }
-        align = Align.left;
 
         message = text;
         layout = new GlyphLayout();

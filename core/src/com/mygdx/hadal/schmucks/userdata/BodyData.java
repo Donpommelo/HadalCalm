@@ -54,8 +54,8 @@ public class BodyData extends HadalData {
 
 	//Hp and regen
 	private static final float hpRegen = 0.0f;
-	
 	private static final int maxFuel = 100;
+	protected float currentHp, currentFuel;
 
 	//duration of flash on receiving damage
 	private static final float flashDuration = 0.1f;
@@ -63,9 +63,7 @@ public class BodyData extends HadalData {
 	//variance multiplier applied to every instance of damage
 	private static final float damageVariance = 0.1f;
 	
-	protected float currentHp, currentFuel;
-
-	//statuses inflicted on the unit. statuses checked is used to recursive activate each status effect
+	//statuses inflicted on the unit. statuses checked is used to recursively activate each status effect
 	protected final Array<Status> statuses;
 	protected final Array<Status> statusesChecked;
 	
@@ -111,6 +109,8 @@ public class BodyData extends HadalData {
 	 */
 	public ProcTime statusProcTime(ProcTime o) {
 		ProcTime finalProcTime = o;
+
+		//atm, clients only process stat-changing statuses
 		if (!schmuck.getState().isServer() && !(o instanceof ProcTime.StatCalc)) { return finalProcTime; }
 
 		Array<Status> oldChecked = new Array<>();
@@ -191,7 +191,7 @@ public class BodyData extends HadalData {
 	}
 	
 	/**
-	 * Removes a status from this schmuck
+	 * Removes an artifact status from this schmuck
 	 */
 	public void removeArtifactStatus(UnlockArtifact artifact) {
 

@@ -159,12 +159,17 @@ public class PlayState extends GameState {
 	
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
 	private final ObjectMap<String, PositionDummy> dummyPoints = new ObjectMap<>();
-	
+
+	//modifier that affects game engine speed used for special mode modifiers
 	private float timeModifier = 1.0f;
+
+	//default respawn time that can be changed in mode settings
 	private float respawnTime = 1.5f;
+
+	//is this the server or client?
 	private final boolean server;
 
-	//Various play state ui elements
+	//Various play state ui elements. Some are initialixed right away while others require the stage to be made first.
 	protected final UIArtifacts uiArtifact = new UIArtifacts(this);
 	protected final UIExtra uiExtra = new UIExtra(this);
 	protected final UIObjective uiObjective = new UIObjective(this);
@@ -212,7 +217,8 @@ public class PlayState extends GameState {
 	public static final float shortFadeDelay = 0.5f;
 	public static final float longFadeDelay = 1.5f;
 
-	//Special designated events parsed from map. Event run when a spectating host presses their interact button
+	//Special designated events parsed from map.
+	// Event run when a timer runs out or spectating host presses their interact button
 	private Event globalTimer, spectatorActivation;
 	
 	/**
@@ -410,6 +416,7 @@ public class PlayState extends GameState {
 			gsm.getApp().fadeIn();
 		}
 
+		//play track corresponding to map properties or a random song from the combat ost list
 		MusicTrack newTrack;
 		if (map.getProperties().get("music", String.class) != null) {
 			newTrack =  HadalGame.musicPlayer.playSong(MusicTrackType.getByName(
@@ -469,7 +476,7 @@ public class PlayState extends GameState {
 
 		float modifiedDelta = delta * timeModifier;
 
-		//On the very first tick, server tells all clients that it is loaded
+		//On the very first tick, server tells all clients that it is loaded. Also, initiate bots if applicable
 		if (server && !serverLoaded) {
 	        serverLoaded = true;
 			HadalGame.server.sendToAllTCP(new Packets.ServerLoaded());
@@ -980,6 +987,7 @@ public class PlayState extends GameState {
 
 		Loadout newLoadout = new Loadout(altLoadout);
 
+		//process mode-specific loadout changes
 		mode.processNewPlayerLoadout(this, newLoadout, connID, justJoined);
 
 		StartPoint spawn = start;
@@ -1026,6 +1034,7 @@ public class PlayState extends GameState {
 			HadalGame.server.getUsers().get(0).setPlayer(p);
 		}
 
+		//mode-specific player modifications
 		mode.modifyNewPlayer(this, newLoadout, p, hitboxFilter);
 		return p;
 	}
@@ -1042,9 +1051,9 @@ public class PlayState extends GameState {
 	 */
 	public void levelEnd(String text, boolean victory, float fadeDelay) {
 		String resultsText = text;
+		Array<User> users = HadalGame.server.getUsers().values().toArray();
 
 		//magic word indicates that we generate the results text dynamically based on score
-		Array<User> users = HadalGame.server.getUsers().values().toArray();
 		if (text.equals(ResultsState.magicWord)) {
 			for (User user: users) {
 				if (!user.isSpectator()) {
@@ -1057,6 +1066,7 @@ public class PlayState extends GameState {
 						faction = user.getTeamFilter();
 					}
 
+					//add users's kills, deaths and scores to respective list and keep track of sum
 					if (teamKills.containsKey(faction)) {
 						teamKills.put(faction, teamKills.get(faction) + user.getScores().getKills());
 					} else {
@@ -1075,6 +1085,7 @@ public class PlayState extends GameState {
 				}
 			}
 
+			//sort scores and team scores according to score, then kills, then deaths
 			scores.sort((a, b) -> {
 				int cmp = (b.getScore() - a.getScore());
 				if (cmp == 0) { cmp = b.getKills() - a.getKills(); }
@@ -1090,9 +1101,12 @@ public class PlayState extends GameState {
 				return cmp;
 			});
 
+			//if free-for-all, the first player in the sorted list is the victor
 			if (mode.getTeamMode().equals(TeamMode.FFA)) {
 				resultsText = HText.PLAYER_WINS.text(scores.get(0).getNameShort());
 			} else {
+
+				//in team modes, get the winning team and display a win for that team (or individual if no alignment)
 				AlignmentFilter winningTeam = teamScoresList.get(0);
 				if (winningTeam.isTeam()) {
 					resultsText = HText.PLAYER_WINS.text(winningTeam.getColoredAdjective());
@@ -1110,6 +1124,7 @@ public class PlayState extends GameState {
 			AlignmentFilter winningTeam = teamScoresList.get(0);
 			SavedPlayerFields winningScore = scores.get(0);
 
+			//give a win to all players with a winning alignment (team or solo)
 			for (User user : users) {
 				if (!user.isSpectator()) {
 					SavedPlayerFields score = user.getScores();
@@ -1138,6 +1153,8 @@ public class PlayState extends GameState {
 				}
 			}
 		} else if (victory) {
+
+			//in coop, all players get a win if the team wins
             for (User user: users) {
                 if (!user.isSpectator()) {
 					user.getScores().win();
@@ -1150,13 +1167,17 @@ public class PlayState extends GameState {
 
 	/**
 	 * This is run by the server to transition to the results screen
+	 * @param resultsText: what text to display as the title of the results screen?
+	 * @param fadeDelay: how many seconds of delay before transition begins?
 	 */
 	public void transitionToResultsState(String resultsText, float fadeDelay) {
 
+		//mode-specific end-game processing (Atm this just cleans up bot pathfinding threads)
 		mode.processGameEnd(this);
 
 		this.resultsText = resultsText;
 
+		//create list of user information to send to all clients
 		UserDto[] users = new UserDto[HadalGame.server.getUsers().size];
 
 		int userIndex = 0;
@@ -1219,7 +1240,7 @@ public class PlayState extends GameState {
 	 * This is only run by the server
 	 */
 	public void becomeSpectator(Player player, boolean notification) {
-		User user = HadalGame.server.playerToUser(player);
+		User user = player.getUser();
 
 		if (user != null) {
 			if (!user.isSpectator()) {
@@ -1236,6 +1257,11 @@ public class PlayState extends GameState {
 		}
 	}
 
+	/**
+	 * Make a specific player a spectator. Run by server only
+	 * @param user: the user to become a spectator
+	 * @param connId: new spectator's connection id
+	 */
 	public void startSpectator(User user, int connId) {
 		user.beginTransition(this, TransitionState.SPECTATOR, false, defaultFadeOutSpeed, shortFadeDelay);
 		HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(TransitionState.SPECTATOR, defaultFadeOutSpeed, shortFadeDelay));

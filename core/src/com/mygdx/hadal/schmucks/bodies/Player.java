@@ -291,7 +291,7 @@ public class Player extends PhysicsSchmuck {
 				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				hitboxfilter, false, playerData);
 
-		//On the server, we create several extra fixtures to keep track of feet/sides to determine when the player gets their jump back and what terrain event they are standing on.
+		//create several extra fixtures to keep track of feet/sides to determine when the player gets their jump back and what terrain event they are standing on.
 		this.feetData = new FeetData(UserDataType.FEET, this);
 
 		Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
@@ -313,7 +313,7 @@ public class Player extends PhysicsSchmuck {
 
 		rightSensor.setUserData(rightData);
 
-		//make the player mass constant to avoid mass changing when player is a different size
+		//make the player's mass constant to avoid mass changing when player is a different size
 		MassData newMass = body.getMassData();
 		newMass.mass = playerMass;
 		body.setMassData(newMass);
@@ -444,12 +444,10 @@ public class Player extends PhysicsSchmuck {
 			jumpBuffered = false;
 			jump();
 		}
-		
 		if (airblastBuffered && airblastCdCount < 0) {
 			airblastBuffered = false;
 			airblast();
 		}
-		
 		if (shootBuffered && shootCdCount < 0) {
 			shootBuffered = false;
 			shoot(delta);
@@ -653,21 +651,6 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
-	/**
-	 * Player switches to their last equipped weapon. (does nothing if they have no previously equipped weapon.)
-	 */
-	public void switchToLast() {
-		playerData.switchToLast();
-	}
-	
-	/**
-	 * Switches to the weapon in a specific slot.
-	 * @param slot: the new weapon slot
-	 */
-	public void switchToSlot(int slot) {
-		playerData.switchWeapon(slot);
-	}
-
 	private static final int barX = 20;
 	private static final int barY = 0;
 	private static final int hpWidth = 5;
@@ -679,7 +662,7 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void render(SpriteBatch batch) {
 
-		//process player invisibility
+		//process player invisibility. Completely invisible players are partially transparent to allies
 		float transparency;
 		boolean batchSet = false;
 		if (invisible == 2) {
@@ -751,7 +734,7 @@ public class Player extends PhysicsSchmuck {
 		
 		boolean visible = false;
 		
-		//draw hp heart if using certain effects, looking at self/ally, or in spectator mode
+		//draw hp and fuel bar if using certain effects, looking at self/ally, or in spectator mode
 		if (state.isSpectatorMode() || hitboxfilter == state.getPlayer().hitboxfilter) {
 			visible = true;
 		} else {

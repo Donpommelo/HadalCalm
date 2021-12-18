@@ -44,5 +44,8 @@ public class ModeKingmaker extends ModeSetting {
                 }
             }
         }
+        if (path.isEmpty()) {
+            bot.getBotController().setEventTarget(null);
+        }
     }
 }

@@ -20,6 +20,8 @@ public class DamageHeadshot extends HitboxStrategy {
 	
 	//the amount of damage and knockback this hbox will inflict
 	private final float bonusDamage;
+
+	//max time the projectile continues to get stronger
 	private final float maxCharge;
 
 	public DamageHeadshot(PlayState state, Hitbox proj, BodyData user, float damage, float maxCharge) {

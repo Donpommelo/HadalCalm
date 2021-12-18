@@ -56,15 +56,28 @@ public class UIExtra extends AHadalActor {
 	 * This is run whenever the contents of the ui change. It sets the text according to updated tags and info
 	 */
 	public void syncUIText(uiType changedType) {
+
+		//clear existing text
 		text.setLength(0);
 
-		User user;
-		if (state.isServer()) {
-			user = HadalGame.server.getUsers().get(0);
-		} else {
-			user = HadalGame.client.getUsers().get(HadalGame.client.connID);
+		User user = null;
+		boolean spectatorFound = false;
+		if (state.isSpectatorMode()) {
+			if (state.getUiSpectator().getSpectatorTarget() != null) {
+				user = state.getUiSpectator().getSpectatorTarget().getUser();
+				spectatorFound = true;
+
+			}
+		}
+		if (!spectatorFound) {
+			if (state.isServer()) {
+				user = HadalGame.server.getUsers().get(0);
+			} else {
+				user = HadalGame.client.getUsers().get(HadalGame.client.connID);
+			}
 		}
 
+		//check if user is null b/c several ui tags require checking user information
 		if (user != null) {
 			for (UITag uiTag : uiTags) {
 				text.append(uiTag.updateTagText(state, changedType, user));
@@ -91,6 +104,7 @@ public class UIExtra extends AHadalActor {
 				if (tag.toString().equals(type)) {
 					found = true;
 					uiTags.add(new UITag(this, tag));
+					break;
 				}
 			}
 
@@ -109,7 +123,8 @@ public class UIExtra extends AHadalActor {
 	 */
 	public String getCurrentTags() {
 		tags.setLength(0);
-		
+
+		//misc tags return their exact text. Other tags return their type name
 		for (UITag tag : uiTags) {
 			if (tag.getType().equals(uiType.MISC)) {
 				tags.append(tag.getMisc()).append(",");
@@ -147,11 +162,14 @@ public class UIExtra extends AHadalActor {
 
 		timer += (timerIncr * delta);
 
+		//timer text changees after a whole second passes
 		if ((int) timer != currentTimer) {
 			currentTimer = (int) timer;
 
 			//convert the time to minutes:seconds
 			int seconds = currentTimer % 60;
+
+			//this makes the timer have the same number of characters whether the seconds amount is 1 or 2 digits
 			if (seconds < 10) {
 				displayedTimer = currentTimer / 60 + ": 0" + seconds;
 			} else {
@@ -160,7 +178,7 @@ public class UIExtra extends AHadalActor {
 			syncUIText(uiType.TIMER);
 		}
 
-		//upon timer running out, a designated event activates
+		//upon timer running out, a designated event activates.
 		if (timer <= 0 && timerIncr < 0) {
 			if (state.getGlobalTimer() != null) {
 				state.getGlobalTimer().getEventData().preActivate(null, null);
@@ -171,7 +189,7 @@ public class UIExtra extends AHadalActor {
 
 	private static final int maxScores = 5;
 	/**
-	 * For modes with a scoreboard ui tag, we add a sorted list of player scores.
+	 * For modes with a scoreboard ui tag, we add a sorted list of player scores. List is, at most, 5 names long
 	 * @param text: the stringbuilder we will be appending the scoreboard text to
 	 */
 	public void sortIndividualScores(StringBuilder text) {
@@ -190,6 +208,9 @@ public class UIExtra extends AHadalActor {
 	}
 
 	private static final Vector3 rgb = new Vector3();
+	/**
+	 * Works similarly to sortIndividualScores except using the team's color instead
+	 */
 	public void sortTeamScores(StringBuilder text) {
 		int scoreNum = 0;
 		for (int i = 0; i < AlignmentFilter.teamScores.length; i++) {
@@ -205,6 +226,10 @@ public class UIExtra extends AHadalActor {
 	}
 
 	private static String lastTags = "";
+	/**
+	 * Upon setting a boss, this ui is cleared to ovoid overlapping with boss ui.
+	 * Save last tags so we can redisplay them when boss is cleared
+	 */
 	public void setBoss() {
 		lastTags = getCurrentTags();
 		changeTypes("", true);
