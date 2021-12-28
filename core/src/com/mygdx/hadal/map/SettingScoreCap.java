@@ -26,7 +26,7 @@ public class SettingScoreCap extends ModeSetting {
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
         String[] scoreCapChoices = HText.SETTING_SCORECAP_OPTIONS.text().split(",");
-        Text scorecap = new Text(HText.SETTING_SCORECAP.text(), 0, 0, false);
+        Text scorecap = new Text(HText.SETTING_SCORECAP.text());
         scorecap.setScale(ModeSettingSelection.detailsScale);
 
         scoreCapOptions = new SelectBox<>(GameStateManager.getSkin());

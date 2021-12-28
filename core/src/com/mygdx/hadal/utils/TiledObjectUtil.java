@@ -456,6 +456,11 @@ public class TiledObjectUtil {
 				object.getProperties().get("tag", "WALLPAPER", String.class),
 				object.getProperties().get("unlock", false, boolean.class),
 				object.getProperties().get("closeOnLeave", true, Boolean.class));
+			case "Outfitter" -> e = new Outfitter(state, position, size,
+					object.getProperties().get("title", "Outfitter", String.class),
+					object.getProperties().get("tag", "OUTFITTER", String.class),
+					object.getProperties().get("unlock", false, boolean.class),
+					object.getProperties().get("closeOnLeave", true, Boolean.class));
 			case "Prefab" -> genPrefab(state, object, rect);
 		}
 		

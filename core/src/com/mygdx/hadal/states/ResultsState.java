@@ -187,7 +187,7 @@ public class ResultsState extends GameState {
 
 				tableInfoOuter = new WindowTable();
 
-				infoPlayerName = new Text("", 0, 0, false);
+				infoPlayerName = new Text("");
 				infoPlayerName.setScale(infoTextScale);
 
 				tableInfo = new Table();
@@ -215,7 +215,7 @@ public class ResultsState extends GameState {
 				tableExtra = new WindowTable();
 
 				//These are all of the display and buttons visible to the player.
-				final Text readyOption = new Text(HText.RETURN_HUB.text(), 0, 0, true);
+				final Text readyOption = new Text(HText.RETURN_HUB.text()).setButton(true);
 
 				readyOption.addListener(new ClickListener() {
 
@@ -232,7 +232,7 @@ public class ResultsState extends GameState {
 				});
 				readyOption.setScale(scale);
 
-				final Text forceReadyOption = new Text(HText.FORCE_RETURN.text(), 0, 0, true);
+				final Text forceReadyOption = new Text(HText.FORCE_RETURN.text()).setButton(true);
 
 				forceReadyOption.addListener(new ClickListener() {
 
@@ -370,7 +370,7 @@ public class ResultsState extends GameState {
 			}
 		});
 
-		Text title = new Text(text, 0, 0, false);
+		Text title = new Text(text);
 		title.setScale(resultsScale);
 
 		//for each player, get their field and create a results icon for them
@@ -468,28 +468,28 @@ public class ResultsState extends GameState {
 
 				infoPlayerName.setText(field.getNameAbridged(MAX_NAME_LENGTH_LONG));
 
-				Text damageDealtField = new Text(HText.DAMAGE_DEALT.text(), 0, 0, false);
+				Text damageDealtField = new Text(HText.DAMAGE_DEALT.text());
 				damageDealtField.setScale(infoTextScale);
 
-				Text damageAllyField = new Text(HText.FRIENDLY_FIRE.text(), 0, 0, false);
+				Text damageAllyField = new Text(HText.FRIENDLY_FIRE.text());
 				damageAllyField.setScale(infoTextScale);
 
-				Text damageSelfField = new Text(HText.SELF_DAMAGE.text(), 0, 0, false);
+				Text damageSelfField = new Text(HText.SELF_DAMAGE.text());
 				damageSelfField.setScale(infoTextScale);
 
-				Text damageReceivedField = new Text(HText.DAMAGE_RECEIVED.text(), 0, 0, false);
+				Text damageReceivedField = new Text(HText.DAMAGE_RECEIVED.text());
 				damageReceivedField.setScale(infoTextScale);
 
-				Text damageDealt = new Text("" + (int) fieldExtra.getDamageDealt(), 0, 0, false);
+				Text damageDealt = new Text("" + (int) fieldExtra.getDamageDealt());
 				damageDealt.setScale(infoTextScale);
 
-				Text damageAlly = new Text("" + (int) fieldExtra.getDamageDealtAllies(), 0, 0, false);
+				Text damageAlly = new Text("" + (int) fieldExtra.getDamageDealtAllies());
 				damageAlly.setScale(infoTextScale);
 
-				Text damageSelf = new Text("" + (int) fieldExtra.getDamageDealtSelf(), 0, 0, false);
+				Text damageSelf = new Text("" + (int) fieldExtra.getDamageDealtSelf());
 				damageSelf.setScale(infoTextScale);
 
-				Text damageReceived = new Text("" + (int) fieldExtra.getDamageReceived(), 0, 0, false);
+				Text damageReceived = new Text("" + (int) fieldExtra.getDamageReceived());
 				damageReceived.setScale(infoTextScale);
 
 				tableInfo.add(damageDealtField).height(infoRowHeight).padBottom(infoPadY);
@@ -509,24 +509,25 @@ public class ResultsState extends GameState {
 
 					for (UnlockArtifact c: fieldExtra.getLoadout().artifacts) {
 						if (!c.equals(UnlockArtifact.NOTHING) && !c.isInvisible()) {
-							ArtifactIcon newTag = new ArtifactIcon(c, c.getInfo().getName() + "\n" + c.getInfo().getDescription(), artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
+							ArtifactIcon newTag = new ArtifactIcon(c, c.getInfo().getName() + "\n" + c.getInfo().getDescription(),
+									artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 							tableArtifact.add(newTag).width(artifactTagSize).height(artifactTagSize);
 						}
 					}
 
 					for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 						if (!fieldExtra.getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
-							Text weaponField = new Text(HText.WEAPON.text((i + 1) + ": "), 0, 0, false);
+							Text weaponField = new Text(HText.WEAPON.text((i + 1) + ": "));
 							weaponField.setScale(infoTextScale);
-							Text weapon = new Text(fieldExtra.getLoadout().multitools[i].name(), 0, 0, false);
+							Text weapon = new Text(fieldExtra.getLoadout().multitools[i].name());
 							weapon.setScale(infoTextScale);
 							tableInfo.add(weaponField).height(infoRowHeight).left().padBottom(infoPadYSmall);
 							tableInfo.add(weapon).height(infoRowHeight).left().padBottom(infoPadYSmall).row();
 						}
 					}
-					Text activeField = new Text(HText.ACTIVE.text(), 0, 0, false);
+					Text activeField = new Text(HText.ACTIVE.text());
 					activeField.setScale(infoTextScale);
-					Text active = new Text(fieldExtra.getLoadout().activeItem.name(), 0, 0, false);
+					Text active = new Text(fieldExtra.getLoadout().activeItem.name());
 					active.setScale(infoTextScale);
 					tableInfo.add(activeField).height(infoRowHeight).left().padBottom(infoPadYSmall);
 					tableInfo.add(active).height(infoRowHeight).left().padBottom(infoPadYSmall).row();

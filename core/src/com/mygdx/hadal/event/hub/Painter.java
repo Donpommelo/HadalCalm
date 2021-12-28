@@ -21,7 +21,8 @@ public class Painter extends HubEvent {
 	public Painter(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.PAINTER);
 	}
-	
+
+	@Override
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
@@ -31,7 +32,7 @@ public class Painter extends HubEvent {
 			if (c.isTeam()) {
 
 				final AlignmentFilter selected = c;
-				Text itemChoose = new Text(c.toString(), 0, 0, true);
+				Text itemChoose = new Text(c.toString()).setButton(true);
 
 				itemChoose.addListener(new ClickListener() {
 
@@ -52,6 +53,6 @@ public class Painter extends HubEvent {
 				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
 			}
 		}
-		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
 	}
 }

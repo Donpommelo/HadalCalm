@@ -53,7 +53,8 @@ public class GameStateManager {
 	private final Record record;
 	private final Setting setting;
 	private final SavedLoadout loadout;
-	
+	private final SavedOutfits outfits;
+
 	//This contains the settings that are shared with clients (or shared from server if we are the client)
 	private SharedSetting sharedSetting, hostSetting;
 	
@@ -81,6 +82,7 @@ public class GameStateManager {
 		record = Record.retrieveRecord();
 		loadout = SavedLoadout.retrieveLoadout();
 		setting = Setting.retrieveSetting();
+		outfits = SavedOutfits.retrieveOutfits();
 
 		//load text strings.
 		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
@@ -375,7 +377,9 @@ public class GameStateManager {
 	public SavedLoadout getLoadout() { return loadout; }
 	
 	public Setting getSetting() { return setting; }
-	
+
+	public SavedOutfits getSavedOutfits() { return outfits; }
+
 	public SharedSetting getSharedSetting() { return sharedSetting; }
 	
 	public void setSharedSetting(SharedSetting sharedSetting) { this.sharedSetting = sharedSetting; }

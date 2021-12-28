@@ -2,13 +2,16 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -71,7 +74,6 @@ public class Underminer extends RangedWeapon {
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(),  baseDamage, knockback, DamageTypes.RANGED));
-
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private boolean drilling;
@@ -107,6 +109,7 @@ public class Underminer extends RangedWeapon {
 				}
 				
 				if (activated) {
+					Array<Vector2> drillVelocities = new Array<>();
 					for (int i = 0; i < numDrills; i++) {
 						float angleOffset = hbox.getAngle() + MathUtils.degRad * i / numDrills * 360;
 						entityLocation.set(hbox.getPosition());
@@ -123,44 +126,22 @@ public class Underminer extends RangedWeapon {
 						}
 
 						if (wallDetected) {
-							Hitbox frag = new Hitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan,
-								new Vector2(0, 1).setAngleRad(angleOffset).scl(fragSpeed), filter, true, true, user, projSprite);
-							frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
-							frag.addStrategy(new AdjustAngle(state, frag, user.getBodyData()));
-							frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(),  fragDamage, fragKnockback, DamageTypes.RANGED));
-							frag.addStrategy(new HitboxStrategy(state, frag, user.getBodyData()) {
-
-								@Override
-								public void onHit(HadalData fixB) {
-									if (fixB != null) {
-										if (fixB.getType().equals(UserDataType.WALL)) {
-											hbox.die();
-										}
-									}
-								}
-
-								@Override
-								public void die() {
-									for (int i = 0; i < numBombs; i++) {
-										Hitbox bomb = new Hitbox(state, hbox.getPixelPosition(), fragSize, bombLifespan, new Vector2(0, 1).setAngleRad(hbox.getAngle()).scl(bombSpeed),
-											filter, true, true, user, projSprite);
-										bomb.setGravity(3.0f);
-										bomb.setDurability(2);
-
-										bomb.addStrategy(new ControllerDefault(state, bomb, user.getBodyData()));
-										bomb.addStrategy(new AdjustAngle(state, bomb, user.getBodyData()));
-										bomb.addStrategy(new DamageStandard(state, bomb, user.getBodyData(),  fragDamage, fragKnockback, DamageTypes.RANGED));
-										bomb.addStrategy(new ContactWallDie(state, bomb, user.getBodyData()).setDelay(0.1f));
-										bomb.addStrategy(new DieExplode(state, bomb, user.getBodyData(), explosionRadius, explosionDamage,
-												explosionKnockback, filter, true));
-										bomb.addStrategy(new DieSound(state, bomb, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
-										bomb.addStrategy(new FlashNearDeath(state, bomb, user.getBodyData(), 1.0f, true));
-										bomb.addStrategy(new Spread(state, bomb, user.getBodyData(), spread));
-									}
-								}
-							});
+							drillVelocities.add(new Vector2(0, 1).setAngleRad(angleOffset).scl(fragSpeed));
 						}
 					}
+
+					Vector2[] positions = new Vector2[drillVelocities.size];
+					Vector2[] velocities = new Vector2[drillVelocities.size];
+					float[] fragVelocities = new float[drillVelocities.size * numBombs];
+					entityLocation.set(hbox.getPixelPosition());
+					for (int i = 0; i < drillVelocities.size; i++) {
+						positions[i] = entityLocation;
+						velocities[i] = drillVelocities.get(i);
+						for (int j = 0; j < numBombs; j++) {
+							fragVelocities[numBombs * i + j] = MathUtils.random(-spread, spread);
+						}
+					}
+					SyncedAttack.UNDERMINER_DRILL.initiateSyncedAttackMulti(state, user, positions, velocities, fragVelocities);
 					hbox.die();
 				}
 			}
@@ -193,5 +174,60 @@ public class Underminer extends RangedWeapon {
 				}
 			}
 		});
+	}
+
+	public static Hitbox[] createUndermineDrills(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
+		Hitbox[] hboxes = new Hitbox[startPosition.length];
+		if (startPosition.length != 0) {
+			for (int i = 0; i < startPosition.length; i++) {
+				final int drillNum = i;
+				Hitbox frag = new Hitbox(state, startPosition[i], fragSize, fragLifespan, startVelocity[i], user.getHitboxfilter(),
+						true, true, user, projSprite);
+				frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
+				frag.addStrategy(new AdjustAngle(state, frag, user.getBodyData()));
+				frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(),  fragDamage, fragKnockback, DamageTypes.RANGED));
+				frag.addStrategy(new HitboxStrategy(state, frag, user.getBodyData()) {
+
+					@Override
+					public void onHit(HadalData fixB) {
+						if (fixB != null) {
+							if (fixB.getType().equals(UserDataType.WALL)) {
+								hbox.die();
+							}
+						}
+					}
+
+					@Override
+					public void die() {
+						for (int i = 0; i < numBombs; i++) {
+							if (extraFields.length > drillNum * numBombs + i) {
+								Hitbox bomb = new Hitbox(state, hbox.getPixelPosition(), fragSize, bombLifespan,
+										new Vector2(startVelocity[drillNum]).setAngleDeg(startVelocity[drillNum].angleDeg() +
+												extraFields[drillNum * numBombs + i]).nor().scl(bombSpeed),
+										user.getHitboxfilter(), true, true, user, projSprite);
+								bomb.setSyncDefault(false);
+								bomb.setGravity(3.0f);
+								bomb.setDurability(2);
+
+								bomb.addStrategy(new ControllerDefault(state, bomb, user.getBodyData()));
+								bomb.addStrategy(new AdjustAngle(state, bomb, user.getBodyData()));
+								bomb.addStrategy(new DamageStandard(state, bomb, user.getBodyData(),  fragDamage, fragKnockback, DamageTypes.RANGED));
+								bomb.addStrategy(new ContactWallDie(state, bomb, user.getBodyData()).setDelay(0.1f));
+								bomb.addStrategy(new DieExplode(state, bomb, user.getBodyData(), explosionRadius, explosionDamage,
+										explosionKnockback, user.getHitboxfilter(), false));
+								bomb.addStrategy(new DieSound(state, bomb, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
+								bomb.addStrategy(new FlashNearDeath(state, bomb, user.getBodyData(), 1.0f, false));
+
+								if (!state.isServer()) {
+									((ClientState) state).addEntity(bomb.getEntityID(), bomb, false, ClientState.ObjectSyncLayers.HBOX);
+								}
+							}
+						}
+					}
+				});
+				hboxes[i] = frag;
+			}
+		}
+		return hboxes;
 	}
 }

@@ -272,8 +272,8 @@ public class KryoServer {
 					if (user != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
-							HadalGame.server.sendToAllTCP(new Packets.SyncServerLoadout(
-								player.getEntityID(), player.getPlayerData().getLoadout(), false));
+							HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncWholeLoadout(
+								c.getID(), player.getPlayerData().getLoadout(), false));
 							if (player.getStart() != null) {
 								player.getStart().playerStart(player);
 							}
@@ -317,6 +317,20 @@ public class KryoServer {
 						}
 					}
         		}
+
+				else if (o instanceof final PacketsLoadout.SyncWholeLoadout p) {
+					final PlayState ps = getPlayState();
+					User user = users.get(c.getID());
+					if (user != null && ps != null) {
+						Player player = user.getPlayer();
+						if (player != null) {
+							ps.addPacketEffect(() -> {
+								player.getPlayerData().syncLoadout(p.loadout, false, false);
+								player.getPlayerData().syncServerWholeLoadoutChange();
+							});
+						}
+					}
+				}
 
 				/*
 				 * The Client tells us they might have missed a create packet.

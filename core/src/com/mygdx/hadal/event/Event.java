@@ -194,8 +194,7 @@ public class Event extends HadalEntity {
 
 	public void addAmbientParticle(Particle particle, float xOffset, float yOffset) {
 		if (state.isServer()) {
-			new ParticleEntity(state, this, particle, 0, 0, true, SyncType.CREATESYNC,
-				new Vector2(xOffset, yOffset));
+			new ParticleEntity(state, this, particle, 0, 0, true, SyncType.CREATESYNC).setOffset(xOffset, yOffset);
 		}
 	}
 

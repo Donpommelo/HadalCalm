@@ -59,8 +59,8 @@ public class FootballGoal extends Event {
                             state.getMode().processPlayerScoreChange(state, p, -1);
                         }
                     }
+                    state.getMode().processTeamScoreChange(state, teamIndex, 1);
                 }
-                state.getMode().processTeamScoreChange(state, teamIndex, 1);
             }
         };
 

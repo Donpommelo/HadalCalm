@@ -138,10 +138,10 @@ public class LobbyState extends GameState {
 
                 lobbyTable = new WindowTable();
 
-                Text joinTitle = new Text(HText.JOIN.text(), 0, 0, false);
+                Text joinTitle = new Text(HText.JOIN.text());
                 joinTitle.setScale(titleScale);
 
-                Text lobbiesTitle = new Text(HText.LOBBIES.text(), 0, 0, false);
+                Text lobbiesTitle = new Text(HText.LOBBIES.text());
                 lobbiesTitle.setScale(subtitleScale);
 
                 lobbyOptions = new VerticalGroup().pad(optionPad).align(Align.topLeft);
@@ -149,7 +149,7 @@ public class LobbyState extends GameState {
                 options = new ScrollPane(lobbyOptions, GameStateManager.getSkin());
                 options.setFadeScrollBars(false);
 
-                searchOption = new Text(HText.REFRESH.text(), 0, 0, true);
+                searchOption = new Text(HText.REFRESH.text()).setButton(true);
                 searchOption.addListener(new ClickListener() {
 
                     @Override
@@ -164,7 +164,7 @@ public class LobbyState extends GameState {
                 });
                 searchOption.setScale(optionsScale);
 
-                Text ipDisplay = new Text(HText.ENTER_IP.text(), 0, 0, false);
+                Text ipDisplay = new Text(HText.ENTER_IP.text());
                 ipDisplay.setScale(subtitleScale);
 
                 enterIP = new TextField("", GameStateManager.getSkin());
@@ -174,7 +174,7 @@ public class LobbyState extends GameState {
                     enterIP.setText(gsm.getRecord().getLastIp());
                 }
 
-                Text joinOptionIP = new Text(HText.CONNECT_IP.text(), 0, 0, true);
+                Text joinOptionIP = new Text(HText.CONNECT_IP.text()).setButton(true);
                 joinOptionIP.setScale(subtitleScale);
 
                 joinOptionIP.addListener(new ClickListener() {
@@ -216,17 +216,17 @@ public class LobbyState extends GameState {
                     }
                 });
 
-                Text hostTitle = new Text(HText.HOST.text(), 0, 0, false);
+                Text hostTitle = new Text(HText.HOST.text());
                 hostTitle.setScale(titleScale);
 
-                Text enterNameText = new Text(HText.SERVER_NAME.text(), 0, 0, true);
+                Text enterNameText = new Text(HText.SERVER_NAME.text());
                 enterNameText.setScale(subtitleScale);
                 enterName = new TextField(HText.SERVER_NAME_DEFAULT.text(gsm.getLoadout().getName()),
                         GameStateManager.getSkin());
                 enterName.setMaxLength(MAX_NAME_LENGTH_LONG);
                 enterName.setMessageText(HText.ENTER_NAME.text());
 
-                Text serverSettings = new Text(HText.SERVER_SETTING_CHANGE.text(), 0, 0, true);
+                Text serverSettings = new Text(HText.SERVER_SETTING_CHANGE.text()).setButton(true);
                 serverSettings.addListener(new ClickListener() {
 
                     @Override
@@ -243,7 +243,7 @@ public class LobbyState extends GameState {
                 });
                 serverSettings.setScale(optionsScale);
 
-                hostOption = new Text(HText.SERVER_CREATE.text(), 0, 0, true);
+                hostOption = new Text(HText.SERVER_CREATE.text()).setButton(true);
                 hostOption.addListener(new ClickListener() {
 
                     @Override
@@ -281,7 +281,7 @@ public class LobbyState extends GameState {
                 });
                 hostOption.setScale(optionsScale);
 
-                exitOption = new Text(HText.RETURN.text(), 0, 0, true);
+                exitOption = new Text(HText.RETURN.text()).setButton(true);
                 exitOption.addListener(new ClickListener() {
 
                     @Override
@@ -293,7 +293,7 @@ public class LobbyState extends GameState {
                 });
                 exitOption.setScale(optionsScale);
 
-                notifications = new Text("", 0, 0, false, true, scrollWidth);
+                notifications = new Text("").setWrap(scrollWidth);
                 notifications.setScale(subtitleScale);
 
                 joinLobby.add(joinTitle).colspan(2).height(optionHeight).pad(titlePad).row();
@@ -398,7 +398,7 @@ public class LobbyState extends GameState {
                 int playerNum = lobbies.getJSONObject(i).getInt("playerNum");
                 int playerCapacity = lobbies.getJSONObject(i).getInt("playerCapacity");
 
-                Text lobbyOption = new Text(lobbyName + " " + playerNum + " / " + playerCapacity, 0, 0, true);
+                Text lobbyOption = new Text(lobbyName + " " + playerNum + " / " + playerCapacity).setButton(true);
                 lobbyOption.addListener(new ClickListener() {
 
                     @Override
@@ -479,7 +479,7 @@ public class LobbyState extends GameState {
         tablePassword.setSize(passwordWidth, passwordHeight);
         stage.addActor(tablePassword);
 
-        Text password = new Text(HText.PASSWORD.text(), 0, 0, false);
+        Text password = new Text(HText.PASSWORD.text());
         password.setScale(scaleSide);
         password.setHeight(optionHeight);
 
@@ -487,11 +487,11 @@ public class LobbyState extends GameState {
         enterPassword.setPasswordCharacter('*');
         enterPassword.setPasswordMode(true);
 
-        Text connect = new Text(HText.PASSWORD_ENTER.text(), 0, 0, true);
+        Text connect = new Text(HText.PASSWORD_ENTER.text()).setButton(true);
         connect.setScale(scaleSide);
         connect.setHeight(optionHeight);
 
-        Text cancel = new Text(HText.RETURN.text(), 0, 0, true);
+        Text cancel = new Text(HText.RETURN.text()).setButton(true);
         cancel.setScale(scaleSide);
         cancel.setHeight(optionHeight);
 

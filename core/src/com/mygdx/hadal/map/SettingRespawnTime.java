@@ -21,7 +21,7 @@ public class SettingRespawnTime extends ModeSetting {
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
         String[] respawnChoices = HText.SETTING_RESPAWN_OPTIONS.text().split(",");
-        Text respawn = new Text(HText.SETTING_RESPAWN.text(), 0, 0, false);
+        Text respawn = new Text(HText.SETTING_RESPAWN.text());
         respawn.setScale(ModeSettingSelection.detailsScale);
 
         respawnOptions = new SelectBox<>(GameStateManager.getSkin());

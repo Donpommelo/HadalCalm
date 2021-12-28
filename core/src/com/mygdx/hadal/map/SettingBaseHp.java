@@ -26,7 +26,7 @@ public class SettingBaseHp extends ModeSetting {
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
         String[] hpChoices = HText.SETTING_BASE_HP_OPTIONS.text().split(",");
-        Text hp = new Text(HText.SETTING_BASE_HP.text(), 0, 0, false);
+        Text hp = new Text(HText.SETTING_BASE_HP.text());
         hp.setScale(ModeSettingSelection.detailsScale);
 
         hpOptions = new SelectBox<>(GameStateManager.getSkin());

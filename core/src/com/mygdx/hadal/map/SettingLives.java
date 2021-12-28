@@ -39,7 +39,7 @@ public class SettingLives extends ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {
         if (livesChoice) {
             String[] livesChoices = HText.SETTING_LIVES_OPTIONS.text().split(",");
-            Text lives = new Text(HText.SETTING_LIVES.text(), 0, 0, false);
+            Text lives = new Text(HText.SETTING_LIVES.text());
             lives.setScale(ModeSettingSelection.detailsScale);
 
             livesOptions = new SelectBox<>(GameStateManager.getSkin());

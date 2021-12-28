@@ -84,7 +84,7 @@ public class NavigationsMultiplayer extends HubEvent {
 			}
 
 			if (appear && modeCompliant) {
-				Text itemChoose = new Text(selected.getInfo().getName(), 0, 0, true);
+				Text itemChoose = new Text(selected.getInfo().getName()).setButton(true);
 
 				itemChoose.addListener(new ClickListener() {
 
@@ -94,7 +94,8 @@ public class NavigationsMultiplayer extends HubEvent {
 						if (state.isServer()) {
 							state.loadLevel(selected, modeChosen, PlayState.TransitionState.NEWLEVEL, "");
 							//play a particle when the player uses this event
-							new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true, SyncType.CREATESYNC, new Vector2(0, - me.getSize().y / 2));
+							new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true, SyncType.CREATESYNC)
+								.setOffset(0, - me.getSize().y / 2);
 						} else {
 
 							//clients suggest maps when clicking
@@ -125,7 +126,7 @@ public class NavigationsMultiplayer extends HubEvent {
 				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
 			}
 		}
-		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
 	}
 
 	@Override
@@ -140,7 +141,7 @@ public class NavigationsMultiplayer extends HubEvent {
 
 			if (!c.isInvisibleInHub()) {
 				final GameMode selected = c;
-				Text itemChoose = new Text(c.getInfo().getName(), 0, 0, true);
+				Text itemChoose = new Text(c.getInfo().getName()).setButton(true);
 
 				itemChoose.addListener(new ClickListener() {
 
@@ -167,6 +168,6 @@ public class NavigationsMultiplayer extends HubEvent {
 				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
 			}
 		}
-		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
 	}
 }

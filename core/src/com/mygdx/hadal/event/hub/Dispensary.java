@@ -59,7 +59,7 @@ public class Dispensary extends HubEvent {
 			}
 
 			if (appear) {
-				Text itemChoose = new Text(selected.getInfo().getName(), 0, 0, true);
+				Text itemChoose = new Text(selected.getInfo().getName()).setButton(true);
 
 				itemChoose.addListener(new ClickListener() {
 
@@ -88,6 +88,6 @@ public class Dispensary extends HubEvent {
 				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
 			}
 		}
-		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
 	}
 }

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.server.packets;
 
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
@@ -11,6 +12,29 @@ import com.mygdx.hadal.server.AlignmentFilter;
  *
  */
 public class PacketsLoadout {
+
+    public static class SyncWholeLoadout {
+        public int connID;
+        public Loadout loadout;
+        public boolean save;
+        public SyncWholeLoadout() {}
+
+        /**
+         * A SyncWholeLoadout is sent from the Server to the Client when a Player in the world changes their loadout.
+         * Upon receiving this packet, clients adjust their versions of that Player to have the new loadout.
+         * Atm, this is sent when a player changes their whole loadout (outfitter) or is spawned)
+         * When a player only changes an item at another hub event, they will send a smaller packet
+         * This is also sent from client to server when choosing outfit in outfitter
+         * @param connID: connection ID of the player to change
+         * @param loadout: Player's new loadout
+         * @param save: do we save this loadout change in records?
+         */
+        public SyncWholeLoadout(int connID, Loadout loadout, boolean save) {
+            this.connID = connID;
+            this.loadout = loadout;
+            this.save = save;
+        }
+    }
 
     /**
      * This base class exists so that client loadout packets can be processed in a single instanceof statement when received

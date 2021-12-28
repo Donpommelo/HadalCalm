@@ -22,7 +22,8 @@ public class Dormitory extends HubEvent {
 	public Dormitory(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.DORMITORY);
 	}
-	
+
+	@Override
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
@@ -31,7 +32,7 @@ public class Dormitory extends HubEvent {
 			
 			final UnlockCharacter selected = c;
 
-			Text itemChoose = new Text(selected.getInfo().getName(), 0, 0, true);
+			Text itemChoose = new Text(selected.getInfo().getName()).setButton(true);
 			
 			itemChoose.addListener(new ClickListener() {
 		        
@@ -59,6 +60,6 @@ public class Dormitory extends HubEvent {
 			itemChoose.setScale(UIHub.optionsScale);
 			hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
 		}
-		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
 	}
 }

@@ -182,8 +182,7 @@ public abstract class HadalEntity {
 	 * This is called when the entity is deleted to return a packet to be sent to the client
 	 * Default: send a packet telling clients to delete this.
 	 */
-	public Object onServerDelete() {
-		return new Packets.DeleteEntity(entityID, state.getTimer()); }
+	public Object onServerDelete() { return new Packets.DeleteEntity(entityID, state.getTimer()); }
 
 	/**
 	 * This is called to send a packet syncing this entity.
@@ -218,7 +217,6 @@ public abstract class HadalEntity {
 	
 	//this is a list of the most recent packets that sync this entity as well as their timestamps
 	private final Array<Object[]> bufferedTimestamps = new Array<>();
-	
 	/**
 	 * When we receive a packet from the server, we store it alongside its timestamp
 	 * @param o: the packet object we are receiving from the server

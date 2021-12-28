@@ -27,11 +27,11 @@ public class SetModifiers extends ModeSetting {
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
 
-        Text title = new Text(ModifierNotifTag.text(), 0, 0, false);
+        Text title = new Text(ModifierNotifTag.text());
         title.setScale(ModeSettingSelection.detailsScale);
 
         //this gives an option to uncheck all modifiers
-        Text uncheck = new Text(HText.MODIFIER_UNCHECK.text(), 0, 0, true);
+        Text uncheck = new Text(HText.MODIFIER_UNCHECK.text()).setButton(true);
         uncheck.setScale(ModeSettingSelection.detailsScale);
 
         uncheck.addListener(new ClickListener() {

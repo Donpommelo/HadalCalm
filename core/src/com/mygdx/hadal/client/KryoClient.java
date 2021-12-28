@@ -453,17 +453,18 @@ public class KryoClient {
 		 * The Server tells us that a player has received a new loadout after spawning.
 		 * Change their loadout on the client side
 		 */
-		else if (o instanceof final Packets.SyncServerLoadout p) {
+		else if (o instanceof final PacketsLoadout.SyncWholeLoadout p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
-				cs.addPacketEffect(() -> {
-					HadalEntity entity = cs.findEntity(p.uuidMSB, p.uuidLSB);
-					if (entity != null) {
-						if (entity instanceof Player player) {
-							player.getPlayerData().syncLoadout(p.loadout, p.save);
-						}
+				User user = users.get(p.connID);
+				if (user != null && cs != null) {
+					Player player = user.getPlayer();
+					if (player != null) {
+						cs.addPacketEffect(() -> {
+							player.getPlayerData().syncLoadout(p.loadout, true, p.save);
+						});
 					}
-				});
+				}
 			}
 		}
 
@@ -484,7 +485,7 @@ public class KryoClient {
 						}
 						else if (p instanceof PacketsLoadout.SyncArtifactServer s) {
 							player.getPlayerData().syncArtifact(s.artifact, true, s.save);
-							cs.getUiHub().refreshHub();
+							cs.getUiHub().refreshHub(null);
 						}
 						else if (p instanceof PacketsLoadout.SyncActiveServer s) {
 							player.getPlayerData().syncActive(s.actives);
@@ -620,6 +621,9 @@ public class KryoClient {
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
 					HadalEntity creator = cs.findEntity(new UUID(p.uuidMSBCreator, p.uuidLSBCreator));
+					if (creator == null) {
+						creator = cs.getWorldDummy();
+					}
 					if (creator != null) {
 						if (creator instanceof Schmuck schmuck) {
 							Hitbox hbox;
@@ -697,8 +701,9 @@ public class KryoClient {
 				cs.addPacketEffect(() -> {
 					ParticleEntity entity;
 					if (p.attached) {
-						entity = new ParticleEntity(cs, null, p.particle, p.linger, p.lifespan, p.startOn, SyncType.NOSYNC, p.pos);
+						entity = new ParticleEntity(cs, null, p.particle, p.linger, p.lifespan, p.startOn, SyncType.NOSYNC);
 						entity.setAttachedId(new UUID(p.uuidMSBAttached, p.uuidLSBAttached));
+						entity.setOffset(p.pos.x, p.pos.y);
 					} else {
 						entity = new ParticleEntity(cs, p.pos, p.particle, p.lifespan, p.startOn, SyncType.NOSYNC);
 					}

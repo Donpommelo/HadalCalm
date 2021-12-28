@@ -28,15 +28,15 @@ public class ModeSettingSelection {
     private static ScrollPane settings;
 
     private static final float tableX = HadalGame.CONFIG_WIDTH;
-    private static final float tableInX = 160;
+    private static final float tableInX = 140;
     private static final float tableY = 100.0f;
 
     public static final int titleHeight = 60;
     public static final int titlePadding = 25;
 
-    private static final int optionsWidthOuter = 400;
-    private static final int optionsHeightOuter = 540;
-    public static final int optionsWidth = 390;
+    private static final int optionsWidthOuter = 420;
+    private static final int optionsHeightOuter = 560;
+    public static final int optionsWidth = 410;
 
     private static final float titleScale = 0.8f;
     private static final float optionScale = 0.5f;
@@ -55,10 +55,10 @@ public class ModeSettingSelection {
 
         tableOuter.setTouchable(Touchable.enabled);
 
-        final Text titleInfo = new Text(HText.SETTINGS.text(), 0, 0, false);
+        final Text titleInfo = new Text(HText.SETTINGS.text());
         titleInfo.setScale(titleScale);
 
-        final Text backOption = new Text(HText.BACK.text(), 0, 0, true);
+        final Text backOption = new Text(HText.BACK.text()).setButton(true);
         backOption.setScale(optionScale);
 
         backOption.addListener(new ClickListener() {

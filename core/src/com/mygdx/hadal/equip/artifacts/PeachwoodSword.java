@@ -1,8 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -12,11 +11,9 @@ public class PeachwoodSword extends Artifact {
 
 	private static final int slotCost = 1;
 	
-	private static final float spiritLifespan = 6.0f;
 	private static final float spiritDamageEnemy = 15.0f;
 	private static final float spiritDamagePlayer = 50.0f;
-	private static final float spiritKnockback = 8.0f;
-	
+
 	public PeachwoodSword() {
 		super(slotCost);
 	}
@@ -27,25 +24,19 @@ public class PeachwoodSword extends Artifact {
 			
 			@Override
 			public void onKill(BodyData vic) {
-				SoundEffect.DARKNESS2.playUniversal(state, vic.getSchmuck().getPixelPosition(), 0.2f, false);
-
 				if (vic instanceof PlayerBodyData) {
-					WeaponUtils.releaseVengefulSpirits(state, vic.getSchmuck().getPixelPosition(), spiritLifespan,
-							spiritDamagePlayer, spiritKnockback, p, Particle.SHADOW_PATH,
-							p.getSchmuck().getHitboxfilter(), false);
+					SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2[] {vic.getSchmuck().getPixelPosition()},
+							new Vector2[] {}, 0.0f, 0.0f, spiritDamagePlayer);
 				} else {
-					WeaponUtils.releaseVengefulSpirits(state, vic.getSchmuck().getPixelPosition(), spiritLifespan,
-							spiritDamageEnemy, spiritKnockback, p, Particle.SHADOW_PATH,
-							p.getSchmuck().getHitboxfilter(), false);
+					SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2[] {vic.getSchmuck().getPixelPosition()},
+							new Vector2[] {}, 0.0f, 0.0f, spiritDamageEnemy);
 				}
 			}
 			
 			@Override
 			public void onDeath(BodyData perp) {
-				SoundEffect.DARKNESS2.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.2f, false);
-				WeaponUtils.releaseVengefulSpirits(state, p.getSchmuck().getPixelPosition(), spiritLifespan,
-						spiritDamagePlayer, spiritKnockback, p, Particle.SHADOW_PATH,
-						p.getSchmuck().getHitboxfilter(), false);
+				SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2[] {p.getSchmuck().getPixelPosition()},
+						new Vector2[] {}, 0.0f, 0.0f, spiritDamagePlayer);
 			}
 		};
 	}

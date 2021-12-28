@@ -6,7 +6,7 @@
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
-        "AMMO"
+        "HEAL"
 	]
 },
 "EIGHT_BALL": {
@@ -226,7 +226,7 @@
 "CARLOCS_THESIS": {
 	"name": "Carloc's Thesis",
 	"description": "Redirects Incoming Projectiles",
-    "descriptionLong": "Redirection Amount: 25 Degrees\n\n",
+    "descriptionLong": "Redirection Amount: 25 Degrees\n\nSome headache-inducing ramblings printed on a spatially impossible pamphlet\n\nOur problems are all rooted in our reluctance to deny responsibility for them.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -454,7 +454,7 @@
 "ERSATZ_SMILE": {
 	"name": "Ersatz Smile",
 	"description": "+Backstab Damage",
-    "descriptionLong": "Bonus Backstab Damage: +80%\n\n",
+    "descriptionLong": "Bonus Backstab Damage: +80%\n\nA wooden grin made of stiff and synthetic material\n\nThose that can survive the abyss with their face exposed are never as human as they may seem.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -1222,6 +1222,7 @@
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
+		"FUEL",
         "MOBILITY"
 	]
 },
@@ -1253,7 +1254,7 @@
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
-        "FUEL"
+        "MOBILITY"
 	]
 },
 "TOME_OF_PHILOPATRY": {

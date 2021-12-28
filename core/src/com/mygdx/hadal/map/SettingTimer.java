@@ -30,7 +30,7 @@ public class SettingTimer extends ModeSetting {
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
         String[] timerChoices = HText.SETTING_TIMER_OPTIONS.text().split(",");
-        Text timer = new Text(HText.SETTING_TIMER.text(), 0, 0, false);
+        Text timer = new Text(HText.SETTING_TIMER.text());
         timer.setScale(ModeSettingSelection.detailsScale);
 
         timerOptions = new SelectBox<>(GameStateManager.getSkin());

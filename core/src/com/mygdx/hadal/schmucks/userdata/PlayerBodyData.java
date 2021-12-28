@@ -97,13 +97,14 @@ public class PlayerBodyData extends BodyData {
 	 * This is called by the client for players that receive a new loadout from the server.
 	 * We give the player the new loadout information.
 	 * @param loadout: The new loadout for the player
+	 * @param override: should this sync override settings artifact slot limit?
 	 * @param save: should this loadout be saved to the client's saved loadout?
 	 */
-	public void syncLoadout(Loadout loadout, boolean save) {
+	public void syncLoadout(Loadout loadout, boolean override, boolean save) {
 		Loadout newLoadout = new Loadout(loadout);
 
 		syncEquip(newLoadout.multitools);
-		syncArtifact(newLoadout.artifacts, true, save);
+		syncArtifact(newLoadout.artifacts, override, save);
 		syncActive(newLoadout.activeItem);
 		setCharacter(newLoadout.character);
 		setTeam(newLoadout.team);
@@ -111,7 +112,7 @@ public class PlayerBodyData extends BodyData {
 		this.loadout = newLoadout;
 
 		if (player.getUser() != null) {
-			player.getUser().setTeamFilter(loadout.team);
+			player.getUser().setTeamFilter(newLoadout.team);
 		}
 	}
 
@@ -538,6 +539,10 @@ public class PlayerBodyData extends BodyData {
 
 	public void syncServerTeamChange(AlignmentFilter team) {
 		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncTeamServer(player.getConnId(), team));
+	}
+
+	public void syncServerWholeLoadoutChange() {
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncWholeLoadout(player.getConnId(), loadout, false));
 	}
 
 	public void clearStatuses() {

@@ -293,10 +293,10 @@ public class MessageWindow {
 		};
 		enterMessage.setMaxLength(MAX_MESSAGE_LENGTH);
 
-		backButton = new Text(HText.EXIT.text(), 0, 0, true);
+		backButton = new Text(HText.EXIT.text()).setButton(true);
 		backButton.setScale(logScale);
 
-		sendButton = new Text(HText.SEND.text(), 0, 0, true);
+		sendButton = new Text(HText.SEND.text()).setButton(true);
 		sendButton.setScale(logScale);
 
 		sendButton.addListener(new ClickListener() {
@@ -390,7 +390,7 @@ public class MessageWindow {
 	 * After adding a text to the dialog record, we create a text actor for it and add that to the dialog box actor.
 	 */
 	private void addTextLine(String text) {
-		Text newEntry = new Text(text, 0, 0, false, true, scrollWidth - scrollBarPadding);
+		Text newEntry = new Text(text).setWrap(scrollWidth - scrollBarPadding);
 		newEntry.setScale(logScale);
 		newEntry.setFont(HadalGame.FONT_UI_ALT);
 

@@ -236,9 +236,9 @@ public class Player extends PhysicsSchmuck {
 	public void loadParticles() {
 		if (state.isServer()) {
 			dustCloud = new ParticleEntity(state, this, Particle.DUST, 1.0f, 0.0f, false,
-					SyncType.TICKSYNC, new Vector2(0, -size.y / 2));
+					SyncType.TICKSYNC);
 			hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false,
-					SyncType.TICKSYNC, new Vector2(0, -size.y / 2));
+					SyncType.TICKSYNC);
 		}
 	}
 	
@@ -288,6 +288,12 @@ public class Player extends PhysicsSchmuck {
 
 		//we scale size here to account for any player size modifiers
 		size.scl(scaleModifier);
+
+		//for server, we adjust offset of particles to account for size changes
+		if (dustCloud != null && hoverBubbles != null) {
+			dustCloud.setOffset(0, -size.y / 2);
+			hoverBubbles.setOffset(0, -size.y / 2);
+		}
 
 		this.body = BodyBuilder.createBox(world, startPos, size, gravityModifier, playerDensity, restitutionModifier, 0.0f, false, true, Constants.BIT_PLAYER,
 				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),

@@ -30,51 +30,35 @@ public class Text extends AHadalActor {
 	private boolean mouseOver;
 	
 	//does the text wrap? If so, it is set to targetWidth length.
-	private final boolean wrap;
-	private final float targetWidth;
+	private boolean wrap;
+	private float targetWidth;
 
 	//padding for window used if this text is a button
 	private static final float padding = 15.0f;
-	
-	public Text(String text, int x, int y, boolean button) {
-		this(text, x, y, button, false, 0);
-	}
-	
-	public Text(String text, int x, int y, boolean button, boolean wrap, float targetWidth) {
+
+	private boolean mouseWindow;
+
+	public Text(String text, int x, int y) {
 		super(x, y);
 		this.text = text;
-		this.wrap = wrap;
-		this.targetWidth = targetWidth;
 
 		font = HadalGame.FONT_UI;
 		fontColor = HadalGame.DEFAULT_TEXT_COLOR;
 
-		//if the actor is a button, we check if it is moused over to display some visual indication of its size
-		if (button) {
-			this.addListener(new InputListener() {
-
-				@Override
-				public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					((Text) event.getTarget()).mouseOver = true;
-				}
-
-				@Override
-				public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-					((Text) event.getTarget()).mouseOver = false;
-				}
-			});
-		}
-		
 		updateHitBox();
 	}
-	
+
+	public Text(String text) { this(text, 0, 0); }
+
 	@Override
     public void draw(Batch batch, float alpha) {
 
 		//draw an additional window beneath this actor to indicate a button
 		 if (mouseOver) {
-			 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2, getY(),
-				 getWidth() + padding, getHeight());
+		 	if (mouseWindow) {
+				GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2, getY(),
+						getWidth() + padding, getHeight());
+			}
 		 }
 
 		 //we use a text cache here so that we can more easily control the text's transparency
@@ -100,7 +84,31 @@ public class Text extends AHadalActor {
 
 		font.getData().setScale(1.0f);
 	}
-	
+
+	public Text setWrap(float targetWidth) {
+		this.wrap = true;
+		this.targetWidth = targetWidth;
+		updateHitBox();
+		return this;
+	}
+
+	public Text setButton(boolean mouseWindow) {
+		this.mouseWindow = mouseWindow;
+		this.addListener(new InputListener() {
+
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+				((Text) event.getTarget()).mouseOver = true;
+			}
+
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+				((Text) event.getTarget()).mouseOver = false;
+			}
+		});
+		return this;
+	}
+
 	public void setText(String text) {
 		this.text = text;
 		updateHitBox();
@@ -125,4 +133,5 @@ public class Text extends AHadalActor {
 		this.scale = scale;
 		updateHitBox();
 	}
+
 }

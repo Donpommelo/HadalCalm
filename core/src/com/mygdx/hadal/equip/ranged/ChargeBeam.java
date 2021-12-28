@@ -45,6 +45,7 @@ public class ChargeBeam extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_CHARGEBEAM;
 
 	private static final float maxCharge = 0.5f;
+	private static final float particleOffset = 1.85f;
 	private ParticleEntity charge, overcharge;
 
 	public ChargeBeam(Schmuck user) {
@@ -61,8 +62,7 @@ public class ChargeBeam extends RangedWeapon {
 		if (reloading || getClipLeft() == 0) {
 			return;
 		}
-
-		particleOrigin.set(weaponVelo).nor().scl(60);
+		particleOrigin.set(weaponVelo).nor().scl(shooter.getSchmuck().getSize().x * particleOffset);
 		charging = true;
 
 		//while held, build charge until maximum (if not reloading)
@@ -71,7 +71,7 @@ public class ChargeBeam extends RangedWeapon {
 				charge = new ParticleEntity(user.getState(), user, Particle.CHARGING, 1.0f, 0.0f, false, SyncType.TICKSYNC);
 				charge.setScale(0.5f);
 			}
-			charge.setOffset(particleOrigin);
+			charge.setOffset(particleOrigin.x, particleOrigin.y);
 			charge.turnOn();
 
 			setChargeCd(chargeCd + delta);
@@ -83,7 +83,7 @@ public class ChargeBeam extends RangedWeapon {
 			if (charge != null) {
 				charge.turnOff();
 			}
-			overcharge.setOffset(particleOrigin);
+			overcharge.setOffset(particleOrigin.x, particleOrigin.y);
 			overcharge.turnOn();
 		}
 	}

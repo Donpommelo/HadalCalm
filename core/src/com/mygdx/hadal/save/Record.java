@@ -30,9 +30,9 @@ public class Record {
 	private ObjectMap<String, Boolean> unlockActive;
 	private ObjectMap<String, Boolean> unlockCharacter;
 	private ObjectMap<String, Boolean> unlockLevel;
-	
+
 	public Record() {}
-	
+
 	public void updateScore(int score, UnlockLevel level) {
 		if (hiScores.containsKey(level.toString())) {
 			if (score > hiScores.get(level.toString())) {
@@ -59,7 +59,7 @@ public class Record {
 		this.lastIp = lastIp;
 		saveRecord();
 	}
-	
+
 	/**
 	 * This simple saves the record in a designated file
 	 */
@@ -115,7 +115,7 @@ public class Record {
 		newRecord.unlockActive = new ObjectMap<>();
 		newRecord.unlockCharacter = new ObjectMap<>();
 		newRecord.unlockLevel = new ObjectMap<>();
-		
+
 		for (UnlockEquip equip: UnlockEquip.values()) {
 			newRecord.unlockEquip.put(equip.toString(), false);
 		}

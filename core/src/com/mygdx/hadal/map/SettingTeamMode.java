@@ -1,7 +1,9 @@
 package com.mygdx.hadal.map;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.ModeSettingSelection;
@@ -53,7 +55,7 @@ public class SettingTeamMode extends ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {
         if (teamModeChoice) {
             String[] teamChoices = HText.SETTING_TEAM_MODE_OPTIONS.text().split(",");
-            Text team = new Text(HText.SETTING_TEAM_MODE.text(), 0, 0, false);
+            Text team = new Text(HText.SETTING_TEAM_MODE.text());
             team.setScale(ModeSettingSelection.detailsScale);
 
             teamsOptions = new SelectBox<>(GameStateManager.getSkin());
@@ -62,13 +64,23 @@ public class SettingTeamMode extends ModeSetting {
             teamsOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValue1));
 
             String[] teamNumChoices = HText.SETTING_TEAM_NUM_OPTIONS.text().split(",");
-            Text teamNum = new Text(HText.SETTING_TEAM_NUM.text(), 0, 0, false);
+            Text teamNum = new Text(HText.SETTING_TEAM_NUM.text());
             teamNum.setScale(ModeSettingSelection.detailsScale);
 
             teamsNumOptions = new SelectBox<>(GameStateManager.getSkin());
             teamsNumOptions.setItems(teamNumChoices);
             teamsNumOptions.setWidth(ModeSettingSelection.optionsWidth);
             teamsNumOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag2, defaultValue2));
+
+            //team number option is disabled outside of auto-assigned teams
+            teamsNumOptions.setDisabled(teamsOptions.getSelectedIndex() != 1);
+            teamsOptions.addListener(new ChangeListener() {
+
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    teamsNumOptions.setDisabled(teamsOptions.getSelectedIndex() != 1);
+                }
+            });
 
             table.add(team);
             table.add(teamsOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();

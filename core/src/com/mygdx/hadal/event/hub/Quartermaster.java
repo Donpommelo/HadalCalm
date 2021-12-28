@@ -32,7 +32,8 @@ public class Quartermaster extends HubEvent {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.QUARTERMASTER);
 		this.shopInfo = GameStateManager.json.fromJson(ShopInfo.class, GameStateManager.shops.get(shopId).toJson(OutputType.json));
 	}
-	
+
+	@Override
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
@@ -45,7 +46,7 @@ public class Quartermaster extends HubEvent {
 			if (checkUnlock && !UnlockManager.checkUnlock(state, UnlockType.valueOf(shopInfo.getType()), item)) {
 
 				Text itemChoose = new Text(HText.QUARTERMASTER_COST.text(Objects.requireNonNull(info).getName(),
-						Integer.toString(shopInfo.getPrices().get(item))), 0, 0, true);
+						Integer.toString(shopInfo.getPrices().get(item)))).setButton(true);
 				
 				itemChoose.addListener(new ClickListener() {
 					
@@ -72,6 +73,6 @@ public class Quartermaster extends HubEvent {
 				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
 			}
 		}
-		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
 	}
 }

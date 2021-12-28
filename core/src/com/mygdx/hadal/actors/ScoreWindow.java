@@ -97,19 +97,19 @@ public class ScoreWindow {
 		tableScore.setPosition(0, HadalGame.CONFIG_HEIGHT - tableHeight);
 
 		//add table headings
-		Text title = new Text(state.getLevel().toString(), 0, 0, false);
+		Text title = new Text(state.getLevel().toString());
 		title.setScale(scoreScale);
 		
-		Text playerLabel = new Text(HText.PLAYER.text(), 0, 0, false);
+		Text playerLabel = new Text(HText.PLAYER.text());
 		playerLabel.setScale(scoreScale);
 		
-		Text kdaLabel = new Text(HText.KDA.text(), 0, 0, false);
+		Text kdaLabel = new Text(HText.KDA.text());
 		kdaLabel.setScale(scoreScale);
 
-		Text scoreLabel = new Text(HText.SCORE.text(), 0, 0, false);
+		Text scoreLabel = new Text(HText.SCORE.text());
 		scoreLabel.setScale(scoreScale);
 		
-		Text winsLabel = new Text(HText.WINS.text(), 0, 0, false);
+		Text winsLabel = new Text(HText.WINS.text());
 		winsLabel.setScale(scoreScale);
 		
 		tableScore.add(title).height(scoreTitleHeight).colspan(5).row();
@@ -164,16 +164,16 @@ public class ScoreWindow {
 		tableSettings.setPosition(HadalGame.CONFIG_WIDTH - settingsWidth, HadalGame.CONFIG_HEIGHT - settingsHeight);
 
 		//add table headings
-		Text title = new Text(HText.SERVER_SETTINGS.text(), 0, 0, false);
+		Text title = new Text(HText.SERVER_SETTINGS.text());
 		title.setScale(settingsScale);
 
-		Text slotsField = new Text(HText.ARTIFACT_SLOTS.text(), 0, 0, false);
+		Text slotsField = new Text(HText.ARTIFACT_SLOTS.text());
 		slotsField.setScale(settingsScale);
 		
-		Text pauseField = new Text(HText.SERVER_PAUSE.text(), 0, 0, false);
+		Text pauseField = new Text(HText.SERVER_PAUSE.text());
 		pauseField.setScale(settingsScale);
 		
-		Text serverSizeField = new Text(HText.SERVER_CAPACITY.text(), 0, 0, false);
+		Text serverSizeField = new Text(HText.SERVER_CAPACITY.text());
 		serverSizeField.setScale(settingsScale);
 
 		//obtain settings. (host settings for clients)
@@ -184,13 +184,13 @@ public class ScoreWindow {
 			used = state.getGsm().getHostSetting();
 		}
 
-		Text slots = new Text(SettingState.artifactChoices[used.getArtifactSlots()], 0, 0, false);
+		Text slots = new Text(SettingState.artifactChoices[used.getArtifactSlots()]);
 		slots.setScale(settingsScale);
 		
-		Text pause = new Text("" + used.isMultiplayerPause(), 0, 0, false);
+		Text pause = new Text("" + used.isMultiplayerPause());
 		pause.setScale(settingsScale);
 		
-		Text serverSize = new Text(SettingState.capacityChoices[used.getMaxPlayers()], 0, 0, false);
+		Text serverSize = new Text(SettingState.capacityChoices[used.getMaxPlayers()]);
 		serverSize.setScale(settingsScale);
 		
 		tableSettings.add(title).height(settingsRowHeight).expandY().top().colspan(2).row();
@@ -233,7 +233,7 @@ public class ScoreWindow {
 
 		//user can mute/unmute players
 		if (user != null) {
-			Text mute = new Text("", 0, 0, true);
+			Text mute = new Text("").setButton(true);
 			if (user.isMuted()) {
 				mute.setText(HText.UNMUTE.text());
 				mute.addListener(new ClickListener() {
@@ -264,7 +264,7 @@ public class ScoreWindow {
 			if (state.isServer()) {
 				//host cannot ban self
 				if (connID != 0) {
-					Text ban = new Text(HText.BAN.text(), 0, 0, true);
+					Text ban = new Text(HText.BAN.text()).setButton(true);
 					ban.setScale(settingsScale);
 					ban.addListener(new ClickListener() {
 
@@ -292,7 +292,7 @@ public class ScoreWindow {
 
 		String nameText = user.getNameAbridgedColored(MAX_NAME_LENGTH);
 
-		Text name = new Text(field.getPingText() + nameText, 0, 0, false);
+		Text name = new Text(field.getPingText() + nameText);
 		name.setScale(scoreScale);
 		name.addListener(new ClickListener() {
 
@@ -302,11 +302,11 @@ public class ScoreWindow {
 			}
 		});
 
-		Text kda = new Text(field.getKills() + " / " + field.getDeaths() + " / " + field.getAssists(), 0, 0, false);
+		Text kda = new Text(field.getKills() + " / " + field.getDeaths() + " / " + field.getAssists());
 		kda.setScale(scoreScale);
-		Text points = new Text(field.getScore() + " ", 0, 0, false);
+		Text points = new Text(field.getScore() + " ");
 		points.setScale(scoreScale);
-		Text wins = new Text(field.getWins() + " ", 0, 0, false);
+		Text wins = new Text(field.getWins() + " ");
 		wins.setScale(scoreScale);
 
 		tableScore.add(name).width(scoreNameWidth).height(scoreRowHeight).padBottom(scorePadY).align(Align.center);

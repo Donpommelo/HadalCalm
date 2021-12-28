@@ -160,6 +160,7 @@ public class UnlockManager {
 		TRAINING,
 		CAMPAIGN,
 		QUARTERMASTER,
+		OUTFITTER,
 		NASU,
 		MISC,
 

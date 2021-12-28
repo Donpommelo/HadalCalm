@@ -30,7 +30,7 @@ public class ModeModifier extends ModeSetting {
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
-        Text title = new Text(uiText.text(), 0, 0, false);
+        Text title = new Text(uiText.text());
         title.setScale(ModeSettingSelection.detailsScale);
 
         dropsOptions = new CheckBox("", GameStateManager.getSkin());

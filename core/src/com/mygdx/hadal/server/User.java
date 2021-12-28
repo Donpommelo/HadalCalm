@@ -79,7 +79,7 @@ public class User {
                     spawnForewarned = true;
                     startPoint = state.getSavePoint(this);
 
-                    new ParticleEntity(state, new Vector2(startPoint.getStartPos()).sub(0, startPoint.getSize().y / 2),
+                    new ParticleEntity(state, new Vector2(startPoint.getStartPos()).sub(0, startPoint.getSize().y),
                             Particle.TELEPORT, 1.0f, true, SyncType.CREATESYNC);
                 }
             }

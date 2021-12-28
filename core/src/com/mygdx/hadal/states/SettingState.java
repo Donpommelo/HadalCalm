@@ -114,7 +114,7 @@ public class SettingState extends GameState {
 				details.top();
 				addActor(details);
 				
-				displayOption = new Text(HText.DISPLAY.text(), 0, 0, true);
+				displayOption = new Text(HText.DISPLAY.text()).setButton(true);
 				displayOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -126,7 +126,7 @@ public class SettingState extends GameState {
 			    });
 				displayOption.setScale(optionsScale);
 				
-				controlOption = new Text(HText.CONTROLS.text(), 0, 0, true);
+				controlOption = new Text(HText.CONTROLS.text()).setButton(true);
 				controlOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -138,7 +138,7 @@ public class SettingState extends GameState {
 			    });
 				controlOption.setScale(optionsScale);
 				
-				audioOption = new Text(HText.AUDIO.text(), 0, 0, true);
+				audioOption = new Text(HText.AUDIO.text()).setButton(true);
 				audioOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -150,7 +150,7 @@ public class SettingState extends GameState {
 			    });
 				audioOption.setScale(optionsScale);
 				
-				serverOption = new Text(HText.SERVER.text(), 0, 0, true);
+				serverOption = new Text(HText.SERVER.text()).setButton(true);
 				serverOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -162,7 +162,7 @@ public class SettingState extends GameState {
 			    });
 				serverOption.setScale(optionsScale);
 				
-				miscOption = new Text(HText.MISC.text(), 0, 0, true);
+				miscOption = new Text(HText.MISC.text()).setButton(true);
 				miscOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -174,7 +174,7 @@ public class SettingState extends GameState {
 			    });
 				miscOption.setScale(optionsScale);
 
-				exitOption = new Text(HText.RETURN.text(), 0, 0, true);
+				exitOption = new Text(HText.RETURN.text()).setButton(true);
 				exitOption.addListener(new ClickListener() {
 					
 					@Override
@@ -188,7 +188,7 @@ public class SettingState extends GameState {
 			    });
 				exitOption.setScale(optionsScale);
 
-				resetOption = new Text(HText.RESET.text(), 0, 0, true);
+				resetOption = new Text(HText.RESET.text()).setButton(true);
 				resetOption.addListener(new ClickListener() {
 					
 					@Override
@@ -272,9 +272,9 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.DISPLAY;
 		
-		details.add(new Text(HText.DISPLAY.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
+		details.add(new Text(HText.DISPLAY.text())).colspan(2).pad(titlePad).row();
 		
-		Text screen = new Text(HText.RESOLUTION.text(), 0, 0, false);
+		Text screen = new Text(HText.RESOLUTION.text());
 		screen.setScale(detailsScale);
 		
 		resolutionOptions = new SelectBox<>(GameStateManager.getSkin());
@@ -283,18 +283,18 @@ public class SettingState extends GameState {
 		
 		resolutionOptions.setSelectedIndex(gsm.getSetting().getResolution());
 
-		Text framerate = new Text(HText.FRAMERATE.text(), 0, 0, false);
+		Text framerate = new Text(HText.FRAMERATE.text());
 		framerate.setScale(detailsScale);
 		
-		Text cursortype = new Text(HText.CURSOR_TYPE.text(), 0, 0, false);
+		Text cursortype = new Text(HText.CURSOR_TYPE.text());
 		cursortype.setScale(detailsScale);
 		
-		Text cursorsize = new Text(HText.CURSOR_SIZE.text(), 0, 0, false);
+		Text cursorsize = new Text(HText.CURSOR_SIZE.text());
 		cursorsize.setScale(detailsScale);
 		
-		Text cursorcolor = new Text(HText.CURSOR_COLOR.text(), 0, 0, false);
+		Text cursorcolor = new Text(HText.CURSOR_COLOR.text());
 		cursorcolor.setScale(detailsScale);
-		
+
 		framerateOptions = new SelectBox<>(GameStateManager.getSkin());
 		framerateOptions.setItems(HText.FRAMERATE_OPTIONS.text().split(","));
 		
@@ -392,14 +392,14 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.CONTROLS;
 		
-		details.add(new Text(HText.CONTROLS.text(), 0, 0, false)).pad(titlePad).row();
+		details.add(new Text(HText.CONTROLS.text())).pad(titlePad).row();
 		
 		VerticalGroup actions = new VerticalGroup().space(optionPadding);
 		
 		for (PlayerAction a : PlayerAction.values()) {
 			
 			final PlayerAction action = a;
-			Text actionChoose = new Text(a.toString() + ":==   " + getKey(a.getKey()) , 0, 0, true);
+			Text actionChoose = new Text(a.toString() + ":==   " + getKey(a.getKey())).setButton(true);
 			
 			actionChoose.addListener(new ClickListener() {
 				
@@ -438,10 +438,9 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.AUDIO;
 		
-		details.add(new Text(HText.AUDIO .text(), 0, 0, false)).colspan(2).pad(titlePad).row();
+		details.add(new Text(HText.AUDIO .text())).colspan(2).pad(titlePad).row();
 		
-		Text soundText = new Text(HText.SOUND_VOLUME.text(Integer.toString((int)(gsm.getSetting().getSoundVolume() * 100))),
-				0, 0, false);
+		Text soundText = new Text(HText.SOUND_VOLUME.text(Integer.toString((int)(gsm.getSetting().getSoundVolume() * 100))));
 		soundText.setScale(detailsScale);
 		
 		sound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
@@ -472,8 +471,7 @@ public class SettingState extends GameState {
 			}
 		});
 
-		Text musicText = new Text(HText.MUSIC_VOLUME.text(Integer.toString((int)(gsm.getSetting().getMusicVolume() * 100))),
-				0, 0, false);
+		Text musicText = new Text(HText.MUSIC_VOLUME.text(Integer.toString((int)(gsm.getSetting().getMusicVolume() * 100))));
 		musicText.setScale(detailsScale);
 		
 		music = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
@@ -501,8 +499,7 @@ public class SettingState extends GameState {
 			}
 		});
 
-		Text masterText = new Text(HText.MASTER_VOLUME.text(Integer.toString((int)(gsm.getSetting().getMasterVolume() * 100))),
-				0, 0, false);
+		Text masterText = new Text(HText.MASTER_VOLUME.text(Integer.toString((int)(gsm.getSetting().getMasterVolume() * 100))));
 		masterText.setScale(detailsScale);
 		
 		master = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
@@ -536,7 +533,7 @@ public class SettingState extends GameState {
 			}
 		});
 
-		Text hitsoundText = new Text(HText.HITSOUND.text(), 0, 0, false);
+		Text hitsoundText = new Text(HText.HITSOUND.text());
 		hitsoundText.setScale(0.25f);
 		
 		hitsoundOptions = new SelectBox<>(GameStateManager.getSkin());
@@ -556,8 +553,7 @@ public class SettingState extends GameState {
 			}
 		});
 		
-		Text hitsoundVolumeText = new Text(HText.HITSOUND_VOLUME.text(Integer.toString((int)(gsm.getSetting().getHitsoundVolume() * 100))),
-				0, 0, false);
+		Text hitsoundVolumeText = new Text(HText.HITSOUND_VOLUME.text(Integer.toString((int)(gsm.getSetting().getHitsoundVolume() * 100))));
 		hitsoundVolumeText.setScale(detailsScale);
 		
 		hitsound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
@@ -607,18 +603,18 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.SERVER;
 		
-		details.add(new Text(HText.SERVER.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
+		details.add(new Text(HText.SERVER.text())).colspan(2).pad(titlePad).row();
 
-		Text maxPlayers = new Text(HText.SERVER_SIZE.text(), 0, 0, false);
+		Text maxPlayers = new Text(HText.SERVER_SIZE.text());
 		maxPlayers.setScale(detailsScale);
 
-		Text port = new Text(HText.PORT_NUMBER.text(), 0, 0, false);
+		Text port = new Text(HText.PORT_NUMBER.text());
 		port.setScale(0.25f);
 
-		Text password = new Text(HText.SERVER_PASSWORD.text(), 0, 0, false);
+		Text password = new Text(HText.SERVER_PASSWORD.text());
 		password.setScale(detailsScale);
 
-		Text slots = new Text(HText.ARTIFACT_SLOTS.text(), 0, 0, false);
+		Text slots = new Text(HText.ARTIFACT_SLOTS.text());
 		slots.setScale(detailsScale);
 		
 		portNumber = new TextField(String.valueOf(gsm.getSetting().getPortNumber()), GameStateManager.getSkin());
@@ -655,7 +651,7 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.MISC;
 		
-		details.add(new Text(HText.MISC.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
+		details.add(new Text(HText.MISC.text())).colspan(2).pad(titlePad).row();
 
 		randomNameAlliteration = new CheckBox(HText.NAME_ALLITERATION.text(), GameStateManager.getSkin());
 		randomNameAlliteration.setChecked(gsm.getSetting().isRandomNameAlliteration());

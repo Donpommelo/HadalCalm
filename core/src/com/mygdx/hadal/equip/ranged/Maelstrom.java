@@ -62,7 +62,6 @@ public class Maelstrom extends RangedWeapon {
 			private final Vector2 entityLocation = new Vector2();
 			@Override
 			public void render(SpriteBatch batch) {
-
 				if (!alive) { return; }
 
 				if (projectileSprite != null) {

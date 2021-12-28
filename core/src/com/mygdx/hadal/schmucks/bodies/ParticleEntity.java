@@ -114,12 +114,6 @@ public class ParticleEntity extends HadalEntity {
 		}
 	}
 
-	//this constructor is used for particles with an offset from their attached entity
-	public ParticleEntity(PlayState state, HadalEntity entity, Particle particle, float linger, float lifespan, boolean startOn, SyncType sync, Vector2 offset) {
-		this(state, entity, particle, linger, lifespan, startOn, sync);
-		this.offset.set(offset);
-	}
-	
 	@Override
 	public void create() {}
 
@@ -443,5 +437,5 @@ public class ParticleEntity extends HadalEntity {
 	
 	public void setAttachedId(UUID attachedId) { this.attachedId = attachedId; }
 
-	public void setOffset(Vector2 offset) { this.offset.set(offset); }
+	public void setOffset(float offsetX, float offsetY) { this.offset.set(offsetX, offsetY); }
 }

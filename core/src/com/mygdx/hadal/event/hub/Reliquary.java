@@ -75,7 +75,7 @@ public class Reliquary extends HubEvent {
 				}
 			}
 			if (appear) {
-				Text itemChoose = new Text(selected.getInfo().getName(), 0, 0, true);
+				Text itemChoose = new Text(selected.getInfo().getName()).setButton(true);
 
 				AHadalActor icon = new AHadalActor() {
 
@@ -96,7 +96,7 @@ public class Reliquary extends HubEvent {
 						} else {
 							HadalGame.client.sendTCP(new PacketsLoadout.SyncArtifactAddClient(selected, true));
 						}
-						hub.refreshHub();
+						hub.refreshHub(null);
 					}
 
 					@Override
@@ -115,7 +115,7 @@ public class Reliquary extends HubEvent {
 				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeightLarge).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
 			}
 		}
-		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).colspan(2).row();
-		hub.refreshHub();
+		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).colspan(2).row();
+		hub.refreshHub(null);
 	}
 }

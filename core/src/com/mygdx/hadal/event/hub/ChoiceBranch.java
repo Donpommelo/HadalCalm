@@ -42,7 +42,7 @@ public class ChoiceBranch extends HubEvent {
 		
 		for (ObjectMap.Entry<String, Event> entry: options.entries()) {
 
-			Text itemChoose = new Text(entry.key, 0, 0, true);
+			Text itemChoose = new Text(entry.key).setButton(true);
 			itemChoose.addListener(new ClickListener() {
 				
 				@Override
@@ -61,7 +61,7 @@ public class ChoiceBranch extends HubEvent {
 			itemChoose.setScale(UIHub.optionsScale);
 			hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
 		}
-		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
 	}
 	
 	public void addOption(String name, Event connectedEvent) {

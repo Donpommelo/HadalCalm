@@ -270,6 +270,14 @@ public enum SyncedAttack {
         }
     },
 
+    MORNING_STAR() {
+
+        @Override
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
+            return MorningStar.createMorningStar(state, user);
+        }
+    },
+
     NEMATOCYTE() {
         @Override
         public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
@@ -404,11 +412,27 @@ public enum SyncedAttack {
         }
     },
 
+    UNDERMINER_DRILL() {
+
+        @Override
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
+            return Underminer.createUndermineDrills(state, user, startPosition, startVelocity, extraFields);
+        }
+    },
+
     VAJRA() {
 
         @Override
         public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
             return Vajra.createVajra(state, user, startPosition, startVelocity);
+        }
+    },
+
+    VINE() {
+
+        @Override
+        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+            return VineSower.createVine(state, user, startPosition, startVelocity, extraFields, true);
         }
     },
 
@@ -428,6 +452,27 @@ public enum SyncedAttack {
         }
     },
 
+    NAUTICAL_MINE() {
+        @Override
+        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+            return WeaponUtils.createNauticalMine(state, user, startPosition, startVelocity, extraFields);
+        }
+    },
+
+    PROXIMITY_MINE() {
+        @Override
+        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+            return WeaponUtils.createProximityMine(state, user, startPosition, extraFields);
+        }
+    },
+
+    VENGEFUL_SPIRIT() {
+
+        @Override
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
+            return WeaponUtils.createVengefulSpirits(state, user, startPosition, extraFields);
+        }
+    },
 
     PING() {
         @Override

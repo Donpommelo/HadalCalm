@@ -42,7 +42,7 @@ public class SettingBots extends ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {
         if (botsChoice) {
             String[] botNumberChoices = HText.SETTING_BOT_NUMBER_OPTIONS.text().split(",");
-            Text bots = new Text(HText.SETTING_BOT_NUMBER.text(), 0, 0, false);
+            Text bots = new Text(HText.SETTING_BOT_NUMBER.text());
             bots.setScale(ModeSettingSelection.detailsScale);
 
             botNumberOptions = new SelectBox<>(GameStateManager.getSkin());

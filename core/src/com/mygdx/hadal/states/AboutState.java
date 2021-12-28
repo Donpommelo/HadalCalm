@@ -115,7 +115,7 @@ public class AboutState extends GameState {
 				details.top();
 				addActor(details);
 
-				soundRoomOption = new Text(HText.SOUND_ROOM.text(), 0, 0, true);
+				soundRoomOption = new Text(HText.SOUND_ROOM.text()).setButton(true);
 				soundRoomOption.addListener(new ClickListener() {
 
 					@Override
@@ -126,7 +126,7 @@ public class AboutState extends GameState {
 				});
 				soundRoomOption.setScale(optionsScale);
 
-				aboutOption = new Text(HText.ABOUT.text(), 0, 0, true);
+				aboutOption = new Text(HText.ABOUT.text()).setButton(true);
 				aboutOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -137,7 +137,7 @@ public class AboutState extends GameState {
 			    });
 				aboutOption.setScale(optionsScale);
 
-				tipsOption = new Text(HText.TIPS.text(), 0, 0, true);
+				tipsOption = new Text(HText.TIPS.text()).setButton(true);
 				tipsOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -148,7 +148,7 @@ public class AboutState extends GameState {
 			    });
 				tipsOption.setScale(optionsScale);
 				
-				miscOption = new Text(HText.MISC.text(), 0, 0, true);
+				miscOption = new Text(HText.MISC.text()).setButton(true);
 				miscOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -159,7 +159,7 @@ public class AboutState extends GameState {
 			    });
 				miscOption.setScale(optionsScale);
 				
-				creditsOption = new Text(HText.CREDITS.text(), 0, 0, true);
+				creditsOption = new Text(HText.CREDITS.text()).setButton(true);
 				creditsOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -170,7 +170,7 @@ public class AboutState extends GameState {
 			    });
 				creditsOption.setScale(optionsScale);
 				
-				exitOption = new Text(HText.RETURN.text(), 0, 0, true);
+				exitOption = new Text(HText.RETURN.text()).setButton(true);
 				exitOption.addListener(new ClickListener() {
 					
 					@Override
@@ -200,8 +200,8 @@ public class AboutState extends GameState {
 		details.clearChildren();
 
 		//about option displays some game information read from json
-		details.add(new Text(HText.ABOUT.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
-		Text about = new Text(HText.INFO_ABOUT.text(), 0, 0, false, true, detailsTextWidth);
+		details.add(new Text(HText.ABOUT.text())).colspan(2).pad(titlePad).row();
+		Text about = new Text(HText.INFO_ABOUT.text()).setWrap(detailsTextWidth);
 		about.setScale(detailsScale);
 		
 		details.add(about);
@@ -210,8 +210,8 @@ public class AboutState extends GameState {
 	private void soundRoomSelected() {
 		details.clearChildren();
 
-		details.add(new Text(HText.SOUND_ROOM.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
-		trackText = new Text("", 0, 0, false);
+		details.add(new Text(HText.SOUND_ROOM.text())).colspan(2).pad(titlePad).row();
+		trackText = new Text("");
 		trackText.setScale(detailsScale);
 
 		//the slider sets its position based on the song duration
@@ -241,7 +241,7 @@ public class AboutState extends GameState {
 
 		//show list of available songs
 		for (MusicTrack track: MusicTrack.values()) {
-			Text trackListen = new Text(track.getMusicName(), 0, 0, true);
+			Text trackListen = new Text(track.getMusicName()).setButton(true);
 
 			//clicking a track plays it
 			trackListen.addListener(new ClickListener() {
@@ -267,10 +267,10 @@ public class AboutState extends GameState {
 		musicTracks = new ScrollPane(tracks, GameStateManager.getSkin());
 		musicTracks.setFadeScrollBars(false);
 
-		trackTime = new Text("", 0, 0, false);
+		trackTime = new Text("");
 		trackTime.setScale(detailsScale);
 
-		pause = new Text(HText.PAUSE.text(), 0, 0, true);
+		pause = new Text(HText.PAUSE.text()).setButton(true);
 		pause.setScale(detailsScale);
 
 		//pausing track sets toggles this button between pausing and playing music
@@ -293,7 +293,7 @@ public class AboutState extends GameState {
 			}
 		});
 
-		Text stop = new Text (HText.STOP.text(), 0, 0, true);
+		Text stop = new Text (HText.STOP.text()).setButton(true);
 		stop.setScale(detailsScale);
 
 		//stop sets track to null
@@ -307,7 +307,7 @@ public class AboutState extends GameState {
 			}
 		});
 
-		Text next = new Text (HText.NEXT.text(), 0, 0, true);
+		Text next = new Text (HText.NEXT.text()).setButton(true);
 		next.setScale(detailsScale);
 
 		//next sets the song position to the end of the track, making the next track immediately start
@@ -355,8 +355,8 @@ public class AboutState extends GameState {
 		details.clearChildren();
 
 		//about option displays some gameplay tips read from json
-		details.add(new Text(HText.TIPS.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
-		Text tips = new Text(HText.INFO_TIPS.text(), 0, 0, false, true, detailsTextWidth);
+		details.add(new Text(HText.TIPS.text())).colspan(2).pad(titlePad).row();
+		Text tips = new Text(HText.INFO_TIPS.text()).setWrap(detailsTextWidth);
 		tips.setScale(detailsScale);
 		
 		details.add(tips);
@@ -366,8 +366,8 @@ public class AboutState extends GameState {
 		details.clearChildren();
 
 		//about option displays some miscellaneous text read from json
-		details.add(new Text(HText.MISC.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
-		Text misc = new Text(HText.INFO_MISC.text(), 0, 0, false, true, detailsTextWidth);
+		details.add(new Text(HText.MISC.text())).colspan(2).pad(titlePad).row();
+		Text misc = new Text(HText.INFO_MISC.text()).setWrap(detailsTextWidth);
 		misc.setScale(detailsScale);
 		
 		details.add(misc);
@@ -377,10 +377,10 @@ public class AboutState extends GameState {
 		details.clearChildren();
 
 		//about option displays credit information read from json
-		details.add(new Text(HText.CREDITS.text(), 0, 0, false)).colspan(2).pad(titlePad).row();
+		details.add(new Text(HText.CREDITS.text())).colspan(2).pad(titlePad).row();
 		
 		//dev and art options have url links
-		Text dev = new Text(HText.INFO_CREDITS_CODE.text(), 0, 0, true);
+		Text dev = new Text(HText.INFO_CREDITS_CODE.text()).setButton(true);
 		dev.setScale(detailsScale);
 		dev.setColor(Color.RED);
 		
@@ -393,7 +393,7 @@ public class AboutState extends GameState {
 	        }
 	    });
 		
-		Text art = new Text(HText.INFO_CREDITS_ART.text(), 0, 0, true);
+		Text art = new Text(HText.INFO_CREDITS_ART.text()).setButton(true);
 		art.setScale(detailsScale);
 		art.setColor(Color.RED);
 		
@@ -406,7 +406,7 @@ public class AboutState extends GameState {
 	        }
 	    });
 
-		Text music = new Text(HText.INFO_CREDITS_MUSIC.text(), 0, 0, true);
+		Text music = new Text(HText.INFO_CREDITS_MUSIC.text()).setButton(true);
 		music.setScale(detailsScale);
 		music.setColor(Color.RED);
 
@@ -419,7 +419,7 @@ public class AboutState extends GameState {
 			}
 		});
 
-		Text sfx = new Text(HText.INFO_CREDITS_SOUND.text(), 0, 0, false, true, detailsTextWidth);
+		Text sfx = new Text(HText.INFO_CREDITS_SOUND.text()).setWrap(detailsTextWidth);
 		sfx.setScale(detailsScale);
 		
 		details.add(dev).height(optionHeight).row();

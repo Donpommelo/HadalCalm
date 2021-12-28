@@ -224,7 +224,7 @@ public class KillFeed {
         deathInfoTable.setSize(deathInfoWidth, deathInfoHeight);
         ps.getStage().addActor(deathInfoTable);
 
-        deathInfo = new Text("", 0, 0, false);
+        deathInfo = new Text("");
         deathInfo.setScale(scale);
     }
 
@@ -249,7 +249,7 @@ public class KillFeed {
         this.totalRespawnTime = respawnTime;
         this.respawnTime = respawnTime;
 
-        Text deathInfoTitle = new Text(HText.RESPAWN_IN.text(), 0, 0, false);
+        Text deathInfoTitle = new Text(HText.RESPAWN_IN.text());
         deathInfoTitle.setScale(scaleSide);
         deathInfoTable.add(deathInfoTitle).row();
         deathInfoTable.add(deathInfo);

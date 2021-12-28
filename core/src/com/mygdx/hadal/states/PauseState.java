@@ -109,19 +109,19 @@ public class PauseState extends GameState {
 				
 				//text indicates if the game is actually paused or not (if multiplayer pause is disabled in settings)
 				if (paused) {
-					pause = new Text(HText.PAUSE_BY.text(pauser), 0, 0, false);
+					pause = new Text(HText.PAUSE_BY.text(pauser));
 				} else {
-					pause = new Text(HText.PAUSE_NOT.text(), 0, 0, false);
+					pause = new Text(HText.PAUSE_NOT.text());
 				}
 				pause.setScale(pauseTextScale);
 				
-				resumeOption = new Text(HText.RESUME.text(), 0, 0, true);
-				hubOption = new Text(HText.RETURN_HUB.text(), 0, 0, true);
-				settingOption = new Text(HText.SETTINGS.text(), 0, 0, true);
-				extraOption = new Text(HText.EXTRA.text(), 0, 0, true);
-				spectateOption = new Text(HText.SPECTATE.text(), 0, 0, true);
-				joinOption = new Text(HText.REJOIN.text(), 0, 0, true);
-				exitOption = new Text(HText.EXIT.text(), 0, 0, true);
+				resumeOption = new Text(HText.RESUME.text()).setButton(true);
+				hubOption = new Text(HText.RETURN_HUB.text()).setButton(true);
+				settingOption = new Text(HText.SETTINGS.text()).setButton(true);
+				extraOption = new Text(HText.EXTRA.text()).setButton(true);
+				spectateOption = new Text(HText.SPECTATE.text()).setButton(true);
+				joinOption = new Text(HText.REJOIN.text()).setButton(true);
+				exitOption = new Text(HText.EXIT.text()).setButton(true);
 				
 				resumeOption.addListener(new ClickListener() {
 			        
@@ -323,7 +323,7 @@ public class PauseState extends GameState {
 						}
 					}
 				}
-				ps.getUiHub().refreshHub();
+				ps.getUiHub().refreshHub(null);
 			}
 			gsm.removeState(PauseState.class);
 		}

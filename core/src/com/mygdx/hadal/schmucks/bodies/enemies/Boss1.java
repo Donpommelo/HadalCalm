@@ -11,6 +11,7 @@ import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.DeathRagdoll;
@@ -599,9 +600,6 @@ public class Boss1 extends EnemyFloating {
 	
 	private static final float spiritWindup = 0.75f;
 	private static final float spiritDamage= 15.0f;
-	private static final float spiritKnockback= 25.0f;
-	private static final float spiritLifespan= 5.0f;
-	private final Vector2 spiritPos = new Vector2();
 	private void vengefulSpirit() {
 		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 0.0f);
 		
@@ -613,14 +611,11 @@ public class Boss1 extends EnemyFloating {
 			
 			@Override
 			public void execute() {
-				SoundEffect.DARKNESS2.playUniversal(state, getPixelPosition(), 0.4f, false);
-				
-				spiritPos.set(getPixelPosition()).add(0, 100);
-				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, getBodyData(), Particle.BRIGHT, getHitboxfilter(), false);
-				spiritPos.set(getPixelPosition()).add(100, 0);
-				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, getBodyData(), Particle.BRIGHT, getHitboxfilter(), false);
-				spiritPos.set(getPixelPosition()).add(-100, 0);
-				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, getBodyData(), Particle.BRIGHT, getHitboxfilter(), false);
+				Vector2[] positions = new Vector2[3];
+				positions[0] = new Vector2(getPixelPosition()).add(0, 100);
+				positions[1] = new Vector2(getPixelPosition()).add(100, 0);
+				positions[2] = new Vector2(getPixelPosition()).add(-100, 0);
+				SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, enemy, positions, new Vector2[] {}, 0.0f, 0.0f, spiritDamage);
 			}
 		});
 	}

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.SerializationException;
 
+import java.util.Arrays;
+
 import static com.mygdx.hadal.managers.GameStateManager.json;
 import static com.mygdx.hadal.managers.GameStateManager.reader;
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_TOTAL;
@@ -24,9 +26,17 @@ public class SavedLoadout {
 	private String name;
 
 	//the name used if the name field is left empty
-	private static final String defaultName = "Anonymous";
 	public SavedLoadout() {}
-	
+
+	public SavedLoadout(SavedLoadout loadout) {
+		equips = Arrays.copyOf(loadout.equips, loadout.equips.length);
+		artifacts = Arrays.copyOf(loadout.artifacts, loadout.artifacts.length);
+		active = loadout.active;
+		character = loadout.character;
+		team = loadout.team;
+		name = "";
+	}
+
 	/**
 	 * This simple saves the record in a designated file
 	 */
@@ -92,17 +102,19 @@ public class SavedLoadout {
 	}
 
 	public void setName(String name) {
-		
-		//prevent players from entering with no name
-		if (name.isEmpty()) {
-			this.name = defaultName;
-		} else {
-			this.name = name.substring(0, Math.min(name.length(), MAX_NAME_LENGTH_TOTAL));
-		}
-		
+		this.name = name.substring(0, Math.min(name.length(), MAX_NAME_LENGTH_TOTAL));
 		saveLoadout();
 	}
-	
+
+	public void setLoadout(SavedLoadout loadout) {
+		this.equips = loadout.equips;
+		this.artifacts = loadout.artifacts;
+		this.active = loadout.active;
+		this.character = loadout.character;
+		this.team = loadout.team;
+		saveLoadout();
+	}
+
 	public String[] getEquips() {return equips;}
 
 	public String[] getArtifacts() { return artifacts; }

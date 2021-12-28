@@ -119,6 +119,9 @@ public class Hitbox extends HadalEntity {
 	private float[] extraFields;
 	private boolean syncedMulti;
 
+	//does this hbox respond to delete packets from the server? True for hboxes the can be deleted prematurely
+	private boolean syncedDelete;
+
 	/**
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
 	 * parameters are pretty much the same as the fields above.
@@ -323,11 +326,27 @@ public class Hitbox extends HadalEntity {
 	}
 
 	@Override
+	public Object onServerDelete() {
+		if (attack != null) {
+			if (!syncedDelete) {
+				return null;
+			}
+		}
+		return new Packets.DeleteEntity(entityID, state.getTimer());
+	}
+
+	@Override
 	public void onClientSync(Object o) {
 		if (o instanceof Packets.DeleteEntity) {
-			die();
+
+			//only certain hboxes process delete packets from server instead of deleting themselves
+			if (syncedDelete) {
+				die();
+				super.onClientSync(o);
+			}
+		} else {
+			super.onClientSync(o);
 		}
-		super.onClientSync(o);
 	}
 
 	/**
@@ -421,5 +440,7 @@ public class Hitbox extends HadalEntity {
 
 	public void setSyncedMulti(boolean syncedMulti) { this.syncedMulti = syncedMulti; }
 
-	public void setExtraFields(float[] extraFields) { this.extraFields = extraFields;}
+	public void setExtraFields(float[] extraFields) { this.extraFields = extraFields ;}
+
+	public void setSyncedDelete(boolean syncedDelete) { this.syncedDelete = syncedDelete; }
 }

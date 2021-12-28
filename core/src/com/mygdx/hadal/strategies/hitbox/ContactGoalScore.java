@@ -29,7 +29,13 @@ public class ContactGoalScore extends HitboxStrategy {
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
 			if (fixB.getEntity() instanceof FootballGoal goal) {
-				goal.getEventData().preActivate(null, lastHit);
+
+				//scorer is null for clients so goal displays particles but no score increment
+				if (state.isServer()) {
+					goal.getEventData().preActivate(null, lastHit);
+				} else {
+					goal.getEventData().preActivate(null, null);
+				}
 				hbox.die();
 			}
 		}

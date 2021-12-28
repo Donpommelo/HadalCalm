@@ -80,7 +80,7 @@ public class Navigations extends HubEvent {
 			}
 
 			if (appear) {
-				Text itemChoose = new Text(selected.getInfo().getName(), 0, 0, true);
+				Text itemChoose = new Text(selected.getInfo().getName()).setButton(true);
 
 				itemChoose.addListener(new ClickListener() {
 
@@ -91,7 +91,7 @@ public class Navigations extends HubEvent {
 							state.loadLevel(selected, TransitionState.NEWLEVEL, "");
 							//play a particle when the player uses this event
 							new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true,
-									SyncType.CREATESYNC, new Vector2(0, - me.getSize().y / 2));
+									SyncType.CREATESYNC).setOffset(0, - me.getSize().y / 2);
 						} else {
 
 							//clients suggest maps when clicking
@@ -111,7 +111,7 @@ public class Navigations extends HubEvent {
 				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
 			}
 		}
-		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
 
 		if (!level.equals("") && state.isServer()) {
 			if (!UnlockManager.checkUnlock(state, UnlockType.LEVEL, level)) {

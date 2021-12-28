@@ -1,7 +1,8 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -14,13 +15,7 @@ public class BookofBurial extends Artifact {
 
 	private static final int slotCost = 2;
 
-	private static final float mineLifespan = 18.0f;
-
-	private static final float projectileSpeed = 60.0f;
-	private static final int explosionRadius = 250;
 	private static final float explosionDamage = 75.0f;
-	private static final float explosionKnockback = 50.0f;
-
 	private static final float procCd = 7.5f;
 
 	public BookofBurial() {
@@ -43,9 +38,8 @@ public class BookofBurial extends Artifact {
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount = 0;
-
-					WeaponUtils.createProximityMine(state, p.getSchmuck().getPixelPosition(), p.getSchmuck(), projectileSpeed,
-						mineLifespan, explosionDamage, explosionKnockback, explosionRadius);
+					SyncedAttack.PROXIMITY_MINE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getPlayer().getPixelPosition(),
+							new Vector2(), explosionDamage);
 				}
 				return damage;
 			}

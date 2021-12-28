@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="120">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="122">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="HUB"/>
@@ -88,7 +88,7 @@
     <property name="text" value="DISPENSARY"/>
    </properties>
   </object>
-  <object id="15" name="ChoiceBranch" type="ChoiceBranch" x="544" y="1472" width="96" height="96">
+  <object id="15" name="ChoiceBranch" type="ChoiceBranch" x="352" y="1472" width="96" height="96">
    <properties>
     <property name="closeAfterSelect" type="bool" value="true"/>
     <property name="optionNames" value="S.S TUNICATE GUIDED TOUR,TELL ME A POEM"/>
@@ -97,7 +97,7 @@
     <property name="triggeredId" value="communication"/>
    </properties>
   </object>
-  <object id="16" name="Text" type="Text" x="544" y="1472" width="32" height="32">
+  <object id="16" name="Text" type="Text" x="352" y="1472" width="32" height="32">
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
@@ -724,6 +724,18 @@
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="BACKGROUNDS"/>
+   </properties>
+  </object>
+  <object id="120" name="Outfitter" type="Outfitter" x="544" y="1472" width="96" height="96">
+   <properties>
+    <property name="unlock" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="121" name="Text" type="Text" x="544" y="1472" width="32" height="32">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="OUTFITTER"/>
    </properties>
   </object>
  </objectgroup>

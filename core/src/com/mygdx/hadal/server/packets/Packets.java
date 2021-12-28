@@ -688,27 +688,6 @@ public class Packets {
         }
 	}
 
-	public static class SyncServerLoadout {
-		public long uuidMSB, uuidLSB;
-		public Loadout loadout;
-		public boolean save;
-		public SyncServerLoadout() {}
-		
-		/**
-		 * A SyncLoadout is sent from the Server to the Client when any Player in the world changes their loadout.
-		 * Upon receiving this packet, clients adjust their versions of that Player to have the new loadout.
-		 * @param entityID: ID of the player to change
-		 * @param loadout: Player's new loadout
-		 * @param save: do we save this loadout change in records?
-		 */
-		public SyncServerLoadout(UUID entityID, Loadout loadout, boolean save) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
-			this.loadout = loadout;
-			this.save = save;
-		}
-	}
-	
 	public static class CreateParticles {
 		public long uuidMSB, uuidLSB;
 		public long uuidMSBAttached, uuidLSBAttached;
@@ -1177,7 +1156,6 @@ public class Packets {
     	kryo.register(SyncPickup.class);
     	kryo.register(ActivateEvent.class);
     	kryo.register(CreatePlayer.class);
-		kryo.register(SyncServerLoadout.class);
     	kryo.register(CreateParticles.class);
     	kryo.register(CreateRagdoll.class);
 
@@ -1212,6 +1190,7 @@ public class Packets {
 		kryo.register(PacketsSync.SyncParticles.class);
 		kryo.register(PacketsSync.SyncParticlesExtra.class);
 
+		kryo.register(PacketsLoadout.SyncWholeLoadout.class);
 		kryo.register(PacketsLoadout.SyncLoadoutClient.class);
 		kryo.register(PacketsLoadout.SyncEquipClient.class);
 		kryo.register(PacketsLoadout.SyncArtifactAddClient.class);

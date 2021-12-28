@@ -161,31 +161,31 @@ public class TitleState extends GameState {
 				notificationTable.setSize(notificationWidth, notificationHeight);
 				addActor(notificationTable);
 
-				Text nameDisplay = new Text(HText.YOUR_NAME.text(), 0, 0, false);
+				Text nameDisplay = new Text(HText.YOUR_NAME.text());
 				nameDisplay.setScale(scaleSide);
 
-				Text nameRand = new Text(HText.GEN_NAME.text(), 0, 0, true);
+				Text nameRand = new Text(HText.GEN_NAME.text()).setButton(true);
 				nameRand.setScale(scaleSide);
 
-				Text multiOption = new Text(HText.MULTIPLAYER.text(), 0, 0, true);
+				Text multiOption = new Text(HText.MULTIPLAYER.text()).setButton(true);
 				multiOption.setScale(scale);
 
-				Text singleOption = new Text(HText.SINGLEPLAYER.text(), 0, 0, true);
+				Text singleOption = new Text(HText.SINGLEPLAYER.text()).setButton(true);
 				singleOption.setScale(scale);
 
-				Text settingsOption = new Text(HText.SETTINGS.text(), 0, 0, true);
+				Text settingsOption = new Text(HText.SETTINGS.text()).setButton(true);
 				settingsOption.setScale(scale);
 
-				Text aboutOption = new Text(HText.EXTRA.text(), 0, 0, true);
+				Text aboutOption = new Text(HText.EXTRA.text()).setButton(true);
 				aboutOption.setScale(scale);
 
-				Text exitOption = new Text(HText.EXIT.text(), 0, 0, true);
+				Text exitOption = new Text(HText.EXIT.text()).setButton(true);
 				exitOption.setScale(scale);
 
-				notifications = new Text("", 0, 0, false);
+				notifications = new Text("");
 				notifications.setScale(scale);
 
-				Text versionNum = new Text(HText.VERSION.text(HadalGame.Version), versionNumX, versionNumY, true);
+				Text versionNum = new Text(HText.VERSION.text(HadalGame.Version), versionNumX, versionNumY).setButton(true);
 				versionNum.setScale(scale);
 				versionNum.setHeight(optionHeight);
 
