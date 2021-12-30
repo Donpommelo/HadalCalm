@@ -16,6 +16,7 @@ import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.TooltipManager;
 
 import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
 import static com.mygdx.hadal.states.PlayState.longFadeDelay;
@@ -57,6 +58,7 @@ public class SettingTeamMode extends ModeSetting {
             String[] teamChoices = HText.SETTING_TEAM_MODE_OPTIONS.text().split(",");
             Text team = new Text(HText.SETTING_TEAM_MODE.text());
             team.setScale(ModeSettingSelection.detailsScale);
+            TooltipManager.addTooltip(team, HText.SETTING_TEAM_MODE_DESC.text());
 
             teamsOptions = new SelectBox<>(GameStateManager.getSkin());
             teamsOptions.setItems(teamChoices);
@@ -66,6 +68,7 @@ public class SettingTeamMode extends ModeSetting {
             String[] teamNumChoices = HText.SETTING_TEAM_NUM_OPTIONS.text().split(",");
             Text teamNum = new Text(HText.SETTING_TEAM_NUM.text());
             teamNum.setScale(ModeSettingSelection.detailsScale);
+            TooltipManager.addTooltip(teamNum, HText.SETTING_TEAM_NUM_DESC.text());
 
             teamsNumOptions = new SelectBox<>(GameStateManager.getSkin());
             teamsNumOptions.setItems(teamNumChoices);

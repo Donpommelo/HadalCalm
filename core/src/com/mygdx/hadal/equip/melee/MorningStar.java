@@ -181,7 +181,7 @@ public class MorningStar extends MeleeWeapon {
 			});
 
 			if (!state.isServer()) {
-				((ClientState) state).addEntity(links[i].getEntityID(), links[i], false, ClientState.ObjectSyncLayers.HBOX);
+				((ClientState) state).addEntity(links[i].getEntityID(), links[i], false, ClientState.ObjectLayer.HBOX);
 			}
 		}
 

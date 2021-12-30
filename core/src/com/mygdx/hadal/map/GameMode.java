@@ -9,6 +9,7 @@ import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
+import com.mygdx.hadal.map.SettingLoadoutMode.LoadoutMode;
 import com.mygdx.hadal.map.modifiers.*;
 import com.mygdx.hadal.save.InfoItem;
 import com.mygdx.hadal.save.UnlockActives;
@@ -54,7 +55,7 @@ public enum GameMode {
     DEATHMATCH("dm",
         new SetCameraOnSpawn(),
         new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingBots(), new SettingLives(),
-        new SettingScoreCap(), new SettingBaseHp(), new SettingRespawnTime(), new SettingLoadoutOutfit(), new SettingDroppableWeapons(),
+        new SettingScoreCap(), new SettingBaseHp(), new SettingRespawnTime(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
         new DisplayUITag("SCOREBOARD"), new SpawnWeapons(), new ToggleKillsScore(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
@@ -69,7 +70,7 @@ public enum GameMode {
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.magicWord), new SettingBots(),
         new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(), new SettingLoadoutOutfit(),
-        new SettingDroppableWeapons(),
+        new SettingLoadoutMode(),
         new DisplayUITag("TEAMSCORE"), new SpawnWeapons(),
         new ModeCapturetheFlag(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
@@ -96,7 +97,7 @@ public enum GameMode {
     EGGPLANTS("objective,dm", DEATHMATCH,
         new SetCameraOnSpawn(),
         new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
-        new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingDroppableWeapons(),
+        new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
         new DisplayUITag("SCOREBOARD"), new SpawnWeapons(), new ModeEggplantHunt(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
@@ -104,7 +105,7 @@ public enum GameMode {
     KINGMAKER("objective,dm", DEATHMATCH,
         new SetCameraOnSpawn(),
         new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
-        new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingDroppableWeapons(),
+        new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
         new DisplayUITag("SCOREBOARD"), new SpawnWeapons(),
         new ModeKingmaker(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
@@ -113,7 +114,7 @@ public enum GameMode {
     MATRYOSHKA("dm", DEATHMATCH,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.magicWord),
-        new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingDroppableWeapons(),
+        new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
         new DisplayUITag("LIVES"), new SpawnWeapons(),
         new ModeMatryoshka(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
@@ -139,6 +140,7 @@ public enum GameMode {
     // Used for modes that have the same set of compliant maps (gun game etc with deathmatch)
     private GameMode checkCompliance = this;
     private TeamMode teamMode = TeamMode.FFA;
+    private LoadoutMode loadoutMode = LoadoutMode.CLASSIC;
 
     //will players that join mid game join as players or spectators (spectator for lives-based modes)
     private boolean joinMidGame = true;
@@ -416,4 +418,8 @@ public enum GameMode {
     public int getTeamNum() { return teamNum; }
 
     public void setTeamNum(int teamNum) { this.teamNum = teamNum; }
+
+    public LoadoutMode getLoadoutMode() { return loadoutMode; }
+
+    public void setLoadoutMode(LoadoutMode loadoutMode) { this.loadoutMode = loadoutMode; }
 }

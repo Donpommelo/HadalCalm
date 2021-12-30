@@ -16,7 +16,7 @@ public class SpawnerPickupTimed extends Prefabrication {
 	
 	private String pickupId, spawnerId;
 	
-	//0 = fuel. 1 = Hp
+	//0 = fuel. 1 = hp. 2 = ammo
 	private final int type;
 	
 	public SpawnerPickupTimed(PlayState state, int width, int height, int x, int y, float interval, int type, float power) {
@@ -28,10 +28,13 @@ public class SpawnerPickupTimed extends Prefabrication {
 	
 	@Override
 	public void generateParts() {
-		
 		pickupId = TiledObjectUtil.getPrefabTriggerId();
 		spawnerId = TiledObjectUtil.getPrefabTriggerId();
-		
+		addPickup(state, width, height, x, y, interval, type, power, pickupId, spawnerId);
+	}
+
+	public static void addPickup(PlayState state, int width, int height, int x, int y, float interval, int type, float power,
+								 String pickupId, String spawnerId) {
 		String onTouchId = TiledObjectUtil.getPrefabTriggerId();
 		String timerId = TiledObjectUtil.getPrefabTriggerId();
 		String respawnId = TiledObjectUtil.getPrefabTriggerId();
@@ -39,7 +42,7 @@ public class SpawnerPickupTimed extends Prefabrication {
 		String pickupEffectId = TiledObjectUtil.getPrefabTriggerId();
 		String pickupParticleId = TiledObjectUtil.getPrefabTriggerId();
 		String effectParticleId = TiledObjectUtil.getPrefabTriggerId();
-		
+
 		RectangleMapObject spawner = new RectangleMapObject();
 		spawner.getRectangle().set(x, y, width, height);
 		spawner.setName("EventMove");
@@ -49,24 +52,24 @@ public class SpawnerPickupTimed extends Prefabrication {
 		spawner.getProperties().put("sprite", "BASE");
 		spawner.getProperties().put("triggeredId", spawnerId);
 		spawner.getProperties().put("triggeringId", pickupId);
-		
+
 		RectangleMapObject back = new RectangleMapObject();
 		back.getRectangle().set(-1000, -1000, width, height);
 		back.setName("EventMove");
 		back.getProperties().put("triggeredId", pickupBackId);
 		back.getProperties().put("triggeringId", pickupId);
-		
+
 		RectangleMapObject timer = new RectangleMapObject();
 		timer.setName("Timer");
 		timer.getProperties().put("interval", interval);
 		timer.getProperties().put("triggeredId", timerId);
 		timer.getProperties().put("triggeringId", respawnId);
-		
+
 		RectangleMapObject respawn = new RectangleMapObject();
 		respawn.setName("Multitrigger");
 		respawn.getProperties().put("triggeredId", respawnId);
 		respawn.getProperties().put("triggeringId", spawnerId + "," + timerId+ "," + effectParticleId);
-		
+
 		RectangleMapObject pickup = new RectangleMapObject();
 		pickup.getRectangle().set(-1000, -1000, width, height);
 		pickup.setName("Sensor");
@@ -77,22 +80,22 @@ public class SpawnerPickupTimed extends Prefabrication {
 		pickup.getProperties().put("cooldown", 1.0f);
 		pickup.getProperties().put("triggeredId", pickupId);
 		pickup.getProperties().put("triggeringId", onTouchId);
-		
+
 		RectangleMapObject effect = new RectangleMapObject();
 		effect.setName("Player");
 		effect.getProperties().put("triggeredId", onTouchId);
 		effect.getProperties().put("triggeringId", pickupEffectId);
-		
+
 		RectangleMapObject use = new RectangleMapObject();
 		use.setName("Multitrigger");
 		use.getProperties().put("triggeredId", pickupEffectId);
 		use.getProperties().put("triggeringId", pickupBackId + "," + timerId + "," + pickupParticleId + "," + effectParticleId);
-		
+
 		RectangleMapObject pickupParticle = new RectangleMapObject();
 		pickupParticle.setName("Particle");
 		pickupParticle.getProperties().put("duration", 2.0f);
 		pickupParticle.getProperties().put("triggeredId", pickupParticleId);
-		
+
 		RectangleMapObject effectParticle = new RectangleMapObject();
 		effectParticle.setName("Particle");
 		effectParticle.getProperties().put("particle", "EVENT_HOLO");
@@ -110,8 +113,13 @@ public class SpawnerPickupTimed extends Prefabrication {
 				effect.getProperties().put("hp", power);
 				pickupParticle.getProperties().put("particle", "PICKUP_HEALTH");
 			}
+			case 2 -> {
+				pickup.getProperties().put("sprite", "FUEL");
+				effect.getProperties().put("ammo", power);
+				pickupParticle.getProperties().put("particle", "PICKUP_ENERGY");
+			}
 		}
-		
+
 		TiledObjectUtil.parseTiledEvent(state, spawner);
 		TiledObjectUtil.parseTiledEvent(state, back);
 		TiledObjectUtil.parseTiledEvent(state, timer);
@@ -122,7 +130,7 @@ public class SpawnerPickupTimed extends Prefabrication {
 		TiledObjectUtil.parseTiledEvent(state, pickupParticle);
 		TiledObjectUtil.parseTiledEvent(state, effectParticle);
 	}
-	
+
 	@Override
 	public Array<String> getConnectedEvents() {
 		Array<String> events = new Array<>();

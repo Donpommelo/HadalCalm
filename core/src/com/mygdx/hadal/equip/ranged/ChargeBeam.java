@@ -213,7 +213,7 @@ public class ChargeBeam extends RangedWeapon {
 		}
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectSyncLayers.HBOX);
+			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
 		}
 		return wallCollider;
 	}

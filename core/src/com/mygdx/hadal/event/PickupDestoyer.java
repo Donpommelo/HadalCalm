@@ -2,6 +2,7 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.mygdx.hadal.event.modes.FlagCapturable;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -37,6 +38,9 @@ public class PickupDestoyer extends Event {
 			}
 			if (entity instanceof Hitbox hbox) {
 				hbox.queueDeletion();
+			}
+			if (entity instanceof FlagCapturable flag) {
+				flag.queueDeletion();
 			}
 		}
 	}

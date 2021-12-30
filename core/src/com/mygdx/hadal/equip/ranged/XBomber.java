@@ -100,7 +100,7 @@ public class XBomber extends RangedWeapon {
 				cross.addStrategy(new Static(state, cross, user.getBodyData()));
 
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(cross.getEntityID(), cross, false, ClientState.ObjectSyncLayers.HBOX);
+					((ClientState) state).addEntity(cross.getEntityID(), cross, false, ClientState.ObjectLayer.HBOX);
 				}
 			}
 		});

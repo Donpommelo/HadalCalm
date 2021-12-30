@@ -28,7 +28,6 @@ public class AbyssalInsignia extends Artifact {
 				if (hpPercent < hpThreshold) {
 					float bonusAttackSpeed = bonusAttackSpeedMax - hpPercent / hpThreshold * (bonusAttackSpeedMax - bonusAttackSpeedMin);
 					float cooldown = inflicter.getSchmuck().getShootCdCount();
-					System.out.println(bonusAttackSpeed);
 					inflicter.getSchmuck().setShootCdCount(cooldown * (1 - bonusAttackSpeed));
 				}
 			}

@@ -58,7 +58,7 @@ public class ContactUnitParticles extends HitboxStrategy {
 			}
 			ParticleEntity particles = new ParticleEntity(state, offset, effect, duration, true, syncType).setColor(color);
 			if (!state.isServer()) {
-				((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectSyncLayers.EFFECT);
+				((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
 			}
 		}
 	}

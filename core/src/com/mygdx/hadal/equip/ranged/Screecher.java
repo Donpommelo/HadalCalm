@@ -149,7 +149,7 @@ public class Screecher extends RangedWeapon {
 				.setParticleColor(HadalColor.RANDOM).setParticleSize(60).setSyncType(SyncType.NOSYNC));
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(trail.getEntityID(), trail, false, ClientState.ObjectSyncLayers.EFFECT);
+			((ClientState) state).addEntity(trail.getEntityID(), trail, false, ClientState.ObjectLayer.EFFECT);
 		}
 		return hbox;
 	}

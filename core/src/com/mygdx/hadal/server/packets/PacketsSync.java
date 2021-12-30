@@ -199,4 +199,27 @@ public class PacketsSync {
             this.color = color;
         }
     }
+
+    public static class SyncFlag extends SyncEntity {
+        public float returnPercent;
+
+        public SyncFlag() {}
+
+        public SyncFlag(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, float returnPercent) {
+            super(entityID, pos, velocity, age, timestamp);
+            this.returnPercent = returnPercent;
+        }
+    }
+
+    public static class SyncFlagAttached extends SyncFlag {
+        public long uuidMSBAttached, uuidLSBAttached;
+
+        public SyncFlagAttached() {}
+
+        public SyncFlagAttached(UUID entityID, UUID attachedID, Vector2 pos, Vector2 velocity, float age, float timestamp, float returnPercent) {
+            super(entityID, pos, velocity, age, timestamp, returnPercent);
+            this.uuidLSBAttached = attachedID.getLeastSignificantBits();
+            this.uuidMSBAttached = attachedID.getMostSignificantBits();
+        }
+    }
 }

@@ -13,7 +13,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
@@ -176,7 +176,7 @@ public class Poison extends Event {
 					int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
 					ParticleEntity poison = new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle,
 							particleLifespan, true, SyncType.NOSYNC);
-					((ClientState) state).addEntity(poison.getEntityID(), poison, false, ObjectSyncLayers.EFFECT);
+					((ClientState) state).addEntity(poison.getEntityID(), poison, false, ObjectLayer.EFFECT);
 				}
 			}
 		}

@@ -183,7 +183,9 @@
 	"name": "Nothing",
 	"description": "Does nothing.",
     "descriptionLong": "",
-	"tags": []
+	"tags": [
+	"DISPENSARY"
+	]
 },
 "ORBITAL_SHIELD": {
 	"name": "Orbital Shield",

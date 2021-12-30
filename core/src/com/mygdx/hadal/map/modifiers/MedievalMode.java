@@ -17,11 +17,13 @@ public class MedievalMode extends ModeModifier {
     private static final String settingTag = "medieval_mode";
     private static final HText uiText = HText.MODIFIER_MEDIEVAL_UI;
     private static final HText name = HText.MODIFIER_MEDIEVAL;
+    private static final HText desc = HText.MODIFIER_MEDIEVAL_DESC;
 
     private static final UnlockEquip[] BaseEquip = {UnlockEquip.SCRAPRIPPER, UnlockEquip.NOTHING, UnlockEquip.NOTHING};
 
     public MedievalMode() {
         super(settingTag, uiText, name);
+        this.setDesc(desc);
     }
 
     @Override

@@ -72,7 +72,7 @@ public class WeaponUtils {
 			selfDamageReduction, DamageTypes.EXPLOSIVE));
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectSyncLayers.HBOX);
+			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
 		}
 	}
 
@@ -116,7 +116,7 @@ public class WeaponUtils {
 		sparks.addStrategy(new FixedToEntity(state, sparks, user.getBodyData(), hbox, new Vector2(), new Vector2()));
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(sparks.getEntityID(), sparks, false, ClientState.ObjectSyncLayers.HBOX);
+			((ClientState) state).addEntity(sparks.getEntityID(), sparks, false, ClientState.ObjectLayer.HBOX);
 		}
 
 		return hbox;
@@ -283,7 +283,7 @@ public class WeaponUtils {
 								true, SyncType.NOSYNC).setScale(0.5f);
 
 						if (!state.isServer()) {
-							((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectSyncLayers.HBOX);
+							((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.HBOX);
 						}
 					}
 				}
@@ -321,7 +321,7 @@ public class WeaponUtils {
 				explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f).setSynced(false));
 
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(explosion.getEntityID(), explosion, false, ClientState.ObjectSyncLayers.HBOX);
+					((ClientState) state).addEntity(explosion.getEntityID(), explosion, false, ClientState.ObjectLayer.HBOX);
 				}
 			}
 		});
@@ -604,7 +604,7 @@ public class WeaponUtils {
 		hboxPing.addStrategy(new Static(state, hboxPing, user.getBodyData()));
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(hboxPing.getEntityID(), hboxPing, false, ClientState.ObjectSyncLayers.HBOX);
+			((ClientState) state).addEntity(hboxPing.getEntityID(), hboxPing, false, ClientState.ObjectLayer.HBOX);
 		}
 
 		return hbox;

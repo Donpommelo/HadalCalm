@@ -47,7 +47,6 @@ import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.*;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -306,15 +305,6 @@ public class PlayState extends GameState {
 
 		//Only the server processes collision objects, events and triggers
 		if (server) {
-			TiledObjectUtil.parseTiledObjectLayer(this, map.getLayers().get("collision-layer").getObjects());
-			TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
-
-			//parse map-specific event layers (used for different modes in the same map)
-			for (String layer: mode.getExtraLayers()) {
-				if (map.getLayers().get(layer) != null) {
-					TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get(layer).getObjects());
-				}
-			}
 
 			//Server must first reset each score at the start of a level (unless just a stage transition)
 			if (reset) {
@@ -325,6 +315,16 @@ public class PlayState extends GameState {
 			}
 
 			mode.processSettings(this);
+
+			TiledObjectUtil.parseTiledObjectLayer(this, map.getLayers().get("collision-layer").getObjects());
+			TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
+
+			//parse map-specific event layers (used for different modes in the same map)
+			for (String layer: mode.getExtraLayers()) {
+				if (map.getLayers().get(layer) != null) {
+					TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get(layer).getObjects());
+				}
+			}
 
 			TiledObjectUtil.parseTiledTriggerLayer();
 			TiledObjectUtil.parseDesignatedEvents(this);
@@ -494,9 +494,9 @@ public class PlayState extends GameState {
 
 		//All entities that are set to be added are added.
 		for (HadalEntity entity: createList) {
-			if (entity instanceof Hitbox) {
+			if (entity.getLayer().equals(ObjectLayer.HBOX)) {
 				hitboxes.add(entity);
-			} else if (entity instanceof ParticleEntity) {
+			} else if (entity.getLayer().equals(ObjectLayer.EFFECT)) {
 				effects.add(entity);
 			} else {
 				entities.add(entity);
@@ -1025,7 +1025,7 @@ public class PlayState extends GameState {
 		
 		//teleportation particles for reset players (indicates returning to hub)
 		if (reset && isServer()) {
-			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y),
+			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2),
 					Particle.TELEPORT, 1.0f, true, SyncType.CREATESYNC);
 		}
 
@@ -1521,7 +1521,16 @@ public class PlayState extends GameState {
 		NEXTSTAGE,
 		TITLE
 	}
-	
+
+	/**
+	 * Z-Axis Layers that entities can be added to. ATM, there is just 1 for hitboxes beneath everything else.
+	 */
+	public enum ObjectLayer {
+		STANDARD,
+		HBOX,
+		EFFECT
+	}
+
 	public boolean isServer() { return server; }
 
 	public boolean isReset() { return reset; }

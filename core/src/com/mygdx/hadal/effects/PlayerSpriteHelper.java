@@ -329,11 +329,11 @@ public class PlayerSpriteHelper {
 
         //the client needs to create ragdolls separately b/c we can't serialize the frame buffer object.
         if (!player.getState().isServer()) {
-            ((ClientState) player.getState()).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ClientState.ObjectSyncLayers.STANDARD);
-            ((ClientState) player.getState()).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectSyncLayers.STANDARD);
-            ((ClientState) player.getState()).addEntity(armRagdoll.getEntityID(), armRagdoll, false, ClientState.ObjectSyncLayers.STANDARD);
-            ((ClientState) player.getState()).addEntity(backRagdoll.getEntityID(), backRagdoll, false, ClientState.ObjectSyncLayers.STANDARD);
-            ((ClientState) player.getState()).addEntity(toolRagdoll.getEntityID(), toolRagdoll, false, ClientState.ObjectSyncLayers.STANDARD);
+            ((ClientState) player.getState()).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) player.getState()).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) player.getState()).addEntity(armRagdoll.getEntityID(), armRagdoll, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) player.getState()).addEntity(backRagdoll.getEntityID(), backRagdoll, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) player.getState()).addEntity(toolRagdoll.getEntityID(), toolRagdoll, false, ClientState.ObjectLayer.STANDARD);
         }
     }
 
@@ -419,7 +419,7 @@ public class PlayerSpriteHelper {
         };
 
         if (!player.getState().isServer()) {
-            ((ClientState) player.getState()).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectSyncLayers.STANDARD);
+            ((ClientState) player.getState()).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
         }
     }
 

@@ -131,7 +131,7 @@ public class LaserRifle extends RangedWeapon {
 		trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance));
 		trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(trail.getEntityID(), trail, false, ClientState.ObjectSyncLayers.EFFECT);
+			((ClientState) state).addEntity(trail.getEntityID(), trail, false, ClientState.ObjectLayer.EFFECT);
 		}
 		return hbox;
 	}

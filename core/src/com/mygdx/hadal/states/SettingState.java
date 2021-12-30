@@ -18,6 +18,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.TooltipManager;
 
 import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
 import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
@@ -343,6 +344,8 @@ public class SettingState extends GameState {
 		displayHp = new CheckBox(HText.VISIBLE_HP.text(), GameStateManager.getSkin());
 		mouseCameraTrack = new CheckBox(HText.CAMERA_AIM.text(), GameStateManager.getSkin());
 		screenShake = new CheckBox(HText.SCREEN_SHAKE.text(), GameStateManager.getSkin());
+
+		TooltipManager.addTooltip(mouseCameraTrack, HText.CAMERA_AIM_DESC.text());
 
 		fullscreen.setChecked(gsm.getSetting().isFullscreen());
 		vsync.setChecked(gsm.getSetting().isVSync());

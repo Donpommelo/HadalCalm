@@ -3,6 +3,7 @@ package com.mygdx.hadal.event.prefab;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.map.SettingLoadoutMode;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
@@ -17,7 +18,10 @@ public class SpawnerWeapon extends Prefabrication {
 	private final String pool;
 	
 	private String baseId, pickupId;
-	
+
+	private static final float ammoInterval = 15.0f;
+	private static final float ammoAmount = 0.25f;
+
 	public SpawnerWeapon(PlayState state, int width, int height, int x, int y, String triggeredId, String triggeringId, String pool) {
 		super(state, width, height, x , y);
 		this.triggeredId = triggeredId;
@@ -30,7 +34,13 @@ public class SpawnerWeapon extends Prefabrication {
 		
 		pickupId = TiledObjectUtil.getPrefabTriggerId();
 		baseId = TiledObjectUtil.getPrefabTriggerId();
-		
+
+		//in custom loadout mode, ammo packs spawn instead of weapons
+		if (state.getMode().getLoadoutMode().equals(SettingLoadoutMode.LoadoutMode.CUSTOM)) {
+			SpawnerPickupTimed.addPickup(state, width, height, x, y, ammoInterval, 2, ammoAmount, pickupId, baseId);
+			return;
+		}
+
 		RectangleMapObject base = new RectangleMapObject();
 		base.getRectangle().set(x, y, width, height);
 		base.setName("Dummy");

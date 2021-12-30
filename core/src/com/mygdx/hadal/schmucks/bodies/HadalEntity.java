@@ -14,6 +14,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 
 import java.util.UUID;
 
@@ -64,6 +65,7 @@ public abstract class HadalEntity {
 	
 	//Used by the server. Does this entity send a sync packet periodically (every 1 / 10 sec)? Does this entity send a sync packet at a faster rate? (every 1 / 60 sec) 
 	private boolean syncDefault = true, syncInstant = false;
+	private ObjectLayer layer = ObjectLayer.STANDARD;
 	
 	/**
 	 * Constructor is called when an entity is created.
@@ -402,6 +404,10 @@ public abstract class HadalEntity {
 	public Shader getShader() { return shader; }
 	
 	public float getShaderCount() { return shaderCount; }
+
+	public ObjectLayer getLayer() {	return layer; }
+
+	public void setLayer(ObjectLayer layer) { this.layer = layer; }
 
 	/**
 	 * Set this entity's shader (this will be used when rendering this entity)

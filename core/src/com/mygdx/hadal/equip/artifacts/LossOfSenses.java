@@ -31,7 +31,6 @@ public class LossOfSenses extends Artifact {
 			@Override
 			public void onInflict() {
 				bonusHp = MathUtils.random(bonusHpMin, bonusHpMax);
-				System.out.println(bonusHp);
 			}
 
 			@Override

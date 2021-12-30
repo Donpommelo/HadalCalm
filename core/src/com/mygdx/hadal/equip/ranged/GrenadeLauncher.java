@@ -73,7 +73,7 @@ public class GrenadeLauncher extends RangedWeapon {
 		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectSyncLayers.HBOX);
+			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
 		}
 		return hboxBouncy;
 	}

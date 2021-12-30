@@ -32,7 +32,7 @@ public class DieRagdoll extends HitboxStrategy {
 			1.0f, false, false, synced);
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(ragdoll.getEntityID(), ragdoll, false, ClientState.ObjectSyncLayers.HBOX);
+			((ClientState) state).addEntity(ragdoll.getEntityID(), ragdoll, false, ClientState.ObjectLayer.HBOX);
 		}
 	}
 }

@@ -23,7 +23,7 @@ import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User.UserDto;
-import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -331,7 +331,7 @@ public class Packets {
         public Sprite sprite;
 		public boolean synced;
 		public boolean instant;
-        public ObjectSyncLayers layer;
+        public ObjectLayer layer;
         public alignType align;
 		public CreateEntity() {}
 		
@@ -348,7 +348,7 @@ public class Packets {
 		 * @param align: The new object's align type. Used to determine how the client illusion should be rendered
 		 */
 		public CreateEntity(UUID entityID, Vector2 size, Vector2 pos, float angle, Sprite sprite, boolean synced, boolean instant,
-							ObjectSyncLayers layer, alignType align) {
+                            ObjectLayer layer, alignType align) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
 			this.pos = pos;
@@ -739,6 +739,21 @@ public class Packets {
 			this.velocity = velocity;
 			this.synced = synced;
 			this.color = color;
+		}
+	}
+
+	public static class CreateFlag {
+		public long uuidMSB, uuidLSB;
+		public Vector2 pos;
+		public int teamIndex;
+
+		public CreateFlag() {}
+
+		public CreateFlag(UUID entityID, Vector2 pos, int teamIndex) {
+			this.uuidLSB = entityID.getLeastSignificantBits();
+			this.uuidMSB = entityID.getMostSignificantBits();
+			this.pos = pos;
+			this.teamIndex = teamIndex;
 		}
 	}
 	
@@ -1156,7 +1171,8 @@ public class Packets {
     	kryo.register(SyncPickup.class);
     	kryo.register(ActivateEvent.class);
     	kryo.register(CreatePlayer.class);
-    	kryo.register(CreateParticles.class);
+		kryo.register(CreateParticles.class);
+		kryo.register(CreateFlag.class);
     	kryo.register(CreateRagdoll.class);
 
     	kryo.register(SyncUI.class);
@@ -1189,6 +1205,8 @@ public class Packets {
 		kryo.register(PacketsSync.SyncPlayerSelf.class);
 		kryo.register(PacketsSync.SyncParticles.class);
 		kryo.register(PacketsSync.SyncParticlesExtra.class);
+		kryo.register(PacketsSync.SyncFlag.class);
+		kryo.register(PacketsSync.SyncFlagAttached.class);
 
 		kryo.register(PacketsLoadout.SyncWholeLoadout.class);
 		kryo.register(PacketsLoadout.SyncLoadoutClient.class);
@@ -1227,7 +1245,7 @@ public class Packets {
 		kryo.register(DialogType.class);
 		kryo.register(PlayerAction.class);
 		kryo.register(PlayerAction[].class);
-		kryo.register(ObjectSyncLayers.class);
+		kryo.register(ObjectLayer.class);
 		kryo.register(alignType.class);
 		kryo.register(EnemyType.class);
 		kryo.register(SyncedAttack.class);

@@ -126,7 +126,7 @@ public class DiamondCutter extends MeleeWeapon {
 					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE).setStaticKnockback(true));
 
 					if (!state.isServer()) {
-						((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectSyncLayers.HBOX);
+						((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectLayer.HBOX);
 					}
 				}
 			}

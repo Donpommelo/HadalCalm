@@ -14,13 +14,14 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.event.Event.eventSyncTypes;
 import com.mygdx.hadal.event.hub.*;
+import com.mygdx.hadal.event.modes.*;
 import com.mygdx.hadal.event.prefab.*;
 import com.mygdx.hadal.event.saves.*;
 import com.mygdx.hadal.event.ui.*;
 import com.mygdx.hadal.event.utility.*;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -69,10 +70,10 @@ public class TiledObjectUtil {
 
             if (object.getProperties().get("dropthrough", false, boolean.class)) {
             	WallDropthrough wall = new WallDropthrough(state, shape);
-                state.addEntity(wall.getEntityID(), wall, false, ObjectSyncLayers.STANDARD);
+                state.addEntity(wall.getEntityID(), wall, false, ObjectLayer.STANDARD);
             } else {
             	Wall wall = new Wall(state, shape);
-                state.addEntity(wall.getEntityID(), wall, false, ObjectSyncLayers.STANDARD);
+                state.addEntity(wall.getEntityID(), wall, false, ObjectLayer.STANDARD);
             }
         }
     }
@@ -108,7 +109,7 @@ public class TiledObjectUtil {
 				if (object.getProperties().get("independent", boolean.class)) {
 					Event e = parseTiledEvent(state, object);
 					if (e != null) {
-						state.addEntity(e.getEntityID(), e, false, ObjectSyncLayers.STANDARD);
+						state.addEntity(e.getEntityID(), e, false, ObjectLayer.STANDARD);
 					}
 				}
 			}

@@ -143,7 +143,9 @@ public class ResultsState extends GameState {
 					}
 				}
 			}
-			gsm.getRecord().updateScore(scores.get(0).getScore(), ps.level);
+			if (!scores.isEmpty()) {
+				gsm.getRecord().updateScore(scores.get(0).getScore(), ps.level);
+			}
 		} else {
 			for (User user: HadalGame.client.getUsers().values()) {
 				if (!user.isSpectator()) {

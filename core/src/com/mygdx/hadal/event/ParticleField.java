@@ -9,7 +9,7 @@ import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -101,7 +101,7 @@ public class ParticleField extends Event {
 			float randY = (MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y;
 			ParticleEntity particleEntity = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration,
 					true, SyncType.NOSYNC);
-			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectSyncLayers.EFFECT);
+			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
 
 			if (!color.equals(HadalColor.NOTHING)) {
 				particleEntity.setColor(color);

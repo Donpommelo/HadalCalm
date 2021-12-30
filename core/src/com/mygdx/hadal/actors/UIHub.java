@@ -359,7 +359,7 @@ public class UIHub {
 		outfitName.setMaxLength(MAX_NAME_LENGTH_TOTAL);
 		outfitName.setMessageText(HText.OUTFIT_NAME.text());
 
-		Text outfitSave = new Text(HText.OUTFIT_SAVE.text());
+		Text outfitSave = new Text(HText.OUTFIT_SAVE.text()).setButton(true);
 		outfitSave.setScale(optionsScale);
 
 		outfitSave.addListener(new ClickListener() {
@@ -382,7 +382,7 @@ public class UIHub {
 		SelectBox<String> outfits = new SelectBox<>(GameStateManager.getSkin());
 		outfits.setItems(outfitOptions);
 
-		Text outfitDelete = new Text(HText.OUTFIT_DELETE.text());
+		Text outfitDelete = new Text(HText.OUTFIT_DELETE.text()).setButton(true);
 		outfitDelete.setScale(optionsScale);
 
 		outfitDelete.addListener(new ClickListener() {

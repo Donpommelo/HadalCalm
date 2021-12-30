@@ -200,7 +200,7 @@ public class VineSower extends RangedWeapon {
 					vine.addStrategy(new Static(state, vine, user.getBodyData()));
 
 					if (!state.isServer()) {
-						((ClientState) state).addEntity(vine.getEntityID(), vine, false, ClientState.ObjectSyncLayers.HBOX);
+						((ClientState) state).addEntity(vine.getEntityID(), vine, false, ClientState.ObjectLayer.HBOX);
 					}
 
 					vineCount++;
@@ -249,7 +249,7 @@ public class VineSower extends RangedWeapon {
 		});
 
 		if (!state.isServer() && !synced) {
-			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectSyncLayers.HBOX);
+			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
 		}
 
 		return hbox;

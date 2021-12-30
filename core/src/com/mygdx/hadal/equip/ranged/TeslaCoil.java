@@ -201,7 +201,7 @@ public class TeslaCoil extends RangedWeapon {
 					.setParticleSize(50).setSyncType(SyncType.NOSYNC));
 
 			if (!state.isServer()) {
-				((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectSyncLayers.HBOX);
+				((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectLayer.HBOX);
 			}
 		}
 

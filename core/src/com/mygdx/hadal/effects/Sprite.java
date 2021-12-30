@@ -204,7 +204,6 @@ public enum Sprite {
 	UI_MO_OVERLAY(SpriteType.UI, "UI_momentum_overlay"),
 	UI_MO_ARROW(SpriteType.UI, "UI_momentum_arrow"),
 
-	UI_RELOAD(SpriteType.UI, "UI_reload"),
 	UI_RELOAD_METER(SpriteType.UI, "UI_reload_meter"),
 	UI_RELOAD_BAR(SpriteType.UI, "UI_reload_bar"),
 

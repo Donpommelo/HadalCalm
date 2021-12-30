@@ -71,12 +71,16 @@ public class Armory extends HubEvent {
 
 						int slotToReplace = state.getPlayer().getPlayerData().getCurrentSlot();
 
-						for (int i = 0; i < state.getPlayer().getPlayerData().getNumWeaponSlots(); i++) {
-							if (state.getPlayer().getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
-								slotToReplace = i;
-								break;
+						//if we are picking up "nothing" in the armory, we just blank our current weapon
+						if (!(selected.equals(UnlockEquip.NOTHING))) {
+							for (int i = 0; i < state.getPlayer().getPlayerData().getNumWeaponSlots(); i++) {
+								if (state.getPlayer().getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
+									slotToReplace = i;
+									break;
+								}
 							}
 						}
+
 						if (state.isServer()) {
 							state.getPlayer().getPlayerData().pickup(
 								Objects.requireNonNull(UnlocktoItem.getUnlock(selected, state.getPlayer())));

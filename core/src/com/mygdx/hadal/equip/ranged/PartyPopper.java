@@ -109,7 +109,7 @@ public class PartyPopper extends RangedWeapon {
 					frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(), fragDamage, fragKnockback, DamageTypes.RANGED));
 
 					if (!state.isServer()) {
-						((ClientState) state).addEntity(frag.getEntityID(), frag, false, ClientState.ObjectSyncLayers.HBOX);
+						((ClientState) state).addEntity(frag.getEntityID(), frag, false, ClientState.ObjectLayer.HBOX);
 					}
 				}
 			}

@@ -18,6 +18,7 @@ import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.TooltipManager;
 
 import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
 import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
@@ -325,6 +326,7 @@ public class AboutState extends GameState {
 
 		//this checkbox controls whther the music should continue playing after exiting the sound room
 		continuePlaying = new CheckBox(HText.CONTINUE.text(), GameStateManager.getSkin());
+		TooltipManager.addTooltip(continuePlaying, HText.CONTINUE_DESC.text());
 
 		//loop options decide whether to loop, shuffle, cycle when a song completes
 		loopOptions = new SelectBox<>(GameStateManager.getSkin());

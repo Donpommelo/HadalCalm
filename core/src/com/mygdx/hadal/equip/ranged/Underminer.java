@@ -219,7 +219,7 @@ public class Underminer extends RangedWeapon {
 								bomb.addStrategy(new FlashNearDeath(state, bomb, user.getBodyData(), 1.0f, false));
 
 								if (!state.isServer()) {
-									((ClientState) state).addEntity(bomb.getEntityID(), bomb, false, ClientState.ObjectSyncLayers.HBOX);
+									((ClientState) state).addEntity(bomb.getEntityID(), bomb, false, ClientState.ObjectLayer.HBOX);
 								}
 							}
 						}

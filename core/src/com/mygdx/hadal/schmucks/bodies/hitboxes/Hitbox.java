@@ -18,7 +18,7 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -40,7 +40,7 @@ public class Hitbox extends HadalEntity {
 	protected final float maxLifespan;
 	protected float lifeSpan;
 
-	//filter describes the type of schmuck the hitbox will register a hit on .(player, enemy or neutral)
+	//filter describes the type of schmuck the hitbox will register a hit on (player, enemy or neutral)
 	protected short filter;
 
 	//passability describes what types of entities the hitbox can collide with.
@@ -148,6 +148,8 @@ public class Hitbox extends HadalEntity {
 			}
 		}
 		this.spriteSize.set(size);
+
+		setLayer(ObjectLayer.HBOX);
 	}
 
 	/**
@@ -292,7 +294,7 @@ public class Hitbox extends HadalEntity {
 		}
 		if (isSyncDefault() || isSyncInstant()) {
 			return new Packets.CreateEntity(entityID, spriteSize, getPixelPosition(), getAngle(), sprite,
-					true, isSyncInstant(), ObjectSyncLayers.HBOX, alignType.HITBOX);
+					true, isSyncInstant(), ObjectLayer.HBOX, alignType.HITBOX);
 		}
 		return null;
 	}

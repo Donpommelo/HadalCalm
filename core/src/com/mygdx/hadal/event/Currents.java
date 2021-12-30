@@ -13,7 +13,7 @@ import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
@@ -128,8 +128,8 @@ public class Currents extends Event {
 			ParticleEntity bubbles = new ParticleEntity(state, ragdoll, Particle.CURRENT_TRAIL, 0.5f, 0.0f, true, SyncType.NOSYNC)
 				.setParticleVelocity(vec.angleRad())
 				.setParticleAngle(vec.angleRad() + 90 * MathUtils.degreesToRadians);
-			((ClientState) state).addEntity(ragdoll.getEntityID(), ragdoll, false, ObjectSyncLayers.STANDARD);
-			((ClientState) state).addEntity(bubbles.getEntityID(), bubbles, false, ObjectSyncLayers.EFFECT);
+			((ClientState) state).addEntity(ragdoll.getEntityID(), ragdoll, false, ObjectLayer.STANDARD);
+			((ClientState) state).addEntity(bubbles.getEntityID(), bubbles, false, ObjectLayer.EFFECT);
 		}
 	}
 		

@@ -12,6 +12,7 @@ import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
+import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.UnlockActives;
@@ -264,11 +265,14 @@ public class PlayerBodyData extends BodyData {
 		UnlockEquip unlock = UnlockEquip.getUnlockFromEquip(equip.getClass());
 		
 		int slotToReplace = currentSlot;
-		
-		for (int i = 0; i < getNumWeaponSlots(); i++) {
-			if (multitools[i] instanceof NothingWeapon || multitools[i].isOutofAmmo()) {
-				slotToReplace = i;
-				break;
+
+		//if we are picking up "nothing" in the armory, we skip "undesirable weapon check"
+		if (!(equip instanceof NothingWeapon)) {
+			for (int i = 0; i < getNumWeaponSlots(); i++) {
+				if (multitools[i] instanceof NothingWeapon || multitools[i].isOutofAmmo()) {
+					slotToReplace = i;
+					break;
+				}
 			}
 		}
 
@@ -604,7 +608,8 @@ public class PlayerBodyData extends BodyData {
 		}
 		return damage;
 	}
-	
+
+	private static final float equipDropLifepan = 12.0f;
 	@Override
 	public void die(BodyData perp, DamageTypes... tags) {
 		if (player.isAlive()) {
@@ -651,6 +656,12 @@ public class PlayerBodyData extends BodyData {
 			//run the unequip method for current weapon (certain weapons need this to stop playing a sound)
 			if (currentTool != null) {
 				currentTool.unequip(player.getState());
+			}
+
+			//drop current weapon
+			UnlockEquip equip = loadout.multitools[currentSlot];
+			if (!equip.equals(UnlockEquip.NOTHING) && !equip.equals(UnlockEquip.SPEARGUN_NERFED)) {
+				new PickupEquip(player.getState(), player.getPixelPosition(), equip, equipDropLifepan);
 			}
 			
 			super.die(perp, tags);

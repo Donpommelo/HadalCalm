@@ -105,7 +105,7 @@ public class Riftsplitter extends MeleeWeapon {
 						.setRotate(true).setSyncType(SyncType.NOSYNC));
 
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(shockwave.getEntityID(), shockwave, false, ClientState.ObjectSyncLayers.HBOX);
+					((ClientState) state).addEntity(shockwave.getEntityID(), shockwave, false, ClientState.ObjectLayer.HBOX);
 				}
 			}
 		});

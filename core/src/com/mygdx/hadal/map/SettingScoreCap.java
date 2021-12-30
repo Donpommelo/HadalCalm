@@ -8,6 +8,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.TooltipManager;
 
 /**
  * This mode setting is used for modes where the host can designate a score cap
@@ -28,6 +29,7 @@ public class SettingScoreCap extends ModeSetting {
         String[] scoreCapChoices = HText.SETTING_SCORECAP_OPTIONS.text().split(",");
         Text scorecap = new Text(HText.SETTING_SCORECAP.text());
         scorecap.setScale(ModeSettingSelection.detailsScale);
+        TooltipManager.addTooltip(scorecap, HText.SETTING_SCORECAP_DESC.text());
 
         scoreCapOptions = new SelectBox<>(GameStateManager.getSkin());
         scoreCapOptions.setItems(scoreCapChoices);

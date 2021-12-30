@@ -12,7 +12,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
@@ -123,7 +123,7 @@ public class HealingArea extends Event {
 			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
 			ParticleEntity heal = new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, 1.5f, true, SyncType.NOSYNC);
-			((ClientState) state).addEntity(heal.getEntityID(), heal, false, ObjectSyncLayers.EFFECT);
+			((ClientState) state).addEntity(heal.getEntityID(), heal, false, ObjectLayer.EFFECT);
 		}
 	}
 	

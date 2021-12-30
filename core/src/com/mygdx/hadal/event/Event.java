@@ -19,7 +19,7 @@ import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -255,7 +255,7 @@ public class Event extends HadalEntity {
 		case SERVER:
 			if (body != null && !sprite.equals(Sprite.NOTHING)) {
 				return new Packets.CreateEntity(entityID, size, getPixelPosition(), getAngle(), sprite,
-						synced, isSyncInstant(), ObjectSyncLayers.STANDARD, scaleAlign);
+						synced, isSyncInstant(), ObjectLayer.STANDARD, scaleAlign);
 			} else {
 				return null;
 			}

@@ -159,14 +159,14 @@ public class LoveBow extends RangedWeapon {
 							ParticleEntity heal = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HEAL, 1.0f,
 									true, SyncType.NOSYNC);
 							if (!state.isServer()) {
-								((ClientState) state).addEntity(heal.getEntityID(), heal, false, ClientState.ObjectSyncLayers.HBOX);
+								((ClientState) state).addEntity(heal.getEntityID(), heal, false, ClientState.ObjectLayer.HBOX);
 							}
 							hurtbox.die();
 						} else if (((BodyData) fixB).getSchmuck().getHitboxfilter() != user.getHitboxfilter()){
 							ParticleEntity hurt = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HURT, 1.0f,
 									true, SyncType.NOSYNC);
 							if (!state.isServer()) {
-								((ClientState) state).addEntity(hurt.getEntityID(), hurt, false, ClientState.ObjectSyncLayers.HBOX);
+								((ClientState) state).addEntity(hurt.getEntityID(), hurt, false, ClientState.ObjectLayer.HBOX);
 							}
 						}
 					}
@@ -174,7 +174,7 @@ public class LoveBow extends RangedWeapon {
 			}
 		});
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(healbox.getEntityID(), healbox, false, ClientState.ObjectSyncLayers.HBOX);
+			((ClientState) state).addEntity(healbox.getEntityID(), healbox, false, ClientState.ObjectLayer.HBOX);
 		}
 		return hurtbox;
 	}

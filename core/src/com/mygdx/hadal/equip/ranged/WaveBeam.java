@@ -92,7 +92,7 @@ public class WaveBeam extends RangedWeapon {
 				hbox.addStrategy(new WaveEntity(state, hbox, user.getBodyData(), center, amplitude, frequency, startAngle));
 
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectSyncLayers.HBOX);
+					((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
 				}
 			}
 		});

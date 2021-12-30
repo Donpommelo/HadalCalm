@@ -74,7 +74,7 @@ public class Boss4 extends EnemyFloating {
 			@Override
 			public void render(SpriteBatch batch) {}
 		};
-		
+
 		body1.setScale(bodyBaseScale1).setColor(HadalColor.RED).setSyncExtraFields(true);
 		body2 = new ParticleEntity(state, this, Particle.STORM, 1.0f, 0.0f, true, SyncType.TICKSYNC) {
 			
@@ -805,7 +805,7 @@ public class Boss4 extends EnemyFloating {
 					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 					
 					if (index % 8 == 0) {
-						new SoundEntity(state, hbox, SoundEffect.MAGIC25_SPELL, 0.8f, 0.5f, true, true, SyncType.TICKSYNC);
+						new SoundEntity(state, hbox, SoundEffect.MAGIC25_SPELL, 0.8f, 0.5f, true, true, SyncType.CREATESYNC);
 					}
 					
 					if (index % 2 == 0) {

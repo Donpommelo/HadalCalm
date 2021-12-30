@@ -1,27 +1,17 @@
-package com.mygdx.hadal.event;
+package com.mygdx.hadal.event.modes;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
-import com.mygdx.hadal.strategies.hitbox.FlagCapturable;
 import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -69,11 +59,11 @@ public class SpawnerFlag extends Event {
         };
 
         this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
-            Constants.BIT_SENSOR, Constants.BIT_PROJECTILE, (short) 0, true, eventData);
+            Constants.BIT_SENSOR, Constants.BIT_SENSOR, (short) 0, true, eventData);
         this.body.setType(BodyDef.BodyType.KinematicBody);
     }
 
-    private Hitbox flag;
+    private FlagCapturable flag;
     private float spawnCountdown;
     private static final float spawnDelay = 3.0f;
     private float controllerCount;
@@ -97,9 +87,6 @@ public class SpawnerFlag extends Event {
             }
             if (flagded) {
                 spawnCountdown = spawnDelay;
-                if (getStandardParticle() != null) {
-                    getStandardParticle().onForBurst(spawnDelay);
-                }
             }
         }
 
@@ -107,48 +94,21 @@ public class SpawnerFlag extends Event {
         if (controllerCount >= checkInterval) {
             controllerCount = 0.0f;
             for (HadalEntity entity : eventData.getSchmucks()) {
-                if (entity instanceof Hitbox hbox) {
-                    if (hbox.getStrategies().size >= 2) {
-                        if (hbox.getStrategies().get(1) instanceof FlagCapturable capture) {
-                            capture.checkCapture(this);
-                        }
-                    }
+                if (entity instanceof FlagCapturable flag) {
+                    flag.checkCapture(this);
                 }
             }
         }
-
         messageCount -= delta;
     }
 
-    private static final Vector2 flagSize = new Vector2(80, 80);
-    private static final float flagLifespan = 240.0f;
     private void spawnFlag() {
-        flag = new RangedHitbox(state, new Vector2(getPixelPosition()), flagSize, flagLifespan, new Vector2(),
-            (short) 0, false, false, state.getWorldDummy(), Sprite.DIATOM_D);
-
-        //the order of strats is important; FlagCapturable must be second because somethings check for it by index
-        flag.addStrategy(new ControllerDefault(state, flag, state.getWorldDummy().getBodyData()));
-        flag.addStrategy(new FlagCapturable(state, flag, state.getWorldDummy().getBodyData(), this, teamIndex));
-        flag.addStrategy(new DropThroughPassability(state, flag, state.getWorldDummy().getBodyData()));
-
-        Vector3 color = new Vector3();
-
-        //the flag's particle should match the team color
-        if (teamIndex < AlignmentFilter.currentTeams.length) {
-            HadalColor teamColor = AlignmentFilter.currentTeams[teamIndex].getColor1();
-            color.set(teamColor.getR(), teamColor.getG(), teamColor.getB());
-
-            flag.addStrategy(new CreateParticles(state, flag, state.getWorldDummy().getBodyData(), Particle.BRIGHT_TRAIL, 0.0f, 1.0f)
-                .setParticleColor(teamColor));
-        }
-
-        state.getUiObjective().addObjective(flag, Sprite.CLEAR_CIRCLE_ALERT, color, true, false);
-
-        if (state.isServer()) {
-            HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(flag.getEntityID(),
-                color, true, false, Sprite.CLEAR_CIRCLE_ALERT));
-        }
+        flag = new FlagCapturable(state, new Vector2(getPixelPosition()), this, teamIndex);
         flagPresent = true;
+
+        if (standardParticle != null) {
+            standardParticle.onForBurst(spawnDelay);
+        }
     }
 
     private static final float messageCooldown = 5.0f;
@@ -176,7 +136,7 @@ public class SpawnerFlag extends Event {
         //this block of code is used b/c the default particle behavior doesn't like effects with custom colors
         if (state.isServer()) {
             standardParticle = new ParticleEntity(state, this,
-                Particle.DIATOM_IMPACT_LARGE, 0, 0, true, SyncType.CREATESYNC);
+                Particle.DIATOM_IMPACT_LARGE, 0, 0, true, SyncType.TICKSYNC);
             if (teamIndex < AlignmentFilter.currentTeams.length) {
                 standardParticle.setColor(AlignmentFilter.currentTeams[teamIndex].getColor1());
             }

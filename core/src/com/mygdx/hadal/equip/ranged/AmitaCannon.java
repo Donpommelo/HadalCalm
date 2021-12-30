@@ -112,7 +112,7 @@ public class AmitaCannon extends RangedWeapon {
 					});
 
 					if (!state.isServer()) {
-						((ClientState) state).addEntity(orbital.getEntityID(), orbital, false, ClientState.ObjectSyncLayers.HBOX);
+						((ClientState) state).addEntity(orbital.getEntityID(), orbital, false, ClientState.ObjectLayer.HBOX);
 					}
 				}
 			}

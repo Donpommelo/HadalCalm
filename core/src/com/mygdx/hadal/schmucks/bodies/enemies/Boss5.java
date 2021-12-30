@@ -20,7 +20,6 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.statuses.DeathParticles;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -65,14 +64,13 @@ public class Boss5 extends EnemyFloating {
 		this.bodySprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.NEPTUNE_KING_BODY.getFrames());
 		this.crownSprite = Sprite.NEPTUNE_KING_CROWN.getFrame();
 
-		new ParticleEntity(state, this, Particle.TYRRAZZA_TRAIL, 1.0f, 0.0f, true, SyncType.TICKSYNC).setScale(2.0f);
+		new ParticleEntity(state, this, Particle.TYRRAZZA_TRAIL, 1.0f, 0.0f, true, SyncType.CREATESYNC).setScale(2.0f);
 	}
 
 	@Override
 	public void create() {
 		super.create();
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
-		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.DIATOM_IMPACT_LARGE, 5.0f));
 
 	}
 
@@ -340,7 +338,6 @@ public class Boss5 extends EnemyFloating {
 				RangedHitbox poison = new RangedHitbox(state, enemy.getPixelPosition(), poisonSize, poison1Lifespan, new Vector2(0, -poisonBreathSpeed),
 					getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
 				poison.setPassability(Constants.BIT_WALL);
-				poison.setSyncDefault(false);
 				poison.makeUnreflectable();
 
 				poison.addStrategy(new ControllerDefault(state, poison, getBodyData()));
@@ -648,7 +645,7 @@ public class Boss5 extends EnemyFloating {
 					});
 
 					if (i == 0) {
-						new SoundEntity(state, orbital, SoundEffect.MAGIC25_SPELL, 0.8f, 0.5f, true, true, SyncType.TICKSYNC);
+						new SoundEntity(state, orbital, SoundEffect.MAGIC25_SPELL, 0.8f, 0.5f, true, true, SyncType.CREATESYNC);
 					}
 				}
 			}

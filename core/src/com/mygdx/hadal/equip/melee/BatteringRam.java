@@ -107,7 +107,7 @@ public class BatteringRam extends MeleeWeapon {
 					.setScale(0.5f).setPrematureOff(particleLifespan)
 					.setColor(WeaponUtils.getPlayerColor((Player) user));
 			if (!state.isServer()) {
-				((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectSyncLayers.HBOX);
+				((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.HBOX);
 			}
 		}
 

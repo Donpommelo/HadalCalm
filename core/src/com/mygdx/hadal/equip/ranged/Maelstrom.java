@@ -124,7 +124,7 @@ public class Maelstrom extends RangedWeapon {
 					}
 
 					if (!state.isServer()) {
-						((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectSyncLayers.HBOX);
+						((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectLayer.HBOX);
 					}
 				}
 			}

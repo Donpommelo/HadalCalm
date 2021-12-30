@@ -18,6 +18,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
+import com.mygdx.hadal.event.modes.FlagCapturable;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.*;
@@ -29,7 +30,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
-import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -634,7 +635,7 @@ public class KryoClient {
 							}
 							hbox.serverPos.set(p.pos).scl(1 / PPM);
 							hbox.serverVelo.set(p.velo);
-							cs.addEntity(p.uuidMSB, p.uuidLSB, hbox, true, ObjectSyncLayers.HBOX);
+							cs.addEntity(p.uuidMSB, p.uuidLSB, hbox, true, ObjectLayer.HBOX);
 						}
 					}
 				});
@@ -662,7 +663,7 @@ public class KryoClient {
 							for (int i = 0; i < hboxes.length; i++) {
 								hboxes[i].serverPos.set(p.pos[i]).scl(1 / PPM);
 								hboxes[i].serverVelo.set(p.velo[i]);
-								cs.addEntity(p.uuidMSB[i], p.uuidLSB[i], hboxes[i], true, ObjectSyncLayers.HBOX);
+								cs.addEntity(p.uuidMSB[i], p.uuidLSB[i], hboxes[i], true, ObjectLayer.HBOX);
 							}
 						}
 					}
@@ -707,7 +708,7 @@ public class KryoClient {
 					} else {
 						entity = new ParticleEntity(cs, p.pos, p.particle, p.lifespan, p.startOn, SyncType.NOSYNC);
 					}
-					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, p.synced, ObjectSyncLayers.EFFECT);
+					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, p.synced, ObjectLayer.EFFECT);
 					entity.setScale(p.scale);
 					entity.setRotate(p.rotate);
 					if (p.velocity != 0) {
@@ -720,7 +721,18 @@ public class KryoClient {
 			}
 			return true;
 		}
-		
+
+		else if (o instanceof final Packets.CreateFlag p) {
+			final ClientState cs = getClientState();
+			if (cs != null) {
+				cs.addPacketEffect(() -> {
+					FlagCapturable entity = new FlagCapturable(cs, p.pos, null, p.teamIndex);
+					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, true, ObjectLayer.HBOX);
+				});
+			}
+			return true;
+		}
+
 		/*
 		 * Server tells us to create a SoundEntity to play a sound
 		 * Create entity and set its attachedId so that it will connect once it is created.
@@ -731,7 +743,7 @@ public class KryoClient {
 				cs.addPacketEffect(() -> {
 					SoundEntity entity = new SoundEntity(cs, null, p.sound, p.volume, p.pitch, p.looped, p.on, SyncType.NOSYNC);
 					entity.setAttachedId(new UUID(p.uuidMSBAttached, p.uuidLSBAttached));
-					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, p.synced, ObjectSyncLayers.STANDARD);
+					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, p.synced, ObjectLayer.STANDARD);
 				});
 			}
 			return true;
@@ -747,7 +759,7 @@ public class KryoClient {
 				cs.addPacketEffect(() -> {
 					Enemy enemy = p.type.generateEnemy(cs, p.pos, p.hitboxFilter, 0, null);
 					enemy.serverPos.set(p.pos).scl(1 / PPM);
-					cs.addEntity(p.uuidMSB, p.uuidLSB, enemy, true, ObjectSyncLayers.STANDARD);
+					cs.addEntity(p.uuidMSB, p.uuidLSB, enemy, true, ObjectLayer.STANDARD);
 					enemy.setBoss(p.boss);
 					if (p.boss) {
 						enemy.setName(p.name);
@@ -776,7 +788,7 @@ public class KryoClient {
 					newPlayer.setConnId(p.connID);
 					newPlayer.setScaleModifier(p.scaleModifier);
 					newPlayer.setHitboxfilter(p.hitboxFilter);
-					cs.addEntity(p.uuidMSB, p.uuidLSB, newPlayer, true, ObjectSyncLayers.STANDARD);
+					cs.addEntity(p.uuidMSB, p.uuidLSB, newPlayer, true, ObjectLayer.STANDARD);
 
 					if (p.connID == connID) {
 						cs.setPlayer(newPlayer);
@@ -818,7 +830,7 @@ public class KryoClient {
 
 					Event e = TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint);
 					e.serverPos.set(e.getStartPos()).scl(1 / PPM);
-					cs.addEntity(p.uuidMSB, p.uuidLSB, e, p.synced, ObjectSyncLayers.STANDARD);
+					cs.addEntity(p.uuidMSB, p.uuidLSB, e, p.synced, ObjectLayer.STANDARD);
 				});
 			}
 			return true;
@@ -832,7 +844,7 @@ public class KryoClient {
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
 					Ragdoll entity = new Ragdoll(cs, p.pos, p.size, p.sprite, p.velocity, p.duration, p.gravity, p.setVelo, p.sensor, false);
-					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, false, ObjectSyncLayers.STANDARD);
+					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, false, ObjectLayer.STANDARD);
 				});
 			}
 			return true;
@@ -849,7 +861,7 @@ public class KryoClient {
 					pickup.setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(p.newPickup,null)));
 					pickup.serverPos.set(pickup.getStartPos()).scl(1 / PPM);
 
-					cs.addEntity(p.uuidMSB, p.uuidLSB, pickup, p.synced, ObjectSyncLayers.STANDARD);
+					cs.addEntity(p.uuidMSB, p.uuidLSB, pickup, p.synced, ObjectLayer.STANDARD);
 				});
 			}
 			return true;

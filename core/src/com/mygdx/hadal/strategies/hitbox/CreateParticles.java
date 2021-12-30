@@ -73,7 +73,7 @@ public class CreateParticles extends HitboxStrategy {
 		}
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectSyncLayers.EFFECT);
+			((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
 		}
 	}
 	

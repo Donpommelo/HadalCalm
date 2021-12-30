@@ -70,8 +70,7 @@ public class Schmuck extends HadalEntity {
 		this.baseHp = baseHp;
 
 		if (state.isServer()) {
-			impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false,
-					SyncType.TICKSYNC);
+			impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false, SyncType.TICKSYNC);
 		}
 	}
 

@@ -41,7 +41,7 @@ public class CreateSound extends HitboxStrategy {
 		//this is the sound entity that plays the sound and is attached to the hbox
 		SoundEntity sound = new SoundEntity(state, hbox, effect, volume, pitch, looped, true, syncType);
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(sound.getEntityID(), sound, false, ClientState.ObjectSyncLayers.EFFECT);
+			((ClientState) state).addEntity(sound.getEntityID(), sound, false, ClientState.ObjectLayer.EFFECT);
 		}
 	}
 	

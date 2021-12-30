@@ -84,9 +84,9 @@ public class ClientState extends PlayState {
 		AlignmentFilter.resetTeams();
 
 		//client still needs anchor points, world dummies and mouse tracker
-		addEntity(getAnchor().getEntityID(), getAnchor(), false, ObjectSyncLayers.STANDARD);
-		addEntity(getWorldDummy().getEntityID(), getWorldDummy(), false, ObjectSyncLayers.STANDARD);
-		addEntity(getMouse().getEntityID(), getMouse(), false, ObjectSyncLayers.STANDARD);
+		addEntity(getAnchor().getEntityID(), getAnchor(), false, ObjectLayer.STANDARD);
+		addEntity(getWorldDummy().getEntityID(), getWorldDummy(), false, ObjectLayer.STANDARD);
+		addEntity(getMouse().getEntityID(), getMouse(), false, ObjectLayer.STANDARD);
 	}
 	
 	@Override
@@ -157,10 +157,10 @@ public class ClientState extends PlayState {
 		//All entities that are set to be created are created and assigned their entityId
 		for (CreatePacket packet: createListClient) {
 			HadalEntity oldEntity;
-			if (packet.layer.equals(ObjectSyncLayers.HBOX)) {
+			if (packet.layer.equals(ObjectLayer.HBOX)) {
 				oldEntity = hitboxes.get(packet.entityId);
 				hitboxes.put(packet.entityId, packet.entity);
-			} else if (packet.layer.equals(ObjectSyncLayers.EFFECT)) {
+			} else if (packet.layer.equals(ObjectLayer.EFFECT)) {
 				oldEntity = effects.get(packet.entityId);
 				effects.put(packet.entityId, packet.entity);
 			} else {
@@ -362,12 +362,12 @@ public class ClientState extends PlayState {
 	 * @param synced: should this object receive a regular sync packet from the server?
 	 * @param layer: is this layer a hitbox (rendered underneath) or not?
 	 */
-	public void addEntity(UUID entityId, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {
+	public void addEntity(UUID entityId, HadalEntity entity, boolean synced, ObjectLayer layer) {
 		CreatePacket packet = new CreatePacket(entityId, entity, synced, layer);
 		createListClient.add(packet);
 	}
 
-	public void addEntity(long uuidMSB, long uuidLSB, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {
+	public void addEntity(long uuidMSB, long uuidLSB, HadalEntity entity, boolean synced, ObjectLayer layer) {
 		addEntity(new UUID(uuidMSB, uuidLSB), entity, synced, layer);
 	}
 
@@ -450,7 +450,7 @@ public class ClientState extends PlayState {
 	/**
 	 * This record represents a packet telling the client to create an object
 	 */
-	public record CreatePacket(UUID entityId, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {}
+	public record CreatePacket(UUID entityId, HadalEntity entity, boolean synced, ObjectLayer layer) {}
 
 	/**
 	 * The destroy and create methods do nothing for the client. 
@@ -467,13 +467,4 @@ public class ClientState extends PlayState {
 	public float getLatency() { return latency; }
 
 	public Vector3 getMousePosition() { return mousePosition; }
-
-	/**
-	 * Z-Axis Layers that entities can be added to. ATM, there is just 1 for hitboxes beneath everything else.
-	 */
-	public enum ObjectSyncLayers {
-		STANDARD,
-		HBOX,
-		EFFECT
-	}
 }

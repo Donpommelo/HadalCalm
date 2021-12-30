@@ -14,6 +14,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 
 import java.util.UUID;
 
@@ -92,6 +93,8 @@ public class ParticleEntity extends HadalEntity {
 		//as default, bounding box exists around the particle with a set size
 		this.visualBounds.inf();
 		this.visualBounds.ext(new Vector3(startPos.x, startPos.y, 0), visualBoundsRadius);
+
+		setLayer(ObjectLayer.EFFECT);
 	}
 	
 	//This constructor creates a particle effect that will follow another entity.
@@ -206,9 +209,7 @@ public class ParticleEntity extends HadalEntity {
 	 * use particle bounding box to calculate
 	 */
 	@Override
-	public boolean isVisible() {
-		return state.getCamera().frustum.boundsInFrustum(visualBounds);
-	}
+	public boolean isVisible() { return state.getCamera().frustum.boundsInFrustum(visualBounds); }
 
 	public void turnOn() {
 		on = true;
@@ -277,7 +278,6 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		if (sync.equals(SyncType.TICKSYNC)) {
-			
 			if (attachedEntity == null) {
 				newPos.set(startPos);
 			} else if (attachedEntity.getBody() == null) {
@@ -286,7 +286,6 @@ public class ParticleEntity extends HadalEntity {
 				attachedLocation.set(attachedEntity.getPixelPosition());
 				newPos.set(attachedLocation.x, attachedLocation.y);
 			}
-			
 			//if this particle effect has extra fields (scale and color), sync those as well
 			if (syncExtraFields) {
 				state.getSyncPackets().add(new PacketsSync.SyncParticlesExtra(entityID, newPos, offset, entityAge,
@@ -306,6 +305,8 @@ public class ParticleEntity extends HadalEntity {
 		if (o instanceof PacketsSync.SyncParticles p) {
 			this.offset.set(p.velocity);
 			effect.setPosition(p.pos.x + offset.x, p.pos.y + offset.y);
+			visualBoundsExtension.set(p.pos.x + offset.x, p.pos.y + offset.y, 0);
+			visualBounds.ext(visualBoundsExtension, visualBoundsRadius);
 
 			if (p.on && (!on || effect.isComplete())) {
 				turnOn();

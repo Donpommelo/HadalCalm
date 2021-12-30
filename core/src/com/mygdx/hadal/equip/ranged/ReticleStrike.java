@@ -84,7 +84,7 @@ public class ReticleStrike extends RangedWeapon {
 					reticle.addStrategy(new Static(state, reticle, user.getBodyData()));
 
 					if (!state.isServer()) {
-						((ClientState) state).addEntity(reticle.getEntityID(), reticle, false, ClientState.ObjectSyncLayers.HBOX);
+						((ClientState) state).addEntity(reticle.getEntityID(), reticle, false, ClientState.ObjectLayer.HBOX);
 					}
 				}
 			}

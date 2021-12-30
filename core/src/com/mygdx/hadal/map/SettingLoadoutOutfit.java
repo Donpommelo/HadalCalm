@@ -8,6 +8,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.TooltipManager;
 
 /**
  */
@@ -29,8 +30,9 @@ public class SettingLoadoutOutfit extends ModeSetting {
             optionChoices[i] = state.getGsm().getSavedOutfits().getOutfits().keys().toArray().get(i - 1);
         }
 
-        Text lives = new Text(HText.SETTING_OUTFIT.text());
-        lives.setScale(ModeSettingSelection.detailsScale);
+        Text outfit = new Text(HText.SETTING_OUTFIT.text());
+        outfit.setScale(ModeSettingSelection.detailsScale);
+        TooltipManager.addTooltip(outfit, HText.SETTING_OUTFIT_DESC.text());
 
         outfitOptions = new SelectBox<>(GameStateManager.getSkin());
         outfitOptions.setItems(optionChoices);
@@ -39,7 +41,7 @@ public class SettingLoadoutOutfit extends ModeSetting {
             outfitOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
         }
 
-        table.add(lives);
+        table.add(outfit);
         table.add(outfitOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
     }
 
@@ -69,7 +71,8 @@ public class SettingLoadoutOutfit extends ModeSetting {
 
     @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
-        if (universalLoadout != null) {
+        int startOutfit = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
+        if (startOutfit != 0) {
             System.arraycopy(universalLoadout.multitools, 0, newLoadout.multitools, 0, Loadout.maxWeaponSlots);
             System.arraycopy(universalLoadout.artifacts, 0, newLoadout.artifacts, 0, Loadout.maxArtifactSlots);
             newLoadout.activeItem = universalLoadout.activeItem;

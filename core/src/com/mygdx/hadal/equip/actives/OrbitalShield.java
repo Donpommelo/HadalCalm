@@ -43,7 +43,8 @@ public class OrbitalShield extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		new SoundEntity(state, createOrbital(state, user, 0), SoundEffect.MAGIC25_SPELL, 1.0f, 1.0f, true, true, SyncType.TICKSYNC);
+		new SoundEntity(state, createOrbital(state, user, 0), SoundEffect.MAGIC25_SPELL, 1.0f, 1.0f,
+				true, true, SyncType.CREATESYNC);
 		
 		createOrbital(state, user, 90);
 		createOrbital(state, user, 180);

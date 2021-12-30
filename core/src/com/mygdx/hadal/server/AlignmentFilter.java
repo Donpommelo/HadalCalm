@@ -10,6 +10,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.map.SettingTeamMode;
+import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.save.UnlockCharacter;
 
 import java.util.Arrays;
@@ -202,10 +203,10 @@ public enum AlignmentFilter {
         //add each non-spectator to a team.
         for (User user: users) {
             if (!user.isSpectator()) {
-                if (mode.equals(SettingTeamMode.TeamMode.TEAM_AUTO)) {
+                if (mode.equals(TeamMode.TEAM_AUTO)) {
                     currentTeam = (currentTeam + 1) % numTeams;
                     teamSelection.put(user, currentTeam);
-                } else if (mode.equals(SettingTeamMode.TeamMode.HUMANS_VS_BOTS)){
+                } else if (mode.equals(TeamMode.HUMANS_VS_BOTS)){
                     if (user.getScores().getConnID() < 0) {
                         currentTeam = 0;
                     } else {
@@ -259,6 +260,12 @@ public enum AlignmentFilter {
 
         //first, we keep track of how many players are on each team
         ObjectMap<AlignmentFilter, Integer> teamSelection = new ObjectMap<>();
+
+        //we add current teams so that new players can be assigned to empty teams
+        for (AlignmentFilter team: currentTeams) {
+            teamSelection.put(team, 0);
+        }
+
         for (User user: HadalGame.server.getUsers().values()) {
             if (!user.isSpectator() && !user.equals(newUser)) {
                 teamSelection.put(user.getTeamFilter(), teamSelection.get(user.getTeamFilter(), 0) + 1);

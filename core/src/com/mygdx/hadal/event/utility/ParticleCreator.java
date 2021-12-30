@@ -50,7 +50,6 @@ public class ParticleCreator extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				
 				if (getConnectedEvent() != null) {
 					particles.setAttachedEntity(getConnectedEvent());
 				} else {

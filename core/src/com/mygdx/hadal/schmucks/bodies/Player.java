@@ -74,7 +74,7 @@ public class Player extends PhysicsSchmuck {
 	private final PlayerSpriteHelper spriteHelper;
 	private TextureRegion toolSprite;
 	private final Animation<TextureRegion> typingBubble;
-	private final TextureRegion reload, reloadMeter, reloadBar, hpBar, hpBarFade, fuelBar, fuelCutoff;
+	private final TextureRegion reloadMeter, reloadBar, hpBar, hpBarFade, fuelBar, fuelCutoff;
 
 	//Fixtures and user data
 	protected FeetData feetData;
@@ -204,7 +204,6 @@ public class Player extends PhysicsSchmuck {
 		//This schmuck tracks mouse location. Used for projectiles that home towards mouse.
 		mouse = state.getMouse();
 		
-		this.reload = Sprite.UI_RELOAD.getFrame();
 		this.reloadMeter = Sprite.UI_RELOAD_METER.getFrame();
 		this.reloadBar = Sprite.UI_RELOAD_BAR.getFrame();
 		this.hpBar = Sprite.UI_MAIN_HEALTHBAR.getFrame();
@@ -698,8 +697,8 @@ public class Player extends PhysicsSchmuck {
 			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 		
-		float textX = playerLocation.x - reload.getRegionWidth() * uiScale / 2;
-		float textY = playerLocation.y + reload.getRegionHeight() * uiScale + size.y / 2;
+		float textX = playerLocation.x - reloadMeter.getRegionWidth() * uiScale / 2;
+		float textY = playerLocation.y + reloadMeter.getRegionHeight() * uiScale + size.y / 2;
 		
 		//render player ui
 		if (playerData.getCurrentTool().isReloading()) {
@@ -708,8 +707,8 @@ public class Player extends PhysicsSchmuck {
 			reloadDelayed = Math.min(1.0f, reloadDelayed + (reloadPercent - reloadDelayed) * 0.25f);
 			
 			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * reloadDelayed, reloadBar.getRegionHeight() * uiScale);
-			HadalGame.FONT_SPRITE.draw(batch, HText.RELOADING.text(), textX + 12, textY + reload.getRegionHeight() * uiScale);
-			batch.draw(reloadMeter, textX, textY, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
+			HadalGame.FONT_SPRITE.draw(batch, HText.RELOADING.text(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
+			batch.draw(reloadMeter, textX, textY, reloadMeter.getRegionWidth() * uiScale, reloadMeter.getRegionHeight() * uiScale);
 			
 			if (reloadDelayed > reloadPercent) {
 				reloadDelayed = 0.0f;
@@ -723,8 +722,8 @@ public class Player extends PhysicsSchmuck {
 			//Calculate charge progress
 			chargeDelayed = Math.min(1.0f, chargeDelayed + (chargePercent - chargeDelayed) * 0.25f);
 			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * chargeDelayed, reloadBar.getRegionHeight() * uiScale);
-			HadalGame.FONT_SPRITE.draw(batch, playerData.getCurrentTool().getChargeText(), textX + 12, textY + reload.getRegionHeight() * uiScale);
-			batch.draw(reloadMeter, textX, textY, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
+			HadalGame.FONT_SPRITE.draw(batch, playerData.getCurrentTool().getChargeText(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
+			batch.draw(reloadMeter, textX, textY, reloadMeter.getRegionWidth() * uiScale, reloadMeter.getRegionHeight() * uiScale);
 		} else {
 			chargeDelayed = 0.0f;
 		}
@@ -732,11 +731,11 @@ public class Player extends PhysicsSchmuck {
 		//render "out of ammo"
 		if (state.isServer()) {
 			if (playerData.getCurrentTool().isOutofAmmo()) {
-				HadalGame.FONT_SPRITE.draw(batch, HText.OUT_OF_AMMO.text(), textX + 12, textY + reload.getRegionHeight() * uiScale);
+				HadalGame.FONT_SPRITE.draw(batch, HText.OUT_OF_AMMO.text(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
 			}
 		} else {
 			if (playerData.isOverrideOutOfAmmo()) {
-				HadalGame.FONT_SPRITE.draw(batch, HText.OUT_OF_AMMO.text(), textX + 12, textY + reload.getRegionHeight() * uiScale);
+				HadalGame.FONT_SPRITE.draw(batch, HText.OUT_OF_AMMO.text(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
 			}
 		}
 		

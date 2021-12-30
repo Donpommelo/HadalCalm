@@ -162,7 +162,7 @@
       "cursor": "textFieldCursor", "selection": "selection" }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
-    "default": { "label": "default", "background": "tooltip" }
+    "default": { "label": "default", "background": "tooltip", "wrapWidth": 350 }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle": {
     "default": { "background": "touchpad", "knob": "touchpadKnob" }
