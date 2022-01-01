@@ -17,6 +17,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.WorldUtil;
 
 public class Underminer extends RangedWeapon {
 
@@ -116,7 +117,7 @@ public class Underminer extends RangedWeapon {
 						angle.set(entityLocation).add(raycast.setAngleRad(angleOffset));
 						wallDetected = false;
 
-						if (entityLocation.x != angle.x || entityLocation.y != angle.y) {
+						if (WorldUtil.preRaycastCheck(entityLocation, angle)) {
 							state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 								if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
 									wallDetected = true;

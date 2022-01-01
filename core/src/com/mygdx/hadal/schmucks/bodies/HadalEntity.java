@@ -438,6 +438,7 @@ public abstract class HadalEntity {
 	public void processShaderController(float timer) {
 		float percentageCompletion = 1.0f - shaderCount / shaderDuration;
 		shader.shaderPlayUpdate(state, timer);
+		shader.shaderDefaultUpdate(timer);
 		shader.shaderEntityUpdate(percentageCompletion);
 	}
 	

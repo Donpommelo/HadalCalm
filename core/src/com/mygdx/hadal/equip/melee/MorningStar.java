@@ -14,10 +14,7 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 
 public class MorningStar extends MeleeWeapon {
@@ -47,6 +44,8 @@ public class MorningStar extends MeleeWeapon {
 
 	//is the hitbox active?
 	private boolean active;
+
+	private static final float homePower = 120.0f;
 
 	public MorningStar(Schmuck user) {
 		super(user, swingCd, windup, weaponSprite, eventSprite);
@@ -197,6 +196,7 @@ public class MorningStar extends MeleeWeapon {
 		star.addStrategy(new DamageStandard(state, star, user.getBodyData(), baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MELEE).setRepeatable(true));
 		star.addStrategy(new ContactWallSound(state, star, user.getBodyData(), SoundEffect.WALL_HIT1, 0.25f));
 		star.addStrategy(new ContactUnitSound(state, star, user.getBodyData(), SoundEffect.SLAP, 0.25f, true).setPitch(0.5f));
+		star.addStrategy(new HomingMouse(state, star, user.getBodyData(), homePower));
 
 		star.addStrategy(new HitboxStrategy(state, star, user.getBodyData()) {
 

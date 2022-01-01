@@ -13,6 +13,7 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.WorldUtil;
 
 /**
  * A ClientPlayer represents a client's own player.
@@ -115,7 +116,7 @@ public class PlayerClient extends Player {
 					if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE) {
 
 						shortestFraction = 1.0f;
-						if (p.pos.x != predictedPosition.x || p.pos.y != predictedPosition.y) {
+						if (WorldUtil.preRaycastCheck(p.pos, predictedPosition)) {
 							state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
 								if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
@@ -228,7 +229,7 @@ public class PlayerClient extends Player {
 					newPredictedPosition.set(playerWorldLocation).add(extrapolatedPosition.sub(playerWorldLocation).scl(t));
 
 					shortestFraction = 1.0f;
-					if (playerWorldLocation.x != newPredictedPosition.x || playerWorldLocation.y != newPredictedPosition.y) {
+					if (WorldUtil.preRaycastCheck(playerWorldLocation, newPredictedPosition)) {
 						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
 							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {

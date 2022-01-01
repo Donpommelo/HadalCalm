@@ -14,6 +14,7 @@ import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.WorldUtil;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 /**
@@ -159,7 +160,7 @@ public class EnemyCrawling extends Enemy {
 		shortestFraction = 1.0f;
 		
 		//raycast in the direction we are walking.
-		if (entityWorldLocation.x != endPt.x || entityWorldLocation.y != endPt.y) {
+		if (WorldUtil.preRaycastCheck(entityWorldLocation, endPt)) {
 			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
 					if (fraction < shortestFraction) {
@@ -179,7 +180,7 @@ public class EnemyCrawling extends Enemy {
 			//if we avoid pits, raycast in the direction we are walking downwards
 			endPt.set(entityWorldLocation).add(moveDirection * distCheck, -distCheck);
 			shortestFraction = 1.0f;
-			if (entityWorldLocation.x != endPt.x || entityWorldLocation.y != endPt.y) {
+			if (WorldUtil.preRaycastCheck(entityWorldLocation, endPt)) {
 				state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 					if (fixture.getFilterData().categoryBits == Constants.BIT_WALL ||  fixture.getFilterData().categoryBits == Constants.BIT_DROPTHROUGHWALL) {
 						if (fraction < shortestFraction) {

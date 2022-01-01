@@ -58,7 +58,7 @@ public class SpawnerWeapon extends Prefabrication {
 		RectangleMapObject weapon = new RectangleMapObject();
 		weapon.getRectangle().set(x, y + (Event.defaultPickupEventSize - height) / 2.0f, width, height);
 		weapon.setName("Equip");
-		weapon.getProperties().put("synced", true);
+//		weapon.getProperties().put("synced", true);
 		weapon.getProperties().put("particle_std", "EVENT_HOLO");
 		weapon.getProperties().put("triggeredId", pickupId);
 		weapon.getProperties().put("triggeringId", triggeringId);

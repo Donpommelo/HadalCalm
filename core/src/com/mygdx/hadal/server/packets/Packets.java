@@ -586,7 +586,8 @@ public class Packets {
 		public long uuidMSB, uuidLSB;
         public Vector2 pos;
         public UnlockEquip newPickup;
-        public boolean synced;
+		public boolean synced;
+		public float lifespan;
         public CreatePickup() {}
         
         /**
@@ -597,13 +598,15 @@ public class Packets {
 		 * @param pos: position of the new Pickup
 		 * @param newPickup: The pickup that this event should start with.
 		 * @param synced: should this entity receive a sync packet regularly? (for weapon drops from players)
+		 * @param lifespan: lifespan of pickup (only used if pickup is synced)
          */
-		public CreatePickup(UUID entityID, Vector2 pos, UnlockEquip newPickup, boolean synced) {
+		public CreatePickup(UUID entityID, Vector2 pos, UnlockEquip newPickup, boolean synced, float lifespan) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
             this.pos = pos;
             this.newPickup = newPickup;
             this.synced = synced;
+            this.lifespan = lifespan;
 		}
 	}
 	
@@ -830,6 +833,7 @@ public class Packets {
 		public long uuidMSB, uuidLSB;
 		public long uuidMSBAttached, uuidLSBAttached;
 		public SoundEffect sound;
+		public float lifespan;
 		public float volume;
 		public float pitch;
 		public boolean looped;
@@ -845,19 +849,21 @@ public class Packets {
 		 * @param entityID: schmuck id of the SoundEntity
 		 * @param attachedID: schmuck id of the entity that the SchmuckEntity is to attached to
 		 * @param sound: The sound effect to play
+		 * @param lifespan: duration of sound (if looping and not dependent on attached entity)
 		 * @param volume: volume of the sound. 1.0f = full volume.
 		 * @param pitch: pitch of the sound. 1.0f - default pitch.
 		 * @param looped: does the sound loop?
 		 * @param on: does the sound start off on?
 		 * @param synced: should this entity receive a sync packet regularly?
 		 */
-		public CreateSound(UUID entityID, UUID attachedID, SoundEffect sound, float volume, float pitch, boolean looped,
-						   boolean on, boolean synced) {
+		public CreateSound(UUID entityID, UUID attachedID, SoundEffect sound, float lifespan, float volume, float pitch,
+						   boolean looped, boolean on, boolean synced) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
 			this.uuidLSBAttached = attachedID.getLeastSignificantBits();
 			this.uuidMSBAttached = attachedID.getMostSignificantBits();
 			this.sound = sound;
+			this.lifespan = lifespan;
 			this.volume = volume;
 			this.pitch = pitch;
 			this.looped = looped;

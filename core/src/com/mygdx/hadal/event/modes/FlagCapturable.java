@@ -49,7 +49,7 @@ public class FlagCapturable extends Event {
 	private Player lastHolder;
 
 	//the timer until a dropped flag returns to spawn
-	private static final float returnTime = 60.0f;
+	private static final float returnTime = 30.0f;
 	private float returnTimer;
 
 	//this is a status inflicted upon the flag carrier
@@ -334,16 +334,16 @@ public class FlagCapturable extends Event {
 				return 1.0f;
 			}
 			case 1 -> {
-				return 10.0f;
+				return 6.0f;
 			}
 			case 2 -> {
-				return 20.0f;
+				return 10.0f;
 			}
 			case 3 -> {
-				return 30.0f;
+				return 15.0f;
 			}
 			default -> {
-				return 60.0f;
+				return 30.0f;
 			}
 		}
 	}

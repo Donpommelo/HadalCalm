@@ -645,7 +645,8 @@ public class Boss5 extends EnemyFloating {
 					});
 
 					if (i == 0) {
-						new SoundEntity(state, orbital, SoundEffect.MAGIC25_SPELL, 0.8f, 0.5f, true, true, SyncType.CREATESYNC);
+						new SoundEntity(state, orbital, SoundEffect.MAGIC25_SPELL, orbitalLifespan, 0.8f, 0.5f,
+								true, true, SyncType.CREATESYNC);
 					}
 				}
 			}

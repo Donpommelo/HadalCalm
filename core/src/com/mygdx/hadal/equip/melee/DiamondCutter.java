@@ -64,7 +64,8 @@ public class DiamondCutter extends MeleeWeapon {
 
 		if (innateAttackCdCount <= 0.0f) {
 			if (sawSound == null) {
-				sawSound = new SoundEntity(state, user, SoundEffect.DRILL, 0.8f, 1.0f, true, true, SyncType.TICKSYNC);
+				sawSound = new SoundEntity(state, user, SoundEffect.DRILL, 0.0f, 0.8f, 1.0f, true,
+						true, SyncType.TICKSYNC);
 			} else {
 				sawSound.turnOn();
 			}

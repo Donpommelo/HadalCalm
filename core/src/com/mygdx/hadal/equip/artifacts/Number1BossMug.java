@@ -47,7 +47,7 @@ public class Number1BossMug extends Artifact {
 					procCdCount -= procCd;
 
 					new SoundEntity(state, new HealingArea(state, p.getSchmuck().getPixelPosition(), fieldSize, fieldHeal, healDuration, p.getSchmuck(), (short) 0),
-							SoundEffect.MAGIC21_HEAL, 0.25f, 1.0f, true, true, SyncType.CREATESYNC);
+							SoundEffect.MAGIC21_HEAL, healDuration, 0.25f, 1.0f, true, true, SyncType.CREATESYNC);
 				}
 				return damage;
 			}

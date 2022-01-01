@@ -67,7 +67,8 @@ public class MeridianMaker extends ActiveItem {
 			@Override
 			public void controller(float delta) {
 				if (lastPosition.dst2(hbox.getPixelPosition()) > currentRadius * currentRadius) {
-					new Currents(state, lastPosition.set(hbox.getPixelPosition()), new Vector2(currentRadius, currentRadius), currentVec, lifespan);
+					new Currents(state, lastPosition.set(hbox.getPixelPosition()), new Vector2(currentRadius, currentRadius),
+							currentVec, lifespan);
 				}
 			}
 		}); 

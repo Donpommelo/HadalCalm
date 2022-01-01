@@ -41,16 +41,16 @@ public class ChoiceBranch extends HubEvent {
 		final ChoiceBranch me = this;
 		
 		for (ObjectMap.Entry<String, Event> entry: options.entries()) {
-
+			System.out.println(entry.key + " " + entry.value);
+			final Event option = entry.value;
 			Text itemChoose = new Text(entry.key).setButton(true);
 			itemChoose.addListener(new ClickListener() {
 				
 				@Override
 		        public void clicked(InputEvent e, float x, float y) {
 					
-					if (entry.value != null) {
-						entry.value.getEventData().preActivate(me.getEventData(), state.getPlayer());
-						
+					if (option != null) {
+						option.getEventData().preActivate(me.getEventData(), state.getPlayer());
 						if (closeAfterSelect) {
 							me.leave();
 						}

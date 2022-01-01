@@ -42,6 +42,7 @@ import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.CameraUtil;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.utils.WorldUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
@@ -374,7 +375,8 @@ public class Player extends PhysicsSchmuck {
 				//turn on running particles and sound
 				dustCloud.turnOn();
 				if (runSound == null) {
-					runSound = new SoundEntity(state, this, SoundEffect.RUN, 0.1f, 1.0f, true, true, SyncType.TICKSYNC);
+					runSound = new SoundEntity(state, this, SoundEffect.RUN, 0.0f, 0.1f, 1.0f,
+							true, true, SyncType.TICKSYNC);
 				} else {
 					runSound.turnOn();
 				}
@@ -417,7 +419,8 @@ public class Player extends PhysicsSchmuck {
 			
 			//turn on reloading particles and sound
 			if (reloadSound == null) {
-				reloadSound = new SoundEntity(state, this, SoundEffect.RELOAD, 0.2f, 1.0f, true, true, SyncType.TICKSYNC);
+				reloadSound = new SoundEntity(state, this, SoundEffect.RELOAD, 0.0f, 0.2f, 1.0f,
+						true, true, SyncType.TICKSYNC);
 			} else {
 				reloadSound.turnOn();
 			}
@@ -507,7 +510,8 @@ public class Player extends PhysicsSchmuck {
 				//turn on hovering particles and sound
 				hoverBubbles.turnOn();
 				if (hoverSound == null) {
-					hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.2f, 1.0f, true, true, SyncType.TICKSYNC);
+					hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.0f, 0.2f, 1.0f,
+							true, true, SyncType.TICKSYNC);
 				}
 				hoverSound.turnOn();
 			}
@@ -965,7 +969,7 @@ public class Player extends PhysicsSchmuck {
 		shortestFraction = 1.0f;
 		
 		//raycast towards the direction firing. spawn projectile closer to player if a wall is nearby
-		if (originPt.x != endPt.x || originPt.y != endPt.y) {
+		if (WorldUtil.preRaycastCheck(originPt, endPt)) {
 			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
 				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL && fraction < shortestFraction) {

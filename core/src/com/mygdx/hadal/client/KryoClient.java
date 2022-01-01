@@ -741,7 +741,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
-					SoundEntity entity = new SoundEntity(cs, null, p.sound, p.volume, p.pitch, p.looped, p.on, SyncType.NOSYNC);
+					SoundEntity entity = new SoundEntity(cs, null, p.sound, p.lifespan, p.volume, p.pitch, p.looped, p.on, SyncType.NOSYNC);
 					entity.setAttachedId(new UUID(p.uuidMSBAttached, p.uuidLSBAttached));
 					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, p.synced, ObjectLayer.STANDARD);
 				});
@@ -857,8 +857,13 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
-					PickupEquip pickup = new PickupEquip(cs, p.pos, "");
-					pickup.setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(p.newPickup,null)));
+					PickupEquip pickup;
+					if (p.lifespan != 0.0f) {
+						pickup = new PickupEquip(cs, p.pos, p.newPickup, p.lifespan);
+					} else {
+						pickup = new PickupEquip(cs, p.pos, "");
+						pickup.setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(p.newPickup,null)));
+					}
 					pickup.serverPos.set(pickup.getStartPos()).scl(1 / PPM);
 
 					cs.addEntity(p.uuidMSB, p.uuidLSB, pickup, p.synced, ObjectLayer.STANDARD);
@@ -927,7 +932,8 @@ public class KryoClient {
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
 					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.age, p.timestamp);
-				});			}
+				});
+			}
 			return true;
 		}
 

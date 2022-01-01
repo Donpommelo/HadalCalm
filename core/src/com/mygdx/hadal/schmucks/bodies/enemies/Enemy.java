@@ -24,6 +24,7 @@ import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.utils.WorldUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -271,7 +272,7 @@ public class Enemy extends Schmuck {
 				homeLocation.set(homeAttempt.getPosition());
 				shortestFraction = 1.0f;
 
-			  	if (entityWorldLocation.x != homeLocation.x || entityWorldLocation.y != homeLocation.y) {
+				if (WorldUtil.preRaycastCheck(entityWorldLocation, homeLocation)) {
 				  	world.rayCast((fixture1, point, normal, fraction) -> {
 						if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL && !trackThroughWalls) {
 							if (fraction < shortestFraction) {

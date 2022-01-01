@@ -805,7 +805,8 @@ public class Boss4 extends EnemyFloating {
 					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 					
 					if (index % 8 == 0) {
-						new SoundEntity(state, hbox, SoundEffect.MAGIC25_SPELL, 0.8f, 0.5f, true, true, SyncType.CREATESYNC);
+						new SoundEntity(state, hbox, SoundEffect.MAGIC25_SPELL, starLifespan, 0.8f, 0.5f,
+								true, true, SyncType.CREATESYNC);
 					}
 					
 					if (index % 2 == 0) {

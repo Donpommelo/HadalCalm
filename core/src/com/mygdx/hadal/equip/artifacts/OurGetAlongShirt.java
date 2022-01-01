@@ -13,6 +13,7 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.WorldUtil;
 
 public class OurGetAlongShirt extends Artifact {
 
@@ -71,7 +72,7 @@ public class OurGetAlongShirt extends Artifact {
 								homeLocation.set(homeAttempt.getPosition());
 								shortestFraction = 1.0f;
 
-								  if (entityLocation.x != homeLocation.x || entityLocation.y != homeLocation.y) {
+								if (WorldUtil.preRaycastCheck(entityLocation, homeLocation)) {
 									  state.getWorld().rayCast((fixture1, point, normal, fraction) -> {
 										  if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL) {
 											  if (fraction < shortestFraction) {
@@ -87,7 +88,7 @@ public class OurGetAlongShirt extends Artifact {
 											  }
 										  }
 										  return -1.0f;
-									  }, p.getSchmuck().getPosition(), homeLocation);
+									  }, entityLocation, homeLocation);
 
 									  if (closestFixture != null) {
 										if (closestFixture.getUserData() instanceof BodyData closestData) {

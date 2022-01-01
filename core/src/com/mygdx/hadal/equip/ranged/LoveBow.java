@@ -69,7 +69,8 @@ public class LoveBow extends RangedWeapon {
 		charging = true;
 		
 		if (chargeCd == 0) {
-			chargeSound = new SoundEntity(state, user, SoundEffect.BOW_STRETCH, 1.0f, 1.0f, true, true, SyncType.TICKSYNC);
+			chargeSound = new SoundEntity(state, user, SoundEffect.BOW_STRETCH, 0.0f, 1.0f, 1.0f,
+					true, true, SyncType.TICKSYNC);
 		}
 		
 		//while held, build charge until maximum (if not reloading)

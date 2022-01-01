@@ -1,9 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -15,7 +13,7 @@ public class Pepper extends Artifact {
 	
 	private static final float radius = 10.0f;
 	private static final float damage = 9.0f;
-	private static final float particleDuration = 1.0f;
+	private static final float effectDuration = 1.0f;
 	
 	private static final float procCd = 1.5f;
 
@@ -41,8 +39,7 @@ public class Pepper extends Artifact {
 						if (fixture.getUserData() instanceof BodyData bodyData) {
 							if (bodyData.getSchmuck().getHitboxfilter() != p.getSchmuck().getHitboxfilter()) {
 								bodyData.receiveDamage(damage, new Vector2(), p, true, null);
-								new ParticleEntity(state, bodyData.getSchmuck(), Particle.LIGHTNING, 1.0f, particleDuration,
-										true, SyncType.CREATESYNC);
+								bodyData.getSchmuck().setShader(Shader.STATIC, effectDuration, true);
 							}
 						}
 						return true;

@@ -10,6 +10,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.WorldUtil;
 
 import java.util.Arrays;
 
@@ -93,7 +94,7 @@ public class HomingUnit extends HitboxStrategy {
 					homeLocation.set(homeAttempt.getPosition());
 					shortestFraction = 1.0f;
 
-					  if (entityLocation.x != homeLocation.x || entityLocation.y != homeLocation.y) {
+					if (WorldUtil.preRaycastCheck(entityLocation, homeLocation)) {
 						  hbox.getWorld().rayCast((fixture1, point, normal, fraction) -> {
 							  if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL) {
 								  if (fraction < shortestFraction) {

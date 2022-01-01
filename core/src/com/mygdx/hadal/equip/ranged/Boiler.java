@@ -56,7 +56,7 @@ public class Boiler extends RangedWeapon {
 		}
 		
 		if (fireSound == null) {
-			fireSound = new SoundEntity(state, user, SoundEffect.FLAMETHROWER, 0.8f, 1.0f, true,
+			fireSound = new SoundEntity(state, user, SoundEffect.FLAMETHROWER, 0.0f, 0.8f, 1.0f, true,
 					true, SyncType.TICKSYNC);
 		} else {
 			fireSound.turnOn();

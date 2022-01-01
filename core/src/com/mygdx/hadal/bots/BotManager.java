@@ -16,6 +16,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.WorldUtil;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -299,7 +300,7 @@ public class BotManager {
      */
     public static float raycastUtility(Schmuck targeter, Vector2 sourceLocation, Vector2 endLocation, short mask) {
         shortestFraction = 1.0f;
-        if (sourceLocation.x != endLocation.x || sourceLocation.y != endLocation.y) {
+        if (WorldUtil.preRaycastCheck(sourceLocation, endLocation)) {
             targeter.getWorld().rayCast((fixture1, point, normal, fraction) -> {
                 if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL &&
                         fixture1.getFilterData().groupIndex != targeter.getHitboxfilter() &&

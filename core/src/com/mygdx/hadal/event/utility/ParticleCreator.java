@@ -4,6 +4,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -28,21 +29,26 @@ public class ParticleCreator extends Event {
 
 	private final float duration;
 	private boolean on;
-	
-	private final ParticleEntity particles;
-	
+
+	private ParticleEntity particles;
+	private Particle particle;
+
 	public ParticleCreator(PlayState state, Particle particle, float duration, boolean startOn) {
 		super(state);
 		this.duration = duration;
 		this.on = startOn;
-		
-		particles = new ParticleEntity(state, null, particle, 0.0f, 0.0f, on, SyncType.TICKSYNC);
+
+		if (duration == 0) {
+			particles = new ParticleEntity(state, null, particle, 0.0f, 0.0f, on, SyncType.TICKSYNC);
+		} else {
+			this.particle = particle;
+		}
 	}
 	
 	@Override
 	public void create() {
 		
-		if (getConnectedEvent() != null) {
+		if (getConnectedEvent() != null && particles != null) {
 			particles.setAttachedEntity(getConnectedEvent());
 		}
 		
@@ -50,13 +56,16 @@ public class ParticleCreator extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
+
+				HadalEntity attachedEntity;
 				if (getConnectedEvent() != null) {
-					particles.setAttachedEntity(getConnectedEvent());
+					attachedEntity = getConnectedEvent();
 				} else {
-					particles.setAttachedEntity(p);
+					attachedEntity = p;
 				}
 								
-				if (duration == 0) {
+				if (particles != null) {
+					particles.setAttachedEntity(attachedEntity);
 					if (on) {
 						particles.turnOff();
 					} else {
@@ -64,7 +73,7 @@ public class ParticleCreator extends Event {
 					}
 					on = !on;
 				} else {
-					particles.onForBurst(duration);
+					new ParticleEntity(state, attachedEntity, particle, 1.0f, duration, true, SyncType.CREATESYNC);
 				}
 			}
 		};

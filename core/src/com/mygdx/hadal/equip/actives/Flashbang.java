@@ -5,12 +5,15 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -41,17 +44,22 @@ public class Flashbang extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.LAUNCHER.playUniversal(state, user.getPlayer().getPixelPosition(), 0.35f, false);
-		
-		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getProjectileOrigin(weaponVelo, projectileSize.x), projectileSize, lifespan,
-				new Vector2(weaponVelo).nor().scl(projectileSpeed), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), projSprite);
+		SyncedAttack.FLASHBANG.initiateSyncedAttackSingle(state, user.getPlayer(), user.getPlayer().getProjectileOrigin(weaponVelo, projectileSize.x),
+				new Vector2(weaponVelo).nor().scl(projectileSpeed));
+	}
+
+	public static Hitbox createFlashbang(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		SoundEffect.LAUNCHER.playSourced(state, user.getPixelPosition(), 0.35f);
+
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan,startVelocity, user.getHitboxfilter(),
+				false, false, user, projSprite);
 		hbox.setGravity(1.0f);
 
-		hbox.addStrategy(new ControllerDefault(state, hbox, user));
-		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.MAGIC));
-		hbox.addStrategy(new ContactWallDie(state, hbox, user));
-		hbox.addStrategy(new ContactUnitDie(state, hbox, user));
-		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MAGIC));
+		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
 			@Override
 			public void create() {
@@ -62,15 +70,17 @@ public class Flashbang extends ActiveItem {
 
 			@Override
 			public void die() {
-				SoundEffect.FLASHBANG.playUniversal(state, this.hbox.getPixelPosition(), 1.5f, 1.8f, false);
+				SoundEffect.FLASHBANG.playSourced(state, this.hbox.getPixelPosition(), 1.5f, 1.8f);
 
 				Hitbox hbox = new Hitbox(state, this.hbox.getPixelPosition(), new Vector2(currentRadius, currentRadius),
-						0.4f, new Vector2(0, 0), (short) 0, true, false, user.getPlayer(), Sprite.NOTHING);
+						0.4f, new Vector2(0, 0), (short) 0, true, false, user, Sprite.NOTHING);
+				hbox.setSyncDefault(false);
 
-				hbox.addStrategy(new ControllerDefault(state, hbox, user));
-				hbox.addStrategy(new Static(state, hbox, user));
-				hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.EXPLOSION, 0.0f, 0.2f).setParticleSize(25));
-				hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
+				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EXPLOSION, 0.0f, 0.2f)
+						.setParticleSize(25).setSyncType(SyncType.NOSYNC));
+				hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
 					@Override
 					public void onHit(HadalData fixB) {
@@ -79,7 +89,13 @@ public class Flashbang extends ActiveItem {
 						}
 					}
 				});
+
+				if (!state.isServer()) {
+					((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.EFFECT);
+				}
 			}
-		}); 
+		});
+
+		return hbox;
 	}
 }

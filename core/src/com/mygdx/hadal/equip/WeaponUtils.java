@@ -35,6 +35,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.utils.WorldUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
@@ -206,7 +207,7 @@ public class WeaponUtils {
 	}
 
 	private static final Vector2 mineSize = new Vector2(75, 30);
-	private static final float primeTime = 1.5f;
+	private static final float primeTime = 1.0f;
 	private static final float warningTime = 0.5f;
 	private static final float mineSpeed = 60.0f;
 	private static final float mineLifespan = 18.0f;
@@ -431,8 +432,8 @@ public class WeaponUtils {
 					originPt.set(startPos).add((MathUtils.random() -  0.5f) * spread, 0);
 					endPt.set(originPt).add(0, -range);
 					shortestFraction = 1.0f;
-					
-					if (originPt.x != endPt.x || originPt.y != endPt.y) {
+
+					if (WorldUtil.preRaycastCheck(originPt, endPt)) {
 						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL && fraction < shortestFraction) {
 								shortestFraction = fraction;

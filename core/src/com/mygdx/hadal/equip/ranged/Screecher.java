@@ -21,6 +21,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.utils.WorldUtil;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -69,7 +70,8 @@ public class Screecher extends RangedWeapon {
 		}
 		
 		if (screechSound == null) {
-			screechSound = new SoundEntity(state, user, SoundEffect.BEAM3, 0.8f, 1.0f, true, true, SyncType.TICKSYNC);
+			screechSound = new SoundEntity(state, user, SoundEffect.BEAM3, 0.0f, 0.8f, 1.0f, true,
+					true, SyncType.TICKSYNC);
 		} else {
 			screechSound.turnOn();
 		}
@@ -89,7 +91,7 @@ public class Screecher extends RangedWeapon {
 		shortestFraction = 1.0f;
 		
 		//Raycast length of distance until we hit a wall
-		if (entityLocation.x != endPt.x || entityLocation.y != endPt.y) {
+		if (WorldUtil.preRaycastCheck(entityLocation, endPt)) {
 			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
 				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {

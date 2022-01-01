@@ -10,7 +10,5 @@ import com.mygdx.hadal.strategies.ShaderStrategy;
 public class Timer extends ShaderStrategy {
 
 	@Override
-	public void defaultController(ShaderProgram shader, float delta) {
-		shader.setUniformf("u_time", delta);
-	}
+	public void defaultController(ShaderProgram shader, float delta) { shader.setUniformf("u_time", delta); }
 }

@@ -65,7 +65,7 @@ public class SpawnerFlag extends Event {
 
     private FlagCapturable flag;
     private float spawnCountdown;
-    private static final float spawnDelay = 3.0f;
+    private static final float spawnDelay = 1.0f;
     private float controllerCount;
     private static final float checkInterval = 0.2f;
     @Override

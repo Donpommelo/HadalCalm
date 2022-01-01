@@ -46,7 +46,7 @@ public class Ablaze extends Status {
 		procCdCount += delta;
 		
 		if (fire == null) {
-			fire = new ParticleEntity(state, inflicted.getSchmuck(), Particle.FIRE, duration, 0.0f, true, SyncType.TICKSYNC);
+			fire = new ParticleEntity(state, inflicted.getSchmuck(), Particle.FIRE, duration, duration, true, SyncType.CREATESYNC);
 		}
 	}
 	

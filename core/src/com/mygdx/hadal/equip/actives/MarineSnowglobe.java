@@ -5,9 +5,11 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -41,18 +43,26 @@ public class MarineSnowglobe extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.FREEZE_IMPACT.playUniversal(state, user.getPlayer().getPixelPosition(), 0.9f, 0.5f, false);
-		
-		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, duration, new Vector2(), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), Sprite.NOTHING);
-		hbox.makeUnreflectable();
-		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user));
-		hbox.addStrategy(new Static(state, hbox, user));
-		hbox.addStrategy(new DamageStandard(state, hbox, user, projectileDamage, projectileKB, DamageTypes.RANGED));
-		hbox.addStrategy(new ContactUnitSlow(state, hbox, user, slowDuration, slowSlow, Particle.ICE_CLOUD));
-		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.ICE_CLOUD, 0.0f, 1.0f).setParticleSize(25.0f));
+		SyncedAttack.MARINE_SNOW.initiateSyncedAttackSingle(state, user.getPlayer(), user.getPlayer().getPixelPosition(), new Vector2());
 	}
-	
+
+	public static Hitbox createMarineSnow(PlayState state, Schmuck user, Vector2 startPosition) {
+		SoundEffect.FREEZE_IMPACT.playSourced(state, startPosition, 0.9f, 0.5f);
+
+		Hitbox hbox = new RangedHitbox(state, user.getPixelPosition(), projectileSize, duration, new Vector2(), user.getHitboxfilter(),
+				false, false, user, Sprite.NOTHING);
+		hbox.makeUnreflectable();
+
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), projectileDamage, projectileKB, DamageTypes.RANGED));
+		hbox.addStrategy(new ContactUnitSlow(state, hbox, user.getBodyData(), slowDuration, slowSlow, Particle.ICE_CLOUD));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD, 0.0f, 2.0f)
+				.setParticleSize(25.0f).setSyncType(SyncType.NOSYNC));
+
+		return hbox;
+	}
+
 	@Override
 	public float getUseDuration() { return duration; }
 

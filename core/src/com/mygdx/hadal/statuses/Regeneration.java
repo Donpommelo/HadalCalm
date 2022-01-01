@@ -22,7 +22,7 @@ public class Regeneration extends Status {
 	//the sound and particles attached to the status
 	private ParticleEntity regenParticles;
 	private SoundEntity regenSound;
-	
+
 	public Regeneration(PlayState state, float i, BodyData p, BodyData v, float heal) {
 		super(state, i, false, p, v);
 		this.heal = heal;
@@ -30,9 +30,9 @@ public class Regeneration extends Status {
 	
 	@Override
 	public void onInflict() {
-		regenParticles = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, duration, 0.0f,
+		regenParticles = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, duration, duration,
 				true, SyncType.CREATESYNC);
-		regenSound =  new SoundEntity(state, inflicted.getSchmuck(), SoundEffect.MAGIC21_HEAL, 0.25f, 1.0f,
+		regenSound =  new SoundEntity(state, inflicted.getSchmuck(), SoundEffect.MAGIC21_HEAL, duration, 0.25f, 1.0f,
 				true, true, SyncType.TICKSYNC);
 	}
 	
@@ -42,7 +42,7 @@ public class Regeneration extends Status {
 			regenParticles.setDespawn(true);
 			regenParticles.turnOff();
 		}
-		
+
 		if (regenSound != null) {
 			regenSound.terminate();
 		}

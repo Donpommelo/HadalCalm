@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies.hitboxes;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.equip.actives.*;
 import com.mygdx.hadal.equip.melee.*;
 import com.mygdx.hadal.equip.ranged.*;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -452,10 +453,52 @@ public enum SyncedAttack {
         }
     },
 
+    ANCHOR() {
+        @Override
+        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+            return AnchorSmash.createAnchor(state, user, startPosition, extraFields);
+        }
+    },
+
+    FLASHBANG() {
+        @Override
+        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+            return Flashbang.createFlashbang(state, user, startPosition, startVelocity);
+        }
+    },
+
+    JUMP_KICK() {
+        @Override
+        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+            return JumpKick.createJumpkick(state, user, startPosition, startVelocity);
+        }
+    },
+
+    HYDRAUlIC_UPPERCUT() {
+        @Override
+        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+            return HydraulicUppercut.createHydraulicUppercut(state, user, startPosition, startVelocity);
+        }
+    },
+
     NAUTICAL_MINE() {
         @Override
         public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
             return WeaponUtils.createNauticalMine(state, user, startPosition, startVelocity, extraFields);
+        }
+    },
+
+    MARINE_SNOW() {
+        @Override
+        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+            return MarineSnowglobe.createMarineSnow(state, user, startPosition);
+        }
+    },
+
+    ORBITAL_STAR() {
+        @Override
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
+            return OrbitalShield.createOrbitals(state, user);
         }
     },
 
