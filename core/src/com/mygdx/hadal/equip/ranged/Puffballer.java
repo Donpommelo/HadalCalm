@@ -7,19 +7,21 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Puffballer extends RangedWeapon {
 
-	private static final int clipSize = 4;
-	private static final int ammoSize = 40;
+	private static final int clipSize = 1;
+	private static final int ammoSize = 25;
 	private static final float shootCd = 0.8f;
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.5f;
@@ -27,10 +29,8 @@ public class Puffballer extends RangedWeapon {
 	private static final float baseDamage = 42.0f;
 	private static final float recoil = 2.5f;
 	private static final float knockback = 5.0f;
-	private static final float projectileSpeed = 8.0f;
-	private static final float projectileSpeed2 = 28.0f;
-	private static final Vector2 projectileSize = new Vector2(40, 40);
-	private static final Vector2 projectileSize2 = new Vector2(60, 60);
+	private static final float projectileSpeed = 30.0f;
+	private static final Vector2 projectileSize = new Vector2(60, 60);
 	private static final float lifespan = 5.0f;
 
 	private static final Sprite projSprite = Sprite.SPORE_CLUSTER_YELLOW;
@@ -38,20 +38,16 @@ public class Puffballer extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_TORPEDO;
 
 	private static final float sporeFragLifespan = 5.0f;
-	private static final float sporeFragDamage = 10.0f;
-	private static final float sporeFragDamage2 = 15.0f;
+	private static final float sporeFragDamage = 15.0f;
 	private static final float sporeFragKB = 8.0f;
-	private static final Vector2 sporeFragSize = new Vector2(16, 16);
-	private static final Vector2 sporeFragSize2 = new Vector2(24, 24);
+	private static final Vector2 sporeFragSize = new Vector2(30, 30);
 
-	private static final int sporeFragNumber = 7;
-	private static final int sporeSpread = 16;
-	private static final float fragSpeed = 12.0f;
-	private static final float fragVeloSpread = 0.4f;
-	private static final float fragDampen = 2.0f;
+	private static final int sporeFragNumber = 12;
+	private static final float fragSpeed = 6.0f;
+	private static final float fragVeloSpread = 1.2f;
+	private static final float fragDampen = 1.2f;
 
-	private static final float deathDelay = 0.8f;
-	private static final float homePower = 75.0f;
+	private static final float deathDelay = 0.5f;
 
 	//list of hitboxes created
 	private final Queue<Hitbox> puffballs = new Queue<>();
@@ -90,13 +86,27 @@ public class Puffballer extends RangedWeapon {
 		puffballs.clear();
 	}
 
+	private final Vector2 newVelocity = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.SPIT.playUniversal(state, startPosition, 1.2f, 0.5f, false);
+		float[] fragAngles = new float[sporeFragNumber * 2];
+		for (int i = 0; i < sporeFragNumber; i++) {
+			newVelocity.setToRandomDirection().scl(fragSpeed).scl(MathUtils.random() * fragVeloSpread + 1 - fragVeloSpread / 2);
+			fragAngles[2 * i] = newVelocity.x;
+			fragAngles[2 * i + 1] = newVelocity.y;
+		}
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite) {
+		Hitbox hbox = SyncedAttack.PUFFBALL.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, fragAngles);
+		puffballs.addLast(hbox);
+	}
 
-			private boolean markedForDeath;
+	public static Hitbox createPuffball(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+		SoundEffect.SPIT.playSourced(state, startPosition, 1.2f, 0.5f);
+
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+				false,true, user, projSprite) {
+
+			private boolean markedForDeath, died;
 			private float count;
 			@Override
 			public void controller(float delta) {
@@ -104,76 +114,67 @@ public class Puffballer extends RangedWeapon {
 
 				count += delta;
 				if (count >= deathDelay) {
-					super.die();
-					if (markedForDeath) {
-						createFrags(state, this, sporeFragSize, sporeFragDamage);
-					} else {
-						Hitbox hbox2 = new RangedHitbox(state, getPixelPosition(), projectileSize2, lifespan,
-								getLinearVelocity().nor().scl(projectileSpeed2), filter,false, true, user, projSprite);
-
-						hbox2.setRestitution(1.0f);
-
-						hbox2.addStrategy(new ControllerDefault(state, hbox2, user.getBodyData()));
-						hbox2.addStrategy(new AdjustAngle(state, hbox2, user.getBodyData()));
-						hbox2.addStrategy(new DamageStandard(state, hbox2, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-						hbox2.addStrategy(new CreateParticles(state, hbox2, user.getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, 1.0f));
-						hbox2.addStrategy(new HitboxStrategy(state, hbox2, user.getBodyData()) {
-
-							@Override
-							public void die() {
-								createFrags(state, hbox2, sporeFragSize2, sporeFragDamage2);
-							}
-						});
-
-						puffballs.addLast(hbox2);
+					if (markedForDeath && !died) {
+						died = true;
+						createFrags();
+						super.die();
 					}
 				}
 			}
 
 			@Override
 			public void die() {
-				if (count >= deathDelay) {
-					createFrags(state, this, sporeFragSize, sporeFragDamage);
+				if (count >= deathDelay && !died) {
+					died = true;
+					createFrags();
 					super.die();
 				} else {
 					markedForDeath = true;
 				}
 			}
+
+			private final Vector2 newVelocity = new Vector2();
+			private void createFrags() {
+				SoundEffect.EXPLOSION_FUN.playSourced(state, getPixelPosition(), 1.0f, 0.6f);
+
+				for (int i = 0; i < sporeFragNumber; i++) {
+					if (extraFields.length > i * 2 + 1) {
+						newVelocity.set(extraFields[i * 2], extraFields[i * 2 + 1]);
+
+						RangedHitbox frag = new RangedHitbox(state, getPixelPosition(), new Vector2(sporeFragSize), sporeFragLifespan,
+								new Vector2(newVelocity), user.getHitboxfilter(), false, false, user, Sprite.SPORE_YELLOW) {
+
+							@Override
+							public void create() {
+								super.create();
+								getBody().setLinearDamping(fragDampen);
+							}
+						};
+						frag.setRestitution(1.0f);
+						frag.setSyncDefault(false);
+
+						frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
+						frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(), sporeFragDamage, sporeFragKB, DamageTypes.RANGED).setStaticKnockback(true));
+						frag.addStrategy(new ContactUnitLoseDurability(state, frag, user.getBodyData()));
+
+						if (!state.isServer()) {
+							((ClientState) state).addEntity(frag.getEntityID(), frag, false, ClientState.ObjectLayer.HBOX);
+						}
+					}
+				}
+			}
 		};
 		hbox.setRestitution(1.0f);
+		hbox.setDurability(2);
+		hbox.setSyncedDelete(true);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactWallLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, 1.0f));
-		hbox.addStrategy(new HomingMouse(state, hbox, user.getBodyData(), homePower));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
 
-		puffballs.addLast(hbox);
-	}
-
-	private final Vector2 newVelocity = new Vector2();
-	private void createFrags(PlayState state, Hitbox hbox, Vector2 sporeFragSize, float sporeFragDamage) {
-		SoundEffect.EXPLOSION_FUN.playUniversal(state, hbox.getPixelPosition(), 1.0f, 0.6f, false);
-
-		for (int i = 0; i < sporeFragNumber; i++) {
-			newVelocity.setToRandomDirection().scl(fragSpeed).scl(MathUtils.random() * fragVeloSpread + 1 - fragVeloSpread / 2);
-
-			RangedHitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), new Vector2(sporeFragSize), sporeFragLifespan,
-					new Vector2(newVelocity), user.getHitboxfilter(), false, false, user, Sprite.SPORE_MILD) {
-
-				@Override
-				public void create() {
-					super.create();
-					getBody().setLinearDamping(fragDampen);
-				}
-			};
-			frag.setRestitution(1.0f);
-
-			frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
-			frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(), sporeFragDamage, sporeFragKB, DamageTypes.RANGED).setStaticKnockback(true));
-			frag.addStrategy(new ContactUnitLoseDurability(state, frag, user.getBodyData()));
-			frag.addStrategy(new Spread(state, frag, user.getBodyData(), sporeSpread));
-		}
+		return hbox;
 	}
 
 	@Override

@@ -307,6 +307,13 @@ public enum SyncedAttack {
         }
     },
 
+    PUFFBALL() {
+        @Override
+        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+            return Puffballer.createPuffball(state, user, startPosition, startVelocity, extraFields);
+        }
+    },
+
     RETICLE_STRIKE() {
         @Override
         public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {

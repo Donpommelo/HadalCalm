@@ -371,7 +371,7 @@
 "RETICLE_STRIKE": {
 	"name": "Reticle Strike",
 	"description": "Create a line of exploding reticles.",
-    "descriptionLong": "Explosion Damage: 40\nExplosion Delay 0.6 Second\n\nClip Size: 1\nAmmo Capacity: 25\nReload Time: 0.9 Second",
+    "descriptionLong": "Explosion Damage: 35\nExplosion Delay 0.6 Second\n\nClip Size: 1\nAmmo Capacity: 25\nReload Time: 0.9 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",

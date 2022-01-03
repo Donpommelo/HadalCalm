@@ -80,7 +80,7 @@ public class User {
                     startPoint = state.getSavePoint(this);
 
                     new ParticleEntity(state, new Vector2(startPoint.getStartPos()).sub(0, startPoint.getSize().y),
-                            Particle.TELEPORT, 1.0f, true, SyncType.CREATESYNC);
+                            Particle.TELEPORT_PRE, 1.0f, true, SyncType.CREATESYNC);
                 }
             }
             if (transitionTime <= 0.0f) {

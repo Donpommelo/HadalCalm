@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.equip.ranged.SpeargunNerfed;
@@ -47,6 +46,7 @@ public class PickupEquip extends Event {
 
 	private static final float flashLifespan = 1.0f;
 	private static final float flashDuration = 0.1f;
+	private float flashCount;
 
 	public PickupEquip(PlayState state, Vector2 startPos, String pool) {
 		super(state, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize));
@@ -116,8 +116,9 @@ public class PickupEquip extends Event {
 	public void controller(float delta) {
 		super.controller(delta);
 		if (duration <= flashLifespan && drop) {
-			if (getShaderCount() < -flashDuration) {
-				setShader(Shader.INVISIBLE, flashDuration, false);
+			flashCount -= delta;
+			if (flashCount < -flashDuration) {
+				flashCount = flashDuration;
 			}
 		}
 	}
@@ -164,6 +165,7 @@ public class PickupEquip extends Event {
 	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
+		if (flashCount > 0.0f) { return; }
 		if (!(equip instanceof NothingWeapon)) {
 			super.render(batch);
 

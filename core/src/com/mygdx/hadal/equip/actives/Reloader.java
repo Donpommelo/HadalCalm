@@ -34,6 +34,7 @@ public class Reloader extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.RELOAD.playUniversal(state, user.getPlayer().getPixelPosition(), 0.4f, false);
+		new ParticleEntity(state, user.getSchmuck(), Particle.PICKUP_AMMO, 1.0f, duration, true, SyncType.CREATESYNC);
 
 		new ParticleEntity(state, user.getSchmuck(), Particle.BRIGHT, 1.0f, duration, true, SyncType.CREATESYNC).setColor(
 			HadalColor.RED);

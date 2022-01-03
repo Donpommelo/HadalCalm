@@ -1,6 +1,9 @@
 package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -10,6 +13,10 @@ public class Blinded extends Status {
 
 	private static final float fadeCooldown = 0.5f;
 	private float fadeTimer = fadeCooldown;
+
+	//this particle entity follows the player
+	private ParticleEntity blind;
+
 	public Blinded(PlayState state, float i, BodyData p, BodyData v) {
 		super(state, i, false, p, v);
 
@@ -29,12 +36,21 @@ public class Blinded extends Status {
 		if (inflicted instanceof PlayerBodyData playerData) {
 			playerData.getPlayer().setBlinded(duration);
 		}
+
+		if (blind == null) {
+			blind = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, duration, duration, true, SyncType.CREATESYNC);
+			blind.setOffset(0, inflicted.getSchmuck().getSize().y / 2);
+		}
 	}
 
 	@Override
 	public void onRemove() {
 		if (inflicted instanceof PlayerBodyData playerData) {
 			playerData.getPlayer().setBlinded(0);
+		}
+		if (blind != null) {
+			blind.setDespawn(true);
+			blind.turnOff();
 		}
 	}
 	

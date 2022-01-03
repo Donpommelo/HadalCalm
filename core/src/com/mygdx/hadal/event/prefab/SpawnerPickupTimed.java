@@ -116,7 +116,7 @@ public class SpawnerPickupTimed extends Prefabrication {
 			case 2 -> {
 				pickup.getProperties().put("sprite", "FUEL");
 				effect.getProperties().put("ammo", power);
-				pickupParticle.getProperties().put("particle", "PICKUP_ENERGY");
+				pickupParticle.getProperties().put("particle", "PICKUP_AMMO");
 			}
 		}
 

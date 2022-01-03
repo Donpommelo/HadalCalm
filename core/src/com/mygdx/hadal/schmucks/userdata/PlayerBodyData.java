@@ -609,7 +609,7 @@ public class PlayerBodyData extends BodyData {
 		return damage;
 	}
 
-	private static final float equipDropLifepan = 12.0f;
+	private static final float equipDropLifepan = 10.0f;
 	@Override
 	public void die(BodyData perp, DamageTypes... tags) {
 		if (player.isAlive()) {

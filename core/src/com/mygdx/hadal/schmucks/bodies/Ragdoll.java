@@ -48,7 +48,10 @@ public class Ragdoll extends HadalEntity {
 	
 	//when this ragdoll is created on the server, does the client create a ragdoll of its own (this is false for stuff like currents)
 	private final boolean synced;
-	
+
+	private static final float flashLifespan = 1.0f;
+	private float flashTransparency = 1.0f;
+
 	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity, boolean setVelo, boolean sensor, boolean synced) {
 		super(state, startPos, size);
 		this.startVelo = new Vector2(startVelo);
@@ -112,8 +115,11 @@ public class Ragdoll extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
+		if (ragdollDuration <= flashLifespan) {
+			flashTransparency -= delta;
+		}
+
 		ragdollDuration -= delta;
-		
 		if (ragdollDuration <= 0) {
 			queueDeletion();
 		}
@@ -122,8 +128,12 @@ public class Ragdoll extends HadalEntity {
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
+
+		if (ragdollDuration <= flashLifespan) {
+			flashTransparency -= delta;
+		}
+
 		ragdollDuration -= delta;
-		
 		if (ragdollDuration <= 0) {
 			((ClientState) state).removeEntity(entityID);
 		}
@@ -132,7 +142,11 @@ public class Ragdoll extends HadalEntity {
 	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
-		
+
+		if (flashTransparency < 1.0f) {
+			batch.setColor(batch.getColor().r, batch.getColor().g, batch.getColor().b, Math.max(flashTransparency, 0.0f));
+		}
+
 		if (ragdollSprite != null) {
 			entityLocation.set(getPixelPosition());
 			batch.draw(ragdollSprite, 
@@ -141,6 +155,10 @@ public class Ragdoll extends HadalEntity {
 					size.x / 2, size.y / 2,
 					size.x, size.y, 1, 1,
 				MathUtils.radDeg * getAngle());
+		}
+
+		if (flashTransparency < 1.0f) {
+			batch.setColor(batch.getColor().r, batch.getColor().g, batch.getColor().b, 1.0f);
 		}
 	}
 	
