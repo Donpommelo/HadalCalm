@@ -287,7 +287,7 @@
    <polyline points="0,0 160,0 160,384 416,384 416,480 320,576 224,576 128,672 32,672 -64,576 -160,576 -256,480 -256,384 0,384 0,0"/>
   </object>
  </objectgroup>
- <objectgroup id="3" name="event-layer" visible="0">
+ <objectgroup id="3" name="event-layer">
   <object id="5" name="Start" type="Start" x="1280" y="1856" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
@@ -532,8 +532,8 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="4" name="dm" visible="0"/>
- <objectgroup id="5" name="arena" visible="0">
+ <objectgroup id="4" name="dm"/>
+ <objectgroup id="5" name="arena">
   <object id="45" name="WaveSpawn" type="WaveSpawn" x="2016" y="2240" width="32" height="32">
    <properties>
     <property name="point" type="int" value="4"/>

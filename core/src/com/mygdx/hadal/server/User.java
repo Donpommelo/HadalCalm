@@ -64,7 +64,7 @@ public class User {
         hitBoxFilter = AlignmentFilter.getUnusedAlignment();
     }
 
-    private static final float spawnForewarn = 1.0f;
+    private static final float spawnForewarn = 2.0f;
     private float transitionTime;
     private boolean spawnForewarned;
     public void controller(PlayState state, float delta) {
@@ -80,7 +80,7 @@ public class User {
                     startPoint = state.getSavePoint(this);
 
                     new ParticleEntity(state, new Vector2(startPoint.getStartPos()).sub(0, startPoint.getSize().y),
-                            Particle.TELEPORT_PRE, 1.0f, true, SyncType.CREATESYNC);
+                            Particle.TELEPORT_PRE, spawnForewarn, true, SyncType.CREATESYNC);
                 }
             }
             if (transitionTime <= 0.0f) {

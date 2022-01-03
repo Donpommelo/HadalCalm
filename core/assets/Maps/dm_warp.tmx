@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="216">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="222">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -548,22 +548,22 @@
     <property name="springY" type="float" value="100"/>
    </properties>
   </object>
-  <object id="10" name="Start" type="Start" x="992" y="1856" width="32" height="32">
+  <object id="10" name="Start" type="Start" x="992" y="1888" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="11" name="Start" type="Start" x="1248" y="1856" width="32" height="32">
+  <object id="11" name="Start" type="Start" x="1248" y="1888" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="12" name="Start" type="Start" x="2144" y="1856" width="32" height="32">
+  <object id="12" name="Start" type="Start" x="2144" y="1888" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="13" name="Start" type="Start" x="1888" y="1856" width="32" height="32">
+  <object id="13" name="Start" type="Start" x="1888" y="1888" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
@@ -739,6 +739,36 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
+  <object id="216" name="Start" type="Start" x="800" y="832" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="217" name="Start" type="Start" x="448" y="1344" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="218" name="Start" type="Start" x="2688" y="1344" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="219" name="Start" type="Start" x="2336" y="832" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="220" name="Start" type="Start" x="2176" y="2848" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="221" name="Start" type="Start" x="960" y="2848" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="6" name="objective" visible="0">
   <object id="53" name="ObjectiveSpawn" type="ObjectiveSpawn" x="1568" y="736" width="32" height="32">
@@ -768,7 +798,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="4" name="dm" visible="0"/>
+ <objectgroup id="4" name="dm"/>
  <objectgroup id="5" name="arena" visible="0">
   <object id="44" name="WaveSpawn" type="WaveSpawn" x="1024" y="1888" width="32" height="32">
    <properties>

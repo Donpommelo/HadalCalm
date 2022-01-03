@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="210" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="471">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="210" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="475">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -1572,6 +1572,26 @@
   <object id="468" name="PickupDelete" type="PickupDelete" x="2464" y="4768" width="1792" height="32"/>
   <object id="469" name="PickupDelete" type="PickupDelete" x="0" y="4768" width="480" height="32"/>
   <object id="470" name="PickupDelete" type="PickupDelete" x="6240" y="4768" width="480" height="32"/>
+  <object id="471" name="Start" type="Start" x="5760" y="2304" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="472" name="Start" type="Start" x="928" y="2304" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="473" name="Start" type="Start" x="2176" y="3616" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="474" name="Start" type="Start" x="4512" y="3616" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="4" name="objective" visible="0">
   <object id="88" name="ObjectiveSpawn" type="ObjectiveSpawn" x="3344" y="1712" width="32" height="32">

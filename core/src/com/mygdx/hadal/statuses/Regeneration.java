@@ -23,6 +23,8 @@ public class Regeneration extends Status {
 	private ParticleEntity regenParticles;
 	private SoundEntity regenSound;
 
+	private static final float linger = 1.0f;
+
 	public Regeneration(PlayState state, float i, BodyData p, BodyData v, float heal) {
 		super(state, i, false, p, v);
 		this.heal = heal;
@@ -30,7 +32,7 @@ public class Regeneration extends Status {
 	
 	@Override
 	public void onInflict() {
-		regenParticles = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, duration, duration,
+		regenParticles = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, linger, duration + linger,
 				true, SyncType.CREATESYNC);
 		regenSound =  new SoundEntity(state, inflicted.getSchmuck(), SoundEffect.MAGIC21_HEAL, duration, 0.25f, 1.0f,
 				true, true, SyncType.TICKSYNC);

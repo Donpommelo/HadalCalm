@@ -12,6 +12,7 @@ import com.mygdx.hadal.states.PlayState;
 public class Blinded extends Status {
 
 	private static final float fadeCooldown = 0.5f;
+	private static final float linger = 1.0f;
 	private float fadeTimer = fadeCooldown;
 
 	//this particle entity follows the player
@@ -38,7 +39,7 @@ public class Blinded extends Status {
 		}
 
 		if (blind == null) {
-			blind = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, duration, duration, true, SyncType.CREATESYNC);
+			blind = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, linger, duration + linger, true, SyncType.CREATESYNC);
 			blind.setOffset(0, inflicted.getSchmuck().getSize().y / 2);
 		}
 	}

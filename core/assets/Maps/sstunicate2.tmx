@@ -448,32 +448,32 @@
     <property name="zoom" type="float" value="0.5"/>
    </properties>
   </object>
-  <object id="71" name="Start" type="Start" x="1184" y="960" width="32" height="32">
+  <object id="71" name="Start" type="Start" x="1184" y="992" width="32" height="32">
    <properties>
     <property name="triggeringId" value="enterfromcenter"/>
    </properties>
   </object>
-  <object id="72" name="Start" type="Start" x="1600" y="1152" width="32" height="32">
+  <object id="72" name="Start" type="Start" x="1600" y="1184" width="32" height="32">
    <properties>
     <property name="triggeringId" value="enterfromcenter"/>
    </properties>
   </object>
-  <object id="73" name="Start" type="Start" x="1376" y="960" width="32" height="32">
+  <object id="73" name="Start" type="Start" x="1376" y="992" width="32" height="32">
    <properties>
     <property name="triggeringId" value="enterfromcenter"/>
    </properties>
   </object>
-  <object id="74" name="Start" type="Start" x="960" y="1152" width="32" height="32">
+  <object id="74" name="Start" type="Start" x="960" y="1184" width="32" height="32">
    <properties>
     <property name="triggeringId" value="enterfromcenter"/>
    </properties>
   </object>
-  <object id="75" name="Start" type="Start" x="1472" y="1472" width="32" height="32">
+  <object id="75" name="Start" type="Start" x="1472" y="1504" width="32" height="32">
    <properties>
     <property name="triggeringId" value="enterfromcenter"/>
    </properties>
   </object>
-  <object id="76" name="Start" type="Start" x="1056" y="1376" width="32" height="32">
+  <object id="76" name="Start" type="Start" x="1056" y="1408" width="32" height="32">
    <properties>
     <property name="triggeringId" value="enterfromcenter"/>
    </properties>

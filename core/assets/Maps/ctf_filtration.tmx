@@ -1844,7 +1844,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="4" name="dm" visible="0">
+ <objectgroup id="4" name="dm">
   <object id="135" name="Start" type="Start" x="1920" y="1216" width="32" height="32" rotation="180">
    <properties>
     <property name="triggeringId" value="playerstart"/>
@@ -1903,97 +1903,97 @@
    </properties>
   </object>
   <object id="94" name="FlagSpawn" type="FlagSpawn" x="1792" y="2240" width="224" height="64"/>
-  <object id="95" name="Start" type="Start" x="1184" y="992" width="32" height="32">
+  <object id="95" name="Start" type="Start" x="1184" y="1024" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="0"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="96" name="Start" type="Start" x="1248" y="992" width="32" height="32">
+  <object id="96" name="Start" type="Start" x="1248" y="1024" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="0"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="97" name="Start" type="Start" x="1344" y="992" width="32" height="32">
+  <object id="97" name="Start" type="Start" x="1344" y="1024" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="0"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="98" name="Start" type="Start" x="1408" y="992" width="32" height="32">
+  <object id="98" name="Start" type="Start" x="1408" y="1024" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="0"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="99" name="Start" type="Start" x="8864" y="992" width="32" height="32">
+  <object id="99" name="Start" type="Start" x="8864" y="1024" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="100" name="Start" type="Start" x="8800" y="992" width="32" height="32">
+  <object id="100" name="Start" type="Start" x="8800" y="1024" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="101" name="Start" type="Start" x="8704" y="992" width="32" height="32">
+  <object id="101" name="Start" type="Start" x="8704" y="1024" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="102" name="Start" type="Start" x="8640" y="992" width="32" height="32">
+  <object id="102" name="Start" type="Start" x="8640" y="1024" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="171" name="Start" type="Start" x="8256" y="1152" width="32" height="32">
+  <object id="171" name="Start" type="Start" x="8256" y="1184" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="172" name="Start" type="Start" x="8192" y="1152" width="32" height="32">
+  <object id="172" name="Start" type="Start" x="8192" y="1184" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="173" name="Start" type="Start" x="8096" y="1152" width="32" height="32">
+  <object id="173" name="Start" type="Start" x="8096" y="1184" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="174" name="Start" type="Start" x="8032" y="1152" width="32" height="32">
+  <object id="174" name="Start" type="Start" x="8032" y="1184" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="175" name="Start" type="Start" x="2016" y="1152" width="32" height="32">
+  <object id="175" name="Start" type="Start" x="2016" y="1184" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="0"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="176" name="Start" type="Start" x="1952" y="1152" width="32" height="32">
+  <object id="176" name="Start" type="Start" x="1952" y="1184" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="0"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="177" name="Start" type="Start" x="1856" y="1152" width="32" height="32">
+  <object id="177" name="Start" type="Start" x="1856" y="1184" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="0"/>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="178" name="Start" type="Start" x="1792" y="1152" width="32" height="32">
+  <object id="178" name="Start" type="Start" x="1792" y="1184" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="0"/>
     <property name="triggeringId" value="playerstart"/>

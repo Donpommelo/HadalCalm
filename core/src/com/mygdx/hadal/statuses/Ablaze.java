@@ -19,6 +19,8 @@ public class Ablaze extends Status {
 	//this particle entity follows the player
 	private ParticleEntity fire;
 
+	private static final float linger = 0.5f;
+
 	private float procCdCount;
 
 	public Ablaze(PlayState state, float i, BodyData p, BodyData v, float damage) {
@@ -46,7 +48,7 @@ public class Ablaze extends Status {
 		procCdCount += delta;
 		
 		if (fire == null) {
-			fire = new ParticleEntity(state, inflicted.getSchmuck(), Particle.FIRE, duration, duration, true, SyncType.CREATESYNC);
+			fire = new ParticleEntity(state, inflicted.getSchmuck(), Particle.FIRE, linger, duration + linger, true, SyncType.CREATESYNC);
 		}
 	}
 	

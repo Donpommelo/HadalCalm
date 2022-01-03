@@ -21,7 +21,9 @@ public class Slodged extends Status {
 
 	//this is the particle entity that follows the victim and displays particle
 	private ParticleEntity slodge;
-	
+
+	private static final float linger = 2.0f;
+
 	public Slodged(PlayState state, float i, float slow, BodyData p, BodyData v, Particle particle) {
 		super(state, i, false, p, v);
 		this.slow = slow;
@@ -41,7 +43,7 @@ public class Slodged extends Status {
 		super.timePassing(delta);
 		
 		if (slodge == null) {
-			slodge = new ParticleEntity(state, inflicted.getSchmuck(), particle, duration, duration, true, SyncType.CREATESYNC);
+			slodge = new ParticleEntity(state, inflicted.getSchmuck(), particle, linger, duration + linger, true, SyncType.CREATESYNC);
 		}
 	}
 	

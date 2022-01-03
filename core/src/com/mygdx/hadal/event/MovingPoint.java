@@ -112,6 +112,9 @@ public class MovingPoint extends Event {
 						}
 					}
 				}
+				for (ObjectMap.Entry<Event, Vector2> e : connected.entries()) {
+					connected.put(e.key, new Vector2(e.key.getPosition()).sub(getPosition()));
+				}
 			}
 		} 
 	}
