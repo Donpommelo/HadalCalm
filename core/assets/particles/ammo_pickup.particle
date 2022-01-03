@@ -138,7 +138,7 @@ timeline1: 0.19863014
 timeline2: 0.5890411
 timeline3: 1.0
 - Options - 
-attached: false
+attached: true
 continuous: false
 aligned: false
 additive: true
@@ -287,7 +287,7 @@ timeline1: 0.19863014
 timeline2: 0.43150684
 timeline3: 1.0
 - Options - 
-attached: false
+attached: true
 continuous: false
 aligned: false
 additive: true
@@ -476,7 +476,7 @@ timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
 - Options - 
-attached: false
+attached: true
 continuous: false
 aligned: false
 additive: true
@@ -662,7 +662,7 @@ timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
 - Options - 
-attached: false
+attached: true
 continuous: false
 aligned: false
 additive: true
@@ -848,7 +848,7 @@ timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
 - Options - 
-attached: false
+attached: true
 continuous: false
 aligned: false
 additive: true
@@ -1034,7 +1034,7 @@ timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
 - Options - 
-attached: false
+attached: true
 continuous: false
 aligned: false
 additive: true
@@ -1203,7 +1203,7 @@ timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
 - Options - 
-attached: false
+attached: true
 continuous: false
 aligned: false
 additive: true
@@ -1372,7 +1372,7 @@ timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
 - Options - 
-attached: false
+attached: true
 continuous: false
 aligned: false
 additive: true
@@ -1541,7 +1541,7 @@ timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
 - Options - 
-attached: false
+attached: true
 continuous: false
 aligned: false
 additive: true
@@ -1710,7 +1710,7 @@ timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
 - Options - 
-attached: false
+attached: true
 continuous: false
 aligned: false
 additive: true

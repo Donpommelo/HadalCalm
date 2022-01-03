@@ -412,14 +412,14 @@ scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - X Scale - 
-lowMin: 64.0
-lowMax: 64.0
-highMin: 80.0
-highMax: 80.0
+lowMin: 24.0
+lowMax: 24.0
+highMin: 64.0
+highMax: 64.0
 relative: false
 scalingCount: 2
-scaling0: 0.0
-scaling1: 1.0
+scaling0: 1.0
+scaling1: 0.0
 timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
