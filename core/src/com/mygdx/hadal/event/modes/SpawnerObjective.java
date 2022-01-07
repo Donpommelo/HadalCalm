@@ -4,19 +4,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.map.GameMode;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.FlagHoldable;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -32,8 +30,10 @@ public class SpawnerObjective extends Event {
 	//How frequently will this event spawn eggplants in eggplant hunt?
 	private static final float interval = 2.0f;
 
+	private final static float particleDuration = 5.0f;
+
 	//These keep track of how long until this triggers its connected event and how many times it can trigger again.
-	private float timeCount = 0;
+	private float timeCount;
 
 	public SpawnerObjective(PlayState state, Vector2 startPos, Vector2 size) {
 		super(state, startPos, size);
@@ -57,7 +57,7 @@ public class SpawnerObjective extends Event {
 		}
 	}
 
-	private Hitbox flag;
+	private CrownHoldable flag;
 	private float spawnCountdown;
 	private static final float spawnDelay = 2.0f;
 	@Override
@@ -77,7 +77,9 @@ public class SpawnerObjective extends Event {
 			if (spawnCountdown > 0.0f) {
 				spawnCountdown -= delta;
 				if (spawnCountdown <= 0.0f) {
-					spawnFlag();
+					flag = new CrownHoldable(state, new Vector2(getPixelPosition()));
+					new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, particleDuration,
+							true, SyncType.CREATESYNC).setColor(HadalColor.GOLD);
 				}
 			} else {
 
@@ -91,31 +93,8 @@ public class SpawnerObjective extends Event {
 
 				if (flagded) {
 					spawnCountdown = spawnDelay;
-
-					if (getStandardParticle() != null) {
-						getStandardParticle().onForBurst(spawnDelay);
-					}
 				}
 			}
-		}
-	}
-
-	private static final Vector2 flagSize = new Vector2(80, 80);
-	private static final float flagLifespan = 240.0f;
-	private void spawnFlag() {
-		flag = new RangedHitbox(state, new Vector2(getPixelPosition()), flagSize, flagLifespan, new Vector2(),
-				(short) 0, false, false, state.getWorldDummy(), Sprite.DIATOM_D);
-
-		//the order of strats is important; FlagHoldable must be second because somethings check for it by index
-		flag.addStrategy(new ControllerDefault(state, flag, state.getWorldDummy().getBodyData()));
-		flag.addStrategy(new FlagHoldable(state, flag, state.getWorldDummy().getBodyData()));
-		flag.addStrategy(new CreateParticles(state, flag, state.getWorldDummy().getBodyData(), Particle.BRIGHT_TRAIL, 0.0f, 1.0f));
-
-		state.getUiObjective().addObjective(flag, Sprite.CLEAR_CIRCLE_ALERT, true, false);
-
-		if (state.isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(flag.getEntityID(),
-					new Vector3(), true, false, Sprite.CLEAR_CIRCLE_ALERT));
 		}
 	}
 }

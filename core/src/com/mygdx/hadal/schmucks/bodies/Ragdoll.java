@@ -49,8 +49,9 @@ public class Ragdoll extends HadalEntity {
 	//when this ragdoll is created on the server, does the client create a ragdoll of its own (this is false for stuff like currents)
 	private final boolean synced;
 
-	private static final float flashLifespan = 1.0f;
-	private float flashTransparency = 1.0f;
+	//these control the ragdoll fading before despawning
+	private static final float fadeLifespan = 1.0f;
+	private float fadeTransparency = 1.0f;
 
 	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity, boolean setVelo, boolean sensor, boolean synced) {
 		super(state, startPos, size);
@@ -115,8 +116,8 @@ public class Ragdoll extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
-		if (ragdollDuration <= flashLifespan) {
-			flashTransparency -= delta;
+		if (ragdollDuration <= fadeLifespan) {
+			fadeTransparency -= delta;
 		}
 
 		ragdollDuration -= delta;
@@ -129,8 +130,8 @@ public class Ragdoll extends HadalEntity {
 	public void clientController(float delta) {
 		super.clientController(delta);
 
-		if (ragdollDuration <= flashLifespan) {
-			flashTransparency -= delta;
+		if (ragdollDuration <= fadeLifespan) {
+			fadeTransparency -= delta;
 		}
 
 		ragdollDuration -= delta;
@@ -143,8 +144,9 @@ public class Ragdoll extends HadalEntity {
 	@Override
 	public void render(SpriteBatch batch) {
 
-		if (flashTransparency < 1.0f) {
-			batch.setColor(batch.getColor().r, batch.getColor().g, batch.getColor().b, Math.max(flashTransparency, 0.0f));
+		//make ragdoll begin to fade when lifespan is low enough
+		if (fadeTransparency < 1.0f) {
+			batch.setColor(batch.getColor().r, batch.getColor().g, batch.getColor().b, Math.max(fadeTransparency, 0.0f));
 		}
 
 		if (ragdollSprite != null) {
@@ -157,7 +159,7 @@ public class Ragdoll extends HadalEntity {
 				MathUtils.radDeg * getAngle());
 		}
 
-		if (flashTransparency < 1.0f) {
+		if (fadeTransparency < 1.0f) {
 			batch.setColor(batch.getColor().r, batch.getColor().g, batch.getColor().b, 1.0f);
 		}
 	}

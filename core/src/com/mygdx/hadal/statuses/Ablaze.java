@@ -16,10 +16,7 @@ public class Ablaze extends Status {
 	//this is the damage per proc of the unit
 	private final float damage;
 
-	//this particle entity follows the player
-	private ParticleEntity fire;
-
-	private static final float linger = 0.5f;
+	private static final float linger = 1.0f;
 
 	private float procCdCount;
 
@@ -28,28 +25,22 @@ public class Ablaze extends Status {
 		this.procCdCount = 0;
 		this.damage = damage;
 	}
-	
+
 	@Override
-	public void onRemove() {
-		if (fire != null) {
-			fire.setDespawn(true);
-			fire.turnOff();
-		}
+	public void onInflict() {
+		new ParticleEntity(state, inflicted.getSchmuck(), Particle.FIRE, linger, duration + linger,
+				true, SyncType.CREATESYNC).setPrematureOff(linger);
 	}
-	
+
+	private static final float procCd = 0.5f;
 	@Override
 	public void timePassing(float delta) {
 		super.timePassing(delta);
-		final float procCd = 0.5f;
 		if (procCdCount >= procCd) {
 			procCdCount -= procCd;
 			inflicted.receiveDamage(damage, new Vector2(), inflicter, true, null, DamageTypes.FIRE);
 		}
 		procCdCount += delta;
-		
-		if (fire == null) {
-			fire = new ParticleEntity(state, inflicted.getSchmuck(), Particle.FIRE, linger, duration + linger, true, SyncType.CREATESYNC);
-		}
 	}
 	
 	@Override

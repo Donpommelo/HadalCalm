@@ -19,9 +19,6 @@ public class Slodged extends Status {
 	//this is the particle that is played over the victim
 	private final Particle particle;
 
-	//this is the particle entity that follows the victim and displays particle
-	private ParticleEntity slodge;
-
 	private static final float linger = 2.0f;
 
 	public Slodged(PlayState state, float i, float slow, BodyData p, BodyData v, Particle particle) {
@@ -29,24 +26,15 @@ public class Slodged extends Status {
 		this.slow = slow;
 		this.particle = particle;
 	}
-	
+
 	@Override
-	public void onRemove() {
-		if (slodge != null) {
-			slodge.setDespawn(true);
-			slodge.turnOff();
+	public void onInflict() {
+		if (!particle.equals(Particle.NOTHING)) {
+			new ParticleEntity(state, inflicted.getSchmuck(), particle, linger, duration + linger,
+					true, SyncType.CREATESYNC).setPrematureOff(linger);
 		}
 	}
-	
-	@Override
-	public void timePassing(float delta) {
-		super.timePassing(delta);
-		
-		if (slodge == null) {
-			slodge = new ParticleEntity(state, inflicted.getSchmuck(), particle, linger, duration + linger, true, SyncType.CREATESYNC);
-		}
-	}
-	
+
 	@Override
 	public void statChanges() {
 		inflicted.setStat(Stats.AIR_SPD, -slow);

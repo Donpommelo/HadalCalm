@@ -109,9 +109,7 @@ public class WeaponUtils {
 		Hitbox sparks = new RangedHitbox(state, startPosition, bombSize, bombLifespan, startVelocity, user.getHitboxfilter(),
 				true, false, user, sparkSprite);
 		sparks.setSpriteSize(bombSpriteSize);
-		sparks.setEffectsHit(false);
-		sparks.setEffectsVisual(false);
-		sparks.setEffectsMovement(false);
+		sparks.setSyncDefault(false);
 
 		sparks.addStrategy(new ControllerDefault(state, sparks, user.getBodyData()));
 		sparks.addStrategy(new FixedToEntity(state, sparks, user.getBodyData(), hbox, new Vector2(), new Vector2()));
@@ -178,7 +176,7 @@ public class WeaponUtils {
 		Hitbox hbox = new RangedHitbox(state, startPosition, nauticalMineSize, lifespan, startVelocity,
 				(short) 0, false, false, user, Sprite.NAVAL_MINE);
 		hbox.setRestitution(0.5f);
-		hbox.setSyncDefault(true);
+		hbox.setSyncedDelete(true);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		if (event) {
@@ -313,6 +311,7 @@ public class WeaponUtils {
 				Hitbox explosion = new RangedHitbox(state, hbox.getPixelPosition(), mineSize, warningTime,  new Vector2(),
 						(short) 0, true, false, user, Sprite.LAND_MINE);
 				explosion.makeUnreflectable();
+				explosion.setSyncDefault(false);
 
 				explosion.addStrategy(new ControllerDefault(state, explosion, user.getBodyData()));
 				explosion.addStrategy(new Static(state, explosion, user.getBodyData()));

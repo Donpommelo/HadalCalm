@@ -44,6 +44,7 @@ public class PickupEquip extends Event {
 
 	private boolean drop;
 
+	//when about to despawn, pickups flash
 	private static final float flashLifespan = 1.0f;
 	private static final float flashDuration = 0.1f;
 	private float flashCount;

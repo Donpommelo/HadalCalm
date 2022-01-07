@@ -205,6 +205,10 @@ public class PacketsSync {
 
         public SyncFlag() {}
 
+        /**
+         * This sync packet is used for the flag event in ctf mode to sync its return timer
+         * @param returnPercent: return timer percent
+         */
         public SyncFlag(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, float returnPercent) {
             super(entityID, pos, velocity, age, timestamp);
             this.returnPercent = returnPercent;
@@ -216,6 +220,10 @@ public class PacketsSync {
 
         public SyncFlagAttached() {}
 
+        /**
+         * This sync packet is used for the flag event in ctf mode when flag is picked up
+         * @param attachedID: entityID of the player that is carrying the flag
+         */
         public SyncFlagAttached(UUID entityID, UUID attachedID, Vector2 pos, Vector2 velocity, float age, float timestamp, float returnPercent) {
             super(entityID, pos, velocity, age, timestamp, returnPercent);
             this.uuidLSBAttached = attachedID.getLeastSignificantBits();

@@ -711,7 +711,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void warpAnimation() {
 		new ParticleEntity(player.getState(), new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2), Particle.TELEPORT,
-				1.0f, true, SyncType.CREATESYNC);
+				2.5f, true, SyncType.CREATESYNC).setPrematureOff(1.5f);
 	}
 
 	public ObjectMap<PlayerBodyData, Float> getRecentDamagedBy() { return recentDamagedBy; }

@@ -22,7 +22,7 @@ public class Timer extends Event {
 	private final float interval;
 	
 	//These keep track of how long until this triggers its connected event and how many times it can trigger again.
-	private float timeCount = 0;
+	private float timeCount;
 	
 	//Is the timer running
 	private boolean on;

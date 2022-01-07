@@ -1026,7 +1026,7 @@ public class PlayState extends GameState {
 		//teleportation particles for reset players (indicates returning to hub)
 		if (reset && isServer()) {
 			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2),
-					Particle.TELEPORT, 1.0f, true, SyncType.CREATESYNC);
+					Particle.TELEPORT, 2.5f, true, SyncType.CREATESYNC).setPrematureOff(1.5f);
 		}
 
 		//for own player, the server must update their user information

@@ -18,6 +18,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
+import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.SyncType;
@@ -711,6 +712,7 @@ public class KryoClient {
 					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, p.synced, ObjectLayer.EFFECT);
 					entity.setScale(p.scale);
 					entity.setRotate(p.rotate);
+					entity.setPrematureOff(p.prematureOff);
 					if (p.velocity != 0) {
 						entity.setParticleVelocity(p.velocity);
 					}
@@ -727,6 +729,17 @@ public class KryoClient {
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
 					FlagCapturable entity = new FlagCapturable(cs, p.pos, null, p.teamIndex);
+					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, true, ObjectLayer.HBOX);
+				});
+			}
+			return true;
+		}
+
+		else if (o instanceof final Packets.CreateCrown p) {
+			final ClientState cs = getClientState();
+			if (cs != null) {
+				cs.addPacketEffect(() -> {
+					CrownHoldable entity = new CrownHoldable(cs, p.pos);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, true, ObjectLayer.HBOX);
 				});
 			}

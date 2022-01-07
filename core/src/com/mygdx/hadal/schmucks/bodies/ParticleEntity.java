@@ -193,6 +193,7 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
+
 		//client particles process independently from the server if they are set to CREATESYNC or NOSYNC
 		if (sync.equals(SyncType.CREATESYNC) || sync.equals(SyncType.NOSYNC)) {
 			controller(delta);			
@@ -251,11 +252,11 @@ public class ParticleEntity extends HadalEntity {
 	public Object onServerCreate(boolean catchup) {
 		if (sync.equals(SyncType.CREATESYNC) || sync.equals(SyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateParticles(entityID, attachedEntity.getEntityID(), offset,
-					true, particle, on, linger, lifespan, scale, rotate, velocity, sync.equals(SyncType.TICKSYNC), color);
+				return new Packets.CreateParticles(entityID, attachedEntity.getEntityID(), offset,true, particle,
+						on, linger, lifespan, prematureTurnOff, scale, rotate, velocity, sync.equals(SyncType.TICKSYNC), color);
 			} else {
-				return new Packets.CreateParticles(entityID, entityID, startPos, false,
-					particle, on, linger, lifespan, scale, rotate, velocity, sync.equals(SyncType.TICKSYNC), color);
+				return new Packets.CreateParticles(entityID, entityID, startPos, false,	particle, on, linger,
+						lifespan, prematureTurnOff, scale, rotate, velocity, sync.equals(SyncType.TICKSYNC), color);
 			}
 		} else {
 			return null;
@@ -305,6 +306,8 @@ public class ParticleEntity extends HadalEntity {
 		if (o instanceof PacketsSync.SyncParticles p) {
 			this.offset.set(p.velocity);
 			effect.setPosition(p.pos.x + offset.x, p.pos.y + offset.y);
+
+			//set bounds so that particle is not invisible to clients
 			visualBoundsExtension.set(p.pos.x + offset.x, p.pos.y + offset.y, 0);
 			visualBounds.ext(visualBoundsExtension, visualBoundsRadius);
 

@@ -36,7 +36,7 @@ public class Flashbang extends ActiveItem {
 	private static final Sprite projSprite = Sprite.FLASH_GRENADE;
 
 	private static final int currentRadius = 200;
-	private static final float blindDuration = 4.0f;
+	private static final float blindDuration = 4.5f;
 
 	public Flashbang(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

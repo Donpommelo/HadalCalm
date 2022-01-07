@@ -15,9 +15,6 @@ public class Blinded extends Status {
 	private static final float linger = 1.0f;
 	private float fadeTimer = fadeCooldown;
 
-	//this particle entity follows the player
-	private ParticleEntity blind;
-
 	public Blinded(PlayState state, float i, BodyData p, BodyData v) {
 		super(state, i, false, p, v);
 
@@ -25,7 +22,13 @@ public class Blinded extends Status {
 			playerData.getPlayer().setBlinded(i);
 		}
 	}
-	
+
+	@Override
+	public void onInflict() {
+		new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, linger, duration + linger,
+				true, SyncType.CREATESYNC).setPrematureOff(linger).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
+	}
+
 	@Override
 	public void timePassing(float delta) {
 		if (fadeTimer > 0.0f) {
@@ -37,21 +40,12 @@ public class Blinded extends Status {
 		if (inflicted instanceof PlayerBodyData playerData) {
 			playerData.getPlayer().setBlinded(duration);
 		}
-
-		if (blind == null) {
-			blind = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, linger, duration + linger, true, SyncType.CREATESYNC);
-			blind.setOffset(0, inflicted.getSchmuck().getSize().y / 2);
-		}
 	}
 
 	@Override
 	public void onRemove() {
 		if (inflicted instanceof PlayerBodyData playerData) {
 			playerData.getPlayer().setBlinded(0);
-		}
-		if (blind != null) {
-			blind.setDespawn(true);
-			blind.turnOff();
 		}
 	}
 	
@@ -62,12 +56,11 @@ public class Blinded extends Status {
 		}
 	}
 
-	public static final float blindFadeDuration = 4.0f;
-	public static final float blindFadeThreshold1 = 3.75f;
+	public static final float blindFadeDuration = 4.5f;
+	public static final float blindFadeThreshold1 = 4.0f;
 	public static final float botBlindThreshold = 2.0f;
 	public static final float maxBlind = 1.0f;
 	public static final float threshold1Blind = 0.9f;
-
 	/**
 	 * This determines how "blind" a character should be depending on the duration remaining of the status
 	 * @param blindDuration: duration remaining of blind

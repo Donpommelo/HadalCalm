@@ -4,6 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip;
 import com.mygdx.hadal.managers.GameStateManager;
 
+/**
+ * TooltipManager contains methods to attach tooltips to scene2d actors
+ */
 public class TooltipManager {
 
     private static final float tooltipWidth = 350.0f;

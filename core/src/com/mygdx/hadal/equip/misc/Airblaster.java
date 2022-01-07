@@ -58,7 +58,7 @@ public class Airblaster extends MeleeWeapon {
 			.setConstantKnockback(true, startVelocity));
 		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(startVelocity),
 			startVelocity.nor().scl(hitboxSize.x / 2 / PPM)));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_BLAST, 0.0f, 1.0f)
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_BLAST, 0.0f, 2.0f)
 			.setParticleVelocity(startVelocity.angleRad()));
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

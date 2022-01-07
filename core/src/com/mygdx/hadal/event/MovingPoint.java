@@ -62,6 +62,7 @@ public class MovingPoint extends Event {
 	}
 
 
+	//this tracks if the event has started moving yet. Used so we can set event velocity instead of transforming every frame.
 	private boolean needsToStartMoving = true;
 	private final Vector2 dist = new Vector2();
 	private final Vector2 targetPosition = new Vector2();
@@ -73,9 +74,9 @@ public class MovingPoint extends Event {
 				targetPosition.set(getConnectedEvent().getPosition());
 				dist.set(targetPosition).sub(getPosition());
 
+				//if distance is too great, set to move this and connected events towards connected event.
 				if (needsToStartMoving && dist.len2() > delta * delta * speed * speed) {
 					needsToStartMoving = false;
-					//Continually move towards connected event.
 					setLinearVelocity(dist.nor().scl(speed));
 
 					//Move all connected events by same amount.
@@ -83,6 +84,8 @@ public class MovingPoint extends Event {
 						e.setLinearVelocity(dist.nor().scl(speed));
 					}
 				} else if (!needsToStartMoving && dist.len2() < delta * delta * speed * speed) {
+
+					//when we approach our target, tell the event that we need to set velocity again
 					needsToStartMoving = true;
 					setTransform(targetPosition, 0);
 					for (ObjectMap.Entry<Event, Vector2> e : connected.entries()) {
@@ -90,6 +93,7 @@ public class MovingPoint extends Event {
 						e.key.setTransform(tempConnectedPosition, 0);
 					}
 
+					//if there isn't another rally point, stop moving
 					if (getConnectedEvent().getConnectedEvent() == null) {
 						setLinearVelocity(0, 0);
 
@@ -98,6 +102,8 @@ public class MovingPoint extends Event {
 							e.setLinearVelocity(0, 0);
 						}
 					} else {
+
+						//activate nect event in the chain and move to next rally point
 						getConnectedEvent().getConnectedEvent().getEventData().preActivate(eventData, null);
 						if (getConnectedEvent().getConnectedEvent().getBody() != null) {
 							setConnectedEvent(getConnectedEvent().getConnectedEvent());
@@ -112,6 +118,8 @@ public class MovingPoint extends Event {
 						}
 					}
 				}
+
+				//this line updates relative location of connected events in case they are dynamic (timed pickups)
 				for (ObjectMap.Entry<Event, Vector2> e : connected.entries()) {
 					connected.put(e.key, new Vector2(e.key.getPosition()).sub(getPosition()));
 				}
@@ -120,7 +128,7 @@ public class MovingPoint extends Event {
 	}
 	
 	/**
-	 * Add another event to be connected to this moving point
+	 * Add another event to be connected to this moving point. Connected events must be synced
 	 */
 	public void addConnection(Event e) {
 		if (e != null) {

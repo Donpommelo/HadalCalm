@@ -19,10 +19,6 @@ public class Regeneration extends Status {
 	//this is the power of the heal
 	private final float heal;
 
-	//the sound and particles attached to the status
-	private ParticleEntity regenParticles;
-	private SoundEntity regenSound;
-
 	private static final float linger = 1.0f;
 
 	public Regeneration(PlayState state, float i, BodyData p, BodyData v, float heal) {
@@ -32,22 +28,11 @@ public class Regeneration extends Status {
 	
 	@Override
 	public void onInflict() {
-		regenParticles = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, linger, duration + linger,
-				true, SyncType.CREATESYNC);
-		regenSound =  new SoundEntity(state, inflicted.getSchmuck(), SoundEffect.MAGIC21_HEAL, duration, 0.25f, 1.0f,
-				true, true, SyncType.TICKSYNC);
-	}
-	
-	@Override
-	public void onRemove() {
-		if (regenParticles != null) {
-			regenParticles.setDespawn(true);
-			regenParticles.turnOff();
-		}
-
-		if (regenSound != null) {
-			regenSound.terminate();
-		}
+		//the sound and particles attached to the status
+		new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, linger, duration + linger,
+				true, SyncType.CREATESYNC).setPrematureOff(linger);
+		new SoundEntity(state, inflicted.getSchmuck(), SoundEffect.MAGIC21_HEAL, duration, 0.25f, 1.0f,
+				true, true, SyncType.CREATESYNC);
 	}
 
 	@Override

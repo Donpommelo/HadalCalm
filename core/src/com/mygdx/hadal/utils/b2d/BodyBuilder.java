@@ -45,7 +45,9 @@ public class BodyBuilder {
                                  short mBits, short gIndex, boolean sensor, HadalData userData) {
     	BodyDef bodyDef = new BodyDef();
         bodyDef.fixedRotation = fixedRotate;
-        bodyDef.position.set(new Vector2(startPos).scl(1 / PPM));
+        if (Float.isFinite(startPos.x) && Float.isFinite(startPos.y)) {
+            bodyDef.position.set(new Vector2(startPos).scl(1 / PPM));
+        }
 
         if (isStatic) {
             bodyDef.type = BodyDef.BodyType.StaticBody;

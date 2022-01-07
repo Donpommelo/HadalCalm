@@ -503,27 +503,27 @@ public abstract class HadalEntity {
 	public void setSyncInstant(boolean syncInstant) { this.syncInstant = syncInstant; }
 
 	public void setTransform(Vector2 position, float angle) {
-		if (alive && body != null) {
+		if (alive && body != null && Float.isFinite(position.x) && Float.isFinite(position.y)) {
 			body.setTransform(position, angle);
 			body.setAwake(true);
 		}
 	}
 	
 	public void setTransform(float vX, float vY, float angle) {
-		if (alive && body != null) {
+		if (alive && body != null && Float.isFinite(vX) && Float.isFinite(vY)) {
 			body.setTransform(vX, vY, angle);
 			body.setAwake(true);
 		}
 	}
 	
 	public void setLinearVelocity(Vector2 position) {
-		if (alive && body != null) {
+		if (alive && body != null && Float.isFinite(position.x) && Float.isFinite(position.y)) {
 			body.setLinearVelocity(position);
 		}
 	}
 	
 	public void setLinearVelocity(float vX, float vY) {
-		if (alive && body != null) {
+		if (alive && body != null && Float.isFinite(vX) && Float.isFinite(vY)) {
 			body.setLinearVelocity(vX, vY);
 		}
 	}

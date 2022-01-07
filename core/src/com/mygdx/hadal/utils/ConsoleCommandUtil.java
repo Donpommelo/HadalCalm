@@ -47,14 +47,8 @@ public class ConsoleCommandUtil {
 	 */
 	public static int parseChatCommand(PlayState state, Player player, String command) {
 		
-		if (command.equals("/roll")) {
-			HadalGame.server.addChatToAll(state,"Rolled A Number: "
-				+ MathUtils.random(maxRoll), DialogType.SYSTEM, player.getConnId());
-			return 0;
-		}
-
-		if (command.equals("/weapon")) {
-			if (player.getPlayerData() != null) {
+		if (player.getPlayerData() != null) {
+			if (command.equals("/weapon")) {
 				StringBuilder message = new StringBuilder("Weapons: ");
 
 				for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
@@ -63,12 +57,10 @@ public class ConsoleCommandUtil {
 					}
 				}
 				HadalGame.server.addChatToAll(state, message.toString(), DialogType.SYSTEM, 0);
+				return 0;
 			}
-			return 0;
-		}
-		
-		if (command.equals("/artifact")) {
-			if (player.getPlayerData() != null) {
+
+			if (command.equals("/artifact")) {
 				StringBuilder message = new StringBuilder("Artifacts: ");
 
 				for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
@@ -78,21 +70,27 @@ public class ConsoleCommandUtil {
 					}
 				}
 				HadalGame.server.addChatToAll(state,message.toString(), DialogType.SYSTEM, 0);
+				return 0;
 			}
-			return 0;
-		}
 
-		if (command.equals("/active")) {
-			if (player.getPlayerData() != null) {
+			if (command.equals("/active")) {
 				HadalGame.server.addChatToAll(state,"Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM, 0);
+				return 0;
 			}
-			return 0;
+
+			if (command.equals("/team")) {
+				HadalGame.server.addChatToAll(state, "Team: " + player.getPlayerData().getLoadout().team.name(), DialogType.SYSTEM, 0);
+				return 0;
+			}
+
+			if (command.equals("/killme")) {
+				player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false, null);
+				return 0;
+			}
 		}
 
-		if (command.equals("/team")) {
-			if (player.getPlayerData() != null) {
-				HadalGame.server.addChatToAll(state, "Team: " + player.getPlayerData().getLoadout().team.name(), DialogType.SYSTEM, 0);
-			}
+		if (command.equals("/roll")) {
+			HadalGame.server.addChatToAll(state,"Rolled A Number: " + MathUtils.random(maxRoll), DialogType.SYSTEM, player.getConnId());
 			return 0;
 		}
 
@@ -101,24 +99,13 @@ public class ConsoleCommandUtil {
 			return 0;
 		}
 
-		if (command.equals("/killme")) {
-			if (player.getPlayerData() != null) {
-				player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false, null);
-				return 0;
-			}
-		}
 		return -1;
 	}
 	
 	public static int parseChatCommandClient(ClientState state, Player player, String command) {
-		
-		if (command.equals("/roll")) {
-			HadalGame.client.sendTCP(new Packets.ClientChat("Rolled A Number: " + MathUtils.random(maxRoll), DialogType.SYSTEM));
-			return 0;
-		}
-		
-		if (command.equals("/weapon")) {
-			if (player.getPlayerData() != null) {
+
+		if (player.getPlayerData() != null) {
+			if (command.equals("/weapon")) {
 				StringBuilder message = new StringBuilder("Weapons: ");
 
 				for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
@@ -127,12 +114,10 @@ public class ConsoleCommandUtil {
 					}
 				}
 				HadalGame.client.sendTCP(new Packets.ClientChat(message.toString(), DialogType.SYSTEM));
+				return 0;
 			}
-			return 0;
-		}
-		
-		if (command.equals("/artifact")) {
-			if (player.getPlayerData() != null) {
+
+			if (command.equals("/artifact")) {
 				StringBuilder message = new StringBuilder("Artifacts: ");
 
 				for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
@@ -141,21 +126,27 @@ public class ConsoleCommandUtil {
 					}
 				}
 				HadalGame.client.sendTCP(new Packets.ClientChat(message.toString(), DialogType.SYSTEM));
+				return 0;
 			}
-			return 0;
-		}
 
-		if (command.equals("/active")) {
-			if (player.getPlayerData() != null) {
+			if (command.equals("/active")) {
 				HadalGame.client.sendTCP(new Packets.ClientChat("Active Item: " + player.getPlayerData().getLoadout().activeItem.name(), DialogType.SYSTEM));
+				return 0;
 			}
-			return 0;
+
+			if (command.equals("/team")) {
+				HadalGame.client.sendTCP(new Packets.ClientChat("Team: " + player.getPlayerData().getLoadout().team.name(), DialogType.SYSTEM));
+				return 0;
+			}
+
+			if (command.equals("/killme")) {
+				HadalGame.client.sendTCP(new Packets.ClientYeet());
+				return 0;
+			}
 		}
 
-		if (command.equals("/team")) {
-			if (player.getPlayerData() != null) {
-				HadalGame.client.sendTCP(new Packets.ClientChat("Team: " + player.getPlayerData().getLoadout().team.name(), DialogType.SYSTEM));
-			}
+		if (command.equals("/roll")) {
+			HadalGame.client.sendTCP(new Packets.ClientChat("Rolled A Number: " + MathUtils.random(maxRoll), DialogType.SYSTEM));
 			return 0;
 		}
 
@@ -164,12 +155,6 @@ public class ConsoleCommandUtil {
 			return 0;
 		}
 
-		if (command.equals("/killme")) {
-			if (player.getPlayerData() != null) {
-				HadalGame.client.sendTCP(new Packets.ClientYeet());
-				return 0;
-			}
-		}
 		return -1;
 	}
 	
@@ -182,45 +167,25 @@ public class ConsoleCommandUtil {
 		if (commands.length == 0) {
 			return -1;
 		}
-		
-		switch(commands[0]) {
-		case "hp":
-			if (commands.length > 1) {
-				return setHp(state, commands[1]);
+
+		if (commands.length > 1) {
+			switch (commands[0]) {
+				case "hp":
+					return setHp(state, commands[1]);
+				case "am":
+					return setAmmo(state, commands[1]);
+				case "act":
+					return setActiveCharge(state, commands[1]);
+				case "eq":
+					return setEquip(state, commands[1]);
+				case "scr":
+					return setScrap(state, commands[1]);
+				case "warp":
+					return warp(state, commands[1]);
+				case "print":
+					return print(state, commands[1]);
 			}
-			break;
-		case "am":
-			if (commands.length > 1) {
-				return setAmmo(state, commands[1]);
-			}
-			break;
-		case "act":
-			if (commands.length > 1) {
-				return setActiveCharge(state, commands[1]);
-			}
-			break;
-		case "eq":
-			if (commands.length > 1) {
-				return setEquip(state, commands[1]);
-			}
-			break;
-		case "scr":
-			if (commands.length > 1) {
-				return setScrap(state, commands[1]);
-			}
-			break;
-		case "warp":
-			if (commands.length > 1) {
-				return warp(state, commands[1]);
-			}
-			break;
-		case "print":
-			if (commands.length > 1) {
-				return print(state, commands[1]);
-			}
-			break;
 		}
-		
 		return -1;
 	}
 	

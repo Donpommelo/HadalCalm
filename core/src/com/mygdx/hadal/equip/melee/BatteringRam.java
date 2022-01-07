@@ -103,7 +103,7 @@ public class BatteringRam extends MeleeWeapon {
 		float particleLifespan = (1 - chargeAmount) * (minParticleTermination - maxParticleTermination) + maxParticleTermination;
 
 		if (user instanceof Player) {
-			ParticleEntity particles = new ParticleEntity(user.getState(), user, particle, 1.0f, 1.0f, true, SyncType.NOSYNC)
+			ParticleEntity particles = new ParticleEntity(user.getState(), user, particle, 1.5f, 1.0f, true, SyncType.NOSYNC)
 					.setScale(0.5f).setPrematureOff(particleLifespan)
 					.setColor(WeaponUtils.getPlayerColor((Player) user));
 			if (!state.isServer()) {

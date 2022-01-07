@@ -29,7 +29,12 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
  */
 public class SpawnerFlag extends Event {
 
+    private final static float particleDuration = 5.0f;
+
+    //index of the team whose flag this spawns
     private final int teamIndex;
+
+    //whether a flag is currently present at the spawner
     private boolean flagPresent;
 
     public SpawnerFlag(PlayState state, Vector2 startPos, Vector2 size, int teamIndex) {
@@ -43,10 +48,7 @@ public class SpawnerFlag extends Event {
 
             @Override
             public void onActivate(EventData activator, Player p) {
-
-                if (standardParticle != null) {
-                    standardParticle.onForBurst(1.0f);
-                }
+                spawnerParticles();
 
                 //give score credit to the player and give notification
                 if (p != null) {
@@ -102,17 +104,17 @@ public class SpawnerFlag extends Event {
         messageCount -= delta;
     }
 
+    /**
+     * This spawns a flag event at the spawner location
+     */
     private void spawnFlag() {
+        spawnerParticles();
         flag = new FlagCapturable(state, new Vector2(getPixelPosition()), this, teamIndex);
         flagPresent = true;
-
-        if (standardParticle != null) {
-            standardParticle.onForBurst(spawnDelay);
-        }
     }
 
     private static final float messageCooldown = 5.0f;
-    private float messageCount = 0.0f;
+    private float messageCount;
     public void triggerFailMessage() {
 
         //message is activated when attempting to capture flag while enemy holds your flag
@@ -125,6 +127,14 @@ public class SpawnerFlag extends Event {
         }
     }
 
+    private void spawnerParticles() {
+        ParticleEntity particle = new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, particleDuration,
+                true, SyncType.CREATESYNC);
+        if (teamIndex < AlignmentFilter.currentTeams.length) {
+            particle.setColor(AlignmentFilter.currentTeams[teamIndex].getColor1());
+        }
+    }
+
     public int getTeamIndex() { return teamIndex; }
 
     @Override
@@ -132,15 +142,6 @@ public class SpawnerFlag extends Event {
         setScaleAlign("CENTER_STRETCH");
         setSyncType(eventSyncTypes.ALL);
         addAmbientParticle(Particle.RING);
-
-        //this block of code is used b/c the default particle behavior doesn't like effects with custom colors
-        if (state.isServer()) {
-            standardParticle = new ParticleEntity(state, this,
-                Particle.DIATOM_IMPACT_LARGE, 0, 0, true, SyncType.TICKSYNC);
-            if (teamIndex < AlignmentFilter.currentTeams.length) {
-                standardParticle.setColor(AlignmentFilter.currentTeams[teamIndex].getColor1());
-            }
-        }
     }
 
     public boolean isFlagPresent() { return flagPresent; }

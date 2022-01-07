@@ -71,7 +71,6 @@ public class Boss5 extends EnemyFloating {
 	public void create() {
 		super.create();
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
-
 	}
 
 	private final Vector2 entityLocation = new Vector2();

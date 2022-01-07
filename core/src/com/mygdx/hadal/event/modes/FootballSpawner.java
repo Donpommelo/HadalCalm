@@ -8,6 +8,8 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
 import com.mygdx.hadal.server.packets.Packets;
@@ -29,6 +31,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class FootballSpawner extends Event {
 
     private static final float lifespan = 180.0f;
+    private final static float particleDuration = 5.0f;
 
     public FootballSpawner(PlayState state, Vector2 startPos, Vector2 size) {
         super(state, startPos, size);
@@ -67,10 +70,6 @@ public class FootballSpawner extends Event {
 
             if (ballded) {
                 spawnCountdown = spawnDelay;
-
-                if (standardParticle != null) {
-                    standardParticle.onForBurst(spawnDelay);
-                }
             }
         }
     }
@@ -80,6 +79,8 @@ public class FootballSpawner extends Event {
      * Spawn a ball at our current location and set the objective marker to track the ball
      */
     private void spawnBall() {
+        new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, particleDuration,true, SyncType.CREATESYNC);
+
         ball = SyncedAttack.NAUTICAL_MINE.initiateSyncedAttackSingle(state, state.getWorldDummy(), getPixelPosition(), new Vector2(),
                 0.0f, pushMultiplier, lifespan);
         state.getUiObjective().addObjective(ball, Sprite.CLEAR_CIRCLE_ALERT, true, false);
@@ -92,7 +93,6 @@ public class FootballSpawner extends Event {
 
     @Override
     public void loadDefaultProperties() {
-        setStandardParticle(Particle.TELEPORT);
         setSyncType(eventSyncTypes.ALL);
     }
 }

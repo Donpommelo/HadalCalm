@@ -44,9 +44,9 @@ public class NoiseUtil {
     private static final short[] perm = new short[512];
     private static final short[] permMod12 = new short[512];
     static {
-        for(int i=0; i<512; i++)
+        for(int i = 0; i < 512; i++)
         {
-            perm[i]=p[i & 255];
+            perm[i] = p[i & 255];
             permMod12[i] = (short)(perm[i] % 12);
         }
     }
@@ -97,7 +97,7 @@ public class NoiseUtil {
             t1 *= t1;
             n1 = t1 * t1 * grad3[gi1].dot(x1, y1, 0);
         }
-        float t2 = 0.5f - x2*x2-y2*y2;
+        float t2 = 0.5f - x2 * x2 - y2 * y2;
         if(t2 < 0) n2 = 0.0f;
         else {
             t2 *= t2;

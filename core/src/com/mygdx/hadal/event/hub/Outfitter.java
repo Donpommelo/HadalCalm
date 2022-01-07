@@ -39,6 +39,7 @@ public class Outfitter extends HubEvent {
 				public void clicked(InputEvent e, float x, float y) {
 					if (state.getPlayer().getPlayerData() == null) { return; }
 
+					//selecting outfit equips its weapons/artifacts/active item
 					if (state.isServer()) {
 						state.getPlayer().getPlayerData().syncLoadout(new Loadout(selected), false, false);
 						state.getGsm().getLoadout().setLoadout(selected);
@@ -52,6 +53,8 @@ public class Outfitter extends HubEvent {
 				@Override
 				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 					super.enter(event, x, y, pointer, fromActor);
+
+					//description contains outfit weapons, active item and artifact
 					text.setLength(0);
 					text.append(c.key).append("\n\n");
 					for (int i = 0; i < Loadout.maxWeaponSlots; i++) {

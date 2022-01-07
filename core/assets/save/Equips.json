@@ -360,8 +360,8 @@
 },
 "PUFFBALLER": {
 	"name": "Puffballer",
-	"description": "Fires a spore cluster that bursts at target location.",
-    "descriptionLong": "Cluster Damage: 42\nSpore Damage: 15\nSpore Number: 7\nSpore Lifespan: 5 Seconds\n\nClip Size: 4\nAmmo Capacity: 40\nReload Time: 1.4 Seconds\nAttack Cooldown: 0.8 Second",
+	"description": "Fires a spore cluster that bursts when the mouse is released.",
+    "descriptionLong": "Cluster Damage: 36\nSpore Damage: 12\nSpore Number: 7\nSpore Lifespan: 5 Seconds\n\nClip Size: 1\nAmmo Capacity: 25\nReload Time: 1.5 Seconds\nAttack Cooldown: 0.8 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",

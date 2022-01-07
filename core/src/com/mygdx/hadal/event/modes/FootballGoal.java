@@ -2,10 +2,13 @@ package com.mygdx.hadal.event.modes;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
@@ -28,6 +31,7 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
  */
 public class FootballGoal extends Event {
 
+    private final static float particleDuration = 5.0f;
     private final int teamIndex;
 
     public FootballGoal(PlayState state, Vector2 startPos, Vector2 size, int teamIndex) {
@@ -42,8 +46,10 @@ public class FootballGoal extends Event {
             @Override
             public void onActivate(EventData activator, Player p) {
 
-                if (standardParticle != null) {
-                    standardParticle.onForBurst(1.0f);
+                ParticleEntity particle = new ParticleEntity(state, event, Particle.DIATOM_IMPACT_LARGE, 0, particleDuration,
+                        true, SyncType.CREATESYNC);
+                if (teamIndex < AlignmentFilter.currentTeams.length) {
+                    particle.setColor(AlignmentFilter.currentTeams[teamIndex].getColor1());
                 }
 
                 //give score credit to the player and give notification

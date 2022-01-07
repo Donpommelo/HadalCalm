@@ -6,6 +6,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -44,7 +45,8 @@ public class Minigun extends RangedWeapon {
 	private static final float selfSlowMag = 0.6f;
 	
 	private SoundEntity fireSound;
-	
+	private ParticleEntity slow;
+
 	public Minigun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
 				true, weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
@@ -81,7 +83,12 @@ public class Minigun extends RangedWeapon {
 			}
 		}
 		
-		shooter.addStatus(new Slodged(state, selfSlowDura, selfSlowMag, shooter, shooter, Particle.STUN));
+		shooter.addStatus(new Slodged(state, selfSlowDura, selfSlowMag, shooter, shooter, Particle.NOTHING));
+
+		if (slow == null) {
+			slow = new ParticleEntity(user.getState(), user, Particle.STUN, 0.0f, 0.0f, false, SyncType.TICKSYNC);
+		}
+		slow.turnOn();
 	}
 
 	@Override
@@ -95,11 +102,15 @@ public class Minigun extends RangedWeapon {
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
 		SoundEffect.MINIGUN_DOWN.playUniversal(state, user.getPixelPosition(), 0.5f, false);
-		chargeCd = 0;
 		charging = false;
-		
+		chargeCd = 0;
+
 		if (fireSound != null) {
 			fireSound.turnOff();
+		}
+		if (slow != null) {
+			slow.queueDeletion();
+			slow = null;
 		}
 	}
 	
@@ -131,10 +142,24 @@ public class Minigun extends RangedWeapon {
 	}
 
 	@Override
+	public boolean reload(float delta) {
+		boolean finished = super.reload(delta);
+		if (slow != null) {
+			slow.queueDeletion();
+			slow = null;
+		}
+		return finished;
+	}
+
+	@Override
 	public void unequip(PlayState state) {
 		if (fireSound != null) {
 			fireSound.terminate();
 			fireSound = null;
+		}
+		if (slow != null) {
+			slow.queueDeletion();
+			slow = null;
 		}
 	}
 }

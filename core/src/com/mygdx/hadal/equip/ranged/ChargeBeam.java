@@ -54,7 +54,6 @@ public class ChargeBeam extends RangedWeapon {
 	}
 
 	private final Vector2 particleOrigin = new Vector2();
-
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);

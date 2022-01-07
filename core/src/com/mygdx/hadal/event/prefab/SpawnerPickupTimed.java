@@ -33,6 +33,9 @@ public class SpawnerPickupTimed extends Prefabrication {
 		addPickup(state, width, height, x, y, interval, type, power, pickupId, spawnerId);
 	}
 
+	/**
+	 * Helper function to create a pickup event. This is a separate function so that weapon spawners can use it in custom loadout mode
+	 */
 	public static void addPickup(PlayState state, int width, int height, int x, int y, float interval, int type, float power,
 								 String pickupId, String spawnerId) {
 		String onTouchId = TiledObjectUtil.getPrefabTriggerId();

@@ -58,7 +58,7 @@ public class HydraulicUppercut extends ActiveItem {
 		}
 
 		if (user instanceof Player player) {
-			ParticleEntity particles = new ParticleEntity(user.getState(), user, particle, 1.0f, 1.0f,
+			ParticleEntity particles = new ParticleEntity(user.getState(), user, particle, 1.5f, 1.0f,
 					true, SyncType.NOSYNC)
 					.setScale(0.5f).setPrematureOff(particleLifespan)
 					.setColor(WeaponUtils.getPlayerColor(player));

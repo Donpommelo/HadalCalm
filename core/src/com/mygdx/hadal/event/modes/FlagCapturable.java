@@ -34,17 +34,19 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 
 /**
+ * A FlagCapturable is an event that serves as an objective for ctf mode that can be captured
  * @author Hufferty Hibbooey
  */
 public class FlagCapturable extends Event {
 
 	private static final Vector2 flagSize = new Vector2(80, 80);
 	private static final float flagLifespan = 240.0f;
+	private final static float particleDuration = 5.0f;
 
 	//the team who this flag belongs to
 	private final int teamIndex;
 
-	//this is the entity that this hbox is fixed to. Usually the user for melee hboxes. Some hboxes have another hboxes fixed to them like sticky bombs
+	//this is the player that this event is fixed to and the last player that held it
 	private Player target;
 	private Player lastHolder;
 
@@ -63,9 +65,11 @@ public class FlagCapturable extends Event {
 	//is the flag held by a player? Has the flag been removed from its spawn location?
 	private boolean captured, awayFromSpawn;
 
-	private final TextureRegion reloadMeter, reloadBar;
-
+	//textures that indicate how long until the flag is returned to base
+	private final TextureRegion returnMeter, returnBar;
 	private float returnPercent, returnDelayed;
+
+	//amount of players currently nearby their dropped flag to speed up its return
 	private int numReturning;
 	private static final float checkRadius = 4.0f;
 
@@ -79,6 +83,7 @@ public class FlagCapturable extends Event {
 		setGravity(1.0f);
 		setSynced(true);
 
+		//set flag's color according to team alignment
 		Vector3 color = new Vector3();
 		if (teamIndex < AlignmentFilter.currentTeams.length) {
 			HadalColor teamColor = AlignmentFilter.currentTeams[teamIndex].getColor1();
@@ -87,14 +92,16 @@ public class FlagCapturable extends Event {
 					.setColor(teamColor);
 		}
 
+		//make objective marker track this event
 		state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false);
 		if (state.isServer()) {
 			HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(entityID,	color, true, false, Sprite.CLEAR_CIRCLE_ALERT));
 		}
 
-		this.reloadMeter = Sprite.UI_RELOAD_METER.getFrame();
-		this.reloadBar = Sprite.UI_RELOAD_BAR.getFrame();
+		this.returnMeter = Sprite.UI_RELOAD_METER.getFrame();
+		this.returnBar = Sprite.UI_RELOAD_BAR.getFrame();
 
+		//we must set this event's layer to make it render underneath players
 		setLayer(PlayState.ObjectLayer.HBOX);
 	}
 
@@ -155,6 +162,7 @@ public class FlagCapturable extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 0.0f, 1.0f, 0, false, true,
 				Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0, false, eventData);
 
+		//feetdata is set to make the flag selectively pass through dropthrough platforms
 		FeetData feetData = new FeetData(UserDataType.FEET, this);
 		Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(1.0f / 2,  - size.y / 2),
 				new Vector2(size.x, size.y / 8), true, 0, 0, 0, 0,
@@ -179,18 +187,25 @@ public class FlagCapturable extends Event {
 				setTransform(hbLocation, getAngle());
 			}
 		} else if (awayFromSpawn) {
+
+			//return time decrementing scales to number of players nearby
 			returnTimer -= delta * numReturningToSpeed(numReturning);
 
 			if (returnTimer <= 0.0f) {
+				ParticleEntity particle = new ParticleEntity(state, getPixelPosition(), Particle.DIATOM_IMPACT_LARGE,
+						particleDuration, true, SyncType.CREATESYNC);
 				queueDeletion();
 
 				if (teamIndex < AlignmentFilter.currentTeams.length) {
+					particle.setColor(AlignmentFilter.currentTeams[teamIndex].getColor1());
+
 					String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
 					teamColor = WeaponUtils.getColorName(AlignmentFilter.currentTeams[teamIndex].getColor1(), teamColor);
 					state.getKillFeed().addNotification(HText.CTF_RETURNED.text(teamColor), true);
 				}
 			}
 
+			//check nearby area for allied players and set return percent
 			controllerCount += delta;
 			if (controllerCount >= checkInterval) {
 				controllerCount = 0.0f;
@@ -214,6 +229,8 @@ public class FlagCapturable extends Event {
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
+
+		//this makes flag following player less janky for clients when held
 		if (captured) {
 			if (target != null) {
 				hbLocation.set(target.getPosition());
@@ -235,15 +252,17 @@ public class FlagCapturable extends Event {
 	public void render(SpriteBatch batch) {
 		super.render(batch);
 		if (awayFromSpawn && !captured) {
+
+			//draw return meter according to timer
 			returnDelayed = Math.min(1.0f, returnDelayed + (returnPercent - returnDelayed) * 0.25f);
 
 			flagLocation.set(getPixelPosition());
-			float textX = flagLocation.x - reloadMeter.getRegionWidth() * uiScale / 2;
-			float textY = flagLocation.y + reloadMeter.getRegionHeight() * uiScale + size.y / 2;
+			float textX = flagLocation.x - returnMeter.getRegionWidth() * uiScale / 2;
+			float textY = flagLocation.y + returnMeter.getRegionHeight() * uiScale + size.y / 2;
 
-			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * returnDelayed, reloadBar.getRegionHeight() * uiScale);
-			HadalGame.FONT_SPRITE.draw(batch, HText.CTF_RETURN.text(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
-			batch.draw(reloadMeter, textX, textY, reloadMeter.getRegionWidth() * uiScale, reloadMeter.getRegionHeight() * uiScale);
+			batch.draw(returnBar, textX + 10, textY + 4, returnBar.getRegionWidth() * uiScale * returnDelayed, returnBar.getRegionHeight() * uiScale);
+			HadalGame.FONT_SPRITE.draw(batch, HText.CTF_RETURN.text(), textX + 12, textY + returnMeter.getRegionHeight() * uiScale);
+			batch.draw(returnMeter, textX, textY, returnMeter.getRegionWidth() * uiScale, returnMeter.getRegionHeight() * uiScale);
 
 			if (returnDelayed > returnPercent) {
 				returnDelayed = 0.0f;
@@ -328,6 +347,9 @@ public class FlagCapturable extends Event {
 		}
 	}
 
+	/**
+	 * Get speed of flag returning for number of players returning it
+	 */
 	private float numReturningToSpeed(int numReturning) {
 		switch (numReturning) {
 			case 0 -> {
