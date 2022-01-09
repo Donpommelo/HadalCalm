@@ -110,9 +110,6 @@ public class BodyData extends HadalData {
 	public ProcTime statusProcTime(ProcTime o) {
 		ProcTime finalProcTime = o;
 
-		//atm, clients only process stat-changing statuses
-		if (!schmuck.getState().isServer() && !(o instanceof ProcTime.StatCalc)) { return finalProcTime; }
-
 		Array<Status> oldChecked = new Array<>();
 		for (Status s : this.statusesChecked) {
 			this.statuses.insert(0, s);
@@ -125,9 +122,12 @@ public class BodyData extends HadalData {
 
 		while (!this.statuses.isEmpty()) {
 			Status tempStatus = this.statuses.get(0);
-			
-			finalProcTime = tempStatus.statusProcTime(o);
-			
+
+			//atm, clients only process stat-changing statuses or specifically designated statuses
+			if (schmuck.getState().isServer() || o instanceof ProcTime.StatCalc || tempStatus.isClientIndependent()) {
+				finalProcTime = tempStatus.statusProcTime(o);
+			}
+
 			if (this.statuses.contains(tempStatus, false)) {
 				this.statuses.removeValue(tempStatus, false);
 				this.statusesChecked.add(tempStatus);

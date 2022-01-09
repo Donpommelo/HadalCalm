@@ -34,6 +34,8 @@ public class Status implements Comparable<Status> {
 
 	//Status priority determins the order in which multiple statuses will proc their effects (small number = goes first)
 	private int priority = PRIORITY_DEFAULT;
+
+	private boolean clientIndependent;
 	
 	public Status(PlayState state, float i, Boolean perm, BodyData p, BodyData v) {
 		this.state = state;
@@ -77,7 +79,6 @@ public class Status implements Comparable<Status> {
 	public void timePassing(float delta) {
 		if (!perm) { 
 			duration -= delta;
-			
 			if (duration <= 0) {
 				inflicted.removeStatus(this);
 			}
@@ -126,6 +127,8 @@ public class Status implements Comparable<Status> {
 
 	public void setArtifact(UnlockArtifact artifact) { this.artifact = artifact; }
 
+	public boolean isClientIndependent() { return clientIndependent; }
+
 	/**
 	 * This determines the behavior is this status is added to a schmuck who already has it.
 	 * @return stack behavior
@@ -134,6 +137,11 @@ public class Status implements Comparable<Status> {
 
 	public Status setPriority(int priority) {
 		this.priority = priority;
+		return this;
+	}
+
+	public Status setClientIndependent(boolean clientIndependent) {
+		this.clientIndependent = clientIndependent;
 		return this;
 	}
 

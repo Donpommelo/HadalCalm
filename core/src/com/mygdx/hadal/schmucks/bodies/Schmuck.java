@@ -102,6 +102,12 @@ public class Schmuck extends HadalEntity {
 		getBodyData().statusProcTime(new ProcTime.TimePass(delta));
 	}
 
+	@Override
+	public void clientController(float delta) {
+		super.clientController(delta);
+		getBodyData().statusProcTime(new ProcTime.TimePass(delta));
+	}
+
 	/**
 	 * Draw the schmuck
 	 */

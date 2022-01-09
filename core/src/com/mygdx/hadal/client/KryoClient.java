@@ -231,7 +231,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
-					cs.syncLatency(p.timestamp);
+					cs.syncLatency(p.serverTimestamp, p.clientTimestamp);
 				});
 			}
 		}
@@ -463,7 +463,9 @@ public class KryoClient {
 					Player player = user.getPlayer();
 					if (player != null) {
 						cs.addPacketEffect(() -> {
-							player.getPlayerData().syncLoadout(p.loadout, true, p.save);
+							if (player.getPlayerData() != null) {
+								player.getPlayerData().syncLoadout(p.loadout, true, p.save);
+							}
 						});
 					}
 				}
@@ -482,21 +484,23 @@ public class KryoClient {
 				Player player = user.getPlayer();
 				if (player != null) {
 					cs.addPacketEffect(() -> {
-						if (p instanceof PacketsLoadout.SyncEquipServer s) {
-							player.getPlayerData().syncEquip(s.equip);
-						}
-						else if (p instanceof PacketsLoadout.SyncArtifactServer s) {
-							player.getPlayerData().syncArtifact(s.artifact, true, s.save);
-							cs.getUiHub().refreshHub(null);
-						}
-						else if (p instanceof PacketsLoadout.SyncActiveServer s) {
-							player.getPlayerData().syncActive(s.actives);
-						}
-						else if (p instanceof PacketsLoadout.SyncCharacterServer s) {
-							player.getPlayerData().setCharacter(s.character);
-						}
-						else if (p instanceof PacketsLoadout.SyncTeamServer s) {
-							player.getPlayerData().setTeam(s.team);
+						if (player.getPlayerData() != null) {
+							if (p instanceof PacketsLoadout.SyncEquipServer s) {
+								player.getPlayerData().syncEquip(s.equip);
+							}
+							else if (p instanceof PacketsLoadout.SyncArtifactServer s) {
+								player.getPlayerData().syncArtifact(s.artifact, true, s.save);
+								cs.getUiHub().refreshHub(null);
+							}
+							else if (p instanceof PacketsLoadout.SyncActiveServer s) {
+								player.getPlayerData().syncActive(s.actives);
+							}
+							else if (p instanceof PacketsLoadout.SyncCharacterServer s) {
+								player.getPlayerData().setCharacter(s.character);
+							}
+							else if (p instanceof PacketsLoadout.SyncTeamServer s) {
+								player.getPlayerData().setTeam(s.team);
+							}
 						}
 					});
 				}

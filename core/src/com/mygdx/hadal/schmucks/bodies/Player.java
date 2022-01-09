@@ -928,7 +928,8 @@ public class Player extends PhysicsSchmuck {
 			getPlayerData().setOverrideOutOfAmmo(p.outOfAmmo);
 			invisible = p.invisible;
 
-			if (p.maskBits != getMainFixture().getFilterData().maskBits) {
+			//client's own player does not sync dropthrough passability
+			if (!(this instanceof  PlayerClient) && p.maskBits != getMainFixture().getFilterData().maskBits) {
 				Filter filter = getMainFixture().getFilterData();
 				filter.maskBits = p.maskBits;
 				getMainFixture().setFilterData(filter);

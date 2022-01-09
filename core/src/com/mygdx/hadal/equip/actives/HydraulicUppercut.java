@@ -68,7 +68,8 @@ public class HydraulicUppercut extends ActiveItem {
 		}
 
 		user.getBodyData().addStatus(new Invulnerability(state, 0.9f, user.getBodyData(), user.getBodyData()));
-		user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 6.0f, user.getBodyData(), user.getBodyData()));
+		user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 6.0f, user.getBodyData(), user.getBodyData())
+				.setClientIndependent(true));
 
 		user.pushMomentumMitigation(0, recoil);
 

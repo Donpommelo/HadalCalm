@@ -36,7 +36,7 @@ public class ContactUnitShock extends HitboxStrategy {
 	
 	@Override
 	public void onHit(HadalData fixB) {
-		if (!shocked) {
+		if (!shocked && state.isServer()) {
 			if (fixB instanceof BodyData bodyData) {
 				shocked = true;
 				bodyData.addStatus(new Shocked(state, creator, bodyData, damage, radius, chain, filter));

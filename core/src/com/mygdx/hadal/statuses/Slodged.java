@@ -25,11 +25,14 @@ public class Slodged extends Status {
 		super(state, i, false, p, v);
 		this.slow = slow;
 		this.particle = particle;
+
+		//need to set this to independent so its duration decrements for clients
+		setClientIndependent(true);
 	}
 
 	@Override
 	public void onInflict() {
-		if (!particle.equals(Particle.NOTHING)) {
+		if (!particle.equals(Particle.NOTHING) && state.isServer()) {
 			new ParticleEntity(state, inflicted.getSchmuck(), particle, linger, duration + linger,
 					true, SyncType.CREATESYNC).setPrematureOff(linger);
 		}

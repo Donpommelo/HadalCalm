@@ -231,7 +231,7 @@ public class KryoServer {
 								if (player != null) {
 
 									//alive check prevents duplicate players if entering/respawning simultaneously
-									if (!player.isAlive()) {
+									if (!player.isAlive() && player.getPlayerData() != null) {
 										if (ps.isReset()) {
 											createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(),
 													true, spectator, p.firstTime, null);
@@ -272,10 +272,12 @@ public class KryoServer {
 					if (user != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
-							HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncWholeLoadout(
-								c.getID(), player.getPlayerData().getLoadout(), false));
-							if (player.getStart() != null) {
-								player.getStart().playerStart(player);
+							if (player.getPlayerData() != null) {
+								HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncWholeLoadout(
+										c.getID(), player.getPlayerData().getLoadout(), false));
+								if (player.getStart() != null) {
+									player.getStart().playerStart(player);
+								}
 							}
 						}
 					}
@@ -293,25 +295,27 @@ public class KryoServer {
 						Player player = user.getPlayer();
 						if (player != null) {
 							ps.addPacketEffect(() -> {
-								if (p instanceof PacketsLoadout.SyncEquipClient s) {
-									player.getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(s.equip, player)));
-								}
-								else if (p instanceof PacketsLoadout.SyncArtifactAddClient s) {
-									player.getPlayerData().addArtifact(s.artifactAdd, false, s.save);
-								}
-								else if (p instanceof PacketsLoadout.SyncArtifactRemoveClient s) {
-									player.getPlayerData().removeArtifact(s.artifactRemove);
-								}
-								else if (p instanceof PacketsLoadout.SyncActiveClient s) {
-									player.getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(s.active, player)));
-								}
-								else if (p instanceof PacketsLoadout.SyncCharacterClient s) {
-									player.getPlayerData().setCharacter(s.character);
-									player.getPlayerData().syncServerCharacterChange(s.character);
-								}
-								else if (p instanceof PacketsLoadout.SyncTeamClient s) {
-									player.getPlayerData().setTeam(s.team);
-									player.getPlayerData().syncServerTeamChange(s.team);
+								if (player.getPlayerData() != null) {
+									if (p instanceof PacketsLoadout.SyncEquipClient s) {
+										player.getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(s.equip, player)));
+									}
+									else if (p instanceof PacketsLoadout.SyncArtifactAddClient s) {
+										player.getPlayerData().addArtifact(s.artifactAdd, false, s.save);
+									}
+									else if (p instanceof PacketsLoadout.SyncArtifactRemoveClient s) {
+										player.getPlayerData().removeArtifact(s.artifactRemove);
+									}
+									else if (p instanceof PacketsLoadout.SyncActiveClient s) {
+										player.getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(s.active, player)));
+									}
+									else if (p instanceof PacketsLoadout.SyncCharacterClient s) {
+										player.getPlayerData().setCharacter(s.character);
+										player.getPlayerData().syncServerCharacterChange(s.character);
+									}
+									else if (p instanceof PacketsLoadout.SyncTeamClient s) {
+										player.getPlayerData().setTeam(s.team);
+										player.getPlayerData().syncServerTeamChange(s.team);
+									}
 								}
 							});
 						}
@@ -325,8 +329,10 @@ public class KryoServer {
 						Player player = user.getPlayer();
 						if (player != null) {
 							ps.addPacketEffect(() -> {
-								player.getPlayerData().syncLoadout(p.loadout, false, false);
-								player.getPlayerData().syncServerWholeLoadoutChange();
+								if (player.getPlayerData() != null) {
+									player.getPlayerData().syncLoadout(p.loadout, false, false);
+									player.getPlayerData().syncServerWholeLoadoutChange();
+								}
 							});
 						}
 					}
@@ -435,7 +441,7 @@ public class KryoServer {
 								user.setScoreUpdated(true);
 							}
 						}
-						server.sendToTCP(c.getID(), new Packets.LatencyAck(ps.getTimer()));
+						server.sendToTCP(c.getID(), new Packets.LatencyAck(ps.getTimer(), p.timestamp));
 					}
 				}
 				
@@ -536,9 +542,9 @@ public class KryoServer {
 			}
 		};
 		
-//        server.addListener(new Listener.LagListener(60, 60, packetListener));
+//        server.addListener(new Listener.LagListener(100, 100, packetListener));
 		server.addListener(packetListener);
-		
+
 		try {
 			server.bind(gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
 		} catch (IOException e) {

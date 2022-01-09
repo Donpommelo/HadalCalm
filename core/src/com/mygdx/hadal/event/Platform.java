@@ -56,7 +56,7 @@ public class Platform extends Event {
 	public void controller(float delta) {
 		super.controller(delta);
 
-		//we need to set team alignments here, because the client doesn't know team alignments uon loading
+		//we need to set team alignments here, because the client doesn't know team alignments upon loading
 		if (!loaded && teamIndex != -1.0f) {
 			short teamFilter;
 			if (teamIndex < AlignmentFilter.currentTeams.length) {

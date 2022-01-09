@@ -12,7 +12,7 @@ public class PhysicsSchmuck extends Schmuck {
 
 	//this the frequency that the physics occurs
 	private static final float controllerInterval = 1 / 60f;
-	
+
 	public PhysicsSchmuck(PlayState state, Vector2 startPos, Vector2 size, String name, short hitboxFilter, int baseHp) {
 		super(state, startPos, size, name, hitboxFilter, baseHp);
 	}
@@ -71,7 +71,7 @@ public class PhysicsSchmuck extends Schmuck {
 				accelY = grounded ? getBodyData().getYGroundDeaccel() : getBodyData().getYAirDeaccel();
 			}
 			float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;
-			
+
 			//apply resulting force
 			force.set(newX - currentVel.x, newY - currentVel.y).scl(getMass());
 			applyLinearImpulse(force);

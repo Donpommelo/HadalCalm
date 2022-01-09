@@ -114,13 +114,16 @@ public class ClientState extends PlayState {
 	
 	//these control the frequency that we send latency checking packets to the server.
 	private float latencyAccumulator;
-	private float lastLatencyCheck, latency;
+	private float latency;
 	private static final float LatencyCheck = 1.0f;
 
 	private float inputAccumulator;
 	private static final float inputSyncTime = 1 / 60f;
 
 	private final Vector3 lastMouseLocation = new Vector3();
+
+	//separate timer used to calculate latency
+	private float clientPingTimer;
 	@Override
 	public void update(float delta) {
 		
@@ -196,13 +199,13 @@ public class ClientState extends PlayState {
 		
 		//process camera, ui, any received packets
 		processCommonStateProperties(delta, false);
-		
+		clientPingTimer += delta;
+
 		//this makes the latency checking separate from the game framerate
 		latencyAccumulator += delta;
 		if (latencyAccumulator >= LatencyCheck) {
 			latencyAccumulator = 0;
-			lastLatencyCheck = getTimer();
-			HadalGame.client.sendTCP(new Packets.LatencySyn((int) (latency * 1000)));
+			HadalGame.client.sendTCP(new Packets.LatencySyn((int) (latency * 1000), clientPingTimer));
 		}
 
 		missedCreatesToRemove.clear();
@@ -415,18 +418,12 @@ public class ClientState extends PlayState {
 	/**
 	 * This is run when the server responds to our latency check packet. We calculate our ping and save it.
 	 */
-	public void syncLatency(float serverTime) {
-		latency = getTimer() - lastLatencyCheck;
-		float adjustedServerTime = serverTime + latency / 2;
+	public void syncLatency(float serverTime, float clientTimestamp) {
 
-		//if our timer is ahead, we set it to be less than the server so we can linear interpolate to predicted position
-		if (getTimer() > adjustedServerTime) {
-			setTimer(adjustedServerTime - 2 * PlayState.syncTime);
-		}
-
-		//if our timer is lagging too far behind, we make it catch up
-		if (getTimer() < adjustedServerTime - 2 * PlayState.syncTime) {
-			setTimer(adjustedServerTime - 2 * PlayState.syncTime);
+		//when transitioning to new state, we don't want old timestamp to give us a negative latency
+		if (clientTimestamp <= clientPingTimer) {
+			latency = clientPingTimer - clientTimestamp;
+			setTimer(serverTime - 2 * PlayState.syncTime);
 		}
 	}
 	

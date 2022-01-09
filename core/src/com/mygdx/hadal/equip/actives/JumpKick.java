@@ -66,7 +66,8 @@ public class JumpKick extends ActiveItem {
 			}
 		}
 
-		user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 7.5f, user.getBodyData(), user.getBodyData()));
+		user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 7.5f, user.getBodyData(), user.getBodyData())
+				.setClientIndependent(true));
 		Vector2 push = new Vector2(startVelocity).nor().scl(recoil);
 		user.pushMomentumMitigation(push.x, push.y);
 

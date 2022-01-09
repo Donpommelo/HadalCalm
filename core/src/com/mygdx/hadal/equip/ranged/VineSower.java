@@ -138,6 +138,7 @@ public class VineSower extends RangedWeapon {
 		//create an invisible hitbox that makes the vines as it moves
 		RangedHitbox hbox = new RangedHitbox(state, startPosition, seedSize, vineLifespan, startVelocity, user.getHitboxfilter(),
 				false, false, user, Sprite.NOTHING);
+		hbox.setPassability(Constants.BIT_WALL);
 		hbox.makeUnreflectable();
 		hbox.setRestitution(1.0f);
 		hbox.setSyncDefault(false);

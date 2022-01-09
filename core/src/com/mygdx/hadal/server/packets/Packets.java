@@ -996,6 +996,7 @@ public class Packets {
 	}
 	
 	public static class LatencySyn {
+		public float timestamp;
 		public int latency;
 		
 		public LatencySyn() {}
@@ -1003,22 +1004,29 @@ public class Packets {
 		/**
 		 * A LatencySyn is sent from the client to the server periodically to check the quality of the network connection.
 		 * @param latency: the client's last synced latency
+		 * @param timestamp: the client's clientPingTimer. Used to determine elapsed time
 		 */
-		public LatencySyn(int latency) {
+		public LatencySyn(int latency, float timestamp) {
 			this.latency = latency;
+			this.timestamp = timestamp;
 		}
 	}
 
 	public static class LatencyAck {
-		public float timestamp;
+		public float serverTimestamp;
+		public float clientTimestamp;
 
 		public LatencyAck() {}
 
 		/**
 		 * A LatencyAck is sent from the server to the client as a response to a LatencySyn. The time is used to calculate the client's ping.
-		 * @param timestamp: is the server's time at time of response
+		 * @param serverTimestamp: is the server's time at time of response
+		 * @param clientTimestamp: the client's timer when they first sent the sync packet
 		 */
-		public LatencyAck(float timestamp) { this.timestamp = timestamp; }
+		public LatencyAck(float serverTimestamp, float clientTimestamp) {
+			this.serverTimestamp = serverTimestamp;
+			this.clientTimestamp = clientTimestamp;
+		}
 	}
 	
 	public static class SyncExtraResultsInfo {

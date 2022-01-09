@@ -144,6 +144,7 @@ public class PlayerClient extends Player {
 	
 	//most of the code here is just lifted from the Player class to simulate movement actions like jumping, hovering, fastfalling and boosting
 	private final Vector2 playerLocation = new Vector2();
+	private final Vector2 playerVelocity = new Vector2();
 	private final Vector2 playerWorldLocation = new Vector2();
 	private final Vector2 newPredictedPosition = new Vector2();
 	private final Vector2 newPosition = new Vector2();
@@ -192,6 +193,7 @@ public class PlayerClient extends Player {
 		
 		//for the server's own player, the sprite's arm should exactly match their mouse
 		playerLocation.set(getPixelPosition());
+		playerVelocity.set(getLinearVelocity());
 		playerWorldLocation.set(getPosition());
 
 		if (body != null && alive) {
@@ -199,7 +201,7 @@ public class PlayerClient extends Player {
 			//we add a new prediction frame to our list with our current displacement/velocity
 			ClientPredictionFrame frame = new ClientPredictionFrame(delta);
 			frame.positionChange.set(playerWorldLocation).sub(lastPosition);
-			frame.velocity.set(getLinearVelocity());
+			frame.velocity.set(playerVelocity);
 			frames.add(frame);
 			historyDuration += delta;
 
@@ -221,8 +223,8 @@ public class PlayerClient extends Player {
 
 				//when predicting, we extrapolate our position based on our prediction plus our current velocity given the current latency.
 				if (predicting) {
-					extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(getLinearVelocity())
-							.scl((CONVERGE_MULTIPLIER) * latency));
+					float time = CONVERGE_MULTIPLIER * latency;
+					extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(playerVelocity).scl(time));
 
 					float t = predictionInterval / (latency * (1 + CONVERGE_MULTIPLIER));
 
@@ -322,26 +324,6 @@ public class PlayerClient extends Player {
 	protected void applyForce(float delta) {
 		if (predicting) {
 			super.applyForce(delta);
-		}
-	}
-
-	@Override
-	public void onClientSync(Object o) {
-		super.onClientSync(o);
-
-		if (o instanceof PacketsSync.SyncPlayer p) {
-
-			getPlayerData().setCurrentSlot(p.currentSlot);
-			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
-			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
-			getPlayerData().getCurrentTool().setReloading(p.reloading, true);
-			reloadPercent = p.reloadPercent;
-			getPlayerData().getCurrentTool().setCharging(p.charging);
-			chargePercent = p.chargePercent;
-			getPlayerData().setOverrideOutOfAmmo(p.outOfAmmo);
-			invisible = p.invisible;
-			
-			//notably, we omit the syncing of our passability, as that causes weird interactions with dropthrough platforms
 		}
 	}
 }
