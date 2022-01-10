@@ -61,7 +61,7 @@ public class MorningStar extends MeleeWeapon {
 		if (!active) {
 			active = true;
 			projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(range);
-			Hitbox[] hboxes = SyncedAttack.MORNING_STAR.initiateSyncedAttackMulti(state, user, new Vector2[2], new Vector2[2]);
+			Hitbox[] hboxes = SyncedAttack.MORNING_STAR.initiateSyncedAttackMulti(state, user, new Vector2(), new Vector2[2], new Vector2[2]);
 			base = hboxes[0];
 			star = hboxes[1];
 		}

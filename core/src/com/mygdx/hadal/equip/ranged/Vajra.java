@@ -38,7 +38,7 @@ public class Vajra extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
 
 	public Vajra(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
@@ -49,6 +49,7 @@ public class Vajra extends RangedWeapon {
 
 	public static Hitbox createVajra(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.THUNDER.playSourced(state, startPosition, 0.5f);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, Sprite.LIGHTNING);

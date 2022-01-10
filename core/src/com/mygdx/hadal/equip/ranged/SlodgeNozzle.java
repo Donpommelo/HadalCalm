@@ -30,7 +30,7 @@ public class SlodgeNozzle extends RangedWeapon {
 	private static final float reloadTime = 1.2f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 10.0f;
-	private static final float recoil = 24.0f;
+	private static final float recoil = 2.4f;
 	private static final float knockback = 5.0f;
 	private static final float projectileSpeed = 25.0f;
 	private static final Vector2 projectileSize = new Vector2(40, 40);
@@ -46,7 +46,7 @@ public class SlodgeNozzle extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_SLODGEGUN;
 	
 	public SlodgeNozzle(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
@@ -56,6 +56,8 @@ public class SlodgeNozzle extends RangedWeapon {
 	}
 
 	public static Hitbox createSlodge(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		user.recoil(startVelocity, recoil);
+
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				false, true, user, Sprite.NOTHING);
 		hbox.setGravity(3.0f);
@@ -73,7 +75,7 @@ public class SlodgeNozzle extends RangedWeapon {
 
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		if (processClip(shooter)) {
+		if (processClip()) {
 			SoundEffect.DARKNESS1.playUniversal(state, user.getPixelPosition(), 0.9f, false);
 
 			shooter.addStatus(new FiringWeapon(state, fireDuration, shooter, shooter, projectileSpeed, 0, 0, projectileSize.x, procCd, this));

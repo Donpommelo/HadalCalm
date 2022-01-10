@@ -43,7 +43,7 @@ public class ReticleStrike extends RangedWeapon {
 	private static final float explosionKnockback = 20.0f;
 	
 	public ReticleStrike(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
@@ -54,6 +54,7 @@ public class ReticleStrike extends RangedWeapon {
 
 	public static Hitbox createReticleStrike(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.LOCKANDLOAD.playSourced(state, startPosition, 0.8f);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, projSprite);

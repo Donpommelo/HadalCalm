@@ -52,8 +52,8 @@ public class DeepSeaSmelter extends RangedWeapon {
 	private boolean overheated;
 	
 	public DeepSeaSmelter(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-				true, weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	
 	@Override
@@ -102,7 +102,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 		positions[1] = new Vector2(projOrigin);
 		velocities[1] = startVelocity;
 
-		SyncedAttack.DEEP_SMELT.initiateSyncedAttackMulti(state, user, positions, velocities);
+		SyncedAttack.DEEP_SMELT.initiateSyncedAttackMulti(state, user, startVelocity, positions, velocities);
 	}
 
 	public static Hitbox[] createDeepSmelt(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity) {
@@ -110,6 +110,8 @@ public class DeepSeaSmelter extends RangedWeapon {
 		if (startPosition.length != 0) {
 			float pitch = (MathUtils.random() - 0.5f) * pitchSpread;
 			SoundEffect.METAL_IMPACT_1.playSourced(state, startPosition[0], 0.5f, 1.0f + pitch);
+			user.recoil(startVelocity[0], recoil);
+
 			for (int i = 0; i < startPosition.length; i++) {
 				Hitbox hbox = new RangedHitbox(state, startPosition[i], projectileSize, lifespan, startVelocity[i],
 						user.getHitboxfilter(), true, true, user, projSprite);

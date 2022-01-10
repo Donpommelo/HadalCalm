@@ -35,7 +35,7 @@ public class Iceberg extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_ICEBERG;
 
 	public Iceberg(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
@@ -46,6 +46,7 @@ public class Iceberg extends RangedWeapon {
 
 	public static Hitbox createIceberg(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.ICE_IMPACT.playSourced(state, startPosition, 0.9f);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				false, true, user, projSprite);

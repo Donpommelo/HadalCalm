@@ -34,7 +34,7 @@ public class DuelingCorkgun extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_ICEBERG;
 
 	public DuelingCorkgun(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
@@ -45,6 +45,7 @@ public class DuelingCorkgun extends RangedWeapon {
 
 	public static Hitbox createDuelingCork(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.CORK.playSourced(state, startPosition, 1.5f);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, projSprite);

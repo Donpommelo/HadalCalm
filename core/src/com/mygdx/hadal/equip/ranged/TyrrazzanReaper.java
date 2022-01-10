@@ -56,7 +56,7 @@ public class TyrrazzanReaper extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_GRENADE;
 
 	public TyrrazzanReaper(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedMax, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeedMax, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespanMax);
 	}
 
@@ -81,6 +81,7 @@ public class TyrrazzanReaper extends RangedWeapon {
 
 	public static Hitbox createTyrrazzanReaper(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
 		SoundEffect.MAGIC3_BURST.playSourced(state, startPosition, 0.5f, 0.75f);
+		user.recoil(startVelocity, recoil);
 
 		float effectiveRange = 0.0f;
 		if (extraFields.length > 0) {

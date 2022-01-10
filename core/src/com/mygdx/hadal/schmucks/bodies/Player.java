@@ -568,7 +568,7 @@ public class Player extends PhysicsSchmuck {
 		if (fastFallCdCount < 0) {
 			fastFallCdCount = fastFallCd;
 			if (playerData.getFastFallPower() > 0) {
-				push(0, -playerData.getFastFallPower());
+				push(0, -1, playerData.getFastFallPower());
 			}
 		}
 		if (!feetData.getTerrain().isEmpty()) {

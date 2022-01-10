@@ -51,8 +51,8 @@ public class LoveBow extends RangedWeapon {
 	private SoundEntity chargeSound;
 
 	public LoveBow(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-				true, weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	
 	@Override
@@ -105,6 +105,7 @@ public class LoveBow extends RangedWeapon {
 
 	public static Hitbox createLoveArrow(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] charge) {
 		SoundEffect.BOW_SHOOT.playSourced(state, startPosition, 0.6f);
+		user.recoil(startVelocity, recoil);
 
 		float chargeAmount = 0.0f;
 		if (charge.length > 0) {

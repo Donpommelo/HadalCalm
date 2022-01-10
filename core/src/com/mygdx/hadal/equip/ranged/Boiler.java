@@ -40,7 +40,7 @@ public class Boiler extends RangedWeapon {
 	private SoundEntity fireSound;
 	
 	public Boiler(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
@@ -84,6 +84,8 @@ public class Boiler extends RangedWeapon {
 	}
 
 	public static Hitbox createBoilerFire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		user.recoil(startVelocity, recoil);
+
 		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				false, true, user, Sprite.NOTHING);
 		hbox.setDurability(3);

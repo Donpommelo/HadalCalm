@@ -38,8 +38,8 @@ public class Machinegun extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_MACHINEGUN;
 	
 	public Machinegun(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-				true, weaponSprite, eventSprite, projectileSize.x, lifespan);
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override
@@ -50,6 +50,7 @@ public class Machinegun extends RangedWeapon {
 	public static Hitbox createMachineGunBullet(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		float pitch = (MathUtils.random() - 0.5f) * pitchSpread;
 		SoundEffect.GUN2.playSourced(state, startPosition, 0.15f, 1.0f + pitch);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, projSprite);

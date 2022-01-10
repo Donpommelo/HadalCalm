@@ -54,7 +54,7 @@ public class Screecher extends RangedWeapon {
 	private float shortestFraction;
 	
 	public Screecher(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
@@ -120,6 +120,8 @@ public class Screecher extends RangedWeapon {
 	}
 
 	public static Hitbox createScreech(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
+		user.recoil(startVelocity, recoil);
+
 		float distance = range;
 		if (extraFields.length >= 1) {
 			distance = extraFields[0];

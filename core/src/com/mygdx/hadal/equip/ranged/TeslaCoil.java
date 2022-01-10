@@ -36,7 +36,6 @@ public class TeslaCoil extends RangedWeapon {
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.8f;
 	private static final int reloadAmount = 0;
-	private static final float recoil = 0.0f;
 	private static final float projectileSpeed = 100.0f;
 	private static final Vector2 projectileSize = new Vector2(45, 45);
 	private static final float lifespan = 4.5f;
@@ -56,7 +55,7 @@ public class TeslaCoil extends RangedWeapon {
 	private final Array<Hitbox> coilsLaid = new Array<>();
 
 	public TeslaCoil(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	

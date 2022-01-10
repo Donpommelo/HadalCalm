@@ -28,7 +28,7 @@ public class ColaCannon extends RangedWeapon {
 	private static final float reloadTime = 2.0f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 11.0f;
-	private static final float recoil = 18.0f;
+	private static final float recoil = 1.2f;
 	private static final float knockback = 7.5f;
 	private static final float projectileSpeed = 55.0f;
 	private static final Vector2 projectileSize = new Vector2(55, 32);
@@ -51,14 +51,14 @@ public class ColaCannon extends RangedWeapon {
 	private float lastNoise;
 
 	public ColaCannon(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-				true, weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		//when released, spray weapon at mouse. Spray duration and velocity scale to charge
-		if (processClip(shooter)) {
+		if (processClip()) {
 			SoundEffect.POPTAB.playUniversal(state, user.getPixelPosition(), 0.8f, false);
 
 			final float duration = fireDuration * chargeCd / getChargeTime() + minDuration;
@@ -103,6 +103,8 @@ public class ColaCannon extends RangedWeapon {
 	}
 
 	public static Hitbox createCola(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		user.recoil(startVelocity, recoil);
+
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, projSprite);
 		hbox.setGravity(1.0f);

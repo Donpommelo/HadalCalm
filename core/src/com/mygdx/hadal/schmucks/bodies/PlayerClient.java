@@ -25,10 +25,6 @@ public class PlayerClient extends Player {
 	//this represents how precisely we lerp towards the server position
 	private static final float CONVERGE_MULTIPLIER = 0.02f;
 	
-	//these are the amounts of latency in seconds under which the prediction strategy will kick in.
-	private static final float LATENCY_THRESHOLD_MIN = 0.005f;
-	private static final float LATENCY_THRESHOLD_MAX = 0.01f;
-
 	//tolerance variables. if the prediction is incorrect by more than these thresholds, we must adjust our predictions
 	private static final float DIST_TOLERANCE = 12.0f;
 
@@ -62,9 +58,6 @@ public class PlayerClient extends Player {
 	//this is the amount of positional history that we keep track of
 	private float historyDuration;
 	
-	//are we currently predicting client location or just doing the normal interpolation (true if latency is high enough)
-	private boolean predicting;
-
 	//the game time when we last received a timestamp from the server
 	private float lastTimestamp;
 
@@ -90,53 +83,50 @@ public class PlayerClient extends Player {
 					dt -= frame.delta;
 					frames.removeIndex(0);
 				} else {
-
 					//the last frame is trimmed so the total amount of time in our history is equal to our latency
 					float t = 1 - dt / frame.delta;
+
 					frame.delta -= dt;
 					frame.positionChange.scl(t);
 					break;
 				}
 			}
 
+			//we predict our position is equal to what the server sent us, plus our total displacement in the time it took for that position to reach us
+			predictedPosition.set(p.pos);
 			if (!frames.isEmpty()) {
-
-				//we predict our position is equal to what the server sent us, plus our total displacement in the time it took for that position to reach us
-				predictedPosition.set(p.pos);
 				rubberbandPosition.setZero();
-
 				for (ClientPredictionFrame frame: frames) {
 					rubberbandPosition.add(frame.positionChange);
 				}
-
 				predictedPosition.add(rubberbandPosition);
+			}
 
-				//if our position is too far away from what the server sends us, just rubberband.
-				if (body != null && predicting) {
-					if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE) {
+			//if our position is too far away from what the server sends us, just rubberband.
+			if (body != null) {
+				if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE) {
 
-						shortestFraction = 1.0f;
-						if (WorldUtil.preRaycastCheck(p.pos, predictedPosition)) {
-							state.getWorld().rayCast((fixture, point, normal, fraction) -> {
+					shortestFraction = 1.0f;
+					if (WorldUtil.preRaycastCheck(p.pos, predictedPosition)) {
+						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
-								if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
-									if (fraction < shortestFraction) {
-										shortestFraction = fraction;
-										return fraction;
-									}
+							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+								if (fraction < shortestFraction) {
+									shortestFraction = fraction;
+									return fraction;
 								}
-								return -1.0f;
-							}, p.pos, predictedPosition);
-						}
-
-						if (shortestFraction != 1.0f && !rubberbandPosition.isZero()) {
-							float dist = rubberbandPosition.len() * shortestFraction - 1;
-							predictedPosition.set(p.pos).add(rubberbandPosition.nor().scl(dist));
-						}
-
-						setTransform(predictedPosition, 0.0f);
-						lastPosition.set(predictedPosition);
+							}
+							return -1.0f;
+						}, p.pos, predictedPosition);
 					}
+
+					if (shortestFraction != 1.0f && !rubberbandPosition.isZero()) {
+						float dist = rubberbandPosition.len() * shortestFraction - 1;
+						predictedPosition.set(p.pos).add(rubberbandPosition.nor().scl(dist));
+					}
+
+					setTransform(predictedPosition, 0.0f);
+					lastPosition.set(predictedPosition);
 				}
 			}
 		}
@@ -166,7 +156,7 @@ public class PlayerClient extends Player {
 				}
 			}
 			
-			if (fastFalling && predicting) {
+			if (fastFalling) {
 				fastFall();
 			}
 		}
@@ -208,49 +198,44 @@ public class PlayerClient extends Player {
 			//we adjust predicted position to ensure it is up-to-date
 			predictedPosition.add(frame.positionChange);
 
-			//we do our latency check here. if our latency is too high/low, we switch to/away our predicting mode
-			float latency = ((ClientState) state).getLatency();
-
-			if (predicting && latency < LATENCY_THRESHOLD_MIN) {
-				predicting = false;
-			} else if (!predicting && latency > LATENCY_THRESHOLD_MAX) {
-				predicting = true;
-			}
-
 			predictionCount += delta;
 			while (predictionCount >= predictionInterval) {
 				predictionCount -= predictionInterval;
 
-				//when predicting, we extrapolate our position based on our prediction plus our current velocity given the current latency.
-				if (predicting) {
-					float time = CONVERGE_MULTIPLIER * latency;
-					extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(playerVelocity).scl(time));
+				float latency = ((ClientState) state).getLatency();
 
+				if (latency > 0.0f) {
+					float time = CONVERGE_MULTIPLIER * latency;
 					float t = predictionInterval / (latency * (1 + CONVERGE_MULTIPLIER));
 
+					extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(playerVelocity).scl(time));
 					newPredictedPosition.set(playerWorldLocation).add(extrapolatedPosition.sub(playerWorldLocation).scl(t));
-
-					shortestFraction = 1.0f;
-					if (WorldUtil.preRaycastCheck(playerWorldLocation, newPredictedPosition)) {
-						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-
-							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
-								if (fraction < shortestFraction) {
-									shortestFraction = fraction;
-									return fraction;
-								}
-							}
-							return -1.0f;
-						}, playerWorldLocation, newPredictedPosition);
-					}
-
-					//scale extrapolation by shortest fraction to avoid extrapolating through a wall
-					if (shortestFraction != 1.0f && !extrapolatedPosition.isZero()) {
-						float dist = extrapolatedPosition.len() * shortestFraction - 1;
-						newPredictedPosition.set(playerWorldLocation).add(extrapolatedPosition.nor().scl(dist));
-					}
-					setTransform(newPredictedPosition, 0.0f);
+				} else {
+					extrapolatedPosition.set(predictedPosition);
+					newPredictedPosition.set(extrapolatedPosition);
 				}
+
+				//when predicting, we extrapolate our position based on our prediction plus our current velocity given the current latency.
+				shortestFraction = 1.0f;
+				if (WorldUtil.preRaycastCheck(playerWorldLocation, newPredictedPosition)) {
+					state.getWorld().rayCast((fixture, point, normal, fraction) -> {
+
+						if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+							if (fraction < shortestFraction) {
+								shortestFraction = fraction;
+								return fraction;
+							}
+						}
+						return -1.0f;
+					}, playerWorldLocation, newPredictedPosition);
+				}
+
+				//scale extrapolation by shortest fraction to avoid extrapolating through a wall
+				if (shortestFraction != 1.0f && !extrapolatedPosition.isZero()) {
+					float dist = extrapolatedPosition.len() * shortestFraction - 1;
+					newPredictedPosition.set(playerWorldLocation).add(extrapolatedPosition.nor().scl(dist));
+				}
+				setTransform(newPredictedPosition, 0.0f);
 			}
 			lastPosition.set(getPosition());
 		}
@@ -261,19 +246,12 @@ public class PlayerClient extends Player {
 		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
 	}
 
+	//because we predict, we never want to do standard interpolation
 	@Override
-	public void clientInterpolation() {
+	public void clientInterpolation() {}
 
-		//on low-ping mode, we just interpolate our body just like any other entity
-		if (!predicting) {
-			super.clientInterpolation();
-		}
-	}
-	
 	@Override
 	public void hover() {
-		if (!predicting) { return; }
-
 		if (jumpCdCount < 0) {
 			
 			//Player will continuously do small upwards bursts that cost fuel.
@@ -284,8 +262,6 @@ public class PlayerClient extends Player {
 	
 	@Override
 	public void jump() {
-		if (!predicting) { return; }
-
 		if (grounded) {
 			if (jumpCdCount < 0) {
 				
@@ -308,22 +284,13 @@ public class PlayerClient extends Player {
 	private final Vector2 mousePos = new Vector2();
 	@Override
 	public void airblast() {
-		if (!predicting) { return; }
-
 		if (airblastCdCount < 0) {
 			if (playerData.getCurrentFuel() >= playerData.getAirblastCost()) {
 				mousePos.set(((ClientState) state).getMousePosition().x, ((ClientState) state).getMousePosition().y);
-				recoil(mousePos, Airblaster.momentum);
+				pushFromLocation(mousePos, Airblaster.momentum);
 			}
 		} else {
 			airblastBuffered = true;
-		}
-	}
-
-	@Override
-	protected void applyForce(float delta) {
-		if (predicting) {
-			super.applyForce(delta);
 		}
 	}
 }

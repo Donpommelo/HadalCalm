@@ -55,7 +55,7 @@ public class Puffballer extends RangedWeapon {
 	private boolean held = false;
 
 	public Puffballer(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
@@ -102,6 +102,7 @@ public class Puffballer extends RangedWeapon {
 
 	public static Hitbox createPuffball(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
 		SoundEffect.SPIT.playSourced(state, startPosition, 1.2f, 0.5f);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				false,true, user, projSprite) {

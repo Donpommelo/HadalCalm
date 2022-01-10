@@ -43,7 +43,7 @@ public class Maelstrom extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_STORMCALLER;
 	
 	public Maelstrom(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
@@ -54,6 +54,7 @@ public class Maelstrom extends RangedWeapon {
 
 	public static Hitbox createMaelstrom(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.WIND2.playSourced(state, startPosition, 0.8f);
+		user.recoil(startVelocity, recoil);
 
 		final Vector2 explosionSize = new Vector2(projectileSize);
 		Hitbox storm = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),

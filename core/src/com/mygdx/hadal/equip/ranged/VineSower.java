@@ -31,7 +31,6 @@ public class VineSower extends RangedWeapon {
 	private static final float reloadTime = 1.4f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 28.0f;
-	private static final float recoil = 10.0f;
 	private static final float knockback = 10.0f;
 	private static final float projectileSpeed = 42.0f;
 	private static final Vector2 projectileSize = new Vector2(40, 31);
@@ -60,8 +59,8 @@ public class VineSower extends RangedWeapon {
 	private static final Vector2 vineSpriteSize = new Vector2(60, 60);
 
 	public VineSower(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-			true, weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	
 	@Override

@@ -139,8 +139,8 @@ public class KryoClient {
 				}
 			}
         };
-        
-//       client.addListener(new Listener.LagListener(100, 100, packetListener));
+
+//		client.addListener(new Listener.LagListener(50, 150, packetListener));
        client.addListener(packetListener);
 	}
 
@@ -192,6 +192,7 @@ public class KryoClient {
 					score.setWins(p.wins);
 					score.setKills(p.kills);
 					score.setDeaths(p.deaths);
+					score.setAssists(p.assists);
 					score.setLives(p.lives);
 					score.setScore(p.score);
 					score.setPing(p.ping);
@@ -660,9 +661,9 @@ public class KryoClient {
 						if (creator instanceof Schmuck schmuck) {
 							Hitbox[] hboxes;
 							if (p instanceof Packets.CreateSyncedAttackMultiExtra p1) {
-								hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.pos, p.velo, p1.extraFields);
+								hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo, p1.extraFields);
 							} else {
-								hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.pos, p.velo);
+								hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo);
 							}
 
 							for (int i = 0; i < hboxes.length; i++) {

@@ -24,7 +24,7 @@ public class Nematocydearm extends RangedWeapon {
 	private static final float reloadTime = 0.9f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 33.0f;
-	private static final float recoil = 0.0f;
+	private static final float recoil = 2.0f;
 	private static final float knockback = 20.0f;
 	private static final float projectileSpeed = 45.0f;
 	private static final Vector2 projectileSize = new Vector2(91, 35);
@@ -38,7 +38,7 @@ public class Nematocydearm extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
 	
 	public Nematocydearm(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
@@ -49,6 +49,7 @@ public class Nematocydearm extends RangedWeapon {
 
 	public static Hitbox createNematocyte(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.ATTACK1.playSourced(state, startPosition, 0.4f);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, projSprite);

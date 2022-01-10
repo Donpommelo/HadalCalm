@@ -47,7 +47,7 @@ public class WaveBeam extends RangedWeapon {
 	private static final float frequency = 25.0f;
 
 	public WaveBeam(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
@@ -58,6 +58,7 @@ public class WaveBeam extends RangedWeapon {
 
 	public static Hitbox createWaveBeam(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.SHOOT1.playSourced(state, startPosition, 0.6f);
+		user.recoil(startVelocity, recoil);
 
 		//we create an invisible hitbox that moves in a straight line.
 		Hitbox center = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),

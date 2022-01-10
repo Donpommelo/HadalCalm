@@ -35,7 +35,7 @@ public class Speargun extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_SPEARGUN;
 	
 	public Speargun(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
@@ -46,6 +46,7 @@ public class Speargun extends RangedWeapon {
 
 	public static Hitbox createSpear(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, boolean nerfed) {
 		SoundEffect.SPIKE.playSourced(state, startPosition, 0.5f);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, projSprite);

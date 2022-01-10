@@ -45,7 +45,7 @@ public class OrbitalShield extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SyncedAttack.ORBITAL_STAR.initiateSyncedAttackMulti(state, user.getPlayer(), new Vector2[]{}, new Vector2[]{});
+		SyncedAttack.ORBITAL_STAR.initiateSyncedAttackMulti(state, user.getPlayer(), new Vector2(), new Vector2[]{}, new Vector2[]{});
 	}
 
 	public static Hitbox[] createOrbitals(PlayState state, Schmuck user) {

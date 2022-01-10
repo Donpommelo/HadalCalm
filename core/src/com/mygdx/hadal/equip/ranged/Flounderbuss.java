@@ -44,8 +44,8 @@ public class Flounderbuss extends RangedWeapon {
 	private static final int spread = 20;
 	
 	public Flounderbuss(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-				true, weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	
 	@Override
@@ -79,18 +79,21 @@ public class Flounderbuss extends RangedWeapon {
 		int numProj = (int) (maxNumProj * chargeCd / getChargeTime() + baseNumProj);
 		Vector2[] positions = new Vector2[numProj];
 		Vector2[] velocities = new Vector2[numProj];
+		velocities[0] = startVelocity;
 		for (int i = 0; i < numProj; i++) {
 			newVelocity.set(startVelocity).scl((MathUtils.random() * veloSpread + 1 - veloSpread / 2));
 			positions[i] = startPosition;
 			velocities[i] = new Vector2(newVelocity);
 		}
-		SyncedAttack.FLOUNDER.initiateSyncedAttackMulti(state, user, positions, velocities);
+		SyncedAttack.FLOUNDER.initiateSyncedAttackMulti(state, user, startVelocity, positions, velocities);
 	}
 
-	public static Hitbox[] createFlounder(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity) {
+	public static Hitbox[] createFlounder(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition, Vector2[] startVelocity) {
 		Hitbox[] hboxes = new Hitbox[startPosition.length];
 		if (startPosition.length != 0) {
 			SoundEffect.SHOTGUN.playSourced(state, startPosition[0], 0.75f, 0.75f);
+			user.recoil(weaponVelocity, recoil);
+
 			for (int i = 0; i < startPosition.length; i++) {
 
 				int randomIndex = MathUtils.random(projSprites.length - 1);

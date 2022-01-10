@@ -187,6 +187,12 @@ public class Schmuck extends HadalEntity {
 			getBodyData().setCurrentHp(p.currentHp);
 		}
 	}
+
+	private final Vector2 impulse = new Vector2();
+	public void recoil(Vector2 recoil, float power) {
+		if (!alive) { return; }
+		applyLinearImpulse(impulse.set(recoil).nor().scl(-power * (1 + getBodyData().getStat(Stats.RANGED_RECOIL))));
+	}
 	
 	/**
 	 * This returns the location that a spawned projectile should be created.

@@ -301,7 +301,7 @@ public class Packets {
 	public static class SyncScore {
 		public int connID;
 		public String name;
-		public int wins, kills, deaths, score, lives, ping;
+		public int wins, kills, deaths, assists, score, lives, ping;
 		public boolean spectator;
 
 		public SyncScore() {}
@@ -310,12 +310,13 @@ public class Packets {
 		 * This is sent from the server to the clients to give them their scores for a player whose score changed
 		 * @param connID: id of the player whose score is being updated.
 		 */
-		public SyncScore(int connID, String name, int wins, int kills, int deaths, int score, int lives, int ping, boolean spectator) {
+		public SyncScore(int connID, String name, int wins, int kills, int deaths, int assists, int score, int lives, int ping, boolean spectator) {
 			this.connID = connID;
 			this.name = name;
 			this.wins = wins;
 			this.kills = kills;
 			this.deaths = deaths;
+			this.assists = assists;
 			this.score = score;
 			this.lives = lives;
 			this.ping = ping;
@@ -409,6 +410,7 @@ public class Packets {
 	public static class CreateSyncedAttackMulti {
 		public long[] uuidMSB, uuidLSB;
 		public long uuidMSBCreator, uuidLSBCreator;
+		public Vector2 weaponVelo;
 		public Vector2[] pos, velo;
 		public SyncedAttack attack;
 
@@ -423,7 +425,7 @@ public class Packets {
 		 * @param velo: The starting velocities/trajectories of the hboxes this attack will create
 		 * @param attack: the type of attack that is being executed
 		 */
-		public CreateSyncedAttackMulti(UUID[] entityID, UUID creatorID, Vector2[] pos, Vector2[] velo, SyncedAttack attack) {
+		public CreateSyncedAttackMulti(UUID[] entityID, UUID creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, SyncedAttack attack) {
 			this.uuidLSB = new long[entityID.length];
 			this.uuidMSB = new long[entityID.length];
 			for (int i = 0; i < entityID.length; i++) {
@@ -432,6 +434,7 @@ public class Packets {
 			}
 			this.uuidLSBCreator = creatorID.getLeastSignificantBits();
 			this.uuidMSBCreator = creatorID.getMostSignificantBits();
+			this.weaponVelo = weaponVelo;
 			this.pos = pos;
 			this.velo = velo;
 			this.attack = attack;
@@ -448,8 +451,8 @@ public class Packets {
 		 * so thee client can process things like charge levels
 		 * @param extraFields: extra information needed to execute this specific attack
 		 */
-		public CreateSyncedAttackMultiExtra(UUID[] entityID, UUID creatorID, Vector2[] pos, Vector2[] velo, float[] extraFields, SyncedAttack attack) {
-			super(entityID, creatorID, pos, velo, attack);
+		public CreateSyncedAttackMultiExtra(UUID[] entityID, UUID creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, float[] extraFields, SyncedAttack attack) {
+			super(entityID, creatorID, weaponVelo, pos, velo, attack);
 			this.extraFields = extraFields;
 		}
 	}

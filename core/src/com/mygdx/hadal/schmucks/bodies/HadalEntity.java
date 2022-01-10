@@ -144,14 +144,14 @@ public abstract class HadalEntity {
 	 * @param push: vector2 of impulse applied to this entity
 	 * @param power: Magnitude of impulse
 	 */
-	public void recoil(Vector2 push, float power) {
+	public void pushFromLocation(Vector2 push, float power) {
 		if (!alive) { return; }
-		applyLinearImpulse(impulse.set(getPixelPosition()).sub(push).scl(power / getPixelPosition().dst(push)));
+		applyLinearImpulse(impulse.set(getPixelPosition()).sub(push).nor().scl(power));
 	}
-	
-	public void push(float impulseX, float impulseY) {
+
+	public void push(float impulseX, float impulseY, float power) {
 		if (!alive) { return; }
-		applyLinearImpulse(impulse.set(impulseX, impulseY));
+		applyLinearImpulse(impulse.set(impulseX, impulseY).nor().scl(power));
 	}
 	
 	public void push(Vector2 push) {

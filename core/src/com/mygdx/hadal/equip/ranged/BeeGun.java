@@ -21,7 +21,6 @@ public class BeeGun extends RangedWeapon {
 	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.9f;
 	private static final int reloadAmount = 0;
-	private static final float recoil = 0.0f;
 	private static final float projectileSpeedStart = 20.0f;
 	private static final Vector2 projectileSize = new Vector2(20, 18);
 	public static final float lifespan = 5.0f;
@@ -39,8 +38,8 @@ public class BeeGun extends RangedWeapon {
 	private static final int homeRadius = 30;
 
 	public BeeGun(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount,
-				true, weaponSprite, eventSprite, projectileSize.x, lifespan);
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeedStart, shootCd, shootDelay, reloadAmount,true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
 	@Override

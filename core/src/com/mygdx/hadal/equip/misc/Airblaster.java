@@ -42,7 +42,7 @@ public class Airblaster extends MeleeWeapon {
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		fire(state, user, user.getPixelPosition(), weaponVelo, faction);
-		user.recoil(mouseLocation, momentum * (1 + shooter.getStat(Stats.BOOST_RECOIL)));
+		user.pushFromLocation(mouseLocation, momentum * (1 + shooter.getStat(Stats.BOOST_RECOIL)));
 	}
 	
 	@Override

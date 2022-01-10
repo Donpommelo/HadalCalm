@@ -25,7 +25,7 @@ public class BouncingBlade extends RangedWeapon {
 	private static final float baseDamage = 42.0f;
 	private static final float recoil = 6.0f;
 	private static final float knockback = 25.0f;
-	private static final float projectileSpeed = 54.0f;
+	private static final float projectileSpeed = 59.0f;
 	private static final Vector2 projectileSize = new Vector2(50, 50);
 	private static final float lifespan = 1.5f;
 
@@ -34,7 +34,7 @@ public class BouncingBlade extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_BLADEGUN;
 
 	public BouncingBlade(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
@@ -45,6 +45,7 @@ public class BouncingBlade extends RangedWeapon {
 
 	public static Hitbox createBouncingBlade(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.METAL_IMPACT_1.playSourced(state, startPosition, 0.75f);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				false, true, user, projSprite);

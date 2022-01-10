@@ -21,7 +21,7 @@ public class Fugun extends RangedWeapon {
 	private static final float reloadTime = 1.1f;
 	private static final int reloadAmount = 1;
 	private static final float baseDamage = 35.0f;
-	private static final float recoil = 0.0f;
+	private static final float recoil = 7.5f;
 	private static final float knockback = 12.5f;
 	private static final float projectileSpeed = 45.0f;
 	private static final Vector2 projectileSize = new Vector2(36, 36);
@@ -36,7 +36,7 @@ public class Fugun extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_IRONBALL;
 
 	public Fugun(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
@@ -47,6 +47,7 @@ public class Fugun extends RangedWeapon {
 
 	public static Hitbox createFugu(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.LAUNCHER4.playSourced(state, startPosition, 0.25f);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, projSprite);

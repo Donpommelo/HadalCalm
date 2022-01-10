@@ -24,7 +24,8 @@ public enum SyncedAttack {
     ASSAULT_BITS_BEAM() {
 
         @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
+                Vector2[] startVelocity, float[] extraFields) {
             return AssaultBits.createAssaultBitsBeam(state, user, startPosition, startVelocity);
         }
     },
@@ -112,15 +113,17 @@ public enum SyncedAttack {
     CR4P() {
 
         @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
-            return CR4PCannon.createCR4P(state, user, startPosition, startVelocity);
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
+                Vector2[] startVelocity, float[] extraFields) {
+            return CR4PCannon.createCR4P(state, user, weaponVelocity, startPosition, startVelocity);
         }
     },
 
     DEEP_SMELT() {
 
         @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
+                Vector2[] startVelocity, float[] extraFields) {
             return DeepSeaSmelter.createDeepSmelt(state, user, startPosition, startVelocity);
         }
     },
@@ -152,8 +155,9 @@ public enum SyncedAttack {
     FLOUNDER() {
 
         @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
-            return Flounderbuss.createFlounder(state, user, startPosition, startVelocity);
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
+                Vector2[] startVelocity, float[] extraFields) {
+            return Flounderbuss.createFlounder(state, user, weaponVelocity, startPosition, startVelocity);
         }
     },
 
@@ -216,8 +220,9 @@ public enum SyncedAttack {
     KILLER_NOTES() {
 
         @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
-            return KillerBeat.createKillerNotes(state, user, startPosition, startVelocity, extraFields);
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
+                Vector2[] startVelocity, float[] extraFields) {
+            return KillerBeat.createKillerNotes(state, user, weaponVelocity, startPosition, startVelocity, extraFields);
         }
     },
 
@@ -266,15 +271,17 @@ public enum SyncedAttack {
     MORAY() {
 
         @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
-            return Moraygun.createMoray(state, user, startPosition, extraFields);
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
+                Vector2[] startVelocity, float[] extraFields) {
+            return Moraygun.createMoray(state, user, weaponVelocity, startPosition, extraFields);
         }
     },
 
     MORNING_STAR() {
 
         @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
+                Vector2[] startVelocity, float[] extraFields) {
             return MorningStar.createMorningStar(state, user);
         }
     },
@@ -423,7 +430,8 @@ public enum SyncedAttack {
     UNDERMINER_DRILL() {
 
         @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
+                Vector2[] startVelocity, float[] extraFields) {
             return Underminer.createUndermineDrills(state, user, startPosition, startVelocity, extraFields);
         }
     },
@@ -504,7 +512,8 @@ public enum SyncedAttack {
 
     ORBITAL_STAR() {
         @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
+                Vector2[] startVelocity, float[] extraFields) {
             return OrbitalShield.createOrbitals(state, user);
         }
     },
@@ -519,7 +528,8 @@ public enum SyncedAttack {
     VENGEFUL_SPIRIT() {
 
         @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
+                Vector2[] startVelocity, float[] extraFields) {
             return WeaponUtils.createVengefulSpirits(state, user, startPosition, extraFields);
         }
     },
@@ -592,15 +602,16 @@ public enum SyncedAttack {
      * @param extraFields: Any extra information required for client to replicate this attack
      * @return the hitboxes that this attack produces
      */
-    public Hitbox[] initiateSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float... extraFields) {
-        Hitbox[] hboxes = performSyncedAttackMulti(state, user, startPosition, startVelocity, extraFields);
+    public Hitbox[] initiateSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
+            Vector2[] startVelocity, float... extraFields) {
+        Hitbox[] hboxes = performSyncedAttackMulti(state, user, weaponVelocity, startPosition, startVelocity, extraFields);
         for (Hitbox hbox : hboxes) {
             hbox.setAttack(this);
             hbox.setSyncedMulti(true);
             hbox.setExtraFields(extraFields);
         }
         if (state.isServer() && hboxes.length != 0) {
-            syncAttackMulti(hboxes, extraFields, false);
+            syncAttackMulti(weaponVelocity, hboxes, extraFields, false);
         }
         return hboxes;
     }
@@ -608,7 +619,8 @@ public enum SyncedAttack {
     /**
      * This performs the actual attack and is overridden in each SyncedAttack that produces multiple hitbox
      */
-    public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) { return null; }
+    public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
+            Vector2[] startVelocity, float[] extraFields) { return null; }
 
     /**
      * Syncs an executed attack with the client by sending them a packet
@@ -616,7 +628,7 @@ public enum SyncedAttack {
      * @param extraFields: Any extra fields of the synced attack
      * @param catchup: Is this being synced as a result of catchup packet for newly joined player or missed create?
      */
-    public void syncAttackMulti(Hitbox[] hboxes, float[] extraFields, boolean catchup) {
+    public void syncAttackMulti(Vector2 weaponVelocity, Hitbox[] hboxes, float[] extraFields, boolean catchup) {
         UUID[] hboxID = new UUID[hboxes.length];
         Vector2[] positions = new Vector2[hboxes.length];
         Vector2[] velocities = new Vector2[hboxes.length];
@@ -627,10 +639,10 @@ public enum SyncedAttack {
         }
         if (extraFields.length == 0) {
             HadalGame.server.sendToAllUDP(new Packets.CreateSyncedAttackMulti(hboxID, hboxes[0].getCreator().getEntityID(),
-                    positions, velocities, this));
+                    weaponVelocity, positions, velocities, this));
         } else {
             HadalGame.server.sendToAllUDP(new Packets.CreateSyncedAttackMultiExtra(hboxID, hboxes[0].getCreator().getEntityID(),
-                    positions, velocities, extraFields, this));
+                    weaponVelocity, positions, velocities, extraFields, this));
         }
     }
 }

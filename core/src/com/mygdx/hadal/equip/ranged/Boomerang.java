@@ -24,7 +24,6 @@ public class Boomerang extends RangedWeapon {
 	private static final float reloadTime = 0.75f;
 	private static final int reloadAmount = 1;
 	private static final float baseDamage = 35.0f;
-	private static final float recoil = 0.0f;
 	private static final float knockback = 30.0f;
 	private static final float projectileSpeed = 70.0f;
 	private static final Vector2 projectileSize = new Vector2(60, 60);
@@ -36,7 +35,7 @@ public class Boomerang extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_BOOMERANG;
 
 	public Boomerang(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 

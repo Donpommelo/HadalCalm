@@ -48,8 +48,8 @@ public class Minigun extends RangedWeapon {
 	private ParticleEntity slow;
 
 	public Minigun(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-				true, weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	
 	@Override
@@ -120,6 +120,8 @@ public class Minigun extends RangedWeapon {
 	}
 
 	public static Hitbox createMinigunBullet(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		user.recoil(startVelocity, recoil);
+
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, projSprite);
 		hbox.setGravity(1.0f);

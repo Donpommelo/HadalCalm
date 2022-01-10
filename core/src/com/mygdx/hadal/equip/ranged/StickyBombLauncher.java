@@ -38,7 +38,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final Queue<Hitbox> bombsLaid = new Queue<>();
 
 	public StickyBombLauncher(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, false,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, false,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
@@ -64,6 +64,7 @@ public class StickyBombLauncher extends RangedWeapon {
 
 	public static Hitbox createStickyBomb(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.LAUNCHER.playSourced(state, startPosition, 0.25f);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, projSprite);

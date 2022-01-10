@@ -42,7 +42,7 @@ public class AmitaCannon extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_STORMCALLER;
 
 	public AmitaCannon(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,
 				true, weaponSprite, eventSprite, lifespan, projectileSize.x);
 	}
 
@@ -53,6 +53,7 @@ public class AmitaCannon extends RangedWeapon {
 
 	public static Hitbox createAmita(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.ELECTRIC_CHAIN.playSourced(state, startPosition, 0.4f);
+		user.recoil(startVelocity, recoil);
 
 		//we create an invisible hitbox that moves in a straight line.
 		Hitbox center = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),

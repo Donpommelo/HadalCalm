@@ -46,7 +46,7 @@ public class Peppergrinder extends RangedWeapon {
 	private static final int spreadChange = 8;
 
 	public Peppergrinder(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
@@ -72,6 +72,8 @@ public class Peppergrinder extends RangedWeapon {
 
 	public static Hitbox createPepper(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
 		SoundEffect.LASER2.playSourced(state, user.getPixelPosition(), 0.25f);
+		user.recoil(startVelocity, recoil);
+
 		float spread = 0.0f;
 		if (extraFields.length > 0) {
 			spread = extraFields[0];

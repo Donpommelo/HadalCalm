@@ -26,6 +26,6 @@ public class SpiritRelease extends ActiveItem {
 		positions[0] = new Vector2(user.getPlayer().getPixelPosition()).add(0, 100);
 		positions[1] = new Vector2(user.getPlayer().getPixelPosition()).add(100, 0);
 		positions[2] = new Vector2(user.getPlayer().getPixelPosition()).add(-100, 0);
-		SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, user.getPlayer(), positions, new Vector2[]{});
+		SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, user.getPlayer(), new Vector2(), positions, new Vector2[]{});
 	}
 }

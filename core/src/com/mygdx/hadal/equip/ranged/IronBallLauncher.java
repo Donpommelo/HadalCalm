@@ -23,9 +23,9 @@ public class IronBallLauncher extends RangedWeapon {
 	private static final float shootDelay = 0.2f;
 	private static final float reloadTime = 0.75f;
 	private static final int reloadAmount = 1;
-	private static final float baseDamage = 80.0f;
+	private static final float baseDamage = 85.0f;
 	private static final float recoil = 18.0f;
-	private static final float knockback = 50.0f;
+	private static final float knockback = 55.0f;
 	private static final float projectileSpeed = 60.0f;
 	private static final Vector2 projectileSize = new Vector2(50, 50);
 	private static final float lifespan = 2.5f;
@@ -35,7 +35,7 @@ public class IronBallLauncher extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_IRONBALL;
 	
 	public IronBallLauncher(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
@@ -46,6 +46,7 @@ public class IronBallLauncher extends RangedWeapon {
 
 	public static Hitbox createIronBall(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.CANNON.playSourced(state, startPosition, 0.8f);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				false, true, user, projSprite);

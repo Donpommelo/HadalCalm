@@ -40,7 +40,7 @@ public class Moraygun extends RangedWeapon {
 	private static final float moveInterval = 0.023f;
 	
 	public Moraygun(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
@@ -54,13 +54,14 @@ public class Moraygun extends RangedWeapon {
 		}
 		final int numX = (int) (startVelocity.x / projectileSize.x);
 		final int numY = (int) (startVelocity.y / projectileSize.y);
-		SyncedAttack.MORAY.initiateSyncedAttackMulti(state, user, positions, velocities, numX, numY);
+		SyncedAttack.MORAY.initiateSyncedAttackMulti(state, user, startVelocity, positions, velocities, numX, numY);
 	}
 
-	public static Hitbox[] createMoray(PlayState state, Schmuck user, Vector2[] startPosition, float[] extraFields) {
+	public static Hitbox[] createMoray(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition, float[] extraFields) {
 		Hitbox[] hboxes = new Hitbox[startPosition.length];
 		if (startPosition.length != 0) {
 			SoundEffect.LASERSHOT.playSourced(state, startPosition[0], 0.9f);
+			user.recoil(weaponVelocity, recoil);
 
 			final int numX = extraFields.length >= 2 ? (int) extraFields[0] : 0;
 			final int numY = extraFields.length >= 2 ? (int) extraFields[1] : 0;

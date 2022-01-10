@@ -200,7 +200,7 @@
 "IRON_BALL_LAUNCHER": {
 	"name": "Iron Ball Launcher",
 	"description": "Fires a singular, heavy cannonball.",
-    "descriptionLong": "Cannonball damage: 80\n\nClip Size: 1\nAmmo Capacity: 23\nReload Time: 0.75 Second\nAttack Delay: 0.2 Second",
+    "descriptionLong": "Cannonball damage: 85\n\nClip Size: 1\nAmmo Capacity: 23\nReload Time: 0.75 Second\nAttack Delay: 0.2 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",

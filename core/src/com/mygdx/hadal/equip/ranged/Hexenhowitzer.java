@@ -58,8 +58,8 @@ public class Hexenhowitzer extends RangedWeapon {
 	private Status glowing;
 	
 	public Hexenhowitzer(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-				false, weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,false,
+				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	
 	@Override
@@ -70,7 +70,7 @@ public class Hexenhowitzer extends RangedWeapon {
 		
 		projOrigin.set(shooter.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize.x));
 		
-		user.recoil(mouseLocation, recoil * (1 + shooter.getStat(Stats.RANGED_RECOIL)));
+		user.pushFromLocation(mouseLocation, recoil * (1 + shooter.getStat(Stats.RANGED_RECOIL)));
 		
 		//Shoot			
 		fire(state, user, projOrigin, weaponVelo, faction);
@@ -137,6 +137,7 @@ public class Hexenhowitzer extends RangedWeapon {
 	public static Hitbox createHex(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
 		float pitch = (MathUtils.random() - 0.5f) * pitchSpread;
 		SoundEffect.BOTTLE_ROCKET.playSourced(state, startPosition, 0.4f, 1.0f + pitch);
+		user.recoil(startVelocity, recoil);
 
 		boolean supercharged = false;
 		if (extraFields.length > 0) {

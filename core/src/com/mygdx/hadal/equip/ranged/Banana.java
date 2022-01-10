@@ -50,8 +50,8 @@ public class Banana extends RangedWeapon {
 	private static final float explosionKnockback = 45.0f;
 
 	public Banana(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-				true, weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 
 	@Override
@@ -91,6 +91,7 @@ public class Banana extends RangedWeapon {
 
 	public static Hitbox createBanana(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.SPRING.playSourced(state, startPosition, 0.5f);
+		user.recoil(startVelocity, recoil);
 
 		//bouncy hbox is separate so it can pass through drop-through platforms
 		Hitbox hboxBouncy = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),

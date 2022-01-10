@@ -49,8 +49,8 @@ public class ChargeBeam extends RangedWeapon {
 	private ParticleEntity charge, overcharge;
 
 	public ChargeBeam(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-				true, weaponSprite, eventSprite, projectileSize.x * 3.0f, lifespan, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+				weaponSprite, eventSprite, projectileSize.x * 3.0f, lifespan, maxCharge);
 	}
 
 	private final Vector2 particleOrigin = new Vector2();
@@ -139,6 +139,7 @@ public class ChargeBeam extends RangedWeapon {
 
 	public static Hitbox createChargeBeam(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
 		SoundEffect.LASERHARPOON.playSourced(state, startPosition, 0.8f);
+		user.recoil(startVelocity, recoil);
 
 		float chargeAmount = 0.0f;
 		if (extraFields.length > 0) {

@@ -285,7 +285,7 @@ public class Hitbox extends HadalEntity {
 			//for catchup packets, resend synced attack packet (otherwise, create packet should already be sent)
 			if (catchup) {
 				if (syncedMulti) {
-					attack.syncAttackMulti(new Hitbox[] {this}, extraFields, true);
+					attack.syncAttackMulti(startVelo, new Hitbox[] {this}, extraFields, true);
 				} else {
 					attack.syncAttackSingle(this, extraFields, true);
 				}

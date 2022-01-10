@@ -41,8 +41,8 @@ public class Kamabokannon extends RangedWeapon {
 	private SoundEntity oozeSound;
 	
 	public Kamabokannon(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-				true, weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	
 	@Override
@@ -93,6 +93,8 @@ public class Kamabokannon extends RangedWeapon {
 	}
 
 	public static Hitbox createKamaboko(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		user.recoil(startVelocity, recoil);
+
 		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, Sprite.NOTHING);
 		hbox.setGravity(1.0f);

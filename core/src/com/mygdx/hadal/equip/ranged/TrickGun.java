@@ -46,7 +46,7 @@ public class TrickGun extends RangedWeapon {
 	private static final Sprite projSprite = Sprite.TRICKBULLET;
 	
 	public TrickGun(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
@@ -102,6 +102,7 @@ public class TrickGun extends RangedWeapon {
 
 	public static Hitbox createTrickShot(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
 		SoundEffect.LASERHARPOON.playSourced(state, startPosition, 0.6f);
+		user.recoil(startVelocity, recoil);
 
 		boolean firstClicked = true;
 		Vector2 pos1 = new Vector2();

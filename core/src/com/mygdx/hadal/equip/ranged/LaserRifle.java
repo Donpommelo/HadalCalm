@@ -49,7 +49,7 @@ public class LaserRifle extends RangedWeapon {
 	private float shortestFraction;
 	
 	public LaserRifle(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, lifespan, 0);
 	}
 
@@ -85,6 +85,7 @@ public class LaserRifle extends RangedWeapon {
 			distance = extraFields[0];
 		}
 		SoundEffect.LASER2.playSourced(state, startPosition, 0.8f);
+		user.recoil(startVelocity, recoil);
 
 		//Create Hitbox from position to wall using raycast distance. Set angle and position of hitbox and make it static.
 		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(distance * PPM, projectileHeight), lifespan,

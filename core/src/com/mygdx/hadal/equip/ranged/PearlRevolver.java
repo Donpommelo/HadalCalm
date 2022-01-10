@@ -35,7 +35,7 @@ public class PearlRevolver extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_GRENADE;
 
 	public PearlRevolver(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
@@ -54,6 +54,7 @@ public class PearlRevolver extends RangedWeapon {
 
 	public static Hitbox createPearl(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.PISTOL.playSourced(state, startPosition, 0.6f);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, projSprite);

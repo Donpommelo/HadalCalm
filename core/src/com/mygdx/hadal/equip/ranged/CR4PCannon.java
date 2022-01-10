@@ -40,7 +40,7 @@ public class CR4PCannon extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_SHOTGUN;
 	
 	public CR4PCannon(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
@@ -52,13 +52,15 @@ public class CR4PCannon extends RangedWeapon {
 			positions[i] = startPosition;
 			velocities[i] = startVelocity;
 		}
-		SyncedAttack.CR4P.initiateSyncedAttackMulti(state, user, positions, velocities);
+		SyncedAttack.CR4P.initiateSyncedAttackMulti(state, user, startVelocity, positions, velocities);
 	}
 
-	public static Hitbox[] createCR4P(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity) {
+	public static Hitbox[] createCR4P(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition, Vector2[] startVelocity) {
 		Hitbox[] hboxes = new Hitbox[startPosition.length];
 		if (startPosition.length != 0) {
 			SoundEffect.SHOTGUN.playSourced(state, startPosition[0], 0.75f);
+			user.recoil(startVelocity[0], recoil);
+
 			for (int i = 0; i < startPosition.length; i++) {
 
 				int randomIndex = MathUtils.random(projSprites.length - 1);

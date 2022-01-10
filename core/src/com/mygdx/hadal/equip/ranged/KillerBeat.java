@@ -47,8 +47,8 @@ public class KillerBeat extends RangedWeapon {
 	private static final IntArray notes = new IntArray(noteArray);
 
 	public KillerBeat(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
-				true, weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 		setCharging(true);
 	}
 
@@ -57,7 +57,7 @@ public class KillerBeat extends RangedWeapon {
 
 		if (chargeCd < getChargeTime() * chargeBonusThreshold) {
 			int randNote = MathUtils.random(6);
-			SyncedAttack.KILLER_NOTES.initiateSyncedAttackMulti(state, user, new Vector2[]{startPosition},
+			SyncedAttack.KILLER_NOTES.initiateSyncedAttackMulti(state, user, startVelocity, new Vector2[]{startPosition},
 					new Vector2[]{setNoteVelocity(randNote, startVelocity)}, randNote);
 		} else {
 			notes.shuffle();
@@ -71,14 +71,16 @@ public class KillerBeat extends RangedWeapon {
 				velocities[i] = setNoteVelocity(notes.get(i), finalVelocity);
 				extraFields[i] = notes.get(i);
 			}
-			SyncedAttack.KILLER_NOTES.initiateSyncedAttackMulti(state, user, positions, velocities, extraFields);
+			SyncedAttack.KILLER_NOTES.initiateSyncedAttackMulti(state, user, startVelocity, positions, velocities, extraFields);
 		}
 		graceCd = 0;
 		chargeCd = 0.0f;
 	}
 
-	public static Hitbox[] createKillerNotes(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
+	public static Hitbox[] createKillerNotes(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition, Vector2[] startVelocity, float[] extraFields) {
 		Hitbox[] hboxes = new Hitbox[startPosition.length];
+		user.recoil(weaponVelocity, recoil);
+
 		if (startPosition.length != 0) {
 			for (int i = 0; i < startPosition.length; i++) {
 				int note = extraFields.length <= i ? 0 : (int) extraFields[i];

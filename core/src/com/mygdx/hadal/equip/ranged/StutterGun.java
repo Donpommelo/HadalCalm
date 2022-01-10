@@ -27,7 +27,7 @@ public class StutterGun extends RangedWeapon {
 	private static final float reloadTime = 1.0f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 18.0f;
-	private static final float recoil = 16.0f;
+	private static final float recoil = 3.5f;
 	private static final float knockback = 5.0f;
 	private static final float projectileSpeed = 45.0f;
 	private static final Vector2 projectileSize = new Vector2(80, 40);
@@ -43,7 +43,7 @@ public class StutterGun extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_LASERRIFLE;
 	
 	public StutterGun(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
@@ -55,6 +55,7 @@ public class StutterGun extends RangedWeapon {
 	public static Hitbox createStutterLaser(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		float pitch = (MathUtils.random() - 0.5f) * pitchSpread;
 		SoundEffect.LASER2.playSourced(state, user.getPixelPosition(), 0.5f, 1.0f + pitch);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, Sprite.LASER_ORANGE);
@@ -76,7 +77,7 @@ public class StutterGun extends RangedWeapon {
 
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		if (processClip(shooter)) {
+		if (processClip()) {
 			shooter.addStatus(new FiringWeapon(state, fireDuration, shooter, shooter, projectileSpeed, 0, 0, projectileSize.x, procCd, this));
 		}
 	}

@@ -25,18 +25,18 @@ public class PeachwoodSword extends Artifact {
 			@Override
 			public void onKill(BodyData vic) {
 				if (vic instanceof PlayerBodyData) {
-					SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2[] {vic.getSchmuck().getPixelPosition()},
-							new Vector2[] {}, 0.0f, 0.0f, spiritDamagePlayer);
+					SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
+							new Vector2[] {vic.getSchmuck().getPixelPosition()}, new Vector2[] {}, 0.0f, 0.0f, spiritDamagePlayer);
 				} else {
-					SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2[] {vic.getSchmuck().getPixelPosition()},
-							new Vector2[] {}, 0.0f, 0.0f, spiritDamageEnemy);
+					SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
+							new Vector2[] {vic.getSchmuck().getPixelPosition()}, new Vector2[] {}, 0.0f, 0.0f, spiritDamageEnemy);
 				}
 			}
 			
 			@Override
 			public void onDeath(BodyData perp) {
-				SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2[] {p.getSchmuck().getPixelPosition()},
-						new Vector2[] {}, 0.0f, 0.0f, spiritDamagePlayer);
+				SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
+						new Vector2[] {p.getSchmuck().getPixelPosition()}, new Vector2[] {}, 0.0f, 0.0f, spiritDamagePlayer);
 			}
 		};
 	}

@@ -28,7 +28,6 @@ public class Underminer extends RangedWeapon {
 	private static final float reloadTime = 0.75f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 40.0f;
-	private static final float recoil = 8.5f;
 	private static final float knockback = 10.0f;
 	private static final float projectileSpeed = 30.0f;
 	private static final Vector2 projectileSize = new Vector2(36, 30);
@@ -60,7 +59,7 @@ public class Underminer extends RangedWeapon {
 	private static final float explosionKnockback = 18.0f;
 	
 	public Underminer(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
@@ -142,7 +141,7 @@ public class Underminer extends RangedWeapon {
 							fragVelocities[numBombs * i + j] = MathUtils.random(-spread, spread);
 						}
 					}
-					SyncedAttack.UNDERMINER_DRILL.initiateSyncedAttackMulti(state, user, positions, velocities, fragVelocities);
+					SyncedAttack.UNDERMINER_DRILL.initiateSyncedAttackMulti(state, user, new Vector2(), positions, velocities, fragVelocities);
 					hbox.die();
 				}
 			}

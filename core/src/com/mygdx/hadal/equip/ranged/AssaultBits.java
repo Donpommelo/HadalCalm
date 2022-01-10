@@ -29,7 +29,6 @@ public class AssaultBits extends RangedWeapon {
 	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.1f;
 	private static final int reloadAmount = 0;
-	private static final float recoil = 0.0f;
 	private static final float projectileSpeed = 45.0f;
 	private static final Vector2 projectileSize = new Vector2(40, 20);
 	private static final float lifespan = 1.0f;
@@ -46,7 +45,7 @@ public class AssaultBits extends RangedWeapon {
 	private final Array<Enemy> bits = new Array<>();
 
 	public AssaultBits(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,
 				true, weaponSprite, eventSprite, lifespan, projectileSize.x, summonShootCd);
 	}
 	
@@ -71,7 +70,7 @@ public class AssaultBits extends RangedWeapon {
 			bitVelo.setAngleRad(bits.get(i).getAngle() + startVelocity.angleRad() - realWeaponVelo.angleRad());
 			velocities[i] = new Vector2(bitVelo);
 		}
-		SyncedAttack.ASSAULT_BITS_BEAM.initiateSyncedAttackMulti(state, user, positions, velocities);
+		SyncedAttack.ASSAULT_BITS_BEAM.initiateSyncedAttackMulti(state, user, startVelocity, positions, velocities);
 	}
 
 	@Override

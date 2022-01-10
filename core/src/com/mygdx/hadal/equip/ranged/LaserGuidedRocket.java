@@ -32,7 +32,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private static final float reloadTime = 1.0f;
 	private static final int reloadAmount = 1;
 	private static final float baseDamage = 20.0f;
-	private static final float recoil = 0.0f;
+	private static final float recoil = 8.0f;
 	private static final float knockback = 0.0f;
 	private static final float projectileSpeed = 7.5f;
 	private static final Vector2 projectileSize = new Vector2(80, 30);
@@ -49,7 +49,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_LASERROCKET;
 
 	public LaserGuidedRocket(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
@@ -60,6 +60,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 
 	public static Hitbox createLaserGuidedRocket(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.ROLLING_ROCKET.playSourced(state, startPosition, 0.4f);
+		user.recoil(startVelocity, recoil);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				true, true, user, projSprite);
