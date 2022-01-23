@@ -140,7 +140,7 @@ public class KryoClient {
 			}
         };
 
-//		client.addListener(new Listener.LagListener(50, 150, packetListener));
+//		client.addListener(new Listener.LagListener(50, 100, packetListener));
        client.addListener(packetListener);
 	}
 
@@ -667,9 +667,15 @@ public class KryoClient {
 							}
 
 							for (int i = 0; i < hboxes.length; i++) {
-								hboxes[i].serverPos.set(p.pos[i]).scl(1 / PPM);
-								hboxes[i].serverVelo.set(p.velo[i]);
-								cs.addEntity(p.uuidMSB[i], p.uuidLSB[i], hboxes[i], true, ObjectLayer.HBOX);
+								if (p.pos.length > i) {
+									hboxes[i].serverPos.set(p.pos[i]).scl(1 / PPM);
+								}
+								if (p.velo.length > i) {
+									hboxes[i].serverVelo.set(p.velo[i]);
+								}
+								if (p.uuidMSB.length > i && p.uuidLSB.length > 1) {
+									cs.addEntity(p.uuidMSB[i], p.uuidLSB[i], hboxes[i], true, ObjectLayer.HBOX);
+								}
 							}
 						}
 					}

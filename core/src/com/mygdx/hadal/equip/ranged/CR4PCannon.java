@@ -59,7 +59,7 @@ public class CR4PCannon extends RangedWeapon {
 		Hitbox[] hboxes = new Hitbox[startPosition.length];
 		if (startPosition.length != 0) {
 			SoundEffect.SHOTGUN.playSourced(state, startPosition[0], 0.75f);
-			user.recoil(startVelocity[0], recoil);
+			user.recoil(weaponVelocity, recoil);
 
 			for (int i = 0; i < startPosition.length; i++) {
 

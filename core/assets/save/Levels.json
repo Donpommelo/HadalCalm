@@ -253,7 +253,7 @@
 "DM_THRESHOLD": {
 	"name": "THRESHOLD",
 	"description": "",
-    "descriptionLong": "SIZE: LARGE",
+    "descriptionLong": "SIZE: MEDIUM",
 	"tags": [
         "MULTIPLAYER",
         "PVP",

@@ -22,7 +22,7 @@ public class PlayerBounce extends Artifact {
 				if (p.getPlayer().getBody() != null) {
 					p.getSchmuck().setRestitution(bounce);
 				} else {
-					p.getPlayer().setRestitution(bounce);
+					p.getPlayer().setRestitutionModifier(bounce);
 				}
 			}
 
@@ -30,6 +30,6 @@ public class PlayerBounce extends Artifact {
 			public void onRemove() {
 				p.getSchmuck().setRestitution(0.0f);
 			}
-		};
+		}.setClientIndependent(true);
 	}
 }

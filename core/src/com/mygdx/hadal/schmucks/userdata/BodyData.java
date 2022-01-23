@@ -271,7 +271,6 @@ public class BodyData extends HadalData {
 	 */
 	@Override
 	public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
-		if (!schmuck.getState().isServer()) { return 0.0f; }
 		if (!schmuck.isAlive()) { return 0.0f; }
 		
 		//calculate damage
@@ -287,33 +286,34 @@ public class BodyData extends HadalData {
 		}
 		currentHp -= damage;
 		
-		//Make schmuck flash upon receiving damage
-		if (damage > 0 && schmuck.getShaderCount() < -flashDuration) {
-			schmuck.setShader(Shader.WHITE, flashDuration, true);
-			schmuck.impact.onForBurst(0.25f);
-		}
-		
 		//apply knockback
 		float kbScale = 1;
 		kbScale -= Math.min(getStat(Stats.KNOCKBACK_RES), 1.0f);
 		kbScale += perp.getStat(Stats.KNOCKBACK_AMP);
 		schmuck.applyLinearImpulse(new Vector2(knockback).scl(kbScale));
-		
-		//Give credit for kills to last schmuck (besides self) who damaged this schmuck
-		if (!perp.equals(this) && !perp.equals(schmuck.getState().getWorldDummy().getBodyData())) {
-			lastDamagedBy = perp;
-		}
-		
-		if (currentHp <= 0) {
-			
-			//this makes stat tracking not account for overkill damage
-			damage += currentHp;
-			
-			currentHp = 0;
-			die(lastDamagedBy, tags);
-		}
-		
+
 		if (schmuck.getState().isServer()) {
+
+			//Give credit for kills to last schmuck (besides self) who damaged this schmuck
+			if (!perp.equals(this) && !perp.equals(schmuck.getState().getWorldDummy().getBodyData())) {
+				lastDamagedBy = perp;
+			}
+
+			//Make schmuck flash upon receiving damage
+			if (damage > 0 && schmuck.getShaderCount() < -flashDuration) {
+				schmuck.setShader(Shader.WHITE, flashDuration, true);
+				schmuck.impact.onForBurst(0.25f);
+			}
+
+			if (currentHp <= 0) {
+
+				//this makes stat tracking not account for overkill damage
+				damage += currentHp;
+
+				currentHp = 0;
+				die(lastDamagedBy, tags);
+			}
+
 			//charge on-damage active item
 			if (perp instanceof PlayerBodyData perpData) {
 				if (perpData.getActiveItem().getStyle().equals(chargeStyle.byDamageInflict)) {

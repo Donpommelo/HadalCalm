@@ -505,7 +505,11 @@ public class PlayerBodyData extends BodyData {
 		if (GameStateManager.currentMode == Mode.SINGLE) {
 			return Math.min((int) (player.getState().getGsm().getRecord().getSlotsUnlocked() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
 		} else {
-			return Math.min((int) (player.getState().getGsm().getSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
+			if (player.getState().isServer()) {
+				return Math.min((int) (player.getState().getGsm().getSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
+			} else {
+				return Math.min((int) (player.getState().getGsm().getHostSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
+			}
 		}
 	}
 	
