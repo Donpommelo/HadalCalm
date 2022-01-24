@@ -183,10 +183,10 @@ public class User {
             displayedName = displayedName.substring(0, maxNameLen).concat("...");
         }
 
-        if (teamFilter.getColor1RGB().isZero()) {
+        if (teamFilter.getColor1().getRGB().isZero()) {
             rgb.setZero();
         } else {
-            rgb.set(teamFilter.getColor1RGB());
+            rgb.set(teamFilter.getColor1().getRGB());
         }
 
         String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));

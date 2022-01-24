@@ -1,9 +1,9 @@
 package com.mygdx.hadal.event.modes;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
@@ -86,8 +86,8 @@ public class FootballSpawner extends Event {
         state.getUiObjective().addObjective(ball, Sprite.CLEAR_CIRCLE_ALERT, true, false);
 
         if (state.isServer()) {
-            HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(ball.getEntityID(),
-                new Vector3(), true, false, Sprite.CLEAR_CIRCLE_ALERT));
+            HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(ball.getEntityID(), HadalColor.NOTHING,
+                    true, false, Sprite.CLEAR_CIRCLE_ALERT));
         }
     }
 

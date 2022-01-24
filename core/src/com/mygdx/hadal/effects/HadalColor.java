@@ -1,5 +1,7 @@
 package com.mygdx.hadal.effects;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ObjectMap;
 
 /**
@@ -46,20 +48,25 @@ public enum HadalColor {
 	VIOLET(0.623f, 0.0f, 1.0f),
 
 	;
-	
-	private final float r, g, b;
-	
+
+	private final Color color;
+	private final Vector3 rgb = new Vector3();
+	private final Vector3 hsv = new Vector3();
+
 	HadalColor(float r, float g, float b) {
-		this.r = r;
-		this.g = g;
-		this.b = b;
+		this.rgb.set(r, g, b);
+		color = new Color(r, g, b, 1.0f);
+
+		float[] hsvTemp = new float[3];
+		hsvTemp = color.toHsv(hsvTemp);
+		this.hsv.set(hsvTemp[0] / 360, hsvTemp[1], hsvTemp[2]);
 	}
 	
-	public float getR() { return r; }
-	
-	public float getG() { return g; }
-	
-	public float getB() { return b; }
+	public Vector3 getRGB() { return rgb; }
+
+	public Vector3 getHSV() { return hsv; }
+
+	public Color getColor() { return color; }
 
 	private static final ObjectMap<String, HadalColor> ColorsByName = new ObjectMap<>();
 	static {

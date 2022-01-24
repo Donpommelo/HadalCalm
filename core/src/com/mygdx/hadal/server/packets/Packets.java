@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryo.Kryo;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.effects.Shader;
@@ -1144,7 +1145,7 @@ public class Packets {
 
 	public static class SyncObjectiveMarker {
 		public long uuidMSB, uuidLSB;
-		public Vector3 color;
+		public HadalColor color;
 		public boolean displayOnScreen;
 		public boolean displayOffScreen;
 		public Sprite icon;
@@ -1155,12 +1156,12 @@ public class Packets {
 		 * A SyncObjectiveMarker is sent from the server to the client when the objective marker is set to a non-event
 		 * entity. The client sets their objective marker to match the packet
 		 * @param entityID: ID of the entity to mark
-		 * @param color: rgb color for the objective marker (1, 1, 1 for no change)
+		 * @param color: color for the objective marker (1, 1, 1 for no change)
 		 * @param displayOffScreen: should the marker be displayed when the target is off screen?
 		 * @param displayOnScreen: should the marker be displayed when the target is on screen?
 		 * @param icon: what icon should be used for the marker?
 		 */
-		public SyncObjectiveMarker(UUID entityID, Vector3 color, boolean displayOffScreen, boolean displayOnScreen, Sprite icon) {
+		public SyncObjectiveMarker(UUID entityID, HadalColor color, boolean displayOffScreen, boolean displayOnScreen, Sprite icon) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
 			this.color = color;

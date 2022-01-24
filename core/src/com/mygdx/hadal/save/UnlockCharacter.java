@@ -1,5 +1,6 @@
 package com.mygdx.hadal.save;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
@@ -75,10 +76,10 @@ public enum UnlockCharacter {
 	},
 	MOREAU_FESTIVE(AssetList.PLAYER_MOREAU_FESTIVE_ATL.toString(), AssetList.PLAYER_MOREAU.toString(),
 		Sprite.MOREAU_FESTIVE_SLUG, Sprite.MOREAU_FESTIVE_BUFF,
-		.15f, 0.39f,0.10f, 0.57f, 0.68f,0.58f),
+		0.15f, 0.39f,0.10f, 0.57f, 0.68f,0.58f),
 	MOREAU_PARTY(AssetList.PLAYER_MOREAU_PARTY_ATL.toString(), AssetList.PLAYER_MOREAU.toString(),
 		Sprite.MOREAU_PARTY_SLUG, Sprite.MOREAU_PARTY_BUFF,
-		.15f, 0.39f,0.10f, 0.57f, 0.68f,0.58f)
+		0.15f, 0.39f,0.10f, 0.57f, 0.68f,0.58f)
 	;
 	
 	private final String atlas;
@@ -90,8 +91,9 @@ public enum UnlockCharacter {
 	private InfoItem info;
 
 	//these are the character's primary and secondary suit colors used for color replacement
-	private final Vector3 color1= new Vector3();
-	private final Vector3 color2 = new Vector3();
+	private final Vector3 color1RGB = new Vector3();
+	private final Vector3 color1HSV = new Vector3();
+	private final Vector3 color2HSV = new Vector3();
 
 	UnlockCharacter(String atlas, String texture, Sprite slugTexture, Sprite buffTexture,
 					float r1, float g1, float b1, float r2, float g2, float b2) {
@@ -99,8 +101,17 @@ public enum UnlockCharacter {
 		this.texture = texture;
 		this.slugTexture = slugTexture;
 		this.buffTexture = buffTexture;
-		this.color1.set(r1, g1, b1);
-		this.color2.set(r2, g2, b2);
+		this.color1RGB.set(r1, g1, b1);
+		Vector3 color2RGB = new Vector3();
+		color2RGB.set(r2, g2, b2);
+		Color color1 = new Color(r1, g1, b1, 1.0f);
+		Color color2 = new Color(r1, g1, b1, 1.0f);
+
+		float[] hsvTemp = new float[3];
+		hsvTemp = color1.toHsv(hsvTemp);
+		this.color1HSV.set(hsvTemp[0] / 360, hsvTemp[1], hsvTemp[2]);
+		hsvTemp = color2.toHsv(hsvTemp);
+		this.color2HSV.set(hsvTemp[0] / 360, hsvTemp[1], hsvTemp[2]);
 	}
 
 	/**
@@ -165,9 +176,11 @@ public enum UnlockCharacter {
 
 	public Sprite getBuffSprite() { return buffTexture; }
 
-	public Vector3 getColor1() { return color1; }
+	public Vector3 getColor1RGB() { return color1RGB; }
 
-	public Vector3 getColor2() { return color2; }
+	public Vector3 getColor1HSV() {	return color1HSV; }
+
+	public Vector3 getColor2HSV() {	return color2HSV; }
 
 	private static final ObjectMap<String, UnlockCharacter> UnlocksByName = new ObjectMap<>();
 	static {

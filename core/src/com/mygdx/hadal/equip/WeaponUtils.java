@@ -678,11 +678,11 @@ public class WeaponUtils {
 		if (player.getPlayerData() != null) {
 			Loadout loadout = player.getPlayerData().getLoadout();
 			if (loadout.team.equals(AlignmentFilter.NONE)) {
-				return loadout.character.getColor1();
-			} else if (loadout.team.getColor1RGB().isZero()) {
-				return loadout.character.getColor1();
+				return loadout.character.getColor1RGB();
+			} else if (loadout.team.getColor1().getRGB().isZero()) {
+				return loadout.character.getColor1RGB();
 			} else {
-				return loadout.team.getColor1RGB();
+				return loadout.team.getColor1().getRGB();
 			}
 		} else {
 			return new Vector3();
@@ -715,8 +715,7 @@ public class WeaponUtils {
 	}
 
 	public static String getColorName(HadalColor color, String name) {
-		rgb.set(color.getR(), color.getG(), color.getB());
-		String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
+		String hex = "#" + Integer.toHexString(Color.rgb888(color.getColor()));
 		return "[" + hex + "]" + name + "[]";
 	}
 

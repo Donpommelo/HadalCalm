@@ -1,7 +1,6 @@
 package com.mygdx.hadal.event.modes;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
@@ -65,7 +64,8 @@ public class CrownHoldable extends Event {
 		//make objective marker track this event
 		state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, true, false);
 		if (state.isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(entityID,	new Vector3(), true, false, Sprite.CLEAR_CIRCLE_ALERT));
+			HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(entityID,	HadalColor.NOTHING, true,
+					false, Sprite.CLEAR_CIRCLE_ALERT));
 		}
 
 		//we must set this event's layer to make it render underneath players

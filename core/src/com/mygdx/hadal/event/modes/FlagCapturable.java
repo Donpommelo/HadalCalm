@@ -3,7 +3,6 @@ package com.mygdx.hadal.event.modes;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.HadalColor;
@@ -84,10 +83,10 @@ public class FlagCapturable extends Event {
 		setSynced(true);
 
 		//set flag's color according to team alignment
-		Vector3 color = new Vector3();
+		HadalColor color = HadalColor.NOTHING;
 		if (teamIndex < AlignmentFilter.currentTeams.length) {
 			HadalColor teamColor = AlignmentFilter.currentTeams[teamIndex].getColor1();
-			color.set(teamColor.getR(), teamColor.getG(), teamColor.getB());
+			color = teamColor;
 			new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.CREATESYNC)
 					.setColor(teamColor);
 		}

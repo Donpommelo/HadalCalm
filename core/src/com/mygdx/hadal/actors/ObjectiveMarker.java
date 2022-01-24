@@ -1,11 +1,13 @@
 package com.mygdx.hadal.actors;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
@@ -25,7 +27,7 @@ public class ObjectiveMarker {
 
     //is this icon colored? if so, what color (rgb)
     private final boolean colored;
-    private final Vector3 color;
+    private final Color color;
 
     private static final float scale = 0.4f;
 
@@ -39,15 +41,15 @@ public class ObjectiveMarker {
     private UUID objectiveTargetID;
     private final boolean displayObjectiveOffScreen, displayObjectiveOnScreen;
 
-    public ObjectiveMarker(PlayState state, HadalEntity objectiveTarget, Sprite sprite, Vector3 color,
+    public ObjectiveMarker(PlayState state, HadalEntity objectiveTarget, Sprite sprite, HadalColor color,
                            boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen) {
         this.state = state;
         this.objectiveTarget = objectiveTarget;
         this.displayObjectiveOffScreen = displayObjectiveOffScreen;
         this.displayObjectiveOnScreen = displayObjectiveOnScreen;
         this.icon = sprite.getFrame();
-        this.color = color;
-        this.colored = !color.equals(new Vector3());
+        this.color = color.getColor();
+        this.colored = !color.equals(HadalColor.NOTHING);
 
         this.arrow = Sprite.NOTIFICATIONS_DIRECTIONAL_ARROW.getFrame();
         this.corner = MathUtils.atan2(-HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
@@ -66,7 +68,7 @@ public class ObjectiveMarker {
             objectiveLocation.set(objectiveTarget.getPixelPosition());
 
             if (colored) {
-                batch.setColor(color.x, color.y, color.z, 1.0f);
+                batch.setColor(color);
             }
 
             if (!objectiveTarget.isVisible() && displayObjectiveOffScreen) {

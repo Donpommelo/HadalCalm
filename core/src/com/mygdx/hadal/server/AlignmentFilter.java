@@ -3,7 +3,6 @@ package com.mygdx.hadal.server;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
@@ -114,9 +113,8 @@ public enum AlignmentFilter {
     private final boolean team;
 
     //for color-changing alignments, these represent the primary and secondary colors of the palette
-    private HadalColor color1 = HadalColor.NOTHING;
-    private final Vector3 color1RGB = new Vector3();
-    private final Vector3 color2RGB = new Vector3();
+    private final HadalColor color1;
+    private final HadalColor color2;
 
     //color group are a "similar" colors that are used to prevent teams from having similar palettes
     private HadalColor[] colorGroup = {};
@@ -133,6 +131,8 @@ public enum AlignmentFilter {
     AlignmentFilter(int filter) {
         this.filter = (short) filter;
         this.team = false;
+        this.color1 = HadalColor.NOTHING;
+        this.color2 = HadalColor.NOTHING;
     }
 
     AlignmentFilter(int filter, HadalColor color1, HadalColor color2, boolean standardChoice, String adjective) {
@@ -144,9 +144,8 @@ public enum AlignmentFilter {
         this.filter = (short) filter;
         this.team = true;
         this.color1 = color1;
+        this.color2 = color2;
         this.colorGroup = colorGroup;
-        this.color1RGB.set(color1.getR(), color1.getG(), color1.getB());
-        this.color2RGB.set(color2.getR(), color2.getG(), color2.getB());
         this.adjective = adjective;
     }
 
@@ -162,10 +161,10 @@ public enum AlignmentFilter {
             Gdx.files.internal("shaders/colorreplace.frag").readString());
 
         shader.bind();
-        shader.setUniformf("oldcolor1", character.getColor1());
-        shader.setUniformf("oldcolor2", character.getColor2());
-        shader.setUniformf("newcolor1", color1RGB);
-        shader.setUniformf("newcolor2", color2RGB);
+        shader.setUniformf("oldcolor1", character.getColor1HSV());
+        shader.setUniformf("oldcolor2", character.getColor2HSV());
+        shader.setUniformf("newcolor1", color1.getHSV());
+        shader.setUniformf("newcolor2", color2.getHSV());
 
         return shader;
     }
@@ -352,8 +351,6 @@ public enum AlignmentFilter {
     public void setUsed(boolean used) { this.used = used; }
 
     public HadalColor getColor1() { return color1; }
-
-    public Vector3 getColor1RGB() { return color1RGB; }
 
     private static final ObjectMap<String, AlignmentFilter> UnlocksByName = new ObjectMap<>();
     static {

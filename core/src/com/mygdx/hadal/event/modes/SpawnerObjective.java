@@ -1,7 +1,6 @@
 package com.mygdx.hadal.event.modes;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.HadalColor;
@@ -51,8 +50,8 @@ public class SpawnerObjective extends Event {
 		if (state.getMode().equals(GameMode.EGGPLANTS)) {
 			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_EGGPLANT, true, true);
 			if (state.isServer()) {
-				HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(getEntityID(),
-						new Vector3(), true, false, Sprite.CLEAR_CIRCLE_EGGPLANT));
+				HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(getEntityID(), HadalColor.NOTHING,
+						true, false, Sprite.CLEAR_CIRCLE_EGGPLANT));
 			}
 		}
 	}

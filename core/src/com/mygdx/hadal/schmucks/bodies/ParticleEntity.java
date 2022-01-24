@@ -382,7 +382,7 @@ public class ParticleEntity extends HadalEntity {
 			return this;
 		}
 
-		this.color.set(color.getR(), color.getG(), color.getB());
+		this.color.set(color.getRGB());
 
 		if (color.equals(HadalColor.RANDOM)) {
 			
@@ -398,9 +398,9 @@ public class ParticleEntity extends HadalEntity {
 
 		for (int i = 0; i < effect.getEmitters().size; i++) {
 			float[] colors = effect.getEmitters().get(i).getTint().getColors();
-			colors[0] = color.getR();
-			colors[1] = color.getG();
-			colors[2] = color.getB();
+			colors[0] = color.getRGB().x;
+			colors[1] = color.getRGB().y;
+			colors[2] = color.getRGB().z;
 		}
 		return this;
 	}
