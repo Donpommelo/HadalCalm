@@ -32,7 +32,12 @@ public class Painter extends HubEvent {
 			if (c.isTeam()) {
 
 				final AlignmentFilter selected = c;
-				Text itemChoose = new Text(c.toString()).setButton(true);
+				Text itemChoose;
+				if (c.equals(AlignmentFilter.NONE)) {
+					itemChoose = new Text(c.toString()).setButton(true);
+				} else {
+					itemChoose = new Text(c.getColoredAdjective()).setButton(true);
+				}
 
 				itemChoose.addListener(new ClickListener() {
 

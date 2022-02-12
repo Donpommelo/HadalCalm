@@ -10,7 +10,7 @@ import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;

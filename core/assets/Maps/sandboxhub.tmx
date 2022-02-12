@@ -80,7 +80,7 @@
   </object>
   <object id="12" name="Text" type="Text" x="832" y="1312" width="32" height="32">
    <properties>
-    <property name="text" value="ENEMIES"/>
+    <property name="text" value="TEXT_ENEMIES"/>
    </properties>
   </object>
   <object id="13" name="Switch" type="Switch" x="896" y="1056" width="96" height="96">
@@ -100,7 +100,7 @@
   </object>
   <object id="16" name="Text" type="Text" x="896" y="992" width="32" height="32">
    <properties>
-    <property name="text" value="HUB"/>
+    <property name="text" value="TEXT_HUB"/>
    </properties>
   </object>
   <object id="17" name="Switch" type="Switch" x="640" y="1376" width="96" height="96">
@@ -120,7 +120,7 @@
   </object>
   <object id="19" name="Text" type="Text" x="640" y="1312" width="32" height="32">
    <properties>
-    <property name="text" value="EVENTS"/>
+    <property name="text" value="TEXT_EVENTS"/>
    </properties>
   </object>
   <object id="20" name="Warp" type="Warp" x="480" y="1664" width="32" height="32">

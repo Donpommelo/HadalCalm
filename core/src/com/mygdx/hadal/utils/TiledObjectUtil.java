@@ -403,38 +403,38 @@ public class TiledObjectUtil {
 			case "ObjectiveSpawn" -> e = new SpawnerObjective(state, position, size);
 			case "PickupDelete" -> e = new PickupDestoyer(state, position, size);
 			case "Armory" -> e = new Armory(state, position, size,
-				object.getProperties().get("title", "Armory", String.class),
+				object.getProperties().get("title", "ARMORY", String.class),
 				object.getProperties().get("tag", "ARMORY", String.class),
 				object.getProperties().get("unlock", true, Boolean.class),
 				object.getProperties().get("closeOnLeave", true, Boolean.class));
 			case "Reliquary" -> e = new Reliquary(state, position, size,
-				object.getProperties().get("title", "Reliquary", String.class),
+				object.getProperties().get("title", "RELIQUARY", String.class),
 				object.getProperties().get("tag", "RELIQUARY", String.class),
 				object.getProperties().get("unlock", true, Boolean.class),
 				object.getProperties().get("closeOnLeave", true, Boolean.class));
-			case "Dispensary" -> e = new Dispensary(state, position, size,
-				object.getProperties().get("title", "Dispensary", String.class),
-				object.getProperties().get("tag", "DISPENSARY", String.class),
+			case "Arcanery" -> e = new Arcanery(state, position, size,
+				object.getProperties().get("title", "ARCANERY", String.class),
+				object.getProperties().get("tag", "ARCANERY", String.class),
 				object.getProperties().get("unlock", true, Boolean.class),
 				object.getProperties().get("closeOnLeave", true, Boolean.class));
 			case "Dormitory" -> e = new Dormitory(state, position, size,
-				object.getProperties().get("title", "Dormitory", String.class),
+				object.getProperties().get("title", "DORMITORY", String.class),
 				object.getProperties().get("tag", "DORMITORY", String.class),
 				object.getProperties().get("unlock", true, Boolean.class),
 				object.getProperties().get("closeOnLeave", true, Boolean.class));
 			case "Navigation" -> e = new Navigations(state, position, size,
-				object.getProperties().get("title", "Navigations", String.class),
+				object.getProperties().get("title", "NAVIGATIONS", String.class),
 				object.getProperties().get("tag", "NAVIGATIONS", String.class),
 				object.getProperties().get("level", "", String.class),
 				object.getProperties().get("unlock", true, Boolean.class),
 				object.getProperties().get("closeOnLeave", true, Boolean.class));
 			case "NavigationMultiplayer" -> e = new NavigationsMultiplayer(state, position, size,
-				object.getProperties().get("title", "Navigations", String.class),
+				object.getProperties().get("title", "NAVIGATIONS", String.class),
 				object.getProperties().get("tag", "NAVIGATIONS", String.class),
 				object.getProperties().get("closeOnLeave", true, Boolean.class),
 				object.getProperties().get("modes", "", String.class));
 			case "Quartermaster" -> e = new Quartermaster(state, position, size,
-				object.getProperties().get("title", "Quartermaster", String.class),
+				object.getProperties().get("title", "QUARTERMASTER", String.class),
 				object.getProperties().get("tag", "QUARTERMASTER", String.class),
 				object.getProperties().get("unlock", true, Boolean.class),
 				object.getProperties().get("closeOnLeave", true, Boolean.class),
@@ -448,18 +448,23 @@ public class TiledObjectUtil {
 				choiceBranchOptions.put((ChoiceBranch) e, object.getProperties().get("options", "", String.class));
 			}
 			case "Painter" -> e = new Painter(state, position, size,
-				object.getProperties().get("title", "Team Color", String.class),
+				object.getProperties().get("title", "TEXT_TEAM_COLORS", String.class),
 				object.getProperties().get("tag", "PAINTER", String.class),
 				object.getProperties().get("unlock", false, boolean.class),
 				object.getProperties().get("closeOnLeave", true, Boolean.class));
 			case "Wallpaper" -> e = new Wallpaper(state, position, size,
-				object.getProperties().get("title", "Wallpaper", String.class),
+				object.getProperties().get("title", "WALLPAPER", String.class),
 				object.getProperties().get("tag", "WALLPAPER", String.class),
 				object.getProperties().get("unlock", false, boolean.class),
 				object.getProperties().get("closeOnLeave", true, Boolean.class));
 			case "Outfitter" -> e = new Outfitter(state, position, size,
-					object.getProperties().get("title", "Outfitter", String.class),
+					object.getProperties().get("title", "OUTFITTER", String.class),
 					object.getProperties().get("tag", "OUTFITTER", String.class),
+					object.getProperties().get("unlock", false, boolean.class),
+					object.getProperties().get("closeOnLeave", true, Boolean.class));
+			case "Haberdasher" -> e = new Haberdasher(state, position, size,
+					object.getProperties().get("title", "HABERDASHER", String.class),
+					object.getProperties().get("tag", "HABERDASHER", String.class),
 					object.getProperties().get("unlock", false, boolean.class),
 					object.getProperties().get("closeOnLeave", true, Boolean.class));
 			case "Prefab" -> genPrefab(state, object, rect);

@@ -1,7 +1,7 @@
 package com.mygdx.hadal.map;
 
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 

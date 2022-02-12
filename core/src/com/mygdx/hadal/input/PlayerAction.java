@@ -7,35 +7,36 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.SerializationException;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.SettingState;
+import com.mygdx.hadal.text.HText;
 
 /**
  * This enum maps to each possible action the player can perform to an input.
  * @author Gnaddam Ghermicelli
  */
 public enum PlayerAction {
-	WALK_RIGHT(Input.Keys.D, true),
-	WALK_LEFT(Input.Keys.A, true),
-	JUMP(Input.Keys.W, true),
-	CROUCH(Input.Keys.S, true),
-	FIRE(Input.Buttons.LEFT, true),
-	BOOST(Input.Buttons.RIGHT, false),
-	INTERACT(Input.Keys.E, false),
-	ACTIVE_ITEM(Input.Keys.SPACE, false),
-	RELOAD(Input.Keys.R, false),
-	DIALOGUE(Input.Keys.Z, false),
-	SWITCH_TO_LAST(Input.Keys.Q, false),
-	SWITCH_TO_1(Input.Keys.NUM_1, false),
-	SWITCH_TO_2(Input.Keys.NUM_2, false),
-	SWITCH_TO_3(Input.Keys.NUM_3, false),
-	SWITCH_TO_4(Input.Keys.NUM_4, false),
-	WEAPON_CYCLE_UP(-1000, false),
-	WEAPON_CYCLE_DOWN(1000, false),
-	MESSAGE_WINDOW(Input.Keys.T, false),
-	SCORE_WINDOW(Input.Keys.TAB, true),
-	CHAT_WHEEL(Input.Keys.C, true),
-	PING(Input.Keys.X, false),
-	PAUSE(Input.Keys.P, false),
-	EXIT_MENU(Input.Keys.ESCAPE, false);
+	WALK_RIGHT(Input.Keys.D, true, HText.WALK_RIGHT),
+	WALK_LEFT(Input.Keys.A, true, HText.WALK_LEFT),
+	JUMP(Input.Keys.W, true, HText.JUMP),
+	CROUCH(Input.Keys.S, true, HText.FASTFALL),
+	FIRE(Input.Buttons.LEFT, true, HText.SHOOT),
+	BOOST(Input.Buttons.RIGHT, false, HText.BOOST),
+	INTERACT(Input.Keys.E, false, HText.INTERACT),
+	ACTIVE_ITEM(Input.Keys.SPACE, false, HText.MAGIC),
+	RELOAD(Input.Keys.R, false, HText.RELOAD),
+	DIALOGUE(Input.Keys.Z, false, HText.DIALOG),
+	SWITCH_TO_LAST(Input.Keys.Q, false, HText.SWITCH_TO_LAST),
+	SWITCH_TO_1(Input.Keys.NUM_1, false, HText.SWITCH_TO_1),
+	SWITCH_TO_2(Input.Keys.NUM_2, false, HText.SWITCH_TO_2),
+	SWITCH_TO_3(Input.Keys.NUM_3, false, HText.SWITCH_TO_3),
+	SWITCH_TO_4(Input.Keys.NUM_4, false, HText.SWITCH_TO_4),
+	WEAPON_CYCLE_UP(-1000, false, HText.WEAPON_CYCLE_UP),
+	WEAPON_CYCLE_DOWN(1000, false, HText.WEAPON_CYCLE_DOWN),
+	MESSAGE_WINDOW(Input.Keys.T, false, HText.DIALOG),
+	SCORE_WINDOW(Input.Keys.TAB, true, HText.SCORE_WINDOW),
+	CHAT_WHEEL(Input.Keys.C, true, HText.SCORE_WINDOW),
+	PING(Input.Keys.X, false, HText.SCORE_WINDOW),
+	PAUSE(Input.Keys.P, false, HText.PAUSE),
+	EXIT_MENU(Input.Keys.ESCAPE, false, HText.EXIT);
 
 	//this is the code for the key this action is bound to
 	private int key;
@@ -44,11 +45,14 @@ public enum PlayerAction {
 	//these are relevant for resetting when the input processor is temporarily disabled.
 	private final boolean toggleable;
 
+	private final HText text;
+
 	private final static ObjectMap<Integer, PlayerAction> hotkeys = new ObjectMap<>();
 
-	PlayerAction(int key, boolean toggleable) {
+	PlayerAction(int key, boolean toggleable, HText text) {
 		this.key = key;
 		this.toggleable = toggleable;
+		this.text = text;
 	}
 	
 	public int getKey() { return key; }
@@ -142,4 +146,6 @@ public enum PlayerAction {
 		}
 		return false;
 	}
+
+	public String getText() { return text.text(); }
 }

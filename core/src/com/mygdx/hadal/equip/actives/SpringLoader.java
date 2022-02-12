@@ -6,8 +6,8 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.Spring;
 import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 

@@ -1,7 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invisibility;

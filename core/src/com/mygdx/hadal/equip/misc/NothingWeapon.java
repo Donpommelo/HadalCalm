@@ -2,7 +2,7 @@ package com.mygdx.hadal.equip.misc;
 
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
 
 public class NothingWeapon extends MeleeWeapon {
 

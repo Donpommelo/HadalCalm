@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataType;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;

@@ -3,8 +3,8 @@ package com.mygdx.hadal.equip.artifacts;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -20,8 +20,7 @@ public class ChaosConjurant extends Artifact {
 	private static final float procCd = 5.0f;
 	
 	private static final float baseDamage = 28.0f;
-	private static final float knockback = 6.0f;
-	
+
 	private static final float meteorDuration = 1.0f;
 	private static final float meteorInterval = 0.1f;
 	private static final float spread = 10.0f;
@@ -48,8 +47,8 @@ public class ChaosConjurant extends Artifact {
 					procCdCount = 0;
 					new ParticleEntity(state, p.getSchmuck(), Particle.RING, 1.0f, meteorDuration, true,
 							SyncType.CREATESYNC).setScale(0.4f);
-					WeaponUtils.createMeteors(state, p.getSchmuck().getPosition(), p.getSchmuck(),
-							meteorDuration, meteorInterval, spread, baseDamage, knockback);
+					WeaponUtils.createMeteors(state, p.getSchmuck().getPosition(), p.getSchmuck(), meteorDuration,
+							meteorInterval, spread, baseDamage);
 				}
 				return damage;
 			}

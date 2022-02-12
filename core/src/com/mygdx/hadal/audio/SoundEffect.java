@@ -5,7 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 

@@ -366,11 +366,11 @@ public class UIHub {
 
 			   @Override
 			   public void clicked(InputEvent e, float x, float y) {
-			   		if (!outfitName.getText().isEmpty()) {
-						state.getGsm().getSavedOutfits().addOutfit(outfitName.getText(), new SavedLoadout(state.getGsm().getLoadout()));
-						hub.enter();
-						refreshHub(hub);
-					}
+				if (!outfitName.getText().isEmpty()) {
+					state.getGsm().getSavedOutfits().addOutfit(outfitName.getText(), new SavedLoadout(state.getGsm().getLoadout()));
+					hub.enter();
+					refreshHub(hub);
+				}
 			   }
 		});
 
@@ -490,6 +490,7 @@ public class UIHub {
 		NAVIGATIONS,
 		QUARTERMASTER,
 		PAINTER,
+		HABERDASHER,
 		WALLPAPER,
 		OUTFITTER,
 		MISC

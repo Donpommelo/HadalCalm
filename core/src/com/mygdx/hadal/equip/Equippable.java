@@ -2,7 +2,7 @@ package com.mygdx.hadal.equip;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;

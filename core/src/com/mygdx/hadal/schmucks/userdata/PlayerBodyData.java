@@ -15,15 +15,12 @@ import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
-import com.mygdx.hadal.save.UnlockActives;
-import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.save.UnlockCharacter;
-import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.packets.Packets;
@@ -90,6 +87,7 @@ public class PlayerBodyData extends BodyData {
 		syncEquip(loadout.multitools);
 		syncArtifact(loadout.artifacts, false, false);
 		syncActive(loadout.activeItem);
+		syncCosmetics(loadout.cosmetics, loadout.character);
 		setCharacter(loadout.character);
 		setTeam(loadout.team);
 	}
@@ -107,6 +105,7 @@ public class PlayerBodyData extends BodyData {
 		syncEquip(newLoadout.multitools);
 		syncArtifact(newLoadout.artifacts, override, save);
 		syncActive(newLoadout.activeItem);
+		syncCosmetics(newLoadout.cosmetics, loadout.character);
 		setCharacter(newLoadout.character);
 		setTeam(newLoadout.team);
 
@@ -171,6 +170,15 @@ public class PlayerBodyData extends BodyData {
 	public void syncActive(UnlockActives active) {
 		this.activeItem = UnlocktoItem.getUnlock(active, player);
 		this.loadout.activeItem = active;
+	}
+
+	public void syncCosmetics(UnlockCosmetic[] cosmetics, UnlockCharacter character) {
+		System.arraycopy(cosmetics, 0, loadout.cosmetics, 0, Loadout.maxCosmeticSlots);
+		for (int i = 0; i < Loadout.maxCosmeticSlots; i++) {
+			if (loadout.cosmetics[i].checkCompatibleCharacters(character)) {
+				loadout.cosmetics[i] = UnlockCosmetic.NOTHING_HAT1;
+			}
+		}
 	}
 
 	/**
@@ -444,6 +452,10 @@ public class PlayerBodyData extends BodyData {
 		SoundEffect.LOCKANDLOAD.playExclusive(player.getState(), null, player, 0.5f, true);
 	}
 
+	public void setCosmetic(UnlockCosmetic cosmetic) {
+		loadout.cosmetics[cosmetic.getCosmeticSlot().getSlotNumber()] = cosmetic;
+	}
+
 	/**
 	 * This is called when switching teams.
 	 */
@@ -461,6 +473,9 @@ public class PlayerBodyData extends BodyData {
 	public void setCharacter(UnlockCharacter character) {
 		loadout.character = character;
 		player.setBodySprite(character, null);
+
+		//sync cosmetics to unequip hats that are not compatible with new character
+		syncCosmetics(loadout.cosmetics, character);
 	}
 
 	/**
@@ -547,6 +562,10 @@ public class PlayerBodyData extends BodyData {
 
 	public void syncServerTeamChange(AlignmentFilter team) {
 		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncTeamServer(player.getConnId(), team));
+	}
+
+	public void syncServerCosmeticChange(UnlockCosmetic cosmetic) {
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncCosmeticServer(player.getConnId(), cosmetic));
 	}
 
 	public void syncServerWholeLoadoutChange() {

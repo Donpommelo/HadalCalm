@@ -45,8 +45,8 @@ import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.bodies.*;
-import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
+import com.mygdx.hadal.schmucks.entities.*;
+import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -231,8 +231,8 @@ public class PlayState extends GameState {
 	 * @param reset: do we reset the old player's hp/fuel/ammo in the new playstate?
 	 * @param startId: the id of the starting event the player should be spawned at
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, GameMode mode,
-					 boolean server, PlayerBodyData old, boolean reset, String startId) {
+	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, GameMode mode, boolean server, PlayerBodyData old,
+					 boolean reset, String startId) {
 		super(gsm);
 		this.level = level;
 		this.mode = mode;
@@ -911,12 +911,13 @@ public class PlayState extends GameState {
 			gsm.addPlayState(nextLevel, nextMode, new Loadout(gsm.getLoadout()), player.getPlayerData(), TitleState.class, true, nextStartId);
 			break;
 		case NEXTSTAGE:
-			
+
 			//remove this state and add a new play state with the player's current loadout and stats
 			gsm.removeState(SettingState.class, false);
 			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class, false);
+
 			gsm.addPlayState(nextLevel, nextMode, player.getPlayerData().getLoadout(), player.getPlayerData(), LobbyState.class, false, nextStartId);
 			gsm.addPlayState(nextLevel, nextMode, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
 			break;

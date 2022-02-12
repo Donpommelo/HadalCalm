@@ -1,7 +1,7 @@
 package com.mygdx.hadal.input;
 
 import com.badlogic.gdx.InputProcessor;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.Player;
 
 /**
  * The PlayerController controls the player using key events to process various player actions.

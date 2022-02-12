@@ -1,7 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;

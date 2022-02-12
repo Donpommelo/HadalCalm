@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.UUID;

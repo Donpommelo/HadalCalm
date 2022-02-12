@@ -1,6 +1,6 @@
 package com.mygdx.hadal.equip;
 
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;

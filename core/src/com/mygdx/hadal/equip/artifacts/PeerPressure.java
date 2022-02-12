@@ -1,6 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.schmucks.bodies.enemies.KBKBuddy;
+import com.mygdx.hadal.schmucks.entities.enemies.KBKBuddy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;

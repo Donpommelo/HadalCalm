@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.text.TextFilterUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -28,7 +29,7 @@ public class Text extends Event {
 	
 	public Text(PlayState state, Vector2 startPos, Vector2 size, String text, float scale) {
 		super(state, startPos , size);
-		this.text = TextFilterUtil.filterText(text);
+		this.text = TextFilterUtil.filterText(HText.getByName(text).text());
 		this.scale = scale;
 	}
 	

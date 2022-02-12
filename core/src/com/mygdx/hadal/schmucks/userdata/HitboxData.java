@@ -2,7 +2,7 @@ package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.UserDataType;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;

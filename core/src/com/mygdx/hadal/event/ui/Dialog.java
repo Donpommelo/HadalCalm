@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**

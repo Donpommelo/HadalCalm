@@ -22,9 +22,9 @@ import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.bodies.*;
-import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.entities.*;
+import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.*;
 import com.mygdx.hadal.server.User.UserDto;
 import com.mygdx.hadal.server.packets.Packets;
@@ -494,13 +494,16 @@ public class KryoClient {
 								cs.getUiHub().refreshHub(null);
 							}
 							else if (p instanceof PacketsLoadout.SyncActiveServer s) {
-								player.getPlayerData().syncActive(s.actives);
+								player.getPlayerData().syncActive(s.active);
 							}
 							else if (p instanceof PacketsLoadout.SyncCharacterServer s) {
 								player.getPlayerData().setCharacter(s.character);
 							}
 							else if (p instanceof PacketsLoadout.SyncTeamServer s) {
 								player.getPlayerData().setTeam(s.team);
+							}
+							else if (p instanceof PacketsLoadout.SyncCosmeticServer s) {
+								player.getPlayerData().setCosmetic(s.cosmetic);
 							}
 						}
 					});

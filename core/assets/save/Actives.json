@@ -4,7 +4,7 @@
 	"description": "Drop an anchor at mouse location",
     "descriptionLong": "Charge: 16 Seconds\nAnchor Damage: 80\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -13,7 +13,7 @@
 	"description": "Fire a barrage of curving projectiles",
     "descriptionLong": "Charge: 8 Seconds\nBeam Number: 10\nBeam Damage: 14\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -22,7 +22,7 @@
 	"description": "Buffs damage and attack speed of nearby allies",
     "descriptionLong": "Charge: 12 Seconds\nBuff Duration: 4 Seconds\nBonus Attack Speed: +15%\nBonus Damage: +30%\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -31,7 +31,7 @@
 	"description": "Perform an explosive-powered jump",
     "descriptionLong": "Charge: 10 Seconds\nExplosion Number: 4\nExplosion Damage: 40\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -40,7 +40,7 @@
 	"description": "Perform an invulnerable dodge in the direction you are facing",
     "descriptionLong": "Charge: 3 Seconds\nInvulnerability Duration: 0.5 Second\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -49,7 +49,7 @@
 	"description": "Create a storm cloud that drops damaging rain",
     "descriptionLong": "Charge: 15 Seconds\nCloud Duration: 7.5 Seconds\nRain Interval: 0.1 Second\nRain Damage: 11\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -58,7 +58,7 @@
 	"description": "Summon a Fish Gang",
     "descriptionLong": "Charge: 160 Damage\nFish Number: 5\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -67,7 +67,7 @@
 	"description": "Throw a Blinding Explosive Projectile",
     "descriptionLong": "Charge: 9 Seconds\nBase Damage: 30\nBlind Duration: 4.0 Seconds",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -76,7 +76,7 @@
 	"description": "Become invulnerable temporarily",
     "descriptionLong": "Charge: 16 Seconds\nInvulnerability Duration: 3 Seconds\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -85,7 +85,7 @@
 	"description": "Creates a field that regenerates health",
     "descriptionLong": "Charge: 100 Damage\nField Duration: 10 Seconds\nHealing: 12 per Second\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -94,7 +94,7 @@
 	"description": "Releases a swarm of bees",
     "descriptionLong": "Charge: 15 Seconds\nBees: 11\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -103,7 +103,7 @@
 	"description": "Perform an upwards attack. User is briefly invulnerable during the attack",
     "descriptionLong": "Charge: 8 Seconds\nUppercut Damage: 60\nInvulnerability Duration: 0.9 Second\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -112,7 +112,7 @@
 	"description": "Ignites self, burning nearby enemies and charge towards mouse",
     "descriptionLong": "Charge: 13 Seconds\nBurn Damage: 300 per Second\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -121,7 +121,7 @@
 	"description": "Perform a flying kick, Knock enemies into walls for additional damage scaling to victim's velocity",
     "descriptionLong": "Charge: 8 Seconds\nKick damage: 20\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -130,7 +130,7 @@
 	"description": "Damage and slow nearby enemies",
     "descriptionLong": "Charge: 10 Seconds\nSnow Damage: 24\nSlow Duration: 5 Seconds\nSlow Amount: -75%\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -139,7 +139,7 @@
 	"description": "Restores Hp",
     "descriptionLong": "Charge: 125 Damage\nMelon Healing: 32 over 8 Seconds\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -148,7 +148,7 @@
 	"description": "Fire a projectile that creates a temporary current in ints path",
     "descriptionLong": "Charge: 9 Seconds\nProjectile Damage: 40\nCurrent Duration: 6 Seconds\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -157,7 +157,7 @@
 	"description": "Summon meteors at mouse location",
     "descriptionLong": "Charge: 20 Seconds\nMeteor Duration: 3.5 Seconds\nMeteor Interval: 0.1 Second\nMeteor damage: 24\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -166,7 +166,7 @@
 	"description": "Fire a barrage of homing missiles",
     "descriptionLong": "Charge: 15 Seconds\nMissiles: 12\nMissile Damage: 22\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -175,7 +175,7 @@
 	"description": "Throws an large naval mine. Mine explodes after being shot a few times",
     "descriptionLong": "Charge: 8 Seconds\nMine Damage: 75\nMine Lifespan: 12 Seconds\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -184,7 +184,7 @@
 	"description": "Does nothing.",
     "descriptionLong": "",
 	"tags": [
-	"DISPENSARY"
+	"ARCANERY"
 	]
 },
 "ORBITAL_SHIELD": {
@@ -192,7 +192,7 @@
 	"description": "Create several projectiles that orbit the user",
     "descriptionLong": "Charge: 18 Seconds\nShield Duration: 5 Seconds\nOrbitals: 3\nOrbital Damage: 27\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -201,7 +201,7 @@
 	"description": "Shock nearby enemies with chain lightning",
     "descriptionLong": "Charge: 12 Seconds\nLightning Damage: 18\nLightning Chains: 8 Enemies\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -210,7 +210,7 @@
 	"description": "Drop a projectile to create an allied turret that fires a close-ranged burst of projectiles",
     "descriptionLong": "Charge: 100 Damage",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -219,7 +219,7 @@
 	"description": "Drop a projectile to create an allied turret that fires a long-ranged volley of projectiles",
     "descriptionLong": "Charge: 100 Damage",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -228,7 +228,7 @@
 	"description": "Deploy an invisible mine",
     "descriptionLong": "Charge: 12 Seconds\nPrime Delay: 2 Seconds\nMine Damage: 80\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -237,7 +237,7 @@
 	"description": "Fire currently equipped weapon in all directions",
     "descriptionLong": "Charge: 20 Seconds (reduced for high clip size weapons)\nRadial Shots: 6\nShot Interval 0.1 Second\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -246,7 +246,7 @@
 	"description": "Buffs attack speed and makes weapons not consume clip temporarily",
     "descriptionLong": "Charge: 13 Seconds\n\nBuff Duration: 1.5 Seconds\nBonus Attack Speed: Scales with Clip Size\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -255,7 +255,7 @@
 	"description": "User regenerates fuel over time",
     "descriptionLong": "Charge: 15 Seconds\nRegenerates 90 Fuel over 5 Seconds\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -264,7 +264,7 @@
 	"description": "Become invisible temporarily",
     "descriptionLong": "Charge: 18 Seconds\nInvisibility Duration: 8 Seconds\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -273,7 +273,7 @@
 	"description": "User dies and creates a series of explosions",
     "descriptionLong": "Charge: 5 Seconds\nExplosion Duration: 1.5 Seconds\nExplosion Interval: 0.12 Second\nExplosion Damage: 75\n\n",
 	"tags": [
-		"DISPENSARY"
+		"ARCANERY"
 	]
 },
 "SPIRIT_RELEASE": {
@@ -281,7 +281,7 @@
 	"description": "Release several homing vengeful spirits",
     "descriptionLong": "Charge: 10 Seconds\nSpirits: 3\nSpirit Damage: 45\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -290,7 +290,7 @@
 	"description": "Create a temporary spring at mouse location",
     "descriptionLong": "Charge: 3 Seconds\nSpring Duration: 6 Seconds\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -299,7 +299,7 @@
 	"description": "Create a Random Weapon Pickup",
     "descriptionLong": "Charge: 8 Seconds\nStarts off Fully Charged\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -308,7 +308,7 @@
 	"description": "Release a poisonous cloud in the direction you are facing",
     "descriptionLong": "Charge: 10 Seconds\nPoison Duration: 4.5 Seconds\nPoison Damage: 60 per Second\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -317,7 +317,7 @@
 	"description": "Create a destructable block",
     "descriptionLong": "Charge: 8 Seconds\nBlock Hp: 200\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 },
@@ -326,7 +326,7 @@
 	"description": "Fire a projectile that grabs an enemy, Throw victim into walls or other enemies for additional damage",
     "descriptionLong": "Charge: 8 Seconds\nGrab Duration: 4 Seconds\nPrimary Impact Damage: 30\nSecondary Impact Damage: 40\n\n",
 	"tags": [
-		"DISPENSARY",
+		"ARCANERY",
 		"RANDOM_POOL"
 	]
 }

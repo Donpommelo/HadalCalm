@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.schmucks.bodies.PlayerBot;
+import com.mygdx.hadal.schmucks.entities.PlayerBot;
 
 /**
  * A BotPathfindingTask is a runnable ran on a separate thread to calculate bot pathfinding behavior

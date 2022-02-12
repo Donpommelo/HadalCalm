@@ -7,7 +7,7 @@ import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.map.modifiers.ModeModifier;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
 

@@ -3,8 +3,8 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
 
 public class SpeargunNerfed extends RangedWeapon {

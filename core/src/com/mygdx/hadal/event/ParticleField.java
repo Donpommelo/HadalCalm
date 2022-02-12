@@ -6,7 +6,7 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;

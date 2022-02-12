@@ -16,9 +16,9 @@ import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.MoveState;
-import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
-import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.SyncedAttack;
+import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
+import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
+import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -1251,11 +1251,13 @@ public class Packets {
 		kryo.register(PacketsLoadout.SyncActiveClient.class);
 		kryo.register(PacketsLoadout.SyncCharacterClient.class);
 		kryo.register(PacketsLoadout.SyncTeamClient.class);
+		kryo.register(PacketsLoadout.SyncCosmeticClient.class);
 		kryo.register(PacketsLoadout.SyncEquipServer.class);
 		kryo.register(PacketsLoadout.SyncArtifactServer.class);
 		kryo.register(PacketsLoadout.SyncActiveServer.class);
 		kryo.register(PacketsLoadout.SyncCharacterServer.class);
 		kryo.register(PacketsLoadout.SyncTeamServer.class);
+		kryo.register(PacketsLoadout.SyncCosmeticServer.class);
 
 		kryo.register(int[].class);
 		kryo.register(float[].class);
@@ -1264,6 +1266,7 @@ public class Packets {
 		kryo.register(Vector2[].class);
 		kryo.register(Vector3.class);
 		kryo.register(Particle.class);
+		kryo.register(HadalColor.class);
 		kryo.register(SoundEffect.class);
 		kryo.register(UnlockLevel.class);
 		kryo.register(UnlockArtifact.class);
@@ -1274,6 +1277,8 @@ public class Packets {
 		kryo.register(UnlockEquip[].class);
 		kryo.register(AlignmentFilter.class);
 		kryo.register(AlignmentFilter[].class);
+		kryo.register(UnlockCosmetic.class);
+		kryo.register(UnlockCosmetic[].class);
 		kryo.register(GameMode.class);
 		kryo.register(Loadout.class);
 		kryo.register(TransitionState.class);

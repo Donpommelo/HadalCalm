@@ -8,8 +8,9 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -48,7 +49,7 @@ public class HubEvent extends Event {
 	public HubEvent(final PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave, hubTypes type) {
 		super(state, startPos, size);
 		this.open = false;
-		this.title = title;
+		this.title = HText.getByName(title).text();
 		this.checkUnlock = checkUnlock;
 		this.closeOnLeave = closeOnLeave;
 		this.type = type;

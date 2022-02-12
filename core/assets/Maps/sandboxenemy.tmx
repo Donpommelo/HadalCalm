@@ -69,9 +69,9 @@
   </object>
   <object id="13" name="ChoiceBranch" type="ChoiceBranch" x="1344" y="1504" width="96" height="96">
    <properties>
-    <property name="optionNames" value="CRAWLER1,CRAWLER2,CRAWLER3,SWIMMER1,SWIMMER2,LEAPER1,TORPEDOFISH,SCISSORFISH,SPITTLEFISH,SPLITTER,SPAWNER,BOUNCER,DRONE"/>
+    <property name="optionNames" value="ENEMIES_OPTIONS"/>
     <property name="options" value="testSpawn1,testSpawn2,testSpawn3,testSpawn4,testSpawn5,testSpawn6,testSpawn7,testSpawn8,testSpawn9,testSpawn10,testSpawn11,testSpawn12,testSpawn13"/>
-    <property name="title" value="ENEMIES"/>
+    <property name="title" value="TEXT_ENEMIES"/>
    </properties>
   </object>
   <object id="14" name="Platform" type="Platform" x="1472" y="1440" width="32" height="160">
@@ -197,7 +197,7 @@
   </object>
   <object id="42" name="Text" type="Text" x="960" y="1440" width="32" height="32">
    <properties>
-    <property name="text" value="HUB"/>
+    <property name="text" value="TEXT_HUB"/>
    </properties>
   </object>
   <object id="43" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">

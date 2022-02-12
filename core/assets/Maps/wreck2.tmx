@@ -384,14 +384,14 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="switch weapon: (fugswitch1fug, fugswitch2fug, fugswitch3fug)"/>
+    <property name="text" value="TEXT_WEAPON_SWITCH"/>
    </properties>
   </object>
   <object id="82" name="Text" type="Text" x="2336" y="2048" width="96" height="32">
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="reload: (fugreloadfug)"/>
+    <property name="text" value="TEXT_RELOAD"/>
    </properties>
   </object>
   <object id="83" name="Counter" type="Counter" x="1888" y="2528" width="32" height="32">

@@ -25,11 +25,7 @@ public class Record {
 	
 	//This is a map of the player's unlocks
 	private ObjectMap<String, Integer> hiScores;
-	private ObjectMap<String, Boolean> unlockEquip;
-	private ObjectMap<String, Boolean> unlockArtifact;
-	private ObjectMap<String, Boolean> unlockActive;
-	private ObjectMap<String, Boolean> unlockCharacter;
-	private ObjectMap<String, Boolean> unlockLevel;
+	private ObjectMap<String, Boolean> unlockEquip, unlockArtifact, unlockActive, unlockCharacter, unlockCosmetic, unlockLevel;
 
 	public Record() {}
 
@@ -114,6 +110,7 @@ public class Record {
 		newRecord.unlockArtifact = new ObjectMap<>();
 		newRecord.unlockActive = new ObjectMap<>();
 		newRecord.unlockCharacter = new ObjectMap<>();
+		newRecord.unlockCosmetic = new ObjectMap<>();
 		newRecord.unlockLevel = new ObjectMap<>();
 
 		for (UnlockEquip equip: UnlockEquip.values()) {
@@ -131,7 +128,11 @@ public class Record {
 		for (UnlockCharacter character: UnlockCharacter.values()) {
 			newRecord.unlockCharacter.put(character.toString(), true);
 		}
-		
+
+		for (UnlockCosmetic cosmetic: UnlockCosmetic.values()) {
+			newRecord.unlockCosmetic.put(cosmetic.toString(), true);
+		}
+
 		for (UnlockLevel level: UnlockLevel.values()) {
 			newRecord.unlockLevel.put(level.toString(), false);
 		}
@@ -206,6 +207,8 @@ public class Record {
 	public ObjectMap<String, Boolean> getUnlockActive() {	return unlockActive; }
 
 	public ObjectMap<String, Boolean> getUnlockCharacter() { return unlockCharacter; }
-	
+
+	public ObjectMap<String, Boolean> getUnlockCosmetic() { return unlockCosmetic; }
+
 	public ObjectMap<String, Boolean> getUnlockLevel() { return unlockLevel; }
 }

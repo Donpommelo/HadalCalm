@@ -2,7 +2,7 @@ package com.mygdx.hadal.event;
 
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 

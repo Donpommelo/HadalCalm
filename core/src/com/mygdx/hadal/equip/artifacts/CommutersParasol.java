@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.UserDataType;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;

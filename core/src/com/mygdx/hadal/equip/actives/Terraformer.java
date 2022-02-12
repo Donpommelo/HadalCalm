@@ -9,7 +9,7 @@ import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.DestructableBlock;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.UserDataType;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;

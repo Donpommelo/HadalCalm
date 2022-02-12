@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;

@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;

@@ -1,10 +1,7 @@
 package com.mygdx.hadal.server.packets;
 
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.save.UnlockActives;
-import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.save.UnlockCharacter;
-import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.server.AlignmentFilter;
 
 /**
@@ -147,6 +144,20 @@ public class PacketsLoadout {
         }
     }
 
+    public static class SyncCosmeticClient extends SyncLoadoutClient {
+        public UnlockCosmetic cosmetic;
+
+        public SyncCosmeticClient() {}
+
+        /**
+         * A SyncCosmeticClient is sent from client to server to inform them that chose a cosmetic item in the hub haberdasher
+         * @param cosmetic: An cosmetic to be added to this client's loadout
+         */
+        public SyncCosmeticClient(UnlockCosmetic cosmetic) {
+            this.cosmetic = cosmetic;
+        }
+    }
+
     public static class SyncEquipServer extends SyncLoadoutServer {
         public UnlockEquip[] equip;
 
@@ -164,7 +175,6 @@ public class PacketsLoadout {
     }
 
     public static class SyncArtifactServer extends SyncLoadoutServer {
-        public long uuidMSB, uuidLSB;
         public UnlockArtifact[] artifact;
         public boolean save;
 
@@ -184,18 +194,18 @@ public class PacketsLoadout {
     }
 
     public static class SyncActiveServer extends SyncLoadoutServer {
-        public UnlockActives actives;
+        public UnlockActives active;
 
         public SyncActiveServer() {}
 
         /**
          * A SyncActiveServer is sent from server to client to inform them of an active item change for a player
          * @param connID: connection id of the player whose weapons changed
-         * @param actives: active item to be set in the player's loadout
+         * @param active: active item to be set in the player's loadout
          */
-        public SyncActiveServer(int connID, UnlockActives actives) {
+        public SyncActiveServer(int connID, UnlockActives active) {
             super(connID);
-            this.actives = actives;
+            this.active = active;
         }
     }
 
@@ -228,6 +238,22 @@ public class PacketsLoadout {
         public SyncTeamServer(int connID, AlignmentFilter team) {
             super(connID);
             this.team = team;
+        }
+    }
+
+    public static class SyncCosmeticServer extends SyncLoadoutServer {
+        public UnlockCosmetic cosmetic;
+
+        public SyncCosmeticServer() {}
+
+        /**
+         * A SyncCosmeticServer is sent from server to client to inform them of a cosmetic change for a player
+         * @param connID: connection id of the player whose weapons changed
+         * @param cosmetic: cosmetic to be set in the player's loadout
+         */
+        public SyncCosmeticServer(int connID, UnlockCosmetic cosmetic) {
+            super(connID);
+            this.cosmetic = cosmetic;
         }
     }
 }

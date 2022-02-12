@@ -69,7 +69,7 @@
     <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="15" name="Dispensary" type="Dispensary" x="2112" y="2080" width="96" height="96">
+  <object id="15" name="Arcanery" type="Arcanery" x="2112" y="2080" width="96" height="96">
    <properties>
     <property name="triggeredId" value="dispensary"/>
     <property name="unlock" type="bool" value="false"/>
@@ -519,7 +519,7 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="DISPENSARY"/>
+    <property name="text" value="ARCANERY"/>
    </properties>
   </object>
   <object id="103" name="Text" type="Text" x="1728" y="1984" width="32" height="32">
@@ -560,7 +560,7 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="GUNS"/>
+    <property name="text" value="TEXT_GUNS"/>
    </properties>
   </object>
   <object id="113" name="Quartermaster" type="Quartermaster" x="2208" y="1088" width="96" height="96">
@@ -573,7 +573,7 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="ARTIFACTS"/>
+    <property name="text" value="TEXT_ARTIFACTS"/>
    </properties>
   </object>
   <object id="115" name="Quartermaster" type="Quartermaster" x="2048" y="1088" width="96" height="96">
@@ -586,14 +586,14 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="ACTIVES"/>
+    <property name="text" value="TEXT_MAGIC"/>
    </properties>
   </object>
   <object id="118" name="Text" type="Text" x="1920" y="1984" width="32" height="32">
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="ARENA"/>
+    <property name="text" value="TEXT_ARENA"/>
    </properties>
   </object>
   <object id="119" name="Sensor" type="Sensor" x="1184" y="1952" width="32" height="224">
@@ -628,7 +628,7 @@
   <object id="124" name="ChoiceBranch" type="ChoiceBranch" x="1536" y="2080" width="96" height="96">
    <properties>
     <property name="closeAfterSelect" type="bool" value="true"/>
-    <property name="optionNames" value="S.S TUNICATE GUIDED TOUR,TELL ME A POEM"/>
+    <property name="optionNames" value="COMMUNICATIONS_OPTIONS"/>
     <property name="options" value="tourStart,poemStart"/>
     <property name="title" value="COMMUNICATIONS"/>
     <property name="triggeredId" value="communication"/>
@@ -972,9 +972,9 @@
    <properties>
     <property name="closeAfterSelect" type="bool" value="true"/>
     <property name="closeOnLeave" type="bool" value="false"/>
-    <property name="optionNames" value="YES,NO"/>
+    <property name="optionNames" value="POEM_OPTIONS"/>
     <property name="options" value="poemGood,poemBad"/>
-    <property name="title" value="DID YOU LIKE THE POEM"/>
+    <property name="title" value="TEXT_POEM"/>
     <property name="triggeredId" value="poemRate"/>
    </properties>
   </object>
@@ -1022,14 +1022,14 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="BACKGROUNDS"/>
+    <property name="text" value="WALLPAPER"/>
    </properties>
   </object>
   <object id="185" name="NavigationMultiplayer" type="NavigationMultiplayer" x="1920" y="1984" width="96" height="96">
    <properties>
     <property name="modes" value="DEATHMATCH,BOSS,SURVIVAL"/>
     <property name="tag" value="MULTIPLAYER,BOT_COMPLIANT"/>
-    <property name="title" value="Bonus Levels"/>
+    <property name="title" value="TEXT_BONUS_LEVELS"/>
     <property name="triggeredId" value="navigation1"/>
    </properties>
   </object>

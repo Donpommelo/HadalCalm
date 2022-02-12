@@ -42,8 +42,7 @@ public class Dormitory extends HubEvent {
 					if (state.getPlayer().getPlayerData() == null) { return; }
 
 					if (state.isServer()) {
-			        	state.getPlayer().setBodySprite(selected, null);
-			        	state.getPlayer().getPlayerData().getLoadout().character = selected;
+			        	state.getPlayer().getPlayerData().setCharacter(selected);
 			        	state.getPlayer().getPlayerData().syncServerCharacterChange(selected);
 					} else {
 						HadalGame.client.sendTCP(new PacketsLoadout.SyncCharacterClient(selected));

@@ -238,10 +238,6 @@ public enum Sprite {
 	TELEMACHUS_SLUG(SpriteType.CHARACTER_EXTRA, "telemachus_slug"),
 	WANDA_BUFF(SpriteType.CHARACTER_EXTRA, "wanda_buff"),
 	WANDA_SLUG(SpriteType.CHARACTER_EXTRA, "wanda_slug"),
-	MOREAU_FESTIVE_BUFF(SpriteType.CHARACTER_EXTRA, "moreau_festive_buff"),
-	MOREAU_FESTIVE_SLUG(SpriteType.CHARACTER_EXTRA, "moreau_festive_slug"),
-	MOREAU_PARTY_BUFF(SpriteType.CHARACTER_EXTRA, "moreau_party_buff"),
-	MOREAU_PARTY_SLUG(SpriteType.CHARACTER_EXTRA, "moreau_party_slug"),
 
 	//complex sprites
 	SPARKS(SpriteType.PROJECTILE, 0.02f, new SpriteRep("spark_0", 3),

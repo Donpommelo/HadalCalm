@@ -1,0 +1,42 @@
+{
+"NOTHING": {
+  "name": "Nothing",
+  "description": "",
+  "descriptionLong": "",
+  "tags": [
+    "HABERDASHER"
+  ]
+},
+"FESTIVE_HAT": {
+  "name": "Festive Hat",
+  "description": "",
+  "descriptionLong": "",
+  "tags": [
+    "HABERDASHER"
+  ]
+},
+"FISH_FEAR_ME_HAT": {
+  "name": "Fish Fear Me",
+  "description": "",
+  "descriptionLong": "",
+  "tags": [
+    "HABERDASHER"
+  ]
+},
+"PARTY_HAT": {
+  "name": "Party Hat",
+  "description": "",
+  "descriptionLong": "",
+  "tags": [
+    "HABERDASHER"
+  ]
+},
+"N95_MASK": {
+  "name": "N95",
+  "description": "",
+  "descriptionLong": "",
+  "tags": [
+    "HABERDASHER"
+  ]
+}
+}

@@ -18,12 +18,12 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.Sensor;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.UserDataType;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -398,7 +398,7 @@ public class WeaponUtils {
 	private static final float lifespan = 5.0f;
 	
 	public static void createMeteors(PlayState state, Vector2 startPos, Schmuck user, float meteorDuration, float meteorInterval,
-									 float spread, float baseDamage, float knockback) {
+									 float spread, float baseDamage) {
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(1, 1), meteorDuration, new Vector2(),
 			(short) 0, false, false, user, Sprite.NOTHING);
 		hbox.makeUnreflectable();
@@ -452,7 +452,7 @@ public class WeaponUtils {
 					hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 
 					hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.FIRE, DamageTypes.MAGIC));
+					hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, 0.0f, DamageTypes.FIRE, DamageTypes.MAGIC));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 						
 						private final Vector2 floor = new Vector2(endPt);

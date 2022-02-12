@@ -5,8 +5,8 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.HealingArea;
 import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.SoundEntity;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 

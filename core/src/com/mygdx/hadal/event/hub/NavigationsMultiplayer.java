@@ -16,7 +16,7 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;

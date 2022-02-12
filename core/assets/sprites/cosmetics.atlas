@@ -1,0 +1,125 @@
+
+cosmetics.png
+size: 1024,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+maximillian_n95
+  rotate: false
+  xy: 2, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+moreau_fear
+  rotate: false
+  xy: 2, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+moreau_fear_mirror
+  rotate: false
+  xy: 232, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+moreau_festive
+  rotate: false
+  xy: 2, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+moreau_n95
+  rotate: false
+  xy: 232, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+moreau_party
+  rotate: false
+  xy: 462, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+roclaire_n95
+  rotate: false
+  xy: 2, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+roclaire_party
+  rotate: false
+  xy: 232, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_fear
+  rotate: false
+  xy: 462, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_fear_mirror
+  rotate: false
+  xy: 692, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_n95
+  rotate: false
+  xy: 2, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_party
+  rotate: false
+  xy: 232, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+telemachus_fear
+  rotate: false
+  xy: 462, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+telemachus_fear_mirror
+  rotate: false
+  xy: 692, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+telemachus_n95
+  rotate: false
+  xy: 232, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+wanda_n95
+  rotate: false
+  xy: 462, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+wanda_party
+  rotate: false
+  xy: 692, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1

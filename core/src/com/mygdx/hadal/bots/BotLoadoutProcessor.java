@@ -9,11 +9,8 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.save.UnlockActives;
-import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.save.UnlockCharacter;
-import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.schmucks.bodies.PlayerBot;
+import com.mygdx.hadal.save.*;
+import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Blinded;
@@ -43,11 +40,12 @@ public class BotLoadoutProcessor {
                 UnlockEquip.getRandWeapFromPool(state, ""),
                 UnlockEquip.getRandWeapFromPool(state, ""),
                 UnlockEquip.getRandWeapFromPool(state, "") };
-        botLoadout.artifacts = new UnlockArtifact[]{ UnlockArtifact.MOON_FLUTHER, UnlockArtifact.GOOD_HEALTH, UnlockArtifact.NOTHING,  UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING,};
+        botLoadout.artifacts = new UnlockArtifact[]{ UnlockArtifact.MOON_FLUTHER, UnlockArtifact.GOOD_HEALTH, UnlockArtifact.NOTHING,  UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING };
         botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
         botLoadout.activeItem = getRandomActiveItem();
         botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
         botLoadout.team = AlignmentFilter.getRandomColor();
+        botLoadout.cosmetics = new UnlockCosmetic[]{ UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1 };
         return botLoadout;
     }
 

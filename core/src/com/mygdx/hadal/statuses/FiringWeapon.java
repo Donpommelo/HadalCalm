@@ -2,7 +2,7 @@ package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equippable;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 

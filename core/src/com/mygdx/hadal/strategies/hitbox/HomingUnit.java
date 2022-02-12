@@ -2,9 +2,9 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;

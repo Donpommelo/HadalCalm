@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;

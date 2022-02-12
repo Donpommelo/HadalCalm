@@ -35,6 +35,9 @@ public class UnlockManager {
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Characters.json"))) {
 			UnlockCharacter.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
 		}
+		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Cosmetics.json"))) {
+			UnlockCosmetic.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
+		}
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Levels.json"))) {
 			UnlockLevel.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
 		}
@@ -52,6 +55,7 @@ public class UnlockManager {
 			case ARTIFACT -> UnlockArtifact.getByName(name).getInfo();
 			case CHARACTER -> UnlockCharacter.getByName(name).getInfo();
 			case EQUIP -> UnlockEquip.getByName(name).getInfo();
+			case COSMETIC -> UnlockCosmetic.getByName(name).getInfo();
 			case LEVEL -> UnlockLevel.getByName(name).getInfo();
 		};
 	}
@@ -96,6 +100,7 @@ public class UnlockManager {
 			case ARTIFACT -> state.getGsm().getRecord().getUnlockArtifact().get(name, false);
 			case CHARACTER -> state.getGsm().getRecord().getUnlockCharacter().get(name, false);
 			case EQUIP -> state.getGsm().getRecord().getUnlockEquip().get(name, false);
+			case COSMETIC -> state.getGsm().getRecord().getUnlockCosmetic().get(name, false);
 			case LEVEL -> state.getGsm().getRecord().getUnlockLevel().get(name, false);
 		};
 	}
@@ -152,11 +157,12 @@ public class UnlockManager {
 		RANGED,
 		MELEE,
 		RELIQUARY,
-		DISPENSARY,
+		ARCANERY,
 		DORMITORY,
 		NAVIGATIONS,
 		PAINTER,
 		WALLPAPER,
+		HABERDASHER,
 		TRAINING,
 		CAMPAIGN,
 		QUARTERMASTER,
@@ -195,6 +201,7 @@ public class UnlockManager {
 		ARTIFACT,
 		ACTIVE,
 		CHARACTER,
+		COSMETIC,
 		LEVEL
 	}
 }

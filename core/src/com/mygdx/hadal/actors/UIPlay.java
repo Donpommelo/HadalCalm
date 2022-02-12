@@ -8,7 +8,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Stats;
 

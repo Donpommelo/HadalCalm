@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;

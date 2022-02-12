@@ -1,7 +1,7 @@
 package com.mygdx.hadal.statuses;
 
-import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 

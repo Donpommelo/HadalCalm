@@ -38,20 +38,20 @@ public enum UnlockCharacter {
 			}
 			if (grounded) {
 				return switch (frame) {
-					case 1, 7 -> 1;
-					case 2 -> 2;
-					case 3 -> 3;
-					case 4 -> 4;
-					case 5 -> 5;
-					case 6 -> 3.5f;
+					case 1, 7 -> 6.7f;
+					case 2 -> 13.3f;
+					case 3 -> 20.0f;
+					case 4 -> 26.7f;
+					case 5 -> 33.3f;
+					case 6 -> 23.3f;
 					default -> 0;
 				};
 			} else {
 				return switch (frameHead) {
-					case 1, 7 -> 0.5f;
-					case 2, 6 -> 1;
-					case 3, 5 -> 1.5f;
-					case 4 -> 2;
+					case 1, 7 -> 3.3f;
+					case 2, 6 -> 6.7f;
+					case 3, 5 -> 10.0f;
+					case 4 -> 13.3f;
 					default -> 0;
 				};
 			}
@@ -71,15 +71,9 @@ public enum UnlockCharacter {
 		//this just makes wanda's head offset slightly higher to compensate for lack of a neck
 		@Override
 		public float getWobbleOffsetHead(int frame, int frameHead, boolean grounded, boolean moving) {
-			return getWobbleOffsetBody(frame, grounded, moving) + 5;
+			return getWobbleOffsetBody(frame, grounded, moving) + 33.3f;
 		}
-	},
-	MOREAU_FESTIVE(AssetList.PLAYER_MOREAU_FESTIVE_ATL.toString(), AssetList.PLAYER_MOREAU.toString(),
-		Sprite.MOREAU_FESTIVE_SLUG, Sprite.MOREAU_FESTIVE_BUFF,
-		0.15f, 0.39f,0.10f, 0.57f, 0.68f,0.58f),
-	MOREAU_PARTY(AssetList.PLAYER_MOREAU_PARTY_ATL.toString(), AssetList.PLAYER_MOREAU.toString(),
-		Sprite.MOREAU_PARTY_SLUG, Sprite.MOREAU_PARTY_BUFF,
-		0.15f, 0.39f,0.10f, 0.57f, 0.68f,0.58f)
+	}
 	;
 	
 	private final String atlas;
@@ -153,10 +147,10 @@ public enum UnlockCharacter {
 	public float getWobbleOffsetBody(int frame, boolean grounded, boolean moving) {
 		if (grounded && moving) {
 			return switch (frame) {
-				case 1, 7 -> 1;
-				case 2 -> 2;
-				case 3, 5, 6 -> 3;
-				case 4 -> 4;
+				case 1, 7 -> 6.7f;
+				case 2 -> 13.3f;
+				case 3, 5, 6 -> 20.0f;
+				case 4 -> 26.7f;
 				default -> 0;
 			};
 		} else {

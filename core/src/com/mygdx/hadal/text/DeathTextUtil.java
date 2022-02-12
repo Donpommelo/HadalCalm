@@ -7,8 +7,8 @@ import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.dialog.DeathMessage;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
+import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.statuses.DamageTypes;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;

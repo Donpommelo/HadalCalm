@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="122">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="124">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="HUB"/>
@@ -7,12 +7,12 @@
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="160" height="70">
   <data encoding="base64" compression="zlib">
-   eAHtnNuSGyEMRDf3e/KQ/P+3ZpRU17IEGRACaSrtKocxNog+agM7y+bpiQ8SIAESIAESIAESIAESIAESIAESIAESIAESIAESIAESIAESIAESIAESIAESIAESIAESIAESIAESIAESsBN4dzX9HPx8bR8+W96YgHjv1/X8Efz8dGOGHLqNALz37Wr+Juj5/Yor3qf/Lgj/0aP03tdA3W+v2PRfYAICQmfxnkiH/35e16N70Pcbmb2aGMfoeCM/l2FfLX4rGch+T9bcyHnvCv/nAf/N7D/Fq7s8aBnPzNhPfzZ6X4O5rtSdxXtiQOR7Zg8qe8ZdHrSMJ2rv/Chuhn01vFfnNsO8J96TB/I98z39crWDB8t53WNOtIznj5Bk/0TrKL2XyW91mqyc4MFyXveYE63jqXVFv47Ukc17j/b0uPc4M/8ht+LBcg3CnLgyD0bmDbo8yigd2bwnLMGinKvqa4v/6jxhTpz5Wbr++RBj9RhPPb6TryN0ZPSeMP9wPct5qnX90Sk58GDtb+117bOIvDlJf9HNaR1ZvfcCyqEX9brc8rv28+HpvO1CclIHvTefRS0/Wv18hNgWp3TQe7Y8a/nR6m1R4lqd0EHv2fOr5Uert0eKablbB723llctP1r9WrTzrXfqoPfW86nlR6tfj3i2h1066D2fPGr50ep9op7rZYcOes8vf1p+tHq/yGd68tZB7/nmTcuPVu8bfX9vnjroPf98afnR6v1HsLdHLx303p48afnR6veMYl+vHjru5r1H51y8z+mtZk7Lj1a/Gu90+1Udd/Oe8IVm7Xf9qPc4p7eaT4yV5w/+JXlH74mK3jkX/M5ffDh6RmrlLJ+MSViWcy+utXOHmi+lrzs9rDru6r2R3MyejYJPrR4ES8y7rZLz33PmwCvT3wc9j87nauZslHCwnmkuWbbOX6GuPndonTd86Pj1YtFhaeM34jw9lRwwZ46u1+X6avkel7HzEJkfiUWHpc38yPK3qDnAg631U6uzeE/I1LHz02qP0KLD0qYd/W+trEGYDx6V1v3Vo9gr77U4jKzbWFOltP7NXyv2ipaothYdljaaPux/tPmhrM9wP6TU4cmh7Hfkelfs3lzgPQdYdFjatJjOeA8+zORBLw4tNr26HbFH8uHN36IDbWb32vXaintb8NZouRoX41j5Lpe5qu+N9Lzj8T72ml5+KPX08uAdc3YPDP/1xpn9fSvHOlcR/hMPe3mw1jOSNys7fPcQc9Z70r73+4Nyf5352nLPruQGbfW9OTA+Ua56EHpGPFd/xupBxLR47wTTUzHK3GFN7pWZ/k84cLLogE7rHgheFA+ir9EyI0OwPF0id+DZK7N+Z2d19HTufD8rw9PeQzzJHdbSXmm9X4dYO8sZHT2dO9/PzHBnftg3CZAACZAACZAACZAACZAACZAACZAACZAACZAACZAACZAACZAACZAACZAACZAACZAACZAACZwk8BvsRzda
+   eAHtnNty2zAMRNN7en9o//9bI2RmJwgrSCIIElC6mnElMyYBHKxBWqb78MCDBEiABEiABEiABEiABEiABEiABEiABEiABEiABEiABEiABEiABEiABEiABEiABEiABEiABEiABEiABPwEPm1dvyU/3vvdZ88bExDt/d0ev5MfX2/MkK77CEB7P7fuH5Ievza7on3qb4PwHx1aez8S4/642ab+EhOQYLqK9iR06O/Pdn11Dfp5IrN3HX5c9TfzdRXW1aI3zUDWezLnZta9zfzzAf31rD9Fq7M06PGnx/fVr81e16DW6biraE8EiHz3rEFlzThLgx5/stbOR3YrrKuhvTa3FeqeaE8O5Lvnffp96wcN6roeURM9/jwHUuyf7Di09irprU2TlxM0qOt6RE30+tPGlf08M45q2jta0+PeY0/9Q25Fg3oOQk0cqYOZeUNcEeesOKppT1iCha5V7bVHf22eUBN7Pku3nw/ha4Q/rX8rn2fEUVF7wvzL9tB1au/6MSg50GCrb+t5q7OMvAWF/mqY1XFU1d4rKIuetPPynt6tz4er8zYLyco4qL3+LFr5sdr7LeT2WBUHtefLs5Ufq91nJa/XijioPX9+rfxY7X5LOT1nx0HtjeXVyo/VPmZtfe+ZcVB74/m08mO1j1tcO8KsOKi9mDxa+bHaY6yuG2VGHNReXP6s/FjtcZbXjBQdB7UXmzcrP1Z7rPX5o0XGQe3F58vKj9Ue78HcEaPioPbm5MnKj9U+x4t5o0bEcTftHe1zid6nN5o5Kz9W+6i91f1H47ib9oQvYra+60d7xD690XzCV+4/+JfkHbUnUZztc8F3/qLDq3ukRvbyiU/CUtdeXFv7Di1dylh3Orxx3FV7V3LTuzcKOvVqECxRd/fOrH8vmQOvSr8PevEu5urK3ii9X8q7p1mz1OO11+2+Q2/diKETN4onDk+fOI9rjoSaeXW+1vOr5338VnLgicPTp6ZqYr2CBvfmT6vNoz3x+q3kwBOHp89RpmUOQj04OnvXV0e2o/8GNu1vSdv5FM+9v/mDnXZdGB3P7PE8cXj6WHFg/WPVB91e4X6IFQfaI9lgzL3zLDtntSC6Bnji8PTZY9ijPeiwugaj2Ozx0m0z7FzJRzR/Txzo07vWbudW3NuCtq6eR+3Cj+j3ss7f7HkRa80oPWjfz/IQbbN3DQz9nflZ/e9RHKUutfmbrT+xGaXB1vcreRtlB5u92pO4z74/wNq6+tl7z04Y6EOzRMzt/Tr9+sjrUQ3C9yuaa1/j1SBserQXyS57LJ07zMmec/b/EzcSh3cNBC2KBnuZZfPK1p22j9yBp+dc4X0cEYcndk+fCry0BrKvJXeYNz1n7z286LhH4/DE7ulThVc0f45HAiRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAApUIPAGQ5TeA
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
   <object id="1" x="256" y="1568">
-   <polyline points="0,0 480,0 576,-96 864,-96 960,0 1504,0 1600,96 1920,96 2016,0 2016,-160 1760,-160 1696,-224 1440,-224 1440,-320 1760,-320 1824,-256 2112,-256 2208,-160 2560,-160 2656,-256 2816,-256 2816,-640 2560,-640 2464,-736 2368,-736 2272,-832 1952,-832 1952,-672 1632,-672 1632,-768 1856,-768 1856,-960 896,-960 736,-800 640,-800 0,-160 0,0"/>
+   <polyline points="0,0 480,0 576,-96 864,-96 960,0 1504,0 1600,96 2080,96 2176,0 2176,-96 2112,-160 1760,-160 1696,-224 1440,-224 1440,-320 1760,-320 1824,-256 2112,-256 2208,-160 2560,-160 2656,-256 2816,-256 2816,-640 2560,-640 2464,-736 2368,-736 2272,-832 1952,-832 1952,-672 1632,-672 1632,-768 1856,-768 1856,-960 896,-960 736,-800 640,-800 0,-160 0,0"/>
   </object>
   <object id="106" x="3456" y="1664">
    <polyline points="0,0 384,0 544,-160 768,-160 928,0 1312,0 1408,-96 1408,-928 -96,-928 -96,-96 0,0"/>
@@ -75,7 +75,7 @@
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="13" name="Dispensary" type="Dispensary" x="1312" y="1472" width="96" height="96">
+  <object id="13" name="Arcanery" type="Arcanery" x="1312" y="1472" width="96" height="96">
    <properties>
     <property name="triggeredId" value="dispensary"/>
     <property name="unlock" type="bool" value="false"/>
@@ -85,13 +85,13 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="DISPENSARY"/>
+    <property name="text" value="ARCANERY"/>
    </properties>
   </object>
   <object id="15" name="ChoiceBranch" type="ChoiceBranch" x="352" y="1472" width="96" height="96">
    <properties>
     <property name="closeAfterSelect" type="bool" value="true"/>
-    <property name="optionNames" value="S.S TUNICATE GUIDED TOUR,TELL ME A POEM"/>
+    <property name="optionNames" value="COMMUNICATIONS_OPTIONS"/>
     <property name="options" value="tourStart,poemStart"/>
     <property name="title" value="COMMUNICATIONS"/>
     <property name="triggeredId" value="communication"/>
@@ -122,8 +122,8 @@
     <property name="text" value="DORMITORY"/>
    </properties>
   </object>
-  <object id="20" name="Painter" type="Painter" x="2048" y="1568" width="96" height="96"/>
-  <object id="21" name="Text" type="Text" x="2048" y="1568" width="32" height="32">
+  <object id="20" name="Painter" type="Painter" x="2208" y="1568" width="96" height="96"/>
+  <object id="21" name="Text" type="Text" x="2208" y="1568" width="32" height="32">
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
@@ -376,9 +376,9 @@
    <properties>
     <property name="closeAfterSelect" type="bool" value="true"/>
     <property name="closeOnLeave" type="bool" value="false"/>
-    <property name="optionNames" value="YES,NO"/>
+    <property name="optionNames" value="POEM_OPTIONS"/>
     <property name="options" value="poemGood,poemBad"/>
-    <property name="title" value="DID YOU LIKE THE POEM"/>
+    <property name="title" value="TEXT_POEM"/>
     <property name="triggeredId" value="poemRate"/>
    </properties>
   </object>
@@ -493,7 +493,7 @@
     <property name="triggeredId" value="bounds1"/>
    </properties>
   </object>
-  <object id="79" name="Bounds" type="Bounds" x="1984" y="1472" width="32" height="32">
+  <object id="79" name="Bounds" type="Bounds" x="1856" y="1472" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="spectator" type="bool" value="false"/>
@@ -501,7 +501,7 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="80" name="Bounds" type="Bounds" x="2016" y="1504" width="32" height="32">
+  <object id="80" name="Bounds" type="Bounds" x="2304" y="1504" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>
@@ -531,7 +531,7 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="TRAINING"/>
+    <property name="text" value="TEXT_TRAINING"/>
    </properties>
   </object>
   <object id="84" name="Dummy" type="Dummy" x="1280" y="960" width="32" height="32">
@@ -551,7 +551,7 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="RETURN TO HUB"/>
+    <property name="text" value="RETURN_HUB"/>
    </properties>
   </object>
   <object id="87" name="Dummy" type="Dummy" x="3968" y="800" width="32" height="32">
@@ -700,7 +700,7 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="SPAWN ENEMY"/>
+    <property name="text" value="TEXT_SPAWN_ENEMY"/>
    </properties>
   </object>
   <object id="115" name="Prefab" type="PrefabLeverActivate" x="3424" y="1056" width="96" height="96">
@@ -723,7 +723,7 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="BACKGROUNDS"/>
+    <property name="text" value="WALLPAPER"/>
    </properties>
   </object>
   <object id="120" name="Outfitter" type="Outfitter" x="544" y="1472" width="96" height="96">
@@ -736,6 +736,14 @@
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="OUTFITTER"/>
+   </properties>
+  </object>
+  <object id="122" name="Haberdasher" type="Haberdasher" x="2048" y="1568" width="96" height="96"/>
+  <object id="123" name="Text" type="Text" x="2048" y="1568" width="32" height="32">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="HABERDASHER"/>
    </properties>
   </object>
  </objectgroup>

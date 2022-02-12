@@ -3,7 +3,7 @@ package com.mygdx.hadal.schmucks.userdata;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.UserDataType;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
 
 /**
  * FeetData are attached to sensors used by the player to determine whether they are grounded or not.

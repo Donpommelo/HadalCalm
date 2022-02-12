@@ -1,7 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
+import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;

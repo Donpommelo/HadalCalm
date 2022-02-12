@@ -2,10 +2,10 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.enemies.Scissorfish;
-import com.mygdx.hadal.schmucks.bodies.enemies.Spittlefish;
-import com.mygdx.hadal.schmucks.bodies.enemies.Torpedofish;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.enemies.Scissorfish;
+import com.mygdx.hadal.schmucks.entities.enemies.Spittlefish;
+import com.mygdx.hadal.schmucks.entities.enemies.Torpedofish;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Summoned;

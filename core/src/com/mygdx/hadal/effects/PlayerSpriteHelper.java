@@ -13,9 +13,10 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.save.UnlockCharacter;
+import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.schmucks.MoveState;
-import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.Ragdoll;
+import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -142,9 +143,9 @@ public class PlayerSpriteHelper {
         //use new frame buffer to create texture regions for each body part.
         TextureRegion fboRegion = new TextureRegion(fbo.getColorBufferTexture());
 
-        bodyRunSprite =  copyFrames(fboRegion, atlas, "body_run", PlayState.spriteAnimationSpeed);
-        bodyStillSprite =  copyFrames(fboRegion, atlas, "body_stand", PlayState.spriteAnimationSpeed);
-        headSprite =  copyFrames(fboRegion, atlas, "head", PlayState.spriteAnimationSpeed);
+        bodyRunSprite = copyFrames(fboRegion, atlas, "body_run", PlayState.spriteAnimationSpeed);
+        bodyStillSprite = copyFrames(fboRegion, atlas, "body_stand", PlayState.spriteAnimationSpeed);
+        headSprite = copyFrames(fboRegion, atlas, "head", PlayState.spriteAnimationSpeed);
         bodyBackSprite = copyFrame(fboRegion, atlas, "body_background");
         armSprite = copyFrame(fboRegion, atlas, "arm");
         gemSprite = copyFrame(fboRegion, atlas, "gem_active");
@@ -190,7 +191,6 @@ public class PlayerSpriteHelper {
             realAttackAngle += 180;
         }
 
-        //This switch determines the total body y-offset to make the body bob up and down when running.
         //offset head is separate for some characters to have head bobbing
         float yOffset;
         float yOffsetHead;
@@ -204,25 +204,25 @@ public class PlayerSpriteHelper {
         //Draw a bunch of stuff
         batch.draw(player.getToolSprite(),
             (flip ? toolWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + armConnectXReal * scale,
-            playerLocation.y - hbHeight * scale / 2 + armConnectY * scale + yOffset,
+            playerLocation.y - hbHeight * scale / 2 + armConnectY * scale + yOffset * scale,
             (flip ? -armWidth * scale : 0) + armRotateXReal * scale , armRotateY * scale,
             (flip ? -1 : 1) * toolWidth * scale, toolHeight * scale, 1, 1, realAttackAngle);
 
         batch.draw(bodyBackSprite,
             (flip ? bodyBackWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + bodyConnectX * scale,
-            playerLocation.y - hbHeight * scale / 2 + bodyConnectY + yOffset,
+            playerLocation.y - hbHeight * scale / 2 + bodyConnectY + yOffset * scale,
             0, 0,
             (flip ? -1 : 1) * bodyBackWidth * scale, bodyBackHeight * scale, 1, 1, 0);
 
         batch.draw(armSprite,
             (flip ? armWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + armConnectXReal * scale,
-            playerLocation.y - hbHeight * scale / 2 + armConnectY * scale + yOffset,
+            playerLocation.y - hbHeight * scale / 2 + armConnectY * scale + yOffset * scale,
             (flip ? -armWidth * scale : 0) + armRotateXReal * scale, armRotateY * scale,
             (flip ? -1 : 1) * armWidth * scale, armHeight * scale, 1, 1, realAttackAngle);
 
         batch.draw(gemSprite,
             (flip ? gemWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale,
-            playerLocation.y - hbHeight * scale / 2 + bodyConnectY + yOffset,
+            playerLocation.y - hbHeight * scale / 2 + bodyConnectY + yOffset * scale,
             0, 0,
             (flip ? -1 : 1) * gemWidth * scale, gemHeight * scale, 1, 1, 0);
 
@@ -236,7 +236,7 @@ public class PlayerSpriteHelper {
             }
             batch.draw(bodyRunSprite.getKeyFrame(animationTime),
                 (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale,
-                playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset,
+                playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset * scale,
                 0, 0,
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
         } else if (moveState.equals(MoveState.MOVE_RIGHT)) {
@@ -247,7 +247,7 @@ public class PlayerSpriteHelper {
             }
             batch.draw(bodyRunSprite.getKeyFrame(animationTime),
                 (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale,
-                playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset,
+                playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset * scale,
                 0, 0,
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
         } else {
@@ -255,15 +255,20 @@ public class PlayerSpriteHelper {
             batch.draw(grounded ? bodyStillSprite.getKeyFrame(animationTime, true) :
                     bodyRunSprite.getKeyFrame(player.getFreezeFrame(false)),
                 (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale,
-                playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset,
+                playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset * scale,
                 0, 0,
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
         }
+
+        float headX = (flip ? headWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + headConnectXReal * scale;
+        float headY = playerLocation.y - hbHeight * scale / 2 + headConnectY * scale + yOffsetHead * scale;
         batch.draw(headSprite.getKeyFrame(animationTimeExtra, true),
-            (flip ? headWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + headConnectXReal * scale,
-            playerLocation.y - hbHeight * scale / 2 + headConnectY * scale + yOffsetHead,
-            0, 0,
+                headX, headY,0, 0,
             (flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
+
+        for (UnlockCosmetic cosmetic: player.getPlayerData().getLoadout().cosmetics) {
+            cosmetic.render(batch, player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headX, headY);
+        }
     }
 
     /**
@@ -299,8 +304,8 @@ public class PlayerSpriteHelper {
         }
     }
 
-    private static final float gibDuration = 3.0f;
-    private static final float gibGravity = 1.0f;
+    public static final float gibDuration = 3.0f;
+    public static final float gibGravity = 1.0f;
     private void createGibs(Vector2 playerLocation, Vector2 playerVelocity) {
         Ragdoll headRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(headWidth, headHeight).scl(scale),
 					headSprite.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false) {
@@ -326,6 +331,14 @@ public class PlayerSpriteHelper {
 
         Ragdoll toolRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(toolWidth, toolHeight).scl(scale),
                 player.getToolSprite(), playerVelocity, gibDuration, gibGravity, true, false);
+
+        for (UnlockCosmetic cosmetic: player.getPlayerData().getLoadout().cosmetics) {
+            Ragdoll cosmeticRagdoll = cosmetic.createRagdoll(player.getPlayerData().getLoadout().character, player.getState(), playerLocation,
+                    scale, playerVelocity);
+            if (cosmeticRagdoll != null && !player.getState().isServer()) {
+                ((ClientState) player.getState()).addEntity(cosmeticRagdoll.getEntityID(), cosmeticRagdoll, false, ClientState.ObjectLayer.STANDARD);
+            }
+        }
 
         //the client needs to create ragdolls separately b/c we can't serialize the frame buffer object.
         if (!player.getState().isServer()) {

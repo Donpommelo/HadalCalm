@@ -3,8 +3,8 @@ package com.mygdx.hadal.statuses;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
-import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 
 /**

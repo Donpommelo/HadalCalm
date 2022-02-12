@@ -17,7 +17,7 @@ import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.Packets;
@@ -115,7 +115,7 @@ public class ClientState extends PlayState {
 	//these control the frequency that we send latency checking packets to the server.
 	private float latencyAccumulator;
 	private float latency;
-	private static final float LatencyCheck = 1.0f;
+	private static final float LatencyCheck = 1 / 10f;
 
 	private float inputAccumulator;
 	private static final float inputSyncTime = 1 / 60f;
@@ -205,7 +205,7 @@ public class ClientState extends PlayState {
 		latencyAccumulator += delta;
 		if (latencyAccumulator >= LatencyCheck) {
 			latencyAccumulator = 0;
-			HadalGame.client.sendTCP(new Packets.LatencySyn((int) (latency * 1000), clientPingTimer));
+			HadalGame.client.sendUDP(new Packets.LatencySyn((int) (latency * 1000), clientPingTimer));
 		}
 
 		missedCreatesToRemove.clear();

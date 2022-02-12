@@ -374,10 +374,13 @@
             "message": "<perp> killed <vic> with lightning", "weight": 15, "namedPerp": true
         },
         {
-            "message": "<perp> smited <vic>", "weight": 25, "namedPerp": true
+            "message": "<perp> smited <vic>", "weight": 15, "namedPerp": true
         },
         {
             "message": "<perp> zapped <vic>'s <body part>", "weight": 25, "namedPerp": true
+        },
+		{
+            "message": "<perp> killed <vic> with electrical infetterence", "weight": 25, "namedPerp": true
         },
         {
             "message": "<perp> gave <vic> a toaster bath", "weight": 5, "namedPerp": true

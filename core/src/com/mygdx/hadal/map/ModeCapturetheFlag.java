@@ -8,7 +8,7 @@ import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.event.modes.SpawnerFlag;
 import com.mygdx.hadal.event.modes.FlagCapturable;
-import com.mygdx.hadal.schmucks.bodies.PlayerBot;
+import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 

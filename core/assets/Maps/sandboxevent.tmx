@@ -214,16 +214,6 @@
     <property name="triggeringId" value="door1"/>
    </properties>
   </object>
-  <object id="89" name="Text" type="Text" x="1472" y="992" width="32" height="32">
-   <properties>
-    <property name="text" value="UNLOCKS"/>
-   </properties>
-  </object>
-  <object id="90" name="Text" type="Text" x="1696" y="1248" width="32" height="32">
-   <properties>
-    <property name="text" value="WEAPONS"/>
-   </properties>
-  </object>
   <object id="95" name="Displacer" type="Displacer" x="2760" y="1048" width="400" height="8">
    <properties>
     <property name="displaceX" type="float" value="0"/>
@@ -377,21 +367,6 @@
     <property name="triggeredId" value="objectiveMarker"/>
    </properties>
   </object>
-  <object id="130" name="Text" type="Text" x="896" y="1280" width="32" height="32">
-   <properties>
-    <property name="text" value="PICKUPS"/>
-   </properties>
-  </object>
-  <object id="138" name="Text" type="Text" x="1888" y="704" width="32" height="32">
-   <properties>
-    <property name="text" value="FREE MONEY"/>
-   </properties>
-  </object>
-  <object id="139" name="Text" type="Text" x="3456" y="1152" width="32" height="32">
-   <properties>
-    <property name="text" value="SPRITE"/>
-   </properties>
-  </object>
   <object id="165" name="Bounds" type="Bounds" x="3680" y="1600" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
@@ -435,12 +410,7 @@
   </object>
   <object id="175" name="Text" type="Text" x="1504" y="448" width="32" height="32">
    <properties>
-    <property name="text" value="HUB"/>
-   </properties>
-  </object>
-  <object id="176" name="Text" type="Text" x="864" y="448" width="32" height="32">
-   <properties>
-    <property name="text" value="PORTALS"/>
+    <property name="text" value="TEXT_HUB"/>
    </properties>
   </object>
   <object id="177" name="Spring" type="Spring" x="1696" y="848" width="96" height="16">

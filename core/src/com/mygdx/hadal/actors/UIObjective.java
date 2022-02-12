@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.UUID;

@@ -4,7 +4,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;

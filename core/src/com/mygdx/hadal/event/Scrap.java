@@ -10,7 +10,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;

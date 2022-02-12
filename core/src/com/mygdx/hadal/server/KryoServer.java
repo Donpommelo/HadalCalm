@@ -15,9 +15,9 @@ import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.bodies.MouseTracker;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.MouseTracker;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -316,6 +316,10 @@ public class KryoServer {
 										player.getPlayerData().setTeam(s.team);
 										player.getPlayerData().syncServerTeamChange(s.team);
 									}
+									else if (p instanceof PacketsLoadout.SyncCosmeticClient s) {
+										player.getPlayerData().setCosmetic(s.cosmetic);
+										player.getPlayerData().syncServerCosmeticChange(s.cosmetic);
+									}
 								}
 							});
 						}
@@ -441,7 +445,7 @@ public class KryoServer {
 								user.setScoreUpdated(true);
 							}
 						}
-						server.sendToTCP(c.getID(), new Packets.LatencyAck(ps.getTimer(), p.timestamp));
+						server.sendToUDP(c.getID(), new Packets.LatencyAck(ps.getTimer(), p.timestamp));
 					}
 				}
 				

@@ -24,8 +24,6 @@ public class ScalePlatform extends Event {
 
 	public ScalePlatform(PlayState state, Vector2 startPos, Vector2 size, float minHeight, float density) {
 		super(state, startPos, size);
-		setSyncDefault(false);
-		setSyncInstant(true);
 		this.minHeight = minHeight;
 		this.density = density;
 	}
@@ -59,6 +57,5 @@ public class ScalePlatform extends Event {
 		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
 		setScaleAlign("CENTER_STRETCH");
 		setSyncType(eventSyncTypes.ALL);
-		setSynced(true);
 	}
 }

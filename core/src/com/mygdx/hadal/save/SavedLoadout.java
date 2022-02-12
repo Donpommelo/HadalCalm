@@ -3,6 +3,7 @@ package com.mygdx.hadal.save;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.SerializationException;
+import com.mygdx.hadal.equip.Loadout;
 
 import java.util.Arrays;
 
@@ -17,8 +18,7 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_TOTAL;
 public class SavedLoadout {
 
 	//This is the player's current loadout that they will start with
-	private String[] equips;
-	private String[] artifacts;
+	private String[] equips, artifacts, cosmetics;
 	private String active, character;
 	private String team;
 
@@ -31,6 +31,7 @@ public class SavedLoadout {
 	public SavedLoadout(SavedLoadout loadout) {
 		equips = Arrays.copyOf(loadout.equips, loadout.equips.length);
 		artifacts = Arrays.copyOf(loadout.artifacts, loadout.artifacts.length);
+		cosmetics = Arrays.copyOf(loadout.cosmetics, loadout.cosmetics.length);
 		active = loadout.active;
 		character = loadout.character;
 		team = loadout.team;
@@ -50,9 +51,16 @@ public class SavedLoadout {
 	 */
 	public static void createNewLoadout() {
 		SavedLoadout newLoadout = new SavedLoadout();
+		newLoadout.equips = new String[Loadout.maxWeaponSlots];
+		Arrays.fill(newLoadout.equips, "NOTHING");
+		newLoadout.equips[0] = "SPEARGUN";
 
-		newLoadout.equips = new String[] {"SPEARGUN", "NOTHING", "NOTHING", "NOTHING"};
-		newLoadout.artifacts = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING"};
+		newLoadout.artifacts = new String[Loadout.maxArtifactSlots];
+		Arrays.fill(newLoadout.artifacts, "NOTHING");
+
+		newLoadout.cosmetics = new String[Loadout.maxCosmeticSlots];
+		Arrays.fill(newLoadout.cosmetics, "NOTHING");
+
 		newLoadout.active = "NOTHING";
 		newLoadout.character = "MOREAU";
 		newLoadout.team = "NONE";
@@ -73,6 +81,11 @@ public class SavedLoadout {
 			SavedLoadout.createNewLoadout();
 			tempLoadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
 		}
+		if (tempLoadout.equips == null || tempLoadout.artifacts == null || tempLoadout.cosmetics == null ||
+				tempLoadout.active == null || tempLoadout.character == null || tempLoadout.team == null) {
+			SavedLoadout.createNewLoadout();
+			tempLoadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
+		}
 		return tempLoadout;
 	}
 	
@@ -85,7 +98,12 @@ public class SavedLoadout {
 		this.artifacts[index] = artifact;
 		saveLoadout();
 	}
-	
+
+	public void setCosmetic(int index, String cosmetic) {
+		this.cosmetics[index] = cosmetic;
+		saveLoadout();
+	}
+
 	public void setActive(String active) {
 		this.active = active;
 		saveLoadout();
@@ -109,6 +127,7 @@ public class SavedLoadout {
 	public void setLoadout(SavedLoadout loadout) {
 		this.equips = loadout.equips;
 		this.artifacts = loadout.artifacts;
+		this.cosmetics = loadout.cosmetics;
 		this.active = loadout.active;
 		this.character = loadout.character;
 		this.team = loadout.team;
@@ -118,6 +137,8 @@ public class SavedLoadout {
 	public String[] getEquips() {return equips;}
 
 	public String[] getArtifacts() { return artifacts; }
+
+	public String[] getCosmetics() { return cosmetics; }
 
 	public String getActive() {	return active; }
 

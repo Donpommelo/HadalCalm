@@ -6,7 +6,7 @@ import com.mygdx.hadal.bots.BotController;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.event.modes.CrownHoldable;
-import com.mygdx.hadal.schmucks.bodies.PlayerBot;
+import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.states.PlayState;
 
 import static com.mygdx.hadal.utils.Constants.PPM;

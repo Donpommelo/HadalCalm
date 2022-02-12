@@ -11,7 +11,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;

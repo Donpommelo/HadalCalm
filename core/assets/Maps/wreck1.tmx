@@ -422,14 +422,14 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="interact: (fuginteractfug)"/>
+    <property name="text" value="TEXT_INTERACT"/>
    </properties>
   </object>
   <object id="103" name="Text" type="Text" x="320" y="2336" width="256" height="32">
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="left: (fugleftfug)   right: (fugrightfug)"/>
+    <property name="text" value="TEXT_MOVEMENT"/>
    </properties>
   </object>
   <object id="105" name="Multitrigger" type="Multitrigger" x="416" y="2720" width="32" height="32">
@@ -449,20 +449,20 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="jump/hover: (fugjumpfug)"/>
+    <property name="text" value="TEXT_JUMP"/>
    </properties>
   </object>
   <object id="112" name="Text" type="Text" x="1280" y="2016" width="96" height="32">
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="boost: (fugboostfug)"/>
+    <property name="text" value="TEXT_BOOST"/>
    </properties>
   </object>
   <object id="113" name="Text" type="Text" x="1952" y="1824" width="96" height="32">
    <properties>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="attack: (fugshootfug)"/>
+    <property name="text" value="TEXT_ATTACK"/>
    </properties>
   </object>
   <object id="114" name="SchmuckSpawn" type="SchmuckSpawn" x="1056" y="1536" width="32" height="32">
@@ -493,7 +493,7 @@
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="fast fall: (fugcrouchfug)"/>
+    <property name="text" value="TEXT_CROUCH"/>
    </properties>
   </object>
   <object id="121" name="Prefab" type="PrefabScrapCache" x="2816" y="1856" width="96" height="96">

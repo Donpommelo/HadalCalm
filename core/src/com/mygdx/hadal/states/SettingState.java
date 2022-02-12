@@ -402,7 +402,7 @@ public class SettingState extends GameState {
 		for (PlayerAction a : PlayerAction.values()) {
 			
 			final PlayerAction action = a;
-			Text actionChoose = new Text(a.toString() + ":==   " + getKey(a.getKey())).setButton(true);
+			Text actionChoose = new Text(a.getText() + ":==   " + getKey(a.getKey())).setButton(true);
 			
 			actionChoose.addListener(new ClickListener() {
 				
@@ -790,15 +790,11 @@ public class SettingState extends GameState {
 	 */
 	public static String getKey(int keycode) {
 		
-		if (keycode == 0) {	return "MOUSE_LEFT"; }
-		
-		if (keycode == 1) { return "MOUSE_RIGHT"; }		
-		
-		if (keycode == 2) {	return "MOUSE_MIDDLE"; }
-		
-		if (keycode == -1000) {	return "M_WHEEL_UP"; }
-		
-		if (keycode == 1000) { return "M_WHEEL_DOWN"; }
+		if (keycode == 0) {	return HText.MOUSE_LEFT.text(); }
+		if (keycode == 1) { return HText.MOUSE_RIGHT.text(); }
+		if (keycode == 2) {	return HText.MOUSE_MIDDLE.text(); }
+		if (keycode == -1000) {	return HText.M_WHEEL_UP.text(); }
+		if (keycode == 1000) { return HText.M_WHEEL_DOWN.text(); }
 		
 		return Input.Keys.toString(keycode);
 	}
