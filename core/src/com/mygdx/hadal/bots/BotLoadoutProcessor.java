@@ -2,6 +2,7 @@ package com.mygdx.hadal.bots;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.Loadout;
@@ -45,7 +46,7 @@ public class BotLoadoutProcessor {
         botLoadout.activeItem = getRandomActiveItem();
         botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
         botLoadout.team = AlignmentFilter.getRandomColor();
-        botLoadout.cosmetics = new UnlockCosmetic[]{ UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1 };
+        botLoadout.cosmetics = getRandomCosmetics(botLoadout.character);
         return botLoadout;
     }
 
@@ -461,6 +462,26 @@ public class BotLoadoutProcessor {
         } else {
             return botItems[MathUtils.random(botItems.length - 1)];
         }
+    }
+
+    public static UnlockCosmetic[] getRandomCosmetics(UnlockCharacter character) {
+        UnlockCosmetic[] cosmetics = new UnlockCosmetic[]{ UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1 };
+
+        int index = 0;
+        for (CosmeticSlot slot: CosmeticSlot.values()) {
+            Array<UnlockCosmetic> cosmeticOptions = new Array<>();
+            for (UnlockCosmetic cosmetic: UnlockCosmetic.values()) {
+                if (!cosmetic.checkCompatibleCharacters(character) && cosmetic.getCosmeticSlot().equals(slot)) {
+                    cosmeticOptions.add(cosmetic);
+                }
+            }
+            if (cosmeticOptions.size > 0) {
+                cosmetics[index] = cosmeticOptions.get(MathUtils.random(cosmeticOptions.size - 1));
+            }
+            index++;
+        }
+
+        return cosmetics;
     }
 
     private static final float healThreshold = 0.8f;

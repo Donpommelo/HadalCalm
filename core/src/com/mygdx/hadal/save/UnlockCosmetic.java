@@ -1,9 +1,6 @@
 package com.mygdx.hadal.save;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -67,7 +64,7 @@ public enum UnlockCosmetic {
         this.blank = true;
     }
 
-    public void render(SpriteBatch batch, UnlockCharacter character, float animationTimeExtra, float scale, boolean flip, float locationX, float locationY) {
+    public void render(Batch batch, UnlockCharacter character, float animationTimeExtra, float scale, boolean flip, float locationX, float locationY) {
         if (!blank) {
             CharacterCosmetic cosmetic = cosmetics.get(character);
             if (cosmetic != null) {
@@ -165,7 +162,7 @@ class CharacterCosmetic {
         }
     }
 
-    public void render(SpriteBatch batch, float animationTimeExtra, float scale, boolean flip, float locationX, float locationY) {
+    public void render(Batch batch, float animationTimeExtra, float scale, boolean flip, float locationX, float locationY) {
 
         if (mirror && flip) {
             if (framesMirror == null) { getFrames(); }
@@ -179,6 +176,7 @@ class CharacterCosmetic {
     }
 
     public Ragdoll createRagdoll(PlayState state, Vector2 playerLocation, float scale, Vector2 playerVelocity) {
+        if (frames == null) { getFrames(); }
         if (frames.getKeyFrames().length != 0) {
             return new Ragdoll(state, playerLocation, new Vector2(cosmeticWidth, cosmeticHeight).scl(scale),
                     frames.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false);

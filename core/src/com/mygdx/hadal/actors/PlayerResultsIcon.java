@@ -8,10 +8,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.save.UnlockCharacter;
+import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
@@ -43,7 +45,11 @@ public class PlayerResultsIcon extends AHadalActor {
 	private static final float readyOffsetY = 150.0f;
 
 	private TextureRegion playerSprite;
+	private final UnlockCharacter character;
+	private final UnlockCosmetic[] cosmetics;
 	private final TextureRegion readyIcon;
+
+	private final Vector2 cosmeticOffset = new Vector2();
 
 	//this string identifies the player as well as their score information
 	private final String name;
@@ -59,14 +65,16 @@ public class PlayerResultsIcon extends AHadalActor {
 				Integer.toString(fields.getDeaths()), Integer.toString(fields.getAssists()), Integer.toString(fields.getScore()));
 
 		this.readyIcon = Sprite.EMOTE_READY.getFrame();
-
-		UnlockCharacter character = fieldsExtra.getLoadout().character;
+		this.character = fieldsExtra.getLoadout().character;
+		this.cosmetics = fieldsExtra.getLoadout().cosmetics;
 
 		//if the player won the game, we display a winning sprite. Otherwise: sluggo.
 		if (fields.isWonLast()) {
 			this.playerSprite = character.getBuffSprite().getFrame();
+			this.cosmeticOffset.set(character.getBuffHatOffset()).scl(spriteScale);
 		} else {
 			this.playerSprite = character.getSlugSprite().getFrame();
+			this.cosmeticOffset.set(character.getSlugHatOffset()).scl(spriteScale);
 		}
 
 		setHeight(spriteHeight * spriteScale);
@@ -108,10 +116,24 @@ public class PlayerResultsIcon extends AHadalActor {
 		playerSprite = new TextureRegion(fboRegion, fboRegion.getRegionX(), fboRegion.getRegionHeight() - fboRegion.getRegionY(),
 			fboRegion.getRegionWidth(), - fboRegion.getRegionHeight());
 	}
-	
+
+	private float animationTimeExtra;
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		animationTimeExtra += delta;
+	}
+
 	@Override
     public void draw(Batch batch, float alpha) {
-		batch.draw(playerSprite, getX() + spriteOffsetY, getY(), playerSprite.getRegionWidth() * spriteScale, playerSprite.getRegionHeight() * spriteScale);
+		float spriteX = getX() + spriteOffsetY;
+		float spriteY = getY();
+		batch.draw(playerSprite, spriteX, spriteY, playerSprite.getRegionWidth() * spriteScale, playerSprite.getRegionHeight() * spriteScale);
+
+		for (UnlockCosmetic cosmetic: cosmetics) {
+			cosmetic.render(batch, character, animationTimeExtra, spriteScale, false,
+					spriteX + cosmeticOffset.x, spriteY + cosmeticOffset.y);
+		}
 
 		HadalGame.FONT_UI.getData().setScale(fontScale);
 		HadalGame.FONT_UI.draw(batch, name, getX() + textOffsetX,getY() + textOffsetY, textWidth, Align.center, true);
