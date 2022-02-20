@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -289,7 +290,21 @@ public class Event extends HadalEntity {
 			}
 		}
 	}
-	
+
+	@Override
+	public void onServerSyncFast() {
+		if (synced && body != null && isSyncInstant()) {
+			float angle = getAngle();
+			if (angle == 0.0f) {
+				HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
+						entityAge, state.getTimer()));
+			} else {
+				HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
+						entityAge, state.getTimer(), angle));
+			}
+		}
+	}
+
 	@Override
 	public HadalData getHadalData() { return eventData; }
 	

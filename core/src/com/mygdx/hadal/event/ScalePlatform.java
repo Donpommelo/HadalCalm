@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -26,6 +27,8 @@ public class ScalePlatform extends Event {
 		super(state, startPos, size);
 		this.minHeight = minHeight;
 		this.density = density;
+		setSyncDefault(false);
+		setSyncInstant(true);
 	}
 	
 	@Override
@@ -36,20 +39,24 @@ public class ScalePlatform extends Event {
 				Constants.BIT_WALL, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
 
-		Vector2 position = getPosition();
+		if (state.isServer()) {
+			Vector2 position = getPosition();
 
-		//attach the body to the world anchor
-		PrismaticJointDef joint = new PrismaticJointDef();
-		joint.bodyA = state.getAnchor().getBody();
-		joint.bodyB = body;
-		joint.localAnchorA.set(position.x, position.y);
-		joint.localAnchorB.set(0, 0);
-		joint.enableLimit = true;
-		joint.upperTranslation = 0;
-		joint.lowerTranslation = minHeight;
-		joint.localAxisA.set(0, 1);
+			//attach the body to the world anchor
+			PrismaticJointDef joint = new PrismaticJointDef();
+			joint.bodyA = state.getAnchor().getBody();
+			joint.bodyB = body;
+			joint.localAnchorA.set(position.x, position.y);
+			joint.localAnchorB.set(0, 0);
+			joint.enableLimit = true;
+			joint.upperTranslation = 0;
+			joint.lowerTranslation = minHeight;
+			joint.localAxisA.set(0, 1);
 
-		state.getWorld().createJoint(joint);
+			state.getWorld().createJoint(joint);
+		} else {
+			this.body.setType(BodyDef.BodyType.KinematicBody);
+		}
 	}
 	
 	@Override
@@ -57,5 +64,6 @@ public class ScalePlatform extends Event {
 		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
 		setScaleAlign("CENTER_STRETCH");
 		setSyncType(eventSyncTypes.ALL);
+		setSynced(true);
 	}
 }

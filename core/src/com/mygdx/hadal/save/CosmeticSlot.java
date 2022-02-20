@@ -1,5 +1,10 @@
 package com.mygdx.hadal.save;
 
+/**
+ * A CosmeticSlot is a single slot in a player's cosmetic options. Each cosmetic item has a designated slot and equipping
+ * an item will unequip any equipped items with the same slot.
+ * @author Brarlando Beshire
+ */
 public enum CosmeticSlot {
 
     HAT1("HAT1", 0),

@@ -2,6 +2,7 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -34,6 +35,8 @@ public class SeeSawPlatform extends Event {
 	
 	public SeeSawPlatform(PlayState state, Vector2 startPos, Vector2 size) {
 		super(state, startPos, size);
+		setSyncDefault(false);
+		setSyncInstant(true);
 	}
 	
 	@Override
@@ -47,38 +50,42 @@ public class SeeSawPlatform extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 1.0f, 1, 0, false, false, 
 				Constants.BIT_WALL, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
-		
-		//attach the body to the world anchor
-		RevoluteJointDef joint = new RevoluteJointDef();
-		joint.bodyA = state.getAnchor().getBody();
-		joint.bodyB = body;
-		joint.localAnchorA.set(getPosition().x, getPosition().y);
-		joint.localAnchorB.set(0, 0);
-		joint.enableLimit = true;
-		joint.lowerAngle = -MathUtils.PI / 3;
-		joint.upperAngle = MathUtils.PI / 3;
-		state.getWorld().createJoint(joint);
-		
-		//create the segment fixtures. Each responds to knockback and applies it to the respective parts of the platform
-		for (float i = -size.x / 2 + sectionWidth / 2; i < size.x / 2; i += sectionWidth) {
-			
-			final float sectioncenter = i;
-			
-			EventData tempData = new EventData(this, UserDataType.WALL) {
-				
-				@Override
-				public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
-					
-					if (getEntity().isAlive()) {
-						if (getEntity().getBody() != null) {
-							getEntity().getBody().applyLinearImpulse(new Vector2(knockback).limit(kbCap), new Vector2(sectioncenter, 0), true);
+
+		if (state.isServer()) {
+			//attach the body to the world anchor
+			RevoluteJointDef joint = new RevoluteJointDef();
+			joint.bodyA = state.getAnchor().getBody();
+			joint.bodyB = body;
+			joint.localAnchorA.set(getPosition().x, getPosition().y);
+			joint.localAnchorB.set(0, 0);
+			joint.enableLimit = true;
+			joint.lowerAngle = -MathUtils.PI / 3;
+			joint.upperAngle = MathUtils.PI / 3;
+			state.getWorld().createJoint(joint);
+
+			//create the segment fixtures. Each responds to knockback and applies it to the respective parts of the platform
+			for (float i = -size.x / 2 + sectionWidth / 2; i < size.x / 2; i += sectionWidth) {
+
+				final float sectioncenter = i;
+
+				EventData tempData = new EventData(this, UserDataType.WALL) {
+
+					@Override
+					public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
+
+						if (getEntity().isAlive()) {
+							if (getEntity().getBody() != null) {
+								getEntity().getBody().applyLinearImpulse(new Vector2(knockback).limit(kbCap), new Vector2(sectioncenter, 0), true);
+							}
 						}
+						return 0;
 					}
-					return 0;
-				}
-			};
-			FixtureBuilder.createFixtureDef(body, new Vector2(i, 0), new Vector2(sectionWidth, size.y + sectionPadding), true, 0, 0, 0, 0,
-					Constants.BIT_WALL, Constants.BIT_PROJECTILE, (short) 0).setUserData(tempData);
+				};
+				FixtureBuilder.createFixtureDef(body, new Vector2(i, 0), new Vector2(sectionWidth, size.y + sectionPadding), true, 0, 0, 0, 0,
+						Constants.BIT_WALL, Constants.BIT_PROJECTILE, (short) 0).setUserData(tempData);
+			}
+		} else {
+			this.body.setType(BodyDef.BodyType.KinematicBody);
 		}
 	}
 	
@@ -87,5 +94,6 @@ public class SeeSawPlatform extends Event {
 		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
 		setScaleAlign("ROTATE");
 		setSyncType(eventSyncTypes.ALL);
+		setSynced(true);
 	}
 }

@@ -464,9 +464,13 @@ public class BotLoadoutProcessor {
         }
     }
 
+    /**
+     * This applies random cosmetics to the newly created bot
+     */
     public static UnlockCosmetic[] getRandomCosmetics(UnlockCharacter character) {
         UnlockCosmetic[] cosmetics = new UnlockCosmetic[]{ UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1 };
 
+        //iterate through all cosmetic slots and for each, add all applicable cosmetics to a list, then choose one randomly
         int index = 0;
         for (CosmeticSlot slot: CosmeticSlot.values()) {
             Array<UnlockCosmetic> cosmeticOptions = new Array<>();

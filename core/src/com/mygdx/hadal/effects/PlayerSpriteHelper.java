@@ -266,6 +266,7 @@ public class PlayerSpriteHelper {
                 headX, headY,0, 0,
             (flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
 
+        //draw cosmetics. Use head coordinates
         for (UnlockCosmetic cosmetic: player.getPlayerData().getLoadout().cosmetics) {
             cosmetic.render(batch, player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headX, headY);
         }
@@ -332,6 +333,7 @@ public class PlayerSpriteHelper {
         Ragdoll toolRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(toolWidth, toolHeight).scl(scale),
                 player.getToolSprite(), playerVelocity, gibDuration, gibGravity, true, false);
 
+        //Get cosmetic ragdolls
         for (UnlockCosmetic cosmetic: player.getPlayerData().getLoadout().cosmetics) {
             Ragdoll cosmeticRagdoll = cosmetic.createRagdoll(player.getPlayerData().getLoadout().character, player.getState(), playerLocation,
                     scale, playerVelocity);

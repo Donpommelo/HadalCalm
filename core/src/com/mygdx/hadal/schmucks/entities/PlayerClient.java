@@ -107,7 +107,7 @@ public class PlayerClient extends Player {
 				if (predictedPosition.dst2(getPosition()) > DIST_TOLERANCE) {
 
 					shortestFraction = 1.0f;
-					if (WorldUtil.preRaycastCheck(p.pos, predictedPosition)) {
+					if (WorldUtil.preRaycastCheck(p.pos, predictedPosition) && latency > 0.0f) {
 						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
 							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
@@ -209,6 +209,7 @@ public class PlayerClient extends Player {
 				predictionCount -= predictionInterval;
 
 				float latency = ((ClientState) state).getLatency();
+				shortestFraction = 1.0f;
 
 				if (latency > 0.0f) {
 					float time = CONVERGE_MULTIPLIER * latency;
@@ -216,29 +217,28 @@ public class PlayerClient extends Player {
 
 					extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(playerVelocity).scl(time));
 					newPredictedPosition.set(playerWorldLocation).add(extrapolatedPosition.sub(playerWorldLocation).scl(t));
+
+					//when predicting, we extrapolate our position based on our prediction plus our current velocity given the current latency.
+					if (WorldUtil.preRaycastCheck(playerWorldLocation, newPredictedPosition)) {
+						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
+							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+								if (fraction < shortestFraction) {
+									shortestFraction = fraction;
+									return fraction;
+								}
+							}
+							if (fixture.getFilterData().categoryBits == Constants.BIT_PLAYER) {
+								if (fraction < shortestFraction && ((PlayerBodyData) fixture.getUserData()).getPlayer().getHitboxfilter() != hitboxfilter) {
+									shortestFraction = fraction;
+									return fraction;
+								}
+							}
+							return -1.0f;
+						}, playerWorldLocation, newPredictedPosition);
+					}
 				} else {
 					extrapolatedPosition.set(predictedPosition);
 					newPredictedPosition.set(extrapolatedPosition);
-				}
-
-				//when predicting, we extrapolate our position based on our prediction plus our current velocity given the current latency.
-				shortestFraction = 1.0f;
-				if (WorldUtil.preRaycastCheck(playerWorldLocation, newPredictedPosition)) {
-					state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-						if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
-							if (fraction < shortestFraction) {
-								shortestFraction = fraction;
-								return fraction;
-							}
-						}
-						if (fixture.getFilterData().categoryBits == Constants.BIT_PLAYER) {
-							if (fraction < shortestFraction && ((PlayerBodyData) fixture.getUserData()).getPlayer().getHitboxfilter() != hitboxfilter) {
-								shortestFraction = fraction;
-								return fraction;
-							}
-						}
-						return -1.0f;
-					}, playerWorldLocation, newPredictedPosition);
 				}
 
 				//scale extrapolation by shortest fraction to avoid extrapolating through a wall

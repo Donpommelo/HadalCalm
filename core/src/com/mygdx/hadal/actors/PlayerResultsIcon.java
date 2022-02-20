@@ -130,6 +130,7 @@ public class PlayerResultsIcon extends AHadalActor {
 		float spriteY = getY();
 		batch.draw(playerSprite, spriteX, spriteY, playerSprite.getRegionWidth() * spriteScale, playerSprite.getRegionHeight() * spriteScale);
 
+		//draw cosmetics on the slug/buff players
 		for (UnlockCosmetic cosmetic: cosmetics) {
 			cosmetic.render(batch, character, animationTimeExtra, spriteScale, false,
 					spriteX + cosmeticOffset.x, spriteY + cosmeticOffset.y);

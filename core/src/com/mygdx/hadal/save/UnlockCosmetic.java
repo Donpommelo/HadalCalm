@@ -14,6 +14,10 @@ import java.util.HashMap;
 import static com.mygdx.hadal.effects.PlayerSpriteHelper.gibDuration;
 import static com.mygdx.hadal.effects.PlayerSpriteHelper.gibGravity;
 
+/**
+ * An UnlockCosmetic represents a single cosmetic item like a hat. Each cosmetic item contains a list of characters that
+ * can equip it (each character - cosmetic relationship is represented by 1 CharacterCosmetic)
+ */
 public enum UnlockCosmetic {
 
     NOTHING_HAT1(CosmeticSlot.HAT1),
@@ -45,10 +49,16 @@ public enum UnlockCosmetic {
 
     private InfoItem info;
 
+    //This is the slot that this cosmetic goes into
     private final CosmeticSlot cosmeticSlot;
+
+    //does the cosmetic sprite ragdoll when the user is defeated?
     private final boolean ragdoll;
+
+    //Blank indicates that the cosmetic will not be rendered, instead representing an empty slot
     private boolean blank;
 
+    //this maps each compatible character to their version of the cosmetic item
     private final HashMap<UnlockCharacter, CharacterCosmetic> cosmetics = new HashMap<>();
 
     UnlockCosmetic(CosmeticSlot cosmeticSlot, boolean ragdoll, CharacterCosmetic... compatibleCharacters) {
@@ -64,6 +74,10 @@ public enum UnlockCosmetic {
         this.blank = true;
     }
 
+    /**
+     * This is called when a player is rendered to render the cosmetic.
+     * We find the character's version of the cosmetic and render it if existent
+     */
     public void render(Batch batch, UnlockCharacter character, float animationTimeExtra, float scale, boolean flip, float locationX, float locationY) {
         if (!blank) {
             CharacterCosmetic cosmetic = cosmetics.get(character);
@@ -73,6 +87,10 @@ public enum UnlockCosmetic {
         }
     }
 
+    /**
+     * This is called when a player is ragdolled.
+     * @return the cosmetic ragdoll
+     */
     public Ragdoll createRagdoll(UnlockCharacter character, PlayState state, Vector2 playerLocation, float scale, Vector2 playerVelocity) {
         if (ragdoll) {
             CharacterCosmetic cosmetic = cosmetics.get(character);
@@ -83,12 +101,15 @@ public enum UnlockCosmetic {
         return null;
     }
 
+    /**
+     * This checks if a character can wear this cosmetic or not
+     */
     public boolean checkCompatibleCharacters(UnlockCharacter character) {
         return !cosmetics.containsKey(character);
     }
 
     /**
-     * This acquires a list of all unlocked characters (if unlock is true. otherwise just return all characters that satisfy the tags)
+     * This acquires a list of all unlocked cosmetics (if unlock is true. otherwise just return all cosmetics that satisfy the tags)
      */
     public static Array<UnlockCosmetic> getUnlocks(PlayState state, boolean unlock, Array<UnlockManager.UnlockTag> tags) {
         Array<UnlockCosmetic> items = new Array<>();
@@ -127,14 +148,27 @@ public enum UnlockCosmetic {
     }
 }
 
+/**
+ * A CharacterCosmetic represents a single Character-Cosmetic relationship
+ */
 class CharacterCosmetic {
 
-    private boolean mirror;
+    //The id of the sprite in thte cosmetic texture atlas
     private final String spriteId;
+
+    //the character that this cosmetic is worn by
     private final UnlockCharacter compatibleCharacter;
-    private String spriteIdMirror;
+
+    //frames of sprites for rendering this cosmetic
     private Animation<TextureRegion> frames, framesMirror;
+
+    //dimensions of the cosmetic
     private float cosmeticWidth, cosmeticHeight;
+
+    //mirror indicates that a cosmetic is drawn with a different sprite when mirrored instead of just being flipped
+    //this is used to properly render things like text
+    private boolean mirror;
+    private String spriteIdMirror;
 
     private static final float animationSpeed = 0.2f;
 
@@ -149,6 +183,9 @@ class CharacterCosmetic {
         this.mirror = true;
     }
 
+    /**
+     * This is called before rendering to retrieve the frames for the cosmetic sprite
+     */
     public void getFrames() {
         if (frames == null) {
             frames = new Animation<>(animationSpeed, ((TextureAtlas) HadalGame.assetManager.get(AssetList.COSMETICS_ATL.toString())).findRegions(spriteId));
@@ -162,8 +199,12 @@ class CharacterCosmetic {
         }
     }
 
+    /**
+     * Draw the cosmetic at the correct location
+     */
     public void render(Batch batch, float animationTimeExtra, float scale, boolean flip, float locationX, float locationY) {
 
+        //mirrored sprites are drawn differently when character is flipped
         if (mirror && flip) {
             if (framesMirror == null) { getFrames(); }
             batch.draw(framesMirror.getKeyFrame(animationTimeExtra, true), locationX - cosmeticWidth * scale,
@@ -175,6 +216,9 @@ class CharacterCosmetic {
         }
     }
 
+    /**
+     * Called when player ragdolls are created to spawn a ragdoll for the cosmetic if applicable
+     */
     public Ragdoll createRagdoll(PlayState state, Vector2 playerLocation, float scale, Vector2 playerVelocity) {
         if (frames == null) { getFrames(); }
         if (frames.getKeyFrames().length != 0) {
