@@ -25,6 +25,13 @@ public enum UnlockCosmetic {
     NOTHING_EYE(CosmeticSlot.EYE),
     NOTHING_NOSE(CosmeticSlot.NOSE),
     NOTHING_MOUTH(CosmeticSlot.MOUTH),
+    EYEPATCH(CosmeticSlot.EYE, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_eyepatch"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_eyepatch"),
+            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_eyepatch"),
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_eyepatch"),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_eyepatch"),
+            new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_eyepatch")),
     FESTIVE_HAT(CosmeticSlot.HAT1, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_festive")),
     FISH_FEAR_ME_HAT(CosmeticSlot.HAT1, true,
@@ -36,7 +43,11 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_party"),
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_party"),
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_party")),
-
+    PROPELLER_BEANIE(CosmeticSlot.HAT1, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_propeller"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_propellor"),
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_propellor"),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_propellor")),
     N95_MASK(CosmeticSlot.MOUTH, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_n95"),
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_n95"),
@@ -153,6 +164,8 @@ public enum UnlockCosmetic {
  */
 class CharacterCosmetic {
 
+    public static float cosmeticAnimationSpeed = 0.05f;
+
     //The id of the sprite in thte cosmetic texture atlas
     private final String spriteId;
 
@@ -170,8 +183,6 @@ class CharacterCosmetic {
     private boolean mirror;
     private String spriteIdMirror;
 
-    private static final float animationSpeed = 0.2f;
-
     public CharacterCosmetic(UnlockCharacter compatibleCharacter, String spriteId) {
         this.compatibleCharacter = compatibleCharacter;
         this.spriteId = spriteId;
@@ -188,14 +199,14 @@ class CharacterCosmetic {
      */
     public void getFrames() {
         if (frames == null) {
-            frames = new Animation<>(animationSpeed, ((TextureAtlas) HadalGame.assetManager.get(AssetList.COSMETICS_ATL.toString())).findRegions(spriteId));
+            frames = new Animation<>(cosmeticAnimationSpeed, ((TextureAtlas) HadalGame.assetManager.get(AssetList.COSMETICS_ATL.toString())).findRegions(spriteId));
             if (frames.getKeyFrames().length != 0) {
                 cosmeticWidth = frames.getKeyFrame(0).getRegionWidth();
                 cosmeticHeight = frames.getKeyFrame(0).getRegionHeight();
             }
         }
         if (mirror && framesMirror == null) {
-            framesMirror = new Animation<>(animationSpeed, ((TextureAtlas) HadalGame.assetManager.get(AssetList.COSMETICS_ATL.toString())).findRegions(spriteIdMirror));
+            framesMirror = new Animation<>(cosmeticAnimationSpeed, ((TextureAtlas) HadalGame.assetManager.get(AssetList.COSMETICS_ATL.toString())).findRegions(spriteIdMirror));
         }
     }
 

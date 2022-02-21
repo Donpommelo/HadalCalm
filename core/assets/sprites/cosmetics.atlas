@@ -1,125 +1,279 @@
 
 cosmetics.png
-size: 1024,2048
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-maximillian_n95
+maximillian_eyepatch
   rotate: false
   xy: 2, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-moreau_fear
+maximillian_n95
   rotate: false
   xy: 2, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-moreau_fear_mirror
+moreau_eyepatch
   rotate: false
   xy: 232, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-moreau_festive
+moreau_fear
   rotate: false
   xy: 2, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-moreau_n95
+moreau_fear_mirror
   rotate: false
   xy: 232, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-moreau_party
+moreau_festive
   rotate: false
   xy: 462, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-roclaire_n95
+moreau_n95
   rotate: false
   xy: 2, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-roclaire_party
+moreau_party
   rotate: false
   xy: 232, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-takanori_fear
+moreau_propeller
   rotate: false
   xy: 462, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: -1
-takanori_fear_mirror
+  index: 0
+moreau_propeller
   rotate: false
   xy: 692, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: -1
-takanori_n95
+  index: 1
+moreau_propeller
   rotate: false
   xy: 2, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: -1
-takanori_party
+  index: 2
+moreau_propeller
   rotate: false
   xy: 232, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: -1
-telemachus_fear
+  index: 3
+roclaire_eyepatch
   rotate: false
   xy: 462, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-telemachus_fear_mirror
+roclaire_n95
   rotate: false
   xy: 692, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-telemachus_n95
+roclaire_party
+  rotate: false
+  xy: 922, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+roclaire_propellor
   rotate: false
   xy: 232, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 0
+roclaire_propellor
+  rotate: false
+  xy: 462, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 1
+roclaire_propellor
+  rotate: false
+  xy: 692, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 2
+roclaire_propellor
+  rotate: false
+  xy: 922, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 3
+takanori_eyepatch
+  rotate: false
+  xy: 1152, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_fear
+  rotate: false
+  xy: 462, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_fear_mirror
+  rotate: false
+  xy: 692, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_n95
+  rotate: false
+  xy: 922, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_party
+  rotate: false
+  xy: 1152, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_propellor
+  rotate: false
+  xy: 1382, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 0
+takanori_propellor
+  rotate: false
+  xy: 692, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 1
+takanori_propellor
+  rotate: false
+  xy: 922, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 2
+takanori_propellor
+  rotate: false
+  xy: 1152, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 3
+telemachus_eyepatch
+  rotate: false
+  xy: 1382, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+telemachus_fear
+  rotate: false
+  xy: 1612, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+telemachus_fear_mirror
+  rotate: false
+  xy: 922, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+telemachus_n95
+  rotate: false
+  xy: 1152, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+wanda_eyepatch
+  rotate: false
+  xy: 1382, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 wanda_n95
   rotate: false
-  xy: 462, 364
+  xy: 1612, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 wanda_party
   rotate: false
-  xy: 692, 726
+  xy: 1152, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
+wanda_propellor
+  rotate: false
+  xy: 1382, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 0
+wanda_propellor
+  rotate: false
+  xy: 1612, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 1
+wanda_propellor
+  rotate: false
+  xy: 1382, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 2
+wanda_propellor
+  rotate: false
+  xy: 1612, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 3
