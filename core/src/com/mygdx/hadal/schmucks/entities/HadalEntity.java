@@ -304,16 +304,20 @@ public abstract class HadalEntity {
 			}
 		}
 
-		if (serverDeleteReceived && state.getTimer() >= serverDeleteTimestamp) {
-			serverDeleteReceived = false;
-			((ClientState) state).removeEntity(entityID);
-		}
+		onClientDelete();
 		
 		//interpolate this entity between most recent snapshots. Use accumulator to be independent from framerate
 		clientSyncAccumulator += delta;
 		while (clientSyncAccumulator >= clientSyncTime) {
 			clientSyncAccumulator -= clientSyncTime;
 			clientInterpolation();
+		}
+	}
+
+	public void onClientDelete() {
+		if (serverDeleteReceived && state.getTimer() >= serverDeleteTimestamp) {
+			serverDeleteReceived = false;
+			((ClientState) state).removeEntity(entityID);
 		}
 	}
 	

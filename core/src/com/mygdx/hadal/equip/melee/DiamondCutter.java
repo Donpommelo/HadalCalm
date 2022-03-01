@@ -89,7 +89,7 @@ public class DiamondCutter extends MeleeWeapon {
 		Hitbox hbox = new Hitbox(state, new Vector2(), projectileSize, 0, new Vector2(), user.getHitboxfilter(),
 				true, true, user, projSprite);
 		hbox.makeUnreflectable();
-		hbox.setSyncedDelete(true);
+		hbox.setSyncedDeleteNoDelay(true);
 
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL, 0.0f, 1.0f)
 				.setSyncType(SyncType.NOSYNC));

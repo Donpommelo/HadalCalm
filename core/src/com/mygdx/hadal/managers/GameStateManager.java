@@ -291,7 +291,7 @@ public class GameStateManager {
 	public void gotoHubState(Class<? extends GameState> lastState) {
 		if (currentMode == Mode.SINGLE) {
 			
-			//if the player has not done the tutorial yet, they are spawned into the tutorial section. Otherwise, they are spawned into the hub
+			//if the player has not done the tutorial yet, they are spawned into the tutorial section. Otherwise; hub
 			if (getRecord().getFlags().get("HUB_REACHED").equals(0)) {
 				addPlayState(UnlockLevel.WRECK1, GameMode.CAMPAIGN, new Loadout(loadout), null, lastState, true, "");
 			} else {

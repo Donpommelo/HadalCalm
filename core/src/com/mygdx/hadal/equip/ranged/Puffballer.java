@@ -167,7 +167,7 @@ public class Puffballer extends RangedWeapon {
 		};
 		hbox.setRestitution(1.0f);
 		hbox.setDurability(2);
-		hbox.setSyncedDelete(true);
+		hbox.setSyncedDeleteNoDelay(true);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));

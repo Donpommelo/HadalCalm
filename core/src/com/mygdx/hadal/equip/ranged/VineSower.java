@@ -141,6 +141,7 @@ public class VineSower extends RangedWeapon {
 		hbox.makeUnreflectable();
 		hbox.setRestitution(1.0f);
 		hbox.setSyncDefault(false);
+		hbox.setNoSyncedDelete(true);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
@@ -237,7 +238,6 @@ public class VineSower extends RangedWeapon {
 						extraFields1[2 + i] = extraFields[vineNum + 5 + i];
 						extraFields2[2 + i] = extraFields[vineNum * 2 + 5 + i];
 					}
-
 					angle.set(hbox.getLinearVelocity()).setAngleDeg(newDegrees);
 					createVine(state, user, hbox.getPixelPosition(), new Vector2(angle), extraFields1, false);
 

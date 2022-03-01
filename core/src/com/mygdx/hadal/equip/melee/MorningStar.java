@@ -89,7 +89,7 @@ public class MorningStar extends MeleeWeapon {
 		base.setDensity(1.0f);
 		base.makeUnreflectable();
 		base.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
-		base.setSyncedDelete(true);
+		base.setSyncedDeleteNoDelay(true);
 
 		base.addStrategy(new HitboxStrategy(state, base, user.getBodyData()) {
 

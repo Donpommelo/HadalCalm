@@ -176,7 +176,6 @@ public class WeaponUtils {
 		Hitbox hbox = new RangedHitbox(state, startPosition, nauticalMineSize, lifespan, startVelocity,
 				(short) 0, false, false, user, Sprite.NAVAL_MINE);
 		hbox.setRestitution(0.5f);
-		hbox.setSyncedDelete(true);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		if (event) {
@@ -232,7 +231,7 @@ public class WeaponUtils {
 		hbox.setPassability((short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL | Constants.BIT_PLAYER));
 		hbox.makeUnreflectable();
 		hbox.setGravity(3.0f);
-		hbox.setSyncedDelete(true);
+		hbox.setSyncDefault(false);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));

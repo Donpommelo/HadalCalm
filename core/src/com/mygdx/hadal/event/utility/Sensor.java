@@ -61,6 +61,8 @@ public class Sensor extends Event {
             @Override
             public void onTouch(HadalData fixB) {
                 super.onTouch(fixB);
+
+                //cannot be activated multiple times during cooldown if set
                 if (cooldownCount < cooldown) { return; }
 
                 if (isAlive()) {

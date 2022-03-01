@@ -12,7 +12,6 @@ import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
-import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.*;
@@ -632,7 +631,6 @@ public class PlayerBodyData extends BodyData {
 		return damage;
 	}
 
-	private static final float equipDropLifepan = 10.0f;
 	@Override
 	public void die(BodyData perp, DamageTypes... tags) {
 		if (player.isAlive()) {
@@ -681,12 +679,6 @@ public class PlayerBodyData extends BodyData {
 				currentTool.unequip(player.getState());
 			}
 
-			//drop current weapon
-			UnlockEquip equip = loadout.multitools[currentSlot];
-			if (!equip.equals(UnlockEquip.NOTHING) && !equip.equals(UnlockEquip.SPEARGUN_NERFED)) {
-				new PickupEquip(player.getState(), player.getPixelPosition(), equip, equipDropLifepan);
-			}
-			
 			super.die(perp, tags);
 			schmuck.getState().getMode().processPlayerDeath(schmuck.getState(), perp.getSchmuck(), player, tags);
 		}

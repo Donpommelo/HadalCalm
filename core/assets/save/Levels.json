@@ -279,7 +279,8 @@
 	"tags": [
         "MULTIPLAYER",
         "PVP",
-        "CURATED"
+        "CURATED",
+		"BOT_COMPLIANT"
 	]
 },
 "DM_WARP": {
@@ -458,6 +459,16 @@
 },
 "CTF_FILTRATION": {
 	"name": "FILTRATION",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+        "MULTIPLAYER",
+		"PVP",
+		"BOT_COMPLIANT"
+	]
+},
+"CTF_UNDULATE": {
+	"name": "UNDULATE",
 	"description": "",
     "descriptionLong": "",
 	"tags": [

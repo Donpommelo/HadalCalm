@@ -18,8 +18,9 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.utils.Constants;
@@ -120,7 +121,7 @@ public class Hitbox extends HadalEntity {
 	private boolean syncedMulti;
 
 	//does this hbox respond to delete packets from the server? True for hboxes the can be deleted prematurely
-	private boolean syncedDelete;
+	private boolean syncedDeleteNoDelay, noSyncedDelete;
 
 	/**
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
@@ -330,7 +331,7 @@ public class Hitbox extends HadalEntity {
 	@Override
 	public Object onServerDelete() {
 		if (attack != null) {
-			if (!syncedDelete) {
+			if (noSyncedDelete) {
 				return null;
 			}
 		}
@@ -338,16 +339,19 @@ public class Hitbox extends HadalEntity {
 	}
 
 	@Override
-	public void onClientSync(Object o) {
-		if (o instanceof Packets.DeleteEntity) {
-
-			//only certain hboxes process delete packets from server instead of deleting themselves
-			if (syncedDelete) {
+	public void onClientDelete() {
+		if (syncedDeleteNoDelay) {
+			if (serverDeleteReceived && state.getTimer() >= serverDeleteTimestamp) {
 				die();
-				super.onClientSync(o);
+				serverDeleteReceived = false;
+				((ClientState) state).removeEntity(entityID);
 			}
 		} else {
-			super.onClientSync(o);
+			if (serverDeleteReceived && state.getTimer() >= serverDeleteTimestamp + PlayState.syncTime) {
+				die();
+				serverDeleteReceived = false;
+				((ClientState) state).removeEntity(entityID);
+			}
 		}
 	}
 
@@ -444,5 +448,7 @@ public class Hitbox extends HadalEntity {
 
 	public void setExtraFields(float[] extraFields) { this.extraFields = extraFields ;}
 
-	public void setSyncedDelete(boolean syncedDelete) { this.syncedDelete = syncedDelete; }
+	public void setSyncedDeleteNoDelay(boolean syncedDeleteNoDelay) { this.syncedDeleteNoDelay = syncedDeleteNoDelay; }
+
+	public void setNoSyncedDelete(boolean noSyncedDelete) { this.noSyncedDelete = noSyncedDelete; }
 }
