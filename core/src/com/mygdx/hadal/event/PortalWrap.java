@@ -35,7 +35,7 @@ public class PortalWrap extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
 				Constants.BIT_SENSOR, Constants.BIT_PLAYER, (short) 0, true, eventData);
 	}
-	
+
 	private final Vector3 newCamera = new Vector3();
 	private final Vector3 playerTempLocation = new Vector3();
 	private final Vector2 playerLocation = new Vector2();
@@ -47,7 +47,6 @@ public class PortalWrap extends Event {
 			
 			playerLocation.set(state.getPlayer().getPixelPosition());
 			connectedLocation.set(getConnectedEvent().getPosition());
-			
 			for (HadalEntity s : eventData.getSchmucks()) {
 				
 				newCamera.set(state.getCamera().position).sub(playerTempLocation.set(playerLocation.x, playerLocation.y, 0));
@@ -70,6 +69,7 @@ public class PortalWrap extends Event {
 				if (s.equals(state.getPlayer())) {
 					playerLocation.set(state.getPlayer().getPixelPosition());
 					state.getCamera().position.set(newCamera.add(playerLocation.x, playerLocation.y, 0));
+					state.getCamera().update();
 				}
 			}
 		}	

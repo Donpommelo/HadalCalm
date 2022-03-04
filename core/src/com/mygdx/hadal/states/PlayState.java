@@ -359,7 +359,7 @@ public class PlayState extends GameState {
 
 			if (getSave != null) {
 				this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
-				this.cameraFocusAim.set(getSave.getStartPos());
+				this.cameraFocusAimVector.setZero();
 			}
 		} else {
 			this.player = createPlayer(null, gsm.getLoadout().getName(), loadout, old, 0, null, reset,
@@ -770,7 +770,8 @@ public class PlayState extends GameState {
 	private static final float cameraAimInterpolation = 0.025f;
 	final Vector2 aimFocusVector = new Vector2();
 	final Vector3 mousePosition = new Vector3();
-	final Vector2 cameraFocusAim = new Vector2();
+	final Vector2 cameraFocusAimVector = new Vector2();
+	final Vector2 cameraFocusAimPoint = new Vector2();
 	protected void cameraUpdate() {
 		zoom = zoom + (zoomDesired - zoom) * 0.1f;
 
@@ -792,10 +793,11 @@ public class PlayState extends GameState {
 				if (gsm.getSetting().isMouseCameraTrack()) {
 					mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 					HadalGame.viewportCamera.unproject(mousePosition);
-
-					cameraFocusAim.x = (int) (cameraFocusAim.x + (mousePosition.x - cameraFocusAim.x) * cameraAimInterpolation);
-					cameraFocusAim.y = (int) (cameraFocusAim.y + (mousePosition.y - cameraFocusAim.y) * cameraAimInterpolation);
-					aimFocusVector.mulAdd(cameraFocusAim, mouseCameraTrack).scl(1.0f / (1.0f + mouseCameraTrack));
+					mousePosition.sub(aimFocusVector.x, aimFocusVector.y, 0);
+					cameraFocusAimVector.x = (int) (cameraFocusAimVector.x + (mousePosition.x - cameraFocusAimVector.x) * cameraAimInterpolation);
+					cameraFocusAimVector.y = (int) (cameraFocusAimVector.y + (mousePosition.y - cameraFocusAimVector.y) * cameraAimInterpolation);
+					cameraFocusAimPoint.set(aimFocusVector).add(cameraFocusAimVector);
+					aimFocusVector.mulAdd(cameraFocusAimPoint, mouseCameraTrack).scl(1.0f / (1.0f + mouseCameraTrack));
 				}
 			}
 
@@ -1606,7 +1608,7 @@ public class PlayState extends GameState {
 	
 	public Vector2 getCameraTarget() {	return cameraTarget; }
 
-	public Vector2 getCameraFocusAim() { return cameraFocusAim; }
+	public Vector2 getCameraFocusAimVector() { return cameraFocusAimVector; }
 
 	public float[] getCameraBounds() { return cameraBounds; }
 

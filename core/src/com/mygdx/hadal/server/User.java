@@ -132,7 +132,7 @@ public class User {
             //focus camera on start point unless otherwise specified
             if (!player.isDontMoveCamera()) {
                 state.getCamera().position.set(new Vector3(startPoint.getStartPos().x, startPoint.getStartPos().y, 0));
-                state.getCameraFocusAim().set(startPoint.getStartPos());
+                state.getCameraFocusAimVector().setZero();
             }
 
             ((PlayerController) state.getController()).setPlayer(player);

@@ -125,7 +125,7 @@
     <property name="unlock" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="19" name="Start" type="Start" x="1568" y="960" width="32" height="32">
+  <object id="19" name="Start" type="Start" x="1536" y="1472" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
