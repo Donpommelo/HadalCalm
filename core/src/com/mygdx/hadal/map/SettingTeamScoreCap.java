@@ -59,7 +59,7 @@ public class SettingTeamScoreCap extends ModeSetting {
     }
 
     @Override
-    public void processTeamScoreChange(PlayState state, GameMode mode, int teamIndex, int newScore) {
+    public void processTeamScoreChange(PlayState state, int newScore) {
         if (teamScoreCap > 0) {
             if (newScore >= teamScoreCap) {
                 if (state.getGlobalTimer() != null) {

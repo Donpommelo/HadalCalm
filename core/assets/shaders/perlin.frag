@@ -8,7 +8,7 @@ varying vec2 v_texCoords;
 uniform sampler2D u_texture;
 
 uniform float scale = 5.0;
-uniform float smoothness = 0.1;
+uniform float smoothness = 0.25;
 
 uniform vec2 u_resolution;
 uniform float u_time;
@@ -36,7 +36,7 @@ float noise (in vec2 st) {
   // Cubic Hermine Curve.  Same as SmoothStep()
   vec2 u = f * f * (3.0 - 2.0 * f);
 
-  // Mix 4 corners porcentages
+  // Mix 4 corners percentages
   return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
 }
 

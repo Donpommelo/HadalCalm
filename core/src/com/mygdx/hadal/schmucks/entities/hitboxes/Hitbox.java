@@ -162,7 +162,7 @@ public class Hitbox extends HadalEntity {
 			creator.getBodyData().statusProcTime(new ProcTime.CreateHitbox(this));
 		}
 
-		this.data = new HitboxData(state, this);
+		this.data = new HitboxData(this);
 
 		this.size.scl(scale);
 		this.spriteSize.scl(scale);

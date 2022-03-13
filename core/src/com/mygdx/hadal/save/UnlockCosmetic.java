@@ -25,6 +25,7 @@ public enum UnlockCosmetic {
     NOTHING_EYE(CosmeticSlot.EYE),
     NOTHING_NOSE(CosmeticSlot.NOSE),
     NOTHING_MOUTH(CosmeticSlot.MOUTH),
+
     EYEPATCH(CosmeticSlot.EYE, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_eyepatch"),
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_eyepatch"),
@@ -32,6 +33,17 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_eyepatch"),
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_eyepatch"),
             new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_eyepatch")),
+    SNORKEL(CosmeticSlot.EYE, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_snorkel"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_snorkel"),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_snorkel")),
+
+    BICORNE(CosmeticSlot.HAT1, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_bicorne"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_bicorne"),
+            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_bicorne"),
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_bicorne"),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_bicorne")),
     FESTIVE_HAT(CosmeticSlot.HAT1, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_festive")),
     FISH_FEAR_ME_HAT(CosmeticSlot.HAT1, true,
@@ -48,6 +60,7 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_propellor"),
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_propellor"),
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_propellor")),
+
     N95_MASK(CosmeticSlot.MOUTH, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_n95"),
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_n95"),
@@ -55,6 +68,12 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_n95"),
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_n95"),
             new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_n95")),
+    NOISEMAKER(CosmeticSlot.MOUTH, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_noisemaker").setOffsetX(-67.8f).setOffsetY(0),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_noisemaker").setOffsetX(-85.2f).setOffsetY(6.0f),
+            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_noisemaker").setOffsetX(-53.4f).setOffsetY(12.6f),
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_noisemaker").setOffsetX(-91.8f).setOffsetY(0),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_noisemaker").setOffsetX(-30.6f).setOffsetY(40.2f)),
 
     ;
 
@@ -164,7 +183,7 @@ public enum UnlockCosmetic {
  */
 class CharacterCosmetic {
 
-    public static float cosmeticAnimationSpeed = 0.05f;
+    public static final float cosmeticAnimationSpeed = 0.05f;
 
     //The id of the sprite in thte cosmetic texture atlas
     private final String spriteId;
@@ -176,7 +195,7 @@ class CharacterCosmetic {
     private Animation<TextureRegion> frames, framesMirror;
 
     //dimensions of the cosmetic
-    private float cosmeticWidth, cosmeticHeight;
+    private float cosmeticWidth, cosmeticHeight, offsetX, offsetY;
 
     //mirror indicates that a cosmetic is drawn with a different sprite when mirrored instead of just being flipped
     //this is used to properly render things like text
@@ -218,12 +237,13 @@ class CharacterCosmetic {
         //mirrored sprites are drawn differently when character is flipped
         if (mirror && flip) {
             if (framesMirror == null) { getFrames(); }
-            batch.draw(framesMirror.getKeyFrame(animationTimeExtra, true), locationX - cosmeticWidth * scale,
-                    locationY,0, 0, cosmeticWidth * scale, cosmeticHeight * scale, 1, 1, 0);
+            batch.draw(framesMirror.getKeyFrame(animationTimeExtra, true), locationX - cosmeticWidth * scale + offsetX * scale,
+                    locationY + offsetY * scale,0, 0, cosmeticWidth * scale, cosmeticHeight * scale, 1, 1, 0);
         } else {
             if (frames == null) { getFrames(); }
-            batch.draw(frames.getKeyFrame(animationTimeExtra, true), locationX, locationY,0, 0,
-                    (flip ? -1 : 1) * cosmeticWidth * scale, cosmeticHeight * scale, 1, 1, 0);
+            batch.draw(frames.getKeyFrame(animationTimeExtra, true), locationX + (flip ? -1 : 1) * offsetX * scale,
+                    locationY + offsetY * scale,0, 0,(flip ? -1 : 1) * cosmeticWidth * scale,
+                    cosmeticHeight * scale, 1, 1, 0);
         }
     }
 
@@ -237,6 +257,16 @@ class CharacterCosmetic {
                     frames.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false);
         }
         return null;
+    }
+
+    public CharacterCosmetic setOffsetX(float offsetX) {
+        this.offsetX = offsetX;
+        return this;
+    }
+
+    public CharacterCosmetic setOffsetY(float offsetY) {
+        this.offsetY = offsetY;
+        return this;
     }
 
     public UnlockCharacter getCompatibleCharacter() { return compatibleCharacter; }

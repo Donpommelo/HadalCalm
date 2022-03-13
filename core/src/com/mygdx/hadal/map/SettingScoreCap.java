@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.text.TooltipManager;
@@ -60,7 +59,7 @@ public class SettingScoreCap extends ModeSetting {
     }
 
     @Override
-    public void processPlayerScoreChange(PlayState state, GameMode mode, Player p, int newScore) {
+    public void processPlayerScoreChange(PlayState state, int newScore) {
         if (scoreCap > 0) {
             if (newScore >= scoreCap) {
                 if (state.getGlobalTimer() != null) {

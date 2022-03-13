@@ -88,8 +88,6 @@ public class Enemy extends Schmuck {
 	private final Array<EnemyAction> secondaryActions;
 	private EnemyAction currentSecondaryAction;
 	
-	//this is the enemy sprite
-	protected final Sprite sprite;
 	private final TextureRegion hpSprite;
 	private static final float uiScale = 0.15f;
 	private static final float hpX = 10.0f;
@@ -98,15 +96,14 @@ public class Enemy extends Schmuck {
 	 //This is the event that spawner this enemy. Is null for the client and for enemies spawned in other ways.
     protected final SpawnerSchmuck spawner;
     
-	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, float baseHp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
+	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, EnemyType type, short filter, float baseHp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
 		super(state, startPos, size, type.getName(), filter, baseHp);
 		this.hboxSize = hboxSize;
 		this.type = type;
 		this.attackCd = attackCd;
 		this.scrapDrop = scrapDrop;
 		this.spawner = spawner;
-		this.sprite = sprite;
-		
+
 		this.hpSprite = Sprite.UI_MAIN_HEALTHBAR.getFrame();
 		
 		this.actions = new Array<>();

@@ -12,7 +12,7 @@ public class RallyPath {
     private final Array<RallyPoint> path = new Array<>();
 
     //approximate distance of the path
-    private float distance;
+    private final float distance;
 
     public RallyPath(Array<RallyPoint> path, float distance) {
         this.path.addAll(path);
@@ -22,6 +22,4 @@ public class RallyPath {
     public Array<RallyPoint> getPath() { return path; }
 
     public float getDistance() { return distance; }
-
-    public void setDistance(float distance) { this.distance = distance; }
 }

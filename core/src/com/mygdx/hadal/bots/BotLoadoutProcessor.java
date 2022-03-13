@@ -10,6 +10,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -41,7 +42,7 @@ public class BotLoadoutProcessor {
                 UnlockEquip.getRandWeapFromPool(state, ""),
                 UnlockEquip.getRandWeapFromPool(state, ""),
                 UnlockEquip.getRandWeapFromPool(state, "") };
-        botLoadout.artifacts = new UnlockArtifact[]{ UnlockArtifact.MOON_FLUTHER, UnlockArtifact.GOOD_HEALTH, UnlockArtifact.NOTHING,  UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING };
+        botLoadout.artifacts = getRandomArtifacts(state);
         botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
         botLoadout.activeItem = getRandomActiveItem();
         botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
@@ -109,9 +110,6 @@ public class BotLoadoutProcessor {
         }
     }
 
-    //these limit the bot's vision in the x and y directions to make them behave more human-like
-    private static final float botVisionX = 36.0f;
-    private static final float botVisionY = 19.2f;
     /**
      * This is run prior to the player aiming to determine whether they should switch weapons
      * @param player: the bot player doing the weapon switching
@@ -127,8 +125,8 @@ public class BotLoadoutProcessor {
 
         //find which held weapon has the highest "suitability" based on distance from a living enemy
         if (BotManager.raycastUtility(player, playerLocation, targetLocation, Constants.BIT_PROJECTILE) == 1.0f && targetAlive
-                && Math.abs(playerLocation.x - targetLocation.x) < botVisionX
-                && Math.abs(playerLocation.y - targetLocation.y) < botVisionY) {
+                && Math.abs(playerLocation.x - targetLocation.x) < player.getVisionX()
+                && Math.abs(playerLocation.y - targetLocation.y) <  player.getVisionY()) {
             float bestSuitability = BotLoadoutProcessor.calcWeaponSuitability(player,
                     player.getPlayerData().getMultitools()[bestSlot], distSquared, 0);
             for (int i = 0; i < player.getPlayerData().getMultitools().length - 1; i++) {
@@ -158,7 +156,6 @@ public class BotLoadoutProcessor {
 
     private static final Vector2 mousePosition = new Vector2();
     private static final Vector2 mouseTarget = new Vector2();
-    private static final float aimInterpolation = 0.5f;
     /**
      * This is run prior to the player attacking to determine where they should position their mouse
      * @param player: the bot player doing the weapon switching
@@ -193,8 +190,8 @@ public class BotLoadoutProcessor {
         //bot's mouse lerps towards the predicted position
         mouseTarget.scl(PPM);
         mousePosition.set(player.getMouse().getPixelPosition());
-        mousePosition.x = mousePosition.x + (mouseTarget.x - mousePosition.x) * aimInterpolation;
-        mousePosition.y = mousePosition.y + (mouseTarget.y - mousePosition.y) * aimInterpolation;
+        mousePosition.x = mousePosition.x + (mouseTarget.x - mousePosition.x) * player.getMouseAimSpeed();
+        mousePosition.y = mousePosition.y + (mouseTarget.y - mousePosition.y) * player.getMouseAimSpeed();
         player.getMouse().setDesiredLocation(mousePosition.x, mousePosition.y);
     }
 
@@ -295,7 +292,7 @@ public class BotLoadoutProcessor {
     private static int calcWeaponSuitability(PlayerBot player, Equippable weapon, float distSquared, float bestSuitability) {
 
         //suitability is determined by weapon's range compared to distance
-        float maxRange = Math.min(botVisionX, weapon.getBotRangeMax());
+        float maxRange = Math.min(player.getVisionX(), weapon.getBotRangeMax());
         float minSquared = weapon.getBotRangeMin() * weapon.getBotRangeMin();
         float maxSquared = maxRange * maxRange;
         float midRange = (maxRange + minSquared) / 2;
@@ -462,6 +459,100 @@ public class BotLoadoutProcessor {
         } else {
             return botItems[MathUtils.random(botItems.length - 1)];
         }
+    }
+
+    private static final UnlockArtifact[] mobility2 = { UnlockArtifact.CASTAWAYS_TRAVELOGUE, UnlockArtifact.FENS_CLIPPED_WINGS,
+            UnlockArtifact.MOON_FLUTHER, UnlockArtifact.NICE_SHOES, UnlockArtifact.VOID_HYPONOME };
+    private static final UnlockArtifact[] mobility1 = { UnlockArtifact.CURSED_CILICE, UnlockArtifact.NACREOUS_RUDDER };
+    private static final UnlockArtifact[] defensive3 = { UnlockArtifact.FALLACY_OF_FLESH, UnlockArtifact.HORNS_OF_AMMON };
+    private static final UnlockArtifact[] defensive2 = { UnlockArtifact.BLASTEMA, UnlockArtifact.FARADAYS_CAGE, UnlockArtifact.FRACTURE_PLATE,
+            UnlockArtifact.GLUTTONOUS_GREY_GLOVE, UnlockArtifact.GOOD_HEALTH, UnlockArtifact.VISE_OF_SHAME };
+    private static final UnlockArtifact[] defensive1 = { UnlockArtifact.DAS_BOOT, UnlockArtifact.DAY_AT_THE_FAIR, UnlockArtifact.GEMMULE,
+            UnlockArtifact.KUMQUAT, UnlockArtifact.LOTUS_LANTERN, UnlockArtifact.MOUTHBREATHER_CERTIFICATE,
+            UnlockArtifact.NOCTILUCENT_PROMISE, UnlockArtifact.NUTRILOG_CRUNCHBAR_PLUS, UnlockArtifact.SALIGRAM, UnlockArtifact.TUNICATE_TUNIC};
+    private static final UnlockArtifact[] offensive3 = { UnlockArtifact.BUCKET_OF_BATTERIES, UnlockArtifact.EMAUDELINES_PRISM, UnlockArtifact.JURY_RIGGED_BINDINGS };
+    private static final UnlockArtifact[] offensive2 = { UnlockArtifact.BOOK_OF_BURIAL, UnlockArtifact.BRITTLING_POWDER, UnlockArtifact.CHAOS_CONJURANT,
+            UnlockArtifact.CLOCKWISE_CAGE, UnlockArtifact.ERSATZ_SMILE, UnlockArtifact.GOMEZS_AMYGDALA, UnlockArtifact.PEER_PRESSURE,
+            UnlockArtifact.ROYAL_JUJUBE_BANG, UnlockArtifact.SHILLERS_DEATHCAP, UnlockArtifact.TRIGGERFISH_FINGER, UnlockArtifact.TYPHON_FANG,
+            UnlockArtifact.VESTIGIAL_CHAMBER, UnlockArtifact.VOLATILE_DERMIS, UnlockArtifact.WHITE_WHALE_CHARM, UnlockArtifact.WRATH_OF_THE_FROGMAN };
+    private static final UnlockArtifact[] offensive1 = { UnlockArtifact.EIGHT_BALL, UnlockArtifact.ABYSSAL_INSIGNIA, UnlockArtifact.CALL_OF_THE_VOID,
+            UnlockArtifact.CROWN_OF_THORNS, UnlockArtifact.FORAGERS_HIVE, UnlockArtifact.IRON_SIGHTS, UnlockArtifact.KERMUNGLER,
+            UnlockArtifact.MOUTHFUL_OF_BEES, UnlockArtifact.NUCLEAR_PUNCH_THRUSTERS, UnlockArtifact.NURDLER, UnlockArtifact.PEACHWOOD_SWORD,
+            UnlockArtifact.PEPPER, UnlockArtifact.PETRIFIED_PAYLOAD, UnlockArtifact.RED_TIDE_TALISMAN, UnlockArtifact.SAMURAI_SHARK,
+            UnlockArtifact.SWORD_OF_SYZYGY, UnlockArtifact.VOW_OF_EMPTY_HANDS };
+    private static final UnlockArtifact[] misc3 = { UnlockArtifact.AU_COURANT, UnlockArtifact.CARLOCS_THESIS, UnlockArtifact.HEART_OF_SPEROS,
+            UnlockArtifact.INFORMANTS_TIE, UnlockArtifact.KINESIS_LENS, UnlockArtifact.TENUOUS_GRIP_ON_REALITY };
+    private static final UnlockArtifact[] misc2 = { UnlockArtifact.CURIOUS_SAUCE, UnlockArtifact.EXTRA_ROW_OF_TEETH, UnlockArtifact.ICE9 };
+    private static final UnlockArtifact[] misc1 = { UnlockArtifact.ANARCHISTS_COOKBOOK, UnlockArtifact.BUTTONMAN_BUTTONS, UnlockArtifact.ICE9,
+            UnlockArtifact.SINKING_FEELING};
+
+    public static UnlockArtifact[] getRandomArtifacts(PlayState state) {
+        UnlockArtifact[] artifacts = new UnlockArtifact[]{ UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING,  UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING };
+
+        if (state.getMode().getBotDifficulty().equals(BotPersonality.BotDifficulty.EASY) ||
+                (GameStateManager.currentMode.equals(GameStateManager.Mode.SINGLE) && state.getPlayer().getPlayerData().getArtifactSlotsUsed() == 0)) {
+            return artifacts;
+        }
+
+        Array<UnlockArtifact> artifactOptions = new Array<>();
+
+        int slots = state.getGsm().getSetting().getArtifactSlots();
+        int currentSlot = 0;
+        boolean mobilityFound = slots == 1;
+        boolean defenseFound = slots == 1;
+        boolean offenseFound = slots == 1;
+
+        while (slots > 0) {
+            artifactOptions.clear();
+            if (!mobilityFound) {
+                mobilityFound = true;
+                artifactOptions.addAll(mobility2);
+                artifactOptions.addAll(mobility1);
+            } else if (!defenseFound) {
+                defenseFound = true;
+
+                if (slots >= 3) {
+                    artifactOptions.addAll(defensive3);
+                }
+                if (slots >= 2) {
+                    artifactOptions.addAll(defensive2);
+                }
+                artifactOptions.addAll(defensive1);
+            } else if (!offenseFound) {
+                offenseFound = true;
+                if (slots >= 3) {
+                    artifactOptions.addAll(offensive3);
+                }
+                if (slots >= 2) {
+                    artifactOptions.addAll(offensive2);
+                }
+                artifactOptions.addAll(offensive1);
+            } else {
+                if (slots >= 3) {
+                    artifactOptions.addAll(defensive3);
+                    artifactOptions.addAll(offensive3);
+                    artifactOptions.addAll(misc3);
+                }
+                if (slots >= 2) {
+                    artifactOptions.addAll(mobility2);
+                    artifactOptions.addAll(defensive2);
+                    artifactOptions.addAll(offensive2);
+                    artifactOptions.addAll(misc2);
+                }
+                artifactOptions.addAll(mobility1);
+                artifactOptions.addAll(defensive1);
+                artifactOptions.addAll(offensive1);
+                artifactOptions.addAll(misc1);
+            }
+
+            if (artifactOptions.size > 0 && currentSlot < artifacts.length) {
+                artifacts[currentSlot] = artifactOptions.get(MathUtils.random(artifactOptions.size - 1));
+                slots -= artifacts[currentSlot].getArtifact().getSlotCost();
+                currentSlot++;
+            }
+        }
+
+        return artifacts;
     }
 
     /**

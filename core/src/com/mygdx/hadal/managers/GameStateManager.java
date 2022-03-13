@@ -43,8 +43,6 @@ public class GameStateManager {
 		bossGaugeRedPatch, bossGaugeCatchupPatch;
 	
 	private static final Array<TextureAtlas> atlases = new Array<>();
-	public static TextureAtlas projectileAtlas, multitoolAtlas, fishAtlas, turretAtlas, eventAtlas, explosionAtlas, uiAtlas;
-	public static TextureAtlas particleAtlas, impactAtlas;
 
 	//This is a stored list of all the dialogs/death/misc messages in the game, read from json file.
 	public static JsonValue dialogs, deathMessages, shops, randomText, gameStrings;
@@ -120,15 +118,15 @@ public class GameStateManager {
 		bossGaugeCatchupPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGE_ATL
 			.toString())).createPatch("boss_gauge_dark_red"));
 		
-		atlases.add(GameStateManager.particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATL.toString()));
-		atlases.add(GameStateManager.projectileAtlas = HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString()));
-		atlases.add(GameStateManager.multitoolAtlas = HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString()));
-		atlases.add(GameStateManager.fishAtlas = HadalGame.assetManager.get(AssetList.FISH_ATL.toString()));
-		atlases.add(GameStateManager.turretAtlas = HadalGame.assetManager.get(AssetList.TURRET_ATL.toString()));
-		atlases.add(GameStateManager.eventAtlas = HadalGame.assetManager.get(AssetList.EVENT_ATL.toString()));
-		atlases.add(GameStateManager.uiAtlas = HadalGame.assetManager.get(AssetList.UI_ATL.toString()));
-		atlases.add(GameStateManager.explosionAtlas = HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString()));
-		atlases.add(GameStateManager.impactAtlas = HadalGame.assetManager.get(AssetList.IMPACT_ATL.toString()));
+		atlases.add(HadalGame.assetManager.get(AssetList.PARTICLE_ATL.toString()));
+		atlases.add(HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString()));
+		atlases.add(HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString()));
+		atlases.add(HadalGame.assetManager.get(AssetList.FISH_ATL.toString()));
+		atlases.add(HadalGame.assetManager.get(AssetList.TURRET_ATL.toString()));
+		atlases.add(HadalGame.assetManager.get(AssetList.EVENT_ATL.toString()));
+		atlases.add(HadalGame.assetManager.get(AssetList.UI_ATL.toString()));
+		atlases.add(HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString()));
+		atlases.add(HadalGame.assetManager.get(AssetList.IMPACT_ATL.toString()));
 		
 		//initialize pooled particle effects
 		Particle.initParticlePool();
@@ -333,9 +331,9 @@ public class GameStateManager {
 		Shader.clearShader();
 	}
 
-	public void resize(int width, int height) {
+	public void resize() {
 		for (GameState gs : states) {
-			gs.resize(width, height);
+			gs.resize();
 		}
 	}
 	

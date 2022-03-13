@@ -270,7 +270,7 @@ public class KillFeed {
         deathInfo.setText(df.format(respawnTime) + " S");
     }
 
-    private static final float spectatorDurationThreshold = 1.5f;
+    private static final float spectatorDurationThreshold = 2.0f;
     /**
      * This keeps track of whether the game is currently in either spectator mode, or respawning (with some delay after death)
      * This is used to determine if spectator camera features should be active (camera controls, screen shake)

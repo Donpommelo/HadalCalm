@@ -23,14 +23,14 @@ public record BotPathfindingTask(PlayerBot player, Vector2 playerLocation, Vecto
         float pathDistance;
 
         RallyPath[] bestPath = new RallyPath[1];
-        BotController.BotMood[] nextMood = new BotController.BotMood[1];
+        BotPlayerController.BotMood[] nextMood = new BotPlayerController.BotMood[1];
 
         //Wandering bots will, by default, continue wandering along the same path if no better option is found.
         //Bots with "dilly dally" will begin wandering a new path if no better option is found
-        if (!player.getBotController().getCurrentMood().equals(BotController.BotMood.WANDER)) {
-            nextMood[0] = BotController.BotMood.DILLY_DALLY;
+        if (!player.getBotController().getCurrentMood().equals(BotPlayerController.BotMood.WANDER)) {
+            nextMood[0] = BotPlayerController.BotMood.DILLY_DALLY;
         } else {
-            nextMood[0] = BotController.BotMood.WANDER;
+            nextMood[0] = BotPlayerController.BotMood.WANDER;
         }
 
         //find shortest path to weapon pickup
@@ -39,7 +39,7 @@ public record BotPathfindingTask(PlayerBot player, Vector2 playerLocation, Vecto
             pathDistance = prospectivePath != null ? prospectivePath.getDistance() * pickupPoint.multiplier() : -1;
             if (pathDistance != -1) {
                 bestPath[0] = prospectivePath;
-                nextMood[0] = BotController.BotMood.SEEK_WEAPON;
+                nextMood[0] = BotPlayerController.BotMood.SEEK_WEAPON;
                 bestDistanceSoFar = pathDistance;
             }
         }
@@ -70,7 +70,7 @@ public record BotPathfindingTask(PlayerBot player, Vector2 playerLocation, Vecto
         pathDistance = prospectivePath != null ? bestTargetDistance : -1;
         if (pathDistance != -1 && (pathDistance < bestDistanceSoFar || bestDistanceSoFar == -1.0f)) {
             bestPath[0] = prospectivePath;
-            nextMood[0] = BotController.BotMood.SEEK_ENEMY;
+            nextMood[0] = BotPlayerController.BotMood.SEEK_ENEMY;
             bestDistanceSoFar = pathDistance;
         }
 
@@ -95,17 +95,17 @@ public record BotPathfindingTask(PlayerBot player, Vector2 playerLocation, Vecto
         pathDistance = prospectivePath != null ? bestEventDistance : -1;
         if (pathDistance != -1 && (pathDistance < bestDistanceSoFar || bestDistanceSoFar == -1.0f)) {
             bestPath[0] = prospectivePath;
-            nextMood[0] = BotController.BotMood.SEEK_EVENT;
+            nextMood[0] = BotPlayerController.BotMood.SEEK_EVENT;
         }
 
         //if wandering, bot will continue wandering
-        if (player.getBotController().getCurrentMood().equals(BotController.BotMood.WANDER)) {
+        if (player.getBotController().getCurrentMood().equals(BotPlayerController.BotMood.WANDER)) {
             nextMood[0] = player.getBotController().getCurrentMood();
         }
 
         //if bot just finished a wander path or is dilly dallying, they will begin wandering to a new random point
-        if ((nextMood[0].equals(BotController.BotMood.WANDER) && player.getBotController().getPointPath().isEmpty()) ||
-                nextMood[0].equals(BotController.BotMood.DILLY_DALLY)) {
+        if ((nextMood[0].equals(BotPlayerController.BotMood.WANDER) && player.getBotController().getPointPath().isEmpty()) ||
+                nextMood[0].equals(BotPlayerController.BotMood.DILLY_DALLY)) {
             bestPath[0] = getPathToRandomPoint();
         }
 
@@ -113,8 +113,8 @@ public record BotPathfindingTask(PlayerBot player, Vector2 playerLocation, Vecto
         Gdx.app.postRunnable(() -> {
 
             //dilly dallying becomes wandering with an empty path.
-            if (nextMood[0].equals(BotController.BotMood.DILLY_DALLY)) {
-                nextMood[0] = BotController.BotMood.WANDER;
+            if (nextMood[0].equals(BotPlayerController.BotMood.DILLY_DALLY)) {
+                nextMood[0] = BotPlayerController.BotMood.WANDER;
                 player.getBotController().getPointPath().clear();
             }
             if (bestPath[0] != null) {

@@ -14,7 +14,7 @@ import com.mygdx.hadal.text.TooltipManager;
  */
 public class SettingLoadoutOutfit extends ModeSetting {
 
-    public static final String settingTag = "lives";
+    public static final String settingTag = "loadout_outfit";
     public static final Integer defaultValue = 0;
 
     private SelectBox<String> outfitOptions;

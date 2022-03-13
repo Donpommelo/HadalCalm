@@ -318,17 +318,6 @@ public class EnemyUtils {
 		});
 	}
 	
-	public static void createSound(final PlayState state, Enemy boss, final float duration, float volume, SoundEffect sound) {
-		
-		boss.getActions().add(new EnemyAction(boss, duration) {
-			
-			@Override
-			public void execute() {
-				sound.playUniversal(state, boss.getPixelPosition(), volume, false);
-			}
-		});
-	}
-	
 	public static void createSoundEntity(final PlayState state, Enemy boss, final float duration, float soundDuration, float volume, float pitch, SoundEffect sound, boolean looped) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {

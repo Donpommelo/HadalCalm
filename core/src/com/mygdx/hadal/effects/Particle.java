@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.AssetList;
 
 /**
  * A Particle represents a single particle effect.
@@ -153,7 +155,7 @@ public enum Particle {
 
 		//the DEFAULT distinction exists for particles that do not involve the pool (atm just the "nothing" effect)
 		if (type == ParticleType.DEFAULT) {
-			newEffect.load(Gdx.files.internal(particleId), GameStateManager.particleAtlas);
+			newEffect.load(Gdx.files.internal(particleId), (TextureAtlas) HadalGame.assetManager.get(AssetList.PARTICLE_ATL.toString()));
 		}
 		return newEffect;
 	}

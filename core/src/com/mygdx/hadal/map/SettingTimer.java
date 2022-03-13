@@ -19,12 +19,18 @@ public class SettingTimer extends ModeSetting {
 
     private final String endText;
     public static final String settingTag = "timer";
-    public static final Integer defaultValue = 5;
-
+    private static final Integer defaultDefaultValue = 5;
     private SelectBox<String> timerOptions;
 
-    public SettingTimer(String endText) {
+    private final Integer defaultValue;
+
+    public SettingTimer(String endText, int defaultValue) {
+        this.defaultValue = defaultValue;
         this.endText = endText;
+    }
+
+    public SettingTimer(String endText) {
+        this(endText, defaultDefaultValue);
     }
 
     @Override

@@ -56,7 +56,7 @@ public abstract class GameState {
 	/**
 	 * This will be run whenever the game window is resized. 
 	 */
-	public void resize(int width, int height) {}
+	public void resize() {}
 	
 	public GameStateManager getGsm() {return gsm; }
 

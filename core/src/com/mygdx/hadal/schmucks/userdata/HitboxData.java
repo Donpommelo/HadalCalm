@@ -3,7 +3,6 @@ package com.mygdx.hadal.schmucks.userdata;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.utils.Stats;
@@ -18,9 +17,6 @@ import java.util.Arrays;
  */
 public class HitboxData extends HadalData {
 
-	//reference to game state.
-	protected final PlayState state;
-	
 	//The hitbox containing this data
 	protected final Hitbox hbox;
 
@@ -30,9 +26,8 @@ public class HitboxData extends HadalData {
 	/**
 	 * This data is usually initialized after making a hitbox. It is given to the newly created hitbox using the setUserData() method
 	 */
-	public HitboxData(PlayState state, Hitbox proj) {
+	public HitboxData(Hitbox proj) {
 		super(UserDataType.HITBOX, proj);
-		this.state = state;
 		this.hbox = proj;
 	}
 	

@@ -41,8 +41,8 @@ public class ModeEggplantHunt extends ModeSetting {
     private static final float searchRadius = 50.0f;
     private static final float eggplantDesireMultiplier = 0.05f;
     @Override
-    public void processAIPath(PlayState state, GameMode mode, PlayerBot bot, Vector2 playerLocation, Vector2 playerVelocity,
-            Array<RallyPoint.RallyPointMultiplier> path) {
+    public void processAIPath(PlayState state, PlayerBot bot, Vector2 playerLocation,
+                              Array<RallyPoint.RallyPointMultiplier> path) {
         state.getWorld().QueryAABB((fixture -> {
             //check for eggplants in thte bot's vinicity and find a path towards a random one
             if (fixture.getUserData() instanceof final EventData eventData) {

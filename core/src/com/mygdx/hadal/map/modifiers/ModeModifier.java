@@ -56,12 +56,12 @@ public class ModeModifier extends ModeSetting {
      */
     public void loadModifier(PlayState state, GameMode mode, StringBuilder text) {
         if (state.getGsm().getSetting().getModeSetting(mode, settingTag, 0) == 1) {
-            executeModifier(state, mode);
+            executeModifier(state);
             text.append(name.text()).append(", ");
         }
     }
 
-    public void executeModifier(PlayState state, GameMode mode) {}
+    public void executeModifier(PlayState state) {}
 
     public void setCheck(boolean check) {
         if (dropsOptions != null) {

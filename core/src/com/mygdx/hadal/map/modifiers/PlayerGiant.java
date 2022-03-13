@@ -1,6 +1,5 @@
 package com.mygdx.hadal.map.modifiers;
 
-import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
@@ -20,6 +19,6 @@ public class PlayerGiant extends ModeModifier {
     }
 
     @Override
-    public void executeModifier(PlayState state, GameMode mode) { state.addMapModifier(UnlockArtifact.PLAYER_GIANT); }
+    public void executeModifier(PlayState state) { state.addMapModifier(UnlockArtifact.PLAYER_GIANT); }
 
 }

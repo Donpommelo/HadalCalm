@@ -6,10 +6,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.bots.RallyPoint;
+import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.WeaponUtils;
-import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.map.SettingLoadoutMode.LoadoutMode;
+import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.map.modifiers.*;
 import com.mygdx.hadal.save.InfoItem;
 import com.mygdx.hadal.save.UnlockActives;
@@ -69,7 +70,7 @@ public enum GameMode {
     CTF("ctf",
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.magicWord), new SettingBots(),
-        new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(), new SettingLoadoutOutfit(),
+        new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(5), new SettingLoadoutOutfit(),
         new SettingLoadoutMode(),
         new DisplayUITag("TEAMSCORE"), new SpawnWeapons(), new ToggleWeaponDrops(),
         new ModeCapturetheFlag(),
@@ -85,7 +86,7 @@ public enum GameMode {
 
     GUN_GAME("dm", DEATHMATCH,
         new SetCameraOnSpawn(),
-        new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.magicWord), new SettingBots(),
+        new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.magicWord, 8), new SettingBots(),
         new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(),
         new DisplayUITag("GUNGAME"),
         new SetLoadoutEquips(UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
@@ -114,8 +115,8 @@ public enum GameMode {
 
     MATRYOSHKA("dm", DEATHMATCH,
         new SetCameraOnSpawn(),
-        new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.magicWord),
-        new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
+        new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.magicWord, 8),
+        new SettingBaseHp(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
         new DisplayUITag("LIVES"), new SpawnWeapons(), new ToggleWeaponDrops(),
         new ModeMatryoshka(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
@@ -142,6 +143,7 @@ public enum GameMode {
     private GameMode checkCompliance = this;
     private TeamMode teamMode = TeamMode.FFA;
     private LoadoutMode loadoutMode = LoadoutMode.CLASSIC;
+    private BotDifficulty botDifficulty = BotDifficulty.EASY;
 
     //will players that join mid game join as players or spectators (spectator for lives-based modes)
     private boolean joinMidGame = true;
@@ -211,7 +213,7 @@ public enum GameMode {
                 }
 
                 //this creates a comma-separated list of event ids that will be activated upon spawning/starting the game
-                String newSpawn = setting.loadSettingSpawn(state, this);
+                String newSpawn = setting.loadSettingSpawn(state);
                 if (!newSpawn.equals("")) {
                     spawnTriggerId.append(',').append(newSpawn);
                 }
@@ -312,7 +314,7 @@ public enum GameMode {
                 user.getScores().setScore(user.getScores().getScore() + scoreIncrement);
 
                 for (ModeSetting setting : applicableSettings) {
-                    setting.processPlayerScoreChange(state, this, p, user.getScores().getScore());
+                    setting.processPlayerScoreChange(state, user.getScores().getScore());
                 }
 
                 //tell score window and ui extrato update next interval
@@ -333,7 +335,7 @@ public enum GameMode {
             AlignmentFilter.teamScores[teamIndex] = newScore;
 
             for (ModeSetting setting : applicableSettings) {
-                setting.processTeamScoreChange(state, this, teamIndex, newScore);
+                setting.processTeamScoreChange(state, newScore);
             }
 
             //tell ui extra to sync updated score
@@ -363,7 +365,7 @@ public enum GameMode {
     public Array<RallyPoint.RallyPointMultiplier> processAIPath(PlayState state, PlayerBot p, Vector2 playerLocation, Vector2 playerVelocity) {
         Array<RallyPoint.RallyPointMultiplier> path = new Array<>();
         for (ModeSetting setting : applicableSettings) {
-            setting.processAIPath(state, this, p, playerLocation, playerVelocity, path);
+            setting.processAIPath(state, p, playerLocation, path);
         }
         return path;
     }
@@ -373,7 +375,7 @@ public enum GameMode {
      */
     public void processGameEnd(PlayState state) {
         for (ModeSetting setting : applicableSettings) {
-            setting.processGameEnd(state, this);
+            setting.processGameEnd();
         }
     }
 
@@ -423,4 +425,8 @@ public enum GameMode {
     public LoadoutMode getLoadoutMode() { return loadoutMode; }
 
     public void setLoadoutMode(LoadoutMode loadoutMode) { this.loadoutMode = loadoutMode; }
+
+    public BotDifficulty getBotDifficulty() { return botDifficulty; }
+
+    public void setBotDifficulty(BotDifficulty botDifficulty) { this.botDifficulty = botDifficulty; }
 }

@@ -15,8 +15,24 @@
     "HABERDASHER"
   ]
 },
+"SNORKEL": {
+  "name": "Snorkel",
+  "description": "",
+  "descriptionLong": "",
+  "tags": [
+    "HABERDASHER"
+  ]
+},
 "FESTIVE_HAT": {
   "name": "Festive Hat",
+  "description": "",
+  "descriptionLong": "",
+  "tags": [
+    "HABERDASHER"
+  ]
+},
+"BICORNE": {
+  "name": "Bicorne",
   "description": "",
   "descriptionLong": "",
   "tags": [
@@ -49,6 +65,14 @@
 },
 "N95_MASK": {
   "name": "N95",
+  "description": "",
+  "descriptionLong": "",
+  "tags": [
+    "HABERDASHER"
+  ]
+},
+"NOISEMAKER": {
+  "name": "Noisemaker",
   "description": "",
   "descriptionLong": "",
   "tags": [

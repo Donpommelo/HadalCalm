@@ -48,7 +48,7 @@ public class Boss5 extends EnemyFloating {
 
 	private static final int hp = 8000;
 
-	private int phase = 1;
+	private final int phase = 1;
 	private static final float phaseThreshold2 = 0.0f;
 
 	private final Animation<TextureRegion> coreSprite, bodySprite;

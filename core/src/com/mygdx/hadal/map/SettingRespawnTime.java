@@ -14,9 +14,18 @@ import com.mygdx.hadal.text.HText;
 public class SettingRespawnTime extends ModeSetting {
 
     private static final String settingTag = "respawn_time";
-    private static final Integer defaultValue = 1;
-
+    private static final Integer defaultDefaultValue = 1;
     private SelectBox<String> respawnOptions;
+
+    private final Integer defaultValue;
+
+    public SettingRespawnTime(int defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public SettingRespawnTime() {
+        this(defaultDefaultValue);
+    }
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {

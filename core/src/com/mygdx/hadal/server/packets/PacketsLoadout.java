@@ -87,18 +87,15 @@ public class PacketsLoadout {
 
     public static class SyncArtifactRemoveClient extends SyncLoadoutClient {
         public UnlockArtifact artifactRemove;
-        public boolean save;
 
         public SyncArtifactRemoveClient() {}
 
         /**
          * A SyncArtifactRemoveClient is sent from client to server to inform them that they unequipped an artifact in the hub reliquary
          * @param artifactRemove: An artifact to be removed from this client's loadout
-         * @param save: Should this change be saved to the user's saved loadout
          */
-        public SyncArtifactRemoveClient(UnlockArtifact artifactRemove, boolean save) {
+        public SyncArtifactRemoveClient(UnlockArtifact artifactRemove) {
             this.artifactRemove = artifactRemove;
-            this.save = save;
         }
     }
 

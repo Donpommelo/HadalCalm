@@ -841,7 +841,7 @@ public class PlayState extends GameState {
 
 	final Vector2 resizeTmpVector2 = new Vector2();
 	@Override
-	public void resize(int width, int height) {
+	public void resize() {
 		
 		//This refocuses the camera to avoid camera moving after resizing
 		if (gsm.getSetting().isMouseCameraTrack()) {

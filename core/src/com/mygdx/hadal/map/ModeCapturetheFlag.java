@@ -32,8 +32,8 @@ public class ModeCapturetheFlag extends ModeSetting {
     private static final float flagReturnDesireMultiplier = 0.02f;
     private final Vector2 objectiveLocation = new Vector2();
     @Override
-    public void processAIPath(PlayState state, GameMode mode, PlayerBot bot, Vector2 playerLocation, Vector2 playerVelocity,
-            Array<RallyPoint.RallyPointMultiplier> path) {
+    public void processAIPath(PlayState state, PlayerBot bot, Vector2 playerLocation,
+                              Array<RallyPoint.RallyPointMultiplier> path) {
         for (ObjectiveMarker objective: state.getUiObjective().getObjectives()) {
             objectiveLocation.set(objective.getObjectiveLocation()).scl(1 / PPM);
             if (objective.getObjectiveTarget() instanceof FlagCapturable flag) {

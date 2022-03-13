@@ -292,7 +292,7 @@ public class ResultsState extends GameState {
 				super.act(delta);
 				timer += delta;
 				if (timer >= fadeDelay) {
-					progress = (timer - fadeDelay) / fadeDuration;
+					progress = Math.min(Math.max(0, (timer - fadeDelay) / fadeDuration), 1.0f);
 
 					//after the delay, we bgein playing results music depending on the player's own victory status
 					if (!songPlaying) {

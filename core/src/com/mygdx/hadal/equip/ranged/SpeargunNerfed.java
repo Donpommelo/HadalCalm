@@ -15,7 +15,6 @@ public class SpeargunNerfed extends RangedWeapon {
 	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.5f;
 	private static final int reloadAmount = 0;
-	private static final float recoil = 2.5f;
 	private static final float projectileSpeed = 35.0f;
 	private static final Vector2 projectileSize = new Vector2(50, 12);
 	private static final float lifespan = 1.0f;

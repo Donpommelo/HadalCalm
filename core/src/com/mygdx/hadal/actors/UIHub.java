@@ -140,7 +140,7 @@ public class UIHub {
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */
 	public void enter(UnlockTag tag, boolean searchable, boolean filterTags, boolean filterCost, HubEvent hub, String... tagOptions) {
-		SoundEffect.DOORBELL.play(state.getGsm(), 0.25f, false);
+		SoundEffect.DOORBELL.play(state.getGsm(), 0.2f, false);
 
 		active = true;
 
@@ -261,7 +261,7 @@ public class UIHub {
 	 * Player exits the event. Makes the ui slide out
 	 */
 	public void leave() {
-		SoundEffect.DOORBELL.play(state.getGsm(), 0.25f, false);
+		SoundEffect.WOOSH.play(state.getGsm(), 1.0f, 0.8f, false);
 
 		active = false;
 
@@ -320,7 +320,7 @@ public class UIHub {
 							if (state.isServer()) {
 								state.getPlayer().getPlayerData().removeArtifact(newTag.getArtifact());
 							} else {
-								HadalGame.client.sendTCP(new PacketsLoadout.SyncArtifactRemoveClient(newTag.getArtifact(), true));
+								HadalGame.client.sendTCP(new PacketsLoadout.SyncArtifactRemoveClient(newTag.getArtifact()));
 							}
 
 							refreshHub(hub);

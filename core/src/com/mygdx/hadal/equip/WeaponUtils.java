@@ -738,7 +738,7 @@ public class WeaponUtils {
 							case AMMO:
 								
 								SoundEffect.LOCKANDLOAD.playUniversal(state, player.getPlayer().getPixelPosition(),
-										0.3f, false);
+										0.8f, false);
 								
 								player.getCurrentTool().gainAmmo(power);
 								new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f,
@@ -791,6 +791,8 @@ public class WeaponUtils {
 		
 		switch(type) {
 		case AMMO:
+			pickup.setEventSprite(Sprite.AMMO);
+			break;
 		case FUEL:
 			pickup.setEventSprite(Sprite.FUEL);
 			break;

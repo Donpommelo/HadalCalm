@@ -27,7 +27,7 @@ public class MedievalMode extends ModeModifier {
     }
 
     @Override
-    public void executeModifier(PlayState state, GameMode mode) {
+    public void executeModifier(PlayState state) {
         state.addMapEquipTag(UnlockTag.MEDIEVAL);
     }
 

@@ -442,6 +442,4 @@ public class BodyData extends HadalData {
 	public float getYGroundDeaccel() { return groundYDeaccel * (1 + getStat(Stats.GROUND_DRAG)); }
 	
 	public float getYAirDeaccel() {	return airYDeaccel * (1 + getStat(Stats.AIR_DRAG)); }
-	
-	public float getFastFallPower() { return fastFallPow * (1 + getStat(Stats.FASTFALL_POW)); }
 }

@@ -20,7 +20,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  * A BotController manages all of a bot's behaviors and cooldowns
  * @author Hurbbury Heebone
  */
-public class BotController {
+public class BotPlayerController {
 
     private final PlayerBot player;
 
@@ -57,7 +57,7 @@ public class BotController {
     //distance squared between bot andd their shoot target
     private float midrangeDifferenceSquare, targetDistanceSquare;
 
-    public BotController(PlayerBot player) {
+    public BotPlayerController(PlayerBot player) {
         this.player = player;
     }
 
@@ -87,6 +87,7 @@ public class BotController {
             botTargetCount -= botTargetInterval * (1 + (-botMoveVariance + MathUtils.random() * 2 * botMoveVariance));
             acquireTarget(entityWorldLocation, entityVelocity);
         }
+
         while (botMoveCount >= botMoveInterval) {
             botMoveCount -= botMoveInterval * (1 + (-botMoveVariance + MathUtils.random() * 2 * botMoveVariance));
             processBotPickup();
@@ -94,15 +95,18 @@ public class BotController {
             processBotActiveItem(lineOfSight, targetDistanceSquare);
             processBotMovement(entityWorldLocation, entityVelocity);
         }
+
         if (jumpDesireCount > 0.0f) {
             jumpDesireCount -= delta;
             if (jumpDesireCount <= 0.0f) {
                 player.getController().keyUp(PlayerAction.JUMP);
             }
         }
+
         if (noFuelWaitCount > 0.0f) {
             noFuelWaitCount -= delta;
         }
+
         if (shootReleaseCount > 0.0f) {
             shootReleaseCount -= delta;
             if (shootReleaseCount <= 0.0f) {

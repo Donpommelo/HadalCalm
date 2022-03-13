@@ -437,8 +437,6 @@ public class ParticleEntity extends HadalEntity {
 	
 	public void setAttachedEntity(HadalEntity attachedEntity) { this.attachedEntity = attachedEntity; }
 	
-	public void setDespawn(boolean despawn) { this.despawn = despawn; }
-	
 	public void setAttachedId(UUID attachedId) { this.attachedId = attachedId; }
 
 	public void setOffset(float offsetX, float offsetY) { this.offset.set(offsetX, offsetY); }

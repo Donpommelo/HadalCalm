@@ -31,11 +31,11 @@ public class ModeSettingSelection {
     private static final float tableInX = 140;
     private static final float tableY = 100.0f;
 
-    public static final int titleHeight = 60;
-    public static final int titlePadding = 25;
+    public static final int titleHeight = 40;
+    public static final int titlePadding = 20;
 
     private static final int optionsWidthOuter = 420;
-    private static final int optionsHeightOuter = 560;
+    private static final int optionsHeightOuter = 590;
     public static final int optionsWidth = 410;
 
     private static final float titleScale = 0.8f;
@@ -43,7 +43,7 @@ public class ModeSettingSelection {
 
     public static final float detailHeight = 35.0f;
     public static final float detailHeightSmall = 20.0f;
-    public static final float detailPad = 10.0f;
+    public static final float detailPad = 7.5f;
 
     public static final float detailsScale = 0.25f;
 

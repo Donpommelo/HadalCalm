@@ -428,7 +428,7 @@ public class PlayerSpriteHelper {
             private void manageTimer(float delta) {
                 timer += delta;
                 if (timer >= fadeDelay) {
-                    progress = (timer - fadeDelay) / fadeDuration;
+                    progress = Math.min(Math.max(0, (timer - fadeDelay) / fadeDuration), 1.0f);
                 }
             }
         };

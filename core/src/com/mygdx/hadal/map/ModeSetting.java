@@ -46,7 +46,7 @@ public class ModeSetting {
      * This is run when the match begins. It sets up all mode-specific events that must be run when a player spawns.
      * It returns csv string consisting of the ids of all the events.
      */
-    public String loadSettingSpawn(PlayState state, GameMode mode) { return ""; }
+    public String loadSettingSpawn(PlayState state) { return ""; }
 
     /**
      * This is run when the match begins. It sets up all the miscellaneous functions of the mode that do not entail creating
@@ -79,17 +79,15 @@ public class ModeSetting {
 
     /**
      * This is run when a player's score changes
-     * @param p: the player whose score is changing
-     * @param scoreIncrement: the amount to change the score by
+     * @param scoreIncrement : the amount to change the score by
      */
-    public void processPlayerScoreChange(PlayState state, GameMode mode, Player p, int scoreIncrement) {}
+    public void processPlayerScoreChange(PlayState state, int scoreIncrement) {}
 
     /**
      * This is run when a team's score changes
-     * @param teamIndex: the index of the team we are changing the score of
-     * @param scoreIncrement: The amount to change the score by
+     * @param scoreIncrement : The amount to change the score by
      */
-    public void processTeamScoreChange(PlayState state, GameMode mode, int teamIndex, int scoreIncrement) {}
+    public void processTeamScoreChange(PlayState state, int scoreIncrement) {}
 
     /**
      * This is run when a player runs out of lives
@@ -99,16 +97,15 @@ public class ModeSetting {
 
     /**
      * This is run regularly by bots to find an optimal path through the map accounting for mode-specific events
-     * @param bot: Bot player doing the pathfinding
-     * @param playerLocation: loaction of the bot player
-     * @param playerVelocity: current velocity of the bot
-     * @param path: current list of rally points that we will find paths towards
+     * @param bot : Bot player doing the pathfinding
+     * @param playerLocation : loaction of the bot player
+     * @param path : current list of rally points that we will find paths towards
      */
-    public void processAIPath(PlayState state, GameMode mode, PlayerBot bot, Vector2 playerLocation,
-                              Vector2 playerVelocity, Array<RallyPoint.RallyPointMultiplier> path) {}
+    public void processAIPath(PlayState state, PlayerBot bot, Vector2 playerLocation,
+                              Array<RallyPoint.RallyPointMultiplier> path) {}
 
     /**
      * This is run when the game ends. Atm, this just cleans up bot pathfinding threads
      */
-    public void processGameEnd(PlayState state, GameMode mode) {}
+    public void processGameEnd() {}
 }

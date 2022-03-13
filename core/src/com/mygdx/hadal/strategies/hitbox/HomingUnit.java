@@ -186,11 +186,6 @@ public class HomingUnit extends HitboxStrategy {
 		return this;
 	}
 
-	public HomingUnit setDelay(float delay) {
-		this.delay = delay;
-		return this;
-	}
-
 	public HomingUnit setFixedUntilHome(boolean fixedUntilHome) {
 		this.fixedUntilHome = fixedUntilHome;
 		return this;

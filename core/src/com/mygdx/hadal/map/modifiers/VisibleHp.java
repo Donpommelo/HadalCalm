@@ -1,6 +1,5 @@
 package com.mygdx.hadal.map.modifiers;
 
-import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
@@ -20,7 +19,7 @@ public class VisibleHp extends ModeModifier {
     }
 
     @Override
-    public void executeModifier(PlayState state, GameMode mode) {
+    public void executeModifier(PlayState state) {
         state.addMapModifier(UnlockArtifact.VISIBLE_HP);
     }
 }

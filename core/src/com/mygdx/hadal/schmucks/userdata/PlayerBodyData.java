@@ -526,16 +526,20 @@ public class PlayerBodyData extends BodyData {
 			}
 		}
 	}
-	
-	/**
-	 * This returns the number of unused artifact slots
-	 */
-	public int getArtifactSlotsRemaining() {
+
+	public int getArtifactSlotsUsed() {
 		int slotsUsed = 0;
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
 		}
-		return getNumArtifactSlots() - slotsUsed;
+		return slotsUsed;
+	}
+
+	/**
+	 * This returns the number of unused artifact slots
+	 */
+	public int getArtifactSlotsRemaining() {
+		return getNumArtifactSlots() - getArtifactSlotsUsed();
 	}
 	
 	/**

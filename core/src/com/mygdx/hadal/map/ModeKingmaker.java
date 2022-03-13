@@ -2,7 +2,7 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.bots.BotController;
+import com.mygdx.hadal.bots.BotPlayerController;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.event.modes.CrownHoldable;
@@ -20,7 +20,7 @@ public class ModeKingmaker extends ModeSetting {
     private static final float crownDesireMultiplier = 0.05f;
     private final Vector2 objectiveLocation = new Vector2();
     @Override
-    public void processAIPath(PlayState state, GameMode mode, PlayerBot bot, Vector2 playerLocation, Vector2 playerVelocity, Array<RallyPoint.RallyPointMultiplier> path) {
+    public void processAIPath(PlayState state, PlayerBot bot, Vector2 playerLocation, Array<RallyPoint.RallyPointMultiplier> path) {
         if (!state.getUiObjective().getObjectives().isEmpty()) {
             objectiveLocation.set(state.getUiObjective().getObjectives().get(0).getObjectiveLocation()).scl(1 / PPM);
             if (state.getUiObjective().getObjectives().get(0).getObjectiveTarget() instanceof CrownHoldable crown) {
@@ -31,7 +31,7 @@ public class ModeKingmaker extends ModeSetting {
                     //if the crown is captured by this bot, start "wandering" to avoid conflict
                     if (bot.equals(crown.getTarget())) {
                         bot.getBotController().getPointPath().clear();
-                        bot.getBotController().setCurrentMood(BotController.BotMood.WANDER);
+                        bot.getBotController().setCurrentMood(BotPlayerController.BotMood.WANDER);
                         return;
                     }
                 }

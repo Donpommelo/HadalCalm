@@ -39,7 +39,7 @@ public class EnemyCrawling extends Enemy {
 	private FeetData feetData;
 	
 	public EnemyCrawling(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, float startAngle, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
-		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, scrapDrop, spawner);
+		super(state, startPos, size, hboxSize, type, filter, hp, attackCd, scrapDrop, spawner);
 		
 		this.moveDirection = startAngle;
 		this.moveSpeed = 1.0f;

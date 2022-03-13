@@ -43,7 +43,7 @@ public class Turret extends Enemy {
 	private static final Sprite volley = Sprite.TURRET_VOLLEY;
 	
 	public Turret(PlayState state, Vector2 startPos, EnemyType type, float startAngle, short filter, float baseHp, float attackCd, int scrapDrop, float scale, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(baseWidth, baseHeight).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), Sprite.NOTHING, type, filter, baseHp, attackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(baseWidth, baseHeight).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), type, filter, baseHp, attackCd, scrapDrop, spawner);
 		this.attackAngle = 0;
 		this.startAngle = startAngle;
 		this.desiredAngle = startAngle;

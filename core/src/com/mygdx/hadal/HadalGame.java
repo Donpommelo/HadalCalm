@@ -212,7 +212,7 @@ public class HadalGame extends ApplicationAdapter {
 		viewportCamera.update(width, height, true);
 		viewportUI.update(width, height, true);
 		if (gsm != null) {
-			gsm.resize(width, height);
+			gsm.resize();
 		}
 	}
 	
@@ -273,7 +273,6 @@ public class HadalGame extends ApplicationAdapter {
 				if (d != null) {
 					InetAddress localAddress = d.getLocalAddress();
 					myIp = d.getExternalIPAddress();
-
 					PortMappingEntry portMapping = new PortMappingEntry();
 
 					//delete existing mappings before attempting to create a new one

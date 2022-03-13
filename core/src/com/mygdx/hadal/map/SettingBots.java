@@ -1,13 +1,17 @@
 package com.mygdx.hadal.map;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.bots.BotManager;
+import com.mygdx.hadal.bots.BotPersonality;
 import com.mygdx.hadal.bots.RallyPoint;
+import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
@@ -25,11 +29,12 @@ import com.mygdx.hadal.text.NameGenerator;
  */
 public class SettingBots extends ModeSetting {
 
-    private static final String settingTag = "bot_number";
+    private static final String settingTag1 = "bot_number";
     private static final Integer defaultValue = 0;
+    private static final String settingTag2 = "bot_difficulty";
     private static final Integer defaultValueSinglePlayer = 1;
 
-    private SelectBox<String> botNumberOptions;
+    private SelectBox<String> botNumberOptions, botDifficultyOptions;
 
     private int lockedBots;
     private boolean botsChoice;
@@ -49,25 +54,47 @@ public class SettingBots extends ModeSetting {
             botNumberOptions.setItems(botNumberChoices);
             botNumberOptions.setWidth(ModeSettingSelection.optionsWidth);
             if (GameStateManager.currentMode.equals(GameStateManager.Mode.SINGLE)) {
-                botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValueSinglePlayer));
+                botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValueSinglePlayer));
             } else {
-                botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
+                botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValue));
             }
+
+            String[] botDifficultyChoices = HText.SETTING_BOT_DIFFICULTY_OPTIONS.text().split(",");
+            Text botDifficulty = new Text(HText.SETTING_BOT_DIFFICULTY.text());
+            botDifficulty.setScale(ModeSettingSelection.detailsScale);
+
+            botDifficultyOptions = new SelectBox<>(GameStateManager.getSkin());
+            botDifficultyOptions.setItems(botDifficultyChoices);
+            botDifficultyOptions.setWidth(ModeSettingSelection.optionsWidth);
+            botDifficultyOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag2, defaultValue));
+
+            //bot difficulty option is disabled with no bots
+            botDifficultyOptions.setDisabled(botNumberOptions.getSelectedIndex() == 0);
+            botNumberOptions.addListener(new ChangeListener() {
+
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    botDifficultyOptions.setDisabled(botNumberOptions.getSelectedIndex() == 0);
+                }
+            });
 
             table.add(bots);
             table.add(botNumberOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
+            table.add(botDifficulty);
+            table.add(botDifficultyOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
         }
     }
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
         if (botsChoice) {
-            state.getGsm().getSetting().setModeSetting(mode, settingTag, botNumberOptions.getSelectedIndex());
+            state.getGsm().getSetting().setModeSetting(mode, settingTag1, botNumberOptions.getSelectedIndex());
+            state.getGsm().getSetting().setModeSetting(mode, settingTag2, botDifficultyOptions.getSelectedIndex());
         }
     }
 
     @Override
-    public void processGameEnd(PlayState state, GameMode mode) {
+    public void processGameEnd() {
         BotManager.terminatePathfindingThreads();
     }
 
@@ -76,7 +103,8 @@ public class SettingBots extends ModeSetting {
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
         if (!state.isServer()) { return; }
-        int botNumberIndex = botsChoice ? state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) : lockedBots;
+        int botNumberIndex = botsChoice ? state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValue) : lockedBots;
+        mode.setBotDifficulty(indexToBotDifficulty(state.getGsm().getSetting().getModeSetting(mode, settingTag2, defaultValue)));
 
         Array<User> oldBots = new Array<>();
 
@@ -120,5 +148,13 @@ public class SettingBots extends ModeSetting {
     private User createBotUser() {
         String botName = NameGenerator.generateFirstLast(true);
         return new User(null, new SavedPlayerFields(botName, lastBotConnID), new SavedPlayerFieldsExtra());
+    }
+
+    private static BotPersonality.BotDifficulty indexToBotDifficulty(int index) {
+        return switch (index) {
+            case 1 -> BotDifficulty.MEDIUM;
+            case 2 -> BotDifficulty.HARD;
+            default -> BotDifficulty.EASY;
+        };
     }
 }
