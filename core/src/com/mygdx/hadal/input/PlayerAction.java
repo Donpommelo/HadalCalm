@@ -31,10 +31,10 @@ public enum PlayerAction {
 	SWITCH_TO_4(Input.Keys.NUM_4, false, HText.SWITCH_TO_4),
 	WEAPON_CYCLE_UP(-1000, false, HText.WEAPON_CYCLE_UP),
 	WEAPON_CYCLE_DOWN(1000, false, HText.WEAPON_CYCLE_DOWN),
-	MESSAGE_WINDOW(Input.Keys.T, false, HText.DIALOG),
+	MESSAGE_WINDOW(Input.Keys.T, false, HText.CHAT),
 	SCORE_WINDOW(Input.Keys.TAB, true, HText.SCORE_WINDOW),
-	CHAT_WHEEL(Input.Keys.C, true, HText.SCORE_WINDOW),
-	PING(Input.Keys.X, false, HText.SCORE_WINDOW),
+	CHAT_WHEEL(Input.Keys.C, true, HText.CHAT_WHEEL),
+	PING(Input.Keys.X, false, HText.PING),
 	PAUSE(Input.Keys.P, false, HText.PAUSE),
 	EXIT_MENU(Input.Keys.ESCAPE, false, HText.EXIT);
 

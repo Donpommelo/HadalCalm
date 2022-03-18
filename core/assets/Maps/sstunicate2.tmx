@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="124">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="125">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="HUB"/>
@@ -396,30 +396,10 @@
     <property name="triggeringId" value=""/>
    </properties>
   </object>
-  <object id="62" name="Timer" type="Timer" x="160" y="160" width="32" height="32">
+  <object id="65" name="Dialog" type="Dialog" x="224" y="416" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="0"/>
-    <property name="triggeredId" value="startTimer"/>
-    <property name="triggeringId" value="onceAtStart"/>
-   </properties>
-  </object>
-  <object id="63" name="Multitrigger" type="Multitrigger" x="224" y="160" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,multiDialog"/>
-   </properties>
-  </object>
-  <object id="64" name="Condtrigger" type="Condtrigger" x="288" y="160" width="32" height="32">
-   <properties>
-    <property name="start" value="random"/>
-    <property name="triggeredId" value="multiDialog"/>
-    <property name="triggeringId" value="introMultiA"/>
-   </properties>
-  </object>
-  <object id="65" name="Dialog" type="Dialog" x="352" y="160" width="32" height="32">
-   <properties>
-    <property name="textId" value="introMultiA"/>
-    <property name="triggeredId" value="introMultiA"/>
+    <property name="textId" value="intro1A"/>
+    <property name="triggeredId" value="intro1A"/>
    </properties>
   </object>
   <object id="66" name="Multitrigger" type="Multitrigger" x="160" y="224" width="32" height="32">
@@ -450,17 +430,17 @@
   </object>
   <object id="71" name="Start" type="Start" x="1184" y="992" width="32" height="32">
    <properties>
-    <property name="triggeringId" value="enterfromcenter"/>
+    <property name="triggeringId" value="spawnincenter"/>
    </properties>
   </object>
   <object id="72" name="Start" type="Start" x="1600" y="1184" width="32" height="32">
    <properties>
-    <property name="triggeringId" value="enterfromcenter"/>
+    <property name="triggeringId" value="spawnincenter"/>
    </properties>
   </object>
   <object id="73" name="Start" type="Start" x="1376" y="992" width="32" height="32">
    <properties>
-    <property name="triggeringId" value="enterfromcenter"/>
+    <property name="triggeringId" value="spawnincenter"/>
    </properties>
   </object>
   <object id="74" name="Start" type="Start" x="960" y="1184" width="32" height="32">
@@ -470,12 +450,12 @@
   </object>
   <object id="75" name="Start" type="Start" x="1472" y="1504" width="32" height="32">
    <properties>
-    <property name="triggeringId" value="enterfromcenter"/>
+    <property name="triggeringId" value="spawnincenter"/>
    </properties>
   </object>
   <object id="76" name="Start" type="Start" x="1056" y="1408" width="32" height="32">
    <properties>
-    <property name="triggeringId" value="enterfromcenter"/>
+    <property name="triggeringId" value="spawnincenter"/>
    </properties>
   </object>
   <object id="77" name="Bounds" type="Bounds" x="192" y="544" width="32" height="32">
@@ -744,6 +724,12 @@
     <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="HABERDASHER"/>
+   </properties>
+  </object>
+  <object id="124" name="Multitrigger" type="Multitrigger" x="160" y="416" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnincenter"/>
+    <property name="triggeringId" value="enterfromcenter,intro1A"/>
    </properties>
   </object>
  </objectgroup>

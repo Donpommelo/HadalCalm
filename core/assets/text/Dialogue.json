@@ -84,7 +84,7 @@
 		},
         {
 			"name": "Pelican",
-			"text": "\nThis represents a considerable problem for the local ecosystem. Stagnant water is no fun after all.\nMakes it awfully hard for fish to get to where they want to go.",
+			"text": "\nThis represents a considerable problem for the local ecosystem. Stagnant water is no fun after all.\nMakes it awfully hard for fish to get to where they need to be.",
 			"sprite": "PELICAN_MASKED",
 			"duration": 0
 		},
@@ -348,30 +348,12 @@
             "end": true
 		}
 	],
-"intro0": [
-		{
-			"name": "Pelican",
-			"text": "<TEMP>",
-			"sprite": "PELICAN_MASKED",
-			"duration": 3,
-			"end": true
-		}
-	],
 "intro1A": [
 		{
 			"name": "Pelican",
-			"text": "Welcome back, <name>.",
+			"text": "Welcome back, <name>.\n\nRemember; <tip>",
 			"sprite": "PELICAN_MASKED",
-			"duration": 3,
-			"end": true
-		}
-	],
-"introMultiA": [
-		{
-			"name": "Pelican",
-			"text": "Welcome back, <name>.",
-			"sprite": "PELICAN_MASKED",
-			"duration": 3,
+			"duration": 15,
 			"end": true
 		}
 	]

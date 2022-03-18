@@ -87,7 +87,7 @@ public class Flashbang extends ActiveItem {
 						@Override
 						public void onHit(HadalData fixB) {
 							if (fixB instanceof BodyData bodyData) {
-								bodyData.addStatus(new Blinded(state, blindDuration, creator, bodyData));
+								bodyData.addStatus(new Blinded(state, blindDuration, creator, bodyData, true));
 							}
 						}
 					});

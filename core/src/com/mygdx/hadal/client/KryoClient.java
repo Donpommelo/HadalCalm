@@ -106,7 +106,7 @@ public class KryoClient {
 				
         		//If our client state is still here, the server closed
 				if (cs != null) {
-					addNotification(cs, "", HText.DISCONNECTED.text(), DialogType.SYSTEM);
+					addNotification(cs, "", HText.DISCONNECTED.text(), false, DialogType.SYSTEM);
 				}
 				
 				//return to the lobby state. (if our client state is still there, we can do a fade out transition first.
@@ -422,7 +422,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.ServerNotification p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
-				Gdx.app.postRunnable(() -> addNotification(cs, p.name, p.text, p.type));
+				Gdx.app.postRunnable(() -> addNotification(cs, p.name, p.text, p.override, p.type));
 			}
 		}
 
@@ -1005,10 +1005,11 @@ public class KryoClient {
 	 * @param cs: Client's current clientstate
 	 * @param name: name giving the notification
 	 * @param text: notification text
+	 * @param override: ncan this notification be overridden by other notifications
 	 * @param type: the type of dialog (system message, story dialog, etc)
 	 */
-	public void addNotification(ClientState cs, String name, String text, DialogType type) {
-		cs.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type);
+	public void addNotification(ClientState cs, String name, String text, boolean override, DialogType type) {
+		cs.getDialogBox().addDialogue(name, text, "", true, override, true, 3.0f, null, null, type);
 	}
 
 	/**

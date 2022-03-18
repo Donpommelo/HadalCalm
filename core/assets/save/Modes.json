@@ -25,7 +25,7 @@
 	"descriptionLong": "\nCan be played solo or cooperatively with friends."
 },
 "CTF": {
-	"name": "CTF",
+	"name": "Capture The Flag",
 	"description": "Capture the enemy flag and bring it to your own goal to score points.",
 	"descriptionLong": "Players are split into 2 teams.\nPoints cannot be scored if the enemy holds your flag."
 },

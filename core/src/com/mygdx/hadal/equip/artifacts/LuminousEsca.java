@@ -16,8 +16,8 @@ public class LuminousEsca extends Artifact {
 	
 	private static final float bonusLight = 0.25f;
 	private static final float radius = 10.0f;
-	private static final float procCd = 0.1f;
-	private static final float blindDuration = 0.1f;
+	private static final float procCd = 0.5f;
+	private static final float blindDuration = 0.5f;
 
 	public LuminousEsca() {
 		super(slotCost);
@@ -42,7 +42,7 @@ public class LuminousEsca extends Artifact {
 						state.getWorld().QueryAABB(fixture -> {
 									if (fixture.getUserData() instanceof BodyData bodyData) {
 										if (bodyData.getSchmuck().getHitboxfilter() != p.getSchmuck().getHitboxfilter()) {
-											bodyData.addStatus(new Blinded(state, blindDuration, p, bodyData));
+											bodyData.addStatus(new Blinded(state, blindDuration, p, bodyData, false));
 										}
 									}
 									return true;

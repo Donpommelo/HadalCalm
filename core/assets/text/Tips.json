@@ -1,0 +1,23 @@
+[
+  "you can boost (fugboostfug) to reflect projectiles and travel faster.",
+  "you can hold up to 3 weapons at once. Switch between them with 'fugswitch1fug', 'fugswitch2fug', and 'fugswitch3fug'",
+  "players drop their weapons when they die. Dropped weapons can be picked up with 'fuginteractfug'.",
+  "type '/roll' in the chat window (fugmessagefug) to determine how good of a gamer you are.",
+  "type '/killme' in the chat window (fugmessagefug) if you get stuck in 'Facing Crabs' map geometry.",
+  "you can hold (fugscorewindowfug) to view each player's scores and stats. Select a player's name for the option to mute them.",
+  "you can use the chat wheel (fugchatwheelfug) to express your feelings in the midst of battle.",
+  "you can use (fugpingfug) to ping a location on the map.",
+  "the Cola-Cannon is charged by shaking your mouse for a more powerful stream.",
+  "the Deep Sea Smelter doesn't require reloading, but will overheat if used too much.",
+  "time your shots with the Killer Beat as the meter fills up for a more powerful attack.",
+  "Laser-Guided Rockets follow your mouse, even after being fired.",
+  "in team mode, Love Bow projectiles will heal allies.",
+  "headshots with the Sniper Rifle inflict additional damage.",
+  "players slowed by the Slodge Nozzle or Marine Snowglobe move slower but can still boost and hover.",
+  "Stickybombs can be detonated by reloading (fugreloadfug). This weapon does not automatically reload upon emptying a clip.",
+  "when using the Trick-Gun, hold, drag and release mouse to fire a vector-targeted projectile.",
+  "you can equip Artifacts by interacting (fuginteractfug) with the Reliquary in the hub.",
+  "expending fuel to hover or boost temporarily disables fuel regeneration.",
+  "in pvp, you receive a small defense bonus scaling to the number of unique players that have recently damaged them.",
+  "sound effects are emitted positionally and can alert you of the location of enemies."
+]

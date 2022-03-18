@@ -490,7 +490,8 @@ public class BotLoadoutProcessor {
         UnlockArtifact[] artifacts = new UnlockArtifact[]{ UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING,  UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING };
 
         if (state.getMode().getBotDifficulty().equals(BotPersonality.BotDifficulty.EASY) ||
-                (GameStateManager.currentMode.equals(GameStateManager.Mode.SINGLE) && state.getPlayer().getPlayerData().getArtifactSlotsUsed() == 0)) {
+                (GameStateManager.currentMode.equals(GameStateManager.Mode.SINGLE) &&
+                        state.getPlayer().getPlayerData().getArtifactSlotsUsed() == 0)) {
             return artifacts;
         }
 

@@ -196,11 +196,11 @@ public class ConsoleCommandUtil {
 
 		switch (command) {
 			case "camera" -> HadalGame.server.addNotificationToAll(state,"GAEM",
-				"CAMERA TARGET: " + state.getCameraTarget(), DialogType.SYSTEM);
+				"CAMERA TARGET: " + state.getCameraTarget(), false, DialogType.SYSTEM);
 			case "cameraBounds" -> HadalGame.server.addNotificationToAll(state, "GAEM",
-				"CAMERA BOUNDS: " + Arrays.toString(state.getCameraBounds()), DialogType.SYSTEM);
+				"CAMERA BOUNDS: " + Arrays.toString(state.getCameraBounds()), false, DialogType.SYSTEM);
 			case "playerLoc" -> HadalGame.server.addNotificationToAll(state,"GAEM",
-				"PLAYER LOCATION: " + state.getPlayer().getPosition(),	DialogType.SYSTEM);
+				"PLAYER LOCATION: " + state.getPlayer().getPosition(),	false, DialogType.SYSTEM);
 		}
 		return -1;
 	}

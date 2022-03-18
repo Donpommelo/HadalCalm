@@ -1249,7 +1249,7 @@ public class PlayState extends GameState {
 			if (!user.isSpectator()) {
 				if (notification) {
 					HadalGame.server.addNotificationToAll(this,"", HText.SPECTATOR_ENTER.text(player.getName()),
-							DialogType.SYSTEM);
+							true, DialogType.SYSTEM);
 				}
 
 				startSpectator(user, player.getConnId());
@@ -1287,11 +1287,12 @@ public class PlayState extends GameState {
 
 				//cannot exit spectator if server is full
 				if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers() + 1) {
-					HadalGame.server.sendNotification(score.getConnID(), "", HText.SERVER_FULL.text(), DialogType.SYSTEM);
+					HadalGame.server.sendNotification(score.getConnID(), "", HText.SERVER_FULL.text(), true, DialogType.SYSTEM);
 					return;
 				}
 
-				HadalGame.server.addNotificationToAll(this, "", HText.SPECTATOR_EXIT.text(score.getNameShort()), DialogType.SYSTEM);
+				HadalGame.server.addNotificationToAll(this, "", HText.SPECTATOR_EXIT.text(score.getNameShort()),
+						true, DialogType.SYSTEM);
 
 				//give the new player a player slot
 				user.setHitBoxFilter(AlignmentFilter.getUnusedAlignment());

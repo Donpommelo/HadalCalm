@@ -58,7 +58,7 @@ public class NavigationsMultiplayer extends HubEvent {
 
 		Pattern pattern = Pattern.compile(search);
 		final UIHub hub = state.getUiHub();
-		hub.setTitle(modeChosen.toString());
+		hub.setTitle(modeChosen.getInfo().getName());
 		final NavigationsMultiplayer me = this;
 
 		for (UnlockLevel c: UnlockLevel.getUnlocks(state, checkUnlock, newTags)) {

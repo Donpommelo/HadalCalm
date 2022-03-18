@@ -37,10 +37,11 @@ public class TextFilterUtil {
 		filteredText = filterTag(filteredText, "<noun_abstract>");
 		filteredText = filterTag(filteredText, "<noun_material>");
 
+		filteredText = filterTips(filteredText);
 		filteredText = filterRoll(filteredText);
 		filteredText = filterHotkeys(filteredText);
 		filteredText = filterPoem(filteredText);
-		
+
 		return filteredText;
 	}
 	
@@ -135,6 +136,17 @@ public class TextFilterUtil {
 		
 		return filteredText;
 	}
+
+	private static String filterTips(String text) {
+		String filteredText = text;
+
+		if (text.contains("<tip>")) {
+			int randomIndex = MathUtils.random(GameStateManager.tips.asStringArray().length - 1);
+			filteredText = filteredText.replaceAll("<tip>", GameStateManager.tips.asStringArray()[randomIndex]);
+		}
+
+		return filteredText;
+	}
 	
 	/**
 	 * This filters tags into chosen hotkeys. used in the tutorial
@@ -158,6 +170,8 @@ public class TextFilterUtil {
 		filteredText = filteredText.replaceAll("fugactivefug", PlayerAction.ACTIVE_ITEM.getKeyText());
 		filteredText = filteredText.replaceAll("fugmessagefug", PlayerAction.MESSAGE_WINDOW.getKeyText());
 		filteredText = filteredText.replaceAll("fugchatwheelfug", PlayerAction.CHAT_WHEEL.getKeyText());
+		filteredText = filteredText.replaceAll("fugpingfug", PlayerAction.PING.getKeyText());
+		filteredText = filteredText.replaceAll("fugscorewindowfug", PlayerAction.SCORE_WINDOW.getKeyText());
 
 		return filteredText;
 	}

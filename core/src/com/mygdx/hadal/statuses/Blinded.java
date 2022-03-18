@@ -15,11 +15,11 @@ public class Blinded extends Status {
 	private static final float linger = 1.0f;
 	private float fadeTimer = fadeCooldown;
 
-	public Blinded(PlayState state, float i, BodyData p, BodyData v) {
+	public Blinded(PlayState state, float i, BodyData p, BodyData v, boolean instant) {
 		super(state, i, false, p, v);
 
-		if (inflicted instanceof PlayerBodyData playerData) {
-			playerData.getPlayer().setBlinded(i);
+		if (instant && inflicted instanceof PlayerBodyData) {
+			((PlayerBodyData) inflicted).getPlayer().setBlinded(i);
 		}
 	}
 
@@ -29,6 +29,7 @@ public class Blinded extends Status {
 				true, SyncType.CREATESYNC).setPrematureOff(linger).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
 	}
 
+	public static final float blindInterpolation = 0.05f;
 	@Override
 	public void timePassing(float delta) {
 		if (fadeTimer > 0.0f) {
@@ -38,7 +39,8 @@ public class Blinded extends Status {
 			super.timePassing(delta);
 		}
 		if (inflicted instanceof PlayerBodyData playerData) {
-			playerData.getPlayer().setBlinded(duration);
+			float currentDuration = playerData.getPlayer().getBlinded();
+			playerData.getPlayer().setBlinded(currentDuration + (duration - currentDuration) * blindInterpolation);
 		}
 	}
 
@@ -87,6 +89,9 @@ public class Blinded extends Status {
 
 		//reset fade timer so stacking blind doesn't make it flicker
 		fadeTimer = fadeCooldown;
+
+		new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, linger, duration + linger,
+				true, SyncType.CREATESYNC).setPrematureOff(linger).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
 	}
 
 	@Override

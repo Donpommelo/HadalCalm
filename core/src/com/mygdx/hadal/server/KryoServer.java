@@ -104,7 +104,7 @@ public class KryoServer {
 							if (player.getPlayerData() != null) {
 								player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageTypes.DISCONNECT);
 							}
-							addNotificationToAll(ps, "", HText.CLIENT_DISCONNECTED.text(player.getName()), DialogType.SYSTEM);
+							addNotificationToAll(ps, "", HText.CLIENT_DISCONNECTED.text(player.getName()), true, DialogType.SYSTEM);
 						});
 					}
 					ps.addPacketEffect(() -> {
@@ -179,7 +179,7 @@ public class KryoServer {
 									return;
 								}
 							}
-							addNotificationToAllExcept(ps, c.getID(), "", HText.CLIENT_CONNECTED.text(p.name), DialogType.SYSTEM);
+							addNotificationToAllExcept(ps, c.getID(), "", HText.CLIENT_CONNECTED.text(p.name), true, DialogType.SYSTEM);
 
 							//clients joining full servers or in the middle of matches join as spectators
 							if (getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers() + 1) {
@@ -206,7 +206,7 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					//notify players of new joiners
 					if (p.firstTime) {
-						sendNotification(c.getID(), "", HText.CLIENT_JOINED.text(serverName), DialogType.SYSTEM);
+						sendNotification(c.getID(), "", HText.CLIENT_JOINED.text(serverName), false, DialogType.SYSTEM);
 					}
 
 					//catch up client
@@ -390,15 +390,15 @@ public class KryoServer {
 							//if pauses are enabled, unpause and remove pause state (and setting state)
 							if (player != null && gsm.getSetting().isMultiplayerPause()) {
 								if (gsm.getStates().peek() instanceof final PauseState ps) {
-									addNotificationToAll(ps.getPs(), "", HText.SERVER_UNPAUSED.text(player.getName()), DialogType.SYSTEM);
+									addNotificationToAll(ps.getPs(), "", HText.SERVER_UNPAUSED.text(player.getName()), true, DialogType.SYSTEM);
 									ps.setToRemove(true);
 								}
 								if (gsm.getStates().peek() instanceof final SettingState ss) {
-									addNotificationToAll(ss.getPlayState(), "", HText.SERVER_UNPAUSED.text(player.getName()), DialogType.SYSTEM);
+									addNotificationToAll(ss.getPlayState(), "", HText.SERVER_UNPAUSED.text(player.getName()), true, DialogType.SYSTEM);
 									ss.setToRemove(true);
 								}
 								if (gsm.getStates().peek() instanceof final AboutState as) {
-									addNotificationToAll(as.getPlayState(), "", HText.SERVER_UNPAUSED.text(player.getName()), DialogType.SYSTEM);
+									addNotificationToAll(as.getPlayState(), "", HText.SERVER_UNPAUSED.text(player.getName()), true, DialogType.SYSTEM);
 									as.setToRemove(true);
 								}
 								HadalGame.server.sendToAllTCP(new Packets.Unpaused());
@@ -635,10 +635,11 @@ public class KryoServer {
 	 * @param connId: id of the client to send the notification to
 	 * @param name: name giving the notification
 	 * @param text: notification text
+	 * @param override: Can this notification be overriden by other notifications?
 	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
-	public void sendNotification(int connId, String name, String text, final DialogType type) {
-		sendToTCP(connId, new Packets.ServerNotification(name, text, type));
+	public void sendNotification(int connId, String name, String text, boolean override, final DialogType type) {
+		sendToTCP(connId, new Packets.ServerNotification(name, text, override, type));
 	}
 	
 	/**
@@ -646,11 +647,12 @@ public class KryoServer {
 	 * @param ps: server's current playstate
 	 * @param name: name giving the notification
 	 * @param text: notification text
+	 * @param override: Can this notification be overriden by other notifications?
 	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
-	public void addNotificationToAll(final PlayState ps, final String name, final String text, final DialogType type) {
+	public void addNotificationToAll(final PlayState ps, final String name, final String text, final boolean override, final DialogType type) {
 		if (ps.getDialogBox() != null && server != null) {
-			server.sendToAllTCP(new Packets.ServerNotification(name, text, type));
+			server.sendToAllTCP(new Packets.ServerNotification(name, text, override, type));
 			Gdx.app.postRunnable(() -> ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type));
 		}
 	}
@@ -675,11 +677,12 @@ public class KryoServer {
 	 * @param connId: id of the client to exclude
 	 * @param name: name giving the notification
 	 * @param text: notification text
+	 * @param override: Can this notification be overriden by other notifications?
 	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
-	public void addNotificationToAllExcept(final PlayState ps, int connId, final String name, final String text, final DialogType type) {
+	public void addNotificationToAllExcept(final PlayState ps, int connId, final String name, final String text, boolean override, DialogType type) {
 		if (ps.getDialogBox() != null && server != null) {
-			server.sendToAllExceptTCP(connId, new Packets.ServerNotification(name, text, type));
+			server.sendToAllExceptTCP(connId, new Packets.ServerNotification(name, text, override, type));
 			Gdx.app.postRunnable(() -> ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type));
 		}
 	}
@@ -739,7 +742,7 @@ public class KryoServer {
 	public void kickPlayer(PlayState ps, User user, int connID) {
 		if (server != null) {
 			if (user.getPlayer() != null) {
-				addNotificationToAll(ps,"", HText.KICKED.text(user.getPlayer().getName()), DialogType.SYSTEM);
+				addNotificationToAll(ps,"", HText.KICKED.text(user.getPlayer().getName()), true, DialogType.SYSTEM);
 			}
 			sendToTCP(connID, new Packets.ClientYeet());
 		}

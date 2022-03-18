@@ -206,6 +206,7 @@ public class Packets {
 	public static class ServerNotification {
 		public String name;
 		public String text;
+		public boolean override;
 		public DialogType type;
 		public ServerNotification() {}
 		
@@ -214,11 +215,13 @@ public class Packets {
 		 * A Notification is sent from the Client to the Server to tell it to relay the message to all clients.
 		 * @param name: The name that will be displayed in the notification
 		 * @param text: The text displayed in the notification
+		 * @param override: Can this notification be overriden by other notifications? Just used for initial connect to avoid being overridden by tip
 		 * @param type: type of dialog (dialog, system msg, etc)
 		 */
-		public ServerNotification(String name, String text, DialogType type) {
+		public ServerNotification(String name, String text, boolean override, DialogType type) {
 			this.name = name;
 			this.text = text;
+			this.override = override;
 			this.type = type;
 		}
 	}

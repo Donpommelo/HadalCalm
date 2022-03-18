@@ -354,7 +354,7 @@ public class PauseState extends GameState {
     		if (paused) {
     			//If the server unpauses, send a message and notification to all players to unpause.
         		HadalGame.server.sendToAllTCP(new Packets.Unpaused());
-    			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), HText.UNPAUSED.text(), DialogType.SYSTEM);
+    			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), HText.UNPAUSED.text(), true, DialogType.SYSTEM);
     		}
 		} else {
 			if (paused) {

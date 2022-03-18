@@ -1,6 +1,10 @@
 package com.mygdx.hadal.save;
 
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -68,7 +72,7 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_n95"),
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_n95"),
             new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_n95")),
-    NOISEMAKER(CosmeticSlot.MOUTH, true,
+    NOISEMAKER(CosmeticSlot.MOUTH, true, PlayMode.LOOP_PINGPONG,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_noisemaker").setOffsetX(-67.8f).setOffsetY(0),
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_noisemaker").setOffsetX(-85.2f).setOffsetY(6.0f),
             new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_noisemaker").setOffsetX(-53.4f).setOffsetY(12.6f),
@@ -92,10 +96,15 @@ public enum UnlockCosmetic {
     private final HashMap<UnlockCharacter, CharacterCosmetic> cosmetics = new HashMap<>();
 
     UnlockCosmetic(CosmeticSlot cosmeticSlot, boolean ragdoll, CharacterCosmetic... compatibleCharacters) {
+        this(cosmeticSlot, ragdoll, PlayMode.LOOP, compatibleCharacters);
+    }
+
+    UnlockCosmetic(CosmeticSlot cosmeticSlot, boolean ragdoll, PlayMode mode, CharacterCosmetic... compatibleCharacters) {
         this.cosmeticSlot = cosmeticSlot;
         this.ragdoll = ragdoll;
         for (CharacterCosmetic cosmetic: compatibleCharacters) {
             cosmetics.put(cosmetic.getCompatibleCharacter(), cosmetic);
+            cosmetic.setPlayMode(mode);
         }
     }
 
@@ -202,6 +211,8 @@ class CharacterCosmetic {
     private boolean mirror;
     private String spriteIdMirror;
 
+    private PlayMode mode = Animation.PlayMode.LOOP;
+
     public CharacterCosmetic(UnlockCharacter compatibleCharacter, String spriteId) {
         this.compatibleCharacter = compatibleCharacter;
         this.spriteId = spriteId;
@@ -219,6 +230,7 @@ class CharacterCosmetic {
     public void getFrames() {
         if (frames == null) {
             frames = new Animation<>(cosmeticAnimationSpeed, ((TextureAtlas) HadalGame.assetManager.get(AssetList.COSMETICS_ATL.toString())).findRegions(spriteId));
+            frames.setPlayMode(mode);
             if (frames.getKeyFrames().length != 0) {
                 cosmeticWidth = frames.getKeyFrame(0).getRegionWidth();
                 cosmeticHeight = frames.getKeyFrame(0).getRegionHeight();
@@ -268,6 +280,8 @@ class CharacterCosmetic {
         this.offsetY = offsetY;
         return this;
     }
+
+    public void setPlayMode(PlayMode mode) { this.mode = mode; }
 
     public UnlockCharacter getCompatibleCharacter() { return compatibleCharacter; }
 }
