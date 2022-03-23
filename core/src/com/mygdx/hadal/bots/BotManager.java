@@ -13,6 +13,7 @@ import com.mygdx.hadal.schmucks.entities.MouseTracker;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -46,9 +47,10 @@ public class BotManager {
 
     /**
      * Initiate bot layer of map and keep track of all rally points
+     * @param state: playstate. used to check mode for team-specific paths
      * @param map: map of the world we want to initate rally points for
      */
-    public static void initiateRallyPoints(TiledMap map) {
+    public static void initiateRallyPoints(PlayState state, TiledMap map) {
 
         MapLayer botLayer = map.getLayers().get("bot-layer");
         if (botLayer != null) {
@@ -70,12 +72,14 @@ public class BotManager {
                         rallyPoints.put(worldVertices[1], new RallyPoint(worldVertices[1]));
                     }
                     if (object.getProperties().get("valid0", true, boolean.class)) {
-                        rallyPoints.get(worldVertices[0]).addConnection(rallyPoints.get(worldVertices[1]),
-                                object.getProperties().get("multiplier0", 1.0f, float.class));
+                        rallyPoints.get(worldVertices[0]).addConnection(state, rallyPoints.get(worldVertices[1]),
+                                object.getProperties().get("multiplier0", 1.0f, float.class),
+                                object.getProperties().get("teamIndex", -1, Integer.class));
                     }
                     if (object.getProperties().get("valid1", true, boolean.class)) {
-                        rallyPoints.get(worldVertices[1]).addConnection(rallyPoints.get(worldVertices[0]),
-                                object.getProperties().get("multiplier1", 1.0f, float.class));
+                        rallyPoints.get(worldVertices[1]).addConnection(state, rallyPoints.get(worldVertices[0]),
+                                object.getProperties().get("multiplier1", 1.0f, float.class),
+                                object.getProperties().get("teamIndex", -1, Integer.class));
                     }
                 }
             }
@@ -98,11 +102,11 @@ public class BotManager {
      * Inputs info needed to navigate the bot rally point graph so the new thread doesn't need to query the world
      */
     public static void requestPathfindingThread(PlayerBot player, Vector2 playerLocation, Vector2 playerVelocity, Array<RallyPoint> pathStarters,
-                                            RallyPoint.RallyPointMultiplier pickupPoint, Array< RallyPoint.RallyPointMultiplier> targetPoints,
-                                        Array< RallyPoint.RallyPointMultiplier> eventPoints) {
+                                RallyPoint.RallyPointMultiplier weaponPoint,  RallyPoint.RallyPointMultiplier healthPoint,
+                                Array< RallyPoint.RallyPointMultiplier> targetPoints, Array< RallyPoint.RallyPointMultiplier> eventPoints) {
         if (!executor.isShutdown()) {
-            executor.submit(new BotPathfindingTask(player, playerLocation, playerVelocity, pathStarters, pickupPoint,
-                    targetPoints, eventPoints));
+            executor.submit(new BotPathfindingTask(player, playerLocation, playerVelocity, pathStarters, weaponPoint,
+                    healthPoint, targetPoints, eventPoints));
         }
     }
 
@@ -176,16 +180,24 @@ public class BotManager {
     private static final Queue<RallyPoint> openSet = new PriorityQueue<>();
     /**
      * Calculate short path with a*. Called by pathfinding task in separate thread, so it canno query the world
+     * @param player: the bot looking for a path
      * @param start: starting point
      * @param end: ending point
      * @return a reasonably short path between nodes in a graph using modified a* search or null if none exists
      */
-    public static RallyPath getShortestPathBetweenPoints(RallyPoint start, RallyPoint end) {
+    public static RallyPath getShortestPathBetweenPoints(PlayerBot player, RallyPoint start, RallyPoint end) {
         if (start == null || end == null) { return null; }
 
         //if we have this path cached, just return it to same some time
         if (start.getShortestPaths().containsKey(end)) {
-            return start.getShortestPaths().get(end);
+            RallyPoint.routeValue cachedRoute = start.getShortestPaths().get(end);
+            if (cachedRoute.teamIndex() == -1) {
+                return start.getShortestPaths().get(end).path();
+            } else if (cachedRoute.teamIndex() < AlignmentFilter.currentTeams.length) {
+                if (player.getUser().getTeamFilter() == AlignmentFilter.currentTeams[cachedRoute.teamIndex()]) {
+                    return start.getShortestPaths().get(end).path();
+                }
+            }
         }
 
         //reset variables to properly calculate distance between them and add starting point to open set
@@ -207,7 +219,7 @@ public class BotManager {
             if (parent.equals(end)) {
                 RallyPath path = new RallyPath(new Array<>(), parent.getRouteScore());
 
-                //walk back from our end node to create our path by addind each parent to the start of the list
+                //walk back from our end node to create our path by adding each parent to the start of the list
                 RallyPoint current = parent;
                 do {
                     path.getPath().insert(0, current);
@@ -216,17 +228,30 @@ public class BotManager {
 
                 //cache shortest paths for all points in the shortest path
                 Array<RallyPoint> tempPoints = new Array<>();
+                int teamIndex = -1;
                 for (RallyPoint pointInPath: path.getPath()) {
                     tempPoints.add(pointInPath);
-                    start.getShortestPaths().put(pointInPath, new RallyPath(tempPoints, pointInPath.getRouteScore()));
+                    if (pointInPath.getTeamIndex() != -1) {
+                        teamIndex = pointInPath.getTeamIndex();
+                    }
+                    start.getShortestPaths().put(pointInPath,
+                        new RallyPoint.routeValue(new RallyPath(tempPoints, pointInPath.getRouteScore()), teamIndex));
                 }
-                start.getShortestPaths().put(end, path);
+                start.getShortestPaths().put(end, new RallyPoint.routeValue(path, teamIndex));
                 return path;
             }
 
             //iterate through all neighbors to calc their route and estimated score
             for (RallyPoint neighbor: parent.getConnections().keys()) {
-                float routeScore = parent.getRouteScore() + parent.getConnections().get(neighbor);
+                int teamIndex = parent.getConnections().get(neighbor).teamIndex();
+                if (teamIndex != -1) {
+                    if (teamIndex < AlignmentFilter.currentTeams.length) {
+                        if (player.getUser().getTeamFilter() != AlignmentFilter.currentTeams[teamIndex]) {
+                            continue;
+                        }
+                    }
+                }
+                float routeScore = parent.getRouteScore() + parent.getConnections().get(neighbor).distance();
 
                 //dst2 used here to slightly improve performance while being "mostly accurate-ish"
                 float estimatedScore = routeScore * routeScore + neighbor.getPosition().dst2(end.getPosition());
@@ -236,6 +261,7 @@ public class BotManager {
                     neighbor.setPrevious(parent);
                     neighbor.setRouteScore(routeScore);
                     neighbor.setEstimatedScore(estimatedScore);
+                    neighbor.setTeamIndex(parent.getConnections().get(neighbor).teamIndex());
                     openSet.add(neighbor);
                 }
             }

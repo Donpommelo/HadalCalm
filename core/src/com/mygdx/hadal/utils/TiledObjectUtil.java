@@ -511,6 +511,9 @@ public class TiledObjectUtil {
 			if (object.getProperties().get("independent", boolean.class) != null) {
 				e.setIndependent(object.getProperties().get("independent", boolean.class));
 			}
+			if (object.getProperties().get("bot_health_pickup", boolean.class) != null) {
+				e.setBotHealthPickup(object.getProperties().get("bot_health_pickup", boolean.class));
+			}
 			if (object.getProperties().get("gravity", float.class) != null) {
 				e.setGravity(object.getProperties().get("gravity", float.class));
 			}

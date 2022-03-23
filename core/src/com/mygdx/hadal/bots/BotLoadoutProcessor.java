@@ -85,6 +85,37 @@ public class BotLoadoutProcessor {
     }
 
     /**
+     * This calculates a path towards a healing event
+     * @param player: the bot player looking for a heal
+     * @param playerLocation: the location of the bot player
+     * @param searchRadius: this is the max distance that the bot will search search for pickups
+     * @param minAffinity: the lowest affinity of a weapon the bot is holding
+     * @return a reasonably short path to a desired healing event
+     */
+    public static RallyPoint getPointNearHealth(PlayerBot player, Vector2 playerLocation, float searchRadius, int minAffinity) {
+        final RallyPoint[] bestPoint = new RallyPoint[1];
+        player.getWorld().QueryAABB((fixture -> {
+                if (fixture.getUserData() instanceof final EventData eventData) {
+                    if (eventData.getEvent().isBotHealthPickup()) {
+
+                        //for all events found, calculate a path to it
+                        RallyPoint tempPoint = BotManager.getNearestPoint(player, eventData.getEvent().getPosition());
+
+                        //tentatively, we stop immediately upon finding an appropriate pickup to path towards
+                        if (tempPoint != null) {
+                            player.getBotController().setHealthTarget(eventData.getEvent());
+                            bestPoint[0] = tempPoint;
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }), playerLocation.x - searchRadius, playerLocation.y - searchRadius,
+            playerLocation.x + searchRadius, playerLocation.y + searchRadius);
+        return bestPoint[0];
+    }
+
+    /**
      * This is run by the bot to process whether it should pickup a weapon it is currently touching
      * @param player: the bot player picking up a weapon
      * @param pickup: the weapon they are considering picking up
@@ -446,9 +477,10 @@ public class BotLoadoutProcessor {
 
     private static final float bonusSupplyDropChance = 0.4f;
     private static final UnlockActives[] botItems = { UnlockActives.ANCHOR_SMASH, UnlockActives.FLASH_BANG,
-            UnlockActives.HONEYCOMB, UnlockActives.JUMP_KICK, UnlockActives.MARINE_SNOWGLOBE, UnlockActives.METEOR_STRIKE,
-            UnlockActives.MELON,  UnlockActives.MISSILE_POD, UnlockActives.NAUTICAL_MINE, UnlockActives.ORBITAL_SHIELD,
-            UnlockActives.PLUS_MINUS, UnlockActives.PROXIMITY_MINE, UnlockActives.SPIRIT_RELEASE, UnlockActives.TAINTED_WATER};
+            UnlockActives.HEALING_FIELD, UnlockActives.HONEYCOMB, UnlockActives.JUMP_KICK, UnlockActives.MARINE_SNOWGLOBE,
+            UnlockActives.METEOR_STRIKE, UnlockActives.MELON,  UnlockActives.MISSILE_POD, UnlockActives.NAUTICAL_MINE,
+            UnlockActives.ORBITAL_SHIELD, UnlockActives.PLUS_MINUS, UnlockActives.PROXIMITY_MINE, UnlockActives.SPIRIT_RELEASE,
+            UnlockActives.TAINTED_WATER};
     /**
      * This returns a random active item out of the items available to bots.
      * Supply drop has an increased chance of spawning
@@ -467,9 +499,10 @@ public class BotLoadoutProcessor {
     private static final UnlockArtifact[] defensive3 = { UnlockArtifact.FALLACY_OF_FLESH, UnlockArtifact.HORNS_OF_AMMON };
     private static final UnlockArtifact[] defensive2 = { UnlockArtifact.BLASTEMA, UnlockArtifact.FARADAYS_CAGE, UnlockArtifact.FRACTURE_PLATE,
             UnlockArtifact.GLUTTONOUS_GREY_GLOVE, UnlockArtifact.GOOD_HEALTH, UnlockArtifact.VISE_OF_SHAME };
-    private static final UnlockArtifact[] defensive1 = { UnlockArtifact.DAS_BOOT, UnlockArtifact.DAY_AT_THE_FAIR, UnlockArtifact.GEMMULE,
-            UnlockArtifact.KUMQUAT, UnlockArtifact.LOTUS_LANTERN, UnlockArtifact.MOUTHBREATHER_CERTIFICATE,
-            UnlockArtifact.NOCTILUCENT_PROMISE, UnlockArtifact.NUTRILOG_CRUNCHBAR_PLUS, UnlockArtifact.SALIGRAM, UnlockArtifact.TUNICATE_TUNIC};
+    private static final UnlockArtifact[] defensive1 = { UnlockArtifact.NUMBER_ONE_BOSS_MUG, UnlockArtifact.DAS_BOOT,
+            UnlockArtifact.DAY_AT_THE_FAIR, UnlockArtifact.GEMMULE, UnlockArtifact.KUMQUAT, UnlockArtifact.LOTUS_LANTERN,
+            UnlockArtifact.MOUTHBREATHER_CERTIFICATE, UnlockArtifact.NOCTILUCENT_PROMISE, UnlockArtifact.NUTRILOG_CRUNCHBAR_PLUS,
+            UnlockArtifact.SALIGRAM, UnlockArtifact.TUNICATE_TUNIC};
     private static final UnlockArtifact[] offensive3 = { UnlockArtifact.BUCKET_OF_BATTERIES, UnlockArtifact.EMAUDELINES_PRISM, UnlockArtifact.JURY_RIGGED_BINDINGS };
     private static final UnlockArtifact[] offensive2 = { UnlockArtifact.BOOK_OF_BURIAL, UnlockArtifact.BRITTLING_POWDER, UnlockArtifact.CHAOS_CONJURANT,
             UnlockArtifact.CLOCKWISE_CAGE, UnlockArtifact.ERSATZ_SMILE, UnlockArtifact.GOMEZS_AMYGDALA, UnlockArtifact.PEER_PRESSURE,
@@ -500,8 +533,6 @@ public class BotLoadoutProcessor {
         int slots = state.getGsm().getSetting().getArtifactSlots();
         int currentSlot = 0;
         boolean mobilityFound = slots == 1;
-        boolean defenseFound = slots == 1;
-        boolean offenseFound = slots == 1;
 
         while (slots > 0) {
             artifactOptions.clear();
@@ -509,25 +540,6 @@ public class BotLoadoutProcessor {
                 mobilityFound = true;
                 artifactOptions.addAll(mobility2);
                 artifactOptions.addAll(mobility1);
-            } else if (!defenseFound) {
-                defenseFound = true;
-
-                if (slots >= 3) {
-                    artifactOptions.addAll(defensive3);
-                }
-                if (slots >= 2) {
-                    artifactOptions.addAll(defensive2);
-                }
-                artifactOptions.addAll(defensive1);
-            } else if (!offenseFound) {
-                offenseFound = true;
-                if (slots >= 3) {
-                    artifactOptions.addAll(offensive3);
-                }
-                if (slots >= 2) {
-                    artifactOptions.addAll(offensive2);
-                }
-                artifactOptions.addAll(offensive1);
             } else {
                 if (slots >= 3) {
                     artifactOptions.addAll(defensive3);

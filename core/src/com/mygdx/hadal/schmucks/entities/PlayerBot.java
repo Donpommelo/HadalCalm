@@ -8,6 +8,7 @@ import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Botting;
 
 /**
  * A PlayerBot is a player that is controlled by a bot
@@ -30,6 +31,12 @@ public class PlayerBot extends Player {
         super(state, startPos, name, startLoadout, oldData, connID, user, reset, start);
         this.botController = new BotPlayerController(this);
         this.personality = new BotPersonality(state.getMode().getBotDifficulty());
+    }
+
+    @Override
+    public void create() {
+        super.create();
+        getBodyData().addStatus(new Botting(state, this));
     }
 
     @Override
@@ -76,4 +83,15 @@ public class PlayerBot extends Player {
     public float getVisionX() { return personality.getVisionX(); }
 
     public float getVisionY() { return personality.getVisionY(); }
+
+    public float getBoostDesireMultiplier() { return personality.getBoostDesireMultiplier(); }
+
+    public float getWeaponDesireMultiplier() { return personality.getWeaponDesireMultiplier(); }
+
+    public float getHealthDesireMultiplier() { return personality.getHealthDesireMultiplier(); }
+
+    public float getViolenceDesireMultiplier() { return personality.getViolenceDesireMultiplier(); }
+
+    public float getChatWheelDesire() { return personality.getChatWheelDesire(); }
+
 }

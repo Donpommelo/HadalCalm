@@ -1176,7 +1176,7 @@ public class PlayState extends GameState {
 	public void transitionToResultsState(String resultsText, float fadeDelay) {
 
 		//mode-specific end-game processing (Atm this just cleans up bot pathfinding threads)
-		mode.processGameEnd(this);
+		mode.processGameEnd();
 
 		this.resultsText = resultsText;
 
@@ -1505,6 +1505,7 @@ public class PlayState extends GameState {
 	public void setSpectatorMode() {
 		spectatorMode = true;
 		spectatorTarget.set(camera.position.x, camera.position.y);
+		uiSpectator.enableSpectatorUI();
 		
 		this.zoomDesired = map.getProperties().get("zoom", spectatorDefaultZoom, float.class);
 		this.cameraTarget = null;

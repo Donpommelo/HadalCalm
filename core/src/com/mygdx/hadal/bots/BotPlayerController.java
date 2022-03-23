@@ -13,6 +13,7 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.Stats;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -49,7 +50,7 @@ public class BotPlayerController {
     private Schmuck shootTarget;
 
     //pickup or map objective that the bot will try pathing towards
-    private HadalEntity weaponTarget, eventTarget;
+    private HadalEntity weaponTarget, healthTarget, eventTarget;
 
     //does the bot have line of sight/is in range with their shoot target
     private boolean lineOfSight, inRange;
@@ -162,7 +163,6 @@ public class BotPlayerController {
 
     //this is the distance from a desired node that the bot will consider it "reached" before moving to the next
     private static final float distanceThreshold = 9.0f;
-    private static final float boostThreshold = 250.0f;
 
     //these thresholds determine when the bot will fastfall (must be above their destination and not moving too fast already)
     private static final float fastfallDistThreshold = 6.0f;
@@ -185,27 +185,24 @@ public class BotPlayerController {
             predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, currentVelocityMultiplier * fract);
         }
 
-        //if seeking weapon, raycast towards it and set target location if found
+        HadalEntity target = null;
+
         if (currentMood.equals(BotMood.SEEK_WEAPON)) {
-            if (weaponTarget != null) {
-                collision = BotManager.raycastUtility(player, predictedSelfLocation, weaponTarget.getPosition(), Constants.BIT_PLAYER);
-                if (collision == 1.0f) {
-                    thisLocation.set(weaponTarget.getPosition()).sub(predictedSelfLocation);
-                    distSquared = thisLocation.len2();
-                    approachTarget = true;
-                }
-            }
+            target = weaponTarget;
+        }
+        if (currentMood.equals(BotMood.SEEK_HEALTH)) {
+            target = healthTarget;
+        }
+        if (currentMood.equals(BotMood.SEEK_EVENT)) {
+            target = eventTarget;
         }
 
-        //if seeking event, raycast towards it and set target location if found
-        if (currentMood.equals(BotMood.SEEK_EVENT)) {
-            if (eventTarget != null) {
-                collision = BotManager.raycastUtility(player, predictedSelfLocation, eventTarget.getPosition(), Constants.BIT_PLAYER);
-                if (collision == 1.0f) {
-                    thisLocation.set(eventTarget.getPosition()).sub(predictedSelfLocation);
-                    distSquared = thisLocation.len2();
-                    approachTarget = true;
-                }
+        if (target != null) {
+            collision = BotManager.raycastUtility(player, predictedSelfLocation, target.getPosition(), Constants.BIT_PLAYER);
+            if (collision == 1.0f) {
+                thisLocation.set(target.getPosition()).sub(predictedSelfLocation);
+                distSquared = thisLocation.len2();
+                approachTarget = true;
             }
         }
 
@@ -233,7 +230,7 @@ public class BotPlayerController {
         if (approachTarget) {
 
             //if distance to target is above threshold, use boost
-            if (distSquared * collision > boostThreshold && boostDesireCount <= 0.0f && thisLocation.y > 0 &&
+            if (distSquared * collision > player.getBoostDesireMultiplier() && boostDesireCount <= 0.0f && thisLocation.y > 0 &&
                     player.getPlayerData().getCurrentFuel() >= player.getPlayerData().getAirblastCost()) {
                 player.getMouse().setDesiredLocation((
                         predictedSelfLocation.x - thisLocation.x) * PPM,(predictedSelfLocation.y - thisLocation.y) * PPM);
@@ -291,11 +288,14 @@ public class BotPlayerController {
     }
 
     private static final float searchRadius = 60.0f;
-    private static final int affinityThreshold1 = 10;
-    private static final int affinityThreshold2 = 20;
-    private static final int affinityThreshold3 = 25;
-    private static final float affinityMultiplier1 = 0.25f;
-    private static final float affinityMultiplier2 = 3.0f;
+    private static final int weaponThreshold1 = 10;
+    private static final int weaponThreshold2 = 20;
+    private static final int weaponThreshold3 = 25;
+    private static final float healthThreshold1 = 0.9f;
+    private static final float weaponMultiplier1 = 0.25f;
+    private static final float weaponMultiplier2 = 3.0f;
+    private static final float healthMultiplier1 = 0.1f;
+    private static final float healthMultiplier2 = 2.5f;
     private final Vector2 targetLocation = new Vector2();
     /**
      * This acquires all the information needed to start a bot pathfinding thread
@@ -312,20 +312,31 @@ public class BotPlayerController {
             totalAffinity += affinity;
             minAffinity = Math.min(minAffinity, affinity);
         }
-        RallyPoint pickupPoint = null;
+        RallyPoint weaponPoint = null;
         float weaponDesireMultiplier = 1.0f;
-        if (totalAffinity < affinityThreshold3) {
-            pickupPoint = BotLoadoutProcessor.getPointNearWeapon(player, playerLocation, searchRadius, minAffinity);
+        if (totalAffinity < weaponThreshold3) {
+            weaponPoint = BotLoadoutProcessor.getPointNearWeapon(player, playerLocation, searchRadius, minAffinity);
 
             //bots desire weapons more if they are not content with their current loadout and less if they are
-            if (pickupPoint != null) {
-                if (totalAffinity < affinityThreshold1) {
-                    weaponDesireMultiplier = affinityMultiplier1;
+            if (weaponPoint != null) {
+                if (totalAffinity < weaponThreshold1) {
+                    weaponDesireMultiplier = weaponMultiplier1;
                 }
-                if (totalAffinity > affinityThreshold2) {
-                    weaponDesireMultiplier = affinityMultiplier2;
+                if (totalAffinity > weaponThreshold2) {
+                    weaponDesireMultiplier = weaponMultiplier2;
                 }
             }
+            weaponDesireMultiplier *= (1.0f + player.getWeaponDesireMultiplier());
+        }
+
+        RallyPoint healthPoint = null;
+        float healthDesireMultiplier = 1.0f;
+        float healthPercent = player.getPlayerData().getCurrentHp() / player.getPlayerData().getStat(Stats.MAX_HP);
+        if (healthPercent < healthThreshold1) {
+            healthPoint = BotLoadoutProcessor.getPointNearHealth(player, playerLocation, searchRadius, minAffinity);
+
+            healthDesireMultiplier *= (healthMultiplier2 * healthPercent + healthMultiplier1 * (1.0f - healthPercent));
+            healthDesireMultiplier *= (1.0f + player.getHealthDesireMultiplier());
         }
 
         //find best enemy path by looking at all valid targets
@@ -369,7 +380,7 @@ public class BotPlayerController {
                     //calc the shortest path and compare it to paths to other targets
                     RallyPoint tempPoint = BotManager.getNearestPoint(player, targetLocation);
                     if (tempPoint != null) {
-                        targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, 1.0f));
+                        targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, 1.0f + player.getViolenceDesireMultiplier()));
                     }
                 }
             }
@@ -377,10 +388,12 @@ public class BotPlayerController {
 
         //get nearby points and event point with multipliers
         Array<RallyPoint> pathStarters = BotManager.getNearestPathStarters(player, playerLocation);
-        Array<RallyPoint.RallyPointMultiplier> eventPoints = player.getState().getMode().processAIPath(player.getState(), player, playerLocation, playerVelocity);
+        Array<RallyPoint.RallyPointMultiplier> eventPoints = player.getState().getMode().processAIPath(player.getState(), player, playerLocation);
 
         BotManager.requestPathfindingThread(player, playerLocation, playerVelocity, pathStarters,
-                new RallyPoint.RallyPointMultiplier(pickupPoint, weaponDesireMultiplier), targetPoints, eventPoints);
+                new RallyPoint.RallyPointMultiplier(weaponPoint, weaponDesireMultiplier),
+                new RallyPoint.RallyPointMultiplier(healthPoint, healthDesireMultiplier),
+                targetPoints, eventPoints);
     }
 
     /**
@@ -405,6 +418,8 @@ public class BotPlayerController {
 
     public void setWeaponTarget(HadalEntity weaponTarget) { this.weaponTarget = weaponTarget; }
 
+    public void setHealthTarget(HadalEntity healthTarget) { this.healthTarget = healthTarget; }
+
     public void setEventTarget(HadalEntity eventTarget) { this.eventTarget = eventTarget; }
 
     public enum BotMood {
@@ -413,5 +428,6 @@ public class BotPlayerController {
         SEEK_ENEMY,
         SEEK_EVENT,
         SEEK_WEAPON,
+        SEEK_HEALTH,
     }
 }

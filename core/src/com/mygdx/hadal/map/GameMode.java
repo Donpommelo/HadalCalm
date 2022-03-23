@@ -359,10 +359,9 @@ public enum GameMode {
      * This is run regularly by bots to find an optimal path through the map accounting for mode-specific events
      * @param p: Bot player doing the pathfinding
      * @param playerLocation: loaction of the bot player
-     * @param playerVelocity: current velocity of the bot
      * @return list of points the bot is looking for with multipliers
      */
-    public Array<RallyPoint.RallyPointMultiplier> processAIPath(PlayState state, PlayerBot p, Vector2 playerLocation, Vector2 playerVelocity) {
+    public Array<RallyPoint.RallyPointMultiplier> processAIPath(PlayState state, PlayerBot p, Vector2 playerLocation) {
         Array<RallyPoint.RallyPointMultiplier> path = new Array<>();
         for (ModeSetting setting : applicableSettings) {
             setting.processAIPath(state, p, playerLocation, path);
@@ -373,7 +372,7 @@ public enum GameMode {
     /**
      * This is run when the game ends. Atm, this just cleans up bot pathfinding threads
      */
-    public void processGameEnd(PlayState state) {
+    public void processGameEnd() {
         for (ModeSetting setting : applicableSettings) {
             setting.processGameEnd();
         }

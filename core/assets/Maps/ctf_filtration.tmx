@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="300" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="574">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="300" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="576">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -130,6 +130,9 @@
  </layer>
  <objectgroup id="7" name="bot-layer">
   <object id="214" name="BotPoint" type="BotPoint" x="2456" y="1032">
+   <properties>
+    <property name="teamIndex" type="int" value="0"/>
+   </properties>
    <polyline points="-152,184 8,24"/>
   </object>
   <object id="215" name="BotPoint" type="BotPoint" x="2608" y="1000">
@@ -138,24 +141,19 @@
   <object id="217" name="BotPoint" type="BotPoint" x="2576" y="848">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
     <property name="valid1" type="bool" value="false"/>
    </properties>
    <polyline points="-176,-16 496,-16"/>
   </object>
   <object id="218" name="BotPoint" type="BotPoint" x="1904" y="1040">
    <properties>
-    <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="false"/>
+    <property name="teamIndex" type="int" value="0"/>
    </properties>
    <polyline points="-272,176 400,176"/>
   </object>
   <object id="219" name="BotPoint" type="BotPoint" x="1552" y="1168">
    <properties>
-    <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="false"/>
+    <property name="teamIndex" type="int" value="0"/>
    </properties>
    <polyline points="80,48 80,304"/>
   </object>
@@ -276,7 +274,6 @@
   <object id="267" name="BotPoint" type="BotPoint" x="6352" y="560">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
     <property name="valid1" type="bool" value="false"/>
    </properties>
    <polyline points="1328,272 656,272"/>
@@ -303,13 +300,14 @@
    <polyline points="-496,-72 144,24"/>
   </object>
   <object id="276" name="BotPoint" type="BotPoint" x="7760" y="1064">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+   </properties>
    <polyline points="16,152 -144,-8"/>
   </object>
   <object id="277" name="BotPoint" type="BotPoint" x="8464" y="1264">
    <properties>
-    <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="false"/>
+    <property name="teamIndex" type="int" value="1"/>
    </properties>
    <polyline points="-16,-48 -16,208"/>
   </object>
@@ -319,8 +317,6 @@
   <object id="292" name="BotPoint" type="BotPoint" x="1864" y="2744">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
    </properties>
    <polyline points="40,216 40,-424"/>
   </object>
@@ -357,8 +353,6 @@
   <object id="341" name="BotPoint" type="BotPoint" x="3688" y="2520">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
    </properties>
    <polyline points="8,248 8,-216"/>
   </object>
@@ -395,32 +389,18 @@
   <object id="352" name="BotPoint" type="BotPoint" x="4144" y="2632">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
    </properties>
    <polyline points="144,232 144,-360"/>
   </object>
   <object id="353" name="BotPoint" type="BotPoint" x="4144" y="2792">
-   <properties>
-    <property name="multiplier0" type="float" value="1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
-   </properties>
    <polyline points="-144,56 144,72"/>
   </object>
   <object id="354" name="BotPoint" type="BotPoint" x="4008" y="2800">
-   <properties>
-    <property name="multiplier0" type="float" value="1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
-   </properties>
    <polyline points="-8,48 -104,-48"/>
   </object>
   <object id="355" name="BotPoint" type="BotPoint" x="2728" y="2064">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
    </properties>
    <polyline points="40,256 56,-272"/>
   </object>
@@ -490,8 +470,6 @@
   <object id="380" name="BotPoint" type="BotPoint" x="5808" y="2504">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
    </properties>
    <polyline points="-16,360 -16,-232"/>
   </object>
@@ -649,46 +627,24 @@
    <polyline points="-40,72 120,-56"/>
   </object>
   <object id="434" name="BotPoint" type="BotPoint" x="5928" y="2824">
-   <properties>
-    <property name="multiplier0" type="float" value="1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
-   </properties>
    <polyline points="-136,40 152,24"/>
   </object>
   <object id="435" name="BotPoint" type="BotPoint" x="6368" y="2632">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
    </properties>
    <polyline points="16,136 16,-328"/>
   </object>
   <object id="436" name="BotPoint" type="BotPoint" x="6112" y="2728">
-   <properties>
-    <property name="multiplier0" type="float" value="1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
-   </properties>
    <polyline points="-32,120 64,24"/>
   </object>
   <object id="437" name="BotPoint" type="BotPoint" x="6216" y="2728">
-   <properties>
-    <property name="multiplier0" type="float" value="1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
-   </properties>
    <polyline points="-40,24 168,40"/>
   </object>
   <object id="438" name="BotPoint" type="BotPoint" x="6488" y="2528">
    <polyline points="-280,64 -104,64"/>
   </object>
   <object id="439" name="BotPoint" type="BotPoint" x="6440" y="2736">
-   <properties>
-    <property name="multiplier0" type="float" value="1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
-   </properties>
    <polyline points="-56,32 152,16"/>
   </object>
   <object id="440" name="BotPoint" type="BotPoint" x="6592" y="2640">
@@ -712,8 +668,6 @@
   <object id="446" name="BotPoint" type="BotPoint" x="7288" y="2128">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
    </properties>
    <polyline points="24,192 40,-336"/>
   </object>
@@ -798,16 +752,12 @@
   <object id="475" name="BotPoint" type="BotPoint" x="8152" y="2808">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
    </properties>
    <polyline points="24,152 24,-488"/>
   </object>
   <object id="529" name="BotPoint" type="BotPoint" x="8328" y="952">
    <properties>
-    <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="false"/>
+    <property name="teamIndex" type="int" value="1"/>
    </properties>
    <polyline points="120,264 -552,264"/>
   </object>
@@ -2169,6 +2119,18 @@
   <object id="198" name="FlagBlock" type="FlagBlock" x="8352" y="1312" width="224" height="32">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="574" name="Heal" type="Heal" x="8064" y="1152" width="224" height="96">
+   <properties>
+    <property name="heal" type="float" value="0.5"/>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="575" name="Heal" type="Heal" x="1792" y="1152" width="224" height="96">
+   <properties>
+    <property name="heal" type="float" value="0.5"/>
+    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>

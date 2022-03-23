@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.input.PlayerAction;
@@ -12,6 +13,9 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
+
+import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
+import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
 
 /**
  * The UISpectator is used by spectators to view the game. It features the ability to cycle through spectate targets
@@ -22,21 +26,27 @@ public class UISpectator extends AHadalActor {
 
     protected final PlayState state;
 
-    private static final int mainX = 0;
+    private static final int mainX = -350;
     private static final int mainY = 0;
+    private static final int mainXEnabled = 0;
+    private static final int mainYEnabled = 0;
 
     private static final int textX = 15;
-    private static final int titleY = 100;
-    private static final int instructions1Y = 75;
-    private static final int instructions2Y = 50;
-    private static final int joinY = 25;
+    private static final int titleY = 110;
+    private static final int instructions1Y = 88;
+    private static final int instructions2Y = 66;
+    private static final int joinY = 44;
+    private static final int toggleY = 22;
 
     private static final int windowWidth = 350;
     private static final int windowHeight = 125;
 
-    private static final float fontScaleMedium = 0.3f;
+    private static final float fontScaleMedium = 0.25f;
+
+    private boolean enabled = true;
 
     public UISpectator(PlayState state) {
+        super(mainXEnabled, mainYEnabled);
         this.state = state;
     }
 
@@ -45,35 +55,36 @@ public class UISpectator extends AHadalActor {
 
         if (!state.isSpectatorMode()) { return; }
 
-        GameStateManager.getSimplePatch().draw(batch, mainX, mainY, windowWidth, windowHeight);
+        GameStateManager.getSimplePatch().draw(batch, getX(), getY(), windowWidth, windowHeight);
 
         HadalGame.FONT_UI.getData().setScale(fontScaleMedium);
 
         //display different text if spectating a target or using free-cam, + info about spectator controls
         if (freeCam) {
-            HadalGame.FONT_UI.draw(batch, HText.SPECTATING_FREECAM.text(), textX, titleY);
+            HadalGame.FONT_UI.draw(batch, HText.SPECTATING_FREECAM.text(), getX() + textX, titleY);
         } else {
             if (spectatorTarget != null) {
-                HadalGame.FONT_UI.draw(batch, HText.SPECTATING.text(spectatorTarget.getName()), textX, titleY);
+                HadalGame.FONT_UI.draw(batch, HText.SPECTATING.text(spectatorTarget.getName()), getX() + textX, titleY);
             } else {
-                HadalGame.FONT_UI.draw(batch, HText.SPECTATING_NA.text(), textX, titleY);
+                HadalGame.FONT_UI.draw(batch, HText.SPECTATING_NA.text(), getX() + textX, titleY);
             }
         }
-        HadalGame.FONT_UI.draw(batch, HText.SPECTATING_LMB.text(), textX, instructions1Y);
-        HadalGame.FONT_UI.draw(batch, HText.SPECTATING_RMB.text(), textX, instructions2Y);
+        HadalGame.FONT_UI.draw(batch, HText.SPECTATING_LMB.text(), getX() + textX, instructions1Y);
+        HadalGame.FONT_UI.draw(batch, HText.SPECTATING_RMB.text(), getX() + textX, instructions2Y);
 
         //display info about rejoining (if applicable). Host gets extra info about selecting levels as spectator
         if (state.getMode().isHub()) {
             if (state.isServer()) {
                 HadalGame.FONT_UI.draw(batch, HText.JOIN_OPTION_HOST.text(PlayerAction.PAUSE.getKeyText(), PlayerAction.INTERACT.getKeyText()),
-                        textX, joinY);
+                        getX() + textX, joinY);
             } else {
                 HadalGame.FONT_UI.draw(batch, HText.JOIN_OPTION.text(PlayerAction.PAUSE.getKeyText()),
-                        textX, joinY);
+                        getX() + textX, joinY);
             }
         } else {
-            HadalGame.FONT_UI.draw(batch, HText.JOIN_CANT.text(), textX, joinY);
+            HadalGame.FONT_UI.draw(batch, HText.JOIN_CANT.text(), getX() + textX, joinY);
         }
+        HadalGame.FONT_UI.draw(batch, HText.TOGGLE.text(PlayerAction.ACTIVE_ITEM.getKeyText()), getX() + textX, toggleY);
     }
 
     //is lmb held? Used to control camera dragging in free-cam mode
@@ -204,6 +215,20 @@ public class UISpectator extends AHadalActor {
             }
         }
         return false;
+    }
+
+    public void toggleSpectatorUI() {
+        if (enabled) {
+            addAction(Actions.moveTo(mainX, mainY, TRANSITION_DURATION, INTP_FASTSLOW));
+        } else {
+            addAction(Actions.moveTo(mainXEnabled, mainYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
+        }
+        enabled = !enabled;
+    }
+
+    public void enableSpectatorUI() {
+        addAction(Actions.moveTo(mainXEnabled, mainYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
+        enabled = true;
     }
 
     public Player getSpectatorTarget() { return spectatorTarget; }

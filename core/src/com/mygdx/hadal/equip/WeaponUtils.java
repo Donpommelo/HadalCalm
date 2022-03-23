@@ -798,6 +798,7 @@ public class WeaponUtils {
 			break;
 		case HEALTH:
 			pickup.setEventSprite(Sprite.MEDPAK);
+			pickup.setBotHealthPickup(true);
 			break;
 		default:
 			break;

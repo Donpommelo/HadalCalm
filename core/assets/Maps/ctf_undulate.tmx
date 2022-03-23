@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="320" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="399">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="320" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="425">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="320" height="120">
   <data encoding="csv">
@@ -64,9 +64,9 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,13,3,3,3,3,3,3,3,3,3,3,3,3,3,3,14,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,13,3,3,3,3,3,3,3,3,3,3,3,3,3,3,14,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,15,15,15,15,15,15,15,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,15,15,15,15,15,15,15,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,3,3,3,3,3,14,15,15,15,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,10,10,10,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,15,15,15,13,3,3,3,3,3,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,3,3,3,3,3,3,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,3,3,3,3,3,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,3,3,3,3,3,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,3,3,3,3,3,3,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,3,3,3,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,3,3,3,3,3,14,15,15,15,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,15,15,15,13,3,3,3,3,3,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,3,3,3,3,3,3,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,3,3,3,3,3,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,3,3,3,3,3,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,3,3,3,3,3,3,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,4,15,9,0,0,0,0,0,5,10,10,10,10,10,6,0,0,0,0,0,0,0,0,0,0,5,10,10,10,10,10,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,10,10,10,10,10,6,0,0,0,0,0,0,0,0,0,0,5,10,10,10,10,10,6,0,0,0,0,0,4,15,9,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,4,15,9,0,0,0,0,0,4,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,19,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,20,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,9,0,0,0,0,0,4,15,9,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,4,15,9,0,0,0,0,0,4,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,19,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,20,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,9,0,0,0,0,0,4,15,9,0,0,0,4,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -128,16 +128,14 @@
  <objectgroup id="4" name="bot-layer">
   <object id="159" name="BotPoint" type="BotPoint" x="1008" y="2768">
    <properties>
-    <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="false"/>
+    <property name="teamIndex" type="int" value="0"/>
    </properties>
    <polyline points="-176,176 400,176"/>
   </object>
   <object id="160" name="BotPoint" type="BotPoint" x="792" y="2528">
    <properties>
     <property name="multiplier0" type="float" value="0.05"/>
-    <property name="multiplier1" type="float" value="1"/>
+    <property name="teamIndex" type="int" value="0"/>
     <property name="valid1" type="bool" value="false"/>
    </properties>
    <polyline points="-40,32 -40,-176"/>
@@ -145,18 +143,9 @@
   <object id="161" name="BotPoint" type="BotPoint" x="1024" y="2136">
    <properties>
     <property name="multiplier0" type="float" value="0.05"/>
-    <property name="multiplier1" type="float" value="1"/>
     <property name="valid1" type="bool" value="false"/>
    </properties>
    <polyline points="-272,216 16,216"/>
-  </object>
-  <object id="162" name="BotPoint" type="BotPoint" x="1072" y="2128">
-   <properties>
-    <property name="multiplier0" type="float" value="0.05"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="false"/>
-   </properties>
-   <polyline points="-32,224 -32,-560"/>
   </object>
   <object id="163" name="BotPoint" type="BotPoint" x="784" y="2752">
    <polyline points="48,192 -32,-192"/>
@@ -176,8 +165,7 @@
   <object id="169" name="BotPoint" type="BotPoint" x="2352" y="2560">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="false"/>
    </properties>
    <polyline points="32,176 80,-192"/>
   </object>
@@ -254,7 +242,7 @@
    <polyline points="-24,96 -120,0"/>
   </object>
   <object id="194" name="BotPoint" type="BotPoint" x="1392" y="2360">
-   <polyline points="336,8 -80,8"/>
+   <polyline points="80,8 -80,8"/>
   </object>
   <object id="195" name="BotPoint" type="BotPoint" x="1936" y="2472">
    <polyline points="-48,88 -208,-104"/>
@@ -274,8 +262,7 @@
   <object id="200" name="BotPoint" type="BotPoint" x="2304" y="1776">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="false"/>
    </properties>
    <polyline points="0,96 0,-304"/>
   </object>
@@ -299,15 +286,6 @@
   </object>
   <object id="208" name="BotPoint" type="BotPoint" x="3184" y="1672">
    <polyline points="112,120 -48,-40"/>
-  </object>
-  <object id="209" name="BotPoint" type="BotPoint" x="3416" y="1776">
-   <polyline points="376,-64 -120,16"/>
-  </object>
-  <object id="211" name="BotPoint" type="BotPoint" x="2152" y="1968">
-   <polyline points="152,-96 -40,48"/>
-  </object>
-  <object id="212" name="BotPoint" type="BotPoint" x="2400" y="2032">
-   <polyline points="128,144 -96,-160"/>
   </object>
   <object id="213" name="BotPoint" type="BotPoint" x="2184" y="1664">
    <polyline points="-8,192 -104,-128"/>
@@ -377,8 +355,7 @@
   <object id="224" name="BotPoint" type="BotPoint" x="3752" y="2392">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="false"/>
    </properties>
    <polyline points="8,184 8,-216"/>
   </object>
@@ -391,9 +368,6 @@
   </object>
   <object id="226" name="BotPoint" type="BotPoint" x="3696" y="2384">
    <polyline points="-112,176 64,-208"/>
-  </object>
-  <object id="227" name="BotPoint" type="BotPoint" x="3696" y="2464">
-   <polyline points="64,112 -112,96"/>
   </object>
   <object id="228" name="BotPoint" type="BotPoint" x="3992" y="2232">
    <polyline points="-8,-56 -8,168"/>
@@ -479,14 +453,6 @@
   <object id="255" name="BotPoint" type="BotPoint" x="4280" y="2256">
    <polyline points="-8,144 -8,-80"/>
   </object>
-  <object id="263" name="BotPoint" type="BotPoint" x="6480" y="2424">
-   <properties>
-    <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
-   </properties>
-   <polyline points="32,152 32,-248"/>
-  </object>
   <object id="264" name="BotPoint" type="BotPoint" x="6448" y="2184">
    <properties>
     <property name="multiplier0" type="float" value="0.5"/>
@@ -505,9 +471,6 @@
   </object>
   <object id="268" name="BotPoint" type="BotPoint" x="6560" y="2456">
    <polyline points="128,104 -48,-280"/>
-  </object>
-  <object id="269" name="BotPoint" type="BotPoint" x="6752" y="2512">
-   <polyline points="-64,48 -240,64"/>
   </object>
   <object id="270" name="BotPoint" type="BotPoint" x="6768" y="2576">
    <polyline points="16,80 -80,-16"/>
@@ -555,7 +518,7 @@
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
     <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="false"/>
    </properties>
    <polyline points="-56,184 -104,-184"/>
   </object>
@@ -576,9 +539,8 @@
   </object>
   <object id="290" name="BotPoint" type="BotPoint" x="9088" y="2896">
    <properties>
-    <property name="multiplier0" type="float" value="1"/>
-    <property name="multiplier1" type="float" value="0.1"/>
-    <property name="valid0" type="bool" value="false"/>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
     <property name="valid1" type="bool" value="true"/>
    </properties>
    <polyline points="-224,48 352,48"/>
@@ -590,6 +552,7 @@
    <properties>
     <property name="multiplier0" type="float" value="0.05"/>
     <property name="multiplier1" type="float" value="1"/>
+    <property name="teamIndex" type="int" value="1"/>
     <property name="valid1" type="bool" value="false"/>
    </properties>
    <polyline points="-16,80 -16,-128"/>
@@ -640,17 +603,11 @@
   <object id="305" name="BotPoint" type="BotPoint" x="7104" y="1648">
    <polyline points="32,-16 -128,144"/>
   </object>
-  <object id="306" name="BotPoint" type="BotPoint" x="6784" y="1704">
-   <polyline points="192,88 -304,8"/>
-  </object>
   <object id="308" name="BotPoint" type="BotPoint" x="8208" y="2560">
    <polyline points="80,224 176,0"/>
   </object>
   <object id="309" name="BotPoint" type="BotPoint" x="8360" y="2320">
    <polyline points="24,240 184,48"/>
-  </object>
-  <object id="310" name="BotPoint" type="BotPoint" x="8608" y="2320">
-   <polyline points="352,48 -64,48"/>
   </object>
   <object id="311" name="BotPoint" type="BotPoint" x="8864" y="2264">
    <polyline points="192,8 96,104"/>
@@ -674,31 +631,19 @@
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
     <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="false"/>
    </properties>
    <polyline points="8,168 8,-232"/>
   </object>
   <object id="318" name="BotPoint" type="BotPoint" x="2120" y="1888">
    <properties>
-    <property name="multiplier0" type="float" value="0.1"/>
+    <property name="multiplier0" type="float" value="1"/>
     <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
    </properties>
    <polyline points="-8,128 56,-32"/>
   </object>
   <object id="319" name="BotPoint" type="BotPoint" x="2456" y="1920">
-   <properties>
-    <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
-   </properties>
    <polyline points="72,256 -24,-64"/>
-  </object>
-  <object id="320" name="BotPoint" type="BotPoint" x="8008" y="1984">
-   <polyline points="152,32 -40,-112"/>
-  </object>
-  <object id="321" name="BotPoint" type="BotPoint" x="7896" y="1992">
-   <polyline points="-152,184 72,-120"/>
   </object>
   <object id="322" name="BotPoint" type="BotPoint" x="7728" y="1576">
    <polyline points="112,280 16,-40"/>
@@ -737,7 +682,7 @@
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
     <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="false"/>
    </properties>
    <polyline points="-8,328 -8,-72"/>
   </object>
@@ -745,7 +690,7 @@
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
     <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="false"/>
    </properties>
    <polyline points="16,120 16,-280"/>
   </object>
@@ -962,19 +907,13 @@
    <polyline points="-72,-56 -248,40"/>
   </object>
   <object id="390" name="BotPoint" type="BotPoint" x="5112" y="1776">
-   <polyline points="24,-80 24,144"/>
-  </object>
-  <object id="391" name="BotPoint" type="BotPoint" x="5168" y="1960">
-   <polyline points="80,-8 -32,-40"/>
+   <polyline points="24,-80 24,48"/>
   </object>
   <object id="392" name="BotPoint" type="BotPoint" x="5216" y="1952">
-   <polyline points="32,0 32,160"/>
+   <polyline points="-80,-128 32,160"/>
   </object>
   <object id="393" name="BotPoint" type="BotPoint" x="5032" y="2024">
-   <polyline points="-8,-72 -8,88"/>
-  </object>
-  <object id="394" name="BotPoint" type="BotPoint" x="5048" y="1928">
-   <polyline points="-24,24 88,-8"/>
+   <polyline points="104,-200 -8,88"/>
   </object>
   <object id="395" name="BotPoint" type="BotPoint" x="5272" y="2120">
    <polyline points="-24,-8 152,56"/>
@@ -987,6 +926,97 @@
   </object>
   <object id="398" name="BotPoint" type="BotPoint" x="4984" y="2144">
    <polyline points="40,-32 -136,32"/>
+  </object>
+  <object id="404" name="BotPoint" type="BotPoint" x="5152" y="1936">
+   <properties>
+    <property name="multiplier0" type="float" value="0.1"/>
+    <property name="multiplier1" type="float" value="1"/>
+    <property name="valid1" type="bool" value="false"/>
+   </properties>
+   <polyline points="-16,128 -16,-112"/>
+  </object>
+  <object id="408" name="BotPoint" type="BotPoint" x="6600" y="1664">
+   <properties>
+    <property name="multiplier0" type="float" value="5"/>
+   </properties>
+   <polyline points="-120,48 376,128"/>
+  </object>
+  <object id="409" name="BotPoint" type="BotPoint" x="5192" y="2048">
+   <properties>
+    <property name="multiplier0" type="float" value="5"/>
+   </properties>
+   <polyline points="-56,16 -168,64"/>
+  </object>
+  <object id="410" name="BotPoint" type="BotPoint" x="5320" y="2048">
+   <properties>
+    <property name="multiplier0" type="float" value="5"/>
+   </properties>
+   <polyline points="-184,16 -72,64"/>
+  </object>
+  <object id="411" name="BotPoint" type="BotPoint" x="3536" y="1672">
+   <properties>
+    <property name="multiplier0" type="float" value="5"/>
+   </properties>
+   <polyline points="256,40 -240,120"/>
+  </object>
+  <object id="412" name="BotPoint" type="BotPoint" x="3672" y="2504">
+   <properties>
+    <property name="multiplier0" type="float" value="5"/>
+   </properties>
+   <polyline points="88,72 -88,56"/>
+  </object>
+  <object id="413" name="BotPoint" type="BotPoint" x="6576" y="2528">
+   <properties>
+    <property name="multiplier0" type="float" value="5"/>
+   </properties>
+   <polyline points="-64,48 112,32"/>
+  </object>
+  <object id="414" name="BotPoint" type="BotPoint" x="7912" y="1912">
+   <properties>
+    <property name="multiplier0" type="float" value="5"/>
+   </properties>
+   <polyline points="56,-40 -168,264"/>
+  </object>
+  <object id="415" name="BotPoint" type="BotPoint" x="7960" y="1928">
+   <properties>
+    <property name="multiplier0" type="float" value="5"/>
+   </properties>
+   <polyline points="8,-56 200,88"/>
+  </object>
+  <object id="416" name="BotPoint" type="BotPoint" x="2264" y="1968">
+   <properties>
+    <property name="multiplier0" type="float" value="5"/>
+   </properties>
+   <polyline points="40,-96 -152,48"/>
+  </object>
+  <object id="417" name="BotPoint" type="BotPoint" x="2320" y="1992">
+   <properties>
+    <property name="multiplier0" type="float" value="5"/>
+   </properties>
+   <polyline points="-16,-120 208,184"/>
+  </object>
+  <object id="418" name="BotPoint" type="BotPoint" x="440" y="1768">
+   <properties>
+    <property name="multiplier0" type="float" value="0.05"/>
+    <property name="multiplier1" type="float" value="1"/>
+    <property name="valid1" type="bool" value="false"/>
+   </properties>
+   <polyline points="600,584 600,-200"/>
+  </object>
+  <object id="419" name="BotPoint" type="BotPoint" x="1520" y="2344">
+   <polyline points="208,24 -48,24"/>
+  </object>
+  <object id="420" name="BotPoint" type="BotPoint" x="8672" y="2384">
+   <polyline points="288,-16 128,-16"/>
+  </object>
+  <object id="421" name="BotPoint" type="BotPoint" x="8800" y="2368">
+   <polyline points="0,0 -256,0"/>
+  </object>
+  <object id="423" name="BotPoint" type="BotPoint" x="7744" y="2320">
+   <polyline points="0,-144 96,48"/>
+  </object>
+  <object id="424" name="BotPoint" type="BotPoint" x="7680" y="2416">
+   <polyline points="160,-48 -64,112"/>
   </object>
  </objectgroup>
  <objectgroup id="3" name="collision-layer">
@@ -1007,9 +1037,6 @@
   </object>
   <object id="52" x="3104" y="2208">
    <polyline points="0,0 576,0 576,96 416,96 320,192 -96,192 -96,96 0,0"/>
-  </object>
-  <object id="53" x="5088" y="1952">
-   <polyline points="0,0 96,0 128,32 128,96 -32,96 -32,32 0,0"/>
   </object>
   <object id="54" x="6592" y="2208">
    <polyline points="0,0 576,0 672,96 672,192 256,192 160,96 0,96 0,0"/>
@@ -1155,7 +1182,7 @@
   </object>
   <object id="25" name="MovePoint" type="MovePoint" x="4544" y="2576" width="32" height="32">
    <properties>
-    <property name="connections" value="plat5,plat6,w7"/>
+    <property name="connections" value="plat5,plat6"/>
     <property name="speed" type="float" value="1"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="dummy4"/>
@@ -1175,7 +1202,7 @@
   </object>
   <object id="28" name="MovePoint" type="MovePoint" x="4832" y="2672" width="32" height="32">
    <properties>
-    <property name="connections" value="plat7,plat8"/>
+    <property name="connections" value="plat7,plat8,w7"/>
     <property name="speed" type="float" value="1"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="dummy6"/>
@@ -1215,7 +1242,7 @@
   </object>
   <object id="34" name="MovePoint" type="MovePoint" x="5408" y="2672" width="32" height="32">
    <properties>
-    <property name="connections" value="plat11,plat12"/>
+    <property name="connections" value="plat11,plat12,w8"/>
     <property name="speed" type="float" value="1"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="dummy11"/>
@@ -1235,7 +1262,7 @@
   </object>
   <object id="37" name="MovePoint" type="MovePoint" x="5696" y="2576" width="32" height="32">
    <properties>
-    <property name="connections" value="plat13,plat14,w8"/>
+    <property name="connections" value="plat13,plat14"/>
     <property name="speed" type="float" value="1"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="dummy13"/>
@@ -1293,12 +1320,12 @@
     <property name="triggeringId" value="dummy17"/>
    </properties>
   </object>
-  <object id="98" name="Dropthrough" type="Dropthrough" x="4992" y="1824" width="96" height="8">
+  <object id="98" name="Dropthrough" type="Dropthrough" x="4992" y="1728" width="96" height="8">
    <properties>
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="99" name="Dropthrough" type="Dropthrough" x="5184" y="1824" width="96" height="8">
+  <object id="99" name="Dropthrough" type="Dropthrough" x="5184" y="1728" width="96" height="8">
    <properties>
     <property name="independent" type="bool" value="true"/>
    </properties>
@@ -1475,7 +1502,7 @@
     <property name="triggeredId" value="w2"/>
    </properties>
   </object>
-  <object id="132" name="Prefab" type="PrefabWeapon" x="9120" y="2880" width="96" height="96">
+  <object id="132" name="Prefab" type="PrefabWeapon" x="9088" y="2880" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w3"/>
@@ -1499,13 +1526,13 @@
     <property name="triggeredId" value="w5"/>
    </properties>
   </object>
-  <object id="136" name="Prefab" type="PrefabWeapon" x="4512" y="1440" width="96" height="96">
+  <object id="136" name="Prefab" type="PrefabWeapon" x="4800" y="1536" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w7"/>
    </properties>
   </object>
-  <object id="137" name="Prefab" type="PrefabWeapon" x="5664" y="1440" width="96" height="96">
+  <object id="137" name="Prefab" type="PrefabWeapon" x="5376" y="1536" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w8"/>
@@ -1584,7 +1611,7 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="148" name="Prefab" type="PrefabSpawner" x="5088" y="1856" width="96" height="96">
+  <object id="148" name="Prefab" type="PrefabSpawner" x="5088" y="1760" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="25"/>
     <property name="power" type="float" value="50"/>
@@ -1601,6 +1628,23 @@
    </properties>
   </object>
   <object id="327" name="Spring" type="Spring" x="6432" y="1712" width="96" height="16">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+  <object id="401" name="Dropthrough" type="Dropthrough" x="5056" y="1856" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="402" name="Dropthrough" type="Dropthrough" x="5056" y="2080" width="160" height="8">
+   <properties>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="403" name="Spring" type="Spring" x="5088" y="2064" width="96" height="16">
    <properties>
     <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
@@ -1912,6 +1956,18 @@
    <properties>
     <property name="teamIndex" type="int" value="1"/>
     <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="399" name="Heal" type="Heal" x="800" y="2880" width="224" height="96">
+   <properties>
+    <property name="heal" type="float" value="0.5"/>
+    <property name="independent" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="400" name="Heal" type="Heal" x="9216" y="2880" width="224" height="96">
+   <properties>
+    <property name="heal" type="float" value="0.5"/>
+    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>

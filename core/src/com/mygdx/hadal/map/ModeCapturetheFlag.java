@@ -29,7 +29,7 @@ public class ModeCapturetheFlag extends ModeSetting {
 
     private static final float flagAttackDesireMultiplier = 0.1f;
     private static final float flagDefendDesireMultiplier = 0.05f;
-    private static final float flagReturnDesireMultiplier = 0.02f;
+    private static final float flagReturnDesireMultiplier = 0.08f;
     private final Vector2 objectiveLocation = new Vector2();
     @Override
     public void processAIPath(PlayState state, PlayerBot bot, Vector2 playerLocation,

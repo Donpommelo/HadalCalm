@@ -69,7 +69,7 @@ public class SpawnerPickupTriggered extends Prefabrication {
 		pickup.getProperties().put("sync", "SERVER");
 		pickup.getProperties().put("synced", true);
 		pickup.getProperties().put("scale", 0.25f);
-		pickup.getProperties().put("triggeredId", pickupId);
+		pickup.getProperties().put("scale", 0.25f);
 		pickup.getProperties().put("triggeringId", onTouchId);
 		
 		RectangleMapObject effect = new RectangleMapObject();
@@ -101,6 +101,7 @@ public class SpawnerPickupTriggered extends Prefabrication {
 			}
 			case 1 -> {
 				pickup.getProperties().put("sprite", "MEDPAK");
+				pickup.getProperties().put("bot_health_pickup", true);
 				effect.getProperties().put("hp", power);
 				pickupParticle.getProperties().put("particle", "PICKUP_HEALTH");
 			}

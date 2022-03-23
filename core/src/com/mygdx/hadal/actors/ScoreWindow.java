@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.SharedSetting;
+import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.Packets;
@@ -26,27 +27,37 @@ public class ScoreWindow {
 	private final PlayState state;
 	
 	private final Table tableOptions, tableScore, tableSettings;
-	private final MenuWindow windowOptions, windowScore, windowSettings;
+	private final MenuWindow windowOptions, windowScore;
 
 	//Dimensions and position of the results menu
-	private static final int scoreWidth = 1000;
+	private static final int scoreWidth = 1200;
 	private static final int scoreBaseHeight = 50;
 	private static final int scoreTitleHeight = 60;
-	private static final int scoreRowHeight = 40;
+	private static final int scoreRowHeight = 45;
 	private static final int scoreNameWidth = 500;
-	private static final float scoreScale = 0.4f;
+	private static final float scoreTitleScale = 0.4f;
+	private static final float scoreScale = 0.3f;
 	private static final float scorePadX = 25.0f;
 	private static final float scorePadY = 10.0f;
 
+	private static final float scoreTitleHeightAim = 550.0f;
+	private static final int scoreMaxPlayersAdjust = 18;
+	private static final int scoreMinPlayersAdjust = 10;
+
 	private static final int settingsWidth = 280;
-	private static final int settingsHeight = 300;
+	private static final int settingsHeight = 100;
 	private static final int settingsRowHeight = 20;
 	private static final float settingsScale = 0.25f;
-	private static final float settingsPadY = 15.0f;
+	private static final float settingsPadY = 12.0f;
 
 	private static final float optionsWidth = 100.0f;
 	private static final float optionsHeight = 25.0f;
 	private static final float optionsExtraHeight = 25.0f;
+
+	public static final float artifactTagSize = 30.0f;
+	private static final float artifactTagOffsetX = -100.0f;
+	private static final float artifactTagOffsetY = 60.0f;
+	private static final float artifactTagTargetWidth = 200.0f;
 
 	private final Array<User> orderedUsers = new Array<>();
 
@@ -57,7 +68,6 @@ public class ScoreWindow {
 		this.windowScore = new MenuWindow(0, 0, 0, 0);
 
 		this.tableSettings = new Table();
-		this.windowSettings = new MenuWindow(0, 0, 0, 0);
 
 		this.tableOptions = new Table();
 		this.windowOptions = new MenuWindow(0, 0, 0, 0);
@@ -65,7 +75,6 @@ public class ScoreWindow {
 		tableScore.setVisible(false);
 		windowScore.setVisible(false);
 		tableSettings.setVisible(false);
-		windowSettings.setVisible(false);
 
 		syncScoreTable();
 		syncSettingTable();
@@ -81,42 +90,62 @@ public class ScoreWindow {
 		tableScore.remove();
 		windowScore.remove();
 
+		float scoreHeight = scoreRowHeight;
+		float scorePad = scorePadY;
+
+		int size;
+		if (state.isServer()) {
+			size = HadalGame.server.getUsers().size;
+		} else {
+			size = HadalGame.client.getUsers().size;
+		}
+		boolean shrink = size > scoreMinPlayersAdjust;
+		if (shrink) {
+			float rowHeight = scoreTitleHeightAim / Math.min(size, scoreMaxPlayersAdjust);
+			scoreHeight = rowHeight * scoreRowHeight / (scoreRowHeight + scorePadY);
+			scorePad = rowHeight * scorePadY / (scoreRowHeight + scorePadY);
+		}
+
 		//set table dimensions and location
 		int tableHeight = scoreBaseHeight + scoreTitleHeight * 2;
 		
 		if (state.isServer()) {
-			tableHeight += (scoreRowHeight + scorePadY) * HadalGame.server.getUsers().size;
+			tableHeight += (scoreHeight + scorePad) * HadalGame.server.getUsers().size;
 		} else {
-			tableHeight += (scoreRowHeight + scorePadY) * HadalGame.client.getUsers().size;
+			tableHeight += (scoreHeight + scorePad) * HadalGame.client.getUsers().size;
 		}
-		
+
 		windowScore.setSize(scoreWidth, tableHeight);
-		windowScore.setPosition(0, HadalGame.CONFIG_HEIGHT - tableHeight);
+		windowScore.setPosition((HadalGame.CONFIG_WIDTH - scoreWidth) / 2, HadalGame.CONFIG_HEIGHT - tableHeight);
 		
 		tableScore.setSize(scoreWidth, tableHeight);
 		tableScore.setPosition(0, HadalGame.CONFIG_HEIGHT - tableHeight);
 
 		//add table headings
 		Text title = new Text(state.getMode().getInfo().getName() + ": " + state.getLevel().getInfo().getName());
-		title.setScale(scoreScale);
+		title.setScale(scoreTitleScale);
 		
 		Text playerLabel = new Text(HText.PLAYER.text());
-		playerLabel.setScale(scoreScale);
+		playerLabel.setScale(scoreTitleScale);
 		
 		Text kdaLabel = new Text(HText.KDA.text());
-		kdaLabel.setScale(scoreScale);
+		kdaLabel.setScale(scoreTitleScale);
 
 		Text scoreLabel = new Text(HText.SCORE.text());
-		scoreLabel.setScale(scoreScale);
+		scoreLabel.setScale(scoreTitleScale);
 		
 		Text winsLabel = new Text(HText.WINS.text());
-		winsLabel.setScale(scoreScale);
-		
-		tableScore.add(title).height(scoreTitleHeight).colspan(5).row();
+		winsLabel.setScale(scoreTitleScale);
+
+		Text artifactsLabel = new Text(HText.ARTIFACTS.text());
+		artifactsLabel.setScale(scoreTitleScale);
+
+		tableScore.add(title).height(scoreTitleHeight).colspan(6).row();
 		tableScore.add(playerLabel).height(scoreTitleHeight).padRight(scorePadX);
 		tableScore.add(kdaLabel).height(scoreTitleHeight).padRight(scorePadX);
 		tableScore.add(scoreLabel).height(scoreTitleHeight).padRight(scorePadX);
-		tableScore.add(winsLabel).height(scoreTitleHeight).row();
+		tableScore.add(winsLabel).height(scoreTitleHeight).padRight(scorePadX);
+		tableScore.add(artifactsLabel).height(scoreTitleHeight).padBottom(scorePad).row();
 
 		//add table entry for each player and sort according to score and spectator status
 		orderedUsers.clear();
@@ -137,7 +166,7 @@ public class ScoreWindow {
 		});
 
 		for (User user: orderedUsers) {
-			addEntry(user.getScores().getConnID(), user);
+			addEntry(user.getScores().getConnID(), user, scoreHeight, scorePad);
 		}
 
 		state.getStage().addActor(windowScore);
@@ -145,6 +174,7 @@ public class ScoreWindow {
 
 		windowOptions.toFront();
 		tableOptions.toFront();
+		tableSettings.toFront();
 	}
 	
 	/**
@@ -154,25 +184,15 @@ public class ScoreWindow {
 	public void syncSettingTable() {
 		tableSettings.clear();
 		tableSettings.remove();
-		windowSettings.remove();
 
 		//set table dimensions and location
-		windowSettings.setSize(settingsWidth, settingsHeight);
-		windowSettings.setPosition(HadalGame.CONFIG_WIDTH - settingsWidth, HadalGame.CONFIG_HEIGHT - settingsHeight);
-		
 		tableSettings.setSize(settingsWidth, settingsHeight);
 		tableSettings.setPosition(HadalGame.CONFIG_WIDTH - settingsWidth, HadalGame.CONFIG_HEIGHT - settingsHeight);
 
 		//add table headings
-		Text title = new Text(HText.SERVER_SETTINGS.text());
-		title.setScale(settingsScale);
-
 		Text slotsField = new Text(HText.ARTIFACT_SLOTS.text());
 		slotsField.setScale(settingsScale);
-		
-		Text pauseField = new Text(HText.SERVER_PAUSE.text());
-		pauseField.setScale(settingsScale);
-		
+
 		Text serverSizeField = new Text(HText.SERVER_CAPACITY.text());
 		serverSizeField.setScale(settingsScale);
 
@@ -187,25 +207,20 @@ public class ScoreWindow {
 		Text slots = new Text(SettingState.artifactChoices[used.getArtifactSlots()]);
 		slots.setScale(settingsScale);
 		
-		Text pause = new Text("" + used.isMultiplayerPause());
-		pause.setScale(settingsScale);
-		
 		Text serverSize = new Text(SettingState.capacityChoices[used.getMaxPlayers()]);
 		serverSize.setScale(settingsScale);
 		
-		tableSettings.add(title).height(settingsRowHeight).expandY().top().colspan(2).row();
-
 		tableSettings.add(slotsField).height(settingsRowHeight).padBottom(settingsPadY);
 		tableSettings.add(slots).height(settingsRowHeight).padBottom(settingsPadY).row();
-
-		tableSettings.add(pauseField).height(settingsRowHeight).padBottom(settingsPadY);
-		tableSettings.add(pause).height(settingsRowHeight).padBottom(settingsPadY).row();
 
 		tableSettings.add(serverSizeField).height(settingsRowHeight).padBottom(settingsPadY);
 		tableSettings.add(serverSize).height(settingsRowHeight).padBottom(settingsPadY).row();
 
-		state.getStage().addActor(windowSettings);
 		state.getStage().addActor(tableSettings);
+
+		windowOptions.toFront();
+		tableOptions.toFront();
+		tableSettings.toFront();
 	}
 
 	/**
@@ -287,7 +302,7 @@ public class ScoreWindow {
 	/**
 	 * 	helper method for adding a single entry to the score window
 	 */
-	private void addEntry(int connID, User user) {
+	private void addEntry(int connID, User user, float scoreHeight, float scorePad) {
 		SavedPlayerFields field = user.getScores();
 
 		String nameText = user.getNameAbridgedColored(MAX_NAME_LENGTH);
@@ -309,10 +324,25 @@ public class ScoreWindow {
 		Text wins = new Text(field.getWins() + " ");
 		wins.setScale(scoreScale);
 
-		tableScore.add(name).width(scoreNameWidth).height(scoreRowHeight).padBottom(scorePadY).align(Align.center);
-		tableScore.add(kda).height(scoreRowHeight).padRight(scorePadX).padBottom(scorePadY);
-		tableScore.add(points).height(scoreRowHeight).padRight(scorePadX).padBottom(scorePadY);
-		tableScore.add(wins).height(scoreRowHeight).padRight(scorePadX).padBottom(scorePadY).row();
+		Table tableArtifact = new Table();
+		if (user.getPlayer() != null) {
+			if (user.getPlayer().getPlayerData() != null) {
+				for (UnlockArtifact c: user.getPlayer().getPlayerData().getLoadout().artifacts) {
+					if (!c.equals(UnlockArtifact.NOTHING) && !c.isInvisible()) {
+						ArtifactIcon newTag = new ArtifactIcon(c, c.getInfo().getName() + "\n" + c.getInfo().getDescription(),
+								artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
+						tableArtifact.add(newTag).width(artifactTagSize).height(artifactTagSize);
+					}
+				}
+			}
+		}
+
+
+		tableScore.add(name).width(scoreNameWidth).height(scoreHeight).padBottom(scorePad).align(Align.center);
+		tableScore.add(kda).height(scoreHeight).padRight(scorePadX).padBottom(scorePad);
+		tableScore.add(points).height(scoreHeight).padRight(scorePadX).padBottom(scorePad);
+		tableScore.add(wins).height(scoreHeight).padRight(scorePadX).padBottom(scorePad);
+		tableScore.add(tableArtifact).height(scoreHeight).padRight(scorePadX).padBottom(scorePad).align(Align.center).row();
 
 		//Adding new entries necessitates refreshing ui to account for new player's score
 		state.getUiExtra().syncUIText(UITag.uiType.ALL);
@@ -326,7 +356,6 @@ public class ScoreWindow {
 		tableScore.setVisible(visible);
 		windowScore.setVisible(visible);
 		tableSettings.setVisible(visible);
-		windowSettings.setVisible(visible);
 		tableOptions.remove();
 		windowOptions.remove();
 	}

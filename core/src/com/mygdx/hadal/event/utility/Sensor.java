@@ -54,6 +54,7 @@ public class Sensor extends Event {
 
             @Override
             public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
+
                 //this event should receive no kb from attacks.
                 return basedamage;
             }

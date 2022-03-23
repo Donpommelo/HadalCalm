@@ -41,7 +41,7 @@
 },
 "MATRYOSHKA": {
 	"name": "Matryoshka",
-	"description": "",
+	"description": "Players are larger and get smaller each time they die, respawning instantly in the same location.",
 	"descriptionLong": ""
 },
 "EGGPLANTS": {

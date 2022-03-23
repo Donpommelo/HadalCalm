@@ -40,6 +40,10 @@ public record CommonController(PlayState state) implements InputProcessor {
 			keyUp(PlayerAction.SCORE_WINDOW);
 		} else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			keyUp(PlayerAction.CHAT_WHEEL);
+		} else if (keycode == PlayerAction.ACTIVE_ITEM.getKey()) {
+			if (state.isSpectatorMode()) {
+				state.getUiSpectator().toggleSpectatorUI();
+			}
 		} else if (keycode == Input.Buttons.RIGHT) {
 			if (state.getKillFeed() != null) {
 				if (state.isSpectatorMode() || state.getKillFeed().isRespawnSpectator()) {
