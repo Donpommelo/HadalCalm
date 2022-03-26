@@ -16,10 +16,14 @@ public class ToggleWeaponDrops extends ModeSetting {
 
     @Override
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
-        PlayerBodyData player = vic.getPlayerData();
-        UnlockEquip equip = player.getLoadout().multitools[player.getCurrentSlot()];
-        if (!equip.equals(UnlockEquip.NOTHING) && !equip.equals(UnlockEquip.SPEARGUN_NERFED)) {
-            new PickupEquip(vic.getState(), vic.getPixelPosition(), equip, equipDropLifepan);
+
+        //null check in case this is an "extra kill" to give summoner kill credit for a summon
+        if (vic != null) {
+            PlayerBodyData player = vic.getPlayerData();
+            UnlockEquip equip = player.getLoadout().multitools[player.getCurrentSlot()];
+            if (!equip.equals(UnlockEquip.NOTHING) && !equip.equals(UnlockEquip.SPEARGUN_NERFED)) {
+                new PickupEquip(vic.getState(), vic.getPixelPosition(), equip, equipDropLifepan);
+            }
         }
     }
 }

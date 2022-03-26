@@ -340,6 +340,8 @@ public enum AlignmentFilter {
 
     public short getFilter() { return filter; }
 
+    public String getTeamName() { return "TEAM " + adjective; }
+
     public String getColoredAdjective() {
         return WeaponUtils.getColorName(color1, adjective);
     }

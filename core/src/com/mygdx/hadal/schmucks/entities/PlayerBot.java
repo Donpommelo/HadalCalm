@@ -24,7 +24,9 @@ public class PlayerBot extends Player {
 
     //this is just a vector used for making the player's aim a set distance away from the target
     //at the moment, this just rotates in a circle around the target when the bot is using the cola cannon
+    private final Vector2 weaponWobble = new Vector2(1, 0);
     private final Vector2 aimWobble = new Vector2(1, 0);
+    private float currentWobble, currentWobbleSpeed;
 
     public PlayerBot(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,
                      int connID, User user, boolean reset, StartPoint start) {
@@ -43,6 +45,31 @@ public class PlayerBot extends Player {
     public void controller(float delta) {
         botController.processBotAI(delta);
         super.controller(delta);
+    }
+
+    private static final float maxWobble = 25.0f;
+    private static final float wobbleSpeed = 45.0f;
+    private static final float aimWobbleSpeed = 15.0f;
+    public void weaponWobble() {
+        weaponWobble.nor().scl(maxWobble);
+        weaponWobble.setAngleDeg(weaponWobble.angleDeg() + wobbleSpeed);
+    }
+
+    public void aimWobble() {
+        aimWobble.nor().scl(currentWobble);
+        aimWobble.setAngleDeg(aimWobble.angleDeg() + aimWobbleSpeed);
+    }
+
+    public void incrementWeaponWobble(float delta) {
+        currentWobble = Math.min(personality.getWobbleMax(), currentWobble + personality.getWobbleIncrement() * delta);
+    }
+
+    public void decrementWeaponWobble(float delta) {
+        currentWobble = Math.max(personality.getWobbleMin(), currentWobble - personality.getWobbleDecrement() * delta);
+    }
+
+    public void resetWeaponWobble() {
+        currentWobble = personality.getWobbleMax();
     }
 
 //    private static final ShapeRenderer debugRenderer = new ShapeRenderer();
@@ -76,7 +103,11 @@ public class PlayerBot extends Player {
 
     public BotPlayerController getBotController() { return botController; }
 
+    public Vector2 getWeaponWobble() { return weaponWobble; }
+
     public Vector2 getAimWobble() { return aimWobble; }
+
+    public float getCurrentWobble() { return currentWobble; }
 
     public float getMouseAimSpeed() { return personality.getMouseAimSpeed(); }
 

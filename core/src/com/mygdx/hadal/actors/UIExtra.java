@@ -216,7 +216,7 @@ public class UIExtra extends AHadalActor {
 		for (int i = 0; i < AlignmentFilter.teamScores.length; i++) {
 			rgb.set(AlignmentFilter.currentTeams[i].getColor1().getRGB());
 			String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
-			text.append("[").append(hex).append("]").append(AlignmentFilter.currentTeams[i].toString())
+			text.append("[").append(hex).append("]").append(AlignmentFilter.currentTeams[i].getTeamName())
 				.append("[]").append(": ").append(AlignmentFilter.teamScores[i]).append("\n");
 			scoreNum++;
 			if (scoreNum > maxScores) {

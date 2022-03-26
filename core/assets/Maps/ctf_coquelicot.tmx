@@ -289,16 +289,16 @@
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
    </properties>
-   <polyline points="56,384 56,-112"/>
+   <polyline points="56,392 56,-112"/>
   </object>
   <object id="352" name="BotPoint" type="BotPoint" x="5184" y="3568">
-   <polyline points="80,192 32,80"/>
+   <polyline points="80,200 32,80"/>
   </object>
   <object id="354" name="BotPoint" type="BotPoint" x="5160" y="3640">
    <polyline points="56,8 -168,8"/>
   </object>
   <object id="355" name="BotPoint" type="BotPoint" x="5344" y="3632">
-   <polyline points="-32,16 -80,128"/>
+   <polyline points="-32,16 -80,136"/>
   </object>
   <object id="356" name="BotPoint" type="BotPoint" x="5328" y="3632">
    <polyline points="208,16 -16,16"/>
@@ -810,7 +810,7 @@
    <polyline points="0,0 160,0 160,-288 96,-352 64,-352 0,-288 0,0"/>
   </object>
  </objectgroup>
- <objectgroup id="4" name="event-layer">
+ <objectgroup id="4" name="event-layer" visible="0">
   <object id="82" name="Scale" type="Scale" x="4896" y="1920" width="224" height="32">
    <properties>
     <property name="density" type="float" value="0.1"/>

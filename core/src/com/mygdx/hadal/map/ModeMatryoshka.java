@@ -44,6 +44,8 @@ public class ModeMatryoshka extends ModeSetting {
 
     @Override
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
+
+        //null check in case this is an "extra kill" to give summoner kill credit for a summon
         if (vic != null) {
             //When a player dies, they lose 1 life and respawn instantly
             User user = vic.getUser();

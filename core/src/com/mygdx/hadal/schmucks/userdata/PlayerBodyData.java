@@ -717,10 +717,10 @@ public class PlayerBodyData extends BodyData {
 	private static float getGroupDamageReduction(int numDamagedBy) {
 		return switch (numDamagedBy) {
 			case 0, 1 -> 1.0f;
-			case 2 -> 0.8f;
-			case 3 -> 0.6f;
-			case 4 -> 0.4f;
-			case 5 -> 0.2f;
+			case 2 -> 0.75f;
+			case 3 -> 0.5f;
+			case 4 -> 0.3f;
+			case 5 -> 0.15f;
 			default -> 0.1f;
 		};
 	}

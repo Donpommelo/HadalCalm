@@ -194,7 +194,8 @@ public class BotLoadoutProcessor {
      * @param targetVelocity: the velocity of the target they are attacking. Used to lead shots.
      * @param weapon: the weapon the bot is aiming with
      */
-    public static void processWeaponAim(PlayerBot player, Vector2 targetLocation, Vector2 targetVelocity, Equippable weapon) {
+    public static void processWeaponAim(PlayerBot player, Vector2 targetLocation, Vector2 targetVelocity,
+                                        Equippable weapon, boolean targetFound) {
 
         //this makes blind disable the bot's ability to adjust aim
         if (player.getBlinded() > Blinded.botBlindThreshold) { return; }
@@ -203,16 +204,16 @@ public class BotLoadoutProcessor {
         if (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass())) == UnlockEquip.COLACANNON) {
             if (weapon.getChargeCd() >= weapon.getChargeTime() || weapon.isReloading()) {
                 mouseTarget.set(BotManager.acquireAimTarget(player, player.getPosition(),
-                        targetLocation, targetVelocity, ((RangedWeapon) weapon).getProjectileSpeed()));
+                        targetLocation, targetVelocity, ((RangedWeapon) weapon).getProjectileSpeed(), targetFound));
             } else {
-                BotLoadoutProcessor.aimWobble(player);
-                mouseTarget.set(targetLocation).add(player.getAimWobble());
+                player.weaponWobble();
+                mouseTarget.set(targetLocation).add(player.getWeaponWobble());
             }
         } else {
             //default behavior: acquire target's predicted position
             if (weapon instanceof RangedWeapon ranged) {
                 mouseTarget.set(BotManager.acquireAimTarget(player, player.getPosition(),
-                        targetLocation, targetVelocity, ranged.getProjectileSpeed()));
+                        targetLocation, targetVelocity, ranged.getProjectileSpeed(), targetFound));
             } else {
                 mouseTarget.set(targetLocation);
             }
@@ -462,17 +463,6 @@ public class BotLoadoutProcessor {
         } else {
             player.getController().keyUp(PlayerAction.FIRE);
         }
-    }
-
-    private static final float maxWobble = 25.0f;
-    private static final float wobbleSpeed = 45.0f;
-    /**
-     * This makes a bot wobble their aim around in a circle around their target
-     * Only used for the cola cannon
-     */
-    private static void aimWobble(PlayerBot player) {
-        player.getAimWobble().nor().scl(maxWobble);
-        player.getAimWobble().setAngleDeg(player.getAimWobble().angleDeg() + wobbleSpeed);
     }
 
     private static final float bonusSupplyDropChance = 0.4f;

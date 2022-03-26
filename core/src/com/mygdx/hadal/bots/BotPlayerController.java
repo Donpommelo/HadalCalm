@@ -89,10 +89,16 @@ public class BotPlayerController {
             acquireTarget(entityWorldLocation, entityVelocity);
         }
 
+        if (shootTarget != null) {
+            player.decrementWeaponWobble(delta);
+        } else {
+            player.incrementWeaponWobble(delta);
+        }
+
         while (botMoveCount >= botMoveInterval) {
             botMoveCount -= botMoveInterval * (1 + (-botMoveVariance + MathUtils.random() * 2 * botMoveVariance));
             processBotPickup();
-            processBotAttacking(entityWorldLocation);
+            processBotAttacking(entityWorldLocation, entityVelocity);
             processBotActiveItem(lineOfSight, targetDistanceSquare);
             processBotMovement(entityWorldLocation, entityVelocity);
         }
@@ -134,18 +140,18 @@ public class BotPlayerController {
      * Each function defers to the BotLoadoutProcessor for item-specific logic.
      * @param playerLocation: the location of the attacking bot (to avoid repeatedly calling getPosition)
      */
-    private void processBotAttacking(Vector2 playerLocation) {
+    private void processBotAttacking(Vector2 playerLocation, Vector2 playerVelocity) {
         if (shootTarget != null) {
             shootTargetPosition.set(shootTarget.getPosition());
             BotLoadoutProcessor.processWeaponSwitching(player, playerLocation, shootTargetPosition, shootTarget.isAlive());
-            BotLoadoutProcessor.processWeaponAim(player, shootTargetPosition, shootTarget.getLinearVelocity(), player.getPlayerData().getCurrentTool());
+            BotLoadoutProcessor.processWeaponAim(player, shootTargetPosition, shootTarget.getLinearVelocity(),
+                    player.getPlayerData().getCurrentTool(), true);
             BotLoadoutProcessor.processWeaponShooting(player, player.getPlayerData().getCurrentTool(), inRange);
         } else {
-
             //with no target, we aim towards the direction we are moving (set in processbotMovement)
             thisLocation.add(playerLocation);
             BotLoadoutProcessor.processWeaponSwitching(player, playerLocation, thisLocation, false);
-            BotLoadoutProcessor.processWeaponAim(player, thisLocation, playerLocation, player.getPlayerData().getCurrentTool());
+            BotLoadoutProcessor.processWeaponAim(player, thisLocation, playerVelocity, player.getPlayerData().getCurrentTool(), false);
             BotLoadoutProcessor.processWeaponShooting(player, player.getPlayerData().getCurrentTool(), false);
         }
     }
@@ -341,6 +347,7 @@ public class BotPlayerController {
 
         //find best enemy path by looking at all valid targets
         Array<RallyPoint.RallyPointMultiplier> targetPoints = new Array<>();
+        Schmuck tempLastShootTarget = shootTarget;
         shootTarget = null;
         float shortestDistanceSquared = -1;
         boolean unobtructedTargetFound = false;
@@ -386,6 +393,11 @@ public class BotPlayerController {
             }
         }
 
+        if (shootTarget != null) {
+            if (!shootTarget.equals(tempLastShootTarget)) {
+                player.resetWeaponWobble();
+            }
+        }
         //get nearby points and event point with multipliers
         Array<RallyPoint> pathStarters = BotManager.getNearestPathStarters(player, playerLocation);
         Array<RallyPoint.RallyPointMultiplier> eventPoints = player.getState().getMode().processAIPath(player.getState(), player, playerLocation);

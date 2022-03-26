@@ -270,6 +270,7 @@ public class BotManager {
         return null;
     }
 
+    private static final Vector2 diffTemp = new Vector2();
     private static final Vector2 aimTemp = new Vector2();
     private static final Vector2 leadDisplace = new Vector2();
     /**
@@ -279,11 +280,13 @@ public class BotManager {
      * @param targetLocation: the location of the target the bot is aiming at
      * @param targetVelocity: the velocity of the target the bot is aiming at
      * @param projectileSpeed: the projectile speed of the bot's currently equipped weapon
+     * @param wobble: should the player wobble their aim
      * @return a vector determining the location of the bot's mouse after aiming
      */
-    public static Vector2 acquireAimTarget(Schmuck targeter, Vector2 sourceLocation, Vector2 targetLocation, Vector2 targetVelocity,
-                                           float projectileSpeed) {
+    public static Vector2 acquireAimTarget(PlayerBot targeter, Vector2 sourceLocation, Vector2 targetLocation, Vector2 targetVelocity,
+                                           float projectileSpeed, boolean wobble) {
         aimTemp.set(targetLocation).sub(sourceLocation);
+        diffTemp.set(aimTemp);
 
         //we calculate the collision point between prospective projectile and target
         float a = targetVelocity.dot(targetVelocity) - projectileSpeed * projectileSpeed;
@@ -312,6 +315,17 @@ public class BotManager {
         if (fract < 1.0f) {
             aimTemp.set(targetLocation).add(leadDisplace.scl(fract));
         }
+
+        if (wobble) {
+            targeter.aimWobble();
+            if (diffTemp.len2() > targeter.getCurrentWobble() * targeter.getCurrentWobble()) {
+                aimTemp.add(targeter.getAimWobble());
+            } else {
+                aimTemp.add(diffTemp.rotate90(0).nor().scl(
+                        (float) (Math.sin(targeter.getAimWobble().angleRad()) * targeter.getCurrentWobble())));
+            }
+        }
+
         return aimTemp;
     }
 
