@@ -13,6 +13,7 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -78,7 +79,7 @@ public class FlagCapturable extends Event {
 		this.teamIndex = teamIndex;
 
 		setEventSprite(Sprite.DIATOM_D);
-		setScaleAlign("CENTER_STRETCH");
+		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
 		setGravity(1.0f);
 		setSynced(true);
 

@@ -89,10 +89,9 @@ public class BotLoadoutProcessor {
      * @param player: the bot player looking for a heal
      * @param playerLocation: the location of the bot player
      * @param searchRadius: this is the max distance that the bot will search search for pickups
-     * @param minAffinity: the lowest affinity of a weapon the bot is holding
      * @return a reasonably short path to a desired healing event
      */
-    public static RallyPoint getPointNearHealth(PlayerBot player, Vector2 playerLocation, float searchRadius, int minAffinity) {
+    public static RallyPoint getPointNearHealth(PlayerBot player, Vector2 playerLocation, float searchRadius) {
         final RallyPoint[] bestPoint = new RallyPoint[1];
         player.getWorld().QueryAABB((fixture -> {
                 if (fixture.getUserData() instanceof final EventData eventData) {

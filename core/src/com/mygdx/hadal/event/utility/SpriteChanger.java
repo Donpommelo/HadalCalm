@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 
@@ -56,7 +57,7 @@ public class SpriteChanger extends Event {
 					event.getConnectedEvent().setEventSprite(newSprite, still, frame, speed, PlayMode.valueOf(mode));
 					
 					if (!align.equals("NONE")) {
-						event.getConnectedEvent().setScaleAlign(align);
+						event.getConnectedEvent().setScaleAlign(ClientIllusion.alignType.valueOf(align));
 					}
 					if (scale != -1) {
 						event.getConnectedEvent().setScale(scale);

@@ -321,7 +321,7 @@ public class Event extends HadalEntity {
 	
 	public void setScale(float scale) {	this.scale = scale;	}
 
-	public void setScaleAlign(String scaleAlign) { this.scaleAlign = alignType.valueOf(scaleAlign); }
+	public void setScaleAlign(alignType scaleAlign) { this.scaleAlign = scaleAlign; }
 
 	public eventSyncTypes getSyncType() { return syncType; }
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -92,7 +93,7 @@ public class SeeSawPlatform extends Event {
 	@Override
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
-		setScaleAlign("ROTATE");
+		setScaleAlign(ClientIllusion.alignType.ROTATE);
 		setSyncType(eventSyncTypes.ALL);
 		setSynced(true);
 	}

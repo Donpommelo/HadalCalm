@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -62,7 +63,7 @@ public class ScalePlatform extends Event {
 	@Override
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
-		setScaleAlign("CENTER_STRETCH");
+		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
 		setSyncType(eventSyncTypes.ALL);
 		setSynced(true);
 	}

@@ -18,10 +18,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.Sensor;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.UserDataType;
-import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
-import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -719,6 +716,7 @@ public class WeaponUtils {
 	}
 
 	public static final int pickupSize = 64;
+	public static final float pickupSpriteScale = 0.18f;
 	public static void createPickup(PlayState state, Vector2 startPos, final pickupTypes type, final float power) {
 
 		Event pickup = new Sensor(state, startPos, new Vector2(pickupSize, pickupSize), true, false, false,
@@ -763,7 +761,7 @@ public class WeaponUtils {
 									SoundEffect.MAGIC21_HEAL.playUniversal(state, player.getPlayer().getPixelPosition(),
 											0.3f, false);
 									
-									player.regainHp(power, player, true, DamageTypes.MEDPAK);
+									player.regainHp(power * player.getStat(Stats.MAX_HP), player, true, DamageTypes.MEDPAK);
 									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_HEALTH, 3.0f,
 											5.0f, true, SyncType.CREATESYNC);
 									event.queueDeletion();
@@ -782,12 +780,12 @@ public class WeaponUtils {
 						1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0);
 			}
 		};
-		
+
 		new ParticleEntity(state, pickup, Particle.EVENT_HOLO, 1.0f, 0.0f, true, SyncType.CREATESYNC);
-		pickup.setScaleAlign("CENTER_BOTTOM");
+		pickup.setScaleAlign(ClientIllusion.alignType.CENTER_BOTTOM);
 		pickup.setSyncType(eventSyncTypes.ILLUSION);
 		pickup.setSynced(true);
-		pickup.setScale(0.25f);
+		pickup.setScale(pickupSpriteScale);
 		
 		switch(type) {
 		case AMMO:

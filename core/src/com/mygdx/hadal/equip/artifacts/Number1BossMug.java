@@ -44,7 +44,7 @@ public class Number1BossMug extends Artifact {
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
 
 				if (procCdCount >= procCd && damage > 0) {
-					procCdCount -= procCd;
+					procCdCount = 0;
 
 					new SoundEntity(state, new HealingArea(state, p.getSchmuck().getPixelPosition(), fieldSize, fieldHeal, healDuration, p.getSchmuck(), (short) 0),
 							SoundEffect.MAGIC21_HEAL, healDuration, 0.25f, 1.0f, true, true, SyncType.CREATESYNC);

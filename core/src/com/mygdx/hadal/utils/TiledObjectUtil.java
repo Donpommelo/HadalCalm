@@ -19,6 +19,7 @@ import com.mygdx.hadal.event.prefab.*;
 import com.mygdx.hadal.event.saves.*;
 import com.mygdx.hadal.event.ui.*;
 import com.mygdx.hadal.event.utility.*;
+import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
@@ -497,7 +498,7 @@ public class TiledObjectUtil {
 				e.setScale(object.getProperties().get("scale", float.class));
 			}
 			if (object.getProperties().get("align", String.class) != null) {
-				e.setScaleAlign(object.getProperties().get("align", String.class));
+				e.setScaleAlign(ClientIllusion.alignType.valueOf(object.getProperties().get("align", String.class)));
 			}
 			if (object.getProperties().get("sync", String.class) != null) {
 				e.setSyncType(eventSyncTypes.valueOf(object.getProperties().get("sync", String.class)));

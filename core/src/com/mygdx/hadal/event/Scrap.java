@@ -10,6 +10,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -47,7 +48,7 @@ public class Scrap extends Event {
 		this.score = score;
 
 		setEventSprite(Sprite.NASU);
-		setScaleAlign("CENTER_STRETCH");
+		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
 		setGravity(1.0f);
 		addAmbientParticle(Particle.SPARKLE);
 		setSynced(true);

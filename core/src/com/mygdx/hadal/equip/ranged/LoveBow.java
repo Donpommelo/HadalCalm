@@ -164,7 +164,7 @@ public class LoveBow extends RangedWeapon {
 								((ClientState) state).addEntity(heal.getEntityID(), heal, false, ClientState.ObjectLayer.HBOX);
 							}
 							hurtbox.die();
-						} else if (((BodyData) fixB).getSchmuck().getHitboxfilter() != user.getHitboxfilter()){
+						} else if (((BodyData) fixB).getSchmuck().getHitboxfilter() != user.getHitboxfilter()) {
 							ParticleEntity hurt = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HURT, 1.0f,
 									true, SyncType.NOSYNC);
 							if (!state.isServer()) {

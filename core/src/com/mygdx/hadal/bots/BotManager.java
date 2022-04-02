@@ -101,17 +101,17 @@ public class BotManager {
      * When a bot attempts to pathfind, it requests a thread to perform the search
      * Inputs info needed to navigate the bot rally point graph so the new thread doesn't need to query the world
      */
-    public static void requestPathfindingThread(PlayerBot player, Vector2 playerLocation, Vector2 playerVelocity, Array<RallyPoint> pathStarters,
+    public static void requestPathfindingThread(BotController controller, Vector2 playerLocation, Vector2 playerVelocity, Array<RallyPoint> pathStarters,
                                 RallyPoint.RallyPointMultiplier weaponPoint,  RallyPoint.RallyPointMultiplier healthPoint,
                                 Array< RallyPoint.RallyPointMultiplier> targetPoints, Array< RallyPoint.RallyPointMultiplier> eventPoints) {
         if (!executor.isShutdown()) {
-            executor.submit(new BotPathfindingTask(player, playerLocation, playerVelocity, pathStarters, weaponPoint,
+            executor.submit(new BotPathfindingTask(controller, playerLocation, playerVelocity, pathStarters, weaponPoint,
                     healthPoint, targetPoints, eventPoints));
         }
     }
 
-    //this is the furthest distance that we will check rally poitns for
-    private static final float MaxPointDistanceCheck = 20.0f;
+    //this is the furthest distance that we will check rally points for
+    private static final float MaxPointDistanceCheck = 30.0f;
     private static final Vector2 tempPointLocation = new Vector2();
     /**
      * @param targeter: the schmuck looking for nearest point
@@ -180,12 +180,12 @@ public class BotManager {
     private static final Queue<RallyPoint> openSet = new PriorityQueue<>();
     /**
      * Calculate short path with a*. Called by pathfinding task in separate thread, so it canno query the world
-     * @param player: the bot looking for a path
+     * @param bot: the bot looking for a path
      * @param start: starting point
      * @param end: ending point
      * @return a reasonably short path between nodes in a graph using modified a* search or null if none exists
      */
-    public static RallyPath getShortestPathBetweenPoints(PlayerBot player, RallyPoint start, RallyPoint end) {
+    public static RallyPath getShortestPathBetweenPoints(Schmuck bot, RallyPoint start, RallyPoint end) {
         if (start == null || end == null) { return null; }
 
         //if we have this path cached, just return it to same some time
@@ -194,7 +194,7 @@ public class BotManager {
             if (cachedRoute.teamIndex() == -1) {
                 return start.getShortestPaths().get(end).path();
             } else if (cachedRoute.teamIndex() < AlignmentFilter.currentTeams.length) {
-                if (player.getUser().getTeamFilter() == AlignmentFilter.currentTeams[cachedRoute.teamIndex()]) {
+                if (bot.getHitboxfilter() == AlignmentFilter.currentTeams[cachedRoute.teamIndex()].getFilter()) {
                     return start.getShortestPaths().get(end).path();
                 }
             }
@@ -246,7 +246,7 @@ public class BotManager {
                 int teamIndex = parent.getConnections().get(neighbor).teamIndex();
                 if (teamIndex != -1) {
                     if (teamIndex < AlignmentFilter.currentTeams.length) {
-                        if (player.getUser().getTeamFilter() != AlignmentFilter.currentTeams[teamIndex]) {
+                        if (bot.getHitboxfilter() != AlignmentFilter.currentTeams[teamIndex].getFilter()) {
                             continue;
                         }
                     }

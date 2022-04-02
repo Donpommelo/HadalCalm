@@ -8,6 +8,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -100,7 +101,7 @@ public class DestructableBlock extends Event {
 	@Override
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.UI_MAIN_HEALTH_MISSING);
-		setScaleAlign("CENTER_STRETCH");
+		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
 		setStandardParticle(Particle.IMPACT);
 		setGravity(0.0f);
 	}

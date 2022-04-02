@@ -6,7 +6,6 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.utils.Stats;
 
 public class GluttonousGreyGlove extends Artifact {
 
@@ -26,7 +25,7 @@ public class GluttonousGreyGlove extends Artifact {
 			public void onKill(BodyData vic) {
 				if (MathUtils.randomBoolean(chance) || vic instanceof PlayerBodyData) {
 					WeaponUtils.createPickup(state, vic.getSchmuck().getPixelPosition(),
-							WeaponUtils.pickupTypes.HEALTH, heal * vic.getStat(Stats.MAX_HP));
+							WeaponUtils.pickupTypes.HEALTH, heal);
 				}
 			}
 		};

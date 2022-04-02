@@ -1,8 +1,8 @@
 package com.mygdx.hadal.schmucks.entities;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.bots.BotControllerPlayer;
 import com.mygdx.hadal.bots.BotPersonality;
-import com.mygdx.hadal.bots.BotPlayerController;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -17,7 +17,7 @@ import com.mygdx.hadal.statuses.Botting;
 public class PlayerBot extends Player {
 
     //this manages all of the player's actions
-    private final BotPlayerController botController;
+    private final BotControllerPlayer botController;
 
     //bot's personality affects its difficulty and other quirks
     private final BotPersonality personality;
@@ -26,12 +26,12 @@ public class PlayerBot extends Player {
     //at the moment, this just rotates in a circle around the target when the bot is using the cola cannon
     private final Vector2 weaponWobble = new Vector2(1, 0);
     private final Vector2 aimWobble = new Vector2(1, 0);
-    private float currentWobble, currentWobbleSpeed;
+    private float currentWobble;
 
     public PlayerBot(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,
                      int connID, User user, boolean reset, StartPoint start) {
         super(state, startPos, name, startLoadout, oldData, connID, user, reset, start);
-        this.botController = new BotPlayerController(this);
+        this.botController = new BotControllerPlayer(this);
         this.personality = new BotPersonality(state.getMode().getBotDifficulty());
     }
 
@@ -50,6 +50,7 @@ public class PlayerBot extends Player {
     private static final float maxWobble = 25.0f;
     private static final float wobbleSpeed = 45.0f;
     private static final float aimWobbleSpeed = 15.0f;
+
     public void weaponWobble() {
         weaponWobble.nor().scl(maxWobble);
         weaponWobble.setAngleDeg(weaponWobble.angleDeg() + wobbleSpeed);
@@ -72,6 +73,16 @@ public class PlayerBot extends Player {
         currentWobble = personality.getWobbleMax();
     }
 
+//    private final Vector2 playerLocation = new Vector2();
+//    @Override
+//    public void render(SpriteBatch batch) {
+//        super.render(batch);
+//        playerLocation.set(getPixelPosition());
+//
+//        HadalGame.FONT_SPRITE.draw(batch, botController.getCurrentMood().toString() + " " + botController.getEventTarget() + " " +
+//                botController.getPointPath().size, playerLocation.x + 20, playerLocation.y + 20);
+//
+//    }
 //    private static final ShapeRenderer debugRenderer = new ShapeRenderer();
 //    @Override
 //    public void render(SpriteBatch batch) {
@@ -101,7 +112,7 @@ public class PlayerBot extends Player {
 //        batch.begin();
 //    }
 
-    public BotPlayerController getBotController() { return botController; }
+    public BotControllerPlayer getBotController() { return botController; }
 
     public Vector2 getWeaponWobble() { return weaponWobble; }
 
@@ -124,5 +135,4 @@ public class PlayerBot extends Player {
     public float getViolenceDesireMultiplier() { return personality.getViolenceDesireMultiplier(); }
 
     public float getChatWheelDesire() { return personality.getChatWheelDesire(); }
-
 }

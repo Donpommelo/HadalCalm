@@ -9,6 +9,7 @@ import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.DestructableBlock;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -51,7 +52,7 @@ public class Terraformer extends ActiveItem {
 			}
 		};
 		block.setEventSprite(Sprite.UI_MAIN_HEALTH_MISSING);
-		block.setScaleAlign("CENTER_STRETCH");
+		block.setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
 		block.setStandardParticle(Particle.IMPACT);
 		block.setGravity(1.0f);
 		block.setSynced(true);

@@ -181,13 +181,15 @@ public class PickupEquip extends Event {
 	public void setEquip(Equippable equip) {
 		this.equip = equip;
 		setEventSprite(equip.getEventSprite());
-		
+
 		if (equip instanceof NothingWeapon || equip instanceof SpeargunNerfed) {
 			if (standardParticle != null) {
 				standardParticle.turnOff();
 			}
 			if (drop) {
 				queueDeletion();
+			} else if (equip instanceof SpeargunNerfed) {
+				this.equip = Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.NOTHING, null));
 			}
 		} else {
 			if (standardParticle != null) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="320" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="430">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="320" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="433">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="320" height="120">
   <data encoding="csv">
@@ -224,9 +224,6 @@
   </object>
   <object id="188" name="BotPoint" type="BotPoint" x="2352" y="1832">
    <polyline points="-1040,-296 -1312,-264"/>
-  </object>
-  <object id="189" name="BotPoint" type="BotPoint" x="1288" y="1496">
-   <polyline points="824,40 24,40"/>
   </object>
   <object id="190" name="BotPoint" type="BotPoint" x="2256" y="1472">
    <polyline points="48,0 -80,0"/>
@@ -568,7 +565,7 @@
    <polyline points="64,16 -208,-16"/>
   </object>
   <object id="297" name="BotPoint" type="BotPoint" x="8480" y="1464">
-   <polyline points="480,72 -320,72"/>
+   <polyline points="480,72 64,72"/>
   </object>
   <object id="298" name="BotPoint" type="BotPoint" x="7584" y="1392">
    <polyline points="384,80 256,80"/>
@@ -1030,6 +1027,15 @@
   <object id="429" name="BotPoint" type="BotPoint" x="6440" y="2376">
    <polyline points="-152,24 72,200"/>
   </object>
+  <object id="430" name="BotPoint" type="BotPoint" x="8440" y="1456">
+   <polyline points="104,80 -280,80"/>
+  </object>
+  <object id="431" name="BotPoint" type="BotPoint" x="1576" y="1504">
+   <polyline points="536,32 120,32"/>
+  </object>
+  <object id="432" name="BotPoint" type="BotPoint" x="1536" y="1496">
+   <polyline points="160,40 -224,40"/>
+  </object>
  </objectgroup>
  <objectgroup id="3" name="collision-layer">
   <object id="47" x="3840" y="2592">
@@ -1406,7 +1412,7 @@
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="112" name="Current" type="Current" x="704" y="2240" width="384" height="160">
+  <object id="112" name="Current" type="Current" x="800" y="2240" width="192" height="160">
    <properties>
     <property name="currentX" type="float" value="6"/>
     <property name="currentY" type="float" value="0"/>
@@ -1427,7 +1433,7 @@
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="115" name="Current" type="Current" x="9184" y="2240" width="384" height="160">
+  <object id="115" name="Current" type="Current" x="9280" y="2240" width="192" height="160">
    <properties>
     <property name="currentX" type="float" value="-6"/>
     <property name="currentY" type="float" value="0"/>
@@ -1779,12 +1785,12 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="94" name="Start" type="Start" x="6464" y="1664" width="32" height="32">
+  <object id="94" name="Start" type="Start" x="6624" y="1760" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="95" name="Start" type="Start" x="3776" y="1664" width="32" height="32">
+  <object id="95" name="Start" type="Start" x="3616" y="1760" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>

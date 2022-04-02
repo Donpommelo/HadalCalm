@@ -7,6 +7,7 @@ import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -139,7 +140,7 @@ public class SpawnerFlag extends Event {
 
     @Override
     public void loadDefaultProperties() {
-        setScaleAlign("CENTER_STRETCH");
+        setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
         setSyncType(eventSyncTypes.ALL);
         addAmbientParticle(Particle.RING);
     }

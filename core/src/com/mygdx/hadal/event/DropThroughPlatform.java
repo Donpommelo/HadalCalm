@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
@@ -100,7 +101,7 @@ public class DropThroughPlatform extends Event {
 	@Override
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.UI_RELOAD_BAR);
-		setScaleAlign("CENTER_STRETCH");
+		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
 		setSyncType(eventSyncTypes.ALL);
 	}
 }

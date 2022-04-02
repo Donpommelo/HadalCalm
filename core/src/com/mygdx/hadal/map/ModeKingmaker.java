@@ -2,7 +2,7 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.bots.BotPlayerController;
+import com.mygdx.hadal.bots.BotControllerPlayer;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.event.modes.CrownHoldable;
@@ -31,7 +31,7 @@ public class ModeKingmaker extends ModeSetting {
                     //if the crown is captured by this bot, start "wandering" to avoid conflict
                     if (bot.equals(crown.getTarget())) {
                         bot.getBotController().getPointPath().clear();
-                        bot.getBotController().setCurrentMood(BotPlayerController.BotMood.WANDER);
+                        bot.getBotController().setCurrentMood(BotControllerPlayer.BotMood.WANDER);
                         return;
                     }
                 }

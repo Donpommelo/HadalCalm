@@ -379,14 +379,14 @@ public class PlayerSpriteHelper {
             private Shader shader;
             private float progress;
             private float timer;
-            private static final float fadeDelay = 0.5f;
-            private static final float fadeDuration = 1.0f;
+            private static final float fadeDelay = 0.25f;
+            private static final float fadeDuration = 2.25f;
             @Override
             public void create() {
                 super.create();
 
                 //initiate shader used for vaporization effect
-                shader = Shader.PERLIN_FADE;
+                shader = Shader.PERLIN_COLOR_FADE;
                 shader.loadShader();
                 body.setAngularDamping(4.0f);
                 body.setLinearDamping(3.0f);
@@ -428,7 +428,7 @@ public class PlayerSpriteHelper {
             private void manageTimer(float delta) {
                 timer += delta;
                 if (timer >= fadeDelay) {
-                    progress = Math.min(Math.max(0, (timer - fadeDelay) / fadeDuration), 1.0f);
+                    progress = Math.min(Math.max(0.0f, (timer - fadeDelay) / fadeDuration), 1.0f);
                 }
             }
         };
