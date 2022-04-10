@@ -293,7 +293,7 @@ public class PlayerSpriteHelper {
                 createGibs(playerLocation, playerVelocity);
                 break;
             case VAPORIZE:
-                createRagdoll(playerLocation, playerVelocity);
+                createVaporization(playerLocation, playerVelocity);
                 break;
             case TELEPORT:
 
@@ -327,9 +327,6 @@ public class PlayerSpriteHelper {
         Ragdoll armRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(armWidth, armHeight).scl(scale),
                 armSprite, playerVelocity, gibDuration, gibGravity, true, false);
 
-        Ragdoll backRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(bodyBackWidth, bodyBackHeight).scl(scale),
-                bodyBackSprite, playerVelocity, gibDuration, gibGravity, true, false);
-
         Ragdoll toolRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(toolWidth, toolHeight).scl(scale),
                 player.getToolSprite(), playerVelocity, gibDuration, gibGravity, true, false);
 
@@ -347,14 +344,13 @@ public class PlayerSpriteHelper {
             ((ClientState) player.getState()).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ClientState.ObjectLayer.STANDARD);
             ((ClientState) player.getState()).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
             ((ClientState) player.getState()).addEntity(armRagdoll.getEntityID(), armRagdoll, false, ClientState.ObjectLayer.STANDARD);
-            ((ClientState) player.getState()).addEntity(backRagdoll.getEntityID(), backRagdoll, false, ClientState.ObjectLayer.STANDARD);
             ((ClientState) player.getState()).addEntity(toolRagdoll.getEntityID(), toolRagdoll, false, ClientState.ObjectLayer.STANDARD);
         }
     }
 
     private static final int ragdollWidth = 100;
     private static final int ragdollHeight = 120;
-    private void createRagdoll(Vector2 playerLocation, Vector2 playerVelocity) {
+    private void createVaporization(Vector2 playerLocation, Vector2 playerVelocity) {
         FrameBuffer ragdollBuffer = new FrameBuffer(Pixmap.Format.RGBA4444, ragdollWidth, ragdollHeight, true);
         ragdollBuffer.begin();
 

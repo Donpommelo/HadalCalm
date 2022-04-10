@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.Poison;
@@ -62,7 +63,7 @@ public class TaintedWater extends ActiveItem {
 					numPoison++;
 					lastPosition.set(hbox.getPixelPosition());
 					new Poison(state, hbox.getPixelPosition(), new Vector2(poisonSize).add(0, numPoison * poisonSpread), poisonDamage, poisonDuration, user.getSchmuck(),
-						true, user.getSchmuck().getHitboxfilter()) {
+						true, user.getSchmuck().getHitboxfilter(), DamageSource.TAINTED_WATER) {
 
 						@Override
 						public void create() {

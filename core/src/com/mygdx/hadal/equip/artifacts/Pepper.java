@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -38,7 +39,7 @@ public class Pepper extends Artifact {
 					state.getWorld().QueryAABB(fixture -> {
 						if (fixture.getUserData() instanceof BodyData bodyData) {
 							if (bodyData.getSchmuck().getHitboxfilter() != p.getSchmuck().getHitboxfilter()) {
-								bodyData.receiveDamage(damage, new Vector2(), p, true, null);
+								bodyData.receiveDamage(damage, new Vector2(), p, true, null, DamageSource.PEPPER);
 								bodyData.getSchmuck().setShader(Shader.STATIC, effectDuration, true);
 							}
 						}

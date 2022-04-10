@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -31,20 +32,20 @@ public class PetrifiedPayload extends Artifact {
 				new Status(state, p) {
 			
 			@Override
-			public void onKill(BodyData vic) {
+			public void onKill(BodyData vic, DamageSource source) {
 				if (vic instanceof PlayerBodyData) {
 					WeaponUtils.createExplosion(state, vic.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
-							explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxfilter(), true);
+							explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxfilter(), true, DamageSource.PETRIFIED_PAYLOAD);
 				} else {
 					WeaponUtils.createExplosion(state, vic.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
-							explosionDamageEnemy, explosionKnockback, p.getSchmuck().getHitboxfilter(), true);
+							explosionDamageEnemy, explosionKnockback, p.getSchmuck().getHitboxfilter(), true, DamageSource.PETRIFIED_PAYLOAD);
 				}
 			}
 			
 			@Override
-			public void onDeath(BodyData perp) {
+			public void onDeath(BodyData perp, DamageSource source) {
 				WeaponUtils.createExplosion(state, perp.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
-						explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxfilter(), true);
+						explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxfilter(), true, DamageSource.PETRIFIED_PAYLOAD);
 			}
 		});
 	}

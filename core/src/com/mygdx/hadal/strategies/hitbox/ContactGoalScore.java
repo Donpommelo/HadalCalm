@@ -8,7 +8,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
@@ -42,7 +42,7 @@ public class ContactGoalScore extends HitboxStrategy {
 	}
 
 	@Override
-	public void receiveDamage(BodyData perp, float baseDamage, Vector2 knockback, DamageTypes... tags) {
+	public void receiveDamage(BodyData perp, float baseDamage, Vector2 knockback, DamageTag... tags) {
 		if (perp instanceof PlayerBodyData playerData) {
 			lastHit = playerData.getPlayer();
 		}

@@ -8,7 +8,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.SyncType;
@@ -51,7 +51,7 @@ public class FlagCapturable extends Event {
 	private Player lastHolder;
 
 	//the timer until a dropped flag returns to spawn
-	private static final float returnTime = 30.0f;
+	private static final float returnTime = 40.0f;
 	private float returnTimer;
 
 	//this is a status inflicted upon the flag carrier
@@ -356,16 +356,16 @@ public class FlagCapturable extends Event {
 				return 1.0f;
 			}
 			case 1 -> {
-				return 6.0f;
+				return 4.0f;
 			}
 			case 2 -> {
-				return 10.0f;
+				return 8.0f;
 			}
 			case 3 -> {
-				return 15.0f;
+				return 14.0f;
 			}
 			default -> {
-				return 30.0f;
+				return 20.0f;
 			}
 		}
 	}

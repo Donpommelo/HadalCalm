@@ -4,16 +4,17 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
@@ -73,7 +74,8 @@ public class Underminer extends RangedWeapon {
 		hbox.setGravity(3.0f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(),  baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(),  baseDamage, knockback,
+				DamageSource.UNDERMINER, DamageTag.RANGED));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private boolean drilling;
@@ -185,7 +187,8 @@ public class Underminer extends RangedWeapon {
 						true, true, user, projSprite);
 				frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
 				frag.addStrategy(new AdjustAngle(state, frag, user.getBodyData()));
-				frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(),  fragDamage, fragKnockback, DamageTypes.RANGED));
+				frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(),  fragDamage, fragKnockback,
+						DamageSource.UNDERMINER, DamageTag.RANGED));
 				frag.addStrategy(new HitboxStrategy(state, frag, user.getBodyData()) {
 
 					@Override
@@ -211,10 +214,11 @@ public class Underminer extends RangedWeapon {
 
 								bomb.addStrategy(new ControllerDefault(state, bomb, user.getBodyData()));
 								bomb.addStrategy(new AdjustAngle(state, bomb, user.getBodyData()));
-								bomb.addStrategy(new DamageStandard(state, bomb, user.getBodyData(),  fragDamage, fragKnockback, DamageTypes.RANGED));
+								bomb.addStrategy(new DamageStandard(state, bomb, user.getBodyData(),  fragDamage, fragKnockback,
+										DamageSource.UNDERMINER, DamageTag.RANGED));
 								bomb.addStrategy(new ContactWallDie(state, bomb, user.getBodyData()).setDelay(0.1f));
 								bomb.addStrategy(new DieExplode(state, bomb, user.getBodyData(), explosionRadius, explosionDamage,
-										explosionKnockback, user.getHitboxfilter(), false));
+										explosionKnockback, user.getHitboxfilter(), false, DamageSource.UNDERMINER));
 								bomb.addStrategy(new DieSound(state, bomb, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
 								bomb.addStrategy(new FlashNearDeath(state, bomb, user.getBodyData(), 1.0f, false));
 

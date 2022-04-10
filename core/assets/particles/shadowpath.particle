@@ -319,6 +319,6 @@ continuous: true
 aligned: false
 additive: false
 behind: false
-premultipliedAlpha: true
+premultipliedAlpha: false
 - Image Path -
 16smokedark.png

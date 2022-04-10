@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.SyncType;
@@ -10,7 +11,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
@@ -32,8 +33,12 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 	//this is the maximum amount of damage that this effect can inflict
 	private static final float maxDamage = 150.0f;
 
-	public ContactUnitKnockbackDamage(PlayState state, Hitbox proj, BodyData user) {
+	//this is the effect/item/weapon source of the knockback
+	private final DamageSource source;
+
+	public ContactUnitKnockbackDamage(PlayState state, Hitbox proj, BodyData user, DamageSource source) {
 		super(state, proj, user);
+		this.source = source;
 	}
 
 	@Override
@@ -73,7 +78,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 
 								//contact a wall, damage the victim
 								if (fixB.getType().equals(UserDataType.WALL)) {
-									vic.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, DamageTypes.WHACKING);
+									vic.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, source, DamageTag.WHACKING);
 									new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
 										true, SyncType.CREATESYNC);
 									hbox.die();
@@ -81,8 +86,8 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 								
 								//contact another unit, damage both
 								if (fixB.getType().equals(UserDataType.BODY) && !fixB.equals(vic)) {
-									vic.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, DamageTypes.WHACKING);
-									fixB.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, DamageTypes.WHACKING);
+									vic.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, source, DamageTag.WHACKING);
+									fixB.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, source, DamageTag.WHACKING);
 									new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
 										true, SyncType.CREATESYNC);
 									hbox.die();

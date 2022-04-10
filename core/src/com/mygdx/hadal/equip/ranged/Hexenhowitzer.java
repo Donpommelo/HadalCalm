@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -14,12 +15,12 @@ import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.MagicGlow;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.Status;
@@ -108,7 +109,8 @@ public class Hexenhowitzer extends RangedWeapon {
 
 								//gain charge based on the amount of damage dealt by this weapon's projectiles
 								float damage = fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(),
-										hbox.getLinearVelocity().nor().scl(knockback), creator, true, hbox, DamageTypes.MAGIC, DamageTypes.RANGED);
+										hbox.getLinearVelocity().nor().scl(knockback), creator, true, hbox, DamageSource.HEXENHOWITZER,
+										DamageTag.MAGIC, DamageTag.RANGED);
 
 								me.setCharging(true);
 
@@ -151,12 +153,14 @@ public class Hexenhowitzer extends RangedWeapon {
 		hbox.setGravity(1.0f);
 
 		if (supercharged) {
-			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MAGIC, DamageTypes.RANGED));
+			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageSource.HEXENHOWITZER,
+					DamageTag.MAGIC, DamageTag.RANGED));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 		} else {
 			//for clients, we don't do the charging so we add this to register kb and damage flashes
 			if (!state.isServer()) {
-				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MAGIC, DamageTypes.RANGED));
+				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageSource.HEXENHOWITZER,
+						DamageTag.MAGIC, DamageTag.RANGED));
 			}
 		}
 

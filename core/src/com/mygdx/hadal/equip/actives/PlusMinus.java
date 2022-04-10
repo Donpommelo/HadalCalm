@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -28,7 +29,7 @@ public class PlusMinus extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.THUNDER.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
-		user.addStatus(new Shocked(state, user, user, chainDamage, chainRadius, chainAmount, user.getSchmuck().getHitboxfilter()));
+		user.addStatus(new Shocked(state, user, user, chainDamage, chainRadius, chainAmount, user.getSchmuck().getHitboxfilter(), DamageSource.PLUS_MINUS));
 	}
 
 	@Override

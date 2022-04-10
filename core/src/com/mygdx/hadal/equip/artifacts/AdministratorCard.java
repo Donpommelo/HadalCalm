@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -39,7 +40,7 @@ public class AdministratorCard extends Artifact {
 			}
 			
 			@Override
-			public void onDeath(BodyData perp) {
+			public void onDeath(BodyData perp, DamageSource source) {
 				for (UnlockArtifact unlock : unlocks) {
 					p.removeArtifact(unlock);
 				}

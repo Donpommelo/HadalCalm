@@ -1,12 +1,13 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 
 import static com.mygdx.hadal.utils.Constants.PRIORITY_SCALE;
@@ -28,20 +29,22 @@ public class MouthfulofBees extends Artifact {
 		enchantment = new Status(state, p) {
 			
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (damage > 0) {
 					int numBees = (int) (damage / damagePerBee);
 					for (int i = 0; i < numBees; i++) {
-						SyncedAttack.BEE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(), new Vector2(0, beeSpeed));
+						SyncedAttack.BEE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(),
+								new Vector2(0, beeSpeed), DamageSource.MOUTHFUL_OF_BEES);
 					}
 				}
 				return damage;
 			}
 			
 			@Override
-			public void onDeath(BodyData perp) {
+			public void onDeath(BodyData perp, DamageSource source) {
 				for (int i = 0; i < beesOnDeath; i++) {
-					SyncedAttack.BEE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(), new Vector2(0, beeSpeed));
+					SyncedAttack.BEE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(),
+							new Vector2(0, beeSpeed), DamageSource.MOUTHFUL_OF_BEES);
 				}
 			}
 		}.setPriority(PRIORITY_SCALE);

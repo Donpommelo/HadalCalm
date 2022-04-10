@@ -11,7 +11,7 @@ import com.mygdx.hadal.utils.Stats;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
- * A BotController manages all of a bot's behaviors and cooldowns
+ * A BotControllerPlayer manages all of a bot's behaviors and cooldowns specific to players
  * @author Hurbbury Heebone
  */
 public class BotControllerPlayer extends BotController {
@@ -208,8 +208,9 @@ public class BotControllerPlayer extends BotController {
 
     private static final float searchRadius = 60.0f;
     @Override
-    public Array<RallyPoint.RallyPointMultiplier> getTargetPoints(Vector2 playerLocation) {
-        Array<RallyPoint.RallyPointMultiplier> targetPoints = super.getTargetPoints(playerLocation);
+    public Array<RallyPoint.RallyPointMultiplier> getTargetPoints(Vector2 playerLocation, float multiplier) {
+        Array<RallyPoint.RallyPointMultiplier> targetPoints = super.getTargetPoints(playerLocation,
+                1.0f + player.getViolenceDesireMultiplier());
         if (shootTarget != null) {
             if (!shootTarget.equals(lastShootTarget)) {
                 player.resetWeaponWobble();
@@ -263,6 +264,8 @@ public class BotControllerPlayer extends BotController {
     public RallyPoint.RallyPointMultiplier getHealthPoint(Vector2 playerLocation) {
         RallyPoint healthPoint = null;
         float healthDesireMultiplier = 1.0f;
+
+        //bot's health desire scales to how hurt the bot is
         float healthPercent = player.getPlayerData().getCurrentHp() / player.getPlayerData().getStat(Stats.MAX_HP);
         if (healthPercent < healthThreshold1) {
             healthPoint = BotLoadoutProcessor.getPointNearHealth(player, playerLocation, searchRadius);

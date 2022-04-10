@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -24,7 +25,7 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.utils.CameraUtil;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.UnlocktoItem;
@@ -601,9 +602,10 @@ public class PlayerBodyData extends BodyData {
 	//used to calculate damage reduction from groups and also to process assists
 	private final ObjectMap<PlayerBodyData, Float> recentDamagedBy = new ObjectMap<>();
 	@Override
-	public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
+	public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox,
+							   DamageSource source, DamageTag... tags) {
 		float damage = baseDamage * getGroupDamageReduction(recentDamagedBy.size);
-		damage = super.receiveDamage(damage, knockback, perp, procEffects, hbox, tags);
+		damage = super.receiveDamage(damage, knockback, perp, procEffects, hbox, source, tags);
 
 		if (perp.schmuck.getHitboxfilter() != player.getHitboxfilter()) {
 			if (perp instanceof PlayerBodyData playerData) {
@@ -636,20 +638,20 @@ public class PlayerBodyData extends BodyData {
 	}
 
 	@Override
-	public void die(BodyData perp, DamageTypes... tags) {
+	public void die(BodyData perp, DamageSource source, DamageTag... tags) {
 		if (player.isAlive()) {
 			
 			DespawnType type = DespawnType.GIB;
 
 			//in the case of a disconnect, this is a special death with teleport particles instead of frags
-			for (DamageTypes tag : tags) {
-				if (tag == DamageTypes.DISCONNECT) {
-					type = DespawnType.TELEPORT;
-					break;
-				}
-				if (tag == DamageTypes.FIRE || tag == DamageTypes.ENERGY) {
-					type = DespawnType.VAPORIZE;
-					break;
+			if (source == DamageSource.DISCONNECT) {
+				type = DespawnType.TELEPORT;
+			} else {
+				for (DamageTag tag : tags) {
+					if (tag == DamageTag.FIRE || tag == DamageTag.ENERGY) {
+						type = DespawnType.VAPORIZE;
+						break;
+					}
 				}
 			}
 
@@ -662,14 +664,17 @@ public class PlayerBodyData extends BodyData {
 
 				//Send death notification to all players.
 				if (perp instanceof PlayerBodyData playerData) {
-					player.getState().getKillFeed().addMessage(playerData.getPlayer(), player, null, tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(playerData.getPlayer().getConnId(), player.getConnId(), null, tags));
+					player.getState().getKillFeed().addMessage(playerData.getPlayer(), player, null, source, tags);
+					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(playerData.getPlayer().getConnId(), player.getConnId(),
+							null, source, tags));
 				} else if (perp.getSchmuck() instanceof Enemy enemyData) {
-					player.getState().getKillFeed().addMessage(null, player, enemyData.getEnemyType(), tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnId(), enemyData.getEnemyType(), tags));
+					player.getState().getKillFeed().addMessage(null, player, enemyData.getEnemyType(), source, tags);
+					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnId(), enemyData.getEnemyType(),
+							source, tags));
 				} else {
-					player.getState().getKillFeed().addMessage(null, player, null, tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnId(), null, tags));
+					player.getState().getKillFeed().addMessage(null, player, null, source, tags);
+					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnId(),
+							null, source, tags));
 				}
 			}
 			
@@ -683,8 +688,9 @@ public class PlayerBodyData extends BodyData {
 				currentTool.unequip(player.getState());
 			}
 
-			super.die(perp, tags);
-			schmuck.getState().getMode().processPlayerDeath(schmuck.getState(), perp.getSchmuck(), player, tags);
+			super.die(perp, source, tags);
+
+			schmuck.getState().getMode().processPlayerDeath(schmuck.getState(), perp.getSchmuck(), player, source, tags);
 		}
 	}
 

@@ -1,6 +1,8 @@
 package com.mygdx.hadal.map;
 
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -8,7 +10,6 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
-import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 import static com.mygdx.hadal.save.UnlockEquip.*;
@@ -38,7 +39,7 @@ public class ModeGunGame extends ModeSetting {
     }
 
     @Override
-    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
+    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageSource source, DamageTag... tags) {
 
         //Note; we don't worry about suicides, b/c the perp counts as the world dummy, not the player themselves
         if (perp instanceof Player player) {

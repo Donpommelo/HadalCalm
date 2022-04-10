@@ -1,7 +1,29 @@
 {
-"UNKNOWN":  [
+"MISC":  [
         {
             "message": "<vic> died from mysterious causes", "weight": 1, "namedPerp": false
+        }
+    ],
+"DISCONNECT":  [
+        {
+            "message": "<vic> disconnected", "weight": 1, "namedPerp": false
+        }
+    ],
+"MAP_FALL":  [
+        {
+            "message": "<vic> plummeted to their death", "weight": 1, "namedPerp": false
+        },
+        {
+            "message": "<vic> fell off the edge of the world", "weight": 1, "namedPerp": false
+        },
+        {
+            "message": "<vic> fell into a bottomless pit", "weight": 1, "namedPerp": false
+        },
+        {
+            "message": "<vic> didn't fly so good", "weight": 1, "namedPerp": false
+        },
+        {
+            "message": "They never found <vic>'s body", "weight": 1, "namedPerp": false
         }
     ],
 "SUICIDE":  [
@@ -46,6 +68,9 @@
         },
         {
             "message": "Press F for <vic>", "weight": 1, "namedPerp": false
+        },
+        {
+            "message": "<vic> deleted system32", "weight": 1, "namedPerp": false
         }
     ],
 "ENEMY":  [
@@ -53,31 +78,137 @@
             "message": "a(n) <perp> mauled <vic>", "weight": 1, "namedPerp": false
         }
     ],
-"DISCONNECT":  [
+"AMITA_CANNON":  [
         {
-            "message": "<vic> disconnected", "weight": 1, "namedPerp": false
+            "message": "<perp> made <vic> one with the universe", "weight": 15, "namedPerp": false
+        },
+		{
+            "message": "<perp> helped <vic> reincarnate", "weight": 15, "namedPerp": false
+        },
+		{
+            "message": "<perp> extinguished <vic>'s suffering", "weight": 15, "namedPerp": false
+        },
+		{
+            "message": "<perp> spared <vic> from bad karma", "weight": 15, "namedPerp": false
         }
     ],
-"LIVES_OUT":  [
+"ASSAULT_BITS":  [
         {
-            "message": "<vic> ran out of lives", "weight": 1, "namedPerp": false
+            "message": "<perp> ganged up on <vic>", "weight": 15, "namedPerp": false
+        },
+		{
+            "message": "<perp> outnumbered <vic>", "weight": 15, "namedPerp": false
+        },
+		{
+            "message": "<perp> drone striked <vic>", "weight": 15, "namedPerp": false
+        },
+		{
+            "message": "<perp> blew <vic> to bits", "weight": 15, "namedPerp": false
+        },
+		{
+            "message": "<perp>'s drones shot <vic> in the <body part>", "weight": 15, "namedPerp": false
         }
     ],
-"BLASTZONE":  [
+"BANANA":  [
         {
-            "message": "<vic> plummeted to their death", "weight": 1, "namedPerp": false
+            "message": "<perp> potassium overdosed <vic>", "weight": 15, "namedPerp": true
         },
         {
-            "message": "<vic> fell off the edge of the world", "weight": 1, "namedPerp": false
+            "message": "<perp> slipped up <vic>", "weight": 15, "namedPerp": true
         },
         {
-            "message": "<vic> fell into a bottomless pit", "weight": 1, "namedPerp": false
+            "message": "<perp> banana split <vic>'s <body part>", "weight": 15, "namedPerp": true
+        }
+    ],
+"COLA_CANNON":  [
+        {
+            "message": "<perp> killed <vic> with the refreshing taste of Anchor Co. Cola(tm)", "weight": 40, "namedPerp": true
         },
         {
-            "message": "<vic> didn't fly so good", "weight": 1, "namedPerp": false
+            "message": "<perp> killed <vic> with the invigorating aroma of Anchor Co. Cola(tm)", "weight": 40, "namedPerp": true
         },
         {
-            "message": "They never found <vic>'s body", "weight": 1, "namedPerp": false
+            "message": "<perp> killed <vic> with the uplifting effervescence of Anchor Co. Cola(tm)", "weight": 40, "namedPerp": true
+        },
+        {
+            "message": "<perp> killed <vic> with an ice-cold, thirst-quenching can of Anchor Co. Cola(tm)", "weight": 40, "namedPerp": true
+        },
+        {
+            "message": "<perp> killed <vic> with diabetes", "weight": 10, "namedPerp": true
+        }
+],
+"FLOUNDERBUSS":  [
+        {
+            "message": "<perp> left <vic> floundering", "weight": 15, "namedPerp": true
+        },
+        {
+            "message": "<perp> shot <vic> like fish in a barrel", "weight": 15, "namedPerp": true
+        },
+        {
+            "message": "<perp> gave <vic> a fishy death", "weight": 15, "namedPerp": true
+        },
+        {
+            "message": "<perp> helped <vic> sleep with the fishes", "weight": 15, "namedPerp": true
+        }
+    ],
+"LOVE_BOW":  [
+        {
+            "message": "<perp> gave <vic> tough love", "weight": 15, "namedPerp": true
+        },
+        {
+            "message": "<perp> broke <vic>'s heart", "weight": 15, "namedPerp": true
+        }
+    ],
+"PARTY_POPPER":  [
+        {
+            "message": "<perp> partied <vic> to death", "weight": 15, "namedPerp": true
+        },
+        {
+            "message": "<perp> partied too hard for <vic>", "weight": 15, "namedPerp": true
+        },
+        {
+            "message": "<perp> confettied <vic> to death", "weight": 15, "namedPerp": true
+        }
+    ],
+"SLODGE_NOZZLE":  [
+        {
+            "message": "<perp> slodged all over <vic>'s <body part>", "weight": 15, "namedPerp": true
+        },
+        {
+            "message": "<perp> slodged <vic>", "weight": 15, "namedPerp": true
+        },
+        {
+            "message": "<perp> made <vic> meet a sticky end", "weight": 15, "namedPerp": true
+        }
+    ],
+"SNIPER_RIFLE":  [
+        {
+            "message": "<perp> sniped <vic>'s <body part>", "weight": 15, "namedPerp": true
+        },
+        {
+            "message": "<perp> shot <vic>'s <body part> from a distance", "weight": 5, "namedPerp": true
+        },
+        {
+            "message": "<perp> no-scoped <vic>'s <body part>", "weight": 5, "namedPerp": true
+        }
+    ],
+"STUTTERGUN":  [
+        {
+            "message": "<perp> s-s-shot <vic> in th-th-the <body part>", "weight": 10, "namedPerp": true
+        },
+        {
+            "message": "<perp> k-k-killed <vic> with a St-st-stuttergun", "weight": 10, "namedPerp": true
+        }
+    ],
+"TRICK_GUN":  [
+        {
+            "message": "<perp> flim-flammed <vic>", "weight": 25, "namedPerp": true
+        },
+        {
+            "message": "<perp> bamboozled <vic>", "weight": 25, "namedPerp": true
+        },
+        {
+            "message": "<perp> hornswoggled <vic>", "weight": 25, "namedPerp": true
         }
     ],
 "MELEE":  [
@@ -234,23 +365,6 @@
             "message": "<perp> shot <vic> before throwing him out of an aeroplane", "weight": 1, "namedPerp": true
         }
     ],
-"COLA":  [
-        {
-            "message": "<perp> killed <vic> with the refreshing taste of Anchor Co. Cola(tm)", "weight": 40, "namedPerp": true
-        },
-        {
-            "message": "<perp> killed <vic> with the invigorating aroma of Anchor Co. Cola(tm)", "weight": 40, "namedPerp": true
-        },
-        {
-            "message": "<perp> killed <vic> with the uplifting effervescence of Anchor Co. Cola(tm)", "weight": 40, "namedPerp": true
-        },
-        {
-            "message": "<perp> killed <vic> with an ice-cold, thirst-quenching can of Anchor Co. Cola(tm)", "weight": 40, "namedPerp": true
-        },
-        {
-            "message": "<perp> killed <vic> with diabetes", "weight": 10, "namedPerp": true
-        }
-],
 "CUTTING":  [
         {
             "message": "<vic> was decapitated", "weight": 10, "namedPerp": false
@@ -349,20 +463,6 @@
             "message": "<perp> <cook> a <vic> <dish> with <noun_vegetable>", "weight": 30, "namedPerp": true
         }
     ],
-"FISH":  [
-        {
-            "message": "<perp> left <vic> floundering", "weight": 15, "namedPerp": true
-        },
-        {
-            "message": "<perp> shot <vic> like fish in a barrel", "weight": 15, "namedPerp": true
-        },
-        {
-            "message": "<perp> gave <vic> a fishy death", "weight": 15, "namedPerp": true
-        },
-        {
-            "message": "<perp> helped <vic> sleep with the fishes", "weight": 15, "namedPerp": true
-        }
-    ],
 "LIGHTNING":  [
         {
             "message": "<perp> electrocuted <vic>", "weight": 15, "namedPerp": true
@@ -395,17 +495,6 @@
 "MAGIC":  [
         {
             "message": "<perp> killed <vic> with magic", "weight": 5, "namedPerp": true
-        }
-    ],
-"PARTY":  [
-        {
-            "message": "<perp> partied <vic> to death", "weight": 15, "namedPerp": true
-        },
-        {
-            "message": "<perp> partied too hard for <vic>", "weight": 15, "namedPerp": true
-        },
-        {
-            "message": "<perp> confettied <vic> to death", "weight": 15, "namedPerp": true
         }
     ],
 "POISON":  [
@@ -498,28 +587,6 @@
             "message": "<perp> killed <vic> with shrapnel", "weight": 15, "namedPerp": true
         }
     ],
-"SLODGE":  [
-        {
-            "message": "<perp> slodged all over <vic>'s <body part>", "weight": 15, "namedPerp": true
-        },
-        {
-            "message": "<perp> slodged <vic>", "weight": 15, "namedPerp": true
-        },
-        {
-            "message": "<perp> made <vic> meet a sticky end", "weight": 15, "namedPerp": true
-        }
-    ],
-"SNIPE":  [
-        {
-            "message": "<perp> sniped <vic>'s <body part>", "weight": 15, "namedPerp": true
-        },
-        {
-            "message": "<perp> shot <vic>'s <body part> from a distance", "weight": 5, "namedPerp": true
-        },
-        {
-            "message": "<perp> no-scoped <vic>'s <body part>", "weight": 5, "namedPerp": true
-        }
-    ],
 "SOUND":  [
         {
             "message": "<perp> destroyed <vic>'s eardrums", "weight": 15, "namedPerp": true
@@ -532,25 +599,6 @@
         },
         {
             "message": "<perp> showed <vic> the song of their people", "weight": 15, "namedPerp": true
-        }
-    ],
-"STUTTER":  [
-        {
-            "message": "<perp> s-s-shot <vic> in th-th-the <body part>", "weight": 10, "namedPerp": true
-        },
-        {
-            "message": "<perp> k-k-killed <vic> with a St-st-stuttergun", "weight": 10, "namedPerp": true
-        }
-    ],
-"TRICK":  [
-        {
-            "message": "<perp> flim-flammed <vic>", "weight": 25, "namedPerp": true
-        },
-        {
-            "message": "<perp> bamboozled <vic>", "weight": 25, "namedPerp": true
-        },
-        {
-            "message": "<perp> hornswoggled <vic>", "weight": 25, "namedPerp": true
         }
     ],
 "WATER":  [

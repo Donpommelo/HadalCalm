@@ -10,7 +10,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.Stats;
 
@@ -87,7 +87,7 @@ public class Schmuck extends HadalEntity {
 	public void controller(float delta) {
 		
 		//Apply base hp regen
-		getBodyData().regainHp(getBodyData().getStat(Stats.HP_REGEN) * delta, getBodyData(), true, DamageTypes.REGEN);
+		getBodyData().regainHp(getBodyData().getStat(Stats.HP_REGEN) * delta, getBodyData(), true, DamageTag.REGEN);
 		
 		//process cooldowns on firing
 		shootCdCount -= delta;

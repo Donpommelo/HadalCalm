@@ -14,7 +14,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -94,7 +94,7 @@ public class HealingArea extends Event {
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				if (entity instanceof Schmuck schmuck) {
 					schmuck.getBodyData().regainHp(heal * schmuck.getBodyData().getStat(Stats.MAX_HP) / 100.0f, perp.getBodyData(),
-							true, DamageTypes.REGEN);
+							true, DamageTag.REGEN);
 				}
 			}
 		}

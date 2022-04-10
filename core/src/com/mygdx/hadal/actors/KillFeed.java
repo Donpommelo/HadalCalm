@@ -5,12 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.text.HText;
 
 import java.math.RoundingMode;
@@ -52,11 +53,11 @@ public class KillFeed {
     private static final int deathInfoY = 330;
     private static final int deathInfoXEnabled = 0;
     private static final int deathInfoYEnabled = 330;
-    private static final int deathInfoWidth = 200;
-    private static final int deathInfoHeight = 150;
+    private static final int deathInfoWidth = 400;
+    private static final int deathInfoHeight = 240;
+    private static final int deathInfoPadding = 15;
 
-    private static final float scale = 0.4f;
-    private static final float scaleSide = 0.25f;
+    private static final float scale = 0.3f;
 
     //messages displayed in the feed
     private final Array<KillFeedMessage> messages = new Array<>();
@@ -72,6 +73,8 @@ public class KillFeed {
 
     //this contains information shown when waiting to respawn
     private Text deathInfo;
+    private String killedBy = "";
+    private String deathCause = "";
 
     public KillFeed(PlayState ps) {
         this.ps = ps;
@@ -138,10 +141,11 @@ public class KillFeed {
      * @param perp: the killer (if it is a player. Otherwise, this is null)
      * @param vic: The victim
      * @param type: if the victim died to an enemy, this is the enemy type (null otherwise)
+     * @param source: damage source of the killing instance of damage
      * @param tags: damage tags of the killing instance of damage
      */
-    public void addMessage(Player perp, Player vic, EnemyType type, DamageTypes... tags) {
-        KillFeedMessage message = new KillFeedMessage(ps, perp, vic, type, tags);
+    public void addMessage(Player perp, Player vic, EnemyType type, DamageSource source, DamageTag... tags) {
+        KillFeedMessage message = new KillFeedMessage(ps, perp, vic, type, source, tags);
         messages.add(message);
         feed.addActor(message);
 
@@ -150,6 +154,9 @@ public class KillFeed {
                 String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
                 addNotification(HText.YOU_HAVE_SLAIN.text(vicName), false);
             }
+        }
+        if (vic == ps.getPlayer()) {
+            setKillSource(perp, type, source);
         }
     }
 
@@ -250,9 +257,33 @@ public class KillFeed {
         this.respawnTime = respawnTime;
 
         Text deathInfoTitle = new Text(HText.RESPAWN_IN.text());
-        deathInfoTitle.setScale(scaleSide);
-        deathInfoTable.add(deathInfoTitle).row();
-        deathInfoTable.add(deathInfo);
+        deathInfoTitle.setScale(scale);
+
+        deathInfoTable.add(deathInfoTitle);
+        deathInfoTable.add(deathInfo).pad(deathInfoPadding).row();
+
+        if (!killedBy.isEmpty()) {
+            Text deathPerpTitle = new Text(HText.KILLED_BY.text());
+            deathPerpTitle.setScale(scale);
+
+            Text deathPerp = new Text(killedBy);
+            deathPerp.setScale(scale);
+
+            deathInfoTable.add(deathPerpTitle);
+            deathInfoTable.add(deathPerp).pad(deathInfoPadding).row();
+        }
+
+        if (!deathCause.isEmpty()) {
+            Text deathSourceTitle = new Text(HText.DEATH_CAUSE.text());
+            deathSourceTitle.setScale(scale);
+
+            Text deathSource = new Text(deathCause);
+            deathSource.setScale(scale);
+
+            deathInfoTable.add(deathSourceTitle);
+            deathInfoTable.add(deathSource).pad(deathInfoPadding).row();
+        }
+
         deathInfoTable.setVisible(true);
 
         deathInfoTable.addAction(Actions.sequence(
@@ -277,5 +308,21 @@ public class KillFeed {
      */
     public boolean isRespawnSpectator() {
         return respawnTime < totalRespawnTime - spectatorDurationThreshold && deathInfoTable.isVisible();
+    }
+
+    public void setKillSource(Player perp, EnemyType type, DamageSource source) {
+        killedBy = "";
+        if (perp != null) {
+            if (perp.equals(ps.getPlayer())) {
+                killedBy = HText.DEATH_CAUSE_YOURSELF.text();
+            } else {
+                killedBy = perp.getName();
+            }
+        }
+        if (type != null) {
+            killedBy = type.getName();
+        }
+
+        this.deathCause = source.getKillSource();
     }
 }

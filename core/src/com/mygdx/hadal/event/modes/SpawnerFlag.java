@@ -3,7 +3,7 @@ package com.mygdx.hadal.event.modes;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.SyncType;

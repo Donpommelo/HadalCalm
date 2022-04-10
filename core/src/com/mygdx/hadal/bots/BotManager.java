@@ -191,6 +191,8 @@ public class BotManager {
         //if we have this path cached, just return it to same some time
         if (start.getShortestPaths().containsKey(end)) {
             RallyPoint.routeValue cachedRoute = start.getShortestPaths().get(end);
+
+            //we do not want cached paths exclusive to an opposing team
             if (cachedRoute.teamIndex() == -1) {
                 return start.getShortestPaths().get(end).path();
             } else if (cachedRoute.teamIndex() < AlignmentFilter.currentTeams.length) {
@@ -231,6 +233,8 @@ public class BotManager {
                 int teamIndex = -1;
                 for (RallyPoint pointInPath: path.getPath()) {
                     tempPoints.add(pointInPath);
+
+                    //keep track of the path's team index for caching purposes
                     if (pointInPath.getTeamIndex() != -1) {
                         teamIndex = pointInPath.getTeamIndex();
                     }
@@ -243,6 +247,8 @@ public class BotManager {
 
             //iterate through all neighbors to calc their route and estimated score
             for (RallyPoint neighbor: parent.getConnections().keys()) {
+
+                //we only accept a path if it is not team exclusive, or if it exclusive to our own team
                 int teamIndex = parent.getConnections().get(neighbor).teamIndex();
                 if (teamIndex != -1) {
                     if (teamIndex < AlignmentFilter.currentTeams.length) {
@@ -316,6 +322,7 @@ public class BotManager {
             aimTemp.set(targetLocation).add(leadDisplace.scl(fract));
         }
 
+        //if the bot's aim is wobbling, we add their wobble to the aim
         if (wobble) {
             targeter.aimWobble();
             if (diffTemp.len2() > targeter.getCurrentWobble() * targeter.getCurrentWobble()) {

@@ -1,8 +1,9 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -31,7 +32,7 @@ public class MeteorStrike extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		WeaponUtils.createMeteors(state, new Vector2(mouseLocation).scl(1 / PPM), user.getPlayer(), meteorDuration,
-				meteorInterval, spread, baseDamage);
+				meteorInterval, spread, baseDamage, DamageSource.METEOR_STRIKE);
 	}
 	
 	@Override

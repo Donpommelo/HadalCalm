@@ -24,6 +24,7 @@ public class PlayerBot extends Player {
 
     //this is just a vector used for making the player's aim a set distance away from the target
     //at the moment, this just rotates in a circle around the target when the bot is using the cola cannon
+    //this is also used to make the bot's aim worse when on low difficulty
     private final Vector2 weaponWobble = new Vector2(1, 0);
     private final Vector2 aimWobble = new Vector2(1, 0);
     private float currentWobble;
@@ -50,25 +51,39 @@ public class PlayerBot extends Player {
     private static final float maxWobble = 25.0f;
     private static final float wobbleSpeed = 45.0f;
     private static final float aimWobbleSpeed = 15.0f;
-
+    /**
+     * This is run for weapon-caused wobbles (to charge cola cannon)
+     */
     public void weaponWobble() {
         weaponWobble.nor().scl(maxWobble);
         weaponWobble.setAngleDeg(weaponWobble.angleDeg() + wobbleSpeed);
     }
 
+    /**
+     * This is run for aim-caused wobbles (for bot difficulty settings)
+     */
     public void aimWobble() {
         aimWobble.nor().scl(currentWobble);
         aimWobble.setAngleDeg(aimWobble.angleDeg() + aimWobbleSpeed);
     }
 
+    /**
+     * When not aiming at a target, bot's aim wobble gradually increases to a max amount (depending on their aim)
+     */
     public void incrementWeaponWobble(float delta) {
         currentWobble = Math.min(personality.getWobbleMax(), currentWobble + personality.getWobbleIncrement() * delta);
     }
 
+    /**
+     * When aiming at a target, bot's aim wobble gradually decreases to a max amount (depending on their aim)
+     */
     public void decrementWeaponWobble(float delta) {
         currentWobble = Math.max(personality.getWobbleMin(), currentWobble - personality.getWobbleDecrement() * delta);
     }
 
+    /**
+     * Bot's aim wobble is reset to max amount when they start aiming towards a new target
+     */
     public void resetWeaponWobble() {
         currentWobble = personality.getWobbleMax();
     }

@@ -2,11 +2,12 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
@@ -19,8 +20,11 @@ public class DamageStandard extends HitboxStrategy {
 	private final float baseDamage, knockback;
 	
 	//damage tags determine the type of damage inflicted and is used for certain effects
-	private final DamageTypes[] tags;
-	
+	private final DamageTag[] tags;
+
+	//this is the effect/item/weapon source of the damage
+	private final DamageSource source;
+
 	//this contains all the units this hbox has damaged. Used to avoid damaging the same unit multiple times.
 	private final Array<HadalData> damaged = new Array<>();
 
@@ -38,11 +42,12 @@ public class DamageStandard extends HitboxStrategy {
 
 	private final Vector2 knockbackDirection = new Vector2();
 
-	public DamageStandard(PlayState state, Hitbox proj, BodyData user, float damage, float knockback, DamageTypes... tags) {
+	public DamageStandard(PlayState state, Hitbox proj, BodyData user, float damage, float knockback, DamageSource source, DamageTag... tags) {
 		super(state, proj, user);
 		this.baseDamage = damage;
 		this.knockback = knockback;
 		this.tags = tags;
+		this.source = source;
 	}
 	
 	@Override
@@ -69,11 +74,14 @@ public class DamageStandard extends HitboxStrategy {
 	private void inflictDamage(HadalData fixB) {
 		if (staticKnockback) {
 			kb.set(fixB.getEntity().getPixelPosition().x - this.hbox.getPixelPosition().x, fixB.getEntity().getPixelPosition().y - this.hbox.getPixelPosition().y);
-			fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), kb.nor().scl(knockback), creator, true, hbox, tags);
+			fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), kb.nor().scl(knockback), creator, true,
+					hbox, source, tags);
 		} else if (constantKnockback) {
-			fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), knockbackDirection.nor().scl(knockback), creator, true, hbox, tags);
+			fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), knockbackDirection.nor().scl(knockback), creator,
+					true, hbox, source, tags);
 		} else {
-			fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), hbox.getLinearVelocity().nor().scl(knockback), creator, true, hbox, tags);
+			fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), hbox.getLinearVelocity().nor().scl(knockback),
+					creator, true, hbox, source, tags);
 		}
 	}
 

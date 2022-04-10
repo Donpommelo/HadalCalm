@@ -1,6 +1,7 @@
 package com.mygdx.hadal.statuses;
 
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -28,7 +29,7 @@ public class CarryingFlag extends Status {
 	}
 
 	@Override
-	public void onDeath(BodyData perp) {
+	public void onDeath(BodyData perp, DamageSource source) {
 
 		//on death, notify players that flag was dropped
 		if (perp instanceof PlayerBodyData playerData) {

@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.HadalColor;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.map.SettingTeamMode;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.save.UnlockCharacter;
@@ -50,7 +50,7 @@ public enum AlignmentFilter {
     TEAM_GREY(-32, HadalColor.GREY, HadalColor.DARK_GREY, "GREY", HadalColor.GREY),
     TEAM_PLUM(-33, HadalColor.PLUM, HadalColor.VIOLET, "PLUM", HadalColor.VIOLET),
     TEAM_MAUVE(-34, HadalColor.MAUVE, HadalColor.PLUM, "MAUVE", HadalColor.VIOLET, HadalColor.BROWN),
-    TEAM_ORANGE(-35, HadalColor.ORANGE, HadalColor.GOLD, "ORANGE", HadalColor.ORANGE),
+    TEAM_ORANGE(-35, HadalColor.ORANGE, HadalColor.GOLD, "ORANGE", HadalColor.ORANGE, HadalColor.RED),
     TEAM_SKY_BLUE(-36, HadalColor.SKY_BLUE, HadalColor.TURQOISE, "SKY BLUE", HadalColor.BLUE),
     TEAM_TAN(-37, HadalColor.TAN, HadalColor.BROWN, "TAN", HadalColor.BROWN, HadalColor.ORANGE),
     TEAM_TURQUIOSE(-38, HadalColor.TURQOISE, HadalColor.BLUE, "TURQUOISE", HadalColor.BLUE, HadalColor.GREEN),

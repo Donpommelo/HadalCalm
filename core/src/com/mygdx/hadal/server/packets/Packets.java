@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryo.Kryo;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
@@ -18,7 +19,7 @@ import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -26,7 +27,7 @@ import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User.UserDto;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState.TransitionState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -1112,7 +1113,8 @@ public class Packets {
 		public int perpConnID;
 		public int vicConnID;
 		public EnemyType enemyType;
-		public DamageTypes[] tags;
+		public DamageSource source;
+		public DamageTag[] tags;
 
 		public SyncKillMessage() {}
 
@@ -1122,12 +1124,14 @@ public class Packets {
 		 * @param perpConnID: the connID of the perp (-1 if no player perp)
 		 * @param vicConnID: the connID of the vic
 		 * @param enemyType: the type of enemy that killed the player (null if not an enemy kill)
+		 * @param source: damage source of the last instance of damage.
 		 * @param tags: damage tags of the last instance of damage.
 		 */
-		public SyncKillMessage(int perpConnID, int vicConnID, EnemyType enemyType, DamageTypes... tags) {
+		public SyncKillMessage(int perpConnID, int vicConnID, EnemyType enemyType, DamageSource source, DamageTag... tags) {
 			this.perpConnID = perpConnID;
 			this.vicConnID = vicConnID;
 			this.enemyType = enemyType;
+			this.source = source;
 			this.tags = tags;
 		}
 	}
@@ -1300,8 +1304,9 @@ public class Packets {
 		kryo.register(EventDto.class);
 		kryo.register(EventDto.Pair.class);
 		kryo.register(SharedSetting.class);
-		kryo.register(DamageTypes.class);
-		kryo.register(DamageTypes[].class);
+		kryo.register(DamageSource.class);
+		kryo.register(DamageTag.class);
+		kryo.register(DamageTag[].class);
 		kryo.register(UserDto.class);
 		kryo.register(UserDto[].class);
 		kryo.register(SavedPlayerFields.class);

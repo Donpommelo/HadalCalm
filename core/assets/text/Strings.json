@@ -133,6 +133,13 @@
 
   "KF_YOU_HAVE_SLAIN" : "YOU HAVE SLAIN <s0>",
   "KF_RESPAWN" : "RESPAWN IN: ",
+  "KF_KILLED_BY" : "KILLED BY: ",
+  "KF_DEATH_CAUSE" : "CAUSE OF DEATH: ",
+  "KF_DEATH_CAUSE_YOURSELF" : "YOURSELF",
+  "DEATH_MESSAGE_SELF" : "<s0> killed themself",
+  "DEATH_MESSAGE_KILL" : "<s0> killed <s1>",
+  "DEATH_MESSAGE_ENEMY" : "<s0> was killed by a <s1>",
+  "DEATH_MESSAGE_MISC" : "<s0> died",
   "MSG_SEND" : "SEND",
   "RESULTS_INFO" : "<s0>\nK/D/A: <s1>/<s2>/<s3>\nScore: <s4>",
   "SCORE_PLAYER" : "PLAYER",

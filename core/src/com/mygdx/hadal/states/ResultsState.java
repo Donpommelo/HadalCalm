@@ -3,6 +3,7 @@ package com.mygdx.hadal.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -410,6 +411,7 @@ public class ResultsState extends GameState {
 						if (finalEffect != null) {
 							finalEffect.setPosition(getX() + particleOffsetX, getY() + particleOffsetY);
 							finalEffect.draw(batch, 0.0f);
+							batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 						}
 					}
 				};
@@ -521,7 +523,7 @@ public class ResultsState extends GameState {
 						if (!fieldExtra.getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
 							Text weaponField = new Text(HText.WEAPON.text((i + 1) + ": "));
 							weaponField.setScale(infoTextScale);
-							Text weapon = new Text(fieldExtra.getLoadout().multitools[i].name());
+							Text weapon = new Text(fieldExtra.getLoadout().multitools[i].getInfo().getName());
 							weapon.setScale(infoTextScale);
 							tableInfo.add(weaponField).height(infoRowHeight).left().padBottom(infoPadYSmall);
 							tableInfo.add(weapon).height(infoRowHeight).left().padBottom(infoPadYSmall).row();
@@ -529,7 +531,7 @@ public class ResultsState extends GameState {
 					}
 					Text activeField = new Text(HText.ACTIVE.text());
 					activeField.setScale(infoTextScale);
-					Text active = new Text(fieldExtra.getLoadout().activeItem.name());
+					Text active = new Text(fieldExtra.getLoadout().activeItem.getInfo().getName());
 					active.setScale(infoTextScale);
 					tableInfo.add(activeField).height(infoRowHeight).left().padBottom(infoPadYSmall);
 					tableInfo.add(active).height(infoRowHeight).left().padBottom(infoPadYSmall).row();
@@ -631,7 +633,7 @@ public class ResultsState extends GameState {
         }
 
 		for (PooledEffect effect: effects) {
-			effect.free();
+			Particle.PARTY.removeEffect(effect);
 		}
 	}
 

@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 
 public class BenthicDesires extends Artifact {
@@ -27,7 +27,7 @@ public class BenthicDesires extends Artifact {
 				boolean activated = p.getSchmuck().getLinearVelocity().len2() < speedThreshold;
 				if (!state.getMode().equals(GameMode.CAMPAIGN) && !state.getMode().equals(GameMode.BOSS)) {
 					if (activated) {
-						p.regainHp(hpRegen * delta, p, false, DamageTypes.REGEN);
+						p.regainHp(hpRegen * delta, p, false, DamageTag.REGEN);
 					}
 				}
 				if (activated) {

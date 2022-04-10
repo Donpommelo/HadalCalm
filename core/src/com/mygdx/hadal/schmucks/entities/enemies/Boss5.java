@@ -7,11 +7,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.IntArray;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.EnemyUtils;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -19,7 +20,7 @@ import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -197,7 +198,8 @@ public class Boss5 extends EnemyFloating {
 					hbox.setAdjustAngle(true);
 
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), shot1Damage, shot1Knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), shot1Damage, shot1Knockback,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, particleLinger));
 					hbox.addStrategy(new DieParticles(state, hbox, getBodyData(), Particle.DIATOM_IMPACT_SMALL));
@@ -412,7 +414,8 @@ public class Boss5 extends EnemyFloating {
 
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new AdjustAngle(state, hbox, getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), sporeDamage, sporeKB, DamageTypes.RANGED));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), sporeDamage, sporeKB,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), sporeHoming, sporeHomingRadius));
 					hbox.addStrategy(new FlashNearDeath(state, hbox, getBodyData(), 1.0f, true));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
@@ -442,7 +445,8 @@ public class Boss5 extends EnemyFloating {
 								frag.setRestitution(1.0f);
 
 								frag.addStrategy(new ControllerDefault(state, frag, getBodyData()));
-								frag.addStrategy(new DamageStandard(state, frag, getBodyData(), sporeFragDamage, sporeFragKB, DamageTypes.RANGED).setStaticKnockback(true));
+								frag.addStrategy(new DamageStandard(state, frag, getBodyData(), sporeFragDamage, sporeFragKB,
+										DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setStaticKnockback(true));
 								frag.addStrategy(new ContactUnitDie(state, frag, getBodyData()));
 								frag.addStrategy(new ContactUnitSound(state, frag, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 								frag.addStrategy(new Spread(state, frag, getBodyData(), sporeSpread));
@@ -544,7 +548,8 @@ public class Boss5 extends EnemyFloating {
 							pulse.makeUnreflectable();
 
 							pulse.addStrategy(new ControllerDefault(state, pulse, getBodyData()));
-							pulse.addStrategy(new DamageStandard(state, pulse, getBodyData(), scytheDamage, scytheKB, DamageTypes.RANGED).setStaticKnockback(true));
+							pulse.addStrategy(new DamageStandard(state, pulse, getBodyData(), scytheDamage, scytheKB,
+									DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setStaticKnockback(true));
 							pulse.addStrategy(new FixedToEntity(state, pulse, getBodyData(), scythe, new Vector2(), new Vector2()).setRotate(true));
 							pulse.addStrategy(new ContactUnitSound(state, pulse, getBodyData(), SoundEffect.ZAP, 0.6f, true));
 						}
@@ -608,7 +613,8 @@ public class Boss5 extends EnemyFloating {
 					orbital.makeUnreflectable();
 
 					orbital.addStrategy(new ControllerDefault(state, orbital, getBodyData()));
-					orbital.addStrategy(new DamageStandard(state, orbital, getBodyData(), orbitalDamage, orbitalKB, DamageTypes.RANGED).setStaticKnockback(true).setRepeatable(true));
+					orbital.addStrategy(new DamageStandard(state, orbital, getBodyData(), orbitalDamage, orbitalKB,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setStaticKnockback(true).setRepeatable(true));
 					orbital.addStrategy(new ContactUnitSound(state, orbital, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 					orbital.addStrategy(new HitboxStrategy(state, orbital, getBodyData()) {
 
@@ -699,7 +705,8 @@ public class Boss5 extends EnemyFloating {
 
 							//if boss is not moving, hbox does nothing
 							if (!savedVelo.isZero()) {
-								shadow.addStrategy(new DamageStandard(state, shadow, getBodyData(), shadowDamage, shadowKB, DamageTypes.RANGED));
+								shadow.addStrategy(new DamageStandard(state, shadow, getBodyData(), shadowDamage, shadowKB,
+										DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 								shadow.addStrategy(new ContactUnitDie(state, shadow, getBodyData()));
 								shadow.addStrategy(new ContactWallDie(state, shadow, getBodyData()));
 								shadow.addStrategy(new CreateParticles(state, shadow, getBodyData(), Particle.POLLEN_FIRE, 0.0f, 1.0f));

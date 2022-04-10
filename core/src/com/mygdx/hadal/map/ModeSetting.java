@@ -3,13 +3,14 @@ package com.mygdx.hadal.map;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
 
 /**
  * This is a single setting for a mode.
@@ -72,10 +73,10 @@ public class ModeSetting {
 
     /**
      * This is run when a player dies.
-     * @param perp: the schmuck (not necessarily player) that killed
-     * @param vic: the player that died
+     * @param perp : the schmuck (not necessarily player) that killed
+     * @param vic : the player that died
      */
-    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {}
+    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageSource source, DamageTag... tags) {}
 
     /**
      * This is run when a player's score changes

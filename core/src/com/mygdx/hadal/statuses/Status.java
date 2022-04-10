@@ -1,6 +1,8 @@
 package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -85,15 +87,15 @@ public class Status implements Comparable<Status> {
 		}
 	}
 
-	public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageTypes... tags) { return damage; }
+	public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) { return damage; }
 	
-	public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) { return damage; }
+	public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) { return damage; }
 
-	public float onHeal(float damage, BodyData perp, DamageTypes... tags) { return damage; }
+	public float onHeal(float damage, BodyData perp, DamageTag... tags) { return damage; }
 	
-	public void onKill(BodyData vic) {}
+	public void onKill(BodyData vic, DamageSource source) {}
 	
-	public void onDeath(BodyData perp) {}
+	public void onDeath(BodyData perp, DamageSource source) {}
 
 	public void whileAttacking(float delta, Equippable tool) {}
 	

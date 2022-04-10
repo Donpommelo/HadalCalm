@@ -5,10 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.actors.UITag;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.map.SettingLoadoutMode.LoadoutMode;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.map.modifiers.*;
@@ -24,7 +25,7 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
@@ -271,7 +272,7 @@ public enum GameMode {
      * @param perp: the schmuck (not necessarily player) that killed
      * @param vic: the player that died
      */
-    public void processPlayerDeath(PlayState state, Schmuck perp, Player vic, DamageTypes... tags) {
+    public void processPlayerDeath(PlayState state, Schmuck perp, Player vic, DamageSource source, DamageTag... tags) {
         if (!state.isServer()) { return; }
         if (vic != null) {
             User user = vic.getUser();
@@ -297,7 +298,7 @@ public enum GameMode {
             }
         }
         for (ModeSetting setting : applicableSettings) {
-            setting.processPlayerDeath(state, this, perp, vic, tags);
+            setting.processPlayerDeath(state, this, perp, vic, source, tags);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -19,18 +20,23 @@ public class DiePoison extends HitboxStrategy {
 	
 	//the hbox filter that determines who can be damaged by the poison
 	private final short filter;
-	
-	public DiePoison(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {
+
+	//this is the effect/item/weapon source of the poison
+	private final DamageSource source;
+
+	public DiePoison(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, float poisonDuration,
+					 short filter, DamageSource source) {
 		super(state, proj, user);
 		this.poisonRadius = poisonRadius;
 		this.poisonDamage = poisonDamage;
 		this.poisonDuration = poisonDuration;
 		this.filter = filter;
+		this.source = source;
 	}
 	
 	@Override
 	public void die() {
 		new Poison(state, this.hbox.getPixelPosition(), new Vector2(poisonRadius, poisonRadius), poisonDamage, poisonDuration,
-			creator.getSchmuck(), true, filter);
+			creator.getSchmuck(), true, filter, source);
 	}
 }

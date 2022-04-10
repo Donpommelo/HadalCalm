@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -104,7 +105,7 @@ public class OurGetAlongShirt extends Artifact {
 			}
 			
 			@Override
-			public void onDeath(BodyData perp) {
+			public void onDeath(BodyData perp, DamageSource source) {
 				deattach();
 			}
 			

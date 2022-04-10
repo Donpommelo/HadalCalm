@@ -4,9 +4,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.EnemyUtils;
+import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -60,7 +61,7 @@ public class KBKLarge extends EnemySwimming {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()) {
 			
 			@Override
-			public void onDeath(BodyData perp) {
+			public void onDeath(BodyData perp, DamageSource source) {
 				
 				new ParticleEntity(state, new Vector2(inflicted.getSchmuck().getPixelPosition()), Particle.KAMABOKO_IMPACT, 2.0f, true, SyncType.CREATESYNC);
 				

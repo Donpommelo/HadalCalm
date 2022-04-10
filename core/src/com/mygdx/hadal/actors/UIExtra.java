@@ -61,12 +61,13 @@ public class UIExtra extends AHadalActor {
 		text.setLength(0);
 
 		User user = null;
+
+		//if we are spectating another player, we want to ui to match the spectate target instead of ourselves
 		boolean spectatorFound = false;
 		if (state.isSpectatorMode()) {
 			if (state.getUiSpectator().getSpectatorTarget() != null) {
 				user = state.getUiSpectator().getSpectatorTarget().getUser();
 				spectatorFound = true;
-
 			}
 		}
 		if (!spectatorFound) {
@@ -99,7 +100,6 @@ public class UIExtra extends AHadalActor {
 		for (String type : tags.split(",")) {
 			
 			boolean found = false;
-			
 			for (UITag.uiType tag: UITag.uiType.values()) {
 				if (tag.toString().equals(type)) {
 					found = true;
@@ -162,7 +162,7 @@ public class UIExtra extends AHadalActor {
 
 		timer += (timerIncr * delta);
 
-		//timer text changees after a whole second passes
+		//timer text changes after a whole second passes
 		if ((int) timer != currentTimer) {
 			currentTimer = (int) timer;
 

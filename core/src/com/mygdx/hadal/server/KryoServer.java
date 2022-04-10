@@ -12,6 +12,7 @@ import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.kryonet.serialization.KryoSerialization;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -22,7 +23,6 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.*;
-import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -102,7 +102,7 @@ public class KryoServer {
 
 							//Inform all that the player disconnected and kill the player
 							if (player.getPlayerData() != null) {
-								player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageTypes.DISCONNECT);
+								player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageSource.DISCONNECT);
 							}
 							addNotificationToAll(ps, "", HText.CLIENT_DISCONNECTED.text(player.getName()), true, DialogType.SYSTEM);
 						});
@@ -536,7 +536,7 @@ public class KryoServer {
 								if (player != null) {
 									if (player.getPlayerData() != null) {
 										player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(),
-												false, null);
+												false, null, DamageSource.DISCONNECT);
 									}
 								}
 							}

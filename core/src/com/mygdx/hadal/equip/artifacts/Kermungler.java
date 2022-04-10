@@ -1,11 +1,12 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 
 public class Kermungler extends Artifact {
@@ -24,7 +25,7 @@ public class Kermungler extends Artifact {
 		enchantment = new Status(state, p) {
 			
 			@Override
-			public float onDealDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
+			public float onDealDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				float finalDamage = damage;
 				finalDamage += damage * damageAmp;
 				finalDamage += damage * (-damageVariance + MathUtils.random() * 2 * damageVariance);
@@ -32,7 +33,7 @@ public class Kermungler extends Artifact {
 			}
 			
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				float finalDamage = damage;
 				finalDamage -= damage * damageRes;
 				finalDamage += damage * (-damageVariance + MathUtils.random() * 2 * damageVariance);

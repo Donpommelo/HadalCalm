@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -10,12 +11,12 @@ import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
@@ -100,7 +101,8 @@ public class VineSower extends RangedWeapon {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageSource.VINE_SOWER,
+				DamageTag.RANGED));
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
@@ -194,7 +196,8 @@ public class VineSower extends RangedWeapon {
 
 					vine.addStrategy(new ControllerDefault(state, vine, user.getBodyData()));
 					vine.addStrategy(new ContactUnitSound(state, vine, user.getBodyData(), SoundEffect.STAB, 0.6f, true).setSynced(false));
-					vine.addStrategy(new DamageStandard(state, vine, user.getBodyData(), vineDamage, vineKB, DamageTypes.RANGED).setStaticKnockback(true));
+					vine.addStrategy(new DamageStandard(state, vine, user.getBodyData(), vineDamage, vineKB,
+							DamageSource.VINE_SOWER, DamageTag.RANGED).setStaticKnockback(true));
 					vine.addStrategy(new CreateParticles(state, vine, user.getBodyData(), Particle.DANGER_RED, 0.0f, 1.0f)
 							.setParticleSize(90.0f).setSyncType(SyncType.NOSYNC));
 					vine.addStrategy(new DieParticles(state, vine, user.getBodyData(), Particle.PLANT_FRAG).setSyncType(SyncType.NOSYNC));

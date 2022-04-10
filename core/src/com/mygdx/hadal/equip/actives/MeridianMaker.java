@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
@@ -12,7 +13,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -57,7 +58,7 @@ public class MeridianMaker extends ActiveItem {
 		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
-		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.MAGIC));
+		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageSource.MERIDIAN_MAKER, DamageTag.MAGIC));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user));
 		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.BRIGHT, 0.0f, 1.0f).setParticleColor(HadalColor.SKY_BLUE).setParticleSize(20));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {

@@ -5,12 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.text.HText;
 
 import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
@@ -82,7 +83,7 @@ public class SettingLives extends ModeSetting {
     }
 
     @Override
-    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
+    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageSource source, DamageTag... tags) {
 
         //null check in case this is an "extra kill" to give summoner kill credit for a summon
         if (vic != null) {

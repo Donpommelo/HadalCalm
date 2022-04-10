@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -11,10 +12,10 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.FiringWeapon;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.text.HText;
@@ -86,6 +87,12 @@ public class ColaCannon extends RangedWeapon {
 
 		charging = true;
 		mouseLocation.set(((Player) user).getMouse().getPixelPosition());
+
+		//this prevents initial charge gain dependent on spawn location distance from (0, 0)
+		if (lastMouse.isZero()) {
+			lastMouse.set(mouseLocation);
+		}
+
 		//While held, gain charge equal to mouse movement from location last update
 		if (chargeCd < getChargeTime()) {
 			chargeCd += lastMouse.dst(mouseLocation);
@@ -114,7 +121,8 @@ public class ColaCannon extends RangedWeapon {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.COLA_IMPACT).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.COLA, DamageTypes.RANGED));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback,
+				DamageSource.COLA_CANNON, DamageTag.RANGED));
 
 		return hbox;
 	}

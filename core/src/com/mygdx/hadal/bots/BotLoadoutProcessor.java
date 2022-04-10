@@ -508,9 +508,13 @@ public class BotLoadoutProcessor {
     private static final UnlockArtifact[] misc1 = { UnlockArtifact.ANARCHISTS_COOKBOOK, UnlockArtifact.BUTTONMAN_BUTTONS, UnlockArtifact.ICE9,
             UnlockArtifact.SINKING_FEELING};
 
+    /**
+     * This gives a bot a set of random artifacts from a curated list, obeying artifact slot restrictions
+     */
     public static UnlockArtifact[] getRandomArtifacts(PlayState state) {
         UnlockArtifact[] artifacts = new UnlockArtifact[]{ UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING,  UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING };
 
+        //easy bots or bots in single player when the player has no artifacts do not use artifacts
         if (state.getMode().getBotDifficulty().equals(BotPersonality.BotDifficulty.EASY) ||
                 (GameStateManager.currentMode.equals(GameStateManager.Mode.SINGLE) &&
                         state.getPlayer().getPlayerData().getArtifactSlotsUsed() == 0)) {
@@ -525,6 +529,8 @@ public class BotLoadoutProcessor {
 
         while (slots > 0) {
             artifactOptions.clear();
+
+            //if there a=is >1 slot available, bots will prioritize having at least 1 mobility item
             if (!mobilityFound) {
                 mobilityFound = true;
                 artifactOptions.addAll(mobility2);
@@ -548,9 +554,22 @@ public class BotLoadoutProcessor {
             }
 
             if (artifactOptions.size > 0 && currentSlot < artifacts.length) {
-                artifacts[currentSlot] = artifactOptions.get(MathUtils.random(artifactOptions.size - 1));
-                slots -= artifacts[currentSlot].getArtifact().getSlotCost();
-                currentSlot++;
+                UnlockArtifact newArtifact = artifactOptions.get(MathUtils.random(artifactOptions.size - 1));
+                boolean artifactUnique = true;
+
+                //we want to avoid trying to equip the same artifact multiple times
+                for (UnlockArtifact artifact : artifacts) {
+                    if (newArtifact == artifact) {
+                        artifactUnique = false;
+                        break;
+                    }
+                }
+
+                if (artifactUnique) {
+                    artifacts[currentSlot] = artifactOptions.get(MathUtils.random(artifactOptions.size - 1));
+                    slots -= artifacts[currentSlot].getArtifact().getSlotCost();
+                    currentSlot++;
+                }
             }
         }
 

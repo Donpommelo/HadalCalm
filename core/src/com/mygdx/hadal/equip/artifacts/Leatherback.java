@@ -1,10 +1,11 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 
 public class Leatherback extends Artifact {
@@ -21,7 +22,7 @@ public class Leatherback extends Artifact {
 		enchantment = new Status(state, p) {
 			
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (damaging != null) {
 					boolean flip = Math.abs(p.getPlayer().getAttackAngle()) > 90;
 					if (damaging.isPositionBasedOnUser()) {

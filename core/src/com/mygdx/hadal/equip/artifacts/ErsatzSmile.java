@@ -1,12 +1,13 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 
 public class ErsatzSmile extends Artifact {
@@ -24,7 +25,7 @@ public class ErsatzSmile extends Artifact {
 		enchantment = new Status(state, p) {
 
 			@Override
-			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageTypes... tags) {
+			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (damaging != null) {
 					boolean flip = false;
 

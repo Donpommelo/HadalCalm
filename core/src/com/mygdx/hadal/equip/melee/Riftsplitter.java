@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.melee;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
@@ -10,11 +11,11 @@ import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -64,7 +65,8 @@ public class Riftsplitter extends MeleeWeapon {
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE, DamageTypes.CUTTING));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageSource.RIFTSPLITTER,
+				DamageTag.MELEE, DamageTag.CUTTING));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)
 				.setParticleColor(HadalColor.TURQOISE).setSyncType(SyncType.NOSYNC));
 		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)
@@ -96,7 +98,7 @@ public class Riftsplitter extends MeleeWeapon {
 				shockwave.addStrategy(new AdjustAngle(state, shockwave, user.getBodyData()));
 				shockwave.addStrategy(new ContactWallDie(state, shockwave, user.getBodyData()));
 				shockwave.addStrategy(new DamageStandard(state, shockwave, user.getBodyData(), shockwaveDamage, knockback,
-						DamageTypes.MELEE, DamageTypes.CUTTING));
+						DamageSource.RIFTSPLITTER, DamageTag.MELEE, DamageTag.CUTTING));
 				shockwave.addStrategy(new ContactWallParticles(state, shockwave, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)
 						.setParticleColor(HadalColor.TURQOISE).setSyncType(SyncType.NOSYNC));
 				shockwave.addStrategy(new ContactUnitParticles(state, shockwave, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)

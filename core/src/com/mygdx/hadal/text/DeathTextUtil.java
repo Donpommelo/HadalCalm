@@ -4,12 +4,13 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.dialog.DeathMessage;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 
@@ -24,18 +25,19 @@ public class DeathTextUtil {
 	 * This returns a death message for a specific kill
 	 * The player can toggle on "verbose death messages" in settings for simple or complex death messages
 	 */
-	public static String getDeathText(GameStateManager gsm, Player perp, Player vic, EnemyType type, DamageTypes... tags) {
+	public static String getDeathText(GameStateManager gsm, Player perp, Player vic, EnemyType type, DamageSource source,
+									  DamageTag... tags) {
 		if (gsm.getSetting().isVerboseDeathMessage()) {
-			return getDeathTextVerbose(perp, vic, type, tags);
+			return getDeathTextVerbose(perp, vic, type, source, tags);
 		} else {
-			return getDeathTextAbridged(perp, vic, type, tags);
+			return getDeathTextAbridged(perp, vic, type);
 		}
 	}
 	
 	/**
 	 * verbose text messages read damage tags and randomly choose a valid string from a file
 	 */
-	public static String getDeathTextVerbose(Player perp, Player vic, EnemyType type, DamageTypes... tags) {
+	public static String getDeathTextVerbose(Player perp, Player vic, EnemyType type, DamageSource source, DamageTag... tags) {
 
 		Array<String> possibleMessages = new Array<>();
 		
@@ -53,13 +55,13 @@ public class DeathTextUtil {
 			possibleMessages.addAll(getValidMessages("ENEMY", false));
 		}
 
+		possibleMessages.addAll(getValidMessages(source.toString(), namedPerp));
+
 		//iterate through all tags and add all valid messages
 		if (tags.length > 0) {
-			for (final DamageTypes tag : tags) {
+			for (final DamageTag tag : tags) {
 				possibleMessages.addAll(getValidMessages(tag.toString(), namedPerp));
 			}
-		} else {
-			possibleMessages.addAll(getValidMessages("UNKNOWN", namedPerp));
 		}
 
 		//universal tags exist in case we find no valid tags
@@ -121,32 +123,21 @@ public class DeathTextUtil {
 	/**
 	 * Simple death messages only indicate perpetrator and victim
 	 */
-	public static String getDeathTextAbridged(Player perp, Player vic, EnemyType type, DamageTypes... tags) {
+	public static String getDeathTextAbridged(Player perp, Player vic, EnemyType type) {
 
 		String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
 		String perpName = WeaponUtils.getPlayerColorName(perp, MAX_NAME_LENGTH);
 
-		if (tags.length > 0) {
-			switch (tags[0]) {
-			case LIVES_OUT:
-				return vicName + " ran out of lives.";
-			case DISCONNECT:
-				return vicName + " disconnected.";
-			default:
-				break;
-			}
-		}
-
 		if (perp != null) {
 			if (perp.getConnId() == vic.getConnId()) {
-				return vicName + " killed themself.";
+				return HText.DEATH_SELF.text(vicName);
 			} else {
-				return perpName + " killed " + vicName + ".";
+				return HText.DEATH_KILL.text(perpName, vicName);
 			}
 		} else if (type != null) {
-			return vicName + " was killed by a " + type.name() + ".";
+			return HText.DEATH_ENEMY.text(vicName, type.getName());
 		} else {
-			return vicName + " died.";
+			return HText.DEATH_MISC.text(vicName);
 		}
 	}
 }

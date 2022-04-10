@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -26,7 +27,7 @@ public class RedTideTalisman extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				if (hbox.isEffectsHit()) {
-					hbox.addStrategy(new ContactUnitBurn(state, hbox, p, fireDuration, fireDamage));
+					hbox.addStrategy(new ContactUnitBurn(state, hbox, p, fireDuration, fireDamage, DamageSource.RED_TIDE_TALISMAN));
 				}
 				if (hbox.isEffectsVisual()) {
 					hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.FIRE, hbox.getLifeSpan(), 1.0f).setParticleSize(50));

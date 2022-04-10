@@ -1405,14 +1405,14 @@
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="111" name="Current" type="Current" x="704" y="2240" width="96" height="256">
+  <object id="111" name="Current" type="Current" x="704" y="2400" width="96" height="96">
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="6"/>
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="112" name="Current" type="Current" x="800" y="2240" width="192" height="160">
+  <object id="112" name="Current" type="Current" x="704" y="2240" width="288" height="160">
    <properties>
     <property name="currentX" type="float" value="6"/>
     <property name="currentY" type="float" value="0"/>
@@ -1426,14 +1426,14 @@
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="114" name="Current" type="Current" x="9472" y="2240" width="96" height="256">
+  <object id="114" name="Current" type="Current" x="9472" y="2400" width="96" height="96">
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="6"/>
     <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="115" name="Current" type="Current" x="9280" y="2240" width="192" height="160">
+  <object id="115" name="Current" type="Current" x="9280" y="2240" width="288" height="160">
    <properties>
     <property name="currentX" type="float" value="-6"/>
     <property name="currentY" type="float" value="0"/>

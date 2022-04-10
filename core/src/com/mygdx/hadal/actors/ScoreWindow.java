@@ -93,12 +93,15 @@ public class ScoreWindow {
 		float scoreHeight = scoreRowHeight;
 		float scorePad = scorePadY;
 
+		//we calculate the size of each name based on the number of players
 		int size;
 		if (state.isServer()) {
 			size = HadalGame.server.getUsers().size;
 		} else {
 			size = HadalGame.client.getUsers().size;
 		}
+
+		//if there are too many players, we start to gradually reduce the size + padding of each
 		boolean shrink = size > scoreMinPlayersAdjust;
 		if (shrink) {
 			float rowHeight = scoreTitleHeightAim / Math.min(size, scoreMaxPlayersAdjust);
@@ -324,6 +327,7 @@ public class ScoreWindow {
 		Text wins = new Text(field.getWins() + " ");
 		wins.setScale(scoreScale);
 
+		//this displays the player's artifacts. Mouse over to see details
 		Table tableArtifact = new Table();
 		if (user.getPlayer() != null) {
 			if (user.getPlayer().getPlayerData() != null) {
@@ -336,7 +340,6 @@ public class ScoreWindow {
 				}
 			}
 		}
-
 
 		tableScore.add(name).width(scoreNameWidth).height(scoreHeight).padBottom(scorePad).align(Align.center);
 		tableScore.add(kda).height(scoreHeight).padRight(scorePadX).padBottom(scorePad);

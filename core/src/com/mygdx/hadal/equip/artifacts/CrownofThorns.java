@@ -2,13 +2,14 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
@@ -51,7 +52,7 @@ public class CrownofThorns extends Artifact {
 			
 			private final Vector2 angle = new Vector2(1, 0);
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount = 0;
 					
@@ -67,7 +68,8 @@ public class CrownofThorns extends Artifact {
 						hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, p));
 						hbox.addStrategy(new AdjustAngle(state, hbox, p));
 						hbox.addStrategy(new ContactWallDie(state, hbox, p));
-						hbox.addStrategy(new DamageStandard(state, hbox, p, thornDamage, thornKnockback, DamageTypes.POKING, DamageTypes.RANGED));
+						hbox.addStrategy(new DamageStandard(state, hbox, p, thornDamage, thornKnockback, DamageSource.CROWN_OF_THORNS,
+								DamageTag.POKING, DamageTag.RANGED));
 						hbox.addStrategy(new ContactUnitSound(state, hbox, p, SoundEffect.STAB, 0.25f, true));
 					}
 				}

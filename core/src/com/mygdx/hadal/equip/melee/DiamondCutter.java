@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.melee;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
@@ -10,11 +11,11 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
@@ -124,7 +125,8 @@ public class DiamondCutter extends MeleeWeapon {
 					pulse.makeUnreflectable();
 
 					pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE).setStaticKnockback(true));
+					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), baseDamage, knockback,
+							DamageSource.DIAMOND_CUTTER, DamageTag.MELEE).setStaticKnockback(true));
 
 					if (!state.isServer()) {
 						((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectLayer.HBOX);

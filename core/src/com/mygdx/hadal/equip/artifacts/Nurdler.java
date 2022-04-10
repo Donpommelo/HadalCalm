@@ -1,13 +1,14 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -58,7 +59,7 @@ public class Nurdler extends Artifact {
 					hbox.addStrategy(new ControllerDefault(state, hbox, p));
 					hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, p));
 					hbox.addStrategy(new ContactWallDie(state, hbox, p));
-					hbox.addStrategy(new DamageStandard(state, hbox, p, baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new DamageStandard(state, hbox, p, baseDamage, knockback, DamageSource.NURDLER, DamageTag.RANGED));
 					hbox.addStrategy(new Spread(state, hbox, p, spread));
 				}
 			}

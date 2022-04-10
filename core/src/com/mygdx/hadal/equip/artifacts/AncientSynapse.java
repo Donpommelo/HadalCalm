@@ -1,11 +1,12 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 
 import static com.mygdx.hadal.utils.Constants.PRIORITY_LAST_LAST;
@@ -34,7 +35,7 @@ public class AncientSynapse extends Artifact {
 					procCdCount -= procCd;
 					if (damageLeft > 0.0f) {
 						float damage = procCd * (baseDegen + degen * damageLeft);
-						p.receiveDamage(damage, new Vector2(), p, false, null);
+						p.receiveDamage(damage, new Vector2(), p, false, null, DamageSource.ANCIENT_SYNAPSE);
 						damageLeft -= damage;
 					}
 				}
@@ -42,7 +43,7 @@ public class AncientSynapse extends Artifact {
 			}
 			
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				damageLeft += damage;
 				return 0;
 			}

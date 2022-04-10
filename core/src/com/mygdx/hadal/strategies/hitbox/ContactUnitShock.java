@@ -1,5 +1,6 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -16,22 +17,26 @@ public class ContactUnitShock extends HitboxStrategy {
 	
 	//the damage of each chain shock
 	private final float damage;
-	
+
 	//the distance that the lightning will chain to and the number of total lightning jumps that will occur
 	private final int radius, chain;
 	
 	//the hbox filter of the user. This determines which targets the chain lightning will jump to.
 	private final short filter;
-	
+
+	//this is the effect/item/weapon source of the shock
+	private final DamageSource source;
+
 	//has this strategy activated yet? This makes sure we do not activate the effect multiple times
 	private boolean shocked;
 	
-	public ContactUnitShock(PlayState state, Hitbox proj, BodyData user, float damage, int radius, int chain, short filter) {
+	public ContactUnitShock(PlayState state, Hitbox proj, BodyData user, float damage, int radius, int chain, short filter, DamageSource source) {
 		super(state, proj, user);
 		this.damage = damage;
 		this.radius = radius;
 		this.chain = chain;
 		this.filter = filter;
+		this.source = source;
 	}
 	
 	@Override
@@ -39,7 +44,7 @@ public class ContactUnitShock extends HitboxStrategy {
 		if (!shocked && state.isServer()) {
 			if (fixB instanceof BodyData bodyData) {
 				shocked = true;
-				bodyData.addStatus(new Shocked(state, creator, bodyData, damage, radius, chain, filter));
+				bodyData.addStatus(new Shocked(state, creator, bodyData, damage, radius, chain, filter, source));
 			}
 		}
 	}

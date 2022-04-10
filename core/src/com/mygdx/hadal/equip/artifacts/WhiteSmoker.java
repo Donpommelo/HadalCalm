@@ -1,12 +1,13 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
@@ -49,8 +50,9 @@ public class WhiteSmoker extends Artifact {
 				hbox.setDurability(3);
 
 				hbox.addStrategy(new ControllerDefault(state, hbox, p));
-				hbox.addStrategy(new ContactUnitBurn(state, hbox, p, fireDuration, fireDamage));
-				hbox.addStrategy(new DamageStandard(state, hbox, p, baseDamage, knockback, DamageTypes.FIRE, DamageTypes.RANGED));
+				hbox.addStrategy(new ContactUnitBurn(state, hbox, p, fireDuration, fireDamage, DamageSource.WHITE_SMOKER));
+				hbox.addStrategy(new DamageStandard(state, hbox, p, baseDamage, knockback,
+						DamageSource.WHITE_SMOKER, DamageTag.FIRE, DamageTag.RANGED));
 				hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.FIRE, 0.0f, 1.0f));
 			}
 		});

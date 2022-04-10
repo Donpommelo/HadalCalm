@@ -2,12 +2,13 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -50,7 +51,8 @@ public class RingofTesting extends Artifact {
 					frag.setSyncDefault(false);
 					frag.setSyncInstant(true);
 					frag.addStrategy(new ControllerDefault(state, frag, inflicted));
-					frag.addStrategy(new DamageStandard(state, frag, inflicted, baseDamage, knockback, DamageTypes.SHRAPNEL));
+					frag.addStrategy(new DamageStandard(state, frag, inflicted, baseDamage, knockback, DamageSource.MISC,
+							DamageTag.SHRAPNEL));
 				}
 			}
 		});

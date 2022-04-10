@@ -3,6 +3,7 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -15,7 +16,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -81,7 +82,7 @@ public class Currents extends Event {
 			//push is done through damage so that +knockback resistance will reduce the push.
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				entity.getHadalData().receiveDamage(0.0f, new Vector2(vec), state.getWorldDummy().getBodyData(),
-						false,null, DamageTypes.DEFLECT);
+						false,null, DamageSource.CURRENTS, DamageTag.DEFLECT);
 			}
 		}
 		
@@ -111,7 +112,7 @@ public class Currents extends Event {
 			//push is done through damage so that +knockback resistance will reduce the push.
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				entity.getHadalData().receiveDamage(0.0f, randLocation.set(vec), state.getWorldDummy().getBodyData(),
-						false, null, DamageTypes.DEFLECT);
+						false, null, DamageSource.CURRENTS, DamageTag.DEFLECT);
 			}
 		}
 		

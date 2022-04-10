@@ -1,9 +1,10 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
@@ -26,6 +27,7 @@ public class SpiritRelease extends ActiveItem {
 		positions[0] = new Vector2(user.getPlayer().getPixelPosition()).add(0, 100);
 		positions[1] = new Vector2(user.getPlayer().getPixelPosition()).add(100, 0);
 		positions[2] = new Vector2(user.getPlayer().getPixelPosition()).add(-100, 0);
-		SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, user.getPlayer(), new Vector2(), positions, new Vector2[]{});
+		SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, user.getPlayer(), new Vector2(), positions,
+				new Vector2[]{}, DamageSource.SPIRIT_RELEASE);
 	}
 }

@@ -4,17 +4,18 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.IntArray;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.EnemyUtils;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -251,7 +252,8 @@ public class Boss6 extends EnemyFloating {
 					hbox.makeUnreflectable();
 
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), chargeDamage, chargeKnockback, DamageTypes.MELEE)
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), chargeDamage, chargeKnockback,
+							DamageSource.ENEMY_ATTACK, DamageTag.MELEE)
 						.setStaticKnockback(true).setRepeatable(true));
 					hbox.addStrategy(new FixedToEntity(state, hbox, getBodyData(), new Vector2(), new Vector2()).setRotate(true));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
@@ -288,8 +290,8 @@ public class Boss6 extends EnemyFloating {
 			public void die() {
 				SoundEffect.EXPLOSION9.playUniversal(state, hbox.getPixelPosition(), 0.5f, 0.5f, false);
 
-				WeaponUtils.createExplosion(state, hbox.getPixelPosition(), gridDistance,
-					creator.getSchmuck(), bombDamage, bombKB, creator.getSchmuck().getHitboxfilter(), true);
+				WeaponUtils.createExplosion(state, hbox.getPixelPosition(), gridDistance, creator.getSchmuck(),
+						bombDamage, bombKB, creator.getSchmuck().getHitboxfilter(), true, DamageSource.ENEMY_ATTACK);
 				explode(0);
 				explode(90);
 				explode(180);
@@ -316,7 +318,8 @@ public class Boss6 extends EnemyFloating {
 						if (lastPosition.dst2(entityLocation) > gridDistance * gridDistance) {
 							lastPosition.set(entityLocation);
 							WeaponUtils.createExplosion(state, hbox.getPixelPosition(), gridDistance,
-								creator.getSchmuck(), bombDamage, bombKB, creator.getSchmuck().getHitboxfilter(), true);
+								creator.getSchmuck(), bombDamage, bombKB, creator.getSchmuck().getHitboxfilter(),
+									true, DamageSource.ENEMY_ATTACK);
 						}
 					}
 				});
@@ -372,7 +375,8 @@ public class Boss6 extends EnemyFloating {
 		laser.addStrategy(new AdjustAngle(state, laser, getBodyData()));
 		laser.addStrategy(new ContactWallDie(state, laser, getBodyData()));
 		laser.addStrategy(new DieParticles(state, laser, getBodyData(), Particle.LASER_IMPACT).setParticleColor(HadalColor.BLUE));
-		laser.addStrategy(new DamageStandard(state, laser, getBodyData(), laserDamage, laserKB, DamageTypes.RANGED, DamageTypes.ENERGY));
+		laser.addStrategy(new DamageStandard(state, laser, getBodyData(), laserDamage, laserKB,	DamageSource.ENEMY_ATTACK,
+				DamageTag.RANGED, DamageTag.ENERGY));
 		laser.addStrategy(new ContactUnitSound(state, laser, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 	}
 
@@ -453,7 +457,8 @@ public class Boss6 extends EnemyFloating {
 					pulse.makeUnreflectable();
 
 					pulse.addStrategy(new ControllerDefault(state, pulse, getBodyData()));
-					pulse.addStrategy(new DamageStandard(state, pulse, getBodyData(), spiralDamage, spiralKB, DamageTypes.RANGED).setStaticKnockback(true));
+					pulse.addStrategy(new DamageStandard(state, pulse, getBodyData(), spiralDamage, spiralKB,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setStaticKnockback(true));
 					pulse.addStrategy(new FixedToEntity(state, pulse, getBodyData(), spiral, new Vector2(), new Vector2()).setRotate(true));
 					pulse.addStrategy(new ContactUnitSound(state, pulse, getBodyData(), SoundEffect.ZAP, 0.6f, true));
 				}
@@ -526,7 +531,8 @@ public class Boss6 extends EnemyFloating {
 										true, false, enemy, Sprite.SPORE);
 
 									hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-									hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), pillarDamage, pillarKB, DamageTypes.RANGED));
+									hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), pillarDamage, pillarKB,
+											DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 									hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
 									hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 								}

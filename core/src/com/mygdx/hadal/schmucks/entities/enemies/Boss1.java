@@ -3,17 +3,18 @@ package com.mygdx.hadal.schmucks.entities.enemies;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.EnemyUtils;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
@@ -519,7 +520,7 @@ public class Boss1 extends EnemyFloating {
 								EnemyUtils.floorHeight(state));
 							SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
 							WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage,
-								explosionKnockback,	getHitboxfilter(), true);
+								explosionKnockback,	getHitboxfilter(), true, DamageSource.ENEMY_ATTACK);
 						}
 					});
 				}
@@ -545,7 +546,7 @@ public class Boss1 extends EnemyFloating {
 								EnemyUtils.floorHeight(state));
 							SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
 							WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage,
-								explosionKnockback,	getHitboxfilter(), true);
+								explosionKnockback,	getHitboxfilter(), true, DamageSource.ENEMY_ATTACK);
 						}
 					});
 				}
@@ -589,7 +590,8 @@ public class Boss1 extends EnemyFloating {
 					hbox.setRestitution(1);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), ballDamage, ballKnockback, DamageTypes.RANGED));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), ballDamage, ballKnockback,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.FIRE, 0.0f, 0.0f));
 					hbox.addStrategy(new ContactWallSound(state, hbox, getBodyData(), SoundEffect.SPRING, 0.1f));
 				}
@@ -615,7 +617,8 @@ public class Boss1 extends EnemyFloating {
 				positions[0] = new Vector2(getPixelPosition()).add(0, 100);
 				positions[1] = new Vector2(getPixelPosition()).add(100, 0);
 				positions[2] = new Vector2(getPixelPosition()).add(-100, 0);
-				SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, enemy, new Vector2(), positions, new Vector2[] {}, 0.0f, 0.0f, spiritDamage);
+				SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, enemy, new Vector2(), positions,
+						new Vector2[] {}, DamageSource.ENEMY_ATTACK, 0.0f, 0.0f, spiritDamage);
 			}
 		});
 	}
@@ -648,7 +651,8 @@ public class Boss1 extends EnemyFloating {
 							@Override
 							public void execute() {
 								location.set(EnemyUtils.getLeftSide(state) + index * poisonSize.x, EnemyUtils.floorHeight(state) + poisonSize.y / 2);
-								new Poison(state, location, poisonSize, poisonDamage, poisonDuration, enemy, true, getHitboxfilter());
+								new Poison(state, location, poisonSize, poisonDamage, poisonDuration, enemy, true,
+										getHitboxfilter(), DamageSource.ENEMY_ATTACK);
 							}
 						});
 					}
@@ -670,7 +674,8 @@ public class Boss1 extends EnemyFloating {
 							@Override
 							public void execute() {
 								location.set(EnemyUtils.getRightSide(state) - index * poisonSize.x, EnemyUtils.floorHeight(state) + poisonSize.y / 2);
-								new Poison(state, location, poisonSize, poisonDamage, poisonDuration, enemy, true, getHitboxfilter());
+								new Poison(state, location, poisonSize, poisonDamage, poisonDuration, enemy, true,
+										getHitboxfilter(), DamageSource.ENEMY_ATTACK);
 							}
 						});
 					}

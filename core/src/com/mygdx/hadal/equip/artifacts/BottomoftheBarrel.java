@@ -1,12 +1,13 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 
@@ -37,7 +38,7 @@ public class BottomoftheBarrel extends Artifact {
 			}
 
 			@Override
-			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageTypes... tags) {
+			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (p.getCurrentTool() instanceof RangedWeapon ranged) {
 					if (ranged.getAmmoPercent() <= ammoThreshold) {
 						return damage * bonusDamage;

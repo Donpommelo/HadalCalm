@@ -2,12 +2,13 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -62,7 +63,7 @@ public class Buzzsaw extends Event {
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				if (entity instanceof Schmuck schmuck) {
 					schmuck.getBodyData().receiveDamage(dps, new Vector2(), state.getWorldDummy().getBodyData(), true,
-							null, DamageTypes.CUTTING);
+							null, DamageSource.MAP_BUZZSAW, DamageTag.CUTTING);
 				}
 			}
 		}

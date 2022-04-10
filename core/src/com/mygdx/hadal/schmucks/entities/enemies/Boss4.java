@@ -7,11 +7,13 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.IntArray;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.EnemyUtils;
-import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.SyncType;
@@ -22,7 +24,6 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -254,7 +255,8 @@ public class Boss4 extends EnemyFloating {
 					hbox.setAdjustAngle(true);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), shot1Damage, shot1Knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), shot1Damage, shot1Knockback,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 					
 					hbox.addStrategy(new ReturnToUser(state, hbox, getBodyData(), returnAmp));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.LASER_TRAIL, 0.0f, particleLinger).setParticleColor(
@@ -332,8 +334,9 @@ public class Boss4 extends EnemyFloating {
 					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, fireSize.x), fireSize, fireLifespan, startVelo, getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-					hbox.addStrategy(new ContactUnitBurn(state, hbox, getBodyData(), burnDuration, burnDamage));
-					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), fireballDamage, fireKB, DamageTypes.RANGED, DamageTypes.FIRE));
+					hbox.addStrategy(new ContactUnitBurn(state, hbox, getBodyData(), burnDuration, burnDamage, DamageSource.ENEMY_ATTACK));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), fireballDamage, fireKB,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED, DamageTag.FIRE));
 					hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.FIRE, 0.0f, particleLinger).setParticleSize(36.0f));
 				}
@@ -389,7 +392,8 @@ public class Boss4 extends EnemyFloating {
 							pulse.setSyncDefault(false);
 							pulse.makeUnreflectable();
 							pulse.addStrategy(new ControllerDefault(state, pulse, getBodyData()));
-							pulse.addStrategy(new DamageStandard(state, pulse, getBodyData(), bellDamage, bellKB, DamageTypes.MELEE).setStaticKnockback(true));
+							pulse.addStrategy(new DamageStandard(state, pulse, getBodyData(), bellDamage, bellKB,
+									DamageSource.ENEMY_ATTACK, DamageTag.MELEE).setStaticKnockback(true));
 							pulse.addStrategy(new FixedToEntity(state, pulse, getBodyData(), bell, new Vector2(), new Vector2()).setRotate(true));
 							pulse.addStrategy(new ContactUnitSound(state, pulse, getBodyData(), SoundEffect.ZAP, 0.6f, true));
 						}
@@ -476,7 +480,8 @@ public class Boss4 extends EnemyFloating {
 					laser.addStrategy(new DieParticles(state, laser, getBodyData(), Particle.LASER_IMPACT).setParticleColor(
 						HadalColor.BLUE));
 					laser.addStrategy(new ContactWallLoseDurability(state, laser, getBodyData()));
-					laser.addStrategy(new DamageStandard(state, laser, getBodyData(), laserDamage, laserKB, DamageTypes.RANGED, DamageTypes.ENERGY));
+					laser.addStrategy(new DamageStandard(state, laser, getBodyData(), laserDamage, laserKB,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED, DamageTag.ENERGY));
 					laser.addStrategy(new ContactUnitSound(state, laser, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 				}
 			});
@@ -548,7 +553,8 @@ public class Boss4 extends EnemyFloating {
 									
 									hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 									hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.ICE_CLOUD, 0.0f, particleLinger).setParticleSize(40.0f));
-									hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), cloudDamage, cloudKB, DamageTypes.RANGED));
+									hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), cloudDamage, cloudKB,
+											DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 									hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
 									hbox.addStrategy(new ContactUnitSlow(state, hbox, getBodyData(), slowDuration, slowSlow, Particle.ICE_CLOUD));
 									hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
@@ -609,7 +615,8 @@ public class Boss4 extends EnemyFloating {
 					laser.addStrategy(new DieParticles(state, laser, getBodyData(), Particle.LASER_IMPACT).setParticleColor(
 						HadalColor.BLUE));
 					laser.addStrategy(new ContactWallLoseDurability(state, laser, getBodyData()));
-					laser.addStrategy(new DamageStandard(state, laser, getBodyData(), laserDamage, laserKB, DamageTypes.RANGED, DamageTypes.ENERGY));
+					laser.addStrategy(new DamageStandard(state, laser, getBodyData(), laserDamage, laserKB,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED, DamageTag.ENERGY));
 					laser.addStrategy(new ContactUnitSound(state, laser, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 
 					laser.addStrategy(new HitboxStrategy(state, laser, getBodyData()) {
@@ -629,7 +636,8 @@ public class Boss4 extends EnemyFloating {
 							frag.setGravity(1.0f);
 							
 							frag.addStrategy(new ControllerDefault(state, frag, getBodyData()));
-							frag.addStrategy(new DamageStandard(state, frag, getBodyData(), rubbleDamage, rubbleKB, DamageTypes.RANGED));
+							frag.addStrategy(new DamageStandard(state, frag, getBodyData(), rubbleDamage, rubbleKB,
+									DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 							frag.addStrategy(new ContactWallDie(state, frag, getBodyData()));
 							frag.addStrategy(new ContactWallParticles(state, frag, getBodyData(), Particle.SPARKS));
 							frag.addStrategy(new ContactUnitSound(state, frag, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
@@ -647,7 +655,8 @@ public class Boss4 extends EnemyFloating {
 							hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 							hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
 							hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, getBodyData()));
-							hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), laserDamage, laserKB, DamageTypes.ENERGY, DamageTypes.RANGED));
+							hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), laserDamage, laserKB,
+									DamageSource.ENEMY_ATTACK, DamageTag.ENERGY, DamageTag.RANGED));
 							hbox.addStrategy(new ContactWallParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
 								HadalColor.BLUE));
 							hbox.addStrategy(new ContactUnitParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
@@ -704,7 +713,8 @@ public class Boss4 extends EnemyFloating {
 					hbox.setSpriteSize(horizontalBulletSpriteSize);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), horizontalBulletDamage, horizontalBulletKB, DamageTypes.RANGED));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), horizontalBulletDamage, horizontalBulletKB,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 					hbox.addStrategy(new AdjustAngle(state, hbox, getBodyData()));
 					hbox.addStrategy(new ContactUnitParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(color));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.LASER_TRAIL, 0.0f, particleLinger).setParticleColor(color));
@@ -744,7 +754,8 @@ public class Boss4 extends EnemyFloating {
 					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, willOWispSize.x), willOWispSize, willOWispLifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), willOWispDamage, willOWispKB, DamageTypes.RANGED));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), willOWispDamage, willOWispKB,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 					hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.BRIGHT, 0.0f, particleLinger).setParticleColor(
 						HadalColor.RANDOM));
@@ -798,7 +809,8 @@ public class Boss4 extends EnemyFloating {
 					hbox.setSpriteSize(new Vector2(starSize * 2.0f, starSize * 2.0f));
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), starDamage, starKB, DamageTypes.RANGED));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), starDamage, starKB,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.STAR, 0.0f, particleLinger).setParticleColor(
 						HadalColor.RANDOM));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
@@ -911,7 +923,8 @@ public class Boss4 extends EnemyFloating {
 	}
 	
 	private void singleExplodingReticle(Vector2 position) {
-		WeaponUtils.createExplodingReticle(state, position, this, reticleSize, reticleLifespan, explosionDamage, explosionKnockback, explosionRadius);
+		WeaponUtils.createExplodingReticle(state, position, this, reticleSize, reticleLifespan, explosionDamage,
+				explosionKnockback, explosionRadius, DamageSource.ENEMY_ATTACK);
 	}
 	
 	private static final float teleportDuration = 3.0f;

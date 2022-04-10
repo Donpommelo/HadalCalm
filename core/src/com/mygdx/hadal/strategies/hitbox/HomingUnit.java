@@ -7,7 +7,7 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.WorldUtil;
@@ -139,8 +139,8 @@ public class HomingUnit extends HitboxStrategy {
 
 	private static final float disruptDelay = 1.0f;
 	@Override
-	public void receiveDamage(BodyData perp, float baseDamage, Vector2 knockback, DamageTypes... tags) {
-		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && disruptable) {
+	public void receiveDamage(BodyData perp, float baseDamage, Vector2 knockback, DamageTag... tags) {
+		if (Arrays.asList(tags).contains(DamageTag.REFLECT) && disruptable) {
 			delay = disruptDelay;
 			homing = null;
 		}

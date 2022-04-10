@@ -1,6 +1,7 @@
 package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.MeleeWeapon;
@@ -72,7 +73,7 @@ public class Invisibility extends Status {
 	}
 	
 	@Override
-	public void onDeath(BodyData perp) {
+	public void onDeath(BodyData perp, DamageSource source) {
 		if (inflicted instanceof PlayerBodyData playerData) {
 			playerData.getPlayer().setInvisible(0);
 		}

@@ -12,6 +12,8 @@ import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.utils.Constants;
 
 /**
+ * A BotController manages all of a bot's behaviors and cooldowns generic for any bot-controlled unit
+ * @author Clucklace Chuckheart
  */
 public class BotController {
 
@@ -61,8 +63,14 @@ public class BotController {
         }
     }
 
+    /**
+     * This processes bot behavior that amust be done prior to moving/targeting, such as bot player boosting
+     */
     public void processPreTarget(float delta) {}
 
+    /**
+     * This processes the bot's actions such as attacking or moving
+     */
     public void processBotAction() {
         processBotAttacking(entityWorldLocation, entityVelocity);
         processBotMovement(entityWorldLocation, entityVelocity);
@@ -70,7 +78,7 @@ public class BotController {
 
     /**
      * This makes the bot attempt to attack their target
-     * This process the bot switching weapons, aiming and firing
+     * This processes the bot switching weapons, aiming and firing
      * Each function defers to the BotLoadoutProcessor for item-specific logic.
      * @param playerLocation: the location of the attacking bot (to avoid repeatedly calling getPosition)
      */
@@ -104,6 +112,7 @@ public class BotController {
             predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, currentVelocityMultiplier * fract);
         }
 
+        //find target and see if we have line of sight to it
         HadalEntity target = findTarget();
 
         if (target != null) {
@@ -149,6 +158,10 @@ public class BotController {
         }
     }
 
+    /**
+     * This is used for the bot to get its target
+     * @return the bot's target object
+     */
     public HadalEntity findTarget() {
         HadalEntity target = null;
         if (currentMood.equals(BotMood.SEEK_EVENT)) {
@@ -157,6 +170,9 @@ public class BotController {
         return target;
     }
 
+    /**
+     * This is run for the bot to move. Override for bots depending on its movement strategy
+     */
     public void performMovement() {}
 
     private final Vector2 targetLocation = new Vector2();
@@ -169,7 +185,7 @@ public class BotController {
 
         RallyPoint.RallyPointMultiplier weaponPoint = getWeaponPoint(playerLocation);
         RallyPoint.RallyPointMultiplier healthPoint = getHealthPoint(playerLocation);
-        Array<RallyPoint.RallyPointMultiplier> targetPoints = getTargetPoints(playerLocation);
+        Array<RallyPoint.RallyPointMultiplier> targetPoints = getTargetPoints(playerLocation, 1.0f);
 
         //get nearby points and event point with multipliers
         Array<RallyPoint> pathStarters = BotManager.getNearestPathStarters(bot, playerLocation);
@@ -179,7 +195,10 @@ public class BotController {
                 weaponPoint, healthPoint, targetPoints, eventPoints);
     }
 
-    public Array<RallyPoint.RallyPointMultiplier> getTargetPoints(Vector2 playerLocation) {
+    /**
+     * This gets a list of schmuck targets for the bot to consider attacking
+     */
+    public Array<RallyPoint.RallyPointMultiplier> getTargetPoints(Vector2 playerLocation, float multiplier) {
         Array<RallyPoint.RallyPointMultiplier> targetPoints = new Array<>();
         lastShootTarget = shootTarget;
         shootTarget = null;
@@ -221,7 +240,7 @@ public class BotController {
                     //calc the shortest path and compare it to paths to other targets
                     RallyPoint tempPoint = BotManager.getNearestPoint(bot, targetLocation);
                     if (tempPoint != null) {
-                        targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, 1.0f));
+                        targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, multiplier));
                     }
                 }
             }
@@ -229,14 +248,23 @@ public class BotController {
         return targetPoints;
     }
 
+    /**
+     * This gets a list of event targets for the bot to consider moving towards
+     */
     public Array<RallyPoint.RallyPointMultiplier> getEventPoints(Vector2 playerLocation) { return null; }
 
+    /**
+     * This gets a list of weapon targets for the bot to consider moving towards
+     */
     public RallyPoint.RallyPointMultiplier getWeaponPoint(Vector2 playerLocation) { return null; }
 
+    /**
+     * This gets a list of health targets for the bot to consider moving towards
+     */
     public RallyPoint.RallyPointMultiplier getHealthPoint(Vector2 playerLocation) { return null; }
 
     /**
-     * Called when targetting to find distance to target. Used to move in a direction that optimizes range
+     * Called when targeting to find distance to target. Used to move in a direction that optimizes range
      */
     public void setDistanceFromTarget(boolean lineOfSight, boolean inRange, float differenceSquares, float targetDistanceSquare) {
         this.lineOfSight = lineOfSight;

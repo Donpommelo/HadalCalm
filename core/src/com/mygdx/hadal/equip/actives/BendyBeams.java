@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -9,7 +10,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
@@ -61,7 +62,7 @@ public class BendyBeams extends ActiveItem {
 					
 					Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, new Vector2(startVelo), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), projSprite);
 					hbox.addStrategy(new ControllerDefault(state, hbox, user));
-					hbox.addStrategy(new DamageStandard(state, hbox, user, damage, knockback, DamageTypes.ENERGY));
+					hbox.addStrategy(new DamageStandard(state, hbox, user, damage, knockback, DamageSource.BENDY_BEAMS, DamageTag.ENERGY));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, user));
 					hbox.addStrategy(new ContactWallDie(state, hbox, user));
 					hbox.addStrategy(new AdjustAngle(state, hbox, user));

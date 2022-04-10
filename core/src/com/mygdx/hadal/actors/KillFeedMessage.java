@@ -7,11 +7,12 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.text.DeathTextUtil;
 import com.mygdx.hadal.text.TextFilterUtil;
 
@@ -46,8 +47,9 @@ public class KillFeedMessage extends AHadalActor {
     private static final float notificationWidth = 500;
     private static final float notificationLifespan = 6.0f;
 
-    public KillFeedMessage(PlayState ps, Player perp, Player vic, EnemyType type, DamageTypes... tags) {
-        this(TextFilterUtil.filterGameText(ps.getGsm(), DeathTextUtil.getDeathText(ps.getGsm(), perp, vic, type, tags)), true);
+    public KillFeedMessage(PlayState ps, Player perp, Player vic, EnemyType type, DamageSource source, DamageTag... tags) {
+        this(TextFilterUtil.filterGameText(ps.getGsm(), DeathTextUtil.getDeathText(ps.getGsm(), perp, vic, type, source, tags)),
+                true);
     }
 
     public KillFeedMessage(String text, boolean killFeed) {

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.SyncType;
@@ -25,7 +26,7 @@ public class TyphonFang extends Artifact {
 		enchantment = new StatusComposite(state, p, new Status(state, p) {
 			
 			@Override
-			public void onKill(BodyData vic) {
+			public void onKill(BodyData vic, DamageSource source) {
 				if (p.getCurrentTool() instanceof RangedWeapon weapon) {
 					SoundEffect.RELOAD.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.4f, false);
 					new ParticleEntity(state, p.getSchmuck(), Particle.PICKUP_AMMO, 1.0f, particleDura, true, SyncType.CREATESYNC);

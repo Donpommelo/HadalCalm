@@ -2,15 +2,16 @@ package com.mygdx.hadal.schmucks.entities.enemies;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.EnemyUtils;
+import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
@@ -104,10 +105,11 @@ public class Torpedofish extends EnemySwimming {
 					hbox.addStrategy(new AdjustAngle(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 					hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.BUBBLE_TRAIL, 0.0f, 1.0f));
 					hbox.addStrategy(new DieExplode(state, hbox, enemy.getBodyData(), explosionRadius, explosionDamage,
-							explosionKnockback, (short) 0, true));
+							explosionKnockback, (short) 0, true, DamageSource.ENEMY_ATTACK));
 					hbox.addStrategy(new DieSound(state, hbox, enemy.getBodyData(), SoundEffect.EXPLOSION6, 0.6f).setPitch(1.2f));
 				}
 			}

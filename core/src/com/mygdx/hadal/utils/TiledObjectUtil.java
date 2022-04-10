@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.*;
@@ -352,7 +353,8 @@ public class TiledObjectUtil {
 				object.getProperties().get("duration", 0.0f, float.class),
 				state.getWorldDummy(),
 				object.getProperties().get("draw", true, boolean.class),
-				object.getProperties().get("filter", (short) 0, short.class));
+				object.getProperties().get("filter", (short) 0, short.class),
+				DamageSource.valueOf(object.getProperties().get("source", "MAP_POISON", String.class)));
 			case "Poison" -> e = new Poison(state, position, size,
 				object.getProperties().get("particle", "POISON", String.class),
 				object.getProperties().get("damage", 0.0f, float.class),

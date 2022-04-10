@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -13,12 +14,12 @@ import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
@@ -227,7 +228,7 @@ public class TeslaCoil extends RangedWeapon {
 
 		hboxDamage.addStrategy(new ControllerDefault(state, hboxDamage, user.getBodyData()));
 		hboxDamage.addStrategy(new DamageStandard(state, hboxDamage, user.getBodyData(), pulseDamage, pulseKnockback,
-				DamageTypes.ENERGY, DamageTypes.RANGED).setStaticKnockback(true));
+				DamageSource.TESLA_COIL, DamageTag.ENERGY, DamageTag.RANGED).setStaticKnockback(true));
 		hboxDamage.addStrategy(new Static(state, hboxDamage, user.getBodyData()));
 
 		return hboxDamage;

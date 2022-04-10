@@ -24,6 +24,7 @@ import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.MusicTrackType;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
@@ -56,7 +57,6 @@ import com.mygdx.hadal.server.User.UserDto;
 import com.mygdx.hadal.server.packets.PacketEffect;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.statuses.Blinded;
-import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.utils.CameraUtil;
 import com.mygdx.hadal.utils.Constants;
@@ -616,6 +616,7 @@ public class PlayState extends GameState {
 		batch.begin();
 
 		renderEntities();
+		Particle.drawParticles(batch);
 
 		if (shaderBase.getShaderProgram() != null) {
 			if (!shaderBase.isBackground()) {
@@ -1255,7 +1256,7 @@ public class PlayState extends GameState {
 				startSpectator(user, player.getConnId());
 
 				//we die last so that the on-death transition does not occur (As it will not override the spectator transition unless it is a results screen.)
-				player.getPlayerData().die(worldDummy.getBodyData(), DamageTypes.DISCONNECT);
+				player.getPlayerData().die(worldDummy.getBodyData(), DamageSource.DISCONNECT);
 			}
 		}
 	}

@@ -43,6 +43,7 @@ public class UISpectator extends AHadalActor {
 
     private static final float fontScaleMedium = 0.25f;
 
+    //is the spectator ui currently visible or not?
     private boolean enabled = true;
 
     public UISpectator(PlayState state) {
@@ -217,6 +218,9 @@ public class UISpectator extends AHadalActor {
         return false;
     }
 
+    /**
+     * run when the player toggles the spectator ui to be visible/invisible (default bound to spacebar)
+     */
     public void toggleSpectatorUI() {
         if (enabled) {
             addAction(Actions.moveTo(mainX, mainY, TRANSITION_DURATION, INTP_FASTSLOW));
@@ -226,6 +230,10 @@ public class UISpectator extends AHadalActor {
         enabled = !enabled;
     }
 
+    /**
+     * run when the player first enters spectator mode to turn it on.
+     * This always enables the ui, in case the ui was enabled/disabled when the player last left spectator mode
+     */
     public void enableSpectatorUI() {
         addAction(Actions.moveTo(mainXEnabled, mainYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
         enabled = true;

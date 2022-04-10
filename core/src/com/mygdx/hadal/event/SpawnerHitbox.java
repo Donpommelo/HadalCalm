@@ -2,6 +2,7 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -82,7 +83,7 @@ public class SpawnerHitbox extends Event {
 				hbox.setRestitution(restitution);
 				hbox.setFriction(friction);
 				hbox.addStrategy(new ControllerDefault(state, hbox, state.getWorldDummy().getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, state.getWorldDummy().getBodyData(), damage, knockback));
+				hbox.addStrategy(new DamageStandard(state, hbox, state.getWorldDummy().getBodyData(), damage, knockback, DamageSource.MISC));
 				
 				if (!particle.equals(Particle.NOTHING)) {
 					hbox.addStrategy(new CreateParticles(state, hbox, state.getWorldDummy().getBodyData(), particle, 0.0f, 1.0f));

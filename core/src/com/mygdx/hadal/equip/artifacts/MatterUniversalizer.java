@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -26,7 +27,7 @@ public class MatterUniversalizer extends Artifact {
 		enchantment = new Status(state, p) {
 
 			@Override
-			public void onKill(BodyData vic) {
+			public void onKill(BodyData vic, DamageSource source) {
 				SoundEffect.MAGIC2_FUEL.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.4f, false);
 				new ParticleEntity(state, p.getSchmuck(), Particle.PICKUP_ENERGY, 1.0f, particleDura, true, SyncType.CREATESYNC);
 

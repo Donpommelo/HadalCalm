@@ -2,12 +2,13 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
@@ -58,7 +59,8 @@ public class BrigglesBladedBoot extends Artifact {
 					hbox.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 					
 					hbox.addStrategy(new FixedToEntity(state, hbox, p, new Vector2(), position));
-					hbox.addStrategy(new DamageStandard(state, hbox, p, baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MELEE)
+					hbox.addStrategy(new DamageStandard(state, hbox, p, baseDamage, knockback, DamageSource.BRIGGLES_BLADED_BOOT,
+							DamageTag.WHACKING, DamageTag.MELEE)
 						.setStaticKnockback(true).setRepeatable(true));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, p) {
 						

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -46,7 +47,7 @@ public class VestigialChamber extends Artifact {
 						@Override
 						public void die() {
 							WeaponUtils.createExplodingReticle(state, hbox.getPixelPosition(), p.getSchmuck(), reticleSize,
-									reticleLifespan, explosionDamage, explosionKnockback, explosionRadius);
+									reticleLifespan, explosionDamage, explosionKnockback, explosionRadius, DamageSource.VESTIGIAL_CHAMBER);
 						}
 					});
 				}

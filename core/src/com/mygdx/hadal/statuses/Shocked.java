@@ -2,6 +2,8 @@ package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -22,7 +24,7 @@ public class Shocked extends Status {
 
 	//this is the damage of each shock
 	private final float damage;
-	
+
 	//this keeps track of the time between each chain lightning activation
 	private float procCdCount;
 	private static final float procCd = .25f;
@@ -37,18 +39,22 @@ public class Shocked extends Status {
 	
 	//this is the hitbox filter that determines who the lightning can jump to
 	private final short filter;
-	
+
+	//this is the effect/item/weapon source of the shock
+	private final DamageSource source;
+
 	//these variables are used for the aabb box querying to determine chain target
 	private Schmuck chainAttempt;
 	private float closestDist;
 	
-	public Shocked(PlayState state, BodyData p, BodyData v, float damage, int radius, int chainAmount, short filter) {
+	public Shocked(PlayState state, BodyData p, BodyData v, float damage, int radius, int chainAmount, short filter, DamageSource source) {
 		super(state, 0, false, p, v);
 		this.procCdCount = 0;
 		this.damage = damage;
 		this.radius = radius;
 		this.chainAmount = chainAmount;
 		this.filter = filter;
+		this.source = source;
 	}
 	
 	@Override
@@ -61,7 +67,7 @@ public class Shocked extends Status {
 	}
 	
 	@Override
-	public void onDeath(BodyData perp) {
+	public void onDeath(BodyData perp, DamageSource source) {
 		//lightning should activate on death so that killing a unit does not end the chain
 		chain();
 	}
@@ -94,8 +100,10 @@ public class Shocked extends Status {
 			if (chainAttempt != null) {
 				
 				//spread status to new victim with -1 jump and damage them.
-				chainAttempt.getBodyData().addStatus(new Shocked(state, inflicter, chainAttempt.getBodyData(), damage, radius, chainAmount - 1, filter));
-				chainAttempt.getBodyData().receiveDamage(damage, new Vector2(), inflicter, true, null, DamageTypes.LIGHTNING);
+				chainAttempt.getBodyData().addStatus(new Shocked(state, inflicter, chainAttempt.getBodyData(), damage, radius,
+						chainAmount - 1, filter, source));
+				chainAttempt.getBodyData().receiveDamage(damage, new Vector2(), inflicter, true, null,
+						source, DamageTag.LIGHTNING);
 
 				//draw the trail that makes the lightning particles visible
 				Vector2 trailPath = new Vector2(chainAttempt.getPosition()).sub(entityLocation);

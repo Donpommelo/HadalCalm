@@ -1,6 +1,8 @@
 package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
@@ -33,18 +35,20 @@ public abstract class ProcTime {
 		public float damage;
 		public final BodyData vic;
 		public final Hitbox hbox;
-		public final DamageTypes[] tags;
-		
-		public InflictDamage(float damage, BodyData vic, Hitbox hbox, DamageTypes...  tags) {
+		public final DamageSource source;
+		public final DamageTag[] tags;
+
+		public InflictDamage(float damage, BodyData vic, Hitbox hbox, DamageSource source, DamageTag...  tags) {
 			this.damage = damage;
 			this.vic = vic;
 			this.hbox = hbox;
+			this.source = source;
 			this.tags = tags;
 		}
 		
 		@Override
 		public ProcTime statusProcTime(Status status) {
-			damage = status.onDealDamage(damage, vic, hbox, tags);
+			damage = status.onDealDamage(damage, vic, hbox, source, tags);
 			return this;
 		}
 	}
@@ -53,18 +57,20 @@ public abstract class ProcTime {
 		public float damage;
 		public final BodyData perp;
 		public final Hitbox hbox;
-		public final DamageTypes[] tags;
+		public final DamageSource source;
+		public final DamageTag[] tags;
 		
-		public ReceiveDamage(float damage, BodyData perp, Hitbox hbox, DamageTypes...  tags) {
+		public ReceiveDamage(float damage, BodyData perp, Hitbox hbox, DamageSource source, DamageTag...  tags) {
 			this.damage = damage;
 			this.perp = perp;
 			this.hbox = hbox;
+			this.source = source;
 			this.tags = tags;
 		}
 		
 		@Override
 		public ProcTime statusProcTime(Status status) {
-			damage = status.onReceiveDamage(damage, perp, hbox, tags);
+			damage = status.onReceiveDamage(damage, perp, hbox, source, tags);
 			return this;
 		}
 	}
@@ -72,9 +78,9 @@ public abstract class ProcTime {
 	public static class ReceiveHeal extends ProcTime {
 		public float heal;
 		public final BodyData perp;
-		public final DamageTypes[] tags;
+		public final DamageTag[] tags;
 		
-		public ReceiveHeal(float heal, BodyData perp, DamageTypes...  tags) {
+		public ReceiveHeal(float heal, BodyData perp, DamageTag...  tags) {
 			this.heal = heal;
 			this.perp = perp;
 			this.tags = tags;
@@ -103,28 +109,32 @@ public abstract class ProcTime {
 
 	public static class Kill extends ProcTime {
 		public final BodyData vic;
+		public final DamageSource source;
 		
-		public Kill(BodyData vic) {
+		public Kill(BodyData vic, DamageSource source) {
 			this.vic = vic;
+			this.source = source;
 		}
 		
 		@Override
 		public ProcTime statusProcTime(Status status) {
-			status.onKill(vic);
+			status.onKill(vic, source);
 			return this;
 		}
 	}
 
 	public static class Death extends ProcTime {
 		public final BodyData perp;
-		
-		public Death(BodyData perp) {
+		public final DamageSource source;
+
+		public Death(BodyData perp, DamageSource source) {
 			this.perp = perp;
+			this.source = source;
 		}
 		
 		@Override
 		public ProcTime statusProcTime(Status status) {
-			status.onDeath(perp);
+			status.onDeath(perp, source);
 			return this;
 		}
 	}

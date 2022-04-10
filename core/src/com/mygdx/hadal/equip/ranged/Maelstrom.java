@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -11,10 +12,10 @@ import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -109,7 +110,8 @@ public class Maelstrom extends RangedWeapon {
 					pulse.setEffectsVisual(false);
 
 					pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED).setStaticKnockback(true));
+					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), baseDamage, knockback,
+							DamageSource.MAELSTROM, DamageTag.EXPLOSIVE, DamageTag.RANGED).setStaticKnockback(true));
 					pulse.addStrategy(new HitboxStrategy(state, pulse, user.getBodyData()) {
 
 						@Override

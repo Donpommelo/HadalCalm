@@ -1,11 +1,12 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
@@ -38,18 +39,18 @@ public class LampreyIdol extends Artifact {
 					procCdCount -= procCd;
 					
 					if ((p.getCurrentHp() / p.getStat(Stats.MAX_HP)) >= hpThreshold) {
-						p.receiveDamage(damage, new Vector2(), p, true, null);
+						p.receiveDamage(damage, new Vector2(), p, true, null, DamageSource.LAMPREY_IDOL);
 					}
 				}
 				procCdCount += delta;
 			}
 			
 			@Override
-			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageTypes... tags) {
+			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (vic instanceof PlayerBodyData) {
-					p.regainHp(lifestealPlayer * damage, p, true, DamageTypes.LIFESTEAL);
+					p.regainHp(lifestealPlayer * damage, p, true, DamageTag.LIFESTEAL);
 				} else {
-					p.regainHp(lifestealEnemy * damage, p, true, DamageTypes.LIFESTEAL);
+					p.regainHp(lifestealEnemy * damage, p, true, DamageTag.LIFESTEAL);
 				}
 				return damage;
 			}

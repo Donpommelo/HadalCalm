@@ -386,9 +386,11 @@ public class KryoClient {
 				if (vic != null) {
 					User perp = users.get(p.perpConnID);
 					if (perp != null) {
-						Gdx.app.postRunnable(() -> cs.getKillFeed().addMessage(perp.getPlayer(), vic.getPlayer(), p.enemyType, p.tags));
+						cs.addPacketEffect(() -> cs.getKillFeed().addMessage(perp.getPlayer(), vic.getPlayer(),
+							p.enemyType, p.source, p.tags));
 					} else {
-						Gdx.app.postRunnable(() -> cs.getKillFeed().addMessage(null, vic.getPlayer(), p.enemyType, p.tags));
+						cs.addPacketEffect(() -> cs.getKillFeed().addMessage(null, vic.getPlayer(),
+							p.enemyType, p.source, p.tags));
 					}
 				}
 			}
@@ -401,7 +403,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 
 			if (cs != null) {
-				Gdx.app.postRunnable(() -> cs.getKillFeed().addNotification(p.message, false));
+				cs.addPacketEffect(() -> cs.getKillFeed().addNotification(p.message, false));
 			}
 		}
 
@@ -411,7 +413,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.ServerChat p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
-				Gdx.app.postRunnable(() -> cs.getMessageWindow().addText(p.text, p.type, p.connID));
+				cs.addPacketEffect(() -> cs.getMessageWindow().addText(p.text, p.type, p.connID));
 			}
 		}
 
@@ -422,7 +424,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.ServerNotification p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
-				Gdx.app.postRunnable(() -> addNotification(cs, p.name, p.text, p.override, p.type));
+				cs.addPacketEffect(() -> addNotification(cs, p.name, p.text, p.override, p.type));
 			}
 		}
 

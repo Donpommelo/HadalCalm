@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.IntArray;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -12,9 +13,9 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.text.HText;
 
@@ -101,7 +102,8 @@ public class KillerBeat extends RangedWeapon {
 				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 				hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.ENERGY, DamageTypes.RANGED, DamageTypes.SOUND));
+				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback,
+						DamageSource.KILLER_BEAT, DamageTag.ENERGY, DamageTag.RANGED, DamageTag.SOUND));
 				hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.RING_TRAIL, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
 				hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.NOTE_IMPACT).setSyncType(SyncType.NOSYNC));
 				hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.NOTE_IMPACT).setSyncType(SyncType.NOSYNC));

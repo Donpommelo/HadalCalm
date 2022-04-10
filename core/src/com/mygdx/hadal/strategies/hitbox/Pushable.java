@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
@@ -22,7 +22,7 @@ public class Pushable extends HitboxStrategy {
 	}
 	
 	@Override
-	public void receiveDamage(BodyData perp, float baseDamage, Vector2 knockback, DamageTypes... tags) {
+	public void receiveDamage(BodyData perp, float baseDamage, Vector2 knockback, DamageTag... tags) {
 		hbox.push(knockback.scl(pushMultiplier));
 	}
 }

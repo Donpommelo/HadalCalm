@@ -2,9 +2,11 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.bots.RallyPoint;
-import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.Scrap;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -12,7 +14,6 @@ import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
 
 /**
  * This mode setting is used for modes where eggplants are spawned.
@@ -24,7 +25,7 @@ public class ModeEggplantHunt extends ModeSetting {
     private static final int baseScrapDrop = 1;
 
     @Override
-    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
+    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageSource source, DamageTag... tags) {
         //null check in case this is an "extra kill" to give summoner kill credit for a summon
         if (vic != null) {
             if (vic.getUser() != null) {

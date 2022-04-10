@@ -1,6 +1,7 @@
 package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -26,7 +27,7 @@ public class DeathParticles extends Status {
 	}
 	
 	@Override
-	public void onDeath(BodyData perp) {
+	public void onDeath(BodyData perp, DamageSource source) {
 		new ParticleEntity(state, new Vector2(inflicted.getSchmuck().getPixelPosition()), particle, duration, true, SyncType.CREATESYNC);
 	}
 }

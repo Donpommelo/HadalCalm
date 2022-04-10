@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataType;
@@ -11,7 +12,7 @@ import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
@@ -45,7 +46,8 @@ public class SeeSawPlatform extends Event {
 		this.eventData = new EventData(this, UserDataType.WALL) {
 			
 			@Override
-			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) { return 0; }
+			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox,
+									   DamageSource source, DamageTag... tags) { return 0; }
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1.0f, 1, 0, false, false, 
@@ -72,7 +74,8 @@ public class SeeSawPlatform extends Event {
 				EventData tempData = new EventData(this, UserDataType.WALL) {
 
 					@Override
-					public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
+					public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox,
+											   DamageSource source, DamageTag... tags) {
 
 						if (getEntity().isAlive()) {
 							if (getEntity().getBody() != null) {

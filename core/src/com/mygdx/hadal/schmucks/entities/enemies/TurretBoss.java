@@ -1,7 +1,7 @@
 package com.mygdx.hadal.schmucks.entities.enemies;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.equip.EnemyUtils;
+import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.states.PlayState;

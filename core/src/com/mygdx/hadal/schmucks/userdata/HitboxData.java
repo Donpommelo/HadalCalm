@@ -1,9 +1,10 @@
 package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.utils.Stats;
 
@@ -32,16 +33,17 @@ public class HitboxData extends HadalData {
 	}
 	
 	@Override
-	public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
+	public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox,
+							   DamageSource source, DamageTag... tags) {
 		if (!this.hbox.isAlive()) { return 0.0f; }
 		
 		//process hbox reflections/deflections
-		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT) && this.hbox.isReflectable()) {
-			super.receiveDamage(baseDamage, knockback, perp, procEffects, hbox, tags);
+		if (Arrays.asList(tags).contains(DamageTag.DEFLECT) && this.hbox.isReflectable()) {
+			super.receiveDamage(baseDamage, knockback, perp, procEffects, hbox, source, tags);
 		}
 
 		//reflected hboxes can damage any unit and have their damage amplified
-		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && this.hbox.isReflectable()) {
+		if (Arrays.asList(tags).contains(DamageTag.REFLECT) && this.hbox.isReflectable()) {
 			this.hbox.setDamageMultiplier(reflectMultiplier * (1 + perp.getStat(Stats.REFLECT_DAMAGE)));
 			this.hbox.setFilter((short) 0);
 

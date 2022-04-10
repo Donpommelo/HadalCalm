@@ -1,7 +1,8 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -23,20 +24,23 @@ public class PeachwoodSword extends Artifact {
 		enchantment = new Status(state, p) {
 			
 			@Override
-			public void onKill(BodyData vic) {
+			public void onKill(BodyData vic, DamageSource source) {
 				if (vic instanceof PlayerBodyData) {
 					SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
-							new Vector2[] {vic.getSchmuck().getPixelPosition()}, new Vector2[] {}, 0.0f, 0.0f, spiritDamagePlayer);
+							new Vector2[] {vic.getSchmuck().getPixelPosition()}, new Vector2[] {},
+							DamageSource.PEACHWOOD_SWORD, 0.0f, 0.0f, spiritDamagePlayer);
 				} else {
 					SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
-							new Vector2[] {vic.getSchmuck().getPixelPosition()}, new Vector2[] {}, 0.0f, 0.0f, spiritDamageEnemy);
+							new Vector2[] {vic.getSchmuck().getPixelPosition()}, new Vector2[] {},
+							DamageSource.PEACHWOOD_SWORD,0.0f, 0.0f, spiritDamageEnemy);
 				}
 			}
 			
 			@Override
-			public void onDeath(BodyData perp) {
+			public void onDeath(BodyData perp, DamageSource source) {
 				SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
-						new Vector2[] {p.getSchmuck().getPixelPosition()}, new Vector2[] {}, 0.0f, 0.0f, spiritDamagePlayer);
+						new Vector2[] {p.getSchmuck().getPixelPosition()}, new Vector2[] {},
+						DamageSource.PEACHWOOD_SWORD,0.0f, 0.0f, spiritDamagePlayer);
 			}
 		};
 	}

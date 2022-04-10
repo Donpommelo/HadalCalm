@@ -3,6 +3,7 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.SyncType;
@@ -15,7 +16,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -53,6 +54,8 @@ public class Poison extends Event {
 
 	private Particle poisonParticle;
 
+	private DamageSource source = DamageSource.MAP_POISON;
+
 	public Poison(PlayState state, Vector2 startPos, Vector2 size, String particle, float dps, boolean draw, short filter) {
 		super(state,  startPos, size);
 		this.poisonParticle = Particle.valueOf(particle);
@@ -71,17 +74,20 @@ public class Poison extends Event {
 		}
 	}
 
-	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, float duration, Schmuck perp, boolean draw, short filter) {
-		this(state, startPos, size, "POISON", dps, duration, perp, draw, filter);
+	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, float duration, Schmuck perp, boolean draw,
+				  short filter, DamageSource source) {
+		this(state, startPos, size, "POISON", dps, duration, perp, draw, filter, source);
 	}
 	/**
 	 * This constructor is used for when this event is created temporarily.
 	 */
-	public Poison(PlayState state, Vector2 startPos, Vector2 size, String particle, float dps, float duration, Schmuck perp, boolean draw, short filter) {
+	public Poison(PlayState state, Vector2 startPos, Vector2 size, String particle, float dps, float duration, Schmuck perp,
+				  boolean draw, short filter, DamageSource source) {
 		super(state,  startPos, size, duration);
 		this.poisonParticle = Particle.valueOf(particle);
 		this.dps = dps;
 		this.filter = filter;
+		this.source = source;
 		
 		if (perp == null) {
 			this.perp = state.getWorldDummy();
@@ -136,7 +142,7 @@ public class Poison extends Event {
 				for (HadalEntity entity : eventData.getSchmucks()) {
 					if (entity instanceof Schmuck schmuck) {
 						schmuck.getBodyData().receiveDamage(dps, new Vector2(), perp.getBodyData(), true,
-								null, DamageTypes.POISON);
+								null, source, DamageTag.POISON);
 					}
 				}
 			}
@@ -195,6 +201,7 @@ public class Poison extends Event {
 			blueprint.setName("PoisonTemp");
 			blueprint.getProperties().put("particle", poisonParticle.toString());
 			blueprint.getProperties().put("duration", duration);
+			blueprint.getProperties().put("source", source.toString());
 		}
 		return new Packets.CreateEvent(entityID, new EventDto(blueprint), synced);
 	}

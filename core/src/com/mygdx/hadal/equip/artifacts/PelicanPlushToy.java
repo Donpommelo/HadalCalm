@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 
 public class PelicanPlushToy extends Artifact {
@@ -21,7 +21,7 @@ public class PelicanPlushToy extends Artifact {
 		enchantment = new Status(state, p) {
 			
 			@Override
-			public float onHeal(float damage, BodyData perp, DamageTypes... tags) { 
+			public float onHeal(float damage, BodyData perp, DamageTag... tags) {
 				return damage * amount; 
 			}
 		};

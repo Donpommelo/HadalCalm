@@ -9,16 +9,17 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.EnemyUtils;
+import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -83,8 +84,9 @@ public class Boss2 extends EnemyFloating {
 		BodyData link = new BodyData(this, baseHp) {
 			
 			@Override
-			public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
-				me.receiveDamage(baseDamage * linkResist, knockback, perp, procEffects, hbox, tags);
+			public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox,
+									   DamageSource source, DamageTag... tags) {
+				me.receiveDamage(baseDamage * linkResist, knockback, perp, procEffects, hbox, source, tags);
 				return 0;
 			}
 		};
@@ -293,7 +295,8 @@ public class Boss2 extends EnemyFloating {
 				Hitbox hbox = new Hitbox(state, getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), baseDamage, knockback,
+						DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 				hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
 				hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 1.0f));
 				hbox.addStrategy(new DieParticles(state, hbox, getBodyData(), Particle.KAMABOKO_IMPACT));
@@ -315,7 +318,8 @@ public class Boss2 extends EnemyFloating {
 								fragPosition.set(hbox.getPixelPosition()).add(new Vector2(fragVelo).nor().scl(5));
 								Hitbox frag = new Hitbox(state, fragPosition, new Vector2(size, size), lifespan, fragVelo, getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 								frag.addStrategy(new ControllerDefault(state, frag, getBodyData()));
-								frag.addStrategy(new DamageStandard(state, frag, getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+								frag.addStrategy(new DamageStandard(state, frag, getBodyData(), baseDamage, knockback,
+										DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 								frag.addStrategy(new ContactWallDie(state, frag, getBodyData()));
 								frag.addStrategy(new ContactUnitDie(state, frag, getBodyData()));
 								frag.addStrategy(new CreateParticles(state, frag, getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 1.0f));
@@ -455,7 +459,8 @@ public class Boss2 extends EnemyFloating {
 					hbox.setGravity(3.0f);
 					hbox.setDurability(3);
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), slodgeDamage, slodgeKB, DamageTypes.SLODGE, DamageTypes.RANGED));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), slodgeDamage, slodgeKB,
+							DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.SLODGE, 0.0f, 1.0f).setParticleSize(90));
 					hbox.addStrategy(new DieParticles(state, hbox, getBodyData(), Particle.SLODGE_STATUS));
 					hbox.addStrategy(new ContactUnitSlow(state, hbox, getBodyData(), slodgeDuration, slodgeSlow, Particle.SLODGE_STATUS));
@@ -502,8 +507,10 @@ public class Boss2 extends EnemyFloating {
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 					hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), fuguDamage, fuguKB, DamageTypes.POISON, DamageTypes.RANGED));
-					hbox.addStrategy(new DiePoison(state, hbox, getBodyData(), poisonRadius, poisonDamage, poisonDuration, getHitboxfilter()));
+					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), fuguDamage, fuguKB,
+							DamageSource.ENEMY_ATTACK, DamageTag.POISON, DamageTag.RANGED));
+					hbox.addStrategy(new DiePoison(state, hbox, getBodyData(), poisonRadius, poisonDamage, poisonDuration,
+							getHitboxfilter(), DamageSource.ENEMY_ATTACK));
 					hbox.addStrategy(new DieRagdoll(state, hbox, getBodyData(), true));
 					hbox.addStrategy(new DieSound(state, hbox, getBodyData(), SoundEffect.DEFLATE, 0.25f));
 				}

@@ -1,11 +1,12 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Shocked;
 import com.mygdx.hadal.statuses.Status;
 
@@ -35,11 +36,11 @@ public class VolatileDermis extends Artifact {
 			}
 			
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageTypes... tags) {
+			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount = 0;
 					SoundEffect.THUNDER.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.5f, false);
-					p.addStatus(new Shocked(state, p, p, chainDamage, chainRadius, chainAmount, p.getSchmuck().getHitboxfilter()));
+					p.addStatus(new Shocked(state, p, p, chainDamage, chainRadius, chainAmount, p.getSchmuck().getHitboxfilter(), DamageSource.VOLATILE_DERMIS));
 				}
 				return damage;
 			}

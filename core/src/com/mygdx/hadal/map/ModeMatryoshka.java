@@ -1,12 +1,13 @@
 package com.mygdx.hadal.map;
 
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
 
 import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
 
@@ -43,7 +44,7 @@ public class ModeMatryoshka extends ModeSetting {
     }
 
     @Override
-    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
+    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageSource source, DamageTag... tags) {
 
         //null check in case this is an "extra kill" to give summoner kill credit for a summon
         if (vic != null) {
@@ -54,21 +55,12 @@ public class ModeMatryoshka extends ModeSetting {
                 if (user.getScores().getLives() <= 0) {
                     mode.processPlayerLivesOut(state, vic);
                 } else {
-                    boolean instantRespawn = true;
-
-                    //we don't want players to respawn instantly if they die by falling
-                    for (DamageTypes types: tags) {
-                        if (types.equals(DamageTypes.BLASTZONE)) {
-                            instantRespawn = false;
-                            break;
-                        }
-                    }
-
                     //this ensures that players will respawn in the same location that they died
-                    if (instantRespawn) {
+                    if (source != DamageSource.MAP_FALL) {
                         user.setOverrideSpawn(vic.getPixelPosition());
                         user.respawn(state);
                     } else {
+                        //we don't want players to respawn instantly if they die by falling
                         user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
                     }
                 }

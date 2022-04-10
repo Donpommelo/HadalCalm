@@ -75,16 +75,19 @@ public class ParticleEntity extends HadalEntity {
 	public ParticleEntity(PlayState state, Vector2 startPos, Particle particle, float lifespan, boolean startOn, SyncType sync) {
 		super(state, startPos, new Vector2());
 		this.particle = particle;
-		this.effect = particle.getParticle();
+		this.effect = particle.getParticle(this);
 		this.on = startOn;
 		this.sync = sync;
 		this.despawn = false;
 		
 		temp = lifespan != 0;
 		this.lifespan = lifespan;
-		
+
 		if (startOn) {
 			this.effect.start();
+
+			//resetting after starting prevents pooled particles from having incorrect duration timer
+			this.effect.reset();
 		} else {
 			this.effect.allowCompletion();
 		}
@@ -204,13 +207,14 @@ public class ParticleEntity extends HadalEntity {
 			attachedEntity = state.findEntity(attachedId);
 		}
 	}
-	
+
 	/**
 	 * Is this entity on the screen?
 	 * use particle bounding box to calculate
 	 */
-	@Override
-	public boolean isVisible() { return state.getCamera().frustum.boundsInFrustum(visualBounds); }
+	public boolean isEffectNotCulled() {
+		return state.getCamera().frustum.boundsInFrustum(visualBounds);
+	}
 
 	public void turnOn() {
 		on = true;
@@ -229,18 +233,16 @@ public class ParticleEntity extends HadalEntity {
 		turnOn();
 		interval = duration;
 	}
-	
+
 	@Override
-	public void render(SpriteBatch batch) {	effect.draw(batch); }
+	public void render(SpriteBatch batch) {}
 
 	@Override
 	public void dispose() {
 		if (!destroyed) {
-			
+
 			//return the effect back to the particle pool
-			effect.reset();
-			effect.free();
-			effect.dispose();
+			particle.removeEffect(effect);
 		}
 		super.dispose();
 	}
@@ -361,13 +363,13 @@ public class ParticleEntity extends HadalEntity {
 	public ParticleEntity setParticleVelocity(float angle) {
 		this.velocity = angle;
 
-		float newAngle = angle * MathUtils.radDeg + 180;
+		float newAngle = angle * MathUtils.radDeg;
 		for (int i = 0; i < effect.getEmitters().size; i++) {
 			ScaledNumericValue val = effect.getEmitters().get(i).getAngle();
+			float range = val.getHighMax() - val.getHighMin();
 
-			float rotation = newAngle - val.getLowMax();
-			val.setHigh(val.getHighMin() + rotation, val.getHighMax() + rotation);
-			val.setLow(rotation);
+			val.setHigh(newAngle - range / 2, newAngle + range / 2);
+			val.setLow(newAngle);
 		}
 		return this;
 	}

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -26,7 +27,7 @@ public class DeathRagdoll extends Status {
 	}
 	
 	@Override
-	public void onDeath(BodyData perp) {
+	public void onDeath(BodyData perp, DamageSource source) {
 		new Ragdoll(state, inflicted.getSchmuck().getPixelPosition(), size, sprite, inflicted.getSchmuck().getLinearVelocity(),
 				duration, gravity, true, false, true);
 	}

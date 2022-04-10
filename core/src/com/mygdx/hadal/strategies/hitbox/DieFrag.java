@@ -2,11 +2,12 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
@@ -46,7 +47,7 @@ public class DieFrag extends HitboxStrategy {
 				true, false, creator.getSchmuck(), projSprite);
 
 			frag.addStrategy(new ControllerDefault(state, frag, creator));
-			frag.addStrategy(new DamageStandard(state, frag, creator, baseDamage, knockback, DamageTypes.SHRAPNEL));
+			frag.addStrategy(new DamageStandard(state, frag, creator, baseDamage, knockback, DamageSource.BRITTLING_POWDER, DamageTag.SHRAPNEL));
 		}
 	}
 }

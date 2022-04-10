@@ -3,16 +3,17 @@ package com.mygdx.hadal.equip.melee;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
@@ -193,7 +194,8 @@ public class MorningStar extends MeleeWeapon {
 		star.setDensity(0.1f);
 		star.makeUnreflectable();
 
-		star.addStrategy(new DamageStandard(state, star, user.getBodyData(), baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MELEE).setRepeatable(true));
+		star.addStrategy(new DamageStandard(state, star, user.getBodyData(), baseDamage, knockback, DamageSource.MORNING_STAR,
+				DamageTag.WHACKING, DamageTag.MELEE).setRepeatable(true));
 		star.addStrategy(new ContactWallSound(state, star, user.getBodyData(), SoundEffect.WALL_HIT1, 0.25f));
 		star.addStrategy(new ContactUnitSound(state, star, user.getBodyData(), SoundEffect.SLAP, 0.25f, true).setPitch(0.5f));
 		star.addStrategy(new HomingMouse(state, star, user.getBodyData(), homePower));

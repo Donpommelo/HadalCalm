@@ -3,9 +3,10 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -62,12 +63,12 @@ public class SamsonOption extends ActiveItem {
 					
 					SoundEffect.EXPLOSION6.playUniversal(state, explosionPosition.set(randX, randY), 0.5f, false);
 					WeaponUtils.createExplosion(state, explosionPosition, explosionRadius, user.getSchmuck(), explosionDamage, explosionKnockback,
-						user.getSchmuck().getHitboxfilter(), true);
+						user.getSchmuck().getHitboxfilter(), true, DamageSource.SAMSON_OPTION);
 				}
 			}
 		});
 		
-		user.receiveDamage(9999, new Vector2(), user, false, null);
+		user.receiveDamage(9999, new Vector2(), user, false, null, DamageSource.SAMSON_OPTION);
 	}
 	
 	@Override

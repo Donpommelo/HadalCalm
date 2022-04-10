@@ -129,9 +129,6 @@ public class GameStateManager {
 		atlases.add(HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString()));
 		atlases.add(HadalGame.assetManager.get(AssetList.IMPACT_ATL.toString()));
 		
-		//initialize pooled particle effects
-		Particle.initParticlePool();
-		
 		//this lets us not declare every attribute of shaders.
 		ShaderProgram.pedantic = false;
 	}
@@ -330,6 +327,7 @@ public class GameStateManager {
 		MusicTrack.clearMusic(HadalGame.musicPlayer);
 		SoundEffect.clearSound();
 		Shader.clearShader();
+		Particle.clearParticle();
 	}
 
 	public void resize() {

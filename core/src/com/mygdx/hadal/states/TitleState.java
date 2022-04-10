@@ -1,6 +1,7 @@
 package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -138,6 +139,7 @@ public class TitleState extends GameState {
 						diatom2.draw(batch, 0);
 						diatom3.draw(batch, 0);
 						jelly.draw(batch, 0);
+						batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 					}
 				});
 				backdrop = new Backdrop(AssetList.TITLE_CARD.toString(), titleWidth, titleHeight);
@@ -379,11 +381,11 @@ public class TitleState extends GameState {
 	
 	@Override
 	public void dispose() {	
-		stage.dispose(); 
-		jelly.free();
-		diatom1.free();
-		diatom2.free();
-		diatom3.free();
+		stage.dispose();
+		Particle.JELLY.removeEffect(jelly);
+		Particle.DIATOM.removeEffect(diatom1);
+		Particle.DIATOM.removeEffect(diatom2);
+		Particle.DIATOM.removeEffect(diatom3);
 	}
 	
 	/**

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.statuses;
 
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
@@ -22,7 +23,7 @@ public class Temporary extends Status {
 		super.timePassing(delta);
 		duration -= delta;
 		if (duration <= 0) {
-			inflicted.die(inflicted);
+			inflicted.die(inflicted, DamageSource.MISC);
 		}
 	}
 	

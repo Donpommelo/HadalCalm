@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.UserDataType;
@@ -13,7 +14,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
@@ -91,14 +92,17 @@ public class TractorBeam extends ActiveItem {
 									if (fixB != null && track.getSchmuck().getBody() != null) {
 
 										if (fixB.getType().equals(UserDataType.BODY) || fixB.getType().equals(UserDataType.WALL)) {
-											track.receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, grab, DamageTypes.WHACKING);
+											track.receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, grab,
+													DamageSource.TRACTOR_BEAM, DamageTag.WHACKING);
 										}
 
 										if (fixB.getType().equals(UserDataType.BODY)) {
-											fixB.receiveDamage(primaryDamage, hbox.getLinearVelocity().nor().scl(knockback), creator, true, grab, DamageTypes.WHACKING);
+											fixB.receiveDamage(primaryDamage, hbox.getLinearVelocity().nor().scl(knockback),
+													creator, true, grab, DamageSource.TRACTOR_BEAM, DamageTag.WHACKING);
 										}
 									} else {
-										track.receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, grab, DamageTypes.WHACKING);
+										track.receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, grab,
+												DamageSource.TRACTOR_BEAM, DamageTag.WHACKING);
 									}
 								}
 							}

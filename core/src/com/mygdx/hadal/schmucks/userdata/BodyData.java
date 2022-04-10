@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.userdata;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
@@ -13,7 +14,7 @@ import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.ProcTime.InflictDamage;
 import com.mygdx.hadal.statuses.ProcTime.ReceiveDamage;
@@ -48,9 +49,6 @@ public class BodyData extends HadalData {
 	private static final float airYAccel = 0.15f;
 	private static final float groundYDeaccel = 0.05f;
 	private static final float airYDeaccel = 0.01f;
-
-	//fast falling
-	private static final float fastFallPow = 40.0f;
 
 	//Hp and regen
 	private static final float hpRegen = 0.0f;
@@ -267,10 +265,12 @@ public class BodyData extends HadalData {
 	 * @param perp : the schmuck who inflicted damage
 	 * @param procEffects : should this damage proc on-damage effects?
 	 * @param hbox: hbox that inflicted the damage. Null if not inflicted by a hbox
-	 * @param tags : varargs of damage tags
+	 * @param source : attack/weapon source of this damage
+	 * @param tags : damage tags used for type-specific damage resistance/amplification
 	 */
 	@Override
-	public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
+	public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox,
+							   DamageSource source, DamageTag... tags) {
 		if (!schmuck.isAlive()) { return 0.0f; }
 		
 		//calculate damage
@@ -281,8 +281,8 @@ public class BodyData extends HadalData {
 		
 		//proc effects and inflict damage
 		if (procEffects) {
-			damage = ((InflictDamage) perp.statusProcTime(new ProcTime.InflictDamage(damage, this, hbox, tags))).damage;
-			damage = ((ReceiveDamage) statusProcTime(new ProcTime.ReceiveDamage(damage, perp, hbox, tags))).damage;
+			damage = ((InflictDamage) perp.statusProcTime(new ProcTime.InflictDamage(damage, this, hbox, source, tags))).damage;
+			damage = ((ReceiveDamage) statusProcTime(new ProcTime.ReceiveDamage(damage, perp, hbox, source, tags))).damage;
 		}
 		currentHp -= damage;
 		
@@ -311,7 +311,7 @@ public class BodyData extends HadalData {
 				damage += currentHp;
 
 				currentHp = 0;
-				die(lastDamagedBy, tags);
+				die(lastDamagedBy, source, tags);
 			}
 
 			//charge on-damage active item
@@ -363,7 +363,7 @@ public class BodyData extends HadalData {
 	 * @param procEffects: should this damage proc on-damage effects?
 	 * @param tags: varargs of damage tags
 	 */
-	public void regainHp(float baseheal, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+	public void regainHp(float baseheal, BodyData perp, Boolean procEffects, DamageTag... tags) {
 		if (!schmuck.getState().isServer()) { return; }
 
 		float heal = baseheal;
@@ -383,10 +383,10 @@ public class BodyData extends HadalData {
 	 * This method is called when the schmuck dies. Queue up to be deleted next engine tick.
 	 * @param tags: the tags that apply to the fatal damage instance
 	 */
-	public void die(BodyData perp, DamageTypes... tags) {
+	public void die(BodyData perp, DamageSource source, DamageTag... tags) {
 		if (schmuck.queueDeletion()) {
-			perp.statusProcTime(new ProcTime.Kill(this));
-			statusProcTime(new ProcTime.Death(perp));
+			perp.statusProcTime(new ProcTime.Kill(this, source));
+			statusProcTime(new ProcTime.Death(perp, source));
 		}		
 	}
 	

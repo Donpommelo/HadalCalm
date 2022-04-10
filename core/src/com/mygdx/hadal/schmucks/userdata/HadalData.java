@@ -1,10 +1,11 @@
 package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 
 /**
  * This is the basic user data of any entity. The only thing this needs to do is keep track of type and basic stuff like that.
@@ -36,9 +37,11 @@ public class HadalData {
 	 * @param perp : the schmuck who did this
 	 * @param procEffects : Should this proc status effects?
 	 * @param hbox: hbox that inflicted the damage. Null if not inflicted by a hbox
-	 * @param tags : damage tags
+	 * @param source : attack/weapon source of this damage
+	 * @param tags : damage tags used for type-specific damage resistance/amplification
 	 */
-	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox, DamageTypes... tags) {
+	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox,
+							   DamageSource source, DamageTag... tags) {
 		if (getEntity().isAlive()) {
 			getEntity().push(knockback);
 		}

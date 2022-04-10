@@ -1,7 +1,9 @@
 package com.mygdx.hadal.equip.misc;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
@@ -11,7 +13,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -54,12 +56,12 @@ public class Airblaster extends MeleeWeapon {
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW)), DamageTypes.REFLECT)
-			.setConstantKnockback(true, startVelocity));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW)),
+				DamageSource.AIRBLAST, DamageTag.REFLECT).setConstantKnockback(true, startVelocity));
 		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(startVelocity),
 			startVelocity.nor().scl(hitboxSize.x / 2 / PPM)));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_BLAST, 0.0f, 2.0f)
-			.setParticleVelocity(startVelocity.angleRad()));
+			.setParticleVelocity(startVelocity.angleRad() + 180 * MathUtils.degRad));
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			

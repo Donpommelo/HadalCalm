@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -9,7 +10,7 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -68,7 +69,8 @@ public class ImmolationAura extends ActiveItem {
 					pulse.makeUnreflectable();
 
 					pulse.addStrategy(new ControllerDefault(state, pulse, user));
-					pulse.addStrategy(new DamageStandard(state, pulse, user, baseDamage, knockback, DamageTypes.MELEE).setStaticKnockback(true));
+					pulse.addStrategy(new DamageStandard(state, pulse, user, baseDamage, knockback,
+							DamageSource.IMMOLATION_AURA, DamageTag.MELEE).setStaticKnockback(true));
 
 					hoverDirection.setAngleDeg(user.getPlayer().getAttackAngle() + 180);
 					user.getPlayer().pushMomentumMitigation(hoverDirection.x, hoverDirection.y);

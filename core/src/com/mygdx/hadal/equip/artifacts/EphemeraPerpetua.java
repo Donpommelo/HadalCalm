@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -22,7 +23,7 @@ public class EphemeraPerpetua extends Artifact {
 		enchantment = new Status(state, p) {
 
 			@Override
-			public void onKill(BodyData vic) {
+			public void onKill(BodyData vic, DamageSource source) {
 				SoundEffect.MAGIC1_ACTIVE.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.4f, false);
 
 				if (vic instanceof PlayerBodyData) {

@@ -1,14 +1,15 @@
 package com.mygdx.hadal.schmucks.entities.enemies;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.EnemyUtils;
+import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -90,7 +91,8 @@ public class Scissorfish extends EnemySwimming {
 					Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), meleeSize, meleeInterval, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.IMPACT);
 					hbox.makeUnreflectable();
 					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), attack1Damage, defaultMeleeKB, DamageTypes.MELEE).setStaticKnockback(true));
+					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), attack1Damage, defaultMeleeKB,
+							DamageSource.ENEMY_ATTACK, DamageTag.MELEE).setStaticKnockback(true));
 					hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), startVelo).setRotate(true));
 				}
 			});

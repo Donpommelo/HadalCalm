@@ -1,21 +1,22 @@
 package com.mygdx.hadal.map;
 
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
 
 /**
  */
 public class ToggleWeaponDrops extends ModeSetting {
 
-    private static final float equipDropLifepan = 10.0f;
+    private static final float equipDropLifepan = 7.5f;
 
     @Override
-    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageTypes... tags) {
+    public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageSource source, DamageTag... tags) {
 
         //null check in case this is an "extra kill" to give summoner kill credit for a summon
         if (vic != null) {

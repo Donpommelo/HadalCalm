@@ -2,12 +2,13 @@ package com.mygdx.hadal.event.utility;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.utils.Stats;
 
 /**
@@ -65,7 +66,7 @@ public class PlayerChanger extends Event {
 				
 				if (data.getCurrentHp() < data.getStat(Stats.MAX_HP) && hp > 0) {
 					data.regainHp(hp * data.getStat(Stats.MAX_HP) / 100, p.getPlayerData(), true,
-							DamageTypes.MEDPAK);
+							DamageTag.MEDPAK);
 					activated = true;
 					
 					SoundEffect.MAGIC21_HEAL.playUniversal(state, p.getPixelPosition(), 0.3f, false);
@@ -80,7 +81,7 @@ public class PlayerChanger extends Event {
 				
 				if (hp < 0) {
 					data.receiveDamage(-hp, new Vector2(), state.getWorldDummy().getBodyData(), false,
-							null, DamageTypes.BLASTZONE);
+							null, DamageSource.MAP_FALL);
 					activated = true;
 					
 					SoundEffect.DAMAGE5.playUniversal(state, p.getPixelPosition(), 0.3f, false);

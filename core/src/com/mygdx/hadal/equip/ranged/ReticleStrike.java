@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -10,7 +11,7 @@ import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.SyncedAttack;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -80,7 +81,7 @@ public class ReticleStrike extends RangedWeapon {
 					reticle.addStrategy(new CreateParticles(state, reticle, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f)
 							.setParticleSize(40.0f).setParticleColor(HadalColor.HOT_PINK).setSyncType(SyncType.NOSYNC));
 					reticle.addStrategy(new DieExplode(state, reticle, user.getBodyData(), explosionRadius, explosionDamage,
-							explosionKnockback, user.getHitboxfilter(), false));
+							explosionKnockback, user.getHitboxfilter(), false, DamageSource.RETICLE_STRIKE));
 					reticle.addStrategy(new DieSound(state, reticle, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
 					reticle.addStrategy(new Static(state, reticle, user.getBodyData()));
 
