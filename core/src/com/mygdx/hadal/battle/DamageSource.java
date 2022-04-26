@@ -101,6 +101,7 @@ public enum DamageSource {
     BRITTLING_POWDER(DamageSourceType.ARTIFACT),
     BUCKET_OF_BATTERIES(DamageSourceType.ARTIFACT),
     CHAOS_CONJURANT(DamageSourceType.ARTIFACT),
+    CRIME_DISCOURAGEMENT_STICK(DamageSourceType.ARTIFACT),
     CROWN_OF_THORNS(DamageSourceType.ARTIFACT),
     THE_FINGER(DamageSourceType.ARTIFACT),
     FORAGERS_HIVE(DamageSourceType.ARTIFACT),

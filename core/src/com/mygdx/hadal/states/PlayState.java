@@ -160,7 +160,10 @@ public class PlayState extends GameState {
 	private final ObjectMap<String, PositionDummy> dummyPoints = new ObjectMap<>();
 
 	//modifier that affects game engine speed used for special mode modifiers
-	private float timeModifier = 1.0f;
+	private float timeModifier = 0.0f;
+
+	//modifier that affects the camera zoom
+	private float zoomModifier = 0.0f;
 
 	//default respawn time that can be changed in mode settings
 	private float respawnTime = 1.5f;
@@ -474,7 +477,7 @@ public class PlayState extends GameState {
 	@Override
 	public void update(float delta) {
 
-		float modifiedDelta = delta * timeModifier;
+		float modifiedDelta = delta * (1.0f + timeModifier);
 
 		//On the very first tick, server tells all clients that it is loaded. Also, initiate bots if applicable
 		if (server && !serverLoaded) {
@@ -774,7 +777,7 @@ public class PlayState extends GameState {
 	final Vector2 cameraFocusAimVector = new Vector2();
 	final Vector2 cameraFocusAimPoint = new Vector2();
 	protected void cameraUpdate() {
-		zoom = zoom + (zoomDesired - zoom) * 0.1f;
+		zoom = zoom + (zoomDesired * (1.0f + zoomModifier) - zoom) * 0.1f;
 
 		camera.zoom = zoom;
 
@@ -1541,10 +1544,6 @@ public class PlayState extends GameState {
 
 	public boolean isReset() { return reset; }
 
-	public float getTimeModifier() { return timeModifier; }
-
-	public void setTimeModifier(float timeModifier) { this.timeModifier = timeModifier; }
-
 	public boolean isSpectatorMode() { return spectatorMode; }
 
 	public void addMapModifier(UnlockArtifact modifier) { this.mapModifiers.add(modifier); }
@@ -1636,6 +1635,14 @@ public class PlayState extends GameState {
 	public DialogBox getDialogBox() { return dialogBox; }
 
 	public void setZoom(float zoom) { this.zoomDesired = zoom; }
+
+	public float getTimeModifier() { return timeModifier; }
+
+	public void setTimeModifier(float timeModifier) { this.timeModifier = timeModifier; }
+
+	public float getZoomModifier() { return this.zoomModifier; }
+
+	public void setZoomModifier(float zoomModifier) { this.zoomModifier = zoomModifier; }
 
 	public Array<Object> getSyncPackets() {	return syncPackets; }
 

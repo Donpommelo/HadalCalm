@@ -37,24 +37,24 @@ public class Nurdler extends Artifact {
 		enchantment = new Status(state, p) {
 			
 			private float procCdCount = procCd;
-			private final Vector2 startVelo = new Vector2();
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {
 					procCdCount += delta;
 				}
 			}
-			
+
+			private final Vector2 startVelo = new Vector2();
 			@Override
 			public void whileAttacking(float delta, Equippable tool) {
 				if (tool.isReloading()) { return; }
 
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					
+
+					startVelo.set(0, projSpeed).setAngleDeg(p.getPlayer().getAttackAngle() + 180);
 					Hitbox hbox = new RangedHitbox(state, p.getSchmuck().getPixelPosition(), projectileSize, lifespan,
-							startVelo.set(tool.getWeaponVelo()).nor().scl(projSpeed), p.getSchmuck().getHitboxfilter(),
-							true, true, p.getSchmuck(), projSprite);
+							startVelo, p.getSchmuck().getHitboxfilter(),true, true, p.getSchmuck(), projSprite);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, p));
 					hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, p));

@@ -38,6 +38,7 @@ public class Flashbang extends ActiveItem {
 
 	private static final int currentRadius = 200;
 	private static final float blindDuration = 4.5f;
+	private static final float flashbangRotationSpeed = 8.0f;
 
 	public Flashbang(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -52,23 +53,18 @@ public class Flashbang extends ActiveItem {
 	public static Hitbox createFlashbang(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.LAUNCHER.playSourced(state, user.getPixelPosition(), 0.35f);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan,startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				false, false, user, projSprite);
 		hbox.setGravity(1.0f);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new RotationConstant(state, hbox, user.getBodyData(), flashbangRotationSpeed));
+
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback,
 				DamageSource.FLASH_BANG, DamageTag.MAGIC));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-
-			@Override
-			public void create() {
-
-				//Set grenade to have constant angular velocity for visual effect.
-				hbox.setAngularVelocity(8);
-			}
 
 			@Override
 			public void die() {

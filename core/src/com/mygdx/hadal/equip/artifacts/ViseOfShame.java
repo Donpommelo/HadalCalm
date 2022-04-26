@@ -7,7 +7,7 @@ import com.mygdx.hadal.statuses.Status;
 public class ViseOfShame extends Artifact {
 
 	private static final int slotCost = 2;
-	private static final float sizeModifier = 0.4f;
+	private static final float sizeModifier = -0.6f;
 
 	public ViseOfShame() {
 		super(slotCost);

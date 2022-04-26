@@ -21,7 +21,6 @@ public class TriggerfishFinger extends Artifact {
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
 				new StatChangeStatus(state, Stats.TOOL_SPD, bonusAtkSpd, p),
-				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, p)
-		);
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, p));
 	}
 }

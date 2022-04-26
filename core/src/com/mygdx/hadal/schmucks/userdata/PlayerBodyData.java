@@ -491,14 +491,18 @@ public class PlayerBodyData extends BodyData {
 	
 	/**
 	 * We override this method so that player-specific fields can adjust properly when stats are modified.
-	 * atm, this is only used for weapon slot number changes
+	 * atm, this is only used for weapon slot number changes, as well as camera modifiers
 	 */
 	@Override
 	public void calcStats() {
 		super.calcStats();
 		
 		if (player == null) { return; }
-		
+
+		if (player.equals(player.getState().getPlayer())) {
+			player.getState().setZoomModifier(getStat(Stats.VISION_RADIUS));
+		}
+
 		if (currentSlot >= getNumWeaponSlots()) {
 			currentSlot = getNumWeaponSlots() - 1;
 			setEquip();

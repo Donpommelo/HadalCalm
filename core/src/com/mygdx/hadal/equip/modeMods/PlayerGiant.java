@@ -9,7 +9,7 @@ public class PlayerGiant extends Artifact {
 
 	private static final int slotCost = 0;
 
-	private static final float playerScale = 1.8f;
+	private static final float playerScale = 0.8f;
 
 	public PlayerGiant() { super(slotCost); }
 

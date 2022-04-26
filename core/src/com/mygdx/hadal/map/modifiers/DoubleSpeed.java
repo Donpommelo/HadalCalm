@@ -14,12 +14,12 @@ public class DoubleSpeed extends ModeModifier {
     private static final HText uiText = HText.MODIFIER_FAST_UI;
     private static final HText name = HText.MODIFIER_FAST;
 
-    private static final float physicsMultiplier = 2.0f;
+    private static final float physicsMultiplier = 1.0f;
 
     public DoubleSpeed() {
         super(settingTag, uiText, name);
     }
 
     @Override
-    public void executeModifier(PlayState state) { state.setTimeModifier(state.getTimeModifier() * physicsMultiplier); }
+    public void executeModifier(PlayState state) { state.setTimeModifier(state.getTimeModifier() + physicsMultiplier); }
 }

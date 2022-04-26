@@ -815,7 +815,6 @@ public class KryoClient {
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
 					newPlayer.setStartPos(p.startPosition);
 					newPlayer.setConnId(p.connID);
-					newPlayer.setScaleModifier(p.scaleModifier);
 					newPlayer.setHitboxfilter(p.hitboxFilter);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, newPlayer, true, ObjectLayer.STANDARD);
 

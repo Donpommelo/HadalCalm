@@ -48,7 +48,7 @@ public class Stats {
 	public static final int RANGED_PROJ_RESTITUTION = 35;
 	public static final int RANGED_PROJ_GRAVITY = 36;
 	public static final int RANGED_RECOIL = 37;
-	
+
 	public static final int HEALTH_VISIBILITY = 39;
 	public static final int EXTRA_SCRAP = 40;
 	public static final int LIGHT_RADIUS = 41;
@@ -61,4 +61,5 @@ public class Stats {
 	public static final int REFLECT_DAMAGE = 48;
 	public static final int HOVER_CONTROL = 49;
 	public static final int MAX_HP_PERCENT = 50;
+	public static final int VISION_RADIUS = 51;
 }

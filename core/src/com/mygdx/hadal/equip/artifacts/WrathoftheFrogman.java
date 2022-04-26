@@ -13,6 +13,7 @@ public class WrathoftheFrogman extends Artifact {
 	private static final int slotCost = 2;
 	
 	private static final float procCd = 0.65f;
+	private static final float projSpeed = 5.0f;
 
 	public WrathoftheFrogman() {
 		super(slotCost);
@@ -29,7 +30,8 @@ public class WrathoftheFrogman extends Artifact {
 					procCdCount += delta;
 				}
 			}
-			
+
+			private final Vector2 startVelo = new Vector2();
 			@Override
 			public void whileAttacking(float delta, Equippable tool) {
 				if (tool.isReloading()) { return; }
@@ -37,8 +39,9 @@ public class WrathoftheFrogman extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 
+					startVelo.set(0, projSpeed).setAngleDeg(p.getPlayer().getAttackAngle() + 180);
 					SyncedAttack.HOMING_MISSILE.initiateSyncedAttackSingle(state, inflicted.getSchmuck(),
-							inflicted.getSchmuck().getPixelPosition(), new Vector2(0, 1), DamageSource.WRATH_OF_THE_FROGMAN);
+							inflicted.getSchmuck().getPixelPosition(), startVelo, DamageSource.WRATH_OF_THE_FROGMAN);
 				}
 			}
 		};

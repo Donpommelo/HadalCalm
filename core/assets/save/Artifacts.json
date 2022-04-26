@@ -105,7 +105,7 @@
 "BACKPACK_BUDDY": {
 	"name": "Backpack Buddy",
 	"description": "+Artifact Slot, -Max Hp",
-    "descriptionLong": "Max Hp Reduction: -25%\n\nA sodden doll that once occupied a child's backpack\n\nWhile some Sunk cling to relics of their former lives, they inevitably reach their final destinations empty-handed.",
+    "descriptionLong": "Max Hp Reduction: -25%\n\nA sodden doll that once occupied a child's backpack\n\nWhile some Sunk cling to relics of their former lives, they ultimately reach their final destinations empty-handed.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -318,7 +318,7 @@
 },
 "COMPOUND_VITREOUS": {
 	"name": "Compound Vitreous",
-	"description": "Reveal Enemy Health",
+	"description": "+Vision, Reveal Enemy Health",
     "descriptionLong": "An iridescent compound eye made of glassy organic material\n\nOnly through special means can individuals see beyond the firmaments that lie at the top and bottom of the world.",
 	"tags": [
 		"RELIQUARY",
@@ -335,6 +335,17 @@
 		"RANDOM_POOL",
         "OFFENSE",
         "WEAPON_DAMAGE"
+	]
+},
+"CRIME_DISCOURAGEMENT_STICK": {
+	"name": "Crime Discouragement Stick",
+	"description": "Fires Grenades When Attacking",
+    "descriptionLong": "Grenade Interval: 1.25 Seconds\nGrenade Damage: 28\n\n",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+        "OFFENSE",
+        "PASSIVE_DAMAGE"
 	]
 },
 "CROWN_OF_THORNS": {
@@ -523,6 +534,17 @@
         "GIMMICK"
 	]
 },
+"FISHEYE_CATARACT": {
+	"name": "Fisheye Cataract",
+	"description": "",
+    "descriptionLong": "",
+	"tags": [
+		"RELIQUARY",
+		"RANDOM_POOL",
+        "DEFENSE",
+        "GIMMICK"
+	]
+},
 "FORAGERS_HIVE": {
 	"name": "Forager's Hive",
 	"description": "Release Bees While Attacking",
@@ -683,7 +705,7 @@
 "JURY_RIGGED_BINDINGS": {
 	"name": "Jury-Rigged Bindings",
 	"description": "Fires Your Inactive Weapons when Attacking",
-    "descriptionLong": "Attack Interval: 20% Attack Speed of Inactive Weapon\n\n",
+    "descriptionLong": "Attack Interval: 20% Attack Speed of Inactive Weapon\n\nA well-worn noose used for turning many into one\n\nWell-laid plans to stay afloat are squandered if they are bound to those fated to sink",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -745,7 +767,7 @@
 "LEATHERBACK": {
 	"name": "Leatherback",
 	"description": "+Backstab Resistance",
-    "descriptionLong": "Bonus Backstab Resistance: +60%\n\n",
+    "descriptionLong": "Bonus Backstab Resistance: +60%\n\nA sturdy, calcified deterrent to betrayal\n\nThwart backstab attempts by pulling your body inside-out until your \"back\" is inward-facing and out of reach.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -949,12 +971,22 @@
 "NUTRILOG_CRUNCHBAR_PLUS": {
 	"name": "Nutrilog Crunchbar-Plus",
 	"description": "+Max Hp, +Knockback Resistance, +Player Size",
-    "descriptionLong": "Bonus Max Hp: +100%\nBonus Knockback Resistance: +50%\nBonus Player Size: +80%\nSize Change Activates Upon Spawning\n\n",
+    "descriptionLong": "Bonus Max Hp: +100%\nBonus Knockback Resistance: +50%\nBonus Player Size: +80%\nSize Change Activates Upon Spawning\n\nA nutrient-flavored part of a complete breakfast\n\n",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
         "DEFENSE",
         "GIMMICK"
+	]
+},
+"OBLIGE_LA_MORT": {
+	"name": "Oblige La Mort",
+	"description": "+Movement Speed Forward, -Movement Speed Backwards",
+    "descriptionLong": "",
+	"tags": [
+		"RELIQUARY",
+		"MOBILITY",
+		"RANDOM_POOL"
 	]
 },
 "OL_FAITHFUL": {
@@ -968,8 +1000,8 @@
 },
 "ORIGIN_COIL": {
 	"name": "Origin Coil",
-	"description": "Propulsive Projectiles, +Reload Speed",
-    "descriptionLong": "Bonus Reload Speed: 60%\n\nA delicate mechanism facilitating the spontaneous generation of life\n\nThe Garden of the Neptune King serves as a sanctuary for seeds taken by the Noiseless Sea before having a chance to germinate.",
+	"description": "Propulsive Projectiles, +Clip Size",
+    "descriptionLong": "Bonus Clip Size: 25%\n\nA delicate mechanism facilitating the spontaneous generation of life\n\nThe Garden of the Neptune King serves as a sanctuary for seeds taken by the Noiseless Sea before having a chance to germinate.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -1390,7 +1422,7 @@
 "WRATH_OF_THE_FROGMAN": {
 	"name": "Wrath of the Frogman",
 	"description": "Fire Missiles When Attacking",
-    "descriptionLong": "Missile Interval: 0.65 Seconds\nMissile Damage: 22\n\nA pair of webbed gloves worn by amphibious assassins\n\nOnce feared by all submariners, the Frogman's reign of terror ceased when their coastal hunting grounds became submerged.",
+    "descriptionLong": "Missile Interval: 0.65 Seconds\nMissile Damage: 18\n\nA pair of webbed gloves worn by amphibious assassins\n\nOnce feared by all submariners, the Frogman's reign of terror ceased when their coastal hunting grounds became submerged.",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",

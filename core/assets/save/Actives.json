@@ -164,7 +164,7 @@
 "MISSILE_POD": {
 	"name": "Missile Pod",
 	"description": "Fire a barrage of homing missiles",
-    "descriptionLong": "Charge: 15 Seconds\nMissiles: 12\nMissile Damage: 22\n\n",
+    "descriptionLong": "Charge: 15 Seconds\nMissiles: 12\nMissile Damage: 18\n\n",
 	"tags": [
 		"ARCANERY",
 		"RANDOM_POOL"
@@ -199,7 +199,7 @@
 "PLUS_MINUS": {
 	"name": "Plus Minus",
 	"description": "Shock nearby enemies with chain lightning",
-    "descriptionLong": "Charge: 12 Seconds\nLightning Damage: 18\nLightning Chains: 8 Enemies\n\n",
+    "descriptionLong": "Charge: 12 Seconds\nLightning Strikes: 3\nLightning Damage: 14\nLightning Chains: 4 Enemies\n\n",
 	"tags": [
 		"ARCANERY",
 		"RANDOM_POOL"

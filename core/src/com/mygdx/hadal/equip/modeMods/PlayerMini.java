@@ -9,7 +9,7 @@ public class PlayerMini extends Artifact {
 
 	private static final int slotCost = 0;
 
-	private static final float playerScale = 0.5f;
+	private static final float playerScale = -0.5f;
 
 	public PlayerMini() { super(slotCost); }
 

@@ -67,7 +67,7 @@ public class Player extends PhysicsSchmuck {
 	public static final float scale = 0.15f;
 	public static final float uiScale = 0.4f;
 	public static final float playerMass = 2.4489846f;
-	private float scaleModifier = 1.0f;
+	private float scaleModifier = 0.0f;
 	private float gravityModifier = 1.0f;
 	private float restitutionModifier = 0.0f;
 	private boolean dontMoveCamera;
@@ -287,7 +287,7 @@ public class Player extends PhysicsSchmuck {
 		}
 
 		//we scale size here to account for any player size modifiers
-		size.scl(scaleModifier);
+		size.scl(1.0f + scaleModifier);
 
 		//for server, we adjust offset of particles to account for size changes
 		if (dustCloud != null && hoverBubbles != null) {
@@ -1007,7 +1007,7 @@ public class Player extends PhysicsSchmuck {
 	public BodyData getBodyData() { return playerData; }
 
 	public void setScaleModifier(float scaleModifier) {
-		this.spriteHelper.setScale(scale * scaleModifier);
+		this.spriteHelper.setScale(scale * (1.0f + scaleModifier));
 		this.scaleModifier = scaleModifier;
 	}
 

@@ -23,23 +23,24 @@ public class ForagersHive extends Artifact {
 		enchantment = new Status(state, p) {
 			
 			private float procCdCount = procCd;
-			private final Vector2 startVelo = new Vector2();
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {
 					procCdCount += delta;
 				}
 			}
-			
+
+			private final Vector2 startVelo = new Vector2();
 			@Override
 			public void whileAttacking(float delta, Equippable tool) {
-				
 				if (tool.isReloading()) { return; }
 				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
+
+					startVelo.set(0, beeSpeed).setAngleDeg(p.getPlayer().getAttackAngle() + 180);
 					SyncedAttack.BEE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(),
-							startVelo.set(tool.getWeaponVelo()).nor().scl(beeSpeed), DamageSource.FORAGERS_HIVE);
+							startVelo, DamageSource.FORAGERS_HIVE);
 				}
 			}
 		};

@@ -10,7 +10,7 @@ import static com.mygdx.hadal.utils.Constants.PRIORITY_LAST_LAST;
 public class NutrilogCrunchbarPlus extends Artifact {
 
 	private static final int slotCost = 1;
-	private static final float sizeModifier = 1.8f;
+	private static final float sizeModifier = 0.8f;
 	private static final float bonusHp = 1.0f;
 	private static final float bonusKnockbackRes = 0.5f;
 

@@ -121,7 +121,7 @@ public class WeaponUtils {
 	
 	private static final float torpedoBaseDamage = 3.0f;
 	private static final float torpedoBaseKnockback = 3.0f;
-	private static final float torpedoExplosionDamage = 22.0f;
+	private static final float torpedoExplosionDamage = 18.0f;
 	private static final float torpedoExplosionKnockback = 16.0f;
 	private static final int torpedoExplosionRadius = 150;
 	private static final Vector2 torpedoSize = new Vector2(60, 14);
@@ -199,6 +199,33 @@ public class WeaponUtils {
 			}
 		});
 
+		return hbox;
+	}
+
+	private static final Vector2 stickGrenadeSize = new Vector2(19, 70);
+	private static final float stickGrenadeLifespan = 3.0f;
+	private static final float stickGrenadeBaseDamage = 8.0f;
+	private static final float stickGrenadeBaseKnockback = 3.0f;
+	private static final float stickGrenadeExplosionDamage = 28.0f;
+	private static final float stickGrenadeExplosionKnockback = 12.0f;
+	private static final int stickGrenadeExplosionRadius = 100;
+	private static final float grenadeRotationSpeed = 8.0f;
+	public static Hitbox createStickGrenade(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
+		SoundEffect.LAUNCHER.playSourced(state, user.getPixelPosition(), 1.0f);
+
+		Hitbox hbox = new RangedHitbox(state, startPosition, stickGrenadeSize, stickGrenadeLifespan, startVelocity,
+				user.getHitboxfilter(), false, false, user, Sprite.CABER);
+
+		hbox.setGravity(1.0f);
+
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new RotationConstant(state, hbox, user.getBodyData(), grenadeRotationSpeed));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), stickGrenadeBaseDamage, stickGrenadeBaseKnockback,
+				DamageSource.CRIME_DISCOURAGEMENT_STICK, DamageTag.EXPLOSIVE));
+		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), stickGrenadeExplosionRadius, stickGrenadeExplosionDamage,
+				stickGrenadeExplosionKnockback, user.getHitboxfilter(), false, DamageSource.CRIME_DISCOURAGEMENT_STICK));
 		return hbox;
 	}
 

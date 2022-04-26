@@ -9,9 +9,10 @@ import com.mygdx.hadal.utils.Stats;
 public class CompoundVitreous extends Artifact {
 
 	private static final int slotCost = 1;
-	
+
 	private static final float hpVisibility = 1.0f;
-	
+	private static final float visionBonus = 0.3f;
+
 	public CompoundVitreous() {
 		super(slotCost);
 	}
@@ -19,6 +20,7 @@ public class CompoundVitreous extends Artifact {
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
+				new StatChangeStatus(state, Stats.VISION_RADIUS, visionBonus, p),
 				new StatChangeStatus(state, Stats.HEALTH_VISIBILITY, hpVisibility, p));
 	}
 }

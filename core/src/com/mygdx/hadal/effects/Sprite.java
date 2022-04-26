@@ -29,6 +29,7 @@ public enum Sprite {
 	BOOMERANG(SpriteType.PROJECTILE, "boomerang"),
 	BULLET(SpriteType.PROJECTILE, "bullet"),
 	BUZZSAW(SpriteType.PROJECTILE, "bouncing_blade"),
+	CABER(SpriteType.PROJECTILE, "caber"),
 	CANNONBALL(SpriteType.PROJECTILE, "iron_ball"),
 	CHARGE_BEAM(SpriteType.PROJECTILE, "charge_beam_a"),
 	CLOSED_HAND(SpriteType.PROJECTILE, "closed_hand"),

@@ -525,6 +525,13 @@ public enum SyncedAttack {
         }
     },
 
+    STICK_GRENADE() {
+        @Override
+        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
+            return WeaponUtils.createStickGrenade(state, user, startPosition, startVelocity);
+        }
+    },
+
     VENGEFUL_SPIRIT() {
 
         @Override
