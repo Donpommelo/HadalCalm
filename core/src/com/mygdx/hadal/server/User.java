@@ -79,8 +79,13 @@ public class User {
                     spawnForewarned = true;
                     startPoint = state.getSavePoint(this);
 
-                    new ParticleEntity(state, new Vector2(startPoint.getStartPos()).sub(0, startPoint.getSize().y),
-                            Particle.TELEPORT_PRE, spawnForewarn, true, SyncType.CREATESYNC);
+                    if (spawnOverridden) {
+                        new ParticleEntity(state, new Vector2(overrideSpawnLocation).sub(0, startPoint.getSize().y),
+                                Particle.TELEPORT_PRE, spawnForewarn, true, SyncType.CREATESYNC);
+                    } else {
+                        new ParticleEntity(state, new Vector2(startPoint.getStartPos()).sub(0, startPoint.getSize().y),
+                                Particle.TELEPORT_PRE, spawnForewarn, true, SyncType.CREATESYNC);
+                    }
                 }
             }
             if (transitionTime <= 0.0f) {
@@ -98,13 +103,18 @@ public class User {
      * @param nextState: the transitionState they are following
      * @param override: does this change override an existing transition
      * @param fadeSpeed: the speed at which the screen will fade out
-     * @param fadeDelay: the delay in seconds before the screen fades out
+     * @param fadeDelay: the delay in seconds before the screen fades out. If -1, indicates conditional respawn; not timed
      */
     public void beginTransition(PlayState state, TransitionState nextState, boolean override, float fadeSpeed, float fadeDelay) {
         if (override || this.nextState == null) {
-            this.nextState = nextState;
-            this.transitionTime = fadeDelay + 1.0f / fadeSpeed;
-            this.spawnForewarned = false;
+
+            if (fadeDelay == -1) {
+                this.nextState = null;
+            } else {
+                this.nextState = nextState;
+                this.transitionTime = fadeDelay + 1.0f / fadeSpeed;
+                this.spawnForewarned = false;
+            }
 
             if (scores.getConnID() == 0) {
                 if (override || state.getNextState() == null) {

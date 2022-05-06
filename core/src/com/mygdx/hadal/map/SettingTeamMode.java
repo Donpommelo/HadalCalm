@@ -183,7 +183,7 @@ public class SettingTeamMode extends ModeSetting {
                             } else {
                                 //if team mode, living players qualify their team for a win (or themselves if on a solo-team)
                                 if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
-                                    resultsText = HText.PLAYER_WINS.text(playerLeft.getPlayerData().getLoadout().team.toString());
+                                    resultsText = HText.PLAYER_WINS.text(playerLeft.getPlayerData().getLoadout().team.getTeamName());
                                     winningTeam = user.getTeamFilter();
                                 } else {
                                     resultsText = HText.PLAYER_WINS.text(playerLeft.getName());

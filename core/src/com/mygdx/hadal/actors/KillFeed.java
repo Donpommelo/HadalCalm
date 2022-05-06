@@ -73,6 +73,7 @@ public class KillFeed {
 
     //this contains information shown when waiting to respawn
     private Text deathInfo;
+    private boolean awaitingRevive;
     private String killedBy = "";
     private String deathCause = "";
 
@@ -256,7 +257,14 @@ public class KillFeed {
         this.totalRespawnTime = respawnTime;
         this.respawnTime = respawnTime;
 
-        Text deathInfoTitle = new Text(HText.RESPAWN_IN.text());
+        awaitingRevive = respawnTime < 0.0f;
+
+        Text deathInfoTitle = new Text("");
+        if (awaitingRevive) {
+            deathInfoTitle.setText(HText.AWAITING_REVIVE.text());
+        } else {
+            deathInfoTitle.setText(HText.RESPAWN_IN.text());
+        }
         deathInfoTitle.setScale(scale);
 
         deathInfoTable.add(deathInfoTitle);
@@ -296,6 +304,10 @@ public class KillFeed {
      * format respawn timer to have 2 digits
      */
     private void formatDeathTimer() {
+        if (awaitingRevive) {
+            deathInfo.setText("");
+            return;
+        }
         DecimalFormat df = new DecimalFormat("0.0");
         df.setRoundingMode(RoundingMode.DOWN);
         deathInfo.setText(df.format(respawnTime) + " S");
@@ -307,7 +319,7 @@ public class KillFeed {
      * This is used to determine if spectator camera features should be active (camera controls, screen shake)
      */
     public boolean isRespawnSpectator() {
-        return respawnTime < totalRespawnTime - spectatorDurationThreshold && deathInfoTable.isVisible();
+        return (respawnTime < totalRespawnTime - spectatorDurationThreshold || awaitingRevive) && deathInfoTable.isVisible();
     }
 
     public void setKillSource(Player perp, EnemyType type, DamageSource source) {

@@ -167,7 +167,7 @@ public class Player extends PhysicsSchmuck {
 	
 	//this is the point we are starting at.
 	private final StartPoint start;
-	
+
 	//is the player currently typing in chat? (yes if this float is greater that 0.0f)
 	protected float typingCdCount;
 	
@@ -348,6 +348,7 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void controller(float delta) {
 		controllerCount += delta;
+		playerLocation.set(getPixelPosition());
 
 		//This line ensures that this runs every 1/60 second regardless of computer speed.
 		while (controllerCount >= controllerInterval) {
@@ -692,7 +693,6 @@ public class Player extends PhysicsSchmuck {
 				batchSet = true;
 			}
 		}
-		playerLocation.set(getPixelPosition());
 
 		//render player sprite using sprite helper
 		spriteHelper.render(batch, attackAngle, moveState, animationTime, animationTimeExtra, grounded, playerLocation);
@@ -780,7 +780,6 @@ public class Player extends PhysicsSchmuck {
 						batch.draw(hpBarFade, hpX + hpWidth, playerLocation.y + barY, hpWidth, hpHeight);
 						batch.draw(hpBar, hpX + hpWidth, playerLocation.y + barY, hpWidth, hpHeight * hpRatio);
 						batch.draw(fuelCutoff, hpX, playerLocation.y + barY + fuelCutoffRatio * hpHeight, hpWidth, cutoffThickness);
-
 					} else {
 						batch.draw(fuelBar, hpX - hpWidth, playerLocation.y + barY, hpWidth, hpHeight * fuelRatio);
 						batch.draw(hpBarFade, hpX, playerLocation.y + barY, hpWidth, hpHeight);
@@ -948,6 +947,8 @@ public class Player extends PhysicsSchmuck {
 	private final Vector2 serverAttackAngle = new Vector2(0, 1);
 	@Override
 	public void clientController(float delta) {
+		playerLocation.set(getPixelPosition());
+
 		super.clientController(delta);
 		//client mouse lerps towards the angle sent by server
 		mouseAngle.setAngleRad(mouseAngle.angleRad()).lerp(serverAttackAngle, 1 / 2f).angleRad();

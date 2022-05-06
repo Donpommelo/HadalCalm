@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
+import com.mygdx.hadal.event.modes.ReviveGravestone;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -45,6 +46,9 @@ public class PickupDestoyer extends Event {
 			}
 			if (entity instanceof CrownHoldable crown) {
 				crown.queueDeletion();
+			}
+			if (entity instanceof ReviveGravestone grave) {
+				grave.resetPosition();
 			}
 		}
 	}

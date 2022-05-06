@@ -783,6 +783,22 @@ public class Packets {
 			this.pos = pos;
 		}
 	}
+
+	public static class CreateGrave {
+		public long uuidMSB, uuidLSB;
+		public int connID;
+		public Vector2 pos;
+		public float returnMaxTimer;
+
+		public CreateGrave() {}
+
+		public CreateGrave(UUID entityID, int connID, Vector2 pos, float returnMaxTimer) {
+			this.uuidLSB = entityID.getLeastSignificantBits();
+			this.uuidMSB = entityID.getMostSignificantBits();
+			this.pos = pos;
+			this.returnMaxTimer = returnMaxTimer;
+		}
+	}
 	
 	public static class SyncUI {
 		public float timer;
@@ -1215,6 +1231,7 @@ public class Packets {
 		kryo.register(CreateParticles.class);
 		kryo.register(CreateFlag.class);
 		kryo.register(CreateCrown.class);
+		kryo.register(CreateGrave.class);
     	kryo.register(CreateRagdoll.class);
 
     	kryo.register(SyncUI.class);

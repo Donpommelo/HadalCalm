@@ -536,7 +536,7 @@ public class KryoServer {
 								if (player != null) {
 									if (player.getPlayerData() != null) {
 										player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(),
-												false, null, DamageSource.DISCONNECT);
+												false, null, DamageSource.MISC);
 									}
 								}
 							}

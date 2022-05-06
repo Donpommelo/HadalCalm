@@ -28,7 +28,7 @@ public class UITag {
 	//this is the last String displayed by this tag.
 	//If this tag is not modified, we do not need to recalc things like player score order
 	private String cachedText = "";
-	
+
 	public UITag(UIExtra uiExtra, uiType type, String misc) {
 		this.uiExtra = uiExtra;
 		this.type = type;
@@ -87,6 +87,9 @@ public class UITag {
 				case TEAMSCORE:
 					uiExtra.sortTeamScores(text);
 					break;
+				case PLAYERS_ALIVE:
+					uiExtra.sortTeamAlive(text);
+					break;
 				case GUNGAME:
 					int score = user.getScores().getScore();
 					if (score + 1 < ModeGunGame.weaponOrder.length) {
@@ -126,6 +129,8 @@ public class UITag {
 		LEVEL,
 		TEAMSCORE,
 		GUNGAME,
+		PLAYERS_ALIVE,
+		ALLY_HEALTH,
 		SCOREBOARD,
 		EMPTY,
 		ALL

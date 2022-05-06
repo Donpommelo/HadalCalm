@@ -19,6 +19,11 @@
 	"description": "Defeat other players to score points.",
 	"descriptionLong": "Players with fewest deaths win tiebreakers.\nCan be played with teams or free-for-all."
 },
+"DREAM_OF_A_WHALE": {
+	"name": "Dream of a Whale",
+	"description": "TEMP",
+	"descriptionLong": ""
+},
 "SURVIVAL": {
 	"name": "Survival",
 	"description": "Survive against waves of enemies.",
@@ -28,6 +33,11 @@
 	"name": "Capture The Flag",
 	"description": "Capture the enemy flag and bring it to your own goal to score points.",
 	"descriptionLong": "Players are split into 2 teams.\nPoints cannot be scored if the enemy holds your flag."
+},
+"EGGPLANTS": {
+	"name": "Eggplant Hunt",
+	"description": "The player with the most eggplants at the end of the game wins.",
+	"descriptionLong": "Eggplants are dropped by a spawner in the map.\nPlayers drop some of their eggplants on death."
 },
 "FOOTBALL": {
 	"name": "Football",
@@ -39,20 +49,20 @@
 	"description": "Player weapon cycles when they get kills.",
 	"descriptionLong": "Cycle through all 18 weapons to win the game."
 },
-"MATRYOSHKA": {
-	"name": "Matryoshka",
-	"description": "Players are larger and get smaller each time they die, respawning instantly in the same location.",
-	"descriptionLong": ""
-},
-"EGGPLANTS": {
-	"name": "Eggplant Hunt",
-	"description": "The player with the most eggplants at the end of the game wins.",
-	"descriptionLong": "Eggplants are dropped by a spawner in the map.\nPlayers drop some of their eggplants on death."
-},
 "KINGMAKER": {
 	"name": "Kingmaker",
 	"description": "Players gain score while holding the crown.",
 	"descriptionLong": "Crown is spawned in the map and dropped when the player holding dies."
+},
+"MATRYOSHKA": {
+	"name": "Matryoshka",
+	"description": "Players are large and get smaller each time they die, respawning instantly in the same location.",
+	"descriptionLong": ""
+},
+"RESURRECTION": {
+	"name": "Resurrection",
+	"description": "Players drop gravestones on death and respawn when revived by allies. Team wins when all opponents are eliminated.",
+	"descriptionLong": ""
 },
 "SANDBOX": {
 	"name": "Sandbox",

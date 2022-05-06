@@ -3,21 +3,19 @@ package com.mygdx.hadal.event.modes;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -93,10 +91,7 @@ public class FlagCapturable extends Event {
 		}
 
 		//make objective marker track this event
-		state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false);
-		if (state.isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(entityID,	color, true, false, Sprite.CLEAR_CIRCLE_ALERT));
-		}
+		EventUtils.setObjectiveMarker(state, this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false);
 
 		this.returnMeter = Sprite.UI_RELOAD_METER.getFrame();
 		this.returnBar = Sprite.UI_RELOAD_BAR.getFrame();
@@ -163,11 +158,7 @@ public class FlagCapturable extends Event {
 				Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0, false, eventData);
 
 		//feetdata is set to make the flag selectively pass through dropthrough platforms
-		FeetData feetData = new FeetData(UserDataType.FEET, this);
-		Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(1.0f / 2,  - size.y / 2),
-				new Vector2(size.x, size.y / 8), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, Constants.BIT_DROPTHROUGHWALL, (short) 0);
-		feet.setUserData(feetData);
+		EventUtils.addFeetFixture(this);
 
 		FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size), true, 0, 0, 0.0f, 1.0f,
 				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_SENSOR), (short) 0).setUserData(eventData);

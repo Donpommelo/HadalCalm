@@ -2,15 +2,20 @@ package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UITag.uiType;
+import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.map.SettingTeamMode;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.utils.Stats;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_SHORT;
 
@@ -37,9 +42,14 @@ public class UIExtra extends AHadalActor {
 	//this is the displayed time
 	private int currentTimer;
 	private String displayedTimer;
+	private short viewingUserTeam;
+
+	private final TextureRegion hpBar, hpBarFade;
 
 	public UIExtra(PlayState state) {
 		this.state = state;
+		this.hpBar = Sprite.UI_MAIN_HEALTHBAR.getFrame();
+		this.hpBarFade = Sprite.UI_MAIN_HEALTH_MISSING.getFrame();
 	}
 	
 	private final StringBuilder text = new StringBuilder();
@@ -50,6 +60,41 @@ public class UIExtra extends AHadalActor {
 
 		HadalGame.FONT_UI.getData().setScale(fontScale);
 		HadalGame.FONT_UI.draw(batch, text.toString(), x, HadalGame.CONFIG_HEIGHT - y, width, Align.left, true);
+
+		renderTeamHp(batch, viewingUserTeam);
+	}
+
+	private static final int hpWidth = 60;
+	private static final int hpHeight = 8;
+	private static final int hpBarOffsetY = -9;
+	private static final int nameMaxLength = 205;
+	private static final int rowHeight = 14;
+	private static final int startYExtra = 200;
+	private static final int startXExtra = 10;
+	private void renderTeamHp(Batch batch, short viewingUserTeam) {
+		if (state.getScoreWindow() == null) { return; }
+		if (state.getMode().getTeamMode() == SettingTeamMode.TeamMode.FFA) { return; }
+
+		float currentY = HadalGame.CONFIG_HEIGHT - startYExtra;
+		for (User user: state.getScoreWindow().getOrderedUsers()) {
+			if (!user.isSpectator() && user.getPlayer() != null) {
+				if (user.getPlayer().getPlayerData() != null && !user.getPlayer().equals(state.getPlayer())) {
+					if (user.getPlayer().getHitboxfilter() == viewingUserTeam) {
+						HadalGame.FONT_UI.draw(batch, WeaponUtils.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_SHORT),
+								HadalGame.CONFIG_WIDTH - nameMaxLength - hpWidth - startXExtra, currentY, nameMaxLength, Align.left, true);
+
+						float hpRatio = user.getPlayer().getPlayerData().getCurrentHp() /
+								user.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
+						if (!user.getPlayer().isAlive()) {
+							hpRatio = 0.0f;
+						}
+						batch.draw(hpBarFade, HadalGame.CONFIG_WIDTH - hpWidth - startXExtra, currentY + hpBarOffsetY, hpWidth, hpHeight);
+						batch.draw(hpBar, HadalGame.CONFIG_WIDTH - hpWidth - startXExtra, currentY + hpBarOffsetY, hpWidth * hpRatio, hpHeight);
+						currentY -= rowHeight;
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -80,10 +125,15 @@ public class UIExtra extends AHadalActor {
 
 		//check if user is null b/c several ui tags require checking user information
 		if (user != null) {
+			if (user.getPlayer() != null) {
+				viewingUserTeam = user.getPlayer().getHitboxfilter();
+			}
 			for (UITag uiTag : uiTags) {
 				text.append(uiTag.updateTagText(state, changedType, user));
 			}
 		}
+
+		HadalGame.FONT_UI.getData().setScale(fontScale);
 	}
 
 	/**
@@ -221,6 +271,34 @@ public class UIExtra extends AHadalActor {
 			scoreNum++;
 			if (scoreNum > maxScores) {
 				break;
+			}
+		}
+	}
+
+	public void sortTeamAlive(StringBuilder text) {
+		if (state.getScoreWindow() != null) {
+			int scoreNum = 0;
+			for (int i = 0; i < AlignmentFilter.teamScores.length; i++) {
+				int numAlive = 0;
+				for (User user: state.getScoreWindow().getOrderedUsers()) {
+					if (!user.isSpectator()) {
+						if (user.getPlayer() != null) {
+							if (user.getPlayer().isAlive()) {
+								if (user.getPlayer().getStartLoadout().team == AlignmentFilter.currentTeams[i]) {
+									numAlive++;
+								}
+							}
+						}
+					}
+				}
+				rgb.set(AlignmentFilter.currentTeams[i].getColor1().getRGB());
+				String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
+				text.append("[").append(hex).append("]").append(AlignmentFilter.currentTeams[i].getTeamName())
+						.append("[]").append(": ").append(numAlive).append(" ").append(HText.PLAYERS_ALIVE.text()).append("\n");
+				scoreNum++;
+				if (scoreNum > maxScores) {
+					break;
+				}
 			}
 		}
 	}

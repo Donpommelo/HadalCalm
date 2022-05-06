@@ -20,6 +20,7 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
+import com.mygdx.hadal.event.modes.ReviveGravestone;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.*;
@@ -757,6 +758,20 @@ public class KryoClient {
 				cs.addPacketEffect(() -> {
 					CrownHoldable entity = new CrownHoldable(cs, p.pos);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, true, ObjectLayer.HBOX);
+				});
+			}
+			return true;
+		}
+
+		else if (o instanceof final Packets.CreateGrave p) {
+			final ClientState cs = getClientState();
+			if (cs != null) {
+				cs.addPacketEffect(() -> {
+					User user = users.get(p.connID);
+					if (user != null) {
+						ReviveGravestone grave = new ReviveGravestone(cs, p.pos, user, p.connID, p.returnMaxTimer, new Vector2());
+						cs.addEntity(p.uuidMSB, p.uuidLSB, grave, true, ObjectLayer.HBOX);
+					}
 				});
 			}
 			return true;

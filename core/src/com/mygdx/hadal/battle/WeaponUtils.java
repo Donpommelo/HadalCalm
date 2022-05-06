@@ -657,7 +657,6 @@ public class WeaponUtils {
 		if (extraFields.length >= 1) {
 			spriteIndex = (int) extraFields[0];
 		}
-		System.out.println(special + " " + spriteIndex);
 
 		Sprite emote = ChatWheel.indexToEmote(spriteIndex);
 

@@ -2,17 +2,16 @@ package com.mygdx.hadal.event.modes;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -83,12 +82,9 @@ public class FootballSpawner extends Event {
 
         ball = SyncedAttack.NAUTICAL_MINE.initiateSyncedAttackSingle(state, state.getWorldDummy(), getPixelPosition(), new Vector2(),
                 0.0f, pushMultiplier, lifespan);
-        state.getUiObjective().addObjective(ball, Sprite.CLEAR_CIRCLE_ALERT, true, false);
 
-        if (state.isServer()) {
-            HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(ball.getEntityID(), HadalColor.NOTHING,
-                    true, false, Sprite.CLEAR_CIRCLE_ALERT));
-        }
+        EventUtils.setObjectiveMarker(state, ball, Sprite.CLEAR_CIRCLE_ALERT, HadalColor.NOTHING,
+                true, false);
     }
 
     @Override

@@ -10,7 +10,7 @@ public class SavedPlayerFields {
 	private String name;
 	
 	//Player's stored stats
-	private int wins, kills, deaths, assists, score, teamScore, ping, connID;
+	private int wins, kills, deaths, assists, score, teamScore, extraModeScore, ping, connID;
 	private int lives = 1;
 
 	//did the player win their last game? This is used to let the client know who won in the results screen.
@@ -33,6 +33,7 @@ public class SavedPlayerFields {
 		this.assists = 0;
 		this.score = 0;
 		this.teamScore = 0;
+		this.extraModeScore = 0;
 		this.lives = 1;
 		wonLast = false;
 	}
@@ -101,6 +102,10 @@ public class SavedPlayerFields {
 	public int getTeamScore() {	return teamScore; }
 
 	public void setTeamScore(int teamScore) { this.teamScore = teamScore; }
+
+	public int getExtraModeScore() { return extraModeScore; }
+
+	public void setExtraModeScore(int extraModeScore) {	this.extraModeScore = extraModeScore; }
 
 	public int getLives() { return lives; }
 

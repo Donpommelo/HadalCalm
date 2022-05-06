@@ -52,7 +52,9 @@ public enum GameMode {
         public boolean isInvisibleInHub() { return true; }
     },
 
-    BOSS("", new SettingTeamMode(TeamMode.COOP), new SettingLives(1),  new ToggleWeaponDrops()),
+    BOSS("", new SettingTeamMode(TeamMode.COOP), new AllyRevive(),
+            new DisplayUITag("ALLY_HEALTH"),
+            new ToggleWeaponDrops()),
 
     DEATHMATCH("dm",
         new SetCameraOnSpawn(),
@@ -62,10 +64,19 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
+    DREAM_OF_A_WHALE("arena",
+            new SetCameraOnSpawn(),
+            new SettingTeamMode(TeamMode.COOP), new AllyRevive(),
+            new DisplayUITag("SCORE"), new DisplayUITag("ALLY_HEALTH")) {
+
+        @Override
+        public boolean isInvisibleInHub() { return true; }
+    },
+
     SURVIVAL("arena",
         new SetCameraOnSpawn(),
-        new SettingTeamMode(TeamMode.COOP), new SettingTimer("VICTORY"), new SettingLives(1),
-        new DisplayUITag("SCORE"), new DisplayUITag("HISCORE"),
+        new SettingTeamMode(TeamMode.COOP), new SettingTimer("VICTORY"), new AllyRevive(),
+        new DisplayUITag("SCORE"), new DisplayUITag("HISCORE"), new DisplayUITag("ALLY_HEALTH"),
         new SpawnWeapons(), new SpawnEnemyWaves(), new ToggleWeaponDrops()),
 
     CTF("ctf",
@@ -77,6 +88,15 @@ public enum GameMode {
         new ModeCapturetheFlag(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
         new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
+
+    EGGPLANTS("objective,dm", DEATHMATCH,
+            new SetCameraOnSpawn(),
+            new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
+            new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
+            new DisplayUITag("SCOREBOARD"), new SpawnWeapons(),  new ToggleWeaponDrops(), new ToggleHealthDrops(),
+            new ModeEggplantHunt(),
+            new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
+                    new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
     FOOTBALL("",
         new SetCameraOnSpawn(),
@@ -96,15 +116,6 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion())),
 
-    EGGPLANTS("objective,dm", DEATHMATCH,
-        new SetCameraOnSpawn(),
-        new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
-        new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
-        new DisplayUITag("SCOREBOARD"), new SpawnWeapons(),  new ToggleWeaponDrops(), new ToggleHealthDrops(),
-        new ModeEggplantHunt(),
-        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
-            new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
-
     KINGMAKER("objective,dm", DEATHMATCH,
         new SetCameraOnSpawn(),
         new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
@@ -121,6 +132,14 @@ public enum GameMode {
         new DisplayUITag("LIVES"), new SpawnWeapons(), new ToggleWeaponDrops(), new ToggleHealthDrops(),
         new ModeMatryoshka(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
+            new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
+
+    RESURRECTION("dm", DEATHMATCH,
+        new SetCameraOnSpawn(),
+        new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.magicWord, 8), new AllyRevive(),
+        new SettingBaseHp(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
+        new DisplayUITag("PLAYERS_ALIVE"), new DisplayUITag("ALLY_HEALTH"), new SpawnWeapons(), new ToggleWeaponDrops(), new ToggleHealthDrops(),
+        new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
     SANDBOX("", new SettingTeamMode(TeamMode.COOP), new SettingLives(0)),
@@ -149,7 +168,7 @@ public enum GameMode {
     //will players that join mid game join as players or spectators (spectator for lives-based modes)
     private boolean joinMidGame = true;
 
-    //number of teams i playing on auto team assign mode
+    //number of teams playing on auto team assign mode
     private int teamNum = 2;
 
     GameMode(String extraLayers, GameMode checkCompliance, ModeSetting... applicableSettings) {
@@ -265,6 +284,7 @@ public enum GameMode {
         for (ModeSetting setting: applicableSettings) {
             setting.modifyNewPlayer(state, this, newLoadout, p, hitboxFilter);
         }
+        state.getUiExtra().syncUIText(UITag.uiType.PLAYERS_ALIVE);
     }
 
     /**
@@ -300,6 +320,7 @@ public enum GameMode {
         for (ModeSetting setting : applicableSettings) {
             setting.processPlayerDeath(state, this, perp, vic, source, tags);
         }
+        state.getUiExtra().syncUIText(UITag.uiType.PLAYERS_ALIVE);
     }
 
     /**

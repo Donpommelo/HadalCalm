@@ -494,9 +494,11 @@ public class BotLoadoutProcessor {
             UnlockArtifact.SALIGRAM, UnlockArtifact.TUNICATE_TUNIC};
     private static final UnlockArtifact[] offensive3 = { UnlockArtifact.BUCKET_OF_BATTERIES, UnlockArtifact.EMAUDELINES_PRISM, UnlockArtifact.JURY_RIGGED_BINDINGS };
     private static final UnlockArtifact[] offensive2 = { UnlockArtifact.BOOK_OF_BURIAL, UnlockArtifact.BRITTLING_POWDER, UnlockArtifact.CHAOS_CONJURANT,
-            UnlockArtifact.CLOCKWISE_CAGE, UnlockArtifact.ERSATZ_SMILE, UnlockArtifact.GOMEZS_AMYGDALA, UnlockArtifact.PEER_PRESSURE,
-            UnlockArtifact.ROYAL_JUJUBE_BANG, UnlockArtifact.SHILLERS_DEATHCAP, UnlockArtifact.TRIGGERFISH_FINGER, UnlockArtifact.TYPHON_FANG,
-            UnlockArtifact.VESTIGIAL_CHAMBER, UnlockArtifact.VOLATILE_DERMIS, UnlockArtifact.WHITE_WHALE_CHARM, UnlockArtifact.WRATH_OF_THE_FROGMAN };
+            UnlockArtifact.CLOCKWISE_CAGE, UnlockArtifact.CRIME_DISCOURAGEMENT_STICK, UnlockArtifact.ERSATZ_SMILE,
+            UnlockArtifact.GOMEZS_AMYGDALA, UnlockArtifact.PEER_PRESSURE, UnlockArtifact.ROYAL_JUJUBE_BANG,
+            UnlockArtifact.SHILLERS_DEATHCAP, UnlockArtifact.TRIGGERFISH_FINGER, UnlockArtifact.TYPHON_FANG,
+            UnlockArtifact.VESTIGIAL_CHAMBER, UnlockArtifact.VOLATILE_DERMIS, UnlockArtifact.WHITE_WHALE_CHARM,
+            UnlockArtifact.WRATH_OF_THE_FROGMAN };
     private static final UnlockArtifact[] offensive1 = { UnlockArtifact.EIGHT_BALL, UnlockArtifact.ABYSSAL_INSIGNIA, UnlockArtifact.CALL_OF_THE_VOID,
             UnlockArtifact.CROWN_OF_THORNS, UnlockArtifact.FORAGERS_HIVE, UnlockArtifact.IRON_SIGHTS, UnlockArtifact.KERMUNGLER,
             UnlockArtifact.MOUTHFUL_OF_BEES, UnlockArtifact.NUCLEAR_PUNCH_THRUSTERS, UnlockArtifact.NURDLER, UnlockArtifact.PEACHWOOD_SWORD,
