@@ -15,31 +15,32 @@ public class CameraUtil {
 
     /**
      * This makes an input camera vector obey camera bounds.
+     * We want to check the edges of camera vision, taking into account current zoom amount.
      */
     public static void obeyCameraBounds(Vector2 tempCamera, OrthographicCamera camera, float[] cameraBounds) {
 
-        float cameraWidth = camera.viewportWidth * camera.zoom / 2;
-        float cameraHeight = camera.viewportHeight * camera.zoom / 2;
+        float cameraWidth = camera.viewportWidth * camera.zoom;
+        float cameraHeight = camera.viewportHeight * camera.zoom;
 
-        if (cameraBounds[0] - 2 * cameraWidth < cameraBounds[1]) {
+        if (cameraBounds[0] - cameraWidth < cameraBounds[1]) {
             tempCamera.x = (cameraBounds[0] + cameraBounds[1]) / 2;
         } else {
-            if (tempCamera.x > cameraBounds[0] - cameraWidth) {
-                tempCamera.x = cameraBounds[0] - cameraWidth;
+            if (tempCamera.x > cameraBounds[0] - cameraWidth / 2) {
+                tempCamera.x = cameraBounds[0] - cameraWidth / 2;
             }
-            if (tempCamera.x < cameraBounds[1] + cameraWidth) {
-                tempCamera.x = cameraBounds[1] + cameraWidth;
+            if (tempCamera.x < cameraBounds[1] + cameraWidth / 2) {
+                tempCamera.x = cameraBounds[1] + cameraWidth / 2;
             }
         }
 
-        if (cameraBounds[2] - 2 * cameraHeight < cameraBounds[3]) {
+        if (cameraBounds[2] - cameraHeight < cameraBounds[3]) {
             tempCamera.y = (cameraBounds[2] + cameraBounds[3]) / 2;
         } else {
-            if (tempCamera.y > cameraBounds[2] - cameraHeight) {
-                tempCamera.y = cameraBounds[2] - cameraHeight;
+            if (tempCamera.y > cameraBounds[2] - cameraHeight / 2) {
+                tempCamera.y = cameraBounds[2] - cameraHeight / 2;
             }
-            if (tempCamera.y < cameraBounds[3] + cameraHeight) {
-                tempCamera.y = cameraBounds[3] + cameraHeight;
+            if (tempCamera.y < cameraBounds[3] + cameraHeight / 2) {
+                tempCamera.y = cameraBounds[3] + cameraHeight / 2;
             }
         }
     }
@@ -54,10 +55,17 @@ public class CameraUtil {
         camera.update();
     }
 
+    //The max amount of screenshake displacement and rotation (in radians)
     private static final Vector2 maxOffset = new Vector2(140, 105);
     private static final float maxRotation = 2.5f;
+
+    //This represents the rate that the screenshake decreases
     private static final float decay = 0.9f;
+
+    //"trauma" is the current shake amount. It is increased by things like receiving damage and decreases over time
     private static float trauma, currentAngle;
+
+    //This is a random seed used to generate noise
     private static final float noiseSneed = MathUtils.random();
     private static float noise_y;
     /**
@@ -83,7 +91,7 @@ public class CameraUtil {
         currentAngle += rotation;
         camera.rotate(rotation);
 
-        //decrement trauma cooldown for small instances of damage
+        //decrement trauma cooldown for small instances of damage so continuous damage doesn't cause excessive shaking
         traumaCount = Math.max(0.0f, traumaCount - delta);
     }
 

@@ -10,9 +10,9 @@ import com.mygdx.hadal.states.PlayState;
 public abstract class Prefabrication {
 
 	protected final PlayState state;
-	protected int height, width, x, y;
+	protected float height, width, x, y;
 	
-	public Prefabrication(PlayState state, int width, int height, int x, int y) {
+	public Prefabrication(PlayState state, float width, float height, float x, float y) {
 		this(state);
 		this.width = width;
 		this.height = height;

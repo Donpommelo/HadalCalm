@@ -48,7 +48,7 @@ public class HitboxData extends HadalData {
 			this.hbox.setFilter((short) 0);
 
 			//reflecting a projectile should take ownership of it
-			for (HitboxStrategy strat: this.hbox.getStrategies()) {
+			for (HitboxStrategy strat : this.hbox.getStrategies()) {
 				strat.setCreator(perp);
 			}
 

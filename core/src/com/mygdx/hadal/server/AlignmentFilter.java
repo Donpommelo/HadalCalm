@@ -6,11 +6,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.map.SettingTeamMode;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.save.UnlockCharacter;
+import com.mygdx.hadal.text.HText;
 
 import java.util.Arrays;
 
@@ -22,7 +23,7 @@ import java.util.Arrays;
  */
 public enum AlignmentFilter {
 
-    NONE(-3, HadalColor.NOTHING, HadalColor.NOTHING, false, ""),
+    NONE(-3, HadalColor.NOTHING, HadalColor.NOTHING, false, HText.NOTHING),
     PLAYER1(-4),
     PLAYER2(-5),
     PLAYER3(-6),
@@ -40,23 +41,23 @@ public enum AlignmentFilter {
     PLAYER15(-18),
     PLAYER16(-19),
 
-    TEAM_BANANA(-25, HadalColor.BANANA, HadalColor.BEIGE, "BANANA", HadalColor.YELLOW),
-    TEAM_CELADON(-26, HadalColor.CELADON, HadalColor.GREEN, "CELADON", HadalColor.GREEN),
-    TEAM_CHARTREUSE(-27, HadalColor.CHARTREUSE, HadalColor.PALE_GREEN, "CHARTREUSE", HadalColor.GREEN),
-    TEAM_COQUELICOT(-28, HadalColor.COQUELICOT, HadalColor.RED, "COQUELICOT", HadalColor.RED),
-    TEAM_CRIMSON(-29, HadalColor.CRIMSON, HadalColor.RED, "CRIMSON", HadalColor.RED),
-    TEAM_EGGPLANT(-30, HadalColor.EGGPLANT, HadalColor.GREEN, "EGGPLANT", HadalColor.VIOLET),
-    TEAM_GOLD(-31, HadalColor.GOLD, HadalColor.TAN, "GOLD", HadalColor.ORANGE),
-    TEAM_GREY(-32, HadalColor.GREY, HadalColor.DARK_GREY, "GREY", HadalColor.GREY),
-    TEAM_PLUM(-33, HadalColor.PLUM, HadalColor.VIOLET, "PLUM", HadalColor.VIOLET),
-    TEAM_MAUVE(-34, HadalColor.MAUVE, HadalColor.PLUM, "MAUVE", HadalColor.VIOLET, HadalColor.BROWN),
-    TEAM_ORANGE(-35, HadalColor.ORANGE, HadalColor.GOLD, "ORANGE", HadalColor.ORANGE, HadalColor.RED),
-    TEAM_SKY_BLUE(-36, HadalColor.SKY_BLUE, HadalColor.TURQOISE, "SKY BLUE", HadalColor.BLUE),
-    TEAM_TAN(-37, HadalColor.TAN, HadalColor.BROWN, "TAN", HadalColor.BROWN, HadalColor.ORANGE),
-    TEAM_TURQUIOSE(-38, HadalColor.TURQOISE, HadalColor.BLUE, "TURQUOISE", HadalColor.BLUE, HadalColor.GREEN),
-    TEAM_VIOLET(-39, HadalColor.VIOLET, HadalColor.BLUE, "VIOLET", HadalColor.VIOLET),
+    TEAM_BANANA(-25, HadalColor.BANANA, HadalColor.BEIGE, HText.BANANA, HadalColor.YELLOW),
+    TEAM_CELADON(-26, HadalColor.CELADON, HadalColor.GREEN, HText.CELADON, HadalColor.GREEN),
+    TEAM_CHARTREUSE(-27, HadalColor.CHARTREUSE, HadalColor.PALE_GREEN, HText.CHARTREUSE, HadalColor.GREEN),
+    TEAM_COQUELICOT(-28, HadalColor.COQUELICOT, HadalColor.RED, HText.COQUELICOT, HadalColor.RED),
+    TEAM_CRIMSON(-29, HadalColor.CRIMSON, HadalColor.RED, HText.CRIMSON, HadalColor.RED),
+    TEAM_EGGPLANT(-30, HadalColor.EGGPLANT, HadalColor.GREEN, HText.EGGPLANT, HadalColor.VIOLET),
+    TEAM_GOLD(-31, HadalColor.GOLD, HadalColor.TAN, HText.GOLD, HadalColor.ORANGE),
+    TEAM_GREY(-32, HadalColor.GREY, HadalColor.DARK_GREY, HText.GREY, HadalColor.GREY),
+    TEAM_PLUM(-33, HadalColor.PLUM, HadalColor.VIOLET, HText.PLUM, HadalColor.VIOLET),
+    TEAM_MAUVE(-34, HadalColor.MAUVE, HadalColor.PLUM, HText.MAUVE, HadalColor.VIOLET, HadalColor.BROWN),
+    TEAM_ORANGE(-35, HadalColor.ORANGE, HadalColor.GOLD, HText.ORANGE, HadalColor.ORANGE, HadalColor.RED),
+    TEAM_SKY_BLUE(-36, HadalColor.SKY_BLUE, HadalColor.TURQOISE, HText.SKY_BLUE, HadalColor.BLUE),
+    TEAM_TAN(-37, HadalColor.TAN, HadalColor.BROWN, HText.TAN, HadalColor.BROWN, HadalColor.ORANGE),
+    TEAM_TURQUIOSE(-38, HadalColor.TURQOISE, HadalColor.BLUE, HText.TURQUOISE, HadalColor.BLUE, HadalColor.GREEN),
+    TEAM_VIOLET(-39, HadalColor.VIOLET, HadalColor.BLUE, HText.VIOLET, HadalColor.VIOLET),
 
-    TEAM_BLACK_AND_WHITE(-40, HadalColor.WHITE, HadalColor.BLACK, "BLACK AND WHITE") {
+    TEAM_BLACK_AND_WHITE(-40, HadalColor.WHITE, HadalColor.BLACK, HText.BLACK_AND_WHITE) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -68,7 +69,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_CENSURE(-41, HadalColor.NOTHING, HadalColor.NOTHING, false, "CENSURED") {
+    TEAM_CENSURE(-41, HadalColor.NOTHING, HadalColor.NOTHING, false, HText.CENSURED) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -80,7 +81,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_INVERT(-42, HadalColor.NOTHING, HadalColor.NOTHING, false, "INVERT") {
+    TEAM_INVERT(-42, HadalColor.NOTHING, HadalColor.NOTHING, false, HText.INVERT) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -92,7 +93,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_SEPIA(-43, HadalColor.TAN, HadalColor.WHITE, false, "SEPIA") {
+    TEAM_SEPIA(-43, HadalColor.TAN, HadalColor.WHITE, false, HText.SEPIA) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -135,18 +136,18 @@ public enum AlignmentFilter {
         this.color2 = HadalColor.NOTHING;
     }
 
-    AlignmentFilter(int filter, HadalColor color1, HadalColor color2, boolean standardChoice, String adjective) {
+    AlignmentFilter(int filter, HadalColor color1, HadalColor color2, boolean standardChoice, HText adjective) {
         this(filter, color1, color2, adjective);
         this.standardChoice = standardChoice;
     }
 
-    AlignmentFilter(int filter, HadalColor color1, HadalColor color2, String adjective, HadalColor... colorGroup) {
+    AlignmentFilter(int filter, HadalColor color1, HadalColor color2, HText adjective, HadalColor... colorGroup) {
         this.filter = (short) filter;
         this.team = true;
         this.color1 = color1;
         this.color2 = color2;
         this.colorGroup = colorGroup;
-        this.adjective = adjective;
+        this.adjective = adjective.text();
     }
 
     /**
@@ -193,14 +194,14 @@ public enum AlignmentFilter {
         ObjectMap<User, Integer> teamSelection = new ObjectMap<>();
 
         //make all team colors usable
-        for (AlignmentFilter filter: AlignmentFilter.values()) {
+        for (AlignmentFilter filter : AlignmentFilter.values()) {
             if (filter.isTeam()) {
                 filter.setUsed(false);
             }
         }
 
         //add each non-spectator to a team.
-        for (User user: users) {
+        for (User user : users) {
             if (!user.isSpectator()) {
                 if (mode.equals(TeamMode.TEAM_AUTO)) {
                     currentTeam = (currentTeam + 1) % numTeams;
@@ -221,12 +222,12 @@ public enum AlignmentFilter {
             Array<AlignmentFilter> unusedTeams = new Array<>();
 
             //iterate over all team colors. Make sure we do not choose a team similar to any other current team colors
-            for (AlignmentFilter filter: AlignmentFilter.values()) {
+            for (AlignmentFilter filter : AlignmentFilter.values()) {
                 if (!filter.isUsed() && filter.team && filter.standardChoice) {
                     boolean similar = false;
                     for (AlignmentFilter alignmentFilter : currentTeams) {
-                        for (HadalColor group1: alignmentFilter.colorGroup) {
-                            for (HadalColor group2: filter.colorGroup) {
+                        for (HadalColor group1 : alignmentFilter.colorGroup) {
+                            for (HadalColor group2 : filter.colorGroup) {
                                 if (group1 == group2) {
                                     similar = true;
                                     break;
@@ -246,7 +247,7 @@ public enum AlignmentFilter {
             }
         }
 
-        for (User user: teamSelection.keys()) {
+        for (User user : teamSelection.keys()) {
             user.setTeamFilter(currentTeams[teamSelection.get(user)]);
         }
     }
@@ -261,11 +262,11 @@ public enum AlignmentFilter {
         ObjectMap<AlignmentFilter, Integer> teamSelection = new ObjectMap<>();
 
         //we add current teams so that new players can be assigned to empty teams
-        for (AlignmentFilter team: currentTeams) {
+        for (AlignmentFilter team : currentTeams) {
             teamSelection.put(team, 0);
         }
 
-        for (User user: HadalGame.server.getUsers().values()) {
+        for (User user : HadalGame.server.getUsers().values()) {
             if (!user.isSpectator() && !user.equals(newUser)) {
                 teamSelection.put(user.getTeamFilter(), teamSelection.get(user.getTeamFilter(), 0) + 1);
             }
@@ -274,7 +275,7 @@ public enum AlignmentFilter {
         //then we add the newly connected player to the team with the fewest players
         int minNumber = -1;
         AlignmentFilter smallestTeam = null;
-        for (ObjectMap.Entry<AlignmentFilter, Integer> team: teamSelection.entries()) {
+        for (ObjectMap.Entry<AlignmentFilter, Integer> team : teamSelection.entries()) {
             if (minNumber == -1 || team.value < minNumber) {
                 minNumber = team.value;
                 smallestTeam = team.key;
@@ -299,7 +300,7 @@ public enum AlignmentFilter {
      * this is used when a new user is added to give them a unique "player number"
      */
     public static AlignmentFilter getUnusedAlignment() {
-        for (AlignmentFilter filter: AlignmentFilter.values()) {
+        for (AlignmentFilter filter : AlignmentFilter.values()) {
             if (!filter.isUsed() && !filter.isTeam()) {
                 filter.setUsed(true);
                 return filter;
@@ -333,7 +334,7 @@ public enum AlignmentFilter {
      * This makes all the teams usable again. It is called when a server is made.
      */
     public static void resetUsedAlignments() {
-        for (AlignmentFilter filter: AlignmentFilter.values()) {
+        for (AlignmentFilter filter : AlignmentFilter.values()) {
             filter.setUsed(false);
         }
     }
@@ -356,7 +357,7 @@ public enum AlignmentFilter {
 
     private static final ObjectMap<String, AlignmentFilter> UnlocksByName = new ObjectMap<>();
     static {
-        for (AlignmentFilter u: AlignmentFilter.values()) {
+        for (AlignmentFilter u : AlignmentFilter.values()) {
             UnlocksByName.put(u.toString(), u);
         }
     }

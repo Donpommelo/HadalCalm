@@ -36,6 +36,7 @@
   "Mode Modifiers can be toggled after selecting game mode and apply a variety of twists to combat.",
   "in Capture-the-Flag, you can speed up the return of dropped flags by standing near them.",
   "in Capture-the-Flag, carrying the flag will slightly lower a player's fuel regeneration.",
+  "in Resurrection mode, your revive timer increases each time you die.",
 
   "sound effects are emitted positionally and can alert you of the location of enemies.",
   "hotkeys can be changed in the Settings Menu (fugpausefug -> SETTINGS -> CONTROLS)",

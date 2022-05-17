@@ -10,10 +10,10 @@ public class ObligeLaMort extends Artifact {
 
 	private static final int slotCost = 1;
 
-	private static final float pushSpeed = 3.5f;
-	private static final float pushSpeedAir = 2.0f;
-	private static final float pushSlow = 2.5f;
-	private static final float pushSlowAir = 1.0f;
+	private static final float pushSpeed = 3.2f;
+	private static final float pushSpeedAir = 1.8f;
+	private static final float pushSlow = 3.5f;
+	private static final float pushSlowAir = 1.5f;
 	private static final float maxSpeed = 20.0f;
 
 	private static final float procCd = 1 / 60.0f;

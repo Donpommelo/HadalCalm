@@ -111,7 +111,7 @@ public enum UnlockEquip {
 	 * This method returns the unlock corresponding to a specific weapon
 	 */
 	public static UnlockEquip getUnlockFromEquip(Class<? extends Equippable> weapon) {
-		for (UnlockEquip unlock: UnlockEquip.values()) {
+		for (UnlockEquip unlock : UnlockEquip.values()) {
 			if (unlock.weapon.equals(weapon)) {
 				return unlock;
 			}
@@ -147,7 +147,7 @@ public enum UnlockEquip {
 
 	private static final ObjectMap<String, UnlockEquip> UnlocksByName = new ObjectMap<>();
 	static {
-		for (UnlockEquip u: UnlockEquip.values()) {
+		for (UnlockEquip u : UnlockEquip.values()) {
 			UnlocksByName.put(u.toString(), u);
 		}
 	}

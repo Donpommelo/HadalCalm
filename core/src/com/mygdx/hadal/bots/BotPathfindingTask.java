@@ -57,7 +57,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
 
         //find path to each player target and find shortest distance to an enemy
         float bestTargetDistance = -1.0f;
-        for (RallyPoint.RallyPointMultiplier targetPoint: targetPoints) {
+        for (RallyPoint.RallyPointMultiplier targetPoint : targetPoints) {
             RallyPath tempPath = getShortestPathBetweenLocations(controller.getBot(), targetPoint.point());
             if (tempPath != null) {
                 float targetDistance = tempPath.getDistance() * targetPoint.multiplier();
@@ -87,7 +87,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
 
         //find shortest path to mode objective
         float bestEventDistance = -1.0f;
-        for (RallyPoint.RallyPointMultiplier eventPoint: eventPoints) {
+        for (RallyPoint.RallyPointMultiplier eventPoint : eventPoints) {
             RallyPath tempPath = getShortestPathBetweenLocations(controller.getBot(), eventPoint.point());
             if (tempPath != null) {
                 float eventDistance = tempPath.getDistance() * eventPoint.multiplier();
@@ -155,7 +155,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
         float closestDistUnobstructed = 0.0f;
 
         //iterate through path starters given by main thread
-        for (RallyPoint pathStarter: pathStarters) {
+        for (RallyPoint pathStarter : pathStarters) {
             tempPointLocation.set(pathStarter.getPosition());
 
             //account for cost modifiers of verticality

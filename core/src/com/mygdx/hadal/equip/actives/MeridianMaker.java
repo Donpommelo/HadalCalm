@@ -21,6 +21,8 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.utils.Constants;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 /**
  * @author Hatonio Hadoof
  */
@@ -63,7 +65,7 @@ public class MeridianMaker extends ActiveItem {
 		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.BRIGHT, 0.0f, 1.0f).setParticleColor(HadalColor.SKY_BLUE).setParticleSize(20));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
-			private final Vector2 lastPosition = new Vector2(hbox.getStartPos()).scl(32);
+			private final Vector2 lastPosition = new Vector2(hbox.getStartPos()).scl(PPM);
 			
 			@Override
 			public void controller(float delta) {

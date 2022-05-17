@@ -91,7 +91,7 @@ public class ResultsState extends GameState {
 
 	public static final int infoNameHeight = 30;
 	public static final int infoScrollHeight = 100;
-	public static final int infoNamePadding = 15;
+	public static final int infoNamePad = 15;
 
 	private static final int tableExtraX = 420;
 	private static final int tableExtraY = 20;
@@ -136,7 +136,7 @@ public class ResultsState extends GameState {
 
 		//First, we obtain the list of scores, depending on whether we are the server or client.
 		if (ps.isServer()) {
-			for (User user: HadalGame.server.getUsers().values()) {
+			for (User user : HadalGame.server.getUsers().values()) {
 				if (!user.isSpectator()) {
 					scores.add(user.getScores());
 					if (user.getScores().getConnID() == 0) {
@@ -148,7 +148,7 @@ public class ResultsState extends GameState {
 				gsm.getRecord().updateScore(scores.get(0).getScore(), ps.level);
 			}
 		} else {
-			for (User user: HadalGame.client.getUsers().values()) {
+			for (User user : HadalGame.client.getUsers().values()) {
 				if (!user.isSpectator()) {
 					scores.add(user.getScores());
 					if (user.getScores().getConnID() == HadalGame.client.connID) {
@@ -169,7 +169,7 @@ public class ResultsState extends GameState {
 		});
 
 		//Finally we initialize the ready map with everyone set to not ready. Bots don't need to ready up
-		for (SavedPlayerFields score: scores) {
+		for (SavedPlayerFields score : scores) {
 			if (score.getConnID() >= 0) {
 				ready.put(score, false);
 			}
@@ -207,7 +207,7 @@ public class ResultsState extends GameState {
 					}
 				});
 
-				tableInfoOuter.add(infoPlayerName).pad(infoNamePadding).height(infoNameHeight).row();
+				tableInfoOuter.add(infoPlayerName).pad(infoNamePad).height(infoNameHeight).row();
 				tableInfoOuter.add(tableArtifact).height(infoNameHeight).row();
 				tableInfoOuter.add(infoScroll).width(infoWidth).height(infoScrollHeight);
 				tableInfoOuter.setPosition(infoX, infoY);
@@ -377,7 +377,7 @@ public class ResultsState extends GameState {
 		title.setScale(resultsScale);
 
 		//for each player, get their field and create a results icon for them
-		for (SavedPlayerFields score: scores) {
+		for (SavedPlayerFields score : scores) {
 			int connId = score.getConnID();
 
 			SavedPlayerFields field = null;
@@ -511,7 +511,7 @@ public class ResultsState extends GameState {
 				//display player's weapons, artifacts and active items (if synced properly)
 				if (fieldExtra.getLoadout() != null) {
 
-					for (UnlockArtifact c: fieldExtra.getLoadout().artifacts) {
+					for (UnlockArtifact c : fieldExtra.getLoadout().artifacts) {
 						if (!c.equals(UnlockArtifact.NOTHING) && !c.isInvisible()) {
 							ArtifactIcon newTag = new ArtifactIcon(c, c.getInfo().getName() + "\n" + c.getInfo().getDescription(),
 									artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
@@ -569,7 +569,7 @@ public class ResultsState extends GameState {
 
 		//When all players are ready, reddy will be true and we return to the hub
 		boolean reddy = true;
-		for (boolean b: ready.values()) {
+		for (boolean b : ready.values()) {
 			if (!b) {
 				reddy = false;
 				break;
@@ -611,11 +611,11 @@ public class ResultsState extends GameState {
 
 		if (particleCounter >= particleCooldown) {
 			particleCounter = 0.0f;
-			for (PooledEffect effect: effects) {
+			for (PooledEffect effect : effects) {
 				effect.start();
 			}
 		}
-		for (PooledEffect effect: effects) {
+		for (PooledEffect effect : effects) {
 			effect.update(delta);
 		}
 	}
@@ -628,11 +628,10 @@ public class ResultsState extends GameState {
 	    stage.dispose();
 		fbo.dispose();
 
-	    for (PlayerResultsIcon icon: icons) {
+	    for (PlayerResultsIcon icon : icons) {
 	        icon.dispose();
         }
-
-		for (PooledEffect effect: effects) {
+		for (PooledEffect effect : effects) {
 			Particle.PARTY.removeEffect(effect);
 		}
 	}

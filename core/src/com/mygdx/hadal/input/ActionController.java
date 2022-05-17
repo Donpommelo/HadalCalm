@@ -146,7 +146,6 @@ public class ActionController {
 	private float lastTimestamp;
 	private final Vector2 relativeMouse = new Vector2();
 	private HashSet<PlayerAction> keysHeld = new HashSet<>();
-
 	/**
 	 * This is run when receiving client inputs. Set client keys as pressed/released and set attack angle
 	 */

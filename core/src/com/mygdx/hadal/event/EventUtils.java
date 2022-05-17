@@ -16,8 +16,15 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
+/**
+ * This contains a number of helper functions used by various events
+ *
+ */
 public class EventUtils {
 
+    /**
+     * This sets a single objective marker on a specified entity
+     */
     public static void setObjectiveMarker(PlayState state, HadalEntity event, Sprite sprite, HadalColor color,
                                           boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen) {
         if (state.isServer()) {
@@ -27,12 +34,16 @@ public class EventUtils {
         }
     }
 
+    /**
+     * This sets a single objective marker on a specified entity.
+     * The marker is only set for players on a specific team
+     */
     public static void setObjectiveMarkerTeam(PlayState state, HadalEntity event, Sprite sprite, HadalColor color,
                                           boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen,
                                           AlignmentFilter team) {
 
         if (state.isServer()) {
-            for (ObjectMap.Entry<Integer, User> user: HadalGame.server.getUsers()) {
+            for (ObjectMap.Entry<Integer, User> user : HadalGame.server.getUsers()) {
                 if (user.value.isSpectator() || user.value.getTeamFilter() == team) {
                     if (user.key == 0) {
                         state.getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen);
@@ -45,6 +56,9 @@ public class EventUtils {
         }
     }
 
+    /**
+     * This adds a foot fixture to an event, allowing it to selectively pass through dropthrough platforms
+     */
     public static void addFeetFixture(HadalEntity event) {
         FeetData feetData = new FeetData(UserDataType.FEET, event);
         Fixture feet = FixtureBuilder.createFixtureDef(event.getBody(), new Vector2(1.0f / 2,  - event.getSize().y / 2),

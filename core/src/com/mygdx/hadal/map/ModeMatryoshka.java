@@ -25,7 +25,7 @@ public class ModeMatryoshka extends ModeSetting {
     public String loadSettingStart(PlayState state, GameMode mode) {
 
         //all players start with 8 lives
-        for (User user: HadalGame.server.getUsers().values()) {
+        for (User user : HadalGame.server.getUsers().values()) {
             user.getScores().setLives(livesNum);
             user.setScoreUpdated(true);
         }

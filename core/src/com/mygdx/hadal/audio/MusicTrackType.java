@@ -33,7 +33,6 @@ public enum MusicTrackType {
     LEVEL_NOISELESS_SEA(MusicTrack.HEAVY_BREATHING),
     EXTRA_ROOM(MusicTrack.LIQUID_ASPIRATIONS),
 
-
     FREE(),
     SOUND_ROOM()
 

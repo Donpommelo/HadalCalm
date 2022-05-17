@@ -34,7 +34,6 @@ public class EventCloner extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
-										
 					if (event.getConnectedEvent().getBlueprint() != null) {
 						Event clone = TiledObjectUtil.parseSingleEventWithTriggers(state, event.getConnectedEvent().getBlueprint());
 						

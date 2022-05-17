@@ -28,8 +28,8 @@ public class DieRagdoll extends HitboxStrategy {
 	
 	@Override
 	public void die() {
-		Ragdoll ragdoll = new Ragdoll(state, this.hbox.getPixelPosition(), hbox.getSize(), hbox.getSprite(), new Vector2(), ragdollDuration,
-			1.0f, false, false, synced);
+		Ragdoll ragdoll = new Ragdoll(state, this.hbox.getPixelPosition(), hbox.getSize(), hbox.getSprite(), new Vector2(),
+				ragdollDuration, 1.0f, false, false, synced, true);
 
 		if (!state.isServer()) {
 			((ClientState) state).addEntity(ragdoll.getEntityID(), ragdoll, false, ClientState.ObjectLayer.HBOX);

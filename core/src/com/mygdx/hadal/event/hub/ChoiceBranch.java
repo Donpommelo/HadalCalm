@@ -41,7 +41,7 @@ public class ChoiceBranch extends HubEvent {
 		
 		final ChoiceBranch me = this;
 		
-		for (ObjectMap.Entry<String, Event> entry: options.entries()) {
+		for (ObjectMap.Entry<String, Event> entry : options.entries()) {
 			final Event option = entry.value;
 			Text itemChoose = new Text(entry.key).setButton(true);
 			itemChoose.addListener(new ClickListener() {

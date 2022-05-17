@@ -12,6 +12,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 public enum HText {
     STRING_NOT_FOUND("STRING_NOT_FOUND"),
     QUESTION("QUESTION"),
+    NOTHING("NOTHING"),
 
     INFO_ABOUT("INFO_ABOUT"),
     INFO_CREDITS_CODE("INFO_CREDITS_CODE"),
@@ -365,6 +366,26 @@ public enum HText {
     TEXT_WEAPON_SWITCH("TUTORIAL_TEXT_WEAPON_SWITCH"),
     TEXT_RELOAD("TUTORIAL_TEXT_RELOAD"),
 
+    BANANA("TEAM_BANANA"),
+    CELADON("TEAM_CELADON"),
+    CHARTREUSE("TEAM_CHARTREUSE"),
+    COQUELICOT("TEAM_COQUELICOT"),
+    CRIMSON("TEAM_CRIMSON"),
+    EGGPLANT("TEAM_EGGPLANT"),
+    GOLD("TEAM_GOLD"),
+    GREY("TEAM_GREY"),
+    PLUM("TEAM_PLUM"),
+    MAUVE("TEAM_MAUVE"),
+    ORANGE("TEAM_ORANGE"),
+    SKY_BLUE("TEAM_SKY_BLUE"),
+    TAN("TEAM_TAN"),
+    TURQUOISE("TEAM_TURQUOISE"),
+    VIOLET("TEAM_VIOLET"),
+    BLACK_AND_WHITE("TEAM_BLACK_AND_WHITE"),
+    CENSURED("TEAM_CENSURED"),
+    INVERT("TEAM_INVERT"),
+    SEPIA("TEAM_SEPIA"),
+
     ;
 
     //key used to find the text in Strings.json file
@@ -414,7 +435,7 @@ public enum HText {
 
     private static final ObjectMap<String, HText> TextByName = new ObjectMap<>();
     static {
-        for (HText u: HText.values()) {
+        for (HText u : HText.values()) {
             TextByName.put(u.toString(), u);
         }
     }

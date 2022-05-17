@@ -3,7 +3,6 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -55,15 +54,6 @@ public class StartPoint extends Event {
 	 */
 	public void startPointSelected() {
 		spawnCd = SpawnTimer;
-	}
-
-	/**
-	 * This is run when the player is created to run connected events.
-	 */
-	public void playerStart(final Player p) {
-		if (getConnectedEvent() != null) {
-			getConnectedEvent().getEventData().preActivate(eventData, p);
-		}
 	}
 	
 	public boolean isReady() { return spawnCd <= 0.0f; }

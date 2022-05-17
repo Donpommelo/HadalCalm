@@ -113,27 +113,27 @@ public class Record {
 		newRecord.unlockCosmetic = new ObjectMap<>();
 		newRecord.unlockLevel = new ObjectMap<>();
 
-		for (UnlockEquip equip: UnlockEquip.values()) {
+		for (UnlockEquip equip : UnlockEquip.values()) {
 			newRecord.unlockEquip.put(equip.toString(), false);
 		}
 		
-		for (UnlockArtifact artifact: UnlockArtifact.values()) {
+		for (UnlockArtifact artifact : UnlockArtifact.values()) {
 			newRecord.unlockArtifact.put(artifact.toString(), false);
 		}
 		
-		for (UnlockActives active: UnlockActives.values()) {
+		for (UnlockActives active : UnlockActives.values()) {
 			newRecord.unlockActive.put(active.toString(), false);
 		}
 		
-		for (UnlockCharacter character: UnlockCharacter.values()) {
+		for (UnlockCharacter character : UnlockCharacter.values()) {
 			newRecord.unlockCharacter.put(character.toString(), true);
 		}
 
-		for (UnlockCosmetic cosmetic: UnlockCosmetic.values()) {
+		for (UnlockCosmetic cosmetic : UnlockCosmetic.values()) {
 			newRecord.unlockCosmetic.put(cosmetic.toString(), true);
 		}
 
-		for (UnlockLevel level: UnlockLevel.values()) {
+		for (UnlockLevel level : UnlockLevel.values()) {
 			newRecord.unlockLevel.put(level.toString(), false);
 		}
 

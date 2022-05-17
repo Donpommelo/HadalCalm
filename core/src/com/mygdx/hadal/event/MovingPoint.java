@@ -103,7 +103,7 @@ public class MovingPoint extends Event {
 						}
 					} else {
 
-						//activate nect event in the chain and move to next rally point
+						//activate next event in the chain and move to next rally point
 						getConnectedEvent().getConnectedEvent().getEventData().preActivate(eventData, null);
 						if (getConnectedEvent().getConnectedEvent().getBody() != null) {
 							setConnectedEvent(getConnectedEvent().getConnectedEvent());

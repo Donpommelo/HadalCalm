@@ -13,11 +13,14 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class SpawnerUnlockable extends Prefabrication {
 
 	private final String triggeredId, triggeringId;
+
+	//the type of unlock (equip, artifact, etc) and the name of the unlock
 	private final String type, name;
 	
 	private String pickupId, spawnerId;
 	
-	public SpawnerUnlockable(PlayState state, int width, int height, int x, int y, String triggeredId, String triggeringId, String type, String name) {
+	public SpawnerUnlockable(PlayState state, float width, float height, float x, float y, String triggeredId,
+							 String triggeringId, String type, String name) {
 		super(state, width, height, x , y);
 		this.triggeredId = triggeredId;
 		this.triggeringId = triggeringId;

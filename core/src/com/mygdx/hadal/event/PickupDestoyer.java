@@ -13,6 +13,9 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
+ * The pickup destroyer destroys pickups that make contact with it.
+ * Place at the bottom of bottomless pits to despawn things like flags/graves
+ * We also want to despawn weapon drops to avoid bots trying to pick them up
  */
 public class PickupDestoyer extends Event {
 

@@ -96,7 +96,7 @@ public class PlayerClient extends Player {
 			predictedPosition.set(p.pos);
 			if (!frames.isEmpty()) {
 				rubberbandPosition.setZero();
-				for (ClientPredictionFrame frame: frames) {
+				for (ClientPredictionFrame frame : frames) {
 					rubberbandPosition.add(frame.positionChange);
 				}
 				predictedPosition.add(rubberbandPosition);

@@ -34,7 +34,7 @@ public class Text extends AHadalActor {
 	private float targetWidth;
 
 	//padding for window used if this text is a button
-	private static final float padding = 15.0f;
+	private static final float pad = 15.0f;
 
 	private boolean mouseWindow;
 
@@ -56,8 +56,7 @@ public class Text extends AHadalActor {
 		//draw an additional window beneath this actor to indicate a button
 		 if (mouseOver) {
 		 	if (mouseWindow) {
-				GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2, getY(),
-						getWidth() + padding, getHeight());
+				GameStateManager.getSimplePatch().draw(batch, getX() - pad / 2, getY(), getWidth() + pad, getHeight());
 			}
 		 }
 
@@ -133,5 +132,4 @@ public class Text extends AHadalActor {
 		this.scale = scale;
 		updateHitBox();
 	}
-
 }

@@ -38,7 +38,7 @@ public class BotManager {
      * Run on first tick of server playstate. Initiate all bots
      */
     public static void initiateBots(PlayState state) {
-        for (User user: HadalGame.server.getUsers().values()) {
+        for (User user : HadalGame.server.getUsers().values()) {
             if (user.getScores().getConnID() < 0) {
                 initiateBot(state, user);
             }
@@ -63,7 +63,7 @@ public class BotManager {
                     worldVertices[i] = new Vector2(vertices[i * 2] / Constants.PPM, vertices[i * 2 + 1] / Constants.PPM);
                 }
 
-                //set each vertice of the segment as a rally point and add its connections
+                //set each vertex of the segment as a rally point and add its connections
                 if (worldVertices.length == 2) {
                     if (!rallyPoints.containsKey(worldVertices[0])) {
                         rallyPoints.put(worldVertices[0], new RallyPoint(worldVertices[0]));
@@ -125,7 +125,7 @@ public class BotManager {
         float closestDistObstructed = 0.0f;
 
         //iterate through all rally points up to a set distance away
-        for (Vector2 rallyPoint: rallyPoints.keys()) {
+        for (Vector2 rallyPoint : rallyPoints.keys()) {
             if (Math.abs(rallyPoint.x - sourceLocation.x) > MaxPointDistanceCheck ||
                     Math.abs(rallyPoint.y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
 
@@ -161,7 +161,7 @@ public class BotManager {
         Array<RallyPoint> pathStarters = new Array<>();
 
         //iterate through all rally points up to a set distance away
-        for (RallyPoint rallyPoint: rallyPoints.values()) {
+        for (RallyPoint rallyPoint : rallyPoints.values()) {
             if (Math.abs(rallyPoint.getPosition().x - sourceLocation.x) > MaxPointDistanceCheck ||
                     Math.abs(rallyPoint.getPosition().y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
 
@@ -204,7 +204,7 @@ public class BotManager {
 
         //reset variables to properly calculate distance between them and add starting point to open set
         openSet.clear();
-        for (RallyPoint point: rallyPoints.values()) {
+        for (RallyPoint point : rallyPoints.values()) {
             point.setVisited(false);
             point.setRouteScore(0);
             point.setEstimatedScore(0);
@@ -231,7 +231,7 @@ public class BotManager {
                 //cache shortest paths for all points in the shortest path
                 Array<RallyPoint> tempPoints = new Array<>();
                 int teamIndex = -1;
-                for (RallyPoint pointInPath: path.getPath()) {
+                for (RallyPoint pointInPath : path.getPath()) {
                     tempPoints.add(pointInPath);
 
                     //keep track of the path's team index for caching purposes
@@ -246,7 +246,7 @@ public class BotManager {
             }
 
             //iterate through all neighbors to calc their route and estimated score
-            for (RallyPoint neighbor: parent.getConnections().keys()) {
+            for (RallyPoint neighbor : parent.getConnections().keys()) {
 
                 //we only accept a path if it is not team exclusive, or if it exclusive to our own team
                 int teamIndex = parent.getConnections().get(neighbor).teamIndex();
@@ -332,7 +332,6 @@ public class BotManager {
                         (float) (Math.sin(targeter.getAimWobble().angleRad()) * targeter.getCurrentWobble())));
             }
         }
-
         return aimTemp;
     }
 

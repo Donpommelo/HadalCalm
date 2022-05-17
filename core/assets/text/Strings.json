@@ -1,6 +1,7 @@
 {
   "STRING_NOT_FOUND" : "STRING NOT FOUND :(",
   "QUESTION" : "?",
+  "NOTHING" : "",
 
   "INFO_ABOUT": "Hadal Calm is a 2D Action-Platformer featuring PVP combat, cooperative survival modes, and a short single-player campaign.\n\nEquip 50 different weapons and +120 unique upgrades in frantic arena battles.\n\nThis game was made using LIBGDX.",
   "INFO_CREDITS_CODE": "PROGRAMMING: DONPOMMELO",
@@ -356,6 +357,25 @@
   "TUTORIAL_TEXT_CROUCH" : "fast fall: (fugcrouchfug)",
   "TUTORIAL_TEXT_ATTACK" : "attack: (fugshootfug)",
   "TUTORIAL_TEXT_WEAPON_SWITCH" : "switch weapon: (fugswitch1fug, fugswitch2fug, fugswitch3fug)",
-  "TUTORIAL_TEXT_RELOAD" : "reload: (fugreloadfug)"
+  "TUTORIAL_TEXT_RELOAD" : "reload: (fugreloadfug)",
 
+  "TEAM_BANANA" : "BANANA",
+  "TEAM_CELADON" : "CELADON",
+  "TEAM_CHARTREUSE" : "CHARTREUSE",
+  "TEAM_COQUELICOT" : "COQUELICOT",
+  "TEAM_CRIMSON" : "CRIMSON",
+  "TEAM_EGGPLANT" : "EGGPLANT",
+  "TEAM_GOLD" : "GOLD",
+  "TEAM_GREY" : "GREY",
+  "TEAM_PLUM" : "PLUM",
+  "TEAM_MAUVE" : "MAUVE",
+  "TEAM_ORANGE" : "ORANGE",
+  "TEAM_SKY_BLUE" : "SKY BLUE",
+  "TEAM_TAN" : "TAN",
+  "TEAM_TURQUOISE" : "TURQUOISE",
+  "TEAM_VIOLET" : "VIOLET",
+  "TEAM_BLACK_AND_WHITE" : "BLACK AND WHITE",
+  "TEAM_CENSURED" : "CENSURED",
+  "TEAM_INVERT" : "INVERT",
+  "TEAM_SEPIA" : "SEPIA"
 }

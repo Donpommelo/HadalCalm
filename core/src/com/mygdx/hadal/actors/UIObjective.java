@@ -31,7 +31,7 @@ public class UIObjective extends AHadalActor {
 		if (state.getGsm().getSetting().isHideHUD()) { return; }
 
 		//draw all objective markers. Delete the ones attached to dead objects
-		for (ObjectiveMarker marker: objectives) {
+		for (ObjectiveMarker marker : objectives) {
 			marker.draw(batch);
 
 			if (marker.getObjectiveTarget() != null) {
@@ -40,8 +40,7 @@ public class UIObjective extends AHadalActor {
 				}
 			}
 		}
-
-		for (ObjectiveMarker marker: objectivesToRemove) {
+		for (ObjectiveMarker marker : objectivesToRemove) {
 			objectives.removeValue(marker, false);
 		}
 		objectivesToRemove.clear();

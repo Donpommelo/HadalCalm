@@ -14,7 +14,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.event.StartPoint;
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.MouseTracker;
@@ -141,12 +141,12 @@ public class KryoServer {
 
 						Player player = user.getPlayer();
 						if (player != null) {
-							ps.addPacketEffect(() -> {
-								if (player.getController() != null) {
+							if (player.getController() != null) {
+								ps.addPacketEffect(() -> {
 									player.getController().syncClientKeyStrokes(p.mouseX, p.mouseY, p.playerX, p.playerY,
 											p.actions, p.timestamp);
-								}
-							});
+								});
+							}
 						}
 					}
 				}
@@ -275,9 +275,7 @@ public class KryoServer {
 							if (player.getPlayerData() != null) {
 								HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncWholeLoadout(
 										c.getID(), player.getPlayerData().getLoadout(), false));
-								if (player.getStart() != null) {
-									player.getStart().playerStart(player);
-								}
+								player.activateStartingEvents();
 							}
 						}
 					}
@@ -294,8 +292,8 @@ public class KryoServer {
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
-							ps.addPacketEffect(() -> {
-								if (player.getPlayerData() != null) {
+							if (player.getPlayerData() != null) {
+								ps.addPacketEffect(() -> {
 									if (p instanceof PacketsLoadout.SyncEquipClient s) {
 										player.getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(s.equip, player)));
 									}
@@ -320,8 +318,8 @@ public class KryoServer {
 										player.getPlayerData().setCosmetic(s.cosmetic);
 										player.getPlayerData().syncServerCosmeticChange(s.cosmetic);
 									}
-								}
-							});
+								});
+							}
 						}
 					}
         		}
@@ -332,12 +330,12 @@ public class KryoServer {
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
-							ps.addPacketEffect(() -> {
-								if (player.getPlayerData() != null) {
+							if (player.getPlayerData() != null) {
+								ps.addPacketEffect(() -> {
 									player.getPlayerData().syncLoadout(p.loadout, false, false);
 									player.getPlayerData().syncServerWholeLoadoutChange();
-								}
-							});
+								});
+							}
 						}
 					}
 				}
@@ -456,13 +454,13 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					User user = users.get(c.getID());
 					if (user != null && ps != null) {
-						ps.addPacketEffect(() -> {
-							Player player = user.getPlayer();
-							if (player != null) {
+						Player player = user.getPlayer();
+						if (player != null) {
+							ps.addPacketEffect(() -> {
 								player.startTyping();
 								sendToAllExceptUDP(c.getID(), new Packets.SyncTyping(player.getEntityID()));
-							}
-						});
+							});
+						}
 					}
 				}
 
@@ -473,12 +471,12 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					User user = users.get(c.getID());
 					if (user != null && ps != null) {
-						ps.addPacketEffect(() -> {
-							Player player = user.getPlayer();
-							if (player != null) {
+						Player player = user.getPlayer();
+						if (player != null) {
+							ps.addPacketEffect(() -> {
 								ps.getChatWheel().emote(player, p.emoteIndex);
-							}
-						});
+							});
+						}
 					}
 				}
 
@@ -488,15 +486,15 @@ public class KryoServer {
 				else if (o instanceof Packets.StartSpectate) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						ps.addPacketEffect(() -> {
-							User user = users.get(c.getID());
-							if (user != null) {
-								Player player = user.getPlayer();
-								if (player != null) {
+						User user = users.get(c.getID());
+						if (user != null) {
+							Player player = user.getPlayer();
+							if (player != null) {
+								ps.addPacketEffect(() -> {
 									ps.becomeSpectator(player, true);
-								}
+								});
 							}
-						});
+						}
 					}
 				}
 				
@@ -524,23 +522,23 @@ public class KryoServer {
 				}
 
 				/*
-				 *A Client has typed /killme and wants their player to be killed (not disconnected)
+				 * A Client has typed /killme and wants their player to be killed (not disconnected)
 				 */
 				else if (o instanceof Packets.ClientYeet) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						ps.addPacketEffect(() -> {
-							User user = users.get(c.getID());
-							if (user != null) {
-								Player player = user.getPlayer();
-								if (player != null) {
-									if (player.getPlayerData() != null) {
+						User user = users.get(c.getID());
+						if (user != null) {
+							Player player = user.getPlayer();
+							if (player != null) {
+								if (player.getPlayerData() != null) {
+									ps.addPacketEffect(() -> {
 										player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(),
 												false, null, DamageSource.MISC);
-									}
+									});
 								}
 							}
-						});
+						}
 					}
 				}
 			}
@@ -573,7 +571,7 @@ public class KryoServer {
 	 * @param startPoint: The start point to spawn the new client player at
 	 */
 	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout,
-	  final PlayerBodyData data, final boolean reset, final boolean spectator, boolean justJoined, final StartPoint startPoint) {
+	  final PlayerBodyData data, final boolean reset, final boolean spectator, boolean justJoined, final Event startPoint) {
 
 		ps.addPacketEffect(() -> {
 
@@ -587,7 +585,7 @@ public class KryoServer {
 				user.setTeamFilter(loadout.team);
 			}
 
-			StartPoint newSave = null;
+			Event newSave = null;
 			if (startPoint != null) {
 				newSave = startPoint;
 			}
@@ -693,7 +691,7 @@ public class KryoServer {
 	public int getNumPlayers() {
 		int playerNum = 0;
 		
-		for (ObjectMap.Entry<Integer, User> conn: users.iterator()) {
+		for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
 			if (!conn.value.isSpectator() && conn.key >= 0.0f) {
 				playerNum++;
 			}

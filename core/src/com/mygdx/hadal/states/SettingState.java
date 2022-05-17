@@ -73,7 +73,7 @@ public class SettingState extends GameState {
 
 	private static final float optionsScale = 0.5f;
 	private static final float optionHeight = 35.0f;
-	private static final float optionPadding = 10.0f;
+	private static final float optionPad = 10.0f;
 	private static final float detailsScale = 0.25f;
 
 	private static final float titlePad = 25.0f;
@@ -94,8 +94,8 @@ public class SettingState extends GameState {
 		super(gsm);
 		this.peekState = peekState;
 		
-		if (peekState instanceof PauseState) {
-			playState = ((PauseState) peekState).getPs();
+		if (peekState instanceof PauseState pauseState) {
+			playState = pauseState.getPs();
 		}
 	}
 
@@ -200,13 +200,13 @@ public class SettingState extends GameState {
 			    });
 				resetOption.setScale(optionsScale);
 				
-				options.add(displayOption).height(optionHeight).pad(optionPadding).row();
-				options.add(controlOption).height(optionHeight).pad(optionPadding).row();
-				options.add(audioOption).height(optionHeight).pad(optionPadding).row();
-				options.add(serverOption).height(optionHeight).pad(optionPadding).row();
-				options.add(miscOption).height(optionHeight).pad(optionPadding).row();
-				options.add(resetOption).height(optionHeight).pad(optionPadding).row();
-				options.add(exitOption).height(optionHeight).pad(optionPadding).expand().row();
+				options.add(displayOption).height(optionHeight).pad(optionPad).row();
+				options.add(controlOption).height(optionHeight).pad(optionPad).row();
+				options.add(audioOption).height(optionHeight).pad(optionPad).row();
+				options.add(serverOption).height(optionHeight).pad(optionPad).row();
+				options.add(miscOption).height(optionHeight).pad(optionPad).row();
+				options.add(resetOption).height(optionHeight).pad(optionPad).row();
+				options.add(exitOption).height(optionHeight).pad(optionPad).expand().row();
 			}
 		};
 		app.newMenu(stage);
@@ -397,7 +397,7 @@ public class SettingState extends GameState {
 		
 		details.add(new Text(HText.CONTROLS.text())).pad(titlePad).row();
 		
-		VerticalGroup actions = new VerticalGroup().space(optionPadding);
+		VerticalGroup actions = new VerticalGroup().space(optionPad);
 		
 		for (PlayerAction a : PlayerAction.values()) {
 			
@@ -429,7 +429,7 @@ public class SettingState extends GameState {
 		keybinds.setSize(detailsWidth, detailsHeight);
 		keybinds.setFadeScrollBars(false);
 		
-		details.add(keybinds).width(scrollWidth).expandY().pad(optionPadding);
+		details.add(keybinds).width(scrollWidth).expandY().pad(optionPad);
 		stage.setScrollFocus(keybinds);
 	}
 	
@@ -492,7 +492,7 @@ public class SettingState extends GameState {
 
 			@Override
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-				gsm.getSetting().setMusicVolume(music.getValue());
+				gsm.getSetting().setMusicVolume(music.getValue() * master.getValue());
 				gsm.getSetting().setAudio();
 			}
 
@@ -612,7 +612,7 @@ public class SettingState extends GameState {
 		maxPlayers.setScale(detailsScale);
 
 		Text port = new Text(HText.PORT_NUMBER.text());
-		port.setScale(0.25f);
+		port.setScale(detailsScale);
 
 		Text password = new Text(HText.SERVER_PASSWORD.text());
 		password.setScale(detailsScale);

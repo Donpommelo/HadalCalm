@@ -17,7 +17,7 @@ public class EventAlternatorZone extends Prefabrication {
 	
 	private final String event1, event2;
 	
-	public EventAlternatorZone(PlayState state, int width, int height, int x, int y, int align, String event1, String event2) {
+	public EventAlternatorZone(PlayState state, float width, float height, float x, float y, int align, String event1, String event2) {
 		super(state, width, height, x , y);
 		this.align = align;
 		this.event1 = event1;
@@ -75,7 +75,6 @@ public class EventAlternatorZone extends Prefabrication {
 		mult2.setName("Multitrigger");
 		mult2.getProperties().put("triggeredId", event2Id);
 		mult2.getProperties().put("triggeringId", event2 + "," + set2Id);
-
 
 		switch (align) {
 			case 0 -> {

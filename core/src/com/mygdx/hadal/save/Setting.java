@@ -208,7 +208,7 @@ public class Setting {
 	public void resetModeSettings() {
 		modeSettings = new HashMap<>();
 
-		for (GameMode mode: GameMode.values()) {
+		for (GameMode mode : GameMode.values()) {
 			modeSettings.put(mode.toString(), new HashMap<>());
 		}
 	}

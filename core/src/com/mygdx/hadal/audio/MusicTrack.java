@@ -60,7 +60,6 @@ public enum MusicTrack {
 	 * load the music if not already loaded and return it
 	 */
 	public Music getMusic() {
-		
 		if (music == null) {
 			music = Gdx.audio.newMusic(Gdx.files.internal(musicFileName));
 		}

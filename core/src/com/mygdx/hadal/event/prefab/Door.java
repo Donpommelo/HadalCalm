@@ -19,7 +19,7 @@ public class Door extends Prefabrication {
 	//The wall will move this amount in the x and y directions.
 	private final int xDisplace, yDisplace;
 	
-	public Door(PlayState state, int width, int height, int x, int y, String eventId, float speed, int xDisplace, int yDisplace) {
+	public Door(PlayState state, float width, float height, float x, float y, String eventId, float speed, int xDisplace, int yDisplace) {
 		super(state, width, height, x , y);
 		this.speed = speed;
 		this.eventId = eventId;

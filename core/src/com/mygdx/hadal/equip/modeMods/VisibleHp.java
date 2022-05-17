@@ -17,7 +17,6 @@ public class VisibleHp extends Artifact {
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
-		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.HEALTH_VISIBILITY, hpVisibility, p));
+		enchantment = new StatusComposite(state, p,	new StatChangeStatus(state, Stats.HEALTH_VISIBILITY, hpVisibility, p));
 	}
 }

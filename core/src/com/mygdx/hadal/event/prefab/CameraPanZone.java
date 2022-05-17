@@ -20,7 +20,8 @@ public class CameraPanZone extends Prefabrication {
 	//These are the eventIDs of the camera lock points for the left/lower, right/upper sections
 	private final String point1, point2;
 	
-	public CameraPanZone(PlayState state, int width, int height, int x, int y, float zoom1, float zoom2, int align, String point1, String point2) {
+	public CameraPanZone(PlayState state, float width, float height, float x, float y, float zoom1, float zoom2,
+						 int align, String point1, String point2) {
 		super(state, width, height, x , y);
 		this.zoom1 = zoom1;
 		this.zoom2 = zoom2;
@@ -107,7 +108,6 @@ public class CameraPanZone extends Prefabrication {
 		if (!point1.equals("")) {
 			camera1.getProperties().put("triggeringId", point1);
 		}
-		
 		if (!point2.equals("")) {
 			camera2.getProperties().put("triggeringId", point2);
 		}

@@ -70,7 +70,7 @@ public enum HadalColor {
 
 	private static final ObjectMap<String, HadalColor> ColorsByName = new ObjectMap<>();
 	static {
-		for (HadalColor c: HadalColor.values()) {
+		for (HadalColor c : HadalColor.values()) {
 			ColorsByName.put(c.toString(), c);
 		}
 	}

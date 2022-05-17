@@ -195,22 +195,22 @@ public class BodyData extends HadalData {
 
 		Array<Status> toRemove = new Array<>();
 		
-		for (Status s: statuses) {
+		for (Status s : statuses) {
 			if (s.getArtifact() != null) {
 				if (s.getArtifact().equals(artifact)) {
 					toRemove.add(s);
 				}
 			}
 		}
-		for (Status s: statusesChecked) {
+		for (Status s : statusesChecked) {
 			if (s.getArtifact() != null) {
 				if (s.getArtifact().equals(artifact)) {
 					toRemove.add(s);
 				}
 			}
 		}
-		for (Status st: toRemove) {
-			removeStatus(st);
+		for (Status s : toRemove) {
+			removeStatus(s);
 		}
 		calcStats();
 	}

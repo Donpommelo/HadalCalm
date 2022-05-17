@@ -323,12 +323,11 @@ public class PlayState extends GameState {
 			TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
 
 			//parse map-specific event layers (used for different modes in the same map)
-			for (String layer: mode.getExtraLayers()) {
+			for (String layer : mode.getExtraLayers()) {
 				if (map.getLayers().get(layer) != null) {
 					TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get(layer).getObjects());
 				}
 			}
-
 			TiledObjectUtil.parseTiledTriggerLayer();
 			TiledObjectUtil.parseDesignatedEvents(this);
 		}
@@ -496,7 +495,7 @@ public class PlayState extends GameState {
 		}
 
 		//All entities that are set to be added are added.
-		for (HadalEntity entity: createList) {
+		for (HadalEntity entity : createList) {
 			if (entity.getLayer().equals(ObjectLayer.HBOX)) {
 				hitboxes.add(entity);
 			} else if (entity.getLayer().equals(ObjectLayer.EFFECT)) {
@@ -514,8 +513,8 @@ public class PlayState extends GameState {
 		createList.clear();
 
 		//All entities that are set to be removed are removed.
-		for (HadalEntity entity: removeList) {
-			for (ObjectSet<HadalEntity> s: entityLists) {
+		for (HadalEntity entity : removeList) {
+			for (ObjectSet<HadalEntity> s : entityLists) {
 				s.remove(entity);
 			}
 			entity.dispose();
@@ -530,7 +529,7 @@ public class PlayState extends GameState {
 
 		//process all users (atm this handles respawn times)
 		if (server) {
-			for (User user: HadalGame.server.getUsers().values()) {
+			for (User user : HadalGame.server.getUsers().values()) {
 				user.controller(this, delta);
 			}
 		}
@@ -700,7 +699,7 @@ public class PlayState extends GameState {
 	 * Render all entities in the world
 	 */
 	public void renderEntities() {
-		for (ObjectSet<HadalEntity> s: entityLists) {
+		for (ObjectSet<HadalEntity> s : entityLists) {
 			for (HadalEntity entity : s) {
 				renderEntity(entity);
 			}
@@ -711,7 +710,7 @@ public class PlayState extends GameState {
 	 * Run the controller method for all entities in the world
 	 */
 	public void controllerEntities(float delta) {
-		for (ObjectSet<HadalEntity> s: entityLists) {
+		for (ObjectSet<HadalEntity> s : entityLists) {
 			for (HadalEntity entity : s) {
 				entity.controller(delta);
 				entity.decreaseShaderCount(delta);
@@ -727,19 +726,19 @@ public class PlayState extends GameState {
 	private final Array<Object> syncPackets = new Array<>();
 	public void syncEntities() {
 
-		for (ObjectSet<HadalEntity> s: entityLists) {
+		for (ObjectSet<HadalEntity> s : entityLists) {
 			for (HadalEntity entity : s) {
 				entity.onServerSync();
 			}
 		}
-		for (Object o: syncPackets) {
+		for (Object o : syncPackets) {
 			HadalGame.server.sendToAllUDP(o);
 		}
 		syncPackets.clear();
 	}
 	
 	public void syncFastEntities() {
-		for (ObjectSet<HadalEntity> s: entityLists) {
+		for (ObjectSet<HadalEntity> s : entityLists) {
 			for (HadalEntity entity : s) {
 				entity.onServerSyncFast();
 			}
@@ -825,7 +824,7 @@ public class PlayState extends GameState {
 	public void dispose() {
 		b2dr.dispose();
 
-		for (ObjectSet<HadalEntity> s: entityLists) {
+		for (ObjectSet<HadalEntity> s : entityLists) {
 			for (HadalEntity entity : s) {
 				entity.dispose();
 			}
@@ -968,7 +967,7 @@ public class PlayState extends GameState {
 			nextMode = mode;
 			this.nextStartId = nextStartId;
 
-			for (User user: HadalGame.server.getUsers().values()) {
+			for (User user : HadalGame.server.getUsers().values()) {
 				user.beginTransition(this, state, false, defaultFadeOutSpeed, defaultFadeDelay);
 			}
 		}
@@ -989,7 +988,7 @@ public class PlayState extends GameState {
 	 * @param hitboxFilter: the new player's collision filter
 	 * @return the newly created player
 	 */
-	public Player createPlayer(StartPoint start, String name, Loadout altLoadout, PlayerBodyData old, int connID,
+	public Player createPlayer(Event start, String name, Loadout altLoadout, PlayerBodyData old, int connID,
 	   		User user, boolean reset, boolean client, boolean justJoined, short hitboxFilter) {
 
 		Loadout newLoadout = new Loadout(altLoadout);
@@ -997,7 +996,7 @@ public class PlayState extends GameState {
 		//process mode-specific loadout changes
 		mode.processNewPlayerLoadout(this, newLoadout, connID, justJoined);
 
-		StartPoint spawn = start;
+		Event spawn = start;
 		if (spawn == null) {
 			spawn = getSavePoint(user);
 		}
@@ -1062,7 +1061,7 @@ public class PlayState extends GameState {
 
 		//magic word indicates that we generate the results text dynamically based on score
 		if (text.equals(ResultsState.magicWord)) {
-			for (User user: users) {
+			for (User user : users) {
 				if (!user.isSpectator()) {
 					scores.add(user.getScores());
 
@@ -1118,7 +1117,7 @@ public class PlayState extends GameState {
 				if (winningTeam.isTeam()) {
 					resultsText = HText.PLAYER_WINS.text(winningTeam.getColoredAdjective());
 				} else {
-					for (User user: users) {
+					for (User user : users) {
 						if (!user.isSpectator()) {
 							if (user.getHitBoxFilter().equals(winningTeam)) {
 								resultsText = HText.PLAYER_WINS.text(user.getScores().getNameShort());
@@ -1162,7 +1161,7 @@ public class PlayState extends GameState {
 		} else if (victory) {
 
 			//in coop, all players get a win if the team wins
-            for (User user: users) {
+            for (User user : users) {
                 if (!user.isSpectator()) {
 					user.getScores().win();
 				}
@@ -1207,7 +1206,7 @@ public class PlayState extends GameState {
 		}
 		HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(users, resultsText));
 
-		for (User user: HadalGame.server.getUsers().values()) {
+		for (User user : HadalGame.server.getUsers().values()) {
 			user.beginTransition(this, TransitionState.RESULTS, true, 0.0f, fadeDelay);
 		}
 	}
@@ -1348,7 +1347,7 @@ public class PlayState extends GameState {
 	 */
 	public HadalEntity findEntity(UUID entityId) {
 
-		for (ObjectSet<HadalEntity> s: entityLists) {
+		for (ObjectSet<HadalEntity> s : entityLists) {
 			for (HadalEntity entity : s) {
 				if (entity.getEntityID().equals(entityId)) {
 					return entity;
@@ -1385,7 +1384,7 @@ public class PlayState extends GameState {
 	 * @param connId: connId of the new client
 	 */
 	public void catchUpClient(int connId) {
-		for (ObjectSet<HadalEntity> s: entityLists) {
+		for (ObjectSet<HadalEntity> s : entityLists) {
 			for (HadalEntity entity : s) {
 				Object packet = entity.onServerCreate(true);
 				if (packet != null) {
@@ -1407,7 +1406,7 @@ public class PlayState extends GameState {
 		Array<StartPoint> readyStarts = new Array<>();
 		
 		//get a list of all start points that match the startId
-		for (StartPoint s: savePoints) {
+		for (StartPoint s : savePoints) {
 			if (mode.isTeamDesignated() && AlignmentFilter.currentTeams.length > s.getTeamIndex()) {
 				if (user.getTeamFilter().equals(AlignmentFilter.currentTeams[s.getTeamIndex()])) {
 					validStarts.add(s);
@@ -1431,7 +1430,7 @@ public class PlayState extends GameState {
 		}
 		
 		//add all valid starts that haven't had a respawn recently.
-		for (StartPoint s: validStarts) {
+		for (StartPoint s : validStarts) {
 			if (s.isReady()) {
 				readyStarts.add(s);
 			}

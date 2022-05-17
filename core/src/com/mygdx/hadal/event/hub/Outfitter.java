@@ -29,7 +29,7 @@ public class Outfitter extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 
-		for (ObjectMap.Entry<String, SavedLoadout> c: state.getGsm().getSavedOutfits().getOutfits()) {
+		for (ObjectMap.Entry<String, SavedLoadout> c : state.getGsm().getSavedOutfits().getOutfits()) {
 			final SavedLoadout selected = c.value;
 			Text itemChoose = new Text(c.key).setButton(true);
 

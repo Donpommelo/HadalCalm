@@ -19,7 +19,7 @@ public class SpawnerPickupTimed extends Prefabrication {
 	//0 = fuel. 1 = hp. 2 = ammo
 	private final int type;
 	
-	public SpawnerPickupTimed(PlayState state, int width, int height, int x, int y, float interval, int type, float power) {
+	public SpawnerPickupTimed(PlayState state, float width, float height, float x, float y, float interval, int type, float power) {
 		super(state, width, height, x , y);
 		this.interval = interval;
 		this.power = power;
@@ -36,7 +36,7 @@ public class SpawnerPickupTimed extends Prefabrication {
 	/**
 	 * Helper function to create a pickup event. This is a separate function so that weapon spawners can use it in custom loadout mode
 	 */
-	public static void addPickup(PlayState state, int width, int height, int x, int y, float interval, int type, float power,
+	public static void addPickup(PlayState state, float width, float height, float x, float y, float interval, int type, float power,
 								 String pickupId, String spawnerId) {
 		String onTouchId = TiledObjectUtil.getPrefabTriggerId();
 		String timerId = TiledObjectUtil.getPrefabTriggerId();

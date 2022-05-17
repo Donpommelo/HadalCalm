@@ -360,7 +360,7 @@ public class LobbyState extends GameState {
     }
 
     public void configSocketEvents() {
-        if (HadalGame.socket == null) return;
+        if (HadalGame.socket == null) { return; }
 
         HadalGame.socket.on(Socket.EVENT_CONNECT, args -> {
             Gdx.app.log("LOBBY", "CONNECTED");
@@ -437,7 +437,6 @@ public class LobbyState extends GameState {
             } else {
                 setNotification(HText.LOBBIES_RETRIEVED.text());
             }
-
         } catch (JSONException e) {
             Gdx.app.log("LOBBY", "FAILED TO PARSE LOBBY LIST: " + e);
         }

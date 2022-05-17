@@ -54,7 +54,7 @@ public class HubEvent extends Event {
 		this.closeOnLeave = closeOnLeave;
 		this.type = type;
 		this.tags = new Array<>();
-		for (String s: tag.split(",")) {
+		for (String s : tag.split(",")) {
 			tags.add(UnlockTag.valueOf(s));
 			this.tag = UnlockTag.valueOf(s);
 		}

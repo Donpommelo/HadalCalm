@@ -96,6 +96,7 @@ public class GameStateManager {
 		sharedSetting = setting.generateSharedSetting();
 		hostSetting = setting.generateSharedSetting();
 
+		//this is necessary to prevent nested iterations from causing errors
 		Collections.allocateIterators = true;
 	}
 	
@@ -156,7 +157,7 @@ public class GameStateManager {
 		}
 		states.clear();
 		
-		for (TextureAtlas atlas: atlases) {
+		for (TextureAtlas atlas : atlases) {
 			atlas.dispose();
 		}
 		atlases.clear();
@@ -256,7 +257,6 @@ public class GameStateManager {
 			states.peek().show();
 		}
 	}
-	
 
 	public void removeState(Class<? extends GameState> lastState) {
 		removeState(lastState, true);
@@ -307,14 +307,13 @@ public class GameStateManager {
 	 * Only used for: (TITLE, SPLASH, ABOUT, SETTING, LOBBY)
 	 */
 	public GameState getState(State state, GameState peekState) {
-		switch(state) {
+		switch (state) {
 			case TITLE: return new TitleState(this);
 			case SPLASH: return new InitState(this);
 			case ABOUT: return new AboutState(this, peekState);
 			case SETTING: return new SettingState(this, peekState);
 			case LOBBY: return new LobbyState(this, peekState);
-			default:
-				break;
+			default: break;
 		}
 		return null;
 	}
@@ -341,7 +340,7 @@ public class GameStateManager {
 	 * This is mostly for my own documentation
 	 */
 	public void exportChatLogs() {
-		for (String s: MessageWindow.getTextRecord()) {
+		for (String s : MessageWindow.getTextRecord()) {
 			Gdx.files.local("save/ChatLog.json").writeString(s + " \n", true);
 		}
 	}

@@ -35,13 +35,13 @@ public class NavigationsMultiplayer extends HubEvent {
 
 	private final Array<GameMode> gameModes = new Array<>();
 
-	public NavigationsMultiplayer(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean closeOnLeave,
-  		String modes) {
+	public NavigationsMultiplayer(PlayState state, Vector2 startPos, Vector2 size, String title, String tag,
+								  boolean closeOnLeave, String modes) {
 		super(state, startPos, size, title, tag, false, closeOnLeave, hubTypes.NAVIGATIONS);
 		if (modes.equals("")) {
 			gameModes.addAll(GameMode.values());
 		} else {
-			for (String s: modes.split(",")) {
+			for (String s : modes.split(",")) {
 				gameModes.add(GameMode.getByName(s));
 			}
 		}
@@ -61,7 +61,7 @@ public class NavigationsMultiplayer extends HubEvent {
 		hub.setTitle(modeChosen.getInfo().getName());
 		final NavigationsMultiplayer me = this;
 
-		for (UnlockLevel c: UnlockLevel.getUnlocks(state, checkUnlock, newTags)) {
+		for (UnlockLevel c : UnlockLevel.getUnlocks(state, checkUnlock, newTags)) {
 			final UnlockLevel selected = c;
 
 			boolean appear = false;
@@ -137,7 +137,7 @@ public class NavigationsMultiplayer extends HubEvent {
 		final NavigationsMultiplayer me = this;
 
 		//bring up all game modes that can be selected from the hub
-		for (GameMode c: gameModes) {
+		for (GameMode c : gameModes) {
 
 			if (!c.isInvisibleInHub()) {
 				final GameMode selected = c;

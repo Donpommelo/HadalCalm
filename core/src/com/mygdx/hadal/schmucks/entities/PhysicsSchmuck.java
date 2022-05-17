@@ -43,7 +43,7 @@ public class PhysicsSchmuck extends Schmuck {
 			float desiredYVel = 0.0f;
 			
 			//set desired velocity depending on move states.
-			switch(moveState) {
+			switch (moveState) {
 			case MOVE_LEFT:
 				desiredXVel = grounded ? -getBodyData().getXGroundSpeed() : -getBodyData().getXAirSpeed();
 				break;

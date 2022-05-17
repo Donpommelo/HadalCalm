@@ -168,7 +168,7 @@ public class ScoreWindow {
 			return cmp;
 		});
 
-		for (User user: orderedUsers) {
+		for (User user : orderedUsers) {
 			addEntry(user.getScores().getConnID(), user, scoreHeight, scorePad);
 		}
 
@@ -297,7 +297,6 @@ public class ScoreWindow {
 				}
 			}
 		}
-
 		state.getStage().addActor(windowOptions);
 		state.getStage().addActor(tableOptions);
 	}
@@ -331,7 +330,7 @@ public class ScoreWindow {
 		Table tableArtifact = new Table();
 		if (user.getPlayer() != null) {
 			if (user.getPlayer().getPlayerData() != null) {
-				for (UnlockArtifact c: user.getPlayer().getPlayerData().getLoadout().artifacts) {
+				for (UnlockArtifact c : user.getPlayer().getPlayerData().getLoadout().artifacts) {
 					if (!c.equals(UnlockArtifact.NOTHING) && !c.isInvisible()) {
 						ArtifactIcon newTag = new ArtifactIcon(c, c.getInfo().getName() + "\n" + c.getInfo().getDescription(),
 								artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);

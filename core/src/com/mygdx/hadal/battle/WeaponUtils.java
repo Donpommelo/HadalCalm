@@ -505,11 +505,9 @@ public class WeaponUtils {
 
 	private static final Sprite[] vineSprites = {Sprite.VINE_A, Sprite.VINE_C, Sprite.VINE_D};
 	public static void createVine(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelo,
-								  int vineNum, float lifespan, float vineDamage, float vineKB,
-								  int spreadMin, int spreadMax, int bendLength, int bendSpread,
-								  Vector2 vineInvisSize, Vector2 vineSize, Vector2 vineSpriteSize,
-								  int splitNum) {
-
+								  int vineNum, float lifespan, float vineDamage, float vineKB, int spreadMin,
+								  int spreadMax, int bendLength, int bendSpread,  Vector2 vineInvisSize,
+								  Vector2 vineSize, Vector2 vineSpriteSize, int splitNum) {
 		SoundEffect.ATTACK1.playUniversal(state, user.getPixelPosition(), 0.4f, 0.5f, false);
 
 		//create an invisible hitbox that makes the vines as it moves
@@ -596,16 +594,13 @@ public class WeaponUtils {
 
 				if (splitNum > 0) {
 					//when vine dies, it creates 2 vines that branch in separate directions
-					float
-						newDegrees =
-						hbox.getLinearVelocity().angleDeg() + (MathUtils.random(spreadMin, spreadMax));
+					float newDegrees = hbox.getLinearVelocity().angleDeg() + (MathUtils.random(spreadMin, spreadMax));
 					angle.set(hbox.getLinearVelocity()).setAngleDeg(newDegrees);
 					WeaponUtils.createVine(state, user, hbox.getPixelPosition(), angle, vineNum, lifespan,
 						vineDamage, vineKB, spreadMin, spreadMax, 2, 1,
 						vineInvisSize, vineSize, vineSpriteSize, splitNum - 1);
 
-					newDegrees =
-						hbox.getLinearVelocity().angleDeg() - (MathUtils.random(spreadMin, spreadMax));
+					newDegrees = hbox.getLinearVelocity().angleDeg() - (MathUtils.random(spreadMin, spreadMax));
 					angle.set(hbox.getLinearVelocity()).setAngleDeg(newDegrees);
 					WeaponUtils.createVine(state, user, hbox.getPixelPosition(), angle, vineNum, lifespan,
 						vineDamage, vineKB, spreadMin, spreadMax, 2, 1,
@@ -776,7 +771,7 @@ public class WeaponUtils {
 						super.onTouch(fixB);
 						
 						if (isAlive() && fixB instanceof PlayerBodyData player) {
-							switch(type) {
+							switch (type) {
 							case AMMO:
 								
 								SoundEffect.LOCKANDLOAD.playUniversal(state, player.getPlayer().getPixelPosition(),
@@ -831,7 +826,7 @@ public class WeaponUtils {
 		pickup.setSynced(true);
 		pickup.setScale(pickupSpriteScale);
 		
-		switch(type) {
+		switch (type) {
 		case AMMO:
 			pickup.setEventSprite(Sprite.AMMO);
 			break;
@@ -855,9 +850,9 @@ public class WeaponUtils {
 	public static void spawnScrap(PlayState state, int amount, Vector2 startPos, boolean statCheck, boolean score) {
 		
 		int modifiedAmount;
-		
 		if (statCheck && state.getPlayer().getPlayerData() != null) {
-			if (state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount < 1.0f && state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) > 0) {
+			if (state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount < 1.0f
+					&& state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) > 0) {
 				modifiedAmount = amount + 1;
 			} else {
 				modifiedAmount = (int) (amount * (1 + state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP)));

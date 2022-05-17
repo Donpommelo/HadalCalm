@@ -26,7 +26,7 @@ public class KillFeedMessage extends AHadalActor {
     private final GlyphLayout layout;
     private final String message;
 
-    private static final float padding = 10;
+    private static final float pad = 10;
     private final float fontScale;
     private final float targetWidth;
     private float lifespan;
@@ -75,9 +75,9 @@ public class KillFeedMessage extends AHadalActor {
         grey = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.GREY.toString()));
 
         if (killFeed) {
-            textX = targetWidth - layout.width - padding / 2;
+            textX = targetWidth - layout.width - pad / 2;
         } else {
-            textX = targetWidth / 2 - layout.width / 2 - padding / 2;
+            textX = targetWidth / 2 - layout.width / 2 - pad / 2;
         }
     }
 
@@ -85,7 +85,7 @@ public class KillFeedMessage extends AHadalActor {
     public void draw(Batch batch, float alpha) {
 
         //draw grey box under message
-        batch.draw(grey, textX - padding / 2, getY() - padding / 2, getWidth() + padding, getHeight() + padding);
+        batch.draw(grey, textX - pad / 2, getY() - pad / 2, getWidth() + pad, getHeight() + pad);
 
         HadalGame.FONT_UI_ALT.getData().setScale(fontScale);
         HadalGame.FONT_UI_ALT.setColor(Color.WHITE);

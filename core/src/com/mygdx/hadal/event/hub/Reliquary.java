@@ -57,7 +57,7 @@ public class Reliquary extends HubEvent {
 		Pattern pattern = Pattern.compile(search);
 		final UIHub hub = state.getUiHub();
 
-		for (UnlockArtifact c: UnlockArtifact.getUnlocks(state, checkUnlock, newTags)) {
+		for (UnlockArtifact c : UnlockArtifact.getUnlocks(state, checkUnlock, newTags)) {
 			final UnlockArtifact selected = c;
 
 			boolean appear = false;

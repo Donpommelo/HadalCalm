@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.PlayerSpriteHelper;
 import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
@@ -19,13 +20,11 @@ import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.UserDataType;
-import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -166,7 +165,7 @@ public class Player extends PhysicsSchmuck {
 	private final boolean reset;
 	
 	//this is the point we are starting at.
-	private final StartPoint start;
+	private Event start;
 
 	//is the player currently typing in chat? (yes if this float is greater that 0.0f)
 	protected float typingCdCount;
@@ -183,7 +182,7 @@ public class Player extends PhysicsSchmuck {
 	 * @param start: the start point that the player spawns at.
 	 */
 	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connId,
-				  User user, boolean reset, StartPoint start) {
+				  User user, boolean reset, Event start) {
 		super(state, startPos, new Vector2(hbWidth * scale,hbHeight * scale), name, Constants.PLAYER_HITBOX, baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
@@ -335,11 +334,19 @@ public class Player extends PhysicsSchmuck {
 		//activate start point events (these usually just set up camera bounds/zoom and stuff like that)
 		//This line is here so that it does not occur before events are done being created.
 		//We only do this for our own player. For clients, this is run when they send a player created packet
-		if (start != null && this.equals(state.getPlayer())) {
-			start.playerStart(this);
+		if (this.equals(state.getPlayer())) {
+			activateStartingEvents();
 		}
 	}
-	
+
+	public void activateStartingEvents() {
+		if (start != null) {
+			if (start.getConnectedEvent() != null) {
+				start.getConnectedEvent().getEventData().preActivate(start.getEventData(), this);
+			}
+		}
+	}
+
 	/**
 	 * The player's controller currently polls for input.
 	 */
@@ -930,7 +937,7 @@ public class Player extends PhysicsSchmuck {
 			invisible = p.invisible;
 
 			//client's own player does not sync dropthrough passability
-			if (!(this instanceof  PlayerClient) && p.maskBits != getMainFixture().getFilterData().maskBits) {
+			if (!(this instanceof PlayerClient) && p.maskBits != getMainFixture().getFilterData().maskBits) {
 				Filter filter = getMainFixture().getFilterData();
 				filter.maskBits = p.maskBits;
 				getMainFixture().setFilterData(filter);
@@ -1066,7 +1073,9 @@ public class Player extends PhysicsSchmuck {
 
 	public void startTyping() { this.typingCdCount = 1.0f; }
 	
-	public StartPoint getStart() { return start; }
+	public Event getStart() { return start; }
+
+	public void setStart(Event start) { this.start = start; }
 
 	public PlayerSpriteHelper getSpriteHelper() { return spriteHelper; }
 

@@ -23,7 +23,6 @@ public class SoundEntity extends HadalEntity {
 	//this is the sound id of the instance of the sound
 	private final long soundId;
 
-	//
 	private float lifespan;
 	private final boolean temp;
 

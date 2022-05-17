@@ -47,7 +47,6 @@ public class ClientController implements InputProcessor {
 			buttonsJustPressed.add(action);
 		}
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
-
 			leftDown = true;
 			if (!rightDown) {
 				player.setMoveState(MoveState.MOVE_LEFT);
@@ -56,7 +55,6 @@ public class ClientController implements InputProcessor {
 			}
 		}
 		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
-
 			rightDown = true;
 			if (!leftDown) {
 				player.setMoveState(MoveState.MOVE_RIGHT);
@@ -97,7 +95,6 @@ public class ClientController implements InputProcessor {
 			}
 		}
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
-
 			leftDown = false;
 			if (rightDown) {
 				player.setMoveState(MoveState.MOVE_RIGHT);
@@ -106,7 +103,6 @@ public class ClientController implements InputProcessor {
 			}
 		}
 		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
-
 			rightDown = false;
 			if (leftDown) {
 				player.setMoveState(MoveState.MOVE_LEFT);
@@ -162,7 +158,7 @@ public class ClientController implements InputProcessor {
 	public void syncController() {
 
 		//Let game account for all buttons held down before the processor is created.
-		for (PlayerAction a: PlayerAction.values()) {
+		for (PlayerAction a : PlayerAction.values()) {
 			if (a.isToggleable()) {
 				if (a.isPressed()) {
 					keyDown(a.getKey());
@@ -179,7 +175,7 @@ public class ClientController implements InputProcessor {
 	public void resetController() {
 		
 		//Let game account for all buttons held down before the processor is created.
-		for (PlayerAction a: PlayerAction.values()) {
+		for (PlayerAction a : PlayerAction.values()) {
 			if (a.isToggleable()) {
 				keyUp(a.getKey());
 			}
@@ -191,7 +187,7 @@ public class ClientController implements InputProcessor {
 	 */
 	public void postKeystrokeSync() {
 		buttonsJustPressed.clear();
-		for (PlayerAction action: buttonsJustReleased) {
+		for (PlayerAction action : buttonsJustReleased) {
 			buttonsHeld.remove(action);
 		}
 		buttonsJustReleased.clear();

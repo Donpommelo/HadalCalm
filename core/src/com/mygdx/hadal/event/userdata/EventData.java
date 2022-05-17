@@ -67,7 +67,7 @@ public class EventData extends HadalData {
 	public void preActivate(EventData activator, Player p) {
 
 		//activation depends on event sync type
-		switch(event.getSyncType()) {
+		switch (event.getSyncType()) {
 		case USER:
 			if (p == null) {
 				onActivate(activator, null);
@@ -103,5 +103,5 @@ public class EventData extends HadalData {
 	
 	public Event getEvent() { return event; }
 
-	public ObjectSet<HadalEntity> getSchmucks() {	return schmucks; }
+	public ObjectSet<HadalEntity> getSchmucks() { return schmucks; }
 }

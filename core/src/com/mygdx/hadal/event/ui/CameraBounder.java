@@ -32,8 +32,8 @@ public class CameraBounder extends Event {
 		this.left = left;
 		this.up = up;
 		this.down = down;
-		//is this regular camera bound or spectator bound?
 
+		//is this regular camera bound or spectator bound?
 		if (spectator) {
 			state.setSpectatorBounded(true);
 			if (right) {

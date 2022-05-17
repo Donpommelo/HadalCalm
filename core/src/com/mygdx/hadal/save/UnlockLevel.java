@@ -158,7 +158,7 @@ public enum UnlockLevel {
 
 	private static final HashMap<String, UnlockLevel> UnlocksByName = new HashMap<>();
 	static {
-		for (UnlockLevel u: UnlockLevel.values()) {
+		for (UnlockLevel u : UnlockLevel.values()) {
 			UnlocksByName.put(u.toString(), u);
 		}
 	}

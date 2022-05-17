@@ -148,7 +148,7 @@ public class PlayerBodyData extends BodyData {
 		}
 
 		//add map modifiers as 0-cost, overriding, invisible artifacts
-		for (UnlockArtifact modifier: player.getState().getMapModifiers()) {
+		for (UnlockArtifact modifier : player.getState().getMapModifiers()) {
 			addArtifact(modifier, false, false);
 		}
 
@@ -303,12 +303,10 @@ public class PlayerBodyData extends BodyData {
 	public void pickup(ActiveItem item) {
 		
 		UnlockActives unlock = UnlockActives.getUnlockFromActive(item.getClass());
-		
-		activeItem = item;
-		
-		activeItem.setUser(player);
-		
 		loadout.activeItem = unlock;
+
+		activeItem = item;
+		activeItem.setUser(player);
 		
 		//active items start off charged in the hub
 		if (player.getState().getMode().isHub()) {
@@ -330,7 +328,7 @@ public class PlayerBodyData extends BodyData {
 
 		if (artifactUnlock.equals(UnlockArtifact.NOTHING)) { return false; }
 
-		Artifact newArtifact =  artifactUnlock.getArtifact();
+		Artifact newArtifact = artifactUnlock.getArtifact();
 		int slotsUsed = 0;
 		
 		//iterate through all artifacts and count the number of slots used
@@ -499,6 +497,7 @@ public class PlayerBodyData extends BodyData {
 		
 		if (player == null) { return; }
 
+		//vision modifiers should be applies whenever stats are modified
 		if (player.equals(player.getState().getPlayer())) {
 			player.getState().setZoomModifier(getStat(Stats.VISION_RADIUS));
 		}
@@ -708,14 +707,14 @@ public class PlayerBodyData extends BodyData {
 		damagedByToRemove.clear();
 
 		//decrement the timer for all damaged-by players according to time. Remove players that damaged too long ago
-		for (ObjectMap.Entry<PlayerBodyData, Float> entry: recentDamagedBy) {
+		for (ObjectMap.Entry<PlayerBodyData, Float> entry : recentDamagedBy) {
 			recentDamagedBy.put(entry.key, entry.value - delta * decrementOverTime);
 
 			if (entry.value <= 0.0f) {
 				damagedByToRemove.add(entry.key);
 			}
 		}
-		for (PlayerBodyData playerData: damagedByToRemove) {
+		for (PlayerBodyData playerData : damagedByToRemove) {
 			recentDamagedBy.remove(playerData);
 		}
 	}

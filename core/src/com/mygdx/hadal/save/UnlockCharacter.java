@@ -190,7 +190,7 @@ public enum UnlockCharacter {
 
 	private static final ObjectMap<String, UnlockCharacter> UnlocksByName = new ObjectMap<>();
 	static {
-		for (UnlockCharacter u: UnlockCharacter.values()) {
+		for (UnlockCharacter u : UnlockCharacter.values()) {
 			UnlocksByName.put(u.toString(), u);
 		}
 	}

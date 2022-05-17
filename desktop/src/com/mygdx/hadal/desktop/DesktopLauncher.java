@@ -31,7 +31,7 @@ public class DesktopLauncher {
 		config.setAudioConfig(192, 512, 11);
 		config.setResizable(true);
 
-		// These two lines were edited because without settings like this, Vsync gets applied twice, slowing things way down.
+		//These two lines were edited because without settings like this, Vsync gets applied twice, slowing things way down.
 		config.useVsync(false);
 		config.setForegroundFPS(60);
 

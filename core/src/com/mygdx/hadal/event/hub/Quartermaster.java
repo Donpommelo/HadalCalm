@@ -39,7 +39,7 @@ public class Quartermaster extends HubEvent {
 		final UIHub hub = state.getUiHub();
 		final Quartermaster me = this;
 		
-		for (final String item: shopInfo.getPrices().keySet()) {
+		for (final String item : shopInfo.getPrices().keySet()) {
 			
 			InfoItem info = UnlockManager.getInfo(UnlockType.valueOf(shopInfo.getType()), item);
 			

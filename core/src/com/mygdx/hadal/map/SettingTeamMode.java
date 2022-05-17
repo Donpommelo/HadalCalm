@@ -171,7 +171,7 @@ public class SettingTeamMode extends ModeSetting {
 
             //for team mode, keep track of which teams still have a living player
             short factionLeft = -1;
-            for (User user: users) {
+            for (User user : users) {
                 if (!user.isSpectator()) {
                     if (user.getScores().getLives() > 0) {
                         Player playerLeft = user.getPlayer();

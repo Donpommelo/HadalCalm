@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="65">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="67">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="BOSS_KAMABOKOYA"/>
@@ -194,6 +194,7 @@
   <object id="41" name="Platform" type="Platform" x="2816" y="32" width="96" height="256">
    <properties>
     <property name="prefabId" value="Door"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="door1"/>
    </properties>
   </object>
@@ -324,5 +325,6 @@
     <property name="triggeredId" value="shake"/>
    </properties>
   </object>
+  <object id="65" name="PickupDelete" type="PickupDelete" x="1216" y="1536" width="1728" height="192"/>
  </objectgroup>
 </map>

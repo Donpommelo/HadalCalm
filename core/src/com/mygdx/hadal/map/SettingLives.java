@@ -71,7 +71,7 @@ public class SettingLives extends ModeSetting {
         int startLives = livesChoice ? state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) : lockedLives;
 
         if (startLives != 0) {
-            for (User user: HadalGame.server.getUsers().values()) {
+            for (User user : HadalGame.server.getUsers().values()) {
                 user.getScores().setLives(startLives);
                 user.setScoreUpdated(true);
             }

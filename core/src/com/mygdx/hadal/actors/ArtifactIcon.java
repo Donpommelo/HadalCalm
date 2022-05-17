@@ -19,7 +19,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
  */
 public class ArtifactIcon extends AHadalActor {
 
-	private static final float padding = 20.0f;
+	private static final float pad = 20.0f;
 	
 	//This is the artifact that this tag represents
 	private final UnlockArtifact artifact;
@@ -71,10 +71,12 @@ public class ArtifactIcon extends AHadalActor {
 
 		//this displays artifact short description when this actor is moused over
          if (mouseOver) {
-        	 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2 + textOffsetX, getY() - padding / 2 + textOffsetY, layout.width + padding, layout.height + padding);
+        	 GameStateManager.getSimplePatch().draw(batch, getX() - pad / 2 + textOffsetX,
+					 getY() - pad / 2 + textOffsetY, layout.width + pad, layout.height + pad);
 			 HadalGame.FONT_UI.setColor(color);
 			 HadalGame.FONT_UI.getData().setScale(fontScale);
-			 HadalGame.FONT_UI.draw(batch, text, getX() + textOffsetX, getY() + textOffsetY + layout.height, targetWidth, Align.left, true);
+			 HadalGame.FONT_UI.draw(batch, text, getX() + textOffsetX, getY() + textOffsetY + layout.height,
+					 targetWidth, Align.left, true);
          }
     }
 

@@ -14,8 +14,8 @@ public class ToggleKillsScore extends ModeSetting {
 
     @Override
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageSource source, DamageTag... tags) {
-        if (perp instanceof Player) {
-            mode.processPlayerScoreChange(state, (Player) perp, 1);
+        if (perp instanceof Player player) {
+            mode.processPlayerScoreChange(state, player, 1);
         }
     }
 }

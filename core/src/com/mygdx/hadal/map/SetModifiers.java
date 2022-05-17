@@ -47,14 +47,14 @@ public class SetModifiers extends ModeSetting {
         table.add(title).height(ModeSettingSelection.detailHeightSmall).pad(ModeSettingSelection.detailPad).top();
         table.add(uncheck).height(ModeSettingSelection.detailHeightSmall).pad(ModeSettingSelection.detailPad).row();
 
-        for (ModeModifier modifier: modifiers) {
+        for (ModeModifier modifier : modifiers) {
             modifier.setSetting(state, mode, table);
         }
     }
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        for (ModeModifier modifier: modifiers) {
+        for (ModeModifier modifier : modifiers) {
             modifier.saveSetting(state, mode);
         }
     }
@@ -63,7 +63,7 @@ public class SetModifiers extends ModeSetting {
     public void loadSettingMisc(PlayState state, GameMode mode) {
         StringBuilder text = new StringBuilder(ModifierNotifTag.text());
 
-        for (ModeModifier modifier: modifiers) {
+        for (ModeModifier modifier : modifiers) {
             modifier.loadModifier(state, mode, text);
         }
 
@@ -75,7 +75,7 @@ public class SetModifiers extends ModeSetting {
 
     @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
-        for (ModeModifier modifier: modifiers) {
+        for (ModeModifier modifier : modifiers) {
             if (state.getGsm().getSetting().getModeSetting(mode, modifier.getSettingTag(), 0) == 1) {
                 modifier.processNewPlayerLoadout(state, mode, newLoadout, connID, justJoined);
             }
@@ -84,7 +84,7 @@ public class SetModifiers extends ModeSetting {
 
     @Override
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
-        for (ModeModifier modifier: modifiers) {
+        for (ModeModifier modifier : modifiers) {
             if (state.getGsm().getSetting().getModeSetting(mode, modifier.getSettingTag(), 0) == 1) {
                 modifier.modifyNewPlayer(state, mode, newLoadout, p, hitboxFilter);
             }

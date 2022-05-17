@@ -28,7 +28,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 /**
- * HadalGame is the game. This is created upon launching the game. It delegates the rendering + updating logic to the GameStateManager.
+ * HadalGame is the game. This is created upon launching the game.
+ * It delegates the rendering + updating logic to the GameStateManager.
  * @author Dincubus Doncubus
  */
 public class HadalGame extends ApplicationAdapter {
@@ -169,7 +170,7 @@ public class HadalGame extends ApplicationAdapter {
 				fadeDelay -= delta;
 			} else if (skipFade) {
 
-				//for special transitions, we skip the fade and transition immediately after delay (play ->  results)
+				//for special transitions, we skip the fade and transition immediately after delay (play -> results)
 				skipFade = false;
 				if (runAfterTransition != null) {
 					Gdx.app.postRunnable(runAfterTransition);
@@ -278,7 +279,6 @@ public class HadalGame extends ApplicationAdapter {
 					//delete existing mappings before attempting to create a new one
 					d.deletePortMapping(port, protocol);
 					if (!d.getSpecificPortMappingEntry(port, protocol, portMapping)) {
-
 						if (!d.addPortMapping(port, port, localAddress.getHostAddress(), protocol, descr)) {
 							Gdx.app.log("UPNP", "FAILED TO MAP PORT");
 						} else {

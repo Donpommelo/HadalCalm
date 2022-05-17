@@ -15,7 +15,7 @@ public class LeverActivateOnce extends Prefabrication {
 	private final String triggeringId;
 	private String baseId, leverId;
 	
-	public LeverActivateOnce(PlayState state, int width, int height, int x, int y, String triggeringId) {
+	public LeverActivateOnce(PlayState state, float width, float height, float x, float y, String triggeringId) {
 		super(state, width, height, x , y);
 		this.triggeringId = triggeringId;
 	}

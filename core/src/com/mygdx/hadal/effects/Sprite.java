@@ -248,6 +248,7 @@ public enum Sprite {
 
 	//Misc stuff from totlc
 	IMPACT(SpriteType.IMPACT, "impact"),
+
 	;
 	
 	//this represents the atlas that we should read the sprite off of.
@@ -281,6 +282,9 @@ public enum Sprite {
 		this.spriteId = spriteId;
 	}
 
+	/**
+	 * This constructor is used for complex sprites that consist of multiple sprites
+	 */
 	Sprite(SpriteType type, float animationSpeed, SpriteRep... sprites) {
 		this.type = type;
 		this.animationSpeed = animationSpeed;
@@ -308,7 +312,7 @@ public enum Sprite {
 			//complex frames are made of several sprites, repeated, lined up back-to-back
 			if (complex) {
 				frames = new Array<>();
-				for (SpriteRep sprite: complexFrames) {
+				for (SpriteRep sprite : complexFrames) {
 					if (sprite.spriteId.equals("")) {
 						frames.addAll(Objects.requireNonNull(getAtlas(type)).getRegions());
 					} else {

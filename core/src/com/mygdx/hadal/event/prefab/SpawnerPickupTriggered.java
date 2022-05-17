@@ -22,7 +22,7 @@ public class SpawnerPickupTriggered extends Prefabrication {
 	//0 = fuel. 1 = Hp
 	private final int type;
 	
-	public SpawnerPickupTriggered(PlayState state, int width, int height, int x, int y, String triggeredId, int type, float power) {
+	public SpawnerPickupTriggered(PlayState state, float width, float height, float x, float y, String triggeredId, int type, float power) {
 		super(state, width, height, x , y);
 		this.triggeredId = triggeredId;
 		this.power = power;

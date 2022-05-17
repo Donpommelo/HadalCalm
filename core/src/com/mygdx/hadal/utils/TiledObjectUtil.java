@@ -49,34 +49,16 @@ public class TiledObjectUtil {
         	}
 
             if (object.getProperties().get("dropthrough", false, boolean.class)) {
-                new WallDropthrough(state, shape);
+				WallDropthrough wall = new WallDropthrough(state, shape);
+				if (state instanceof ClientState clientState) {
+					clientState.addEntity(wall.getEntityID(), wall, false, ObjectLayer.STANDARD);
+				}
             } else {
-                new Wall(state, shape);
-            }
-        }
-    }
-
-	/**
-	 * Client version of object parsing is identical except different method of adding event to world.
-	 */
-	public static void parseTiledObjectLayerClient(ClientState state, MapObjects objects) {
-        for (MapObject object : objects) {
-            ChainShape shape;
-
-            //Atm, we only parse PolyLines into solid walls and dropthrough walls
-            if(object instanceof PolylineMapObject) {
-                shape = createPolyline((PolylineMapObject) object);
-            } else {
-            	continue;
-        	}
-
-            if (object.getProperties().get("dropthrough", false, boolean.class)) {
-            	WallDropthrough wall = new WallDropthrough(state, shape);
-                state.addEntity(wall.getEntityID(), wall, false, ObjectLayer.STANDARD);
-            } else {
-            	Wall wall = new Wall(state, shape);
-                state.addEntity(wall.getEntityID(), wall, false, ObjectLayer.STANDARD);
-            }
+				Wall wall = new Wall(state, shape);
+				if (state instanceof ClientState clientState) {
+					clientState.addEntity(wall.getEntityID(), wall, false, ObjectLayer.STANDARD);
+				}
+			}
         }
     }
 
@@ -89,7 +71,6 @@ public class TiledObjectUtil {
     private static final ObjectMap<MovingPoint, String> movePointConnections = new ObjectMap<>();
     private static final ObjectMap<ChoiceBranch, String> choiceBranchOptions = new ObjectMap<>();
     private static final ObjectMap<String, Prefabrication> prefabrications = new ObjectMap<>();
-
     /**
      * Parses Tiled objects into in game events
      * @param state: Current GameState
@@ -118,7 +99,9 @@ public class TiledObjectUtil {
 		}
 	}
 
-    /**
+	private static final Vector2 position = new Vector2();
+	private static final Vector2 size = new Vector2();
+	/**
      * This parses a single tiled map object into an event
      * @param state: The Playstate that the event will be placed into
      * @param object: The map object to parse
@@ -128,8 +111,6 @@ public class TiledObjectUtil {
 		
     	RectangleMapObject current = (RectangleMapObject) object;
 		Rectangle rect = current.getRectangle();
-		Vector2 position = new Vector2();
-		Vector2 size = new Vector2();
 		rect.getCenter(position);
 		rect.getSize(size);
 		
@@ -288,7 +269,8 @@ public class TiledObjectUtil {
 				object.getProperties().get("unlock", false, Boolean.class));
 			case "PlayerMove" -> e = new PlayerMover(state,
 				object.getProperties().get("all", false, boolean.class),
-				object.getProperties().get("exclude", false, boolean.class));
+				object.getProperties().get("exclude", false, boolean.class),
+					object.getProperties().get("respawn", true, boolean.class));
 			case "PlayerAlign" -> e = new PlayerAlignmentChanger(state,
 				object.getProperties().get("pvp", true, boolean.class),
 				object.getProperties().get("filter", (float) Constants.PLAYER_HITBOX, float.class));
@@ -395,7 +377,7 @@ public class TiledObjectUtil {
 				object.getProperties().get("hbox", true, boolean.class),
 				object.getProperties().get("event", true, boolean.class),
 				object.getProperties().get("enemy", true, boolean.class),
-					object.getProperties().get("teamIndex", -1, Integer.class));
+				object.getProperties().get("teamIndex", -1, Integer.class));
 			case "FootballGoal" -> e = new FootballGoal(state, position, size,
 				object.getProperties().get("teamIndex", 0, Integer.class));
 			case "FootballSpawn" -> e = new FootballSpawner(state, position, size);
@@ -546,36 +528,36 @@ public class TiledObjectUtil {
     public static void genPrefab(PlayState state, MapObject object, Rectangle rect) {
     	
     	Prefabrication p = switch (object.getProperties().get("prefabId", "", String.class)) {
-			case "Door" -> new Door(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+			case "Door" -> new Door(state, rect.width, rect.height, rect.x, rect.y,
 				object.getProperties().get("triggeredId", "", String.class),
 				object.getProperties().get("speed", 1.0f, float.class),
 				object.getProperties().get("xDisplace", 0, int.class),
 				object.getProperties().get("yDisplace", 0, int.class));
-			case "Spawner" -> new SpawnerPickupTimed(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+			case "Spawner" -> new SpawnerPickupTimed(state, rect.width, rect.height, rect.x, rect.y,
 				object.getProperties().get("interval", 1.0f, float.class),
 				object.getProperties().get("type", 0, int.class),
 				object.getProperties().get("power", 0.0f, float.class));
-			case "SpawnerTriggered" -> new SpawnerPickupTriggered(state, (int) rect.width, (int) rect.height, (int) rect.x,	(int) rect.y,
+			case "SpawnerTriggered" -> new SpawnerPickupTriggered(state, rect.width, rect.height, rect.x, rect.y,
 				object.getProperties().get("triggeredId", "", String.class),
 				object.getProperties().get("type", 0, int.class),
 				object.getProperties().get("power", 0.0f, float.class));
-			case "SpawnerUnlock" -> new SpawnerUnlockable(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+			case "SpawnerUnlock" -> new SpawnerUnlockable(state, rect.width, rect.height, rect.x, rect.y,
 				object.getProperties().get("triggeredId", "", String.class),
 				object.getProperties().get("triggeringId", "", String.class),
 				object.getProperties().get("type", "", String.class),
 				object.getProperties().get("name", "", String.class));
-			case "ScrapCache" -> new ScrapCache(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+			case "ScrapCache" -> new ScrapCache(state, rect.width, rect.height, rect.x, rect.y,
 				object.getProperties().get("triggeredId", "", String.class),
 				object.getProperties().get("triggeringId", "", String.class),
 				object.getProperties().get("cacheId", "", String.class),
 				object.getProperties().get("amount", 0, int.class));
-			case "Camera" -> new CameraPanZone(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+			case "Camera" -> new CameraPanZone(state, rect.width, rect.height, rect.x, rect.y,
 				object.getProperties().get("zoom1", 1.0f, float.class),
 				object.getProperties().get("zoom2", 1.0f, float.class),
 				object.getProperties().get("align", 0, int.class),
 				object.getProperties().get("point1", "", String.class),
 				object.getProperties().get("point2", "", String.class));
-			case "Alternator" -> new EventAlternatorZone(state,	(int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+			case "Alternator" -> new EventAlternatorZone(state,	rect.width, rect.height, rect.x, rect.y,
 				object.getProperties().get("align", 0, int.class),
 				object.getProperties().get("event1", "", String.class),
 				object.getProperties().get("event2", "", String.class));
@@ -587,13 +569,13 @@ public class TiledObjectUtil {
 				object.getProperties().get("triggeredId", "", String.class),
 				object.getProperties().get("triggeringId", "", String.class),
 				object.getProperties().get("cooldown", 0.0f, float.class));
-			case "Weapon" -> new SpawnerWeapon(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+			case "Weapon" -> new SpawnerWeapon(state, rect.width, rect.height, rect.x, rect.y,
 				object.getProperties().get("triggeredId", "", String.class),
 				object.getProperties().get("triggeringId", "", String.class),
 				object.getProperties().get("pool", "", String.class));
-			case "LeverActivate" -> new LeverActivate(state, (int) rect.width, (int) rect.height, (int) rect.x,	(int) rect.y,
+			case "LeverActivate" -> new LeverActivate(state, rect.width, rect.height, rect.x, rect.y,
 				object.getProperties().get("triggeringId", "", String.class));
-			case "LeverActivateOnce" -> new LeverActivateOnce(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y,
+			case "LeverActivateOnce" -> new LeverActivateOnce(state, rect.width, rect.height, rect.x, rect.y,
 				object.getProperties().get("triggeringId", "", String.class));
 			default -> null;
 		};
@@ -614,7 +596,10 @@ public class TiledObjectUtil {
     	return id;
     }
 
+    //An event with this id is run when the game timer concludes
 	private static final String globalTimer = "runOnGlobalTimerConclude";
+
+	//An event with this id is run when a spectating host presses the interact button
 	private static final String globalSpectatorActivation = "globalSpectatorActivation";
     /**
      * This method parses special events from the Tiled map.
@@ -679,7 +664,7 @@ public class TiledObjectUtil {
         			//for prefabs, connect to the event parts that are specified to be moveable
         			Prefabrication prefab = prefabrications.get(id, null);
         			if (prefab != null) {
-        				for (String e: prefab.getConnectedEvents()) {
+        				for (String e : prefab.getConnectedEvents()) {
         					key.addConnection(triggeredEvents.get(e, null));
         				}
         			}

@@ -27,7 +27,7 @@ public class Painter extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (AlignmentFilter c: AlignmentFilter.values()) {
+		for (AlignmentFilter c : AlignmentFilter.values()) {
 
 			if (c.isTeam()) {
 

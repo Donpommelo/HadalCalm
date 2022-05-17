@@ -244,12 +244,14 @@ public class KryoClient {
 		else if (o instanceof final Packets.SyncTyping p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
-				HadalEntity entity = cs.findEntity(p.uuidMSB, p.uuidLSB);
-				if (entity != null) {
-					if (entity instanceof Player player) {
-						player.startTyping();
+				cs.addPacketEffect(() -> {
+					HadalEntity entity = cs.findEntity(p.uuidMSB, p.uuidLSB);
+					if (entity != null) {
+						if (entity instanceof Player player) {
+							player.startTyping();
+						}
 					}
-				}
+				});
 			}
 		}
 
@@ -315,7 +317,7 @@ public class KryoClient {
 
 					//set mode settings according to what the server sends
 					if (p.modeSettings != null) {
-						for (String key: p.modeSettings.keySet()) {
+						for (String key : p.modeSettings.keySet()) {
 							gsm.getSetting().setModeSetting(p.mode, key, p.modeSettings.get(key));
 						}
 					}
@@ -661,10 +663,10 @@ public class KryoClient {
 		if (o instanceof final Packets.CreateSyncedAttackMulti p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
-				cs.addPacketEffect(() -> {
-					HadalEntity creator = cs.findEntity(new UUID(p.uuidMSBCreator, p.uuidLSBCreator));
-					if (creator != null) {
-						if (creator instanceof Schmuck schmuck) {
+				HadalEntity creator = cs.findEntity(new UUID(p.uuidMSBCreator, p.uuidLSBCreator));
+				if (creator != null) {
+					if (creator instanceof Schmuck schmuck) {
+						cs.addPacketEffect(() -> {
 							Hitbox[] hboxes;
 							if (p instanceof Packets.CreateSyncedAttackMultiExtra p1) {
 								hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo, p1.extraFields);
@@ -683,9 +685,9 @@ public class KryoClient {
 									cs.addEntity(p.uuidMSB[i], p.uuidLSB[i], hboxes[i], true, ObjectLayer.HBOX);
 								}
 							}
-						}
+						});
 					}
-				});
+				}
 			}
 			return true;
 		}
@@ -695,14 +697,6 @@ public class KryoClient {
 		 * Delete packets go into the sync packets list. This is so they are carried out according to their timestamp to avoid deleting stuff too early.
 		 */
 		else if (o instanceof final Packets.DeleteEntity p) {
-			final ClientState cs = getClientState();
-			if (cs != null) {
-				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p, 0.0f, p.timestamp));
-			}
-			return true;
-		}
-
-		else if (o instanceof final Packets.DeletePlayer p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
 				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p, 0.0f, p.timestamp));
@@ -766,13 +760,13 @@ public class KryoClient {
 		else if (o instanceof final Packets.CreateGrave p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
-				cs.addPacketEffect(() -> {
-					User user = users.get(p.connID);
-					if (user != null) {
-						ReviveGravestone grave = new ReviveGravestone(cs, p.pos, user, p.connID, p.returnMaxTimer, new Vector2());
+				User user = users.get(p.connID);
+				if (user != null) {
+					cs.addPacketEffect(() -> {
+						ReviveGravestone grave = new ReviveGravestone(cs, p.pos, user, p.connID, p.returnMaxTimer, null);
 						cs.addEntity(p.uuidMSB, p.uuidLSB, grave, true, ObjectLayer.HBOX);
-					}
-				});
+					});
+				}
 			}
 			return true;
 		}
@@ -831,6 +825,7 @@ public class KryoClient {
 					newPlayer.setStartPos(p.startPosition);
 					newPlayer.setConnId(p.connID);
 					newPlayer.setHitboxfilter(p.hitboxFilter);
+					newPlayer.setScaleModifier(p.scaleModifier);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, newPlayer, true, ObjectLayer.STANDARD);
 
 					if (p.connID == connID) {
@@ -867,7 +862,7 @@ public class KryoClient {
 					EventDto dto = p.blueprint;
 					MapObject blueprint = new RectangleMapObject(dto.getX(), dto.getY(), dto.getWidth(), dto.getHeight());
 					blueprint.setName(dto.getName());
-					for (EventDto.Pair pair: dto.getProperties()) {
+					for (EventDto.Pair pair : dto.getProperties()) {
 						blueprint.getProperties().put(pair.getKey(), pair.getValue());
 					}
 
@@ -886,7 +881,8 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
-					Ragdoll entity = new Ragdoll(cs, p.pos, p.size, p.sprite, p.velocity, p.duration, p.gravity, p.setVelo, p.sensor, false);
+					Ragdoll entity = new Ragdoll(cs, p.pos, p.size, p.sprite, p.velocity, p.duration, p.gravity, p.setVelo,
+							p.sensor, false, p.fade);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, false, ObjectLayer.STANDARD);
 				});
 			}
@@ -1001,16 +997,16 @@ public class KryoClient {
 	public ClientState getClientState() {
 		if (!gsm.getStates().empty()) {
 			GameState currentState = gsm.getStates().peek();
-			if (currentState instanceof ClientState) {
-				return (ClientState) currentState;
-			} else if (currentState instanceof PauseState) {
-				return (ClientState) (((PauseState) currentState).getPs());
-			} else if (currentState instanceof SettingState) {
-				return (ClientState) (((SettingState) currentState).getPlayState());
-			} else if (currentState instanceof AboutState) {
-				return (ClientState) (((AboutState) currentState).getPlayState());
-			} else if (currentState instanceof ResultsState) {
-				return (ClientState) (((ResultsState) currentState).getPs());
+			if (currentState instanceof ClientState clientState) {
+				return clientState;
+			} else if (currentState instanceof PauseState pauseState) {
+				return (ClientState) (pauseState.getPs());
+			} else if (currentState instanceof SettingState settingState) {
+				return (ClientState) (settingState.getPlayState());
+			} else if (currentState instanceof AboutState aboutState) {
+				return (ClientState) (aboutState.getPlayState());
+			} else if (currentState instanceof ResultsState resultsState) {
+				return (ClientState) (resultsState.getPs());
 			}
 		}
 		return null;
@@ -1034,7 +1030,7 @@ public class KryoClient {
 	public int getNumPlayers() {
 		int playerNum = 0;
 
-		for (ObjectMap.Entry<Integer, User> conn: users.iterator()) {
+		for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
 			if (!conn.value.isSpectator() && conn.key >= 0.0f) {
 				playerNum++;
 			}

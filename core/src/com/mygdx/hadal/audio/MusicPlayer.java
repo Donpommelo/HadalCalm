@@ -89,6 +89,10 @@ public class MusicPlayer {
 			//if starting a new song, set designated track as next song and fade in
     		if (music != null) {
 				currentSong = music.getMusic();
+
+				//set volume to 0.0 to avoid having song play for 1 frame when game starts up muted
+				currentSong.setVolume(0.0f);
+
 				currentTrack = music;
 				currentSong.setLooping(true);
 				currentSong.play();
@@ -122,9 +126,10 @@ public class MusicPlayer {
 	 * And by "magical" I mean neither I nor the person who told me to use it knew why it solved the issue
 	 */
 	private float freshenUpSong() {
-		float volume = 1;
+		float volume = 1.0f;
 		if (currentSong != null) {
 			volume = currentSong.getVolume();
+
 			currentSong.stop();
 			currentSong = null;
 			currentTrack = null;

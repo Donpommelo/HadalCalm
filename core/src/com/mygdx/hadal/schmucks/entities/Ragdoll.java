@@ -49,11 +49,15 @@ public class Ragdoll extends HadalEntity {
 	//when this ragdoll is created on the server, does the client create a ragdoll of its own (this is false for stuff like currents)
 	private final boolean synced;
 
+	//does the ragdoll fade when its lifespan decreases? Only if needed, since fading sets the batch
+	private final boolean fade;
+
 	//these control the ragdoll fading before despawning
 	private static final float fadeLifespan = 1.0f;
 	private float fadeTransparency = 1.0f;
 
-	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity, boolean setVelo, boolean sensor, boolean synced) {
+	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity,
+				   boolean setVelo, boolean sensor, boolean synced, boolean fade) {
 		super(state, startPos, size);
 		this.startVelo = new Vector2(startVelo);
 		this.startAngle = baseAngle * angleAmp;
@@ -63,6 +67,7 @@ public class Ragdoll extends HadalEntity {
 		this.sensor = sensor;
 		this.setVelo = setVelo;
 		this.synced = synced;
+		this.fade = fade;
 		if (!sprite.equals(Sprite.NOTHING)) {
 			ragdollSprite = sprite.getFrame();
 		}
@@ -75,7 +80,8 @@ public class Ragdoll extends HadalEntity {
 	 * Because there is no Sprite, these are not serializable and must be made on both client and server.
 	 * Also, remember to manually dispose of the frame buffer object that is used for this ragdoll
 	 */
-	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, TextureRegion textureRegion, Vector2 startVelo, float duration, float gravity, boolean setVelo, boolean sensor) {
+	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, TextureRegion textureRegion, Vector2 startVelo, float duration,
+				   float gravity, boolean setVelo, boolean sensor, boolean fade) {
 		super(state, startPos, size);
 		this.startVelo = startVelo;
 		this.ragdollDuration = duration;
@@ -85,6 +91,7 @@ public class Ragdoll extends HadalEntity {
 		ragdollSprite = textureRegion;
 
 		this.synced = false;
+		this.fade = fade;
 		setSyncDefault(false);
 
 		//ragdoll spin direction depends on which way it is moving
@@ -116,7 +123,7 @@ public class Ragdoll extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
-		if (ragdollDuration <= fadeLifespan) {
+		if (ragdollDuration <= fadeLifespan && fade) {
 			fadeTransparency -= delta;
 		}
 
@@ -130,7 +137,7 @@ public class Ragdoll extends HadalEntity {
 	public void clientController(float delta) {
 		super.clientController(delta);
 
-		if (ragdollDuration <= fadeLifespan) {
+		if (ragdollDuration <= fadeLifespan && fade) {
 			fadeTransparency -= delta;
 		}
 
@@ -170,7 +177,8 @@ public class Ragdoll extends HadalEntity {
 	@Override
 	public Object onServerCreate(boolean catchup) {
 		if (synced) {
-			return new Packets.CreateRagdoll(entityID, getPixelPosition(), size, sprite, startVelo, ragdollDuration, gravity, setVelo, sensor);
+			return new Packets.CreateRagdoll(entityID, getPixelPosition(), size, sprite, startVelo, ragdollDuration, gravity,
+					setVelo, sensor, fade);
 		} else {
 			return null;
 		}

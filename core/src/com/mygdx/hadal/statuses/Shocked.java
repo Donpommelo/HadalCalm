@@ -27,7 +27,7 @@ public class Shocked extends Status {
 
 	//this keeps track of the time between each chain lightning activation
 	private float procCdCount;
-	private static final float procCd = .25f;
+	private static final float procCd = 0.25f;
 	
 	//these manage the trail that shows the lightning particles
 	private static final Vector2 trailSize = new Vector2(10, 10);

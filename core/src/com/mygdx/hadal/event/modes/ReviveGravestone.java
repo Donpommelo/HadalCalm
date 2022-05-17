@@ -40,7 +40,7 @@ public class ReviveGravestone extends Event {
 	private final User user;
 	private final int connID;
 	private final float returnMaxTimer;
-	private final Vector2 lastGroundedPosition;
+	private final Event defaultStartPoint;
 
 	private float returnTimer;
 	private boolean positionReset;
@@ -54,13 +54,14 @@ public class ReviveGravestone extends Event {
 	private static final float checkRadius = 5.0f;
 
 	public ReviveGravestone(PlayState state, Vector2 startPos, User user, int connID, float returnMaxTimer,
-							Vector2 lastGroundedPosition) {
+							Event defaultStartPoint) {
 		super(state, startPos, graveSize);
 		this.user = user;
 		this.connID = connID;
 		this.returnMaxTimer = returnMaxTimer;
 		this.returnDelayed = returnMaxTimer;
-		this.lastGroundedPosition = lastGroundedPosition.scl(1 / Constants.PPM);
+		this.defaultStartPoint = defaultStartPoint;
+
 		this.returnTimer = returnMaxTimer;
 
 		setEventSprite(Sprite.DIATOM_A);
@@ -71,7 +72,7 @@ public class ReviveGravestone extends Event {
 		//set flag's color according to team alignment
 		HadalColor color = user.getTeamFilter().getColor1();
 		new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.CREATESYNC)
-				.setScale(2.0f).setColor(color);
+				.setScale(1.8f).setColor(color);
 
 		//make objective marker track this event
 		EventUtils.setObjectiveMarkerTeam(state, this, Sprite.CLEAR_CIRCLE_ALERT, color,
@@ -80,8 +81,10 @@ public class ReviveGravestone extends Event {
 		if (state.isSpectatorMode()) {
 			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false);
 		} else if (state.getPlayer() != null) {
-			if (state.getPlayer().getUser().getTeamFilter() == user.getTeamFilter()) {
-				state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false);
+			if (state.getPlayer().getUser() != null) {
+				if (state.getPlayer().getUser().getTeamFilter() == user.getTeamFilter()) {
+					state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false);
+				}
 			}
 		}
 
@@ -114,9 +117,9 @@ public class ReviveGravestone extends Event {
 	@Override
 	public void controller(float delta) {
 
-		if (positionReset) {
+		if (positionReset && defaultStartPoint != null) {
 			positionReset = false;
-			setTransform(lastGroundedPosition, getAngle());
+			setTransform(defaultStartPoint.getPosition(), getAngle());
 		}
 
 		//return time decrementing scales to number of players nearby
@@ -144,6 +147,7 @@ public class ReviveGravestone extends Event {
 				}
 
 				user.setOverrideSpawn(getPixelPosition());
+				user.setOverrideStart(defaultStartPoint);
 				user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, 1.0f);
 			}
 		}

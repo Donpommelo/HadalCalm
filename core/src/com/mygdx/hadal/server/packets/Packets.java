@@ -508,9 +508,7 @@ public class Packets {
         }
 	}
 
-	public static class DeletePlayer {
-		public long uuidMSB, uuidLSB;
-		public float timestamp;
+	public static class DeletePlayer extends DeleteEntity {
 		public DespawnType type;
 		public DeletePlayer() {}
 
@@ -522,9 +520,7 @@ public class Packets {
 		 * @param type: type of deletion for animation purpose (death, disconnect teleport etc)
 		 */
 		public DeletePlayer(UUID entityID, float timestamp, DespawnType type) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
-			this.timestamp = timestamp;
+			super(entityID, timestamp);
 			this.type = type;
 		}
 	}
@@ -627,7 +623,8 @@ public class Packets {
         public float duration;
         public float gravity;
         public boolean setVelo;
-        public boolean sensor;
+		public boolean sensor;
+		public boolean fade;
         public CreateRagdoll() {}
         
         /**
@@ -642,8 +639,10 @@ public class Packets {
 		 * @param gravity: effect of gravity on the ragdoll
 		 * @param setVelo: whether to set the velocity of newly created ragdolls
 		 * @param sensor: should the ragdoll not have collisions with other objects?
+		 * @param fade: should the ragdoll fade when it is about to despawn?
          */
-        public CreateRagdoll(UUID entityID, Vector2 pos, Vector2 size, Sprite sprite, Vector2 velocity, float duration, float gravity, boolean setVelo, boolean sensor) {
+        public CreateRagdoll(UUID entityID, Vector2 pos, Vector2 size, Sprite sprite, Vector2 velocity, float duration,
+							 float gravity, boolean setVelo, boolean sensor, boolean fade) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
         	this.pos = pos;
@@ -654,6 +653,7 @@ public class Packets {
         	this.gravity = gravity;
         	this.setVelo = setVelo;
         	this.sensor = sensor;
+        	this.fade = fade;
         }
 	}
 	
@@ -795,6 +795,7 @@ public class Packets {
 		public CreateGrave(UUID entityID, int connID, Vector2 pos, float returnMaxTimer) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
+			this.connID = connID;
 			this.pos = pos;
 			this.returnMaxTimer = returnMaxTimer;
 		}

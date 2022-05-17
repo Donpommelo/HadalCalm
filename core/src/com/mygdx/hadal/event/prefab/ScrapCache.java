@@ -14,11 +14,14 @@ public class ScrapCache extends Prefabrication {
 
 	private final String triggeredId, triggeringId;
 	private final String cacheId;
+
+	//the amount of scrap this prefab will give
 	private final int scrapAmount;
 	
 	private String pickupId, spawnerId;
 	
-	public ScrapCache(PlayState state, int width, int height, int x, int y, String triggeredId, String triggeringId, String cacheId, int scrapAmount) {
+	public ScrapCache(PlayState state, float width, float height, float x, float y, String triggeredId,
+					  String triggeringId, String cacheId, int scrapAmount) {
 		super(state, width, height, x , y);
 		this.triggeredId = triggeredId;
 		this.triggeringId = triggeringId;

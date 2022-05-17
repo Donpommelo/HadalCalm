@@ -116,6 +116,8 @@ public class PickupEquip extends Event {
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
+
+		//drops that are about to disappear start to flash
 		if (duration <= flashLifespan && drop) {
 			flashCount -= delta;
 			if (flashCount < -flashDuration) {
@@ -166,6 +168,8 @@ public class PickupEquip extends Event {
 	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
+
+		//this makes the pickup flash when its lifespan is low
 		if (flashCount > 0.0f) { return; }
 		if (!(equip instanceof NothingWeapon)) {
 			super.render(batch);

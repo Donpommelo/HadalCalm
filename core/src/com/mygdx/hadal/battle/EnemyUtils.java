@@ -215,9 +215,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				
-				if (target == null) {
-					return;
-				}
+				if (target == null) { return; }
 				
 				Vector2 dist = target.getPixelPosition().sub(enemy.getPixelPosition());
 				enemy.setLinearVelocity(dist.nor().scl(moveSpeed));
@@ -414,11 +412,8 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				
 				Event ceiling = state.getDummyPoint("ceiling");
-				
 				if (ceiling != null) {
-					
 					Sprite projSprite = debrisSprites[MathUtils.random(debrisSprites.length - 1)];
 					Hitbox hbox = new Hitbox(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((MathUtils.random() -  0.5f) * ceiling.getSize().x, 0)),
 							new Vector2(size, size), lifespan, new Vector2(), enemy.getHitboxfilter(), true, true, enemy, projSprite);
@@ -442,11 +437,8 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				
 				Event ceiling = state.getDummyPoint("ceiling");
-				
 				if (ceiling != null) {
-					
 					type.generateEnemy(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((MathUtils.random() -  0.5f) * ceiling.getSize().x, 0)),
 							enemy.getHitboxfilter(), extraField, null);
 				}
@@ -502,9 +494,7 @@ public class EnemyUtils {
 	}
 	
 	public static float ceilingHeight(PlayState state) {
-		
 		Event ceiling = state.getDummyPoint("ceiling");
-		
 		if (ceiling != null) {
 			return ceiling.getPixelPosition().y;
 		} else {
@@ -513,9 +503,7 @@ public class EnemyUtils {
 	}
 	
 	public static float floorHeight(PlayState state) {
-		
 		Event floor = state.getDummyPoint("floor");
-		
 		if (floor != null) {
 			return floor.getPixelPosition().y;
 		} else {
@@ -525,7 +513,6 @@ public class EnemyUtils {
 	
 	public static float getLeftSide(PlayState state) {
 		Event floor = state.getDummyPoint("floor");
-		
 		if (floor != null) {
 			return floor.getPixelPosition().x - floor.getSize().x / 2;
 		} else {
@@ -535,7 +522,6 @@ public class EnemyUtils {
 	
 	public static float getRightSide(PlayState state) {
 		Event floor = state.getDummyPoint("floor");
-		
 		if (floor != null) {
 			return floor.getPixelPosition().x + floor.getSize().x / 2;
 		} else {

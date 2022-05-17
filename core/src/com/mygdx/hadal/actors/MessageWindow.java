@@ -24,7 +24,6 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
 import com.mygdx.hadal.text.TextFilterUtil;
@@ -42,7 +41,7 @@ public class MessageWindow {
 
 	private static final int width = 380;
 	private static final int scrollWidth = 360;
-	private static final int scrollBarPadding = 10;
+	private static final int scrollBarPad = 10;
 	private static final int height = 200;
 
 	private static final int windowX = 0;
@@ -50,7 +49,7 @@ public class MessageWindow {
 
 	public static final float logScale = 0.3f;
 
-	public static final float logPadding = 7.5f;
+	public static final float logPad = 7.5f;
 	private static final int inputWidth = 200;
 	public static final float inputHeight = 20.0f;
 	public static final float inputPad = 5.0f;
@@ -67,7 +66,7 @@ public class MessageWindow {
 	//is this window currently active/invisible? is this window locked and unable to be toggled?
 	private boolean active, invisible, locked;
 
-	private static final int padding = 10;
+	private static final int pad = 10;
 
 	//alpha of an inactive text window
 	private static final float inactiveTransparency = 0.5f;
@@ -116,7 +115,7 @@ public class MessageWindow {
 					batch.setColor(1.0f,  1.0f, 1.0f, inactiveTransparency);
 				}
 
-				batch.draw(grey, getX() - padding / 2.0f, getY() - padding / 2.0f, getWidth() + padding, getHeight() + padding);
+				batch.draw(grey, getX() - pad / 2.0f, getY() - pad / 2.0f, getWidth() + pad, getHeight() + pad);
 
 				if (active) {
 					super.draw(batch, parentAlpha);
@@ -203,7 +202,7 @@ public class MessageWindow {
 					}
 				} else {
 					//if this is a chat command, execute it.
-					if (ConsoleCommandUtil.parseChatCommandClient((ClientState) state, state.getPlayer(), enterMessage.getText()) == -1) {
+					if (ConsoleCommandUtil.parseChatCommand(state, state.getPlayer(), enterMessage.getText()) == -1) {
 						HadalGame.client.sendTCP(new Packets.ClientChat(enterMessage.getText(), DialogType.DIALOG));
 					}
 				}
@@ -225,7 +224,7 @@ public class MessageWindow {
 		table.setWidth(width);
 		table.setHeight(height);
 
-		tableLog.padBottom(logPadding);
+		tableLog.padBottom(logPad);
 
 		textLog = new ScrollPane(tableLog, GameStateManager.getSkin());
 		textLog.setFadeScrollBars(true);
@@ -326,7 +325,7 @@ public class MessageWindow {
 		addTextLine(TextFilterUtil.filterHotkeys(HText.INFO_START.text()));
 
 		//load previously sent messages so chat log doesn't clear on level transition
-		for (String s: textRecord) {
+		for (String s : textRecord) {
 			addTextLine(s);
 		}
 
@@ -390,11 +389,11 @@ public class MessageWindow {
 	 * After adding a text to the dialog record, we create a text actor for it and add that to the dialog box actor.
 	 */
 	private void addTextLine(String text) {
-		Text newEntry = new Text(text).setWrap(scrollWidth - scrollBarPadding);
+		Text newEntry = new Text(text).setWrap(scrollWidth - scrollBarPad);
 		newEntry.setScale(logScale);
 		newEntry.setFont(HadalGame.FONT_UI_ALT);
 
-		tableLog.add(newEntry).pad(logPadding, 0, logPadding, scrollBarPadding).width(scrollWidth - scrollBarPadding).left().row();
+		tableLog.add(newEntry).pad(logPad, 0, logPad, scrollBarPad).width(scrollWidth - scrollBarPad).left().row();
 		textLog.scrollTo(0, 0, 0, 0);
 
 		//new text makes the window visible and resets the inactive fade time

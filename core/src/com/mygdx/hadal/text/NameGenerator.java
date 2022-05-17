@@ -1216,7 +1216,7 @@ public enum NameGenerator {
 
 		Array<NameGenerator> possibleNexts = new Array<>();
 
-		for (NameGenerator gen: NameGenerator.values()) {
+		for (NameGenerator gen : NameGenerator.values()) {
 			for (int i = 0; i < gen.canFollow.length; i++) {
 				if (gen.canFollow[i].equals("start")) {
 					for (int j = 0; j < gen.weight; j++) {
@@ -1248,7 +1248,7 @@ public enum NameGenerator {
 		Array<NameGenerator> possibleNexts = new Array<>();
 		
 		//identify all possible next name fragments
-		for (NameGenerator gen: NameGenerator.values()) {
+		for (NameGenerator gen : NameGenerator.values()) {
 			for (int i = 0; i < gen.canFollow.length; i++) {
 				if (gen.canFollow[i].equals(prev)) {
 					for (int j = 0; j < gen.weight; j++) {

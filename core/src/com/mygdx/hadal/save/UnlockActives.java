@@ -90,7 +90,7 @@ public enum UnlockActives {
 	 * This method returns the unlock corresponding to a specific active item
 	 */
 	public static UnlockActives getUnlockFromActive(Class<? extends ActiveItem> active) {
-		for (UnlockActives unlock: UnlockActives.values()) {
+		for (UnlockActives unlock : UnlockActives.values()) {
 			if (unlock.active.equals(active)) {
 				return unlock;
 			}
@@ -126,7 +126,7 @@ public enum UnlockActives {
 
 	private static final ObjectMap<String, UnlockActives> UnlocksByName = new ObjectMap<>();
 	static {
-		for (UnlockActives u: UnlockActives.values()) {
+		for (UnlockActives u : UnlockActives.values()) {
 			UnlocksByName.put(u.toString(), u);
 		}
 	}

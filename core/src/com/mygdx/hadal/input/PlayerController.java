@@ -149,7 +149,7 @@ public class PlayerController implements InputProcessor {
 		if (player.getController() == null) { return; }
 		
 		//Let game account for all buttons held down before the processor is created.
-		for (PlayerAction a: PlayerAction.values()) {
+		for (PlayerAction a : PlayerAction.values()) {
 			if (a.isToggleable()) {
 				if (a.isPressed()) {
 					player.getController().keyDown(a, true);
@@ -169,7 +169,7 @@ public class PlayerController implements InputProcessor {
 		if (player.getController() == null) { return; }
 		
 		//Let game account for all buttons held down before the processor is created.
-		for (PlayerAction a: PlayerAction.values()) {
+		for (PlayerAction a : PlayerAction.values()) {
 			if (a.isToggleable()) {
 				player.getController().keyUp(a, true);
 			}

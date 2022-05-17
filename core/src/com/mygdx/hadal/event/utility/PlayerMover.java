@@ -18,22 +18,24 @@ import com.mygdx.hadal.states.PlayState;
  * Fields:
  * all: boolean. do we move all players or not?
  * exclude: boolean. do we exclude the player that activated this? 
- 
+ * respawn: boolean. do we update the player's default respawn point (for revives)
+ *
  * @author Slalfingo Spehaz
  */
 public class PlayerMover extends Event {
 
-	private final boolean all, exclude;
+	private final boolean all, exclude, updateRespawn;
 	
 	//are we in the middle of moving the player?
 	private boolean moving = false;
 
 	private final Array<Player> players;
 	
-	public PlayerMover(PlayState state, boolean all, boolean exclude) {
+	public PlayerMover(PlayState state, boolean all, boolean exclude, boolean updateRespawn) {
 		super(state);
 		this.all = all;
 		this.exclude = exclude;
+		this.updateRespawn = updateRespawn;
 		this.players = new Array<>();
 	}
 	
@@ -59,10 +61,16 @@ public class PlayerMover extends Event {
 									if (!exclude || !p.equals(playerLeft)) {
 										players.add(playerLeft);
 									}
+									if (updateRespawn) {
+										playerLeft.setStart(this.getEvent().getConnectedEvent());
+									}
 								}
 							}
 						} else {
 							players.add(p);
+							if (updateRespawn) {
+								p.setStart(this.getEvent().getConnectedEvent());
+							}
 						}
 					}
 					if (getConnectedEvent().getStandardParticle() != null && !players.isEmpty()) {
@@ -79,7 +87,7 @@ public class PlayerMover extends Event {
 			if (getConnectedEvent().getBody() != null) {
 				moving = false;
 				
-				for (Player p: players) {
+				for (Player p : players) {
 					p.setTransform(getConnectedEvent().getPosition(), 0);
 					
 					//if possible, activate connected event's connected event.

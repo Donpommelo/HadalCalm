@@ -51,7 +51,6 @@ public class DamageThresholdDie extends HitboxStrategy {
 	public void receiveDamage(BodyData perp, float baseDamage, Vector2 knockback, DamageTag... tags) {
 
 		damageCurrent += baseDamage;
-
 		if (damageCurrent > damageThreshold) {
 			hbox.die();
 		}

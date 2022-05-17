@@ -586,9 +586,9 @@ public class BotLoadoutProcessor {
 
         //iterate through all cosmetic slots and for each, add all applicable cosmetics to a list, then choose one randomly
         int index = 0;
-        for (CosmeticSlot slot: CosmeticSlot.values()) {
+        for (CosmeticSlot slot : CosmeticSlot.values()) {
             Array<UnlockCosmetic> cosmeticOptions = new Array<>();
-            for (UnlockCosmetic cosmetic: UnlockCosmetic.values()) {
+            for (UnlockCosmetic cosmetic : UnlockCosmetic.values()) {
                 if (!cosmetic.checkCompatibleCharacters(character) && cosmetic.getCosmeticSlot().equals(slot)) {
                     cosmeticOptions.add(cosmetic);
                 }
@@ -598,7 +598,6 @@ public class BotLoadoutProcessor {
             }
             index++;
         }
-
         return cosmetics;
     }
 

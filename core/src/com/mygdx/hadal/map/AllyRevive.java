@@ -54,7 +54,7 @@ public class AllyRevive extends ModeSetting {
 
                     //for team mode, keep track of which teams still have a living player
                     short factionLeft = -1;
-                    for (User user2: users) {
+                    for (User user2 : users) {
                         if (!user2.isSpectator()) {
                             if (user2.getPlayer() != null) {
                                 if (user2.getPlayer().isAlive()) {
@@ -105,11 +105,11 @@ public class AllyRevive extends ModeSetting {
                     vic.getUser().getScores().setExtraModeScore(vic.getUser().getScores().getExtraModeScore() + 1);
 
                     if (source.equals(DamageSource.MAP_FALL)) {
-                        new ReviveGravestone(state, vic.getStartPos(), vic.getUser(), vic.getConnId(),
-                                reviveTimer, vic.getStartPos());
+                        new ReviveGravestone(state, vic.getStart().getPixelPosition(), vic.getUser(), vic.getConnId(),
+                                reviveTimer, vic.getStart());
                     } else {
                         new ReviveGravestone(state, vic.getPixelPosition(), vic.getUser(), vic.getConnId(),
-                                reviveTimer, vic.getStartPos());
+                                reviveTimer, vic.getStart());
                     }
                 }
             }

@@ -74,7 +74,7 @@ public enum Shader {
 		}
 		shaderProgram.bind();
 
-		for (ShaderStrategy strat: strategies) {
+		for (ShaderStrategy strat : strategies) {
 			strat.create(shaderProgram);
 		}
 	}
@@ -84,7 +84,7 @@ public enum Shader {
 	 * It disposes of shaders to free up memory
 	 */
 	public static void clearShader() {
-		for (Shader shader: Shader.values()) {
+		for (Shader shader : Shader.values()) {
 			if (shader.shaderProgram != null) {
 				shader.shaderProgram.dispose();
 				shader.shaderProgram = null;
@@ -96,7 +96,7 @@ public enum Shader {
 	 * This is run every game update and defers to the shader strategies to process game information
 	 */
 	public void shaderPlayUpdate(PlayState state, float delta) {
-		for (ShaderStrategy strat: strategies) {
+		for (ShaderStrategy strat : strategies) {
 			strat.playController(state, shaderProgram, delta);
 		}
 	}
@@ -105,7 +105,7 @@ public enum Shader {
 	 * This is a version of shaderPlayUpdate used for backgrounds of non-playstate states
 	 */
 	public void shaderDefaultUpdate(float delta) {
-		for (ShaderStrategy strat: strategies) {
+		for (ShaderStrategy strat : strategies) {
 			strat.defaultController(shaderProgram, delta);
 		}
 	}
@@ -115,7 +115,7 @@ public enum Shader {
 	 * Use this for shaders that keep track of percent completion
 	 */
 	public void shaderEntityUpdate(float completion) {
-		for (ShaderStrategy strat: strategies) {
+		for (ShaderStrategy strat : strategies) {
 			strat.shaderEntityUpdate(shaderProgram, completion);
 		}
 	}
@@ -124,7 +124,7 @@ public enum Shader {
 	 * This is run when the game window is resized and defers to the shader strategies to process game information
 	 */
 	public void shaderResize() {
-		for (ShaderStrategy strat: strategies) {
+		for (ShaderStrategy strat : strategies) {
 			strat.resize(shaderProgram);
 		}
 	}

@@ -75,6 +75,7 @@ public enum AssetList {
 	IMPACT_ATL("particles/totlc/impact.atlas", TextureAtlas.class),
 	
 	;
+
 	//Enum constructor and methods.
 	private final String pathname;
     private final Class<?> type;

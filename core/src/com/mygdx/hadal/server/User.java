@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.event.StartPoint;
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.SyncType;
@@ -49,11 +49,11 @@ public class User {
     private TransitionState nextState;
 
     //the start point this user will respawn at next. Used to draw particles at the point prior to respawning
-    private StartPoint startPoint;
+    private Event startPoint;
 
     //used when the player is spawned at a set location instead of using a start point (for matryoshka mode instant repawn)
     private final Vector2 overrideSpawnLocation = new Vector2();
-    private boolean spawnOverridden;
+    private boolean spawnOverridden, startOverridden;
 
     public User(Player player, SavedPlayerFields scores, SavedPlayerFieldsExtra scoresExtra) {
         this.player = player;
@@ -77,7 +77,10 @@ public class User {
             if (transitionTime <= spawnForewarn && !spawnForewarned) {
                 if (nextState.equals(TransitionState.RESPAWN)) {
                     spawnForewarned = true;
-                    startPoint = state.getSavePoint(this);
+
+                    if (!startOverridden) {
+                        startPoint = state.getSavePoint(this);
+                    }
 
                     if (spawnOverridden) {
                         new ParticleEntity(state, new Vector2(overrideSpawnLocation).sub(0, startPoint.getSize().y),
@@ -171,6 +174,7 @@ public class User {
         nextState = null;
         startPoint = null;
         spawnOverridden = false;
+        startOverridden = false;
     }
 
     public void setOverrideSpawn(Vector2 overrideSpawn) {
@@ -178,6 +182,10 @@ public class User {
         spawnOverridden = true;
     }
 
+    public void setOverrideStart(Event event) {
+        startPoint = event;
+        startOverridden = true;
+    }
 
     private static final Vector3 rgb = new Vector3();
     /**

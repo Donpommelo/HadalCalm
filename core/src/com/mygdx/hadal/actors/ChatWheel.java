@@ -70,7 +70,7 @@ public class ChatWheel {
 	public void addTable(Stage stage) {
 		PieMenu.PieMenuStyle style = new PieMenu.PieMenuStyle();
 		style.sliceColor = new Color(1,1,1,0.5f);
-		style.hoverColor = new Color(.7f,.3f,.5f,1);
+		style.hoverColor = new Color(0.7f,0.3f,0.5f,1);
 		style.circumferenceWidth = borderThickness;
 		style.separatorWidth = borderThickness;
 				
@@ -102,7 +102,8 @@ public class ChatWheel {
 			public void draw(Batch batch, float alpha) {
 				if (state.getGsm().getSetting().isHideHUD()) { return; }
 				super.draw(batch, alpha);
-				batch.draw(wheelIndicator, pointerPosition.x - indicatorWidth / 2, pointerPosition.y - indicatorHeight / 2, indicatorWidth, indicatorHeight);
+				batch.draw(wheelIndicator, pointerPosition.x - indicatorWidth / 2, pointerPosition.y - indicatorHeight / 2,
+						indicatorWidth, indicatorHeight);
 			}
 		};
 		wheel.setX(wheelX);
@@ -133,7 +134,7 @@ public class ChatWheel {
 		if (visible) {
 			if (!active) {
 				//play the wheel fan animation and make no options highlighted
-				wheel.animateOpening(0.4f);
+				wheel.animateOpening(0.3f);
 				wheel.setHoveredIndex(PieMenu.NO_SELECTION);
 				
 				//keep track of the players mouse location so we know how they move relative to this vector

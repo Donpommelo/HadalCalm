@@ -36,7 +36,7 @@ public class SpawnerWave extends Event {
 		this.pointId = pointId;
 		this.extraField = extraField;
 
-		for (String s: tag.split(",")) {
+		for (String s : tag.split(",")) {
 			tags.add(WaveTag.valueOf(s));
 		}
 	}

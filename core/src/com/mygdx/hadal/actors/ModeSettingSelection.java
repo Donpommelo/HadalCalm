@@ -17,6 +17,8 @@ import com.mygdx.hadal.map.ModeSetting;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
 
+import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION_SLOW;
+
 /**
  * The ModeSettingSelection pops up when a player selects the navigations in multiplayer. Depending on the mode selected,
  * this displays a number of setting options that will be applied to that mode
@@ -32,7 +34,7 @@ public class ModeSettingSelection {
     private static final float tableY = 100.0f;
 
     public static final int titleHeight = 40;
-    public static final int titlePadding = 20;
+    public static final int titlePad = 20;
 
     private static final int optionsWidthOuter = 420;
     private static final int optionsHeightOuter = 590;
@@ -75,7 +77,7 @@ public class ModeSettingSelection {
 
         //this clears the setting table and populates it with settings specific to each mode
         tableSettings.clear();
-        for (ModeSetting setting: mode.getSettings()) {
+        for (ModeSetting setting : mode.getSettings()) {
             setting.setSetting(state, mode, tableSettings);
         }
 
@@ -93,7 +95,7 @@ public class ModeSettingSelection {
 
         tableInfo.add(backOption).height(detailHeight).pad(detailPad).row();
 
-        tableOuter.add(titleInfo).pad(titlePadding).height(titleHeight).colspan(2);
+        tableOuter.add(titleInfo).pad(titlePad).height(titleHeight).colspan(2);
         tableOuter.row();
 
         tableOuter.add(settings).expandY().width(optionsWidth).row();
@@ -104,14 +106,14 @@ public class ModeSettingSelection {
 
         state.getStage().addActor(tableOuter);
 
-        tableOuter.addAction(Actions.moveTo(tableInX, tableY, .5f, Interpolation.pow5Out));
+        tableOuter.addAction(Actions.moveTo(tableInX, tableY, TRANSITION_DURATION_SLOW, Interpolation.pow5Out));
     }
 
     public static void leave(PlayState state) {
 
         //tableOuter will be null when the window hasn't been opened yet.
         if (tableOuter != null) {
-            tableOuter.addAction(Actions.moveTo(tableX, tableY, .5f, Interpolation.pow5Out));
+            tableOuter.addAction(Actions.moveTo(tableX, tableY, TRANSITION_DURATION_SLOW, Interpolation.pow5Out));
         }
 
         if (state.getStage() != null) {

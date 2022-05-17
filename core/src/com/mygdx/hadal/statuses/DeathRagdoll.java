@@ -29,6 +29,6 @@ public class DeathRagdoll extends Status {
 	@Override
 	public void onDeath(BodyData perp, DamageSource source) {
 		new Ragdoll(state, inflicted.getSchmuck().getPixelPosition(), size, sprite, inflicted.getSchmuck().getLinearVelocity(),
-				duration, gravity, true, false, true);
+				duration, gravity, true, false, true, true);
 	}
 }

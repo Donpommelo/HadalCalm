@@ -134,12 +134,10 @@ public enum DamageSource {
     public String getKillSource() {
         if (type == DamageSourceType.MISC || type == DamageSourceType.ENEMY) {
             return toString();
-
         } else {
             return this + " (" + type.toString() + ")";
         }
     }
-
 }
 
 enum DamageSourceType {

@@ -34,7 +34,7 @@ public class ModeCapturetheFlag extends ModeSetting {
     @Override
     public void processAIPath(PlayState state, PlayerBot bot, Vector2 playerLocation,
                               Array<RallyPoint.RallyPointMultiplier> path) {
-        for (ObjectiveMarker objective: state.getUiObjective().getObjectives()) {
+        for (ObjectiveMarker objective : state.getUiObjective().getObjectives()) {
             objectiveLocation.set(objective.getObjectiveLocation()).scl(1 / PPM);
             if (objective.getObjectiveTarget() instanceof FlagCapturable flag) {
                 if (flag.getTeamIndex() < AlignmentFilter.currentTeams.length) {

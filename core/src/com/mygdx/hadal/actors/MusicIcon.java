@@ -21,8 +21,8 @@ public class MusicIcon extends AHadalActor {
 	private final GlyphLayout layout;
 	private final Animation<TextureRegion> musicIcon;
 
-	private static final float paddingX = 40.0f;
-	private static final float paddingY = 20.0f;
+	private static final float padX = 40.0f;
+	private static final float padY = 20.0f;
 	private static final float maxWidth = 300.0f;
 
 	private static final float fontScale = 0.3f;
@@ -60,21 +60,21 @@ public class MusicIcon extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {
 
-		GameStateManager.getSimplePatch().draw(batch, getX() - paddingX / 2, getY() - paddingY / 2,
-			getWidth() + paddingX, getHeight() + paddingY);
+		GameStateManager.getSimplePatch().draw(batch, getX() - padX / 2, getY() - padY / 2,
+			getWidth() + padX, getHeight() + padY);
 
 		HadalGame.FONT_UI.getData().setScale(fontScale);
 		HadalGame.FONT_UI.draw(batch, text, getX(), getY() + getHeight() / 2 + layout.height / 2, maxWidth, Align.left, true);
 
-		batch.draw(musicIcon.getKeyFrame(animCdCount, true),
-			getX() + iconOffsetX, getY() + iconOffsetY, iconWidth, iconHeight);
+		batch.draw(musicIcon.getKeyFrame(animCdCount, true), getX() + iconOffsetX, getY() + iconOffsetY,
+				iconWidth, iconHeight);
 	}
 
 	private static final float visibleDuration = 6.0f;
 	public void animateIcon() {
 		addAction(Actions.sequence(
 			Actions.moveTo(startX, startY),
-			Actions.moveTo(endX - getWidth() - paddingX, startY, TRANSITION_DURATION_SLOW, INTP_FASTSLOW),
+			Actions.moveTo(endX - getWidth() - padX, startY, TRANSITION_DURATION_SLOW, INTP_FASTSLOW),
 			Actions.delay(visibleDuration),
 			Actions.moveTo(startX, startY, TRANSITION_DURATION_SLOW, INTP_FASTSLOW),
 			Actions.removeActor()));

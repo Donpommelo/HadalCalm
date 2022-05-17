@@ -166,6 +166,7 @@ public enum UnlockArtifact {
 	PLAYER_MINI(new PlayerMini(), true),
 	PLAYER_SLIDE(new PlayerSlide(), true),
 	VISIBLE_HP(new VisibleHp(), true),
+
 	;
 	
 	//singleton artifact represented by this unlock
@@ -252,7 +253,7 @@ public enum UnlockArtifact {
 
 	private static final ObjectMap<String, UnlockArtifact> UnlocksByName = new ObjectMap<>();
 	static {
-		for (UnlockArtifact u: UnlockArtifact.values()) {
+		for (UnlockArtifact u : UnlockArtifact.values()) {
 			UnlocksByName.put(u.toString(), u);
 		}
 	}

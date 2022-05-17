@@ -45,7 +45,7 @@ public class Arcanery extends HubEvent {
 		Pattern pattern = Pattern.compile(search);
 		final UIHub hub = state.getUiHub();
 
-		for (UnlockActives c: UnlockActives.getUnlocks(state, checkUnlock, tags)) {
+		for (UnlockActives c : UnlockActives.getUnlocks(state, checkUnlock, tags)) {
 			final UnlockActives selected = c;
 
 			boolean appear = false;

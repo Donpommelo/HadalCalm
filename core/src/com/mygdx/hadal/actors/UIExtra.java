@@ -71,18 +71,27 @@ public class UIExtra extends AHadalActor {
 	private static final int rowHeight = 14;
 	private static final int startYExtra = 200;
 	private static final int startXExtra = 10;
+	private static final int maxAllies = 6;
+
+	/**
+	 * In team modes, this renders ally hp bars in the upper right hand side of the screen
+	 */
 	private void renderTeamHp(Batch batch, short viewingUserTeam) {
 		if (state.getScoreWindow() == null) { return; }
 		if (state.getMode().getTeamMode() == SettingTeamMode.TeamMode.FFA) { return; }
 
 		float currentY = HadalGame.CONFIG_HEIGHT - startYExtra;
-		for (User user: state.getScoreWindow().getOrderedUsers()) {
+		int allyNumber = 0;
+
+		//iterate through each non-spectator on the same team
+		for (User user : state.getScoreWindow().getOrderedUsers()) {
 			if (!user.isSpectator() && user.getPlayer() != null) {
 				if (user.getPlayer().getPlayerData() != null && !user.getPlayer().equals(state.getPlayer())) {
 					if (user.getPlayer().getHitboxfilter() == viewingUserTeam) {
 						HadalGame.FONT_UI.draw(batch, WeaponUtils.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_SHORT),
 								HadalGame.CONFIG_WIDTH - nameMaxLength - hpWidth - startXExtra, currentY, nameMaxLength, Align.left, true);
 
+						//draw bar corresponding to hp ratio (dead players are set to 0%)
 						float hpRatio = user.getPlayer().getPlayerData().getCurrentHp() /
 								user.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
 						if (!user.getPlayer().isAlive()) {
@@ -91,6 +100,10 @@ public class UIExtra extends AHadalActor {
 						batch.draw(hpBarFade, HadalGame.CONFIG_WIDTH - hpWidth - startXExtra, currentY + hpBarOffsetY, hpWidth, hpHeight);
 						batch.draw(hpBar, HadalGame.CONFIG_WIDTH - hpWidth - startXExtra, currentY + hpBarOffsetY, hpWidth * hpRatio, hpHeight);
 						currentY -= rowHeight;
+						allyNumber++;
+						if (allyNumber > maxAllies) {
+							break;
+						}
 					}
 				}
 			}
@@ -148,9 +161,8 @@ public class UIExtra extends AHadalActor {
 		}
 
 		for (String type : tags.split(",")) {
-			
 			boolean found = false;
-			for (UITag.uiType tag: UITag.uiType.values()) {
+			for (UITag.uiType tag : UITag.uiType.values()) {
 				if (tag.toString().equals(type)) {
 					found = true;
 					uiTags.add(new UITag(this, tag));
@@ -245,7 +257,7 @@ public class UIExtra extends AHadalActor {
 	public void sortIndividualScores(StringBuilder text) {
 		if (state.getScoreWindow() != null) {
 			int scoreNum = 0;
-			for (User user: state.getScoreWindow().getOrderedUsers()) {
+			for (User user : state.getScoreWindow().getOrderedUsers()) {
 				if (!user.isSpectator()) {
 					text.append(user.getNameAbridgedColored(MAX_NAME_LENGTH_SHORT)).append(": ").append(user.getScores().getScore()).append("\n");
 					scoreNum++;
@@ -275,12 +287,15 @@ public class UIExtra extends AHadalActor {
 		}
 	}
 
+	/**
+	 * This iterates through each team and gets the number of players on that team that are currently alive
+	 */
 	public void sortTeamAlive(StringBuilder text) {
 		if (state.getScoreWindow() != null) {
 			int scoreNum = 0;
 			for (int i = 0; i < AlignmentFilter.teamScores.length; i++) {
 				int numAlive = 0;
-				for (User user: state.getScoreWindow().getOrderedUsers()) {
+				for (User user : state.getScoreWindow().getOrderedUsers()) {
 					if (!user.isSpectator()) {
 						if (user.getPlayer() != null) {
 							if (user.getPlayer().isAlive()) {

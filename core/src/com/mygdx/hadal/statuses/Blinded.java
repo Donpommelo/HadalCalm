@@ -19,8 +19,8 @@ public class Blinded extends Status {
 	public Blinded(PlayState state, float i, BodyData p, BodyData v, boolean instant) {
 		super(state, i, false, p, v);
 
-		if (instant && inflicted instanceof PlayerBodyData) {
-			((PlayerBodyData) inflicted).getPlayer().setBlinded(i);
+		if (instant && inflicted instanceof PlayerBodyData playerBodyData) {
+			playerBodyData.getPlayer().setBlinded(i);
 		}
 	}
 

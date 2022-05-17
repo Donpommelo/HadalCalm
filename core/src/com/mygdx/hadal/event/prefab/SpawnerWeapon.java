@@ -22,7 +22,8 @@ public class SpawnerWeapon extends Prefabrication {
 	private static final float ammoInterval = 15.0f;
 	private static final float ammoAmount = 0.25f;
 
-	public SpawnerWeapon(PlayState state, int width, int height, int x, int y, String triggeredId, String triggeringId, String pool) {
+	public SpawnerWeapon(PlayState state, float width, float height, float x, float y, String triggeredId,
+						 String triggeringId, String pool) {
 		super(state, width, height, x , y);
 		this.triggeredId = triggeredId;
 		this.triggeringId = triggeringId;
@@ -58,7 +59,6 @@ public class SpawnerWeapon extends Prefabrication {
 		RectangleMapObject weapon = new RectangleMapObject();
 		weapon.getRectangle().set(x, y + (Event.defaultPickupEventSize - height) / 2.0f, width, height);
 		weapon.setName("Equip");
-//		weapon.getProperties().put("synced", true);
 		weapon.getProperties().put("particle_std", "EVENT_HOLO");
 		weapon.getProperties().put("triggeredId", pickupId);
 		weapon.getProperties().put("triggeringId", triggeringId);

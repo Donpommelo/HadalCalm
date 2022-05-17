@@ -239,27 +239,24 @@ public enum SoundEffect {
 	 * This plays a sound effect for a single player.
 	 * This is only run by the host
 	 */
-	public long playExclusive(PlayState state, Vector2 worldPos, Player player, float volume, boolean singleton) {
-		return playExclusive(state, worldPos, player, volume, 1.0f, singleton);
+	public void playExclusive(PlayState state, Vector2 worldPos, Player player, float volume, boolean singleton) {
+		playExclusive(state, worldPos, player, volume, 1.0f, singleton);
 	}
 	
-	public long playExclusive(PlayState state, Vector2 worldPos, Player player, float volume, float pitch, boolean singleton) {
+	public void playExclusive(PlayState state, Vector2 worldPos, Player player, float volume, float pitch, boolean singleton) {
 		if (state.isServer() && player != null) {
 			
 			//for the host, we simply play the sound. Otherwise, we send a sound packet to the client
 			if (player.getConnId() == 0) {
 				if (worldPos == null) {
-					return play(state.getGsm(), volume, pitch, singleton);
+					play(state.getGsm(), volume, pitch, singleton);
 				} else {
-					return playSourced(state, worldPos, volume, pitch);
+					playSourced(state, worldPos, volume, pitch);
 				}
 			} else {
 				HadalGame.server.sendToTCP(player.getConnId(), new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
 			}
 		}
-		
-		//this line hopefully doesn't get run. (b/c this should not get run on the client or with no input player)
-		return 0;
 	}
 	
 	/**

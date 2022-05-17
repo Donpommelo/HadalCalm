@@ -176,7 +176,6 @@ public class UISpectator extends AHadalActor {
                     if (freeCam) {
                         foundTarget = loopThroughUsers(i);
                     } else {
-
                         //otherwise, we cycle to the next player in the list
                         foundTarget = loopThroughUsers(i + 1);
                     }

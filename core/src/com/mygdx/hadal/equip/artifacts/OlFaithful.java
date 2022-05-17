@@ -26,15 +26,19 @@ public class OlFaithful extends Artifact {
 			public void playerCreate() {
 				if (state.getMode().isHub()) { return; }
 
-				UnlockEquip savedEquip;
+				UnlockEquip savedEquip = null;
 				if (p.getPlayer().equals(state.getPlayer())) {
 					savedEquip = UnlockEquip.getByName(state.getGsm().getLoadout().getEquips()[0]);
 				} else {
-					savedEquip = p.getPlayer().getUser().getLastEquippedPrimary();
+					if (p.getPlayer().getUser() != null) {
+						savedEquip = p.getPlayer().getUser().getLastEquippedPrimary();
+					}
 				}
-				if (savedEquip != UnlockEquip.NOTHING) {
-					p.getMultitools()[0] = Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.NOTHING, null));
-					p.pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(savedEquip, null)));
+				if (savedEquip != null) {
+					if (savedEquip != UnlockEquip.NOTHING) {
+						p.getMultitools()[0] = Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.NOTHING, null));
+						p.pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(savedEquip, null)));
+					}
 				}
 			}
 		});

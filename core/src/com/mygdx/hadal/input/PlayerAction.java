@@ -45,6 +45,7 @@ public enum PlayerAction {
 	//these are relevant for resetting when the input processor is temporarily disabled.
 	private final boolean toggleable;
 
+	//this is the text that shows up in the ui to represent this action
 	private final HText text;
 
 	private final static ObjectMap<Integer, PlayerAction> hotkeys = new ObjectMap<>();
@@ -71,7 +72,6 @@ public enum PlayerAction {
 	 * Reset key to default bindings
 	 */
 	public static void resetKeys() {
-				
 		WALK_RIGHT.setKey(Input.Keys.D);
 		WALK_LEFT.setKey(Input.Keys.A);
 		JUMP.setKey(Input.Keys.W);

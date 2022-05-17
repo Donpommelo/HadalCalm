@@ -28,7 +28,7 @@ public class StatusComposite extends Status {
 		
 		ProcTime finalProcTime = o;
 		
-		for (Status s: statuses) {
+		for (Status s : statuses) {
 			finalProcTime = s.statusProcTime(o);
 		}
 		return finalProcTime;

@@ -13,7 +13,6 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.HText;
@@ -57,7 +56,7 @@ public class ConsoleCommandUtil {
 						message.append(player.getPlayerData().getLoadout().multitools[i].getInfo().getName()).append(" ");
 					}
 				}
-				HadalGame.server.addChatToAll(state, message.toString(), DialogType.SYSTEM, 0);
+				emitMessage(state, message.toString());
 				return 0;
 			}
 
@@ -70,100 +69,56 @@ public class ConsoleCommandUtil {
 						message.append(player.getPlayerData().getLoadout().artifacts[i].getInfo().getName()).append(" ");
 					}
 				}
-				HadalGame.server.addChatToAll(state,message.toString(), DialogType.SYSTEM, 0);
+				emitMessage(state, message.toString());
 				return 0;
 			}
 
 			if (command.equals("/active")) {
-				HadalGame.server.addChatToAll(state,"Active Item: " +
-						player.getPlayerData().getLoadout().activeItem.getInfo().getName(), DialogType.SYSTEM, 0);
+				emitMessage(state, "Active Item: " + player.getPlayerData().getLoadout().activeItem.getInfo().getName());
 				return 0;
 			}
 
 			if (command.equals("/team")) {
-				HadalGame.server.addChatToAll(state, "Team: " + player.getPlayerData().getLoadout().team.getTeamName(),
-						DialogType.SYSTEM, 0);
+				emitMessage(state, "Team: " + player.getPlayerData().getLoadout().team.getTeamName());
 				return 0;
 			}
 
 			if (command.equals("/killme")) {
-				player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false,
-						null, DamageSource.MISC);
+				if (state.isServer()) {
+					player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false,
+							null, DamageSource.MISC);
+				} else {
+					HadalGame.client.sendTCP(new Packets.ClientYeet());
+				}
 				return 0;
 			}
 		}
 
 		if (command.equals("/roll")) {
-			HadalGame.server.addChatToAll(state,"Rolled A Number: " + MathUtils.random(maxRoll), DialogType.SYSTEM, player.getConnId());
+			emitMessage(state, "Rolled A Number: " + MathUtils.random(maxRoll));
 			return 0;
 		}
 
 		if (command.equals("/help")) {
-			state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(HText.INFO_HELP.text()), DialogType.SYSTEM, 0);
+			if (state.isServer()) {
+				state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(HText.INFO_HELP.text()), DialogType.SYSTEM, 0);
+			} else {
+				state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(HText.INFO_HELP.text()), DialogType.SYSTEM, player.getConnId());
+			}
 			return 0;
 		}
 
 		return -1;
 	}
-	
-	public static int parseChatCommandClient(ClientState state, Player player, String command) {
 
-		if (player.getPlayerData() != null) {
-			if (command.equals("/weapon")) {
-				StringBuilder message = new StringBuilder("Weapons: ");
-
-				for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
-					if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
-						message.append(player.getPlayerData().getLoadout().multitools[i].getInfo().getName()).append(" ");
-					}
-				}
-				HadalGame.client.sendTCP(new Packets.ClientChat(message.toString(), DialogType.SYSTEM));
-				return 0;
-			}
-
-			if (command.equals("/artifact")) {
-				StringBuilder message = new StringBuilder("Artifacts: ");
-
-				for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
-					if (!player.getPlayerData().getLoadout().artifacts[i].equals(UnlockArtifact.NOTHING)) {
-						message.append(player.getPlayerData().getLoadout().artifacts[i].getInfo().getName()).append(" ");
-					}
-				}
-				HadalGame.client.sendTCP(new Packets.ClientChat(message.toString(), DialogType.SYSTEM));
-				return 0;
-			}
-
-			if (command.equals("/active")) {
-				HadalGame.client.sendTCP(new Packets.ClientChat("Active Item: " +
-						player.getPlayerData().getLoadout().activeItem.getInfo().getName(), DialogType.SYSTEM));
-				return 0;
-			}
-
-			if (command.equals("/team")) {
-				HadalGame.client.sendTCP(new Packets.ClientChat("Team: " + player.getPlayerData().getLoadout().team.getTeamName(),
-						DialogType.SYSTEM));
-				return 0;
-			}
-
-			if (command.equals("/killme")) {
-				HadalGame.client.sendTCP(new Packets.ClientYeet());
-				return 0;
-			}
+	private static void emitMessage(PlayState state, String message) {
+		if (state.isServer()) {
+			HadalGame.server.addChatToAll(state, message, DialogType.SYSTEM, 0);
+		} else {
+			HadalGame.client.sendTCP(new Packets.ClientChat(message, DialogType.SYSTEM));
 		}
-
-		if (command.equals("/roll")) {
-			HadalGame.client.sendTCP(new Packets.ClientChat("Rolled A Number: " + MathUtils.random(maxRoll), DialogType.SYSTEM));
-			return 0;
-		}
-
-		if (command.equals("/help")) {
-			state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(HText.INFO_HELP.text()), DialogType.SYSTEM, player.getConnId());
-			return 0;
-		}
-
-		return -1;
 	}
-	
+
 	/**
 	 * This attempts to parse an input line of text into a command
 	 */

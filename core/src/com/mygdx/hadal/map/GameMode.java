@@ -220,7 +220,7 @@ public enum GameMode {
         StringBuilder spawnTriggerId = new StringBuilder();
         StringBuilder startTriggerId = new StringBuilder(timerId);
 
-        for (ModeSetting setting: applicableSettings) {
+        for (ModeSetting setting : applicableSettings) {
 
             //only the server saves their chosen settings.
             if (state.isServer()) {
@@ -269,7 +269,7 @@ public enum GameMode {
      */
     public void processNewPlayerLoadout(PlayState state, Loadout newLoadout, int connID, boolean justJoined) {
         if (!state.isServer()) { return; }
-        for (ModeSetting setting: applicableSettings) {
+        for (ModeSetting setting : applicableSettings) {
             setting.processNewPlayerLoadout(state, this, newLoadout, connID, justJoined);
         }
     }
@@ -281,7 +281,7 @@ public enum GameMode {
      * @param hitboxFilter: the hbox filter alignment. Used for setting team mode options
      */
     public void modifyNewPlayer(PlayState state, Loadout newLoadout, Player p, short hitboxFilter) {
-        for (ModeSetting setting: applicableSettings) {
+        for (ModeSetting setting : applicableSettings) {
             setting.modifyNewPlayer(state, this, newLoadout, p, hitboxFilter);
         }
         state.getUiExtra().syncUIText(UITag.uiType.PLAYERS_ALIVE);
@@ -300,7 +300,7 @@ public enum GameMode {
                 user.getScores().setDeaths(user.getScores().getDeaths() + 1);
                 user.setScoreUpdated(true);
             }
-            for (PlayerBodyData playerData: vic.getPlayerData().getRecentDamagedBy().keys()) {
+            for (PlayerBodyData playerData : vic.getPlayerData().getRecentDamagedBy().keys()) {
                 User assisted = playerData.getPlayer().getUser();
                 if (assisted != null) {
                     assisted.getScores().setAssists(assisted.getScores().getAssists() + 1);
@@ -402,7 +402,7 @@ public enum GameMode {
 
     private static final ObjectMap<String, GameMode> ModesByName = new ObjectMap<>();
     static {
-        for (GameMode m: GameMode.values()) {
+        for (GameMode m : GameMode.values()) {
             ModesByName.put(m.toString(), m);
         }
     }

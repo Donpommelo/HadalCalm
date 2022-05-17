@@ -159,7 +159,7 @@ public enum PoetryGenerator {
 		Array<PoetryGenerator> possibleNexts = new Array<>();
 		
 		//identify all possible next poetry fragments
-		for (PoetryGenerator gen: PoetryGenerator.values()) {
+		for (PoetryGenerator gen : PoetryGenerator.values()) {
 			for (int i = 0; i < gen.canFollow.length; i++) {
 				if (gen.canFollow[i].equals(prev)) {
 					for (int j = 0; j < gen.weight; j++) {

@@ -66,7 +66,7 @@ public class Navigations extends HubEvent {
 		final UIHub hub = state.getUiHub();
 		final Navigations me = this;
 
-		for (UnlockLevel c: UnlockLevel.getUnlocks(state, checkUnlock, newTags)) {
+		for (UnlockLevel c : UnlockLevel.getUnlocks(state, checkUnlock, newTags)) {
 			final UnlockLevel selected = c;
 
 			boolean appear = false;

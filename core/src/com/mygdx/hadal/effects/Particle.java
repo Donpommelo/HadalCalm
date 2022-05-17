@@ -115,6 +115,7 @@ public enum Particle {
 
 	KAMABOKO_SHOWER(ParticleType.DEFAULT, "particles/kamaboko_shower.particle", false),
 	KAMABOKO_IMPACT(ParticleType.DEFAULT, "particles/kamaboko_impact.particle", false),
+
 	;
 
 	//keep track of the particle pool.
@@ -139,7 +140,7 @@ public enum Particle {
 	}
 	
 	/**
-	 * sets up the particle pool.
+	 * sets up the particle pool for this specific particle type.
 	 */
 	private ParticleEffect prototype;
 	public void initParticlePool() {
@@ -169,8 +170,11 @@ public enum Particle {
 		return getParticle(null);
 	}
 
+	/**
+	 * This draws all particles of this specific particle type. (if visible)
+	 */
 	public void drawEffects(SpriteBatch batch) {
-		for (ObjectMap.Entry<PooledEffect, ParticleEntity> effect: effects.entries()) {
+		for (ObjectMap.Entry<PooledEffect, ParticleEntity> effect : effects.entries()) {
 			if (effect.value == null) {
 				effect.key.draw(batch);
 			} else if (effect.value.isEffectNotCulled()) {
@@ -179,19 +183,27 @@ public enum Particle {
 		}
 	}
 
+	/**
+	 * This draws all particles of this specific particle type. (if visible)
+	 * This is run separately to account for particles with additive blending to minimize batch setBlendFunction usage
+	 */
 	public static void drawParticles(SpriteBatch batch) {
-		for (Particle effect: AdditiveParticles) {
+		for (Particle effect : AdditiveParticles) {
 			effect.drawEffects(batch);
 		}
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		for (Particle effect: NormalParticles) {
+		for (Particle effect : NormalParticles) {
 			effect.drawEffects(batch);
 		}
 	}
 
+	/**
+	 * This is called when a play state is initiated
+	 * It disposes of particles to free up memory
+	 */
 	public static void clearParticle() {
-		for (Particle effect: Particle.values()) {
-			for (PooledEffect e: effect.effects.keys()) {
+		for (Particle effect : Particle.values()) {
+			for (PooledEffect e : effect.effects.keys()) {
 				e.free();
 			}
 			effect.effects.clear();
@@ -202,13 +214,16 @@ public enum Particle {
 	 * When we close the game, we should dispose of the particle prototypes
 	 */
 	public static void disposeParticlePool() {
-		for (Particle effect: Particle.values()) {
+		for (Particle effect : Particle.values()) {
 			if (effect.prototype != null) {
 				effect.prototype.dispose();
 			}
 		}
 	}
 
+	/**
+	 * This frees a designated effect
+	 */
 	public void removeEffect(PooledEffect effect) {
 		effect.free();
 		effects.remove(effect);
@@ -217,7 +232,7 @@ public enum Particle {
 	private static final Array<Particle> NormalParticles = new Array<>();
 	private static final Array<Particle> AdditiveParticles = new Array<>();
 	static {
-		for (Particle p: Particle.values()) {
+		for (Particle p : Particle.values()) {
 			if (p.additive) {
 				AdditiveParticles.add(p);
 			} else {

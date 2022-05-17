@@ -94,8 +94,8 @@ public class AboutState extends GameState {
 		super(gsm);
 		this.peekState = peekState;
 
-		if (peekState instanceof PauseState) {
-			playState = ((PauseState) peekState).getPs();
+		if (peekState instanceof PauseState pauseState) {
+			playState = pauseState.getPs();
 		}
 	}
 	
@@ -241,7 +241,7 @@ public class AboutState extends GameState {
 		tracks = new VerticalGroup().space(optionPadding);
 
 		//show list of available songs
-		for (MusicTrack track: MusicTrack.values()) {
+		for (MusicTrack track : MusicTrack.values()) {
 			Text trackListen = new Text(track.getMusicName()).setButton(true);
 
 			//clicking a track plays it

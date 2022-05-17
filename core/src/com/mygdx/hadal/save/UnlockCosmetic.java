@@ -102,7 +102,7 @@ public enum UnlockCosmetic {
     UnlockCosmetic(CosmeticSlot cosmeticSlot, boolean ragdoll, PlayMode mode, CharacterCosmetic... compatibleCharacters) {
         this.cosmeticSlot = cosmeticSlot;
         this.ragdoll = ragdoll;
-        for (CharacterCosmetic cosmetic: compatibleCharacters) {
+        for (CharacterCosmetic cosmetic : compatibleCharacters) {
             cosmetics.put(cosmetic.getCompatibleCharacter(), cosmetic);
             cosmetic.setPlayMode(mode);
         }
@@ -178,7 +178,7 @@ public enum UnlockCosmetic {
 
     private static final ObjectMap<String, UnlockCosmetic> UnlocksByName = new ObjectMap<>();
     static {
-        for (UnlockCosmetic u: UnlockCosmetic.values()) {
+        for (UnlockCosmetic u : UnlockCosmetic.values()) {
             UnlocksByName.put(u.toString(), u);
         }
     }
@@ -266,7 +266,7 @@ class CharacterCosmetic {
         if (frames == null) { getFrames(); }
         if (frames.getKeyFrames().length != 0) {
             return new Ragdoll(state, playerLocation, new Vector2(cosmeticWidth, cosmeticHeight).scl(scale),
-                    frames.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false);
+                    frames.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false, true);
         }
         return null;
     }

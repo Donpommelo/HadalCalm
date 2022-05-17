@@ -54,7 +54,7 @@ public class InitState extends GameState {
 		HadalGame.FONT_UI.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		HadalGame.FONT_SPRITE.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		
-		for (AssetList asset: AssetList.values()) {
+		for (AssetList asset : AssetList.values()) {
             if (asset.getType() != null) {
             	HadalGame.assetManager.load(asset.toString(), asset.getType());
             }

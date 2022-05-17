@@ -26,6 +26,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.HText;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_TOTAL;
+import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION_SLOW;
 
 /**
  * The UiHub is an actor that pops up whenever the player interacts with hub elements that pop up a ui window
@@ -45,13 +46,13 @@ public class UIHub {
 	private String info, title = "";
 	private static final int infoWidth = 400;
 	private static final int infoHeight = 350;
-	public static final int infoPadding = 20;
+	public static final int infoPad = 20;
 
 	private static final float tableX = HadalGame.CONFIG_WIDTH;
 	private static final float tableY = 50.0f;
 	
 	public static final int titleHeight = 60;
-	public static final int titlePadding = 25;
+	public static final int titlePad = 25;
 	
 	private static final int optionsWidthOuter = 720;
 	private static final int optionsHeightOuter = 600;
@@ -100,7 +101,7 @@ public class UIHub {
 		titleInfo = new Text(title);
 		titleInfo.setScale(0.8f);
 		
-		tableOuter.add(titleInfo).pad(titlePadding).height(titleHeight).colspan(2);
+		tableOuter.add(titleInfo).pad(titlePad).height(titleHeight).colspan(2);
 		tableOuter.row();
 		
 		Text extraInfo = new Text("") {
@@ -189,7 +190,7 @@ public class UIHub {
 			tagFilter.setItems(tagOptions);
 
 			if (hub.getLastTag() != null) {
-				for (String tagName: tagOptions) {
+				for (String tagName : tagOptions) {
 					if (tagName.equals(hub.getLastTag().name())) {
 						tagFilter.setSelected(tagName);
 					}
@@ -267,7 +268,7 @@ public class UIHub {
 
 		ModeSettingSelection.leave(state);
 
-		tableOuter.addAction(Actions.sequence(Actions.moveTo(tableX, tableY, .5f, Interpolation.pow5Out),
+		tableOuter.addAction(Actions.sequence(Actions.moveTo(tableX, tableY, TRANSITION_DURATION_SLOW, Interpolation.pow5Out),
 			Actions.run(() -> {
 				if (state.getStage() != null) {
 					if (state.getStage().getScrollFocus() == options) {
@@ -300,12 +301,12 @@ public class UIHub {
 		
 		Text slotsTitle = new Text(HText.CURRENT_ARTIFACTS.text());
 		slotsTitle.setScale(0.5f);
-		tableExtra.add(slotsTitle).colspan(12).pad(infoPadding).row();
+		tableExtra.add(slotsTitle).colspan(12).pad(infoPad).row();
 		
 		boolean artifactsEmpty = true;
 
 		if (state.getPlayer().getPlayerData() != null) {
-			for (UnlockArtifact c: state.getPlayer().getPlayerData().getLoadout().artifacts) {
+			for (UnlockArtifact c : state.getPlayer().getPlayerData().getLoadout().artifacts) {
 
 				//display all equipped artifacts and give option to unequip
 				if (!c.equals(UnlockArtifact.NOTHING)) {
@@ -322,7 +323,6 @@ public class UIHub {
 							} else {
 								HadalGame.client.sendTCP(new PacketsLoadout.SyncArtifactRemoveClient(newTag.getArtifact()));
 							}
-
 							refreshHub(hub);
 						}
 
@@ -349,7 +349,7 @@ public class UIHub {
 			Text slotsInfo = new Text(HText.SLOTS_REMAINING.text(
 					Integer.toString(state.getPlayer().getPlayerData().getArtifactSlotsRemaining())));
 			slotsInfo.setScale(0.5f);
-			tableExtra.add(slotsInfo).pad(infoPadding).colspan(12).row();
+			tableExtra.add(slotsInfo).pad(infoPad).colspan(12).row();
 		}
 	}
 
@@ -397,10 +397,10 @@ public class UIHub {
 			}
 		});
 
-		tableExtra.add(outfitName).pad(infoPadding).height(optionHeightLarge);
-		tableExtra.add(outfitSave).pad(infoPadding).height(optionHeightLarge).row();
-		tableExtra.add(outfits).pad(infoPadding).height(optionHeightLarge);
-		tableExtra.add(outfitDelete).pad(infoPadding).height(optionHeightLarge).row();
+		tableExtra.add(outfitName).pad(infoPad).height(optionHeightLarge);
+		tableExtra.add(outfitSave).pad(infoPad).height(optionHeightLarge).row();
+		tableExtra.add(outfits).pad(infoPad).height(optionHeightLarge);
+		tableExtra.add(outfitDelete).pad(infoPad).height(optionHeightLarge).row();
 	}
 
 	/**

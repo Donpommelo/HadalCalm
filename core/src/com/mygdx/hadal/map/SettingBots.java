@@ -109,14 +109,14 @@ public class SettingBots extends ModeSetting {
         Array<User> oldBots = new Array<>();
 
         //go through all existing bots and clear them from the user list
-        for (User user: HadalGame.server.getUsers().values()) {
+        for (User user : HadalGame.server.getUsers().values()) {
             if (user.getScores().getConnID() < 0) {
                 oldBots.add(user);
             }
         }
 
         //ensure that bots from last match are cleared
-        for (User user: oldBots) {
+        for (User user : oldBots) {
             user.getHitBoxFilter().setUsed(false);
             HadalGame.server.getUsers().remove(user.getScores().getConnID());
             HadalGame.server.sendToAllTCP(new Packets.RemoveScore(user.getScores().getConnID()));
@@ -131,7 +131,7 @@ public class SettingBots extends ModeSetting {
         }
 
         //clear existing rally points to avoid memory leak
-        for (RallyPoint point: BotManager.rallyPoints.values()) {
+        for (RallyPoint point : BotManager.rallyPoints.values()) {
             point.getConnections().clear();
             point.getShortestPaths().clear();
         }

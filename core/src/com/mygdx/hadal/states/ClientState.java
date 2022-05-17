@@ -69,11 +69,11 @@ public class ClientState extends PlayState {
 		entityLists.add(effects);
 
 		//client processes collisions
-		TiledObjectUtil.parseTiledObjectLayerClient(this, map.getLayers().get("collision-layer").getObjects());
+		TiledObjectUtil.parseTiledObjectLayer(this, map.getLayers().get("collision-layer").getObjects());
 		TiledObjectUtil.parseTiledEventLayerClient(this, map.getLayers().get("event-layer").getObjects());
 
 		//parse map-specific event layers (used for different modes in the same map)
-		for (String layer: mode.getExtraLayers()) {
+		for (String layer : mode.getExtraLayers()) {
 			if (map.getLayers().get(layer) != null) {
 				TiledObjectUtil.parseTiledEventLayerClient(this, map.getLayers().get(layer).getObjects());
 			}
@@ -149,8 +149,7 @@ public class ClientState extends PlayState {
 					playerPosition.set(player.getPixelPosition());
 				}
 
-				HadalGame.client.sendUDP(new Packets.SyncKeyStrokes(
-						mousePosition.x, mousePosition.y, playerPosition.x, playerPosition.y,
+				HadalGame.client.sendUDP(new Packets.SyncKeyStrokes(mousePosition.x, mousePosition.y, playerPosition.x, playerPosition.y,
 						((ClientController) controller).getButtonsHeld().toArray(new PlayerAction[0]), getTimer()));
 				((ClientController) controller).postKeystrokeSync();
 			}
@@ -158,7 +157,7 @@ public class ClientState extends PlayState {
 		lastMouseLocation.set(mousePosition);
 		
 		//All entities that are set to be created are created and assigned their entityId
-		for (CreatePacket packet: createListClient) {
+		for (CreatePacket packet : createListClient) {
 			HadalEntity oldEntity;
 			if (packet.layer.equals(ObjectLayer.HBOX)) {
 				oldEntity = hitboxes.get(packet.entityId);
@@ -186,12 +185,12 @@ public class ClientState extends PlayState {
 		createListClient.clear();
 		
 		//All entities that are set to be removed are removed.
-		for (UUID key: removeListClient) {
+		for (UUID key : removeListClient) {
 			HadalEntity entity = findEntity(key);
 			if (entity != null) {
 				entity.dispose();
 			}
-			for (ObjectMap<UUID, HadalEntity> m: entityLists) {
+			for (ObjectMap<UUID, HadalEntity> m : entityLists) {
 				m.remove(key);
 			}
 		}
@@ -209,13 +208,13 @@ public class ClientState extends PlayState {
 		}
 
 		missedCreatesToRemove.clear();
-		for (ObjectMap.Entry<UUID, Float> entry: timeSinceLastMissedCreate) {
+		for (ObjectMap.Entry<UUID, Float> entry : timeSinceLastMissedCreate) {
 			entry.value -= delta;
 			if (entry.value <= 0.0f) {
 				missedCreatesToRemove.add(entry.key);
 			}
 		}
-		for (UUID id: missedCreatesToRemove) {
+		for (UUID id : missedCreatesToRemove) {
 			timeSinceLastMissedCreate.remove(id);
 		}
 		
@@ -255,7 +254,7 @@ public class ClientState extends PlayState {
 		}
 		
 		//clientController is run for the objects that process on client side.
-		for (ObjectMap<UUID, HadalEntity> m: entityLists) {
+		for (ObjectMap<UUID, HadalEntity> m : entityLists) {
 			for (HadalEntity entity : m.values()) {
 				entity.clientController(delta);
 				entity.decreaseShaderCount(delta);
@@ -283,7 +282,7 @@ public class ClientState extends PlayState {
 	
 	@Override
 	public void renderEntities() {
-		for (ObjectMap<UUID, HadalEntity> m: entityLists) {
+		for (ObjectMap<UUID, HadalEntity> m : entityLists) {
 			for (HadalEntity entity : m.values()) {
 				renderEntity(entity);
 			}
@@ -431,7 +430,7 @@ public class ClientState extends PlayState {
 	public void dispose() {
 		
 		//clean up all client entities. (some entities require running their dispose() to function properly (soundEntities turning off)
-		for (ObjectMap<UUID, HadalEntity> m: entityLists) {
+		for (ObjectMap<UUID, HadalEntity> m : entityLists) {
 			for (HadalEntity entity : m.values()) {
 				entity.dispose();
 			}

@@ -38,13 +38,13 @@ public class KillFeed {
     private static final int notificationY = 25;
 
     private static final int maxMessages = 5;
-    private static final int messagePadding = 12;
+    private static final int messagePad = 12;
 
     private static final float killFeedWidth = 325;
     private static final int killFeedHeight = 300;
 
     private static final int maxNotifications = 3;
-    private static final int notificationPadding = 12;
+    private static final int notificationPad = 12;
 
     private static final float notificationWidth = 500;
     private static final float notificationHeight = 300;
@@ -55,7 +55,7 @@ public class KillFeed {
     private static final int deathInfoYEnabled = 330;
     private static final int deathInfoWidth = 400;
     private static final int deathInfoHeight = 240;
-    private static final int deathInfoPadding = 15;
+    private static final int deathInfoPad = 15;
 
     private static final float scale = 0.3f;
 
@@ -195,7 +195,7 @@ public class KillFeed {
     public void addTable() {
         ps.getStage().addActor(feed);
 
-        feed.space(messagePadding);
+        feed.space(messagePad);
         feed.top();
         feed.setWidth(killFeedWidth);
         feed.setHeight(killFeedHeight);
@@ -203,7 +203,7 @@ public class KillFeed {
 
         ps.getStage().addActor(notification);
 
-        notification.space(notificationPadding);
+        notification.space(notificationPad);
         notification.top();
         notification.setWidth(notificationWidth);
         notification.setHeight(notificationHeight);
@@ -241,7 +241,7 @@ public class KillFeed {
      * It displays all modifiers
      */
     private void initialNotification() {
-        for (String notif: ps.getMode().getInitialNotifications()) {
+        for (String notif : ps.getMode().getInitialNotifications()) {
             addNotification(notif, false);
         }
     }
@@ -268,7 +268,7 @@ public class KillFeed {
         deathInfoTitle.setScale(scale);
 
         deathInfoTable.add(deathInfoTitle);
-        deathInfoTable.add(deathInfo).pad(deathInfoPadding).row();
+        deathInfoTable.add(deathInfo).pad(deathInfoPad).row();
 
         if (!killedBy.isEmpty()) {
             Text deathPerpTitle = new Text(HText.KILLED_BY.text());
@@ -278,7 +278,7 @@ public class KillFeed {
             deathPerp.setScale(scale);
 
             deathInfoTable.add(deathPerpTitle);
-            deathInfoTable.add(deathPerp).pad(deathInfoPadding).row();
+            deathInfoTable.add(deathPerp).pad(deathInfoPad).row();
         }
 
         if (!deathCause.isEmpty()) {
@@ -289,7 +289,7 @@ public class KillFeed {
             deathSource.setScale(scale);
 
             deathInfoTable.add(deathSourceTitle);
-            deathInfoTable.add(deathSource).pad(deathInfoPadding).row();
+            deathInfoTable.add(deathSource).pad(deathInfoPad).row();
         }
 
         deathInfoTable.setVisible(true);
