@@ -32,8 +32,6 @@ import org.gradle.internal.os.OperatingSystem
 run {
     workingDir = rootProject.file('assets').path
     setIgnoreExitValue(true)
-
-    jvmArgs = ["-XstartOnFirstThread"]
 }
 
 jar {
@@ -58,7 +56,7 @@ jar {
     }
 }
 
-//task proguard(type: proguard.gradle.ProGuardTask) {
+//task proguard(type : proguard.gradle.ProGuardTask) {
 //    outputs.upToDateWhen { false }
 //    configuration 'proguard-rules.pro'
 //    libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod", jarfilter: '!**.jar', filter: '!module-info.class'
