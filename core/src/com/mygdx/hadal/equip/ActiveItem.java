@@ -86,7 +86,6 @@ public class ActiveItem extends Equippable {
 		//this is used to keep track of when an item fully charges to play a sound
 		boolean uncharged = currentCharge < maxCharge;
 		
-		
 		if (user.getBodyData().getCurrentTool() instanceof MeleeWeapon) {
 			currentCharge += (charge * (1 + meleeChargeBonus + user.getBodyData().getStat(Stats.ACTIVE_CHARGE_RATE)));
 		} else {

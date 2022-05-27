@@ -137,7 +137,7 @@
 },
 "BLOODWOODS_GLOVE": {
 	"name": "Bloodwood's Glove",
-	"description": "+Actives and Weapons Charge Rate",
+	"description": "+Magic and Weapons Charge Rate",
     "descriptionLong": "Bonus Charge Rate: 30%\n\nA pristine white glove once worn by an esteemed company researcher\n\nWithin the endless halls of a sterile labyrinth, a man sits studiously making puppets in the shapes of your loved ones.",
 	"tags": [
 		"RELIQUARY",
@@ -245,7 +245,7 @@
 },
 "CATALOG_OF_WANT": {
 	"name": "Catalog of Want",
-	"description": "Spend Hp to use Uncharged Actives",
+	"description": "Spend Hp to use Uncharged Magic",
     "descriptionLong": "Cooldown: 2 Seconds\nHp Cost: 4 Hp per 1 Second Charge\n\nThe last edition of a demonic shopping catalog that has ceased publication\n\nThe unrequited desires of the drowned are memorialized but not satisfied within the annals of the Pit of Tongues.",
 	"tags": [
 		"RELIQUARY",
@@ -255,7 +255,7 @@
 },
 "CELESTIAL_ANOINTMENT": {
 	"name": "Celestial Anointment",
-	"description": "Active Item Echo, -Active Item Charge Rate",
+	"description": "Magic Echo, -Magic Charge Rate",
     "descriptionLong": "Charge Rate Reduction: -15%\n\nA vial of twinkling ichor originating from far above\n\nEven the slightest remnant of a Bright One is best kept insulated within an inert liquid of appropriate volume.",
 	"tags": [
 		"RELIQUARY",
@@ -423,7 +423,7 @@
 },
 "DIATOMACEOUS_EARTH": {
 	"name": "Diatomaceous Earth",
-	"description": "Temporarily boosts Damage Resistance and Knockback Resistance upon using Active Item",
+	"description": "Temporarily boosts Damage Resistance and Knockback Resistance upon using Magic",
     "descriptionLong": "Buff Duration: 50% of Charge Time\nDamage Resistance: +75%\nKnockback Resistance: +90%\n\nThe powdery remains of countless microscopic Bright Ones\n\nWhile not as luminous as a living specimen, the husks left behind by dead or transcendent Bright Ones are known to have enigmatic properties of their own.",
 	"tags": [
 		"RELIQUARY",
@@ -454,8 +454,8 @@
 },
 "EPHEMERA_PERPETUA": {
 	"name": "Ephemera Perpetua",
-	"description": "Charge Active Item upon Killing Enemies",
-    "descriptionLong": "Item Charge: 10 Seconds on Player Kill, 1.0 Second on Monster Kill\n\n<adjective> <noun_abstract> of <color> <noun_material>\n\n<poem>",
+	"description": "Gain Magic Charge upon Killing Enemies",
+    "descriptionLong": "Magic Charge: 10 Seconds on Player Kill, 1.0 Second on Monster Kill\n\n<adjective> <noun_abstract> of <color> <noun_material>\n\n<poem>",
 	"tags": [
 		"RELIQUARY",
 		"RANDOM_POOL",
@@ -650,7 +650,7 @@
 },
 "HUMANITY_MODULE": {
 	"name": "Humanity Module",
-	"description": "+Active Charge Rate, Reroll Active on Use",
+	"description": "+Magic Charge Rate, Reroll Magic on Use",
     "descriptionLong": "Bonus Charge Rate: +50%\n\nA disk encoding data in an unreadable format\n\nManagement could never agree amongst themselves which aspects of humanity could not be relinquished without also losing the label of 'human'.",
 	"tags": [
 		"RELIQUARY",
@@ -1020,7 +1020,7 @@
 },
 "PAIN_SCALE": {
 	"name": "Pain Scale",
-	"description": "Charge Active Item upon Receiving Damage",
+	"description": "Gain Magic Charge upon Receiving Damage",
     "descriptionLong": "Item Charge: 1 Second for every 5 Damage Received\n\nA surgically attached LED light widget\n\nDuring the training process, Salvagers have their pain replaced with an analog display that lights up if they should stop doing whatever they are doing.",
 	"tags": [
 		"RELIQUARY",
@@ -1095,7 +1095,7 @@
 },
 "PLUMPOWDER": {
 	"name": "Plumpowder",
-	"description": "Active Items are Fully Charged upon Spawning",
+	"description": "Magic is Fully Charged upon Spawning",
     "descriptionLong": "A satchel of sweet and acidic crystals\n\nThe taste is better when you have less of it than you want.",
 	"tags": [
 		"RELIQUARY",

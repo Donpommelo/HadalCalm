@@ -7,7 +7,7 @@
   "explosives like torpedos and grenades can damage the user, but deal reduced damage when doing so.",
 
   "expending fuel to hover or boost temporarily disables fuel regeneration.",
-  "in pvp, you receive a small defense bonus scaling to the number of unique players that have recently damaged them.",
+  "in pvp, you receive a small defense bonus scaling to the number of unique players that have recently damaged you.",
 
   "type '/killme' in the chat window (fugmessagefug) if you get stuck in 'Facing Crabs' map geometry.",
   "you can hold (fugscorewindowfug) to view each player's scores and stats. Select a player's name for the option to mute them.",
@@ -24,7 +24,10 @@
   "headshots with the Sniper Rifle inflict additional damage.",
   "players slowed by the Slodge Nozzle or Marine Snowglobe move slower but can still boost and hover.",
   "Stickybombs can be detonated by reloading (fugreloadfug). This weapon does not automatically reload upon emptying a clip.",
+  "once planted, Tesla Coil projectiles will periodically emit damaging beams towards other nearby coils.",
   "when using the Trick-Gun, hold, drag and release mouse to fire a vector-targeted projectile.",
+  "Vine Sower seeds can be charged to create longer branching vines upon contact with walls.",
+  "when using melee weapons, your Magic (fugactivefug) will recharge 50% faster.",
 
   "invisible players cannot be seen by others, but are revealed when they shoot or boost.",
   "Proximity Mines detonate with a short delay after being revealed by nearby players.",
@@ -48,5 +51,5 @@
   "you can change the amount of Artifact Slots that players can use in the Settings Menu (fugpausefug -> SETTINGS -> SERVER)",
   "you can freely listen to the game's original soundtrack in the Sound Room (fugpausefug -> EXTRA -> SOUND ROOM)",
 
-  "you can click on players in thte Results screen to view their stats and loadout."
+  "you can click on players in the Results screen to view their stats and loadout."
 ]

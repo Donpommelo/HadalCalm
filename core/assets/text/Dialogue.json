@@ -150,13 +150,13 @@
 "tourDialog3": [
     {
         "name": "Pelican",
-        "text": "\nYou can equip an Active Item at the Dispensary. Press <fugactivefug> to use a variety of different powers once your Active Item is fully charged.",
+        "text": "\nYou can equip Magic at the Arcanery. Press <fugactivefug> to use a variety of different powers once your Magic is fully charged.",
         "sprite": "PELICAN_MASKED",
         "duration": 0
     },
     {
         "name": "Pelican",
-        "text": "\nActive Item charge is indicated by the bar underneath the item name. Some items charge over time. Others charge by dealing damage.",
+        "text": "\nMagic charge is indicated by the bar underneath the spell name. Some Magic charge over time. Others charge by dealing damage.",
         "sprite": "PELICAN_MASKED",
         "duration": 0,
         "end": true

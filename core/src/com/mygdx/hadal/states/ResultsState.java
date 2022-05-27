@@ -13,8 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -28,6 +31,8 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User;
@@ -46,6 +51,8 @@ public class ResultsState extends GameState {
 	//This table contains the options for the title.
 	private Table table, tableInfo, tableInfoOuter, tableArtifact, tableExtra;
 	private ScrollPane infoScroll, charactersScroll;
+	private CheckBox returnToHub;
+	private SelectBox<String> nextMapNames;
 
 	//this displays extra post-game stats about a selected player
 	private Text infoPlayerName;
@@ -60,6 +67,9 @@ public class ResultsState extends GameState {
 
     //This is a mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
 	private final ObjectMap<SavedPlayerFields, Boolean> ready = new ObjectMap<>();
+
+	//list of map options that the host can select as next map if not returning to hub
+	private final Array<UnlockLevel> nextMaps = new Array<>();
 
 	//this text is displayed at the top of the state and usually indicates victory or loss
 	private final String text;
@@ -97,6 +107,9 @@ public class ResultsState extends GameState {
 	private static final int tableExtraY = 20;
 	private static final int tableExtraWidth = 440;
 	private static final int tableExtraHeight = 200;
+	private static final int mapOptionsWidth = 200;
+	private static final int mapOptionsHeight = 30;
+	private static final int optionsPad = 10;
 
 	private static final int titleHeight = 40;
 	private static final float resultsScale = 0.6f;
@@ -218,7 +231,7 @@ public class ResultsState extends GameState {
 				tableExtra = new WindowTable();
 
 				//These are all of the display and buttons visible to the player.
-				final Text readyOption = new Text(HText.RETURN_HUB.text()).setButton(true);
+				final Text readyOption = new Text(HText.READY.text()).setButton(true);
 
 				readyOption.addListener(new ClickListener() {
 
@@ -235,22 +248,62 @@ public class ResultsState extends GameState {
 				});
 				readyOption.setScale(scale);
 
-				final Text forceReadyOption = new Text(HText.FORCE_RETURN.text()).setButton(true);
-
-				forceReadyOption.addListener(new ClickListener() {
-
-					@Override
-					public void clicked(InputEvent e, float x, float y) {
-
-						//When pressed, the force ready option forces a transition.
-						returnToHub();
-					}
-				});
-				forceReadyOption.setScale(scale);
-
-				tableExtra.add(readyOption).height(optionHeight).row();
 				if (ps.isServer()) {
-					tableExtra.add(forceReadyOption).height(optionHeight);
+					final Text forceReadyOption = new Text(HText.FORCE_READY.text()).setButton(true);
+
+					forceReadyOption.addListener(new ClickListener() {
+
+						@Override
+						public void clicked(InputEvent e, float x, float y) {
+
+							//When pressed, the force ready option forces a transition.
+							allReady();
+						}
+					});
+					forceReadyOption.setScale(scale);
+
+					returnToHub = new CheckBox(HText.RETURN_HUB.text(), GameStateManager.getSkin());
+					returnToHub.setChecked(ps.getGsm().getSetting().isReturnToHubOnReady());
+
+					Array<String> compliantMaps = new Array<>();
+					Array<UnlockManager.UnlockTag> unlockTags = new Array<>();
+					unlockTags.add(UnlockManager.UnlockTag.MULTIPLAYER);
+					nextMaps.clear();
+					for (UnlockLevel c : UnlockLevel.getUnlocks(ps, false, unlockTags)) {
+						for (int i = 0; i < c.getModes().length; i++) {
+							if (c.getModes()[i] == ps.mode.getCheckCompliance()) {
+								compliantMaps.add(c.getInfo().getName());
+								nextMaps.add(c);
+								break;
+							}
+						}
+					}
+
+					nextMapNames = new SelectBox<>(GameStateManager.getSkin());
+					nextMapNames.setItems(compliantMaps);
+					nextMapNames.setWidth(infoWidth);
+					nextMapNames.setDisabled(returnToHub.isChecked());
+
+					int currentMapIndex = nextMaps.indexOf(ps.level, false);
+					if (currentMapIndex != -1) {
+						nextMapNames.setSelectedIndex(currentMapIndex);
+					}
+
+					returnToHub.addListener(new ChangeListener() {
+
+						@Override
+						public void changed(ChangeEvent event, Actor actor) {
+							nextMapNames.setDisabled(returnToHub.isChecked());
+							ps.getGsm().getSetting().setReturnToHubOnReady(returnToHub.isChecked());
+						}
+					});
+
+					tableExtra.add(readyOption).height(optionHeight).colspan(2).row();
+					tableExtra.add(forceReadyOption).height(optionHeight).colspan(2).row();
+					tableExtra.add(returnToHub).height(optionHeight);
+					tableExtra.add(nextMapNames).width(mapOptionsWidth).height(mapOptionsHeight).pad(optionsPad);
+				} else {
+					tableExtra.add(readyOption).height(optionHeight);
 				}
 
 				tableExtra.setPosition(tableExtraX, tableExtraY);
@@ -578,19 +631,26 @@ public class ResultsState extends GameState {
 
 		//When the server is ready, we return to hub and tell all clients to do the same.
 		if (reddy) {
-			returnToHub();
+			allReady();
 		}
 	}
 
 	/**
-	 * This returns us to the hub when everyone readies up
+	 * This is run when all players ready up.
+	 * If "return to hub" is selected, return to hub. Otherwise go to selected map
 	 */
-	public void returnToHub() {
+	public void allReady() {
 		if (ps.isServer()) {
 			gsm.getApp().setRunAfterTransition(() -> {
 				gsm.removeState(ResultsState.class, false);
-				gsm.gotoHubState(LobbyState.class);
-				gsm.gotoHubState(TitleState.class);
+				if (returnToHub.isChecked()) {
+					gsm.gotoHubState(LobbyState.class);
+					gsm.gotoHubState(TitleState.class);
+				} else {
+					UnlockLevel nextLevel = nextMaps.get(nextMapNames.getSelectedIndex());
+					gsm.addPlayState(nextLevel, ps.mode, new Loadout(gsm.getLoadout()), null, LobbyState.class, true, "");
+					gsm.addPlayState(nextLevel, ps.mode, new Loadout(gsm.getLoadout()), null, TitleState.class, true, "");
+				}
 			});
 		}
 		gsm.getApp().fadeOut();

@@ -24,6 +24,7 @@ dependencies {
     implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+    implementation "com.badlogicgames.gdx:gdx-lwjgl3-glfw-awt-macos:$gdxVersion"
 }
 
 import org.gradle.internal.os.OperatingSystem
@@ -32,10 +33,7 @@ run {
     workingDir = rootProject.file('assets').path
     setIgnoreExitValue(true)
 
-    if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
-        // Required to run LWJGL3 Java apps on MacOS
-        jvmArgs = ["-XstartOnFirstThread"]
-    }
+    jvmArgs = ["-XstartOnFirstThread"]
 }
 
 jar {

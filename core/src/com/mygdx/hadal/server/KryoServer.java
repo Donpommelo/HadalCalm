@@ -142,10 +142,8 @@ public class KryoServer {
 						Player player = user.getPlayer();
 						if (player != null) {
 							if (player.getController() != null) {
-								ps.addPacketEffect(() -> {
-									player.getController().syncClientKeyStrokes(p.mouseX, p.mouseY, p.playerX, p.playerY,
-											p.actions, p.timestamp);
-								});
+								ps.addPacketEffect(() -> player.getController().syncClientKeyStrokes(p.mouseX, p.mouseY,
+										p.playerX, p.playerY, p.actions, p.timestamp));
 							}
 						}
 					}
@@ -473,9 +471,7 @@ public class KryoServer {
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
-							ps.addPacketEffect(() -> {
-								ps.getChatWheel().emote(player, p.emoteIndex);
-							});
+							ps.addPacketEffect(() -> ps.getChatWheel().emote(player, p.emoteIndex));
 						}
 					}
 				}
@@ -490,9 +486,7 @@ public class KryoServer {
 						if (user != null) {
 							Player player = user.getPlayer();
 							if (player != null) {
-								ps.addPacketEffect(() -> {
-									ps.becomeSpectator(player, true);
-								});
+								ps.addPacketEffect(() -> ps.becomeSpectator(player, true));
 							}
 						}
 					}
@@ -532,10 +526,8 @@ public class KryoServer {
 							Player player = user.getPlayer();
 							if (player != null) {
 								if (player.getPlayerData() != null) {
-									ps.addPacketEffect(() -> {
-										player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(),
-												false, null, DamageSource.MISC);
-									});
+									ps.addPacketEffect(() -> player.getPlayerData().receiveDamage(9999, new Vector2(),
+											player.getPlayerData(), false, null, DamageSource.MISC));
 								}
 							}
 						}
