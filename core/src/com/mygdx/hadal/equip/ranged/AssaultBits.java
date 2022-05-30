@@ -88,7 +88,7 @@ public class AssaultBits extends RangedWeapon {
 					SoundEffect.CYBER2.playUniversal(state, user.getPixelPosition(), 0.4f, false);
 
 					//bits are removed from the list upon death
-					DroneBit bit = new DroneBit(state, user.getPixelPosition(), 0.0f, user.getHitboxfilter(), null) {
+					DroneBit bit = new DroneBit(state, user.getPixelPosition(), 0.0f, user.getHitboxfilter()) {
 
 						@Override
 						public boolean queueDeletion() {

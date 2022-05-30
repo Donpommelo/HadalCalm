@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.server.packets.PacketsSync;
@@ -38,8 +37,8 @@ public class EnemyCrawling extends Enemy {
 	//feet data used to process enemy groundedness
 	private FeetData feetData;
 	
-	public EnemyCrawling(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, float startAngle, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
-		super(state, startPos, size, hboxSize, type, filter, hp, attackCd, scrapDrop, spawner);
+	public EnemyCrawling(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, float startAngle, short filter, int hp, float attackCd, int scrapDrop) {
+		super(state, startPos, size, hboxSize, type, filter, hp, attackCd, scrapDrop);
 		
 		this.moveDirection = startAngle;
 		this.moveSpeed = 1.0f;
@@ -72,6 +71,7 @@ public class EnemyCrawling extends Enemy {
 
 	private final Vector2 force = new Vector2();
 	private final Vector2 currentVel = new Vector2();
+	private float controllerCount;
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);

@@ -449,7 +449,7 @@ public class Setting {
 
 	public boolean isScreenShake() { return screenShake; }
 
-	public boolean isReturnToHubOnReady() {	return returnToHubOnReady;	}
+	public boolean isReturnToHubOnReady() {	return returnToHubOnReady; }
 
 	public boolean isDebugHitbox() { return debugHitbox; }
 

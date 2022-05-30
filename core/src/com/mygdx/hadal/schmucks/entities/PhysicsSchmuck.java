@@ -31,7 +31,8 @@ public class PhysicsSchmuck extends Schmuck {
 		super.clientController(delta);
 		applyForce(delta);
 	}
-	
+
+	private float controllerCount;
 	protected void applyForce(float delta) {
 		//This line ensures that this runs every 1/60 second regardless of computer speed.
 		controllerCount += delta;

@@ -8,12 +8,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.strategies.enemy.MovementSwim.SwimmingState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 
@@ -46,18 +46,18 @@ public class DroneBit extends EnemySwimming {
 
 	private Player owner;
 
-	public DroneBit(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.DRONE_BIT, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+	public DroneBit(PlayState state, Vector2 startPos, float startAngle, short filter) {
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.DRONE_BIT, startAngle, filter, baseHp, attackCd, scrapDrop);
 		armBackSprite = Sprite.DRONE_ARM_BACK.getFrame();
 		armFrontSprite = Sprite.DRONE_ARM_FRONT.getFrame();
 		eyeSprite = new Animation<>(PlayState.spriteAnimationSpeed, Sprite.DRONE_EYE.getFrames());
 		eyeSprite.setPlayMode(PlayMode.NORMAL);
-		setMaxRange(maxRange);
-		setMinRange(minRange);
-		setMoveSpeed(2.0f);
-		setCurrentState(SwimmingState.OTHER);
-		setNoiseRadius(noiseRadius);
-		setTrackSpeed(trackSpeed);
+		getSwimStrategy().setMaxRange(maxRange);
+		getSwimStrategy().setMinRange(minRange);
+		getSwimStrategy().setMoveSpeed(2.0f);
+		getSwimStrategy().setCurrentState(SwimmingState.OTHER);
+		getSwimStrategy().setNoiseRadius(noiseRadius);
+		getFloatStrategy().setTrackSpeed(trackSpeed);
 	}
 	
 	@Override
@@ -84,18 +84,18 @@ public class DroneBit extends EnemySwimming {
 		if (owner != null) {
 			if (owner.isAlive()) {
 
-				setMoveSpeed(1.0f);
+				getSwimStrategy().setMoveSpeed(1.0f);
 
 				//the bit moves towards a position offset by the player's mouse
-				getMoveDirection().set(getPosition()).sub(getMoveTarget().getPosition())
+				getSwimStrategy().getMoveDirection().set(getPosition()).sub(getMoveTarget().getPosition())
 						.add(tether.setAngleDeg(owner.getAttackAngle()).nor().scl(tetherRange));
 
-				float dist = getMoveDirection().len2();
+				float dist = getSwimStrategy().getMoveDirection().len2();
 
 				if (dist > maxRange * maxRange) {
-					getMoveDirection().scl(-1.0f);
+					getSwimStrategy().getMoveDirection().scl(-1.0f);
 				} else if (dist < maxRange * maxRange && dist > minRange * minRange) {
-					setMoveSpeed(0.0f);
+					getSwimStrategy().setMoveSpeed(0.0f);
 				}
 			}
 		}

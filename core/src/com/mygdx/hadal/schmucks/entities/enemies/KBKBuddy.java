@@ -1,21 +1,18 @@
 package com.mygdx.hadal.schmucks.entities.enemies;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.battle.EnemyUtils;
-import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.statuses.DeathParticles;
 import com.mygdx.hadal.statuses.Invulnerability;
+import com.mygdx.hadal.strategies.enemy.KamabokoBody;
+import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 
@@ -40,14 +37,12 @@ public class KBKBuddy extends EnemySwimming {
 	
 	private static final Sprite sprite = Sprite.KAMABOKO_SWIM;
 	
-	private final TextureRegion faceSprite;
-	
-	public KBKBuddy(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.KBK_BUDDY, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
-		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(MathUtils.random(4));
+	public KBKBuddy(PlayState state, Vector2 startPos, float startAngle, short filter) {
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.KBK_BUDDY, startAngle, filter, baseHp, attackCd, scrapDrop);
+		addStrategy(new KamabokoBody(state, this, true));
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		
-		setNoiseRadius(noiseRadius);
+		getSwimStrategy().setNoiseRadius(noiseRadius);
 	}
 	
 	@Override
@@ -59,7 +54,6 @@ public class KBKBuddy extends EnemySwimming {
 		getMainFixture().setFilterData(filter);
 		
 		getBodyData().addStatus(new Invulnerability(state, 0.1f, getBodyData(), getBodyData()));
-		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
 	}
 	
 	private static final float baseDamage = 16.0f;
@@ -72,9 +66,7 @@ public class KBKBuddy extends EnemySwimming {
 	public void attackInitiate() {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
 		
-		if (state.getMode().isHub()) {
-			return;
-		}
+		if (state.getMode().isHub()) { return; }
 		
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
@@ -104,24 +96,9 @@ public class KBKBuddy extends EnemySwimming {
 		});
 	}
 
-	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
-		super.render(batch);
-		
-		boolean flip = true;
-		float realAngle = getAngle() % (MathUtils.PI * 2);
-		if ((realAngle > MathUtils.PI / 2 && realAngle < 3 * MathUtils.PI / 2) || (realAngle < -MathUtils.PI / 2 && realAngle > -3 * MathUtils.PI / 2)) {
-			flip = false;
-		}
-
-		entityLocation.set(getPixelPosition());
-		batch.draw(faceSprite, 
-				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
-				entityLocation.y - size.y / 2, 
-				(flip ? -1 : 1) * size.x / 2, 
-				size.y / 2,
-				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-				(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
+	public void acquireTarget() {
+		super.acquireTarget();
+		setApproachTarget(true);
 	}
 }

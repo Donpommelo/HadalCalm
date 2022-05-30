@@ -67,7 +67,7 @@ public enum GameMode {
     DREAM_OF_A_WHALE("arena",
             new SetCameraOnSpawn(),
             new SettingTeamMode(TeamMode.COOP), new AllyRevive(),
-            new DisplayUITag("SCORE"), new DisplayUITag("ALLY_HEALTH")) {
+            new DisplayUITag("SCOREBOARD"), new DisplayUITag("ALLY_HEALTH")) {
 
         @Override
         public boolean isInvisibleInHub() { return true; }
@@ -76,7 +76,7 @@ public enum GameMode {
     SURVIVAL("arena",
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.COOP), new SettingTimer("VICTORY"), new AllyRevive(),
-        new DisplayUITag("SCORE"), new DisplayUITag("HISCORE"), new DisplayUITag("ALLY_HEALTH"),
+        new DisplayUITag("SCOREBOARD"), new DisplayUITag("HISCORE"), new DisplayUITag("ALLY_HEALTH"),
         new SpawnWeapons(), new SpawnEnemyWaves(), new ToggleWeaponDrops()),
 
     CTF("ctf",

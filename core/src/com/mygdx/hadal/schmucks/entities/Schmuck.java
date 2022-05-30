@@ -44,9 +44,6 @@ public class Schmuck extends HadalEntity {
 	//The last used tool. This is used to process equipment with a delay between using and executing.
 	protected Equippable usedTool;
 	
-	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
-	protected float controllerCount;
-	
 	//This particle is triggered upon receiving damage
 	public ParticleEntity impact;
 

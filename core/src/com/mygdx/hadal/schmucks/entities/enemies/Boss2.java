@@ -10,18 +10,19 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.battle.EnemyUtils;
-import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
+import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
+import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
@@ -64,16 +65,20 @@ public class Boss2 extends EnemyFloating {
 	private static final float phaseThreshold2 = 0.8f;
 	private static final float phaseThreshold3 = 0.4f;
 	
-	public Boss2(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS2, filter, hp, aiAttackCd, scrapDrop, spawner);
+	public Boss2(PlayState state, Vector2 startPos, short filter) {
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS2, filter, hp, aiAttackCd, scrapDrop);
 		this.headSprite = Sprite.KAMABOKO_BODY.getFrames().get(0);
 		this.bodySprite = Sprite.KAMABOKO_BODY.getFrames().get(1);
 		setFaceSprite();
+
+		addStrategy(new CreateMultiplayerHpScaling(state, this, 1800));
+		addStrategy(new FollowRallyPoints(state, this));
 	}
 
 	@Override
 	public void create() {
 		super.create();
+
 		Filter filter = getMainFixture().getFilterData();
 		filter.maskBits = (short) (Constants.BIT_SENSOR | Constants.BIT_PROJECTILE);
 		getMainFixture().setFilterData(filter);
@@ -119,11 +124,6 @@ public class Boss2 extends EnemyFloating {
 		if (!state.isServer()) {
 			links[links.length - 1].setTransform(new Vector2(serverPos), 0);
 		}
-	}
-	
-	@Override
-	public void multiplayerScaling(int numPlayers) {
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 1800 * numPlayers, getBodyData()));
 	}
 	
 	private final Vector2 entityLocation = new Vector2();

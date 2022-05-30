@@ -64,7 +64,7 @@ public class BotController {
     }
 
     /**
-     * This processes bot behavior that amust be done prior to moving/targeting, such as bot player boosting
+     * This processes bot behavior that must be done prior to moving/targeting, such as bot player boosting
      */
     public void processPreTarget(float delta) {}
 
@@ -251,7 +251,7 @@ public class BotController {
     /**
      * This gets a list of event targets for the bot to consider moving towards
      */
-    public Array<RallyPoint.RallyPointMultiplier> getEventPoints(Vector2 playerLocation) { return null; }
+    public Array<RallyPoint.RallyPointMultiplier> getEventPoints(Vector2 playerLocation) { return new Array<>(); }
 
     /**
      * This gets a list of weapon targets for the bot to consider moving towards

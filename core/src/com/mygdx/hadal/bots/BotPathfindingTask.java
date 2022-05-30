@@ -23,14 +23,14 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
         float pathDistance;
 
         RallyPath[] bestPath = new RallyPath[1];
-        BotControllerPlayer.BotMood[] nextMood = new BotControllerPlayer.BotMood[1];
+        BotController.BotMood[] nextMood = new BotController.BotMood[1];
 
         //Wandering bots will, by default, continue wandering along the same path if no better option is found.
         //Bots with "dilly dally" will begin wandering a new path if no better option is found
-        if (!controller.getCurrentMood().equals(BotControllerPlayer.BotMood.WANDER)) {
-            nextMood[0] = BotControllerPlayer.BotMood.DILLY_DALLY;
+        if (controller.getCurrentMood().equals(BotController.BotMood.WANDER)) {
+            nextMood[0] = BotController.BotMood.WANDER;
         } else {
-            nextMood[0] = BotControllerPlayer.BotMood.WANDER;
+            nextMood[0] = BotController.BotMood.DILLY_DALLY;
         }
 
         //find shortest path to weapon pickup
@@ -39,7 +39,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
             pathDistance = prospectivePath != null ? prospectivePath.getDistance() * weaponPoint.multiplier() : -1.0f;
             if (pathDistance != -1.0f) {
                 bestPath[0] = prospectivePath;
-                nextMood[0] = BotControllerPlayer.BotMood.SEEK_WEAPON;
+                nextMood[0] = BotController.BotMood.SEEK_WEAPON;
                 bestDistanceSoFar = pathDistance;
             }
         }
@@ -50,7 +50,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
             pathDistance = prospectivePath != null ? prospectivePath.getDistance() * healthPoint.multiplier() : -1.0f;
             if (pathDistance != -1.0f && (pathDistance < bestDistanceSoFar || bestDistanceSoFar == -1.0f)) {
                 bestPath[0] = prospectivePath;
-                nextMood[0] = BotControllerPlayer.BotMood.SEEK_HEALTH;
+                nextMood[0] = BotController.BotMood.SEEK_HEALTH;
                 bestDistanceSoFar = pathDistance;
             }
         }
@@ -81,7 +81,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
         pathDistance = prospectivePath != null ? bestTargetDistance : -1.0f;
         if (pathDistance != -1.0f && (pathDistance < bestDistanceSoFar || bestDistanceSoFar == -1.0f)) {
             bestPath[0] = prospectivePath;
-            nextMood[0] = BotControllerPlayer.BotMood.SEEK_ENEMY;
+            nextMood[0] = BotController.BotMood.SEEK_ENEMY;
             bestDistanceSoFar = pathDistance;
         }
 
@@ -106,17 +106,17 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
         pathDistance = prospectivePath != null ? bestEventDistance : -1.0f;
         if (pathDistance != -1.0f && (pathDistance < bestDistanceSoFar || bestDistanceSoFar == -1.0f)) {
             bestPath[0] = prospectivePath;
-            nextMood[0] = BotControllerPlayer.BotMood.SEEK_EVENT;
+            nextMood[0] = BotController.BotMood.SEEK_EVENT;
         }
 
         //if wandering, bot will continue wandering
-        if (controller.getCurrentMood().equals(BotControllerPlayer.BotMood.WANDER)) {
+        if (controller.getCurrentMood().equals(BotController.BotMood.WANDER)) {
             nextMood[0] = controller.getCurrentMood();
         }
 
         //if bot just finished a wander path or is dilly dallying, they will begin wandering to a new random point
-        if ((nextMood[0].equals(BotControllerPlayer.BotMood.WANDER) && controller.getPointPath().isEmpty()) ||
-                nextMood[0].equals(BotControllerPlayer.BotMood.DILLY_DALLY)) {
+        if ((nextMood[0].equals(BotController.BotMood.WANDER) && controller.getPointPath().isEmpty()) ||
+                nextMood[0].equals(BotController.BotMood.DILLY_DALLY)) {
             bestPath[0] = getPathToRandomPoint(controller.getBot());
         }
 
@@ -124,8 +124,8 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
         Gdx.app.postRunnable(() -> {
 
             //dilly dallying becomes wandering with an empty path.
-            if (nextMood[0].equals(BotControllerPlayer.BotMood.DILLY_DALLY)) {
-                nextMood[0] = BotControllerPlayer.BotMood.WANDER;
+            if (nextMood[0].equals(BotController.BotMood.DILLY_DALLY)) {
+                nextMood[0] = BotController.BotMood.WANDER;
                 controller.getPointPath().clear();
             }
             if (bestPath[0] != null) {

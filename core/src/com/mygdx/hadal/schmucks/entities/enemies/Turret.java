@@ -6,9 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.battle.EnemyUtils;
-import com.mygdx.hadal.event.SpawnerSchmuck;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.packets.PacketsSync;
@@ -42,8 +41,8 @@ public class Turret extends Enemy {
 	private static final Sprite flak = Sprite.TURRET_FLAK;
 	private static final Sprite volley = Sprite.TURRET_VOLLEY;
 	
-	public Turret(PlayState state, Vector2 startPos, EnemyType type, float startAngle, short filter, float baseHp, float attackCd, int scrapDrop, float scale, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(baseWidth, baseHeight).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), type, filter, baseHp, attackCd, scrapDrop, spawner);
+	public Turret(PlayState state, Vector2 startPos, EnemyType type, float startAngle, short filter, float baseHp, float attackCd, int scrapDrop, float scale) {
+		super(state, startPos, new Vector2(baseWidth, baseHeight).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), type, filter, baseHp, attackCd, scrapDrop);
 		this.attackAngle = 0;
 		this.startAngle = startAngle;
 		this.desiredAngle = startAngle;

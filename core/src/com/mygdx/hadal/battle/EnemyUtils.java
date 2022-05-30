@@ -11,13 +11,13 @@ import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.enemies.*;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyCrawling.CrawlingState;
-import com.mygdx.hadal.schmucks.entities.enemies.EnemyFloating.FloatingState;
-import com.mygdx.hadal.schmucks.entities.enemies.EnemySwimming.SwimmingState;
 import com.mygdx.hadal.schmucks.entities.enemies.Turret.TurretState;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
+import com.mygdx.hadal.strategies.enemy.MovementSwim.SwimmingState;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 
@@ -36,8 +36,7 @@ public class EnemyUtils {
 				Event dummy = state.getDummyPoint(dummyId);
 
 				if (dummy != null) {
-					enemy.setMovementTarget(dummy);
-					enemy.setMoveSpeed(speed);
+					enemy.setMovementTarget(dummy, speed);
 				}
 			}
 		});
@@ -60,18 +59,19 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				bossFloating.setTrackSpeed(speed);
+				bossFloating.getFloatStrategy().setTrackSpeed(speed);
 			}
 		});
 	}
 	
-	public static void changeFloatingState(final EnemyFloating bossFloating, final FloatingState state, final float angle, float duration) {
+	public static void changeFloatingState(final EnemyFloating bossFloating, final FloatingState state,
+										   final float angle, float duration) {
 		
 		bossFloating.getActions().add(new EnemyAction(bossFloating, duration) {
 			
 			@Override
 			public void execute() {
-				bossFloating.setCurrentState(state);
+				bossFloating.getFloatStrategy().setCurrentState(state);
 				bossFloating.setAttackAngle(normalizeAngle((int) bossFloating.getAttackAngle()));
 				switch (state) {
 				case FREE:
@@ -79,7 +79,7 @@ public class EnemyUtils {
 					break;
 				case SPINNING:
 				case ROTATING:
-					bossFloating.setSpinSpeed((int) angle);
+					bossFloating.getFloatStrategy().setSpinSpeed((int) angle);
 					break;
 				case TRACKING_PLAYER:
 				default:
@@ -95,7 +95,7 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				bossFloating.setCurrentState(FloatingState.FREE);
+				bossFloating.getFloatStrategy().setCurrentState(FloatingState.FREE);
 				bossFloating.setAttackAngle(normalizeAngle((int) bossFloating.getAttackAngle()));
 				bossFloating.setDesiredAngle(bossFloating.getAttackAngle() + angle);
 			}
@@ -145,13 +145,13 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				bossSwimming.setCurrentState(state);
+				bossSwimming.getSwimStrategy().setCurrentState(state);
 				switch (state) {
 				case CHASE:
-					bossSwimming.setMoveSpeed(speed);
+					bossSwimming.getSwimStrategy().setMoveSpeed(speed);
 					break;
 				case STILL:
-					bossSwimming.setMoveSpeed(0);
+					bossSwimming.getSwimStrategy().setMoveSpeed(0);
 					break;
 				default:
 					break;
@@ -166,10 +166,10 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				bossSwimming.setCurrentState(SwimmingState.CHASE);
-				bossSwimming.setMinRange(minRange);
-				bossSwimming.setMaxRange(maxRange);
-				bossSwimming.setMoveSpeed(speed);
+				bossSwimming.getSwimStrategy().setCurrentState(SwimmingState.CHASE);
+				bossSwimming.getSwimStrategy().setMinRange(minRange);
+				bossSwimming.getSwimStrategy().setMaxRange(maxRange);
+				bossSwimming.getSwimStrategy().setMoveSpeed(speed);
 			}
 		});
 	}
@@ -202,7 +202,7 @@ public class EnemyUtils {
 			public void execute() {
 				
 				for (int i = 0; i < amount; i++) {
-					type.generateEnemy(state, enemy.getPixelPosition(), Constants.ENEMY_HITBOX, extraField, null);
+					type.generateEnemy(state, enemy.getPixelPosition(), Constants.ENEMY_HITBOX, extraField);
 				}
 			}
 		});
@@ -232,7 +232,7 @@ public class EnemyUtils {
 				
 				if (target == null) { return; }
 				
-				enemy.setMovementTarget(null);
+				enemy.setMovementTarget(null, moveSpeed);
 				Vector2 dist = target.getPixelPosition().sub(enemy.getPixelPosition());
 				if (x) {
 					enemy.setLinearVelocity(new Vector2(dist.nor().scl(moveSpeed).x, 0));
@@ -440,7 +440,7 @@ public class EnemyUtils {
 				Event ceiling = state.getDummyPoint("ceiling");
 				if (ceiling != null) {
 					type.generateEnemy(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((MathUtils.random() -  0.5f) * ceiling.getSize().x, 0)),
-							enemy.getHitboxfilter(), extraField, null);
+							enemy.getHitboxfilter(), extraField);
 				}
 			}
 		});

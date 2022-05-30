@@ -15,7 +15,6 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -27,6 +26,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Stats;
 
@@ -67,8 +67,9 @@ public class Boss4 extends EnemyFloating {
 	private static final float bodyBaseScale2 = 2.5f;
 	private static final float bodyBaseScale3 = 5.0f;
 	
-	public Boss4(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS4, filter, hp, aiAttackCd, scrapDrop, spawner);
+	public Boss4(PlayState state, Vector2 startPos, short filter) {
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS4, filter, hp, aiAttackCd, scrapDrop);
+		addStrategy(new CreateMultiplayerHpScaling(state, this, 2000));
 
 		body1 = new ParticleEntity(state, this, Particle.WORMHOLE, 1.0f, 0.0f, true, SyncType.TICKSYNC) {
 			
@@ -99,7 +100,7 @@ public class Boss4 extends EnemyFloating {
 	@Override
 	public void create() {
 		super.create();
-		
+
 		body.setType(BodyType.KinematicBody);
 		
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
@@ -141,11 +142,6 @@ public class Boss4 extends EnemyFloating {
 			body2.getEffect().draw(batch);
 			body3.getEffect().draw(batch);
 		}
-	}
-	
-	@Override
-	public void multiplayerScaling(int numPlayers) {
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 2000 * numPlayers, getBodyData()));
 	}
 	
 	private int attackNum;

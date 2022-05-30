@@ -5,19 +5,22 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.IntArray;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.battle.EnemyUtils;
-import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
+import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
+import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
+import com.mygdx.hadal.strategies.enemy.TargetNoPathfinding;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Stats;
 
@@ -57,10 +60,12 @@ public class Boss6 extends EnemyFloating {
 
 	private int currentX = 2, currentY = 2;
 
-	public Boss6(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
+	public Boss6(PlayState state, Vector2 startPos, short filter) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS6,
-			filter, hp, aiAttackCd, scrapDrop, spawner);
-		trackThroughWalls = true;
+			filter, hp, aiAttackCd, scrapDrop);
+		addStrategy(new CreateMultiplayerHpScaling(state, this, 1400));
+		addStrategy(new FollowRallyPoints(state, this));
+		addStrategy(new TargetNoPathfinding(state, this, true));
 	}
 
 	@Override
@@ -70,11 +75,6 @@ public class Boss6 extends EnemyFloating {
 		body.setFixedRotation(true);
 		body.getFixtureList().get(0).setSensor(true);
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
-	}
-
-	@Override
-	public void multiplayerScaling(int numPlayers) {
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 1400 * numPlayers, getBodyData()));
 	}
 
 	private int attackNum;
@@ -261,8 +261,7 @@ public class Boss6 extends EnemyFloating {
 					Event dummy = state.getDummyPoint(nextMove);
 
 					if (dummy != null) {
-						enemy.setMovementTarget(dummy);
-						enemy.setMoveSpeed(charge1Speed);
+						enemy.setMovementTarget(dummy, charge1Speed);
 					}
 				}
 			 });

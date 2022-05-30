@@ -4,16 +4,15 @@ package com.mygdx.hadal.schmucks.entities.enemies;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.HadalColor;
-import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.EnemyUtils;
-import com.mygdx.hadal.event.SpawnerSchmuck;
+import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -32,8 +31,8 @@ public class TurretVolley extends Turret {
 	
 	private static final float scale = 0.5f;
 	
-	public TurretVolley(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, EnemyType.TURRET_VOLLEY, startAngle, filter, baseHp, aiAttackCd, scrapDrop, scale, spawner);
+	public TurretVolley(PlayState state, Vector2 startPos, float startAngle, short filter) {
+		super(state, startPos, EnemyType.TURRET_VOLLEY, startAngle, filter, baseHp, aiAttackCd, scrapDrop, scale);
 		moveState = MoveState.DEFAULT;
 	}
 	

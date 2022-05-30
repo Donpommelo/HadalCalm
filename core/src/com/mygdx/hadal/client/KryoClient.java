@@ -795,7 +795,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
-					Enemy enemy = p.type.generateEnemy(cs, p.pos, p.hitboxFilter, 0, null);
+					Enemy enemy = p.type.generateEnemy(cs, p.pos, p.hitboxFilter, 0);
 					enemy.serverPos.set(p.pos).scl(1 / PPM);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, enemy, true, ObjectLayer.STANDARD);
 					enemy.setBoss(p.boss);

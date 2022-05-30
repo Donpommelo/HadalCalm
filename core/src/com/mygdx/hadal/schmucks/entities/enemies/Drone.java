@@ -7,18 +7,19 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.battle.EnemyUtils;
-import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.*;
+import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
+import com.mygdx.hadal.strategies.enemy.MovementSwim.SwimmingState;
 import com.mygdx.hadal.utils.Stats;
 
 public class Drone extends EnemySwimming {
@@ -47,8 +48,8 @@ public class Drone extends EnemySwimming {
 	
 	private final int eyeType;
 	
-	public Drone(PlayState state, Vector2 startPos, float startAngle, short filter, float extraField, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.DRONE, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+	public Drone(PlayState state, Vector2 startPos, float startAngle, short filter, float extraField) {
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.DRONE, startAngle, filter, baseHp, attackCd, scrapDrop);
 		armBackSprite = Sprite.DRONE_ARM_BACK.getFrame();
 		armFrontSprite = Sprite.DRONE_ARM_FRONT.getFrame();
 		eyeSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.DRONE_EYE.getFrames());
@@ -57,7 +58,7 @@ public class Drone extends EnemySwimming {
 		
 		this.eyeType = (int) extraField;
 		
-		setNoiseRadius(noiseRadius);
+		getSwimStrategy().setNoiseRadius(noiseRadius);
 	}
 	
 	@Override

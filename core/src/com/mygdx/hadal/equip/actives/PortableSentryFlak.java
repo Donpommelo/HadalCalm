@@ -67,7 +67,7 @@ public class PortableSentryFlak extends ActiveItem {
 			
 			@Override
 			public void die() {
-				new TurretFlak(state, hbox.getPixelPosition(), faceRight ? 0 : 180, hbox.getFilter(), null) {
+				new TurretFlak(state, hbox.getPixelPosition(), faceRight ? 0 : 180, hbox.getFilter()) {
 					
 					@Override
 					public void create() {

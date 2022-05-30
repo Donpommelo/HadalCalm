@@ -5,14 +5,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.battle.EnemyUtils;
-import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
+import com.mygdx.hadal.strategies.enemy.MovementSwim.SwimmingState;
 import com.mygdx.hadal.utils.Stats;
 
 public class Swimmer2 extends EnemySwimming {
@@ -37,12 +38,12 @@ public class Swimmer2 extends EnemySwimming {
 	
 	private final TextureRegion faceSprite;
 	
-	public Swimmer2(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.SWIMMER2, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+	public Swimmer2(PlayState state, Vector2 startPos, float startAngle, short filter) {
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.SWIMMER2, startAngle, filter, baseHp, attackCd, scrapDrop);
 		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(MathUtils.random(4));
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		
-		setNoiseRadius(noiseRadius);
+		getSwimStrategy().setNoiseRadius(noiseRadius);
 	}
 	
 	@Override

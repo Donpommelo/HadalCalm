@@ -67,7 +67,7 @@ public class PortableSentryVolley extends ActiveItem {
 			
 			@Override
 			public void die() {
-				new TurretVolley(state, hbox.getPixelPosition(), faceRight ? 0 : 180, hbox.getFilter(), null) {
+				new TurretVolley(state, hbox.getPixelPosition(), faceRight ? 0 : 180, hbox.getFilter()) {
 					
 					@Override
 					public void create() {

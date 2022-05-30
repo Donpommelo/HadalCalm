@@ -3,20 +3,18 @@ package com.mygdx.hadal.schmucks.entities.enemies;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.*;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.battle.EnemyUtils;
-import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.event.Poison;
-import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
+import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
+import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
@@ -53,8 +51,10 @@ public class Boss1 extends EnemyFloating {
 	private static final float phaseThreshold2 = 0.8f;
 	private static final float phaseThreshold3 = 0.4f;
 	
-	public Boss1(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS1, filter, hp, aiAttackCd, scrapDrop, spawner);
+	public Boss1(PlayState state, Vector2 startPos, short filter) {
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS1, filter, hp, aiAttackCd, scrapDrop);
+		addStrategy(new CreateMultiplayerHpScaling(state, this, 1700));
+		addStrategy(new FollowRallyPoints(state, this));
 	}
 	
 	@Override
@@ -64,16 +64,10 @@ public class Boss1 extends EnemyFloating {
 		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), sprite, size));
 	}
 
-	@Override
-	public void multiplayerScaling(int numPlayers) {
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 1500 * numPlayers, getBodyData()));
-	}
-	
 	private int attackNum = 0;
 	@Override
 	public void attackInitiate() {
 		attackNum++;
-		
 		if (phase == 1) {
 			if (getBodyData().getCurrentHp() <= phaseThreshold2 * getBodyData().getStat(Stats.MAX_HP)) {
 				phase = 2;

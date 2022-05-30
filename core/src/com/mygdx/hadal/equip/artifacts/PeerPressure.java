@@ -35,7 +35,7 @@ public class PeerPressure extends Artifact {
 					
 					if (procCdCount >= procCd) {
 						procCdCount = 0;
-						buddy = new KBKBuddy(state, p.getSchmuck().getPixelPosition(), 0.0f, p.getSchmuck().getHitboxfilter(), null) {
+						buddy = new KBKBuddy(state, p.getSchmuck().getPixelPosition(), 0.0f, p.getSchmuck().getHitboxfilter()) {
 							
 							@Override
 							public void create() {

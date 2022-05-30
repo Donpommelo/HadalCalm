@@ -1,6 +1,8 @@
 package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.mygdx.hadal.bots.BotManager;
+import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
@@ -11,6 +13,11 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class SpawnEnemyWaves extends ModeSetting {
 
     private static final float waveSpawnTimer = 15.0f;
+
+    @Override
+    public void processGameEnd() {
+        BotManager.terminatePathfindingThreads();
+    }
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
@@ -34,5 +41,15 @@ public class SpawnEnemyWaves extends ModeSetting {
 
         TiledObjectUtil.parseTiledEvent(state, wave);
         TiledObjectUtil.parseTiledEvent(state, multiWave);
+
+        //clear existing rally points to avoid memory leak
+        for (RallyPoint point : BotManager.rallyPoints.values()) {
+            point.getConnections().clear();
+            point.getShortestPaths().clear();
+        }
+        BotManager.rallyPoints.clear();
+
+        BotManager.initiateRallyPoints(state, state.getMap());
+        BotManager.initiatePathfindingThreads();
     }
 }
