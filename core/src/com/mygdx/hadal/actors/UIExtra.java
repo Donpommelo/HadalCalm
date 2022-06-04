@@ -276,7 +276,7 @@ public class UIExtra extends AHadalActor {
 	public void sortTeamScores(StringBuilder text) {
 		int scoreNum = 0;
 		for (int i = 0; i < AlignmentFilter.teamScores.length; i++) {
-			rgb.set(AlignmentFilter.currentTeams[i].getColor1().getRGB());
+			rgb.set(AlignmentFilter.currentTeams[i].getPalette().getIcon().getRGB());
 			String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
 			text.append("[").append(hex).append("]").append(AlignmentFilter.currentTeams[i].getTeamName())
 				.append("[]").append(": ").append(AlignmentFilter.teamScores[i]).append("\n");
@@ -306,7 +306,7 @@ public class UIExtra extends AHadalActor {
 						}
 					}
 				}
-				rgb.set(AlignmentFilter.currentTeams[i].getColor1().getRGB());
+				rgb.set(AlignmentFilter.currentTeams[i].getPalette().getIcon().getRGB());
 				String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
 				text.append("[").append(hex).append("]").append(AlignmentFilter.currentTeams[i].getTeamName())
 						.append("[]").append(": ").append(numAlive).append(" ").append(HText.PLAYERS_ALIVE.text()).append("\n");

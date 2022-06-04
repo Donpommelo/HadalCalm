@@ -15,7 +15,5 @@ public class DisplayUITag extends ModeSetting {
     }
 
     @Override
-    public String loadUIStart(PlayState state, GameMode mode) {
-        return uiTag;
-    }
+    public String loadUIStart(PlayState state, GameMode mode) { return uiTag; }
 }

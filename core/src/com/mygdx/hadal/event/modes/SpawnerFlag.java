@@ -132,7 +132,7 @@ public class SpawnerFlag extends Event {
         ParticleEntity particle = new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, particleDuration,
                 true, SyncType.CREATESYNC);
         if (teamIndex < AlignmentFilter.currentTeams.length) {
-            particle.setColor(AlignmentFilter.currentTeams[teamIndex].getColor1());
+            particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
         }
     }
 

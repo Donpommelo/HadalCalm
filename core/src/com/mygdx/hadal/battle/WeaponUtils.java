@@ -713,11 +713,11 @@ public class WeaponUtils {
 		if (player.getPlayerData() != null) {
 			Loadout loadout = player.getPlayerData().getLoadout();
 			if (loadout.team.equals(AlignmentFilter.NONE)) {
-				return loadout.character.getColor1RGB();
-			} else if (loadout.team.getColor1().getRGB().isZero()) {
-				return loadout.character.getColor1RGB();
+				return loadout.character.getPalette().getIcon().getRGB();
+			} else if (loadout.team.getPalette().getIcon().getRGB().isZero()) {
+				return loadout.character.getPalette().getIcon().getRGB();
 			} else {
-				return loadout.team.getColor1().getRGB();
+				return loadout.team.getPalette().getIcon().getRGB();
 			}
 		} else {
 			return new Vector3();

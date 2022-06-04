@@ -70,7 +70,7 @@ public class ReviveGravestone extends Event {
 		setSynced(true);
 
 		//set flag's color according to team alignment
-		HadalColor color = user.getTeamFilter().getColor1();
+		HadalColor color = user.getTeamFilter().getPalette().getIcon();
 		new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.CREATESYNC)
 				.setScale(1.8f).setColor(color);
 
@@ -131,7 +131,7 @@ public class ReviveGravestone extends Event {
 
 		if (returnTimer <= 0.0f) {
 			new ParticleEntity(state, getPixelPosition(), Particle.DIATOM_IMPACT_LARGE,	particleDuration, true, SyncType.CREATESYNC)
-					.setColor(user.getTeamFilter().getColor1());
+					.setColor(user.getTeamFilter().getPalette().getIcon());
 
 			queueDeletion();
 

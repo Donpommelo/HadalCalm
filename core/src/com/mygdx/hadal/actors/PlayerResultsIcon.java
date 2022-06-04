@@ -93,11 +93,13 @@ public class PlayerResultsIcon extends AHadalActor {
 
 		//use shader to apply new team color
 		batch.begin();
-		ShaderProgram shader = null;
+		ShaderProgram shader;
 		if (team.isTeam() && team != AlignmentFilter.NONE) {
 			shader = team.getShader(character);
-			batch.setShader(shader);
+		} else {
+			shader = character.getPalette().getShader(character);
 		}
+		batch.setShader(shader);
 
 		batch.draw(playerSprite, 0, 0);
 

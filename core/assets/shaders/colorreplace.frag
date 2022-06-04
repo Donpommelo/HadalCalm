@@ -8,8 +8,20 @@ varying vec2 v_texCoords;
 uniform sampler2D u_texture;
 uniform vec3 oldcolor1;
 uniform vec3 oldcolor2;
+uniform vec3 oldcolor3;
+uniform vec3 oldcolor4;
+uniform vec3 oldcolor5;
+uniform vec3 oldcolor6;
+uniform vec3 oldcolor7;
+uniform vec3 oldcolor8;
 uniform vec3 newcolor1;
 uniform vec3 newcolor2;
+uniform vec3 newcolor3;
+uniform vec3 newcolor4;
+uniform vec3 newcolor5;
+uniform vec3 newcolor6;
+uniform vec3 newcolor7;
+uniform vec3 newcolor8;
 
 vec3 rgb2hsv(vec3 c) {
   vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
@@ -31,7 +43,7 @@ void main() {
   vec4 color = texture2D(u_texture, v_texCoords);
   vec3 colorRGB = color.rgb;
   vec3 colorHSV = rgb2hsv(colorRGB);
-  float dst = 0.15;
+  float dst = 0.1;
 
   if (distance(colorHSV.xy, oldcolor1.xy) < dst) {
     vec3 newHSV = newcolor1;
@@ -41,6 +53,30 @@ void main() {
     vec3 newHSV = newcolor2;
     colorHSV.xy = newHSV.xy;
     colorHSV.z = newHSV.z * colorHSV.z / oldcolor2.z;
+  } else if (distance(colorHSV.xy, oldcolor3.xy) < dst) {
+    vec3 newHSV = newcolor3;
+    colorHSV.xy = newHSV.xy;
+    colorHSV.z = newHSV.z * colorHSV.z / oldcolor3.z;
+  } else if (distance(colorHSV.xy, oldcolor4.xy) < dst) {
+    vec3 newHSV = newcolor4;
+    colorHSV.xy = newHSV.xy;
+    colorHSV.z = newHSV.z * colorHSV.z / oldcolor4.z;
+  } else if (distance(colorHSV.xy, oldcolor5.xy) < dst) {
+    vec3 newHSV = newcolor5;
+    colorHSV.xy = newHSV.xy;
+    colorHSV.z = newHSV.z * colorHSV.z / oldcolor5.z;
+  } else if (distance(colorHSV.xy, oldcolor6.xy) < dst) {
+    vec3 newHSV = newcolor6;
+    colorHSV.xy = newHSV.xy;
+    colorHSV.z = newHSV.z * colorHSV.z / oldcolor6.z;
+  } else if (distance(colorHSV.xy, oldcolor7.xy) < dst) {
+    vec3 newHSV = newcolor7;
+    colorHSV.xy = newHSV.xy;
+    colorHSV.z = newHSV.z * colorHSV.z / oldcolor7.z;
+  } else if (distance(colorHSV.xy, oldcolor8.xy) < dst) {
+    vec3 newHSV = newcolor8;
+    colorHSV.xy = newHSV.xy;
+    colorHSV.z = newHSV.z * colorHSV.z / oldcolor8.z;
   }
   color.rgb = hsv2rgb(colorHSV);
 

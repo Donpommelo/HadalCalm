@@ -12,7 +12,8 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class SpawnEnemyWaves extends ModeSetting {
 
-    private static final float waveSpawnTimer = 15.0f;
+    private static final float WaveSpawnTimer = 15.0f;
+    private static final float FirstWaveStartTime = 10.0f;
 
     @Override
     public void processGameEnd() {
@@ -30,7 +31,8 @@ public class SpawnEnemyWaves extends ModeSetting {
 
         RectangleMapObject wave = new RectangleMapObject();
         wave.setName("Timer");
-        wave.getProperties().put("interval", waveSpawnTimer);
+        wave.getProperties().put("interval", WaveSpawnTimer);
+        wave.getProperties().put("startTime", FirstWaveStartTime);
         wave.getProperties().put("triggeredId", waveTimerId);
         wave.getProperties().put("triggeringId", multiWaveId);
 

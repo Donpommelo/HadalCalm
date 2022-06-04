@@ -84,7 +84,7 @@ public class FlagCapturable extends Event {
 		//set flag's color according to team alignment
 		HadalColor color = HadalColor.NOTHING;
 		if (teamIndex < AlignmentFilter.currentTeams.length) {
-			HadalColor teamColor = AlignmentFilter.currentTeams[teamIndex].getColor1();
+			HadalColor teamColor = AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon();
 			color = teamColor;
 			new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.CREATESYNC)
 					.setColor(teamColor);
@@ -188,10 +188,10 @@ public class FlagCapturable extends Event {
 				queueDeletion();
 
 				if (teamIndex < AlignmentFilter.currentTeams.length) {
-					particle.setColor(AlignmentFilter.currentTeams[teamIndex].getColor1());
+					particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
 
 					String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
-					teamColor = WeaponUtils.getColorName(AlignmentFilter.currentTeams[teamIndex].getColor1(), teamColor);
+					teamColor = WeaponUtils.getColorName(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon(), teamColor);
 					state.getKillFeed().addNotification(HText.CTF_RETURNED.text(teamColor), true);
 				}
 			}

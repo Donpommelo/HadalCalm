@@ -122,11 +122,13 @@ public class PlayerSpriteHelper {
 
         //use shader to apply new team color
         batch.begin();
-        ShaderProgram shader = null;
+        ShaderProgram shader;
         if (team.isTeam() && team != AlignmentFilter.NONE) {
             shader = team.getShader(character);
-            batch.setShader(shader);
+        } else {
+            shader = character.getPalette().getShader(character);
         }
+        batch.setShader(shader);
 
         batch.draw(tex, 0, 0);
 
@@ -143,12 +145,12 @@ public class PlayerSpriteHelper {
         //use new frame buffer to create texture regions for each body part.
         TextureRegion fboRegion = new TextureRegion(fbo.getColorBufferTexture());
 
-        bodyRunSprite = copyFrames(fboRegion, atlas, "body_run", PlayState.spriteAnimationSpeed);
-        bodyStillSprite = copyFrames(fboRegion, atlas, "body_stand", PlayState.spriteAnimationSpeed);
-        headSprite = copyFrames(fboRegion, atlas, "head", PlayState.spriteAnimationSpeed);
-        bodyBackSprite = copyFrame(fboRegion, atlas, "body_background");
-        armSprite = copyFrame(fboRegion, atlas, "arm");
-        gemSprite = copyFrame(fboRegion, atlas, "gem_active");
+        bodyRunSprite = copyFrames(fboRegion, atlas, "body_base_run", PlayState.spriteAnimationSpeed);
+        bodyStillSprite = copyFrames(fboRegion, atlas, "body_base_stand", PlayState.spriteAnimationSpeed);
+        headSprite = copyFrames(fboRegion, atlas, "head_base", PlayState.spriteAnimationSpeed);
+        bodyBackSprite = copyFrame(fboRegion, atlas, "body_bg_base");
+        armSprite = copyFrame(fboRegion, atlas, "arm_base");
+        gemSprite = atlas.findRegion("gem_active");
 
         //obtain body dimensions
         this.armWidth = armSprite.getRegionWidth();
