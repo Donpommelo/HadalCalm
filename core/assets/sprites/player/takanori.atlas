@@ -1,104 +1,103 @@
 
 takanori.png
-size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-arm_base
-  rotate: false
-  xy: 1235, 1442
-  size: 346, 150
-  orig: 346, 150
-  offset: 0, 0
-  index: -1
 body_base_run
   rotate: false
-  xy: 2, 1594
-  size: 409, 408
-  orig: 409, 408
+  xy: 0, 1592
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: 0
 body_base_run
   rotate: false
-  xy: 2, 1184
-  size: 409, 408
-  orig: 409, 408
+  xy: 0, 1182
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: 1
 body_base_run
   rotate: false
-  xy: 413, 1594
-  size: 409, 408
-  orig: 409, 408
+  xy: 386, 1592
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: 2
 body_base_run
   rotate: false
-  xy: 2, 774
-  size: 409, 408
-  orig: 409, 408
+  xy: 0, 772
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: 3
 body_base_run
   rotate: false
-  xy: 413, 1184
-  size: 409, 408
-  orig: 409, 408
+  xy: 386, 1182
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: 4
 body_base_run
   rotate: false
-  xy: 824, 1594
-  size: 409, 408
-  orig: 409, 408
+  xy: 772, 1592
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: 5
 body_base_run
   rotate: false
-  xy: 2, 364
-  size: 409, 408
-  orig: 409, 408
+  xy: 0, 362
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: 6
 body_base_run
   rotate: false
-  xy: 413, 774
-  size: 409, 408
-  orig: 409, 408
+  xy: 386, 772
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: 7
 body_base_stand
   rotate: false
-  xy: 824, 1184
-  size: 409, 408
-  orig: 409, 408
+  xy: 772, 1182
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: -1
 body_bg_base
   rotate: false
-  xy: 1235, 1594
-  size: 409, 408
-  orig: 409, 408
+  xy: 1158, 1592
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: -1
 gem_active
   rotate: false
-  xy: 413, 364
+  xy: 386, 362
   size: 384, 408
   orig: 384, 408
   offset: 0, 0
   index: -1
 gem_inactive
   rotate: false
-  xy: 824, 774
+  xy: 772, 772
   size: 384, 408
   orig: 384, 408
   offset: 0, 0
   index: -1
 head_base
   rotate: false
-  xy: 2, 2
+  xy: 0, 0
   size: 228, 360
   orig: 228, 360
+  offset: 0, 0
+  index: -1
+arm_base
+  rotate: false
+  xy: 1158, 1440
+  size: 346, 150
+  orig: 346, 150
   offset: 0, 0
   index: -1

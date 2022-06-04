@@ -74,10 +74,10 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_n95")),
     NOISEMAKER(CosmeticSlot.MOUTH, true, PlayMode.LOOP_PINGPONG,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_noisemaker").setOffsetX(-67.8f).setOffsetY(0),
-            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_noisemaker").setOffsetX(-85.2f).setOffsetY(6.0f),
-            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_noisemaker").setOffsetX(-53.4f).setOffsetY(12.6f),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_noisemaker").setOffsetX(-85.2f).setOffsetY(-3.0f),
+            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_noisemaker").setOffsetX(-58.4f).setOffsetY(12.6f),
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_noisemaker").setOffsetX(-91.8f).setOffsetY(0),
-            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_noisemaker").setOffsetX(-30.6f).setOffsetY(40.2f)),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_noisemaker").setOffsetX(-30.6f).setOffsetY(-40.2f)),
 
     ;
 
