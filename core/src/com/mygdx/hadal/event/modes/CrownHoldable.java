@@ -57,7 +57,7 @@ public class CrownHoldable extends Event {
 		setSynced(true);
 
 		new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.CREATESYNC)
-				.setColor(HadalColor.GOLD);
+				.setColor(HadalColor.GOLDEN_YELLOW);
 
 		//make objective marker track this event
 		EventUtils.setObjectiveMarker(state, this, Sprite.CLEAR_CIRCLE_ALERT, HadalColor.NOTHING,

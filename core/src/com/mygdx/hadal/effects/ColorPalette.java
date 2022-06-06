@@ -33,6 +33,28 @@ public enum ColorPalette {
     WANDA(HadalColor.WANDA_MID_DARK, HadalColor.WANDA_SATURATED_DARK, HadalColor.WANDA_MID_DARK, HadalColor.WANDA_DESATURATED_DARK,
             HadalColor.NOTHING, HadalColor.NOTHING, HadalColor.WANDA_DESATURATED_LIGHT, HadalColor.WANDA_ACCENT_1,
             HadalColor.NOTHING),
+
+
+    BANANA(HadalColor.BANANA, HadalColor.SUNGLOW, HadalColor.JASMINE, HadalColor.BANANA, HadalColor.YELLOW, HadalColor.BLONDE,
+            HadalColor.BEIGE, HadalColor.SIENNA, HadalColor.KOBICHA),
+
+    CELADON(HadalColor.CELADON, HadalColor.FERN, HadalColor.CELADON, HadalColor.HONEYDEW, HadalColor.MALACHITE, HadalColor.GRANNY_SMITH,
+            HadalColor.NYANZA, HadalColor.TEA, HadalColor.MANTIS),
+
+    CHARTREUSE(HadalColor.CHARTREUSE, HadalColor.FRENCH_LIME, HadalColor.INCHWORM, HadalColor.PISTACHIO, HadalColor.CHARTREUSE,
+            HadalColor.MINDARO, HadalColor.TEA, HadalColor.LEMON, HadalColor.GREEN),
+
+    GOLD(HadalColor.GOLD, HadalColor.HARVEST_GOLD, HadalColor.GOLD, HadalColor.METALLIC_GOLD, HadalColor.JONQUIL, HadalColor.FLAX,
+            HadalColor.CHAMPAGNE, HadalColor.GOLDEN_YELLOW, HadalColor.GOLDENROD),
+
+    GREY(HadalColor.GREY, HadalColor.DARK_GREY, HadalColor.GREY, HadalColor.SILVER_CHALICE, HadalColor.PLATINUM, HadalColor.PLATINUM,
+            HadalColor.LIGHT_GRAY, HadalColor.NOTHING, HadalColor.ONYX),
+
+    ORANGE(HadalColor.ORANGE, HadalColor.SAFFRON, HadalColor.RAJAH, HadalColor.APRICOT, HadalColor.ORANGE, HadalColor.AMBER, HadalColor.PEACH,
+            HadalColor.HONEY, HadalColor.MANGO),
+
+    TAN(HadalColor.TAN, HadalColor.BISTRE, HadalColor.SHADOW, HadalColor.GRULLO, HadalColor.BRONZE, HadalColor.TAN, HadalColor.BONE,
+            HadalColor.HONEY, HadalColor.BRONZE),
     ;
 
 

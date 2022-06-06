@@ -354,7 +354,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float bellInterval = 0.06f;
 	
 	private void bigBangBell() {
-		changeColor(HadalColor.GOLD, shot1Windup);
+		changeColor(HadalColor.GOLDEN_YELLOW, shot1Windup);
 		singlePulse();
 		
 		getActions().add(new EnemyAction(this, 0.0f) {
@@ -503,7 +503,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float slowSlow = 0.8f;
 	
 	private void deadStarSigh() {
-		changeColor(HadalColor.TURQOISE, shot1Windup);
+		changeColor(HadalColor.TURQUOISE, shot1Windup);
 		singlePulse();
 		singlePulseReturn();
 		
@@ -696,7 +696,7 @@ public class Boss4 extends EnemyFloating {
 					bulletPosition.set(EnemyUtils.getLeftSide(state) - horizontalBulletSpawnOffset,
 							MathUtils.random((int) EnemyUtils.floorHeight(state), (int) EnemyUtils.ceilingHeight(state)));
 					bulletSpeed.set(horizontalBulletSpeed, 0);
-					fireBullet(Sprite.LASER_TURQUOISE, HadalColor.TURQOISE);
+					fireBullet(Sprite.LASER_TURQUOISE, HadalColor.TURQUOISE);
 					
 					bulletPosition.set(EnemyUtils.getRightSide(state) + horizontalBulletSpawnOffset,
 							MathUtils.random((int) EnemyUtils.floorHeight(state), (int) EnemyUtils.ceilingHeight(state)));
@@ -780,7 +780,7 @@ public class Boss4 extends EnemyFloating {
 	
 	private static final Sprite[] starSprites = {Sprite.STAR_BLUE, Sprite.STAR_PURPLE, Sprite.STAR_RED, Sprite.STAR_YELLOW};
 	private void orbitalStar() {
-		changeColor(HadalColor.GOLD, shot1Windup);
+		changeColor(HadalColor.GOLDEN_YELLOW, shot1Windup);
 		singlePulse();
 		singlePulseReturn();
 		

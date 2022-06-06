@@ -50,7 +50,7 @@ public class PlayerSpriteHelper {
     //scale is changed for player size modifiers
     private float scale;
 
-    private TextureRegion bodyBackSprite, armSprite, gemSprite;
+    private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite;
     private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
     private FrameBuffer fbo;
 
@@ -151,6 +151,7 @@ public class PlayerSpriteHelper {
         bodyBackSprite = copyFrame(fboRegion, atlas, "body_bg_base");
         armSprite = copyFrame(fboRegion, atlas, "arm_base");
         gemSprite = atlas.findRegion("gem_active");
+        gemInactiveSprite = atlas.findRegion("gem_inactive");
 
         //obtain body dimensions
         this.armWidth = armSprite.getRegionWidth();

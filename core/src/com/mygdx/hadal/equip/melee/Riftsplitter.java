@@ -68,9 +68,9 @@ public class Riftsplitter extends MeleeWeapon {
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageSource.RIFTSPLITTER,
 				DamageTag.MELEE, DamageTag.CUTTING));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)
-				.setParticleColor(HadalColor.TURQOISE).setSyncType(SyncType.NOSYNC));
+				.setParticleColor(HadalColor.TURQUOISE).setSyncType(SyncType.NOSYNC));
 		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)
-				.setParticleColor(HadalColor.TURQOISE).setSyncType(SyncType.NOSYNC));
+				.setParticleColor(HadalColor.TURQUOISE).setSyncType(SyncType.NOSYNC));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPLITTER_MAIN, 0.0f, 1.0f)
 				.setRotate(true).setSyncType(SyncType.NOSYNC));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
@@ -100,9 +100,9 @@ public class Riftsplitter extends MeleeWeapon {
 				shockwave.addStrategy(new DamageStandard(state, shockwave, user.getBodyData(), shockwaveDamage, knockback,
 						DamageSource.RIFTSPLITTER, DamageTag.MELEE, DamageTag.CUTTING));
 				shockwave.addStrategy(new ContactWallParticles(state, shockwave, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)
-						.setParticleColor(HadalColor.TURQOISE).setSyncType(SyncType.NOSYNC));
+						.setParticleColor(HadalColor.TURQUOISE).setSyncType(SyncType.NOSYNC));
 				shockwave.addStrategy(new ContactUnitParticles(state, shockwave, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)
-						.setParticleColor(HadalColor.TURQOISE).setSyncType(SyncType.NOSYNC));
+						.setParticleColor(HadalColor.TURQUOISE).setSyncType(SyncType.NOSYNC));
 				shockwave.addStrategy(new CreateParticles(state, shockwave, user.getBodyData(), Particle.SPLITTER_TRAIL, 0.0f, 1.0f)
 						.setRotate(true).setSyncType(SyncType.NOSYNC));
 
