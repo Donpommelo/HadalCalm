@@ -331,7 +331,7 @@ public enum AlignmentFilter {
 
     public short getFilter() { return filter; }
 
-    public String getTeamName() { return "TEAM " + adjective; }
+    public String getTeamName() { return HText.TEAM + " " + adjective; }
 
     public String getColoredAdjective() {
         return WeaponUtils.getColorName(palette.getIcon(), adjective);

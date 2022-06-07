@@ -360,6 +360,7 @@
   "TUTORIAL_TEXT_WEAPON_SWITCH" : "switch weapon: (fugswitch1fug, fugswitch2fug, fugswitch3fug)",
   "TUTORIAL_TEXT_RELOAD" : "reload: (fugreloadfug)",
 
+  "TEAM_TEAM" : "TEAM",
   "TEAM_BANANA" : "BANANA",
   "TEAM_CELADON" : "CELADON",
   "TEAM_CHARTREUSE" : "CHARTREUSE",
