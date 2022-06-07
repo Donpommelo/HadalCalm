@@ -35,14 +35,23 @@ public enum ColorPalette {
             HadalColor.NOTHING),
 
 
-    BANANA(HadalColor.BANANA, HadalColor.SUNGLOW, HadalColor.JASMINE, HadalColor.BANANA, HadalColor.YELLOW, HadalColor.BLONDE,
-            HadalColor.BEIGE, HadalColor.SIENNA, HadalColor.KOBICHA),
+    BANANA(HadalColor.BANANA, HadalColor.SUNGLOW, HadalColor.CORN, HadalColor.BANANA, HadalColor.YELLOW, HadalColor.JASMINE,
+            HadalColor.BLONDE, HadalColor.SIENNA, HadalColor.KOBICHA),
 
     CELADON(HadalColor.CELADON, HadalColor.FERN, HadalColor.CELADON, HadalColor.HONEYDEW, HadalColor.MALACHITE, HadalColor.GRANNY_SMITH,
             HadalColor.NYANZA, HadalColor.TEA, HadalColor.MANTIS),
 
-    CHARTREUSE(HadalColor.CHARTREUSE, HadalColor.FRENCH_LIME, HadalColor.INCHWORM, HadalColor.PISTACHIO, HadalColor.CHARTREUSE,
-            HadalColor.MINDARO, HadalColor.TEA, HadalColor.LEMON, HadalColor.GREEN),
+    CHARTREUSE(HadalColor.CHARTREUSE, HadalColor.FRENCH_LIME, HadalColor.INCHWORM, HadalColor.MINDARO, HadalColor.CHARTREUSE,
+            HadalColor.MINT, HadalColor.TEA, HadalColor.LEMON, HadalColor.GREEN),
+
+    COQUELICOT(HadalColor.COQUELICOT, HadalColor.VERMILION, HadalColor.COQUELICOT, HadalColor.FLAME, HadalColor.PORTLAND_ORANGE,
+            HadalColor.CORAL, HadalColor.TANGERINE, HadalColor.SUNGLOW, HadalColor.AMBER),
+
+    CRIMSON(HadalColor.CRIMSON, HadalColor.RUBY, HadalColor.CRIMSON, HadalColor.FIERY_ROSE, HadalColor.AMARANTH, HadalColor.SALMON,
+            HadalColor.PINK, HadalColor.CORN, HadalColor.AMBER),
+
+    EGGPLANT(HadalColor.EGGPLANT, HadalColor.SPANISH_VIOLET, HadalColor.EGGPLANT, HadalColor.DARK_LIVER, HadalColor.ROYAL_PURPLE,
+            HadalColor.MOUNTAIN_MAJESTY, HadalColor.THISTLE, HadalColor.EMERALD, HadalColor.SPANISH_VIRIDIAN),
 
     GOLD(HadalColor.GOLD, HadalColor.HARVEST_GOLD, HadalColor.GOLD, HadalColor.METALLIC_GOLD, HadalColor.JONQUIL, HadalColor.FLAX,
             HadalColor.CHAMPAGNE, HadalColor.GOLDEN_YELLOW, HadalColor.GOLDENROD),
@@ -50,11 +59,26 @@ public enum ColorPalette {
     GREY(HadalColor.GREY, HadalColor.DARK_GREY, HadalColor.GREY, HadalColor.SILVER_CHALICE, HadalColor.PLATINUM, HadalColor.PLATINUM,
             HadalColor.LIGHT_GRAY, HadalColor.NOTHING, HadalColor.ONYX),
 
-    ORANGE(HadalColor.ORANGE, HadalColor.SAFFRON, HadalColor.RAJAH, HadalColor.APRICOT, HadalColor.ORANGE, HadalColor.AMBER, HadalColor.PEACH,
+    PLUM(HadalColor.PLUM, HadalColor.PALATINATE, HadalColor.DARK_BYZANTIUM, HadalColor.MOUNTBATTEN_PINK, HadalColor.PLUM,
+            HadalColor.RAZZMIC_BERRY, HadalColor.LILAC_LUSTER, HadalColor.APRICOT, HadalColor.GRULLO),
+
+    MAUVE(HadalColor.MAUVE, HadalColor.AMETHYST, HadalColor.LAVENDER, HadalColor.THISTLE, HadalColor.HELIOTROPE, HadalColor.MAUVE,
+            HadalColor.PINK_LACE, HadalColor.TEA, HadalColor.SILVER_CHALICE),
+
+    ORANGE(HadalColor.ORANGE, HadalColor.PUMPKIN, HadalColor.SAFFRON, HadalColor.APRICOT, HadalColor.ORANGE, HadalColor.AMBER, HadalColor.PEACH,
             HadalColor.HONEY, HadalColor.MANGO),
+
+    SKY_BLUE(HadalColor.SKY_BLUE, HadalColor.CYAN_PROCESS, HadalColor.SKY_BLUE, HadalColor.LIGHT_BLUE, HadalColor.BABY_BLUE,
+            HadalColor.NONPHOTO_BLUE, HadalColor.COLUMBIA_BLUE, HadalColor.SPANISH_PINK, HadalColor.MARIGOLD),
 
     TAN(HadalColor.TAN, HadalColor.BISTRE, HadalColor.SHADOW, HadalColor.GRULLO, HadalColor.BRONZE, HadalColor.TAN, HadalColor.BONE,
             HadalColor.HONEY, HadalColor.BRONZE),
+
+    TURQUOISE(HadalColor.TURQUOISE, HadalColor.TIFFANY_BLUE, HadalColor.TURQUOISE, HadalColor.MID_BLUE_GREEN, HadalColor.TURQUOISE_BLUE,
+            HadalColor.CELESTE, HadalColor.POWDER_BLUE, HadalColor.SUNGLOW, HadalColor.STEEL_BLUE),
+
+    VIOLET(HadalColor.VIOLET, HadalColor.BYZANTINE, HadalColor.FUCHSIA, HadalColor.PLUM, HadalColor.ORCHID, HadalColor.VIOLET, HadalColor.THISTLE,
+            HadalColor.CANARY, HadalColor.BURLYWOOD)
     ;
 
 

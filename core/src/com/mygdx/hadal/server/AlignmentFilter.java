@@ -45,18 +45,18 @@ public enum AlignmentFilter {
     TEAM_BANANA(-25, ColorPalette.BANANA, HText.BANANA, HadalColor.YELLOW),
     TEAM_CELADON(-26, ColorPalette.CELADON, HText.CELADON, HadalColor.GREEN),
     TEAM_CHARTREUSE(-27, ColorPalette.CHARTREUSE, HText.CHARTREUSE, HadalColor.GREEN),
-    TEAM_COQUELICOT(-28, ColorPalette.BASE, HText.COQUELICOT, HadalColor.RED),
-    TEAM_CRIMSON(-29, ColorPalette.BASE, HText.CRIMSON, HadalColor.RED),
-    TEAM_EGGPLANT(-30, ColorPalette.BASE, HText.EGGPLANT, HadalColor.VIOLET),
+    TEAM_COQUELICOT(-28, ColorPalette.COQUELICOT, HText.COQUELICOT, HadalColor.RED),
+    TEAM_CRIMSON(-29, ColorPalette.CRIMSON, HText.CRIMSON, HadalColor.RED),
+    TEAM_EGGPLANT(-30, ColorPalette.EGGPLANT, HText.EGGPLANT, HadalColor.VIOLET),
     TEAM_GOLD(-31, ColorPalette.GOLD, HText.GOLD, HadalColor.ORANGE, HadalColor.YELLOW),
     TEAM_GREY(-32, ColorPalette.GREY, HText.GREY, HadalColor.GREY, HadalColor.BROWN),
-    TEAM_PLUM(-33, ColorPalette.BASE, HText.PLUM, HadalColor.VIOLET),
-    TEAM_MAUVE(-34, ColorPalette.BASE, HText.MAUVE, HadalColor.VIOLET, HadalColor.BROWN),
+    TEAM_PLUM(-33, ColorPalette.PLUM, HText.PLUM, HadalColor.VIOLET),
+    TEAM_MAUVE(-34, ColorPalette.MAUVE, HText.MAUVE, HadalColor.VIOLET, HadalColor.BROWN),
     TEAM_ORANGE(-35, ColorPalette.ORANGE, HText.ORANGE, HadalColor.ORANGE, HadalColor.RED),
-    TEAM_SKY_BLUE(-36, ColorPalette.BASE, HText.SKY_BLUE, HadalColor.BLUE),
+    TEAM_SKY_BLUE(-36, ColorPalette.SKY_BLUE, HText.SKY_BLUE, HadalColor.BLUE),
     TEAM_TAN(-37, ColorPalette.TAN, HText.TAN, HadalColor.BROWN, HadalColor.YELLOW),
-    TEAM_TURQUIOSE(-38, ColorPalette.BASE, HText.TURQUOISE, HadalColor.BLUE, HadalColor.GREEN),
-    TEAM_VIOLET(-39, ColorPalette.BASE, HText.VIOLET, HadalColor.VIOLET),
+    TEAM_TURQUOISE(-38, ColorPalette.TURQUOISE, HText.TURQUOISE, HadalColor.BLUE, HadalColor.GREEN),
+    TEAM_VIOLET(-39, ColorPalette.VIOLET, HText.VIOLET, HadalColor.VIOLET),
 
     TEAM_BLACK_AND_WHITE(-40, ColorPalette.BASE, HText.BLACK_AND_WHITE) {
 
@@ -300,7 +300,7 @@ public enum AlignmentFilter {
     private final static float normalChance = 0.2f;
     private final static float colorChance = 0.9f;
     private static final AlignmentFilter[] colors = { TEAM_BANANA, TEAM_CELADON, TEAM_CHARTREUSE, TEAM_CRIMSON, TEAM_EGGPLANT,
-            TEAM_GREY, TEAM_PLUM, TEAM_ORANGE, TEAM_SKY_BLUE, TEAM_TAN, TEAM_TURQUIOSE };
+            TEAM_GREY, TEAM_PLUM, TEAM_ORANGE, TEAM_SKY_BLUE, TEAM_TAN, TEAM_TURQUOISE};
     private static final AlignmentFilter[] colorsWeird = { TEAM_BLACK_AND_WHITE, TEAM_CENSURE, TEAM_SEPIA, TEAM_INVERT };
 
     /**
