@@ -8,7 +8,7 @@ import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 import java.util.Objects;
 
@@ -90,7 +90,7 @@ public class UnlockManager {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * This returns if a certain unlock item is unlocked or not
 	 */
@@ -114,35 +114,35 @@ public class UnlockManager {
 		case ACTIVE:
 			state.getGsm().getRecord().getUnlockActive().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", HText.UNLOCK_ACTIVE.text(Objects.requireNonNull(getInfo(type, name)).getName()),
+				state.getDialogBox().addDialogue("", UIText.UNLOCK_ACTIVE.text(Objects.requireNonNull(getInfo(type, name)).getName()),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case ARTIFACT:
 			state.getGsm().getRecord().getUnlockArtifact().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", HText.UNLOCK_ARTIFACT.text(Objects.requireNonNull(getInfo(type, name)).getName()),
+				state.getDialogBox().addDialogue("", UIText.UNLOCK_ARTIFACT.text(Objects.requireNonNull(getInfo(type, name)).getName()),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case CHARACTER:
 			state.getGsm().getRecord().getUnlockCharacter().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", HText.UNLOCK_CHARACTER.text(Objects.requireNonNull(getInfo(type, name)).getName()),
+				state.getDialogBox().addDialogue("", UIText.UNLOCK_CHARACTER.text(Objects.requireNonNull(getInfo(type, name)).getName()),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case EQUIP:
 			state.getGsm().getRecord().getUnlockEquip().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", HText.UNLOCK_WEAPON.text(Objects.requireNonNull(getInfo(type, name)).getName()),
+				state.getDialogBox().addDialogue("", UIText.UNLOCK_WEAPON.text(Objects.requireNonNull(getInfo(type, name)).getName()),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case LEVEL:
 			state.getGsm().getRecord().getUnlockLevel().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", HText.UNLOCK_LEVEL.text(Objects.requireNonNull(getInfo(type, name)).getName()),
+				state.getDialogBox().addDialogue("", UIText.UNLOCK_LEVEL.text(Objects.requireNonNull(getInfo(type, name)).getName()),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;

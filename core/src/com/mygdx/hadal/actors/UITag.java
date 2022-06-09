@@ -3,7 +3,7 @@ package com.mygdx.hadal.actors;
 import com.mygdx.hadal.map.ModeGunGame;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 import static com.mygdx.hadal.actors.UITag.uiType.ALL;
 
@@ -58,22 +58,22 @@ public class UITag {
 
 			switch (type) {
 				case SCRAP:
-					text.append(HText.UI_SCRAP.text(Integer.toString(state.getGsm().getRecord().getScrap())));
+					text.append(UIText.UI_SCRAP.text(Integer.toString(state.getGsm().getRecord().getScrap())));
 					break;
 				case LIVES:
-					text.append(HText.UI_LIVES.text(Integer.toString(user.getScores().getLives())));
+					text.append(UIText.UI_LIVES.text(Integer.toString(user.getScores().getLives())));
 					break;
 				case SCORE:
-					text.append(HText.SCORE.text(Integer.toString(user.getScores().getScore())));
+					text.append(UIText.SCORE.text(Integer.toString(user.getScores().getScore())));
 					break;
 				case HISCORE:
 					if (state.getGsm().getRecord().getHiScores().containsKey(state.getLevel().toString())) {
-						text.append(HText.UI_HISCORE.text(Integer.toString(state.getGsm().getRecord().getHiScores()
+						text.append(UIText.UI_HISCORE.text(Integer.toString(state.getGsm().getRecord().getHiScores()
 								.get(state.getLevel().toString()))));
 					}
 					break;
 				case TIMER:
-					text.append(HText.UI_TIMER.text(uiExtra.getDisplayedTimer()));
+					text.append(UIText.UI_TIMER.text(uiExtra.getDisplayedTimer()));
 					break;
 				case MISC:
 					text.append(misc);
@@ -93,11 +93,11 @@ public class UITag {
 				case GUNGAME:
 					int score = user.getScores().getScore();
 					if (score + 1 < ModeGunGame.weaponOrder.length) {
-						text.append(HText.UI_GUNGAME.text(Integer.toString(score), Integer.toString(ModeGunGame.weaponOrder.length),
+						text.append(UIText.UI_GUNGAME.text(Integer.toString(score), Integer.toString(ModeGunGame.weaponOrder.length),
 								ModeGunGame.weaponOrder[score + 1].getInfo().getName()));
 					} else {
-						text.append(HText.UI_GUNGAME.text(Integer.toString(score), Integer.toString(ModeGunGame.weaponOrder.length),
-								HText.UI_VICTORY.text()));
+						text.append(UIText.UI_GUNGAME.text(Integer.toString(score), Integer.toString(ModeGunGame.weaponOrder.length),
+								UIText.UI_VICTORY.text()));
 					}
 					break;
 				case EMPTY:

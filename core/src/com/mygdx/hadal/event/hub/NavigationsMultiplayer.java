@@ -19,7 +19,7 @@ import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -99,7 +99,7 @@ public class NavigationsMultiplayer extends HubEvent {
 						} else {
 
 							//clients suggest maps when clicking
-							HadalGame.client.sendTCP(new Packets.ClientChat(HText.MAP_SUGGEST.text(selected.getInfo().getName()),
+							HadalGame.client.sendTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getInfo().getName()),
 									DialogBox.DialogType.SYSTEM));
 						}
 						leave();
@@ -133,7 +133,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
-		hub.setTitle(HText.GAME_MODES.text());
+		hub.setTitle(UIText.GAME_MODES.text());
 		final NavigationsMultiplayer me = this;
 
 		//bring up all game modes that can be selected from the hub

@@ -15,7 +15,7 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
 
 import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
@@ -55,20 +55,20 @@ public class SettingTeamMode extends ModeSetting {
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
         if (teamModeChoice) {
-            String[] teamChoices = HText.SETTING_TEAM_MODE_OPTIONS.text().split(",");
-            Text team = new Text(HText.SETTING_TEAM_MODE.text());
+            String[] teamChoices = UIText.SETTING_TEAM_MODE_OPTIONS.text().split(",");
+            Text team = new Text(UIText.SETTING_TEAM_MODE.text());
             team.setScale(ModeSettingSelection.detailsScale);
-            TooltipManager.addTooltip(team, HText.SETTING_TEAM_MODE_DESC.text());
+            TooltipManager.addTooltip(team, UIText.SETTING_TEAM_MODE_DESC.text());
 
             teamsOptions = new SelectBox<>(GameStateManager.getSkin());
             teamsOptions.setItems(teamChoices);
             teamsOptions.setWidth(ModeSettingSelection.optionsWidth);
             teamsOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValue1));
 
-            String[] teamNumChoices = HText.SETTING_TEAM_NUM_OPTIONS.text().split(",");
-            Text teamNum = new Text(HText.SETTING_TEAM_NUM.text());
+            String[] teamNumChoices = UIText.SETTING_TEAM_NUM_OPTIONS.text().split(",");
+            Text teamNum = new Text(UIText.SETTING_TEAM_NUM.text());
             teamNum.setScale(ModeSettingSelection.detailsScale);
-            TooltipManager.addTooltip(teamNum, HText.SETTING_TEAM_NUM_DESC.text());
+            TooltipManager.addTooltip(teamNum, UIText.SETTING_TEAM_NUM_DESC.text());
 
             teamsNumOptions = new SelectBox<>(GameStateManager.getSkin());
             teamsNumOptions.setItems(teamNumChoices);
@@ -156,7 +156,7 @@ public class SettingTeamMode extends ModeSetting {
 
         Array<User> users = HadalGame.server.getUsers().values().toArray();
         if (mode.getTeamMode().equals(TeamMode.COOP) || users.size <= 1) {
-            resultsText = HText.SETTING_LIVES_OUT.text();
+            resultsText = UIText.SETTING_LIVES_OUT.text();
 
             //coop levels end when all players are dead
             for (User user : users) {
@@ -179,14 +179,14 @@ public class SettingTeamMode extends ModeSetting {
 
                             //in free-for-all, living players are qualified to win
                             if (mode.getTeamMode().equals(TeamMode.FFA)) {
-                                resultsText = HText.PLAYER_WINS.text(playerLeft.getName());
+                                resultsText = UIText.PLAYER_WINS.text(playerLeft.getName());
                             } else {
                                 //if team mode, living players qualify their team for a win (or themselves if on a solo-team)
                                 if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
-                                    resultsText = HText.PLAYER_WINS.text(playerLeft.getPlayerData().getLoadout().team.getTeamName());
+                                    resultsText = UIText.PLAYER_WINS.text(playerLeft.getPlayerData().getLoadout().team.getTeamName());
                                     winningTeam = user.getTeamFilter();
                                 } else {
-                                    resultsText = HText.PLAYER_WINS.text(playerLeft.getName());
+                                    resultsText = UIText.PLAYER_WINS.text(playerLeft.getName());
                                     winningTeam = user.getHitBoxFilter();
                                 }
                             }

@@ -6,7 +6,7 @@ import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 /**
  * This mode setting is used for modes where the player can set their respawn time
@@ -29,8 +29,8 @@ public class SettingRespawnTime extends ModeSetting {
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
-        String[] respawnChoices = HText.SETTING_RESPAWN_OPTIONS.text().split(",");
-        Text respawn = new Text(HText.SETTING_RESPAWN.text());
+        String[] respawnChoices = UIText.SETTING_RESPAWN_OPTIONS.text().split(",");
+        Text respawn = new Text(UIText.SETTING_RESPAWN.text());
         respawn.setScale(ModeSettingSelection.detailsScale);
 
         respawnOptions = new SelectBox<>(GameStateManager.getSkin());

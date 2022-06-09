@@ -15,7 +15,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION_SLOW;
 
@@ -57,10 +57,10 @@ public class ModeSettingSelection {
 
         tableOuter.setTouchable(Touchable.enabled);
 
-        final Text titleInfo = new Text(HText.SETTINGS.text());
+        final Text titleInfo = new Text(UIText.SETTINGS.text());
         titleInfo.setScale(titleScale);
 
-        final Text backOption = new Text(HText.BACK.text()).setButton(true);
+        final Text backOption = new Text(UIText.BACK.text()).setButton(true);
         backOption.setScale(optionScale);
 
         backOption.addListener(new ClickListener() {

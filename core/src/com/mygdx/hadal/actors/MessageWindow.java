@@ -25,7 +25,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TextFilterUtil;
 import com.mygdx.hadal.utils.ConsoleCommandUtil;
 
@@ -292,10 +292,10 @@ public class MessageWindow {
 		};
 		enterMessage.setMaxLength(MAX_MESSAGE_LENGTH);
 
-		backButton = new Text(HText.EXIT.text()).setButton(true);
+		backButton = new Text(UIText.EXIT.text()).setButton(true);
 		backButton.setScale(logScale);
 
-		sendButton = new Text(HText.SEND.text()).setButton(true);
+		sendButton = new Text(UIText.SEND.text()).setButton(true);
 		sendButton.setScale(logScale);
 
 		sendButton.addListener(new ClickListener() {
@@ -322,7 +322,7 @@ public class MessageWindow {
 		fadeOut();
 
 		//add starting text to give instructions to players
-		addTextLine(TextFilterUtil.filterHotkeys(HText.INFO_START.text()));
+		addTextLine(TextFilterUtil.filterHotkeys(UIText.INFO_START.text()));
 
 		//load previously sent messages so chat log doesn't clear on level transition
 		for (String s : textRecord) {

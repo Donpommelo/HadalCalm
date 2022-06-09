@@ -12,7 +12,7 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -57,7 +57,7 @@ public class KillFeed {
     private static final int deathInfoHeight = 240;
     private static final int deathInfoPad = 15;
 
-    private static final float scale = 0.3f;
+    private static final float scale = 0.25f;
 
     //messages displayed in the feed
     private final Array<KillFeedMessage> messages = new Array<>();
@@ -153,7 +153,7 @@ public class KillFeed {
         if (perp != null) {
             if (perp.equals(perp.getState().getPlayer()) && perp != vic) {
                 String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
-                addNotification(HText.YOU_HAVE_SLAIN.text(vicName), false);
+                addNotification(UIText.YOU_HAVE_SLAIN.text(vicName), false);
             }
         }
         if (vic == ps.getPlayer()) {
@@ -261,9 +261,9 @@ public class KillFeed {
 
         Text deathInfoTitle = new Text("");
         if (awaitingRevive) {
-            deathInfoTitle.setText(HText.AWAITING_REVIVE.text());
+            deathInfoTitle.setText(UIText.AWAITING_REVIVE.text());
         } else {
-            deathInfoTitle.setText(HText.RESPAWN_IN.text());
+            deathInfoTitle.setText(UIText.RESPAWN_IN.text());
         }
         deathInfoTitle.setScale(scale);
 
@@ -271,7 +271,7 @@ public class KillFeed {
         deathInfoTable.add(deathInfo).pad(deathInfoPad).row();
 
         if (!killedBy.isEmpty()) {
-            Text deathPerpTitle = new Text(HText.KILLED_BY.text());
+            Text deathPerpTitle = new Text(UIText.KILLED_BY.text());
             deathPerpTitle.setScale(scale);
 
             Text deathPerp = new Text(killedBy);
@@ -282,7 +282,7 @@ public class KillFeed {
         }
 
         if (!deathCause.isEmpty()) {
-            Text deathSourceTitle = new Text(HText.DEATH_CAUSE.text());
+            Text deathSourceTitle = new Text(UIText.DEATH_CAUSE.text());
             deathSourceTitle.setScale(scale);
 
             Text deathSource = new Text(deathCause);
@@ -326,7 +326,7 @@ public class KillFeed {
         killedBy = "";
         if (perp != null) {
             if (perp.equals(ps.getPlayer())) {
-                killedBy = HText.DEATH_CAUSE_YOURSELF.text();
+                killedBy = UIText.DEATH_CAUSE_YOURSELF.text();
             } else {
                 killedBy = perp.getName();
             }

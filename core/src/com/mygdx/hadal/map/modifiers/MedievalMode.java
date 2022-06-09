@@ -6,7 +6,7 @@ import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 /**
  * In medieval mode, only melee weapons + love bow can be used
@@ -15,9 +15,9 @@ import com.mygdx.hadal.text.HText;
 public class MedievalMode extends ModeModifier {
 
     private static final String settingTag = "medieval_mode";
-    private static final HText uiText = HText.MODIFIER_MEDIEVAL_UI;
-    private static final HText name = HText.MODIFIER_MEDIEVAL;
-    private static final HText desc = HText.MODIFIER_MEDIEVAL_DESC;
+    private static final UIText uiText = UIText.MODIFIER_MEDIEVAL_UI;
+    private static final UIText name = UIText.MODIFIER_MEDIEVAL;
+    private static final UIText desc = UIText.MODIFIER_MEDIEVAL_DESC;
 
     private static final UnlockEquip[] BaseEquip = {UnlockEquip.SCRAPRIPPER, UnlockEquip.NOTHING, UnlockEquip.NOTHING};
 

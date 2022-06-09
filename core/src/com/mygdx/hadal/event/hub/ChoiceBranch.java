@@ -10,7 +10,7 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 /**
  * The choice branch gives a list of choices, each of which connects to another event
@@ -29,7 +29,7 @@ public class ChoiceBranch extends HubEvent {
 	
 	public ChoiceBranch(PlayState state, Vector2 startPos, Vector2 size, String title, String optionNames, boolean closeAfterSelect, boolean closeOnLeave) {
 		super(state, startPos, size, title, "MISC", true, closeOnLeave, hubTypes.MISC);
-		this.optionNames = HText.getByName(optionNames).text().split(",");
+		this.optionNames = UIText.getByName(optionNames).text().split(",");
 		options = new OrderedMap<>();
 		this.closeAfterSelect = closeAfterSelect;
 	}

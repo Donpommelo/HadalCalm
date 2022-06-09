@@ -7,36 +7,36 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.SerializationException;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.SettingState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 /**
  * This enum maps to each possible action the player can perform to an input.
  * @author Gnaddam Ghermicelli
  */
 public enum PlayerAction {
-	WALK_RIGHT(Input.Keys.D, true, HText.WALK_RIGHT),
-	WALK_LEFT(Input.Keys.A, true, HText.WALK_LEFT),
-	JUMP(Input.Keys.W, true, HText.JUMP),
-	CROUCH(Input.Keys.S, true, HText.FASTFALL),
-	FIRE(Input.Buttons.LEFT, true, HText.SHOOT),
-	BOOST(Input.Buttons.RIGHT, false, HText.BOOST),
-	INTERACT(Input.Keys.E, false, HText.INTERACT),
-	ACTIVE_ITEM(Input.Keys.SPACE, false, HText.MAGIC),
-	RELOAD(Input.Keys.R, false, HText.RELOAD),
-	DIALOGUE(Input.Keys.Z, false, HText.DIALOG),
-	SWITCH_TO_LAST(Input.Keys.Q, false, HText.SWITCH_TO_LAST),
-	SWITCH_TO_1(Input.Keys.NUM_1, false, HText.SWITCH_TO_1),
-	SWITCH_TO_2(Input.Keys.NUM_2, false, HText.SWITCH_TO_2),
-	SWITCH_TO_3(Input.Keys.NUM_3, false, HText.SWITCH_TO_3),
-	SWITCH_TO_4(Input.Keys.NUM_4, false, HText.SWITCH_TO_4),
-	WEAPON_CYCLE_UP(-1000, false, HText.WEAPON_CYCLE_UP),
-	WEAPON_CYCLE_DOWN(1000, false, HText.WEAPON_CYCLE_DOWN),
-	MESSAGE_WINDOW(Input.Keys.T, false, HText.CHAT),
-	SCORE_WINDOW(Input.Keys.TAB, true, HText.SCORE_WINDOW),
-	CHAT_WHEEL(Input.Keys.C, true, HText.CHAT_WHEEL),
-	PING(Input.Keys.X, false, HText.PING),
-	PAUSE(Input.Keys.P, false, HText.PAUSE),
-	EXIT_MENU(Input.Keys.ESCAPE, false, HText.EXIT);
+	WALK_RIGHT(Input.Keys.D, true, UIText.WALK_RIGHT),
+	WALK_LEFT(Input.Keys.A, true, UIText.WALK_LEFT),
+	JUMP(Input.Keys.W, true, UIText.JUMP),
+	CROUCH(Input.Keys.S, true, UIText.FASTFALL),
+	FIRE(Input.Buttons.LEFT, true, UIText.SHOOT),
+	BOOST(Input.Buttons.RIGHT, false, UIText.BOOST),
+	INTERACT(Input.Keys.E, false, UIText.INTERACT),
+	ACTIVE_ITEM(Input.Keys.SPACE, false, UIText.USE_MAGIC),
+	RELOAD(Input.Keys.R, false, UIText.RELOAD),
+	DIALOGUE(Input.Keys.Z, false, UIText.DIALOG),
+	SWITCH_TO_LAST(Input.Keys.Q, false, UIText.SWITCH_TO_LAST),
+	SWITCH_TO_1(Input.Keys.NUM_1, false, UIText.SWITCH_TO_1),
+	SWITCH_TO_2(Input.Keys.NUM_2, false, UIText.SWITCH_TO_2),
+	SWITCH_TO_3(Input.Keys.NUM_3, false, UIText.SWITCH_TO_3),
+	SWITCH_TO_4(Input.Keys.NUM_4, false, UIText.SWITCH_TO_4),
+	WEAPON_CYCLE_UP(-1000, false, UIText.WEAPON_CYCLE_UP),
+	WEAPON_CYCLE_DOWN(1000, false, UIText.WEAPON_CYCLE_DOWN),
+	MESSAGE_WINDOW(Input.Keys.T, false, UIText.CHAT),
+	SCORE_WINDOW(Input.Keys.TAB, true, UIText.SCORE_WINDOW),
+	CHAT_WHEEL(Input.Keys.C, true, UIText.CHAT_WHEEL),
+	PING(Input.Keys.X, false, UIText.PING),
+	PAUSE(Input.Keys.P, false, UIText.PAUSE),
+	EXIT_MENU(Input.Keys.ESCAPE, false, UIText.EXIT);
 
 	//this is the code for the key this action is bound to
 	private int key;
@@ -46,11 +46,11 @@ public enum PlayerAction {
 	private final boolean toggleable;
 
 	//this is the text that shows up in the ui to represent this action
-	private final HText text;
+	private final UIText text;
 
 	private final static ObjectMap<Integer, PlayerAction> hotkeys = new ObjectMap<>();
 
-	PlayerAction(int key, boolean toggleable, HText text) {
+	PlayerAction(int key, boolean toggleable, UIText text) {
 		this.key = key;
 		this.toggleable = toggleable;
 		this.text = text;

@@ -23,7 +23,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.*;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.io.IOException;
@@ -104,7 +104,7 @@ public class KryoServer {
 							if (player.getPlayerData() != null) {
 								player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageSource.DISCONNECT);
 							}
-							addNotificationToAll(ps, "", HText.CLIENT_DISCONNECTED.text(player.getName()), true, DialogType.SYSTEM);
+							addNotificationToAll(ps, "", UIText.CLIENT_DISCONNECTED.text(player.getName()), true, DialogType.SYSTEM);
 						});
 					}
 					ps.addPacketEffect(() -> {
@@ -161,7 +161,7 @@ public class KryoServer {
 							
 							//reject clients with wrong version
 							if (!p.version.equals(HadalGame.Version)) {
-								sendToTCP(c.getID(), new Packets.ConnectReject(HText.INCOMPATIBLE.text(HadalGame.Version)));
+								sendToTCP(c.getID(), new Packets.ConnectReject(UIText.INCOMPATIBLE.text(HadalGame.Version)));
 								return;
 							}
 
@@ -173,11 +173,11 @@ public class KryoServer {
 									sendToTCP(c.getID(), new Packets.PasswordRequest());
 									return;
 								} else if (!gsm.getSetting().getServerPassword().equals(p.password)){
-									sendToTCP(c.getID(), new Packets.ConnectReject(HText.INCORRECT_PASSWORD.text()));
+									sendToTCP(c.getID(), new Packets.ConnectReject(UIText.INCORRECT_PASSWORD.text()));
 									return;
 								}
 							}
-							addNotificationToAllExcept(ps, c.getID(), "", HText.CLIENT_CONNECTED.text(p.name), true, DialogType.SYSTEM);
+							addNotificationToAllExcept(ps, c.getID(), "", UIText.CLIENT_CONNECTED.text(p.name), true, DialogType.SYSTEM);
 
 							//clients joining full servers or in the middle of matches join as spectators
 							if (getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers() + 1) {
@@ -204,7 +204,7 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					//notify players of new joiners
 					if (p.firstTime) {
-						sendNotification(c.getID(), "", HText.CLIENT_JOINED.text(serverName), false, DialogType.SYSTEM);
+						sendNotification(c.getID(), "", UIText.CLIENT_JOINED.text(serverName), false, DialogType.SYSTEM);
 					}
 
 					//catch up client
@@ -386,15 +386,15 @@ public class KryoServer {
 							//if pauses are enabled, unpause and remove pause state (and setting state)
 							if (player != null && gsm.getSetting().isMultiplayerPause()) {
 								if (gsm.getStates().peek() instanceof final PauseState ps) {
-									addNotificationToAll(ps.getPs(), "", HText.SERVER_UNPAUSED.text(player.getName()), true, DialogType.SYSTEM);
+									addNotificationToAll(ps.getPs(), "", UIText.SERVER_UNPAUSED.text(player.getName()), true, DialogType.SYSTEM);
 									ps.setToRemove(true);
 								}
 								if (gsm.getStates().peek() instanceof final SettingState ss) {
-									addNotificationToAll(ss.getPlayState(), "", HText.SERVER_UNPAUSED.text(player.getName()), true, DialogType.SYSTEM);
+									addNotificationToAll(ss.getPlayState(), "", UIText.SERVER_UNPAUSED.text(player.getName()), true, DialogType.SYSTEM);
 									ss.setToRemove(true);
 								}
 								if (gsm.getStates().peek() instanceof final AboutState as) {
-									addNotificationToAll(as.getPlayState(), "", HText.SERVER_UNPAUSED.text(player.getName()), true, DialogType.SYSTEM);
+									addNotificationToAll(as.getPlayState(), "", UIText.SERVER_UNPAUSED.text(player.getName()), true, DialogType.SYSTEM);
 									as.setToRemove(true);
 								}
 								HadalGame.server.sendToAllTCP(new Packets.Unpaused());
@@ -543,7 +543,7 @@ public class KryoServer {
 			server.bind(gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
 		} catch (IOException e) {
 			if (gsm.getStates().peek() instanceof LobbyState lobby) {
-				lobby.setNotification(HText.PORT_FAIL.text(Integer.toString(gsm.getSetting().getPortNumber())));
+				lobby.setNotification(UIText.PORT_FAIL.text(Integer.toString(gsm.getSetting().getPortNumber())));
 			}
 		}	
 		registerPackets();
@@ -732,7 +732,7 @@ public class KryoServer {
 	public void kickPlayer(PlayState ps, User user, int connID) {
 		if (server != null) {
 			if (user.getPlayer() != null) {
-				addNotificationToAll(ps,"", HText.KICKED.text(user.getPlayer().getName()), true, DialogType.SYSTEM);
+				addNotificationToAll(ps,"", UIText.KICKED.text(user.getPlayer().getName()), true, DialogType.SYSTEM);
 			}
 			sendToTCP(connID, new Packets.ClientYeet());
 		}

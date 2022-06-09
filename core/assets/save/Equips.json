@@ -2,7 +2,7 @@
 "AMITA_CANNON": {
 	"name": "Amita Cannon",
 	"description": "Fires a spinning ring of beads. When the ring collides with a wall, the beads expand outwards.",
-    "descriptionLong": "Bead Number: 8.8\nBead Damage: 7.5\n\nClip Size: 4\nAmmo Capacity: 32\nReload Time: 1.6 Seconds\nAttack Cooldown: 0.4 Second",
+    "descriptionLong": "Bead Number: 8\nBead Damage: 7.5\n\nClip Size: 4\nAmmo Capacity: 32\nReload Time: 1.6 Seconds\nAttack Cooldown: 0.4 Second",
 	"tags": [
 		"ARMORY",
 		"RANDOM_POOL",
@@ -82,7 +82,7 @@
 },
 "CHARGE_BEAM": {
 	"name": "Charge Beam",
-	"description": "Hold and release to fire an energy beam in a straight line.  Fully charged beams are larger and pierce enemies.",
+	"description": "Hold and release to fire an energy beam in a straight line. Fully charged beams are larger and pierce enemies.",
     "descriptionLong": "Beam Damage at Min Charge: 18\nBeam Damage at Max Charge: 90\n\nClip Size: 4\nAmmo Capacity: 16\nReload Time: 1.3 Seconds\nCharge Duration: 0.5 Second",
 	"tags": [
 		"ARMORY",
@@ -92,7 +92,7 @@
 },
 "COLACANNON": {
 	"name": "Cola Cannon",
-	"description": "Hold the shoot button and drag mouse to build charge. Release to fire a continuous stream of soda.",
+	"description": "Shake mouse to build charge. Release to fire a continuous stream of soda.",
     "descriptionLong": "Soda Damage: 11\nSpray Interval: 0.05 Second\nSpray Duration at Min Charge: 0.5 Second\nSpray Duration at Max Charge: 2 Seconds\n\nClip Size: 1\nAmmo Capacity: 17",
 	"tags": [
 		"ARMORY",
@@ -116,7 +116,9 @@
     "descriptionLong": "Slag Damage: 15\n\nClip Size: 500\nAmmo Capacity: 0\nAttack Cooldown: 0.12 Second",
 	"tags": [
 		"ARMORY",
-		"RANDOM_POOL"
+		"RANDOM_POOL",
+		"RANGED"
+
 	]
 },
 "DIAMOND_CUTTER": {
@@ -131,11 +133,12 @@
 },
 "DUELING_CORKGUN": {
 	"name": "Dueling Corkgun",
-	"description": "Fires a fast moving cork. This weapon deals additional damage when knocking enemies into walls or other enemies.",
+	"description": "Fires a fast-moving cork. This weapon deals additional damage when knocking enemies into walls or other enemies.",
     "descriptionLong": "Cork Damage: 20\n\nClip Size: 1\nAmmo Capacity: 36\nReload Time: 0.4 Second",
 	"tags": [
 		"ARMORY",
-		"RANDOM_POOL"
+		"RANDOM_POOL",
+		"RANGED"
 	]
 },
 "FISTICUFFS": {
@@ -499,7 +502,7 @@
 },
 "TYRRAZZAN_REAPER": {
 	"name": "Tyrrazzan Reaper",
-	"description": "Click futher from yourself to fire stronger, long-ranged projectiles with less spread",
+	"description": "Click further from yourself to fire stronger, long-ranged projectiles with less spread.",
     "descriptionLong": "Projectile Damage: 25-55\nClip Size: 10\nAmmoCapacity: 70\nReload Time: 1.4 Second\nAttack Cooldown: 0.15 - 0.6 Second",
 	"tags": [
 		"ARMORY",

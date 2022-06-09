@@ -135,6 +135,7 @@ public class TiledObjectUtil {
 				object.getProperties().get("collision", false, boolean.class));
 			case "Timer" -> e = new Timer(state,
 				object.getProperties().get("interval", 0.0f, float.class),
+				object.getProperties().get("startTime", 0.0f, float.class),
 				object.getProperties().get("startOn", true, boolean.class));
 			case "Counter" -> e = new Counter(state,
 				object.getProperties().get("count", int.class),

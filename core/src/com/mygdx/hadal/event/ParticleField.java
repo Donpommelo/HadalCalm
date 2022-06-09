@@ -79,7 +79,7 @@ public class ParticleField extends Event {
 				particleEntity.setColor(color);
 			} else if (teamColorIndex != -1) {
 				if (teamColorIndex < AlignmentFilter.currentTeams.length) {
-					HadalColor teamColor = AlignmentFilter.currentTeams[teamColorIndex].getColor1();
+					HadalColor teamColor = AlignmentFilter.currentTeams[teamColorIndex].getPalette().getIcon();
 					particleEntity.setColor(teamColor);
 				}
 			}
@@ -107,7 +107,7 @@ public class ParticleField extends Event {
 				particleEntity.setColor(color);
 			} else if (teamColorIndex != -1) {
 				if (teamColorIndex < AlignmentFilter.currentTeams.length) {
-					HadalColor teamColor = AlignmentFilter.currentTeams[teamColorIndex].getColor1();
+					HadalColor teamColor = AlignmentFilter.currentTeams[teamColorIndex].getPalette().getIcon();
 					particleEntity.setColor(teamColor);
 				}
 			}

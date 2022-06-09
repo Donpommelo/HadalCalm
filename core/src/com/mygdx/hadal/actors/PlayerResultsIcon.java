@@ -17,7 +17,7 @@ import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 
@@ -61,7 +61,7 @@ public class PlayerResultsIcon extends AHadalActor {
 	private boolean ready;
 
 	public PlayerResultsIcon(SpriteBatch batch, SavedPlayerFields fields, SavedPlayerFieldsExtra fieldsExtra) {
-		this.name = HText.RESULTS_INFO.text(fields.getNameAbridged(MAX_NAME_LENGTH), Integer.toString(fields.getKills()),
+		this.name = UIText.RESULTS_INFO.text(fields.getNameAbridged(MAX_NAME_LENGTH), Integer.toString(fields.getKills()),
 				Integer.toString(fields.getDeaths()), Integer.toString(fields.getAssists()), Integer.toString(fields.getScore()));
 
 		this.readyIcon = Sprite.EMOTE_READY.getFrame();
@@ -93,11 +93,13 @@ public class PlayerResultsIcon extends AHadalActor {
 
 		//use shader to apply new team color
 		batch.begin();
-		ShaderProgram shader = null;
+		ShaderProgram shader;
 		if (team.isTeam() && team != AlignmentFilter.NONE) {
 			shader = team.getShader(character);
-			batch.setShader(shader);
+		} else {
+			shader = character.getPalette().getShader(character);
 		}
+		batch.setShader(shader);
 
 		batch.draw(playerSprite, 0, 0);
 

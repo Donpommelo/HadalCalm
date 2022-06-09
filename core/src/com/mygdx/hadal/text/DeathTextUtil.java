@@ -129,14 +129,14 @@ public class DeathTextUtil {
 
 		if (perp != null) {
 			if (perp.getConnId() == vic.getConnId()) {
-				return HText.DEATH_SELF.text(vicName);
+				return UIText.DEATH_SELF.text(vicName);
 			} else {
-				return HText.DEATH_KILL.text(perpName, vicName);
+				return UIText.DEATH_KILL.text(perpName, vicName);
 			}
 		} else if (type != null) {
-			return HText.DEATH_ENEMY.text(vicName, type.getName());
+			return UIText.DEATH_ENEMY.text(vicName, type.getName());
 		} else {
-			return HText.DEATH_MISC.text(vicName);
+			return UIText.DEATH_MISC.text(vicName);
 		}
 	}
 }

@@ -8,7 +8,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
 
 /**
@@ -19,12 +19,12 @@ import com.mygdx.hadal.text.TooltipManager;
 public class ModeModifier extends ModeSetting {
 
     private final String settingTag;
-    private final HText uiText, name;
-    private HText desc;
+    private final UIText uiText, name;
+    private UIText desc;
 
     private CheckBox dropsOptions;
 
-    public ModeModifier(String settingTag, HText uiText, HText name) {
+    public ModeModifier(String settingTag, UIText uiText, UIText name) {
         this.settingTag = settingTag;
         this.uiText = uiText;
         this.name = name;
@@ -71,5 +71,5 @@ public class ModeModifier extends ModeSetting {
 
     public String getSettingTag() { return settingTag; }
 
-    public void setDesc(HText desc) { this.desc = desc; }
+    public void setDesc(UIText desc) { this.desc = desc; }
 }

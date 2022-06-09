@@ -1,7 +1,7 @@
 package com.mygdx.hadal.map.modifiers;
 
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 /**
  * This modifier makes the game world run at half-speed. This affects all bodies.
@@ -11,8 +11,8 @@ import com.mygdx.hadal.text.HText;
 public class SlowMotion extends ModeModifier {
 
     private static final String settingTag = "slow_motion";
-    private static final HText uiText = HText.MODIFIER_SLOW_UI;
-    private static final HText name = HText.MODIFIER_SLOW;
+    private static final UIText uiText = UIText.MODIFIER_SLOW_UI;
+    private static final UIText name = UIText.MODIFIER_SLOW;
 
     private static final float physicsMultiplier = -0.5f;
 

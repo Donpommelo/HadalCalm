@@ -26,7 +26,7 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
@@ -216,7 +216,7 @@ public enum GameMode {
         multi.getProperties().put("triggeredId", multiId);
 
         //using these string builders, we modify the aforementioned events based on the mode's settings
-        StringBuilder uiTriggerId = new StringBuilder(HText.LEVEL.text());
+        StringBuilder uiTriggerId = new StringBuilder(UIText.LEVEL.text());
         StringBuilder spawnTriggerId = new StringBuilder();
         StringBuilder startTriggerId = new StringBuilder(timerId);
 
@@ -374,7 +374,7 @@ public enum GameMode {
         for (ModeSetting setting : applicableSettings) {
             setting.processPlayerLivesOut(state, this, p);
         }
-        state.getKillFeed().addNotification(HText.ELIMINATED.text(WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH)), true);
+        state.getKillFeed().addNotification(UIText.ELIMINATED.text(WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH)), true);
     }
 
     /**

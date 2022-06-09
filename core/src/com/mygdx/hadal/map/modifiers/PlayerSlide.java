@@ -2,7 +2,7 @@ package com.mygdx.hadal.map.modifiers;
 
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 /**
  * This mode modifier causes all players to have 0 traction with the ground
@@ -11,8 +11,8 @@ import com.mygdx.hadal.text.HText;
 public class PlayerSlide extends ModeModifier {
 
     private static final String settingTag = "player_slide";
-    private static final HText uiText = HText.MODIFIER_SLIDE_UI;
-    private static final HText name = HText.MODIFIER_SLIDE;
+    private static final UIText uiText = UIText.MODIFIER_SLIDE_UI;
+    private static final UIText name = UIText.MODIFIER_SLIDE;
 
     public PlayerSlide() {
         super(settingTag, uiText, name);

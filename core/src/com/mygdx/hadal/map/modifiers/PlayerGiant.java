@@ -2,7 +2,7 @@ package com.mygdx.hadal.map.modifiers;
 
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 /**
  *  This modifier increases the sizes of all players.
@@ -11,8 +11,8 @@ import com.mygdx.hadal.text.HText;
 public class PlayerGiant extends ModeModifier {
 
     private static final String settingTag = "player_giant";
-    private static final HText uiText = HText.MODIFIER_LARGE_UI;
-    private static final HText name = HText.MODIFIER_LARGE;
+    private static final UIText uiText = UIText.MODIFIER_LARGE_UI;
+    private static final UIText name = UIText.MODIFIER_LARGE;
 
     public PlayerGiant() {
         super(settingTag, uiText, name);

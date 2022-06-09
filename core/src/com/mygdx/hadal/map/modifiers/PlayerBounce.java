@@ -2,7 +2,7 @@ package com.mygdx.hadal.map.modifiers;
 
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 /**
  * This modifiers makes the bodies of all players bouncy
@@ -11,8 +11,8 @@ import com.mygdx.hadal.text.HText;
 public class PlayerBounce extends ModeModifier {
 
     private static final String settingTag = "player_bounce";
-    private static final HText uiText = HText.MODIFIER_BOUNCE_UI;
-    private static final HText name = HText.MODIFIER_BOUNCE;
+    private static final UIText uiText = UIText.MODIFIER_BOUNCE_UI;
+    private static final UIText name = UIText.MODIFIER_BOUNCE;
 
     public PlayerBounce() {
         super(settingTag, uiText, name);

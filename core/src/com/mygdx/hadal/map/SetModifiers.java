@@ -9,7 +9,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.map.modifiers.ModeModifier;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 /**
  * This mode setting is used for modes that allow the host to select modifiers
@@ -18,7 +18,7 @@ import com.mygdx.hadal.text.HText;
 public class SetModifiers extends ModeSetting {
 
     private final ModeModifier[] modifiers;
-    private static final HText ModifierNotifTag = HText.MODIFIER;
+    private static final UIText ModifierNotifTag = UIText.MODIFIER;
 
     public SetModifiers(ModeModifier... modifiers) {
         this.modifiers = modifiers;
@@ -31,7 +31,7 @@ public class SetModifiers extends ModeSetting {
         title.setScale(ModeSettingSelection.detailsScale);
 
         //this gives an option to uncheck all modifiers
-        Text uncheck = new Text(HText.MODIFIER_UNCHECK.text()).setButton(true);
+        Text uncheck = new Text(UIText.MODIFIER_UNCHECK.text()).setButton(true);
         uncheck.setScale(ModeSettingSelection.detailsScale);
 
         uncheck.addListener(new ClickListener() {

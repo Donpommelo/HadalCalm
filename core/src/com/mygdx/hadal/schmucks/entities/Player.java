@@ -37,7 +37,7 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.CameraUtil;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
@@ -718,7 +718,7 @@ public class Player extends PhysicsSchmuck {
 			reloadDelayed = Math.min(1.0f, reloadDelayed + (reloadPercent - reloadDelayed) * 0.25f);
 			
 			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * reloadDelayed, reloadBar.getRegionHeight() * uiScale);
-			HadalGame.FONT_SPRITE.draw(batch, HText.RELOADING.text(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
+			HadalGame.FONT_SPRITE.draw(batch, UIText.RELOADING.text(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
 			batch.draw(reloadMeter, textX, textY, reloadMeter.getRegionWidth() * uiScale, reloadMeter.getRegionHeight() * uiScale);
 			
 			if (reloadDelayed > reloadPercent) {
@@ -742,11 +742,11 @@ public class Player extends PhysicsSchmuck {
 		//render "out of ammo"
 		if (state.isServer()) {
 			if (playerData.getCurrentTool().isOutofAmmo()) {
-				HadalGame.FONT_SPRITE.draw(batch, HText.OUT_OF_AMMO.text(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
+				HadalGame.FONT_SPRITE.draw(batch, UIText.OUT_OF_AMMO.text(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
 			}
 		} else {
 			if (playerData.isOverrideOutOfAmmo()) {
-				HadalGame.FONT_SPRITE.draw(batch, HText.OUT_OF_AMMO.text(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
+				HadalGame.FONT_SPRITE.draw(batch, UIText.OUT_OF_AMMO.text(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
 			}
 		}
 		

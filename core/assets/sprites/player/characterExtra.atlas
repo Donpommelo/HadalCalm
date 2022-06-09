@@ -6,91 +6,91 @@ filter: Linear,Linear
 repeat: none
 maximillian_buff
   rotate: false
-  xy: 2, 2
+  xy: 2, 124
   size: 614, 922
   orig: 614, 922
   offset: 0, 0
   index: -1
-maximillian_slug
+moreau_buff
   rotate: false
-  xy: 2, 1408
-  size: 614, 480
-  orig: 614, 480
+  xy: 1028, 926
+  size: 614, 922
+  orig: 614, 922
   offset: 0, 0
   index: -1
-moreau_buff
+roclaire_buff
   rotate: false
   xy: 618, 2
   size: 614, 922
   orig: 614, 922
   offset: 0, 0
   index: -1
-moreau_slug
-  rotate: false
-  xy: 618, 1408
-  size: 614, 480
-  orig: 614, 480
-  offset: 0, 0
-  index: -1
-roclaire_buff
+takanori_buff
   rotate: false
   xy: 1234, 2
   size: 614, 922
   orig: 614, 922
   offset: 0, 0
   index: -1
+telemachus_slug
+  rotate: false
+  xy: 2, 1048
+  size: 1024, 800
+  orig: 1024, 800
+  offset: 0, 0
+  index: -1
+
+characterExtra2.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+maximillian_slug
+  rotate: false
+  xy: 618, 1368
+  size: 614, 480
+  orig: 614, 480
+  offset: 0, 0
+  index: -1
+moreau_slug
+  rotate: false
+  xy: 618, 886
+  size: 614, 480
+  orig: 614, 480
+  offset: 0, 0
+  index: -1
 roclaire_slug
   rotate: false
-  xy: 1234, 1408
+  xy: 1234, 1368
   size: 614, 480
   orig: 614, 480
   offset: 0, 0
   index: -1
 takanori_slug
   rotate: false
-  xy: 2, 926
+  xy: 618, 404
   size: 614, 480
   orig: 614, 480
-  offset: 0, 0
-  index: -1
-telemachus_slug
-  rotate: false
-  xy: 618, 926
-  size: 614, 480
-  orig: 614, 480
-  offset: 0, 0
-  index: -1
-wanda_slug
-  rotate: false
-  xy: 1234, 926
-  size: 614, 480
-  orig: 614, 480
-  offset: 0, 0
-  index: -1
-
-characterExtra2.png
-size: 2048,1024
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-takanori_buff
-  rotate: false
-  xy: 2, 2
-  size: 614, 922
-  orig: 614, 922
   offset: 0, 0
   index: -1
 telemachus_buff
   rotate: false
-  xy: 618, 2
+  xy: 2, 926
   size: 614, 922
   orig: 614, 922
   offset: 0, 0
   index: -1
 wanda_buff
   rotate: false
-  xy: 1234, 2
+  xy: 2, 2
   size: 614, 922
   orig: 614, 922
+  offset: 0, 0
+  index: -1
+wanda_slug
+  rotate: false
+  xy: 1234, 886
+  size: 614, 480
+  orig: 614, 480
   offset: 0, 0
   index: -1

@@ -1,14 +1,13 @@
 package com.mygdx.hadal.save;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.ColorPalette;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
@@ -21,15 +20,14 @@ import com.mygdx.hadal.states.PlayState;
  */
 public enum UnlockCharacter {
 
-	MAXIMILLIAN(AssetList.PLAYER_MAXIMILLIAN_ATL.toString(), AssetList.PLAYER_MAXIMILLIAN.toString(),
-		Sprite.MAXIMILLIAN_SLUG, Sprite.MAXIMILLIAN_BUFF, 117.0f, 86.4f, 177.0f, 502.2f,
-		0.96f, 0.31f,0.31f, 0.73f, 0.15f, 0.15f),
-	MOREAU(AssetList.PLAYER_MOREAU_ATL.toString(), AssetList.PLAYER_MOREAU.toString(),
-		Sprite.MOREAU_SLUG, Sprite.MOREAU_BUFF, 106.8f, 76.2f, 161.4f, 496.2f,
-		.15f, 0.39f,0.10f, 0.57f, 0.68f,0.58f),
-	ROCLAIRE(AssetList.PLAYER_ROCLAIRE_ATL.toString(), AssetList.PLAYER_ROCLAIRE.toString(),
-		Sprite.ROCLAIRE_SLUG, Sprite.ROCLAIRE_BUFF, 114.0f, 88.8f, 168.6f, 509.4f,
-		0.83f, 0.85f,0.89f, 0.83f, 0.85f,0.89f) {
+	MAXIMILLIAN(AssetList.PLAYER_MAXIMILLIAN_ATL.toString(), AssetList.PLAYER_MAXIMILLIAN.toString(), Sprite.MAXIMILLIAN_SLUG,
+			Sprite.MAXIMILLIAN_BUFF, ColorPalette.MAXIMILLIAN,117.0f, 86.4f, 177.0f, 502.2f),
+
+	MOREAU(AssetList.PLAYER_MOREAU_ATL.toString(), AssetList.PLAYER_MOREAU.toString(), Sprite.MOREAU_SLUG,
+			Sprite.MOREAU_BUFF, ColorPalette.MOREAU, 106.8f, 76.2f, 161.4f, 496.2f),
+
+	ROCLAIRE(AssetList.PLAYER_ROCLAIRE_ATL.toString(), AssetList.PLAYER_ROCLAIRE.toString(), Sprite.ROCLAIRE_SLUG,
+			Sprite.ROCLAIRE_BUFF, ColorPalette.ROCLAIRE, 114.0f, 88.8f, 168.6f, 509.4f) {
 		
 		//custom wobble for bucket bobbing
 		@Override
@@ -59,15 +57,14 @@ public enum UnlockCharacter {
 		}
 		
 	},
-	TAKANORI(AssetList.PLAYER_TAKANORI_ATL.toString(), AssetList.PLAYER_TAKANORI.toString(),
-		Sprite.TAKANORI_SLUG, Sprite.TAKANORI_BUFF, 109.2f, 87.9f, 164.4f, 504.6f,
-		1.00f, 0.73f,0.29f, 1.00f, 0.73f,0.29f),
-	TELEMACHUS(AssetList.PLAYER_TELEMACHUS_ATL.toString(), AssetList.PLAYER_TELEMACHUS.toString(),
-		Sprite.TELEMACHUS_SLUG, Sprite.TELEMACHUS_BUFF, 109.2f, 88.2f, 157.2f, 508.8f,
-		0.52f, 0.70f,0.79f, 0.52f, 0.70f,0.79f),
-	WANDA(AssetList.PLAYER_WANDA_ATL.toString(), AssetList.PLAYER_WANDA.toString(),
-		Sprite.WANDA_SLUG, Sprite.WANDA_BUFF, 102.6f, 117.6f, 161.4f, 528.6f,
-		0.47f, 0.37f,0.53f, 0.47f, 0.37f,0.53f) {
+	TAKANORI(AssetList.PLAYER_TAKANORI_ATL.toString(), AssetList.PLAYER_TAKANORI.toString(), Sprite.TAKANORI_SLUG,
+			Sprite.TAKANORI_BUFF, ColorPalette.TAKANORI, 109.2f, 87.9f, 164.4f, 504.6f),
+
+	TELEMACHUS(AssetList.PLAYER_TELEMACHUS_ATL.toString(), AssetList.PLAYER_TELEMACHUS.toString(), Sprite.TELEMACHUS_SLUG,
+			Sprite.TELEMACHUS_BUFF, ColorPalette.TELEMACHUS, 109.2f, 88.2f, 157.2f, 508.8f),
+
+	WANDA(AssetList.PLAYER_WANDA_ATL.toString(), AssetList.PLAYER_WANDA.toString(),	Sprite.WANDA_SLUG,
+			Sprite.WANDA_BUFF, ColorPalette.WANDA, 102.6f, 117.6f, 161.4f, 528.6f) {
 		
 		//this just makes wanda's head offset slightly higher to compensate for lack of a neck
 		@Override
@@ -86,34 +83,20 @@ public enum UnlockCharacter {
 	private InfoItem info;
 
 	//these are the character's primary and secondary suit colors used for color replacement
-	private final Vector3 color1RGB = new Vector3();
-	private final Vector3 color1HSV = new Vector3();
-	private final Vector3 color2HSV = new Vector3();
+	private final ColorPalette palette;
 
 	private final Vector2 slugHatOffset = new Vector2();
 	private final Vector2 buffHatOffset = new Vector2();
 
-	UnlockCharacter(String atlas, String texture, Sprite slugTexture, Sprite buffTexture,
-					float slugHatX, float slugHatY,	float buffHatX, float buffHatY,
-					float r1, float g1, float b1, float r2, float g2, float b2) {
+	UnlockCharacter(String atlas, String texture, Sprite slugTexture, Sprite buffTexture, ColorPalette palette,
+					float slugHatX, float slugHatY,	float buffHatX, float buffHatY) {
 		this.atlas = atlas;
 		this.texture = texture;
 		this.slugTexture = slugTexture;
 		this.buffTexture = buffTexture;
+		this.palette = palette;
 		this.slugHatOffset.set(slugHatX, slugHatY);
 		this.buffHatOffset.set(buffHatX, buffHatY);
-
-		this.color1RGB.set(r1, g1, b1);
-		Vector3 color2RGB = new Vector3();
-		color2RGB.set(r2, g2, b2);
-		Color color1 = new Color(r1, g1, b1, 1.0f);
-		Color color2 = new Color(r1, g1, b1, 1.0f);
-
-		float[] hsvTemp = new float[3];
-		hsvTemp = color1.toHsv(hsvTemp);
-		this.color1HSV.set(hsvTemp[0] / 360, hsvTemp[1], hsvTemp[2]);
-		hsvTemp = color2.toHsv(hsvTemp);
-		this.color2HSV.set(hsvTemp[0] / 360, hsvTemp[1], hsvTemp[2]);
 	}
 
 	/**
@@ -178,15 +161,11 @@ public enum UnlockCharacter {
 
 	public Sprite getBuffSprite() { return buffTexture; }
 
+	public ColorPalette getPalette() { return palette; }
+
 	public Vector2 getSlugHatOffset() { return slugHatOffset; }
 
 	public Vector2 getBuffHatOffset() {	return buffHatOffset; }
-
-	public Vector3 getColor1RGB() { return color1RGB; }
-
-	public Vector3 getColor1HSV() {	return color1HSV; }
-
-	public Vector3 getColor2HSV() {	return color2HSV; }
 
 	private static final ObjectMap<String, UnlockCharacter> UnlocksByName = new ObjectMap<>();
 	static {

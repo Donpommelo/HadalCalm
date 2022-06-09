@@ -86,7 +86,7 @@ public enum UnlockEquip {
 	UnlockEquip(Class<? extends Equippable> weapon) {
 		this.weapon = weapon;
 	}
-	
+
 	/**
 	 * This acquires a list of all unlocked weapons (if unlock is true. otherwise just return all weapons that satisfy the tags)
 	 */

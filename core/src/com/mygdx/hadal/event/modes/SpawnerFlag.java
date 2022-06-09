@@ -13,7 +13,7 @@ import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -54,7 +54,7 @@ public class SpawnerFlag extends Event {
                 //give score credit to the player and give notification
                 if (p != null) {
                     String playerName = WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH);
-                    state.getKillFeed().addNotification(HText.CTF_CAPTURE.text(playerName), false);
+                    state.getKillFeed().addNotification(UIText.CTF_CAPTURE.text(playerName), false);
                     state.getMode().processPlayerScoreChange(state, p, 1);
                 }
                 state.getMode().processTeamScoreChange(state, teamIndex, 1);
@@ -123,7 +123,7 @@ public class SpawnerFlag extends Event {
             if (teamIndex < AlignmentFilter.currentTeams.length) {
                 messageCount = messageCooldown;
                 String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
-                state.getKillFeed().addNotification(HText.CTF_CAPTURE_FAIL.text(teamColor), true);
+                state.getKillFeed().addNotification(UIText.CTF_CAPTURE_FAIL.text(teamColor), true);
             }
         }
     }
@@ -132,7 +132,7 @@ public class SpawnerFlag extends Event {
         ParticleEntity particle = new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, particleDuration,
                 true, SyncType.CREATESYNC);
         if (teamIndex < AlignmentFilter.currentTeams.length) {
-            particle.setColor(AlignmentFilter.currentTeams[teamIndex].getColor1());
+            particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
         }
     }
 

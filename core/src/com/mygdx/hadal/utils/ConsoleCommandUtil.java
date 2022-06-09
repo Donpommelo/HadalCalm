@@ -15,7 +15,7 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TextFilterUtil;
 
 import java.util.Arrays;
@@ -101,9 +101,9 @@ public class ConsoleCommandUtil {
 
 		if (command.equals("/help")) {
 			if (state.isServer()) {
-				state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(HText.INFO_HELP.text()), DialogType.SYSTEM, 0);
+				state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, 0);
 			} else {
-				state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(HText.INFO_HELP.text()), DialogType.SYSTEM, player.getConnId());
+				state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, player.getConnId());
 			}
 			return 0;
 		}

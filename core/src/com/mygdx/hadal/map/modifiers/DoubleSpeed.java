@@ -1,7 +1,7 @@
 package com.mygdx.hadal.map.modifiers;
 
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 /**
  * This modifier makes the game world run at double-speed. This affects all bodies.
@@ -11,8 +11,8 @@ import com.mygdx.hadal.text.HText;
 public class DoubleSpeed extends ModeModifier {
 
     private static final String settingTag = "double_speed";
-    private static final HText uiText = HText.MODIFIER_FAST_UI;
-    private static final HText name = HText.MODIFIER_FAST;
+    private static final UIText uiText = UIText.MODIFIER_FAST_UI;
+    private static final UIText name = UIText.MODIFIER_FAST;
 
     private static final float physicsMultiplier = 1.0f;
 

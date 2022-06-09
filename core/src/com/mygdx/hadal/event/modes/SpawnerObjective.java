@@ -74,7 +74,7 @@ public class SpawnerObjective extends Event {
 				if (spawnCountdown <= 0.0f) {
 					flag = new CrownHoldable(state, new Vector2(getPixelPosition()));
 					new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, particleDuration,
-							true, SyncType.CREATESYNC).setColor(HadalColor.GOLD);
+							true, SyncType.CREATESYNC).setColor(HadalColor.GOLDEN_YELLOW);
 				}
 			} else {
 

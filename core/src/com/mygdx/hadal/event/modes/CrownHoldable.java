@@ -19,7 +19,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
@@ -57,7 +57,7 @@ public class CrownHoldable extends Event {
 		setSynced(true);
 
 		new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.CREATESYNC)
-				.setColor(HadalColor.GOLD);
+				.setColor(HadalColor.GOLDEN_YELLOW);
 
 		//make objective marker track this event
 		EventUtils.setObjectiveMarker(state, this, Sprite.CLEAR_CIRCLE_ALERT, HadalColor.NOTHING,
@@ -85,7 +85,7 @@ public class CrownHoldable extends Event {
 							//a player captures the crown. Alert players.
 							body.setGravityScale(0.0f);
 							String playerName = WeaponUtils.getPlayerColorName(target, MAX_NAME_LENGTH);
-							state.getKillFeed().addNotification(HText.KM_PICKUP.text(playerName), true);
+							state.getKillFeed().addNotification(UIText.KM_PICKUP.text(playerName), true);
 						}
 					}
 				}
@@ -112,7 +112,7 @@ public class CrownHoldable extends Event {
 				body.setGravityScale(1.0f);
 				returnTimer = returnTime;
 
-				state.getKillFeed().addNotification(HText.KM_DROPPED.text(), true);
+				state.getKillFeed().addNotification(UIText.KM_DROPPED.text(), true);
 			} else {
 				hbLocation.set(target.getPosition());
 				setTransform(hbLocation, getAngle());
@@ -129,7 +129,7 @@ public class CrownHoldable extends Event {
 			returnTimer -= delta;
 			if (returnTimer <= 0.0f) {
 				queueDeletion();
-				state.getKillFeed().addNotification(HText.KM_RETURN.text(), true);
+				state.getKillFeed().addNotification(UIText.KM_RETURN.text(), true);
 			}
 		}
 	}

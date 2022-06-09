@@ -7,7 +7,7 @@ import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 /**
@@ -35,8 +35,8 @@ public class SettingTimer extends ModeSetting {
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
-        String[] timerChoices = HText.SETTING_TIMER_OPTIONS.text().split(",");
-        Text timer = new Text(HText.SETTING_TIMER.text());
+        String[] timerChoices = UIText.SETTING_TIMER_OPTIONS.text().split(",");
+        Text timer = new Text(UIText.SETTING_TIMER.text());
         timer.setScale(ModeSettingSelection.detailsScale);
 
         timerOptions = new SelectBox<>(GameStateManager.getSkin());
