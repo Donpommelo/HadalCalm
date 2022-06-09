@@ -12,7 +12,8 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.map.SettingTeamMode;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.save.UnlockCharacter;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.GameText;
+import com.mygdx.hadal.text.UIText;
 
 import java.util.Arrays;
 
@@ -24,7 +25,7 @@ import java.util.Arrays;
  */
 public enum AlignmentFilter {
 
-    NONE(-3, ColorPalette.BASE, false, HText.NOTHING),
+    NONE(-3, ColorPalette.BASE, false, GameText.NOTHING),
     PLAYER1(-4),
     PLAYER2(-5),
     PLAYER3(-6),
@@ -42,23 +43,23 @@ public enum AlignmentFilter {
     PLAYER15(-18),
     PLAYER16(-19),
 
-    TEAM_BANANA(-25, ColorPalette.BANANA, HText.BANANA, HadalColor.YELLOW),
-    TEAM_CELADON(-26, ColorPalette.CELADON, HText.CELADON, HadalColor.GREEN),
-    TEAM_CHARTREUSE(-27, ColorPalette.CHARTREUSE, HText.CHARTREUSE, HadalColor.GREEN),
-    TEAM_COQUELICOT(-28, ColorPalette.COQUELICOT, HText.COQUELICOT, HadalColor.RED),
-    TEAM_CRIMSON(-29, ColorPalette.CRIMSON, HText.CRIMSON, HadalColor.RED),
-    TEAM_EGGPLANT(-30, ColorPalette.EGGPLANT, HText.EGGPLANT, HadalColor.VIOLET),
-    TEAM_GOLD(-31, ColorPalette.GOLD, HText.GOLD, HadalColor.ORANGE, HadalColor.YELLOW),
-    TEAM_GREY(-32, ColorPalette.GREY, HText.GREY, HadalColor.GREY, HadalColor.BROWN),
-    TEAM_PLUM(-33, ColorPalette.PLUM, HText.PLUM, HadalColor.VIOLET),
-    TEAM_MAUVE(-34, ColorPalette.MAUVE, HText.MAUVE, HadalColor.VIOLET, HadalColor.BROWN),
-    TEAM_ORANGE(-35, ColorPalette.ORANGE, HText.ORANGE, HadalColor.ORANGE, HadalColor.RED),
-    TEAM_SKY_BLUE(-36, ColorPalette.SKY_BLUE, HText.SKY_BLUE, HadalColor.BLUE),
-    TEAM_TAN(-37, ColorPalette.TAN, HText.TAN, HadalColor.BROWN, HadalColor.YELLOW),
-    TEAM_TURQUOISE(-38, ColorPalette.TURQUOISE, HText.TURQUOISE, HadalColor.BLUE, HadalColor.GREEN),
-    TEAM_VIOLET(-39, ColorPalette.VIOLET, HText.VIOLET, HadalColor.VIOLET),
+    TEAM_BANANA(-25, ColorPalette.BANANA, GameText.BANANA, HadalColor.YELLOW),
+    TEAM_CELADON(-26, ColorPalette.CELADON, GameText.CELADON, HadalColor.GREEN),
+    TEAM_CHARTREUSE(-27, ColorPalette.CHARTREUSE, GameText.CHARTREUSE, HadalColor.GREEN),
+    TEAM_COQUELICOT(-28, ColorPalette.COQUELICOT, GameText.COQUELICOT, HadalColor.RED),
+    TEAM_CRIMSON(-29, ColorPalette.CRIMSON, GameText.CRIMSON, HadalColor.RED),
+    TEAM_EGGPLANT(-30, ColorPalette.EGGPLANT, GameText.EGGPLANT, HadalColor.VIOLET),
+    TEAM_GOLD(-31, ColorPalette.GOLD, GameText.GOLD, HadalColor.ORANGE, HadalColor.YELLOW),
+    TEAM_GREY(-32, ColorPalette.GREY, GameText.GREY, HadalColor.GREY, HadalColor.BROWN),
+    TEAM_PLUM(-33, ColorPalette.PLUM, GameText.PLUM, HadalColor.VIOLET),
+    TEAM_MAUVE(-34, ColorPalette.MAUVE, GameText.MAUVE, HadalColor.VIOLET, HadalColor.BROWN),
+    TEAM_ORANGE(-35, ColorPalette.ORANGE, GameText.ORANGE, HadalColor.ORANGE, HadalColor.RED),
+    TEAM_SKY_BLUE(-36, ColorPalette.SKY_BLUE, GameText.SKY_BLUE, HadalColor.BLUE),
+    TEAM_TAN(-37, ColorPalette.TAN, GameText.TAN, HadalColor.BROWN, HadalColor.YELLOW),
+    TEAM_TURQUOISE(-38, ColorPalette.TURQUOISE, GameText.TURQUOISE, HadalColor.BLUE, HadalColor.GREEN),
+    TEAM_VIOLET(-39, ColorPalette.VIOLET, GameText.VIOLET, HadalColor.VIOLET),
 
-    TEAM_BLACK_AND_WHITE(-40, ColorPalette.BASE, HText.BLACK_AND_WHITE) {
+    TEAM_BLACK_AND_WHITE(-40, ColorPalette.BASE, GameText.BLACK_AND_WHITE) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -70,7 +71,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_CENSURE(-41, ColorPalette.BASE, false, HText.CENSURED) {
+    TEAM_CENSURE(-41, ColorPalette.BASE, false, GameText.CENSURED) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -82,7 +83,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_INVERT(-42, ColorPalette.BASE, false, HText.INVERT) {
+    TEAM_INVERT(-42, ColorPalette.BASE, false, GameText.INVERT) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -94,7 +95,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_SEPIA(-43, ColorPalette.BASE, false, HText.SEPIA) {
+    TEAM_SEPIA(-43, ColorPalette.BASE, false, GameText.SEPIA) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -135,12 +136,12 @@ public enum AlignmentFilter {
         this.palette = ColorPalette.BASE;
     }
 
-    AlignmentFilter(int filter, ColorPalette palette, boolean standardChoice, HText adjective) {
+    AlignmentFilter(int filter, ColorPalette palette, boolean standardChoice, GameText adjective) {
         this(filter, palette, adjective);
         this.standardChoice = standardChoice;
     }
 
-    AlignmentFilter(int filter, ColorPalette palette, HText adjective, HadalColor... colorGroup) {
+    AlignmentFilter(int filter, ColorPalette palette, GameText adjective, HadalColor... colorGroup) {
         this.filter = (short) filter;
         this.palette = palette;
         this.adjective = adjective.text();
@@ -331,7 +332,7 @@ public enum AlignmentFilter {
 
     public short getFilter() { return filter; }
 
-    public String getTeamName() { return HText.TEAM + " " + adjective; }
+    public String getTeamName() { return UIText.TEAM + " " + adjective; }
 
     public String getColoredAdjective() {
         return WeaponUtils.getColorName(palette.getIcon(), adjective);

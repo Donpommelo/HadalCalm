@@ -14,7 +14,7 @@ import com.mygdx.hadal.map.SettingTeamMode;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.Stats;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_SHORT;
@@ -219,7 +219,7 @@ public class UIExtra extends AHadalActor {
 	public void incrementTimer(float delta) {
 
 		if (timer > notificationThreshold && timer + (timerIncr * delta) < notificationThreshold) {
-			state.getKillFeed().addNotification(HText.TIMER_REMAINING.text(), false);
+			state.getKillFeed().addNotification(UIText.TIMER_REMAINING.text(), false);
 		}
 
 		timer += (timerIncr * delta);
@@ -309,7 +309,7 @@ public class UIExtra extends AHadalActor {
 				rgb.set(AlignmentFilter.currentTeams[i].getPalette().getIcon().getRGB());
 				String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
 				text.append("[").append(hex).append("]").append(AlignmentFilter.currentTeams[i].getTeamName())
-						.append("[]").append(": ").append(numAlive).append(" ").append(HText.PLAYERS_ALIVE.text()).append("\n");
+						.append("[]").append(": ").append(numAlive).append(" ").append(UIText.PLAYERS_ALIVE.text()).append("\n");
 				scoreNum++;
 				if (scoreNum > maxScores) {
 					break;

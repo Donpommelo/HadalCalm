@@ -23,7 +23,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_TOTAL;
 import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION_SLOW;
@@ -151,7 +151,7 @@ public class UIHub {
 
 		//for hubs with search bar, let players type in text
 		if (searchable) {
-			Text search = new Text(HText.SEARCH.text());
+			Text search = new Text(UIText.SEARCH.text());
 			search.setScale(optionsScale);
 
 			searchName = new TextField("", GameStateManager.getSkin()) {
@@ -175,7 +175,7 @@ public class UIHub {
 					};
 				}
 			};
-			searchName.setMessageText(HText.SEARCH_OPTIONS.text());
+			searchName.setMessageText(UIText.SEARCH_OPTIONS.text());
 			searchName.setText(hub.getLastSearch());
 			tableSearch.add(search);
 			tableSearch.add(searchName).padBottom(optionPad).row();
@@ -183,7 +183,7 @@ public class UIHub {
 
 		//if the player can add extra tags to search artifacts, add dropdown for this
 		if (filterTags) {
-			Text searchTags = new Text(HText.FILTER_TAGS.text());
+			Text searchTags = new Text(UIText.FILTER_TAGS.text());
 			searchTags.setScale(optionsScale);
 
 			tagFilter = new SelectBox<>(GameStateManager.getSkin());
@@ -210,11 +210,11 @@ public class UIHub {
 			tableSearch.add(tagFilter).padBottom(optionPad).row();
 		}
 		if (filterCost) {
-			Text searchCost = new Text(HText.FILTER_COST.text());
+			Text searchCost = new Text(UIText.FILTER_COST.text());
 			searchCost.setScale(optionsScale);
 
 			slotsFilter = new SelectBox<>(GameStateManager.getSkin());
-			slotsFilter.setItems(HText.FILTER_COST_OPTIONS.text().split(","));
+			slotsFilter.setItems(UIText.FILTER_COST_OPTIONS.text().split(","));
 			slotsFilter.setSelectedIndex(hub.getLastSlot() + 1);
 
 			slotsFilter.addListener(new ChangeListener() {
@@ -299,7 +299,7 @@ public class UIHub {
 	public void refreshReliquary(HubEvent hub) {
 		tableExtra.clear();
 		
-		Text slotsTitle = new Text(HText.CURRENT_ARTIFACTS.text());
+		Text slotsTitle = new Text(UIText.CURRENT_ARTIFACTS.text());
 		slotsTitle.setScale(0.5f);
 		tableExtra.add(slotsTitle).colspan(12).pad(infoPad).row();
 		
@@ -311,7 +311,7 @@ public class UIHub {
 				//display all equipped artifacts and give option to unequip
 				if (!c.equals(UnlockArtifact.NOTHING)) {
 					artifactsEmpty = false;
-					final ArtifactIcon newTag = new ArtifactIcon(c, HText.UNEQUIP.text(c.getInfo().getName()),
+					final ArtifactIcon newTag = new ArtifactIcon(c, UIText.UNEQUIP.text(c.getInfo().getName()),
 						artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 
 					newTag.addListener(new ClickListener() {
@@ -329,7 +329,7 @@ public class UIHub {
 						@Override
 						public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 							super.enter(event, x, y, pointer, fromActor);
-							info = HText.ARTIFACT_INFO.text(newTag.getArtifact().getInfo().getName(),
+							info = UIText.ARTIFACT_INFO.text(newTag.getArtifact().getInfo().getName(),
 									Integer.toString(newTag.getArtifact().getArtifact().getSlotCost()),
 									newTag.getArtifact().getInfo().getDescription(), newTag.getArtifact().getInfo().getDescriptionLong());
 						}
@@ -339,14 +339,14 @@ public class UIHub {
 			}
 
 			if (artifactsEmpty) {
-				Text slotsEmpty = new Text(HText.NA.text());
+				Text slotsEmpty = new Text(UIText.NA.text());
 				slotsEmpty.setScale(0.5f);
 				tableExtra.add(slotsEmpty).height(artifactTagSize).colspan(12);
 			}
 
 			tableExtra.row();
 
-			Text slotsInfo = new Text(HText.SLOTS_REMAINING.text(
+			Text slotsInfo = new Text(UIText.SLOTS_REMAINING.text(
 					Integer.toString(state.getPlayer().getPlayerData().getArtifactSlotsRemaining())));
 			slotsInfo.setScale(0.5f);
 			tableExtra.add(slotsInfo).pad(infoPad).colspan(12).row();
@@ -357,9 +357,9 @@ public class UIHub {
 		tableExtra.clear();
 		TextField outfitName = new TextField("", GameStateManager.getSkin());
 		outfitName.setMaxLength(MAX_NAME_LENGTH_TOTAL);
-		outfitName.setMessageText(HText.OUTFIT_NAME.text());
+		outfitName.setMessageText(UIText.OUTFIT_NAME.text());
 
-		Text outfitSave = new Text(HText.OUTFIT_SAVE.text()).setButton(true);
+		Text outfitSave = new Text(UIText.OUTFIT_SAVE.text()).setButton(true);
 		outfitSave.setScale(optionsScale);
 
 		outfitSave.addListener(new ClickListener() {
@@ -382,7 +382,7 @@ public class UIHub {
 		SelectBox<String> outfits = new SelectBox<>(GameStateManager.getSkin());
 		outfits.setItems(outfitOptions);
 
-		Text outfitDelete = new Text(HText.OUTFIT_DELETE.text()).setButton(true);
+		Text outfitDelete = new Text(UIText.OUTFIT_DELETE.text()).setButton(true);
 		outfitDelete.setScale(optionsScale);
 
 		outfitDelete.addListener(new ClickListener() {

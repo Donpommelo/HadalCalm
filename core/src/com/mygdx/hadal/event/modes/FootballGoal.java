@@ -13,7 +13,7 @@ import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -60,10 +60,10 @@ public class FootballGoal extends Event {
 
                     if (teamIndex < AlignmentFilter.currentTeams.length) {
                         if (p.getStartLoadout().team == AlignmentFilter.currentTeams[teamIndex]) {
-                            state.getKillFeed().addNotification(HText.FOOTBALL_GOAL.text(playerName), false);
+                            state.getKillFeed().addNotification(UIText.FOOTBALL_GOAL.text(playerName), false);
                             state.getMode().processPlayerScoreChange(state, p, 1);
                         } else {
-                            state.getKillFeed().addNotification(HText.FOOTBALL_GOAL_OWN.text(playerName), false);
+                            state.getKillFeed().addNotification(UIText.FOOTBALL_GOAL_OWN.text(playerName), false);
                             state.getMode().processPlayerScoreChange(state, p, -1);
                         }
                     }

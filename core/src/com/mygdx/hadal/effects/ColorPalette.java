@@ -6,7 +6,7 @@ import com.mygdx.hadal.save.UnlockCharacter;
 
 public enum ColorPalette {
 
-    BASE(HadalColor.BLACK, HadalColor.BASE_SATURATED_DARK, HadalColor.BASE_MID_DARK, HadalColor.BASE_DESATURATED_DARK,
+    BASE(HadalColor.WHITE, HadalColor.BASE_SATURATED_DARK, HadalColor.BASE_MID_DARK, HadalColor.BASE_DESATURATED_DARK,
             HadalColor.BASE_SATURATED_LIGHT, HadalColor.BASE_MID_LIGHT, HadalColor.BASE_DESATURATED_LIGHT,
             HadalColor.BASE_ACCENT_1, HadalColor.BASE_ACCENT_2),
 

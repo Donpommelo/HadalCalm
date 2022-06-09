@@ -21,7 +21,7 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
@@ -141,9 +141,9 @@ public class ReviveGravestone extends Event {
 
 				if (lastReviver != null && numReturning > 0) {
 					String reviverName = WeaponUtils.getPlayerColorName(lastReviver, MAX_NAME_LENGTH);
-					state.getKillFeed().addNotification(HText.GRAVE_REVIVER.text(playerName, reviverName), true);
+					state.getKillFeed().addNotification(UIText.GRAVE_REVIVER.text(playerName, reviverName), true);
 				} else {
-					state.getKillFeed().addNotification(HText.GRAVE_REVIVE.text(playerName), true);
+					state.getKillFeed().addNotification(UIText.GRAVE_REVIVE.text(playerName), true);
 				}
 
 				user.setOverrideSpawn(getPixelPosition());

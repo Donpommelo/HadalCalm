@@ -5,11 +5,11 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.managers.GameStateManager;
 
 /**
- * A HText is a string that shows up anywhere in the game. These are managed in 1 place to make it easier to edit
+ * A UIText is a string that shows up anywhere in the game. These are managed in 1 place to make it easier to edit
  * Eventually, this will also be used for language setting changing
  * @author Spulbbury Stincilart
  */
-public enum HText {
+public enum UIText {
     STRING_NOT_FOUND("STRING_NOT_FOUND"),
     QUESTION("QUESTION"),
     NOTHING("NOTHING"),
@@ -123,8 +123,8 @@ public enum HText {
     FRIENDLY_FIRE("RESULT_FRIENDLY_FIRE"),
     SELF_DAMAGE("RESULT_SELF_DAMAGE"),
     DAMAGE_RECEIVED("RESULT_DAMAGE_RECEIVED"),
-    WEAPON("RESULT_WEAPON"),
-    ACTIVE("RESULT_ACTIVE"),
+    RESULT_WEAPON("RESULT_WEAPON"),
+    RESULT_ACTIVE("RESULT_ACTIVE"),
 
     PLAYER_WINS("PLAY_WINS"),
     GAME("PLAY_GAME"),
@@ -309,7 +309,7 @@ public enum HText {
     SHOOT("CONTROLS_SHOOT"),
     BOOST("CONTROLS_BOOST"),
     INTERACT("CONTROLS_INTERACT"),
-    MAGIC("CONTROLS_MAGIC"),
+    USE_MAGIC("CONTROLS_MAGIC"),
     RELOAD("CONTROLS_RELOAD"),
     DIALOG("CONTROLS_DIALOG"),
     SWITCH_TO_LAST("CONTROLS_SWITCH_TO_LAST"),
@@ -368,25 +368,11 @@ public enum HText {
     TEXT_RELOAD("TUTORIAL_TEXT_RELOAD"),
 
     TEAM("TEAM_TEAM"),
-    BANANA("TEAM_BANANA"),
-    CELADON("TEAM_CELADON"),
-    CHARTREUSE("TEAM_CHARTREUSE"),
-    COQUELICOT("TEAM_COQUELICOT"),
-    CRIMSON("TEAM_CRIMSON"),
-    EGGPLANT("TEAM_EGGPLANT"),
-    GOLD("TEAM_GOLD"),
-    GREY("TEAM_GREY"),
-    PLUM("TEAM_PLUM"),
-    MAUVE("TEAM_MAUVE"),
-    ORANGE("TEAM_ORANGE"),
-    SKY_BLUE("TEAM_SKY_BLUE"),
-    TAN("TEAM_TAN"),
-    TURQUOISE("TEAM_TURQUOISE"),
-    VIOLET("TEAM_VIOLET"),
-    BLACK_AND_WHITE("TEAM_BLACK_AND_WHITE"),
-    CENSURED("TEAM_CENSURED"),
-    INVERT("TEAM_INVERT"),
-    SEPIA("TEAM_SEPIA"),
+    ENVIRONMENT("ENVIRONMENT"),
+    WEAPON("WEAPON"),
+    MAGIC("MAGIC"),
+    ARTIFACT("ARTIFACT"),
+    MONSTER("MONSTER"),
 
     ;
 
@@ -396,7 +382,7 @@ public enum HText {
     //cached text if string has been read from json before.
     private String cachedText;
 
-    HText(String key) {
+    UIText(String key) {
         this.key = key;
     }
 
@@ -409,18 +395,18 @@ public enum HText {
         //no replacements means a static text. Read from file and cache
         if (replace.length == 0) {
             if (cachedText == null) {
-                JsonValue text = GameStateManager.gameStrings.get(key);
+                JsonValue text = GameStateManager.uiStrings.get(key);
                 if (text != null) {
                     cachedText = text.asString();
                 } else {
-                    cachedText = GameStateManager.gameStrings.get(STRING_NOT_FOUND.key).asString();
+                    cachedText = GameStateManager.uiStrings.get(STRING_NOT_FOUND.key).asString();
                 }
             }
             return cachedText;
         } else {
 
             //iterate through replace tags and replace with input strings
-            JsonValue text = GameStateManager.gameStrings.get(key);
+            JsonValue text = GameStateManager.uiStrings.get(key);
             if (text != null) {
                 String tempText = text.asString();
                 for (int i = 0; i < replace.length; i++) {
@@ -430,18 +416,18 @@ public enum HText {
                 }
                 return tempText;
             } else {
-                return GameStateManager.gameStrings.get(STRING_NOT_FOUND.key).asString();
+                return GameStateManager.uiStrings.get(STRING_NOT_FOUND.key).asString();
             }
         }
     }
 
-    private static final ObjectMap<String, HText> TextByName = new ObjectMap<>();
+    private static final ObjectMap<String, UIText> TextByName = new ObjectMap<>();
     static {
-        for (HText u : HText.values()) {
+        for (UIText u : UIText.values()) {
             TextByName.put(u.toString(), u);
         }
     }
-    public static HText getByName(String s) {
+    public static UIText getByName(String s) {
         return TextByName.get(s, STRING_NOT_FOUND);
     }
 }

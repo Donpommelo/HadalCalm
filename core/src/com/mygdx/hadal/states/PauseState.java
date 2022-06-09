@@ -21,7 +21,7 @@ import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState.TransitionState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 /**
  * The PauseState is pulled up by pausing in game.
@@ -109,19 +109,19 @@ public class PauseState extends GameState {
 				
 				//text indicates if the game is actually paused or not (if multiplayer pause is disabled in settings)
 				if (paused) {
-					pause = new Text(HText.PAUSE_BY.text(pauser));
+					pause = new Text(UIText.PAUSE_BY.text(pauser));
 				} else {
-					pause = new Text(HText.PAUSE_NOT.text());
+					pause = new Text(UIText.PAUSE_NOT.text());
 				}
 				pause.setScale(pauseTextScale);
 				
-				resumeOption = new Text(HText.RESUME.text()).setButton(true);
-				hubOption = new Text(HText.RETURN_HUB.text()).setButton(true);
-				settingOption = new Text(HText.SETTINGS.text()).setButton(true);
-				extraOption = new Text(HText.EXTRA.text()).setButton(true);
-				spectateOption = new Text(HText.SPECTATE.text()).setButton(true);
-				joinOption = new Text(HText.REJOIN.text()).setButton(true);
-				exitOption = new Text(HText.EXIT.text()).setButton(true);
+				resumeOption = new Text(UIText.RESUME.text()).setButton(true);
+				hubOption = new Text(UIText.RETURN_HUB.text()).setButton(true);
+				settingOption = new Text(UIText.SETTINGS.text()).setButton(true);
+				extraOption = new Text(UIText.EXTRA.text()).setButton(true);
+				spectateOption = new Text(UIText.SPECTATE.text()).setButton(true);
+				joinOption = new Text(UIText.REJOIN.text()).setButton(true);
+				exitOption = new Text(UIText.EXIT.text()).setButton(true);
 				
 				resumeOption.addListener(new ClickListener() {
 			        
@@ -354,7 +354,7 @@ public class PauseState extends GameState {
     		if (paused) {
     			//If the server unpauses, send a message and notification to all players to unpause.
         		HadalGame.server.sendToAllTCP(new Packets.Unpaused());
-    			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), HText.UNPAUSED.text(), true, DialogType.SYSTEM);
+    			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), UIText.UNPAUSED.text(), true, DialogType.SYSTEM);
     		}
 		} else {
 			if (paused) {

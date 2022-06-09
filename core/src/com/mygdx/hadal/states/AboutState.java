@@ -17,7 +17,7 @@ import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
 
 import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
@@ -116,7 +116,7 @@ public class AboutState extends GameState {
 				details.top();
 				addActor(details);
 
-				soundRoomOption = new Text(HText.SOUND_ROOM.text()).setButton(true);
+				soundRoomOption = new Text(UIText.SOUND_ROOM.text()).setButton(true);
 				soundRoomOption.addListener(new ClickListener() {
 
 					@Override
@@ -127,7 +127,7 @@ public class AboutState extends GameState {
 				});
 				soundRoomOption.setScale(optionsScale);
 
-				aboutOption = new Text(HText.ABOUT.text()).setButton(true);
+				aboutOption = new Text(UIText.ABOUT.text()).setButton(true);
 				aboutOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -138,7 +138,7 @@ public class AboutState extends GameState {
 			    });
 				aboutOption.setScale(optionsScale);
 
-				tipsOption = new Text(HText.TIPS.text()).setButton(true);
+				tipsOption = new Text(UIText.TIPS.text()).setButton(true);
 				tipsOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -149,7 +149,7 @@ public class AboutState extends GameState {
 			    });
 				tipsOption.setScale(optionsScale);
 				
-				miscOption = new Text(HText.MISC.text()).setButton(true);
+				miscOption = new Text(UIText.MISC.text()).setButton(true);
 				miscOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -160,7 +160,7 @@ public class AboutState extends GameState {
 			    });
 				miscOption.setScale(optionsScale);
 				
-				creditsOption = new Text(HText.CREDITS.text()).setButton(true);
+				creditsOption = new Text(UIText.CREDITS.text()).setButton(true);
 				creditsOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -171,7 +171,7 @@ public class AboutState extends GameState {
 			    });
 				creditsOption.setScale(optionsScale);
 				
-				exitOption = new Text(HText.RETURN.text()).setButton(true);
+				exitOption = new Text(UIText.RETURN.text()).setButton(true);
 				exitOption.addListener(new ClickListener() {
 					
 					@Override
@@ -201,8 +201,8 @@ public class AboutState extends GameState {
 		details.clearChildren();
 
 		//about option displays some game information read from json
-		details.add(new Text(HText.ABOUT.text())).colspan(2).pad(titlePad).row();
-		Text about = new Text(HText.INFO_ABOUT.text()).setWrap(detailsTextWidth);
+		details.add(new Text(UIText.ABOUT.text())).colspan(2).pad(titlePad).row();
+		Text about = new Text(UIText.INFO_ABOUT.text()).setWrap(detailsTextWidth);
 		about.setScale(detailsScale);
 		
 		details.add(about);
@@ -211,7 +211,7 @@ public class AboutState extends GameState {
 	private void soundRoomSelected() {
 		details.clearChildren();
 
-		details.add(new Text(HText.SOUND_ROOM.text())).colspan(2).pad(titlePad).row();
+		details.add(new Text(UIText.SOUND_ROOM.text())).colspan(2).pad(titlePad).row();
 		trackText = new Text("");
 		trackText.setScale(detailsScale);
 
@@ -271,7 +271,7 @@ public class AboutState extends GameState {
 		trackTime = new Text("");
 		trackTime.setScale(detailsScale);
 
-		pause = new Text(HText.PAUSE.text()).setButton(true);
+		pause = new Text(UIText.PAUSE.text()).setButton(true);
 		pause.setScale(detailsScale);
 
 		//pausing track sets toggles this button between pausing and playing music
@@ -283,18 +283,18 @@ public class AboutState extends GameState {
 				if (HadalGame.musicPlayer.getCurrentSong() != null) {
 					if (HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
 						HadalGame.musicPlayer.pause();
-						pause.setText(HText.PLAY.text());
+						pause.setText(UIText.PLAY.text());
 					} else {
 						HadalGame.musicPlayer.getCurrentSong().setPosition(musicTime.getValue());
 						HadalGame.musicPlayer.play();
-						pause.setText(HText.PAUSE.text());
+						pause.setText(UIText.PAUSE.text());
 					}
 					pause.setHeight(optionHeight);
 				}
 			}
 		});
 
-		Text stop = new Text (HText.STOP.text()).setButton(true);
+		Text stop = new Text (UIText.STOP.text()).setButton(true);
 		stop.setScale(detailsScale);
 
 		//stop sets track to null
@@ -308,7 +308,7 @@ public class AboutState extends GameState {
 			}
 		});
 
-		Text next = new Text (HText.NEXT.text()).setButton(true);
+		Text next = new Text (UIText.NEXT.text()).setButton(true);
 		next.setScale(detailsScale);
 
 		//next sets the song position to the end of the track, making the next track immediately start
@@ -325,12 +325,12 @@ public class AboutState extends GameState {
 		});
 
 		//this checkbox controls whther the music should continue playing after exiting the sound room
-		continuePlaying = new CheckBox(HText.CONTINUE.text(), GameStateManager.getSkin());
-		TooltipManager.addTooltip(continuePlaying, HText.CONTINUE_DESC.text());
+		continuePlaying = new CheckBox(UIText.CONTINUE.text(), GameStateManager.getSkin());
+		TooltipManager.addTooltip(continuePlaying, UIText.CONTINUE_DESC.text());
 
 		//loop options decide whether to loop, shuffle, cycle when a song completes
 		loopOptions = new SelectBox<>(GameStateManager.getSkin());
-		loopOptions.setItems(HText.LOOP_OPTIONS.text().split(","));
+		loopOptions.setItems(UIText.LOOP_OPTIONS.text().split(","));
 		loopOptions.setWidth(100);
 
 		details.add(trackText).width(songTitleWidth).pad(detailPad);
@@ -357,8 +357,8 @@ public class AboutState extends GameState {
 		details.clearChildren();
 
 		//about option displays some gameplay tips read from json
-		details.add(new Text(HText.TIPS.text())).colspan(2).pad(titlePad).row();
-		Text tips = new Text(HText.INFO_TIPS.text()).setWrap(detailsTextWidth);
+		details.add(new Text(UIText.TIPS.text())).colspan(2).pad(titlePad).row();
+		Text tips = new Text(UIText.INFO_TIPS.text()).setWrap(detailsTextWidth);
 		tips.setScale(detailsScale);
 		
 		details.add(tips);
@@ -368,8 +368,8 @@ public class AboutState extends GameState {
 		details.clearChildren();
 
 		//about option displays some miscellaneous text read from json
-		details.add(new Text(HText.MISC.text())).colspan(2).pad(titlePad).row();
-		Text misc = new Text(HText.INFO_MISC.text()).setWrap(detailsTextWidth);
+		details.add(new Text(UIText.MISC.text())).colspan(2).pad(titlePad).row();
+		Text misc = new Text(UIText.INFO_MISC.text()).setWrap(detailsTextWidth);
 		misc.setScale(detailsScale);
 		
 		details.add(misc);
@@ -379,10 +379,10 @@ public class AboutState extends GameState {
 		details.clearChildren();
 
 		//about option displays credit information read from json
-		details.add(new Text(HText.CREDITS.text())).colspan(2).pad(titlePad).row();
+		details.add(new Text(UIText.CREDITS.text())).colspan(2).pad(titlePad).row();
 		
 		//dev and art options have url links
-		Text dev = new Text(HText.INFO_CREDITS_CODE.text()).setButton(true);
+		Text dev = new Text(UIText.INFO_CREDITS_CODE.text()).setButton(true);
 		dev.setScale(detailsScale);
 		dev.setColor(Color.RED);
 		
@@ -395,7 +395,7 @@ public class AboutState extends GameState {
 	        }
 	    });
 		
-		Text art = new Text(HText.INFO_CREDITS_ART.text()).setButton(true);
+		Text art = new Text(UIText.INFO_CREDITS_ART.text()).setButton(true);
 		art.setScale(detailsScale);
 		art.setColor(Color.RED);
 		
@@ -408,7 +408,7 @@ public class AboutState extends GameState {
 	        }
 	    });
 
-		Text music = new Text(HText.INFO_CREDITS_MUSIC.text()).setButton(true);
+		Text music = new Text(UIText.INFO_CREDITS_MUSIC.text()).setButton(true);
 		music.setScale(detailsScale);
 		music.setColor(Color.RED);
 
@@ -421,7 +421,7 @@ public class AboutState extends GameState {
 			}
 		});
 
-		Text sfx = new Text(HText.INFO_CREDITS_SOUND.text()).setWrap(detailsTextWidth);
+		Text sfx = new Text(UIText.INFO_CREDITS_SOUND.text()).setWrap(detailsTextWidth);
 		sfx.setScale(detailsScale);
 		
 		details.add(dev).height(optionHeight).row();
@@ -539,7 +539,7 @@ public class AboutState extends GameState {
 		musicTime.setValue(0.0f);
 
 		//pause/play text should be set to pause since a song is now playing
-		pause.setText(HText.PAUSE.text());
+		pause.setText(UIText.PAUSE.text());
 		pause.setHeight(optionHeight);
 		if (track != null) {
 
@@ -563,7 +563,7 @@ public class AboutState extends GameState {
 				}
 			}
 			musicTime.setRange(0.0f, track.getTrackLength());
-			trackText.setText(HText.NOW_PLAYING.text(track.getMusicName()));
+			trackText.setText(UIText.NOW_PLAYING.text(track.getMusicName()));
 
 			//if resetting shuffle, clear and readd all tracks to it except the newly set track
 			if (resetShuffle) {
@@ -573,7 +573,7 @@ public class AboutState extends GameState {
 			}
 		} else {
 			musicTime.setRange(0.0f, 0.0f);
-			trackText.setText(HText.NOW_PLAYING_DEFAULT.text());
+			trackText.setText(UIText.NOW_PLAYING_DEFAULT.text());
 		}
 	}
 

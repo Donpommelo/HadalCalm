@@ -7,7 +7,7 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
 
 /**
@@ -25,14 +25,14 @@ public class SettingLoadoutOutfit extends ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {
 
         String[] optionChoices = new String[state.getGsm().getSavedOutfits().getOutfits().size + 1];
-        optionChoices[0] = HText.SETTING_OUTFIT_DEFAULT.text();
+        optionChoices[0] = UIText.SETTING_OUTFIT_DEFAULT.text();
         for (int i = 1; i < optionChoices.length; i++) {
             optionChoices[i] = state.getGsm().getSavedOutfits().getOutfits().keys().toArray().get(i - 1);
         }
 
-        Text outfit = new Text(HText.SETTING_OUTFIT.text());
+        Text outfit = new Text(UIText.SETTING_OUTFIT.text());
         outfit.setScale(ModeSettingSelection.detailsScale);
-        TooltipManager.addTooltip(outfit, HText.SETTING_OUTFIT_DESC.text());
+        TooltipManager.addTooltip(outfit, UIText.SETTING_OUTFIT_DESC.text());
 
         outfitOptions = new SelectBox<>(GameStateManager.getSkin());
         outfitOptions.setItems(optionChoices);
@@ -65,7 +65,7 @@ public class SettingLoadoutOutfit extends ModeSetting {
     public void loadSettingMisc(PlayState state, GameMode mode) {
         int startOutfit = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
         if (startOutfit != 0) {
-            mode.getInitialNotifications().add(HText.SETTING_OUTFIT_NOTIF.text());
+            mode.getInitialNotifications().add(UIText.SETTING_OUTFIT_NOTIF.text());
         }
     }
 

@@ -22,7 +22,7 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.managers.GameStateManager.State;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.NameGenerator;
 
 import static com.mygdx.hadal.utils.Constants.*;
@@ -163,31 +163,31 @@ public class TitleState extends GameState {
 				notificationTable.setSize(notificationWidth, notificationHeight);
 				addActor(notificationTable);
 
-				Text nameDisplay = new Text(HText.YOUR_NAME.text());
+				Text nameDisplay = new Text(UIText.YOUR_NAME.text());
 				nameDisplay.setScale(scaleSide);
 
-				Text nameRand = new Text(HText.GEN_NAME.text()).setButton(true);
+				Text nameRand = new Text(UIText.GEN_NAME.text()).setButton(true);
 				nameRand.setScale(scaleSide);
 
-				Text multiOption = new Text(HText.MULTIPLAYER.text()).setButton(true);
+				Text multiOption = new Text(UIText.MULTIPLAYER.text()).setButton(true);
 				multiOption.setScale(scale);
 
-				Text singleOption = new Text(HText.SINGLEPLAYER.text()).setButton(true);
+				Text singleOption = new Text(UIText.SINGLEPLAYER.text()).setButton(true);
 				singleOption.setScale(scale);
 
-				Text settingsOption = new Text(HText.SETTINGS.text()).setButton(true);
+				Text settingsOption = new Text(UIText.SETTINGS.text()).setButton(true);
 				settingsOption.setScale(scale);
 
-				Text aboutOption = new Text(HText.EXTRA.text()).setButton(true);
+				Text aboutOption = new Text(UIText.EXTRA.text()).setButton(true);
 				aboutOption.setScale(scale);
 
-				Text exitOption = new Text(HText.EXIT.text()).setButton(true);
+				Text exitOption = new Text(UIText.EXIT.text()).setButton(true);
 				exitOption.setScale(scale);
 
 				notifications = new Text("");
 				notifications.setScale(scale);
 
-				Text versionNum = new Text(HText.VERSION.text(HadalGame.Version), versionNumX, versionNumY).setButton(true);
+				Text versionNum = new Text(UIText.VERSION.text(HadalGame.Version), versionNumX, versionNumY).setButton(true);
 				versionNum.setScale(scale);
 				versionNum.setHeight(optionHeight);
 
@@ -208,7 +208,7 @@ public class TitleState extends GameState {
 						if (inputDisabled) { return; }
 
 						if (enterName.getText().isEmpty()) {
-							setNotification(HText.PLEASE_ENTER_NAME.text());
+							setNotification(UIText.PLEASE_ENTER_NAME.text());
 							return;
 						}
 
@@ -232,7 +232,7 @@ public class TitleState extends GameState {
 						if (inputDisabled) { return; }
 
 						if (enterName.getText().isEmpty()) {
-							setNotification(HText.PLEASE_ENTER_NAME.text());
+							setNotification(UIText.PLEASE_ENTER_NAME.text());
 							return;
 						}
 
@@ -306,7 +306,7 @@ public class TitleState extends GameState {
 						
 						SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
 						enterName.setText(NameGenerator.generateFirstLast(gsm.getSetting().isRandomNameAlliteration()));
-			        	setNotification(HText.RAND_NAME_GEN.text());
+			        	setNotification(UIText.RAND_NAME_GEN.text());
 				        }
 				});
 				
@@ -324,7 +324,7 @@ public class TitleState extends GameState {
 
 				enterName = new TextField(gsm.getLoadout().getName(), GameStateManager.getSkin());
 				enterName.setMaxLength(MAX_NAME_LENGTH_TOTAL);
-				enterName.setMessageText(HText.ENTER_NAME.text());
+				enterName.setMessageText(UIText.ENTER_NAME.text());
 
 				tableName.add(nameDisplay).height(optionHeight).pad(5);
 				tableName.add(enterName).width(textWidth).height(optionHeight).row();

@@ -12,7 +12,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
 import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
@@ -62,30 +62,30 @@ public class UISpectator extends AHadalActor {
 
         //display different text if spectating a target or using free-cam, + info about spectator controls
         if (freeCam) {
-            HadalGame.FONT_UI.draw(batch, HText.SPECTATING_FREECAM.text(), getX() + textX, titleY);
+            HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_FREECAM.text(), getX() + textX, titleY);
         } else {
             if (spectatorTarget != null) {
-                HadalGame.FONT_UI.draw(batch, HText.SPECTATING.text(spectatorTarget.getName()), getX() + textX, titleY);
+                HadalGame.FONT_UI.draw(batch, UIText.SPECTATING.text(spectatorTarget.getName()), getX() + textX, titleY);
             } else {
-                HadalGame.FONT_UI.draw(batch, HText.SPECTATING_NA.text(), getX() + textX, titleY);
+                HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_NA.text(), getX() + textX, titleY);
             }
         }
-        HadalGame.FONT_UI.draw(batch, HText.SPECTATING_LMB.text(), getX() + textX, instructions1Y);
-        HadalGame.FONT_UI.draw(batch, HText.SPECTATING_RMB.text(), getX() + textX, instructions2Y);
+        HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_LMB.text(), getX() + textX, instructions1Y);
+        HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_RMB.text(), getX() + textX, instructions2Y);
 
         //display info about rejoining (if applicable). Host gets extra info about selecting levels as spectator
         if (state.getMode().isHub()) {
             if (state.isServer()) {
-                HadalGame.FONT_UI.draw(batch, HText.JOIN_OPTION_HOST.text(PlayerAction.PAUSE.getKeyText(), PlayerAction.INTERACT.getKeyText()),
+                HadalGame.FONT_UI.draw(batch, UIText.JOIN_OPTION_HOST.text(PlayerAction.PAUSE.getKeyText(), PlayerAction.INTERACT.getKeyText()),
                         getX() + textX, joinY);
             } else {
-                HadalGame.FONT_UI.draw(batch, HText.JOIN_OPTION.text(PlayerAction.PAUSE.getKeyText()),
+                HadalGame.FONT_UI.draw(batch, UIText.JOIN_OPTION.text(PlayerAction.PAUSE.getKeyText()),
                         getX() + textX, joinY);
             }
         } else {
-            HadalGame.FONT_UI.draw(batch, HText.JOIN_CANT.text(), getX() + textX, joinY);
+            HadalGame.FONT_UI.draw(batch, UIText.JOIN_CANT.text(), getX() + textX, joinY);
         }
-        HadalGame.FONT_UI.draw(batch, HText.TOGGLE.text(PlayerAction.ACTIVE_ITEM.getKeyText()), getX() + textX, toggleY);
+        HadalGame.FONT_UI.draw(batch, UIText.TOGGLE.text(PlayerAction.ACTIVE_ITEM.getKeyText()), getX() + textX, toggleY);
     }
 
     //is lmb held? Used to control camera dragging in free-cam mode

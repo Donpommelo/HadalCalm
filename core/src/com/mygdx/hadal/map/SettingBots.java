@@ -18,7 +18,7 @@ import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.NameGenerator;
 
 /**
@@ -46,8 +46,8 @@ public class SettingBots extends ModeSetting {
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
         if (botsChoice) {
-            String[] botNumberChoices = HText.SETTING_BOT_NUMBER_OPTIONS.text().split(",");
-            Text bots = new Text(HText.SETTING_BOT_NUMBER.text());
+            String[] botNumberChoices = UIText.SETTING_BOT_NUMBER_OPTIONS.text().split(",");
+            Text bots = new Text(UIText.SETTING_BOT_NUMBER.text());
             bots.setScale(ModeSettingSelection.detailsScale);
 
             botNumberOptions = new SelectBox<>(GameStateManager.getSkin());
@@ -59,8 +59,8 @@ public class SettingBots extends ModeSetting {
                 botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValue));
             }
 
-            String[] botDifficultyChoices = HText.SETTING_BOT_DIFFICULTY_OPTIONS.text().split(",");
-            Text botDifficulty = new Text(HText.SETTING_BOT_DIFFICULTY.text());
+            String[] botDifficultyChoices = UIText.SETTING_BOT_DIFFICULTY_OPTIONS.text().split(",");
+            Text botDifficulty = new Text(UIText.SETTING_BOT_DIFFICULTY.text());
             botDifficulty.setScale(ModeSettingSelection.detailsScale);
 
             botDifficultyOptions = new SelectBox<>(GameStateManager.getSkin());

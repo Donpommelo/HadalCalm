@@ -57,7 +57,7 @@ import com.mygdx.hadal.server.User.UserDto;
 import com.mygdx.hadal.server.packets.PacketEffect;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.statuses.Blinded;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.CameraUtil;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
@@ -1109,18 +1109,18 @@ public class PlayState extends GameState {
 
 			//if free-for-all, the first player in the sorted list is the victor
 			if (mode.getTeamMode().equals(TeamMode.FFA)) {
-				resultsText = HText.PLAYER_WINS.text(scores.get(0).getNameShort());
+				resultsText = UIText.PLAYER_WINS.text(scores.get(0).getNameShort());
 			} else {
 
 				//in team modes, get the winning team and display a win for that team (or individual if no alignment)
 				AlignmentFilter winningTeam = teamScoresList.get(0);
 				if (winningTeam.isTeam()) {
-					resultsText = HText.PLAYER_WINS.text(winningTeam.getColoredAdjective());
+					resultsText = UIText.PLAYER_WINS.text(winningTeam.getColoredAdjective());
 				} else {
 					for (User user : users) {
 						if (!user.isSpectator()) {
 							if (user.getHitBoxFilter().equals(winningTeam)) {
-								resultsText = HText.PLAYER_WINS.text(user.getScores().getNameShort());
+								resultsText = UIText.PLAYER_WINS.text(user.getScores().getNameShort());
 							}
 						}
 					}
@@ -1232,7 +1232,7 @@ public class PlayState extends GameState {
 		batch.setProjectionMatrix(hud.combined);
 		batch.begin();
 		HadalGame.FONT_UI.getData().setScale(endTextScale);
-		HadalGame.FONT_UI.draw(batch, HText.GAME.text(),HadalGame.CONFIG_WIDTH / 2 - endTextWidth / 2, endTextY, endTextWidth,
+		HadalGame.FONT_UI.draw(batch, UIText.GAME.text(),HadalGame.CONFIG_WIDTH / 2 - endTextWidth / 2, endTextY, endTextWidth,
 				Align.center, true);
 		batch.end();
 
@@ -1251,7 +1251,7 @@ public class PlayState extends GameState {
 		if (user != null) {
 			if (!user.isSpectator()) {
 				if (notification) {
-					HadalGame.server.addNotificationToAll(this,"", HText.SPECTATOR_ENTER.text(player.getName()),
+					HadalGame.server.addNotificationToAll(this,"", UIText.SPECTATOR_ENTER.text(player.getName()),
 							true, DialogType.SYSTEM);
 				}
 
@@ -1290,11 +1290,11 @@ public class PlayState extends GameState {
 
 				//cannot exit spectator if server is full
 				if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers() + 1) {
-					HadalGame.server.sendNotification(score.getConnID(), "", HText.SERVER_FULL.text(), true, DialogType.SYSTEM);
+					HadalGame.server.sendNotification(score.getConnID(), "", UIText.SERVER_FULL.text(), true, DialogType.SYSTEM);
 					return;
 				}
 
-				HadalGame.server.addNotificationToAll(this, "", HText.SPECTATOR_EXIT.text(score.getNameShort()),
+				HadalGame.server.addNotificationToAll(this, "", UIText.SPECTATOR_EXIT.text(score.getNameShort()),
 						true, DialogType.SYSTEM);
 
 				//give the new player a player slot

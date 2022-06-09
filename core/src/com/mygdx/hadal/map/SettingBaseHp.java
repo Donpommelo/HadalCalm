@@ -8,7 +8,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 /**
  * This mode setting is used for modes where the player can set their base Hp
@@ -25,8 +25,8 @@ public class SettingBaseHp extends ModeSetting {
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
-        String[] hpChoices = HText.SETTING_BASE_HP_OPTIONS.text().split(",");
-        Text hp = new Text(HText.SETTING_BASE_HP.text());
+        String[] hpChoices = UIText.SETTING_BASE_HP_OPTIONS.text().split(",");
+        Text hp = new Text(UIText.SETTING_BASE_HP.text());
         hp.setScale(ModeSettingSelection.detailsScale);
 
         hpOptions = new SelectBox<>(GameStateManager.getSkin());

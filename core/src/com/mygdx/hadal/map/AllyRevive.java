@@ -16,7 +16,7 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
 
@@ -37,7 +37,7 @@ public class AllyRevive extends ModeSetting {
 
                 Array<User> users = HadalGame.server.getUsers().values().toArray();
                 if (mode.getTeamMode().equals(SettingTeamMode.TeamMode.COOP) || users.size <= 1) {
-                    resultsText = HText.SETTING_LIVES_OUT.text();
+                    resultsText = UIText.SETTING_LIVES_OUT.text();
 
                     //coop levels end when all players are dead
                     for (User user2 : users) {
@@ -63,10 +63,10 @@ public class AllyRevive extends ModeSetting {
 
                                         //if team mode, living players qualify their team for a win (or themselves if on a solo-team)
                                         if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
-                                            resultsText = HText.PLAYER_WINS.text(playerLeft.getPlayerData().getLoadout().team.getTeamName());
+                                            resultsText = UIText.PLAYER_WINS.text(playerLeft.getPlayerData().getLoadout().team.getTeamName());
                                             winningTeam = user2.getTeamFilter();
                                         } else {
-                                            resultsText = HText.PLAYER_WINS.text(playerLeft.getName());
+                                            resultsText = UIText.PLAYER_WINS.text(playerLeft.getName());
                                             winningTeam = user2.getHitBoxFilter();
                                         }
 

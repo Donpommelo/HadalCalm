@@ -8,7 +8,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
 
 /**
@@ -25,10 +25,10 @@ public class SettingLoadoutMode extends ModeSetting {
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
-        String[] loadoutChoices = HText.SETTING_LOADOUT_MODE_OPTIONS.text().split(",");
-        Text loadout = new Text(HText.SETTING_LOADOUT_MODE.text());
+        String[] loadoutChoices = UIText.SETTING_LOADOUT_MODE_OPTIONS.text().split(",");
+        Text loadout = new Text(UIText.SETTING_LOADOUT_MODE.text());
         loadout.setScale(ModeSettingSelection.detailsScale);
-        TooltipManager.addTooltip(loadout, HText.SETTING_LOADOUT_MODE_DESC.text());
+        TooltipManager.addTooltip(loadout, UIText.SETTING_LOADOUT_MODE_DESC.text());
 
         dropsOptions = new SelectBox<>(GameStateManager.getSkin());
         dropsOptions.setItems(loadoutChoices);

@@ -34,7 +34,7 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState.TransitionState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -107,7 +107,7 @@ public class KryoClient {
 				
         		//If our client state is still here, the server closed
 				if (cs != null) {
-					addNotification(cs, "", HText.DISCONNECTED.text(), false, DialogType.SYSTEM);
+					addNotification(cs, "", UIText.DISCONNECTED.text(), false, DialogType.SYSTEM);
 				}
 				
 				//return to the lobby state. (if our client state is still there, we can do a fade out transition first.

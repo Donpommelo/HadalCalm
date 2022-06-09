@@ -24,7 +24,7 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.CarryingFlag;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
@@ -134,7 +134,7 @@ public class FlagCapturable extends Event {
 
 										event.getBody().setGravityScale(0.0f);
 										String playerName = WeaponUtils.getPlayerColorName(target, MAX_NAME_LENGTH);
-										state.getKillFeed().addNotification(HText.CTF_PICKUP.text(playerName), true);
+										state.getKillFeed().addNotification(UIText.CTF_PICKUP.text(playerName), true);
 
 										spawner.setFlagPresent(false);
 									}
@@ -192,7 +192,7 @@ public class FlagCapturable extends Event {
 
 					String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
 					teamColor = WeaponUtils.getColorName(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon(), teamColor);
-					state.getKillFeed().addNotification(HText.CTF_RETURNED.text(teamColor), true);
+					state.getKillFeed().addNotification(UIText.CTF_RETURNED.text(teamColor), true);
 				}
 			}
 
@@ -252,7 +252,7 @@ public class FlagCapturable extends Event {
 			float textY = flagLocation.y + returnMeter.getRegionHeight() * uiScale + size.y / 2;
 
 			batch.draw(returnBar, textX + 10, textY + 4, returnBar.getRegionWidth() * uiScale * returnDelayed, returnBar.getRegionHeight() * uiScale);
-			HadalGame.FONT_SPRITE.draw(batch, HText.CTF_RETURN.text(), textX + 12, textY + returnMeter.getRegionHeight() * uiScale);
+			HadalGame.FONT_SPRITE.draw(batch, UIText.CTF_RETURN.text(), textX + 12, textY + returnMeter.getRegionHeight() * uiScale);
 			batch.draw(returnMeter, textX, textY, returnMeter.getRegionWidth() * uiScale, returnMeter.getRegionHeight() * uiScale);
 
 			if (returnDelayed > returnPercent) {
@@ -334,7 +334,7 @@ public class FlagCapturable extends Event {
 
 		if (teamIndex < AlignmentFilter.currentTeams.length) {
 			String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
-			state.getKillFeed().addNotification(HText.CTF_DROPPED.text(teamColor), true);
+			state.getKillFeed().addNotification(UIText.CTF_DROPPED.text(teamColor), true);
 		}
 	}
 

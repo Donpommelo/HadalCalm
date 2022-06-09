@@ -1,5 +1,8 @@
 package com.mygdx.hadal.battle;
 
+import com.mygdx.hadal.text.GameText;
+import com.mygdx.hadal.text.UIText;
+
 /**
  * A DamageSource indicates the effect that causes an instance of damage.
  * This is used for informational purposes; indicating what killed you in the kill feed.
@@ -10,67 +13,67 @@ public enum DamageSource {
     MISC(DamageSourceType.MISC),
     DISCONNECT(DamageSourceType.MISC),
     AIRBLAST(DamageSourceType.MISC),
-    CURRENTS(DamageSourceType.MISC),
-    MAP_BUZZSAW(DamageSourceType.MISC),
-    MAP_FALL(DamageSourceType.MISC),
-    MAP_POISON(DamageSourceType.MISC),
+    CURRENTS(DamageSourceType.ENVIRONMENT),
+    MAP_BUZZSAW(DamageSourceType.ENVIRONMENT),
+    MAP_FALL(DamageSourceType.ENVIRONMENT),
+    MAP_POISON(DamageSourceType.ENVIRONMENT),
 
     ENEMY_ATTACK(DamageSourceType.ENEMY),
 
-    AMITA_CANNON(DamageSourceType.WEAPON),
-    ASSAULT_BITS(DamageSourceType.WEAPON),
-    BANANA(DamageSourceType.WEAPON),
-    BATTERING_RAM(DamageSourceType.WEAPON),
-    BEE_GUN(DamageSourceType.WEAPON),
-    BOILER(DamageSourceType.WEAPON),
-    BOOMERANG(DamageSourceType.WEAPON),
-    BOUNCING_BLADES(DamageSourceType.WEAPON),
-    CHARGE_BEAM(DamageSourceType.WEAPON),
-    COLA_CANNON(DamageSourceType.WEAPON),
-    CR4P_CANNON(DamageSourceType.WEAPON),
-    DEEP_SEA_SMELTER(DamageSourceType.WEAPON),
-    DIAMOND_CUTTER(DamageSourceType.WEAPON),
-    DUELING_CORKGUN(DamageSourceType.WEAPON),
-    FISTICUFFS(DamageSourceType.WEAPON),
-    FLOUNDERBUSS(DamageSourceType.WEAPON),
-    FUGUN(DamageSourceType.WEAPON),
-    GRENADE_LAUNCHER(DamageSourceType.WEAPON),
-    HEXENHOWITZER(DamageSourceType.WEAPON),
-    ICEBERG(DamageSourceType.WEAPON),
-    IRON_BALL_LAUNCHER(DamageSourceType.WEAPON),
-    KAMABOKANNON(DamageSourceType.WEAPON),
-    KILLER_BEAT(DamageSourceType.WEAPON),
-    LASER_GUIDED_ROCKET(DamageSourceType.WEAPON),
-    LASER_RIFLE(DamageSourceType.WEAPON),
-    LOVE_BOW(DamageSourceType.WEAPON),
-    MACHINE_GUN(DamageSourceType.WEAPON),
-    MAELSTROM(DamageSourceType.WEAPON),
-    MINIGUN(DamageSourceType.WEAPON),
-    MORAYGUN(DamageSourceType.WEAPON),
-    MORNING_STAR(DamageSourceType.WEAPON),
-    NEMATOCYDEARM(DamageSourceType.WEAPON),
-    PARTY_POPPER(DamageSourceType.WEAPON),
-    PEARL_REVOLVER(DamageSourceType.WEAPON),
-    PEPPERGRINDER(DamageSourceType.WEAPON),
-    PUFFBALLER(DamageSourceType.WEAPON),
-    RETICLE_STRIKE(DamageSourceType.WEAPON),
-    RIFTSPLITTER(DamageSourceType.WEAPON),
-    SCRAPRIPPER(DamageSourceType.WEAPON),
-    SCREECHER(DamageSourceType.WEAPON),
-    SLODGE_NOZZLE(DamageSourceType.WEAPON),
-    SNIPER_RIFLE(DamageSourceType.WEAPON),
-    SPEARGUN(DamageSourceType.WEAPON),
-    STICKYBOMB_LAUNCHER(DamageSourceType.WEAPON),
-    STUTTERGUN(DamageSourceType.WEAPON),
-    TESLA_COIL(DamageSourceType.WEAPON),
-    TORPEDO_LAUNCHER(DamageSourceType.WEAPON),
-    TRICK_GUN(DamageSourceType.WEAPON),
-    TYRRAZZAN_REAPER(DamageSourceType.WEAPON),
-    UNDERMINER(DamageSourceType.WEAPON),
-    VAJRA(DamageSourceType.WEAPON),
-    VINE_SOWER(DamageSourceType.WEAPON),
-    WAVE_BEAM(DamageSourceType.WEAPON),
-    X_BOMBER(DamageSourceType.WEAPON),
+    AMITA_CANNON(DamageSourceType.WEAPON, GameText.AMITA_CANNON),
+    ASSAULT_BITS(DamageSourceType.WEAPON, GameText.ASSAULT_BITS),
+    BANANA(DamageSourceType.WEAPON, GameText.WEAPON_BANANA),
+    BATTERING_RAM(DamageSourceType.WEAPON, GameText.BATTERING_RAM),
+    BEE_GUN(DamageSourceType.WEAPON, GameText.BEE_GUN),
+    BOILER(DamageSourceType.WEAPON, GameText.BOILER),
+    BOOMERANG(DamageSourceType.WEAPON, GameText.BOOMERANG),
+    BOUNCING_BLADES(DamageSourceType.WEAPON, GameText.BOUNCING_BLADES),
+    CHARGE_BEAM(DamageSourceType.WEAPON, GameText.CHARGE_BEAM),
+    COLA_CANNON(DamageSourceType.WEAPON, GameText.COLA_CANNON),
+    CR4P_CANNON(DamageSourceType.WEAPON, GameText.CR4P_CANNON),
+    DEEP_SEA_SMELTER(DamageSourceType.WEAPON, GameText.DEEP_SEA_SMELTER),
+    DIAMOND_CUTTER(DamageSourceType.WEAPON, GameText.DIAMOND_CUTTER),
+    DUELING_CORKGUN(DamageSourceType.WEAPON, GameText.DUELING_CORKGUN),
+    FISTICUFFS(DamageSourceType.WEAPON, GameText.FISTICUFFS),
+    FLOUNDERBUSS(DamageSourceType.WEAPON, GameText.FLOUNDERBUSS),
+    FUGUN(DamageSourceType.WEAPON, GameText.FUGUN),
+    GRENADE_LAUNCHER(DamageSourceType.WEAPON, GameText.GRENADE_LAUNCHER),
+    HEXENHOWITZER(DamageSourceType.WEAPON, GameText.HEXENHOWITZER),
+    ICEBERG(DamageSourceType.WEAPON, GameText.ICEBERG),
+    IRON_BALL_LAUNCHER(DamageSourceType.WEAPON, GameText.IRON_BALL_LAUNCHER),
+    KAMABOKANNON(DamageSourceType.WEAPON, GameText.KAMABOKANNON),
+    KILLER_BEAT(DamageSourceType.WEAPON, GameText.KILLER_BEAT),
+    LASER_GUIDED_ROCKET(DamageSourceType.WEAPON, GameText.LASER_GUIDED_ROCKET),
+    LASER_RIFLE(DamageSourceType.WEAPON, GameText.LASER_RIFLE),
+    LOVE_BOW(DamageSourceType.WEAPON, GameText.LOVE_BOW),
+    MACHINE_GUN(DamageSourceType.WEAPON, GameText.MACHINE_GUN),
+    MAELSTROM(DamageSourceType.WEAPON, GameText.MAELSTROM),
+    MINIGUN(DamageSourceType.WEAPON, GameText.MINIGUN),
+    MORAYGUN(DamageSourceType.WEAPON, GameText.MORAYGUN),
+    MORNING_STAR(DamageSourceType.WEAPON, GameText.MORNING_STAR),
+    NEMATOCYDEARM(DamageSourceType.WEAPON, GameText.NEMATOCYDEARM),
+    PARTY_POPPER(DamageSourceType.WEAPON, GameText.PARTY_POPPER),
+    PEARL_REVOLVER(DamageSourceType.WEAPON, GameText.PEARL_REVOLVER),
+    PEPPERGRINDER(DamageSourceType.WEAPON, GameText.PEPPERGRINDER),
+    PUFFBALLER(DamageSourceType.WEAPON, GameText.PUFFBALLER),
+    RETICLE_STRIKE(DamageSourceType.WEAPON, GameText.RETICLE_STRIKE),
+    RIFTSPLITTER(DamageSourceType.WEAPON, GameText.RIFTSPLITTER),
+    SCRAPRIPPER(DamageSourceType.WEAPON, GameText.SCRAPRIPPER),
+    SCREECHER(DamageSourceType.WEAPON, GameText.SCREECHER),
+    SLODGE_NOZZLE(DamageSourceType.WEAPON, GameText.SLODGE_NOZZLE),
+    SNIPER_RIFLE(DamageSourceType.WEAPON, GameText.SNIPER_RIFLE),
+    SPEARGUN(DamageSourceType.WEAPON, GameText.SPEARGUN),
+    STICKYBOMB_LAUNCHER(DamageSourceType.WEAPON, GameText.STICKYBOMB_LAUNCHER),
+    STUTTERGUN(DamageSourceType.WEAPON, GameText.STUTTERGUN),
+    TESLA_COIL(DamageSourceType.WEAPON, GameText.TESLA_COIL),
+    TORPEDO_LAUNCHER(DamageSourceType.WEAPON, GameText.TORPEDO_LAUNCHER),
+    TRICK_GUN(DamageSourceType.WEAPON, GameText.TRICK_GUN),
+    TYRRAZZAN_REAPER(DamageSourceType.WEAPON, GameText.TYRRAZZAN_REAPER),
+    UNDERMINER(DamageSourceType.WEAPON, GameText.UNDERMINER),
+    VAJRA(DamageSourceType.WEAPON, GameText.VAJRA),
+    VINE_SOWER(DamageSourceType.WEAPON, GameText.VINE_SOWER),
+    WAVE_BEAM(DamageSourceType.WEAPON, GameText.WAVE_BEAM),
+    X_BOMBER(DamageSourceType.WEAPON, GameText.X_BOMBER),
 
     ANCHOR_SMASH(DamageSourceType.MAGIC),
     BENDY_BEAMS(DamageSourceType.MAGIC),
@@ -123,9 +126,16 @@ public enum DamageSource {
 
 //    private final String sourceText;
     private final DamageSourceType type;
+    private final String text;
 
     DamageSource(DamageSourceType type) {
         this.type = type;
+        this.text = toString();
+    }
+
+    DamageSource(DamageSourceType type, GameText text) {
+        this.type = type;
+        this.text = text.text();
     }
 
     /**
@@ -133,17 +143,28 @@ public enum DamageSource {
      */
     public String getKillSource() {
         if (type == DamageSourceType.MISC || type == DamageSourceType.ENEMY) {
-            return toString();
+            return text;
         } else {
-            return this + " (" + type.toString() + ")";
+            return text + " (" + type.getText() + ")";
         }
     }
 }
 
 enum DamageSourceType {
-    MISC,
-    WEAPON,
-    MAGIC,
-    ARTIFACT,
-    ENEMY
+    MISC(UIText.MISC),
+    ENVIRONMENT(UIText.ENVIRONMENT),
+    WEAPON(UIText.WEAPON),
+    MAGIC(UIText.MAGIC),
+    ARTIFACT(UIText.ARTIFACT),
+    ENEMY(UIText.MONSTER)
+
+    ;
+
+    private final String text;
+
+    DamageSourceType(UIText text) {
+        this.text = text.text();
+    }
+
+    public String getText() { return text; }
 }

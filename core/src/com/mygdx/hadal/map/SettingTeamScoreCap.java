@@ -6,7 +6,7 @@ import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
 
 /**
@@ -25,10 +25,10 @@ public class SettingTeamScoreCap extends ModeSetting {
 
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
-        String[] scoreCapChoices = HText.SETTING_SCORECAP_OPTIONS.text().split(",");
-        Text scorecap = new Text(HText.SETTING_SCORECAP.text());
+        String[] scoreCapChoices = UIText.SETTING_SCORECAP_OPTIONS.text().split(",");
+        Text scorecap = new Text(UIText.SETTING_SCORECAP.text());
         scorecap.setScale(ModeSettingSelection.detailsScale);
-        TooltipManager.addTooltip(scorecap, HText.SETTING_SCORECAP_TEAM_DESC.text());
+        TooltipManager.addTooltip(scorecap, UIText.SETTING_SCORECAP_TEAM_DESC.text());
 
         scoreCapOptions = new SelectBox<>(GameStateManager.getSkin());
         scoreCapOptions.setItems(scoreCapChoices);
@@ -48,7 +48,7 @@ public class SettingTeamScoreCap extends ModeSetting {
     public String loadUIStart(PlayState state, GameMode mode) {
         int startScoreCap = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
         if (startScoreCap != 0) {
-            return HText.SETTING_SCORECAP_UI.text(Integer.toString(startScoreCap));
+            return UIText.SETTING_SCORECAP_UI.text(Integer.toString(startScoreCap));
         }
         return "";
     }

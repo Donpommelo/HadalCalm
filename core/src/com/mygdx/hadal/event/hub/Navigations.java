@@ -20,7 +20,7 @@ import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,7 +47,7 @@ public class Navigations extends HubEvent {
 			state.getUiHub().enter(tag, true, false, false,this);
 		} else if (tag.equals(UnlockTag.SINGLEPLAYER)) {
 			state.getUiHub().enter(tag, true, true, false,
-				this, HText.NAVIGATION_TAGS.text().split(","));
+				this, UIText.NAVIGATION_TAGS.text().split(","));
 		}
 
 		open = true;
@@ -95,7 +95,7 @@ public class Navigations extends HubEvent {
 						} else {
 
 							//clients suggest maps when clicking
-							HadalGame.client.sendTCP(new Packets.ClientChat(HText.MAP_SUGGEST.text(selected.getInfo().getName()),
+							HadalGame.client.sendTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getInfo().getName()),
 									DialogType.SYSTEM));
 						}
 						leave();
@@ -116,7 +116,7 @@ public class Navigations extends HubEvent {
 		if (!level.equals("") && state.isServer()) {
 			if (!UnlockManager.checkUnlock(state, UnlockType.LEVEL, level)) {
 				UnlockManager.setUnlock(state, UnlockType.LEVEL, level, true);
-				state.getDialogBox().addDialogue("", HText.NAVIGATION_ACTIVATION.text(), "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
+				state.getDialogBox().addDialogue("", UIText.NAVIGATION_ACTIVATION.text(), "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 		}
 	}

@@ -17,7 +17,7 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 public class KillerBeat extends RangedWeapon {
 
@@ -165,7 +165,7 @@ public class KillerBeat extends RangedWeapon {
 		if (((Player) user).getChargePercent() < chargeBonusThreshold) {
 			return "";
 		} else {
-			return HText.HIT_IT.text();
+			return UIText.HIT_IT.text();
 		}
 	}
 

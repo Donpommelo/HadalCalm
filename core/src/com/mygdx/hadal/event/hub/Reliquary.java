@@ -15,7 +15,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,7 +41,7 @@ public class Reliquary extends HubEvent {
 	public void enter() {
 		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(tag, true, true, true, this, HText.RELIQUARY_TAGS.text().split(","));
+		state.getUiHub().enter(tag, true, true, true, this, UIText.RELIQUARY_TAGS.text().split(","));
 		open = true;
 		addOptions(lastSearch, lastSlot, lastTag);
 	}
@@ -102,7 +102,7 @@ public class Reliquary extends HubEvent {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(HText.ARTIFACT_INFO.text(selected.getInfo().getName(),
+						hub.setInfo(UIText.ARTIFACT_INFO.text(selected.getInfo().getName(),
 								Integer.toString(selected.getArtifact().getSlotCost()),
 								selected.getInfo().getDescription(), selected.getInfo().getDescriptionLong()));
 					}

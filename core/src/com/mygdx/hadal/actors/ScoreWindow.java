@@ -14,7 +14,7 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 
@@ -128,19 +128,19 @@ public class ScoreWindow {
 		Text title = new Text(state.getMode().getInfo().getName() + ": " + state.getLevel().getInfo().getName());
 		title.setScale(scoreTitleScale);
 		
-		Text playerLabel = new Text(HText.PLAYER.text());
+		Text playerLabel = new Text(UIText.PLAYER.text());
 		playerLabel.setScale(scoreTitleScale);
 		
-		Text kdaLabel = new Text(HText.KDA.text());
+		Text kdaLabel = new Text(UIText.KDA.text());
 		kdaLabel.setScale(scoreTitleScale);
 
-		Text scoreLabel = new Text(HText.SCORE.text());
+		Text scoreLabel = new Text(UIText.SCORE.text());
 		scoreLabel.setScale(scoreTitleScale);
 		
-		Text winsLabel = new Text(HText.WINS.text());
+		Text winsLabel = new Text(UIText.WINS.text());
 		winsLabel.setScale(scoreTitleScale);
 
-		Text artifactsLabel = new Text(HText.ARTIFACTS.text());
+		Text artifactsLabel = new Text(UIText.ARTIFACTS.text());
 		artifactsLabel.setScale(scoreTitleScale);
 
 		tableScore.add(title).height(scoreTitleHeight).colspan(6).row();
@@ -193,10 +193,10 @@ public class ScoreWindow {
 		tableSettings.setPosition(HadalGame.CONFIG_WIDTH - settingsWidth, HadalGame.CONFIG_HEIGHT - settingsHeight);
 
 		//add table headings
-		Text slotsField = new Text(HText.ARTIFACT_SLOTS.text());
+		Text slotsField = new Text(UIText.ARTIFACT_SLOTS.text());
 		slotsField.setScale(settingsScale);
 
-		Text serverSizeField = new Text(HText.SERVER_CAPACITY.text());
+		Text serverSizeField = new Text(UIText.SERVER_CAPACITY.text());
 		serverSizeField.setScale(settingsScale);
 
 		//obtain settings. (host settings for clients)
@@ -253,7 +253,7 @@ public class ScoreWindow {
 		if (user != null) {
 			Text mute = new Text("").setButton(true);
 			if (user.isMuted()) {
-				mute.setText(HText.UNMUTE.text());
+				mute.setText(UIText.UNMUTE.text());
 				mute.addListener(new ClickListener() {
 
 					@Override
@@ -264,7 +264,7 @@ public class ScoreWindow {
 					}
 				});
 			} else {
-				mute.setText(HText.MUTE.text());
+				mute.setText(UIText.MUTE.text());
 				mute.addListener(new ClickListener() {
 
 					@Override
@@ -282,7 +282,7 @@ public class ScoreWindow {
 			if (state.isServer()) {
 				//host cannot ban self
 				if (connID != 0) {
-					Text ban = new Text(HText.BAN.text()).setButton(true);
+					Text ban = new Text(UIText.BAN.text()).setButton(true);
 					ban.setScale(settingsScale);
 					ban.addListener(new ClickListener() {
 

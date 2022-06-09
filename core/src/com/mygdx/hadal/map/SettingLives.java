@@ -12,7 +12,7 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.HText;
+import com.mygdx.hadal.text.UIText;
 
 import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
 
@@ -39,8 +39,8 @@ public class SettingLives extends ModeSetting {
     @Override
     public void setSetting(PlayState state, GameMode mode, Table table) {
         if (livesChoice) {
-            String[] livesChoices = HText.SETTING_LIVES_OPTIONS.text().split(",");
-            Text lives = new Text(HText.SETTING_LIVES.text());
+            String[] livesChoices = UIText.SETTING_LIVES_OPTIONS.text().split(",");
+            Text lives = new Text(UIText.SETTING_LIVES.text());
             lives.setScale(ModeSettingSelection.detailsScale);
 
             livesOptions = new SelectBox<>(GameStateManager.getSkin());
