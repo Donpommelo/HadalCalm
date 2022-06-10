@@ -2,7 +2,7 @@ package com.mygdx.hadal.schmucks.entities.enemies;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.event.SpawnerWave;
+import com.mygdx.hadal.event.modes.SpawnerWave;
 import com.mygdx.hadal.utils.Constants;
 
 /**
@@ -226,7 +226,8 @@ public enum WaveType {
 
 			//create the enemy
 			if (thisId == spawner.getPointId()) {
-				type.generateEnemyDelayed(spawner.getState(), spawner.getPixelPosition(), waveDelay + extraDelay, Constants.ENEMY_HITBOX, extraField, null, false, "");
+				type.generateEnemyDelayed(spawner.getState(), spawner.getPixelPosition(), waveDelay + extraDelay,
+						Constants.ENEMY_HITBOX, extraField, null, false, "");
 			}
 		}
 	}

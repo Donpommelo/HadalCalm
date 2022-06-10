@@ -264,7 +264,8 @@ public enum EnemyType {
 	/**
 	 * This is like generateEnemy, except it creates a delayed spawn event that creates the enemy after some time
 	 */
-	public void generateEnemyDelayed(PlayState state, Vector2 startPos, float lifespan, short filter, float extraField, SpawnerSchmuck spawner, boolean isBoss, String bossName) {
+	public void generateEnemyDelayed(PlayState state, Vector2 startPos, float lifespan, short filter, float extraField,
+									 SpawnerSchmuck spawner, boolean isBoss, String bossName) {
 		new DelayedSpawn(state, startPos, lifespan, this, filter, extraField, spawner, isBoss, bossName);
 	}
 
