@@ -86,7 +86,7 @@ public enum ColorPalette {
     LEMON_LIME(HadalColor.LEMON, HadalColor.FRENCH_LIME, HadalColor.INCHWORM, HadalColor.MINDARO, HadalColor.MAXIMUM_YELLOW, HadalColor.ICTERINE,
             HadalColor.CANARY, HadalColor.LEMON, HadalColor.CORAL),
 
-    MAGMA(HadalColor.SCARLET, HadalColor.SCARLET, HadalColor.JET, HadalColor.ONYX, HadalColor.VERMILION, HadalColor.FIRE_OPAL,
+    MAGMA(HadalColor.SCARLET, HadalColor.SCARLET, HadalColor.JET, HadalColor.ONYX, HadalColor.VERMILION, HadalColor.RUFOUS,
             HadalColor.DARK_LIVER, HadalColor.AMBER, HadalColor.COQUELICOT),
 
     BLACK_AND_YELLOW(HadalColor.CITRINE, HadalColor.SMOKY_BLACK, HadalColor.JET, HadalColor.CITRINE, HadalColor.LEMON,
