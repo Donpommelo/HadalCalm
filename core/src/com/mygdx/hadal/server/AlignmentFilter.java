@@ -59,6 +59,11 @@ public enum AlignmentFilter {
     TEAM_TURQUOISE(-38, ColorPalette.TURQUOISE, GameText.TURQUOISE, HadalColor.BLUE, HadalColor.GREEN),
     TEAM_VIOLET(-39, ColorPalette.VIOLET, GameText.VIOLET, HadalColor.VIOLET),
 
+    TEAM_KAMABOKO(-44, ColorPalette.KAMABOKO, GameText.KAMABOKO, HadalColor.RED, HadalColor.VIOLET),
+    TEAM_LEMON_LIME(-45, ColorPalette.LEMON_LIME, GameText.LEMON_LIME, HadalColor.GREEN, HadalColor.YELLOW),
+    TEAM_MAGMA(-46, ColorPalette.MAGMA, GameText.MAGMA, HadalColor.RED),
+    TEAM_BLACK_AND_YELLOW(-47, ColorPalette.BLACK_AND_YELLOW, GameText.BLACK_AND_YELLOW, HadalColor.YELLOW),
+
     TEAM_BLACK_AND_WHITE(-40, ColorPalette.BASE, GameText.BLACK_AND_WHITE) {
 
         @Override
