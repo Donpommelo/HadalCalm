@@ -826,46 +826,19 @@
  </objectgroup>
  <objectgroup id="4" name="dm" visible="0"/>
  <objectgroup id="5" name="arena">
-  <object id="67" name="WaveSpawn" type="WaveSpawn" x="2528" y="512" width="32" height="32">
-   <properties>
-    <property name="point" type="int" value="3"/>
-    <property name="tag" value="STANDARD"/>
-    <property name="triggeredId" value="wave3"/>
-   </properties>
-  </object>
-  <object id="68" name="WaveSpawn" type="WaveSpawn" x="1536" y="512" width="32" height="32">
-   <properties>
-    <property name="tag" value="STANDARD"/>
-    <property name="triggeredId" value="wave1"/>
-   </properties>
-  </object>
-  <object id="69" name="WaveSpawn" type="WaveSpawn" x="3520" y="512" width="32" height="32">
-   <properties>
-    <property name="point" type="int" value="2"/>
-    <property name="tag" value="STANDARD"/>
-    <property name="triggeredId" value="wave2"/>
-   </properties>
-  </object>
+  <object id="67" name="WaveSpawn" type="WaveSpawn" x="2528" y="512" width="32" height="32"/>
+  <object id="68" name="WaveSpawn" type="WaveSpawn" x="1536" y="512" width="32" height="32"/>
+  <object id="69" name="WaveSpawn" type="WaveSpawn" x="3520" y="512" width="32" height="32"/>
   <object id="70" name="WaveSpawn" type="WaveSpawn" x="1216" y="2208" width="32" height="32">
    <properties>
-    <property name="point" type="int" value="4"/>
-    <property name="tag" value="STANDARD"/>
-    <property name="triggeredId" value="wave4"/>
+    <property name="tag" value="STANDARD,GROUNDED"/>
    </properties>
   </object>
   <object id="71" name="WaveSpawn" type="WaveSpawn" x="3808" y="2208" width="32" height="32">
    <properties>
-    <property name="point" type="int" value="5"/>
-    <property name="tag" value="STANDARD"/>
-    <property name="triggeredId" value="wave5"/>
+    <property name="tag" value="STANDARD,GROUNDED"/>
    </properties>
   </object>
-  <object id="72" name="WaveSpawn" type="WaveSpawn" x="2528" y="2016" width="32" height="32">
-   <properties>
-    <property name="point" type="int" value="6"/>
-    <property name="tag" value="STANDARD"/>
-    <property name="triggeredId" value="wave6"/>
-   </properties>
-  </object>
+  <object id="72" name="WaveSpawn" type="WaveSpawn" x="2528" y="2016" width="32" height="32"/>
  </objectgroup>
 </map>

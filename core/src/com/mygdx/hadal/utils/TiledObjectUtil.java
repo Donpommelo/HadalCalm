@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
@@ -23,8 +24,8 @@ import com.mygdx.hadal.event.utility.*;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 
 /**
  * This util parses a Tiled file into an in-game map.
@@ -70,9 +71,10 @@ public class TiledObjectUtil {
     private static final ObjectMap<TriggerRedirect, String> redirectTriggeringEvents = new ObjectMap<>();
     private static final ObjectMap<MovingPoint, String> movePointConnections = new ObjectMap<>();
     private static final ObjectMap<ChoiceBranch, String> choiceBranchOptions = new ObjectMap<>();
-	private static final ObjectMap<String, SpawnerWave> waveSpawners = new ObjectMap<>();
 	private static final ObjectMap<String, Prefabrication> prefabrications = new ObjectMap<>();
-    /**
+
+	public static final Array<SpawnerWave> waveSpawners = new Array<>();
+	/**
      * Parses Tiled objects into in game events
      * @param state: Current GameState
      * @param objects: The list of Tiled objects to parse into events.
@@ -223,11 +225,11 @@ public class TiledObjectUtil {
 				object.getProperties().get("bossname", "", String.class));
 			case "WaveSpawn" -> {
 				e = new SpawnerWave(state, position, size,
-						object.getProperties().get("point", 1, int.class),
 						object.getProperties().get("extra", 0, int.class),
-						object.getProperties().get("tag", "", String.class));
-				waveSpawners.put(object.getProperties().get("type", "", String.class), (SpawnerWave) e);
+						object.getProperties().get("tag", "STANDARD", String.class));
+				waveSpawners.add((SpawnerWave) e);
 			}
+			case "WaveSpawnController" -> e = new SpawnerWaveController(state);
 			case "HboxSpawn" -> e = new SpawnerHitbox(state, position, size,
 				new Vector2(object.getProperties().get("sizeX", float.class),
 					object.getProperties().get("sizeY", float.class)),

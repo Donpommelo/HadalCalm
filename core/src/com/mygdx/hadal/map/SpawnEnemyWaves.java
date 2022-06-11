@@ -12,9 +12,6 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class SpawnEnemyWaves extends ModeSetting {
 
-    private static final float WaveSpawnTimer = 15.0f;
-    private static final float FirstWaveStartTime = 10.0f;
-
     @Override
     public void processGameEnd() {
         BotManager.terminatePathfindingThreads();
@@ -26,23 +23,10 @@ public class SpawnEnemyWaves extends ModeSetting {
         //load settings misc is run by both server and client, so this is needed to avoid creating events for client
         if (!state.isServer()) { return; }
 
-        String waveTimerId = TiledObjectUtil.getPrefabTriggerId();
-        String multiWaveId = TiledObjectUtil.getPrefabTriggerId();
+        RectangleMapObject waveController = new RectangleMapObject();
+        waveController.setName("WaveSpawnController");
 
-        RectangleMapObject wave = new RectangleMapObject();
-        wave.setName("Timer");
-        wave.getProperties().put("interval", WaveSpawnTimer);
-        wave.getProperties().put("startTime", FirstWaveStartTime);
-        wave.getProperties().put("triggeredId", waveTimerId);
-        wave.getProperties().put("triggeringId", multiWaveId);
-
-        RectangleMapObject multiWave = new RectangleMapObject();
-        multiWave.setName("Multitrigger");
-        multiWave.getProperties().put("triggeredId", multiWaveId);
-        multiWave.getProperties().put("triggeringId", "wave1,wave2,wave3,wave4,wave5,wave6");
-
-        TiledObjectUtil.parseTiledEvent(state, wave);
-        TiledObjectUtil.parseTiledEvent(state, multiWave);
+        TiledObjectUtil.parseTiledEvent(state, waveController);
 
         //clear existing rally points to avoid memory leak
         for (RallyPoint point : BotManager.rallyPoints.values()) {
