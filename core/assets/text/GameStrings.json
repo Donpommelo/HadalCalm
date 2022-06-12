@@ -188,6 +188,18 @@
   "WEAPON_WAVE_BEAM_DESC_LONG" : "Laser Damage: 35\n\nClip Size: 5\nAmmo Capacity: 25\nReload Time: 1.5 Seconds\nAttack Cooldown: 0.3 Second",
   "WEAPON_X_BOMBER" : "X-Bomber",
   "WEAPON_X_BOMBER_DESC" : "Fires a bomb that creates an x-shaped explosion.",
-  "WEAPON_X_BOMBER_DESC_LONG" : "Bomb Impact Damage: 24\nX-Laser Damage: 24\n\nClip Size: 2\nAmmo Capacity: 26\nReload Time: 1.2 Seconds\nAttack Cooldown: 0.2 Second"
+  "WEAPON_X_BOMBER_DESC_LONG" : "Bomb Impact Damage: 24\nX-Laser Damage: 24\n\nClip Size: 2\nAmmo Capacity: 26\nReload Time: 1.2 Seconds\nAttack Cooldown: 0.2 Second",
 
+  "CHARACTER_MAXIMILLIAN" : "Maximillian",
+  "CHARACTER_MAXIMILLIAN_DESC" : "Maximillian Volunteer has a formidible chin which is obscured by the fish biting his head.",
+  "CHARACTER_MOREAU" : "Moreau",
+  "CHARACTER_MOREAU_DESC" : "Marcel Moreau used to work in a warehouse as the lead box-counter.",
+  "CHARACTER_ROCLAIRE" : "Roclaire",
+  "CHARACTER_ROCLAIRE_DESC" : "If the wooden bucket on Roclaire's head is removed, she will die.",
+  "CHARACTER_TAKANORI" : "Takanori",
+  "CHARACTER_TAKANORI_DESC" : "Takanori smokes a pack of cigarettes every day.",
+  "CHARACTER_TELEMACHUS" : "Telemachus",
+  "CHARACTER_TELEMACHUS_DESC" : "Telemachus is a submarine with a man-shaped ventral extension.",
+  "CHARACTER_WANDA" : "Wanda",
+  "CHARACTER_WANDA_DESC" : "Wanda is the last surviving bottlenose dolphin."
 }

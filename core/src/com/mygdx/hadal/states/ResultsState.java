@@ -576,7 +576,7 @@ public class ResultsState extends GameState {
 						if (!fieldExtra.getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
 							Text weaponField = new Text(UIText.RESULT_WEAPON.text((i + 1) + ": "));
 							weaponField.setScale(infoTextScale);
-							Text weapon = new Text(fieldExtra.getLoadout().multitools[i].getInfo().getName());
+							Text weapon = new Text(fieldExtra.getLoadout().multitools[i].getName());
 							weapon.setScale(infoTextScale);
 							tableInfo.add(weaponField).height(infoRowHeight).left().padBottom(infoPadYSmall);
 							tableInfo.add(weapon).height(infoRowHeight).left().padBottom(infoPadYSmall).row();

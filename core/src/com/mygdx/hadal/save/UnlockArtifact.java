@@ -212,7 +212,7 @@ public enum UnlockArtifact {
 		
 		for (UnlockArtifact u : UnlockArtifact.values()) {
 			
-			boolean get = UnlockManager.checkTags(u.getInfo(), tags);
+			boolean get = UnlockManager.checkTags(u.getInfo().getTags(), tags);
 			
 			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.ARTIFACT, u.toString())) {
 				get = false;

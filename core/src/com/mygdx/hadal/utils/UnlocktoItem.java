@@ -17,7 +17,7 @@ public class UnlocktoItem {
 	public static Equippable getUnlock(UnlockEquip unlock, Schmuck schmuck) {
 		try {
 			Equippable newWeapon = unlock.getWeapon().getConstructor(Schmuck.class).newInstance(schmuck);
-			newWeapon.setName(unlock.getInfo().getName());
+			newWeapon.setName(unlock.getName());
 			return newWeapon;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {

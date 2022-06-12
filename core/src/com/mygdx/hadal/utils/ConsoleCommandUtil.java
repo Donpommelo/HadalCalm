@@ -53,7 +53,7 @@ public class ConsoleCommandUtil {
 
 				for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
 					if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
-						message.append(player.getPlayerData().getLoadout().multitools[i].getInfo().getName()).append(" ");
+						message.append(player.getPlayerData().getLoadout().multitools[i].getName()).append(" ");
 					}
 				}
 				emitMessage(state, message.toString());

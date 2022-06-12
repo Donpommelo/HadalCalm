@@ -55,7 +55,7 @@ public class ModeGunGame extends ModeSetting {
                     player.getPlayerData().setEquip();
                     player.getPlayerData().syncServerEquipChange(player.getPlayerData().getLoadout().multitools);
 
-                    String message = weaponOrder[currentGunIndex].getInfo().getName() + ": " + currentGunIndex + "/" + weaponOrder.length;
+                    String message = weaponOrder[currentGunIndex].getName() + ": " + currentGunIndex + "/" + weaponOrder.length;
                     state.getKillFeed().sendNotification(message, player);
                 } else {
                     //upon finishing all weapons, we end the game

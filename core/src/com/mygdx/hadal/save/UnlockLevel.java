@@ -124,7 +124,7 @@ public enum UnlockLevel {
 		
 		for (UnlockLevel u : UnlockLevel.values()) {
 			
-			boolean get = UnlockManager.checkTags(u.getInfo(), tags);
+			boolean get = UnlockManager.checkTags(u.getInfo().getTags(), tags);
 			
 			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.LEVEL, u.toString())) {
 				get = false;

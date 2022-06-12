@@ -155,7 +155,7 @@ public enum UnlockCosmetic {
 
         for (UnlockCosmetic u : UnlockCosmetic.values()) {
 
-            boolean get = UnlockManager.checkTags(u.getInfo(), tags);
+            boolean get = UnlockManager.checkTags(u.getInfo().getTags(), tags);
 
             if (unlock && !UnlockManager.checkUnlock(state, UnlockManager.UnlockType.CHARACTER, u.toString())) {
                 get = false;
