@@ -267,12 +267,11 @@ public class ResultsState extends GameState {
 
 					Array<String> compliantMaps = new Array<>();
 					Array<UnlockManager.UnlockTag> unlockTags = new Array<>();
-					unlockTags.add(UnlockManager.UnlockTag.MULTIPLAYER);
 					nextMaps.clear();
 					for (UnlockLevel c : UnlockLevel.getUnlocks(ps, false, unlockTags)) {
 						for (int i = 0; i < c.getModes().length; i++) {
 							if (c.getModes()[i] == ps.mode.getCheckCompliance()) {
-								compliantMaps.add(c.getInfo().getName());
+								compliantMaps.add(c.getName());
 								nextMaps.add(c);
 								break;
 							}
@@ -584,7 +583,7 @@ public class ResultsState extends GameState {
 					}
 					Text activeField = new Text(UIText.RESULT_ACTIVE.text());
 					activeField.setScale(infoTextScale);
-					Text active = new Text(fieldExtra.getLoadout().activeItem.getInfo().getName());
+					Text active = new Text(fieldExtra.getLoadout().activeItem.getName());
 					active.setScale(infoTextScale);
 					tableInfo.add(activeField).height(infoRowHeight).left().padBottom(infoPadYSmall);
 					tableInfo.add(active).height(infoRowHeight).left().padBottom(infoPadYSmall).row();

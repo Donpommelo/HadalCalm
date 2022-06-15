@@ -64,4 +64,13 @@ public class DuelingCorkgun extends RangedWeapon {
 
 		return hbox;
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime)};
+	}
 }

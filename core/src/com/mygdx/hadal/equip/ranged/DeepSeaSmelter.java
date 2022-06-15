@@ -165,4 +165,14 @@ public class DeepSeaSmelter extends RangedWeapon {
 			return UIText.HEAT.text();
 		}
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(shootCd),
+				String.valueOf(maxCharge)};
+	}
 }

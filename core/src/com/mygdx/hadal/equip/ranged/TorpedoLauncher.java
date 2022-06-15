@@ -70,4 +70,15 @@ public class TorpedoLauncher extends RangedWeapon {
 
 		return hbox;
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf((int) explosionDamage),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
+	}
 }

@@ -3,6 +3,8 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -10,7 +12,6 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -33,7 +34,7 @@ public class ImmolationAura extends ActiveItem {
 	private static final float burnInterval = 1 / 60f;
 
 	public ImmolationAura(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -49,7 +50,8 @@ public class ImmolationAura extends ActiveItem {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new FixedToEntity(state, hbox, user, new Vector2(), new Vector2()));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user, SoundEffect.KICK1, 1.0f, true));
-		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.FIRE, 0.0f, 1.0f).setParticleSize(40));
+		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.FIRE, 0.0f, 1.0f).setParticleSize(40)
+				.setParticleColor(HadalColor.FIERY_ROSE));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 
 			private float controllerCount;
@@ -77,5 +79,13 @@ public class ImmolationAura extends ActiveItem {
 				}
 			}
 		});
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) (baseDamage / burnInterval)),
+				String.valueOf((int) lifespan)};
 	}
 }

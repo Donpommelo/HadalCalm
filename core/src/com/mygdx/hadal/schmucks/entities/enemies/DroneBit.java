@@ -19,7 +19,7 @@ import com.mygdx.hadal.utils.Stats;
 
 public class DroneBit extends EnemySwimming {
 
-	private static final int baseHp = 125;
+	public static final int baseHp = 125;
 	private static final int scrapDrop = 0;
 
 	private static final int width = 450;

@@ -118,10 +118,10 @@ public class WeaponUtils {
 
 		return hbox;
 	}
-	
+
+	public static final float torpedoExplosionDamage = 18.0f;
 	private static final float torpedoBaseDamage = 3.0f;
 	private static final float torpedoBaseKnockback = 3.0f;
-	private static final float torpedoExplosionDamage = 18.0f;
 	private static final float torpedoExplosionKnockback = 16.0f;
 	private static final int torpedoExplosionRadius = 150;
 	private static final Vector2 torpedoSize = new Vector2(60, 14);
@@ -151,12 +151,12 @@ public class WeaponUtils {
 		return hbox;
 	}
 
+	public static final float nauticalMineLifespan = 12.0f;
+	public static final float nauticalMineExplosionDamage = 75.0f;
 	private static final float primeDelay = 1.0f;
 	private static final float projDampen = 1.0f;
 	private static final Vector2 nauticalMineSize = new Vector2(120, 120);
-	private static final float nauticalMineLifespan = 12.0f;
 	private static final int nauticalMineExplosionRadius = 400;
-	private static final float nauticalMineExplosionDamage = 75.0f;
 	private static final float nauticalMineExplosionKnockback = 40.0f;
 	private static final float footballThreshold = 200.0f;
 	private static final float footballDepreciation = 50.0f;
@@ -229,8 +229,8 @@ public class WeaponUtils {
 		return hbox;
 	}
 
+	public static final float primeTime = 1.0f;
 	private static final Vector2 mineSize = new Vector2(75, 30);
-	private static final float primeTime = 1.0f;
 	private static final float warningTime = 0.5f;
 	private static final float mineSpeed = 60.0f;
 	private static final float mineLifespan = 18.0f;
@@ -355,10 +355,10 @@ public class WeaponUtils {
 		return hbox;
 	}
 
+	public static final float spiritDefaultDamage = 45.0f;
 	private static final int spiritSize = 25;
 	private static final float spiritHoming = 120;
 	private static final int spiritHomingRadius = 40;
-	private static final float spiritDefaultDamage = 45.0f;
 	private static final float spiritKnockback= 25.0f;
 	private static final float spiritLifespan= 7.5f;
 	public static Hitbox[] createVengefulSpirits(PlayState state, Schmuck user, Vector2[] startPosition,

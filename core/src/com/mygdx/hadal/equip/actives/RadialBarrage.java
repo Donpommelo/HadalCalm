@@ -22,7 +22,7 @@ public class RadialBarrage extends ActiveItem {
 	private static final int totalShots = 6;
 
 	public RadialBarrage(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -67,5 +67,13 @@ public class RadialBarrage extends ActiveItem {
 				gainChargeByPercent(0.30f);
 			}
 		}
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf(totalShots),
+				String.valueOf(procCd)};
 	}
 }

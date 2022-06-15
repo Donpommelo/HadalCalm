@@ -44,10 +44,7 @@ public class Navigations extends HubEvent {
 		state.getUiHub().setTitle(title);
 
 		if (tag.equals(UnlockTag.NAVIGATIONS)) {
-			state.getUiHub().enter(tag, true, false, false,this);
-		} else if (tag.equals(UnlockTag.SINGLEPLAYER)) {
-			state.getUiHub().enter(tag, true, true, false,
-				this, UIText.NAVIGATION_TAGS.text().split(","));
+			state.getUiHub().enter(true, false, false, this);
 		}
 
 		open = true;
@@ -73,14 +70,14 @@ public class Navigations extends HubEvent {
 			if (search.equals("")) {
 				appear = true;
 			} else {
-				Matcher matcher = pattern.matcher(selected.getInfo().getName().toLowerCase());
+				Matcher matcher = pattern.matcher(selected.getName().toLowerCase());
 				if (matcher.find()) {
 					appear = true;
 				}
 			}
 
 			if (appear) {
-				Text itemChoose = new Text(selected.getInfo().getName()).setButton(true);
+				Text itemChoose = new Text(selected.getName()).setButton(true);
 
 				itemChoose.addListener(new ClickListener() {
 
@@ -95,7 +92,7 @@ public class Navigations extends HubEvent {
 						} else {
 
 							//clients suggest maps when clicking
-							HadalGame.client.sendTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getInfo().getName()),
+							HadalGame.client.sendTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getName()),
 									DialogType.SYSTEM));
 						}
 						leave();
@@ -104,7 +101,7 @@ public class Navigations extends HubEvent {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() + "\n\n" + selected.getInfo().getDescriptionLong());
+						hub.setInfo(selected.getName() + "\n\n" + selected.getDesc());
 					}
 				});
 				itemChoose.setScale(UIHub.optionsScale);

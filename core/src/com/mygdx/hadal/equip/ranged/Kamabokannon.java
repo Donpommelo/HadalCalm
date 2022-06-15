@@ -144,4 +144,15 @@ public class Kamabokannon extends RangedWeapon {
 			aimPointer.setAngleDeg(MathUtils.lerpAngleDeg(aimPointer.angleDeg(), mousePointer.angleDeg(), lerpSpeed));
 		}
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(maxCharge),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
+	}
 }

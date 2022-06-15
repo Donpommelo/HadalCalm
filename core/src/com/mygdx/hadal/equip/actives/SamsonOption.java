@@ -35,7 +35,7 @@ public class SamsonOption extends ActiveItem {
 	private static final float explosionKnockback = 30.0f;
 	
 	public SamsonOption(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -73,4 +73,13 @@ public class SamsonOption extends ActiveItem {
 	
 	@Override
 	public float getUseDuration() { return duration; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf(duration),
+				String.valueOf(procCd),
+				String.valueOf((int) explosionDamage)};
+	}
 }

@@ -74,7 +74,7 @@ public class ConsoleCommandUtil {
 			}
 
 			if (command.equals("/active")) {
-				emitMessage(state, "Active Item: " + player.getPlayerData().getLoadout().activeItem.getInfo().getName());
+				emitMessage(state, "Active Item: " + player.getPlayerData().getLoadout().activeItem.getName());
 				return 0;
 			}
 

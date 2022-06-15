@@ -247,4 +247,10 @@ public class MorningStar extends MeleeWeapon {
 
 	@Override
 	public float getBotRangeMax() { return 5 * chainLength + 2; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage)};
+	}
 }

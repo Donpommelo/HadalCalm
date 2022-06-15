@@ -38,7 +38,7 @@ public class TaintedWater extends ActiveItem {
 	private static final float poisonDuration = 2.5f;
 	
 	public TaintedWater(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -81,4 +81,12 @@ public class TaintedWater extends ActiveItem {
 
 	@Override
 	public float getBotRangeMin() { return 11.0f; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) duration),
+				String.valueOf((int) (poisonDamage * 60))};
+	}
 }

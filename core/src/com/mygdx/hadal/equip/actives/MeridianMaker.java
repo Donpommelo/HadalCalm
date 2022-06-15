@@ -3,8 +3,9 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.Currents;
@@ -13,7 +14,6 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -45,7 +45,7 @@ public class MeridianMaker extends ActiveItem {
 	private static final float currentForce = 1.0f;
 	
 	public MeridianMaker(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -62,7 +62,8 @@ public class MeridianMaker extends ActiveItem {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageSource.MERIDIAN_MAKER, DamageTag.MAGIC));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user));
-		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.BRIGHT, 0.0f, 1.0f).setParticleColor(HadalColor.SKY_BLUE).setParticleSize(20));
+		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.BRIGHT, 0.0f, 1.0f)
+				.setParticleColor(HadalColor.CELESTE).setParticleSize(20));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
 			private final Vector2 lastPosition = new Vector2(hbox.getStartPos()).scl(PPM);
@@ -75,5 +76,13 @@ public class MeridianMaker extends ActiveItem {
 				}
 			}
 		}); 
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) baseDamage),
+				String.valueOf((int) lifespan)};
 	}
 }

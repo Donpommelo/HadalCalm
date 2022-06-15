@@ -29,6 +29,7 @@ public class BouncingBlade extends RangedWeapon {
 	private static final float projectileSpeed = 59.0f;
 	private static final Vector2 projectileSize = new Vector2(50, 50);
 	private static final float lifespan = 1.5f;
+	private static final int durability = 5;
 
 	private static final Sprite projSprite = Sprite.BUZZSAW;
 	private static final Sprite weaponSprite = Sprite.MT_BLADEGUN;
@@ -50,7 +51,7 @@ public class BouncingBlade extends RangedWeapon {
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
 				false, true, user, projSprite);
-		hbox.setDurability(5);
+		hbox.setDurability(durability);
 		hbox.setRestitution(1.0f);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -62,5 +63,16 @@ public class BouncingBlade extends RangedWeapon {
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE6, 0.5f, true).setSynced(false));
 
 		return hbox;
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(durability),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
 	}
 }

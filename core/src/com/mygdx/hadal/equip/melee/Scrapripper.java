@@ -58,4 +58,11 @@ public class Scrapripper extends MeleeWeapon {
 
 	@Override
 	public float getBotRangeMax() { return 6.25f; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(shootCd)};
+	}
 }

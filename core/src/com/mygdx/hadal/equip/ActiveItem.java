@@ -26,13 +26,9 @@ public class ActiveItem extends Equippable {
 	//active items charge slower when damaging non-player enemies. (according to this float)
 	public static final float enemyDamageChargeMultiplier = 0.1f;
 	
-	//This indicates whether the active charges over time or by inflicting damage (or potentially, other)
-	private final chargeStyle style;
-	
-	public ActiveItem(Schmuck user, float usecd, float usedelay, float maxCharge, chargeStyle chargeStyle) {
+	public ActiveItem(Schmuck user, float usecd, float usedelay, float maxCharge) {
 		super(user, usecd, usedelay, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 		this.maxCharge = maxCharge;
-		this.style = chargeStyle;
 	}
 	
 	/**
@@ -155,16 +151,11 @@ public class ActiveItem extends Equippable {
 		}
 	}
 
-	public chargeStyle getStyle() { return style; }
-
 	/**
 	 * This is a vague estimate of how long this item takes to activate.
 	 * This is checked by a few effects that want to do something after an active item completes.
 	 */
 	public float getUseDuration() { return 0.0f; }
-	
-	public enum chargeStyle {
-		byTime,
-		byDamageInflict,
-	}
+
+	public String[] getDescFields() { return new String[] {}; }
 }

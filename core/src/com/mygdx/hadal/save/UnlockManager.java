@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
@@ -20,21 +19,8 @@ public class UnlockManager {
 	 * This retrieves the player's unlocks from a file
 	 */
 	public static void retrieveItemInfo() {
-
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Artifacts.json"))) {
 			UnlockArtifact.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
-		}
-		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Actives.json"))) {
-			UnlockActives.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
-		}
-		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Cosmetics.json"))) {
-			UnlockCosmetic.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
-		}
-		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Levels.json"))) {
-			UnlockLevel.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
-		}
-		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Modes.json"))) {
-			GameMode.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
 		}
 	}
 	
@@ -43,34 +29,32 @@ public class UnlockManager {
 	 */
 	public static String getName(UnlockType type, String name) {
 		return switch (type) {
-			case ACTIVE -> UnlockActives.getByName(name).getInfo().getName();
+			case ACTIVE -> UnlockActives.getByName(name).getName();
 			case ARTIFACT -> UnlockArtifact.getByName(name).getInfo().getName();
 			case CHARACTER -> UnlockCharacter.getByName(name).getName();
 			case EQUIP -> UnlockEquip.getByName(name).name();
-			case COSMETIC -> UnlockCosmetic.getByName(name).getInfo().getName();
-			case LEVEL -> UnlockLevel.getByName(name).getInfo().getName();
+			case COSMETIC -> UnlockCosmetic.getByName(name).getName();
+			case LEVEL -> UnlockLevel.getByName(name).getName();
 		};
 	}
 
 	public static String getDesc(UnlockType type, String name) {
 		return switch (type) {
-			case ACTIVE -> UnlockActives.getByName(name).getInfo().getDescription();
+			case ACTIVE -> UnlockActives.getByName(name).getDesc();
 			case ARTIFACT -> UnlockArtifact.getByName(name).getInfo().getDescription();
 			case CHARACTER -> UnlockCharacter.getByName(name).getDesc();
 			case EQUIP -> UnlockEquip.getByName(name).getDesc();
-			case COSMETIC -> UnlockCosmetic.getByName(name).getInfo().getDescription();
-			case LEVEL -> UnlockLevel.getByName(name).getInfo().getDescription();
+			case COSMETIC -> UnlockCosmetic.getByName(name).getDesc();
+			case LEVEL -> UnlockLevel.getByName(name).getDesc();
 		};
 	}
 
 	public static String getDescLong(UnlockType type, String name) {
 		return switch (type) {
-			case ACTIVE -> UnlockActives.getByName(name).getInfo().getDescriptionLong();
+			case ACTIVE -> UnlockActives.getByName(name).getDescLong();
 			case ARTIFACT -> UnlockArtifact.getByName(name).getInfo().getDescriptionLong();
-			case CHARACTER -> "";
+			case CHARACTER, COSMETIC, LEVEL -> "";
 			case EQUIP -> UnlockEquip.getByName(name).getDescLong();
-			case COSMETIC -> UnlockCosmetic.getByName(name).getInfo().getDescriptionLong();
-			case LEVEL -> UnlockLevel.getByName(name).getInfo().getDescriptionLong();
 		};
 	}
 	
@@ -174,23 +158,13 @@ public class UnlockManager {
 		PAINTER,
 		WALLPAPER,
 		HABERDASHER,
-		TRAINING,
-		CAMPAIGN,
 		QUARTERMASTER,
 		OUTFITTER,
-		NASU,
 		MISC,
 
 		ALL,
-		CURATED,
-		BIRD,
-		PVP,
-		ARENA,
 		MULTIPLAYER,
-		SINGLEPLAYER,
 		BOSS,
-		SANDBOX,
-		BOT_COMPLIANT,
 
 		OFFENSE,
 		DEFENSE,

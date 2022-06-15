@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="54">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="70">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -9,6 +9,56 @@
    eAHtncFqgjEYwAS9bKAetvd/1vW/Vyi4mCop9PLTEkm+nj2dWhnIQAYykIEMZCADtIH7ALTfz8HqXNT2/doezVZXfevbDOw3A73f/Zr85zupb32PGZjN1HV8P7e3cHB70Gh8Xlqzvl9LNzv0CgOXAZk1WmXP7tZ31R5/rr68Y5NQX9M+z64v79gk1Ne0z7Pryzs2CfU17fPs+vKOTUJ9Tfs8u768Y5NQX9M+z64v79gk1Ne0z7Pryzs2CfU17fPs+vKOTUJ9Tfs8u768Y5NQX9M+z64v79gk1Ne0z7Pryzs2CfU17fPs+vKOTUJ9Tfs8u768Y5NQX9M+z64v79gk1Ne0z7Pryzs2CfU17fPs+vKOTUJ9Tfs8u768Y5NQX9M+z64v79gk1Ne0z7Pryzs2CfU17fPs+vKOTUJ9Tfs8u768Y5NQX9M+z64v79gk1Ne0z7Pryzs2CfU17fPs+vKOTUJ9Tfs8u768Y5NQX9M+z64v79gk1Ne0z7OJvj/jZ3+3t3DwOzrM/gNldbJmd/s2d7qTl/ru3+iZealvfY8ZeGaGuuv56/167l8x96t9O5eBDGQgAxnIQAYykIEMZCADGfg0A3+Hcm+x
   </data>
  </layer>
+ <objectgroup id="5" name="bot-layer">
+  <object id="54" name="BotPoint" type="BotPoint" x="640" y="1888">
+   <polyline points="-224,-32 -32,128"/>
+  </object>
+  <object id="55" name="BotPoint" type="BotPoint" x="800" y="1888">
+   <polyline points="-192,128 320,128"/>
+  </object>
+  <object id="56" name="BotPoint" type="BotPoint" x="1248" y="1920">
+   <polyline points="-128,96 288,96"/>
+  </object>
+  <object id="57" name="BotPoint" type="BotPoint" x="1600" y="1856">
+   <polyline points="-64,160 224,-128"/>
+  </object>
+  <object id="58" name="BotPoint" type="BotPoint" x="2048" y="1728">
+   <polyline points="-32,0 256,288"/>
+  </object>
+  <object id="59" name="BotPoint" type="BotPoint" x="2112" y="1664">
+   <polyline points="-288,64 -96,64"/>
+  </object>
+  <object id="60" name="BotPoint" type="BotPoint" x="2240" y="1920">
+   <polyline points="64,96 480,96"/>
+  </object>
+  <object id="61" name="BotPoint" type="BotPoint" x="2720" y="1920">
+   <polyline points="0,96 512,96"/>
+  </object>
+  <object id="62" name="BotPoint" type="BotPoint" x="3072" y="1888">
+   <polyline points="352,-32 160,128"/>
+  </object>
+  <object id="63" name="BotPoint" type="BotPoint" x="3328" y="1664">
+   <polyline points="0,-448 96,192"/>
+  </object>
+  <object id="64" name="BotPoint" type="BotPoint" x="2656" y="1024">
+   <polyline points="224,-64 672,192"/>
+  </object>
+  <object id="65" name="BotPoint" type="BotPoint" x="2624" y="960">
+   <polyline points="-448,0 256,0"/>
+  </object>
+  <object id="66" name="BotPoint" type="BotPoint" x="2240" y="864">
+   <polyline points="-576,96 -64,96"/>
+  </object>
+  <object id="67" name="BotPoint" type="BotPoint" x="992" y="896">
+   <polyline points="-32,64 672,64"/>
+  </object>
+  <object id="68" name="BotPoint" type="BotPoint" x="1248" y="1120">
+   <polyline points="-288,-160 -736,96"/>
+  </object>
+  <object id="69" name="BotPoint" type="BotPoint" x="768" y="1504">
+   <polyline points="-256,-288 -352,352"/>
+  </object>
+ </objectgroup>
  <objectgroup id="2" name="collision-layer">
   <object id="2" x="352" y="384">
    <polyline points="0,0 3136,0 3136,1728 0,1728 0,0"/>

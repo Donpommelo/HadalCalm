@@ -224,4 +224,6 @@ public abstract class Equippable {
 	public float getBotRangeMin() { return 0.0f; }
 
 	public float getBotRangeMax() { return 0.0f; }
+
+	public String[] getDescFields() { return new String[] {}; }
 }

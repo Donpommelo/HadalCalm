@@ -35,11 +35,12 @@ public class Fafrotskies extends ActiveItem {
 	
 	private static final float projectileSpeed = 5.0f;
 	private static final float rainSpeed = 15.0f;
-	
+	private static final float rainInterval = 0.1f;
+
 	private static final Sprite projSprite = Sprite.ORB_BLUE;
 
 	public Fafrotskies(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -53,9 +54,7 @@ public class Fafrotskies extends ActiveItem {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
-			private float controllerCount = 0;
-			private static final float rainInterval = 0.1f;
-			
+			private float controllerCount;
 			@Override
 			public void controller(float delta) {
 				controllerCount += delta;
@@ -76,5 +75,14 @@ public class Fafrotskies extends ActiveItem {
 				}
 			}
 		});
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) rainDamage),
+				String.valueOf(lifespan),
+				String.valueOf(rainInterval)};
 	}
 }

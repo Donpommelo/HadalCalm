@@ -171,4 +171,14 @@ public class KillerBeat extends RangedWeapon {
 
 	@Override
 	public float getBotRangeMax() { return bonusProjectileSpeed * lifespan; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(maxCharge),
+				String.valueOf(shootCd)};
+	}
 }

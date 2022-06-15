@@ -61,4 +61,11 @@ public class Fisticuffs extends MeleeWeapon {
 
 	@Override
 	public float getBotRangeMax() { return projectileSpeed * lifespan; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(swingCd)};
+	}
 }

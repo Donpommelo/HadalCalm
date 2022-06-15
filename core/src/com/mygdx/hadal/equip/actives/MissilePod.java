@@ -10,6 +10,8 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
+import static com.mygdx.hadal.battle.WeaponUtils.torpedoExplosionDamage;
+
 /**
  * @author Fatatron Falpudding
  */
@@ -24,7 +26,7 @@ public class MissilePod extends ActiveItem {
 	private static final float procCd = 0.1f;
 
 	public MissilePod(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -49,4 +51,12 @@ public class MissilePod extends ActiveItem {
 	
 	@Override
 	public float getUseDuration() { return duration; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) (duration / procCd)),
+				String.valueOf((int) torpedoExplosionDamage)};
+	}
 }

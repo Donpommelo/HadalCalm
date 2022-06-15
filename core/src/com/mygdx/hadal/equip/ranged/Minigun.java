@@ -166,4 +166,15 @@ public class Minigun extends RangedWeapon {
 			slow = null;
 		}
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(maxCharge),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
+	}
 }

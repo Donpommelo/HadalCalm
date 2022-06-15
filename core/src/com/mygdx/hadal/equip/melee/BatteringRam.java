@@ -42,6 +42,8 @@ public class BatteringRam extends MeleeWeapon {
 	private static final float minDamage = 20.0f;
 	private static final float maxDamage = 70.0f;
 
+	private static final float damageReduction = 0.5f;
+
 	private static final float minParticleTermination = 0.9f;
 	private static final float maxParticleTermination = 0.6f;
 
@@ -147,4 +149,13 @@ public class BatteringRam extends MeleeWeapon {
 
 	@Override
 	public float getBotRangeMax() { return 17.0f; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) minDamage),
+				String.valueOf((int) maxDamage),
+				String.valueOf((int) (damageReduction * 100)),
+				String.valueOf(maxCharge)};
+	}
 }

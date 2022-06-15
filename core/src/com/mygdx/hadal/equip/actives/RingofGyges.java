@@ -18,7 +18,7 @@ public class RingofGyges extends ActiveItem {
 	private static final float duration = 8.0f;
 	
 	public RingofGyges(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -28,4 +28,11 @@ public class RingofGyges extends ActiveItem {
 	
 	@Override
 	public float getUseDuration() { return duration; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) duration)};
+	}
 }

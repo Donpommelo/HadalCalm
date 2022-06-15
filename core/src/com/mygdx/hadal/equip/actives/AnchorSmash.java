@@ -46,7 +46,7 @@ public class AnchorSmash extends ActiveItem {
 	private static final Sprite projSprite = Sprite.ANCHOR;
 
 	public AnchorSmash(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 
 	private float shortestFraction;
@@ -121,5 +121,12 @@ public class AnchorSmash extends ActiveItem {
 		});
 
 		return hbox;
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+			String.valueOf((int) maxCharge),
+			String.valueOf((int) baseDamage)};
 	}
 }

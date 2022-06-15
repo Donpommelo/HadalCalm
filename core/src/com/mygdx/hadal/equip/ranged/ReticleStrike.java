@@ -94,4 +94,14 @@ public class ReticleStrike extends RangedWeapon {
 
 		return hbox;
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) explosionDamage),
+				String.valueOf(reticleLifespan),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime)};
+	}
 }

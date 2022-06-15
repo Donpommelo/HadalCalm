@@ -233,4 +233,16 @@ public class TeslaCoil extends RangedWeapon {
 
 		return hboxDamage;
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) pulseDamage),
+				String.valueOf(lifespan),
+				String.valueOf((int) pulseInterval),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
+	}
 }

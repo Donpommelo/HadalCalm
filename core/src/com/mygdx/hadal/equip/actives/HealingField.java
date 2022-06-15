@@ -24,7 +24,7 @@ public class HealingField extends ActiveItem {
 	private static final float healDuration = 10.0f;
 	
 	public HealingField(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -35,4 +35,12 @@ public class HealingField extends ActiveItem {
 	
 	@Override
 	public float getUseDuration() { return healDuration; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) healDuration),
+				String.valueOf((int) (fieldHeal * 60))};
+	}
 }

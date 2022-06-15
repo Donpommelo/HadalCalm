@@ -122,4 +122,15 @@ public class AmitaCannon extends RangedWeapon {
 		});
 		return center;
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf(baseDamage),
+				String.valueOf(numOrbitals),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
+	}
 }

@@ -26,7 +26,7 @@ public class Curve extends HitboxStrategy {
 	private boolean found;
 	
 	//this is the distance from the target where the hbox will stop curving. This value is squared to avoid having to calculate a square root.
-	private static final float boundDist = 60.0f;
+	private static final float boundDist = 80.0f;
 	
 	public Curve(PlayState state, Hitbox proj, BodyData user, int spreadMin, int spreadMax, Vector2 startTarget, float startSpeed, float lerp) {
 		super(state, proj, user);

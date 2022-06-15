@@ -6,14 +6,14 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.bots.RallyPoint;
-import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
-import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
+import com.mygdx.hadal.bots.RallyPoint;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.map.SettingLoadoutMode.LoadoutMode;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.map.modifiers.*;
-import com.mygdx.hadal.save.InfoItem;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
@@ -25,7 +25,7 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
-import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.text.GameText;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
@@ -37,7 +37,8 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
  */
 public enum GameMode {
 
-    HUB("", new SettingTeamMode(TeamMode.COOP), new SettingLives(0), new SettingBots(0)) {
+    HUB("", GameText.HUB, GameText.HUB_DESC,
+            new SettingTeamMode(TeamMode.COOP), new SettingLives(0), new SettingBots(0)) {
 
         @Override
         public boolean isInvisibleInHub() { return true; }
@@ -46,17 +47,19 @@ public enum GameMode {
         public boolean isHub() { return true; }
     },
 
-    CAMPAIGN("", new SettingTeamMode(TeamMode.COOP), new SettingLives(1)) {
+    CAMPAIGN("", GameText.CAMPAIGN, GameText.CAMPAIGN_DESC,
+            new SettingTeamMode(TeamMode.COOP), new SettingLives(1)) {
 
         @Override
         public boolean isInvisibleInHub() { return true; }
     },
 
-    BOSS("", new SettingTeamMode(TeamMode.COOP), new AllyRevive(),
+    BOSS("", GameText.BOSS, GameText.BOSS_DESC,
+            new SettingTeamMode(TeamMode.COOP), new AllyRevive(),
             new DisplayUITag("ALLY_HEALTH"),
             new ToggleWeaponDrops()),
 
-    DEATHMATCH("dm",
+    DEATHMATCH("dm", GameText.DEATHMATCH, GameText.DEATHMATCH_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingBots(), new SettingLives(),
         new SettingScoreCap(), new SettingBaseHp(), new SettingRespawnTime(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
@@ -64,7 +67,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    DREAM_OF_A_WHALE("arena",
+    DREAM_OF_A_WHALE("arena", GameText.NOTHING, GameText.NOTHING,
             new SetCameraOnSpawn(),
             new SettingTeamMode(TeamMode.COOP), new AllyRevive(),
             new DisplayUITag("SCOREBOARD"), new DisplayUITag("ALLY_HEALTH")) {
@@ -73,13 +76,13 @@ public enum GameMode {
         public boolean isInvisibleInHub() { return true; }
     },
 
-    SURVIVAL("arena",
+    SURVIVAL("arena", GameText.SURVIVAL, GameText.SURVIVAL_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.COOP), new SettingTimer("VICTORY"), new AllyRevive(),
         new DisplayUITag("SCOREBOARD"), new DisplayUITag("HISCORE"), new DisplayUITag("ALLY_HEALTH"),
         new SpawnWeapons(), new SpawnEnemyWaves(), new ToggleWeaponDrops()),
 
-    CTF("ctf",
+    CTF("ctf", GameText.CTF, GameText.CTF_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.magicWord), new SettingBots(),
         new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(5), new SettingLoadoutOutfit(),
@@ -89,7 +92,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
         new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    EGGPLANTS("objective,dm", DEATHMATCH,
+    EGGPLANTS("objective,dm", DEATHMATCH, GameText.MODE_EGGPLANT, GameText.MODE_EGGPLANT_DESC,
             new SetCameraOnSpawn(),
             new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
             new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
@@ -98,14 +101,14 @@ public enum GameMode {
             new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
                     new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    FOOTBALL("",
+    FOOTBALL("futbol", GameText.FOOTBALL, GameText.FOOTBALL_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.magicWord), new SettingTeamScoreCap(), new SettingLives(0),
         new DisplayUITag("TEAMSCORE"), new ToggleNoDamage(),
         new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),
         new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO)),
 
-    GUN_GAME("dm", DEATHMATCH,
+    GUN_GAME("dm", DEATHMATCH, GameText.GUN_GAME, GameText.GUN_GAME_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.magicWord, 8), new SettingBots(),
         new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(),
@@ -116,7 +119,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion())),
 
-    KINGMAKER("objective,dm", DEATHMATCH,
+    KINGMAKER("objective,dm", DEATHMATCH, GameText.KINGMAKER, GameText.KINGMAKER_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
         new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
@@ -125,7 +128,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    MATRYOSHKA("dm", DEATHMATCH,
+    MATRYOSHKA("dm", DEATHMATCH, GameText.MATRYOSHKA, GameText.MATRYOSHKA_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.magicWord, 8),
         new SettingBaseHp(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
@@ -134,7 +137,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    RESURRECTION("dm", DEATHMATCH,
+    RESURRECTION("dm", DEATHMATCH, GameText.RESURRECTION, GameText.RESURRECTION_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.magicWord, 8), new AllyRevive(),
         new SettingBaseHp(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
@@ -142,7 +145,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    SANDBOX("", new SettingTeamMode(TeamMode.COOP), new SettingLives(0)),
+    SANDBOX("", GameText.SANDBOX, GameText.SANDBOX_DESC, new SettingTeamMode(TeamMode.COOP), new SettingLives(0)),
 
     ;
 
@@ -152,7 +155,7 @@ public enum GameMode {
     //settings that apply to this mode
     private final ModeSetting[] applicableSettings;
 
-    private InfoItem info;
+    private final GameText name, desc;
 
     //this contains the strings that will be displayed in the notification window at the start of the game
     //atm, this is just used to notify of mode modifiers
@@ -171,13 +174,15 @@ public enum GameMode {
     //number of teams playing on auto team assign mode
     private int teamNum = 2;
 
-    GameMode(String extraLayers, GameMode checkCompliance, ModeSetting... applicableSettings) {
-        this(extraLayers, applicableSettings);
+    GameMode(String extraLayers, GameMode checkCompliance, GameText name, GameText desc, ModeSetting... applicableSettings) {
+        this(extraLayers, name, desc, applicableSettings);
         this.checkCompliance = checkCompliance;
     }
 
-    GameMode(String extraLayers, ModeSetting... applicableSettings) {
+    GameMode(String extraLayers, GameText name, GameText desc, ModeSetting... applicableSettings) {
         this.extraLayers = extraLayers.split(",");
+        this.name = name;
+        this.desc = desc;
         this.applicableSettings = applicableSettings;
     }
 
@@ -406,17 +411,16 @@ public enum GameMode {
             ModesByName.put(m.toString(), m);
         }
     }
+    public static GameMode getByName(String s) {
+        return ModesByName.get(s, HUB);
+    }
+
+    public String getName() { return name.text(); }
+
+    public String getDesc() { return desc.text(); }
 
     public boolean isTeamDesignated() {
         return teamMode.equals(TeamMode.TEAM_AUTO) || teamMode.equals(TeamMode.HUMANS_VS_BOTS);
-    }
-
-    public InfoItem getInfo() { return info; }
-
-    public void setInfo(InfoItem info) { this.info = info; }
-
-    public static GameMode getByName(String s) {
-        return ModesByName.get(s, HUB);
     }
 
     public String[] getExtraLayers() { return extraLayers; }

@@ -100,4 +100,16 @@ public class Boiler extends RangedWeapon {
 				.setSyncType(SyncType.NOSYNC));
 		return hbox;
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(fireDuration),
+				String.valueOf((int) fireDamage),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
+	}
 }

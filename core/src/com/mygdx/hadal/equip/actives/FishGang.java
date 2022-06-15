@@ -24,7 +24,7 @@ public class FishGang extends ActiveItem {
 	private static final float fishLifespan = 20.0f;
 	
 	public FishGang(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -64,5 +64,12 @@ public class FishGang extends ActiveItem {
 				};
 			}
 		}
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf(numFish)};
 	}
 }

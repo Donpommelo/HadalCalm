@@ -34,7 +34,7 @@ public class Arcanery extends HubEvent {
 	public void enter() {
 		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(tag, true, false, false, this);
+		state.getUiHub().enter(true, false, false, this);
 		open = true;
 		addOptions(lastSearch, lastSlot, lastTag);
 	}
@@ -52,14 +52,14 @@ public class Arcanery extends HubEvent {
 			if (search.equals("")) {
 				appear = true;
 			} else {
-				Matcher matcher = pattern.matcher(selected.getInfo().getName().toLowerCase());
+				Matcher matcher = pattern.matcher(selected.getName().toLowerCase());
 				if (matcher.find()) {
 					appear = true;
 				}
 			}
 
 			if (appear) {
-				Text itemChoose = new Text(selected.getInfo().getName()).setButton(true);
+				Text itemChoose = new Text(selected.getName()).setButton(true);
 
 				itemChoose.addListener(new ClickListener() {
 
@@ -80,7 +80,7 @@ public class Arcanery extends HubEvent {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(selected.getInfo().getName() + "\n\n" + selected.getInfo().getDescription() + "\n\n" + selected.getInfo().getDescriptionLong());
+						hub.setInfo(selected.getName() + "\n\n" + selected.getDesc() + "\n\n" + selected.getDescLong());
 					}
 				});
 

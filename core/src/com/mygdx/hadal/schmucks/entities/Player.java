@@ -16,11 +16,11 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.PlayerSpriteHelper;
 import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.SyncType;
@@ -302,7 +302,7 @@ public class Player extends PhysicsSchmuck {
 		this.feetData = new FeetData(UserDataType.FEET, this);
 
 		Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter);
+				Constants.BIT_SENSOR, (short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter);
 
 		feet.setUserData(feetData);
 
@@ -438,8 +438,8 @@ public class Player extends PhysicsSchmuck {
 			}
 		}
 		
-		//charge active item if it charges with time.
-		if (playerData.getActiveItem().getStyle().equals(chargeStyle.byTime)) {
+		//charge active item in all modes except campaign (where items charge by dealing damage).
+		if (!state.getMode().equals(GameMode.CAMPAIGN)) {
 			playerData.getActiveItem().gainCharge(delta);
 		}
 		
@@ -684,6 +684,9 @@ public class Player extends PhysicsSchmuck {
 		//process player invisibility. Completely invisible players are partially transparent to allies
 		float transparency;
 		boolean batchSet = false;
+		if (invisible == 3) {
+			return;
+		}
 		if (invisible == 2) {
 			if (state.getPlayer().hitboxfilter == hitboxfilter) {
 				transparency = 0.3f;

@@ -474,6 +474,13 @@ public enum SyncedAttack {
         }
     },
 
+    GHOST_STEP() {
+        @Override
+        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
+            return GhostStep.createDematerialization(state, user, startPosition, startVelocity);
+        }
+    },
+
     JUMP_KICK() {
         @Override
         public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {

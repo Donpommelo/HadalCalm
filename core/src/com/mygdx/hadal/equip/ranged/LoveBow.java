@@ -190,4 +190,17 @@ public class LoveBow extends RangedWeapon {
 			chargeSound = null;
 		}
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) minDamage),
+				String.valueOf((int) maxDamage),
+				String.valueOf((int) minHeal),
+				String.valueOf((int) maxDamage),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(maxCharge)};
+	}
 }

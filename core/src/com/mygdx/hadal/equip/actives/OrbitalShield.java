@@ -33,15 +33,17 @@ public class OrbitalShield extends ActiveItem {
 	private static final Vector2 projSize = new Vector2(25, 25);
 	private static final Vector2 spriteSize = new Vector2(40, 40);
 
-	private static final float projDamage= 27.0f;
-	private static final float projKnockback= 25.0f;
-	private static final float projLifespan= 5.0f;
+	private static final int projNum = 4;
 
-	private static final float projSpeed= 180.0f;
-	private static final float projRange= 5.0f;
+	private static final float projDamage = 27.0f;
+	private static final float projKnockback = 25.0f;
+	private static final float projLifespan = 5.0f;
+
+	private static final float projSpeed = 180.0f;
+	private static final float projRange = 5.0f;
 
 	public OrbitalShield(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -51,7 +53,7 @@ public class OrbitalShield extends ActiveItem {
 
 	public static Hitbox[] createOrbitals(PlayState state, Schmuck user) {
 
-		Hitbox[] hboxes = new Hitbox[4];
+		Hitbox[] hboxes = new Hitbox[projNum];
 		hboxes[0] = createOrbital(state, user, 0);
 		hboxes[1] = createOrbital(state, user, 90);
 		hboxes[2] = createOrbital(state, user, 180);
@@ -85,4 +87,13 @@ public class OrbitalShield extends ActiveItem {
 
 	@Override
 	public float getBotRangeMin() { return 9.0f; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) projLifespan),
+				String.valueOf(projNum),
+				String.valueOf((int) projDamage)};
+	}
 }

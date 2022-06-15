@@ -30,13 +30,13 @@ public class PlusMinus extends ActiveItem {
 	private static final int chainAmount = 4;
 	
 	public PlusMinus(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		new ParticleEntity(state, user.getPlayer(), Particle.LIGHTNING_CHARGE, 1.0f, duration,
-				true, SyncType.CREATESYNC).setColor(HadalColor.YELLOW);
+				true, SyncType.CREATESYNC).setColor(HadalColor.SUNGLOW);
 
 		user.addStatus(new Status(state, duration, false, user, user) {
 
@@ -58,4 +58,13 @@ public class PlusMinus extends ActiveItem {
 
 	@Override
 	public float getBotRangeMin() { return 7.0f; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) (duration / procCd)),
+				String.valueOf((int) chainDamage),
+				String.valueOf(chainAmount)};
+	}
 }

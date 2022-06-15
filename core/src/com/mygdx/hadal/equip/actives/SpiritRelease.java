@@ -8,6 +8,8 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
+import static com.mygdx.hadal.battle.WeaponUtils.spiritDefaultDamage;
+
 /**
  * @author Lothdoof Lepomelo
  */
@@ -16,18 +18,28 @@ public class SpiritRelease extends ActiveItem {
 	private static final float usecd = 0.0f;
 	private static final float usedelay = 0.0f;
 	private static final float maxCharge = 10.0f;
-	
+
+	private static final int spiritNum = 3;
+
 	public SpiritRelease(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		Vector2[] positions = new Vector2[3];
+		Vector2[] positions = new Vector2[spiritNum];
 		positions[0] = new Vector2(user.getPlayer().getPixelPosition()).add(0, 100);
 		positions[1] = new Vector2(user.getPlayer().getPixelPosition()).add(100, 0);
 		positions[2] = new Vector2(user.getPlayer().getPixelPosition()).add(-100, 0);
 		SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, user.getPlayer(), new Vector2(), positions,
 				new Vector2[]{}, DamageSource.SPIRIT_RELEASE);
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf(spiritNum),
+				String.valueOf((int) spiritDefaultDamage)};
 	}
 }

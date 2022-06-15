@@ -5,6 +5,7 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.GameText;
 
 import java.util.HashMap;
 
@@ -14,56 +15,88 @@ import java.util.HashMap;
  */
 public enum UnlockLevel {
 
-	CTF_COQUELICOT("Maps/ctf_coquelicot.tmx", GameMode.CTF, GameMode.DEATHMATCH),
-	CTF_FILTRATION("Maps/ctf_filtration.tmx", GameMode.CTF, GameMode.DEATHMATCH),
-	CTF_UNDULATE("Maps/ctf_undulate.tmx", GameMode.CTF, GameMode.DEATHMATCH),
+	BOSS_FISH("Maps/Boss1.tmx", GameText.BOSS_FISH, GameText.BOSS_FISH_DESC, true,
+			GameMode.BOSS),
+	BOSS_KING_KAMABOKO("Maps/Boss2.tmx", GameText.BOSS_KING_KAMABOKO, GameText.BOSS_BOSS_KING_KAMABOKO_DESC, true,
+			GameMode.BOSS),
+	BOSS_FALSE_SUN("Maps/Boss4.tmx", GameText.BOSS_FALSE_SUN, GameText.BOSS_FALSE_SUN_DESC, true,
+			GameMode.BOSS),
+	BOSS_NEPTUNE_KING("Maps/Boss5.tmx", GameText.BOSS_NEPTUNE_KING, GameText.BOSS_NEPTUNE_KING_DESC, true,
+			GameMode.BOSS),
+	BOSS_GILT_SCALED_SERAPH("Maps/Boss6.tmx", GameText.BOSS_GILT_SCALED_SERAPH, GameText.BOSS_BOSS_GILT_SCALED_SERAPH_DESC, true,
+			GameMode.BOSS),
 
-	DM_BOTTLENECK("Maps/dm_bottleneck.tmx", GameMode.DEATHMATCH),
-	DM_BROUHAHA("Maps/dm_brouhaha.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	DM_FACILITY("Maps/dm_facility.tmx", GameMode.DEATHMATCH),
-	DM_FLOTSAM("Maps/dm_flotsam.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL, GameMode.DREAM_OF_A_WHALE),
-	DM_LAGAN("Maps/dm_lagan.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL, GameMode.DREAM_OF_A_WHALE),
-	DM_THRESHOLD("Maps/dm_threshold.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	DM_TOWERS("Maps/dm_towers.tmx", GameMode.DEATHMATCH),
-	DM_WARP("Maps/dm_warp.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	DM_QUADRANT("Maps/dm_quadrant.tmx", GameMode.DEATHMATCH),
-	DM_WETWORKS("Maps/dm_wetworks.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
+	AGGYDAGGY("Maps/dm_aggydaggy.tmx", GameText.AGGYDAGGY, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	BOTTLENECK("Maps/dm_bottleneck.tmx", GameText.BOTTLENECK, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	BROUHAHA("Maps/dm_brouhaha.tmx", GameText.BROUHAHA, GameText.NOTHING, true,
+			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+	COQUELICOT("Maps/ctf_coquelicot.tmx", GameText.COQUELICOT, GameText.NOTHING, true,
+			GameMode.CTF, GameMode.DEATHMATCH),
+	FACILITY("Maps/dm_facility.tmx", GameText.FACILITY, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	FILTRATION("Maps/ctf_filtration.tmx", GameText.FILTRATION, GameText.NOTHING, true,
+			GameMode.CTF, GameMode.DEATHMATCH),
+	FLOTSAM("Maps/dm_flotsam.tmx", GameText.FLOTSAM, GameText.NOTHING, true,
+			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+	GREEN("Maps/futbol_green.tmx", GameText.GREEN, GameText.NOTHING, true,
+			GameMode.FOOTBALL, GameMode.DEATHMATCH),
+	LAGAN("Maps/dm_lagan.tmx", GameText.LAGAN, GameText.NOTHING, true,
+			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+	THRESHOLD("Maps/dm_threshold.tmx", GameText.THRESHOLD, GameText.NOTHING, true,
+			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+	TOWERS("Maps/dm_towers.tmx", GameText.TOWERS, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	UNDULATE("Maps/ctf_undulate.tmx", GameText.UNDULATE, GameText.NOTHING, true,
+			GameMode.CTF, GameMode.DEATHMATCH),
+	WARP("Maps/dm_warp.tmx", GameText.WARP, GameText.NOTHING, true,
+			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+	QUADRANT("Maps/dm_quadrant.tmx", GameText.QUADRANTS, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	WETWORKS("Maps/dm_wetworks.tmx", GameText.WETWORKS, GameText.NOTHING, true,
+			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+	ZIGGURAT("Maps/dm_ziggurat.tmx", GameText.ZIGGURAT, GameText.NOTHING, true,
+			GameMode.DEATHMATCH, GameMode.SURVIVAL),
 
-	BOSS1("Maps/Boss1.tmx", GameMode.BOSS),
-	BOSS2("Maps/Boss2.tmx", GameMode.BOSS),
-	BOSS3("Maps/Boss3.tmx", GameMode.BOSS),
-	BOSS4("Maps/Boss4.tmx", GameMode.BOSS),
-	BOSS5("Maps/Boss5.tmx", GameMode.BOSS),
-	BOSS6("Maps/Boss6.tmx", GameMode.BOSS),
-
-	DM_AGGYDAGGY("Maps/dm_aggydaggy.tmx", GameMode.DEATHMATCH),
-	DM_CAROUSEL("Maps/dm_carousel.tmx", GameMode.DEATHMATCH),
-	DM_FALLDOWN("Maps/dm_falldown.tmx", GameMode.DEATHMATCH),
-	DM_GULLY("Maps/dm_gully.tmx", GameMode.DEATHMATCH),
-	DM_JUMP("Maps/dm_jump.tmx", GameMode.DEATHMATCH),
-	DM_MOONBOUNCE("Maps/dm_moonbounce.tmx", GameMode.DEATHMATCH),
-	DM_ORIGINAL("Maps/dm_original.tmx", GameMode.DEATHMATCH),
-	DM_PILE("Maps/dm_pile.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	DM_PINWHEEL("Maps/dm_pinwheel.tmx", GameMode.DEATHMATCH),
-	DM_PIVOT("Maps/dm_pivot.tmx", GameMode.DEATHMATCH),
-	DM_SAWMILL("Maps/dm_sawmill.tmx", GameMode.DEATHMATCH),
-	DM_SCALES("Maps/dm_scales.tmx", GameMode.DEATHMATCH),
-	DM_SEESAW("Maps/dm_seesaw.tmx", GameMode.DEATHMATCH),
-	DM_ZIGGURAT("Maps/dm_ziggurat.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
-
-	DM_FORMOSAN_BLUE_MAGPIE("Maps/dm_formosan_blue_magpie.tmx", GameMode.DEATHMATCH),
-	DM_FREE_RANGE("Maps/dm_free_range.tmx", GameMode.DEATHMATCH),
-	DM_GREY_HERON("Maps/dm_grey_heron.tmx", GameMode.DEATHMATCH),
-	DM_HUMMINGBIRD("Maps/dm_hummingbird.tmx", GameMode.DEATHMATCH),
-	DM_JAPANESE_WHITEEYE("Maps/dm_japanese_whiteeye.tmx", GameMode.DEATHMATCH),
-	DM_LITTLE_BITTERN("Maps/dm_little_bittern.tmx", GameMode.DEATHMATCH),
-	DM_PELICAN("Maps/dm_pelican.tmx", GameMode.DEATHMATCH),
-	DM_SUPREME_CHAMPION("Maps/dm_supreme_champion.tmx", GameMode.DEATHMATCH),
+	FORMOSAN_BLUE_MAGPIE("Maps/dm_formosan_blue_magpie.tmx", GameText.FORMOSAN_BLUE_MAGPIE, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	FREE_RANGE("Maps/dm_free_range.tmx", GameText.FREE_RANGE, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	GREY_HERON("Maps/dm_grey_heron.tmx", GameText.GREY_HERON, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	HUMMINGBIRD("Maps/dm_hummingbird.tmx", GameText.HUMMINGBIRD, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	JAPANESE_WHITEEYE("Maps/dm_japanese_whiteeye.tmx", GameText.JAPANESE_WHITEEYE, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	LITTLE_BITTERN("Maps/dm_little_bittern.tmx", GameText.LITTLE_BITTERN, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	PELICAN("Maps/dm_pelican.tmx", GameText.PELICAN, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	SUPREME_CHAMPION("Maps/dm_supreme_champion.tmx", GameText.SUPREME_CHAMPION, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
 	
-	DM_FACING_CRABS("Maps/dm_crab.tmx", GameMode.DEATHMATCH),
-	DM_GALLERY("Maps/dm_gallery.tmx", GameMode.DEATHMATCH),
-	DM_HORIZON("Maps/dm_horizon.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	DM_REDROCK("Maps/dm_redrock.tmx", GameMode.DEATHMATCH),
+	FACING_CRABS("Maps/dm_crab.tmx", GameText.FACING_CRABS, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	GALLERY("Maps/dm_gallery.tmx", GameText.GALLERY, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+	HORIZON("Maps/dm_horizon.tmx", GameText.HORIZON, GameText.NOTHING, true,
+			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+	REDROCK("Maps/dm_redrock.tmx", GameText.REDROCK, GameText.NOTHING, true,
+			GameMode.DEATHMATCH),
+
+	FALLDOWN("Maps/dm_falldown.tmx", GameText.FALLDOWN, GameText.NOTHING, true, GameMode.DEATHMATCH),
+	MOONBOUNCE("Maps/dm_moonbounce.tmx", GameText.MOONBOUNCE, GameText.NOTHING, true, GameMode.DEATHMATCH),
+	PINWHEEL("Maps/dm_pinwheel.tmx", GameText.PINWHEEL, GameText.NOTHING, true, GameMode.DEATHMATCH),
+	PIVOT("Maps/dm_pivot.tmx", GameText.PIVOT, GameText.NOTHING, true, GameMode.DEATHMATCH),
+	//	CAROUSEL("Maps/dm_carousel.tmx", GameMode.DEATHMATCH),
+	//	GULLY("Maps/dm_gully.tmx", GameMode.DEATHMATCH),
+	//	JUMP("Maps/dm_jump.tmx", GameMode.DEATHMATCH),
+	//	ORIGINAL("Maps/dm_original.tmx", GameMode.DEATHMATCH),
+	//	PILE("Maps/dm_pile.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
+	//	SAWMILL("Maps/dm_sawmill.tmx", GameMode.DEATHMATCH),
+	//	SCALES("Maps/dm_scales.tmx", GameMode.DEATHMATCH),
+	//	SEESAW("Maps/dm_seesaw.tmx", GameMode.DEATHMATCH),
 
 	WRECK1("Maps/wreck1.tmx", GameMode.CAMPAIGN),
 	WRECK2("Maps/wreck2.tmx", GameMode.CAMPAIGN),
@@ -91,14 +124,12 @@ public enum UnlockLevel {
 	SLUICEBOSS("Maps/sluiceboss.tmx", GameMode.CAMPAIGN),
 	PARTY("Maps/party.tmx", GameMode.CAMPAIGN),
 
-	SANDBOX_HUB("Maps/sandboxhub.tmx", GameMode.SANDBOX),
+	SANDBOX_HUB("Maps/sandboxhub.tmx", GameText.SANDBOX, GameText.SANDBOX_DESC, true, GameMode.SANDBOX),
 	SANDBOX_ENEMY("Maps/sandboxenemy.tmx", GameMode.SANDBOX),
 	SANDBOX_EVENTS("Maps/sandboxevent.tmx", GameMode.SANDBOX),
 
-	FOOTBALL_GREEN("Maps/futbol_green.tmx", GameMode.FOOTBALL),
-
-	SSTUNICATE1("Maps/sstunicate1.tmx", GameMode.HUB),
-	HUB_MULTI("Maps/sstunicate2.tmx", GameMode.HUB),
+	SSTUNICATE1("Maps/sstunicate1.tmx", GameText.LEVEL_HUB, GameText.HUB_DESC, false, GameMode.HUB),
+	HUB_MULTI("Maps/sstunicate2.tmx", GameText.LEVEL_HUB, GameText.HUB_DESC, true, GameMode.HUB),
 
 	;
 	
@@ -106,14 +137,28 @@ public enum UnlockLevel {
 	private final String map;
 	
 	//information about the map
-	private InfoItem info;
+	private final GameText name, desc;
+	private final Array<UnlockTag> tags = new Array<>();
 
 	//these are modes that this map can be selected for
 	private final GameMode[] modes;
 
-	UnlockLevel(String map, GameMode... modes) {
+	UnlockLevel(String map, GameText name, GameText desc, boolean multiplayer, GameMode... modes) {
 		this.map = map;
+		this.name = name;
+		this.desc = desc;
 		this.modes = modes;
+
+		if (multiplayer) {
+			tags.add(UnlockTag.MULTIPLAYER);
+		} else {
+			tags.add(UnlockTag.NAVIGATIONS);
+		}
+	}
+
+	UnlockLevel(String map, GameMode... modes) {
+		this(map, GameText.NOTHING, GameText.NOTHING, false, modes);
+		tags.clear();
 	}
 
 	/**
@@ -124,7 +169,7 @@ public enum UnlockLevel {
 		
 		for (UnlockLevel u : UnlockLevel.values()) {
 			
-			boolean get = UnlockManager.checkTags(u.getInfo().getTags(), tags);
+			boolean get = UnlockManager.checkTags(u.tags, tags);
 			
 			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.LEVEL, u.toString())) {
 				get = false;
@@ -136,25 +181,13 @@ public enum UnlockLevel {
 		return items;
 	}
 
-	/**
-	 * Due to the number of single-player campaign "maps", info items for levels might be null.
-	 * In these cases, we want to return an empty info item with the name for ui purposes
-	 */
-	public InfoItem getInfo() {
-		if (info == null) {
-			info = new InfoItem();
-			info.setName(toString());
-			info.setDescription("");
-			info.setTags(new Array<>());
-		}
-		return info;
-	}
-
-	public void setInfo(InfoItem info) { this.info = info; }
-	
 	public String getMap() { return map; }
 
 	public GameMode[] getModes() { return modes; }
+
+	public String getName() { return name.text(); }
+
+	public String getDesc() { return desc.text(); }
 
 	private static final HashMap<String, UnlockLevel> UnlocksByName = new HashMap<>();
 	static {

@@ -185,4 +185,17 @@ public class Puffballer extends RangedWeapon {
 	public void unequip(PlayState state) {
 		held = false;
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf((int) sporeFragDamage),
+				String.valueOf(sporeFragNumber),
+				String.valueOf((int) sporeFragLifespan),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
+	}
 }

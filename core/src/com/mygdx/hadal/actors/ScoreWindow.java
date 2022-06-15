@@ -125,7 +125,7 @@ public class ScoreWindow {
 		tableScore.setPosition(0, HadalGame.CONFIG_HEIGHT - tableHeight);
 
 		//add table headings
-		Text title = new Text(state.getMode().getInfo().getName() + ": " + state.getLevel().getInfo().getName());
+		Text title = new Text(state.getMode().getName() + ": " + state.getLevel().getName());
 		title.setScale(scoreTitleScale);
 		
 		Text playerLabel = new Text(UIText.PLAYER.text());

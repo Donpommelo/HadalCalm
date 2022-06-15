@@ -8,6 +8,7 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
+import static com.mygdx.hadal.battle.WeaponUtils.torpedoExplosionDamage;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
@@ -26,7 +27,7 @@ public class MeteorStrike extends ActiveItem {
 	private static final float spread = 15.0f;
 	
 	public MeteorStrike(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 
 	@Override
@@ -37,4 +38,13 @@ public class MeteorStrike extends ActiveItem {
 	
 	@Override
 	public float getUseDuration() { return meteorDuration; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf(meteorDuration),
+				String.valueOf((int) (meteorDuration / meteorInterval)),
+				String.valueOf((int) baseDamage)};
+	}
 }

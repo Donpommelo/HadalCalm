@@ -79,7 +79,7 @@ public class UITag {
 					text.append(misc);
 					break;
 				case LEVEL:
-					text.append(state.getMode().getInfo().getName()).append(" ").append(state.getLevel().getInfo().getName());
+					text.append(state.getMode().getName()).append(" ").append(state.getLevel().getName());
 					break;
 				case SCOREBOARD:
 					uiExtra.sortIndividualScores(text);

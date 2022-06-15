@@ -206,4 +206,14 @@ public class Hexenhowitzer extends RangedWeapon {
 			return UIText.CHARGE.text();
 		}
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf((int) maxCharge),
+				String.valueOf(shootCd),
+				String.valueOf(superchargedShootCd),
+				String.valueOf((int) (maxCharge / chargeLostPerShot))};
+	}
 }

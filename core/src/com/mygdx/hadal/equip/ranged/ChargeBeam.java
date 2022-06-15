@@ -46,6 +46,7 @@ public class ChargeBeam extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_CHARGEBEAM;
 
 	private static final float maxCharge = 0.5f;
+	private static final float maxDamageMultiplier = 5.0f;
 	private static final float particleOffset = 1.85f;
 	private ParticleEntity charge, overcharge;
 
@@ -164,7 +165,7 @@ public class ChargeBeam extends RangedWeapon {
 		switch (chargeStage) {
 			case 2 -> {
 				sizeMultiplier = 2.0f;
-				damageMultiplier = 5.0f;
+				damageMultiplier = maxDamageMultiplier;
 				kbMultiplier = 3.0f;
 			}
 			case 1 -> {
@@ -217,5 +218,16 @@ public class ChargeBeam extends RangedWeapon {
 			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
 		}
 		return wallCollider;
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf((int) (baseDamage * maxDamageMultiplier)),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(maxCharge)};
 	}
 }

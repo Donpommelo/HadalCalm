@@ -11,6 +11,7 @@ import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.GameText;
+import com.mygdx.hadal.utils.UnlocktoItem;
 
 /**
  * An UnlockLevel represents a single weapon in the game
@@ -31,9 +32,9 @@ public enum UnlockEquip {
 	COLACANNON(ColaCannon.class, GameText.COLA_CANNON, GameText.COLA_CANNON_DESC, GameText.COLA_CANNON_DESC_LONG),
 	CR4PCANNON(CR4PCannon.class, GameText.CR4P_CANNON, GameText.CR4P_CANNON_DESC, GameText.CR4P_CANNON_DESC_LONG),
 	DEEP_SEA_SMELTER(DeepSeaSmelter.class, GameText.DEEP_SEA_SMELTER, GameText.DEEP_SEA_SMELTER_DESC, GameText.DEEP_SEA_SMELTER_DESC_LONG),
-	DUELING_CORKGUN(DuelingCorkgun.class, GameText.DUELING_CORKGUN, GameText.DUELING_CORKGUN_DESC, GameText.DUELING_CORKGUN_DESC_LONG),
 	DIAMOND_CUTTER(DiamondCutter.class, GameText.DIAMOND_CUTTER, GameText.DIAMOND_CUTTER_DESC, GameText.DIAMOND_CUTTER_DESC_LONG,
 			UnlockTag.MEDIEVAL),
+	DUELING_CORKGUN(DuelingCorkgun.class, GameText.DUELING_CORKGUN, GameText.DUELING_CORKGUN_DESC, GameText.DUELING_CORKGUN_DESC_LONG),
 	FISTICUFFS(Fisticuffs.class, GameText.FISTICUFFS, GameText.FISTICUFFS_DESC, GameText.FISTICUFFS_DESC_LONG,
 			false, true, UnlockTag.MEDIEVAL),
 	FLOUNDERBUSS(Flounderbuss.class, GameText.FLOUNDERBUSS, GameText.FLOUNDERBUSS_DESC, GameText.FLOUNDERBUSS_DESC_LONG),
@@ -75,20 +76,21 @@ public enum UnlockEquip {
 	TRICK_GUN(TrickGun.class, GameText.TRICK_GUN, GameText.TRICK_GUN_DESC, GameText.TRICK_GUN_DESC_LONG),
 	TYRRAZZAN_REAPER(TyrrazzanReaper.class, GameText.TYRRAZZAN_REAPER, GameText.TYRRAZZAN_REAPER_DESC, GameText.TYRRAZZAN_REAPER_DESC_LONG),
 	UNDERMINER(Underminer.class, GameText.UNDERMINER, GameText.UNDERMINER_DESC, GameText.UNDERMINER_DESC_LONG),
-	VINE_SOWER(VineSower.class, GameText.VINE_SOWER, GameText.VINE_SOWER_DESC, GameText.VINE_SOWER_DESC_LONG),
 	VAJRA(Vajra.class, GameText.VAJRA, GameText.VAJRA_DESC, GameText.VAJRA_DESC_LONG),
+	VINE_SOWER(VineSower.class, GameText.VINE_SOWER, GameText.VINE_SOWER_DESC, GameText.VINE_SOWER_DESC_LONG),
 	WAVE_BEAM(WaveBeam.class, GameText.WAVE_BEAM, GameText.WAVE_BEAM_DESC, GameText.WAVE_BEAM_DESC_LONG),
 	XBOMBER(XBomber.class, GameText.X_BOMBER, GameText.X_BOMBER_DESC, GameText.X_BOMBER_DESC_LONG),
 	
 	NOTHING(NothingWeapon.class, GameText.NOTHING, GameText.NOTHING, GameText.NOTHING,
 			false, true),
-	SPEARGUN_NERFED(SpeargunNerfed.class, GameText.SPEARGUN, GameText.SPEARGUN_DESC, GameText.SPEARGUN_DESC_LONG_NERFED,
+	SPEARGUN_NERFED(SpeargunNerfed.class, GameText.SPEARGUN, GameText.SPEARGUN_DESC, GameText.SPEARGUN_DESC_LONG,
 			true, true),
 
 	;
 	
 	//the weapon that this unlock represents
 	private final Class<? extends Equippable> weapon;
+	private final Equippable equipSingleton;
 	
 	//the weapon's information
 	private final GameText name, desc, descLong;
@@ -107,6 +109,7 @@ public enum UnlockEquip {
 			this.tags.add(UnlockTag.RANDOM_POOL);
 		}
 		this.tags.addAll(tags);
+		this.equipSingleton = UnlocktoItem.getUnlock(this, null);
 	}
 
 	UnlockEquip(Class<? extends Equippable> weapon, GameText name, GameText desc, GameText descLong, UnlockTag... tags) {
@@ -171,7 +174,7 @@ public enum UnlockEquip {
 
 	public String getDesc() { return desc.text(); }
 
-	public String getDescLong() { return descLong.text(); }
+	public String getDescLong() { return descLong.text(equipSingleton.getDescFields()); }
 
 	private static final ObjectMap<String, UnlockEquip> UnlocksByName = new ObjectMap<>();
 	static {

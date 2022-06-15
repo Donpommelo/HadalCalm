@@ -123,4 +123,16 @@ public class Flounderbuss extends RangedWeapon {
 		}
 		return hboxes;
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(baseNumProj),
+				String.valueOf(maxNumProj),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(maxCharge)};
+	}
 }

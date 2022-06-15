@@ -141,4 +141,14 @@ public class LaserRifle extends RangedWeapon {
 
 	@Override
 	public float getBotRangeMax() { return projectileWidth; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
+	}
 }

@@ -30,7 +30,7 @@ public class Haberdasher extends HubEvent {
 	public void enter() {
 		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(tag, true, false, false, this);
+		state.getUiHub().enter(true, false, false, this);
 		open = true;
 		addOptions(lastSearch, lastSlot, lastTag);
 	}
@@ -60,7 +60,7 @@ public class Haberdasher extends HubEvent {
 			if (search.equals("")) {
 				appear = true;
 			} else {
-				Matcher matcher = pattern.matcher(selected.getInfo().getName().toLowerCase());
+				Matcher matcher = pattern.matcher(selected.getName().toLowerCase());
 				if (matcher.find()) {
 					appear = true;
 				}
@@ -98,7 +98,7 @@ public class Haberdasher extends HubEvent {
 					@Override
 					public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(selected.getInfo().getName() + "\n\n" + selected.getInfo().getDescription() + "\n\n" + selected.getInfo().getDescriptionLong());
+						hub.setInfo(selected.getName() + "\n\n" + selected.getDesc());
 					}
 				});
 
@@ -116,9 +116,9 @@ public class Haberdasher extends HubEvent {
 	private static String getCosmeticText(PlayerBodyData playerData, UnlockCosmetic cosmetic) {
 		boolean equipping = isEquipping(playerData, cosmetic);
 		if (equipping) {
-			return cosmetic.getCosmeticSlot().getSlotName() + " " + cosmetic.getInfo().getName() + " (EQUIP)";
+			return cosmetic.getCosmeticSlot().getSlotName() + " " + cosmetic.getName() + " (EQUIP)";
 		} else {
-			return cosmetic.getCosmeticSlot().getSlotName() + " " + cosmetic.getInfo().getName() + " (UNEQUIP)";
+			return cosmetic.getCosmeticSlot().getSlotName() + " " + cosmetic.getName() + " (UNEQUIP)";
 		}
 	}
 

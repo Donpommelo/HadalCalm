@@ -117,4 +117,13 @@ public class Riftsplitter extends MeleeWeapon {
 
 	@Override
 	public float getBotRangeMax() { return projectileSpeed * lifespan; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf((int) shockwaveDamage),
+				String.valueOf(shootCd),
+				String.valueOf(shootDelay)};
+	}
 }

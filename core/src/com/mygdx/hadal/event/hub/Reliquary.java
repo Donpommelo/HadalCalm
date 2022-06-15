@@ -41,7 +41,7 @@ public class Reliquary extends HubEvent {
 	public void enter() {
 		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(tag, true, true, true, this, UIText.RELIQUARY_TAGS.text().split(","));
+		state.getUiHub().enter(true, true, true, this, UIText.RELIQUARY_TAGS.text().split(","));
 		open = true;
 		addOptions(lastSearch, lastSlot, lastTag);
 	}

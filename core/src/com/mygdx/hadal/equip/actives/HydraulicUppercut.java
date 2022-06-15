@@ -39,9 +39,7 @@ public class HydraulicUppercut extends ActiveItem {
 	private static final float knockback = 75.0f;
 	private static final float particleLifespan = 0.6f;
 
-	public HydraulicUppercut(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
-	}
+	public HydraulicUppercut(Schmuck user) { super(user, usecd, usedelay, maxCharge); }
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
@@ -86,5 +84,13 @@ public class HydraulicUppercut extends ActiveItem {
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.KICK1, 1.0f, true).setSynced(false));
 
 		return hbox;
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) baseDamage),
+				String.valueOf(lifespan)};
 	}
 }

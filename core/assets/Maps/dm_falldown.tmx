@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="48">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="91">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -9,6 +9,224 @@
    eAHtk7EKwkAAxQq6OKj//7decRDKxfFSMYUOviVnct22njMaeI5D9bKD1c1qwS12N6ufetTjl+5A38f3+7q6ZT3qcbxz93EpLn/2Psb/PXrYf69+Zme4rT7ECXjXcYaZi9VHm52hHp829Vht4M3r+3C8E7UeZMbZ6+F4J2o9yIyz18PxTtR6kBlnr4fjnaj1IDPOXg/HO1HrQWacvR6Od6LWg8w4ez0c70StB5lx9no43olaDzLj7PVwvBO1HmTG2evheCdqPciMs9fD8U7UepAZZ6+H452o9SAzzl4PxztR60FmnL0ejnei1oPMOHs9HO9ErQeZcfZ6ON6JWg8y4+z1cLwTtR5kxtnr4Xgnaj3IjLPXw/FO1HqQGWevh+OdqPUgM85eD8c7UetBZpy9Ho53otaDzDh7PRzvRK0HmXH2ejjeiVoPMuPs9XC8E9Xu8QKusTvS
   </data>
  </layer>
+ <objectgroup id="5" name="bot-layer">
+  <object id="48" name="BotPoint" type="BotPoint" x="576" y="1480">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-160,56 160,56"/>
+  </object>
+  <object id="50" name="BotPoint" type="BotPoint" x="832" y="1512">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-96,24 -96,-296"/>
+  </object>
+  <object id="51" name="BotPoint" type="BotPoint" x="992" y="1480">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-256,56 64,56"/>
+  </object>
+  <object id="52" name="BotPoint" type="BotPoint" x="1120" y="1512">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-64,-296 -64,24"/>
+  </object>
+  <object id="53" name="BotPoint" type="BotPoint" x="1312" y="1512">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-256,24 64,24"/>
+  </object>
+  <object id="54" name="BotPoint" type="BotPoint" x="1440" y="1512">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-64,24 -64,-296"/>
+  </object>
+  <object id="55" name="BotPoint" type="BotPoint" x="1728" y="1512">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-352,24 -32,24"/>
+  </object>
+  <object id="56" name="BotPoint" type="BotPoint" x="1792" y="1512">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-96,24 -96,-296"/>
+  </object>
+  <object id="57" name="BotPoint" type="BotPoint" x="1920" y="1512">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-224,24 96,24"/>
+  </object>
+  <object id="59" name="BotPoint" type="BotPoint" x="1312" y="1344">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-576,-128 -256,-128"/>
+  </object>
+  <object id="60" name="BotPoint" type="BotPoint" x="1440" y="1344">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-384,-128 -64,-128"/>
+  </object>
+  <object id="61" name="BotPoint" type="BotPoint" x="1728" y="1344">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-352,-128 -32,-128"/>
+  </object>
+  <object id="62" name="BotPoint" type="BotPoint" x="1792" y="1344">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="224,-128 224,192"/>
+  </object>
+  <object id="63" name="BotPoint" type="BotPoint" x="1920" y="1344">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-224,-128 96,-128"/>
+  </object>
+  <object id="66" name="BotPoint" type="BotPoint" x="640" y="1376">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-224,-160 96,-160"/>
+  </object>
+  <object id="67" name="BotPoint" type="BotPoint" x="448" y="1344">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-32,-128 -32,192"/>
+  </object>
+  <object id="79" name="BotPoint" type="BotPoint" x="832" y="1192">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-96,24 -96,-296"/>
+  </object>
+  <object id="80" name="BotPoint" type="BotPoint" x="1120" y="1192">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-64,-296 -64,24"/>
+  </object>
+  <object id="81" name="BotPoint" type="BotPoint" x="1440" y="1192">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-64,24 -64,-296"/>
+  </object>
+  <object id="82" name="BotPoint" type="BotPoint" x="1792" y="1192">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-96,24 -96,-296"/>
+  </object>
+  <object id="83" name="BotPoint" type="BotPoint" x="1312" y="1024">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-576,-128 -256,-128"/>
+  </object>
+  <object id="84" name="BotPoint" type="BotPoint" x="1440" y="1024">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-384,-128 -64,-128"/>
+  </object>
+  <object id="85" name="BotPoint" type="BotPoint" x="1728" y="1024">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-352,-128 -32,-128"/>
+  </object>
+  <object id="86" name="BotPoint" type="BotPoint" x="1792" y="1024">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="224,-128 224,192"/>
+  </object>
+  <object id="87" name="BotPoint" type="BotPoint" x="1920" y="1024">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-224,-128 96,-128"/>
+  </object>
+  <object id="88" name="BotPoint" type="BotPoint" x="640" y="1056">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-224,-160 96,-160"/>
+  </object>
+  <object id="89" name="BotPoint" type="BotPoint" x="448" y="1024">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+    <property name="valid0" type="bool" value="true"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-32,-128 -32,192"/>
+  </object>
+ </objectgroup>
  <objectgroup id="2" name="collision-layer">
   <object id="2" x="256" y="1920">
    <polyline points="0,0 1920,0 1920,-1664 0,-1664 0,0"/>
@@ -249,6 +467,7 @@
     <property name="triggeringId" value="w1,w2"/>
    </properties>
   </object>
+  <object id="90" name="PickupDelete" type="PickupDelete" x="256" y="1856" width="1920" height="64"/>
  </objectgroup>
  <objectgroup id="4" name="objective">
   <object id="41" name="ObjectiveSpawn" type="ObjectiveSpawn" x="1216" y="384" width="32" height="32">

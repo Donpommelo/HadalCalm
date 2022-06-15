@@ -24,7 +24,7 @@ public class Speargun extends RangedWeapon {
 	private static final float reloadTime = 1.5f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 40.0f;
-	private static final float nerfedDamage = 30.0f;
+	public static final float nerfedDamage = 30.0f;
 	private static final float recoil = 2.5f;
 	private static final float knockback = 15.0f;
 	private static final float projectileSpeed = 35.0f;
@@ -64,5 +64,15 @@ public class Speargun extends RangedWeapon {
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.6f).setSynced(false));
 
 		return hbox;
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
 	}
 }
