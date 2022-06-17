@@ -18,7 +18,7 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_TOTAL;
 public class SavedLoadout {
 
 	//This is the player's current loadout that they will start with
-	private String[] equips, artifacts, cosmetics;
+	private String[] equip, artifact, cosmetic;
 	private String active, character;
 	private String team;
 
@@ -29,9 +29,9 @@ public class SavedLoadout {
 	public SavedLoadout() {}
 
 	public SavedLoadout(SavedLoadout loadout) {
-		equips = Arrays.copyOf(loadout.equips, loadout.equips.length);
-		artifacts = Arrays.copyOf(loadout.artifacts, loadout.artifacts.length);
-		cosmetics = Arrays.copyOf(loadout.cosmetics, loadout.cosmetics.length);
+		equip = Arrays.copyOf(loadout.equip, loadout.equip.length);
+		artifact = Arrays.copyOf(loadout.artifact, loadout.artifact.length);
+		cosmetic = Arrays.copyOf(loadout.cosmetic, loadout.cosmetic.length);
 		active = loadout.active;
 		character = loadout.character;
 		team = loadout.team;
@@ -51,15 +51,15 @@ public class SavedLoadout {
 	 */
 	public static void createNewLoadout() {
 		SavedLoadout newLoadout = new SavedLoadout();
-		newLoadout.equips = new String[Loadout.maxWeaponSlots];
-		Arrays.fill(newLoadout.equips, "NOTHING");
-		newLoadout.equips[0] = "SPEARGUN";
+		newLoadout.equip = new String[Loadout.maxWeaponSlots];
+		Arrays.fill(newLoadout.equip, "NOTHING");
+		newLoadout.equip[0] = "SPEARGUN";
 
-		newLoadout.artifacts = new String[Loadout.maxArtifactSlots];
-		Arrays.fill(newLoadout.artifacts, "NOTHING");
+		newLoadout.artifact = new String[Loadout.maxArtifactSlots];
+		Arrays.fill(newLoadout.artifact, "NOTHING");
 
-		newLoadout.cosmetics = new String[Loadout.maxCosmeticSlots];
-		Arrays.fill(newLoadout.cosmetics, "NOTHING");
+		newLoadout.cosmetic = new String[Loadout.maxCosmeticSlots];
+		Arrays.fill(newLoadout.cosmetic, "NOTHING");
 
 		newLoadout.active = "NOTHING";
 		newLoadout.character = "MOREAU";
@@ -81,7 +81,7 @@ public class SavedLoadout {
 			SavedLoadout.createNewLoadout();
 			tempLoadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
 		}
-		if (tempLoadout.equips == null || tempLoadout.artifacts == null || tempLoadout.cosmetics == null ||
+		if (tempLoadout.equip == null || tempLoadout.artifact == null || tempLoadout.cosmetic == null ||
 				tempLoadout.active == null || tempLoadout.character == null || tempLoadout.team == null) {
 			SavedLoadout.createNewLoadout();
 			tempLoadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
@@ -90,17 +90,17 @@ public class SavedLoadout {
 	}
 	
 	public void setEquips(int index, String equip) {
-		this.equips[index] = equip;
+		this.equip[index] = equip;
 		saveLoadout();
 	}
 	
 	public void setArtifact(int index, String artifact) {
-		this.artifacts[index] = artifact;
+		this.artifact[index] = artifact;
 		saveLoadout();
 	}
 
 	public void setCosmetic(int index, String cosmetic) {
-		this.cosmetics[index] = cosmetic;
+		this.cosmetic[index] = cosmetic;
 		saveLoadout();
 	}
 
@@ -125,20 +125,20 @@ public class SavedLoadout {
 	}
 
 	public void setLoadout(SavedLoadout loadout) {
-		this.equips = loadout.equips;
-		this.artifacts = loadout.artifacts;
-		this.cosmetics = loadout.cosmetics;
+		this.equip = loadout.equip;
+		this.artifact = loadout.artifact;
+		this.cosmetic = loadout.cosmetic;
 		this.active = loadout.active;
 		this.character = loadout.character;
 		this.team = loadout.team;
 		saveLoadout();
 	}
 
-	public String[] getEquips() {return equips;}
+	public String[] getEquip() {return equip;}
 
-	public String[] getArtifacts() { return artifacts; }
+	public String[] getArtifact() { return artifact; }
 
-	public String[] getCosmetics() { return cosmetics; }
+	public String[] getCosmetic() { return cosmetic; }
 
 	public String getActive() {	return active; }
 

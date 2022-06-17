@@ -549,107 +549,114 @@ wanda_eyepatch
   orig: 228, 360
   offset: 0, 0
   index: -1
-wanda_n95
+wanda_head_long
   rotate: false
   xy: 692, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-wanda_noisemaker
+wanda_n95
   rotate: false
   xy: 922, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 0
+  index: -1
 wanda_noisemaker
   rotate: false
   xy: 1152, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 1
+  index: 0
 wanda_noisemaker
   rotate: false
   xy: 1382, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 2
+  index: 1
 wanda_noisemaker
   rotate: false
   xy: 692, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 3
+  index: 2
 wanda_noisemaker
   rotate: false
   xy: 922, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 3
+wanda_noisemaker
+  rotate: false
+  xy: 1152, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 4
 wanda_noisemaker
   rotate: false
-  xy: 922, 364
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 7
-wanda_noisemaker
-  rotate: false
-  xy: 922, 364
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 5
-wanda_noisemaker
-  rotate: false
-  xy: 922, 364
+  xy: 1152, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 8
 wanda_noisemaker
   rotate: false
-  xy: 922, 364
+  xy: 1152, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 5
+wanda_noisemaker
+  rotate: false
+  xy: 1152, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 6
-wanda_party
+wanda_noisemaker
   rotate: false
   xy: 1152, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 7
+wanda_party
+  rotate: false
+  xy: 1382, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 wanda_propellor
   rotate: false
-  xy: 1382, 1088
+  xy: 1612, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 0
 wanda_propellor
   rotate: false
-  xy: 1612, 1450
+  xy: 922, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 1
 wanda_propellor
   rotate: false
-  xy: 922, 2
+  xy: 1152, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 2
 wanda_propellor
   rotate: false
-  xy: 1152, 364
+  xy: 1382, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0

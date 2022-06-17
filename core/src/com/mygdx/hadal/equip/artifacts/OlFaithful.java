@@ -28,7 +28,7 @@ public class OlFaithful extends Artifact {
 
 				UnlockEquip savedEquip = null;
 				if (p.getPlayer().equals(state.getPlayer())) {
-					savedEquip = UnlockEquip.getByName(state.getGsm().getLoadout().getEquips()[0]);
+					savedEquip = UnlockEquip.getByName(state.getGsm().getLoadout().getEquip()[0]);
 				} else {
 					if (p.getPlayer().getUser() != null) {
 						savedEquip = p.getPlayer().getUser().getLastEquippedPrimary();

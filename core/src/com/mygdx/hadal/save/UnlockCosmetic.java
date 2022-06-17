@@ -31,6 +31,7 @@ public enum UnlockCosmetic {
     NOTHING_EYE(CosmeticSlot.EYE),
     NOTHING_NOSE(CosmeticSlot.NOSE),
     NOTHING_MOUTH(CosmeticSlot.MOUTH),
+    NOTHING_HEAD(CosmeticSlot.HEAD),
 
     EYEPATCH(CosmeticSlot.EYE, GameText.EYEPATCH, GameText.EYEPATCH_DESC, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_eyepatch"),
@@ -81,6 +82,8 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_noisemaker").setOffsetX(-91.8f).setOffsetY(0),
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_noisemaker").setOffsetX(-30.6f).setOffsetY(-40.2f)),
 
+    LONG_FACE(CosmeticSlot.HEAD, GameText.LONG_FACE, GameText.LONG_FACE_DESC, true, 0.0f, 144.6f,
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_head_long")),
     ;
 
     private final GameText name, desc;
@@ -91,6 +94,8 @@ public enum UnlockCosmetic {
 
     //does the cosmetic sprite ragdoll when the user is defeated?
     private final boolean ragdoll;
+
+    private float xOffset, yOffset;
 
     //Blank indicates that the cosmetic will not be rendered, instead representing an empty slot
     private boolean blank;
@@ -121,6 +126,13 @@ public enum UnlockCosmetic {
         this.blank = true;
     }
 
+    UnlockCosmetic(CosmeticSlot cosmeticSlot, GameText name, GameText desc, boolean ragdoll, float xOffset, float yOffset,
+                   CharacterCosmetic... compatibleCharacters) {
+        this(cosmeticSlot, name, desc, ragdoll, compatibleCharacters);
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+    }
+
     /**
      * This is called when a player is rendered to render the cosmetic.
      * We find the character's version of the cosmetic and render it if existent
@@ -129,7 +141,7 @@ public enum UnlockCosmetic {
         if (!blank) {
             CharacterCosmetic cosmetic = cosmetics.get(character);
             if (cosmetic != null) {
-                cosmetic.render(batch, animationTimeExtra, scale, flip, locationX, locationY);
+                cosmetic.render(batch, animationTimeExtra, scale, flip, locationX - xOffset * scale, locationY - yOffset * scale);
             }
         }
     }
@@ -183,6 +195,10 @@ public enum UnlockCosmetic {
     public String getName() { return name.text(); }
 
     public String getDesc() { return desc.text(); }
+
+    public float getXOffset() { return xOffset; }
+
+    public float getYOffset() { return yOffset; }
 
     private static final ObjectMap<String, UnlockCosmetic> UnlocksByName = new ObjectMap<>();
     static {

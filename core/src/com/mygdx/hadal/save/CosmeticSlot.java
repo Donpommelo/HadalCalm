@@ -7,11 +7,12 @@ package com.mygdx.hadal.save;
  */
 public enum CosmeticSlot {
 
-    HAT1("HAT1", 0),
-    HAT2("HAT2", 1),
-    EYE("EYE", 2),
-    NOSE("NOSE", 3),
-    MOUTH("MOUTH", 4),
+    HEAD("HEAD", 0),
+    HAT1("HAT1", 1),
+    HAT2("HAT2", 2),
+    EYE("EYE", 3),
+    NOSE("NOSE", 4),
+    MOUTH("MOUTH", 5),
 
     ;
 

@@ -128,6 +128,7 @@ public class Haberdasher extends HubEvent {
 			case EYE -> UnlockCosmetic.NOTHING_EYE;
 			case NOSE -> UnlockCosmetic.NOTHING_NOSE;
 			case MOUTH -> UnlockCosmetic.NOTHING_MOUTH;
+			case HEAD -> UnlockCosmetic.NOTHING_HEAD;
 			default -> UnlockCosmetic.NOTHING_HAT1;
 		};
 	}
