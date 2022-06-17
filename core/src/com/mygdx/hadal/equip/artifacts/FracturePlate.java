@@ -63,4 +63,11 @@ public class FracturePlate extends Artifact {
 			}
 		}.setPriority(PRIORITY_MULT_SCALE);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) cd),
+				String.valueOf((int) (maxShield * 100))};
+	}
 }

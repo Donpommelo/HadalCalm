@@ -52,4 +52,10 @@ public class ClockwiseCage extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) procCd)};
+	}
 }

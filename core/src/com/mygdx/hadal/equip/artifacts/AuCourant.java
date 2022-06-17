@@ -38,4 +38,10 @@ public class AuCourant extends Artifact {
 			}
 		});
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) -(bonusReloadSpd * 100))};
+	}
 }

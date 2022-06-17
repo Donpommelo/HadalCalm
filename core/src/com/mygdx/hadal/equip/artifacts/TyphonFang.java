@@ -16,6 +16,8 @@ public class TyphonFang extends Artifact {
 
 	private static final int slotCost = 2;
 	private final float particleDura = 1.5f;
+	private final float playerClipPercent = 1.0f;
+	private final int monsterClipAmount = 1;
 
 	public TyphonFang() {
 		super(slotCost);
@@ -32,12 +34,19 @@ public class TyphonFang extends Artifact {
 					new ParticleEntity(state, p.getSchmuck(), Particle.PICKUP_AMMO, 1.0f, particleDura, true, SyncType.CREATESYNC);
 
 					if (vic instanceof PlayerBodyData) {
-						weapon.gainClip(weapon.getClipSize());
+						weapon.gainClip((int) (weapon.getClipSize() * playerClipPercent));
 					} else {
 						weapon.gainClip(1);
 					}
 				}
 			}
 		});
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (playerClipPercent * 100)),
+				String.valueOf(monsterClipAmount)};
 	}
 }

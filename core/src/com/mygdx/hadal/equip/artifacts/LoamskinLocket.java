@@ -39,4 +39,10 @@ public class LoamskinLocket extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusHp * 100))};
+	}
 }

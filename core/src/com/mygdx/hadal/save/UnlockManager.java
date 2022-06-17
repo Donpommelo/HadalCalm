@@ -1,11 +1,7 @@
 package com.mygdx.hadal.save;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
@@ -16,23 +12,14 @@ import com.mygdx.hadal.text.UIText;
 public class UnlockManager {
 	
 	/**
-	 * This retrieves the player's unlocks from a file
-	 */
-	public static void retrieveItemInfo() {
-		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Artifacts.json"))) {
-			UnlockArtifact.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
-		}
-	}
-	
-	/**
 	 * This acquires the information about an unlock based on its type and name
 	 */
 	public static String getName(UnlockType type, String name) {
 		return switch (type) {
 			case ACTIVE -> UnlockActives.getByName(name).getName();
-			case ARTIFACT -> UnlockArtifact.getByName(name).getInfo().getName();
+			case ARTIFACT -> UnlockArtifact.getByName(name).getName();
 			case CHARACTER -> UnlockCharacter.getByName(name).getName();
-			case EQUIP -> UnlockEquip.getByName(name).name();
+			case EQUIP -> UnlockEquip.getByName(name).getName();
 			case COSMETIC -> UnlockCosmetic.getByName(name).getName();
 			case LEVEL -> UnlockLevel.getByName(name).getName();
 		};
@@ -41,7 +28,7 @@ public class UnlockManager {
 	public static String getDesc(UnlockType type, String name) {
 		return switch (type) {
 			case ACTIVE -> UnlockActives.getByName(name).getDesc();
-			case ARTIFACT -> UnlockArtifact.getByName(name).getInfo().getDescription();
+			case ARTIFACT -> UnlockArtifact.getByName(name).getDesc();
 			case CHARACTER -> UnlockCharacter.getByName(name).getDesc();
 			case EQUIP -> UnlockEquip.getByName(name).getDesc();
 			case COSMETIC -> UnlockCosmetic.getByName(name).getDesc();
@@ -52,7 +39,7 @@ public class UnlockManager {
 	public static String getDescLong(UnlockType type, String name) {
 		return switch (type) {
 			case ACTIVE -> UnlockActives.getByName(name).getDescLong();
-			case ARTIFACT -> UnlockArtifact.getByName(name).getInfo().getDescriptionLong();
+			case ARTIFACT -> UnlockArtifact.getByName(name).getDescLong();
 			case CHARACTER, COSMETIC, LEVEL -> "";
 			case EQUIP -> UnlockEquip.getByName(name).getDescLong();
 		};
@@ -105,7 +92,7 @@ public class UnlockManager {
 	 * After setting, the data is saved into the player's saves
 	 */
 	public static void setUnlock(PlayState state, UnlockType type, String name, boolean unlock) {
-		switch(type) {
+		switch (type) {
 		case ACTIVE:
 			state.getGsm().getRecord().getUnlockActive().put(name, unlock);
 			if (unlock) {
@@ -171,7 +158,7 @@ public class UnlockManager {
 		MOBILITY,
 		FUEL,
 		HEAL,
-		ACTIVE_ITEM,
+        MAGIC,
 		AMMO,
 		WEAPON_DAMAGE,
 		PASSIVE_DAMAGE,

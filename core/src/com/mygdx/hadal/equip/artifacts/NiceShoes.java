@@ -23,4 +23,11 @@ public class NiceShoes extends Artifact {
 				new StatChangeStatus(state, Stats.GROUND_SPD, bonusSpd, p),
 				new StatChangeStatus(state, Stats.GROUND_ACCEL, bonusAccel, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusSpd * 100)),
+				String.valueOf((int) (bonusAccel * 100))};
+	}
 }

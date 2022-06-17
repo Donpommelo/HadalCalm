@@ -78,8 +78,8 @@ public class WeaponUtils {
 	private static final Vector2 bombSize = new Vector2(60, 60);
 	private static final float bombLifespan = 3.0f;
 
+	public static final float bombExplosionDamage = 40.0f;
 	private static final int bombExplosionRadius = 150;
-	private static final float bombExplosionDamage = 40.0f;
 	private static final float bombExplosionKnockback = 25.0f;
 	private static final Sprite bombSprite = Sprite.BOMB;
 	private static final Sprite sparkSprite = Sprite.SPARKS;
@@ -202,11 +202,11 @@ public class WeaponUtils {
 		return hbox;
 	}
 
+	public static final float stickGrenadeExplosionDamage = 28.0f;
 	private static final Vector2 stickGrenadeSize = new Vector2(19, 70);
 	private static final float stickGrenadeLifespan = 3.0f;
 	private static final float stickGrenadeBaseDamage = 8.0f;
 	private static final float stickGrenadeBaseKnockback = 3.0f;
-	private static final float stickGrenadeExplosionDamage = 28.0f;
 	private static final float stickGrenadeExplosionKnockback = 12.0f;
 	private static final int stickGrenadeExplosionRadius = 100;
 	private static final float grenadeRotationSpeed = 8.0f;
@@ -436,7 +436,6 @@ public class WeaponUtils {
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private float shortestFraction;
@@ -638,11 +637,11 @@ public class WeaponUtils {
 		return hbox;
 	}
 
+	public static final float emoteExplodeDamage = 90.0f;
 	private static final Vector2 emoteSize = new Vector2(64, 64);
 	private static final float emoteLifespan = 1.9f;
 	private static final float emoteLifespanLong = 6.0f;
 	private static final int emoteExplodeRadius = 150;
-	private static final float emoteExplodeDamage = 90.0f;
 	private static final float emoteExplodeback = 20;
 
 	public static Hitbox createEmote(PlayState state, Schmuck user, float[] extraFields) {

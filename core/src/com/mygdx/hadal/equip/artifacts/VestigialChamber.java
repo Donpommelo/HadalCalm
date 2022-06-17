@@ -54,4 +54,11 @@ public class VestigialChamber extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf(reticleLifespan),
+				String.valueOf((int) explosionDamage)};
+	}
 }

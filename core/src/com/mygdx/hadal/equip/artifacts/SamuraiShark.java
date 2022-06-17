@@ -14,8 +14,8 @@ public class SamuraiShark extends Artifact {
 	private static final int slotCost = 1;
 	
 	private final float critChance = 0.15f;
-	private final float critDamageBoost = 1.75f;
-	private final float critSpeedMultiplier = 2.0f;
+	private final float critDamageBoost = 0.75f;
+	private final float critSpeedMultiplier = 1.0f;
 	
 	public SamuraiShark() {
 		super(slotCost);
@@ -31,11 +31,19 @@ public class SamuraiShark extends Artifact {
 				if (!hbox.isEffectsHit()) { return; }
 				
 				if (MathUtils.randomBoolean(critChance)) {
-					hbox.setStartVelo(hbox.getStartVelo().scl(critSpeedMultiplier));
+					hbox.setStartVelo(hbox.getStartVelo().scl(1.0f + critSpeedMultiplier));
 					hbox.addStrategy(new DieParticles(state, hbox, p, Particle.EXPLOSION));
-					hbox.setDamageMultiplier(critDamageBoost);
+					hbox.setDamageMultiplier(1.0f + critDamageBoost);
 				}
 			}
 		});
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (critChance * 100)),
+				String.valueOf((int) (critDamageBoost * 100)),
+				String.valueOf((int) (critSpeedMultiplier * 100))};
 	}
 }

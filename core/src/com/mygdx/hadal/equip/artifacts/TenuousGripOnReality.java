@@ -28,4 +28,10 @@ public class TenuousGripOnReality extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusInvis * 100))};
+	}
 }

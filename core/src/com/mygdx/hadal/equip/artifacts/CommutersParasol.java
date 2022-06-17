@@ -65,4 +65,11 @@ public class CommutersParasol extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) procCd),
+				String.valueOf((int) lifespan)};
+	}
 }

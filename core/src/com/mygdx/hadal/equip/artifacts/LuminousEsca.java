@@ -53,4 +53,10 @@ public class LuminousEsca extends Artifact {
 				}
 			});
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) Blinded.blindFadeThreshold1)};
+	}
 }

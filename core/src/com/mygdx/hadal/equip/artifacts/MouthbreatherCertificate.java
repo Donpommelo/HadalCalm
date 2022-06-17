@@ -12,7 +12,7 @@ public class MouthbreatherCertificate extends Artifact {
 
 	private static final int slotCost = 1;
 	
-	private static final float reduction = 0.1f;
+	private static final float res = 0.9f;
 	
 	public MouthbreatherCertificate() {
 		super(slotCost);
@@ -25,10 +25,16 @@ public class MouthbreatherCertificate extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (perp.equals(p) && damage > 0) {
-					return damage * reduction;				
+					return damage * (1.0f - res);
 				}
 				return damage;
 			}
 		};
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (res * 100))};
 	}
 }

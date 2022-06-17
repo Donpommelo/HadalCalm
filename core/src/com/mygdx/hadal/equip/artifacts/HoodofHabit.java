@@ -49,4 +49,11 @@ public class HoodofHabit extends Artifact {
 			}
 		}.setPriority(PRIORITY_PROC);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (hpThreshold * 100)),
+				String.valueOf((int) invisDuration)};
+	}
 }

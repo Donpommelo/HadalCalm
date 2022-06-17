@@ -64,7 +64,7 @@ public class Reliquary extends HubEvent {
 			if (search.equals("")) {
 				appear = true;
 			} else {
-				Matcher matcher = pattern.matcher(selected.getInfo().getName().toLowerCase());
+				Matcher matcher = pattern.matcher(selected.getName().toLowerCase());
 				if (matcher.find()) {
 					appear = true;
 				}
@@ -75,7 +75,7 @@ public class Reliquary extends HubEvent {
 				}
 			}
 			if (appear) {
-				Text itemChoose = new Text(selected.getInfo().getName()).setButton(true);
+				Text itemChoose = new Text(selected.getName()).setButton(true);
 
 				AHadalActor icon = new AHadalActor() {
 
@@ -102,9 +102,9 @@ public class Reliquary extends HubEvent {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(UIText.ARTIFACT_INFO.text(selected.getInfo().getName(),
+						hub.setInfo(UIText.ARTIFACT_INFO.text(selected.getName(),
 								Integer.toString(selected.getArtifact().getSlotCost()),
-								selected.getInfo().getDescription(), selected.getInfo().getDescriptionLong()));
+								selected.getDesc(), selected.getDescLong()));
 					}
 				};
 

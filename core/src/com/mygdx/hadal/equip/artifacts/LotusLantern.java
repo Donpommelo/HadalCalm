@@ -23,4 +23,11 @@ public class LotusLantern extends Artifact {
 				new StatChangeStatus(state, Stats.EXTRA_SCRAP, extraScrap, p),
 				new StatChangeStatus(state, Stats.MAX_HP_PERCENT, bonusHp, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusHp * 100)),
+				String.valueOf((int) (extraScrap * 100))};
+	}
 }

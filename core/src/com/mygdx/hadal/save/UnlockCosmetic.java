@@ -22,6 +22,7 @@ import static com.mygdx.hadal.effects.PlayerSpriteHelper.gibGravity;
 /**
  * An UnlockCosmetic represents a single cosmetic item like a hat. Each cosmetic item contains a list of characters that
  * can equip it (each character - cosmetic relationship is represented by 1 CharacterCosmetic)
+ * @author Cikola Cluthurlando
  */
 public enum UnlockCosmetic {
 

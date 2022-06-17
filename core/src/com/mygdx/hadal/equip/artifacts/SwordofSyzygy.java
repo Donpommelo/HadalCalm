@@ -23,4 +23,11 @@ public class SwordofSyzygy extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_PROJ_DURABILITY, bonusProjDurability, p),
 				new StatChangeStatus(state, Stats.DAMAGE_AMP, bonusDamageAmp, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) bonusProjDurability),
+				String.valueOf((int) (bonusDamageAmp * 100))};
+	}
 }

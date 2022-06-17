@@ -46,4 +46,12 @@ public class VolatileDermis extends Artifact {
 			}
 		}.setPriority(PRIORITY_PROC);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) procCd),
+				String.valueOf((int) chainDamage),
+				String.valueOf(chainAmount)};
+	}
 }

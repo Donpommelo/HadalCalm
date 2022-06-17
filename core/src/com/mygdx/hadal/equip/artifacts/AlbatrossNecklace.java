@@ -9,7 +9,7 @@ public class AlbatrossNecklace extends Artifact {
 
 	private static final int slotCost = 1;
 	private static final float bonusHp = 0.75f;
-	private static final float gravityScale = 1.6f;
+	private static final float gravityScale = 0.6f;
 	
 	public AlbatrossNecklace() {
 		super(slotCost);
@@ -22,9 +22,9 @@ public class AlbatrossNecklace extends Artifact {
 			@Override
 			public void onInflict() {
 				if (p.getPlayer().getBody() != null) {
-					p.getSchmuck().setGravityScale(gravityScale);
+					p.getSchmuck().setGravityScale(1.0f + gravityScale);
 				} else {
-					p.getPlayer().setGravityModifier(gravityScale);
+					p.getPlayer().setGravityModifier(1.0f + gravityScale);
 				}
 			}
 			
@@ -38,5 +38,12 @@ public class AlbatrossNecklace extends Artifact {
 				p.setStat(Stats.MAX_HP_PERCENT, p.getStat(Stats.MAX_HP_PERCENT) + bonusHp);
 			}
 		}.setClientIndependent(true);
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusHp * 100)),
+				String.valueOf((int) (gravityScale * 100))};
 	}
 }

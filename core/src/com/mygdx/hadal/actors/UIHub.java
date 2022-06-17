@@ -311,7 +311,7 @@ public class UIHub {
 				//display all equipped artifacts and give option to unequip
 				if (!c.equals(UnlockArtifact.NOTHING)) {
 					artifactsEmpty = false;
-					final ArtifactIcon newTag = new ArtifactIcon(c, UIText.UNEQUIP.text(c.getInfo().getName()),
+					final ArtifactIcon newTag = new ArtifactIcon(c, UIText.UNEQUIP.text(c.getName()),
 						artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 
 					newTag.addListener(new ClickListener() {
@@ -329,9 +329,9 @@ public class UIHub {
 						@Override
 						public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 							super.enter(event, x, y, pointer, fromActor);
-							info = UIText.ARTIFACT_INFO.text(newTag.getArtifact().getInfo().getName(),
+							info = UIText.ARTIFACT_INFO.text(newTag.getArtifact().getName(),
 									Integer.toString(newTag.getArtifact().getArtifact().getSlotCost()),
-									newTag.getArtifact().getInfo().getDescription(), newTag.getArtifact().getInfo().getDescriptionLong());
+									newTag.getArtifact().getDesc(), newTag.getArtifact().getDescLong());
 						}
 					});
 					tableExtra.add(newTag).width(artifactTagSize).height(artifactTagSize);
@@ -417,7 +417,7 @@ public class UIHub {
 				case 3 -> UnlockTag.MOBILITY;
 				case 4 -> UnlockTag.FUEL;
 				case 5 -> UnlockTag.HEAL;
-				case 6 -> UnlockTag.ACTIVE_ITEM;
+				case 6 -> UnlockTag.MAGIC;
 				case 7 -> UnlockTag.AMMO;
 				case 8 -> UnlockTag.WEAPON_DAMAGE;
 				case 9 -> UnlockTag.PASSIVE_DAMAGE;

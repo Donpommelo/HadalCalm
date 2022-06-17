@@ -332,7 +332,7 @@ public class ScoreWindow {
 			if (user.getPlayer().getPlayerData() != null) {
 				for (UnlockArtifact c : user.getPlayer().getPlayerData().getLoadout().artifacts) {
 					if (!c.equals(UnlockArtifact.NOTHING) && !c.isInvisible()) {
-						ArtifactIcon newTag = new ArtifactIcon(c, c.getInfo().getName() + "\n" + c.getInfo().getDescription(),
+						ArtifactIcon newTag = new ArtifactIcon(c, c.getName() + "\n" + c.getDesc(),
 								artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 						tableArtifact.add(newTag).width(artifactTagSize).height(artifactTagSize);
 					}

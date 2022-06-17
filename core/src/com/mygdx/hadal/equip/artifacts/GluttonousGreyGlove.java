@@ -12,8 +12,9 @@ public class GluttonousGreyGlove extends Artifact {
 
 	private static final int slotCost = 2;
 	private static final float heal = 0.25f;
-	private static final float chance = 0.2f;
-	
+	private static final float chancePlayer = 1.0f;
+	private static final float chanceMonster = 0.2f;
+
 	public GluttonousGreyGlove() {
 		super(slotCost);
 	}
@@ -24,10 +25,20 @@ public class GluttonousGreyGlove extends Artifact {
 			
 			@Override
 			public void onKill(BodyData vic, DamageSource source) {
-				if (MathUtils.randomBoolean(chance) || vic instanceof PlayerBodyData) {
+				if (MathUtils.randomBoolean(chancePlayer) && vic instanceof PlayerBodyData) {
+					WeaponUtils.createPickup(state, vic.getSchmuck().getPixelPosition(), WeaponUtils.pickupTypes.HEALTH, heal);
+				} else if (MathUtils.randomBoolean(chanceMonster)) {
 					WeaponUtils.createPickup(state, vic.getSchmuck().getPixelPosition(), WeaponUtils.pickupTypes.HEALTH, heal);
 				}
 			}
 		};
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (chancePlayer * 100)),
+				String.valueOf((int) (chanceMonster * 100)),
+				String.valueOf((int) (heal * 100))};
 	}
 }

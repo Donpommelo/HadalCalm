@@ -18,4 +18,6 @@ public class Artifact {
 	public Status getEnchantment() { return enchantment; }
 
 	public int getSlotCost() { return slotCost; }
+
+	public String[] getDescFields() { return new String[] {}; }
 }

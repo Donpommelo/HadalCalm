@@ -22,4 +22,10 @@ public class SoundofSeagulls extends Artifact {
 				new StatChangeStatus(state, Stats.HOVER_CONTROL, 1.0f, p),
 				new StatChangeStatus(state, Stats.HOVER_COST, hoverCostReduction, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) -(hoverCostReduction * 100))};
+	}
 }

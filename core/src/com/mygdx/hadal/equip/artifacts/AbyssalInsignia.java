@@ -33,4 +33,12 @@ public class AbyssalInsignia extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusAttackSpeedMin * 100)),
+				String.valueOf((int) (hpThreshold * 100)),
+				String.valueOf((int) (bonusAttackSpeedMax * 100))};
+	}
 }

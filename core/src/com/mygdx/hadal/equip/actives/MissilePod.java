@@ -3,14 +3,13 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
-
-import static com.mygdx.hadal.battle.WeaponUtils.torpedoExplosionDamage;
 
 /**
  * @author Fatatron Falpudding
@@ -57,6 +56,6 @@ public class MissilePod extends ActiveItem {
 		return new String[] {
 				String.valueOf((int) maxCharge),
 				String.valueOf((int) (duration / procCd)),
-				String.valueOf((int) torpedoExplosionDamage)};
+				String.valueOf((int) WeaponUtils.torpedoExplosionDamage)};
 	}
 }

@@ -41,4 +41,12 @@ public class DiatomaceousEarth extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (durationMultiplier * 100)),
+				String.valueOf((int) (damageResistance * 100)),
+				String.valueOf((int) (knockbackResistance * 100))};
+	}
 }

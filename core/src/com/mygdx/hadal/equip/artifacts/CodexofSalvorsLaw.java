@@ -23,4 +23,11 @@ public class CodexofSalvorsLaw extends Artifact {
 				new StatChangeStatus(state, Stats.MAX_FUEL, bonusMaxFuel, p),
 				new StatChangeStatus(state, Stats.REFLECT_DAMAGE, bonusReflectDamage, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) bonusMaxFuel),
+				String.valueOf((int) (bonusReflectDamage * 100))};
+	}
 }

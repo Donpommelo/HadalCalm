@@ -23,4 +23,10 @@ public class CompoundVitreous extends Artifact {
 				new StatChangeStatus(state, Stats.VISION_RADIUS, visionBonus, p),
 				new StatChangeStatus(state, Stats.HEALTH_VISIBILITY, hpVisibility, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (visionBonus * 100))};
+	}
 }

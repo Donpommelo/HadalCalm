@@ -49,4 +49,12 @@ public class PetrifiedPayload extends Artifact {
 			}
 		});
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) explosionDamagePlayer),
+				String.valueOf((int) explosionDamageEnemy),
+				String.valueOf((int) (bonusExplosionSize * 100))};
+	}
 }

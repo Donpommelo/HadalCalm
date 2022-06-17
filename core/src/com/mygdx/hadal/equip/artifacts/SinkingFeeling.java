@@ -19,4 +19,10 @@ public class SinkingFeeling extends Artifact {
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatChangeStatus(state, Stats.FASTFALL_POW, bonusFastFall, p);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusFastFall * 100))};
+	}
 }

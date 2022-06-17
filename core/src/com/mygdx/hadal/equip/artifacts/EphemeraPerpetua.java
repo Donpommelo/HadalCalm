@@ -34,4 +34,11 @@ public class EphemeraPerpetua extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) amountPlayer),
+				String.valueOf((int) amountEnemy)};
+	}
 }

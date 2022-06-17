@@ -33,4 +33,11 @@ public class EightBall extends Artifact {
 					}
 				});
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (damageAmp * 100)),
+				String.valueOf(spread)};
+	}
 }

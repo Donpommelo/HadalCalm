@@ -44,4 +44,11 @@ public class CastawaysTravelogue extends Artifact {
 			}
 		});
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf(procCd),
+				String.valueOf((int) fuelRegen)};
+	}
 }

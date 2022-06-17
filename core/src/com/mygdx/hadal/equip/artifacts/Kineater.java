@@ -26,4 +26,10 @@ public class Kineater extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (hpDrainPercent * 100))};
+	}
 }

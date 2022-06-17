@@ -23,4 +23,11 @@ public class EelskinCover extends Artifact {
 				new StatChangeStatus(state, Stats.AIR_DRAG, airDragReduction, p),
 				new StatChangeStatus(state, Stats.GROUND_DRAG, groundDragReduction, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) -(groundDragReduction * 100)),
+				String.valueOf((int) -(airDragReduction * 100))};
+	}
 }

@@ -47,4 +47,11 @@ public class Blastema extends Artifact {
 			}
 		}.setPriority(PRIORITY_PROC);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) regenCd),
+				String.valueOf(regen * 100)};
+	}
 }

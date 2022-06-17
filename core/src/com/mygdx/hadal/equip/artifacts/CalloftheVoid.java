@@ -23,4 +23,11 @@ public class CalloftheVoid extends Artifact {
 				new StatChangeStatus(state, Stats.DAMAGE_AMP, damageAmp, p),
 				new StatChangeStatus(state, Stats.DAMAGE_RES, damageRes, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (damageAmp * 100)),
+				String.valueOf((int) -(damageRes * 100))};
+	}
 }

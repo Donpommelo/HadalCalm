@@ -23,7 +23,7 @@ public class ChaosConjurant extends Artifact {
 	private static final float baseDamage = 28.0f;
 
 	private static final float meteorDuration = 1.0f;
-	private static final float meteorInterval = 0.1f;
+	private static final float meteorInterval = 0.2f;
 	private static final float spread = 10.0f;
 	
 	public ChaosConjurant() {
@@ -54,5 +54,13 @@ public class ChaosConjurant extends Artifact {
 				return damage;
 			}
 		}.setPriority(PRIORITY_PROC);
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) procCd),
+				String.valueOf((int) (meteorDuration / meteorInterval)),
+				String.valueOf((int) baseDamage)};
 	}
 }

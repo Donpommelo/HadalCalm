@@ -24,4 +24,11 @@ public class TempestTeapot extends Artifact {
 				new StatChangeStatus(state, Stats.BOOST_SIZE, bonusBoostSize, p)
 		);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusBoostPow * 100)),
+				String.valueOf((int) (bonusBoostSize * 100))};
+	}
 }

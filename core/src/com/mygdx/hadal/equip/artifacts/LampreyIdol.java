@@ -56,4 +56,13 @@ public class LampreyIdol extends Artifact {
 			}
 		}).setPriority(PRIORITY_SCALE);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (lifestealPlayer * 100)),
+				String.valueOf((int) (lifestealEnemy * 100)),
+				String.valueOf((int) (hpThreshold * 100)),
+				String.valueOf(damage)};
+	}
 }

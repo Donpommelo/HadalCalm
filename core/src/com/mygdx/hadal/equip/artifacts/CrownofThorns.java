@@ -3,20 +3,15 @@ package com.mygdx.hadal.equip.artifacts;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 import static com.mygdx.hadal.utils.Constants.PRIORITY_PROC;
 
@@ -24,6 +19,7 @@ public class CrownofThorns extends Artifact {
 
 	private static final int slotCost = 1;
 
+	private static final int thornsNumber = 6;
 	private static final float thornDamage = 24.0f;
 	private static final float thornDuration = 0.35f;
 	private static final float thornSpeed = 36.0f;
@@ -58,7 +54,7 @@ public class CrownofThorns extends Artifact {
 					
 					SoundEffect.SPIKE.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.2f, false);
 					
-					for (int i = 0; i < 6; i++) {
+					for (int i = 0; i < thornsNumber; i++) {
 						angle.setAngleDeg(angle.angleDeg() + 60);
 						Hitbox hbox = new RangedHitbox(state, p.getSchmuck().getPixelPosition(), projectileSize, thornDuration,
 								new Vector2(angle).nor().scl(thornSpeed), p.getSchmuck().getHitboxfilter(),
@@ -76,5 +72,13 @@ public class CrownofThorns extends Artifact {
 				return damage;
 			}
 		}.setPriority(PRIORITY_PROC);
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf(procCd),
+				String.valueOf(thornsNumber),
+				String.valueOf((int) thornDamage)};
 	}
 }

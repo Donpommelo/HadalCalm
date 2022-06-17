@@ -41,4 +41,11 @@ public class EmaudelinesPrism extends Artifact {
 			}
 		});
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) -(atkSpdReduction * 100)),
+				String.valueOf((int) -(reloadSpdReduction * 100))};
+	}
 }

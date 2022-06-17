@@ -23,4 +23,11 @@ public class TriggerfishFinger extends Artifact {
 				new StatChangeStatus(state, Stats.TOOL_SPD, bonusAtkSpd, p),
 				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusAtkSpd * 100)),
+				String.valueOf((int) (bonusReloadSpd * 100))};
+	}
 }

@@ -23,4 +23,11 @@ public class ShipinaBottle extends Artifact {
 				new StatChangeStatus(state, Stats.AMMO_CAPACITY, bonusAmmo, p),
 				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusAmmo * 100)),
+				String.valueOf((int) (bonusReloadSpd * 100))};
+	}
 }

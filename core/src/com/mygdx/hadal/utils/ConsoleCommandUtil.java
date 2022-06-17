@@ -66,7 +66,7 @@ public class ConsoleCommandUtil {
 				for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
 
 					if (!player.getPlayerData().getLoadout().artifacts[i].equals(UnlockArtifact.NOTHING)) {
-						message.append(player.getPlayerData().getLoadout().artifacts[i].getInfo().getName()).append(" ");
+						message.append(player.getPlayerData().getLoadout().artifacts[i].getName()).append(" ");
 					}
 				}
 				emitMessage(state, message.toString());

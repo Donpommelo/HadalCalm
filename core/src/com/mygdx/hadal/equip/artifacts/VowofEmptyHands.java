@@ -11,7 +11,7 @@ public class VowofEmptyHands extends Artifact {
 	private static final int slotCost = 1;
 	
 	private static final int bonusSlots = -2;
-	private static final float bonusDamage = 0.45f;
+	private static final float bonusDamage = 0.25f;
 	private static final float bonusReloadSpd = 0.3f;
 	private static final float bonusClipSize = 0.15f;
 	
@@ -26,5 +26,13 @@ public class VowofEmptyHands extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_CLIP, bonusClipSize, p),
 				new StatChangeStatus(state, Stats.DAMAGE_AMP, bonusDamage, p),
 				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, p));
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusClipSize * 100)),
+				String.valueOf((int) (bonusReloadSpd * 100)),
+				String.valueOf((int) (bonusDamage * 100))};
 	}
 }

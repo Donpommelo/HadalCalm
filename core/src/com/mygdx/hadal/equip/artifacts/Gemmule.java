@@ -24,4 +24,10 @@ public class Gemmule extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) bonusInvulnerability)};
+	}
 }

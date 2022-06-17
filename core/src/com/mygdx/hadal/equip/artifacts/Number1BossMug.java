@@ -54,4 +54,12 @@ public class Number1BossMug extends Artifact {
 			}
 		}.setPriority(PRIORITY_PROC);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) procCd),
+				String.valueOf((int) healDuration),
+				String.valueOf((int) (fieldHeal * 60))};
+	}
 }

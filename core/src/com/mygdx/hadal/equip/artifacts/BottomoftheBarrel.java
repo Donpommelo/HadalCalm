@@ -1,13 +1,13 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 
@@ -15,7 +15,7 @@ public class BottomoftheBarrel extends Artifact {
 
 	private static final int slotCost = 1;
 
-	private static final float bonusDamage = 2.0f;
+	private static final float bonusDamage = 1.0f;
 	private static final float bonusAttackSpeed = 0.25f;
 	private static final float ammoThreshold = 0.25f;
 	
@@ -41,11 +41,19 @@ public class BottomoftheBarrel extends Artifact {
 			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (p.getCurrentTool() instanceof RangedWeapon ranged) {
 					if (ranged.getAmmoPercent() <= ammoThreshold) {
-						return damage * bonusDamage;
+						return damage *  (1.0f + bonusDamage);
 					}
 				}
 				return damage;
 			}
 		});
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (ammoThreshold * 100)),
+				String.valueOf((int) (bonusDamage * 100)),
+				String.valueOf((int) (bonusAttackSpeed * 100))};
 	}
 }

@@ -40,4 +40,12 @@ public class FisheyeCataract extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) -(visionReduction * 100)),
+				String.valueOf((int) (minDamageReduction * 100)),
+				String.valueOf((int) (maxDamageReduction * 100))};
+	}
 }

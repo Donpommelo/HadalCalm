@@ -2,13 +2,12 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
-import static com.mygdx.hadal.battle.WeaponUtils.torpedoExplosionDamage;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
@@ -23,7 +22,7 @@ public class MeteorStrike extends ActiveItem {
 	private static final float baseDamage = 28.0f;
 
 	private static final float meteorDuration = 3.5f;
-	private static final float meteorInterval = 0.1f;
+	private static final float meteorInterval = 0.2f;
 	private static final float spread = 15.0f;
 	
 	public MeteorStrike(Schmuck user) {

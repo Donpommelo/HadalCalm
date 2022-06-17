@@ -55,4 +55,12 @@ public class AmdahlsLotus extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (timeThreshold * 100)),
+				String.valueOf((int) hpRegenBuff),
+				String.valueOf((int) fuelRegenBuff)};
+	}
 }

@@ -44,4 +44,11 @@ public class ShillersDeathcap extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) procCd),
+				String.valueOf((int) (poisonDamage * 60))};
+	}
 }

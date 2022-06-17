@@ -26,4 +26,12 @@ public class WhiteWhaleCharm extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, attackSpdReduction, p)
 		);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusProjectileSize * 100)),
+				String.valueOf((int) (bonusDamage * 100)),
+				String.valueOf((int) -(attackSpdReduction * 100))};
+	}
 }
