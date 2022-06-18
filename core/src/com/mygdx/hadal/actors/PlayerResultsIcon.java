@@ -1,17 +1,15 @@
 package com.mygdx.hadal.actors;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.ShadedSprite;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -44,18 +42,17 @@ public class PlayerResultsIcon extends AHadalActor {
 	private static final float readyOffsetX = 20.0f;
 	private static final float readyOffsetY = 150.0f;
 
-	private TextureRegion playerSprite;
+	private final ShadedSprite shadedSprite;
+	private final AlignmentFilter team;
 	private final UnlockCharacter character;
 	private final UnlockCosmetic[] cosmetics;
 	private final TextureRegion readyIcon;
+	private final float iconWidth, iconHeight;
 
 	private final Vector2 cosmeticOffset = new Vector2();
 
 	//this string identifies the player as well as their score information
 	private final String name;
-
-	//this fbo is used to accurately draw their sprite with the correct team color
-	private final FrameBuffer fbo;
 
 	//has this player readied up?
 	private boolean ready;
@@ -65,15 +62,21 @@ public class PlayerResultsIcon extends AHadalActor {
 				Integer.toString(fields.getDeaths()), Integer.toString(fields.getAssists()), Integer.toString(fields.getScore()));
 
 		this.readyIcon = Sprite.EMOTE_READY.getFrame();
+		this.team = fieldsExtra.getLoadout().team;
 		this.character = fieldsExtra.getLoadout().character;
 		this.cosmetics = fieldsExtra.getLoadout().cosmetics;
 
 		//if the player won the game, we display a winning sprite. Otherwise: sluggo.
+		Array<TextureRegion> playerSprite = new Array<>();
 		if (fields.isWonLast()) {
-			this.playerSprite = character.getBuffSprite().getFrame();
+			playerSprite.addAll(character.getBuffSprite().getFrames());
+			this.iconWidth = character.getBuffSprite().getFrame().getRegionWidth() * spriteScale;
+			this.iconHeight = character.getBuffSprite().getFrame().getRegionHeight() * spriteScale;
 			this.cosmeticOffset.set(character.getBuffHatOffset()).scl(spriteScale);
 		} else {
-			this.playerSprite = character.getSlugSprite().getFrame();
+			playerSprite.addAll(character.getSlugSprite().getFrames());
+			this.iconWidth = character.getSlugSprite().getFrame().getRegionWidth() * spriteScale;
+			this.iconHeight = character.getSlugSprite().getFrame().getRegionHeight() * spriteScale;
 			this.cosmeticOffset.set(character.getSlugHatOffset()).scl(spriteScale);
 		}
 
@@ -81,42 +84,7 @@ public class PlayerResultsIcon extends AHadalActor {
 		setWidth(spriteWidth * spriteScale);
 
 		//Based on the player color, we create an fbo to accurately display their sprite.
-		AlignmentFilter team = fieldsExtra.getLoadout().team;
-
-		fbo = new FrameBuffer(Pixmap.Format.RGBA4444, playerSprite.getRegionWidth(), playerSprite.getRegionHeight(), true);
-		fbo.begin();
-
-		//clear buffer, set camera
-		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.getProjectionMatrix().setToOrtho2D(0, 0, fbo.getWidth(), fbo.getHeight());
-
-		//use shader to apply new team color
-		batch.begin();
-		ShaderProgram shader;
-		if (team.isTeam() && team != AlignmentFilter.NONE) {
-			shader = team.getShader(character);
-		} else {
-			shader = character.getPalette().getShader(character);
-		}
-		batch.setShader(shader);
-
-		batch.draw(playerSprite, 0, 0);
-
-		if (shader != null) {
-			batch.setShader(null);
-		}
-		batch.end();
-		fbo.end();
-
-		if (shader != null) {
-			shader.dispose();
-		}
-
-		TextureRegion fboRegion = new TextureRegion(fbo.getColorBufferTexture());
-
-		playerSprite = new TextureRegion(fboRegion, fboRegion.getRegionX(), fboRegion.getRegionHeight() - fboRegion.getRegionY(),
-			fboRegion.getRegionWidth(), - fboRegion.getRegionHeight());
+		shadedSprite = new ShadedSprite(batch, team, character, playerSprite.toArray());
 	}
 
 	private float animationTimeExtra;
@@ -126,16 +94,18 @@ public class PlayerResultsIcon extends AHadalActor {
 		animationTimeExtra += delta;
 	}
 
+	private final Vector2 cosmeticLocation = new Vector2();
 	@Override
     public void draw(Batch batch, float alpha) {
 		float spriteX = getX() + spriteOffsetY;
 		float spriteY = getY();
-		batch.draw(playerSprite, spriteX, spriteY, playerSprite.getRegionWidth() * spriteScale, playerSprite.getRegionHeight() * spriteScale);
-
+		batch.draw(shadedSprite.getSprite(), spriteX, spriteY, iconWidth, iconHeight);
+		cosmeticLocation.set(spriteX + cosmeticOffset.x, spriteY + cosmeticOffset.y);
 		//draw cosmetics on the slug/buff players
 		for (UnlockCosmetic cosmetic : cosmetics) {
-			cosmetic.render(batch, character, animationTimeExtra, spriteScale, false,
-					spriteX + cosmeticOffset.x, spriteY + cosmeticOffset.y);
+			if (!cosmetic.getCosmeticSlot().equals(CosmeticSlot.HEAD)) {
+				cosmetic.render(batch, team, character, animationTimeExtra, spriteScale, false, cosmeticLocation);
+			}
 		}
 
 		HadalGame.FONT_UI.getData().setScale(fontScale);
@@ -147,7 +117,7 @@ public class PlayerResultsIcon extends AHadalActor {
     }
 
     public void dispose() {
-		fbo.dispose();
+		shadedSprite.dispose();
 	}
 
 	public void setReady(boolean ready) { this.ready = ready; }

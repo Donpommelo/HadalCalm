@@ -452,6 +452,7 @@ public class PlayerBodyData extends BodyData {
 
 	public void setCosmetic(UnlockCosmetic cosmetic) {
 		loadout.cosmetics[cosmetic.getCosmeticSlot().getSlotNumber()] = cosmetic;
+		UnlockCosmetic.clearShadedCosmetics(player.getState());
 	}
 
 	/**
@@ -463,6 +464,7 @@ public class PlayerBodyData extends BodyData {
 		if (player.getUser() != null) {
 			player.getUser().setTeamFilter(team);
 		}
+		UnlockCosmetic.clearShadedCosmetics(player.getState());
 	}
 
 	/**

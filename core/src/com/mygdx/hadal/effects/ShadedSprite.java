@@ -1,0 +1,81 @@
+package com.mygdx.hadal.effects;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.save.UnlockCharacter;
+import com.mygdx.hadal.server.AlignmentFilter;
+
+import static com.mygdx.hadal.effects.CharacterCosmetic.cosmeticAnimationSpeed;
+
+public class ShadedSprite {
+
+    private final Array<FrameBuffer> fbo = new Array<>();
+    private final Array<TextureRegion> sprite = new Array<>();
+    private Animation<TextureRegion> animation;
+
+    public ShadedSprite(Batch batch, AlignmentFilter team, UnlockCharacter character, TextureRegion[] sprites) {
+        this(batch, team, character, sprites, Animation.PlayMode.LOOP);
+    }
+
+    public ShadedSprite(Batch batch, AlignmentFilter team, UnlockCharacter character, TextureRegion[] sprites, Animation.PlayMode mode) {
+        ShaderProgram shader;
+        if (team.isTeam() && team != AlignmentFilter.NONE) {
+            shader = team.getShader(character);
+        } else {
+            shader = character.getPalette().getShader(character);
+        }
+        createSprite(batch, shader, sprites, mode);
+    }
+
+    private void createSprite(Batch batch, ShaderProgram shader, TextureRegion[] sprites, Animation.PlayMode mode) {
+        for (TextureRegion tex : sprites) {
+            FrameBuffer frame = new FrameBuffer(Pixmap.Format.RGBA4444, tex.getRegionWidth(), tex.getRegionHeight(), true);
+            frame.begin();
+
+            //clear buffer, set camera
+            Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            batch.getProjectionMatrix().setToOrtho2D(0, 0, frame.getWidth(), frame.getHeight());
+
+            batch.begin();
+            batch.setShader(shader);
+
+            batch.draw(tex, 0, 0);
+
+            if (shader != null) {
+                batch.setShader(null);
+            }
+            batch.end();
+            frame.end();
+
+            TextureRegion fboRegion = new TextureRegion(frame.getColorBufferTexture());
+            sprite.add(new TextureRegion(fboRegion, fboRegion.getRegionX(), fboRegion.getRegionHeight() - fboRegion.getRegionY(),
+                    fboRegion.getRegionWidth(), - fboRegion.getRegionHeight()));
+            fbo.add(frame);
+        }
+
+        if (shader != null) {
+            shader.dispose();
+        }
+
+        animation = new Animation<>(cosmeticAnimationSpeed, sprite);
+        animation.setPlayMode(mode);
+    }
+
+    public void dispose() {
+        for (FrameBuffer frame : fbo) {
+            frame.dispose();
+        }
+    }
+
+    public Animation<TextureRegion> getAnimation() { return animation; }
+
+    public TextureRegion getSprite() { return sprite.get(0); }
+}

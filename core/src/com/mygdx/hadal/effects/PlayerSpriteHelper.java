@@ -167,6 +167,7 @@ public class PlayerSpriteHelper {
         this.gemWidth = gemSprite.getRegionWidth();
     }
 
+    private final Vector2 headLocation = new Vector2();
     /**
      * @param batch: sprite batch to render player to
      * @param attackAngle: the angle of the player's arm
@@ -261,17 +262,18 @@ public class PlayerSpriteHelper {
 
         float headX = (flip ? headWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + headConnectXReal * scale;
         float headY = playerLocation.y - hbHeight * scale / 2 + headConnectY * scale + yOffsetHead * scale;
+
+        //head type cosmetics replace the head, so we don't want to draw the base head
         if (player.getPlayerData().getLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank()) {
             batch.draw(headSprite.getKeyFrame(animationTimeExtra, true), headX, headY,0, 0,
                     (flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
-        } else {
-            headY += (player.getPlayerData().getLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].getYOffset() * scale);
-            headX += (player.getPlayerData().getLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].getXOffset() * scale);
         }
+        headLocation.set(headX, headY);
 
-        //draw cosmetics. Use head coordinates
+        //draw cosmetics. Use head coordinates. Update coordinates if any cosmetics replace the head
         for (UnlockCosmetic cosmetic : player.getPlayerData().getLoadout().cosmetics) {
-            cosmetic.render(batch, player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headX, headY);
+            headLocation.set(cosmetic.render(batch, player.getPlayerData().getLoadout().team,
+                    player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headLocation));
         }
     }
 
@@ -311,6 +313,8 @@ public class PlayerSpriteHelper {
     public static final float gibDuration = 3.0f;
     public static final float gibGravity = 1.0f;
     private void createGibs(Vector2 playerLocation, Vector2 playerVelocity) {
+
+        //head type cosmetics replace the head, so we don't want to create a ragdoll for it
         if (player.getPlayerData().getLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank()) {
             Ragdoll headRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(headWidth, headHeight).scl(scale),
                     headSprite.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false, true);
@@ -341,8 +345,8 @@ public class PlayerSpriteHelper {
 
         //Get cosmetic ragdolls
         for (UnlockCosmetic cosmetic : player.getPlayerData().getLoadout().cosmetics) {
-            Ragdoll cosmeticRagdoll = cosmetic.createRagdoll(player.getPlayerData().getLoadout().character, player.getState(), playerLocation,
-                    scale, playerVelocity);
+            Ragdoll cosmeticRagdoll = cosmetic.createRagdoll(player.getState(), player.getPlayerData().getLoadout().team,
+                    player.getPlayerData().getLoadout().character, playerLocation, scale, playerVelocity);
             if (cosmeticRagdoll != null && !player.getState().isServer()) {
                 ((ClientState) player.getState()).addEntity(cosmeticRagdoll.getEntityID(), cosmeticRagdoll, false, ClientState.ObjectLayer.STANDARD);
             }

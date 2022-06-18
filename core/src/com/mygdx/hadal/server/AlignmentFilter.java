@@ -25,7 +25,7 @@ import java.util.Arrays;
  */
 public enum AlignmentFilter {
 
-    NONE(-3, ColorPalette.BASE, false, GameText.NOTHING),
+    NONE(-3, ColorPalette.BASE, false, false, GameText.NOTHING),
     PLAYER1(-4),
     PLAYER2(-5),
     PLAYER3(-6),
@@ -64,7 +64,7 @@ public enum AlignmentFilter {
     TEAM_MAGMA(-46, ColorPalette.MAGMA, GameText.MAGMA, HadalColor.RED),
     TEAM_BLACK_AND_YELLOW(-47, ColorPalette.BLACK_AND_YELLOW, GameText.BLACK_AND_YELLOW, HadalColor.YELLOW),
 
-    TEAM_BLACK_AND_WHITE(-40, ColorPalette.BASE, GameText.BLACK_AND_WHITE) {
+    TEAM_BLACK_AND_WHITE(-40, ColorPalette.BASE, true, true, GameText.BLACK_AND_WHITE) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -76,7 +76,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_CENSURE(-41, ColorPalette.BASE, false, GameText.CENSURED) {
+    TEAM_CENSURE(-41, ColorPalette.BASE, false, true, GameText.CENSURED) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -88,7 +88,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_INVERT(-42, ColorPalette.BASE, false, GameText.INVERT) {
+    TEAM_INVERT(-42, ColorPalette.BASE, false, true, GameText.INVERT) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -100,7 +100,7 @@ public enum AlignmentFilter {
         }
     },
 
-    TEAM_SEPIA(-43, ColorPalette.BASE, false, GameText.SEPIA) {
+    TEAM_SEPIA(-43, ColorPalette.BASE, false, true, GameText.SEPIA) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {
@@ -135,15 +135,18 @@ public enum AlignmentFilter {
     //can this team be assigned randomly without anyone picking it? Set to false for the "weird" options
     private boolean standardChoice = true;
 
+    private boolean cosmeticApply = false;
+
     AlignmentFilter(int filter) {
         this.filter = (short) filter;
         this.team = false;
         this.palette = ColorPalette.BASE;
     }
 
-    AlignmentFilter(int filter, ColorPalette palette, boolean standardChoice, GameText adjective) {
+    AlignmentFilter(int filter, ColorPalette palette, boolean standardChoice, boolean cosmeticApply, GameText adjective) {
         this(filter, palette, adjective);
         this.standardChoice = standardChoice;
+        this.cosmeticApply = cosmeticApply;
     }
 
     AlignmentFilter(int filter, ColorPalette palette, GameText adjective, HadalColor... colorGroup) {
@@ -336,6 +339,8 @@ public enum AlignmentFilter {
     public ColorPalette getPalette() { return palette; }
 
     public short getFilter() { return filter; }
+
+    public boolean isCosmeticApply() { return cosmeticApply; }
 
     public String getTeamName() { return UIText.TEAM + " " + adjective; }
 
