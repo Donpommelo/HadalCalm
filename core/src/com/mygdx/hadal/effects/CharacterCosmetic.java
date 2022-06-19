@@ -165,18 +165,22 @@ public class CharacterCosmetic {
             if (state.isServer()) {
                 for (User user: HadalGame.server.getUsers().values()) {
                     if (user.getPlayer() != null) {
-                        if (checkClearLoadout(user.getPlayer().getPlayerData().getLoadout(), sprite.key, cosmetic)) {
-                            used = true;
-                            break;
+                        if (user.getPlayer().getPlayerData() != null) {
+                            if (checkClearLoadout(user.getPlayer().getPlayerData().getLoadout(), sprite.key, cosmetic)) {
+                                used = true;
+                                break;
+                            }
                         }
                     }
                 }
             } else {
                 for (User user: HadalGame.client.getUsers().values()) {
                     if (user.getPlayer() != null) {
-                        if (checkClearLoadout(user.getPlayer().getPlayerData().getLoadout(), sprite.key, cosmetic)) {
-                            used = true;
-                            break;
+                        if (user.getPlayer().getPlayerData() != null) {
+                            if (checkClearLoadout(user.getPlayer().getPlayerData().getLoadout(), sprite.key, cosmetic)) {
+                                used = true;
+                                break;
+                            }
                         }
                     }
                 }
@@ -194,6 +198,7 @@ public class CharacterCosmetic {
     }
 
     private boolean checkClearLoadout(Loadout loadout, String key, UnlockCosmetic cosmetic) {
+        if (loadout == null) { return false; }
         if (loadout.team.getTeamName().equals(key) || loadout.character.getName().equals(key)) {
             return loadout.cosmetics[cosmetic.getCosmeticSlot().getSlotNumber()].equals(cosmetic);
         }

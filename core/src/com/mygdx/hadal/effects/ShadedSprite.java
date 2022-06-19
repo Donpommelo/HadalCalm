@@ -14,6 +14,9 @@ import com.mygdx.hadal.server.AlignmentFilter;
 
 import static com.mygdx.hadal.effects.CharacterCosmetic.cosmeticAnimationSpeed;
 
+/**
+ * @author Bireau Bunkydory
+ */
 public class ShadedSprite {
 
     private final Array<FrameBuffer> fbo = new Array<>();

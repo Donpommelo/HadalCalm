@@ -83,8 +83,8 @@ public class PlayerResultsIcon extends AHadalActor {
 		setHeight(spriteHeight * spriteScale);
 		setWidth(spriteWidth * spriteScale);
 
-		//Based on the player color, we create an fbo to accurately display their sprite.
-		shadedSprite = new ShadedSprite(batch, team, character, playerSprite.toArray());
+		//create sprite with shader applied. Class is necessary to avoid class cast exception
+		shadedSprite = new ShadedSprite(batch, team, character, playerSprite.toArray(TextureRegion.class));
 	}
 
 	private float animationTimeExtra;

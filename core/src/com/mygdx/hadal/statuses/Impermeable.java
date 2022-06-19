@@ -43,9 +43,11 @@ public class Impermeable extends Status {
 	
 	@Override
 	public void onInflict() {
-		Filter filter = inflicted.getSchmuck().getMainFixture().getFilterData();
-		filter.maskBits = (short) (filter.maskBits &~ Constants.BIT_PROJECTILE &~ Constants.BIT_PLAYER &~ Constants.BIT_ENEMY);
-		inflicted.getSchmuck().getMainFixture().setFilterData(filter);
+		if (inflicted.getSchmuck().getMainFixture() != null) {
+			Filter filter = inflicted.getSchmuck().getMainFixture().getFilterData();
+			filter.maskBits = (short) (filter.maskBits &~ Constants.BIT_PROJECTILE &~ Constants.BIT_PLAYER &~ Constants.BIT_ENEMY);
+			inflicted.getSchmuck().getMainFixture().setFilterData(filter);
+		}
 	}
 	
 	@Override
@@ -56,9 +58,11 @@ public class Impermeable extends Status {
 			playerData.getPlayer().setInvisible(0);
 		}
 
-		Filter filter = inflicted.getSchmuck().getMainFixture().getFilterData();
-		filter.maskBits = (short) (filter.maskBits | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY);
-		inflicted.getSchmuck().getMainFixture().setFilterData(filter);
+		if (inflicted.getSchmuck().getMainFixture() != null) {
+			Filter filter = inflicted.getSchmuck().getMainFixture().getFilterData();
+			filter.maskBits = (short) (filter.maskBits | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY);
+			inflicted.getSchmuck().getMainFixture().setFilterData(filter);
+		}
 	}
 	
 	@Override

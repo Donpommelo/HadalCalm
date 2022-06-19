@@ -553,7 +553,7 @@ public abstract class HadalEntity {
 	}
 	
 	public void setRestitution(float scale) {
-		if (alive && body != null) {
+		if (alive && getMainFixture() != null) {
 			getMainFixture().setRestitution(scale);
 		}
 	}
