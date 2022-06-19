@@ -548,6 +548,13 @@ public enum SyncedAttack {
         }
     },
 
+    PICKUP() {
+        @Override
+        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
+            return WeaponUtils.createPickup(state, user, startPosition, startVelocity, extraFields);
+        }
+    },
+
     PING() {
         @Override
         public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {

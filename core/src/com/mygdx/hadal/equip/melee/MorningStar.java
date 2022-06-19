@@ -34,6 +34,7 @@ public class MorningStar extends MeleeWeapon {
 	
 	private static final float baseDamage = 50.0f;
 	private static final float knockback = 60.0f;
+	private static final float flashLifespan = 1.0f;
 
 	private static final float swingForce = 7500.0f;
 	private static final float range = 60.0f;
@@ -120,10 +121,12 @@ public class MorningStar extends MeleeWeapon {
 					if (links[i] != null) {
 						links[i].setLifeSpan(2.0f);
 						links[i].addStrategy(new ControllerDefault(state, links[i], user.getBodyData()));
+						links[i].addStrategy(new FlashNearDeath(state, links[i], user.getBodyData(), flashLifespan));
 					}
 				}
 				hboxes[1].setLifeSpan(2.0f);
 				hboxes[1].addStrategy(new ControllerDefault(state, hboxes[1], user.getBodyData()));
+				hboxes[1].addStrategy(new FlashNearDeath(state, hboxes[1], user.getBodyData(), flashLifespan));
 				hbox.queueDeletion();
 			}
 		});

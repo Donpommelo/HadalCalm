@@ -12,14 +12,13 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.Event.eventSyncTypes;
 import com.mygdx.hadal.event.Scrap;
-import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.event.utility.Sensor;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.UserDataType;
-import com.mygdx.hadal.schmucks.entities.*;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -33,8 +32,6 @@ import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.WorldUtil;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -102,7 +99,7 @@ public class WeaponUtils {
 				(short) 0, false, source));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.4f).setSynced(false));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.2f).setSynced(false));
-		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
+		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
 
 		Hitbox sparks = new RangedHitbox(state, startPosition, bombSize, bombLifespan, startVelocity, user.getHitboxfilter(),
 				true, false, user, sparkSprite);
@@ -146,7 +143,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), torpedoHoming, torpedoHomingRadius));
 		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), torpedoSpread));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
-		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
+		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
 
 		return hbox;
 	}
@@ -189,7 +186,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), nauticalMineExplosionRadius, nauticalMineExplosionDamage,
 				nauticalMineExplosionKnockback, (short) 0, false, DamageSource.NAUTICAL_MINE));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f).setSynced(false));
-		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
+		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
 			@Override
@@ -341,7 +338,7 @@ public class WeaponUtils {
 
 				explosion.addStrategy(new ControllerDefault(state, explosion, user.getBodyData()));
 				explosion.addStrategy(new Static(state, explosion, user.getBodyData()));
-				explosion.addStrategy(new FlashNearDeath(state, explosion, user.getBodyData(), warningTime, false));
+				explosion.addStrategy(new FlashShaderNearDeath(state, explosion, user.getBodyData(), warningTime, false));
 				explosion.addStrategy(new DieExplode(state, explosion, user.getBodyData(), mineExplosionRadius, mineDamage,
 						mineExplosionKnockback, (short) 0, false, source));
 				explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f).setSynced(false));
@@ -688,7 +685,7 @@ public class WeaponUtils {
 			hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), emoteExplodeRadius, emoteExplodeDamage,
 					emoteExplodeback, (short) 0, false, DamageSource.THE_FINGER));
 			hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f).setSynced(false));
-			hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
+			hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
 				@Override
@@ -753,92 +750,88 @@ public class WeaponUtils {
 		return "[" + hex + "]" + name + "[]";
 	}
 
-	public static final int pickupSize = 64;
-	public static final float pickupSpriteScale = 0.18f;
-	public static void createPickup(PlayState state, Vector2 startPos, final pickupTypes type, final float power) {
+	public static final Vector2 pickupSize = new Vector2(40, 40);
+	public static final float pickupDuration = 10.0f;
+	private static final float flashLifespan = 1.0f;
+	public static Hitbox createPickup(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
 
-		Event pickup = new Sensor(state, startPos, new Vector2(pickupSize, pickupSize), true, false, false,
-				false, 1.0f, 0.0f, true) {
-			
+		final int type = extraFields.length >= 1 ? (int) extraFields[0] : 0;
+		final float power = extraFields.length >= 2 ? extraFields[1] : 0;
+		Sprite sprite = Sprite.NOTHING;
+		if (type == Constants.PICKUP_HEALTH) {
+			sprite = Sprite.MEDPAK;
+		}
+		if (type == Constants.PICKUP_FUEL) {
+			sprite = Sprite.FUEL;
+		}
+		if (type == Constants.PICKUP_AMMO) {
+			sprite = Sprite.AMMO;
+		}
+
+		Hitbox hbox = new RangedHitbox(state, startPosition, pickupSize, pickupDuration, startVelocity,
+				(short) 0, false, false, user, sprite);
+		hbox.setGravity(1.0f);
+		hbox.setFriction(1.0f);
+
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), flashLifespan));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f)
+				.setSyncType(SyncType.NOSYNC));
+		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+
+			//delay prevents spawned medpaks from being instantly consumed by the (dead) player that dropped them
+			private float delay = 0.1f;
 			@Override
-			public void create() {
-				
-				this.eventData = new EventData(this) {
-					
-					@Override
-					public void onTouch(HadalData fixB) {
-						super.onTouch(fixB);
-						
-						if (isAlive() && fixB instanceof PlayerBodyData player) {
-							switch (type) {
-							case AMMO:
-								
-								SoundEffect.LOCKANDLOAD.playUniversal(state, player.getPlayer().getPixelPosition(),
-										0.8f, false);
-								
-								player.getCurrentTool().gainAmmo(power);
-								new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f,
-										5.0f, true, SyncType.CREATESYNC);
-								event.queueDeletion();
-								break;
-							case FUEL:
-								if (player.getCurrentFuel() < player.getStat(Stats.MAX_FUEL)) {
-									
-									SoundEffect.MAGIC2_FUEL.playUniversal(state, player.getPlayer().getPixelPosition(),
-											0.3f, false);
+			public void controller(float delta) {
+				if (delay >= 0) {
+					delay -= delta;
+				}
+			}
 
-									player.fuelGain(power);
-									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 3.0f,
-											5.0f, true, SyncType.CREATESYNC);
-									event.queueDeletion();
-								}
-								break;
-							case HEALTH:
-								if (player.getCurrentHp() < player.getStat(Stats.MAX_HP)) {
-									
-									SoundEffect.MAGIC21_HEAL.playUniversal(state, player.getPlayer().getPixelPosition(),
-											0.3f, false);
-									
-									player.regainHp(power * player.getStat(Stats.MAX_HP), player, true, DamageTag.MEDPAK);
-									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_HEALTH, 3.0f,
-											5.0f, true, SyncType.CREATESYNC);
-									event.queueDeletion();
-								}
-								break;
-							default:
-								break;
-							}
+			@Override
+			public void onHit(HadalData fixB) {
+				if (fixB instanceof PlayerBodyData bodyData && delay <= 0) {
+					if (type == Constants.PICKUP_HEALTH) {
+						if (bodyData.getCurrentHp() < bodyData.getStat(Stats.MAX_HP)) {
+
+							SoundEffect.MAGIC21_HEAL.playUniversal(state, bodyData.getPlayer().getPixelPosition(),
+									0.3f, false);
+
+							bodyData.regainHp(power * bodyData.getStat(Stats.MAX_HP), bodyData, true, DamageTag.MEDPAK);
+							new ParticleEntity(state, bodyData.getSchmuck(), Particle.PICKUP_HEALTH, 3.0f,
+									5.0f, true, SyncType.CREATESYNC);
+							hbox.die();
 						}
 					}
-				};
-				this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0, 0, false,
-						false, Constants.BIT_SENSOR, Constants.BIT_PLAYER, (short) 0, true, eventData);
-				
-				FixtureBuilder.createFixtureDef(body, new Vector2(), size, false, 0, 0, 0.0f,
-						1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0);
-			}
-		};
+					if (type == Constants.PICKUP_FUEL) {
+						if (bodyData.getCurrentFuel() < bodyData.getStat(Stats.MAX_FUEL)) {
 
-		new ParticleEntity(state, pickup, Particle.EVENT_HOLO, 1.0f, 0.0f, true, SyncType.CREATESYNC);
-		pickup.setScaleAlign(ClientIllusion.alignType.CENTER_BOTTOM);
-		pickup.setSyncType(eventSyncTypes.ILLUSION);
-		pickup.setSynced(true);
-		pickup.setScale(pickupSpriteScale);
-		
-		switch (type) {
-		case AMMO:
-			pickup.setEventSprite(Sprite.AMMO);
-			break;
-		case FUEL:
-			pickup.setEventSprite(Sprite.FUEL);
-			break;
-		case HEALTH:
-			pickup.setEventSprite(Sprite.MEDPAK);
-			pickup.setBotHealthPickup(true);
-			break;
-		default:
-			break;
-		}
+							SoundEffect.MAGIC2_FUEL.playUniversal(state, bodyData.getPlayer().getPixelPosition(),
+									0.3f, false);
+
+							bodyData.fuelGain(power);
+							new ParticleEntity(state, bodyData.getSchmuck(), Particle.PICKUP_ENERGY, 3.0f,
+									5.0f, true, SyncType.CREATESYNC);
+							hbox.die();
+						}
+					}
+					if (type == Constants.PICKUP_AMMO) {
+						if (bodyData.getCurrentTool().getClipLeft() < bodyData.getCurrentTool().getClipSize()) {
+							SoundEffect.LOCKANDLOAD.playUniversal(state, bodyData.getPlayer().getPixelPosition(),
+									0.8f, false);
+
+							bodyData.getCurrentTool().gainAmmo(power);
+							new ParticleEntity(state, bodyData.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f,
+									5.0f, true, SyncType.CREATESYNC);
+							hbox.die();
+						}
+					}
+				}
+			}
+		});
+
+		return hbox;
 	}
 	
 	/**
@@ -863,11 +856,5 @@ public class WeaponUtils {
 		for (int i = 0; i < modifiedAmount; i++) {
 			new Scrap(state, startPos, score);
 		}
-	}
-	
-	public enum pickupTypes {
-		HEALTH,
-		FUEL,
-		AMMO
 	}
 }

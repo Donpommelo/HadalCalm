@@ -3,6 +3,7 @@ package com.mygdx.hadal.bots;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -19,7 +20,7 @@ public class RallyPoint implements Comparable<RallyPoint> {
     private final ObjectMap<RallyPoint, connectionValue> connections = new ObjectMap<>();
 
     //this maps to another RallyPoint + Team Index to a reasonably short RallyPath between the 2 nodes
-    private final ObjectMap<RallyPoint, routeValue> shortestPaths = new ObjectMap<>();
+    private final ObjectMap<Integer, ObjectMap<RallyPoint, RallyPath>> shortestPaths = new ObjectMap<>();
 
     //these variables are used for a* search
     private RallyPoint previous;
@@ -60,9 +61,18 @@ public class RallyPoint implements Comparable<RallyPoint> {
         }
     }
 
-    public static record connectionValue(float distance, int teamIndex) {}
+    public RallyPath getCachedPath(Schmuck bot, RallyPoint end) {
+        RallyPath path = null;
+        if (shortestPaths.containsKey(-1)) {
+            path = shortestPaths.get(-1).get(end);
+        }
+        if (shortestPaths.containsKey((int) bot.getHitboxfilter())) {
+            path = shortestPaths.get((int) bot.getHitboxfilter()).get(end);
+        }
+        return path;
+    }
 
-    public static record routeValue(RallyPath path, int teamIndex) {}
+    public static record connectionValue(float distance, int teamIndex) {}
 
     @Override
     public int compareTo(RallyPoint o) {
@@ -73,7 +83,7 @@ public class RallyPoint implements Comparable<RallyPoint> {
 
     public ObjectMap<RallyPoint, connectionValue> getConnections() { return connections; }
 
-    public ObjectMap<RallyPoint, routeValue> getShortestPaths() { return shortestPaths; }
+    public ObjectMap<Integer, ObjectMap<RallyPoint, RallyPath>> getShortestPaths() { return shortestPaths; }
 
     public RallyPoint getPrevious() { return previous; }
 

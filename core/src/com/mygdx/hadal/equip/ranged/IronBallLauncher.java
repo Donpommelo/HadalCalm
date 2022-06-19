@@ -11,10 +11,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class IronBallLauncher extends RangedWeapon {
 
@@ -30,6 +27,7 @@ public class IronBallLauncher extends RangedWeapon {
 	private static final float projectileSpeed = 60.0f;
 	private static final Vector2 projectileSize = new Vector2(50, 50);
 	private static final float lifespan = 2.5f;
+	private static final float flashLifespan = 0.5f;
 
 	private static final Sprite projSprite = Sprite.CANNONBALL;
 	private static final Sprite weaponSprite = Sprite.MT_IRONBALL;
@@ -60,6 +58,7 @@ public class IronBallLauncher extends RangedWeapon {
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageSource.IRON_BALL_LAUNCHER,
 				DamageTag.WHACKING, DamageTag.RANGED));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.4f).setSynced(false));
+		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), flashLifespan));
 
 		return hbox;
 	}

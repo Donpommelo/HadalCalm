@@ -124,6 +124,8 @@ public class Hitbox extends HadalEntity {
 	//does this hbox respond to delete packets from the server? True for hboxes the can be deleted prematurely
 	private boolean syncedDeleteNoDelay, noSyncedDelete;
 
+	//when about to despawn, hboxes can be set to flash. This just skips render cycles, so it doesn't use a strategy
+	private float flashCount;
 	/**
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
 	 * parameters are pretty much the same as the fields above.
@@ -229,6 +231,9 @@ public class Hitbox extends HadalEntity {
 	public void render(SpriteBatch batch) {
 
 		if (!alive) { return; }
+
+		//this makes the hbox flash when its lifespan is low (set flash lifespan using strategy
+		if (flashCount > 0.0f) { return; }
 
 		if (projectileSprite != null) {
 			entityLocation.set(getPixelPosition());
@@ -452,4 +457,8 @@ public class Hitbox extends HadalEntity {
 	public void setSyncedDeleteNoDelay(boolean syncedDeleteNoDelay) { this.syncedDeleteNoDelay = syncedDeleteNoDelay; }
 
 	public void setNoSyncedDelete(boolean noSyncedDelete) { this.noSyncedDelete = noSyncedDelete; }
+
+	public float getFlashCount() { return flashCount; }
+
+	public void setFlashCount(float flashCount) { this.flashCount = flashCount; }
 }

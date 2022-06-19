@@ -43,14 +43,14 @@ public enum AlignmentFilter {
     PLAYER15(-18),
     PLAYER16(-19),
 
-    TEAM_BANANA(-25, ColorPalette.BANANA, GameText.BANANA, HadalColor.YELLOW),
+    TEAM_BANANA(-25, ColorPalette.BANANA, GameText.BANANA, HadalColor.WHITE, HadalColor.YELLOW),
     TEAM_CELADON(-26, ColorPalette.CELADON, GameText.CELADON, HadalColor.GREEN),
     TEAM_CHARTREUSE(-27, ColorPalette.CHARTREUSE, GameText.CHARTREUSE, HadalColor.GREEN),
     TEAM_COQUELICOT(-28, ColorPalette.COQUELICOT, GameText.COQUELICOT, HadalColor.RED),
     TEAM_CRIMSON(-29, ColorPalette.CRIMSON, GameText.CRIMSON, HadalColor.RED),
     TEAM_EGGPLANT(-30, ColorPalette.EGGPLANT, GameText.EGGPLANT, HadalColor.VIOLET),
     TEAM_GOLD(-31, ColorPalette.GOLD, GameText.GOLD, HadalColor.ORANGE, HadalColor.YELLOW),
-    TEAM_GREY(-32, ColorPalette.GREY, GameText.GREY, HadalColor.GREY, HadalColor.BROWN),
+    TEAM_GREY(-32, ColorPalette.GREY, GameText.GREY, HadalColor.GREY, HadalColor.BLACK, HadalColor.BROWN, HadalColor.WHITE),
     TEAM_PLUM(-33, ColorPalette.PLUM, GameText.PLUM, HadalColor.VIOLET),
     TEAM_MAUVE(-34, ColorPalette.MAUVE, GameText.MAUVE, HadalColor.VIOLET, HadalColor.BROWN),
     TEAM_ORANGE(-35, ColorPalette.ORANGE, GameText.ORANGE, HadalColor.ORANGE, HadalColor.RED),
@@ -59,12 +59,12 @@ public enum AlignmentFilter {
     TEAM_TURQUOISE(-38, ColorPalette.TURQUOISE, GameText.TURQUOISE, HadalColor.BLUE, HadalColor.GREEN),
     TEAM_VIOLET(-39, ColorPalette.VIOLET, GameText.VIOLET, HadalColor.VIOLET),
 
-    TEAM_KAMABOKO(-44, ColorPalette.KAMABOKO, GameText.KAMABOKO, HadalColor.RED, HadalColor.VIOLET),
+    TEAM_KAMABOKO(-44, ColorPalette.KAMABOKO, GameText.KAMABOKO, HadalColor.RED, HadalColor.VIOLET, HadalColor.WHITE),
     TEAM_LEMON_LIME(-45, ColorPalette.LEMON_LIME, GameText.LEMON_LIME, HadalColor.GREEN, HadalColor.YELLOW),
-    TEAM_MAGMA(-46, ColorPalette.MAGMA, GameText.MAGMA, HadalColor.RED),
-    TEAM_BLACK_AND_YELLOW(-47, ColorPalette.BLACK_AND_YELLOW, GameText.BLACK_AND_YELLOW, HadalColor.YELLOW),
+    TEAM_MAGMA(-46, ColorPalette.MAGMA, GameText.MAGMA, HadalColor.RED, HadalColor.BLACK),
+    TEAM_BLACK_AND_YELLOW(-47, ColorPalette.BLACK_AND_YELLOW, GameText.BLACK_AND_YELLOW, HadalColor.BLACK, HadalColor.YELLOW),
 
-    TEAM_BLACK_AND_WHITE(-40, ColorPalette.BASE, true, true, GameText.BLACK_AND_WHITE) {
+    TEAM_BLACK_AND_WHITE(-40, ColorPalette.BASE, false, true, GameText.BLACK_AND_WHITE) {
 
         @Override
         public ShaderProgram getShader(UnlockCharacter character) {

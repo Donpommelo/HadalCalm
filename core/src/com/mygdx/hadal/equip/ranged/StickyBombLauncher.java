@@ -77,7 +77,7 @@ public class StickyBombLauncher extends RangedWeapon {
 				(short) 0, false, DamageSource.STICKYBOMB_LAUNCHER));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.25f).setSynced(false));
 		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, true));
-		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
+		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
 
 		return hbox;
 	}

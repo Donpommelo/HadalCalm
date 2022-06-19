@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
 
 /**
  * A BotPathfindingTask is a runnable ran on a separate thread to calculate bot pathfinding behavior
@@ -35,7 +34,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
 
         //find shortest path to weapon pickup
         if (weaponPoint != null) {
-            prospectivePath = getShortestPathBetweenLocations(controller.getBot(), weaponPoint.point());
+            prospectivePath = getShortestPathBetweenLocations(weaponPoint.point());
             pathDistance = prospectivePath != null ? prospectivePath.getDistance() * weaponPoint.multiplier() : -1.0f;
             if (pathDistance != -1.0f) {
                 bestPath[0] = prospectivePath;
@@ -46,7 +45,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
 
         //find shortest path to health pickup
         if (healthPoint != null) {
-            prospectivePath = getShortestPathBetweenLocations(controller.getBot(), healthPoint.point());
+            prospectivePath = getShortestPathBetweenLocations(healthPoint.point());
             pathDistance = prospectivePath != null ? prospectivePath.getDistance() * healthPoint.multiplier() : -1.0f;
             if (pathDistance != -1.0f && (pathDistance < bestDistanceSoFar || bestDistanceSoFar == -1.0f)) {
                 bestPath[0] = prospectivePath;
@@ -58,7 +57,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
         //find path to each player target and find shortest distance to an enemy
         float bestTargetDistance = -1.0f;
         for (RallyPoint.RallyPointMultiplier targetPoint : targetPoints) {
-            RallyPath tempPath = getShortestPathBetweenLocations(controller.getBot(), targetPoint.point());
+            RallyPath tempPath = getShortestPathBetweenLocations(targetPoint.point());
             if (tempPath != null) {
                 float targetDistance = tempPath.getDistance() * targetPoint.multiplier();
                 if (targetDistance < enemyTargetThreshold) {
@@ -88,7 +87,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
         //find shortest path to mode objective
         float bestEventDistance = -1.0f;
         for (RallyPoint.RallyPointMultiplier eventPoint : eventPoints) {
-            RallyPath tempPath = getShortestPathBetweenLocations(controller.getBot(), eventPoint.point());
+            RallyPath tempPath = getShortestPathBetweenLocations(eventPoint.point());
             if (tempPath != null) {
                 float eventDistance = tempPath.getDistance() * eventPoint.multiplier();
                 if (prospectivePath != null) {
@@ -117,7 +116,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
         //if bot just finished a wander path or is dilly dallying, they will begin wandering to a new random point
         if ((nextMood[0].equals(BotController.BotMood.WANDER) && controller.getPointPath().isEmpty()) ||
                 nextMood[0].equals(BotController.BotMood.DILLY_DALLY)) {
-            bestPath[0] = getPathToRandomPoint(controller.getBot());
+            bestPath[0] = getPathToRandomPoint();
         }
 
         //after calculating a path, post runnable to change bot properties to pursue new line of action.
@@ -150,7 +149,8 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
      * Find a point nearby with shortest total path to a target
      * @param end: the target poitn we are finding a short path for
      */
-    private RallyPoint getNearestPathStarter(RallyPoint end) {
+    private RallyPath getShortestPathBetweenLocations(RallyPoint end) {
+        RallyPath nearestPath = null;
         RallyPoint closestUnobstructed = null;
         float closestDistUnobstructed = 0.0f;
 
@@ -176,28 +176,25 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
                 float currentDistSquaredTotal = shortestPath.getDistance() * shortestPath.getDistance()
                         + tempBotLocation.dst2(tempPointLocation);
                 if (closestUnobstructed == null || currentDistSquaredTotal < closestDistUnobstructed) {
+                    nearestPath = shortestPath;
                     closestUnobstructed = pathStarter;
                     closestDistUnobstructed = currentDistSquaredTotal;
                 }
+            } else {
+
+                //
+                break;
             }
         }
-        return closestUnobstructed;
+        return nearestPath;
     }
 
     /**
-     * This calls the botManager to find shortest path between points
+     * @return a rally path to a random point on the map. USed for wandering behavior
      */
-    private RallyPath getShortestPathBetweenLocations(Schmuck bot, RallyPoint end) {
-        RallyPoint myPoint = getNearestPathStarter(end);
-        return BotManager.getShortestPathBetweenPoints(bot, myPoint, end);
-    }
-
-    /**
-     * @return a rally path to a random poitn on the map. USed for wandering behavior
-     */
-    private RallyPath getPathToRandomPoint(Schmuck bot) {
+    private RallyPath getPathToRandomPoint() {
         if (BotManager.rallyPoints.size > 0) {
-            return getShortestPathBetweenLocations(bot, BotManager.rallyPoints.values().toArray()
+            return getShortestPathBetweenLocations(BotManager.rallyPoints.values().toArray()
                     .get(MathUtils.random(BotManager.rallyPoints.size - 1)));
         }
         return null;

@@ -2,11 +2,12 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.utils.Constants;
 
 public class GluttonousGreyGlove extends Artifact {
 
@@ -26,9 +27,11 @@ public class GluttonousGreyGlove extends Artifact {
 			@Override
 			public void onKill(BodyData vic, DamageSource source) {
 				if (MathUtils.randomBoolean(chancePlayer) && vic instanceof PlayerBodyData) {
-					WeaponUtils.createPickup(state, vic.getSchmuck().getPixelPosition(), WeaponUtils.pickupTypes.HEALTH, heal);
+					SyncedAttack.PICKUP.initiateSyncedAttackSingle(state, vic.getSchmuck(), vic.getSchmuck().getPixelPosition(),
+							vic.getSchmuck().getLinearVelocity(), Constants.PICKUP_HEALTH, heal);
 				} else if (MathUtils.randomBoolean(chanceMonster)) {
-					WeaponUtils.createPickup(state, vic.getSchmuck().getPixelPosition(), WeaponUtils.pickupTypes.HEALTH, heal);
+					SyncedAttack.PICKUP.initiateSyncedAttackSingle(state, vic.getSchmuck(), vic.getSchmuck().getPixelPosition(),
+							vic.getSchmuck().getLinearVelocity(), Constants.PICKUP_HEALTH, heal);
 				}
 			}
 		};

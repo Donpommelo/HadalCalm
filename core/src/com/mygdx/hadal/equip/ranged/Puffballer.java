@@ -33,6 +33,7 @@ public class Puffballer extends RangedWeapon {
 	private static final float projectileSpeed = 30.0f;
 	private static final Vector2 projectileSize = new Vector2(60, 60);
 	private static final float lifespan = 5.0f;
+	private static final float flashLifespan = 1.0f;
 
 	private static final Sprite projSprite = Sprite.SPORE_CLUSTER_YELLOW;
 	private static final Sprite weaponSprite = Sprite.MT_TORPEDO;
@@ -159,6 +160,7 @@ public class Puffballer extends RangedWeapon {
 						frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(), sporeFragDamage, sporeFragKB,
 								DamageSource.PUFFBALLER, DamageTag.RANGED).setStaticKnockback(true));
 						frag.addStrategy(new ContactUnitLoseDurability(state, frag, user.getBodyData()));
+						frag.addStrategy(new FlashNearDeath(state, frag, user.getBodyData(), flashLifespan));
 
 						if (!state.isServer()) {
 							((ClientState) state).addEntity(frag.getEntityID(), frag, false, ClientState.ObjectLayer.HBOX);

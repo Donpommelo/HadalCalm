@@ -131,15 +131,15 @@ public class ObjectiveMarker {
 
     public HadalEntity getObjectiveTarget() { return objectiveTarget; }
 
+    private final Vector2 lastLocation = new Vector2();
     /**
      * This finds the location of the current game objective. Used for bot ai as well as some shaders
      */
     public Vector2 getObjectiveLocation() {
         if (objectiveTarget != null) {
-            return objectiveTarget.getPixelPosition();
-        } else {
-            return new Vector2();
+            lastLocation.set(objectiveTarget.getPixelPosition());
         }
+        return lastLocation;
     }
 
     public void setObjectiveTargetID(UUID objectiveTargetID) { this.objectiveTargetID = objectiveTargetID; }

@@ -147,9 +147,15 @@ public class CharacterCosmetic {
         }
         ShadedSprite shadedSprite = shadedCosmetics.get(shaderKey);
         if (shadedSprite == null) {
-            batch.end();
+
+            boolean drawing = batch.isDrawing();
+            if (drawing) {
+                batch.end();
+            }
             shadedSprite = new ShadedSprite(batch, team, character, sprite, mode);
-            batch.begin();
+            if (drawing) {
+                batch.begin();
+            }
 
             shadedCosmetics.put(shaderKey, shadedSprite);
         }

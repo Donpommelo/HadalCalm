@@ -21,10 +21,7 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.Static;
+import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
@@ -40,7 +37,8 @@ public class TeslaCoil extends RangedWeapon {
 	private static final float projectileSpeed = 100.0f;
 	private static final Vector2 projectileSize = new Vector2(45, 45);
 	private static final float lifespan = 4.5f;
-	
+	private static final float flashLifespan = 1.0f;
+
 	private static final Sprite projSprite = Sprite.PYLON;
 	private static final Sprite weaponSprite = Sprite.MT_STORMCALLER;
 	private static final Sprite eventSprite = Sprite.P_STORMCALLER;
@@ -64,11 +62,13 @@ public class TeslaCoil extends RangedWeapon {
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.LAUNCHER.playUniversal(state, startPosition, 0.25f, false);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true,
+				true, user, projSprite);
 		
 		final Vector2 endLocation = new Vector2(this.mouseLocation);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), flashLifespan));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private final Vector2 startLocation = new Vector2();
