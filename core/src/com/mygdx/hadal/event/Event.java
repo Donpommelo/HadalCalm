@@ -84,9 +84,6 @@ public class Event extends HadalEntity {
     //will the event not be drawn when off screen?
     private boolean cullable = true;
 
-    //is this event treated by bots as a health pickup? (since these can be a couple of different event types)
-    private boolean botHealthPickup = false;
-
 	//when about to despawn, events can be set to flash
 	private static final float flashDuration = 0.1f;
 	private float flashLifespan;
@@ -347,10 +344,6 @@ public class Event extends HadalEntity {
 	public void setCullable(boolean cullable) {	this.cullable = cullable; }
 
 	public void setIndependent(boolean independent) { this.independent = independent; }
-
-	public boolean isBotHealthPickup() { return botHealthPickup; }
-
-	public void setBotHealthPickup(boolean botHealthPickup) { this.botHealthPickup = botHealthPickup; }
 
 	public RectangleMapObject getBlueprint() { return blueprint; }
 

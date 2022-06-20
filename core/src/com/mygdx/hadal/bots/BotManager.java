@@ -58,9 +58,14 @@ public class BotManager {
                 PolylineMapObject current = (PolylineMapObject) object;
 
                 float[] vertices = current.getPolyline().getTransformedVertices();
+
                 Vector2[] worldVertices = new Vector2[vertices.length / 2];
                 for (int i = 0; i < worldVertices.length; i++) {
-                    worldVertices[i] = new Vector2(vertices[i * 2] / Constants.PPM, vertices[i * 2 + 1] / Constants.PPM);
+
+                    //rounding to nearest 0.5 to avoid
+                    worldVertices[i] = new Vector2(
+                            (int) (vertices[i * 2] * 2 / Constants.PPM) / 2.0f,
+                            (int) (vertices[i * 2 + 1] * 2 / Constants.PPM) / 2.0f);
                 }
 
                 //set each vertex of the segment as a rally point and add its connections

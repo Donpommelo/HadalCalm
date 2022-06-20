@@ -830,7 +830,9 @@ public class WeaponUtils {
 				}
 			}
 		});
-
+		if (type == Constants.PICKUP_HEALTH) {
+			hbox.setBotHealthPickup(true);
+		}
 		return hbox;
 	}
 	

@@ -1,6 +1,8 @@
 package com.mygdx.hadal.schmucks.entities;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.bots.BotControllerPlayer;
 import com.mygdx.hadal.bots.BotPersonality;
 import com.mygdx.hadal.equip.Loadout;
@@ -88,16 +90,16 @@ public class PlayerBot extends Player {
         currentWobble = personality.getWobbleMax();
     }
 
-//    private final Vector2 playerLocation = new Vector2();
-//    @Override
-//    public void render(SpriteBatch batch) {
-//        super.render(batch);
-//        playerLocation.set(getPixelPosition());
-//
-//        HadalGame.FONT_SPRITE.draw(batch, botController.getCurrentMood().toString() + " " + botController.getEventTarget() + " " +
-//                botController.getPointPath().size, playerLocation.x + 20, playerLocation.y + 20);
-//
-//    }
+    private final Vector2 playerLocation = new Vector2();
+    @Override
+    public void render(SpriteBatch batch) {
+        super.render(batch);
+        playerLocation.set(getPixelPosition());
+
+        HadalGame.FONT_SPRITE.draw(batch, botController.getCurrentMood().toString() + " " + botController.getEventTarget() + " " +
+                botController.getPointPath().size, playerLocation.x + 20, playerLocation.y + 20);
+
+    }
 //    private static final ShapeRenderer debugRenderer = new ShapeRenderer();
 //    @Override
 //    public void render(SpriteBatch batch) {

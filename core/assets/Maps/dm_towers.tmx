@@ -891,7 +891,7 @@
    <polyline points="80,-8 -48,88"/>
   </object>
   <object id="387" name="BotPoint" type="BotPoint" x="4944" y="3304">
-   <polyline points="48,152 -44,-152"/>
+   <polyline points="48,152 -48,-168"/>
   </object>
   <object id="388" name="BotPoint" type="BotPoint" x="5008" y="3144">
    <polyline points="112,216 -112,-8"/>
