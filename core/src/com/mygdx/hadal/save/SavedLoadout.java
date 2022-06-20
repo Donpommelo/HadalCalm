@@ -22,6 +22,7 @@ public class SavedLoadout {
 	private String active, character;
 	private String team;
 
+
 	//This is the player's starting name
 	private String name;
 

@@ -579,6 +579,7 @@ public class BotLoadoutProcessor {
         return artifacts;
     }
 
+    private static final int defaultWeight = 10;
     /**
      * This applies random cosmetics to the newly created bot
      */
@@ -590,9 +591,18 @@ public class BotLoadoutProcessor {
         for (CosmeticSlot slot : CosmeticSlot.values()) {
             Array<UnlockCosmetic> cosmeticOptions = new Array<>();
             for (UnlockCosmetic cosmetic : UnlockCosmetic.values()) {
-                if (!cosmetic.checkCompatibleCharacters(character) && cosmetic.getCosmeticSlot().equals(slot)) {
-                    cosmeticOptions.add(cosmetic);
+                if (cosmetic.getCosmeticSlot().equals(slot)) {
+                    if (cosmetic.getCosmetics().containsKey(character)) {
+                        for (int i = 0; i < cosmetic.getCosmetics().get(character).getBotRandomWeight(); i++) {
+                            cosmeticOptions.add(cosmetic);
+                        }
+                    } else if (cosmetic.isBlank()) {
+                        for (int i = 0; i < defaultWeight; i++) {
+                            cosmeticOptions.add(cosmetic);
+                        }
+                    }
                 }
+
             }
             if (cosmeticOptions.size > 0) {
                 cosmetics[index] = cosmeticOptions.get(MathUtils.random(cosmeticOptions.size - 1));

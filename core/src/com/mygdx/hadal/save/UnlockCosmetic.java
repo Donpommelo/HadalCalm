@@ -27,24 +27,27 @@ public enum UnlockCosmetic {
     NOTHING_MOUTH(CosmeticSlot.MOUTH),
     NOTHING_HEAD(CosmeticSlot.HEAD),
 
-    EYEPATCH(CosmeticSlot.EYE, GameText.EYEPATCH, GameText.EYEPATCH_DESC, true,
-            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_eyepatch"),
-            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_eyepatch"),
-            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_eyepatch"),
-            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_eyepatch"),
-            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_eyepatch"),
-            new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_eyepatch")),
-    SNORKEL(CosmeticSlot.EYE, GameText.SNORKEL, GameText.SNORKEL_DESC, true,
-            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_snorkel"),
-            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_snorkel"),
-            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_snorkel")),
-
+    ANTLERS(CosmeticSlot.HAT1, GameText.ANTLERS, GameText.ANTLERS_DESC, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_antlers"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_antlers"),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_antlers"),
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_antlers")),
     BICORNE(CosmeticSlot.HAT1, GameText.BICORNE, GameText.BICORNE_DESC, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_bicorne"),
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_bicorne"),
             new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_bicorne"),
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_bicorne"),
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_bicorne")),
+    CAPTAINS_HAT(CosmeticSlot.HAT1, GameText.CAPTAINS_HAT, GameText.CAPTAINS_HAT_DESC, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_captain"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_captain"),
+            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_captain"),
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_captain"),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_captain")),
+    CARTWHEEL_HAT(CosmeticSlot.HAT1, GameText.CARTWHEEL_HAT, GameText.CARTWHEEL_HAT, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_cartwheel"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_cartwheel"),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_cartwheel")),
     FESTIVE_HAT(CosmeticSlot.HAT1, GameText.FESTIVE_HAT, GameText.FESTIVE_HAT_DESC, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_festive")),
     FISH_FEAR_ME_HAT(CosmeticSlot.HAT1, GameText.FISH_FEAR_ME_HAT, GameText.FISH_FEAR_ME_HAT_DESC, true,
@@ -62,6 +65,26 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_propellor"),
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_propellor")),
 
+    EYEPATCH(CosmeticSlot.EYE, GameText.EYEPATCH, GameText.EYEPATCH_DESC, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_eyepatch"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_eyepatch"),
+            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_eyepatch"),
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_eyepatch"),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_eyepatch"),
+            new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_eyepatch")),
+    SNORKEL(CosmeticSlot.EYE, GameText.SNORKEL, GameText.SNORKEL_DESC, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_snorkel"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_snorkel"),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_snorkel")),
+
+    CLOWN_NOSE(CosmeticSlot.NOSE, GameText.CLOWN_NOSE, GameText.CLOWN_NOSE_DESC, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_honk"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_honk"),
+            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_honk"),
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_honk").setOffsetX(-14),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_honk"),
+            new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_honk")),
+
     N95_MASK(CosmeticSlot.MOUTH, GameText.N95_MASK, GameText.N95_MASK_DESC, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_n95"),
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_n95"),
@@ -69,7 +92,14 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_n95"),
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_n95"),
             new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_n95")),
-    NOISEMAKER(CosmeticSlot.MOUTH, GameText.NOISEMAKER, GameText.NOISEMAKER_DESC, true, PlayMode.LOOP_PINGPONG,
+    MOUSTACHE(CosmeticSlot.MOUTH, GameText.MOUSTACHE, GameText.MOUSTACHE, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_moustache"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_moustache"),
+            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_moustache"),
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_moustache").setOffsetX(-27),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_moustache"),
+            new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_moustache")),
+    NOISEMAKER(CosmeticSlot.MOUTH, GameText.NOISEMAKER, GameText.NOISEMAKER_DESC, true, true, PlayMode.LOOP_PINGPONG,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_noisemaker").setOffsetX(-67.8f).setOffsetY(0),
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_noisemaker").setOffsetX(-85.2f).setOffsetY(-3.0f),
             new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_noisemaker").setOffsetX(-58.4f).setOffsetY(12.6f),
@@ -77,7 +107,18 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_noisemaker").setOffsetX(-30.6f).setOffsetY(-40.2f)),
 
     LONG_FACE(CosmeticSlot.HEAD, GameText.LONG_FACE, GameText.LONG_FACE_DESC, true,
-            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_head_long").setUseShader(true).setOffsetYRest(144.6f)),
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_head_long").setOffsetYRest(144.6f)
+                    .setUseShader(true).setBotRandomWeight(2)),
+
+    SUPREME_HEAD(CosmeticSlot.DECAL_HEAD, GameText.SUPREME, GameText.SUPREME_DESC, true,
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_supreme"),
+            new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_supreme")),
+
+    SUPREME_BODY(CosmeticSlot.DECAL_BODY, GameText.SUPREME, GameText.SUPREME_DESC, true, false,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_supreme"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_supreme"),
+            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_supreme"),
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_supreme")),
     ;
 
     private final GameText name, desc;
@@ -88,6 +129,7 @@ public enum UnlockCosmetic {
 
     //does the cosmetic sprite ragdoll when the user is defeated?
     private final boolean ragdoll;
+    private final boolean head;
 
     //Blank indicates that the cosmetic will not be rendered, instead representing an empty slot
     private boolean blank;
@@ -97,15 +139,21 @@ public enum UnlockCosmetic {
 
     UnlockCosmetic(CosmeticSlot cosmeticSlot, GameText name, GameText desc, boolean ragdoll,
                    CharacterCosmetic... compatibleCharacters) {
-        this(cosmeticSlot, name, desc, ragdoll, PlayMode.LOOP, compatibleCharacters);
+        this(cosmeticSlot, name, desc, ragdoll, true, PlayMode.LOOP, compatibleCharacters);
     }
 
-    UnlockCosmetic(CosmeticSlot cosmeticSlot, GameText name, GameText desc, boolean ragdoll, PlayMode mode,
+    UnlockCosmetic(CosmeticSlot cosmeticSlot, GameText name, GameText desc, boolean ragdoll, boolean head,
+                   CharacterCosmetic... compatibleCharacters) {
+        this(cosmeticSlot, name, desc, ragdoll, head, PlayMode.LOOP, compatibleCharacters);
+    }
+
+    UnlockCosmetic(CosmeticSlot cosmeticSlot, GameText name, GameText desc, boolean ragdoll, boolean head, PlayMode mode,
                    CharacterCosmetic... compatibleCharacters) {
         this.cosmeticSlot = cosmeticSlot;
         this.name = name;
         this.desc = desc;
         this.ragdoll = ragdoll;
+        this.head = head;
         for (CharacterCosmetic cosmetic : compatibleCharacters) {
             cosmetics.put(cosmetic.getCompatibleCharacter(), cosmetic);
             cosmetic.setPlayMode(mode);
@@ -123,14 +171,17 @@ public enum UnlockCosmetic {
      * We find the character's version of the cosmetic and render it if existent
      */
     public Vector2 render(Batch batch, AlignmentFilter team, UnlockCharacter character, float animationTimeExtra,
-                          float scale, boolean flip, Vector2 location) {
+                          float scale, boolean flip, Vector2 headLocation, Vector2 bodyLocation) {
         if (!blank) {
             CharacterCosmetic cosmetic = cosmetics.get(character);
             if (cosmetic != null) {
-                return cosmetic.render(batch, team, character, animationTimeExtra, scale, flip, location);
+                if (head) {
+                    return cosmetic.render(batch, team, character, animationTimeExtra, scale, flip, headLocation);
+                }
+                cosmetic.render(batch, team, character, animationTimeExtra, scale, flip, bodyLocation);
             }
         }
-        return location;
+        return headLocation;
     }
 
     /**
@@ -187,6 +238,8 @@ public enum UnlockCosmetic {
         }
         return items;
     }
+
+    public HashMap<UnlockCharacter, CharacterCosmetic> getCosmetics() { return cosmetics; }
 
     public CosmeticSlot getCosmeticSlot() { return cosmeticSlot; }
 

@@ -168,6 +168,7 @@ public class PlayerSpriteHelper {
     }
 
     private final Vector2 headLocation = new Vector2();
+    private final Vector2 bodyLocation = new Vector2();
     /**
      * @param batch: sprite batch to render player to
      * @param attackAngle: the angle of the player's arm
@@ -206,6 +207,9 @@ public class PlayerSpriteHelper {
         yOffset = character.getWobbleOffsetBody(bodyFrame, grounded, moving);
         yOffsetHead = character.getWobbleOffsetHead(bodyFrame, headFrame, grounded, moving);
 
+        float bodyX = (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale;
+        float bodyY = playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset * scale;
+
         //Draw a bunch of stuff
         batch.draw(player.getToolSprite(),
             (flip ? toolWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + armConnectXReal * scale,
@@ -237,9 +241,7 @@ public class PlayerSpriteHelper {
             } else {
                 bodyRunSprite.setPlayMode(Animation.PlayMode.LOOP);
             }
-            batch.draw(bodyRunSprite.getKeyFrame(animationTime),
-                (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale,
-                playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset * scale, 0, 0,
+            batch.draw(bodyRunSprite.getKeyFrame(animationTime), bodyX, bodyY, 0, 0,
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
         } else if (moveState.equals(MoveState.MOVE_RIGHT)) {
             if (Math.abs(realAttackAngle) < 90) {
@@ -247,16 +249,12 @@ public class PlayerSpriteHelper {
             } else {
                 bodyRunSprite.setPlayMode(Animation.PlayMode.LOOP);
             }
-            batch.draw(bodyRunSprite.getKeyFrame(animationTime),
-                (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale,
-                playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset * scale, 0, 0,
+            batch.draw(bodyRunSprite.getKeyFrame(animationTime), bodyX, bodyY, 0, 0,
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
         } else {
             bodyRunSprite.setPlayMode(Animation.PlayMode.LOOP);
             batch.draw(grounded ? bodyStillSprite.getKeyFrame(animationTime, true) :
-                    bodyRunSprite.getKeyFrame(player.getFreezeFrame(false)),
-                (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale,
-                playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset * scale, 0, 0,
+                    bodyRunSprite.getKeyFrame(player.getFreezeFrame(false)), bodyX, bodyY, 0, 0,
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
         }
 
@@ -269,11 +267,12 @@ public class PlayerSpriteHelper {
                     (flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
         }
         headLocation.set(headX, headY);
+        bodyLocation.set(bodyX, bodyY);
 
         //draw cosmetics. Use head coordinates. Update coordinates if any cosmetics replace the head
         for (UnlockCosmetic cosmetic : player.getPlayerData().getLoadout().cosmetics) {
             headLocation.set(cosmetic.render(batch, player.getPlayerData().getLoadout().team,
-                    player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headLocation));
+                    player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headLocation, bodyLocation));
         }
     }
 

@@ -13,6 +13,8 @@ public enum CosmeticSlot {
     EYE("EYE", 3),
     NOSE("NOSE", 4),
     MOUTH("MOUTH", 5),
+    DECAL_HEAD("HEAD DECAL", 8),
+    DECAL_BODY("BODY DECAL", 9),
 
     ;
 

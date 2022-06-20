@@ -53,6 +53,9 @@ public class CharacterCosmetic {
 
     private Animation.PlayMode mode = Animation.PlayMode.LOOP;
 
+    //weight used to determin chance of bot equipping this cosmetic
+    private int botRandomWeight = 10;
+
     public CharacterCosmetic(UnlockCharacter compatibleCharacter, String spriteId) {
         this.compatibleCharacter = compatibleCharacter;
         this.spriteId = spriteId;
@@ -253,6 +256,13 @@ public class CharacterCosmetic {
         this.useShader = useShader;
         return this;
     }
+
+    public CharacterCosmetic setBotRandomWeight(int botRandomWeight) {
+        this.botRandomWeight = botRandomWeight;
+        return this;
+    }
+
+    public int getBotRandomWeight() { return botRandomWeight; }
 
     public void setPlayMode(Animation.PlayMode mode) {
         this.mode = mode;
