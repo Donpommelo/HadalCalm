@@ -144,6 +144,9 @@ public enum UnlockActives {
 
 	public String getDesc() { return desc.text(); }
 
+	/**
+	 * Get description and fill wildcards with item information
+	 */
 	public String getDescLong() { return descLong.text(magicSingleton.getDescFields()); }
 
 	private static final ObjectMap<String, UnlockActives> UnlocksByName = new ObjectMap<>();

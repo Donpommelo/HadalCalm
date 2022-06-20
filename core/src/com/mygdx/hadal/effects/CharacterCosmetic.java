@@ -40,7 +40,7 @@ public class CharacterCosmetic {
     //dimensions of the cosmetic
     private float cosmeticWidth, cosmeticHeight, offsetX, offsetY;
 
-    //modifies the offsets of remaining cosmetics (used for things like head replacements)
+    //modifies the offsets of yet-to-be rendered cosmetics (used for things like head replacements)
     private float offsetXRest, offsetYRest;
 
     //mirror indicates that a cosmetic is drawn with a different sprite when mirrored instead of just being flipped
@@ -48,6 +48,7 @@ public class CharacterCosmetic {
     private boolean mirror;
     private String spriteIdMirror;
 
+    //should shaders be applied to this cosmetic?
     private boolean useShader;
 
     private Animation.PlayMode mode = Animation.PlayMode.LOOP;
@@ -90,6 +91,7 @@ public class CharacterCosmetic {
             if (frames == null) {
                 getFrames();
             }
+            //if using shader, get sprite from ShaderSprite fbo instead of frames
             batch.draw(drawShadedCosmetic(batch, team, character, frames.getKeyFrames()).getKeyFrame(animationTimeExtra, true),
                     location.x + (flip ? -1 : 1) * offsetX * scale,
                     location.y + offsetY * scale, 0, 0, (flip ? -1 : 1) * cosmeticWidth * scale,
@@ -113,7 +115,7 @@ public class CharacterCosmetic {
             }
         }
 
-
+        //return offsets with modification (if using cosmetics that change offsets for other cosmetics)
         return location.add(offsetXRest * scale, offsetYRest * scale);
     }
 
@@ -138,6 +140,10 @@ public class CharacterCosmetic {
         return null;
     }
 
+    /**
+     * This draws cosmetics with shaders applied.
+     * Shaded sprites are cached a hash map
+     */
     private Animation<TextureRegion> drawShadedCosmetic(Batch batch, AlignmentFilter team, UnlockCharacter character, TextureRegion[] sprite) {
         String shaderKey;
         if (team.isTeam() && team != AlignmentFilter.NONE) {
@@ -146,8 +152,11 @@ public class CharacterCosmetic {
             shaderKey = character.getName();
         }
         ShadedSprite shadedSprite = shadedCosmetics.get(shaderKey);
+
+        //if we don't have this shader-cosmetic combination cached, we create a new shaded sprite
         if (shadedSprite == null) {
 
+            //because this is usually run during the render cycle, we need to set turn the batch on/off
             boolean drawing = batch.isDrawing();
             if (drawing) {
                 batch.end();
@@ -156,7 +165,6 @@ public class CharacterCosmetic {
             if (drawing) {
                 batch.begin();
             }
-
             shadedCosmetics.put(shaderKey, shadedSprite);
         }
 
@@ -164,10 +172,16 @@ public class CharacterCosmetic {
     }
 
     private final Array<String> keysToRemove = new Array<>();
+
+    /**
+     * This is run whenever a player sets their color or cosmetic in the hub.
+     * It clears all cached fbos that are not currently being used by a player
+     */
     public void clearShadedCosmetics(PlayState state, UnlockCosmetic cosmetic) {
         for (ObjectMap.Entry<String, ShadedSprite> sprite : shadedCosmetics.entries()) {
             boolean used = false;
 
+            //iterate through all users and see if this shader sprite is in use
             if (state.isServer()) {
                 for (User user: HadalGame.server.getUsers().values()) {
                     if (user.getPlayer() != null) {
@@ -192,6 +206,7 @@ public class CharacterCosmetic {
                 }
             }
 
+            //unused shader sprites are removed from the cache and disposed
             if (!used) {
                 sprite.value.dispose();
                 keysToRemove.add(sprite.key);
@@ -203,6 +218,9 @@ public class CharacterCosmetic {
         }
     }
 
+    /**
+     * This checks a single loadout to see if it matches a single key (string name of either team or character)
+     */
     private boolean checkClearLoadout(Loadout loadout, String key, UnlockCosmetic cosmetic) {
         if (loadout == null) { return false; }
         if (loadout.team.getTeamName().equals(key) || loadout.character.getName().equals(key)) {

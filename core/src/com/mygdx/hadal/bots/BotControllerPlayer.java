@@ -283,6 +283,4 @@ public class BotControllerPlayer extends BotController {
     public void setWeaponTarget(HadalEntity weaponTarget) { this.weaponTarget = weaponTarget; }
 
     public void setHealthTarget(HadalEntity healthTarget) { this.healthTarget = healthTarget; }
-
-    public HadalEntity getEventTarget() { return eventTarget; }
 }

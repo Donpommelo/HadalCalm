@@ -15,11 +15,16 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import static com.mygdx.hadal.effects.CharacterCosmetic.cosmeticAnimationSpeed;
 
 /**
+ * A ShadedSprite is a sprite + shader combination
+ * This keeps track of the needed fbos, so they can be disposed of
  * @author Bireau Bunkydory
  */
 public class ShadedSprite {
 
+    //the fbos used to draw the sprites. These must be disposed of when we are done with the sprite
     private final Array<FrameBuffer> fbo = new Array<>();
+
+    //The list of sprites drawn from fbos and animation composed of those sprites
     private final Array<TextureRegion> sprite = new Array<>();
     private Animation<TextureRegion> animation;
 
@@ -37,6 +42,9 @@ public class ShadedSprite {
         createSprite(batch, shader, sprites, mode);
     }
 
+    /**
+     * This draws each sprite from respective fbo
+     */
     private void createSprite(Batch batch, ShaderProgram shader, TextureRegion[] sprites, Animation.PlayMode mode) {
         for (TextureRegion tex : sprites) {
             FrameBuffer frame = new FrameBuffer(Pixmap.Format.RGBA4444, tex.getRegionWidth(), tex.getRegionHeight(), true);
@@ -72,6 +80,9 @@ public class ShadedSprite {
         animation.setPlayMode(mode);
     }
 
+    /**
+     * This disposes of each fbo and must be run when the sprite is deleted
+     */
     public void dispose() {
         for (FrameBuffer frame : fbo) {
             frame.dispose();

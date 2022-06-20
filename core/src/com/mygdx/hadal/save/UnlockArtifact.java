@@ -542,6 +542,9 @@ public enum UnlockArtifact {
 
 	public String getDesc() { return desc.text(); }
 
+	/**
+	 * Get description and fill wildcards with item information
+	 */
 	public String getDescLong() { return TextFilterUtil.filterText(descLong.text(artifactSingleton.getDescFields())); }
 
 	private static final ObjectMap<String, UnlockArtifact> UnlocksByName = new ObjectMap<>();

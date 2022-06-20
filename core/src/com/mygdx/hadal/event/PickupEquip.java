@@ -39,9 +39,11 @@ public class PickupEquip extends Event {
 	//This is the weapon that will be picked up when interacting with this event.
 	private Equippable equip;
 	private UnlockEquip unlock;
-	
+
+	//csv list of equips that this can be
 	private final String pool;
 
+	//is this a temporary weapon drop?
 	private boolean drop;
 
 	//when about to despawn, pickups flash

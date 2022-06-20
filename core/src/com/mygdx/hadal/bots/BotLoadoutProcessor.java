@@ -13,6 +13,7 @@ import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Blinded;
@@ -85,7 +86,7 @@ public class BotLoadoutProcessor {
     }
 
     /**
-     * This calculates a path towards a healing event
+     * This calculates a path towards a healing entity
      * @param player: the bot player looking for a heal
      * @param playerLocation: the location of the bot player
      * @param searchRadius: this is the max distance that the bot will search search for pickups
@@ -94,15 +95,15 @@ public class BotLoadoutProcessor {
     public static RallyPoint getPointNearHealth(PlayerBot player, Vector2 playerLocation, float searchRadius) {
         final RallyPoint[] bestPoint = new RallyPoint[1];
         player.getWorld().QueryAABB((fixture -> {
-                if (fixture.getUserData() instanceof final EventData eventData) {
-                    if (eventData.getEvent().isBotHealthPickup()) {
+                if (fixture.getUserData() instanceof final HadalData data) {
+                    if (data.getEntity().isBotHealthPickup()) {
 
-                        //for all events found, calculate a path to it
-                        RallyPoint tempPoint = BotManager.getNearestPoint(player, eventData.getEvent().getPosition());
+                        //for all health found, calculate a path to it
+                        RallyPoint tempPoint = BotManager.getNearestPoint(player, data.getEntity().getPosition());
 
                         //tentatively, we stop immediately upon finding an appropriate pickup to path towards
                         if (tempPoint != null) {
-                            player.getBotController().setHealthTarget(eventData.getEvent());
+                            player.getBotController().setHealthTarget(data.getEntity());
                             bestPoint[0] = tempPoint;
                             return false;
                         }

@@ -174,6 +174,9 @@ public enum UnlockEquip {
 
 	public String getDesc() { return desc.text(); }
 
+	/**
+	 * Get description and fill wildcards with item information
+	 */
 	public String getDescLong() { return descLong.text(equipSingleton.getDescFields()); }
 
 	private static final ObjectMap<String, UnlockEquip> UnlocksByName = new ObjectMap<>();

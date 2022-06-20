@@ -3,6 +3,11 @@ package com.mygdx.hadal.text;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.hadal.managers.GameStateManager;
 
+/**
+ * A GameText is a string that shows up as information about in-game items. (as opposed to ui elements)
+ * These are functionally similar to uiTexts, but are separated for organizational purposes.
+ *
+ */
 public enum GameText {
 
     STRING_NOT_FOUND("STRING_NOT_FOUND"),
@@ -828,7 +833,7 @@ public enum GameText {
 
     ;
 
-    //key used to find the text in Strings.json file
+    //key used to find the text in GameStrings.json file
     private final String key;
 
     //cached text if string has been read from json before.

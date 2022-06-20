@@ -144,9 +144,8 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
 
     private static final Vector2 tempPointLocation = new Vector2();
     private static final Vector2 tempBotLocation = new Vector2();
-
     /**
-     * Find a point nearby with shortest total path to a target
+     * Find a point nearby with shortest total path to a target and return a path to that point
      * @param end: the target poitn we are finding a short path for
      */
     private RallyPath getShortestPathBetweenLocations(RallyPoint end) {
@@ -182,7 +181,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
                 }
             } else {
 
-                //
+                //we break if a path starter has no valid paths (since our start point must also have no paths)
                 break;
             }
         }

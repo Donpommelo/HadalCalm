@@ -375,7 +375,7 @@ public enum UIText {
 
     ;
 
-    //key used to find the text in Strings.json file
+    //key used to find the text in UIStrings.json file
     private final String key;
 
     //cached text if string has been read from json before.

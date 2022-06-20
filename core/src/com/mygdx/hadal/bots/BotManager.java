@@ -62,7 +62,7 @@ public class BotManager {
                 Vector2[] worldVertices = new Vector2[vertices.length / 2];
                 for (int i = 0; i < worldVertices.length; i++) {
 
-                    //rounding to nearest 0.5 to avoid
+                    //rounding to nearest 0.5 to avoid Tiled making coords slightly off
                     worldVertices[i] = new Vector2(
                             (int) (vertices[i * 2] * 2 / Constants.PPM) / 2.0f,
                             (int) (vertices[i * 2 + 1] * 2 / Constants.PPM) / 2.0f);
