@@ -113,7 +113,7 @@ public enum UnlockCosmetic {
 
     SUPREME_HEAD(CosmeticSlot.DECAL_HEAD, GameText.SUPREME, GameText.SUPREME_DESC, true,
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_supreme", "roclaire_supreme_mirror"),
-            new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_supreme", "roclaire_supreme_mirror")),
+            new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_supreme", "maximillian_supreme_mirror")),
 
     SUPREME_BODY(CosmeticSlot.DECAL_BODY, GameText.SUPREME, GameText.SUPREME_DESC, true, false,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_supreme", "moreau_supreme_mirror"),

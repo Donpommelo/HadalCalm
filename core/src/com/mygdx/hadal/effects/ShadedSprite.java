@@ -28,6 +28,9 @@ public class ShadedSprite {
     private final Array<TextureRegion> sprite = new Array<>();
     private Animation<TextureRegion> animation;
 
+    private final Array<TextureRegion> spriteMirror = new Array<>();
+    private Animation<TextureRegion> animationMirror;
+
     public ShadedSprite(Batch batch, AlignmentFilter team, UnlockCharacter character, TextureRegion[] sprites) {
         this(batch, team, character, sprites, Animation.PlayMode.LOOP);
     }
@@ -39,13 +42,25 @@ public class ShadedSprite {
         } else {
             shader = character.getPalette().getShader(character);
         }
-        createSprite(batch, shader, sprites, mode);
+        createSprite(batch, shader, sprites, mode, false);
+    }
+
+    public ShadedSprite(Batch batch, AlignmentFilter team, UnlockCharacter character, TextureRegion[] sprites,
+                        TextureRegion[] spritesMirror, Animation.PlayMode mode) {
+        this(batch, team, character, sprites, mode);
+        ShaderProgram shader;
+        if (team.isTeam() && team != AlignmentFilter.NONE) {
+            shader = team.getShader(character);
+        } else {
+            shader = character.getPalette().getShader(character);
+        }
+        createSprite(batch, shader, spritesMirror, mode, true);
     }
 
     /**
      * This draws each sprite from respective fbo
      */
-    private void createSprite(Batch batch, ShaderProgram shader, TextureRegion[] sprites, Animation.PlayMode mode) {
+    private void createSprite(Batch batch, ShaderProgram shader, TextureRegion[] sprites, Animation.PlayMode mode, boolean mirror) {
         for (TextureRegion tex : sprites) {
             FrameBuffer frame = new FrameBuffer(Pixmap.Format.RGBA4444, tex.getRegionWidth(), tex.getRegionHeight(), true);
             frame.begin();
@@ -67,8 +82,13 @@ public class ShadedSprite {
             frame.end();
 
             TextureRegion fboRegion = new TextureRegion(frame.getColorBufferTexture());
-            sprite.add(new TextureRegion(fboRegion, fboRegion.getRegionX(), fboRegion.getRegionHeight() - fboRegion.getRegionY(),
-                    fboRegion.getRegionWidth(), - fboRegion.getRegionHeight()));
+            if (mirror) {
+                spriteMirror.add(new TextureRegion(fboRegion, fboRegion.getRegionX(), fboRegion.getRegionHeight() - fboRegion.getRegionY(),
+                        fboRegion.getRegionWidth(), - fboRegion.getRegionHeight()));
+            } else {
+                sprite.add(new TextureRegion(fboRegion, fboRegion.getRegionX(), fboRegion.getRegionHeight() - fboRegion.getRegionY(),
+                        fboRegion.getRegionWidth(), - fboRegion.getRegionHeight()));
+            }
             fbo.add(frame);
         }
 
@@ -76,8 +96,13 @@ public class ShadedSprite {
             shader.dispose();
         }
 
-        animation = new Animation<>(cosmeticAnimationSpeed, sprite);
-        animation.setPlayMode(mode);
+        if (mirror) {
+            animationMirror = new Animation<>(cosmeticAnimationSpeed, spriteMirror);
+            animationMirror.setPlayMode(mode);
+        } else {
+            animation = new Animation<>(cosmeticAnimationSpeed, sprite);
+            animation.setPlayMode(mode);
+        }
     }
 
     /**
@@ -90,6 +115,8 @@ public class ShadedSprite {
     }
 
     public Animation<TextureRegion> getAnimation() { return animation; }
+
+    public Animation<TextureRegion> getAnimationMirror() { return animationMirror; }
 
     public TextureRegion getSprite() { return sprite.get(0); }
 }
