@@ -19,7 +19,7 @@ public class ForceofWill extends ActiveItem {
 	private static final float duration = 2.0f;
 	
 	public ForceofWill(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -30,4 +30,11 @@ public class ForceofWill extends ActiveItem {
 	
 	@Override
 	public float getUseDuration() { return duration; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) duration)};
+	}
 }

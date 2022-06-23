@@ -41,4 +41,12 @@ public class Kermungler extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (damageVariance * 100)),
+				String.valueOf((int) (damageAmp * 100)),
+				String.valueOf((int) (damageRes * 100))};
+	}
 }

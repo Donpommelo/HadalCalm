@@ -42,4 +42,10 @@ public class Constants {
     public static final int PRIORITY_SCALE = 9;
     public static final int PRIORITY_LAST = 10;
     public static final int PRIORITY_LAST_LAST = 11;
+
+    //pickup types
+    public static final int PICKUP_HEALTH = 0;
+    public static final int PICKUP_FUEL = 1;
+    public static final int PICKUP_AMMO = 2;
+
 }

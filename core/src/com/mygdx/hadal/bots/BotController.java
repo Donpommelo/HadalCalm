@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.Invulnerability;
@@ -89,6 +91,7 @@ public class BotController {
 
     //this is the distance from a desired node that the bot will consider it "reached" before moving to the next
     protected static final float distanceThreshold = 9.0f;
+    protected static final float aiRadius = 500;
 
     //these thresholds determine when the bot will fastfall (must be above their destination and not moving too fast already)
     private static final float playerMovementMultiplier = 0.2f;
@@ -195,6 +198,7 @@ public class BotController {
                 weaponPoint, healthPoint, targetPoints, eventPoints);
     }
 
+    private static final float enemyMultiplier = 0.5f;
     /**
      * This gets a list of schmuck targets for the bot to consider attacking
      */
@@ -245,6 +249,29 @@ public class BotController {
                 }
             }
         }
+
+        final float shortestPlayerDistanceSquared = shortestDistanceSquared;
+        //an additional check to find non-player targets (with decreased multiplier)
+        bot.getWorld().QueryAABB((fixture -> {
+            if (fixture.getUserData() instanceof final BodyData bodyData) {
+                if (bodyData.getSchmuck().getHitboxfilter() != bot.getHitboxfilter() &&
+                        bodyData.getSchmuck() instanceof Enemy enemy) {
+                    targetLocation.set(enemy.getPosition());
+                    RallyPoint tempPoint = BotManager.getNearestPoint(bot, targetLocation);
+                    if (tempPoint != null) {
+                        targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, enemyMultiplier));
+                        if (targetLocation.dst2(playerLocation) < shortestPlayerDistanceSquared * enemyMultiplier
+                                || shortestPlayerDistanceSquared == -1) {
+                            shootTarget = enemy;
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }), entityWorldLocation.x - aiRadius, entityWorldLocation.y - aiRadius,
+                entityWorldLocation.x + aiRadius, entityWorldLocation.y + aiRadius);
+
         return targetPoints;
     }
 

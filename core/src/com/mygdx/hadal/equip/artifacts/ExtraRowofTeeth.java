@@ -20,4 +20,10 @@ public class ExtraRowofTeeth extends Artifact {
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p, new StatChangeStatus(state, Stats.RANGED_CLIP, bonusClipSize, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusClipSize * 100))};
+	}
 }

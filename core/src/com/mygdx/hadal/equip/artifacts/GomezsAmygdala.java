@@ -61,4 +61,12 @@ public class GomezsAmygdala extends Artifact {
 			}
 		}.setPriority(PRIORITY_PROC);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) dura),
+				String.valueOf((int) (spdBuff * 100)),
+				String.valueOf((int) (damageBuff * 100))};
+	}
 }

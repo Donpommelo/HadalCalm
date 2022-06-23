@@ -41,7 +41,7 @@ public class DiamondCutter extends MeleeWeapon {
 
 	private static final float range = 90.0f;
 	private static final float spinSpeed = 8.0f;
-	private static final float spinInterval = 1 / 60f;
+	private static final float spinInterval = 0.017f;
 
 	//this is the hitbox that this weapon extends
 	private Hitbox hbox;
@@ -181,4 +181,11 @@ public class DiamondCutter extends MeleeWeapon {
 
 	@Override
 	public float getBotRangeMax() { return 4.67f; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf(baseDamage),
+				String.valueOf(spinInterval)};
+	}
 }

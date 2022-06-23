@@ -23,4 +23,11 @@ public class TunicateTunic extends Artifact {
 			new StatChangeStatus(state, Stats.KNOCKBACK_RES, bonusKnockbackRes, p),
 			new StatChangeStatus(state, Stats.MAX_HP_PERCENT, bonusHp, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusKnockbackRes * 100)),
+				String.valueOf((int) (bonusHp * 100))};
+	}
 }

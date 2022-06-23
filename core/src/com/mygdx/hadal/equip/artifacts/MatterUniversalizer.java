@@ -14,8 +14,8 @@ public class MatterUniversalizer extends Artifact {
 
 	private static final int slotCost = 1;
 	
-	private final float amountEnemy = 25.f;
-	private final float amountPlayer = 75.f;
+	private final float amountEnemy = 25.0f;
+	private final float amountPlayer = 75.0f;
 	private final float particleDura = 1.5f;
 	
 	public MatterUniversalizer() {
@@ -38,5 +38,12 @@ public class MatterUniversalizer extends Artifact {
 				}
 			}
 		};
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) amountPlayer),
+				String.valueOf((int) amountEnemy)};
 	}
 }

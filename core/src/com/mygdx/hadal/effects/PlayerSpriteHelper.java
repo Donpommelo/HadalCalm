@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.schmucks.MoveState;
@@ -166,6 +167,8 @@ public class PlayerSpriteHelper {
         this.gemWidth = gemSprite.getRegionWidth();
     }
 
+    private final Vector2 headLocation = new Vector2();
+    private final Vector2 bodyLocation = new Vector2();
     /**
      * @param batch: sprite batch to render player to
      * @param attackAngle: the angle of the player's arm
@@ -204,6 +207,9 @@ public class PlayerSpriteHelper {
         yOffset = character.getWobbleOffsetBody(bodyFrame, grounded, moving);
         yOffsetHead = character.getWobbleOffsetHead(bodyFrame, headFrame, grounded, moving);
 
+        float bodyX = (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale;
+        float bodyY = playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset * scale;
+
         //Draw a bunch of stuff
         batch.draw(player.getToolSprite(),
             (flip ? toolWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + armConnectXReal * scale,
@@ -235,9 +241,7 @@ public class PlayerSpriteHelper {
             } else {
                 bodyRunSprite.setPlayMode(Animation.PlayMode.LOOP);
             }
-            batch.draw(bodyRunSprite.getKeyFrame(animationTime),
-                (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale,
-                playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset * scale, 0, 0,
+            batch.draw(bodyRunSprite.getKeyFrame(animationTime), bodyX, bodyY, 0, 0,
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
         } else if (moveState.equals(MoveState.MOVE_RIGHT)) {
             if (Math.abs(realAttackAngle) < 90) {
@@ -245,27 +249,30 @@ public class PlayerSpriteHelper {
             } else {
                 bodyRunSprite.setPlayMode(Animation.PlayMode.LOOP);
             }
-            batch.draw(bodyRunSprite.getKeyFrame(animationTime),
-                (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale,
-                playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset * scale, 0, 0,
+            batch.draw(bodyRunSprite.getKeyFrame(animationTime), bodyX, bodyY, 0, 0,
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
         } else {
             bodyRunSprite.setPlayMode(Animation.PlayMode.LOOP);
             batch.draw(grounded ? bodyStillSprite.getKeyFrame(animationTime, true) :
-                    bodyRunSprite.getKeyFrame(player.getFreezeFrame(false)),
-                (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale,
-                playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset * scale, 0, 0,
+                    bodyRunSprite.getKeyFrame(player.getFreezeFrame(false)), bodyX, bodyY, 0, 0,
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
         }
 
         float headX = (flip ? headWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + headConnectXReal * scale;
         float headY = playerLocation.y - hbHeight * scale / 2 + headConnectY * scale + yOffsetHead * scale;
-        batch.draw(headSprite.getKeyFrame(animationTimeExtra, true), headX, headY,0, 0,
-            (flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
 
-        //draw cosmetics. Use head coordinates
+        //head type cosmetics replace the head, so we don't want to draw the base head
+        if (player.getPlayerData().getLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank()) {
+            batch.draw(headSprite.getKeyFrame(animationTimeExtra, true), headX, headY,0, 0,
+                    (flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
+        }
+        headLocation.set(headX, headY);
+        bodyLocation.set(bodyX, bodyY);
+
+        //draw cosmetics. Use head coordinates. Update coordinates if any cosmetics replace the head
         for (UnlockCosmetic cosmetic : player.getPlayerData().getLoadout().cosmetics) {
-            cosmetic.render(batch, player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headX, headY);
+            headLocation.set(cosmetic.render(batch, player.getPlayerData().getLoadout().team,
+                    player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headLocation, bodyLocation));
         }
     }
 
@@ -305,8 +312,19 @@ public class PlayerSpriteHelper {
     public static final float gibDuration = 3.0f;
     public static final float gibGravity = 1.0f;
     private void createGibs(Vector2 playerLocation, Vector2 playerVelocity) {
-        Ragdoll headRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(headWidth, headHeight).scl(scale),
-					headSprite.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false, true) {
+
+        //head type cosmetics replace the head, so we don't want to create a ragdoll for it
+        if (player.getPlayerData().getLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank()) {
+            Ragdoll headRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(headWidth, headHeight).scl(scale),
+                    headSprite.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false, true);
+
+            if (!player.getState().isServer()) {
+                ((ClientState) player.getState()).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ClientState.ObjectLayer.STANDARD);
+            }
+        }
+
+        Ragdoll bodyRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(bodyWidth, bodyHeight).scl(scale),
+                bodyStillSprite.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false, true) {
 
             //we need to dispose of the fbo when the ragdolls are done
             @Override
@@ -318,9 +336,6 @@ public class PlayerSpriteHelper {
             }
         };
 
-        Ragdoll bodyRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(bodyWidth, bodyHeight).scl(scale),
-                bodyStillSprite.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false, true);
-
         Ragdoll armRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(armWidth, armHeight).scl(scale),
                 armSprite, playerVelocity, gibDuration, gibGravity, true, false, true);
 
@@ -329,8 +344,8 @@ public class PlayerSpriteHelper {
 
         //Get cosmetic ragdolls
         for (UnlockCosmetic cosmetic : player.getPlayerData().getLoadout().cosmetics) {
-            Ragdoll cosmeticRagdoll = cosmetic.createRagdoll(player.getPlayerData().getLoadout().character, player.getState(), playerLocation,
-                    scale, playerVelocity);
+            Ragdoll cosmeticRagdoll = cosmetic.createRagdoll(player.getState(), player.getPlayerData().getLoadout().team,
+                    player.getPlayerData().getLoadout().character, playerLocation, scale, playerVelocity);
             if (cosmeticRagdoll != null && !player.getState().isServer()) {
                 ((ClientState) player.getState()).addEntity(cosmeticRagdoll.getEntityID(), cosmeticRagdoll, false, ClientState.ObjectLayer.STANDARD);
             }
@@ -338,7 +353,6 @@ public class PlayerSpriteHelper {
 
         //the client needs to create ragdolls separately b/c we can't serialize the frame buffer object.
         if (!player.getState().isServer()) {
-            ((ClientState) player.getState()).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ClientState.ObjectLayer.STANDARD);
             ((ClientState) player.getState()).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
             ((ClientState) player.getState()).addEntity(armRagdoll.getEntityID(), armRagdoll, false, ClientState.ObjectLayer.STANDARD);
             ((ClientState) player.getState()).addEntity(toolRagdoll.getEntityID(), toolRagdoll, false, ClientState.ObjectLayer.STANDARD);

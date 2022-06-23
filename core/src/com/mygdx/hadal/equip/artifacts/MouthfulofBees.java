@@ -49,4 +49,11 @@ public class MouthfulofBees extends Artifact {
 			}
 		}.setPriority(PRIORITY_SCALE);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) damagePerBee),
+				String.valueOf(beesOnDeath)};
+	}
 }

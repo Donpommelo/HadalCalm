@@ -25,4 +25,10 @@ public class ViseOfShame extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) -(sizeModifier * 100))};
+	}
 }

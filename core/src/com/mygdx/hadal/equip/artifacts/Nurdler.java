@@ -65,4 +65,11 @@ public class Nurdler extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf(procCd),
+				String.valueOf((int) baseDamage)};
+	}
 }

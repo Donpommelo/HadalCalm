@@ -282,7 +282,7 @@ public class Boss6 extends EnemyFloating {
 
 		bomb.addStrategy(new ControllerDefault(state, bomb, getBodyData()));
 		bomb.addStrategy(new CreateParticles(state, bomb, getBodyData(), Particle.RING, 0.0f, particleLinger));
-		bomb.addStrategy(new FlashNearDeath(state, bomb, getBodyData(), 1.0f, true));
+		bomb.addStrategy(new FlashShaderNearDeath(state, bomb, getBodyData(), 1.0f, true));
 		bomb.addStrategy(new HitboxStrategy(state, bomb, getBodyData()) {
 
 			@Override

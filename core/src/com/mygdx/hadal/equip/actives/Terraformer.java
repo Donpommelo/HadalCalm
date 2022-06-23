@@ -22,12 +22,12 @@ public class Terraformer extends ActiveItem {
 	private static final float usedelay = 0.0f;
 	private static final float maxCharge = 8.0f;
 	
-	private static final Vector2 blockSize = new Vector2(128, 128);
-	private static final int blockHp = 200;
-	private static final float blockSpeed = 14.0f;
+	private static final Vector2 blockSize = new Vector2(64, 192);
+	private static final int blockHp = 250;
+	private static final float blockSpeed = 8.0f;
 
 	public Terraformer(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -48,5 +48,12 @@ public class Terraformer extends ActiveItem {
 		block.setStandardParticle(Particle.IMPACT);
 		block.setGravity(1.0f);
 		block.setSynced(true);
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf(blockHp)};
 	}
 }

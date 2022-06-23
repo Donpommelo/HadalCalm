@@ -6,6 +6,8 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
+import static com.mygdx.hadal.battle.WeaponUtils.bombExplosionDamage;
+
 public class AnarchistsCookbook extends Artifact {
 
 	private static final int slotCost = 1;
@@ -30,5 +32,12 @@ public class AnarchistsCookbook extends Artifact {
 				procCdCount += delta;
 			}
 		};
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) procCd),
+				String.valueOf((int) bombExplosionDamage)};
 	}
 }

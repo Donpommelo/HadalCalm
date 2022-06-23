@@ -23,4 +23,11 @@ public class NuclearPunchThrusters extends Artifact {
 			new StatChangeStatus(state, Stats.KNOCKBACK_AMP, bonusKnockback, p),
 			new StatChangeStatus(state, Stats.DAMAGE_AMP, bonusDamageAmp, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusKnockback * 100)),
+				String.valueOf((int) (bonusDamageAmp * 100))};
+	}
 }

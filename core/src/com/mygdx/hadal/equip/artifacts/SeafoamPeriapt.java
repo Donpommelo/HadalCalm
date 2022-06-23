@@ -26,4 +26,11 @@ public class SeafoamPeriapt extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_PROJ_GRAVITY, gravityReduction, p)
 		);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusReloadSpd * 100)),
+				String.valueOf((int) (bonusAtkSpd * 100))};
+	}
 }

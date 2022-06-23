@@ -14,7 +14,7 @@ public class ErsatzSmile extends Artifact {
 
 	private static final int slotCost = 2;
 
-	private static final float damageAmp = 1.8f;
+	private static final float damageAmp = 0.8f;
 
 	public ErsatzSmile() {
 		super(slotCost);
@@ -38,20 +38,20 @@ public class ErsatzSmile extends Artifact {
 					if (damaging.isPositionBasedOnUser()) {
 						if (flip) {
 							if ((p.getSchmuck().getPixelPosition().x - vic.getSchmuck().getPixelPosition().x) < vic.getSchmuck().getSize().x / 2) {
-								return damage * damageAmp;
+								return damage * (1.0f + damageAmp);
 							}
 						} else {
 							if ((p.getSchmuck().getPixelPosition().x - vic.getSchmuck().getPixelPosition().x) > vic.getSchmuck().getSize().x / 2) {
-								return damage * damageAmp;
+								return damage * (1.0f + damageAmp);
 							}
 						}
 					} else {
 						if (flip) {
 							if ((damaging.getPixelPosition().x - vic.getSchmuck().getPixelPosition().x) < vic.getSchmuck().getSize().x / 2) {
-								return damage * damageAmp;							}
+								return damage * (1.0f + damageAmp);							}
 						} else {
 							if ((damaging.getPixelPosition().x - vic.getSchmuck().getPixelPosition().x) > vic.getSchmuck().getSize().x / 2) {
-								return damage * damageAmp;
+								return damage * (1.0f + damageAmp);
 							}
 						}
 					}
@@ -59,5 +59,11 @@ public class ErsatzSmile extends Artifact {
 				return damage;
 			}
 		};
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (damageAmp * 100))};
 	}
 }

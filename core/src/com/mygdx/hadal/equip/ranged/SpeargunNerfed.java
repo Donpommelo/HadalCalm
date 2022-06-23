@@ -7,6 +7,8 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
 
+import static com.mygdx.hadal.equip.ranged.Speargun.nerfedDamage;
+
 public class SpeargunNerfed extends RangedWeapon {
 
 	private static final int clipSize = 8;
@@ -30,5 +32,15 @@ public class SpeargunNerfed extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.SPEAR_NERFED.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) nerfedDamage),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
 	}
 }

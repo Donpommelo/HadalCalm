@@ -47,4 +47,11 @@ public class DeplorableApparatus extends Artifact {
 			}
 		}.setPriority(PRIORITY_PROC);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) hpRegen),
+				String.valueOf((int) procCd)};
+	}
 }

@@ -55,4 +55,11 @@ public class LossOfSenses extends Artifact {
 			}
 		}.setPriority(PRIORITY_LAST);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusHpMin * 100)),
+				String.valueOf((int) (bonusHpMax * 100))};
+	}
 }

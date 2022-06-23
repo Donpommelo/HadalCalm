@@ -49,4 +49,11 @@ public class AncientSynapse extends Artifact {
 			}
 		}.setPriority(PRIORITY_LAST_LAST);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDegen),
+				String.valueOf((int) (degen * 100))};
+	}
 }

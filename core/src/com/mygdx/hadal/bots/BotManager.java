@@ -58,9 +58,14 @@ public class BotManager {
                 PolylineMapObject current = (PolylineMapObject) object;
 
                 float[] vertices = current.getPolyline().getTransformedVertices();
+
                 Vector2[] worldVertices = new Vector2[vertices.length / 2];
                 for (int i = 0; i < worldVertices.length; i++) {
-                    worldVertices[i] = new Vector2(vertices[i * 2] / Constants.PPM, vertices[i * 2 + 1] / Constants.PPM);
+
+                    //rounding to nearest 0.5 to avoid Tiled making coords slightly off
+                    worldVertices[i] = new Vector2(
+                            (int) (vertices[i * 2] * 2 / Constants.PPM) / 2.0f,
+                            (int) (vertices[i * 2 + 1] * 2 / Constants.PPM) / 2.0f);
                 }
 
                 //set each vertex of the segment as a rally point and add its connections
@@ -104,6 +109,7 @@ public class BotManager {
     public static void requestPathfindingThread(BotController controller, Vector2 playerLocation, Vector2 playerVelocity, Array<RallyPoint> pathStarters,
                                 RallyPoint.RallyPointMultiplier weaponPoint,  RallyPoint.RallyPointMultiplier healthPoint,
                                 Array< RallyPoint.RallyPointMultiplier> targetPoints, Array< RallyPoint.RallyPointMultiplier> eventPoints) {
+
         if (!executor.isShutdown()) {
             executor.submit(new BotPathfindingTask(controller, playerLocation, playerVelocity, pathStarters, weaponPoint,
                     healthPoint, targetPoints, eventPoints));
@@ -189,18 +195,21 @@ public class BotManager {
         if (start == null || end == null) { return null; }
 
         //if we have this path cached, just return it to same some time
-        if (start.getShortestPaths().containsKey(end)) {
-            RallyPoint.routeValue cachedRoute = start.getShortestPaths().get(end);
-
-            //we do not want cached paths exclusive to an opposing team
-            if (cachedRoute.teamIndex() == -1) {
-                return start.getShortestPaths().get(end).path();
-            } else if (cachedRoute.teamIndex() < AlignmentFilter.currentTeams.length) {
-                if (bot.getHitboxfilter() == AlignmentFilter.currentTeams[cachedRoute.teamIndex()].getFilter()) {
-                    return start.getShortestPaths().get(end).path();
-                }
+        RallyPath cachedPath = null;
+        boolean cachedPathFound = false;
+        if (start.getShortestPaths().containsKey(-1)) {
+            if (start.getShortestPaths().get(-1).containsKey(end)) {
+                cachedPath = start.getShortestPaths().get(-1).get(end);
+                cachedPathFound = true;
             }
         }
+        if (start.getShortestPaths().containsKey((int) bot.getHitboxfilter())) {
+            if (start.getShortestPaths().get((int) bot.getHitboxfilter()).containsKey(end)) {
+                cachedPath = start.getShortestPaths().get((int) bot.getHitboxfilter()).get(end);
+                cachedPathFound = true;
+            }
+        }
+        if (cachedPathFound) { return cachedPath; }
 
         //reset variables to properly calculate distance between them and add starting point to open set
         openSet.clear();
@@ -238,26 +247,33 @@ public class BotManager {
                     if (pointInPath.getTeamIndex() != -1) {
                         teamIndex = pointInPath.getTeamIndex();
                     }
-                    start.getShortestPaths().put(pointInPath,
-                        new RallyPoint.routeValue(new RallyPath(tempPoints, pointInPath.getRouteScore()), teamIndex));
+                    if (!start.getShortestPaths().containsKey(teamIndex)) {
+                        start.getShortestPaths().put(teamIndex, new ObjectMap<>());
+                    }
+                    start.getShortestPaths().get(teamIndex).put(pointInPath, new RallyPath(tempPoints, pointInPath.getRouteScore()));
                 }
-                start.getShortestPaths().put(end, new RallyPoint.routeValue(path, teamIndex));
+                if (!start.getShortestPaths().containsKey(teamIndex)) {
+                    start.getShortestPaths().put(teamIndex, new ObjectMap<>());
+                }
+                start.getShortestPaths().get(teamIndex).put(end, path);
                 return path;
             }
 
             //iterate through all neighbors to calc their route and estimated score
             for (RallyPoint neighbor : parent.getConnections().keys()) {
 
+                float routeScore = parent.getRouteScore() + parent.getConnections().get(neighbor).distance();
+
                 //we only accept a path if it is not team exclusive, or if it exclusive to our own team
                 int teamIndex = parent.getConnections().get(neighbor).teamIndex();
                 if (teamIndex != -1) {
                     if (teamIndex < AlignmentFilter.currentTeams.length) {
                         if (bot.getHitboxfilter() != AlignmentFilter.currentTeams[teamIndex].getFilter()) {
+                            neighbor.setVisited(true);
                             continue;
                         }
                     }
                 }
-                float routeScore = parent.getRouteScore() + parent.getConnections().get(neighbor).distance();
 
                 //dst2 used here to slightly improve performance while being "mostly accurate-ish"
                 float estimatedScore = routeScore * routeScore + neighbor.getPosition().dst2(end.getPosition());
@@ -273,6 +289,12 @@ public class BotManager {
             }
             parent.setVisited(true);
         }
+
+        if (!start.getShortestPaths().containsKey((int) bot.getHitboxfilter())) {
+            start.getShortestPaths().put((int) bot.getHitboxfilter(), new ObjectMap<>());
+        }
+        start.getShortestPaths().get((int) bot.getHitboxfilter()).put(end, null);
+
         return null;
     }
 

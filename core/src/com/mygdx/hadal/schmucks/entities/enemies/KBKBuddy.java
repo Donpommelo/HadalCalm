@@ -67,7 +67,6 @@ public class KBKBuddy extends EnemySwimming {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
 		
 		if (state.getMode().isHub()) { return; }
-		
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
 			private final Vector2 startVelo = new Vector2();

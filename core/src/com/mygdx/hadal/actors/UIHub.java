@@ -140,7 +140,7 @@ public class UIHub {
 	/**
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */
-	public void enter(UnlockTag tag, boolean searchable, boolean filterTags, boolean filterCost, HubEvent hub, String... tagOptions) {
+	public void enter(boolean searchable, boolean filterTags, boolean filterCost, HubEvent hub, String... tagOptions) {
 		SoundEffect.DOORBELL.play(state.getGsm(), 0.2f, false);
 
 		active = true;
@@ -168,7 +168,7 @@ public class UIHub {
 								leave();
 							} else {
 								tableOptions.clear();
-								hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag(tag));
+								hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag());
 							}
 							return super.keyUp(event, keycode);
 						}
@@ -202,7 +202,7 @@ public class UIHub {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
 					tableOptions.clear();
-					hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag(tag));
+					hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag());
 				}
 			});
 
@@ -222,7 +222,7 @@ public class UIHub {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
 					tableOptions.clear();
-					hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag(tag));
+					hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag());
 				}
 			});
 
@@ -311,7 +311,7 @@ public class UIHub {
 				//display all equipped artifacts and give option to unequip
 				if (!c.equals(UnlockArtifact.NOTHING)) {
 					artifactsEmpty = false;
-					final ArtifactIcon newTag = new ArtifactIcon(c, UIText.UNEQUIP.text(c.getInfo().getName()),
+					final ArtifactIcon newTag = new ArtifactIcon(c, UIText.UNEQUIP.text(c.getName()),
 						artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 
 					newTag.addListener(new ClickListener() {
@@ -329,9 +329,9 @@ public class UIHub {
 						@Override
 						public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 							super.enter(event, x, y, pointer, fromActor);
-							info = UIText.ARTIFACT_INFO.text(newTag.getArtifact().getInfo().getName(),
+							info = UIText.ARTIFACT_INFO.text(newTag.getArtifact().getName(),
 									Integer.toString(newTag.getArtifact().getArtifact().getSlotCost()),
-									newTag.getArtifact().getInfo().getDescription(), newTag.getArtifact().getInfo().getDescriptionLong());
+									newTag.getArtifact().getDesc(), newTag.getArtifact().getDescLong());
 						}
 					});
 					tableExtra.add(newTag).width(artifactTagSize).height(artifactTagSize);
@@ -406,43 +406,23 @@ public class UIHub {
 	/**
 	 * Helper method that returns a tag depending on which hub event is being used
 	 */
-	private UnlockTag indexToFilterTag(UnlockTag tag) {
+	private UnlockTag indexToFilterTag() {
 		if (tagFilter == null) {
 			return UnlockTag.ALL;
 		} else {
-			return switch (tag) {
-				case RELIQUARY -> switch (tagFilter.getSelectedIndex()) {
-					default -> UnlockTag.ALL;
-					case 1 -> UnlockTag.OFFENSE;
-					case 2 -> UnlockTag.DEFENSE;
-					case 3 -> UnlockTag.MOBILITY;
-					case 4 -> UnlockTag.FUEL;
-					case 5 -> UnlockTag.HEAL;
-					case 6 -> UnlockTag.ACTIVE_ITEM;
-					case 7 -> UnlockTag.AMMO;
-					case 8 -> UnlockTag.WEAPON_DAMAGE;
-					case 9 -> UnlockTag.PASSIVE_DAMAGE;
-					case 10 -> UnlockTag.PROJECTILE_MODIFIER;
-					case 11 -> UnlockTag.GIMMICK;
-				};
-				case SINGLEPLAYER -> switch (tagFilter.getSelectedIndex()) {
-					default -> UnlockTag.ALL;
-					case 1 -> UnlockTag.ARENA;
-					case 2 -> UnlockTag.BOSS;
-					case 3 -> UnlockTag.SANDBOX;
-					case 4 -> UnlockTag.BIRD;
-				};
-				case MULTIPLAYER -> switch (tagFilter.getSelectedIndex()) {
-					default -> UnlockTag.CURATED;
-					case 1 -> UnlockTag.ALL;
-					case 2 -> UnlockTag.PVP;
-					case 3 -> UnlockTag.ARENA;
-					case 4 -> UnlockTag.BOSS;
-					case 5 -> UnlockTag.SANDBOX;
-					case 6 -> UnlockTag.BOT_COMPLIANT;
-					case 7 -> UnlockTag.BIRD;
-				};
+			return switch (tagFilter.getSelectedIndex()) {
 				default -> UnlockTag.ALL;
+				case 1 -> UnlockTag.OFFENSE;
+				case 2 -> UnlockTag.DEFENSE;
+				case 3 -> UnlockTag.MOBILITY;
+				case 4 -> UnlockTag.FUEL;
+				case 5 -> UnlockTag.HEAL;
+				case 6 -> UnlockTag.MAGIC;
+				case 7 -> UnlockTag.AMMO;
+				case 8 -> UnlockTag.WEAPON_DAMAGE;
+				case 9 -> UnlockTag.PASSIVE_DAMAGE;
+				case 10 -> UnlockTag.PROJECTILE_MODIFIER;
+				case 11 -> UnlockTag.GIMMICK;
 			};
 		}
 	}

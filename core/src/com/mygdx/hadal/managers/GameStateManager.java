@@ -76,7 +76,6 @@ public class GameStateManager {
 
 		//Load data from saves: hotkeys, records, loadout, settings and unlocks
 		PlayerAction.retrieveKeys();
-		UnlockManager.retrieveItemInfo();
 		record = Record.retrieveRecord();
 		loadout = SavedLoadout.retrieveLoadout();
 		setting = Setting.retrieveSetting();

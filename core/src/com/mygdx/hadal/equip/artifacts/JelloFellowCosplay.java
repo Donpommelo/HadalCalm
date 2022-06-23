@@ -39,4 +39,10 @@ public class JelloFellowCosplay extends Artifact {
 			}
 		}.setClientIndependent(true);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusHp * 100))};
+	}
 }

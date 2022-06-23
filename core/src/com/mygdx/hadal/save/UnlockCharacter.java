@@ -13,6 +13,7 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.GameText;
 
 /**
  * An UnlockCharacter represents a single playable character in the game
@@ -20,14 +21,17 @@ import com.mygdx.hadal.states.PlayState;
  */
 public enum UnlockCharacter {
 
-	MAXIMILLIAN(AssetList.PLAYER_MAXIMILLIAN_ATL.toString(), AssetList.PLAYER_MAXIMILLIAN.toString(), Sprite.MAXIMILLIAN_SLUG,
-			Sprite.MAXIMILLIAN_BUFF, ColorPalette.MAXIMILLIAN,117.0f, 86.4f, 177.0f, 502.2f),
+	MAXIMILLIAN(AssetList.PLAYER_MAXIMILLIAN_ATL.toString(), AssetList.PLAYER_MAXIMILLIAN.toString(),
+			GameText.MAXIMILLIAN, GameText.MAXIMILLIAN_DESC,
+			Sprite.MAXIMILLIAN_SLUG, Sprite.MAXIMILLIAN_BUFF, ColorPalette.MAXIMILLIAN,117.0f, 86.4f, 177.0f, 502.2f),
 
-	MOREAU(AssetList.PLAYER_MOREAU_ATL.toString(), AssetList.PLAYER_MOREAU.toString(), Sprite.MOREAU_SLUG,
-			Sprite.MOREAU_BUFF, ColorPalette.MOREAU, 106.8f, 76.2f, 161.4f, 496.2f),
+	MOREAU(AssetList.PLAYER_MOREAU_ATL.toString(), AssetList.PLAYER_MOREAU.toString(),
+			GameText.MOREAU, GameText.MOREAU_DESC,
+			Sprite.MOREAU_SLUG,	Sprite.MOREAU_BUFF, ColorPalette.MOREAU, 106.8f, 76.2f, 161.4f, 496.2f),
 
-	ROCLAIRE(AssetList.PLAYER_ROCLAIRE_ATL.toString(), AssetList.PLAYER_ROCLAIRE.toString(), Sprite.ROCLAIRE_SLUG,
-			Sprite.ROCLAIRE_BUFF, ColorPalette.ROCLAIRE, 114.0f, 88.8f, 168.6f, 509.4f) {
+	ROCLAIRE(AssetList.PLAYER_ROCLAIRE_ATL.toString(), AssetList.PLAYER_ROCLAIRE.toString(),
+			GameText.ROCLAIRE, GameText.ROCLAIRE_DESC,
+			Sprite.ROCLAIRE_SLUG, Sprite.ROCLAIRE_BUFF, ColorPalette.ROCLAIRE, 114.0f, 88.8f, 168.6f, 509.4f) {
 		
 		//custom wobble for bucket bobbing
 		@Override
@@ -57,14 +61,17 @@ public enum UnlockCharacter {
 		}
 		
 	},
-	TAKANORI(AssetList.PLAYER_TAKANORI_ATL.toString(), AssetList.PLAYER_TAKANORI.toString(), Sprite.TAKANORI_SLUG,
-			Sprite.TAKANORI_BUFF, ColorPalette.TAKANORI, 109.2f, 87.9f, 164.4f, 504.6f),
+	TAKANORI(AssetList.PLAYER_TAKANORI_ATL.toString(), AssetList.PLAYER_TAKANORI.toString(),
+			GameText.TAKANORI, GameText.TAKANORI_DESC,
+			Sprite.TAKANORI_SLUG, Sprite.TAKANORI_BUFF, ColorPalette.TAKANORI, 109.2f, 87.9f, 164.4f, 504.6f),
 
-	TELEMACHUS(AssetList.PLAYER_TELEMACHUS_ATL.toString(), AssetList.PLAYER_TELEMACHUS.toString(), Sprite.TELEMACHUS_SLUG,
-			Sprite.TELEMACHUS_BUFF, ColorPalette.TELEMACHUS, 109.2f, 88.2f, 157.2f, 508.8f),
+	TELEMACHUS(AssetList.PLAYER_TELEMACHUS_ATL.toString(), AssetList.PLAYER_TELEMACHUS.toString(),
+			GameText.TELEMACHUS, GameText.TELEMACHUS_DESC,
+			Sprite.TELEMACHUS_SLUG, Sprite.TELEMACHUS_BUFF, ColorPalette.TELEMACHUS, 109.2f, 88.2f, 157.2f, 508.8f),
 
-	WANDA(AssetList.PLAYER_WANDA_ATL.toString(), AssetList.PLAYER_WANDA.toString(),	Sprite.WANDA_SLUG,
-			Sprite.WANDA_BUFF, ColorPalette.WANDA, 102.6f, 117.6f, 161.4f, 528.6f) {
+	WANDA(AssetList.PLAYER_WANDA_ATL.toString(), AssetList.PLAYER_WANDA.toString(),
+			GameText.WANDA, GameText.WANDA_DESC,
+			Sprite.WANDA_SLUG, Sprite.WANDA_BUFF, ColorPalette.WANDA, 102.6f, 117.6f, 161.4f, 528.6f) {
 		
 		//this just makes wanda's head offset slightly higher to compensate for lack of a neck
 		@Override
@@ -77,10 +84,11 @@ public enum UnlockCharacter {
 	private final String atlas;
 	private final String texture;
 
+	private final GameText name, desc;
+	private final Array<UnlockTag> tags = new Array<>();
+
 	//these sprites are used in the results screen to indicate a win or loss
 	private final Sprite slugTexture, buffTexture;
-
-	private InfoItem info;
 
 	//these are the character's primary and secondary suit colors used for color replacement
 	private final ColorPalette palette;
@@ -88,8 +96,11 @@ public enum UnlockCharacter {
 	private final Vector2 slugHatOffset = new Vector2();
 	private final Vector2 buffHatOffset = new Vector2();
 
-	UnlockCharacter(String atlas, String texture, Sprite slugTexture, Sprite buffTexture, ColorPalette palette,
-					float slugHatX, float slugHatY,	float buffHatX, float buffHatY) {
+	UnlockCharacter(String atlas, String texture, GameText name, GameText desc,
+					Sprite slugTexture, Sprite buffTexture, ColorPalette palette,
+					float slugHatX, float slugHatY,	float buffHatX, float buffHatY, UnlockTag... tags) {
+		this.name = name;
+		this.desc = desc;
 		this.atlas = atlas;
 		this.texture = texture;
 		this.slugTexture = slugTexture;
@@ -97,6 +108,9 @@ public enum UnlockCharacter {
 		this.palette = palette;
 		this.slugHatOffset.set(slugHatX, slugHatY);
 		this.buffHatOffset.set(buffHatX, buffHatY);
+
+		this.tags.add(UnlockTag.DORMITORY);
+		this.tags.addAll(tags);
 	}
 
 	/**
@@ -107,7 +121,7 @@ public enum UnlockCharacter {
 		
 		for (UnlockCharacter u : UnlockCharacter.values()) {
 			
-			boolean get = UnlockManager.checkTags(u.getInfo(), tags);
+			boolean get = UnlockManager.checkTags(u.tags, tags);
 			
 			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.CHARACTER, u.toString())) {
 				get = false;
@@ -148,10 +162,10 @@ public enum UnlockCharacter {
 			return 0;
 		}
 	}
-	
-	public InfoItem getInfo() { return info; }
 
-	public void setInfo(InfoItem info) { this.info = info; }
+	public String getName() { return name.text(); }
+
+	public String getDesc() { return desc.text(); }
 
 	public TextureAtlas getAtlas() { return HadalGame.assetManager.get(atlas); }
 

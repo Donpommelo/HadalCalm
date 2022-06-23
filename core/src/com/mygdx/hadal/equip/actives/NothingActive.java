@@ -13,6 +13,6 @@ public class NothingActive extends ActiveItem {
 	private static final float maxCharge = 0.0f;
 	
 	public NothingActive(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);
+		super(user, usecd, usedelay, maxCharge);
 	}
 }

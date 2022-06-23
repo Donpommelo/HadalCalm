@@ -51,4 +51,10 @@ public class CelestialAnointment extends Artifact {
 			}
 		});
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) -(bonusActiveCharge * 100))};
+	}
 }

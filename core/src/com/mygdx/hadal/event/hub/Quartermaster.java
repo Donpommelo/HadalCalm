@@ -10,14 +10,11 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.save.InfoItem;
 import com.mygdx.hadal.save.ShopInfo;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-
-import java.util.Objects;
 
 /**
  * The Armory is a HubEvent that allows the player to spend Scrap on unlocks.
@@ -40,12 +37,14 @@ public class Quartermaster extends HubEvent {
 		final Quartermaster me = this;
 		
 		for (final String item : shopInfo.getPrices().keySet()) {
-			
-			InfoItem info = UnlockManager.getInfo(UnlockType.valueOf(shopInfo.getType()), item);
-			
+
+			String name = UnlockManager.getName(UnlockType.valueOf(shopInfo.getType()), item);
+			String desc = UnlockManager.getDesc(UnlockType.valueOf(shopInfo.getType()), item);
+			String descLong = UnlockManager.getDescLong(UnlockType.valueOf(shopInfo.getType()), item);
+
 			if (checkUnlock && !UnlockManager.checkUnlock(state, UnlockType.valueOf(shopInfo.getType()), item)) {
 
-				Text itemChoose = new Text(UIText.QUARTERMASTER_COST.text(Objects.requireNonNull(info).getName(),
+				Text itemChoose = new Text(UIText.QUARTERMASTER_COST.text(name,
 						Integer.toString(shopInfo.getPrices().get(item)))).setButton(true);
 				
 				itemChoose.addListener(new ClickListener() {
@@ -66,7 +65,7 @@ public class Quartermaster extends HubEvent {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(info.getName() + "\n\n" + info.getDescription() + "\n\n" + info.getDescriptionLong());
+						hub.setInfo(name + "\n\n" + desc + "\n\n" + descLong);
 					}
 			    });
 				itemChoose.setScale(UIHub.optionsScaleSmall);

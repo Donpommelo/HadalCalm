@@ -13,7 +13,7 @@ public class ButtonmanButtons extends Artifact {
 	
 	private final float fuelRegenBuff = 3.0f;
 	private final float reloadSpeedBuff = 0.1f;
-	private final int maxStacks = 6;
+	private final int maxStacks = 8;
 	
 	public ButtonmanButtons() {
 		super(slotCost);
@@ -46,5 +46,13 @@ public class ButtonmanButtons extends Artifact {
 				p.setStat(Stats.RANGED_RELOAD, p.getStat(Stats.RANGED_RELOAD) + currentStacks * reloadSpeedBuff);
 			}
 		};
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) fuelRegenBuff),
+				String.valueOf((int) (reloadSpeedBuff * 100)),
+				String.valueOf(maxStacks)};
 	}
 }

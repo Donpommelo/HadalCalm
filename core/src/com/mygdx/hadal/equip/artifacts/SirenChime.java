@@ -21,4 +21,10 @@ public class SirenChime extends Artifact {
 		enchantment = new StatusComposite(state, p,
 				new StatChangeStatus(state, Stats.KNOCKBACK_AMP, knockbackReduction, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) -(knockbackReduction * 100))};
+	}
 }

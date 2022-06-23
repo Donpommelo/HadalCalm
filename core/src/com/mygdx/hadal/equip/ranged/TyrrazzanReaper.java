@@ -19,7 +19,6 @@ public class TyrrazzanReaper extends RangedWeapon {
 
 	private static final int clipSize = 10;
 	private static final int ammoSize = 70;
-	private static final float shootCd = 0.6f;
 	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.4f;
 	private static final int reloadAmount = 0;
@@ -57,7 +56,7 @@ public class TyrrazzanReaper extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_GRENADE;
 
 	public TyrrazzanReaper(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeedMax, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeedMax, shootCdMax, shootDelay, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespanMax);
 	}
 
@@ -112,5 +111,17 @@ public class TyrrazzanReaper extends RangedWeapon {
 		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 
 		return hbox;
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamageMin),
+				String.valueOf((int) baseDamageMax),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCdMin),
+				String.valueOf(shootCdMax)};
 	}
 }

@@ -68,4 +68,14 @@ public class Boomerang extends RangedWeapon {
 	public float getBotRangeMax() {
 		return 24.0f;
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
+	}
 }

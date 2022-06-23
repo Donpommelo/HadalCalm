@@ -32,7 +32,7 @@ public class Dormitory extends HubEvent {
 			
 			final UnlockCharacter selected = c;
 
-			Text itemChoose = new Text(selected.getInfo().getName()).setButton(true);
+			Text itemChoose = new Text(selected.getName()).setButton(true);
 			
 			itemChoose.addListener(new ClickListener() {
 		        
@@ -53,7 +53,7 @@ public class Dormitory extends HubEvent {
 		        @Override
 				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 					super.enter(event, x, y, pointer, fromActor);
-					hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() + "\n\n" + selected.getInfo().getDescriptionLong());
+					hub.setInfo(selected.getName() + "\n\n" + selected.getDesc());
 				}
 		    });
 			itemChoose.setScale(UIHub.optionsScale);

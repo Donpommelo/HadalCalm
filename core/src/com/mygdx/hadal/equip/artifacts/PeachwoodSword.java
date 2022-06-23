@@ -44,4 +44,11 @@ public class PeachwoodSword extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) spiritDamagePlayer),
+				String.valueOf((int) spiritDamageEnemy)};
+	}
 }

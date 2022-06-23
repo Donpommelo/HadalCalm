@@ -58,7 +58,7 @@ public class NavigationsMultiplayer extends HubEvent {
 
 		Pattern pattern = Pattern.compile(search);
 		final UIHub hub = state.getUiHub();
-		hub.setTitle(modeChosen.getInfo().getName());
+		hub.setTitle(modeChosen.getName());
 		final NavigationsMultiplayer me = this;
 
 		for (UnlockLevel c : UnlockLevel.getUnlocks(state, checkUnlock, newTags)) {
@@ -68,7 +68,7 @@ public class NavigationsMultiplayer extends HubEvent {
 			if (search.equals("")) {
 				appear = true;
 			} else {
-				Matcher matcher = pattern.matcher(selected.getInfo().getName().toLowerCase());
+				Matcher matcher = pattern.matcher(selected.getName().toLowerCase());
 				if (matcher.find()) {
 					appear = true;
 				}
@@ -84,7 +84,7 @@ public class NavigationsMultiplayer extends HubEvent {
 			}
 
 			if (appear && modeCompliant) {
-				Text itemChoose = new Text(selected.getInfo().getName()).setButton(true);
+				Text itemChoose = new Text(selected.getName()).setButton(true);
 
 				itemChoose.addListener(new ClickListener() {
 
@@ -99,7 +99,7 @@ public class NavigationsMultiplayer extends HubEvent {
 						} else {
 
 							//clients suggest maps when clicking
-							HadalGame.client.sendTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getInfo().getName()),
+							HadalGame.client.sendTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getName()),
 									DialogBox.DialogType.SYSTEM));
 						}
 						leave();
@@ -108,18 +108,7 @@ public class NavigationsMultiplayer extends HubEvent {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						if (modeChosen.equals(GameMode.DEATHMATCH)) {
-							if (selected.getInfo().getTags().contains(UnlockTag.BOT_COMPLIANT, false)) {
-								hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() +
-										"\n\n" + selected.getInfo().getDescriptionLong() + "\n\n" + "BOT COMPLIANT");
-							} else {
-								hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() +
-										"\n\n" + selected.getInfo().getDescriptionLong() + "\n\n" + "NOT BOT COMPLIANT");
-							}
-						} else {
-							hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() +
-									"\n\n" + selected.getInfo().getDescriptionLong());
-						}
+						hub.setInfo(selected.getName() + "\n\n" + selected.getDesc());
 					}
 				});
 				itemChoose.setScale(UIHub.optionsScale);
@@ -141,7 +130,7 @@ public class NavigationsMultiplayer extends HubEvent {
 
 			if (!c.isInvisibleInHub()) {
 				final GameMode selected = c;
-				Text itemChoose = new Text(c.getInfo().getName()).setButton(true);
+				Text itemChoose = new Text(c.getName()).setButton(true);
 
 				itemChoose.addListener(new ClickListener() {
 
@@ -152,7 +141,7 @@ public class NavigationsMultiplayer extends HubEvent {
 						modeChosen = selected;
 
 						state.getUiHub().setType(type);
-						state.getUiHub().enter(tag, true, false, false, me);
+						state.getUiHub().enter(true, false, false, me);
 						addOptions(lastSearch, -1, lastTag);
 
 						ModeSettingSelection.addTable(state, modeChosen, me);
@@ -161,7 +150,7 @@ public class NavigationsMultiplayer extends HubEvent {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() + "\n\n" + selected.getInfo().getDescriptionLong());
+						hub.setInfo(selected.getName() + "\n\n" + selected.getDesc());
 					}
 				});
 				itemChoose.setScale(UIHub.optionsScale);

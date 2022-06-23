@@ -44,4 +44,10 @@ public class NoctilucentPromise extends Artifact {
 			}
 		}.setPriority(PRIORITY_LAST);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) invulnDura)};
+	}
 }

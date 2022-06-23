@@ -41,7 +41,7 @@ public class Flashbang extends ActiveItem {
 	private static final float flashbangRotationSpeed = 8.0f;
 
 	public Flashbang(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -98,5 +98,13 @@ public class Flashbang extends ActiveItem {
 		});
 
 		return hbox;
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) baseDamage),
+				String.valueOf(blindDuration)};
 	}
 }

@@ -39,7 +39,7 @@ public class MarineSnowglobe extends ActiveItem {
 	private static final float slowSlow = 0.75f;
 	
 	public MarineSnowglobe(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -70,4 +70,13 @@ public class MarineSnowglobe extends ActiveItem {
 
 	@Override
 	public float getBotRangeMin() { return 5.0f; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) projectileDamage),
+				String.valueOf((int) slowDuration),
+				String.valueOf((int) (slowSlow * 100))};
+	}
 }

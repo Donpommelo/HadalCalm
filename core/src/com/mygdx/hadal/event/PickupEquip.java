@@ -39,15 +39,15 @@ public class PickupEquip extends Event {
 	//This is the weapon that will be picked up when interacting with this event.
 	private Equippable equip;
 	private UnlockEquip unlock;
-	
+
+	//csv list of equips that this can be
 	private final String pool;
 
+	//is this a temporary weapon drop?
 	private boolean drop;
 
 	//when about to despawn, pickups flash
 	private static final float flashLifespan = 1.0f;
-	private static final float flashDuration = 0.1f;
-	private float flashCount;
 
 	public PickupEquip(PlayState state, Vector2 startPos, String pool) {
 		super(state, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize));
@@ -64,6 +64,7 @@ public class PickupEquip extends Event {
 		unlock = equip;
 		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
 		setSynced(true);
+		setFlashLifespan(flashLifespan);
 	}
 
 	@Override
@@ -114,19 +115,6 @@ public class PickupEquip extends Event {
 	}
 
 	@Override
-	public void controller(float delta) {
-		super.controller(delta);
-
-		//drops that are about to disappear start to flash
-		if (duration <= flashLifespan && drop) {
-			flashCount -= delta;
-			if (flashCount < -flashDuration) {
-				flashCount = flashDuration;
-			}
-		}
-	}
-
-	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
 		controller(delta);
@@ -168,9 +156,6 @@ public class PickupEquip extends Event {
 	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
-
-		//this makes the pickup flash when its lifespan is low
-		if (flashCount > 0.0f) { return; }
 		if (!(equip instanceof NothingWeapon)) {
 			super.render(batch);
 

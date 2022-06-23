@@ -31,7 +31,8 @@ public class Nematocydearm extends RangedWeapon {
 	private static final Vector2 projectileSize = new Vector2(91, 35);
 	private static final Vector2 stickySize = new Vector2(70, 25);
 	private static final float lifespan = 7.0f;
-	
+	private static final float flashLifespan = 1.0f;
+
 	private static final int spread = 5;
 
 	private static final Sprite projSprite = Sprite.NEMATOCYTE;
@@ -67,7 +68,19 @@ public class Nematocydearm extends RangedWeapon {
 		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
 				HadalColor.SKY_BLUE).setSyncType(SyncType.NOSYNC));
 		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, false));
+		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), flashLifespan));
 
 		return hbox;
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf((int) lifespan),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
 	}
 }

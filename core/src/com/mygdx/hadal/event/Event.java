@@ -84,8 +84,10 @@ public class Event extends HadalEntity {
     //will the event not be drawn when off screen?
     private boolean cullable = true;
 
-    //is this event treated by bots as a health pickup? (since these can be a couple of different event types)
-    private boolean botHealthPickup = false;
+	//when about to despawn, events can be set to flash
+	private static final float flashDuration = 0.1f;
+	private float flashLifespan;
+	private float flashCount;
     
 	/**
 	 * Constructor for permanent events.
@@ -121,6 +123,14 @@ public class Event extends HadalEntity {
 	public void controller(float delta) {
 		if (temporary) {
 			duration -= delta;
+
+			if (duration <= flashLifespan && flashLifespan != 0.0f) {
+				flashCount -= delta;
+				if (flashCount < -flashDuration) {
+					flashCount = flashDuration;
+				}
+			}
+
 			if (duration <= 0) {
 				if (state.isServer()) {
 					this.queueDeletion();
@@ -134,7 +144,9 @@ public class Event extends HadalEntity {
 	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
-		
+		//this makes the event flash when its lifespan is low
+		if (flashCount > 0.0f && flashLifespan != 0.0f) { return; }
+
 		if (eventSprite != null) {
 			entityLocation.set(getPixelPosition());
 			switch (scaleAlign) {
@@ -333,15 +345,13 @@ public class Event extends HadalEntity {
 
 	public void setIndependent(boolean independent) { this.independent = independent; }
 
-	public boolean isBotHealthPickup() { return botHealthPickup; }
-
-	public void setBotHealthPickup(boolean botHealthPickup) { this.botHealthPickup = botHealthPickup; }
-
 	public RectangleMapObject getBlueprint() { return blueprint; }
 
 	public void setBlueprint(RectangleMapObject blueprint) { this.blueprint = blueprint; }
 
 	public void setDto(EventDto dto) { this.dto = dto; }
+
+	public void setFlashLifespan(float flashLifespan) { this.flashLifespan = flashLifespan; }
 
 	public enum eventSyncTypes {
 		ILLUSION,

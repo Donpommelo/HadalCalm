@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="300" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="576">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="300" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="577">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -859,6 +859,9 @@
   </object>
   <object id="573" name="BotPoint" type="BotPoint" x="1608" y="1176">
    <polyline points="-200,40 24,40"/>
+  </object>
+  <object id="576" name="BotPoint" type="BotPoint" x="6984" y="880">
+   <polyline points="-40,80 24,-48"/>
   </object>
  </objectgroup>
  <objectgroup id="3" name="collision-layer">

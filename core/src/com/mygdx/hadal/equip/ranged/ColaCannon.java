@@ -135,4 +135,15 @@ public class ColaCannon extends RangedWeapon {
 			return UIText.FIRE.text();
 		}
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf(procCd),
+				String.valueOf(minDuration),
+				String.valueOf(fireDuration),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize)};
+	}
 }

@@ -57,4 +57,12 @@ public class WhiteSmoker extends Artifact {
 			}
 		});
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) fireDuration),
+				String.valueOf((int) fireDamage),
+				String.valueOf((int) -(hoverCostReduction * 100))};
+	}
 }

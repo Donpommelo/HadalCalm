@@ -279,6 +279,9 @@ public abstract class HadalEntity {
 	public float prevTimeStamp, nextTimeStamp;
 	public boolean serverDeleteReceived;
 	public float serverDeleteTimestamp;
+
+	//is this entity treated by bots as a health pickup? (since these can be a couple of different event types)
+	private boolean botHealthPickup = false;
 	/**
 	 * This is a replacement to controller() that is run for clients.
 	 * This is used for things that have to process stuff for the client, and not just server-side
@@ -514,6 +517,10 @@ public abstract class HadalEntity {
 
 	public void setSyncInstant(boolean syncInstant) { this.syncInstant = syncInstant; }
 
+	public boolean isBotHealthPickup() { return botHealthPickup; }
+
+	public void setBotHealthPickup(boolean botHealthPickup) { this.botHealthPickup = botHealthPickup; }
+
 	public void setTransform(Vector2 position, float angle) {
 		if (alive && body != null && Float.isFinite(position.x) && Float.isFinite(position.y)) {
 			body.setTransform(position, angle);
@@ -553,7 +560,7 @@ public abstract class HadalEntity {
 	}
 	
 	public void setRestitution(float scale) {
-		if (alive && body != null) {
+		if (alive && getMainFixture() != null) {
 			getMainFixture().setRestitution(scale);
 		}
 	}

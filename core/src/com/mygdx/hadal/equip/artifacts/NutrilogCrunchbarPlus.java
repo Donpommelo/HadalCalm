@@ -38,4 +38,12 @@ public class NutrilogCrunchbarPlus extends Artifact {
 			}
 		}.setPriority(PRIORITY_LAST_LAST);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusHp * 100)),
+				String.valueOf((int) (bonusKnockbackRes * 100)),
+				String.valueOf((int) (sizeModifier * 100))};
+	}
 }

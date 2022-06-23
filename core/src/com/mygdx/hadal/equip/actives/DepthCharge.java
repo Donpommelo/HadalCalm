@@ -22,7 +22,7 @@ public class DepthCharge extends ActiveItem {
 	private static final float recoil = 40.0f;
 	
 	private static final float duration = 1.0f;
-	private static final float procCd = .25f;
+	private static final float procCd = 0.25f;
 	
 	private static final Vector2 explosionSize = new Vector2(300, 300);
 	private static final float explosionDamage = 40.0f;
@@ -30,7 +30,7 @@ public class DepthCharge extends ActiveItem {
 
 	
 	public DepthCharge(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -57,5 +57,13 @@ public class DepthCharge extends ActiveItem {
 				procCdCount += delta;
 			}
 		});
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) (duration / procCd)),
+				String.valueOf((int) explosionDamage)};
 	}
 }

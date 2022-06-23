@@ -18,4 +18,9 @@ public class Artifact {
 	public Status getEnchantment() { return enchantment; }
 
 	public int getSlotCost() { return slotCost; }
+
+	/**
+	 * These fields represent the item's stats to appear in its description
+	 */
+	public String[] getDescFields() { return new String[] {}; }
 }

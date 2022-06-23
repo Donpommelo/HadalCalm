@@ -267,12 +267,11 @@ public class ResultsState extends GameState {
 
 					Array<String> compliantMaps = new Array<>();
 					Array<UnlockManager.UnlockTag> unlockTags = new Array<>();
-					unlockTags.add(UnlockManager.UnlockTag.MULTIPLAYER);
 					nextMaps.clear();
 					for (UnlockLevel c : UnlockLevel.getUnlocks(ps, false, unlockTags)) {
 						for (int i = 0; i < c.getModes().length; i++) {
 							if (c.getModes()[i] == ps.mode.getCheckCompliance()) {
-								compliantMaps.add(c.getInfo().getName());
+								compliantMaps.add(c.getName());
 								nextMaps.add(c);
 								break;
 							}
@@ -566,7 +565,7 @@ public class ResultsState extends GameState {
 
 					for (UnlockArtifact c : fieldExtra.getLoadout().artifacts) {
 						if (!c.equals(UnlockArtifact.NOTHING) && !c.isInvisible()) {
-							ArtifactIcon newTag = new ArtifactIcon(c, c.getInfo().getName() + "\n" + c.getInfo().getDescription(),
+							ArtifactIcon newTag = new ArtifactIcon(c, c.getName() + "\n" + c.getDesc(),
 									artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 							tableArtifact.add(newTag).width(artifactTagSize).height(artifactTagSize);
 						}
@@ -576,7 +575,7 @@ public class ResultsState extends GameState {
 						if (!fieldExtra.getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
 							Text weaponField = new Text(UIText.RESULT_WEAPON.text((i + 1) + ": "));
 							weaponField.setScale(infoTextScale);
-							Text weapon = new Text(fieldExtra.getLoadout().multitools[i].getInfo().getName());
+							Text weapon = new Text(fieldExtra.getLoadout().multitools[i].getName());
 							weapon.setScale(infoTextScale);
 							tableInfo.add(weaponField).height(infoRowHeight).left().padBottom(infoPadYSmall);
 							tableInfo.add(weapon).height(infoRowHeight).left().padBottom(infoPadYSmall).row();
@@ -584,7 +583,7 @@ public class ResultsState extends GameState {
 					}
 					Text activeField = new Text(UIText.RESULT_ACTIVE.text());
 					activeField.setScale(infoTextScale);
-					Text active = new Text(fieldExtra.getLoadout().activeItem.getInfo().getName());
+					Text active = new Text(fieldExtra.getLoadout().activeItem.getName());
 					active.setScale(infoTextScale);
 					tableInfo.add(activeField).height(infoRowHeight).left().padBottom(infoPadYSmall);
 					tableInfo.add(active).height(infoRowHeight).left().padBottom(infoPadYSmall).row();

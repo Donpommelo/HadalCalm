@@ -14,7 +14,7 @@ public class HoneyedTenebrae extends Artifact {
 
 	private static final int slotCost = 1;
 
-	private static final float res = 0.2f;
+	private static final float res = 0.8f;
 
 	public HoneyedTenebrae() {
 		super(slotCost);
@@ -27,10 +27,16 @@ public class HoneyedTenebrae extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (Arrays.asList(tags).contains(DamageTag.BEES)) {
-					return damage * res;
+					return damage * (1.0f - res);
 				}
 				return damage;
 			}
 		};
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (res * 100))};
 	}
 }

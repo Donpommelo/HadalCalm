@@ -11,6 +11,7 @@ public class Kumquat extends Artifact {
 
 	private static final int slotCost = 1;
 
+	private static final float hpThreshold = 0.5f;
 	private static final float regenDuration = 1.0f;
 	private static final float regenAmount = 0.35f;
 
@@ -26,7 +27,7 @@ public class Kumquat extends Artifact {
 			@Override
 			public void timePassing(float delta) {
 				if (!activated) {
-					if (p.getCurrentHp() / p.getStat(Stats.MAX_HP) <= 0.5f) {
+					if (p.getCurrentHp() / p.getStat(Stats.MAX_HP) <= hpThreshold) {
 						activated = true;
 
 						float healAmount = regenAmount * p.getStat(Stats.MAX_HP) / regenDuration;
@@ -37,5 +38,13 @@ public class Kumquat extends Artifact {
 				}
 			}
 		};
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (hpThreshold * 100)),
+				String.valueOf((int) (regenAmount * 100)),
+				String.valueOf((int) regenDuration)};
 	}
 }

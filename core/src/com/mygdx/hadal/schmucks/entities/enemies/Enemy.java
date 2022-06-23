@@ -160,7 +160,9 @@ public class Enemy extends Schmuck {
 				if (aiAttackCdCount <= 0) {
 					aiAttackCdCount = attackCd;
 					acquireTarget();
-					attackInitiate();
+					if (approachTarget) {
+						attackInitiate();
+					}
 				}
 			}
 			while (!actions.isEmpty()) {
@@ -211,12 +213,7 @@ public class Enemy extends Schmuck {
 			s.render(batch, animationTime);
 		}
 	}
-	
-	/**
-	 * This is run when the enemy performs an action. Override in child classes.
-	 */
-	public void attackInitiate() {}
-	
+
 	/**
 	 * This is used by the enemy to find a valid target
 	 */
@@ -225,6 +222,11 @@ public class Enemy extends Schmuck {
 			s.acquireTarget();
 		}
 	}
+
+	/**
+	 * This is run when the enemy performs an action. Override in child classes.
+	 */
+	public void attackInitiate() {}
 
 	@Override
 	public boolean queueDeletion() {

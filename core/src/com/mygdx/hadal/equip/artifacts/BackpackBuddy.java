@@ -23,4 +23,10 @@ public class BackpackBuddy extends Artifact {
 				new StatChangeStatus(state, Stats.MAX_HP_PERCENT, hpReduction, p),
 				new StatChangeStatus(state, Stats.ARTIFACT_SLOTS, bonusArtifactSlots, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) -(hpReduction * 100))};
+	}
 }

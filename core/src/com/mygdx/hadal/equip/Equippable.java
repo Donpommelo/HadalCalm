@@ -224,4 +224,9 @@ public abstract class Equippable {
 	public float getBotRangeMin() { return 0.0f; }
 
 	public float getBotRangeMax() { return 0.0f; }
+
+	/**
+	 * These fields represent the item's stats to appear in its description
+	 */
+	public String[] getDescFields() { return new String[] {}; }
 }

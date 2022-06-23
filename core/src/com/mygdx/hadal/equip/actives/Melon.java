@@ -21,7 +21,7 @@ public class Melon extends ActiveItem {
 	private static final float power = 0.04f;
 	
 	public Melon(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -33,4 +33,12 @@ public class Melon extends ActiveItem {
 	
 	@Override
 	public float getUseDuration() { return duration; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) (duration * power * 100)),
+				String.valueOf((int) duration)};
+	}
 }

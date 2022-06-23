@@ -285,7 +285,7 @@ public class Boss5 extends EnemyFloating {
 							seed.setFriction(1.0f);
 
 							seed.addStrategy(new ControllerDefault(state, seed, getBodyData()));
-							seed.addStrategy(new FlashNearDeath(state, seed, getBodyData(), 1.0f, true));
+							seed.addStrategy(new FlashShaderNearDeath(state, seed, getBodyData(), 1.0f, true));
 							seed.addStrategy(new HitboxStrategy(state, seed, getBodyData()) {
 
 									 @Override
@@ -415,7 +415,7 @@ public class Boss5 extends EnemyFloating {
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), sporeDamage, sporeKB,
 							DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), sporeHoming, sporeHomingRadius));
-					hbox.addStrategy(new FlashNearDeath(state, hbox, getBodyData(), 1.0f, true));
+					hbox.addStrategy(new FlashShaderNearDeath(state, hbox, getBodyData(), 1.0f, true));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, particleLinger));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, getBodyData()) {

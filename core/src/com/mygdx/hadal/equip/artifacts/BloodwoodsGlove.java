@@ -24,4 +24,11 @@ public class BloodwoodsGlove extends Artifact {
 				new StatChangeStatus(state, Stats.EQUIP_CHARGE_RATE, bonusWeaponCarge, p)
 		);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusActiveCharge * 100)),
+				String.valueOf((int) (bonusWeaponCarge * 100))};
+	}
 }

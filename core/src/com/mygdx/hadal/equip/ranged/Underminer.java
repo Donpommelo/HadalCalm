@@ -220,7 +220,7 @@ public class Underminer extends RangedWeapon {
 								bomb.addStrategy(new DieExplode(state, bomb, user.getBodyData(), explosionRadius, explosionDamage,
 										explosionKnockback, user.getHitboxfilter(), false, DamageSource.UNDERMINER));
 								bomb.addStrategy(new DieSound(state, bomb, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
-								bomb.addStrategy(new FlashNearDeath(state, bomb, user.getBodyData(), 1.0f, false));
+								bomb.addStrategy(new FlashShaderNearDeath(state, bomb, user.getBodyData(), 1.0f, false));
 
 								if (!state.isServer()) {
 									((ClientState) state).addEntity(bomb.getEntityID(), bomb, false, ClientState.ObjectLayer.HBOX);
@@ -233,5 +233,17 @@ public class Underminer extends RangedWeapon {
 			}
 		}
 		return hboxes;
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf((int) fragDamage),
+				String.valueOf((int) explosionDamage),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime),
+				String.valueOf(shootCd)};
 	}
 }

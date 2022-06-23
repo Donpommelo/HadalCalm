@@ -44,9 +44,7 @@ public class TractorBeam extends ActiveItem {
 	private static final Sprite projSprite = Sprite.OPEN_HAND;
 	private static final Sprite projSprite2 = Sprite.CLOSED_HAND;
 
-	public TractorBeam(Schmuck user) {
-		super(user,  usecd, usedelay, maxCharge, chargeStyle.byTime);
-	}
+	public TractorBeam(Schmuck user) { super(user,  usecd, usedelay, maxCharge); }
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
@@ -124,7 +122,16 @@ public class TractorBeam extends ActiveItem {
 			}
 		});
 	}
-	
+
 	@Override
 	public float getUseDuration() { return lifespan; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) lifespan),
+				String.valueOf((int) primaryDamage),
+				String.valueOf((int) secondaryDamage)};
+	}
 }

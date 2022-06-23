@@ -28,7 +28,7 @@ public class Reloader extends ActiveItem {
 	private static final float bonusAtkSpd2 = 0.3f;
 
 	public Reloader(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -69,4 +69,11 @@ public class Reloader extends ActiveItem {
 
 	@Override
 	public float getUseDuration() { return duration; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf(duration)};
+	}
 }

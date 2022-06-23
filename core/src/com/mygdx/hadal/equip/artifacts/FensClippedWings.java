@@ -22,4 +22,10 @@ public class FensClippedWings extends Artifact {
 				new StatChangeStatus(state, Stats.JUMP_POW, bonusJumpPow, p),
 				new StatChangeStatus(state, Stats.JUMP_NUM, bonusJumpNum, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusJumpPow * 100))};
+	}
 }

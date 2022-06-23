@@ -41,4 +41,10 @@ public class FaradaysCage extends Artifact {
 			}
 		}.setPriority(PRIORITY_MULT_SCALE);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (amount * 100))};
+	}
 }

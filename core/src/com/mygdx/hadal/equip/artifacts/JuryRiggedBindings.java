@@ -11,7 +11,7 @@ public class JuryRiggedBindings extends Artifact {
 
 	private static final int slotCost = 3;
 
-	private static final float fireRateMultiplier = 5.0f;
+	private static final float fireRateMultiplier = 0.2f;
 	private static final float baseFireRate = 0.5f;
 
 	public JuryRiggedBindings() {
@@ -40,7 +40,7 @@ public class JuryRiggedBindings extends Artifact {
 				float procCd = -1;
 				for (int i = 0; i < p.getNumWeaponSlots(); i++) {
 					if (p.getMultitools()[(p.getCurrentSlot() + lastFiredIndex + 1) % p.getNumWeaponSlots()] instanceof RangedWeapon ranged) {
-						procCd = ranged.getUseCd() * fireRateMultiplier + baseFireRate;
+						procCd = ranged.getUseCd() / fireRateMultiplier + baseFireRate;
 						break;
 					}
 					lastFiredIndex = (lastFiredIndex + 1) % (p.getNumWeaponSlots() - 1);
@@ -59,5 +59,11 @@ public class JuryRiggedBindings extends Artifact {
 				}
 			}
 		};
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (fireRateMultiplier * 100))};
 	}
 }

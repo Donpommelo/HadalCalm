@@ -39,7 +39,7 @@ public class JumpKick extends ActiveItem {
 	private static final float knockback = 90.0f;
 
 	public JumpKick(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -89,4 +89,11 @@ public class JumpKick extends ActiveItem {
 
 	@Override
 	public float getBotRangeMin() { return 15.0f; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) baseDamage)};
+	}
 }

@@ -14,7 +14,7 @@ public class FeelingofBeingWatched extends Artifact {
 	private static final int slotCost = 1;
 	
 	private static final float fuelThreshold = 0.2f;
-	private static final float bonusDamage = 1.4f;
+	private static final float bonusDamage = 0.4f;
 	
 	public FeelingofBeingWatched() {
 		super(slotCost);
@@ -27,10 +27,17 @@ public class FeelingofBeingWatched extends Artifact {
 			@Override
 			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (p.getCurrentFuel() <= p.getStat(Stats.MAX_FUEL) * fuelThreshold) {
-					return damage * bonusDamage;
+					return damage * (1.0f + bonusDamage);
 				}
 				return damage;
 			}
 		};
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (fuelThreshold * 100)),
+				String.valueOf((int) (bonusDamage * 100))};
 	}
 }

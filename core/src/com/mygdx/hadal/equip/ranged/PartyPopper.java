@@ -124,4 +124,15 @@ public class PartyPopper extends RangedWeapon {
 
 	@Override
 	public float getBotRangeMax() { return 13.0f; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) baseDamage),
+				String.valueOf((int) fragDamage),
+				String.valueOf(numProj),
+				String.valueOf(clipSize),
+				String.valueOf(ammoSize),
+				String.valueOf(reloadTime)};
+	}
 }

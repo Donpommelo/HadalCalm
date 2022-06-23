@@ -113,7 +113,7 @@ public class HubEvent extends Event {
 	public void enter() {
 		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(tag, false, false, false, this);
+		state.getUiHub().enter(false, false, false, this);
 		open = true;
 	}
 	

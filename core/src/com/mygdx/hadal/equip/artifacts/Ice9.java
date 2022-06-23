@@ -45,4 +45,12 @@ public class Ice9 extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) procCd),
+				String.valueOf((int) slowDura),
+				String.valueOf((int) (slow * 100))};
+	}
 }

@@ -33,4 +33,10 @@ public class MaskofSympathy extends Artifact {
 			}
 		}.setPriority(PRIORITY_SCALE);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (amount * 100))};
+	}
 }

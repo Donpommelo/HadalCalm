@@ -43,4 +43,11 @@ public class RecyclerBolus extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (hpBuff * 100)),
+				String.valueOf((int) (maxStacks * hpBuff * 100))};
+	}
 }

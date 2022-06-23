@@ -20,4 +20,10 @@ public class VoidHyponome extends Artifact {
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p, new StatChangeStatus(state, Stats.BOOST_COST, boostCostReduction, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) -(boostCostReduction * 100))};
+	}
 }

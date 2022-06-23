@@ -1,16 +1,9 @@
 package com.mygdx.hadal.save;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
-import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-
-import java.util.Objects;
 
 /**
  * The UnlockManager manages the player's unlocked weapons, artifacts, etc
@@ -19,66 +12,55 @@ import java.util.Objects;
 public class UnlockManager {
 	
 	/**
-	 * This retrieves the player's unlocks from a file
-	 */
-	public static void retrieveItemInfo() {
-
-		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Equips.json"))) {
-			UnlockEquip.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
-		}
-		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Artifacts.json"))) {
-			UnlockArtifact.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
-		}
-		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Actives.json"))) {
-			UnlockActives.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
-		}
-		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Characters.json"))) {
-			UnlockCharacter.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
-		}
-		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Cosmetics.json"))) {
-			UnlockCosmetic.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
-		}
-		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Levels.json"))) {
-			UnlockLevel.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
-		}
-		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Modes.json"))) {
-			GameMode.getByName(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.json)));
-		}
-	}
-	
-	/**
 	 * This acquires the information about an unlock based on its type and name
 	 */
-	public static InfoItem getInfo(UnlockType type, String name) {
+	public static String getName(UnlockType type, String name) {
 		return switch (type) {
-			case ACTIVE -> UnlockActives.getByName(name).getInfo();
-			case ARTIFACT -> UnlockArtifact.getByName(name).getInfo();
-			case CHARACTER -> UnlockCharacter.getByName(name).getInfo();
-			case EQUIP -> UnlockEquip.getByName(name).getInfo();
-			case COSMETIC -> UnlockCosmetic.getByName(name).getInfo();
-			case LEVEL -> UnlockLevel.getByName(name).getInfo();
+			case ACTIVE -> UnlockActives.getByName(name).getName();
+			case ARTIFACT -> UnlockArtifact.getByName(name).getName();
+			case CHARACTER -> UnlockCharacter.getByName(name).getName();
+			case EQUIP -> UnlockEquip.getByName(name).getName();
+			case COSMETIC -> UnlockCosmetic.getByName(name).getName();
+			case LEVEL -> UnlockLevel.getByName(name).getName();
+		};
+	}
+
+	public static String getDesc(UnlockType type, String name) {
+		return switch (type) {
+			case ACTIVE -> UnlockActives.getByName(name).getDesc();
+			case ARTIFACT -> UnlockArtifact.getByName(name).getDesc();
+			case CHARACTER -> UnlockCharacter.getByName(name).getDesc();
+			case EQUIP -> UnlockEquip.getByName(name).getDesc();
+			case COSMETIC -> UnlockCosmetic.getByName(name).getDesc();
+			case LEVEL -> UnlockLevel.getByName(name).getDesc();
+		};
+	}
+
+	public static String getDescLong(UnlockType type, String name) {
+		return switch (type) {
+			case ACTIVE -> UnlockActives.getByName(name).getDescLong();
+			case ARTIFACT -> UnlockArtifact.getByName(name).getDescLong();
+			case CHARACTER, COSMETIC, LEVEL -> "";
+			case EQUIP -> UnlockEquip.getByName(name).getDescLong();
 		};
 	}
 	
 	/**
 	 * This is used to determine which unlockitems will be available from a given hub event
-	 * @param item: the item to check
+	 * @param itemTags: the item's tags to check
 	 * @param tags: a list of tags
 	 * @return whether the item contains any of the tags
 	 */
-	public static boolean checkTags(InfoItem item, Array<UnlockTag> tags) {
+	public static boolean checkTags(Array<UnlockTag> itemTags, Array<UnlockTag> tags) {
 
 		for (UnlockTag tag : tags) {
 			boolean tagPresent = false;
 
-			if (item == null) {
-				return false;
-			}
 			if (tag.equals(UnlockTag.ALL)) {
 				tagPresent = true;
 			} else {
-				for (int j = 0; j < item.getTags().size; j++) {
-					if (tag.equals(item.getTags().get(j))) {
+				for (int j = 0; j < itemTags.size; j++) {
+					if (tag.equals(itemTags.get(j))) {
 						tagPresent = true;
 						break;
 					}
@@ -110,39 +92,39 @@ public class UnlockManager {
 	 * After setting, the data is saved into the player's saves
 	 */
 	public static void setUnlock(PlayState state, UnlockType type, String name, boolean unlock) {
-		switch(type) {
+		switch (type) {
 		case ACTIVE:
 			state.getGsm().getRecord().getUnlockActive().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", UIText.UNLOCK_ACTIVE.text(Objects.requireNonNull(getInfo(type, name)).getName()),
+				state.getDialogBox().addDialogue("", UIText.UNLOCK_ACTIVE.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case ARTIFACT:
 			state.getGsm().getRecord().getUnlockArtifact().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", UIText.UNLOCK_ARTIFACT.text(Objects.requireNonNull(getInfo(type, name)).getName()),
+				state.getDialogBox().addDialogue("", UIText.UNLOCK_ARTIFACT.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case CHARACTER:
 			state.getGsm().getRecord().getUnlockCharacter().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", UIText.UNLOCK_CHARACTER.text(Objects.requireNonNull(getInfo(type, name)).getName()),
+				state.getDialogBox().addDialogue("", UIText.UNLOCK_CHARACTER.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case EQUIP:
 			state.getGsm().getRecord().getUnlockEquip().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", UIText.UNLOCK_WEAPON.text(Objects.requireNonNull(getInfo(type, name)).getName()),
+				state.getDialogBox().addDialogue("", UIText.UNLOCK_WEAPON.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case LEVEL:
 			state.getGsm().getRecord().getUnlockLevel().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", UIText.UNLOCK_LEVEL.text(Objects.requireNonNull(getInfo(type, name)).getName()),
+				state.getDialogBox().addDialogue("", UIText.UNLOCK_LEVEL.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
@@ -163,30 +145,20 @@ public class UnlockManager {
 		PAINTER,
 		WALLPAPER,
 		HABERDASHER,
-		TRAINING,
-		CAMPAIGN,
 		QUARTERMASTER,
 		OUTFITTER,
-		NASU,
 		MISC,
 
 		ALL,
-		CURATED,
-		BIRD,
-		PVP,
-		ARENA,
 		MULTIPLAYER,
-		SINGLEPLAYER,
 		BOSS,
-		SANDBOX,
-		BOT_COMPLIANT,
 
 		OFFENSE,
 		DEFENSE,
 		MOBILITY,
 		FUEL,
 		HEAL,
-		ACTIVE_ITEM,
+        MAGIC,
 		AMMO,
 		WEAPON_DAMAGE,
 		PASSIVE_DAMAGE,

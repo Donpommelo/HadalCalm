@@ -14,7 +14,7 @@ public class Loadout {
 	public static final int baseWeaponSlots = 3;
 	public static final int maxWeaponSlots = 4;
 	public static final int maxArtifactSlots = 12;
-	public static final int maxCosmeticSlots = 8;
+	public static final int maxCosmeticSlots = 12;
 
 	public UnlockEquip[] multitools;
 	public UnlockArtifact[] artifacts;
@@ -38,20 +38,20 @@ public class Loadout {
 		Arrays.fill(cosmetics, UnlockCosmetic.NOTHING_HAT1);
 
 		for (int i = 0; i < maxWeaponSlots; i++) {
-			if (loadout.getEquips().length > i) {
-				multitools[i] = UnlockEquip.getByName(loadout.getEquips()[i]);
+			if (loadout.getEquip().length > i) {
+				multitools[i] = UnlockEquip.getByName(loadout.getEquip()[i]);
 			}
 		}
 		
 		for (int i = 0; i < maxArtifactSlots; i++) {
-			if (loadout.getArtifacts().length > i) {
-				artifacts[i] = UnlockArtifact.getByName(loadout.getArtifacts()[i]);
+			if (loadout.getArtifact().length > i) {
+				artifacts[i] = UnlockArtifact.getByName(loadout.getArtifact()[i]);
 			}
 		}
 
 		for (int i = 0; i < maxCosmeticSlots; i++) {
-			if (loadout.getCosmetics().length > i) {
-				cosmetics[i] = UnlockCosmetic.getByName(loadout.getCosmetics()[i]);
+			if (loadout.getCosmetic().length > i) {
+				cosmetics[i] = UnlockCosmetic.getByName(loadout.getCosmetic()[i]);
 			}
 		}
 

@@ -23,4 +23,11 @@ public class MoonFluther extends Artifact {
 				new StatChangeStatus(state, Stats.HOVER_POW, bonusHoverPow, p),
 				new StatChangeStatus(state, Stats.HOVER_COST, hoverCostReduction, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusHoverPow * 100)),
+				String.valueOf((int) -(hoverCostReduction * 100))};
+	}
 }

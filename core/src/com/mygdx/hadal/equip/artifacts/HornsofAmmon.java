@@ -43,4 +43,11 @@ public class HornsofAmmon extends Artifact {
 			}
 		}.setPriority(PRIORITY_PROC);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) threshold),
+				String.valueOf((int) invulnDura)};
+	}
 }

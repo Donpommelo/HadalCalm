@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -45,5 +46,13 @@ public class BookofBurial extends Artifact {
 				return damage;
 			}
 		}.setPriority(PRIORITY_PROC);
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf(procCd),
+				String.valueOf((int) WeaponUtils.primeTime),
+				String.valueOf((int) explosionDamage)};
 	}
 }

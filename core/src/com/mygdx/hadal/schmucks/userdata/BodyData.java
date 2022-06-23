@@ -4,17 +4,17 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.UserDataType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.ProcTime.InflictDamage;
 import com.mygdx.hadal.statuses.ProcTime.ReceiveDamage;
@@ -316,7 +316,7 @@ public class BodyData extends HadalData {
 
 			//charge on-damage active item
 			if (perp instanceof PlayerBodyData perpData) {
-				if (perpData.getActiveItem().getStyle().equals(chargeStyle.byDamageInflict)) {
+				if (schmuck.getState().getMode().equals(GameMode.CAMPAIGN)) {
 					
 					//active item charges less against non-player enemies
 					if (this instanceof PlayerBodyData) {

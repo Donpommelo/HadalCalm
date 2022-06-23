@@ -79,7 +79,7 @@ public class UITag {
 					text.append(misc);
 					break;
 				case LEVEL:
-					text.append(state.getMode().getInfo().getName()).append(" ").append(state.getLevel().getInfo().getName());
+					text.append(state.getMode().getName()).append(" ").append(state.getLevel().getName());
 					break;
 				case SCOREBOARD:
 					uiExtra.sortIndividualScores(text);
@@ -94,7 +94,7 @@ public class UITag {
 					int score = user.getScores().getScore();
 					if (score + 1 < ModeGunGame.weaponOrder.length) {
 						text.append(UIText.UI_GUNGAME.text(Integer.toString(score), Integer.toString(ModeGunGame.weaponOrder.length),
-								ModeGunGame.weaponOrder[score + 1].getInfo().getName()));
+								ModeGunGame.weaponOrder[score + 1].getName()));
 					} else {
 						text.append(UIText.UI_GUNGAME.text(Integer.toString(score), Integer.toString(ModeGunGame.weaponOrder.length),
 								UIText.UI_VICTORY.text()));

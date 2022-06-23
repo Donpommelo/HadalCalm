@@ -23,7 +23,7 @@ public class Honeycomb extends ActiveItem {
 	private static final float procCd = 0.15f;
 
 	public Honeycomb(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -43,5 +43,12 @@ public class Honeycomb extends ActiveItem {
 				procCdCount += delta;
 			}
 		});
+	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) (duration / procCd))};
 	}
 }

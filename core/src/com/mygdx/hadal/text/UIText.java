@@ -255,7 +255,6 @@ public enum UIText {
     GAME_MODES("HUB_GAME_MODES"),
     MAP_SUGGEST("HUB_MAP_SUGGEST"),
     QUARTERMASTER_COST("HUB_QUARTERMASTER_COST"),
-    NAVIGATION_TAGS("HUB_NAVIGATION_TAGS"),
     NAVIGATION_ACTIVATION("HUB_NAVIGATION_ACTIVATION"),
     RELIQUARY_TAGS("HUB_RELIQUARY_TAGS"),
 
@@ -376,7 +375,7 @@ public enum UIText {
 
     ;
 
-    //key used to find the text in Strings.json file
+    //key used to find the text in UIStrings.json file
     private final String key;
 
     //cached text if string has been read from json before.

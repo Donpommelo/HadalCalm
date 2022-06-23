@@ -49,6 +49,16 @@ public class Sensor extends Event {
         this.collision = collision;
     }
 
+    public Sensor(PlayState state, Vector2 startPos, Vector2 size, float duration, boolean player, boolean hbox, boolean event, boolean enemy,
+                  float gravity, float cooldown, boolean collision) {
+        super(state, startPos, size, duration);
+        this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) |
+                (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
+        this.gravity = gravity;
+        this.cooldown = cooldown;
+        this.collision = collision;
+    }
+
     @Override
     public void create() {
         this.eventData = new EventData(this) {
@@ -100,6 +110,7 @@ public class Sensor extends Event {
 
     @Override
     public void controller(float delta) {
+        super.controller(delta);
         cooldownCount += delta;
     }
 }

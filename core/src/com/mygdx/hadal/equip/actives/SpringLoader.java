@@ -25,7 +25,7 @@ public class SpringLoader extends ActiveItem {
 	private static final float springDuration = 6.0f;
 	
 	public SpringLoader(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -33,6 +33,12 @@ public class SpringLoader extends ActiveItem {
 		SoundEffect.SPRING.playUniversal(state, user.getPlayer().getMouse().getPixelPosition(), 0.4f, false);
 		new Spring(state, user.getPlayer().getMouse().getPixelPosition(), springRadius, new Vector2(0, springPower), springDuration);
 		new ParticleEntity(state, user.getPlayer().getMouse().getPixelPosition(), Particle.MOMENTUM, 1.0f, true, SyncType.CREATESYNC);
+	}
 
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) springDuration)};
 	}
 }

@@ -19,4 +19,10 @@ public class FallacyofFlesh extends Artifact {
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatChangeStatus(state, Stats.MAX_HP_PERCENT, bonusHp, p);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (bonusHp * 100))};
+	}
 }

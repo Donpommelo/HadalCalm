@@ -19,4 +19,10 @@ public class Saligram extends Artifact {
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatChangeStatus(state, Stats.DAMAGE_RES, damageRes, p);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (damageRes * 100))};
+	}
 }

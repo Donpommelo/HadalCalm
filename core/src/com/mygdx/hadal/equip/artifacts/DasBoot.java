@@ -31,4 +31,10 @@ public class DasBoot extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (res * 100))};
+	}
 }

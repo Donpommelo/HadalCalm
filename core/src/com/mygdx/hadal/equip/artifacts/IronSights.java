@@ -22,4 +22,11 @@ public class IronSights extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_RECOIL, recoilReduction, p),
 				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, bonusPrjSpd, p));
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) -(recoilReduction * 100)),
+				String.valueOf((int) (bonusPrjSpd * 100))};
+	}
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="222">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="227">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -10,22 +10,6 @@
   </data>
  </layer>
  <objectgroup id="7" name="bot-layer">
-  <object id="57" name="BotPoint" type="BotPoint" x="2544" y="2153.85">
-   <properties>
-    <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
-   </properties>
-   <polyline points="4.8e-05,646.154 4.8e-05,-73.8462"/>
-  </object>
-  <object id="58" name="BotPoint" type="BotPoint" x="576" y="2153.7">
-   <properties>
-    <property name="multiplier0" type="float" value="0.1"/>
-    <property name="multiplier1" type="float" value="1"/>
-    <property name="valid1" type="bool" value="true"/>
-   </properties>
-   <polyline points="48,644.865 48,-73.6989"/>
-  </object>
   <object id="59" name="BotPoint" type="BotPoint" x="680" y="2664">
    <properties>
     <property name="multiplier0" type="float" value="5"/>
@@ -34,7 +18,8 @@
   </object>
   <object id="60" name="BotPoint" type="BotPoint" x="792" y="2632">
    <properties>
-    <property name="multiplier0" type="float" value="5"/>
+    <property name="multiplier0" type="float" value="0.1"/>
+    <property name="valid1" type="bool" value="false"/>
    </properties>
    <polyline points="-168,168 -280,56"/>
   </object>
@@ -331,7 +316,7 @@
    <polyline points="-816,-8 -592,184"/>
   </object>
   <object id="159" name="BotPoint" type="BotPoint" x="1830.86" y="1055.76">
-   <polyline points="185.143,-31.76 -102.857,-31.76"/>
+   <polyline points="185.14,-31.76 -102.86,-31.76"/>
   </object>
   <object id="160" name="BotPoint" type="BotPoint" x="1536" y="1224">
    <polyline points="640,-360 480,-200"/>
@@ -500,6 +485,22 @@
   </object>
   <object id="215" name="BotPoint" type="BotPoint" x="328" y="1232">
    <polyline points="-8,144 216,-112"/>
+  </object>
+  <object id="225" name="BotPoint" type="BotPoint" x="2496" y="2624">
+   <properties>
+    <property name="multiplier0" type="float" value="0.1"/>
+    <property name="multiplier1" type="float" value="1"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="48,176 48,-544"/>
+  </object>
+  <object id="226" name="BotPoint" type="BotPoint" x="912" y="2480">
+   <properties>
+    <property name="multiplier0" type="float" value="0.1"/>
+    <property name="multiplier1" type="float" value="1"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-288,320 -288,-400"/>
   </object>
  </objectgroup>
  <objectgroup id="2" name="collision-layer" visible="0">
@@ -802,45 +803,17 @@
  <objectgroup id="5" name="arena" visible="0">
   <object id="44" name="WaveSpawn" type="WaveSpawn" x="1024" y="1888" width="32" height="32">
    <properties>
-    <property name="point" type="int" value="4"/>
-    <property name="tag" value="STANDARD"/>
-    <property name="triggeredId" value="wave4"/>
+    <property name="tag" value="STANDARD,GROUNDED"/>
    </properties>
   </object>
   <object id="45" name="WaveSpawn" type="WaveSpawn" x="2112" y="1888" width="32" height="32">
    <properties>
-    <property name="point" type="int" value="5"/>
-    <property name="tag" value="STANDARD"/>
-    <property name="triggeredId" value="wave5"/>
+    <property name="tag" value="STANDARD,GROUNDED"/>
    </properties>
   </object>
-  <object id="46" name="WaveSpawn" type="WaveSpawn" x="1568" y="1312" width="32" height="32">
-   <properties>
-    <property name="point" type="int" value="6"/>
-    <property name="tag" value="STANDARD"/>
-    <property name="triggeredId" value="wave6"/>
-   </properties>
-  </object>
-  <object id="47" name="WaveSpawn" type="WaveSpawn" x="384" y="1856" width="32" height="32">
-   <properties>
-    <property name="point" type="int" value="1"/>
-    <property name="tag" value="STANDARD"/>
-    <property name="triggeredId" value="wave1"/>
-   </properties>
-  </object>
-  <object id="48" name="WaveSpawn" type="WaveSpawn" x="2752" y="1856" width="32" height="32">
-   <properties>
-    <property name="point" type="int" value="2"/>
-    <property name="tag" value="STANDARD"/>
-    <property name="triggeredId" value="wave2"/>
-   </properties>
-  </object>
-  <object id="49" name="WaveSpawn" type="WaveSpawn" x="1568" y="640" width="32" height="32">
-   <properties>
-    <property name="point" type="int" value="3"/>
-    <property name="tag" value="STANDARD"/>
-    <property name="triggeredId" value="wave3"/>
-   </properties>
-  </object>
+  <object id="46" name="WaveSpawn" type="WaveSpawn" x="1568" y="1312" width="32" height="32"/>
+  <object id="47" name="WaveSpawn" type="WaveSpawn" x="384" y="1856" width="32" height="32"/>
+  <object id="48" name="WaveSpawn" type="WaveSpawn" x="2752" y="1856" width="32" height="32"/>
+  <object id="49" name="WaveSpawn" type="WaveSpawn" x="1568" y="640" width="32" height="32"/>
  </objectgroup>
 </map>

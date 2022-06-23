@@ -3,10 +3,11 @@ package com.mygdx.hadal.map;
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Constants;
 
 /**
  */
@@ -21,7 +22,8 @@ public class ToggleHealthDrops extends ModeSetting {
         //null check in case this is an "extra kill" to give summoner kill credit for a summon
         if (vic != null) {
             if (MathUtils.randomBoolean(chance)) {
-                WeaponUtils.createPickup(state, vic.getPixelPosition(), WeaponUtils.pickupTypes.HEALTH, heal);
+                SyncedAttack.PICKUP.initiateSyncedAttackSingle(state, vic, vic.getPixelPosition(),
+                        vic.getLinearVelocity(), Constants.PICKUP_HEALTH, heal);
             }
         }
     }

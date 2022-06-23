@@ -25,7 +25,7 @@ public class ReservedFuel extends ActiveItem {
 	private static final float power = 18.0f;
 	
 	public ReservedFuel(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge);
 	}
 	
 	@Override
@@ -38,4 +38,12 @@ public class ReservedFuel extends ActiveItem {
 	
 	@Override
 	public float getUseDuration() { return duration; }
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) maxCharge),
+				String.valueOf((int) (power * duration)),
+				String.valueOf((int) duration)};
+	}
 }

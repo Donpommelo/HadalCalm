@@ -53,7 +53,7 @@ public class ConsoleCommandUtil {
 
 				for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
 					if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
-						message.append(player.getPlayerData().getLoadout().multitools[i].getInfo().getName()).append(" ");
+						message.append(player.getPlayerData().getLoadout().multitools[i].getName()).append(" ");
 					}
 				}
 				emitMessage(state, message.toString());
@@ -66,7 +66,7 @@ public class ConsoleCommandUtil {
 				for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
 
 					if (!player.getPlayerData().getLoadout().artifacts[i].equals(UnlockArtifact.NOTHING)) {
-						message.append(player.getPlayerData().getLoadout().artifacts[i].getInfo().getName()).append(" ");
+						message.append(player.getPlayerData().getLoadout().artifacts[i].getName()).append(" ");
 					}
 				}
 				emitMessage(state, message.toString());
@@ -74,7 +74,7 @@ public class ConsoleCommandUtil {
 			}
 
 			if (command.equals("/active")) {
-				emitMessage(state, "Active Item: " + player.getPlayerData().getLoadout().activeItem.getInfo().getName());
+				emitMessage(state, "Active Item: " + player.getPlayerData().getLoadout().activeItem.getName());
 				return 0;
 			}
 

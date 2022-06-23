@@ -28,6 +28,7 @@ public class MovementSwim extends EnemyStrategy {
     }
 
     private static final float controllerInterval = 1 / 60f;
+    private static final float distantMultiplier = 1.4f;
     private final Vector2 force = new Vector2();
     private final Vector2 currentVel = new Vector2();
     private final Vector2 currentDirection = new Vector2();
@@ -71,7 +72,9 @@ public class MovementSwim extends EnemyStrategy {
             noiseCdCount -= noiseCd;
             currentNoise.setToRandomDirection().scl(noiseRadius);
         }
-        moveDirection.add(currentNoise);
+        if (!enemy.isApproachTarget()) {
+            moveDirection.add(currentNoise);
+        }
 
         //process enemy swimming physics
         controllerCount += delta;
@@ -103,6 +106,9 @@ public class MovementSwim extends EnemyStrategy {
 
             //apply resulting force
             force.set(newX - currentVel.x, newY - currentVel.y).scl(enemy.getMass());
+            if (!enemy.isApproachTarget()) {
+                force.scl(distantMultiplier);
+            }
             enemy.applyLinearImpulse(force);
         }
     }

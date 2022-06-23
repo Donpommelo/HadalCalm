@@ -125,7 +125,7 @@ public class ScoreWindow {
 		tableScore.setPosition(0, HadalGame.CONFIG_HEIGHT - tableHeight);
 
 		//add table headings
-		Text title = new Text(state.getMode().getInfo().getName() + ": " + state.getLevel().getInfo().getName());
+		Text title = new Text(state.getMode().getName() + ": " + state.getLevel().getName());
 		title.setScale(scoreTitleScale);
 		
 		Text playerLabel = new Text(UIText.PLAYER.text());
@@ -332,7 +332,7 @@ public class ScoreWindow {
 			if (user.getPlayer().getPlayerData() != null) {
 				for (UnlockArtifact c : user.getPlayer().getPlayerData().getLoadout().artifacts) {
 					if (!c.equals(UnlockArtifact.NOTHING) && !c.isInvisible()) {
-						ArtifactIcon newTag = new ArtifactIcon(c, c.getInfo().getName() + "\n" + c.getInfo().getDescription(),
+						ArtifactIcon newTag = new ArtifactIcon(c, c.getName() + "\n" + c.getDesc(),
 								artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 						tableArtifact.add(newTag).width(artifactTagSize).height(artifactTagSize);
 					}

@@ -68,8 +68,8 @@ public enum ColorPalette {
     ORANGE(HadalColor.ORANGE, HadalColor.PUMPKIN, HadalColor.SAFFRON, HadalColor.APRICOT, HadalColor.ORANGE, HadalColor.AMBER, HadalColor.PEACH,
             HadalColor.HONEY, HadalColor.MANGO),
 
-    SKY_BLUE(HadalColor.SKY_BLUE, HadalColor.CYAN_PROCESS, HadalColor.SKY_BLUE, HadalColor.LIGHT_BLUE, HadalColor.BABY_BLUE,
-            HadalColor.NONPHOTO_BLUE, HadalColor.COLUMBIA_BLUE, HadalColor.SPANISH_PINK, HadalColor.MARIGOLD),
+    SKY_BLUE(HadalColor.SKY_BLUE, HadalColor.CYAN_PROCESS, HadalColor.SKY_BLUE, HadalColor.COLUMBIA_BLUE, HadalColor.WHITE,
+            HadalColor.GAINSBORO, HadalColor.PLATINUM, HadalColor.MISTY_ROSE, HadalColor.MARIGOLD),
 
     TAN(HadalColor.TAN, HadalColor.BISTRE, HadalColor.SHADOW, HadalColor.GRULLO, HadalColor.BRONZE, HadalColor.TAN, HadalColor.BONE,
             HadalColor.HONEY, HadalColor.BRONZE),
@@ -78,7 +78,20 @@ public enum ColorPalette {
             HadalColor.CELESTE, HadalColor.POWDER_BLUE, HadalColor.SUNGLOW, HadalColor.STEEL_BLUE),
 
     VIOLET(HadalColor.VIOLET, HadalColor.BYZANTINE, HadalColor.FUCHSIA, HadalColor.PLUM, HadalColor.ORCHID, HadalColor.VIOLET, HadalColor.THISTLE,
-            HadalColor.CANARY, HadalColor.BURLYWOOD)
+            HadalColor.CANARY, HadalColor.BURLYWOOD),
+
+    KAMABOKO(HadalColor.HOT_PINK, HadalColor.HOT_PINK, HadalColor.PERSIAN_PINK, HadalColor.COTTON_CANDY, HadalColor.SILVER, HadalColor.PLATINUM,
+            HadalColor.GAINSBORO, HadalColor.CORN, HadalColor.HONEY),
+
+    LEMON_LIME(HadalColor.LEMON, HadalColor.FRENCH_LIME, HadalColor.INCHWORM, HadalColor.MINDARO, HadalColor.MAXIMUM_YELLOW, HadalColor.ICTERINE,
+            HadalColor.CANARY, HadalColor.LEMON, HadalColor.CORAL),
+
+    MAGMA(HadalColor.SCARLET, HadalColor.SCARLET, HadalColor.JET, HadalColor.ONYX, HadalColor.VERMILION, HadalColor.RUFOUS,
+            HadalColor.DARK_LIVER, HadalColor.AMBER, HadalColor.COQUELICOT),
+
+    BLACK_AND_YELLOW(HadalColor.CITRINE, HadalColor.SMOKY_BLACK, HadalColor.JET, HadalColor.CITRINE, HadalColor.LEMON,
+            HadalColor.MAXIMUM_YELLOW, HadalColor.ICTERINE, HadalColor.CANARY, HadalColor.ONYX)
+
     ;
 
 

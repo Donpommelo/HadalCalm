@@ -33,4 +33,10 @@ public class PainScale extends Artifact {
 			}
 		}.setPriority(PRIORITY_SCALE);
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) (1.0f / amount))};
+	}
 }

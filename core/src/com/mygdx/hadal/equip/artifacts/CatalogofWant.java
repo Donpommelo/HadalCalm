@@ -49,4 +49,11 @@ public class CatalogofWant extends Artifact {
 			}
 		};
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf((int) procCd),
+				String.valueOf((int) hpConversion)};
+	}
 }

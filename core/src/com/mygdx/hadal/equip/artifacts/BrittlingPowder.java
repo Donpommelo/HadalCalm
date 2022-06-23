@@ -44,4 +44,12 @@ public class BrittlingPowder extends Artifact {
 			}
 		});
 	}
+
+	@Override
+	public String[] getDescFields() {
+		return new String[] {
+				String.valueOf(procCd),
+				String.valueOf(numFrag),
+				String.valueOf((int) DieFrag.baseDamage)};
+	}
 }
