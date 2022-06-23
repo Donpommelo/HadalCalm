@@ -306,10 +306,11 @@ public enum AlignmentFilter {
         return NONE;
     }
 
-    private final static float normalChance = 0.2f;
-    private final static float colorChance = 0.9f;
+    private final static float normalChance = 0.12f;
+    private final static float colorChance = 0.93f;
     private static final AlignmentFilter[] colors = { TEAM_BANANA, TEAM_CELADON, TEAM_CHARTREUSE, TEAM_CRIMSON, TEAM_EGGPLANT,
-            TEAM_GREY, TEAM_PLUM, TEAM_ORANGE, TEAM_SKY_BLUE, TEAM_TAN, TEAM_TURQUOISE};
+            TEAM_GOLD, TEAM_GREY, TEAM_MAUVE, TEAM_ORANGE, TEAM_PLUM, TEAM_SKY_BLUE, TEAM_TAN, TEAM_TURQUOISE, TEAM_VIOLET,
+            TEAM_BLACK_AND_YELLOW, TEAM_KAMABOKO, TEAM_LEMON_LIME, TEAM_MAGMA};
     private static final AlignmentFilter[] colorsWeird = { TEAM_BLACK_AND_WHITE, TEAM_CENSURE, TEAM_SEPIA, TEAM_INVERT };
 
     /**
