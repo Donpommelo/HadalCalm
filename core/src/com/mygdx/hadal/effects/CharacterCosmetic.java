@@ -91,20 +91,20 @@ public class CharacterCosmetic {
                           float scale, boolean flip, Vector2 location) {
 
         if (useShader || team.isCosmeticApply()) {
-            if (mirror && flip) {
+            if (frames == null) {
+                getFrames();
+            }
+            if (mirror) {
                 if (framesMirror == null) {
                     getFrames();
                 }
-                batch.draw(drawShadedCosmetic(batch, team, character, true).getKeyFrame(animationTimeExtra, true),
-                        location.x - cosmeticWidth * scale + offsetX * scale,
+                batch.draw(drawShadedCosmetic(batch, team, character, true, flip).getKeyFrame(animationTimeExtra, true),
+                        location.x + (flip ? -1 : 0) * cosmeticWidth * scale + offsetX * scale,
                         location.y + offsetY * scale, 0, 0, cosmeticWidth * scale,
                         cosmeticHeight * scale, 1, 1, 0);
             } else {
-                if (frames == null) {
-                    getFrames();
-                }
                 //if using shader, get sprite from ShaderSprite fbo instead of frames
-                batch.draw(drawShadedCosmetic(batch, team, character, false).getKeyFrame(animationTimeExtra, true),
+                batch.draw(drawShadedCosmetic(batch, team, character, false, false).getKeyFrame(animationTimeExtra, true),
                         location.x + (flip ? -1 : 1) * offsetX * scale,
                         location.y + offsetY * scale, 0, 0, (flip ? -1 : 1) * cosmeticWidth * scale,
                         cosmeticHeight * scale, 1, 1, 0);
@@ -143,7 +143,7 @@ public class CharacterCosmetic {
         if (frames.getKeyFrames().length != 0) {
             if (useShader || team.isCosmeticApply()) {
                 return new Ragdoll(state, playerLocation, new Vector2(cosmeticWidth, cosmeticHeight).scl(scale),
-                        drawShadedCosmetic(state.getBatch(), team, character, false).getKeyFrame(0),
+                        drawShadedCosmetic(state.getBatch(), team, character, false, false).getKeyFrame(0),
                         playerVelocity, gibDuration, gibGravity, true, false, true);
             } else {
                 return new Ragdoll(state, playerLocation, new Vector2(cosmeticWidth, cosmeticHeight).scl(scale),
@@ -157,7 +157,8 @@ public class CharacterCosmetic {
      * This draws cosmetics with shaders applied.
      * Shaded sprites are cached a hash map
      */
-    private Animation<TextureRegion> drawShadedCosmetic(Batch batch, AlignmentFilter team, UnlockCharacter character, boolean mirror) {
+    private Animation<TextureRegion> drawShadedCosmetic(Batch batch, AlignmentFilter team, UnlockCharacter character,
+                                                        boolean mirror, boolean flip) {
         String shaderKey;
         if (team.isTeam() && team != AlignmentFilter.NONE) {
             shaderKey = team.getTeamName();
@@ -185,7 +186,7 @@ public class CharacterCosmetic {
             shadedCosmetics.put(shaderKey, shadedSprite);
         }
 
-        return mirror ? shadedSprite.getAnimationMirror() : shadedSprite.getAnimation();
+        return flip ? shadedSprite.getAnimationMirror() : shadedSprite.getAnimation();
     }
 
     private final Array<String> keysToRemove = new Array<>();

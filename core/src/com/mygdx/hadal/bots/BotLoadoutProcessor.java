@@ -584,7 +584,10 @@ public class BotLoadoutProcessor {
      * This applies random cosmetics to the newly created bot
      */
     public static UnlockCosmetic[] getRandomCosmetics(UnlockCharacter character) {
-        UnlockCosmetic[] cosmetics = new UnlockCosmetic[]{ UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT1 };
+        UnlockCosmetic[] cosmetics = new UnlockCosmetic[]{ UnlockCosmetic.NOTHING_HEAD, UnlockCosmetic.NOTHING_EYE,
+                UnlockCosmetic.NOTHING_HAT1, UnlockCosmetic.NOTHING_HAT2, UnlockCosmetic.NOTHING_MOUTH1, UnlockCosmetic.NOTHING_MOUTH2,
+                UnlockCosmetic.NOTHING_NOSE, UnlockCosmetic.NOTHING_DECAL_HEAD, UnlockCosmetic.NOTHING_DECAL_BODY,
+                UnlockCosmetic.NOTHING_HEAD, UnlockCosmetic.NOTHING_HEAD, UnlockCosmetic.NOTHING_HEAD};
 
         //iterate through all cosmetic slots and for each, add all applicable cosmetics to a list, then choose one randomly
         int index = 0;

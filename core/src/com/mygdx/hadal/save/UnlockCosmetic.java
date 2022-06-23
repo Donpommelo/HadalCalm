@@ -20,13 +20,16 @@ import java.util.HashMap;
  */
 public enum UnlockCosmetic {
 
+    NOTHING_HEAD(CosmeticSlot.HEAD),
+    NOTHING_EYE(CosmeticSlot.EYE),
     NOTHING_HAT1(CosmeticSlot.HAT1),
     NOTHING_HAT2(CosmeticSlot.HAT2),
-    NOTHING_EYE(CosmeticSlot.EYE),
-    NOTHING_NOSE(CosmeticSlot.NOSE),
     NOTHING_MOUTH1(CosmeticSlot.MOUTH1),
     NOTHING_MOUTH2(CosmeticSlot.MOUTH2),
-    NOTHING_HEAD(CosmeticSlot.HEAD),
+    NOTHING_NOSE(CosmeticSlot.NOSE),
+    NOTHING_DECAL_HEAD(CosmeticSlot.DECAL_HEAD),
+    NOTHING_DECAL_BODY(CosmeticSlot.DECAL_BODY),
+
 
     ANTLERS(CosmeticSlot.HAT1, GameText.ANTLERS, GameText.ANTLERS_DESC, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_antlers"),
@@ -112,14 +115,14 @@ public enum UnlockCosmetic {
                     .setUseShader(true).setBotRandomWeight(2)),
 
     SUPREME_HEAD(CosmeticSlot.DECAL_HEAD, GameText.SUPREME, GameText.SUPREME_DESC, true,
-            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_supreme", "roclaire_supreme_mirror"),
-            new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_supreme", "maximillian_supreme_mirror")),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_supreme", "roclaire_supreme_mirror").setBotRandomWeight(2),
+            new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_supreme", "maximillian_supreme_mirror").setBotRandomWeight(2)),
 
     SUPREME_BODY(CosmeticSlot.DECAL_BODY, GameText.SUPREME, GameText.SUPREME_DESC, true, false,
-            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_supreme", "moreau_supreme_mirror"),
-            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_supreme", "takanori_supreme_mirror"),
-            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_supreme", "telemachus_supreme_mirror"),
-            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_supreme", "wanda_supreme_mirror")),
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_supreme", "moreau_supreme_mirror").setBotRandomWeight(2),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_supreme", "takanori_supreme_mirror").setBotRandomWeight(2),
+            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_supreme", "telemachus_supreme_mirror").setBotRandomWeight(2),
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_supreme", "wanda_supreme_mirror").setBotRandomWeight(2)),
     ;
 
     private final GameText name, desc;
