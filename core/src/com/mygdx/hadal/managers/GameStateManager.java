@@ -74,14 +74,7 @@ public class GameStateManager {
 		//we set output settings to json so intellij editor doesn't get pissy about double quotes
 		json.setOutputType(OutputType.json);
 
-		//Load data from saves: hotkeys, records, loadout, settings and unlocks
-		PlayerAction.retrieveKeys();
-		record = Record.retrieveRecord();
-		loadout = SavedLoadout.retrieveLoadout();
-		setting = Setting.retrieveSetting();
-		outfits = SavedOutfits.retrieveOutfits();
-
-		//load text strings.
+		//load text strings. Do this before loading saves
 		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
 		deathMessages = reader.parse(Gdx.files.internal("text/DeathMessages.json"));
 		randomText = reader.parse(Gdx.files.internal("text/RandomText.json"));
@@ -89,6 +82,13 @@ public class GameStateManager {
 		gameStrings = reader.parse(Gdx.files.internal("text/GameStrings.json"));
 		tips = reader.parse(Gdx.files.internal("text/Tips.json"));
 		shops = reader.parse(Gdx.files.internal("save/Shops.json"));
+
+		//Load data from saves: hotkeys, records, loadout, settings and unlocks
+		PlayerAction.retrieveKeys();
+		record = Record.retrieveRecord();
+		loadout = SavedLoadout.retrieveLoadout();
+		setting = Setting.retrieveSetting();
+		outfits = SavedOutfits.retrieveOutfits();
 
 		//set the game's display to match the player's saved settings
 		setting.setDisplay(app, null);
