@@ -14,7 +14,7 @@ import com.mygdx.hadal.text.UIText;
 public class SettingRespawnTime extends ModeSetting {
 
     private static final String settingTag = "respawn_time";
-    private static final Integer defaultDefaultValue = 1;
+    private static final Integer defaultDefaultValue = 4;
     private SelectBox<String> respawnOptions;
 
     private final Integer defaultValue;

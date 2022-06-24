@@ -18,6 +18,7 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.EnemyStrategy;
+import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
 import com.mygdx.hadal.strategies.enemy.TargetNoPathfinding;
 import com.mygdx.hadal.strategies.enemy.TargetPathfinding;
 import com.mygdx.hadal.utils.Constants;
@@ -98,6 +99,7 @@ public class Enemy extends Schmuck {
 		} else {
 			addStrategy(new TargetNoPathfinding(state, this, false));
 		}
+		addStrategy(new FollowRallyPoints(state, this));
 	}
 	
 	@Override
@@ -124,17 +126,7 @@ public class Enemy extends Schmuck {
 	public void controller(float delta) {		
 		super.controller(delta);
 
-		for (EnemyStrategy s : add) {
-			strategies.add(s);
-			s.create();
-		}
-		add.clear();
-
-		for (EnemyStrategy s : remove) {
-			strategies.removeValue(s, false);
-		}
-		remove.clear();
-
+		processEnemyStrategies();
 		for (EnemyStrategy s : strategies) {
 			s.controller(delta);
 		}
@@ -183,6 +175,25 @@ public class Enemy extends Schmuck {
 				if (aiSecondaryActionCdCount > 0.0f) { break; }
 			}
 		}
+	}
+
+	@Override
+	public void clientController(float delta) {
+		super.clientController(delta);
+		processEnemyStrategies();
+	}
+
+	private void processEnemyStrategies() {
+		for (EnemyStrategy s : add) {
+			strategies.add(s);
+			s.create();
+		}
+		add.clear();
+
+		for (EnemyStrategy s : remove) {
+			strategies.removeValue(s, false);
+		}
+		remove.clear();
 	}
 	
 	/**

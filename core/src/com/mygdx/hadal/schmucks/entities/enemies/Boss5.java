@@ -23,7 +23,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
-import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
@@ -66,7 +65,6 @@ public class Boss5 extends EnemyFloating {
 		this.bodySprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.NEPTUNE_KING_BODY.getFrames());
 		this.crownSprite = Sprite.NEPTUNE_KING_CROWN.getFrame();
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 1400));
-		addStrategy(new FollowRallyPoints(state, this));
 
 		new ParticleEntity(state, this, Particle.TYRRAZZA_TRAIL, 1.0f, 0.0f, true, SyncType.CREATESYNC).setScale(2.0f);
 	}

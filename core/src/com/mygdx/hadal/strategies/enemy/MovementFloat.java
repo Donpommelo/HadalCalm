@@ -95,7 +95,6 @@ public class MovementFloat extends EnemyStrategy {
 
     @Override
     public void render(SpriteBatch batch, float animationTime) {
-
         boolean flip = true;
         float realAngle = enemy.getAngle() % (MathUtils.PI * 2);
         if ((realAngle > MathUtils.PI / 2 && realAngle < 3 * MathUtils.PI / 2) || (realAngle < -MathUtils.PI / 2 && realAngle > -3 * MathUtils.PI / 2)) {

@@ -21,8 +21,8 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
-import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
+import com.mygdx.hadal.strategies.enemy.TargetNoPathfinding;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
@@ -72,7 +72,7 @@ public class Boss2 extends EnemyFloating {
 		setFaceSprite();
 
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 1800));
-		addStrategy(new FollowRallyPoints(state, this));
+		addStrategy(new TargetNoPathfinding(state, this, true));
 	}
 
 	@Override
@@ -129,8 +129,7 @@ public class Boss2 extends EnemyFloating {
 	private final Vector2 entityLocation = new Vector2();
 	private final Vector2 linkPosition = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {	
-		
+	public void render(SpriteBatch batch) {
 		boolean flip = true;
 		float realAngle = getAngle() % (MathUtils.PI * 2);
 		if ((realAngle > MathUtils.PI / 2 && realAngle < 3 * MathUtils.PI / 2) || (realAngle < -MathUtils.PI / 2 && realAngle > -3 * MathUtils.PI / 2)) {

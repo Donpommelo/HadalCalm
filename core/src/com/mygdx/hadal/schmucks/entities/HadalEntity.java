@@ -329,6 +329,7 @@ public abstract class HadalEntity {
 	 */
 	private static final float maxLerpRange = 400.0f;
 	public void clientInterpolation() {
+
 		//if we are receiving syncs, lerp towards the saved position and angle
 		if (body != null && receivingSyncs) {
 			if (!copyServerInstantly) {
@@ -336,13 +337,13 @@ public abstract class HadalEntity {
 				float elapsedTime = (state.getTimer() - prevTimeStamp) / (nextTimeStamp - prevTimeStamp);
 
 				if (elapsedTime <= 1.0f && elapsedTime >= 0.0f) {
-
 					if (prevPos.dst2(serverPos) > maxLerpRange) {
 						setTransform(serverPos, serverAngle.angleRad());
 					} else {
 						lerpPos.set(prevPos);
 						setTransform(lerpPos.lerp(serverPos, elapsedTime), angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
 					}
+
 					//set velocity to make entity move smoother between syncs
 					lerpVelo.set(prevVelo);
 					setLinearVelocity(lerpVelo.lerp(serverVelo, elapsedTime));
