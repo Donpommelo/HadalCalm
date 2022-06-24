@@ -18,6 +18,7 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.EnemyStrategy;
+import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
 import com.mygdx.hadal.strategies.enemy.TargetNoPathfinding;
 import com.mygdx.hadal.strategies.enemy.TargetPathfinding;
 import com.mygdx.hadal.utils.Constants;
@@ -98,6 +99,7 @@ public class Enemy extends Schmuck {
 		} else {
 			addStrategy(new TargetNoPathfinding(state, this, false));
 		}
+		addStrategy(new FollowRallyPoints(state, this));
 	}
 	
 	@Override

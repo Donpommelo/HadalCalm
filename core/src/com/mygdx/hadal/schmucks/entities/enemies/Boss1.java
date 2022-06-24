@@ -13,7 +13,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
-import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -54,7 +53,6 @@ public class Boss1 extends EnemyFloating {
 	public Boss1(PlayState state, Vector2 startPos, short filter) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS1, filter, hp, aiAttackCd, scrapDrop);
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 1700));
-		addStrategy(new FollowRallyPoints(state, this));
 	}
 	
 	@Override

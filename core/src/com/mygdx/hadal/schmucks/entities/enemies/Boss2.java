@@ -21,7 +21,6 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
-import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.enemy.TargetNoPathfinding;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -73,7 +72,6 @@ public class Boss2 extends EnemyFloating {
 		setFaceSprite();
 
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 1800));
-		addStrategy(new FollowRallyPoints(state, this));
 		addStrategy(new TargetNoPathfinding(state, this, true));
 	}
 
