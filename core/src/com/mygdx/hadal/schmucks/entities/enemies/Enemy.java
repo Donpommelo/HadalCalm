@@ -124,17 +124,7 @@ public class Enemy extends Schmuck {
 	public void controller(float delta) {		
 		super.controller(delta);
 
-		for (EnemyStrategy s : add) {
-			strategies.add(s);
-			s.create();
-		}
-		add.clear();
-
-		for (EnemyStrategy s : remove) {
-			strategies.removeValue(s, false);
-		}
-		remove.clear();
-
+		processEnemyStrategies();
 		for (EnemyStrategy s : strategies) {
 			s.controller(delta);
 		}
@@ -183,6 +173,25 @@ public class Enemy extends Schmuck {
 				if (aiSecondaryActionCdCount > 0.0f) { break; }
 			}
 		}
+	}
+
+	@Override
+	public void clientController(float delta) {
+		super.clientController(delta);
+		processEnemyStrategies();
+	}
+
+	private void processEnemyStrategies() {
+		for (EnemyStrategy s : add) {
+			strategies.add(s);
+			s.create();
+		}
+		add.clear();
+
+		for (EnemyStrategy s : remove) {
+			strategies.removeValue(s, false);
+		}
+		remove.clear();
 	}
 	
 	/**
