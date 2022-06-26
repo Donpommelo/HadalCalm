@@ -1,6 +1,9 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -13,7 +16,9 @@ public class AuCourant extends Artifact {
 	private static final int slotCost = 3;
 	
 	private static final float bonusReloadSpd = -0.20f;
-	
+
+	private final float particleDura = 1.5f;
+
 	public AuCourant() {
 		super(slotCost);
 	}
@@ -31,6 +36,8 @@ public class AuCourant extends Artifact {
 						if (p.getMultitools()[i].getClipLeft() != p.getMultitools()[i].getClipSize()) {
 							if (p.getMultitools()[i].reload(delta)) {
 								SoundEffect.RELOAD.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.4f, false);
+								new ParticleEntity(state, p.getSchmuck(), Particle.PICKUP_AMMO, 1.0f, particleDura, true, SyncType.CREATESYNC);
+
 							}
 						}
 					}

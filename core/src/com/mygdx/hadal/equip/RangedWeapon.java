@@ -240,6 +240,15 @@ public class RangedWeapon extends Equippable {
 	}
 
 	@Override
+	public void setClipLeft(int clipLeft) {
+		this.clipLeft = clipLeft;
+		if (this.clipLeft >= getClipSize()) {
+			this.clipLeft = getClipSize();
+		}
+		clipPercent = (float) clipLeft / getClipSize();
+	}
+
+	@Override
 	public int getClipLeft() { return clipLeft; }
 	
 	@Override
@@ -268,6 +277,7 @@ public class RangedWeapon extends Equippable {
 		if (this.ammoLeft >= getAmmoSize()) {
 			this.ammoLeft = getAmmoSize();
 		}
+		ammoPercent = (float) ammoLeft / getAmmoSize();
 	}
 
 	@Override

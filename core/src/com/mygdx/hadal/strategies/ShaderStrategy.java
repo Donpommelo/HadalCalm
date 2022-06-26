@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies;
 
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -19,7 +20,7 @@ public abstract class ShaderStrategy implements IShaderStrategy {
 	public void defaultController(ShaderProgram shader, float delta) {}
 
 	@Override
-	public void shaderEntityUpdate(ShaderProgram shader, float completion) {}
+	public void shaderEntityUpdate(ShaderProgram shader, HadalEntity entity, float completion) {}
 
 	@Override
 	public void resize(ShaderProgram shader) {}

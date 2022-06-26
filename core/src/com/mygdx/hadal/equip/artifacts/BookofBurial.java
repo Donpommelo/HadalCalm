@@ -3,6 +3,9 @@ package com.mygdx.hadal.equip.artifacts;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -40,6 +43,8 @@ public class BookofBurial extends Artifact {
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount = 0;
+					new ParticleEntity(state, p.getSchmuck(), Particle.RING, 0.0f, 1.0f, true,
+							SyncType.CREATESYNC).setScale(0.4f);
 					SyncedAttack.PROXIMITY_MINE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getPlayer().getPixelPosition(),
 							new Vector2(), DamageSource.BOOK_OF_BURIAL, explosionDamage);
 				}

@@ -1,12 +1,11 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.statuses.ParticleToggleable;
+import com.mygdx.hadal.utils.Stats;
 
 import static com.mygdx.hadal.utils.Constants.PRIORITY_PROC;
 
@@ -15,7 +14,7 @@ public class DeplorableApparatus extends Artifact {
 	private static final int slotCost = 3;
 	
 	private static final float hpRegen = 13.0f;
-	private static final float procCd = 1.0f;
+	private static final float procCd = 2.0f;
 	
 	public DeplorableApparatus() {
 		super(slotCost);
@@ -23,27 +22,29 @@ public class DeplorableApparatus extends Artifact {
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
-		enchantment = new Status(state, p) {
-			
+		enchantment = new ParticleToggleable(state, p, Particle.REGEN) {
+
 			private float procCdCount = procCd;
+			private float lastHp;
 			@Override
 			public void timePassing(float delta) {
-				
+				super.timePassing(delta);
+
 				if (procCdCount < procCd) {
 					procCdCount += delta;
 				}
-				
-				if (procCdCount >= procCd) {
-					p.regainHp(hpRegen * delta, p, true, DamageTag.REGEN);
-				}
-			}
-			
-			@Override
-			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
-				if (damage > 0) {
+
+				if (lastHp > p.getCurrentHp()) {
 					procCdCount = 0;
 				}
-				return damage;
+				lastHp = p.getCurrentHp();
+
+				boolean activated = procCdCount >= procCd && p.getCurrentHp() < p.getStat(Stats.MAX_HP);
+				setActivated(activated);
+
+				if (activated) {
+					p.regainHp(hpRegen * delta, p, true, DamageTag.REGEN);
+				}
 			}
 		}.setPriority(PRIORITY_PROC);
 	}

@@ -165,14 +165,16 @@ public abstract class Equippable {
 	public int getClipSize() { return 0; }
 	
 	public int getClipLeft() { return 0; }
-	
+
+	public void setClipLeft(int clipLeft) {}
+
 	public void gainAmmo(float gainedPercent) {}
 	
 	public int getAmmoSize() { return 0; }
 	
 	public int getAmmoLeft() { return 0; }
 	
-	public void setAmmoLeft(int clipLeft) {}
+	public void setAmmoLeft(int ammoLeft) {}
 	
 	public float getUseCd() { return useCd;	}
 	

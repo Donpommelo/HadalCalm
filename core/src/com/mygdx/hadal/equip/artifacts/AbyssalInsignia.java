@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -14,6 +15,8 @@ public class AbyssalInsignia extends Artifact {
 	private static final float bonusAttackSpeedMax = 0.5f;
 	private static final float bonusAttackSpeedMin = 0.1f;
 
+	private static final float shaderCount = 0.5f;
+
 	public AbyssalInsignia() {
 		super(slotCost);
 	}
@@ -21,6 +24,18 @@ public class AbyssalInsignia extends Artifact {
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
+
+			private float procCdCount;
+			@Override
+			public void timePassing(float delta) {
+				if (procCdCount < shaderCount) {
+					procCdCount += delta;
+				}
+				float hpPercent = inflicter.getCurrentHp() / inflicter.getStat(Stats.MAX_HP);
+				if (hpPercent < hpThreshold) {
+						p.getPlayer().setShader(Shader.PULSE_RED_HP, shaderCount * 2, false);
+				}
+			}
 
 			@Override
 			public void onShoot(Equippable tool) {
@@ -31,7 +46,7 @@ public class AbyssalInsignia extends Artifact {
 					inflicter.getSchmuck().setShootCdCount(cooldown * (1 - bonusAttackSpeed));
 				}
 			}
-		};
+		}.setClientIndependent(true);
 	}
 
 	@Override

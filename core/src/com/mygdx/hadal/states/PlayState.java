@@ -388,11 +388,7 @@ public class PlayState extends GameState {
 
 		//If ui elements have not been created, create them. (upon first showing the state)
 		if (uiPlay == null) {
-			if (server) {
-				uiPlay = new UIPlay(this);
-			} else {
-				uiPlay = new UIPlayClient(this);
-			}
+			uiPlay = new UIPlay(this);
 			
 			uiHub = new UIHub(this);
 			messageWindow = new MessageWindow(this, stage);
