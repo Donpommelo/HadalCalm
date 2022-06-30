@@ -73,7 +73,8 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_zoom"),
             new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_zoom"),
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_zoom"),
-            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_zoom")),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_zoom"),
+            new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_zoom")),
 
     EYEPATCH(CosmeticSlot.EYE, GameText.EYEPATCH, GameText.EYEPATCH_DESC, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_eyepatch"),
