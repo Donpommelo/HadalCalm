@@ -2,6 +2,7 @@ package com.mygdx.hadal.effects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.ShaderStrategy;
 import com.mygdx.hadal.strategies.shader.*;
@@ -23,8 +24,10 @@ public enum Shader {
 	SEPIA("shaders/pass.vert", "shaders/sepia.frag", true),
 	STATIC("shaders/pass.vert", "shaders/static.frag", true, new Timer()),
 	WATER("shaders/pass.vert", "shaders/water.frag", true, new Timer()),
+	PULSE_RED("shaders/pass.vert", "shaders/pulsered.frag", true, new Timer(), new SetVariable("speed", 10)),
+	PULSE_RED_HP("shaders/pass.vert", "shaders/pulsered.frag", true, new Timer(), new PlayerHpScale()),
+	PULSE_WHITE("shaders/pass.vert", "shaders/pulsewhite.frag", true, new Timer()),
 	WHITE("shaders/pass.vert", "shaders/white.frag", true),
-	WHITE_PULSE("shaders/pass.vert", "shaders/whitepulse.frag", true, new Timer()),
 	INVERT("shaders/pass.vert", "shaders/invert.frag", true),
 	CLOUD("shaders/pass.vert", "shaders/cloud.frag", true, new Resolution(), new Timer(), new CameraCoord()),
 	SPLASH("shaders/pass.vert", "shaders/splash.frag", true, new Resolution(), new Timer()),
@@ -114,9 +117,9 @@ public enum Shader {
 	 * This is a version of shaderPlayUpdate used for entities with temporary shader effects.
 	 * Use this for shaders that keep track of percent completion
 	 */
-	public void shaderEntityUpdate(float completion) {
+	public void shaderEntityUpdate(HadalEntity entity, float completion) {
 		for (ShaderStrategy strat : strategies) {
-			strat.shaderEntityUpdate(shaderProgram, completion);
+			strat.shaderEntityUpdate(shaderProgram, entity, completion);
 		}
 	}
 	

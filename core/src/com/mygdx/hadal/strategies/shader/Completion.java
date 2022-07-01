@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.shader;
 
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.ShaderStrategy;
 
@@ -11,7 +12,7 @@ import com.mygdx.hadal.strategies.ShaderStrategy;
 public class Completion extends ShaderStrategy {
 
 	@Override
-	public void shaderEntityUpdate(ShaderProgram shader, float completion) {
+	public void shaderEntityUpdate(ShaderProgram shader, HadalEntity entity, float completion) {
 		shader.setUniformf("completion", completion);
 	}
 

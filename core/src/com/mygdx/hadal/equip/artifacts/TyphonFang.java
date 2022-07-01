@@ -15,9 +15,10 @@ import com.mygdx.hadal.statuses.StatusComposite;
 public class TyphonFang extends Artifact {
 
 	private static final int slotCost = 2;
-	private final float particleDura = 1.5f;
 	private final float playerClipPercent = 1.0f;
 	private final int monsterClipAmount = 1;
+
+	private final float particleDura = 1.5f;
 
 	public TyphonFang() {
 		super(slotCost);
@@ -36,7 +37,7 @@ public class TyphonFang extends Artifact {
 					if (vic instanceof PlayerBodyData) {
 						weapon.gainClip((int) (weapon.getClipSize() * playerClipPercent));
 					} else {
-						weapon.gainClip(1);
+						weapon.gainClip(monsterClipAmount);
 					}
 				}
 			}

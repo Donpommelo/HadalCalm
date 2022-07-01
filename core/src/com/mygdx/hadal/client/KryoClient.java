@@ -921,32 +921,7 @@ public class KryoClient {
 	 */
 	public boolean receiveSyncPacket(Object o) {
 
-		/*
-		 * The client is told to update its own stats.
-		 * These are stats only relevant to one client.
-		 */
-		if (o instanceof PacketsSync.SyncPlayerSelf p) {
-			final ClientState cs = getClientState();
-			if (cs != null) {
-				cs.addPacketEffect(() -> {
-					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, 0.0f, p.timestamp);
-					if (cs.getUiPlay() != null) {
-						cs.getUiPlay().setOverrideClipLeft(p.currentClip);
-						cs.getUiPlay().setOverrideAmmoSize(p.currentAmmo);
-						cs.getUiPlay().setOverrideActivePercent(p.activeCharge);
-						if (cs.getPlayer() != null) {
-							if (cs.getPlayer().getPlayerData() != null) {
-								cs.getPlayer().getPlayerData().setCurrentFuel(p.currentFuel);
-							}
-							cs.getPlayer().setBlinded(p.blinded);
-						}
-					}
-				});
-			}
-			return true;
-		}
-
-		else if (o instanceof PacketsSync.SyncEntity p) {
+		if (o instanceof PacketsSync.SyncEntity p) {
 			final ClientState cs = getClientState();
 			if (cs != null) {
 				cs.addPacketEffect(() -> {

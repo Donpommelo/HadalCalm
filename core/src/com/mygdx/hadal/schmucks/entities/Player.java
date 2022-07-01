@@ -743,14 +743,8 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//render "out of ammo"
-		if (state.isServer()) {
-			if (playerData.getCurrentTool().isOutofAmmo()) {
-				HadalGame.FONT_SPRITE.draw(batch, UIText.OUT_OF_AMMO.text(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
-			}
-		} else {
-			if (playerData.isOverrideOutOfAmmo()) {
-				HadalGame.FONT_SPRITE.draw(batch, UIText.OUT_OF_AMMO.text(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
-			}
+		if (playerData.getCurrentTool().isOutofAmmo()) {
+			HadalGame.FONT_SPRITE.draw(batch, UIText.OUT_OF_AMMO.text(), textX + 12, textY + reloadMeter.getRegionHeight() * uiScale);
 		}
 		
 		boolean visible = false;
@@ -887,20 +881,15 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void onServerSync() {
-		HadalGame.server.sendToAllExceptUDP(connId, new PacketsSync.SyncPlayer(entityID, getPosition(), getLinearVelocity(),
-				entityAge,	state.getTimer(), moveState, getBodyData().getCurrentHp(),
-				mouseAngle, grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().isReloading(), reloadPercent,
-				playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo(),
-				getMainFixture().getFilterData().maskBits, invisible));
-
-		HadalGame.server.sendToUDP(connId, new PacketsSync.SyncPlayerSelf(entityID, getPosition(),
-				getLinearVelocity(), entityAge,	state.getTimer(), moveState, getBodyData().getCurrentHp(),
+		HadalGame.server.sendToAllUDP(new PacketsSync.SyncPlayer(entityID, getPosition(), getLinearVelocity(),
+				entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp(),
 				mouseAngle, grounded, playerData.getCurrentSlot(),
-				playerData.getCurrentTool().isReloading(), reloadPercent,
-				playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo(),
-				getMainFixture().getFilterData().maskBits, invisible, playerData.getCurrentFuel(),
+				playerData.getCurrentTool().isReloading() ? reloadPercent : -1.0f,
+				playerData.getCurrentTool().isCharging() ? chargePercent : -1.0f,
+				playerData.getCurrentFuel(),
 				playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getAmmoLeft(),
-				playerData.getActiveItem().chargePercent(), blinded));
+				playerData.getActiveItem().chargePercent(),
+				getMainFixture().getFilterData().maskBits, invisible, blinded));
 	}
 	
 	/**
@@ -932,12 +921,16 @@ public class Player extends PhysicsSchmuck {
 			getPlayerData().setCurrentSlot(p.currentSlot);
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
 			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
-			getPlayerData().getCurrentTool().setReloading(p.reloading, true);
+			getPlayerData().getCurrentTool().setReloading(p.reloadPercent != -1.0f, true);
 			reloadPercent = p.reloadPercent;
-			getPlayerData().getCurrentTool().setCharging(p.charging);
+			getPlayerData().getCurrentTool().setCharging(p.chargePercent != -1.0f);
 			chargePercent = p.chargePercent;
-			getPlayerData().setOverrideOutOfAmmo(p.outOfAmmo);
+			getPlayerData().setCurrentFuel(p.currentFuel);
+			getPlayerData().getCurrentTool().setClipLeft(p.currentClip);
+			getPlayerData().getCurrentTool().setAmmoLeft(p.currentAmmo);
+			getPlayerData().getActiveItem().setCurrentChargePercent(p.activeCharge);
 			invisible = p.invisible;
+			blinded = p.blinded;
 
 			//client's own player does not sync dropthrough passability
 			if (!(this instanceof PlayerClient) && p.maskBits != getMainFixture().getFilterData().maskBits) {

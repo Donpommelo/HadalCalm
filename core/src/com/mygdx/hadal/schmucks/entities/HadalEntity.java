@@ -455,7 +455,7 @@ public abstract class HadalEntity {
 		float percentageCompletion = 1.0f - shaderCount / shaderDuration;
 		shader.shaderPlayUpdate(state, timer);
 		shader.shaderDefaultUpdate(timer);
-		shader.shaderEntityUpdate(percentageCompletion);
+		shader.shaderEntityUpdate(this, percentageCompletion);
 	}
 	
 	public void increaseAnimationTime(float i) { animationTime += i; }

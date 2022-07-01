@@ -217,13 +217,17 @@ public class ParticleEntity extends HadalEntity {
 	}
 
 	public void turnOn() {
-		on = true;
-		effect.start();
+		if (!on || effect.isComplete()) {
+			on = true;
+			effect.start();
+		}
 	}
 	
 	public void turnOff() {
-		on = false;
-		effect.allowCompletion();
+		if (on || !effect.isComplete()) {
+			on = false;
+			effect.allowCompletion();
+		}
 	}
 
 	/**
@@ -341,7 +345,7 @@ public class ParticleEntity extends HadalEntity {
 	}
 	
 	public void setRotate(boolean rotate) {	this.rotate = rotate; }
-	
+
 	/**
 	 * Set the angle of the particle
 	 */

@@ -500,8 +500,8 @@ public class BotLoadoutProcessor {
             UnlockArtifact.SHILLERS_DEATHCAP, UnlockArtifact.TRIGGERFISH_FINGER, UnlockArtifact.TYPHON_FANG,
             UnlockArtifact.VESTIGIAL_CHAMBER, UnlockArtifact.VOLATILE_DERMIS, UnlockArtifact.WHITE_WHALE_CHARM,
             UnlockArtifact.WRATH_OF_THE_FROGMAN };
-    private static final UnlockArtifact[] offensive1 = { UnlockArtifact.EIGHT_BALL, UnlockArtifact.ABYSSAL_INSIGNIA, UnlockArtifact.CALL_OF_THE_VOID,
-            UnlockArtifact.CROWN_OF_THORNS, UnlockArtifact.FORAGERS_HIVE, UnlockArtifact.IRON_SIGHTS, UnlockArtifact.KERMUNGLER,
+    private static final UnlockArtifact[] offensive1 = { UnlockArtifact.EIGHT_BALL, UnlockArtifact.ABYSSAL_INSIGNIA, UnlockArtifact.BATTLE_BUOY,
+            UnlockArtifact.CALL_OF_THE_VOID, UnlockArtifact.CROWN_OF_THORNS, UnlockArtifact.FORAGERS_HIVE, UnlockArtifact.IRON_SIGHTS, UnlockArtifact.KERMUNGLER,
             UnlockArtifact.MOUTHFUL_OF_BEES, UnlockArtifact.NUCLEAR_PUNCH_THRUSTERS, UnlockArtifact.NURDLER, UnlockArtifact.PEACHWOOD_SWORD,
             UnlockArtifact.PEPPER, UnlockArtifact.PETRIFIED_PAYLOAD, UnlockArtifact.RED_TIDE_TALISMAN, UnlockArtifact.SAMURAI_SHARK,
             UnlockArtifact.SWORD_OF_SYZYGY, UnlockArtifact.VOW_OF_EMPTY_HANDS };
@@ -579,7 +579,7 @@ public class BotLoadoutProcessor {
         return artifacts;
     }
 
-    private static final int defaultWeight = 10;
+    private static final int defaultNothingWeight = 20;
     /**
      * This applies random cosmetics to the newly created bot
      */
@@ -598,7 +598,7 @@ public class BotLoadoutProcessor {
                             cosmeticOptions.add(cosmetic);
                         }
                     } else if (cosmetic.isBlank()) {
-                        for (int i = 0; i < defaultWeight; i++) {
+                        for (int i = 0; i < defaultNothingWeight; i++) {
                             cosmeticOptions.add(cosmetic);
                         }
                     }

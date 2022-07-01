@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies;
 
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -20,7 +21,7 @@ public interface IShaderStrategy {
 	void defaultController(ShaderProgram shader, float delta);
 
 	//this is run every engine tick for the entity that this shader applies to.
-	void shaderEntityUpdate(ShaderProgram shader, float completion);
+	void shaderEntityUpdate(ShaderProgram shader, HadalEntity entity, float completion);
 
 	//this is called when the window is resized
 	void resize(ShaderProgram shader);

@@ -101,13 +101,15 @@ public class PacketsSync {
         public Vector2 attackAngle;
         public boolean grounded;
         public int currentSlot;
-        public boolean reloading;
         public float reloadPercent;
-        public boolean charging;
         public float chargePercent;
-        public boolean outOfAmmo;
+        public float currentFuel;
+        public int currentClip;
+        public int currentAmmo;
+        public float activeCharge;
         public short maskBits;
         public int invisible;
+        public float blinded;
 
         public SyncPlayer() {}
 
@@ -117,51 +119,21 @@ public class PacketsSync {
          * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
          */
         public SyncPlayer(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
-                          float currentHp, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading,
-                          float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo,
-                          short maskBits, int invisible) {
+                          float currentHp, Vector2 attackAngle, boolean grounded, int currentSlot, float reloadPercent,
+                          float chargePercent, float currentFuel, int currentClip, int currentAmmo, float activeCharge,
+                          short maskBits, int invisible, float blinded) {
             super(entityID, pos, velocity, age, timestamp, moveState, currentHp);
             this.attackAngle = attackAngle;
             this.grounded = grounded;
             this.currentSlot = currentSlot;
-            this.reloading = reloading;
             this.reloadPercent = reloadPercent;
-            this.charging = charging;
             this.chargePercent = chargePercent;
-            this.outOfAmmo = outOfAmmo;
-            this.maskBits = maskBits;
-            this.invisible = invisible;
-        }
-    }
-
-    public static class SyncPlayerSelf extends SyncPlayer {
-        public float currentFuel;
-        public int currentClip;
-        public int currentAmmo;
-        public float activeCharge;
-        public float blinded;
-
-        public SyncPlayerSelf() {}
-
-        /**
-         * A SyncPlayerSelf is sent from the Server to the Client every engine tick.
-         * This packet (and similar packets) just tells the client how to change their own Player for their purpose of their own ui.
-         * @param currentFuel: The client player's current fuel amount.
-         * @param currentClip: The client player's current clip amount.
-         * @param currentAmmo: The client player's current ammo amount.
-         * @param activeCharge: The client player's current active item charge amount.
-         * @param blinded: the duration of the player's blind (0 if not blinded)
-         */
-        public SyncPlayerSelf(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
-                          float currentHp, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading,
-                          float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo, short maskBits, int invisible,
-                          float currentFuel, int currentClip, int currentAmmo, float activeCharge, float blinded) {
-            super(entityID, pos, velocity, age, timestamp, moveState, currentHp, attackAngle, grounded, currentSlot, reloading,
-                    reloadPercent, charging, chargePercent, outOfAmmo, maskBits, invisible);
             this.currentFuel = currentFuel;
             this.currentClip = currentClip;
             this.currentAmmo = currentAmmo;
             this.activeCharge = activeCharge;
+            this.maskBits = maskBits;
+            this.invisible = invisible;
             this.blinded = blinded;
         }
     }

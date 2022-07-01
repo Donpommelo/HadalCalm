@@ -1,11 +1,9 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Stats;
 
@@ -13,9 +11,11 @@ public class FeelingofBeingWatched extends Artifact {
 
 	private static final int slotCost = 1;
 	
-	private static final float fuelThreshold = 0.2f;
-	private static final float bonusDamage = 0.4f;
-	
+	private static final float fuelThreshold = 5.0f;
+	private static final float damageBuff = 0.4f;
+	private static final float buffDuration = 3.0f;
+	private static final float buffCooldown = 6.0f;
+
 	public FeelingofBeingWatched() {
 		super(slotCost);
 	}
@@ -23,21 +23,30 @@ public class FeelingofBeingWatched extends Artifact {
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
-			
+
+			private float procCdCount = buffCooldown;
 			@Override
-			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
-				if (p.getCurrentFuel() <= p.getStat(Stats.MAX_FUEL) * fuelThreshold) {
-					return damage * (1.0f + bonusDamage);
+			public void timePassing(float delta) {
+				if (procCdCount < buffCooldown) {
+					procCdCount += delta;
 				}
-				return damage;
+
+				if (procCdCount >= buffCooldown && p.getCurrentFuel() <= fuelThreshold) {
+					procCdCount -= buffCooldown;
+
+					p.getPlayer().setShader(Shader.PULSE_RED, buffDuration, false);
+					p.addStatus(new StatChangeStatus(state, Stats.DAMAGE_AMP, damageBuff, p));
+				}
 			}
-		};
+
+		}.setClientIndependent(true);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (fuelThreshold * 100)),
-				String.valueOf((int) (bonusDamage * 100))};
+				String.valueOf((int) (damageBuff * 100)),
+				String.valueOf((int) buffDuration),
+				String.valueOf((int) buffCooldown) };
 	}
 }

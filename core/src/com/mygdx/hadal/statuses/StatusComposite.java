@@ -15,11 +15,13 @@ public class StatusComposite extends Status {
 	public StatusComposite(PlayState state, float i, boolean perm, BodyData p, BodyData v, Status...statuses){
 		super(state, i, perm, p, v);
 		this.statuses = statuses;
+		setClientIndependent(true);
 	}
 	
 	public StatusComposite(PlayState state, BodyData i, Status...statuses){
 		super(state, i);
 		this.statuses = statuses;
+		setClientIndependent(true);
 	}
 	
 	@Override
@@ -29,8 +31,22 @@ public class StatusComposite extends Status {
 		ProcTime finalProcTime = o;
 		
 		for (Status s : statuses) {
-			finalProcTime = s.statusProcTime(o);
+			if (state.isServer() || o instanceof ProcTime.StatCalc || s.isClientIndependent()) {
+				finalProcTime = s.statusProcTime(o);
+			}
 		}
 		return finalProcTime;
+	}
+
+	public void onInflict() {
+		for (Status s : statuses) {
+			s.onInflict();
+		}
+	}
+
+	public void onRemove() {
+		for (Status s : statuses) {
+			s.onRemove();
+		}
 	}
 }

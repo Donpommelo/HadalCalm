@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -9,7 +10,6 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.statuses.StatusComposite;
 
 public class BottomoftheBarrel extends Artifact {
 
@@ -18,14 +18,29 @@ public class BottomoftheBarrel extends Artifact {
 	private static final float bonusDamage = 1.0f;
 	private static final float bonusAttackSpeed = 0.25f;
 	private static final float ammoThreshold = 0.25f;
-	
+
+	private static final float shaderCount = 0.5f;
+
 	public BottomoftheBarrel() {
 		super(slotCost);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
-		enchantment = new StatusComposite(state, p, new Status(state, p) {
+		enchantment = new Status(state, p) {
+
+			private float procCdCount;
+			@Override
+			public void timePassing(float delta) {
+				if (procCdCount < shaderCount) {
+					procCdCount += delta;
+				}
+				if (p.getCurrentTool() instanceof RangedWeapon ranged) {
+					if (procCdCount >= shaderCount && ranged.getAmmoPercent() <= ammoThreshold) {
+						p.getPlayer().setShader(Shader.PULSE_RED, shaderCount * 2, false);
+					}
+				}
+			}
 
 			@Override
 			public void onShoot(Equippable tool) {
@@ -46,7 +61,7 @@ public class BottomoftheBarrel extends Artifact {
 				}
 				return damage;
 			}
-		});
+		}.setClientIndependent(true);
 	}
 
 	@Override

@@ -66,9 +66,6 @@ public class PlayerBodyData extends BodyData {
 	
 	private Player player;
 
-	//This is used by clients to display each player's out-of-ammo status
-	private boolean overrideOutOfAmmo;
-	
 	public PlayerBodyData(Player player, Loadout loadout) {
 		super(player, player.getBaseHp());
 		this.player = player;
@@ -594,6 +591,7 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	public void fuelGain(float fuelRegen) {
+		if (!schmuck.getState().isServer()) { return; }
 		currentFuel += fuelRegen;
 		if (currentFuel > getStat(Stats.MAX_FUEL)) {
 			currentFuel = getStat(Stats.MAX_FUEL);
@@ -773,8 +771,4 @@ public class PlayerBodyData extends BodyData {
 	public void setCurrentSlot(int currentSlot) { this.currentSlot = currentSlot; }
 
 	public Loadout getLoadout() { return loadout; }
-
-	public boolean isOverrideOutOfAmmo() { return overrideOutOfAmmo; }
-
-	public void setOverrideOutOfAmmo(boolean overrideOutOfAmmo) { this.overrideOutOfAmmo = overrideOutOfAmmo; }
 }

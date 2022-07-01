@@ -9,7 +9,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.UIPlayClient;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.input.CommonController;
@@ -458,8 +457,6 @@ public class ClientState extends PlayState {
 	@Override
 	public void create(HadalEntity entity) {}
 	
-	public UIPlayClient getUiPlay() { return (UIPlayClient) uiPlay; }
-
 	public float getLatency() { return latency; }
 
 	public Vector3 getMousePosition() { return mousePosition; }
