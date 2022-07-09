@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.AHadalActor;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
@@ -28,9 +28,14 @@ import java.util.regex.Pattern;
  */
 public class Reliquary extends HubEvent {
 
-	private static final int iconWidth = 40;
-	private static final int iconHeight = 40;
-	private static final int iconOffsetX = 15;
+	private static final int iconTextWidth = 150;
+	private static final int optionWidth = 160;
+	private static final int optionHeight = 150;
+	private static final int iconWidth = 80;
+	private static final int iconHeight = 80;
+	private static final int iconOffsetX = 35;
+	private static final int iconOffsetY = 0;
+	private static final int textOffsetY = 45;
 
 	public Reliquary(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.RELIQUARY);
@@ -75,15 +80,26 @@ public class Reliquary extends HubEvent {
 				}
 			}
 			if (appear) {
-				Text itemChoose = new Text(selected.getName()).setButton(true);
-
-				AHadalActor icon = new AHadalActor() {
+				Text icon = new Text(c.getName()) {
 
 					@Override
 					public void draw(Batch batch, float alpha) {
-						batch.draw(c.getFrame(), hub.getTableOptions().getX() + iconOffsetX, getY(), iconWidth, iconHeight);
+						super.draw(batch, alpha);
+						batch.draw(c.getFrame(), getX() + iconOffsetX, getY() + iconOffsetY, iconWidth, iconHeight);
+					}
+
+					@Override
+					public void updateHitBox() {
+						super.updateHitBox();
+						setHeight(optionHeight);
+						setWidth(optionWidth);
 					}
 				};
+
+				icon.setWrap(iconTextWidth);
+				icon.setAlign(Align.center);
+				icon.setYOffset(textOffsetY);
+				icon.setButton(true);
 
 				ClickListener artifactListener = new ClickListener() {
 
@@ -108,14 +124,12 @@ public class Reliquary extends HubEvent {
 					}
 				};
 
-				itemChoose.addListener(artifactListener);
 				icon.addListener(artifactListener);
-				itemChoose.setScale(UIHub.optionsScale);
-				hub.getTableOptions().add(icon).height(iconHeight).width(iconWidth);
-				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeightLarge).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
+				icon.setScale(UIHub.optionsScale);
+				hub.addActor(icon, optionWidth, 4);
 			}
 		}
-		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).colspan(2).row();
+		hub.addActorFinish();
 		hub.refreshHub(null);
 	}
 }

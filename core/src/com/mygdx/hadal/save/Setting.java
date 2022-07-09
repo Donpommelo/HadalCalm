@@ -169,7 +169,7 @@ public class Setting {
 	public void resetDisplay() {
 		resolution = 1;
 		framerate = 1;
-		fullscreen = false;
+		fullscreen = true;
 		vsync = false;
 		autoIconify = true;
 		displayNames = true;

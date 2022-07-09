@@ -7,10 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
@@ -36,7 +33,7 @@ public class UIHub {
 
 	private final PlayState state;
 	
-	private final Table tableSearch, tableOptions, tableOuter, tableInfo, tableExtra;
+	private final Table tableOuter, tableTop, tableSearch, tableLeft, tableRight, tableOptions, tableExtra;
 	private ScrollPane options;
 	private TextField searchName;
 	private SelectBox<String> tagFilter, slotsFilter;
@@ -49,20 +46,20 @@ public class UIHub {
 	public static final int infoPad = 20;
 
 	private static final float tableX = HadalGame.CONFIG_WIDTH;
-	private static final float tableY = 50.0f;
+	private static final float tableY = 0.0f;
 	
-	public static final int titleHeight = 60;
+	public static final int titleHeight = 90;
 	public static final int titlePad = 25;
 	
-	private static final int optionsWidthOuter = 720;
-	private static final int optionsHeightOuter = 600;
-	private static final int optionsHeightInner = 520;
-	private static final int optionsWidth = 320;
+	private static final int optionsWidthOuter = 1280;
+	private static final int optionsHeightOuter = 720;
+	private static final int searchWidth = 240;
 	public static final int optionsHeight = 40;
 	public static final int optionHeight = 35;
 	public static final int optionHeightLarge = 45;
 	public static final int optionPad = 3;
-	private static final int scrollWidth = 330;
+	private static final int scrollWidth = 880;
+	private static final int scrollHeight = 620;
 
 	public static final float optionsScale = 0.3f;
 	public static final float optionsScaleSmall = 0.25f;
@@ -81,11 +78,23 @@ public class UIHub {
 		this.state = state;
 		this.active = false;
 
+		this.tableOuter = new Table() {
+
+			@Override
+			public void draw(Batch batch, float alpha) {
+				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), optionsWidthOuter, optionsHeightOuter);
+				super.draw(batch, alpha);
+			}
+		};
+
+		this.tableTop = new Table();
 		this.tableSearch = new Table();
-		this.tableOptions = new Table();
-		this.tableOuter = new Table();
-		this.tableInfo = new Table();
+
+		this.tableLeft = new Table();
 		this.tableExtra = new Table();
+
+		this.tableRight = new Table();
+		this.tableOptions = new Table();
 
 		tableOuter.setTouchable(Touchable.enabled);
 		addTable();
@@ -100,27 +109,26 @@ public class UIHub {
 		
 		titleInfo = new Text(title);
 		titleInfo.setScale(0.8f);
-		
-		tableOuter.add(titleInfo).pad(titlePad).height(titleHeight).colspan(2);
-		tableOuter.row();
-		
+		tableOuter.add(tableTop).height(titleHeight).colspan(2).growX().row();
+		tableOuter.add(tableLeft).width(infoWidth).bottom();
+		tableOuter.add(tableRight).width(scrollWidth).growY().bottom();
+
+		tableTop.add(titleInfo).pad(titlePad).growX();
+		tableTop.add(tableSearch).width(searchWidth).pad(50);
+
 		Text extraInfo = new Text("") {
-			
+
 			@Override
 		    public void draw(Batch batch, float alpha) {
 				super.draw(batch, alpha);
 				font.getData().setScale(0.3f);
-				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), optionsWidthOuter, optionsHeightOuter);
 				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), infoWidth, infoHeight);
-			    font.draw(batch, info, getX() + 5, getY() + infoHeight - 25, infoWidth - 10, -1, true);
+				font.draw(batch, info, getX() + 5, getY() + infoHeight - 25, infoWidth - 10, -1, true);
 		    }
 		};
-		
-		tableInfo.add(tableExtra).row();
-		tableInfo.add(extraInfo).width(infoWidth).height(infoHeight);
-		
-		tableOuter.add(tableInfo).bottom();
-		tableOuter.add(tableSearch).width(optionsWidth).height(optionsHeightInner);
+
+		tableLeft.add(tableExtra).row();
+		tableLeft.add(extraInfo).width(infoWidth).height(infoHeight).row();
 
 		extraInfo.toBack();
 		titleInfo.toFront();
@@ -148,6 +156,7 @@ public class UIHub {
 		tableOptions.clear();
 		tableSearch.clear();
 		tableExtra.clear();
+		tableRight.clear();
 
 		//for hubs with search bar, let players type in text
 		if (searchable) {
@@ -232,6 +241,7 @@ public class UIHub {
 
 		this.options = new ScrollPane(tableOptions, GameStateManager.getSkin());
 		options.setFadeScrollBars(false);
+		options.setScrollingDisabled(false, true);
 
 		options.addListener(new InputListener() {
 
@@ -241,11 +251,7 @@ public class UIHub {
 			}
 		});
 
-		if (searchable) {
-			tableSearch.add(options).colspan(2).expandY().width(scrollWidth);
-		} else {
-			tableSearch.add(options).expandY().width(scrollWidth);
-		}
+		tableRight.add(options).height(scrollHeight).width(scrollWidth);
 
 		tableOuter.setPosition(tableX, tableY);
 		tableOuter.setSize(optionsWidthOuter, optionsHeightOuter);
@@ -257,7 +263,31 @@ public class UIHub {
 		
 		info = "";
 	}
-	
+
+	private int currentRow;
+	private VerticalGroup currentVerticalGroup = new VerticalGroup();
+	public void addActor(Actor actor, int width, int rowNum) {
+		currentVerticalGroup.addActor(actor);
+		currentVerticalGroup.top();
+		currentVerticalGroup.setWidth(width);
+		currentVerticalGroup.setHeight(scrollHeight);
+		currentVerticalGroup.space(optionPad);
+
+		currentRow++;
+		if (currentRow >= rowNum) {
+			currentRow = 0;
+
+			tableOptions.add(currentVerticalGroup).growY();
+			currentVerticalGroup = new VerticalGroup();
+		}
+	}
+
+	public void addActorFinish() {
+		tableOptions.add(currentVerticalGroup).growY();
+		currentVerticalGroup = new VerticalGroup();
+		currentRow = 0;
+	}
+
 	/**
 	 * Player exits the event. Makes the ui slide out
 	 */

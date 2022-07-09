@@ -25,13 +25,15 @@ public class Text extends AHadalActor {
 	protected GlyphLayout layout;
 
 	protected float scale = 1.0f;
-	
+	private float setYOffset;
+
 	//is this actor being moused over?
 	private boolean mouseOver;
 	
 	//does the text wrap? If so, it is set to targetWidth length.
 	private boolean wrap;
 	private float targetWidth;
+	private int align = Align.left;
 
 	//padding for window used if this text is a button
 	private static final float pad = 15.0f;
@@ -61,7 +63,7 @@ public class Text extends AHadalActor {
 		 }
 
 		 //we use a text cache here so that we can more easily control the text's transparency
-		 cache.setPosition(getX(), getY() + getHeight() / 2 + layout.height / 2);
+		 cache.setPosition(getX(), getY() + getHeight() / 2 + layout.height / 2 + setYOffset);
 		 cache.setAlphas(alpha);
 		 cache.draw(batch);
     }
@@ -73,7 +75,7 @@ public class Text extends AHadalActor {
 	public void updateHitBox() {
 		font.getData().setScale(scale);
 		layout = new GlyphLayout();
-		layout.setText(font, text, fontColor, targetWidth, Align.left, wrap);
+		layout.setText(font, text, fontColor, targetWidth, align, wrap);
 		setWidth(layout.width);
 		setHeight(layout.height);
 
@@ -115,6 +117,16 @@ public class Text extends AHadalActor {
 
 	public void setFont(BitmapFont font) {
 		this.font = font;
+		updateHitBox();
+	}
+
+	public void setYOffset(float setYOffset) {
+		this.setYOffset = setYOffset;
+		updateHitBox();
+	}
+
+	public void setAlign(int align) {
+		this.align = align;
 		updateHitBox();
 	}
 
