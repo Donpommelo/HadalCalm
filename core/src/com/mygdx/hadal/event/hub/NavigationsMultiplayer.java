@@ -38,7 +38,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	public NavigationsMultiplayer(PlayState state, Vector2 startPos, Vector2 size, String title, String tag,
 								  boolean closeOnLeave, String modes) {
 		super(state, startPos, size, title, tag, false, closeOnLeave, hubTypes.NAVIGATIONS);
-		if (modes.equals("")) {
+		if ("".equals(modes)) {
 			gameModes.addAll(GameMode.values());
 		} else {
 			for (String s : modes.split(",")) {
@@ -65,7 +65,7 @@ public class NavigationsMultiplayer extends HubEvent {
 			final UnlockLevel selected = c;
 
 			boolean appear = false;
-			if (search.equals("")) {
+			if ("".equals(search)) {
 				appear = true;
 			} else {
 				Matcher matcher = pattern.matcher(selected.getName().toLowerCase());

@@ -45,7 +45,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 	public void onHit(HadalData fixB) {
 		if (!state.isServer()) { return; }
 		if (fixB != null) {
-			if (fixB.getType().equals(UserDataType.BODY)) {
+			if (UserDataType.BODY.equals(fixB.getType())) {
 
 				final BodyData vic = (BodyData) fixB;
 				
@@ -77,7 +77,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 							if (fixB != null && lastVelo > speedThreshold) {
 
 								//contact a wall, damage the victim
-								if (fixB.getType().equals(UserDataType.WALL)) {
+								if (UserDataType.WALL.equals(fixB.getType())) {
 									vic.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, source, DamageTag.WHACKING);
 									new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
 										true, SyncType.CREATESYNC);
@@ -85,7 +85,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 								}
 								
 								//contact another unit, damage both
-								if (fixB.getType().equals(UserDataType.BODY) && !fixB.equals(vic)) {
+								if (UserDataType.BODY.equals(fixB.getType()) && !fixB.equals(vic)) {
 									vic.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, source, DamageTag.WHACKING);
 									fixB.receiveDamage(lastVelo, new Vector2(), creator, true, hbox, source, DamageTag.WHACKING);
 									new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,

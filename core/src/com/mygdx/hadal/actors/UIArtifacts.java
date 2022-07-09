@@ -44,7 +44,7 @@ public class UIArtifacts {
 		//data will also be null if the player spawns in as a spectator
 		if (state.getPlayer().getPlayerData() != null) {
 			for (UnlockArtifact a : state.getPlayer().getPlayerData().getLoadout().artifacts) {
-				if (!a.equals(UnlockArtifact.NOTHING)) {
+				if (!UnlockArtifact.NOTHING.equals(a)) {
 					addTag(a);
 				}
 			}

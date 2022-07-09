@@ -63,7 +63,7 @@ public class CallofWalrus extends ActiveItem {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
-					if (fixB.getType().equals(UserDataType.BODY)) {
+					if (UserDataType.BODY.equals(fixB.getType())) {
 						BodyData ally = (BodyData) fixB;
 						if (ally.getSchmuck().getHitboxfilter() == user.getPlayer().getHitboxfilter()) {
 							if (!buffed.contains(fixB, false)) {

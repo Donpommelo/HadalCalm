@@ -32,7 +32,7 @@ public class Dialog {
 		this.trigger = trigger;
 		this.type = type;
 		
-		if (!info.getSprite().equals("")) {
+		if (!"".equals(info.getSprite())) {
 			characterBusts character = characterBusts.valueOf(info.getSprite());
 			bust = new Animation<>(speed, character.getAtlas().findRegions(character.getSprite()));
 		}

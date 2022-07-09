@@ -133,11 +133,11 @@ public class SettingTeamMode extends ModeSetting {
 
     @Override
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
-        if (!mode.getTeamMode().equals(TeamMode.COOP)) {
-            if (mode.getTeamMode().equals(TeamMode.FFA)) {
+        if (!TeamMode.COOP.equals(mode.getTeamMode())) {
+            if (TeamMode.FFA.equals(mode.getTeamMode())) {
                 p.setHitboxfilter(hitboxFilter);
             } else {
-                if (newLoadout.team.equals(AlignmentFilter.NONE)) {
+                if (AlignmentFilter.NONE.equals(newLoadout.team)) {
                     p.setHitboxfilter(hitboxFilter);
                 } else {
                     p.setHitboxfilter(newLoadout.team.getFilter());
@@ -155,7 +155,7 @@ public class SettingTeamMode extends ModeSetting {
         AlignmentFilter winningTeam = AlignmentFilter.NONE;
 
         Array<User> users = HadalGame.server.getUsers().values().toArray();
-        if (mode.getTeamMode().equals(TeamMode.COOP) || users.size <= 1) {
+        if (TeamMode.COOP.equals(mode.getTeamMode()) || users.size <= 1) {
             resultsText = UIText.SETTING_LIVES_OUT.text();
 
             //coop levels end when all players are dead
@@ -178,11 +178,11 @@ public class SettingTeamMode extends ModeSetting {
                         if (playerLeft != null) {
 
                             //in free-for-all, living players are qualified to win
-                            if (mode.getTeamMode().equals(TeamMode.FFA)) {
+                            if (TeamMode.FFA.equals(mode.getTeamMode())) {
                                 resultsText = UIText.PLAYER_WINS.text(playerLeft.getName());
                             } else {
                                 //if team mode, living players qualify their team for a win (or themselves if on a solo-team)
-                                if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
+                                if (!AlignmentFilter.NONE.equals(playerLeft.getPlayerData().getLoadout().team)) {
                                     resultsText = UIText.PLAYER_WINS.text(playerLeft.getPlayerData().getLoadout().team.getTeamName());
                                     winningTeam = user.getTeamFilter();
                                 } else {
@@ -210,12 +210,12 @@ public class SettingTeamMode extends ModeSetting {
             for (User user : users) {
                 if (!user.isSpectator()) {
                     SavedPlayerFields score = user.getScores();
-                    if (mode.getTeamMode().equals(TeamMode.FFA)) {
+                    if (TeamMode.FFA.equals(mode.getTeamMode())) {
                         if (user.getScores().getLives() > 0) {
                             score.win();
                         }
                     } else {
-                        if (winningTeam != AlignmentFilter.NONE) {
+                        if (!AlignmentFilter.NONE.equals(winningTeam)) {
                             if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
                                 score.win();
                             }

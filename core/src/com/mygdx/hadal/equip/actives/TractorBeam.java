@@ -62,7 +62,7 @@ public class TractorBeam extends ActiveItem {
 			public void onHit(HadalData fixB) {						
 					
 				if (fixB != null) {
-					if (fixB.getType().equals(UserDataType.BODY)) {
+					if (UserDataType.BODY.equals(fixB.getType())) {
 						
 						final BodyData track = (BodyData) fixB;
 						
@@ -89,12 +89,12 @@ public class TractorBeam extends ActiveItem {
 
 									if (fixB != null && track.getSchmuck().getBody() != null) {
 
-										if (fixB.getType().equals(UserDataType.BODY) || fixB.getType().equals(UserDataType.WALL)) {
+										if (UserDataType.BODY.equals(fixB.getType()) || UserDataType.WALL.equals(fixB.getType())) {
 											track.receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, grab,
 													DamageSource.TRACTOR_BEAM, DamageTag.WHACKING);
 										}
 
-										if (fixB.getType().equals(UserDataType.BODY)) {
+										if (UserDataType.BODY.equals(fixB.getType())) {
 											fixB.receiveDamage(primaryDamage, hbox.getLinearVelocity().nor().scl(knockback),
 													creator, true, grab, DamageSource.TRACTOR_BEAM, DamageTag.WHACKING);
 										}

@@ -160,13 +160,13 @@ public class KryoServer {
 						if (p.firstTime) {
 							
 							//reject clients with wrong version
-							if (!p.version.equals(HadalGame.Version)) {
+							if (!HadalGame.Version.equals(p.version)) {
 								sendToTCP(c.getID(), new Packets.ConnectReject(UIText.INCOMPATIBLE.text(HadalGame.Version)));
 								return;
 							}
 
 							//if no server password, the client connects.
-							if (!gsm.getSetting().getServerPassword().equals("")) {
+							if (!"".equals(gsm.getSetting().getServerPassword())) {
 								//password being null indicates the client just attempted to connect.
 								//otherwise, we check whether the password entered matches
 								if (p.password == null) {

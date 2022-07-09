@@ -128,7 +128,7 @@ public enum UnlockActives {
 		Array<UnlockTag> defaultTags = new Array<>();
 		defaultTags.add(UnlockTag.RANDOM_POOL);
 		
-		if (pool.equals("")) {
+		if ("".equals(pool)) {
 			Array<UnlockActives> unlocks = UnlockActives.getUnlocks(state, false, defaultTags);
 			return unlocks.get(MathUtils.random(unlocks.size - 1));
 		}

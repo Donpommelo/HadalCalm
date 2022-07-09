@@ -21,7 +21,7 @@ public class ContactWallLoseDurability extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			if (fixB.getType().equals(UserDataType.WALL)) {
+			if (UserDataType.WALL.equals(fixB.getType())) {
 				hbox.lowerDurability();
 			}
 		}

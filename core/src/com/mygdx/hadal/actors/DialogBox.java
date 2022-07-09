@@ -196,7 +196,7 @@ public class DialogBox extends AHadalActor {
 			Dialog first = dialogs.first();
 
 			//system messages are red to distinguish them from story dialog
-			if (first.getType().equals(DialogType.SYSTEM)) {
+			if (DialogType.SYSTEM.equals(first.getType())) {
 				HadalGame.FONT_UI.setColor(Color.RED);
 			}
 			
@@ -234,7 +234,7 @@ public class DialogBox extends AHadalActor {
 			}
 
 			//Return color to default values.
-			if (first.getType().equals(DialogType.SYSTEM)) {
+			if (DialogType.SYSTEM.equals(first.getType())) {
 				HadalGame.FONT_UI.setColor(HadalGame.DEFAULT_TEXT_COLOR);
 		    }
 		}

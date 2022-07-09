@@ -24,19 +24,19 @@ public class WorldContactListener implements ContactListener {
 		//Projectiles and events should register hits.
 		if (fixA != null) {
 			fixA.setNumContacts(fixA.getNumContacts() + 1);
-			if (fixA.getType().equals(UserDataType.HITBOX)) {
+			if (UserDataType.HITBOX.equals(fixA.getType())) {
 				((HitboxData) fixA).onHit(fixB);
 			}
-			if (fixA.getType().equals(UserDataType.EVENT)) {
+			if (UserDataType.EVENT.equals(fixA.getType())) {
 				((EventData) fixA).onTouch(fixB);
 			}
 		}
 		if (fixB != null) {
 			fixB.setNumContacts(fixB.getNumContacts() + 1);
-			if (fixB.getType().equals(UserDataType.HITBOX)) {
+			if (UserDataType.HITBOX.equals(fixB.getType())) {
 				((HitboxData) fixB).onHit(fixA);
 			}
-			if (fixB.getType().equals(UserDataType.EVENT)) {
+			if (UserDataType.EVENT.equals(fixB.getType())) {
 				((EventData) fixB).onTouch(fixA);
 			}
 		}
@@ -49,13 +49,13 @@ public class WorldContactListener implements ContactListener {
 
 		if (fixA != null) {
 			fixA.setNumContacts(fixA.getNumContacts() - 1);
-			if (fixA.getType().equals(UserDataType.EVENT)) {
+			if (UserDataType.EVENT.equals(fixA.getType())) {
 				((EventData) fixA).onRelease(fixB);
 			}
 		}
 		if (fixB != null) {
 			fixB.setNumContacts(fixB.getNumContacts() - 1);
-			if (fixB.getType().equals(UserDataType.EVENT)) {
+			if (UserDataType.EVENT.equals(fixB.getType())) {
 				((EventData) fixB).onRelease(fixA);
 			}
 		}

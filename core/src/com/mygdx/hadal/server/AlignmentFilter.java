@@ -200,10 +200,10 @@ public enum AlignmentFilter {
         //add each non-spectator to a team.
         for (User user : users) {
             if (!user.isSpectator()) {
-                if (mode.equals(TeamMode.TEAM_AUTO)) {
+                if (TeamMode.TEAM_AUTO.equals(mode)) {
                     currentTeam = (currentTeam + 1) % numTeams;
                     teamSelection.put(user, currentTeam);
-                } else if (mode.equals(TeamMode.HUMANS_VS_BOTS)){
+                } else if (TeamMode.HUMANS_VS_BOTS.equals(mode)){
                     if (user.getScores().getConnID() < 0) {
                         currentTeam = 0;
                     } else {

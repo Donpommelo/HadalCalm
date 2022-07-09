@@ -103,7 +103,7 @@ public class PlayerResultsIcon extends AHadalActor {
 		cosmeticLocation.set(spriteX + cosmeticOffset.x, spriteY + cosmeticOffset.y);
 		//draw cosmetics on the slug/buff players
 		for (UnlockCosmetic cosmetic : cosmetics) {
-			if (!cosmetic.getCosmeticSlot().equals(CosmeticSlot.HEAD)) {
+			if (!CosmeticSlot.HEAD.equals(cosmetic.getCosmeticSlot())) {
 				cosmetic.render(batch, team, character, animationTimeExtra, spriteScale, false, cosmeticLocation, cosmeticLocation);
 			}
 		}

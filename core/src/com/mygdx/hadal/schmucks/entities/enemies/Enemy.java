@@ -243,7 +243,7 @@ public class Enemy extends Schmuck {
 	public boolean queueDeletion() {
 
 		//defeated enemy drops eggplants in cooperative mode
-		if (alive && state.getMode().getTeamMode().equals(SettingTeamMode.TeamMode.COOP)) {
+		if (alive && SettingTeamMode.TeamMode.COOP.equals(state.getMode().getTeamMode())) {
 			WeaponUtils.spawnScrap(state, scrapDrop, getPixelPosition(), true, false);
 		}
 		return super.queueDeletion();

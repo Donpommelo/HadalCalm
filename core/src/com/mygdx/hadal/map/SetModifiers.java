@@ -68,7 +68,7 @@ public class SetModifiers extends ModeSetting {
         }
 
         //this adds each active modifier to the initial notification that is displayed at thte start of the match
-        if (!text.toString().equals(ModifierNotifTag.text())) {
+        if (!ModifierNotifTag.text().equals(text.toString())) {
             mode.getInitialNotifications().add(text.toString());
         }
     }

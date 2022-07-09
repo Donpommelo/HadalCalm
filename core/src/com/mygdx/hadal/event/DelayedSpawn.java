@@ -74,7 +74,7 @@ public class DelayedSpawn extends Event {
 				enemy.setName(bossName);
 				state.setBoss(enemy);
 			}
-			if (state.getMode().getTeamMode().equals(SettingTeamMode.TeamMode.COOP)) {
+			if (SettingTeamMode.TeamMode.COOP.equals(state.getMode().getTeamMode())) {
 				enemy.addStrategy(new DeathPlayerScore(state, enemy));
 			}
 		}

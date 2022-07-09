@@ -188,7 +188,7 @@ public class UIExtra extends AHadalActor {
 
 		//misc tags return their exact text. Other tags return their type name
 		for (UITag tag : uiTags) {
-			if (tag.getType().equals(uiType.MISC)) {
+			if (uiType.MISC.equals(tag.getType())) {
 				tags.append(tag.getMisc()).append(",");
 			} else {
 				tags.append(tag.getType().toString()).append(",");

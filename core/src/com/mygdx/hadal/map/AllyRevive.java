@@ -36,7 +36,7 @@ public class AllyRevive extends ModeSetting {
                 AlignmentFilter winningTeam = AlignmentFilter.NONE;
 
                 Array<User> users = HadalGame.server.getUsers().values().toArray();
-                if (mode.getTeamMode().equals(SettingTeamMode.TeamMode.COOP) || users.size <= 1) {
+                if (SettingTeamMode.TeamMode.COOP.equals(mode.getTeamMode()) || users.size <= 1) {
                     resultsText = UIText.SETTING_LIVES_OUT.text();
 
                     //coop levels end when all players are dead
@@ -62,7 +62,7 @@ public class AllyRevive extends ModeSetting {
                                     if (playerLeft != null) {
 
                                         //if team mode, living players qualify their team for a win (or themselves if on a solo-team)
-                                        if (!playerLeft.getPlayerData().getLoadout().team.equals(AlignmentFilter.NONE)) {
+                                        if (!AlignmentFilter.NONE.equals(playerLeft.getPlayerData().getLoadout().team)) {
                                             resultsText = UIText.PLAYER_WINS.text(playerLeft.getPlayerData().getLoadout().team.getTeamName());
                                             winningTeam = user2.getTeamFilter();
                                         } else {
@@ -90,7 +90,7 @@ public class AllyRevive extends ModeSetting {
                     for (User user2 : users) {
                         if (!user2.isSpectator()) {
                             SavedPlayerFields score = user2.getScores();
-                            if (winningTeam != AlignmentFilter.NONE) {
+                            if (!AlignmentFilter.NONE.equals(winningTeam)) {
                                 if (user2.getHitBoxFilter().equals(winningTeam) || user2.getTeamFilter().equals(winningTeam)) {
                                     score.win();
                                 }
@@ -104,7 +104,7 @@ public class AllyRevive extends ModeSetting {
                     float reviveTimer = numReviveTimer(vic.getUser().getScores().getExtraModeScore());
                     vic.getUser().getScores().setExtraModeScore(vic.getUser().getScores().getExtraModeScore() + 1);
 
-                    if (source.equals(DamageSource.MAP_FALL)) {
+                    if (DamageSource.MAP_FALL.equals(source)) {
                         new ReviveGravestone(state, vic.getStart().getPixelPosition(), vic.getUser(), vic.getConnId(),
                                 reviveTimer, vic.getStart());
                     } else {

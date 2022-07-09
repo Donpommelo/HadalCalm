@@ -27,7 +27,7 @@ public class ContactBlockProjectiles extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			if (fixB.getType().equals(UserDataType.HITBOX)) {
+			if (UserDataType.HITBOX.equals(fixB.getType())) {
 				fixB.receiveDamage(0, hbox.getLinearVelocity().nor().scl(knockback), creator, false,
 						hbox, DamageSource.MISC, DamageTag.DEFLECT);
 			}

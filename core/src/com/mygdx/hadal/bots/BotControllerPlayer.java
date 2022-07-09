@@ -139,13 +139,13 @@ public class BotControllerPlayer extends BotController {
     public HadalEntity findTarget() {
         HadalEntity target = null;
 
-        if (currentMood.equals(BotMood.SEEK_WEAPON)) {
+        if (BotMood.SEEK_WEAPON.equals(currentMood)) {
             target = weaponTarget;
         }
-        if (currentMood.equals(BotMood.SEEK_HEALTH)) {
+        if (BotMood.SEEK_HEALTH.equals(currentMood)) {
             target = healthTarget;
         }
-        if (currentMood.equals(BotMood.SEEK_EVENT)) {
+        if (BotMood.SEEK_EVENT.equals(currentMood)) {
             target = eventTarget;
         }
         return target;

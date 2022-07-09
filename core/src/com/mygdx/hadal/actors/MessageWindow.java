@@ -187,7 +187,7 @@ public class MessageWindow {
 	 */
 	public void sendMessage() {
 		if (active) {
-			if (!enterMessage.getText().equals("")) {
+			if (!"".equals(enterMessage.getText())) {
 				if (state.isServer()) {
 
 					//if this is a console commend, execute it. (if it is used by host and console is enabled)
@@ -368,7 +368,7 @@ public class MessageWindow {
 				String newText;
 
 				//system messages are all red.
-				if (type.equals(DialogType.SYSTEM)) {
+				if (DialogType.SYSTEM.equals(type)) {
 					newText = "[RED]" + user.getScores().getNameShort() + ": " + text + " []";
 				} else if (user.getPlayer() == null) {
 

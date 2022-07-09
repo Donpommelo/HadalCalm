@@ -30,7 +30,7 @@ public class ContactWallDie extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null && delay <= 0) {
-			if (fixB.getType().equals(UserDataType.WALL)) {
+			if (UserDataType.WALL.equals(fixB.getType())) {
 				hbox.die();
 			}
 		}

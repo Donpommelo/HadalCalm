@@ -46,9 +46,9 @@ public class GhostStep extends ActiveItem {
 
 		int direction;
 
-		if (user.getMoveState().equals(MoveState.MOVE_LEFT)) {
+		if (MoveState.MOVE_LEFT.equals(user.getMoveState())) {
 			direction = -1;
-		} else if (user.getMoveState().equals(MoveState.MOVE_RIGHT)) {
+		} else if (MoveState.MOVE_RIGHT.equals(user.getMoveState())) {
 			direction = 1;
 		} else if (startVelocity.x > 0) {
 			direction = 1;

@@ -49,7 +49,7 @@ public class Arcanery extends HubEvent {
 			final UnlockActives selected = c;
 
 			boolean appear = false;
-			if (search.equals("")) {
+			if ("".equals(search)) {
 				appear = true;
 			} else {
 				Matcher matcher = pattern.matcher(selected.getName().toLowerCase());

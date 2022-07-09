@@ -128,7 +128,7 @@ public class BotController {
         }
 
         //if seeking player, raycast towards it and set target location if found
-        if (currentMood.equals(BotMood.SEEK_ENEMY)) {
+        if (BotMood.SEEK_ENEMY.equals(currentMood)) {
             if (shootTarget != null && lineOfSight) {
                 if (shootTarget.isAlive()) {
                     thisLocation.set(shootTarget.getPosition()).sub(predictedSelfLocation);
@@ -167,7 +167,7 @@ public class BotController {
      */
     public HadalEntity findTarget() {
         HadalEntity target = null;
-        if (currentMood.equals(BotMood.SEEK_EVENT)) {
+        if (BotMood.SEEK_EVENT.equals(currentMood)) {
             target = eventTarget;
         }
         return target;

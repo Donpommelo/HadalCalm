@@ -36,7 +36,7 @@ public class ClientIllusion extends HadalEntity {
 	public ClientIllusion(PlayState state, Vector2 startPos, Vector2 size, float startAngle, Sprite sprite, alignType align) {
 		super(state, startPos, size);
 		this.startAngle = startAngle;
-		if (!sprite.equals(Sprite.NOTHING)) {
+		if (!Sprite.NOTHING.equals(sprite)) {
 			illusionSprite = new Animation<>(sprite.getAnimationSpeed(), Objects.requireNonNull(sprite.getFrames()));
 			illusionSprite.setPlayMode(sprite.getPlayMode());
 			this.align = align;

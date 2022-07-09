@@ -22,7 +22,7 @@ public class ToggleWeaponDrops extends ModeSetting {
         if (vic != null) {
             PlayerBodyData player = vic.getPlayerData();
             UnlockEquip equip = player.getLoadout().multitools[player.getCurrentSlot()];
-            if (!equip.equals(UnlockEquip.NOTHING) && !equip.equals(UnlockEquip.SPEARGUN_NERFED)) {
+            if (!UnlockEquip.NOTHING.equals(equip) && !UnlockEquip.SPEARGUN_NERFED.equals(equip)) {
                 new PickupEquip(vic.getState(), vic.getPixelPosition(), equip, equipDropLifepan);
             }
         }

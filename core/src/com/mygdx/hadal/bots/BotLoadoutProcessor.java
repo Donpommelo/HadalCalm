@@ -518,8 +518,8 @@ public class BotLoadoutProcessor {
         UnlockArtifact[] artifacts = new UnlockArtifact[]{ UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING,  UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING };
 
         //easy bots or bots in single player when the player has no artifacts do not use artifacts
-        if (state.getMode().getBotDifficulty().equals(BotPersonality.BotDifficulty.EASY) ||
-                (GameStateManager.currentMode.equals(GameStateManager.Mode.SINGLE) &&
+        if (BotPersonality.BotDifficulty.EASY.equals(state.getMode().getBotDifficulty()) ||
+                (GameStateManager.Mode.SINGLE.equals(GameStateManager.currentMode) &&
                         state.getPlayer().getPlayerData().getArtifactSlotsUsed() == 0)) {
             return artifacts;
         }

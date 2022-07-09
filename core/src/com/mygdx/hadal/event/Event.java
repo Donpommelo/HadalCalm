@@ -239,7 +239,7 @@ public class Event extends HadalEntity {
 		this.sprite = sprite;
 		animationTime = 0;
 		
-		if (sprite.equals(Sprite.NOTHING)) {
+		if (Sprite.NOTHING.equals(sprite)) {
 			this.eventSprite = null;
 			return;
 		}
@@ -269,7 +269,7 @@ public class Event extends HadalEntity {
 		switch(syncType) {
 		case ILLUSION:
 		case SERVER:
-			if (body != null && !sprite.equals(Sprite.NOTHING)) {
+			if (body != null && !Sprite.NOTHING.equals(sprite)) {
 				return new Packets.CreateEntity(entityID, size, getPixelPosition(), getAngle(), sprite,
 						synced, isSyncInstant(), ObjectLayer.STANDARD, scaleAlign);
 			} else {

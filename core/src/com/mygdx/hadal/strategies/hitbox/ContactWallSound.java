@@ -54,7 +54,7 @@ public class ContactWallSound extends HitboxStrategy {
 	public void onHit(HadalData fixB) {
 		if (procCdCount >= procCd && hbox.getLinearVelocity().len2() > minVelo) {
 			if (fixB != null) {
-				if (fixB.getType().equals(UserDataType.WALL)) {
+				if (UserDataType.WALL.equals(fixB.getType())) {
 					procCdCount = 0;
 
 					float newPitch = pitch + (MathUtils.random() - 0.5f) * pitchSpread;

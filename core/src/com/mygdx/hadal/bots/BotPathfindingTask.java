@@ -26,7 +26,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
 
         //Wandering bots will, by default, continue wandering along the same path if no better option is found.
         //Bots with "dilly dally" will begin wandering a new path if no better option is found
-        if (controller.getCurrentMood().equals(BotController.BotMood.WANDER)) {
+        if (BotController.BotMood.WANDER.equals(controller.getCurrentMood())) {
             nextMood[0] = BotController.BotMood.WANDER;
         } else {
             nextMood[0] = BotController.BotMood.DILLY_DALLY;
@@ -109,13 +109,13 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
         }
 
         //if wandering, bot will continue wandering
-        if (controller.getCurrentMood().equals(BotController.BotMood.WANDER)) {
+        if (BotController.BotMood.WANDER.equals(controller.getCurrentMood())) {
             nextMood[0] = controller.getCurrentMood();
         }
 
         //if bot just finished a wander path or is dilly dallying, they will begin wandering to a new random point
-        if ((nextMood[0].equals(BotController.BotMood.WANDER) && controller.getPointPath().isEmpty()) ||
-                nextMood[0].equals(BotController.BotMood.DILLY_DALLY)) {
+        if ((BotController.BotMood.WANDER.equals(nextMood[0]) && controller.getPointPath().isEmpty()) ||
+                BotController.BotMood.DILLY_DALLY.equals(nextMood[0])) {
             bestPath[0] = getPathToRandomPoint();
         }
 
@@ -123,7 +123,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
         Gdx.app.postRunnable(() -> {
 
             //dilly dallying becomes wandering with an empty path.
-            if (nextMood[0].equals(BotController.BotMood.DILLY_DALLY)) {
+            if (BotController.BotMood.DILLY_DALLY.equals(nextMood[0])) {
                 nextMood[0] = BotController.BotMood.WANDER;
                 controller.getPointPath().clear();
             }

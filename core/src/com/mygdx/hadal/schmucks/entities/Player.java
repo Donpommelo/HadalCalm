@@ -378,7 +378,7 @@ public class Player extends PhysicsSchmuck {
 				fastFall();
 			}
 			
-			if ((moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT)) && grounded && invisible == 0) {
+			if ((MoveState.MOVE_LEFT.equals(moveState) || MoveState.MOVE_RIGHT.equals(moveState)) && grounded && invisible == 0) {
 				
 				//turn on running particles and sound
 				dustCloud.turnOn();
@@ -439,7 +439,7 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//charge active item in all modes except campaign (where items charge by dealing damage).
-		if (!state.getMode().equals(GameMode.CAMPAIGN)) {
+		if (!GameMode.CAMPAIGN.equals(state.getMode())) {
 			playerData.getActiveItem().gainCharge(delta);
 		}
 		

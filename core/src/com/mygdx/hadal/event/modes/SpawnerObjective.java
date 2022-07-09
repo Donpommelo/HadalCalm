@@ -46,7 +46,7 @@ public class SpawnerObjective extends Event {
 		body.setType(BodyType.KinematicBody);
 
 		//in eggplant mode, this event should be visible in the objective ui
-		if (state.getMode().equals(GameMode.EGGPLANTS)) {
+		if (GameMode.EGGPLANTS.equals(state.getMode())) {
 			EventUtils.setObjectiveMarker(state, this, Sprite.CLEAR_CIRCLE_EGGPLANT, HadalColor.NOTHING,
 					true, true);
 		}
@@ -59,7 +59,7 @@ public class SpawnerObjective extends Event {
 	public void controller(float delta) {
 
 		//in eggplant mode, spawn scrap periodically
-		if (state.getMode().equals(GameMode.EGGPLANTS)) {
+		if (GameMode.EGGPLANTS.equals(state.getMode())) {
 			timeCount += delta;
 			if (timeCount >= interval) {
 				timeCount = 0;
@@ -68,7 +68,7 @@ public class SpawnerObjective extends Event {
 		}
 
 		//in kingmaker, spawn a flag after some time if there is not one active or after a delay after it has been dropped.
-		if (state.getMode().equals(GameMode.KINGMAKER)) {
+		if (GameMode.KINGMAKER.equals(state.getMode())) {
 			if (spawnCountdown > 0.0f) {
 				spawnCountdown -= delta;
 				if (spawnCountdown <= 0.0f) {

@@ -333,9 +333,9 @@ public class PlayState extends GameState {
 		}
 
 		//if auto-assign team is on, we do the assignment here
-		if (mode.getTeamMode().equals(TeamMode.TEAM_AUTO) && isServer()) {
+		if (TeamMode.TEAM_AUTO.equals(mode.getTeamMode()) && isServer()) {
 			AlignmentFilter.autoAssignTeams(mode.getTeamNum(), mode.getTeamMode());
-		} else if (mode.getTeamMode().equals(TeamMode.HUMANS_VS_BOTS) && isServer()) {
+		} else if (TeamMode.HUMANS_VS_BOTS.equals(mode.getTeamMode()) && isServer()) {
 			AlignmentFilter.autoAssignTeams(2, mode.getTeamMode());
 		} else {
 			AlignmentFilter.resetTeams();
@@ -492,9 +492,9 @@ public class PlayState extends GameState {
 
 		//All entities that are set to be added are added.
 		for (HadalEntity entity : createList) {
-			if (entity.getLayer().equals(ObjectLayer.HBOX)) {
+			if (ObjectLayer.HBOX.equals(entity.getLayer())) {
 				hitboxes.add(entity);
-			} else if (entity.getLayer().equals(ObjectLayer.EFFECT)) {
+			} else if (ObjectLayer.EFFECT.equals(entity.getLayer())) {
 				effects.add(entity);
 			} else {
 				entities.add(entity);
@@ -1056,13 +1056,13 @@ public class PlayState extends GameState {
 		Array<User> users = HadalGame.server.getUsers().values().toArray();
 
 		//magic word indicates that we generate the results text dynamically based on score
-		if (text.equals(ResultsState.magicWord)) {
+		if (ResultsState.magicWord.equals(text)) {
 			for (User user : users) {
 				if (!user.isSpectator()) {
 					scores.add(user.getScores());
 
 					AlignmentFilter faction;
-					if (user.getTeamFilter().equals(AlignmentFilter.NONE)) {
+					if (AlignmentFilter.NONE.equals(user.getTeamFilter())) {
 						faction = user.getHitBoxFilter();
 					} else {
 						faction = user.getTeamFilter();
@@ -1104,7 +1104,7 @@ public class PlayState extends GameState {
 			});
 
 			//if free-for-all, the first player in the sorted list is the victor
-			if (mode.getTeamMode().equals(TeamMode.FFA)) {
+			if (TeamMode.FFA.equals(mode.getTeamMode())) {
 				resultsText = UIText.PLAYER_WINS.text(scores.get(0).getNameShort());
 			} else {
 
@@ -1130,7 +1130,7 @@ public class PlayState extends GameState {
 			for (User user : users) {
 				if (!user.isSpectator()) {
 					SavedPlayerFields score = user.getScores();
-					if (mode.getTeamMode().equals(TeamMode.FFA)) {
+					if (TeamMode.FFA.equals(mode.getTeamMode())) {
 						if (score.getScore() == winningScore.getScore() && score.getKills() == winningScore.getKills()
 								&& score.getDeaths() == winningScore.getDeaths()) {
 							score.win();
@@ -1138,7 +1138,7 @@ public class PlayState extends GameState {
 					} else {
 						AlignmentFilter faction;
 
-						if (user.getTeamFilter().equals(AlignmentFilter.NONE)) {
+						if (AlignmentFilter.NONE.equals(user.getTeamFilter())) {
 							faction = user.getHitBoxFilter();
 						} else {
 							faction = user.getTeamFilter();
@@ -1317,7 +1317,7 @@ public class PlayState extends GameState {
 		gsm.getApp().setRunAfterTransition(this::transitionState);
 
 		//fadeSpeed means we skip the fade. Only relevant during special transitions
-		if (state.equals(TransitionState.RESPAWN) && fadeSpeed != 0.0f) {
+		if (TransitionState.RESPAWN.equals(state) && fadeSpeed != 0.0f) {
 			killFeed.addKillInfo(fadeDelay + 1.0f / fadeSpeed);
 		}
 	}

@@ -316,7 +316,7 @@ public class BodyData extends HadalData {
 
 			//charge on-damage active item
 			if (perp instanceof PlayerBodyData perpData) {
-				if (schmuck.getState().getMode().equals(GameMode.CAMPAIGN)) {
+				if (GameMode.CAMPAIGN.equals(schmuck.getState().getMode())) {
 					
 					//active item charges less against non-player enemies
 					if (this instanceof PlayerBodyData) {

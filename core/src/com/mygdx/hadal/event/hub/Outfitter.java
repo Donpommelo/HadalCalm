@@ -58,14 +58,14 @@ public class Outfitter extends HubEvent {
 					text.setLength(0);
 					text.append(c.key).append("\n\n");
 					for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
-						if (!selected.getEquip()[i].equals(UnlockEquip.NOTHING.toString())) {
+						if (!UnlockEquip.NOTHING.toString().equals(selected.getEquip()[i])) {
 							text.append(selected.getEquip()[i]).append("\n");
 						}
 					}
 					text.append("\n");
 					text.append(selected.getActive()).append("\n\n");
 					for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-						if (!selected.getArtifact()[i].equals(UnlockArtifact.NOTHING.toString())) {
+						if (!UnlockArtifact.NOTHING.toString().equals(selected.getArtifact()[i])) {
 							text.append(selected.getArtifact()[i]).append("\n");
 						}
 					}

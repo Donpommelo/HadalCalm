@@ -45,7 +45,7 @@ public class ContactWallParticles extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			if (fixB.getType().equals(UserDataType.WALL)) {
+			if (UserDataType.WALL.equals(fixB.getType())) {
 				offset.set(hbox.getPixelPosition());
 				
 				if (isOffset) {

@@ -56,7 +56,7 @@ public class SpriteChanger extends Event {
 				if (event.getConnectedEvent() != null) {
 					event.getConnectedEvent().setEventSprite(newSprite, still, frame, speed, PlayMode.valueOf(mode));
 					
-					if (!align.equals("NONE")) {
+					if (!"NONE".equals(align)) {
 						event.getConnectedEvent().setScaleAlign(ClientIllusion.alignType.valueOf(align));
 					}
 					if (scale != -1) {

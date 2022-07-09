@@ -39,7 +39,7 @@ public class DialogInfo {
 	//This is run before adding a dialog to the dialog box or message window.
 	//This filters and formats the text
 	public void setDisplayedText(GameStateManager gsm) {
-		if (name.equals("")) {
+		if ("".equals(name)) {
 			displayedText = TextFilterUtil.filterGameText(gsm, text);
 		} else {
 			displayedText = TextFilterUtil.filterGameText(gsm, name + ": " + text);

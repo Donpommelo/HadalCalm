@@ -103,7 +103,7 @@ public class Hexenhowitzer extends RangedWeapon {
 				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
-						if (fixB.getType().equals(UserDataType.BODY)) {
+						if (UserDataType.BODY.equals(fixB.getType())) {
 							if (!damaged.contains(fixB, false)) {
 								damaged.add(fixB);
 

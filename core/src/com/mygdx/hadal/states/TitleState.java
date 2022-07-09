@@ -393,7 +393,7 @@ public class TitleState extends GameState {
 	 * @param notification: new text
 	 */
 	public void setNotification(String notification) {
-		if (!notification.equals("")) {
+		if (!"".equals(notification)) {
 			notificationTable.addAction(Actions.sequence(
 					Actions.moveTo(notificationX, notificationY, TRANSITION_DURATION, INTP_FASTSLOW),
 					Actions.run(() -> notifications.setText(notification)),

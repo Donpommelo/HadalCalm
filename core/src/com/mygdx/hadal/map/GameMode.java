@@ -233,19 +233,19 @@ public enum GameMode {
 
                 //atm, the client does not need to run this b/c it creates events only the server needs to process.
                 String newStart = setting.loadSettingStart(state, this);
-                if (!newStart.equals("")) {
+                if (!"".equals(newStart)) {
                     startTriggerId.append(',').append(newStart);
                 }
 
                 //this creates a comma-separated list of event ids that will be activated upon spawning/starting the game
                 String newSpawn = setting.loadSettingSpawn(state);
-                if (!newSpawn.equals("")) {
+                if (!"".equals(newSpawn)) {
                     spawnTriggerId.append(',').append(newSpawn);
                 }
             }
 
             String newUi = setting.loadUIStart(state, this);
-            if (!newUi.equals("")) {
+            if (!"".equals(newUi)) {
                 uiTriggerId.append(',').append(newUi);
             }
             setting.loadSettingMisc(state, this);
@@ -420,7 +420,7 @@ public enum GameMode {
     public String getDesc() { return desc.text(); }
 
     public boolean isTeamDesignated() {
-        return teamMode.equals(TeamMode.TEAM_AUTO) || teamMode.equals(TeamMode.HUMANS_VS_BOTS);
+        return TeamMode.TEAM_AUTO.equals(teamMode) || TeamMode.HUMANS_VS_BOTS.equals(teamMode);
     }
 
     public String[] getExtraLayers() { return extraLayers; }

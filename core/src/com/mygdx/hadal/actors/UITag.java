@@ -53,7 +53,7 @@ public class UITag {
 	public String updateTagText(PlayState state, uiType changedType, User user) {
 
 		//this tag needs updating if relevant fields have been changed or if no text is cached
-		if (cachedText.isEmpty() || changedType.equals(type) || changedType.equals(ALL)) {
+		if (cachedText.isEmpty() || type.equals(changedType) || ALL.equals(changedType)) {
 			text.setLength(0);
 
 			switch (type) {

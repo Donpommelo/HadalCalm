@@ -53,7 +53,7 @@ public class SettingBots extends ModeSetting {
             botNumberOptions = new SelectBox<>(GameStateManager.getSkin());
             botNumberOptions.setItems(botNumberChoices);
             botNumberOptions.setWidth(ModeSettingSelection.optionsWidth);
-            if (GameStateManager.currentMode.equals(GameStateManager.Mode.SINGLE)) {
+            if (GameStateManager.Mode.SINGLE.equals(GameStateManager.currentMode)) {
                 botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValueSinglePlayer));
             } else {
                 botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValue));

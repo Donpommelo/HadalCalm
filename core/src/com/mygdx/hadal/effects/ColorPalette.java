@@ -126,42 +126,42 @@ public enum ColorPalette {
         shader.setUniformf("oldcolor7", BASE.Accent1.getHSV());
         shader.setUniformf("oldcolor8", BASE.Accent2.getHSV());
 
-        if (SaturatedDark.equals(HadalColor.NOTHING)) {
+        if (HadalColor.NOTHING.equals(SaturatedDark)) {
             shader.setUniformf("newcolor1", character.getPalette().SaturatedDark.getHSV());
         } else {
             shader.setUniformf("newcolor1", SaturatedDark.getHSV());
         }
-        if (MidDark.equals(HadalColor.NOTHING)) {
+        if (HadalColor.NOTHING.equals(MidDark)) {
             shader.setUniformf("newcolor2", character.getPalette().MidDark.getHSV());
         } else {
             shader.setUniformf("newcolor2", MidDark.getHSV());
         }
-        if (DesaturatedDark.equals(HadalColor.NOTHING)) {
+        if (HadalColor.NOTHING.equals(DesaturatedDark)) {
             shader.setUniformf("newcolor3", character.getPalette().DesaturatedDark.getHSV());
         } else {
             shader.setUniformf("newcolor3", DesaturatedDark.getHSV());
         }
-        if (SaturatedLight.equals(HadalColor.NOTHING)) {
+        if (HadalColor.NOTHING.equals(SaturatedLight)) {
             shader.setUniformf("newcolor4", character.getPalette().SaturatedLight.getHSV());
         } else {
             shader.setUniformf("newcolor4", SaturatedLight.getHSV());
         }
-        if (MidLight.equals(HadalColor.NOTHING)) {
+        if (HadalColor.NOTHING.equals(MidLight)) {
             shader.setUniformf("newcolor5", character.getPalette().MidLight.getHSV());
         } else {
             shader.setUniformf("newcolor5", MidLight.getHSV());
         }
-        if (DesaturatedLight.equals(HadalColor.NOTHING)) {
+        if (HadalColor.NOTHING.equals(DesaturatedLight)) {
             shader.setUniformf("newcolor6", character.getPalette().DesaturatedLight.getHSV());
         } else {
             shader.setUniformf("newcolor6", DesaturatedLight.getHSV());
         }
-        if (Accent1.equals(HadalColor.NOTHING)) {
+        if (HadalColor.NOTHING.equals(Accent1)) {
             shader.setUniformf("newcolor7", character.getPalette().Accent1.getHSV());
         } else {
             shader.setUniformf("newcolor7", Accent1.getHSV());
         }
-        if (Accent2.equals(HadalColor.NOTHING)) {
+        if (HadalColor.NOTHING.equals(Accent2)) {
             shader.setUniformf("newcolor8", character.getPalette().Accent2.getHSV());
         } else {
             shader.setUniformf("newcolor8", Accent2.getHSV());
