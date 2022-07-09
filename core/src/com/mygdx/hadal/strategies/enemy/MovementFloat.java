@@ -33,7 +33,7 @@ public class MovementFloat extends EnemyStrategy {
 
         this.currentState = FloatingState.TRACKING_PLAYER;
 
-        if (!sprite.equals(Sprite.NOTHING)) {
+        if (!Sprite.NOTHING.equals(sprite)) {
             this.floatingSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, sprite.getFrames());
             this.floatingSprite.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         }

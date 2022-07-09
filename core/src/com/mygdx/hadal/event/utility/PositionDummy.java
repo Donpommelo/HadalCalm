@@ -48,7 +48,7 @@ public class PositionDummy extends Event {
 				Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
 		this.body.setType(BodyType.KinematicBody);
 		
-		if (!id.equals("")) {
+		if (!"".equals(id)) {
 			state.addDummyPoint(this, id);
 		}
 	}

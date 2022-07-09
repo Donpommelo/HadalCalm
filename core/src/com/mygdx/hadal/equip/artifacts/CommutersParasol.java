@@ -49,7 +49,7 @@ public class CommutersParasol extends Artifact {
 						@Override
 						public void onHit(HadalData fixB) {
 							if (fixB != null) {
-								if (fixB.getType().equals(UserDataType.HITBOX)) {
+								if (UserDataType.HITBOX.equals(fixB.getType())) {
 									if (fixB.getEntity().isAlive()) {
 										Vector2 newVelo = new Vector2(fixB.getEntity().getPosition()).sub(p.getSchmuck().getPosition());
 										fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().setAngleDeg(newVelo.angleDeg()));

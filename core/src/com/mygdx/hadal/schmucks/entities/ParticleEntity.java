@@ -198,7 +198,7 @@ public class ParticleEntity extends HadalEntity {
 		super.clientController(delta);
 
 		//client particles process independently from the server if they are set to CREATESYNC or NOSYNC
-		if (sync.equals(SyncType.CREATESYNC) || sync.equals(SyncType.NOSYNC)) {
+		if (SyncType.CREATESYNC.equals(sync) || SyncType.NOSYNC.equals(sync)) {
 			controller(delta);			
 		}
 		
@@ -256,13 +256,13 @@ public class ParticleEntity extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate(boolean catchup) {
-		if (sync.equals(SyncType.CREATESYNC) || sync.equals(SyncType.TICKSYNC)) {
+		if (SyncType.CREATESYNC.equals(sync) || SyncType.TICKSYNC.equals(sync)) {
 			if (attachedEntity != null) {
 				return new Packets.CreateParticles(entityID, attachedEntity.getEntityID(), offset,true, particle,
-						on, linger, lifespan, prematureTurnOff, scale, rotate, velocity, sync.equals(SyncType.TICKSYNC), color);
+						on, linger, lifespan, prematureTurnOff, scale, rotate, velocity, SyncType.TICKSYNC.equals(sync), color);
 			} else {
 				return new Packets.CreateParticles(entityID, entityID, startPos, false,	particle, on, linger,
-						lifespan, prematureTurnOff, scale, rotate, velocity, sync.equals(SyncType.TICKSYNC), color);
+						lifespan, prematureTurnOff, scale, rotate, velocity, SyncType.TICKSYNC.equals(sync), color);
 			}
 		} else {
 			return null;
@@ -271,7 +271,7 @@ public class ParticleEntity extends HadalEntity {
 	
 	@Override
 	public Object onServerDelete() {
-		if (sync.equals(SyncType.TICKSYNC)) {
+		if (SyncType.TICKSYNC.equals(sync)) {
 			return new Packets.DeleteEntity(entityID, state.getTimer());
 		} else {
 			return null;
@@ -284,7 +284,7 @@ public class ParticleEntity extends HadalEntity {
 	private final Vector2 newPos = new Vector2();
 	@Override
 	public void onServerSync() {
-		if (sync.equals(SyncType.TICKSYNC)) {
+		if (SyncType.TICKSYNC.equals(sync)) {
 			if (attachedEntity == null) {
 				newPos.set(startPos);
 			} else if (attachedEntity.getBody() == null) {
@@ -384,13 +384,13 @@ public class ParticleEntity extends HadalEntity {
 	public ParticleEntity setColor(HadalColor color) {
 
 		//setting color to nothing means it should be unchanged, not set to white
-		if (color.equals(HadalColor.NOTHING)) {
+		if (HadalColor.NOTHING.equals(color)) {
 			return this;
 		}
 
 		this.color.set(color.getRGB());
 
-		if (color.equals(HadalColor.RANDOM)) {
+		if (HadalColor.RANDOM.equals(color)) {
 			
 			//for random colors, each emitter is tinted with random r,b,g
 			for (int i = 0; i < effect.getEmitters().size; i++) {

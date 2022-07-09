@@ -269,7 +269,7 @@ public class WeaponUtils {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
-					if (fixB.getType().equals(UserDataType.WALL) || fixB.getType().equals(UserDataType.EVENT)) {
+					if (UserDataType.WALL.equals(fixB.getType()) || UserDataType.EVENT.equals(fixB.getType())) {
 						floor = fixB.getEntity();
 						if (floor != null) {
 							if (floor.getBody() != null) {
@@ -708,7 +708,7 @@ public class WeaponUtils {
 		//return empty vector if player's data has not been created yet.
 		if (player.getPlayerData() != null) {
 			Loadout loadout = player.getPlayerData().getLoadout();
-			if (loadout.team.equals(AlignmentFilter.NONE)) {
+			if (AlignmentFilter.NONE.equals(loadout.team)) {
 				return loadout.character.getPalette().getIcon().getRGB();
 			} else if (loadout.team.getPalette().getIcon().getRGB().isZero()) {
 				return loadout.character.getPalette().getIcon().getRGB();

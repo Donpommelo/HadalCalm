@@ -30,7 +30,7 @@ public class ContactUnitDie extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null && delay <= 0) {
-			if (fixB.getType().equals(UserDataType.BODY)) {
+			if (UserDataType.BODY.equals(fixB.getType())) {
 				hbox.die();
 			}
 		}

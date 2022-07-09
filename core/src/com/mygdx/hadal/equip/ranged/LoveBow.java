@@ -155,7 +155,7 @@ public class LoveBow extends RangedWeapon {
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
 					//if shooting self after delay or any ally, the arrow will heal. Otherwise, damage is inflicted
-					if (fixB.getType().equals(UserDataType.BODY)) {
+					if (UserDataType.BODY.equals(fixB.getType())) {
 
 						if ((fixB == user.getBodyData() && delay <= 0) || (fixB != user.getBodyData() && ((BodyData) fixB).getSchmuck().getHitboxfilter() == user.getHitboxfilter())) {
 							((BodyData) fixB).regainHp(heal, creator, true);

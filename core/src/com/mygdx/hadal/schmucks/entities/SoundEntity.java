@@ -154,7 +154,7 @@ public class SoundEntity extends HadalEntity {
 	public void clientController(float delta) {
 		super.clientController(delta);
 		
-		if (sync.equals(SyncType.CREATESYNC) || sync.equals(SyncType.NOSYNC)) {
+		if (SyncType.CREATESYNC.equals(sync) || SyncType.NOSYNC.equals(sync)) {
 			controller(delta);			
 		}
 		if (attachedEntity == null && attachedId != null) {
@@ -172,7 +172,8 @@ public class SoundEntity extends HadalEntity {
 	public Object onServerCreate(boolean catchup) {
 		if (sync.equals(SyncType.CREATESYNC) || sync.equals(SyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateSound(entityID, attachedEntity.getEntityID(), sound, lifespan, volume, pitch, looped, on, sync.equals(SyncType.TICKSYNC));
+				return new Packets.CreateSound(entityID, attachedEntity.getEntityID(), sound, lifespan, volume, pitch,
+						looped, on, SyncType.TICKSYNC.equals(sync));
 			}
 		}
 		return null;
@@ -180,7 +181,7 @@ public class SoundEntity extends HadalEntity {
 	
 	@Override
 	public Object onServerDelete() { 
-		if (sync.equals(SyncType.TICKSYNC)) {
+		if (SyncType.TICKSYNC.equals(sync)) {
 			return new Packets.DeleteEntity(entityID, state.getTimer());
 		} else {
 			return null;
@@ -192,7 +193,7 @@ public class SoundEntity extends HadalEntity {
 	 */
 	@Override
 	public void onServerSync() {
-		if (sync.equals(SyncType.TICKSYNC)) {
+		if (SyncType.TICKSYNC.equals(sync)) {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
 					state.getSyncPackets().add(new Packets.SyncSound(entityID, volume, on, entityAge, state.getTimer()));

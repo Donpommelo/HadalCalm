@@ -564,7 +564,7 @@ public class ResultsState extends GameState {
 				if (fieldExtra.getLoadout() != null) {
 
 					for (UnlockArtifact c : fieldExtra.getLoadout().artifacts) {
-						if (!c.equals(UnlockArtifact.NOTHING) && !c.isInvisible()) {
+						if (!UnlockArtifact.NOTHING.equals(c) && !c.isInvisible()) {
 							ArtifactIcon newTag = new ArtifactIcon(c, c.getName() + "\n" + c.getDesc(),
 									artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
 							tableArtifact.add(newTag).width(artifactTagSize).height(artifactTagSize);
@@ -572,7 +572,7 @@ public class ResultsState extends GameState {
 					}
 
 					for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
-						if (!fieldExtra.getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
+						if (!UnlockEquip.NOTHING.equals(fieldExtra.getLoadout().multitools[i])) {
 							Text weaponField = new Text(UIText.RESULT_WEAPON.text((i + 1) + ": "));
 							weaponField.setScale(infoTextScale);
 							Text weapon = new Text(fieldExtra.getLoadout().multitools[i].getName());

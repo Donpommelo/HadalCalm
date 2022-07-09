@@ -56,7 +56,7 @@ public class UnlockManager {
 		for (UnlockTag tag : tags) {
 			boolean tagPresent = false;
 
-			if (tag.equals(UnlockTag.ALL)) {
+			if (UnlockTag.ALL.equals(tag)) {
 				tagPresent = true;
 			} else {
 				for (int j = 0; j < itemTags.size; j++) {

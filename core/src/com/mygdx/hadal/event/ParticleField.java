@@ -75,7 +75,7 @@ public class ParticleField extends Event {
 					true, SyncType.NOSYNC).setScale(scale);
 
 			//tint particles according to input color or team color
-			if (!color.equals(HadalColor.NOTHING)) {
+			if (!HadalColor.NOTHING.equals(color)) {
 				particleEntity.setColor(color);
 			} else if (teamColorIndex != -1) {
 				if (teamColorIndex < AlignmentFilter.currentTeams.length) {
@@ -103,7 +103,7 @@ public class ParticleField extends Event {
 					true, SyncType.NOSYNC);
 			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
 
-			if (!color.equals(HadalColor.NOTHING)) {
+			if (!HadalColor.NOTHING.equals(color)) {
 				particleEntity.setColor(color);
 			} else if (teamColorIndex != -1) {
 				if (teamColorIndex < AlignmentFilter.currentTeams.length) {

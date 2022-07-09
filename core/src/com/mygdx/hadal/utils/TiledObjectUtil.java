@@ -616,10 +616,10 @@ public class TiledObjectUtil {
      */
     public static void parseDesignatedEvents(PlayState state) {
     	for (String key : triggeredEvents.keys()) {
-    		if (key.equals(globalTimer)) {
+    		if (globalTimer.equals(key)) {
     			state.setGlobalTimer(triggeredEvents.get(key));
     		}
-			if (key.equals(globalSpectatorActivation)) {
+			if (globalSpectatorActivation.equals(key)) {
 				state.setSpectatorActivation(triggeredEvents.get(key));
 			}
     	}
@@ -632,7 +632,7 @@ public class TiledObjectUtil {
     	
     	//for all triggering effects, connect them to the event they trigger
     	for (Event key : triggeringEvents.keys()) {
-    		if (!triggeringEvents.get(key).equals("")) {
+    		if (!"".equals(triggeringEvents.get(key))) {
         		key.setConnectedEvent(triggeredEvents.get(triggeringEvents.get(key), null));
     		}
     	}
@@ -640,7 +640,7 @@ public class TiledObjectUtil {
     	//for all multi-triggers, connect them to each event that they trigger
     	for (TriggerMulti key : multiTriggeringEvents.keys()) {
     		for (String id : multiTriggeringEvents.get(key).split(",")) {
-    			if (!id.equals("")) {
+    			if (!"".equals(id)) {
     				key.addTrigger(triggeredEvents.get(id, null));
     			}
     		}
@@ -649,7 +649,7 @@ public class TiledObjectUtil {
     	//for all conditional triggers, connect them to each event that they can possibly trigger
     	for (TriggerCond key : condTriggeringEvents.keys()) {
     		for (String id : condTriggeringEvents.get(key).split(",")) {
-    			if (!id.equals("")) {
+    			if (!"".equals(id)) {
     				key.addTrigger(id, triggeredEvents.get(id, null));
     			}
     		}
@@ -657,7 +657,7 @@ public class TiledObjectUtil {
     	
     	//for all redirect triggers, connect them to the event that it blames when it triggers another event
     	for (TriggerRedirect key : redirectTriggeringEvents.keys()) {
-    		if (!redirectTriggeringEvents.get(key).equals("")) {
+    		if (!"".equals(redirectTriggeringEvents.get(key))) {
         		key.setBlame(triggeredEvents.get(redirectTriggeringEvents.get(key), null));
     		}
     	}
@@ -665,7 +665,7 @@ public class TiledObjectUtil {
     	//for all move points, connect them to all events that move along with it
     	for (MovingPoint key : movePointConnections.keys()) {
     		for (String id : movePointConnections.get(key).split(",")) {
-    			if (!id.equals("")) {
+    			if (!"".equals(id)) {
         			key.addConnection(triggeredEvents.get(id, null));
 
         			//for prefabs, connect to the event parts that are specified to be moveable
@@ -683,7 +683,7 @@ public class TiledObjectUtil {
     	for (ChoiceBranch branch : choiceBranchOptions.keys()) {
     		String[] options = choiceBranchOptions.get(branch).split(",");
     		for (int i = 0; i < options.length; i++) {
-    			if (!options[i].equals("")) {
+    			if (!"".equals(options[i])) {
         			branch.addOption(branch.getOptionNames()[i], triggeredEvents.get(options[i], null));
     			}
     		}
@@ -701,13 +701,13 @@ public class TiledObjectUtil {
 
     	//connect e to all the events that trigger it
     	for (Event key : triggeringEvents.keys()) {
-    		if (!triggeringEvents.get(key).equals("") && triggeringEvents.get(key).equals(triggeredId)) {
+    		if (!"".equals(triggeringEvents.get(key)) && triggeredId.equals(triggeringEvents.get(key))) {
         		key.setConnectedEvent(e);
     		}
     	}
     	
     	//connect e to the event that it triggers
-    	if (!triggeringId.equals("")) {
+    	if (!"".equals(triggeringId)) {
     		e.setConnectedEvent(triggeredEvents.get(triggeringId, null));
     	}
 
@@ -715,7 +715,7 @@ public class TiledObjectUtil {
 
 		//connect e to any redirect events that blame it for triggers
 		for (TriggerRedirect key : redirectTriggeringEvents.keys()) {
-			if (!redirectTriggeringEvents.get(key).equals("") && redirectTriggeringEvents.get(key).equals(triggeredId)) {
+			if (!"".equals(redirectTriggeringEvents.get(key)) && triggeredId.equals(redirectTriggeringEvents.get(key))) {
 				key.setBlame(e);
 			}
 		}
@@ -724,7 +724,7 @@ public class TiledObjectUtil {
 		if (e instanceof TriggerRedirect trigger) {
 			myId = redirectTriggeringEvents.get(trigger);
 			if (myId != null) {
-				if (!myId.equals("")) {
+				if (!"".equals(myId)) {
 					trigger.setBlame(triggeredEvents.get(myId, null));
 				}
 			}
@@ -733,7 +733,7 @@ public class TiledObjectUtil {
 		//connect e to any multi-triggers that trigger it
 		for (TriggerMulti key : multiTriggeringEvents.keys()) {
 			for (String id : multiTriggeringEvents.get(key).split(",")) {
-				if (!id.equals("") && id.equals(triggeredId)) {
+				if (!"".equals(id) && triggeredId.equals(id)) {
 					key.addTrigger(e);
 				}
 			}
@@ -744,7 +744,7 @@ public class TiledObjectUtil {
 			myId = multiTriggeringEvents.get(trigger);
 			if (myId != null) {
 				for (String id : myId.split(",")) {
-					if (!id.equals("")) {
+					if (!"".equals(id)) {
 						trigger.addTrigger(triggeredEvents.get(id, null));
 					}
 				}
@@ -754,7 +754,7 @@ public class TiledObjectUtil {
     	//connect e to any conditional triggers that can trigger it
     	for (TriggerCond key : condTriggeringEvents.keys()) {
     		for (String id : condTriggeringEvents.get(key).split(",")) {
-    			if (!id.equals("") && id.equals(triggeredId)) {
+    			if (!"".equals(id) && triggeredId.equals(id)) {
     				key.addTrigger(id, triggeredEvents.get(id, null));
     			}
     		}
@@ -765,7 +765,7 @@ public class TiledObjectUtil {
 			myId = condTriggeringEvents.get(trigger);
 			if (myId != null) {
 				for (String id : myId.split(",")) {
-					if (!id.equals("")) {
+					if (!"".equals(id)) {
 						trigger.addTrigger(id, triggeredEvents.get(id, null));
 					}
 				}
@@ -776,7 +776,7 @@ public class TiledObjectUtil {
 		// We don't need a case for when e is a move point b/c the client doesn't process that and we haven't needed to clone move points yet.
     	for (MovingPoint key : movePointConnections.keys()) {
     		for (String id : movePointConnections.get(key).split(",")) {
-    			if (!id.equals("") && id.equals(triggeredId)) {
+    			if (!"".equals(id) && triggeredId.equals(id)) {
         			key.addConnection(e);
     			}
     		}
@@ -786,7 +786,7 @@ public class TiledObjectUtil {
     	for (ChoiceBranch branch : choiceBranchOptions.keys()) {
     		String[] options = choiceBranchOptions.get(branch).split(",");
     		for (int i = 0; i < options.length; i++) {
-    			if (!options[i].equals("") && options[i].equals(triggeredId)) {
+    			if (!"".equals(options[i]) && triggeredId.equals(options[i])) {
         			branch.addOption(branch.getOptionNames()[i], e);
     			}
     		}
@@ -798,7 +798,7 @@ public class TiledObjectUtil {
 			if (myId != null) {
 				String[] options = myId.split(",");
 				for (int i = 0; i < options.length; i++) {
-					if (!options[i].equals("")) {
+					if (!"".equals(options[i])) {
 						choice.addOption(choice.getOptionNames()[i], triggeredEvents.get(options[i], null));
 					}
 				}

@@ -44,7 +44,7 @@ public class TriggerCond extends Event {
 				if (activator.getEvent() instanceof TriggerAlt trigger) {
 					condition = trigger.getMessage();
 				} else {
-					if (condition.equals("random")) {
+					if ("random".equals(condition)) {
 						triggered.values().toArray().get(MathUtils.random(triggered.size - 1)).getEventData().preActivate(this, p);
 					} else {
 						if (triggered.get(condition) != null) {

@@ -151,7 +151,7 @@ public class Underminer extends RangedWeapon {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
-					if (fixB.getType().equals(UserDataType.WALL)) {
+					if (UserDataType.WALL.equals(fixB.getType())) {
 						
 						//upon hitting a wall, hbox activates and begins drilling in a straight line
 						if (!drilling) {
@@ -194,7 +194,7 @@ public class Underminer extends RangedWeapon {
 					@Override
 					public void onHit(HadalData fixB) {
 						if (fixB != null) {
-							if (fixB.getType().equals(UserDataType.WALL)) {
+							if (UserDataType.WALL.equals(fixB.getType())) {
 								hbox.die();
 							}
 						}

@@ -48,11 +48,11 @@ public class ConsoleCommandUtil {
 	public static int parseChatCommand(PlayState state, Player player, String command) {
 		
 		if (player.getPlayerData() != null) {
-			if (command.equals("/weapon")) {
+			if ("/weapon".equals(command)) {
 				StringBuilder message = new StringBuilder("Weapons: ");
 
 				for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
-					if (!player.getPlayerData().getLoadout().multitools[i].equals(UnlockEquip.NOTHING)) {
+					if (!UnlockEquip.NOTHING.equals(player.getPlayerData().getLoadout().multitools[i])) {
 						message.append(player.getPlayerData().getLoadout().multitools[i].getName()).append(" ");
 					}
 				}
@@ -60,12 +60,12 @@ public class ConsoleCommandUtil {
 				return 0;
 			}
 
-			if (command.equals("/artifact")) {
+			if ("/artifact".equals(command)) {
 				StringBuilder message = new StringBuilder("Artifacts: ");
 
 				for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
 
-					if (!player.getPlayerData().getLoadout().artifacts[i].equals(UnlockArtifact.NOTHING)) {
+					if (!UnlockArtifact.NOTHING.equals(player.getPlayerData().getLoadout().artifacts[i])) {
 						message.append(player.getPlayerData().getLoadout().artifacts[i].getName()).append(" ");
 					}
 				}
@@ -73,17 +73,17 @@ public class ConsoleCommandUtil {
 				return 0;
 			}
 
-			if (command.equals("/active")) {
+			if ("/active".equals(command)) {
 				emitMessage(state, "Active Item: " + player.getPlayerData().getLoadout().activeItem.getName());
 				return 0;
 			}
 
-			if (command.equals("/team")) {
+			if ("/team".equals(command)) {
 				emitMessage(state, "Team: " + player.getPlayerData().getLoadout().team.getTeamName());
 				return 0;
 			}
 
-			if (command.equals("/killme")) {
+			if ("/killme".equals(command)) {
 				if (state.isServer()) {
 					player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false,
 							null, DamageSource.MISC);
@@ -94,12 +94,12 @@ public class ConsoleCommandUtil {
 			}
 		}
 
-		if (command.equals("/roll")) {
+		if ("/roll".equals(command)) {
 			emitMessage(state, "Rolled A Number: " + MathUtils.random(maxRoll));
 			return 0;
 		}
 
-		if (command.equals("/help")) {
+		if ("/help".equals(command)) {
 			if (state.isServer()) {
 				state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, 0);
 			} else {

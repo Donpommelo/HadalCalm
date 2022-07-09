@@ -339,7 +339,7 @@ public class UIHub {
 			for (UnlockArtifact c : state.getPlayer().getPlayerData().getLoadout().artifacts) {
 
 				//display all equipped artifacts and give option to unequip
-				if (!c.equals(UnlockArtifact.NOTHING)) {
+				if (!UnlockArtifact.NOTHING.equals(c)) {
 					artifactsEmpty = false;
 					final ArtifactIcon newTag = new ArtifactIcon(c, UIText.UNEQUIP.text(c.getName()),
 						artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);

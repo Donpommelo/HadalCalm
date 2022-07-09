@@ -105,10 +105,10 @@ public class CameraPanZone extends Prefabrication {
 			}
 		}
 		
-		if (!point1.equals("")) {
+		if (!"".equals(point1)) {
 			camera1.getProperties().put("triggeringId", point1);
 		}
-		if (!point2.equals("")) {
+		if (!"".equals(point2)) {
 			camera2.getProperties().put("triggeringId", point2);
 		}
 		

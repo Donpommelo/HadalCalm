@@ -92,7 +92,7 @@ public class PauseState extends GameState {
 				float menuHeight = height;
 				
 				//extra "return to hub" option is added if the hub has been reached or if the player is in multiplayer mode.
-				if (ps.isServer() && (gsm.getRecord().getFlags().get("HUB_REACHED").equals(1) || GameStateManager.currentMode == Mode.MULTI)) {
+				if (ps.isServer() && (1 == gsm.getRecord().getFlags().get("HUB_REACHED") || GameStateManager.currentMode == Mode.MULTI)) {
 					menuHeight += extraRowHeight;
 				}
 				
@@ -215,7 +215,7 @@ public class PauseState extends GameState {
 				table.add(resumeOption).height(optionHeight).pad(optionPad).row();
 				
 				//don't add return to hub option in singleplayer if hub hasn't been reached yet
-				if (ps.isServer() && (gsm.getRecord().getFlags().get("HUB_REACHED").equals(1) || GameStateManager.currentMode == Mode.MULTI)) {
+				if (ps.isServer() && (1 == gsm.getRecord().getFlags().get("HUB_REACHED") || GameStateManager.currentMode == Mode.MULTI)) {
 					table.add(hubOption).height(optionHeight).pad(optionPad).row();
 				}
 				table.add(settingOption).height(optionHeight).pad(optionPad).row();

@@ -288,7 +288,7 @@ public class GameStateManager {
 		if (currentMode == Mode.SINGLE) {
 			
 			//if the player has not done the tutorial yet, they are spawned into the tutorial section. Otherwise; hub
-			if (getRecord().getFlags().get("HUB_REACHED").equals(0)) {
+			if (0 == getRecord().getFlags().get("HUB_REACHED")) {
 				addPlayState(UnlockLevel.WRECK1, GameMode.CAMPAIGN, new Loadout(loadout), null, lastState, true, "");
 			} else {
 				addPlayState(UnlockLevel.SSTUNICATE1, GameMode.HUB, new Loadout(loadout), null, lastState, true, "");

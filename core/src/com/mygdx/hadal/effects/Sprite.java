@@ -313,7 +313,7 @@ public enum Sprite {
 			if (complex) {
 				frames = new Array<>();
 				for (SpriteRep sprite : complexFrames) {
-					if (sprite.spriteId.equals("")) {
+					if ("".equals(sprite.spriteId)) {
 						frames.addAll(Objects.requireNonNull(getAtlas(type)).getRegions());
 					} else {
 						for (int i = 0; i < sprite.repeat; i++) {
@@ -322,7 +322,7 @@ public enum Sprite {
 					}
 				}
 			} else {
-				if (spriteId.equals("")) {
+				if ("".equals(spriteId)) {
 					frames = Objects.requireNonNull(getAtlas(type)).getRegions();
 				} else {
 					frames = Objects.requireNonNull(getAtlas(type)).findRegions(spriteId);

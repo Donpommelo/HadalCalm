@@ -49,7 +49,7 @@ public class ObjectiveMarker {
         this.displayObjectiveOnScreen = displayObjectiveOnScreen;
         this.icon = sprite.getFrame();
         this.color = color.getColor();
-        this.colored = !color.equals(HadalColor.NOTHING);
+        this.colored = !HadalColor.NOTHING.equals(color);
 
         this.arrow = Sprite.NOTIFICATIONS_DIRECTIONAL_ARROW.getFrame();
         this.corner = MathUtils.atan2(-HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);

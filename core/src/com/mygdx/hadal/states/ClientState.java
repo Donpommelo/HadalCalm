@@ -158,10 +158,10 @@ public class ClientState extends PlayState {
 		//All entities that are set to be created are created and assigned their entityId
 		for (CreatePacket packet : createListClient) {
 			HadalEntity oldEntity;
-			if (packet.layer.equals(ObjectLayer.HBOX)) {
+			if (ObjectLayer.HBOX.equals(packet.layer)) {
 				oldEntity = hitboxes.get(packet.entityId);
 				hitboxes.put(packet.entityId, packet.entity);
-			} else if (packet.layer.equals(ObjectLayer.EFFECT)) {
+			} else if (ObjectLayer.EFFECT.equals(packet.layer)) {
 				oldEntity = effects.get(packet.entityId);
 				effects.put(packet.entityId, packet.entity);
 			} else {

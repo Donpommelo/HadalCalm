@@ -45,7 +45,7 @@ public class ContactStick extends HitboxStrategy {
 		//if so, set target (unless touching a wall with no entity), angle and location.
 		if (!stuckToTarget) {
 			if (fixB != null) {
-				if (fixB.getType().equals(UserDataType.BODY) && stickToDudes) {
+				if (UserDataType.BODY.equals(fixB.getType()) && stickToDudes) {
 					SoundEffect.SQUISH.playSourced(state, hbox.getPixelPosition(), 0.8f, 1.0f);
 					stuckToTarget = true;
 					
@@ -54,7 +54,7 @@ public class ContactStick extends HitboxStrategy {
 					targetAngle = target.getAngle();
 					location.set(hbox.getPosition().x - target.getPosition().x, hbox.getPosition().y - target.getPosition().y);	
 				}
-				if (fixB.getType().equals(UserDataType.WALL) && stickToWalls) {
+				if (UserDataType.WALL.equals(fixB.getType()) && stickToWalls) {
 					SoundEffect.SQUISH.playSourced(state, hbox.getPixelPosition(), 0.8f, 1.0f);
 					stuckToTarget = true;
 					

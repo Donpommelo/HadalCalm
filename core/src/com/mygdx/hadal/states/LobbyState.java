@@ -170,7 +170,7 @@ public class LobbyState extends GameState {
                 enterIP = new TextField("", GameStateManager.getSkin());
 
                 //retrieve last joined ip if existent
-                if (!gsm.getRecord().getLastIp().equals("")) {
+                if (!"".equals(gsm.getRecord().getLastIp())) {
                     enterIP.setText(gsm.getRecord().getLastIp());
                 }
 
@@ -540,7 +540,7 @@ public class LobbyState extends GameState {
     }
 
     public void setNotification(String notification) {
-        if (!notification.equals("")) {
+        if (!"".equals(notification)) {
             notificationTable.addAction(Actions.sequence(
                 Actions.moveTo(notificationX, notificationY, TRANSITION_DURATION, INTP_FASTSLOW),
                 Actions.run(() -> notifications.setText(notification)),
@@ -565,7 +565,7 @@ public class LobbyState extends GameState {
     public static String getPublicIp() {
 
         //if the player has already retrieved their ip when enabling upnp, this step is unnecessary.
-        if (!HadalGame.myIp.equals("")) {
+        if (!"".equals(HadalGame.myIp)) {
             return HadalGame.myIp;
         }
 

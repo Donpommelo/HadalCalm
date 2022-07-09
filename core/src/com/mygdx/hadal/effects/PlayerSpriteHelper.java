@@ -200,7 +200,7 @@ public class PlayerSpriteHelper {
         //offset head is separate for some characters to have head bobbing
         float yOffset;
         float yOffsetHead;
-        boolean moving = moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT);
+        boolean moving = MoveState.MOVE_LEFT.equals(moveState) || MoveState.MOVE_RIGHT.equals(moveState);
         int bodyFrame = bodyRunSprite.getKeyFrameIndex(animationTime);
         int headFrame = bodyRunSprite.getKeyFrameIndex(animationTimeExtra);
 
@@ -234,7 +234,7 @@ public class PlayerSpriteHelper {
             (flip ? -1 : 1) * gemWidth * scale, gemHeight * scale, 1, 1, 0);
 
         //reverse determines whether the player is running forwards or backwards.
-        if (moveState.equals(MoveState.MOVE_LEFT)) {
+        if (MoveState.MOVE_LEFT.equals(moveState)) {
 
             if (Math.abs(realAttackAngle) > 90) {
                 bodyRunSprite.setPlayMode(Animation.PlayMode.LOOP_REVERSED);
@@ -243,7 +243,7 @@ public class PlayerSpriteHelper {
             }
             batch.draw(bodyRunSprite.getKeyFrame(animationTime), bodyX, bodyY, 0, 0,
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
-        } else if (moveState.equals(MoveState.MOVE_RIGHT)) {
+        } else if (MoveState.MOVE_RIGHT.equals(moveState)) {
             if (Math.abs(realAttackAngle) < 90) {
                 bodyRunSprite.setPlayMode(Animation.PlayMode.LOOP_REVERSED);
             } else {
@@ -281,7 +281,7 @@ public class PlayerSpriteHelper {
      * In the case of the player being disposed upon level transition, we want to make sure the fbo is cleaned up
      */
     public void dispose(DespawnType despawn) {
-        if (despawn.equals(DespawnType.LEVEL_TRANSITION)) {
+        if (DespawnType.LEVEL_TRANSITION.equals(despawn)) {
             if (fbo != null) {
                 fbo.dispose();
             }

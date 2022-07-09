@@ -33,7 +33,7 @@ public class Painter extends HubEvent {
 
 				final AlignmentFilter selected = c;
 				Text itemChoose;
-				if (c.equals(AlignmentFilter.NONE)) {
+				if (AlignmentFilter.NONE.equals(c)) {
 					itemChoose = new Text(c.toString()).setButton(true);
 				} else {
 					itemChoose = new Text(c.getColoredAdjective()).setButton(true);

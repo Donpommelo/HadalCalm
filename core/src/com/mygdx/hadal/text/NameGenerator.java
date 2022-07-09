@@ -1218,7 +1218,7 @@ public enum NameGenerator {
 
 		for (NameGenerator gen : NameGenerator.values()) {
 			for (int i = 0; i < gen.canFollow.length; i++) {
-				if (gen.canFollow[i].equals("start")) {
+				if ("start".equals(gen.canFollow[i])) {
 					for (int j = 0; j < gen.weight; j++) {
 						possibleNexts.add(gen);
 					}
@@ -1264,7 +1264,7 @@ public enum NameGenerator {
 		int randomIndex = MathUtils.random(possibleNexts.size - 1);
 		NameGenerator next = possibleNexts.get(randomIndex);
 		
-		if (next.endTag.equals("end")) {
+		if ("end".equals(next.endTag)) {
 			return next.me;
 		} else {
 			return next.me + generateName(next.endTag);

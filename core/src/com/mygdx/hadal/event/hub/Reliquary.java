@@ -66,7 +66,7 @@ public class Reliquary extends HubEvent {
 			final UnlockArtifact selected = c;
 
 			boolean appear = false;
-			if (search.equals("")) {
+			if ("".equals(search)) {
 				appear = true;
 			} else {
 				Matcher matcher = pattern.matcher(selected.getName().toLowerCase());

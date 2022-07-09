@@ -127,7 +127,7 @@ public class Turret extends Enemy {
 			rotationYReal = size.y / scale - rotationY;
 		}
 		entityLocation.set(getPixelPosition());
-		if (moveState == MoveState.DEFAULT) {
+		if (MoveState.DEFAULT.equals(moveState)) {
 			batch.draw(turretBarrel.getKeyFrame(0, true),
 					entityLocation.x - getHboxSize().x / 2, 
 					(flip ? size.y - 24 * scale : 0) + entityLocation.y - getHboxSize().y / 2, 

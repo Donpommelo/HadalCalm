@@ -32,7 +32,7 @@ public class Slodged extends Status {
 
 	@Override
 	public void onInflict() {
-		if (!particle.equals(Particle.NOTHING) && state.isServer()) {
+		if (!Particle.NOTHING.equals(particle) && state.isServer()) {
 			new ParticleEntity(state, inflicted.getSchmuck(), particle, linger, duration + linger,
 					true, SyncType.CREATESYNC).setPrematureOff(linger);
 		}

@@ -180,7 +180,7 @@ public enum PoetryGenerator {
 		PoetryGenerator next = possibleNexts.get(randomIndex);
 		currentLengthExtra += next.lengthExtra;
 		
-		if (next.endTag.equals("end")) {
+		if ("end".equals(next.endTag)) {
 			return TextFilterUtil.filterPoemTags(next.me);
 		}
 		
@@ -189,7 +189,7 @@ public enum PoetryGenerator {
 		String thisWord = TextFilterUtil.filterPoemTags(next.me);
 		
 		//deal with a/an and vowels
-		if (next.endTag.equals("a")) {
+		if ("a".equals(next.endTag)) {
 			if (nextWord.length() >= 2) {
 				if (nextWord.charAt(1) == 'a' || nextWord.charAt(1) == 'e' || nextWord.charAt(1) == 'i' || nextWord.charAt(1) == 'o' || nextWord.charAt(1) == 'u') {
 					thisWord = " an";
@@ -198,7 +198,7 @@ public enum PoetryGenerator {
 		}
 
 		//append proper end phase (if existent)
-		if (!next.endPhrase.equals("")) {
+		if (!"".equals(next.endPhrase)) {
 			return thisWord + nextWord + TextFilterUtil.filterPoemTags(generateName(next.endPhrase));
 		}
 		

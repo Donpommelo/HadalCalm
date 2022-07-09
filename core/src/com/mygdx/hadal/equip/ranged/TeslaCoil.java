@@ -145,7 +145,7 @@ public class TeslaCoil extends RangedWeapon {
 				//unactivated coils should stop and plant when they hit a wall
 				if (fixB == null) {
 					firstPlanted = true;
-				} else if (fixB.getType().equals(UserDataType.WALL)){
+				} else if (UserDataType.WALL.equals(fixB.getType())){
 					firstPlanted = true;
 				}
 			}

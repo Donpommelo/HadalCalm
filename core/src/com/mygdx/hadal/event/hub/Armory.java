@@ -50,7 +50,7 @@ public class Armory extends HubEvent {
 			final UnlockEquip selected = c;
 
 			boolean appear = false;
-			if (search.equals("")) {
+			if ("".equals(search)) {
 				appear = true;
 			} else {
 				Matcher matcher = pattern.matcher(selected.getName().toLowerCase());
@@ -72,7 +72,7 @@ public class Armory extends HubEvent {
 						int slotToReplace = state.getPlayer().getPlayerData().getCurrentSlot();
 
 						//if we are picking up "nothing" in the armory, we just blank our current weapon
-						if (!(selected.equals(UnlockEquip.NOTHING))) {
+						if (!UnlockEquip.NOTHING.equals(selected)) {
 							for (int i = 0; i < state.getPlayer().getPlayerData().getNumWeaponSlots(); i++) {
 								if (state.getPlayer().getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
 									slotToReplace = i;

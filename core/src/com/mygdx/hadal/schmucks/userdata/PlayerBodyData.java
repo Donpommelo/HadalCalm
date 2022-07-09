@@ -323,7 +323,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public boolean addArtifact(UnlockArtifact artifactUnlock, boolean override, boolean save) {
 
-		if (artifactUnlock.equals(UnlockArtifact.NOTHING)) { return false; }
+		if (UnlockArtifact.NOTHING.equals(artifactUnlock)) { return false; }
 
 		Artifact newArtifact = artifactUnlock.getArtifact();
 		int slotsUsed = 0;
@@ -338,10 +338,10 @@ public class PlayerBodyData extends BodyData {
 				return false;
 			}
 			
-			if (!(loadout.artifacts[i].equals(UnlockArtifact.NOTHING))) {
+			if (!(UnlockArtifact.NOTHING.equals(loadout.artifacts[i]))) {
 				
 				//new artifact fails to add if a repeat
-				if (loadout.artifacts[i].equals(artifactUnlock)) {
+				if (artifactUnlock.equals(loadout.artifacts[i])) {
 					return false;
 				} 
 				
@@ -368,7 +368,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void removeArtifact(UnlockArtifact artifact) {
 		
-		if (artifact.equals(UnlockArtifact.NOTHING)) { return; }
+		if (UnlockArtifact.NOTHING.equals(artifact)) { return; }
 		
 		int indexRemoved = -1;
 		

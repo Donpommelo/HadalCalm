@@ -75,7 +75,7 @@ public class User {
 
             //briefly before respawning, we want to flash particles at prospective spawn location
             if (transitionTime <= spawnForewarn && !spawnForewarned) {
-                if (nextState.equals(TransitionState.RESPAWN)) {
+                if (TransitionState.RESPAWN.equals(nextState)) {
                     spawnForewarned = true;
 
                     if (!startOverridden) {
@@ -92,7 +92,7 @@ public class User {
                 }
             }
             if (transitionTime <= 0.0f) {
-                if (nextState.equals(TransitionState.RESPAWN)) {
+                if (TransitionState.RESPAWN.equals(nextState)) {
                     respawn(state);
                 }
                 nextState = null;

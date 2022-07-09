@@ -37,7 +37,7 @@ public class SpawnerWeapon extends Prefabrication {
 		baseId = TiledObjectUtil.getPrefabTriggerId();
 
 		//in custom loadout mode, ammo packs spawn instead of weapons
-		if (state.getMode().getLoadoutMode().equals(SettingLoadoutMode.LoadoutMode.CUSTOM)) {
+		if (SettingLoadoutMode.LoadoutMode.CUSTOM.equals(state.getMode().getLoadoutMode())) {
 			SpawnerPickupTimed.addPickup(state, width, height, x, y, ammoInterval, 2, ammoAmount, pickupId, baseId);
 			return;
 		}

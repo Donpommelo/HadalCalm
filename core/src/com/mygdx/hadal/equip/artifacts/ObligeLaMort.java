@@ -37,9 +37,9 @@ public class ObligeLaMort extends Artifact {
 
 					boolean flip = Math.abs(p.getPlayer().getAttackAngle()) > 90;
 
-					if (p.getPlayer().getMoveState().equals(MoveState.MOVE_RIGHT)) {
+					if (MoveState.MOVE_RIGHT.equals(p.getPlayer().getMoveState())) {
 						applyPush(flip, true, p.getPlayer().isGrounded());
-					} else if (p.getPlayer().getMoveState().equals(MoveState.MOVE_LEFT)) {
+					} else if (MoveState.MOVE_LEFT.equals(p.getPlayer().getMoveState())) {
 						applyPush(!flip, false, p.getPlayer().isGrounded());
 					}
 				}

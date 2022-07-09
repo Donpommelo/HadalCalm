@@ -38,7 +38,7 @@ public class BenthicDesires extends Artifact {
 				boolean activated = count <= 0.0f && p.getCurrentHp() < p.getStat(Stats.MAX_HP);
 				setActivated(activated);
 
-				if (!state.getMode().equals(GameMode.CAMPAIGN) && !state.getMode().equals(GameMode.BOSS)) {
+				if (!GameMode.CAMPAIGN.equals(state.getMode()) && !GameMode.BOSS.equals(state.getMode())) {
 					if (activated) {
 						p.regainHp(hpRegen * delta, p, false, DamageTag.REGEN);
 					}
