@@ -68,10 +68,10 @@ public class Quartermaster extends HubEvent {
 						hub.setInfo(name + "\n\n" + desc + "\n\n" + descLong);
 					}
 			    });
-				itemChoose.setScale(UIHub.optionsScaleSmall);
-				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
+				itemChoose.setScale(UIHub.OptionsScaleSmall);
+				hub.getTableOptions().add(itemChoose).height(UIHub.OptionHeight).pad(UIHub.OptionPad, 0, UIHub.OptionPad, 0).row();
 			}
 		}
-		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.OptionsHeight).row();
 	}
 }

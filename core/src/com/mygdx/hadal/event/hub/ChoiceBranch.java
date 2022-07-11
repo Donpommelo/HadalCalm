@@ -58,10 +58,10 @@ public class ChoiceBranch extends HubEvent {
 		        }
 		    });
 			
-			itemChoose.setScale(UIHub.optionsScale);
-			hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
+			itemChoose.setScale(UIHub.OptionsScale);
+			hub.getTableOptions().add(itemChoose).height(UIHub.OptionHeight).pad(UIHub.OptionPad, 0, UIHub.OptionPad, 0).row();
 		}
-		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.OptionsHeight).row();
 	}
 	
 	public void addOption(String name, Event connectedEvent) {

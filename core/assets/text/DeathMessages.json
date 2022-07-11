@@ -467,6 +467,9 @@
         },
         {
             "message": "<perp> <cook> a <vic> <dish> with <noun_vegetable>", "weight": 30, "namedPerp": true
+        },
+        {
+            "message": "The heat of the <perp> cooks the <vic>", "weight": 30, "namedPerp": true
         }
     ],
 "LIGHTNING":  [

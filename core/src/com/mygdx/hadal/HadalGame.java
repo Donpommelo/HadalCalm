@@ -39,10 +39,10 @@ public class HadalGame extends ApplicationAdapter {
 	public static final float CONFIG_HEIGHT = 720.0f;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String Version = "1.0.7k";
+	public static final String Version = "1.0.7l";
 
 	//version url takes player to patch notes page when version is clicked in title screen
-	public static final String VersionURL = "https://donpommelo.itch.io/hadal-calm/devlog/374281/107k";
+	public static final String VersionURL = "https://donpommelo.itch.io/hadal-calm/devlog/391290/107l";
 
 	//Game cameras and respective viewports. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
@@ -76,8 +76,8 @@ public class HadalGame extends ApplicationAdapter {
     private Stage currentMenu;
     
     //this is the rate at which the screen fades from/to black.
-  	private static final float defaultFadeInSpeed = -2.0f;
-  	private static final float defaultFadeOutSpeed = 2.0f;
+  	private static final float DefaultFadeInSpeed = -2.0f;
+  	private static final float DefaultFadeOutSpeed = 2.0f;
   	
   	//This is the how faded the black screen is. (starts off black)
   	protected float fadeLevel = 1.0f;
@@ -89,7 +89,7 @@ public class HadalGame extends ApplicationAdapter {
   	private boolean skipFade;
 
   	//This is how much the fade changes every engine tick (starts out fading in)
-  	protected float fadeDelta = defaultFadeInSpeed;
+  	protected float fadeDelta = DefaultFadeInSpeed;
   	
   	//this is a runnable that will run when the game finishes a transition, usually to another state.
   	private Runnable runAfterTransition;
@@ -307,9 +307,9 @@ public class HadalGame extends ApplicationAdapter {
 		}
 	}
 
-	public void fadeOut() {	fadeDelta = defaultFadeOutSpeed; }
+	public void fadeOut() {	fadeDelta = DefaultFadeOutSpeed; }
 	
-	public void fadeIn() { fadeDelta = defaultFadeInSpeed; }
+	public void fadeIn() { fadeDelta = DefaultFadeInSpeed; }
 		
 	public void setFadeLevel(float fadeLevel) { this.fadeLevel = fadeLevel; }
 	

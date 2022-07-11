@@ -41,33 +41,32 @@ public class UIHub {
 	//These fields pertain to the extra info window that pops up when mousing over stuff.
 	private Text titleInfo;
 	private String info, title = "";
-	private static final int infoWidth = 400;
-	private static final int infoHeight = 350;
-	public static final int infoPad = 20;
+	private static final int InfoWidth = 400;
+	private static final int InfoHeight = 350;
+	public static final int InfoPad = 20;
 
-	private static final float tableX = HadalGame.CONFIG_WIDTH;
-	private static final float tableY = 0.0f;
+	private static final float TableX = HadalGame.CONFIG_WIDTH;
+	private static final float TableY = 0.0f;
 	
-	public static final int titleHeight = 90;
-	public static final int titlePad = 25;
+	public static final int TitleHeight = 90;
+	public static final int TitlePad = 25;
 	
-	private static final int optionsWidthOuter = 1280;
-	private static final int optionsHeightOuter = 720;
-	private static final int searchWidth = 240;
-	public static final int optionsHeight = 40;
-	public static final int optionHeight = 35;
-	public static final int optionHeightLarge = 45;
-	public static final int optionPad = 3;
-	private static final int scrollWidth = 880;
-	private static final int scrollHeight = 620;
-
-	public static final float optionsScale = 0.3f;
-	public static final float optionsScaleSmall = 0.25f;
+	private static final int OptionsWidthOuter = 1280;
+	private static final int OptionsHeightOuter = 720;
+	public static final int OptionsHeight = 40;
+	public static final int OptionHeight = 35;
+	public static final int OptionHeightLarge = 45;
+	public static final int OptionPad = 3;
+	private static final int ScrollWidth = 880;
+	private static final int ScrollHeight = 620;
+	private static final int VerticalGroupPad = 8;
+	public static final float OptionsScale = 0.3f;
+	public static final float OptionsScaleSmall = 0.25f;
 	
-	public static final float artifactTagSize = 50.0f;
-	private static final float artifactTagOffsetX = 10.0f;
-	private static final float artifactTagOffsetY = 60.0f;
-	private static final float artifactTagTargetWidth = 120.0f;
+	public static final float ArtifactTagSize = 50.0f;
+	private static final float ArtifactTagOffsetX = 10.0f;
+	private static final float ArtifactTagOffsetY = 60.0f;
+	private static final float ArtifactTagTargetWidth = 120.0f;
 			
 	private hubTypes type = hubTypes.NONE;
 	
@@ -82,7 +81,7 @@ public class UIHub {
 
 			@Override
 			public void draw(Batch batch, float alpha) {
-				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), optionsWidthOuter, optionsHeightOuter);
+				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), OptionsWidthOuter, OptionsHeightOuter);
 				super.draw(batch, alpha);
 			}
 		};
@@ -109,12 +108,11 @@ public class UIHub {
 		
 		titleInfo = new Text(title);
 		titleInfo.setScale(0.8f);
-		tableOuter.add(tableTop).height(titleHeight).colspan(2).growX().row();
-		tableOuter.add(tableLeft).width(infoWidth).bottom();
-		tableOuter.add(tableRight).width(scrollWidth).growY().bottom();
+		tableOuter.add(tableTop).height(TitleHeight).colspan(2).growX().row();
+		tableOuter.add(tableLeft).width(InfoWidth).growY().bottom();
+		tableOuter.add(tableRight).width(ScrollWidth).growY().bottom();
 
-		tableTop.add(titleInfo).pad(titlePad).growX();
-		tableTop.add(tableSearch).width(searchWidth).pad(50);
+		tableTop.add(titleInfo).pad(TitlePad).growX();
 
 		Text extraInfo = new Text("") {
 
@@ -122,13 +120,14 @@ public class UIHub {
 		    public void draw(Batch batch, float alpha) {
 				super.draw(batch, alpha);
 				font.getData().setScale(0.3f);
-				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), infoWidth, infoHeight);
-				font.draw(batch, info, getX() + 5, getY() + infoHeight - 25, infoWidth - 10, -1, true);
+				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), InfoWidth, InfoHeight);
+				font.draw(batch, info, getX() + 5, getY() + InfoHeight - 25, InfoWidth - 10, -1, true);
 		    }
 		};
 
-		tableLeft.add(tableExtra).row();
-		tableLeft.add(extraInfo).width(infoWidth).height(infoHeight).row();
+		tableLeft.add(tableSearch).top().row();
+		tableLeft.add(tableExtra).growY().row();
+		tableLeft.add(extraInfo).bottom().width(InfoWidth).height(InfoHeight).row();
 
 		extraInfo.toBack();
 		titleInfo.toFront();
@@ -161,7 +160,7 @@ public class UIHub {
 		//for hubs with search bar, let players type in text
 		if (searchable) {
 			Text search = new Text(UIText.SEARCH.text());
-			search.setScale(optionsScale);
+			search.setScale(OptionsScale);
 
 			searchName = new TextField("", GameStateManager.getSkin()) {
 
@@ -187,13 +186,13 @@ public class UIHub {
 			searchName.setMessageText(UIText.SEARCH_OPTIONS.text());
 			searchName.setText(hub.getLastSearch());
 			tableSearch.add(search);
-			tableSearch.add(searchName).padBottom(optionPad).row();
+			tableSearch.add(searchName).padBottom(OptionPad).row();
 		}
 
 		//if the player can add extra tags to search artifacts, add dropdown for this
 		if (filterTags) {
 			Text searchTags = new Text(UIText.FILTER_TAGS.text());
-			searchTags.setScale(optionsScale);
+			searchTags.setScale(OptionsScale);
 
 			tagFilter = new SelectBox<>(GameStateManager.getSkin());
 			tagFilter.setItems(tagOptions);
@@ -216,11 +215,11 @@ public class UIHub {
 			});
 
 			tableSearch.add(searchTags);
-			tableSearch.add(tagFilter).padBottom(optionPad).row();
+			tableSearch.add(tagFilter).padBottom(OptionPad).row();
 		}
 		if (filterCost) {
 			Text searchCost = new Text(UIText.FILTER_COST.text());
-			searchCost.setScale(optionsScale);
+			searchCost.setScale(OptionsScale);
 
 			slotsFilter = new SelectBox<>(GameStateManager.getSkin());
 			slotsFilter.setItems(UIText.FILTER_COST_OPTIONS.text().split(","));
@@ -236,7 +235,7 @@ public class UIHub {
 			});
 
 			tableSearch.add(searchCost);
-			tableSearch.add(slotsFilter).padBottom(optionPad).row();
+			tableSearch.add(slotsFilter).padBottom(OptionPad).row();
 		}
 
 		this.options = new ScrollPane(tableOptions, GameStateManager.getSkin());
@@ -251,39 +250,39 @@ public class UIHub {
 			}
 		});
 
-		tableRight.add(options).height(scrollHeight).width(scrollWidth);
+		tableRight.add(options).height(ScrollHeight).width(ScrollWidth);
 
-		tableOuter.setPosition(tableX, tableY);
-		tableOuter.setSize(optionsWidthOuter, optionsHeightOuter);
+		tableOuter.setPosition(TableX, TableY);
+		tableOuter.setSize(OptionsWidthOuter, OptionsHeightOuter);
 
 		state.getStage().setScrollFocus(options);
 		state.getStage().addActor(tableOuter);
 
-		tableOuter.addAction(Actions.moveTo(tableX - optionsWidthOuter, tableY, .5f, Interpolation.pow5Out));
+		tableOuter.addAction(Actions.moveTo(TableX - OptionsWidthOuter, TableY, .5f, Interpolation.pow5Out));
 		
 		info = "";
 	}
 
 	private int currentRow;
 	private VerticalGroup currentVerticalGroup = new VerticalGroup();
-	public void addActor(Actor actor, int width, int rowNum) {
+	public void addActor(Actor actor, float width, int rowNum) {
 		currentVerticalGroup.addActor(actor);
 		currentVerticalGroup.top();
 		currentVerticalGroup.setWidth(width);
-		currentVerticalGroup.setHeight(scrollHeight);
-		currentVerticalGroup.space(optionPad);
+		currentVerticalGroup.setHeight(ScrollHeight);
+		currentVerticalGroup.space(OptionPad);
 
 		currentRow++;
 		if (currentRow >= rowNum) {
 			currentRow = 0;
 
-			tableOptions.add(currentVerticalGroup).growY();
+			tableOptions.add(currentVerticalGroup).pad(VerticalGroupPad).growY();
 			currentVerticalGroup = new VerticalGroup();
 		}
 	}
 
 	public void addActorFinish() {
-		tableOptions.add(currentVerticalGroup).growY();
+		tableOptions.add(currentVerticalGroup).pad(VerticalGroupPad).growY();
 		currentVerticalGroup = new VerticalGroup();
 		currentRow = 0;
 	}
@@ -298,7 +297,7 @@ public class UIHub {
 
 		ModeSettingSelection.leave(state);
 
-		tableOuter.addAction(Actions.sequence(Actions.moveTo(tableX, tableY, TRANSITION_DURATION_SLOW, Interpolation.pow5Out),
+		tableOuter.addAction(Actions.sequence(Actions.moveTo(TableX, TableY, TRANSITION_DURATION_SLOW, Interpolation.pow5Out),
 			Actions.run(() -> {
 				if (state.getStage() != null) {
 					if (state.getStage().getScrollFocus() == options) {
@@ -331,7 +330,7 @@ public class UIHub {
 		
 		Text slotsTitle = new Text(UIText.CURRENT_ARTIFACTS.text());
 		slotsTitle.setScale(0.5f);
-		tableExtra.add(slotsTitle).colspan(12).pad(infoPad).row();
+		tableExtra.add(slotsTitle).colspan(12).pad(InfoPad).row();
 		
 		boolean artifactsEmpty = true;
 
@@ -342,7 +341,7 @@ public class UIHub {
 				if (!UnlockArtifact.NOTHING.equals(c)) {
 					artifactsEmpty = false;
 					final ArtifactIcon newTag = new ArtifactIcon(c, UIText.UNEQUIP.text(c.getName()),
-						artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
+							ArtifactTagOffsetX, ArtifactTagOffsetY, ArtifactTagTargetWidth);
 
 					newTag.addListener(new ClickListener() {
 
@@ -364,14 +363,14 @@ public class UIHub {
 									newTag.getArtifact().getDesc(), newTag.getArtifact().getDescLong());
 						}
 					});
-					tableExtra.add(newTag).width(artifactTagSize).height(artifactTagSize);
+					tableExtra.add(newTag).width(ArtifactTagSize).height(ArtifactTagSize);
 				}
 			}
 
 			if (artifactsEmpty) {
 				Text slotsEmpty = new Text(UIText.NA.text());
 				slotsEmpty.setScale(0.5f);
-				tableExtra.add(slotsEmpty).height(artifactTagSize).colspan(12);
+				tableExtra.add(slotsEmpty).height(ArtifactTagSize).colspan(12);
 			}
 
 			tableExtra.row();
@@ -379,7 +378,7 @@ public class UIHub {
 			Text slotsInfo = new Text(UIText.SLOTS_REMAINING.text(
 					Integer.toString(state.getPlayer().getPlayerData().getArtifactSlotsRemaining())));
 			slotsInfo.setScale(0.5f);
-			tableExtra.add(slotsInfo).pad(infoPad).colspan(12).row();
+			tableExtra.add(slotsInfo).pad(InfoPad).colspan(12).row();
 		}
 	}
 
@@ -390,7 +389,7 @@ public class UIHub {
 		outfitName.setMessageText(UIText.OUTFIT_NAME.text());
 
 		Text outfitSave = new Text(UIText.OUTFIT_SAVE.text()).setButton(true);
-		outfitSave.setScale(optionsScale);
+		outfitSave.setScale(OptionsScale);
 
 		outfitSave.addListener(new ClickListener() {
 
@@ -413,7 +412,7 @@ public class UIHub {
 		outfits.setItems(outfitOptions);
 
 		Text outfitDelete = new Text(UIText.OUTFIT_DELETE.text()).setButton(true);
-		outfitDelete.setScale(optionsScale);
+		outfitDelete.setScale(OptionsScale);
 
 		outfitDelete.addListener(new ClickListener() {
 
@@ -427,10 +426,10 @@ public class UIHub {
 			}
 		});
 
-		tableExtra.add(outfitName).pad(infoPad).height(optionHeightLarge);
-		tableExtra.add(outfitSave).pad(infoPad).height(optionHeightLarge).row();
-		tableExtra.add(outfits).pad(infoPad).height(optionHeightLarge);
-		tableExtra.add(outfitDelete).pad(infoPad).height(optionHeightLarge).row();
+		tableExtra.add(outfitName).pad(InfoPad).height(OptionHeightLarge);
+		tableExtra.add(outfitSave).pad(InfoPad).height(OptionHeightLarge).row();
+		tableExtra.add(outfits).pad(InfoPad).height(OptionHeightLarge);
+		tableExtra.add(outfitDelete).pad(InfoPad).height(OptionHeightLarge).row();
 	}
 
 	/**

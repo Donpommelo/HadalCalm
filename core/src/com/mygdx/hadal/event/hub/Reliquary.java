@@ -1,14 +1,12 @@
 package com.mygdx.hadal.event.hub;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -27,15 +25,6 @@ import java.util.regex.Pattern;
  * @author Trelzubramaniam Twediculous
  */
 public class Reliquary extends HubEvent {
-
-	private static final int iconTextWidth = 150;
-	private static final int optionWidth = 160;
-	private static final int optionHeight = 150;
-	private static final int iconWidth = 80;
-	private static final int iconHeight = 80;
-	private static final int iconOffsetX = 35;
-	private static final int iconOffsetY = 0;
-	private static final int textOffsetY = 45;
 
 	public Reliquary(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.RELIQUARY);
@@ -80,28 +69,9 @@ public class Reliquary extends HubEvent {
 				}
 			}
 			if (appear) {
-				Text icon = new Text(c.getName()) {
+				HubOption option = new HubOption(c.getName(), c.getFrame());
 
-					@Override
-					public void draw(Batch batch, float alpha) {
-						super.draw(batch, alpha);
-						batch.draw(c.getFrame(), getX() + iconOffsetX, getY() + iconOffsetY, iconWidth, iconHeight);
-					}
-
-					@Override
-					public void updateHitBox() {
-						super.updateHitBox();
-						setHeight(optionHeight);
-						setWidth(optionWidth);
-					}
-				};
-
-				icon.setWrap(iconTextWidth);
-				icon.setAlign(Align.center);
-				icon.setYOffset(textOffsetY);
-				icon.setButton(true);
-
-				ClickListener artifactListener = new ClickListener() {
+				option.addListener(new ClickListener() {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
@@ -122,11 +92,8 @@ public class Reliquary extends HubEvent {
 								Integer.toString(selected.getArtifact().getSlotCost()),
 								selected.getDesc(), selected.getDescLong()));
 					}
-				};
-
-				icon.addListener(artifactListener);
-				icon.setScale(UIHub.optionsScale);
-				hub.addActor(icon, optionWidth, 4);
+				});
+				hub.addActor(option, option.getWidth(), 4);
 			}
 		}
 		hub.addActorFinish();

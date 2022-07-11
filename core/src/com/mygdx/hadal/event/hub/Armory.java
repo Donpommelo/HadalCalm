@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
@@ -60,9 +60,9 @@ public class Armory extends HubEvent {
 			}
 
 			if (appear) {
-				Text itemChoose = new Text(selected.getName()).setButton(true);
+				HubOption option = new HubOption(c.getName(), null);
 
-				itemChoose.addListener(new ClickListener() {
+				option.addListener(new ClickListener() {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
@@ -96,10 +96,9 @@ public class Armory extends HubEvent {
 						hub.setInfo(selected.getName() + "\n\n" + selected.getDesc() + "\n\n" + selected.getDescLong());
 					}
 				});
-				itemChoose.setScale(UIHub.optionsScale);
-				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
+				hub.addActor(option, option.getWidth(), 4);
 			}
 		}
-		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
+		hub.addActorFinish();
 	}
 }
