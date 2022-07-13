@@ -30,7 +30,7 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
  */
 public class SpawnerFlag extends Event {
 
-    private final static float particleDuration = 5.0f;
+    private final static float PARTICLE_DURATION = 5.0f;
 
     //index of the team whose flag this spawns
     private final int teamIndex;
@@ -66,11 +66,11 @@ public class SpawnerFlag extends Event {
         this.body.setType(BodyDef.BodyType.KinematicBody);
     }
 
+    private static final float SPAWN_DELAY = 1.0f;
+    private static final float CHECK_INTERVAL = 0.2f;
     private FlagCapturable flag;
     private float spawnCountdown;
-    private static final float spawnDelay = 1.0f;
     private float controllerCount;
-    private static final float checkInterval = 0.2f;
     @Override
     public void controller(float delta) {
 
@@ -89,12 +89,12 @@ public class SpawnerFlag extends Event {
                 flagded = true;
             }
             if (flagded) {
-                spawnCountdown = spawnDelay;
+                spawnCountdown = SPAWN_DELAY;
             }
         }
 
         controllerCount += delta;
-        if (controllerCount >= checkInterval) {
+        if (controllerCount >= CHECK_INTERVAL) {
             controllerCount = 0.0f;
             for (HadalEntity entity : eventData.getSchmucks()) {
                 if (entity instanceof FlagCapturable flag) {
@@ -114,14 +114,14 @@ public class SpawnerFlag extends Event {
         flagPresent = true;
     }
 
-    private static final float messageCooldown = 5.0f;
+    private static final float MESSAGE_COOLDOWN = 5.0f;
     private float messageCount;
     public void triggerFailMessage() {
 
         //message is activated when attempting to capture flag while enemy holds your flag
         if (messageCount <= 0.0f) {
             if (teamIndex < AlignmentFilter.currentTeams.length) {
-                messageCount = messageCooldown;
+                messageCount = MESSAGE_COOLDOWN;
                 String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
                 state.getKillFeed().addNotification(UIText.CTF_CAPTURE_FAIL.text(teamColor), true);
             }
@@ -129,7 +129,7 @@ public class SpawnerFlag extends Event {
     }
 
     private void spawnerParticles() {
-        ParticleEntity particle = new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, particleDuration,
+        ParticleEntity particle = new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,
                 true, SyncType.CREATESYNC);
         if (teamIndex < AlignmentFilter.currentTeams.length) {
             particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());

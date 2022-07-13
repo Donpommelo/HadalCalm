@@ -17,36 +17,36 @@ import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION_SLOW;
  */
 public class MusicIcon extends AHadalActor {
 
+	private static final float PAD_X = 40.0f;
+	private static final float PAD_Y = 20.0f;
+	private static final float MAX_WIDTH = 300.0f;
+
+	private static final float FONT_SCALE = 0.3f;
+	private static final float ANIMATION_SPEED = 0.04f;
+	private static final float ICON_OFFSET_X = -85.0f;
+	private static final float ICON_OFFSET_Y = -40.0f;
+	private static final float ICON_WIDTH = 90.0f;
+	private static final float ICON_HEIGHT = 90.0f;
+
+	private static final float START_X = 1330.0f;
+	private static final float END_X = 1280.0f;
+	private static final float START_Y = 600.0f;
+
 	private final String text;
 	private final GlyphLayout layout;
 	private final Animation<TextureRegion> musicIcon;
-
-	private static final float padX = 40.0f;
-	private static final float padY = 20.0f;
-	private static final float maxWidth = 300.0f;
-
-	private static final float fontScale = 0.3f;
-	private static final float animspeed = 0.04f;
-	private static final float iconOffsetX = -85.0f;
-	private static final float iconOffsetY = -40.0f;
-	private static final float iconWidth = 90.0f;
-	private static final float iconHeight = 90.0f;
-
-	private static final float startX = 1330.0f;
-	private static final float endX = 1280.0f;
-	private static final float startY = 600.0f;
 
 	public MusicIcon(MusicTrack track) {
 
 		text = track.getMusicName();
 
-		HadalGame.FONT_UI.getData().setScale(fontScale);
+		HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
 		layout = new GlyphLayout();
 		layout.setText(HadalGame.FONT_UI, text);
 		setWidth(layout.width);
 		setHeight(layout.height);
 
-		musicIcon = new Animation<>(animspeed,
+		musicIcon = new Animation<>(ANIMATION_SPEED,
 			((TextureAtlas) HadalGame.assetManager.get(AssetList.MUSIC_ATL.toString())).findRegions("music"));
 	}
 
@@ -60,23 +60,26 @@ public class MusicIcon extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {
 
-		GameStateManager.getSimplePatch().draw(batch, getX() - padX / 2, getY() - padY / 2,
-			getWidth() + padX, getHeight() + padY);
+		GameStateManager.getSimplePatch().draw(batch, getX() - PAD_X / 2, getY() - PAD_Y / 2,
+			getWidth() + PAD_X, getHeight() + PAD_Y);
 
-		HadalGame.FONT_UI.getData().setScale(fontScale);
-		HadalGame.FONT_UI.draw(batch, text, getX(), getY() + getHeight() / 2 + layout.height / 2, maxWidth, Align.left, true);
+		HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
+		HadalGame.FONT_UI.draw(batch, text, getX(), getY() + getHeight() / 2 + layout.height / 2, MAX_WIDTH, Align.left, true);
 
-		batch.draw(musicIcon.getKeyFrame(animCdCount, true), getX() + iconOffsetX, getY() + iconOffsetY,
-				iconWidth, iconHeight);
+		batch.draw(musicIcon.getKeyFrame(animCdCount, true), getX() + ICON_OFFSET_X, getY() + ICON_OFFSET_Y,
+				ICON_WIDTH, ICON_HEIGHT);
 	}
 
-	private static final float visibleDuration = 6.0f;
+	private static final float VISIBLE_DURATION = 6.0f;
+	/**
+	 * Run from PlayState Controller to animate music icon when a new track is played
+	 */
 	public void animateIcon() {
 		addAction(Actions.sequence(
-			Actions.moveTo(startX, startY),
-			Actions.moveTo(endX - getWidth() - padX, startY, TRANSITION_DURATION_SLOW, INTP_FASTSLOW),
-			Actions.delay(visibleDuration),
-			Actions.moveTo(startX, startY, TRANSITION_DURATION_SLOW, INTP_FASTSLOW),
+			Actions.moveTo(START_X, START_Y),
+			Actions.moveTo(END_X - getWidth() - PAD_X, START_Y, TRANSITION_DURATION_SLOW, INTP_FASTSLOW),
+			Actions.delay(VISIBLE_DURATION),
+			Actions.moveTo(START_X, START_Y, TRANSITION_DURATION_SLOW, INTP_FASTSLOW),
 			Actions.removeActor()));
 	}
 }

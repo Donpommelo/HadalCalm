@@ -117,7 +117,7 @@ public class BotManager {
     }
 
     //this is the furthest distance that we will check rally points for
-    private static final float MaxPointDistanceCheck = 30.0f;
+    private static final float MAX_POINT_DISTANCE_CHECK = 30.0f;
     private static final Vector2 tempPointLocation = new Vector2();
     /**
      * @param targeter: the schmuck looking for nearest point
@@ -132,8 +132,8 @@ public class BotManager {
 
         //iterate through all rally points up to a set distance away
         for (Vector2 rallyPoint : rallyPoints.keys()) {
-            if (Math.abs(rallyPoint.x - sourceLocation.x) > MaxPointDistanceCheck ||
-                    Math.abs(rallyPoint.y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
+            if (Math.abs(rallyPoint.x - sourceLocation.x) > MAX_POINT_DISTANCE_CHECK ||
+                    Math.abs(rallyPoint.y - sourceLocation.y) > MAX_POINT_DISTANCE_CHECK) { continue; }
 
             tempPointLocation.set(rallyPoint);
             float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation, Constants.BIT_PLAYER);
@@ -168,8 +168,8 @@ public class BotManager {
 
         //iterate through all rally points up to a set distance away
         for (RallyPoint rallyPoint : rallyPoints.values()) {
-            if (Math.abs(rallyPoint.getPosition().x - sourceLocation.x) > MaxPointDistanceCheck ||
-                    Math.abs(rallyPoint.getPosition().y - sourceLocation.y) > MaxPointDistanceCheck) { continue; }
+            if (Math.abs(rallyPoint.getPosition().x - sourceLocation.x) > MAX_POINT_DISTANCE_CHECK ||
+                    Math.abs(rallyPoint.getPosition().y - sourceLocation.y) > MAX_POINT_DISTANCE_CHECK) { continue; }
 
             tempPointLocation.set(rallyPoint.getPosition());
             float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation, Constants.BIT_PLAYER);

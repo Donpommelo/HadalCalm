@@ -26,40 +26,40 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class Airblaster extends MeleeWeapon {
 
-	private static final float swingCd = 0.25f;
-	private static final float windup = 0.0f;
-	private static final float baseDamage = 0.0f;
-	private static final Vector2 hitboxSize = new Vector2(150, 150);
-	private static final float knockback = 60.0f;
-	public static final float momentum = 50.0f;
+	private static final float SWING_CD = 0.25f;
+	private static final float WINDUP = 0.0f;
+	private static final float BASE_DAMAGE = 0.0f;
+	private static final Vector2 HITBOX_SIZE = new Vector2(150, 150);
+	private static final float KNOCKBACK = 60.0f;
+	public static final float MOMENTUM = 50.0f;
 	
-	private static final float reflectVeloAmp = 1.25f;
-	public static final float reflectVeloMin = 20.0f;
-	public static final float reflectVeloMax = 80.0f;
+	private static final float REFLECT_VELO_AMP = 1.25f;
+	public static final float REFLECT_VELO_MIN = 20.0f;
+	public static final float REFLECT_VELO_MAX = 80.0f;
 
 	public Airblaster(Schmuck user) {
-		super(user, swingCd, windup, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
+		super(user, SWING_CD, WINDUP, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 	}
 	
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		fire(state, user, user.getPixelPosition(), weaponVelo, faction);
-		user.pushFromLocation(mouseLocation, momentum * (1 + shooter.getStat(Stats.BOOST_RECOIL)));
+		user.pushFromLocation(mouseLocation, MOMENTUM * (1 + shooter.getStat(Stats.BOOST_RECOIL)));
 	}
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.AIRBLAST.playUniversal(state, startPosition, 0.4f, false);
 		
-		Hitbox hbox = new Hitbox(state, startPosition, hitboxSize, swingCd, new Vector2(), user.getHitboxfilter(), true, false, user, Sprite.NOTHING);
+		Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, SWING_CD, new Vector2(), user.getHitboxfilter(), true, false, user, Sprite.NOTHING);
 		hbox.setScale(1 + user.getBodyData().getStat(Stats.BOOST_SIZE));
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW)),
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK * (1 + user.getBodyData().getStat(Stats.BOOST_POW)),
 				DamageSource.AIRBLAST, DamageTag.REFLECT).setConstantKnockback(true, startVelocity));
 		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(startVelocity),
-			startVelocity.nor().scl(hitboxSize.x / 2 / PPM)));
+			startVelocity.nor().scl(HITBOX_SIZE.x / 2 / PPM)));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_BLAST, 0.0f, 2.0f)
 			.setParticleVelocity(startVelocity.angleRad() + 180 * MathUtils.degRad));
 
@@ -70,8 +70,8 @@ public class Airblaster extends MeleeWeapon {
 				if (fixB != null) {
 					if (UserDataType.HITBOX.equals(fixB.getType())) {
 						if (fixB.getEntity().isAlive() && ((Hitbox) fixB.getEntity()).isReflectable()) {
-							fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().scl(reflectVeloAmp).
-								clamp(reflectVeloMin, reflectVeloMax).setAngleDeg(startVelocity.angleDeg()));
+							fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().scl(REFLECT_VELO_AMP).
+								clamp(REFLECT_VELO_MIN, REFLECT_VELO_MAX).setAngleDeg(startVelocity.angleDeg()));
 						}
 					}
 				}

@@ -15,35 +15,35 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  */
 public class MeteorStrike extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.1f;
-	private static final float maxCharge = 20.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.1f;
+	private static final float MAX_CHARGE = 20.0f;
 
-	private static final float baseDamage = 28.0f;
+	private static final float BASE_DAMAGE = 28.0f;
 
-	private static final float meteorDuration = 3.5f;
-	private static final float meteorInterval = 0.2f;
-	private static final float spread = 15.0f;
+	private static final float METEOR_DURATION = 3.5f;
+	private static final float METEOR_INTERVAL = 0.2f;
+	private static final float SPREAD = 15.0f;
 	
 	public MeteorStrike(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		WeaponUtils.createMeteors(state, new Vector2(mouseLocation).scl(1 / PPM), user.getPlayer(), meteorDuration,
-				meteorInterval, spread, baseDamage, DamageSource.METEOR_STRIKE);
+		WeaponUtils.createMeteors(state, new Vector2(mouseLocation).scl(1 / PPM), user.getPlayer(), METEOR_DURATION,
+				METEOR_INTERVAL, SPREAD, BASE_DAMAGE, DamageSource.METEOR_STRIKE);
 	}
 	
 	@Override
-	public float getUseDuration() { return meteorDuration; }
+	public float getUseDuration() { return METEOR_DURATION; }
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf(meteorDuration),
-				String.valueOf((int) (meteorDuration / meteorInterval)),
-				String.valueOf((int) baseDamage)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf(METEOR_DURATION),
+				String.valueOf((int) (METEOR_DURATION / METEOR_INTERVAL)),
+				String.valueOf((int) BASE_DAMAGE)};
 	}
 }

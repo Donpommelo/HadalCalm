@@ -146,14 +146,13 @@ public class PlayerClient extends Player {
 	private final Vector2 newPosition = new Vector2();
 	private float predictionCount;
 	private float shortestFraction;
-	private static final float predictionInterval = 1 / 60.0f;
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
 
 		controllerCount += delta;
-		while (controllerCount >= controllerInterval) {
-			controllerCount -= controllerInterval;
+		while (controllerCount >= Constants.INTERVAL) {
+			controllerCount -= Constants.INTERVAL;
 			
 			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&
 				playerData.getCurrentFuel() >= playerData.getHoverCost()) {
@@ -205,15 +204,15 @@ public class PlayerClient extends Player {
 			predictedPosition.add(frame.positionChange);
 
 			predictionCount += delta;
-			while (predictionCount >= predictionInterval) {
-				predictionCount -= predictionInterval;
+			while (predictionCount >= Constants.INTERVAL) {
+				predictionCount -= Constants.INTERVAL;
 
 				float latency = ((ClientState) state).getLatency();
 				shortestFraction = 1.0f;
 
 				if (latency > 0.0f) {
 					float time = CONVERGE_MULTIPLIER * latency;
-					float t = predictionInterval / (latency * (1 + CONVERGE_MULTIPLIER));
+					float t = Constants.INTERVAL / (latency * (1 + CONVERGE_MULTIPLIER));
 
 					extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(playerVelocity).scl(time));
 					newPredictedPosition.set(playerWorldLocation).add(extrapolatedPosition.sub(playerWorldLocation).scl(t));
@@ -266,7 +265,7 @@ public class PlayerClient extends Player {
 		if (jumpCdCount < 0) {
 			
 			//Player will continuously do small upwards bursts that cost fuel.
-			jumpCdCount = hoverCd;
+			jumpCdCount = HOVER_CD;
 			pushMomentumMitigation(0, playerData.getHoverPower());
 		}
 	}
@@ -276,14 +275,14 @@ public class PlayerClient extends Player {
 		if (grounded) {
 			if (jumpCdCount < 0) {
 				
-				jumpCdCount = jumpCd;
+				jumpCdCount = JUMP_CD;
 				pushMomentumMitigation(0, playerData.getJumpPower());
 			} else {
 				jumpBuffered = true;
 			}
 		} else if (playerData.getExtraJumpsUsed() < playerData.getExtraJumps()) {
 			if (jumpCdCount < 0) {
-				jumpCdCount = jumpCd;
+				jumpCdCount = JUMP_CD;
 				playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);
 				pushMomentumMitigation(0, playerData.getJumpPower());
 			} else {
@@ -298,7 +297,7 @@ public class PlayerClient extends Player {
 		if (airblastCdCount < 0) {
 			if (playerData.getCurrentFuel() >= playerData.getAirblastCost()) {
 				mousePos.set(((ClientState) state).getMousePosition().x, ((ClientState) state).getMousePosition().y);
-				pushFromLocation(mousePos, Airblaster.momentum);
+				pushFromLocation(mousePos, Airblaster.MOMENTUM);
 			}
 		} else {
 			airblastBuffered = true;

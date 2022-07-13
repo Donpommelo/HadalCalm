@@ -23,17 +23,17 @@ import com.mygdx.hadal.strategies.hitbox.*;
  */
 public class GhostStep extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 3.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 3.0f;
 
-	private static final float baseDamage = 20.0f;
-	private static final Vector2 hitboxSize = new Vector2(90, 120);
-	private static final float recoil = 75.0f;
-	private static final float lifespan = 0.20f;
+	private static final Vector2 HITBOX_SIZE = new Vector2(90, 120);
+	private static final float BASE_DAMAGE = 20.0f;
+	private static final float RECOIL = 75.0f;
+	private static final float LIFESPAN = 0.20f;
 
 	public GhostStep(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 
 	@Override
@@ -45,7 +45,6 @@ public class GhostStep extends ActiveItem {
 		SoundEffect.WOOSH.playUniversal(state, user.getPixelPosition(), 1.0f, false);
 
 		int direction;
-
 		if (MoveState.MOVE_LEFT.equals(user.getMoveState())) {
 			direction = -1;
 		} else if (MoveState.MOVE_RIGHT.equals(user.getMoveState())) {
@@ -56,20 +55,20 @@ public class GhostStep extends ActiveItem {
 			direction = -1;
 		}
 
-		user.getBodyData().addStatus(new Impermeable(state, lifespan, user.getBodyData(), user.getBodyData())
+		user.getBodyData().addStatus(new Impermeable(state, LIFESPAN, user.getBodyData(), user.getBodyData())
 				.setClientIndependent(true));
-		user.getBodyData().addStatus(new ResetVelocity(state, lifespan, user.getBodyData(), user.getBodyData(), user.getLinearVelocity())
+		user.getBodyData().addStatus(new ResetVelocity(state, LIFESPAN, user.getBodyData(), user.getBodyData(), user.getLinearVelocity())
 				.setClientIndependent(true));
 
-		user.setLinearVelocity(recoil * direction, 0);
+		user.setLinearVelocity(RECOIL * direction, 0);
 
-		Hitbox hbox = new Hitbox(state, startPosition, hitboxSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, LIFESPAN, startVelocity, user.getHitboxfilter(),
 				true, true, user, Sprite.NOTHING);
 		hbox.makeUnreflectable();
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, 0.0f, DamageSource.GHOST_STEP,
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, 0.0f, DamageSource.GHOST_STEP,
 				DamageTag.MAGIC));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SHADOW_PATH, 0.0f, 1.0f)
 			.setSyncType(SyncType.NOSYNC));
@@ -81,7 +80,7 @@ public class GhostStep extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) baseDamage)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) BASE_DAMAGE)};
 	}
 }

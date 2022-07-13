@@ -64,7 +64,7 @@ public class User {
         hitBoxFilter = AlignmentFilter.getUnusedAlignment();
     }
 
-    private static final float spawnForewarn = 2.0f;
+    private static final float SPAWN_FOREWARN = 2.0f;
     private float transitionTime;
     private boolean spawnForewarned;
     public void controller(PlayState state, float delta) {
@@ -74,7 +74,7 @@ public class User {
             transitionTime -= delta;
 
             //briefly before respawning, we want to flash particles at prospective spawn location
-            if (transitionTime <= spawnForewarn && !spawnForewarned) {
+            if (transitionTime <= SPAWN_FOREWARN && !spawnForewarned) {
                 if (TransitionState.RESPAWN.equals(nextState)) {
                     spawnForewarned = true;
 
@@ -84,10 +84,10 @@ public class User {
 
                     if (spawnOverridden) {
                         new ParticleEntity(state, new Vector2(overrideSpawnLocation).sub(0, startPoint.getSize().y),
-                                Particle.TELEPORT_PRE, spawnForewarn, true, SyncType.CREATESYNC);
+                                Particle.TELEPORT_PRE, SPAWN_FOREWARN, true, SyncType.CREATESYNC);
                     } else {
                         new ParticleEntity(state, new Vector2(startPoint.getStartPos()).sub(0, startPoint.getSize().y),
-                                Particle.TELEPORT_PRE, spawnForewarn, true, SyncType.CREATESYNC);
+                                Particle.TELEPORT_PRE, SPAWN_FOREWARN, true, SyncType.CREATESYNC);
                     }
                 }
             }

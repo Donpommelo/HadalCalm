@@ -25,12 +25,11 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  * @author Thescargot Twarugula
  */
 public class Displacer extends Event {
-	
-	//displacement applied every 1/60 seconds
-	private final Vector2 vec = new Vector2();
-	
+
 	//amount to scale the displacement momentum by.
 	private static final float momentumScale = 50.0f;
+
+	private final Vector2 vec = new Vector2();
 
 	private Vector2 offset;
 	private final Vector2 newOffset = new Vector2();
@@ -68,13 +67,12 @@ public class Displacer extends Event {
 	
 	private final Vector2 connectedLocation = new Vector2();
 	private float controllerCount;
-	private static final float displaceIntervalCount = 1 / 60f;
 	@Override
 	public void controller(float delta) {
 
 		controllerCount += delta;
-		while (controllerCount >= displaceIntervalCount) {
-			controllerCount -= displaceIntervalCount;
+		while (controllerCount >= Constants.INTERVAL) {
+			controllerCount -= Constants.INTERVAL;
 
 			if (getConnectedEvent() == null) {
 

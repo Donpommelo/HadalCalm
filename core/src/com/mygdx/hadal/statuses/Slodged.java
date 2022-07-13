@@ -13,13 +13,13 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class Slodged extends Status {
 
+	private static final float LINGER = 2.0f;
+
 	//this is the magnitude of the slow.
 	private final float slow;
 
 	//this is the particle that is played over the victim
 	private final Particle particle;
-
-	private static final float linger = 2.0f;
 
 	public Slodged(PlayState state, float i, float slow, BodyData p, BodyData v, Particle particle) {
 		super(state, i, false, p, v);
@@ -33,8 +33,8 @@ public class Slodged extends Status {
 	@Override
 	public void onInflict() {
 		if (!Particle.NOTHING.equals(particle) && state.isServer()) {
-			new ParticleEntity(state, inflicted.getSchmuck(), particle, linger, duration + linger,
-					true, SyncType.CREATESYNC).setPrematureOff(linger);
+			new ParticleEntity(state, inflicted.getSchmuck(), particle, LINGER, duration + LINGER,
+					true, SyncType.CREATESYNC).setPrematureOff(LINGER);
 		}
 	}
 

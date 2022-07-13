@@ -20,11 +20,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class StartPoint extends Event {
 
+	//the timer manages the time until this spawn point will be used again
+	private static final float SPAWN_TIMER = 2.0f;
+
 	private final String startId;
 	private final int teamIndex;
-	
-	//the timer manages the time until this spawn point will be used again
-	private static final float SpawnTimer = 2.0f;
 	private float spawnCd;
 	
 	public StartPoint(PlayState state, Vector2 startPos, Vector2 size, String startId, int teamIndex) {
@@ -53,7 +53,7 @@ public class StartPoint extends Event {
 	 * This is run when a start point is selected which occurs slightly before spawning
 	 */
 	public void startPointSelected() {
-		spawnCd = SpawnTimer;
+		spawnCd = SPAWN_TIMER;
 	}
 	
 	public boolean isReady() { return spawnCd <= 0.0f; }

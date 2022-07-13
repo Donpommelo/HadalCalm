@@ -45,7 +45,7 @@ public class DeathTextUtil {
 		//in the case or suicide or death to an enemy, obtain valid messages.
 		//set 'namedPerp' to only search for messages that specify a victim and a perpetrator.
 		if (perp != null && vic != null) {
-			if (perp.getConnId() == vic.getConnId()) {
+			if (perp.getConnID() == vic.getConnID()) {
 				possibleMessages.addAll(getValidMessages("SUICIDE", false));
 			} else {
 				namedPerp = true;
@@ -84,7 +84,7 @@ public class DeathTextUtil {
 			
 			//iterate through all messages that match the input tag
 			for (JsonValue d : values) {
-				DeathMessage message = GameStateManager.json.fromJson(DeathMessage.class, d.toJson(OutputType.json));
+				DeathMessage message = GameStateManager.JSON.fromJson(DeathMessage.class, d.toJson(OutputType.json));
 				if (message != null) {
 					
 					//add multiple instances of the message according to its weight
@@ -128,7 +128,7 @@ public class DeathTextUtil {
 		String perpName = WeaponUtils.getPlayerColorName(perp, MAX_NAME_LENGTH);
 
 		if (perp != null) {
-			if (perp.getConnId() == vic.getConnId()) {
+			if (perp.getConnID() == vic.getConnID()) {
 				return UIText.DEATH_SELF.text(vicName);
 			} else {
 				return UIText.DEATH_KILL.text(perpName, vicName);

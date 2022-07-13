@@ -198,7 +198,7 @@ public class BotLoadoutProcessor {
                                         Equippable weapon, boolean targetFound) {
 
         //this makes blind disable the bot's ability to adjust aim
-        if (player.getBlinded() > Blinded.botBlindThreshold) { return; }
+        if (player.getBlinded() > Blinded.BOT_BLIND_THRESHOLD) { return; }
 
         //atm, the only weapon with different aiming logic is the cola-cannon, which must be shaken when uncharged
         if (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass())) == UnlockEquip.COLACANNON) {
@@ -250,22 +250,22 @@ public class BotLoadoutProcessor {
                 break;
             case TRICK_GUN:
                 //holding, and delaying release makes the bot kinda shoot projectiles that bend towards the player. kinda.
-                holdDelayRelease(player, shooting, trickGunDelay);
+                holdDelayRelease(player, shooting, TRICK_GUN_DELAY);
                 break;
             case TESLA_COIL:
                 //the same hold-delay-release is used here but with a moderate delay to make the coils tend to be further apart
-                holdDelayRelease(player, shooting, defaultLongDelay);
+                holdDelayRelease(player, shooting, DEFAULT_LONG_DELAY);
                 break;
             case PEARL_REVOLVER:
                 //the same hold-delay-release is used here but with a small delay to make the bot rapid-fire
-                holdDelayRelease(player, shooting, defaultShortDelay);
+                holdDelayRelease(player, shooting, DEFAULT_SHORT_DELAY);
                 break;
             case COLACANNON:
                 //The cola cannon is fired like a normal charge weapon, except we want to release after firing
                 //additionally, we don't want to hold to charge it
                 if (shooting) {
                     if (weapon.getChargeCd() >= weapon.getChargeTime()) {
-                        holdDelayRelease(player, true, defaultShortDelay);
+                        holdDelayRelease(player, true, DEFAULT_SHORT_DELAY);
                     } else {
                         player.getController().keyUp(PlayerAction.FIRE);
                     }
@@ -401,9 +401,9 @@ public class BotLoadoutProcessor {
         }
     }
 
-    private static final float trickGunDelay = 0.75f;
-    private static final float defaultShortDelay = 0.2f;
-    private static final float defaultLongDelay = 0.6f;
+    private static final float TRICK_GUN_DELAY = 0.75f;
+    private static final float DEFAULT_SHORT_DELAY = 0.2f;
+    private static final float DEFAULT_LONG_DELAY = 0.6f;
     /**
      * This makes a bot hold a weapon for a set delay before releasing
      */
@@ -418,16 +418,16 @@ public class BotLoadoutProcessor {
         }
     }
 
-    private static final float smelterDelay = 1.25f;
-    private static final float smelterThreshold = 0.85f;
+    private static final float SMELTER_DELAY = 1.25f;
+    private static final float SMELTER_THRESHOLD = 0.85f;
     /**
      * This makes a bot hold a weapon until its close to overheating, before they release and wait
      * Only used for the deep sea smelter weapon
      */
     private static void preventOverheat(PlayerBot player, Equippable weapon, boolean shooting) {
         if (shooting) {
-            if (weapon.getChargeCd() >= weapon.getChargeTime() * smelterThreshold) {
-                player.getBotController().setShootReleaseCount(smelterDelay);
+            if (weapon.getChargeCd() >= weapon.getChargeTime() * SMELTER_THRESHOLD) {
+                player.getBotController().setShootReleaseCount(SMELTER_DELAY);
                 player.getController().keyUp(PlayerAction.FIRE);
             } else if (player.getBotController().getShootReleaseCount() <= 0.0f){
                 player.getController().keyDown(PlayerAction.FIRE);
@@ -437,13 +437,13 @@ public class BotLoadoutProcessor {
         }
     }
 
-    private static final float killerBeatThreshold = 0.9f;
+    private static final float KILLER_BEAT_THRESHOLD = 0.9f;
     /**
      * This makes a bot wait until a weapon is almost fully charged and then fires
      * Only used for the killer beat weapon
      */
     private static void timedFire(PlayerBot player, Equippable weapon, boolean shooting) {
-        if (shooting && weapon.getChargeCd() >= weapon.getChargeTime() * killerBeatThreshold) {
+        if (shooting && weapon.getChargeCd() >= weapon.getChargeTime() * KILLER_BEAT_THRESHOLD) {
             player.getController().keyDown(PlayerAction.FIRE);
         } else {
             player.getController().keyUp(PlayerAction.FIRE);
@@ -465,7 +465,7 @@ public class BotLoadoutProcessor {
         }
     }
 
-    private static final float bonusSupplyDropChance = 0.4f;
+    private static final float BONUS_SUPPLY_DROP_CHANCE = 0.4f;
     private static final UnlockActives[] botItems = { UnlockActives.ANCHOR_SMASH, UnlockActives.FLASH_BANG,
             UnlockActives.HEALING_FIELD, UnlockActives.HONEYCOMB, UnlockActives.JUMP_KICK, UnlockActives.MARINE_SNOWGLOBE,
             UnlockActives.METEOR_STRIKE, UnlockActives.MELON,  UnlockActives.MISSILE_POD, UnlockActives.NAUTICAL_MINE,
@@ -476,7 +476,7 @@ public class BotLoadoutProcessor {
      * Supply drop has an increased chance of spawning
      */
     public static UnlockActives getRandomActiveItem() {
-        if (MathUtils.random() <= bonusSupplyDropChance) {
+        if (MathUtils.random() <= BONUS_SUPPLY_DROP_CHANCE) {
             return UnlockActives.SUPPLY_DROP;
         } else {
             return botItems[MathUtils.random(botItems.length - 1)];
@@ -579,12 +579,12 @@ public class BotLoadoutProcessor {
         return artifacts;
     }
 
-    private static final int defaultNothingWeight = 20;
+    private static final int DEFAULT_NOTHING_WEIGHT = 20;
     /**
      * This applies random cosmetics to the newly created bot
      */
     public static UnlockCosmetic[] getRandomCosmetics(UnlockCharacter character) {
-        UnlockCosmetic[] cosmetics = new UnlockCosmetic[Loadout.maxCosmeticSlots];
+        UnlockCosmetic[] cosmetics = new UnlockCosmetic[Loadout.MAX_COSMETIC_SLOTS];
         Arrays.fill(cosmetics, UnlockCosmetic.NOTHING_HAT1);
 
         //iterate through all cosmetic slots and for each, add all applicable cosmetics to a list, then choose one randomly
@@ -598,7 +598,7 @@ public class BotLoadoutProcessor {
                             cosmeticOptions.add(cosmetic);
                         }
                     } else if (cosmetic.isBlank()) {
-                        for (int i = 0; i < defaultNothingWeight; i++) {
+                        for (int i = 0; i < DEFAULT_NOTHING_WEIGHT; i++) {
                             cosmeticOptions.add(cosmetic);
                         }
                     }
@@ -613,7 +613,7 @@ public class BotLoadoutProcessor {
         return cosmetics;
     }
 
-    private static final float healThreshold = 0.8f;
+    private static final float HEAL_THRESHOLD = 0.8f;
     /**
      * This processes the bot's active item
      * @param player: the bot using the active item
@@ -624,7 +624,7 @@ public class BotLoadoutProcessor {
         switch (Objects.requireNonNull(UnlockActives.getUnlockFromActive(weapon.getClass()))) {
             //bots will use healing items when below a threshold of hp
             case HEALING_FIELD, MELON:
-                if (player.getPlayerData().getCurrentHp() < player.getPlayerData().getStat(Stats.MAX_HP) * healThreshold
+                if (player.getPlayerData().getCurrentHp() < player.getPlayerData().getStat(Stats.MAX_HP) * HEAL_THRESHOLD
                         && weapon.isUsable()) {
                     player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
                 } else {

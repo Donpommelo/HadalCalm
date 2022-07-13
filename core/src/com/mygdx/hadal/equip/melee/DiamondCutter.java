@@ -26,22 +26,21 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class DiamondCutter extends MeleeWeapon {
 
-	private static final float swingCd = 0.0f;
-	private static final float windup = 0.0f;
-	
-	private static final Vector2 projectileSize = new Vector2(120, 120);
-	
-	private static final Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private static final Sprite eventSprite = Sprite.P_DEFAULT;
+	private static final float SWING_CD = 0.0f;
+	private static final float WINDUP = 0.0f;
+	private static final Vector2 PROJECTILE_SIZE = new Vector2(120, 120);
+	private static final float BASE_DAMAGE = 8.5f;
+	private static final float KNOCKBACK = 0.0f;
+	private static final float RANGE = 90.0f;
+	private static final float SPIN_SPEED = 8.0f;
+	private static final float SPIN_INTERVAL = 0.017f;
 
-	private static final Sprite projSprite = Sprite.BUZZSAW;
-	
-	private static final float baseDamage = 8.5f;
-	private static final float knockback = 0.0f;
+	//keeps track of attack speed without input buffer doing an extra mouse click
+	private static final float INNATE_ATTACK_COOLDOWN = 0.5f;
 
-	private static final float range = 90.0f;
-	private static final float spinSpeed = 8.0f;
-	private static final float spinInterval = 0.017f;
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_DEFAULT;
+	private static final Sprite EVENT_SPRITE = Sprite.P_DEFAULT;
+	private static final Sprite PROJ_SPRITE = Sprite.BUZZSAW;
 
 	//this is the hitbox that this weapon extends
 	private Hitbox hbox;
@@ -51,12 +50,10 @@ public class DiamondCutter extends MeleeWeapon {
 	
 	private SoundEntity sawSound;
 
-	//keeps track of attack speed without input buffer doing an extra mouse click
-	private static final float innateAttackCooldown = 0.5f;
 	private float innateAttackCdCount;
 
 	public DiamondCutter(Schmuck user) {
-		super(user, swingCd, windup, weaponSprite, eventSprite);
+		super(user, SWING_CD, WINDUP, WEAPON_SPRITE, EVENT_SPRITE);
 	}
 	
 	private final Vector2 projOffset = new Vector2();
@@ -80,15 +77,15 @@ public class DiamondCutter extends MeleeWeapon {
 					}
 				}
 
-				projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(range);
+				projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(RANGE);
 				hbox = SyncedAttack.DIAMOND_CUTTER.initiateSyncedAttackSingle(state, user, new Vector2(projOffset), new Vector2());
 			}
 		}
 	}
 
 	public static Hitbox createDiamondCutter(PlayState state, Schmuck user) {
-		Hitbox hbox = new Hitbox(state, new Vector2(), projectileSize, 0, new Vector2(), user.getHitboxfilter(),
-				true, true, user, projSprite);
+		Hitbox hbox = new Hitbox(state, new Vector2(), PROJECTILE_SIZE, 0, new Vector2(), user.getHitboxfilter(),
+				true, true, user, PROJ_SPRITE);
 		hbox.makeUnreflectable();
 		hbox.setSyncedDeleteNoDelay(true);
 
@@ -98,7 +95,7 @@ public class DiamondCutter extends MeleeWeapon {
 
 			private float controllerCount;
 			@Override
-			public void create() { hbox.setAngularVelocity(spinSpeed); }
+			public void create() { hbox.setAngularVelocity(SPIN_SPEED); }
 
 			private final Vector2 entityLocation = new Vector2();
 			private final Vector2 pulseVelocity = new Vector2();
@@ -110,22 +107,22 @@ public class DiamondCutter extends MeleeWeapon {
 					hbox.die();
 				}
 
-				projOffset.set(0, range).setAngleDeg(((Player) user).getAttackAngle());
+				projOffset.set(0, RANGE).setAngleDeg(((Player) user).getAttackAngle());
 				entityLocation.set(user.getPosition());
 				hbox.setTransform(entityLocation.x - projOffset.x / PPM,entityLocation.y - projOffset.y / PPM, hbox.getAngle());
 
 				controllerCount += delta;
-				while (controllerCount >= spinInterval) {
-					controllerCount -= spinInterval;
+				while (controllerCount >= SPIN_INTERVAL) {
+					controllerCount -= SPIN_INTERVAL;
 
-					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), projectileSize, spinInterval, pulseVelocity,
+					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), PROJECTILE_SIZE, SPIN_INTERVAL, pulseVelocity,
 							user.getHitboxfilter(), true, true, user, Sprite.NOTHING);
 					pulse.setSyncDefault(false);
 					pulse.setEffectsVisual(false);
 					pulse.makeUnreflectable();
 
 					pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), baseDamage, knockback,
+					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
 							DamageSource.DIAMOND_CUTTER, DamageTag.MELEE).setStaticKnockback(true));
 
 					if (!state.isServer()) {
@@ -156,7 +153,7 @@ public class DiamondCutter extends MeleeWeapon {
 			sawSound.turnOff();
 		}
 		if (innateAttackCdCount <= 0.0f) {
-			innateAttackCdCount = innateAttackCooldown * (1 - user.getBodyData().getStat(Stats.TOOL_SPD));
+			innateAttackCdCount = INNATE_ATTACK_COOLDOWN * (1 - user.getBodyData().getStat(Stats.TOOL_SPD));
 		}
 	}
 	
@@ -185,7 +182,7 @@ public class DiamondCutter extends MeleeWeapon {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf(baseDamage),
-				String.valueOf(spinInterval)};
+				String.valueOf(BASE_DAMAGE),
+				String.valueOf(SPIN_INTERVAL)};
 	}
 }

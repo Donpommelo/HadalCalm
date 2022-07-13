@@ -21,6 +21,9 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class HubEvent extends Event {
 
+	//the distance the player can move away before the menu disappears
+	private static final float MAX_DISTANCE = 5.0f;
+
 	//is the even menu currently open
 	protected boolean open;
 	
@@ -40,9 +43,6 @@ public class HubEvent extends Event {
 	protected String lastSearch = "";
 	protected int lastSlot;
 	
-	//the distance the player can move away before the menu disappears
-	private static final float maxDistance = 5.0f;
-
 	//the last scroll percent of the
 	private float lastScroll;
 
@@ -90,7 +90,7 @@ public class HubEvent extends Event {
 	@Override
 	public void controller(float delta) {
 		if (open && closeOnLeave) {
-			if (getPosition().dst2(state.getPlayer().getPosition()) > maxDistance * maxDistance && !state.isSpectatorMode()) {
+			if (getPosition().dst2(state.getPlayer().getPosition()) > MAX_DISTANCE * MAX_DISTANCE && !state.isSpectatorMode()) {
 				leave();
 				open = false;
 			}
@@ -100,7 +100,7 @@ public class HubEvent extends Event {
 	@Override
 	public void clientController(float delta) {
 		if (open && closeOnLeave) {
-			if (getPosition().dst2(state.getPlayer().getPosition()) > maxDistance * maxDistance) {
+			if (getPosition().dst2(state.getPlayer().getPosition()) > MAX_DISTANCE * MAX_DISTANCE) {
 				leave();
 				open = false;
 			}

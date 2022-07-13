@@ -14,31 +14,30 @@ import com.mygdx.hadal.statuses.Status;
  */
 public class Honeycomb extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 15.0f;
-	private static final float projectileSpeed = 5.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 15.0f;
 
-	private static final float duration = 1.5f;
-	private static final float procCd = 0.15f;
+	private static final float PROJECTILE_SPEED = 5.0f;
+	private static final float DURATION = 1.5f;
+	private static final float PROC_CD = 0.15f;
 
 	public Honeycomb(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		user.addStatus(new Status(state, duration, false, user, user) {
+		user.addStatus(new Status(state, DURATION, false, user, user) {
 
 			private float procCdCount;
-
 			@Override
 			public void timePassing(float delta) {
 				super.timePassing(delta);
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
+				if (procCdCount >= PROC_CD) {
+					procCdCount -= PROC_CD;
 					SyncedAttack.BEE.initiateSyncedAttackSingle(state, user.getPlayer(), user.getSchmuck().getPixelPosition(),
-							new Vector2(0, projectileSpeed), DamageSource.HONEYCOMB);
+							new Vector2(0, PROJECTILE_SPEED), DamageSource.HONEYCOMB);
 				}
 				procCdCount += delta;
 			}
@@ -48,7 +47,7 @@ public class Honeycomb extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) (duration / procCd))};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) (DURATION / PROC_CD))};
 	}
 }

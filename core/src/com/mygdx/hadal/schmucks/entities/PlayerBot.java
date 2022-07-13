@@ -48,15 +48,15 @@ public class PlayerBot extends Player {
         super.controller(delta);
     }
 
-    private static final float maxWobble = 25.0f;
-    private static final float wobbleSpeed = 45.0f;
-    private static final float aimWobbleSpeed = 15.0f;
+    private static final float MAX_WOBBLE = 25.0f;
+    private static final float WOBBLE_SPEED = 45.0f;
+    private static final float AIM_WOBBLE_SPEED = 15.0f;
     /**
      * This is run for weapon-caused wobbles (to charge cola cannon)
      */
     public void weaponWobble() {
-        weaponWobble.nor().scl(maxWobble);
-        weaponWobble.setAngleDeg(weaponWobble.angleDeg() + wobbleSpeed);
+        weaponWobble.nor().scl(MAX_WOBBLE);
+        weaponWobble.setAngleDeg(weaponWobble.angleDeg() + WOBBLE_SPEED);
     }
 
     /**
@@ -64,7 +64,7 @@ public class PlayerBot extends Player {
      */
     public void aimWobble() {
         aimWobble.nor().scl(currentWobble);
-        aimWobble.setAngleDeg(aimWobble.angleDeg() + aimWobbleSpeed);
+        aimWobble.setAngleDeg(aimWobble.angleDeg() + AIM_WOBBLE_SPEED);
     }
 
     /**

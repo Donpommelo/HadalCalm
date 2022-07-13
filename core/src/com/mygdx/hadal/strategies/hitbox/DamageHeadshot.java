@@ -16,7 +16,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class DamageHeadshot extends HitboxStrategy {
 	
 	//the top percent of the units body that counts as a "head"
-	private static final float headshotThreshold = 0.15f;
+	private static final float HEADSHOT_THRESHOLD = 0.15f;
 	
 	//the amount of damage and knockback this hbox will inflict
 	private final float bonusDamage;
@@ -45,7 +45,7 @@ public class DamageHeadshot extends HitboxStrategy {
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
 			if (fixB instanceof PlayerBodyData p) {
-				if ((hbox.getPixelPosition().y - p.getPlayer().getPixelPosition().y) > headshotThreshold * p.getPlayer().getSize().y) {
+				if ((hbox.getPixelPosition().y - p.getPlayer().getPixelPosition().y) > HEADSHOT_THRESHOLD * p.getPlayer().getSize().y) {
 					float headshotBonus = currentCharge / maxCharge * bonusDamage;
 					hbox.setDamageMultiplier(hbox.getDamageMultiplier() + headshotBonus);
 				}

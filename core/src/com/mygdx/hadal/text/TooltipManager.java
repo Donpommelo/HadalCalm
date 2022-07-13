@@ -9,7 +9,7 @@ import com.mygdx.hadal.managers.GameStateManager;
  */
 public class TooltipManager {
 
-    private static final float tooltipWidth = 350.0f;
+    private static final float TOOLTIP_WIDTH = 350.0f;
 
     public static void addTooltip(Actor a, String text, float tooltipWidth) {
         TextTooltip.TextTooltipStyle style = new TextTooltip.TextTooltipStyle();
@@ -22,6 +22,6 @@ public class TooltipManager {
     }
 
     public static void addTooltip(Actor a, String text) {
-        addTooltip(a, text, tooltipWidth);
+        addTooltip(a, text, TOOLTIP_WIDTH);
     }
 }

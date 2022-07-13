@@ -25,8 +25,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * @author Phurrault Pognatio
  */
 public class Buzzsaw extends Event {
-	
-	private float controllerCount = 0;
+
+	private static final float SPIN_SPEED = 7.5f;
+	private static final float SPRITE_SCALE = 1.4f;
+
+	private float controllerCount;
 	
 	//Damage done by the saw
 	private final float dps;
@@ -36,10 +39,7 @@ public class Buzzsaw extends Event {
 	
 	//angle the saw is drawn at. Used to make saw spin
 	private float angle;
-	private static final float spinSpeed = 7.5f;
-	private static final float damageInterval = 1 / 60f;
-	private static final float spriteScale = 1.4f;
-	
+
 	public Buzzsaw(PlayState state, Vector2 startPos, Vector2 size, float dps, short filter) {
 		super(state,  startPos, size);
 		this.dps = dps;
@@ -57,8 +57,8 @@ public class Buzzsaw extends Event {
 	public void controller(float delta) {
 		controllerCount += delta;
 		
-		while (controllerCount >= damageInterval) {
-			controllerCount -= damageInterval;
+		while (controllerCount >= Constants.INTERVAL) {
+			controllerCount -= Constants.INTERVAL;
 			
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				if (entity instanceof Schmuck schmuck) {
@@ -67,7 +67,7 @@ public class Buzzsaw extends Event {
 				}
 			}
 		}
-		angle += spinSpeed;
+		angle += SPIN_SPEED;
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class Buzzsaw extends Event {
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
-		angle += spinSpeed;
+		angle += SPIN_SPEED;
 	}
 	
 	/**
@@ -88,10 +88,10 @@ public class Buzzsaw extends Event {
 		entityLocation.set(getPixelPosition());
 		
 		batch.draw(eventSprite.getKeyFrame(animationTime),
-				entityLocation.x - size.x / 2 * spriteScale,
-				entityLocation.y - size.y / 2 * spriteScale,
-                size.x / 2 * spriteScale, size.y / 2 * spriteScale,
-                size.x * spriteScale, size.y * spriteScale, 1, 1, angle);
+				entityLocation.x - size.x / 2 * SPRITE_SCALE,
+				entityLocation.y - size.y / 2 * SPRITE_SCALE,
+                size.x / 2 * SPRITE_SCALE, size.y / 2 * SPRITE_SCALE,
+                size.x * SPRITE_SCALE, size.y * SPRITE_SCALE, 1, 1, angle);
 	}
 	
 	/**
@@ -104,10 +104,10 @@ public class Buzzsaw extends Event {
 		} else {
 			entityLocation.set(getPixelPosition());
 			return (
-					state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x * spriteScale / 2, entityLocation.y + size.y * spriteScale / 2, 0) ||
-					state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x * spriteScale / 2, entityLocation.y + size.y * spriteScale / 2, 0) ||
-					state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x * spriteScale / 2, entityLocation.y - size.y * spriteScale / 2, 0) ||
-					state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x * spriteScale / 2, entityLocation.y - size.y * spriteScale / 2, 0));
+					state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x * SPRITE_SCALE / 2, entityLocation.y + size.y * SPRITE_SCALE / 2, 0) ||
+					state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x * SPRITE_SCALE / 2, entityLocation.y + size.y * SPRITE_SCALE / 2, 0) ||
+					state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x * SPRITE_SCALE / 2, entityLocation.y - size.y * SPRITE_SCALE / 2, 0) ||
+					state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x * SPRITE_SCALE / 2, entityLocation.y - size.y * SPRITE_SCALE / 2, 0));
 		}
 	}
 	

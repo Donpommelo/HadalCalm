@@ -36,9 +36,6 @@ public class DestructableBlock extends Event {
 	//pseudo-hp. This event does not proc on-damage effects but can be destroyed.
 	private int hp;
 	
-	//when damaged, the event flashes for this duration
-	private static final float flashDuration = 0.1f;
-	
 	//does this event stay in place or is it affected by physics?
 	private final boolean isStatic;
 	
@@ -65,7 +62,7 @@ public class DestructableBlock extends Event {
 					if (standardParticle != null) {
 						standardParticle.onForBurst(0.5f);
 					}
-					event.setShader(Shader.WHITE, flashDuration, true);
+					event.setShader(Shader.WHITE, Constants.FLASH, true);
 				}
 				
 				if (hp <= 0) {
@@ -99,7 +96,6 @@ public class DestructableBlock extends Event {
 		return new Packets.CreateEvent(entityID, new EventDto(blueprint), synced);
 	}
 
-	
 	@Override
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.UI_MAIN_HEALTH_MISSING);

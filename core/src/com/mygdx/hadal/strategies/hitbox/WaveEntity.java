@@ -7,6 +7,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.utils.Constants;
 
 /**
  * This strategy makes a hbox move around its user in a sin wave
@@ -30,7 +31,6 @@ public class WaveEntity extends HitboxStrategy {
 
 	private float controllerCount;
 	private float timer;
-	private static final float pushInterval = 1 / 60f;
 	private final Vector2 lastPos = new Vector2();
 	private final Vector2 centerPos = new Vector2();
 	private final Vector2 offset = new Vector2();
@@ -38,8 +38,8 @@ public class WaveEntity extends HitboxStrategy {
 	public void controller(float delta) {
 		controllerCount += delta;
 		timer += delta;
-		while (controllerCount >= pushInterval) {
-			controllerCount -= pushInterval;
+		while (controllerCount >= Constants.INTERVAL) {
+			controllerCount -= Constants.INTERVAL;
 
 			if (target.getBody() != null && target.isAlive()) {
 				offset.set(0, amplitude * MathUtils.sin(timer * frequency)).setAngleDeg(hbox.getLinearVelocity().angleDeg() + startAngle);

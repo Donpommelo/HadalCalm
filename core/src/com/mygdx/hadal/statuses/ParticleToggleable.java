@@ -14,7 +14,7 @@ import com.mygdx.hadal.states.PlayState;
 public class ParticleToggleable extends Status {
 
 	private final Particle particleType;
-	private static final float linger = 0.0f;
+	private static final float LINGER = 0.0f;
 
 	private ParticleEntity particle;
 	private boolean activated;
@@ -60,7 +60,7 @@ public class ParticleToggleable extends Status {
 	}
 
 	public void createParticle() {
-		setParticle(new ParticleEntity(state, inflicted.getSchmuck(), particleType, linger, 0.0f,
+		setParticle(new ParticleEntity(state, inflicted.getSchmuck(), particleType, LINGER, 0.0f,
 				false, SyncType.NOSYNC));
 	}
 

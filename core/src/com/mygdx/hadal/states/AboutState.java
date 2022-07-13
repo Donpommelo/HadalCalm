@@ -29,6 +29,40 @@ import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
  */
 public class AboutState extends GameState {
 
+	//Dimensions of the setting menu
+	private static final int OPTIONS_X = -1125;
+	private static final int OPTIONS_Y = 100;
+	private static final int OPTIONS_X_ENABLED = 25;
+	private static final int OPTIONS_Y_ENABLED = 100;
+	private static final int OPTIONS_WIDTH = 300;
+	private static final int OPTIONS_HEIGHT = 600;
+
+	private static final int DETAILS_X = -830;
+	private static final int DETAILS_Y = 100;
+	private static final int DETAILS_X_ENABLED = 320;
+	private static final int DETAILS_Y_ENABLED = 100;
+	private static final int DETAILS_WIDTH = 800;
+	private static final int DETAILS_HEIGHT = 600;
+
+	private static final float OPTIONS_SCALE = 0.5f;
+	private static final float OPTION_HEIGHT = 35.0f;
+	private static final float OPTION_PAD = 15.0f;
+	private static final float DETAILS_SCALE = 0.3f;
+	private static final float OPTION_PADDING = 10.0f;
+
+	private static final float TITLE_PAD = 25.0f;
+	private static final int DETAILS_TEXT_WIDTH = 750;
+
+	private static final int SCROLL_HEIGHT = 380;
+	private static final int SCROLL_WIDTH = 330;
+	private static final float DETAIL_HEIGHT = 35.0f;
+	private static final float DETAIL_PAD = 10.0f;
+	private static final float SLIDER_WIDTH = 350.0f;
+	private static final float SONG_TITLE_WIDTH = 350.0f;
+
+	private static final float EXTRA_WIDTH = 400.0f;
+	private static final int EXTRA_HEIGHT = 120;
+
 	//This table contains the ui elements of the pause screen
 	private Table options, details;
 	private Text pause;
@@ -44,40 +78,6 @@ public class AboutState extends GameState {
 	private Slider musicTime;
 	private final Array<MusicTrack> shuffleTracks = new Array<>();
 	private int currentTrackIndex;
-
-	//Dimensions of the setting menu
-	private static final int optionsX = -1125;
-	private static final int optionsY = 100;
-	private static final int optionsXEnabled = 25;
-	private static final int optionsYEnabled = 100;
-	private static final int optionsWidth = 300;
-	private static final int optionsHeight = 600;
-
-	private static final int detailsX = -830;
-	private static final int detailsY = 100;
-	private static final int detailsXEnabled = 320;
-	private static final int detailsYEnabled = 100;
-	private static final int detailsWidth = 800;
-	private static final int detailsHeight = 600;
-	
-	private static final float optionsScale = 0.5f;
-	private static final float optionHeight = 35.0f;
-	private static final float optionPad = 15.0f;
-	private static final float detailsScale = 0.3f;
-	private static final float optionPadding = 10.0f;
-
-	private static final float titlePad = 25.0f;
-	private static final int detailsTextWidth = 750;
-
-	private static final int scrollHeight = 380;
-	private static final int scrollWidth = 330;
-	private static final float detailHeight = 35.0f;
-	private static final float detailPad = 10.0f;
-	private static final float sliderWidth = 350.0f;
-	private static final float songTitleWidth = 350.0f;
-
-	private static final float extraWidth = 400.0f;
-	private static final int extraHeight = 120;
 
 	//this is the state underneath this state.
 	private final GameState peekState;
@@ -105,14 +105,14 @@ public class AboutState extends GameState {
 		stage = new Stage() {
 			{
 				options = new WindowTable();
-				options.setPosition(optionsX, optionsY);
-				options.setSize(optionsWidth, optionsHeight);
+				options.setPosition(OPTIONS_X, OPTIONS_Y);
+				options.setSize(OPTIONS_WIDTH, OPTIONS_HEIGHT);
 				options.top();
 				addActor(options);
 				
 				details = new WindowTable();
-				details.setPosition(detailsX, detailsY);
-				details.setSize(detailsWidth, detailsHeight);
+				details.setPosition(DETAILS_X, DETAILS_Y);
+				details.setSize(DETAILS_WIDTH, DETAILS_HEIGHT);
 				details.top();
 				addActor(details);
 
@@ -125,7 +125,7 @@ public class AboutState extends GameState {
 						soundRoomSelected();
 					}
 				});
-				soundRoomOption.setScale(optionsScale);
+				soundRoomOption.setScale(OPTIONS_SCALE);
 
 				aboutOption = new Text(UIText.ABOUT.text()).setButton(true);
 				aboutOption.addListener(new ClickListener() {
@@ -136,7 +136,7 @@ public class AboutState extends GameState {
 						aboutSelected();
 			        }
 			    });
-				aboutOption.setScale(optionsScale);
+				aboutOption.setScale(OPTIONS_SCALE);
 
 				tipsOption = new Text(UIText.TIPS.text()).setButton(true);
 				tipsOption.addListener(new ClickListener() {
@@ -147,7 +147,7 @@ public class AboutState extends GameState {
 						tipsSelected();
 			        }
 			    });
-				tipsOption.setScale(optionsScale);
+				tipsOption.setScale(OPTIONS_SCALE);
 				
 				miscOption = new Text(UIText.MISC.text()).setButton(true);
 				miscOption.addListener(new ClickListener() {
@@ -158,7 +158,7 @@ public class AboutState extends GameState {
 						miscSelected();
 			        }
 			    });
-				miscOption.setScale(optionsScale);
+				miscOption.setScale(OPTIONS_SCALE);
 				
 				creditsOption = new Text(UIText.CREDITS.text()).setButton(true);
 				creditsOption.addListener(new ClickListener() {
@@ -169,7 +169,7 @@ public class AboutState extends GameState {
 						creditsSelected();
 			        }
 			    });
-				creditsOption.setScale(optionsScale);
+				creditsOption.setScale(OPTIONS_SCALE);
 				
 				exitOption = new Text(UIText.RETURN.text()).setButton(true);
 				exitOption.addListener(new ClickListener() {
@@ -180,14 +180,14 @@ public class AboutState extends GameState {
 						transitionOut(() -> gsm.removeState(AboutState.class));
 			        }
 			    });
-				exitOption.setScale(optionsScale);
+				exitOption.setScale(OPTIONS_SCALE);
 
-				options.add(soundRoomOption).height(optionHeight).pad(optionPad).row();
-				options.add(aboutOption).height(optionHeight).pad(optionPad).row();
-				options.add(tipsOption).height(optionHeight).pad(optionPad).row();
-				options.add(miscOption).height(optionHeight).pad(optionPad).row();
-				options.add(creditsOption).height(optionHeight).pad(optionPad).row();
-				options.add(exitOption).height(optionHeight).pad(optionPad).expand().row();
+				options.add(soundRoomOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+				options.add(aboutOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+				options.add(tipsOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+				options.add(miscOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+				options.add(creditsOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+				options.add(exitOption).height(OPTION_HEIGHT).pad(OPTION_PAD).expand().row();
 			}
 		};
 		app.newMenu(stage);
@@ -201,9 +201,9 @@ public class AboutState extends GameState {
 		details.clearChildren();
 
 		//about option displays some game information read from json
-		details.add(new Text(UIText.ABOUT.text())).colspan(2).pad(titlePad).row();
-		Text about = new Text(UIText.INFO_ABOUT.text()).setWrap(detailsTextWidth);
-		about.setScale(detailsScale);
+		details.add(new Text(UIText.ABOUT.text())).colspan(2).pad(TITLE_PAD).row();
+		Text about = new Text(UIText.INFO_ABOUT.text()).setWrap(DETAILS_TEXT_WIDTH);
+		about.setScale(DETAILS_SCALE);
 		
 		details.add(about);
 	}
@@ -211,16 +211,16 @@ public class AboutState extends GameState {
 	private void soundRoomSelected() {
 		details.clearChildren();
 
-		details.add(new Text(UIText.SOUND_ROOM.text())).colspan(2).pad(titlePad).row();
+		details.add(new Text(UIText.SOUND_ROOM.text())).colspan(2).pad(TITLE_PAD).row();
 		trackText = new Text("");
-		trackText.setScale(detailsScale);
+		trackText.setScale(DETAILS_SCALE);
 
 		//the slider sets its position based on the song duration
 		musicTime = new Slider(0.0f, 0.0f, 1.0f, false, GameStateManager.getSkin()) {
 
 			//hack necessary to set length
 			@Override
-			public float getPrefWidth() { return sliderWidth; }
+			public float getPrefWidth() { return SLIDER_WIDTH; }
 
 		};
 
@@ -238,7 +238,7 @@ public class AboutState extends GameState {
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) { return true; }
 		});
 
-		tracks = new VerticalGroup().space(optionPadding);
+		tracks = new VerticalGroup().space(OPTION_PADDING);
 
 		//show list of available songs
 		for (MusicTrack track : MusicTrack.values()) {
@@ -255,8 +255,8 @@ public class AboutState extends GameState {
 				}
 			});
 
-			trackListen.setScale(detailsScale);
-			trackListen.setHeight(detailHeight);
+			trackListen.setScale(DETAILS_SCALE);
+			trackListen.setHeight(DETAIL_HEIGHT);
 
 			tracks.addActor(trackListen);
 		}
@@ -269,10 +269,10 @@ public class AboutState extends GameState {
 		musicTracks.setFadeScrollBars(false);
 
 		trackTime = new Text("");
-		trackTime.setScale(detailsScale);
+		trackTime.setScale(DETAILS_SCALE);
 
 		pause = new Text(UIText.PAUSE.text()).setButton(true);
-		pause.setScale(detailsScale);
+		pause.setScale(DETAILS_SCALE);
 
 		//pausing track sets toggles this button between pausing and playing music
 		pause.addListener(new ClickListener() {
@@ -289,13 +289,13 @@ public class AboutState extends GameState {
 						HadalGame.musicPlayer.play();
 						pause.setText(UIText.PAUSE.text());
 					}
-					pause.setHeight(optionHeight);
+					pause.setHeight(OPTION_HEIGHT);
 				}
 			}
 		});
 
 		Text stop = new Text (UIText.STOP.text()).setButton(true);
-		stop.setScale(detailsScale);
+		stop.setScale(DETAILS_SCALE);
 
 		//stop sets track to null
 		stop.addListener(new ClickListener() {
@@ -309,7 +309,7 @@ public class AboutState extends GameState {
 		});
 
 		Text next = new Text (UIText.NEXT.text()).setButton(true);
-		next.setScale(detailsScale);
+		next.setScale(DETAILS_SCALE);
 
 		//next sets the song position to the end of the track, making the next track immediately start
 		next.addListener(new ClickListener() {
@@ -333,21 +333,21 @@ public class AboutState extends GameState {
 		loopOptions.setItems(UIText.LOOP_OPTIONS.text().split(","));
 		loopOptions.setWidth(100);
 
-		details.add(trackText).width(songTitleWidth).pad(detailPad);
-		details.add(musicTime).height(extraHeight).row();
+		details.add(trackText).width(SONG_TITLE_WIDTH).pad(DETAIL_PAD);
+		details.add(musicTime).height(EXTRA_HEIGHT).row();
 
-		details.add(musicTracks).width(scrollWidth).height(scrollHeight).expandY().pad(detailPad);
+		details.add(musicTracks).width(SCROLL_WIDTH).height(SCROLL_HEIGHT).expandY().pad(DETAIL_PAD);
 		stage.setScrollFocus(musicTracks);
 
 		final Table soundRoomExtra = new Table();
 
-		details.add(soundRoomExtra).top().size(extraWidth, extraHeight);
-		soundRoomExtra.add(trackTime).colspan(2).height(optionHeight).pad(detailPad).row();
-		soundRoomExtra.add(pause).height(optionHeight).pad(detailPad);
-		soundRoomExtra.add(stop).height(optionHeight).pad(detailPad);
-		soundRoomExtra.add(next).height(optionHeight).pad(detailPad).row();
-		soundRoomExtra.add(continuePlaying).colspan(3).height(optionHeight).pad(detailPad).row();
-		soundRoomExtra.add(loopOptions).colspan(3).height(optionHeight).pad(detailPad).row();
+		details.add(soundRoomExtra).top().size(EXTRA_WIDTH, EXTRA_HEIGHT);
+		soundRoomExtra.add(trackTime).colspan(2).height(OPTION_HEIGHT).pad(DETAIL_PAD).row();
+		soundRoomExtra.add(pause).height(OPTION_HEIGHT).pad(DETAIL_PAD);
+		soundRoomExtra.add(stop).height(OPTION_HEIGHT).pad(DETAIL_PAD);
+		soundRoomExtra.add(next).height(OPTION_HEIGHT).pad(DETAIL_PAD).row();
+		soundRoomExtra.add(continuePlaying).colspan(3).height(OPTION_HEIGHT).pad(DETAIL_PAD).row();
+		soundRoomExtra.add(loopOptions).colspan(3).height(OPTION_HEIGHT).pad(DETAIL_PAD).row();
 
 		HadalGame.musicPlayer.setMusicState(MusicTrackType.NOTHING);
 		setTrack(HadalGame.musicPlayer.getCurrentTrack(), true);
@@ -357,9 +357,9 @@ public class AboutState extends GameState {
 		details.clearChildren();
 
 		//about option displays some gameplay tips read from json
-		details.add(new Text(UIText.TIPS.text())).colspan(2).pad(titlePad).row();
-		Text tips = new Text(UIText.INFO_TIPS.text()).setWrap(detailsTextWidth);
-		tips.setScale(detailsScale);
+		details.add(new Text(UIText.TIPS.text())).colspan(2).pad(TITLE_PAD).row();
+		Text tips = new Text(UIText.INFO_TIPS.text()).setWrap(DETAILS_TEXT_WIDTH);
+		tips.setScale(DETAILS_SCALE);
 		
 		details.add(tips);
 	}
@@ -368,9 +368,9 @@ public class AboutState extends GameState {
 		details.clearChildren();
 
 		//about option displays some miscellaneous text read from json
-		details.add(new Text(UIText.MISC.text())).colspan(2).pad(titlePad).row();
-		Text misc = new Text(UIText.INFO_MISC.text()).setWrap(detailsTextWidth);
-		misc.setScale(detailsScale);
+		details.add(new Text(UIText.MISC.text())).colspan(2).pad(TITLE_PAD).row();
+		Text misc = new Text(UIText.INFO_MISC.text()).setWrap(DETAILS_TEXT_WIDTH);
+		misc.setScale(DETAILS_SCALE);
 		
 		details.add(misc);
 	}
@@ -379,11 +379,11 @@ public class AboutState extends GameState {
 		details.clearChildren();
 
 		//about option displays credit information read from json
-		details.add(new Text(UIText.CREDITS.text())).colspan(2).pad(titlePad).row();
+		details.add(new Text(UIText.CREDITS.text())).colspan(2).pad(TITLE_PAD).row();
 		
 		//dev and art options have url links
 		Text dev = new Text(UIText.INFO_CREDITS_CODE.text()).setButton(true);
-		dev.setScale(detailsScale);
+		dev.setScale(DETAILS_SCALE);
 		dev.setColor(Color.RED);
 		
 		dev.addListener(new ClickListener() {
@@ -396,7 +396,7 @@ public class AboutState extends GameState {
 	    });
 		
 		Text art = new Text(UIText.INFO_CREDITS_ART.text()).setButton(true);
-		art.setScale(detailsScale);
+		art.setScale(DETAILS_SCALE);
 		art.setColor(Color.RED);
 		
 		art.addListener(new ClickListener() {
@@ -409,7 +409,7 @@ public class AboutState extends GameState {
 	    });
 
 		Text music = new Text(UIText.INFO_CREDITS_MUSIC.text()).setButton(true);
-		music.setScale(detailsScale);
+		music.setScale(DETAILS_SCALE);
 		music.setColor(Color.RED);
 
 		music.addListener(new ClickListener() {
@@ -421,23 +421,23 @@ public class AboutState extends GameState {
 			}
 		});
 
-		Text sfx = new Text(UIText.INFO_CREDITS_SOUND.text()).setWrap(detailsTextWidth);
-		sfx.setScale(detailsScale);
+		Text sfx = new Text(UIText.INFO_CREDITS_SOUND.text()).setWrap(DETAILS_TEXT_WIDTH);
+		sfx.setScale(DETAILS_SCALE);
 		
-		details.add(dev).height(optionHeight).row();
-		details.add(art).height(optionHeight).row();
-		details.add(music).height(optionHeight).row();
-		details.add(sfx).height(optionHeight);
+		details.add(dev).height(OPTION_HEIGHT).row();
+		details.add(art).height(OPTION_HEIGHT).row();
+		details.add(music).height(OPTION_HEIGHT).row();
+		details.add(sfx).height(OPTION_HEIGHT);
 	}
 
 	private void transitionOut(Runnable runnable) {
-		options.addAction(Actions.moveTo(optionsX, optionsY, TRANSITION_DURATION, INTP_FASTSLOW));
-		details.addAction(Actions.sequence(Actions.moveTo(detailsX, detailsY, TRANSITION_DURATION, INTP_FASTSLOW), Actions.run(runnable)));
+		options.addAction(Actions.moveTo(OPTIONS_X, OPTIONS_Y, TRANSITION_DURATION, INTP_FASTSLOW));
+		details.addAction(Actions.sequence(Actions.moveTo(DETAILS_X, DETAILS_Y, TRANSITION_DURATION, INTP_FASTSLOW), Actions.run(runnable)));
 	}
 
 	private void transitionIn() {
-		options.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
-		details.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
+		options.addAction(Actions.moveTo(OPTIONS_X_ENABLED, OPTIONS_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW));
+		details.addAction(Actions.moveTo(DETAILS_X_ENABLED, DETAILS_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW));
 	}
 
 	private boolean loopChecked;
@@ -540,7 +540,7 @@ public class AboutState extends GameState {
 
 		//pause/play text should be set to pause since a song is now playing
 		pause.setText(UIText.PAUSE.text());
-		pause.setHeight(optionHeight);
+		pause.setHeight(OPTION_HEIGHT);
 		if (track != null) {
 
 			//iterate through all tracks to color the one playing yellow and all others as white.
@@ -550,7 +550,7 @@ public class AboutState extends GameState {
 					if (tracks.getChildren().get(currentTrackIndex) != null) {
 						Text songText = ((Text) tracks.getChildren().get(i));
 						songText.setColor(Color.YELLOW);
-						songText.setHeight(detailHeight);
+						songText.setHeight(DETAIL_HEIGHT);
 
 						//scroll to the newly set track
 						int scrollIndex = Math.max(Math.min(i, MusicTrack.values().length - 4), 4) - 4;
@@ -559,7 +559,7 @@ public class AboutState extends GameState {
 				} else {
 					Text songText = ((Text) tracks.getChildren().get(i));
 					songText.setColor(Color.WHITE);
-					songText.setHeight(detailHeight);
+					songText.setHeight(DETAIL_HEIGHT);
 				}
 			}
 			musicTime.setRange(0.0f, track.getTrackLength());

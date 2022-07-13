@@ -19,7 +19,7 @@ import com.mygdx.hadal.states.PlayState;
 public class Invisibility extends Status {
 	
 	//fade time determines the window of time where the player can attack before the invisibility status is removed
-	private static final float fadeTime = 0.5f;
+	private static final float FADE_TIME = 0.5f;
 	private float fadeCount;
 	
 	public Invisibility(PlayState state, float i, BodyData p, BodyData v) {
@@ -31,7 +31,7 @@ public class Invisibility extends Status {
 			playerData.getPlayer().setInvisible(2);
 		}
 		
-		fadeCount = fadeTime;
+		fadeCount = FADE_TIME;
 	}
 	
 	@Override

@@ -103,13 +103,13 @@ public enum PlayerAction {
 	 */
 	public static void retrieveKeys() {
 		try {
-			for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Keybind.json"))) {
+			for (JsonValue d : GameStateManager.READER.parse(Gdx.files.internal("save/Keybind.json"))) {
 				PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
 			}
 		} catch (SerializationException e) {
 			resetKeys();
 			saveKeys();
-			for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Keybind.json"))) {
+			for (JsonValue d : GameStateManager.READER.parse(Gdx.files.internal("save/Keybind.json"))) {
 				PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
 			}
 		}
@@ -126,7 +126,7 @@ public enum PlayerAction {
 			map.put(a.toString(), a.getKey());
 		}
 		
-		Gdx.files.local("save/Keybind.json").writeString(GameStateManager.json.toJson(map), true);
+		Gdx.files.local("save/Keybind.json").writeString(GameStateManager.JSON.toJson(map), true);
 	}
 
 	public static PlayerAction hotkeyToAction(int key) {

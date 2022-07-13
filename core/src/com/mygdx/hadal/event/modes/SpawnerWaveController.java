@@ -13,8 +13,8 @@ import static com.mygdx.hadal.schmucks.entities.enemies.WaveType.waveLimit;
 
 public class SpawnerWaveController extends Event {
 
-    private static final float firstWaveDelay = 5.0f;
-    private static final float defaultWaveDelay = 15.0f;
+    private static final float FIRST_WAVE_DELAY = 5.0f;
+    private static final float DEFAULT_WAVE_DELAY = 15.0f;
 
     private final Array<WaveType.WaveTag> currentTags = new Array<>();
     private final Array<WaveType> currentWaves = new Array<>();
@@ -22,7 +22,7 @@ public class SpawnerWaveController extends Event {
     private final Array<WaveType.WaveEnemy> removeEnemies = new Array<>();
     private int waveNum;
     private boolean infinite;
-    private float nextWaveTime = firstWaveDelay;
+    private float nextWaveTime = FIRST_WAVE_DELAY;
 
     public SpawnerWaveController(PlayState state, WaveType... waves) {
         super(state);
@@ -44,7 +44,7 @@ public class SpawnerWaveController extends Event {
         nextWaveTime -= delta;
 
         if (nextWaveTime <= 0.0f) {
-            nextWaveTime = defaultWaveDelay;
+            nextWaveTime = DEFAULT_WAVE_DELAY;
             getNextWave(currentTags);
         }
 

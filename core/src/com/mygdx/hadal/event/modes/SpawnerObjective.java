@@ -26,9 +26,9 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class SpawnerObjective extends Event {
 
 	//How frequently will this event spawn eggplants in eggplant hunt?
-	private static final float interval = 2.0f;
+	private static final float INTERVAL = 2.0f;
 
-	private final static float particleDuration = 5.0f;
+	private final static float PARTICLE_DURATION = 5.0f;
 
 	//These keep track of how long until this triggers its connected event and how many times it can trigger again.
 	private float timeCount;
@@ -52,16 +52,16 @@ public class SpawnerObjective extends Event {
 		}
 	}
 
+	private static final float SPAWN_DELAY = 2.0f;
 	private CrownHoldable flag;
 	private float spawnCountdown;
-	private static final float spawnDelay = 2.0f;
 	@Override
 	public void controller(float delta) {
 
 		//in eggplant mode, spawn scrap periodically
 		if (GameMode.EGGPLANTS.equals(state.getMode())) {
 			timeCount += delta;
-			if (timeCount >= interval) {
+			if (timeCount >= INTERVAL) {
 				timeCount = 0;
 				WeaponUtils.spawnScrap(state, 1, getPixelPosition(), false, true);
 			}
@@ -73,7 +73,7 @@ public class SpawnerObjective extends Event {
 				spawnCountdown -= delta;
 				if (spawnCountdown <= 0.0f) {
 					flag = new CrownHoldable(state, new Vector2(getPixelPosition()));
-					new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, particleDuration,
+					new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,
 							true, SyncType.CREATESYNC).setColor(HadalColor.GOLDEN_YELLOW);
 				}
 			} else {
@@ -87,7 +87,7 @@ public class SpawnerObjective extends Event {
 				}
 
 				if (flagded) {
-					spawnCountdown = spawnDelay;
+					spawnCountdown = SPAWN_DELAY;
 				}
 			}
 		}

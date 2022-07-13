@@ -16,29 +16,29 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class SpringLoader extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 3.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 3.0f;
 	
-	private static final Vector2 springRadius = new Vector2(96, 16);
-	private static final float springPower = 75.0f;
-	private static final float springDuration = 6.0f;
+	private static final Vector2 SPRING_RADIUS = new Vector2(96, 16);
+	private static final float SPRING_POWER = 75.0f;
+	private static final float SPRING_DURATION = 6.0f;
 	
 	public SpringLoader(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.SPRING.playUniversal(state, user.getPlayer().getMouse().getPixelPosition(), 0.4f, false);
-		new Spring(state, user.getPlayer().getMouse().getPixelPosition(), springRadius, new Vector2(0, springPower), springDuration);
+		new Spring(state, user.getPlayer().getMouse().getPixelPosition(), SPRING_RADIUS, new Vector2(0, SPRING_POWER), SPRING_DURATION);
 		new ParticleEntity(state, user.getPlayer().getMouse().getPixelPosition(), Particle.MOMENTUM, 1.0f, true, SyncType.CREATESYNC);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) springDuration)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) SPRING_DURATION)};
 	}
 }

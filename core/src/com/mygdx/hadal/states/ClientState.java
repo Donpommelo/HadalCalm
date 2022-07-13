@@ -33,24 +33,24 @@ public class ClientState extends PlayState {
 	
 	//these variables are used to deal with packet loss.
 	// Windows to determine when a create/delete packet was dropped and when another packet can be requested
-	public static final float missedCreateThreshold = 2.0f;
-	public static final float missedDeleteThreshold = 2.0f;
-	public static final float initialConnectThreshold = 2.0f;
-	public static final float missedCreateCooldown = 0.5f;
+	public static final float MISSED_CREATE_THRESHOLD = 2.0f;
+	public static final float MISSED_DELETE_THRESHOLD = 2.0f;
+	public static final float INITIAL_CONNECT_THRESHOLD = 2.0f;
+	public static final float MISSED_CREATE_COOLDOWN = 0.5f;
 	
-	//This is a set of all non-hitbox entities in the world mapped from their entityId
+	//This is a set of all non-hitbox entities in the world mapped from their entityID
 	private final OrderedMap<UUID, HadalEntity> entities = new OrderedMap<>();
 	
-	//This is a set of all hitboxes mapped from their unique entityId
+	//This is a set of all hitboxes mapped from their unique entityID
 	private final OrderedMap<UUID, HadalEntity> hitboxes = new OrderedMap<>();
 
-	//This is a set of all particle effects mapped from their unique entityId
+	//This is a set of all particle effects mapped from their unique entityID
 	private final OrderedMap<UUID, HadalEntity> effects = new OrderedMap<>();
 
 	//this is a list containing all the aforementioned entity lists
 	private final Array<OrderedMap<UUID, HadalEntity>> entityLists = new Array<>();
 
-	//This is a list of sync instructions. It contains [entityId, object to be synced]
+	//This is a list of sync instructions. It contains [entityID, object to be synced]
 	private final Array<SyncPacket> sync = new Array<>();
 
 	//This contains the position of the client's mouse, to be sent to the server
@@ -108,16 +108,16 @@ public class ClientState extends PlayState {
 	}
 	
 	//these control the frequency that we process world physics.
+	private static final float PHYSICS_TIME = 1 / 200f;
 	private float physicsAccumulator;
-	private static final float physicsTime = 1 / 200f;
-	
+
 	//these control the frequency that we send latency checking packets to the server.
+	private static final float LATENCY_CHECK = 1 / 10f;
 	private float latencyAccumulator;
 	private float latency;
-	private static final float LatencyCheck = 1 / 10f;
 
+	private static final float INPUT_SYNC_TIME = 1 / 60f;
 	private float inputAccumulator;
-	private static final float inputSyncTime = 1 / 60f;
 
 	private final Vector3 lastMouseLocation = new Vector3();
 
@@ -128,17 +128,17 @@ public class ClientState extends PlayState {
 		
 		//this makes the physics separate from the game framerate
 		physicsAccumulator += delta;
-		while (physicsAccumulator >= physicsTime) {
-			physicsAccumulator -= physicsTime;
+		while (physicsAccumulator >= PHYSICS_TIME) {
+			physicsAccumulator -= PHYSICS_TIME;
 
 			//The box2d world takes a step. This handles collisions + physics stuff.
-			world.step(physicsTime, 8, 3);
+			world.step(PHYSICS_TIME, 8, 3);
 		}
 
 		//repeatedly send client inputs and mouse position to server
 		inputAccumulator += delta;
-		while (inputAccumulator >= inputSyncTime) {
-			inputAccumulator -= inputSyncTime;
+		while (inputAccumulator >= INPUT_SYNC_TIME) {
+			inputAccumulator -= INPUT_SYNC_TIME;
 
 			if (controller != null) {
 				mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -155,18 +155,18 @@ public class ClientState extends PlayState {
 		}
 		lastMouseLocation.set(mousePosition);
 		
-		//All entities that are set to be created are created and assigned their entityId
+		//All entities that are set to be created are created and assigned their entityID
 		for (CreatePacket packet : createListClient) {
 			HadalEntity oldEntity;
 			if (ObjectLayer.HBOX.equals(packet.layer)) {
-				oldEntity = hitboxes.get(packet.entityId);
-				hitboxes.put(packet.entityId, packet.entity);
+				oldEntity = hitboxes.get(packet.entityID);
+				hitboxes.put(packet.entityID, packet.entity);
 			} else if (ObjectLayer.EFFECT.equals(packet.layer)) {
-				oldEntity = effects.get(packet.entityId);
-				effects.put(packet.entityId, packet.entity);
+				oldEntity = effects.get(packet.entityID);
+				effects.put(packet.entityID, packet.entity);
 			} else {
-				oldEntity = entities.get(packet.entityId);
-				entities.put(packet.entityId, packet.entity);
+				oldEntity = entities.get(packet.entityID);
+				entities.put(packet.entityID, packet.entity);
 			}
 
 			//we replace old entity with same tag b/c we must never dispose of something that hasn't been created
@@ -176,8 +176,8 @@ public class ClientState extends PlayState {
 			}
 			packet.entity.create();
 
-			if (packet.entityId != null) {
-				packet.entity.setEntityID(packet.entityId);
+			if (packet.entityID != null) {
+				packet.entity.setEntityID(packet.entityID);
 			}
 			packet.entity.setReceivingSyncs(packet.synced);
 		}
@@ -201,7 +201,7 @@ public class ClientState extends PlayState {
 
 		//this makes the latency checking separate from the game framerate
 		latencyAccumulator += delta;
-		if (latencyAccumulator >= LatencyCheck) {
+		if (latencyAccumulator >= LATENCY_CHECK) {
 			latencyAccumulator = 0;
 			HadalGame.client.sendUDP(new Packets.LatencySyn((int) (latency * 1000), clientPingTimer));
 		}
@@ -222,17 +222,17 @@ public class ClientState extends PlayState {
 			SyncPacket p = sync.removeIndex(0);
 		 	if (p != null) {
 
-				HadalEntity entity = hitboxes.get(p.entityId);
+				HadalEntity entity = hitboxes.get(p.entityID);
 		 		if (entity != null) {
 		 			entity.onReceiveSync(p.packet, p.timestamp);
 		 			entity.resetTimeSinceLastSync();
 		 		} else {
-					entity = effects.get(p.entityId);
+					entity = effects.get(p.entityID);
 					if (entity != null) {
 						entity.onReceiveSync(p.packet, p.timestamp);
 						entity.resetTimeSinceLastSync();
 					} else {
-						entity = entities.get(p.entityId);
+						entity = entities.get(p.entityID);
 
 						//if we have the entity, sync it and reset the time since last sync
 						if (entity != null) {
@@ -241,10 +241,10 @@ public class ClientState extends PlayState {
 						} else {
 
 							//if we don't recognize the entity and the entity is of a sufficient age and the client didn't just start up, we may have missed a create packet.
-							if (p.age > missedCreateThreshold && getTimer() > initialConnectThreshold &&
-									!timeSinceLastMissedCreate.containsKey(p.entityId)) {
-								timeSinceLastMissedCreate.put(p.entityId, missedCreateCooldown);
-								HadalGame.client.sendUDP(new Packets.MissedCreate(p.entityId));
+							if (p.age > MISSED_CREATE_THRESHOLD && getTimer() > INITIAL_CONNECT_THRESHOLD &&
+									!timeSinceLastMissedCreate.containsKey(p.entityID)) {
+								timeSinceLastMissedCreate.put(p.entityID, MISSED_CREATE_COOLDOWN);
+								HadalGame.client.sendUDP(new Packets.MissedCreate(p.entityID));
 							}
 						}
 					}
@@ -264,7 +264,7 @@ public class ClientState extends PlayState {
 
 		//periodically update score window if scores have been updated
 		scoreSyncAccumulator += delta;
-		if (scoreSyncAccumulator >= scoreSyncTime) {
+		if (scoreSyncAccumulator >= SCORE_SYNC_TIME) {
 			scoreSyncAccumulator = 0;
 			boolean changeMade = false;
 			for (User user : HadalGame.client.getUsers().values()) {
@@ -358,13 +358,13 @@ public class ClientState extends PlayState {
 	
 	/**
 	 * This is called whenever the client is told to add an object to its world.
-	 * @param entityId: The uuid of the entity
+	 * @param entityID: The uuid of the entity
 	 * @param entity: The entity to be added
 	 * @param synced: should this object receive a regular sync packet from the server?
 	 * @param layer: is this layer a hitbox (rendered underneath) or not?
 	 */
-	public void addEntity(UUID entityId, HadalEntity entity, boolean synced, ObjectLayer layer) {
-		CreatePacket packet = new CreatePacket(entityId, entity, synced, layer);
+	public void addEntity(UUID entityID, HadalEntity entity, boolean synced, ObjectLayer layer) {
+		CreatePacket packet = new CreatePacket(entityID, entity, synced, layer);
 		createListClient.add(packet);
 	}
 
@@ -374,10 +374,10 @@ public class ClientState extends PlayState {
 
 	/**
 	 * This is called whenever the client is told to remove an object from the world.
-	 * @param entityId: The unique id of the object to be removed.
+	 * @param entityID: The unique id of the object to be removed.
 	 */
-	public void removeEntity(UUID entityId) {
-		removeListClient.add(entityId);
+	public void removeEntity(UUID entityID) {
+		removeListClient.add(entityID);
 	}
 
 	/**
@@ -395,20 +395,20 @@ public class ClientState extends PlayState {
 
 	/**
 	 * This looks at the entities in the world and returns the one with the given id. 
-	 * @param entityId: Unique id of he object to find
+	 * @param entityID: Unique id of he object to find
 	 * @return The found object (or null if nonexistent)
 	 */
 	@Override
-	public HadalEntity findEntity(UUID entityId) {
-		HadalEntity entity = entities.get(entityId);
+	public HadalEntity findEntity(UUID entityID) {
+		HadalEntity entity = entities.get(entityID);
 		if (entity != null) {
 			return entity;
 		} else {
-			entity = effects.get(entityId);
+			entity = effects.get(entityID);
 			if (entity != null) {
 				return entity;
 			} else {
-				return hitboxes.get(entityId);
+				return hitboxes.get(entityID);
 			}
 		}
 	}
@@ -421,7 +421,7 @@ public class ClientState extends PlayState {
 		//when transitioning to new state, we don't want old timestamp to give us a negative latency
 		if (clientTimestamp <= clientPingTimer) {
 			latency = clientPingTimer - clientTimestamp;
-			setTimer(serverTime - 2 * PlayState.syncTime);
+			setTimer(serverTime - 2 * PlayState.SYNC_TIME);
 		}
 	}
 	
@@ -440,12 +440,12 @@ public class ClientState extends PlayState {
 	/**
 	 * This record represents a packet telling the client to sync an object
 	 */
-	private record SyncPacket(UUID entityId, Object packet, float age, float timestamp) {}
+	private record SyncPacket(UUID entityID, Object packet, float age, float timestamp) {}
 
 	/**
 	 * This record represents a packet telling the client to create an object
 	 */
-	public record CreatePacket(UUID entityId, HadalEntity entity, boolean synced, ObjectLayer layer) {}
+	public record CreatePacket(UUID entityID, HadalEntity entity, boolean synced, ObjectLayer layer) {}
 
 	/**
 	 * The destroy and create methods do nothing for the client. 

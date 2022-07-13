@@ -13,16 +13,16 @@ import com.mygdx.hadal.statuses.Status;
  */
 public class RadialBarrage extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 20.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 20.0f;
 	
-	private static final float duration = 5.0f;
-	private static final float procCd = 0.1f;
-	private static final int totalShots = 6;
+	private static final float DURATION = 5.0f;
+	private static final float PROC_CD = 0.1f;
+	private static final int TOTAL_SHOTS = 6;
 
 	public RadialBarrage(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
@@ -33,19 +33,18 @@ public class RadialBarrage extends ActiveItem {
 		if (user.getCurrentTool() instanceof RangedWeapon) {
 			angle.scl(((RangedWeapon) user.getCurrentTool()).getProjectileSpeed());
 
-			user.addStatus(new Status(state, duration, false, user, user) {
+			user.addStatus(new Status(state, DURATION, false, user, user) {
 				
 				private float procCdCount;
 				private int shotsFired;
-				
 				@Override
 				public void timePassing(float delta) {
 					super.timePassing(delta);
-					if (procCdCount >= procCd && shotsFired < totalShots) {
-						procCdCount -= procCd;
+					if (procCdCount >= PROC_CD && shotsFired < TOTAL_SHOTS) {
+						procCdCount -= PROC_CD;
 						shotsFired++;
 
-						angle.setAngleDeg(angle.angleDeg() + 360.0f / totalShots);
+						angle.setAngleDeg(angle.angleDeg() + 360.0f / TOTAL_SHOTS);
 						user.getCurrentTool().fire(state, user.getSchmuck(), user.getSchmuck().getPixelPosition(), new Vector2(angle), user.getSchmuck().getHitboxfilter());
 					}
 					procCdCount += delta;
@@ -53,7 +52,6 @@ public class RadialBarrage extends ActiveItem {
 			});
 			
 			int clipSize = user.getCurrentTool().getClipSize();
-			
 			if (clipSize > 1) {
 				gainChargeByPercent(0.20f);
 			}
@@ -72,8 +70,8 @@ public class RadialBarrage extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf(totalShots),
-				String.valueOf(procCd)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf(TOTAL_SHOTS),
+				String.valueOf(PROC_CD)};
 	}
 }

@@ -42,9 +42,9 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  */
 public class WeaponUtils {
 
-	private static final float selfDamageReduction = 0.5f;
-	private static final float explosionSpriteScaling = 1.5f;
-	private static final Sprite boomSprite = Sprite.BOOM;
+	private static final float SELF_DAMAGE_REDUCTION = 0.5f;
+	private static final float EXPLOSION_SPRITE_SCALE = 1.5f;
+	private static final Sprite BOOM_SPRITE = Sprite.BOOM;
 	public static void createExplosion(PlayState state, Vector2 startPos, float size, Schmuck user, float explosionDamage,
 									   float explosionKnockback, short filter, boolean synced, DamageSource source) {
 		
@@ -57,36 +57,36 @@ public class WeaponUtils {
 		}
 
 		Hitbox hbox = new Hitbox(state, startPos, new Vector2(newSize, newSize), 0.4f, new Vector2(),
-			actualFilter, true, false, user, boomSprite);
+			actualFilter, true, false, user, BOOM_SPRITE);
 		hbox.setSyncDefault(synced);
 
-		hbox.setSpriteSize(new Vector2(newSize, newSize).scl(explosionSpriteScaling));
+		hbox.setSpriteSize(new Vector2(newSize, newSize).scl(EXPLOSION_SPRITE_SCALE));
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ExplosionDefault(state, hbox, user.getBodyData(), explosionDamage, explosionKnockback,
-			selfDamageReduction, source, DamageTag.EXPLOSIVE));
+				SELF_DAMAGE_REDUCTION, source, DamageTag.EXPLOSIVE));
 
 		if (!state.isServer()) {
 			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
 		}
 	}
 
-	private static final Vector2 bombSpriteSize = new Vector2(60, 141);
-	private static final Vector2 bombSize = new Vector2(60, 60);
-	private static final float bombLifespan = 3.0f;
+	private static final Vector2 BOMB_SPRITE_SIZE = new Vector2(60, 141);
+	private static final Vector2 BOMB_SIZE = new Vector2(60, 60);
+	private static final float BOMB_LIFESPAN = 3.0f;
 
-	public static final float bombExplosionDamage = 40.0f;
-	private static final int bombExplosionRadius = 150;
-	private static final float bombExplosionKnockback = 25.0f;
-	private static final Sprite bombSprite = Sprite.BOMB;
-	private static final Sprite sparkSprite = Sprite.SPARKS;
+	public static final float BOMB_EXPLOSION_DAMAGE = 40.0f;
+	private static final int BOMB_EXPLOSION_RADIUS = 150;
+	private static final float BOMB_EXPLOSION_KNOCKBACK = 25.0f;
+	private static final Sprite BOMB_SPRITE = Sprite.BOMB;
+	private static final Sprite SPARK_SPRITE = Sprite.SPARKS;
 
 	public static Hitbox createBomb(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source) {
 		SoundEffect.LAUNCHER.playSourced(state, user.getPixelPosition(), 0.2f);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, bombSize, bombLifespan, startVelocity, user.getHitboxfilter(),
-				false, true, user, bombSprite);
-		hbox.setSpriteSize(bombSpriteSize);
+		Hitbox hbox = new RangedHitbox(state, startPosition, BOMB_SIZE, BOMB_LIFESPAN, startVelocity, user.getHitboxfilter(),
+				false, true, user, BOMB_SPRITE);
+		hbox.setSpriteSize(BOMB_SPRITE_SIZE);
 		hbox.setGravity(2.5f);
 		hbox.setRestitution(0.5f);
 
@@ -95,15 +95,15 @@ public class WeaponUtils {
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), 0, 0, source,
 				DamageTag.EXPLOSIVE, DamageTag.RANGED));
-		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), bombExplosionRadius, bombExplosionDamage, bombExplosionKnockback,
+		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), BOMB_EXPLOSION_RADIUS, BOMB_EXPLOSION_DAMAGE, BOMB_EXPLOSION_KNOCKBACK,
 				(short) 0, false, source));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.4f).setSynced(false));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.2f).setSynced(false));
 		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
 
-		Hitbox sparks = new RangedHitbox(state, startPosition, bombSize, bombLifespan, startVelocity, user.getHitboxfilter(),
-				true, false, user, sparkSprite);
-		sparks.setSpriteSize(bombSpriteSize);
+		Hitbox sparks = new RangedHitbox(state, startPosition, BOMB_SIZE, BOMB_LIFESPAN, startVelocity, user.getHitboxfilter(),
+				true, false, user, SPARK_SPRITE);
+		sparks.setSpriteSize(BOMB_SPRITE_SIZE);
 		sparks.setSyncDefault(false);
 
 		sparks.addStrategy(new ControllerDefault(state, sparks, user.getBodyData()));
@@ -116,75 +116,75 @@ public class WeaponUtils {
 		return hbox;
 	}
 
-	public static final float torpedoExplosionDamage = 18.0f;
-	private static final float torpedoBaseDamage = 3.0f;
-	private static final float torpedoBaseKnockback = 3.0f;
-	private static final float torpedoExplosionKnockback = 16.0f;
-	private static final int torpedoExplosionRadius = 150;
-	private static final Vector2 torpedoSize = new Vector2(60, 14);
-	private static final float torpedoLifespan = 8.0f;
-	private static final int torpedoSpread = 30;
-	private static final float torpedoHoming = 100;
-	private static final int torpedoHomingRadius = 100;
-	private static final Sprite missileSprite = Sprite.MISSILE_B;
+	public static final float TORPEDO_EXPLOSION_DAMAGE = 18.0f;
+	private static final float TORPEDO_BASE_DAMAGE = 3.0f;
+	private static final float TORPEDO_EXPLOSION_KNOCKBACK = 16.0f;
+	private static final float TORPEDO_BASE_KNOCKBACK = 3.0f;
+	private static final int TORPEDO_EXPLOSION_RADIUS = 150;
+	private static final Vector2 TORPEDO_SIZE = new Vector2(60, 14);
+	private static final float TORPEDO_LIFESPAN = 8.0f;
+	private static final int TORPEDO_SPREAD = 30;
+	private static final float TORPEDO_HOMING = 100;
+	private static final int TORPEDO_HOMING_RADIUS = 100;
+	private static final Sprite MISSILE_SPRITE = Sprite.MISSILE_B;
 	public static Hitbox createHomingMissile(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
 											 DamageSource source) {
-		Hitbox hbox = new RangedHitbox(state, startPosition, torpedoSize, torpedoLifespan, startVelocity, user.getHitboxfilter(),
-				true, false, user, missileSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, TORPEDO_SIZE, TORPEDO_LIFESPAN, startVelocity, user.getHitboxfilter(),
+				true, false, user, MISSILE_SPRITE);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), torpedoBaseDamage, torpedoBaseKnockback,
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), TORPEDO_BASE_DAMAGE, TORPEDO_BASE_KNOCKBACK,
 				source, DamageTag.EXPLOSIVE, DamageTag.RANGED));
-		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), torpedoExplosionRadius, torpedoExplosionDamage,
-				torpedoExplosionKnockback, user.getHitboxfilter(), false, source));
-		hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), torpedoHoming, torpedoHomingRadius));
-		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), torpedoSpread));
+		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), TORPEDO_EXPLOSION_RADIUS, TORPEDO_EXPLOSION_DAMAGE,
+				TORPEDO_EXPLOSION_KNOCKBACK, user.getHitboxfilter(), false, source));
+		hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), TORPEDO_HOMING, TORPEDO_HOMING_RADIUS));
+		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), TORPEDO_SPREAD));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
 		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
 
 		return hbox;
 	}
 
-	public static final float nauticalMineLifespan = 12.0f;
-	public static final float nauticalMineExplosionDamage = 75.0f;
-	private static final float primeDelay = 1.0f;
-	private static final float projDampen = 1.0f;
-	private static final Vector2 nauticalMineSize = new Vector2(120, 120);
-	private static final int nauticalMineExplosionRadius = 400;
-	private static final float nauticalMineExplosionKnockback = 40.0f;
-	private static final float footballThreshold = 200.0f;
-	private static final float footballDepreciation = 50.0f;
+	public static final float NAUTICAL_MINE_LIFESPAN = 12.0f;
+	public static final float NAUTICAL_MINE_EXPLOSION_DAMAGE = 75.0f;
+	private static final float PRIME_DELAY = 1.0f;
+	private static final float PROJ_DAMPEN = 1.0f;
+	private static final Vector2 NAUTICAL_MINE_SIZE = new Vector2(120, 120);
+	private static final int NAUTICAL_MINE_EXPLOSION_RADIUS = 400;
+	private static final float NAUTICAL_MINE_EXPLOSION_KNOCKBACK = 40.0f;
+	private static final float FOOTBALL_THRESHOLD = 200.0f;
+	private static final float FOOTBALL_DEPRECIATION = 50.0f;
 	public static Hitbox createNauticalMine(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
 		SoundEffect.LAUNCHER.playSourced(state, user.getPixelPosition(), 1.0f);
 
 		boolean event = false;
 		float pushMultiplier = 1.0f;
-		float lifespan = nauticalMineLifespan;
+		float lifespan = NAUTICAL_MINE_LIFESPAN;
 		if (extraFields.length > 2) {
 			event = extraFields[0] == 0.0f;
 			pushMultiplier = extraFields[1];
 			lifespan = extraFields[2];
 		}
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, nauticalMineSize, lifespan, startVelocity,
+		Hitbox hbox = new RangedHitbox(state, startPosition, NAUTICAL_MINE_SIZE, lifespan, startVelocity,
 				(short) 0, false, false, user, Sprite.NAVAL_MINE);
 		hbox.setRestitution(0.5f);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		if (event) {
 			hbox.addStrategy(new ContactGoalScore(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new DamageThresholdDie(state, hbox, user.getBodyData(), footballThreshold, footballDepreciation));
+			hbox.addStrategy(new DamageThresholdDie(state, hbox, user.getBodyData(), FOOTBALL_THRESHOLD, FOOTBALL_DEPRECIATION));
 		} else {
-			hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(primeDelay));
+			hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(PRIME_DELAY));
 		}
 
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Pushable(state, hbox, user.getBodyData(), pushMultiplier));
-		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), nauticalMineExplosionRadius, nauticalMineExplosionDamage,
-				nauticalMineExplosionKnockback, (short) 0, false, DamageSource.NAUTICAL_MINE));
+		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), NAUTICAL_MINE_EXPLOSION_RADIUS, NAUTICAL_MINE_EXPLOSION_DAMAGE,
+				NAUTICAL_MINE_EXPLOSION_KNOCKBACK, (short) 0, false, DamageSource.NAUTICAL_MINE));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f).setSynced(false));
 		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
@@ -192,57 +192,57 @@ public class WeaponUtils {
 			@Override
 			public void create() {
 				super.create();
-				hbox.getBody().setLinearDamping(projDampen);
+				hbox.getBody().setLinearDamping(PROJ_DAMPEN);
 			}
 		});
 
 		return hbox;
 	}
 
-	public static final float stickGrenadeExplosionDamage = 28.0f;
-	private static final Vector2 stickGrenadeSize = new Vector2(19, 70);
-	private static final float stickGrenadeLifespan = 3.0f;
-	private static final float stickGrenadeBaseDamage = 8.0f;
-	private static final float stickGrenadeBaseKnockback = 3.0f;
-	private static final float stickGrenadeExplosionKnockback = 12.0f;
-	private static final int stickGrenadeExplosionRadius = 100;
-	private static final float grenadeRotationSpeed = 8.0f;
+	public static final float STICK_GRENADE_EXPLOSION_DAMAGE = 28.0f;
+	private static final Vector2 STICK_GRENADE_SIZE = new Vector2(19, 70);
+	private static final float STICK_GRENADE_LIFESPAN = 3.0f;
+	private static final float STICK_GRENADE_BASE_DAMAGE = 8.0f;
+	private static final float STICK_GRENADE_BASE_KNOCKBACK = 3.0f;
+	private static final float STICK_GRENADE_EXPLOSION_KNOCKBACK = 12.0f;
+	private static final int STICK_GRENADE_EXPLOSION_RADIUS = 100;
+	private static final float GRENADE_ROTATION_SPEED = 8.0f;
 	public static Hitbox createStickGrenade(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.LAUNCHER.playSourced(state, user.getPixelPosition(), 1.0f);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, stickGrenadeSize, stickGrenadeLifespan, startVelocity,
+		Hitbox hbox = new RangedHitbox(state, startPosition, STICK_GRENADE_SIZE, STICK_GRENADE_LIFESPAN, startVelocity,
 				user.getHitboxfilter(), false, false, user, Sprite.CABER);
 
 		hbox.setGravity(1.0f);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new RotationConstant(state, hbox, user.getBodyData(), grenadeRotationSpeed));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), stickGrenadeBaseDamage, stickGrenadeBaseKnockback,
+		hbox.addStrategy(new RotationConstant(state, hbox, user.getBodyData(), GRENADE_ROTATION_SPEED));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), STICK_GRENADE_BASE_DAMAGE, STICK_GRENADE_BASE_KNOCKBACK,
 				DamageSource.CRIME_DISCOURAGEMENT_STICK, DamageTag.EXPLOSIVE));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), stickGrenadeExplosionRadius, stickGrenadeExplosionDamage,
-				stickGrenadeExplosionKnockback, user.getHitboxfilter(), false, DamageSource.CRIME_DISCOURAGEMENT_STICK));
+		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), STICK_GRENADE_EXPLOSION_RADIUS, STICK_GRENADE_EXPLOSION_DAMAGE,
+				STICK_GRENADE_EXPLOSION_KNOCKBACK, user.getHitboxfilter(), false, DamageSource.CRIME_DISCOURAGEMENT_STICK));
 		return hbox;
 	}
 
-	public static final float primeTime = 1.0f;
-	private static final Vector2 mineSize = new Vector2(75, 30);
-	private static final float warningTime = 0.5f;
-	private static final float mineSpeed = 60.0f;
-	private static final float mineLifespan = 18.0f;
-	private static final int mineExplosionRadius = 270;
-	private static final float mineDefaultDamage = 100.0f;
-	private static final float mineExplosionKnockback = 50.0f;
-	private static final float mineTargetCheckCd = 0.2f;
-	private static final float mineTargetCheckRadius = 3.6f;
+	public static final float PRIME_TIME = 1.0f;
+	private static final Vector2 MINE_SIZE = new Vector2(75, 30);
+	private static final float WARNING_TIME = 0.5f;
+	private static final float MINE_SPEED = 60.0f;
+	private static final float MINE_LIFESPAN = 18.0f;
+	private static final int MINE_EXPLOSION_RADIUS = 270;
+	private static final float MINE_DEFAULT_DAMAGE = 100.0f;
+	private static final float MINE_EXPLOSION_KNOCKBACK = 50.0f;
+	private static final float MINE_TARGET_CHECK_CD = 0.2f;
+	private static final float MINE_TARGET_CHECK_RADIUS = 3.6f;
 	public static Hitbox createProximityMine(PlayState state, Schmuck user, Vector2 startPosition,
 											 DamageSource source, float[] extraFields) {
 
-		final float mineDamage = extraFields.length > 0 ? extraFields[0] : mineDefaultDamage;
+		final float mineDamage = extraFields.length > 0 ? extraFields[0] : MINE_DEFAULT_DAMAGE;
 
 		final boolean[] primed = new boolean[] { false };
-		Hitbox hbox = new RangedHitbox(state, startPosition, mineSize, mineLifespan, new Vector2(0, -mineSpeed),
+		Hitbox hbox = new RangedHitbox(state, startPosition, MINE_SIZE, MINE_LIFESPAN, new Vector2(0, -MINE_SPEED),
 				(short) 0, false, false, user, Sprite.LAND_MINE) {
 
 			@Override
@@ -296,10 +296,10 @@ public class WeaponUtils {
 				}
 				if (set && !primed[0]) {
 					primeCount += delta;
-					if (primeCount >= primeTime) {
+					if (primeCount >= PRIME_TIME) {
 						SoundEffect.MAGIC27_EVIL.playSourced(state, hbox.getPixelPosition(), 1.0f);
 						primed[0] = true;
-						hbox.setLifeSpan(mineLifespan);
+						hbox.setLifeSpan(MINE_LIFESPAN);
 
 						ParticleEntity particles = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.SMOKE, 1.0f,
 								true, SyncType.NOSYNC).setScale(0.5f);
@@ -310,11 +310,11 @@ public class WeaponUtils {
 					}
 				}
 				if (primed[0]) {
-					if (targetCheckCount < mineTargetCheckCd) {
+					if (targetCheckCount < MINE_TARGET_CHECK_CD) {
 						targetCheckCount += delta;
 					}
-					if (targetCheckCount >= mineTargetCheckCd) {
-						targetCheckCount -= mineTargetCheckCd;
+					if (targetCheckCount >= MINE_TARGET_CHECK_CD) {
+						targetCheckCount -= MINE_TARGET_CHECK_CD;
 						mineLocation.set(hbox.getPosition());
 						state.getWorld().QueryAABB(fixture -> {
 							if (fixture.getUserData() instanceof BodyData) {
@@ -322,8 +322,8 @@ public class WeaponUtils {
 							}
 							return true;
 						},
-						mineLocation.x - mineTargetCheckRadius, mineLocation.y - mineTargetCheckRadius,
-						mineLocation.x + mineTargetCheckRadius, mineLocation.y + mineTargetCheckRadius);
+						mineLocation.x - MINE_TARGET_CHECK_RADIUS, mineLocation.y - MINE_TARGET_CHECK_RADIUS,
+						mineLocation.x + MINE_TARGET_CHECK_RADIUS, mineLocation.y + MINE_TARGET_CHECK_RADIUS);
 					}
 				}
 			}
@@ -331,16 +331,16 @@ public class WeaponUtils {
 			@Override
 			public void die() {
 				SoundEffect.PING.playSourced(state, hbox.getPixelPosition(), 0.6f, 1.5f);
-				Hitbox explosion = new RangedHitbox(state, hbox.getPixelPosition(), mineSize, warningTime,  new Vector2(),
+				Hitbox explosion = new RangedHitbox(state, hbox.getPixelPosition(), MINE_SIZE, WARNING_TIME,  new Vector2(),
 						(short) 0, true, false, user, Sprite.LAND_MINE);
 				explosion.makeUnreflectable();
 				explosion.setSyncDefault(false);
 
 				explosion.addStrategy(new ControllerDefault(state, explosion, user.getBodyData()));
 				explosion.addStrategy(new Static(state, explosion, user.getBodyData()));
-				explosion.addStrategy(new FlashShaderNearDeath(state, explosion, user.getBodyData(), warningTime, false));
-				explosion.addStrategy(new DieExplode(state, explosion, user.getBodyData(), mineExplosionRadius, mineDamage,
-						mineExplosionKnockback, (short) 0, false, source));
+				explosion.addStrategy(new FlashShaderNearDeath(state, explosion, user.getBodyData(), WARNING_TIME, false));
+				explosion.addStrategy(new DieExplode(state, explosion, user.getBodyData(), MINE_EXPLOSION_RADIUS, mineDamage,
+						MINE_EXPLOSION_KNOCKBACK, (short) 0, false, source));
 				explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f).setSynced(false));
 
 				if (!state.isServer()) {
@@ -352,18 +352,18 @@ public class WeaponUtils {
 		return hbox;
 	}
 
-	public static final float spiritDefaultDamage = 45.0f;
-	private static final int spiritSize = 25;
-	private static final float spiritHoming = 120;
-	private static final int spiritHomingRadius = 40;
-	private static final float spiritKnockback= 25.0f;
-	private static final float spiritLifespan= 7.5f;
+	public static final float SPIRIT_DEFAULT_DAMAGE = 45.0f;
+	private static final int SPIRIT_SIZE = 25;
+	private static final float SPIRIT_HOMING = 120;
+	private static final int SPIRIT_HOMING_RADIUS = 40;
+	private static final float SPIRIT_KNOCKBACK = 25.0f;
+	private static final float SPIRIT_LIFESPAN = 7.5f;
 	public static Hitbox[] createVengefulSpirits(PlayState state, Schmuck user, Vector2[] startPosition,
 												 DamageSource source, float[] extraFields) {
 		Hitbox[] hboxes = new Hitbox[startPosition.length];
 
 		boolean attached = true;
-		float spiritDamage = spiritDefaultDamage;
+		float spiritDamage = SPIRIT_DEFAULT_DAMAGE;
 		Particle effect = Particle.SHADOW_PATH;
 		if (extraFields.length > 3) {
 			attached = extraFields[0] == 1.0f;
@@ -377,20 +377,20 @@ public class WeaponUtils {
 			SoundEffect.DARKNESS2.playSourced(state, user.getPixelPosition(), 0.2f);
 
 			for (int i = 0; i < startPosition.length; i++) {
-				Hitbox hbox = new RangedHitbox(state, startPosition[i], new Vector2(spiritSize, spiritSize), spiritLifespan,
+				Hitbox hbox = new RangedHitbox(state, startPosition[i], new Vector2(SPIRIT_SIZE, SPIRIT_SIZE), SPIRIT_LIFESPAN,
 						new Vector2(), user.getHitboxfilter(), true, true, user, Sprite.NOTHING);
 
 				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 				hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), spiritDamage, spiritKnockback,
+				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), spiritDamage, SPIRIT_KNOCKBACK,
 						source, DamageTag.MAGIC, DamageTag.RANGED));
 
 				//attached hboxes will follow the player until they have a target to home in on
 				if (attached) {
-					hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), spiritHoming, spiritHomingRadius)
+					hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), SPIRIT_HOMING, SPIRIT_HOMING_RADIUS)
 							.setFixedUntilHome(true).setTarget(user));
 				} else {
-					hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), spiritHoming, spiritHomingRadius));
+					hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), SPIRIT_HOMING, SPIRIT_HOMING_RADIUS));
 				}
 				hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), effect, 0.0f, 1.0f)
 						.setParticleColor(HadalColor.RANDOM).setSyncType(SyncType.NOSYNC));
@@ -418,11 +418,12 @@ public class WeaponUtils {
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 	}
 	
-	private static final Sprite[] projSprites = {Sprite.METEOR_A, Sprite.METEOR_B, Sprite.METEOR_C, Sprite.METEOR_D, Sprite.METEOR_E, Sprite.METEOR_F};
-	private static final Vector2 meteorSize = new Vector2(75, 75);
-	private static final float meteorSpeed = 50.0f;
-	private static final float range = 1500.0f;
-	private static final float lifespan = 5.0f;
+	private static final Sprite[] PROJ_SPRITES = {Sprite.METEOR_A, Sprite.METEOR_B, Sprite.METEOR_C, Sprite.METEOR_D,
+			Sprite.METEOR_E, Sprite.METEOR_F};
+	private static final Vector2 METEOR_SIZE = new Vector2(75, 75);
+	private static final float METEOR_SPEED = 50.0f;
+	private static final float RANGE = 1500.0f;
+	private static final float LIFESPAN = 5.0f;
 	
 	public static void createMeteors(PlayState state, Vector2 startPos, Schmuck user, float meteorDuration, float meteorInterval,
 									 float spread, float baseDamage, DamageSource source) {
@@ -455,7 +456,7 @@ public class WeaponUtils {
 					}
 					
 					originPt.set(startPos).add((MathUtils.random() -  0.5f) * spread, 0);
-					endPt.set(originPt).add(0, -range);
+					endPt.set(originPt).add(0, -RANGE);
 					shortestFraction = 1.0f;
 
 					if (WorldUtil.preRaycastCheck(originPt, endPt)) {
@@ -468,13 +469,13 @@ public class WeaponUtils {
 						}, originPt, endPt);
 					}
 					
-					endPt.set(originPt).add(0, -range * shortestFraction).scl(PPM);
-					originPt.set(endPt).add(0, range);
+					endPt.set(originPt).add(0, -RANGE * shortestFraction).scl(PPM);
+					originPt.set(endPt).add(0, RANGE);
 					
-					int randomIndex = MathUtils.random(projSprites.length - 1);
-					Sprite projSprite = projSprites[randomIndex];
+					int randomIndex = MathUtils.random(PROJ_SPRITES.length - 1);
+					Sprite projSprite = PROJ_SPRITES[randomIndex];
 
-					Hitbox hbox = new Hitbox(state, new Vector2(originPt), meteorSize, lifespan, new Vector2(0, -meteorSpeed), user.getHitboxfilter(), true, false, user, projSprite);
+					Hitbox hbox = new Hitbox(state, new Vector2(originPt), METEOR_SIZE, LIFESPAN, new Vector2(0, -METEOR_SPEED), user.getHitboxfilter(), true, false, user, projSprite);
 					hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 
 					hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -499,7 +500,7 @@ public class WeaponUtils {
 		});
 	}
 
-	private static final Sprite[] vineSprites = {Sprite.VINE_A, Sprite.VINE_C, Sprite.VINE_D};
+	private static final Sprite[] VINE_SPRITES = {Sprite.VINE_A, Sprite.VINE_C, Sprite.VINE_D};
 	public static void createVine(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelo,
 								  int vineNum, float lifespan, float vineDamage, float vineKB, int spreadMin,
 								  int spreadMax, int bendLength, int bendSpread,  Vector2 vineInvisSize,
@@ -540,8 +541,8 @@ public class WeaponUtils {
 					}
 					displacement = 0.0f;
 
-					int randomIndex = MathUtils.random(vineSprites.length - 1);
-					Sprite projSprite = vineSprites[randomIndex];
+					int randomIndex = MathUtils.random(VINE_SPRITES.length - 1);
+					Sprite projSprite = VINE_SPRITES[randomIndex];
 
 					RangedHitbox vine = new RangedHitbox(state, lastPosition, vineSize, lifespan, new Vector2(),
 						user.getHitboxfilter(), true, true, creator.getSchmuck(),
@@ -606,22 +607,22 @@ public class WeaponUtils {
 		});
 	}
 
-	private static final Vector2 pingSize = new Vector2(60, 54);
-	private static final Vector2 pingArrowSize = new Vector2(60, 33);
-	private static final Vector2 pingOffset = new Vector2(0, -40);
-	private static final float pingLifespan = 2.0f;
+	private static final Vector2 PING_SIZE = new Vector2(60, 54);
+	private static final Vector2 PING_ARROW_SIZE = new Vector2(60, 33);
+	private static final Vector2 PING_OFFSET = new Vector2(0, -40);
+	private static final float PING_LIFESPAN = 2.0f;
 	public static Hitbox createPing(PlayState state, Schmuck user, Vector2 startPosition) {
 		SoundEffect.PING.playSourced(state, startPosition, 0.6f);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, pingSize, pingLifespan, new Vector2(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, PING_SIZE, PING_LIFESPAN, new Vector2(),
 				user.getHitboxfilter(), true, false, user, Sprite.NOTIFICATIONS_ALERT);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 
-		Hitbox hboxPing = new RangedHitbox(state, new Vector2(startPosition).add(pingOffset), pingArrowSize, pingLifespan, new Vector2(),
+		Hitbox hboxPing = new RangedHitbox(state, new Vector2(startPosition).add(PING_OFFSET), PING_ARROW_SIZE, PING_LIFESPAN, new Vector2(),
 				user.getHitboxfilter(), true, false, user, Sprite.NOTIFICATIONS_ALERT_PING);
-		hboxPing.setSpriteSize(pingArrowSize);
+		hboxPing.setSpriteSize(PING_ARROW_SIZE);
 		hboxPing.setSyncDefault(false);
 
 		hboxPing.addStrategy(new ControllerDefault(state, hboxPing, user.getBodyData()));
@@ -634,12 +635,12 @@ public class WeaponUtils {
 		return hbox;
 	}
 
-	public static final float emoteExplodeDamage = 90.0f;
-	private static final Vector2 emoteSize = new Vector2(64, 64);
-	private static final float emoteLifespan = 1.9f;
-	private static final float emoteLifespanLong = 6.0f;
-	private static final int emoteExplodeRadius = 150;
-	private static final float emoteExplodeback = 20;
+	public static final float EMOTE_EXPLODE_DAMAGE = 90.0f;
+	private static final Vector2 EMOTE_SIZE = new Vector2(64, 64);
+	private static final float EMOTE_LIFESPAN = 1.9f;
+	private static final float EMOTE_LIFESPAN_LONG = 6.0f;
+	private static final int EMOTE_EXPLODE_RADIUS = 150;
+	private static final float EMOTE_EXPLODE_KNOCKBACK = 20;
 
 	public static Hitbox createEmote(PlayState state, Schmuck user, float[] extraFields) {
 
@@ -651,8 +652,8 @@ public class WeaponUtils {
 
 		Sprite emote = ChatWheel.indexToEmote(spriteIndex);
 
-		Hitbox hbox = new RangedHitbox(state, new Vector2(user.getPixelPosition()).add(0, user.getSize().y / 2 + 50), emoteSize,
-			special ? emoteLifespanLong : emoteLifespan, new Vector2(), (short) 0, !special, special, user, emote);
+		Hitbox hbox = new RangedHitbox(state, new Vector2(user.getPixelPosition()).add(0, user.getSize().y / 2 + 50), EMOTE_SIZE,
+			special ? EMOTE_LIFESPAN_LONG : EMOTE_LIFESPAN, new Vector2(), (short) 0, !special, special, user, emote);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
@@ -668,7 +669,7 @@ public class WeaponUtils {
 				} else {
 					controllerCount += delta;
 
-					if (controllerCount <= emoteLifespan) {
+					if (controllerCount <= EMOTE_LIFESPAN) {
 						entityLocation.set(user.getPosition()).add(0, (user.getSize().y / 2 + 50) / PPM);
 						hbox.setTransform(entityLocation, hbox.getAngle());
 						hbox.setLinearVelocity(user.getLinearVelocity());
@@ -681,9 +682,9 @@ public class WeaponUtils {
 		if (special) {
 			hbox.setRestitution(0.5f);
 			hbox.addStrategy(new Pushable(state, hbox, user.getBodyData(), 1.0f));
-			hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(emoteLifespan + 1.0f));
-			hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), emoteExplodeRadius, emoteExplodeDamage,
-					emoteExplodeback, (short) 0, false, DamageSource.THE_FINGER));
+			hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(EMOTE_LIFESPAN + 1.0f));
+			hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), EMOTE_EXPLODE_RADIUS, EMOTE_EXPLODE_DAMAGE,
+					EMOTE_EXPLODE_KNOCKBACK, (short) 0, false, DamageSource.THE_FINGER));
 			hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f).setSynced(false));
 			hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
@@ -691,7 +692,7 @@ public class WeaponUtils {
 				@Override
 				public void create() {
 					super.create();
-					hbox.getBody().setLinearDamping(projDampen);
+					hbox.getBody().setLinearDamping(PROJ_DAMPEN);
 				}
 			});
 		}
@@ -750,9 +751,9 @@ public class WeaponUtils {
 		return "[" + hex + "]" + name + "[]";
 	}
 
-	public static final Vector2 pickupSize = new Vector2(40, 40);
-	public static final float pickupDuration = 10.0f;
-	private static final float flashLifespan = 1.0f;
+	public static final Vector2 PICKUP_SIZE = new Vector2(40, 40);
+	public static final float PICKUP_DURATION = 10.0f;
+	private static final float FLASH_LIFESPAN = 1.0f;
 	public static Hitbox createPickup(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
 
 		final int type = extraFields.length >= 1 ? (int) extraFields[0] : 0;
@@ -768,14 +769,14 @@ public class WeaponUtils {
 			sprite = Sprite.AMMO;
 		}
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, pickupSize, pickupDuration, startVelocity,
+		Hitbox hbox = new RangedHitbox(state, startPosition, PICKUP_SIZE, PICKUP_DURATION, startVelocity,
 				(short) 0, false, false, user, sprite);
 		hbox.setGravity(1.0f);
 		hbox.setFriction(1.0f);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), flashLifespan));
+		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f)
 				.setSyncType(SyncType.NOSYNC));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

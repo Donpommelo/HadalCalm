@@ -37,9 +37,13 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
  */
 public class FlagCapturable extends Event {
 
-	private static final Vector2 flagSize = new Vector2(80, 80);
-	private static final float flagLifespan = 240.0f;
-	private final static float particleDuration = 5.0f;
+	private static final Vector2 FLAG_SIZE = new Vector2(80, 80);
+	private static final float FLAG_LIFESPAN = 240.0f;
+	private final static float PARTICLE_DURATION = 5.0f;
+	private static final float CHECK_RADIUS = 4.0f;
+
+	//the timer until a dropped flag returns to spawn
+	private static final float RETURN_TIME = 40.0f;
 
 	//the team who this flag belongs to
 	private final int teamIndex;
@@ -47,9 +51,6 @@ public class FlagCapturable extends Event {
 	//this is the player that this event is fixed to and the last player that held it
 	private Player target;
 	private Player lastHolder;
-
-	//the timer until a dropped flag returns to spawn
-	private static final float returnTime = 40.0f;
 	private float returnTimer;
 
 	//this is a status inflicted upon the flag carrier
@@ -69,10 +70,9 @@ public class FlagCapturable extends Event {
 
 	//amount of players currently nearby their dropped flag to speed up its return
 	private int numReturning;
-	private static final float checkRadius = 4.0f;
 
 	public FlagCapturable(PlayState state, Vector2 startPos, SpawnerFlag spawner, int teamIndex) {
-		super(state, startPos, flagSize, flagLifespan);
+		super(state, startPos, FLAG_SIZE, FLAG_LIFESPAN);
 		this.spawner = spawner;
 		this.teamIndex = teamIndex;
 
@@ -164,9 +164,9 @@ public class FlagCapturable extends Event {
 				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_SENSOR), (short) 0).setUserData(eventData);
 	}
 
+	private static final float CHECK_INTERVAL = 0.2f;
 	private final Vector2 hbLocation = new Vector2();
 	private float controllerCount;
-	private static final float checkInterval = 0.2f;
 	@Override
 	public void controller(float delta) {
 		//if the flag holder dies, the flag drops and will return after some time
@@ -184,7 +184,7 @@ public class FlagCapturable extends Event {
 
 			if (returnTimer <= 0.0f) {
 				ParticleEntity particle = new ParticleEntity(state, getPixelPosition(), Particle.DIATOM_IMPACT_LARGE,
-						particleDuration, true, SyncType.CREATESYNC);
+						PARTICLE_DURATION, true, SyncType.CREATESYNC);
 				queueDeletion();
 
 				if (teamIndex < AlignmentFilter.currentTeams.length) {
@@ -198,7 +198,7 @@ public class FlagCapturable extends Event {
 
 			//check nearby area for allied players and set return percent
 			controllerCount += delta;
-			if (controllerCount >= checkInterval) {
+			if (controllerCount >= CHECK_INTERVAL) {
 				controllerCount = 0.0f;
 				hbLocation.set(getPosition());
 				numReturning = 0;
@@ -210,11 +210,11 @@ public class FlagCapturable extends Event {
 					}
 					return true;
 				},
-				hbLocation.x - checkRadius, hbLocation.y - checkRadius,
-				hbLocation.x + checkRadius, hbLocation.y + checkRadius);
+				hbLocation.x - CHECK_RADIUS, hbLocation.y - CHECK_RADIUS,
+				hbLocation.x + CHECK_RADIUS, hbLocation.y + CHECK_RADIUS);
 			}
 		}
-		returnPercent = (returnTime - returnTimer) / returnTime;
+		returnPercent = (RETURN_TIME - returnTimer) / RETURN_TIME;
 	}
 
 	@Override
@@ -237,7 +237,7 @@ public class FlagCapturable extends Event {
 		}
 	}
 
-	private static final float uiScale = 0.4f;
+	private static final float UI_SCALE = 0.4f;
 	private final Vector2 flagLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
@@ -248,12 +248,12 @@ public class FlagCapturable extends Event {
 			returnDelayed = Math.min(1.0f, returnDelayed + (returnPercent - returnDelayed) * 0.25f);
 
 			flagLocation.set(getPixelPosition());
-			float textX = flagLocation.x - returnMeter.getRegionWidth() * uiScale / 2;
-			float textY = flagLocation.y + returnMeter.getRegionHeight() * uiScale + size.y / 2;
+			float textX = flagLocation.x - returnMeter.getRegionWidth() * UI_SCALE / 2;
+			float textY = flagLocation.y + returnMeter.getRegionHeight() * UI_SCALE + size.y / 2;
 
-			batch.draw(returnBar, textX + 10, textY + 4, returnBar.getRegionWidth() * uiScale * returnDelayed, returnBar.getRegionHeight() * uiScale);
-			HadalGame.FONT_SPRITE.draw(batch, UIText.CTF_RETURN.text(), textX + 12, textY + returnMeter.getRegionHeight() * uiScale);
-			batch.draw(returnMeter, textX, textY, returnMeter.getRegionWidth() * uiScale, returnMeter.getRegionHeight() * uiScale);
+			batch.draw(returnBar, textX + 10, textY + 4, returnBar.getRegionWidth() * UI_SCALE * returnDelayed, returnBar.getRegionHeight() * UI_SCALE);
+			HadalGame.FONT_SPRITE.draw(batch, UIText.CTF_RETURN.text(), textX + 12, textY + returnMeter.getRegionHeight() * UI_SCALE);
+			batch.draw(returnMeter, textX, textY, returnMeter.getRegionWidth() * UI_SCALE, returnMeter.getRegionHeight() * UI_SCALE);
 
 			if (returnDelayed > returnPercent) {
 				returnDelayed = 0.0f;
@@ -330,7 +330,7 @@ public class FlagCapturable extends Event {
 	private void dropFlag() {
 		captured = false;
 		body.setGravityScale(1.0f);
-		returnTimer = returnTime;
+		returnTimer = RETURN_TIME;
 
 		if (teamIndex < AlignmentFilter.currentTeams.length) {
 			String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();

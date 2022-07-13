@@ -13,26 +13,26 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class SupplyDrop extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 10.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 10.0f;
 
-	private static final float equipDropLifepan = 10.0f;
+	private static final float EQUIP_DROP_LIFEPAN = 10.0f;
 
 	public SupplyDrop(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
-		setCurrentCharge(maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
+		setCurrentCharge(MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.MAGIC1_ACTIVE.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
-		new PickupEquip(state, user.getPlayer().getPixelPosition(), UnlockEquip.getRandWeapFromPool(state, ""), equipDropLifepan);
+		new PickupEquip(state, user.getPlayer().getPixelPosition(), UnlockEquip.getRandWeapFromPool(state, ""), EQUIP_DROP_LIFEPAN);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge)};
+				String.valueOf((int) MAX_CHARGE)};
 	}
 }

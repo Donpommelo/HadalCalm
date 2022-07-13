@@ -29,6 +29,35 @@ import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
  */
 public class SettingState extends GameState {
 
+	//Dimensions of the setting menu
+	private static final int OPTIONS_X = -1025;
+	private static final int OPTIONS_Y = 100;
+	private static final int OPTIONS_X_ENABLED = 25;
+	private static final int OPTIONS_Y_ENABLED = 100;
+	private static final int OPTIONS_WIDTH = 300;
+	private static final int OPTIONS_HEIGHT = 600;
+
+	private static final int DETAILS_X = -730;
+	private static final int DETAILS_Y = 20;
+	private static final int DETAILS_X_ENABLED = 320;
+	private static final int DETAILS_Y_ENABLED = 20;
+	private static final int DETAILS_WIDTH = 500;
+	private static final int DETAILS_HEIGHT = 680;
+	private static final int SCROLL_WIDTH = 480;
+
+	private static final float OPTIONS_SCALE = 0.5f;
+	private static final float OPTION_HEIGHT = 35.0f;
+	private static final float OPTION_PAD = 10.0f;
+	private static final float DETAILS_SCALE = 0.25f;
+
+	private static final float TITLE_PAD = 25.0f;
+	private static final float DETAIL_HEIGHT = 35.0f;
+	private static final float DETAIL_PAD = 10.0f;
+
+	//These options make it easier to convert the index setting to a displayed string
+	public static final String[] ARTIFACT_CHOICES = {"0", "1", "2", "3", "4", "5", "6"};
+	public static final String[] CAPACITY_CHOICES = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+
 	//This scrollpane holds the options for key bindings
 	private ScrollPane keybinds;
 	
@@ -55,35 +84,6 @@ public class SettingState extends GameState {
 	private CheckBox fullscreen, vsync, autoIconify, debugHitbox, displayNames, displayHp, randomNameAlliteration, consoleEnabled,
 		verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack, screenShake;
 		
-	//Dimensions of the setting menu
-	private static final int optionsX = -1025;
-	private static final int optionsY = 100;
-	private static final int optionsXEnabled = 25;
-	private static final int optionsYEnabled = 100;
-	private static final int optionsWidth = 300;
-	private static final int optionsHeight = 600;
-	
-	private static final int detailsX = -730;
-	private static final int detailsY = 20;
-	private static final int detailsXEnabled = 320;
-	private static final int detailsYEnabled = 20;
-	private static final int detailsWidth = 500;
-	private static final int detailsHeight = 680;
-	private static final int scrollWidth = 480;
-
-	private static final float optionsScale = 0.5f;
-	private static final float optionHeight = 35.0f;
-	private static final float optionPad = 10.0f;
-	private static final float detailsScale = 0.25f;
-
-	private static final float titlePad = 25.0f;
-	private static final float detailHeight = 35.0f;
-	private static final float detailPad = 10.0f;
-
-	//These options make it easier to convert the index setting to a displayed string
-	public static final String[] artifactChoices = {"0", "1", "2", "3", "4", "5", "6"};
-	public static final String[] capacityChoices = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-	
 	//this is the current setting tab the player is using
 	private settingTab currentTab;
 
@@ -104,14 +104,14 @@ public class SettingState extends GameState {
 		stage = new Stage() {
 			{
 				options = new WindowTable();
-				options.setPosition(optionsX, optionsY);
-				options.setSize(optionsWidth, optionsHeight);
+				options.setPosition(OPTIONS_X, OPTIONS_Y);
+				options.setSize(OPTIONS_WIDTH, OPTIONS_HEIGHT);
 				options.top();
 				addActor(options);
 				
 				details = new WindowTable();
-				details.setPosition(detailsX, detailsY);
-				details.setSize(detailsWidth, detailsHeight);
+				details.setPosition(DETAILS_X, DETAILS_Y);
+				details.setSize(DETAILS_WIDTH, DETAILS_HEIGHT);
 				details.top();
 				addActor(details);
 				
@@ -125,7 +125,7 @@ public class SettingState extends GameState {
 						displaySelected();
 			        }
 			    });
-				displayOption.setScale(optionsScale);
+				displayOption.setScale(OPTIONS_SCALE);
 				
 				controlOption = new Text(UIText.CONTROLS.text()).setButton(true);
 				controlOption.addListener(new ClickListener() {
@@ -137,7 +137,7 @@ public class SettingState extends GameState {
 						controlsSelected();
 			        }
 			    });
-				controlOption.setScale(optionsScale);
+				controlOption.setScale(OPTIONS_SCALE);
 				
 				audioOption = new Text(UIText.AUDIO.text()).setButton(true);
 				audioOption.addListener(new ClickListener() {
@@ -149,7 +149,7 @@ public class SettingState extends GameState {
 						audioSelected();
 			        }
 			    });
-				audioOption.setScale(optionsScale);
+				audioOption.setScale(OPTIONS_SCALE);
 				
 				serverOption = new Text(UIText.SERVER.text()).setButton(true);
 				serverOption.addListener(new ClickListener() {
@@ -161,7 +161,7 @@ public class SettingState extends GameState {
 						serverSelected();
 			        }
 			    });
-				serverOption.setScale(optionsScale);
+				serverOption.setScale(OPTIONS_SCALE);
 				
 				miscOption = new Text(UIText.MISC.text()).setButton(true);
 				miscOption.addListener(new ClickListener() {
@@ -173,7 +173,7 @@ public class SettingState extends GameState {
 						miscSelected();
 			        }
 			    });
-				miscOption.setScale(optionsScale);
+				miscOption.setScale(OPTIONS_SCALE);
 
 				exitOption = new Text(UIText.RETURN.text()).setButton(true);
 				exitOption.addListener(new ClickListener() {
@@ -187,7 +187,7 @@ public class SettingState extends GameState {
 						transitionOut(() -> gsm.removeState(SettingState.class));
 			        }
 			    });
-				exitOption.setScale(optionsScale);
+				exitOption.setScale(OPTIONS_SCALE);
 
 				resetOption = new Text(UIText.RESET.text()).setButton(true);
 				resetOption.addListener(new ClickListener() {
@@ -198,15 +198,15 @@ public class SettingState extends GameState {
 						resetSettings();
 			        }
 			    });
-				resetOption.setScale(optionsScale);
+				resetOption.setScale(OPTIONS_SCALE);
 				
-				options.add(displayOption).height(optionHeight).pad(optionPad).row();
-				options.add(controlOption).height(optionHeight).pad(optionPad).row();
-				options.add(audioOption).height(optionHeight).pad(optionPad).row();
-				options.add(serverOption).height(optionHeight).pad(optionPad).row();
-				options.add(miscOption).height(optionHeight).pad(optionPad).row();
-				options.add(resetOption).height(optionHeight).pad(optionPad).row();
-				options.add(exitOption).height(optionHeight).pad(optionPad).expand().row();
+				options.add(displayOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+				options.add(controlOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+				options.add(audioOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+				options.add(serverOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+				options.add(miscOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+				options.add(resetOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+				options.add(exitOption).height(OPTION_HEIGHT).pad(OPTION_PAD).expand().row();
 			}
 		};
 		app.newMenu(stage);
@@ -273,10 +273,10 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.DISPLAY;
 		
-		details.add(new Text(UIText.DISPLAY.text())).colspan(2).pad(titlePad).row();
+		details.add(new Text(UIText.DISPLAY.text())).colspan(2).pad(TITLE_PAD).row();
 		
 		Text screen = new Text(UIText.RESOLUTION.text());
-		screen.setScale(detailsScale);
+		screen.setScale(DETAILS_SCALE);
 		
 		resolutionOptions = new SelectBox<>(GameStateManager.getSkin());
 		resolutionOptions.setItems(UIText.RESOLUTION_OPTIONS.text().split(","));
@@ -285,16 +285,16 @@ public class SettingState extends GameState {
 		resolutionOptions.setSelectedIndex(gsm.getSetting().getResolution());
 
 		Text framerate = new Text(UIText.FRAMERATE.text());
-		framerate.setScale(detailsScale);
+		framerate.setScale(DETAILS_SCALE);
 		
 		Text cursortype = new Text(UIText.CURSOR_TYPE.text());
-		cursortype.setScale(detailsScale);
+		cursortype.setScale(DETAILS_SCALE);
 		
 		Text cursorsize = new Text(UIText.CURSOR_SIZE.text());
-		cursorsize.setScale(detailsScale);
+		cursorsize.setScale(DETAILS_SCALE);
 		
 		Text cursorcolor = new Text(UIText.CURSOR_COLOR.text());
-		cursorcolor.setScale(detailsScale);
+		cursorcolor.setScale(DETAILS_SCALE);
 
 		framerateOptions = new SelectBox<>(GameStateManager.getSkin());
 		framerateOptions.setItems(UIText.FRAMERATE_OPTIONS.text().split(","));
@@ -368,23 +368,23 @@ public class SettingState extends GameState {
 		framerateOptions.addListener(displayChange);
 
 		details.add(screen);
-		details.add(resolutionOptions).height(detailHeight).pad(detailPad).row();
+		details.add(resolutionOptions).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(framerate);
-		details.add(framerateOptions).height(detailHeight).pad(detailPad).row();
+		details.add(framerateOptions).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(fullscreen);
-		details.add(vsync).height(detailHeight).pad(detailPad).row();
+		details.add(vsync).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(autoIconify);
-		details.add(debugHitbox).colspan(2).height(detailHeight).pad(detailPad).row();
+		details.add(debugHitbox).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(displayNames);
-		details.add(displayHp).height(detailHeight).pad(detailPad).row();
+		details.add(displayHp).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(cursortype);
-		details.add(cursorOptions).height(detailHeight).pad(detailPad).row();
+		details.add(cursorOptions).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(cursorsize);
-		details.add(cursorSize).height(detailHeight).pad(detailPad).row();
+		details.add(cursorSize).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(cursorcolor);
-		details.add(cursorColor).height(detailHeight).pad(detailPad).row();
+		details.add(cursorColor).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(mouseCameraTrack);
-		details.add(screenShake).height(detailHeight).pad(detailPad).row();
+		details.add(screenShake).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 	}
 	
 	/**
@@ -395,9 +395,9 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.CONTROLS;
 		
-		details.add(new Text(UIText.CONTROLS.text())).pad(titlePad).row();
+		details.add(new Text(UIText.CONTROLS.text())).pad(TITLE_PAD).row();
 		
-		VerticalGroup actions = new VerticalGroup().space(optionPad);
+		VerticalGroup actions = new VerticalGroup().space(OPTION_PAD);
 		
 		for (PlayerAction a : PlayerAction.values()) {
 			
@@ -412,11 +412,11 @@ public class SettingState extends GameState {
 					//Clicking any option will highlight it and designate it as the next to update.
 					((Text) e.getListenerActor()).setText(action + ":==   " + getKey(action.getKey()) + " <--");
 					currentlyEditing = action;
-					actionChoose.setHeight(detailHeight);
+					actionChoose.setHeight(DETAIL_HEIGHT);
 				}
 			});
-			actionChoose.setScale(detailsScale);
-			actionChoose.setHeight(detailHeight);
+			actionChoose.setScale(DETAILS_SCALE);
+			actionChoose.setHeight(DETAIL_HEIGHT);
 
 			actions.addActor(actionChoose);
 		}
@@ -426,10 +426,10 @@ public class SettingState extends GameState {
 		}
 		
 		keybinds = new ScrollPane(actions, GameStateManager.getSkin());
-		keybinds.setSize(detailsWidth, detailsHeight);
+		keybinds.setSize(DETAILS_WIDTH, DETAILS_HEIGHT);
 		keybinds.setFadeScrollBars(false);
 		
-		details.add(keybinds).width(scrollWidth).expandY().pad(optionPad);
+		details.add(keybinds).width(SCROLL_WIDTH).expandY().pad(OPTION_PAD);
 		stage.setScrollFocus(keybinds);
 	}
 	
@@ -441,10 +441,10 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.AUDIO;
 		
-		details.add(new Text(UIText.AUDIO .text())).colspan(2).pad(titlePad).row();
+		details.add(new Text(UIText.AUDIO .text())).colspan(2).pad(TITLE_PAD).row();
 		
 		Text soundText = new Text(UIText.SOUND_VOLUME.text(Integer.toString((int)(gsm.getSetting().getSoundVolume() * 100))));
-		soundText.setScale(detailsScale);
+		soundText.setScale(DETAILS_SCALE);
 		
 		sound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
 		sound.setValue(gsm.getSetting().getSoundVolume());
@@ -475,7 +475,7 @@ public class SettingState extends GameState {
 		});
 
 		Text musicText = new Text(UIText.MUSIC_VOLUME.text(Integer.toString((int)(gsm.getSetting().getMusicVolume() * 100))));
-		musicText.setScale(detailsScale);
+		musicText.setScale(DETAILS_SCALE);
 		
 		music = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
 		music.setValue(gsm.getSetting().getMusicVolume());
@@ -503,7 +503,7 @@ public class SettingState extends GameState {
 		});
 
 		Text masterText = new Text(UIText.MASTER_VOLUME.text(Integer.toString((int)(gsm.getSetting().getMasterVolume() * 100))));
-		masterText.setScale(detailsScale);
+		masterText.setScale(DETAILS_SCALE);
 		
 		master = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
 		master.setValue(gsm.getSetting().getMasterVolume());
@@ -557,7 +557,7 @@ public class SettingState extends GameState {
 		});
 		
 		Text hitsoundVolumeText = new Text(UIText.HITSOUND_VOLUME.text(Integer.toString((int)(gsm.getSetting().getHitsoundVolume() * 100))));
-		hitsoundVolumeText.setScale(detailsScale);
+		hitsoundVolumeText.setScale(DETAILS_SCALE);
 		
 		hitsound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
 		hitsound.setValue(gsm.getSetting().getHitsoundVolume());
@@ -587,15 +587,15 @@ public class SettingState extends GameState {
 		});
 
 		details.add(soundText);
-		details.add(sound).height(detailHeight).pad(detailPad).row();
+		details.add(sound).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(musicText);
-		details.add(music).height(detailHeight).pad(detailPad).row();
+		details.add(music).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(masterText);
-		details.add(master).height(detailHeight).pad(detailPad).row();
+		details.add(master).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(hitsoundText);
-		details.add(hitsoundOptions).height(detailHeight).pad(detailPad).row();
+		details.add(hitsoundOptions).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(hitsoundVolumeText);
-		details.add(hitsound).height(detailHeight).pad(detailPad).row();
+		details.add(hitsound).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 	}
 	
 	/**
@@ -606,19 +606,19 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.SERVER;
 		
-		details.add(new Text(UIText.SERVER.text())).colspan(2).pad(titlePad).row();
+		details.add(new Text(UIText.SERVER.text())).colspan(2).pad(TITLE_PAD).row();
 
 		Text maxPlayers = new Text(UIText.SERVER_SIZE.text());
-		maxPlayers.setScale(detailsScale);
+		maxPlayers.setScale(DETAILS_SCALE);
 
 		Text port = new Text(UIText.PORT_NUMBER.text());
-		port.setScale(detailsScale);
+		port.setScale(DETAILS_SCALE);
 
 		Text password = new Text(UIText.SERVER_PASSWORD.text());
-		password.setScale(detailsScale);
+		password.setScale(DETAILS_SCALE);
 
 		Text slots = new Text(UIText.ARTIFACT_SLOTS.text());
-		slots.setScale(detailsScale);
+		slots.setScale(DETAILS_SCALE);
 		
 		portNumber = new TextField(String.valueOf(gsm.getSetting().getPortNumber()), GameStateManager.getSkin());
 		portNumber.setMaxLength(5);
@@ -628,22 +628,22 @@ public class SettingState extends GameState {
 		serverPassword.setMaxLength(20);
 
 		playerCapacity = new SelectBox<>(GameStateManager.getSkin());
-		playerCapacity.setItems(capacityChoices);
+		playerCapacity.setItems(CAPACITY_CHOICES);
 		playerCapacity.setWidth(100);
 		playerCapacity.setSelectedIndex(gsm.getSetting().getMaxPlayers());
 
 		artifactSlots = new SelectBox<>(GameStateManager.getSkin());
-		artifactSlots.setItems(artifactChoices);
+		artifactSlots.setItems(ARTIFACT_CHOICES);
 		artifactSlots.setSelectedIndex(gsm.getSetting().getArtifactSlots());
 		
 		details.add(maxPlayers);
-		details.add(playerCapacity).colspan(2).height(detailHeight).pad(detailPad).row();
+		details.add(playerCapacity).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(port);
-		details.add(portNumber).colspan(2).width(100).height(detailHeight).pad(detailPad).row();
+		details.add(portNumber).colspan(2).width(100).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(password);
-		details.add(serverPassword).colspan(2).width(100).height(detailHeight).pad(detailPad).row();
+		details.add(serverPassword).colspan(2).width(100).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(slots);
-		details.add(artifactSlots).height(detailHeight).pad(detailPad).row();
+		details.add(artifactSlots).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 	}
 	
 	/**
@@ -654,7 +654,7 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.MISC;
 		
-		details.add(new Text(UIText.MISC.text())).colspan(2).pad(titlePad).row();
+		details.add(new Text(UIText.MISC.text())).colspan(2).pad(TITLE_PAD).row();
 
 		randomNameAlliteration = new CheckBox(UIText.NAME_ALLITERATION.text(), GameStateManager.getSkin());
 		randomNameAlliteration.setChecked(gsm.getSetting().isRandomNameAlliteration());
@@ -677,13 +677,13 @@ public class SettingState extends GameState {
 		hideHUD = new CheckBox(UIText.HIDE_HUD.text(), GameStateManager.getSkin());
 		hideHUD.setChecked(gsm.getSetting().isHideHUD());
 
-		details.add(randomNameAlliteration).colspan(2).height(detailHeight).pad(detailPad).row();
-		details.add(consoleEnabled).colspan(2).height(detailHeight).pad(detailPad).row();
-		details.add(verboseDeathMessage).colspan(2).height(detailHeight).pad(detailPad).row();
-		details.add(multiplayerPause).colspan(2).height(detailHeight).pad(detailPad).row();
-		details.add(exportChatLog).colspan(2).height(detailHeight).pad(detailPad).row();
-		details.add(enableUPNP).colspan(2).height(detailHeight).pad(detailPad).row();
-		details.add(hideHUD).colspan(2).height(detailHeight).pad(detailPad).row();
+		details.add(randomNameAlliteration).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
+		details.add(consoleEnabled).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
+		details.add(verboseDeathMessage).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
+		details.add(multiplayerPause).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
+		details.add(exportChatLog).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
+		details.add(enableUPNP).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
+		details.add(hideHUD).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 	}
 	
 	/**
@@ -774,13 +774,13 @@ public class SettingState extends GameState {
 	}
 
 	private void transitionOut(Runnable runnable) {
-		options.addAction(Actions.moveTo(optionsX, optionsY, TRANSITION_DURATION, INTP_FASTSLOW));
-		details.addAction(Actions.sequence(Actions.moveTo(detailsX, detailsY, TRANSITION_DURATION, INTP_FASTSLOW), Actions.run(runnable)));
+		options.addAction(Actions.moveTo(OPTIONS_X, OPTIONS_Y, TRANSITION_DURATION, INTP_FASTSLOW));
+		details.addAction(Actions.sequence(Actions.moveTo(DETAILS_X, DETAILS_Y, TRANSITION_DURATION, INTP_FASTSLOW), Actions.run(runnable)));
 	}
 
 	private void transitionIn() {
-		options.addAction(Actions.moveTo(optionsXEnabled, optionsYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
-		details.addAction(Actions.moveTo(detailsXEnabled, detailsYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
+		options.addAction(Actions.moveTo(OPTIONS_X_ENABLED, OPTIONS_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW));
+		details.addAction(Actions.moveTo(DETAILS_X_ENABLED, DETAILS_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW));
 	}
 
 	/**

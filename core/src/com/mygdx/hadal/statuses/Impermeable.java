@@ -17,7 +17,7 @@ import com.mygdx.hadal.utils.Constants;
 public class Impermeable extends Status {
 
 	//fade time determines the window of time where the player can attack before the invisibility status is removed
-	private static final float fadeTime = 0.5f;
+	private static final float FADE_TIME = 0.5f;
 	private float fadeCount;
 
 	public Impermeable(PlayState state, float i, BodyData p, BodyData v) {
@@ -30,7 +30,7 @@ public class Impermeable extends Status {
 			playerData.getPlayer().setInvisible(3);
 		}
 		
-		fadeCount = fadeTime;
+		fadeCount = FADE_TIME;
 	}
 	
 	@Override

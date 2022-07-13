@@ -7,11 +7,10 @@ import com.mygdx.hadal.statuses.Status;
 
 public class PlayerBounce extends Artifact {
 
-	private static final int slotCost = 0;
+	private static final int SLOT_COST = 0;
+	private static final float BOUNCE = 1.0f;
 
-	private static final float bounce = 1.0f;
-
-	public PlayerBounce() { super(slotCost); }
+	public PlayerBounce() { super(SLOT_COST); }
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
@@ -20,9 +19,9 @@ public class PlayerBounce extends Artifact {
 			@Override
 			public void onInflict() {
 				if (p.getPlayer().getBody() != null) {
-					p.getSchmuck().setRestitution(bounce);
+					p.getSchmuck().setRestitution(BOUNCE);
 				} else {
-					p.getPlayer().setRestitutionModifier(bounce);
+					p.getPlayer().setRestitutionModifier(BOUNCE);
 				}
 			}
 

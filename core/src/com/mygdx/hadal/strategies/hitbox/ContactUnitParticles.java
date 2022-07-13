@@ -18,7 +18,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class ContactUnitParticles extends HitboxStrategy {
 	
-	private static final float defaultDuration = 1.0f;
+	private static final float DEFAULT_DURATION = 1.0f;
 	
 	//the effect that is to be created.
 	private final Particle effect;
@@ -41,7 +41,7 @@ public class ContactUnitParticles extends HitboxStrategy {
 	public ContactUnitParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
 		super(state, proj, user);
 		this.effect = effect;
-		this.duration = defaultDuration;
+		this.duration = DEFAULT_DURATION;
 	}
 	
 	@Override

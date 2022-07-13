@@ -14,7 +14,7 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Botting extends Status {
 
-	final private PlayerBot bot;
+	private final PlayerBot bot;
 
 	public Botting(PlayState state, PlayerBot bot) {
 		super(state, bot.getBodyData());

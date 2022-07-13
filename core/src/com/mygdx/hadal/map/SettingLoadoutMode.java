@@ -52,14 +52,14 @@ public class SettingLoadoutMode extends ModeSetting {
     @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
         if (state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) == 0) {
-            for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+            for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
                 if (weaponDropLoadout.length > i) {
                     newLoadout.multitools[i] = weaponDropLoadout[i];
                 }
             }
         }
         if (state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) == 2) {
-            for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+            for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
                 if (weaponDropLoadout.length > i) {
                     newLoadout.multitools[i] = UnlockEquip.getRandWeapFromPool(state, "");
                 }

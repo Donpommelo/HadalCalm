@@ -51,6 +51,6 @@ public class CrimeDiscouragementStick extends Artifact {
 	public String[] getDescFields() {
 		return new String[] {
 				String.valueOf(procCd),
-				String.valueOf((int) WeaponUtils.stickGrenadeExplosionDamage)};
+				String.valueOf((int) WeaponUtils.STICK_GRENADE_EXPLOSION_DAMAGE)};
 	}
 }

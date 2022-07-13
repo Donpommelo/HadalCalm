@@ -118,12 +118,12 @@ public enum Particle {
 
 	;
 
+	private static final int POOL_SIZE = 50;
+
 	//keep track of the particle pool.
 	public ParticleEffectPool effectPool;
 	private final ObjectMap<PooledEffect, ParticleEntity> effects = new ObjectMap<>();
 
-	private static final int poolSize = 50;
-	
 	//this represents the atlas that we read the particle off of.
 	private final ParticleType type;
 	
@@ -150,7 +150,7 @@ public enum Particle {
 		}
 
 		prototype.setEmittersCleanUpBlendFunction(false);
-		effectPool = new ParticleEffectPool(prototype, 1, poolSize);
+		effectPool = new ParticleEffectPool(prototype, 1, POOL_SIZE);
 	}
 
 	/**

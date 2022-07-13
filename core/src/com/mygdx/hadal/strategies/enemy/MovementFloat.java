@@ -10,6 +10,7 @@ import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.EnemyStrategy;
+import com.mygdx.hadal.utils.Constants;
 
 public class MovementFloat extends EnemyStrategy {
 
@@ -34,21 +35,20 @@ public class MovementFloat extends EnemyStrategy {
         this.currentState = FloatingState.TRACKING_PLAYER;
 
         if (!Sprite.NOTHING.equals(sprite)) {
-            this.floatingSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, sprite.getFrames());
+            this.floatingSprite = new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_FAST, sprite.getFrames());
             this.floatingSprite.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         }
     }
 
     private float floatCount;
-    private static final float pushInterval = 1 / 60f;
     private final Vector2 entityWorldLocation = new Vector2();
     private final Vector2 targetWorldLocation = new Vector2();
     @Override
     public void controller(float delta) {
 
         floatCount += delta;
-        while (floatCount >= pushInterval) {
-            floatCount -= pushInterval;
+        while (floatCount >= Constants.INTERVAL) {
+            floatCount -= Constants.INTERVAL;
 
             //lerp towards desired angle
             float dist = (enemy.getDesiredAngle() - enemy.getAttackAngle()) % 360;

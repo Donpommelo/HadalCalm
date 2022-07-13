@@ -57,8 +57,8 @@ public class GameStateManager {
 	private SharedSetting sharedSetting, hostSetting;
 	
 	//Json reader here. Use this instead of creating new ones elsewhere.
-	public static final Json json = new Json();
-	public static final JsonReader reader = new JsonReader();
+	public static final Json JSON = new Json();
+	public static final JsonReader READER = new JsonReader();
 	
 	//are we in single or multiplayer mode?
 	public static Mode currentMode = Mode.SINGLE;
@@ -72,16 +72,16 @@ public class GameStateManager {
 		this.states = new Stack<>();
 
 		//we set output settings to json so intellij editor doesn't get pissy about double quotes
-		json.setOutputType(OutputType.json);
+		JSON.setOutputType(OutputType.json);
 
 		//load text strings. Do this before loading saves
-		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
-		deathMessages = reader.parse(Gdx.files.internal("text/DeathMessages.json"));
-		randomText = reader.parse(Gdx.files.internal("text/RandomText.json"));
-		uiStrings = reader.parse(Gdx.files.internal("text/UIStrings.json"));
-		gameStrings = reader.parse(Gdx.files.internal("text/GameStrings.json"));
-		tips = reader.parse(Gdx.files.internal("text/Tips.json"));
-		shops = reader.parse(Gdx.files.internal("save/Shops.json"));
+		dialogs = READER.parse(Gdx.files.internal("text/Dialogue.json"));
+		deathMessages = READER.parse(Gdx.files.internal("text/DeathMessages.json"));
+		randomText = READER.parse(Gdx.files.internal("text/RandomText.json"));
+		uiStrings = READER.parse(Gdx.files.internal("text/UIStrings.json"));
+		gameStrings = READER.parse(Gdx.files.internal("text/GameStrings.json"));
+		tips = READER.parse(Gdx.files.internal("text/Tips.json"));
+		shops = READER.parse(Gdx.files.internal("save/Shops.json"));
 
 		//Load data from saves: hotkeys, records, loadout, settings and unlocks
 		PlayerAction.retrieveKeys();
@@ -194,15 +194,15 @@ public class GameStateManager {
 	 * @param old: old playerdata to persist stuff like equips/hp/whatever
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 * @param reset: do we reset player stats in the new play state?
-	 * @param startId: the id of the playstate's start point (i.e, if the map has multiple starts, which one do we use?)
+	 * @param startID: the id of the playstate's start point (i.e, if the map has multiple starts, which one do we use?)
 	 */
 	public void addPlayState(UnlockLevel map, GameMode mode, Loadout loadout, PlayerBodyData old,
-							 Class<? extends GameState> lastState, boolean reset, String startId) {
+							 Class<? extends GameState> lastState, boolean reset, String startID) {
 		if (states.empty()) {
-			states.push(new PlayState(this, loadout, map, mode,true, old, reset, startId));
+			states.push(new PlayState(this, loadout, map, mode,true, old, reset, startID));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PlayState(this, loadout, map, mode,true, old, reset, startId));
+			states.push(new PlayState(this, loadout, map, mode,true, old, reset, startID));
 			states.peek().show();
 		}
 	}

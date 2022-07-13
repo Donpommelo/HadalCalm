@@ -22,19 +22,19 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class ImmolationAura extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 13.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 13.0f;
 
-	private static final float baseDamage = 5.0f;
-	private static final Vector2 hitboxSize = new Vector2(120, 120);
-	private static final float lifespan = 3.0f;
-	private static final float knockback = 0.2f;
-	private static final float recoil = 3.0f;
-	private static final float burnInterval = 1 / 60f;
+	private static final float BASE_DAMAGE = 5.0f;
+	private static final Vector2 HITBOX_SIZE = new Vector2(120, 120);
+	private static final float LIFESPAN = 3.0f;
+	private static final float KNOCKBACK = 0.2f;
+	private static final float RECOIL = 3.0f;
+	private static final float BURN_INTERVAL = 1 / 60f;
 
 	public ImmolationAura(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class ImmolationAura extends ActiveItem {
 
 		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 6.0f, user, user));
 
-		Hitbox hbox = new Hitbox(state, mouseLocation, hitboxSize, lifespan, new Vector2(), user.getPlayer().getHitboxfilter(),
+		Hitbox hbox = new Hitbox(state, mouseLocation, HITBOX_SIZE, LIFESPAN, new Vector2(), user.getPlayer().getHitboxfilter(),
 			true, true, user.getPlayer(), Sprite.NOTHING);
 		hbox.makeUnreflectable();
 		
@@ -56,22 +56,22 @@ public class ImmolationAura extends ActiveItem {
 
 			private float controllerCount;
 			private final Vector2 pulseVelocity = new Vector2();
-			private final Vector2 hoverDirection = new Vector2(0, recoil);
+			private final Vector2 hoverDirection = new Vector2(0, RECOIL);
 			@Override
 			public void controller(float delta) {
 
 				controllerCount += delta;
-				while (controllerCount >= burnInterval) {
-					controllerCount -= burnInterval;
+				while (controllerCount >= BURN_INTERVAL) {
+					controllerCount -= BURN_INTERVAL;
 
-					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), hitboxSize, burnInterval, pulseVelocity, user.getSchmuck().getHitboxfilter(),
+					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), HITBOX_SIZE, BURN_INTERVAL, pulseVelocity, user.getSchmuck().getHitboxfilter(),
 						true, true, user.getSchmuck(), Sprite.NOTHING);
 					pulse.setSyncDefault(false);
 					pulse.setEffectsVisual(false);
 					pulse.makeUnreflectable();
 
 					pulse.addStrategy(new ControllerDefault(state, pulse, user));
-					pulse.addStrategy(new DamageStandard(state, pulse, user, baseDamage, knockback,
+					pulse.addStrategy(new DamageStandard(state, pulse, user, BASE_DAMAGE, KNOCKBACK,
 							DamageSource.IMMOLATION_AURA, DamageTag.MELEE).setStaticKnockback(true));
 
 					hoverDirection.setAngleDeg(user.getPlayer().getAttackAngle() + 180);
@@ -84,8 +84,8 @@ public class ImmolationAura extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) (baseDamage / burnInterval)),
-				String.valueOf((int) lifespan)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) (BASE_DAMAGE / BURN_INTERVAL)),
+				String.valueOf((int) LIFESPAN)};
 	}
 }

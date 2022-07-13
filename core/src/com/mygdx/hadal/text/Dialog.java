@@ -14,6 +14,8 @@ import com.mygdx.hadal.managers.AssetList;
  */
 public class Dialog {
 
+	private static final float SPEED = 0.1f;
+
 	//this contains info about the dialog read from json
 	private final DialogInfo info;
 	
@@ -22,8 +24,7 @@ public class Dialog {
 	
 	//These are the sprite frame of the character ust displayed during the dialog and the speed of its animation
 	private Animation<TextureRegion> bust;
-	private static final float speed = 0.1f;
-	
+
 	private final DialogType type;
 	
 	public Dialog(DialogInfo info, EventData radio, EventData trigger, DialogType type) {
@@ -34,7 +35,7 @@ public class Dialog {
 		
 		if (!"".equals(info.getSprite())) {
 			characterBusts character = characterBusts.valueOf(info.getSprite());
-			bust = new Animation<>(speed, character.getAtlas().findRegions(character.getSprite()));
+			bust = new Animation<>(SPEED, character.getAtlas().findRegions(character.getSprite()));
 		}
 	}
 

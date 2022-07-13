@@ -26,12 +26,12 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_SHORT;
  */
 public class UIExtra extends AHadalActor {
 
-	private final PlayState state;
+	private static final int X = 10;
+	private static final int Y = 10;
+	private static final int WIDTH = 240;
+	private static final float FONT_SCALE = 0.25f;
 
-	private static final int x = 10;
-	private static final int width = 240;
-	private static final int y = 10;
-	private static final float fontScale = 0.25f;
+	private final PlayState state;
 	
 	//List of tags that are to be displayed
 	private final Array<UITag> uiTags = new Array<>();
@@ -58,21 +58,20 @@ public class UIExtra extends AHadalActor {
 
 		if (state.getGsm().getSetting().isHideHUD()) { return; }
 
-		HadalGame.FONT_UI.getData().setScale(fontScale);
-		HadalGame.FONT_UI.draw(batch, text.toString(), x, HadalGame.CONFIG_HEIGHT - y, width, Align.left, true);
+		HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
+		HadalGame.FONT_UI.draw(batch, text.toString(), X, HadalGame.CONFIG_HEIGHT - Y, WIDTH, Align.left, true);
 
 		renderTeamHp(batch, viewingUserTeam);
 	}
 
-	private static final int hpWidth = 60;
-	private static final int hpHeight = 8;
-	private static final int hpBarOffsetY = -9;
-	private static final int nameMaxLength = 205;
-	private static final int rowHeight = 14;
-	private static final int startYExtra = 200;
-	private static final int startXExtra = 10;
-	private static final int maxAllies = 6;
-
+	private static final int HP_WIDTH = 60;
+	private static final int HP_HEIGHT = 8;
+	private static final int HP_BAR_OFFSET_Y = -9;
+	private static final int NAME_MAX_LENGTH = 205;
+	private static final int ROW_HEIGHT = 14;
+	private static final int START_Y_EXTRA = 200;
+	private static final int START_X_EXTRA = 10;
+	private static final int MAX_ALLIES = 6;
 	/**
 	 * In team modes, this renders ally hp bars in the upper right hand side of the screen
 	 */
@@ -80,7 +79,7 @@ public class UIExtra extends AHadalActor {
 		if (state.getScoreWindow() == null) { return; }
 		if (state.getMode().getTeamMode() == SettingTeamMode.TeamMode.FFA) { return; }
 
-		float currentY = HadalGame.CONFIG_HEIGHT - startYExtra;
+		float currentY = HadalGame.CONFIG_HEIGHT - START_Y_EXTRA;
 		int allyNumber = 0;
 
 		//iterate through each non-spectator on the same team
@@ -89,7 +88,8 @@ public class UIExtra extends AHadalActor {
 				if (user.getPlayer().getPlayerData() != null && !user.getPlayer().equals(state.getPlayer())) {
 					if (user.getPlayer().getHitboxfilter() == viewingUserTeam) {
 						HadalGame.FONT_UI.draw(batch, WeaponUtils.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_SHORT),
-								HadalGame.CONFIG_WIDTH - nameMaxLength - hpWidth - startXExtra, currentY, nameMaxLength, Align.left, true);
+								HadalGame.CONFIG_WIDTH - NAME_MAX_LENGTH - HP_WIDTH - START_X_EXTRA, currentY, NAME_MAX_LENGTH,
+								Align.left, true);
 
 						//draw bar corresponding to hp ratio (dead players are set to 0%)
 						float hpRatio = user.getPlayer().getPlayerData().getCurrentHp() /
@@ -97,11 +97,13 @@ public class UIExtra extends AHadalActor {
 						if (!user.getPlayer().isAlive()) {
 							hpRatio = 0.0f;
 						}
-						batch.draw(hpBarFade, HadalGame.CONFIG_WIDTH - hpWidth - startXExtra, currentY + hpBarOffsetY, hpWidth, hpHeight);
-						batch.draw(hpBar, HadalGame.CONFIG_WIDTH - hpWidth - startXExtra, currentY + hpBarOffsetY, hpWidth * hpRatio, hpHeight);
-						currentY -= rowHeight;
+						batch.draw(hpBarFade, HadalGame.CONFIG_WIDTH - HP_WIDTH - START_X_EXTRA, currentY + HP_BAR_OFFSET_Y,
+								HP_WIDTH, HP_HEIGHT);
+						batch.draw(hpBar, HadalGame.CONFIG_WIDTH - HP_WIDTH - START_X_EXTRA, currentY + HP_BAR_OFFSET_Y,
+								HP_WIDTH * hpRatio, HP_HEIGHT);
+						currentY -= ROW_HEIGHT;
 						allyNumber++;
-						if (allyNumber > maxAllies) {
+						if (allyNumber > MAX_ALLIES) {
 							break;
 						}
 					}
@@ -146,7 +148,7 @@ public class UIExtra extends AHadalActor {
 			}
 		}
 
-		HadalGame.FONT_UI.getData().setScale(fontScale);
+		HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
 	}
 
 	/**
@@ -211,14 +213,14 @@ public class UIExtra extends AHadalActor {
 	}
 
 	//display a time warning when the time is low
-	private final static float notificationThreshold = 10.0f;
+	private final static float NOTIFICATION_THRESHOLD = 10.0f;
 	/**
 	 * This increments the timer for timed levels. When time runs out, we want to run an event designated in the map (if it exists)
 	 * @param delta: amount of time that has passed since last update
 	 */
 	public void incrementTimer(float delta) {
 
-		if (timer > notificationThreshold && timer + (timerIncr * delta) < notificationThreshold) {
+		if (timer > NOTIFICATION_THRESHOLD && timer + (timerIncr * delta) < NOTIFICATION_THRESHOLD) {
 			state.getKillFeed().addNotification(UIText.TIMER_REMAINING.text(), false);
 		}
 
@@ -249,7 +251,7 @@ public class UIExtra extends AHadalActor {
 		}
 	}
 
-	private static final int maxScores = 5;
+	private static final int MAX_SCORES = 5;
 	/**
 	 * For modes with a scoreboard ui tag, we add a sorted list of player scores. List is, at most, 5 names long
 	 * @param text: the stringbuilder we will be appending the scoreboard text to
@@ -261,7 +263,7 @@ public class UIExtra extends AHadalActor {
 				if (!user.isSpectator()) {
 					text.append(user.getNameAbridgedColored(MAX_NAME_LENGTH_SHORT)).append(": ").append(user.getScores().getScore()).append("\n");
 					scoreNum++;
-					if (scoreNum > maxScores) {
+					if (scoreNum > MAX_SCORES) {
 						break;
 					}
 				}
@@ -281,7 +283,7 @@ public class UIExtra extends AHadalActor {
 			text.append("[").append(hex).append("]").append(AlignmentFilter.currentTeams[i].getTeamName())
 				.append("[]").append(": ").append(AlignmentFilter.teamScores[i]).append("\n");
 			scoreNum++;
-			if (scoreNum > maxScores) {
+			if (scoreNum > MAX_SCORES) {
 				break;
 			}
 		}
@@ -311,7 +313,7 @@ public class UIExtra extends AHadalActor {
 				text.append("[").append(hex).append("]").append(AlignmentFilter.currentTeams[i].getTeamName())
 						.append("[]").append(": ").append(numAlive).append(" ").append(UIText.PLAYERS_ALIVE.text()).append("\n");
 				scoreNum++;
-				if (scoreNum > maxScores) {
+				if (scoreNum > MAX_SCORES) {
 					break;
 				}
 			}

@@ -14,13 +14,13 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class SpawnerWeapon extends Prefabrication {
 
+	private static final float AMMO_INTERVAL = 15.0f;
+	private static final float AMMO_AMOUNT = 0.25f;
+
 	private final String triggeredId, triggeringId;
 	private final String pool;
 	
 	private String baseId, pickupId;
-
-	private static final float ammoInterval = 15.0f;
-	private static final float ammoAmount = 0.25f;
 
 	public SpawnerWeapon(PlayState state, float width, float height, float x, float y, String triggeredId,
 						 String triggeringId, String pool) {
@@ -38,7 +38,7 @@ public class SpawnerWeapon extends Prefabrication {
 
 		//in custom loadout mode, ammo packs spawn instead of weapons
 		if (SettingLoadoutMode.LoadoutMode.CUSTOM.equals(state.getMode().getLoadoutMode())) {
-			SpawnerPickupTimed.addPickup(state, width, height, x, y, ammoInterval, 2, ammoAmount, pickupId, baseId);
+			SpawnerPickupTimed.addPickup(state, width, height, x, y, AMMO_INTERVAL, 2, AMMO_AMOUNT, pickupId, baseId);
 			return;
 		}
 
@@ -57,7 +57,7 @@ public class SpawnerWeapon extends Prefabrication {
 		spawner.getProperties().put("triggeringId", pickupId);
 		
 		RectangleMapObject weapon = new RectangleMapObject();
-		weapon.getRectangle().set(x, y + (Event.defaultPickupEventSize - height) / 2.0f, width, height);
+		weapon.getRectangle().set(x, y + (Event.DEFAULT_PICKUP_EVENT_SIZE - height) / 2.0f, width, height);
 		weapon.setName("Equip");
 		weapon.getProperties().put("particle_std", "EVENT_HOLO");
 		weapon.getProperties().put("triggeredId", pickupId);

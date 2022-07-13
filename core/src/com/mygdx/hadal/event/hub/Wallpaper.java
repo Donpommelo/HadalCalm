@@ -15,7 +15,7 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Wallpaper extends HubEvent {
 
-	public static final Shader[] shaders = {Shader.NOTHING, Shader.SPLASH, Shader.WAVE, Shader.DRIP, Shader.WIGGLE_STATIC,
+	public static final Shader[] SHADERS = {Shader.NOTHING, Shader.SPLASH, Shader.WAVE, Shader.DRIP, Shader.WIGGLE_STATIC,
 		Shader.PLASMA, Shader.WHIRLPOOL, Shader.NORTHERN_LIGHTS, Shader.CLOUD};
 
 	public Wallpaper(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
@@ -27,14 +27,14 @@ public class Wallpaper extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (int i = 0; i < shaders.length; i++) {
+		for (int i = 0; i < SHADERS.length; i++) {
 			final int index = i;
-			Text itemChoose = new Text(shaders[i].name()).setButton(true);
+			Text itemChoose = new Text(SHADERS[i].name()).setButton(true);
 			itemChoose.addListener(new ClickListener() {
 
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
-					state.setShaderBase(shaders[index]);
+					state.setShaderBase(SHADERS[index]);
 					state.getGsm().getSetting().setCustomShader(index);
 				}
 			});

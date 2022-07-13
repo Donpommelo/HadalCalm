@@ -20,7 +20,9 @@ import java.util.Objects;
  * @author Proggivika Phagwump
  */
 public class ClientIllusion extends HadalEntity {
-	
+
+	private static final float SCALE = 0.25f;
+
 	//This is the sprite that will be displayed
 	private Animation<TextureRegion> illusionSprite;
 	
@@ -30,7 +32,6 @@ public class ClientIllusion extends HadalEntity {
 	//dimensions and angle of the illusion
 	private int spriteWidth;
 	private int spriteHeight;
-	private static final float scale = 0.25f;
 	private final float startAngle;
 	
 	public ClientIllusion(PlayState state, Vector2 startPos, Vector2 size, float startAngle, Sprite sprite, alignType align) {
@@ -74,8 +75,8 @@ public class ClientIllusion extends HadalEntity {
 				batch.draw(illusionSprite.getKeyFrame(animationTime, false),
 						entityLocation.x - size.x / 2, 
 						entityLocation.y - size.y / 2, 
-						spriteWidth * scale / 2, spriteHeight * scale / 2,
-						spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
+						spriteWidth * SCALE / 2, spriteHeight * SCALE / 2,
+						spriteWidth * SCALE, spriteHeight * SCALE, 1, 1, 0);
 				break;
 			case CENTER_STRETCH:
 				batch.draw(illusionSprite.getKeyFrame(animationTime, false),
@@ -86,10 +87,10 @@ public class ClientIllusion extends HadalEntity {
 				break;
 			case CENTER_BOTTOM:
 				batch.draw(illusionSprite.getKeyFrame(animationTime, false),
-						entityLocation.x - spriteWidth * scale / 2,
+						entityLocation.x - spriteWidth * SCALE / 2,
 						entityLocation.y - size.y / 2,
-	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
-	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
+	                    spriteWidth * SCALE / 2, spriteHeight * SCALE / 2,
+	                    spriteWidth * SCALE, spriteHeight * SCALE, 1, 1, 0);
 				break;
 			case ROTATE:
 				batch.draw(illusionSprite.getKeyFrame(animationTime, false),

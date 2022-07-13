@@ -73,8 +73,8 @@ public class SettingLoadoutOutfit extends ModeSetting {
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
         int startOutfit = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
         if (startOutfit != 0) {
-            System.arraycopy(universalLoadout.multitools, 0, newLoadout.multitools, 0, Loadout.maxWeaponSlots);
-            System.arraycopy(universalLoadout.artifacts, 0, newLoadout.artifacts, 0, Loadout.maxArtifactSlots);
+            System.arraycopy(universalLoadout.multitools, 0, newLoadout.multitools, 0, Loadout.MAX_WEAPON_SLOTS);
+            System.arraycopy(universalLoadout.artifacts, 0, newLoadout.artifacts, 0, Loadout.MAX_ARTIFACT_SLOTS);
             newLoadout.activeItem = universalLoadout.activeItem;
         }
     }

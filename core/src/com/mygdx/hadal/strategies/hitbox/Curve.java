@@ -6,6 +6,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.utils.Constants;
 
 /**
  * This strategy makes an hbox's trajectory curve towards a particular coordinates.
@@ -13,20 +14,19 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Glovecraft Gronxderf
  */
 public class Curve extends HitboxStrategy {
-	
+
+	//this is the distance from the target where the hbox will stop curving. This value is squared to avoid having to calculate a square root.
+	private static final float BOUND_DIST = 80.0f;
+
 	//this is the range of spread in degrees that the hbox can be set to
 	private final int spreadMin, spreadMax;
 	
 	//the starting velocity of the hbox and the speed that it curves towards its target.
 	private final float startSpeed, lerp;
 	
-	private static final float pushInterval = 1 / 60f;
-	
+
 	//has the hbox reached its target yet? if so, stop adjusting its movement.
 	private boolean found;
-	
-	//this is the distance from the target where the hbox will stop curving. This value is squared to avoid having to calculate a square root.
-	private static final float boundDist = 80.0f;
 	
 	public Curve(PlayState state, Hitbox proj, BodyData user, int spreadMin, int spreadMax, Vector2 startTarget, float startSpeed, float lerp) {
 		super(state, proj, user);
@@ -57,14 +57,14 @@ public class Curve extends HitboxStrategy {
 	public void controller(float delta) {
 		controllerCount += delta;
 
-		while (controllerCount >= pushInterval) {
-			controllerCount -= pushInterval;
+		while (controllerCount >= Constants.INTERVAL) {
+			controllerCount -= Constants.INTERVAL;
 			
 			if (!found) {
 				entityLocation.set(hbox.getPixelPosition());
 				hbox.setLinearVelocity(hbox.getLinearVelocity().lerp(lerpTowards.set(startTarget).sub(entityLocation).nor().scl(startSpeed), lerp));
 				
-				if (entityLocation.dst2(startTarget) < boundDist * boundDist) {
+				if (entityLocation.dst2(startTarget) < BOUND_DIST * BOUND_DIST) {
 					found = true;
 				}
 			}

@@ -14,7 +14,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
                  RallyPoint.RallyPointMultiplier weaponPoint, RallyPoint.RallyPointMultiplier healthPoint,
                  Array<RallyPoint.RallyPointMultiplier> targetPoints, Array<RallyPoint.RallyPointMultiplier> eventPoints) implements Runnable {
 
-    private static final float enemyTargetThreshold = 15.0f;
+    private static final float ENEMY_TARGET_THRESHOLD = 15.0f;
     @Override
     public void run() {
         float bestDistanceSoFar = -1.0f;
@@ -60,7 +60,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
             RallyPath tempPath = getShortestPathBetweenLocations(targetPoint.point());
             if (tempPath != null) {
                 float targetDistance = tempPath.getDistance() * targetPoint.multiplier();
-                if (targetDistance < enemyTargetThreshold) {
+                if (targetDistance < ENEMY_TARGET_THRESHOLD) {
                     prospectivePath = tempPath;
                     bestTargetDistance = targetDistance;
                     break;
@@ -136,11 +136,11 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
     }
 
     //cost modifiers make it so that distance upwards is seen as more costly and distance downwards is seen as cheaper
-    public static final float upCostModifier = 2.0f;
-    public static final float downCostModifier = 0.5f;
+    public static final float UP_COST_MODIFIER = 2.0f;
+    public static final float DOWN_COST_MODIFIER = 0.5f;
 
     //this multiplier makes pathfinder take the player's current velocity in account when finding a suitable point
-    public static final float currentVelocityMultiplier = 1.5f;
+    public static final float CURRENT_VELOCITY_MULTIPLIER = 1.5f;
 
     private static final Vector2 tempPointLocation = new Vector2();
     private static final Vector2 tempBotLocation = new Vector2();
@@ -159,13 +159,13 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
 
             //account for cost modifiers of verticality
             if (tempPointLocation.y > playerLocation.y) {
-                tempPointLocation.set(tempPointLocation.x, playerLocation.y + upCostModifier *
+                tempPointLocation.set(tempPointLocation.x, playerLocation.y + UP_COST_MODIFIER *
                         (tempPointLocation.y - playerLocation.y));
             } else if (tempPointLocation.y < playerLocation.y) {
-                tempPointLocation.set(tempPointLocation.x, playerLocation.y + downCostModifier *
+                tempPointLocation.set(tempPointLocation.x, playerLocation.y + DOWN_COST_MODIFIER *
                         (tempPointLocation.y - playerLocation.y));
             }
-            tempBotLocation.set(playerLocation).mulAdd(playerVelocity, currentVelocityMultiplier);
+            tempBotLocation.set(playerLocation).mulAdd(playerVelocity, CURRENT_VELOCITY_MULTIPLIER);
 
             //find shortest-ish path and return
             RallyPath shortestPath = BotManager.getShortestPathBetweenPoints(controller.getBot(), pathStarter, end);

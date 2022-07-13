@@ -127,7 +127,6 @@ public class Poison extends Event {
 	}
 
 	private float controllerCount;
-	private static final float damageInterval = 1 / 60f;
 	private final Vector2 entityLocation = new Vector2();
 	private final Vector2 randLocation = new Vector2();
 	@Override
@@ -136,8 +135,8 @@ public class Poison extends Event {
 			super.controller(delta);
 
 			controllerCount += delta;
-			while (controllerCount >= damageInterval) {
-				controllerCount -= damageInterval;
+			while (controllerCount >= Constants.INTERVAL) {
+				controllerCount -= Constants.INTERVAL;
 				
 				for (HadalEntity entity : eventData.getSchmucks()) {
 					if (entity instanceof Schmuck schmuck) {

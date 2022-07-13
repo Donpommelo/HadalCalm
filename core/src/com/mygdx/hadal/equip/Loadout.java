@@ -11,10 +11,10 @@ import java.util.Arrays;
  */
 public class Loadout {
 
-	public static final int baseWeaponSlots = 3;
-	public static final int maxWeaponSlots = 4;
-	public static final int maxArtifactSlots = 12;
-	public static final int maxCosmeticSlots = 12;
+	public static final int BASE_WEAPON_SLOTS = 3;
+	public static final int MAX_WEAPON_SLOTS = 4;
+	public static final int MAX_ARTIFACT_SLOTS = 12;
+	public static final int MAX_COSMETIC_SLOTS = 12;
 
 	public UnlockEquip[] multitools;
 	public UnlockArtifact[] artifacts;
@@ -30,26 +30,26 @@ public class Loadout {
 	 * Usually used when creating a brand new player.
 	 */
 	public Loadout(SavedLoadout loadout) {
-		multitools = new UnlockEquip[maxWeaponSlots];
-		artifacts = new UnlockArtifact[maxArtifactSlots];
-		cosmetics = new UnlockCosmetic[maxCosmeticSlots];
+		multitools = new UnlockEquip[MAX_WEAPON_SLOTS];
+		artifacts = new UnlockArtifact[MAX_ARTIFACT_SLOTS];
+		cosmetics = new UnlockCosmetic[MAX_COSMETIC_SLOTS];
 		Arrays.fill(multitools, UnlockEquip.NOTHING);
 		Arrays.fill(artifacts, UnlockArtifact.NOTHING);
 		Arrays.fill(cosmetics, UnlockCosmetic.NOTHING_HAT1);
 
-		for (int i = 0; i < maxWeaponSlots; i++) {
+		for (int i = 0; i < MAX_WEAPON_SLOTS; i++) {
 			if (loadout.getEquip().length > i) {
 				multitools[i] = UnlockEquip.getByName(loadout.getEquip()[i]);
 			}
 		}
 		
-		for (int i = 0; i < maxArtifactSlots; i++) {
+		for (int i = 0; i < MAX_ARTIFACT_SLOTS; i++) {
 			if (loadout.getArtifact().length > i) {
 				artifacts[i] = UnlockArtifact.getByName(loadout.getArtifact()[i]);
 			}
 		}
 
-		for (int i = 0; i < maxCosmeticSlots; i++) {
+		for (int i = 0; i < MAX_COSMETIC_SLOTS; i++) {
 			if (loadout.getCosmetic().length > i) {
 				cosmetics[i] = UnlockCosmetic.getByName(loadout.getCosmetic()[i]);
 			}
@@ -64,15 +64,15 @@ public class Loadout {
 	 * This generates a new loadout from a preexisting one.
 	 */
 	public Loadout(Loadout old) {
-		multitools = new UnlockEquip[maxWeaponSlots];
-		artifacts = new UnlockArtifact[maxArtifactSlots];
-		cosmetics = new UnlockCosmetic[maxCosmeticSlots];
+		multitools = new UnlockEquip[MAX_WEAPON_SLOTS];
+		artifacts = new UnlockArtifact[MAX_ARTIFACT_SLOTS];
+		cosmetics = new UnlockCosmetic[MAX_COSMETIC_SLOTS];
 		Arrays.fill(multitools, UnlockEquip.NOTHING);
 		Arrays.fill(artifacts, UnlockArtifact.NOTHING);
 		Arrays.fill(cosmetics, UnlockCosmetic.NOTHING_HAT1);
-		System.arraycopy(old.multitools, 0, multitools, 0, maxWeaponSlots);
-		System.arraycopy(old.artifacts, 0, artifacts, 0, maxArtifactSlots);
-		System.arraycopy(old.cosmetics, 0, cosmetics, 0, maxCosmeticSlots);
+		System.arraycopy(old.multitools, 0, multitools, 0, MAX_WEAPON_SLOTS);
+		System.arraycopy(old.artifacts, 0, artifacts, 0, MAX_ARTIFACT_SLOTS);
+		System.arraycopy(old.cosmetics, 0, cosmetics, 0, MAX_COSMETIC_SLOTS);
 
 		activeItem = old.activeItem;
 		character = old.character;

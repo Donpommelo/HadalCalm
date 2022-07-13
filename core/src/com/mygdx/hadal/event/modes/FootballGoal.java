@@ -32,7 +32,7 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
  */
 public class FootballGoal extends Event {
 
-    private final static float particleDuration = 5.0f;
+    private final static float PARTICLE_DURATION = 5.0f;
     private final int teamIndex;
 
     public FootballGoal(PlayState state, Vector2 startPos, Vector2 size, int teamIndex) {
@@ -47,7 +47,7 @@ public class FootballGoal extends Event {
             @Override
             public void onActivate(EventData activator, Player p) {
 
-                ParticleEntity particle = new ParticleEntity(state, event, Particle.DIATOM_IMPACT_LARGE, 0, particleDuration,
+                ParticleEntity particle = new ParticleEntity(state, event, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,
                         true, SyncType.CREATESYNC);
                 if (teamIndex < AlignmentFilter.currentTeams.length) {
                     particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());

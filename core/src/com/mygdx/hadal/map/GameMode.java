@@ -61,7 +61,7 @@ public enum GameMode {
 
     DEATHMATCH("dm", GameText.DEATHMATCH, GameText.DEATHMATCH_DESC,
         new SetCameraOnSpawn(),
-        new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingBots(), new SettingLives(),
+        new SettingTeamMode(), new SettingTimer(ResultsState.MAGIC_WORD), new SettingBots(), new SettingLives(),
         new SettingScoreCap(), new SettingBaseHp(), new SettingRespawnTime(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
         new DisplayUITag("SCOREBOARD"), new SpawnWeapons(), new ToggleKillsScore(), new ToggleWeaponDrops(), new ToggleHealthDrops(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
@@ -84,7 +84,7 @@ public enum GameMode {
 
     CTF("ctf", GameText.CTF, GameText.CTF_DESC,
         new SetCameraOnSpawn(),
-        new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.magicWord), new SettingBots(),
+        new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingBots(),
         new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(5), new SettingLoadoutOutfit(),
         new SettingLoadoutMode(),
         new DisplayUITag("TEAMSCORE"), new SpawnWeapons(), new ToggleWeaponDrops(), new ToggleHealthDrops(),
@@ -94,7 +94,7 @@ public enum GameMode {
 
     EGGPLANTS("objective,dm", DEATHMATCH, GameText.MODE_EGGPLANT, GameText.MODE_EGGPLANT_DESC,
             new SetCameraOnSpawn(),
-            new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
+            new SettingTeamMode(), new SettingTimer(ResultsState.MAGIC_WORD), new SettingLives(0),
             new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
             new DisplayUITag("SCOREBOARD"), new SpawnWeapons(),  new ToggleWeaponDrops(), new ToggleHealthDrops(),
             new ModeEggplantHunt(),
@@ -103,14 +103,14 @@ public enum GameMode {
 
     FOOTBALL("futbol", GameText.FOOTBALL, GameText.FOOTBALL_DESC,
         new SetCameraOnSpawn(),
-        new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.magicWord), new SettingTeamScoreCap(), new SettingLives(0),
+        new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingTeamScoreCap(), new SettingLives(0),
         new DisplayUITag("TEAMSCORE"), new ToggleNoDamage(),
         new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),
         new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO)),
 
     GUN_GAME("dm", DEATHMATCH, GameText.GUN_GAME, GameText.GUN_GAME_DESC,
         new SetCameraOnSpawn(),
-        new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.magicWord, 8), new SettingBots(),
+        new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.MAGIC_WORD, 8), new SettingBots(),
         new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(),
         new DisplayUITag("GUNGAME"), new ToggleHealthDrops(),
         new SetLoadoutEquips(UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
@@ -121,7 +121,7 @@ public enum GameMode {
 
     KINGMAKER("objective,dm", DEATHMATCH, GameText.KINGMAKER, GameText.KINGMAKER_DESC,
         new SetCameraOnSpawn(),
-        new SettingTeamMode(), new SettingTimer(ResultsState.magicWord), new SettingLives(0),
+        new SettingTeamMode(), new SettingTimer(ResultsState.MAGIC_WORD), new SettingLives(0),
         new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
         new DisplayUITag("SCOREBOARD"), new SpawnWeapons(), new ToggleWeaponDrops(), new ToggleHealthDrops(),
         new ModeKingmaker(),
@@ -130,7 +130,7 @@ public enum GameMode {
 
     MATRYOSHKA("dm", DEATHMATCH, GameText.MATRYOSHKA, GameText.MATRYOSHKA_DESC,
         new SetCameraOnSpawn(),
-        new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.magicWord, 8),
+        new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.MAGIC_WORD, 8),
         new SettingBaseHp(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
         new DisplayUITag("LIVES"), new SpawnWeapons(), new ToggleWeaponDrops(), new ToggleHealthDrops(),
         new ModeMatryoshka(),
@@ -139,7 +139,7 @@ public enum GameMode {
 
     RESURRECTION("dm", DEATHMATCH, GameText.RESURRECTION, GameText.RESURRECTION_DESC,
         new SetCameraOnSpawn(),
-        new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.magicWord, 8), new AllyRevive(),
+        new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD, 8), new AllyRevive(),
         new SettingBaseHp(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
         new DisplayUITag("PLAYERS_ALIVE"), new DisplayUITag("ALLY_HEALTH"), new SpawnWeapons(), new ToggleWeaponDrops(), new ToggleHealthDrops(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),

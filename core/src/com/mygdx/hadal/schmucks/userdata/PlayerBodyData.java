@@ -38,17 +38,18 @@ import java.util.Arrays;
  */
 public class PlayerBodyData extends BodyData {
 		
-	private static final int numExtraJumps = 1;
-	private int extraJumpsUsed = 0;
-	private static final float jumpPow = 25.0f;
+	private static final int NUM_EXTRA_JUMPS = 1;
+	private static final float JUMP_POW = 25.0f;
 	
-	private static final float fastFallPow = 17.0f;
+	private static final float FAST_FALL_POW = 17.0f;
 
-	private static final int hoverCost = 4;
-	private static final float hoverPow = 5.0f;
+	private static final int HOVER_COST = 4;
+	private static final float HOVER_POW = 5.0f;
 	
-	private static final int airblastCost = 25;
-	
+	private static final int AIRBLAST_COST = 25;
+
+	private int extraJumpsUsed = 0;
+
 	//This is the player's current loadout
 	private Loadout loadout;
 	
@@ -79,7 +80,7 @@ public class PlayerBodyData extends BodyData {
 		clearStatuses();
 
 		//Acquire weapons from loadout
-		this.multitools = new Equippable[Loadout.maxWeaponSlots];
+		this.multitools = new Equippable[Loadout.MAX_WEAPON_SLOTS];
 		Arrays.fill(multitools, new NothingWeapon(player));
 		syncEquip(loadout.multitools);
 		syncArtifact(loadout.artifacts, false, false);
@@ -118,7 +119,7 @@ public class PlayerBodyData extends BodyData {
 	 * @param equip: the player's new set of equippables
 	 */
 	public void syncEquip(UnlockEquip[] equip) {
-		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+		for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
 			multitools[i] = UnlocktoItem.getUnlock(equip[i], player);
 			loadout.multitools[i] = equip[i];
 		}
@@ -132,15 +133,15 @@ public class PlayerBodyData extends BodyData {
 	public void syncArtifact(UnlockArtifact[] artifact, boolean override, boolean save) {
 
 		//first, removes statuses of existing artifacts
-		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
 			removeArtifactStatus(this.loadout.artifacts[i]);
 		}
-		loadout.artifacts = new UnlockArtifact[Loadout.maxArtifactSlots];
+		loadout.artifacts = new UnlockArtifact[Loadout.MAX_ARTIFACT_SLOTS];
 
-		UnlockArtifact[] artifactsTemp = new UnlockArtifact[Loadout.maxArtifactSlots];
-		System.arraycopy(artifact, 0, artifactsTemp, 0, Loadout.maxArtifactSlots);
+		UnlockArtifact[] artifactsTemp = new UnlockArtifact[Loadout.MAX_ARTIFACT_SLOTS];
+		System.arraycopy(artifact, 0, artifactsTemp, 0, Loadout.MAX_ARTIFACT_SLOTS);
 		Arrays.fill(loadout.artifacts, UnlockArtifact.NOTHING);
-		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
 			addArtifact(artifactsTemp[i], override, save);
 		}
 
@@ -170,8 +171,8 @@ public class PlayerBodyData extends BodyData {
 	}
 
 	public void syncCosmetics(UnlockCosmetic[] cosmetics, UnlockCharacter character) {
-		System.arraycopy(cosmetics, 0, loadout.cosmetics, 0, Loadout.maxCosmeticSlots);
-		for (int i = 0; i < Loadout.maxCosmeticSlots; i++) {
+		System.arraycopy(cosmetics, 0, loadout.cosmetics, 0, Loadout.MAX_COSMETIC_SLOTS);
+		for (int i = 0; i < Loadout.MAX_COSMETIC_SLOTS; i++) {
 			if (loadout.cosmetics[i].checkCompatibleCharacters(character)) {
 				loadout.cosmetics[i] = UnlockCosmetic.NOTHING_HAT1;
 			}
@@ -329,7 +330,7 @@ public class PlayerBodyData extends BodyData {
 		int slotsUsed = 0;
 		
 		//iterate through all artifacts and count the number of slots used
-		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
 			
 			//new artifact fails to add if slot cost is too high
 			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
@@ -373,7 +374,7 @@ public class PlayerBodyData extends BodyData {
 		int indexRemoved = -1;
 		
 		//iterate through artifacts until we find the one we're trying to remove
-		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {			
+		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
 			if (loadout.artifacts[i].equals(artifact)) {
 				indexRemoved = i;
 				break;
@@ -387,8 +388,8 @@ public class PlayerBodyData extends BodyData {
 			}
 
 			System.arraycopy(loadout.artifacts, indexRemoved + 1, loadout.artifacts, indexRemoved,
-				Loadout.maxArtifactSlots - 1 - indexRemoved);
-			loadout.artifacts[Loadout.maxArtifactSlots - 1] = UnlockArtifact.NOTHING;
+				Loadout.MAX_ARTIFACT_SLOTS - 1 - indexRemoved);
+			loadout.artifacts[Loadout.MAX_ARTIFACT_SLOTS - 1] = UnlockArtifact.NOTHING;
 		}
 
 		syncArtifacts(true, true);
@@ -399,7 +400,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void checkArtifactSlotCosts() {
 		int slotsUsed = 0;
-		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
 			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
 			if (slotsUsed > getNumArtifactSlots()) {
 				removeArtifact(loadout.artifacts[i]);
@@ -449,7 +450,6 @@ public class PlayerBodyData extends BodyData {
 
 	public void setCosmetic(UnlockCosmetic cosmetic) {
 		loadout.cosmetics[cosmetic.getCosmeticSlot().getSlotNumber()] = cosmetic;
-		UnlockCosmetic.clearShadedCosmetics(player.getState());
 	}
 
 	/**
@@ -461,6 +461,8 @@ public class PlayerBodyData extends BodyData {
 		if (player.getUser() != null) {
 			player.getUser().setTeamFilter(team);
 		}
+
+		//when team color is set, we clear shaded cosmetics to avoid having too many cached fbos
 		UnlockCosmetic.clearShadedCosmetics(player.getState());
 	}
 
@@ -480,7 +482,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void saveArtifacts() {
 		if (player.equals(player.getState().getPlayer())) {
-			for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+			for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
 				player.getState().getGsm().getLoadout().setArtifact(i, loadout.artifacts[i].toString());
 			}
 		}
@@ -511,7 +513,7 @@ public class PlayerBodyData extends BodyData {
 	 * This returns the number of weapon slots after modifications
 	 */
 	public int getNumWeaponSlots() {
-		return Math.min((int) (Loadout.baseWeaponSlots + getStat(Stats.WEAPON_SLOTS)), Loadout.maxWeaponSlots);
+		return Math.min((int) (Loadout.BASE_WEAPON_SLOTS + getStat(Stats.WEAPON_SLOTS)), Loadout.MAX_WEAPON_SLOTS);
 	}
 	
 	/**
@@ -520,19 +522,19 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public int getNumArtifactSlots() {
 		if (GameStateManager.currentMode == Mode.SINGLE) {
-			return Math.min((int) (player.getState().getGsm().getRecord().getSlotsUnlocked() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
+			return Math.min((int) (player.getState().getGsm().getRecord().getSlotsUnlocked() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
 		} else {
 			if (player.getState().isServer()) {
-				return Math.min((int) (player.getState().getGsm().getSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
+				return Math.min((int) (player.getState().getGsm().getSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
 			} else {
-				return Math.min((int) (player.getState().getGsm().getHostSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
+				return Math.min((int) (player.getState().getGsm().getHostSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
 			}
 		}
 	}
 
 	public int getArtifactSlotsUsed() {
 		int slotsUsed = 0;
-		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
 			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
 		}
 		return slotsUsed;
@@ -551,31 +553,31 @@ public class PlayerBodyData extends BodyData {
 	 * It is false for artifact changes that result from mode modifications
 	 */
 	public void syncServerEquipChange(UnlockEquip[] equip) {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncEquipServer(player.getConnId(), equip));
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncEquipServer(player.getConnID(), equip));
 	}
 
 	public void syncServerArtifactChange(UnlockArtifact[] artifact, boolean save) {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncArtifactServer(player.getConnId(), artifact, save));
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncArtifactServer(player.getConnID(), artifact, save));
 	}
 
 	public void syncServerActiveChange(UnlockActives active) {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncActiveServer(player.getConnId(), active));
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncActiveServer(player.getConnID(), active));
 	}
 
 	public void syncServerCharacterChange(UnlockCharacter character) {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncCharacterServer(player.getConnId(), character));
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncCharacterServer(player.getConnID(), character));
 	}
 
 	public void syncServerTeamChange(AlignmentFilter team) {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncTeamServer(player.getConnId(), team));
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncTeamServer(player.getConnID(), team));
 	}
 
 	public void syncServerCosmeticChange(UnlockCosmetic cosmetic) {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncCosmeticServer(player.getConnId(), cosmetic));
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncCosmeticServer(player.getConnID(), cosmetic));
 	}
 
 	public void syncServerWholeLoadoutChange() {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncWholeLoadout(player.getConnId(), loadout, false));
+		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncWholeLoadout(player.getConnID(), loadout, false));
 	}
 
 	public void clearStatuses() {
@@ -668,15 +670,15 @@ public class PlayerBodyData extends BodyData {
 				//Send death notification to all players.
 				if (perp instanceof PlayerBodyData playerData) {
 					player.getState().getKillFeed().addMessage(playerData.getPlayer(), player, null, source, tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(playerData.getPlayer().getConnId(), player.getConnId(),
+					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(playerData.getPlayer().getConnID(), player.getConnID(),
 							null, source, tags));
 				} else if (perp.getSchmuck() instanceof Enemy enemyData) {
 					player.getState().getKillFeed().addMessage(null, player, enemyData.getEnemyType(), source, tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnId(), enemyData.getEnemyType(),
+					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnID(), enemyData.getEnemyType(),
 							source, tags));
 				} else {
 					player.getState().getKillFeed().addMessage(null, player, null, source, tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnId(),
+					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnID(),
 							null, source, tags));
 				}
 			}
@@ -698,7 +700,7 @@ public class PlayerBodyData extends BodyData {
 	}
 
 	private final Array<PlayerBodyData> damagedByToRemove = new Array<>();
-	private static final float decrementOverTime = 8.0f;
+	private static final float DECREMENT_OVER_TIME = 8.0f;
 	/**
 	 * This processes the map of players that have damaged this player recently
 	 * @param delta; time since last processing
@@ -708,7 +710,7 @@ public class PlayerBodyData extends BodyData {
 
 		//decrement the timer for all damaged-by players according to time. Remove players that damaged too long ago
 		for (ObjectMap.Entry<PlayerBodyData, Float> entry : recentDamagedBy) {
-			recentDamagedBy.put(entry.key, entry.value - delta * decrementOverTime);
+			recentDamagedBy.put(entry.key, entry.value - delta * DECREMENT_OVER_TIME);
 
 			if (entry.value <= 0.0f) {
 				damagedByToRemove.add(entry.key);
@@ -746,17 +748,17 @@ public class PlayerBodyData extends BodyData {
 
 	public Player getPlayer() {	return player;}
 	
-	public int getExtraJumps() { return numExtraJumps + (int)getStat(Stats.JUMP_NUM); }
+	public int getExtraJumps() { return NUM_EXTRA_JUMPS + (int)getStat(Stats.JUMP_NUM); }
 	
-	public float getJumpPower() { return jumpPow * (1 + getStat(Stats.JUMP_POW)); }
+	public float getJumpPower() { return JUMP_POW * (1 + getStat(Stats.JUMP_POW)); }
 	
-	public float getFastFallPower() { return fastFallPow * (1 + getStat(Stats.FASTFALL_POW)); }
+	public float getFastFallPower() { return FAST_FALL_POW * (1 + getStat(Stats.FASTFALL_POW)); }
 	
-	public float getHoverPower() { return hoverPow * (1 + getStat(Stats.HOVER_POW)); }
+	public float getHoverPower() { return HOVER_POW * (1 + getStat(Stats.HOVER_POW)); }
 	
-	public float getHoverCost() { return hoverCost * (1 + getStat(Stats.HOVER_COST)); }
+	public float getHoverCost() { return HOVER_COST * (1 + getStat(Stats.HOVER_COST)); }
 
-	public float getAirblastCost() { return airblastCost * (1 + getStat(Stats.BOOST_COST)); }
+	public float getAirblastCost() { return AIRBLAST_COST * (1 + getStat(Stats.BOOST_COST)); }
 	
 	public int getExtraJumpsUsed() { return extraJumpsUsed;	}
 

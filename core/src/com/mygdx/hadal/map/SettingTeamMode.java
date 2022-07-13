@@ -18,8 +18,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
 
-import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
-import static com.mygdx.hadal.states.PlayState.longFadeDelay;
+import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
+import static com.mygdx.hadal.states.PlayState.LONG_FADE_DELAY;
 
 /**
  * This mode setting is used for modes where the host can designate the team mode.
@@ -223,16 +223,16 @@ public class SettingTeamMode extends ModeSetting {
                     }
                 }
             }
-            state.transitionToResultsState(resultsText, PlayState.longFadeDelay);
+            state.transitionToResultsState(resultsText, PlayState.LONG_FADE_DELAY);
         } else {
 
             //the player that dies respawns if there are still others left and becomes a spectator otherwise
             User dedUser = p.getUser();
             if (dedUser != null) {
                 if (dedUser.getScores().getLives() > 0) {
-                    dedUser.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
+                    dedUser.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, state.getRespawnTime());
                 } else {
-                    dedUser.beginTransition(state, PlayState.TransitionState.SPECTATOR, false, defaultFadeOutSpeed, longFadeDelay);
+                    dedUser.beginTransition(state, PlayState.TransitionState.SPECTATOR, false, DEFAULT_FADE_OUT_SPEED, LONG_FADE_DELAY);
                 }
             }
         }

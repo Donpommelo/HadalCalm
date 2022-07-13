@@ -121,6 +121,15 @@
         },
         {
             "message": "<perp> banana split <vic>'s <body part>", "weight": 15, "namedPerp": true
+        },
+        {
+            "message": "<perp> went bananas on <vic>", "weight": 15, "namedPerp": true
+        },
+        {
+            "message": "<perp> went ape-wild on <vic>", "weight": 15, "namedPerp": true
+        },
+        {
+            "message": "<perp> chimped out on <vic>", "weight": 15, "namedPerp": true
         }
     ],
 "COLA_CANNON":  [

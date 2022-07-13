@@ -12,26 +12,26 @@ import com.mygdx.hadal.statuses.Status;
  */
 public class PlayerInvisible extends Artifact {
 
-	private static final int slotCost = 0;
+	private static final int SLOT_COST = 0;
+	private static final float INVIS_INTERVAL = 4.0f;
+	private static final float SEMI_INVIS_INTERVAL = 1.0f;
 
-	public PlayerInvisible() { super(slotCost); }
+	public PlayerInvisible() { super(SLOT_COST); }
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
 
-			private static final float invisInterval = 4.0f;
-			private static final float semiInvisInterval = 1.0f;
 			private float counter;
 			private boolean invis;
 			@Override
 			public void timePassing(float delta) {
 				if (counter <= 0.0f) {
 					if (invis) {
-						counter = semiInvisInterval;
+						counter = SEMI_INVIS_INTERVAL;
 						p.getPlayer().setInvisible(1);
 					} else {
-						counter = invisInterval;
+						counter = INVIS_INTERVAL;
 						p.getPlayer().setInvisible(2);
 					}
 					invis = !invis;

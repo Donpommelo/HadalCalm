@@ -32,14 +32,14 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
  */
 public class CrownHoldable extends Event {
 
-	private static final Vector2 flagSize = new Vector2(80, 80);
-	private static final float flagLifespan = 240.0f;
+	private static final Vector2 FLAG_SIZE = new Vector2(80, 80);
+	private static final float FLAG_LIFESPAN = 240.0f;
+
+	//the timer until a dropped crown returns to spawn
+	private static final float RETURN_TIME = 10.0f;
 
 	//this is the player that this event is fixed to
 	private Player target;
-
-	//the timer until a dropped crown returns to spawn
-	private static final float returnTime = 10.0f;
 	private float returnTimer;
 
 	//is the flag held by a player? Has the flag been removed from its spawn location?
@@ -49,7 +49,7 @@ public class CrownHoldable extends Event {
 	private float timeCount;
 
 	public CrownHoldable(PlayState state, Vector2 startPos) {
-		super(state, startPos, flagSize, flagLifespan);
+		super(state, startPos, FLAG_SIZE, FLAG_LIFESPAN);
 
 		setEventSprite(Sprite.DIATOM_D);
 		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
@@ -110,7 +110,7 @@ public class CrownHoldable extends Event {
 			if (!target.isAlive()) {
 				captured = false;
 				body.setGravityScale(1.0f);
-				returnTimer = returnTime;
+				returnTimer = RETURN_TIME;
 
 				state.getKillFeed().addNotification(UIText.KM_DROPPED.text(), true);
 			} else {

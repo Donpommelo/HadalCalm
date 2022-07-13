@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.server.AlignmentFilter;
 
-import static com.mygdx.hadal.effects.CharacterCosmetic.cosmeticAnimationSpeed;
+import static com.mygdx.hadal.effects.CharacterCosmetic.COSMETIC_ANIMATION_SPEED;
 
 /**
  * A ShadedSprite is a sprite + shader combination
@@ -97,10 +97,10 @@ public class ShadedSprite {
         }
 
         if (mirror) {
-            animationMirror = new Animation<>(cosmeticAnimationSpeed, spriteMirror);
+            animationMirror = new Animation<>(COSMETIC_ANIMATION_SPEED, spriteMirror);
             animationMirror.setPlayMode(mode);
         } else {
-            animation = new Animation<>(cosmeticAnimationSpeed, sprite);
+            animation = new Animation<>(COSMETIC_ANIMATION_SPEED, sprite);
             animation.setPlayMode(mode);
         }
     }

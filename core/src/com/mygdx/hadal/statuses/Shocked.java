@@ -22,18 +22,19 @@ import com.mygdx.hadal.strategies.hitbox.TravelDistanceDie;
  */
 public class Shocked extends Status {
 
+	private static final float PROC_CD = 0.25f;
+
+	//these manage the trail that shows the lightning particles
+	private static final Vector2 TRAIL_SIZE = new Vector2(10, 10);
+	private static final float TRAIL_SPEED = 120.0f;
+	private static final float TRAIL_LIFESPAN = 3.0f;
+
 	//this is the damage of each shock
 	private final float damage;
 
 	//this keeps track of the time between each chain lightning activation
 	private float procCdCount;
-	private static final float procCd = 0.25f;
-	
-	//these manage the trail that shows the lightning particles
-	private static final Vector2 trailSize = new Vector2(10, 10);
-	private static final float trailSpeed = 120.0f;
-	private static final float trailLifespan = 3.0f;
-	
+
 	//the distance that the lightning can jump and the number of jumps it has left.
 	private final int radius, chainAmount;
 	
@@ -59,8 +60,8 @@ public class Shocked extends Status {
 	
 	@Override
 	public void timePassing(float delta) {
-		if (procCdCount >= procCd) {
-			procCdCount -= procCd;
+		if (procCdCount >= PROC_CD) {
+			procCdCount -= PROC_CD;
 			chain();
 		}
 		procCdCount += delta;
@@ -107,8 +108,8 @@ public class Shocked extends Status {
 
 				//draw the trail that makes the lightning particles visible
 				Vector2 trailPath = new Vector2(chainAttempt.getPosition()).sub(entityLocation);
-				Hitbox trail = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), trailSize, trailLifespan,
-						new Vector2(trailPath).nor().scl(trailSpeed), filter, true, false, inflicted.getSchmuck(), Sprite.NOTHING);
+				Hitbox trail = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), TRAIL_SIZE, TRAIL_LIFESPAN,
+						new Vector2(trailPath).nor().scl(TRAIL_SPEED), filter, true, false, inflicted.getSchmuck(), Sprite.NOTHING);
 				
 				trail.addStrategy(new ControllerDefault(state, trail, inflicter));
 				trail.addStrategy(new AdjustAngle(state, trail, inflicter));

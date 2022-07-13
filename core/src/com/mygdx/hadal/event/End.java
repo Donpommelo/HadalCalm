@@ -33,7 +33,7 @@ public class End extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				state.levelEnd(text, victory, PlayState.defaultFadeDelay);
+				state.levelEnd(text, victory, PlayState.DEFAULT_FADE_DELAY);
 			}
 		};
 	}

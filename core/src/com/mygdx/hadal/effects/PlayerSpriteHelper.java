@@ -28,20 +28,20 @@ import com.mygdx.hadal.states.PlayState;
 public class PlayerSpriteHelper {
 
     //Dimension of player sprite parts.
-    public static final int hbWidth = 216;
-    public static final int hbHeight = 516;
+    public static final int HB_WIDTH = 216;
+    public static final int HB_HEIGHT = 516;
 
-    private static final int bodyConnectX = -100;
-    private static final int bodyConnectY = 0;
+    private static final int BODY_CONNECT_X = -100;
+    private static final int BODY_CONNECT_Y = 0;
 
-    private static final int headConnectX = -26;
-    private static final int headConnectY = 330;
+    private static final int HEAD_CONNECT_X = -26;
+    private static final int HEAD_CONNECT_Y = 330;
 
-    private static final int armConnectX = -304;
-    private static final int armConnectY = 218;
+    private static final int ARM_CONNECT_X = -304;
+    private static final int ARM_CONNECT_Y = 218;
 
-    private static final int armRotateX = 330;
-    private static final int armRotateY = 50;
+    private static final int ARM_ROTATE_X = 330;
+    private static final int ARM_ROTATE_Y = 50;
 
     private final Player player;
 
@@ -143,9 +143,9 @@ public class PlayerSpriteHelper {
         //use new frame buffer to create texture regions for each body part.
         TextureRegion fboRegion = new TextureRegion(fbo.getColorBufferTexture());
 
-        bodyRunSprite = copyFrames(fboRegion, atlas, "body_base_run", PlayState.spriteAnimationSpeed);
-        bodyStillSprite = copyFrames(fboRegion, atlas, "body_base_stand", PlayState.spriteAnimationSpeed);
-        headSprite = copyFrames(fboRegion, atlas, "head_base", PlayState.spriteAnimationSpeed);
+        bodyRunSprite = copyFrames(fboRegion, atlas, "body_base_run", PlayState.SPRITE_ANIMATION_SPEED);
+        bodyStillSprite = copyFrames(fboRegion, atlas, "body_base_stand", PlayState.SPRITE_ANIMATION_SPEED);
+        headSprite = copyFrames(fboRegion, atlas, "head_base", PlayState.SPRITE_ANIMATION_SPEED);
         bodyBackSprite = copyFrame(fboRegion, atlas, "body_bg_base");
         armSprite = copyFrame(fboRegion, atlas, "arm_base");
         gemSprite = atlas.findRegion("gem_active");
@@ -182,15 +182,15 @@ public class PlayerSpriteHelper {
         boolean flip = Math.abs(attackAngle) > 90;
 
         //Depending on which way the player is facing, the connection points of various body parts are slightly offset.
-        float armConnectXReal = armConnectX;
-        float headConnectXReal = headConnectX;
-        float armRotateXReal = armRotateX;
+        float armConnectXReal = ARM_CONNECT_X;
+        float headConnectXReal = HEAD_CONNECT_X;
+        float armRotateXReal = ARM_ROTATE_X;
 
         float realAttackAngle = attackAngle;
         if (flip) {
-            armConnectXReal = bodyWidth - armWidth - armConnectX - 200;
-            headConnectXReal = bodyWidth - headWidth - headConnectX - 200;
-            armRotateXReal = armWidth - armRotateX;
+            armConnectXReal = bodyWidth - armWidth - ARM_CONNECT_X - 200;
+            headConnectXReal = bodyWidth - headWidth - HEAD_CONNECT_X - 200;
+            armRotateXReal = armWidth - ARM_ROTATE_X;
             realAttackAngle += 180;
         }
 
@@ -204,30 +204,30 @@ public class PlayerSpriteHelper {
         yOffset = character.getWobbleOffsetBody(bodyFrame, grounded, moving);
         yOffsetHead = character.getWobbleOffsetHead(bodyFrame, headFrame, grounded, moving);
 
-        float bodyX = (flip ? bodyWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale;
-        float bodyY = playerLocation.y - hbHeight * scale / 2  + bodyConnectY + yOffset * scale;
+        float bodyX = (flip ? bodyWidth * scale : 0) + playerLocation.x - HB_WIDTH * scale / 2  + BODY_CONNECT_X * scale;
+        float bodyY = playerLocation.y - HB_HEIGHT * scale / 2  + BODY_CONNECT_Y + yOffset * scale;
 
         //Draw a bunch of stuff
         batch.draw(player.getToolSprite(),
-            (flip ? toolWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + armConnectXReal * scale,
-            playerLocation.y - hbHeight * scale / 2 + armConnectY * scale + yOffset * scale,
-            (flip ? -armWidth * scale : 0) + armRotateXReal * scale , armRotateY * scale,
+            (flip ? toolWidth * scale : 0) + playerLocation.x - HB_WIDTH * scale / 2 + armConnectXReal * scale,
+            playerLocation.y - HB_HEIGHT * scale / 2 + ARM_CONNECT_Y * scale + yOffset * scale,
+            (flip ? -armWidth * scale : 0) + armRotateXReal * scale , ARM_ROTATE_Y * scale,
             (flip ? -1 : 1) * toolWidth * scale, toolHeight * scale, 1, 1, realAttackAngle);
 
         batch.draw(bodyBackSprite,
-            (flip ? bodyBackWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + bodyConnectX * scale,
-            playerLocation.y - hbHeight * scale / 2 + bodyConnectY + yOffset * scale, 0, 0,
+            (flip ? bodyBackWidth * scale : 0) + playerLocation.x - HB_WIDTH * scale / 2 + BODY_CONNECT_X * scale,
+            playerLocation.y - HB_HEIGHT * scale / 2 + BODY_CONNECT_Y + yOffset * scale, 0, 0,
             (flip ? -1 : 1) * bodyBackWidth * scale, bodyBackHeight * scale, 1, 1, 0);
 
         batch.draw(armSprite,
-            (flip ? armWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + armConnectXReal * scale,
-            playerLocation.y - hbHeight * scale / 2 + armConnectY * scale + yOffset * scale,
-            (flip ? -armWidth * scale : 0) + armRotateXReal * scale, armRotateY * scale,
+            (flip ? armWidth * scale : 0) + playerLocation.x - HB_WIDTH * scale / 2 + armConnectXReal * scale,
+            playerLocation.y - HB_HEIGHT * scale / 2 + ARM_CONNECT_Y * scale + yOffset * scale,
+            (flip ? -armWidth * scale : 0) + armRotateXReal * scale, ARM_ROTATE_Y * scale,
             (flip ? -1 : 1) * armWidth * scale, armHeight * scale, 1, 1, realAttackAngle);
 
         batch.draw(gemSprite,
-            (flip ? gemWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2  + bodyConnectX * scale,
-            playerLocation.y - hbHeight * scale / 2 + bodyConnectY + yOffset * scale, 0, 0,
+            (flip ? gemWidth * scale : 0) + playerLocation.x - HB_WIDTH * scale / 2  + BODY_CONNECT_X * scale,
+            playerLocation.y - HB_HEIGHT * scale / 2 + BODY_CONNECT_Y + yOffset * scale, 0, 0,
             (flip ? -1 : 1) * gemWidth * scale, gemHeight * scale, 1, 1, 0);
 
         //reverse determines whether the player is running forwards or backwards.
@@ -255,8 +255,8 @@ public class PlayerSpriteHelper {
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
         }
 
-        float headX = (flip ? headWidth * scale : 0) + playerLocation.x - hbWidth * scale / 2 + headConnectXReal * scale;
-        float headY = playerLocation.y - hbHeight * scale / 2 + headConnectY * scale + yOffsetHead * scale;
+        float headX = (flip ? headWidth * scale : 0) + playerLocation.x - HB_WIDTH * scale / 2 + headConnectXReal * scale;
+        float headY = playerLocation.y - HB_HEIGHT * scale / 2 + HEAD_CONNECT_Y * scale + yOffsetHead * scale;
 
         //head type cosmetics replace the head, so we don't want to draw the base head
         if (player.getPlayerData().getLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank() || !cosmetics) {
@@ -308,14 +308,14 @@ public class PlayerSpriteHelper {
         }
     }
 
-    public static final float gibDuration = 3.0f;
-    public static final float gibGravity = 1.0f;
+    public static final float GIB_DURATION = 3.0f;
+    public static final float GIB_GRAVITY = 1.0f;
     private void createGibs(Vector2 playerLocation, Vector2 playerVelocity) {
 
         //head type cosmetics replace the head, so we don't want to create a ragdoll for it
         if (player.getPlayerData().getLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank()) {
             Ragdoll headRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(headWidth, headHeight).scl(scale),
-                    headSprite.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false, true);
+                    headSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
 
             if (!player.getState().isServer()) {
                 ((ClientState) player.getState()).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ClientState.ObjectLayer.STANDARD);
@@ -323,7 +323,7 @@ public class PlayerSpriteHelper {
         }
 
         Ragdoll bodyRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(bodyWidth, bodyHeight).scl(scale),
-                bodyStillSprite.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false, true) {
+                bodyStillSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true) {
 
             //we need to dispose of the fbo when the ragdolls are done
             @Override
@@ -336,10 +336,10 @@ public class PlayerSpriteHelper {
         };
 
         Ragdoll armRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(armWidth, armHeight).scl(scale),
-                armSprite, playerVelocity, gibDuration, gibGravity, true, false, true);
+                armSprite, playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
 
         Ragdoll toolRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(toolWidth, toolHeight).scl(scale),
-                player.getToolSprite(), playerVelocity, gibDuration, gibGravity, true, false, true);
+                player.getToolSprite(), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
 
         //Get cosmetic ragdolls
         for (UnlockCosmetic cosmetic : player.getPlayerData().getLoadout().cosmetics) {
@@ -358,10 +358,10 @@ public class PlayerSpriteHelper {
         }
     }
 
-    private static final int ragdollWidth = 100;
-    private static final int ragdollHeight = 120;
+    private static final int RAGDOLL_WIDTH = 100;
+    private static final int RAGDOLL_HEIGHT = 120;
     private void createVaporization(Vector2 playerLocation, Vector2 playerVelocity) {
-        FrameBuffer ragdollBuffer = new FrameBuffer(Pixmap.Format.RGBA4444, ragdollWidth, ragdollHeight, true);
+        FrameBuffer ragdollBuffer = new FrameBuffer(Pixmap.Format.RGBA4444, RAGDOLL_WIDTH, RAGDOLL_HEIGHT, true);
         ragdollBuffer.begin();
 
         //clear buffer, set camera
@@ -372,21 +372,21 @@ public class PlayerSpriteHelper {
         //render player
         player.getState().getBatch().begin();
         render(player.getState().getBatch(), player.getAttackAngle(), player.getMoveState(), 0.0f, 0.0f,
-                false, new Vector2(ragdollWidth, ragdollHeight).scl(0.5f), true);
+                false, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT).scl(0.5f), true);
         player.getState().getBatch().end();
 
         ragdollBuffer.end();
         TextureRegion ragdollTexture = new TextureRegion(ragdollBuffer.getColorBufferTexture(), 0,
                 ragdollBuffer.getHeight(), ragdollBuffer.getWidth(), -ragdollBuffer.getHeight());
 
-        Ragdoll bodyRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(ragdollWidth, ragdollHeight),
+        Ragdoll bodyRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT),
                 ragdollTexture, playerVelocity, 2.0f, 0.0f, true, false, false) {
 
             private Shader shader;
             private float progress;
             private float timer;
-            private static final float fadeDelay = 0.25f;
-            private static final float fadeDuration = 2.25f;
+            private static final float FADE_DELAY = 0.25f;
+            private static final float FADE_DURATION = 2.25f;
             @Override
             public void create() {
                 super.create();
@@ -433,8 +433,8 @@ public class PlayerSpriteHelper {
              */
             private void manageTimer(float delta) {
                 timer += delta;
-                if (timer >= fadeDelay) {
-                    progress = Math.min(Math.max(0.0f, (timer - fadeDelay) / fadeDuration), 1.0f);
+                if (timer >= FADE_DELAY) {
+                    progress = Math.min(Math.max(0.0f, (timer - FADE_DELAY) / FADE_DURATION), 1.0f);
                 }
             }
         };

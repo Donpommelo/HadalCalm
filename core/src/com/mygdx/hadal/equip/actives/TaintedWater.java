@@ -20,25 +20,22 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
  */
 public class TaintedWater extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 10.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 10.0f;
 	
-	private static final float duration = 4.0f;
-
-	private static final float lifespan = 1.0f;
-	private static final float projectileSpeed = 35.0f;
-
-	private static final Vector2 projectileSize = new Vector2(40, 40);
-
-	private static final Vector2 poisonSize = new Vector2(101, 50);
-	private static final float poisonSizeSquared = 15000f;
-	private static final float poisonSpread = 75f;
-	private static final float poisonDamage = 0.75f;
-	private static final float poisonDuration = 2.5f;
+	private static final float DURATION = 4.0f;
+	private static final float LIFESPAN = 1.0f;
+	private static final float PROJECTILE_SPEED = 35.0f;
+	private static final Vector2 PROJECTILE_SIZE = new Vector2(40, 40);
+	private static final Vector2 POISON_SIZE = new Vector2(101, 50);
+	private static final float POISON_SIZE_SQUARED = 15000f;
+	private static final float POISON_SPREAD = 75f;
+	private static final float POISON_DAMAGE = 0.75f;
+	private static final float POISON_DURATION = 2.5f;
 	
 	public TaintedWater(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
@@ -47,9 +44,9 @@ public class TaintedWater extends ActiveItem {
 
 		Vector2 startPosition = user.getPlayer().getPixelPosition();
 
-		Hitbox hboxBase = new RangedHitbox(state, startPosition, projectileSize, lifespan,
-			new Vector2(weaponVelo).nor().scl(projectileSpeed), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(),
-			Sprite.NOTHING);
+		Hitbox hboxBase = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN,
+			new Vector2(weaponVelo).nor().scl(PROJECTILE_SPEED), user.getPlayer().getHitboxfilter(), false,
+				false, user.getPlayer(), Sprite.NOTHING);
 
 		hboxBase.addStrategy(new ControllerDefault(state, hboxBase, user));
 		hboxBase.addStrategy(new ContactWallDie(state, hboxBase, user));
@@ -59,11 +56,11 @@ public class TaintedWater extends ActiveItem {
 			private float numPoison;
 			@Override
 			public void controller(float delta) {
-				if (lastPosition.dst2(hbox.getPixelPosition()) > poisonSizeSquared) {
+				if (lastPosition.dst2(hbox.getPixelPosition()) > POISON_SIZE_SQUARED) {
 					numPoison++;
 					lastPosition.set(hbox.getPixelPosition());
-					new Poison(state, hbox.getPixelPosition(), new Vector2(poisonSize).add(0, numPoison * poisonSpread), poisonDamage, poisonDuration, user.getSchmuck(),
-						true, user.getSchmuck().getHitboxfilter(), DamageSource.TAINTED_WATER) {
+					new Poison(state, hbox.getPixelPosition(), new Vector2(POISON_SIZE).add(0, numPoison * POISON_SPREAD),
+							POISON_DAMAGE, POISON_DURATION, user.getSchmuck(),true, user.getSchmuck().getHitboxfilter(), DamageSource.TAINTED_WATER) {
 
 						@Override
 						public void create() {
@@ -77,7 +74,7 @@ public class TaintedWater extends ActiveItem {
 	}
 	
 	@Override
-	public float getUseDuration() { return duration; }
+	public float getUseDuration() { return DURATION; }
 
 	@Override
 	public float getBotRangeMin() { return 11.0f; }
@@ -85,8 +82,8 @@ public class TaintedWater extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) duration),
-				String.valueOf((int) (poisonDamage * 60))};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) DURATION),
+				String.valueOf((int) (POISON_DAMAGE * 60))};
 	}
 }

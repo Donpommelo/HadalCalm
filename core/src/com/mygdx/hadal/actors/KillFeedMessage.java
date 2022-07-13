@@ -23,10 +23,20 @@ import com.mygdx.hadal.text.TextFilterUtil;
  */
 public class KillFeedMessage extends AHadalActor {
 
+    private static final float KILL_FEED_SCALE = 0.3f;
+    private static final float KILL_FEED_WIDTH = 325;
+    private static final float KILL_FEED_LIFESPAN = 18.0f;
+
+    private static final float NOTIFICATION_SCALE = 0.5f;
+    private static final float NOTIFICATION_WIDTH = 500;
+    private static final float NOTIFICATION_LIFESPAN = 6.0f;
+
+    private static final float PAD = 10;
+    private static final int ALIGN = Align.left;
+
     private final GlyphLayout layout;
     private final String message;
 
-    private static final float pad = 10;
     private final float fontScale;
     private final float targetWidth;
     private float lifespan;
@@ -37,16 +47,6 @@ public class KillFeedMessage extends AHadalActor {
     //The actor is drawn at an x-offset to make the text align left while still being constant distance from right side
     private final float textX;
 
-    private final int align = Align.left;
-
-    private static final float killFeedScale = 0.3f;
-    private static final float killFeedWidth = 325;
-    private static final float killFeedLifespan = 18.0f;
-
-    private static final float notificationScale = 0.5f;
-    private static final float notificationWidth = 500;
-    private static final float notificationLifespan = 6.0f;
-
     public KillFeedMessage(PlayState ps, Player perp, Player vic, EnemyType type, DamageSource source, DamageTag... tags) {
         this(TextFilterUtil.filterGameText(ps.getGsm(), DeathTextUtil.getDeathText(ps.getGsm(), perp, vic, type, source, tags)),
                 true);
@@ -56,28 +56,28 @@ public class KillFeedMessage extends AHadalActor {
 
         //different stats depending on if this goes in the kill feed or notification feed
         if (killFeed) {
-            this.fontScale = killFeedScale;
-            this.targetWidth = killFeedWidth;
-            this.lifespan = killFeedLifespan;
+            this.fontScale = KILL_FEED_SCALE;
+            this.targetWidth = KILL_FEED_WIDTH;
+            this.lifespan = KILL_FEED_LIFESPAN;
         } else {
-            this.fontScale = notificationScale;
-            this.targetWidth = notificationWidth;
-            this.lifespan = notificationLifespan;
+            this.fontScale = NOTIFICATION_SCALE;
+            this.targetWidth = NOTIFICATION_WIDTH;
+            this.lifespan = NOTIFICATION_LIFESPAN;
         }
 
         message = text;
         layout = new GlyphLayout();
         HadalGame.FONT_UI_ALT.getData().setScale(fontScale);
-        layout.setText(HadalGame.FONT_UI_ALT, message, Color.WHITE, targetWidth, align, true);
+        layout.setText(HadalGame.FONT_UI_ALT, message, Color.WHITE, targetWidth, ALIGN, true);
         setWidth(layout.width);
         setHeight(layout.height);
 
         grey = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.GREY.toString()));
 
         if (killFeed) {
-            textX = targetWidth - layout.width - pad / 2;
+            textX = targetWidth - layout.width - PAD / 2;
         } else {
-            textX = targetWidth / 2 - layout.width / 2 - pad / 2;
+            textX = targetWidth / 2 - layout.width / 2 - PAD / 2;
         }
     }
 
@@ -85,11 +85,11 @@ public class KillFeedMessage extends AHadalActor {
     public void draw(Batch batch, float alpha) {
 
         //draw grey box under message
-        batch.draw(grey, textX - pad / 2, getY() - pad / 2, getWidth() + pad, getHeight() + pad);
+        batch.draw(grey, textX - PAD / 2, getY() - PAD / 2, getWidth() + PAD, getHeight() + PAD);
 
         HadalGame.FONT_UI_ALT.getData().setScale(fontScale);
         HadalGame.FONT_UI_ALT.setColor(Color.WHITE);
-        HadalGame.FONT_UI_ALT.draw(batch, message, textX, getY() + getHeight() / 2 + layout.height / 2, targetWidth, align, true);
+        HadalGame.FONT_UI_ALT.draw(batch, message, textX, getY() + getHeight() / 2 + layout.height / 2, targetWidth, ALIGN, true);
     }
 
     /**

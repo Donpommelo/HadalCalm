@@ -14,27 +14,27 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class ProximityMine extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.1f;
-	private static final float maxCharge = 12.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.1f;
+	private static final float MAX_CHARGE = 12.0f;
 	
-	private static final float explosionDamage = 100.0f;
+	private static final float EXPLOSION_DAMAGE = 100.0f;
 
 	public ProximityMine(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SyncedAttack.PROXIMITY_MINE.initiateSyncedAttackSingle(state, user.getPlayer(), user.getPlayer().getPixelPosition(),
-				new Vector2(), DamageSource.PROXIMITY_MINE, explosionDamage);
+				new Vector2(), DamageSource.PROXIMITY_MINE, EXPLOSION_DAMAGE);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) WeaponUtils.primeTime),
-				String.valueOf((int) explosionDamage)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) WeaponUtils.PRIME_TIME),
+				String.valueOf((int) EXPLOSION_DAMAGE)};
 	}
 }

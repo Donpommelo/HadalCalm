@@ -35,6 +35,15 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  */
 public class Hitbox extends HadalEntity {
 
+	//default properties. these can be changed using a setter right after the hbox is initialized.
+	private static final float DEFAULT_GRAVITY = 0.0f;
+	private static final float DEFAULT_DENSITY = 0.0f;
+	private static final int DEFAULT_DURABILITY = 1;
+	private static final float DEFAULT_FRICTION = 0.0f;
+	private static final float DEFAULT_SCALE = 1.0f;
+	private static final float DEFAULT_RESITUTION = 0.0f;
+	private static final float DEFAULT_DAMAGE_MULTIPLIER = 1.0f;
+
 	//Initial velocity of the hitbox
 	protected Vector2 startVelo;
 
@@ -48,35 +57,26 @@ public class Hitbox extends HadalEntity {
 	//passability describes what types of entities the hitbox can collide with.
 	protected short passability = (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR);
 
-	//default properties. these can be changed using a setter right after the hbox is initialized.
-	private static final float defaultGravity = 0.0f;
-	private static final float defaultDensity = 0.0f;
-	private static final int defaultDurability = 1;
-	private static final float defaultFriction = 0.0f;
-	private static final float defaultScale = 1.0f;
-	private static final float defaultResitution = 0.0f;
-	private static final float defaultDamageMultiplier = 1.0f;
-
 	//grav is the effect of gravity on the hitbox. 1 = normal gravity. 0 = no gravity.
-	private float gravity = defaultGravity;
+	private float gravity = DEFAULT_GRAVITY;
 
 	//density is the used for certain physics-related hboxes. stuff that needs to rotate based on physics should have a nonzero density
-	private float density = defaultDensity;
+	private float density = DEFAULT_DENSITY;
 
 	//durability is the number of things the hitbox can hit before disappearing.
-	private int durability = defaultDurability;
+	private int durability = DEFAULT_DURABILITY;
 
 	//restitution is the hitbox bounciness.
-	private float restitution = defaultResitution;
+	private float restitution = DEFAULT_RESITUTION;
 
 	//friction is the hitbox slipperiness.
-	private float friction = defaultFriction;
+	private float friction = DEFAULT_FRICTION;
 
 	//scale is the hitbox size multiplier.
-	private float scale = defaultScale;
+	private float scale = DEFAULT_SCALE;
 
 	//scale is the hitbox size multiplier.
-	private float damageMultiplier = defaultDamageMultiplier;
+	private float damageMultiplier = DEFAULT_DAMAGE_MULTIPLIER;
 
 	//sensor is whether the hitbox passes through things it registers a hit on.
 	private boolean sensor;
@@ -130,7 +130,8 @@ public class Hitbox extends HadalEntity {
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
 	 * parameters are pretty much the same as the fields above.
 	 */
-	public Hitbox(PlayState state, Vector2 startPos, Vector2 size, float lifespan, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, Sprite sprite) {
+	public Hitbox(PlayState state, Vector2 startPos, Vector2 size, float lifespan, Vector2 startVelo, short filter,
+				  boolean sensor, boolean procEffects, Schmuck creator, Sprite sprite) {
 		super(state, startPos, size);
 		this.maxLifespan = lifespan;
 		this.lifeSpan = lifespan;
@@ -249,7 +250,6 @@ public class Hitbox extends HadalEntity {
 	public void die() {
 
 		if (!alive) { return; }
-
 		for (HitboxStrategy s : strategies) {
 			s.die();
 			remove.add(s);
@@ -353,7 +353,7 @@ public class Hitbox extends HadalEntity {
 				((ClientState) state).removeEntity(entityID);
 			}
 		} else {
-			if (serverDeleteReceived && state.getTimer() >= serverDeleteTimestamp + PlayState.syncTime) {
+			if (serverDeleteReceived && state.getTimer() >= serverDeleteTimestamp + PlayState.SYNC_TIME) {
 				die();
 				serverDeleteReceived = false;
 				((ClientState) state).removeEntity(entityID);

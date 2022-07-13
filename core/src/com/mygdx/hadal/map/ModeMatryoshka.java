@@ -9,7 +9,7 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 
-import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
+import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
 
 /**
  *  This modifier makes players instantly respawn upon death in the same location
@@ -61,7 +61,7 @@ public class ModeMatryoshka extends ModeSetting {
                         user.respawn(state);
                     } else {
                         //we don't want players to respawn instantly if they die by falling
-                        user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
+                        user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, state.getRespawnTime());
                     }
                 }
             }

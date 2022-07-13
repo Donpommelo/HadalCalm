@@ -5,8 +5,8 @@ import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.SerializationException;
 
-import static com.mygdx.hadal.managers.GameStateManager.json;
-import static com.mygdx.hadal.managers.GameStateManager.reader;
+import static com.mygdx.hadal.managers.GameStateManager.JSON;
+import static com.mygdx.hadal.managers.GameStateManager.READER;
 
 /**
  * A record represents the player's persistent saved data.
@@ -60,7 +60,7 @@ public class Record {
 	 * This simple saves the record in a designated file
 	 */
 	public void saveRecord() {
-		Gdx.files.local("save/Records.json").writeString(json.prettyPrint(this), false);
+		Gdx.files.local("save/Records.json").writeString(JSON.prettyPrint(this), false);
 	}
 	
 	/**
@@ -149,7 +149,7 @@ public class Record {
 
 		newRecord.lastIp = "";
 
-		Gdx.files.local("save/Records.json").writeString(json.prettyPrint(newRecord), false);
+		Gdx.files.local("save/Records.json").writeString(JSON.prettyPrint(newRecord), false);
 	}
 
 	/**
@@ -159,10 +159,10 @@ public class Record {
 	public static Record retrieveRecord() {
 		Record tempRecord;
 		try {
-			tempRecord = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(JsonWriter.OutputType.json));
+			tempRecord = JSON.fromJson(Record.class, READER.parse(Gdx.files.internal("save/Records.json")).toJson(JsonWriter.OutputType.json));
 		} catch (SerializationException e) {
 			Record.createNewRecord();
-			tempRecord = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(JsonWriter.OutputType.json));
+			tempRecord = JSON.fromJson(Record.class, READER.parse(Gdx.files.internal("save/Records.json")).toJson(JsonWriter.OutputType.json));
 		}
 		return tempRecord;
 	}

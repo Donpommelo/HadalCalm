@@ -16,18 +16,18 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class DieFrag extends HitboxStrategy {
 	
+	private static final Vector2 PROJECTILE_SIZE = new Vector2(25, 25);
+	private static final float LIFESPAN = 0.5f;
+	private static final float FRAG_SPEED = 15.0f;
+	
+	public static final float BASE_DAMAGE = 15.0f;
+	private static final float KNOCKBACK = 5.0f;
+
+	private static final Sprite[] PROJ_SPRITES = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
+
 	//this is the number of frags to spawn
 	private final int numFrag;
 
-	private static final Vector2 projectileSize = new Vector2(25, 25);
-	private static final float lifespan = 0.5f;
-	private static final float fragSpeed = 15.0f;
-	
-	public static final float baseDamage = 15.0f;
-	private static final float knockback = 5.0f;
-	
-	private static final Sprite[] projSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
-	
 	public DieFrag(PlayState state, Hitbox proj, BodyData user, int numFrag) {
 		super(state, proj, user);
 		this.numFrag = numFrag;
@@ -38,16 +38,16 @@ public class DieFrag extends HitboxStrategy {
 		Vector2 fragVelo = new Vector2();
 		for (int i = 0; i < numFrag; i++) {
 			float newDegrees = (MathUtils.random(0, 360));
-			fragVelo.set(0, fragSpeed).setAngleDeg(newDegrees);
+			fragVelo.set(0, FRAG_SPEED).setAngleDeg(newDegrees);
 
-			int randomIndex = MathUtils.random(projSprites.length - 1);
-			Sprite projSprite = projSprites[randomIndex];
+			int randomIndex = MathUtils.random(PROJ_SPRITES.length - 1);
+			Sprite projSprite = PROJ_SPRITES[randomIndex];
 			
-			Hitbox frag = new Hitbox(state, hbox.getPixelPosition(), projectileSize, lifespan, fragVelo, hbox.getFilter(),
+			Hitbox frag = new Hitbox(state, hbox.getPixelPosition(), PROJECTILE_SIZE, LIFESPAN, fragVelo, hbox.getFilter(),
 				true, false, creator.getSchmuck(), projSprite);
 
 			frag.addStrategy(new ControllerDefault(state, frag, creator));
-			frag.addStrategy(new DamageStandard(state, frag, creator, baseDamage, knockback, DamageSource.BRITTLING_POWDER, DamageTag.SHRAPNEL));
+			frag.addStrategy(new DamageStandard(state, frag, creator, BASE_DAMAGE, KNOCKBACK, DamageSource.BRITTLING_POWDER, DamageTag.SHRAPNEL));
 		}
 	}
 }

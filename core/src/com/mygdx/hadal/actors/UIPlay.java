@@ -18,52 +18,54 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class UIPlay extends AHadalActor {
 
+	private static final float MAIN_SCALE = 0.5f;
+	private static final int MAIN_X = 0;
+	private static final int MAIN_Y = 0;
+	
+	private static final int BAR_X = 155;
+	private static final int HP_BAR_Y = 50;
+	private static final int FUEL_BAR_Y = 22;
+	
+	private static final float BOSS_SCALE = 0.4f;
+	private static final int BOSS_X = 10;
+	private static final int BOSS_NAME_X = 110;
+	private static final int BOSS_NAME_Y = 710;
+	private static final int BOSS_BAR_Y = 700;
+	private static final int BOSS_BAR_WIDTH = 1500;
+	private static final int BOSS_BAR_HEIGHT = 30;
+	
+	private static final int ACTIVE_X = 380;
+	private static final int ACTIVE_Y = 20;
+	private static final int ACTIVE_WIDTH = 20;
+	private static final int ACTIVE_HEIGHT = 120;
+	private static final int ACTIVE_TEXT_Y = 30;
+
+	private static final float FONT_SCALE_LARGE = 0.5f;
+	private static final float FONT_SCALE_MEDIUM = 0.4f;
+	private static final float FONT_SCALE_SMALL = 0.25f;
+
+	//This variable manages the delay of hp decreasing after receiving damage
+	private static final float HP_CATCHUP = 0.01f;
+	private static final float BOSS_HP_CATCHUP = 0.002f;
+
+	//Rate of blinking when at low health
+	private static final float BLINK_CD = 0.1f;
+
+	//Percent of Hp for low heal indication to appear
+	private static final float HP_LOW_THRESHOLD = 0.2f;
+
+	//This is the percentage of the boss hp bar that is effectively 0 (to prevent the 9patch from displaying weirdly)
+	protected static final float BOSS_HP_FLOOR = 0.05f;
+
 	protected final PlayState state;
 
 	private final TextureRegion main, reloading, hp, hpLow, hpMissing, fuel, fuelCutoff;
 	private final Array<? extends TextureRegion> itemNull, itemSelect, itemUnselect;
-	
-	private static final float mainScale = 0.5f;
-	private static final int mainX = 0;
-	private static final int mainY = 0;
-	
-	private static final int barX = 155;
-	private static final int hpBarY = 50;
-	private static final int fuelBarY = 22;
-	
-	private static final float bossScale = 0.4f;
-	private static final int bossX = 10;
-	private static final int bossNameX = 110;
-	private static final int bossNameY = 710;
-	private static final int bossBarY = 700;
-	private static final int bossBarWidth = 1500;
-	private static final int bossBarHeight = 30;
-	
-	private static final int activeX = 380;
-	private static final int activeY = 20;
-	private static final int activeWidth = 20;
-	private static final int activeHeight = 120;
-	private static final int activeTextY = 30;
 
-	private static final float fontScaleLarge = 0.5f;
-	private static final float fontScaleMedium = 0.4f;
-	private static final float fontScaleSmall = 0.25f;
 
-	//This variable manages the delay of hp decreasing after receiving damage
-	private static final float hpCatchup = 0.01f;
-	private static final float bossHpCatchup = 0.002f;
-	
-	private float hpDelayed = 1.0f;
-	
 	//These make the Hp bar blink red when at low Hp.
 	private boolean blinking;
 	private float blinkCdCount;
-	
-	//Rate of blinking when at low health
-	private static final float blinkCd = 0.1f;
-	
-	//Percent of Hp for low heal indication to appear
-	private static final float hpLowThreshold = 0.2f;
 	
 	//fields displayed in this ui
 	protected float hpRatio, hpMax, fuelRatio, fuelCutoffRatio;
@@ -75,12 +77,12 @@ public class UIPlay extends AHadalActor {
 	protected boolean bossFight;
 	protected Schmuck boss;
 	private String bossName;
-	
-	//These stats manage the boss hp bar.
+
+	//this ration represents the visual delay in hp bar for the player and bosses
 	private float bossHpDelayed = 1.0f;
-	
-	//This is the percentage of the boss hp bar that is effectively 0 (to prevent the 9patch from displaying weirdly)
-	protected static final float bossHpFloor = 0.05f;
+	private float hpDelayed = 1.0f;
+
+	//These stats manage the boss hp bar.
 	protected float bossHpRatio;
 	private final float hpWidthScaled, hpHeightScaled, fuelWidthScaled, fuelHeightScaled, fuelCutoffWidthScaled, fuelCutoffHeightScaled, activeWidthScaled, activeHeightScaled;
 	
@@ -103,17 +105,17 @@ public class UIPlay extends AHadalActor {
 		this.fuelRatio = 1.0f;
 		this.fuelCutoffRatio = 1.0f;
 		
-		setWidth(main.getRegionWidth() * mainScale);
-		setHeight(main.getRegionHeight() * mainScale);
+		setWidth(main.getRegionWidth() * MAIN_SCALE);
+		setHeight(main.getRegionHeight() * MAIN_SCALE);
 		
-		hpWidthScaled = hp.getRegionWidth() * mainScale;
-		hpHeightScaled = hp.getRegionHeight() * mainScale;
-		fuelWidthScaled = fuel.getRegionWidth() * mainScale;
-		fuelHeightScaled = fuel.getRegionHeight() * mainScale;
-		fuelCutoffWidthScaled = fuelCutoff.getRegionWidth() * mainScale;
-		fuelCutoffHeightScaled = fuelCutoff.getRegionHeight() * mainScale;
-		activeWidthScaled = activeWidth * mainScale;
-		activeHeightScaled = activeHeight * mainScale;
+		hpWidthScaled = hp.getRegionWidth() * MAIN_SCALE;
+		hpHeightScaled = hp.getRegionHeight() * MAIN_SCALE;
+		fuelWidthScaled = fuel.getRegionWidth() * MAIN_SCALE;
+		fuelHeightScaled = fuel.getRegionHeight() * MAIN_SCALE;
+		fuelCutoffWidthScaled = fuelCutoff.getRegionWidth() * MAIN_SCALE;
+		fuelCutoffHeightScaled = fuelCutoff.getRegionHeight() * MAIN_SCALE;
+		activeWidthScaled = ACTIVE_WIDTH * MAIN_SCALE;
+		activeHeightScaled = ACTIVE_HEIGHT * MAIN_SCALE;
 	}
 	
 	/**
@@ -135,24 +137,35 @@ public class UIPlay extends AHadalActor {
 
 		if (bossFight && boss.getBody() != null) {
 			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP);
-			bossHpRatio = bossHpFloor + (bossHpRatio * (1 - bossHpFloor));
+			bossHpRatio = BOSS_HP_FLOOR + (bossHpRatio * (1 - BOSS_HP_FLOOR));
 		}
 	}
 
 	//uiAccumulator used to make hp bar movement not scale to framerate
 	private float uiAccumulator;
-	private static final float uiTime = 1 / 60.0f;
+	private static final float UI_TIME = 1 / 60.0f;
 	@Override
 	public void act(float delta) {
 		uiAccumulator += delta;
-		while (uiAccumulator >= uiTime) {
-			uiAccumulator -= uiTime;
+		while (uiAccumulator >= UI_TIME) {
+			uiAccumulator -= UI_TIME;
 
 			if (hpDelayed > hpRatio) {
-				hpDelayed -= hpCatchup;
+				hpDelayed -= HP_CATCHUP;
 			} else {
 				hpDelayed = hpRatio;
 			}
+		}
+
+		//This makes low Hp indicator blink at low health
+		if (hpRatio <= HP_LOW_THRESHOLD) {
+			blinkCdCount -= delta;
+			if (blinkCdCount < 0) {
+				blinking = !blinking;
+				blinkCdCount = BLINK_CD;
+			}
+		} else {
+			blinking = false;
 		}
 	}
 
@@ -164,20 +177,24 @@ public class UIPlay extends AHadalActor {
 
 		//Draw boss hp bar, if existent. Do this before player check so spectators can see boss hp
 		if (bossFight && boss.getBody() != null) {
-			HadalGame.FONT_UI.getData().setScale(fontScaleSmall);
-			HadalGame.FONT_UI.draw(batch, bossName, bossNameX, bossNameY);
+			HadalGame.FONT_UI.getData().setScale(FONT_SCALE_SMALL);
+			HadalGame.FONT_UI.draw(batch, bossName, BOSS_NAME_X, BOSS_NAME_Y);
 			
 			//This code makes the hp bar delay work.
 			if (bossHpDelayed > bossHpRatio) {
-				bossHpDelayed -= bossHpCatchup;
+				bossHpDelayed -= BOSS_HP_CATCHUP;
 			} else {
 				bossHpDelayed = bossHpRatio;
 			}
 
-			GameStateManager.getBossGaugeGreyPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
-			GameStateManager.getBossGaugeCatchupPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpDelayed, bossBarHeight, bossScale, bossScale, 0);
-			GameStateManager.getBossGaugeRedPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpRatio, bossBarHeight, bossScale, bossScale, 0);
-			GameStateManager.getBossGaugePatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
+			GameStateManager.getBossGaugeGreyPatch().draw(batch, BOSS_X, BOSS_BAR_Y, 0, 0,
+					BOSS_BAR_WIDTH, BOSS_BAR_HEIGHT, BOSS_SCALE, BOSS_SCALE, 0);
+			GameStateManager.getBossGaugeCatchupPatch().draw(batch, BOSS_X, BOSS_BAR_Y, 0, 0,
+					BOSS_BAR_WIDTH * bossHpDelayed, BOSS_BAR_HEIGHT, BOSS_SCALE, BOSS_SCALE, 0);
+			GameStateManager.getBossGaugeRedPatch().draw(batch, BOSS_X, BOSS_BAR_Y, 0, 0,
+					BOSS_BAR_WIDTH * bossHpRatio, BOSS_BAR_HEIGHT, BOSS_SCALE, BOSS_SCALE, 0);
+			GameStateManager.getBossGaugePatch().draw(batch, BOSS_X, BOSS_BAR_Y, 0, 0,
+					BOSS_BAR_WIDTH, BOSS_BAR_HEIGHT, BOSS_SCALE, BOSS_SCALE, 0);
 		}
 
 		if (state.getPlayer().getPlayerData() == null) { return; }
@@ -188,58 +205,47 @@ public class UIPlay extends AHadalActor {
 		//do not render in spectator mode
 		if (state.isSpectatorMode()) { return; }
 
-		batch.draw(hpMissing, mainX + barX, mainY + hpBarY, hpWidthScaled * hpDelayed, hpHeightScaled);
-		batch.draw(hp, mainX + barX, mainY + hpBarY, hpWidthScaled * hpRatio, hpHeightScaled);
-		batch.draw(fuel, mainX + barX, mainY + fuelBarY, fuelWidthScaled * fuelRatio, fuelHeightScaled);
-		
-		//This makes low Hp indicator blink at low health
-		if (hpRatio <= hpLowThreshold) {
-			blinkCdCount -= 0.01f;
-			if (blinkCdCount < 0) {
-				blinking = !blinking;
-				blinkCdCount = blinkCd;
-			}
-		} else {
-			blinking = false;
-		}
+		batch.draw(hpMissing, MAIN_X + BAR_X, MAIN_Y + HP_BAR_Y, hpWidthScaled * hpDelayed, hpHeightScaled);
+		batch.draw(hp, MAIN_X + BAR_X, MAIN_Y + HP_BAR_Y, hpWidthScaled * hpRatio, hpHeightScaled);
+		batch.draw(fuel, MAIN_X + BAR_X, MAIN_Y + FUEL_BAR_Y, fuelWidthScaled * fuelRatio, fuelHeightScaled);
 		
 		if (blinking) {
-			batch.draw(hpLow, mainX, mainY, getWidth(), getHeight());
+			batch.draw(hpLow, MAIN_X, MAIN_Y, getWidth(), getHeight());
 		}
 		
-		batch.draw(main, mainX, mainY, getWidth(), getHeight());
-		batch.draw(fuelCutoff, mainX + barX + fuelCutoffRatio * fuelWidthScaled,
-			mainY + fuelBarY, fuelCutoffWidthScaled, fuelCutoffHeightScaled);
+		batch.draw(main, MAIN_X, MAIN_Y, getWidth(), getHeight());
+		batch.draw(fuelCutoff, MAIN_X + BAR_X + fuelCutoffRatio * fuelWidthScaled,
+			MAIN_Y + FUEL_BAR_Y, fuelCutoffWidthScaled, fuelCutoffHeightScaled);
 
 		if (state.getPlayer().getPlayerData().getCurrentTool().isReloading()) {
-			batch.draw(reloading, mainX, mainY, getWidth(), getHeight());
+			batch.draw(reloading, MAIN_X, MAIN_Y, getWidth(), getHeight());
 		}
 
-		HadalGame.FONT_UI.getData().setScale(fontScaleSmall);
+		HadalGame.FONT_UI.getData().setScale(FONT_SCALE_SMALL);
 		HadalGame.FONT_UI.draw(batch, state.getPlayer().getPlayerData().getCurrentTool().getName(),
-		mainX + 48, mainY + 90, 100, -1, true);
+		MAIN_X + 48, MAIN_Y + 90, 100, -1, true);
 
 		//we want to use a smaller font for high clip size weapons
 		if (weaponText.length() > 5) {
-			HadalGame.FONT_UI.getData().setScale(fontScaleMedium);
+			HadalGame.FONT_UI.getData().setScale(FONT_SCALE_MEDIUM);
 		} else {
-			HadalGame.FONT_UI.getData().setScale(fontScaleLarge);
+			HadalGame.FONT_UI.getData().setScale(FONT_SCALE_LARGE);
 		}
-		HadalGame.FONT_UI.draw(batch, weaponText, mainX + 48, mainY + 40);
-		HadalGame.FONT_UI.getData().setScale(fontScaleSmall);
-		HadalGame.FONT_UI.draw(batch, ammoText, mainX + 48, mainY + 60);
-		HadalGame.FONT_UI.draw(batch, (int) (hpRatio * hpMax) + "/" + (int) hpMax, mainX + 155, mainY + 66);
+		HadalGame.FONT_UI.draw(batch, weaponText, MAIN_X + 48, MAIN_Y + 40);
+		HadalGame.FONT_UI.getData().setScale(FONT_SCALE_SMALL);
+		HadalGame.FONT_UI.draw(batch, ammoText, MAIN_X + 48, MAIN_Y + 60);
+		HadalGame.FONT_UI.draw(batch, (int) (hpRatio * hpMax) + "/" + (int) hpMax, MAIN_X + 155, MAIN_Y + 66);
 		
-		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+		for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
 			if (numWeaponSlots > i) {
 				if (state.getPlayer().getPlayerData().getMultitools()[i] == null ||
 						state.getPlayer().getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
-					batch.draw(itemNull.get(i), mainX, mainY, getWidth(), getHeight());
+					batch.draw(itemNull.get(i), MAIN_X, MAIN_Y, getWidth(), getHeight());
 				} else {
 					if (i == state.getPlayer().getPlayerData().getCurrentSlot()) {
-						batch.draw(itemSelect.get(i), mainX, mainY, getWidth(), getHeight());
+						batch.draw(itemSelect.get(i), MAIN_X, MAIN_Y, getWidth(), getHeight());
 					} else {
-						batch.draw(itemUnselect.get(i), mainX, mainY, getWidth(), getHeight());
+						batch.draw(itemUnselect.get(i), MAIN_X, MAIN_Y, getWidth(), getHeight());
 					}
 				}	
 			}
@@ -247,11 +253,11 @@ public class UIPlay extends AHadalActor {
 
 		//draw active item ui and charge indicator
 		HadalGame.FONT_UI.draw(batch, state.getPlayer().getPlayerData().getActiveItem().getName(),
-			activeX, mainY + activeHeightScaled + activeTextY);
+				ACTIVE_X, MAIN_Y + activeHeightScaled + ACTIVE_TEXT_Y);
 		if (activePercent >= 1.0f) {
-			batch.draw(hp, activeX, activeY, activeWidthScaled, activeHeightScaled * activePercent);
+			batch.draw(hp, ACTIVE_X, ACTIVE_Y, activeWidthScaled, activeHeightScaled * activePercent);
 		} else {
-			batch.draw(hpMissing, activeX, activeY, activeWidthScaled, activeHeightScaled * activePercent);
+			batch.draw(hpMissing, ACTIVE_X, ACTIVE_Y, activeWidthScaled, activeHeightScaled * activePercent);
 		}
 	}
 	

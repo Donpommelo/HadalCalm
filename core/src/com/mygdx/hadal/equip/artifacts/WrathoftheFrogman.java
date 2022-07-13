@@ -52,6 +52,6 @@ public class WrathoftheFrogman extends Artifact {
 	public String[] getDescFields() {
 		return new String[] {
 				String.valueOf(procCd),
-				String.valueOf((int) WeaponUtils.torpedoExplosionDamage)};
+				String.valueOf((int) WeaponUtils.TORPEDO_EXPLOSION_DAMAGE)};
 	}
 }

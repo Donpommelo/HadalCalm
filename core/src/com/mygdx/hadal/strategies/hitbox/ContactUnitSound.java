@@ -14,7 +14,14 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Plorbzog Phovington
  */
 public class ContactUnitSound extends HitboxStrategy {
-	
+
+	//This is the max interval the sound can be repeated.
+	private static final float PROC_CD = 0.1f;
+
+	//this is the slowest the hbox can be moving while still playing the sound. This is to avoid non-moving hboxes from
+	// repeatedly playing their sound
+	private static final float MIN_VELO = 3.0f;
+
 	//this is the sound effect that will be played.
 	private final SoundEffect sound;
 	
@@ -30,13 +37,6 @@ public class ContactUnitSound extends HitboxStrategy {
 	//if the hbox is still, we ignore the velocity requirement before playing a sound. (mostly used for sticky bombs)
 	private final boolean still;
 	
-	//This is the max interval the sound can be repeated.
-	private static final float procCd = 0.1f;
-	
-	//this is the slowest the hbox can be moving while still playing the sound. This is to avoid non-moving hboxes from
-	// repeatedly playing their sound
-	private static final float minVelo = 3.0f;
-
 	//Does the server notify the client of this sound?
 	private boolean synced = true;
 
@@ -47,17 +47,17 @@ public class ContactUnitSound extends HitboxStrategy {
 		this.still = still;
 	}
 	
-	private float procCdCount = procCd;
+	private float procCdCount = PROC_CD;
 	@Override
 	public void controller(float delta) {
-		if (procCdCount < procCd) {
+		if (procCdCount < PROC_CD) {
 			procCdCount += delta;
 		}
 	}
 	
 	@Override
 	public void onHit(HadalData fixB) {
-		if (procCdCount >= procCd && (hbox.getLinearVelocity().len2() > minVelo || still)) {
+		if (procCdCount >= PROC_CD && (hbox.getLinearVelocity().len2() > MIN_VELO || still)) {
 			if (fixB != null) {
 				if (UserDataType.BODY.equals(fixB.getType())) {
 					procCdCount = 0;

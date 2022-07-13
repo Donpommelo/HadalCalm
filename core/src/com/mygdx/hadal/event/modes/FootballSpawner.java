@@ -29,8 +29,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class FootballSpawner extends Event {
 
-    private static final float lifespan = 180.0f;
-    private final static float particleDuration = 5.0f;
+    private static final float LIFESPAN = 180.0f;
+    private final static float PARTICLE_DURATION = 5.0f;
 
     public FootballSpawner(PlayState state, Vector2 startPos, Vector2 size) {
         super(state, startPos, size);
@@ -45,9 +45,9 @@ public class FootballSpawner extends Event {
         this.body.setType(BodyDef.BodyType.KinematicBody);
     }
 
+    private static final float SPAWN_DELAY = 2.5f;
     private Hitbox ball;
     private float spawnCountdown;
-    private static final float spawnDelay = 2.5f;
     @Override
     public void controller(float delta) {
 
@@ -68,20 +68,20 @@ public class FootballSpawner extends Event {
             }
 
             if (ballded) {
-                spawnCountdown = spawnDelay;
+                spawnCountdown = SPAWN_DELAY;
             }
         }
     }
 
-    private static final float pushMultiplier = 0.6f;
+    private static final float PUSH_MULTIPLIER = 0.6f;
     /**
      * Spawn a ball at our current location and set the objective marker to track the ball
      */
     private void spawnBall() {
-        new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, particleDuration,true, SyncType.CREATESYNC);
+        new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,true, SyncType.CREATESYNC);
 
         ball = SyncedAttack.NAUTICAL_MINE.initiateSyncedAttackSingle(state, state.getWorldDummy(), getPixelPosition(), new Vector2(),
-                0.0f, pushMultiplier, lifespan);
+                0.0f, PUSH_MULTIPLIER, LIFESPAN);
 
         EventUtils.setObjectiveMarker(state, ball, Sprite.CLEAR_CIRCLE_ALERT, HadalColor.NOTHING,
                 true, false);

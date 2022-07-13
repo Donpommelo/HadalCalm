@@ -34,6 +34,57 @@ import static com.mygdx.hadal.utils.Constants.*;
  */
 public class TitleState extends GameState {
 
+	//Dimensions and position of the title menu
+	private static final int TITLE_X = 240;
+	private static final int TITLE_Y = 720;
+	private static final int TITLE_X_ENABLED = 240;
+	private static final int TITLE_Y_ENABLED = 360;
+	private static final int TITLE_WIDTH = 800;
+	private static final int TITLE_HEIGHT = 370;
+
+	private static final int MENU_X = 540;
+	private static final int MENU_Y = -240;
+	private static final int MENU_X_ENABLED = 540;
+	private static final int MENU_Y_ENABLED = 40;
+	private static final int MENU_WIDTH = 200;
+	private static final int MENU_HEIGHT = 240;
+
+	private static final int NAME_X = 40;
+	private static final int NAME_Y = -240;
+	private static final int NAME_X_ENABLED = 40;
+	private static final int NAME_Y_ENABLED = 40;
+	private static final int NAME_WIDTH = 460;
+	private static final int NAME_HEIGHT = 120;
+
+	private static final int NOTIFICATION_X = -460;
+	private static final int NOTIFICATION_Y = 180;
+	private static final int NOTIFICATION_X_ENABLED = 40;
+	private static final int NOTIFICATION_Y_ENABLED = 180;
+	private static final int NOTIFICATION_WIDTH = 460;
+	private static final int NOTIFICATION_HEIGHT = 60;
+
+	private static final int VERSION_NUM_X = 1060;
+	private static final int VERSION_NUM_Y = 40;
+
+	private static final int TEXT_WIDTH = 260;
+
+	private static final float SCALE = 0.4f;
+	private static final float SCALE_SIDE = 0.25f;
+	private static final float OPTION_HEIGHT = 35.0f;
+	private static final float MAIN_OPTION_HEIGHT = 40.0f;
+
+	private static final int JELLY_1_X = 640;
+	private static final int JELLY_1_Y = 300;
+
+	private static final int DIATOM_1_X = 1080;
+	private static final int DIATOM_1_Y = 80;
+
+	private static final int DIATOM_2_X = 800;
+	private static final int DIATOM_2_Y = 50;
+
+	private static final int DIATOM_3_X = 200;
+	private static final int DIATOM_3_Y = 30;
+
 	//This table contains the option windows for the title.
 	private Table tableName, tableMain, notificationTable;
 
@@ -49,57 +100,6 @@ public class TitleState extends GameState {
 	//ambient particle effects
 	private final PooledEffect jelly, diatom1, diatom2, diatom3;
 	
-	//Dimensions and position of the title menu
-	private static final int titleX = 240;
-	private static final int titleY = 720;
-	private static final int titleXEnabled = 240;
-	private static final int titleYEnabled = 360;
-	private static final int titleWidth = 800;
-	private static final int titleHeight = 370;
-	
-	private static final int menuX = 540;
-	private static final int menuY = -240;
-	private static final int menuXEnabled = 540;
-	private static final int menuYEnabled = 40;
-	private static final int width = 200;
-	private static final int height = 240;
-
-	private static final int nameX = 40;
-	private static final int nameY = -240;
-	private static final int nameXEnabled = 40;
-	private static final int nameYEnabled = 40;
-	private static final int nameWidth = 460;
-	private static final int nameHeight = 120;
-
-	private static final int notificationX = -460;
-	private static final int notificationY = 180;
-	private static final int notificationXEnabled = 40;
-	private static final int notificationYEnabled = 180;
-	private static final int notificationWidth = 460;
-	private static final int notificationHeight = 60;
-	
-	private static final int versionNumX = 1060;
-	private static final int versionNumY = 40;
-	
-	private static final int textWidth = 260;
-
-	private static final float scale = 0.4f;
-	private static final float scaleSide = 0.25f;
-	private static final float optionHeight = 35.0f;
-	private static final float mainOptionHeight = 40.0f;
-
-	private static final int jelly1X = 640;
-	private static final int jelly1Y = 300;
-	
-	private static final int diatom1X = 1080;
-	private static final int diatom1Y = 80;
-	
-	private static final int diatom2X = 800;
-	private static final int diatom2Y = 50;
-	
-	private static final int diatom3X = 200;
-	private static final int diatom3Y = 30;
-	
 	//This boolean determines if input is disabled. input is disabled if the player joins/hosts.
 	private boolean inputDisabled;
 
@@ -109,13 +109,13 @@ public class TitleState extends GameState {
 	public TitleState(final GameStateManager gsm) {
 		super(gsm);
 		this.diatom1 = Particle.DIATOM.getParticle();
-		this.diatom1.setPosition(diatom1X, diatom1Y);
+		this.diatom1.setPosition(DIATOM_1_X, DIATOM_1_Y);
 		this.diatom2 = Particle.DIATOM.getParticle();
-		this.diatom2.setPosition(diatom2X, diatom2Y);
+		this.diatom2.setPosition(DIATOM_2_X, DIATOM_2_Y);
 		this.diatom3 = Particle.DIATOM.getParticle();
-		this.diatom3.setPosition(diatom3X, diatom3Y);
+		this.diatom3.setPosition(DIATOM_3_X, DIATOM_3_Y);
 		this.jelly = Particle.JELLY.getParticle();
-		this.jelly.setPosition(jelly1X, jelly1Y);
+		this.jelly.setPosition(JELLY_1_X, JELLY_1_Y);
 	}
 	
 	@Override
@@ -142,61 +142,61 @@ public class TitleState extends GameState {
 						batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 					}
 				});
-				backdrop = new Backdrop(AssetList.TITLE_CARD.toString(), titleWidth, titleHeight);
-				backdrop.setX(titleX);
-				backdrop.setY(titleY);
+				backdrop = new Backdrop(AssetList.TITLE_CARD.toString(), TITLE_WIDTH, TITLE_HEIGHT);
+				backdrop.setX(TITLE_X);
+				backdrop.setY(TITLE_Y);
 				
 				addActor(backdrop);
 
 				tableMain = new WindowTable();
-				tableMain.setPosition(menuX, menuY);
-				tableMain.setSize(width, height);
+				tableMain.setPosition(MENU_X, MENU_Y);
+				tableMain.setSize(MENU_WIDTH, MENU_HEIGHT);
 				addActor(tableMain);
 
 				tableName = new WindowTable();
-				tableName.setPosition(nameX, nameY);
-				tableName.setSize(nameWidth, nameHeight);
+				tableName.setPosition(NAME_X, NAME_Y);
+				tableName.setSize(NAME_WIDTH, NAME_HEIGHT);
 				addActor(tableName);
 
 				notificationTable = new WindowTable();
-				notificationTable.setPosition(notificationX, notificationY);
-				notificationTable.setSize(notificationWidth, notificationHeight);
+				notificationTable.setPosition(NOTIFICATION_X, NOTIFICATION_Y);
+				notificationTable.setSize(NOTIFICATION_WIDTH, NOTIFICATION_HEIGHT);
 				addActor(notificationTable);
 
 				Text nameDisplay = new Text(UIText.YOUR_NAME.text());
-				nameDisplay.setScale(scaleSide);
+				nameDisplay.setScale(SCALE_SIDE);
 
 				Text nameRand = new Text(UIText.GEN_NAME.text()).setButton(true);
-				nameRand.setScale(scaleSide);
+				nameRand.setScale(SCALE_SIDE);
 
 				Text multiOption = new Text(UIText.MULTIPLAYER.text()).setButton(true);
-				multiOption.setScale(scale);
+				multiOption.setScale(SCALE);
 
 				Text singleOption = new Text(UIText.SINGLEPLAYER.text()).setButton(true);
-				singleOption.setScale(scale);
+				singleOption.setScale(SCALE);
 
 				Text settingsOption = new Text(UIText.SETTINGS.text()).setButton(true);
-				settingsOption.setScale(scale);
+				settingsOption.setScale(SCALE);
 
 				Text aboutOption = new Text(UIText.EXTRA.text()).setButton(true);
-				aboutOption.setScale(scale);
+				aboutOption.setScale(SCALE);
 
 				Text exitOption = new Text(UIText.EXIT.text()).setButton(true);
-				exitOption.setScale(scale);
+				exitOption.setScale(SCALE);
 
 				notifications = new Text("");
-				notifications.setScale(scale);
+				notifications.setScale(SCALE);
 
-				Text versionNum = new Text(UIText.VERSION.text(HadalGame.Version), versionNumX, versionNumY).setButton(true);
-				versionNum.setScale(scale);
-				versionNum.setHeight(optionHeight);
+				Text versionNum = new Text(UIText.VERSION.text(HadalGame.VERSION), VERSION_NUM_X, VERSION_NUM_Y).setButton(true);
+				versionNum.setScale(SCALE);
+				versionNum.setHeight(OPTION_HEIGHT);
 
 				versionNum.addListener(new ClickListener() {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
-						Gdx.net.openURI(HadalGame.VersionURL);
+						Gdx.net.openURI(HadalGame.VERSION_URL);
 					}
 				});
 
@@ -326,15 +326,15 @@ public class TitleState extends GameState {
 				enterName.setMaxLength(MAX_NAME_LENGTH_TOTAL);
 				enterName.setMessageText(UIText.ENTER_NAME.text());
 
-				tableName.add(nameDisplay).height(optionHeight).pad(5);
-				tableName.add(enterName).width(textWidth).height(optionHeight).row();
-				tableName.add(nameRand).height(optionHeight).colspan(2);
+				tableName.add(nameDisplay).height(OPTION_HEIGHT).pad(5);
+				tableName.add(enterName).width(TEXT_WIDTH).height(OPTION_HEIGHT).row();
+				tableName.add(nameRand).height(OPTION_HEIGHT).colspan(2);
 				
-				tableMain.add(singleOption).height(mainOptionHeight).row();
-				tableMain.add(multiOption).height(mainOptionHeight).row();
-				tableMain.add(settingsOption).height(mainOptionHeight).row();
-				tableMain.add(aboutOption).height(mainOptionHeight).row();
-				tableMain.add(exitOption).height(mainOptionHeight).row();
+				tableMain.add(singleOption).height(MAIN_OPTION_HEIGHT).row();
+				tableMain.add(multiOption).height(MAIN_OPTION_HEIGHT).row();
+				tableMain.add(settingsOption).height(MAIN_OPTION_HEIGHT).row();
+				tableMain.add(aboutOption).height(MAIN_OPTION_HEIGHT).row();
+				tableMain.add(exitOption).height(MAIN_OPTION_HEIGHT).row();
 
 				notificationTable.add(notifications).pad(5).expandX().left();
 				addActor(versionNum);
@@ -353,19 +353,19 @@ public class TitleState extends GameState {
 	}
 
 	private void transitionOut(Runnable runnable) {
-		backdrop.addAction(Actions.moveTo(titleX, titleY, TRANSITION_DURATION, INTP_FASTSLOW));
+		backdrop.addAction(Actions.moveTo(TITLE_X, TITLE_Y, TRANSITION_DURATION, INTP_FASTSLOW));
 
-		tableMain.addAction(Actions.moveTo(menuX, menuY, TRANSITION_DURATION, INTP_FASTSLOW));
-		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(nameX, nameY, TRANSITION_DURATION, INTP_FASTSLOW)));
-		notificationTable.addAction(Actions.moveTo(notificationX, notificationY, TRANSITION_DURATION, INTP_FASTSLOW));
+		tableMain.addAction(Actions.moveTo(MENU_X, MENU_Y, TRANSITION_DURATION, INTP_FASTSLOW));
+		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(NAME_X, NAME_Y, TRANSITION_DURATION, INTP_FASTSLOW)));
+		notificationTable.addAction(Actions.moveTo(NOTIFICATION_X, NOTIFICATION_Y, TRANSITION_DURATION, INTP_FASTSLOW));
 		notifications.setText("");
 	}
 
 	private void transitionIn(Runnable runnable) {
-		backdrop.addAction(Actions.moveTo(titleXEnabled, titleYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
+		backdrop.addAction(Actions.moveTo(TITLE_X_ENABLED, TITLE_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW));
 
-		tableMain.addAction(Actions.moveTo(menuXEnabled, menuYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
-		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(nameXEnabled, nameYEnabled, TRANSITION_DURATION, INTP_FASTSLOW)));
+		tableMain.addAction(Actions.moveTo(MENU_X_ENABLED, MENU_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW));
+		tableName.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(NAME_X_ENABLED, NAME_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW)));
 	}
 
 	@Override
@@ -395,9 +395,9 @@ public class TitleState extends GameState {
 	public void setNotification(String notification) {
 		if (!"".equals(notification)) {
 			notificationTable.addAction(Actions.sequence(
-					Actions.moveTo(notificationX, notificationY, TRANSITION_DURATION, INTP_FASTSLOW),
+					Actions.moveTo(NOTIFICATION_X, NOTIFICATION_Y, TRANSITION_DURATION, INTP_FASTSLOW),
 					Actions.run(() -> notifications.setText(notification)),
-					Actions.moveTo(notificationXEnabled, notificationYEnabled, TRANSITION_DURATION, INTP_FASTSLOW)));
+					Actions.moveTo(NOTIFICATION_X_ENABLED, NOTIFICATION_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW)));
 		}
 	}
 }

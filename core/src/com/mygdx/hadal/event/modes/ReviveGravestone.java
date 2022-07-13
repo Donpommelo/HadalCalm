@@ -26,15 +26,16 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
-import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
+import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 
 /**
  */
 public class ReviveGravestone extends Event {
 
-	private static final Vector2 graveSize = new Vector2(80, 80);
-	private final static float particleDuration = 5.0f;
+	private static final Vector2 GRAVE_SIZE = new Vector2(80, 80);
+	private final static float PARTICLE_DURATION = 5.0f;
+	private static final float CHECK_RADIUS = 5.0f;
 
 	//this is the player that this event is fixed to and the last player that held it
 	private final User user;
@@ -51,11 +52,10 @@ public class ReviveGravestone extends Event {
 
 	//amount of players currently nearby their dropped flag to speed up its return
 	private int numReturning;
-	private static final float checkRadius = 5.0f;
 
 	public ReviveGravestone(PlayState state, Vector2 startPos, User user, int connID, float returnMaxTimer,
 							Event defaultStartPoint) {
-		super(state, startPos, graveSize);
+		super(state, startPos, GRAVE_SIZE);
 		this.user = user;
 		this.connID = connID;
 		this.returnMaxTimer = returnMaxTimer;
@@ -110,9 +110,9 @@ public class ReviveGravestone extends Event {
 				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_SENSOR), (short) 0).setUserData(eventData);
 	}
 
+	private static final float CHECK_INTERVAL = 0.2f;
 	private final Vector2 hbLocation = new Vector2();
 	private float controllerCount;
-	private static final float checkInterval = 0.2f;
 	private Player lastReviver;
 	@Override
 	public void controller(float delta) {
@@ -130,7 +130,7 @@ public class ReviveGravestone extends Event {
 		}
 
 		if (returnTimer <= 0.0f) {
-			new ParticleEntity(state, getPixelPosition(), Particle.DIATOM_IMPACT_LARGE,	particleDuration, true, SyncType.CREATESYNC)
+			new ParticleEntity(state, getPixelPosition(), Particle.DIATOM_IMPACT_LARGE, PARTICLE_DURATION, true, SyncType.CREATESYNC)
 					.setColor(user.getTeamFilter().getPalette().getIcon());
 
 			queueDeletion();
@@ -148,13 +148,13 @@ public class ReviveGravestone extends Event {
 
 				user.setOverrideSpawn(getPixelPosition());
 				user.setOverrideStart(defaultStartPoint);
-				user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, 1.0f);
+				user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, 1.0f);
 			}
 		}
 
 		//check nearby area for allied players and set return percent
 		controllerCount += delta;
-		if (controllerCount >= checkInterval) {
+		if (controllerCount >= CHECK_INTERVAL) {
 			controllerCount = 0.0f;
 			hbLocation.set(getPosition());
 			numReturning = 0;
@@ -167,13 +167,13 @@ public class ReviveGravestone extends Event {
 						}
 						return true;
 					},
-					hbLocation.x - checkRadius, hbLocation.y - checkRadius,
-					hbLocation.x + checkRadius, hbLocation.y + checkRadius);
+					hbLocation.x - CHECK_RADIUS, hbLocation.y - CHECK_RADIUS,
+					hbLocation.x + CHECK_RADIUS, hbLocation.y + CHECK_RADIUS);
 		}
 		returnPercent = (returnMaxTimer - returnTimer) / returnMaxTimer;
 	}
 
-	private static final float uiScale = 0.4f;
+	private static final float UI_SCALE = 0.4f;
 	private final Vector2 flagLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
@@ -183,12 +183,12 @@ public class ReviveGravestone extends Event {
 		returnDelayed = Math.min(1.0f, returnDelayed + (returnPercent - returnDelayed) * 0.25f);
 
 		flagLocation.set(getPixelPosition());
-		float textX = flagLocation.x - returnMeter.getRegionWidth() * uiScale / 2;
-		float textY = flagLocation.y + returnMeter.getRegionHeight() * uiScale + size.y / 2;
+		float textX = flagLocation.x - returnMeter.getRegionWidth() * UI_SCALE / 2;
+		float textY = flagLocation.y + returnMeter.getRegionHeight() * UI_SCALE + size.y / 2;
 
-		batch.draw(returnBar, textX + 10, textY + 4, returnBar.getRegionWidth() * uiScale * returnDelayed, returnBar.getRegionHeight() * uiScale);
-		HadalGame.FONT_SPRITE.draw(batch, user.getScores().getNameShort(), textX + 12, textY + returnMeter.getRegionHeight() * uiScale);
-		batch.draw(returnMeter, textX, textY, returnMeter.getRegionWidth() * uiScale, returnMeter.getRegionHeight() * uiScale);
+		batch.draw(returnBar, textX + 10, textY + 4, returnBar.getRegionWidth() * UI_SCALE * returnDelayed, returnBar.getRegionHeight() * UI_SCALE);
+		HadalGame.FONT_SPRITE.draw(batch, user.getScores().getNameShort(), textX + 12, textY + returnMeter.getRegionHeight() * UI_SCALE);
+		batch.draw(returnMeter, textX, textY, returnMeter.getRegionWidth() * UI_SCALE, returnMeter.getRegionHeight() * UI_SCALE);
 	}
 
 	@Override

@@ -479,7 +479,7 @@ public class TiledObjectUtil {
 							Sprite.valueOf(object.getProperties().get("sprite", String.class)), 
 							true, 
 							object.getProperties().get("frame", 0, int.class), 
-							object.getProperties().get("speed", PlayState.spriteAnimationSpeed, float.class), 
+							object.getProperties().get("speed", PlayState.SPRITE_ANIMATION_SPEED, float.class),
 							PlayMode.valueOf(object.getProperties().get("mode", "NORMAL", String.class)));
 				} else {
 					e.setEventSprite(Sprite.valueOf(object.getProperties().get("sprite", String.class)));

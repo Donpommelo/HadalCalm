@@ -23,51 +23,53 @@ import com.mygdx.hadal.states.PlayState;
 public class DialogBox extends AHadalActor {
 
 	//This is the scale that the text is drawn at.
-	private static final float fontScale = 0.25f;
-	private static final float fontScaleSmall = 0.25f;
+	private static final float FONT_SCALE = 0.25f;
+	private static final float FONT_SCALE_SMALL = 0.25f;
+
+	private static final int BOX_X = 340;
+	private static final int BOX_Y = 720;
+
+	//These 2 variables keep track of the dialogue box's final location. These exist to make the box grow/move upon initiating
+	private static final int MAX_X = 600;
+	private static final int MAX_Y = 150;
+	
+	private static final int MAX_X_SMALL = 600;
+	private static final int MAX_Y_SMALL = 80;
+	
+	private static final int MAX_TEXT_WIDTH = 440;
+	private static final int MAX_TEXT_WIDTH_SMALL = 575;
+
+	private static final int ADVANCE_WIDTH = 50;
+	private static final int ADVANCE_HEIGHT = 30;
+
+	private static final int BUST_HEIGHT = 120;
+	private static final int BUST_WIDTH = 120;
+	private static final int BUST_OFFSET_X = 10;
+	private static final int BUST_OFFSET_Y = -130;
+
+	private static final float TEXT_LERP_SPEED = 0.1f;
+
+	//This float is the ratio of the max dimensions of the window before the text appears.
+	//For example, the text will appear when the window's x = maxX * this variable
+	private static final float TEXT_APPEAR_THRESHOLD = 0.9f;
 
 	//This is a queue of dialogues in the order that they will be displayed.
 	private final Queue<Dialog> dialogs = new Queue<>();
 
 	//Reference to the playstate. Used to reference gsm fields
 	private final PlayState ps;
-	
+
 	//This counter keeps track of the lifespan of dialogues that have a set duration
 	private float durationCount;
-	
+
 	//These 2 variables track the location of the dialogue box
 	private float currX, currY;
 
-	private static final int boxX = 340;
-	private static final int boxY = 720;
-
-	//These 2 variables keep track of the dialogue box's final location. These exist to make the box grow/move upon initiating
-	private static final int maxX = 600;
-	private static final int maxY = 150;
-	
-	private static final int maxXSmall = 600;
-	private static final int maxYSmall = 80;
-	
-	private static final int maxTextWidth = 440;
-	private static final int maxTextWidthSmall = 575;
-
-	private static final int advanceWidth = 50;
-	private static final int advanceHeight = 30;
-
-	private static final int bustHeight = 120;
-	private static final int bustWidth = 120;
-	private static final int bustOffsetX = 10;
-	private static final int bustOffsetY = -130;
-
-	//This float is the ratio of the max dimensions of the window before the text appears.
-	//For example, the text will appear when the window's x = maxX * this variable
-	private static final float textAppearThreshold = 0.9f;
-	
 	//this keeps track of the actor's animation frames
 	protected float animCdCount;
 	
 	public DialogBox(PlayState ps) {
-		super(boxX, boxY);
+		super(BOX_X, BOX_Y);
 		this.ps = ps;
 	}
 
@@ -95,15 +97,15 @@ public class DialogBox extends AHadalActor {
 			//dialogue box lerps towards max size.
 			if (dialogs.size != 0) {
 				if (dialogs.first().getInfo().isSmall()) {
-					currX = currX + (maxXSmall - currX) * 0.1f;
-					currY = currY + (maxYSmall - currY) * 0.1f;
+					currX = currX + (MAX_X_SMALL - currX) * TEXT_LERP_SPEED;
+					currY = currY + (MAX_Y_SMALL - currY) * TEXT_LERP_SPEED;
 				} else {
-					currX = currX + (maxX - currX) * 0.1f;
-					currY = currY + (maxY - currY) * 0.1f;
+					currX = currX + (MAX_X - currX) * TEXT_LERP_SPEED;
+					currY = currY + (MAX_Y - currY) * TEXT_LERP_SPEED;
 				}
 			} else {
-				currX = currX + (maxX - currX) * 0.1f;
-				currY = currY + (maxY - currY) * 0.1f;
+				currX = currX + (MAX_X - currX) * TEXT_LERP_SPEED;
+				currY = currY + (MAX_Y - currY) * TEXT_LERP_SPEED;
 			}
 		}
 	}
@@ -128,7 +130,7 @@ public class DialogBox extends AHadalActor {
 		
 		if (dialog != null) {
 			for (JsonValue d : dialog) {
-				addDialogue(GameStateManager.json.fromJson(DialogInfo.class, d.toJson(OutputType.json)), radio, trigger, type);
+				addDialogue(GameStateManager.JSON.fromJson(DialogInfo.class, d.toJson(OutputType.json)), radio, trigger, type);
 			}	
 		}
 	}
@@ -201,35 +203,35 @@ public class DialogBox extends AHadalActor {
 			}
 			
 			if (first.getInfo().isSmall()) {
-				HadalGame.FONT_UI.getData().setScale(fontScaleSmall);
+				HadalGame.FONT_UI.getData().setScale(FONT_SCALE_SMALL);
 				GameStateManager.getSimplePatch().draw(batch, getX(), getY() - currY, currX, currY);
 				 
 				//Only draw dialogue text if window has reached specified size.
-				if (currX >= maxXSmall * textAppearThreshold) {
+				if (currX >= MAX_X_SMALL * TEXT_APPEAR_THRESHOLD) {
 					HadalGame.FONT_UI.draw(batch, first.getInfo().getDisplayedText(), getX() + 20, getY() - 20,
-						maxTextWidthSmall, Align.left, true);
-					GameStateManager.getSimplePatch().draw(batch, getX() + maxXSmall - advanceWidth, getY() - maxYSmall,
-						advanceWidth, advanceHeight);
-					HadalGame.FONT_UI.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + maxXSmall - advanceWidth,
-						getY() - maxYSmall - 8 + advanceHeight, maxTextWidthSmall, Align.left, true);
+							MAX_TEXT_WIDTH_SMALL, Align.left, true);
+					GameStateManager.getSimplePatch().draw(batch, getX() + MAX_X_SMALL - ADVANCE_WIDTH, getY() - MAX_Y_SMALL,
+							ADVANCE_WIDTH, ADVANCE_HEIGHT);
+					HadalGame.FONT_UI.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + MAX_X_SMALL - ADVANCE_WIDTH,
+						getY() - MAX_Y_SMALL - 8 + ADVANCE_HEIGHT, MAX_TEXT_WIDTH_SMALL, Align.left, true);
 				}
 			} else {
-				HadalGame.FONT_UI.getData().setScale(fontScale);
+				HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
 				GameStateManager.getDialogPatch().draw(batch, getX(), getY() - currY, currX, currY);
 				 
 				//Only draw dialogue text if window has reached specified size.
-				if (currX >= maxX * textAppearThreshold) {
+				if (currX >= MAX_X * TEXT_APPEAR_THRESHOLD) {
 					HadalGame.FONT_UI.draw(batch, first.getInfo().getDisplayedText(), getX() + 150, getY() - 20,
-						maxTextWidth, Align.left, true);
-					GameStateManager.getSimplePatch().draw(batch, getX() + maxX - advanceWidth, getY() - maxY,
-						advanceWidth, advanceHeight);
-					HadalGame.FONT_UI.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + maxX - advanceWidth,
-						getY() - maxY - 8 + advanceHeight, maxTextWidth, Align.left, true);
+							MAX_TEXT_WIDTH, Align.left, true);
+					GameStateManager.getSimplePatch().draw(batch, getX() + MAX_X - ADVANCE_WIDTH, getY() - MAX_Y,
+							ADVANCE_WIDTH, ADVANCE_HEIGHT);
+					HadalGame.FONT_UI.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + MAX_X - ADVANCE_WIDTH,
+						getY() - MAX_Y - 8 + ADVANCE_HEIGHT, MAX_TEXT_WIDTH, Align.left, true);
 				}
 				 
 				if (first.getBust() != null) {
 					batch.draw(first.getBust().getKeyFrame(animCdCount, true),
-						getX() + bustOffsetX, getY() + bustOffsetY, bustWidth, bustHeight);
+						getX() + BUST_OFFSET_X, getY() + BUST_OFFSET_Y, BUST_WIDTH, BUST_HEIGHT);
 				}
 			}
 
@@ -242,7 +244,6 @@ public class DialogBox extends AHadalActor {
 	
 	public enum DialogType {
 		DIALOG,
-		KILL,
 		SYSTEM
 	}
 }

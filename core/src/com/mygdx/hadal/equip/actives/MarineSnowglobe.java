@@ -25,21 +25,19 @@ import com.mygdx.hadal.strategies.hitbox.Static;
  */
 public class MarineSnowglobe extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 8.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 8.0f;
 	
-	private static final Vector2 projectileSize = new Vector2(400, 400);
-	private static final float duration = 0.5f;
-
-	private static final float projectileDamage = 24.0f;
-	private static final float projectileKB = 15.0f;
-	
-	private static final float slowDuration = 5.0f;
-	private static final float slowSlow = 0.75f;
+	private static final Vector2 PROJECTILE_SIZE = new Vector2(400, 400);
+	private static final float DURATION = 0.5f;
+	private static final float PROJECTILE_DAMAGE = 24.0f;
+	private static final float PROJECTILE_KB = 15.0f;
+	private static final float SLOW_DURATION = 5.0f;
+	private static final float SLOW_SLOW = 0.75f;
 	
 	public MarineSnowglobe(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
@@ -50,15 +48,15 @@ public class MarineSnowglobe extends ActiveItem {
 	public static Hitbox createMarineSnow(PlayState state, Schmuck user, Vector2 startPosition) {
 		SoundEffect.FREEZE_IMPACT.playSourced(state, startPosition, 0.9f, 0.5f);
 
-		Hitbox hbox = new RangedHitbox(state, user.getPixelPosition(), projectileSize, duration, new Vector2(), user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, user.getPixelPosition(), PROJECTILE_SIZE, DURATION, new Vector2(), user.getHitboxfilter(),
 				false, false, user, Sprite.NOTHING);
 		hbox.makeUnreflectable();
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), projectileDamage, projectileKB,
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), PROJECTILE_DAMAGE, PROJECTILE_KB,
 				DamageSource.MARINE_SNOWGLOBE, DamageTag.RANGED));
-		hbox.addStrategy(new ContactUnitSlow(state, hbox, user.getBodyData(), slowDuration, slowSlow, Particle.ICE_CLOUD));
+		hbox.addStrategy(new ContactUnitSlow(state, hbox, user.getBodyData(), SLOW_DURATION, SLOW_SLOW, Particle.ICE_CLOUD));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD, 0.0f, 2.0f)
 				.setParticleSize(25.0f).setSyncType(SyncType.NOSYNC));
 
@@ -66,7 +64,7 @@ public class MarineSnowglobe extends ActiveItem {
 	}
 
 	@Override
-	public float getUseDuration() { return duration; }
+	public float getUseDuration() { return DURATION; }
 
 	@Override
 	public float getBotRangeMin() { return 5.0f; }
@@ -74,9 +72,9 @@ public class MarineSnowglobe extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) projectileDamage),
-				String.valueOf((int) slowDuration),
-				String.valueOf((int) (slowSlow * 100))};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) PROJECTILE_DAMAGE),
+				String.valueOf((int) SLOW_DURATION),
+				String.valueOf((int) (SLOW_SLOW * 100))};
 	}
 }

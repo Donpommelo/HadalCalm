@@ -108,7 +108,7 @@ public class TextFilterUtil {
 	 */
 	private static String filterRoll(String text) {
 		String filteredText = text;
-		filteredText = filteredText.replaceAll("<roll>", "roll: " + MathUtils.random(ConsoleCommandUtil.maxRoll));
+		filteredText = filteredText.replaceAll("<roll>", "roll: " + MathUtils.random(ConsoleCommandUtil.MAX_ROLL));
 		
 		return filteredText;
 	}

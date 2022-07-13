@@ -8,19 +8,19 @@ import com.badlogic.gdx.utils.Align;
  */
 public class HubOption extends Text {
 
-	private static final int IconTextWidth = 150;
-	private static final int TextOffsetY = 45;
+	private static final int ICON_TEXT_WIDTH = 150;
+	private static final int TEXT_OFFSET_Y = 45;
 
-	private static final int DefaultOptionWidth = 160;
-	private static final int DefaultOptionHeight = 150;
-	private static final int DefaultIconWidth = 80;
-	private static final int DefaultIconHeight = 80;
+	private static final int DEFAULT_OPTION_WIDTH = 160;
+	private static final int DEFAULT_OPTION_HEIGHT = 150;
+	private static final int DEFAULT_ICON_WIDTH = 80;
+	private static final int DEFAULT_ICON_HEIGHT = 80;
 
 	private final TextureRegion frame;
-	private int optionWidth = DefaultOptionWidth;
-	private int optionHeight = DefaultOptionHeight;
-	private int iconWidth = DefaultIconWidth;
-	private int iconHeight = DefaultIconHeight;
+	private int optionWidth = DEFAULT_OPTION_WIDTH;
+	private int optionHeight = DEFAULT_OPTION_HEIGHT;
+	private int iconWidth = DEFAULT_ICON_WIDTH;
+	private int iconHeight = DEFAULT_ICON_HEIGHT;
 	private int iconOffsetX, iconOffsetY;
 
 	public HubOption(String text, TextureRegion frame) {
@@ -29,9 +29,9 @@ public class HubOption extends Text {
 
 		this.iconOffsetX = (optionWidth - iconWidth) / 2;
 
-		setWrap(IconTextWidth);
+		setWrap(ICON_TEXT_WIDTH);
 		setAlign(Align.center);
-		setYOffset(TextOffsetY);
+		setYOffset(TEXT_OFFSET_Y);
 		setButton(true);
 		setScale(UIHub.OptionsScale);
 	}

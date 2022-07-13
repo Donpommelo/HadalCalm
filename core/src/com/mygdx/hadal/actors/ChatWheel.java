@@ -24,23 +24,25 @@ import com.payne.games.piemenu.PieMenu;
  */
 public class ChatWheel {
 
+	private static final int WHEEL_X = 540;
+	private static final int WHEEL_Y = 260;
+	private static final float WHEEL_WIDTH = 250.0f;
+	private static final float WHEEL_HEIGHT = 250.0f;
+	private static final float WHEEL_SPEED_OPEN = 0.3f;
+	private static final float WHEEL_SPEED_CLOSE = 0.4f;
+
+	private static final float INDICATOR_WIDTH = 40.0f;
+	private static final float INDICATOR_HEIGHT = 40.0f;
+
+	private static final float INDICATOR_AMPLIFICATION = 1.25f;
+	private static final float TEXT_SCALE_UNSELECTED = 0.25f;
+	private static final float WHEEL_THRESHOLD = 0.25f;
+	private static final float BORDER_THICKNESS = 5.0f;
+
 	private final PlayState state;
 
 	private final TextureRegion wheelBase, wheelIndicator;
 	private AnimatedPieMenu wheel;
-	
-	private static final int wheelX = 540;
-	private static final int wheelY = 260;
-	private static final float wheelWidth = 250.0f;
-	private static final float wheelHeight = 250.0f;
-	
-	private static final float indicatorWidth = 40.0f;
-	private static final float indicatorHeight = 40.0f;
-	
-	private static final float indicatorAmplification = 1.25f;
-	private static final float textScaleUnselected = 0.25f;
-	private static final float wheelThreshold = 0.25f;
-	private static final float borderThickness = 5.0f;
 
 	//this is a list of all the emote options
 	private static final String[] options = {"RAGE", "NO", "YES", "LOVE", "SLEEP", "READY", "/roll", "SWEAT"};
@@ -61,9 +63,8 @@ public class ChatWheel {
 	private final Vector2 lastDisplace = new Vector2();
 
 	//players cannot use emotes when they are on cooldown
-	private static final float emoteCd = 1.5f;
-	private float emoteCount = emoteCd;
-
+	private static final float EMOTE_CD = 1.5f;
+	private float emoteCount = EMOTE_CD;
 	/**
 	 * This creates the chat wheel elements
 	 */
@@ -71,17 +72,17 @@ public class ChatWheel {
 		PieMenu.PieMenuStyle style = new PieMenu.PieMenuStyle();
 		style.sliceColor = new Color(1,1,1,0.5f);
 		style.hoverColor = new Color(0.7f,0.3f,0.5f,1);
-		style.circumferenceWidth = borderThickness;
-		style.separatorWidth = borderThickness;
+		style.circumferenceWidth = BORDER_THICKNESS;
+		style.separatorWidth = BORDER_THICKNESS;
 				
-		wheel = new AnimatedPieMenu(wheelBase, style, wheelWidth / 2) {
+		wheel = new AnimatedPieMenu(wheelBase, style, WHEEL_WIDTH / 2) {
 			@Override
 			public void act(float delta) {
 
 				//an active chat wheel tracks player mouse movement
 				if (active) {
-					lastDisplace.set(Gdx.input.getX(), -Gdx.input.getY()).sub(lastMousePosition).scl(indicatorAmplification);
-					totalDisplace.add(lastDisplace).limit(wheelWidth / 2);
+					lastDisplace.set(Gdx.input.getX(), -Gdx.input.getY()).sub(lastMousePosition).scl(INDICATOR_AMPLIFICATION);
+					totalDisplace.add(lastDisplace).limit(WHEEL_WIDTH / 2);
 
 					//the chat wheel pointer moves based on the total mouse displacement while active. (limited by wheel radius)
 					pointerPosition.set(wheel.getX() + wheel.getWidth() / 2, wheel.getY() + wheel.getHeight() / 2).add(totalDisplace);
@@ -102,22 +103,22 @@ public class ChatWheel {
 			public void draw(Batch batch, float alpha) {
 				if (state.getGsm().getSetting().isHideHUD()) { return; }
 				super.draw(batch, alpha);
-				batch.draw(wheelIndicator, pointerPosition.x - indicatorWidth / 2, pointerPosition.y - indicatorHeight / 2,
-						indicatorWidth, indicatorHeight);
+				batch.draw(wheelIndicator, pointerPosition.x - INDICATOR_WIDTH / 2, pointerPosition.y - INDICATOR_HEIGHT / 2,
+						INDICATOR_WIDTH, INDICATOR_HEIGHT);
 			}
 		};
-		wheel.setX(wheelX);
-		wheel.setY(wheelY);
-		wheel.setWidth(wheelWidth);
-		wheel.setHeight(wheelHeight);
+		wheel.setX(WHEEL_X);
+		wheel.setY(WHEEL_Y);
+		wheel.setWidth(WHEEL_WIDTH);
+		wheel.setHeight(WHEEL_HEIGHT);
 		wheel.setInfiniteSelectionRange(true);
 		wheel.setMiddleCancel(true);
-		wheel.setInnerRadiusPercent(wheelThreshold);
+		wheel.setInnerRadiusPercent(WHEEL_THRESHOLD);
 
 		//add all options to the wheel
 		for (int i = 0; i < options.length; i ++) {
 			Backdrop option = new Backdrop(indexToEmote(i), 50, 50, getFrameIndex(i)).setMirror();
-			option.setScale(textScaleUnselected);
+			option.setScale(TEXT_SCALE_UNSELECTED);
 			wheel.addActor(option);
 		}
 		
@@ -134,7 +135,7 @@ public class ChatWheel {
 		if (visible) {
 			if (!active) {
 				//play the wheel fan animation and make no options highlighted
-				wheel.animateOpening(0.3f);
+				wheel.animateOpening(WHEEL_SPEED_OPEN);
 				wheel.setHoveredIndex(PieMenu.NO_SELECTION);
 				
 				//keep track of the players mouse location so we know how they move relative to this vector
@@ -156,7 +157,7 @@ public class ChatWheel {
 
 					//if emote is off cooldown, execute the emote
 					if (emoteCount <= 0.0f) {
-						emoteCount = emoteCd;
+						emoteCount = EMOTE_CD;
 						//server processes the emote. clients send packet to server
 						if (state.isServer()) {
 							emote(state.getPlayer(), option);
@@ -165,7 +166,7 @@ public class ChatWheel {
 						}
 					}
 				}
-				wheel.animateClosing(0.4f);
+				wheel.animateClosing(WHEEL_SPEED_CLOSE);
 			}
 		}
 		active = visible;
@@ -181,7 +182,7 @@ public class ChatWheel {
 		if (emoteIndex == 6) {
 			ConsoleCommandUtil.parseChatCommand(state, player, options[emoteIndex]);
 		} else {
-			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, player.getConnId());
+			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, player.getConnID());
 		}
 		if (player.getPlayerData() != null) {
 			SyncedAttack.EMOTE.initiateSyncedAttackSingle(state, player, new Vector2(), new Vector2(), emoteIndex);

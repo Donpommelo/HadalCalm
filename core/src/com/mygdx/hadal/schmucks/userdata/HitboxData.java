@@ -22,7 +22,7 @@ public class HitboxData extends HadalData {
 	protected final Hitbox hbox;
 
 	//this is a damage multiplier for reflected hitboxes
-	private static final float reflectMultiplier = 1.4f;
+	private static final float REFLECT_MULTIPLIER = 1.4f;
 	
 	/**
 	 * This data is usually initialized after making a hitbox. It is given to the newly created hitbox using the setUserData() method
@@ -44,7 +44,7 @@ public class HitboxData extends HadalData {
 
 		//reflected hboxes can damage any unit and have their damage amplified
 		if (Arrays.asList(tags).contains(DamageTag.REFLECT) && this.hbox.isReflectable()) {
-			this.hbox.setDamageMultiplier(reflectMultiplier * (1 + perp.getStat(Stats.REFLECT_DAMAGE)));
+			this.hbox.setDamageMultiplier(REFLECT_MULTIPLIER * (1 + perp.getStat(Stats.REFLECT_DAMAGE)));
 			this.hbox.setFilter((short) 0);
 
 			//reflecting a projectile should take ownership of it

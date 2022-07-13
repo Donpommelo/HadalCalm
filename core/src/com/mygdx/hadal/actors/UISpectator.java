@@ -24,30 +24,33 @@ import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
  */
 public class UISpectator extends AHadalActor {
 
+    private static final int MAIN_X = -350;
+    private static final int MAIN_Y = 0;
+    private static final int MAIN_X_ENABLED = 0;
+    private static final int MAIN_Y_ENABLED = 0;
+
+    private static final int TEXT_X = 15;
+    private static final int TITLE_Y = 110;
+    private static final int INSTRUCTIONS_1_Y = 88;
+    private static final int INSTRUCTIONS_2_Y = 66;
+    private static final int JOIN_Y = 44;
+    private static final int TOGGLE_Y = 22;
+
+    private static final int WINDOW_WIDTH = 350;
+    private static final int WINDOW_HEIGHT = 125;
+
+    private static final float FONT_SCALE_MEDIUM = 0.25f;
+
+    //how fast does the camera move scaling to distance dragged?
+    private final static float DRAG_MULTIPLIER = 2.5f;
+
     protected final PlayState state;
-
-    private static final int mainX = -350;
-    private static final int mainY = 0;
-    private static final int mainXEnabled = 0;
-    private static final int mainYEnabled = 0;
-
-    private static final int textX = 15;
-    private static final int titleY = 110;
-    private static final int instructions1Y = 88;
-    private static final int instructions2Y = 66;
-    private static final int joinY = 44;
-    private static final int toggleY = 22;
-
-    private static final int windowWidth = 350;
-    private static final int windowHeight = 125;
-
-    private static final float fontScaleMedium = 0.25f;
 
     //is the spectator ui currently visible or not?
     private boolean enabled = true;
 
     public UISpectator(PlayState state) {
-        super(mainXEnabled, mainYEnabled);
+        super(MAIN_X_ENABLED, MAIN_Y_ENABLED);
         this.state = state;
     }
 
@@ -56,36 +59,36 @@ public class UISpectator extends AHadalActor {
 
         if (!state.isSpectatorMode()) { return; }
 
-        GameStateManager.getSimplePatch().draw(batch, getX(), getY(), windowWidth, windowHeight);
+        GameStateManager.getSimplePatch().draw(batch, getX(), getY(), WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        HadalGame.FONT_UI.getData().setScale(fontScaleMedium);
+        HadalGame.FONT_UI.getData().setScale(FONT_SCALE_MEDIUM);
 
         //display different text if spectating a target or using free-cam, + info about spectator controls
         if (freeCam) {
-            HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_FREECAM.text(), getX() + textX, titleY);
+            HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_FREECAM.text(), getX() + TEXT_X, TITLE_Y);
         } else {
             if (spectatorTarget != null) {
-                HadalGame.FONT_UI.draw(batch, UIText.SPECTATING.text(spectatorTarget.getName()), getX() + textX, titleY);
+                HadalGame.FONT_UI.draw(batch, UIText.SPECTATING.text(spectatorTarget.getName()), getX() + TEXT_X, TITLE_Y);
             } else {
-                HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_NA.text(), getX() + textX, titleY);
+                HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_NA.text(), getX() + TEXT_X, TITLE_Y);
             }
         }
-        HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_LMB.text(), getX() + textX, instructions1Y);
-        HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_RMB.text(), getX() + textX, instructions2Y);
+        HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_LMB.text(), getX() + TEXT_X, INSTRUCTIONS_1_Y);
+        HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_RMB.text(), getX() + TEXT_X, INSTRUCTIONS_2_Y);
 
         //display info about rejoining (if applicable). Host gets extra info about selecting levels as spectator
         if (state.getMode().isHub()) {
             if (state.isServer()) {
                 HadalGame.FONT_UI.draw(batch, UIText.JOIN_OPTION_HOST.text(PlayerAction.PAUSE.getKeyText(), PlayerAction.INTERACT.getKeyText()),
-                        getX() + textX, joinY);
+                        getX() + TEXT_X, JOIN_Y);
             } else {
                 HadalGame.FONT_UI.draw(batch, UIText.JOIN_OPTION.text(PlayerAction.PAUSE.getKeyText()),
-                        getX() + textX, joinY);
+                        getX() + TEXT_X, JOIN_Y);
             }
         } else {
-            HadalGame.FONT_UI.draw(batch, UIText.JOIN_CANT.text(), getX() + textX, joinY);
+            HadalGame.FONT_UI.draw(batch, UIText.JOIN_CANT.text(), getX() + TEXT_X, JOIN_Y);
         }
-        HadalGame.FONT_UI.draw(batch, UIText.TOGGLE.text(PlayerAction.ACTIVE_ITEM.getKeyText()), getX() + textX, toggleY);
+        HadalGame.FONT_UI.draw(batch, UIText.TOGGLE.text(PlayerAction.ACTIVE_ITEM.getKeyText()), getX() + TEXT_X, TOGGLE_Y);
     }
 
     //is lmb held? Used to control camera dragging in free-cam mode
@@ -100,7 +103,6 @@ public class UISpectator extends AHadalActor {
     //control camera drag. Multiplier for making dragging a bit faster
     private final Vector2 lastMousePosition = new Vector2();
     private final Vector2 mousePosition = new Vector2();
-    private final static float dragMultiplier = 2.5f;
 
     //the player we are spectating, their connID and their user
     private int targetId;
@@ -122,7 +124,7 @@ public class UISpectator extends AHadalActor {
             firstInputGiven = true;
             mousePosition.set(Gdx.input.getX(), -Gdx.input.getY());
             if (mouseHeld) {
-                target.add(lastMousePosition.sub(mousePosition).scl(dragMultiplier));
+                target.add(lastMousePosition.sub(mousePosition).scl(DRAG_MULTIPLIER));
             }
             mouseHeld = true;
             freeCam = true;
@@ -206,7 +208,7 @@ public class UISpectator extends AHadalActor {
                 if (nextUser.getPlayer().getBody() != null && nextUser.getPlayer().isAlive()) {
                     spectatorUser = nextUser;
                     spectatorTarget = nextUser.getPlayer();
-                    targetId = spectatorTarget.getConnId();
+                    targetId = spectatorTarget.getConnID();
 
                     //sync ui so it shows info for your spectating target
                     state.getUiExtra().syncUIText(UITag.uiType.ALL);
@@ -222,9 +224,9 @@ public class UISpectator extends AHadalActor {
      */
     public void toggleSpectatorUI() {
         if (enabled) {
-            addAction(Actions.moveTo(mainX, mainY, TRANSITION_DURATION, INTP_FASTSLOW));
+            addAction(Actions.moveTo(MAIN_X, MAIN_Y, TRANSITION_DURATION, INTP_FASTSLOW));
         } else {
-            addAction(Actions.moveTo(mainXEnabled, mainYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
+            addAction(Actions.moveTo(MAIN_X_ENABLED, MAIN_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW));
         }
         enabled = !enabled;
     }
@@ -234,7 +236,7 @@ public class UISpectator extends AHadalActor {
      * This always enables the ui, in case the ui was enabled/disabled when the player last left spectator mode
      */
     public void enableSpectatorUI() {
-        addAction(Actions.moveTo(mainXEnabled, mainYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
+        addAction(Actions.moveTo(MAIN_X_ENABLED, MAIN_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW));
         enabled = true;
     }
 

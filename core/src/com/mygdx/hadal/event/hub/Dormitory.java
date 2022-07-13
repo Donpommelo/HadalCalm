@@ -22,10 +22,10 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Dormitory extends HubEvent {
 
-	private static final int TextWidth = 240;
-	private static final int TexOffsetY = 195;
-	private static final int OptionWidth = 250;
-	private static final int OptionHeight = 500;
+	private static final int TEXT_WIDTH = 240;
+	private static final int TEXT_OFFSET_Y = 195;
+	private static final int OPTION_WIDTH = 250;
+	private static final int OPTION_HEIGHT = 500;
 
 	private final Array<HubOptionPlayer> sprites = new Array<>();
 	private AlignmentFilter lastFilter;
@@ -53,9 +53,9 @@ public class Dormitory extends HubEvent {
 
 				HubOptionPlayer option = new HubOptionPlayer(selected.getName(), state.getPlayer(), c,
 						state.getPlayer().getPlayerData().getLoadout().team);
-				option.setOptionWidth(OptionWidth).setOptionHeight(OptionHeight);
-				option.setWrap(TextWidth);
-				option.setYOffset(TexOffsetY);
+				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_HEIGHT);
+				option.setWrap(TEXT_WIDTH);
+				option.setYOffset(TEXT_OFFSET_Y);
 
 				sprites.add(option);
 

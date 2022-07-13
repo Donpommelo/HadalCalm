@@ -33,6 +33,56 @@ import static com.mygdx.hadal.utils.Constants.*;
 
 public class LobbyState extends GameState {
 
+    //Dimensions of the setting menu
+    private static final int JOIN_X = 1650;
+    private static final int JOIN_Y = 240;
+    private static final int JOIN_X_ENABLED = 660;
+    private static final int JOIN_Y_ENABLED = 240;
+    private static final int JOIN_WIDTH = 580;
+    private static final int JOIN_HEIGHT = 440;
+    private static final int SCROLL_WIDTH = 550;
+    private static final int SCROLL_HEIGHT = 250;
+
+    private static final int IP_X = 1540;
+    private static final int IP_Y = 100;
+    private static final int IP_X_ENABLED = 720;
+    private static final int IP_Y_ENABLED = 100;
+    private static final int IP_WIDTH = 460;
+    private static final int IP_HEIGHT = 100;
+    private static final int TEXT_WIDTH = 260;
+
+    private static final int HOST_X = -980;
+    private static final int HOST_Y = 100;
+    private static final int HOST_X_ENABLED = 40;
+    private static final int HOST_Y_ENABLED = 100;
+    private static final int HOST_WIDTH = 580;
+    private static final int HOST_HEIGHT = 580;
+
+    private static final int NOTIFICATION_X = 40;
+    private static final int NOTIFICATION_Y = -240;
+    private static final int NOTIFICATION_X_ENABLED = 40;
+    private static final int NOTIFICATION_Y_ENABLED = 40;
+    private static final int NOTIFICATION_WIDTH = 580;
+    private static final int NOTIFICATION_HEIGHT = 60;
+
+    private static final int PASSWORD_X = 440;
+    private static final int PASSWORD_Y = 320;
+    private static final int PASSWORD_WIDTH = 400;
+    private static final int PASSWORD_HEIGHT = 100;
+    private static final float SCALE_SIDE = 0.25f;
+
+    private static final float OPTIONS_SCALE = 0.5f;
+    private static final float OPTION_HEIGHT = 35.0f;
+    private static final float OPTION_SCALE = 0.3f;
+    private static final float OPTION_PAD = 10.0f;
+
+    private static final float TITLE_PAD = 25.0f;
+    private static final float TITLE_SCALE = 0.5f;
+    private static final float SUBTITLE_SCALE = 0.25f;
+
+    private static final float REFRESH_CD = 4.0f;
+    private static final float CONNECTION_TIMEOUT = 10.0f;
+
     //This table contains the ui elements of the pause screen
     private Table joinLobby, lobbyTable, notificationTable, joinIP, host, tablePassword;
     private ScrollPane options;
@@ -43,64 +93,15 @@ public class LobbyState extends GameState {
     //options that the player can view
     private Text hostOption, searchOption, exitOption, notifications;
 
-    //Dimensions of the setting menu
-    private static final int joinX = 1650;
-    private static final int joinY = 240;
-    private static final int joinXEnabled = 660;
-    private static final int joinYEnabled = 240;
-    private static final int joinWidth = 580;
-    private static final int joinHeight = 440;
-    private static final int scrollWidth = 550;
-    private static final int scrollHeight = 250;
-
-    private static final int ipX = 1540;
-    private static final int ipY = 100;
-    private static final int ipXEnabled = 720;
-    private static final int ipYEnabled = 100;
-    private static final int ipWidth = 460;
-    private static final int ipHeight = 100;
-    private static final int textWidth = 260;
-
-    private static final int hostX = -980;
-    private static final int hostY = 100;
-    private static final int hostXEnabled = 40;
-    private static final int hostYEnabled = 100;
-    private static final int hostWidth = 580;
-    private static final int hostHeight = 580;
-
-    private static final int notificationX = 40;
-    private static final int notificationY = -240;
-    private static final int notificationXEnabled = 40;
-    private static final int notificationYEnabled = 40;
-    private static final int notificationWidth = 580;
-    private static final int notificationHeight = 60;
-
-    private static final int passwordX = 440;
-    private static final int passwordY = 320;
-    private static final int passwordWidth = 400;
-    private static final int passwordHeight = 100;
-    private static final float scaleSide = 0.25f;
-
-    private static final float optionsScale = 0.5f;
-    private static final float optionHeight = 35.0f;
-    private static final float optionScale = 0.3f;
-    private static final float optionPad = 10.0f;
-
-    private static final float titlePad = 25.0f;
-    private static final float titleScale = 0.5f;
-    private static final float subtitleScale = 0.25f;
-
     //this is the state underneath this state.
     private final GameState peekState;
 
     //This boolean determines if input is disabled. input is disabled if the player joins/hosts.
     private boolean inputDisabled;
 
-    private static final float refreshCd = 4.0f;
-    private float refreshCdCount = refreshCd;
+    private float refreshCdCount = REFRESH_CD;
 
     private boolean connectionAttempted;
-    private static final float connectionTimeout = 10.0f;
     private float connectionDuration;
 
     public LobbyState(final GameStateManager gsm,  GameState peekState) {
@@ -115,36 +116,36 @@ public class LobbyState extends GameState {
         stage = new Stage() {
             {
                 joinLobby = new WindowTable();
-                joinLobby.setPosition(joinX, joinY);
-                joinLobby.setSize(joinWidth, joinHeight);
+                joinLobby.setPosition(JOIN_X, JOIN_Y);
+                joinLobby.setSize(JOIN_WIDTH, JOIN_HEIGHT);
                 joinLobby.top();
                 addActor(joinLobby);
 
                 host = new WindowTable();
-                host.setPosition(hostX, hostY);
-                host.setSize(hostWidth, hostHeight);
+                host.setPosition(HOST_X, HOST_Y);
+                host.setSize(HOST_WIDTH, HOST_HEIGHT);
                 host.top();
                 addActor(host);
 
                 joinIP = new WindowTable();
-                joinIP.setPosition(ipX, ipY);
-                joinIP.setSize(ipWidth, ipHeight);
+                joinIP.setPosition(IP_X, IP_Y);
+                joinIP.setSize(IP_WIDTH, IP_HEIGHT);
                 addActor(joinIP);
 
                 notificationTable = new WindowTable();
-                notificationTable.setPosition(notificationX, notificationY);
-                notificationTable.setSize(notificationWidth, notificationHeight);
+                notificationTable.setPosition(NOTIFICATION_X, NOTIFICATION_Y);
+                notificationTable.setSize(NOTIFICATION_WIDTH, NOTIFICATION_HEIGHT);
                 addActor(notificationTable);
 
                 lobbyTable = new WindowTable();
 
                 Text joinTitle = new Text(UIText.JOIN.text());
-                joinTitle.setScale(titleScale);
+                joinTitle.setScale(TITLE_SCALE);
 
                 Text lobbiesTitle = new Text(UIText.LOBBIES.text());
-                lobbiesTitle.setScale(subtitleScale);
+                lobbiesTitle.setScale(SUBTITLE_SCALE);
 
-                lobbyOptions = new VerticalGroup().pad(optionPad).align(Align.topLeft);
+                lobbyOptions = new VerticalGroup().pad(OPTION_PAD).align(Align.topLeft);
 
                 options = new ScrollPane(lobbyOptions, GameStateManager.getSkin());
                 options.setFadeScrollBars(false);
@@ -154,7 +155,7 @@ public class LobbyState extends GameState {
 
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
-                        if (refreshCdCount >= refreshCd) {
+                        if (refreshCdCount >= REFRESH_CD) {
                             SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 
                             retrieveLobbies();
@@ -162,10 +163,10 @@ public class LobbyState extends GameState {
                         }
                     }
                 });
-                searchOption.setScale(optionsScale);
+                searchOption.setScale(OPTIONS_SCALE);
 
                 Text ipDisplay = new Text(UIText.ENTER_IP.text());
-                ipDisplay.setScale(subtitleScale);
+                ipDisplay.setScale(SUBTITLE_SCALE);
 
                 enterIP = new TextField("", GameStateManager.getSkin());
 
@@ -175,7 +176,7 @@ public class LobbyState extends GameState {
                 }
 
                 Text joinOptionIP = new Text(UIText.CONNECT_IP.text()).setButton(true);
-                joinOptionIP.setScale(subtitleScale);
+                joinOptionIP.setScale(SUBTITLE_SCALE);
 
                 joinOptionIP.addListener(new ClickListener() {
 
@@ -198,14 +199,14 @@ public class LobbyState extends GameState {
                             //Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
                             try {
                                 //trim whitespace from ip
-                                String trimmedIp = enterIP.getText().trim();
+                                String trimmedIP = enterIP.getText().trim();
 
-                                HadalGame.client.getClient().connect(8000, trimmedIp, gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
+                                HadalGame.client.getClient().connect(8000, trimmedIP, gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
 
                                 //save last joined ip if successful
-                                gsm.getRecord().setlastIp(trimmedIp);
+                                gsm.getRecord().setlastIp(trimmedIP);
 
-                                setNotification(UIText.CONNECTED.text(trimmedIp));
+                                setNotification(UIText.CONNECTED.text(trimmedIP));
                             } catch (IOException ex) {
                                 setNotification(UIText.CONNECTION_FAILED.text());
 
@@ -217,10 +218,10 @@ public class LobbyState extends GameState {
                 });
 
                 Text hostTitle = new Text(UIText.HOST.text());
-                hostTitle.setScale(titleScale);
+                hostTitle.setScale(TITLE_SCALE);
 
                 Text enterNameText = new Text(UIText.SERVER_NAME.text());
-                enterNameText.setScale(subtitleScale);
+                enterNameText.setScale(SUBTITLE_SCALE);
                 enterName = new TextField(UIText.SERVER_NAME_DEFAULT.text(gsm.getLoadout().getName()),
                         GameStateManager.getSkin());
                 enterName.setMaxLength(MAX_NAME_LENGTH_LONG);
@@ -241,7 +242,7 @@ public class LobbyState extends GameState {
                         transitionOut(() -> getGsm().addState(GameStateManager.State.SETTING, me));
                     }
                 });
-                serverSettings.setScale(optionsScale);
+                serverSettings.setScale(OPTIONS_SCALE);
 
                 hostOption = new Text(UIText.SERVER_CREATE.text()).setButton(true);
                 hostOption.addListener(new ClickListener() {
@@ -257,7 +258,7 @@ public class LobbyState extends GameState {
                         if (HadalGame.socket != null) {
                             JSONObject lobbyData = new JSONObject();
                             try {
-                                lobbyData.put("ip", getPublicIp());
+                                lobbyData.put("ip", getPublicIP());
                                 lobbyData.put("name", enterName.getText());
                                 lobbyData.put("playerNum", 1);
                                 lobbyData.put("playerCapacity", gsm.getSetting().getMaxPlayers() + 1);
@@ -279,7 +280,7 @@ public class LobbyState extends GameState {
                         gsm.getApp().fadeOut();
                     }
                 });
-                hostOption.setScale(optionsScale);
+                hostOption.setScale(OPTIONS_SCALE);
 
                 exitOption = new Text(UIText.RETURN.text()).setButton(true);
                 exitOption.addListener(new ClickListener() {
@@ -291,30 +292,30 @@ public class LobbyState extends GameState {
                         transitionOut(() -> gsm.removeState(LobbyState.class));
                     }
                 });
-                exitOption.setScale(optionsScale);
+                exitOption.setScale(OPTIONS_SCALE);
 
-                notifications = new Text("").setWrap(scrollWidth);
-                notifications.setScale(subtitleScale);
+                notifications = new Text("").setWrap(SCROLL_WIDTH);
+                notifications.setScale(SUBTITLE_SCALE);
 
-                joinLobby.add(joinTitle).colspan(2).height(optionHeight).pad(titlePad).row();
-                joinLobby.add(lobbiesTitle).height(optionHeight).pad(titlePad).left();
-                joinLobby.add(searchOption).height(optionHeight).pad(titlePad).right().row();
+                joinLobby.add(joinTitle).colspan(2).height(OPTION_HEIGHT).pad(TITLE_PAD).row();
+                joinLobby.add(lobbiesTitle).height(OPTION_HEIGHT).pad(TITLE_PAD).left();
+                joinLobby.add(searchOption).height(OPTION_HEIGHT).pad(TITLE_PAD).right().row();
 
                 lobbyTable.add(options);
-                joinLobby.add(lobbyTable).colspan(2).height(scrollHeight).width(scrollWidth).pad(optionPad).row();
+                joinLobby.add(lobbyTable).colspan(2).height(SCROLL_HEIGHT).width(SCROLL_WIDTH).pad(OPTION_PAD).row();
 
-                joinIP.add(ipDisplay).height(optionHeight).pad(5);
-                joinIP.add(enterIP).width(textWidth).height(optionHeight).row();
-                joinIP.add(joinOptionIP).height(optionHeight);
+                joinIP.add(ipDisplay).height(OPTION_HEIGHT).pad(5);
+                joinIP.add(enterIP).width(TEXT_WIDTH).height(OPTION_HEIGHT).row();
+                joinIP.add(joinOptionIP).height(OPTION_HEIGHT);
 
-                notificationTable.add(notifications).pad(optionPad).expandX().left();
+                notificationTable.add(notifications).pad(OPTION_PAD).expandX().left();
 
-                host.add(hostTitle).colspan(2).height(optionHeight).pad(titlePad).row();
-                host.add(enterNameText).height(optionHeight).pad(titlePad);
-                host.add(enterName).width(textWidth).height(optionHeight).pad(titlePad).row();
-                host.add(serverSettings).colspan(2).height(optionHeight).pad(optionPad).row();
-                host.add(hostOption).colspan(2).height(optionHeight).pad(optionPad).row();
-                host.add(exitOption).height(optionHeight).pad(optionPad).expandY().bottom().left().row();
+                host.add(hostTitle).colspan(2).height(OPTION_HEIGHT).pad(TITLE_PAD).row();
+                host.add(enterNameText).height(OPTION_HEIGHT).pad(TITLE_PAD);
+                host.add(enterName).width(TEXT_WIDTH).height(OPTION_HEIGHT).pad(TITLE_PAD).row();
+                host.add(serverSettings).colspan(2).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+                host.add(hostOption).colspan(2).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+                host.add(exitOption).height(OPTION_HEIGHT).pad(OPTION_PAD).expandY().bottom().left().row();
             }
         };
         app.newMenu(stage);
@@ -426,8 +427,8 @@ public class LobbyState extends GameState {
                         });
                     }
                 });
-                lobbyOption.setScale(optionScale);
-                lobbyOption.setHeight(optionHeight);
+                lobbyOption.setScale(OPTION_SCALE);
+                lobbyOption.setHeight(OPTION_HEIGHT);
 
                 lobbyOptions.addActor(lobbyOption);
             }
@@ -446,14 +447,14 @@ public class LobbyState extends GameState {
     public void update(float delta) {
         peekState.update(delta);
 
-        if (refreshCdCount < refreshCd) {
+        if (refreshCdCount < REFRESH_CD) {
             refreshCdCount += delta;
         }
 
-        if (connectionAttempted && connectionDuration < connectionTimeout) {
+        if (connectionAttempted && connectionDuration < CONNECTION_TIMEOUT) {
             connectionDuration += delta;
 
-            if (connectionDuration > connectionTimeout) {
+            if (connectionDuration > CONNECTION_TIMEOUT) {
                 connectionAttempted = false;
                 setNotification(UIText.CONNECTION_MM_FAILED.text());
             }
@@ -474,25 +475,25 @@ public class LobbyState extends GameState {
     public void openPasswordRequest() {
 
         tablePassword = new WindowTable();
-        tablePassword.setPosition(passwordX, passwordY);
-        tablePassword.setSize(passwordWidth, passwordHeight);
+        tablePassword.setPosition(PASSWORD_X, PASSWORD_Y);
+        tablePassword.setSize(PASSWORD_WIDTH, PASSWORD_HEIGHT);
         stage.addActor(tablePassword);
 
         Text password = new Text(UIText.PASSWORD.text());
-        password.setScale(scaleSide);
-        password.setHeight(optionHeight);
+        password.setScale(SCALE_SIDE);
+        password.setHeight(OPTION_HEIGHT);
 
         enterPassword = new TextField("", GameStateManager.getSkin());
         enterPassword.setPasswordCharacter('*');
         enterPassword.setPasswordMode(true);
 
         Text connect = new Text(UIText.PASSWORD_ENTER.text()).setButton(true);
-        connect.setScale(scaleSide);
-        connect.setHeight(optionHeight);
+        connect.setScale(SCALE_SIDE);
+        connect.setHeight(OPTION_HEIGHT);
 
         Text cancel = new Text(UIText.RETURN.text()).setButton(true);
-        cancel.setScale(scaleSide);
-        cancel.setHeight(optionHeight);
+        cancel.setScale(SCALE_SIDE);
+        cancel.setHeight(OPTION_HEIGHT);
 
         connect.addListener(new ClickListener() {
 
@@ -502,7 +503,7 @@ public class LobbyState extends GameState {
                 tablePassword.remove();
                 tablePassword.setVisible(true);
 
-                HadalGame.client.sendTCP(new Packets.PlayerConnect(true, enterName.getText(), HadalGame.Version, enterPassword.getText()));
+                HadalGame.client.sendTCP(new Packets.PlayerConnect(true, enterName.getText(), HadalGame.VERSION, enterPassword.getText()));
             }
         });
 
@@ -520,31 +521,31 @@ public class LobbyState extends GameState {
         });
 
         tablePassword.add(password).pad(5);
-        tablePassword.add(enterPassword).width(textWidth).height(optionHeight).row();
+        tablePassword.add(enterPassword).width(TEXT_WIDTH).height(OPTION_HEIGHT).row();
         tablePassword.add(connect);
         tablePassword.add(cancel);
     }
 
     private void transitionOut(Runnable runnable) {
-        joinLobby.addAction(Actions.moveTo(joinX, joinY, TRANSITION_DURATION, INTP_FASTSLOW));
-        joinIP.addAction(Actions.moveTo(ipX, ipY, TRANSITION_DURATION, INTP_FASTSLOW));
-        notificationTable.addAction(Actions.moveTo(notificationX, notificationY, TRANSITION_DURATION, INTP_FASTSLOW));
-        host.addAction(Actions.sequence(Actions.moveTo(hostX, hostY, TRANSITION_DURATION, INTP_FASTSLOW), Actions.run(runnable)));
+        joinLobby.addAction(Actions.moveTo(JOIN_X, JOIN_Y, TRANSITION_DURATION, INTP_FASTSLOW));
+        joinIP.addAction(Actions.moveTo(IP_X, IP_Y, TRANSITION_DURATION, INTP_FASTSLOW));
+        notificationTable.addAction(Actions.moveTo(NOTIFICATION_X, NOTIFICATION_Y, TRANSITION_DURATION, INTP_FASTSLOW));
+        host.addAction(Actions.sequence(Actions.moveTo(HOST_X, HOST_Y, TRANSITION_DURATION, INTP_FASTSLOW), Actions.run(runnable)));
     }
 
     private void transitionIn(Runnable runnable) {
-        joinLobby.addAction(Actions.moveTo(joinXEnabled, joinYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
-        joinIP.addAction(Actions.moveTo(ipXEnabled, ipYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
-        notificationTable.addAction(Actions.moveTo(notificationXEnabled, notificationYEnabled, TRANSITION_DURATION, INTP_FASTSLOW));
-        host.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(hostXEnabled, hostYEnabled, TRANSITION_DURATION, INTP_FASTSLOW)));
+        joinLobby.addAction(Actions.moveTo(JOIN_X_ENABLED, JOIN_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW));
+        joinIP.addAction(Actions.moveTo(IP_X_ENABLED, IP_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW));
+        notificationTable.addAction(Actions.moveTo(NOTIFICATION_X_ENABLED, NOTIFICATION_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW));
+        host.addAction(Actions.sequence(Actions.run(runnable), Actions.moveTo(HOST_X_ENABLED, HOST_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW)));
     }
 
     public void setNotification(String notification) {
         if (!"".equals(notification)) {
             notificationTable.addAction(Actions.sequence(
-                Actions.moveTo(notificationX, notificationY, TRANSITION_DURATION, INTP_FASTSLOW),
+                Actions.moveTo(NOTIFICATION_X, NOTIFICATION_Y, TRANSITION_DURATION, INTP_FASTSLOW),
                 Actions.run(() -> notifications.setText(notification)),
-                Actions.moveTo(notificationXEnabled, notificationYEnabled, TRANSITION_DURATION, INTP_FASTSLOW)));
+                Actions.moveTo(NOTIFICATION_X_ENABLED, NOTIFICATION_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW)));
         }
     }
 
@@ -562,19 +563,19 @@ public class LobbyState extends GameState {
     /**
      * @return returns the player's public ip for hosting servers
      */
-    public static String getPublicIp() {
+    public static String getPublicIP() {
 
         //if the player has already retrieved their ip when enabling upnp, this step is unnecessary.
-        if (!"".equals(HadalGame.myIp)) {
-            return HadalGame.myIp;
+        if (!"".equals(HadalGame.myIP)) {
+            return HadalGame.myIP;
         }
 
         BufferedReader in = null;
         try {
             URL whatismyip = new URL("http://checkip.amazonaws.com");
             in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
-            HadalGame.myIp = in.readLine();
-            return HadalGame.myIp;
+            HadalGame.myIP = in.readLine();
+            return HadalGame.myIP;
         } catch (IOException ioException) {
             ioException.printStackTrace();
         } finally {

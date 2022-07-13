@@ -7,8 +7,8 @@ import com.mygdx.hadal.equip.Loadout;
 
 import java.util.Arrays;
 
-import static com.mygdx.hadal.managers.GameStateManager.json;
-import static com.mygdx.hadal.managers.GameStateManager.reader;
+import static com.mygdx.hadal.managers.GameStateManager.JSON;
+import static com.mygdx.hadal.managers.GameStateManager.READER;
 import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_TOTAL;
 
 /**
@@ -21,7 +21,6 @@ public class SavedLoadout {
 	private String[] equip, artifact, cosmetic;
 	private String active, character;
 	private String team;
-
 
 	//This is the player's starting name
 	private String name;
@@ -43,7 +42,7 @@ public class SavedLoadout {
 	 * This simple saves the record in a designated file
 	 */
 	public void saveLoadout() {
-		Gdx.files.local("save/Loadout.json").writeString(json.prettyPrint(this), false);
+		Gdx.files.local("save/Loadout.json").writeString(JSON.prettyPrint(this), false);
 	}
 	
 	/**
@@ -52,14 +51,14 @@ public class SavedLoadout {
 	 */
 	public static void createNewLoadout() {
 		SavedLoadout newLoadout = new SavedLoadout();
-		newLoadout.equip = new String[Loadout.maxWeaponSlots];
+		newLoadout.equip = new String[Loadout.MAX_WEAPON_SLOTS];
 		Arrays.fill(newLoadout.equip, "NOTHING");
 		newLoadout.equip[0] = "SPEARGUN";
 
-		newLoadout.artifact = new String[Loadout.maxArtifactSlots];
+		newLoadout.artifact = new String[Loadout.MAX_ARTIFACT_SLOTS];
 		Arrays.fill(newLoadout.artifact, "NOTHING");
 
-		newLoadout.cosmetic = new String[Loadout.maxCosmeticSlots];
+		newLoadout.cosmetic = new String[Loadout.MAX_COSMETIC_SLOTS];
 		Arrays.fill(newLoadout.cosmetic, "NOTHING");
 
 		newLoadout.active = "NOTHING";
@@ -67,7 +66,7 @@ public class SavedLoadout {
 		newLoadout.team = "NONE";
 		newLoadout.name = "";
 		
-		Gdx.files.local("save/Loadout.json").writeString(json.prettyPrint(newLoadout), false);
+		Gdx.files.local("save/Loadout.json").writeString(JSON.prettyPrint(newLoadout), false);
 	}
 
 	/**
@@ -77,15 +76,15 @@ public class SavedLoadout {
 	public static SavedLoadout retrieveLoadout() {
 		SavedLoadout tempLoadout;
 		try {
-			tempLoadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
+			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
 		} catch (SerializationException e) {
 			SavedLoadout.createNewLoadout();
-			tempLoadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
+			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
 		}
 		if (tempLoadout.equip == null || tempLoadout.artifact == null || tempLoadout.cosmetic == null ||
 				tempLoadout.active == null || tempLoadout.character == null || tempLoadout.team == null) {
 			SavedLoadout.createNewLoadout();
-			tempLoadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
+			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
 		}
 		return tempLoadout;
 	}

@@ -37,7 +37,7 @@ import java.util.Objects;
  */
 public class ConsoleCommandUtil {
 
-	public static final int maxRoll = 100;
+	public static final int MAX_ROLL = 100;
 	/**
 	 * This parses a string input and executes a chat command.
 	 * @param state: current state
@@ -51,7 +51,7 @@ public class ConsoleCommandUtil {
 			if ("/weapon".equals(command)) {
 				StringBuilder message = new StringBuilder("Weapons: ");
 
-				for (int i = 0; i < Math.min(Loadout.maxWeaponSlots, Loadout.baseWeaponSlots + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
+				for (int i = 0; i < Math.min(Loadout.MAX_WEAPON_SLOTS, Loadout.BASE_WEAPON_SLOTS + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
 					if (!UnlockEquip.NOTHING.equals(player.getPlayerData().getLoadout().multitools[i])) {
 						message.append(player.getPlayerData().getLoadout().multitools[i].getName()).append(" ");
 					}
@@ -95,7 +95,7 @@ public class ConsoleCommandUtil {
 		}
 
 		if ("/roll".equals(command)) {
-			emitMessage(state, "Rolled A Number: " + MathUtils.random(maxRoll));
+			emitMessage(state, "Rolled A Number: " + MathUtils.random(MAX_ROLL));
 			return 0;
 		}
 
@@ -103,7 +103,7 @@ public class ConsoleCommandUtil {
 			if (state.isServer()) {
 				state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, 0);
 			} else {
-				state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, player.getConnId());
+				state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, player.getConnID());
 			}
 			return 0;
 		}

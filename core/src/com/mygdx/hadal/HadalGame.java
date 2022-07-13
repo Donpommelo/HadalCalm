@@ -39,10 +39,10 @@ public class HadalGame extends ApplicationAdapter {
 	public static final float CONFIG_HEIGHT = 720.0f;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String Version = "1.0.7l";
+	public static final String VERSION = "1.0.7m";
 
 	//version url takes player to patch notes page when version is clicked in title screen
-	public static final String VersionURL = "https://donpommelo.itch.io/hadal-calm/devlog/391290/107l";
+	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/403382/107m";
 
 	//Game cameras and respective viewports. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
@@ -76,8 +76,8 @@ public class HadalGame extends ApplicationAdapter {
     private Stage currentMenu;
     
     //this is the rate at which the screen fades from/to black.
-  	private static final float DefaultFadeInSpeed = -2.0f;
-  	private static final float DefaultFadeOutSpeed = 2.0f;
+  	private static final float DEFAULT_FADE_IN_SPEED = -2.0f;
+  	private static final float DEFAULT_FADE_OUT_SPEED = 2.0f;
   	
   	//This is the how faded the black screen is. (starts off black)
   	protected float fadeLevel = 1.0f;
@@ -89,7 +89,7 @@ public class HadalGame extends ApplicationAdapter {
   	private boolean skipFade;
 
   	//This is how much the fade changes every engine tick (starts out fading in)
-  	protected float fadeDelta = DefaultFadeInSpeed;
+  	protected float fadeDelta = DEFAULT_FADE_IN_SPEED;
   	
   	//this is a runnable that will run when the game finishes a transition, usually to another state.
   	private Runnable runAfterTransition;
@@ -254,7 +254,7 @@ public class HadalGame extends ApplicationAdapter {
 	}
 
 	//this is the player's external ip that other clients will connect to
-	public static String myIp = "";
+	public static String myIP = "";
 	/**
 	 * This attempts to enable upnp on the client's router
 	 * @param protocol: tcp or udp
@@ -273,7 +273,7 @@ public class HadalGame extends ApplicationAdapter {
 				//Attempt to find router and acquire its information
 				if (d != null) {
 					InetAddress localAddress = d.getLocalAddress();
-					myIp = d.getExternalIPAddress();
+					myIP = d.getExternalIPAddress();
 					PortMappingEntry portMapping = new PortMappingEntry();
 
 					//delete existing mappings before attempting to create a new one
@@ -307,9 +307,9 @@ public class HadalGame extends ApplicationAdapter {
 		}
 	}
 
-	public void fadeOut() {	fadeDelta = DefaultFadeOutSpeed; }
+	public void fadeOut() {	fadeDelta = DEFAULT_FADE_OUT_SPEED; }
 	
-	public void fadeIn() { fadeDelta = DefaultFadeInSpeed; }
+	public void fadeIn() { fadeDelta = DEFAULT_FADE_IN_SPEED; }
 		
 	public void setFadeLevel(float fadeLevel) { this.fadeLevel = fadeLevel; }
 	

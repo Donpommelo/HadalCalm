@@ -52,8 +52,8 @@ public class Drone extends EnemySwimming {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.DRONE, startAngle, filter, baseHp, attackCd, scrapDrop);
 		armBackSprite = Sprite.DRONE_ARM_BACK.getFrame();
 		armFrontSprite = Sprite.DRONE_ARM_FRONT.getFrame();
-		eyeSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.DRONE_EYE.getFrames());
-		dotSprite = new Animation<>(PlayState.spriteAnimationSpeedFast,	Sprite.DRONE_DOT.getFrames());
+		eyeSprite = new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_FAST, Sprite.DRONE_EYE.getFrames());
+		dotSprite = new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_FAST,	Sprite.DRONE_DOT.getFrames());
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		
 		this.eyeType = (int) extraField;

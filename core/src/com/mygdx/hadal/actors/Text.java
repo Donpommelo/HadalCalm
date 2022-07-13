@@ -17,7 +17,10 @@ import com.mygdx.hadal.managers.GameStateManager;
  * @author Slirmelo Stufferty
  */
 public class Text extends AHadalActor {
-	
+
+	//padding for window used if this text is a button
+	private static final float PAD = 15.0f;
+
 	protected String text;
 	protected BitmapFont font;
 	protected BitmapFontCache cache;
@@ -34,9 +37,6 @@ public class Text extends AHadalActor {
 	private boolean wrap;
 	private float targetWidth;
 	private int align = Align.left;
-
-	//padding for window used if this text is a button
-	private static final float pad = 15.0f;
 
 	private boolean mouseWindow;
 
@@ -58,7 +58,7 @@ public class Text extends AHadalActor {
 		//draw an additional window beneath this actor to indicate a button
 		 if (mouseOver) {
 		 	if (mouseWindow) {
-				GameStateManager.getSimplePatch().draw(batch, getX() - pad / 2, getY(), getWidth() + pad, getHeight());
+				GameStateManager.getSimplePatch().draw(batch, getX() - PAD / 2, getY(), getWidth() + PAD, getHeight());
 			}
 		 }
 

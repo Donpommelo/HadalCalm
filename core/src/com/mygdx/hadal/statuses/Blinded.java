@@ -12,9 +12,9 @@ import com.mygdx.hadal.states.PlayState;
 
 public class Blinded extends Status {
 
-	private static final float fadeCooldown = 0.5f;
-	private static final float linger = 1.0f;
-	private float fadeTimer = fadeCooldown;
+	private static final float FADE_COOLDOWN = 0.5f;
+	private static final float LINGER = 1.0f;
+	private float fadeTimer = FADE_COOLDOWN;
 
 	public Blinded(PlayState state, float i, BodyData p, BodyData v, boolean instant) {
 		super(state, i, false, p, v);
@@ -26,11 +26,11 @@ public class Blinded extends Status {
 
 	@Override
 	public void onInflict() {
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, linger, duration + linger,
-				true, SyncType.CREATESYNC).setPrematureOff(linger).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
+		new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, LINGER, duration + LINGER,
+				true, SyncType.CREATESYNC).setPrematureOff(LINGER).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
 	}
 
-	public static final float blindInterpolation = 0.05f;
+	public static final float BLIND_INTERPOLATION = 0.05f;
 	@Override
 	public void timePassing(float delta) {
 		if (fadeTimer > 0.0f) {
@@ -41,7 +41,7 @@ public class Blinded extends Status {
 		}
 		if (inflicted instanceof PlayerBodyData playerData) {
 			float currentDuration = playerData.getPlayer().getBlinded();
-			playerData.getPlayer().setBlinded(currentDuration + (duration - currentDuration) * blindInterpolation);
+			playerData.getPlayer().setBlinded(currentDuration + (duration - currentDuration) * BLIND_INTERPOLATION);
 		}
 	}
 
@@ -59,11 +59,11 @@ public class Blinded extends Status {
 		}
 	}
 
-	public static final float blindFadeDuration = 4.5f;
-	public static final float blindFadeThreshold1 = 4.0f;
-	public static final float botBlindThreshold = 2.0f;
-	public static final float maxBlind = 1.0f;
-	public static final float threshold1Blind = 0.9f;
+	public static final float BLIND_FADE_DURATION = 4.5f;
+	public static final float BLIND_FADE_THRESHOLD_1 = 4.0f;
+	public static final float BOT_BLIND_THRESHOLD = 2.0f;
+	public static final float MAX_BLIND = 1.0f;
+	public static final float THRESHOLD_1_BLIND = 0.9f;
 	/**
 	 * This determines how "blind" a character should be depending on the duration remaining of the status
 	 * @param blindDuration: duration remaining of blind
@@ -72,27 +72,27 @@ public class Blinded extends Status {
 	public static float getBlindAmount(float blindDuration) {
 
 		//if blind duration is more than fade duration, cap blind amount at 1
-		if (blindDuration > blindFadeDuration) {
-			return maxBlind;
+		if (blindDuration > BLIND_FADE_DURATION) {
+			return MAX_BLIND;
 		}
 
 		//while fading, blind lerps towards in 2 separate stages
-		if (blindDuration > blindFadeThreshold1) {
-			return MathUtils.lerp(threshold1Blind, maxBlind, (blindDuration - blindFadeThreshold1) /
-					(blindFadeDuration - blindFadeThreshold1));
+		if (blindDuration > BLIND_FADE_THRESHOLD_1) {
+			return MathUtils.lerp(THRESHOLD_1_BLIND, MAX_BLIND, (blindDuration - BLIND_FADE_THRESHOLD_1) /
+					(BLIND_FADE_DURATION - BLIND_FADE_THRESHOLD_1));
 		}
-		return MathUtils.lerp(0, threshold1Blind, blindDuration / blindFadeThreshold1);
+		return MathUtils.lerp(0, THRESHOLD_1_BLIND, blindDuration / BLIND_FADE_THRESHOLD_1);
 	}
 
 	@Override
 	public void setDuration(float duration) {
-		this.duration = Math.min(blindFadeDuration + fadeTimer, duration);
+		this.duration = Math.min(BLIND_FADE_DURATION + fadeTimer, duration);
 
 		//reset fade timer so stacking blind doesn't make it flicker
-		fadeTimer = fadeCooldown;
+		fadeTimer = FADE_COOLDOWN;
 
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, linger, duration + linger,
-				true, SyncType.CREATESYNC).setPrematureOff(linger).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
+		new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, LINGER, duration + LINGER,
+				true, SyncType.CREATESYNC).setPrematureOff(LINGER).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
 	}
 
 	@Override

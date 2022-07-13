@@ -16,7 +16,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class DieRagdoll extends HitboxStrategy {
 
-	private static final float ragdollDuration = 0.75f;
+	private static final float RAGDOLL_DURATION = 0.75f;
 
 	//is the creation of this ragdoll communicated to the client or processed independently
 	private final boolean synced;
@@ -29,7 +29,7 @@ public class DieRagdoll extends HitboxStrategy {
 	@Override
 	public void die() {
 		Ragdoll ragdoll = new Ragdoll(state, this.hbox.getPixelPosition(), hbox.getSize(), hbox.getSprite(), new Vector2(),
-				ragdollDuration, 1.0f, false, false, synced, true);
+				RAGDOLL_DURATION, 1.0f, false, false, synced, true);
 
 		if (!state.isServer()) {
 			((ClientState) state).addEntity(ragdoll.getEntityID(), ragdoll, false, ClientState.ObjectLayer.HBOX);

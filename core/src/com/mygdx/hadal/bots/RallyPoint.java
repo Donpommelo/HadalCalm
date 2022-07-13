@@ -35,8 +35,8 @@ public class RallyPoint implements Comparable<RallyPoint> {
     private final Vector2 connectionTemp = new Vector2();
 
     //cost modifiers make it so that distance upwards is seen as more costly and distance downwards is seen as cheaper
-    public static final float upCostModifier = 1.5f;
-    public static final float downCostModifier = 0.5f;
+    public static final float UP_COST_MODIFIER = 1.5f;
+    public static final float DOWN_COST_MODIFIER = 0.5f;
     /**
      * Add a single node as a connecting neighbor to this node
      * @param state: playstate. used to check mode
@@ -46,10 +46,10 @@ public class RallyPoint implements Comparable<RallyPoint> {
     public void addConnection(PlayState state, RallyPoint point, float multiplier, int teamIndex) {
         connectionTemp.set(point.getPosition());
         if (connectionTemp.y > position.y) {
-            connectionTemp.set(connectionTemp.x, position.y + upCostModifier * (connectionTemp.y - position.y));
+            connectionTemp.set(connectionTemp.x, position.y + UP_COST_MODIFIER * (connectionTemp.y - position.y));
         }
         if (connectionTemp.y < position.y) {
-            connectionTemp.set(connectionTemp.x, position.y + downCostModifier * (connectionTemp.y - position.y));
+            connectionTemp.set(connectionTemp.x, position.y + DOWN_COST_MODIFIER * (connectionTemp.y - position.y));
         }
         float distance = connectionTemp.dst(position) * multiplier;
 

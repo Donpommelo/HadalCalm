@@ -22,16 +22,16 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class ContactUnitKnockbackDamage extends HitboxStrategy {
 	
 	//this is the lifespan of the hbox that gets created when the hbox contacts a unit
-	private static final float lifespan = 1.0f;
+	private static final float LIFESPAN = 1.0f;
 	
 	//this is the minimum speed the target must be moving to inflict damage
-	private static final float speedThreshold = 30.0f;
+	private static final float SPEED_THRESHOLD = 30.0f;
 
 	//this is the window of time before the effect activates. prevents it from instakilling a unit already touching a wall.
-	private static final float procCd = 0.03f;
+	private static final float PROC_CD = 0.03f;
 	
 	//this is the maximum amount of damage that this effect can inflict
-	private static final float maxDamage = 150.0f;
+	private static final float MAX_DAMAGE = 150.0f;
 
 	//this is the effect/item/weapon source of the knockback
 	private final DamageSource source;
@@ -53,7 +53,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 				Vector2 hitboxSize = new Vector2();
 				hitboxSize.set(vic.getSchmuck().getSize()).add(5, 5);
 				
-				Hitbox hbox = new Hitbox(state, new Vector2(), hitboxSize, lifespan, new Vector2(), creator.getSchmuck().getHitboxfilter(),
+				Hitbox hbox = new Hitbox(state, new Vector2(), hitboxSize, LIFESPAN, new Vector2(), creator.getSchmuck().getHitboxfilter(),
 					true, true, creator.getSchmuck(), Sprite.NOTHING);
 				hbox.makeUnreflectable();
 				
@@ -65,16 +65,16 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 					private float lastVelo;
 					@Override
 					public void controller(float delta) {
-						if (procCdCount < procCd) {
+						if (procCdCount < PROC_CD) {
 							procCdCount += delta;
 						}
-						lastVelo = Math.min(vic.getSchmuck().getLinearVelocity().len2(), maxDamage);
+						lastVelo = Math.min(vic.getSchmuck().getLinearVelocity().len2(), MAX_DAMAGE);
 					}
 					
 					@Override
 					public void onHit(HadalData fixB) {
-						if (procCdCount > procCd) {
-							if (fixB != null && lastVelo > speedThreshold) {
+						if (procCdCount > PROC_CD) {
+							if (fixB != null && lastVelo > SPEED_THRESHOLD) {
 
 								//contact a wall, damage the victim
 								if (UserDataType.WALL.equals(fixB.getType())) {

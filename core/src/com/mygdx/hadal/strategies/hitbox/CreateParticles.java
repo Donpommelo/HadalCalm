@@ -15,7 +15,10 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Scollinaire Smoregano
  */
 public class CreateParticles extends HitboxStrategy {
-	
+
+	//this is the max hitbox size a particle will try to scale to
+	private static final float maxSize = 100.0f;
+
 	//the effect that is to be created.
 	private final Particle effect;
 	
@@ -27,9 +30,6 @@ public class CreateParticles extends HitboxStrategy {
 	
 	//this is the color of the particle effect
 	private HadalColor color = HadalColor.NOTHING;
-	
-	//this is the max hitbox size a particle will try to scale to
-	private static final float maxSize = 100.0f;
 	
 	//this is the particle effect that will be displayed
 	private ParticleEntity particles;

@@ -28,39 +28,37 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  */
 public class MeridianMaker extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.1f;
-	private static final float maxCharge = 8.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.1f;
+	private static final float MAX_CHARGE = 8.0f;
 	
-	private static final float baseDamage = 45.0f;
-	private static final float knockback = 0.0f;
-	private static final Vector2 projectileSize = new Vector2(40, 40);
-	private static final float lifespan = 6.0f;
-	
-	private static final float projectileSpeed = 30.0f;
-	
-	private static final Sprite projSprite = Sprite.NOTHING;
+	private static final float BASE_DAMAGE = 45.0f;
+	private static final float KNOCKBACK = 0.0f;
+	private static final Vector2 PROJECTILE_SIZE = new Vector2(40, 40);
+	private static final float LIFESPAN = 6.0f;
+	private static final float PROJECTILE_SPEED = 30.0f;
+	private static final int CURRENT_RADIUS = 100;
+	private static final float CURRENT_FORCE = 1.0f;
 
-	private static final int currentRadius = 100;
-	private static final float currentForce = 1.0f;
-	
+	private static final Sprite PROJ_SPRITE = Sprite.NOTHING;
+
 	public MeridianMaker(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.MAGIC11_WEIRD.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
 		
-		final Vector2 currentVec = new Vector2(weaponVelo).nor().scl(currentForce);
+		final Vector2 currentVec = new Vector2(weaponVelo).nor().scl(CURRENT_FORCE);
 		
-		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getProjectileOrigin(weaponVelo, projectileSize.x), projectileSize, lifespan, 
-				new Vector2(weaponVelo).nor().scl(projectileSpeed), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), projSprite);
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getProjectileOrigin(weaponVelo, PROJECTILE_SIZE.x), PROJECTILE_SIZE, LIFESPAN,
+				new Vector2(weaponVelo).nor().scl(PROJECTILE_SPEED), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), PROJ_SPRITE);
 		
 		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
-		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageSource.MERIDIAN_MAKER, DamageTag.MAGIC));
+		hbox.addStrategy(new DamageStandard(state, hbox, user, BASE_DAMAGE, KNOCKBACK, DamageSource.MERIDIAN_MAKER, DamageTag.MAGIC));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user));
 		hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.BRIGHT, 0.0f, 1.0f)
 				.setParticleColor(HadalColor.CELESTE).setParticleSize(20));
@@ -70,9 +68,9 @@ public class MeridianMaker extends ActiveItem {
 			
 			@Override
 			public void controller(float delta) {
-				if (lastPosition.dst2(hbox.getPixelPosition()) > currentRadius * currentRadius) {
-					new Currents(state, lastPosition.set(hbox.getPixelPosition()), new Vector2(currentRadius, currentRadius),
-							currentVec, lifespan);
+				if (lastPosition.dst2(hbox.getPixelPosition()) > CURRENT_RADIUS * CURRENT_RADIUS) {
+					new Currents(state, lastPosition.set(hbox.getPixelPosition()), new Vector2(CURRENT_RADIUS, CURRENT_RADIUS),
+							currentVec, LIFESPAN);
 				}
 			}
 		}); 
@@ -81,8 +79,8 @@ public class MeridianMaker extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) baseDamage),
-				String.valueOf((int) lifespan)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) BASE_DAMAGE),
+				String.valueOf((int) LIFESPAN)};
 	}
 }

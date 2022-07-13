@@ -7,35 +7,35 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
-import static com.mygdx.hadal.battle.WeaponUtils.nauticalMineExplosionDamage;
-import static com.mygdx.hadal.battle.WeaponUtils.nauticalMineLifespan;
+import static com.mygdx.hadal.battle.WeaponUtils.NAUTICAL_MINE_EXPLOSION_DAMAGE;
+import static com.mygdx.hadal.battle.WeaponUtils.NAUTICAL_MINE_LIFESPAN;
 
 /**
  * @author Froginald Frugwump
  */
 public class NauticalMine extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.1f;
-	private static final float maxCharge = 8.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.1f;
+	private static final float MAX_CHARGE = 8.0f;
 	
-	private static final float projectileSpeed = 15.0f;
+	private static final float PROJECTILE_SPEED = 15.0f;
 	
 	public NauticalMine(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SyncedAttack.NAUTICAL_MINE.initiateSyncedAttackSingle(state, user.getPlayer(), user.getPlayer().getPixelPosition(),
-				new Vector2(weaponVelo).nor().scl(projectileSpeed));
+				new Vector2(weaponVelo).nor().scl(PROJECTILE_SPEED));
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) nauticalMineExplosionDamage),
-				String.valueOf((int) nauticalMineLifespan)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) NAUTICAL_MINE_EXPLOSION_DAMAGE),
+				String.valueOf((int) NAUTICAL_MINE_LIFESPAN)};
 	}
 }

@@ -8,34 +8,34 @@ import com.badlogic.gdx.math.MathUtils;
  */
 public class BotPersonality {
 
-    private static final float mouseAimSpeedDefault = 0.075f;
-    private static final float visionXDefault = 30.0f;
-    private static final float visionYDefault = 16.0f;
-    private static final float boostThreshold = 250.0f;
-    private static final float boostDesireRange = 0.2f;
-    private static final float weaponDesireRange = 0.4f;
-    private static final float healthDesireRange = 0.5f;
-    private static final float violenceDesireRange = 0.25f;
-    private static final float chatWheelDesireMin = -0.7f;
-    private static final float chatWheelDesireMax = 0.3f;
+    private static final float MOUSE_AIM_SPEED_DEFAULT = 0.075f;
+    private static final float VISION_X_DEFAULT = 30.0f;
+    private static final float VISION_Y_DEFAULT = 16.0f;
+    private static final float BOOST_THRESHOLD = 250.0f;
+    private static final float BOOST_DESIRE_RANGE = 0.2f;
+    private static final float WEAPON_DESIRE_RANGE = 0.4f;
+    private static final float HEALTH_DESIRE_RANGE = 0.5f;
+    private static final float VIOLENCE_DESIRE_RANGE = 0.25f;
+    private static final float CHAT_WHEEL_DESIRE_MIN = -0.7f;
+    private static final float CHAT_WHEEL_DESIRE_MAX = 0.3f;
     private final float mouseAimSpeed, visionX, visionY, boostDesireMultiplier, weaponDesireMultiplier,
             healthDesireMultiplier, violenceDesireMultiplier, chatWheelDesire, wobbleMin, wobbleMax, wobbleDecrement,
     wobbleIncrement;
 
     public BotPersonality(BotDifficulty difficulty) {
-        mouseAimSpeed = mouseAimSpeedDefault * (1.0f + difficulty.mouseAimSpeed);
-        visionX = visionXDefault * (1.0f + difficulty.visionRange);
-        visionY = visionYDefault * (1.0f + difficulty.visionRange);
+        mouseAimSpeed = MOUSE_AIM_SPEED_DEFAULT * (1.0f + difficulty.mouseAimSpeed);
+        visionX = VISION_X_DEFAULT * (1.0f + difficulty.visionRange);
+        visionY = VISION_Y_DEFAULT * (1.0f + difficulty.visionRange);
         wobbleMin = difficulty.wobbleMin;
         wobbleMax = difficulty.wobbleMax;
         wobbleDecrement = difficulty.wobbleDecrement;
         wobbleIncrement = difficulty.wobbleIncrement;
 
-        boostDesireMultiplier = boostThreshold * (1.0f + MathUtils.random(-boostDesireRange, boostDesireRange));
-        weaponDesireMultiplier = MathUtils.random(-weaponDesireRange, weaponDesireRange);
-        healthDesireMultiplier = MathUtils.random(-healthDesireRange, healthDesireRange);
-        violenceDesireMultiplier = MathUtils.random(-violenceDesireRange, violenceDesireRange);
-        chatWheelDesire = MathUtils.random(chatWheelDesireMin, chatWheelDesireMax);
+        boostDesireMultiplier = BOOST_THRESHOLD * (1.0f + MathUtils.random(-BOOST_DESIRE_RANGE, BOOST_DESIRE_RANGE));
+        weaponDesireMultiplier = MathUtils.random(-WEAPON_DESIRE_RANGE, WEAPON_DESIRE_RANGE);
+        healthDesireMultiplier = MathUtils.random(-HEALTH_DESIRE_RANGE, HEALTH_DESIRE_RANGE);
+        violenceDesireMultiplier = MathUtils.random(-VIOLENCE_DESIRE_RANGE, VIOLENCE_DESIRE_RANGE);
+        chatWheelDesire = MathUtils.random(CHAT_WHEEL_DESIRE_MIN, CHAT_WHEEL_DESIRE_MAX);
     }
 
     public float getMouseAimSpeed() { return mouseAimSpeed; }

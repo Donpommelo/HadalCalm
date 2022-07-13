@@ -14,7 +14,7 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
-import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
+import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
 
 /**
  * This mode setting is used for modes where the host can designate a number of lives.
@@ -90,13 +90,13 @@ public class SettingLives extends ModeSetting {
             User user = vic.getUser();
             if (user != null) {
                 if (unlimitedLives) {
-                    user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
+                    user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, state.getRespawnTime());
                 } else {
                     user.getScores().setLives(user.getScores().getLives() - 1);
                     if (user.getScores().getLives() <= 0) {
                         mode.processPlayerLivesOut(state, vic);
                     } else {
-                        user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
+                        user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, state.getRespawnTime());
                     }
                 }
             }

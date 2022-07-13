@@ -30,23 +30,22 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  */
 public class AnchorSmash extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.1f;
-	private static final float maxCharge = 16.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.1f;
+	private static final float MAX_CHARGE = 16.0f;
 
-	private static final Vector2 projectileSize = new Vector2(300, 259);
-	private static final float lifespan = 4.0f;
-	private static final float projectileSpeed = 60.0f;
+	private static final Vector2 PROJECTILE_SIZE = new Vector2(300, 259);
+	private static final float LIFESPAN = 4.0f;
+	private static final float PROJECTILE_SPEED = 60.0f;
 
-	private static final float range = 1800.0f;
+	private static final float RANGE = 1800.0f;
+	private static final float BASE_DAMAGE = 80.0f;
+	private static final float KNOCKBACK = 50.0f;
 
-	private static final float baseDamage = 80.0f;
-	private static final float knockback = 50.0f;
-
-	private static final Sprite projSprite = Sprite.ANCHOR;
+	private static final Sprite PROJ_SPRITE = Sprite.ANCHOR;
 
 	public AnchorSmash(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 
 	private float shortestFraction;
@@ -57,7 +56,7 @@ public class AnchorSmash extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 
 		originPt.set(mouseLocation).scl(1 / PPM);
-		endPt.set(originPt).add(0, -range);
+		endPt.set(originPt).add(0, -RANGE);
 		shortestFraction = 1.0f;
 
 		if (WorldUtil.preRaycastCheck(originPt, endPt)) {
@@ -70,8 +69,8 @@ public class AnchorSmash extends ActiveItem {
 			}, originPt, endPt);
 		}
 
-		endPt.set(originPt).add(0, -range * shortestFraction).scl(PPM);
-		originPt.set(endPt).add(0, range);
+		endPt.set(originPt).add(0, -RANGE * shortestFraction).scl(PPM);
+		originPt.set(endPt).add(0, RANGE);
 
 		SyncedAttack.ANCHOR.initiateSyncedAttackSingle(state, user.getPlayer(), originPt, new Vector2(), endPt.x, endPt.y);
 	}
@@ -83,13 +82,13 @@ public class AnchorSmash extends ActiveItem {
 			endPt.set(extraFields[0], extraFields[1]);
 		}
 
-		Hitbox hbox = new Hitbox(state, startPosition, projectileSize, lifespan, new Vector2(0, -projectileSpeed),
-				user.getHitboxfilter(), true, false, user, projSprite);
+		Hitbox hbox = new Hitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, new Vector2(0, -PROJECTILE_SPEED),
+				user.getHitboxfilter(), true, false, user, PROJ_SPRITE);
 		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 		hbox.makeUnreflectable();
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback,
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
 				DamageSource.ANCHOR_SMASH, DamageTag.WHACKING, DamageTag.MAGIC));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLASH, 0.8f, true).setSynced(false));
 		hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.FALLING, 0.5f, false)
@@ -126,7 +125,7 @@ public class AnchorSmash extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-			String.valueOf((int) maxCharge),
-			String.valueOf((int) baseDamage)};
+			String.valueOf((int) MAX_CHARGE),
+			String.valueOf((int) BASE_DAMAGE)};
 	}
 }

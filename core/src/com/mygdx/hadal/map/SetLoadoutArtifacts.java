@@ -19,7 +19,7 @@ public class SetLoadoutArtifacts extends ModeSetting {
 
     @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
-        for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+        for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
             if (mapArtifacts.size > i) {
                 newLoadout.artifacts[i] = mapArtifacts.get(i);
             } else {

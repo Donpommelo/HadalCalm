@@ -24,7 +24,7 @@ public class LoadingBackdrop extends AHadalActor {
 	
 	public LoadingBackdrop() {
 		atlas = new TextureAtlas("ui/anchor_logo.atlas");
-		loading = new Animation<>(PlayState.spriteAnimationSpeedFast, atlas.findRegions("anchor_logo"));
+		loading = new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_FAST, atlas.findRegions("anchor_logo"));
 		
 		//This image takes up the whole screen.
 		this.width = loading.getKeyFrame(0).getRegionWidth();

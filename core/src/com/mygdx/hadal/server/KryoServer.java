@@ -104,7 +104,8 @@ public class KryoServer {
 							if (player.getPlayerData() != null) {
 								player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageSource.DISCONNECT);
 							}
-							addNotificationToAll(ps, "", UIText.CLIENT_DISCONNECTED.text(player.getName()), true, DialogType.SYSTEM);
+							addNotificationToAll(ps, "", UIText.CLIENT_DISCONNECTED.text(player.getName()),
+									true, DialogType.SYSTEM);
 						});
 					}
 					ps.addPacketEffect(() -> {
@@ -160,8 +161,8 @@ public class KryoServer {
 						if (p.firstTime) {
 							
 							//reject clients with wrong version
-							if (!HadalGame.Version.equals(p.version)) {
-								sendToTCP(c.getID(), new Packets.ConnectReject(UIText.INCOMPATIBLE.text(HadalGame.Version)));
+							if (!HadalGame.VERSION.equals(p.version)) {
+								sendToTCP(c.getID(), new Packets.ConnectReject(UIText.INCOMPATIBLE.text(HadalGame.VERSION)));
 								return;
 							}
 
@@ -553,7 +554,7 @@ public class KryoServer {
 	/**
 	 * This is called whenever the server creates a new player for a client
 	 * @param ps: This is the server's current play state
-	 * @param connId: This is the connId of the client requesting a new player
+	 * @param connID: This is the connID of the client requesting a new player
 	 * @param name: The name of the new player
 	 * @param loadout: The loadout of the new player
 	 * @param data: The player data of the new player.
@@ -562,18 +563,18 @@ public class KryoServer {
 	 * @param justJoined: Is this a newly connecting client or a newly respawned one?
 	 * @param startPoint: The start point to spawn the new client player at
 	 */
-	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout,
+	public void createNewClientPlayer(final PlayState ps, final int connID, final String name, final Loadout loadout,
 	  final PlayerBodyData data, final boolean reset, final boolean spectator, boolean justJoined, final Event startPoint) {
 
 		ps.addPacketEffect(() -> {
 
 			//Update that player's fields or give them new ones if they are a new client
 			User user;
-			if (users.containsKey(connId)) {
-				user = users.get(connId);
+			if (users.containsKey(connID)) {
+				user = users.get(connID);
 			} else {
-				user = new User(null, new SavedPlayerFields(name, connId), new SavedPlayerFieldsExtra());
-				users.put(connId, user);
+				user = new User(null, new SavedPlayerFields(name, connID), new SavedPlayerFieldsExtra());
+				users.put(connID, user);
 				user.setTeamFilter(loadout.team);
 			}
 
@@ -584,10 +585,10 @@ public class KryoServer {
 
 			//set the client as a spectator if requested
 			if (spectator) {
-				ps.startSpectator(user, connId);
+				ps.startSpectator(user, connID);
 			} else {
 				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, user, reset, false, justJoined,
+				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connID, user, reset, false, justJoined,
 						user.getHitBoxFilter().getFilter());
 				MouseTracker newMouse = new MouseTracker(ps, false);
 				newPlayer.setMouse(newMouse);
@@ -622,14 +623,14 @@ public class KryoServer {
 	
 	/**
 	 * This makes a client display a notification
-	 * @param connId: id of the client to send the notification to
+	 * @param connID: id of the client to send the notification to
 	 * @param name: name giving the notification
 	 * @param text: notification text
 	 * @param override: Can this notification be overriden by other notifications?
 	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
-	public void sendNotification(int connId, String name, String text, boolean override, final DialogType type) {
-		sendToTCP(connId, new Packets.ServerNotification(name, text, override, type));
+	public void sendNotification(int connID, String name, String text, boolean override, final DialogType type) {
+		sendToTCP(connID, new Packets.ServerNotification(name, text, override, type));
 	}
 	
 	/**
@@ -664,15 +665,15 @@ public class KryoServer {
 	/**
 	 * This makes all client display a notification and also self, excluding one client
 	 * @param ps: server's current playstate
-	 * @param connId: id of the client to exclude
+	 * @param connID: id of the client to exclude
 	 * @param name: name giving the notification
 	 * @param text: notification text
 	 * @param override: Can this notification be overriden by other notifications?
 	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
-	public void addNotificationToAllExcept(final PlayState ps, int connId, final String name, final String text, boolean override, DialogType type) {
+	public void addNotificationToAllExcept(final PlayState ps, int connID, final String name, final String text, boolean override, DialogType type) {
 		if (ps.getDialogBox() != null && server != null) {
-			server.sendToAllExceptTCP(connId, new Packets.ServerNotification(name, text, override, type));
+			server.sendToAllExceptTCP(connID, new Packets.ServerNotification(name, text, override, type));
 			Gdx.app.postRunnable(() -> ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type));
 		}
 	}
@@ -702,21 +703,21 @@ public class KryoServer {
 		}
 	}
 
-	public void sendToAllExceptUDP(int connId, Object p) {
+	public void sendToAllExceptUDP(int connID, Object p) {
 		if (server != null) {
-			server.sendToAllExceptUDP(connId, p);
+			server.sendToAllExceptUDP(connID, p);
 		}
 	}
 	
-	public void sendToTCP(int connId, Object p) {
+	public void sendToTCP(int connID, Object p) {
 		if (server != null) {
-			server.sendToTCP(connId, p);
+			server.sendToTCP(connID, p);
 		}
 	}
 	
-	public void sendToUDP(int connId, Object p) {
+	public void sendToUDP(int connID, Object p) {
 		if (server != null) {
-			server.sendToUDP(connId, p);
+			server.sendToUDP(connID, p);
 		}
 	}
 	

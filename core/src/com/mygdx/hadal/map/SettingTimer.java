@@ -85,6 +85,6 @@ public class SettingTimer extends ModeSetting {
      * Convert timer from index in list to actual time amount
      */
     private float indexToTimer(int index) {
-        return 1;
+        return index * 60.0f;
     }
 }

@@ -18,7 +18,7 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
-import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
+import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
 
 public class AllyRevive extends ModeSetting {
 
@@ -97,18 +97,18 @@ public class AllyRevive extends ModeSetting {
                             }
                         }
                     }
-                    state.transitionToResultsState(resultsText, PlayState.longFadeDelay);
+                    state.transitionToResultsState(resultsText, PlayState.LONG_FADE_DELAY);
                 } else {
-                    user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, -1);
+                    user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, -1);
 
                     float reviveTimer = numReviveTimer(vic.getUser().getScores().getExtraModeScore());
                     vic.getUser().getScores().setExtraModeScore(vic.getUser().getScores().getExtraModeScore() + 1);
 
                     if (DamageSource.MAP_FALL.equals(source)) {
-                        new ReviveGravestone(state, vic.getStart().getPixelPosition(), vic.getUser(), vic.getConnId(),
+                        new ReviveGravestone(state, vic.getStart().getPixelPosition(), vic.getUser(), vic.getConnID(),
                                 reviveTimer, vic.getStart());
                     } else {
-                        new ReviveGravestone(state, vic.getPixelPosition(), vic.getUser(), vic.getConnId(),
+                        new ReviveGravestone(state, vic.getPixelPosition(), vic.getUser(), vic.getConnID(),
                                 reviveTimer, vic.getStart());
                     }
                 }

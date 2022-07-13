@@ -15,7 +15,13 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Donston Dandrea
  */
 public class ContactWallSound extends HitboxStrategy {
-	
+
+	//This is the max interval the sound can be repeated.
+	private static final float PROC_CD = 0.2f;
+
+	//this is the slowest the hbox can be moving while still playing the sound
+	private static final float MIN_VELO = 3.0f;
+
 	//This is the sound effect that gets played
 	private final SoundEffect sound;
 	
@@ -27,12 +33,6 @@ public class ContactWallSound extends HitboxStrategy {
 
 	private float pitchSpread = 0.0f;
 
-	//This is the max interval the sound can be repeated.
-	private static final float procCd = 0.2f;
-	
-	//this is the slowest the hbox can be moving while still playing the sound
-	private static final float minVelo = 3.0f;
-
 	//Does the server notify the client of this sound?
 	private boolean synced = true;
 
@@ -42,17 +42,17 @@ public class ContactWallSound extends HitboxStrategy {
 		this.volume = volume;
 	}
 	
-	private float procCdCount = procCd;
+	private float procCdCount = PROC_CD;
 	@Override
 	public void controller(float delta) {
-		if (procCdCount < procCd) {
+		if (procCdCount < PROC_CD) {
 			procCdCount += delta;
 		}
 	}
 	
 	@Override
 	public void onHit(HadalData fixB) {
-		if (procCdCount >= procCd && hbox.getLinearVelocity().len2() > minVelo) {
+		if (procCdCount >= PROC_CD && hbox.getLinearVelocity().len2() > MIN_VELO) {
 			if (fixB != null) {
 				if (UserDataType.WALL.equals(fixB.getType())) {
 					procCdCount = 0;
