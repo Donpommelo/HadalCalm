@@ -40,10 +40,7 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
-import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.save.UnlockManager;
+import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.SyncType;
 import com.mygdx.hadal.schmucks.entities.*;
@@ -294,6 +291,9 @@ public class PlayState extends GameState {
 
 		//We clear things like music/sound/shaders to periodically free up some memory
 		GameStateManager.clearMemory();
+
+		//we clear shaded cosmetics to avoid having too many cached fbos
+		UnlockCosmetic.clearShadedCosmetics();
 
 		if (map.getProperties().get("customShader", false, Boolean.class)) {
 			shaderBase = Wallpaper.SHADERS[gsm.getSetting().getCustomShader()];

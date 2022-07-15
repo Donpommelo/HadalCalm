@@ -27,6 +27,10 @@ public class Dormitory extends HubEvent {
 	private static final int OPTION_WIDTH = 250;
 	private static final int OPTION_HEIGHT = 500;
 
+	private static final float loadInterval = 0.1f;
+	private float loadCount;
+
+	private final Array<UnlockCharacter> loadingCharacters = new Array<>();
 	private final Array<HubOptionPlayer> sprites = new Array<>();
 	private AlignmentFilter lastFilter;
 
@@ -44,15 +48,34 @@ public class Dormitory extends HubEvent {
 				sprite.getPlayerSpriteHelper().dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
 			}
 			sprites.clear();
+			loadingCharacters.clear();
 
 			lastFilter = state.getPlayer().getPlayerData().getLoadout().team;
 
 			for (UnlockCharacter c : UnlockCharacter.getUnlocks(state, checkUnlock, tags)) {
+				loadingCharacters.add(c);
+			}
+		} else {
+			for (HubOptionPlayer sprite : sprites) {
+				hub.addActor(sprite, sprite.getWidth(), 1);
+			}
+		}
+		hub.addActorFinish();
+	}
 
-				final UnlockCharacter selected = c;
+	@Override
+	public void controller(float delta) {
+		super.controller(delta);
+		loadCount += delta;
+		if (loadCount >= loadInterval) {
+			loadCount = 0.0f;
 
-				HubOptionPlayer option = new HubOptionPlayer(selected.getName(), state.getPlayer(), c,
-						state.getPlayer().getPlayerData().getLoadout().team);
+			if (!loadingCharacters.isEmpty()) {
+				final UIHub hub = state.getUiHub();
+
+				UnlockCharacter selected = loadingCharacters.removeIndex(0);
+
+				HubOptionPlayer option = new HubOptionPlayer(selected.getName(), state.getPlayer(), selected, lastFilter, null);
 				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_HEIGHT);
 				option.setWrap(TEXT_WIDTH);
 				option.setYOffset(TEXT_OFFSET_Y);
@@ -81,14 +104,21 @@ public class Dormitory extends HubEvent {
 						hub.setInfo(selected.getName() + "\n\n" + selected.getDesc());
 					}
 				});
-				hub.addActor(option, option.getWidth(), 1);
-			}
-		} else {
-			for (HubOptionPlayer sprite : sprites) {
-				hub.addActor(sprite, sprite.getWidth(), 1);
+				if (hub.getType().equals(hubTypes.DORMITORY)) {
+					hub.addActor(option, option.getWidth(), 1);
+
+					if (loadingCharacters.isEmpty()) {
+						hub.addActorFinish();
+					}
+				}
 			}
 		}
-		hub.addActorFinish();
+	}
+
+	@Override
+	public void clientController(float delta) {
+		super.clientController(delta);
+		controller(delta);
 	}
 
 	@Override

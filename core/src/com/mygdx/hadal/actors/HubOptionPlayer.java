@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.PlayerSpriteHelper;
 import com.mygdx.hadal.save.UnlockCharacter;
+import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -15,11 +16,17 @@ public class HubOptionPlayer extends HubOption {
 	private static final float SCALE = 0.35f;
 	private static final Vector2 PLAYER_SPRITE_OFFSET = new Vector2(150, 250);
 
+	private final Player player;
+	private final UnlockCosmetic cosmetic;
+	private final boolean renderCosmetic;
 	private final PlayerSpriteHelper playerSpriteHelper;
 	private float animationTime;
 
-	public HubOptionPlayer(String text, Player player, UnlockCharacter character, AlignmentFilter team) {
+	public HubOptionPlayer(String text, Player player, UnlockCharacter character, AlignmentFilter team, UnlockCosmetic cosmetic) {
 		super(text, null);
+		this.player = player;
+		this.cosmetic = cosmetic;
+		this.renderCosmetic = cosmetic != null;
 		this.playerSpriteHelper = new PlayerSpriteHelper(player, SCALE);
 		playerSpriteHelper.replaceBodySprite(player.getState().getBatch(), character, team);
 	}
@@ -27,8 +34,9 @@ public class HubOptionPlayer extends HubOption {
 	@Override
     public void draw(Batch batch, float alpha) {
 		super.draw(batch, alpha);
-		playerSpriteHelper.render(batch, 0.0f, MoveState.MOVE_LEFT, animationTime, animationTime,
-				true, PLAYER_SPRITE_OFFSET, false);
+
+		playerSpriteHelper.render(batch,0.0f, MoveState.MOVE_LEFT, animationTime, animationTime,
+				true, PLAYER_SPRITE_OFFSET, renderCosmetic, cosmetic);
     }
 
     @Override

@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 public class NavigationsMultiplayer extends HubEvent {
 
 	//this is the selected game mode
-	private static GameMode modeChosen = GameMode.DEATHMATCH;
+	private GameMode modeChosen = GameMode.DEATHMATCH;
 
 	private final Array<GameMode> gameModes = new Array<>();
 

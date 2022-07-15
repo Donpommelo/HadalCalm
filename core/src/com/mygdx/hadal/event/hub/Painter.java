@@ -26,6 +26,10 @@ public class Painter extends HubEvent {
 	private static final int OPTION_WIDTH = 250;
 	private static final int OPTION_HEIGHT = 500;
 
+	private static final float loadInterval = 0.1f;
+	private float loadCount;
+
+	private final Array<AlignmentFilter> loadingCharacters = new Array<>();
 	private final Array<HubOptionPlayer> sprites = new Array<>();
 	private UnlockCharacter lastCharacter;
 
@@ -47,39 +51,8 @@ public class Painter extends HubEvent {
 			lastCharacter = state.getPlayer().getPlayerData().getLoadout().character;
 
 			for (AlignmentFilter c : AlignmentFilter.values()) {
-
 				if (c.isTeam()) {
-					final AlignmentFilter selected = c;
-					HubOptionPlayer option;
-					if (AlignmentFilter.NONE.equals(c)) {
-						option = new HubOptionPlayer(c.toString(), state.getPlayer(),
-								state.getPlayer().getPlayerData().getLoadout().character, c);
-					} else {
-						option = new HubOptionPlayer(c.getColoredAdjective(), state.getPlayer(),
-								state.getPlayer().getPlayerData().getLoadout().character, c);
-					}
-					option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_HEIGHT);
-					option.setWrap(TEXT_WIDTH);
-					option.setYOffset(TEXT_OFFSET_Y);
-
-					sprites.add(option);
-
-					option.addListener(new ClickListener() {
-
-						@Override
-						public void clicked(InputEvent e, float x, float y) {
-							if (state.getPlayer().getPlayerData() == null) { return; }
-
-							if (state.isServer()) {
-								state.getPlayer().getPlayerData().setTeam(selected);
-								state.getPlayer().getPlayerData().syncServerTeamChange(selected);
-							} else {
-								HadalGame.client.sendTCP(new PacketsLoadout.SyncTeamClient(selected));
-							}
-							state.getGsm().getLoadout().setTeam(selected.toString());
-						}
-					});
-					hub.addActor(option, option.getWidth(), 1);
+					loadingCharacters.add(c);
 				}
 			}
 		} else {
@@ -87,7 +60,61 @@ public class Painter extends HubEvent {
 				hub.addActor(sprite, sprite.getWidth(), 1);
 			}
 		}
-		hub.addActorFinish();
+	}
+
+	@Override
+	public void controller(float delta) {
+		super.controller(delta);
+		loadCount += delta;
+		if (loadCount >= loadInterval) {
+			loadCount = 0.0f;
+
+			if (!loadingCharacters.isEmpty()) {
+				final UIHub hub = state.getUiHub();
+
+				AlignmentFilter selected = loadingCharacters.removeIndex(0);
+				HubOptionPlayer option;
+				if (AlignmentFilter.NONE.equals(selected)) {
+					option = new HubOptionPlayer(selected.toString(), state.getPlayer(), lastCharacter, selected, null);
+				} else {
+					option = new HubOptionPlayer(selected.getColoredAdjective(), state.getPlayer(),	lastCharacter, selected, null);
+				}
+				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_HEIGHT);
+				option.setWrap(TEXT_WIDTH);
+				option.setYOffset(TEXT_OFFSET_Y);
+
+				sprites.add(option);
+
+				option.addListener(new ClickListener() {
+
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						if (state.getPlayer().getPlayerData() == null) { return; }
+
+						if (state.isServer()) {
+							state.getPlayer().getPlayerData().setTeam(selected);
+							state.getPlayer().getPlayerData().syncServerTeamChange(selected);
+						} else {
+							HadalGame.client.sendTCP(new PacketsLoadout.SyncTeamClient(selected));
+						}
+						state.getGsm().getLoadout().setTeam(selected.toString());
+					}
+				});
+				if (hub.getType().equals(hubTypes.PAINTER)) {
+					hub.addActor(option, option.getWidth(), 1);
+
+					if (loadingCharacters.isEmpty()) {
+						hub.addActorFinish();
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void clientController(float delta) {
+		super.clientController(delta);
+		controller(delta);
 	}
 
 	@Override

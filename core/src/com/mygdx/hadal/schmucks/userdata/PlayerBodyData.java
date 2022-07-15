@@ -461,9 +461,6 @@ public class PlayerBodyData extends BodyData {
 		if (player.getUser() != null) {
 			player.getUser().setTeamFilter(team);
 		}
-
-		//when team color is set, we clear shaded cosmetics to avoid having too many cached fbos
-		UnlockCosmetic.clearShadedCosmetics(player.getState());
 	}
 
 	/**

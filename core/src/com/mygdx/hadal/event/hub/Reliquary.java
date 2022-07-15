@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.hub;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -9,6 +10,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
+import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -69,7 +71,7 @@ public class Reliquary extends HubEvent {
 				}
 			}
 			if (appear) {
-				HubOption option = new HubOption(c.getName(), c.getFrame());
+				HubOption option = new HubOption(c.getName(), new Animation<>(CharacterCosmetic.COSMETIC_ANIMATION_SPEED, c.getFrame()));
 
 				option.addListener(new ClickListener() {
 

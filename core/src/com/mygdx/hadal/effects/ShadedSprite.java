@@ -82,6 +82,7 @@ public class ShadedSprite {
             frame.end();
 
             TextureRegion fboRegion = new TextureRegion(frame.getColorBufferTexture());
+
             if (mirror) {
                 spriteMirror.add(new TextureRegion(fboRegion, fboRegion.getRegionX(), fboRegion.getRegionHeight() - fboRegion.getRegionY(),
                         fboRegion.getRegionWidth(), - fboRegion.getRegionHeight()));

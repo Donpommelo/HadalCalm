@@ -245,6 +245,7 @@
   "MODE_SETTING_LOADOUT_MODE_DESC" : "CLASSIC: Players start off with default speargun and pick up weapons from spawners or defeated enemies\n\nCUSTOM: Players start off with the weapons they have chosen in the hub. Ammo pickups spawn instead of weapons\n\nRANDOM: Players start off with random weapons",
 
   "HUB_GAME_MODES" : "GAME MODES",
+  "HUB_COSMETIC_SLOTS" : "COSMETIC SLOTS",
   "HUB_MAP_SUGGEST" : "Suggests Map: <s0>",
   "HUB_QUARTERMASTER_COST" : "<s0>: Cost: <s1>",
   "HUB_NAVIGATION_ACTIVATION" : "TELEPYRAMID ACTIVATED",

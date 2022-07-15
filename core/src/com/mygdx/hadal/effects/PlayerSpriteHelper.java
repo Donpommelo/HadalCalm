@@ -176,7 +176,7 @@ public class PlayerSpriteHelper {
      * @param playerLocation: where is the player located at?
      */
     public void render(Batch batch, float attackAngle, MoveState moveState, float animationTime, float animationTimeExtra,
-                       boolean grounded, Vector2 playerLocation, boolean cosmetics) {
+                       boolean grounded, Vector2 playerLocation, boolean cosmetics, UnlockCosmetic lockedCosmetic) {
 
         //flip determines if the player is facing left or right
         boolean flip = Math.abs(attackAngle) > 90;
@@ -258,8 +258,16 @@ public class PlayerSpriteHelper {
         float headX = (flip ? headWidth * scale : 0) + playerLocation.x - HB_WIDTH * scale / 2 + headConnectXReal * scale;
         float headY = playerLocation.y - HB_HEIGHT * scale / 2 + HEAD_CONNECT_Y * scale + yOffsetHead * scale;
 
-        //head type cosmetics replace the head, so we don't want to draw the base head
-        if (player.getPlayerData().getLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank() || !cosmetics) {
+        //head type cosmetics replace the head, so we don't want to draw the base head unless not rendering cosmetics,
+        // or only rendering 1 non-head cosmetic
+        boolean head = player.getPlayerData().getLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank();
+        if (lockedCosmetic != null) {
+            head = true;
+            if (lockedCosmetic.getCosmeticSlot() == CosmeticSlot.HEAD) {
+                head = lockedCosmetic.isBlank();
+            }
+        }
+        if (head || !cosmetics) {
             batch.draw(headSprite.getKeyFrame(animationTimeExtra, true), headX, headY,0, 0,
                     (flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
         }
@@ -267,11 +275,20 @@ public class PlayerSpriteHelper {
         bodyLocation.set(bodyX, bodyY);
 
         if (cosmetics) {
+            renderCosmetics(batch, animationTimeExtra, flip, lockedCosmetic);
+        }
+    }
+
+    private void renderCosmetics(Batch batch, float animationTimeExtra, boolean flip, UnlockCosmetic lockedCosmetic) {
+        if (lockedCosmetic == null) {
             //draw cosmetics. Use head coordinates. Update coordinates if any cosmetics replace the head
             for (UnlockCosmetic cosmetic : player.getPlayerData().getLoadout().cosmetics) {
                 headLocation.set(cosmetic.render(batch, player.getPlayerData().getLoadout().team,
                         player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headLocation, bodyLocation));
             }
+        } else {
+            headLocation.set(lockedCosmetic.render(batch, player.getPlayerData().getLoadout().team,
+                    player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headLocation, bodyLocation));
         }
     }
 
@@ -372,7 +389,7 @@ public class PlayerSpriteHelper {
         //render player
         player.getState().getBatch().begin();
         render(player.getState().getBatch(), player.getAttackAngle(), player.getMoveState(), 0.0f, 0.0f,
-                false, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT).scl(0.5f), true);
+                false, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT).scl(0.5f), true, null);
         player.getState().getBatch().end();
 
         ragdollBuffer.end();

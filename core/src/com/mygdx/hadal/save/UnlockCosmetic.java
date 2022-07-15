@@ -223,14 +223,10 @@ public enum UnlockCosmetic {
         return !cosmetics.containsKey(character);
     }
 
-    public static void clearShadedCosmetics(PlayState state) {
-
-        //we do a hub check here, since that is the only time a new color/cosmetic can be equipped (set team is run on respawn)
-        if (state.getMode().isHub()) {
-            for (UnlockCosmetic unlock : UnlockCosmetic.values()) {
-                for (CharacterCosmetic cosmetic : unlock.cosmetics.values()) {
-                    cosmetic.clearShadedCosmetics(state, unlock);
-                }
+    public static void clearShadedCosmetics() {
+        for (UnlockCosmetic unlock : UnlockCosmetic.values()) {
+            for (CharacterCosmetic cosmetic : unlock.cosmetics.values()) {
+                cosmetic.clearShadedCosmetics();
             }
         }
     }

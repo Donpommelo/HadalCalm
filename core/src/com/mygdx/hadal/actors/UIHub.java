@@ -77,22 +77,15 @@ public class UIHub {
 		this.state = state;
 		this.active = false;
 
-		this.tableOuter = new Table() {
-
-			@Override
-			public void draw(Batch batch, float alpha) {
-				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), OptionsWidthOuter, OptionsHeightOuter);
-				super.draw(batch, alpha);
-			}
-		};
+		this.tableOuter = new WindowTable();
 
 		this.tableTop = new Table();
-		this.tableSearch = new Table();
 
 		this.tableLeft = new Table();
+		this.tableSearch = new Table();
 		this.tableExtra = new Table();
 
-		this.tableRight = new Table();
+		this.tableRight = new WindowTable();
 		this.tableOptions = new Table();
 
 		tableOuter.setTouchable(Touchable.enabled);
@@ -483,7 +476,9 @@ public class UIHub {
 	public boolean isActive() { return active; }
 	
 	public void setInfo(String info) { this.info = info; }
-	
+
+	public hubTypes getType() { return type; }
+
 	public void setType(hubTypes type) { this.type = type; }
 
 	public Table getTableOptions() { return tableOptions; }
