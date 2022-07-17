@@ -35,7 +35,7 @@ public class Armory extends HubEvent {
 	public void enter() {
 		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(true, false, false, this);
+		state.getUiHub().enter(this);
 		open = true;
 		addOptions(lastSearch, lastSlot, lastTag);
 	}
@@ -101,4 +101,7 @@ public class Armory extends HubEvent {
 		}
 		hub.addActorFinish();
 	}
+
+	@Override
+	public boolean isSearchable() { return true; }
 }

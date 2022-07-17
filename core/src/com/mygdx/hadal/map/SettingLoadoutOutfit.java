@@ -2,8 +2,8 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
@@ -31,18 +31,18 @@ public class SettingLoadoutOutfit extends ModeSetting {
         }
 
         Text outfit = new Text(UIText.SETTING_OUTFIT.text());
-        outfit.setScale(ModeSettingSelection.detailsScale);
+        outfit.setScale(UIHub.detailsScale);
         TooltipManager.addTooltip(outfit, UIText.SETTING_OUTFIT_DESC.text());
 
         outfitOptions = new SelectBox<>(GameStateManager.getSkin());
         outfitOptions.setItems(optionChoices);
-        outfitOptions.setWidth(ModeSettingSelection.optionsWidth);
+        outfitOptions.setWidth(UIHub.optionsWidth);
         if (optionChoices.length > state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue)) {
             outfitOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
         }
 
         table.add(outfit);
-        table.add(outfitOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
+        table.add(outfitOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
     }
 
     @Override

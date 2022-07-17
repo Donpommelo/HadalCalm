@@ -3,8 +3,8 @@ package com.mygdx.hadal.map;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.map.modifiers.ModeModifier;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -25,14 +25,14 @@ public class SetModifiers extends ModeSetting {
     }
 
     @Override
-    public void setSetting(PlayState state, GameMode mode, Table table) {
+    public void setModifiers(PlayState state, GameMode mode, Table table) {
 
         Text title = new Text(ModifierNotifTag.text());
-        title.setScale(ModeSettingSelection.detailsScale);
+        title.setScale(UIHub.detailsScale);
 
         //this gives an option to uncheck all modifiers
         Text uncheck = new Text(UIText.MODIFIER_UNCHECK.text()).setButton(true);
-        uncheck.setScale(ModeSettingSelection.detailsScale);
+        uncheck.setScale(UIHub.detailsScale);
 
         uncheck.addListener(new ClickListener() {
 
@@ -44,11 +44,11 @@ public class SetModifiers extends ModeSetting {
             }
         });
 
-        table.add(title).height(ModeSettingSelection.detailHeightSmall).pad(ModeSettingSelection.detailPad).top();
-        table.add(uncheck).height(ModeSettingSelection.detailHeightSmall).pad(ModeSettingSelection.detailPad).row();
+        table.add(title).height(UIHub.detailHeightSmall).pad(UIHub.detailPad).top();
+        table.add(uncheck).height(UIHub.detailHeightSmall).pad(UIHub.detailPad).row();
 
         for (ModeModifier modifier : modifiers) {
-            modifier.setSetting(state, mode, table);
+            modifier.setModifiers(state, mode, table);
         }
     }
 

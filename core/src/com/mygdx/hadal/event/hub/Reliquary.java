@@ -37,7 +37,7 @@ public class Reliquary extends HubEvent {
 	public void enter() {
 		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(true, true, true, this, UIText.RELIQUARY_TAGS.text().split(","));
+		state.getUiHub().enter(this);
 		open = true;
 		addOptions(lastSearch, lastSlot, lastTag);
 	}
@@ -101,4 +101,16 @@ public class Reliquary extends HubEvent {
 		hub.addActorFinish();
 		hub.refreshHub(null);
 	}
+
+	@Override
+	public boolean isSearchable() { return true; }
+
+	@Override
+	public boolean isTaggable() { return true; }
+
+	@Override
+	public boolean isCostable() { return true; }
+
+	@Override
+	public String[] getSearchTags() { return UIText.RELIQUARY_TAGS.text().split(","); }
 }

@@ -3,8 +3,8 @@ package com.mygdx.hadal.map;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -41,15 +41,15 @@ public class SettingLives extends ModeSetting {
         if (livesChoice) {
             String[] livesChoices = UIText.SETTING_LIVES_OPTIONS.text().split(",");
             Text lives = new Text(UIText.SETTING_LIVES.text());
-            lives.setScale(ModeSettingSelection.detailsScale);
+            lives.setScale(UIHub.detailsScale);
 
             livesOptions = new SelectBox<>(GameStateManager.getSkin());
             livesOptions.setItems(livesChoices);
-            livesOptions.setWidth(ModeSettingSelection.optionsWidth);
+            livesOptions.setWidth(UIHub.optionsWidth);
             livesOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
 
             table.add(lives);
-            table.add(livesOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
+            table.add(livesOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
         }
     }
 

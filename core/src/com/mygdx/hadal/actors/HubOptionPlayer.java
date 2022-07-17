@@ -16,7 +16,6 @@ public class HubOptionPlayer extends HubOption {
 	private static final float SCALE = 0.35f;
 	private static final Vector2 PLAYER_SPRITE_OFFSET = new Vector2(150, 250);
 
-	private final Player player;
 	private final UnlockCosmetic cosmetic;
 	private final boolean renderCosmetic;
 	private final PlayerSpriteHelper playerSpriteHelper;
@@ -24,7 +23,6 @@ public class HubOptionPlayer extends HubOption {
 
 	public HubOptionPlayer(String text, Player player, UnlockCharacter character, AlignmentFilter team, UnlockCosmetic cosmetic) {
 		super(text, null);
-		this.player = player;
 		this.cosmetic = cosmetic;
 		this.renderCosmetic = cosmetic != null;
 		this.playerSpriteHelper = new PlayerSpriteHelper(player, SCALE);

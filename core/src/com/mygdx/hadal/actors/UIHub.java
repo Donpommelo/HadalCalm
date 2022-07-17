@@ -33,7 +33,7 @@ public class UIHub {
 
 	private final PlayState state;
 	
-	private final Table tableOuter, tableTop, tableSearch, tableLeft, tableRight, tableOptions, tableExtra;
+	private final Table tableOuter, tableTop, tableSearch, tableLeft, tableRight, tableTabs, tableOptions, tableExtra;
 	private ScrollPane options;
 	private TextField searchName;
 	private SelectBox<String> tagFilter, slotsFilter;
@@ -59,6 +59,8 @@ public class UIHub {
 	public static final int OptionPad = 3;
 	private static final int ScrollWidth = 880;
 	private static final int ScrollHeight = 620;
+	private static final int ScrollHeightWithTab = 560;
+	private static final int TabHeight = 60;
 	private static final int VerticalGroupPad = 8;
 	public static final float OptionsScale = 0.3f;
 	public static final float OptionsScaleSmall = 0.25f;
@@ -67,7 +69,14 @@ public class UIHub {
 	private static final float ArtifactTagOffsetX = 10.0f;
 	private static final float ArtifactTagOffsetY = 60.0f;
 	private static final float ArtifactTagTargetWidth = 120.0f;
-			
+
+	public static final float detailHeight = 35.0f;
+	public static final float detailHeightSmall = 20.0f;
+	public static final float detailPad = 7.5f;
+
+	public static final float detailsScale = 0.25f;
+	public static final int optionsWidth = 410;
+
 	private hubTypes type = hubTypes.NONE;
 	
 	//is this window currently visible?
@@ -86,6 +95,7 @@ public class UIHub {
 		this.tableExtra = new Table();
 
 		this.tableRight = new WindowTable();
+		this.tableTabs = new Table();
 		this.tableOptions = new Table();
 
 		tableOuter.setTouchable(Touchable.enabled);
@@ -140,7 +150,7 @@ public class UIHub {
 	/**
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */
-	public void enter(boolean searchable, boolean filterTags, boolean filterCost, HubEvent hub, String... tagOptions) {
+	public void enter(HubEvent hub) {
 		SoundEffect.DOORBELL.play(state.getGsm(), 0.2f, false);
 
 		active = true;
@@ -151,7 +161,7 @@ public class UIHub {
 		tableRight.clear();
 
 		//for hubs with search bar, let players type in text
-		if (searchable) {
+		if (hub.isSearchable()) {
 			Text search = new Text(UIText.SEARCH.text());
 			search.setScale(OptionsScale);
 
@@ -183,15 +193,15 @@ public class UIHub {
 		}
 
 		//if the player can add extra tags to search artifacts, add dropdown for this
-		if (filterTags) {
+		if (hub.isTaggable()) {
 			Text searchTags = new Text(UIText.FILTER_TAGS.text());
 			searchTags.setScale(OptionsScale);
 
 			tagFilter = new SelectBox<>(GameStateManager.getSkin());
-			tagFilter.setItems(tagOptions);
+			tagFilter.setItems(hub.getSearchTags());
 
 			if (hub.getLastTag() != null) {
-				for (String tagName : tagOptions) {
+				for (String tagName : hub.getSearchTags()) {
 					if (tagName.equals(hub.getLastTag().name())) {
 						tagFilter.setSelected(tagName);
 					}
@@ -210,7 +220,7 @@ public class UIHub {
 			tableSearch.add(searchTags);
 			tableSearch.add(tagFilter).padBottom(OptionPad).row();
 		}
-		if (filterCost) {
+		if (hub.isCostable()) {
 			Text searchCost = new Text(UIText.FILTER_COST.text());
 			searchCost.setScale(OptionsScale);
 
@@ -243,7 +253,12 @@ public class UIHub {
 			}
 		});
 
-		tableRight.add(options).height(ScrollHeight).width(ScrollWidth);
+		if (hub.isTabbable()) {
+			tableRight.add(tableTabs).height(TabHeight).width(ScrollWidth).row();
+			tableRight.add(options).height(ScrollHeightWithTab).width(ScrollWidth);
+		} else {
+			tableRight.add(options).height(ScrollHeight).width(ScrollWidth);
+		}
 
 		tableOuter.setPosition(TableX, TableY);
 		tableOuter.setSize(OptionsWidthOuter, OptionsHeightOuter);
@@ -287,8 +302,6 @@ public class UIHub {
 		SoundEffect.WOOSH.play(state.getGsm(), 1.0f, 0.8f, false);
 
 		active = false;
-
-		ModeSettingSelection.leave(state);
 
 		tableOuter.addAction(Actions.sequence(Actions.moveTo(TableX, TableY, TRANSITION_DURATION_SLOW, Interpolation.pow5Out),
 			Actions.run(() -> {
@@ -482,6 +495,8 @@ public class UIHub {
 	public void setType(hubTypes type) { this.type = type; }
 
 	public Table getTableOptions() { return tableOptions; }
+
+	public Table getTableTabs() { return tableTabs; }
 
 	public ScrollPane getOptions() { return options; }
 

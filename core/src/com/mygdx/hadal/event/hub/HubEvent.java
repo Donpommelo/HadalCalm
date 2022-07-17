@@ -73,7 +73,7 @@ public class HubEvent extends Event {
 			public void onActivate(EventData activator, Player p) {
 				
 				if (state.getUiHub().isActive()) {
-					leave();
+					back();
 				} else {
 					enter();
 					setScroll();
@@ -113,22 +113,26 @@ public class HubEvent extends Event {
 	public void enter() {
 		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(false, false, false, this);
+		state.getUiHub().enter(this);
 		open = true;
 	}
-	
+
+	public void back() {
+		leave();
+	}
+
 	/**
 	 * Player exits the event. Makes the ui slide out
 	 */
 	public void leave() {
 		state.getUiHub().leave();
 		open = false;
-		lastScroll = state.getUiHub().getOptions().getScrollY();
+		lastScroll = state.getUiHub().getOptions().getScrollX();
 	}
 
 	private void setScroll() {
 		state.getUiHub().getOptions().layout();
-		state.getUiHub().getOptions().setScrollY(lastScroll);
+		state.getUiHub().getOptions().setScrollX(lastScroll);
 	}
 
 	public void addOptions(String search, int slots, UnlockTag tag) {
@@ -149,4 +153,14 @@ public class HubEvent extends Event {
 	public int getLastSlot() { return lastSlot; }
 
 	public UnlockTag getLastTag() { return lastTag; }
+
+	public boolean isSearchable() { return false; }
+
+	public boolean isTaggable() { return false; }
+
+	public boolean isCostable() { return false; }
+
+	public boolean isTabbable() { return false; }
+
+	public String[] getSearchTags() { return new String[0]; }
 }

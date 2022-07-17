@@ -179,7 +179,7 @@ public enum UnlockCosmetic {
     }
 
     UnlockCosmetic(CosmeticSlot cosmeticSlot) {
-        this(cosmeticSlot, GameText.NOTHING, GameText.NOTHING, false);
+        this(cosmeticSlot, GameText.NOTHING_NOTHING, GameText.NOTHING, false);
         this.blank = true;
     }
 

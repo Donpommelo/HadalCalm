@@ -2,8 +2,8 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -27,15 +27,15 @@ public class SettingBaseHp extends ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {
         String[] hpChoices = UIText.SETTING_BASE_HP_OPTIONS.text().split(",");
         Text hp = new Text(UIText.SETTING_BASE_HP.text());
-        hp.setScale(ModeSettingSelection.detailsScale);
+        hp.setScale(UIHub.detailsScale);
 
         hpOptions = new SelectBox<>(GameStateManager.getSkin());
         hpOptions.setItems(hpChoices);
-        hpOptions.setWidth(ModeSettingSelection.optionsWidth);
+        hpOptions.setWidth(UIHub.optionsWidth);
         hpOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
 
         table.add(hp);
-        table.add(hpOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
+        table.add(hpOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
     }
 
     @Override

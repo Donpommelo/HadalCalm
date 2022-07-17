@@ -3,8 +3,8 @@ package com.mygdx.hadal.map;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
@@ -37,15 +37,15 @@ public class SettingTimer extends ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {
         String[] timerChoices = UIText.SETTING_TIMER_OPTIONS.text().split(",");
         Text timer = new Text(UIText.SETTING_TIMER.text());
-        timer.setScale(ModeSettingSelection.detailsScale);
+        timer.setScale(UIHub.detailsScale);
 
         timerOptions = new SelectBox<>(GameStateManager.getSkin());
         timerOptions.setItems(timerChoices);
-        timerOptions.setWidth(ModeSettingSelection.optionsWidth);
+        timerOptions.setWidth(UIHub.optionsWidth);
         timerOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
 
         table.add(timer);
-        table.add(timerOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
+        table.add(timerOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
     }
 
     @Override

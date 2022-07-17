@@ -53,6 +53,8 @@ public class Haberdasher extends HubEvent {
 	//this is the selected game mode
 	private CosmeticSlot slotChosen = CosmeticSlot.HAT1;
 
+	private int menuDepth;
+
 	public Haberdasher(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.HABERDASHER);
 	}
@@ -60,6 +62,7 @@ public class Haberdasher extends HubEvent {
 	@Override
 	public void addOptions(String search, int slots, UnlockManager.UnlockTag tag) {
 		super.addOptions(search, slots, tag);
+		state.getUiHub().setTitle(slotChosen.getSlotName());
 
 		Pattern pattern = Pattern.compile(search);
 
@@ -82,7 +85,7 @@ public class Haberdasher extends HubEvent {
 				if (!c.getCosmeticSlot().equals(slotChosen)) {
 					continue;
 				}
-				if (c.checkCompatibleCharacters(lastCharacter)) {
+				if (c.checkCompatibleCharacters(lastCharacter) && !c.isBlank()) {
 					continue;
 				}
 				boolean appear = false;
@@ -111,6 +114,7 @@ public class Haberdasher extends HubEvent {
 		final UIHub hub = state.getUiHub();
 		hub.setTitle(UIText.COSMETIC_SLOTS.text());
 		final Haberdasher me = this;
+		menuDepth = 0;
 
 		for (CosmeticSlot slot : CosmeticSlot.values()) {
 			final CosmeticSlot selected = slot;
@@ -141,12 +145,14 @@ public class Haberdasher extends HubEvent {
 				if (!c.getCosmeticSlot().equals(slot)) {
 					continue;
 				}
-				if (c.checkCompatibleCharacters(state.getPlayer().getPlayerData().getLoadout().character)) {
+				if (c.checkCompatibleCharacters(state.getPlayer().getPlayerData().getLoadout().character) && !c.isBlank()) {
 					continue;
 				}
 				cosmeticCount++;
 			}
 
+			//don't display slots with no items. Subtract 1 to account for blank option
+			cosmeticCount--;
 			if (cosmeticCount == 0) { continue; }
 
 			HubOption option = new HubOption(slot.getSlotName() + " (" + cosmeticCount + ")", frame);
@@ -163,8 +169,9 @@ public class Haberdasher extends HubEvent {
 					slotChosen = selected;
 
 					state.getUiHub().setType(type);
-					state.getUiHub().enter(true, false, false, me);
+					state.getUiHub().enter(me);
 					addOptions(lastSearch, -1, lastTag);
+					menuDepth = 1;
 				}
 			});
 			hub.addActor(option, option.getWidth(), 2);
@@ -185,13 +192,14 @@ public class Haberdasher extends HubEvent {
 
 				UnlockCosmetic selected = loadingCosmetics.removeIndex(0);
 
+				//Have to load the shaded cosmetic prior to creating player option to avoid shaded hat not appearing
 				CharacterCosmetic cosmetic = selected.getCosmetics().get(lastCharacter);
 				if (cosmetic != null) {
 					cosmetic.getShadedFrames(state.getBatch(), lastFilter, lastCharacter);
 				}
 
-				HubOptionPlayer option = new HubOptionPlayer(getCosmeticText(state.getPlayer().getPlayerData(), selected),
-						state.getPlayer(), lastCharacter, lastFilter, selected);
+				HubOptionPlayer option = new HubOptionPlayer(selected.getName(), state.getPlayer(), lastCharacter,
+						lastFilter, selected);
 				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_CHARACTER_HEIGHT);
 				option.setWrap(TEXT_WIDTH);
 				option.setYOffset(TEXT_OFFSET_CHARACTER_Y);
@@ -231,7 +239,7 @@ public class Haberdasher extends HubEvent {
 					}
 				});
 
-				if (hub.getType().equals(hubTypes.HABERDASHER)) {
+				if (hub.getType().equals(hubTypes.HABERDASHER) && menuDepth == 1) {
 					hub.addActor(option, option.getWidth(), 1);
 
 					if (loadingCosmetics.isEmpty()) {
@@ -259,15 +267,6 @@ public class Haberdasher extends HubEvent {
 		return playerData.getLoadout().cosmetics[cosmetic.getCosmeticSlot().getSlotNumber()] != cosmetic;
 	}
 
-	private static String getCosmeticText(PlayerBodyData playerData, UnlockCosmetic cosmetic) {
-		boolean equipping = isEquipping(playerData, cosmetic);
-		if (equipping) {
-			return cosmetic.getCosmeticSlot().getSlotName() + " " + cosmetic.getName() + " (EQUIP)";
-		} else {
-			return cosmetic.getCosmeticSlot().getSlotName() + " " + cosmetic.getName() + " (UNEQUIP)";
-		}
-	}
-
 	private static UnlockCosmetic getBlank(CosmeticSlot slot) {
 		return switch (slot) {
 			case HAT2 -> UnlockCosmetic.NOTHING_HAT2;
@@ -281,4 +280,15 @@ public class Haberdasher extends HubEvent {
 			default -> UnlockCosmetic.NOTHING_HAT1;
 		};
 	}
+
+	@Override
+	public void back() {
+		super.back();
+		if (menuDepth > 0) {
+			enter();
+		}
+	}
+
+	@Override
+	public boolean isSearchable() { return true; }
 }

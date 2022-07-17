@@ -44,7 +44,7 @@ public class Navigations extends HubEvent {
 		state.getUiHub().setTitle(title);
 
 		if (UnlockTag.NAVIGATIONS.equals(tag)) {
-			state.getUiHub().enter(true, false, false, this);
+			state.getUiHub().enter(this);
 		}
 
 		open = true;
@@ -117,4 +117,7 @@ public class Navigations extends HubEvent {
 			}
 		}
 	}
+
+	@Override
+	public boolean isSearchable() { return true; }
 }

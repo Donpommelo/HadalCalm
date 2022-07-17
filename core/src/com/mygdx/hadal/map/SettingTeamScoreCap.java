@@ -2,8 +2,8 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
@@ -27,16 +27,16 @@ public class SettingTeamScoreCap extends ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {
         String[] scoreCapChoices = UIText.SETTING_SCORECAP_OPTIONS.text().split(",");
         Text scorecap = new Text(UIText.SETTING_SCORECAP.text());
-        scorecap.setScale(ModeSettingSelection.detailsScale);
+        scorecap.setScale(UIHub.detailsScale);
         TooltipManager.addTooltip(scorecap, UIText.SETTING_SCORECAP_TEAM_DESC.text());
 
         scoreCapOptions = new SelectBox<>(GameStateManager.getSkin());
         scoreCapOptions.setItems(scoreCapChoices);
-        scoreCapOptions.setWidth(ModeSettingSelection.optionsWidth);
+        scoreCapOptions.setWidth(UIHub.optionsWidth);
         scoreCapOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
 
         table.add(scorecap);
-        table.add(scoreCapOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
+        table.add(scoreCapOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
     }
 
     @Override
