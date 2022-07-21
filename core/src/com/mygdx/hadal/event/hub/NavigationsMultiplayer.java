@@ -70,6 +70,8 @@ public class NavigationsMultiplayer extends HubEvent {
 		lastSearch = search;
 		lastTag = tag;
 
+		addSettings();
+		addModifiers();
 		addMaps();
 	}
 
@@ -129,6 +131,7 @@ public class NavigationsMultiplayer extends HubEvent {
 		   @Override
 		   public void clicked(InputEvent e, float x, float y) {
 		   		addMaps();
+		   		saveSettings();
 		   }
 	   });
 
@@ -139,6 +142,7 @@ public class NavigationsMultiplayer extends HubEvent {
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
 				addSettings();
+				saveSettings();
 			}
 		});
 
@@ -149,6 +153,7 @@ public class NavigationsMultiplayer extends HubEvent {
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
 				addModifiers();
+				saveSettings();
 			}
 		});
 
@@ -251,6 +256,12 @@ public class NavigationsMultiplayer extends HubEvent {
 
 		for (ModeSetting setting : modeChosen.getSettings()) {
 			setting.setModifiers(state, modeChosen, hub.getTableOptions());
+		}
+	}
+
+	private void saveSettings() {
+		for (ModeSetting setting : modeChosen.getSettings()) {
+			setting.saveSetting(state, modeChosen);
 		}
 	}
 

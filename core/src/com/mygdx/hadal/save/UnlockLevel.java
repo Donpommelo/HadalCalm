@@ -15,138 +15,141 @@ import java.util.HashMap;
  */
 public enum UnlockLevel {
 
-	BOSS_FISH("Maps/Boss1.tmx", GameText.BOSS_FISH, GameText.BOSS_FISH_DESC, true,
+	BOSS_FISH("maps/Boss1.tmx", GameText.BOSS_FISH, GameText.BOSS_FISH_DESC, true,
 			GameMode.BOSS),
-	BOSS_KING_KAMABOKO("Maps/Boss2.tmx", GameText.BOSS_KING_KAMABOKO, GameText.BOSS_BOSS_KING_KAMABOKO_DESC, true,
+	BOSS_KING_KAMABOKO("maps/Boss2.tmx", GameText.BOSS_KING_KAMABOKO, GameText.BOSS_BOSS_KING_KAMABOKO_DESC, true,
 			GameMode.BOSS),
-	BOSS_FALSE_SUN("Maps/Boss4.tmx", GameText.BOSS_FALSE_SUN, GameText.BOSS_FALSE_SUN_DESC, true,
+	BOSS_FALSE_SUN("maps/Boss4.tmx", GameText.BOSS_FALSE_SUN, GameText.BOSS_FALSE_SUN_DESC, true,
 			GameMode.BOSS),
-	BOSS_NEPTUNE_KING("Maps/Boss5.tmx", GameText.BOSS_NEPTUNE_KING, GameText.BOSS_NEPTUNE_KING_DESC, true,
+	BOSS_NEPTUNE_KING("maps/Boss5.tmx", GameText.BOSS_NEPTUNE_KING, GameText.BOSS_NEPTUNE_KING_DESC, true,
 			GameMode.BOSS),
-	BOSS_GILT_SCALED_SERAPH("Maps/Boss6.tmx", GameText.BOSS_GILT_SCALED_SERAPH, GameText.BOSS_BOSS_GILT_SCALED_SERAPH_DESC, true,
+	BOSS_GILT_SCALED_SERAPH("maps/Boss6.tmx", GameText.BOSS_GILT_SCALED_SERAPH, GameText.BOSS_BOSS_GILT_SCALED_SERAPH_DESC, true,
 			GameMode.BOSS),
 
-	AGGYDAGGY("Maps/dm_aggydaggy.tmx", GameText.AGGYDAGGY, GameText.NOTHING, true,
+	AGGYDAGGY("maps/dm_aggydaggy.tmx", GameText.AGGYDAGGY, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	BOTTLENECK("Maps/dm_bottleneck.tmx", GameText.BOTTLENECK, GameText.NOTHING, true,
+	BOTTLENECK("maps/dm_bottleneck.tmx", GameText.BOTTLENECK, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	BROUHAHA("Maps/dm_brouhaha.tmx", GameText.BROUHAHA, GameText.NOTHING, true,
+	BROUHAHA("maps/dm_brouhaha.tmx", GameText.BROUHAHA, GameText.NOTHING, true,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	COQUELICOT("Maps/ctf_coquelicot.tmx", GameText.COQUELICOT, GameText.NOTHING, true,
+	COQUELICOT("maps/ctf_coquelicot.tmx", GameText.COQUELICOT, GameText.NOTHING, true,
 			GameMode.CTF, GameMode.DEATHMATCH),
-	FACILITY("Maps/dm_facility.tmx", GameText.FACILITY, GameText.NOTHING, true,
+	FACILITY("maps/dm_facility.tmx", GameText.FACILITY, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	FILTRATION("Maps/ctf_filtration.tmx", GameText.FILTRATION, GameText.NOTHING, true,
+	FILTRATION("maps/ctf_filtration.tmx", GameText.FILTRATION, GameText.NOTHING, true,
 			GameMode.CTF, GameMode.DEATHMATCH),
-	FLOTSAM("Maps/dm_flotsam.tmx", GameText.FLOTSAM, GameText.NOTHING, true,
+	FLOTSAM("maps/dm_flotsam.tmx", GameText.FLOTSAM, GameText.NOTHING, true,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	GREEN("Maps/futbol_green.tmx", GameText.GREEN, GameText.NOTHING, true,
+	GREEN("maps/futbol_green.tmx", GameText.GREEN, GameText.NOTHING, true,
 			GameMode.FOOTBALL, GameMode.DEATHMATCH),
-	LAGAN("Maps/dm_lagan.tmx", GameText.LAGAN, GameText.NOTHING, true,
+	LAGAN("maps/dm_lagan.tmx", GameText.LAGAN, GameText.NOTHING, true,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	THRESHOLD("Maps/dm_threshold.tmx", GameText.THRESHOLD, GameText.NOTHING, true,
+	THRESHOLD("maps/dm_threshold.tmx", GameText.THRESHOLD, GameText.NOTHING, true,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	TOWERS("Maps/dm_towers.tmx", GameText.TOWERS, GameText.NOTHING, true,
+	TOWERS("maps/dm_towers.tmx", GameText.TOWERS, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	UNDULATE("Maps/ctf_undulate.tmx", GameText.UNDULATE, GameText.NOTHING, true,
+	UNDULATE("maps/ctf_undulate.tmx", GameText.UNDULATE, GameText.NOTHING, true,
 			GameMode.CTF, GameMode.DEATHMATCH),
-	WARP("Maps/dm_warp.tmx", GameText.WARP, GameText.NOTHING, true,
+	WARP("maps/dm_warp.tmx", GameText.WARP, GameText.NOTHING, true,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	QUADRANT("Maps/dm_quadrant.tmx", GameText.QUADRANTS, GameText.NOTHING, true,
+	QUADRANT("maps/dm_quadrant.tmx", GameText.QUADRANTS, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	WETWORKS("Maps/dm_wetworks.tmx", GameText.WETWORKS, GameText.NOTHING, true,
+	WETWORKS("maps/dm_wetworks.tmx", GameText.WETWORKS, GameText.NOTHING, true,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	ZIGGURAT("Maps/dm_ziggurat.tmx", GameText.ZIGGURAT, GameText.NOTHING, true,
+	ZIGGURAT("maps/dm_ziggurat.tmx", GameText.ZIGGURAT, GameText.NOTHING, true,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
 
-	FORMOSAN_BLUE_MAGPIE("Maps/dm_formosan_blue_magpie.tmx", GameText.FORMOSAN_BLUE_MAGPIE, GameText.NOTHING, true,
+	FORMOSAN_BLUE_MAGPIE("maps/dm_formosan_blue_magpie.tmx", GameText.FORMOSAN_BLUE_MAGPIE, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	FREE_RANGE("Maps/dm_free_range.tmx", GameText.FREE_RANGE, GameText.NOTHING, true,
+	FREE_RANGE("maps/dm_free_range.tmx", GameText.FREE_RANGE, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	GREY_HERON("Maps/dm_grey_heron.tmx", GameText.GREY_HERON, GameText.NOTHING, true,
+	GREY_HERON("maps/dm_grey_heron.tmx", GameText.GREY_HERON, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	HUMMINGBIRD("Maps/dm_hummingbird.tmx", GameText.HUMMINGBIRD, GameText.NOTHING, true,
+	HUMMINGBIRD("maps/dm_hummingbird.tmx", GameText.HUMMINGBIRD, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	JAPANESE_WHITEEYE("Maps/dm_japanese_whiteeye.tmx", GameText.JAPANESE_WHITEEYE, GameText.NOTHING, true,
+	JAPANESE_WHITEEYE("maps/dm_japanese_whiteeye.tmx", GameText.JAPANESE_WHITEEYE, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	LITTLE_BITTERN("Maps/dm_little_bittern.tmx", GameText.LITTLE_BITTERN, GameText.NOTHING, true,
+	LITTLE_BITTERN("maps/dm_little_bittern.tmx", GameText.LITTLE_BITTERN, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	PELICAN("Maps/dm_pelican.tmx", GameText.PELICAN, GameText.NOTHING, true,
+	PELICAN("maps/dm_pelican.tmx", GameText.PELICAN, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	SUPREME_CHAMPION("Maps/dm_supreme_champion.tmx", GameText.SUPREME_CHAMPION, GameText.NOTHING, true,
+	SUPREME_CHAMPION("maps/dm_supreme_champion.tmx", GameText.SUPREME_CHAMPION, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
 	
-	FACING_CRABS("Maps/dm_crab.tmx", GameText.FACING_CRABS, GameText.NOTHING, true,
+	FACING_CRABS("maps/dm_crab.tmx", GameText.FACING_CRABS, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	GALLERY("Maps/dm_gallery.tmx", GameText.GALLERY, GameText.NOTHING, true,
+	GALLERY("maps/dm_gallery.tmx", GameText.GALLERY, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
-	HORIZON("Maps/dm_horizon.tmx", GameText.HORIZON, GameText.NOTHING, true,
+	HORIZON("maps/dm_horizon.tmx", GameText.HORIZON, GameText.NOTHING, true,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	REDROCK("Maps/dm_redrock.tmx", GameText.REDROCK, GameText.NOTHING, true,
+	REDROCK("maps/dm_redrock.tmx", GameText.REDROCK, GameText.NOTHING, true,
 			GameMode.DEATHMATCH),
 
-	FALLDOWN("Maps/dm_falldown.tmx", GameText.FALLDOWN, GameText.NOTHING, true, GameMode.DEATHMATCH),
-	MOONBOUNCE("Maps/dm_moonbounce.tmx", GameText.MOONBOUNCE, GameText.NOTHING, true, GameMode.DEATHMATCH),
-	PINWHEEL("Maps/dm_pinwheel.tmx", GameText.PINWHEEL, GameText.NOTHING, true, GameMode.DEATHMATCH),
-	PIVOT("Maps/dm_pivot.tmx", GameText.PIVOT, GameText.NOTHING, true, GameMode.DEATHMATCH),
-	//	CAROUSEL("Maps/dm_carousel.tmx", GameMode.DEATHMATCH),
-	//	GULLY("Maps/dm_gully.tmx", GameMode.DEATHMATCH),
-	//	JUMP("Maps/dm_jump.tmx", GameMode.DEATHMATCH),
-	//	ORIGINAL("Maps/dm_original.tmx", GameMode.DEATHMATCH),
-	//	PILE("Maps/dm_pile.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	//	SAWMILL("Maps/dm_sawmill.tmx", GameMode.DEATHMATCH),
-	//	SCALES("Maps/dm_scales.tmx", GameMode.DEATHMATCH),
-	//	SEESAW("Maps/dm_seesaw.tmx", GameMode.DEATHMATCH),
+	FALLDOWN("maps/dm_falldown.tmx", GameText.FALLDOWN, GameText.NOTHING, true, GameMode.DEATHMATCH),
+	MOONBOUNCE("maps/dm_moonbounce.tmx", GameText.MOONBOUNCE, GameText.NOTHING, true, GameMode.DEATHMATCH),
+	PINWHEEL("maps/dm_pinwheel.tmx", GameText.PINWHEEL, GameText.NOTHING, true, GameMode.DEATHMATCH),
+	PIVOT("maps/dm_pivot.tmx", GameText.PIVOT, GameText.NOTHING, true, GameMode.DEATHMATCH),
+	//	CAROUSEL("maps/dm_carousel.tmx", GameMode.DEATHMATCH),
+	//	GULLY("maps/dm_gully.tmx", GameMode.DEATHMATCH),
+	//	JUMP("maps/dm_jump.tmx", GameMode.DEATHMATCH),
+	//	ORIGINAL("maps/dm_original.tmx", GameMode.DEATHMATCH),
+	//	PILE("maps/dm_pile.tmx", GameMode.DEATHMATCH, GameMode.SURVIVAL),
+	//	SAWMILL("maps/dm_sawmill.tmx", GameMode.DEATHMATCH),
+	//	SCALES("maps/dm_scales.tmx", GameMode.DEATHMATCH),
+	//	SEESAW("maps/dm_seesaw.tmx", GameMode.DEATHMATCH),
 
-	WRECK1("Maps/wreck1.tmx", GameMode.CAMPAIGN),
-	WRECK2("Maps/wreck2.tmx", GameMode.CAMPAIGN),
-	WRECK3("Maps/wreck3.tmx", GameMode.CAMPAIGN),
-	WRECK4("Maps/wreck4.tmx", GameMode.CAMPAIGN),
-	DERELICT1("Maps/derelict1.tmx", GameMode.CAMPAIGN),
-	DERELICT2("Maps/derelict2.tmx", GameMode.CAMPAIGN),
-	PLENUMCHAMBER1("Maps/plenumchamber1.tmx", GameMode.CAMPAIGN),
-	PLENUMCHAMBER2("Maps/plenumchamber2.tmx", GameMode.CAMPAIGN),
-	PLENUMCHAMBER3("Maps/plenumchamber3.tmx", GameMode.CAMPAIGN),
-	PLENUMCHAMBER4("Maps/plenumchamber4.tmx", GameMode.CAMPAIGN),
-	PLENUMCHAMBER5("Maps/plenumchamber5.tmx", GameMode.CAMPAIGN),
-	PLENUMCHAMBER6("Maps/plenumchamber6.tmx", GameMode.CAMPAIGN),
-	PLENUMCHAMBERMAZE("Maps/plenumchambermaze.tmx", GameMode.CAMPAIGN),
-	PLENUMCHAMBERSHAFT("Maps/plenumchambershaft.tmx", GameMode.CAMPAIGN),
-	PLENUMCHAMBEREXTRA1("Maps/plenumchamberextra1.tmx", GameMode.CAMPAIGN),
-	PLENUMCHAMBERTURBINE("Maps/plenumchamberturbine.tmx", GameMode.CAMPAIGN),
-	PLENUMCHAMBERBALCONY("Maps/plenumchamberbalcony.tmx", GameMode.CAMPAIGN),
-	NOISELESSSEA1("Maps/noiselesssea1.tmx", GameMode.CAMPAIGN),
-	NOISELESSSEA2("Maps/noiselesssea2.tmx", GameMode.CAMPAIGN),
-	NOISELESSSEA3("Maps/noiselesssea3.tmx", GameMode.CAMPAIGN),
-	NOISELESSSEA4("Maps/noiselesssea4.tmx", GameMode.CAMPAIGN),
-	NOISELESSSEAEXTRA1("Maps/noiselessseaextra1.tmx", GameMode.CAMPAIGN),
-	SLUICE1("Maps/sluice1.tmx", GameMode.CAMPAIGN),
-	SLUICEBOSS("Maps/sluiceboss.tmx", GameMode.CAMPAIGN),
-	PARTY("Maps/party.tmx", GameMode.CAMPAIGN),
+	WRECK1("maps/wreck1.tmx", GameMode.CAMPAIGN),
+	WRECK2("maps/wreck2.tmx", GameMode.CAMPAIGN),
+	WRECK3("maps/wreck3.tmx", GameMode.CAMPAIGN),
+	WRECK4("maps/wreck4.tmx", GameMode.CAMPAIGN),
+	DERELICT1("maps/derelict1.tmx", GameMode.CAMPAIGN),
+	DERELICT2("maps/derelict2.tmx", GameMode.CAMPAIGN),
+	PLENUMCHAMBER1("maps/plenumchamber1.tmx", GameMode.CAMPAIGN),
+	PLENUMCHAMBER2("maps/plenumchamber2.tmx", GameMode.CAMPAIGN),
+	PLENUMCHAMBER3("maps/plenumchamber3.tmx", GameMode.CAMPAIGN),
+	PLENUMCHAMBER4("maps/plenumchamber4.tmx", GameMode.CAMPAIGN),
+	PLENUMCHAMBER5("maps/plenumchamber5.tmx", GameMode.CAMPAIGN),
+	PLENUMCHAMBER6("maps/plenumchamber6.tmx", GameMode.CAMPAIGN),
+	PLENUMCHAMBERMAZE("maps/plenumchambermaze.tmx", GameMode.CAMPAIGN),
+	PLENUMCHAMBERSHAFT("maps/plenumchambershaft.tmx", GameMode.CAMPAIGN),
+	PLENUMCHAMBEREXTRA1("maps/plenumchamberextra1.tmx", GameMode.CAMPAIGN),
+	PLENUMCHAMBERTURBINE("maps/plenumchamberturbine.tmx", GameMode.CAMPAIGN),
+	PLENUMCHAMBERBALCONY("maps/plenumchamberbalcony.tmx", GameMode.CAMPAIGN),
+	NOISELESSSEA1("maps/noiselesssea1.tmx", GameMode.CAMPAIGN),
+	NOISELESSSEA2("maps/noiselesssea2.tmx", GameMode.CAMPAIGN),
+	NOISELESSSEA3("maps/noiselesssea3.tmx", GameMode.CAMPAIGN),
+	NOISELESSSEA4("maps/noiselesssea4.tmx", GameMode.CAMPAIGN),
+	NOISELESSSEAEXTRA1("maps/noiselessseaextra1.tmx", GameMode.CAMPAIGN),
+	SLUICE1("maps/sluice1.tmx", GameMode.CAMPAIGN),
+	SLUICEBOSS("maps/sluiceboss.tmx", GameMode.CAMPAIGN),
+	PARTY("maps/party.tmx", GameMode.CAMPAIGN),
 
-	SANDBOX_HUB("Maps/sandboxhub.tmx", GameText.SANDBOX, GameText.SANDBOX_DESC, true, GameMode.SANDBOX),
-	SANDBOX_ENEMY("Maps/sandboxenemy.tmx", GameMode.SANDBOX),
-	SANDBOX_EVENTS("Maps/sandboxevent.tmx", GameMode.SANDBOX),
+	SANDBOX_HUB("maps/sandboxhub.tmx", GameText.SANDBOX, GameText.SANDBOX_DESC, true, GameMode.SANDBOX),
+	SANDBOX_ENEMY("maps/sandboxenemy.tmx", GameMode.SANDBOX),
+	SANDBOX_EVENTS("maps/sandboxevent.tmx", GameMode.SANDBOX),
 
-	SSTUNICATE1("Maps/sstunicate1.tmx", GameText.LEVEL_HUB, GameText.HUB_DESC, false, GameMode.HUB),
-	HUB_MULTI("Maps/sstunicate2.tmx", GameText.LEVEL_HUB, GameText.HUB_DESC, true, GameMode.HUB),
+	SSTUNICATE1("maps/sstunicate1.tmx", GameText.LEVEL_HUB, GameText.HUB_DESC, false, GameMode.HUB),
+	HUB_MULTI("maps/sstunicate2.tmx", GameText.LEVEL_HUB, GameText.HUB_DESC, true, GameMode.HUB),
 
 	;
 	
 	//the level's filename
 	private final String map;
-	
+
 	//information about the map
 	private final GameText name, desc;
 	private final Array<UnlockTag> tags = new Array<>();
 
+	private final String imageFile;
+
 	//these are modes that this map can be selected for
 	private final GameMode[] modes;
 
-	UnlockLevel(String map, GameText name, GameText desc, boolean multiplayer, GameMode... modes) {
+	UnlockLevel(String map, GameText name, GameText desc, boolean multiplayer, String imageFile, GameMode... modes) {
 		this.map = map;
 		this.name = name;
 		this.desc = desc;
+		this.imageFile = imageFile;
 		this.modes = modes;
 
 		if (multiplayer) {
@@ -154,6 +157,9 @@ public enum UnlockLevel {
 		} else {
 			tags.add(UnlockTag.NAVIGATIONS);
 		}
+	}
+	UnlockLevel(String map, GameText name, GameText desc, boolean multiplayer, GameMode... modes) {
+		this(map, name, desc, multiplayer, "", modes);
 	}
 
 	UnlockLevel(String map, GameMode... modes) {

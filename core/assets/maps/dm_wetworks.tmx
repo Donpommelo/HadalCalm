@@ -9,7 +9,7 @@
    eAHtnNuO2zAMRLf3e/eh/f9vrfkwADOlYpmiZSU7AQzLiigOz8hunI378qKXCIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACMwj8Lql0nYtg4zb8uxaz4x/5lXl268t+YeTtt/bvFU6V5ynwrcs/5+Z5J0xP7ZxLe+yes9aY3vzRnV0YrgZxuvv28276xxE3plnZ66XM6r/uE3KzDN5eI5VfbPavHeP6JnV8BZ983WvvL5MZ+sl31pk1u6Xb2v701I3y7d3m4DvHdv7ltDiftQdXSc/dejsqaVyDHOBfv+5IoPIx1ubeUR5OCaKy2jpiYEe1mme/d22SNuVfawT+r2mnrp5jI+3dk8ejoniOE/VMepu6Tz7fi66/4p4oK+lE+/bPvPy8dbuycMxdvxn2/auL58zAilmzzfWT+HDh/5eJOLAfawH+v24jCgfb+2ePBzTe2zejnqHuls6uT/DZC/miHesB/o9s7180fs+3to9eTjGjnuuT3aNGfXuyzaHfZf0ddv8q9Xvx1S2e73r4ZnRxR705OEYO+a4SAtqHfUumvuKPtQT8UAfc1nhfPPnGK//FkfU+kzeRd8l4/PLar6NfD/4bN5FaxTn1Uq+jXiGGlt14f1H37fqQz+uo7bPvHy8tffWR4VnphP6OV+mhhVjWvWh33PP6Pfxe75VeWY6Z3/+y7AZiYE/vC7R77ln8vj4e75VepbR+Wgx8Odq3zj/o3GcrVe+zSZek0++1XCcPYt8m028Jp98q+E4exb5Npt4TT75VsNx9izybTbxmnzyrYbj7Fnk22ziNfnkWw3H2bPIt9nEa/LJtxqOs2eRb7OJ1+STbzUcZ88i32YTH8/nf/POf/+Cn/7vnpmMPv7e3005fybXijF4boWfv8hq9Z7d4+m5Z3L5+Ht5ntU3rP+K+tizezw9d/l2nECVb5Fn8u24H70RFb/lbHm2gm/2++LoeZvR5zR6+Z45LuMd/l00Jveeu+PrL87vWddJn8e3n+n34keeO4n4ey5or+qb6ZvpHdY5f/5r9R85T/15F11bfN+9cwye2X5l32Z6h3Xe4sH9R3yzsfDOsx9psx7o93Me1Wjjfby1e/JwDI5nnHeou6WT+zNMzLvoGRvfh+dtUHtrz3qg34/PaPTx1u7JwzH+uPX5xV9jRtq4PrV0cn+GSU9MxN9zQJv1RHE9+XgM5se+Jw/GXrWPfvMOHqyf6606Rr49Bqwnisto4rycB89f+GvE1e3o/1IDD9afYdIT08uFn+eETs+9Jx+P8fHWnlU36xg9Bo/V9UOn556p3cfLtwzBYzHy7ZYXeOh8u+Wy8pH/fnDGvcgIC6wvf53LzOfjH/E66T1DLSt7d5ZvZ99/jdy7RbG4n4Nn2J/tna2XSM9eX6S34nxD3c+wP3MNRvyzzOTb/9/bZVnOjJNvb8e3jNeKEQEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAERqCXwD2yyZuk=
   </data>
  </layer>
- <objectgroup id="8" name="bot-layer" visible="0">
+ <objectgroup id="8" name="bot-layer">
   <object id="44" name="BotPoint" type="BotPoint" x="2416" y="2448">
    <properties>
     <property name="multiplier0" type="float" value="0.1"/>
@@ -354,7 +354,7 @@
    <polyline points="-72,104 -72,-72"/>
   </object>
  </objectgroup>
- <objectgroup id="2" name="collision-layer" visible="0">
+ <objectgroup id="2" name="collision-layer">
   <object id="1" x="320" y="1024">
    <polyline points="0,-64 0,1568 1376,1568 1440,1504 1440,1216 1536,1216 1536,1504 1632,1600 2336,1600 2368,1568 2784,1568 2784,-64 1408,-64 1344,0 1344,288 1248,288 1248,0 1152,-96 448,-96 416,-64 0,-64"/>
   </object>
@@ -365,7 +365,7 @@
    <polyline points="0,0 96,0 96,-96 832,-96 992,64 1152,64 1152,704 992,864 896,864 896,928 640,928 544,832 544,736 448,736 448,832 640,1024 896,1024 896,1120 1248,1120 1248,-192 64,-192 0,-128 0,0"/>
   </object>
  </objectgroup>
- <objectgroup id="4" name="event-layer" visible="0">
+ <objectgroup id="4" name="event-layer">
   <object id="5" name="Multitrigger" type="Multitrigger" x="256" y="352" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
@@ -523,7 +523,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="7" name="objective" visible="0">
+ <objectgroup id="7" name="objective">
   <object id="37" name="ObjectiveSpawn" type="ObjectiveSpawn" x="1696" y="1536" width="32" height="32">
    <properties>
     <property name="sync" value="USER"/>
@@ -551,8 +551,8 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="5" name="dm" visible="0"/>
- <objectgroup id="6" name="arena" visible="0">
+ <objectgroup id="5" name="dm"/>
+ <objectgroup id="6" name="arena">
   <object id="31" name="WaveSpawn" type="WaveSpawn" x="576" y="2112" width="32" height="32">
    <properties>
     <property name="tag" value="STANDARD,GROUNDED"/>
