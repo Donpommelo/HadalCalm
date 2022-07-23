@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.hub;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
+import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
@@ -31,10 +33,15 @@ public class NavigationsMultiplayer extends HubEvent {
 	private static final int TEXT_WIDTH = 240;
 	private static final int TEXT_OFFSET_Y = 195;
 	private static final int OPTION_WIDTH = 250;
-	private static final int OPTION_HEIGHT = 500;
-	private static final int MAP_TEXT_OFFSET_Y = 60;
-	private static final int MAP_OPTION_HEIGHT = 260;
+	private static final int OPTION_HEIGHT = 525;
 
+	private static final int MAP_TEXT_WIDTH = 340;
+	private static final int MAP_TEXT_OFFSET_Y = 100;
+	private static final int MAP_OPTION_WIDTH = 350;
+	private static final int MAP_OPTION_HEIGHT = 260;
+	private static final int MAP_ICON_WIDTH = 300;
+	private static final int MAP_ICON_HEIGHT = 200;
+	private static final int MAP_ICON_OFFSET_Y = 5;
 	public static final float TAB_SCALE = 0.45f;
 	public static final float TAB_PAD = 80.0f;
 	public static final float TAB_HEIGHT = 50.0f;
@@ -197,9 +204,11 @@ public class NavigationsMultiplayer extends HubEvent {
 			}
 
 			if (appear && modeCompliant) {
-				HubOption option = new HubOption(selected.getName(), null);
-				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(MAP_OPTION_HEIGHT);
-				option.setWrap(TEXT_WIDTH);
+				HubOption option = new HubOption(selected.getName(), new Animation<>(CharacterCosmetic.COSMETIC_ANIMATION_SPEED,
+						selected.getIcon()));
+				option.setOptionWidth(MAP_OPTION_WIDTH).setOptionHeight(MAP_OPTION_HEIGHT);
+				option.setIconWidth(MAP_ICON_WIDTH).setIconHeight(MAP_ICON_HEIGHT).setIconOffsetY(MAP_ICON_OFFSET_Y);
+				option.setWrap(MAP_TEXT_WIDTH);
 				option.setYOffset(MAP_TEXT_OFFSET_Y);
 
 				option.addListener(new ClickListener() {

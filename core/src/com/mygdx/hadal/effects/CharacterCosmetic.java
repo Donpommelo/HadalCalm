@@ -97,11 +97,10 @@ public class CharacterCosmetic {
                     getFrames();
                 }
                 batch.draw(drawShadedCosmetic(batch, team, character, true, flip).getKeyFrame(animationTimeExtra, true),
-                        location.x - cosmeticWidth * scale + offsetX * scale,
+                        location.x - (flip ? 1 : 0) * cosmeticWidth * scale + offsetX * scale,
                         location.y + offsetY * scale, 0, 0, cosmeticWidth * scale,
                         cosmeticHeight * scale, 1, 1, 0);
             } else {
-
                 batch.draw(drawShadedCosmetic(batch, team, character, false, false).getKeyFrame(animationTimeExtra, true),
                         location.x + (flip ? -1 : 1) * offsetX * scale,
                         location.y + offsetY * scale, 0, 0, (flip ? -1 : 1) * cosmeticWidth * scale,

@@ -73,7 +73,10 @@ public enum AssetList {
 
 	//misc stuff from totlc
 	IMPACT_ATL("particles/totlc/impact.atlas", TextureAtlas.class),
-	
+
+	//map
+	MAP_TEMP("maps/dm_wetworks.png", Texture.class),
+
 	;
 
 	//Enum constructor and methods.

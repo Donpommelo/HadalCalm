@@ -1,6 +1,10 @@
 package com.mygdx.hadal.save;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
@@ -141,6 +145,7 @@ public enum UnlockLevel {
 	private final Array<UnlockTag> tags = new Array<>();
 
 	private final String imageFile;
+	private TextureRegion imageIcon;
 
 	//these are modes that this map can be selected for
 	private final GameMode[] modes;
@@ -157,6 +162,8 @@ public enum UnlockLevel {
 		} else {
 			tags.add(UnlockTag.NAVIGATIONS);
 		}
+
+		imageIcon = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.MAP_TEMP.toString()));
 	}
 	UnlockLevel(String map, GameText name, GameText desc, boolean multiplayer, GameMode... modes) {
 		this(map, name, desc, multiplayer, "", modes);
@@ -185,6 +192,10 @@ public enum UnlockLevel {
 			}
 		}
 		return items;
+	}
+
+	public TextureRegion getIcon() {
+		return imageIcon;
 	}
 
 	public String getMap() { return map; }
