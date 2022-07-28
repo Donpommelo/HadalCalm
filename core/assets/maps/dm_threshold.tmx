@@ -273,7 +273,7 @@
    <polyline points="64,-96 -128,128"/>
   </object>
  </objectgroup>
- <objectgroup id="2" name="collision-layer" visible="0">
+ <objectgroup id="2" name="collision-layer">
   <object id="1" x="800" y="2560">
    <polyline points="0,0 96,96 384,96 480,0 864,0 960,96 1120,96 1216,192 1696,192 1792,96 1952,96 2048,0 2432,0 2528,96 2816,96 2912,0 2912,-512 2752,-672 2752,-704 2912,-704 3008,-800 3008,-896 2912,-992 2912,-1408 2752,-1568 1760,-1568 1600,-1408 1600,-1120 1824,-1120 1824,-1024 1536,-1024 1536,-800 1376,-800 1376,-1024 1088,-1024 1088,-1120 1312,-1120 1312,-1408 1152,-1568 160,-1568 0,-1408 0,-992 -96,-896 -96,-800 0,-704 160,-704 160,-672 0,-512 0,0"/>
   </object>
@@ -492,7 +492,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="6" name="objective" visible="0">
+ <objectgroup id="6" name="objective">
   <object id="18" name="MovePoint" type="MovePoint" x="2240" y="1824" width="32" height="32">
    <properties>
     <property name="connections" value="EGGPLANT_SPAWNER"/>

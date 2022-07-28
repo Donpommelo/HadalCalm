@@ -1,0 +1,237 @@
+
+maps.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ctf_coquelicot
+  rotate: false
+  xy: 2, 1416
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+ctf_filtration
+  rotate: false
+  xy: 2, 1214
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+ctf_undulate
+  rotate: false
+  xy: 304, 1416
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_aggydaggy
+  rotate: false
+  xy: 2, 1012
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_bottleneck
+  rotate: false
+  xy: 304, 1214
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_brouhaha
+  rotate: false
+  xy: 606, 1416
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_crab
+  rotate: false
+  xy: 2, 810
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_facility
+  rotate: false
+  xy: 304, 1012
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_falldown
+  rotate: false
+  xy: 606, 1214
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_flotsam
+  rotate: false
+  xy: 908, 1416
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_formosan_blue_magpie
+  rotate: false
+  xy: 2, 608
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_free_range
+  rotate: false
+  xy: 304, 810
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_gallery
+  rotate: false
+  xy: 606, 1012
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_grey_heron
+  rotate: false
+  xy: 908, 1214
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_horizon
+  rotate: false
+  xy: 1210, 1416
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_hummingbird
+  rotate: false
+  xy: 2, 406
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_japanese_whiteeye
+  rotate: false
+  xy: 304, 608
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_lagan
+  rotate: false
+  xy: 606, 810
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_little_bittern
+  rotate: false
+  xy: 908, 1012
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_moonbounce
+  rotate: false
+  xy: 1210, 1214
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_pelican
+  rotate: false
+  xy: 1512, 1416
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_pinwheel
+  rotate: false
+  xy: 2, 204
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_pivot
+  rotate: false
+  xy: 304, 406
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_quadrant
+  rotate: false
+  xy: 606, 608
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_redrock
+  rotate: false
+  xy: 908, 810
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_seesaw
+  rotate: false
+  xy: 1210, 1012
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_supreme_champion
+  rotate: false
+  xy: 1512, 1214
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_threshold
+  rotate: false
+  xy: 2, 2
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_towers
+  rotate: false
+  xy: 304, 204
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_warp
+  rotate: false
+  xy: 606, 406
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_wetworks
+  rotate: false
+  xy: 908, 608
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+dm_ziggurat
+  rotate: false
+  xy: 1210, 810
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+futbol_green
+  rotate: false
+  xy: 1512, 1012
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1

@@ -1,6 +1,8 @@
 package com.mygdx.hadal.event.hub;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,6 +13,7 @@ import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -30,10 +33,13 @@ import java.util.regex.Pattern;
  */
 public class NavigationsMultiplayer extends HubEvent {
 
-	private static final int TEXT_WIDTH = 240;
-	private static final int TEXT_OFFSET_Y = 195;
-	private static final int OPTION_WIDTH = 250;
-	private static final int OPTION_HEIGHT = 525;
+	private static final int TEXT_WIDTH = 395;
+	private static final int TEXT_OFFSET_Y = 250;
+	private static final float TEXT_SCALE = 0.5f;
+	private static final int OPTION_WIDTH = 405;
+	private static final int OPTION_HEIGHT = 540;
+	private static final int ICON_WIDTH = 405;
+	private static final int ICON_HEIGHT = 540;
 
 	private static final int MAP_TEXT_WIDTH = 340;
 	private static final int MAP_TEXT_OFFSET_Y = 100;
@@ -93,12 +99,14 @@ public class NavigationsMultiplayer extends HubEvent {
 
 		//bring up all game modes that can be selected from the hub
 		for (GameMode c : gameModes) {
-
 			if (!c.isInvisibleInHub()) {
 				final GameMode selected = c;
 
-				HubOption option = new HubOption(c.getName(), null);
+				HubOption option = new HubOption(c.getName(), new Animation<>(CharacterCosmetic.COSMETIC_ANIMATION_SPEED,
+						new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.DM2.toString()))));
+				option.setScale(TEXT_SCALE);
 				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_HEIGHT);
+				option.setIconWidth(ICON_WIDTH).setIconHeight(ICON_HEIGHT);
 				option.setWrap(TEXT_WIDTH);
 				option.setYOffset(TEXT_OFFSET_Y);
 
@@ -204,8 +212,11 @@ public class NavigationsMultiplayer extends HubEvent {
 			}
 
 			if (appear && modeCompliant) {
-				HubOption option = new HubOption(selected.getName(), new Animation<>(CharacterCosmetic.COSMETIC_ANIMATION_SPEED,
-						selected.getIcon()));
+				Animation<TextureRegion> sprite = null;
+				if (selected.getIcon() != null) {
+					sprite = new Animation<>(CharacterCosmetic.COSMETIC_ANIMATION_SPEED, selected.getIcon());
+				}
+				HubOption option = new HubOption(selected.getName(), sprite);
 				option.setOptionWidth(MAP_OPTION_WIDTH).setOptionHeight(MAP_OPTION_HEIGHT);
 				option.setIconWidth(MAP_ICON_WIDTH).setIconHeight(MAP_ICON_HEIGHT).setIconOffsetY(MAP_ICON_OFFSET_Y);
 				option.setWrap(MAP_TEXT_WIDTH);

@@ -40,11 +40,11 @@ public class HubOption extends Text {
 
 	@Override
     public void draw(Batch batch, float alpha) {
-		super.draw(batch, alpha);
 		if (frame != null) {
 			batch.draw(frame.getKeyFrame(animationTime), getX() + iconOffsetX, getY() + iconOffsetY, iconWidth, iconHeight);
 		}
-    }
+		super.draw(batch, alpha);
+	}
 
     @Override
 	public void act(float delta) {

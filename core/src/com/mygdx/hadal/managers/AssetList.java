@@ -75,7 +75,11 @@ public enum AssetList {
 	IMPACT_ATL("particles/totlc/impact.atlas", TextureAtlas.class),
 
 	//map
-	MAP_TEMP("maps/dm_wetworks.png", Texture.class),
+	MAP_ICONS("maps/maps.atlas", TextureAtlas.class),
+
+	GUN_GAME("Images/gun_game.png", Texture.class),
+	DM1("Images/deathmatch0.png", Texture.class),
+	DM2("Images/deathmatch1.png", Texture.class),
 
 	;
 
