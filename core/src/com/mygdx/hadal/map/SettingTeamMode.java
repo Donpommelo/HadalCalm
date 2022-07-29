@@ -57,22 +57,22 @@ public class SettingTeamMode extends ModeSetting {
         if (teamModeChoice) {
             String[] teamChoices = UIText.SETTING_TEAM_MODE_OPTIONS.text().split(",");
             Text team = new Text(UIText.SETTING_TEAM_MODE.text());
-            team.setScale(UIHub.detailsScale);
+            team.setScale(UIHub.DETAILS_SCALE);
             TooltipManager.addTooltip(team, UIText.SETTING_TEAM_MODE_DESC.text());
 
             teamsOptions = new SelectBox<>(GameStateManager.getSkin());
             teamsOptions.setItems(teamChoices);
-            teamsOptions.setWidth(UIHub.optionsWidth);
+            teamsOptions.setWidth(UIHub.OPTIONS_WIDTH);
             teamsOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValue1));
 
             String[] teamNumChoices = UIText.SETTING_TEAM_NUM_OPTIONS.text().split(",");
             Text teamNum = new Text(UIText.SETTING_TEAM_NUM.text());
-            teamNum.setScale(UIHub.detailsScale);
+            teamNum.setScale(UIHub.DETAILS_SCALE);
             TooltipManager.addTooltip(teamNum, UIText.SETTING_TEAM_NUM_DESC.text());
 
             teamsNumOptions = new SelectBox<>(GameStateManager.getSkin());
             teamsNumOptions.setItems(teamNumChoices);
-            teamsNumOptions.setWidth(UIHub.optionsWidth);
+            teamsNumOptions.setWidth(UIHub.OPTIONS_WIDTH);
             teamsNumOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag2, defaultValue2));
 
             //team number option is disabled outside of auto-assigned teams
@@ -86,9 +86,9 @@ public class SettingTeamMode extends ModeSetting {
             });
 
             table.add(team);
-            table.add(teamsOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
+            table.add(teamsOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
             table.add(teamNum);
-            table.add(teamsNumOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
+            table.add(teamsNumOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
         }
     }
 

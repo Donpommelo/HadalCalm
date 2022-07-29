@@ -72,10 +72,10 @@ public class Outfitter extends HubEvent {
 					hub.setInfo(text.toString());
 				}
 			});
-			itemChoose.setScale(UIHub.OptionsScale);
-			hub.getTableOptions().add(itemChoose).height(UIHub.OptionHeight).pad(UIHub.OptionPad, 0, UIHub.OptionPad, 0).row();
+			itemChoose.setScale(UIHub.OPTIONS_SCALE);
+			hub.getTableOptions().add(itemChoose).height(UIHub.OPTION_HEIGHT).pad(UIHub.OPTION_PAD, 0, UIHub.OPTION_PAD, 0).row();
 		}
-		hub.getTableOptions().add(new Text("")).height(UIHub.OptionsHeight).colspan(2).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.OPTION_HEIGHT).colspan(2).row();
 		hub.refreshHub(this);
 	}
 }

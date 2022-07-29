@@ -35,7 +35,7 @@ public class HubOption extends Text {
 		setAlign(Align.center);
 		setYOffset(TEXT_OFFSET_Y);
 		setButton(true);
-		setScale(UIHub.OptionsScale);
+		setScale(UIHub.OPTIONS_SCALE);
 	}
 
 	@Override

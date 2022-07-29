@@ -27,16 +27,16 @@ public class SettingLoadoutMode extends ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {
         String[] loadoutChoices = UIText.SETTING_LOADOUT_MODE_OPTIONS.text().split(",");
         Text loadout = new Text(UIText.SETTING_LOADOUT_MODE.text());
-        loadout.setScale(UIHub.detailsScale);
+        loadout.setScale(UIHub.DETAILS_SCALE);
         TooltipManager.addTooltip(loadout, UIText.SETTING_LOADOUT_MODE_DESC.text());
 
         dropsOptions = new SelectBox<>(GameStateManager.getSkin());
         dropsOptions.setItems(loadoutChoices);
-        dropsOptions.setWidth(UIHub.optionsWidth);
+        dropsOptions.setWidth(UIHub.OPTIONS_WIDTH);
         dropsOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
 
         table.add(loadout);
-        table.add(dropsOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
+        table.add(dropsOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
     }
 
     @Override

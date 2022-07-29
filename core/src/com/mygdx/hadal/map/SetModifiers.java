@@ -28,11 +28,11 @@ public class SetModifiers extends ModeSetting {
     public void setModifiers(PlayState state, GameMode mode, Table table) {
 
         Text title = new Text(ModifierNotifTag.text());
-        title.setScale(UIHub.detailsScale);
+        title.setScale(UIHub.DETAILS_SCALE);
 
         //this gives an option to uncheck all modifiers
         Text uncheck = new Text(UIText.MODIFIER_UNCHECK.text()).setButton(true);
-        uncheck.setScale(UIHub.detailsScale);
+        uncheck.setScale(UIHub.DETAILS_SCALE);
 
         uncheck.addListener(new ClickListener() {
 
@@ -44,8 +44,8 @@ public class SetModifiers extends ModeSetting {
             }
         });
 
-        table.add(title).height(UIHub.detailHeightSmall).pad(UIHub.detailPad).top();
-        table.add(uncheck).height(UIHub.detailHeightSmall).pad(UIHub.detailPad).row();
+        table.add(title).height(UIHub.DETAIL_HEIGHT_SMALL).pad(UIHub.DETAIL_PAD).top();
+        table.add(uncheck).height(UIHub.DETAIL_HEIGHT_SMALL).pad(UIHub.DETAIL_PAD).row();
 
         for (ModeModifier modifier : modifiers) {
             modifier.setModifiers(state, mode, table);

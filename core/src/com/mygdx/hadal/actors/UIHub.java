@@ -31,6 +31,40 @@ import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION_SLOW;
  */
 public class UIHub {
 
+	private static final int INFO_WIDTH = 400;
+	private static final int INFO_HEIGHT = 350;
+	public static final int INFO_PAD = 20;
+
+	private static final float TABLE_X = HadalGame.CONFIG_WIDTH;
+	private static final float TABLE_Y = 0.0f;
+
+	public static final int TITLE_HEIGHT = 90;
+	public static final int TITLE_PAD = 25;
+
+	private static final int OPTIONS_WIDTH_OUTER = 1280;
+	private static final int OPTIONS_HEIGHT_OUTER = 720;
+	public static final int OPTION_HEIGHT = 35;
+	public static final int OPTION_HEIGHT_LARGE = 45;
+	public static final int OPTION_PAD = 3;
+	private static final int SCROLL_WIDTH = 880;
+	private static final int SCROLL_HEIGHT = 620;
+	private static final int SCROLL_HEIGHT_WITH_TAB = 560;
+	private static final int TAB_HEIGHT = 60;
+	private static final int VERTICAL_GROUP_PAD = 8;
+	public static final float OPTIONS_SCALE = 0.3f;
+	public static final float OPTIONS_SCALE_SMALL = 0.25f;
+
+	public static final float ARTIFACT_TAG_SIZE = 50.0f;
+	private static final float ARTIFACT_TAG_OFFSET_X = 10.0f;
+	private static final float ARTIFACT_TAG_OFFSET_Y = 60.0f;
+	private static final float ARTIFACT_TAG_TARGET_WIDTH = 120.0f;
+
+	public static final float DETAIL_HEIGHT = 35.0f;
+	public static final float DETAIL_HEIGHT_SMALL = 20.0f;
+	public static final float DETAIL_PAD = 7.5f;
+	public static final float DETAILS_SCALE = 0.25f;
+	public static final int OPTIONS_WIDTH = 410;
+
 	private final PlayState state;
 	
 	private final Table tableOuter, tableTop, tableSearch, tableLeft, tableRight, tableTabs, tableOptions, tableExtra;
@@ -41,41 +75,6 @@ public class UIHub {
 	//These fields pertain to the extra info window that pops up when mousing over stuff.
 	private Text titleInfo;
 	private String info, title = "";
-	private static final int InfoWidth = 400;
-	private static final int InfoHeight = 350;
-	public static final int InfoPad = 20;
-
-	private static final float TableX = HadalGame.CONFIG_WIDTH;
-	private static final float TableY = 0.0f;
-	
-	public static final int TitleHeight = 90;
-	public static final int TitlePad = 25;
-	
-	private static final int OptionsWidthOuter = 1280;
-	private static final int OptionsHeightOuter = 720;
-	public static final int OptionsHeight = 40;
-	public static final int OptionHeight = 35;
-	public static final int OptionHeightLarge = 45;
-	public static final int OptionPad = 3;
-	private static final int ScrollWidth = 880;
-	private static final int ScrollHeight = 620;
-	private static final int ScrollHeightWithTab = 560;
-	private static final int TabHeight = 60;
-	private static final int VerticalGroupPad = 8;
-	public static final float OptionsScale = 0.3f;
-	public static final float OptionsScaleSmall = 0.25f;
-	
-	public static final float ArtifactTagSize = 50.0f;
-	private static final float ArtifactTagOffsetX = 10.0f;
-	private static final float ArtifactTagOffsetY = 60.0f;
-	private static final float ArtifactTagTargetWidth = 120.0f;
-
-	public static final float detailHeight = 35.0f;
-	public static final float detailHeightSmall = 20.0f;
-	public static final float detailPad = 7.5f;
-
-	public static final float detailsScale = 0.25f;
-	public static final int optionsWidth = 410;
 
 	private hubTypes type = hubTypes.NONE;
 	
@@ -111,11 +110,11 @@ public class UIHub {
 		
 		titleInfo = new Text(title);
 		titleInfo.setScale(0.8f);
-		tableOuter.add(tableTop).height(TitleHeight).colspan(2).growX().row();
-		tableOuter.add(tableLeft).width(InfoWidth).growY().bottom();
-		tableOuter.add(tableRight).width(ScrollWidth).growY().bottom();
+		tableOuter.add(tableTop).height(TITLE_HEIGHT).colspan(2).growX().row();
+		tableOuter.add(tableLeft).width(INFO_WIDTH).growY().bottom();
+		tableOuter.add(tableRight).width(SCROLL_WIDTH).growY().bottom();
 
-		tableTop.add(titleInfo).pad(TitlePad).growX();
+		tableTop.add(titleInfo).pad(TITLE_PAD).growX();
 
 		Text extraInfo = new Text("") {
 
@@ -123,14 +122,14 @@ public class UIHub {
 		    public void draw(Batch batch, float alpha) {
 				super.draw(batch, alpha);
 				font.getData().setScale(0.3f);
-				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), InfoWidth, InfoHeight);
-				font.draw(batch, info, getX() + 5, getY() + InfoHeight - 25, InfoWidth - 10, -1, true);
+				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), INFO_WIDTH, INFO_HEIGHT);
+				font.draw(batch, info, getX() + 5, getY() + INFO_HEIGHT - 25, INFO_WIDTH - 10, -1, true);
 		    }
 		};
 
 		tableLeft.add(tableSearch).top().row();
 		tableLeft.add(tableExtra).growY().row();
-		tableLeft.add(extraInfo).bottom().width(InfoWidth).height(InfoHeight).row();
+		tableLeft.add(extraInfo).bottom().width(INFO_WIDTH).height(INFO_HEIGHT).row();
 
 		extraInfo.toBack();
 		titleInfo.toFront();
@@ -163,7 +162,7 @@ public class UIHub {
 		//for hubs with search bar, let players type in text
 		if (hub.isSearchable()) {
 			Text search = new Text(UIText.SEARCH.text());
-			search.setScale(OptionsScale);
+			search.setScale(OPTIONS_SCALE);
 
 			searchName = new TextField("", GameStateManager.getSkin()) {
 
@@ -189,13 +188,13 @@ public class UIHub {
 			searchName.setMessageText(UIText.SEARCH_OPTIONS.text());
 			searchName.setText(hub.getLastSearch());
 			tableSearch.add(search);
-			tableSearch.add(searchName).padBottom(OptionPad).row();
+			tableSearch.add(searchName).padBottom(OPTION_PAD).row();
 		}
 
 		//if the player can add extra tags to search artifacts, add dropdown for this
 		if (hub.isTaggable()) {
 			Text searchTags = new Text(UIText.FILTER_TAGS.text());
-			searchTags.setScale(OptionsScale);
+			searchTags.setScale(OPTIONS_SCALE);
 
 			tagFilter = new SelectBox<>(GameStateManager.getSkin());
 			tagFilter.setItems(hub.getSearchTags());
@@ -218,11 +217,11 @@ public class UIHub {
 			});
 
 			tableSearch.add(searchTags);
-			tableSearch.add(tagFilter).padBottom(OptionPad).row();
+			tableSearch.add(tagFilter).padBottom(OPTION_PAD).row();
 		}
 		if (hub.isCostable()) {
 			Text searchCost = new Text(UIText.FILTER_COST.text());
-			searchCost.setScale(OptionsScale);
+			searchCost.setScale(OPTIONS_SCALE);
 
 			slotsFilter = new SelectBox<>(GameStateManager.getSkin());
 			slotsFilter.setItems(UIText.FILTER_COST_OPTIONS.text().split(","));
@@ -238,7 +237,7 @@ public class UIHub {
 			});
 
 			tableSearch.add(searchCost);
-			tableSearch.add(slotsFilter).padBottom(OptionPad).row();
+			tableSearch.add(slotsFilter).padBottom(OPTION_PAD).row();
 		}
 
 		this.options = new ScrollPane(tableOptions, GameStateManager.getSkin());
@@ -254,19 +253,19 @@ public class UIHub {
 		});
 
 		if (hub.isTabbable()) {
-			tableRight.add(tableTabs).height(TabHeight).width(ScrollWidth).row();
-			tableRight.add(options).height(ScrollHeightWithTab).width(ScrollWidth);
+			tableRight.add(tableTabs).height(TAB_HEIGHT).width(SCROLL_WIDTH).row();
+			tableRight.add(options).height(SCROLL_HEIGHT_WITH_TAB).width(SCROLL_WIDTH);
 		} else {
-			tableRight.add(options).height(ScrollHeight).width(ScrollWidth);
+			tableRight.add(options).height(SCROLL_HEIGHT).width(SCROLL_WIDTH);
 		}
 
-		tableOuter.setPosition(TableX, TableY);
-		tableOuter.setSize(OptionsWidthOuter, OptionsHeightOuter);
+		tableOuter.setPosition(TABLE_X, TABLE_Y);
+		tableOuter.setSize(OPTIONS_WIDTH_OUTER, OPTIONS_HEIGHT_OUTER);
 
 		state.getStage().setScrollFocus(options);
 		state.getStage().addActor(tableOuter);
 
-		tableOuter.addAction(Actions.moveTo(TableX - OptionsWidthOuter, TableY, .5f, Interpolation.pow5Out));
+		tableOuter.addAction(Actions.moveTo(TABLE_X - OPTIONS_WIDTH_OUTER, TABLE_Y, .5f, Interpolation.pow5Out));
 		
 		info = "";
 	}
@@ -277,20 +276,20 @@ public class UIHub {
 		currentVerticalGroup.addActor(actor);
 		currentVerticalGroup.top();
 		currentVerticalGroup.setWidth(width);
-		currentVerticalGroup.setHeight(ScrollHeight);
-		currentVerticalGroup.space(OptionPad);
+		currentVerticalGroup.setHeight(SCROLL_HEIGHT);
+		currentVerticalGroup.space(OPTION_PAD);
 
 		currentRow++;
 		if (currentRow >= rowNum) {
 			currentRow = 0;
 
-			tableOptions.add(currentVerticalGroup).pad(VerticalGroupPad).growY();
+			tableOptions.add(currentVerticalGroup).pad(VERTICAL_GROUP_PAD).growY();
 			currentVerticalGroup = new VerticalGroup();
 		}
 	}
 
 	public void addActorFinish() {
-		tableOptions.add(currentVerticalGroup).pad(VerticalGroupPad).growY();
+		tableOptions.add(currentVerticalGroup).pad(VERTICAL_GROUP_PAD).growY();
 		currentVerticalGroup = new VerticalGroup();
 		currentRow = 0;
 	}
@@ -303,7 +302,7 @@ public class UIHub {
 
 		active = false;
 
-		tableOuter.addAction(Actions.sequence(Actions.moveTo(TableX, TableY, TRANSITION_DURATION_SLOW, Interpolation.pow5Out),
+		tableOuter.addAction(Actions.sequence(Actions.moveTo(TABLE_X, TABLE_Y, TRANSITION_DURATION_SLOW, Interpolation.pow5Out),
 			Actions.run(() -> {
 				if (state.getStage() != null) {
 					if (state.getStage().getScrollFocus() == options) {
@@ -336,7 +335,7 @@ public class UIHub {
 		
 		Text slotsTitle = new Text(UIText.CURRENT_ARTIFACTS.text());
 		slotsTitle.setScale(0.5f);
-		tableExtra.add(slotsTitle).colspan(12).pad(InfoPad).row();
+		tableExtra.add(slotsTitle).colspan(12).pad(INFO_PAD).row();
 		
 		boolean artifactsEmpty = true;
 
@@ -347,7 +346,7 @@ public class UIHub {
 				if (!UnlockArtifact.NOTHING.equals(c)) {
 					artifactsEmpty = false;
 					final ArtifactIcon newTag = new ArtifactIcon(c, UIText.UNEQUIP.text(c.getName()),
-							ArtifactTagOffsetX, ArtifactTagOffsetY, ArtifactTagTargetWidth);
+							ARTIFACT_TAG_OFFSET_X, ARTIFACT_TAG_OFFSET_Y, ARTIFACT_TAG_TARGET_WIDTH);
 
 					newTag.addListener(new ClickListener() {
 
@@ -369,14 +368,14 @@ public class UIHub {
 									newTag.getArtifact().getDesc(), newTag.getArtifact().getDescLong());
 						}
 					});
-					tableExtra.add(newTag).width(ArtifactTagSize).height(ArtifactTagSize);
+					tableExtra.add(newTag).width(ARTIFACT_TAG_SIZE).height(ARTIFACT_TAG_SIZE);
 				}
 			}
 
 			if (artifactsEmpty) {
 				Text slotsEmpty = new Text(UIText.NA.text());
 				slotsEmpty.setScale(0.5f);
-				tableExtra.add(slotsEmpty).height(ArtifactTagSize).colspan(12);
+				tableExtra.add(slotsEmpty).height(ARTIFACT_TAG_SIZE).colspan(12);
 			}
 
 			tableExtra.row();
@@ -384,7 +383,7 @@ public class UIHub {
 			Text slotsInfo = new Text(UIText.SLOTS_REMAINING.text(
 					Integer.toString(state.getPlayer().getPlayerData().getArtifactSlotsRemaining())));
 			slotsInfo.setScale(0.5f);
-			tableExtra.add(slotsInfo).pad(InfoPad).colspan(12).row();
+			tableExtra.add(slotsInfo).pad(INFO_PAD).colspan(12).row();
 		}
 	}
 
@@ -395,7 +394,7 @@ public class UIHub {
 		outfitName.setMessageText(UIText.OUTFIT_NAME.text());
 
 		Text outfitSave = new Text(UIText.OUTFIT_SAVE.text()).setButton(true);
-		outfitSave.setScale(OptionsScale);
+		outfitSave.setScale(OPTIONS_SCALE);
 
 		outfitSave.addListener(new ClickListener() {
 
@@ -418,7 +417,7 @@ public class UIHub {
 		outfits.setItems(outfitOptions);
 
 		Text outfitDelete = new Text(UIText.OUTFIT_DELETE.text()).setButton(true);
-		outfitDelete.setScale(OptionsScale);
+		outfitDelete.setScale(OPTIONS_SCALE);
 
 		outfitDelete.addListener(new ClickListener() {
 
@@ -432,10 +431,10 @@ public class UIHub {
 			}
 		});
 
-		tableExtra.add(outfitName).pad(InfoPad).height(OptionHeightLarge);
-		tableExtra.add(outfitSave).pad(InfoPad).height(OptionHeightLarge).row();
-		tableExtra.add(outfits).pad(InfoPad).height(OptionHeightLarge);
-		tableExtra.add(outfitDelete).pad(InfoPad).height(OptionHeightLarge).row();
+		tableExtra.add(outfitName).pad(INFO_PAD).height(OPTION_HEIGHT_LARGE);
+		tableExtra.add(outfitSave).pad(INFO_PAD).height(OPTION_HEIGHT_LARGE).row();
+		tableExtra.add(outfits).pad(INFO_PAD).height(OPTION_HEIGHT_LARGE);
+		tableExtra.add(outfitDelete).pad(INFO_PAD).height(OPTION_HEIGHT_LARGE).row();
 	}
 
 	/**

@@ -37,15 +37,15 @@ public class SettingTimer extends ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {
         String[] timerChoices = UIText.SETTING_TIMER_OPTIONS.text().split(",");
         Text timer = new Text(UIText.SETTING_TIMER.text());
-        timer.setScale(UIHub.detailsScale);
+        timer.setScale(UIHub.DETAILS_SCALE);
 
         timerOptions = new SelectBox<>(GameStateManager.getSkin());
         timerOptions.setItems(timerChoices);
-        timerOptions.setWidth(UIHub.optionsWidth);
+        timerOptions.setWidth(UIHub.OPTIONS_WIDTH);
         timerOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
 
         table.add(timer);
-        table.add(timerOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
+        table.add(timerOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
     }
 
     @Override

@@ -188,9 +188,6 @@ public enum UnlockLevel {
 	}
 
 	public TextureRegion getIcon() {
-		if (((TextureAtlas) HadalGame.assetManager.get(AssetList.MAP_ICONS.toString())).findRegion(imageFile) == null) {
-			System.out.println(this);
-		}
 		return ((TextureAtlas) HadalGame.assetManager.get(AssetList.MAP_ICONS.toString())).findRegion(imageFile);
 	}
 

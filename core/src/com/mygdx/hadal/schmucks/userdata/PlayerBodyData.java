@@ -697,7 +697,7 @@ public class PlayerBodyData extends BodyData {
 	}
 
 	private final Array<PlayerBodyData> damagedByToRemove = new Array<>();
-	private static final float DECREMENT_OVER_TIME = 8.0f;
+	private static final float DECREMENT_OVER_TIME = 6.0f;
 	/**
 	 * This processes the map of players that have damaged this player recently
 	 * @param delta; time since last processing
@@ -727,8 +727,7 @@ public class PlayerBodyData extends BodyData {
 			case 0, 1 -> 1.0f;
 			case 2 -> 0.75f;
 			case 3 -> 0.5f;
-			case 4 -> 0.3f;
-			case 5 -> 0.15f;
+			case 4 -> 0.25f;
 			default -> 0.1f;
 		};
 	}

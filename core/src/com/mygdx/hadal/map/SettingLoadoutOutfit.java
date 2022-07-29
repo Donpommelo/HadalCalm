@@ -31,18 +31,18 @@ public class SettingLoadoutOutfit extends ModeSetting {
         }
 
         Text outfit = new Text(UIText.SETTING_OUTFIT.text());
-        outfit.setScale(UIHub.detailsScale);
+        outfit.setScale(UIHub.DETAILS_SCALE);
         TooltipManager.addTooltip(outfit, UIText.SETTING_OUTFIT_DESC.text());
 
         outfitOptions = new SelectBox<>(GameStateManager.getSkin());
         outfitOptions.setItems(optionChoices);
-        outfitOptions.setWidth(UIHub.optionsWidth);
+        outfitOptions.setWidth(UIHub.OPTIONS_WIDTH);
         if (optionChoices.length > state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue)) {
             outfitOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
         }
 
         table.add(outfit);
-        table.add(outfitOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
+        table.add(outfitOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
     }
 
     @Override

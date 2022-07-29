@@ -48,11 +48,11 @@ public class SettingBots extends ModeSetting {
         if (botsChoice) {
             String[] botNumberChoices = UIText.SETTING_BOT_NUMBER_OPTIONS.text().split(",");
             Text bots = new Text(UIText.SETTING_BOT_NUMBER.text());
-            bots.setScale(UIHub.detailsScale);
+            bots.setScale(UIHub.DETAILS_SCALE);
 
             botNumberOptions = new SelectBox<>(GameStateManager.getSkin());
             botNumberOptions.setItems(botNumberChoices);
-            botNumberOptions.setWidth(UIHub.optionsWidth);
+            botNumberOptions.setWidth(UIHub.OPTIONS_WIDTH);
             if (GameStateManager.Mode.SINGLE.equals(GameStateManager.currentMode)) {
                 botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValueSinglePlayer));
             } else {
@@ -61,11 +61,11 @@ public class SettingBots extends ModeSetting {
 
             String[] botDifficultyChoices = UIText.SETTING_BOT_DIFFICULTY_OPTIONS.text().split(",");
             Text botDifficulty = new Text(UIText.SETTING_BOT_DIFFICULTY.text());
-            botDifficulty.setScale(UIHub.detailsScale);
+            botDifficulty.setScale(UIHub.DETAILS_SCALE);
 
             botDifficultyOptions = new SelectBox<>(GameStateManager.getSkin());
             botDifficultyOptions.setItems(botDifficultyChoices);
-            botDifficultyOptions.setWidth(UIHub.optionsWidth);
+            botDifficultyOptions.setWidth(UIHub.OPTIONS_WIDTH);
             botDifficultyOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag2, defaultValue));
 
             //bot difficulty option is disabled with no bots
@@ -79,9 +79,9 @@ public class SettingBots extends ModeSetting {
             });
 
             table.add(bots);
-            table.add(botNumberOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
+            table.add(botNumberOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
             table.add(botDifficulty);
-            table.add(botDifficultyOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
+            table.add(botDifficultyOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
         }
     }
 

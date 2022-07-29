@@ -74,9 +74,11 @@ public class Player extends PhysicsSchmuck {
 	protected static final float INTERACT_CD = 0.15f;
 	protected static final float HIT_SOUND_CD = 0.15f;
 	protected static final float PING_CD = 1.0f;
-	private static final float HOVER_FUEL_REGEN_CD = 1.0f;
-	private static final float AIRBLAST_FUEL_REGEN_CD = 2.0f;
-	private static final float FUEL_REGEN = 20.0f;
+	private static final float HOVER_FUEL_REGEN_CD = 1.5f;
+	private static final float AIRBLAST_FUEL_REGEN_CD = 3.0f;
+	private static final float FUEL_REGEN = 16.0f;
+	private static final float GROUND_FUEL_CD_BOOST = 3.0f;
+	private static final float GROUND_FUEL_REGEN_BOOST = 5.0f;
 
 	//this makes the player animate faster in the air for the "luigi legs"
 	private static final float airAnimationSlow = 3.0f;
@@ -406,9 +408,9 @@ public class Player extends PhysicsSchmuck {
 				
 		//process fuel regen. Base fuel regen is canceled upon using fuel.
 		if (fuelRegenCdCount > 0.0f) {
-			fuelRegenCdCount -= delta;
+			fuelRegenCdCount -= grounded ? delta * GROUND_FUEL_CD_BOOST : delta;
 		} else {
-			playerData.fuelGain(FUEL_REGEN * delta);
+			playerData.fuelGain(grounded ? GROUND_FUEL_REGEN_BOOST * FUEL_REGEN * delta : FUEL_REGEN * delta);
 		}
 		playerData.fuelGain(playerData.getStat(Stats.FUEL_REGEN) * delta);
 

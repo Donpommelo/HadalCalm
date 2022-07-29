@@ -33,7 +33,7 @@ public class ModeModifier extends ModeSetting {
     @Override
     public void setModifiers(PlayState state, GameMode mode, Table table) {
         Text title = new Text(uiText.text());
-        title.setScale(UIHub.detailsScale);
+        title.setScale(UIHub.DETAILS_SCALE);
 
         if (desc != null) {
             TooltipManager.addTooltip(title, desc.text());
@@ -42,7 +42,7 @@ public class ModeModifier extends ModeSetting {
         dropsOptions = new CheckBox("", GameStateManager.getSkin());
         dropsOptions.setChecked(state.getGsm().getSetting().getModeSetting(mode, settingTag, 0) == 1);
         table.add(title);
-        table.add(dropsOptions).height(UIHub.detailHeightSmall).pad(UIHub.detailPad).top().row();
+        table.add(dropsOptions).height(UIHub.DETAIL_HEIGHT_SMALL).pad(UIHub.DETAIL_PAD).top().row();
     }
 
     @Override

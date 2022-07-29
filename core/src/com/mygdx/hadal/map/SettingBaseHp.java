@@ -27,15 +27,15 @@ public class SettingBaseHp extends ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {
         String[] hpChoices = UIText.SETTING_BASE_HP_OPTIONS.text().split(",");
         Text hp = new Text(UIText.SETTING_BASE_HP.text());
-        hp.setScale(UIHub.detailsScale);
+        hp.setScale(UIHub.DETAILS_SCALE);
 
         hpOptions = new SelectBox<>(GameStateManager.getSkin());
         hpOptions.setItems(hpChoices);
-        hpOptions.setWidth(UIHub.optionsWidth);
+        hpOptions.setWidth(UIHub.OPTIONS_WIDTH);
         hpOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
 
         table.add(hp);
-        table.add(hpOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
+        table.add(hpOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
     }
 
     @Override

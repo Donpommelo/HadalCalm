@@ -41,15 +41,15 @@ public class SettingLives extends ModeSetting {
         if (livesChoice) {
             String[] livesChoices = UIText.SETTING_LIVES_OPTIONS.text().split(",");
             Text lives = new Text(UIText.SETTING_LIVES.text());
-            lives.setScale(UIHub.detailsScale);
+            lives.setScale(UIHub.DETAILS_SCALE);
 
             livesOptions = new SelectBox<>(GameStateManager.getSkin());
             livesOptions.setItems(livesChoices);
-            livesOptions.setWidth(UIHub.optionsWidth);
+            livesOptions.setWidth(UIHub.OPTIONS_WIDTH);
             livesOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
 
             table.add(lives);
-            table.add(livesOptions).height(UIHub.detailHeight).pad(UIHub.detailPad).row();
+            table.add(livesOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
         }
     }
 
