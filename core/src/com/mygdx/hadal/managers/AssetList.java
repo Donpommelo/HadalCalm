@@ -77,9 +77,7 @@ public enum AssetList {
 	//map
 	MAP_ICONS("maps/maps.atlas", TextureAtlas.class),
 
-	GUN_GAME("Images/gun_game.png", Texture.class),
-	DM1("Images/deathmatch0.png", Texture.class),
-	DM2("Images/deathmatch1.png", Texture.class),
+	MODE_ICONS("ui/modes.atlas", TextureAtlas.class),
 
 	;
 

@@ -1,6 +1,5 @@
 package com.mygdx.hadal.event.hub;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -9,11 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.*;
+import com.mygdx.hadal.actors.DialogBox;
+import com.mygdx.hadal.actors.HubOption;
+import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -102,8 +103,7 @@ public class NavigationsMultiplayer extends HubEvent {
 			if (!c.isInvisibleInHub()) {
 				final GameMode selected = c;
 
-				HubOption option = new HubOption(c.getName(), new Animation<>(CharacterCosmetic.COSMETIC_ANIMATION_SPEED,
-						new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.DM2.toString()))));
+				HubOption option = new HubOption(c.getName(), new Animation<>(CharacterCosmetic.COSMETIC_ANIMATION_SPEED, c.getFrame()));
 				option.setScale(TEXT_SCALE);
 				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_HEIGHT);
 				option.setIconWidth(ICON_WIDTH).setIconHeight(ICON_HEIGHT);
