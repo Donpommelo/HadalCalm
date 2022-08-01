@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.hub;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -105,6 +106,7 @@ public class NavigationsMultiplayer extends HubEvent {
 
 				HubOption option = new HubOption(c.getName(), new Animation<>(CharacterCosmetic.COSMETIC_ANIMATION_SPEED, c.getFrame()));
 				option.setScale(TEXT_SCALE);
+				option.setColor(Color.BLACK);
 				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_HEIGHT);
 				option.setIconWidth(ICON_WIDTH).setIconHeight(ICON_HEIGHT);
 				option.setWrap(TEXT_WIDTH);
