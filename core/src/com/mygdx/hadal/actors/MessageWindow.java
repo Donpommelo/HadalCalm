@@ -39,21 +39,27 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_LONG;
  */
 public class MessageWindow {
 
-	private static final int width = 380;
-	private static final int scrollWidth = 360;
-	private static final int scrollBarPad = 10;
-	private static final int height = 200;
+	private static final int WIDTH = 380;
+	private static final int HEIGHT = 200;
+	private static final int SCROLL_WIDTH = 360;
+	private static final int SCROLL_PAD = 10;
 
-	private static final int windowX = 0;
-	private static final int windowY = 130;
+	private static final int WINDOW_X = 0;
+	private static final int WINDOW_Y = 130;
 
-	public static final float logScale = 0.3f;
+	public static final float LOG_SCALE = 0.3f;
+	public static final float LOG_PAD = 7.5f;
+	private static final int INPUT_WIDTH = 200;
+	public static final float INPUT_HEIGHT = 20.0f;
+	public static final float INPUT_PAD = 5.0f;
+	public static final float OPTION_HEIGHT = 35.0f;
+	private static final int BORDER_PAD = 10;
 
-	public static final float logPad = 7.5f;
-	private static final int inputWidth = 200;
-	public static final float inputHeight = 20.0f;
-	public static final float inputPad = 5.0f;
-	public static final float optionHeight = 35.0f;
+	//alpha of an inactive text window
+	private static final float INACTIVE_TRANSPARENCY = 0.5f;
+
+	//inactive message window disappears after this many seconds of no messages.
+	private static final float INACTIVE_FADE_DELAY = 8.0f;
 
 	private final PlayState state;
 	private final Stage stage;
@@ -66,13 +72,6 @@ public class MessageWindow {
 	//is this window currently active/invisible? is this window locked and unable to be toggled?
 	private boolean active, invisible, locked;
 
-	private static final int pad = 10;
-
-	//alpha of an inactive text window
-	private static final float inactiveTransparency = 0.5f;
-
-	//inactive message window disappears after this many seconds of no messages.
-	private static final float inactiveFadeDelay = 8.0f;
 	private float inactiveFadeCount;
 
 	//this tracks all text messages. Used for saving text logs to docs
@@ -94,10 +93,10 @@ public class MessageWindow {
 
 				//keep track of how long the window is inactive. Make invisible after enough time inactive.
 				if (!active) {
-					if (inactiveFadeCount > inactiveFadeDelay) {
+					if (inactiveFadeCount > INACTIVE_FADE_DELAY) {
 						invisible = true;
 					}
-					if (inactiveFadeCount <= inactiveFadeDelay) {
+					if (inactiveFadeCount <= INACTIVE_FADE_DELAY) {
 						inactiveFadeCount += delta;
 					}
 				}
@@ -112,15 +111,16 @@ public class MessageWindow {
 
 				//inactive message windows are drawn with reduced alpha
 				if (!active) {
-					batch.setColor(1.0f,  1.0f, 1.0f, inactiveTransparency);
+					batch.setColor(1.0f,  1.0f, 1.0f, INACTIVE_TRANSPARENCY);
 				}
 
-				batch.draw(grey, getX() - pad / 2.0f, getY() - pad / 2.0f, getWidth() + pad, getHeight() + pad);
+				batch.draw(grey, getX() - BORDER_PAD / 2.0f, getY() - BORDER_PAD / 2.0f, getWidth() + BORDER_PAD,
+						getHeight() + BORDER_PAD);
 
 				if (active) {
 					super.draw(batch, parentAlpha);
 				} else {
-					super.draw(batch, inactiveTransparency);
+					super.draw(batch, INACTIVE_TRANSPARENCY);
 					batch.setColor(1.0f,  1.0f, 1.0f, 1.0f);
 				}
 			}
@@ -220,11 +220,11 @@ public class MessageWindow {
 	private void addTable() {
 		table.clear();
 		stage.addActor(table);
-		table.setPosition(windowX, windowY);
-		table.setWidth(width);
-		table.setHeight(height);
+		table.setPosition(WINDOW_X, WINDOW_Y);
+		table.setWidth(WIDTH);
+		table.setHeight(HEIGHT);
 
-		tableLog.padBottom(logPad);
+		tableLog.padBottom(LOG_PAD);
 
 		textLog = new ScrollPane(tableLog, GameStateManager.getSkin());
 		textLog.setFadeScrollBars(true);
@@ -236,7 +236,7 @@ public class MessageWindow {
 			private float typeCount;
 
 			//player is "typing" 0.5 seconds after they type last.
-			private static final float typingInterval = 0.5f;
+			private static final float TYPING_INTERVAL = 0.5f;
 			@Override
 			protected InputListener createInputListener () {
 				
@@ -274,7 +274,7 @@ public class MessageWindow {
 
             	//after typing any key, the player is "typing" for some time where an icon will be drawn above them
             	typeCount += delta;
-            	if (typeCount >= typingInterval) {
+            	if (typeCount >= TYPING_INTERVAL) {
             		typeCount = 0;
 
             		//if typing, we notify other players that we are typing to display the speech bubble
@@ -293,10 +293,10 @@ public class MessageWindow {
 		enterMessage.setMaxLength(MAX_MESSAGE_LENGTH);
 
 		backButton = new Text(UIText.EXIT.text()).setButton(true);
-		backButton.setScale(logScale);
+		backButton.setScale(LOG_SCALE);
 
 		sendButton = new Text(UIText.SEND.text()).setButton(true);
-		sendButton.setScale(logScale);
+		sendButton.setScale(LOG_SCALE);
 
 		sendButton.addListener(new ClickListener() {
 
@@ -313,10 +313,10 @@ public class MessageWindow {
 			}
 		});
 
-		table.add(textLog).colspan(3).width(scrollWidth).expandY().pad(inputPad).top().left().row();
-		table.add(backButton).height(optionHeight).pad(inputPad).bottom().left();
-		table.add(enterMessage).width(inputWidth).height(inputHeight).bottom().center();
-		table.add(sendButton).height(optionHeight).pad(inputPad).bottom().right();
+		table.add(textLog).colspan(3).width(SCROLL_WIDTH).expandY().pad(INPUT_PAD).top().left().row();
+		table.add(backButton).height(OPTION_HEIGHT).pad(INPUT_PAD).bottom().left();
+		table.add(enterMessage).width(INPUT_WIDTH).height(INPUT_HEIGHT).bottom().center();
+		table.add(sendButton).height(OPTION_HEIGHT).pad(INPUT_PAD).bottom().right();
 
 		//windows starts off retracted
 		fadeOut();
@@ -389,11 +389,11 @@ public class MessageWindow {
 	 * After adding a text to the dialog record, we create a text actor for it and add that to the dialog box actor.
 	 */
 	private void addTextLine(String text) {
-		Text newEntry = new Text(text).setWrap(scrollWidth - scrollBarPad);
-		newEntry.setScale(logScale);
+		Text newEntry = new Text(text).setWrap(SCROLL_WIDTH - SCROLL_PAD);
+		newEntry.setScale(LOG_SCALE);
 		newEntry.setFont(HadalGame.FONT_UI_ALT);
 
-		tableLog.add(newEntry).pad(logPad, 0, logPad, scrollBarPad).width(scrollWidth - scrollBarPad).left().row();
+		tableLog.add(newEntry).pad(LOG_PAD, 0, LOG_PAD, SCROLL_PAD).width(SCROLL_WIDTH - SCROLL_PAD).left().row();
 		textLog.scrollTo(0, 0, 0, 0);
 
 		//new text makes the window visible and resets the inactive fade time

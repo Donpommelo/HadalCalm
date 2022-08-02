@@ -19,6 +19,10 @@ import com.mygdx.hadal.utils.Constants;
  */
 public class BotController {
 
+    private static final float BOT_TARGET_INTERVAL = 0.5f;
+    private static final float BOT_MOVE_INTERVAL = 0.05f;
+    private static final float BOT_MOVE_VARIANCE = 0.25f;
+
     protected final Schmuck bot;
 
     //this is the current path of nodes that the bot attempts to go through
@@ -37,15 +41,13 @@ public class BotController {
     //distance squared between bot andd their shoot target
     protected float midrangeDifferenceSquare, targetDistanceSquare;
 
-    public BotController(Schmuck bot) { this.bot = bot; }
-
-    private float botTargetCount = botTargetInterval;
-    private static final float botTargetInterval = 0.5f;
-    private float botMoveCount = botMoveInterval;
-    private static final float botMoveInterval = 0.05f;
-    private static final float botMoveVariance = 0.25f;
+    private float botTargetCount = BOT_TARGET_INTERVAL;
+    private float botMoveCount = BOT_MOVE_INTERVAL;
     protected final Vector2 entityWorldLocation = new Vector2();
     protected final Vector2 entityVelocity = new Vector2();
+
+    public BotController(Schmuck bot) { this.bot = bot; }
+
     public void processBotAI(float delta) {
         entityWorldLocation.set(bot.getPosition());
         entityVelocity.set(bot.getLinearVelocity());
@@ -54,13 +56,13 @@ public class BotController {
 
         processPreTarget(delta);
 
-        while (botTargetCount >= botTargetInterval) {
-            botTargetCount -= botTargetInterval * (1 + (-botMoveVariance + MathUtils.random() * 2 * botMoveVariance));
+        while (botTargetCount >= BOT_TARGET_INTERVAL) {
+            botTargetCount -= BOT_TARGET_INTERVAL * (1 + (-BOT_MOVE_VARIANCE + MathUtils.random() * 2 * BOT_MOVE_VARIANCE));
             acquireTarget(entityWorldLocation, entityVelocity);
         }
 
-        while (botMoveCount >= botMoveInterval) {
-            botMoveCount -= botMoveInterval * (1 + (-botMoveVariance + MathUtils.random() * 2 * botMoveVariance));
+        while (botMoveCount >= BOT_MOVE_INTERVAL) {
+            botMoveCount -= BOT_MOVE_INTERVAL * (1 + (-BOT_MOVE_VARIANCE + MathUtils.random() * 2 * BOT_MOVE_VARIANCE));
             processBotAction();
         }
     }
@@ -90,12 +92,12 @@ public class BotController {
     protected final Vector2 predictedSelfLocation = new Vector2();
 
     //this is the distance from a desired node that the bot will consider it "reached" before moving to the next
-    protected static final float distanceThreshold = 9.0f;
-    protected static final float aiRadius = 500;
+    protected static final float DISTANCE_THRESHOLD = 9.0f;
+    protected static final float AI_RADIUS = 500;
 
     //these thresholds determine when the bot will fastfall (must be above their destination and not moving too fast already)
-    private static final float playerMovementMultiplier = 0.2f;
-    public static final float currentVelocityMultiplier = 0.02f;
+    private static final float PLAYER_MOVEMENT_MULTIPLIER = 0.2f;
+    public static final float CURRENT_VELOCITY_MULTIPLIER = 0.02f;
 
     protected float distSquared, collision;
     protected boolean approachTarget;
@@ -109,10 +111,10 @@ public class BotController {
         approachTarget = false;
 
         //bot considers their own velocity when deciding how they should move
-        predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, currentVelocityMultiplier);
+        predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, CURRENT_VELOCITY_MULTIPLIER);
         float fract = BotManager.raycastUtility(bot, targetLocation, predictedSelfLocation, Constants.BIT_PLAYER);
         if (fract < 1.0f) {
-            predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, currentVelocityMultiplier * fract);
+            predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, CURRENT_VELOCITY_MULTIPLIER * fract);
         }
 
         //find target and see if we have line of sight to it
@@ -132,7 +134,7 @@ public class BotController {
             if (shootTarget != null && lineOfSight) {
                 if (shootTarget.isAlive()) {
                     thisLocation.set(shootTarget.getPosition()).sub(predictedSelfLocation);
-                    thisLocation.nor().scl(midrangeDifferenceSquare).scl(playerMovementMultiplier);
+                    thisLocation.nor().scl(midrangeDifferenceSquare).scl(PLAYER_MOVEMENT_MULTIPLIER);
                     distSquared = thisLocation.len2();
                     approachTarget = true;
                 }
@@ -154,7 +156,7 @@ public class BotController {
 
             //if the bot is close enough to their destination, remove the node and begin moving towards the next one
             if (!pointPath.isEmpty()) {
-                if (distSquared < distanceThreshold) {
+                if (distSquared < DISTANCE_THRESHOLD) {
                     pointPath.removeIndex(0);
                 }
             }
@@ -198,7 +200,7 @@ public class BotController {
                 weaponPoint, healthPoint, targetPoints, eventPoints);
     }
 
-    private static final float enemyMultiplier = 0.5f;
+    private static final float ENEMY_MULTIPLIER = 0.5f;
     /**
      * This gets a list of schmuck targets for the bot to consider attacking
      */
@@ -259,8 +261,8 @@ public class BotController {
                     targetLocation.set(enemy.getPosition());
                     RallyPoint tempPoint = BotManager.getNearestPoint(bot, targetLocation);
                     if (tempPoint != null) {
-                        targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, enemyMultiplier));
-                        if (targetLocation.dst2(playerLocation) < shortestPlayerDistanceSquared * enemyMultiplier
+                        targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, ENEMY_MULTIPLIER));
+                        if (targetLocation.dst2(playerLocation) < shortestPlayerDistanceSquared * ENEMY_MULTIPLIER
                                 || shortestPlayerDistanceSquared == -1) {
                             shootTarget = enemy;
                         }
@@ -269,8 +271,8 @@ public class BotController {
                 }
             }
             return true;
-        }), entityWorldLocation.x - aiRadius, entityWorldLocation.y - aiRadius,
-                entityWorldLocation.x + aiRadius, entityWorldLocation.y + aiRadius);
+        }), entityWorldLocation.x - AI_RADIUS, entityWorldLocation.y - AI_RADIUS,
+                entityWorldLocation.x + AI_RADIUS, entityWorldLocation.y + AI_RADIUS);
 
         return targetPoints;
     }

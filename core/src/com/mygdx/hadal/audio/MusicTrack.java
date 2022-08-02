@@ -23,7 +23,7 @@ public enum MusicTrack {
 	GOLDEN_SCALES("music/golden_scales.ogg", "Golden Scales", 133),
 	HADAL_FEAR("music/hadal_fear.ogg", "Hadal Fear", 148),
 	HEAVY_BREATHING("music/heavy_breathing.ogg", "Heavy Breathing", 253),
-	HOOKED_AND_HARPOONED("music/hookjaw.ogg", "Hooked and Harpooned", 102),
+	HOOKED_AND_HARPOONED("music/hooked_and_harpooned.ogg", "Hooked and Harpooned", 102),
 	HOOKJAW("music/hookjaw.ogg", "Hookjaw", 153),
 	HULL_DAMAGE("music/hull_damage.ogg", "Hull Damage", 118),
 	LIQUID_ASPIRATIONS("music/liquid_aspirations.ogg", "Liquid Aspirations", 158),

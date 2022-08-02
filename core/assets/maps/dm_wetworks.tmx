@@ -354,7 +354,7 @@
    <polyline points="-72,104 -72,-72"/>
   </object>
  </objectgroup>
- <objectgroup id="2" name="collision-layer" visible="0">
+ <objectgroup id="2" name="collision-layer">
   <object id="1" x="320" y="1024">
    <polyline points="0,-64 0,1568 1376,1568 1440,1504 1440,1216 1536,1216 1536,1504 1632,1600 2336,1600 2368,1568 2784,1568 2784,-64 1408,-64 1344,0 1344,288 1248,288 1248,0 1152,-96 448,-96 416,-64 0,-64"/>
   </object>
@@ -365,7 +365,7 @@
    <polyline points="0,0 96,0 96,-96 832,-96 992,64 1152,64 1152,704 992,864 896,864 896,928 640,928 544,832 544,736 448,736 448,832 640,1024 896,1024 896,1120 1248,1120 1248,-192 64,-192 0,-128 0,0"/>
   </object>
  </objectgroup>
- <objectgroup id="4" name="event-layer" visible="0">
+ <objectgroup id="4" name="event-layer">
   <object id="5" name="Multitrigger" type="Multitrigger" x="256" y="352" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>

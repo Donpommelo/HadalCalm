@@ -36,6 +36,9 @@ import java.util.Objects;
  */
 public class PickupEquip extends Event {
 
+	//when about to despawn, pickups flash
+	private static final float FLASH_LIFESPAN = 1.0f;
+
 	//This is the weapon that will be picked up when interacting with this event.
 	private Equippable equip;
 	private UnlockEquip unlock;
@@ -46,11 +49,8 @@ public class PickupEquip extends Event {
 	//is this a temporary weapon drop?
 	private boolean drop;
 
-	//when about to despawn, pickups flash
-	private static final float flashLifespan = 1.0f;
-
 	public PickupEquip(PlayState state, Vector2 startPos, String pool) {
-		super(state, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize));
+		super(state, startPos, new Vector2(Event.DEFAULT_PICKUP_EVENT_SIZE, Event.DEFAULT_PICKUP_EVENT_SIZE));
 		this.pool = pool;
 		
 		unlock = UnlockEquip.NOTHING;
@@ -58,13 +58,13 @@ public class PickupEquip extends Event {
 	}
 
 	public PickupEquip(PlayState state, Vector2 startPos, UnlockEquip equip, float lifespan) {
-		super(state, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize), lifespan);
+		super(state, startPos, new Vector2(Event.DEFAULT_PICKUP_EVENT_SIZE, Event.DEFAULT_PICKUP_EVENT_SIZE), lifespan);
 		this.pool = "";
 		this.drop = true;
 		unlock = equip;
 		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
 		setSynced(true);
-		setFlashLifespan(flashLifespan);
+		setFlashLifespan(FLASH_LIFESPAN);
 	}
 
 	@Override

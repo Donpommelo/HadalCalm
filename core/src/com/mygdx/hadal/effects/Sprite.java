@@ -49,7 +49,7 @@ public enum Sprite {
 	FUGU(SpriteType.PROJECTILE, "fugu"),
 	GOLDFISH(SpriteType.PROJECTILE, "goldfish"),
 	DRILL(SpriteType.PROJECTILE, "underminer"),
-	GRENADE(SpriteType.PROJECTILE, "fraggrenade", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
+	GRENADE(SpriteType.PROJECTILE, "fraggrenade", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED),
 	HARPOON(SpriteType.PROJECTILE, "harpoon"),
 	HURRICANE(SpriteType.PROJECTILE, "storm"),
 	ICEBERG(SpriteType.PROJECTILE, "iceberg"),
@@ -72,7 +72,7 @@ public enum Sprite {
 	MISSILE_B(SpriteType.PROJECTILE, "missile_b"),
 	MISSILE_C(SpriteType.PROJECTILE, "missile_c"),
 	NAVAL_MINE(SpriteType.PROJECTILE, "navalmine"),
-	NEMATOCYTE(SpriteType.PROJECTILE, "nematocyte", PlayMode.LOOP_PINGPONG, PlayState.spriteAnimationSpeed),
+	NEMATOCYTE(SpriteType.PROJECTILE, "nematocyte", PlayMode.LOOP_PINGPONG, PlayState.SPRITE_ANIMATION_SPEED),
 	ORB_BLUE(SpriteType.PROJECTILE, "orb_blue"),
 	ORB_PINK(SpriteType.PROJECTILE, "orb_pink"),
 	ORB_ORANGE(SpriteType.PROJECTILE, "orb_orange"),
@@ -82,7 +82,7 @@ public enum Sprite {
 	PEARL(SpriteType.PROJECTILE, "pearl"),
 	POPPER(SpriteType.PROJECTILE, "party"),
 	PUNCH(SpriteType.PROJECTILE, "punch"),
-	PYLON(SpriteType.PROJECTILE, "tesla", PlayMode.NORMAL, PlayState.spriteAnimationSpeed),
+	PYLON(SpriteType.PROJECTILE, "tesla", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED),
 	SCRAP_A(SpriteType.PROJECTILE, "debris_a"),
 	SCRAP_B(SpriteType.PROJECTILE, "debris_b"),
 	SCRAP_C(SpriteType.PROJECTILE, "debris_c"),
@@ -98,11 +98,11 @@ public enum Sprite {
 	SPORE_CLUSTER_MILD(SpriteType.PROJECTILE, "spore_cluster_mild"),
 	SPORE_YELLOW(SpriteType.PROJECTILE, "spore_yellow"),
 	SPORE_CLUSTER_YELLOW(SpriteType.PROJECTILE, "spore_cluster_yellow"),
-	STAR_BLUE(SpriteType.PROJECTILE, "blue_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
-	STAR_PURPLE(SpriteType.PROJECTILE, "purple_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
-	STAR_RED(SpriteType.PROJECTILE, "red_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
-	STAR_WHITE(SpriteType.PROJECTILE, "white_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
-	STAR_YELLOW(SpriteType.PROJECTILE, "yellow_star", PlayMode.LOOP, PlayState.spriteAnimationSpeed),
+	STAR_BLUE(SpriteType.PROJECTILE, "blue_star", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED),
+	STAR_PURPLE(SpriteType.PROJECTILE, "purple_star", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED),
+	STAR_RED(SpriteType.PROJECTILE, "red_star", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED),
+	STAR_WHITE(SpriteType.PROJECTILE, "white_star", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED),
+	STAR_YELLOW(SpriteType.PROJECTILE, "yellow_star", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED),
 	STICKYBOMB(SpriteType.PROJECTILE, "sticky"),
 	TORPEDO(SpriteType.PROJECTILE, "torpedo"),
 	TRICKBULLET(SpriteType.PROJECTILE, "trick"),
@@ -213,17 +213,17 @@ public enum Sprite {
 	NOTIFICATIONS_CLEAR_CIRCLE(SpriteType.NOTIFICATIONS, "clear_circle"),
 	NOTIFICATIONS_DIRECTIONAL_ARROW(SpriteType.NOTIFICATIONS, "arrow_directional"),
 	NOTIFICATIONS_ALERT(SpriteType.NOTIFICATIONS, "alert_red"),
-	NOTIFICATIONS_ALERT_PING(SpriteType.NOTIFICATIONS, "arrow_ping_red", PlayMode.LOOP_PINGPONG, PlayState.spriteAnimationSpeed),
+	NOTIFICATIONS_ALERT_PING(SpriteType.NOTIFICATIONS, "arrow_ping_red", PlayMode.LOOP_PINGPONG, PlayState.SPRITE_ANIMATION_SPEED),
 	CLEAR_CIRCLE_ALERT(SpriteType.NOTIFICATIONS, "clear_circle_alert"),
 	CLEAR_CIRCLE_EGGPLANT(SpriteType.NOTIFICATIONS, "clear_circle_eggplant"),
 
-	EMOTE_YES(SpriteType.EMOTE, "emote_yes", PlayMode.NORMAL, PlayState.spriteAnimationSpeedFast),
-	EMOTE_NO(SpriteType.EMOTE, "emote_no", PlayMode.NORMAL, PlayState.spriteAnimationSpeedFast),
-	EMOTE_RAGE(SpriteType.EMOTE, "emote_anger", PlayMode.LOOP, PlayState.spriteAnimationSpeedFast),
-	EMOTE_LOVE(SpriteType.EMOTE, "emote_love", PlayMode.LOOP, PlayState.spriteAnimationSpeedFast),
-	EMOTE_SLEEP(SpriteType.EMOTE, "emote_sleep", PlayMode.LOOP, PlayState.spriteAnimationSpeedFast),
-	EMOTE_SWEAT(SpriteType.EMOTE, "emote_tears", PlayMode.LOOP, PlayState.spriteAnimationSpeedFast),
-	EMOTE_DICE(SpriteType.EMOTE, "dice_roll", PlayMode.LOOP, PlayState.spriteAnimationSpeedFast),
+	EMOTE_YES(SpriteType.EMOTE, "emote_yes", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	EMOTE_NO(SpriteType.EMOTE, "emote_no", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	EMOTE_RAGE(SpriteType.EMOTE, "emote_anger", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	EMOTE_LOVE(SpriteType.EMOTE, "emote_love", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	EMOTE_SLEEP(SpriteType.EMOTE, "emote_sleep", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	EMOTE_SWEAT(SpriteType.EMOTE, "emote_tears", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	EMOTE_DICE(SpriteType.EMOTE, "dice_roll", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
 	EMOTE_READY(SpriteType.EMOTE, "emote_ready", PlayMode.LOOP, 0.5f),
 
 	TELEMACHUS_POINT(SpriteType.TELEMACHUS_POINT, ""),
@@ -263,7 +263,7 @@ public enum Sprite {
 
 	//how is this sprite animated? and how fast?
 	private PlayMode playMode = PlayMode.LOOP;
-	private float animationSpeed = PlayState.spriteAnimationSpeedFast;
+	private float animationSpeed = PlayState.SPRITE_ANIMATION_SPEED_FAST;
 
 	//complex sprites are composed of multiple sprites, each repeated a set amount of time
 	private boolean complex;

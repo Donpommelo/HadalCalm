@@ -30,27 +30,26 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class CallofWalrus extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 12.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 12.0f;
 	
-	private static final float buffDuration = 4.0f;
-	
-	private static final float atkSpdBuff = 0.15f;
-	private static final float damageBuff = 0.3f;
+	private static final float BUFF_DURATION = 4.0f;
+	private static final float ATK_SPD_BUFF = 0.15f;
+	private static final float DAMAGE_BUFF = 0.3f;
 
-	private static final Vector2 projectileSize = new Vector2(400, 400);
-	private static final float duration = 0.4f;
+	private static final Vector2 PROJECTILE_SIZE = new Vector2(400, 400);
+	private static final float DURATION = 0.4f;
 
 	public CallofWalrus(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.MAGIC18_BUFF.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
 
-		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, duration, new Vector2(),
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), PROJECTILE_SIZE, DURATION, new Vector2(),
 				(short) 0, false, false, user.getPlayer(), Sprite.NOTHING);
 		hbox.makeUnreflectable();
 
@@ -68,11 +67,11 @@ public class CallofWalrus extends ActiveItem {
 						if (ally.getSchmuck().getHitboxfilter() == user.getPlayer().getHitboxfilter()) {
 							if (!buffed.contains(fixB, false)) {
 								buffed.add(fixB);
-								ally.addStatus(new StatusComposite(state, buffDuration, false, user, ally,
-										new StatChangeStatus(state, Stats.TOOL_SPD, atkSpdBuff, ally),
-										new StatChangeStatus(state, Stats.DAMAGE_AMP, damageBuff, ally)));
+								ally.addStatus(new StatusComposite(state, BUFF_DURATION, false, user, ally,
+										new StatChangeStatus(state, Stats.TOOL_SPD, ATK_SPD_BUFF, ally),
+										new StatChangeStatus(state, Stats.DAMAGE_AMP, DAMAGE_BUFF, ally)));
 
-								new ParticleEntity(state, ally.getSchmuck(), Particle.LIGHTNING_CHARGE, 1.0f, buffDuration,
+								new ParticleEntity(state, ally.getSchmuck(), Particle.LIGHTNING_CHARGE, 1.0f, BUFF_DURATION,
 										true, SyncType.CREATESYNC).setColor(HadalColor.RED);
 							}
 						}
@@ -83,14 +82,14 @@ public class CallofWalrus extends ActiveItem {
 	}
 	
 	@Override
-	public float getUseDuration() { return duration; }
+	public float getUseDuration() { return DURATION; }
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf(duration),
-				String.valueOf((int) (atkSpdBuff * 100)),
-				String.valueOf((int) (damageBuff * 100))};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf(DURATION),
+				String.valueOf((int) (ATK_SPD_BUFF * 100)),
+				String.valueOf((int) (DAMAGE_BUFF * 100))};
 	}
 }

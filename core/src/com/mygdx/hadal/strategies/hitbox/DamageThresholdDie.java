@@ -7,12 +7,16 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.utils.Constants;
 
 /**
  * This strategy makes a hbox die after receiving too much damage in a short period of time.
  * @author Keneshram Krichard
  */
 public class DamageThresholdDie extends HitboxStrategy {
+
+	//the duration of each flash
+	private static final float FLASH_LIFESPAN = 0.75f;
 
 	//this is the amount of damage that must be received to trigger death
 	private final float damageThreshold;
@@ -22,9 +26,6 @@ public class DamageThresholdDie extends HitboxStrategy {
 
 	//the amount of "recent" damage this hbox has received
 	private float damageCurrent;
-
-	//the duration of each flash
-	private static final float flashDuration = 0.1f;
 
 	public DamageThresholdDie(PlayState state, Hitbox proj, BodyData user, float damageThreshold, float thresholdDepreciation) {
 		super(state, proj, user);
@@ -38,11 +39,10 @@ public class DamageThresholdDie extends HitboxStrategy {
 			damageCurrent -= thresholdDepreciation * delta;
 		}
 
-		//the hbox will start flashing when ithas received too much damage in a short period of time
-		final float flashLifespan = 0.75f;
-		if (damageCurrent >= damageThreshold * flashLifespan) {
-			if (hbox.getShaderCount() < -flashDuration) {
-				hbox.setShader(Shader.WHITE, flashDuration, true);
+		//the hbox will start flashing when it has received too much damage in a short period of time
+		if (damageCurrent >= damageThreshold * FLASH_LIFESPAN) {
+			if (hbox.getShaderCount() < -Constants.FLASH) {
+				hbox.setShader(Shader.WHITE, Constants.FLASH, true);
 			}
 		}
 	}

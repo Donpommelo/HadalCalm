@@ -13,8 +13,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class DeathRagdoll extends Status {
 	
-	private static final float duration = 1.0f;
-	private static final float gravity = 1.0f;
+	private static final float DURATION = 1.0f;
+	private static final float GRAVITY = 1.0f;
 	
 	//this is the sprite of the ragdoll to be spawned and the size of the ragdoll
 	private final Sprite sprite;
@@ -29,6 +29,6 @@ public class DeathRagdoll extends Status {
 	@Override
 	public void onDeath(BodyData perp, DamageSource source) {
 		new Ragdoll(state, inflicted.getSchmuck().getPixelPosition(), size, sprite, inflicted.getSchmuck().getLinearVelocity(),
-				duration, gravity, true, false, true, true);
+				DURATION, GRAVITY, true, false, true, true);
 	}
 }

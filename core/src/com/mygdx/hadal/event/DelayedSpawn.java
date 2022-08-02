@@ -22,9 +22,9 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class DelayedSpawn extends Event {
 
-	private static final Vector2 baseSize = new Vector2(32, 32);
-	private static final float particleScale = 0.5f;
-	private static final float particleScaleBoss = 1.5f;
+	private static final Vector2 BASE_SIZE = new Vector2(32, 32);
+	private static final float PARTICLE_SCALE = 0.5f;
+	private static final float PARTICLE_SCALE_BOSS = 1.5f;
 	
 	//the type of enemy that this will spawn
 	private final EnemyType type;
@@ -37,7 +37,7 @@ public class DelayedSpawn extends Event {
 	private final String bossName;
 
 	public DelayedSpawn(PlayState state, Vector2 startPos, float lifespan, EnemyType type, short filter, float extraField, SpawnerSchmuck spawner, boolean isBoss, String bossName) {
-		super(state, startPos, baseSize, lifespan);
+		super(state, startPos, BASE_SIZE, lifespan);
 		this.type = type;
 		this.filter = filter;
 		this.extraField = extraField;
@@ -47,9 +47,9 @@ public class DelayedSpawn extends Event {
 
 		//bosses create bigger particles
 		if (isBoss) {
-			new ParticleEntity(state, startPos, Particle.RING, duration, true, SyncType.CREATESYNC).setScale(particleScaleBoss);
+			new ParticleEntity(state, startPos, Particle.RING, duration, true, SyncType.CREATESYNC).setScale(PARTICLE_SCALE_BOSS);
 		} else {
-			new ParticleEntity(state, startPos, Particle.RING, duration, true, SyncType.CREATESYNC).setScale(particleScale);
+			new ParticleEntity(state, startPos, Particle.RING, duration, true, SyncType.CREATESYNC).setScale(PARTICLE_SCALE);
 		}
 	}
 

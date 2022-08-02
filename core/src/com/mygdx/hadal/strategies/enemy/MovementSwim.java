@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.EnemyStrategy;
+import com.mygdx.hadal.utils.Constants;
 
 public class MovementSwim extends EnemyStrategy {
 
@@ -16,8 +17,8 @@ public class MovementSwim extends EnemyStrategy {
     private float moveSpeed, minRange, maxRange;
 
     //noise determines the amount of randomness there is to this enemy's movement. (cd = frequency of noise, radius = magnitude of noise)
-    private static final float noiseCd = 0.75f;
-    private float noiseCdCount = noiseCd;
+    private static final float NOISE_CD = 0.75f;
+    private float noiseCdCount = NOISE_CD;
     private float noiseRadius = 8.0f;
 
     public MovementSwim(PlayState state, Enemy enemy, float startAngle) {
@@ -27,8 +28,7 @@ public class MovementSwim extends EnemyStrategy {
         currentState = SwimmingState.STILL;
     }
 
-    private static final float controllerInterval = 1 / 60f;
-    private static final float distantMultiplier = 1.4f;
+    private static final float DISTANT_MULTIPLIER = 1.4f;
     private final Vector2 force = new Vector2();
     private final Vector2 currentVel = new Vector2();
     private final Vector2 currentDirection = new Vector2();
@@ -68,8 +68,8 @@ public class MovementSwim extends EnemyStrategy {
 
         //process enemy movement noise
         noiseCdCount += delta;
-        while (noiseCdCount >= noiseCd) {
-            noiseCdCount -= noiseCd;
+        while (noiseCdCount >= NOISE_CD) {
+            noiseCdCount -= NOISE_CD;
             currentNoise.setToRandomDirection().scl(noiseRadius);
         }
         if (!enemy.isApproachTarget()) {
@@ -78,8 +78,8 @@ public class MovementSwim extends EnemyStrategy {
 
         //process enemy swimming physics
         controllerCount += delta;
-        while (controllerCount >= controllerInterval) {
-            controllerCount -= controllerInterval;
+        while (controllerCount >= Constants.INTERVAL) {
+            controllerCount -= Constants.INTERVAL;
 
             //set desired velocity depending on move states.
             currentVel.set(enemy.getLinearVelocity());
@@ -107,7 +107,7 @@ public class MovementSwim extends EnemyStrategy {
             //apply resulting force
             force.set(newX - currentVel.x, newY - currentVel.y).scl(enemy.getMass());
             if (!enemy.isApproachTarget()) {
-                force.scl(distantMultiplier);
+                force.scl(DISTANT_MULTIPLIER);
             }
             enemy.applyLinearImpulse(force);
         }

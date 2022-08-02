@@ -14,9 +14,9 @@ import com.mygdx.hadal.statuses.Status;
  */
 public class InfiniteAmmo extends Artifact {
 
-	private static final int slotCost = 0;
+	private static final int SLOT_COST = 0;
 
-	public InfiniteAmmo() { super(slotCost); }
+	public InfiniteAmmo() { super(SLOT_COST); }
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {

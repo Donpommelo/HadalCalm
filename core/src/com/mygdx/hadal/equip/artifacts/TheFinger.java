@@ -24,6 +24,6 @@ public class TheFinger extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) WeaponUtils.emoteExplodeDamage)};
+				String.valueOf((int) WeaponUtils.EMOTE_EXPLODE_DAMAGE)};
 	}
 }

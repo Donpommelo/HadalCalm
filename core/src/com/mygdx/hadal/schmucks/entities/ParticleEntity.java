@@ -25,6 +25,8 @@ import java.util.UUID;
  */
 public class ParticleEntity extends HadalEntity {
 
+	private static final float VISUAL_BOUNDS_RADIUS = 200.0f;
+
 	//What particles come out of this entity?
 	private final PooledEffect effect;
 	public final Particle particle;
@@ -69,7 +71,6 @@ public class ParticleEntity extends HadalEntity {
 
 	//visual bounds is used to have a rough bounding box of the particle for culling offscreen effects
 	private final BoundingBox visualBounds = new BoundingBox();
-	private static final float visualBoundsRadius = 200.0f;
 
 	//This constructor creates a particle effect at an area.
 	public ParticleEntity(PlayState state, Vector2 startPos, Particle particle, float lifespan, boolean startOn, SyncType sync) {
@@ -95,7 +96,7 @@ public class ParticleEntity extends HadalEntity {
 
 		//as default, bounding box exists around the particle with a set size
 		this.visualBounds.inf();
-		this.visualBounds.ext(new Vector3(startPos.x, startPos.y, 0), visualBoundsRadius);
+		this.visualBounds.ext(new Vector3(startPos.x, startPos.y, 0), VISUAL_BOUNDS_RADIUS);
 
 		setLayer(ObjectLayer.EFFECT);
 	}
@@ -110,11 +111,11 @@ public class ParticleEntity extends HadalEntity {
 		if (attachedEntity != null) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
 				this.visualBounds.inf();
-				this.visualBounds.ext(new Vector3(attachedEntity.getPixelPosition().x + offset.x, attachedEntity.getPixelPosition().y + offset.y, 0), visualBoundsRadius);
+				this.visualBounds.ext(new Vector3(attachedEntity.getPixelPosition().x + offset.x, attachedEntity.getPixelPosition().y + offset.y, 0), VISUAL_BOUNDS_RADIUS);
 				this.effect.setPosition(attachedEntity.getPixelPosition().x + offset.x, attachedEntity.getPixelPosition().y + offset.y);
 			} else {
 				this.visualBounds.inf();
-				this.visualBounds.ext(new Vector3(attachedEntity.getStartPos().x + offset.x, attachedEntity.getStartPos().y + offset.y, 0), visualBoundsRadius);
+				this.visualBounds.ext(new Vector3(attachedEntity.getStartPos().x + offset.x, attachedEntity.getStartPos().y + offset.y, 0), VISUAL_BOUNDS_RADIUS);
 				this.effect.setPosition(attachedEntity.getStartPos().x + offset.x, attachedEntity.getStartPos().y + offset.y);
 			}
 		}
@@ -137,7 +138,7 @@ public class ParticleEntity extends HadalEntity {
 				attachedLocation.set(attachedEntity.getPixelPosition());
 				effect.setPosition(attachedLocation.x + offset.x, attachedLocation.y + offset.y);
 				visualBoundsExtension.set(attachedLocation.x + offset.x, attachedLocation.y + offset.y, 0);
-				visualBounds.ext(visualBoundsExtension, visualBoundsRadius);
+				visualBounds.ext(visualBoundsExtension, VISUAL_BOUNDS_RADIUS);
 			} else {
 				despawn = true;
 				turnOff();
@@ -315,7 +316,7 @@ public class ParticleEntity extends HadalEntity {
 
 			//set bounds so that particle is not invisible to clients
 			visualBoundsExtension.set(p.pos.x + offset.x, p.pos.y + offset.y, 0);
-			visualBounds.ext(visualBoundsExtension, visualBoundsRadius);
+			visualBounds.ext(visualBoundsExtension, VISUAL_BOUNDS_RADIUS);
 
 			if (p.on && (!on || effect.isComplete())) {
 				turnOn();

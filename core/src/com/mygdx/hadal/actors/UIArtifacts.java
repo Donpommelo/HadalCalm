@@ -14,20 +14,20 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class UIArtifacts {
 
+	private static final int TAG_WIDTH = 40;
+	private static final int TAG_HEIGHT = 40;
+	
+	private static final int TABLE_X = 475;
+	private static final int TABLE_Y = 10;
+	
+	private static final float ARTIFACT_TAG_OFFSET_X = 10.0f;
+	private static final float ARTIFACT_TAG_OFFSET_Y = 45.0f;
+	private static final float ARTIFACT_TAG_TARGET_WIDTH = 200.0f;
+
 	private final PlayState state;
-	
+
 	private final Table table;
-	
-	private static final int tagWidth = 40;
-	private static final int tagHeight = 40;
-	
-	private static final int tableX = 475;
-	private static final int tableY = 10;
-	
-	private static final float artifactTagOffsetX = 10.0f;
-	private static final float artifactTagOffsetY = 45.0f;
-	private static final float artifactTagTargetWidth = 200.0f;
-	
+
 	public UIArtifacts(PlayState state) {
 		this.state = state;
 		this.table = new Table().left().top();
@@ -58,18 +58,18 @@ public class UIArtifacts {
 	private void addTag(UnlockArtifact u) {
 		if (!u.isInvisible()) {
 			ArtifactIcon newTag = new ArtifactIcon(u, u.getName() + "\n" + u.getDesc(),
-				artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
-			newTag.setWidth(tagWidth);
-			newTag.setHeight(tagHeight);
-			table.add(newTag).width(tagWidth).height(tagHeight);
+					ARTIFACT_TAG_OFFSET_X, ARTIFACT_TAG_OFFSET_Y, ARTIFACT_TAG_TARGET_WIDTH);
+			newTag.setWidth(TAG_WIDTH);
+			newTag.setHeight(TAG_HEIGHT);
+			table.add(newTag).width(TAG_WIDTH).height(TAG_HEIGHT);
 		}
 	}
 	
 	public void addTable(Stage stage) {
 		stage.addActor(table);
-		table.setPosition(tableX, tableY);
+		table.setPosition(TABLE_X, TABLE_Y);
 		table.setWidth(HadalGame.CONFIG_WIDTH);
-		table.setHeight(tagHeight);
+		table.setHeight(TAG_HEIGHT);
 		syncArtifact();
 	}
 }

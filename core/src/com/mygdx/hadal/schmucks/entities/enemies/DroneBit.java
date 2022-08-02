@@ -50,7 +50,7 @@ public class DroneBit extends EnemySwimming {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.DRONE_BIT, startAngle, filter, baseHp, attackCd, scrapDrop);
 		armBackSprite = Sprite.DRONE_ARM_BACK.getFrame();
 		armFrontSprite = Sprite.DRONE_ARM_FRONT.getFrame();
-		eyeSprite = new Animation<>(PlayState.spriteAnimationSpeed, Sprite.DRONE_EYE.getFrames());
+		eyeSprite = new Animation<>(PlayState.SPRITE_ANIMATION_SPEED, Sprite.DRONE_EYE.getFrames());
 		eyeSprite.setPlayMode(PlayMode.NORMAL);
 		getSwimStrategy().setMaxRange(maxRange);
 		getSwimStrategy().setMinRange(minRange);

@@ -38,20 +38,23 @@ public class PickupDestoyer extends Event {
 			if (entity instanceof Scrap scrap) {
 				scrap.queueDeletion();
 			}
-			if (entity instanceof PickupEquip pickup) {
+			else if (entity instanceof PickupEquip pickup) {
 				pickup.queueDeletion();
 			}
-			if (entity instanceof Hitbox hbox) {
+			else if (entity instanceof Hitbox hbox) {
 				hbox.queueDeletion();
 			}
-			if (entity instanceof FlagCapturable flag) {
+			else if (entity instanceof FlagCapturable flag) {
 				flag.queueDeletion();
 			}
-			if (entity instanceof CrownHoldable crown) {
+			else if (entity instanceof CrownHoldable crown) {
 				crown.queueDeletion();
 			}
-			if (entity instanceof ReviveGravestone grave) {
+			else if (entity instanceof ReviveGravestone grave) {
 				grave.resetPosition();
+			}
+			else if (entity.isBotHealthPickup()) {
+				entity.queueDeletion();
 			}
 		}
 	}

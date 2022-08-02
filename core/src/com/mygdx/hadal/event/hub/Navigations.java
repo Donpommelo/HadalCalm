@@ -44,7 +44,7 @@ public class Navigations extends HubEvent {
 		state.getUiHub().setTitle(title);
 
 		if (UnlockTag.NAVIGATIONS.equals(tag)) {
-			state.getUiHub().enter(true, false, false, this);
+			state.getUiHub().enter(this);
 		}
 
 		open = true;
@@ -104,11 +104,11 @@ public class Navigations extends HubEvent {
 						hub.setInfo(selected.getName() + "\n\n" + selected.getDesc());
 					}
 				});
-				itemChoose.setScale(UIHub.optionsScale);
-				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
+				itemChoose.setScale(UIHub.OPTIONS_SCALE);
+				hub.getTableOptions().add(itemChoose).height(UIHub.OPTION_HEIGHT).pad(UIHub.OPTION_PAD, 0, UIHub.OPTION_PAD, 0).row();
 			}
 		}
-		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.OPTION_HEIGHT).row();
 
 		if (!"".equals(level) && state.isServer()) {
 			if (!UnlockManager.checkUnlock(state, UnlockType.LEVEL, level)) {
@@ -117,4 +117,7 @@ public class Navigations extends HubEvent {
 			}
 		}
 	}
+
+	@Override
+	public boolean isSearchable() { return true; }
 }

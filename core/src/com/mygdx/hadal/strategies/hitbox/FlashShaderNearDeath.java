@@ -5,18 +5,16 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.utils.Constants;
 
 /**
  * this strategy makes a hitbox flash when its lifespan is below a specified threshold. It is usually used for explosive projectiles
  * @author Hugdanoff Hapodilla
  */
 public class FlashShaderNearDeath extends HitboxStrategy {
-	
+
 	//the hbox will start flashing when its hp falls below this
 	private final float flashLifespan;
-	
-	//the duration of each flash
-	private static final float flashDuration = 0.1f;
 
 	//Does the server notify the client of this flash?
 	private final boolean synced;
@@ -30,8 +28,8 @@ public class FlashShaderNearDeath extends HitboxStrategy {
 	@Override
 	public void controller(float delta) {
 		if (hbox.getLifeSpan() <= flashLifespan) {
-			if (hbox.getShaderCount() < -flashDuration) {
-				hbox.setShader(Shader.WHITE, flashDuration, synced);
+			if (hbox.getShaderCount() < -Constants.FLASH) {
+				hbox.setShader(Shader.WHITE, Constants.FLASH, synced);
 			}
 		}
 	}

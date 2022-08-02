@@ -32,8 +32,9 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * @author Frularbus Fortrand
  */
 public class Currents extends Event {
-	
-	//force applied every 1/60 seconds
+
+	private static final Vector2 RAGDOLL_SIZE = new Vector2(48, 48);
+
 	private final Vector2 vec = new Vector2();
 
 	//This keeps track of engine timer.
@@ -42,8 +43,6 @@ public class Currents extends Event {
 	//these keep track of spawned particle dummies inside the current
 	private float currBubbleSpawnTimer;
 	private final float spawnTimerLimit;
-	
-	private static final float pushInterval = 1 / 60f;
 	
 	public Currents(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec) {
 		super(state, startPos, size);
@@ -69,15 +68,14 @@ public class Currents extends Event {
 	
 	private final Vector2 entityLocation = new Vector2();
 	private final Vector2 randLocation = new Vector2();
-	private final Vector2 ragdollSize = new Vector2(48, 48);
 	private final Vector2 ragdollVelo = new Vector2();
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
 		
 		controllerCount += delta;
-		while (controllerCount >= pushInterval) {
-			controllerCount -= pushInterval;
+		while (controllerCount >=  Constants.INTERVAL) {
+			controllerCount -=  Constants.INTERVAL;
 			
 			//push is done through damage so that +knockback resistance will reduce the push.
 			for (HadalEntity entity : eventData.getSchmucks()) {
@@ -94,7 +92,7 @@ public class Currents extends Event {
 			currBubbleSpawnTimer -= spawnTimerLimit;
 			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
-			new ParticleEntity(state, new Ragdoll(state, randLocation.set(randX, randY), ragdollSize, Sprite.NOTHING,
+			new ParticleEntity(state, new Ragdoll(state, randLocation.set(randX, randY), RAGDOLL_SIZE, Sprite.NOTHING,
 					ragdollVelo, 0.25f, 0.0f, false, true, false, false),
 					Particle.CURRENT_TRAIL, 0.5f, 0.0f, true, SyncType.NOSYNC)
 			.setParticleVelocity(vec.angleRad())
@@ -107,8 +105,8 @@ public class Currents extends Event {
 		super.controller(delta);
 		
 		controllerCount += delta;
-		while (controllerCount >= pushInterval) {
-			controllerCount -= pushInterval;
+		while (controllerCount >=  Constants.INTERVAL) {
+			controllerCount -=  Constants.INTERVAL;
 			
 			//push is done through damage so that +knockback resistance will reduce the push.
 			for (HadalEntity entity : eventData.getSchmucks()) {
@@ -126,7 +124,7 @@ public class Currents extends Event {
 			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
 			
-			Ragdoll ragdoll = new Ragdoll(state, randLocation.set(randX, randY), ragdollSize, Sprite.NOTHING, ragdollVelo,
+			Ragdoll ragdoll = new Ragdoll(state, randLocation.set(randX, randY), RAGDOLL_SIZE, Sprite.NOTHING, ragdollVelo,
 					0.25f, 0.0f, false, true, false, false);
 			ParticleEntity bubbles = new ParticleEntity(state, ragdoll, Particle.CURRENT_TRAIL, 0.5f, 0.0f, true, SyncType.NOSYNC)
 				.setParticleVelocity(vec.angleRad())

@@ -19,7 +19,7 @@ import com.badlogic.gdx.math.Vector3;
  */
 public class NoiseUtil {
 
-    private static final Vector3[] grad3 = {new Vector3(1,1,0),new Vector3(-1,1,0),new Vector3(1,-1,0),new Vector3(-1,-1,0),
+    private static final Vector3[] GRAD_3 = {new Vector3(1,1,0),new Vector3(-1,1,0),new Vector3(1,-1,0),new Vector3(-1,-1,0),
             new Vector3(1,0,1),new Vector3(-1,0,1),new Vector3(1,0,-1),new Vector3(-1,0,-1),
             new Vector3(0,1,1),new Vector3(0,-1,1),new Vector3(0,1,-1),new Vector3(0,-1,-1)};
 
@@ -27,7 +27,7 @@ public class NoiseUtil {
     private static final float F2 = (float) (0.5 * (Math.sqrt(3.0) - 1.0));
     private static final float G2 = (float) ((3.0 - Math.sqrt(3.0)) / 6.0);
 
-    private static final short[] p = {151, 160, 137, 91, 90, 15,
+    private static final short[] P = {151, 160, 137, 91, 90, 15,
             131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23,
             190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33,
             88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71,134, 139, 48, 27, 166,
@@ -41,12 +41,12 @@ public class NoiseUtil {
             49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254,
             138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141 ,128, 195, 78, 66, 215, 61, 156, 180};
     // To remove the need for index wrapping, double the permutation table length
-    private static final short[] perm = new short[512];
-    private static final short[] permMod12 = new short[512];
+    private static final short[] PERM = new short[512];
+    private static final short[] PERM_MOD_12 = new short[512];
     static {
         for (int i = 0; i < 512; i++) {
-            perm[i] = p[i & 255];
-            permMod12[i] = (short) (perm[i] % 12);
+            PERM[i] = P[i & 255];
+            PERM_MOD_12[i] = (short) (PERM[i] % 12);
         }
     }
 
@@ -80,27 +80,27 @@ public class NoiseUtil {
         // Work out the hashed gradient indices of the three simplex corners
         int ii = i & 255;
         int jj = j & 255;
-        int gi0 = permMod12[ii + perm[jj]];
-        int gi1 = permMod12[ii + i1 + perm[jj + j1]];
-        int gi2 = permMod12[ii + 1 + perm[jj + 1]];
+        int gi0 = PERM_MOD_12[ii + PERM[jj]];
+        int gi1 = PERM_MOD_12[ii + i1 + PERM[jj + j1]];
+        int gi2 = PERM_MOD_12[ii + 1 + PERM[jj + 1]];
         // Calculate the contribution from the three corners
         float t0 = 0.5f - x0 * x0 - y0 * y0;
         if (t0 < 0) { n0 = 0.0f; }
         else {
             t0 *= t0;
-            n0 = t0 * t0 * grad3[gi0].dot(x0, y0, 0);  // (x,y) of grad3 used for 2D gradient
+            n0 = t0 * t0 * GRAD_3[gi0].dot(x0, y0, 0);  // (x,y) of grad3 used for 2D gradient
         }
         float t1 = 0.5f - x1 * x1 - y1 * y1;
         if (t1 < 0) { n1 = 0.0f; }
         else {
             t1 *= t1;
-            n1 = t1 * t1 * grad3[gi1].dot(x1, y1, 0);
+            n1 = t1 * t1 * GRAD_3[gi1].dot(x1, y1, 0);
         }
         float t2 = 0.5f - x2 * x2 - y2 * y2;
         if (t2 < 0) n2 = 0.0f;
         else {
             t2 *= t2;
-            n2 = t2 * t2 * grad3[gi2].dot(x2, y2, 0.0f);
+            n2 = t2 * t2 * GRAD_3[gi2].dot(x2, y2, 0.0f);
         }
         // Add contributions from each corner to get the final noise value.
         // The result is scaled to return values in the interval [-1,1].

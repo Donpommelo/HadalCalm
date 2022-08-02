@@ -10,7 +10,13 @@ public class Constants {
 	
 	//Pixels per Meter. Transitioning between Box2d coordinates and libgdx ones.
 	public static final float PPM = 32;
-	
+
+	//interval that many physics are applied to avoid being affected by framerate
+	public static final float INTERVAL = 1 / 60.0f;
+
+    //duration of flashes for several flashing entities
+    public static final float FLASH = 0.1f;
+
 	//Body passability types
     public static final short BIT_WALL = 1;
     public static final short BIT_PLAYER = 2;
@@ -47,5 +53,4 @@ public class Constants {
     public static final int PICKUP_HEALTH = 0;
     public static final int PICKUP_FUEL = 1;
     public static final int PICKUP_AMMO = 2;
-
 }

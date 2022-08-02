@@ -17,7 +17,10 @@ import com.mygdx.hadal.managers.GameStateManager;
  * @author Slirmelo Stufferty
  */
 public class Text extends AHadalActor {
-	
+
+	//padding for window used if this text is a button
+	private static final float PAD = 15.0f;
+
 	protected String text;
 	protected BitmapFont font;
 	protected BitmapFontCache cache;
@@ -25,16 +28,15 @@ public class Text extends AHadalActor {
 	protected GlyphLayout layout;
 
 	protected float scale = 1.0f;
-	
+	private float setYOffset;
+
 	//is this actor being moused over?
 	private boolean mouseOver;
 	
 	//does the text wrap? If so, it is set to targetWidth length.
 	private boolean wrap;
 	private float targetWidth;
-
-	//padding for window used if this text is a button
-	private static final float pad = 15.0f;
+	private int align = Align.left;
 
 	private boolean mouseWindow;
 
@@ -56,12 +58,12 @@ public class Text extends AHadalActor {
 		//draw an additional window beneath this actor to indicate a button
 		 if (mouseOver) {
 		 	if (mouseWindow) {
-				GameStateManager.getSimplePatch().draw(batch, getX() - pad / 2, getY(), getWidth() + pad, getHeight());
+				GameStateManager.getSimplePatch().draw(batch, getX() - PAD / 2, getY(), getWidth() + PAD, getHeight());
 			}
 		 }
 
 		 //we use a text cache here so that we can more easily control the text's transparency
-		 cache.setPosition(getX(), getY() + getHeight() / 2 + layout.height / 2);
+		 cache.setPosition(getX(), getY() + getHeight() / 2 + layout.height / 2 + setYOffset);
 		 cache.setAlphas(alpha);
 		 cache.draw(batch);
     }
@@ -73,7 +75,7 @@ public class Text extends AHadalActor {
 	public void updateHitBox() {
 		font.getData().setScale(scale);
 		layout = new GlyphLayout();
-		layout.setText(font, text, fontColor, targetWidth, Align.left, wrap);
+		layout.setText(font, text, fontColor, targetWidth, align, wrap);
 		setWidth(layout.width);
 		setHeight(layout.height);
 
@@ -115,6 +117,16 @@ public class Text extends AHadalActor {
 
 	public void setFont(BitmapFont font) {
 		this.font = font;
+		updateHitBox();
+	}
+
+	public void setYOffset(float setYOffset) {
+		this.setYOffset = setYOffset;
+		updateHitBox();
+	}
+
+	public void setAlign(int align) {
+		this.align = align;
 		updateHitBox();
 	}
 

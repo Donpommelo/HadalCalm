@@ -14,7 +14,7 @@ import com.mygdx.hadal.utils.WorldUtil;
 public class TargetNoPathfinding extends EnemyStrategy {
 
     //This is the range that the enemy will be able to detect targets
-    protected static final float aiRadius = 2000;
+    protected static final float AI_RADIUS = 2000;
 
     //These are used for raycasting to determining whether the player is in vision of the enemy.
     private float shortestFraction;
@@ -75,7 +75,7 @@ public class TargetNoPathfinding extends EnemyStrategy {
                         }
                     }
                     return true;
-                }), entityWorldLocation.x - aiRadius, entityWorldLocation.y - aiRadius,
-                entityWorldLocation.x + aiRadius, entityWorldLocation.y + aiRadius);
+                }), entityWorldLocation.x - AI_RADIUS, entityWorldLocation.y - AI_RADIUS,
+                entityWorldLocation.x + AI_RADIUS, entityWorldLocation.y + AI_RADIUS);
     }
 }

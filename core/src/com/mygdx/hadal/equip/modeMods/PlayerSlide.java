@@ -8,9 +8,9 @@ import com.mygdx.hadal.utils.Stats;
 
 public class PlayerSlide extends Artifact {
 
-	private static final int slotCost = 0;
+	private static final int SLOT_COST = 0;
 
-	public PlayerSlide() { super(slotCost); }
+	public PlayerSlide() { super(SLOT_COST); }
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {

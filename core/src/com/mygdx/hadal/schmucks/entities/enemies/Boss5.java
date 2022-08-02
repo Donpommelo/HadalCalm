@@ -61,8 +61,8 @@ public class Boss5 extends EnemyFloating {
 
 	public Boss5(PlayState state, Vector2 startPos, short filter) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), Sprite.NOTHING, EnemyType.BOSS5, filter, hp, aiAttackCd, scrapDrop);
-		this.coreSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.NEPTUNE_KING_CORE.getFrames());
-		this.bodySprite = new Animation<>(PlayState.spriteAnimationSpeedFast, Sprite.NEPTUNE_KING_BODY.getFrames());
+		this.coreSprite = new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_FAST, Sprite.NEPTUNE_KING_CORE.getFrames());
+		this.bodySprite = new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_FAST, Sprite.NEPTUNE_KING_BODY.getFrames());
 		this.crownSprite = Sprite.NEPTUNE_KING_CROWN.getFrame();
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 1400));
 

@@ -16,8 +16,8 @@ import com.mygdx.hadal.states.PlayState;
 
 import java.util.HashMap;
 
-import static com.mygdx.hadal.managers.GameStateManager.json;
-import static com.mygdx.hadal.managers.GameStateManager.reader;
+import static com.mygdx.hadal.managers.GameStateManager.JSON;
+import static com.mygdx.hadal.managers.GameStateManager.READER;
 
 /**
  * A Setting contains all saved game settings.
@@ -47,7 +47,7 @@ public class Setting {
 	 * This simply saves the settings in a designated file
 	 */
 	public void saveSetting() {
-		Gdx.files.local("save/Settings.json").writeString(json.prettyPrint(this), false);
+		Gdx.files.local("save/Settings.json").writeString(JSON.prettyPrint(this), false);
 	}
 
 	/**
@@ -57,10 +57,10 @@ public class Setting {
 	public static Setting retrieveSetting() {
 		Setting tempSetting;
 		try {
-			tempSetting = json.fromJson(Setting.class, reader.parse(Gdx.files.internal("save/Settings.json")).toJson(JsonWriter.OutputType.json));
+			tempSetting = JSON.fromJson(Setting.class, READER.parse(Gdx.files.internal("save/Settings.json")).toJson(JsonWriter.OutputType.json));
 		} catch (SerializationException e) {
 			Setting.createNewSetting();
-			tempSetting = json.fromJson(Setting.class, reader.parse(Gdx.files.internal("save/Settings.json")).toJson(JsonWriter.OutputType.json));
+			tempSetting = JSON.fromJson(Setting.class, READER.parse(Gdx.files.internal("save/Settings.json")).toJson(JsonWriter.OutputType.json));
 		}
 		return tempSetting;
 	}
@@ -99,7 +99,7 @@ public class Setting {
 	 * cursorType == 1: crosshair cursor
 	 * cursorType == 2: dot cursor
 	 */
-	private static final int pixmapSize = 128;
+	private static final int PIXMAP_SIZE = 128;
 	public void setCursor() {
 
 		//when we set a new cursor, we dispose of the old one (if existent)
@@ -116,14 +116,14 @@ public class Setting {
 			//draw designated cursor to pixmap
 			Pixmap cursor = new Pixmap(Gdx.files.internal(indexToCursorType()));
 
-			Pixmap pm = new Pixmap(pixmapSize, pixmapSize, Pixmap.Format.RGBA8888);
+			Pixmap pm = new Pixmap(PIXMAP_SIZE, PIXMAP_SIZE, Pixmap.Format.RGBA8888);
 
 			int scaledWidth = (int) (indexToCursorScale() * cursor.getWidth());
 			int scaledHeight = (int) (indexToCursorScale() * cursor.getHeight());
 
 			pm.drawPixmap(cursor,
 				0, 0, cursor.getWidth() + 1, cursor.getHeight() + 1,
-				(pixmapSize - scaledWidth) / 2, (pixmapSize - scaledHeight) / 2, scaledWidth, scaledHeight);
+				(PIXMAP_SIZE - scaledWidth) / 2, (PIXMAP_SIZE - scaledHeight) / 2, scaledWidth, scaledHeight);
 
 			//color pixmap with chosen color
 			Color newColor = indexToCursorColor();
@@ -139,7 +139,7 @@ public class Setting {
 			}
 
 			//set new cursor and dispose of last used cursor to prevent memory leak
-			Cursor newCursor = Gdx.graphics.newCursor(pm, pixmapSize / 2, pixmapSize / 2);
+			Cursor newCursor = Gdx.graphics.newCursor(pm, PIXMAP_SIZE / 2, PIXMAP_SIZE / 2);
 	    	Gdx.graphics.setCursor(newCursor);
 			lastCursor = newCursor;
 	    	pm.dispose();
@@ -163,13 +163,13 @@ public class Setting {
 		newSetting.resetMisc();
 		newSetting.resetModeSettings();
 
-		Gdx.files.local("save/Settings.json").writeString(json.prettyPrint(newSetting), false);
+		Gdx.files.local("save/Settings.json").writeString(JSON.prettyPrint(newSetting), false);
 	}
 
 	public void resetDisplay() {
 		resolution = 1;
 		framerate = 1;
-		fullscreen = false;
+		fullscreen = true;
 		vsync = false;
 		autoIconify = true;
 		displayNames = true;

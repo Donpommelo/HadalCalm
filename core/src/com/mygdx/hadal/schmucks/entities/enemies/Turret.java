@@ -48,7 +48,7 @@ public class Turret extends Enemy {
 		this.desiredAngle = startAngle;
 		this.scale = scale;
 		
-		this.turretBase = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, base.getFrames());
+		this.turretBase = new Animation<TextureRegion>(PlayState.SPRITE_ANIMATION_SPEED, base.getFrames());
 		
 		switch(type) {
 		case TURRET_FLAK:
@@ -60,7 +60,7 @@ public class Turret extends Enemy {
 		default:
 			break;
 		}
-		this.turretBarrel = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, turretBarrelSprite.getFrames());
+		this.turretBarrel = new Animation<TextureRegion>(PlayState.SPRITE_ANIMATION_SPEED, turretBarrelSprite.getFrames());
 		moveState = MoveState.DEFAULT;
 		currentState = TurretState.STARTING;
 	}

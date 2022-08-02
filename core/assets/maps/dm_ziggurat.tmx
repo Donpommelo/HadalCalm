@@ -619,7 +619,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="6" name="objective" visible="0">
+ <objectgroup id="6" name="objective">
   <object id="36" name="ObjectiveSpawn" type="ObjectiveSpawn" x="1696" y="128" width="32" height="32">
    <properties>
     <property name="sync" value="USER"/>
@@ -647,8 +647,8 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="4" name="dm" visible="0"/>
- <objectgroup id="5" name="arena" visible="0">
+ <objectgroup id="4" name="dm"/>
+ <objectgroup id="5" name="arena">
   <object id="29" name="WaveSpawn" type="WaveSpawn" x="448" y="128" width="32" height="32"/>
   <object id="30" name="WaveSpawn" type="WaveSpawn" x="1696" y="160" width="32" height="32"/>
   <object id="31" name="WaveSpawn" type="WaveSpawn" x="2944" y="128" width="32" height="32"/>

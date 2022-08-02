@@ -57,7 +57,7 @@ public class BookofBurial extends Artifact {
 	public String[] getDescFields() {
 		return new String[] {
 				String.valueOf(procCd),
-				String.valueOf((int) WeaponUtils.primeTime),
+				String.valueOf((int) WeaponUtils.PRIME_TIME),
 				String.valueOf((int) explosionDamage)};
 	}
 }

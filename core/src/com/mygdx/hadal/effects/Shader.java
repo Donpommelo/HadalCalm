@@ -14,33 +14,33 @@ import com.mygdx.hadal.strategies.shader.*;
 public enum Shader {
 
 	NOTHING("", "", true),
-	BLACKWHITE("shaders/pass.vert", "shaders/blackwhite.frag", true),
-	CENSURE("shaders/pass.vert", "shaders/censure.frag", true),
-	EMBOSS("shaders/pass.vert", "shaders/emboss.frag", true, new Resolution()),
-	FADE("shaders/pass.vert", "shaders/fade.frag", true, new Completion(), new Timer()),
-	INVISIBLE("shaders/pass.vert", "shaders/pass.frag", true),
-	GREYSCALE("shaders/pass.vert", "shaders/greyscale.frag", true),
-	OUTLINE("shaders/pass.vert", "shaders/outline.frag", true),
-	SEPIA("shaders/pass.vert", "shaders/sepia.frag", true),
-	STATIC("shaders/pass.vert", "shaders/static.frag", true, new Timer()),
-	WATER("shaders/pass.vert", "shaders/water.frag", true, new Timer()),
-	PULSE_RED("shaders/pass.vert", "shaders/pulsered.frag", true, new Timer(), new SetVariable("speed", 10)),
-	PULSE_RED_HP("shaders/pass.vert", "shaders/pulsered.frag", true, new Timer(), new PlayerHpScale()),
-	PULSE_WHITE("shaders/pass.vert", "shaders/pulsewhite.frag", true, new Timer()),
-	WHITE("shaders/pass.vert", "shaders/white.frag", true),
-	INVERT("shaders/pass.vert", "shaders/invert.frag", true),
-	CLOUD("shaders/pass.vert", "shaders/cloud.frag", true, new Resolution(), new Timer(), new CameraCoord()),
-	SPLASH("shaders/pass.vert", "shaders/splash.frag", true, new Resolution(), new Timer()),
-	DRIP("shaders/pass.vert", "shaders/drip.frag", true, new Resolution(), new Timer()),
-	NORTHERN_LIGHTS("shaders/pass.vert", "shaders/northern_lights.frag", true, new Resolution(), new Timer()),
-	PLASMA("shaders/pass.vert", "shaders/plasma.frag", true, new Resolution(), new Timer()),
-	WAVE("shaders/pass.vert", "shaders/wave.frag", true, new Resolution(), new Timer()),
-	WIGGLE_STATIC("shaders/pass.vert", "shaders/wigglestatic.frag", true, new Resolution(), new Timer()),
-	WORM("shaders/pass.vert", "shaders/worm.frag", true, new Resolution(), new Timer()),
-	WHIRLPOOL("shaders/pass.vert", "shaders/whirlpool.frag", true, new Resolution(), new Timer(), new ObjectiveCoord()),
-	PLAYER_LIGHT("shaders/pass.vert", "shaders/darkness.frag", false, new Resolution(), new PlayerCoord(), new Light()),
-	PERLIN_FADE("shaders/pass.vert", "shaders/perlin.frag", false, new Resolution(), new Timer(), new RandomSeed()),
-	PERLIN_COLOR_FADE("shaders/pass.vert", "shaders/perlin_color.frag", false, new Resolution(), new Timer(), new RandomSeed()),
+	BLACKWHITE("pass", "blackwhite", true),
+	CENSURE("pass", "censure", true),
+	EMBOSS("pass", "emboss", true, new Resolution()),
+	FADE("pass", "fade", true, new Completion(), new Timer()),
+	INVISIBLE("pass", "pass", true),
+	GREYSCALE("pass", "greyscale", true),
+	OUTLINE("pass", "outline", true),
+	SEPIA("pass", "sepia", true),
+	STATIC("pass", "static", true, new Timer()),
+	WATER("pass", "water", true, new Timer()),
+	PULSE_RED("pass", "pulsered", true, new Timer(), new SetVariable("speed", 10)),
+	PULSE_RED_HP("pass", "pulsered", true, new Timer(), new PlayerHpScale()),
+	PULSE_WHITE("pass", "pulsewhite", true, new Timer()),
+	WHITE("pass", "white", true),
+	INVERT("pass", "invert", true),
+	CLOUD("pass", "cloud", true, new Resolution(), new Timer(), new CameraCoord()),
+	SPLASH("pass", "splash", true, new Resolution(), new Timer()),
+	DRIP("pass", "drip", true, new Resolution(), new Timer()),
+	NORTHERN_LIGHTS("pass", "northern_lights", true, new Resolution(), new Timer()),
+	PLASMA("pass", "plasma", true, new Resolution(), new Timer()),
+	WAVE("pass", "wave", true, new Resolution(), new Timer()),
+	WIGGLE_STATIC("pass", "wigglestatic", true, new Resolution(), new Timer()),
+	WORM("pass", "worm", true, new Resolution(), new Timer()),
+	WHIRLPOOL("pass", "whirlpool", true, new Resolution(), new Timer(), new ObjectiveCoord()),
+	PLAYER_LIGHT("pass", "darkness", false, new Resolution(), new PlayerCoord(), new Light()),
+	PERLIN_FADE("pass", "perlin", false, new Resolution(), new Timer(), new RandomSeed()),
+	PERLIN_COLOR_FADE("pass", "perlin_color", false, new Resolution(), new Timer(), new RandomSeed()),
 	;
 	
 	//filename for the vertex and fragment shaders
@@ -56,8 +56,8 @@ public enum Shader {
 	private final boolean background;
 	
 	Shader(String vertId, String fragId, Boolean background, ShaderStrategy... strategies) {
-		this.vertId = vertId;
-		this.fragId = fragId;
+		this.vertId = getVertFileName(vertId);
+		this.fragId = getFragFileName(fragId);
 		this.strategies = strategies;
 		this.background = background;
 	}
@@ -131,7 +131,15 @@ public enum Shader {
 			strat.resize(shaderProgram);
 		}
 	}
-	
+
+	private String getVertFileName(String filename) {
+		return "shaders/" + filename + ".vert";
+	}
+
+	private String getFragFileName(String filename) {
+		return "shaders/" + filename + ".frag";
+	}
+
 	public ShaderProgram getShaderProgram() { return shaderProgram; }
 	
 	public boolean isBackground() { return background; }

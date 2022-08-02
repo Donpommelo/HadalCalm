@@ -16,20 +16,21 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  */
 public class BotControllerPlayer extends BotController {
 
-    private final PlayerBot player;
-
     //This is the default cooldown after jumping that a bot will try a jump again
-    private static final float jumpDesireCooldown = 0.3f;
-    private float jumpDesireCount;
+    private static final float JUMP_DESIRE_COOLDOWN = 0.3f;
 
     //delay after running out of fuel before trying to hover again (prevents stalling out in midair)
-    private static final float noFuelWaitCooldown = 3.0f;
-    private float noFuelWaitCount;
+    private static final float NO_FUEL_WAIT_COOLDOWN = 3.0f;
 
     //delay after boosting before thte bot will want to boost again
-    private static final float boostDesireCooldown = 0.5f;
-    private boolean boostDesired;
+    private static final float BOOST_DESIRE_COOLDOWN = 0.5f;
+
+    private final PlayerBot player;
+
+    private float jumpDesireCount;
+    private float noFuelWaitCount;
     private float boostDesireCount;
+    private boolean boostDesired;
 
     //this is the cooldown after a bot fires that they will release the fire button
     //It is used for specific weapons that require holding and releasing fire
@@ -78,7 +79,7 @@ public class BotControllerPlayer extends BotController {
         boostDesireCount -= delta;
         if (boostDesired) {
             boostDesired = false;
-            boostDesireCount = boostDesireCooldown;
+            boostDesireCount = BOOST_DESIRE_COOLDOWN;
             player.getController().keyDown(PlayerAction.BOOST);
             player.getController().keyUp(PlayerAction.BOOST);
         }
@@ -152,8 +153,8 @@ public class BotControllerPlayer extends BotController {
     }
 
     //these thresholds determine when the bot will fastfall (must be above their destination and not moving too fast already)
-    private static final float fastfallDistThreshold = 6.0f;
-    private static final float fastfallVeloThreshold = -30.0f;
+    private static final float FASTFALL_DIST_THRESHOLD = 6.0f;
+    private static final float FASTFALL_VELO_THRESHOLD = -30.0f;
     @Override
     public void performMovement() {
         //if distance to target is above threshold, use boost
@@ -180,15 +181,15 @@ public class BotControllerPlayer extends BotController {
                 if (player.getPlayerData().getExtraJumpsUsed() < player.getPlayerData().getExtraJumps()) {
                     player.getController().keyDown(PlayerAction.JUMP);
                     player.getController().keyUp(PlayerAction.JUMP);
-                    jumpDesireCount = jumpDesireCooldown;
+                    jumpDesireCount = JUMP_DESIRE_COOLDOWN;
                 } else {
                     if (player.getPlayerData().getCurrentFuel() >= player.getPlayerData().getHoverCost()) {
                         if (noFuelWaitCount <= 0) {
                             player.getController().keyDown(PlayerAction.JUMP);
-                            jumpDesireCount = jumpDesireCooldown;
+                            jumpDesireCount = JUMP_DESIRE_COOLDOWN;
                         }
                     } else {
-                        noFuelWaitCount = noFuelWaitCooldown;
+                        noFuelWaitCount = NO_FUEL_WAIT_COOLDOWN;
                     }
                 }
             }
@@ -197,16 +198,16 @@ public class BotControllerPlayer extends BotController {
         }
 
         //in appropriate situations, bots will use fastfall
-        if (((thisLocation.y < -fastfallDistThreshold && !player.isGrounded()) ||
+        if (((thisLocation.y < -FASTFALL_DIST_THRESHOLD && !player.isGrounded()) ||
                 (thisLocation.y < 0 && !player.getFeetData().getTerrain().isEmpty()))
-                && player.getLinearVelocity().y > fastfallVeloThreshold) {
+                && player.getLinearVelocity().y > FASTFALL_VELO_THRESHOLD) {
             player.getController().keyDown(PlayerAction.CROUCH);
         } else {
             player.getController().keyUp(PlayerAction.CROUCH);
         }
     }
 
-    private static final float searchRadius = 60.0f;
+    private static final float SEARCH_RADIUS = 60.0f;
     @Override
     public Array<RallyPoint.RallyPointMultiplier> getTargetPoints(Vector2 playerLocation, float multiplier) {
         Array<RallyPoint.RallyPointMultiplier> targetPoints = super.getTargetPoints(playerLocation,
@@ -224,11 +225,11 @@ public class BotControllerPlayer extends BotController {
         return player.getState().getMode().processAIPath(player.getState(), player, playerLocation);
     }
 
-    private static final int weaponThreshold1 = 10;
-    private static final int weaponThreshold2 = 20;
-    private static final int weaponThreshold3 = 25;
-    private static final float weaponMultiplier1 = 0.25f;
-    private static final float weaponMultiplier2 = 3.0f;
+    private static final int WEAPON_THRESHOLD_1 = 10;
+    private static final int WEAPON_THRESHOLD_2 = 20;
+    private static final int WEAPON_THRESHOLD_3 = 25;
+    private static final float WEAPON_MULTIPLIER_1 = 0.25f;
+    private static final float WEAPON_MULTIPLIER_2 = 3.0f;
     @Override
     public RallyPoint.RallyPointMultiplier getWeaponPoint(Vector2 playerLocation) {
         int totalAffinity = 0;
@@ -240,16 +241,16 @@ public class BotControllerPlayer extends BotController {
         }
         RallyPoint weaponPoint = null;
         float weaponDesireMultiplier = 1.0f;
-        if (totalAffinity < weaponThreshold3) {
-            weaponPoint = BotLoadoutProcessor.getPointNearWeapon(player, playerLocation, searchRadius, minAffinity);
+        if (totalAffinity < WEAPON_THRESHOLD_3) {
+            weaponPoint = BotLoadoutProcessor.getPointNearWeapon(player, playerLocation, SEARCH_RADIUS, minAffinity);
 
             //bots desire weapons more if they are not content with their current loadout and less if they are
             if (weaponPoint != null) {
-                if (totalAffinity < weaponThreshold1) {
-                    weaponDesireMultiplier = weaponMultiplier1;
+                if (totalAffinity < WEAPON_THRESHOLD_1) {
+                    weaponDesireMultiplier = WEAPON_MULTIPLIER_1;
                 }
-                if (totalAffinity > weaponThreshold2) {
-                    weaponDesireMultiplier = weaponMultiplier2;
+                if (totalAffinity > WEAPON_THRESHOLD_2) {
+                    weaponDesireMultiplier = WEAPON_MULTIPLIER_2;
                 }
             }
             weaponDesireMultiplier *= (1.0f + player.getWeaponDesireMultiplier());
@@ -257,9 +258,9 @@ public class BotControllerPlayer extends BotController {
         return new RallyPoint.RallyPointMultiplier(weaponPoint, weaponDesireMultiplier);
     }
 
-    private static final float healthThreshold1 = 0.9f;
-    private static final float healthMultiplier1 = 0.25f;
-    private static final float healthMultiplier2 = 8.0f;
+    private static final float HEALTH_THRESHOLD_1 = 0.9f;
+    private static final float HEALTH_MULTIPLIER_1 = 0.25f;
+    private static final float HEALTH_MULTIPLIER_2 = 8.0f;
     @Override
     public RallyPoint.RallyPointMultiplier getHealthPoint(Vector2 playerLocation) {
         RallyPoint healthPoint = null;
@@ -267,10 +268,10 @@ public class BotControllerPlayer extends BotController {
 
         //bot's health desire scales to how hurt the bot is
         float healthPercent = player.getPlayerData().getCurrentHp() / player.getPlayerData().getStat(Stats.MAX_HP);
-        if (healthPercent < healthThreshold1) {
-            healthPoint = BotLoadoutProcessor.getPointNearHealth(player, playerLocation, searchRadius);
+        if (healthPercent < HEALTH_THRESHOLD_1) {
+            healthPoint = BotLoadoutProcessor.getPointNearHealth(player, playerLocation, SEARCH_RADIUS);
 
-            healthDesireMultiplier *= (healthMultiplier2 * healthPercent + healthMultiplier1 * (1.0f - healthPercent));
+            healthDesireMultiplier *= (HEALTH_MULTIPLIER_2 * healthPercent + HEALTH_MULTIPLIER_1 * (1.0f - healthPercent));
             healthDesireMultiplier *= (1.0f + player.getHealthDesireMultiplier());
         }
         return new RallyPoint.RallyPointMultiplier(healthPoint, healthDesireMultiplier);

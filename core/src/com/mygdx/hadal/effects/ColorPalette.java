@@ -94,7 +94,6 @@ public enum ColorPalette {
 
     ;
 
-
     private final HadalColor Icon, SaturatedDark, MidDark, DesaturatedDark, SaturatedLight, MidLight, DesaturatedLight,
     Accent1, Accent2;
 
@@ -111,6 +110,9 @@ public enum ColorPalette {
         Accent2 = accent2;
     }
 
+    /**
+     * This returns the shader program with variables set to replace each base color with palette colors
+     */
     public ShaderProgram getShader(UnlockCharacter character) {
         ShaderProgram shader = new ShaderProgram(
                 Gdx.files.internal("shaders/pass.vert").readString(),

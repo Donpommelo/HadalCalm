@@ -94,7 +94,7 @@ public class KryoClient {
         	 */
         	@Override
         	public void connected(Connection c) {
-                sendTCP(new Packets.PlayerConnect(true, gsm.getLoadout().getName(), HadalGame.Version, null));
+                sendTCP(new Packets.PlayerConnect(true, gsm.getLoadout().getName(), HadalGame.VERSION, null));
                 connID = c.getID();
             }
         	
@@ -333,7 +333,7 @@ public class KryoClient {
 		 * Ask the server to let us connect
 		 */
 		else if (o instanceof Packets.ServerLoaded) {
-			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getLoadout().getName(), HadalGame.Version, null);
+			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getLoadout().getName(), HadalGame.VERSION, null);
 			sendTCP(connected);
 		}
 
@@ -780,7 +780,7 @@ public class KryoClient {
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
 					SoundEntity entity = new SoundEntity(cs, null, p.sound, p.lifespan, p.volume, p.pitch, p.looped, p.on, SyncType.NOSYNC);
-					entity.setAttachedId(new UUID(p.uuidMSBAttached, p.uuidLSBAttached));
+					entity.setAttachedID(new UUID(p.uuidMSBAttached, p.uuidLSBAttached));
 					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, p.synced, ObjectLayer.STANDARD);
 				});
 			}
@@ -823,7 +823,7 @@ public class KryoClient {
 
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
 					newPlayer.setStartPos(p.startPosition);
-					newPlayer.setConnId(p.connID);
+					newPlayer.setConnID(p.connID);
 					newPlayer.setHitboxfilter(p.hitboxFilter);
 					newPlayer.setScaleModifier(p.scaleModifier);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, newPlayer, true, ObjectLayer.STANDARD);

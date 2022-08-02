@@ -5,27 +5,23 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockCharacter;
-import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 
-import static com.mygdx.hadal.effects.PlayerSpriteHelper.gibDuration;
-import static com.mygdx.hadal.effects.PlayerSpriteHelper.gibGravity;
+import static com.mygdx.hadal.effects.PlayerSpriteHelper.GIB_DURATION;
+import static com.mygdx.hadal.effects.PlayerSpriteHelper.GIB_GRAVITY;
 
 /**
  * A CharacterCosmetic represents a single Character-Cosmetic relationship
  */
 public class CharacterCosmetic {
 
-    public static final float cosmeticAnimationSpeed = 0.05f;
+    public static final float COSMETIC_ANIMATION_SPEED = 0.05f;
 
     //The id of the sprite in thte cosmetic texture atlas
     private final String spriteId;
@@ -53,7 +49,7 @@ public class CharacterCosmetic {
 
     private Animation.PlayMode mode = Animation.PlayMode.LOOP;
 
-    //weight used to determin chance of bot equipping this cosmetic
+    //weight used to determine chance of bot equipping this cosmetic
     private int botRandomWeight = 10;
 
     public CharacterCosmetic(UnlockCharacter compatibleCharacter, String spriteId) {
@@ -70,9 +66,9 @@ public class CharacterCosmetic {
     /**
      * This is called before rendering to retrieve the frames for the cosmetic sprite
      */
-    public void getFrames() {
+    public Animation<TextureRegion> getFrames() {
         if (frames == null) {
-            frames = new Animation<>(cosmeticAnimationSpeed, ((TextureAtlas) HadalGame.assetManager.get(AssetList.COSMETICS_ATL.toString())).findRegions(spriteId));
+            frames = new Animation<>(COSMETIC_ANIMATION_SPEED, ((TextureAtlas) HadalGame.assetManager.get(AssetList.COSMETICS_ATL.toString())).findRegions(spriteId));
             frames.setPlayMode(mode);
             if (frames.getKeyFrames().length != 0) {
                 cosmeticWidth = frames.getKeyFrame(0).getRegionWidth();
@@ -80,8 +76,9 @@ public class CharacterCosmetic {
             }
         }
         if (mirror && framesMirror == null) {
-            framesMirror = new Animation<>(cosmeticAnimationSpeed, ((TextureAtlas) HadalGame.assetManager.get(AssetList.COSMETICS_ATL.toString())).findRegions(spriteIdMirror));
+            framesMirror = new Animation<>(COSMETIC_ANIMATION_SPEED, ((TextureAtlas) HadalGame.assetManager.get(AssetList.COSMETICS_ATL.toString())).findRegions(spriteIdMirror));
         }
+        return frames;
     }
 
     /**
@@ -90,6 +87,7 @@ public class CharacterCosmetic {
     public Vector2 render(Batch batch, AlignmentFilter team, UnlockCharacter character, float animationTimeExtra,
                           float scale, boolean flip, Vector2 location) {
 
+        //if using shader, get sprite from ShaderSprite fbo instead of frames
         if (useShader || team.isCosmeticApply()) {
             if (frames == null) {
                 getFrames();
@@ -99,11 +97,10 @@ public class CharacterCosmetic {
                     getFrames();
                 }
                 batch.draw(drawShadedCosmetic(batch, team, character, true, flip).getKeyFrame(animationTimeExtra, true),
-                        location.x + (flip ? -1 : 0) * cosmeticWidth * scale + offsetX * scale,
+                        location.x - (flip ? 1 : 0) * cosmeticWidth * scale + offsetX * scale,
                         location.y + offsetY * scale, 0, 0, cosmeticWidth * scale,
                         cosmeticHeight * scale, 1, 1, 0);
             } else {
-                //if using shader, get sprite from ShaderSprite fbo instead of frames
                 batch.draw(drawShadedCosmetic(batch, team, character, false, false).getKeyFrame(animationTimeExtra, true),
                         location.x + (flip ? -1 : 1) * offsetX * scale,
                         location.y + offsetY * scale, 0, 0, (flip ? -1 : 1) * cosmeticWidth * scale,
@@ -115,14 +112,16 @@ public class CharacterCosmetic {
                 if (framesMirror == null) {
                     getFrames();
                 }
-                batch.draw(framesMirror.getKeyFrame(animationTimeExtra, true), location.x - cosmeticWidth * scale + offsetX * scale,
+                batch.draw(framesMirror.getKeyFrame(animationTimeExtra, true),
+                        location.x - cosmeticWidth * scale + offsetX * scale,
                         location.y + offsetY * scale, 0, 0, cosmeticWidth * scale,
                         cosmeticHeight * scale, 1, 1, 0);
             } else {
                 if (frames == null) {
                     getFrames();
                 }
-                batch.draw(frames.getKeyFrame(animationTimeExtra, true), location.x + (flip ? -1 : 1) * offsetX * scale,
+                batch.draw(frames.getKeyFrame(animationTimeExtra, true),
+                        location.x + (flip ? -1 : 1) * offsetX * scale,
                         location.y + offsetY * scale, 0, 0, (flip ? -1 : 1) * cosmeticWidth * scale,
                         cosmeticHeight * scale, 1, 1, 0);
             }
@@ -144,10 +143,10 @@ public class CharacterCosmetic {
             if (useShader || team.isCosmeticApply()) {
                 return new Ragdoll(state, playerLocation, new Vector2(cosmeticWidth, cosmeticHeight).scl(scale),
                         drawShadedCosmetic(state.getBatch(), team, character, false, false).getKeyFrame(0),
-                        playerVelocity, gibDuration, gibGravity, true, false, true);
+                        playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
             } else {
                 return new Ragdoll(state, playerLocation, new Vector2(cosmeticWidth, cosmeticHeight).scl(scale),
-                        frames.getKeyFrame(0), playerVelocity, gibDuration, gibGravity, true, false, true);
+                        frames.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
             }
         }
         return null;
@@ -155,16 +154,18 @@ public class CharacterCosmetic {
 
     /**
      * This draws cosmetics with shaders applied.
-     * Shaded sprites are cached a hash map
+     * Shaded sprites are cached into a hash map
      */
     private Animation<TextureRegion> drawShadedCosmetic(Batch batch, AlignmentFilter team, UnlockCharacter character,
                                                         boolean mirror, boolean flip) {
+        //hashmap key is the team name (or character name if no team)
         String shaderKey;
         if (team.isTeam() && team != AlignmentFilter.NONE) {
             shaderKey = team.getTeamName();
         } else {
             shaderKey = character.getName();
         }
+
         ShadedSprite shadedSprite = shadedCosmetics.get(shaderKey);
 
         //if we don't have this shader-cosmetic combination cached, we create a new shaded sprite
@@ -175,76 +176,46 @@ public class CharacterCosmetic {
             if (drawing) {
                 batch.end();
             }
+
             if (mirror) {
                 shadedSprite = new ShadedSprite(batch, team, character, frames.getKeyFrames(), framesMirror.getKeyFrames(), mode);
             } else {
                 shadedSprite = new ShadedSprite(batch, team, character, frames.getKeyFrames(), mode);
             }
+
             if (drawing) {
                 batch.begin();
             }
-            shadedCosmetics.put(shaderKey, shadedSprite);
+
+            //shaderKey can be null for clients if the player hasn't been initialized yet
+            if (shaderKey != null) {
+                shadedCosmetics.put(shaderKey, shadedSprite);
+            }
         }
 
         return flip ? shadedSprite.getAnimationMirror() : shadedSprite.getAnimation();
     }
 
-    private final Array<String> keysToRemove = new Array<>();
-
     /**
      * This is run whenever a player sets their color or cosmetic in the hub.
      * It clears all cached fbos that are not currently being used by a player
      */
-    public void clearShadedCosmetics(PlayState state, UnlockCosmetic cosmetic) {
+    public void clearShadedCosmetics() {
         for (ObjectMap.Entry<String, ShadedSprite> sprite : shadedCosmetics.entries()) {
-            boolean used = false;
-
-            //iterate through all users and see if this shader sprite is in use
-            if (state.isServer()) {
-                for (User user: HadalGame.server.getUsers().values()) {
-                    if (user.getPlayer() != null) {
-                        if (user.getPlayer().getPlayerData() != null) {
-                            if (checkClearLoadout(user.getPlayer().getPlayerData().getLoadout(), sprite.key, cosmetic)) {
-                                used = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-            } else {
-                for (User user: HadalGame.client.getUsers().values()) {
-                    if (user.getPlayer() != null) {
-                        if (user.getPlayer().getPlayerData() != null) {
-                            if (checkClearLoadout(user.getPlayer().getPlayerData().getLoadout(), sprite.key, cosmetic)) {
-                                used = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            //unused shader sprites are removed from the cache and disposed
-            if (!used) {
+            if (sprite.value != null) {
                 sprite.value.dispose();
-                keysToRemove.add(sprite.key);
             }
-            for (String s : keysToRemove) {
-                shadedCosmetics.remove(s);
-            }
-            keysToRemove.clear();
+            shadedCosmetics.clear();
         }
     }
 
-    /**
-     * This checks a single loadout to see if it matches a single key (string name of either team or character)
-     */
-    private boolean checkClearLoadout(Loadout loadout, String key, UnlockCosmetic cosmetic) {
-        if (loadout == null) { return false; }
-        if (loadout.team.getTeamName().equals(key) || loadout.character.getName().equals(key)) {
-            return loadout.cosmetics[cosmetic.getCosmeticSlot().getSlotNumber()].equals(cosmetic);
+    public Animation<TextureRegion> getShadedFrames(Batch batch, AlignmentFilter team, UnlockCharacter character) {
+        if (useShader || team.isCosmeticApply()) {
+            getFrames();
+            return drawShadedCosmetic(batch, team, character, mirror, false);
+        } else {
+            return getFrames();
         }
-        return false;
     }
 
     public CharacterCosmetic setOffsetX(float offsetX) {

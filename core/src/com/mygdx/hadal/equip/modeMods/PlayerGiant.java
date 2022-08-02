@@ -7,18 +7,17 @@ import com.mygdx.hadal.statuses.Status;
 
 public class PlayerGiant extends Artifact {
 
-	private static final int slotCost = 0;
+	private static final int SLOT_COST = 0;
+	private static final float PLAYER_SCALE = 0.8f;
 
-	private static final float playerScale = 0.8f;
-
-	public PlayerGiant() { super(slotCost); }
+	public PlayerGiant() { super(SLOT_COST); }
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
 
 			@Override
-			public void onInflict() { p.getPlayer().setScaleModifier(playerScale); }
+			public void onInflict() { p.getPlayer().setScaleModifier(PLAYER_SCALE); }
 		};
 	}
 }

@@ -16,20 +16,20 @@ import com.mygdx.hadal.statuses.Temporary;
  */
 public class FishGang extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 32.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 32.0f;
 	
-	private static final int numFish = 5;
-	private static final float fishLifespan = 20.0f;
+	private static final int NUM_FISH = 5;
+	private static final float FISH_LIFESPAN = 20.0f;
 	
 	public FishGang(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		for (int i = 0; i < numFish; i++) {
+		for (int i = 0; i < NUM_FISH; i++) {
 			float randFloat = MathUtils.random();
 			if (randFloat > 0.4f) {
 				new Scissorfish(state, user.getPlayer().getPixelPosition(), 0.0f, user.getPlayer().getHitboxfilter()) {
@@ -37,7 +37,7 @@ public class FishGang extends ActiveItem {
 					@Override
 					public void create() {
 						super.create();
-						getBodyData().addStatus(new Temporary(state, fishLifespan, getBodyData(), getBodyData(), fishLifespan));
+						getBodyData().addStatus(new Temporary(state, FISH_LIFESPAN, getBodyData(), getBodyData(), FISH_LIFESPAN));
 						getBodyData().addStatus(new Summoned(state, getBodyData(), user.getPlayer()));
 					}
 				};
@@ -48,7 +48,7 @@ public class FishGang extends ActiveItem {
 					@Override
 					public void create() {
 						super.create();
-						getBodyData().addStatus(new Temporary(state, fishLifespan, getBodyData(), getBodyData(), fishLifespan));
+						getBodyData().addStatus(new Temporary(state, FISH_LIFESPAN, getBodyData(), getBodyData(), FISH_LIFESPAN));
 						getBodyData().addStatus(new Summoned(state, getBodyData(), user.getPlayer()));
 					}
 				};
@@ -58,7 +58,7 @@ public class FishGang extends ActiveItem {
 					@Override
 					public void create() {
 						super.create();
-						getBodyData().addStatus(new Temporary(state, fishLifespan, getBodyData(), getBodyData(), fishLifespan));
+						getBodyData().addStatus(new Temporary(state, FISH_LIFESPAN, getBodyData(), getBodyData(), FISH_LIFESPAN));
 						getBodyData().addStatus(new Summoned(state, getBodyData(), user.getPlayer()));
 					}
 				};
@@ -69,7 +69,7 @@ public class FishGang extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf(numFish)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf(NUM_FISH)};
 	}
 }

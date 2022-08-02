@@ -27,6 +27,12 @@ public class ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {}
 
     /**
+     * This is run when a mode is selected in the navigations hub.
+     * Here, we populate a settings table with the modifiers available to that mode
+     */
+    public void setModifiers(PlayState state, GameMode mode, Table table) {}
+
+    /**
      * When we begin a match, this is run to save the mode-specific settings in the player's setting save file
      */
     public void saveSetting(PlayState state, GameMode mode) {}

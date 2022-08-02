@@ -3,8 +3,8 @@ package com.mygdx.hadal.map;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -14,7 +14,7 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
-import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
+import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
 
 /**
  * This mode setting is used for modes where the host can designate a number of lives.
@@ -41,15 +41,15 @@ public class SettingLives extends ModeSetting {
         if (livesChoice) {
             String[] livesChoices = UIText.SETTING_LIVES_OPTIONS.text().split(",");
             Text lives = new Text(UIText.SETTING_LIVES.text());
-            lives.setScale(ModeSettingSelection.detailsScale);
+            lives.setScale(UIHub.DETAILS_SCALE);
 
             livesOptions = new SelectBox<>(GameStateManager.getSkin());
             livesOptions.setItems(livesChoices);
-            livesOptions.setWidth(ModeSettingSelection.optionsWidth);
+            livesOptions.setWidth(UIHub.OPTIONS_WIDTH);
             livesOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
 
             table.add(lives);
-            table.add(livesOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
+            table.add(livesOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
         }
     }
 
@@ -90,13 +90,13 @@ public class SettingLives extends ModeSetting {
             User user = vic.getUser();
             if (user != null) {
                 if (unlimitedLives) {
-                    user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
+                    user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, state.getRespawnTime());
                 } else {
                     user.getScores().setLives(user.getScores().getLives() - 1);
                     if (user.getScores().getLives() <= 0) {
                         mode.processPlayerLivesOut(state, vic);
                     } else {
-                        user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
+                        user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, state.getRespawnTime());
                     }
                 }
             }

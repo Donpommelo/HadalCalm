@@ -21,6 +21,9 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class HubEvent extends Event {
 
+	//the distance the player can move away before the menu disappears
+	private static final float MAX_DISTANCE = 5.0f;
+
 	//is the even menu currently open
 	protected boolean open;
 	
@@ -40,9 +43,6 @@ public class HubEvent extends Event {
 	protected String lastSearch = "";
 	protected int lastSlot;
 	
-	//the distance the player can move away before the menu disappears
-	private static final float maxDistance = 5.0f;
-
 	//the last scroll percent of the
 	private float lastScroll;
 
@@ -73,7 +73,7 @@ public class HubEvent extends Event {
 			public void onActivate(EventData activator, Player p) {
 				
 				if (state.getUiHub().isActive()) {
-					leave();
+					back();
 				} else {
 					enter();
 					setScroll();
@@ -90,7 +90,7 @@ public class HubEvent extends Event {
 	@Override
 	public void controller(float delta) {
 		if (open && closeOnLeave) {
-			if (getPosition().dst2(state.getPlayer().getPosition()) > maxDistance * maxDistance && !state.isSpectatorMode()) {
+			if (getPosition().dst2(state.getPlayer().getPosition()) > MAX_DISTANCE * MAX_DISTANCE && !state.isSpectatorMode()) {
 				leave();
 				open = false;
 			}
@@ -100,7 +100,7 @@ public class HubEvent extends Event {
 	@Override
 	public void clientController(float delta) {
 		if (open && closeOnLeave) {
-			if (getPosition().dst2(state.getPlayer().getPosition()) > maxDistance * maxDistance) {
+			if (getPosition().dst2(state.getPlayer().getPosition()) > MAX_DISTANCE * MAX_DISTANCE) {
 				leave();
 				open = false;
 			}
@@ -113,22 +113,26 @@ public class HubEvent extends Event {
 	public void enter() {
 		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(false, false, false, this);
+		state.getUiHub().enter(this);
 		open = true;
 	}
-	
+
+	public void back() {
+		leave();
+	}
+
 	/**
 	 * Player exits the event. Makes the ui slide out
 	 */
 	public void leave() {
 		state.getUiHub().leave();
 		open = false;
-		lastScroll = state.getUiHub().getOptions().getScrollY();
+		lastScroll = state.getUiHub().getOptions().getScrollX();
 	}
 
 	private void setScroll() {
 		state.getUiHub().getOptions().layout();
-		state.getUiHub().getOptions().setScrollY(lastScroll);
+		state.getUiHub().getOptions().setScrollX(lastScroll);
 	}
 
 	public void addOptions(String search, int slots, UnlockTag tag) {
@@ -149,4 +153,14 @@ public class HubEvent extends Event {
 	public int getLastSlot() { return lastSlot; }
 
 	public UnlockTag getLastTag() { return lastTag; }
+
+	public boolean isSearchable() { return false; }
+
+	public boolean isTaggable() { return false; }
+
+	public boolean isCostable() { return false; }
+
+	public boolean isTabbable() { return false; }
+
+	public String[] getSearchTags() { return new String[0]; }
 }

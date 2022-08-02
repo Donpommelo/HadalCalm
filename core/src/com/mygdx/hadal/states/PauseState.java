@@ -31,6 +31,14 @@ import com.mygdx.hadal.text.UIText;
  */
 public class PauseState extends GameState {
 
+	//Dimensions of the pause menu
+	private static final float WIDTH = 500;
+	private static final float HEIGHT = 275;
+	private static final int EXTRA_ROW_HEIGHT = 55;
+	private static final int OPTION_HEIGHT = 48;
+	private static final int OPTION_PAD = 5;
+	private static final float PAUSE_TEXT_SCALE = 0.3f;
+
 	//This table contains the ui elements of the pause screen
 	private Table table;
 	
@@ -50,14 +58,6 @@ public class PauseState extends GameState {
 	//is the game paused underneath this menu?
 	// In multiplayer, the pause menu will be brought up, but the game will not be paused (unless changed in settings)
 	private final boolean paused;
-	
-	//Dimensions of the pause menu
-	private static final float width = 500;
-	private static final float height = 275;
-	private static final int extraRowHeight = 55;
-	private static final int optionHeight = 48;
-	private static final int optionPad = 5;
-	private static final float pauseTextScale = 0.3f;
 	
 	/**
 	 * Constructor will be called whenever a player pauses.
@@ -89,22 +89,22 @@ public class PauseState extends GameState {
 		stage = new Stage() {
 			{
 				//make the menu size adjust based on how many options are available
-				float menuHeight = height;
+				float menuHeight = HEIGHT;
 				
 				//extra "return to hub" option is added if the hub has been reached or if the player is in multiplayer mode.
 				if (ps.isServer() && (1 == gsm.getRecord().getFlags().get("HUB_REACHED") || GameStateManager.currentMode == Mode.MULTI)) {
-					menuHeight += extraRowHeight;
+					menuHeight += EXTRA_ROW_HEIGHT;
 				}
 				
 				//extra "spectate" option is added if the player is in multiplayer mode.
 				if (ps.getMode().isHub() && GameStateManager.currentMode == Mode.MULTI) {
-					menuHeight += extraRowHeight;
+					menuHeight += EXTRA_ROW_HEIGHT;
 				}
 				
 				table = new WindowTable();
 				table.setLayoutEnabled(true);
-				table.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - menuHeight / 2);
-				table.setSize(width, menuHeight);
+				table.setPosition(HadalGame.CONFIG_WIDTH / 2 - WIDTH / 2, HadalGame.CONFIG_HEIGHT / 2 - menuHeight / 2);
+				table.setSize(WIDTH, menuHeight);
 				addActor(table);
 				
 				//text indicates if the game is actually paused or not (if multiplayer pause is disabled in settings)
@@ -113,7 +113,7 @@ public class PauseState extends GameState {
 				} else {
 					pause = new Text(UIText.PAUSE_NOT.text());
 				}
-				pause.setScale(pauseTextScale);
+				pause.setScale(PAUSE_TEXT_SCALE);
 				
 				resumeOption = new Text(UIText.RESUME.text()).setButton(true);
 				hubOption = new Text(UIText.RETURN_HUB.text()).setButton(true);
@@ -212,23 +212,23 @@ public class PauseState extends GameState {
 			    });
 				
 				table.add(pause).pad(5).expand().top().row();
-				table.add(resumeOption).height(optionHeight).pad(optionPad).row();
+				table.add(resumeOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 				
 				//don't add return to hub option in singleplayer if hub hasn't been reached yet
 				if (ps.isServer() && (1 == gsm.getRecord().getFlags().get("HUB_REACHED") || GameStateManager.currentMode == Mode.MULTI)) {
-					table.add(hubOption).height(optionHeight).pad(optionPad).row();
+					table.add(hubOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 				}
-				table.add(settingOption).height(optionHeight).pad(optionPad).row();
-				table.add(extraOption).height(optionHeight).pad(optionPad).row();
+				table.add(settingOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+				table.add(extraOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 
 				if (ps.getMode().isHub() && GameStateManager.currentMode == Mode.MULTI) {
 					if (ps.isSpectatorMode()) {
-						table.add(joinOption).height(optionHeight).pad(optionPad).row();
+						table.add(joinOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 					} else {
-						table.add(spectateOption).height(optionHeight).pad(optionPad).row();
+						table.add(spectateOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 					}
 				}
-				table.add(exitOption).height(optionHeight).pad(optionPad).row();
+				table.add(exitOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 			}
 		};
 		app.newMenu(stage);

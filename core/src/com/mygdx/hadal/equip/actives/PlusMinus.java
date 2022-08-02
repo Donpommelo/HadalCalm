@@ -18,37 +18,36 @@ import com.mygdx.hadal.statuses.Status;
  */
 public class PlusMinus extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 12.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 12.0f;
 
-	private static final float duration = 3.0f;
-	private static final float procCd = 1.0f;
-
-	private static final float chainDamage = 15.0f;
-	private static final int chainRadius = 15;
-	private static final int chainAmount = 4;
+	private static final float DURATION = 3.0f;
+	private static final float PROC_CD = 1.0f;
+	private static final float CHAIN_DAMAGE = 15.0f;
+	private static final int CHAIN_RADIUS = 15;
+	private static final int CHAIN_AMOUNT = 4;
 	
 	public PlusMinus(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		new ParticleEntity(state, user.getPlayer(), Particle.LIGHTNING_CHARGE, 1.0f, duration,
+		new ParticleEntity(state, user.getPlayer(), Particle.LIGHTNING_CHARGE, 1.0f, DURATION,
 				true, SyncType.CREATESYNC).setColor(HadalColor.SUNGLOW);
 
-		user.addStatus(new Status(state, duration, false, user, user) {
+		user.addStatus(new Status(state, DURATION, false, user, user) {
 
-			private float procCdCount = procCd;
+			private float procCdCount = PROC_CD;
 			@Override
 			public void timePassing(float delta) {
 				super.timePassing(delta);
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
+				if (procCdCount >= PROC_CD) {
+					procCdCount -= PROC_CD;
 
 					SoundEffect.THUNDER.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
-					user.addStatus(new Shocked(state, user, user, chainDamage, chainRadius, chainAmount,
+					user.addStatus(new Shocked(state, user, user, CHAIN_DAMAGE, CHAIN_RADIUS, CHAIN_AMOUNT,
 							user.getSchmuck().getHitboxfilter(), DamageSource.PLUS_MINUS));
 				}
 				procCdCount += delta;
@@ -62,9 +61,9 @@ public class PlusMinus extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) (duration / procCd)),
-				String.valueOf((int) chainDamage),
-				String.valueOf(chainAmount)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) (DURATION / PROC_CD)),
+				String.valueOf((int) CHAIN_DAMAGE),
+				String.valueOf(CHAIN_AMOUNT)};
 	}
 }

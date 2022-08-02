@@ -20,22 +20,25 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * @author Pugma Plilzburger
  */
 public class Ragdoll extends HadalEntity {
-	
+
+	//spread is for giving the initial ragdoll a random velocity
+	private static final int SPREAD = 120;
+
+	//starting multiplier on starting velocity and direction
+	private static final float VELO_AMP = 10.0f;
+	private static final float ANGLE_AMP = 2.0f;
+	private static final float BASE_ANGLE = 8.0f;
+
+	//these control the ragdoll fading before despawning
+	private static final float FADE_LIFESPAN = 1.0f;
+
 	//This is the sprite that will be displayed
 	private Sprite sprite;
 	private TextureRegion ragdollSprite;
 	
-	//spread is for giving the initial ragdoll a random velocity
-	private static final int spread = 120;
-	
 	//how long does the ragdoll last
 	private float ragdollDuration;
 	private final float gravity;
-	
-	//starting multiplier on starting velocity and direction
-	private static final float veloAmp = 10.0f;
-	private static final float angleAmp = 2.0f;
-	private static final float baseAngle = 8.0f;
 	
 	private final Vector2 startVelo;
 	private final float startAngle;
@@ -51,16 +54,13 @@ public class Ragdoll extends HadalEntity {
 
 	//does the ragdoll fade when its lifespan decreases? Only if needed, since fading sets the batch
 	private final boolean fade;
-
-	//these control the ragdoll fading before despawning
-	private static final float fadeLifespan = 1.0f;
 	private float fadeTransparency = 1.0f;
 
 	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity,
 				   boolean setVelo, boolean sensor, boolean synced, boolean fade) {
 		super(state, startPos, size);
 		this.startVelo = new Vector2(startVelo);
-		this.startAngle = baseAngle * angleAmp;
+		this.startAngle = BASE_ANGLE * ANGLE_AMP;
 		this.ragdollDuration = duration;
 		this.gravity = gravity;
 		this.sprite = sprite;
@@ -96,9 +96,9 @@ public class Ragdoll extends HadalEntity {
 
 		//ragdoll spin direction depends on which way it is moving
 		if (startVelo.x >= 0) {
-			this.startAngle = -baseAngle * angleAmp;
+			this.startAngle = -BASE_ANGLE * ANGLE_AMP;
 		} else {
-			this.startAngle = baseAngle * angleAmp;
+			this.startAngle = BASE_ANGLE * ANGLE_AMP;
 		}
 	}
 
@@ -111,11 +111,11 @@ public class Ragdoll extends HadalEntity {
 
 		//this makes ragdolls spin and move upon creation
 		setAngularVelocity(startAngle);
-		float newDegrees = startVelo.angleDeg() + MathUtils.random(-spread, spread + 1);
+		float newDegrees = startVelo.angleDeg() + MathUtils.random(-SPREAD, SPREAD + 1);
 		newVelocity.set(startVelo).add(1, 1);
 		
 		if (setVelo) {
-			setLinearVelocity(newVelocity.nor().scl(veloAmp).setAngleDeg(newDegrees));
+			setLinearVelocity(newVelocity.nor().scl(VELO_AMP).setAngleDeg(newDegrees));
 		} else {
 			setLinearVelocity(newVelocity.setAngleDeg(newDegrees));
 		}
@@ -123,7 +123,7 @@ public class Ragdoll extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
-		if (ragdollDuration <= fadeLifespan && fade) {
+		if (ragdollDuration <= FADE_LIFESPAN && fade) {
 			fadeTransparency -= delta;
 		}
 
@@ -137,7 +137,7 @@ public class Ragdoll extends HadalEntity {
 	public void clientController(float delta) {
 		super.clientController(delta);
 
-		if (ragdollDuration <= fadeLifespan && fade) {
+		if (ragdollDuration <= FADE_LIFESPAN && fade) {
 			fadeTransparency -= delta;
 		}
 

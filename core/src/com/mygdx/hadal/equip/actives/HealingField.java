@@ -15,32 +15,32 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class HealingField extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 20.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 20.0f;
 	
-	private static final Vector2 fieldSize = new Vector2(360, 360);
-	private static final float fieldHeal = 0.2f;
-	private static final float healDuration = 10.0f;
+	private static final Vector2 FIELD_SIZE = new Vector2(360, 360);
+	private static final float FIELD_HEAL = 0.2f;
+	private static final float HEAL_DURATION = 10.0f;
 	
 	public HealingField(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {	
-		new SoundEntity(state, new HealingArea(state, user.getSchmuck().getPixelPosition(), fieldSize, fieldHeal, healDuration, user.getSchmuck(), (short) 0),
-				SoundEffect.MAGIC21_HEAL, healDuration, 0.25f, 1.0f, true, true, SyncType.CREATESYNC);
+		new SoundEntity(state, new HealingArea(state, user.getSchmuck().getPixelPosition(), FIELD_SIZE, FIELD_HEAL, HEAL_DURATION, user.getSchmuck(), (short) 0),
+				SoundEffect.MAGIC21_HEAL, HEAL_DURATION, 0.25f, 1.0f, true, true, SyncType.CREATESYNC);
 	}
 	
 	@Override
-	public float getUseDuration() { return healDuration; }
+	public float getUseDuration() { return HEAL_DURATION; }
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) healDuration),
-				String.valueOf((int) (fieldHeal * 60))};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) HEAL_DURATION),
+				String.valueOf((int) (FIELD_HEAL * 60))};
 	}
 }

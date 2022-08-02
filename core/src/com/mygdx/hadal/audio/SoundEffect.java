@@ -247,14 +247,14 @@ public enum SoundEffect {
 		if (state.isServer() && player != null) {
 			
 			//for the host, we simply play the sound. Otherwise, we send a sound packet to the client
-			if (player.getConnId() == 0) {
+			if (player.getConnID() == 0) {
 				if (worldPos == null) {
 					play(state.getGsm(), volume, pitch, singleton);
 				} else {
 					playSourced(state, worldPos, volume, pitch);
 				}
 			} else {
-				HadalGame.server.sendToTCP(player.getConnId(), new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
+				HadalGame.server.sendToTCP(player.getConnID(), new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
 			}
 		}
 	}
@@ -267,10 +267,10 @@ public enum SoundEffect {
 	public static void registerHitSound(GameStateManager gsm, Player player, boolean large) {
 		
 		//play sound right away for host, otherwise send packet
-		if (player.getConnId() == 0) {
+		if (player.getConnID() == 0) {
 			playHitSound(gsm, large);
 		} else {
-			HadalGame.server.sendToTCP(player.getConnId(), new Packets.SyncHitSound(large));
+			HadalGame.server.sendToTCP(player.getConnID(), new Packets.SyncHitSound(large));
 		}
 	}
 	
@@ -293,7 +293,7 @@ public enum SoundEffect {
 	
 	//maxDist is the largest distance the player can hear sounds from.
 	//Further sounds will be quieter.
-	private static final float maxDist = 3500.0f;
+	private static final float MAX_DIST = 3500.0f;
 	/**
 	 * updateSoundLocation updates the volume and pan of single instance of a sound.
 	 * This is done based on the sound's location relative to the player.
@@ -321,21 +321,21 @@ public enum SoundEffect {
 		float newVolume;
 
 		//sound will be played from right/left headphone depending on relative x-coordinate
-		if (xDist > maxDist) {
+		if (xDist > MAX_DIST) {
 			pan = 1.0f;
-		} else if (xDist < -maxDist) {
+		} else if (xDist < -MAX_DIST) {
 			pan = -1.0f;
 		} else {
-			pan = xDist / maxDist;
+			pan = xDist / MAX_DIST;
 		}
 
 		//sound volume scales inversely to distance from sound
-		if (dist > maxDist) {
+		if (dist > MAX_DIST) {
 			newVolume = 0.0f;
 		} else if (dist <= 0) {
 			newVolume = 1.0f;
 		} else {
-			newVolume = (maxDist - dist) / maxDist;
+			newVolume = (MAX_DIST - dist) / MAX_DIST;
 		}
 		getSound().setPan(soundId, pan, newVolume * volume * state.getGsm().getSetting().getSoundVolume() * state.getGsm().getSetting().getMasterVolume());
 	}

@@ -21,6 +21,8 @@ import java.util.UUID;
  */
 public class ObjectiveMarker {
 
+    private static final float SCALE = 0.4f;
+
     private final PlayState state;
     private final TextureRegion icon;
     private final TextureRegion arrow;
@@ -28,8 +30,6 @@ public class ObjectiveMarker {
     //is this icon colored? if so, what color (rgb)
     private final boolean colored;
     private final Color color;
-
-    private static final float scale = 0.4f;
 
     private final float width, height, arrowWidth, arrowHeight;
     private final float corner;
@@ -53,10 +53,10 @@ public class ObjectiveMarker {
 
         this.arrow = Sprite.NOTIFICATIONS_DIRECTIONAL_ARROW.getFrame();
         this.corner = MathUtils.atan2(-HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-        this.width = icon.getRegionWidth() * scale;
-        this.height = icon.getRegionHeight() * scale;
-        this.arrowWidth = arrow.getRegionWidth() * scale;
-        this.arrowHeight = arrow.getRegionHeight() * scale;
+        this.width = icon.getRegionWidth() * SCALE;
+        this.height = icon.getRegionHeight() * SCALE;
+        this.arrowWidth = arrow.getRegionWidth() * SCALE;
+        this.arrowHeight = arrow.getRegionHeight() * SCALE;
     }
 
     private float x, y;

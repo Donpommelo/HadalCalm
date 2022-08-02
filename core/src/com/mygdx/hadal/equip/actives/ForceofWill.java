@@ -12,29 +12,29 @@ import com.mygdx.hadal.statuses.Invulnerability;
  */
 public class ForceofWill extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 15.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 15.0f;
 	
-	private static final float duration = 2.0f;
+	private static final float DURATION = 2.0f;
 	
 	public ForceofWill(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.MAGIC18_BUFF.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
-		user.addStatus(new Invulnerability(state, duration, user, user));
+		user.addStatus(new Invulnerability(state, DURATION, user, user));
 	}
 	
 	@Override
-	public float getUseDuration() { return duration; }
+	public float getUseDuration() { return DURATION; }
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) duration)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) DURATION)};
 	}
 }

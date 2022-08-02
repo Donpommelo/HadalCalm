@@ -16,30 +16,29 @@ import com.mygdx.hadal.statuses.Status;
  */
 public class MissilePod extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 15.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 15.0f;
 	
-	private static final float duration = 1.2f;
-	
-	private static final float procCd = 0.1f;
+	private static final float DURATION = 1.2f;
+	private static final float PROC_CD = 0.1f;
 
 	public MissilePod(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.DEFLATE.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
 		
-		user.addStatus(new Status(state, duration, false, user, user) {
+		user.addStatus(new Status(state, DURATION, false, user, user) {
 			
 			private float procCdCount;
 			@Override
 			public void timePassing(float delta) {
 				super.timePassing(delta);
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
+				if (procCdCount >= PROC_CD) {
+					procCdCount -= PROC_CD;
 					SyncedAttack.HOMING_MISSILE.initiateSyncedAttackSingle(state, inflicted.getSchmuck(),
 							inflicted.getSchmuck().getPixelPosition(), new Vector2(0, 5), DamageSource.MISSILE_POD);
 				}
@@ -49,13 +48,13 @@ public class MissilePod extends ActiveItem {
 	}
 	
 	@Override
-	public float getUseDuration() { return duration; }
+	public float getUseDuration() { return DURATION; }
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) (duration / procCd)),
-				String.valueOf((int) WeaponUtils.torpedoExplosionDamage)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) (DURATION / PROC_CD)),
+				String.valueOf((int) WeaponUtils.TORPEDO_EXPLOSION_DAMAGE)};
 	}
 }

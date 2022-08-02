@@ -15,19 +15,19 @@ import com.mygdx.hadal.states.PlayState;
 public class MagicGlow extends Status {
 
 	private float procCdCount;
-	private static final float procCd = 1.0f;
+	private static final float PROC_CD = 1.0f;
 	
 	public MagicGlow(PlayState state, BodyData v) {
 		super(state, v);
-		this.procCdCount = procCd;
+		this.procCdCount = PROC_CD;
 	}
 	
 	@Override
 	public void timePassing(float delta) {
 		super.timePassing(delta);
-		if (procCdCount >= procCd) {
-			procCdCount -= procCd;
-			ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BRIGHT, procCd, procCd,
+		if (procCdCount >= PROC_CD) {
+			procCdCount -= PROC_CD;
+			ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BRIGHT, PROC_CD, PROC_CD,
 				true, SyncType.CREATESYNC);
 			particle.setColor(HadalColor.RANDOM);
 		}

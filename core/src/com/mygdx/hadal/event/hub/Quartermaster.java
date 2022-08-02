@@ -27,7 +27,7 @@ public class Quartermaster extends HubEvent {
 	
 	public Quartermaster(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave, String shopId) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.QUARTERMASTER);
-		this.shopInfo = GameStateManager.json.fromJson(ShopInfo.class, GameStateManager.shops.get(shopId).toJson(OutputType.json));
+		this.shopInfo = GameStateManager.JSON.fromJson(ShopInfo.class, GameStateManager.shops.get(shopId).toJson(OutputType.json));
 	}
 
 	@Override
@@ -68,10 +68,10 @@ public class Quartermaster extends HubEvent {
 						hub.setInfo(name + "\n\n" + desc + "\n\n" + descLong);
 					}
 			    });
-				itemChoose.setScale(UIHub.optionsScaleSmall);
-				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
+				itemChoose.setScale(UIHub.OPTIONS_SCALE_SMALL);
+				hub.getTableOptions().add(itemChoose).height(UIHub.OPTION_HEIGHT).pad(UIHub.OPTION_PAD, 0, UIHub.OPTION_PAD, 0).row();
 			}
 		}
-		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.OPTION_HEIGHT).row();
 	}
 }

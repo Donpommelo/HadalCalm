@@ -9,14 +9,13 @@ import com.mygdx.hadal.utils.Stats;
 
 public class VisibleHp extends Artifact {
 
-	private static final int slotCost = 0;
+	private static final int SLOT_COST = 0;
+	private static final float HP_VISIBILITY = 1.0f;
 
-	private static final float hpVisibility = 1.0f;
-
-	public VisibleHp() { super(slotCost); }
+	public VisibleHp() { super(SLOT_COST); }
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
-		enchantment = new StatusComposite(state, p,	new StatChangeStatus(state, Stats.HEALTH_VISIBILITY, hpVisibility, p));
+		enchantment = new StatusComposite(state, p,	new StatChangeStatus(state, Stats.HEALTH_VISIBILITY, HP_VISIBILITY, p));
 	}
 }

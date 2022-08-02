@@ -25,22 +25,22 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
  */
 public class PlayerResultsIcon extends AHadalActor {
 
-	private static final float fontScale = 0.22f;
-	private static final float spriteScale = 0.25f;
+	private static final float FONT_SCALE = 0.22f;
+	private static final float SPRITE_SCALE = 0.25f;
 
-	private static final float readyWidth = 96.0f;
-	private static final float readyHeight = 96.0f;
+	private static final float READY_WIDTH = 96.0f;
+	private static final float READY_HEIGHT = 96.0f;
 
-	private static final float spriteHeight = 922.0f;
-	private static final float spriteWidth = 614.0f;
-	private static final float spriteOffsetY = 10.0f;
+	private static final float SPRITE_HEIGHT = 922.0f;
+	private static final float SPRITE_WIDTH = 614.0f;
+	private static final float SPRITE_OFFSET_Y = 10.0f;
 
-	private static final float textOffsetX = 20.0f;
-	private static final float textOffsetY = -10.0f;
-	private static final float textWidth = 125.0f;
+	private static final float TEXT_OFFSET_X = 20.0f;
+	private static final float TEXT_OFFSET_Y = -10.0f;
+	private static final float TEXT_WIDTH = 125.0f;
 
-	private static final float readyOffsetX = 20.0f;
-	private static final float readyOffsetY = 150.0f;
+	private static final float READY_OFFSET_X = 20.0f;
+	private static final float READY_OFFSET_Y = 150.0f;
 
 	private final ShadedSprite shadedSprite;
 	private final AlignmentFilter team;
@@ -70,18 +70,18 @@ public class PlayerResultsIcon extends AHadalActor {
 		Array<TextureRegion> playerSprite = new Array<>();
 		if (fields.isWonLast()) {
 			playerSprite.addAll(character.getBuffSprite().getFrames());
-			this.iconWidth = character.getBuffSprite().getFrame().getRegionWidth() * spriteScale;
-			this.iconHeight = character.getBuffSprite().getFrame().getRegionHeight() * spriteScale;
-			this.cosmeticOffset.set(character.getBuffHatOffset()).scl(spriteScale);
+			this.iconWidth = character.getBuffSprite().getFrame().getRegionWidth() * SPRITE_SCALE;
+			this.iconHeight = character.getBuffSprite().getFrame().getRegionHeight() * SPRITE_SCALE;
+			this.cosmeticOffset.set(character.getBuffHatOffset()).scl(SPRITE_SCALE);
 		} else {
 			playerSprite.addAll(character.getSlugSprite().getFrames());
-			this.iconWidth = character.getSlugSprite().getFrame().getRegionWidth() * spriteScale;
-			this.iconHeight = character.getSlugSprite().getFrame().getRegionHeight() * spriteScale;
-			this.cosmeticOffset.set(character.getSlugHatOffset()).scl(spriteScale);
+			this.iconWidth = character.getSlugSprite().getFrame().getRegionWidth() * SPRITE_SCALE;
+			this.iconHeight = character.getSlugSprite().getFrame().getRegionHeight() * SPRITE_SCALE;
+			this.cosmeticOffset.set(character.getSlugHatOffset()).scl(SPRITE_SCALE);
 		}
 
-		setHeight(spriteHeight * spriteScale);
-		setWidth(spriteWidth * spriteScale);
+		setHeight(SPRITE_HEIGHT * SPRITE_SCALE);
+		setWidth(SPRITE_WIDTH * SPRITE_SCALE);
 
 		//create sprite with shader applied. Class is necessary to avoid class cast exception
 		shadedSprite = new ShadedSprite(batch, team, character, playerSprite.toArray(TextureRegion.class));
@@ -97,22 +97,22 @@ public class PlayerResultsIcon extends AHadalActor {
 	private final Vector2 cosmeticLocation = new Vector2();
 	@Override
     public void draw(Batch batch, float alpha) {
-		float spriteX = getX() + spriteOffsetY;
+		float spriteX = getX() + SPRITE_OFFSET_Y;
 		float spriteY = getY();
 		batch.draw(shadedSprite.getSprite(), spriteX, spriteY, iconWidth, iconHeight);
 		cosmeticLocation.set(spriteX + cosmeticOffset.x, spriteY + cosmeticOffset.y);
 		//draw cosmetics on the slug/buff players
 		for (UnlockCosmetic cosmetic : cosmetics) {
 			if (!CosmeticSlot.HEAD.equals(cosmetic.getCosmeticSlot())) {
-				cosmetic.render(batch, team, character, animationTimeExtra, spriteScale, false, cosmeticLocation, cosmeticLocation);
+				cosmetic.render(batch, team, character, animationTimeExtra, SPRITE_SCALE, false, cosmeticLocation, cosmeticLocation);
 			}
 		}
 
-		HadalGame.FONT_UI.getData().setScale(fontScale);
-		HadalGame.FONT_UI.draw(batch, name, getX() + textOffsetX,getY() + textOffsetY, textWidth, Align.center, true);
+		HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
+		HadalGame.FONT_UI.draw(batch, name, getX() + TEXT_OFFSET_X,getY() + TEXT_OFFSET_Y, TEXT_WIDTH, Align.center, true);
 
 		if (ready) {
-			batch.draw(readyIcon, getX() + readyWidth + readyOffsetX, getY() + readyOffsetY, -readyWidth, readyHeight);
+			batch.draw(readyIcon, getX() + READY_WIDTH + READY_OFFSET_X, getY() + READY_OFFSET_Y, -READY_WIDTH, READY_HEIGHT);
 		}
     }
 

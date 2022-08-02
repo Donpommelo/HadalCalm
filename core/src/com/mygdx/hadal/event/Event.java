@@ -22,6 +22,7 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Constants;
 
 /**
  * An Event is an entity that acts as a catch-all for all misc entities that do not share qualities with schmucks or hitboxes.
@@ -29,7 +30,13 @@ import com.mygdx.hadal.states.PlayState;
  * @author Bloburger Blunzo
  */
 public class Event extends HadalEntity {
-	
+
+	//speed of animation for events
+	private static final float ANIMATION_SPEED = 0.1f;
+
+	//all pickups will have this height and width as default.
+	public static final int DEFAULT_PICKUP_EVENT_SIZE = 160;
+
 	//The event's data
 	protected EventData eventData;
 	
@@ -61,12 +68,6 @@ public class Event extends HadalEntity {
      */
     private eventSyncTypes syncType = eventSyncTypes.ILLUSION;
 	
-    //speed of animation for events
-    private static final float animationSpeed = 0.1f;
-    
-    //all pickups will have this height and width as default.
-    public static final int defaultPickupEventSize = 160;
-    
     //this is the map object from Tiled that this event was read from.
     protected RectangleMapObject blueprint;
     private EventDto dto;
@@ -84,8 +85,6 @@ public class Event extends HadalEntity {
     //will the event not be drawn when off screen?
     private boolean cullable = true;
 
-	//when about to despawn, events can be set to flash
-	private static final float flashDuration = 0.1f;
 	private float flashLifespan;
 	private float flashCount;
     
@@ -126,8 +125,8 @@ public class Event extends HadalEntity {
 
 			if (duration <= flashLifespan && flashLifespan != 0.0f) {
 				flashCount -= delta;
-				if (flashCount < -flashDuration) {
-					flashCount = flashDuration;
+				if (flashCount < -Constants.FLASH) {
+					flashCount = Constants.FLASH;
 				}
 			}
 
@@ -223,7 +222,7 @@ public class Event extends HadalEntity {
 	 * @param sprite: the event's new sprite
 	 */
 	public void setEventSprite(Sprite sprite) {
-		setEventSprite(sprite, false, 0, animationSpeed, PlayMode.LOOP);
+		setEventSprite(sprite, false, 0, ANIMATION_SPEED, PlayMode.LOOP);
 	}
 	
 	/**

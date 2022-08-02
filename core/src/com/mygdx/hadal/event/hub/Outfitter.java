@@ -45,7 +45,7 @@ public class Outfitter extends HubEvent {
 						state.getGsm().getLoadout().setLoadout(selected);
 						state.getPlayer().getPlayerData().syncServerWholeLoadoutChange();
 					} else {
-						HadalGame.client.sendTCP(new PacketsLoadout.SyncWholeLoadout(state.getPlayer().getConnId(), new Loadout(selected), false));
+						HadalGame.client.sendTCP(new PacketsLoadout.SyncWholeLoadout(state.getPlayer().getConnID(), new Loadout(selected), false));
 					}
 				}
 
@@ -57,14 +57,14 @@ public class Outfitter extends HubEvent {
 					//description contains outfit weapons, active item and artifact
 					text.setLength(0);
 					text.append(c.key).append("\n\n");
-					for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+					for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
 						if (!UnlockEquip.NOTHING.toString().equals(selected.getEquip()[i])) {
 							text.append(selected.getEquip()[i]).append("\n");
 						}
 					}
 					text.append("\n");
 					text.append(selected.getActive()).append("\n\n");
-					for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+					for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
 						if (!UnlockArtifact.NOTHING.toString().equals(selected.getArtifact()[i])) {
 							text.append(selected.getArtifact()[i]).append("\n");
 						}
@@ -72,10 +72,10 @@ public class Outfitter extends HubEvent {
 					hub.setInfo(text.toString());
 				}
 			});
-			itemChoose.setScale(UIHub.optionsScale);
-			hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
+			itemChoose.setScale(UIHub.OPTIONS_SCALE);
+			hub.getTableOptions().add(itemChoose).height(UIHub.OPTION_HEIGHT).pad(UIHub.OPTION_PAD, 0, UIHub.OPTION_PAD, 0).row();
 		}
-		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).colspan(2).row();
+		hub.getTableOptions().add(new Text("")).height(UIHub.OPTION_HEIGHT).colspan(2).row();
 		hub.refreshHub(this);
 	}
 }

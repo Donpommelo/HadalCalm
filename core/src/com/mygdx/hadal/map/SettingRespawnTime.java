@@ -2,8 +2,8 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
@@ -31,15 +31,15 @@ public class SettingRespawnTime extends ModeSetting {
     public void setSetting(PlayState state, GameMode mode, Table table) {
         String[] respawnChoices = UIText.SETTING_RESPAWN_OPTIONS.text().split(",");
         Text respawn = new Text(UIText.SETTING_RESPAWN.text());
-        respawn.setScale(ModeSettingSelection.detailsScale);
+        respawn.setScale(UIHub.DETAILS_SCALE);
 
         respawnOptions = new SelectBox<>(GameStateManager.getSkin());
         respawnOptions.setItems(respawnChoices);
-        respawnOptions.setWidth(ModeSettingSelection.optionsWidth);
+        respawnOptions.setWidth(UIHub.OPTIONS_WIDTH);
         respawnOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
 
         table.add(respawn);
-        table.add(respawnOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
+        table.add(respawnOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
     }
 
     @Override

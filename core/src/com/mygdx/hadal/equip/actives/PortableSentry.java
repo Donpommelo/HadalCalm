@@ -28,20 +28,19 @@ import com.mygdx.hadal.utils.Constants;
  */
 public class PortableSentry extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.1f;
-	private static final float maxCharge = 20.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.1f;
+	private static final float MAX_CHARGE = 20.0f;
 	
-	private static final Vector2 projectileSize = new Vector2(70, 70);
-	private static final float lifespan = 3.0f;
-
-	private static final float projectileSpeed = 60.0f;
-	private static final float turretLifespan = 20.0f;
+	private static final Vector2 PROJECTILE_SIZE = new Vector2(70, 70);
+	private static final float LIFESPAN = 3.0f;
+	private static final float PROJECTILE_SPEED = 60.0f;
+	private static final float TURRET_LIFESPAN = 20.0f;
 	
-	private static final Sprite projSprite = Sprite.ORB_BLUE;
+	private static final Sprite PROJ_SPRITE = Sprite.ORB_BLUE;
 
 	public PortableSentry(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
@@ -49,7 +48,7 @@ public class PortableSentry extends ActiveItem {
 		
 		final boolean faceRight = weaponVelo.x > 0;
 		
-		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan,  new Vector2(0, -projectileSpeed), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), projSprite);
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), PROJECTILE_SIZE, LIFESPAN,  new Vector2(0, -PROJECTILE_SPEED), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), PROJ_SPRITE);
 		hbox.setPassability((short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL));
 		hbox.setGravity(3.0f);
 		
@@ -76,7 +75,7 @@ public class PortableSentry extends ActiveItem {
 						public void create() {
 							super.create();
 							body.setType(BodyDef.BodyType.DynamicBody);
-							getBodyData().addStatus(new Temporary(state, turretLifespan, getBodyData(), getBodyData(), turretLifespan));
+							getBodyData().addStatus(new Temporary(state, TURRET_LIFESPAN, getBodyData(), getBodyData(), TURRET_LIFESPAN));
 							getBodyData().addStatus(new Summoned(state, getBodyData(), user.getPlayer()));
 
 							if (floor != null) {
@@ -98,7 +97,7 @@ public class PortableSentry extends ActiveItem {
 						public void create() {
 							super.create();
 							body.setType(BodyDef.BodyType.DynamicBody);
-							getBodyData().addStatus(new Temporary(state, turretLifespan, getBodyData(), getBodyData(), turretLifespan));
+							getBodyData().addStatus(new Temporary(state, TURRET_LIFESPAN, getBodyData(), getBodyData(), TURRET_LIFESPAN));
 							getBodyData().addStatus(new Summoned(state, getBodyData(), user.getPlayer()));
 
 							if (floor != null) {
@@ -122,6 +121,6 @@ public class PortableSentry extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge)};
+				String.valueOf((int) MAX_CHARGE)};
 	}
 }

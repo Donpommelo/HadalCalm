@@ -51,8 +51,8 @@ public class InitState extends GameState {
 		HadalGame.FONT_UI_ALT.getData().markupEnabled = true;
 		HadalGame.FONT_SPRITE = new BitmapFont();
 
-		HadalGame.FONT_UI.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-		HadalGame.FONT_SPRITE.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		HadalGame.FONT_UI.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+		HadalGame.FONT_SPRITE.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 		
 		for (AssetList asset : AssetList.values()) {
             if (asset.getType() != null) {

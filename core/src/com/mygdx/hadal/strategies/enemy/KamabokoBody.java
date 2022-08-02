@@ -14,8 +14,8 @@ import com.mygdx.hadal.strategies.EnemyStrategy;
 
 public class KamabokoBody extends EnemyStrategy {
 
-    private static final int smileOffset = 200;
-    private static final float scale = 0.25f;
+    private static final int SMILE_OFFSET = 200;
+    private static final float SCALE = 0.25f;
 
     private final TextureRegion faceSprite;
     private final boolean rotate;
@@ -55,7 +55,7 @@ public class KamabokoBody extends EnemyStrategy {
                 boolean flip = crawler.getMoveDirection() < 0;
                 batch.draw(faceSprite,
                         (flip ? 0 : enemy.getSize().x) + entityLocation.x - enemy.getSize().x / 2,
-                        entityLocation.y - enemy.getHboxSize().y / 2 - smileOffset * scale,
+                        entityLocation.y - enemy.getHboxSize().y / 2 - SMILE_OFFSET * SCALE,
                         enemy.getSize().x / 2,
                         (flip ? 1 : -1) * enemy.getSize().y / 2,
                         (flip ? 1 : -1) * enemy.getSize().x, enemy.getSize().y, 1, 1, 0);

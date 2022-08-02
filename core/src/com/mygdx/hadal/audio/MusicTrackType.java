@@ -14,8 +14,9 @@ public enum MusicTrackType {
     HUB(MusicTrack.LOADED_UP, MusicTrack.FLOATED_UP, MusicTrack.BLOATED_UP),
     MATCH(MusicTrack.AURAL_FIXATION, MusicTrack.THE_BENDS, MusicTrack.CONFIDENCE, MusicTrack.GOLDEN_GLOW,
             MusicTrack.GOLDEN_SCALES, MusicTrack.HADAL_FEAR, MusicTrack.HOOKED_AND_HARPOONED, MusicTrack.HOOKJAW,
-            MusicTrack.ORGAN_GRINDER, MusicTrack.OXYGEN_DEPRIVED, MusicTrack.RED_EYE,
-            MusicTrack.SHARKTOOTH, MusicTrack.SLEEPING_COGS, MusicTrack.SURRENDER, MusicTrack.WAKE_DANCER, MusicTrack.WHIPLASH),
+            MusicTrack.HULL_DAMAGE, MusicTrack.ORGAN_GRINDER, MusicTrack.OXYGEN_DEPRIVED, MusicTrack.RED_EYE,
+            MusicTrack.SAND_FANGS, MusicTrack.SHARKTOOTH, MusicTrack.SLEEPING_COGS, MusicTrack.SURRENDER,
+            MusicTrack.THE_TINNITUS_GOSPEL, MusicTrack.WAKE_DANCER, MusicTrack.WHIPLASH),
     VICTORY(MusicTrack.RED_BUBBLES),
     GAME_OVER(MusicTrack.FISH_FOOD),
 

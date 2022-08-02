@@ -33,7 +33,9 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * @author Zospus Ziwick
  */
 public class HealingArea extends Event {
-	
+
+	private static final float PARTICLE_LIFESPAN = 1.5f;
+
 	private float controllerCount;
 	
 	private final float heal;
@@ -46,10 +48,6 @@ public class HealingArea extends Event {
 	private float currCrossSpawnTimer;
 	private final float spawnTimerLimit;
 
-	//the frequency that the heal is applied
-	private static final float particleLifespan = 1.5f;
-	private static final float healInterval = 1 / 60f;
-	
 	/**
 	 * This constructor is used for when this event is created temporarily.
 	 */
@@ -88,8 +86,8 @@ public class HealingArea extends Event {
 		super.controller(delta);
 
 		controllerCount += delta;
-		while (controllerCount >= healInterval) {
-			controllerCount -= healInterval;
+		while (controllerCount >= Constants.INTERVAL) {
+			controllerCount -= Constants.INTERVAL;
 			
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				if (entity instanceof Schmuck schmuck) {
@@ -107,7 +105,7 @@ public class HealingArea extends Event {
 			currCrossSpawnTimer -= spawnTimerLimit;
 			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
-			new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, particleLifespan, true, SyncType.NOSYNC);
+			new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, PARTICLE_LIFESPAN, true, SyncType.NOSYNC);
 		}
 	}
 	

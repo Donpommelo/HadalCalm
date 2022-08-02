@@ -3,10 +3,13 @@ package com.mygdx.hadal.event.hub;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.HubOptionPlayer;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
+import com.mygdx.hadal.effects.PlayerSpriteHelper;
+import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
@@ -18,6 +21,18 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Painter extends HubEvent {
 
+	private static final int TEXT_WIDTH = 240;
+	private static final int TEXT_OFFSET_Y = 195;
+	private static final int OPTION_WIDTH = 250;
+	private static final int OPTION_HEIGHT = 500;
+
+	private static final float loadInterval = 0.1f;
+	private float loadCount;
+
+	private final Array<AlignmentFilter> loadingCharacters = new Array<>();
+	private final Array<HubOptionPlayer> sprites = new Array<>();
+	private UnlockCharacter lastCharacter;
+
 	public Painter(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.PAINTER);
 	}
@@ -26,20 +41,51 @@ public class Painter extends HubEvent {
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
-		
-		for (AlignmentFilter c : AlignmentFilter.values()) {
 
-			if (c.isTeam()) {
+		if (lastCharacter != state.getPlayer().getPlayerData().getLoadout().character) {
+			for (HubOptionPlayer sprite : sprites) {
+				sprite.getPlayerSpriteHelper().dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
+			}
+			sprites.clear();
 
-				final AlignmentFilter selected = c;
-				Text itemChoose;
-				if (AlignmentFilter.NONE.equals(c)) {
-					itemChoose = new Text(c.toString()).setButton(true);
-				} else {
-					itemChoose = new Text(c.getColoredAdjective()).setButton(true);
+			lastCharacter = state.getPlayer().getPlayerData().getLoadout().character;
+
+			for (AlignmentFilter c : AlignmentFilter.values()) {
+				if (c.isTeam()) {
+					loadingCharacters.add(c);
 				}
+			}
+		} else {
+			for (HubOptionPlayer sprite : sprites) {
+				hub.addActor(sprite, sprite.getWidth(), 1);
+			}
+		}
+	}
 
-				itemChoose.addListener(new ClickListener() {
+	@Override
+	public void controller(float delta) {
+		super.controller(delta);
+		loadCount += delta;
+		if (loadCount >= loadInterval) {
+			loadCount = 0.0f;
+
+			if (!loadingCharacters.isEmpty()) {
+				final UIHub hub = state.getUiHub();
+
+				AlignmentFilter selected = loadingCharacters.removeIndex(0);
+				HubOptionPlayer option;
+				if (AlignmentFilter.NONE.equals(selected)) {
+					option = new HubOptionPlayer(selected.toString(), state.getPlayer(), lastCharacter, selected, null);
+				} else {
+					option = new HubOptionPlayer(selected.getColoredAdjective(), state.getPlayer(),	lastCharacter, selected, null);
+				}
+				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_HEIGHT);
+				option.setWrap(TEXT_WIDTH);
+				option.setYOffset(TEXT_OFFSET_Y);
+
+				sprites.add(option);
+
+				option.addListener(new ClickListener() {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
@@ -54,10 +100,27 @@ public class Painter extends HubEvent {
 						state.getGsm().getLoadout().setTeam(selected.toString());
 					}
 				});
-				itemChoose.setScale(UIHub.optionsScale);
-				hub.getTableOptions().add(itemChoose).height(UIHub.optionHeight).pad(UIHub.optionPad, 0, UIHub.optionPad, 0).row();
+				if (hub.getType().equals(hubTypes.PAINTER)) {
+					hub.addActor(option, option.getWidth(), 1);
+
+					if (loadingCharacters.isEmpty()) {
+						hub.addActorFinish();
+					}
+				}
 			}
 		}
-		hub.getTableOptions().add(new Text("")).height(UIHub.optionsHeight).row();
+	}
+
+	@Override
+	public void clientController(float delta) {
+		super.clientController(delta);
+		controller(delta);
+	}
+
+	@Override
+	public void dispose() {
+		for (HubOptionPlayer sprite : sprites) {
+			sprite.getPlayerSpriteHelper().dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
+		}
 	}
 }

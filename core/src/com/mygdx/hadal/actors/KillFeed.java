@@ -27,37 +27,37 @@ import static com.mygdx.hadal.utils.Constants.*;
  */
 public class KillFeed {
 
+    private static final int TABLE_X = 10;
+    private static final int TABLE_Y = 10;
+
+    private static final int NOTIFICATION_Y = 25;
+
+    private static final int MAX_MESSAGES = 5;
+    private static final int MESSAGE_PAD = 12;
+
+    private static final float KILL_FEED_WIDTH = 325;
+    private static final int KILL_FEED_HEIGHT = 300;
+
+    private static final int MAX_NOTIFICATIONS = 3;
+    private static final int NOTIFICATION_PAD = 12;
+
+    private static final float NOTIFICATION_WIDTH = 500;
+    private static final float NOTIFICATION_HEIGHT = 300;
+
+    private static final int DEATH_INFO_X = -460;
+    private static final int DEATH_INFO_Y = 330;
+    private static final int DEATH_INFO_X_ENABLED = 0;
+    private static final int DEATH_INFO_Y_ENABLED = 330;
+    private static final int DEATH_INFO_WIDTH = 400;
+    private static final int DEATH_INFO_HEIGHT = 240;
+    private static final int DEATH_INFO_PAD = 15;
+
+    private static final float SCALE = 0.25f;
+
     //Reference to the gsm. Used to reference gsm fields.
     private final PlayState ps;
-    private Table deathInfoTable;
     private final VerticalGroup feed, notification;
-
-    private static final int tableX = 10;
-    private static final int tableY = 10;
-
-    private static final int notificationY = 25;
-
-    private static final int maxMessages = 5;
-    private static final int messagePad = 12;
-
-    private static final float killFeedWidth = 325;
-    private static final int killFeedHeight = 300;
-
-    private static final int maxNotifications = 3;
-    private static final int notificationPad = 12;
-
-    private static final float notificationWidth = 500;
-    private static final float notificationHeight = 300;
-
-    private static final int deathInfoX = -460;
-    private static final int deathInfoY = 330;
-    private static final int deathInfoXEnabled = 0;
-    private static final int deathInfoYEnabled = 330;
-    private static final int deathInfoWidth = 400;
-    private static final int deathInfoHeight = 240;
-    private static final int deathInfoPad = 15;
-
-    private static final float scale = 0.25f;
+    private Table deathInfoTable;
 
     //messages displayed in the feed
     private final Array<KillFeedMessage> messages = new Array<>();
@@ -86,7 +86,7 @@ public class KillFeed {
             public void act(float delta) {
 
                 //if there are too many messages, we remove the oldest one.
-                if (messages.size > maxMessages) {
+                if (messages.size > MAX_MESSAGES) {
                     feed.removeActor(messages.get(0));
                     messages.removeIndex(0);
                 }
@@ -113,7 +113,7 @@ public class KillFeed {
             public void act(float delta) {
 
                 //if there are too many messages, we remove the oldest one.
-                if (notifications.size > maxNotifications) {
+                if (notifications.size > MAX_NOTIFICATIONS) {
                     notification.removeActor(notifications.get(0));
                     notifications.removeIndex(0);
                 }
@@ -183,7 +183,7 @@ public class KillFeed {
      */
     public void sendNotification(String text, Player player) {
         if (!ps.getPlayer().equals(player)) {
-            HadalGame.server.sendToTCP(player.getConnId(), new Packets.SyncNotification(text));
+            HadalGame.server.sendToTCP(player.getConnID(), new Packets.SyncNotification(text));
         } else {
             addNotification(text, false);
         }
@@ -195,19 +195,21 @@ public class KillFeed {
     public void addTable() {
         ps.getStage().addActor(feed);
 
-        feed.space(messagePad);
+        feed.space(MESSAGE_PAD);
         feed.top();
-        feed.setWidth(killFeedWidth);
-        feed.setHeight(killFeedHeight);
-        feed.setPosition(HadalGame.CONFIG_WIDTH - tableX - killFeedWidth, HadalGame.CONFIG_HEIGHT - tableY - killFeedHeight);
+        feed.setWidth(KILL_FEED_WIDTH);
+        feed.setHeight(KILL_FEED_HEIGHT);
+        feed.setPosition(HadalGame.CONFIG_WIDTH - TABLE_X - KILL_FEED_WIDTH,
+                HadalGame.CONFIG_HEIGHT - TABLE_Y - KILL_FEED_HEIGHT);
 
         ps.getStage().addActor(notification);
 
-        notification.space(notificationPad);
+        notification.space(NOTIFICATION_PAD);
         notification.top();
-        notification.setWidth(notificationWidth);
-        notification.setHeight(notificationHeight);
-        notification.setPosition(HadalGame.CONFIG_WIDTH / 2 - notificationWidth / 2, HadalGame.CONFIG_HEIGHT - notificationY - notificationHeight);
+        notification.setWidth(NOTIFICATION_WIDTH);
+        notification.setHeight(NOTIFICATION_HEIGHT);
+        notification.setPosition(HadalGame.CONFIG_WIDTH / 2 - NOTIFICATION_WIDTH / 2,
+                HadalGame.CONFIG_HEIGHT - NOTIFICATION_Y - NOTIFICATION_HEIGHT);
 
         deathInfoTable = new WindowTable() {
 
@@ -222,18 +224,18 @@ public class KillFeed {
                     formatDeathTimer();
 
                     if (respawnTime <= 0.0f) {
-                        deathInfoTable.addAction(Actions.moveTo(deathInfoX, deathInfoY, TRANSITION_DURATION, INTP_FASTSLOW));
+                        deathInfoTable.addAction(Actions.moveTo(DEATH_INFO_X, DEATH_INFO_Y, TRANSITION_DURATION, INTP_FASTSLOW));
                         deathInfoTable.setVisible(false);
                     }
                 }
             }
         };
-        deathInfoTable.setPosition(deathInfoX, deathInfoY);
-        deathInfoTable.setSize(deathInfoWidth, deathInfoHeight);
+        deathInfoTable.setPosition(DEATH_INFO_X, DEATH_INFO_Y);
+        deathInfoTable.setSize(DEATH_INFO_WIDTH, DEATH_INFO_HEIGHT);
         ps.getStage().addActor(deathInfoTable);
 
         deathInfo = new Text("");
-        deathInfo.setScale(scale);
+        deathInfo.setScale(SCALE);
     }
 
     /**
@@ -265,39 +267,39 @@ public class KillFeed {
         } else {
             deathInfoTitle.setText(UIText.RESPAWN_IN.text());
         }
-        deathInfoTitle.setScale(scale);
+        deathInfoTitle.setScale(SCALE);
 
         deathInfoTable.add(deathInfoTitle);
-        deathInfoTable.add(deathInfo).pad(deathInfoPad).row();
+        deathInfoTable.add(deathInfo).pad(DEATH_INFO_PAD).row();
 
         if (!killedBy.isEmpty()) {
             Text deathPerpTitle = new Text(UIText.KILLED_BY.text());
-            deathPerpTitle.setScale(scale);
+            deathPerpTitle.setScale(SCALE);
 
             Text deathPerp = new Text(killedBy);
-            deathPerp.setScale(scale);
+            deathPerp.setScale(SCALE);
 
             deathInfoTable.add(deathPerpTitle);
-            deathInfoTable.add(deathPerp).pad(deathInfoPad).row();
+            deathInfoTable.add(deathPerp).pad(DEATH_INFO_PAD).row();
         }
 
         if (!deathCause.isEmpty()) {
             Text deathSourceTitle = new Text(UIText.DEATH_CAUSE.text());
-            deathSourceTitle.setScale(scale);
+            deathSourceTitle.setScale(SCALE);
 
             Text deathSource = new Text(deathCause);
-            deathSource.setScale(scale);
+            deathSource.setScale(SCALE);
 
             deathInfoTable.add(deathSourceTitle);
-            deathInfoTable.add(deathSource).pad(deathInfoPad).row();
+            deathInfoTable.add(deathSource).pad(DEATH_INFO_PAD).row();
         }
 
         deathInfoTable.setVisible(true);
 
         deathInfoTable.addAction(Actions.sequence(
-                Actions.moveTo(deathInfoX, deathInfoY, TRANSITION_DURATION, INTP_FASTSLOW),
+                Actions.moveTo(DEATH_INFO_X, DEATH_INFO_Y, TRANSITION_DURATION, INTP_FASTSLOW),
                 Actions.run(this::formatDeathTimer),
-                Actions.moveTo(deathInfoXEnabled, deathInfoYEnabled, TRANSITION_DURATION, INTP_FASTSLOW)));
+                Actions.moveTo(DEATH_INFO_X_ENABLED, DEATH_INFO_Y_ENABLED, TRANSITION_DURATION, INTP_FASTSLOW)));
     }
 
     /**
@@ -313,15 +315,20 @@ public class KillFeed {
         deathInfo.setText(df.format(respawnTime) + " S");
     }
 
-    private static final float spectatorDurationThreshold = 2.0f;
+    //this is the number of seconds before the player can enter spectator mode (to avoid accidentally transitions)
+    private static final float SPECTATOR_DURATION_THRESHOLD = 2.0f;
     /**
      * This keeps track of whether the game is currently in either spectator mode, or respawning (with some delay after death)
      * This is used to determine if spectator camera features should be active (camera controls, screen shake)
      */
     public boolean isRespawnSpectator() {
-        return (respawnTime < totalRespawnTime - spectatorDurationThreshold || awaitingRevive) && deathInfoTable.isVisible();
+        return (respawnTime < totalRespawnTime - SPECTATOR_DURATION_THRESHOLD || awaitingRevive) && deathInfoTable.isVisible();
     }
 
+    /**
+     * This is called when the player dies. It adds information to the kill screen to inform them of the perp and
+     * cause of death
+     */
     public void setKillSource(Player perp, EnemyType type, DamageSource source) {
         killedBy = "";
         if (perp != null) {
@@ -334,7 +341,6 @@ public class KillFeed {
         if (type != null) {
             killedBy = type.getName();
         }
-
         this.deathCause = source.getKillSource();
     }
 }

@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -18,8 +18,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
 
-import static com.mygdx.hadal.states.PlayState.defaultFadeOutSpeed;
-import static com.mygdx.hadal.states.PlayState.longFadeDelay;
+import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
+import static com.mygdx.hadal.states.PlayState.LONG_FADE_DELAY;
 
 /**
  * This mode setting is used for modes where the host can designate the team mode.
@@ -57,22 +57,22 @@ public class SettingTeamMode extends ModeSetting {
         if (teamModeChoice) {
             String[] teamChoices = UIText.SETTING_TEAM_MODE_OPTIONS.text().split(",");
             Text team = new Text(UIText.SETTING_TEAM_MODE.text());
-            team.setScale(ModeSettingSelection.detailsScale);
+            team.setScale(UIHub.DETAILS_SCALE);
             TooltipManager.addTooltip(team, UIText.SETTING_TEAM_MODE_DESC.text());
 
             teamsOptions = new SelectBox<>(GameStateManager.getSkin());
             teamsOptions.setItems(teamChoices);
-            teamsOptions.setWidth(ModeSettingSelection.optionsWidth);
+            teamsOptions.setWidth(UIHub.OPTIONS_WIDTH);
             teamsOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValue1));
 
             String[] teamNumChoices = UIText.SETTING_TEAM_NUM_OPTIONS.text().split(",");
             Text teamNum = new Text(UIText.SETTING_TEAM_NUM.text());
-            teamNum.setScale(ModeSettingSelection.detailsScale);
+            teamNum.setScale(UIHub.DETAILS_SCALE);
             TooltipManager.addTooltip(teamNum, UIText.SETTING_TEAM_NUM_DESC.text());
 
             teamsNumOptions = new SelectBox<>(GameStateManager.getSkin());
             teamsNumOptions.setItems(teamNumChoices);
-            teamsNumOptions.setWidth(ModeSettingSelection.optionsWidth);
+            teamsNumOptions.setWidth(UIHub.OPTIONS_WIDTH);
             teamsNumOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag2, defaultValue2));
 
             //team number option is disabled outside of auto-assigned teams
@@ -86,9 +86,9 @@ public class SettingTeamMode extends ModeSetting {
             });
 
             table.add(team);
-            table.add(teamsOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
+            table.add(teamsOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
             table.add(teamNum);
-            table.add(teamsNumOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
+            table.add(teamsNumOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
         }
     }
 
@@ -223,16 +223,16 @@ public class SettingTeamMode extends ModeSetting {
                     }
                 }
             }
-            state.transitionToResultsState(resultsText, PlayState.longFadeDelay);
+            state.transitionToResultsState(resultsText, PlayState.LONG_FADE_DELAY);
         } else {
 
             //the player that dies respawns if there are still others left and becomes a spectator otherwise
             User dedUser = p.getUser();
             if (dedUser != null) {
                 if (dedUser.getScores().getLives() > 0) {
-                    dedUser.beginTransition(state, PlayState.TransitionState.RESPAWN, false, defaultFadeOutSpeed, state.getRespawnTime());
+                    dedUser.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, state.getRespawnTime());
                 } else {
-                    dedUser.beginTransition(state, PlayState.TransitionState.SPECTATOR, false, defaultFadeOutSpeed, longFadeDelay);
+                    dedUser.beginTransition(state, PlayState.TransitionState.SPECTATOR, false, DEFAULT_FADE_OUT_SPEED, LONG_FADE_DELAY);
                 }
             }
         }

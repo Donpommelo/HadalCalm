@@ -27,12 +27,12 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * @author Thoggwrangler Tossarian
  */
 public class Spring extends Event {
-	
-	private final Vector2 vec = new Vector2();
 
 	//this is the frequency that the spring sound can play
-	private static final float procCd = 0.25f;
-	private float procCdCount = procCd;
+	private static final float PROC_CD = 0.25f;
+
+	private final Vector2 vec = new Vector2();
+	private float procCdCount = PROC_CD;
 
 	public Spring(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec) {
 		super(state, startPos, size);
@@ -55,7 +55,7 @@ public class Spring extends Event {
 				if (fixB != null) {
 					fixB.getEntity().pushMomentumMitigation(vec.x, vec.y);
 					
-					if (procCdCount >= procCd) {
+					if (procCdCount >= PROC_CD) {
 						procCdCount = 0;
 
 						SoundEffect.SPRING.playUniversal(state, getPixelPosition(), 0.25f, false);
@@ -76,7 +76,7 @@ public class Spring extends Event {
 	public void controller(float delta) {
 		super.controller(delta);
 		
-		if (procCdCount < procCd) {
+		if (procCdCount < PROC_CD) {
 			procCdCount += delta;
 		}
 	}

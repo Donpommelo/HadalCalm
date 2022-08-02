@@ -75,7 +75,7 @@ public class EventData extends HadalData {
 				if (p.equals(event.getState().getPlayer())) {
 					onActivate(activator, p);
 				} else if (event.getState().isServer()) {
-					HadalGame.server.sendToTCP(p.getConnId(), new Packets.ActivateEvent(event.getEntityID(), p.getConnId()));
+					HadalGame.server.sendToTCP(p.getConnID(), new Packets.ActivateEvent(event.getEntityID(), p.getConnID()));
 				}
 			}
 			break;
@@ -84,7 +84,7 @@ public class EventData extends HadalData {
 			if (p == null) {
 				HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), -1));
 			} else {
-				HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), p.getConnId()));
+				HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), p.getConnID()));
 			}
 			break;
 		case ILLUSION:

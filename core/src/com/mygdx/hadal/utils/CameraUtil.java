@@ -56,17 +56,17 @@ public class CameraUtil {
     }
 
     //The max amount of screenshake displacement and rotation (in radians)
-    private static final Vector2 maxOffset = new Vector2(140, 105);
-    private static final float maxRotation = 2.5f;
+    private static final Vector2 MAX_OFFSET = new Vector2(140, 105);
+    private static final float MAX_ROTATION = 2.5f;
 
     //This represents the rate that the screenshake decreases
-    private static final float decay = 0.9f;
+    private static final float DECAY = 0.9f;
 
     //"trauma" is the current shake amount. It is increased by things like receiving damage and decreases over time
     private static float trauma, currentAngle;
 
     //This is a random seed used to generate noise
-    private static final float noiseSneed = MathUtils.random();
+    private static final float NOISE_SNEED = MathUtils.random();
     private static float noise_y;
     /**
      * This process screen shake and is run when we update the game camera
@@ -77,14 +77,14 @@ public class CameraUtil {
     public static void shake(OrthographicCamera camera, Vector2 tempCamera, float delta) {
 
         //decrement trauma according to time and use it to calculate the amount of shaking
-        trauma = Math.max(0.0f, trauma - delta * decay);
+        trauma = Math.max(0.0f, trauma - delta * DECAY);
         float amount = trauma * trauma;
 
         //increment noise and use it to find the camera's random displacement and rotation
         noise_y++;
-        float rotation = maxRotation * amount * NoiseUtil.generateNoise(noiseSneed, noise_y) - currentAngle;
-        tempCamera.x += maxOffset.x * amount * NoiseUtil.generateNoise(noiseSneed * 2, noise_y);
-        tempCamera.y += maxOffset.y * amount * NoiseUtil.generateNoise(noiseSneed * 3, noise_y);
+        float rotation = MAX_ROTATION * amount * NoiseUtil.generateNoise(NOISE_SNEED, noise_y) - currentAngle;
+        tempCamera.x += MAX_OFFSET.x * amount * NoiseUtil.generateNoise(NOISE_SNEED * 2, noise_y);
+        tempCamera.y += MAX_OFFSET.y * amount * NoiseUtil.generateNoise(NOISE_SNEED * 3, noise_y);
 
         //currentAngle is used to keep track of the camera's angle, since rotate() rotates it a set amount
         //we subtract currentAngle when calculating rotation to rotate to an angle, not by an angle
@@ -95,9 +95,9 @@ public class CameraUtil {
         traumaCount = Math.max(0.0f, traumaCount - delta);
     }
 
-    private static final float traumaMultiplier = 0.045f;
-    private static final float traumaCooldown = 0.5f;
-    private static final float minTrauma = 0.75f;
+    private static final float TRAUMA_MULTIPLIER = 0.045f;
+    private static final float TRAUMA_COOLDOWN = 0.5f;
+    private static final float MIN_TRAUMA = 0.75f;
     private static float traumaCount;
     /**
      * This adds some additive screen-shake
@@ -107,13 +107,13 @@ public class CameraUtil {
     public static void inflictTrauma(GameStateManager gsm, float amount) {
         if (!gsm.getSetting().isScreenShake()) { return; }
 
-        float adjustedAmount = amount * traumaMultiplier;
+        float adjustedAmount = amount * TRAUMA_MULTIPLIER;
 
         //small instances of trauma are set to a constant value but have a cooldown
-        if (adjustedAmount < minTrauma) {
+        if (adjustedAmount < MIN_TRAUMA) {
             if (traumaCount <= 0.0f) {
-                traumaCount = traumaCooldown;
-                trauma = Math.min(1.0f, minTrauma);
+                traumaCount = TRAUMA_COOLDOWN;
+                trauma = Math.min(1.0f, MIN_TRAUMA);
             }
         } else {
             trauma = Math.min(1.0f, adjustedAmount + trauma);

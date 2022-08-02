@@ -17,7 +17,7 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 public class CarryingFlag extends Status {
 
 	//this is the amount of fuel regen when carrying the flag.
-	private static final float fuelRegen = 8.0f;
+	private static final float FUEL_REGEN = 8.0f;
 
 	public CarryingFlag(PlayState state, BodyData i) {
 		super(state, i);
@@ -25,7 +25,7 @@ public class CarryingFlag extends Status {
 
 	@Override
 	public void statChanges() {
-		inflicted.setStat(Stats.FUEL_REGEN, fuelRegen);
+		inflicted.setStat(Stats.FUEL_REGEN, FUEL_REGEN);
 	}
 
 	@Override

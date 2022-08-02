@@ -7,10 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
@@ -34,9 +31,43 @@ import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION_SLOW;
  */
 public class UIHub {
 
+	private static final int INFO_WIDTH = 400;
+	private static final int INFO_HEIGHT = 350;
+	public static final int INFO_PAD = 20;
+
+	private static final float TABLE_X = HadalGame.CONFIG_WIDTH;
+	private static final float TABLE_Y = 0.0f;
+
+	public static final int TITLE_HEIGHT = 90;
+	public static final int TITLE_PAD = 25;
+
+	private static final int OPTIONS_WIDTH_OUTER = 1280;
+	private static final int OPTIONS_HEIGHT_OUTER = 720;
+	public static final int OPTION_HEIGHT = 35;
+	public static final int OPTION_HEIGHT_LARGE = 45;
+	public static final int OPTION_PAD = 3;
+	private static final int SCROLL_WIDTH = 880;
+	private static final int SCROLL_HEIGHT = 620;
+	private static final int SCROLL_HEIGHT_WITH_TAB = 560;
+	private static final int TAB_HEIGHT = 60;
+	private static final int VERTICAL_GROUP_PAD = 8;
+	public static final float OPTIONS_SCALE = 0.3f;
+	public static final float OPTIONS_SCALE_SMALL = 0.25f;
+
+	public static final float ARTIFACT_TAG_SIZE = 50.0f;
+	private static final float ARTIFACT_TAG_OFFSET_X = 10.0f;
+	private static final float ARTIFACT_TAG_OFFSET_Y = 60.0f;
+	private static final float ARTIFACT_TAG_TARGET_WIDTH = 120.0f;
+
+	public static final float DETAIL_HEIGHT = 35.0f;
+	public static final float DETAIL_HEIGHT_SMALL = 20.0f;
+	public static final float DETAIL_PAD = 7.5f;
+	public static final float DETAILS_SCALE = 0.25f;
+	public static final int OPTIONS_WIDTH = 410;
+
 	private final PlayState state;
 	
-	private final Table tableSearch, tableOptions, tableOuter, tableInfo, tableExtra;
+	private final Table tableOuter, tableTop, tableSearch, tableLeft, tableRight, tableTabs, tableOptions, tableExtra;
 	private ScrollPane options;
 	private TextField searchName;
 	private SelectBox<String> tagFilter, slotsFilter;
@@ -44,34 +75,7 @@ public class UIHub {
 	//These fields pertain to the extra info window that pops up when mousing over stuff.
 	private Text titleInfo;
 	private String info, title = "";
-	private static final int infoWidth = 400;
-	private static final int infoHeight = 350;
-	public static final int infoPad = 20;
 
-	private static final float tableX = HadalGame.CONFIG_WIDTH;
-	private static final float tableY = 50.0f;
-	
-	public static final int titleHeight = 60;
-	public static final int titlePad = 25;
-	
-	private static final int optionsWidthOuter = 720;
-	private static final int optionsHeightOuter = 600;
-	private static final int optionsHeightInner = 520;
-	private static final int optionsWidth = 320;
-	public static final int optionsHeight = 40;
-	public static final int optionHeight = 35;
-	public static final int optionHeightLarge = 45;
-	public static final int optionPad = 3;
-	private static final int scrollWidth = 330;
-
-	public static final float optionsScale = 0.3f;
-	public static final float optionsScaleSmall = 0.25f;
-	
-	public static final float artifactTagSize = 50.0f;
-	private static final float artifactTagOffsetX = 10.0f;
-	private static final float artifactTagOffsetY = 60.0f;
-	private static final float artifactTagTargetWidth = 120.0f;
-			
 	private hubTypes type = hubTypes.NONE;
 	
 	//is this window currently visible?
@@ -81,11 +85,17 @@ public class UIHub {
 		this.state = state;
 		this.active = false;
 
+		this.tableOuter = new WindowTable();
+
+		this.tableTop = new Table();
+
+		this.tableLeft = new Table();
 		this.tableSearch = new Table();
-		this.tableOptions = new Table();
-		this.tableOuter = new Table();
-		this.tableInfo = new Table();
 		this.tableExtra = new Table();
+
+		this.tableRight = new WindowTable();
+		this.tableTabs = new Table();
+		this.tableOptions = new Table();
 
 		tableOuter.setTouchable(Touchable.enabled);
 		addTable();
@@ -100,27 +110,26 @@ public class UIHub {
 		
 		titleInfo = new Text(title);
 		titleInfo.setScale(0.8f);
-		
-		tableOuter.add(titleInfo).pad(titlePad).height(titleHeight).colspan(2);
-		tableOuter.row();
-		
+		tableOuter.add(tableTop).height(TITLE_HEIGHT).colspan(2).growX().row();
+		tableOuter.add(tableLeft).width(INFO_WIDTH).growY().bottom();
+		tableOuter.add(tableRight).width(SCROLL_WIDTH).growY().bottom();
+
+		tableTop.add(titleInfo).pad(TITLE_PAD).growX();
+
 		Text extraInfo = new Text("") {
-			
+
 			@Override
 		    public void draw(Batch batch, float alpha) {
 				super.draw(batch, alpha);
 				font.getData().setScale(0.3f);
-				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), optionsWidthOuter, optionsHeightOuter);
-				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), infoWidth, infoHeight);
-			    font.draw(batch, info, getX() + 5, getY() + infoHeight - 25, infoWidth - 10, -1, true);
+				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), INFO_WIDTH, INFO_HEIGHT);
+				font.draw(batch, info, getX() + 5, getY() + INFO_HEIGHT - 25, INFO_WIDTH - 10, -1, true);
 		    }
 		};
-		
-		tableInfo.add(tableExtra).row();
-		tableInfo.add(extraInfo).width(infoWidth).height(infoHeight);
-		
-		tableOuter.add(tableInfo).bottom();
-		tableOuter.add(tableSearch).width(optionsWidth).height(optionsHeightInner);
+
+		tableLeft.add(tableSearch).top().row();
+		tableLeft.add(tableExtra).growY().row();
+		tableLeft.add(extraInfo).bottom().width(INFO_WIDTH).height(INFO_HEIGHT).row();
 
 		extraInfo.toBack();
 		titleInfo.toFront();
@@ -140,7 +149,7 @@ public class UIHub {
 	/**
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */
-	public void enter(boolean searchable, boolean filterTags, boolean filterCost, HubEvent hub, String... tagOptions) {
+	public void enter(HubEvent hub) {
 		SoundEffect.DOORBELL.play(state.getGsm(), 0.2f, false);
 
 		active = true;
@@ -148,11 +157,12 @@ public class UIHub {
 		tableOptions.clear();
 		tableSearch.clear();
 		tableExtra.clear();
+		tableRight.clear();
 
 		//for hubs with search bar, let players type in text
-		if (searchable) {
+		if (hub.isSearchable()) {
 			Text search = new Text(UIText.SEARCH.text());
-			search.setScale(optionsScale);
+			search.setScale(OPTIONS_SCALE);
 
 			searchName = new TextField("", GameStateManager.getSkin()) {
 
@@ -178,19 +188,19 @@ public class UIHub {
 			searchName.setMessageText(UIText.SEARCH_OPTIONS.text());
 			searchName.setText(hub.getLastSearch());
 			tableSearch.add(search);
-			tableSearch.add(searchName).padBottom(optionPad).row();
+			tableSearch.add(searchName).padBottom(OPTION_PAD).row();
 		}
 
 		//if the player can add extra tags to search artifacts, add dropdown for this
-		if (filterTags) {
+		if (hub.isTaggable()) {
 			Text searchTags = new Text(UIText.FILTER_TAGS.text());
-			searchTags.setScale(optionsScale);
+			searchTags.setScale(OPTIONS_SCALE);
 
 			tagFilter = new SelectBox<>(GameStateManager.getSkin());
-			tagFilter.setItems(tagOptions);
+			tagFilter.setItems(hub.getSearchTags());
 
 			if (hub.getLastTag() != null) {
-				for (String tagName : tagOptions) {
+				for (String tagName : hub.getSearchTags()) {
 					if (tagName.equals(hub.getLastTag().name())) {
 						tagFilter.setSelected(tagName);
 					}
@@ -207,11 +217,11 @@ public class UIHub {
 			});
 
 			tableSearch.add(searchTags);
-			tableSearch.add(tagFilter).padBottom(optionPad).row();
+			tableSearch.add(tagFilter).padBottom(OPTION_PAD).row();
 		}
-		if (filterCost) {
+		if (hub.isCostable()) {
 			Text searchCost = new Text(UIText.FILTER_COST.text());
-			searchCost.setScale(optionsScale);
+			searchCost.setScale(OPTIONS_SCALE);
 
 			slotsFilter = new SelectBox<>(GameStateManager.getSkin());
 			slotsFilter.setItems(UIText.FILTER_COST_OPTIONS.text().split(","));
@@ -227,11 +237,12 @@ public class UIHub {
 			});
 
 			tableSearch.add(searchCost);
-			tableSearch.add(slotsFilter).padBottom(optionPad).row();
+			tableSearch.add(slotsFilter).padBottom(OPTION_PAD).row();
 		}
 
 		this.options = new ScrollPane(tableOptions, GameStateManager.getSkin());
 		options.setFadeScrollBars(false);
+		options.setScrollingDisabled(false, true);
 
 		options.addListener(new InputListener() {
 
@@ -241,23 +252,48 @@ public class UIHub {
 			}
 		});
 
-		if (searchable) {
-			tableSearch.add(options).colspan(2).expandY().width(scrollWidth);
+		if (hub.isTabbable()) {
+			tableRight.add(tableTabs).height(TAB_HEIGHT).width(SCROLL_WIDTH).row();
+			tableRight.add(options).height(SCROLL_HEIGHT_WITH_TAB).width(SCROLL_WIDTH);
 		} else {
-			tableSearch.add(options).expandY().width(scrollWidth);
+			tableRight.add(options).height(SCROLL_HEIGHT).width(SCROLL_WIDTH);
 		}
 
-		tableOuter.setPosition(tableX, tableY);
-		tableOuter.setSize(optionsWidthOuter, optionsHeightOuter);
+		tableOuter.setPosition(TABLE_X, TABLE_Y);
+		tableOuter.setSize(OPTIONS_WIDTH_OUTER, OPTIONS_HEIGHT_OUTER);
 
 		state.getStage().setScrollFocus(options);
 		state.getStage().addActor(tableOuter);
 
-		tableOuter.addAction(Actions.moveTo(tableX - optionsWidthOuter, tableY, .5f, Interpolation.pow5Out));
+		tableOuter.addAction(Actions.moveTo(TABLE_X - OPTIONS_WIDTH_OUTER, TABLE_Y, .5f, Interpolation.pow5Out));
 		
 		info = "";
 	}
-	
+
+	private int currentRow;
+	private VerticalGroup currentVerticalGroup = new VerticalGroup();
+	public void addActor(Actor actor, float width, int rowNum) {
+		currentVerticalGroup.addActor(actor);
+		currentVerticalGroup.top();
+		currentVerticalGroup.setWidth(width);
+		currentVerticalGroup.setHeight(SCROLL_HEIGHT);
+		currentVerticalGroup.space(OPTION_PAD);
+
+		currentRow++;
+		if (currentRow >= rowNum) {
+			currentRow = 0;
+
+			tableOptions.add(currentVerticalGroup).pad(VERTICAL_GROUP_PAD).growY();
+			currentVerticalGroup = new VerticalGroup();
+		}
+	}
+
+	public void addActorFinish() {
+		tableOptions.add(currentVerticalGroup).pad(VERTICAL_GROUP_PAD).growY();
+		currentVerticalGroup = new VerticalGroup();
+		currentRow = 0;
+	}
+
 	/**
 	 * Player exits the event. Makes the ui slide out
 	 */
@@ -266,9 +302,7 @@ public class UIHub {
 
 		active = false;
 
-		ModeSettingSelection.leave(state);
-
-		tableOuter.addAction(Actions.sequence(Actions.moveTo(tableX, tableY, TRANSITION_DURATION_SLOW, Interpolation.pow5Out),
+		tableOuter.addAction(Actions.sequence(Actions.moveTo(TABLE_X, TABLE_Y, TRANSITION_DURATION_SLOW, Interpolation.pow5Out),
 			Actions.run(() -> {
 				if (state.getStage() != null) {
 					if (state.getStage().getScrollFocus() == options) {
@@ -301,7 +335,7 @@ public class UIHub {
 		
 		Text slotsTitle = new Text(UIText.CURRENT_ARTIFACTS.text());
 		slotsTitle.setScale(0.5f);
-		tableExtra.add(slotsTitle).colspan(12).pad(infoPad).row();
+		tableExtra.add(slotsTitle).colspan(12).pad(INFO_PAD).row();
 		
 		boolean artifactsEmpty = true;
 
@@ -312,7 +346,7 @@ public class UIHub {
 				if (!UnlockArtifact.NOTHING.equals(c)) {
 					artifactsEmpty = false;
 					final ArtifactIcon newTag = new ArtifactIcon(c, UIText.UNEQUIP.text(c.getName()),
-						artifactTagOffsetX, artifactTagOffsetY, artifactTagTargetWidth);
+							ARTIFACT_TAG_OFFSET_X, ARTIFACT_TAG_OFFSET_Y, ARTIFACT_TAG_TARGET_WIDTH);
 
 					newTag.addListener(new ClickListener() {
 
@@ -334,14 +368,14 @@ public class UIHub {
 									newTag.getArtifact().getDesc(), newTag.getArtifact().getDescLong());
 						}
 					});
-					tableExtra.add(newTag).width(artifactTagSize).height(artifactTagSize);
+					tableExtra.add(newTag).width(ARTIFACT_TAG_SIZE).height(ARTIFACT_TAG_SIZE);
 				}
 			}
 
 			if (artifactsEmpty) {
 				Text slotsEmpty = new Text(UIText.NA.text());
 				slotsEmpty.setScale(0.5f);
-				tableExtra.add(slotsEmpty).height(artifactTagSize).colspan(12);
+				tableExtra.add(slotsEmpty).height(ARTIFACT_TAG_SIZE).colspan(12);
 			}
 
 			tableExtra.row();
@@ -349,7 +383,7 @@ public class UIHub {
 			Text slotsInfo = new Text(UIText.SLOTS_REMAINING.text(
 					Integer.toString(state.getPlayer().getPlayerData().getArtifactSlotsRemaining())));
 			slotsInfo.setScale(0.5f);
-			tableExtra.add(slotsInfo).pad(infoPad).colspan(12).row();
+			tableExtra.add(slotsInfo).pad(INFO_PAD).colspan(12).row();
 		}
 	}
 
@@ -360,7 +394,7 @@ public class UIHub {
 		outfitName.setMessageText(UIText.OUTFIT_NAME.text());
 
 		Text outfitSave = new Text(UIText.OUTFIT_SAVE.text()).setButton(true);
-		outfitSave.setScale(optionsScale);
+		outfitSave.setScale(OPTIONS_SCALE);
 
 		outfitSave.addListener(new ClickListener() {
 
@@ -383,7 +417,7 @@ public class UIHub {
 		outfits.setItems(outfitOptions);
 
 		Text outfitDelete = new Text(UIText.OUTFIT_DELETE.text()).setButton(true);
-		outfitDelete.setScale(optionsScale);
+		outfitDelete.setScale(OPTIONS_SCALE);
 
 		outfitDelete.addListener(new ClickListener() {
 
@@ -397,10 +431,10 @@ public class UIHub {
 			}
 		});
 
-		tableExtra.add(outfitName).pad(infoPad).height(optionHeightLarge);
-		tableExtra.add(outfitSave).pad(infoPad).height(optionHeightLarge).row();
-		tableExtra.add(outfits).pad(infoPad).height(optionHeightLarge);
-		tableExtra.add(outfitDelete).pad(infoPad).height(optionHeightLarge).row();
+		tableExtra.add(outfitName).pad(INFO_PAD).height(OPTION_HEIGHT_LARGE);
+		tableExtra.add(outfitSave).pad(INFO_PAD).height(OPTION_HEIGHT_LARGE).row();
+		tableExtra.add(outfits).pad(INFO_PAD).height(OPTION_HEIGHT_LARGE);
+		tableExtra.add(outfitDelete).pad(INFO_PAD).height(OPTION_HEIGHT_LARGE).row();
 	}
 
 	/**
@@ -454,10 +488,14 @@ public class UIHub {
 	public boolean isActive() { return active; }
 	
 	public void setInfo(String info) { this.info = info; }
-	
+
+	public hubTypes getType() { return type; }
+
 	public void setType(hubTypes type) { this.type = type; }
 
 	public Table getTableOptions() { return tableOptions; }
+
+	public Table getTableTabs() { return tableTabs; }
 
 	public ScrollPane getOptions() { return options; }
 

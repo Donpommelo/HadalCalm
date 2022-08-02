@@ -30,7 +30,7 @@ public class Backdrop extends AHadalActor {
 	
 	public Backdrop(String backdropName) {
 		this.backgroundTexture = new TextureRegion((Texture) HadalGame.assetManager.get(backdropName));
-		this.backgroundTexture.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		this.backgroundTexture.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 	}
 
 	/**

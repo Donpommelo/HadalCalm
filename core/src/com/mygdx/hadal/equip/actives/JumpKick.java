@@ -26,20 +26,20 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class JumpKick extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 8.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 8.0f;
 	
-	private static final float recoil = 150.0f;
+	private static final float RECOIL = 150.0f;
 
-	private static final float baseDamage = 20.0f;
-	private static final Vector2 hitboxSize = new Vector2(90, 120);
-	private static final float lifespan = 0.5f;
-	private static final float particleLifespan = 0.6f;
-	private static final float knockback = 90.0f;
+	private static final float BASE_DAMAGE = 20.0f;
+	private static final Vector2 HITBOX_SIZE = new Vector2(90, 120);
+	private static final float LIFESPAN = 0.5f;
+	private static final float PARTICLE_LIFESPAN = 0.6f;
+	private static final float KNOCKBACK = 90.0f;
 
 	public JumpKick(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
@@ -51,7 +51,6 @@ public class JumpKick extends ActiveItem {
 		SoundEffect.WOOSH.playSourced(state, startPosition, 1.0f);
 
 		boolean right = startVelocity.x > 0;
-
 		Particle particle = Particle.MOREAU_LEFT;
 		if (right) {
 			particle = Particle.MOREAU_RIGHT;
@@ -60,7 +59,7 @@ public class JumpKick extends ActiveItem {
 		if (user instanceof Player player) {
 			ParticleEntity particles = new ParticleEntity(user.getState(), user, particle, 1.5f, 1.0f,
 					true, SyncType.NOSYNC)
-					.setScale(0.5f).setPrematureOff(particleLifespan)
+					.setScale(0.5f).setPrematureOff(PARTICLE_LIFESPAN)
 					.setColor(WeaponUtils.getPlayerColor(player));
 			if (!state.isServer()) {
 				((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
@@ -69,16 +68,16 @@ public class JumpKick extends ActiveItem {
 
 		user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 7.5f, user.getBodyData(), user.getBodyData())
 				.setClientIndependent(true));
-		Vector2 push = new Vector2(startVelocity).nor().scl(recoil);
+		Vector2 push = new Vector2(startVelocity).nor().scl(RECOIL);
 		user.pushMomentumMitigation(push.x, push.y);
 
-		Hitbox hbox = new Hitbox(state, startPosition, hitboxSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, LIFESPAN, startVelocity, user.getHitboxfilter(),
 				true, true, user, Sprite.NOTHING);
 		hbox.makeUnreflectable();
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageSource.JUMP_KICK,
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.JUMP_KICK,
 				DamageTag.MELEE).setStaticKnockback(true));
 		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), new Vector2()));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.KICK1, 1.0f, true).setSynced(false));
@@ -93,7 +92,7 @@ public class JumpKick extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) baseDamage)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) BASE_DAMAGE)};
 	}
 }

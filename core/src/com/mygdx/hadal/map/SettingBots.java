@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.ModeSettingSelection;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.bots.BotPersonality;
 import com.mygdx.hadal.bots.RallyPoint;
@@ -48,11 +48,11 @@ public class SettingBots extends ModeSetting {
         if (botsChoice) {
             String[] botNumberChoices = UIText.SETTING_BOT_NUMBER_OPTIONS.text().split(",");
             Text bots = new Text(UIText.SETTING_BOT_NUMBER.text());
-            bots.setScale(ModeSettingSelection.detailsScale);
+            bots.setScale(UIHub.DETAILS_SCALE);
 
             botNumberOptions = new SelectBox<>(GameStateManager.getSkin());
             botNumberOptions.setItems(botNumberChoices);
-            botNumberOptions.setWidth(ModeSettingSelection.optionsWidth);
+            botNumberOptions.setWidth(UIHub.OPTIONS_WIDTH);
             if (GameStateManager.Mode.SINGLE.equals(GameStateManager.currentMode)) {
                 botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValueSinglePlayer));
             } else {
@@ -61,11 +61,11 @@ public class SettingBots extends ModeSetting {
 
             String[] botDifficultyChoices = UIText.SETTING_BOT_DIFFICULTY_OPTIONS.text().split(",");
             Text botDifficulty = new Text(UIText.SETTING_BOT_DIFFICULTY.text());
-            botDifficulty.setScale(ModeSettingSelection.detailsScale);
+            botDifficulty.setScale(UIHub.DETAILS_SCALE);
 
             botDifficultyOptions = new SelectBox<>(GameStateManager.getSkin());
             botDifficultyOptions.setItems(botDifficultyChoices);
-            botDifficultyOptions.setWidth(ModeSettingSelection.optionsWidth);
+            botDifficultyOptions.setWidth(UIHub.OPTIONS_WIDTH);
             botDifficultyOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag2, defaultValue));
 
             //bot difficulty option is disabled with no bots
@@ -79,9 +79,9 @@ public class SettingBots extends ModeSetting {
             });
 
             table.add(bots);
-            table.add(botNumberOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
+            table.add(botNumberOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
             table.add(botDifficulty);
-            table.add(botDifficultyOptions).height(ModeSettingSelection.detailHeight).pad(ModeSettingSelection.detailPad).row();
+            table.add(botDifficultyOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
         }
     }
 

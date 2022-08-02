@@ -8,26 +8,26 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
-import static com.mygdx.hadal.battle.WeaponUtils.spiritDefaultDamage;
+import static com.mygdx.hadal.battle.WeaponUtils.SPIRIT_DEFAULT_DAMAGE;
 
 /**
  * @author Lothdoof Lepomelo
  */
 public class SpiritRelease extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 10.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 10.0f;
 
-	private static final int spiritNum = 3;
+	private static final int SPIRIT_NUM = 3;
 
 	public SpiritRelease(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		Vector2[] positions = new Vector2[spiritNum];
+		Vector2[] positions = new Vector2[SPIRIT_NUM];
 		positions[0] = new Vector2(user.getPlayer().getPixelPosition()).add(0, 100);
 		positions[1] = new Vector2(user.getPlayer().getPixelPosition()).add(100, 0);
 		positions[2] = new Vector2(user.getPlayer().getPixelPosition()).add(-100, 0);
@@ -38,8 +38,8 @@ public class SpiritRelease extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf(spiritNum),
-				String.valueOf((int) spiritDefaultDamage)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf(SPIRIT_NUM),
+				String.valueOf((int) SPIRIT_DEFAULT_DAMAGE)};
 	}
 }

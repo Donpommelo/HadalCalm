@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Constants;
 
 /**
  * A Physics schmuck runs custom acceleration physics for their movement.
@@ -9,9 +10,6 @@ import com.mygdx.hadal.states.PlayState;
  * @author Duldwin Droshibish
  */
 public class PhysicsSchmuck extends Schmuck {
-
-	//this the frequency that the physics occurs
-	private static final float controllerInterval = 1 / 60f;
 
 	public PhysicsSchmuck(PlayState state, Vector2 startPos, Vector2 size, String name, short hitboxFilter, int baseHp) {
 		super(state, startPos, size, name, hitboxFilter, baseHp);
@@ -36,8 +34,8 @@ public class PhysicsSchmuck extends Schmuck {
 	protected void applyForce(float delta) {
 		//This line ensures that this runs every 1/60 second regardless of computer speed.
 		controllerCount += delta;
-		while (controllerCount >= controllerInterval) {
-			controllerCount -= controllerInterval;
+		while (controllerCount >= Constants.INTERVAL) {
+			controllerCount -= Constants.INTERVAL;
 						
 			currentVel.set(getLinearVelocity());
 			float desiredXVel = 0.0f;

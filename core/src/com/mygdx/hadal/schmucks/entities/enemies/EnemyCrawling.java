@@ -45,7 +45,7 @@ public class EnemyCrawling extends Enemy {
 		this.currentState = CrawlingState.STILL;
 		
 		if (!Sprite.NOTHING.equals(sprite)) {
-			this.floatingSprite = new Animation<>(PlayState.spriteAnimationSpeedFast, sprite.getFrames());
+			this.floatingSprite = new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_FAST, sprite.getFrames());
 			this.floatingSprite.setPlayMode(PlayMode.LOOP_PINGPONG);
 		}
 	}

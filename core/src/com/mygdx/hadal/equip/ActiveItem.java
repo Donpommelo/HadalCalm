@@ -17,15 +17,15 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class ActiveItem extends Equippable {
 
+	//active items charge slower with damage compared to time (this is so that the numbers are on the same scale)
+	public static final float DAMAGE_CHARGE_MULTIPLIER = 0.2f;
+
+	//active items charge slower when damaging non-player enemies. (according to this float)
+	public static final float ENEMY_DAMAGE_CHARGE_MULTIPLIER = 0.1f;
+
 	protected final float maxCharge;
 	protected float currentCharge;
 
-	//active items charge slower with damage compared to time (this is so that the numbers are on the same scale)
-	public static final float damageChargeMultiplier = 0.2f;
-	
-	//active items charge slower when damaging non-player enemies. (according to this float)
-	public static final float enemyDamageChargeMultiplier = 0.1f;
-	
 	public ActiveItem(Schmuck user, float usecd, float usedelay, float maxCharge) {
 		super(user, usecd, usedelay, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 		this.maxCharge = maxCharge;
@@ -72,7 +72,7 @@ public class ActiveItem extends Equippable {
 	 */
 	public void useItem(PlayState state, PlayerBodyData shooter) {}
 
-	private static final float meleeChargeBonus = 0.5f;
+	private static final float MELEE_CHARGE_BONUS = 0.5f;
 	/**
 	 * This is used when the active item charges
 	 * @param charge: The amount of charge that the item gains.
@@ -83,7 +83,7 @@ public class ActiveItem extends Equippable {
 		boolean uncharged = currentCharge < maxCharge;
 		
 		if (user.getBodyData().getCurrentTool() instanceof MeleeWeapon) {
-			currentCharge += (charge * (1 + meleeChargeBonus + user.getBodyData().getStat(Stats.ACTIVE_CHARGE_RATE)));
+			currentCharge += (charge * (1 + MELEE_CHARGE_BONUS + user.getBodyData().getStat(Stats.ACTIVE_CHARGE_RATE)));
 		} else {
 			currentCharge += (charge * (1 + user.getBodyData().getStat(Stats.ACTIVE_CHARGE_RATE)));
 		}

@@ -21,33 +21,30 @@ import com.mygdx.hadal.strategies.hitbox.*;
  */
 public class Fafrotskies extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.1f;
-	private static final float maxCharge = 15.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.1f;
+	private static final float MAX_CHARGE = 15.0f;
 	
-	private static final Vector2 projectileSize = new Vector2(200, 50);
-	private static final float lifespan = 7.5f;
-	
-	private static final Vector2 rainSize = new Vector2(30, 20);
-	
-	private static final float rainDamage = 11.0f;
-	private static final float rainKnockback = 2.0f;
-	
-	private static final float projectileSpeed = 5.0f;
-	private static final float rainSpeed = 15.0f;
-	private static final float rainInterval = 0.1f;
+	private static final Vector2 PROJECTILE_SIZE = new Vector2(200, 50);
+	private static final Vector2 RAIN_SIZE = new Vector2(30, 20);
+	private static final float LIFESPAN = 7.5f;
+	private static final float RAIN_DAMAGE = 11.0f;
+	private static final float RAIN_KNOCKBACK = 2.0f;
+	private static final float PROJECTILE_SPEED = 5.0f;
+	private static final float RAIN_SPEED = 15.0f;
+	private static final float RAIN_INTERVAL = 0.1f;
 
-	private static final Sprite projSprite = Sprite.ORB_BLUE;
+	private static final Sprite PROJ_SPRITE = Sprite.ORB_BLUE;
 
 	public Fafrotskies(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.THUNDER.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
 
-		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed), (short) 0, false, false, user.getPlayer(), projSprite);
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), PROJECTILE_SIZE, LIFESPAN, this.weaponVelo.scl(PROJECTILE_SPEED), (short) 0, false, false, user.getPlayer(), PROJ_SPRITE);
 		
 		hbox.setGravity(-0.2f);
 		
@@ -59,14 +56,14 @@ public class Fafrotskies extends ActiveItem {
 			public void controller(float delta) {
 				controllerCount += delta;
 
-				while (controllerCount >= rainInterval) {
-					controllerCount -= rainInterval;
+				while (controllerCount >= RAIN_INTERVAL) {
+					controllerCount -= RAIN_INTERVAL;
 					
-					Hitbox rain = new Hitbox(state, new Vector2(hbox.getPixelPosition()).add((MathUtils.random() -  0.5f) * hbox.getSize().x, 0), rainSize, lifespan, new Vector2(0, -rainSpeed),
+					Hitbox rain = new Hitbox(state, new Vector2(hbox.getPixelPosition()).add((MathUtils.random() -  0.5f) * hbox.getSize().x, 0), RAIN_SIZE, LIFESPAN, new Vector2(0, -RAIN_SPEED),
 							user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), Sprite.SPIT);
 					
 					rain.addStrategy(new ControllerDefault(state, rain, user));
-					rain.addStrategy(new DamageStandard(state, rain, user, rainDamage, rainKnockback, DamageSource.FAFROTSKIES,
+					rain.addStrategy(new DamageStandard(state, rain, user, RAIN_DAMAGE, RAIN_KNOCKBACK, DamageSource.FAFROTSKIES,
 							DamageTag.WATER));
 					rain.addStrategy(new AdjustAngle(state, rain, user));
 					rain.addStrategy(new ContactWallParticles(state, rain, user, Particle.BUBBLE_IMPACT));
@@ -80,9 +77,9 @@ public class Fafrotskies extends ActiveItem {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) rainDamage),
-				String.valueOf(lifespan),
-				String.valueOf(rainInterval)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) RAIN_DAMAGE),
+				String.valueOf(LIFESPAN),
+				String.valueOf(RAIN_INTERVAL)};
 	}
 }

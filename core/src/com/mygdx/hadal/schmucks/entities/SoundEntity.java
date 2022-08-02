@@ -17,11 +17,15 @@ import java.util.UUID;
  */
 public class SoundEntity extends HadalEntity {
 
+	//default values for sound fading
+	private static final float DEFAULT_FADE_IN_SPEED = 2.0f;
+	private static final float DEFAULT_FADE_OUT_SPEED = -2.0f;
+
 	//This is the sound effect that will be played
 	private final SoundEffect sound;
 	
 	//this is the sound id of the instance of the sound
-	private final long soundId;
+	private final long soundID;
 
 	private float lifespan;
 	private final boolean temp;
@@ -42,17 +46,13 @@ public class SoundEntity extends HadalEntity {
 	
 	//Is this entity following another entity? If so, what is the entity's id (used by client)
 	private HadalEntity attachedEntity;
-	private UUID attachedId;
+	private UUID attachedID;
 	
 	//how is this entity synced? (this works identically to particle entities)
 	private final SyncType sync;
 	
 	//Has the attached entity despawned yet?
 	private boolean despawn;
-	
-	//default values for sound fading
-	private static final float defaultFadeInSpeed = 2.0f;
-	private static final float defaultFadeOutSpeed = -2.0f;
 	
 	public SoundEntity(PlayState state, HadalEntity entity, SoundEffect sound, float lifespan, float volume, float pitch,
 					   boolean looped, boolean startOn, SyncType sync) {
@@ -71,16 +71,16 @@ public class SoundEntity extends HadalEntity {
 
 		//if we start off attached to an entity, play the sound and update its volume/pan based on its location
 		if (startOn && attachedEntity != null) {
-			this.soundId = sound.playSourced(state, new Vector2(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y), volume, pitch);
-			sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundId);
+			this.soundID = sound.playSourced(state, new Vector2(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y), volume, pitch);
+			sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundID);
 		} else {
 			//otherwise, we just get the sound id and pause it.
-			this.soundId = sound.play(state.getGsm(), volume, pitch, false);
-			sound.getSound().pause(soundId);
+			this.soundID = sound.play(state.getGsm(), volume, pitch, false);
+			sound.getSound().pause(soundID);
 		}
 		
 		//set the looping of the sound
-		sound.getSound().setLooping(soundId, looped);
+		sound.getSound().setLooping(soundID, looped);
 	}
 
 	@Override
@@ -88,8 +88,8 @@ public class SoundEntity extends HadalEntity {
 
 	//This is the rate that the sound will sync its volume/pan based on its moving position.
 	//No need to update every tick.
+	private static final float SYNC_TIME = 0.01f;
 	private float syncAccumulator = 0.0f;
-	private static final float syncTime = 0.01f;
 	@Override
 	public void controller(float delta) {
 		
@@ -100,7 +100,7 @@ public class SoundEntity extends HadalEntity {
 			//when a sound finishes fading out, pause it and delete it, if it is set to despawn
 			if (volume <= 0.0f) {
 				volume = 0.0f;
-				sound.getSound().pause(soundId);
+				sound.getSound().pause(soundID);
 				fade = 0.0f;
 				on = false;
 				
@@ -121,7 +121,7 @@ public class SoundEntity extends HadalEntity {
 		if (temp) {
 			lifespan -= delta;
 			if (lifespan <= 0) {
-				sound.getSound().pause(soundId);
+				sound.getSound().pause(soundID);
 				if (state.isServer()) {
 					this.queueDeletion();
 				} else {
@@ -131,13 +131,13 @@ public class SoundEntity extends HadalEntity {
 		}
 		
 		syncAccumulator += delta;
-		if (syncAccumulator >= syncTime) {
+		if (syncAccumulator >= SYNC_TIME) {
 			syncAccumulator = 0;
 			
 			//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
 			if (attachedEntity != null) {
 				if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
-					sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundId);
+					sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundID);
 				} else {
 					turnOff();
 					despawn = true;
@@ -157,10 +157,10 @@ public class SoundEntity extends HadalEntity {
 		if (SyncType.CREATESYNC.equals(sync) || SyncType.NOSYNC.equals(sync)) {
 			controller(delta);			
 		}
-		if (attachedEntity == null && attachedId != null) {
-			attachedEntity = state.findEntity(attachedId);
+		if (attachedEntity == null && attachedID != null) {
+			attachedEntity = state.findEntity(attachedID);
 			if (on) {
-				sound.getSound().resume(soundId);
+				sound.getSound().resume(soundID);
 			}
 		}
 	}
@@ -226,19 +226,19 @@ public class SoundEntity extends HadalEntity {
 	@Override
 	public void dispose() {
 		if (!destroyed) {
-			sound.getSound().stop(soundId);
+			sound.getSound().stop(soundID);
 		}
 		super.dispose();
 	}
 	
 	public void turnOn() {
 		on = true;
-		fade = defaultFadeInSpeed;
-		sound.getSound().resume(soundId);
+		fade = DEFAULT_FADE_IN_SPEED;
+		sound.getSound().resume(soundID);
 	}
 	
 	public void turnOff() {
-		fade = defaultFadeOutSpeed;
+		fade = DEFAULT_FADE_OUT_SPEED;
 		on = false;
 	}
 	
@@ -246,10 +246,10 @@ public class SoundEntity extends HadalEntity {
 	 * This turns a sound off and sets it to despawn after fading
 	 */
 	public void terminate() {
-		fade = defaultFadeOutSpeed;
+		fade = DEFAULT_FADE_OUT_SPEED;
 		on = false;
 		despawn = true;
 	}
 
-	public void setAttachedId(UUID attachedId) { this.attachedId = attachedId; }
+	public void setAttachedID(UUID attachedID) { this.attachedID = attachedID; }
 }

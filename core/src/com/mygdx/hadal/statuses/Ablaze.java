@@ -15,13 +15,13 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Ablaze extends Status {
 
+	private static final float LINGER = 1.0f;
+
 	//this is the damage per proc of the unit
 	private final float damage;
 
 	//this is the effect/item/weapon source of the burn
 	private final DamageSource source;
-
-	private static final float linger = 1.0f;
 
 	private float procCdCount;
 
@@ -34,16 +34,16 @@ public class Ablaze extends Status {
 
 	@Override
 	public void onInflict() {
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.FIRE, linger, duration + linger,
-				true, SyncType.CREATESYNC).setPrematureOff(linger);
+		new ParticleEntity(state, inflicted.getSchmuck(), Particle.FIRE, LINGER, duration + LINGER,
+				true, SyncType.CREATESYNC).setPrematureOff(LINGER);
 	}
 
-	private static final float procCd = 0.5f;
+	private static final float PROC_CD = 0.5f;
 	@Override
 	public void timePassing(float delta) {
 		super.timePassing(delta);
-		if (procCdCount >= procCd) {
-			procCdCount -= procCd;
+		if (procCdCount >= PROC_CD) {
+			procCdCount -= PROC_CD;
 			inflicted.receiveDamage(damage, new Vector2(), inflicter, true, null, source, DamageTag.FIRE);
 		}
 		procCdCount += delta;

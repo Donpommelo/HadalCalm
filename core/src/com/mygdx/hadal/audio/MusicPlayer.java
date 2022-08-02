@@ -9,6 +9,10 @@ import com.mygdx.hadal.managers.GameStateManager;
  */
 public class MusicPlayer {
 
+	//default values for sound fading
+	private static final float DEFAULT_FADE_IN_SPEED = 1.0f;
+	private static final float DEFAULT_FADE_OUT_SPEED = -1.0f;
+
 	private final GameStateManager gsm;
 	
 	//this is the song currently playing
@@ -26,10 +30,6 @@ public class MusicPlayer {
 
   	//the volume of the sound and the max volume the sound will fade in to.
   	private float volume, maxVolume, nextVolume;
-  	
-  	//default values for sound fading
-  	private static final float defaultFadeInSpeed = 1.0f;
-  	private static final float defaultFadeOutSpeed = -1.0f;
   	
     public MusicPlayer(GameStateManager gsm) {
     	this.gsm = gsm;
@@ -57,7 +57,7 @@ public class MusicPlayer {
 					maxVolume = nextVolume;
 					volume = lastVolume;
 					
-					fade = defaultFadeInSpeed;
+					fade = DEFAULT_FADE_IN_SPEED;
 					
 					nextTrack = null;
 				} else {
@@ -82,7 +82,7 @@ public class MusicPlayer {
 
     	//if we are playing another track, we make it fade out first
     	if (currentSong != null) {
-			fade = defaultFadeOutSpeed;
+			fade = DEFAULT_FADE_OUT_SPEED;
 			nextTrack = music;
 			nextVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
 		} else {
@@ -98,7 +98,7 @@ public class MusicPlayer {
 				currentSong.play();
 				maxVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
 			}
-			fade = defaultFadeInSpeed;
+			fade = DEFAULT_FADE_IN_SPEED;
 		}
 	}
 

@@ -15,6 +15,7 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
+import com.mygdx.hadal.utils.Constants;
 
 import java.util.UUID;
 
@@ -267,8 +268,6 @@ public abstract class HadalEntity {
 	//this vector is used to calculate linear interpolation
 	public final Vector2 angleAsVector = new Vector2(0, 1);
 	
-	//the client processes interpolation at this speed regardless of framerate
-	public static final float clientSyncTime = 1 / 60f;
 	private float clientSyncAccumulator;
 	
 	//this extra vector is used b/c interpolation updates the start vector
@@ -311,8 +310,8 @@ public abstract class HadalEntity {
 		
 		//interpolate this entity between most recent snapshots. Use accumulator to be independent from framerate
 		clientSyncAccumulator += delta;
-		while (clientSyncAccumulator >= clientSyncTime) {
-			clientSyncAccumulator -= clientSyncTime;
+		while (clientSyncAccumulator >= Constants.INTERVAL) {
+			clientSyncAccumulator -= Constants.INTERVAL;
 			clientInterpolation();
 		}
 	}
@@ -327,7 +326,7 @@ public abstract class HadalEntity {
 	/**
 	 * This interpolates the entity's position between two timestamps.
 	 */
-	private static final float maxLerpRange = 400.0f;
+	private static final float MAX_LERP_RANGE = 400.0f;
 	public void clientInterpolation() {
 
 		//if we are receiving syncs, lerp towards the saved position and angle
@@ -337,11 +336,11 @@ public abstract class HadalEntity {
 				float elapsedTime = (state.getTimer() - prevTimeStamp) / (nextTimeStamp - prevTimeStamp);
 
 				if (elapsedTime <= 1.0f && elapsedTime >= 0.0f) {
-					if (prevPos.dst2(serverPos) > maxLerpRange) {
+					if (prevPos.dst2(serverPos) > MAX_LERP_RANGE) {
 						setTransform(serverPos, serverAngle.angleRad());
 					} else {
 						lerpPos.set(prevPos);
-						setTransform(lerpPos.lerp(serverPos, elapsedTime), angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
+						setTransform(lerpPos.lerp(serverPos, elapsedTime), angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.SYNC_INTERPOLATION).angleRad());
 					}
 
 					//set velocity to make entity move smoother between syncs
@@ -472,7 +471,7 @@ public abstract class HadalEntity {
 		if (receivingSyncs) {
 			timeSinceLastSync += i;
 			
-			if (timeSinceLastSync > ClientState.missedDeleteThreshold && state.getTimer() > ClientState.initialConnectThreshold) {
+			if (timeSinceLastSync > ClientState.MISSED_DELETE_THRESHOLD && state.getTimer() > ClientState.INITIAL_CONNECT_THRESHOLD) {
 				timeSinceLastSync = 0;
 				HadalGame.client.sendUDP(new Packets.MissedDelete(entityID));
 			}

@@ -21,53 +21,51 @@ import com.mygdx.hadal.strategies.hitbox.*;
  */
 public class BendyBeams extends ActiveItem {
 
-	private static final float usecd = 0.0f;
-	private static final float usedelay = 0.0f;
-	private static final float maxCharge = 8.0f;
+	private static final float USECD = 0.0f;
+	private static final float USEDELAY = 0.0f;
+	private static final float MAX_CHARGE = 8.0f;
 	
-	private static final Vector2 projectileSize = new Vector2(60, 20);
-	private static final float lifespan = 5.0f;
-	private static final float projectileSpeed = 45.0f;
+	private static final Vector2 PROJECTILE_SIZE = new Vector2(60, 20);
+	private static final float LIFESPAN = 5.0f;
+	private static final float PROJECTILE_SPEED = 45.0f;
+	private static final float DURATION = 1.0f;
+	private static final float PROC_CD = 0.25f;
+	private static final int BEAM_NUMBER = 4;
+	private static final float DAMAGE = 14.0f;
+	private static final float KNOCKBACK = 20.0f;
 
-	private static final float duration = 1.0f;
-
-	private static final float procCd = 0.25f;
-	private static final int beamNumber = 4;
-	private static final float damage = 14.0f;
-	private static final float knockback = 20.0f;
-
-	private static final Sprite projSprite = Sprite.NOTHING;
+	private static final Sprite PROJ_SPRITE = Sprite.NOTHING;
 
 	public BendyBeams(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge);
+		super(user, USECD, USEDELAY, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.LASERHARPOON.playUniversal(state, user.getPlayer().getPixelPosition(), 0.8f, false);
 		
-		user.addStatus(new Status(state, duration, false, user, user) {
+		user.addStatus(new Status(state, DURATION, false, user, user) {
 			
 			private float procCdCount;
 			private final Vector2 startVelo = new Vector2();
 			@Override
 			public void timePassing(float delta) {
 				super.timePassing(delta);
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
+				if (procCdCount >= PROC_CD) {
+					procCdCount -= PROC_CD;
 					
-					startVelo.set(weaponVelo).nor().scl(projectileSpeed);
-					for (int i = 0; i < beamNumber; i++) {
-						Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, new Vector2(startVelo), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), projSprite);
+					startVelo.set(weaponVelo).nor().scl(PROJECTILE_SPEED);
+					for (int i = 0; i < BEAM_NUMBER; i++) {
+						Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), PROJECTILE_SIZE, LIFESPAN, new Vector2(startVelo), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), PROJ_SPRITE);
 						hbox.addStrategy(new ControllerDefault(state, hbox, user));
-						hbox.addStrategy(new DamageStandard(state, hbox, user, damage, knockback, DamageSource.BENDY_BEAMS, DamageTag.ENERGY));
+						hbox.addStrategy(new DamageStandard(state, hbox, user, DAMAGE, KNOCKBACK, DamageSource.BENDY_BEAMS, DamageTag.ENERGY));
 						hbox.addStrategy(new ContactUnitDie(state, hbox, user));
 						hbox.addStrategy(new ContactWallDie(state, hbox, user));
 						hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.LASER_PULSE, 0.0f, 1.0f)
 								.setParticleColor(HadalColor.MALACHITE).setParticleSize(20));
 						hbox.addStrategy(new AdjustAngle(state, hbox, user));
 						hbox.addStrategy(new Curve(state, hbox, user, 90, 180,
-								user.getPlayer().getMouse().getPixelPosition(), projectileSpeed, 0.1f));
+								user.getPlayer().getMouse().getPixelPosition(), PROJECTILE_SPEED, 0.1f));
 					}
 				}
 				procCdCount += delta;
@@ -76,13 +74,13 @@ public class BendyBeams extends ActiveItem {
 	}
 	
 	@Override
-	public float getUseDuration() { return duration; }
+	public float getUseDuration() { return DURATION; }
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) maxCharge),
-				String.valueOf((int) (duration / procCd * beamNumber)),
-				String.valueOf((int) damage)};
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf((int) (DURATION / PROC_CD * BEAM_NUMBER)),
+				String.valueOf((int) DAMAGE)};
 	}
 }

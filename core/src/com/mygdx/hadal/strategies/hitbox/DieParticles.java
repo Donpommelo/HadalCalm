@@ -17,20 +17,20 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class DieParticles extends HitboxStrategy {
 	
-	private static final float defaultDuration = 1.0f;
-	
+	private static final float DEFAULT_DURATION = 1.0f;
+
+	//this is the max hitbox size a particle will try to scale to
+	private static final float MAX_SIZE = 100.0f;
+
 	//the effect that is to be created.
 	private final Particle effect;
 	
 	//how long should the particles last?
-	private float duration = defaultDuration;
+	private float duration = DEFAULT_DURATION;
 	
 	//the base size of the particle effect.
 	private float particleSize;
-	
-	//this is the max hitbox size a particle will try to scale to
-	private static final float maxSize = 100.0f;
-		
+
 	//this is the color of the particle. change using factory method
 	private HadalColor color = HadalColor.NOTHING;
 
@@ -48,7 +48,7 @@ public class DieParticles extends HitboxStrategy {
 		if (particleSize == 0) {
 			particles.setScale(hbox.getScale());
 		} else {
-			particles.setScale(Math.min(hbox.getSize().x, maxSize) / particleSize);
+			particles.setScale(Math.min(hbox.getSize().x, MAX_SIZE) / particleSize);
 		}
 
 		if (!state.isServer()) {

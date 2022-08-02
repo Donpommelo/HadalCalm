@@ -50,6 +50,6 @@ public class BrittlingPowder extends Artifact {
 		return new String[] {
 				String.valueOf(procCd),
 				String.valueOf(numFrag),
-				String.valueOf((int) DieFrag.baseDamage)};
+				String.valueOf((int) DieFrag.BASE_DAMAGE)};
 	}
 }

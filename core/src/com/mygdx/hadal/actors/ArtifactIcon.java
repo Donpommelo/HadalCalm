@@ -19,15 +19,15 @@ import com.mygdx.hadal.save.UnlockArtifact;
  */
 public class ArtifactIcon extends AHadalActor {
 
-	private static final float pad = 20.0f;
-	
+	private static final float ICON_PAD = 20.0f;
+
+	private static final float FONT_SCALE = 0.25f;
+	private static final Color COLOR = Color.WHITE;
+
 	//This is the artifact that this tag represents
 	private final UnlockArtifact artifact;
 
-	private static final float fontScale = 0.25f;
-	private static final Color color = Color.WHITE;
 	protected final GlyphLayout layout;
-	
 	private final TextureRegion icon;
 	private final String text;
 	
@@ -45,9 +45,9 @@ public class ArtifactIcon extends AHadalActor {
 		
 		this.icon = artifact.getFrame();
 
-		HadalGame.FONT_UI.getData().setScale(fontScale);
+		HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
 		layout = new GlyphLayout();
-		layout.setText(HadalGame.FONT_UI, text, color, targetWidth, Align.left, true);
+		layout.setText(HadalGame.FONT_UI, text, COLOR, targetWidth, Align.left, true);
 
 		addListener(new ClickListener() {
 			
@@ -71,10 +71,10 @@ public class ArtifactIcon extends AHadalActor {
 
 		//this displays artifact short description when this actor is moused over
          if (mouseOver) {
-        	 GameStateManager.getSimplePatch().draw(batch, getX() - pad / 2 + textOffsetX,
-					 getY() - pad / 2 + textOffsetY, layout.width + pad, layout.height + pad);
-			 HadalGame.FONT_UI.setColor(color);
-			 HadalGame.FONT_UI.getData().setScale(fontScale);
+        	 GameStateManager.getSimplePatch().draw(batch, getX() - ICON_PAD / 2 + textOffsetX,
+					 getY() - ICON_PAD / 2 + textOffsetY, layout.width + ICON_PAD, layout.height + ICON_PAD);
+			 HadalGame.FONT_UI.setColor(COLOR);
+			 HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
 			 HadalGame.FONT_UI.draw(batch, text, getX() + textOffsetX, getY() + textOffsetY + layout.height,
 					 targetWidth, Align.left, true);
          }

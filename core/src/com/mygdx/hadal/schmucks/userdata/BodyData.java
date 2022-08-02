@@ -20,6 +20,7 @@ import com.mygdx.hadal.statuses.ProcTime.InflictDamage;
 import com.mygdx.hadal.statuses.ProcTime.ReceiveDamage;
 import com.mygdx.hadal.statuses.ProcTime.ReceiveHeal;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 
 /**
@@ -28,39 +29,37 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class BodyData extends HadalData {
 
+	//Speed on ground
+	private static final float MAX_GROUND_X_SPEED = 15.0f;
+	private static final float MAX_AIR_X_SPEED = 10.0f;
+		
+	//Accelerating on the ground/air
+	private static final float GROUND_X_ACCEL = 0.11f;
+	private static final float AIR_X_ACCEL = 0.07f;
+	private static final float GROUND_X_DEACCEL = 0.1f;
+	private static final float AIR_X_DEACCEL = 0.01f;
+	
+	private static final float GROUND_Y_ACCEL = 0.1f;
+	private static final float AIR_Y_ACCEL = 0.15f;
+	private static final float GROUND_Y_DEACCEL = 0.05f;
+	private static final float AIR_Y_DEACCEL = 0.01f;
+
+	//Hp and regen
+	private static final float HP_REGEN = 0.0f;
+	private static final int MAX_FUEL = 100;
+
+	//variance multiplier applied to every instance of damage
+	private static final float DAMAGE_VARIANCE = 0.1f;
+
 	//The Schmuck that owns this data
 	protected Schmuck schmuck;
-	
+
 	//schmuck stats
 	private final float[] baseStats;
 	private final float[] buffedStats;
-	
-	//Speed on ground
-	private static final float maxGroundXSpeed = 15.0f;
-	private static final float maxAirXSpeed = 10.0f;
-		
-	//Accelerating on the ground/air
-	private static final float groundXAccel = 0.11f;
-	private static final float airXAccel = 0.07f;
-	private static final float groundXDeaccel = 0.1f;
-	private static final float airXDeaccel = 0.01f;
-	
-	private static final float groundYAccel = 0.1f;
-	private static final float airYAccel = 0.15f;
-	private static final float groundYDeaccel = 0.05f;
-	private static final float airYDeaccel = 0.01f;
 
-	//Hp and regen
-	private static final float hpRegen = 0.0f;
-	private static final int maxFuel = 100;
 	protected float currentHp, currentFuel;
 
-	//duration of flash on receiving damage
-	private static final float flashDuration = 0.1f;
-	
-	//variance multiplier applied to every instance of damage
-	private static final float damageVariance = 0.1f;
-	
 	//statuses inflicted on the unit. statuses checked is used to recursively activate each status effect
 	protected final Array<Status> statuses;
 	protected final Array<Status> statusesChecked;
@@ -85,8 +84,8 @@ public class BodyData extends HadalData {
 		this.buffedStats = new float[52];
 		
 		baseStats[0] = maxHp;
-		baseStats[1] = maxFuel;
-		baseStats[2] = hpRegen;
+		baseStats[1] = MAX_FUEL;
+		baseStats[2] = HP_REGEN;
 
 		this.statuses = new Array<>();
 		this.statusesChecked = new Array<>();
@@ -277,7 +276,7 @@ public class BodyData extends HadalData {
 		float damage = baseDamage;
 		damage -= baseDamage * (getStat(Stats.DAMAGE_RES));
 		damage += baseDamage * (perp.getStat(Stats.DAMAGE_AMP));
-		damage += baseDamage * (-damageVariance + MathUtils.random() * 2 * damageVariance);
+		damage += baseDamage * (-DAMAGE_VARIANCE + MathUtils.random() * 2 * DAMAGE_VARIANCE);
 		
 		//proc effects and inflict damage
 		if (procEffects) {
@@ -300,8 +299,8 @@ public class BodyData extends HadalData {
 			}
 
 			//Make schmuck flash upon receiving damage
-			if (damage > 0 && schmuck.getShaderCount() < -flashDuration) {
-				schmuck.setShader(Shader.WHITE, flashDuration, true);
+			if (damage > 0 && schmuck.getShaderCount() < -Constants.FLASH) {
+				schmuck.setShader(Shader.WHITE, Constants.FLASH, true);
 				schmuck.impact.onForBurst(0.25f);
 			}
 
@@ -320,9 +319,9 @@ public class BodyData extends HadalData {
 					
 					//active item charges less against non-player enemies
 					if (this instanceof PlayerBodyData) {
-						perpData.getActiveItem().gainCharge(damage * ActiveItem.damageChargeMultiplier);
+						perpData.getActiveItem().gainCharge(damage * ActiveItem.DAMAGE_CHARGE_MULTIPLIER);
 					} else {
-						perpData.getActiveItem().gainCharge(damage * ActiveItem.damageChargeMultiplier * ActiveItem.enemyDamageChargeMultiplier);
+						perpData.getActiveItem().gainCharge(damage * ActiveItem.DAMAGE_CHARGE_MULTIPLIER * ActiveItem.ENEMY_DAMAGE_CHARGE_MULTIPLIER);
 					}
 				}
 
@@ -423,23 +422,23 @@ public class BodyData extends HadalData {
 	
 	public void setCurrentTool(Equippable currentTool) { this.currentTool = currentTool; }
 	
-	public float getXGroundSpeed() { return maxGroundXSpeed * (1 + getStat(Stats.GROUND_SPD)); }
+	public float getXGroundSpeed() { return MAX_GROUND_X_SPEED * (1 + getStat(Stats.GROUND_SPD)); }
 	
-	public float getXAirSpeed() { return maxAirXSpeed * (1 + getStat(Stats.AIR_SPD)); }
+	public float getXAirSpeed() { return MAX_AIR_X_SPEED * (1 + getStat(Stats.AIR_SPD)); }
 	
-	public float getXGroundAccel() { return groundXAccel * (1 + getStat(Stats.GROUND_ACCEL)); }
+	public float getXGroundAccel() { return GROUND_X_ACCEL * (1 + getStat(Stats.GROUND_ACCEL)); }
 	
-	public float getXAirAccel() { return airXAccel * (1 + getStat(Stats.AIR_ACCEL)); }
+	public float getXAirAccel() { return AIR_X_ACCEL * (1 + getStat(Stats.AIR_ACCEL)); }
 	
-	public float getXGroundDeaccel() { return groundXDeaccel * (1 + getStat(Stats.GROUND_DRAG)); }
+	public float getXGroundDeaccel() { return GROUND_X_DEACCEL * (1 + getStat(Stats.GROUND_DRAG)); }
 	
-	public float getXAirDeaccel() {	return airXDeaccel * (1 + getStat(Stats.AIR_DRAG)); }
+	public float getXAirDeaccel() {	return AIR_X_DEACCEL * (1 + getStat(Stats.AIR_DRAG)); }
 	
-	public float getYGroundAccel() { return groundYAccel * (1 + getStat(Stats.GROUND_ACCEL)); }
+	public float getYGroundAccel() { return GROUND_Y_ACCEL * (1 + getStat(Stats.GROUND_ACCEL)); }
 	
-	public float getYAirAccel() { return airYAccel * (1 + getStat(Stats.AIR_ACCEL)); }
+	public float getYAirAccel() { return AIR_Y_ACCEL * (1 + getStat(Stats.AIR_ACCEL)); }
 	
-	public float getYGroundDeaccel() { return groundYDeaccel * (1 + getStat(Stats.GROUND_DRAG)); }
+	public float getYGroundDeaccel() { return GROUND_Y_DEACCEL * (1 + getStat(Stats.GROUND_DRAG)); }
 	
-	public float getYAirDeaccel() {	return airYDeaccel * (1 + getStat(Stats.AIR_DRAG)); }
+	public float getYAirDeaccel() {	return AIR_Y_DEACCEL * (1 + getStat(Stats.AIR_DRAG)); }
 }

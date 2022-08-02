@@ -16,10 +16,10 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class Regeneration extends Status {
 
+	private static final float LINGER = 1.0f;
+
 	//this is the power of the heal
 	private final float heal;
-
-	private static final float linger = 1.0f;
 
 	public Regeneration(PlayState state, float i, BodyData p, BodyData v, float heal) {
 		super(state, i, false, p, v);
@@ -29,8 +29,8 @@ public class Regeneration extends Status {
 	@Override
 	public void onInflict() {
 		//the sound and particles attached to the status
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, linger, duration + linger,
-				true, SyncType.CREATESYNC).setPrematureOff(linger);
+		new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, LINGER, duration + LINGER,
+				true, SyncType.CREATESYNC).setPrematureOff(LINGER);
 		new SoundEntity(state, inflicted.getSchmuck(), SoundEffect.MAGIC21_HEAL, duration, 0.25f, 1.0f,
 				true, true, SyncType.CREATESYNC);
 	}
