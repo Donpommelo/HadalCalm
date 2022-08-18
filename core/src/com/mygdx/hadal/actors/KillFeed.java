@@ -1,6 +1,8 @@
 package com.mygdx.hadal.actors;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Array;
@@ -8,6 +10,9 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.effects.PlayerSpriteHelper;
+import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.server.packets.Packets;
@@ -45,12 +50,18 @@ public class KillFeed {
     private static final float NOTIFICATION_HEIGHT = 300;
 
     private static final int DEATH_INFO_X = -460;
-    private static final int DEATH_INFO_Y = 330;
+    private static final int DEATH_INFO_Y = 270;
     private static final int DEATH_INFO_X_ENABLED = 0;
-    private static final int DEATH_INFO_Y_ENABLED = 330;
+    private static final int DEATH_INFO_Y_ENABLED = 270;
     private static final int DEATH_INFO_WIDTH = 400;
-    private static final int DEATH_INFO_HEIGHT = 240;
+    private static final int DEATH_INFO_HEIGHT = 300;
+    private static final int DEATH_INFO_HEIGHT_SHORT = 180;
     private static final int DEATH_INFO_PAD = 15;
+
+    private static final int KILLER_WIDTH = 200;
+    private static final int KILLER_HEIGHT = 180;
+    private static final float KILLER_SCALE = 0.55f;
+    private static final Vector2 KILLER_OFFSET = new Vector2(100, -50);
 
     private static final float SCALE = 0.25f;
 
@@ -58,6 +69,9 @@ public class KillFeed {
     private final PlayState ps;
     private final VerticalGroup feed, notification;
     private Table deathInfoTable;
+    private Table killerPortrait;
+    private ScrollPane portrait;
+    private HubOptionPlayer killerBustSprite;
 
     //messages displayed in the feed
     private final Array<KillFeedMessage> messages = new Array<>();
@@ -74,6 +88,7 @@ public class KillFeed {
     //this contains information shown when waiting to respawn
     private Text deathInfo;
     private boolean awaitingRevive;
+    private Player killerPerp;
     private String killedBy = "";
     private String deathCause = "";
 
@@ -133,6 +148,7 @@ public class KillFeed {
                 removeMessages.clear();
             }
         };
+
         addTable();
         initialNotification();
     }
@@ -193,6 +209,7 @@ public class KillFeed {
      * This creates the table and sets its properties.
      */
     public void addTable() {
+        final KillFeed me = this;
         ps.getStage().addActor(feed);
 
         feed.space(MESSAGE_PAD);
@@ -224,7 +241,9 @@ public class KillFeed {
                     formatDeathTimer();
 
                     if (respawnTime <= 0.0f) {
-                        deathInfoTable.addAction(Actions.moveTo(DEATH_INFO_X, DEATH_INFO_Y, TRANSITION_DURATION, INTP_FASTSLOW));
+                        deathInfoTable.addAction(Actions.sequence(
+                                Actions.moveTo(DEATH_INFO_X, DEATH_INFO_Y, TRANSITION_DURATION, INTP_FASTSLOW),
+                                Actions.run(me::clearKillerBustSprite)));
                         deathInfoTable.setVisible(false);
                     }
                 }
@@ -236,6 +255,13 @@ public class KillFeed {
 
         deathInfo = new Text("");
         deathInfo.setScale(SCALE);
+
+        killerPortrait = new WindowTable();
+        killerPortrait.setSize(KILLER_WIDTH, KILLER_HEIGHT);
+
+        portrait = new ScrollPane(killerPortrait, GameStateManager.getSkin());
+        portrait.setFadeScrollBars(true);
+        portrait.setScrollingDisabled(true, true);
     }
 
     /**
@@ -256,6 +282,11 @@ public class KillFeed {
      */
     public void addKillInfo(float respawnTime) {
         deathInfoTable.clear();
+        if (!killedBy.isEmpty() && killerPerp != null) {
+            deathInfoTable.setHeight(DEATH_INFO_HEIGHT);
+        } else {
+            deathInfoTable.setHeight(DEATH_INFO_HEIGHT_SHORT);
+        }
         this.totalRespawnTime = respawnTime;
         this.respawnTime = respawnTime;
 
@@ -281,6 +312,21 @@ public class KillFeed {
 
             deathInfoTable.add(deathPerpTitle);
             deathInfoTable.add(deathPerp).pad(DEATH_INFO_PAD).row();
+
+            if (killerPerp != null) {
+                killerBustSprite = new HubOptionPlayer("", killerPerp,
+                        killerPerp.getPlayerData().getLoadout().character,
+                        killerPerp.getPlayerData().getLoadout().team,
+                        true, null, KILLER_SCALE);
+                killerBustSprite.setOptionWidth(KILLER_WIDTH).setOptionHeight(KILLER_HEIGHT);
+                killerBustSprite.setAttackAngle(150.0f).setMoveState(MoveState.MOVE_RIGHT)
+                        .setPlayerOffset(KILLER_OFFSET).setBob(false);
+
+                deathInfoTable.add(portrait).width(KILLER_WIDTH).height(KILLER_HEIGHT).colspan(2).row();
+
+                killerPortrait.clear();
+                killerPortrait.add(killerBustSprite);
+            }
         }
 
         if (!deathCause.isEmpty()) {
@@ -315,6 +361,12 @@ public class KillFeed {
         deathInfo.setText(df.format(respawnTime) + " S");
     }
 
+    private void clearKillerBustSprite() {
+        if (killerBustSprite != null) {
+            killerBustSprite.getPlayerSpriteHelper().dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
+        }
+    }
+
     //this is the number of seconds before the player can enter spectator mode (to avoid accidentally transitions)
     private static final float SPECTATOR_DURATION_THRESHOLD = 2.0f;
     /**
@@ -331,7 +383,9 @@ public class KillFeed {
      */
     public void setKillSource(Player perp, EnemyType type, DamageSource source) {
         killedBy = "";
+        killerPerp = null;
         if (perp != null) {
+            killerPerp = perp;
             if (perp.equals(ps.getPlayer())) {
                 killedBy = UIText.DEATH_CAUSE_YOURSELF.text();
             } else {

@@ -18,6 +18,7 @@ import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.TooltipManager;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.NameGenerator;
 
@@ -32,7 +33,6 @@ public class SettingBots extends ModeSetting {
     private static final String settingTag1 = "bot_number";
     private static final Integer defaultValue = 0;
     private static final String settingTag2 = "bot_difficulty";
-    private static final Integer defaultValueSinglePlayer = 1;
 
     private SelectBox<String> botNumberOptions, botDifficultyOptions;
 
@@ -41,6 +41,11 @@ public class SettingBots extends ModeSetting {
 
     public SettingBots() { botsChoice = true; }
 
+    /**
+     * This is used for modes with a set number of bots
+     * atm, this is only used for the hub so bots are cleared from user list upon returning
+     * @param lockedBots: number of bots
+     */
     public SettingBots(int lockedBots) { this.lockedBots = lockedBots; }
 
     @Override
@@ -49,15 +54,13 @@ public class SettingBots extends ModeSetting {
             String[] botNumberChoices = UIText.SETTING_BOT_NUMBER_OPTIONS.text().split(",");
             Text bots = new Text(UIText.SETTING_BOT_NUMBER.text());
             bots.setScale(UIHub.DETAILS_SCALE);
+            TooltipManager.addTooltip(bots, UIText.SETTING_BOTS_NUMBER_DESC.text());
 
             botNumberOptions = new SelectBox<>(GameStateManager.getSkin());
             botNumberOptions.setItems(botNumberChoices);
             botNumberOptions.setWidth(UIHub.OPTIONS_WIDTH);
-            if (GameStateManager.Mode.SINGLE.equals(GameStateManager.currentMode)) {
-                botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValueSinglePlayer));
-            } else {
-                botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValue));
-            }
+            botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValue));
+
 
             String[] botDifficultyChoices = UIText.SETTING_BOT_DIFFICULTY_OPTIONS.text().split(",");
             Text botDifficulty = new Text(UIText.SETTING_BOT_DIFFICULTY.text());
@@ -69,12 +72,12 @@ public class SettingBots extends ModeSetting {
             botDifficultyOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag2, defaultValue));
 
             //bot difficulty option is disabled with no bots
-            botDifficultyOptions.setDisabled(botNumberOptions.getSelectedIndex() == 0);
+            botDifficultyOptions.setDisabled(botNumberOptions.getSelectedIndex() == 1);
             botNumberOptions.addListener(new ChangeListener() {
 
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    botDifficultyOptions.setDisabled(botNumberOptions.getSelectedIndex() == 0);
+                    botDifficultyOptions.setDisabled(botNumberOptions.getSelectedIndex() == 1);
                 }
             });
 
@@ -125,7 +128,18 @@ public class SettingBots extends ModeSetting {
         //reset next connId, then create each bot while incrementing connId to ensure each has a unique one.
         lastBotConnID = -2;
 
-        for (int i = 0; i < botNumberIndex; i++) {
+        //index 0 indicates "default" bots; the number of bots varies with the stage size and player count
+        int numBots = 0;
+        if (botNumberIndex == 0) {
+            int desiredPlayers = state.getLevel().getSize().getPreferredPlayers();
+            int playerAmount = HadalGame.server.getNumPlayers();
+            if (playerAmount < desiredPlayers) {
+                numBots = desiredPlayers - playerAmount;
+            }
+        } else {
+            numBots = botNumberIndex - 1;
+        }
+        for (int i = 0; i < numBots; i++) {
             HadalGame.server.getUsers().put(lastBotConnID, createBotUser());
             lastBotConnID--;
         }
@@ -138,7 +152,7 @@ public class SettingBots extends ModeSetting {
         BotManager.rallyPoints.clear();
 
         //if any bots are preset, initiate bot rally points, otherwise don't bother
-        if (botNumberIndex > 0) {
+        if (numBots > 0) {
             BotManager.initiateRallyPoints(state, state.getMap());
             BotManager.initiatePathfindingThreads();
         }

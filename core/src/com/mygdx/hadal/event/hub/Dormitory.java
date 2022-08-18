@@ -75,7 +75,8 @@ public class Dormitory extends HubEvent {
 
 				UnlockCharacter selected = loadingCharacters.removeIndex(0);
 
-				HubOptionPlayer option = new HubOptionPlayer(selected.getName(), state.getPlayer(), selected, lastFilter, null);
+				HubOptionPlayer option = new HubOptionPlayer(selected.getName(), state.getPlayer(), selected, lastFilter,
+						false, null);
 				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_HEIGHT);
 				option.setWrap(TEXT_WIDTH);
 				option.setYOffset(TEXT_OFFSET_Y);

@@ -126,7 +126,7 @@ public class NavigationsMultiplayer extends HubEvent {
 					}
 
 					@Override
-					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
+					public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
 						hub.setInfo(selected.getName() + "\n\n" + selected.getDesc());
 					}
@@ -246,7 +246,8 @@ public class NavigationsMultiplayer extends HubEvent {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(selected.getName() + "\n\n" + selected.getDesc());
+						hub.setInfo(selected.getName() + "\n\n" + selected.getDesc() + "\n\n" +
+								UIText.SIZE.text() + selected.getSize().getSizeName());
 					}
 				});
 				hub.addActor(option, option.getWidth(), 2);

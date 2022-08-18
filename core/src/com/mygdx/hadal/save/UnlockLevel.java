@@ -10,6 +10,7 @@ import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.GameText;
+import com.mygdx.hadal.text.UIText;
 
 import java.util.HashMap;
 
@@ -19,79 +20,80 @@ import java.util.HashMap;
  */
 public enum UnlockLevel {
 
-	BOSS_FISH("Boss1", GameText.BOSS_FISH, GameText.BOSS_FISH_DESC, true,
+	BOSS_FISH("Boss1", GameText.BOSS_FISH, GameText.BOSS_FISH_DESC, true, MapSize.MEDIUM,
 			GameMode.BOSS),
-	BOSS_KING_KAMABOKO("Boss2", GameText.BOSS_KING_KAMABOKO, GameText.BOSS_BOSS_KING_KAMABOKO_DESC, true,
+	BOSS_KING_KAMABOKO("Boss2", GameText.BOSS_KING_KAMABOKO, GameText.BOSS_BOSS_KING_KAMABOKO_DESC, true, MapSize.MEDIUM,
 			GameMode.BOSS),
-	BOSS_FALSE_SUN("Boss4", GameText.BOSS_FALSE_SUN, GameText.BOSS_FALSE_SUN_DESC, true,
+	BOSS_FALSE_SUN("Boss4", GameText.BOSS_FALSE_SUN, GameText.BOSS_FALSE_SUN_DESC, true, MapSize.MEDIUM,
 			GameMode.BOSS),
-	BOSS_NEPTUNE_KING("Boss5", GameText.BOSS_NEPTUNE_KING, GameText.BOSS_NEPTUNE_KING_DESC, true,
+	BOSS_NEPTUNE_KING("Boss5", GameText.BOSS_NEPTUNE_KING, GameText.BOSS_NEPTUNE_KING_DESC, true, MapSize.MEDIUM,
 			GameMode.BOSS),
-	BOSS_GILT_SCALED_SERAPH("Boss6", GameText.BOSS_GILT_SCALED_SERAPH, GameText.BOSS_BOSS_GILT_SCALED_SERAPH_DESC, true,
+	BOSS_GILT_SCALED_SERAPH("Boss6", GameText.BOSS_GILT_SCALED_SERAPH, GameText.BOSS_BOSS_GILT_SCALED_SERAPH_DESC, true, MapSize.MEDIUM,
 			GameMode.BOSS),
 
-	AGGYDAGGY("dm_aggydaggy", GameText.AGGYDAGGY, GameText.NOTHING, true,
+	AGGYDAGGY("dm_aggydaggy", GameText.AGGYDAGGY, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
-	BOTTLENECK("dm_bottleneck", GameText.BOTTLENECK, GameText.NOTHING, true,
+	BOTTLENECK("dm_bottleneck", GameText.BOTTLENECK, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
-	BROUHAHA("dm_brouhaha", GameText.BROUHAHA, GameText.NOTHING, true,
+	BROUHAHA("dm_brouhaha", GameText.BROUHAHA, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	COQUELICOT("ctf_coquelicot", GameText.COQUELICOT, GameText.NOTHING, true,
+	COQUELICOT("ctf_coquelicot", GameText.COQUELICOT, GameText.NOTHING, true, MapSize.EXTRA_LARGE,
 			GameMode.CTF, GameMode.DEATHMATCH),
-	FACILITY("dm_facility", GameText.FACILITY, GameText.NOTHING, true,
+	FACILITY("dm_facility", GameText.FACILITY, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
-	FILTRATION("ctf_filtration", GameText.FILTRATION, GameText.NOTHING, true,
+	FILTRATION("ctf_filtration", GameText.FILTRATION, GameText.NOTHING, true, MapSize.EXTRA_LARGE,
 			GameMode.CTF, GameMode.DEATHMATCH),
-	FLOTSAM("dm_flotsam", GameText.FLOTSAM, GameText.NOTHING, true,
+	FLOTSAM("dm_flotsam", GameText.FLOTSAM, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	GREEN("futbol_green", GameText.GREEN, GameText.NOTHING, true,
+	GREEN("futbol_green", GameText.GREEN, GameText.NOTHING, true, MapSize.SMALL,
 			GameMode.FOOTBALL, GameMode.DEATHMATCH),
-	LAGAN("dm_lagan", GameText.LAGAN, GameText.NOTHING, true,
+	LAGAN("dm_lagan", GameText.LAGAN, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	THRESHOLD("dm_threshold", GameText.THRESHOLD, GameText.NOTHING, true,
+	THRESHOLD("dm_threshold", GameText.THRESHOLD, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	TOWERS("dm_towers", GameText.TOWERS, GameText.NOTHING, true,
+	TOWERS("dm_towers", GameText.TOWERS, GameText.NOTHING, true, MapSize.LARGE,
 			GameMode.DEATHMATCH),
-	UNDULATE("ctf_undulate", GameText.UNDULATE, GameText.NOTHING, true,
+	UNDULATE("ctf_undulate", GameText.UNDULATE, GameText.NOTHING, true, MapSize.EXTRA_LARGE,
 			GameMode.CTF, GameMode.DEATHMATCH),
-	WARP("dm_warp", GameText.WARP, GameText.NOTHING, true,
+	WARP("dm_warp", GameText.WARP, GameText.NOTHING, true, MapSize.SMALL,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	QUADRANT("dm_quadrant", GameText.QUADRANTS, GameText.NOTHING, true,
+	QUADRANT("dm_quadrant", GameText.QUADRANTS, GameText.NOTHING, true, MapSize.LARGE,
 			GameMode.DEATHMATCH),
-	WETWORKS("dm_wetworks", GameText.WETWORKS, GameText.NOTHING, true,
+	WETWORKS("dm_wetworks", GameText.WETWORKS, GameText.NOTHING, true, MapSize.SMALL,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	ZIGGURAT("dm_ziggurat", GameText.ZIGGURAT, GameText.NOTHING, true,
+	ZIGGURAT("dm_ziggurat", GameText.ZIGGURAT, GameText.NOTHING, true, MapSize.SMALL,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
 
-	FORMOSAN_BLUE_MAGPIE("dm_formosan_blue_magpie", GameText.FORMOSAN_BLUE_MAGPIE, GameText.NOTHING, true,
+	FORMOSAN_BLUE_MAGPIE("dm_formosan_blue_magpie", GameText.FORMOSAN_BLUE_MAGPIE, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
-	FREE_RANGE("dm_free_range", GameText.FREE_RANGE, GameText.NOTHING, true,
+	FREE_RANGE("dm_free_range", GameText.FREE_RANGE, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
-	GREY_HERON("dm_grey_heron", GameText.GREY_HERON, GameText.NOTHING, true,
+	GREY_HERON("dm_grey_heron", GameText.GREY_HERON, GameText.NOTHING, true, MapSize.SMALL,
 			GameMode.DEATHMATCH),
-	HUMMINGBIRD("dm_hummingbird", GameText.HUMMINGBIRD, GameText.NOTHING, true,
+	HUMMINGBIRD("dm_hummingbird", GameText.HUMMINGBIRD, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
-	JAPANESE_WHITEEYE("dm_japanese_whiteeye", GameText.JAPANESE_WHITEEYE, GameText.NOTHING, true,
+	JAPANESE_WHITEEYE("dm_japanese_whiteeye", GameText.JAPANESE_WHITEEYE, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
-	LITTLE_BITTERN("dm_little_bittern", GameText.LITTLE_BITTERN, GameText.NOTHING, true,
+	LITTLE_BITTERN("dm_little_bittern", GameText.LITTLE_BITTERN, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
-	PELICAN("dm_pelican", GameText.PELICAN, GameText.NOTHING, true,
+	PELICAN("dm_pelican", GameText.PELICAN, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
-	SUPREME_CHAMPION("dm_supreme_champion", GameText.SUPREME_CHAMPION, GameText.NOTHING, true, GameMode.DEATHMATCH),
+	SUPREME_CHAMPION("dm_supreme_champion", GameText.SUPREME_CHAMPION, GameText.NOTHING, true, MapSize.MEDIUM,
+			GameMode.DEATHMATCH),
 	
-	FACING_CRABS("dm_crab", GameText.FACING_CRABS, GameText.NOTHING, true,
+	FACING_CRABS("dm_crab", GameText.FACING_CRABS, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
-	GALLERY("dm_gallery", GameText.GALLERY, GameText.NOTHING, true,
+	GALLERY("dm_gallery", GameText.GALLERY, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
-	HORIZON("dm_horizon", GameText.HORIZON, GameText.NOTHING, true,
+	HORIZON("dm_horizon", GameText.HORIZON, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
-	REDROCK("dm_redrock", GameText.REDROCK, GameText.NOTHING, true,
+	REDROCK("dm_redrock", GameText.REDROCK, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
 
-	FALLDOWN("dm_falldown", GameText.FALLDOWN, GameText.NOTHING, true, GameMode.DEATHMATCH),
-	MOONBOUNCE("dm_moonbounce", GameText.MOONBOUNCE, GameText.NOTHING, true, GameMode.DEATHMATCH),
-	PINWHEEL("dm_pinwheel", GameText.PINWHEEL, GameText.NOTHING, true, GameMode.DEATHMATCH),
-	PIVOT("dm_pivot", GameText.PIVOT, GameText.NOTHING, true, GameMode.DEATHMATCH),
+	FALLDOWN("dm_falldown", GameText.FALLDOWN, GameText.NOTHING, true, MapSize.SMALL, GameMode.DEATHMATCH),
+	MOONBOUNCE("dm_moonbounce", GameText.MOONBOUNCE, GameText.NOTHING, true, MapSize.MEDIUM, GameMode.DEATHMATCH),
+	PINWHEEL("dm_pinwheel", GameText.PINWHEEL, GameText.NOTHING, true, MapSize.SMALL, GameMode.DEATHMATCH),
+	PIVOT("dm_pivot", GameText.PIVOT, GameText.NOTHING, true, MapSize.SMALL, GameMode.DEATHMATCH),
 	//	CAROUSEL("dm_carousel", GameMode.DEATHMATCH),
 	//	GULLY("dm_gully", GameMode.DEATHMATCH),
 	//	JUMP("dm_jump", GameMode.DEATHMATCH),
@@ -127,12 +129,12 @@ public enum UnlockLevel {
 	SLUICEBOSS("sluiceboss", GameMode.CAMPAIGN),
 	PARTY("party", GameMode.CAMPAIGN),
 
-	SANDBOX_HUB("sandboxhub", GameText.SANDBOX, GameText.SANDBOX_DESC, true, GameMode.SANDBOX),
+	SANDBOX_HUB("sandboxhub", GameText.SANDBOX, GameText.SANDBOX_DESC, true, MapSize.MEDIUM, GameMode.SANDBOX),
 	SANDBOX_ENEMY("sandboxenemy", GameMode.SANDBOX),
 	SANDBOX_EVENTS("sandboxevent", GameMode.SANDBOX),
 
-	SSTUNICATE1("sstunicate1", GameText.LEVEL_HUB, GameText.HUB_DESC, false, GameMode.HUB),
-	HUB_MULTI("sstunicate2", GameText.LEVEL_HUB, GameText.HUB_DESC, true, GameMode.HUB),
+	SSTUNICATE1("sstunicate1", GameText.LEVEL_HUB, GameText.HUB_DESC, false, MapSize.MEDIUM, GameMode.HUB),
+	HUB_MULTI("sstunicate2", GameText.LEVEL_HUB, GameText.HUB_DESC, true, MapSize.MEDIUM, GameMode.HUB),
 
 	;
 	
@@ -148,11 +150,14 @@ public enum UnlockLevel {
 	//these are modes that this map can be selected for
 	private final GameMode[] modes;
 
-	UnlockLevel(String map, GameText name, GameText desc, boolean multiplayer,GameMode... modes) {
+	private final MapSize size;
+
+	UnlockLevel(String map, GameText name, GameText desc, boolean multiplayer, MapSize size, GameMode... modes) {
 		this.map = getMapFileName(map);
 		this.name = name;
 		this.desc = desc;
 		this.imageFile = map;
+		this.size = size;
 		this.modes = modes;
 
 		if (multiplayer) {
@@ -163,7 +168,7 @@ public enum UnlockLevel {
 	}
 
 	UnlockLevel(String map, GameMode... modes) {
-		this(map, GameText.NOTHING, GameText.NOTHING, false, modes);
+		this(map, GameText.NOTHING, GameText.NOTHING, false, MapSize.MEDIUM, modes);
 		tags.clear();
 	}
 
@@ -203,6 +208,8 @@ public enum UnlockLevel {
 
 	public String getDesc() { return desc.text(); }
 
+	public MapSize getSize() { return size; }
+
 	private static final HashMap<String, UnlockLevel> UnlocksByName = new HashMap<>();
 	static {
 		for (UnlockLevel u : UnlockLevel.values()) {
@@ -211,5 +218,29 @@ public enum UnlockLevel {
 	}
 	public static UnlockLevel getByName(String s) {
 		return UnlocksByName.getOrDefault(s, HUB_MULTI);
+	}
+
+	public enum MapSize {
+
+		TINY(UIText.TINY, 2),
+		SMALL(UIText.SMALL, 4),
+		MEDIUM(UIText.MEDIUM, 6),
+		LARGE(UIText.LARGE, 8),
+		EXTRA_LARGE(UIText.EXTRA_LARGE, 10),
+		GIANT(UIText.GIANT, 12)
+
+		;
+
+		private final String sizeName;
+		private final int preferredPlayers;
+
+		MapSize(UIText sizeName, int preferredPlayers) {
+			this.sizeName = sizeName.text();
+			this.preferredPlayers = preferredPlayers;
+		}
+
+		public String getSizeName() { return sizeName; }
+
+		public int getPreferredPlayers() { return preferredPlayers;	}
 	}
 }

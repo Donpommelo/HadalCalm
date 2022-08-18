@@ -19,22 +19,33 @@ public class HubOptionPlayer extends HubOption {
 	private final UnlockCosmetic cosmetic;
 	private final boolean renderCosmetic;
 	private final PlayerSpriteHelper playerSpriteHelper;
+	private final Vector2 playerOffset = new Vector2(PLAYER_SPRITE_OFFSET);
+
+	private float attackAngle;
+	private boolean bob = true;
+	private MoveState moveState = MoveState.MOVE_LEFT;
 	private float animationTime;
 
-	public HubOptionPlayer(String text, Player player, UnlockCharacter character, AlignmentFilter team, UnlockCosmetic cosmetic) {
+	public HubOptionPlayer(String text, Player player, UnlockCharacter character, AlignmentFilter team,
+						   boolean renderCosmetic, UnlockCosmetic cosmetic, float scale) {
 		super(text, null);
+		this.renderCosmetic = renderCosmetic;
 		this.cosmetic = cosmetic;
-		this.renderCosmetic = cosmetic != null;
-		this.playerSpriteHelper = new PlayerSpriteHelper(player, SCALE);
+		this.playerSpriteHelper = new PlayerSpriteHelper(player, scale);
 		playerSpriteHelper.replaceBodySprite(player.getState().getBatch(), character, team);
+	}
+
+	public HubOptionPlayer(String text, Player player, UnlockCharacter character, AlignmentFilter team,
+						   boolean renderCosmetic, UnlockCosmetic cosmetic) {
+		this(text, player, character, team, renderCosmetic, cosmetic, SCALE);
 	}
 
 	@Override
     public void draw(Batch batch, float alpha) {
 		super.draw(batch, alpha);
 
-		playerSpriteHelper.render(batch,0.0f, MoveState.MOVE_LEFT, animationTime, animationTime,
-				true, PLAYER_SPRITE_OFFSET, renderCosmetic, cosmetic);
+		playerSpriteHelper.render(batch, attackAngle, moveState, animationTime, animationTime,
+				true, playerOffset, renderCosmetic, cosmetic, bob);
     }
 
     @Override
@@ -47,6 +58,27 @@ public class HubOptionPlayer extends HubOption {
 	public boolean remove() {
 		playerSpriteHelper.dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
 		return super.remove();
+	}
+
+	public HubOptionPlayer setPlayerOffset(Vector2 playerOffset) {
+		this.playerOffset.set(playerOffset);
+		updateHitBox();
+		return this;
+	}
+
+	public HubOptionPlayer setAttackAngle(float attackAngle) {
+		this.attackAngle = attackAngle;
+		return this;
+	}
+
+	public HubOptionPlayer setMoveState(MoveState moveState) {
+		this.moveState = moveState;
+		return this;
+	}
+
+	public HubOptionPlayer setBob(boolean bob) {
+		this.bob = bob;
+		return this;
 	}
 
 	public PlayerSpriteHelper getPlayerSpriteHelper() { return playerSpriteHelper; }

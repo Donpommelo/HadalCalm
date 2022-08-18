@@ -42,7 +42,7 @@ import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
 public enum GameMode {
 
     HUB("", "koh", GameText.HUB, GameText.HUB_DESC,
-            new SettingTeamMode(TeamMode.COOP), new SettingLives(0), new SettingBots(0)) {
+            new SettingTeamMode(TeamMode.COOP), new SettingLives(0), new SettingBots(1)) {
 
         @Override
         public boolean isInvisibleInHub() { return true; }
@@ -149,7 +149,8 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    SANDBOX("", "koh", GameText.SANDBOX, GameText.SANDBOX_DESC, new SettingTeamMode(TeamMode.COOP), new SettingLives(0)),
+    SANDBOX("", "koh", GameText.SANDBOX, GameText.SANDBOX_DESC, new SettingTeamMode(TeamMode.COOP),
+            new SettingLives(0)),
 
     ;
 
