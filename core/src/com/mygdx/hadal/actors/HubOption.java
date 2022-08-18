@@ -84,11 +84,13 @@ public class HubOption extends Text {
 
 	public HubOption setIconOffsetX(int iconOffsetX) {
 		this.iconOffsetX = iconOffsetX;
+		updateHitBox();
 		return this;
 	}
 
 	public HubOption setIconOffsetY(int iconOffsetY) {
 		this.iconOffsetY = iconOffsetY;
+		updateHitBox();
 		return this;
 	}
 }

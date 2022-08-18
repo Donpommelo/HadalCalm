@@ -199,7 +199,7 @@ public class Haberdasher extends HubEvent {
 				}
 
 				HubOptionPlayer option = new HubOptionPlayer(selected.getName(), state.getPlayer(), lastCharacter,
-						lastFilter, selected);
+						lastFilter, true, selected);
 				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_CHARACTER_HEIGHT);
 				option.setWrap(TEXT_WIDTH);
 				option.setYOffset(TEXT_OFFSET_CHARACTER_Y);

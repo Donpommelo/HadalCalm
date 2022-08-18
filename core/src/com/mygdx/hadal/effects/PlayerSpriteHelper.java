@@ -176,7 +176,7 @@ public class PlayerSpriteHelper {
      * @param playerLocation: where is the player located at?
      */
     public void render(Batch batch, float attackAngle, MoveState moveState, float animationTime, float animationTimeExtra,
-                       boolean grounded, Vector2 playerLocation, boolean cosmetics, UnlockCosmetic lockedCosmetic) {
+                       boolean grounded, Vector2 playerLocation, boolean cosmetics, UnlockCosmetic lockedCosmetic, boolean bob) {
 
         //flip determines if the player is facing left or right
         boolean flip = Math.abs(attackAngle) > 90;
@@ -201,8 +201,8 @@ public class PlayerSpriteHelper {
         int bodyFrame = bodyRunSprite.getKeyFrameIndex(animationTime);
         int headFrame = bodyRunSprite.getKeyFrameIndex(animationTimeExtra);
 
-        yOffset = character.getWobbleOffsetBody(bodyFrame, grounded, moving);
-        yOffsetHead = character.getWobbleOffsetHead(bodyFrame, headFrame, grounded, moving);
+        yOffset = character.getWobbleOffsetBody(bob ? bodyFrame : 0, grounded, moving);
+        yOffsetHead = character.getWobbleOffsetHead(bob ? bodyFrame : 0, bob ? headFrame : 0, grounded, moving);
 
         float bodyX = (flip ? bodyWidth * scale : 0) + playerLocation.x - HB_WIDTH * scale / 2  + BODY_CONNECT_X * scale;
         float bodyY = playerLocation.y - HB_HEIGHT * scale / 2  + BODY_CONNECT_Y + yOffset * scale;
@@ -389,7 +389,7 @@ public class PlayerSpriteHelper {
         //render player
         player.getState().getBatch().begin();
         render(player.getState().getBatch(), player.getAttackAngle(), player.getMoveState(), 0.0f, 0.0f,
-                false, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT).scl(0.5f), true, null);
+                false, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT).scl(0.5f), true, null, false);
         player.getState().getBatch().end();
 
         ragdollBuffer.end();

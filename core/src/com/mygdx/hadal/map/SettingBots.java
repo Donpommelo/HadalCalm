@@ -72,12 +72,12 @@ public class SettingBots extends ModeSetting {
             botDifficultyOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag2, defaultValue));
 
             //bot difficulty option is disabled with no bots
-            botDifficultyOptions.setDisabled(botNumberOptions.getSelectedIndex() == 0);
+            botDifficultyOptions.setDisabled(botNumberOptions.getSelectedIndex() == 1);
             botNumberOptions.addListener(new ChangeListener() {
 
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    botDifficultyOptions.setDisabled(botNumberOptions.getSelectedIndex() == 0);
+                    botDifficultyOptions.setDisabled(botNumberOptions.getSelectedIndex() == 1);
                 }
             });
 

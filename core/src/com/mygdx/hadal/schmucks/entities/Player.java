@@ -699,7 +699,7 @@ public class Player extends PhysicsSchmuck {
 
 		//render player sprite using sprite helper
 		spriteHelper.render(batch, attackAngle, moveState, animationTime, animationTimeExtra, grounded, playerLocation,
-				true, null);
+				true, null, true);
 
 		if (batchSet) {
 			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);

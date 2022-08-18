@@ -75,9 +75,11 @@ public class Painter extends HubEvent {
 				AlignmentFilter selected = loadingCharacters.removeIndex(0);
 				HubOptionPlayer option;
 				if (AlignmentFilter.NONE.equals(selected)) {
-					option = new HubOptionPlayer(selected.toString(), state.getPlayer(), lastCharacter, selected, null);
+					option = new HubOptionPlayer(selected.toString(), state.getPlayer(), lastCharacter, selected,
+							false, null);
 				} else {
-					option = new HubOptionPlayer(selected.getColoredAdjective(), state.getPlayer(),	lastCharacter, selected, null);
+					option = new HubOptionPlayer(selected.getColoredAdjective(), state.getPlayer(),	lastCharacter, selected,
+							false, null);
 				}
 				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_HEIGHT);
 				option.setWrap(TEXT_WIDTH);
