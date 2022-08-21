@@ -220,8 +220,10 @@ public class Haberdasher extends HubEvent {
 							choice = getBlank(selected.getCosmeticSlot());
 						}
 
+						//we set loadout for both server and client so cosmetic slot page is accurate upon returning
+						state.getPlayer().getPlayerData().setCosmetic(choice);
+
 						if (state.isServer()) {
-							state.getPlayer().getPlayerData().setCosmetic(choice);
 							state.getPlayer().getPlayerData().syncServerCosmeticChange(choice);
 						} else {
 							HadalGame.client.sendTCP(new PacketsLoadout.SyncCosmeticClient(choice));
