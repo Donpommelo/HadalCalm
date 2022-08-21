@@ -47,7 +47,7 @@ public enum UnlockLevel {
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
 	GREEN("futbol_green", GameText.GREEN, GameText.NOTHING, true, MapSize.SMALL,
 			GameMode.FOOTBALL, GameMode.DEATHMATCH),
-	LAGAN("dm_lagan", GameText.LAGAN, GameText.NOTHING, true, MapSize.MEDIUM,
+	LAGAN("dm_lagan", GameText.LAGAN, GameText.NOTHING, true, MapSize.SMALL,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),
 	THRESHOLD("dm_threshold", GameText.THRESHOLD, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH, GameMode.SURVIVAL),

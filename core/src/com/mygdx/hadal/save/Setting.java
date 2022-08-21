@@ -174,8 +174,8 @@ public class Setting {
 		autoIconify = true;
 		displayNames = true;
 		displayHp = true;
-		cursorType = 4;
-		cursorSize = 1;
+		cursorType = 7;
+		cursorSize = 0;
 		cursorColor = 4;
 		mouseCameraTrack = true;
 		screenShake = true;
