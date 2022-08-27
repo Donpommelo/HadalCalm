@@ -35,6 +35,8 @@ import static com.mygdx.hadal.utils.Constants.*;
 
 public class LobbyState extends GameState {
 
+    private final static String SERVER_IP = "https://hadal-calm-lobby.fly.dev/";
+
     //Dimensions of the setting menu
     private static final int JOIN_X = 1650;
     private static final int JOIN_Y = 240;
@@ -348,10 +350,9 @@ public class LobbyState extends GameState {
         transitionIn(() -> inputDisabled = false);
     }
 
-    private final static String serverIP = "https://hadalcalm-lobby-server.herokuapp.com/";
     public void connectSocket() {
         try {
-            HadalGame.socket = IO.socket(serverIP);
+            HadalGame.socket = IO.socket(SERVER_IP);
             HadalGame.socket.connect();
 
             connectionAttempted = true;
