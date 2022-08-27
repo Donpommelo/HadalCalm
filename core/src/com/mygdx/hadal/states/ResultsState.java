@@ -195,13 +195,13 @@ public class ResultsState extends GameState {
 			{
 				addActor(new Backdrop(AssetList.RESULTS_CARD.toString()));
 
-				table = new WindowTable();
+				table = new TableWindow();
 				table.setPosition(TABLE_X, TABLE_Y);
 				table.setSize(TABLE_WIDTH, TABLE_HEIGHT);
 				addActor(table);
 				syncScoreTable();
 
-				tableInfoOuter = new WindowTable();
+				tableInfoOuter = new TableWindow();
 
 				infoPlayerName = new Text("");
 				infoPlayerName.setScale(INFO_TEXT_SCALE);
@@ -228,7 +228,7 @@ public class ResultsState extends GameState {
 
 				addActor(tableInfoOuter);
 
-				tableExtra = new WindowTable();
+				tableExtra = new TableWindow();
 
 				//These are all of the display and buttons visible to the player.
 				final Text readyOption = new Text(UIText.READY.text()).setButton(true);

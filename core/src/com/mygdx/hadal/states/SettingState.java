@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.actors.Text;
-import com.mygdx.hadal.actors.WindowTable;
+import com.mygdx.hadal.actors.TableWindow;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -103,13 +103,13 @@ public class SettingState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
-				options = new WindowTable();
+				options = new TableWindow();
 				options.setPosition(OPTIONS_X, OPTIONS_Y);
 				options.setSize(OPTIONS_WIDTH, OPTIONS_HEIGHT);
 				options.top();
 				addActor(options);
 				
-				details = new WindowTable();
+				details = new TableWindow();
 				details.setPosition(DETAILS_X, DETAILS_Y);
 				details.setSize(DETAILS_WIDTH, DETAILS_HEIGHT);
 				details.top();

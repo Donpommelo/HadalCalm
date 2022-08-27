@@ -56,8 +56,8 @@ public class Text extends AHadalActor {
     public void draw(Batch batch, float alpha) {
 
 		//draw an additional window beneath this actor to indicate a button
-		 if (mouseOver) {
-		 	if (mouseWindow) {
+		if (mouseOver) {
+			if (mouseWindow) {
 				GameStateManager.getSimplePatch().draw(batch, getX() - PAD / 2, getY(), getWidth() + PAD, getHeight());
 			}
 		 }
@@ -94,17 +94,18 @@ public class Text extends AHadalActor {
 	}
 
 	public Text setButton(boolean mouseWindow) {
+		final Text me = this;
 		this.mouseWindow = mouseWindow;
 		this.addListener(new InputListener() {
 
 			@Override
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-				((Text) event.getTarget()).mouseOver = true;
+				me.mouseOver = true;
 			}
 
 			@Override
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-				((Text) event.getTarget()).mouseOver = false;
+				me.mouseOver = false;
 			}
 		});
 		return this;

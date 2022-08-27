@@ -463,7 +463,8 @@ public class PlayState extends GameState {
 
 	protected static final float SCORE_SYNC_TIME = 1.0f;
 	protected static final float LOBBY_SYNC_TIME = 15.0f;
-	protected float scoreSyncAccumulator, lobbySyncAccumulator;
+	protected float scoreSyncAccumulator = SCORE_SYNC_TIME;
+	protected float lobbySyncAccumulator = LOBBY_SYNC_TIME;
 
 	private float timer;
 	/**
@@ -668,6 +669,8 @@ public class PlayState extends GameState {
 						try {
 							lobbyData.put("playerNum", HadalGame.server.getNumPlayers());
 							lobbyData.put("playerCapacity", gsm.getSetting().getMaxPlayers() + 1);
+							lobbyData.put("gameMode", mode.getName());
+							lobbyData.put("gameMap", level.getName());
 						} catch (JSONException jsonException) {
 							Gdx.app.log("LOBBY", "FAILED TO SEND LOBBY INFO " + jsonException);
 						}

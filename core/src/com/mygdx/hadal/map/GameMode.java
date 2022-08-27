@@ -179,7 +179,7 @@ public enum GameMode {
     //number of teams playing on auto team assign mode
     private int teamNum = 2;
 
-    //The string id of the mode's icon in the artifact texture atlas
+    //The string id of the mode's icon in the mode texture atlas
     private final String spriteId;
 
     GameMode(String extraLayers, String spriteId, GameMode checkCompliance, GameText name, GameText desc, ModeSetting... applicableSettings) {

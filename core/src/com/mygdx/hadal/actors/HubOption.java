@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
 
 /**
+ * A HubOption is an actor that is added to the hub ui to represent an option that a player can choose
+ * This manages the position of the actor's text and sprite
+ * @author Plashful Phottspice
  */
 public class HubOption extends Text {
 

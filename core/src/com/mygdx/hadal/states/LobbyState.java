@@ -7,15 +7,17 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.TableButton;
+import com.mygdx.hadal.actors.TableWindow;
 import com.mygdx.hadal.actors.Text;
-import com.mygdx.hadal.actors.WindowTable;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.text.UIText;
 import io.socket.client.IO;
@@ -36,16 +38,16 @@ public class LobbyState extends GameState {
     //Dimensions of the setting menu
     private static final int JOIN_X = 1650;
     private static final int JOIN_Y = 240;
-    private static final int JOIN_X_ENABLED = 660;
+    private static final int JOIN_X_ENABLED = 620;
     private static final int JOIN_Y_ENABLED = 240;
-    private static final int JOIN_WIDTH = 580;
+    private static final int JOIN_WIDTH = 620;
     private static final int JOIN_HEIGHT = 440;
-    private static final int SCROLL_WIDTH = 550;
+    private static final int SCROLL_WIDTH = 590;
     private static final int SCROLL_HEIGHT = 250;
 
     private static final int IP_X = 1540;
     private static final int IP_Y = 100;
-    private static final int IP_X_ENABLED = 720;
+    private static final int IP_X_ENABLED = 700;
     private static final int IP_Y_ENABLED = 100;
     private static final int IP_WIDTH = 460;
     private static final int IP_HEIGHT = 100;
@@ -55,14 +57,14 @@ public class LobbyState extends GameState {
     private static final int HOST_Y = 100;
     private static final int HOST_X_ENABLED = 40;
     private static final int HOST_Y_ENABLED = 100;
-    private static final int HOST_WIDTH = 580;
+    private static final int HOST_WIDTH = 540;
     private static final int HOST_HEIGHT = 580;
 
     private static final int NOTIFICATION_X = 40;
     private static final int NOTIFICATION_Y = -240;
     private static final int NOTIFICATION_X_ENABLED = 40;
     private static final int NOTIFICATION_Y_ENABLED = 40;
-    private static final int NOTIFICATION_WIDTH = 580;
+    private static final int NOTIFICATION_WIDTH = 540;
     private static final int NOTIFICATION_HEIGHT = 60;
 
     private static final int PASSWORD_X = 440;
@@ -73,7 +75,7 @@ public class LobbyState extends GameState {
 
     private static final float OPTIONS_SCALE = 0.5f;
     private static final float OPTION_HEIGHT = 35.0f;
-    private static final float OPTION_SCALE = 0.3f;
+    private static final float OPTION_SCALE = 0.225f;
     private static final float OPTION_PAD = 10.0f;
 
     private static final float TITLE_PAD = 25.0f;
@@ -84,9 +86,8 @@ public class LobbyState extends GameState {
     private static final float CONNECTION_TIMEOUT = 10.0f;
 
     //This table contains the ui elements of the pause screen
-    private Table joinLobby, lobbyTable, notificationTable, joinIP, host, tablePassword;
+    private Table joinLobby, lobbyOptions, lobbyTable, notificationTable, joinIP, host, tablePassword;
     private ScrollPane options;
-    private VerticalGroup lobbyOptions;
 
     private TextField enterName, enterIP, enterPassword;
 
@@ -115,29 +116,28 @@ public class LobbyState extends GameState {
         final LobbyState me = this;
         stage = new Stage() {
             {
-                joinLobby = new WindowTable();
+                joinLobby = new TableWindow();
                 joinLobby.setPosition(JOIN_X, JOIN_Y);
                 joinLobby.setSize(JOIN_WIDTH, JOIN_HEIGHT);
                 joinLobby.top();
                 addActor(joinLobby);
-
-                host = new WindowTable();
+                host = new TableWindow();
                 host.setPosition(HOST_X, HOST_Y);
                 host.setSize(HOST_WIDTH, HOST_HEIGHT);
                 host.top();
                 addActor(host);
 
-                joinIP = new WindowTable();
+                joinIP = new TableWindow();
                 joinIP.setPosition(IP_X, IP_Y);
                 joinIP.setSize(IP_WIDTH, IP_HEIGHT);
                 addActor(joinIP);
 
-                notificationTable = new WindowTable();
+                notificationTable = new TableWindow();
                 notificationTable.setPosition(NOTIFICATION_X, NOTIFICATION_Y);
                 notificationTable.setSize(NOTIFICATION_WIDTH, NOTIFICATION_HEIGHT);
                 addActor(notificationTable);
 
-                lobbyTable = new WindowTable();
+                lobbyTable = new TableWindow();
 
                 Text joinTitle = new Text(UIText.JOIN.text());
                 joinTitle.setScale(TITLE_SCALE);
@@ -145,10 +145,11 @@ public class LobbyState extends GameState {
                 Text lobbiesTitle = new Text(UIText.LOBBIES.text());
                 lobbiesTitle.setScale(SUBTITLE_SCALE);
 
-                lobbyOptions = new VerticalGroup().pad(OPTION_PAD).align(Align.topLeft);
+                lobbyOptions = new Table().align(Align.top);
 
                 options = new ScrollPane(lobbyOptions, GameStateManager.getSkin());
                 options.setFadeScrollBars(false);
+                options.setScrollingDisabled(true, false);
 
                 searchOption = new Text(UIText.REFRESH.text()).setButton(true);
                 searchOption.addListener(new ClickListener() {
@@ -262,6 +263,8 @@ public class LobbyState extends GameState {
                                 lobbyData.put("name", enterName.getText());
                                 lobbyData.put("playerNum", 1);
                                 lobbyData.put("playerCapacity", gsm.getSetting().getMaxPlayers() + 1);
+                                lobbyData.put("gameMode", GameMode.HUB.getName());
+                                lobbyData.put("gameMap", UnlockLevel.HUB_MULTI.getName());
                             } catch (JSONException jsonException) {
                                 Gdx.app.log("LOBBY", "FAILED TO CREATE LOBBY " + jsonException);
                             }
@@ -301,7 +304,7 @@ public class LobbyState extends GameState {
                 joinLobby.add(lobbiesTitle).height(OPTION_HEIGHT).pad(TITLE_PAD).left();
                 joinLobby.add(searchOption).height(OPTION_HEIGHT).pad(TITLE_PAD).right().row();
 
-                lobbyTable.add(options);
+                lobbyTable.add(options).grow().top();
                 joinLobby.add(lobbyTable).colspan(2).height(SCROLL_HEIGHT).width(SCROLL_WIDTH).pad(OPTION_PAD).row();
 
                 joinIP.add(ipDisplay).height(OPTION_HEIGHT).pad(5);
@@ -398,8 +401,18 @@ public class LobbyState extends GameState {
 
                 int playerNum = lobbies.getJSONObject(i).getInt("playerNum");
                 int playerCapacity = lobbies.getJSONObject(i).getInt("playerCapacity");
+                String gameMode = lobbies.getJSONObject(i).getString("gameMode");
+                String gameMap = lobbies.getJSONObject(i).getString("gameMap");
 
-                Text lobbyOption = new Text(lobbyName + " " + playerNum + " / " + playerCapacity).setButton(true);
+                Table lobbyOption = new TableButton();
+
+                Text nameAndCapacity = new Text(lobbyName + " (" + playerNum + " / " + playerCapacity + ")");
+                nameAndCapacity.setScale(OPTION_SCALE);
+                Text modeAndMap = new Text(gameMode + ": " + gameMap);
+                modeAndMap.setScale(OPTION_SCALE);
+
+                lobbyOption.add(nameAndCapacity).pad(OPTION_PAD).grow().left();
+                lobbyOption.add(modeAndMap).pad(OPTION_PAD).grow().right();
                 lobbyOption.addListener(new ClickListener() {
 
                     @Override
@@ -427,10 +440,7 @@ public class LobbyState extends GameState {
                         });
                     }
                 });
-                lobbyOption.setScale(OPTION_SCALE);
-                lobbyOption.setHeight(OPTION_HEIGHT);
-
-                lobbyOptions.addActor(lobbyOption);
+                lobbyOptions.add(lobbyOption).padTop(OPTION_PAD).width(SCROLL_WIDTH).height(OPTION_HEIGHT).row();
             }
 
             if (lobbies.length() == 0) {
@@ -474,7 +484,7 @@ public class LobbyState extends GameState {
      */
     public void openPasswordRequest() {
 
-        tablePassword = new WindowTable();
+        tablePassword = new TableWindow();
         tablePassword.setPosition(PASSWORD_X, PASSWORD_Y);
         tablePassword.setSize(PASSWORD_WIDTH, PASSWORD_HEIGHT);
         stage.addActor(tablePassword);

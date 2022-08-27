@@ -27,11 +27,17 @@ public class Dormitory extends HubEvent {
 	private static final int OPTION_WIDTH = 250;
 	private static final int OPTION_HEIGHT = 500;
 
+	//rate that each sprite is lazy-loaded
 	private static final float loadInterval = 0.1f;
 	private float loadCount;
 
+	//A list of characters that we are loading
 	private final Array<UnlockCharacter> loadingCharacters = new Array<>();
+
+	//player sprites for hub options in the ui
 	private final Array<HubOptionPlayer> sprites = new Array<>();
+
+	//last team color that was used to load characters
 	private AlignmentFilter lastFilter;
 
 	public Dormitory(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
@@ -43,6 +49,7 @@ public class Dormitory extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 
+		//if we need to reload sprites (due to color change), clear existing sprites and begin loading new sprites
 		if (lastFilter != state.getPlayer().getPlayerData().getLoadout().team) {
 			for (HubOptionPlayer sprite : sprites) {
 				sprite.getPlayerSpriteHelper().dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
@@ -56,6 +63,7 @@ public class Dormitory extends HubEvent {
 				loadingCharacters.add(c);
 			}
 		} else {
+			//if reopening with no changes, add existing sprites to hub
 			for (HubOptionPlayer sprite : sprites) {
 				hub.addActor(sprite, sprite.getWidth(), 1);
 			}
@@ -66,6 +74,8 @@ public class Dormitory extends HubEvent {
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
+
+		//at set interval, create new hub option for the next to-be-loaded player
 		loadCount += delta;
 		if (loadCount >= loadInterval) {
 			loadCount = 0.0f;
@@ -83,6 +93,7 @@ public class Dormitory extends HubEvent {
 
 				sprites.add(option);
 
+				//clicking on the option sets your character
 				option.addListener(new ClickListener() {
 
 					@Override
@@ -105,6 +116,8 @@ public class Dormitory extends HubEvent {
 						hub.setInfo(selected.getName() + "\n\n" + selected.getDesc());
 					}
 				});
+
+				//if we are loading the last character, finish loading sprites
 				if (hub.getType().equals(hubTypes.DORMITORY)) {
 					hub.addActor(option, option.getWidth(), 1);
 

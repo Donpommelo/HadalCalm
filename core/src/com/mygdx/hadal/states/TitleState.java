@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Backdrop;
 import com.mygdx.hadal.actors.Text;
-import com.mygdx.hadal.actors.WindowTable;
+import com.mygdx.hadal.actors.TableWindow;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -148,17 +148,17 @@ public class TitleState extends GameState {
 				
 				addActor(backdrop);
 
-				tableMain = new WindowTable();
+				tableMain = new TableWindow();
 				tableMain.setPosition(MENU_X, MENU_Y);
 				tableMain.setSize(MENU_WIDTH, MENU_HEIGHT);
 				addActor(tableMain);
 
-				tableName = new WindowTable();
+				tableName = new TableWindow();
 				tableName.setPosition(NAME_X, NAME_Y);
 				tableName.setSize(NAME_WIDTH, NAME_HEIGHT);
 				addActor(tableName);
 
-				notificationTable = new WindowTable();
+				notificationTable = new TableWindow();
 				notificationTable.setPosition(NOTIFICATION_X, NOTIFICATION_Y);
 				notificationTable.setSize(NOTIFICATION_WIDTH, NOTIFICATION_HEIGHT);
 				addActor(notificationTable);

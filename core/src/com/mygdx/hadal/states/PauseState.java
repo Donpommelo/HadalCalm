@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.actors.Text;
-import com.mygdx.hadal.actors.WindowTable;
+import com.mygdx.hadal.actors.TableWindow;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
@@ -101,7 +101,7 @@ public class PauseState extends GameState {
 					menuHeight += EXTRA_ROW_HEIGHT;
 				}
 				
-				table = new WindowTable();
+				table = new TableWindow();
 				table.setLayoutEnabled(true);
 				table.setPosition(HadalGame.CONFIG_WIDTH / 2 - WIDTH / 2, HadalGame.CONFIG_HEIGHT / 2 - menuHeight / 2);
 				table.setSize(WIDTH, menuHeight);

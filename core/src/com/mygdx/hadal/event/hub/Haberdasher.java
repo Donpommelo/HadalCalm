@@ -29,6 +29,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * The Painter is a hub event that allows players to change their color.
+ * When team mode is toggled on by the host, players with the same colors will be on the same team
+ * @author Shonnigan Swilbatross
  */
 public class Haberdasher extends HubEvent {
 
@@ -41,11 +44,17 @@ public class Haberdasher extends HubEvent {
 	private static final int TEXT_OFFSET_CHARACTER_Y = 195;
 	private static final int OPTION_CHARACTER_HEIGHT = 500;
 
+	//rate that each sprite is lazy-loaded
 	private static final float loadInterval = 0.1f;
 	private float loadCount;
 
+	//A list of cosmetics that we are loading
 	private final Array<UnlockCosmetic> loadingCosmetics = new Array<>();
+
+	//player sprites for hub options in the ui
 	private final Array<HubOptionPlayer> sprites = new Array<>();
+
+	//last team color/character/cosmetic slot that was used to load each colored sprite
 	private AlignmentFilter lastFilter;
 	private UnlockCharacter lastCharacter;
 	private CosmeticSlot lastCosmetic;
@@ -53,6 +62,7 @@ public class Haberdasher extends HubEvent {
 	//this is the selected game mode
 	private CosmeticSlot slotChosen = CosmeticSlot.HAT1;
 
+	//keeps track of whether we are looking at cosmetic slots or cosmetics
 	private int menuDepth;
 
 	public Haberdasher(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
@@ -70,6 +80,7 @@ public class Haberdasher extends HubEvent {
 			return;
 		}
 
+		//if we need to reload sprites (due to character/team/slot change), clear existing sprites and begin loading new sprites
 		if (lastCharacter != state.getPlayer().getPlayerData().getLoadout().character
 				|| lastFilter != state.getPlayer().getPlayerData().getLoadout().team || lastCosmetic != slotChosen) {
 			for (HubOptionPlayer sprite : sprites) {
@@ -81,6 +92,7 @@ public class Haberdasher extends HubEvent {
 			lastFilter = state.getPlayer().getPlayerData().getLoadout().team;
 			lastCosmetic = slotChosen;
 
+			//iterate through all cosmetics that are valid with given character and slot
 			for (UnlockCosmetic c : UnlockCosmetic.getUnlocks(state, checkUnlock, tags)) {
 				if (!c.getCosmeticSlot().equals(slotChosen)) {
 					continue;
@@ -102,6 +114,7 @@ public class Haberdasher extends HubEvent {
 				}
 			}
 		} else {
+			//if reopening with no change, add existing sprites to hub
 			for (HubOptionPlayer sprite : sprites) {
 				state.getUiHub().addActor(sprite, sprite.getWidth(), 1);
 			}
@@ -116,12 +129,14 @@ public class Haberdasher extends HubEvent {
 		final Haberdasher me = this;
 		menuDepth = 0;
 
+		//create options for each cosmetic slot that has at least one cosmetic for the character
 		for (CosmeticSlot slot : CosmeticSlot.values()) {
 			final CosmeticSlot selected = slot;
 
 			PlayerBodyData playerData = state.getPlayer().getPlayerData();
 			Animation<TextureRegion> frame = null;
 
+			//hub option icon displays currently equipped cosmetic or a red X if there is none.
 			if (playerData != null) {
 				UnlockCosmetic cosmeticType = playerData.getLoadout().cosmetics[slot.getSlotNumber()];
 				if (!cosmeticType.isBlank()) {
@@ -140,6 +155,7 @@ public class Haberdasher extends HubEvent {
 			float iconWidth = frame.getKeyFrame(0).getRegionWidth();
 			float iconHeight = frame.getKeyFrame(0).getRegionHeight();
 
+			//keep track of the number of cosmetics for each slot to be displayed in the respective hub option
 			int cosmeticCount = 0;
 			for (UnlockCosmetic c : UnlockCosmetic.getUnlocks(state, checkUnlock, tags)) {
 				if (!c.getCosmeticSlot().equals(slot)) {
@@ -161,6 +177,7 @@ public class Haberdasher extends HubEvent {
 			option.setWrap(TEXT_WIDTH);
 			option.setYOffset(TEXT_OFFSET_Y);
 
+			//when selecting a slot option, we reenter the hub with menu depth 1 to see cosmetics
 			option.addListener(new ClickListener() {
 
 				@Override
@@ -183,6 +200,8 @@ public class Haberdasher extends HubEvent {
 	public void controller(float delta) {
 		super.controller(delta);
 		loadCount += delta;
+
+		//at set interval, create new hub option for the next to-be-loaded player
 		if (loadCount >= loadInterval) {
 			loadCount = 0.0f;
 
@@ -206,6 +225,7 @@ public class Haberdasher extends HubEvent {
 
 				sprites.add(option);
 
+				//clicking on the option sets your cosmetic
 				option.addListener(new ClickListener() {
 
 					@Override
@@ -241,6 +261,7 @@ public class Haberdasher extends HubEvent {
 					}
 				});
 
+				//if we are loading the last character, finish loading sprites
 				if (hub.getType().equals(hubTypes.HABERDASHER) && menuDepth == 1) {
 					hub.addActor(option, option.getWidth(), 1);
 
@@ -265,6 +286,9 @@ public class Haberdasher extends HubEvent {
 		}
 	}
 
+	/**
+	 * This returns whether the player already has the given cosmetic equipped
+	 */
 	private static boolean isEquipping(PlayerBodyData playerData, UnlockCosmetic cosmetic) {
 		return playerData.getLoadout().cosmetics[cosmetic.getCosmeticSlot().getSlotNumber()] != cosmetic;
 	}

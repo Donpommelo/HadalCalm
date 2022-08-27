@@ -8,7 +8,7 @@ import com.mygdx.hadal.managers.GameStateManager;
  * A window table is just a table with a window sprite drawn around it automatically
  * @author Snerabeau Shikola
  */
-public class WindowTable extends Table {
+public class TableWindow extends Table {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
