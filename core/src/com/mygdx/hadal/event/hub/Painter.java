@@ -26,11 +26,17 @@ public class Painter extends HubEvent {
 	private static final int OPTION_WIDTH = 250;
 	private static final int OPTION_HEIGHT = 500;
 
+	//rate that each sprite is lazy-loaded
 	private static final float loadInterval = 0.1f;
 	private float loadCount;
 
+	//A list of characters that we are loading
 	private final Array<AlignmentFilter> loadingCharacters = new Array<>();
+
+	//player sprites for hub options in the ui
 	private final Array<HubOptionPlayer> sprites = new Array<>();
+
+	//last character that was used to load each colored sprite
 	private UnlockCharacter lastCharacter;
 
 	public Painter(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
@@ -42,6 +48,7 @@ public class Painter extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 
+		//if we need to reload sprites (due to character change), clear existing sprites and begin loading new sprites
 		if (lastCharacter != state.getPlayer().getPlayerData().getLoadout().character) {
 			for (HubOptionPlayer sprite : sprites) {
 				sprite.getPlayerSpriteHelper().dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
@@ -56,6 +63,7 @@ public class Painter extends HubEvent {
 				}
 			}
 		} else {
+			//if reopening with no change, add existing sprites to hub
 			for (HubOptionPlayer sprite : sprites) {
 				hub.addActor(sprite, sprite.getWidth(), 1);
 			}
@@ -65,6 +73,8 @@ public class Painter extends HubEvent {
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
+
+		//at set interval, create new hub option for the next to-be-loaded player
 		loadCount += delta;
 		if (loadCount >= loadInterval) {
 			loadCount = 0.0f;
@@ -87,6 +97,7 @@ public class Painter extends HubEvent {
 
 				sprites.add(option);
 
+				//clicking on the option sets your team alignment
 				option.addListener(new ClickListener() {
 
 					@Override
@@ -102,6 +113,8 @@ public class Painter extends HubEvent {
 						state.getGsm().getLoadout().setTeam(selected.toString());
 					}
 				});
+
+				//if we are loading the last character, finish loading sprites
 				if (hub.getType().equals(hubTypes.PAINTER)) {
 					hub.addActor(option, option.getWidth(), 1);
 

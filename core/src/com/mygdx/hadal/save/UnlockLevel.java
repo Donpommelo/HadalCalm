@@ -145,6 +145,7 @@ public enum UnlockLevel {
 	private final GameText name, desc;
 	private final Array<UnlockTag> tags = new Array<>();
 
+	//The string id of the map's icon in the map texture atlas
 	private final String imageFile;
 
 	//these are modes that this map can be selected for

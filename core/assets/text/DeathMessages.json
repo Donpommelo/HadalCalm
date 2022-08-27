@@ -217,12 +217,43 @@
             "message": "<perp> flim-flammed <vic>", "weight": 25, "namedPerp": true
         },
         {
+            "message": "<perp> flummoxed <vic>", "weight": 25, "namedPerp": true
+        },
+        {
             "message": "<perp> bamboozled <vic>", "weight": 25, "namedPerp": true
         },
         {
             "message": "<perp> hornswoggled <vic>", "weight": 25, "namedPerp": true
         }
     ],
+"WAVE_BEAM":  [
+        {
+            "message": "<perp> waved goodbye to <vic>'s <body part>", "weight": 20, "namedPerp": true
+        },
+		{
+            "message": "<perp> waived <vic>'s right to live", "weight": 20, "namedPerp": true
+        },
+		{
+            "message": "<perp> helped <vic> catch some waves", "weight": 20, "namedPerp": true
+        },
+		{
+            "message": "<perp> sine'd <vic>'s death warrant", "weight": 10, "namedPerp": true
+        },
+		{
+            "message": "<perp> cosine'd <vic>'s death warrant", "weight": 10, "namedPerp": true
+        }
+    ],
+"X_BOMBER":  [
+	{
+		"message": "<perp> X-ed out <vic>'s <body part>", "weight": 10, "namedPerp": true
+	},
+	{
+		"message": "<perp> crossed out <vic>'s <body part>", "weight": 10, "namedPerp": true
+	},
+	{
+		"message": "<perp> made <vic> very cross", "weight": 10, "namedPerp": true
+	}
+],
 "MELEE":  [
         {
             "message": "<perp> beat <vic> to death", "weight": 1, "namedPerp": true
@@ -482,6 +513,9 @@
         },
         {
             "message": "The heat of the <perp> cooks the <vic>", "weight": 30, "namedPerp": true
+        },
+        {
+            "message": "<perp> gave <vic> the ol' spicy keychain", "weight": 30, "namedPerp": true
         }
     ],
 "LIGHTNING":  [

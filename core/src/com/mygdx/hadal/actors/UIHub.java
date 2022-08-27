@@ -85,7 +85,7 @@ public class UIHub {
 		this.state = state;
 		this.active = false;
 
-		this.tableOuter = new WindowTable();
+		this.tableOuter = new TableWindow();
 
 		this.tableTop = new Table();
 
@@ -93,7 +93,7 @@ public class UIHub {
 		this.tableSearch = new Table();
 		this.tableExtra = new Table();
 
-		this.tableRight = new WindowTable();
+		this.tableRight = new TableWindow();
 		this.tableTabs = new Table();
 		this.tableOptions = new Table();
 
@@ -252,6 +252,7 @@ public class UIHub {
 			}
 		});
 
+		//add tab options for menus that have multiple pages (reliquary)
 		if (hub.isTabbable()) {
 			tableRight.add(tableTabs).height(TAB_HEIGHT).width(SCROLL_WIDTH).row();
 			tableRight.add(options).height(SCROLL_HEIGHT_WITH_TAB).width(SCROLL_WIDTH);
@@ -272,6 +273,10 @@ public class UIHub {
 
 	private int currentRow;
 	private VerticalGroup currentVerticalGroup = new VerticalGroup();
+	/**
+	 * This adds a single actor to the hub grid.
+	 * We keep track of currentRow and currentVerticalGroup to know when to create a new group
+	 */
 	public void addActor(Actor actor, float width, int rowNum) {
 		currentVerticalGroup.addActor(actor);
 		currentVerticalGroup.top();
@@ -288,6 +293,9 @@ public class UIHub {
 		}
 	}
 
+	/**
+	 * After adding all the actors to the grid, we need to call this to add the last vertical group to the ui
+	 */
 	public void addActorFinish() {
 		tableOptions.add(currentVerticalGroup).pad(VERTICAL_GROUP_PAD).growY();
 		currentVerticalGroup = new VerticalGroup();
@@ -387,6 +395,9 @@ public class UIHub {
 		}
 	}
 
+	/**
+	 * Refreshing the outfitter has extra logic adding options to save/delete outfits
+	 */
 	public void refreshOutfitter(HubEvent hub) {
 		tableExtra.clear();
 		TextField outfitName = new TextField("", GameStateManager.getSkin());
@@ -461,7 +472,9 @@ public class UIHub {
 		}
 	}
 
-	//this converts slot cost filter to actual slot cost (because 0 indexing)
+	/**
+	 * 	this converts slot cost filter to actual slot cost (because 0 indexing)
+	 */
 	private int indexToFilterSlot() {
 		if (slotsFilter == null) {
 			return -1;

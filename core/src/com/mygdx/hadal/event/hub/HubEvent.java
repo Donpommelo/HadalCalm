@@ -43,7 +43,7 @@ public class HubEvent extends Event {
 	protected String lastSearch = "";
 	protected int lastSlot;
 	
-	//the last scroll percent of the
+	//the last scroll percent of the menu (to auto scroll to when reopening)
 	private float lastScroll;
 
 	public HubEvent(final PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave, hubTypes type) {
@@ -130,11 +130,17 @@ public class HubEvent extends Event {
 		lastScroll = state.getUiHub().getOptions().getScrollX();
 	}
 
+	/**
+	 * Upon opening, set scroll to last scroll amount
+	 */
 	private void setScroll() {
 		state.getUiHub().getOptions().layout();
 		state.getUiHub().getOptions().setScrollX(lastScroll);
 	}
 
+	/**
+	 * This is overridden by each hub event. This adds the options to the hub ui
+	 */
 	public void addOptions(String search, int slots, UnlockTag tag) {
 		lastTag = tag;
 		lastSearch = search;

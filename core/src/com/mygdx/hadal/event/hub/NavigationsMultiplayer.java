@@ -57,11 +57,13 @@ public class NavigationsMultiplayer extends HubEvent {
 	//this is the selected game mode
 	private GameMode modeChosen = GameMode.DEATHMATCH;
 
+	//list of game modes the player can choose from
 	private final Array<GameMode> gameModes = new Array<>();
 
 	private String lastSearch = "";
 	private UnlockTag lastTag;
 
+	//keeps track of whether we are looking at modes or maps
 	private int menuDepth;
 
 	public NavigationsMultiplayer(PlayState state, Vector2 startPos, Vector2 size, String title, String tag,
@@ -112,6 +114,7 @@ public class NavigationsMultiplayer extends HubEvent {
 				option.setWrap(TEXT_WIDTH);
 				option.setYOffset(TEXT_OFFSET_Y);
 
+				//when selecting a mode option, we reenter the hub with menu depth 1 to see maps
 				option.addListener(new ClickListener() {
 
 					@Override
@@ -137,6 +140,9 @@ public class NavigationsMultiplayer extends HubEvent {
 		hub.addActorFinish();
 	}
 
+	/**
+	 * This is called when viewing maps to display options to view settings nad modifiers
+	 */
 	private void addTabs() {
 		final UIHub hub = state.getUiHub();
 		hub.getTableTabs().clear();
@@ -179,6 +185,9 @@ public class NavigationsMultiplayer extends HubEvent {
 		hub.getTableTabs().add(modifiers).height(TAB_HEIGHT).pad(TAB_PAD);
 	}
 
+	/**
+	 * This adds map options to the hub ui
+	 */
 	private void addMaps() {
 		final UIHub hub = state.getUiHub();
 		final NavigationsMultiplayer me = this;
@@ -191,6 +200,7 @@ public class NavigationsMultiplayer extends HubEvent {
 
 		Pattern pattern = Pattern.compile(lastSearch);
 
+		//iterate through all valid maps
 		for (UnlockLevel c : UnlockLevel.getUnlocks(state, checkUnlock, newTags)) {
 			final UnlockLevel selected = c;
 
@@ -224,6 +234,7 @@ public class NavigationsMultiplayer extends HubEvent {
 				option.setWrap(MAP_TEXT_WIDTH);
 				option.setYOffset(MAP_TEXT_OFFSET_Y);
 
+				//clicking on the option enters a given map and begins the match
 				option.addListener(new ClickListener() {
 
 					@Override
@@ -264,6 +275,9 @@ public class NavigationsMultiplayer extends HubEvent {
 		}
 	}
 
+	/**
+	 * Adding settings to the hub ui just calls each mode setting of the mode
+	 */
 	private void addSettings() {
 		final UIHub hub = state.getUiHub();
 		hub.getTableOptions().clear();
@@ -273,6 +287,9 @@ public class NavigationsMultiplayer extends HubEvent {
 		}
 	}
 
+	/**
+	 * Adding modifiers to the hub ui just calls each mode modifier of the mode
+	 */
 	private void addModifiers() {
 		final UIHub hub = state.getUiHub();
 		hub.getTableOptions().clear();
@@ -282,6 +299,9 @@ public class NavigationsMultiplayer extends HubEvent {
 		}
 	}
 
+	/**
+	 * Mode-specific settings are saved whenever tab is changed
+	 */
 	private void saveSettings() {
 		for (ModeSetting setting : modeChosen.getSettings()) {
 			setting.saveSetting(state, modeChosen);

@@ -10,6 +10,9 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 
 /**
+ * A HubOptionPlayer is a special HubOption that contains a player sprite helper
+ * This is used when a ui element must render a player; including its cosmetics and team color shader
+ * @author Mavatappi Morcfold
  */
 public class HubOptionPlayer extends HubOption {
 
@@ -22,9 +25,11 @@ public class HubOptionPlayer extends HubOption {
 	private final Vector2 playerOffset = new Vector2(PLAYER_SPRITE_OFFSET);
 
 	private float attackAngle;
-	private boolean bob = true;
 	private MoveState moveState = MoveState.MOVE_LEFT;
 	private float animationTime;
+
+	//should the player sprite be bobbing up and down as it moves?
+	private boolean bob = true;
 
 	public HubOptionPlayer(String text, Player player, UnlockCharacter character, AlignmentFilter team,
 						   boolean renderCosmetic, UnlockCosmetic cosmetic, float scale) {

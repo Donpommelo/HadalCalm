@@ -228,7 +228,7 @@ public class KillFeed {
         notification.setPosition(HadalGame.CONFIG_WIDTH / 2 - NOTIFICATION_WIDTH / 2,
                 HadalGame.CONFIG_HEIGHT - NOTIFICATION_Y - NOTIFICATION_HEIGHT);
 
-        deathInfoTable = new WindowTable() {
+        deathInfoTable = new TableWindow() {
 
             @Override
             public void act(float delta) {
@@ -256,7 +256,7 @@ public class KillFeed {
         deathInfo = new Text("");
         deathInfo.setScale(SCALE);
 
-        killerPortrait = new WindowTable();
+        killerPortrait = new TableWindow();
         killerPortrait.setSize(KILLER_WIDTH, KILLER_HEIGHT);
 
         portrait = new ScrollPane(killerPortrait, GameStateManager.getSkin());
@@ -313,6 +313,7 @@ public class KillFeed {
             deathInfoTable.add(deathPerpTitle);
             deathInfoTable.add(deathPerp).pad(DEATH_INFO_PAD).row();
 
+            //if there is a player killer, get their character bust to display in kill feed
             if (killerPerp != null) {
                 killerBustSprite = new HubOptionPlayer("", killerPerp,
                         killerPerp.getPlayerData().getLoadout().character,
@@ -329,6 +330,7 @@ public class KillFeed {
             }
         }
 
+        //Display death source in ui
         if (!deathCause.isEmpty()) {
             Text deathSourceTitle = new Text(UIText.DEATH_CAUSE.text());
             deathSourceTitle.setScale(SCALE);
@@ -361,6 +363,7 @@ public class KillFeed {
         deathInfo.setText(df.format(respawnTime) + " S");
     }
 
+    //when this actor is removed, we want to dispose of the character bust in the kill feed to avoid memory leak
     private void clearKillerBustSprite() {
         if (killerBustSprite != null) {
             killerBustSprite.getPlayerSpriteHelper().dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);

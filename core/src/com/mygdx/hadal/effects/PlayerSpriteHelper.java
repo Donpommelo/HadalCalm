@@ -174,6 +174,9 @@ public class PlayerSpriteHelper {
      * @param animationTimeExtra: the animation frame of the current sprite's head
      * @param grounded: is the player on the ground?
      * @param playerLocation: where is the player located at?
+     * @param cosmetics: Do we render the player's cosmetics?
+     * @param lockedCosmetic: If not null, this is the 1 cosmetic we should render (used for haberdasher preview)
+     * @param bob: Should the sprite bob up and down (false for kill feed sprite busts)
      */
     public void render(Batch batch, float attackAngle, MoveState moveState, float animationTime, float animationTimeExtra,
                        boolean grounded, Vector2 playerLocation, boolean cosmetics, UnlockCosmetic lockedCosmetic, boolean bob) {
@@ -279,6 +282,9 @@ public class PlayerSpriteHelper {
         }
     }
 
+    /**
+     * Helper method that renders the player's cosmetics
+     */
     private void renderCosmetics(Batch batch, float animationTimeExtra, boolean flip, UnlockCosmetic lockedCosmetic) {
         if (lockedCosmetic == null) {
             //draw cosmetics. Use head coordinates. Update coordinates if any cosmetics replace the head
@@ -287,6 +293,7 @@ public class PlayerSpriteHelper {
                         player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headLocation, bodyLocation));
             }
         } else {
+            //only draw the locked cosmetic
             headLocation.set(lockedCosmetic.render(batch, player.getPlayerData().getLoadout().team,
                     player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headLocation, bodyLocation));
         }
