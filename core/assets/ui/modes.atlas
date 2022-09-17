@@ -1,26 +1,40 @@
 
 modes.png
-size: 1024,512
+size: 2048,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-deathmatch
+ctf
   rotate: false
   xy: 2, 2
   size: 300, 400
   orig: 300, 400
   offset: 0, 0
   index: -1
-gun_game
+deathmatch
   rotate: false
   xy: 304, 2
   size: 300, 400
   orig: 300, 400
   offset: 0, 0
   index: -1
-koh
+gun_game
   rotate: false
   xy: 606, 2
+  size: 300, 400
+  orig: 300, 400
+  offset: 0, 0
+  index: -1
+koh
+  rotate: false
+  xy: 908, 2
+  size: 300, 400
+  orig: 300, 400
+  offset: 0, 0
+  index: -1
+survival
+  rotate: false
+  xy: 1210, 2
   size: 300, 400
   orig: 300, 400
   offset: 0, 0

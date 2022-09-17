@@ -102,7 +102,7 @@ public class Player extends PhysicsSchmuck {
 	//invisibility and blinded are kept track of this way too b/c they effect visuals
 	private boolean scaling;
 	protected int invisible;
-	private float blinded;
+	protected float blinded;
 	
 	//does the player have a shoot/jump or boost action buffered? (i.e used when still on cd)
 	protected boolean shootBuffered, jumpBuffered, airblastBuffered;
@@ -138,7 +138,7 @@ public class Player extends PhysicsSchmuck {
 	
 	//particles and sounds used by the player
 	protected ParticleEntity hoverBubbles, dustCloud;
-	private SoundEntity runSound, hoverSound, reloadSound;
+	protected SoundEntity runSound, hoverSound, reloadSound;
 	
 	//This is the controller that causes this player to perform actions
 	private ActionController controller;
@@ -191,8 +191,7 @@ public class Player extends PhysicsSchmuck {
 
 		this.spriteHelper = new PlayerSpriteHelper(this, SCALE);
 		setBodySprite(startLoadout.character, startLoadout.team);
-		loadParticles();
-		
+
 		//This schmuck tracks mouse location. Used for projectiles that home towards mouse.
 		mouse = state.getMouse();
 		
@@ -224,12 +223,19 @@ public class Player extends PhysicsSchmuck {
 	/**
 	 * This method prepares the various particle emitting entities attached to the player.
 	 */
-	public void loadParticles() {
+	public void loadParticlesAndSounds() {
 		if (state.isServer()) {
 			dustCloud = new ParticleEntity(state, this, Particle.DUST, 1.0f, 0.0f, false,
-					SyncType.TICKSYNC);
+					SyncType.NOSYNC);
 			hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false,
-					SyncType.TICKSYNC);
+					SyncType.NOSYNC);
+
+			hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.0f, 0.2f, 1.0f,
+					true, true, SyncType.NOSYNC);
+			runSound = new SoundEntity(state, this, SoundEffect.RUN, 0.0f, 0.1f, 1.0f,
+					true, true, SyncType.NOSYNC);
+			reloadSound = new SoundEntity(state, this, SoundEffect.RELOAD, 0.0f, 0.2f, 1.0f,
+					true, true, SyncType.NOSYNC);
 		}
 	}
 	
@@ -238,6 +244,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void create() {
+		loadParticlesAndSounds();
 		alive = true;
 		destroyed = false;
 
@@ -362,10 +369,7 @@ public class Player extends PhysicsSchmuck {
 			} else {
 				//turn off hover particles and sound
 				hoverBubbles.turnOff();
-
-				if (hoverSound != null) {
-					hoverSound.turnOff();
-				}
+				hoverSound.turnOff();
 			}
 			if (fastFalling) {
 				fastFall();
@@ -375,18 +379,11 @@ public class Player extends PhysicsSchmuck {
 				
 				//turn on running particles and sound
 				dustCloud.turnOn();
-				if (runSound == null) {
-					runSound = new SoundEntity(state, this, SoundEffect.RUN, 0.0f, 0.1f, 1.0f,
-							true, true, SyncType.TICKSYNC);
-				} else {
-					runSound.turnOn();
-				}
+				runSound.turnOn();
 			} else {
 				//turn off running particles and sound
 				dustCloud.turnOff();
-				if (runSound != null) {
-					runSound.turnOff();
-				}
+				runSound.turnOff();
 			}
 		}
 		
@@ -419,16 +416,9 @@ public class Player extends PhysicsSchmuck {
 			playerData.getCurrentTool().reload(delta);
 			
 			//turn on reloading particles and sound
-			if (reloadSound == null) {
-				reloadSound = new SoundEntity(state, this, SoundEffect.RELOAD, 0.0f, 0.2f, 1.0f,
-						true, true, SyncType.TICKSYNC);
-			} else {
-				reloadSound.turnOn();
-			}
+			reloadSound.turnOn();
 		} else {
-			if (reloadSound != null) {
-				reloadSound.turnOff();
-			}
+			reloadSound.turnOff();
 		}
 		
 		//charge active item in all modes except campaign (where items charge by dealing damage).
@@ -510,18 +500,12 @@ public class Player extends PhysicsSchmuck {
 			if (invisible == 0) {
 				//turn on hovering particles and sound
 				hoverBubbles.turnOn();
-				if (hoverSound == null) {
-					hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.0f, 0.2f, 1.0f,
-							true, true, SyncType.TICKSYNC);
-				}
 				hoverSound.turnOn();
 			}
 		} else {
 			//turn off hovering particles and sound
 			hoverBubbles.turnOff();
-			if (hoverSound != null) {
-				hoverSound.turnOff();
-			}
+			hoverSound.turnOff();
 		}
 	}
 	

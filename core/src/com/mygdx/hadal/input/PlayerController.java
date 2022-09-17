@@ -73,9 +73,6 @@ public class PlayerController implements InputProcessor {
 		else if (keycode == PlayerAction.WEAPON_CYCLE_UP.getKey()) {
 			player.getController().keyDown(PlayerAction.WEAPON_CYCLE_UP);
 		}
-		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
-			player.getController().keyDown(PlayerAction.CHAT_WHEEL);
-		}
 		else if (keycode == PlayerAction.PING.getKey()) {
 			player.getController().keyDown(PlayerAction.PING);
 		}
@@ -103,9 +100,6 @@ public class PlayerController implements InputProcessor {
 		}
 		else if (keycode == PlayerAction.FIRE.getKey()) {
 			player.getController().keyUp(PlayerAction.FIRE);
-		}
-		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
-			player.getController().keyUp(PlayerAction.CHAT_WHEEL);
 		}
 		return false;
 	}

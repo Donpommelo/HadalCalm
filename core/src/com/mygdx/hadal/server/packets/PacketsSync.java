@@ -138,6 +138,17 @@ public class PacketsSync {
         }
     }
 
+    public static class SyncClientPlayer extends SyncEntity {
+        public int ping;
+
+        public SyncClientPlayer() {}
+
+        public SyncClientPlayer(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, int ping) {
+            super(entityID, pos, velocity, age, timestamp);
+            this.ping = ping;
+        }
+    }
+
     public static class SyncParticles extends SyncEntity {
         public boolean on;
         public SyncParticles() {}

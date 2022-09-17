@@ -120,7 +120,7 @@ public class Schmuck extends HadalEntity {
 	 * @param wait: Should this tool wait for base cooldowns. No for special tools like built-in airblast
 	 */
 	public void useToolStart(float delta, Equippable tool, short hitbox, Vector2 mouseLocation, boolean wait) {
-		
+
 		getBodyData().statusProcTime(new ProcTime.WhileAttack(delta, tool));
 
 		//Only register the attempt if the user is not waiting on a tool's delay or cooldown. (or if tool ignores wait)

@@ -80,13 +80,13 @@ public enum GameMode {
         public boolean isInvisibleInHub() { return true; }
     },
 
-    SURVIVAL("arena", "koh", GameText.SURVIVAL, GameText.SURVIVAL_DESC,
+    SURVIVAL("arena", "survival", GameText.SURVIVAL, GameText.SURVIVAL_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.COOP), new SettingTimer("VICTORY"), new AllyRevive(),
         new DisplayUITag("SCOREBOARD"), new DisplayUITag("HISCORE"), new DisplayUITag("ALLY_HEALTH"),
         new SpawnWeapons(), new SpawnEnemyWaves(), new ToggleWeaponDrops()),
 
-    CTF("ctf", "koh", GameText.CTF, GameText.CTF_DESC,
+    CTF("ctf", "ctf", GameText.CTF, GameText.CTF_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingBots(),
         new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(5), new SettingLoadoutOutfit(),

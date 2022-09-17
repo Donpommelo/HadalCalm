@@ -19,6 +19,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.MouseTracker;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.entities.PlayerClientServer;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -134,7 +135,7 @@ public class KryoServer {
 				 * This packet is sent periodically to inform the server of the client's inputs
 				 * this includes what buttons the client is holding as well as their mouse position
 				 */
-				if (o instanceof final Packets.SyncKeyStrokes p) {
+				if (o instanceof final Packets.SyncServerPlayer p) {
 					final PlayState ps = getPlayState();
 
 					User user = users.get(c.getID());
@@ -142,10 +143,7 @@ public class KryoServer {
 
 						Player player = user.getPlayer();
 						if (player != null) {
-							if (player.getController() != null) {
-								ps.addPacketEffect(() -> player.getController().syncClientKeyStrokes(p.mouseX, p.mouseY,
-										p.playerX, p.playerY, p.actions, p.timestamp));
-							}
+							ps.addPacketEffect(() -> ((PlayerClientServer) player).onReceiveSyncFromClient(p));
 						}
 					}
 				}
@@ -426,25 +424,6 @@ public class KryoServer {
 						}
 					}
 				}
-
-				/*
-				 * Respond to this packet sent from the client periodically so the client knows their latency.
-				 */
-				else if (o instanceof final Packets.LatencySyn p) {
-					final PlayState ps = getPlayState();
-
-					User user = users.get(c.getID());
-					if (user != null && ps != null) {
-						SavedPlayerFields score = user.getScores();
-						if (score != null) {
-							if (score.getPing() != p.latency) {
-								score.setPing(p.latency);
-								user.setScoreUpdated(true);
-							}
-						}
-						server.sendToUDP(c.getID(), new Packets.LatencyAck(ps.getTimer(), p.timestamp));
-					}
-				}
 				
 				/*
 				 * This packet indicates the client is typing, so make a bubble appear above their head.
@@ -537,7 +516,7 @@ public class KryoServer {
 			}
 		};
 		
-//        server.addListener(new Listener.LagListener(50, 100, packetListener));
+//        server.addListener(new Listener.LagListener(100, 100, packetListener));
 		server.addListener(packetListener);
 
 		try {

@@ -276,30 +276,33 @@ public class Packets {
 		}
 	}
 	
-	public static class SyncKeyStrokes {
-		public float mouseX, mouseY, playerX, playerY;
+	public static class SyncServerPlayer {
+		public float mouseX, mouseY;
+		public Vector2 pos, velocity;
 		public PlayerAction[] actions;
 		public float timestamp;
+		public float clientTimestamp;
 
-		public SyncKeyStrokes() {}
+		public SyncServerPlayer() {}
 
 		/**
 		 * This is sent from thte client to the server periodically to indicate what keys are currently held
 		 * This also includes mouse information
 		 * @param mouseX: X-coordinate of client's mouse
 		 * @param mouseY: Y-coordinate of client's mouse
-		 * @param playerX: X-coordinate of client's player (to the client)
-		 * @param playerY: Y-coordinate of client's player (to the client)
+		 * @param pos: X and Y -coordinate of client's player (to the client)
 		 * @param actions: Array of actions whose button is currently held
 		 * @param timestamp: Time that this input snapshot was sent
+		 * @param clientTimestamp: Time that this input snapshot was sent from the server (for latency calculation)
 		 */
-		public SyncKeyStrokes(float mouseX, float mouseY, float playerX, float playerY, PlayerAction[] actions, float timestamp) {
+		public SyncServerPlayer(float mouseX, float mouseY, Vector2 pos, Vector2 velocity, PlayerAction[] actions, float timestamp, float clientTimestamp) {
 			this.mouseX = mouseX;
 			this.mouseY = mouseY;
-			this.playerX = playerX;
-			this.playerY = playerY;
+			this.pos = pos;
+			this.velocity = velocity;
 			this.actions = actions;
 			this.timestamp = timestamp;
+			this.clientTimestamp = clientTimestamp;
 		}
 	}
 	
@@ -1020,40 +1023,6 @@ public class Packets {
 		}
 	}
 	
-	public static class LatencySyn {
-		public float timestamp;
-		public int latency;
-		
-		public LatencySyn() {}
-		
-		/**
-		 * A LatencySyn is sent from the client to the server periodically to check the quality of the network connection.
-		 * @param latency: the client's last synced latency
-		 * @param timestamp: the client's clientPingTimer. Used to determine elapsed time
-		 */
-		public LatencySyn(int latency, float timestamp) {
-			this.latency = latency;
-			this.timestamp = timestamp;
-		}
-	}
-
-	public static class LatencyAck {
-		public float serverTimestamp;
-		public float clientTimestamp;
-
-		public LatencyAck() {}
-
-		/**
-		 * A LatencyAck is sent from the server to the client as a response to a LatencySyn. The time is used to calculate the client's ping.
-		 * @param serverTimestamp: is the server's time at time of response
-		 * @param clientTimestamp: the client's timer when they first sent the sync packet
-		 */
-		public LatencyAck(float serverTimestamp, float clientTimestamp) {
-			this.serverTimestamp = serverTimestamp;
-			this.clientTimestamp = clientTimestamp;
-		}
-	}
-	
 	public static class SyncExtraResultsInfo {
 		public UserDto[] users;
 		public String resultsText;
@@ -1210,7 +1179,7 @@ public class Packets {
 		kryo.register(ServerChat.class);
 		kryo.register(ClientChat.class);
     	kryo.register(ClientReady.class);
-		kryo.register(SyncKeyStrokes.class);
+		kryo.register(SyncServerPlayer.class);
     	kryo.register(LoadLevel.class);
     	kryo.register(ClientLoaded.class);
     	kryo.register(ClientPlayerCreated.class);
@@ -1246,8 +1215,6 @@ public class Packets {
     	kryo.register(StartSpectate.class);
 		kryo.register(EndSpectate.class);
     	kryo.register(SyncSharedSettings.class);
-    	kryo.register(LatencySyn.class);
-    	kryo.register(LatencyAck.class);
     	kryo.register(SyncExtraResultsInfo.class);
 		kryo.register(SyncTyping.class);
 		kryo.register(RemoveScore.class);
@@ -1262,6 +1229,7 @@ public class Packets {
 		kryo.register(PacketsSync.SyncSchmuck.class);
 		kryo.register(PacketsSync.SyncSchmuckAngled.class);
 		kryo.register(PacketsSync.SyncPlayer.class);
+		kryo.register(PacketsSync.SyncClientPlayer.class);
 		kryo.register(PacketsSync.SyncParticles.class);
 		kryo.register(PacketsSync.SyncParticlesExtra.class);
 		kryo.register(PacketsSync.SyncFlag.class);

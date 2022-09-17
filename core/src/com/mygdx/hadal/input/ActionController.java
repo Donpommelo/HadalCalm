@@ -7,6 +7,8 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 /**
  * The Action Controller receives actions from a player controller or packets from clients and uses them to make a player 
  * perform actions.
@@ -149,14 +151,14 @@ public class ActionController {
 	/**
 	 * This is run when receiving client inputs. Set client keys as pressed/released and set attack angle
 	 */
-	public void syncClientKeyStrokes(float mouseX, float mouseY, float clientX, float clientY,
+	public void syncClientKeyStrokes(float mouseX, float mouseY, Vector2 pos,
 		PlayerAction[] actions, float timestamp) {
 
 		//we want to ignore snapshots sent out of order in favor of the most recent snapshot
 		if (timestamp > lastTimestamp) {
 			lastTimestamp = timestamp;
 
-			relativeMouse.set(mouseX, mouseY).sub(clientX, clientY).add(player.getPixelPosition());
+			relativeMouse.set(mouseX, mouseY).mulAdd(pos, -PPM).add(player.getPixelPosition());
 
 			//we want the relative mouse location to get the angle the client is shooting at
 			//this makes high-lag mess with the aim less

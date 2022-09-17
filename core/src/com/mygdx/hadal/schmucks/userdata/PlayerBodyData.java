@@ -590,7 +590,6 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	public void fuelGain(float fuelRegen) {
-		if (!schmuck.getState().isServer()) { return; }
 		currentFuel += fuelRegen;
 		if (currentFuel > getStat(Stats.MAX_FUEL)) {
 			currentFuel = getStat(Stats.MAX_FUEL);

@@ -1021,11 +1021,19 @@ public class PlayState extends GameState {
 		Player p;
 		if (connID < 0) {
 			p = new PlayerBot(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
-		} else if (!client) {
-			p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+		} else if (isServer()) {
+			if (connID == 0) {
+				p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+			} else {
+				p = new PlayerClientServer(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+			}
 		} else {
-			//clients always spawn at (0,0), then move when the server tells them to.
-			p = new PlayerClient(this, new Vector2(), name, newLoadout, null, connID, user, reset, null);
+			if (client) {
+				//clients always spawn at (0,0), then move when the server tells them to.
+				p = new PlayerClientSelf(this, new Vector2(), name, newLoadout, null, connID, user, reset, null);
+			} else {
+				p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+			}
 		}
 		
 		//teleportation particles for reset players (indicates returning to hub)

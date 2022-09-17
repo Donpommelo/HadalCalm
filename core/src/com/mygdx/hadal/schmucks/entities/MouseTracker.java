@@ -59,7 +59,10 @@ public class MouseTracker extends HadalEntity {
 	//we want this entity to not send any sync packets to the client because it doesn't do anything on the client side
 	@Override
 	public void onServerSync() {}
-	
+
+	@Override
+	public void clientController(float delta) {	controller(delta); }
+
 	/**
 	 * When receiving a mouse location from client, the server updates that client's mouse
 	 */

@@ -33,6 +33,11 @@ import java.net.URL;
 
 import static com.mygdx.hadal.utils.Constants.*;
 
+/**
+ * The LobbyState is accessed by selecting multiplayer in the main menu
+ * This allows the player to create server or connect to other server
+ * @author Plashful Phottspice
+ */
 public class LobbyState extends GameState {
 
     //Dimensions of the setting menu

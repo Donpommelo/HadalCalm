@@ -3,7 +3,6 @@ package com.mygdx.hadal.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -12,7 +11,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.input.CommonController;
-import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -53,10 +52,6 @@ public class ClientState extends PlayState {
 	//This is a list of sync instructions. It contains [entityID, object to be synced]
 	private final Array<SyncPacket> sync = new Array<>();
 
-	//This contains the position of the client's mouse, to be sent to the server
-	private final Vector3 mousePosition = new Vector3();
-	private final Vector2 playerPosition = new Vector2();
-
 	//This is the time since the last missed create packet we send the server. Kept track of to avoid sending too many at once.
 	private final ObjectMap<UUID, Float> timeSinceLastMissedCreate = new ObjectMap<>();
 	private final Array<UUID> missedCreatesToRemove = new Array<>();
@@ -96,11 +91,12 @@ public class ClientState extends PlayState {
 			if (gsm.getStates().peek() instanceof PlayState) {
 
 				//Whenever the controller is reset, the client gets a new client controller.
-				controller = new ClientController(player, this);
+				controller = new ClientController(player);
 				
 				InputMultiplexer inputMultiplexer = new InputMultiplexer();
 				inputMultiplexer.addProcessor(stage);
 				inputMultiplexer.addProcessor(controller);
+				inputMultiplexer.addProcessor(new PlayerController(player));
 				inputMultiplexer.addProcessor(new CommonController(this));
 				Gdx.input.setInputProcessor(inputMultiplexer);
 			}
@@ -111,15 +107,7 @@ public class ClientState extends PlayState {
 	private static final float PHYSICS_TIME = 1 / 200f;
 	private float physicsAccumulator;
 
-	//these control the frequency that we send latency checking packets to the server.
-	private static final float LATENCY_CHECK = 1 / 10f;
-	private float latencyAccumulator;
 	private float latency;
-
-	private static final float INPUT_SYNC_TIME = 1 / 60f;
-	private float inputAccumulator;
-
-	private final Vector3 lastMouseLocation = new Vector3();
 
 	//separate timer used to calculate latency
 	private float clientPingTimer;
@@ -134,26 +122,6 @@ public class ClientState extends PlayState {
 			//The box2d world takes a step. This handles collisions + physics stuff.
 			world.step(PHYSICS_TIME, 8, 3);
 		}
-
-		//repeatedly send client inputs and mouse position to server
-		inputAccumulator += delta;
-		while (inputAccumulator >= INPUT_SYNC_TIME) {
-			inputAccumulator -= INPUT_SYNC_TIME;
-
-			if (controller != null) {
-				mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-				HadalGame.viewportCamera.unproject(mousePosition);
-
-				if (player != null) {
-					playerPosition.set(player.getPixelPosition());
-				}
-
-				HadalGame.client.sendUDP(new Packets.SyncKeyStrokes(mousePosition.x, mousePosition.y, playerPosition.x, playerPosition.y,
-						((ClientController) controller).getButtonsHeld().toArray(new PlayerAction[0]), getTimer()));
-				((ClientController) controller).postKeystrokeSync();
-			}
-		}
-		lastMouseLocation.set(mousePosition);
 		
 		//All entities that are set to be created are created and assigned their entityID
 		for (CreatePacket packet : createListClient) {
@@ -198,13 +166,6 @@ public class ClientState extends PlayState {
 		//process camera, ui, any received packets
 		processCommonStateProperties(delta, false);
 		clientPingTimer += delta;
-
-		//this makes the latency checking separate from the game framerate
-		latencyAccumulator += delta;
-		if (latencyAccumulator >= LATENCY_CHECK) {
-			latencyAccumulator = 0;
-			HadalGame.client.sendUDP(new Packets.LatencySyn((int) (latency * 1000), clientPingTimer));
-		}
 
 		missedCreatesToRemove.clear();
 		for (ObjectMap.Entry<UUID, Float> entry : timeSinceLastMissedCreate) {
@@ -413,18 +374,6 @@ public class ClientState extends PlayState {
 		}
 	}
 
-	/**
-	 * This is run when the server responds to our latency check packet. We calculate our ping and save it.
-	 */
-	public void syncLatency(float serverTime, float clientTimestamp) {
-
-		//when transitioning to new state, we don't want old timestamp to give us a negative latency
-		if (clientTimestamp <= clientPingTimer) {
-			latency = clientPingTimer - clientTimestamp;
-			setTimer(serverTime - 2 * PlayState.SYNC_TIME);
-		}
-	}
-	
 	@Override
 	public void dispose() {
 		
@@ -458,6 +407,8 @@ public class ClientState extends PlayState {
 	public void create(HadalEntity entity) {}
 	
 	public float getLatency() { return latency; }
+
+	public void setLatency(int latency) { this.latency = latency; }
 
 	public Vector3 getMousePosition() { return mousePosition; }
 }

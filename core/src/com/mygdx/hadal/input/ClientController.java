@@ -2,9 +2,7 @@ package com.mygdx.hadal.input;
 
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.states.PlayState;
 
 import java.util.HashSet;
 
@@ -16,7 +14,6 @@ import java.util.HashSet;
 public class ClientController implements InputProcessor {
 	
 	private final Player player;
-	private final PlayState state;
 
 	private final HashSet<PlayerAction> buttonsHeld = new HashSet<>();
 	private final HashSet<PlayerAction> buttonsJustPressed = new HashSet<>();
@@ -26,9 +23,8 @@ public class ClientController implements InputProcessor {
 	private boolean leftDown;
 	private boolean rightDown;
 		
-	public ClientController(Player player, PlayState state) {
+	public ClientController(Player player) {
 		this.player = player;
-		this.state = state;
 		syncController();
 	}
 	
@@ -43,37 +39,10 @@ public class ClientController implements InputProcessor {
 
 		PlayerAction action = PlayerAction.hotkeyToAction(keycode);
 		if (action != null) {
-			buttonsHeld.add(action);
-			buttonsJustPressed.add(action);
-		}
-		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
-			leftDown = true;
-			if (!rightDown) {
-				player.setMoveState(MoveState.MOVE_LEFT);
-			} else {
-				player.setMoveState(MoveState.STAND);
+			if (action.isSynced()) {
+				buttonsHeld.add(action);
+				buttonsJustPressed.add(action);
 			}
-		}
-		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
-			rightDown = true;
-			if (!leftDown) {
-				player.setMoveState(MoveState.MOVE_RIGHT);
-			} else {
-				player.setMoveState(MoveState.STAND);
-			}
-		}
-		else if (keycode == PlayerAction.JUMP.getKey()) {
-			player.setHoveringAttempt(true);
-			player.jump();
-		}
-		else if (keycode == PlayerAction.CROUCH.getKey()) {
-			player.setFastFalling(true);
-		}
-		else if (keycode == PlayerAction.BOOST.getKey()) {
-			player.airblast();
-		}
-		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
-			state.getChatWheel().setVisibility(true);
 		}
 		return false;
 	}
@@ -88,36 +57,13 @@ public class ClientController implements InputProcessor {
 
 		PlayerAction action = PlayerAction.hotkeyToAction(keycode);
 		if (action != null) {
-			if (buttonsJustPressed.contains(action)) {
-				buttonsJustReleased.add(action);
-			} else {
-				buttonsHeld.remove(action);
+			if (action.isSynced()) {
+				if (buttonsJustPressed.contains(action)) {
+					buttonsJustReleased.add(action);
+				} else {
+					buttonsHeld.remove(action);
+				}
 			}
-		}
-		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
-			leftDown = false;
-			if (rightDown) {
-				player.setMoveState(MoveState.MOVE_RIGHT);
-			} else {
-				player.setMoveState(MoveState.STAND);
-			}
-		}
-		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
-			rightDown = false;
-			if (leftDown) {
-				player.setMoveState(MoveState.MOVE_LEFT);
-			} else {
-				player.setMoveState(MoveState.STAND);
-			}
-		}
-		else if (keycode == PlayerAction.JUMP.getKey()) {
-			player.setHoveringAttempt(false);
-		}
-		else if (keycode == PlayerAction.CROUCH.getKey()) {
-			player.setFastFalling(false);
-		}
-		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
-			state.getChatWheel().setVisibility(false);
 		}
 		return false;
 	}

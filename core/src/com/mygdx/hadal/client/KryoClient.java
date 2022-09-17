@@ -227,18 +227,6 @@ public class KryoClient {
 		}
 
 		/*
-		 * Server responds to our latency checking packet. record the time and update our latency.
-		 */
-		else if (o instanceof final Packets.LatencyAck p) {
-			final ClientState cs = getClientState();
-			if (cs != null) {
-				cs.addPacketEffect(() -> {
-					cs.syncLatency(p.serverTimestamp, p.clientTimestamp);
-				});
-			}
-		}
-
-		/*
 		 * Server tells us a player started typing. Make typing bubble appear above their head.
 		 */
 		else if (o instanceof final Packets.SyncTyping p) {

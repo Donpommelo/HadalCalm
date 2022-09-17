@@ -219,7 +219,7 @@ public abstract class HadalEntity {
 	public boolean copyServerInstantly;
 	
 	//this is a list of the most recent packets that sync this entity as well as their timestamps
-	private final Array<Object[]> bufferedTimestamps = new Array<>();
+	protected final Array<Object[]> bufferedTimestamps = new Array<>();
 	/**
 	 * When we receive a packet from the server, we store it alongside its timestamp
 	 * @param o: the packet object we are receiving from the server
@@ -268,7 +268,7 @@ public abstract class HadalEntity {
 	//this vector is used to calculate linear interpolation
 	public final Vector2 angleAsVector = new Vector2(0, 1);
 	
-	private float clientSyncAccumulator;
+	protected float clientSyncAccumulator;
 	
 	//this extra vector is used b/c interpolation updates the start vector
 	public final Vector2 lerpPos = new Vector2();
