@@ -43,8 +43,10 @@ public class ClientController implements InputProcessor {
 
 		PlayerAction action = PlayerAction.hotkeyToAction(keycode);
 		if (action != null) {
-			buttonsHeld.add(action);
-			buttonsJustPressed.add(action);
+			if (action.isSynced()) {
+				buttonsHeld.add(action);
+				buttonsJustPressed.add(action);
+			}
 		}
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 			leftDown = true;
@@ -88,10 +90,12 @@ public class ClientController implements InputProcessor {
 
 		PlayerAction action = PlayerAction.hotkeyToAction(keycode);
 		if (action != null) {
-			if (buttonsJustPressed.contains(action)) {
-				buttonsJustReleased.add(action);
-			} else {
-				buttonsHeld.remove(action);
+			if (action.isSynced()) {
+				if (buttonsJustPressed.contains(action)) {
+					buttonsJustReleased.add(action);
+				} else {
+					buttonsHeld.remove(action);
+				}
 			}
 		}
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
