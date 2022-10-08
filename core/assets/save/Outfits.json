@@ -1,0 +1,44 @@
+{
+"outfits": {
+	"fug": {
+		"equip": [
+			"BOILER",
+			"SPEARGUN",
+			"MACHINEGUN",
+			"NOTHING"
+		],
+		"artifact": [
+			"NOTHING",
+			"NOTHING",
+			"NOTHING",
+			"NOTHING",
+			"NOTHING",
+			"NOTHING",
+			"NOTHING",
+			"NOTHING",
+			"NOTHING",
+			"NOTHING",
+			"NOTHING",
+			"NOTHING"
+		],
+		"cosmetic": [
+			"LONG_FACE",
+			"NOTHING_EYE",
+			"NOTHING_HAT1",
+			"NOTHING",
+			"PIPE",
+			"MOUSTACHE",
+			"NOTHING_NOSE",
+			"NOTHING",
+			"NOTHING",
+			"NOTHING_DECAL_BODY",
+			"NOTHING",
+			"NOTHING"
+		],
+		"active": "TERRAFORMER",
+		"character": "TAKANORI",
+		"team": "TEAM_GREY",
+		"name": ""
+	}
+}
+}

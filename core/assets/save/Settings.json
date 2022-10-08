@@ -1,0 +1,275 @@
+{
+"resolution": 1,
+"framerate": 1,
+"cursorType": 7,
+"cursorColor": 4,
+"maxPlayers": 9,
+"artifactSlots": 4,
+"portNumber": 11100,
+"hitsoundType": 1,
+"autoIconify": true,
+"displayNames": true,
+"displayHp": true,
+"randomNameAlliteration": true,
+"consoleEnabled": true,
+"verboseDeathMessage": true,
+"enableUPNP": true,
+"mouseCameraTrack": true,
+"screenShake": true,
+"returnToHubOnReady": true,
+"soundVolume": 1,
+"masterVolume": 0.5,
+"hitsoundVolume": 0.5,
+"serverPassword": "",
+"modeSettings": {
+	"SURVIVAL": {},
+	"FOOTBALL": {},
+	"KINGMAKER": {},
+	"GUN_GAME": {},
+	"MATRYOSHKA": {},
+	"RESURRECTION": {},
+	"BOSS": {},
+	"DREAM_OF_A_WHALE": {},
+	"HUB": {},
+	"CTF": {
+		"player_bounce": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"player_invisible": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"player_mini": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"respawn_time": {
+			"class": "java.lang.Integer",
+			"value": 5
+		},
+		"slow_motion": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"visible_hp": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"team_score_cap": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"timer": {
+			"class": "java.lang.Integer",
+			"value": 5
+		},
+		"player_giant": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"bot_difficulty": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"player_slide": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"double_speed": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"loadout_outfit": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"weapon_drops": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"base_hp": {
+			"class": "java.lang.Integer",
+			"value": 2
+		},
+		"bot_number": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"zero_gravity": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"medieval_mode": {
+			"class": "java.lang.Integer",
+			"value": 0
+		}
+	},
+	"DEATHMATCH": {
+		"player_bounce": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"player_invisible": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"lives": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"player_mini": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"team_mode": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"respawn_time": {
+			"class": "java.lang.Integer",
+			"value": 4
+		},
+		"slow_motion": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"visible_hp": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"score_cap": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"timer": {
+			"class": "java.lang.Integer",
+			"value": 5
+		},
+		"player_giant": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"bot_difficulty": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"player_slide": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"double_speed": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"team_num": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"loadout_outfit": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"weapon_drops": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"base_hp": {
+			"class": "java.lang.Integer",
+			"value": 2
+		},
+		"bot_number": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"zero_gravity": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"medieval_mode": {
+			"class": "java.lang.Integer",
+			"value": 0
+		}
+	},
+	"EGGPLANTS": {
+		"player_bounce": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"player_invisible": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"player_mini": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"team_mode": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"respawn_time": {
+			"class": "java.lang.Integer",
+			"value": 4
+		},
+		"slow_motion": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"visible_hp": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"timer": {
+			"class": "java.lang.Integer",
+			"value": 5
+		},
+		"player_giant": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"bot_difficulty": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"player_slide": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"double_speed": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"team_num": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"loadout_outfit": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"weapon_drops": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"base_hp": {
+			"class": "java.lang.Integer",
+			"value": 2
+		},
+		"bot_number": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"zero_gravity": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"medieval_mode": {
+			"class": "java.lang.Integer",
+			"value": 0
+		}
+	},
+	"SANDBOX": {},
+	"CAMPAIGN": {}
+}
+}

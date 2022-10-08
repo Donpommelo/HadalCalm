@@ -96,7 +96,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
         new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    EGGPLANTS("objective,dm", "koh", DEATHMATCH, GameText.MODE_EGGPLANT, GameText.MODE_EGGPLANT_DESC,
+    EGGPLANTS("objective,dm", "eggplant_hunt", DEATHMATCH, GameText.MODE_EGGPLANT, GameText.MODE_EGGPLANT_DESC,
             new SetCameraOnSpawn(),
             new SettingTeamMode(), new SettingTimer(ResultsState.MAGIC_WORD), new SettingLives(0),
             new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),

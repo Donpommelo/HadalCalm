@@ -286,7 +286,7 @@ public class Packets {
 		public SyncServerPlayer() {}
 
 		/**
-		 * This is sent from thte client to the server periodically to indicate what keys are currently held
+		 * This is sent from the client to the server periodically to indicate what keys are currently held
 		 * This also includes mouse information
 		 * @param mouseX: X-coordinate of client's mouse
 		 * @param mouseY: Y-coordinate of client's mouse

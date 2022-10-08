@@ -18,23 +18,30 @@ deathmatch
   orig: 300, 400
   offset: 0, 0
   index: -1
-gun_game
+eggplant_hunt
   rotate: false
   xy: 606, 2
   size: 300, 400
   orig: 300, 400
   offset: 0, 0
   index: -1
-koh
+gun_game
   rotate: false
   xy: 908, 2
   size: 300, 400
   orig: 300, 400
   offset: 0, 0
   index: -1
-survival
+koh
   rotate: false
   xy: 1210, 2
+  size: 300, 400
+  orig: 300, 400
+  offset: 0, 0
+  index: -1
+survival
+  rotate: false
+  xy: 1512, 2
   size: 300, 400
   orig: 300, 400
   offset: 0, 0
