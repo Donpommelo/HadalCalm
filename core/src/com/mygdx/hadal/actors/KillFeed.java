@@ -12,7 +12,7 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.effects.PlayerSpriteHelper;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.MoveState;
+import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.server.packets.Packets;
@@ -22,7 +22,7 @@ import com.mygdx.hadal.text.UIText;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-import static com.mygdx.hadal.utils.Constants.*;
+import static com.mygdx.hadal.constants.Constants.*;
 
 /**
  * The Kill Feed is located in the upper right corner of the screen and tracks the kill messages created when players die.

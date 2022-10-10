@@ -2,7 +2,7 @@ package com.mygdx.hadal.server.packets;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.hadal.schmucks.MoveState;
+import com.mygdx.hadal.constants.MoveState;
 
 import java.util.UUID;
 
@@ -99,7 +99,6 @@ public class PacketsSync {
 
     public static class SyncPlayer extends SyncSchmuck {
         public Vector2 attackAngle;
-        public boolean grounded;
         public int currentSlot;
         public float reloadPercent;
         public float chargePercent;
@@ -108,8 +107,8 @@ public class PacketsSync {
         public int currentAmmo;
         public float activeCharge;
         public short maskBits;
-        public int invisible;
         public float blinded;
+        public short statusCode;
 
         public SyncPlayer() {}
 
@@ -119,12 +118,11 @@ public class PacketsSync {
          * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
          */
         public SyncPlayer(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
-                          float currentHp, Vector2 attackAngle, boolean grounded, int currentSlot, float reloadPercent,
+                          float currentHp, Vector2 attackAngle, int currentSlot, float reloadPercent,
                           float chargePercent, float currentFuel, int currentClip, int currentAmmo, float activeCharge,
-                          short maskBits, int invisible, float blinded) {
+                          short maskBits, float blinded, short statusCode) {
             super(entityID, pos, velocity, age, timestamp, moveState, currentHp);
             this.attackAngle = attackAngle;
-            this.grounded = grounded;
             this.currentSlot = currentSlot;
             this.reloadPercent = reloadPercent;
             this.chargePercent = chargePercent;
@@ -133,8 +131,8 @@ public class PacketsSync {
             this.currentAmmo = currentAmmo;
             this.activeCharge = activeCharge;
             this.maskBits = maskBits;
-            this.invisible = invisible;
             this.blinded = blinded;
+            this.statusCode = statusCode;
         }
     }
 

@@ -20,8 +20,8 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
 
-import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
-import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
+import static com.mygdx.hadal.constants.Constants.INTP_FASTSLOW;
+import static com.mygdx.hadal.constants.Constants.TRANSITION_DURATION;
 
 /**
  * The Setting State allows the player to change their display settings, key bindings and other stuff like that.

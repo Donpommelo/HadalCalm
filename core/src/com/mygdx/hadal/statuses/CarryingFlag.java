@@ -6,9 +6,9 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
-import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
 /**
  * This status is inflicted upon units that pick up the flag. It is a debuff intended to make capturing flags harder

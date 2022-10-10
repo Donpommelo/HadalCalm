@@ -7,7 +7,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.text.TextFilterUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 

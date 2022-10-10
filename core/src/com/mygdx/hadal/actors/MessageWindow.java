@@ -29,8 +29,8 @@ import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TextFilterUtil;
 import com.mygdx.hadal.utils.ConsoleCommandUtil;
 
-import static com.mygdx.hadal.utils.Constants.MAX_MESSAGE_LENGTH;
-import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_LONG;
+import static com.mygdx.hadal.constants.Constants.MAX_MESSAGE_LENGTH;
+import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_LONG;
 
 /**
  * The MessageWindow is a ui actor that pops up when the player presses the chat button (default binding shift).

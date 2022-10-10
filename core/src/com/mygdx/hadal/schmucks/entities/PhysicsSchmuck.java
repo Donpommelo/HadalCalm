@@ -2,7 +2,7 @@ package com.mygdx.hadal.schmucks.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 
 /**
  * A Physics schmuck runs custom acceleration physics for their movement.

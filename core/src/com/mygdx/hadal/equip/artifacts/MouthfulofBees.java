@@ -10,7 +10,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 
-import static com.mygdx.hadal.utils.Constants.PRIORITY_SCALE;
+import static com.mygdx.hadal.constants.Constants.PRIORITY_SCALE;
 
 public class MouthfulofBees extends Artifact {
 

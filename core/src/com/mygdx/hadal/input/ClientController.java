@@ -2,7 +2,7 @@ package com.mygdx.hadal.input;
 
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.schmucks.MoveState;
+import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 

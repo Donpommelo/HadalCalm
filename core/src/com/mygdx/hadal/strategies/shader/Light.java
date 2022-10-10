@@ -3,7 +3,7 @@ package com.mygdx.hadal.strategies.shader;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.ShaderStrategy;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
 /**
  * Light feeds the shader the player's light radius stat

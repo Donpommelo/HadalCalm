@@ -3,7 +3,7 @@ package com.mygdx.hadal.event.userdata;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.HadalData;

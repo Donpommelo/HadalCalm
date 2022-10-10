@@ -2,7 +2,7 @@ package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 
 /**

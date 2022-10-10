@@ -14,8 +14,8 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
-import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
-import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION;
+import static com.mygdx.hadal.constants.Constants.INTP_FASTSLOW;
+import static com.mygdx.hadal.constants.Constants.TRANSITION_DURATION;
 
 /**
  * The UISpectator is used by spectators to view the game. It features the ability to cycle through spectate targets

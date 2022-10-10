@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import static com.mygdx.hadal.utils.Constants.*;
+import static com.mygdx.hadal.constants.Constants.*;
 
 public class LobbyState extends GameState {
 

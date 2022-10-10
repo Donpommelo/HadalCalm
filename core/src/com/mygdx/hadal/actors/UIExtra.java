@@ -15,9 +15,9 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
-import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_SHORT;
+import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_SHORT;
 
 /**
  * The UIExtra is an extra ui actor displayed in the upper left hand side.

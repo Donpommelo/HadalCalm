@@ -5,7 +5,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.MeleeWeapon;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -28,7 +28,7 @@ public class Invisibility extends Status {
 		
 		//set unit's invisibility to true. this is used to turn off movement particles
 		if (inflicted instanceof PlayerBodyData playerData) {
-			playerData.getPlayer().setInvisible(2);
+			playerData.getPlayer().setInvisible(true);
 		}
 		
 		fadeCount = FADE_TIME;
@@ -52,7 +52,7 @@ public class Invisibility extends Status {
 		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, SyncType.CREATESYNC).setScale(0.4f);
 		
 		if (inflicted instanceof PlayerBodyData playerData) {
-			playerData.getPlayer().setInvisible(0);
+			playerData.getPlayer().setInvisible(false);
 		}
 	}
 	
@@ -75,7 +75,7 @@ public class Invisibility extends Status {
 	@Override
 	public void onDeath(BodyData perp, DamageSource source) {
 		if (inflicted instanceof PlayerBodyData playerData) {
-			playerData.getPlayer().setInvisible(0);
+			playerData.getPlayer().setInvisible(false);
 		}
 	}
 	

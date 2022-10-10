@@ -1,4 +1,4 @@
-package com.mygdx.hadal.schmucks;
+package com.mygdx.hadal.constants;
 
 /**
  * This is a list of the types of data that an entity can have

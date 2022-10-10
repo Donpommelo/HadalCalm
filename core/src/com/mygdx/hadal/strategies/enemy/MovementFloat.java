@@ -10,7 +10,7 @@ import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.EnemyStrategy;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 
 public class MovementFloat extends EnemyStrategy {
 

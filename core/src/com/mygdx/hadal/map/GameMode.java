@@ -33,7 +33,7 @@ import com.mygdx.hadal.text.GameText;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
-import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
 /**
  * A Game Mode entails a set of rules/settings that dictates a match

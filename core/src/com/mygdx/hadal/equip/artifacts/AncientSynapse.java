@@ -9,7 +9,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 
-import static com.mygdx.hadal.utils.Constants.PRIORITY_LAST_LAST;
+import static com.mygdx.hadal.constants.Constants.PRIORITY_LAST_LAST;
 
 public class AncientSynapse extends Artifact {
 

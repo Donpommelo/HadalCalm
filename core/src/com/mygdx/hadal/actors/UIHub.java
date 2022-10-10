@@ -22,8 +22,8 @@ import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
-import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_TOTAL;
-import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION_SLOW;
+import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_TOTAL;
+import static com.mygdx.hadal.constants.Constants.TRANSITION_DURATION_SLOW;
 
 /**
  * The UiHub is an actor that pops up whenever the player interacts with hub elements that pop up a ui window

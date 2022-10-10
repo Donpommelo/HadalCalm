@@ -16,7 +16,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
 import com.mygdx.hadal.text.UIText;
 
-import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
 /**
  * The ScoreWindow is displayed when a player holds a button (default value tab) during a level

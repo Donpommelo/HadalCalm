@@ -3,7 +3,7 @@ package com.mygdx.hadal.schmucks.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -72,7 +72,9 @@ public class SoundEntity extends HadalEntity {
 		//if we start off attached to an entity, play the sound and update its volume/pan based on its location
 		if (startOn && attachedEntity != null) {
 			this.soundID = sound.playSourced(state, new Vector2(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y), volume, pitch);
-			sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundID);
+			if (attachedEntity.getBody() != null) {
+				sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundID);
+			}
 		} else {
 			//otherwise, we just get the sound id and pause it.
 			this.soundID = sound.play(state.getGsm(), volume, pitch, false);

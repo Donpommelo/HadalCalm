@@ -302,6 +302,7 @@ public enum SoundEffect {
 	private final Vector2 playerPosition = new Vector2();
 	public void updateSoundLocation(PlayState state, Vector2 worldPos, float volume, long soundId) {
 		Player player = state.getPlayer();
+		if (player == null) { return; }
 
 		//check if player exists and is alive (to avoid sudden sound change on death)
 		if (player.getBody() != null && player.isAlive()) {
