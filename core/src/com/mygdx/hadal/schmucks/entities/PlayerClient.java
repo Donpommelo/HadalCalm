@@ -12,7 +12,7 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.WorldUtil;
 
 /**

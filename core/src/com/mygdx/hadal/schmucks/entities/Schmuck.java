@@ -4,15 +4,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equippable;
-import com.mygdx.hadal.schmucks.MoveState;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
 /**
  * A Schmuck is an entity that can use equipment like the player or an enemy.

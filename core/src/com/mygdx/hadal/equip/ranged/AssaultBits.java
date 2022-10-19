@@ -8,7 +8,7 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.enemies.DroneBit;

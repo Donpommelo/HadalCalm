@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.*;
@@ -94,7 +95,7 @@ public class TiledObjectUtil {
 			if (object.getProperties().get("independent", boolean.class) != null) {
 				if (object.getProperties().get("independent", boolean.class)) {
 					Event e = parseTiledEvent(state, object);
-					if (e != null) {
+					if (null != e) {
 						state.addEntity(e.getEntityID(), e, false, ObjectLayer.STANDARD);
 					}
 				}
@@ -463,18 +464,18 @@ public class TiledObjectUtil {
 		}
 		
 		//Extra, universal functions to change event sprite properties		
-		if (e != null) {
-			if (object.getProperties().get("triggeringId", String.class) != null) {
+		if (null != e) {
+			if (null !=  object.getProperties().get("triggeringId", String.class)) {
 				triggeringEvents.put(e, object.getProperties().get("triggeringId", String.class));
 			}
-			if (object.getProperties().get("triggeredId", String.class) != null) {
+			if (null != object.getProperties().get("triggeredId", String.class)) {
 				triggeredEvents.put(object.getProperties().get("triggeredId", String.class), e);
 			}
 			if (object.getProperties().get("default", true, Boolean.class)) {
 				e.loadDefaultProperties();
 			}
-			if (object.getProperties().get("sprite", String.class) != null) {
-				if (object.getProperties().get("frame", int.class) != null) {
+			if (null != object.getProperties().get("sprite", String.class)) {
+				if (null != object.getProperties().get("frame", int.class)) {
 					e.setEventSprite(
 							Sprite.valueOf(object.getProperties().get("sprite", String.class)), 
 							true, 
@@ -485,37 +486,37 @@ public class TiledObjectUtil {
 					e.setEventSprite(Sprite.valueOf(object.getProperties().get("sprite", String.class)));
 				}
 			}
-			if (object.getProperties().get("scale", float.class) != null) {
+			if (null != object.getProperties().get("scale", float.class)) {
 				e.setScale(object.getProperties().get("scale", float.class));
 			}
-			if (object.getProperties().get("align", String.class) != null) {
+			if (null != object.getProperties().get("align", String.class)) {
 				e.setScaleAlign(ClientIllusion.alignType.valueOf(object.getProperties().get("align", String.class)));
 			}
-			if (object.getProperties().get("sync", String.class) != null) {
+			if (null != object.getProperties().get("sync", String.class)) {
 				e.setSyncType(eventSyncTypes.valueOf(object.getProperties().get("sync", String.class)));
 			}
-			if (object.getProperties().get("synced", boolean.class) != null) {
+			if (null != object.getProperties().get("synced", boolean.class)) {
 				e.setSynced(object.getProperties().get("synced", boolean.class));
 			}
-			if (object.getProperties().get("cullable", boolean.class) != null) {
+			if (null != object.getProperties().get("cullable", boolean.class)) {
 				e.setCullable(object.getProperties().get("cullable", boolean.class));
 			}
-			if (object.getProperties().get("independent", boolean.class) != null) {
+			if (null != (object.getProperties().get("independent", boolean.class))) {
 				e.setIndependent(object.getProperties().get("independent", boolean.class));
 			}
-			if (object.getProperties().get("bot_health_pickup", boolean.class) != null) {
+			if (null != object.getProperties().get("bot_health_pickup", boolean.class)) {
 				e.setBotHealthPickup(object.getProperties().get("bot_health_pickup", boolean.class));
 			}
-			if (object.getProperties().get("gravity", float.class) != null) {
+			if (null != object.getProperties().get("gravity", float.class)) {
 				e.setGravity(object.getProperties().get("gravity", float.class));
 			}
-			if (object.getProperties().get("particle_amb", String.class) != null) {
+			if (null != object.getProperties().get("particle_amb", String.class)) {
 				float offsetX = object.getProperties().get("particle_offsetX", 0.0f, float.class);
 				float offsetY = object.getProperties().get("particle_offsetY", 0.0f, float.class);
 				e.addAmbientParticle(Particle.valueOf(object.getProperties().get("particle_amb", String.class)),
 					offsetX, offsetY);
 			}
-			if (object.getProperties().get("particle_std", String.class) != null) {
+			if (null != object.getProperties().get("particle_std", String.class)) {
 				e.setStandardParticle(Particle.valueOf(object.getProperties().get("particle_std", String.class)));
 			}
 
@@ -587,7 +588,7 @@ public class TiledObjectUtil {
 			default -> null;
 		};
 
-		if (p != null) {
+		if (null != p) {
         	p.generateParts();
     	}
     	prefabrications.put(object.getProperties().get("triggeredId", "", String.class), p);
@@ -670,7 +671,7 @@ public class TiledObjectUtil {
 
         			//for prefabs, connect to the event parts that are specified to be moveable
         			Prefabrication prefab = prefabrications.get(id, null);
-        			if (prefab != null) {
+        			if (null != prefab) {
         				for (String e : prefab.getConnectedEvents()) {
         					key.addConnection(triggeredEvents.get(e, null));
         				}
@@ -723,7 +724,7 @@ public class TiledObjectUtil {
 		//if e is a redirect trigger, connect it to the event that it blames when it triggers another event
 		if (e instanceof TriggerRedirect trigger) {
 			myId = redirectTriggeringEvents.get(trigger);
-			if (myId != null) {
+			if (null != myId) {
 				if (!"".equals(myId)) {
 					trigger.setBlame(triggeredEvents.get(myId, null));
 				}
@@ -742,7 +743,7 @@ public class TiledObjectUtil {
 		//if e is a multi-trigger, connect it to all events that it triggers
 		if (e instanceof TriggerMulti trigger) {
 			myId = multiTriggeringEvents.get(trigger);
-			if (myId != null) {
+			if (null != myId) {
 				for (String id : myId.split(",")) {
 					if (!"".equals(id)) {
 						trigger.addTrigger(triggeredEvents.get(id, null));
@@ -763,7 +764,7 @@ public class TiledObjectUtil {
     	//if e is a conditional trigger, connect it to each event that it can trigger
 		if (e instanceof TriggerCond trigger) {
 			myId = condTriggeringEvents.get(trigger);
-			if (myId != null) {
+			if (null != myId) {
 				for (String id : myId.split(",")) {
 					if (!"".equals(id)) {
 						trigger.addTrigger(id, triggeredEvents.get(id, null));
@@ -795,7 +796,7 @@ public class TiledObjectUtil {
     	//if e is a choice branch, connect it to each event that it can trigger
 		if (e instanceof ChoiceBranch choice) {
 			myId = choiceBranchOptions.get(choice);
-			if (myId != null) {
+			if (null != myId) {
 				String[] options = myId.split(",");
 				for (int i = 0; i < options.length; i++) {
 					if (!"".equals(options[i])) {

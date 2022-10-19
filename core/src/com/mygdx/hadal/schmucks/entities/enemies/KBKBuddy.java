@@ -14,7 +14,7 @@ import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.strategies.enemy.KamabokoBody;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 
 public class KBKBuddy extends EnemySwimming {
 

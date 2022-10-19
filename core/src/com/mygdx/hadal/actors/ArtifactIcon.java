@@ -70,14 +70,14 @@ public class ArtifactIcon extends AHadalActor {
 		batch.draw(icon, getX(), getY(), getWidth(), getHeight());
 
 		//this displays artifact short description when this actor is moused over
-         if (mouseOver) {
-        	 GameStateManager.getSimplePatch().draw(batch, getX() - ICON_PAD / 2 + textOffsetX,
-					 getY() - ICON_PAD / 2 + textOffsetY, layout.width + ICON_PAD, layout.height + ICON_PAD);
-			 HadalGame.FONT_UI.setColor(COLOR);
-			 HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
-			 HadalGame.FONT_UI.draw(batch, text, getX() + textOffsetX, getY() + textOffsetY + layout.height,
-					 targetWidth, Align.left, true);
-         }
+		if (mouseOver) {
+		 GameStateManager.getSimplePatch().draw(batch, getX() - ICON_PAD / 2 + textOffsetX,
+				 getY() - ICON_PAD / 2 + textOffsetY, layout.width + ICON_PAD, layout.height + ICON_PAD);
+		 HadalGame.FONT_UI.setColor(COLOR);
+		 HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
+		 HadalGame.FONT_UI.draw(batch, text, getX() + textOffsetX, getY() + textOffsetY + layout.height,
+				 targetWidth, Align.left, true);
+		}
     }
 
 	public UnlockArtifact getArtifact() { return artifact; }

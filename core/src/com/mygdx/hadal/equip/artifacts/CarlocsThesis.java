@@ -9,7 +9,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 
 public class CarlocsThesis extends Artifact {
 

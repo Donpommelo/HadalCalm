@@ -11,7 +11,7 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.Status;
 
-import static com.mygdx.hadal.utils.Constants.PRIORITY_PROC;
+import static com.mygdx.hadal.constants.Constants.PRIORITY_PROC;
 
 public class HornsofAmmon extends Artifact {
 

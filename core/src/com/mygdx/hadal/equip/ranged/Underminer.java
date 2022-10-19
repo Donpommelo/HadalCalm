@@ -7,7 +7,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.battle.SyncedAttack;
@@ -17,7 +17,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.WorldUtil;
 
 public class Underminer extends RangedWeapon {

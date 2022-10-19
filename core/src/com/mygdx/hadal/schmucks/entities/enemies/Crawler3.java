@@ -18,7 +18,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
 public class Crawler3 extends EnemyCrawling {
 

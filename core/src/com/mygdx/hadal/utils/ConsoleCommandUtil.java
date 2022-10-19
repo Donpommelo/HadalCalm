@@ -6,6 +6,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -47,7 +48,7 @@ public class ConsoleCommandUtil {
 	 */
 	public static int parseChatCommand(PlayState state, Player player, String command) {
 		
-		if (player.getPlayerData() != null) {
+		if (null != player.getPlayerData()) {
 			if ("/weapon".equals(command)) {
 				StringBuilder message = new StringBuilder("Weapons: ");
 
@@ -125,11 +126,11 @@ public class ConsoleCommandUtil {
 	public static int parseConsoleCommand(PlayState state, String command) {
 		String[] commands = command.split(" ");
 		
-		if (commands.length == 0) {
+		if (0 == commands.length) {
 			return -1;
 		}
 
-		if (commands.length > 1) {
+		if (1 < commands.length) {
 			switch (commands[0]) {
 				case "hp":
 					return setHp(state, commands[1]);
@@ -173,7 +174,7 @@ public class ConsoleCommandUtil {
 		
 		try {
 			float hp = Float.parseFloat(command);
-			if (state.getPlayer().isAlive() && hp >= 0.0f) {
+			if (state.getPlayer().isAlive() && 0.0 <= hp) {
 				state.getPlayer().getPlayerData().setCurrentHp(hp);
 				return 0;
 			}
@@ -189,7 +190,7 @@ public class ConsoleCommandUtil {
 		
 		try {
 			int ammo = Integer.parseInt(command);
-			if (state.getPlayer().isAlive() && ammo >= 0.0f) {
+			if (state.getPlayer().isAlive() && 0.0f <= ammo) {
 				state.getPlayer().getPlayerData().getCurrentTool().setAmmoLeft(ammo);
 				return 0;
 			}
@@ -205,7 +206,7 @@ public class ConsoleCommandUtil {
 		
 		try {
 			float charge = Float.parseFloat(command);
-			if (state.getPlayer().isAlive() && charge >= 0.0f) {
+			if (state.getPlayer().isAlive() && 0.0f <= charge) {
 				state.getPlayer().getPlayerData().getActiveItem().setCurrentChargePercent(charge);
 				return 0;
 			}
@@ -221,14 +222,12 @@ public class ConsoleCommandUtil {
 
 		UnlockEquip equip = UnlockEquip.getByName(command.toUpperCase());
 		if (state.getPlayer().isAlive()) {
-			state.getPlayer().getPlayerData().pickup(
-				Objects.requireNonNull(UnlocktoItem.getUnlock(equip, state.getPlayer())));
+			state.getPlayer().getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(equip, state.getPlayer())));
 		}
 
 		UnlockActives active = UnlockActives.getByName(command.toUpperCase());
 		if (state.getPlayer().isAlive()) {
-			state.getPlayer().getPlayerData().pickup(
-				Objects.requireNonNull(UnlocktoItem.getUnlock(active, state.getPlayer())));
+			state.getPlayer().getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(active, state.getPlayer())));
 		}
 		
 		return -1;
@@ -241,7 +240,7 @@ public class ConsoleCommandUtil {
 		
 		try {
 			int scrap = Integer.parseInt(command);
-			if (scrap >= 0) {
+			if (0 <= scrap) {
 				state.getGsm().getRecord().setScrap(scrap);
 				state.getUiExtra().syncUIText(UITag.uiType.SCRAP);
 				return 0;

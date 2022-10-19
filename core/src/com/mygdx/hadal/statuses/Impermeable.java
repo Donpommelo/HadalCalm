@@ -3,12 +3,12 @@ package com.mygdx.hadal.statuses;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 
 /**
  * Impermeable units are like invisible units, except they also pass through characters and hitboxes
@@ -27,7 +27,7 @@ public class Impermeable extends Status {
 		
 		//set unit's invisibility to true. this is used to turn off movement particles
 		if (inflicted instanceof PlayerBodyData playerData) {
-			playerData.getPlayer().setInvisible(3);
+			playerData.getPlayer().setTransparent(true);
 		}
 		
 		fadeCount = FADE_TIME;
@@ -55,7 +55,7 @@ public class Impermeable extends Status {
 		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, SyncType.CREATESYNC).setScale(0.4f);
 		
 		if (inflicted instanceof PlayerBodyData playerData) {
-			playerData.getPlayer().setInvisible(0);
+			playerData.getPlayer().setTransparent(false);
 		}
 
 		if (inflicted.getSchmuck().getMainFixture() != null) {
@@ -68,7 +68,7 @@ public class Impermeable extends Status {
 	@Override
 	public void onDeath(BodyData perp, DamageSource source) {
 		if (inflicted instanceof PlayerBodyData playerData) {
-			playerData.getPlayer().setInvisible(0);
+			playerData.getPlayer().setTransparent(false);
 		}
 	}
 	

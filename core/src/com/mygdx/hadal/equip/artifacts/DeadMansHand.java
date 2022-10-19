@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
 public class DeadMansHand extends Artifact {
 

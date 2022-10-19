@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
+import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
  * This creates and returns fixtures. Used when we need to add an extra fixture to a body created by the BodyBuilder.

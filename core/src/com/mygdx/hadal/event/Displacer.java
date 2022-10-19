@@ -5,10 +5,10 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
+import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
  * Displacers apply a continuous displacement to entities overlapping them. This is distinct from currents in that it directly transforms the entity's position instead of using physics.

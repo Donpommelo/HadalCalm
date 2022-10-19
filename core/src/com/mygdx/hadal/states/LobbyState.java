@@ -20,6 +20,7 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.utils.UPNPUtil;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import org.json.JSONArray;
@@ -31,7 +32,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import static com.mygdx.hadal.utils.Constants.*;
+import static com.mygdx.hadal.constants.Constants.*;
 
 public class LobbyState extends GameState {
 
@@ -577,16 +578,16 @@ public class LobbyState extends GameState {
     public static String getPublicIP() {
 
         //if the player has already retrieved their ip when enabling upnp, this step is unnecessary.
-        if (!"".equals(HadalGame.myIP)) {
-            return HadalGame.myIP;
+        if (!"".equals(UPNPUtil.myIP)) {
+            return UPNPUtil.myIP;
         }
 
         BufferedReader in = null;
         try {
             URL whatismyip = new URL("http://checkip.amazonaws.com");
             in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
-            HadalGame.myIP = in.readLine();
-            return HadalGame.myIP;
+            UPNPUtil.myIP = in.readLine();
+            return UPNPUtil.myIP;
         } catch (IOException ioException) {
             ioException.printStackTrace();
         } finally {

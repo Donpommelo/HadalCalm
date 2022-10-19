@@ -8,7 +8,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;

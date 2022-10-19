@@ -6,7 +6,7 @@ import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.EnemyStrategy;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 
 public class TargetPathfinding extends EnemyStrategy {
 

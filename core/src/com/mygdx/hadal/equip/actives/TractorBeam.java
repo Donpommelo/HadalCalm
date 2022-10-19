@@ -5,7 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;

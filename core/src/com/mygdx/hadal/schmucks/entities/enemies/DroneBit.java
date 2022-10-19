@@ -14,8 +14,8 @@ import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.enemy.MovementSwim.SwimmingState;
-import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
 
 public class DroneBit extends EnemySwimming {
 

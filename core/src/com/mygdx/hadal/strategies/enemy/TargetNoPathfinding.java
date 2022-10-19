@@ -8,7 +8,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.strategies.EnemyStrategy;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.WorldUtil;
 
 public class TargetNoPathfinding extends EnemyStrategy {

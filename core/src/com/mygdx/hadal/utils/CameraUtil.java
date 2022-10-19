@@ -110,8 +110,8 @@ public class CameraUtil {
         float adjustedAmount = amount * TRAUMA_MULTIPLIER;
 
         //small instances of trauma are set to a constant value but have a cooldown
-        if (adjustedAmount < MIN_TRAUMA) {
-            if (traumaCount <= 0.0f) {
+        if (MIN_TRAUMA > adjustedAmount) {
+            if (0.0f <= traumaCount) {
                 traumaCount = TRAUMA_COOLDOWN;
                 trauma = Math.min(1.0f, MIN_TRAUMA);
             }

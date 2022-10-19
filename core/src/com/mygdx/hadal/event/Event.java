@@ -11,7 +11,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -22,7 +22,7 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 
 /**
  * An Event is an entity that acts as a catch-all for all misc entities that do not share qualities with schmucks or hitboxes.

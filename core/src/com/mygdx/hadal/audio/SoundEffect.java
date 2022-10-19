@@ -154,7 +154,7 @@ public enum SoundEffect {
 	 * This loads a selected sound from its filename
 	 */
 	public Sound getSound() {
-		if (sound == null) {
+		if (null == sound) {
 			sound = Gdx.audio.newSound(Gdx.files.internal(soundFileName));
 		}
 		return sound;
@@ -166,7 +166,7 @@ public enum SoundEffect {
 	 */
 	public static void clearSound() {
 		for (SoundEffect effect: SoundEffect.values()) {
-			if (effect.sound != null) {
+			if (null != effect.sound) {
 				effect.sound.dispose();
 				effect.sound = null;
 			}
@@ -228,7 +228,7 @@ public enum SoundEffect {
 			HadalGame.server.sendToAllUDP(new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
 		}
 		
-		if (worldPos == null) {
+		if (null == worldPos) {
 			return play(state.getGsm(), volume, pitch, singleton);
 		} else {
 			return playSourced(state, worldPos, volume, pitch);
@@ -244,11 +244,11 @@ public enum SoundEffect {
 	}
 	
 	public void playExclusive(PlayState state, Vector2 worldPos, Player player, float volume, float pitch, boolean singleton) {
-		if (state.isServer() && player != null) {
+		if (state.isServer() && null != player) {
 			
 			//for the host, we simply play the sound. Otherwise, we send a sound packet to the client
-			if (player.getConnID() == 0) {
-				if (worldPos == null) {
+			if (0 == player.getConnID()) {
+				if (null == worldPos) {
 					play(state.getGsm(), volume, pitch, singleton);
 				} else {
 					playSourced(state, worldPos, volume, pitch);
@@ -267,7 +267,7 @@ public enum SoundEffect {
 	public static void registerHitSound(GameStateManager gsm, Player player, boolean large) {
 		
 		//play sound right away for host, otherwise send packet
-		if (player.getConnID() == 0) {
+		if (0 == player.getConnID()) {
 			playHitSound(gsm, large);
 		} else {
 			HadalGame.server.sendToTCP(player.getConnID(), new Packets.SyncHitSound(large));
@@ -279,7 +279,7 @@ public enum SoundEffect {
 	 * This is run for player that dealt the damage and is run for both host or client
 	 */
 	public static void playHitSound(GameStateManager gsm, boolean large) {
-		if (gsm.getSetting().getHitsound() != 0) {
+		if (0 != gsm.getSetting().getHitsound()) {
 			
 			float pitch = 1.0f;
 			
@@ -302,9 +302,10 @@ public enum SoundEffect {
 	private final Vector2 playerPosition = new Vector2();
 	public void updateSoundLocation(PlayState state, Vector2 worldPos, float volume, long soundId) {
 		Player player = state.getPlayer();
+		if (null == player) { return; }
 
 		//check if player exists and is alive (to avoid sudden sound change on death)
-		if (player.getBody() != null && player.isAlive()) {
+		if (null != player.getBody() && player.isAlive()) {
 			playerPosition.set(player.getPixelPosition());
 		}
 
@@ -321,18 +322,18 @@ public enum SoundEffect {
 		float newVolume;
 
 		//sound will be played from right/left headphone depending on relative x-coordinate
-		if (xDist > MAX_DIST) {
+		if (MAX_DIST < xDist) {
 			pan = 1.0f;
-		} else if (xDist < -MAX_DIST) {
+		} else if (-MAX_DIST > xDist) {
 			pan = -1.0f;
 		} else {
 			pan = xDist / MAX_DIST;
 		}
 
 		//sound volume scales inversely to distance from sound
-		if (dist > MAX_DIST) {
+		if (MAX_DIST < dist) {
 			newVolume = 0.0f;
-		} else if (dist <= 0) {
+		} else if (0 >= dist) {
 			newVolume = 1.0f;
 		} else {
 			newVolume = (MAX_DIST - dist) / MAX_DIST;

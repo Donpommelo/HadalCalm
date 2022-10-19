@@ -8,11 +8,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.WorldUtil;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 

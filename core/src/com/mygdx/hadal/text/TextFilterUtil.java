@@ -19,7 +19,7 @@ public class TextFilterUtil {
 		
 		String filteredText = text;
 		
-		if (text == null) {	return ""; }
+		if (null == text) {	return ""; }
 		
 		filteredText = filterTag(filteredText, "<body part>");
 		filteredText = filterTag(filteredText, "<color>");
@@ -51,7 +51,7 @@ public class TextFilterUtil {
 	public static String filterPoemTags(String text) {
 		String filteredText = text;
 		
-		if (text == null) {	return ""; }
+		if (null == text) {	return ""; }
 		
 		filteredText = filterTag(filteredText, "<preposition>");
 		filteredText = filterTag(filteredText, "<noun_abstract>");

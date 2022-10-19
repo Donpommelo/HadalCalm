@@ -12,7 +12,7 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.effects.PlayerSpriteHelper;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.MoveState;
+import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.server.packets.Packets;
@@ -22,7 +22,7 @@ import com.mygdx.hadal.text.UIText;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-import static com.mygdx.hadal.utils.Constants.*;
+import static com.mygdx.hadal.constants.Constants.*;
 
 /**
  * The Kill Feed is located in the upper right corner of the screen and tracks the kill messages created when players die.
@@ -166,7 +166,7 @@ public class KillFeed {
         messages.add(message);
         feed.addActor(message);
 
-        if (perp != null) {
+        if (null != perp) {
             if (perp.equals(perp.getState().getPlayer()) && perp != vic) {
                 String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
                 addNotification(UIText.YOU_HAVE_SLAIN.text(vicName), false);
@@ -235,12 +235,12 @@ public class KillFeed {
                 super.act(delta);
 
                 //increment displayed respawn time (does not actually control respawn, but should be same number)
-                if (respawnTime > 0.0f) {
+                if (0.0f < respawnTime) {
                     respawnTime -= delta;
 
                     formatDeathTimer();
 
-                    if (respawnTime <= 0.0f) {
+                    if (0.0f >= respawnTime) {
                         deathInfoTable.addAction(Actions.sequence(
                                 Actions.moveTo(DEATH_INFO_X, DEATH_INFO_Y, TRANSITION_DURATION, INTP_FASTSLOW),
                                 Actions.run(me::clearKillerBustSprite)));
@@ -282,7 +282,7 @@ public class KillFeed {
      */
     public void addKillInfo(float respawnTime) {
         deathInfoTable.clear();
-        if (!killedBy.isEmpty() && killerPerp != null) {
+        if (!killedBy.isEmpty() && null != killerPerp) {
             deathInfoTable.setHeight(DEATH_INFO_HEIGHT);
         } else {
             deathInfoTable.setHeight(DEATH_INFO_HEIGHT_SHORT);
@@ -314,7 +314,7 @@ public class KillFeed {
             deathInfoTable.add(deathPerp).pad(DEATH_INFO_PAD).row();
 
             //if there is a player killer, get their character bust to display in kill feed
-            if (killerPerp != null) {
+            if (null != killerPerp) {
                 killerBustSprite = new HubOptionPlayer("", killerPerp,
                         killerPerp.getPlayerData().getLoadout().character,
                         killerPerp.getPlayerData().getLoadout().team,
@@ -365,7 +365,7 @@ public class KillFeed {
 
     //when this actor is removed, we want to dispose of the character bust in the kill feed to avoid memory leak
     private void clearKillerBustSprite() {
-        if (killerBustSprite != null) {
+        if (null != killerBustSprite) {
             killerBustSprite.getPlayerSpriteHelper().dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
         }
     }
@@ -387,7 +387,7 @@ public class KillFeed {
     public void setKillSource(Player perp, EnemyType type, DamageSource source) {
         killedBy = "";
         killerPerp = null;
-        if (perp != null) {
+        if (null != perp) {
             killerPerp = perp;
             if (perp.equals(ps.getPlayer())) {
                 killedBy = UIText.DEATH_CAUSE_YOURSELF.text();
@@ -395,7 +395,7 @@ public class KillFeed {
                 killedBy = perp.getName();
             }
         }
-        if (type != null) {
+        if (null != type) {
             killedBy = type.getName();
         }
         this.deathCause = source.getKillSource();

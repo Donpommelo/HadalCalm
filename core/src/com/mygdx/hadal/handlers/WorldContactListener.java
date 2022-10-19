@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 
@@ -22,7 +22,7 @@ public class WorldContactListener implements ContactListener {
 
 		//When 2 fixtures collide, increment their number of contacts.
 		//Projectiles and events should register hits.
-		if (fixA != null) {
+		if (null != fixA) {
 			fixA.setNumContacts(fixA.getNumContacts() + 1);
 			if (UserDataType.HITBOX.equals(fixA.getType())) {
 				((HitboxData) fixA).onHit(fixB);
@@ -31,7 +31,7 @@ public class WorldContactListener implements ContactListener {
 				((EventData) fixA).onTouch(fixB);
 			}
 		}
-		if (fixB != null) {
+		if (null != fixB) {
 			fixB.setNumContacts(fixB.getNumContacts() + 1);
 			if (UserDataType.HITBOX.equals(fixB.getType())) {
 				((HitboxData) fixB).onHit(fixA);
@@ -47,13 +47,13 @@ public class WorldContactListener implements ContactListener {
 		HadalData fixA = (HadalData) contact.getFixtureA().getUserData();
 		HadalData fixB = (HadalData) contact.getFixtureB().getUserData();
 
-		if (fixA != null) {
+		if (null != fixA) {
 			fixA.setNumContacts(fixA.getNumContacts() - 1);
 			if (UserDataType.EVENT.equals(fixA.getType())) {
 				((EventData) fixA).onRelease(fixB);
 			}
 		}
-		if (fixB != null) {
+		if (null != fixB) {
 			fixB.setNumContacts(fixB.getNumContacts() - 1);
 			if (UserDataType.EVENT.equals(fixB.getType())) {
 				((EventData) fixB).onRelease(fixA);

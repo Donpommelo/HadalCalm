@@ -1,4 +1,4 @@
-package com.mygdx.hadal.schmucks;
+package com.mygdx.hadal.constants;
 
 /**
  * These are the different ways sound and particle entities can be synced between client at server

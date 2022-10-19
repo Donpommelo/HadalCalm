@@ -33,7 +33,7 @@ import com.mygdx.hadal.text.GameText;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
-import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
 /**
  * A Game Mode entails a set of rules/settings that dictates a match
@@ -80,13 +80,13 @@ public enum GameMode {
         public boolean isInvisibleInHub() { return true; }
     },
 
-    SURVIVAL("arena", "koh", GameText.SURVIVAL, GameText.SURVIVAL_DESC,
+    SURVIVAL("arena", "survival", GameText.SURVIVAL, GameText.SURVIVAL_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.COOP), new SettingTimer("VICTORY"), new AllyRevive(),
         new DisplayUITag("SCOREBOARD"), new DisplayUITag("HISCORE"), new DisplayUITag("ALLY_HEALTH"),
         new SpawnWeapons(), new SpawnEnemyWaves(), new ToggleWeaponDrops()),
 
-    CTF("ctf", "koh", GameText.CTF, GameText.CTF_DESC,
+    CTF("ctf", "ctf", GameText.CTF, GameText.CTF_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingBots(),
         new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(5), new SettingLoadoutOutfit(),
@@ -96,7 +96,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
         new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    EGGPLANTS("objective,dm", "koh", DEATHMATCH, GameText.MODE_EGGPLANT, GameText.MODE_EGGPLANT_DESC,
+    EGGPLANTS("objective,dm", "eggplant_hunt", DEATHMATCH, GameText.MODE_EGGPLANT, GameText.MODE_EGGPLANT_DESC,
             new SetCameraOnSpawn(),
             new SettingTeamMode(), new SettingTimer(ResultsState.MAGIC_WORD), new SettingLives(0),
             new SettingBaseHp(), new SettingRespawnTime(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),

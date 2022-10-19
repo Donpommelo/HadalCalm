@@ -9,14 +9,14 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 

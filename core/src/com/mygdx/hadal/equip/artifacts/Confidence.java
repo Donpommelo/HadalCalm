@@ -4,14 +4,14 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ParticleToggleable;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
 public class Confidence extends Artifact {
 

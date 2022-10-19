@@ -15,7 +15,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
 /**
  * @author Suckette Smothro

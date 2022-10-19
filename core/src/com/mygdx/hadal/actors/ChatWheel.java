@@ -39,14 +39,14 @@ public class ChatWheel {
 	private static final float WHEEL_THRESHOLD = 0.25f;
 	private static final float BORDER_THICKNESS = 5.0f;
 
+	//this is a list of all the emote options
+	private static final String[] options = {"RAGE", "NO", "YES", "LOVE", "SLEEP", "READY", "/roll", "SWEAT"};
+
 	private final PlayState state;
 
 	private final TextureRegion wheelBase, wheelIndicator;
 	private AnimatedPieMenu wheel;
 
-	//this is a list of all the emote options
-	private static final String[] options = {"RAGE", "NO", "YES", "LOVE", "SLEEP", "READY", "/roll", "SWEAT"};
-	
 	//is the chat wheel currently active or not?
 	private boolean active;
 	
@@ -92,7 +92,7 @@ public class ChatWheel {
 				}
 
 				//decrement emote cooldown
-				if (emoteCount > 0.0f) {
+				if (0.0f < emoteCount) {
 					emoteCount -= delta;
 				}
 
@@ -153,10 +153,10 @@ public class ChatWheel {
 			if (active) {
 				int option = wheel.getHoveredIndex();
 
-				if (option != -1 && option < options.length) {
+				if (-1 != option && option < options.length) {
 
 					//if emote is off cooldown, execute the emote
-					if (emoteCount <= 0.0f) {
+					if (0.0f >= emoteCount) {
 						emoteCount = EMOTE_CD;
 						//server processes the emote. clients send packet to server
 						if (state.isServer()) {
@@ -179,12 +179,12 @@ public class ChatWheel {
 	 */
 	public void emote(Player player, int emoteIndex) {
 		//special logic for the emote that does a chat command (/roll)
-		if (emoteIndex == 6) {
+		if (6 == emoteIndex) {
 			ConsoleCommandUtil.parseChatCommand(state, player, options[emoteIndex]);
 		} else {
 			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, player.getConnID());
 		}
-		if (player.getPlayerData() != null) {
+		if (null != player.getPlayerData()) {
 			SyncedAttack.EMOTE.initiateSyncedAttackSingle(state, player, new Vector2(), new Vector2(), emoteIndex);
 		}
 	}

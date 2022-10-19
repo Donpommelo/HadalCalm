@@ -42,7 +42,7 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -56,8 +56,8 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.CameraUtil;
-import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,7 +66,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
+import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
  * The PlayState is the main state of the game and holds the Box2d world, all characters + gameplay.

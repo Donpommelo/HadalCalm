@@ -14,29 +14,29 @@ import com.mygdx.hadal.text.UIText;
  * @author Gnaddam Ghermicelli
  */
 public enum PlayerAction {
-	WALK_RIGHT(Input.Keys.D, true, UIText.WALK_RIGHT),
-	WALK_LEFT(Input.Keys.A, true, UIText.WALK_LEFT),
-	JUMP(Input.Keys.W, true, UIText.JUMP),
-	CROUCH(Input.Keys.S, true, UIText.FASTFALL),
-	FIRE(Input.Buttons.LEFT, true, UIText.SHOOT),
-	BOOST(Input.Buttons.RIGHT, false, UIText.BOOST),
-	INTERACT(Input.Keys.E, false, UIText.INTERACT),
-	ACTIVE_ITEM(Input.Keys.SPACE, false, UIText.USE_MAGIC),
-	RELOAD(Input.Keys.R, false, UIText.RELOAD),
-	DIALOGUE(Input.Keys.Z, false, UIText.DIALOG),
-	SWITCH_TO_LAST(Input.Keys.Q, false, UIText.SWITCH_TO_LAST),
-	SWITCH_TO_1(Input.Keys.NUM_1, false, UIText.SWITCH_TO_1),
-	SWITCH_TO_2(Input.Keys.NUM_2, false, UIText.SWITCH_TO_2),
-	SWITCH_TO_3(Input.Keys.NUM_3, false, UIText.SWITCH_TO_3),
-	SWITCH_TO_4(Input.Keys.NUM_4, false, UIText.SWITCH_TO_4),
-	WEAPON_CYCLE_UP(-1000, false, UIText.WEAPON_CYCLE_UP),
-	WEAPON_CYCLE_DOWN(1000, false, UIText.WEAPON_CYCLE_DOWN),
-	MESSAGE_WINDOW(Input.Keys.T, false, UIText.CHAT),
-	SCORE_WINDOW(Input.Keys.TAB, true, UIText.SCORE_WINDOW),
-	CHAT_WHEEL(Input.Keys.C, true, UIText.CHAT_WHEEL),
-	PING(Input.Keys.X, false, UIText.PING),
-	PAUSE(Input.Keys.P, false, UIText.PAUSE),
-	EXIT_MENU(Input.Keys.ESCAPE, false, UIText.EXIT);
+	WALK_RIGHT(Input.Keys.D, true, true, UIText.WALK_RIGHT),
+	WALK_LEFT(Input.Keys.A, true, true, UIText.WALK_LEFT),
+	JUMP(Input.Keys.W, true, true, UIText.JUMP),
+	CROUCH(Input.Keys.S, true, true, UIText.FASTFALL),
+	FIRE(Input.Buttons.LEFT, true, true, UIText.SHOOT),
+	BOOST(Input.Buttons.RIGHT, false, true, UIText.BOOST),
+	INTERACT(Input.Keys.E, false, true, UIText.INTERACT),
+	ACTIVE_ITEM(Input.Keys.SPACE, false, true, UIText.USE_MAGIC),
+	RELOAD(Input.Keys.R, false, true, UIText.RELOAD),
+	DIALOGUE(Input.Keys.Z, false, false, UIText.DIALOG),
+	SWITCH_TO_LAST(Input.Keys.Q, false, true, UIText.SWITCH_TO_LAST),
+	SWITCH_TO_1(Input.Keys.NUM_1, false, true, UIText.SWITCH_TO_1),
+	SWITCH_TO_2(Input.Keys.NUM_2, false, true, UIText.SWITCH_TO_2),
+	SWITCH_TO_3(Input.Keys.NUM_3, false, true, UIText.SWITCH_TO_3),
+	SWITCH_TO_4(Input.Keys.NUM_4, false, true, UIText.SWITCH_TO_4),
+	WEAPON_CYCLE_UP(-1000, false, true, UIText.WEAPON_CYCLE_UP),
+	WEAPON_CYCLE_DOWN(1000, false, true, UIText.WEAPON_CYCLE_DOWN),
+	MESSAGE_WINDOW(Input.Keys.T, false, false, UIText.CHAT),
+	SCORE_WINDOW(Input.Keys.TAB, true, false, UIText.SCORE_WINDOW),
+	CHAT_WHEEL(Input.Keys.C, true, false, UIText.CHAT_WHEEL),
+	PING(Input.Keys.X, false, true, UIText.PING),
+	PAUSE(Input.Keys.P, false, false, UIText.PAUSE),
+	EXIT_MENU(Input.Keys.ESCAPE, false, false, UIText.EXIT);
 
 	//this is the code for the key this action is bound to
 	private int key;
@@ -45,14 +45,18 @@ public enum PlayerAction {
 	//these are relevant for resetting when the input processor is temporarily disabled.
 	private final boolean toggleable;
 
+	//Does the client inform the server if they have this button pressed or not?
+	private final boolean synced;
+
 	//this is the text that shows up in the ui to represent this action
 	private final UIText text;
 
 	private final static ObjectMap<Integer, PlayerAction> hotkeys = new ObjectMap<>();
 
-	PlayerAction(int key, boolean toggleable, UIText text) {
+	PlayerAction(int key, boolean toggleable, boolean synced, UIText text) {
 		this.key = key;
 		this.toggleable = toggleable;
+		this.synced = synced;
 		this.text = text;
 	}
 	
@@ -67,7 +71,9 @@ public enum PlayerAction {
 	public String getKeyText() { return SettingState.getKey(key); }
 	
 	public boolean isToggleable() { return toggleable; }
-	
+
+	public boolean isSynced() { return synced; }
+
 	/**
 	 * Reset key to default bindings
 	 */

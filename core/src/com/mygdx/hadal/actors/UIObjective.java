@@ -34,7 +34,7 @@ public class UIObjective extends AHadalActor {
 		for (ObjectiveMarker marker : objectives) {
 			marker.draw(batch);
 
-			if (marker.getObjectiveTarget() != null) {
+			if (null != marker.getObjectiveTarget()) {
 				if (!marker.getObjectiveTarget().isAlive()) {
 					objectivesToRemove.add(marker);
 				}

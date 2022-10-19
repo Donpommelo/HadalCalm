@@ -16,6 +16,6 @@ public class CreateAddStatus extends EnemyStrategy {
 
     @Override
     public void create() {
-
+        enemy.getBodyData().addStatus(status);
     }
 }

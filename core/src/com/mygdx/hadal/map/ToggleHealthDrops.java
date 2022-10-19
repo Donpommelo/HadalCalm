@@ -7,7 +7,7 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 
 /**
  */

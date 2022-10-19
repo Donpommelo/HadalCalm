@@ -15,7 +15,7 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
@@ -28,7 +28,7 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
 /**
  * This is a boss in the game
@@ -71,25 +71,11 @@ public class Boss4 extends EnemyFloating {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS4, filter, hp, aiAttackCd, scrapDrop);
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 2000));
 
-		body1 = new ParticleEntity(state, this, Particle.WORMHOLE, 1.0f, 0.0f, true, SyncType.TICKSYNC) {
-			
-			@Override
-			public void render(SpriteBatch batch) {}
-		};
-
+		body1 = new ParticleEntity(state, this, Particle.WORMHOLE, 1.0f, 0.0f, true, SyncType.TICKSYNC);
 		body1.setScale(bodyBaseScale1).setColor(HadalColor.RED).setSyncExtraFields(true);
-		body2 = new ParticleEntity(state, this, Particle.STORM, 1.0f, 0.0f, true, SyncType.TICKSYNC) {
-			
-			@Override
-			public void render(SpriteBatch batch) {}
-		};
+		body2 = new ParticleEntity(state, this, Particle.STORM, 1.0f, 0.0f, true, SyncType.TICKSYNC);
 		body2.setScale(bodyBaseScale2).setColor(HadalColor.ORANGE).setSyncExtraFields(true);
-		
-		body3 = new ParticleEntity(state, this, Particle.BRIGHT, 1.0f, 0.0f, true, SyncType.TICKSYNC) {
-			
-			@Override
-			public void render(SpriteBatch batch) {}
-		};
+		body3 = new ParticleEntity(state, this, Particle.BRIGHT, 1.0f, 0.0f, true, SyncType.TICKSYNC);
 		body3.setScale(bodyBaseScale3).setColor(HadalColor.RED).setSyncExtraFields(true);
 	}
 	

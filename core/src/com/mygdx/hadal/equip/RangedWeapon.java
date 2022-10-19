@@ -4,7 +4,7 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 

@@ -10,7 +10,7 @@ import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
 import com.mygdx.hadal.strategies.hitbox.RemoveStrategy;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
 public class CuriousSauce extends Artifact {
 

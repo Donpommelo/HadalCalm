@@ -16,7 +16,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 
 public class MorningStar extends MeleeWeapon {
 

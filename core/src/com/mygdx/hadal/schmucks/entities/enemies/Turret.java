@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.MoveState;
+import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;

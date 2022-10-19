@@ -7,7 +7,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -16,11 +16,11 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.WorldUtil;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
+import static com.mygdx.hadal.constants.Constants.PPM;
 
 public class LaserRifle extends RangedWeapon {
 

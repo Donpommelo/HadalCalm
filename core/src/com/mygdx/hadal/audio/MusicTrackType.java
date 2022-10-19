@@ -50,20 +50,20 @@ public enum MusicTrackType {
      * @return a random track from thte available pool
      */
     public MusicTrack getTrack() {
-        if (tracks.length != 0) {
+        if (0 != tracks.length) {
             return tracks[MathUtils.random(tracks.length - 1)];
         } else {
             return null;
         }
     }
 
-    private static final ObjectMap<String, MusicTrackType> TracksByName = new ObjectMap<>();
+    private static final ObjectMap<String, MusicTrackType> TRACKS_BY_NAME = new ObjectMap<>();
     static {
         for (MusicTrackType u: MusicTrackType.values()) {
-            TracksByName.put(u.toString(), u);
+            TRACKS_BY_NAME.put(u.toString(), u);
         }
     }
     public static MusicTrackType getByName(String s) {
-        return TracksByName.get(s, TITLE);
+        return TRACKS_BY_NAME.get(s, TITLE);
     }
 }

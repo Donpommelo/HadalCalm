@@ -11,7 +11,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
-import static com.mygdx.hadal.utils.Constants.PRIORITY_DEFAULT;
+import static com.mygdx.hadal.constants.Constants.PRIORITY_DEFAULT;
 
 /**
  * A status is a thing that afflicts a schmuck and has some affect for its duration.

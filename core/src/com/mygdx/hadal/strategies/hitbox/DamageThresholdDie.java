@@ -7,7 +7,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 
 /**
  * This strategy makes a hbox die after receiving too much damage in a short period of time.

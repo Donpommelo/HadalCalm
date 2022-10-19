@@ -12,7 +12,7 @@ import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
+import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
  *  This modifier is used for the ctf mode and simply makes bots able to locate and pursue the flags

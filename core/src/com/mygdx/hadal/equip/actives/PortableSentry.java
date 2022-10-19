@@ -21,7 +21,7 @@ import com.mygdx.hadal.statuses.Temporary;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 
 /**
  * @author Flagful Freatball

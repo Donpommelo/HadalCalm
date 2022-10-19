@@ -8,8 +8,8 @@ import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 
-import static com.mygdx.hadal.utils.Constants.INTP_FASTSLOW;
-import static com.mygdx.hadal.utils.Constants.TRANSITION_DURATION_SLOW;
+import static com.mygdx.hadal.constants.Constants.INTP_FASTSLOW;
+import static com.mygdx.hadal.constants.Constants.TRANSITION_DURATION_SLOW;
 
 /**
  * This icon is displayed at the start of levels to show the player the currently playing song

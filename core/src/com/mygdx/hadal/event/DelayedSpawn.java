@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.map.SettingTeamMode;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
@@ -12,7 +12,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.enemy.CreateBossEffects;
 import com.mygdx.hadal.strategies.enemy.DeathActivateSpawner;
 import com.mygdx.hadal.strategies.enemy.DeathPlayerScore;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**

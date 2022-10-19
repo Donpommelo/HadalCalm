@@ -9,7 +9,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
 /**
  * An active item is an item displayed in the lower right corner. They can be used with the spacebar and have a cooldown or some other charging mechanic.

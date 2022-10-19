@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.hitbox.*;
 
-import static com.mygdx.hadal.utils.Constants.PRIORITY_PROC;
+import static com.mygdx.hadal.constants.Constants.PRIORITY_PROC;
 
 public class CrownofThorns extends Artifact {
 

@@ -86,16 +86,16 @@ public class DialogBox extends AHadalActor {
 			syncAccumulator -= syncTime;
 
 			//Keep track of duration of dialogues and advance when duration completes
-			if (durationCount > 0) {
+			if (0 < durationCount) {
 				durationCount -= syncTime;
 				
-				if (durationCount <= 0) {
+				if (0 >= durationCount) {
 					nextDialogue();
 				}
 			}
 			
 			//dialogue box lerps towards max size.
-			if (dialogs.size != 0) {
+			if (0 != dialogs.size) {
 				if (dialogs.first().getInfo().isSmall()) {
 					currX = currX + (MAX_X_SMALL - currX) * TEXT_LERP_SPEED;
 					currY = currY + (MAX_Y_SMALL - currY) * TEXT_LERP_SPEED;
@@ -120,7 +120,7 @@ public class DialogBox extends AHadalActor {
 	 */
 	public void addDialogue(String id, EventData radio, EventData trigger, DialogType type) {
 		
-		if (dialogs.size != 0) {
+		if (0 != dialogs.size) {
 			if (dialogs.first().getInfo().isOverride()) {
 				dialogs.clear();
 			}
@@ -128,7 +128,7 @@ public class DialogBox extends AHadalActor {
 		
 		JsonValue dialog = GameStateManager.dialogs.get(id);
 		
-		if (dialog != null) {
+		if (null != dialog) {
 			for (JsonValue d : dialog) {
 				addDialogue(GameStateManager.JSON.fromJson(DialogInfo.class, d.toJson(OutputType.json)), radio, trigger, type);
 			}	
@@ -145,7 +145,7 @@ public class DialogBox extends AHadalActor {
 		info.setDisplayedText(ps.getGsm());
 
 		//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
-		if (dialogs.size == 0) {
+		if (0 == dialogs.size) {
 			durationCount = info.getDuration();
 
 			currX = 0;
@@ -171,7 +171,7 @@ public class DialogBox extends AHadalActor {
 	public void nextDialogue() {
 
 		//Do nothing if queue is empty
-		if (dialogs.size != 0) {
+		if (0 != dialogs.size) {
 			
 			//If this dialogue is the last in a conversation, trigger the designated event.
 			if (dialogs.first().getInfo().isEnd() && dialogs.first().getTrigger() != null && dialogs.first().getRadio() != null) {
@@ -181,7 +181,7 @@ public class DialogBox extends AHadalActor {
 			dialogs.removeFirst();
 			
 			//If there is a next dialogue in line, set its duration and reset window location.
-			if (dialogs.size != 0) {
+			if (0 != dialogs.size) {
 				durationCount = dialogs.first().getInfo().getDuration();
 				currX = 0;
 				currY = 0;
@@ -193,7 +193,7 @@ public class DialogBox extends AHadalActor {
 	
 	@Override
     public void draw(Batch batch, float alpha) {	 
-		if (dialogs.size != 0) {
+		if (0 != dialogs.size) {
 			
 			Dialog first = dialogs.first();
 
@@ -229,7 +229,7 @@ public class DialogBox extends AHadalActor {
 						getY() - MAX_Y - 8 + ADVANCE_HEIGHT, MAX_TEXT_WIDTH, Align.left, true);
 				}
 				 
-				if (first.getBust() != null) {
+				if (null != first.getBust()) {
 					batch.draw(first.getBust().getKeyFrame(animCdCount, true),
 						getX() + BUST_OFFSET_X, getY() + BUST_OFFSET_Y, BUST_WIDTH, BUST_HEIGHT);
 				}

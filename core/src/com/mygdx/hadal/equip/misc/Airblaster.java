@@ -7,7 +7,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
-import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -20,9 +20,9 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
+import static com.mygdx.hadal.constants.Constants.PPM;
 
 public class Airblaster extends MeleeWeapon {
 

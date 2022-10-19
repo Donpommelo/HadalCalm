@@ -29,10 +29,12 @@ public class PlayerInvisible extends Artifact {
 				if (counter <= 0.0f) {
 					if (invis) {
 						counter = SEMI_INVIS_INTERVAL;
-						p.getPlayer().setInvisible(1);
+						p.getPlayer().setTranslucent(true);
+						p.getPlayer().setInvisible(false);
 					} else {
 						counter = INVIS_INTERVAL;
-						p.getPlayer().setInvisible(2);
+						p.getPlayer().setTranslucent(false);
+						p.getPlayer().setInvisible(true);
 					}
 					invis = !invis;
 				}

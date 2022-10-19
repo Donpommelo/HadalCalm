@@ -22,9 +22,9 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockCharacter;
-import com.mygdx.hadal.schmucks.MoveState;
-import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -39,15 +39,16 @@ import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.CameraUtil;
-import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.utils.PlayerStatusUtil;
 import com.mygdx.hadal.utils.WorldUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import java.util.Objects;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
+import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
  * The player is the entity that the player controls.
@@ -69,11 +70,11 @@ public class Player extends PhysicsSchmuck {
 	//counters for various cooldowns.
 	protected static final float HOVER_CD = 0.08f;
 	protected static final float JUMP_CD = 0.25f;
-	protected static final float FAST_FALL_CD = 0.05f;
-	protected static final float AIRBLAST_CD = 0.25f;
-	protected static final float INTERACT_CD = 0.15f;
-	protected static final float HIT_SOUND_CD = 0.15f;
-	protected static final float PING_CD = 1.0f;
+	private static final float FAST_FALL_CD = 0.05f;
+	private static final float AIRBLAST_CD = 0.25f;
+	private static final float INTERACT_CD = 0.15f;
+	private static final float HIT_SOUND_CD = 0.15f;
+	private static final float PING_CD = 1.0f;
 	private static final float HOVER_FUEL_REGEN_CD = 1.5f;
 	private static final float AIRBLAST_FUEL_REGEN_CD = 3.0f;
 	private static final float FUEL_REGEN = 16.0f;
@@ -81,7 +82,7 @@ public class Player extends PhysicsSchmuck {
 	private static final float GROUND_FUEL_REGEN_BOOST = 5.0f;
 
 	//this makes the player animate faster in the air for the "luigi legs"
-	private static final float airAnimationSlow = 3.0f;
+	private static final float AIR_ANIMATION_SLOW = 3.0f;
 
 	private float scaleModifier = 0.0f;
 	private float gravityModifier = 1.0f;
@@ -101,8 +102,10 @@ public class Player extends PhysicsSchmuck {
 	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.)
 	//invisibility and blinded are kept track of this way too b/c they effect visuals
 	private boolean scaling;
-	protected int invisible;
 	private float blinded;
+
+	//
+	private boolean hovering, running, invisible, translucent, transparent;
 	
 	//does the player have a shoot/jump or boost action buffered? (i.e used when still on cd)
 	protected boolean shootBuffered, jumpBuffered, airblastBuffered;
@@ -191,7 +194,7 @@ public class Player extends PhysicsSchmuck {
 
 		this.spriteHelper = new PlayerSpriteHelper(this, SCALE);
 		setBodySprite(startLoadout.character, startLoadout.team);
-		loadParticles();
+		loadParticlesAndSounds();
 		
 		//This schmuck tracks mouse location. Used for projectiles that home towards mouse.
 		mouse = state.getMouse();
@@ -224,12 +227,25 @@ public class Player extends PhysicsSchmuck {
 	/**
 	 * This method prepares the various particle emitting entities attached to the player.
 	 */
-	public void loadParticles() {
-		if (state.isServer()) {
-			dustCloud = new ParticleEntity(state, this, Particle.DUST, 1.0f, 0.0f, false,
-					SyncType.TICKSYNC);
-			hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false,
-					SyncType.TICKSYNC);
+	public void loadParticlesAndSounds() {
+		dustCloud = new ParticleEntity(state, this, Particle.DUST, 1.0f, 0.0f, false,
+				SyncType.NOSYNC);
+		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false,
+				SyncType.NOSYNC);
+
+		hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.0f, 0.2f, 1.0f,
+				true, true, SyncType.NOSYNC);
+		runSound = new SoundEntity(state, this, SoundEffect.RUN, 0.0f, 0.1f, 1.0f,
+				true, true, SyncType.NOSYNC);
+		reloadSound = new SoundEntity(state, this, SoundEffect.RELOAD, 0.0f, 0.2f, 1.0f,
+				true, true, SyncType.NOSYNC);
+
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(dustCloud.getEntityID(), dustCloud, false, PlayState.ObjectLayer.EFFECT);
+			((ClientState) state).addEntity(hoverBubbles.getEntityID(), hoverBubbles, false, PlayState.ObjectLayer.EFFECT);
+			((ClientState) state).addEntity(hoverSound.getEntityID(), hoverSound, false, PlayState.ObjectLayer.EFFECT);
+			((ClientState) state).addEntity(runSound.getEntityID(), runSound, false, PlayState.ObjectLayer.EFFECT);
+			((ClientState) state).addEntity(reloadSound.getEntityID(), reloadSound, false, PlayState.ObjectLayer.EFFECT);
 		}
 	}
 	
@@ -281,10 +297,8 @@ public class Player extends PhysicsSchmuck {
 		size.scl(1.0f + scaleModifier);
 
 		//for server, we adjust offset of particles to account for size changes
-		if (dustCloud != null && hoverBubbles != null) {
-			dustCloud.setOffset(0, -size.y / 2);
-			hoverBubbles.setOffset(0, -size.y / 2);
-		}
+		dustCloud.setOffset(0, -size.y / 2);
+		hoverBubbles.setOffset(0, -size.y / 2);
 
 		this.body = BodyBuilder.createBox(world, startPos, size, gravityModifier, PLAYER_DENSITY, restitutionModifier, 0.0f, false, true, Constants.BIT_PLAYER,
 				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
@@ -360,34 +374,12 @@ public class Player extends PhysicsSchmuck {
 					hover();
 				}
 			} else {
-				//turn off hover particles and sound
-				hoverBubbles.turnOff();
-
-				if (hoverSound != null) {
-					hoverSound.turnOff();
-				}
+				toggleHoverEffects(false);
 			}
 			if (fastFalling) {
 				fastFall();
 			}
-			
-			if ((MoveState.MOVE_LEFT.equals(moveState) || MoveState.MOVE_RIGHT.equals(moveState)) && grounded && invisible == 0) {
-				
-				//turn on running particles and sound
-				dustCloud.turnOn();
-				if (runSound == null) {
-					runSound = new SoundEntity(state, this, SoundEffect.RUN, 0.0f, 0.1f, 1.0f,
-							true, true, SyncType.TICKSYNC);
-				} else {
-					runSound.turnOn();
-				}
-			} else {
-				//turn off running particles and sound
-				dustCloud.turnOff();
-				if (runSound != null) {
-					runSound.turnOff();
-				}
-			}
+			toggleRunningEffects((MoveState.MOVE_LEFT.equals(moveState) || MoveState.MOVE_RIGHT.equals(moveState)) && grounded);
 		}
 		
 		if (shooting) {
@@ -405,7 +397,7 @@ public class Player extends PhysicsSchmuck {
 		if (grounded) {
 			playerData.setExtraJumpsUsed(0);
 		}
-				
+
 		//process fuel regen. Base fuel regen is canceled upon using fuel.
 		if (fuelRegenCdCount > 0.0f) {
 			fuelRegenCdCount -= grounded ? delta * GROUND_FUEL_CD_BOOST : delta;
@@ -415,20 +407,10 @@ public class Player extends PhysicsSchmuck {
 		playerData.fuelGain(playerData.getStat(Stats.FUEL_REGEN) * delta);
 
 		//If player is reloading, run the reload method of the current equipment.
-		if (playerData.getCurrentTool().isReloading()) {
+		boolean reloading = playerData.getCurrentTool().isReloading();
+		toggleReloadEffects(reloading);
+		if (reloading) {
 			playerData.getCurrentTool().reload(delta);
-			
-			//turn on reloading particles and sound
-			if (reloadSound == null) {
-				reloadSound = new SoundEntity(state, this, SoundEffect.RELOAD, 0.0f, 0.2f, 1.0f,
-						true, true, SyncType.TICKSYNC);
-			} else {
-				reloadSound.turnOn();
-			}
-		} else {
-			if (reloadSound != null) {
-				reloadSound.turnOff();
-			}
 		}
 		
 		//charge active item in all modes except campaign (where items charge by dealing damage).
@@ -507,24 +489,43 @@ public class Player extends PhysicsSchmuck {
 
 			playerData.statusProcTime(new ProcTime.whileHover(hoverDirection));
 
-			if (invisible == 0) {
-				//turn on hovering particles and sound
-				hoverBubbles.turnOn();
-				if (hoverSound == null) {
-					hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.0f, 0.2f, 1.0f,
-							true, true, SyncType.TICKSYNC);
-				}
-				hoverSound.turnOn();
-			}
+			toggleHoverEffects(true);
 		} else {
-			//turn off hovering particles and sound
-			hoverBubbles.turnOff();
-			if (hoverSound != null) {
-				hoverSound.turnOff();
-			}
+			toggleHoverEffects(false);
+
 		}
 	}
-	
+
+	private void toggleRunningEffects(boolean running) {
+		this.running = running;
+		if (running && !invisible) {
+			dustCloud.turnOn();
+			runSound.turnOn();
+		} else {
+			dustCloud.turnOff();
+			runSound.turnOff();
+		}
+	}
+
+	private void toggleHoverEffects(boolean hovering) {
+		this.hovering = hovering;
+		if (hovering && !invisible) {
+			hoverBubbles.turnOn();
+			hoverSound.turnOn();
+		} else {
+			hoverBubbles.turnOff();
+			hoverSound.turnOff();
+		}
+	}
+
+	private void toggleReloadEffects(boolean reloading) {
+		if (reloading && !invisible) {
+			reloadSound.turnOn();
+		} else {
+			reloadSound.turnOff();
+		}
+	}
+
 	/**
 	 * Player's jump. Player moves up if they have jumps left.
 	 */
@@ -534,7 +535,7 @@ public class Player extends PhysicsSchmuck {
 				jumpCdCount = JUMP_CD;
 				pushMomentumMitigation(0, playerData.getJumpPower());
 				
-				if (invisible == 0) {
+				if (!invisible) {
 					//activate jump particles and sound
 					new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - size.y / 2),
 							Particle.WATER_BURST, 1.0f, true, SyncType.CREATESYNC);
@@ -550,7 +551,7 @@ public class Player extends PhysicsSchmuck {
 					playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);
 					pushMomentumMitigation(0, playerData.getJumpPower());
 					
-					if (invisible == 0) {
+					if (!invisible) {
 						//activate double-jump particles and sound
 						new ParticleEntity(state, this, Particle.SPLASH, 0.0f, 0.75f, true, SyncType.CREATESYNC);
 						SoundEffect.DOUBLEJUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
@@ -677,10 +678,10 @@ public class Player extends PhysicsSchmuck {
 		//process player invisibility. Completely invisible players are partially transparent to allies
 		float transparency;
 		boolean batchSet = false;
-		if (invisible == 3) {
+		if (transparent) {
 			return;
 		}
-		if (invisible == 2) {
+		if (invisible) {
 			if (state.getPlayer().hitboxfilter == hitboxfilter) {
 				transparency = 0.3f;
 				batch.setColor(1.0f,  1.0f, 1.0f, transparency);
@@ -689,7 +690,7 @@ public class Player extends PhysicsSchmuck {
 				return;
 			}
 		}
-		if (invisible == 1) {
+		if (translucent) {
 			if (state.getPlayer().hitboxfilter != hitboxfilter) {
 				transparency = 0.3f;
 				batch.setColor(1.0f,  1.0f, 1.0f, transparency);
@@ -827,6 +828,9 @@ public class Player extends PhysicsSchmuck {
 		//this is here to prevent the client from not updating the last, fatal instance of damage in the ui
 		if (!state.isServer()) {
 			playerData.setCurrentHp(0);
+
+			((ClientState) state).removeEntity(hoverBubbles.getEntityID());
+			((ClientState) state).removeEntity(dustCloud.getEntityID());
 		}
 	}
 	
@@ -875,15 +879,19 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void onServerSync() {
+
+		short statusCode = PlayerStatusUtil.statusToCode(grounded, running, hovering, playerData.getCurrentTool().isReloading(),
+				invisible, translucent, transparent);
+
 		HadalGame.server.sendToAllUDP(new PacketsSync.SyncPlayer(entityID, getPosition(), getLinearVelocity(),
 				entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp(),
-				mouseAngle, grounded, playerData.getCurrentSlot(),
+				mouseAngle, playerData.getCurrentSlot(),
 				playerData.getCurrentTool().isReloading() ? reloadPercent : -1.0f,
 				playerData.getCurrentTool().isCharging() ? chargePercent : -1.0f,
 				playerData.getCurrentFuel(),
 				playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getAmmoLeft(),
 				playerData.getActiveItem().chargePercent(),
-				getMainFixture().getFilterData().maskBits, invisible, blinded));
+				getMainFixture().getFilterData().maskBits, blinded, statusCode));
 	}
 	
 	/**
@@ -911,7 +919,6 @@ public class Player extends PhysicsSchmuck {
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncPlayer p) {
 			serverAttackAngle.setAngleRad(p.attackAngle.angleRad());
-			grounded = p.grounded;
 			getPlayerData().setCurrentSlot(p.currentSlot);
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
 			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
@@ -923,8 +930,15 @@ public class Player extends PhysicsSchmuck {
 			getPlayerData().getCurrentTool().setClipLeft(p.currentClip);
 			getPlayerData().getCurrentTool().setAmmoLeft(p.currentAmmo);
 			getPlayerData().getActiveItem().setCurrentChargePercent(p.activeCharge);
-			invisible = p.invisible;
 			blinded = p.blinded;
+
+			grounded = PlayerStatusUtil.codeToGrounded(p.statusCode);
+			invisible = PlayerStatusUtil.codeToInvisible(p.statusCode);
+			translucent = PlayerStatusUtil.codeToTranslucent(p.statusCode);
+			transparent = PlayerStatusUtil.codeToTransparent(p.statusCode);
+			toggleRunningEffects(PlayerStatusUtil.codeToRunning(p.statusCode));
+			toggleHoverEffects(PlayerStatusUtil.codeToHovering(p.statusCode));
+			toggleReloadEffects(PlayerStatusUtil.codeToReloading(p.statusCode));
 
 			//client's own player does not sync dropthrough passability
 			if (!(this instanceof PlayerClient) && p.maskBits != getMainFixture().getFilterData().maskBits) {
@@ -994,7 +1008,7 @@ public class Player extends PhysicsSchmuck {
 		if (grounded) {
 			animationTime += i; 
 		} else {
-			animationTime += i * airAnimationSlow; 
+			animationTime += i * AIR_ANIMATION_SLOW;
 		}
 	}
 	
@@ -1055,7 +1069,11 @@ public class Player extends PhysicsSchmuck {
 
 	public void setScaling(boolean scaling) { this.scaling = scaling; }
 	
-	public void setInvisible(int invisible) { this.invisible = invisible; }
+	public void setInvisible(boolean invisible) { this.invisible = invisible; }
+
+	public void setTranslucent(boolean translucent) { this.translucent = translucent; }
+
+	public void setTransparent(boolean transparent) { this.transparent = transparent; }
 
 	public void setBlinded(float blinded) { this.blinded = blinded; }
 

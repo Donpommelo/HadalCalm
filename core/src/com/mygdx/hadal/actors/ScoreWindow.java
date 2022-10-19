@@ -16,7 +16,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
 import com.mygdx.hadal.text.UIText;
 
-import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
 /**
  * The ScoreWindow is displayed when a player holds a button (default value tab) during a level
@@ -164,7 +164,7 @@ public class ScoreWindow {
 
 		orderedUsers.sort((a, b) -> {
 			int cmp = (a.isSpectator() ? 1 : 0) - (b.isSpectator() ? 1 : 0);
-			if (cmp == 0) { cmp = b.getScores().getScore() - a.getScores().getScore(); }
+			if (0 == cmp) { cmp = b.getScores().getScore() - a.getScores().getScore(); }
 			return cmp;
 		});
 
@@ -238,7 +238,7 @@ public class ScoreWindow {
 		//ui height scales to number of options available
 		float height = OPTIONS_HEIGHT;
 		if (state.isServer()) {
-			if (connID != 0) {
+			if (0 != connID) {
 				height += OPTIONS_EXTRA_HEIGHT;
 			}
 		}
@@ -250,7 +250,7 @@ public class ScoreWindow {
 		tableOptions.setPosition(x, y);
 
 		//user can mute/unmute players
-		if (user != null) {
+		if (null != user) {
 			Text mute = new Text("").setButton(true);
 			if (user.isMuted()) {
 				mute.setText(UIText.UNMUTE.text());
@@ -281,7 +281,7 @@ public class ScoreWindow {
 			//only host can ban.
 			if (state.isServer()) {
 				//host cannot ban self
-				if (connID != 0) {
+				if (0 != connID) {
 					Text ban = new Text(UIText.BAN.text()).setButton(true);
 					ban.setScale(SETTINGS_SCALE);
 					ban.addListener(new ClickListener() {
@@ -328,8 +328,8 @@ public class ScoreWindow {
 
 		//this displays the player's artifacts. Mouse over to see details
 		Table tableArtifact = new Table();
-		if (user.getPlayer() != null) {
-			if (user.getPlayer().getPlayerData() != null) {
+		if (null != user.getPlayer()) {
+			if (null != user.getPlayer().getPlayerData()) {
 				for (UnlockArtifact c : user.getPlayer().getPlayerData().getLoadout().artifacts) {
 					if (!UnlockArtifact.NOTHING.equals(c) && !c.isInvisible()) {
 						ArtifactIcon newTag = new ArtifactIcon(c, c.getName() + "\n" + c.getDesc(),

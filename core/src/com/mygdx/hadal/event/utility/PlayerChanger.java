@@ -9,7 +9,7 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
 /**
  * A PlayerChanger changes some property of the player (Hp, fuel, scrap, maybe other stuff we add later?)

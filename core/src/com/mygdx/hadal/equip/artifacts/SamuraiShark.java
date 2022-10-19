@@ -2,7 +2,6 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;

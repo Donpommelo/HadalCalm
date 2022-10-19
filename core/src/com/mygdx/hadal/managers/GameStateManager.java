@@ -30,7 +30,13 @@ import java.util.Stack;
  * @author Fartrand Fucciatello
  */
 public class GameStateManager {
-	
+
+	private static final Array<TextureAtlas> ATLASES = new Array<>();
+
+	//Json reader here. Use this instead of creating new ones elsewhere.
+	public static final Json JSON = new Json();
+	public static final JsonReader READER = new JsonReader();
+
 	//An instance of the current game
 	private final HadalGame app;
 	
@@ -41,8 +47,6 @@ public class GameStateManager {
 	private static Skin skin;
 	private static NinePatchDrawable dialogPatch, simplePatch, bossGaugePatch, bossGaugeGreyPatch,
 		bossGaugeRedPatch, bossGaugeCatchupPatch;
-	
-	private static final Array<TextureAtlas> atlases = new Array<>();
 
 	//This is a stored list of all the dialogs/death/misc messages in the game, read from json file.
 	public static JsonValue dialogs, deathMessages, shops, randomText, uiStrings, gameStrings, tips;
@@ -55,10 +59,6 @@ public class GameStateManager {
 
 	//This contains the settings that are shared with clients (or shared from server if we are the client)
 	private SharedSetting sharedSetting, hostSetting;
-	
-	//Json reader here. Use this instead of creating new ones elsewhere.
-	public static final Json JSON = new Json();
-	public static final JsonReader READER = new JsonReader();
 	
 	//are we in single or multiplayer mode?
 	public static Mode currentMode = Mode.SINGLE;
@@ -120,15 +120,15 @@ public class GameStateManager {
 		bossGaugeCatchupPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGE_ATL
 			.toString())).createPatch("boss_gauge_dark_red"));
 		
-		atlases.add(HadalGame.assetManager.get(AssetList.PARTICLE_ATL.toString()));
-		atlases.add(HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString()));
-		atlases.add(HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString()));
-		atlases.add(HadalGame.assetManager.get(AssetList.FISH_ATL.toString()));
-		atlases.add(HadalGame.assetManager.get(AssetList.TURRET_ATL.toString()));
-		atlases.add(HadalGame.assetManager.get(AssetList.EVENT_ATL.toString()));
-		atlases.add(HadalGame.assetManager.get(AssetList.UI_ATL.toString()));
-		atlases.add(HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString()));
-		atlases.add(HadalGame.assetManager.get(AssetList.IMPACT_ATL.toString()));
+		ATLASES.add(HadalGame.assetManager.get(AssetList.PARTICLE_ATL.toString()));
+		ATLASES.add(HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString()));
+		ATLASES.add(HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString()));
+		ATLASES.add(HadalGame.assetManager.get(AssetList.FISH_ATL.toString()));
+		ATLASES.add(HadalGame.assetManager.get(AssetList.TURRET_ATL.toString()));
+		ATLASES.add(HadalGame.assetManager.get(AssetList.EVENT_ATL.toString()));
+		ATLASES.add(HadalGame.assetManager.get(AssetList.UI_ATL.toString()));
+		ATLASES.add(HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString()));
+		ATLASES.add(HadalGame.assetManager.get(AssetList.IMPACT_ATL.toString()));
 		
 		//this lets us not declare every attribute of shaders.
 		ShaderProgram.pedantic = false;
@@ -157,12 +157,12 @@ public class GameStateManager {
 		}
 		states.clear();
 		
-		for (TextureAtlas atlas : atlases) {
+		for (TextureAtlas atlas : ATLASES) {
 			atlas.dispose();
 		}
-		atlases.clear();
+		ATLASES.clear();
 		
-		if (skin != null) {
+		if (null != skin) {
 			skin.dispose();
 		}
 
@@ -285,7 +285,7 @@ public class GameStateManager {
 	 * This method is just a shortcut for returning to the hub state with a clean loadout
 	 */
 	public void gotoHubState(Class<? extends GameState> lastState) {
-		if (currentMode == Mode.SINGLE) {
+		if (Mode.SINGLE == currentMode) {
 			
 			//if the player has not done the tutorial yet, they are spawned into the tutorial section. Otherwise; hub
 			if (0 == getRecord().getFlags().get("HUB_REACHED")) {
@@ -293,7 +293,7 @@ public class GameStateManager {
 			} else {
 				addPlayState(UnlockLevel.SSTUNICATE1, GameMode.HUB, new Loadout(loadout), null, lastState, true, "");
 			}
-		} else if (currentMode == Mode.MULTI) {
+		} else if (Mode.MULTI == currentMode) {
 			addPlayState(UnlockLevel.HUB_MULTI, GameMode.HUB, new Loadout(loadout), null, lastState, true, "");
 		}
 	}

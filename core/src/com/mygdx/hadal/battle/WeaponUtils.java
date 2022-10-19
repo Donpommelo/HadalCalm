@@ -13,8 +13,8 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Scrap;
-import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -29,11 +29,11 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.WorldUtil;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
+import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
  * This util contains several shortcuts for hitbox-spawning effects for weapons or other items.
@@ -163,7 +163,7 @@ public class WeaponUtils {
 		boolean event = false;
 		float pushMultiplier = 1.0f;
 		float lifespan = NAUTICAL_MINE_LIFESPAN;
-		if (extraFields.length > 2) {
+		if (2 < extraFields.length) {
 			event = extraFields[0] == 0.0f;
 			pushMultiplier = extraFields[1];
 			lifespan = extraFields[2];
@@ -268,11 +268,11 @@ public class WeaponUtils {
 			private final Vector2 mineLocation = new Vector2();
 			@Override
 			public void onHit(HadalData fixB) {
-				if (fixB != null) {
+				if (null != fixB) {
 					if (UserDataType.WALL.equals(fixB.getType()) || UserDataType.EVENT.equals(fixB.getType())) {
 						floor = fixB.getEntity();
-						if (floor != null) {
-							if (floor.getBody() != null) {
+						if (null != floor) {
+							if (null != floor.getBody()) {
 								planted = true;
 							}
 						}
@@ -282,7 +282,7 @@ public class WeaponUtils {
 
 			@Override
 			public void controller(float delta) {
-				if (planted && floor.getBody() != null && hbox.getBody() != null) {
+				if (planted && null != floor.getBody() && null != hbox.getBody()) {
 					planted = false;
 					WeldJointDef joint = new WeldJointDef();
 					joint.bodyA = floor.getBody();
@@ -296,7 +296,7 @@ public class WeaponUtils {
 				}
 				if (set && !primed[0]) {
 					primeCount += delta;
-					if (primeCount >= PRIME_TIME) {
+					if (PRIME_TIME <= primeCount) {
 						SoundEffect.MAGIC27_EVIL.playSourced(state, hbox.getPixelPosition(), 1.0f);
 						primed[0] = true;
 						hbox.setLifeSpan(MINE_LIFESPAN);
@@ -310,7 +310,7 @@ public class WeaponUtils {
 					}
 				}
 				if (primed[0]) {
-					if (targetCheckCount < MINE_TARGET_CHECK_CD) {
+					if (MINE_TARGET_CHECK_CD > targetCheckCount) {
 						targetCheckCount += delta;
 					}
 					if (targetCheckCount >= MINE_TARGET_CHECK_CD) {
@@ -365,15 +365,15 @@ public class WeaponUtils {
 		boolean attached = true;
 		float spiritDamage = SPIRIT_DEFAULT_DAMAGE;
 		Particle effect = Particle.SHADOW_PATH;
-		if (extraFields.length > 3) {
+		if (3 < extraFields.length) {
 			attached = extraFields[0] == 1.0f;
-			if (extraFields[1] == 1.0f) {
+			if (1.0f == extraFields[1]) {
 				effect = Particle.BRIGHT;
 			}
 			spiritDamage = extraFields[2];
 		}
 
-		if (startPosition.length != 0) {
+		if (0 != startPosition.length) {
 			SoundEffect.DARKNESS2.playSourced(state, user.getPixelPosition(), 0.2f);
 
 			for (int i = 0; i < startPosition.length; i++) {
@@ -451,7 +451,7 @@ public class WeaponUtils {
 
 					meteorCount++;
 					
-					if (meteorCount % 3 == 0) {
+					if (0 == meteorCount % 3) {
 						hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.FALLING, 0.5f, false));
 					}
 					
@@ -461,7 +461,7 @@ public class WeaponUtils {
 
 					if (WorldUtil.preRaycastCheck(originPt, endPt)) {
 						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-							if (fixture.getFilterData().categoryBits == Constants.BIT_WALL && fraction < shortestFraction) {
+							if (Constants.BIT_WALL == fixture.getFilterData().categoryBits && fraction < shortestFraction) {
 								shortestFraction = fraction;
 								return fraction;
 						}
@@ -533,7 +533,7 @@ public class WeaponUtils {
 				lastPosition.set(entityLocation);
 
 				//after moving distance equal to a vine, the hbox spawns a vine with random sprite
-				if (displacement > vineSize.x) {
+				if (vineSize.x < displacement) {
 					if (lastPositionTemp.isZero()) {
 						lastPosition.set(entityLocation);
 					} else {
@@ -589,7 +589,7 @@ public class WeaponUtils {
 			@Override
 			public void die() {
 
-				if (splitNum > 0) {
+				if (0 < splitNum) {
 					//when vine dies, it creates 2 vines that branch in separate directions
 					float newDegrees = hbox.getLinearVelocity().angleDeg() + (MathUtils.random(spreadMin, spreadMax));
 					angle.set(hbox.getLinearVelocity()).setAngleDeg(newDegrees);
@@ -646,7 +646,7 @@ public class WeaponUtils {
 
 		boolean special = user.getBodyData().getStat(Stats.PING_DAMAGE) > 0.0f;
 		int spriteIndex = 0;
-		if (extraFields.length >= 1) {
+		if (1 <= extraFields.length) {
 			spriteIndex = (int) extraFields[0];
 		}
 
@@ -669,7 +669,7 @@ public class WeaponUtils {
 				} else {
 					controllerCount += delta;
 
-					if (controllerCount <= EMOTE_LIFESPAN) {
+					if (EMOTE_LIFESPAN >= controllerCount) {
 						entityLocation.set(user.getPosition()).add(0, (user.getSize().y / 2 + 50) / PPM);
 						hbox.setTransform(entityLocation, hbox.getAngle());
 						hbox.setLinearVelocity(user.getLinearVelocity());
@@ -707,7 +707,7 @@ public class WeaponUtils {
 	public static Vector3 getPlayerColor(Player player) {
 
 		//return empty vector if player's data has not been created yet.
-		if (player.getPlayerData() != null) {
+		if (null != player.getPlayerData()) {
 			Loadout loadout = player.getPlayerData().getLoadout();
 			if (AlignmentFilter.NONE.equals(loadout.team)) {
 				return loadout.character.getPalette().getIcon().getRGB();
@@ -728,7 +728,7 @@ public class WeaponUtils {
 	 */
 	public static String getPlayerColorName(Schmuck schmuck, int maxNameLen) {
 
-		if (schmuck == null) { return ""; }
+		if (null == schmuck) { return ""; }
 
 		if (schmuck instanceof Player player) {
 			String displayedName = player.getName();
@@ -759,13 +759,13 @@ public class WeaponUtils {
 		final int type = extraFields.length >= 1 ? (int) extraFields[0] : 0;
 		final float power = extraFields.length >= 2 ? extraFields[1] : 0;
 		Sprite sprite = Sprite.NOTHING;
-		if (type == Constants.PICKUP_HEALTH) {
+		if (Constants.PICKUP_HEALTH == type) {
 			sprite = Sprite.MEDPAK;
 		}
-		if (type == Constants.PICKUP_FUEL) {
+		if (Constants.PICKUP_FUEL == type) {
 			sprite = Sprite.FUEL;
 		}
-		if (type == Constants.PICKUP_AMMO) {
+		if (Constants.PICKUP_AMMO == type) {
 			sprite = Sprite.AMMO;
 		}
 
@@ -792,8 +792,8 @@ public class WeaponUtils {
 
 			@Override
 			public void onHit(HadalData fixB) {
-				if (fixB instanceof PlayerBodyData bodyData && delay <= 0) {
-					if (type == Constants.PICKUP_HEALTH) {
+				if (fixB instanceof PlayerBodyData bodyData && 0 >= delay) {
+					if (Constants.PICKUP_HEALTH == type) {
 						if (bodyData.getCurrentHp() < bodyData.getStat(Stats.MAX_HP)) {
 
 							SoundEffect.MAGIC21_HEAL.playUniversal(state, bodyData.getPlayer().getPixelPosition(),
@@ -805,7 +805,7 @@ public class WeaponUtils {
 							hbox.die();
 						}
 					}
-					if (type == Constants.PICKUP_FUEL) {
+					if (Constants.PICKUP_FUEL == type) {
 						if (bodyData.getCurrentFuel() < bodyData.getStat(Stats.MAX_FUEL)) {
 
 							SoundEffect.MAGIC2_FUEL.playUniversal(state, bodyData.getPlayer().getPixelPosition(),
@@ -817,7 +817,7 @@ public class WeaponUtils {
 							hbox.die();
 						}
 					}
-					if (type == Constants.PICKUP_AMMO) {
+					if (Constants.PICKUP_AMMO == type) {
 						if (bodyData.getCurrentTool().getClipLeft() < bodyData.getCurrentTool().getClipSize()) {
 							SoundEffect.LOCKANDLOAD.playUniversal(state, bodyData.getPlayer().getPixelPosition(),
 									0.8f, false);
@@ -831,7 +831,7 @@ public class WeaponUtils {
 				}
 			}
 		});
-		if (type == Constants.PICKUP_HEALTH) {
+		if (Constants.PICKUP_HEALTH == type) {
 			hbox.setBotHealthPickup(true);
 		}
 		return hbox;
@@ -845,9 +845,9 @@ public class WeaponUtils {
 	public static void spawnScrap(PlayState state, int amount, Vector2 startPos, boolean statCheck, boolean score) {
 		
 		int modifiedAmount;
-		if (statCheck && state.getPlayer().getPlayerData() != null) {
-			if (state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount < 1.0f
-					&& state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) > 0) {
+		if (statCheck && null != state.getPlayer().getPlayerData()) {
+			if (1.0f > state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount
+					&& 0 < state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP)) {
 				modifiedAmount = amount + 1;
 			} else {
 				modifiedAmount = (int) (amount * (1 + state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP)));

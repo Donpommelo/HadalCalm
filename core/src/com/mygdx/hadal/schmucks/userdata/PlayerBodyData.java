@@ -16,7 +16,7 @@ import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.*;
-import com.mygdx.hadal.schmucks.SyncType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
@@ -27,7 +27,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.utils.CameraUtil;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.util.Arrays;

@@ -11,7 +11,7 @@ import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
@@ -20,8 +20,8 @@ import com.mygdx.hadal.statuses.ProcTime.InflictDamage;
 import com.mygdx.hadal.statuses.ProcTime.ReceiveDamage;
 import com.mygdx.hadal.statuses.ProcTime.ReceiveHeal;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
 
 /**
  * Body data contains the stats and methods of any unit; player or enemy.

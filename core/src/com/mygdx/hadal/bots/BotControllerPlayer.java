@@ -6,9 +6,9 @@ import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
+import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
  * A BotControllerPlayer manages all of a bot's behaviors and cooldowns specific to players

@@ -2,7 +2,7 @@ package com.mygdx.hadal.schmucks.entities.enemies;
 
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.event.modes.SpawnerWave;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.constants.Constants;
 
 /**
  * A wave contains the info needed to spawn a single wave of arena enemies

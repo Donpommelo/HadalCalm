@@ -17,7 +17,7 @@ import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.text.UIText;
 
-import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH;
+import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
 /**
  * A PlayerResultsIcon represents a single player in the results screen.

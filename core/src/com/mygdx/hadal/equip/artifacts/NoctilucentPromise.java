@@ -10,7 +10,7 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.Status;
 
-import static com.mygdx.hadal.utils.Constants.PRIORITY_LAST;
+import static com.mygdx.hadal.constants.Constants.PRIORITY_LAST;
 
 public class NoctilucentPromise extends Artifact {
 

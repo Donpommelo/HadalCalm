@@ -24,8 +24,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 

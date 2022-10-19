@@ -3,9 +3,9 @@ package com.mygdx.hadal.equip.artifacts;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
-import static com.mygdx.hadal.utils.Constants.PRIORITY_LAST_LAST;
+import static com.mygdx.hadal.constants.Constants.PRIORITY_LAST_LAST;
 
 public class NutrilogCrunchbarPlus extends Artifact {
 

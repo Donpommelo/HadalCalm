@@ -15,9 +15,9 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
-import static com.mygdx.hadal.utils.Constants.MAX_NAME_LENGTH_SHORT;
+import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_SHORT;
 
 /**
  * The UIExtra is an extra ui actor displayed in the upper left hand side.
@@ -76,16 +76,16 @@ public class UIExtra extends AHadalActor {
 	 * In team modes, this renders ally hp bars in the upper right hand side of the screen
 	 */
 	private void renderTeamHp(Batch batch, short viewingUserTeam) {
-		if (state.getScoreWindow() == null) { return; }
-		if (state.getMode().getTeamMode() == SettingTeamMode.TeamMode.FFA) { return; }
+		if (null == state.getScoreWindow()) { return; }
+		if (SettingTeamMode.TeamMode.FFA == state.getMode().getTeamMode()) { return; }
 
 		float currentY = HadalGame.CONFIG_HEIGHT - START_Y_EXTRA;
 		int allyNumber = 0;
 
 		//iterate through each non-spectator on the same team
 		for (User user : state.getScoreWindow().getOrderedUsers()) {
-			if (!user.isSpectator() && user.getPlayer() != null) {
-				if (user.getPlayer().getPlayerData() != null && !user.getPlayer().equals(state.getPlayer())) {
+			if (!user.isSpectator() && null != user.getPlayer()) {
+				if (null != user.getPlayer().getPlayerData() && !user.getPlayer().equals(state.getPlayer())) {
 					if (user.getPlayer().getHitboxfilter() == viewingUserTeam) {
 						HadalGame.FONT_UI.draw(batch, WeaponUtils.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_SHORT),
 								HadalGame.CONFIG_WIDTH - NAME_MAX_LENGTH - HP_WIDTH - START_X_EXTRA, currentY, NAME_MAX_LENGTH,
@@ -125,7 +125,7 @@ public class UIExtra extends AHadalActor {
 		//if we are spectating another player, we want to ui to match the spectate target instead of ourselves
 		boolean spectatorFound = false;
 		if (state.isSpectatorMode()) {
-			if (state.getUiSpectator().getSpectatorTarget() != null) {
+			if (null != state.getUiSpectator().getSpectatorTarget()) {
 				user = state.getUiSpectator().getSpectatorTarget().getUser();
 				spectatorFound = true;
 			}
@@ -139,8 +139,8 @@ public class UIExtra extends AHadalActor {
 		}
 
 		//check if user is null b/c several ui tags require checking user information
-		if (user != null) {
-			if (user.getPlayer() != null) {
+		if (null != user) {
+			if (null != user.getPlayer()) {
 				viewingUserTeam = user.getPlayer().getHitboxfilter();
 			}
 			for (UITag uiTag : uiTags) {
@@ -234,7 +234,7 @@ public class UIExtra extends AHadalActor {
 			int seconds = currentTimer % 60;
 
 			//this makes the timer have the same number of characters whether the seconds amount is 1 or 2 digits
-			if (seconds < 10) {
+			if (10 > seconds) {
 				displayedTimer = currentTimer / 60 + ": 0" + seconds;
 			} else {
 				displayedTimer = currentTimer / 60 + ": " + seconds;
@@ -243,8 +243,8 @@ public class UIExtra extends AHadalActor {
 		}
 
 		//upon timer running out, a designated event activates.
-		if (timer <= 0 && timerIncr < 0) {
-			if (state.getGlobalTimer() != null) {
+		if (0 >= timer && 0 > timerIncr) {
+			if (null != state.getGlobalTimer()) {
 				state.getGlobalTimer().getEventData().preActivate(null, null);
 				timerIncr = 0;
 			}
@@ -263,7 +263,7 @@ public class UIExtra extends AHadalActor {
 				if (!user.isSpectator()) {
 					text.append(user.getNameAbridgedColored(MAX_NAME_LENGTH_SHORT)).append(": ").append(user.getScores().getScore()).append("\n");
 					scoreNum++;
-					if (scoreNum > MAX_SCORES) {
+					if (MAX_SCORES < scoreNum) {
 						break;
 					}
 				}
@@ -283,7 +283,7 @@ public class UIExtra extends AHadalActor {
 			text.append("[").append(hex).append("]").append(AlignmentFilter.currentTeams[i].getTeamName())
 				.append("[]").append(": ").append(AlignmentFilter.teamScores[i]).append("\n");
 			scoreNum++;
-			if (scoreNum > MAX_SCORES) {
+			if (MAX_SCORES < scoreNum) {
 				break;
 			}
 		}
@@ -293,13 +293,13 @@ public class UIExtra extends AHadalActor {
 	 * This iterates through each team and gets the number of players on that team that are currently alive
 	 */
 	public void sortTeamAlive(StringBuilder text) {
-		if (state.getScoreWindow() != null) {
+		if (null != state.getScoreWindow()) {
 			int scoreNum = 0;
 			for (int i = 0; i < AlignmentFilter.teamScores.length; i++) {
 				int numAlive = 0;
 				for (User user : state.getScoreWindow().getOrderedUsers()) {
 					if (!user.isSpectator()) {
-						if (user.getPlayer() != null) {
+						if (null != user.getPlayer()) {
 							if (user.getPlayer().isAlive()) {
 								if (user.getPlayer().getStartLoadout().team == AlignmentFilter.currentTeams[i]) {
 									numAlive++;
@@ -313,7 +313,7 @@ public class UIExtra extends AHadalActor {
 				text.append("[").append(hex).append("]").append(AlignmentFilter.currentTeams[i].getTeamName())
 						.append("[]").append(": ").append(numAlive).append(" ").append(UIText.PLAYERS_ALIVE.text()).append("\n");
 				scoreNum++;
-				if (scoreNum > MAX_SCORES) {
+				if (MAX_SCORES < scoreNum) {
 					break;
 				}
 			}

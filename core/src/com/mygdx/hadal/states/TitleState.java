@@ -25,7 +25,7 @@ import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.NameGenerator;
 
-import static com.mygdx.hadal.utils.Constants.*;
+import static com.mygdx.hadal.constants.Constants.*;
 
 /**
  * The TitleState is created upon initializing the game and will display an image.

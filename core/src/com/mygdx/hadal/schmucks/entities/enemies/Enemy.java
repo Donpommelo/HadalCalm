@@ -21,8 +21,8 @@ import com.mygdx.hadal.strategies.EnemyStrategy;
 import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
 import com.mygdx.hadal.strategies.enemy.TargetNoPathfinding;
 import com.mygdx.hadal.strategies.enemy.TargetPathfinding;
-import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**

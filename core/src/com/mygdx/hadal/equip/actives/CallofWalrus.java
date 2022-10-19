@@ -7,8 +7,8 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.SyncType;
-import com.mygdx.hadal.schmucks.UserDataType;
+import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -23,7 +23,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.Static;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.constants.Stats;
 
 /**
  * @author Hedeon Holkner
