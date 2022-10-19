@@ -3,6 +3,8 @@ package com.mygdx.hadal.text;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.List;
+
 /**
  * a frightful resentment invests like a lens.
  * otherwise, a selfish thimble writhes.
@@ -102,9 +104,10 @@ public enum PoetryGenerator {
 	_NOUN_EXTRA("", "n_extra", "_extra", "_n_extra"),
 	EXTRA("", "extra", "", "_extra"),
 	;
-	
-	private static final int maxLengthExtras = 2;
-	
+
+	private static final int MAX_LENGTH_EXTRAS = 2;
+	private static final List<Character> VOWELS = List.of('a', 'e', 'i', 'o', 'u');
+
 	//This name and the end of this poem fragment
 	private final String me, endTag, endPhrase;
 	
@@ -165,7 +168,7 @@ public enum PoetryGenerator {
 					for (int j = 0; j < gen.weight; j++) {
 						
 						//if poem has too many "extra length" fragments, we cannot add any more.
-						if (currentLengthExtra + gen.lengthExtra <= maxLengthExtras) {
+						if (MAX_LENGTH_EXTRAS >= currentLengthExtra + gen.lengthExtra) {
 							possibleNexts.add(gen);
 						}
 					}
@@ -190,8 +193,8 @@ public enum PoetryGenerator {
 		
 		//deal with a/an and vowels
 		if ("a".equals(next.endTag)) {
-			if (nextWord.length() >= 2) {
-				if (nextWord.charAt(1) == 'a' || nextWord.charAt(1) == 'e' || nextWord.charAt(1) == 'i' || nextWord.charAt(1) == 'o' || nextWord.charAt(1) == 'u') {
+			if (2 <= nextWord.length()) {
+				if (VOWELS.contains(nextWord.charAt(1))) {
 					thisWord = " an";
 				}
 			}

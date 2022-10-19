@@ -609,7 +609,7 @@ public enum SyncedAttack {
      * @param catchup: Is this being synced as a result of catchup packet for newly joined player or missed create?
      */
     public void syncAttackSingle(Hitbox hbox, float[] extraFields, boolean catchup) {
-        if (extraFields.length == 0) {
+        if (0 == extraFields.length) {
             HadalGame.server.sendToAllUDP(new Packets.CreateSyncedAttackSingle(hbox.getEntityID(), hbox.getCreator().getEntityID(),
                     catchup ? hbox.getPixelPosition() : hbox.getStartPos(),
                     catchup ? hbox.getLinearVelocity() : hbox.getStartVelo(), this));
@@ -637,7 +637,7 @@ public enum SyncedAttack {
             hbox.setSyncedMulti(true);
             hbox.setExtraFields(extraFields);
         }
-        if (state.isServer() && hboxes.length != 0) {
+        if (state.isServer() && 0 != hboxes.length) {
             syncAttackMulti(weaponVelocity, hboxes, extraFields, false);
         }
         return hboxes;
@@ -668,7 +668,7 @@ public enum SyncedAttack {
             positions[i] = catchup ? hboxes[i].getPixelPosition() : hboxes[i].getStartPos();
             velocities[i] = catchup ? hboxes[i].getLinearVelocity() : hboxes[i].getStartVelo();
         }
-        if (extraFields.length == 0) {
+        if (0 == extraFields.length) {
             HadalGame.server.sendToAllUDP(new Packets.CreateSyncedAttackMulti(hboxID, hboxes[0].getCreator().getEntityID(),
                     weaponVelocity, positions, velocities, this));
         } else {

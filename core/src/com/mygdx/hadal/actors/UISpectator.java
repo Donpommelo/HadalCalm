@@ -67,7 +67,7 @@ public class UISpectator extends AHadalActor {
         if (freeCam) {
             HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_FREECAM.text(), getX() + TEXT_X, TITLE_Y);
         } else {
-            if (spectatorTarget != null) {
+            if (null != spectatorTarget) {
                 HadalGame.FONT_UI.draw(batch, UIText.SPECTATING.text(spectatorTarget.getName()), getX() + TEXT_X, TITLE_Y);
             } else {
                 HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_NA.text(), getX() + TEXT_X, TITLE_Y);
@@ -135,10 +135,10 @@ public class UISpectator extends AHadalActor {
         }
 
         //if we are spectating another player, the camera moves towards their location (if they have a body)
-        if (!freeCam && spectatorUser != null) {
-            if (spectatorTarget.getBody() != null && spectatorTarget.isAlive()) {
+        if (!freeCam && null != spectatorUser) {
+            if (null != spectatorTarget.getBody() && spectatorTarget.isAlive()) {
                 target.set(spectatorTarget.getPixelPosition());
-            } else if (!spectatorUser.isSpectator() && spectatorUser.getPlayer() != null) {
+            } else if (!spectatorUser.isSpectator() && null != spectatorUser.getPlayer()) {
                 spectatorTarget = spectatorUser.getPlayer();
             } else {
                 freeCam = false;
@@ -166,7 +166,7 @@ public class UISpectator extends AHadalActor {
         boolean foundTarget = false;
 
         //if currentUser is null, it means our spectator target is no longer present
-        if (currentUser == null) {
+        if (null == currentUser) {
             foundTarget = loopThroughUsers(0);
         } else {
 
@@ -204,8 +204,8 @@ public class UISpectator extends AHadalActor {
             User nextUser = users.get((i + startIndex) % users.size);
 
             //when we hit a user with a valid player (i.e not a spectator), we start spectating them
-            if (nextUser.getPlayer() != null) {
-                if (nextUser.getPlayer().getBody() != null && nextUser.getPlayer().isAlive()) {
+            if (null != nextUser.getPlayer()) {
+                if (null != nextUser.getPlayer().getBody() && nextUser.getPlayer().isAlive()) {
                     spectatorUser = nextUser;
                     spectatorTarget = nextUser.getPlayer();
                     targetId = spectatorTarget.getConnID();

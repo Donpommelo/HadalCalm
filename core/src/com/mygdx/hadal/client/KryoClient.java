@@ -106,14 +106,14 @@ public class KryoClient {
         		final ClientState cs = getClientState();
 				
         		//If our client state is still here, the server closed
-				if (cs != null) {
+				if (null != cs) {
 					addNotification(cs, "", UIText.DISCONNECTED.text(), false, DialogType.SYSTEM);
 				}
 				
 				//return to the lobby state. (if our client state is still there, we can do a fade out transition first.
         		Gdx.app.postRunnable(() -> {
 
-					if (cs != null) {
+					if (null != cs) {
 						cs.returnToTitle(1.0f);
 					} else {
 						gsm.removeState(ResultsState.class);
@@ -156,9 +156,9 @@ public class KryoClient {
 		if (o instanceof final Packets.SyncSoundSingle p) {
 			final ClientState cs = getClientState();
 
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
-					if (p.worldPos != null) {
+					if (null != p.worldPos) {
 						p.sound.playSourced(cs, p.worldPos, p.volume, p.pitch);
 					} else {
 						p.sound.play(gsm, p.volume, p.singleton);
@@ -174,7 +174,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.SyncScore p) {
 
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					SavedPlayerFields score;
 
@@ -208,10 +208,10 @@ public class KryoClient {
 		else if (o instanceof final Packets.ActivateEvent p) {
 			final ClientState cs = getClientState();
 
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					HadalEntity entity = cs.findEntity(p.uuidMSB, p.uuidLSB);
-					if (entity != null) {
+					if (null != entity) {
 						if (entity instanceof Event event) {
 							if (users.containsKey(p.connID)) {
 								User user = users.get(p.connID);
@@ -231,7 +231,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.LatencyAck p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					cs.syncLatency(p.serverTimestamp, p.clientTimestamp);
 				});
@@ -243,10 +243,10 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.SyncTyping p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					HadalEntity entity = cs.findEntity(p.uuidMSB, p.uuidLSB);
-					if (entity != null) {
+					if (null != entity) {
 						if (entity instanceof Player player) {
 							player.startTyping();
 						}
@@ -260,7 +260,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.RemoveScore p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> users.remove(p.connID));
 			}
 		}
@@ -297,7 +297,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 
 			//we must set the playstate's next state so that other transitions (respawns) do not override this transition
-			if (cs != null) {
+			if (null != cs) {
 				cs.setNextState(TransitionState.NEWLEVEL);
 			}
 			Gdx.app.postRunnable(() -> {
@@ -309,14 +309,14 @@ public class KryoClient {
 					gsm.removeState(PauseState.class, false);
 
 					boolean spectator = false;
-					if (cs != null) {
+					if (null != cs) {
 						spectator = cs.isSpectatorMode();
 					}
 
 					gsm.removeState(ClientState.class, false);
 
 					//set mode settings according to what the server sends
-					if (p.modeSettings != null) {
+					if (null != p.modeSettings) {
 						for (String key : p.modeSettings.keySet()) {
 							gsm.getSetting().setModeSetting(p.mode, key, p.modeSettings.get(key));
 						}
@@ -343,7 +343,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.ClientStartTransition p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay);
 				});
@@ -384,11 +384,11 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.SyncKillMessage p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				User vic = users.get(p.vicConnID);
-				if (vic != null) {
+				if (null != vic) {
 					User perp = users.get(p.perpConnID);
-					if (perp != null) {
+					if (null != perp) {
 						cs.addPacketEffect(() -> cs.getKillFeed().addMessage(perp.getPlayer(), vic.getPlayer(),
 							p.enemyType, p.source, p.tags));
 					} else {
@@ -405,7 +405,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.SyncNotification p) {
 			final ClientState cs = getClientState();
 
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> cs.getKillFeed().addNotification(p.message, false));
 			}
 		}
@@ -415,7 +415,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.ServerChat p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> cs.getMessageWindow().addText(p.text, p.type, p.connID));
 			}
 		}
@@ -426,7 +426,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.ServerNotification p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> addNotification(cs, p.name, p.text, p.override, p.type));
 			}
 		}
@@ -437,7 +437,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.SyncSharedSettings p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					gsm.setHostSetting(p.settings);
 					cs.getScoreWindow().syncSettingTable();
@@ -463,13 +463,13 @@ public class KryoClient {
 		 */
 		else if (o instanceof final PacketsLoadout.SyncWholeLoadout p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				User user = users.get(p.connID);
-				if (user != null && cs != null) {
+				if (null != user && null != cs) {
 					Player player = user.getPlayer();
-					if (player != null) {
+					if (null != player) {
 						cs.addPacketEffect(() -> {
-							if (player.getPlayerData() != null) {
+							if (null != player.getPlayerData()) {
 								player.getPlayerData().syncLoadout(p.loadout, true, p.save);
 							}
 						});
@@ -486,11 +486,11 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 
 			User user = users.get(p.connID);
-			if (user != null && cs != null) {
+			if (null != user && null != cs) {
 				Player player = user.getPlayer();
-				if (player != null) {
+				if (null != player) {
 					cs.addPacketEffect(() -> {
-						if (player.getPlayerData() != null) {
+						if (null != player.getPlayerData()) {
 							if (p instanceof PacketsLoadout.SyncEquipServer s) {
 								player.getPlayerData().syncEquip(s.equip);
 							}
@@ -521,7 +521,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.SyncUI p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					AlignmentFilter.currentTeams = p.teams;
 					AlignmentFilter.teamScores = p.scores;
@@ -537,7 +537,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.SyncObjectiveMarker p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> cs.getUiObjective()
 						.addObjectiveClient(new UUID(p.uuidMSB, p.uuidLSB), p.icon, p.color, p.displayOffScreen, p.displayOnScreen));
 			}
@@ -548,10 +548,10 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.SyncShader p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					HadalEntity entity = cs.findEntity(p.uuidMSB, p.uuidLSB);
-					if (entity != null) {
+					if (null != entity) {
 						entity.setShader(p.shader, p.shaderCount, false);
 					}
 				});
@@ -563,7 +563,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.SyncExtraResultsInfo p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 
 					cs.setResultsText(p.resultsText);
@@ -575,15 +575,15 @@ public class KryoClient {
 					for (int i = 0; i < p.users.length; i++) {
 						UserDto user = p.users[i];
 						User updatedUser;
-						if (user != null) {
+						if (null != user) {
 							updatedUser = new User(null, user.scores, user.scoresExtra);
 							updatedUser.setSpectator(user.spectator);
 
 							User userOld = usersTemp.get(user.scores.getConnID());
-							if (userOld != null) {
+							if (null != userOld) {
 								updatedUser.setPlayer(userOld.getPlayer());
 							}
-							if (user.scoresExtra.getLoadout() != null) {
+							if (null != user.scoresExtra.getLoadout()) {
 								updatedUser.setTeamFilter(user.scoresExtra.getLoadout().team);
 							}
 							users.put(user.scores.getConnID(), updatedUser);
@@ -598,7 +598,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof Packets.ClientYeet) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.returnToTitle(0.0f);
 			}
 		}
@@ -616,7 +616,7 @@ public class KryoClient {
 		 */
 		if (o instanceof final Packets.CreateEntity p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					ClientIllusion illusion = new ClientIllusion(cs, p.pos, p.size, p.angle, p.sprite, p.align);
 					illusion.serverPos.set(p.pos).scl(1 / PPM);
@@ -633,13 +633,13 @@ public class KryoClient {
 		 */
 		if (o instanceof final Packets.CreateSyncedAttackSingle p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					HadalEntity creator = cs.findEntity(new UUID(p.uuidMSBCreator, p.uuidLSBCreator));
-					if (creator == null) {
+					if (null == creator) {
 						creator = cs.getWorldDummy();
 					}
-					if (creator != null) {
+					if (null != creator) {
 						if (creator instanceof Schmuck schmuck) {
 							Hitbox hbox;
 							if (p instanceof Packets.CreateSyncedAttackSingleExtra p1) {
@@ -662,9 +662,9 @@ public class KryoClient {
 		 */
 		if (o instanceof final Packets.CreateSyncedAttackMulti p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				HadalEntity creator = cs.findEntity(new UUID(p.uuidMSBCreator, p.uuidLSBCreator));
-				if (creator != null) {
+				if (null != creator) {
 					if (creator instanceof Schmuck schmuck) {
 						cs.addPacketEffect(() -> {
 							Hitbox[] hboxes;
@@ -698,7 +698,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.DeleteEntity p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p, 0.0f, p.timestamp));
 			}
 			return true;
@@ -710,7 +710,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.CreateParticles p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					ParticleEntity entity;
 					if (p.attached) {
@@ -724,7 +724,7 @@ public class KryoClient {
 					entity.setScale(p.scale);
 					entity.setRotate(p.rotate);
 					entity.setPrematureOff(p.prematureOff);
-					if (p.velocity != 0) {
+					if (0 != p.velocity) {
 						entity.setParticleVelocity(p.velocity);
 					}
 					if (!p.color.isZero()) {
@@ -737,7 +737,7 @@ public class KryoClient {
 
 		else if (o instanceof final Packets.CreateFlag p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					FlagCapturable entity = new FlagCapturable(cs, p.pos, null, p.teamIndex);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, true, ObjectLayer.HBOX);
@@ -748,7 +748,7 @@ public class KryoClient {
 
 		else if (o instanceof final Packets.CreateCrown p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					CrownHoldable entity = new CrownHoldable(cs, p.pos);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, true, ObjectLayer.HBOX);
@@ -759,9 +759,9 @@ public class KryoClient {
 
 		else if (o instanceof final Packets.CreateGrave p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				User user = users.get(p.connID);
-				if (user != null) {
+				if (null != user) {
 					cs.addPacketEffect(() -> {
 						ReviveGravestone grave = new ReviveGravestone(cs, p.pos, user, p.connID, p.returnMaxTimer, null);
 						cs.addEntity(p.uuidMSB, p.uuidLSB, grave, true, ObjectLayer.HBOX);
@@ -777,7 +777,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.CreateSound p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					SoundEntity entity = new SoundEntity(cs, null, p.sound, p.lifespan, p.volume, p.pitch, p.looped, p.on, SyncType.NOSYNC);
 					entity.setAttachedID(new UUID(p.uuidMSBAttached, p.uuidLSBAttached));
@@ -793,7 +793,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.CreateEnemy p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					Enemy enemy = p.type.generateEnemy(cs, p.pos, p.hitboxFilter, 0);
 					enemy.serverPos.set(p.pos).scl(1 / PPM);
@@ -815,7 +815,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.CreatePlayer p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 
 					Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, null,
@@ -857,7 +857,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.CreateEvent p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					EventDto dto = p.blueprint;
 					MapObject blueprint = new RectangleMapObject(dto.getX(), dto.getY(), dto.getWidth(), dto.getHeight());
@@ -879,7 +879,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.CreateRagdoll p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					Ragdoll entity = new Ragdoll(cs, p.pos, p.size, p.sprite, p.velocity, p.duration, p.gravity, p.setVelo,
 							p.sensor, false, p.fade);
@@ -894,10 +894,10 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.CreatePickup p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					PickupEquip pickup;
-					if (p.lifespan != 0.0f) {
+					if (0.0f != p.lifespan) {
 						pickup = new PickupEquip(cs, p.pos, p.newPickup, p.lifespan);
 					} else {
 						pickup = new PickupEquip(cs, p.pos, "");
@@ -923,7 +923,7 @@ public class KryoClient {
 
 		if (o instanceof PacketsSync.SyncEntity p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.age, p.timestamp);
 				});
@@ -933,7 +933,7 @@ public class KryoClient {
 		
 		else if (o instanceof Packets.SyncSound p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.age, p.timestamp);
 				});
@@ -943,7 +943,7 @@ public class KryoClient {
 
 		else if (o instanceof Packets.SyncPickup p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.age, p.timestamp);
 				});
@@ -953,7 +953,7 @@ public class KryoClient {
 
 		else if (o instanceof Packets.SyncHitSound p) {
 			final ClientState cs = getClientState();
-			if (cs != null) {
+			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					SoundEffect.playHitSound(cs.getGsm(), p.large);
 				});
@@ -1006,7 +1006,7 @@ public class KryoClient {
 		int playerNum = 0;
 
 		for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
-			if (!conn.value.isSpectator() && conn.key >= 0.0f) {
+			if (!conn.value.isSpectator() && 0.0f <= conn.key) {
 				playerNum++;
 			}
 		}
@@ -1019,13 +1019,13 @@ public class KryoClient {
 	}
 	
 	public void sendTCP(Object p) {
-		if (client != null) {
+		if (null != client) {
 			client.sendTCP(p);
 		}
 	}
 	
 	public void sendUDP(Object p) {
-		if (client != null) {
+		if (null != client) {
 			client.sendUDP(p);
 		}
 	}

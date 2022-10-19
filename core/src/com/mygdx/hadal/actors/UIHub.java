@@ -174,7 +174,7 @@ public class UIHub {
 
 						@Override
 						public boolean keyUp(InputEvent event, int keycode) {
-							if (keycode == PlayerAction.EXIT_MENU.getKey()) {
+							if (PlayerAction.EXIT_MENU.getKey() == keycode) {
 								leave();
 							} else {
 								tableOptions.clear();
@@ -199,7 +199,7 @@ public class UIHub {
 			tagFilter = new SelectBox<>(GameStateManager.getSkin());
 			tagFilter.setItems(hub.getSearchTags());
 
-			if (hub.getLastTag() != null) {
+			if (null != hub.getLastTag()) {
 				for (String tagName : hub.getSearchTags()) {
 					if (tagName.equals(hub.getLastTag().name())) {
 						tagFilter.setSelected(tagName);
@@ -285,7 +285,7 @@ public class UIHub {
 		currentVerticalGroup.space(OPTION_PAD);
 
 		currentRow++;
-		if (currentRow >= rowNum) {
+		if (rowNum <= currentRow) {
 			currentRow = 0;
 
 			tableOptions.add(currentVerticalGroup).pad(VERTICAL_GROUP_PAD).growY();
@@ -312,8 +312,8 @@ public class UIHub {
 
 		tableOuter.addAction(Actions.sequence(Actions.moveTo(TABLE_X, TABLE_Y, TRANSITION_DURATION_SLOW, Interpolation.pow5Out),
 			Actions.run(() -> {
-				if (state.getStage() != null) {
-					if (state.getStage().getScrollFocus() == options) {
+				if (null != state.getStage()) {
+					if (options == state.getStage().getScrollFocus()) {
 						state.getStage().setScrollFocus(null);
 					}
 					state.getStage().setKeyboardFocus(null);
@@ -327,10 +327,10 @@ public class UIHub {
 	 * atm, this only affects the reliquary due to having to update the artifact slots.
 	 */
 	public void refreshHub(HubEvent hub) {
-		if (type == hubTypes.RELIQUARY) {
+		if (hubTypes.RELIQUARY == type) {
 			refreshReliquary(hub);
 		}
-		if (type == hubTypes.OUTFITTER) {
+		if (hubTypes.OUTFITTER == type) {
 			refreshOutfitter(hub);
 		}
 	}
@@ -347,7 +347,7 @@ public class UIHub {
 		
 		boolean artifactsEmpty = true;
 
-		if (state.getPlayer().getPlayerData() != null) {
+		if (null != state.getPlayer().getPlayerData()) {
 			for (UnlockArtifact c : state.getPlayer().getPlayerData().getLoadout().artifacts) {
 
 				//display all equipped artifacts and give option to unequip
@@ -434,7 +434,7 @@ public class UIHub {
 
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				if (outfits.getSelected() != null) {
+				if (null != outfits.getSelected()) {
 					state.getGsm().getSavedOutfits().removeOutfit(outfits.getSelected());
 				}
 				hub.enter();
@@ -452,7 +452,7 @@ public class UIHub {
 	 * Helper method that returns a tag depending on which hub event is being used
 	 */
 	private UnlockTag indexToFilterTag() {
-		if (tagFilter == null) {
+		if (null == tagFilter) {
 			return UnlockTag.ALL;
 		} else {
 			return switch (tagFilter.getSelectedIndex()) {
@@ -476,7 +476,7 @@ public class UIHub {
 	 * 	this converts slot cost filter to actual slot cost (because 0 indexing)
 	 */
 	private int indexToFilterSlot() {
-		if (slotsFilter == null) {
+		if (null == slotsFilter) {
 			return -1;
 		} else {
 			return slotsFilter.getSelectedIndex() - 1;

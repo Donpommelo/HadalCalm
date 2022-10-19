@@ -124,7 +124,7 @@ public class UIPlay extends AHadalActor {
 	 */
 	public void calcVars() {
 		//Calc the fields needed to draw the bars
-		if (state.getPlayer().getPlayerData() != null) {
+		if (null != state.getPlayer().getPlayerData()) {
 			hpRatio = state.getPlayer().getPlayerData().getCurrentHp() / state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
 			hpMax = state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
 			fuelRatio = state.getPlayer().getPlayerData().getCurrentFuel() / state.getPlayer().getPlayerData().getStat(Stats.MAX_FUEL);
@@ -135,7 +135,7 @@ public class UIPlay extends AHadalActor {
 			activePercent = state.getPlayer().getPlayerData().getActiveItem().chargePercent();
 		}
 
-		if (bossFight && boss.getBody() != null) {
+		if (bossFight && null != boss.getBody()) {
 			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP);
 			bossHpRatio = BOSS_HP_FLOOR + (bossHpRatio * (1 - BOSS_HP_FLOOR));
 		}
@@ -147,7 +147,7 @@ public class UIPlay extends AHadalActor {
 	@Override
 	public void act(float delta) {
 		uiAccumulator += delta;
-		while (uiAccumulator >= UI_TIME) {
+		while (UI_TIME <= uiAccumulator) {
 			uiAccumulator -= UI_TIME;
 
 			if (hpDelayed > hpRatio) {
@@ -158,9 +158,9 @@ public class UIPlay extends AHadalActor {
 		}
 
 		//This makes low Hp indicator blink at low health
-		if (hpRatio <= HP_LOW_THRESHOLD) {
+		if (HP_LOW_THRESHOLD >= hpRatio) {
 			blinkCdCount -= delta;
-			if (blinkCdCount < 0) {
+			if (0 > blinkCdCount) {
 				blinking = !blinking;
 				blinkCdCount = BLINK_CD;
 			}
@@ -176,7 +176,7 @@ public class UIPlay extends AHadalActor {
 		calcVars();
 
 		//Draw boss hp bar, if existent. Do this before player check so spectators can see boss hp
-		if (bossFight && boss.getBody() != null) {
+		if (bossFight && null != boss.getBody()) {
 			HadalGame.FONT_UI.getData().setScale(FONT_SCALE_SMALL);
 			HadalGame.FONT_UI.draw(batch, bossName, BOSS_NAME_X, BOSS_NAME_Y);
 			
@@ -197,7 +197,7 @@ public class UIPlay extends AHadalActor {
 					BOSS_BAR_WIDTH, BOSS_BAR_HEIGHT, BOSS_SCALE, BOSS_SCALE, 0);
 		}
 
-		if (state.getPlayer().getPlayerData() == null) { return; }
+		if (null == state.getPlayer().getPlayerData()) { return; }
 
 		//hide rest of ui if specified in settings. We don't want to hide boss ui.
 		if (state.getGsm().getSetting().isHideHUD()) { return; }
@@ -226,7 +226,7 @@ public class UIPlay extends AHadalActor {
 		MAIN_X + 48, MAIN_Y + 90, 100, -1, true);
 
 		//we want to use a smaller font for high clip size weapons
-		if (weaponText.length() > 5) {
+		if (5 < weaponText.length()) {
 			HadalGame.FONT_UI.getData().setScale(FONT_SCALE_MEDIUM);
 		} else {
 			HadalGame.FONT_UI.getData().setScale(FONT_SCALE_LARGE);
@@ -237,7 +237,7 @@ public class UIPlay extends AHadalActor {
 		HadalGame.FONT_UI.draw(batch, (int) (hpRatio * hpMax) + "/" + (int) hpMax, MAIN_X + 155, MAIN_Y + 66);
 		
 		for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
-			if (numWeaponSlots > i) {
+			if (i < numWeaponSlots) {
 				if (state.getPlayer().getPlayerData().getMultitools()[i] == null ||
 						state.getPlayer().getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
 					batch.draw(itemNull.get(i), MAIN_X, MAIN_Y, getWidth(), getHeight());
@@ -254,7 +254,7 @@ public class UIPlay extends AHadalActor {
 		//draw active item ui and charge indicator
 		HadalGame.FONT_UI.draw(batch, state.getPlayer().getPlayerData().getActiveItem().getName(),
 				ACTIVE_X, MAIN_Y + activeHeightScaled + ACTIVE_TEXT_Y);
-		if (activePercent >= 1.0f) {
+		if (1.0f <= activePercent) {
 			batch.draw(hp, ACTIVE_X, ACTIVE_Y, activeWidthScaled, activeHeightScaled * activePercent);
 		} else {
 			batch.draw(hpMissing, ACTIVE_X, ACTIVE_Y, activeWidthScaled, activeHeightScaled * activePercent);

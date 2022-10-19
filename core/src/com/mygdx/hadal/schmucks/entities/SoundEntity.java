@@ -70,9 +70,9 @@ public class SoundEntity extends HadalEntity {
 		this.lifespan = lifespan;
 
 		//if we start off attached to an entity, play the sound and update its volume/pan based on its location
-		if (startOn && attachedEntity != null) {
+		if (startOn && null != attachedEntity) {
 			this.soundID = sound.playSourced(state, new Vector2(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y), volume, pitch);
-			if (attachedEntity.getBody() != null) {
+			if (null != attachedEntity.getBody()) {
 				sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundID);
 			}
 		} else {
@@ -96,11 +96,11 @@ public class SoundEntity extends HadalEntity {
 	public void controller(float delta) {
 		
 		//process sound fading. Gradually change sound volume until it reaches 0.0 or max volume.
-		if (fade != 0) {
+		if (0 != fade) {
 			volume += delta * fade;
 			
 			//when a sound finishes fading out, pause it and delete it, if it is set to despawn
-			if (volume <= 0.0f) {
+			if (0.0 >= volume) {
 				volume = 0.0f;
 				sound.getSound().pause(soundID);
 				fade = 0.0f;
@@ -122,7 +122,7 @@ public class SoundEntity extends HadalEntity {
 
 		if (temp) {
 			lifespan -= delta;
-			if (lifespan <= 0) {
+			if (0 >= lifespan) {
 				sound.getSound().pause(soundID);
 				if (state.isServer()) {
 					this.queueDeletion();
@@ -137,8 +137,8 @@ public class SoundEntity extends HadalEntity {
 			syncAccumulator = 0;
 			
 			//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
-			if (attachedEntity != null) {
-				if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
+			if (null != attachedEntity) {
+				if (attachedEntity.isAlive() && null != attachedEntity.getBody()) {
 					sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundID);
 				} else {
 					turnOff();
@@ -159,7 +159,7 @@ public class SoundEntity extends HadalEntity {
 		if (SyncType.CREATESYNC.equals(sync) || SyncType.NOSYNC.equals(sync)) {
 			controller(delta);			
 		}
-		if (attachedEntity == null && attachedID != null) {
+		if (null == attachedEntity && null != attachedID) {
 			attachedEntity = state.findEntity(attachedID);
 			if (on) {
 				sound.getSound().resume(soundID);
@@ -173,7 +173,7 @@ public class SoundEntity extends HadalEntity {
 	@Override
 	public Object onServerCreate(boolean catchup) {
 		if (sync.equals(SyncType.CREATESYNC) || sync.equals(SyncType.TICKSYNC)) {
-			if (attachedEntity != null) {
+			if (null != attachedEntity) {
 				return new Packets.CreateSound(entityID, attachedEntity.getEntityID(), sound, lifespan, volume, pitch,
 						looped, on, SyncType.TICKSYNC.equals(sync));
 			}
@@ -196,8 +196,8 @@ public class SoundEntity extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		if (SyncType.TICKSYNC.equals(sync)) {
-			if (attachedEntity != null) {
-				if (attachedEntity.getBody() != null) {
+			if (null != attachedEntity) {
+				if (null != attachedEntity.getBody()) {
 					state.getSyncPackets().add(new Packets.SyncSound(entityID, volume, on, entityAge, state.getTimer()));
 				}
 			}

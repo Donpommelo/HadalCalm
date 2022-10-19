@@ -44,21 +44,21 @@ public class DeathTextUtil {
 
 		//in the case or suicide or death to an enemy, obtain valid messages.
 		//set 'namedPerp' to only search for messages that specify a victim and a perpetrator.
-		if (perp != null && vic != null) {
+		if (null != perp && null != vic) {
 			if (perp.getConnID() == vic.getConnID()) {
 				possibleMessages.addAll(getValidMessages("SUICIDE", false));
 			} else {
 				namedPerp = true;
 			}
-		} else if (type != null) {
+		} else if (null != type) {
 			possibleMessages.addAll(getValidMessages("ENEMY", false));
 		}
 
 		possibleMessages.addAll(getValidMessages(source.toString(), namedPerp));
 
 		//iterate through all tags and add all valid messages
-		if (tags.length > 0) {
-			for (final DamageTag tag : tags) {
+		if (0 < tags.length) {
+			for (DamageTag tag : tags) {
 				possibleMessages.addAll(getValidMessages(tag.toString(), namedPerp));
 			}
 		}
@@ -80,12 +80,12 @@ public class DeathTextUtil {
 		Array<String> possibleMessages = new Array<>();
 		
 		JsonValue values = GameStateManager.deathMessages.get(tag);
-		if (values != null) {
+		if (null != values) {
 			
 			//iterate through all messages that match the input tag
 			for (JsonValue d : values) {
 				DeathMessage message = GameStateManager.JSON.fromJson(DeathMessage.class, d.toJson(OutputType.json));
-				if (message != null) {
+				if (null != message) {
 					
 					//add multiple instances of the message according to its weight
 					for (int j = 0; j < message.getWeight(); j++) {
@@ -107,10 +107,10 @@ public class DeathTextUtil {
 
 		String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
 		String perpName = "";
-		if (type != null) {
+		if (null != type) {
 			perpName = type.getName();
 		}
-		if (perp != null) {
+		if (null != perp) {
 			perpName = WeaponUtils.getPlayerColorName(perp, MAX_NAME_LENGTH);
 		}
 
@@ -127,13 +127,13 @@ public class DeathTextUtil {
 		String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
 		String perpName = WeaponUtils.getPlayerColorName(perp, MAX_NAME_LENGTH);
 
-		if (perp != null) {
+		if (null != perp) {
 			if (perp.getConnID() == vic.getConnID()) {
 				return UIText.DEATH_SELF.text(vicName);
 			} else {
 				return UIText.DEATH_KILL.text(perpName, vicName);
 			}
-		} else if (type != null) {
+		} else if (null != type) {
 			return UIText.DEATH_ENEMY.text(vicName, type.getName());
 		} else {
 			return UIText.DEATH_MISC.text(vicName);

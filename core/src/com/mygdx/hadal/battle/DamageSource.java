@@ -142,7 +142,7 @@ public enum DamageSource {
      * @return the text that shows up in the kill feed; contains the source name as well as its type
      */
     public String getKillSource() {
-        if (type == DamageSourceType.MISC || type == DamageSourceType.ENEMY) {
+        if (DamageSourceType.MISC == type || DamageSourceType.ENEMY == type) {
             return text;
         } else {
             return text + " (" + type.getText() + ")";

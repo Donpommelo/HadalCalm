@@ -415,10 +415,10 @@ public enum UIText {
     public String text(String... replace) {
 
         //no replacements means a static text. Read from file and cache
-        if (replace.length == 0) {
-            if (cachedText == null) {
+        if (0 == replace.length) {
+            if (null == cachedText) {
                 JsonValue text = GameStateManager.uiStrings.get(key);
-                if (text != null) {
+                if (null != text) {
                     cachedText = text.asString();
                 } else {
                     cachedText = GameStateManager.uiStrings.get(STRING_NOT_FOUND.key).asString();
@@ -429,10 +429,10 @@ public enum UIText {
 
             //iterate through replace tags and replace with input strings
             JsonValue text = GameStateManager.uiStrings.get(key);
-            if (text != null) {
+            if (null != text) {
                 String tempText = text.asString();
                 for (int i = 0; i < replace.length; i++) {
-                    if (replace[i] != null) {
+                    if (null != replace[i]) {
                         tempText = tempText.replace("<s" + i + ">", replace[i]);
                     }
                 }
@@ -443,13 +443,13 @@ public enum UIText {
         }
     }
 
-    private static final ObjectMap<String, UIText> TextByName = new ObjectMap<>();
+    private static final ObjectMap<String, UIText> TEXT_BY_NAME = new ObjectMap<>();
     static {
         for (UIText u : UIText.values()) {
-            TextByName.put(u.toString(), u);
+            TEXT_BY_NAME.put(u.toString(), u);
         }
     }
     public static UIText getByName(String s) {
-        return TextByName.get(s, STRING_NOT_FOUND);
+        return TEXT_BY_NAME.get(s, STRING_NOT_FOUND);
     }
 }

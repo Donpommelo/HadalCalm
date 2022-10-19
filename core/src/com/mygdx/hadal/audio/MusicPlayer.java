@@ -38,15 +38,15 @@ public class MusicPlayer {
     public void controller(float delta) {
 
     	//process music fading. Gradually change music volume until it reaches 0.0 or max volume.
-		if (fade != 0) {
+		if (0.0f != fade) {
 			volume += delta * fade;
 			
 			//when a music finishes fading out, pause (or transition to next song)
-			if (volume <= 0.0f) {
+			if (0.0f >= volume) {
 				volume = 0.0f;
 				fade = 0.0f;
 
-				if (nextTrack != null) {
+				if (null != nextTrack) {
 					float lastVolume = freshenUpSong();
 
 					currentSong = nextTrack.getMusic();
@@ -81,13 +81,13 @@ public class MusicPlayer {
 	public void playSong(MusicTrack music, float volume) {
 
     	//if we are playing another track, we make it fade out first
-    	if (currentSong != null) {
+    	if (null != currentSong) {
 			fade = DEFAULT_FADE_OUT_SPEED;
 			nextTrack = music;
 			nextVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
 		} else {
 			//if starting a new song, set designated track as next song and fade in
-    		if (music != null) {
+    		if (null != music) {
 				currentSong = music.getMusic();
 
 				//set volume to 0.0 to avoid having song play for 1 frame when game starts up muted
@@ -110,7 +110,7 @@ public class MusicPlayer {
 		MusicTrack track = null;
 
 		//in "free" mode, the player chose a song in the sound room to persist even after level transitions
-		if (currentTrackType == MusicTrackType.FREE && currentSong != null) { return null; }
+		if (MusicTrackType.FREE == currentTrackType  && null != currentSong) { return null; }
 
 		//otherwise play a random track that matches the designated "mode"
 		if (currentTrackType != type) {
@@ -127,7 +127,7 @@ public class MusicPlayer {
 	 */
 	private float freshenUpSong() {
 		float volume = 1.0f;
-		if (currentSong != null) {
+		if (null != currentSong) {
 			volume = currentSong.getVolume();
 
 			currentSong.stop();
@@ -138,19 +138,19 @@ public class MusicPlayer {
 	}
 
 	public void play() {
-	    if (currentSong != null) {
+	    if (null != currentSong) {
 	        currentSong.play();
 	    }
 	}
 
 	public void pause() {
-	    if (currentSong != null) {
+	    if (null != currentSong) {
 	        currentSong.pause();
 	    }
 	}
 
 	public void stop() {
-		if (currentSong != null) {
+		if (null != currentSong) {
 	        currentSong.stop();
 			currentSong = null;
 			currentTrack = null;
@@ -158,14 +158,14 @@ public class MusicPlayer {
 	}
 
 	public void setVolume(float vol) {
-	    if (currentSong != null) {
+	    if (null != currentSong) {
 	        currentSong.setVolume(vol);
 	    }
 	}
 
 	// Clean up and dispose of player. Called when game closes.
 	public void dispose() { 
-		if (currentSong != null) {
+		if (null != currentSong) {
 			currentSong.dispose(); 
 		}
 	}
@@ -173,7 +173,7 @@ public class MusicPlayer {
 	public void setMusicState(MusicTrackType state) { currentTrackType = state; }
 
 	public void setMusicPosition(float position) {
-		if (currentSong != null) {
+		if (null != currentSong) {
 			currentSong.setPosition(position);
 		}
 	}

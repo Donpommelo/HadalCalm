@@ -17,15 +17,8 @@ import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.server.KryoServer;
+import com.mygdx.hadal.utils.UPNPUtil;
 import io.socket.client.Socket;
-import org.bitlet.weupnp.GatewayDevice;
-import org.bitlet.weupnp.GatewayDiscover;
-import org.bitlet.weupnp.PortMappingEntry;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.InetAddress;
 
 /**
  * HadalGame is the game. This is created upon launching the game.
@@ -43,6 +36,12 @@ public class HadalGame extends ApplicationAdapter {
 
 	//version url takes player to patch notes page when version is clicked in title screen
 	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/403382/107m";
+
+	//this is the rate at which the screen fades from/to black.
+	private static final float DEFAULT_FADE_IN_SPEED = -2.0f;
+	private static final float DEFAULT_FADE_OUT_SPEED = 2.0f;
+
+	public static final Color DEFAULT_TEXT_COLOR = Color.WHITE;
 
 	//Game cameras and respective viewports. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
@@ -70,15 +69,10 @@ public class HadalGame extends ApplicationAdapter {
 	//FONT_UI is used for most ui, FONT_UI_ALT is used for things like message window and kill messages
 	//FONT_SPRITE labels sprites in the world. Its scale is always 1.0f and should be considered placeholder
 	public static BitmapFont FONT_UI, FONT_UI_SKIN, FONT_UI_ALT, FONT_SPRITE;
-    public static final Color DEFAULT_TEXT_COLOR = Color.WHITE;
- 
+
 	//currentMenu is whatever stage is being drawn in the current gameState
     private Stage currentMenu;
     
-    //this is the rate at which the screen fades from/to black.
-  	private static final float DEFAULT_FADE_IN_SPEED = -2.0f;
-  	private static final float DEFAULT_FADE_OUT_SPEED = 2.0f;
-  	
   	//This is the how faded the black screen is. (starts off black)
   	protected float fadeLevel = 1.0f;
   	
@@ -117,8 +111,8 @@ public class HadalGame extends ApplicationAdapter {
 
 		//enable upnp for both tcp and udp
 		if (gsm.getSetting().isEnableUPNP()) {
-			upnp("TCP", "hadal-upnp-tcp", gsm.getSetting().getPortNumber());
-			upnp("UDP", "hadal-upnp-udp", gsm.getSetting().getPortNumber());
+			UPNPUtil.upnp("TCP", "hadal-upnp-tcp", gsm.getSetting().getPortNumber());
+			UPNPUtil.upnp("UDP", "hadal-upnp-udp", gsm.getSetting().getPortNumber());
 		}
 
 		client = new KryoClient(gsm);
@@ -153,7 +147,7 @@ public class HadalGame extends ApplicationAdapter {
 		currentMenu.draw();
 		
 		//Render the black image used for fade transitions
-		if (fadeLevel > 0.0f) {
+		if (0.0f < fadeLevel) {
 			batch.setProjectionMatrix(hud.combined);
 			batch.begin();
 			batch.setColor(1.0f, 1.0f, 1.0f, fadeLevel);
@@ -166,35 +160,35 @@ public class HadalGame extends ApplicationAdapter {
 		if (gsm.getStates().peek().processTransitions()) {
 			
 			//If we are in the delay period of a transition, decrement the delay
-			if (fadeDelay > 0.0f) {
+			if (0.0f < fadeDelay) {
 				fadeDelay -= delta;
 			} else if (skipFade) {
 
 				//for special transitions, we skip the fade and transition immediately after delay (play -> results)
 				skipFade = false;
-				if (runAfterTransition != null) {
+				if (null != runAfterTransition) {
 					Gdx.app.postRunnable(runAfterTransition);
 				}
-			} else if (fadeDelta < 0.0f) {
+			} else if (0.0f > fadeDelta) {
 				
 				//If we are fading in and not done yet, decrease fade.
 				fadeLevel += fadeDelta * delta;
 				
 				//If we just finished fading in, set fade to 0
-				if (fadeLevel < 0.0f) {
+				if (0.0f > fadeLevel) {
 					fadeLevel = 0.0f;
 					fadeDelta = 0.0f;
 				}
-			} else if (fadeDelta > 0.0f) {
+			} else if (0.0f < fadeDelta) {
 				
 				//If we are fading out and not done yet, increase fade.
 				fadeLevel += fadeDelta * delta;
 				
 				//If we just finished fading out, set fade to 1 and do a transition
-				if (fadeLevel >= 1.0f) {
+				if (1.0f <= fadeLevel) {
 					fadeLevel = 1.0f;
 					fadeDelta = 0.0f;
-					if (runAfterTransition != null) {
+					if (null != runAfterTransition) {
 						Gdx.app.postRunnable(runAfterTransition);
 					}
 				}
@@ -212,7 +206,7 @@ public class HadalGame extends ApplicationAdapter {
 	public void resize(int width, int height) {
 		viewportCamera.update(width, height, true);
 		viewportUI.update(width, height, true);
-		if (gsm != null) {
+		if (null != gsm) {
 			gsm.resize();
 		}
 	}
@@ -239,59 +233,18 @@ public class HadalGame extends ApplicationAdapter {
 		musicPlayer.dispose();
 		black.dispose();
 		
-		if (FONT_UI != null) {
+		if (null != FONT_UI) {
 			FONT_UI.dispose();
 		}
-		if (FONT_UI_ALT != null) {
+		if (null != FONT_UI_ALT) {
 			FONT_UI_ALT.dispose();
 		}
-		if (FONT_SPRITE != null) {
+		if (null != FONT_SPRITE) {
 			FONT_SPRITE.dispose();
 		}
 
 		//this prevents an error upon x-ing out the game
 		System.exit(0);
-	}
-
-	//this is the player's external ip that other clients will connect to
-	public static String myIP = "";
-	/**
-	 * This attempts to enable upnp on the client's router
-	 * @param protocol: tcp or udp
-	 * @param descr: Not used for anything rn except logging
-	 * @param port: what port to map to
-	 */
-	private static void upnp(String protocol, String descr, int port) {
-
-		//We do these on a separate thread to avoid initial loading times
-		new Thread(() -> {
-			try {
-				GatewayDiscover discover = new GatewayDiscover();
-				discover.discover();
-				GatewayDevice d = discover.getValidGateway();
-
-				//Attempt to find router and acquire its information
-				if (d != null) {
-					InetAddress localAddress = d.getLocalAddress();
-					myIP = d.getExternalIPAddress();
-					PortMappingEntry portMapping = new PortMappingEntry();
-
-					//delete existing mappings before attempting to create a new one
-					d.deletePortMapping(port, protocol);
-					if (!d.getSpecificPortMappingEntry(port, protocol, portMapping)) {
-						if (!d.addPortMapping(port, port, localAddress.getHostAddress(), protocol, descr)) {
-							Gdx.app.log("UPNP", "FAILED TO MAP PORT");
-						} else {
-							Gdx.app.log("UPNP", "SUCCESSFULLY MAPPED");
-						}
-					} else {
-						Gdx.app.log("UPNP", "ALREADY MAPPED");
-					}
-				}
-			} catch (ParserConfigurationException | SAXException | IOException parserConfigurationException) {
-				Gdx.app.log("UPNP", "ERROR WHEN MAPPING UPNP PORT");
-			}
-		}).start();
 	}
 
 	/**
@@ -302,7 +255,7 @@ public class HadalGame extends ApplicationAdapter {
 	public void fadeSpecificSpeed(float fadeSpeed, float fadeDelay) { 
 		this.fadeDelta = fadeSpeed; 
 		this.fadeDelay = fadeDelay;
-		if (fadeDelta == 0.0f) {
+		if (0.0f == fadeDelta) {
 			skipFade = true;
 		}
 	}

@@ -42,7 +42,7 @@ public class UIArtifacts {
 
 		//When starting up normally, the player's data is not loaded yet, and we do not need to sync.
 		//data will also be null if the player spawns in as a spectator
-		if (state.getPlayer().getPlayerData() != null) {
+		if (null != state.getPlayer().getPlayerData()) {
 			for (UnlockArtifact a : state.getPlayer().getPlayerData().getLoadout().artifacts) {
 				if (!UnlockArtifact.NOTHING.equals(a)) {
 					addTag(a);

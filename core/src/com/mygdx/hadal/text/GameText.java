@@ -874,10 +874,10 @@ public enum GameText {
 
     public String text(String... replace) {
         //no replacements means a static text. Read from file and cache
-        if (replace.length == 0) {
-            if (cachedText == null) {
+        if (0 == replace.length) {
+            if (null == cachedText) {
                 JsonValue text = GameStateManager.gameStrings.get(key);
-                if (text != null) {
+                if (null != text) {
                     cachedText = text.asString();
                 } else {
                     cachedText = GameStateManager.gameStrings.get(STRING_NOT_FOUND.key).asString();
@@ -888,10 +888,10 @@ public enum GameText {
 
             //iterate through replace tags and replace with input strings
             JsonValue text = GameStateManager.gameStrings.get(key);
-            if (text != null) {
+            if (null != text) {
                 String tempText = text.asString();
                 for (int i = 0; i < replace.length; i++) {
-                    if (replace[i] != null) {
+                    if (null != replace[i]) {
                         tempText = tempText.replace("<s" + i + ">", replace[i]);
                     }
                 }

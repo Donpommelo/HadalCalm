@@ -61,6 +61,9 @@ public class MessageWindow {
 	//inactive message window disappears after this many seconds of no messages.
 	private static final float INACTIVE_FADE_DELAY = 8.0f;
 
+	//this tracks all text messages. Used for saving text logs to docs
+	private static final Array<String> textRecord = new Array<>();
+
 	private final PlayState state;
 	private final Stage stage;
 	
@@ -73,9 +76,6 @@ public class MessageWindow {
 	private boolean active, invisible, locked;
 
 	private float inactiveFadeCount;
-
-	//this tracks all text messages. Used for saving text logs to docs
-	private static final Array<String> textRecord = new Array<>();
 
 	//grey image used as background for the message window
 	private final TextureRegion grey;
@@ -93,10 +93,10 @@ public class MessageWindow {
 
 				//keep track of how long the window is inactive. Make invisible after enough time inactive.
 				if (!active) {
-					if (inactiveFadeCount > INACTIVE_FADE_DELAY) {
+					if (INACTIVE_FADE_DELAY < inactiveFadeCount) {
 						invisible = true;
 					}
-					if (inactiveFadeCount <= INACTIVE_FADE_DELAY) {
+					if (INACTIVE_FADE_DELAY >= inactiveFadeCount) {
 						inactiveFadeCount += delta;
 					}
 				}
@@ -150,7 +150,7 @@ public class MessageWindow {
 			}
 
 			//sync controller to avoid sticky keys (set all keys to current held position)
-			if (state.getController() != null) {
+			if (null != state.getController()) {
 				if (state.isServer()) {
 					((PlayerController) state.getController()).syncController();
 				} else {
@@ -167,7 +167,7 @@ public class MessageWindow {
 			stage.setScrollFocus(textLog);
 
 			//reset controller to avoid sticky keys (releases all held keys)
-			if (state.getController() != null) {
+			if (null != state.getController()) {
 				if (state.isServer()) {
 					((PlayerController) state.getController()).resetController();
 				} else {
@@ -191,9 +191,9 @@ public class MessageWindow {
 				if (state.isServer()) {
 
 					//if this is a console commend, execute it. (if it is used by host and console is enabled)
-					if (ConsoleCommandUtil.parseChatCommand(state, state.getPlayer(), enterMessage.getText()) == -1) {
+					if (-1 == ConsoleCommandUtil.parseChatCommand(state, state.getPlayer(), enterMessage.getText())) {
 						if (state.getGsm().getSetting().isConsoleEnabled()) {
-							if (ConsoleCommandUtil.parseConsoleCommand(state, enterMessage.getText()) == -1) {
+							if (-1 == ConsoleCommandUtil.parseConsoleCommand(state, enterMessage.getText())) {
 								HadalGame.server.addChatToAll(state, enterMessage.getText(), DialogType.DIALOG, 0);
 							}
 						} else {
@@ -202,7 +202,7 @@ public class MessageWindow {
 					}
 				} else {
 					//if this is a chat command, execute it.
-					if (ConsoleCommandUtil.parseChatCommand(state, state.getPlayer(), enterMessage.getText()) == -1) {
+					if (-1 == ConsoleCommandUtil.parseChatCommand(state, state.getPlayer(), enterMessage.getText())) {
 						HadalGame.client.sendTCP(new Packets.ClientChat(enterMessage.getText(), DialogType.DIALOG));
 					}
 				}
@@ -246,7 +246,7 @@ public class MessageWindow {
 		            public boolean keyDown(InputEvent event, int keycode) {
 
 						//unless we are exiting/entering, typing should indicate that the player is typing
-						if (keycode != Keys.ENTER && keycode != PlayerAction.EXIT_MENU.getKey()) {
+						if (Keys.ENTER != keycode && PlayerAction.EXIT_MENU.getKey() != keycode) {
 							typing = true;
 						}
 
@@ -258,9 +258,9 @@ public class MessageWindow {
 					
 					@Override
 		            public boolean keyUp(InputEvent event, int keycode) {
-		                if (keycode == Keys.ENTER) {
+		                if (Keys.ENTER == keycode) {
 		                	sendMessage();
-		                } else if (keycode == PlayerAction.EXIT_MENU.getKey()) {
+		                } else if (PlayerAction.EXIT_MENU.getKey() == keycode) {
 		                	toggleWindow();
 		                }
 		                return super.keyUp(event, keycode);
@@ -274,7 +274,7 @@ public class MessageWindow {
 
             	//after typing any key, the player is "typing" for some time where an icon will be drawn above them
             	typeCount += delta;
-            	if (typeCount >= TYPING_INTERVAL) {
+            	if (TYPING_INTERVAL <= typeCount) {
             		typeCount = 0;
 
             		//if typing, we notify other players that we are typing to display the speech bubble
@@ -363,14 +363,14 @@ public class MessageWindow {
 		}
 
 		//do not display messages from muted players
-		if (user != null) {
+		if (null != user) {
 			if (!user.isMuted()) {
 				String newText;
 
 				//system messages are all red.
 				if (DialogType.SYSTEM.equals(type)) {
 					newText = "[RED]" + user.getScores().getNameShort() + ": " + text + " []";
-				} else if (user.getPlayer() == null) {
+				} else if (null == user.getPlayer()) {
 
 					//text is white if player is a spectator or otherwise has no player
 					newText = "[WHITE]" + user.getScores().getNameShort() + ": " + text + " []";
