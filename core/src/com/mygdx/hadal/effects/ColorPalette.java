@@ -90,7 +90,10 @@ public enum ColorPalette {
             HadalColor.DARK_LIVER, HadalColor.AMBER, HadalColor.COQUELICOT),
 
     BLACK_AND_YELLOW(HadalColor.CITRINE, HadalColor.SMOKY_BLACK, HadalColor.JET, HadalColor.CITRINE, HadalColor.LEMON,
-            HadalColor.MAXIMUM_YELLOW, HadalColor.ICTERINE, HadalColor.CANARY, HadalColor.ONYX)
+            HadalColor.MAXIMUM_YELLOW, HadalColor.ICTERINE, HadalColor.CANARY, HadalColor.ONYX),
+
+    HALLOWEEN(HadalColor.ORANGE, HadalColor.SMOKY_BLACK, HadalColor.JET, HadalColor.CITRINE, HadalColor.PUMPKIN,
+            HadalColor.SAFFRON, HadalColor.APRICOT, HadalColor.HONEY, HadalColor.MANGO)
 
     ;
 

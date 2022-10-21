@@ -43,7 +43,7 @@ public class BotLoadoutProcessor {
                 UnlockEquip.getRandWeapFromPool(state, ""),
                 UnlockEquip.getRandWeapFromPool(state, ""),
                 UnlockEquip.getRandWeapFromPool(state, ""),
-                UnlockEquip.getRandWeapFromPool(state, "") };
+                UnlockEquip.getRandWeapFromPool(state, "")};
         botLoadout.artifacts = getRandomArtifacts(state);
         botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
         botLoadout.activeItem = getRandomActiveItem();
@@ -63,15 +63,15 @@ public class BotLoadoutProcessor {
     public static RallyPoint getPointNearWeapon(PlayerBot player, Vector2 playerLocation, float searchRadius, int minAffinity) {
         final RallyPoint[] bestPoint = new RallyPoint[1];
         player.getWorld().QueryAABB((fixture -> {
-            if (fixture.getUserData() instanceof final EventData eventData) {
-                if (eventData.getEvent() instanceof final PickupEquip pickup) {
+            if (fixture.getUserData() instanceof EventData eventData) {
+                if (eventData.getEvent() instanceof PickupEquip pickup) {
 
                     //for all pickups found, calculate a path to it, if the bot wants it more than any of their current weapons
                     if (calcWeaponAffinity(pickup.getEquip()) > minAffinity) {
                         RallyPoint tempPoint = BotManager.getNearestPoint(player, pickup.getPosition());
 
                         //tentatively, we stop immediately upon finding an appropriate pickup to path towards
-                        if (tempPoint != null) {
+                        if (null != tempPoint) {
                             player.getBotController().setWeaponTarget(pickup);
                             bestPoint[0] = tempPoint;
                             return false;
@@ -102,7 +102,7 @@ public class BotLoadoutProcessor {
                         RallyPoint tempPoint = BotManager.getNearestPoint(player, data.getEntity().getPosition());
 
                         //tentatively, we stop immediately upon finding an appropriate pickup to path towards
-                        if (tempPoint != null) {
+                        if (null != tempPoint) {
                             player.getBotController().setHealthTarget(data.getEntity());
                             bestPoint[0] = tempPoint;
                             return false;
@@ -338,12 +338,12 @@ public class BotLoadoutProcessor {
 
                 //spray-type weapons are suitable when firing to avoid switcing immediately after gaining firing status
                 case COLACANNON, SLODGE_NOZZLE, STUTTERGUN:
-                    if (ranged.getClipLeft() == 0 && player.getPlayerData().getStatus(FiringWeapon.class) == null) {
+                    if (0 == ranged.getClipLeft() && null == player.getPlayerData().getStatus(FiringWeapon.class)) {
                         suitability =  inRange ? 1 : 0;
                     }
                     break;
                 default:
-                    if (ranged.getClipLeft() == 0) {
+                    if (0 == ranged.getClipLeft()) {
                         suitability =  inRange ? 1 : 0;
                     }
                     break;
@@ -455,7 +455,7 @@ public class BotLoadoutProcessor {
      * Only used for stickybomb launcher
      */
     private static void manualReload(PlayerBot player, Equippable weapon, boolean shooting) {
-        if (weapon.getClipLeft() == 0) {
+        if (0 == weapon.getClipLeft()) {
             player.getController().keyDown(PlayerAction.RELOAD);
             player.getController().keyUp(PlayerAction.RELOAD);
         } else if (shooting) {
@@ -520,7 +520,7 @@ public class BotLoadoutProcessor {
         //easy bots or bots in single player when the player has no artifacts do not use artifacts
         if (BotPersonality.BotDifficulty.EASY.equals(state.getMode().getBotDifficulty()) ||
                 (GameStateManager.Mode.SINGLE.equals(GameStateManager.currentMode) &&
-                        state.getPlayer().getPlayerData().getArtifactSlotsUsed() == 0)) {
+                        0 == state.getPlayer().getPlayerData().getArtifactSlotsUsed())) {
             return artifacts;
         }
 
@@ -528,23 +528,23 @@ public class BotLoadoutProcessor {
 
         int slots = state.getGsm().getSetting().getArtifactSlots();
         int currentSlot = 0;
-        boolean mobilityFound = slots == 1;
+        boolean mobilityFound = 1 == slots;
 
-        while (slots > 0) {
+        while (0 < slots) {
             artifactOptions.clear();
 
-            //if there a=is >1 slot available, bots will prioritize having at least 1 mobility item
+            //if there is >1 slot available, bots will prioritize having at least 1 mobility item
             if (!mobilityFound) {
                 mobilityFound = true;
                 artifactOptions.addAll(mobility2);
                 artifactOptions.addAll(mobility1);
             } else {
-                if (slots >= 3) {
+                if (3 <= slots) {
                     artifactOptions.addAll(defensive3);
                     artifactOptions.addAll(offensive3);
                     artifactOptions.addAll(misc3);
                 }
-                if (slots >= 2) {
+                if (2 <= slots) {
                     artifactOptions.addAll(mobility2);
                     artifactOptions.addAll(defensive2);
                     artifactOptions.addAll(offensive2);
@@ -556,7 +556,7 @@ public class BotLoadoutProcessor {
                 artifactOptions.addAll(misc1);
             }
 
-            if (artifactOptions.size > 0 && currentSlot < artifacts.length) {
+            if (0 < artifactOptions.size && currentSlot < artifacts.length) {
                 UnlockArtifact newArtifact = artifactOptions.get(MathUtils.random(artifactOptions.size - 1));
                 boolean artifactUnique = true;
 
@@ -605,7 +605,7 @@ public class BotLoadoutProcessor {
                 }
 
             }
-            if (cosmeticOptions.size > 0) {
+            if (0 < cosmeticOptions.size) {
                 cosmetics[index] = cosmeticOptions.get(MathUtils.random(cosmeticOptions.size - 1));
             }
             index++;
@@ -641,8 +641,8 @@ public class BotLoadoutProcessor {
                 break;
             //active items that require being withing range of enemies
             case JUMP_KICK, MARINE_SNOWGLOBE, ORBITAL_SHIELD, PLUS_MINUS, TAINTED_WATER:
-                if (weapon.isUsable() && distanceSquared > 0.0f &&
-                        distanceSquared < weapon.getBotRangeMin() * weapon.getBotRangeMin()) {
+                if (weapon.isUsable() && 0.0f < distanceSquared &&
+                        weapon.getBotRangeMin() * weapon.getBotRangeMin() > distanceSquared) {
                     player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
                 } else {
                     player.getController().keyUp(PlayerAction.ACTIVE_ITEM);

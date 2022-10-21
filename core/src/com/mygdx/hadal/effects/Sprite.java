@@ -307,7 +307,7 @@ public enum Sprite {
 			return Objects.requireNonNull(getAtlas(SpriteType.EVENT)).findRegions("eggplant");
 		}
 
-		if (frames == null) {
+		if (null == frames ) {
 
 			//complex frames are made of several sprites, repeated, lined up back-to-back
 			if (complex) {

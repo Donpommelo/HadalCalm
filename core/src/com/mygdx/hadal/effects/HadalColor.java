@@ -240,13 +240,13 @@ public enum HadalColor {
 
 	public Color getColor() { return color; }
 
-	private static final ObjectMap<String, HadalColor> ColorsByName = new ObjectMap<>();
+	private static final ObjectMap<String, HadalColor> COLORS_BY_NAME = new ObjectMap<>();
 	static {
 		for (HadalColor c : HadalColor.values()) {
-			ColorsByName.put(c.toString(), c);
+			COLORS_BY_NAME.put(c.toString(), c);
 		}
 	}
 	public static HadalColor getByName(String s) {
-		return ColorsByName.get(s, NOTHING);
+		return COLORS_BY_NAME.get(s, NOTHING);
 	}
 }

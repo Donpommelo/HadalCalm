@@ -281,6 +281,8 @@ public abstract class HadalEntity {
 
 	//is this entity treated by bots as a health pickup? (since these can be a couple of different event types)
 	private boolean botHealthPickup = false;
+	private boolean botModePickup = false;
+
 	/**
 	 * This is a replacement to controller() that is run for clients.
 	 * This is used for things that have to process stuff for the client, and not just server-side
@@ -520,6 +522,10 @@ public abstract class HadalEntity {
 	public boolean isBotHealthPickup() { return botHealthPickup; }
 
 	public void setBotHealthPickup(boolean botHealthPickup) { this.botHealthPickup = botHealthPickup; }
+
+	public boolean isBotModePickup() { return botModePickup; }
+
+	public void setBotModePickup(boolean botModePickup) { this.botModePickup = botModePickup; }
 
 	public void setTransform(Vector2 position, float angle) {
 		if (alive && body != null && Float.isFinite(position.x) && Float.isFinite(position.y)) {

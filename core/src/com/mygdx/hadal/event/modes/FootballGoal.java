@@ -47,10 +47,12 @@ public class FootballGoal extends Event {
             @Override
             public void onActivate(EventData activator, Player p) {
 
-                ParticleEntity particle = new ParticleEntity(state, event, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,
-                        true, SyncType.CREATESYNC);
-                if (teamIndex < AlignmentFilter.currentTeams.length) {
-                    particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
+                if (state.isServer()) {
+                    ParticleEntity particle = new ParticleEntity(state, event, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,
+                            true, SyncType.CREATESYNC);
+                    if (teamIndex < AlignmentFilter.currentTeams.length) {
+                        particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
+                    }
                 }
 
                 //give score credit to the player and give notification

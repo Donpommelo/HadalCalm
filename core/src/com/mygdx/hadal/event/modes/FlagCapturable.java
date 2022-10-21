@@ -57,7 +57,7 @@ public class FlagCapturable extends Event {
 	private Status flagDebuff;
 
 	//The spawner that created the flag. Used by bots to locate spawners
-	private final SpawnerFlag spawner;
+	private final FlagSpawner spawner;
 
 	//the last "flag blocker" this touched. Used to prevent bringing flags through spawn walls
 	private FlagBlocker lastBlocker;
@@ -71,7 +71,7 @@ public class FlagCapturable extends Event {
 	//amount of players currently nearby their dropped flag to speed up its return
 	private int numReturning;
 
-	public FlagCapturable(PlayState state, Vector2 startPos, SpawnerFlag spawner, int teamIndex) {
+	public FlagCapturable(PlayState state, Vector2 startPos, FlagSpawner spawner, int teamIndex) {
 		super(state, startPos, FLAG_SIZE, FLAG_LIFESPAN);
 		this.spawner = spawner;
 		this.teamIndex = teamIndex;
@@ -108,13 +108,13 @@ public class FlagCapturable extends Event {
 			@Override
 			public void onTouch(HadalData fixB) {
 				if (!state.isServer()) { return; }
-				if (fixB != null) {
+				if (null != fixB) {
 					if (!captured) {
 						if (fixB instanceof PlayerBodyData playerData) {
 
 							//if this is touching a flag blocker, do not register pickups
 							boolean blockPickup = false;
-							if (lastBlocker != null) {
+							if (null != lastBlocker) {
 								if (lastBlocker.getEventData().getSchmucks().contains(event) &&
 										lastBlocker.getEventData().getSchmucks().contains(fixB.getEntity())) {
 									blockPickup = true;
@@ -223,7 +223,7 @@ public class FlagCapturable extends Event {
 
 		//this makes flag following player less janky for clients when held
 		if (captured) {
-			if (target != null) {
+			if (null != target) {
 				hbLocation.set(target.getPosition());
 				setTransform(hbLocation, getAngle());
 			}
@@ -285,7 +285,7 @@ public class FlagCapturable extends Event {
 			returnPercent = p.returnPercent;
 			if (o instanceof PacketsSync.SyncFlagAttached p1) {
 				HadalEntity entity = state.findEntity(p1.uuidMSBAttached, p1.uuidLSBAttached);
-				if (entity != null) {
+				if (null != entity) {
 					if (entity instanceof Player player) {
 						target = player;
 						captured = true;
@@ -302,7 +302,7 @@ public class FlagCapturable extends Event {
 	 * Repeatedly check if the flag is touching its return event.
 	 * This makes it so players do not need to leave and return to their spawner to capture flags
 	 */
-	public void checkCapture(SpawnerFlag flag) {
+	public void checkCapture(FlagSpawner flag) {
 		//if this hbox touches an enemy flag spawn, it is "captured", scoring a point and disappearing
 		if (flag.getTeamIndex() != teamIndex) {
 
@@ -311,9 +311,9 @@ public class FlagCapturable extends Event {
 				flag.getEventData().preActivate(null, lastHolder);
 				queueDeletion();
 
-				if (target != null) {
-					if (target.getPlayerData() != null) {
-						if (flagDebuff != null) {
+				if (null != target) {
+					if (null != target.getPlayerData()) {
+						if (null != flagDebuff) {
 							target.getPlayerData().removeStatus(flagDebuff);
 						}
 					}
@@ -361,7 +361,7 @@ public class FlagCapturable extends Event {
 		}
 	}
 
-	public SpawnerFlag getSpawner() { return spawner; }
+	public FlagSpawner getSpawner() { return spawner; }
 
 	public Player getTarget() { return target; }
 

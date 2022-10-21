@@ -67,15 +67,15 @@ public class CharacterCosmetic {
      * This is called before rendering to retrieve the frames for the cosmetic sprite
      */
     public Animation<TextureRegion> getFrames() {
-        if (frames == null) {
+        if (null == frames) {
             frames = new Animation<>(COSMETIC_ANIMATION_SPEED, ((TextureAtlas) HadalGame.assetManager.get(AssetList.COSMETICS_ATL.toString())).findRegions(spriteId));
             frames.setPlayMode(mode);
-            if (frames.getKeyFrames().length != 0) {
+            if (0 != frames.getKeyFrames().length) {
                 cosmeticWidth = frames.getKeyFrame(0).getRegionWidth();
                 cosmeticHeight = frames.getKeyFrame(0).getRegionHeight();
             }
         }
-        if (mirror && framesMirror == null) {
+        if (mirror && null == framesMirror) {
             framesMirror = new Animation<>(COSMETIC_ANIMATION_SPEED, ((TextureAtlas) HadalGame.assetManager.get(AssetList.COSMETICS_ATL.toString())).findRegions(spriteIdMirror));
         }
         return frames;
@@ -89,11 +89,11 @@ public class CharacterCosmetic {
 
         //if using shader, get sprite from ShaderSprite fbo instead of frames
         if (useShader || team.isCosmeticApply()) {
-            if (frames == null) {
+            if (null == frames) {
                 getFrames();
             }
             if (mirror) {
-                if (framesMirror == null) {
+                if (null == framesMirror) {
                     getFrames();
                 }
                 batch.draw(drawShadedCosmetic(batch, team, character, true, flip).getKeyFrame(animationTimeExtra, true),
@@ -109,7 +109,7 @@ public class CharacterCosmetic {
         } else {
             //mirrored sprites are drawn differently when character is flipped
             if (mirror && flip) {
-                if (framesMirror == null) {
+                if (null == framesMirror) {
                     getFrames();
                 }
                 batch.draw(framesMirror.getKeyFrame(animationTimeExtra, true),
@@ -117,7 +117,7 @@ public class CharacterCosmetic {
                         location.y + offsetY * scale, 0, 0, cosmeticWidth * scale,
                         cosmeticHeight * scale, 1, 1, 0);
             } else {
-                if (frames == null) {
+                if (null == frames) {
                     getFrames();
                 }
                 batch.draw(frames.getKeyFrame(animationTimeExtra, true),
@@ -136,10 +136,10 @@ public class CharacterCosmetic {
      */
     public Ragdoll createRagdoll(PlayState state, AlignmentFilter team, UnlockCharacter character,
                                  Vector2 playerLocation, float scale, Vector2 playerVelocity) {
-        if (frames == null) {
+        if (null == frames) {
             getFrames();
         }
-        if (frames.getKeyFrames().length != 0) {
+        if (0 != frames.getKeyFrames().length) {
             if (useShader || team.isCosmeticApply()) {
                 return new Ragdoll(state, playerLocation, new Vector2(cosmeticWidth, cosmeticHeight).scl(scale),
                         drawShadedCosmetic(state.getBatch(), team, character, false, false).getKeyFrame(0),
@@ -160,7 +160,7 @@ public class CharacterCosmetic {
                                                         boolean mirror, boolean flip) {
         //hashmap key is the team name (or character name if no team)
         String shaderKey;
-        if (team.isTeam() && team != AlignmentFilter.NONE) {
+        if (team.isTeam() && AlignmentFilter.NONE != team) {
             shaderKey = team.getTeamName();
         } else {
             shaderKey = character.getName();
@@ -169,7 +169,7 @@ public class CharacterCosmetic {
         ShadedSprite shadedSprite = shadedCosmetics.get(shaderKey);
 
         //if we don't have this shader-cosmetic combination cached, we create a new shaded sprite
-        if (shadedSprite == null) {
+        if (null == shadedSprite) {
 
             //because this is usually run during the render cycle, we need to set turn the batch on/off
             boolean drawing = batch.isDrawing();
@@ -188,7 +188,7 @@ public class CharacterCosmetic {
             }
 
             //shaderKey can be null for clients if the player hasn't been initialized yet
-            if (shaderKey != null) {
+            if (null != shaderKey) {
                 shadedCosmetics.put(shaderKey, shadedSprite);
             }
         }
@@ -202,7 +202,7 @@ public class CharacterCosmetic {
      */
     public void clearShadedCosmetics() {
         for (ObjectMap.Entry<String, ShadedSprite> sprite : shadedCosmetics.entries()) {
-            if (sprite.value != null) {
+            if (null != sprite.value) {
                 sprite.value.dispose();
             }
             shadedCosmetics.clear();

@@ -2,11 +2,12 @@ package com.mygdx.hadal.event.modes;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -14,7 +15,6 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
@@ -28,7 +28,7 @@ import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
  *
  * @author Noporon Nashmere
  */
-public class SpawnerFlag extends Event {
+public class FlagSpawner extends Event {
 
     private final static float PARTICLE_DURATION = 5.0f;
 
@@ -38,7 +38,7 @@ public class SpawnerFlag extends Event {
     //whether a flag is currently present at the spawner
     private boolean flagPresent;
 
-    public SpawnerFlag(PlayState state, Vector2 startPos, Vector2 size, int teamIndex) {
+    public FlagSpawner(PlayState state, Vector2 startPos, Vector2 size, int teamIndex) {
         super(state, startPos, size);
         this.teamIndex = teamIndex;
     }
@@ -49,10 +49,12 @@ public class SpawnerFlag extends Event {
 
             @Override
             public void onActivate(EventData activator, Player p) {
-                spawnerParticles();
+                if (state.isServer()) {
+                    spawnerParticles();
+                }
 
                 //give score credit to the player and give notification
-                if (p != null) {
+                if (null != p) {
                     String playerName = WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH);
                     state.getKillFeed().addNotification(UIText.CTF_CAPTURE.text(playerName), false);
                     state.getMode().processPlayerScoreChange(state, p, 1);
@@ -75,7 +77,7 @@ public class SpawnerFlag extends Event {
     public void controller(float delta) {
 
         //flag is spawned after a set delay
-        if (spawnCountdown > 0.0f) {
+        if (0.0f < spawnCountdown) {
             spawnCountdown -= delta;
             if (spawnCountdown <= 0.0f) {
                 spawnFlag();
@@ -83,7 +85,7 @@ public class SpawnerFlag extends Event {
         } else {
             //spawn a flag if it is dead or nonexistent
             boolean flagded = false;
-            if (flag == null) {
+            if (null == flag) {
                 flagded = true;
             } else if (!flag.isAlive()) {
                 flagded = true;
@@ -94,7 +96,7 @@ public class SpawnerFlag extends Event {
         }
 
         controllerCount += delta;
-        if (controllerCount >= CHECK_INTERVAL) {
+        if (CHECK_INTERVAL <= controllerCount) {
             controllerCount = 0.0f;
             for (HadalEntity entity : eventData.getSchmucks()) {
                 if (entity instanceof FlagCapturable flag) {
@@ -119,7 +121,7 @@ public class SpawnerFlag extends Event {
     public void triggerFailMessage() {
 
         //message is activated when attempting to capture flag while enemy holds your flag
-        if (messageCount <= 0.0f) {
+        if (0.0f >= messageCount) {
             if (teamIndex < AlignmentFilter.currentTeams.length) {
                 messageCount = MESSAGE_COOLDOWN;
                 String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();

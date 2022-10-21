@@ -145,7 +145,7 @@ public enum Particle {
 	private ParticleEffect prototype;
 	public void initParticlePool() {
 		prototype = new ParticleEffect();
-		if (type == ParticleType.DEFAULT) {
+		if (ParticleType.DEFAULT == type)  {
 			prototype.load(Gdx.files.internal(particleId), (TextureAtlas) HadalGame.assetManager.get(AssetList.PARTICLE_ATL.toString()));
 		}
 
@@ -157,7 +157,7 @@ public enum Particle {
 	 * When we get a particle, we obtain it from the pool and add it to the list to keep track of
 	 */
 	public PooledEffect getParticle(ParticleEntity entity) {
-		if (effectPool == null) {
+		if (null == effectPool) {
 			initParticlePool();
 		}
 		PooledEffect newEffect = effectPool.obtain();
@@ -175,7 +175,7 @@ public enum Particle {
 	 */
 	public void drawEffects(SpriteBatch batch) {
 		for (ObjectMap.Entry<PooledEffect, ParticleEntity> effect : effects.entries()) {
-			if (effect.value == null) {
+			if (null == effect.value) {
 				effect.key.draw(batch);
 			} else if (effect.value.isEffectNotCulled()) {
 				effect.key.draw(batch);
@@ -215,7 +215,7 @@ public enum Particle {
 	 */
 	public static void disposeParticlePool() {
 		for (Particle effect : Particle.values()) {
-			if (effect.prototype != null) {
+			if (null != effect.prototype) {
 				effect.prototype.dispose();
 			}
 		}

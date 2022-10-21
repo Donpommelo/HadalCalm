@@ -56,12 +56,12 @@ public class BotController {
 
         processPreTarget(delta);
 
-        while (botTargetCount >= BOT_TARGET_INTERVAL) {
+        while (BOT_TARGET_INTERVAL <= botTargetCount) {
             botTargetCount -= BOT_TARGET_INTERVAL * (1 + (-BOT_MOVE_VARIANCE + MathUtils.random() * 2 * BOT_MOVE_VARIANCE));
             acquireTarget(entityWorldLocation, entityVelocity);
         }
 
-        while (botMoveCount >= BOT_MOVE_INTERVAL) {
+        while (BOT_MOVE_INTERVAL <= botMoveCount) {
             botMoveCount -= BOT_MOVE_INTERVAL * (1 + (-BOT_MOVE_VARIANCE + MathUtils.random() * 2 * BOT_MOVE_VARIANCE));
             processBotAction();
         }
@@ -113,16 +113,16 @@ public class BotController {
         //bot considers their own velocity when deciding how they should move
         predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, CURRENT_VELOCITY_MULTIPLIER);
         float fract = BotManager.raycastUtility(bot, targetLocation, predictedSelfLocation, Constants.BIT_PLAYER);
-        if (fract < 1.0f) {
+        if (1.0f > fract) {
             predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, CURRENT_VELOCITY_MULTIPLIER * fract);
         }
 
         //find target and see if we have line of sight to it
         HadalEntity target = findTarget();
 
-        if (target != null) {
+        if (null != target) {
             collision = BotManager.raycastUtility(bot, predictedSelfLocation, target.getPosition(), Constants.BIT_PLAYER);
-            if (collision == 1.0f) {
+            if (1.0f == collision) {
                 thisLocation.set(target.getPosition()).sub(predictedSelfLocation);
                 distSquared = thisLocation.len2();
                 approachTarget = true;
@@ -131,7 +131,7 @@ public class BotController {
 
         //if seeking player, raycast towards it and set target location if found
         if (BotMood.SEEK_ENEMY.equals(currentMood)) {
-            if (shootTarget != null && lineOfSight) {
+            if (null != shootTarget && lineOfSight) {
                 if (shootTarget.isAlive()) {
                     thisLocation.set(shootTarget.getPosition()).sub(predictedSelfLocation);
                     thisLocation.nor().scl(midrangeDifferenceSquare).scl(PLAYER_MOVEMENT_MULTIPLIER);
@@ -211,12 +211,12 @@ public class BotController {
         float shortestDistanceSquared = -1;
         boolean unobtructedTargetFound = false;
         for (User user : HadalGame.server.getUsers().values()) {
-            if (user.getPlayer() != null) {
+            if (null != user.getPlayer()) {
 
                 //we don't want to target dead, invisible or invincible players
                 if (user.getPlayer().isAlive() && bot.getHitboxfilter() != user.getPlayer().getHitboxfilter() &&
-                        user.getPlayer().getPlayerData().getStatus(Invisibility.class) == null &&
-                        user.getPlayer().getPlayerData().getStatus(Invulnerability.class) == null) {
+                        null == user.getPlayer().getPlayerData().getStatus(Invisibility.class) &&
+                        null == user.getPlayer().getPlayerData().getStatus(Invulnerability.class)) {
 
                     //find shoot target by getting closest target with unobstructed vision
                     targetLocation.set(user.getPlayer().getPosition());
@@ -245,7 +245,7 @@ public class BotController {
                     }
                     //calc the shortest path and compare it to paths to other targets
                     RallyPoint tempPoint = BotManager.getNearestPoint(bot, targetLocation);
-                    if (tempPoint != null) {
+                    if (null != tempPoint) {
                         targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, multiplier));
                     }
                 }
@@ -260,10 +260,10 @@ public class BotController {
                         bodyData.getSchmuck() instanceof Enemy enemy) {
                     targetLocation.set(enemy.getPosition());
                     RallyPoint tempPoint = BotManager.getNearestPoint(bot, targetLocation);
-                    if (tempPoint != null) {
+                    if (null != tempPoint) {
                         targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, ENEMY_MULTIPLIER));
                         if (targetLocation.dst2(playerLocation) < shortestPlayerDistanceSquared * ENEMY_MULTIPLIER
-                                || shortestPlayerDistanceSquared == -1) {
+                                || -1 == shortestPlayerDistanceSquared) {
                             shootTarget = enemy;
                         }
                         return false;

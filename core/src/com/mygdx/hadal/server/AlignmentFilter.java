@@ -63,6 +63,7 @@ public enum AlignmentFilter {
     TEAM_LEMON_LIME(-45, ColorPalette.LEMON_LIME, GameText.LEMON_LIME, HadalColor.GREEN, HadalColor.YELLOW),
     TEAM_MAGMA(-46, ColorPalette.MAGMA, GameText.MAGMA, HadalColor.RED, HadalColor.BLACK),
     TEAM_BLACK_AND_YELLOW(-47, ColorPalette.BLACK_AND_YELLOW, GameText.BLACK_AND_YELLOW, HadalColor.BLACK, HadalColor.YELLOW),
+    TEAM_HALLOWEEN(-48, ColorPalette.HALLOWEEN, GameText.HALLOWEEN, HadalColor.BLACK, HadalColor.ORANGE),
 
     TEAM_BLACK_AND_WHITE(-40, ColorPalette.BASE, false, true, GameText.BLACK_AND_WHITE) {
 
@@ -177,8 +178,9 @@ public enum AlignmentFilter {
      * This is run by the server when a level loads with auto-assigned teams enabled
      * @param numTeams: how many teams to auto assign players to?
      * @param mode: mode is used to determine if any special team-assignment rules are needed (like humans vs bots)
+     * @param startScore: The score that each team should start with (0 for most modes)
      */
-    public static void autoAssignTeams(int numTeams, SettingTeamMode.TeamMode mode) {
+    public static void autoAssignTeams(int numTeams, SettingTeamMode.TeamMode mode, int startScore) {
         Array<User> users = new Array<>(HadalGame.server.getUsers().values().toArray());
         users.shuffle();
 
@@ -187,6 +189,7 @@ public enum AlignmentFilter {
         currentTeams = new AlignmentFilter[numTeams];
         teamScores = new int[numTeams];
         Arrays.fill(currentTeams, AlignmentFilter.NONE);
+        Arrays.fill(teamScores, startScore);
 
         ObjectMap<User, Integer> teamSelection = new ObjectMap<>();
 

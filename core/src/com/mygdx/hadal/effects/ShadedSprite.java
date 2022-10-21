@@ -37,7 +37,7 @@ public class ShadedSprite {
 
     public ShadedSprite(Batch batch, AlignmentFilter team, UnlockCharacter character, TextureRegion[] sprites, Animation.PlayMode mode) {
         ShaderProgram shader;
-        if (team.isTeam() && team != AlignmentFilter.NONE) {
+        if (team.isTeam() && AlignmentFilter.NONE != team) {
             shader = team.getShader(character);
         } else {
             shader = character.getPalette().getShader(character);
@@ -49,7 +49,7 @@ public class ShadedSprite {
                         TextureRegion[] spritesMirror, Animation.PlayMode mode) {
         this(batch, team, character, sprites, mode);
         ShaderProgram shader;
-        if (team.isTeam() && team != AlignmentFilter.NONE) {
+        if (team.isTeam() && AlignmentFilter.NONE != team) {
             shader = team.getShader(character);
         } else {
             shader = character.getPalette().getShader(character);
@@ -75,7 +75,7 @@ public class ShadedSprite {
 
             batch.draw(tex, 0, 0);
 
-            if (shader != null) {
+            if (null != shader) {
                 batch.setShader(null);
             }
             batch.end();
@@ -93,7 +93,7 @@ public class ShadedSprite {
             fbo.add(frame);
         }
 
-        if (shader != null) {
+        if (null != shader) {
             shader.dispose();
         }
 

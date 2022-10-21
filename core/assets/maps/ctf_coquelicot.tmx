@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="340" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="600">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="340" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="603">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -1612,13 +1612,35 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="6" name="ctf">
+ <objectgroup id="10" name="tot">
+  <object id="600" name="CandySpawn" type="CandySpawn" x="1824" y="2528" width="224" height="64"/>
+  <object id="602" name="CandySpawn" type="CandySpawn" x="9120" y="2528" width="224" height="64">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="ctf">
   <object id="110" name="FlagSpawn" type="FlagSpawn" x="1824" y="2528" width="224" height="64"/>
   <object id="231" name="FlagSpawn" type="FlagSpawn" x="9120" y="2528" width="224" height="64">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
    </properties>
   </object>
+  <object id="528" name="FlagBlock" type="FlagBlock" x="10016" y="2208" width="32" height="256">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="532" name="FlagBlock" type="FlagBlock" x="9632" y="1760" width="32" height="224">
+   <properties>
+    <property name="teamIndex" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="536" name="FlagBlock" type="FlagBlock" x="1504" y="1760" width="32" height="224"/>
+  <object id="540" name="FlagBlock" type="FlagBlock" x="1120" y="2208" width="32" height="256"/>
+ </objectgroup>
+ <objectgroup id="6" name="team">
   <object id="525" name="ParticleField" type="ParticleField" x="10016" y="2208" width="32" height="256">
    <properties>
     <property name="duration" type="float" value="5"/>
@@ -1648,11 +1670,6 @@
     <property name="player" type="bool" value="false"/>
     <property name="sprite" value="NOTHING"/>
     <property name="teamIndex" type="int" value="-1"/>
-   </properties>
-  </object>
-  <object id="528" name="FlagBlock" type="FlagBlock" x="10016" y="2208" width="32" height="256">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
    </properties>
   </object>
   <object id="529" name="ParticleField" type="ParticleField" x="9632" y="1760" width="32" height="224">
@@ -1686,11 +1703,6 @@
     <property name="teamIndex" type="int" value="-1"/>
    </properties>
   </object>
-  <object id="532" name="FlagBlock" type="FlagBlock" x="9632" y="1760" width="32" height="224">
-   <properties>
-    <property name="teamIndex" type="int" value="1"/>
-   </properties>
-  </object>
   <object id="533" name="ParticleField" type="ParticleField" x="1504" y="1760" width="32" height="224">
    <properties>
     <property name="duration" type="float" value="5"/>
@@ -1722,7 +1734,6 @@
     <property name="teamIndex" type="int" value="-1"/>
    </properties>
   </object>
-  <object id="536" name="FlagBlock" type="FlagBlock" x="1504" y="1760" width="32" height="224"/>
   <object id="537" name="ParticleField" type="ParticleField" x="1120" y="2208" width="32" height="256">
    <properties>
     <property name="duration" type="float" value="5"/>
@@ -1754,7 +1765,6 @@
     <property name="teamIndex" type="int" value="-1"/>
    </properties>
   </object>
-  <object id="540" name="FlagBlock" type="FlagBlock" x="1120" y="2208" width="32" height="256"/>
   <object id="541" name="Start" type="Start" x="864" y="1920" width="32" height="32">
    <properties>
     <property name="teamIndex" type="int" value="0"/>

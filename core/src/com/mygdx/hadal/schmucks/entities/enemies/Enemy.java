@@ -5,8 +5,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.battle.PickupUtils;
 import com.mygdx.hadal.bots.BotManager;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.map.SettingTeamMode;
@@ -21,8 +23,6 @@ import com.mygdx.hadal.strategies.EnemyStrategy;
 import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
 import com.mygdx.hadal.strategies.enemy.TargetNoPathfinding;
 import com.mygdx.hadal.strategies.enemy.TargetPathfinding;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -244,7 +244,7 @@ public class Enemy extends Schmuck {
 
 		//defeated enemy drops eggplants in cooperative mode
 		if (alive && SettingTeamMode.TeamMode.COOP.equals(state.getMode().getTeamMode())) {
-			WeaponUtils.spawnScrap(state, scrapDrop, getPixelPosition(), true, false);
+			PickupUtils.spawnScrap(state, this, getPixelPosition(), getLinearVelocity(), scrapDrop, true, false);
 		}
 		return super.queueDeletion();
 	}

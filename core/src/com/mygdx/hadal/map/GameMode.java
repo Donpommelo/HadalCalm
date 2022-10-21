@@ -86,7 +86,7 @@ public enum GameMode {
         new DisplayUITag("SCOREBOARD"), new DisplayUITag("HISCORE"), new DisplayUITag("ALLY_HEALTH"),
         new SpawnWeapons(), new SpawnEnemyWaves(), new ToggleWeaponDrops()),
 
-    CTF("ctf", "ctf", GameText.CTF, GameText.CTF_DESC,
+    CTF("team,ctf", "ctf", GameText.CTF, GameText.CTF_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingBots(),
         new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(5), new SettingLoadoutOutfit(),
@@ -95,6 +95,16 @@ public enum GameMode {
         new ModeCapturetheFlag(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
         new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
+
+    TRICK_OR_TREAT("team,tot", "koh", CTF, GameText.TRICK_OR_TREAT, GameText.TRICK_OR_TREAT_DESC,
+            new SetCameraOnSpawn(),
+            new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingBots(),
+            new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(5), new SettingLoadoutOutfit(),
+            new SettingLoadoutMode(),
+            new DisplayUITag("TEAMSCORE"), new SpawnWeapons(), new ToggleWeaponDrops(), new ToggleHealthDrops(),
+            new ModeTrickorTreat(),
+            new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
+                    new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
     EGGPLANTS("objective,dm", "eggplant_hunt", DEATHMATCH, GameText.MODE_EGGPLANT, GameText.MODE_EGGPLANT_DESC,
             new SetCameraOnSpawn(),
@@ -178,6 +188,9 @@ public enum GameMode {
 
     //number of teams playing on auto team assign mode
     private int teamNum = 2;
+
+    //starting score of each team (usually 0, but can be higher for certain modes)
+    private int teamStartScore = 0;
 
     //The string id of the mode's icon in the mode texture atlas
     private final String spriteId;
@@ -353,7 +366,7 @@ public enum GameMode {
                     setting.processPlayerScoreChange(state, user.getScores().getScore());
                 }
 
-                //tell score window and ui extrato update next interval
+                //tell score window and ui extra to update next interval
                 user.setScoreUpdated(true);
                 state.getUiExtra().syncUIText(UITag.uiType.SCORE);
             }
@@ -462,6 +475,10 @@ public enum GameMode {
     public int getTeamNum() { return teamNum; }
 
     public void setTeamNum(int teamNum) { this.teamNum = teamNum; }
+
+    public int getTeamStartScore() { return teamStartScore; }
+
+    public void setTeamStartScore(int teamStartScore) { this.teamStartScore = teamStartScore; }
 
     public LoadoutMode getLoadoutMode() { return loadoutMode; }
 

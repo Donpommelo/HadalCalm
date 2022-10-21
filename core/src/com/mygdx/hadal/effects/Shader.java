@@ -72,7 +72,7 @@ public enum Shader {
 		}
 		
 		//load the shader and create its strategies
-		if (shaderProgram == null) {
+		if (null == shaderProgram) {
 			shaderProgram = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
 		}
 		shaderProgram.bind();
@@ -88,7 +88,7 @@ public enum Shader {
 	 */
 	public static void clearShader() {
 		for (Shader shader : Shader.values()) {
-			if (shader.shaderProgram != null) {
+			if (null != shader.shaderProgram) {
 				shader.shaderProgram.dispose();
 				shader.shaderProgram = null;
 			}
