@@ -2,18 +2,17 @@ package com.mygdx.hadal.event.modes;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.battle.PickupUtils;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.map.GameMode;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -47,8 +46,7 @@ public class SpawnerObjective extends Event {
 
 		//in eggplant mode, this event should be visible in the objective ui
 		if (GameMode.EGGPLANTS.equals(state.getMode())) {
-			EventUtils.setObjectiveMarker(state, this, Sprite.CLEAR_CIRCLE_EGGPLANT, HadalColor.NOTHING,
-					true, true);
+			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_EGGPLANT, true, true);
 		}
 	}
 
@@ -63,7 +61,9 @@ public class SpawnerObjective extends Event {
 			timeCount += delta;
 			if (timeCount >= INTERVAL) {
 				timeCount = 0;
-				WeaponUtils.spawnScrap(state, 1, getPixelPosition(), false, true);
+
+				PickupUtils.spawnScrap(state, state.getWorldDummy(), getPixelPosition(), new Vector2(0, 1),
+						1, false, true);
 			}
 		}
 

@@ -448,6 +448,7 @@ public enum UnlockArtifact {
 	PLAYER_MINI(new PlayerMini(), true),
 	PLAYER_SLIDE(new PlayerSlide(), true),
 	VISIBLE_HP(new VisibleHp(), true),
+	TRICK_OR_TREAT(new TrickOrTreat(), true),
 
 	;
 	

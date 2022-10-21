@@ -334,9 +334,9 @@ public class PlayState extends GameState {
 
 		//if auto-assign team is on, we do the assignment here
 		if (TeamMode.TEAM_AUTO.equals(mode.getTeamMode()) && isServer()) {
-			AlignmentFilter.autoAssignTeams(mode.getTeamNum(), mode.getTeamMode());
+			AlignmentFilter.autoAssignTeams(mode.getTeamNum(), mode.getTeamMode(), mode.getTeamStartScore());
 		} else if (TeamMode.HUMANS_VS_BOTS.equals(mode.getTeamMode()) && isServer()) {
-			AlignmentFilter.autoAssignTeams(2, mode.getTeamMode());
+			AlignmentFilter.autoAssignTeams(2, mode.getTeamMode(), mode.getTeamStartScore());
 		} else {
 			AlignmentFilter.resetTeams();
 		}
@@ -395,7 +395,7 @@ public class PlayState extends GameState {
 			killFeed = new KillFeed(this);
 			scoreWindow = new ScoreWindow(this);
 		}
-		
+
 		//Add and sync ui elements in case of unpause or new playState
 		stage.addActor(uiPlay);
 		stage.addActor(uiObjective);

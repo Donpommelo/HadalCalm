@@ -18,15 +18,15 @@ import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
  */
 public class ModeMatryoshka extends ModeSetting {
 
-    private static final int livesNum = 8;
-    private static final float[] SizeScaleList = {0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f};
+    private static final int LIVES_NUM = 8;
+    private static final float[] SIZE_SCALE_LIST = {0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f};
 
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {
 
         //all players start with 8 lives
         for (User user : HadalGame.server.getUsers().values()) {
-            user.getScores().setLives(livesNum);
+            user.getScores().setLives(LIVES_NUM);
             user.setScoreUpdated(true);
         }
         return "";
@@ -36,9 +36,9 @@ public class ModeMatryoshka extends ModeSetting {
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
         if (!state.isServer()) { return; }
         //when a new player is spawned, their size is set according to the number of lives they have left
-        if (p.getUser() != null) {
-            int livesLeft = Math.min(p.getUser().getScores().getLives(), SizeScaleList.length) - 1;
-            p.setScaleModifier(SizeScaleList[livesLeft]);
+        if (null != p.getUser()) {
+            int livesLeft = Math.min(p.getUser().getScores().getLives(), SIZE_SCALE_LIST.length) - 1;
+            p.setScaleModifier(SIZE_SCALE_LIST[livesLeft]);
             p.setDontMoveCamera(true);
         }
     }
@@ -47,16 +47,16 @@ public class ModeMatryoshka extends ModeSetting {
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageSource source, DamageTag... tags) {
 
         //null check in case this is an "extra kill" to give summoner kill credit for a summon
-        if (vic != null) {
+        if (null != vic) {
             //When a player dies, they lose 1 life and respawn instantly
             User user = vic.getUser();
-            if (user != null) {
+            if (null != user) {
                 user.getScores().setLives(user.getScores().getLives() - 1);
                 if (user.getScores().getLives() <= 0) {
                     mode.processPlayerLivesOut(state, vic);
                 } else {
                     //this ensures that players will respawn in the same location that they died
-                    if (source != DamageSource.MAP_FALL) {
+                    if (DamageSource.MAP_FALL != source) {
                         user.setOverrideSpawn(vic.getPixelPosition());
                         user.respawn(state);
                     } else {

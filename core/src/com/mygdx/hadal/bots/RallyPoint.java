@@ -53,8 +53,8 @@ public class RallyPoint implements Comparable<RallyPoint> {
         }
         float distance = connectionTemp.dst(position) * multiplier;
 
-        //only in ctf mode do we set the team index so players do not attempt to enter enemy team spawn points
-        if (GameMode.CTF.equals(state.getMode())) {
+        //only in ctf mode (or ctf-adjacent) do we set the team index so players do not attempt to enter enemy team spawn points
+        if (GameMode.CTF.equals(state.getMode().getCheckCompliance())) {
             connections.put(point, new connectionValue(distance, teamIndex));
         } else {
             connections.put(point, new connectionValue(distance, -1));

@@ -30,7 +30,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URL;
+import java.util.Arrays;
 
 import static com.mygdx.hadal.constants.Constants.*;
 
@@ -353,7 +355,9 @@ public class LobbyState extends GameState {
 
     public void connectSocket() {
         try {
-            HadalGame.socket = IO.socket(SERVER_IP);
+
+            URI uri = URI.create(SERVER_IP);
+            HadalGame.socket = IO.socket(uri);
             HadalGame.socket.connect();
 
             connectionAttempted = true;
@@ -369,9 +373,10 @@ public class LobbyState extends GameState {
         if (HadalGame.socket == null) { return; }
 
         HadalGame.socket.on(Socket.EVENT_CONNECT, args -> {
-            Gdx.app.log("LOBBY", "CONNECTED");
+            Gdx.app.log("LOBBY", "CONNECTED ");
             connectionAttempted = false;
         })
+            .on(Socket.EVENT_CONNECT_ERROR, args -> Gdx.app.log("LOBBY", "CONNECTION ERROR " + Arrays.toString(args)))
             .on(Socket.EVENT_DISCONNECT, args -> Gdx.app.log("LOBBY", "DISCONNECTED"))
             .on("handshake", args -> Gdx.app.log("LOBBY", "HANDSHAKE RECEIVED"))
             .on("receiveLobbies", args -> { Gdx.app.log("LOBBY", "LOBBIES RECEIVED " + args[0]);

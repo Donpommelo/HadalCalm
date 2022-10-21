@@ -48,26 +48,26 @@ public class BotControllerPlayer extends BotController {
     public void processBotAI(float delta) {
         super.processBotAI(delta);
 
-        if (shootTarget != null) {
+        if (null != shootTarget) {
             player.decrementWeaponWobble(delta);
         } else {
             player.incrementWeaponWobble(delta);
         }
 
-        if (jumpDesireCount > 0.0f) {
+        if (0.0f < jumpDesireCount) {
             jumpDesireCount -= delta;
-            if (jumpDesireCount <= 0.0f) {
+            if (0.0f >= jumpDesireCount) {
                 player.getController().keyUp(PlayerAction.JUMP);
             }
         }
 
-        if (noFuelWaitCount > 0.0f) {
+        if (0.0f < noFuelWaitCount) {
             noFuelWaitCount -= delta;
         }
 
-        if (shootReleaseCount > 0.0f) {
+        if (0.0f < shootReleaseCount) {
             shootReleaseCount -= delta;
-            if (shootReleaseCount <= 0.0f) {
+            if (0.0f >= shootReleaseCount) {
                 player.getController().keyUp(PlayerAction.FIRE);
             }
         }
@@ -97,8 +97,8 @@ public class BotControllerPlayer extends BotController {
      * This is run continuously to make the bot interact with weapon pickup events, if they are touching one
      */
     private void processBotPickup() {
-        if (player.getCurrentEvent() != null) {
-            if (player.getCurrentEvent() instanceof final PickupEquip pickup) {
+        if (null != player.getCurrentEvent()) {
+            if (player.getCurrentEvent() instanceof PickupEquip pickup) {
                 BotLoadoutProcessor.processWeaponPickup(player, pickup);
             }
         }
@@ -113,7 +113,7 @@ public class BotControllerPlayer extends BotController {
      */
     @Override
     public void processBotAttacking(Vector2 playerLocation, Vector2 playerVelocity) {
-        if (shootTarget != null) {
+        if (null != shootTarget) {
             shootTargetPosition.set(shootTarget.getPosition());
             BotLoadoutProcessor.processWeaponSwitching(player, playerLocation, shootTargetPosition, shootTarget.isAlive());
             BotLoadoutProcessor.processWeaponAim(player, shootTargetPosition, shootTarget.getLinearVelocity(),
@@ -158,7 +158,7 @@ public class BotControllerPlayer extends BotController {
     @Override
     public void performMovement() {
         //if distance to target is above threshold, use boost
-        if (distSquared * collision > player.getBoostDesireMultiplier() && boostDesireCount <= 0.0f && thisLocation.y > 0 &&
+        if (distSquared * collision > player.getBoostDesireMultiplier() && 0.0f >= boostDesireCount && 0 < thisLocation.y &&
                 player.getPlayerData().getCurrentFuel() >= player.getPlayerData().getAirblastCost()) {
             player.getMouse().setDesiredLocation((
                     predictedSelfLocation.x - thisLocation.x) * PPM,(predictedSelfLocation.y - thisLocation.y) * PPM);
@@ -166,25 +166,25 @@ public class BotControllerPlayer extends BotController {
         }
 
         //x-direction movement simply decided by direction
-        if (thisLocation.x > 0) {
+        if (0 < thisLocation.x) {
             player.getController().keyDown(PlayerAction.WALK_RIGHT);
             player.getController().keyUp(PlayerAction.WALK_LEFT);
         }
-        if (thisLocation.x < 0) {
+        if (0 > thisLocation.x) {
             player.getController().keyDown(PlayerAction.WALK_LEFT);
             player.getController().keyUp(PlayerAction.WALK_RIGHT);
         }
 
         //if moving upwards, bot will use jumps if available and hover otherwise
-        if (thisLocation.y > 0) {
-            if (jumpDesireCount <= 0) {
+        if (0 < thisLocation.y) {
+            if (0 >= jumpDesireCount) {
                 if (player.getPlayerData().getExtraJumpsUsed() < player.getPlayerData().getExtraJumps()) {
                     player.getController().keyDown(PlayerAction.JUMP);
                     player.getController().keyUp(PlayerAction.JUMP);
                     jumpDesireCount = JUMP_DESIRE_COOLDOWN;
                 } else {
                     if (player.getPlayerData().getCurrentFuel() >= player.getPlayerData().getHoverCost()) {
-                        if (noFuelWaitCount <= 0) {
+                        if (0 >= noFuelWaitCount) {
                             player.getController().keyDown(PlayerAction.JUMP);
                             jumpDesireCount = JUMP_DESIRE_COOLDOWN;
                         }
@@ -198,9 +198,9 @@ public class BotControllerPlayer extends BotController {
         }
 
         //in appropriate situations, bots will use fastfall
-        if (((thisLocation.y < -FASTFALL_DIST_THRESHOLD && !player.isGrounded()) ||
-                (thisLocation.y < 0 && !player.getFeetData().getTerrain().isEmpty()))
-                && player.getLinearVelocity().y > FASTFALL_VELO_THRESHOLD) {
+        if (((-FASTFALL_DIST_THRESHOLD > thisLocation.y && !player.isGrounded()) ||
+                (0 > thisLocation.y && !player.getFeetData().getTerrain().isEmpty()))
+                && FASTFALL_VELO_THRESHOLD < player.getLinearVelocity().y) {
             player.getController().keyDown(PlayerAction.CROUCH);
         } else {
             player.getController().keyUp(PlayerAction.CROUCH);
@@ -212,7 +212,7 @@ public class BotControllerPlayer extends BotController {
     public Array<RallyPoint.RallyPointMultiplier> getTargetPoints(Vector2 playerLocation, float multiplier) {
         Array<RallyPoint.RallyPointMultiplier> targetPoints = super.getTargetPoints(playerLocation,
                 1.0f + player.getViolenceDesireMultiplier());
-        if (shootTarget != null) {
+        if (null != shootTarget) {
             if (!shootTarget.equals(lastShootTarget)) {
                 player.resetWeaponWobble();
             }
@@ -241,15 +241,15 @@ public class BotControllerPlayer extends BotController {
         }
         RallyPoint weaponPoint = null;
         float weaponDesireMultiplier = 1.0f;
-        if (totalAffinity < WEAPON_THRESHOLD_3) {
+        if (WEAPON_THRESHOLD_3 > totalAffinity) {
             weaponPoint = BotLoadoutProcessor.getPointNearWeapon(player, playerLocation, SEARCH_RADIUS, minAffinity);
 
             //bots desire weapons more if they are not content with their current loadout and less if they are
-            if (weaponPoint != null) {
-                if (totalAffinity < WEAPON_THRESHOLD_1) {
+            if (null != weaponPoint) {
+                if (WEAPON_THRESHOLD_1 > totalAffinity) {
                     weaponDesireMultiplier = WEAPON_MULTIPLIER_1;
                 }
-                if (totalAffinity > WEAPON_THRESHOLD_2) {
+                if (WEAPON_THRESHOLD_2 < totalAffinity) {
                     weaponDesireMultiplier = WEAPON_MULTIPLIER_2;
                 }
             }
@@ -268,7 +268,7 @@ public class BotControllerPlayer extends BotController {
 
         //bot's health desire scales to how hurt the bot is
         float healthPercent = player.getPlayerData().getCurrentHp() / player.getPlayerData().getStat(Stats.MAX_HP);
-        if (healthPercent < HEALTH_THRESHOLD_1) {
+        if (HEALTH_THRESHOLD_1 > healthPercent) {
             healthPoint = BotLoadoutProcessor.getPointNearHealth(player, playerLocation, SEARCH_RADIUS);
 
             healthDesireMultiplier *= (HEALTH_MULTIPLIER_2 * healthPercent + HEALTH_MULTIPLIER_1 * (1.0f - healthPercent));

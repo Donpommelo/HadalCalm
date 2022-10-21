@@ -231,7 +231,7 @@ public class BotManager {
                     tempPoints.add(pointInPath);
 
                     //keep track of the path's team index for caching purposes
-                    if (pointInPath.getTeamIndex() != -1) {
+                    if (-1 != pointInPath.getTeamIndex()) {
                         teamIndex = pointInPath.getTeamIndex();
                     }
                     if (!start.getShortestPaths().containsKey(teamIndex)) {

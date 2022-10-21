@@ -65,6 +65,7 @@ public class ObjectiveMarker {
     private final Vector3 centerPosition = new Vector3();
     public void draw(Batch batch) {
         if (null != objectiveTarget) {
+
             objectiveLocation.set(objectiveTarget.getPixelPosition());
 
             if (colored) {

@@ -389,9 +389,11 @@ public class TiledObjectUtil {
 			case "FootballGoal" -> e = new FootballGoal(state, position, size,
 				object.getProperties().get("teamIndex", 0, Integer.class));
 			case "FootballSpawn" -> e = new FootballSpawner(state, position, size);
-			case "FlagSpawn" -> e = new SpawnerFlag(state, position, size,
+			case "FlagSpawn" -> e = new FlagSpawner(state, position, size,
 				object.getProperties().get("teamIndex", 0, Integer.class));
 			case "FlagBlock" -> e = new FlagBlocker(state, position, size,
+					object.getProperties().get("teamIndex", 0, Integer.class));
+			case "CandySpawn" -> e = new TrickorTreatBucket(state, position, size,
 					object.getProperties().get("teamIndex", 0, Integer.class));
 			case "ObjectiveSpawn" -> e = new SpawnerObjective(state, position, size);
 			case "PickupDelete" -> e = new PickupDestoyer(state, position, size);

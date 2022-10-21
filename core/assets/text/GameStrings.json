@@ -22,6 +22,7 @@
   "TEAM_LEMON_LIME": "LEMON LIME",
   "TEAM_MAGMA": "MAGMA",
   "TEAM_BLACK_AND_YELLOW": "BLACK AND YELLOW",
+  "TEAM_HALLOWEEN": "HALLOWEEN",
   "TEAM_BLACK_AND_WHITE" : "BLACK AND WHITE",
   "TEAM_CENSURED" : "CENSURED",
   "TEAM_INVERT" : "INVERT",
@@ -754,6 +755,8 @@
   "MODE_MATRYOSHKA_DESC" : "Players are large and get smaller each time they die, respawning instantly in the same location.\n\nPlayers who get too small are eliminated.",
   "MODE_RESURRECTION" : "Resurrection",
   "MODE_RESURRECTION_DESC" : "Players drop gravestones on death and respawn when revived by allies.\n\nTeam wins when all opponents are eliminated.",
+  "MODE_TRICK_OR_TREAT" : "Trick-Or-Treat",
+  "MODE_TRICK_OR_TREAT_DESC" : "Steal candy from enemy team's bucket and return it to your own.\n\nPlayers are split into 2 teams.",
   "MODE_SANDBOX" : "Sandbox",
   "MODE_SANDBOX_DESC" : "Used for testing.",
 

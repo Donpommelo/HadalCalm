@@ -8,13 +8,14 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.mygdx.hadal.actors.ChatWheel;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.event.Scrap;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -23,14 +24,11 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.WorldUtil;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
@@ -749,115 +747,5 @@ public class WeaponUtils {
 	public static String getColorName(HadalColor color, String name) {
 		String hex = "#" + Integer.toHexString(Color.rgb888(color.getColor()));
 		return "[" + hex + "]" + name + "[]";
-	}
-
-	public static final Vector2 PICKUP_SIZE = new Vector2(40, 40);
-	public static final float PICKUP_DURATION = 10.0f;
-	private static final float FLASH_LIFESPAN = 1.0f;
-	public static Hitbox createPickup(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
-
-		final int type = extraFields.length >= 1 ? (int) extraFields[0] : 0;
-		final float power = extraFields.length >= 2 ? extraFields[1] : 0;
-		Sprite sprite = Sprite.NOTHING;
-		if (Constants.PICKUP_HEALTH == type) {
-			sprite = Sprite.MEDPAK;
-		}
-		if (Constants.PICKUP_FUEL == type) {
-			sprite = Sprite.FUEL;
-		}
-		if (Constants.PICKUP_AMMO == type) {
-			sprite = Sprite.AMMO;
-		}
-
-		Hitbox hbox = new RangedHitbox(state, startPosition, PICKUP_SIZE, PICKUP_DURATION, startVelocity,
-				(short) 0, false, false, user, sprite);
-		hbox.setGravity(1.0f);
-		hbox.setFriction(1.0f);
-
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f)
-				.setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-
-			//delay prevents spawned medpaks from being instantly consumed by the (dead) player that dropped them
-			private float delay = 0.1f;
-			@Override
-			public void controller(float delta) {
-				if (delay >= 0) {
-					delay -= delta;
-				}
-			}
-
-			@Override
-			public void onHit(HadalData fixB) {
-				if (fixB instanceof PlayerBodyData bodyData && 0 >= delay) {
-					if (Constants.PICKUP_HEALTH == type) {
-						if (bodyData.getCurrentHp() < bodyData.getStat(Stats.MAX_HP)) {
-
-							SoundEffect.MAGIC21_HEAL.playUniversal(state, bodyData.getPlayer().getPixelPosition(),
-									0.3f, false);
-
-							bodyData.regainHp(power * bodyData.getStat(Stats.MAX_HP), bodyData, true, DamageTag.MEDPAK);
-							new ParticleEntity(state, bodyData.getSchmuck(), Particle.PICKUP_HEALTH, 3.0f,
-									5.0f, true, SyncType.CREATESYNC);
-							hbox.die();
-						}
-					}
-					if (Constants.PICKUP_FUEL == type) {
-						if (bodyData.getCurrentFuel() < bodyData.getStat(Stats.MAX_FUEL)) {
-
-							SoundEffect.MAGIC2_FUEL.playUniversal(state, bodyData.getPlayer().getPixelPosition(),
-									0.3f, false);
-
-							bodyData.fuelGain(power);
-							new ParticleEntity(state, bodyData.getSchmuck(), Particle.PICKUP_ENERGY, 3.0f,
-									5.0f, true, SyncType.CREATESYNC);
-							hbox.die();
-						}
-					}
-					if (Constants.PICKUP_AMMO == type) {
-						if (bodyData.getCurrentTool().getClipLeft() < bodyData.getCurrentTool().getClipSize()) {
-							SoundEffect.LOCKANDLOAD.playUniversal(state, bodyData.getPlayer().getPixelPosition(),
-									0.8f, false);
-
-							bodyData.getCurrentTool().gainAmmo(power);
-							new ParticleEntity(state, bodyData.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f,
-									5.0f, true, SyncType.CREATESYNC);
-							hbox.die();
-						}
-					}
-				}
-			}
-		});
-		if (Constants.PICKUP_HEALTH == type) {
-			hbox.setBotHealthPickup(true);
-		}
-		return hbox;
-	}
-	
-	/**
-	 * This spawns some amount of scrap events as currency for the player
-	 * @param statCheck: do we take into account the player's bonus scrap drop?
-	 * @param score: does picking up the screp increment the player's score?
-	 */
-	public static void spawnScrap(PlayState state, int amount, Vector2 startPos, boolean statCheck, boolean score) {
-		
-		int modifiedAmount;
-		if (statCheck && null != state.getPlayer().getPlayerData()) {
-			if (1.0f > state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount
-					&& 0 < state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP)) {
-				modifiedAmount = amount + 1;
-			} else {
-				modifiedAmount = (int) (amount * (1 + state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP)));
-			}
-		} else {
-			modifiedAmount = amount;
-		}
-		
-		for (int i = 0; i < modifiedAmount; i++) {
-			new Scrap(state, startPos, score);
-		}
 	}
 }

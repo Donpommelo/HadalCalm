@@ -2,11 +2,11 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.battle.PickupUtils;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -34,7 +34,8 @@ public class SpawnerScrap extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				WeaponUtils.spawnScrap(state, scrap, event.getPixelPosition(), false, true);
+				PickupUtils.spawnScrap(state, state.getWorldDummy(), event.getPixelPosition(), new Vector2(0, 1),
+						scrap, false, true);
 			}
 		};
 		

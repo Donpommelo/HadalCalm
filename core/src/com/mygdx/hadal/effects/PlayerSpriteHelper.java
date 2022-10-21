@@ -74,10 +74,10 @@ public class PlayerSpriteHelper {
      * @param team: the new team color to draw
      */
     public void setBodySprite(SpriteBatch batch, UnlockCharacter character, AlignmentFilter team) {
-        boolean replace = this.character != character && character != null;
+        boolean replace = this.character != character && null != character;
 
         //replace frame buffer if the input contains a new character or team
-        if (this.team != team && team != null) {
+        if (this.team != team && null != team) {
             replace = true;
         }
 
@@ -95,14 +95,14 @@ public class PlayerSpriteHelper {
     public void replaceBodySprite(SpriteBatch batch, UnlockCharacter newCharacter, AlignmentFilter newTeam) {
 
         //dispose of old frame buffer
-        if (fbo != null) {
+        if (null != fbo) {
             fbo.dispose();
         }
 
-        if (newCharacter != null) {
+        if (null != newCharacter) {
             this.character = newCharacter;
         }
-        if (newTeam != null) {
+        if (null != newTeam) {
             this.team = newTeam;
         }
 
@@ -121,7 +121,7 @@ public class PlayerSpriteHelper {
         //use shader to apply new team color
         batch.begin();
         ShaderProgram shader;
-        if (team.isTeam() && team != AlignmentFilter.NONE) {
+        if (team.isTeam() && AlignmentFilter.NONE != team) {
             shader = team.getShader(character);
         } else {
             shader = character.getPalette().getShader(character);
@@ -130,13 +130,13 @@ public class PlayerSpriteHelper {
 
         batch.draw(tex, 0, 0);
 
-        if (shader != null) {
+        if (null != shader) {
             batch.setShader(null);
         }
         batch.end();
         fbo.end();
 
-        if (shader != null) {
+        if (null != shader) {
             shader.dispose();
         }
 
@@ -264,9 +264,9 @@ public class PlayerSpriteHelper {
         //head type cosmetics replace the head, so we don't want to draw the base head unless not rendering cosmetics,
         // or only rendering 1 non-head cosmetic
         boolean head = player.getPlayerData().getLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank();
-        if (lockedCosmetic != null) {
+        if (null != lockedCosmetic) {
             head = true;
-            if (lockedCosmetic.getCosmeticSlot() == CosmeticSlot.HEAD) {
+            if (CosmeticSlot.HEAD == lockedCosmetic.getCosmeticSlot()) {
                 head = lockedCosmetic.isBlank();
             }
         }
@@ -286,7 +286,7 @@ public class PlayerSpriteHelper {
      * Helper method that renders the player's cosmetics
      */
     private void renderCosmetics(Batch batch, float animationTimeExtra, boolean flip, UnlockCosmetic lockedCosmetic) {
-        if (lockedCosmetic == null) {
+        if (null == lockedCosmetic) {
             //draw cosmetics. Use head coordinates. Update coordinates if any cosmetics replace the head
             for (UnlockCosmetic cosmetic : player.getPlayerData().getLoadout().cosmetics) {
                 headLocation.set(cosmetic.render(batch, player.getPlayerData().getLoadout().team,
@@ -305,7 +305,7 @@ public class PlayerSpriteHelper {
      */
     public void dispose(DespawnType despawn) {
         if (DespawnType.LEVEL_TRANSITION.equals(despawn)) {
-            if (fbo != null) {
+            if (null != fbo) {
                 fbo.dispose();
             }
         }
@@ -325,7 +325,7 @@ public class PlayerSpriteHelper {
             case TELEPORT:
 
                 //if the player disconnects/becomes a spectator, we dispose of the fbo right away.
-                if (fbo != null) {
+                if (null != fbo) {
                     fbo.dispose();
                 }
                 break;
@@ -353,7 +353,7 @@ public class PlayerSpriteHelper {
             @Override
             public void dispose() {
                 super.dispose();
-                if (fbo != null) {
+                if (null != fbo) {
                     fbo.dispose();
                 }
             }
@@ -369,7 +369,7 @@ public class PlayerSpriteHelper {
         for (UnlockCosmetic cosmetic : player.getPlayerData().getLoadout().cosmetics) {
             Ragdoll cosmeticRagdoll = cosmetic.createRagdoll(player.getState(), player.getPlayerData().getLoadout().team,
                     player.getPlayerData().getLoadout().character, playerLocation, scale, playerVelocity);
-            if (cosmeticRagdoll != null && !player.getState().isServer()) {
+            if (null != cosmeticRagdoll && !player.getState().isServer()) {
                 ((ClientState) player.getState()).addEntity(cosmeticRagdoll.getEntityID(), cosmeticRagdoll, false, ClientState.ObjectLayer.STANDARD);
             }
         }
@@ -446,7 +446,7 @@ public class PlayerSpriteHelper {
             @Override
             public void dispose() {
                 super.dispose();
-                if (fbo != null) {
+                if (null != fbo) {
                     fbo.dispose();
                 }
                 ragdollBuffer.dispose();
