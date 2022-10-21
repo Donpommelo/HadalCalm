@@ -395,7 +395,7 @@ public class PlayState extends GameState {
 			killFeed = new KillFeed(this);
 			scoreWindow = new ScoreWindow(this);
 		}
-		
+
 		//Add and sync ui elements in case of unpause or new playState
 		stage.addActor(uiPlay);
 		stage.addActor(uiObjective);

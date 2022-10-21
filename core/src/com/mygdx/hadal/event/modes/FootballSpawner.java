@@ -83,8 +83,7 @@ public class FootballSpawner extends Event {
         ball = SyncedAttack.NAUTICAL_MINE.initiateSyncedAttackSingle(state, state.getWorldDummy(), getPixelPosition(), new Vector2(),
                 0.0f, PUSH_MULTIPLIER, LIFESPAN);
 
-        EventUtils.setObjectiveMarker(state, ball, Sprite.CLEAR_CIRCLE_ALERT, HadalColor.NOTHING,
-                true, false);
+        EventUtils.setObjectiveMarker(state, ball, Sprite.CLEAR_CIRCLE_ALERT, HadalColor.NOTHING,true, false);
     }
 
     @Override

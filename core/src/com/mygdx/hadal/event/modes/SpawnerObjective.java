@@ -9,7 +9,6 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -47,8 +46,7 @@ public class SpawnerObjective extends Event {
 
 		//in eggplant mode, this event should be visible in the objective ui
 		if (GameMode.EGGPLANTS.equals(state.getMode())) {
-			EventUtils.setObjectiveMarker(state, this, Sprite.CLEAR_CIRCLE_EGGPLANT, HadalColor.NOTHING,
-					true, true);
+			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_EGGPLANT, true, true);
 		}
 	}
 

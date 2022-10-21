@@ -35,10 +35,7 @@ public class PickupDestoyer extends Event {
 	@Override
 	public void controller(float delta) {
 		for (HadalEntity entity : eventData.getSchmucks()) {
-			if (entity instanceof Scrap scrap) {
-				scrap.queueDeletion();
-			}
-			else if (entity instanceof PickupEquip pickup) {
+			if (entity instanceof PickupEquip pickup) {
 				pickup.queueDeletion();
 			}
 			else if (entity instanceof Hitbox hbox) {

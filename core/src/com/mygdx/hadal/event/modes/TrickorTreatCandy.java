@@ -18,6 +18,10 @@ import com.mygdx.hadal.statuses.TrickOrTreating;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
+/**
+ *
+ * @author Matannia Muchnold
+ */
 public class TrickorTreatCandy extends Event {
 
     private static final Vector2 CANDY_SIZE = new Vector2(80, 80);

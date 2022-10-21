@@ -7,7 +7,6 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.PickupUtils;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.bots.RallyPoint;
-import com.mygdx.hadal.event.Scrap;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
@@ -52,10 +51,10 @@ public class ModeEggplantHunt extends ModeSetting {
         state.getWorld().QueryAABB((fixture -> {
             //check for eggplants in the bot's vicinity and find a path towards a random one
             if (fixture.getUserData() instanceof EventData eventData) {
-                if (eventData.getEvent() instanceof Scrap scrap) {
+                if (eventData.getEvent().isBotModePickup()) {
 
-                    bot.getBotController().setEventTarget(scrap);
-                    path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, scrap.getPosition()),
+                    bot.getBotController().setEventTarget(eventData.getEvent());
+                    path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, eventData.getEvent().getPosition()),
                             EGGPLANT_DESIRE_MULTIPLIER));
                     return false;
                 }

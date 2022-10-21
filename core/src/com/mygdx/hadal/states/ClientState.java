@@ -125,7 +125,6 @@ public class ClientState extends PlayState {
 	private float clientPingTimer;
 	@Override
 	public void update(float delta) {
-		
 		//this makes the physics separate from the game framerate
 		physicsAccumulator += delta;
 		while (physicsAccumulator >= PHYSICS_TIME) {
@@ -154,7 +153,7 @@ public class ClientState extends PlayState {
 			}
 		}
 		lastMouseLocation.set(mousePosition);
-		
+
 		//All entities that are set to be created are created and assigned their entityID
 		for (CreatePacket packet : createListClient) {
 			HadalEntity oldEntity;
@@ -194,7 +193,7 @@ public class ClientState extends PlayState {
 			}
 		}
 		removeListClient.clear();
-		
+
 		//process camera, ui, any received packets
 		processCommonStateProperties(delta, false);
 		clientPingTimer += delta;
@@ -251,7 +250,7 @@ public class ClientState extends PlayState {
 				}
 		 	}
 		}
-		
+
 		//clientController is run for the objects that process on client side.
 		for (ObjectMap<UUID, HadalEntity> m : entityLists) {
 			for (HadalEntity entity : m.values()) {

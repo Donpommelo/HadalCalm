@@ -155,6 +155,7 @@ public class PickupUtils {
             for (int i = 0; i < startPosition.length; i++) {
                 Hitbox hbox = new RangedHitbox(state, startPosition[i], EGGPLANT_SIZE, EGGPLANT_LIFESPAN, startVelocity[i],
                         (short) 0, false, false, user, Sprite.NASU);
+                hbox.setBotModePickup(true);
                 hbox.setGravity(1.0f);
                 hbox.setFriction(1.0f);
 
