@@ -97,7 +97,7 @@ runtime {
 
         if (os.contains('win')) {
             imageOptions = ["--icon", file("../icons/icon.ico")]
-        } else if (os.contains('nix' || os.contains('nux') || os.contains('bsd'))) {
+        } else if (os.contains('nix') || os.contains('nux') || os.contains('bsd')) {
             imageOptions = ["--icon", file("../icons/icon.png")]
         } else if (os.contains('mac')) {
             imageOptions = ["--icon", file("../icons/icon.icns"), "--java-options", "\"-XstartOnFirstThread\""]
