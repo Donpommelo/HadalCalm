@@ -1613,8 +1613,8 @@
   </object>
  </objectgroup>
  <objectgroup id="10" name="tot">
-  <object id="600" name="CandySpawn" type="CandySpawn" x="1824" y="2528" width="224" height="64"/>
-  <object id="602" name="CandySpawn" type="CandySpawn" x="9120" y="2528" width="224" height="64">
+  <object id="600" name="CandySpawn" type="CandySpawn" x="1760" y="2496" width="352" height="96"/>
+  <object id="602" name="CandySpawn" type="CandySpawn" x="9056" y="2496" width="352" height="96">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
    </properties>

@@ -127,7 +127,8 @@ public class AllyRevive extends ModeSetting {
                         if (eventData.getEvent() instanceof final ReviveGravestone grave) {
                             if (grave.getGraveTeam() == bot.getPlayerData().getLoadout().team) {
                                 bot.getBotController().setEventTarget(grave);
-                                path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, grave.getPosition()), reviveDesireMultiplier));
+                                path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, grave.getPosition()),
+                                        grave, reviveDesireMultiplier));
                                 return false;
                             }
                         }

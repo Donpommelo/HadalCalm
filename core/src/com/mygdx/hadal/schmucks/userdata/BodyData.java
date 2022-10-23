@@ -121,7 +121,7 @@ public class BodyData extends HadalData {
 			Status tempStatus = this.statuses.get(0);
 
 			//atm, clients only process stat-changing statuses or specifically designated statuses
-			if (schmuck.getState().isServer() || o instanceof ProcTime.StatCalc || tempStatus.isClientIndependent()) {
+			if (schmuck.getState().isServer() || o instanceof ProcTime.StatCalc || o instanceof ProcTime.Render || tempStatus.isClientIndependent()) {
 				finalProcTime = tempStatus.statusProcTime(o);
 			}
 

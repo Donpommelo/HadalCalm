@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
 
 /**
  * A BotPathfindingTask is a runnable ran on a separate thread to calculate bot pathfinding behavior
@@ -11,7 +12,6 @@ import com.badlogic.gdx.utils.Array;
  * @author Folican Fistard
  */
 public record BotPathfindingTask(BotController controller, Vector2 playerLocation, Vector2 playerVelocity, Array<RallyPoint> pathStarters,
-                 RallyPoint.RallyPointMultiplier weaponPoint, RallyPoint.RallyPointMultiplier healthPoint,
                  Array<RallyPoint.RallyPointMultiplier> targetPoints, Array<RallyPoint.RallyPointMultiplier> eventPoints) implements Runnable {
 
     private static final float ENEMY_TARGET_THRESHOLD = 15.0f;
@@ -23,6 +23,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
 
         RallyPath[] bestPath = new RallyPath[1];
         BotController.BotMood[] nextMood = new BotController.BotMood[1];
+        HadalEntity[] nextTarget = new HadalEntity[1];
 
         //Wandering bots will, by default, continue wandering along the same path if no better option is found.
         //Bots with "dilly dally" will begin wandering a new path if no better option is found
@@ -30,28 +31,6 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
             nextMood[0] = BotController.BotMood.WANDER;
         } else {
             nextMood[0] = BotController.BotMood.DILLY_DALLY;
-        }
-
-        //find shortest path to weapon pickup
-        if (null != weaponPoint) {
-            prospectivePath = getShortestPathBetweenLocations(weaponPoint.point());
-            pathDistance = null != prospectivePath ? prospectivePath.getDistance() * weaponPoint.multiplier() : -1.0f;
-            if (-1.0f != pathDistance) {
-                bestPath[0] = prospectivePath;
-                nextMood[0] = BotController.BotMood.SEEK_WEAPON;
-                bestDistanceSoFar = pathDistance;
-            }
-        }
-
-        //find shortest path to health pickup
-        if (null != healthPoint) {
-            prospectivePath = getShortestPathBetweenLocations(healthPoint.point());
-            pathDistance = null != prospectivePath ? prospectivePath.getDistance() * healthPoint.multiplier() : -1.0f;
-            if (-1.0f != pathDistance && (pathDistance < bestDistanceSoFar || -1.0f == bestDistanceSoFar)) {
-                bestPath[0] = prospectivePath;
-                nextMood[0] = BotController.BotMood.SEEK_HEALTH;
-                bestDistanceSoFar = pathDistance;
-            }
         }
 
         //find path to each player target and find shortest distance to an enemy
@@ -78,7 +57,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
         }
 
         pathDistance = null != prospectivePath ? bestTargetDistance : -1.0f;
-        if (-1.0f != pathDistance && (pathDistance < bestDistanceSoFar || -1.0f == bestDistanceSoFar)) {
+        if (-1.0f != pathDistance) {
             bestPath[0] = prospectivePath;
             nextMood[0] = BotController.BotMood.SEEK_ENEMY;
             bestDistanceSoFar = pathDistance;
@@ -94,10 +73,12 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
                     if (eventDistance < bestEventDistance || -1.0f == bestEventDistance) {
                         prospectivePath = tempPath;
                         bestEventDistance = eventDistance;
+                        nextTarget[0] = eventPoint.target();
                     }
                 } else {
                     prospectivePath = tempPath;
                     bestEventDistance = eventDistance;
+                    nextTarget[0] = eventPoint.target();
                 }
             }
         }
@@ -126,6 +107,9 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
             if (BotController.BotMood.DILLY_DALLY.equals(nextMood[0])) {
                 nextMood[0] = BotController.BotMood.WANDER;
                 controller.getPointPath().clear();
+            }
+            if (BotController.BotMood.SEEK_EVENT.equals(nextMood[0])) {
+                controller.setEventTarget(nextTarget[0]);
             }
             if (null != bestPath[0]) {
                 controller.getPointPath().clear();

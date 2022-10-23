@@ -1906,12 +1906,12 @@
     <property name="teamIndex" type="int" value="1"/>
    </properties>
   </object>
-  <object id="93" name="FlagSpawn" type="FlagSpawn" x="8064" y="2240" width="224" height="64">
+  <object id="93" name="FlagSpawn" type="FlagSpawn" x="8000" y="2208" width="352" height="96">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
    </properties>
   </object>
-  <object id="94" name="FlagSpawn" type="FlagSpawn" x="1792" y="2240" width="224" height="64"/>
+  <object id="94" name="FlagSpawn" type="FlagSpawn" x="1728" y="2208" width="352" height="96"/>
  </objectgroup>
  <objectgroup id="5" name="team">
   <object id="95" name="Start" type="Start" x="1184" y="1024" width="32" height="32">

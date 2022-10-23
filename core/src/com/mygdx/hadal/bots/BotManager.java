@@ -107,12 +107,10 @@ public class BotManager {
      * Inputs info needed to navigate the bot rally point graph so the new thread doesn't need to query the world
      */
     public static void requestPathfindingThread(BotController controller, Vector2 playerLocation, Vector2 playerVelocity, Array<RallyPoint> pathStarters,
-                                RallyPoint.RallyPointMultiplier weaponPoint,  RallyPoint.RallyPointMultiplier healthPoint,
                                 Array< RallyPoint.RallyPointMultiplier> targetPoints, Array< RallyPoint.RallyPointMultiplier> eventPoints) {
 
         if (!executor.isShutdown()) {
-            executor.submit(new BotPathfindingTask(controller, playerLocation, playerVelocity, pathStarters, weaponPoint,
-                    healthPoint, targetPoints, eventPoints));
+            executor.submit(new BotPathfindingTask(controller, playerLocation, playerVelocity, pathStarters, targetPoints, eventPoints));
         }
     }
 

@@ -66,6 +66,7 @@ public class Player extends PhysicsSchmuck {
 	public static final float SCALE = 0.15f;
 	public static final float UI_SCALE = 0.4f;
 	public static final float PLAYER_MASS = 2.4489846f;
+	public static final float PICKUP_RADIUS = 250.0f;
 
 	//counters for various cooldowns.
 	protected static final float HOVER_CD = 0.08f;
@@ -94,14 +95,13 @@ public class Player extends PhysicsSchmuck {
 	private final Animation<TextureRegion> typingBubble;
 	private final TextureRegion reloadMeter, reloadBar, hpBar, hpBarFade, fuelBar, fuelCutoff;
 
-	//Fixtures and user data
-	protected FeetData feetData;
-	private FeetData rightData;
-	private FeetData leftData;
-	
+	//Foot data for checking groundedness
+	protected FeetData feetData, pickupRadiusData;
+
 	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.)
-	//invisibility and blinded are kept track of this way too b/c they effect visuals
-	private boolean scaling;
+	private boolean groundedOverride;
+
+	//blinded is kept track of this way too b/c it affects visuals
 	private float blinded;
 
 	//
@@ -304,7 +304,7 @@ public class Player extends PhysicsSchmuck {
 				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				hitboxfilter, false, playerData);
 
-		//create several extra fixtures to keep track of feet/sides to determine when the player gets their jump back and what terrain event they are standing on.
+		//create several extra fixtures to keep track of feet to determine when the player gets their jump back and what terrain event they are standing on.
 		this.feetData = new FeetData(UserDataType.FEET, this);
 
 		Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
@@ -312,19 +312,12 @@ public class Player extends PhysicsSchmuck {
 
 		feet.setUserData(feetData);
 
-		this.leftData = new FeetData(UserDataType.FEET, this);
+		this.pickupRadiusData = new FeetData(UserDataType.PICKUP_RADIUS, this);
 
-		Fixture leftSensor = FixtureBuilder.createFixtureDef(body, new Vector2(-size.x / 2, 0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter);
+		Fixture pickupRadius = FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(PICKUP_RADIUS, PICKUP_RADIUS), true, 0, 0, 0, 0,
+				Constants.BIT_PICKUP_RADIUS, Constants.BIT_PROJECTILE, hitboxfilter);
 
-		leftSensor.setUserData(leftData);
-
-		this.rightData = new FeetData(UserDataType.FEET, this);
-
-		Fixture rightSensor = FixtureBuilder.createFixtureDef(body, new Vector2(size.x / 2,  0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter);
-
-		rightSensor.setUserData(rightData);
+		pickupRadius.setUserData(pickupRadiusData);
 
 		//make the player's mass constant to avoid mass changing when player is a different size
 		MassData newMass = body.getMassData();
@@ -387,12 +380,8 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//Determine if the player is in the air or on ground.
-		if (scaling) {
-			grounded = feetData.getNumContacts() > 0 || leftData.getNumContacts() > 0 || rightData.getNumContacts() > 0;
-		} else {
-			grounded = feetData.getNumContacts() > 0;
-		}
-		
+		grounded = feetData.getNumContacts() > 0 || groundedOverride;
+
 		//player's jumps are refreshed on the ground
 		if (grounded) {
 			playerData.setExtraJumpsUsed(0);
@@ -800,6 +789,8 @@ public class Player extends PhysicsSchmuck {
 				playerLocation.y + size.y / 2 + 25);
 		}
 
+		playerData.statusProcTime(new ProcTime.Render(batch, playerLocation, size));
+
 		//display typing bubble if typing
 		if (typingCdCount > 0) {
 			batch.draw(typingBubble.getKeyFrame(animationTime, true), playerLocation.x - 25, playerLocation.y + size.y / 2 + 20, 50, 40);
@@ -1067,7 +1058,7 @@ public class Player extends PhysicsSchmuck {
 
 	public void setUser(User user) { this.user = user; }
 
-	public void setScaling(boolean scaling) { this.scaling = scaling; }
+	public void setGroundedOverride(boolean groundedOverride) { this.groundedOverride = groundedOverride; }
 	
 	public void setInvisible(boolean invisible) { this.invisible = invisible; }
 

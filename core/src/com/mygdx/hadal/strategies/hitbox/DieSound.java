@@ -25,6 +25,9 @@ public class DieSound extends HitboxStrategy {
 	//Does the server notify the client of this sound?
 	private boolean synced = true;
 
+	//if true, this will not play if the hbox dies by timing out
+	private boolean ignoreOnTimeout;
+
 	public DieSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume) {
 		super(state, proj, user);
 		this.sound = sound;
@@ -33,6 +36,9 @@ public class DieSound extends HitboxStrategy {
 	
 	@Override
 	public void die() {
+
+		if (ignoreOnTimeout && hbox.getLifeSpan() <= 0.0f) { return; }
+
 		if (synced) {
 			sound.playUniversal(state, hbox.getPixelPosition(), volume, pitch, false);
 		} else {
@@ -47,6 +53,11 @@ public class DieSound extends HitboxStrategy {
 
 	public DieSound setSynced(boolean synced) {
 		this.synced = synced;
+		return this;
+	}
+
+	public DieSound setIgnoreOnTimeout(boolean ignoreOnTimeout) {
+		this.ignoreOnTimeout = ignoreOnTimeout;
 		return this;
 	}
 }

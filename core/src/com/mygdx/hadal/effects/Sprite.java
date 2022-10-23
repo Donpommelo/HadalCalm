@@ -116,6 +116,10 @@ public enum Sprite {
 	AMMO(SpriteType.EVENT, "ammo"),
 
 	NASU(SpriteType.EVENT, "eggplant"),
+	CANDY_A(SpriteType.EVENT, "candyA"),
+	CANDY_B(SpriteType.EVENT, "candyB"),
+	CANDY_C(SpriteType.EVENT, "candyC"),
+	CANDY_D(SpriteType.EVENT, "candyD"),
 	PYRAMID(SpriteType.EVENT, "event_pyramid"),
 	CUBE(SpriteType.EVENT, "event_cube"),
 	BASE(SpriteType.EVENT, "event_base"),

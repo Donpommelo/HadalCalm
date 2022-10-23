@@ -46,6 +46,34 @@ ammo
   orig: 307, 307
   offset: 0, 0
   index: 5
+candyA
+  rotate: false
+  xy: 463, 96
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+candyB
+  rotate: false
+  xy: 158, 45
+  size: 111, 111
+  orig: 111, 111
+  offset: 0, 0
+  index: -1
+candyC
+  rotate: false
+  xy: 374, 69
+  size: 87, 87
+  orig: 87, 87
+  offset: 0, 0
+  index: -1
+candyD
+  rotate: false
+  xy: 271, 55
+  size: 101, 101
+  orig: 101, 101
+  offset: 0, 0
+  index: -1
 eggplant
   rotate: false
   xy: 2, 2

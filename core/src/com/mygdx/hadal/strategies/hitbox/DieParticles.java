@@ -31,6 +31,9 @@ public class DieParticles extends HitboxStrategy {
 	//the base size of the particle effect.
 	private float particleSize;
 
+	//if true, this will not play if the hbox dies by timing out
+	private boolean ignoreOnTimeout;
+
 	//this is the color of the particle. change using factory method
 	private HadalColor color = HadalColor.NOTHING;
 
@@ -43,6 +46,9 @@ public class DieParticles extends HitboxStrategy {
 
 	@Override
 	public void die() {
+
+		if (ignoreOnTimeout && hbox.getLifeSpan() <= 0.0f) { return; }
+
 		ParticleEntity particles = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), effect, duration,
 			true, syncType).setColor(color);
 		if (particleSize == 0) {
@@ -73,6 +79,11 @@ public class DieParticles extends HitboxStrategy {
 
 	public DieParticles setSyncType(SyncType syncType) {
 		this.syncType = syncType;
+		return this;
+	}
+
+	public DieParticles setIgnoreOnTimeout(boolean ignoreOnTimeout) {
+		this.ignoreOnTimeout = ignoreOnTimeout;
 		return this;
 	}
 }

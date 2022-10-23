@@ -31,7 +31,7 @@ public class StatusComposite extends Status {
 		ProcTime finalProcTime = o;
 		
 		for (Status s : statuses) {
-			if (state.isServer() || o instanceof ProcTime.StatCalc || s.isClientIndependent()) {
+			if (state.isServer() || o instanceof ProcTime.StatCalc || o instanceof ProcTime.Render ||s.isClientIndependent()) {
 				finalProcTime = s.statusProcTime(o);
 			}
 		}

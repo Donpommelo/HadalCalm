@@ -10,4 +10,5 @@ public enum UserDataType {
 	HITBOX,
 	EVENT,
 	WALL,
+	PICKUP_RADIUS,
 }

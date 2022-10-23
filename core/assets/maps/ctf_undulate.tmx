@@ -1803,12 +1803,12 @@
   </object>
  </objectgroup>
  <objectgroup id="10" name="tot">
-  <object id="445" name="CandySpawn" type="CandySpawn" x="8704" y="1984" width="224" height="64">
+  <object id="445" name="CandySpawn" type="CandySpawn" x="8672" y="1952" width="320" height="96">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
    </properties>
   </object>
-  <object id="446" name="CandySpawn" type="CandySpawn" x="1344" y="1984" width="224" height="64"/>
+  <object id="446" name="CandySpawn" type="CandySpawn" x="1280" y="1952" width="352" height="96"/>
  </objectgroup>
  <objectgroup id="9" name="ctf">
   <object id="58" name="FlagSpawn" type="FlagSpawn" x="1344" y="1984" width="224" height="64"/>

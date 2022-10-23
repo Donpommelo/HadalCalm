@@ -188,16 +188,15 @@ public class BotController {
      */
     public void acquireTarget(Vector2 playerLocation, Vector2 playerVelocity) {
 
-        RallyPoint.RallyPointMultiplier weaponPoint = getWeaponPoint(playerLocation);
-        RallyPoint.RallyPointMultiplier healthPoint = getHealthPoint(playerLocation);
         Array<RallyPoint.RallyPointMultiplier> targetPoints = getTargetPoints(playerLocation, 1.0f);
 
         //get nearby points and event point with multipliers
         Array<RallyPoint> pathStarters = BotManager.getNearestPathStarters(bot, playerLocation);
         Array<RallyPoint.RallyPointMultiplier> eventPoints = getEventPoints(playerLocation);
-
+        eventPoints.add(getWeaponPoint(playerLocation));
+        eventPoints.add(getHealthPoint(playerLocation));
         BotManager.requestPathfindingThread(this, playerLocation, playerVelocity, pathStarters,
-                weaponPoint, healthPoint, targetPoints, eventPoints);
+                targetPoints, eventPoints);
     }
 
     private static final float ENEMY_MULTIPLIER = 0.5f;
@@ -246,7 +245,9 @@ public class BotController {
                     //calc the shortest path and compare it to paths to other targets
                     RallyPoint tempPoint = BotManager.getNearestPoint(bot, targetLocation);
                     if (null != tempPoint) {
-                        targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, multiplier));
+                        float botScoreModifier = 1.0f - (user.getScores().getExtraModeScore() * bot.getState().getMode().getBotScoreAggroModifier());
+                        targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, user.getPlayer(),
+                                multiplier * botScoreModifier));
                     }
                 }
             }
@@ -261,7 +262,7 @@ public class BotController {
                     targetLocation.set(enemy.getPosition());
                     RallyPoint tempPoint = BotManager.getNearestPoint(bot, targetLocation);
                     if (null != tempPoint) {
-                        targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, ENEMY_MULTIPLIER));
+                        targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, enemy, ENEMY_MULTIPLIER));
                         if (targetLocation.dst2(playerLocation) < shortestPlayerDistanceSquared * ENEMY_MULTIPLIER
                                 || -1 == shortestPlayerDistanceSquared) {
                             shootTarget = enemy;
@@ -316,8 +317,6 @@ public class BotController {
         DILLY_DALLY,
         WANDER,
         SEEK_ENEMY,
-        SEEK_EVENT,
-        SEEK_WEAPON,
-        SEEK_HEALTH,
+        SEEK_EVENT
     }
 }

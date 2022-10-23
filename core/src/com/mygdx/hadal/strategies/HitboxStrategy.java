@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
 
@@ -45,6 +46,9 @@ public abstract class HitboxStrategy implements IHitboxStrategy {
 	
 	@Override
 	public void die() {}
-	
+
+	@Override
+	public void onPickup(HadalData picker) {}
+
 	public void setCreator(BodyData creator) { this.creator = creator; }
 }

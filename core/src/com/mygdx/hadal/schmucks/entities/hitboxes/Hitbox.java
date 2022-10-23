@@ -11,6 +11,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -24,8 +26,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
@@ -126,6 +126,9 @@ public class Hitbox extends HadalEntity {
 
 	//when about to despawn, hboxes can be set to flash. This just skips render cycles, so it doesn't use a strategy
 	private float flashCount;
+
+	private Fixture wallCollider, dropthroughCollider;
+
 	/**
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
 	 * parameters are pretty much the same as the fields above.
@@ -176,8 +179,10 @@ public class Hitbox extends HadalEntity {
 
 		//Non-sensor hitboxes have a non-sensor fixture attached to it. This is used for hboxes that collide with walls but should pass through enemies
 		if (!sensor) {
-			FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size), false, 0, 0, restitution, friction,
-					Constants.BIT_PROJECTILE, Constants.BIT_WALL, filter).setUserData(data);
+			wallCollider = FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size), false, 0, 0, restitution, friction,
+					Constants.BIT_PROJECTILE, Constants.BIT_WALL, filter);
+
+			wallCollider.setUserData(data);
 		}
 
 		setLinearVelocity(startVelo);
@@ -250,9 +255,19 @@ public class Hitbox extends HadalEntity {
 	public void die() {
 
 		if (!alive) { return; }
+
 		for (HitboxStrategy s : strategies) {
 			s.die();
 			remove.add(s);
+		}
+	}
+
+	public void onPickup(HadalData picker) {
+
+		if (!alive) { return; }
+
+		for (HitboxStrategy s : strategies) {
+			s.onPickup(picker);
 		}
 	}
 
@@ -461,4 +476,10 @@ public class Hitbox extends HadalEntity {
 	public float getFlashCount() { return flashCount; }
 
 	public void setFlashCount(float flashCount) { this.flashCount = flashCount; }
+
+	public Fixture getWallCollider() { return wallCollider; }
+
+	public Fixture getDropthroughCollider() { return dropthroughCollider; }
+
+	public void setDropthroughCollider(Fixture dropthroughCollider) { this.dropthroughCollider = dropthroughCollider; }
 }

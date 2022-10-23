@@ -306,7 +306,7 @@ public class Packets {
 	public static class SyncScore {
 		public int connID;
 		public String name;
-		public int wins, kills, deaths, assists, score, lives, ping;
+		public int wins, kills, deaths, assists, score, extraModeScore, lives, ping;
 		public boolean spectator;
 
 		public SyncScore() {}
@@ -315,7 +315,7 @@ public class Packets {
 		 * This is sent from the server to the clients to give them their scores for a player whose score changed
 		 * @param connID: id of the player whose score is being updated.
 		 */
-		public SyncScore(int connID, String name, int wins, int kills, int deaths, int assists, int score, int lives, int ping, boolean spectator) {
+		public SyncScore(int connID, String name, int wins, int kills, int deaths, int assists, int score, int extraModeScore, int lives, int ping, boolean spectator) {
 			this.connID = connID;
 			this.name = name;
 			this.wins = wins;
@@ -323,6 +323,7 @@ public class Packets {
 			this.deaths = deaths;
 			this.assists = assists;
 			this.score = score;
+			this.extraModeScore = extraModeScore;
 			this.lives = lives;
 			this.ping = ping;
 			this.spectator = spectator;

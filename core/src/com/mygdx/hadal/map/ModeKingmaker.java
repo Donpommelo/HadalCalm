@@ -17,7 +17,7 @@ import static com.mygdx.hadal.constants.Constants.PPM;
  */
 public class ModeKingmaker extends ModeSetting {
 
-    private static final float crownDesireMultiplier = 0.05f;
+    private static final float CROWN_DESIRE_MULTIPLIER = 0.025f;
     private final Vector2 objectiveLocation = new Vector2();
     @Override
     public void processAIPath(PlayState state, PlayerBot bot, Vector2 playerLocation, Array<RallyPoint.RallyPointMultiplier> path) {
@@ -36,7 +36,8 @@ public class ModeKingmaker extends ModeSetting {
                     }
                 }
                 bot.getBotController().setEventTarget(crown);
-                path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, objectiveLocation), crownDesireMultiplier));
+                path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, objectiveLocation),
+                        crown, CROWN_DESIRE_MULTIPLIER));
             }
         }
         if (path.isEmpty()) {

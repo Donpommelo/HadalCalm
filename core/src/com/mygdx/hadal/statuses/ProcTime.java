@@ -1,5 +1,6 @@
 package com.mygdx.hadal.statuses;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
@@ -107,6 +108,23 @@ public abstract class ProcTime {
 		}
 	}
 
+	public static class Render extends ProcTime {
+		public SpriteBatch batch;
+		public Vector2 playerLocation;
+		public Vector2 playerSize;
+
+		public Render(SpriteBatch batch, Vector2 playerLocation, Vector2 playerSize) {
+			this.batch = batch;
+			this.playerLocation = playerLocation;
+			this.playerSize = playerSize;
+		}
+
+		@Override
+		public ProcTime statusProcTime(Status status) {
+			status.onRender(batch, playerLocation, playerSize);
+			return this;
+		}
+	}
 	public static class Kill extends ProcTime {
 		public final BodyData vic;
 		public final DamageSource source;

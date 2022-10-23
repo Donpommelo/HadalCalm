@@ -197,6 +197,7 @@ public class KryoClient {
 					score.setAssists(p.assists);
 					score.setLives(p.lives);
 					score.setScore(p.score);
+					score.setExtraModeScore(p.extraModeScore);
 					score.setPing(p.ping);
 				});
 			}
