@@ -76,14 +76,14 @@ public class ReviveGravestone extends Event {
 
 		//make objective marker track this event
 		EventUtils.setObjectiveMarkerTeam(state, this, Sprite.CLEAR_CIRCLE_ALERT, color,
-				true, false, user.getTeamFilter());
+				true, false, false, user.getTeamFilter());
 
 		if (state.isSpectatorMode()) {
-			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false);
+			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 		} else if (state.getPlayer() != null) {
 			if (state.getPlayer().getUser() != null) {
 				if (state.getPlayer().getUser().getTeamFilter() == user.getTeamFilter()) {
-					state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false);
+					state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 				}
 			}
 		}

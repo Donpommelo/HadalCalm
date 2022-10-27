@@ -22,15 +22,16 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class ObjectiveChanger extends Event {
 
-	private final boolean displayOffScreen, displayOnScreen;
+	private final boolean displayOffScreen, displayOnScreen, displayClearCircle;
 	
 	//what objective marker icon do we use?
 	private final Sprite icon;
 	
-	public ObjectiveChanger(PlayState state, boolean displayOffScreen, boolean displayOnScreen, String icon) {
+	public ObjectiveChanger(PlayState state, boolean displayOffScreen, boolean displayOnScreen, boolean displayClearCircle, String icon) {
 		super(state);
 		this.displayOffScreen = displayOffScreen;
 		this.displayOnScreen = displayOnScreen;
+		this.displayClearCircle = displayClearCircle;
 		this.icon = Sprite.valueOf(icon);
 	}
 	
@@ -41,7 +42,7 @@ public class ObjectiveChanger extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
-					state.getUiObjective().addObjective(event.getConnectedEvent(), icon, displayOffScreen, displayOnScreen);
+					state.getUiObjective().addObjective(event.getConnectedEvent(), icon, displayOffScreen, displayOnScreen, displayClearCircle);
 				}
 			}
 		};

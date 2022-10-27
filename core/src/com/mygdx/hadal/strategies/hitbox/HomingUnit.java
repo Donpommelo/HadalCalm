@@ -116,6 +116,9 @@ public class HomingUnit extends HitboxStrategy {
 						if (closestFixture != null) {
 							if (closestFixture.getUserData() instanceof BodyData homingData) {
 								homing = homingData.getSchmuck();
+
+								//fixed hboxes arae permantently unfixed upon finding a homing target
+								fixedUntilHome = false;
 							}
 						}
 					}
@@ -124,7 +127,7 @@ public class HomingUnit extends HitboxStrategy {
 			}, entityLocation.x - homeRadius, entityLocation.y - homeRadius,
 			entityLocation.x + homeRadius, entityLocation.y + homeRadius);
 
-			//fixed until home makes the hbox follow the target (not home target) until it finds a homeing target.
+			//fixed until home makes the hbox follow the target (not home target) until it finds a homing target.
 			if (fixedUntilHome) {
 				if (target != null) {
 					if (target.isAlive()) {

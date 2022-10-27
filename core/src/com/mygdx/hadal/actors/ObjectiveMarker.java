@@ -39,22 +39,29 @@ public class ObjectiveMarker {
 
     //for the client, this is the id of the entity we want to track (if it hasn't spawned yet)
     private UUID objectiveTargetID;
-    private final boolean displayObjectiveOffScreen, displayObjectiveOnScreen;
+    private final boolean displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle;
 
     public ObjectiveMarker(PlayState state, HadalEntity objectiveTarget, Sprite sprite, HadalColor color,
-                           boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen) {
+                           boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen, boolean displayClearCircle) {
         this.state = state;
         this.objectiveTarget = objectiveTarget;
         this.displayObjectiveOffScreen = displayObjectiveOffScreen;
         this.displayObjectiveOnScreen = displayObjectiveOnScreen;
+        this.displayClearCircle = displayClearCircle;
         this.icon = sprite.getFrame();
         this.color = color.getColor();
         this.colored = !HadalColor.NOTHING.equals(color);
 
         this.arrow = Sprite.NOTIFICATIONS_DIRECTIONAL_ARROW.getFrame();
         this.corner = MathUtils.atan2(-HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-        this.width = icon.getRegionWidth() * SCALE;
-        this.height = icon.getRegionHeight() * SCALE;
+        if (displayClearCircle) {
+            this.width = Sprite.CLEAR_CIRCLE_ALERT.getFrame().getRegionWidth() * SCALE;
+            this.height = Sprite.CLEAR_CIRCLE_ALERT.getFrame().getRegionHeight() * SCALE;
+        } else {
+            this.width = icon.getRegionWidth() * SCALE;
+            this.height = icon.getRegionHeight() * SCALE;
+        }
+
         this.arrowWidth = arrow.getRegionWidth() * SCALE;
         this.arrowHeight = arrow.getRegionHeight() * SCALE;
     }
@@ -99,6 +106,9 @@ public class ObjectiveMarker {
                     y = HadalGame.CONFIG_HEIGHT - height;
                 }
 
+                if (displayClearCircle) {
+                    batch.draw(Sprite.NOTIFICATIONS_CLEAR_CIRCLE.getFrame(), x - width / 2, y - height / 2, width, height);
+                }
                 batch.draw(icon, x - width / 2, y - height / 2, width, height);
                 batch.draw(arrow, x + width / 2 + 1, y - arrowHeight / 2, - width / 2 - 1, arrowHeight / 2,
                     arrowWidth, arrowHeight, 1, 1, 180 * angle / MathUtils.PI - 90);
@@ -108,6 +118,9 @@ public class ObjectiveMarker {
                 batch.setProjectionMatrix(state.getCamera().combined);
                 x = objectiveLocation.x;
                 y = objectiveLocation.y;
+                if (displayClearCircle) {
+                    batch.draw(Sprite.NOTIFICATIONS_CLEAR_CIRCLE.getFrame(), x - width / 2, y - height / 2, width, height);
+                }
                 batch.draw(icon, x - width / 2, y - height / 2, width, height);
                 batch.setProjectionMatrix(state.getHud().combined);
             }

@@ -615,8 +615,9 @@ public class PlayState extends GameState {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
+		Particle.drawParticlesBelow(batch);
 		renderEntities();
-		Particle.drawParticles(batch);
+		Particle.drawParticlesAbove(batch);
 
 		if (shaderBase.getShaderProgram() != null) {
 			if (!shaderBase.isBackground()) {

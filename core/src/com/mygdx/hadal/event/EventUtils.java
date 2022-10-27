@@ -26,11 +26,11 @@ public class EventUtils {
      * This sets a single objective marker on a specified entity
      */
     public static void setObjectiveMarker(PlayState state, HadalEntity event, Sprite sprite, HadalColor color,
-                                          boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen) {
+                                          boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen, boolean displayClearCircle) {
         if (state.isServer()) {
-            state.getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen);
+            state.getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle);
             HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(event.getEntityID(), color,
-                    displayObjectiveOffScreen, displayObjectiveOnScreen, sprite));
+                    displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle, sprite));
         }
     }
 
@@ -39,17 +39,17 @@ public class EventUtils {
      * The marker is only set for players on a specific team
      */
     public static void setObjectiveMarkerTeam(PlayState state, HadalEntity event, Sprite sprite, HadalColor color,
-                                          boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen,
+                                          boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen, boolean displayClearCircle,
                                           AlignmentFilter team) {
 
         if (state.isServer()) {
             for (ObjectMap.Entry<Integer, User> user : HadalGame.server.getUsers()) {
                 if (user.value.isSpectator() || user.value.getTeamFilter() == team) {
                     if (user.key == 0) {
-                        state.getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen);
+                        state.getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle);
                     } else {
                         HadalGame.server.sendToTCP(user.key, new Packets.SyncObjectiveMarker(event.getEntityID(), color,
-                                displayObjectiveOffScreen, displayObjectiveOnScreen, sprite));
+                                displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle, sprite));
                     }
                 }
             }

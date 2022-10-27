@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="300" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="579">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="300" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="581">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -1886,12 +1886,16 @@
   </object>
  </objectgroup>
  <objectgroup id="9" name="tot">
-  <object id="577" name="CandySpawn" type="CandySpawn" x="8064" y="2240" width="224" height="64">
+  <object id="577" name="CandySpawn" type="CandySpawn" x="8000" y="2112" width="352" height="192">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
    </properties>
   </object>
-  <object id="578" name="CandySpawn" type="CandySpawn" x="1792" y="2240" width="224" height="64"/>
+  <object id="578" name="CandySpawn" type="CandySpawn" x="1728" y="2112" width="352" height="192">
+   <properties>
+    <property name="mirror" type="bool" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="8" name="ctf">
   <object id="195" name="FlagBlock" type="FlagBlock" x="2240" y="960" width="32" height="288"/>
@@ -1906,12 +1910,12 @@
     <property name="teamIndex" type="int" value="1"/>
    </properties>
   </object>
-  <object id="93" name="FlagSpawn" type="FlagSpawn" x="8000" y="2208" width="352" height="96">
+  <object id="93" name="FlagSpawn" type="FlagSpawn" x="8064" y="2240" width="224" height="64">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
    </properties>
   </object>
-  <object id="94" name="FlagSpawn" type="FlagSpawn" x="1728" y="2208" width="352" height="96"/>
+  <object id="94" name="FlagSpawn" type="FlagSpawn" x="1792" y="2240" width="224" height="64"/>
  </objectgroup>
  <objectgroup id="5" name="team">
   <object id="95" name="Start" type="Start" x="1184" y="1024" width="32" height="32">

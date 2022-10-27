@@ -38,6 +38,7 @@ public enum Particle {
 	DUST(ParticleType.DEFAULT, "dust", false),
 	ENERGY_CLOUD(ParticleType.DEFAULT, "energy_cloud", true),
 	GLITTER(ParticleType.DEFAULT, "glitter", true),
+	GHOST_LIGHT(ParticleType.DEFAULT, "ghostlight", true, true),
 	LASER(ParticleType.DEFAULT, "laser", true),
 	LASER_PULSE(ParticleType.DEFAULT, "laserpulse", true),
 	LASER_TRAIL(ParticleType.DEFAULT, "laser_trail", true),
@@ -133,10 +134,18 @@ public enum Particle {
 	//additive is used to determine render order to minimize changing batch properties
 	private final boolean additive;
 
-	Particle(ParticleType type, String particleId, boolean additive) {
+	//if true, this effect will be rendered under entities instead of above
+	private final boolean bottom;
+
+	Particle(ParticleType type, String particleId, boolean additive, boolean bottom) {
 		this.type = type;
 		this.particleId = getParticleFileName(particleId);
 		this.additive = additive;
+		this.bottom = bottom;
+	}
+
+	Particle(ParticleType type, String particleId, boolean additive) {
+		this(type, particleId, additive, false);
 	}
 	
 	/**
@@ -175,6 +184,8 @@ public enum Particle {
 	 */
 	public void drawEffects(SpriteBatch batch) {
 		for (ObjectMap.Entry<PooledEffect, ParticleEntity> effect : effects.entries()) {
+
+			//null values indicate a non-entity particle (used in menus like results screen confetti
 			if (null == effect.value) {
 				effect.key.draw(batch);
 			} else if (effect.value.isEffectNotCulled()) {
@@ -187,12 +198,22 @@ public enum Particle {
 	 * This draws all particles of this specific particle type. (if visible)
 	 * This is run separately to account for particles with additive blending to minimize batch setBlendFunction usage
 	 */
-	public static void drawParticles(SpriteBatch batch) {
-		for (Particle effect : AdditiveParticles) {
+	public static void drawParticlesAbove(SpriteBatch batch) {
+		for (Particle effect : ADDITIVE_PARTICLES_TOP) {
 			effect.drawEffects(batch);
 		}
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		for (Particle effect : NormalParticles) {
+		for (Particle effect : NORMAL_PARTICLES_TOP) {
+			effect.drawEffects(batch);
+		}
+	}
+
+	public static void drawParticlesBelow(SpriteBatch batch) {
+		for (Particle effect : ADDITIVE_PARTICLES_BOTTOM) {
+			effect.drawEffects(batch);
+		}
+		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		for (Particle effect : NORMAL_PARTICLES_BOTTOM) {
 			effect.drawEffects(batch);
 		}
 	}
@@ -233,14 +254,24 @@ public enum Particle {
 		return "particles/" + filename + ".particle";
 	}
 
-	private static final Array<Particle> NormalParticles = new Array<>();
-	private static final Array<Particle> AdditiveParticles = new Array<>();
+	private static final Array<Particle> NORMAL_PARTICLES_BOTTOM = new Array<>();
+	private static final Array<Particle> ADDITIVE_PARTICLES_BOTTOM = new Array<>();
+	private static final Array<Particle> NORMAL_PARTICLES_TOP = new Array<>();
+	private static final Array<Particle> ADDITIVE_PARTICLES_TOP = new Array<>();
 	static {
 		for (Particle p : Particle.values()) {
 			if (p.additive) {
-				AdditiveParticles.add(p);
+				if (p.bottom) {
+					ADDITIVE_PARTICLES_BOTTOM.add(p);
+				} else {
+					ADDITIVE_PARTICLES_TOP.add(p);
+				}
 			} else {
-				NormalParticles.add(p);
+				if (p.bottom) {
+					NORMAL_PARTICLES_BOTTOM.add(p);
+				} else {
+					NORMAL_PARTICLES_TOP.add(p);
+				}
 			}
 		}
 	}

@@ -541,7 +541,8 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> cs.getUiObjective()
-						.addObjectiveClient(new UUID(p.uuidMSB, p.uuidLSB), p.icon, p.color, p.displayOffScreen, p.displayOnScreen));
+						.addObjectiveClient(new UUID(p.uuidMSB, p.uuidLSB), p.icon, p.color, p.displayOffScreen,
+								p.displayOnScreen, p.displayClearCircle));
 			}
 		}
 

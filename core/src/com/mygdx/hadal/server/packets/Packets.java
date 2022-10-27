@@ -1173,6 +1173,7 @@ public class Packets {
 		public HadalColor color;
 		public boolean displayOnScreen;
 		public boolean displayOffScreen;
+		public boolean displayClearCircle;
 		public Sprite icon;
 
 		public SyncObjectiveMarker() {}
@@ -1186,12 +1187,14 @@ public class Packets {
 		 * @param displayOnScreen: should the marker be displayed when the target is on screen?
 		 * @param icon: what icon should be used for the marker?
 		 */
-		public SyncObjectiveMarker(UUID entityID, HadalColor color, boolean displayOffScreen, boolean displayOnScreen, Sprite icon) {
+		public SyncObjectiveMarker(UUID entityID, HadalColor color, boolean displayOffScreen, boolean displayOnScreen,
+								   boolean displayClearCircle, Sprite icon) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
 			this.color = color;
 			this.displayOffScreen = displayOffScreen;
 			this.displayOnScreen = displayOnScreen;
+			this.displayClearCircle = displayClearCircle;
 			this.icon = icon;
 		}
 	}

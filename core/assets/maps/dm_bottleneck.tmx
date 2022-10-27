@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="170" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="182">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="170" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="182">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -430,7 +430,7 @@
    <polyline points="-120,64 104,64"/>
   </object>
  </objectgroup>
- <objectgroup id="2" name="collision-layer" visible="0">
+ <objectgroup id="2" name="collision-layer">
   <object id="1" x="864" y="2016">
    <polyline points="0,0 224,0 224,160 384,160 544,320 1024,320 1024,224 1184,224 1184,704 1632,704 1696,640 1856,640 1920,704 3008,704 3168,544 3328,544 3424,448 3776,448 3936,288 3936,0 3840,-96 3552,-96 3552,-320 3840,-320 3840,-544 3616,-544 3616,-704 3456,-704 3296,-864 2816,-864 2816,-768 2656,-768 2656,-1248 2208,-1248 2144,-1184 1984,-1184 1920,-1248 832,-1248 672,-1088 512,-1088 416,-992 64,-992 -96,-832 -96,-544 0,-448 288,-448 288,-224 0,-224 0,0"/>
   </object>
@@ -659,7 +659,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="4" name="objective" visible="0">
+ <objectgroup id="4" name="objective">
   <object id="40" name="MovePoint" type="MovePoint" x="2752" y="864" width="32" height="32">
    <properties>
     <property name="connections" value="EGGPLANT_SPAWNER"/>

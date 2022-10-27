@@ -114,7 +114,7 @@ public class Hitbox extends HadalEntity {
 	private boolean looping;
 
 	//this is the size of the sprite. Usually drawn to be the size of the hbox, but can be made larger/smaller
-	private final Vector2 spriteSize = new Vector2();
+	protected final Vector2 spriteSize = new Vector2();
 
 	//the synced attack this hbox is a part of as well as the attack's extra fields
 	private SyncedAttack attack;

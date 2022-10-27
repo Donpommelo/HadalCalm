@@ -7,8 +7,8 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.PickupUtils;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.modes.TrickorTreatBucket;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -16,6 +16,9 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.PickupVacuum;
+import com.mygdx.hadal.text.UIText;
+
+import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
 /**
  */
@@ -28,10 +31,15 @@ public class TrickOrTreating extends Status {
 	private static final float FONT_SCALE = 0.3f;
 
 	private static final float CANDY_RETURN_TIME_MIN = 0.3f;
+	private static final float RETURN_MESSAGE_TIMER = 1.0f;
 
+	private final TextureRegion candyIcon;
 	private final Player player;
 	private int candyCount;
-	private final TextureRegion candyIcon;
+
+	private boolean recentReturn;
+	private float recentReturnTime;
+	private int recentReturnCount;
 
 	public TrickOrTreating(PlayState state, BodyData i) {
 		super(state, i);
@@ -44,27 +52,14 @@ public class TrickOrTreating extends Status {
 	private float controllerCount;
 	@Override
 	public void timePassing(float delta) {
-		Event event = player.getCurrentEvent();
-		if (null != event) {
-			if (event instanceof TrickorTreatBucket bucket) {
-				if (AlignmentFilter.currentTeams[bucket.getTeamIndex()] != player.getPlayerData().getLoadout().team) {
-					int enemyCandyCount = AlignmentFilter.teamScores[bucket.getTeamIndex()];
-					if (0 < enemyCandyCount) {
-						controllerCount += delta;
-						if (controllerCount >= getCandyStealTime(enemyCandyCount)) {
-							stealCandy(bucket);
-							controllerCount = 0;
-						}
-					}
-				} else {
-					if (0 < candyCount) {
-						controllerCount += delta;
-						if (controllerCount >= CANDY_RETURN_TIME_MIN) {
-							returnCandy(bucket);
-							controllerCount = 0;
-						}
-					}
-				}
+		if (0.0f < recentReturnTime ) {
+			recentReturnTime -= delta;
+			if (0.0f > recentReturnTime) {
+				String playerName = WeaponUtils.getPlayerColorName(player, MAX_NAME_LENGTH);
+				state.getKillFeed().addNotification(UIText.CANDY_RETRIEVED.text(playerName, "" + recentReturnCount), true);
+
+				recentReturn = false;
+				recentReturnCount = 0;
 			}
 		}
 	}
@@ -92,6 +87,27 @@ public class TrickOrTreating extends Status {
 		}
 	}
 
+	public void bucketCheck(TrickorTreatBucket bucket, float delta) {
+		if (AlignmentFilter.currentTeams[bucket.getTeamIndex()] != player.getPlayerData().getLoadout().team) {
+			int enemyCandyCount = AlignmentFilter.teamScores[bucket.getTeamIndex()];
+			if (0 < enemyCandyCount) {
+				controllerCount += delta;
+				if (controllerCount >= getCandyStealTime(enemyCandyCount)) {
+					stealCandy(bucket);
+					controllerCount = 0;
+				}
+			}
+		} else {
+			if (0 < candyCount) {
+				controllerCount += delta;
+				if (controllerCount >= CANDY_RETURN_TIME_MIN) {
+					returnCandy(bucket);
+					controllerCount = 0;
+				}
+			}
+		}
+	}
+
 	private void stealCandy(TrickorTreatBucket bucket) {
 		state.getMode().processTeamScoreChange(state, bucket.getTeamIndex(), -1);
 		Hitbox candy = SyncedAttack.CANDY.initiateSyncedAttackSingle(state, player, bucket.getPixelPosition(), new Vector2());
@@ -107,6 +123,14 @@ public class TrickOrTreating extends Status {
 		PickupVacuum vacuumStrategy = new PickupVacuum(state, candy, player.getBodyData());
 		vacuumStrategy.startVacuum(bucket);
 		candy.addStrategy(vacuumStrategy);
+
+		recentReturnTime = RETURN_MESSAGE_TIMER;
+		if (recentReturn) {
+			recentReturnCount++;
+		} else {
+			recentReturn = true;
+			recentReturnCount = 1;
+		}
 	}
 
 	public void incrementCandyCount(int amount) {

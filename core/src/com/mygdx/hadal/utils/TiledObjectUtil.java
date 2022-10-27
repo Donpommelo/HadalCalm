@@ -195,7 +195,8 @@ public class TiledObjectUtil {
 				object.getProperties().get("universal", true, boolean.class));
 			case "Objective" -> e = new ObjectiveChanger(state,
 				object.getProperties().get("displayOffScreen", false, boolean.class),
-				object.getProperties().get("displayOnScreen", false, boolean.class),
+					object.getProperties().get("displayOnScreen", false, boolean.class),
+					object.getProperties().get("displayClearCircle", false, boolean.class),
 				object.getProperties().get("icon", "CLEAR_CIRCLE_ALERT", String.class));
 			case "Player" -> e = new PlayerChanger(state,
 				object.getProperties().get("hp", 0.0f, float.class),
@@ -394,7 +395,8 @@ public class TiledObjectUtil {
 			case "FlagBlock" -> e = new FlagBlocker(state, position, size,
 					object.getProperties().get("teamIndex", 0, Integer.class));
 			case "CandySpawn" -> e = new TrickorTreatBucket(state, position, size,
-					object.getProperties().get("teamIndex", 0, Integer.class));
+					object.getProperties().get("teamIndex", 0, Integer.class),
+					object.getProperties().get("mirror", false, Boolean.class));
 			case "ObjectiveSpawn" -> e = new SpawnerObjective(state, position, size);
 			case "PickupDelete" -> e = new PickupDestoyer(state, position, size);
 			case "Armory" -> e = new Armory(state, position, size,

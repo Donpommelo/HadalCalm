@@ -96,7 +96,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
         new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    TRICK_OR_TREAT("team,tot", "koh", CTF, GameText.TRICK_OR_TREAT, GameText.TRICK_OR_TREAT_DESC,
+    TRICK_OR_TREAT("team,tot,objective", "koh", CTF, GameText.TRICK_OR_TREAT, GameText.TRICK_OR_TREAT_DESC,
             new SetCameraOnSpawn(),
             new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingBots(),
             new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(5), new SettingLoadoutOutfit(),
@@ -114,13 +114,6 @@ public enum GameMode {
             new ModeEggplantHunt(),
             new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
                     new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
-
-    FOOTBALL("futbol", "koh", GameText.FOOTBALL, GameText.FOOTBALL_DESC,
-        new SetCameraOnSpawn(),
-        new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingTeamScoreCap(), new SettingLives(0),
-        new DisplayUITag("TEAMSCORE"), new ToggleNoDamage(),
-        new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),
-        new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO)),
 
     GUN_GAME("dm", "gun_game", DEATHMATCH, GameText.GUN_GAME, GameText.GUN_GAME_DESC,
         new SetCameraOnSpawn(),
@@ -158,6 +151,13 @@ public enum GameMode {
         new DisplayUITag("PLAYERS_ALIVE"), new DisplayUITag("ALLY_HEALTH"), new SpawnWeapons(), new ToggleWeaponDrops(), new ToggleHealthDrops(),
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
+
+    FOOTBALL("futbol", "koh", GameText.FOOTBALL, GameText.FOOTBALL_DESC,
+            new SetCameraOnSpawn(),
+            new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingTeamScoreCap(), new SettingLives(0),
+            new DisplayUITag("TEAMSCORE"), new ToggleNoDamage(),
+            new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),
+            new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO)),
 
     SANDBOX("", "koh", GameText.SANDBOX, GameText.SANDBOX_DESC, new SettingTeamMode(TeamMode.COOP),
             new SettingLives(0)),
