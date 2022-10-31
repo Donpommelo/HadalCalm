@@ -255,9 +255,8 @@ public class PickupUtils {
                         }
                         if (picker.getEntity() instanceof TrickorTreatBucket bucket) {
                             if (creator instanceof PlayerBodyData playerBodyData) {
-                                state.getMode().processPlayerScoreChange(state, playerBodyData.getPlayer(), 1);
+                                bucket.getEventData().preActivate(null, playerBodyData.getPlayer());
                             }
-                            state.getMode().processTeamScoreChange(state, bucket.getTeamIndex(), 1);
                         }
 
                         hbox.die();

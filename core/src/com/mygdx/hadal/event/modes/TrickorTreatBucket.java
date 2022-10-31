@@ -51,7 +51,19 @@ public class TrickorTreatBucket extends Event {
 
     @Override
     public void create() {
-        this.eventData = new EventData(this);
+        this.eventData = new EventData(this) {
+
+            @Override
+            public void onActivate(EventData activator, Player p) {
+                if (teamIndex < AlignmentFilter.currentTeams.length) {
+                    if (AlignmentFilter.currentTeams[teamIndex] != p.getPlayerData().getLoadout().team) {
+                        state.getMode().processTeamScoreChange(state, teamIndex, -1);
+                    } else {
+                        state.getMode().processTeamScoreChange(state, teamIndex, 1);
+                    }
+                }
+            }
+        };
 
         this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
             Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_PROJECTILE), (short) 0, true, eventData);

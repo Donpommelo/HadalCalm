@@ -23,8 +23,8 @@ public class ModeTrickorTreat extends ModeSetting {
 
     private static final float BOT_SCORE_AGGRO = 0.17f;
     private static final float SEARCH_RADIUS = 50.0f;
-    private static final float GROUND_CANDY_DESIRE = 0.05f;
-    private static final float RETURN_CANDY_DESIRE = 0.01f;
+    private static final float GROUND_CANDY_DESIRE = 0.025f;
+    private static final float RETURN_CANDY_DESIRE = 0.001f;
 
     private static final int STARTING_CANDY = 10;
 

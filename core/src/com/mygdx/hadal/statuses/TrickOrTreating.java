@@ -109,7 +109,7 @@ public class TrickOrTreating extends Status {
 	}
 
 	private void stealCandy(TrickorTreatBucket bucket) {
-		state.getMode().processTeamScoreChange(state, bucket.getTeamIndex(), -1);
+		bucket.getEventData().preActivate(null, player);
 		Hitbox candy = SyncedAttack.CANDY.initiateSyncedAttackSingle(state, player, bucket.getPixelPosition(), new Vector2());
 		PickupVacuum vacuumStrategy = new PickupVacuum(state, candy, player.getBodyData());
 		vacuumStrategy.startVacuum(player);
