@@ -1,9 +1,9 @@
 package com.mygdx.hadal.strategies;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.battle.DamageTag;
 
 /**
  * This interface is used by hbox strategies.
@@ -29,4 +29,6 @@ public interface IHitboxStrategy {
 	
 	//this is run when the hitbox dies
 	void die();
+
+	void onPickup(HadalData picker);
 }

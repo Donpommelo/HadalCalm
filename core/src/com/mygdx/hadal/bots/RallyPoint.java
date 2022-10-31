@@ -3,6 +3,7 @@ package com.mygdx.hadal.bots;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
@@ -105,5 +106,5 @@ public class RallyPoint implements Comparable<RallyPoint> {
 
     public void setEstimatedScore(float estimatedScore) { this.estimatedScore = estimatedScore; }
 
-    public record RallyPointMultiplier(RallyPoint point, float multiplier) {}
+    public record RallyPointMultiplier(RallyPoint point, HadalEntity target, float multiplier) {}
 }

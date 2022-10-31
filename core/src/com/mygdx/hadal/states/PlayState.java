@@ -564,7 +564,8 @@ public class PlayState extends GameState {
 				}
 				SavedPlayerFields score = user.getScores();
 				HadalGame.server.sendToAllUDP(new Packets.SyncScore(user.getScores().getConnID(), score.getNameShort(), score.getWins(),
-					score.getKills(), score.getDeaths(), score.getAssists(), score.getScore(), score.getLives(), score.getPing(), user.isSpectator()));
+					score.getKills(), score.getDeaths(), score.getAssists(), score.getScore(), score.getExtraModeScore(),
+						score.getLives(), score.getPing(), user.isSpectator()));
 			}
 			if (changeMade) {
 				scoreWindow.syncScoreTable();
@@ -614,8 +615,9 @@ public class PlayState extends GameState {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
+		Particle.drawParticlesBelow(batch);
 		renderEntities();
-		Particle.drawParticles(batch);
+		Particle.drawParticlesAbove(batch);
 
 		if (shaderBase.getShaderProgram() != null) {
 			if (!shaderBase.isBackground()) {

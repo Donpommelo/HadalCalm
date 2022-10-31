@@ -2,11 +2,11 @@ package com.mygdx.hadal.bots;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
-import com.mygdx.hadal.constants.Stats;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -35,9 +35,6 @@ public class BotControllerPlayer extends BotController {
     //this is the cooldown after a bot fires that they will release the fire button
     //It is used for specific weapons that require holding and releasing fire
     private float shootReleaseCount;
-
-    //pickup or map objective that the bot will try pathing towards
-    private HadalEntity weaponTarget, healthTarget;
 
     public BotControllerPlayer(PlayerBot player) {
         super(player);
@@ -140,12 +137,6 @@ public class BotControllerPlayer extends BotController {
     public HadalEntity findTarget() {
         HadalEntity target = null;
 
-        if (BotMood.SEEK_WEAPON.equals(currentMood)) {
-            target = weaponTarget;
-        }
-        if (BotMood.SEEK_HEALTH.equals(currentMood)) {
-            target = healthTarget;
-        }
         if (BotMood.SEEK_EVENT.equals(currentMood)) {
             target = eventTarget;
         }
@@ -240,12 +231,15 @@ public class BotControllerPlayer extends BotController {
             minAffinity = Math.min(minAffinity, affinity);
         }
         RallyPoint weaponPoint = null;
+        HadalEntity weaponEvent = null;
         float weaponDesireMultiplier = 1.0f;
         if (WEAPON_THRESHOLD_3 > totalAffinity) {
-            weaponPoint = BotLoadoutProcessor.getPointNearWeapon(player, playerLocation, SEARCH_RADIUS, minAffinity);
+            RallyPoint.RallyPointMultiplier weaponPointTarget = BotLoadoutProcessor.getPointNearWeapon(player, playerLocation, SEARCH_RADIUS, minAffinity);
+            weaponPoint = weaponPointTarget.point();
+            weaponEvent = weaponPointTarget.target();
 
             //bots desire weapons more if they are not content with their current loadout and less if they are
-            if (null != weaponPoint) {
+            if (null != weaponPointTarget.point()) {
                 if (WEAPON_THRESHOLD_1 > totalAffinity) {
                     weaponDesireMultiplier = WEAPON_MULTIPLIER_1;
                 }
@@ -255,7 +249,7 @@ public class BotControllerPlayer extends BotController {
             }
             weaponDesireMultiplier *= (1.0f + player.getWeaponDesireMultiplier());
         }
-        return new RallyPoint.RallyPointMultiplier(weaponPoint, weaponDesireMultiplier);
+        return new RallyPoint.RallyPointMultiplier(weaponPoint, weaponEvent, weaponDesireMultiplier);
     }
 
     private static final float HEALTH_THRESHOLD_1 = 0.9f;
@@ -264,24 +258,22 @@ public class BotControllerPlayer extends BotController {
     @Override
     public RallyPoint.RallyPointMultiplier getHealthPoint(Vector2 playerLocation) {
         RallyPoint healthPoint = null;
+        HadalEntity healthEvent = null;
         float healthDesireMultiplier = 1.0f;
-
         //bot's health desire scales to how hurt the bot is
         float healthPercent = player.getPlayerData().getCurrentHp() / player.getPlayerData().getStat(Stats.MAX_HP);
         if (HEALTH_THRESHOLD_1 > healthPercent) {
-            healthPoint = BotLoadoutProcessor.getPointNearHealth(player, playerLocation, SEARCH_RADIUS);
+            RallyPoint.RallyPointMultiplier healthPointTarget = BotLoadoutProcessor.getPointNearHealth(player, playerLocation, SEARCH_RADIUS);
+            healthPoint = healthPointTarget.point();
+            healthEvent = healthPointTarget.target();
 
             healthDesireMultiplier *= (HEALTH_MULTIPLIER_2 * healthPercent + HEALTH_MULTIPLIER_1 * (1.0f - healthPercent));
             healthDesireMultiplier *= (1.0f + player.getHealthDesireMultiplier());
         }
-        return new RallyPoint.RallyPointMultiplier(healthPoint, healthDesireMultiplier);
+        return new RallyPoint.RallyPointMultiplier(healthPoint, healthEvent, healthDesireMultiplier);
     }
 
     public float getShootReleaseCount() { return shootReleaseCount; }
 
     public void setShootReleaseCount(float shootReleaseCount) { this.shootReleaseCount = shootReleaseCount; }
-
-    public void setWeaponTarget(HadalEntity weaponTarget) { this.weaponTarget = weaponTarget; }
-
-    public void setHealthTarget(HadalEntity healthTarget) { this.healthTarget = healthTarget; }
 }

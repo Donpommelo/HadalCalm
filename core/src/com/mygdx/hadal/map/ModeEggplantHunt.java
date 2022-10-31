@@ -21,10 +21,10 @@ import com.mygdx.hadal.states.PlayState;
 public class ModeEggplantHunt extends ModeSetting {
 
     private static final float SEARCH_RADIUS = 50.0f;
-    private static final float EGGPLANT_DESIRE_MULTIPLIER = 0.05f;
+    private static final float EGGPLANT_DESIRE_MULTIPLIER = 0.025f;
 
-    private static final float SCRAP_MULTIPLIER = 0.33f;
-    private static final int BASE_SCRAP_DROP = 1;
+    private static final float EGGPLANT_MULTIPLIER = 0.33f;
+    private static final int BASE_EGGPLANT_DROP = 1;
 
     @Override
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageSource source, DamageTag... tags) {
@@ -34,13 +34,13 @@ public class ModeEggplantHunt extends ModeSetting {
 
                 //upon death, lose eggplants and drop them according to how many you have
                 SavedPlayerFields field = vic.getUser().getScores();
-                int score = (int) (field.getScore() * SCRAP_MULTIPLIER);
+                int score = (int) (field.getScore() * EGGPLANT_MULTIPLIER);
                 if (0 > score) {
                     score = 0;
                 }
                 state.getMode().processPlayerScoreChange(state, vic, -score);
                 PickupUtils.spawnScrap(state, vic, vic.getPixelPosition(), vic.getLinearVelocity(),
-                        score + BASE_SCRAP_DROP, true, true);
+                        score + BASE_EGGPLANT_DROP, true, true);
             }
         }
     }
@@ -55,7 +55,7 @@ public class ModeEggplantHunt extends ModeSetting {
 
                     bot.getBotController().setEventTarget(eventData.getEvent());
                     path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, eventData.getEvent().getPosition()),
-                            EGGPLANT_DESIRE_MULTIPLIER));
+                            eventData.getEvent(), EGGPLANT_DESIRE_MULTIPLIER));
                     return false;
                 }
             }

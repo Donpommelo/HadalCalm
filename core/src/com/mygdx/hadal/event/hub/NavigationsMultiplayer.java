@@ -217,7 +217,7 @@ public class NavigationsMultiplayer extends HubEvent {
 			//iterate through the modes that this map can be played with to see if we add it to the options
 			boolean modeCompliant = false;
 			for (int i = 0; i < selected.getModes().length; i++) {
-				if (selected.getModes()[i] == modeChosen.getCheckCompliance()) {
+				if (selected.getModes()[i] == modeChosen.getCheckCompliance() || selected.getModes()[i] == modeChosen) {
 					modeCompliant = true;
 					break;
 				}

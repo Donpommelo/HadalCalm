@@ -47,21 +47,21 @@ public class UIObjective extends AHadalActor {
 		objectivesToRemove.clear();
 	}
 
-	public void addObjective(HadalEntity objective, Sprite sprite,
-							 boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen) {
-		addObjective(objective, sprite, HadalColor.NOTHING, displayObjectiveOffScreen, displayObjectiveOnScreen);
+	public void addObjective(HadalEntity objective, Sprite sprite, boolean displayObjectiveOffScreen,
+							 boolean displayObjectiveOnScreen, boolean displayClearCircle) {
+		addObjective(objective, sprite, HadalColor.NOTHING, displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle);
 	}
 
-	public void addObjective(HadalEntity objective, Sprite sprite, HadalColor color,
-							 boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen) {
-		objectives.add(new ObjectiveMarker(state, objective, sprite, color,
-			displayObjectiveOffScreen, displayObjectiveOnScreen));
+	public void addObjective(HadalEntity objective, Sprite sprite, HadalColor color, boolean displayObjectiveOffScreen,
+							 boolean displayObjectiveOnScreen, boolean displayClearCircle) {
+		objectives.add(new ObjectiveMarker(state, objective, sprite, color,	displayObjectiveOffScreen,
+				displayObjectiveOnScreen, displayClearCircle));
 	}
 
-	public void addObjectiveClient(UUID objectiveID, Sprite sprite, HadalColor color,
-								   boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen) {
-		ObjectiveMarker newObjective = new ObjectiveMarker(state, null, sprite, color,
-			displayObjectiveOffScreen, displayObjectiveOnScreen);
+	public void addObjectiveClient(UUID objectiveID, Sprite sprite, HadalColor color, boolean displayObjectiveOffScreen,
+								   boolean displayObjectiveOnScreen, boolean displayClearCircle) {
+		ObjectiveMarker newObjective = new ObjectiveMarker(state, null, sprite, color, displayObjectiveOffScreen,
+				displayObjectiveOnScreen, displayClearCircle);
 		newObjective.setObjectiveTargetID(objectiveID);
 		objectives.add(newObjective);
 	}

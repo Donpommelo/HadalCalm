@@ -92,17 +92,17 @@ public enum ColorPalette {
     BLACK_AND_YELLOW(HadalColor.CITRINE, HadalColor.SMOKY_BLACK, HadalColor.JET, HadalColor.CITRINE, HadalColor.LEMON,
             HadalColor.MAXIMUM_YELLOW, HadalColor.ICTERINE, HadalColor.CANARY, HadalColor.ONYX),
 
-    HALLOWEEN(HadalColor.ORANGE, HadalColor.SMOKY_BLACK, HadalColor.JET, HadalColor.CITRINE, HadalColor.PUMPKIN,
-            HadalColor.SAFFRON, HadalColor.APRICOT, HadalColor.HONEY, HadalColor.MANGO)
+    HALLOWEEN(HadalColor.ORANGE, HadalColor.JET, HadalColor.ORANGE, HadalColor.PUMPKIN, HadalColor.SAFFRON,
+            HadalColor.AMBER, HadalColor.APRICOT, HadalColor.HONEY, HadalColor.BYZANTINE)
 
     ;
 
-    private final HadalColor Icon, SaturatedDark, MidDark, DesaturatedDark, SaturatedLight, MidLight, DesaturatedLight,
+    private final HadalColor icon, SaturatedDark, MidDark, DesaturatedDark, SaturatedLight, MidLight, DesaturatedLight,
     Accent1, Accent2;
 
     ColorPalette(HadalColor icon, HadalColor saturatedDark, HadalColor midDark, HadalColor desaturatedDark, HadalColor saturatedLight,
                  HadalColor midLight, HadalColor desaturatedLight, HadalColor accent1, HadalColor accent2) {
-        Icon = icon;
+        this.icon = icon;
         SaturatedDark = saturatedDark;
         MidDark = midDark;
         DesaturatedDark = desaturatedDark;
@@ -174,5 +174,5 @@ public enum ColorPalette {
         return shader;
     }
 
-    public HadalColor getIcon() { return Icon; }
+    public HadalColor getIcon() { return icon; }
 }

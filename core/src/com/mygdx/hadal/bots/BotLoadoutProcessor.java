@@ -3,6 +3,8 @@ package com.mygdx.hadal.bots;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.Loadout;
@@ -12,14 +14,13 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.*;
+import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.statuses.FiringWeapon;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.Stats;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -60,8 +61,9 @@ public class BotLoadoutProcessor {
      * @param minAffinity: the lowest affinity of a weapon the bot is holding
      * @return a reasonably short path to a desired weapon pickup event
      */
-    public static RallyPoint getPointNearWeapon(PlayerBot player, Vector2 playerLocation, float searchRadius, int minAffinity) {
+    public static RallyPoint.RallyPointMultiplier getPointNearWeapon(PlayerBot player, Vector2 playerLocation, float searchRadius, int minAffinity) {
         final RallyPoint[] bestPoint = new RallyPoint[1];
+        final HadalEntity[] bestTarget = new HadalEntity[1];
         player.getWorld().QueryAABB((fixture -> {
             if (fixture.getUserData() instanceof EventData eventData) {
                 if (eventData.getEvent() instanceof PickupEquip pickup) {
@@ -72,8 +74,8 @@ public class BotLoadoutProcessor {
 
                         //tentatively, we stop immediately upon finding an appropriate pickup to path towards
                         if (null != tempPoint) {
-                            player.getBotController().setWeaponTarget(pickup);
                             bestPoint[0] = tempPoint;
+                            bestTarget[0] = pickup;
                             return false;
                         }
                     }
@@ -82,7 +84,7 @@ public class BotLoadoutProcessor {
             return true;
         }), playerLocation.x - searchRadius, playerLocation.y - searchRadius,
             playerLocation.x + searchRadius, playerLocation.y + searchRadius);
-        return bestPoint[0];
+        return new RallyPoint.RallyPointMultiplier(bestPoint[0], bestTarget[0], 0.0f);
     }
 
     /**
@@ -92,8 +94,9 @@ public class BotLoadoutProcessor {
      * @param searchRadius: this is the max distance that the bot will search search for pickups
      * @return a reasonably short path to a desired healing event
      */
-    public static RallyPoint getPointNearHealth(PlayerBot player, Vector2 playerLocation, float searchRadius) {
+    public static RallyPoint.RallyPointMultiplier getPointNearHealth(PlayerBot player, Vector2 playerLocation, float searchRadius) {
         final RallyPoint[] bestPoint = new RallyPoint[1];
+        final HadalEntity[] bestTarget = new HadalEntity[1];
         player.getWorld().QueryAABB((fixture -> {
                 if (fixture.getUserData() instanceof final HadalData data) {
                     if (data.getEntity().isBotHealthPickup()) {
@@ -103,8 +106,8 @@ public class BotLoadoutProcessor {
 
                         //tentatively, we stop immediately upon finding an appropriate pickup to path towards
                         if (null != tempPoint) {
-                            player.getBotController().setHealthTarget(data.getEntity());
                             bestPoint[0] = tempPoint;
+                            bestTarget[0] = data.getEntity();
                             return false;
                         }
                     }
@@ -112,7 +115,7 @@ public class BotLoadoutProcessor {
                 return true;
             }), playerLocation.x - searchRadius, playerLocation.y - searchRadius,
             playerLocation.x + searchRadius, playerLocation.y + searchRadius);
-        return bestPoint[0];
+        return new RallyPoint.RallyPointMultiplier(bestPoint[0], bestTarget[0], 0.0f);
     }
 
     /**

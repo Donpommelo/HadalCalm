@@ -90,6 +90,7 @@ public enum Sprite {
 	SLAG(SpriteType.PROJECTILE, "slag"),
 	SEED(SpriteType.PROJECTILE, "seed"),
 	SPIT(SpriteType.PROJECTILE, "spit"),
+	SKULL(SpriteType.PROJECTILE, "skull_chatter", PlayMode.LOOP_PINGPONG, PlayState.SPRITE_ANIMATION_SPEED),
 	SPLITTER_A(SpriteType.PROJECTILE, "splitter1"),
 	SPLITTER_B(SpriteType.PROJECTILE, "splitter0"),
 	SPORE(SpriteType.PROJECTILE, "spore"),
@@ -116,6 +117,16 @@ public enum Sprite {
 	AMMO(SpriteType.EVENT, "ammo"),
 
 	NASU(SpriteType.EVENT, "eggplant"),
+	CANDY_A(SpriteType.EVENT, "candyA"),
+	CANDY_B(SpriteType.EVENT, "candyB"),
+	CANDY_C(SpriteType.EVENT, "candyC"),
+	CANDY_D(SpriteType.EVENT, "candyD"),
+	CANDY_BUCKET(SpriteType.EVENT, "candy_bucket"),
+	CANDY_BUCKET_EMPTY(SpriteType.EVENT, "candy_bucket_empty"),
+	CANDY_STAND(SpriteType.EVENT, "candy_stand"),
+	CANDY_STAND_EMPTY(SpriteType.EVENT, "candy_stand_empty"),
+	CANDY_GHOST(SpriteType.EVENT, "ghost_candy"),
+
 	PYRAMID(SpriteType.EVENT, "event_pyramid"),
 	CUBE(SpriteType.EVENT, "event_cube"),
 	BASE(SpriteType.EVENT, "event_base"),
@@ -215,7 +226,7 @@ public enum Sprite {
 	NOTIFICATIONS_ALERT(SpriteType.NOTIFICATIONS, "alert_red"),
 	NOTIFICATIONS_ALERT_PING(SpriteType.NOTIFICATIONS, "arrow_ping_red", PlayMode.LOOP_PINGPONG, PlayState.SPRITE_ANIMATION_SPEED),
 	CLEAR_CIRCLE_ALERT(SpriteType.NOTIFICATIONS, "clear_circle_alert"),
-	CLEAR_CIRCLE_EGGPLANT(SpriteType.NOTIFICATIONS, "clear_circle_eggplant"),
+	NOTIFICATIONS_GHOST(SpriteType.NOTIFICATIONS, "ghost_candy_icon"),
 
 	EMOTE_YES(SpriteType.EMOTE, "emote_yes", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
 	EMOTE_NO(SpriteType.EMOTE, "emote_no", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),

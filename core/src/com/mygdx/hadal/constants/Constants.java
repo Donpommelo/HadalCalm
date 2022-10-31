@@ -24,6 +24,7 @@ public class Constants {
     public static final short BIT_PROJECTILE = 8;
     public static final short BIT_ENEMY = 16;
     public static final short BIT_DROPTHROUGHWALL = 32;
+    public static final short BIT_PICKUP_RADIUS = 64;
 
     //Hitbox Filters
     public static final short PLAYER_HITBOX = -1;

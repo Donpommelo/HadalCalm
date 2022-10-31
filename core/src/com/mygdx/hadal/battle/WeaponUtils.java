@@ -351,7 +351,7 @@ public class WeaponUtils {
 	}
 
 	public static final float SPIRIT_DEFAULT_DAMAGE = 45.0f;
-	private static final int SPIRIT_SIZE = 25;
+	private static final int SPIRIT_SIZE = 50;
 	private static final float SPIRIT_HOMING = 120;
 	private static final int SPIRIT_HOMING_RADIUS = 40;
 	private static final float SPIRIT_KNOCKBACK = 25.0f;
@@ -362,12 +362,8 @@ public class WeaponUtils {
 
 		boolean attached = true;
 		float spiritDamage = SPIRIT_DEFAULT_DAMAGE;
-		Particle effect = Particle.SHADOW_PATH;
 		if (3 < extraFields.length) {
 			attached = extraFields[0] == 1.0f;
-			if (1.0f == extraFields[1]) {
-				effect = Particle.BRIGHT;
-			}
 			spiritDamage = extraFields[2];
 		}
 
@@ -376,7 +372,36 @@ public class WeaponUtils {
 
 			for (int i = 0; i < startPosition.length; i++) {
 				Hitbox hbox = new RangedHitbox(state, startPosition[i], new Vector2(SPIRIT_SIZE, SPIRIT_SIZE), SPIRIT_LIFESPAN,
-						new Vector2(), user.getHitboxfilter(), true, true, user, Sprite.NOTHING);
+						new Vector2(), user.getHitboxfilter(), true, true, user, Sprite.SKULL) {
+
+					private final Vector2 entityLocation = new Vector2();
+					private final Vector2 entityVelocity = new Vector2();
+					@Override
+					public void render(SpriteBatch batch) {
+
+						if (!alive) { return; }
+						entityVelocity.set(getLinearVelocity());
+						if (entityVelocity.isZero() && user instanceof Player player) {
+							entityVelocity.set(0, 1).setAngleDeg(player.getAttackAngle());
+						}
+
+						boolean flip = true;
+						float realAngle = entityVelocity.angleRad();
+						if ((realAngle > MathUtils.PI / 2 && realAngle < 3 * MathUtils.PI / 2) || (realAngle < -MathUtils.PI / 2 && realAngle > -3 * MathUtils.PI / 2)) {
+							flip = false;
+						}
+
+						entityLocation.set(getPixelPosition());
+						batch.draw(projectileSprite.getKeyFrame(animationTime, true),
+								(flip ? spriteSize.x : 0) + entityLocation.x - spriteSize.x / 2,
+								entityLocation.y - spriteSize.y / 2,
+								(flip ? -1 : 1) * spriteSize.x / 2,
+								spriteSize.y / 2,
+								(flip ? -1 : 1) * spriteSize.x, spriteSize.y, 1, 1,
+								(flip ? 0 : 180) + entityVelocity.angleDeg());
+					}
+
+				};
 
 				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 				hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
@@ -390,8 +415,8 @@ public class WeaponUtils {
 				} else {
 					hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), SPIRIT_HOMING, SPIRIT_HOMING_RADIUS));
 				}
-				hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), effect, 0.0f, 1.0f)
-						.setParticleColor(HadalColor.RANDOM).setSyncType(SyncType.NOSYNC));
+				hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.GHOST_LIGHT, 0.0f, 1.0f)
+						.setSyncType(SyncType.NOSYNC));
 				hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.DARKNESS1, 0.25f).setSynced(false));
 
 				hboxes[i] = hbox;

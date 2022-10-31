@@ -563,6 +563,19 @@ public enum SyncedAttack {
         }
     },
 
+    CANDY() {
+        @Override
+        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
+            return PickupUtils.createCandy(state, user, new Vector2[] {startPosition}, new Vector2[] {startVelocity})[0];
+        }
+
+        @Override
+        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
+                                                 Vector2[] startVelocity, DamageSource source, float[] extraFields) {
+            return PickupUtils.createCandy(state, user, startPosition, startVelocity);
+        }
+    },
+
     PING() {
         @Override
         public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {

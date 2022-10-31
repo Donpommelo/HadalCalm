@@ -11,6 +11,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -24,8 +25,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class SpawnerObjective extends Event {
 
-	//How frequently will this event spawn eggplants in eggplant hunt?
-	private static final float INTERVAL = 2.0f;
+	//How frequently will this event spawn eggplants/candy in eggplant hunt/trick or treat?
+	private static final float EGGPLANT_INTERVAL = 2.0f;
+
+	private static final float CANDY_INTERVAL = 10.0f;
 
 	private final static float PARTICLE_DURATION = 5.0f;
 
@@ -46,7 +49,13 @@ public class SpawnerObjective extends Event {
 
 		//in eggplant mode, this event should be visible in the objective ui
 		if (GameMode.EGGPLANTS.equals(state.getMode())) {
-			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_EGGPLANT, true, true);
+			state.getUiObjective().addObjective(this, Sprite.NASU,true, true, true);
+		}
+
+		if (GameMode.TRICK_OR_TREAT.equals(state.getMode())) {
+			state.getUiObjective().addObjective(this, Sprite.NOTIFICATIONS_GHOST,true, false, true);
+			setScaleAlign(ClientIllusion.alignType.CENTER);
+			setEventSprite(Sprite.CANDY_GHOST);
 		}
 	}
 
@@ -59,11 +68,20 @@ public class SpawnerObjective extends Event {
 		//in eggplant mode, spawn scrap periodically
 		if (GameMode.EGGPLANTS.equals(state.getMode())) {
 			timeCount += delta;
-			if (timeCount >= INTERVAL) {
+			if (timeCount >= EGGPLANT_INTERVAL) {
 				timeCount = 0;
 
 				PickupUtils.spawnScrap(state, state.getWorldDummy(), getPixelPosition(), new Vector2(0, 1),
 						1, false, true);
+			}
+		}
+
+		if (GameMode.TRICK_OR_TREAT.equals(state.getMode())) {
+			timeCount += delta;
+			if (timeCount >= CANDY_INTERVAL) {
+				timeCount = 0;
+
+				PickupUtils.spawnCandy(state, state.getWorldDummy(), getPixelPosition(), new Vector2(0, 1),1);
 			}
 		}
 

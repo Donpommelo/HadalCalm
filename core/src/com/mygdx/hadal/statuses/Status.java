@@ -1,5 +1,6 @@
 package com.mygdx.hadal.statuses;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
@@ -86,6 +87,8 @@ public class Status implements Comparable<Status> {
 			}
 		}
 	}
+
+	public void onRender(SpriteBatch batch, Vector2 playerLocation, Vector2 playerSize) {}
 
 	public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) { return damage; }
 	

@@ -23,8 +23,8 @@ public class ModeCapturetheFlag extends ModeSetting {
     //this maps all flag spawners to their team so that bots can locate them
     private static final ObjectMap<AlignmentFilter, FlagSpawner> FLAG_SPAWNERS = new ObjectMap<>();
     private static final float FLAG_ATTACK_DESIRE_MULTIPLIER = 0.1f;
-    private static final float FLAG_DEFEND_DESIRE_MULTIPLIER = 0.05f;
-    private static final float FLAG_RETURN_DESIRE_MULTIPLIER = 0.08f;
+    private static final float FLAG_DEFEND_DESIRE_MULTIPLIER = 0.02f;
+    private static final float FLAG_RETURN_DESIRE_MULTIPLIER = 0.04f;
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
@@ -50,7 +50,7 @@ public class ModeCapturetheFlag extends ModeSetting {
                         if (flag.isCaptured() || flag.isAwayFromSpawn()) {
                             bot.getBotController().setEventTarget(flag);
                             path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, objectiveLocation),
-                                    FLAG_DEFEND_DESIRE_MULTIPLIER));
+                                    flag, FLAG_DEFEND_DESIRE_MULTIPLIER));
                         }
                     } else {
 
@@ -60,14 +60,16 @@ public class ModeCapturetheFlag extends ModeSetting {
                                 FlagSpawner home = FLAG_SPAWNERS.get(bot.getPlayerData().getLoadout().team);
                                 if (null != home) {
                                     bot.getBotController().setEventTarget(home);
-                                    path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, home.getPosition()), FLAG_RETURN_DESIRE_MULTIPLIER));
+                                    path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, home.getPosition()),
+                                            home, FLAG_RETURN_DESIRE_MULTIPLIER));
                                 }
                             }
                         } else {
 
                             //otherwise, attempt to path towards an uncaptured enemy flag
                             bot.getBotController().setEventTarget(flag);
-                            path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, objectiveLocation), FLAG_ATTACK_DESIRE_MULTIPLIER));
+                            path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, objectiveLocation),
+                                    flag, FLAG_ATTACK_DESIRE_MULTIPLIER));
                         }
                     }
                 }

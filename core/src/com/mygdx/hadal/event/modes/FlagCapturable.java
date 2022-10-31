@@ -91,7 +91,7 @@ public class FlagCapturable extends Event {
 		}
 
 		//make objective marker track this event
-		state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false);
+		state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 
 
 		this.returnMeter = Sprite.UI_RELOAD_METER.getFrame();

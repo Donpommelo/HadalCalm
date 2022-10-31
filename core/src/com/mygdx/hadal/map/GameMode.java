@@ -96,15 +96,15 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
         new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-//    TRICK_OR_TREAT("team,tot", "koh", CTF, GameText.TRICK_OR_TREAT, GameText.TRICK_OR_TREAT_DESC,
-//            new SetCameraOnSpawn(),
-//            new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingBots(),
-//            new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(5), new SettingLoadoutOutfit(),
-//            new SettingLoadoutMode(),
-//            new DisplayUITag("TEAMSCORE"), new SpawnWeapons(), new ToggleWeaponDrops(), new ToggleHealthDrops(),
-//            new ModeTrickorTreat(),
-//            new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
-//                    new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
+    TRICK_OR_TREAT("team,tot,objective", "koh", CTF, GameText.TRICK_OR_TREAT, GameText.TRICK_OR_TREAT_DESC,
+            new SetCameraOnSpawn(),
+            new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingBots(),
+            new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(5), new SettingLoadoutOutfit(),
+            new SettingLoadoutMode(),
+            new DisplayUITag("TEAMSCORE"), new SpawnWeapons(), new ToggleWeaponDrops(), new ToggleHealthDrops(),
+            new ModeTrickorTreat(),
+            new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
+                    new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
     EGGPLANTS("objective,dm", "eggplant_hunt", DEATHMATCH, GameText.MODE_EGGPLANT, GameText.MODE_EGGPLANT_DESC,
             new SetCameraOnSpawn(),
@@ -114,13 +114,6 @@ public enum GameMode {
             new ModeEggplantHunt(),
             new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
                     new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
-
-    FOOTBALL("futbol", "koh", GameText.FOOTBALL, GameText.FOOTBALL_DESC,
-        new SetCameraOnSpawn(),
-        new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingTeamScoreCap(), new SettingLives(0),
-        new DisplayUITag("TEAMSCORE"), new ToggleNoDamage(),
-        new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),
-        new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO)),
 
     GUN_GAME("dm", "gun_game", DEATHMATCH, GameText.GUN_GAME, GameText.GUN_GAME_DESC,
         new SetCameraOnSpawn(),
@@ -159,6 +152,13 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
+    FOOTBALL("futbol", "koh", GameText.FOOTBALL, GameText.FOOTBALL_DESC,
+            new SetCameraOnSpawn(),
+            new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingTeamScoreCap(), new SettingLives(0),
+            new DisplayUITag("TEAMSCORE"), new ToggleNoDamage(),
+            new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),
+            new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO)),
+
     SANDBOX("", "koh", GameText.SANDBOX, GameText.SANDBOX_DESC, new SettingTeamMode(TeamMode.COOP),
             new SettingLives(0)),
 
@@ -185,6 +185,8 @@ public enum GameMode {
 
     //will players that join mid game join as players or spectators (spectator for lives-based modes)
     private boolean joinMidGame = true;
+
+    private float botScoreAggroModifier;
 
     //number of teams playing on auto team assign mode
     private int teamNum = 2;
@@ -465,6 +467,10 @@ public enum GameMode {
     public boolean isJoinMidGame() { return joinMidGame; }
 
     public void setJoinMidGame(boolean joinMidGame) { this.joinMidGame = joinMidGame; }
+
+    public float getBotScoreAggroModifier() { return botScoreAggroModifier; }
+
+    public void setBotScoreAggroModifier(float botScoreAggroModifier) { this.botScoreAggroModifier = botScoreAggroModifier; }
 
     public Array<String> getInitialNotifications() { return initialNotifications; }
 
