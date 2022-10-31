@@ -35,7 +35,7 @@ public class HadalGame extends ApplicationAdapter {
 	public static final String VERSION = "1.0.7n";
 
 	//version url takes player to patch notes page when version is clicked in title screen
-	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/403382/107m";
+	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/445795/107n";
 
 	//this is the rate at which the screen fades from/to black.
 	private static final float DEFAULT_FADE_IN_SPEED = -2.0f;
