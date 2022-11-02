@@ -31,7 +31,7 @@ public class ObjectiveMarker {
     private final boolean colored;
     private final Color color;
 
-    private final float width, height, arrowWidth, arrowHeight;
+    private final float circleWidth, circleHeight, width, height, arrowWidth, arrowHeight;
     private final float corner;
 
     //If there is an objective target that has a display if offscreen, this is that entity.
@@ -54,9 +54,16 @@ public class ObjectiveMarker {
 
         this.arrow = Sprite.NOTIFICATIONS_DIRECTIONAL_ARROW.getFrame();
         this.corner = MathUtils.atan2(-HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
+        this.circleWidth = Sprite.CLEAR_CIRCLE_ALERT.getFrame().getRegionWidth() * SCALE;
+        this.circleHeight = Sprite.CLEAR_CIRCLE_ALERT.getFrame().getRegionHeight() * SCALE;
         if (displayClearCircle) {
-            this.width = Sprite.CLEAR_CIRCLE_ALERT.getFrame().getRegionWidth() * SCALE;
-            this.height = Sprite.CLEAR_CIRCLE_ALERT.getFrame().getRegionHeight() * SCALE;
+            if (icon.getRegionWidth() > icon.getRegionHeight()) {
+                this.width = circleWidth;
+                this.height = (float) icon.getRegionHeight() / icon.getRegionWidth() * width;
+            } else {
+                this.height = circleHeight;
+                this.width = (float) icon.getRegionWidth() / icon.getRegionHeight() * height;
+            }
         } else {
             this.width = icon.getRegionWidth() * SCALE;
             this.height = icon.getRegionHeight() * SCALE;
@@ -88,29 +95,29 @@ public class ObjectiveMarker {
 
                 //calculate the point of intersection between aforementioned line and the perimeter of the screen
                 float angle = MathUtils.atan2(-toObjective.x, toObjective.y);
-                float tanAngle = (float) (Math.tan(angle) * (HadalGame.CONFIG_HEIGHT / 2 - height));
+                float tanAngle = (float) (Math.tan(angle) * (HadalGame.CONFIG_HEIGHT / 2 - circleHeight));
                 if (angle < corner && angle > -(MathUtils.PI + corner)) {
-                    x = width;
-                    y = (float) (HadalGame.CONFIG_HEIGHT / 2 - Math.tan(angle + MathUtils.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - width));
+                    x = circleWidth;
+                    y = (float) (HadalGame.CONFIG_HEIGHT / 2 - Math.tan(angle + MathUtils.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - circleWidth));
                 }
                 else if (angle > -corner && angle < (MathUtils.PI + corner)) {
-                    x = HadalGame.CONFIG_WIDTH - width;
-                    y = (float) (HadalGame.CONFIG_HEIGHT / 2 + Math.tan(angle - MathUtils.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - width));
+                    x = HadalGame.CONFIG_WIDTH - circleWidth;
+                    y = (float) (HadalGame.CONFIG_HEIGHT / 2 + Math.tan(angle - MathUtils.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - circleWidth));
                 }
                 else if (angle <= -corner && angle >= corner) {
                     x = HadalGame.CONFIG_WIDTH / 2 + tanAngle;
-                    y = height;
+                    y = circleHeight;
                 }
                 else if (angle >= (MathUtils.PI + corner) || angle <= -(MathUtils.PI + corner)) {
                     x = HadalGame.CONFIG_WIDTH / 2 - tanAngle;
-                    y = HadalGame.CONFIG_HEIGHT - height;
+                    y = HadalGame.CONFIG_HEIGHT - circleHeight;
                 }
 
                 if (displayClearCircle) {
-                    batch.draw(Sprite.NOTIFICATIONS_CLEAR_CIRCLE.getFrame(), x - width / 2, y - height / 2, width, height);
+                    batch.draw(Sprite.NOTIFICATIONS_CLEAR_CIRCLE.getFrame(), x - circleWidth / 2, y - circleHeight / 2, circleWidth, circleHeight);
                 }
                 batch.draw(icon, x - width / 2, y - height / 2, width, height);
-                batch.draw(arrow, x + width / 2 + 1, y - arrowHeight / 2, - width / 2 - 1, arrowHeight / 2,
+                batch.draw(arrow, x + circleWidth / 2 + 1, y - arrowHeight / 2, - circleWidth / 2 - 1, arrowHeight / 2,
                     arrowWidth, arrowHeight, 1, 1, 180 * angle / MathUtils.PI - 90);
             } else if (displayObjectiveOnScreen) {
 

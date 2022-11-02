@@ -10,12 +10,13 @@ import com.mygdx.hadal.text.UIText;
 public enum CosmeticSlot {
 
     HEAD(UIText.SLOT_HEAD, 0),
-    EYE(UIText.SLOT_EYE, 1),
-    HAT1(UIText.SLOT_HAT1, 2),
-    HAT2(UIText.SLOT_HAT2, 3),
-    MOUTH1(UIText.SLOT_MOUTH1, 4),
-    MOUTH2(UIText.SLOT_MOUTH2, 5),
-    NOSE(UIText.SLOT_NOSE, 6),
+    SKIN(UIText.SLOT_SKIN, 1),
+    EYE(UIText.SLOT_EYE, 2),
+    HAT1(UIText.SLOT_HAT1, 3),
+    HAT2(UIText.SLOT_HAT2, 4),
+    MOUTH1(UIText.SLOT_MOUTH1, 5),
+    MOUTH2(UIText.SLOT_MOUTH2, 6),
+    NOSE(UIText.SLOT_NOSE, 7),
     DECAL_HEAD(UIText.SLOT_DECAL_HEAD, 8),
     DECAL_BODY(UIText.SLOT_DECAL_BODY, 9),
 

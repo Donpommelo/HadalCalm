@@ -11,342 +11,342 @@ maximillian_eyepatch
   orig: 228, 360
   offset: 0, 0
   index: -1
-maximillian_honk
+maximillian_hockey
   rotate: false
   xy: 232, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-maximillian_moustache
+maximillian_honk
   rotate: false
   xy: 388, 1642
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-maximillian_n95
+maximillian_moustache
   rotate: false
   xy: 388, 1280
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-maximillian_supreme
+maximillian_n95
   rotate: false
   xy: 388, 918
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-maximillian_supreme_mirror
+maximillian_supreme
   rotate: false
   xy: 388, 556
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-maximillian_zoom
+maximillian_supreme_mirror
   rotate: false
   xy: 462, 194
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-moreau_antlers
+maximillian_zoom
   rotate: false
   xy: 618, 1642
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-moreau_bicorne
+moreau_antlers
   rotate: false
   xy: 618, 1280
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-moreau_captain
+moreau_bicorne
   rotate: false
   xy: 618, 918
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
+moreau_captain
+  rotate: false
+  xy: 618, 556
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
 moreau_cartwheel
-  rotate: false
-  xy: 618, 556
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-roclaire_cartwheel
-  rotate: false
-  xy: 618, 556
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-moreau_eyepatch
   rotate: false
   xy: 692, 194
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-moreau_fear
+roclaire_cartwheel
+  rotate: false
+  xy: 692, 194
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+moreau_eyepatch
   rotate: false
   xy: 848, 1642
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-moreau_fear_mirror
+moreau_fear
   rotate: false
   xy: 848, 1280
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-moreau_festive
+moreau_fear_mirror
   rotate: false
   xy: 848, 918
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
+moreau_festive
+  rotate: false
+  xy: 848, 556
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+moreau_hockey
+  rotate: false
+  xy: 922, 194
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
 moreau_honk
-  rotate: false
-  xy: 848, 556
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-roclaire_honk
-  rotate: false
-  xy: 848, 556
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-moreau_moustache
-  rotate: false
-  xy: 922, 194
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-roclaire_moustache
-  rotate: false
-  xy: 922, 194
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-moreau_n95
   rotate: false
   xy: 1078, 1642
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-moreau_noisemaker
+roclaire_honk
+  rotate: false
+  xy: 1078, 1642
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+moreau_moustache
   rotate: false
   xy: 1078, 1280
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 0
-moreau_noisemaker
+  index: -1
+roclaire_moustache
+  rotate: false
+  xy: 1078, 1280
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+moreau_n95
   rotate: false
   xy: 1078, 918
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 1
+  index: -1
 moreau_noisemaker
   rotate: false
   xy: 1078, 556
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 2
+  index: 0
 moreau_noisemaker
   rotate: false
   xy: 1152, 194
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 3
+  index: 1
 moreau_noisemaker
   rotate: false
   xy: 1308, 1642
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 2
+moreau_noisemaker
+  rotate: false
+  xy: 1308, 1280
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 3
+moreau_noisemaker
+  rotate: false
+  xy: 1308, 918
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 4
 moreau_noisemaker
   rotate: false
-  xy: 1308, 1642
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 7
-moreau_noisemaker
-  rotate: false
-  xy: 1308, 1642
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 6
-moreau_noisemaker
-  rotate: false
-  xy: 1308, 1642
+  xy: 1308, 918
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 5
 moreau_noisemaker
   rotate: false
-  xy: 1308, 1642
+  xy: 1308, 918
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 8
+moreau_noisemaker
+  rotate: false
+  xy: 1308, 918
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 6
+moreau_noisemaker
+  rotate: false
+  xy: 1308, 918
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 7
 moreau_party
   rotate: false
-  xy: 1308, 1280
+  xy: 1308, 556
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 moreau_pipe
   rotate: false
-  xy: 1308, 918
+  xy: 1382, 194
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 0
 moreau_pipe
   rotate: false
-  xy: 1308, 918
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 15
-moreau_pipe
-  rotate: false
-  xy: 1308, 918
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 14
-moreau_pipe
-  rotate: false
-  xy: 1308, 918
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 16
-moreau_pipe
-  rotate: false
-  xy: 1308, 918
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 13
-moreau_pipe
-  rotate: false
-  xy: 1308, 918
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 17
-moreau_pipe
-  rotate: false
-  xy: 1308, 918
+  xy: 1382, 194
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 12
 moreau_pipe
   rotate: false
-  xy: 1308, 556
+  xy: 1382, 194
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 1
+  index: 13
 moreau_pipe
   rotate: false
   xy: 1382, 194
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 2
+  index: 15
+moreau_pipe
+  rotate: false
+  xy: 1382, 194
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 14
+moreau_pipe
+  rotate: false
+  xy: 1382, 194
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 16
+moreau_pipe
+  rotate: false
+  xy: 1382, 194
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 17
 moreau_pipe
   rotate: false
   xy: 1538, 1642
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 3
+  index: 1
 moreau_pipe
   rotate: false
   xy: 1538, 1280
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 4
+  index: 2
 moreau_pipe
   rotate: false
   xy: 1538, 918
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 5
+  index: 3
 moreau_pipe
   rotate: false
   xy: 1538, 556
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 6
+  index: 4
 moreau_pipe
   rotate: false
   xy: 1612, 194
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 7
+  index: 5
 moreau_pipe
   rotate: false
   xy: 1768, 1642
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 8
+  index: 6
 moreau_pipe
   rotate: false
   xy: 1768, 1280
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 9
+  index: 7
 moreau_pipe
   rotate: false
   xy: 1768, 918
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 10
+  index: 8
 moreau_pipe
   rotate: false
   xy: 1768, 556
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 11
+  index: 9
 moreau_supreme
   rotate: false
   xy: 2, 1594
@@ -409,350 +409,350 @@ size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-moreau_propeller
+moreau_pipe
   rotate: false
   xy: 2, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 0
-moreau_propeller
+  index: 10
+moreau_pipe
   rotate: false
   xy: 2, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 1
+  index: 11
 moreau_propeller
   rotate: false
   xy: 232, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 2
+  index: 0
 moreau_propeller
   rotate: false
   xy: 2, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 3
-moreau_snorkel
+  index: 1
+moreau_propeller
   rotate: false
   xy: 232, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: -1
-moreau_zoom
+  index: 2
+moreau_propeller
   rotate: false
   xy: 462, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: -1
-roclaire_antlers
+  index: 3
+moreau_snorkel
   rotate: false
   xy: 2, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-roclaire_bicorne
+moreau_stein
   rotate: false
   xy: 232, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-roclaire_captain
+moreau_witch
   rotate: false
   xy: 462, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-roclaire_eyepatch
+moreau_zoom
   rotate: false
   xy: 692, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-roclaire_n95
+roclaire_antlers
   rotate: false
   xy: 2, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-roclaire_noisemaker
+roclaire_bicorne
   rotate: false
   xy: 232, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+roclaire_captain
+  rotate: false
+  xy: 462, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+roclaire_eyepatch
+  rotate: false
+  xy: 692, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+roclaire_hockey
+  rotate: false
+  xy: 922, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+roclaire_n95
+  rotate: false
+  xy: 232, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+roclaire_noisemaker
+  rotate: false
+  xy: 462, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 0
 roclaire_noisemaker
   rotate: false
-  xy: 462, 726
+  xy: 692, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 1
 roclaire_noisemaker
   rotate: false
-  xy: 692, 1088
+  xy: 922, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 2
 roclaire_noisemaker
   rotate: false
-  xy: 922, 1450
+  xy: 1152, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 3
 roclaire_noisemaker
   rotate: false
-  xy: 232, 2
+  xy: 462, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 4
 roclaire_noisemaker
   rotate: false
-  xy: 232, 2
+  xy: 462, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 8
+  index: 7
 roclaire_noisemaker
   rotate: false
-  xy: 232, 2
+  xy: 462, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 5
 roclaire_noisemaker
   rotate: false
-  xy: 232, 2
+  xy: 462, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 6
 roclaire_noisemaker
   rotate: false
-  xy: 232, 2
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 7
-roclaire_party
-  rotate: false
-  xy: 462, 364
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-roclaire_pipe
-  rotate: false
-  xy: 692, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 0
-roclaire_pipe
-  rotate: false
-  xy: 692, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 16
-roclaire_pipe
-  rotate: false
-  xy: 692, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 12
-roclaire_pipe
-  rotate: false
-  xy: 692, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 15
-roclaire_pipe
-  rotate: false
-  xy: 692, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 13
-roclaire_pipe
-  rotate: false
-  xy: 692, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 14
-roclaire_pipe
-  rotate: false
-  xy: 692, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 17
-roclaire_pipe
-  rotate: false
-  xy: 922, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 1
-roclaire_pipe
-  rotate: false
-  xy: 1152, 1450
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 2
-roclaire_pipe
-  rotate: false
   xy: 462, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 3
-roclaire_pipe
+  index: 8
+roclaire_party
   rotate: false
   xy: 692, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 4
+  index: -1
 roclaire_pipe
   rotate: false
   xy: 922, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 5
+  index: 0
+roclaire_pipe
+  rotate: false
+  xy: 922, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 16
+roclaire_pipe
+  rotate: false
+  xy: 922, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 12
+roclaire_pipe
+  rotate: false
+  xy: 922, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 17
+roclaire_pipe
+  rotate: false
+  xy: 922, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 14
+roclaire_pipe
+  rotate: false
+  xy: 922, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 15
+roclaire_pipe
+  rotate: false
+  xy: 922, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 13
 roclaire_pipe
   rotate: false
   xy: 1152, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 6
+  index: 1
 roclaire_pipe
   rotate: false
   xy: 1382, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 7
+  index: 2
 roclaire_pipe
   rotate: false
   xy: 692, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 8
+  index: 3
 roclaire_pipe
   rotate: false
   xy: 922, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 9
+  index: 4
 roclaire_pipe
   rotate: false
   xy: 1152, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 10
+  index: 5
 roclaire_pipe
   rotate: false
   xy: 1382, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
+  index: 6
+roclaire_pipe
+  rotate: false
+  xy: 1612, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 7
+roclaire_pipe
+  rotate: false
+  xy: 922, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 8
+roclaire_pipe
+  rotate: false
+  xy: 1152, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 9
+roclaire_pipe
+  rotate: false
+  xy: 1382, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 10
+roclaire_pipe
+  rotate: false
+  xy: 1612, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
   index: 11
 roclaire_propellor
   rotate: false
-  xy: 1612, 1450
+  xy: 1152, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 0
 roclaire_propellor
   rotate: false
-  xy: 922, 2
+  xy: 1382, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 1
 roclaire_propellor
   rotate: false
-  xy: 1152, 364
+  xy: 1612, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 2
 roclaire_propellor
   rotate: false
-  xy: 1382, 726
+  xy: 1382, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 3
 roclaire_snorkel
   rotate: false
-  xy: 1612, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-roclaire_supreme
-  rotate: false
-  xy: 1152, 2
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-roclaire_supreme_mirror
-  rotate: false
-  xy: 1382, 364
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-roclaire_zoom
-  rotate: false
-  xy: 1612, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-takanori_antlers
-  rotate: false
-  xy: 1382, 2
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-takanori_bicorne
-  rotate: false
   xy: 1612, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
-takanori_captain
+roclaire_supreme
   rotate: false
   xy: 1612, 2
   size: 228, 360
@@ -765,840 +765,924 @@ size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-takanori_cartwheel
+roclaire_supreme_mirror
   rotate: false
   xy: 2, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+roclaire_witch
+  rotate: false
+  xy: 2, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+roclaire_zoom
+  rotate: false
+  xy: 232, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_antlers
+  rotate: false
+  xy: 2, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_bicorne
+  rotate: false
+  xy: 232, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_captain
+  rotate: false
+  xy: 462, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_cartwheel
+  rotate: false
+  xy: 2, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 takanori_eyepatch
   rotate: false
-  xy: 2, 1088
+  xy: 232, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 takanori_fear
   rotate: false
-  xy: 232, 1450
+  xy: 462, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 takanori_fear_mirror
   rotate: false
-  xy: 2, 726
+  xy: 692, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_hockey
+  rotate: false
+  xy: 2, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 takanori_honk
   rotate: false
-  xy: 232, 1088
+  xy: 232, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 takanori_moustache
   rotate: false
-  xy: 462, 1450
+  xy: 462, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 takanori_n95
   rotate: false
-  xy: 2, 364
+  xy: 692, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 takanori_noisemaker
   rotate: false
-  xy: 232, 726
+  xy: 922, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 0
 takanori_noisemaker
   rotate: false
-  xy: 462, 1088
+  xy: 232, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 1
 takanori_noisemaker
   rotate: false
-  xy: 692, 1450
+  xy: 462, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 2
 takanori_noisemaker
   rotate: false
-  xy: 2, 2
+  xy: 692, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 3
 takanori_noisemaker
   rotate: false
-  xy: 232, 364
+  xy: 922, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 4
 takanori_noisemaker
   rotate: false
-  xy: 232, 364
+  xy: 922, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 6
+  index: 7
 takanori_noisemaker
   rotate: false
-  xy: 232, 364
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 5
-takanori_noisemaker
-  rotate: false
-  xy: 232, 364
+  xy: 922, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 8
 takanori_noisemaker
   rotate: false
-  xy: 232, 364
+  xy: 922, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 7
-takanori_party
-  rotate: false
-  xy: 462, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-takanori_pipe
-  rotate: false
-  xy: 692, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 0
-takanori_pipe
-  rotate: false
-  xy: 692, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 14
-takanori_pipe
-  rotate: false
-  xy: 692, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 13
-takanori_pipe
-  rotate: false
-  xy: 692, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 17
-takanori_pipe
-  rotate: false
-  xy: 692, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 16
-takanori_pipe
-  rotate: false
-  xy: 692, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 12
-takanori_pipe
-  rotate: false
-  xy: 692, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 15
-takanori_pipe
-  rotate: false
-  xy: 922, 1450
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 1
-takanori_pipe
-  rotate: false
-  xy: 232, 2
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 2
-takanori_pipe
-  rotate: false
-  xy: 462, 364
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 3
-takanori_pipe
-  rotate: false
-  xy: 692, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 4
-takanori_pipe
+  index: 6
+takanori_noisemaker
   rotate: false
   xy: 922, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 5
-takanori_pipe
+takanori_party
   rotate: false
   xy: 1152, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 6
+  index: -1
 takanori_pipe
   rotate: false
   xy: 462, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 7
+  index: 0
+takanori_pipe
+  rotate: false
+  xy: 462, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 16
+takanori_pipe
+  rotate: false
+  xy: 462, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 12
+takanori_pipe
+  rotate: false
+  xy: 462, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 15
+takanori_pipe
+  rotate: false
+  xy: 462, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 14
+takanori_pipe
+  rotate: false
+  xy: 462, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 13
+takanori_pipe
+  rotate: false
+  xy: 462, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 17
 takanori_pipe
   rotate: false
   xy: 692, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 8
+  index: 1
 takanori_pipe
   rotate: false
   xy: 922, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 9
+  index: 2
 takanori_pipe
   rotate: false
   xy: 1152, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 10
+  index: 3
 takanori_pipe
   rotate: false
   xy: 1382, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
+  index: 4
+takanori_pipe
+  rotate: false
+  xy: 692, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 5
+takanori_pipe
+  rotate: false
+  xy: 922, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 6
+takanori_pipe
+  rotate: false
+  xy: 1152, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 7
+takanori_pipe
+  rotate: false
+  xy: 1382, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 8
+takanori_pipe
+  rotate: false
+  xy: 1612, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 9
+takanori_pipe
+  rotate: false
+  xy: 922, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 10
+takanori_pipe
+  rotate: false
+  xy: 1152, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
   index: 11
 takanori_propellor
   rotate: false
-  xy: 692, 2
+  xy: 1382, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 0
 takanori_propellor
   rotate: false
-  xy: 922, 364
+  xy: 1612, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 1
 takanori_propellor
   rotate: false
-  xy: 1152, 726
+  xy: 1152, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 2
 takanori_propellor
   rotate: false
-  xy: 1382, 1088
+  xy: 1382, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 3
 takanori_snorkel
   rotate: false
-  xy: 1612, 1450
+  xy: 1612, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_stein
+  rotate: false
+  xy: 1382, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+takanori_witch
+  rotate: false
+  xy: 1612, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 takanori_zoom
   rotate: false
-  xy: 922, 2
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-telemachus_bicorne
-  rotate: false
-  xy: 1152, 364
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-telemachus_captain
-  rotate: false
-  xy: 1382, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-telemachus_eyepatch
-  rotate: false
-  xy: 1612, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-telemachus_fear
-  rotate: false
-  xy: 1152, 2
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-telemachus_fear_mirror
-  rotate: false
-  xy: 1382, 364
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-telemachus_honk
-  rotate: false
-  xy: 1612, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-telemachus_moustache
-  rotate: false
-  xy: 1382, 2
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-telemachus_n95
-  rotate: false
-  xy: 1612, 364
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: -1
-telemachus_noisemaker
-  rotate: false
   xy: 1612, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 0
+  index: -1
 
 cosmetics4.png
 size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-telemachus_noisemaker
+telemachus_bicorne
   rotate: false
   xy: 2, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 1
-telemachus_noisemaker
+  index: -1
+telemachus_captain
   rotate: false
   xy: 2, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 2
-telemachus_noisemaker
+  index: -1
+telemachus_eyepatch
   rotate: false
   xy: 232, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 3
-telemachus_noisemaker
+  index: -1
+telemachus_fear
   rotate: false
   xy: 2, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 4
-telemachus_noisemaker
-  rotate: false
-  xy: 2, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 5
-telemachus_noisemaker
-  rotate: false
-  xy: 2, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 6
-telemachus_noisemaker
-  rotate: false
-  xy: 2, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 8
-telemachus_noisemaker
-  rotate: false
-  xy: 2, 726
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 7
-telemachus_pipe
+  index: -1
+telemachus_fear_mirror
   rotate: false
   xy: 232, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 0
-telemachus_pipe
-  rotate: false
-  xy: 232, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 16
-telemachus_pipe
-  rotate: false
-  xy: 232, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 12
-telemachus_pipe
-  rotate: false
-  xy: 232, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 17
-telemachus_pipe
-  rotate: false
-  xy: 232, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 13
-telemachus_pipe
-  rotate: false
-  xy: 232, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 14
-telemachus_pipe
-  rotate: false
-  xy: 232, 1088
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 15
-telemachus_pipe
+  index: -1
+telemachus_hockey
   rotate: false
   xy: 462, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 1
-telemachus_pipe
+  index: -1
+telemachus_honk
   rotate: false
   xy: 2, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 2
-telemachus_pipe
+  index: -1
+telemachus_moustache
   rotate: false
   xy: 232, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 3
-telemachus_pipe
+  index: -1
+telemachus_n95
   rotate: false
   xy: 462, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 4
-telemachus_pipe
+  index: -1
+telemachus_noisemaker
   rotate: false
   xy: 692, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 5
-telemachus_pipe
+  index: 0
+telemachus_noisemaker
   rotate: false
   xy: 2, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 6
-telemachus_pipe
+  index: 1
+telemachus_noisemaker
   rotate: false
   xy: 232, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 7
-telemachus_pipe
+  index: 2
+telemachus_noisemaker
   rotate: false
   xy: 462, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 8
-telemachus_pipe
+  index: 3
+telemachus_noisemaker
   rotate: false
   xy: 692, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 9
+  index: 4
+telemachus_noisemaker
+  rotate: false
+  xy: 692, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 7
+telemachus_noisemaker
+  rotate: false
+  xy: 692, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 6
+telemachus_noisemaker
+  rotate: false
+  xy: 692, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 5
+telemachus_noisemaker
+  rotate: false
+  xy: 692, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 8
 telemachus_pipe
   rotate: false
   xy: 922, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 10
+  index: 0
+telemachus_pipe
+  rotate: false
+  xy: 922, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 12
+telemachus_pipe
+  rotate: false
+  xy: 922, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 15
+telemachus_pipe
+  rotate: false
+  xy: 922, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 14
+telemachus_pipe
+  rotate: false
+  xy: 922, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 16
+telemachus_pipe
+  rotate: false
+  xy: 922, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 17
+telemachus_pipe
+  rotate: false
+  xy: 922, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 13
 telemachus_pipe
   rotate: false
   xy: 232, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
+  index: 1
+telemachus_pipe
+  rotate: false
+  xy: 462, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 2
+telemachus_pipe
+  rotate: false
+  xy: 692, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 3
+telemachus_pipe
+  rotate: false
+  xy: 922, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 4
+telemachus_pipe
+  rotate: false
+  xy: 1152, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 5
+telemachus_pipe
+  rotate: false
+  xy: 462, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 6
+telemachus_pipe
+  rotate: false
+  xy: 692, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 7
+telemachus_pipe
+  rotate: false
+  xy: 922, 726
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 8
+telemachus_pipe
+  rotate: false
+  xy: 1152, 1088
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 9
+telemachus_pipe
+  rotate: false
+  xy: 1382, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 10
+telemachus_pipe
+  rotate: false
+  xy: 692, 2
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
   index: 11
 telemachus_zoom
   rotate: false
-  xy: 462, 364
+  xy: 922, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 wanda_antlers
   rotate: false
-  xy: 692, 726
+  xy: 1152, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 wanda_bicorne
   rotate: false
-  xy: 922, 1088
+  xy: 1382, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 wanda_captain
   rotate: false
-  xy: 1152, 1450
+  xy: 1612, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 wanda_eyepatch
   rotate: false
-  xy: 462, 2
+  xy: 922, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 wanda_head_long
   rotate: false
-  xy: 692, 364
+  xy: 1152, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
+wanda_hockey
+  rotate: false
+  xy: 1382, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 wanda_honk
   rotate: false
-  xy: 922, 726
+  xy: 1612, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 wanda_moustache
   rotate: false
-  xy: 1152, 1088
+  xy: 1152, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 wanda_n95
   rotate: false
-  xy: 1382, 1450
+  xy: 1382, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 wanda_noisemaker
   rotate: false
-  xy: 692, 2
+  xy: 1612, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 0
 wanda_noisemaker
   rotate: false
-  xy: 922, 364
+  xy: 1382, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 1
 wanda_noisemaker
   rotate: false
-  xy: 1152, 726
+  xy: 1612, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 2
 wanda_noisemaker
   rotate: false
-  xy: 1382, 1088
+  xy: 1612, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 3
+
+cosmetics5.png
+size: 1024,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
 wanda_noisemaker
   rotate: false
-  xy: 1612, 1450
+  xy: 2, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 4
 wanda_noisemaker
   rotate: false
-  xy: 1612, 1450
+  xy: 2, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 8
+  index: 5
 wanda_noisemaker
   rotate: false
-  xy: 1612, 1450
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 6
-wanda_noisemaker
-  rotate: false
-  xy: 1612, 1450
+  xy: 2, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 7
 wanda_noisemaker
   rotate: false
-  xy: 1612, 1450
+  xy: 2, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
-  index: 5
+  index: 6
+wanda_noisemaker
+  rotate: false
+  xy: 2, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 8
 wanda_party
   rotate: false
-  xy: 922, 2
+  xy: 2, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: -1
 wanda_pipe
   rotate: false
-  xy: 1152, 364
+  xy: 232, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 0
 wanda_pipe
   rotate: false
-  xy: 1152, 364
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 12
-wanda_pipe
-  rotate: false
-  xy: 1152, 364
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 13
-wanda_pipe
-  rotate: false
-  xy: 1152, 364
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 14
-wanda_pipe
-  rotate: false
-  xy: 1152, 364
-  size: 228, 360
-  orig: 228, 360
-  offset: 0, 0
-  index: 16
-wanda_pipe
-  rotate: false
-  xy: 1152, 364
+  xy: 232, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 15
 wanda_pipe
   rotate: false
-  xy: 1152, 364
+  xy: 232, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 16
+wanda_pipe
+  rotate: false
+  xy: 232, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 17
 wanda_pipe
   rotate: false
-  xy: 1382, 726
+  xy: 232, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 14
+wanda_pipe
+  rotate: false
+  xy: 232, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 13
+wanda_pipe
+  rotate: false
+  xy: 232, 1450
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: 12
+wanda_pipe
+  rotate: false
+  xy: 2, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 1
 wanda_pipe
   rotate: false
-  xy: 1612, 1088
+  xy: 232, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 2
 wanda_pipe
   rotate: false
-  xy: 1152, 2
+  xy: 462, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 3
 wanda_pipe
   rotate: false
-  xy: 1382, 364
+  xy: 2, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 4
 wanda_pipe
   rotate: false
-  xy: 1612, 726
+  xy: 232, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 5
 wanda_pipe
   rotate: false
-  xy: 1382, 2
+  xy: 462, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 6
 wanda_pipe
   rotate: false
-  xy: 1612, 364
+  xy: 692, 1450
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 7
 wanda_pipe
   rotate: false
-  xy: 1612, 2
+  xy: 2, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 8
-
-cosmetics5.png
-size: 2048,512
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
 wanda_pipe
   rotate: false
-  xy: 2, 2
+  xy: 232, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 9
 wanda_pipe
   rotate: false
-  xy: 232, 2
+  xy: 462, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 10
 wanda_pipe
   rotate: false
-  xy: 462, 2
+  xy: 692, 1088
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 11
 wanda_propellor
   rotate: false
-  xy: 692, 2
+  xy: 232, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 0
 wanda_propellor
   rotate: false
-  xy: 922, 2
+  xy: 462, 364
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 1
 wanda_propellor
   rotate: false
-  xy: 1152, 2
+  xy: 692, 726
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 2
 wanda_propellor
   rotate: false
-  xy: 1382, 2
+  xy: 462, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
   index: 3
+wanda_stein
+  rotate: false
+  xy: 692, 364
+  size: 228, 360
+  orig: 228, 360
+  offset: 0, 0
+  index: -1
 wanda_zoom
   rotate: false
-  xy: 1612, 2
+  xy: 692, 2
   size: 228, 360
   orig: 228, 360
   offset: 0, 0
