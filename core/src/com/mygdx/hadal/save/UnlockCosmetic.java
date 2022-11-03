@@ -21,6 +21,7 @@ import java.util.HashMap;
 public enum UnlockCosmetic {
 
     NOTHING_HEAD(CosmeticSlot.HEAD),
+    NOTHING_SKIN(CosmeticSlot.SKIN),
     NOTHING_EYE(CosmeticSlot.EYE),
     NOTHING_HAT1(CosmeticSlot.HAT1),
     NOTHING_HAT2(CosmeticSlot.HAT2),
@@ -68,6 +69,10 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_propellor"),
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_propellor"),
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_propellor")),
+    WITCH_HAT(CosmeticSlot.HAT1, GameText.WITCH_HAT, GameText.WITCH_HAT_DESC, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_witch"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_witch"),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_witch")),
     ZOOMER_PERM(CosmeticSlot.HAT1, GameText.ZOOMER_PERM, GameText.ZOOMER_PERM_DESC, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_zoom"),
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_zoom"),
@@ -87,6 +92,12 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_snorkel"),
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_snorkel"),
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_snorkel")),
+    HOCKEY_MASK(CosmeticSlot.EYE, GameText.HOCKEY_MASK, GameText.HOCKEY_MASK_DESC, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_hockey"),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_hockey"),
+            new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_hockey"),
+            new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_hockey"),
+            new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_hockey")),
 
     CLOWN_NOSE(CosmeticSlot.NOSE, GameText.CLOWN_NOSE, GameText.CLOWN_NOSE_DESC, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_honk").setBotRandomWeight(2),
@@ -109,7 +120,7 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_noisemaker").setOffsetX(-58.4f).setOffsetY(12.6f),
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_noisemaker").setOffsetX(-91.8f).setOffsetY(0),
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_noisemaker").setOffsetX(-30.6f).setOffsetY(-40.2f)),
-    PIPE(CosmeticSlot.MOUTH1, GameText.PIPE, GameText.PIPE_DESC, true, true,
+    PIPE(CosmeticSlot.MOUTH1, GameText.PIPE, GameText.PIPE_DESC, true,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_pipe").setOffsetX(-67.8f).setOffsetY(0),
             new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_pipe").setOffsetX(-85.2f).setOffsetY(-3.0f),
             new CharacterCosmetic(UnlockCharacter.TELEMACHUS, "telemachus_pipe").setOffsetX(-58.4f).setOffsetY(12.6f),
@@ -127,9 +138,15 @@ public enum UnlockCosmetic {
             new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_head_long").setOffsetYRest(144.6f)
                     .setUseShader(true).setBotRandomWeight(2)),
 
+    FRANKENSTEIN(CosmeticSlot.SKIN, GameText.FRANKENSTEIN, GameText.FRANKENSTEIN_DESC, true,
+            new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_stein").setBotRandomWeight(2),
+            new CharacterCosmetic(UnlockCharacter.TAKANORI, "takanori_stein").setBotRandomWeight(2),
+            new CharacterCosmetic(UnlockCharacter.WANDA, "wanda_stein").setBotRandomWeight(2)),
+
     SUPREME_HEAD(CosmeticSlot.DECAL_HEAD, GameText.SUPREME, GameText.SUPREME_DESC, true,
             new CharacterCosmetic(UnlockCharacter.ROCLAIRE, "roclaire_supreme", "roclaire_supreme_mirror").setBotRandomWeight(2),
             new CharacterCosmetic(UnlockCharacter.MAXIMILLIAN, "maximillian_supreme", "maximillian_supreme_mirror").setBotRandomWeight(2)),
+
 
     SUPREME_BODY(CosmeticSlot.DECAL_BODY, GameText.SUPREME, GameText.SUPREME_DESC, true, false,
             new CharacterCosmetic(UnlockCharacter.MOREAU, "moreau_supreme", "moreau_supreme_mirror").setBotRandomWeight(2),
@@ -146,7 +163,12 @@ public enum UnlockCosmetic {
 
     //does the cosmetic sprite ragdoll when the user is defeated?
     private final boolean ragdoll;
+
+    //does this cosmetic's location depend on the player's head locatioin? or body?
     private final boolean head;
+
+//    //does this cosmetic's location depend on the player's head locatioin? or body?
+//    private final boolean override;
 
     //Blank indicates that the cosmetic will not be rendered, instead representing an empty slot
     private boolean blank;
