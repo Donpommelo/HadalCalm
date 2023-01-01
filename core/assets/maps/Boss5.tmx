@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="69">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="69">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="BOSS_NEPTUNE_KING_GARDEN"/>
@@ -76,37 +76,19 @@
   <object id="13" name="Dummy" type="Dummy" x="448" y="1024" width="32" height="32">
    <properties>
     <property name="dummyId" value="0"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="rally0"/>
    </properties>
   </object>
-  <object id="15" name="Dropthrough" type="Dropthrough" x="960" y="1920" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="16" name="Dropthrough" type="Dropthrough" x="2048" y="1920" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="17" name="Dropthrough" type="Dropthrough" x="1344" y="1760" width="544" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="18" name="Dropthrough" type="Dropthrough" x="960" y="1600" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="19" name="Dropthrough" type="Dropthrough" x="2048" y="1600" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="15" name="Dropthrough" type="Dropthrough" x="960" y="1920" width="224" height="8"/>
+  <object id="16" name="Dropthrough" type="Dropthrough" x="2048" y="1920" width="224" height="8"/>
+  <object id="17" name="Dropthrough" type="Dropthrough" x="1344" y="1760" width="544" height="8"/>
+  <object id="18" name="Dropthrough" type="Dropthrough" x="960" y="1600" width="224" height="8"/>
+  <object id="19" name="Dropthrough" type="Dropthrough" x="2048" y="1600" width="224" height="8"/>
   <object id="21" name="MovePoint" type="MovePoint" x="448" y="1024" width="32" height="32">
    <properties>
     <property name="connections" value="rally0"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="speed" type="float" value="6"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="dummy1"/>
@@ -114,24 +96,28 @@
   </object>
   <object id="22" name="Dummy" type="Dummy" x="448" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy1"/>
     <property name="triggeringId" value="dummy2"/>
    </properties>
   </object>
   <object id="23" name="Dummy" type="Dummy" x="736" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy2"/>
     <property name="triggeringId" value="dummy3"/>
    </properties>
   </object>
   <object id="24" name="Dummy" type="Dummy" x="736" y="1024" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy3"/>
     <property name="triggeringId" value="dummy0"/>
    </properties>
   </object>
   <object id="25" name="Dummy" type="Dummy" x="448" y="1024" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy0"/>
     <property name="triggeringId" value="dummy1"/>
    </properties>
@@ -139,12 +125,14 @@
   <object id="26" name="Dummy" type="Dummy" x="928" y="1024" width="32" height="32">
    <properties>
     <property name="dummyId" value="1"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="rally1"/>
    </properties>
   </object>
   <object id="27" name="MovePoint" type="MovePoint" x="928" y="1024" width="32" height="32">
    <properties>
     <property name="connections" value="rally1"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="speed" type="float" value="8"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="dummy5"/>
@@ -152,24 +140,28 @@
   </object>
   <object id="28" name="Dummy" type="Dummy" x="928" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy5"/>
     <property name="triggeringId" value="dummy6"/>
    </properties>
   </object>
   <object id="29" name="Dummy" type="Dummy" x="1216" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy6"/>
     <property name="triggeringId" value="dummy7"/>
    </properties>
   </object>
   <object id="30" name="Dummy" type="Dummy" x="1216" y="1024" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy7"/>
     <property name="triggeringId" value="dummy4"/>
    </properties>
   </object>
   <object id="31" name="Dummy" type="Dummy" x="928" y="1024" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy4"/>
     <property name="triggeringId" value="dummy5"/>
    </properties>
@@ -177,12 +169,14 @@
   <object id="32" name="Dummy" type="Dummy" x="1408" y="1024" width="32" height="32">
    <properties>
     <property name="dummyId" value="2"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="rally2"/>
    </properties>
   </object>
   <object id="33" name="MovePoint" type="MovePoint" x="1408" y="1024" width="32" height="32">
    <properties>
     <property name="connections" value="rally2"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="speed" type="float" value="10"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="dummy8"/>
@@ -190,24 +184,28 @@
   </object>
   <object id="34" name="Dummy" type="Dummy" x="1408" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy9"/>
     <property name="triggeringId" value="dummy10"/>
    </properties>
   </object>
   <object id="35" name="Dummy" type="Dummy" x="1792" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy10"/>
     <property name="triggeringId" value="dummy11"/>
    </properties>
   </object>
   <object id="36" name="Dummy" type="Dummy" x="1792" y="1024" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy11"/>
     <property name="triggeringId" value="dummy8"/>
    </properties>
   </object>
   <object id="37" name="Dummy" type="Dummy" x="1408" y="1024" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy8"/>
     <property name="triggeringId" value="dummy9"/>
    </properties>
@@ -215,12 +213,14 @@
   <object id="38" name="Dummy" type="Dummy" x="1984" y="1024" width="32" height="32">
    <properties>
     <property name="dummyId" value="3"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="rally3"/>
    </properties>
   </object>
   <object id="39" name="MovePoint" type="MovePoint" x="1984" y="1024" width="32" height="32">
    <properties>
     <property name="connections" value="rally3"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="speed" type="float" value="12"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="dummy13"/>
@@ -228,24 +228,28 @@
   </object>
   <object id="40" name="Dummy" type="Dummy" x="1984" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy13"/>
     <property name="triggeringId" value="dummy14"/>
    </properties>
   </object>
   <object id="41" name="Dummy" type="Dummy" x="2272" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy14"/>
     <property name="triggeringId" value="dummy15"/>
    </properties>
   </object>
   <object id="42" name="Dummy" type="Dummy" x="2272" y="1024" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy15"/>
     <property name="triggeringId" value="dummy12"/>
    </properties>
   </object>
   <object id="43" name="Dummy" type="Dummy" x="1984" y="1024" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy12"/>
     <property name="triggeringId" value="dummy13"/>
    </properties>
@@ -253,12 +257,14 @@
   <object id="44" name="Dummy" type="Dummy" x="2464" y="1024" width="32" height="32">
    <properties>
     <property name="dummyId" value="4"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="rally4"/>
    </properties>
   </object>
   <object id="45" name="MovePoint" type="MovePoint" x="2464" y="1024" width="32" height="32">
    <properties>
     <property name="connections" value="rally4"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="speed" type="float" value="14"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="dummy17"/>
@@ -266,24 +272,28 @@
   </object>
   <object id="46" name="Dummy" type="Dummy" x="2464" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy17"/>
     <property name="triggeringId" value="dummy18"/>
    </properties>
   </object>
   <object id="47" name="Dummy" type="Dummy" x="2752" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy18"/>
     <property name="triggeringId" value="dummy19"/>
    </properties>
   </object>
   <object id="48" name="Dummy" type="Dummy" x="2752" y="1024" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy19"/>
     <property name="triggeringId" value="dummy16"/>
    </properties>
   </object>
   <object id="49" name="Dummy" type="Dummy" x="2464" y="1024" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="dummy16"/>
     <property name="triggeringId" value="dummy17"/>
    </properties>

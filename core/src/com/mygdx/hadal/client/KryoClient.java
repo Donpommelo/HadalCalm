@@ -17,6 +17,7 @@ import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.MovingPoint;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
@@ -38,7 +39,6 @@ import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -142,7 +142,7 @@ public class KryoClient {
 			}
         };
 
-//		client.addListener(new Listener.LagListener(50, 100, packetListener));
+//		client.addListener(new Listener.LagListener(200, 200, packetListener));
        client.addListener(packetListener);
 	}
 
@@ -911,6 +911,21 @@ public class KryoClient {
 				});
 			}
 			return true;
+		}
+
+		else if (o instanceof final Packets.CreateStartSyncedEvent p) {
+			final ClientState cs = getClientState();
+			if (null != cs) {
+				cs.addPacketEffect(() -> {
+					Event event = TiledObjectUtil.getTriggeredEvents().get(p.triggeredID);
+					if (null != event) {
+						HadalEntity target = TiledObjectUtil.getTriggeredEvents().get(p.targetTriggeredID);
+						if (target instanceof Event targetEvent) {
+							event.onClientSyncInitial(p.timer, targetEvent, p.pos, p.velo);
+						}
+					}
+				});
+			}
 		}
 		
 		//if none of the packets match, return false to indicate the packet was not an add/create packet

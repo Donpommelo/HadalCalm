@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="179">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="179">
  <properties>
   <property name="music" value="LEVEL_DERELICT"/>
  </properties>
@@ -51,11 +51,7 @@
     <property name="yPush" type="float" value="30"/>
    </properties>
   </object>
-  <object id="8" name="Dropthrough" type="Dropthrough" x="1152" y="3296" width="160" height="16">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="8" name="Dropthrough" type="Dropthrough" x="1152" y="3296" width="160" height="16"/>
   <object id="9" name="Multitrigger" type="Multitrigger" x="64" y="128" width="32" height="32">
    <properties>
     <property name="triggeredId" value="enterroom1"/>
@@ -126,16 +122,8 @@
     <property name="zoom" type="float" value="1.5"/>
    </properties>
   </object>
-  <object id="19" name="Dropthrough" type="Dropthrough" x="1056" y="2720" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="20" name="Dropthrough" type="Dropthrough" x="1056" y="2400" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="19" name="Dropthrough" type="Dropthrough" x="1056" y="2720" width="224" height="8"/>
+  <object id="20" name="Dropthrough" type="Dropthrough" x="1056" y="2400" width="224" height="8"/>
   <object id="21" name="Camera" type="Camera" x="128" y="128" width="32" height="32">
    <properties>
     <property name="triggeredId" value="camerauniversal"/>
@@ -376,52 +364,19 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="53" name="Dropthrough" type="Dropthrough" x="4320" y="2624" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="54" name="Dropthrough" type="Dropthrough" x="4320" y="2304" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="55" name="Dropthrough" type="Dropthrough" x="4320" y="1984" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="56" name="Dropthrough" type="Dropthrough" x="3872" y="1600" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="57" name="Dropthrough" type="Dropthrough" x="2240" y="1408" width="512" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="58" name="Dropthrough" type="Dropthrough" x="1664" y="1920" width="352" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="59" name="Dropthrough" type="Dropthrough" x="1664" y="1472" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="61" name="Dropthrough" type="Dropthrough" x="1056" y="2016" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="53" name="Dropthrough" type="Dropthrough" x="4320" y="2624" width="288" height="8"/>
+  <object id="54" name="Dropthrough" type="Dropthrough" x="4320" y="2304" width="288" height="8"/>
+  <object id="55" name="Dropthrough" type="Dropthrough" x="4320" y="1984" width="288" height="8"/>
+  <object id="56" name="Dropthrough" type="Dropthrough" x="3872" y="1600" width="288" height="8"/>
+  <object id="57" name="Dropthrough" type="Dropthrough" x="2240" y="1408" width="512" height="8"/>
+  <object id="58" name="Dropthrough" type="Dropthrough" x="1664" y="1920" width="352" height="8"/>
+  <object id="59" name="Dropthrough" type="Dropthrough" x="1664" y="1472" width="160" height="8"/>
+  <object id="61" name="Dropthrough" type="Dropthrough" x="1056" y="2016" width="224" height="8"/>
   <object id="62" name="Platform" type="Platform" x="2464" y="2816" width="224" height="96">
    <properties>
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="NOTHING"/>
    </properties>
@@ -429,7 +384,6 @@
   <object id="63" name="ParticleField" type="ParticleField" x="2464" y="2880" width="224" height="32">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="SHADOW_CLOAK"/>
     <property name="speed" type="float" value="2"/>
    </properties>
@@ -439,7 +393,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
     <property name="hbox" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="NOTHING"/>
    </properties>
@@ -447,7 +400,6 @@
   <object id="65" name="ParticleField" type="ParticleField" x="3520" y="3040" width="704" height="32">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="SHADOW_CLOAK"/>
     <property name="speed" type="float" value="2"/>
    </properties>
@@ -457,7 +409,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="NOTHING"/>
    </properties>
@@ -465,7 +416,6 @@
   <object id="67" name="ParticleField" type="ParticleField" x="5024" y="2688" width="32" height="288">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="SHADOW_CLOAK"/>
     <property name="speed" type="float" value="2"/>
    </properties>
@@ -475,7 +425,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="NOTHING"/>
    </properties>
@@ -483,7 +432,6 @@
   <object id="69" name="ParticleField" type="ParticleField" x="3840" y="1472" width="352" height="32">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="SHADOW_CLOAK"/>
     <property name="speed" type="float" value="2"/>
    </properties>
@@ -501,7 +449,6 @@
   <object id="71" name="ParticleField" type="ParticleField" x="2176" y="1280" width="640" height="32">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="SHADOW_CLOAK"/>
     <property name="speed" type="float" value="2"/>
    </properties>
@@ -511,7 +458,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="NOTHING"/>
    </properties>
@@ -519,7 +465,6 @@
   <object id="73" name="ParticleField" type="ParticleField" x="960" y="1792" width="32" height="224">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="SHADOW_CLOAK"/>
     <property name="speed" type="float" value="2"/>
    </properties>
@@ -722,7 +667,7 @@
    <properties>
     <property name="connections" value="target1"/>
     <property name="speed" type="float" value="12"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move4"/>
     <property name="triggeringId" value="t2dummy"/>
    </properties>
   </object>
@@ -742,7 +687,7 @@
    <properties>
     <property name="connections" value="plat1"/>
     <property name="speed" type="float" value="12"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move5"/>
     <property name="triggeringId" value="p1dummy"/>
    </properties>
   </object>
@@ -756,11 +701,7 @@
     <property name="triggeringId" value=""/>
    </properties>
   </object>
-  <object id="107" name="Dropthrough" type="Dropthrough" x="1504" y="2912" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="107" name="Dropthrough" type="Dropthrough" x="1504" y="2912" width="224" height="8"/>
   <object id="112" name="Multitrigger" type="Multitrigger" x="4384" y="3392" width="32" height="32">
    <properties>
     <property name="triggeredId" value="target2activate"/>
@@ -825,7 +766,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="true"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="triggeredId" value=""/>
    </properties>
@@ -835,7 +775,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="true"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="triggeredId" value=""/>
    </properties>
@@ -844,14 +783,12 @@
    <properties>
     <property name="currentX" type="float" value="-30"/>
     <property name="currentY" type="float" value="0"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="124" name="Current" type="Current" x="3904" y="3328" width="160" height="256">
    <properties>
     <property name="currentX" type="float" value="30"/>
     <property name="currentY" type="float" value="0"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="125" name="Dummy" type="Dummy" x="3552" y="3520" width="32" height="32">
@@ -870,7 +807,7 @@
    <properties>
     <property name="connections" value="target2"/>
     <property name="speed" type="float" value="6"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move3"/>
     <property name="triggeringId" value="t4dummy"/>
    </properties>
   </object>
@@ -935,7 +872,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="true"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="triggeredId" value=""/>
    </properties>
@@ -958,6 +894,7 @@
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
     <property name="friction" type="float" value="0"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
     <property name="sync" value="ALL"/>
@@ -968,6 +905,7 @@
   <object id="138" name="Rotator" type="Rotator" x="6304" y="3072" width="32" height="32">
    <properties>
     <property name="angle" type="float" value="-0.3"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeringId" value="rplat1"/>
    </properties>
   </object>
@@ -977,6 +915,7 @@
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
     <property name="friction" type="float" value="0"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
     <property name="sync" value="ALL"/>
@@ -987,6 +926,7 @@
   <object id="140" name="Rotator" type="Rotator" x="6304" y="3136" width="32" height="32">
    <properties>
     <property name="angle" type="float" value="-0.3"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeringId" value="rplat2"/>
    </properties>
   </object>
@@ -1017,7 +957,7 @@
    <properties>
     <property name="connections" value="portal1"/>
     <property name="speed" type="float" value="4"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move2"/>
     <property name="triggeringId" value="t5dummy"/>
    </properties>
   </object>
@@ -1049,13 +989,12 @@
    <properties>
     <property name="connections" value="portal2"/>
     <property name="speed" type="float" value="4"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move1"/>
     <property name="triggeringId" value="t7dummy"/>
    </properties>
   </object>
   <object id="150" name="Spring" type="Spring" x="5440" y="3424" width="96" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springY" type="float" value="10"/>
    </properties>
   </object>
@@ -1064,7 +1003,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="true"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="triggeredId" value=""/>
    </properties>

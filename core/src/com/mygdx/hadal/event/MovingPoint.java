@@ -3,14 +3,17 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.UserDataType;
-import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.UserDataType;
+import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
+import static com.mygdx.hadal.states.PlayState.SYNC_TIME;
 
 /**
  * This is a platform that continuously moves towards its connected event.
@@ -46,7 +49,6 @@ public class MovingPoint extends Event {
 
 	@Override
 	public void create() {
-
 		this.eventData = new EventData(this, UserDataType.WALL) {
 			
 			@Override
@@ -69,8 +71,8 @@ public class MovingPoint extends Event {
 	private final Vector2 tempConnectedPosition = new Vector2();
 	@Override
 	public void controller(float delta) {
-		if (getConnectedEvent() != null) {
-			if (getConnectedEvent().getBody() != null) {
+		if (null != getConnectedEvent()) {
+			if (null != getConnectedEvent().getBody()) {
 				targetPosition.set(getConnectedEvent().getPosition());
 				dist.set(targetPosition).sub(getPosition());
 
@@ -94,7 +96,7 @@ public class MovingPoint extends Event {
 					}
 
 					//if there isn't another rally point, stop moving
-					if (getConnectedEvent().getConnectedEvent() == null) {
+					if (null == getConnectedEvent().getConnectedEvent()) {
 						setLinearVelocity(0, 0);
 
 						//Move all connected events by same amount.
@@ -105,7 +107,7 @@ public class MovingPoint extends Event {
 
 						//activate next event in the chain and move to next rally point
 						getConnectedEvent().getConnectedEvent().getEventData().preActivate(eventData, null);
-						if (getConnectedEvent().getConnectedEvent().getBody() != null) {
+						if (null != getConnectedEvent().getConnectedEvent().getBody()) {
 							setConnectedEvent(getConnectedEvent().getConnectedEvent());
 						} else {
 							if (pause) {
@@ -126,18 +128,58 @@ public class MovingPoint extends Event {
 			}
 		} 
 	}
-	
+
+	private boolean startSynced;
+	private float syncDelayCount;
+	@Override
+	public void clientController(float delta) {
+		controller(delta);
+		if (!startSynced) {
+			syncDelayCount += delta;
+
+			if (syncDelayCount >= 2.0f) {
+				startSynced = true;
+				HadalGame.client.sendTCP(new Packets.RequestStartSyncedEvent(triggeredID));
+			}
+		}
+	}
+
 	/**
 	 * Add another event to be connected to this moving point. Connected events must be synced
 	 */
 	public void addConnection(Event e) {
-		if (e != null) {
+		if (null != e) {
 			connected.put(e, new Vector2(e.getStartPos()).sub(startPos).scl(1 / PPM));
 			if (syncConnected) {
-				e.setSynced(true);
 				e.setIndependent(false);
+				e.setSynced(true);
+			} else {
+				e.setIndependent(true);
 			}
 		}
+	}
+
+	private final Vector2 delayedPosition = new Vector2();
+	@Override
+	public Object onServerSyncInitial() {
+		if (null == getConnectedEvent()) {
+			return new Packets.CreateStartSyncedEvent(state.getTimer(), triggeredID, null, getPosition(), getLinearVelocity());
+		} else {
+			return new Packets.CreateStartSyncedEvent(state.getTimer(), triggeredID, getConnectedEvent().getTriggeredID(), getPosition(), getLinearVelocity());
+		}
+	}
+
+	@Override
+	public void onClientSyncInitial(float timer, Event target, Vector2 position, Vector2 velocity) {
+		delayedPosition.set(position).add(velocity.scl(-2 * SYNC_TIME));
+
+		setTransform(delayedPosition, 0);
+		for (ObjectMap.Entry<Event, Vector2> e : connected.entries()) {
+			tempConnectedPosition.set(delayedPosition).add(e.value);
+			e.key.setTransform(tempConnectedPosition, 0);
+		}
+		setConnectedEvent(target);
+		needsToStartMoving = true;
 	}
 
 	/**

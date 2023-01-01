@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="140" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="58">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="140" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="58">
  <properties>
   <property name="music" value="LEVEL_NOISELESS_SEA"/>
   <property name="startUI" value="NOISELESS SEA,EMPTY,SCRAP"/>
@@ -92,7 +92,7 @@
    <properties>
     <property name="connections" value="plat1,f1"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move0"/>
     <property name="triggeringId" value="dummy0"/>
    </properties>
   </object>
@@ -123,7 +123,7 @@
    <properties>
     <property name="connections" value="plat2,f2"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move2"/>
     <property name="triggeringId" value="dummy2"/>
    </properties>
   </object>
@@ -154,7 +154,7 @@
    <properties>
     <property name="connections" value="plat3"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move4"/>
     <property name="triggeringId" value="dummy4"/>
    </properties>
   </object>
@@ -185,7 +185,7 @@
    <properties>
     <property name="connections" value="plat4"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move6"/>
     <property name="triggeringId" value="dummy6"/>
    </properties>
   </object>

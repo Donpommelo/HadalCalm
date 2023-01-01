@@ -81,6 +81,5 @@ public class Platform extends Event {
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.UI_RELOAD_BAR);
 		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
-		setSyncType(eventSyncTypes.ALL);
 	}
 }

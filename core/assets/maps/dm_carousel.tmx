@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="129">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="129">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -72,7 +72,7 @@
    <properties>
     <property name="connections" value="plat1,w1"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move2"/>
     <property name="triggeringId" value="dummy2"/>
    </properties>
   </object>
@@ -144,7 +144,7 @@
    <properties>
     <property name="connections" value="plat2"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move3"/>
     <property name="triggeringId" value="dummy3"/>
    </properties>
   </object>
@@ -163,7 +163,7 @@
    <properties>
     <property name="connections" value="plat3"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move4"/>
     <property name="triggeringId" value="dummy4"/>
    </properties>
   </object>
@@ -182,7 +182,7 @@
    <properties>
     <property name="connections" value="plat4"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move5"/>
     <property name="triggeringId" value="dummy5"/>
    </properties>
   </object>
@@ -201,7 +201,7 @@
    <properties>
     <property name="connections" value="plat5,hp1"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move6"/>
     <property name="triggeringId" value="dummy6"/>
    </properties>
   </object>
@@ -220,7 +220,7 @@
    <properties>
     <property name="connections" value="plat6"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move7"/>
     <property name="triggeringId" value="dummy7"/>
    </properties>
   </object>
@@ -239,7 +239,7 @@
    <properties>
     <property name="connections" value="plat7"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move8"/>
     <property name="triggeringId" value="dummy8"/>
    </properties>
   </object>
@@ -258,7 +258,7 @@
    <properties>
     <property name="connections" value="plat8"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move1"/>
     <property name="triggeringId" value="dummy1"/>
    </properties>
   </object>
@@ -277,7 +277,7 @@
    <properties>
     <property name="connections" value="plat9,w2"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move10"/>
     <property name="triggeringId" value="dummy10"/>
    </properties>
   </object>
@@ -296,7 +296,7 @@
    <properties>
     <property name="connections" value="plat10"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move11"/>
     <property name="triggeringId" value="dummy11"/>
    </properties>
   </object>
@@ -315,7 +315,7 @@
    <properties>
     <property name="connections" value="plat11"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move12"/>
     <property name="triggeringId" value="dummy12"/>
    </properties>
   </object>
@@ -334,7 +334,7 @@
    <properties>
     <property name="connections" value="plat12"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move13"/>
     <property name="triggeringId" value="dummy13"/>
    </properties>
   </object>
@@ -353,7 +353,7 @@
    <properties>
     <property name="connections" value="plat13,hp2"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move14"/>
     <property name="triggeringId" value="dummy14"/>
    </properties>
   </object>
@@ -372,7 +372,7 @@
    <properties>
     <property name="connections" value="plat14"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move15"/>
     <property name="triggeringId" value="dummy15"/>
    </properties>
   </object>
@@ -391,7 +391,7 @@
    <properties>
     <property name="connections" value="plat15"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move16"/>
     <property name="triggeringId" value="dummy16"/>
    </properties>
   </object>
@@ -410,7 +410,7 @@
    <properties>
     <property name="connections" value="plat16"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move9"/>
     <property name="triggeringId" value="dummy9"/>
    </properties>
   </object>

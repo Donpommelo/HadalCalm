@@ -56,7 +56,15 @@ public enum NameGenerator {
 	I_VOWEL("i", "i_first", "consonant_first", "consonant_next"),
 	O_VOWEL("o", "o_first", "consonant_first", "consonant_next"),
 	U_VOWEL("u", "u_first", "consonant_first", "consonant_next"),
-	VOWEL_FIRST("", "vowel_first", 3, "a_first", "e_first", "i_first", "o_first", "u_first"),
+
+	//secondary vowels for vowel pairs like "ee", "ea"
+	A_SECONDARY("a", "a_secondary", "e_first", "i_first", "o_first", "u_first"),
+	E_SECONDARY("e", "e_secondary", "a_first", "e_first", "i_first", "o_first", "u_first"),
+	I_SECONDARY("i", "i_secondary", "a_first", "e_first", "o_first", "u_first"),
+	O_SECONDARY("o", "o_secondary", "a_first", "e_first", "i_first", "o_first", "u_first"),
+	U_SECONDARY("u", "u_secondary", "a_first", "e_first", "i_first", "o_first"),
+
+	VOWEL_FIRST("", "vowel_first", 10, "a_first", "e_first", "i_first", "o_first", "u_first", "a_secondary", "e_secondary", "i_secondary", "o_secondary", "u_secondary"),
 
 	//We can stick another vowel after a universal digram to make things like "clugga" and "farpo"
 	A_NEXT("a", "a_next", 60, "universal"),
@@ -64,15 +72,15 @@ public enum NameGenerator {
 	I_NEXT("i", "i_next", 40, "universal"),
 	O_NEXT("o", "o_next", 60, "universal"),
 	U_NEXT("u", "u_next", 50, "universal"),
-	VOWEL_NEXT("", "vowel_next", 10, "a_next", "e_next", "i_next", "o_next", "u_next"),
+	VOWEL_NEXT("", "vowel_next", 30, "a_next", "e_next", "i_next", "o_next", "u_next"),
 	VOWEL_ANY("", "vowel_any", 20, "vowel_first", "vowel_next"),
 
 	//the weights of these transitions are used to balance probability between names that have long suffixes vs names where each digram is procedurally generated
-	A_ANY("", "a", 2, "a_first", "a_next"),
-	E_ANY("", "e", 2, "e_first", "e_next"),
-	I_ANY("", "i", 2, "i_first", "i_next"),
-	O_ANY("", "o", 2, "o_first", "o_next"),
-	U_ANY("", "u", 2, "u_first", "u_next"),
+	A_ANY("", "a", 8, "a_first", "a_next"),
+	E_ANY("", "e", 8, "e_first", "e_next"),
+	I_ANY("", "i", 8, "i_first", "i_next"),
+	O_ANY("", "o", 8, "o_first", "o_next"),
+	U_ANY("", "u", 8, "u_first", "u_next"),
 	
 	//These are digrams that end segments. They can end the name or be followed up with a suffix or another syllable.
 	B2("b", "b2", "vowel_first"),
@@ -82,7 +90,7 @@ public enum NameGenerator {
 	C2("c", "c2", "vowel_first"),
 	CC("cc", "cc", "vowel_first"),
 	CH("ch", "ch", "vowel_first"),
-	CK("ck", "ck", "vowel_first"),
+	CK("ck", "ck", 3, "vowel_first"),
 	CT("ct", "ct", "vowel_first"),
 	C_("", "c_", "c2", "cc", "ch", "ck", "ct"),
 	
@@ -96,7 +104,7 @@ public enum NameGenerator {
 	F_("", "f_", "f2", "ff", "ft"),
 
 	G2("g", "g2", "vowel_first"),
-	GG("gg", "gg", 5, "vowel_first"),
+	GG("gg", "gg", 4, "vowel_first"),
 	G_("", "g_", "g2", "gg"),
 
 	H2("h", "h_", "vowel_first"),
@@ -124,7 +132,7 @@ public enum NameGenerator {
 	MM("mm", "mm", "vowel_first"),
 	MP("mp", "mp", 3, "vowel_first"),
 	MS("ms", "ms", "vowel_first"),
-	M_("", "m_", "vowel_first"),
+	M_("", "m_", "m2", "mb", "mm", "mp", "ms"),
 
 	N2("n", "n2", "vowel_first"),
 	NC("nc", "nc", "vowel_first"),
@@ -205,7 +213,8 @@ public enum NameGenerator {
 	//a "universal first syllable" is something like "gronk" or "snark"
 	UNIVERSAL_FIRST_SYLLABLE("", "universal", 50, "b_", "c_", "d_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "y_", "z_"),
 
-	DGE("dge", "dge", "a", "e", "i", "o", "u"),
+	//these things follow a universal first syllable + a vowel (makes something like "blarter" or "plunkle") and can lead to another suffix
+	DGE("dge", "dge", "vowel_next"),
 	_L("l", "_l", "vowel_next"),
 	_N("n", "_n", "vowel_next"),
 	_NG("ng", "_ng", "vowel_next"),
@@ -225,6 +234,7 @@ public enum NameGenerator {
 
 	UNIVERSAL_MINUS_B("", "universal_no_b", 25, "c_", "d_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "y_", "z_"),
 	BACH("bach", "end", "vowel_any", "misc", "universal_no_b"),
+	BAT("bat", "end", "vowel_any", "misc", "universal_no_b"),
 	BAUER("bauer", "end", "vowel_any", "misc", "universal_no_b"),
 	BAUM("baum", "end", "vowel_any", "misc", "universal_no_b"),
 	BEAN("bean", "end", "vowel_any", "misc", "universal_no_b"),
@@ -235,6 +245,9 @@ public enum NameGenerator {
 	BERT("bert", "end", "vowel_any", "misc", "universal_no_b"),
 	BIRD("bird", "end", "vowel_any", "misc", "universal_no_b"),
 	BLATT("blatt", "end", "vowel_any", "misc", "universal_no_b"),
+	BLOOM("bloom", "end", "vowel_any", "misc", "universal_no_b"),
+	BLORT("blort", "end", "vowel_any", "misc", "universal_no_b"),
+	BLUD("blud", "end", "vowel_any", "misc", "universal_no_b"),
 	BONNIER("bonnier", "end", "vowel_any", "misc", "universal_no_b"),
 	BOO("boo", "end", "vowel_any", "misc", "universal_no_b"),
 	BOROUGH("borough", "end", "vowel_any", "misc", "universal_no_b"),
@@ -245,6 +258,8 @@ public enum NameGenerator {
 	BRINGER("bringer", "end", "vowel_any", "misc", "universal_no_b"),
 	BROOKE("brooke", "end", "vowel_any", "misc", "universal_no_b"),
 	BUCKET("bucket", "end", "vowel_any", "misc", "universal_no_b"),
+	BUD("bud", "end", "vowel_any", "misc", "universal_no_b"),
+	BUDDY("buddy", "end", "vowel_any", "misc", "universal_no_b"),
 	BURY("bury", "end", "vowel_any", "misc", "universal_no_b"),
 	BURG("burg", "end", "vowel_any", "misc", "universal_no_b"),
 	BURGER("burger", "end", "vowel_any", "misc", "universal_no_b"),
@@ -281,17 +296,21 @@ public enum NameGenerator {
 	DORP("dorp", "end", "vowel_any", "misc", "universal_no_d"),
 	DRAGON("dragon", "end", "vowel_any", "misc", "universal_no_d"),
 	DUL("dul", "end", "vowel_any", "misc", "universal_no_d"),
+	DUNG("dung", "end", "vowel_any", "misc", "universal_no_d"),
 	DURF("durf", "end", "vowel_any", "misc", "universal_no_d"),
 
 	EATER("eater", "end", "misc", "universal"),
 	ETTE("ette", "end", "misc", "universal"),
 
 	UNIVERSAL_MINUS_F("", "universal_no_f", 10, "b_", "c_", "d_", "g_", "h_", "j_", "k_", "l_", "m_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "y_", "z_"),
+	FACE("face", "end", "vowel_any", "misc", "universal_no_f"),
 	FAM("fam", "end", "vowel_any", "misc", "universal_no_f"),
 	FAX("fax", "end", "vowel_any", "misc", "universal_no_f"),
+	FELL("fell", "end", "vowel_any", "misc", "universal_no_f"),
 	FIELD("field", "end", "vowel_any", "misc", "universal_no_f"),
 	FINDER("finder", "end", "vowel_any", "misc", "universal_no_f"),
 	FISH("fish", "end", "vowel_any", "misc", "universal_no_f"),
+	FISHER("fisher", "end", "vowel_any", "misc", "universal_no_f"),
 	FIRE("fire", "end", "vowel_any", "misc", "universal_no_f"),
 	FOLD("fold", "end", "vowel_any", "misc", "universal_no_f"),
 	FOLK("folk", "end", "vowel_any", "misc", "universal_no_f"),
@@ -300,7 +319,9 @@ public enum NameGenerator {
 	FORD("ford", "end", "vowel_any", "misc", "universal_no_f"),
 	FORK("fork", "end", "vowel_any", "misc", "universal_no_f"),
 	FREE("free", "end", "vowel_any", "misc", "universal_no_f"),
+	FRIEND("friend", "end", "vowel_any", "misc", "universal_no_f"),
 	FRUIT("fruit", "end", "vowel_any", "misc", "universal_no_f"),
+	FRY("fry", "end", "vowel_any", "misc", "universal_no_f"),
 	FUL("ful", "end", "vowel_any", "misc", "universal_no_f"),
 
 	UNIVERSAL_MINUS_G("", "universal_no_g", 5, "b_", "c_", "d_", "f_", "h_", "j_", "k_", "l_", "m_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "y_", "z_"),
@@ -323,6 +344,7 @@ public enum NameGenerator {
 	HEART("heart", "end", "vowel_any", "misc", "universal_no_h"),
 	HEIMER("heimer", "end", "vowel_any", "misc", "universal_no_h"),
 	HOFF("hoff", "end", "vowel_any", "misc", "universal_no_h"),
+	HOG("hog", "end", "vowel_any", "misc", "universal_no_h"),
 	HOLE("hole", "end", "vowel_any", "misc", "universal_no_h"),
 	HORN("horn", "end", "vowel_any", "misc", "universal_no_h"),
 	HORT("hort", "end", "vowel_any", "misc", "universal_no_h"),
@@ -360,6 +382,7 @@ public enum NameGenerator {
 	MINER("miner", "end", "vowel_any", "misc", "u", "universal_no_m"),
 	MINT("mint", "end", "vowel_any", "misc", "u", "universal_no_m"),
 	MONGER("monger", "end", "vowel_any", "misc", "u", "universal_no_m"),
+	MOSS("moss", "end", "vowel_any", "misc", "u", "universal_no_m"),
 	MUFFIN("muffin", "end", "vowel_any", "misc", "universal_no_m"),
 
 	UNIVERSAL_MINUS_N("", "universal_no_n", 10, "b_", "c_", "d_", "f_", "g_", "j_", "h_", "k_", "l_", "m_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "y_", "z_"),
@@ -401,6 +424,7 @@ public enum NameGenerator {
 	SHIRE("shire", "end", "vowel_any", "misc", "universal_no_s"),
 	SHOES("shoes", "end", "vowel_any", "misc", "universal_no_s"),
 	SINGER("singer", "end", "vowel_any", "misc", "universal_no_s"),
+	SKULL("skull", "end", "vowel_any", "misc", "universal_no_s"),
 	SKY("sky", "end", "vowel_any", "misc", "universal_no_s"),
 	SLINGER("slinger", "end", "vowel_any", "misc", "universal_no_s"),
 	SMITH("smith", "end", "vowel_any", "misc", "universal_no_s"),
@@ -417,6 +441,7 @@ public enum NameGenerator {
 	UNIVERSAL_MINUS_T("", "universal_no_t", 10, "b_", "c_", "d_", "f_", "g_", "j_", "h_", "k_", "l_", "m_", "n_", "p_", "r_", "s_", "v_", "w_", "x_", "y_", "z_"),
 	TON("ton", "end", "vowel_any", "misc", "universal_no_t"),
 	TORP("torp", "end", "vowel_any", "misc", "universal_no_t"),
+	TOUNGE("tounge", "end", "vowel_any", "misc", "universal_no_t"),
 	THROP("throp", "end", "vowel_any", "misc", "universal_no_t"),
 	THWAITE("thwaite", "end", "vowel_any", "misc", "universal_no_t"),
 
@@ -426,6 +451,7 @@ public enum NameGenerator {
 	VON("von", "end", "vowel_any", "misc", "universal_no_v"),
 
 	UNIVERSAL_MINUS_W("", "universal_no_w", 20, "b_", "c_", "d_", "f_", "g_", "j_", "h_", "k_", "l_", "m_", "n_", "p_", "r_", "s_", "t_", "v_", "x_", "y_", "z_"),
+	WAD("wad", "end", "vowel_any", "misc", "universal_no_w"),
 	WALD("wald", "end", "vowel_any", "misc", "universal_no_w"),
 	WALL("wall", "end", "vowel_any", "misc", "universal_no_w"),
 	WATER("water", "end", "vowel_any", "misc", "universal_no_w"),
@@ -516,6 +542,7 @@ public enum NameGenerator {
 	CAQUE("caque", "end", "a"),
 	CASTE("caste", "end", "a", "o"),
 	CATINI("catini", "end", "a", "i", "o", "u"),
+	CCACIO("ccacio", "end", "a", "e", "i", "o", "u"),
 	CCIATELLO("cciatello", "end", "a", "e", "i", "o", "u"),
 	CCINI("ccini", "end", "a", "e", "i", "o", "u"),
 	CEROLA("cerola", "end", "a"),
@@ -542,6 +569,7 @@ public enum NameGenerator {
 	CONUT("conut", "end", "o"),
 	CORY("cory", "end", "i"),
 	CORICE("corice", "end", "i"),
+	CRETIUS("cretius", "end", "a", "e", "i", "o", "u"),
 	CTAVIO("ctavio", "end", "a", "e", "i", "o", "u"),
 	CUMBER("cumber", "end", "u"),
 	CUSPOCUS("cuspocus", "end", "o"),
@@ -573,6 +601,7 @@ public enum NameGenerator {
 	DITYA("ditya", "end", "a"),
 	DLOW("dlow", "end", "a", "e", "i", "o", "u"),
 	DOLPH("dolph", "end", "a", "o", "u"),
+	DOVICO("dovico", "end", "u"),
 	DRACH("drach", "end", "a", "o", "u"),
 	DRAMALECH("dramalech", "end", "a"),
 	DSWALLOP("dswallop", "end", "o"),
@@ -605,6 +634,7 @@ public enum NameGenerator {
 	FFONSO("ffonso", "end", "a", "e", "i", "o", "u"),
 	FRODITE("frodite", "end", "a"),
 
+	GAMEET("gameet", "end", "a", "e", "i", "o", "u"),
 	GARFREE("garfree", "end", "u"),
 	GARTH("garth", "end", "a", "e", "i", "o", "u"),
 	GATHA("gatha", "end", "a"),
@@ -740,6 +770,7 @@ public enum NameGenerator {
 	LLINAIRE("llinaire", "end", "a", "e", "i", "o", "u"),
 	LLSPICE("llspice", "end", "a"),
 	LLYGAG("llygag", "end", "o"),
+	LLYWAG("llywag", "end", "a"),
 	LOBALO("lobalo", "end", "a"),
 	LOCH("loch", "end", "o"),
 	LOIS("lois", "end", "a", "e", "i", "o", "u"),
@@ -767,6 +798,7 @@ public enum NameGenerator {
 	MBINO("mbino", "end", "a", "e", "i", "o", "u"),
 	MBLY("mbly", "end", "a", "e", "i", "o", "u"),
 	MBOO("mboo", "end", "a"),
+	MBOOZLE("mboozle", "end", "a"),
 	MBOREE("mboree", "end", "a", "o", "u"),
 	MBURGER("mburger", "end", "a", "e", "i", "o", "u"),
 	MBUTAN("mbutan", "end", "a"),
@@ -909,6 +941,7 @@ public enum NameGenerator {
 	PHETH("pheth", "end", "a"),
 	PHIA("phia", "end", "o"),
 	PHISTOPHOLES("phistopholes", "end", "a"),
+	PHOCLES("phocles", "end", "o"),
 	PHOMET("phomet", "end", "a"),
 	PODILLA("podilla", "end", "a"),
 	PORON("poron", "end", "o"),
@@ -1004,6 +1037,7 @@ public enum NameGenerator {
 	RNITAS("rnitas", "end", "a"),
 	RNSWOGGLE("rnswoggle", "end", "o"),
 	ROCHE("roche", "end", "a"),
+	RODOTUS("rodotus", "end", "e"),
 	RONA("rona", "end", "a", "e", "i", "o", "u"),
 	RONICA("ronica", "end", "a", "e", "i", "o", "u"),
 	RORO("roro", "end", "a", "e", "i", "o", "u"),
@@ -1185,6 +1219,7 @@ public enum NameGenerator {
 	ZPACHO("zpacho", "end", "a"),
 	ZZAPIE("zzapie", "end", "i"),
 	ZZERELLA("zzerella", "end", "o"),
+	ZZIWIG("zziwig", "end", "e"),
 
 	;
 	

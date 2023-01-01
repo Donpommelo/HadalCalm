@@ -256,16 +256,8 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="33" name="Dropthrough" type="Dropthrough" x="1024" y="576" width="352" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="34" name="Dropthrough" type="Dropthrough" x="2368" y="576" width="352" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="33" name="Dropthrough" type="Dropthrough" x="1024" y="576" width="352" height="8"/>
+  <object id="34" name="Dropthrough" type="Dropthrough" x="2368" y="576" width="352" height="8"/>
   <object id="35" name="Prefab" type="PrefabWeapon" x="1776" y="1432" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>

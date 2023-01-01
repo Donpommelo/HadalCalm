@@ -144,9 +144,4 @@ public class HealingArea extends Event {
 		}
 		return new Packets.CreateEvent(entityID, new EventDto(blueprint), synced);
 	}
-	
-	@Override
-	public void loadDefaultProperties() {
-		setSynced(true);
-	}
 }

@@ -67,9 +67,10 @@ public class ClientState extends PlayState {
 		entityLists.add(entities);
 		entityLists.add(effects);
 
-		//client processes collisions
+		//client processes collisions and certain events
 		TiledObjectUtil.parseTiledObjectLayer(this, map.getLayers().get("collision-layer").getObjects());
 		TiledObjectUtil.parseTiledEventLayerClient(this, map.getLayers().get("event-layer").getObjects());
+		TiledObjectUtil.parseTiledTriggerLayer();
 
 		//parse map-specific event layers (used for different modes in the same map)
 		for (String layer : mode.getExtraLayers()) {

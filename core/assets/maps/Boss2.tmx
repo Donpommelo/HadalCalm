@@ -44,26 +44,31 @@
   <object id="9" name="Dummy" type="Dummy" x="2560" y="960" width="32" height="32">
    <properties>
     <property name="dummyId" value="high"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="11" name="Dummy" type="Dummy" x="2784" y="1088" width="32" height="32">
    <properties>
     <property name="dummyId" value="back"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="13" name="Dummy" type="Dummy" x="2560" y="1088" width="32" height="32">
    <properties>
     <property name="dummyId" value="neutral"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="14" name="Dummy" type="Dummy" x="1696" y="1312" width="32" height="32">
    <properties>
     <property name="dummyId" value="platformLeft"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="15" name="Dummy" type="Dummy" x="2528" y="1280" width="32" height="32">
    <properties>
     <property name="dummyId" value="platformLip"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="16" name="Bounds" type="Bounds" x="3008" y="1536" width="32" height="32">
@@ -81,30 +86,28 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="19" name="Platform" type="Platform" x="1536" y="1344" width="992" height="96">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="19" name="Platform" type="Platform" x="1536" y="1344" width="992" height="96"/>
   <object id="23" name="Dummy" type="Dummy" x="1568" y="480" width="928" height="32">
    <properties>
     <property name="dummyId" value="ceiling"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="24" name="Dummy" type="Dummy" x="1568" y="1312" width="928" height="32">
    <properties>
     <property name="dummyId" value="floor"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="25" name="Dummy" type="Dummy" x="2816" y="1632" width="32" height="32">
    <properties>
     <property name="dummyId" value="hide"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="26" name="ParticleField" type="ParticleField" x="1216" y="1536" width="1728" height="48">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="KAMABOKO_SHOWER"/>
     <property name="scale" type="float" value="2"/>
     <property name="speed" type="float" value="1"/>
@@ -113,26 +116,31 @@
   <object id="27" name="Dummy" type="Dummy" x="2016" y="896" width="32" height="32">
    <properties>
     <property name="dummyId" value="highCenter"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="28" name="Dummy" type="Dummy" x="2016" y="1312" width="32" height="32">
    <properties>
     <property name="dummyId" value="platformCenter"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="29" name="Dummy" type="Dummy" x="2336" y="1312" width="32" height="32">
    <properties>
     <property name="dummyId" value="platformRight"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="30" name="Dummy" type="Dummy" x="1696" y="896" width="32" height="32">
    <properties>
     <property name="dummyId" value="highLeft"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="31" name="Dummy" type="Dummy" x="2336" y="896" width="32" height="32">
    <properties>
     <property name="dummyId" value="highRight"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="32" name="Start" type="Start" x="320" y="640" width="32" height="32">
@@ -193,7 +201,12 @@
   </object>
   <object id="41" name="Platform" type="Platform" x="2816" y="32" width="96" height="256">
    <properties>
+    <property name="align" value="CENTER_STRETCH"/>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="prefabId" value="Door"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
+    <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="door1"/>
    </properties>
@@ -256,7 +269,7 @@
    <properties>
     <property name="connections" value="saw1"/>
     <property name="speed" type="float" value="2"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move1"/>
     <property name="triggeringId" value="dummy2"/>
    </properties>
   </object>
@@ -305,6 +318,7 @@
   </object>
   <object id="61" name="Dummy" type="Dummy" x="1888" y="1216" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="particle_std" value="TELEPORT"/>
     <property name="triggeredId" value="playerlock"/>
     <property name="triggeringId" value="entercenter"/>

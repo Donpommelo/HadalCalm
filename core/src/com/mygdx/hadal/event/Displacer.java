@@ -3,6 +3,7 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.constants.Constants;
@@ -43,7 +44,23 @@ public class Displacer extends Event {
 	public void create() {
 
 		this.eventData = new EventData(this) {
-			
+
+			/**
+			 * Because this moves things using Transform instead of physics, we don't want to operate on other client players
+			 */
+			@Override
+			public void onTouch(HadalData fixB) {
+				if (fixB != null) {
+					if (!state.isServer() && fixB.getEntity() instanceof Player player) {
+						if (state.getPlayer().equals(player)) {
+							schmucks.add(fixB.getEntity());
+						}
+					} else {
+						schmucks.add(fixB.getEntity());
+					}
+				}
+			}
+
 			@Override
 			public void onRelease(HadalData fixB) {
 				super.onRelease(fixB);
@@ -96,5 +113,11 @@ public class Displacer extends Event {
 				setTransform(connectedLocation, getAngle());
 			}
 		}
+	}
+
+	@Override
+	public void clientController(float delta) {
+		super.clientController(delta);
+		controller(delta);
 	}
 }

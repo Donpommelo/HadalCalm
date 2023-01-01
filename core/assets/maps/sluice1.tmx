@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="57">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="57">
  <properties>
   <property name="music" value="LEVEL_SLUICE"/>
   <property name="startUI" value="THE SLUICE,EMPTY,SCRAP"/>
@@ -39,11 +39,7 @@
     <property name="triggeredId" value="warp1"/>
    </properties>
   </object>
-  <object id="5" name="Dropthrough" type="Dropthrough" x="288" y="544" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="5" name="Dropthrough" type="Dropthrough" x="288" y="544" width="160" height="8"/>
   <object id="6" name="Start" type="Start" x="1376" y="448" width="32" height="32">
    <properties>
     <property name="startId" value="start1"/>
@@ -160,12 +156,14 @@
   </object>
   <object id="25" name="Dummy" type="Dummy" x="1440" y="1568" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="reag1"/>
     <property name="triggeringId" value="finalcheck1"/>
    </properties>
   </object>
   <object id="26" name="MovePoint" type="MovePoint" x="1088" y="1696" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="particle_amb" value="SLODGE"/>
     <property name="pause" type="bool" value="true"/>
     <property name="speed" type="float" value="3"/>
@@ -195,6 +193,7 @@
   </object>
   <object id="30" name="MovePoint" type="MovePoint" x="1984" y="1696" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="particle_amb" value="KAMABOKO_SHOWER"/>
     <property name="pause" type="bool" value="true"/>
     <property name="speed" type="float" value="3"/>
@@ -224,6 +223,7 @@
   </object>
   <object id="34" name="Dummy" type="Dummy" x="1632" y="1568" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="reag3"/>
     <property name="triggeringId" value="finalcheck1"/>
    </properties>
@@ -245,6 +245,7 @@
   </object>
   <object id="37" name="MovePoint" type="MovePoint" x="1536" y="1152" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="particle_amb" value="OVERCHARGE"/>
     <property name="pause" type="bool" value="true"/>
     <property name="speed" type="float" value="3"/>
@@ -274,6 +275,7 @@
   </object>
   <object id="41" name="Dummy" type="Dummy" x="1536" y="1568" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="false"/>
     <property name="triggeredId" value="reag2"/>
     <property name="triggeringId" value="finalcheck1"/>
    </properties>

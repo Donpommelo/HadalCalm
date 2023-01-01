@@ -4,10 +4,9 @@
   <property name="customShader" type="bool" value="true"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
- <tileset firstgid="25" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="340" height="150">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup id="8" name="bot-layer">
@@ -950,26 +949,10 @@
     <property name="minHeight" type="float" value="-20"/>
    </properties>
   </object>
-  <object id="107" name="Dropthrough" type="Dropthrough" x="1120" y="2464" width="320" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="116" name="Dropthrough" type="Dropthrough" x="9728" y="2464" width="320" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="122" name="Dropthrough" type="Dropthrough" x="1120" y="2752" width="320" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="126" name="Dropthrough" type="Dropthrough" x="9728" y="2752" width="320" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="107" name="Dropthrough" type="Dropthrough" x="1120" y="2464" width="320" height="8"/>
+  <object id="116" name="Dropthrough" type="Dropthrough" x="9728" y="2464" width="320" height="8"/>
+  <object id="122" name="Dropthrough" type="Dropthrough" x="1120" y="2752" width="320" height="8"/>
+  <object id="126" name="Dropthrough" type="Dropthrough" x="9728" y="2752" width="320" height="8"/>
   <object id="128" name="Bounds" type="Bounds" x="10400" y="3904" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
@@ -991,27 +974,18 @@
     <property name="restitution" type="float" value="1"/>
    </properties>
   </object>
-  <object id="131" name="Dropthrough" type="Dropthrough" x="5504" y="3680" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="131" name="Dropthrough" type="Dropthrough" x="5504" y="3680" width="160" height="8"/>
   <object id="132" name="Spring" type="Spring" x="5536" y="3760" width="96" height="16">
    <properties>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="120"/>
    </properties>
   </object>
-  <object id="133" name="Dropthrough" type="Dropthrough" x="5504" y="2976" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="133" name="Dropthrough" type="Dropthrough" x="5504" y="2976" width="160" height="8"/>
   <object id="138" name="Platform" type="Platform" x="8000" y="2304" width="32" height="192">
    <properties>
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="sprite" value="NOTHING"/>
    </properties>
@@ -1019,7 +993,6 @@
   <object id="139" name="ParticleField" type="ParticleField" x="8000" y="2304" width="32" height="192">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="SHADOW_CLOAK"/>
     <property name="speed" type="float" value="2"/>
    </properties>
@@ -1028,7 +1001,6 @@
    <properties>
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="sprite" value="NOTHING"/>
    </properties>
@@ -1036,7 +1008,6 @@
   <object id="141" name="ParticleField" type="ParticleField" x="3136" y="2304" width="32" height="192">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="SHADOW_CLOAK"/>
     <property name="speed" type="float" value="2"/>
    </properties>
@@ -1053,90 +1024,32 @@
     <property name="springY" type="float" value="75"/>
    </properties>
   </object>
-  <object id="135" name="Dropthrough" type="Dropthrough" x="6912" y="3168" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="137" name="Dropthrough" type="Dropthrough" x="4064" y="3168" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="145" name="Dropthrough" type="Dropthrough" x="6848" y="2720" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="147" name="Dropthrough" type="Dropthrough" x="3264" y="2144" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="149" name="Dropthrough" type="Dropthrough" x="4192" y="2200" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="150" name="Dropthrough" type="Dropthrough" x="3776" y="2368" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="152" name="Dropthrough" type="Dropthrough" x="6688" y="2200" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="153" name="Dropthrough" type="Dropthrough" x="7616" y="2144" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="154" name="Dropthrough" type="Dropthrough" x="7200" y="2368" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="155" name="Dropthrough" type="Dropthrough" x="4160" y="2720" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="135" name="Dropthrough" type="Dropthrough" x="6912" y="3168" width="192" height="8"/>
+  <object id="137" name="Dropthrough" type="Dropthrough" x="4064" y="3168" width="192" height="8"/>
+  <object id="145" name="Dropthrough" type="Dropthrough" x="6848" y="2720" width="160" height="8"/>
+  <object id="147" name="Dropthrough" type="Dropthrough" x="3264" y="2144" width="288" height="8"/>
+  <object id="149" name="Dropthrough" type="Dropthrough" x="4192" y="2200" width="288" height="8"/>
+  <object id="150" name="Dropthrough" type="Dropthrough" x="3776" y="2368" width="192" height="8"/>
+  <object id="152" name="Dropthrough" type="Dropthrough" x="6688" y="2200" width="288" height="8"/>
+  <object id="153" name="Dropthrough" type="Dropthrough" x="7616" y="2144" width="288" height="8"/>
+  <object id="154" name="Dropthrough" type="Dropthrough" x="7200" y="2368" width="192" height="8"/>
+  <object id="155" name="Dropthrough" type="Dropthrough" x="4160" y="2720" width="160" height="8"/>
   <object id="157" name="Current" type="Current" x="4480" y="3744" width="800" height="96">
    <properties>
     <property name="currentX" type="float" value="8"/>
     <property name="currentY" type="float" value="0"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="158" name="Current" type="Current" x="5888" y="3744" width="800" height="96">
    <properties>
     <property name="currentX" type="float" value="-8"/>
     <property name="currentY" type="float" value="0"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="159" name="Dropthrough" type="Dropthrough" x="6400" y="3616" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="160" name="Dropthrough" type="Dropthrough" x="5984" y="3616" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="161" name="Dropthrough" type="Dropthrough" x="4992" y="3616" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="162" name="Dropthrough" type="Dropthrough" x="4576" y="3616" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="159" name="Dropthrough" type="Dropthrough" x="6400" y="3616" width="192" height="8"/>
+  <object id="160" name="Dropthrough" type="Dropthrough" x="5984" y="3616" width="192" height="8"/>
+  <object id="161" name="Dropthrough" type="Dropthrough" x="4992" y="3616" width="192" height="8"/>
+  <object id="162" name="Dropthrough" type="Dropthrough" x="4576" y="3616" width="192" height="8"/>
   <object id="163" name="Prefab" type="PrefabSpawner" x="5536" y="2112" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="25"/>
@@ -1299,10 +1212,9 @@
     <property name="align" value="ROTATE"/>
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat1"/>
    </properties>
   </object>
@@ -1316,6 +1228,7 @@
   </object>
   <object id="187" name="Timer" type="Timer" x="4608" y="128" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="interval" type="float" value="0"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="initLimiter"/>
@@ -1323,6 +1236,7 @@
   </object>
   <object id="188" name="Multitrigger" type="Multitrigger" x="4672" y="128" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="initLimiter"/>
     <property name="triggeringId" value="startTimer,rotate1,rotate2,rotate3,rotate4,rotate5,rotate6"/>
    </properties>
@@ -1342,10 +1256,9 @@
     <property name="align" value="ROTATE"/>
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat2"/>
    </properties>
   </object>
@@ -1362,10 +1275,9 @@
     <property name="align" value="ROTATE"/>
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat3"/>
    </properties>
   </object>
@@ -1382,10 +1294,9 @@
     <property name="align" value="ROTATE"/>
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat4"/>
    </properties>
   </object>
@@ -1402,10 +1313,9 @@
     <property name="align" value="ROTATE"/>
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat5"/>
    </properties>
   </object>
@@ -1414,10 +1324,9 @@
     <property name="align" value="ROTATE"/>
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat6"/>
    </properties>
   </object>
@@ -1437,11 +1346,7 @@
     <property name="triggeringId" value="rplat6"/>
    </properties>
   </object>
-  <object id="201" name="Dropthrough" type="Dropthrough" x="5504" y="1056" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="201" name="Dropthrough" type="Dropthrough" x="5504" y="1056" width="160" height="8"/>
   <object id="202" name="Prefab" type="PrefabSpawner" x="5536" y="960" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="8"/>
@@ -1487,61 +1392,17 @@
     <property name="triggeredId" value="w11"/>
    </properties>
   </object>
-  <object id="511" name="Dropthrough" type="Dropthrough" x="5504" y="1264" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="512" name="Dropthrough" type="Dropthrough" x="1824" y="2304" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="513" name="Dropthrough" type="Dropthrough" x="9120" y="2304" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="549" name="Dropthrough" type="Dropthrough" x="832" y="2208" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="551" name="Dropthrough" type="Dropthrough" x="832" y="1984" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="555" name="Dropthrough" type="Dropthrough" x="10144" y="2208" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="556" name="Dropthrough" type="Dropthrough" x="10144" y="1984" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="566" name="Dropthrough" type="Dropthrough" x="1216" y="1792" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="552" name="Dropthrough" type="Dropthrough" x="960" y="1792" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="557" name="Dropthrough" type="Dropthrough" x="10016" y="1792" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="567" name="Dropthrough" type="Dropthrough" x="9760" y="1792" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="511" name="Dropthrough" type="Dropthrough" x="5504" y="1264" width="160" height="8"/>
+  <object id="512" name="Dropthrough" type="Dropthrough" x="1824" y="2304" width="224" height="8"/>
+  <object id="513" name="Dropthrough" type="Dropthrough" x="9120" y="2304" width="224" height="8"/>
+  <object id="549" name="Dropthrough" type="Dropthrough" x="832" y="2208" width="192" height="8"/>
+  <object id="551" name="Dropthrough" type="Dropthrough" x="832" y="1984" width="192" height="8"/>
+  <object id="555" name="Dropthrough" type="Dropthrough" x="10144" y="2208" width="192" height="8"/>
+  <object id="556" name="Dropthrough" type="Dropthrough" x="10144" y="1984" width="192" height="8"/>
+  <object id="566" name="Dropthrough" type="Dropthrough" x="1216" y="1792" width="192" height="8"/>
+  <object id="552" name="Dropthrough" type="Dropthrough" x="960" y="1792" width="192" height="8"/>
+  <object id="557" name="Dropthrough" type="Dropthrough" x="10016" y="1792" width="192" height="8"/>
+  <object id="567" name="Dropthrough" type="Dropthrough" x="9760" y="1792" width="192" height="8"/>
  </objectgroup>
  <objectgroup id="7" name="objective">
   <object id="242" name="ObjectiveSpawn" type="ObjectiveSpawn" x="5568" y="1760" width="32" height="32">
@@ -1649,7 +1510,6 @@
   <object id="525" name="ParticleField" type="ParticleField" x="10016" y="2208" width="32" height="256">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="BRIGHT_TRAIL"/>
     <property name="speed" type="float" value="1"/>
     <property name="team" type="int" value="1"/>
@@ -1660,7 +1520,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="NOTHING"/>
     <property name="teamIndex" type="int" value="1"/>
@@ -1671,7 +1530,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="true"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="sprite" value="NOTHING"/>
     <property name="teamIndex" type="int" value="-1"/>
@@ -1680,7 +1538,6 @@
   <object id="529" name="ParticleField" type="ParticleField" x="9632" y="1760" width="32" height="224">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="BRIGHT_TRAIL"/>
     <property name="speed" type="float" value="1"/>
     <property name="team" type="int" value="1"/>
@@ -1691,7 +1548,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="NOTHING"/>
     <property name="teamIndex" type="int" value="1"/>
@@ -1702,7 +1558,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="true"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="sprite" value="NOTHING"/>
     <property name="teamIndex" type="int" value="-1"/>
@@ -1711,7 +1566,6 @@
   <object id="533" name="ParticleField" type="ParticleField" x="1504" y="1760" width="32" height="224">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="BRIGHT_TRAIL"/>
     <property name="speed" type="float" value="1"/>
     <property name="team" type="int" value="0"/>
@@ -1722,7 +1576,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="NOTHING"/>
     <property name="teamIndex" type="int" value="0"/>
@@ -1733,7 +1586,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="true"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="sprite" value="NOTHING"/>
     <property name="teamIndex" type="int" value="-1"/>
@@ -1742,7 +1594,6 @@
   <object id="537" name="ParticleField" type="ParticleField" x="1120" y="2208" width="32" height="256">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="BRIGHT_TRAIL"/>
     <property name="speed" type="float" value="1"/>
     <property name="team" type="int" value="0"/>
@@ -1753,7 +1604,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="NOTHING"/>
     <property name="teamIndex" type="int" value="0"/>
@@ -1764,7 +1614,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="true"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="sprite" value="NOTHING"/>
     <property name="teamIndex" type="int" value="-1"/>
@@ -1869,13 +1718,11 @@
   <object id="568" name="Heal" type="Heal" x="9696" y="1888" width="224" height="96">
    <properties>
     <property name="heal" type="float" value="0.5"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="569" name="Heal" type="Heal" x="1248" y="1888" width="224" height="96">
    <properties>
     <property name="heal" type="float" value="0.5"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>

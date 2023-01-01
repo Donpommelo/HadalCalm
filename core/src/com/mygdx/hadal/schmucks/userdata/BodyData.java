@@ -239,8 +239,8 @@ public class BodyData extends HadalData {
 	public void calcStats() {
 
 		//Keep Hp% and fuel% constant in case of changing max values
-		float hpPercent = getStat(Stats.MAX_HP) == 0 ? 0 : currentHp / getStat(Stats.MAX_HP);
-		float fuelPercent = getStat(Stats.MAX_FUEL) == 0 ? 0 : currentFuel / getStat(Stats.MAX_FUEL);
+		float hpPercent = Math.min(getStat(Stats.MAX_HP) == 0 ? 0 : currentHp / getStat(Stats.MAX_HP), 1.0f);
+		float fuelPercent = Math.min(getStat(Stats.MAX_FUEL) == 0 ? 0 : currentFuel / getStat(Stats.MAX_FUEL), 1.0f);
 
 		System.arraycopy(baseStats, 0, buffedStats, 0, buffedStats.length);
 		statusProcTime(new ProcTime.StatCalc());

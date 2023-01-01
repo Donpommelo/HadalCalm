@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="77">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="77">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="BOSS_GOLDFISH_PURGATORY"/>
@@ -93,126 +93,151 @@
   <object id="26" name="Dummy" type="Dummy" x="320" y="576" width="32" height="32">
    <properties>
     <property name="dummyId" value="0"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="27" name="Dummy" type="Dummy" x="768" y="576" width="32" height="32">
    <properties>
     <property name="dummyId" value="1"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="28" name="Dummy" type="Dummy" x="1216" y="576" width="32" height="32">
    <properties>
     <property name="dummyId" value="2"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="29" name="Dummy" type="Dummy" x="1664" y="576" width="32" height="32">
    <properties>
     <property name="dummyId" value="3"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="30" name="Dummy" type="Dummy" x="2112" y="576" width="32" height="32">
    <properties>
     <property name="dummyId" value="4"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="31" name="Dummy" type="Dummy" x="320" y="1024" width="32" height="32">
    <properties>
     <property name="dummyId" value="5"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="32" name="Dummy" type="Dummy" x="768" y="1024" width="32" height="32">
    <properties>
     <property name="dummyId" value="6"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="33" name="Dummy" type="Dummy" x="1216" y="1024" width="32" height="32">
    <properties>
     <property name="dummyId" value="7"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="34" name="Dummy" type="Dummy" x="1664" y="1024" width="32" height="32">
    <properties>
     <property name="dummyId" value="8"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="35" name="Dummy" type="Dummy" x="2112" y="1024" width="32" height="32">
    <properties>
     <property name="dummyId" value="9"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="36" name="Dummy" type="Dummy" x="320" y="1472" width="32" height="32">
    <properties>
     <property name="dummyId" value="10"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="37" name="Dummy" type="Dummy" x="768" y="1472" width="32" height="32">
    <properties>
     <property name="dummyId" value="11"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="38" name="Dummy" type="Dummy" x="1216" y="1472" width="32" height="32">
    <properties>
     <property name="dummyId" value="12"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="39" name="Dummy" type="Dummy" x="1664" y="1472" width="32" height="32">
    <properties>
     <property name="dummyId" value="13"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="40" name="Dummy" type="Dummy" x="320" y="1920" width="32" height="32">
    <properties>
     <property name="dummyId" value="15"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="41" name="Dummy" type="Dummy" x="768" y="1920" width="32" height="32">
    <properties>
     <property name="dummyId" value="16"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="42" name="Dummy" type="Dummy" x="1216" y="1920" width="32" height="32">
    <properties>
     <property name="dummyId" value="17"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="43" name="Dummy" type="Dummy" x="1664" y="1920" width="32" height="32">
    <properties>
     <property name="dummyId" value="18"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="44" name="Dummy" type="Dummy" x="320" y="2368" width="32" height="32">
    <properties>
     <property name="dummyId" value="20"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="45" name="Dummy" type="Dummy" x="768" y="2368" width="32" height="32">
    <properties>
     <property name="dummyId" value="21"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="46" name="Dummy" type="Dummy" x="1216" y="2368" width="32" height="32">
    <properties>
     <property name="dummyId" value="22"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="47" name="Dummy" type="Dummy" x="1664" y="2368" width="32" height="32">
    <properties>
     <property name="dummyId" value="23"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="48" name="Dummy" type="Dummy" x="2112" y="1472" width="32" height="32">
    <properties>
     <property name="dummyId" value="14"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="49" name="Dummy" type="Dummy" x="2112" y="1920" width="32" height="32">
    <properties>
     <property name="dummyId" value="19"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="50" name="Dummy" type="Dummy" x="2080" y="2368" width="32" height="32">
    <properties>
     <property name="dummyId" value="24"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="51" name="SchmuckSpawn" type="SchmuckSpawn" x="1216" y="1472" width="32" height="32">

@@ -46,10 +46,11 @@ public class SpawnerWeapon extends Prefabrication {
 		base.getRectangle().set(x, y, width, height);
 		base.setName("Dummy");
 		base.getProperties().put("triggeredId", baseId);
+		base.getProperties().put("independent", false);
 		base.getProperties().put("sync", "ALL");
 		base.getProperties().put("sprite", "BASE");
 		base.getProperties().put("align", "CENTER_BOTTOM");
-		
+
 		RectangleMapObject spawner = new RectangleMapObject();
 		spawner.setName("Alttrigger");
 		spawner.getProperties().put("message", "roll");

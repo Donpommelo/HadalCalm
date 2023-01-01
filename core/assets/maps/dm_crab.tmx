@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="58">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="58">
  <layer id="1" name="Tile Layer 1" width="180" height="120">
   <data encoding="base64" compression="zlib">
    eAHt0AENAAAAwqD3T20PBxEoDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMDA/8AAUY8AAQ==
@@ -152,13 +152,10 @@
     <property name="triggeredId" value="outOfBounds"/>
    </properties>
   </object>
-  <object id="14" name="Dropthrough" type="Dropthrough" x="2176" y="1856" width="416" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="14" name="Dropthrough" type="Dropthrough" x="2176" y="1856" width="416" height="8"/>
   <object id="15" name="Timer" type="Timer" x="224" y="3488" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="interval" type="float" value="0"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="onceAtStart"/>
@@ -166,6 +163,7 @@
   </object>
   <object id="16" name="Multitrigger" type="Multitrigger" x="288" y="3488" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="onceAtStart"/>
     <property name="triggeringId" value="startTimer,rotate1,rotate2"/>
    </properties>
@@ -191,9 +189,8 @@
     <property name="align" value="ROTATE"/>
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat2"/>
    </properties>
   </object>
@@ -202,9 +199,8 @@
     <property name="align" value="ROTATE"/>
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat1"/>
    </properties>
   </object>

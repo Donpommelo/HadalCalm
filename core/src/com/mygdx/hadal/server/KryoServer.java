@@ -24,6 +24,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.io.IOException;
@@ -532,6 +533,21 @@ public class KryoServer {
 								}
 							}
 						}
+					}
+				}
+
+				else if (o instanceof Packets.RequestStartSyncedEvent p) {
+					final PlayState ps = getPlayState();
+					if (null != ps) {
+						ps.addPacketEffect(() -> {
+							Event event = TiledObjectUtil.getTriggeredEvents().get(p.triggeredID);
+							if (null != event) {
+								Object packet = event.onServerSyncInitial();
+								if (null != packet) {
+									sendToTCP(c.getID(), packet);
+								}
+							}
+						});
 					}
 				}
 			}

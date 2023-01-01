@@ -1,47 +1,68 @@
 
 modes.png
-size: 2048,512
+size: 2048,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 ctf
   rotate: false
-  xy: 2, 2
+  xy: 2, 404
   size: 300, 400
   orig: 300, 400
   offset: 0, 0
   index: -1
 deathmatch
   rotate: false
-  xy: 304, 2
+  xy: 2, 2
   size: 300, 400
   orig: 300, 400
   offset: 0, 0
   index: -1
 eggplant_hunt
   rotate: false
-  xy: 606, 2
+  xy: 304, 404
+  size: 300, 400
+  orig: 300, 400
+  offset: 0, 0
+  index: -1
+football
+  rotate: false
+  xy: 304, 2
   size: 300, 400
   orig: 300, 400
   offset: 0, 0
   index: -1
 gun_game
   rotate: false
-  xy: 908, 2
+  xy: 606, 404
   size: 300, 400
   orig: 300, 400
   offset: 0, 0
   index: -1
 koh
   rotate: false
-  xy: 1210, 2
+  xy: 606, 2
+  size: 300, 400
+  orig: 300, 400
+  offset: 0, 0
+  index: -1
+matryoshka
+  rotate: false
+  xy: 908, 404
+  size: 300, 400
+  orig: 300, 400
+  offset: 0, 0
+  index: -1
+resurrection
+  rotate: false
+  xy: 908, 2
   size: 300, 400
   orig: 300, 400
   offset: 0, 0
   index: -1
 survival
   rotate: false
-  xy: 1512, 2
+  xy: 1210, 404
   size: 300, 400
   orig: 300, 400
   offset: 0, 0

@@ -135,7 +135,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    MATRYOSHKA("dm", "koh", DEATHMATCH, GameText.MATRYOSHKA, GameText.MATRYOSHKA_DESC,
+    MATRYOSHKA("dm", "matryoshka", DEATHMATCH, GameText.MATRYOSHKA, GameText.MATRYOSHKA_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.FFA), new SettingTimer(ResultsState.MAGIC_WORD, 8),
         new SettingBaseHp(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
@@ -144,7 +144,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    RESURRECTION("dm", "koh", DEATHMATCH, GameText.RESURRECTION, GameText.RESURRECTION_DESC,
+    RESURRECTION("dm", "resurrection", DEATHMATCH, GameText.RESURRECTION, GameText.RESURRECTION_DESC,
         new SetCameraOnSpawn(),
         new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD, 8), new AllyRevive(),
         new SettingBaseHp(), new SettingBots(), new SettingLoadoutOutfit(), new SettingLoadoutMode(),
@@ -152,7 +152,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    FOOTBALL("futbol", "koh", GameText.FOOTBALL, GameText.FOOTBALL_DESC,
+    FOOTBALL("futbol", "football", GameText.FOOTBALL, GameText.FOOTBALL_DESC,
             new SetCameraOnSpawn(),
             new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingTeamScoreCap(), new SettingLives(0),
             new DisplayUITag("TEAMSCORE"), new ToggleNoDamage(),

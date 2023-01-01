@@ -400,7 +400,7 @@
    <properties>
     <property name="connections" value="mplat1"/>
     <property name="speed" type="float" value="2"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move2"/>
     <property name="triggeringId" value="dummy2"/>
    </properties>
   </object>
@@ -421,7 +421,7 @@
    <properties>
     <property name="connections" value="mplat2,w2"/>
     <property name="speed" type="float" value="2"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move4"/>
     <property name="triggeringId" value="dummy4"/>
    </properties>
   </object>
@@ -476,7 +476,7 @@
    <properties>
     <property name="connections" value="mplat4,w1"/>
     <property name="speed" type="float" value="2"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move8"/>
     <property name="triggeringId" value="dummy8"/>
    </properties>
   </object>
@@ -497,7 +497,7 @@
    <properties>
     <property name="connections" value="mplat3"/>
     <property name="speed" type="float" value="2"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move6"/>
     <property name="triggeringId" value="dummy6"/>
    </properties>
   </object>
@@ -535,11 +535,7 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="152" name="Dropthrough" type="Dropthrough" x="1440" y="1120" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="152" name="Dropthrough" type="Dropthrough" x="1440" y="1120" width="160" height="8"/>
   <object id="194" name="PickupDelete" type="PickupDelete" x="256" y="2016" width="2528" height="32"/>
  </objectgroup>
  <objectgroup id="5" name="objective">

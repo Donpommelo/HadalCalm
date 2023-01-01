@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="50">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="50">
  <properties>
   <property name="music" value="LEVEL_DERELICT"/>
  </properties>
@@ -17,18 +17,30 @@
  <objectgroup id="3" name="event-layer">
   <object id="14" name="Platform" type="Platform" x="1824" y="2016" width="288" height="32">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="elevatorfloora"/>
    </properties>
   </object>
   <object id="15" name="Platform" type="Platform" x="1824" y="1728" width="288" height="32">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sprite" value="UI_RELOAD_BAR"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="elevatorceilinga"/>
    </properties>
   </object>
   <object id="16" name="MovePoint" type="MovePoint" x="1952" y="2016" width="32" height="32">
    <properties>
     <property name="connections" value="elevatorfloora,elevatorceilinga,switcha"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="speed" type="float" value="12"/>
+    <property name="syncConnected" type="bool" value="true"/>
     <property name="triggeredId" value="elevatormovea"/>
    </properties>
   </object>
@@ -187,7 +199,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="NOTHING"/>
    </properties>
@@ -195,7 +206,6 @@
   <object id="39" name="ParticleField" type="ParticleField" x="768" y="1152" width="32" height="192">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="SHADOW_CLOAK"/>
     <property name="speed" type="float" value="2"/>
    </properties>
@@ -216,11 +226,7 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="42" name="Dropthrough" type="Dropthrough" x="992" y="1024" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="42" name="Dropthrough" type="Dropthrough" x="992" y="1024" width="160" height="8"/>
   <object id="43" name="Multitrigger" type="Multitrigger" x="384" y="320" width="32" height="32">
    <properties>
     <property name="triggeredId" value="playerstart"/>
@@ -247,11 +253,7 @@
     <property name="triggeredId" value="warp2"/>
    </properties>
   </object>
-  <object id="47" name="Dropthrough" type="Dropthrough" x="992" y="768" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="47" name="Dropthrough" type="Dropthrough" x="992" y="768" width="160" height="8"/>
   <object id="48" name="Prefab" type="PrefabLimit" x="1408" y="544" width="32" height="32">
    <properties>
     <property name="limit" type="int" value="1"/>

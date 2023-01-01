@@ -101,7 +101,5 @@ public class Spring extends Event {
 	}
 	
 	@Override
-	public void loadDefaultProperties() {
-		setEventSprite(Sprite.SPRING);
-	}
+	public void loadDefaultProperties() { setEventSprite(Sprite.SPRING); }
 }

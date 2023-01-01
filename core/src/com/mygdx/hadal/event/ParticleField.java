@@ -113,9 +113,4 @@ public class ParticleField extends Event {
 			}
 		}
 	}
-	
-	@Override
-	public void loadDefaultProperties() {
-		setSyncType(eventSyncTypes.ALL);
-	}
 }

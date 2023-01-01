@@ -801,6 +801,32 @@ public class Packets {
 			this.returnMaxTimer = returnMaxTimer;
 		}
 	}
+
+	public static class RequestStartSyncedEvent {
+		public String triggeredID;
+
+		public RequestStartSyncedEvent() {}
+
+		public RequestStartSyncedEvent(String triggeredID) {
+			this.triggeredID = triggeredID;
+		}
+	}
+
+	public static class CreateStartSyncedEvent {
+		public float timer;
+		public String triggeredID, targetTriggeredID;
+		public Vector2 pos, velo;
+
+		public CreateStartSyncedEvent() {}
+
+		public CreateStartSyncedEvent(float timer, String triggeredID, String targetTriggeredID, Vector2 pos, Vector2 velo) {
+			this.timer = timer;
+			this.triggeredID = triggeredID;
+			this.targetTriggeredID = targetTriggeredID;
+			this.pos = pos;
+			this.velo = velo;
+		}
+	}
 	
 	public static class SyncUI {
 		public float timer;
@@ -1237,6 +1263,8 @@ public class Packets {
 		kryo.register(CreateFlag.class);
 		kryo.register(CreateCrown.class);
 		kryo.register(CreateGrave.class);
+		kryo.register(RequestStartSyncedEvent.class);
+		kryo.register(CreateStartSyncedEvent.class);
     	kryo.register(CreateRagdoll.class);
 
     	kryo.register(SyncUI.class);

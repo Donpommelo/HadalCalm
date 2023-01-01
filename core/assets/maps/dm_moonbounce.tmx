@@ -71,11 +71,10 @@
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat1"/>
    </properties>
   </object>
@@ -116,6 +115,7 @@
   </object>
   <object id="12" name="Timer" type="Timer" x="704" y="64" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="interval" type="float" value="0"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="initLimiter"/>
@@ -123,6 +123,7 @@
   </object>
   <object id="13" name="Multitrigger" type="Multitrigger" x="768" y="64" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="initLimiter"/>
     <property name="triggeringId" value="startTimer,rotate1,rotate2,rotate3,rotate4,rotate5,rotate6,rotate7,rotate8"/>
    </properties>
@@ -133,11 +134,10 @@
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat2"/>
    </properties>
   </object>
@@ -155,11 +155,10 @@
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat3"/>
    </properties>
   </object>
@@ -177,11 +176,10 @@
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat4"/>
    </properties>
   </object>
@@ -191,11 +189,10 @@
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat5"/>
    </properties>
   </object>
@@ -205,11 +202,10 @@
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="restitution" type="float" value="1"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat6"/>
    </properties>
   </object>
@@ -311,7 +307,7 @@
    <properties>
     <property name="connections" value="plat1,hp1"/>
     <property name="speed" type="float" value="2"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move1"/>
     <property name="triggeringId" value="dummy1"/>
    </properties>
   </object>
